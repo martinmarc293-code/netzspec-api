@@ -1,7 +1,9 @@
 {
  "vendor": "cisco",
  "category": "hyperconverged-systems",
- "built_at": "2026-09-14T14:03:57.735Z",
+ "built_at": "2026-09-15T08:21:33.784Z",
+ "commit": "a67ab8b568985f351b6fe5a575125a78315132ec",
+ "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-hyperconverged-systems.json",
  "parts": 1204,
  "lines": [
@@ -11,6 +13,7 @@
    "series": [
     {
      "series": "HyperFlex compute-only nodes (C220 / C240 / C480 / B200)",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 35,
@@ -28,10 +31,12 @@
      ],
      "rules": {
       "sku": 35
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "HyperFlex Edge",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 23,
@@ -50,10 +55,12 @@
      ],
      "rules": {
       "sku": 23
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "HyperFlex Express",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 25,
@@ -74,10 +81,12 @@
      ],
      "rules": {
       "sku": 25
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "HyperFlex Fabric Interconnects",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 4,
@@ -93,10 +102,12 @@
      ],
      "rules": {
       "sku": 4
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "HyperFlex bundles and starter packs",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 28,
@@ -117,10 +128,12 @@
      ],
      "rules": {
       "sku": 28
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "HX220c",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 55,
@@ -145,10 +158,12 @@
      ],
      "rules": {
       "sku": 55
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "HX225c",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 10,
@@ -168,10 +183,12 @@
      ],
      "rules": {
       "sku": 10
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "HX240c",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 118,
@@ -197,10 +214,12 @@
      ],
      "rules": {
       "sku": 118
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "HX245c",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 9,
@@ -219,10 +238,12 @@
      ],
      "rules": {
       "sku": 9
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "HyperFlex shared parts",
+     "family": "(shared across the line)",
      "role": null,
      "note": null,
      "parts": 863,
@@ -256,7 +277,8 @@
       "accessory": 21,
       "label": 39,
       "sku": 803
-     }
+     },
+     "pending_in": {}
     }
    ]
   }
@@ -537,5 +559,13 @@
   }
  ],
  "unplaced": [],
+ "label_check": {
+  "applied": false,
+  "label_placed": 0,
+  "by_kind": {},
+  "moved": []
+ },
+ "pending_review": [],
+ "inbound_unplaced": {},
  "done": true
 }

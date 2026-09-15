@@ -960,7 +960,7 @@ ANT-4G-CM-IN-TNC=	Multiband Volcano Ceiling Mount Indoor 4G Antenna	2000 Series 
 ANT-4G-DP-IN-TNC	Multiband Swivel Mount Dipole Indoor 4G Antenna	800 ISR	antenna	layered	ISR (Integrated Services Routers)	(shared across the line)	ISR (Integrated Services Routers) shared parts	accessory ^ANT- (label 800 ISR)						
 ANT-4G-DP-IN-TNC=	Multiband Swivel Mount Dipole Indoor 4G Antenna	2000 Series Connected Grid	antenna	layered	ISR (Integrated Services Routers)	(shared across the line)	ISR (Integrated Services Routers) shared parts	accessory ^ANT- (label 800 ISR)						
 ANT-4G-OMNI-OUT-N	Multiband Omni-Directional Stick Outdoor 4G Antenna	Catalyst IR1800 Rugged	antenna	layered	Industrial and IoT Routers	(shared across the line)	Industrial and IoT Routers shared parts	accessory ^ANT- (label Catalyst IR1800 Rugged)						
-ANT-4G-SR-OUT-TNC=	Multiband Low-Profile Saucer Outdoor 4G Antenna	2000 Series Connected Grid	antenna	layered	Industrial and IoT Routers	(shared across the line)	Industrial and IoT Routers shared parts	accessory ^ANT- (label 2000 Series Connected Grid)						
+ANT-4G-SR-OUT-TNC=	Multiband Low-Profile Saucer Outdoor 4G Antenna	2000 Series Connected Grid	antenna	layered	Industrial and IoT Routers	(shared across the line)	Industrial and IoT Routers shared parts	sku ^ANT-4G-(PNL-OUT-N|SR-OUT-TNC)						
 ANT-5-4G2WL2G1-O	Cisco ANT-5-4G2WL2G1-O	Catalyst IR1800 Rugged	antenna	layered	Industrial and IoT Routers	(shared across the line)	Industrial and IoT Routers shared parts	accessory ^ANT- (label Catalyst IR1800 Rugged)						
 ANT-5G-OMNI-OUT-N	Cisco ANT-5G-OMNI-OUT-N	Catalyst IR8100 Heavy Duty	antenna	layered	Industrial and IoT Routers	(shared across the line)	Industrial and IoT Routers shared parts	accessory ^ANT- (label Catalyst IR8100 Heavy Duty)						
 ANT-7-5G4WL2G1-O	Cisco ANT-7-5G4WL2G1-O	Catalyst IR1800 Rugged	antenna	layered	Industrial and IoT Routers	(shared across the line)	Industrial and IoT Routers shared parts	accessory ^ANT- (label Catalyst IR1800 Rugged)						
@@ -3719,14 +3719,14 @@ MEM-2900-512MB=	512MB DRAM for Cisco 2901, 2911, 2921 ISR (only as spare)	2900 I
 MEM-2900-512U1.5GB	512MB to 1.5GB DRAM Upgrade (1GB+512MB) for Cisco 2901-2921	2900 ISR	memory	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	label 2900 ISR						sku-token: 2900
 MEM-2900-512U1GB	512MB to 1GB DRAM Upgrade (512MB+512MB) for Cisco 2901-2921	2900 ISR	memory	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	label 2900 ISR						sku-token: 2900
 MEM-2900-512U2.5GB	512MB to 2.5GB DRAM Upgrade (2GB+512MB) for Cisco 2901-2921	2900 ISR	memory	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	label 2900 ISR						sku-token: 2900
-MEM-2951-1GB=	1GB DRAM for Cisco 2951 ISR (only as spare)	2900 ISR	memory	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	label 2900 ISR						sku-token: 2900
-MEM-2951-2GB=	2GB DRAM for Cisco 2951 ISR (only as spare)	2900 ISR	memory	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	label 2900 ISR						sku-token: 2900
-MEM-2951-512MB-DEF	512MB DRAM (1 512MB DIMM) for Cisco 2951 ISR (Default)	2900 ISR	memory	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	label 2900 ISR						sku-token: 2900
-MEM-2951-512MB=	512MB DRAM for Cisco 2951 ISR (only as spare)	2900 ISR	memory	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	label 2900 ISR						sku-token: 2900
-MEM-2951-512U1.5GB	512MB to 1.5GB DRAM Upgrade (1GB+512MB) for Cisco 2951 ISR	2900 ISR	memory	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	label 2900 ISR						sku-token: 2900
-MEM-2951-512U1GB	512MB to 1GB DRAM Upgrade (1 1GB DIMM) for Cisco 2951 ISR	2900 ISR	memory	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	label 2900 ISR						sku-token: 2900
-MEM-2951-512U2GB	512MB to 2GB DRAM Upgrade (1 2GB DIMM) for Cisco 2951 ISR	2900 ISR	memory	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	label 2900 ISR						sku-token: 2900
-MEM-2951-512U4GB	512MB to 4GB DRAM Upgrade (2 2GB DIMM) for Cisco 2951 ISR	2900 ISR	memory	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	label 2900 ISR						sku-token: 2900
+MEM-2951-1GB=	1GB DRAM for Cisco 2951 ISR (only as spare)	2900 ISR	memory	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	sku ^MEM-2951-						
+MEM-2951-2GB=	2GB DRAM for Cisco 2951 ISR (only as spare)	2900 ISR	memory	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	sku ^MEM-2951-						
+MEM-2951-512MB-DEF	512MB DRAM (1 512MB DIMM) for Cisco 2951 ISR (Default)	2900 ISR	memory	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	sku ^MEM-2951-						
+MEM-2951-512MB=	512MB DRAM for Cisco 2951 ISR (only as spare)	2900 ISR	memory	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	sku ^MEM-2951-						
+MEM-2951-512U1.5GB	512MB to 1.5GB DRAM Upgrade (1GB+512MB) for Cisco 2951 ISR	2900 ISR	memory	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	sku ^MEM-2951-						
+MEM-2951-512U1GB	512MB to 1GB DRAM Upgrade (1 1GB DIMM) for Cisco 2951 ISR	2900 ISR	memory	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	sku ^MEM-2951-						
+MEM-2951-512U2GB	512MB to 2GB DRAM Upgrade (1 2GB DIMM) for Cisco 2951 ISR	2900 ISR	memory	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	sku ^MEM-2951-						
+MEM-2951-512U4GB	512MB to 4GB DRAM Upgrade (2 2GB DIMM) for Cisco 2951 ISR	2900 ISR	memory	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	sku ^MEM-2951-						
 MEM-3900-1GB-DEF	1GB DRAM (512MB+512MB) for Cisco 3925-3945E ISR (Default)	2900 ISR	memory	layered	ISR (Integrated Services Routers)	ISR G2	ISR 3900	sku ^(MEM|PWR|FIPS-SHIELD)-3900-						
 MEM-3900-1GB=	1GB DRAM for Cisco 3925-3945E ISR (only as spare)	2900 ISR	memory	layered	ISR (Integrated Services Routers)	ISR G2	ISR 3900	sku ^(MEM|PWR|FIPS-SHIELD)-3900-						
 MEM-3900-1GU2GB	1GB to 2GB DRAM Upgrade (1GB+1GB) for Cisco 3925-3945E ISR	2900 ISR	memory	layered	ISR (Integrated Services Routers)	ISR G2	ISR 3900	sku ^(MEM|PWR|FIPS-SHIELD)-3900-						
@@ -4619,24 +4619,24 @@ PWR-1941-AC	Cisco 1941 AC Power Supply (Both system & spare)	2900 ISR	power	laye
 PWR-1941-POE	Cisco 1941 AC Power Supply with Power Over Ethernet (Both system & spare)	2900 ISR	power	layered	ISR (Integrated Services Routers)	ISR G2	ISR 1900	sku ^(MEM|PWR|FIPS-SHIELD)-19(00|41)-						
 PWR-20W-AC	819 20 Watt AC Power Supply	800	power	layered	ISR (Integrated Services Routers)	ISR 800	ISR 819 (M2M)	name (?<![0-9A-Z])C?819(?![0-9])						
 PWR-20W-AC=	819 20 Watt AC Power Supply	800	power	layered	ISR (Integrated Services Routers)	ISR 800	ISR 819 (M2M)	name (?<![0-9A-Z])C?819(?![0-9])						
-PWR-2811-AC-IP	Cisco 2811 AC/IP power supply	2900 ISR	power	layered	ISR (Integrated Services Routers)	ISR G1	ISR 2800	sku ^PWR-28[1-5]1-						
-PWR-2901-AC	Cisco 2901 AC Power Supply (Both system & spare)	2900 ISR	power	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	label 2900 ISR						sku-token: 2900
-PWR-2901-AC=	Cisco 2901 AC Power Supply	2900 ISR	power	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	label 2900 ISR						sku-token: 2900
-PWR-2901-POE	Cisco 2901 AC Power Supply with Power Over Ethernet (Both system & spare)	2900 ISR	power	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	label 2900 ISR						sku-token: 2900
-PWR-2911-AC	Cisco 2911 AC Power Supply (Both system & spare)	2900 ISR	power	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	sku ^PWR-29(11|21)-						
-PWR-2911-AC/DC	Cisco PWR-2911-AC/DC	4000 ISR	power	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	sku ^PWR-29(11|21)-						
-PWR-2911-AC=	Cisco 2911 AC Power Supply	2900 ISR	power	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	sku ^PWR-29(11|21)-						
-PWR-2911-DC	Cisco 2911 DC Power Supply	2900 ISR	power	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	sku ^PWR-29(11|21)-						
-PWR-2911-DC-POE	Cisco 2911 DC Power Supply with Power over Ethernet	2900 ISR	power	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	sku ^PWR-29(11|21)-						
-PWR-2911-DC-POE=	Cisco 2911 DC Power Supply with Power over Ethernet	2900 ISR	power	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	sku ^PWR-29(11|21)-						
-PWR-2911-DC=	Cisco 2911 DC Power Supply	2900 ISR	power	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	sku ^PWR-29(11|21)-						
-PWR-2911-POE	Cisco 2911 AC Power Supply with Power Over Ethernet (Both system & spare)	4000 ISR	power	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	sku ^PWR-29(11|21)-						
-PWR-2921-51-AC	Cisco 2921/2951 AC Power Supply (Both system & spare)	2900 ISR	power	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	sku ^PWR-29(11|21)-						
-PWR-2921-51-AC/DC	Cisco PWR-2921-51-AC/DC	4000 ISR	power	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	sku ^PWR-29(11|21)-						
-PWR-2921-51-AC=	Cisco 2921/2951 AC Power Supply	2900 ISR	power	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	sku ^PWR-29(11|21)-						
-PWR-2921-51-DC	Cisco 2921/2951 DC Power Supply	2900 ISR	power	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	sku ^PWR-29(11|21)-						
-PWR-2921-51-DC=	Cisco 2921/2951 DC Power Supply	2900 ISR	power	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	sku ^PWR-29(11|21)-						
-PWR-2921-51-POE	Cisco 2921/2951 AC Power Supply with Power Over Ethernet (Both system & spare)	4000 ISR	power	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	sku ^PWR-29(11|21)-						
+PWR-2811-AC-IP	Cisco 2811 AC/IP power supply	2900 ISR	power	layered	ISR (Integrated Services Routers)	ISR G1	ISR 2800	sku ^PWR-28[0-5]1-						
+PWR-2901-AC	Cisco 2901 AC Power Supply (Both system & spare)	2900 ISR	power	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	sku ^PWR-29(01|11|21)-						
+PWR-2901-AC=	Cisco 2901 AC Power Supply	2900 ISR	power	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	sku ^PWR-29(01|11|21)-						
+PWR-2901-POE	Cisco 2901 AC Power Supply with Power Over Ethernet (Both system & spare)	2900 ISR	power	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	sku ^PWR-29(01|11|21)-						
+PWR-2911-AC	Cisco 2911 AC Power Supply (Both system & spare)	2900 ISR	power	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	sku ^PWR-29(01|11|21)-						
+PWR-2911-AC/DC	Cisco PWR-2911-AC/DC	4000 ISR	power	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	sku ^PWR-29(01|11|21)-						
+PWR-2911-AC=	Cisco 2911 AC Power Supply	2900 ISR	power	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	sku ^PWR-29(01|11|21)-						
+PWR-2911-DC	Cisco 2911 DC Power Supply	2900 ISR	power	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	sku ^PWR-29(01|11|21)-						
+PWR-2911-DC-POE	Cisco 2911 DC Power Supply with Power over Ethernet	2900 ISR	power	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	sku ^PWR-29(01|11|21)-						
+PWR-2911-DC-POE=	Cisco 2911 DC Power Supply with Power over Ethernet	2900 ISR	power	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	sku ^PWR-29(01|11|21)-						
+PWR-2911-DC=	Cisco 2911 DC Power Supply	2900 ISR	power	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	sku ^PWR-29(01|11|21)-						
+PWR-2911-POE	Cisco 2911 AC Power Supply with Power Over Ethernet (Both system & spare)	4000 ISR	power	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	sku ^PWR-29(01|11|21)-						
+PWR-2921-51-AC	Cisco 2921/2951 AC Power Supply (Both system & spare)	2900 ISR	power	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	sku ^PWR-29(01|11|21)-						
+PWR-2921-51-AC/DC	Cisco PWR-2921-51-AC/DC	4000 ISR	power	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	sku ^PWR-29(01|11|21)-						
+PWR-2921-51-AC=	Cisco 2921/2951 AC Power Supply	2900 ISR	power	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	sku ^PWR-29(01|11|21)-						
+PWR-2921-51-DC	Cisco 2921/2951 DC Power Supply	2900 ISR	power	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	sku ^PWR-29(01|11|21)-						
+PWR-2921-51-DC=	Cisco 2921/2951 DC Power Supply	2900 ISR	power	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	sku ^PWR-29(01|11|21)-						
+PWR-2921-51-POE	Cisco 2921/2951 AC Power Supply with Power Over Ethernet (Both system & spare)	4000 ISR	power	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	sku ^PWR-29(01|11|21)-						
 PWR-2KW-DC-CBL	2000W DC Power Cable	8000	power-cord	layered	Cisco 8000	(shared across the line)	Cisco 8000 shared parts	label-unsupported (label 8000; was Cisco 8000): no platform token (8000) in the SKU or name, no compatible part placed in the series						none: no platform token (8000) in the SKU or name, no compatible part placed in the series
 PWR-2KW-DC-V2	2kW DC Power Module Version 2 for ASR-9006 & ASR-9010	ASR 9000	power	layered	ASR (Aggregation Services Routers)		ASR 9000	label ASR 9000						name: 9000
 PWR-2KW-DC-V2=	Cisco PWR-2KW-DC-V2=	ASR 9000	power	layered	ASR (Aggregation Services Routers)		ASR 9000	label ASR 9000						name: twin PWR-2KW-DC-V2: 9000

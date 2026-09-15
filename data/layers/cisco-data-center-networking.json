@@ -1,7 +1,9 @@
 {
  "vendor": "cisco",
  "category": "data-center-networking",
- "built_at": "2026-09-14T14:14:17.706Z",
+ "built_at": "2026-09-15T08:21:34.129Z",
+ "commit": "a67ab8b568985f351b6fe5a575125a78315132ec",
+ "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-data-center-networking.json",
  "parts": 22,
  "lines": [
@@ -11,13 +13,15 @@
    "series": [
     {
      "series": "Nexus Hyperfabric HF6100",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 0,
      "kinds": {},
      "roles": {},
      "samples": [],
-     "rules": {}
+     "rules": {},
+     "pending_in": {}
     }
    ]
   }
@@ -202,5 +206,13 @@
   }
  ],
  "unplaced": [],
+ "label_check": {
+  "applied": false,
+  "label_placed": 0,
+  "by_kind": {},
+  "moved": []
+ },
+ "pending_review": [],
+ "inbound_unplaced": {},
  "done": true
 }

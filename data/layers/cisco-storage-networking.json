@@ -1,7 +1,9 @@
 {
  "vendor": "cisco",
  "category": "storage-networking",
- "built_at": "2026-09-14T14:10:35.013Z",
+ "built_at": "2026-09-15T08:21:33.987Z",
+ "commit": "a67ab8b568985f351b6fe5a575125a78315132ec",
+ "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-storage-networking.json",
  "parts": 598,
  "lines": [
@@ -11,6 +13,7 @@
    "series": [
     {
      "series": "MDS 9700 directors (9706 / 9710 / 9718) and modules",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 91,
@@ -34,10 +37,15 @@
      ],
      "rules": {
       "sku": 91
+     },
+     "pending_in": {
+      "switches": 3,
+      "interfaces-modules": 17
      }
     },
     {
      "series": "MDS 9500 / 9200 switching modules",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 21,
@@ -55,10 +63,15 @@
      ],
      "rules": {
       "sku": 21
+     },
+     "pending_in": {
+      "interfaces-modules": 32,
+      "optical-networking": 2
      }
     },
     {
      "series": "MDS 9500 directors (9506 / 9509 / 9513)",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 80,
@@ -82,10 +95,14 @@
      ],
      "rules": {
       "sku": 80
+     },
+     "pending_in": {
+      "interfaces-modules": 7
      }
     },
     {
      "series": "MDS 9300 fabric switches (9396S / 9396T / 9396V)",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 45,
@@ -104,10 +121,14 @@
      ],
      "rules": {
       "sku": 45
+     },
+     "pending_in": {
+      "switches": 3
      }
     },
     {
      "series": "MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 38,
@@ -130,10 +151,14 @@
      "rules": {
       "sku": 37,
       "label": 1
+     },
+     "pending_in": {
+      "switches": 2
      }
     },
     {
      "series": "MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 166,
@@ -155,10 +180,14 @@
      "rules": {
       "sku": 164,
       "label": 2
+     },
+     "pending_in": {
+      "switches": 5
      }
     },
     {
      "series": "MDS blade-server FC switches (HP / IBM / Dell)",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 4,
@@ -174,10 +203,12 @@
      ],
      "rules": {
       "sku": 4
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "MDS 9000 Multilayer SAN Switches shared parts",
+     "family": "(shared across the line)",
      "role": null,
      "note": null,
      "parts": 151,
@@ -201,6 +232,9 @@
       "accessory": 72,
       "sku": 77,
       "label": 2
+     },
+     "pending_in": {
+      "interfaces-modules": 2
      }
     }
    ]
@@ -226,5 +260,13 @@
   }
  ],
  "unplaced": [],
+ "label_check": {
+  "applied": false,
+  "label_placed": 0,
+  "by_kind": {},
+  "moved": []
+ },
+ "pending_review": [],
+ "inbound_unplaced": {},
  "done": true
 }

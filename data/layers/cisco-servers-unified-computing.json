@@ -1,7 +1,9 @@
 {
  "vendor": "cisco",
  "category": "servers-unified-computing",
- "built_at": "2026-09-14T13:41:39.989Z",
+ "built_at": "2026-09-15T08:21:30.627Z",
+ "commit": "a67ab8b568985f351b6fe5a575125a78315132ec",
+ "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-servers-unified-computing.json",
  "parts": 9579,
  "lines": [
@@ -11,6 +13,7 @@
    "series": [
     {
      "series": "Smart Play and SP Select bundles",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 744,
@@ -33,10 +36,12 @@
      ],
      "rules": {
       "sku": 744
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "UCS EZ bundles",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 163,
@@ -60,10 +65,12 @@
      ],
      "rules": {
       "sku": 163
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Solution, reference and promotion bundles",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 219,
@@ -86,10 +93,12 @@
      ],
      "rules": {
       "sku": 219
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "FlexPod bundles",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 5,
@@ -106,7 +115,8 @@
      ],
      "rules": {
       "sku": 5
-     }
+     },
+     "pending_in": {}
     }
    ]
   },
@@ -116,6 +126,7 @@
    "series": [
     {
      "series": "Catalyst Center appliance",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 4,
@@ -132,10 +143,12 @@
      ],
      "rules": {
       "sku": 4
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "APIC / Nexus Dashboard appliance",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 4,
@@ -152,10 +165,12 @@
      ],
      "rules": {
       "sku": 4
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Kinetic appliance",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 23,
@@ -180,7 +195,8 @@
      ],
      "rules": {
       "sku": 23
-     }
+     },
+     "pending_in": {}
     }
    ]
   },
@@ -190,6 +206,7 @@
    "series": [
     {
      "series": "UCS Invicta (Whiptail)",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 254,
@@ -217,7 +234,8 @@
      ],
      "rules": {
       "sku": 254
-     }
+     },
+     "pending_in": {}
     }
    ]
   },
@@ -227,6 +245,7 @@
    "series": [
     {
      "series": "UCS XE150c",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 4,
@@ -242,10 +261,12 @@
      ],
      "rules": {
       "sku": 4
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "UCS Unified Edge (XE) shared parts",
+     "family": "(shared across the line)",
      "role": null,
      "note": null,
      "parts": 58,
@@ -274,7 +295,8 @@
      ],
      "rules": {
       "sku": 58
-     }
+     },
+     "pending_in": {}
     }
    ]
   },
@@ -284,6 +306,7 @@
    "series": [
     {
      "series": "CSP 5000",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 14,
@@ -302,10 +325,12 @@
      ],
      "rules": {
       "sku": 14
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Cloud Services Platform shared parts",
+     "family": "(shared across the line)",
      "role": null,
      "note": null,
      "parts": 38,
@@ -330,7 +355,8 @@
      ],
      "rules": {
       "sku": 38
-     }
+     },
+     "pending_in": {}
     }
    ]
   },
@@ -340,6 +366,7 @@
    "series": [
     {
      "series": "UCS E-Series",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 172,
@@ -361,10 +388,12 @@
      "rules": {
       "sku": 158,
       "label": 14
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "UCS E-Series Server Modules shared parts",
+     "family": "(shared across the line)",
      "role": null,
      "note": null,
      "parts": 2,
@@ -378,7 +407,8 @@
      ],
      "rules": {
       "accessory": 2
-     }
+     },
+     "pending_in": {}
     }
    ]
   },
@@ -388,6 +418,7 @@
    "series": [
     {
      "series": "UCS Mini (6324)",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 7,
@@ -406,10 +437,12 @@
      ],
      "rules": {
       "sku": 7
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "UCS Fabric Interconnect 9108 100G",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 4,
@@ -425,10 +458,12 @@
      ],
      "rules": {
       "sku": 4
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "UCS 6200 Fabric Interconnects",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 40,
@@ -450,10 +485,12 @@
      ],
      "rules": {
       "sku": 40
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "UCS 6300 Fabric Interconnects",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 28,
@@ -474,10 +511,12 @@
      ],
      "rules": {
       "sku": 28
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "UCS 6400 Fabric Interconnects",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 46,
@@ -498,10 +537,12 @@
      ],
      "rules": {
       "sku": 46
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "UCS 6500 Fabric Interconnects",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 13,
@@ -522,10 +563,14 @@
      ],
      "rules": {
       "sku": 13
+     },
+     "pending_in": {
+      "interfaces-modules": 3
      }
     },
     {
      "series": "UCS Fabric Interconnects shared parts",
+     "family": "(shared across the line)",
      "role": null,
      "note": null,
      "parts": 12,
@@ -546,6 +591,9 @@
      "rules": {
       "accessory": 4,
       "sku": 8
+     },
+     "pending_in": {
+      "interfaces-modules": 2
      }
     }
    ]
@@ -556,6 +604,7 @@
    "series": [
     {
      "series": "UCS S3260",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 417,
@@ -579,10 +628,12 @@
      "rules": {
       "sku": 416,
       "label": 1
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "UCS S-Series Storage Servers shared parts",
+     "family": "(shared across the line)",
      "role": null,
      "note": null,
      "parts": 1,
@@ -595,16 +646,18 @@
      ],
      "rules": {
       "accessory": 1
-     }
+     },
+     "pending_in": {}
     }
    ]
   },
   {
    "line": "UCS X-Series Modular System",
-   "parts": 1139,
+   "parts": 1142,
    "series": [
     {
      "series": "UCS X9508 chassis",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 14,
@@ -622,10 +675,12 @@
      ],
      "rules": {
       "sku": 14
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "UCS X210c compute node",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 17,
@@ -644,10 +699,12 @@
      ],
      "rules": {
       "sku": 17
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "UCS X215c compute node",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 3,
@@ -662,10 +719,12 @@
      ],
      "rules": {
       "sku": 3
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "UCS X410c compute node",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 8,
@@ -683,10 +742,12 @@
      ],
      "rules": {
       "sku": 8
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "UCS X440p PCIe node",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 9,
@@ -706,10 +767,12 @@
      ],
      "rules": {
       "sku": 9
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "UCS X580p PCIe node",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 3,
@@ -725,10 +788,12 @@
      ],
      "rules": {
       "sku": 3
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "UCS X-Series fabric modules",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 5,
@@ -746,15 +811,17 @@
      ],
      "rules": {
       "sku": 5
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "UCS X-Series Modular System shared parts",
+     "family": "(shared across the line)",
      "role": null,
      "note": null,
-     "parts": 1080,
+     "parts": 1083,
      "kinds": {
-      "cable": 34,
+      "cable": 37,
       "cpu": 494,
       "drive": 326,
       "accessory": 30,
@@ -772,26 +839,30 @@
      "roles": {},
      "samples": [
       "CAB-C13-C14-2M-JP — Cisco CAB-C13-C14-2M-JP",
+      "CAB-C13-C14-2M-JP= — Cisco CAB-C13-C14-2M-JP=",
       "CAB-C13-C14-3M-IN — Cisco CAB-C13-C14-3M-IN",
+      "CAB-C13-C14-3M-IN= — Cisco CAB-C13-C14-3M-IN=",
       "CAB-C13-C14-IN — Cisco CAB-C13-C14-IN",
-      "CAB-JPN-3PIN — Cisco CAB-JPN-3PIN",
-      "CB-LC-LC-MMF1M= — Cisco CB-LC-LC-MMF1M=",
-      "CB-LC-LC-MMF2M= — Cisco CB-LC-LC-MMF2M="
+      "CAB-C13-C14-IN= — Cisco CAB-C13-C14-IN="
      ],
      "rules": {
-      "accessory": 33,
+      "accessory": 36,
       "label": 15,
       "sku": 1032
+     },
+     "pending_in": {
+      "routers": 1
      }
     }
    ]
   },
   {
    "line": "UCS B-Series Blade Servers",
-   "parts": 410,
+   "parts": 411,
    "series": [
     {
      "series": "UCS B200",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 49,
@@ -812,10 +883,12 @@
      ],
      "rules": {
       "sku": 49
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "UCS B22 M3",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 7,
@@ -834,10 +907,12 @@
      ],
      "rules": {
       "sku": 7
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "UCS B230",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 7,
@@ -855,10 +930,12 @@
      ],
      "rules": {
       "sku": 7
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "UCS B250",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 1,
@@ -871,10 +948,12 @@
      ],
      "rules": {
       "sku": 1
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "UCS B420 / B440 / B460 / B480",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 26,
@@ -893,10 +972,12 @@
      ],
      "rules": {
       "sku": 26
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "UCS 5108 blade chassis",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 51,
@@ -917,10 +998,12 @@
      ],
      "rules": {
       "sku": 51
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "UCS 2000 fabric extenders (IOM)",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 16,
@@ -938,19 +1021,21 @@
      ],
      "rules": {
       "sku": 16
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "UCS B-Series Blade Servers shared parts",
+     "family": "(shared across the line)",
      "role": null,
      "note": null,
-     "parts": 253,
+     "parts": 254,
      "kinds": {
       "cpu": 24,
       "cable": 3,
       "drive": 73,
       "bundle": 1,
-      "mechanical": 43,
+      "mechanical": 44,
       "storage-controller": 7,
       "power": 5,
       "server": 48,
@@ -971,17 +1056,19 @@
      "rules": {
       "sku": 235,
       "accessory": 1,
-      "label": 17
-     }
+      "label": 18
+     },
+     "pending_in": {}
     }
    ]
   },
   {
    "line": "UCS C-Series Rack Servers",
-   "parts": 1883,
+   "parts": 1879,
    "series": [
     {
      "series": "UCS C880A M8 (AI)",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 26,
@@ -1000,10 +1087,12 @@
      ],
      "rules": {
       "sku": 26
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "UCS C885A M8 (AI)",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 126,
@@ -1023,10 +1112,12 @@
      ],
      "rules": {
       "sku": 126
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "UCS C880 M4 / M5",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 170,
@@ -1048,10 +1139,12 @@
      ],
      "rules": {
       "sku": 170
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "UCS C890 M5",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 100,
@@ -1073,10 +1166,12 @@
      ],
      "rules": {
       "sku": 100
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "UCS C125 / C4200",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 33,
@@ -1101,10 +1196,12 @@
      ],
      "rules": {
       "sku": 33
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "UCS C220",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 168,
@@ -1130,10 +1227,14 @@
      ],
      "rules": {
       "sku": 168
+     },
+     "pending_in": {
+      "routers": 1
      }
     },
     {
      "series": "UCS C225",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 28,
@@ -1155,10 +1256,12 @@
      ],
      "rules": {
       "sku": 28
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "UCS C240",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 214,
@@ -1184,10 +1287,12 @@
      ],
      "rules": {
       "sku": 214
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "UCS C245",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 29,
@@ -1209,10 +1314,12 @@
      ],
      "rules": {
       "sku": 29
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "UCS C460 / C480",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 58,
@@ -1238,10 +1345,12 @@
      ],
      "rules": {
       "sku": 58
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "UCS C22 / C24 M3",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 21,
@@ -1261,10 +1370,12 @@
      ],
      "rules": {
       "sku": 21
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "UCS C200 / C210 / C250 / C260 (M1/M2)",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 71,
@@ -1289,19 +1400,21 @@
      ],
      "rules": {
       "sku": 71
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "UCS C-Series Rack Servers shared parts",
+     "family": "(shared across the line)",
      "role": null,
      "note": null,
-     "parts": 839,
+     "parts": 835,
      "kinds": {
-      "mechanical": 67,
+      "mechanical": 66,
       "pdu": 1,
       "accessory": 41,
       "server": 11,
-      "cable": 116,
+      "cable": 113,
       "fan": 5,
       "memory": 32,
       "bundle": 6,
@@ -1326,10 +1439,11 @@
       "CAB-250V-10A-CN= — Cisco CAB-250V-10A-CN="
      ],
      "rules": {
-      "label": 45,
-      "accessory": 60,
+      "label": 44,
+      "accessory": 57,
       "sku": 734
-     }
+     },
+     "pending_in": {}
     }
    ]
   },
@@ -1339,6 +1453,7 @@
    "series": [
     {
      "series": "R42610 / R42612 racks and PDUs",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 93,
@@ -1359,7 +1474,8 @@
      ],
      "rules": {
       "sku": 93
-     }
+     },
+     "pending_in": {}
     }
    ]
   },
@@ -1369,6 +1485,7 @@
    "series": [
     {
      "series": "Processors",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 1159,
@@ -1386,10 +1503,14 @@
      ],
      "rules": {
       "sku": 1159
+     },
+     "pending_in": {
+      "routers": 1
      }
     },
     {
      "series": "Memory",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 220,
@@ -1407,10 +1528,14 @@
      ],
      "rules": {
       "sku": 220
+     },
+     "pending_in": {
+      "routers": 1
      }
     },
     {
      "series": "Drives and storage",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 945,
@@ -1432,10 +1557,14 @@
      ],
      "rules": {
       "sku": 945
+     },
+     "pending_in": {
+      "routers": 1
      }
     },
     {
      "series": "GPUs",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 4,
@@ -1451,10 +1580,12 @@
      ],
      "rules": {
       "sku": 4
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Network and storage adapters",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 37,
@@ -1473,10 +1604,12 @@
      ],
      "rules": {
       "sku": 37
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Power supplies and fans",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 1,
@@ -1489,10 +1622,14 @@
      ],
      "rules": {
       "sku": 1
+     },
+     "pending_in": {
+      "interfaces-modules": 3
      }
     },
     {
      "series": "TPM",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 6,
@@ -1510,10 +1647,12 @@
      ],
      "rules": {
       "sku": 6
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "UCS Server Components shared parts",
+     "family": "(shared across the line)",
      "role": null,
      "note": null,
      "parts": 80,
@@ -1539,6 +1678,9 @@
      ],
      "rules": {
       "sku": 80
+     },
+     "pending_in": {
+      "interfaces-modules": 2
      }
     }
    ]
@@ -9874,16 +10016,16 @@
    "name": "Services Ready Engine (SRE) 300 ISM for VSEC-SRE bundle",
    "series_label": "UCS E-Series",
    "action": "move",
-   "to": "routers",
-   "reason": "an ISR Services Ready Engine module bundle"
+   "to": "interfaces-modules",
+   "reason": "an ISR Services Ready Engine module bundle — retargeted to interfaces-modules (closing items at aa1143f (14 Sep 2026), item 2): the router module cards (NIM / SM-X / ISM / EM) live there since runs #1068 / #1069 and the routers move-out line is removed"
   },
   {
    "sku": "ISM-SRE-300-K9=",
    "name": "Services Ready Engine 300 (512MB MEM, 4GB Flash, 1C CPU)",
    "series_label": "UCS E-Series",
    "action": "move",
-   "to": "routers",
-   "reason": "an ISR Services Ready Engine / UCS-E service module is a router module"
+   "to": "interfaces-modules",
+   "reason": "an ISR Services Ready Engine / UCS-E service module is a router module — retargeted to interfaces-modules (closing items at aa1143f (14 Sep 2026), item 2): the router module cards (NIM / SM-X / ISM / EM) live there since runs #1068 / #1069 and the routers move-out line is removed"
   },
   {
    "sku": "L6-20",
@@ -10282,24 +10424,24 @@
    "name": "Cisco Internal. E1120D-M3 Service Spare",
    "series_label": "UCS E-Series",
    "action": "move",
-   "to": "routers",
-   "reason": "an ISR Services Ready Engine / UCS-E service module is a router module"
+   "to": "interfaces-modules",
+   "reason": "an ISR Services Ready Engine / UCS-E service module is a router module — retargeted to interfaces-modules (closing items at aa1143f (14 Sep 2026), item 2): the router module cards (NIM / SM-X / ISM / EM) live there since runs #1068 / #1069 and the routers move-out line is removed"
   },
   {
    "sku": "SVC-E160S-M3",
    "name": "UCS-E, SingleWide, 6 Core CPU, 8 GB Flash",
    "series_label": "UCS E-Series",
    "action": "move",
-   "to": "routers",
-   "reason": "an ISR Services Ready Engine / UCS-E service module is a router module"
+   "to": "interfaces-modules",
+   "reason": "an ISR Services Ready Engine / UCS-E service module is a router module — retargeted to interfaces-modules (closing items at aa1143f (14 Sep 2026), item 2): the router module cards (NIM / SM-X / ISM / EM) live there since runs #1068 / #1069 and the routers move-out line is removed"
   },
   {
    "sku": "SVC-E180D-M3",
    "name": "Cisco Internal. E180D-M3 Service Spare",
    "series_label": "UCS E-Series",
    "action": "move",
-   "to": "routers",
-   "reason": "an ISR Services Ready Engine / UCS-E service module is a router module"
+   "to": "interfaces-modules",
+   "reason": "an ISR Services Ready Engine / UCS-E service module is a router module — retargeted to interfaces-modules (closing items at aa1143f (14 Sep 2026), item 2): the router module cards (NIM / SM-X / ISM / EM) live there since runs #1068 / #1069 and the routers move-out line is removed"
   },
   {
    "sku": "UCS-BDMR-PSX-PL",
@@ -11199,5 +11341,15 @@
   }
  ],
  "unplaced": [],
+ "label_check": {
+  "applied": false,
+  "label_placed": 0,
+  "by_kind": {},
+  "moved": []
+ },
+ "pending_review": [],
+ "inbound_unplaced": {
+  "routers": 2
+ },
  "done": true
 }

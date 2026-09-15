@@ -1,15 +1,15 @@
 {
  "vendor": "cisco",
  "category": "switches",
- "built_at": "2026-09-15T07:31:40.969Z",
- "commit": "55ea21c5a7fdfe0e3678c8c88eeb242421f0e5ea",
+ "built_at": "2026-09-15T08:21:31.295Z",
+ "commit": "a67ab8b568985f351b6fe5a575125a78315132ec",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-switches.json",
  "parts": 7507,
  "lines": [
   {
    "line": "Catalyst",
-   "parts": 3125,
+   "parts": 3124,
    "series": [
     {
      "series": "Catalyst 9400",
@@ -404,7 +404,7 @@
      "series": "Catalyst 4500-E",
      "family": "Catalyst 4500",
      "role": "core-agg",
-     "note": null,
+     "note": "^(SD|USB)-X45- (layers round 3): the Supervisor 8-E SD card and USB device SD-X45-2GB-E / USB-X45-4GB-E are planned in from interfaces-modules; their spares sat here by the label Catalyst 4500 and now place by SKU with them",
      "parts": 292,
      "kinds": {
       "chassis": 16,
@@ -429,10 +429,12 @@
       "C1-C4506E-S7L+96V+ — Cisco ONE4506-E Chassis 2x WS-X4648-RJ45V+E Sup7L-E LAN Base"
      ],
      "rules": {
-      "sku": 273,
-      "label": 19
+      "sku": 275,
+      "label": 17
      },
-     "pending_in": {}
+     "pending_in": {
+      "interfaces-modules": 31
+     }
     },
     {
      "series": "Catalyst 4900",
@@ -995,7 +997,7 @@
      "series": "Catalyst PON",
      "family": null,
      "role": "access",
-     "note": "the rule names the OLT and ONT devices: the bare ^CGP- also claimed the Catalyst PON OLT optic CGP-SFP-OC(=), which is a transceiver (reviewer A-8, layers round 3)",
+     "note": "the rule names the OLT and ONT devices: the bare ^CGP- also claimed the Catalyst PON OLT optic CGP-SFP-OC(=), which is a transceiver (reviewer A-8, layers round 3). ^ENC-10G-ONT: the six XGS-PON ONTs planned in from interfaces-modules, with CGP-ONT's kind (switch) and flag (sw.issue.ont) — operator, layers round 3: 'ENC-10G-ONT goes to Catalyst PON only if the rows are ONT devices'; they are. Decision pending: Cisco names them '10G Routed PON ONT' (data sheet filed under transceiver modules; their OLT is the SFP-10G-OLT pluggable in transceiver), not Catalyst PON — keep them in this series, or open a Routed PON series?",
      "parts": 20,
      "kinds": {
       "switch": 12,
@@ -1016,13 +1018,15 @@
       "sku": 12,
       "label": 8
      },
-     "pending_in": {}
+     "pending_in": {
+      "interfaces-modules": 6
+     }
     },
     {
      "series": "Redundant Power System",
      "family": null,
      "role": null,
-     "note": null,
+     "note": "^RPS fenced from RPS1000 (layers round 3): the RPS1000 380W Redundant Power Supply Unit is a Small Business network accessory that Cisco files under interfaces-modules, where it stays (decision pending there); the bare rule claimed its three rows",
      "parts": 20,
      "kinds": {
       "mechanical": 2,
@@ -1050,10 +1054,10 @@
      "family": "(shared across the line)",
      "role": null,
      "note": null,
-     "parts": 390,
+     "parts": 389,
      "kinds": {
       "power": 97,
-      "mechanical": 52,
+      "mechanical": 51,
       "power-cord": 155,
       "cable": 30,
       "stack-cable": 45,
@@ -1072,7 +1076,7 @@
      ],
      "rules": {
       "label-unsupported": 149,
-      "accessory": 241
+      "accessory": 240
      },
      "pending_in": {}
     }
@@ -4578,6 +4582,14 @@
    "reason": "software image / release PID"
   },
   {
+   "sku": "NM-BLANK-T1=",
+   "name": "Cisco Catalyst Type 1 Network Module Blank, spare",
+   "series_label": "Catalyst 9300",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "router network-module slot blank: interfaces-modules, in the NM / NME Network Modules series it blanks (pre-ruling C7, layers round 3)"
+  },
+  {
    "sku": "ONS-SE-GE-BXD=",
    "name": "SFP – 1000BASE BX D – GE Bidirectional Downstream Ext Temp",
    "series_label": "Catalyst IE9300 Rugged Series",
@@ -4933,11 +4945,11 @@
  "unplaced": [],
  "label_check": {
   "applied": true,
-  "label_placed": 381,
+  "label_placed": 379,
   "by_kind": {
    "none": 208,
    "sku-token": 27,
-   "name": 145,
+   "name": 143,
    "family": 1
   },
   "moved": [

@@ -1,8 +1,8 @@
 {
  "vendor": "cisco",
  "category": "transceiver",
- "built_at": "2026-09-15T07:31:33.670Z",
- "commit": "55ea21c5a7fdfe0e3678c8c88eeb242421f0e5ea",
+ "built_at": "2026-09-15T08:21:33.287Z",
+ "commit": "a67ab8b568985f351b6fe5a575125a78315132ec",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-transceiver.json",
  "parts": 2107,
@@ -403,7 +403,7 @@
      "series": "40G / 100G CFP, CFP2, CPAK and CXP",
      "family": null,
      "role": null,
-     "note": "was '100G CFP / CFP2 / CPAK / CXP'; the series also holds the CFP-40G modules and the CPAK 10x10G",
+     "note": "was '100G CFP / CFP2 / CPAK / CXP'; the series also holds the CFP-40G modules and the CPAK 10x10G. ^NCS-FAB-OPT (layers round 3, pre-ruling C4): NCS-FAB-OPT(=) \"Bundle of 96 CXP-100G-SR12\", planned in from interfaces-modules — kind pluggable at the unit, pack quantity 96 parked with the other packs (decision 6)",
      "parts": 35,
      "kinds": {
       "pluggable": 35
@@ -420,7 +420,9 @@
      "rules": {
       "sku": 35
      },
-     "pending_in": {}
+     "pending_in": {
+      "interfaces-modules": 2
+     }
     },
     {
      "series": "50G SFP56",

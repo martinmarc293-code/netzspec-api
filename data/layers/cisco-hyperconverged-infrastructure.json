@@ -1,7 +1,9 @@
 {
  "vendor": "cisco",
  "category": "hyperconverged-infrastructure",
- "built_at": "2026-09-14T14:04:06.590Z",
+ "built_at": "2026-09-15T08:21:33.932Z",
+ "commit": "a67ab8b568985f351b6fe5a575125a78315132ec",
+ "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-hyperconverged-infrastructure.json",
  "parts": 786,
  "lines": [
@@ -11,6 +13,7 @@
    "series": [
     {
      "series": "vSAN nodes (C220 / C225 / C240 / C245 / X210c / X215c)",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 13,
@@ -29,7 +32,8 @@
      ],
      "rules": {
       "sku": 13
-     }
+     },
+     "pending_in": {}
     }
    ]
   },
@@ -39,6 +43,7 @@
    "series": [
     {
      "series": "HCI XE-Series (XE130c / XE9305)",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 6,
@@ -57,10 +62,12 @@
      ],
      "rules": {
       "sku": 6
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "HCIX X-Series (X210c / X215c / X9508)",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 16,
@@ -79,10 +86,12 @@
      ],
      "rules": {
       "sku": 16
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "HCI fabric interconnects and X-Fabric",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 12,
@@ -102,10 +111,12 @@
      ],
      "rules": {
       "sku": 12
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "HCI C220 nodes",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 21,
@@ -127,10 +138,12 @@
      ],
      "rules": {
       "sku": 21
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "HCI C225 nodes",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 9,
@@ -149,10 +162,12 @@
      ],
      "rules": {
       "sku": 9
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "HCI C240 nodes",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 29,
@@ -174,10 +189,12 @@
      ],
      "rules": {
       "sku": 29
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Compute Hyperconverged with Nutanix shared parts",
+     "family": "(shared across the line)",
      "role": null,
      "note": null,
      "parts": 629,
@@ -212,7 +229,8 @@
       "accessory": 14,
       "sku": 518,
       "label": 97
-     }
+     },
+     "pending_in": {}
     }
    ]
   }
@@ -629,5 +647,13 @@
   }
  ],
  "unplaced": [],
+ "label_check": {
+  "applied": false,
+  "label_placed": 0,
+  "by_kind": {},
+  "moved": []
+ },
+ "pending_review": [],
+ "inbound_unplaced": {},
  "done": true
 }

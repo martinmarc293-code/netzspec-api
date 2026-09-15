@@ -4860,7 +4860,7 @@ NDB-3.3	Nexus Data Broker Version 3.3 (all sub-versions)	Nexus 9000	switch	pendi
 NDB-3.4	Nexus Data Broker Version 3.4 (all sub-versions)	Nexus 9000	switch	pending_plan						sw.issue.licence	licence/software	class software		
 NDB-3.5	Nexus Data Broker Version 3.5 (all sub-versions)	Nexus 9000	switch	pending_plan						sw.issue.licence	licence/software	class software		
 NDB-FX-SWT-K9	NDB license for 1 Cisco Nexus fixed switch ● Cisco Nexus 9300 ● Cisco Nexus 3500	Nexus 3000	switch	pending_plan						sw.issue.licence	licence/software	class software		
-NM-BLANK-T1=	Cisco Catalyst Type 1 Network Module Blank, spare	Catalyst 9300	mechanical	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory BLANK (label Catalyst 9300)						
+NM-BLANK-T1=	Cisco Catalyst Type 1 Network Module Blank, spare	Catalyst 9300	mechanical	pending_plan								move interfaces-modules		
 NXA-ACC-KIT-BAV	Airflow Vent 2348TQ, 2348TQ-E and 2332TQ only.	Nexus 2000 Fabric Extenders	mechanical	layered	Nexus	Nexus 9000	Nexus 9000 shared parts	sku ^NXA-						
 NXA-ACC-KIT-BAV=	Nexus 2K/3K airflow vent accessory kit	Nexus 2000 Fabric Extenders	mechanical	layered	Nexus	Nexus 9000	Nexus 9000 shared parts	sku ^NXA-						
 NXA-AIRFLOW-SLV	Nexus Airflow Extension Sleeve	Nexus 2000 Fabric Extenders	mechanical	layered	Nexus	Nexus 9000	Nexus 9000 shared parts	sku ^NXA-						
@@ -5315,7 +5315,7 @@ RM-RGD-19IN=	Spare 19IN rack-mount kit	Catalyst IE9300 Rugged Series	mechanical	
 RM-RGD-23IN=	23IN NEBS rack-mount kit	Catalyst IE9300 Rugged Series	mechanical	layered	Industrial Ethernet	(shared across the line)	Industrial Ethernet shared parts	label-unsupported (label Catalyst IE9300 Rugged Series; was IE 9300): no platform token (9300) in the SKU or name, no compatible part placed in the series						none: no platform token (9300) in the SKU or name, no compatible part placed in the series
 RM-RGD-ETSI=	ETSI rack-mount kit	Catalyst IE9300 Rugged Series	mechanical	layered	Industrial Ethernet	(shared across the line)	Industrial Ethernet shared parts	label-unsupported (label Catalyst IE9300 Rugged Series; was IE 9300): no platform token (9300) in the SKU or name, no compatible part placed in the series						none: no platform token (9300) in the SKU or name, no compatible part placed in the series
 RPNL-IE3000=	Spare, IE 3000 Right Panel	IE 3000	mechanical	layered	Industrial Ethernet		IE 3000	label IE 3000						name: IE 3000
-RPS-CG-COVER=	Spare PSU slot cover	IE 3010	mechanical	layered	Catalyst		Redundant Power System	sku ^RPS(?!-COVER|-ADPTR)						
+RPS-CG-COVER=	Spare PSU slot cover	IE 3010	mechanical	layered	Catalyst		Redundant Power System	sku ^RPS(?!-COVER|-ADPTR|1000)						
 RPS2300-1150BDL	Cisco Redundant Power System 2300 with 1150W Power Supply	3650	power	layered	Catalyst		Redundant Power System	sku RPS2300						
 RPS2300-750BDL	Cisco Redundant Power System 2300 with 750W Power Supply	3650	power	layered	Catalyst		Redundant Power System	sku RPS2300						
 RSP720-3C-10GE	Cisco RSP720-3C-10GE	Catalyst 6500	supervisor	pending_plan								move routers		
@@ -5331,7 +5331,7 @@ SD-IE-1GB	IE 1GB SD Memory Card for IE2000, IE3010	IE 2000	flash	layered	Industr
 SD-IE-1GB=	1 GB Ruggedized SD memory card (must be ordered, not included by default)	Catalyst IE3100 Rugged Series	flash	layered	Industrial Ethernet	(shared across the line)	Industrial Ethernet shared parts	label-unsupported (label IE 2000; was IE 2000): no platform token (2000) in the SKU or name, no compatible part placed in the series						none: no platform token (2000) in the SKU or name, no compatible part placed in the series
 SD-IE-4GB	IE 4GB SD Memory Card for IE	Catalyst IE3100 Rugged Series	flash	layered	Industrial Ethernet	(shared across the line)	Industrial Ethernet shared parts	label-unsupported (label Catalyst IE3100 Rugged Series; was IE 3100): no platform token (3100) in the SKU or name, no compatible part placed in the series						none: no platform token (3100) in the SKU or name, no compatible part placed in the series
 SD-IE-4GB=	IE 4GB SD Memory Card	Catalyst IE3100 Rugged Series	flash	layered	Industrial Ethernet	(shared across the line)	Industrial Ethernet shared parts	label-unsupported (label Catalyst IE3100 Rugged Series; was IE 3100): no platform token (3100) in the SKU or name, no compatible part placed in the series						none: no platform token (3100) in the SKU or name, no compatible part placed in the series
-SD-X45-2GB-E=	Catalyst 4500 2GB SD Memory Card	Catalyst 4500	flash	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	label Catalyst 4500						name: 4500
+SD-X45-2GB-E=	Catalyst 4500 2GB SD Memory Card	Catalyst 4500	flash	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^(SD|USB)-X45-						
 SF110-16-AU	SF110-16 16-Port 10/100 Switch	110 Unmanaged	switch	layered	Small Business		Small Business 110 Unmanaged (SF110/SG110)	sku ^S[FG]11[0-9]	smb	series:Small Business 110 Unmanaged (SF110/SG110)				
 SF110-16-EU	SF110-16 16-Port 10/100 Switch	110 Unmanaged	switch	layered	Small Business		Small Business 110 Unmanaged (SF110/SG110)	sku ^S[FG]11[0-9]	smb	series:Small Business 110 Unmanaged (SF110/SG110)				
 SF110-16-NA	SF110-16 16-Port 10/100 Switch	110 Unmanaged	switch	layered	Small Business		Small Business 110 Unmanaged (SF110/SG110)	sku ^S[FG]11[0-9]	smb	series:Small Business 110 Unmanaged (SF110/SG110)				
@@ -6363,7 +6363,7 @@ TA-N9K-C9372TX-E=	Nexus 9372TX-E with 48p 1/10G-T and 6p 40G QSFP+	Nexus 9000	sw
 UCS-PSU-6332-DC=	N9K 930W DC Power Supply, Reversed airflow (port side exhaust), Spare	Nexus 3000	power	layered	Nexus	(shared across the line)	Nexus shared parts	label-unsupported (label Nexus 3000; was Nexus 3016 / 3048 / 3064 / 3100 / 3200 / 3400): no platform token (3016, 3048, 3064, 3100, 3200, 3400) in the SKU or name, no compatible part placed in the series						none: no platform token (3016, 3048, 3064, 3100, 3200, 3400) in the SKU or name, no compatible part placed in the series
 UCSC-PSU-930WDC	N9K 930W DC Power Supply, Forward airflow (port side intake)	Nexus 9000	power	layered	Nexus	Nexus 9000	Nexus 9000 shared parts	label Nexus 9000						name: N9K
 UCSC-PSU-930WDC=	N9K 930W DC Power Supply, Forward airflow (port side intake), Spare	Nexus 3000	power	layered	Nexus	Nexus 9000	Nexus 9000 shared parts	label Nexus 9000						name: N9K
-USB-X45-4GB-E=	Catalyst 4500 4GB USB device for Sup7-E	Catalyst 4500	flash	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	label Catalyst 4500						name: 4500
+USB-X45-4GB-E=	Catalyst 4500 4GB USB device for Sup7-E	Catalyst 4500	flash	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^(SD|USB)-X45-						
 UTP28X3BU	Cisco UTP28X3BU	Catalyst 9300	accessory	pending_plan								class non_product		
 VBR-rt	Cisco VBR-rt	Catalyst 6500	switch	pending_plan						sw.issue.placeholder	datasheet cell / bare family name (not a PID)	class non_product		
 VCE-N5K-5548	Nexus 5548 UP Chassis, 32 10GbE Ports, 2 PS, 2 Fans	Nexus 5000	switch	layered	Nexus	Nexus 5000	Nexus 5500	sku ^VCE-N5K-55	datacenter	series:Nexus 5500				

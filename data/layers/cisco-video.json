@@ -1,7 +1,9 @@
 {
  "vendor": "cisco",
  "category": "video",
- "built_at": "2026-09-14T13:51:57.480Z",
+ "built_at": "2026-09-15T08:21:32.930Z",
+ "commit": "a67ab8b568985f351b6fe5a575125a78315132ec",
+ "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-video.json",
  "parts": 3319,
  "lines": [
@@ -11,6 +13,7 @@
    "series": [
     {
      "series": "GS7000 configured nodes",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 438,
@@ -28,10 +31,12 @@
      ],
      "rules": {
       "sku": 438
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "GS7000 Optical Hub",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 19,
@@ -54,10 +59,12 @@
      "rules": {
       "name": 5,
       "sku": 14
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "GS7000 iNode",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 28,
@@ -79,10 +86,12 @@
      ],
      "rules": {
       "sku": 28
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "GS7000 optical transmitters and receivers (numeric PIDs)",
+     "family": null,
      "role": null,
      "note": "bare Scientific-Atlanta part numbers (base.channel) of GS7000 EDR / DWDM / CWDM optical transmitters and receivers",
      "parts": 387,
@@ -100,10 +109,12 @@
      ],
      "rules": {
       "sku": 387
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "GS7000 node modules and housings",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 571,
@@ -132,10 +143,12 @@
      "rules": {
       "name": 129,
       "sku": 442
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "GainMaker plug-ins (pads, equalizers)",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 43,
@@ -156,10 +169,12 @@
      "rules": {
       "name": 2,
       "sku": 41
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "GS7000 Nodes and Optical Hubs shared parts",
+     "family": "(shared across the line)",
      "role": null,
      "note": null,
      "parts": 133,
@@ -184,7 +199,8 @@
      "rules": {
       "label": 130,
       "accessory": 3
-     }
+     },
+     "pending_in": {}
     }
    ]
   },
@@ -194,6 +210,7 @@
    "series": [
     {
      "series": "Prisma II HD",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 399,
@@ -218,10 +235,12 @@
      "rules": {
       "name": 259,
       "sku": 140
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Prisma II XD",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 7,
@@ -241,10 +260,12 @@
      ],
      "rules": {
       "name": 7
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Prisma D-PON",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 11,
@@ -265,10 +286,12 @@
      "rules": {
       "name": 10,
       "label": 1
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Prisma II",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 267,
@@ -297,10 +320,12 @@
      "rules": {
       "name": 200,
       "sku": 67
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Prisma II Optical Transport shared parts",
+     "family": "(shared across the line)",
      "role": null,
      "note": null,
      "parts": 90,
@@ -328,7 +353,8 @@
      "rules": {
       "label": 89,
       "accessory": 1
-     }
+     },
+     "pending_in": {}
     }
    ]
   },
@@ -338,6 +364,7 @@
    "series": [
     {
      "series": "cBR-8",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 123,
@@ -363,7 +390,8 @@
      "rules": {
       "sku": 122,
       "label": 1
-     }
+     },
+     "pending_in": {}
     }
    ]
   },
@@ -373,6 +401,7 @@
    "series": [
     {
      "series": "Remote PHY devices (RPD / Smart PHY)",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 4,
@@ -388,10 +417,12 @@
      ],
      "rules": {
       "sku": 4
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Remote PHY Shelf 7200",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 28,
@@ -415,10 +446,12 @@
      ],
      "rules": {
       "sku": 28
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Remote PHY shelves and cabling",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 20,
@@ -437,7 +470,8 @@
      ],
      "rules": {
       "sku": 20
-     }
+     },
+     "pending_in": {}
     }
    ]
   },
@@ -447,6 +481,7 @@
    "series": [
     {
      "series": "RFGW-10",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 33,
@@ -471,10 +506,12 @@
      ],
      "rules": {
       "sku": 33
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "RFGW-1",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 306,
@@ -500,10 +537,12 @@
      "rules": {
       "name": 9,
       "sku": 297
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "RF Gateway shared parts",
+     "family": "(shared across the line)",
      "role": null,
      "note": null,
      "parts": 44,
@@ -528,7 +567,8 @@
       "label": 7,
       "accessory": 3,
       "sku": 34
-     }
+     },
+     "pending_in": {}
     }
    ]
   },
@@ -538,6 +578,7 @@
    "series": [
     {
      "series": "Dispersion compensation modules",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 16,
@@ -556,10 +597,12 @@
      "rules": {
       "name": 9,
       "sku": 7
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Mux / demux, OADM and WDM filters",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 101,
@@ -578,10 +621,12 @@
      "rules": {
       "name": 78,
       "sku": 23
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Optical Passive Components shared parts",
+     "family": "(shared across the line)",
      "role": null,
      "note": null,
      "parts": 194,
@@ -600,7 +645,8 @@
      ],
      "rules": {
       "label": 194
-     }
+     },
+     "pending_in": {}
     }
    ]
   }
@@ -1065,5 +1111,13 @@
   }
  ],
  "unplaced": [],
+ "label_check": {
+  "applied": false,
+  "label_placed": 0,
+  "by_kind": {},
+  "moved": []
+ },
+ "pending_review": [],
+ "inbound_unplaced": {},
  "done": true
 }

@@ -1,7 +1,9 @@
 {
  "vendor": "cisco",
  "category": "meraki",
- "built_at": "2026-09-14T14:13:57.838Z",
+ "built_at": "2026-09-15T08:21:34.082Z",
+ "commit": "a67ab8b568985f351b6fe5a575125a78315132ec",
+ "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-meraki.json",
  "parts": 155,
  "lines": [
@@ -11,6 +13,7 @@
    "series": [
     {
      "series": "Meraki MR access points",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 30,
@@ -31,10 +34,12 @@
      ],
      "rules": {
       "sku": 30
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Catalyst Wireless in Meraki mode (CW)",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 6,
@@ -55,10 +60,12 @@
      ],
      "rules": {
       "sku": 6
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Meraki MV smart cameras",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 52,
@@ -76,10 +83,12 @@
      ],
      "rules": {
       "sku": 52
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Meraki MX and Z security appliances",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 26,
@@ -97,10 +106,12 @@
      ],
      "rules": {
       "sku": 26
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Meraki MG cellular gateways",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 18,
@@ -118,10 +129,12 @@
      ],
      "rules": {
       "sku": 18
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Meraki MT sensors",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 16,
@@ -139,10 +152,12 @@
      ],
      "rules": {
       "sku": 16
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Meraki MS switches",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 1,
@@ -155,10 +170,12 @@
      ],
      "rules": {
       "sku": 1
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Meraki shared parts",
+     "family": "(shared across the line)",
      "role": null,
      "note": null,
      "parts": 6,
@@ -177,7 +194,8 @@
      ],
      "rules": {
       "label": 6
-     }
+     },
+     "pending_in": {}
     }
    ]
   }
@@ -185,5 +203,13 @@
  "not_this_category": [],
  "pending_plans": [],
  "unplaced": [],
+ "label_check": {
+  "applied": false,
+  "label_placed": 0,
+  "by_kind": {},
+  "moved": []
+ },
+ "pending_review": [],
+ "inbound_unplaced": {},
  "done": true
 }

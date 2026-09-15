@@ -1,8 +1,8 @@
 {
  "vendor": "cisco",
  "category": "optical-networking",
- "built_at": "2026-09-15T07:32:09.685Z",
- "commit": "55ea21c5a7fdfe0e3678c8c88eeb242421f0e5ea",
+ "built_at": "2026-09-15T08:21:33.845Z",
+ "commit": "a67ab8b568985f351b6fe5a575125a78315132ec",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-optical-networking.json",
  "parts": 1186,
@@ -145,7 +145,7 @@
       "label": 15
      },
      "pending_in": {
-      "interfaces-modules": 4,
+      "interfaces-modules": 12,
       "routers": 2,
       "transceiver": 12
      }
@@ -225,14 +225,15 @@
      "series": "CWDM mux/demux, OADM plug-ins and chassis (CWDM-MUX / CWDM-OADM / DS-CWDM)",
      "family": null,
      "role": null,
-     "note": "the home of the 28 passive CWDM mux/demux, OADM plug-ins and the 2-slot chassis planned in from transceiver (18 in the kind layer, 10 CWDM-OADM1 / OADM4 in layers round 3, 14 Sep 2026). The MDS CWDM SFP optics (DS-CWDM-1470=, DS-CWDM8G1610=) are transceivers and are not matched",
+     "note": "the home of the 28 passive CWDM mux/demux, OADM plug-ins and the 2-slot chassis planned in from transceiver (18 in the kind layer, 10 CWDM-OADM1 / OADM4 in layers round 3, 14 Sep 2026). The MDS CWDM SFP optics (DS-CWDM-1470=, DS-CWDM8G1610=) are transceivers and are not matched. ^EWDM- (layers round 3, 15 Sep 2026): EWDM-OADM2= / EWDM-OADM4= and the EWDM-OA= amplifier, planned in from interfaces-modules (kind layer, 13 Sep) — Cisco's EoL notice sells the EWDM OADMs with the CWDM Mux/Demux ('End-of-Sale … Infiniband Cables, CWDM Mux/Demux, EWDM OADM'); their exact series is the optical round's",
      "parts": 0,
      "kinds": {},
      "roles": {},
      "samples": [],
      "rules": {},
      "pending_in": {
-      "transceiver": 28
+      "transceiver": 28,
+      "interfaces-modules": 3
      }
     }
    ]
@@ -299,6 +300,20 @@
       "sku": 4
      },
      "pending_in": {}
+    },
+    {
+     "series": "QSFP-DD Pluggable Open Line System (QDD OLS)",
+     "family": null,
+     "role": null,
+     "note": "layers round 3 (15 Sep 2026): ONS-QDD-OLS= 'QSFP-DD Open Line System, Pre and Bst EDFA' and the colorless mux/dmx breakouts ONS-BRK-CS-8LC= / -16LC=, planned in from interfaces-modules (kind layer, 13 Sep) — the parts of Cisco's 'QSFP-DD Pluggable Open Line System (QDD OLS)' data sheet; the series is named for that product and is the optical round's to review",
+     "parts": 0,
+     "kinds": {},
+     "roles": {},
+     "samples": [],
+     "rules": {},
+     "pending_in": {
+      "interfaces-modules": 3
+     }
     }
    ]
   },
@@ -1009,8 +1024,6 @@
   "moved": []
  },
  "pending_review": [],
- "inbound_unplaced": {
-  "interfaces-modules": 6
- },
+ "inbound_unplaced": {},
  "done": true
 }

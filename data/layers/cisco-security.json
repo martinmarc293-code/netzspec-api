@@ -1,8 +1,8 @@
 {
  "vendor": "cisco",
  "category": "security",
- "built_at": "2026-09-15T07:32:16.803Z",
- "commit": "55ea21c5a7fdfe0e3678c8c88eeb242421f0e5ea",
+ "built_at": "2026-09-15T08:21:33.423Z",
+ "commit": "a67ab8b568985f351b6fe5a575125a78315132ec",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-security.json",
  "parts": 1990,
@@ -466,7 +466,7 @@
      "series": "ASA and ISA shared parts",
      "family": "(shared across the line)",
      "role": null,
-     "note": null,
+     "note": "^CSC-SSM- (layers round 3): CSC-SSM-10 / -20, the ASA 5500 Content Security and Control SSMs planned in from interfaces-modules, land beside the ASA-SSM / ASA-SSC modules planned with them (their series inside ASA 5500 is the security round's)",
      "parts": 68,
      "kinds": {
       "firewall": 4,
@@ -493,7 +493,29 @@
       "label": 23,
       "sku": 45
      },
-     "pending_in": {}
+     "pending_in": {
+      "interfaces-modules": 10
+     }
+    }
+   ]
+  },
+  {
+   "line": "Network Analysis Module (NAM) appliances",
+   "parts": 0,
+   "series": [
+    {
+     "series": "NAM 2400 Series",
+     "family": null,
+     "role": null,
+     "note": "decision pending: NAM 2400 home — NAM2420-K9 / NAM2440-K9 are planned in from interfaces-modules under pre-ruling C5 (security, kind analytics; the reviewer's confidence: medium). Security had no NAM line, so this one is opened with Cisco's product name until the security round reviews it",
+     "parts": 0,
+     "kinds": {},
+     "roles": {},
+     "samples": [],
+     "rules": {},
+     "pending_in": {
+      "interfaces-modules": 2
+     }
     }
    ]
   },

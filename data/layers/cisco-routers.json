@@ -1,8 +1,8 @@
 {
  "vendor": "cisco",
  "category": "routers",
- "built_at": "2026-09-15T07:31:49.057Z",
- "commit": "55ea21c5a7fdfe0e3678c8c88eeb242421f0e5ea",
+ "built_at": "2026-09-15T08:21:32.284Z",
+ "commit": "a67ab8b568985f351b6fe5a575125a78315132ec",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-routers.json",
  "parts": 5093,
@@ -533,7 +533,7 @@
      "series": "ISR 1900",
      "family": "ISR G2",
      "role": "branch",
-     "note": null,
+     "note": "FL-1900-256U512MB(=) \"CISCO1905 DRAM Upgrade from 256MB to 512MB\" is planned in from interfaces-modules (layers round 3, A.3 rule 1): a DRAM part wearing the feature-licence prefix",
      "parts": 75,
      "kinds": {
       "mechanical": 1,
@@ -555,13 +555,15 @@
      "rules": {
       "sku": 75
      },
-     "pending_in": {}
+     "pending_in": {
+      "interfaces-modules": 3
+     }
     },
     {
      "series": "ISR 2800",
      "family": "ISR G1",
      "role": "branch",
-     "note": null,
+     "note": "^PWR-28[0-5]1- (was [1-5]) so PWR-2801-AC-IP=, the 2801 inline-power supply planned in from interfaces-modules, places by its SKU (layers round 3)",
      "parts": 50,
      "kinds": {
       "router": 42,
@@ -583,14 +585,14 @@
       "sku": 50
      },
      "pending_in": {
-      "interfaces-modules": 1
+      "interfaces-modules": 4
      }
     },
     {
      "series": "ISR 2900",
      "family": "ISR G2",
      "role": "branch",
-     "note": null,
+     "note": "layers round 3, for the ISR 2900 parts planned in from interfaces-modules (A.3 rule 1): ^PWR-29(01|11|21)- (was (11|21)) places PWR-2901-POE=; ^MEM-2951- places MEM-2951-512U2.5GB (its siblings sat here by the label 2900 ISR with the token 2900); ^FOC-29(01|11|51)$ places the NAL certification labels NAL-FOC-2901 / 2911 / 2951 — the patterns see the SKU without its NAL- ordering prefix; ^RPS-COVER-29 places RPS-COVER-2911= / RPS-COVER-2921-51= 'Cover for empty RPS Adapter slot on Cisco 2911 / 2921/2951' (planned in from interfaces-modules in the kind layer), which reached ISR 3900 only through the two stale labels removed there; ^FIPS-SHIELD-29(01|11|21|51) places the four 'FIPS opacity shield for Cisco 29x1 ISR' spares planned in from interfaces-modules (the 1900 and 3900 shields already place here by the MEM|PWR|FIPS-SHIELD rules)",
      "parts": 148,
      "kinds": {
       "mechanical": 7,
@@ -611,18 +613,18 @@
       "2921-51-FANASSY-2= — Cisco 2921/2951 Fan Assembly and Bezel"
      ],
      "rules": {
-      "sku": 126,
-      "label": 22
+      "sku": 137,
+      "label": 11
      },
      "pending_in": {
-      "interfaces-modules": 8
+      "interfaces-modules": 22
      }
     },
     {
      "series": "ISR 3800",
      "family": "ISR G1",
      "role": "branch",
-     "note": null,
+     "note": "layers round 3: ^PWR-38[24]5- places PWR-3825-AC-IP= / PWR-3845-AC-IP=, planned in from interfaces-modules; the label \"Port Adapters\" was removed — it placed no routers row (the one row carrying it, CISCO3845-V/K9, is placed by its SKU) and it would have filed an arriving port adapter under ISR 3800",
      "parts": 19,
      "kinds": {
       "router": 19
@@ -641,13 +643,15 @@
      "rules": {
       "sku": 19
      },
-     "pending_in": {}
+     "pending_in": {
+      "interfaces-modules": 2
+     }
     },
     {
      "series": "ISR 3900",
      "family": "ISR G2",
      "role": "branch",
-     "note": null,
+     "note": "layers round 3: the labels \"High-Speed WAN Interface Cards\" and \"Network Modules\" were removed — interfaces-modules maps them; in routers they placed no row (all 44 rows carrying them are ISR bundles placed by their SKUs) and they would have filed the ISR supplies, DRAM and labels planned in from interfaces-modules under ISR 3900",
      "parts": 87,
      "kinds": {
       "fan": 8,
@@ -673,7 +677,8 @@
       "sku": 87
      },
      "pending_in": {
-      "unified-communications": 1
+      "unified-communications": 1,
+      "interfaces-modules": 1
      }
     },
     {
@@ -709,9 +714,7 @@
       "label-unsupported": 56,
       "accessory": 139
      },
-     "pending_in": {
-      "interfaces-modules": 2
-     }
+     "pending_in": {}
     }
    ]
   },
@@ -814,7 +817,7 @@
      "series": "ASR 1000",
      "family": null,
      "role": "edge",
-     "note": "CUBESP-AP-* (CUBE(SP) appliances, SIP-10 slots) placed by SKU (closing items at aa1143f (14 Sep 2026), item 1)",
+     "note": "CUBESP-AP-* (CUBE(SP) appliances, SIP-10 slots) placed by SKU (closing items at aa1143f (14 Sep 2026), item 1). SPA-DSP(=) \"Cisco ASR 1000 Series Digital Signal Processor SPA\" and SPA-WMA-K9 \"WebEx Node SPA for ASR 1000 Series\" are planned in from interfaces-modules (layers round 3, A.3 rule 1)",
      "parts": 346,
      "kinds": {
       "mechanical": 40,
@@ -845,7 +848,7 @@
       "sku": 338
      },
      "pending_in": {
-      "interfaces-modules": 5
+      "interfaces-modules": 8
      }
     },
     {
@@ -1267,6 +1270,7 @@
       "label": 4
      },
      "pending_in": {
+      "interfaces-modules": 3,
       "switches": 6
      }
     },
@@ -1694,7 +1698,7 @@
      "series": "Industrial and IoT Routers shared parts",
      "family": "(shared across the line)",
      "role": null,
-     "note": null,
+     "note": "layers round 3: the rows planned in from interfaces-modules land here by SKU — the Connected Grid WiMAX panel antennas and the WPAN connector (operator: CGR antennas -> routers Industrial shared parts; the WiMAX connector CGR-N-CONN-WIMAX stays in CGR 1000 by its label), and the 4G antennas ANT-4G-PNL-OUT-N / ANT-4G-SR-OUT-TNC, whose spare and siblings already sit in this shared parts. The line's other shared parts still arrive through the accessory rule",
      "parts": 102,
      "kinds": {
       "antenna": 43,
@@ -1715,10 +1719,13 @@
       "ACC-LA-G-SM-SF — Cisco ACC-LA-G-SM-SF"
      ],
      "rules": {
-      "accessory": 70,
-      "label-unsupported": 32
+      "accessory": 69,
+      "label-unsupported": 32,
+      "sku": 1
      },
-     "pending_in": {}
+     "pending_in": {
+      "interfaces-modules": 10
+     }
     }
    ]
   },
@@ -4396,12 +4403,12 @@
  "unplaced": [],
  "label_check": {
   "applied": true,
-  "label_placed": 453,
+  "label_placed": 442,
   "by_kind": {
    "none": 194,
    "name": 137,
    "family": 20,
-   "sku-token": 102
+   "sku-token": 91
   },
   "moved": [
    {
