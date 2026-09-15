@@ -19,6 +19,10 @@ import crypto from "node:crypto";
 
 export const KIND_LAYER_PLANS_FILE = path.join("data", "reference", "kind-layer-plans-2026-09-13.json");
 export type KindLayerPlan = { sku: string; category: string; action: "move" | "class"; to: string; run_id: number | string | null };
+/** The classes a class plan may set — read by both halves of a class plan (scripts/retract-inherited.mts and scripts/class-change.mts). */
+export const CLASS_TARGETS = ["license", "software", "service", "non_product"] as const;
+/** Rows that carry their family's facts and keep their row as hardware (Q-23, and Q-10 vs Q-23, 15 Sep 2026): no class plan may name one. */
+export const FAMILY_CARRIERS_FILE = path.join("data", "reference", "family-carriers.json");
 export type PlanStatus = "plan_ran" | "pending_plan" | "unplanned";
 
 /** A plan is keyed by the SKU exactly as stored (trimmed, upper-cased) — never `=`-stripped: a spare is its own row. */

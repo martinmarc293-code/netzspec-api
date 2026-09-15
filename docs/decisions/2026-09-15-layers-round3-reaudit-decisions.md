@@ -1,6 +1,8 @@
 # Layers round 3 — the operator's decisions on the verified re-audit, applied — 15 Sep 2026
 
-**Status: MAPPINGS, PLANS, CHECKS AND RECORDS — NO RUN.** Rules committed at `1c0ea75`, pages rebuilt at that commit
+**Status: batch 1 RAN (§7: class-change runs #1079–#1092, recomputes #1093–#1101, pages published at `e9b8f58`); batch 2 PREPARED, NOT RUN
+(§8: the retraction tool and the dry runs) — it waits for the operator's re-audit of the batch 1 pages.** §1–§6 below are the decisions
+block as applied before any run. Rules committed at `1c0ea75`, pages rebuilt at that commit
 (`uncommitted_rule_files: []` on all 17). No database write, no cup-side edit (profiles, required cups, derivations, dictionary untouched). Inputs: the reviewer's re-audit of the published pages at `3fa3624`, its row-by-row verification
 (`D:\tmp\cisco-layers-round3-reaudit-answer-verified-2026-09-15.md`), and the operator's decisions of 15 Sep 2026 (N-1 … N-3, Q-1 … Q-29,
 the bookkeeping list, the runs gate). Runs start only on the operator's yes, one group at a time, with dry-run counts first.
@@ -96,7 +98,83 @@ and 5 own; switches software 11: 11 inherited (9 served) and 1 own.** A class ch
 longer hardware; retracting the inherited ones is the reclassify-nonhardware precedent (a gated `apply-` run) — a question before those
 four groups run.
 
+> **Correction (§9):** the "own" counts above are wrong. The tool counted `NOT inherited`, and retractFact writes its gap row with
+> inherited = false, so 114 of the 122 were value-less gap rows left by the remerge retractions of 4 Sep (runs #56 / #62,
+> `retracted:family:*`). The own values are **8**: routers license 6, switches license 2, routers software 0, switches software 0.
+
 ## 6. Not in this block
 Q-14's exact list (a separate 2–3 h block); Q-26 / Q-27 after the runs; Q-28 with the parked kind rebuild (now also: `device` for the
 MobileAccessVE units, `ont` for the Routed PON ONTs, the 36 E100 parts); **Q-29** (the enumeration filter learning the six documentation
 shapes and a check for documentation-sourced rows with no document and no fact) — decided, queued, not built in this block.
+
+## 7. The operator's answers (15 Sep 2026) and batch 1
+- **CONFIRM 1–4** as recorded in §2: `device` / `ont` wait for the Q-28 rebuild, listed there with their cup sets (device: envelope +
+  product_compatibility; ont: ports + pon_ports) so the rebuild adds the nouns and not only the names — the list is
+  `docs/decisions/2026-09-15-q28-kind-rebuild-list.md` (with the 36 E100 parts, F-5, the UCS token rows and the B7 kind-only splits); the 6 SRE rows go to servers and
+  EM3-HDA-8FXS to interfaces-modules; the E100 arrivals keep their kinds and the 36 E100 parts reading `server` go on the Q-28 list; the
+  32 spares follow their base, the 3 bases their platform, CAB-BS1363-C19-UK waits with Q-14.
+- **Q-10 vs Q-23: Q-23 governs** (`95ffdea`). The 79 keep their rows (76 class plans removed, 3 SB-PWR carriers planned to their family in
+  interfaces-modules), the 175 that carry nothing stay classed. `data/reference/family-carriers.json` lists the 102 kept carriers (Q-23 23
+  + 79) and every layers row carries `family_carrier`; on the pages: wireless 72, switches 17, transceiver 7, interfaces-modules 3,
+  security 3. Their kind stays the device kind. **Not done: the flag in the database and the export** (the shop feed reads `/v1/export`,
+  not the pages) — a migration and a recorded run, for the operator's yes.
+- **Batch 1 ran** on the operator's yes ("reviewer re-audit 15 Sep, fact-free licence/software/service groups"): `class-change` runs
+  **#1079–#1092**, 146 parts in 14 groups (collab license 10, conferencing software 1, HCI software 11, HX license 1 / service 3 /
+  software 7, optical license 1, security license 6, servers license 28 / service 15 / software 32, UC license 21 / service 6, wireless
+  license 4), run ids written into the plans (`8be11a7`), verified from a new connection. Completeness recomputed for the 9 touched
+  categories (runs **#1093–#1101**). Pages rebuilt and published (`e9b8f58`), all 17 verified live; layersStanding 860 / 0, productLine
+  449 / 0, `npm test` 66 / 71 with the 5 known reds identical.
+- **Credentials:** a masked grep had printed the database password into a stored transcript. Rule in CLAUDE.md and
+  `scripts/env-keys.mjs` (key names only; `--same` compares two credentials as true / false), `fb0d288`. The rotation is the operator's
+  to perform: runbook `D:\tmp\netzspec-db-password-rotation-2026-09-15.md` with `D:\tmp\replace-db-secret.mjs`, 23 files on the laptop
+  and 7 on the box.
+
+## 8. Batch 2 prepared: the retraction tool and the dry runs (no run)
+**`scripts/retract-inherited.mts`**, the fact half of a class plan (operator: "retract the inherited family facts FIRST, in a gated run per
+group with dry-run counts … Order per group: retract-inherited → class-change → verify"):
+- **Selector:** the same function as class-change (`src/store/classPlans.ts`, `selectClassPlanParts`): the pending class plans of one
+  (category, class), every SKU a live hardware part of the category, **none a family carrier** (both tools now refuse one). Facts: the
+  current inherited rows that hold a value (verified, corroborated, unverified, conflict). retractFact's gap rows carry inherited = false,
+  so the command's output is never selected again.
+- **Left and printed:** the own values with their source; the gap rows earlier retractions left, counted apart (`partitionFacts`, the fix
+  for the "122").
+- **Gate** (`apply-retract-inherited`): precision — every fact re-read by id before the write and the store's inheritance rule must refuse
+  it for the planned class (`describesPart` → `class:<to>`); changed and unreadable facts counted, not skipped. Recall — a separately
+  written per-part count must match, and `tests/specMerge.test.ts` and `tests/layersStanding.test.ts` run fresh with zero misses.
+- **Commit:** one transaction per group — retractFact per fact (gap_unattempted, `retracted:class_plan_not_hardware`), and the open
+  conflicts standing on a retracted field resolved as remerge resolves them (`rule:inheritance_retracted:class_plan_not_hardware`,
+  resolved_by `retract-inherited#<run>`). Left open, a later remerge rebuilds a conflict's rejected side as a non-inherited verified value
+  (`incomingEntry`) and could write it onto the part. Verified from a new connection (no inherited value fact left or served; one
+  retraction row per fact; own values and earlier gap rows the same rows; no open conflict on a retracted field; the parts still hardware;
+  the selector re-run finds nothing).
+- **class-change.mts** reads the same selector, **refuses the commit while an inherited value fact is left** (the dry run exits 2 and names
+  the command to run first), records the group's retraction run in its inputs, and verifies that no inherited fact is served.
+- **Tests:** `tests/db/retract-inherited.test.ts` 36 / 0 (17 sabotage cases) and `tests/db/class-change.test.ts` 17 / 0 on netzspec_test4.
+  The precision rule and the class-change guard were disabled on the real files: 17 misses (the non_product retraction and a class change
+  before the retraction both committed), files restored to their hashes. Typecheck clean; source-scan 8 / 0; `npm test` 66 / 71, reds
+  identical.
+
+**Dry runs against the store** (read-only; outputs `D:\tmp\retract-inherited-dry-*-2026-09-15.txt`, `D:\tmp\class-change-dry-*`, the
+reading list `D:\tmp\batch2-own-values-and-conflicts-2026-09-15.md`):
+
+| group | parts | inherited value facts (served) | on parts | own values (served) | earlier gap rows | conflicts resolved | gate |
+|---|---|---|---|---|---|---|---|
+| routers → license | 68 | 87 (87) | 19 | 6 (6) | 3 | 4 | passed |
+| routers → software | 56 | 79 (79) | 12 | 0 | 107 | 33 | passed |
+| switches → license | 24 | 42 (37) | 9 | 2 (2) | 3 | 12 | passed |
+| switches → software | 11 | 11 (9) | 3 | 0 | 1 | 14 | passed |
+
+The class-change dry runs of the four groups exit 2 ("retract them first").
+
+**Found while preparing, for the operator:**
+1. **CG113-4GW6x is not a licence.** Its SKU is the region stand-in of CG113-4GW6A / B / E / H / Z; its stored name is a run-together cell of
+   DNA licence lines, and the plan was built from that name. It carries 3 own values from the CG113 data sheet and 4 inherited facts —
+   the Q-23 shape, like its twin CG113-W6x, which has no plan. Neither is seen by the Q-10 pattern: the `x` is glued, not after a dash.
+   Of the 10 live glued-`x` SKUs some are stand-ins and some are model names (CX6Lx is ConnectX-6 Lx).
+2. **non_product is not in `NON_PRODUCT_CLASSES`** (`src/core/specMerge.ts`; the enum value came later, migration 0014), so describesPart
+   does not refuse a family fact to a non_product part. The retraction gate therefore fails for the non_product groups by design: 7 of
+   the 14 pending non_product groups carry 297 inherited value facts (HCI 8, HX 10, interfaces-modules 2, routers 81, servers 20,
+   switches 75, transceiver 101) and are blocked; the other 7 carry none. Changing the rule is a merge-rule decision, not made here.
+3. **5,157 served inherited facts already sit on 1,308 cisco parts classed non-hardware** outside the plans (license 4,274 on 1,065 parts,
+   software 711 on 188, non_product 129 on 41, unknown 37 on 11, service 6 on 3), written by migrate-atlas (3,072), apply-specs (1,410),
+   apply-remerge (584), apply-renormalize (91). `ingest reclassify` changes a class without retracting. None is on a part batch 1 classed.
