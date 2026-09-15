@@ -4,6 +4,11 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-15 (day, 7) - Opus/PARENT. Layers round 3, storage-networking block done: rules `9048d2d`, pages rebuilt at that commit; record `docs/decisions/2026-09-15-layers-round3-storage-networking.md`. No database write, no plans added.**
+  - **Applied:** family_layer assigned; the MDS 9100 / 9200 / 9300 digit rules fenced to DS- / MDS- PIDs (six recorded claim entries on wireless, switches, servers and video gone); DEVICE_KINDS + fc-switch / director; SAN50C-R (IBM's 9250i, in Cisco's notice) → MDS 9200; a redundant rule removed.
+  - **Verified:** layersStanding 603/0 (12 reviewed); productLine 346/0; sanKind 101/0; typecheck clean; `npm test` 66/71, reds identical; other published pages 0 row changes. Dry runs matched (2).
+  - **Traps hit:** the stale-entry helper carried a hard-coded REVIEWED list and missed video's entry; replaced by one that reads REVIEWED from the standing test.
+  - **Next:** unified-communications, then collaboration-endpoints, meraki, conferencing + data-center-networking (merge plans with a redirect map).
 - **2026-09-15 (day, 6) - Opus/PARENT. Layers round 3, optical-networking block done: rules `4071ca6`, pages rebuilt at that commit; record `docs/decisions/2026-09-15-layers-round3-optical-networking.md`. No database write.**
   - **Applied:** family_layer assigned; the transceiver round's claimant fences (`^15216(?!-GBIC)`, `CXP2-MPO`); transceiver DAC rule `(?<!E)CU`; 13 plans (CFP2 bundles → transceiver by the packs decision, NC55-OIP MPAs → routers by A.3 rule 1, 40-SMR1 / 2 placeholders); EWDM and QDD OLS series reviewed and kept.
   - **Verified:** layersStanding 591/0 (11 reviewed); productLine 340/0; opticalKind 195/0; typecheck clean; `npm test` 66/71, reds identical; other published pages 0 row changes. Dry runs matched (optical 96).

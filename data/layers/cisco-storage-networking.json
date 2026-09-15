@@ -1,8 +1,8 @@
 {
  "vendor": "cisco",
  "category": "storage-networking",
- "built_at": "2026-09-15T10:59:02.525Z",
- "commit": "4071ca68fce49f9895a1ac101635b6dd37db71a7",
+ "built_at": "2026-09-15T11:10:39.036Z",
+ "commit": "9048d2d7f3be223cc8fa84785f806405d8b1a6aa",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-storage-networking.json",
  "parts": 598,
@@ -15,7 +15,7 @@
      "series": "MDS 9700 directors (9706 / 9710 / 9718) and modules",
      "family": null,
      "role": null,
-     "note": null,
+     "note": "^DS-X9(706|710|718) removed in layers round 3 (storage round): ^DS-X97 decides every row it matched (the rule-shadowing check named it)",
      "parts": 91,
      "kinds": {
       "accessory": 13,
@@ -104,7 +104,7 @@
      "series": "MDS 9300 fabric switches (9396S / 9396T / 9396V)",
      "family": null,
      "role": null,
-     "note": null,
+     "note": "^(?=DS-) (layers round 3, storage round): the 48 rows the rule decides are DS- PIDs; unfenced it claimed 20 Nexus 9396PX rows in switches",
      "parts": 45,
      "kinds": {
       "mechanical": 9,
@@ -130,7 +130,7 @@
      "series": "MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)",
      "family": null,
      "role": null,
-     "note": null,
+     "note": "^(?=DS-|MDS-) (layers round 3, storage round): the 35 rows the rule decides are DS- PIDs and MDS-9222I-75-PPT; unfenced it claimed the Nexus 92160 rows in switches, the UCSC-RAID-9220 controllers in servers and the Prisma II 9220F-DIFL option in video. ^SAN50C-R$ (same round): 'IBM SAN50C-R', the IBM-branded MDS 9250i that Cisco's 'MDS 9250i Multiservice Fabric Switch' end-of-sale notice lists; the label check found no platform token and held it for review (a whole switch)",
      "parts": 38,
      "kinds": {
       "mechanical": 6,
@@ -149,8 +149,7 @@
       "DS-9250I-KITIBM — MDS 9250i Accessory Kit for IBM"
      ],
      "rules": {
-      "sku": 37,
-      "label": 1
+      "sku": 38
      },
      "pending_in": {
       "switches": 2
@@ -160,13 +159,12 @@
      "series": "MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)",
      "family": null,
      "role": null,
-     "note": null,
-     "parts": 166,
+     "note": "^(?=DS-) (layers round 3, storage round): the 169 rows the rule decides are DS- PIDs; unfenced it claimed 212 Catalyst 9120 / 9124 access points in wireless and 6 AMD EPYC 9124 processors in servers",
+     "parts": 164,
      "kinds": {
       "mechanical": 44,
       "fc-switch": 119,
-      "accessory": 1,
-      "linecard": 2
+      "accessory": 1
      },
      "roles": {},
      "samples": [
@@ -178,8 +176,7 @@
       "DS-9124-KIT-IBM — MDS 9124 Accessory Kit for IBM"
      ],
      "rules": {
-      "sku": 164,
-      "label": 2
+      "sku": 164
      },
      "pending_in": {
       "switches": 5
@@ -211,13 +208,14 @@
      "family": "(shared across the line)",
      "role": null,
      "note": null,
-     "parts": 151,
+     "parts": 153,
      "kinds": {
       "cable": 74,
       "fan": 15,
       "mechanical": 10,
       "power": 46,
-      "accessory": 6
+      "accessory": 6,
+      "linecard": 2
      },
      "roles": {},
      "samples": [
@@ -231,6 +229,7 @@
      "rules": {
       "accessory": 72,
       "sku": 77,
+      "label-unsupported": 2,
       "label": 2
      },
      "pending_in": {
@@ -261,10 +260,29 @@
  ],
  "unplaced": [],
  "label_check": {
-  "applied": false,
-  "label_placed": 0,
-  "by_kind": {},
-  "moved": []
+  "applied": true,
+  "label_placed": 2,
+  "by_kind": {
+   "none": 2
+  },
+  "moved": [
+   {
+    "sku": "M9XT-FC1632",
+    "name": "MDS 32G FC Port Expansion module, w/ 16 active ports for Base",
+    "series_label": "MDS 9100 Series Multilayer Fabric",
+    "from_series": "MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)",
+    "to_series": "MDS 9000 Multilayer SAN Switches shared parts",
+    "why": "no platform token (9100, 9124, 9132, 9134, 9148) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "M9XT-FC1632=",
+    "name": "MDS 32G FC 16-Port expansion module, w/ 16 active ports, spare",
+    "series_label": "MDS 9100 Series Multilayer Fabric",
+    "from_series": "MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)",
+    "to_series": "MDS 9000 Multilayer SAN Switches shared parts",
+    "why": "no platform token (9100, 9124, 9132, 9134, 9148) in the SKU or name, no compatible part placed in the series"
+   }
+  ]
  },
  "pending_review": [],
  "inbound_unplaced": {},

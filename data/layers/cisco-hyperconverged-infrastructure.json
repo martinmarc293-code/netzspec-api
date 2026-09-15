@@ -1,8 +1,8 @@
 {
  "vendor": "cisco",
  "category": "hyperconverged-infrastructure",
- "built_at": "2026-09-15T10:59:02.458Z",
- "commit": "4071ca68fce49f9895a1ac101635b6dd37db71a7",
+ "built_at": "2026-09-15T11:10:38.986Z",
+ "commit": "9048d2d7f3be223cc8fa84785f806405d8b1a6aa",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-hyperconverged-infrastructure.json",
  "parts": 786,
