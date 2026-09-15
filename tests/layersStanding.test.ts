@@ -214,6 +214,27 @@ for (const cat of REVIEWED) {
   check(`provenance ${cat}: the page lists its uncommitted rule files (an array, possibly empty)`, Array.isArray(summary.uncommitted_rule_files));
 }
 
+// MERGE CANDIDATES (layers round 3, operator: "as merge PLANS with the redirect map, not runs"): a category the spec merges away holds no
+// layered row — every row carries a plan — and every planned move lands placed in its target's mapping, so the merge, when it runs,
+// leaves nothing unplaced on the target page. The redirect map and the class question are in the merge-plans decision record.
+export const MERGE_CANDIDATES: Record<string, string> = { conferencing: "collaboration-endpoints", "data-center-networking": "switches" };
+// a planned move of a merge candidate that goes somewhere other than the merge target, each with its reason and destination
+const MERGE_MOVE_EXCEPTIONS: Record<string, string> = {
+  "data-center-networking|8K-2RU-KIT-SB": "routers: a Cisco 8000 2RU installation kit reused by the HF6100-64ED; its siblings 8K-2RU-KIT-L / -S / -2P-KIT in switches carry move plans to routers (A.3 rule 1)",
+};
+for (const [cat, target] of Object.entries(MERGE_CANDIDATES)) {
+  const rows = readLayerRows(cat);
+  const notPlanned = rows.filter((r) => r.bucket !== "pending_plan");
+  check(`merge ${cat} -> ${target}: every one of the ${rows.length} rows carries a plan (none layered, not-this-category or unplaced)`, rows.length > 0 && notPlanned.length === 0, notPlanned.slice(0, 6).map((r) => `${r.sku} ${r.bucket}`).join("; "));
+  const arr = unplacedArrivals(cat, rows, PLANS);
+  check(`merge ${cat} -> ${target}: every planned move lands placed in its target mapping`, arr.length === 0, arr.slice(0, 6).map((a) => `${a.sku} -> ${a.to}: ${a.why}`).join("; "));
+  const moves = (PLANS as { sku: string; category: string; action: string; to: string; run_id: unknown }[]).filter((p) => p.category === cat && p.action === "move" && p.run_id === null);
+  const elsewhere = moves.filter((p) => p.to !== target && !(MERGE_MOVE_EXCEPTIONS[`${cat}|${p.sku}`] ?? "").startsWith(`${p.to}:`));
+  check(`merge ${cat} -> ${target}: every move goes to the merge target or is a recorded exception naming its destination`, elsewhere.length === 0, elsewhere.slice(0, 6).map((p) => `${p.sku} -> ${p.to}`).join("; "));
+  for (const k of Object.keys(MERGE_MOVE_EXCEPTIONS).filter((x) => x.startsWith(`${cat}|`)))
+    check(`merge ${cat}: the recorded exception ${k.split("|")[1]} is still a move away from ${target} (a stale exception is a hole)`, moves.some((p) => p.sku === k.split("|")[1] && p.to !== target));
+}
+
 // THE FAMILY LAYER (operator, 14 Sep 2026): layer 3 where Cisco names a family, the explicit shared-across marker for line shared
 // parts, "—" (empty) otherwise — and the file says the category's families were assigned.
 {

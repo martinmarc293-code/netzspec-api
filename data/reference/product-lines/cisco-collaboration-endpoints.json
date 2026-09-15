@@ -595,6 +595,52 @@
      "note": "^SPVAC-(C7416|H5610|UC725) (layers round 3, collaboration-endpoints round): the nine SolutionsPlus accessory PIDs listed by Cisco's 'Virtualization Experience Media Engine Accessories Data Sheet' (c78-702849, under collaboration-endpoints/virtualization-experience-media-engine); their names are bare placeholders ('Cisco <PID>'), so the label check could not read a series token and moved them to the line's shared parts, leaving the series empty. The other SPVAC- rows (SPVAC-H450, a Jabra handset for TelePresence MX) are not on that sheet and are not matched"
     }
    ]
+  },
+  {
+   "line": "Meeting Server and TelePresence Management",
+   "series": [
+    {
+     "series": "Meeting Server 1000 / 2000",
+     "sku": [
+      "^CTI-CMS",
+      "^CMS-[MS]-M[0-9]",
+      "^CIT3-B200-"
+     ],
+     "labels": [
+      "Meeting Server"
+     ],
+     "note": "arriving from conferencing (layers round 3, merge plan conferencing -> collaboration-endpoints, spec II.16 and decision record rule 5; not run): the Cisco Meeting Server 1000 (UCS C-Series) and 2000 (UCS 5108 with B200 media and control blades) appliances and bundles, CMS-M-M8-K9 / CMS-S-M7-K9 (Meeting Server data sheet c78-742168). The servers mapping's B200 / 5108 / 6324 rules and UC's none read these rows; record them decided-home when the move runs (the Business Edition precedent)"
+    },
+    {
+     "series": "TelePresence Management Server (TMS) appliances",
+     "sku": [
+      "^CTI-(ATP-)?TMS-APL"
+     ],
+     "labels": [
+      "TelePresence Management Suite (TMS)"
+     ],
+     "note": "arriving from conferencing (merge plan): CTI-TMS-APL-K9(=) 'Cisco TelePresence Management Server' and its ATP demo unit (Cisco's TelePresence Management Server end-of-sale notice)"
+    },
+    {
+     "series": "AI PODs for Collaboration",
+     "sku": [
+      "^AIPOD-COLLAB",
+      "^UCSC-C240-M8-CL"
+     ],
+     "labels": [
+      "AI PODs for Collaboration"
+     ],
+     "note": "arriving from conferencing (merge plan): AIPOD-COLLAB and the UCS C240 M8 'Rack Server for Collaboration AI' (with GPU) of Cisco's 'AI PODs for Collaboration' data sheet; the servers mapping's C240 rule reads the two UCSC rows — record it decided-home when the move runs"
+    },
+    {
+     "series": "Meeting Server and TelePresence Management shared parts",
+     "sku": [
+      "^CIT3-"
+     ],
+     "note": "arriving from conferencing (merge plan): the CIT3- UCS components sold for the Meeting Server appliances (CPUs, memory, drives, supplies, RAID controllers, VIC mLOMs, TPMs, the 5108 fan / power module / packaging, the 6324 in-chassis fabric interconnect, a FlexStorage blank)"
+    }
+   ],
+   "no_family_reason": "Cisco names Meeting Server 1000 / 2000, the TelePresence Management Server and the AI PODs for Collaboration as separate conferencing products, with no family between"
   }
  ],
  "shared_accessories": [

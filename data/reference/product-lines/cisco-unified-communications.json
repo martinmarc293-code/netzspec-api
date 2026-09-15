@@ -151,10 +151,10 @@
      "series": "TelePresence VCS appliances",
      "sku": [
       "^CTI-VCS",
-      "^CTI-ATP",
+      "^CTI-ATP(?!-TMS)",
       "^CE-(?![0-9]+GSFP)"
      ],
-     "note": "^CE-(?![0-9]+GSFP) (layers round 3, UC round): the rule claimed the CE-10GSFP-SR / CE-1GSFP-T optics that the transceiver round filed as transceivers",
+     "note": "^CE-(?![0-9]+GSFP) (layers round 3, UC round): the rule claimed the CE-10GSFP-SR / CE-1GSFP-T optics that the transceiver round filed as transceivers. ^CTI-ATP(?!-TMS) (merge plan conferencing -> collaboration-endpoints): CTI-ATP-TMS-APL-K9 'ATP Demo - TMS Server Appliance' is the TelePresence Management Server demo, not a VCS",
      "labels": [
       "TelePresence Video Communication Server (VCS)"
      ]

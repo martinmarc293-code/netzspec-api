@@ -784,12 +784,12 @@
   "sku": "8K-2RU-KIT-SB",
   "category": "data-center-networking",
   "action": "move",
-  "to": "switches",
+  "to": "routers",
   "run_id": null,
   "expected_kind_after": "mechanical",
-  "reason": "category merge data-center-networking -> switches (hardware only)",
-  "evidence": "\"19\" rackmount 4-post kit\" · series \"Nexus Hyperfabric\" · kind today mechanical · docs 1, fact keys 0",
-  "planned_by": "agent 1-switches"
+  "reason": "category merge data-center-networking -> switches (hardware only), this row re-targeted to routers: a Cisco 8000 2RU installation kit (8K- prefix) reused by the HF6100-64ED; its siblings 8K-2RU-KIT-L / -S / -2P-KIT (and spares) in switches carry move plans to routers (A.3 rule 1: a platform part goes with its platform's category) — layers round 3, merge plans",
+  "evidence": "name '19-inch rackmount 4-post kit' · label \"Nexus Hyperfabric\" · doc 'Cisco 6000 Series Switches Data Sheet' · routers places it (sku ^8K- in Cisco 8000) · was planned move -> switches (agent 1-switches), where no series places it",
+  "planned_by": "parent 15 Sep 2026 (layers round 3, merge plans block — operator instructions of 14 Sep 2026 night, unattended)"
  },
  {
   "sku": "FAN-PI-V4",

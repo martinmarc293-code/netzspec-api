@@ -561,6 +561,26 @@ witness("meraki", [
   ["MT40-HW", "Cisco MT40-HW", "Meraki", "Meraki MT Sensors", "MT40"],
 ]);
 witness("wireless", [["MR84", "Cisco MR84", "Meraki", "Meraki MR Access Points", "Meraki MR outdoor (MR58 / 66 / 70 / 72 / 74 / 76 / 78 / 84 / 86)"]]);
+// layers round 3, merge plans (not run): the targets place what conferencing and data-center-networking plan to move
+witness("collaboration-endpoints", [
+  ["CTI-CMS-2K-M6-K9", "Cisco Meeting Server 2000 M6", "Meeting Server", "Meeting Server and TelePresence Management", "Meeting Server 1000 / 2000"],
+  ["CIT3-B200-M5-CON", "Cisco Meeting Server 2000 M5 Control Blade", "Meeting Server", "Meeting Server and TelePresence Management", "Meeting Server 1000 / 2000"], // a blade, not shared parts
+  ["CIT3-RAID-M5", "Cisco 12G Modular RAID controller with 2GB cache", "Meeting Server", "Meeting Server and TelePresence Management", "Meeting Server and TelePresence Management shared parts"],
+  ["CTI-ATP-TMS-APL-K9", "ATP Demo -TMS Server Appliance Incl TMS and Scheduler-25 lic", "TelePresence Management Suite (TMS)", "Meeting Server and TelePresence Management", "TelePresence Management Server (TMS) appliances"],
+  ["UCSC-C240-M8-CL-G", "UCS C240 M8 2U Rack Server for Collaboration AI (GPU)", "AI PODs for Collaboration", "Meeting Server and TelePresence Management", "AI PODs for Collaboration"],
+]);
+witness("switches", [
+  ["HF6100-64ED-S", "Cisco 6000 Hyperfabric switch, 64x800Gbps OSFP, fixed hardware only", "Nexus Hyperfabric", "Nexus Hyperfabric", "Nexus Hyperfabric HF6100 (Cisco 6000 Series)"],
+  ["PSU3KW-HVPI", "Cisco 3000W HV power module with port-side intake", "Nexus Hyperfabric", "Nexus", "Nexus 9000 shared parts"],     // with its spare
+  ["PSU3KW-HVPI=", "Cisco 3000W HV power module with port-side intake, spare", "Nexus 9000", "Nexus", "Nexus 9000 shared parts"],
+  ["PWR-C6-BLANK", "Catalyst 9500X power supply blank cover", "Nexus Hyperfabric", "Catalyst", "Catalyst 9500"],
+]);
+{
+  const p = placePart("cisco", "unified-communications", { sku: "CTI-ATP-TMS-APL-K9", name: "ATP Demo -TMS Server Appliance Incl TMS and Scheduler-25 lic", series: "" });
+  check("merge plans REFUSAL: unified-communications' ^CTI-ATP no longer reads the TMS demo appliance as a VCS", p?.series !== "TelePresence VCS appliances", `${p?.series} (${p?.rule})`);
+  const q = placePart("cisco", "unified-communications", { sku: "CTI-ATP-VCS-CTRLK9", name: "", series: "" });
+  check("merge plans: and it still reads the VCS ATP demo units", q?.series === "TelePresence VCS appliances", `${q?.series} (${q?.rule})`);
+}
 for (const [sku, name] of [["MR84", "Cisco MR84"], ["CW9172", "Cisco CW9172"], ["MS120-24P", "Cisco MS120-24P"], ["MX650", "Cisco MX650"], ["MV10", "Cisco MV10"]]) {
   // the access points and switches are wireless' and switches'; MX650 is no MX65 and MV10 no MV1x series (page tokens with class plans)
   const p = placePart("cisco", "meraki", { sku, name, series: "Meraki" });

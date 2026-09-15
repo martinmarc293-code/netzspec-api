@@ -84,8 +84,10 @@
      "series": "Catalyst 9500",
      "role": "core-agg",
      "sku": [
-      "^(C1-|EDU-|NAL-)?C9500"
+      "^(C1-|EDU-|NAL-)?C9500",
+      "^PWR-C6-BLANK$"
      ],
+     "note": "^PWR-C6-BLANK$ (layers round 3, merge plan data-center-networking -> switches): 'Catalyst 9500X power supply blank cover', listed by the Catalyst 9500 data sheets and ordering guide; arriving from data-center-networking",
      "labels": [
       "Catalyst 9500",
       "9500"
@@ -782,12 +784,14 @@
      "series": "Nexus 9000 shared parts",
      "sku": [
       "^(C1-)?N9K-",
-      "^NXA-"
+      "^NXA-",
+      "^(FAN-PI-V4|PSU3KW-HVPI)$"
      ],
      "labels": [
       "Nexus 9000"
      ],
-     "family": "Nexus 9000"
+     "family": "Nexus 9000",
+     "note": "^(FAN-PI-V4|PSU3KW-HVPI)$ (layers round 3, merge plan data-center-networking -> switches): the fan tray and 3000 W HV module the N9364E-SG2 / SP2R / SG2X and N9164E data sheets list (the Cisco 6000 Hyperfabric data sheet lists them too). Their spares sat in Nexus shared parts by the label check (the name carries no 9000); the bases arrive from data-center-networking, and one rule keeps each pair together"
     }
    ],
    "no_family_reason": "Cisco names the Nexus 2000 Fabric Extenders and the Nexus 6000 as series with no family above them"
@@ -1360,6 +1364,24 @@
       "^CQ211L01"
      ],
      "note": "CQ211L01-48H8FH \"Switch, 48 x 100G DSFP + 8 x QSFP-DD, 8T Capability\" (and -O \"Open SW\") with its accessory kit: arriving from routers, where no switches series could place them (re-audit at 2f3d17a (14 Sep 2026))"
+    }
+   ]
+  },
+  {
+   "line": "Nexus Hyperfabric",
+   "series": [
+    {
+     "series": "Nexus Hyperfabric HF6100 (Cisco 6000 Series)",
+     "role": "datacenter",
+     "sku": [
+      "^HF6100",
+      "^HF-ACC-",
+      "^PSU1[.]4KW-AC"
+     ],
+     "labels": [
+      "Nexus Hyperfabric"
+     ],
+     "note": "arriving from data-center-networking (layers round 3, merge plan data-center-networking -> switches, not run): the HF6100-32D / 60L4D / 64ED switches ('Cisco 6000 Series Switches Data Sheet'), their 19-inch 4-post kit and the 1450 W supplies only that data sheet lists. The parts the HF6100 shares with the Nexus 9364E (FAN-PI-V4, PSU3KW-HVPI) go to Nexus 9000 shared parts beside their spares; the Catalyst 9500X fans, supplies and blank to Catalyst 9500 / 9000; 8K-2RU-KIT-SB to routers with its Cisco 8000 siblings"
     }
    ]
   }
