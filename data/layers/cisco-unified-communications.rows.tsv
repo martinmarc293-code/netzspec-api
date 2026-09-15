@@ -1,6 +1,4 @@
 sku	name	series_label	kind	bucket	product_line	product_family	series	placed_by	deploy_role	role_rule	role_issue	plan	belongs	label_evidence	family_carrier
-ACS-4460-FANASSY	Cisco ISR 4460 Fan Assembly	VG Series Gateways	accessory	pending_plan								move routers			
-ACS-4460-FANASSY=	Cisco ISR 4460 Fan Assembly	VG Series Gateways	accessory	pending_plan								move routers			
 ATA190	UC 2 Port Analog Telephone Adapter	ATA 190 Series Analog Telephone Adapters	ata	layered	Analog Telephone Adapters and SPA		ATA 190 / 191 / 192	sku ^ATA19							
 ATA190-SC-K9	Spark Call 1 Port Analog Telephone Adapter	ATA 190 Series Analog Telephone Adapters	ata	layered	Analog Telephone Adapters and SPA		ATA 190 / 191 / 192	sku ^ATA19							
 ATA191-3PW-K9	2-port analog telephone adapter for multiplatform	ATA 190 Series Analog Telephone Adapters	ata	layered	Analog Telephone Adapters and SPA		ATA 190 / 191 / 192	sku ^ATA19							
@@ -80,7 +78,6 @@ BE7M-M6-K9	Cisco Business Edition 7000M (M6) Appliance, Export Restr SW	Business
 BE7M-M6-XU	Cisco Business Edition 7000M (M6) Appliance, Exp Unrestr SW	Business Edition 7000	server	layered	Business Edition		Business Edition 7000 (BE7K / BE7M / BE7H)	sku ^BE7							
 BE7M-M7-K9	Cisco Business Edition 7000M Svr (M7), Export Restricted SW	Business Edition 7000	server	layered	Business Edition		Business Edition 7000 (BE7K / BE7M / BE7H)	sku ^BE7							
 BE7M-M7-XU	Cisco Business Edition 7000M Svr (M7), Export Unrestricted SW	Business Edition 7000	server	layered	Business Edition		Business Edition 7000 (BE7K / BE7M / BE7H)	sku ^BE7							
-C3945-112FXS/K9	High Density Analog Voice Gateway	VG Series Gateways	gateway	pending_plan								move routers			
 CE-CPU-E5-2643	3.30 GHz E5-2643/130W 4C/10MB Cache/DDR3 1600MHz	TelePresence Video Communication Server (VCS)	cpu	layered	Expressway and VCS		TelePresence VCS appliances	sku ^CE-(?![0-9]+GSFP)							
 CE-HDD1TI2F212	1TB SAS 7.2K RPM 3.5 inch HDD/hot plug/drive sled mounted	TelePresence Video Communication Server (VCS)	drive	layered	Expressway and VCS		TelePresence VCS appliances	sku ^CE-(?![0-9]+GSFP)							
 CE-MR-1X082RY-A	8GB DDR3-1600-MHz RDIMM/PC3-12800/dual rank/1.35v	TelePresence Video Communication Server (VCS)	memory	layered	Expressway and VCS		TelePresence VCS appliances	sku ^CE-(?![0-9]+GSFP)							
@@ -134,17 +131,6 @@ CIT2-PSU2-1200	1200W 2u Power Supply For UCS	Business Edition 7000	power	layered
 CIT2-PSU2-1400W	1400W AC Power Supply for 2U & 4U C Series Servers	Business Edition 7000	power	layered	Business Edition		Business Edition 7000 (BE7K / BE7M / BE7H)	sku ^CIT2-							
 CIT2-PSU2V2-1200W	1200W V2 AC Power Supply for 2U C-Series Servers	Business Edition 7000	power	layered	Business Edition		Business Edition 7000 (BE7K / BE7M / BE7H)	sku ^CIT2-							
 CIT2-RAID-9271CV	MegaRAID 9271CV Raid card with 8 internal SAS/SATA parts, S	Business Edition 7000	storage-controller	layered	Business Edition		Business Edition 7000 (BE7K / BE7M / BE7H)	sku ^CIT2-							
-CP-6921-C-K9-APACP	Cisco UC Phone 6921, Charcoal, Std handset, APAC	Unified Communications Manager (CallManager)	phone	pending_plan					desk	series:Unified IP Phone 6900		move collaboration-endpoints			
-CP-6921-C-K9-LATAM	Cisco UC Phone 6921, Charcoal, Std Handset, LATAM	Unified Communications Manager (CallManager)	phone	pending_plan					desk	series:Unified IP Phone 6900		move collaboration-endpoints			
-CP-6921-CL-K9-APAC	Cisco Unified IP Phone 6921, Charcoal, light handset, APAC	Unified Communications Manager (CallManager)	phone	pending_plan					desk	series:Unified IP Phone 6900		move collaboration-endpoints			
-CP-6921-CLK9-APACP	Cisco UC Phone 6921, Charcoal, light handset, APAC	Unified Communications Manager (CallManager)	phone	pending_plan					desk	series:Unified IP Phone 6900		move collaboration-endpoints			
-CP-6921-CLK9-LATAM	Cisco UC Phone 6921, Charcoal, Slimline Hdst, LATAM	Unified Communications Manager (CallManager)	phone	pending_plan					desk	series:Unified IP Phone 6900		move collaboration-endpoints			
-CP-6921-W-K9-APACP	Cisco UC Phone 6921, White, Std handset, APAC	Unified Communications Manager (CallManager)	phone	pending_plan					desk	series:Unified IP Phone 6900		move collaboration-endpoints			
-CP-6921-WLK9-APACP	Cisco UC Phone 6921, White, light handset, APAC	Unified Communications Manager (CallManager)	phone	pending_plan					desk	series:Unified IP Phone 6900		move collaboration-endpoints			
-CP-6941-C-K9-LATAM	Cisco UC Phone 6941, Charcoal, Std Handset, LATAM	Unified Communications Manager (CallManager)	phone	pending_plan					desk	series:Unified IP Phone 6900		move collaboration-endpoints			
-CP-6941-CLK9-LATAM	Cisco UC Phone 6941, Charcoal, Slimline Hdst, LATAM	Unified Communications Manager (CallManager)	phone	pending_plan					desk	series:Unified IP Phone 6900		move collaboration-endpoints			
-CP-7941G-PROMO	Cisco Unified IP Phone 7941G With License - Special Bundle	Unified Communications Manager (CallManager)	phone	pending_plan					desk	series:Unified IP Phone 7900		move collaboration-endpoints			
-CP-7942G-APACSP	Cisco UC phone 7942G AsiaPac Bundle	Unified Communications Manager (CallManager)	phone	pending_plan					desk	series:Unified IP Phone 7900		move collaboration-endpoints			
 CTI-ATP-VCS-CTRLK9	ATP Demo - VCS Control	TelePresence Video Communication Server (VCS)	unknown	layered	Expressway and VCS		TelePresence VCS appliances	sku ^CTI-ATP(?!-TMS)							
 CTI-ATP-VCS-EXPWK9	ATP Demo - VCS Expressway	TelePresence Video Communication Server (VCS)	unknown	layered	Expressway and VCS		TelePresence VCS appliances	sku ^CTI-ATP(?!-TMS)							
 CTI-ATP-VCS-SPAKK9	ATP Demo-VCS Starter Pack Exp, 50 regs, 5 trav, Movi, 5 PHD USB	TelePresence Video Communication Server (VCS)	unknown	layered	Expressway and VCS		TelePresence VCS appliances	sku ^CTI-ATP(?!-TMS)							
@@ -160,9 +146,6 @@ CTI-VCS-CONTRL-K9	VCS Control	TelePresence Video Communication Server (VCS)	unkn
 CTI-VCS-EXPRESS-K9	VCS Expressway	TelePresence Video Communication Server (VCS)	unknown	layered	Expressway and VCS		TelePresence VCS appliances	sku ^CTI-VCS							
 CTI-VCS-EXPWY-K9	Cisco VCS Expressway	TelePresence Video Communication Server (VCS)	unknown	layered	Expressway and VCS		TelePresence VCS appliances	sku ^CTI-VCS							
 CTI-VCS-STPAK-K9	VCS Starter Pack Express 50 regs 5 trav calls Movi 5 PHD USB	TelePresence Video Communication Server (VCS)	unknown	layered	Expressway and VCS		TelePresence VCS appliances	sku ^CTI-VCS							
-EM-HDA-6FXO	Cisco EM-HDA-6FXO	TDM Gateways	voice-module	pending_plan								move interfaces-modules			
-EXP-10GSFP-SR-MP	10 Gigabit Ethernet SFP Module 10GBASE-SR SFP+ SR Optics	Expressway Series	transceiver	pending_plan								move transceiver			
-EXP-10GSFP-SR-MP=	10 Gigabit Ethernet SFP Module 10GBASE-SR SFP+ SR Optics	Expressway Series	transceiver	pending_plan								move transceiver			
 EXP-BZL-C220M5	C220 M5 Security Bezel	Expressway Series	mechanical	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-(?![0-9]+GSFP)							
 EXP-CPU-6134	3.2 GHz 6134/130W 8C/24.75MB Cache/DDR4 2666MHz	Expressway Series	cpu	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-(?![0-9]+GSFP)							
 EXP-CPU-E5-2643	3.30 GHz E5-2643/130W 4C/10MB Cache/DDR3 1600MHz	Expressway Series	cpu	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-(?![0-9]+GSFP)							
@@ -245,16 +228,6 @@ MEM-4460-32G=	32G DRAM (1 DIMM) for Cisco ISR 4460	VG Series Gateways	memory	lay
 MEM-4460-8G	8G DRAM (1 DIMM) for Cisco ISR 4460	VG Series Gateways	memory	layered	Voice Gateways		VG400 / VG410 / VG420 / VG450	sku ^MEM-4460							
 MEM-4460-8G=	8G DRAM (1 DIMM) for Cisco ISR 4460	VG Series Gateways	memory	layered	Voice Gateways		VG400 / VG410 / VG420 / VG450	sku ^MEM-4460							
 MEM-4460-DP-4G	4G DRAM for Cisco ISR 4460 Data Plane	VG Series Gateways	memory	layered	Voice Gateways		VG400 / VG410 / VG420 / VG450	sku ^MEM-4460							
-NIM-4FXSP=	Cisco NIM-4FXSP=	VG Series Gateways	voice-module	pending_plan								move interfaces-modules			
-PVDM3-128	128-channel high-density voice DSP module	VG Series Gateways	voice-module	pending_plan								move interfaces-modules			
-PVDM3-128=	128-channel high-density voice DSP module SPARE	VG Series Gateways	voice-module	pending_plan								move interfaces-modules			
-PVDM3-128U256	PVDM3 128-channel to 256-channel factory upgrade	VG Series Gateways	voice-module	pending_plan								move interfaces-modules			
-PVDM3-256	256-channel high-density voice DSP module	VG Series Gateways	voice-module	pending_plan								move interfaces-modules			
-PVDM3-256=	256-channel high-density voice DSP module SPARE	VG Series Gateways	voice-module	pending_plan								move interfaces-modules			
-PVDM3-64	64-channel high-density voice DSP module	VG Series Gateways	voice-module	pending_plan								move interfaces-modules			
-PVDM3-64=	64-channel high-density voice DSP module SPARE	VG Series Gateways	voice-module	pending_plan								move interfaces-modules			
-PVDM3-64U128	PVDM3 64-channel to 128-channel factory upgrade	VG Series Gateways	voice-module	pending_plan								move interfaces-modules			
-PVDM3-64U256	PVDM3 64-channel to 256-channel factory upgrade	VG Series Gateways	voice-module	pending_plan								move interfaces-modules			
 PWR-30W-AC	Power Supply 30 Watt AC	VG Series Gateways	power	layered	Voice Gateways	(shared across the line)	Voice Gateways shared parts	label VG Series Gateways							
 PWR-30W-AC-BR	Power Supply 30 Watt AC for Brazil	VG Series Gateways	power	layered	Voice Gateways	(shared across the line)	Voice Gateways shared parts	label VG Series Gateways							
 PWR-30W-AC=	Power Supply 30 Watt AC	VG Series Gateways	power	layered	Voice Gateways	(shared across the line)	Voice Gateways shared parts	label VG Series Gateways							
@@ -274,13 +247,6 @@ PWR-VG420-650WAC=	Cisco VG420 650W AC Power supply - SPARE	VG Series Gateways	po
 PWR-VG420-650WDC	Cisco VG420 650W DC Power supply	VG Series Gateways	power	layered	Voice Gateways		VG400 / VG410 / VG420 / VG450	sku ^PWR-VG4							
 PWR-VG420-650WDC2	Cisco VG420 650W DC Power supply - Secondary	VG Series Gateways	power	layered	Voice Gateways		VG400 / VG410 / VG420 / VG450	sku ^PWR-VG4							
 PWR-VG420-650WDC=	Cisco VG420 650W DC Power supply - SPARE	VG Series Gateways	power	layered	Voice Gateways		VG400 / VG410 / VG420 / VG450	sku ^PWR-VG4							
-SM-D-48FXS-E	Cisco 48 Port FXS OPX-Lite Double Wide Service Module	VG Series Gateways	voice-module	pending_plan								move interfaces-modules			
-SM-D-48FXS-E=	Cisco 48 Port FXS OPX-Lite Double Wide Service Module	VG Series Gateways	voice-module	pending_plan								move interfaces-modules			
-SM-D-72FXS	Cisco 72 Port FXS Double Wide Service Module	VG Series Gateways	voice-module	pending_plan								move interfaces-modules			
-SM-D-72FXS=	Cisco 72 Port FXS Double Wide Service Module	VG Series Gateways	voice-module	pending_plan								move interfaces-modules			
-SM-DW-BLANK	Double Wide Service Module Blank Cover	VG Series Gateways	mechanical	pending_plan								move interfaces-modules			
-SM-DW-BLANK=	Double Wide Service Module Blank Cover	VG Series Gateways	mechanical	pending_plan								move interfaces-modules			
-SM-X-NIM-ADPTR	SM-X Adapter for one NIM module for Cisco 4000 Series ISR	TDM Gateways	unknown	pending_plan								move interfaces-modules			
 SP-ATLAS-180-2=	Rail PR for Ceiling Mounting of FEST-I8S / FEST-IH Enclosure	Paging Server	mechanical	layered	Paging		Atlas IP paging speakers and enclosures	sku ^SP-ATLAS							
 SP-ATLAS-DSSE-DC=	Double Sided Surface Mount Clock, PoE+	Paging Server	mechanical	layered	Paging		Atlas IP paging speakers and enclosures	sku ^SP-ATLAS							
 SP-ATLAS-FST-DC=	Flush Mount Straight Enclosure for IPDC Only, White	Paging Server	mechanical	layered	Paging		Atlas IP paging speakers and enclosures	sku ^SP-ATLAS							
@@ -451,15 +417,6 @@ VG420-RM-23-2R=	Cisco VG420 Rack mount kit for 2RU - 23" Spare	VG Series Gateway
 VG450-144FXS/K9	Cisco VG450 144 FXS Bundle. Leveraging two SM-X-72FXS	VG Series Gateways	gateway	layered	Voice Gateways		VG400 / VG410 / VG420 / VG450	sku ^VG4[0-9]{2}							
 VG450-72FXS/K9	Cisco VG450 72 FXS with option to use two single wide analog voice and fax service module	VG Series Gateways	gateway	layered	Voice Gateways		VG400 / VG410 / VG420 / VG450	sku ^VG4[0-9]{2}							
 VG450/K9	Cisco VG450 High Density Voice over IP Analog Gateway	VG Series Gateways	gateway	layered	Voice Gateways		VG400 / VG410 / VG420 / VG450	sku ^VG4[0-9]{2}							
-VIC2-4FXO=	Four-port Voice Interface Card - FXO (Universal)	VG Series Gateways	voice-module	pending_plan								move interfaces-modules			
-VIC3-4FXS/DID-X	Four-Port Voice Interface Card - FXS and DID	VG Series Gateways	voice-module	pending_plan								move interfaces-modules			
-VIC3-4FXS/DID-X=	Four-Port Voice Interface Card - FXS and DID	VG Series Gateways	voice-module	pending_plan								move interfaces-modules			
-VWIC3-1MFT-G703	Cisco VWIC3-1MFT-G703	TDM Gateways	voice-module	pending_plan								move interfaces-modules			
-VWIC3-1MFT-T1/E1	1-Port 3rd Gen Multiflex Trunk Voice/WAN Int. Card - T1/E1	TDM Gateways	voice-module	pending_plan								move interfaces-modules			
-VWIC3-1MFT-T1/E1=	1-Port 3rd Gen Multiflex Trunk Voice/WAN Int. Card - T1/E1	VG Series Gateways	voice-module	pending_plan								move interfaces-modules			
-VWIC3-2MFT-T1/E1	2-Port 3rd Gen Multiflex Trunk Voice/WAN Int. Card - T1/E1	TDM Gateways	voice-module	pending_plan								move interfaces-modules			
-VWIC3-2MFT-T1/E1=	2-Port 3rd Gen Multiflex Trunk Voice/WAN Int. Card - T1/E1	VG Series Gateways	voice-module	pending_plan								move interfaces-modules			
-VWIC3-4MFT-T1/E1	4-Port 3rd Gen Multiflex Trunk Voice/WAN Int. Card - T1/E1	TDM Gateways	voice-module	pending_plan								move interfaces-modules			
 WRP400-G1	Wireless-G Broadband Router with 2 Phone Ports	Small Business Voice Gateways and ATAs	ata	layered	Analog Telephone Adapters and SPA		WRP400 / WRP500 Broadband Routers with 2 Phone Ports	sku ^WRP[45]00							
 WRP400-G2	Wireless-G Broadband Router with 2 Phone Ports	Small Business Voice Gateways and ATAs	ata	layered	Analog Telephone Adapters and SPA		WRP400 / WRP500 Broadband Routers with 2 Phone Ports	sku ^WRP[45]00							
 WRP400-G3	WRP400-G3, V1.0, Wireless-G Broadband Router, 2 Phone Ports	Small Business Voice Gateways and ATAs	ata	layered	Analog Telephone Adapters and SPA		WRP400 / WRP500 Broadband Routers with 2 Phone Ports	sku ^WRP[45]00							

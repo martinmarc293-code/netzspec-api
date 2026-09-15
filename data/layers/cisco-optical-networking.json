@@ -1,22 +1,26 @@
 {
  "vendor": "cisco",
  "category": "optical-networking",
- "built_at": "2026-09-15T22:52:46.176Z",
- "commit": "9a734f7ba27364704867e3f28204553e1ab21277",
- "uncommitted_rule_files": [],
+ "built_at": "2026-09-15T23:24:29.623Z",
+ "commit": "daa609b5f1a24431ec097b320227e7df1b36b063",
+ "uncommitted_rule_files": [
+  "data/reference/family-carriers.json",
+  "data/reference/layers-cross-claims.json",
+  "scripts/build-layers.mts"
+ ],
  "mapping_file": "data/reference/product-lines/cisco-optical-networking.json",
- "parts": 1180,
+ "parts": 1158,
  "lines": [
   {
    "line": "NCS 1000",
-   "parts": 133,
+   "parts": 134,
    "series": [
     {
      "series": "NCS 1001 / 1002 / 1004 / 1010 / 1014",
      "family": null,
      "role": null,
      "note": null,
-     "parts": 129,
+     "parts": 130,
      "kinds": {
       "transponder": 18,
       "chassis": 16,
@@ -25,7 +29,7 @@
       "controller": 9,
       "cable": 10,
       "fan": 7,
-      "mux": 10,
+      "mux": 11,
       "amplifier": 25,
       "accessory": 7,
       "linecard": 1
@@ -40,11 +44,9 @@
       "NCS1002-K9 — Network Convergence System 1002 20 QSFP28/QSFP+ slots"
      ],
      "rules": {
-      "sku": 129
+      "sku": 130
      },
-     "pending_in": {
-      "interfaces-modules": 1
-     }
+     "pending_in": {}
     },
     {
      "series": "NCS 1000 shared parts",
@@ -73,7 +75,7 @@
   },
   {
    "line": "ONS 15454 MSTP and NCS 2000",
-   "parts": 413,
+   "parts": 437,
    "series": [
     {
      "series": "NCS 2000 (NCS 2002 / 2006 / 2015)",
@@ -114,12 +116,12 @@
      "family": null,
      "role": null,
      "note": null,
-     "parts": 261,
+     "parts": 285,
      "kinds": {
       "transponder": 39,
-      "unknown": 21,
-      "cable": 45,
-      "mux": 11,
+      "unknown": 23,
+      "cable": 49,
+      "mux": 13,
       "roadm": 18,
       "chassis": 8,
       "linecard": 17,
@@ -129,6 +131,7 @@
       "controller": 10,
       "power": 16,
       "fan": 8,
+      "pluggable": 16,
       "dcu": 2
      },
      "roles": {},
@@ -141,14 +144,10 @@
       "15454-10E-L1-C= — 15454 10G Multi-Rate Transponder- EFEC- Full C-Band Tunable"
      ],
      "rules": {
-      "sku": 260,
+      "sku": 284,
       "label": 1
      },
-     "pending_in": {
-      "interfaces-modules": 10,
-      "routers": 2,
-      "transceiver": 12
-     }
+     "pending_in": {}
     },
     {
      "series": "ONS 15454 MSTP and NCS 2000 shared parts",
@@ -179,7 +178,7 @@
   },
   {
    "line": "ONS 15216 / 15200 DWDM passives",
-   "parts": 428,
+   "parts": 437,
    "series": [
     {
      "series": "ONS 15200 (15201 / 15252) CLIP and NAM modules",
@@ -213,14 +212,15 @@
      "family": null,
      "role": null,
      "note": "^15216(?!-GBIC) (layers round 3, optical round): 15216-GBIC-1510(=) is a GBIC the transceiver round filed in GBIC (legacy); the rule claimed it",
-     "parts": 307,
+     "parts": 316,
      "kinds": {
-      "mux": 228,
+      "mux": 236,
       "cable": 15,
       "unknown": 5,
       "dcu": 48,
       "mechanical": 2,
       "amplifier": 6,
+      "chassis": 1,
       "controller": 1,
       "linecard": 2
      },
@@ -234,32 +234,40 @@
       "15216-AD1-2-31.9= — ITU-200 GHz 1-channel, 2 path OADM ch. 1531.90nm"
      ],
      "rules": {
-      "sku": 307
+      "sku": 316
      },
-     "pending_in": {
-      "interfaces-modules": 9
-     }
+     "pending_in": {}
     }
    ]
   },
   {
    "line": "CWDM passives (CWDM-CHASSIS-2 system)",
-   "parts": 0,
+   "parts": 31,
    "series": [
     {
      "series": "CWDM mux/demux, OADM plug-ins and chassis (CWDM-MUX / CWDM-OADM / DS-CWDM)",
      "family": null,
      "role": null,
      "note": "the home of the 28 passive CWDM mux/demux, OADM plug-ins and the 2-slot chassis planned in from transceiver (18 in the kind layer, 10 CWDM-OADM1 / OADM4 in layers round 3, 14 Sep 2026). The MDS CWDM SFP optics (DS-CWDM-1470=, DS-CWDM8G1610=) are transceivers and are not matched. ^EWDM- (layers round 3, 15 Sep 2026): EWDM-OADM2= / EWDM-OADM4= and the EWDM-OA= amplifier, planned in from interfaces-modules (kind layer, 13 Sep) — Cisco's EoL notice sells the EWDM OADMs with the CWDM Mux/Demux ('End-of-Sale … Infiniband Cables, CWDM Mux/Demux, EWDM OADM'); their exact series is the optical round's",
-     "parts": 0,
-     "kinds": {},
+     "parts": 31,
+     "kinds": {
+      "mux": 29,
+      "chassis": 1,
+      "unknown": 1
+     },
      "roles": {},
-     "samples": [],
-     "rules": {},
-     "pending_in": {
-      "transceiver": 28,
-      "interfaces-modules": 3
-     }
+     "samples": [
+      "CWDM-MUX-4-SF1= — Single Fiber 4-Channel Mux/Demux",
+      "CWDM-MUX-4-SF2= — Single Fiber 4-Channel Mux/Demux",
+      "CWDM-MUX-4= — 4-Wavelength Add/Drop Mux for CWDM-CHASSIS-2=",
+      "CWDM-MUX-8= — 8-Wavelength Mux/Demux Plug-in Module for CWDM-CHASSIS-2=",
+      "CWDM-MUX-AD-1470= — 1470 nm Add/Drop Mux Plug-in Module for CWDM-CHASSIS-2=",
+      "CWDM-MUX-AD-1490= — 1490 nm Add/Drop Mux Plug-in Module for CWDM-CHASSIS-2="
+     ],
+     "rules": {
+      "sku": 31
+     },
+     "pending_in": {}
     }
    ]
   },
@@ -303,36 +311,43 @@
   },
   {
    "line": "Routed Optical Networking",
-   "parts": 0,
+   "parts": 3,
    "series": [
     {
      "series": "QSFP-DD Pluggable Open Line System (QDD OLS)",
      "family": null,
      "role": null,
      "note": "layers round 3 (15 Sep 2026): ONS-QDD-OLS= 'QSFP-DD Open Line System, Pre and Bst EDFA' and the colorless mux/dmx breakouts ONS-BRK-CS-8LC= / -16LC=, planned in from interfaces-modules (kind layer, 13 Sep) — the parts of Cisco's 'QSFP-DD Pluggable Open Line System (QDD OLS)' data sheet; the series is named for that product (reviewed in the optical round: kept). The series 'NCS 5500 OTN interface processors' (^NC55-OIP, label 'Routed Optical Networking') was removed in the optical round: its four NC55-OIP-02 MPAs carry plans to routers' NCS 5500 (A.3 rule 1)",
-     "parts": 0,
-     "kinds": {},
+     "parts": 3,
+     "kinds": {
+      "mux": 2,
+      "pluggable": 1
+     },
      "roles": {},
-     "samples": [],
-     "rules": {},
-     "pending_in": {
-      "interfaces-modules": 3
-     }
+     "samples": [
+      "ONS-BRK-CS-16LC= — 16-chs Colorless Flex-spectrum Mux/Dmx - LCs to CS connector",
+      "ONS-BRK-CS-8LC= — 8-chs Colorless Flex-spectrum Mux/Dmx - LCs to CS connector",
+      "ONS-QDD-OLS= — QSFP-DD Open Line System, Pre and Bst EDFA, 2.4 THz C-Band"
+     ],
+     "rules": {
+      "sku": 3
+     },
+     "pending_in": {}
     }
    ]
   },
   {
    "line": "Optical cabling and patch panels",
-   "parts": 31,
+   "parts": 32,
    "series": [
     {
      "series": "MPO / LC patchcords, attenuators and patch panels",
      "family": null,
      "role": null,
      "note": "^ONS-CAB- places ONS-CAB-CS-LC-5= 'Duplex optical patchcord, LC to CS connectors, 5m', planned in from interfaces-modules (layers round 3, A-11). CXP2-MPO (layers round 3, optical round): the CXP2 alternative is for the ONS-CXP2-MPO patchcords; it claimed the CXP2 transceiver ONS-CXP2-SR25 in transceiver",
-     "parts": 31,
+     "parts": 32,
      "kinds": {
-      "cable": 31
+      "cable": 32
      },
      "roles": {},
      "samples": [
@@ -344,746 +359,15 @@
       "ONS-12MPO-XMPO-4= — Multi-fiber patchcord - MPO to MPO Xrossed - 4m"
      ],
      "rules": {
-      "sku": 31
+      "sku": 32
      },
-     "pending_in": {
-      "interfaces-modules": 1
-     }
+     "pending_in": {}
     }
    ]
   }
  ],
  "not_this_category": [],
- "pending_plans": [
-  {
-   "sku": "A900-IMA-FILLER=",
-   "name": "ASR 900 Interface Module Filler Cover, Spare",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "A900-OPT-GUIDE-H=",
-   "name": "ASR 900 optical guide for horizontal fiber routing support",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "A900-PWR-BLANK",
-   "name": "ASR 900 power supply blank cover",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "A900-PWR900-D2",
-   "name": "ASR 900 900W DC power supply with dual feed",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "A900-PWR900-D2=",
-   "name": "ASR 900 900W DC power supply with dual feed, spare",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "A900-ROPT-GUIDE-H=",
-   "name": "ASR 900 RSP optical guide for horizontal fiber routing support",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "A903-F2B-AIR",
-   "name": "Front-to-back airflow deflector",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "A903-FAN-H",
-   "name": "High-performance fan tray",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "A907-F2B-AIR",
-   "name": "Front-to-back airflow deflector",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "CABLE-16TDM-R1EL1",
-   "name": "Kit with 3 16-port cables for TDM T1/E1 CEM IM, 1:1 red, Even Slot Numbers, 42\" / 3.5 ft / 1.1 m",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "CABLE-16TDM-R1EL2",
-   "name": "Kit with 3 16-port cables for TDM T1/E1 CEM IM, 1:1 red, Even Slot Numbers, 62\" / 5.2 ft / 1.6 m",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "CABLE-16TDM-R1EL3",
-   "name": "Kit with 3 16-port cables for TDM T1/E1 CEM IM, 1:1 red, Even Slot Numbers, 78\" / 6.5 ft / 2 m",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "CABLE-16TDM-R1OL1",
-   "name": "Kit with 3 16-port cables for TDM T1/E1 CEM IM, 1:1 red, Odd Slot Numbers, 42\" / 3.5 ft / 1.1 m",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "CABLE-16TDM-R1OL2",
-   "name": "Kit with 3 16-port cables for TDM T1/E1 CEM IM, 1:1 red, Odd Slot Numbers, 62\" / 5.2 ft / 1.6 m",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "CABLE-16TDM-R1OL3",
-   "name": "Kit with 3 16-port cables for TDM T1/E1 CEM IM, 1:1 red, Odd Slot Numbers, 78\" / 6.5 ft / 2 m",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "CABLE-16TDM-R3EL1",
-   "name": "Kit with 3 16-port cables for TDM T3/E3 CEM IM, 1:1 red, Even Slot Numbers, 42\" / 3.5 ft / 1.1 m",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "CABLE-16TDM-R3EL2",
-   "name": "Kit with 3 16-port cables for TDM T3/E3 CEM IM, 1:1 red, Even Slot Numbers, 62\" / 5.2 ft / 1.6 m",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "CABLE-16TDM-R3EL3",
-   "name": "Kit with 3 16-port cables for TDM T3/E3 CEM IM, 1:1 red, Even Slot Numbers, 78\" / 6.5 ft / 2 m",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "CABLE-16TDM-R3OL1",
-   "name": "Kit with 3 16-port cables for TDM T3/E3 CEM IM, 1:1 red, Odd Slot Numbers, 42\" / 3.5 ft / 1.1 m",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "CABLE-16TDM-R3OL2",
-   "name": "Kit with 3 16-port cables for TDM T3/E3 CEM IM, 1:1 red, Odd Slot Numbers, 62\" / 5.2 ft / 1.6 m",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "CABLE-16TDM-R3OL3",
-   "name": "Kit with 3 16-port cables for TDM T3/E3 CEM IM, 1:1 red, Odd Slot Numbers, 78\" / 6.5 ft / 2 m",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "DS-X9124",
-   "name": "24-port 1/2/4-Gbps Fibre Channel Switching Module",
-   "series_label": "Network Convergence System 2000 Series",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS Fibre Channel switching module ('24-port 1/2/4-Gbps Fibre Channel Switching Module') filed under optical-networking"
-  },
-  {
-   "sku": "DS-X9148",
-   "name": "48-port 1/2/4-Gbps Fibre Channel Switching Module",
-   "series_label": "Network Convergence System 2000 Series",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS Fibre Channel switching module ('48-port 1/2/4-Gbps Fibre Channel Switching Module') filed under optical-networking"
-  },
-  {
-   "sku": "NC55-OIP-02",
-   "name": "NCS 5500, 8 ports OTU2/2e/OC192/OC48/FC MPA",
-   "series_label": "Routed Optical Networking",
-   "action": "move",
-   "to": "routers",
-   "reason": "an NCS 5500 modular port adapter ('NCS 5500, 8 ports OTU2/2e/OC192/OC48/FC MPA'): A.3 rule 1 puts a platform-bound part with its platform, the NCS 5500 in routers, whose NCS 5500 series already reads it (layers round 3, optical round)"
-  },
-  {
-   "sku": "NC55-OIP-02-FC",
-   "name": "NCS 5500, 8 ports OTU2/2e/OC192/OC48/FC MPA",
-   "series_label": "Routed Optical Networking",
-   "action": "move",
-   "to": "routers",
-   "reason": "an NCS 5500 modular port adapter ('NCS 5500, 8 ports OTU2/2e/OC192/OC48/FC MPA'): A.3 rule 1 puts a platform-bound part with its platform, the NCS 5500 in routers, whose NCS 5500 series already reads it (layers round 3, optical round)"
-  },
-  {
-   "sku": "NC55-OIP-02-FC=",
-   "name": "NCS 5500, 8 ports OTU2/2e/OC192/OC48/FC MPA",
-   "series_label": "Routed Optical Networking",
-   "action": "move",
-   "to": "routers",
-   "reason": "an NCS 5500 modular port adapter ('NCS 5500, 8 ports OTU2/2e/OC192/OC48/FC MPA'): A.3 rule 1 puts a platform-bound part with its platform, the NCS 5500 in routers, whose NCS 5500 series already reads it (layers round 3, optical round)"
-  },
-  {
-   "sku": "NC55-OIP-02=",
-   "name": "NCS 5500, 8 ports OTU2/2e/OC192/OC48/FC MPA",
-   "series_label": "Routed Optical Networking",
-   "action": "move",
-   "to": "routers",
-   "reason": "an NCS 5500 modular port adapter ('NCS 5500, 8 ports OTU2/2e/OC192/OC48/FC MPA'): A.3 rule 1 puts a platform-bound part with its platform, the NCS 5500 in routers, whose NCS 5500 series already reads it (layers round 3, optical round)"
-  },
-  {
-   "sku": "NCS4200-1H-PK",
-   "name": "NCS 4200 1-Port 100GE CPAK Interface Module",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "NCS4200-1H-PK=",
-   "name": "NCS 4200 1-Port 100GE CPAK Interface Module, spare",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "NCS4200-1RU-DOOR",
-   "name": "NCS 4200 1 RU Door and Ancillary",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "NCS4200-1T16G-PS",
-   "name": "NCS 4200 Combo 8/16 port GE SFP/C-SFP and 1 port 10GE SFP+ / 2 port 1GE C-SFP Interface Module",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "NCS4200-1T16G-PS=",
-   "name": "NCS 4200 Combo 8/16 port GE SFP/C-SFP and 1 port 10GE SFP+ / 2 port 1GE C-SFP Interface Module, Spare",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "NCS4200-1T8LR-PS",
-   "name": "NCS 4200 Combo 8 port SFP GE and 1 port 10GE SFP+ IM",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "NCS4200-1T8LR-PS=",
-   "name": "NCS 4200 Combo 8 port SFP GE and 1 port 10GE SFP+ IM, spare",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "NCS4200-1T8S-10CS",
-   "name": "NCS 4200 1x 10G MR + 8-port Low Rate - 10G CEM & OTN LC",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "NCS4200-1T8S-10CS=",
-   "name": "NCS 4200 1x 10G MR + 8-port Low Rate - 10G CEM & OTN LC",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "NCS4200-1T8S-20CS",
-   "name": "NCS 4200 8-port OC3/12/48/STM-1/-4/-16 SFP or 1-Port OC192/STM-64 SFP+ CEM/iMSG Interface Module",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "NCS4200-1T8S-20CS=",
-   "name": "NCS 4200 8-port OC3/12/48/STM-1/-4/-16 SFP or 1-Port OC192/STM-64 SFP+ CEM/iMSG Interface Module, Spare",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "NCS4200-2H-PK",
-   "name": "NCS 4200 2-Port 100GE QSFP28 Interface Module (Only one 100GE port supported with RSP3-400)",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "NCS4200-2H-PK=",
-   "name": "NCS 4200 2-Port 100GE QSFP28 Interface Module, spare (Only one 100GE port supported with RSP3-400)",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "NCS4200-2H-PQ",
-   "name": "NCS 4200 2 port 100GE QSFP28 Interface Module",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "NCS4200-2Q-P",
-   "name": "NCS 4200 2-Port 40GE QSFP Interface Module",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "NCS4200-2Q-P=",
-   "name": "NCS 4200 2-Port 40GE QSFP Interface Module, spare",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "NCS4200-3GMS",
-   "name": "ASR 900 12 port T1/E1 + 4 port DS3/E3 + 4 port OC3/STM-1 or 4 port OC12/STM-4 or 1 port OC48/STM16 CEM/iMSG Interface Module",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "NCS4200-3GMS=",
-   "name": "ASR 900 12 port T1/E1 + 4 port DS3/E3 + 4 port OC3/STM-1 or 4 port OC12/STM-4 or 1 port OC48/STM16 CEM/iMSG Interface Module, Spare",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "NCS4200-48T1E1-CE",
-   "name": "NCS 4200 48x T1/E1 CEM Line Card - Requires Patch Panel",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "NCS4200-48T1E1-CE=",
-   "name": "NCS 4200 48x T1/E1 CEM Line Card - Requires Patch Panel",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "NCS4200-48T3E3-CE",
-   "name": "NCS 4200 48x T3/E3 CEM Line Card - Requires Patch Panel",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "NCS4200-48T3E3-CE=",
-   "name": "NCS 4200 48x T3/E3 CEM Line Card - Requires Patch Panel",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "NCS4200-8E1T1-CE",
-   "name": "NCS 4200 8x T1/E1 CEM Line Card - RJ48C",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "NCS4200-8E1T1-CE=",
-   "name": "NCS 4200 8-Port T1/E1 Interface Module, Spare",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "NCS4200-8T-PS",
-   "name": "NCS 4200 8-Port 10GE SFP+ Interface Module",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "NCS4200-8T-PS=",
-   "name": "NCS 4200 8-Port 10GE SFP+ Interface Module, spare",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "NCS4201-SA",
-   "name": "NCS 4201 Shelf Assembly - 4x10GE + 24x GE/FE (1 RU)",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "NCS4202-SA",
-   "name": "NCS 4202 Shelf Assembly - 4x10GE + 12x GE/FE + 1 IM slot (1 RU)",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "NCS4206-DOOR",
-   "name": "NCS 4206 door and ancillary",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "NCS4206-SA",
-   "name": "NCS 4206 Shelf Assembly (6 slots - 3 RU)",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "NCS4206-SA=",
-   "name": "NCS 4206 shelf assembly (6 slots, 3 RU), spare",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "NCS420X-RSP",
-   "name": "NCS 4206 Router and Switching Processor and Controller - 400G",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "NCS420X-RSP-128",
-   "name": "NCS 4206 Router and Switching Processor and Controller - 128G",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "NCS420X-RSP-128=",
-   "name": "NCS 4206 Router and Switching Processor and Controller - 128G, spare",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "NCS420X-RSP=",
-   "name": "NCS 4206 Router and Switching Processor and Controller - 400G, spare",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "NCS4216-DOOR",
-   "name": "NCS 4216 door and ancillary",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "NCS4216-F2B-DOOR",
-   "name": "NCS 4216 F2B Door and Ancillary",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "NCS4216-F2B-FAN",
-   "name": "NCS 4216 F2B Top/Bottom Fan Tray Kit",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "NCS4216-F2B-SA",
-   "name": "NCS 4216 Front to Back Shelf Assembly (16 slots - 14 RU)",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "NCS4216-F2B-SA=",
-   "name": "NCS 4216 Front to Back Shelf Assembly (16 slots - 14 RU)",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "NCS4216-PWR-FAN",
-   "name": "NCS 4216 F2B Power Supply Fan Tray",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "NCS4216-RSP",
-   "name": "NCS 4216 Router and Switching Processor and Controller - 400G",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "NCS4216-RSP=",
-   "name": "NCS 4216 Router and Switching Processor and Controller - 400G, spare",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "NCS4216-SA",
-   "name": "NCS 4216 Shelf Assembly (16 slots - 7 RU)",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "NCS4216-SA=",
-   "name": "NCS 4216 shelf assembly (16 slots, 7 RU), spare",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  },
-  {
-   "sku": "ONS-CFP2-ACO-BDL",
-   "name": "WDM CFP2 Pluggable Bundle - Licensed - No Feature",
-   "series_label": "ONS 15454 Series Multiservice Transport Platforms",
-   "action": "move",
-   "to": "transceiver",
-   "reason": "a bundle of WDM CFP2 pluggables (with their licence where named): the operator's packs decision (transceiver round, decision 6) keeps a pack of optics in transceiver with the unit's kind — the unit, ONS-CFP2-WDM / -WDM2, is a transceiver `tunable`, and the pluggables filed beside these bundles already carry plans there (layers round 3, optical round)"
-  },
-  {
-   "sku": "ONS-CFP2-BUN-SK",
-   "name": "1X CFP2-WDM - 1X LIC",
-   "series_label": "ONS 15454 Series Multiservice Transport Platforms",
-   "action": "move",
-   "to": "transceiver",
-   "reason": "a bundle of WDM CFP2 pluggables (with their licence where named): the operator's packs decision (transceiver round, decision 6) keeps a pack of optics in transceiver with the unit's kind — the unit, ONS-CFP2-WDM / -WDM2, is a transceiver `tunable`, and the pluggables filed beside these bundles already carry plans there (layers round 3, optical round)"
-  },
-  {
-   "sku": "ONS-CFP2-BUN2-SK",
-   "name": "Cisco ONS-CFP2-BUN2-SK",
-   "series_label": "ONS 15454 Series Multiservice Transport Platforms",
-   "action": "move",
-   "to": "transceiver",
-   "reason": "a bundle of WDM CFP2 pluggables (with their licence where named): the operator's packs decision (transceiver round, decision 6) keeps a pack of optics in transceiver with the unit's kind — the unit, ONS-CFP2-WDM / -WDM2, is a transceiver `tunable`, and the pluggables filed beside these bundles already carry plans there (layers round 3, optical round)"
-  },
-  {
-   "sku": "ONS-CFP2-WDM-1KE",
-   "name": "100G QPSK / 200G 16-QAM - WDM CFP2 Pluggable, Enhanced",
-   "series_label": "ONS 15454 Series Multiservice Transport Platforms",
-   "action": "move",
-   "to": "transceiver",
-   "reason": "coherent tunable CFP2 / CFP2-DCO pluggable filed under optical-networking ('100G QPSK / 200G 16-QAM - WDM CFP2 Pluggable, Enhanced')"
-  },
-  {
-   "sku": "ONS-CFP2-WDM-1KE=",
-   "name": "100G QPSK / 200G 16-QAM - WDM CFP2 Pluggable, Enhanced",
-   "series_label": "Network Convergence System 2000 Series",
-   "action": "move",
-   "to": "transceiver",
-   "reason": "coherent tunable CFP2 / CFP2-DCO pluggable filed under optical-networking ('100G QPSK / 200G 16-QAM - WDM CFP2 Pluggable, Enhanced')"
-  },
-  {
-   "sku": "ONS-CFP2-WDM-1KL=",
-   "name": "100G QPSK / 200G 16-QAM - WDM CFP2 Pluggable, C temp",
-   "series_label": "Network Convergence System 2000 Series",
-   "action": "move",
-   "to": "transceiver",
-   "reason": "coherent tunable CFP2 / CFP2-DCO pluggable filed under optical-networking ('100G QPSK / 200G 16-QAM - WDM CFP2 Pluggable, C temp')"
-  },
-  {
-   "sku": "ONS-CFP2-WDM2=",
-   "name": "100G QPSK/200G 16-QAM - WDM CFP2 Pluggable",
-   "series_label": "Network Convergence System 2000 Series",
-   "action": "move",
-   "to": "transceiver",
-   "reason": "coherent tunable CFP2 / CFP2-DCO pluggable filed under optical-networking ('100G QPSK/200G 16-QAM - WDM CFP2 Pluggable')"
-  },
-  {
-   "sku": "ONS-CFP2-WDM=",
-   "name": "100G QPSK / 200G 16-QAM - WDM CFP2 Pluggable",
-   "series_label": "Network Convergence System 4000 Series",
-   "action": "move",
-   "to": "transceiver",
-   "reason": "coherent tunable CFP2 / CFP2-DCO pluggable filed under optical-networking ('100G QPSK / 200G 16-QAM - WDM CFP2 Pluggable')"
-  },
-  {
-   "sku": "ONS-CFP2D-400G-C=",
-   "name": "400G CFP2 DCO Multi-rate WDM C Band Tuneable",
-   "series_label": "Network Convergence System 2000 Series",
-   "action": "move",
-   "to": "transceiver",
-   "reason": "coherent tunable CFP2 / CFP2-DCO pluggable filed under optical-networking ('400G CFP2 DCO Multi-rate WDM C Band Tuneable')"
-  },
-  {
-   "sku": "ONS-CFP2WDM-BUN",
-   "name": "10 x ONS-CFP2-WDM Bundle",
-   "series_label": "ONS 15454 Series Multiservice Transport Platforms",
-   "action": "move",
-   "to": "transceiver",
-   "reason": "a bundle of WDM CFP2 pluggables (with their licence where named): the operator's packs decision (transceiver round, decision 6) keeps a pack of optics in transceiver with the unit's kind — the unit, ONS-CFP2-WDM / -WDM2, is a transceiver `tunable`, and the pluggables filed beside these bundles already carry plans there (layers round 3, optical round)"
-  },
-  {
-   "sku": "ONS-CFP2WDM-BUN4",
-   "name": "4 x ONS-CFP2-WDM Bundle",
-   "series_label": "ONS 15454 Series Multiservice Transport Platforms",
-   "action": "move",
-   "to": "transceiver",
-   "reason": "a bundle of WDM CFP2 pluggables (with their licence where named): the operator's packs decision (transceiver round, decision 6) keeps a pack of optics in transceiver with the unit's kind — the unit, ONS-CFP2-WDM / -WDM2, is a transceiver `tunable`, and the pluggables filed beside these bundles already carry plans there (layers round 3, optical round)"
-  },
-  {
-   "sku": "ONS-CFP2WDM2-BUN",
-   "name": "Cisco ONS-CFP2WDM2-BUN",
-   "series_label": "ONS 15454 Series Multiservice Transport Platforms",
-   "action": "move",
-   "to": "transceiver",
-   "reason": "a bundle of WDM CFP2 pluggables (with their licence where named): the operator's packs decision (transceiver round, decision 6) keeps a pack of optics in transceiver with the unit's kind — the unit, ONS-CFP2-WDM / -WDM2, is a transceiver `tunable`, and the pluggables filed beside these bundles already carry plans there (layers round 3, optical round)"
-  },
-  {
-   "sku": "ONS-CFP2WDM2-BUN4",
-   "name": "Cisco ONS-CFP2WDM2-BUN4",
-   "series_label": "ONS 15454 Series Multiservice Transport Platforms",
-   "action": "move",
-   "to": "transceiver",
-   "reason": "a bundle of WDM CFP2 pluggables (with their licence where named): the operator's packs decision (transceiver round, decision 6) keeps a pack of optics in transceiver with the unit's kind — the unit, ONS-CFP2-WDM / -WDM2, is a transceiver `tunable`, and the pluggables filed beside these bundles already carry plans there (layers round 3, optical round)"
-  },
-  {
-   "sku": "ONS-CPAK-LR4=",
-   "name": "100GE/OTU4 Multi-Rate CPAK Pluggable - LR4",
-   "series_label": "Network Convergence System 4000 Series",
-   "action": "move",
-   "to": "transceiver",
-   "reason": "fixed-wavelength pluggable (CPAK / CXP / CXP2 / QSFP28) filed under optical-networking ('100GE/OTU4 Multi-Rate CPAK Pluggable - LR4')"
-  },
-  {
-   "sku": "ONS-CPAK-SR10=",
-   "name": "100GE/OTU4 Multi-Rate CPAK Pluggable - SR10",
-   "series_label": "Network Convergence System 4000 Series",
-   "action": "move",
-   "to": "transceiver",
-   "reason": "fixed-wavelength pluggable (CPAK / CXP / CXP2 / QSFP28) filed under optical-networking ('100GE/OTU4 Multi-Rate CPAK Pluggable - SR10')"
-  },
-  {
-   "sku": "ONS-CXP-100G-SR10=",
-   "name": "CXP - 100GBASE-SR - Commercial Temp",
-   "series_label": "ONS 15454 Series Multiservice Transport Platforms",
-   "action": "move",
-   "to": "transceiver",
-   "reason": "fixed-wavelength pluggable (CPAK / CXP / CXP2 / QSFP28) filed under optical-networking ('CXP - 100GBASE-SR - Commercial Temp')"
-  },
-  {
-   "sku": "ONS-CXP2-SR25=",
-   "name": "CXP2 Transceiver module - 12x25G - Fabric Interconnect",
-   "series_label": "Network Convergence System 4000 Series",
-   "action": "move",
-   "to": "transceiver",
-   "reason": "fixed-wavelength pluggable (CPAK / CXP / CXP2 / QSFP28) filed under optical-networking ('CXP2 Transceiver module - 12x25G - Fabric Interconnect')"
-  },
-  {
-   "sku": "ONS-QSFP28-LR4=",
-   "name": "100Gbps Multi-rate QSFP28, LR",
-   "series_label": "Network Convergence System 4000 Series",
-   "action": "move",
-   "to": "transceiver",
-   "reason": "fixed-wavelength pluggable (CPAK / CXP / CXP2 / QSFP28) filed under optical-networking ('100Gbps Multi-rate QSFP28, LR')"
-  },
-  {
-   "sku": "PANEL-144-1-AMP64",
-   "name": "144 x 120 ohm E1/110 ohm DS1 termination, 12 x AMP 64-pin",
-   "series_label": "Network Convergence System 4200 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
-  }
- ],
+ "pending_plans": [],
  "unplaced": [],
  "label_check": {
   "applied": true,

@@ -42,6 +42,9 @@ const PAIR_EXCEPTIONS: Record<string, string> = {
   // the six N-3 twin exceptions (BRKT-SX10-WMK, CTS-SX10CODEC=, CTS-SX20G2-K9+, HS-WL-ADPT-USBA, FP-NMSB-40G, AIR-ANT5175V-N) went with
   // batch 3a (runs #1112 / #1115 / #1118, 16 Sep 2026): each "Not used" member has left its hardware page, so the twins on the page agree
   // again and the entries would now be stale — which is exactly what the check below refuses
+  // the moves of 16 Sep brought a base to its spare's page and the two read different kinds — a kind-layer defect, listed for the Q-28
+  // rebuild (docs/decisions/2026-09-15-q28-kind-rebuild-list.md), not fixed in a layers round
+  "servers-unified-computing|UCS-ACC-6536": "kind only: the base 'UCS 6536 chassis accessory kit' reads mechanical through its name, the spare UCS-ACC-6536= (named only by its SKU) stays accessory; both sit in UCS 6500 Fabric Interconnects since the base arrived from interfaces-modules (run #1158). UCS-ACC-6652 and UCS-ACC-6664 read mechanical the same way and have no spare row to disagree with",
 };
 
 // device-in-shared-parts exceptions (collaboration round): a whole product with no series and no document naming one. Re-audit decisions
@@ -50,6 +53,11 @@ const DEVICE_EXCEPTIONS: Record<string, string> = {
   "collaboration-endpoints|CTS-LAPT-DISP": "Cisco names no series; device kept out of shared-parts semantics by exception (Q-18) — 'TelePresence Laptop Display' (label TelePresence MX Series; only the generic 'HW Collaboration PIDs' end-of-sale notice names it), in TelePresence (legacy) shared parts",
   "collaboration-endpoints|CTS-LAPT-DISP=": "Cisco names no series; device kept out of shared-parts semantics by exception (Q-18) — the spare of CTS-LAPT-DISP 'TelePresence Laptop Display'",
   "collaboration-endpoints|CTS-VX-EDUCATOR-K9": "Cisco names no series; device kept out of shared-parts semantics by exception (Q-18) — 'VX Educator package' (label TelePresence MX Series; the generic 'Collaboration PIDs' end-of-sale notice), in TelePresence (legacy) shared parts",
+  // the interfaces-modules -> security move of 16 Sep (run #1152) brought this card to the page its platform sits on, and the kind axis
+  // reads it as a device — the security round predicted exactly this ("securityKind: ASA-SSC-AIP-5-K9= reads appliance … after that run it
+  // would be a device kind in ASA shared parts"). It is a CARD (the interfaces-modules plan records expected kind `module`), so the row is
+  // right and the KIND is wrong: listed for the Q-28 rebuild, kept as an exception until the kind axis is fixed
+  "security|ASA-SSC-AIP-5-K9=": "a kind-layer defect, not a device: securityKind reads the ASA 5500 AIP-SSC-5 CARD as `appliance`; it sits in ASA and ISA shared parts with the other ASA 5500 service modules (Q-28)",
 };
 
 // THE LABEL CHECK, per category (layers round 3, operator: the round-2 floor "more than 100 label-placed rows" failed by construction
@@ -129,6 +137,19 @@ const check = (name: string, ok: boolean, detail = "") => { if (ok) passed++; el
 
 const CATS = fs.readdirSync(path.join(REPO_ROOT, "data", "reference", "product-lines")).map((f) => f.replace(/^cisco-|\.json$/g, ""));
 const PLANS = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, "data", "reference", "kind-layer-plans-2026-09-13.json"), "utf8"));
+
+// A WITNESS WHOSE MOVE PLAN HAS RUN (the 1,021 moves of 16 Sep). It says more than the plan text did: the row has LEFT its old page, it
+// IS a row on the target page, and the plan carries the run id that moved it. A witness that only read the plan text would have to be
+// deleted every time a plan runs, and deleting witnesses as the work proceeds is how a suite stops watching the thing it was written for.
+const PAGE_ROWS = new Map<string, Map<string, LayerRow>>();
+const pageRow = (cat: string, sku: string) => {
+  if (!PAGE_ROWS.has(cat)) PAGE_ROWS.set(cat, new Map(readLayerRows(cat).map((r) => [r.sku, r])));
+  return PAGE_ROWS.get(cat)!.get(sku);
+};
+const ranMove = (from: string, sku: string, to: string) => check(`${from} page: ${sku} moved to ${to} — off this page, a row there, run id recorded`,
+  !pageRow(from, sku) && !!pageRow(to, sku)
+  && (PLANS as { sku: string; category: string; action: string; to: string; run_id: unknown }[]).some((p) => p.sku === sku && p.category === from && p.action === "move" && p.to === to && typeof p.run_id === "number"),
+  `${from}: ${pageRow(from, sku)?.bucket ?? "(gone)"}, ${to}: ${pageRow(to, sku)?.bucket ?? "(not a row)"}`);
 type Allowed = { category: string; claimed_by: string; series: string; rule: string; rows: number; status: string; reason: string };
 const ALLOW = (JSON.parse(fs.readFileSync(path.join(REPO_ROOT, "data", "reference", "layers-cross-claims.json"), "utf8")) as { entries: Allowed[] }).entries;
 const STATUSES = new Set(["claimant-rule-too-broad", "decided-home", "pending-round"]);
@@ -292,8 +313,12 @@ const CARRIER_SKUS: ReadonlySet<string> = new Set(CARRIERS.map((c) => c.sku));
 {
   const rowsBySku = new Map<string, LayerRow & { page: string }>();
   for (const c of CATS) for (const r of readLayerRows(c)) rowsBySku.set(r.sku, { ...r, page: c });
-  check(`family carriers: the list holds 104 (Q-23 23, Q-10 vs Q-23 79, Q-23 glued-x 2), no SKU twice`, CARRIERS.length === 104 && CARRIER_SKUS.size === 104 && CARRIERS.filter((c) => c.decision === "Q-23").length === 23
-    && CARRIERS.filter((c) => c.decision === "Q-23 (glued-x stand-in)").map((c) => c.sku).sort().join() === "CG113-4GW6x,CG113-W6x");
+  check(`family carriers: the list holds 114 (Q-23 23, Q-10 vs Q-23 79, Q-23 glued-x 2, arrived by move 10), no SKU twice`, CARRIERS.length === 114 && CARRIER_SKUS.size === 114 && CARRIERS.filter((c) => c.decision === "Q-23").length === 23
+    && CARRIERS.filter((c) => c.decision === "Q-23 (glued-x stand-in)").map((c) => c.sku).sort().join() === "CG113-4GW6x,CG113-W6x"
+    // the 10 IW9165 / IW9167 regulatory stand-ins arrived in wireless with the routers -> wireless move of 16 Sep; each carries the
+    // family's fact and data sheet, so Q-23 governs and they keep their rows. The Q-10 census could not have seen them: a planned row is
+    // not layered, so the check that finds them only fires once they land
+    && CARRIERS.filter((c) => c.decision === "Q-10 vs Q-23 (arrived by move)").length === 10);
   check(`family carriers: CG113-4GW6x is a layered, flagged routers row with no plan (not the licence its stored name reads as)`,
     rowsBySku.get("CG113-4GW6x")?.page === "routers" && rowsBySku.get("CG113-4GW6x")?.bucket === "layered" && rowsBySku.get("CG113-4GW6x")?.family_carrier === "true" && rowsBySku.get("CG113-4GW6x")?.plan === "",
     JSON.stringify(rowsBySku.get("CG113-4GW6x")));
@@ -302,8 +327,13 @@ const CARRIER_SKUS: ReadonlySet<string> = new Set(CARRIERS.map((c) => c.sku));
     bad.slice(0, 6).map((c) => { const r = rowsBySku.get(c.sku); return `${c.sku}: ${r ? `${r.bucket} "${r.plan}" flag=${r.family_carrier}` : "not a row"}`; }).join("; "));
   const flagged = [...rowsBySku.values()].filter((r) => r.family_carrier === "true" && !CARRIER_SKUS.has(r.sku));
   check(`family carriers: no row outside the list carries the flag`, flagged.length === 0, flagged.slice(0, 6).map((r) => r.sku).join(", "));
-  const moves = (PLANS as { sku: string; action: string; to: string; run_id: unknown }[]).filter((p) => p.run_id === null && CARRIER_SKUS.has(p.sku));
-  check(`family carriers: the only plans on carriers are the 3 SB-PWR moves to interfaces-modules (their families' category)`, moves.length === 3 && moves.every((p) => p.action === "move" && p.to === "interfaces-modules" && /^SB-PWR-/.test(p.sku)), JSON.stringify(moves));
+  // counted whether or not they have RUN (all 13 ran on 16 Sep): a carrier may carry no plan but a MOVE to its family's category — never a
+  // class plan — and a count of pending plans alone would read "0 plans on carriers" as a pass once they ran
+  const moves = (PLANS as { sku: string; action: string; to: string; run_id: unknown }[]).filter((p) => CARRIER_SKUS.has(p.sku));
+  const sbPwr = moves.filter((p) => /^SB-PWR-/.test(p.sku) && p.to === "interfaces-modules");
+  const iw = moves.filter((p) => /^IW916[57]/.test(p.sku) && p.to === "wireless");
+  check(`family carriers: the only plans on carriers are moves to their family's category — 3 SB-PWR to interfaces-modules, 10 IW9165 / IW9167 to wireless`,
+    moves.length === 13 && sbPwr.length === 3 && iw.length === 10 && moves.every((p) => p.action === "move"), JSON.stringify(moves.map((p) => `${p.sku} ${p.action} ${p.to}`)));
 }
 
 // MERGE CANDIDATES (layers round 3, operator: "as merge PLANS with the redirect map, not runs"): a category the spec merges away holds no
@@ -423,25 +453,26 @@ check("SABOTAGE merge: a plan that calls a hardware row non-hardware is refused"
   at("PP1-72X100G-SMF", "Fiber patch panels and MPO / breakout cables (CB- / PP)");
   check(`interfaces-modules page: the card line is renamed (C9) and holds the NIMs`, im.get("NIM-2T")?.product_line === CARDS, `${im.get("NIM-2T")?.product_line}`);
   const planned = (sku: string, plan: string) => check(`interfaces-modules page: ${sku} carries the plan "${plan}"`, im.get(sku)?.bucket === "pending_plan" && im.get(sku)?.plan === plan, `got ${im.get(sku)?.bucket} "${im.get(sku)?.plan}"`);
-  planned("ENC-10G-ONT-10=", "move switches");
-  planned("DS-X9148-HV", "move storage-networking");
-  planned("AIR-RM3000M", "move wireless");
-  planned("NAM2420-K9", "move security");
-  planned("NCS-FAB-OPT=", "move transceiver");
-  planned("PWR-3845-AC-IP=", "move routers");
+  // these move plans RAN on 16 Sep: each row is now on its target page (ranMove asserts both ends and the run id)
+  ranMove("interfaces-modules", "ENC-10G-ONT-10=", "switches");
+  ranMove("interfaces-modules", "DS-X9148-HV", "storage-networking");
+  ranMove("interfaces-modules", "AIR-RM3000M", "wireless");
+  ranMove("interfaces-modules", "NAM2420-K9", "security");
+  ranMove("interfaces-modules", "NCS-FAB-OPT=", "transceiver");
+  ranMove("interfaces-modules", "PWR-3845-AC-IP=", "routers");
   planned("FQMAP46CG", "class non_product");
   planned("HN4000e", "class non_product");
-  planned("UCS-E160S-M3/K9", "move servers-unified-computing");
-  planned("ISM-SRE-300-K9", "move servers-unified-computing");
-  planned("SM-SRE-900-K9", "move servers-unified-computing");
+  ranMove("interfaces-modules", "UCS-E160S-M3/K9", "servers-unified-computing");
+  ranMove("interfaces-modules", "ISM-SRE-300-K9", "servers-unified-computing");
+  ranMove("interfaces-modules", "SM-SRE-900-K9", "servers-unified-computing");
   planned("15454-AD-1B-xx=", "class non_product");
   at("HWIC-AP-AG-x", "EHWIC / HWIC / VWIC / WIC", "radio");   // a family carrier (1 fact) since Q-10 vs Q-23, not a class plan
   check(`interfaces-modules page: HWIC-AP-AG-x is flagged a family carrier`, im.get("HWIC-AP-AG-x")?.family_carrier === "true", `${im.get("HWIC-AP-AG-x")?.family_carrier}`);
-  planned("CGR-N-CONN-WPAN", "move routers");
+  ranMove("interfaces-modules", "CGR-N-CONN-WPAN", "routers");
   const ntc = readLayerRows("interfaces-modules").filter((r) => r.bucket === "not_this_category").length;
   check(`interfaces-modules page: the 190 not-this-category rows of the round's start are all planned or placed (0 left)`, ntc === 0, `${ntc}`);
   const sw = new Map(readLayerRows("switches").map((r) => [r.sku, r]));
-  check(`switches page: NM-BLANK-T1= carries the plan to interfaces-modules (C7)`, sw.get("NM-BLANK-T1=")?.plan === "move interfaces-modules", `${sw.get("NM-BLANK-T1=")?.plan}`);
+  ranMove("switches", "NM-BLANK-T1=", "interfaces-modules");   // C7
 }
 
 // wireless on the built rows (layers round 3)
@@ -467,14 +498,14 @@ check("SABOTAGE merge: a plan that calls a hardware row non-hardware is refused"
     check(`wireless page: ${sku} left the hardware page by its class-non_product plan (run id recorded)`, !wl.get(sku)
       && (PLANS as { sku: string; category: string; action: string; to: string; run_id: unknown }[]).some((p) => p.sku === sku && p.category === "wireless" && p.action === "class" && p.to === "non_product" && typeof p.run_id === "number"),
       `${wl.get(sku)?.bucket ?? "(not a row)"}`);
-  planned("SB-PWR-48V", "move interfaces-modules");
-  planned("CS-ROOM70P-WMK=", "move collaboration-endpoints");
+  ranMove("wireless", "SB-PWR-48V", "interfaces-modules");
+  ranMove("wireless", "CS-ROOM70P-WMK=", "collaboration-endpoints");
   const ntc = [...wl.values()].filter((r) => r.bucket === "not_this_category").length;
   check(`wireless page: 0 not-this-category rows left (the 44 of the round's start are planned)`, ntc === 0, `${ntc}`);
   const regionLeft = [...wl.values()].filter((r) => r.bucket === "layered" && /(^|-)x(-|$)|-xx$/.test(r.sku) && r.family_carrier !== "true");
   check(`wireless page: 0 layered regulatory-domain / plug-region placeholders (lowercase -x / -xx SKUs) that are not family carriers`, regionLeft.length === 0, regionLeft.slice(0, 6).map((r) => r.sku).join(", "));
   const rt = new Map(readLayerRows("routers").map((r) => [r.sku, r]));
-  check(`routers page: the Aironet antennas and the 1530 mount kit carry their plans to wireless`, ["AIR-ANT2524DB-R", "AIR-ACC1530-PMK1"].every((s) => rt.get(s)?.plan === "move wireless"), ["AIR-ANT2524DB-R", "AIR-ACC1530-PMK1"].map((s) => `${s} ${rt.get(s)?.plan}`).join("; "));
+  for (const s of ["AIR-ANT2524DB-R", "AIR-ACC1530-PMK1"]) ranMove("routers", s, "wireless");   // the Aironet antennas and the 1530 mount kit
 }
 
 // THE RE-AUDIT DECISIONS on the built rows (operator, 15 Sep 2026): each decision's witnesses are where it put them
@@ -505,15 +536,15 @@ check("SABOTAGE merge: a plan that calls a hardware row non-hardware is refused"
   at("servers-unified-computing", "SVC-E180D-M3", "UCS E-Series", undefined, /^sku \^SVC-E/);
   at("servers-unified-computing", "ISM-SRE-300-BUN-K9", "Services Ready Engine (ISM-SRE / SM-SRE)", "server");
   at("servers-unified-computing", "SM-MEM-VLP-4GB=", "Services Ready Engine (ISM-SRE / SM-SRE)", "memory");
-  planned("routers", "E-SSD-U2N-4TB=", "move servers-unified-computing");
-  planned("routers", "EM3-HDA-8FXS", "move interfaces-modules");
+  ranMove("routers", "E-SSD-U2N-4TB=", "servers-unified-computing");
+  ranMove("routers", "EM3-HDA-8FXS", "interfaces-modules");
   // Q-11 / Q-12 / Q-6 / Q-2
-  planned("wireless", "PWR-CH1-750ACR", "move routers");
+  ranMove("wireless", "PWR-CH1-750ACR", "routers");
   at("wireless", "AIR-VCU-CELLPCS12=", "MobileAccessVE");
   at("wireless", "AIR-330-MB-2", "MobileAccessVE");
   at("wireless", "AIR-VAPMNTG-V-KIT=", "MobileAccessVE", "mechanical");
   at("routers", "CGR-N-CONN-WIMAX", "CGR 1000 Connected Grid", undefined, /^sku \^CGR-N-CONN-/);
-  planned("interfaces-modules", "ENC-10G-ONT-14A", "move switches");
+  ranMove("interfaces-modules", "ENC-10G-ONT-14A", "switches");
   // Q-23 / N-2: the carriers of a fact or a document keep their rows; the empty placeholder goes
   at("wireless", "MR46", "Meraki MR indoor");
   at("wireless", "C9800-L", "Catalyst 9800-L");
@@ -531,14 +562,14 @@ check("SABOTAGE merge: a plan that calls a hardware row non-hardware is refused"
   // N-3, Q-10, Q-15, Q-19 / Q-20, F-7
   ranClass("security", "FPR4K-NM-4X40G-F=", "non_product");
   at("wireless", "CW9166I-X", "Catalyst CW9162 / CW9164 / CW9166 (Wi-Fi 6E)");   // a family carrier (Q-10 vs Q-23)
-  planned("wireless", "SB-PWR-48V-xx", "move interfaces-modules");               // a carrier, to its family's category
+  ranMove("wireless", "SB-PWR-48V-xx", "interfaces-modules");                    // a carrier, moved to its family's category (run #1164)
   at("switches", "SF110D-05-xx", "Small Business 110 Unmanaged (SF110/SG110)");  // a carrier: 9 facts and the 110 Series data sheet
   planned("switches", "CBS350-8XT-xx", "class non_product");
   ranClass("collaboration-endpoints", "CP-PWR-CORD-xx=", "non_product");
   planned("hyperconverged-infrastructure", "R2XX-DMYMPWRCORD", "class non_product");
-  planned("collaboration-endpoints", "CAB-AC2UK=", "move routers");
-  planned("storage-networking", "CAB-9K16A-EU=", "move switches");
-  planned("security", "PWR-IE50W-AC", "move switches");
+  ranMove("collaboration-endpoints", "CAB-AC2UK=", "routers");
+  ranMove("storage-networking", "CAB-9K16A-EU=", "switches");
+  ranMove("security", "PWR-IE50W-AC", "switches");
   // F-7's class plan RAN (run #1080, operator's yes, 15 Sep 2026): C-CPM is no longer a hardware row, and its plan carries the run id
   check(`re-audit conferencing: C-CPM left the hardware page by its class-software plan (run id recorded)`, !get("conferencing", "C-CPM")
     && (PLANS as { sku: string; category: string; action: string; to: string; run_id: unknown }[]).some((p) => p.sku === "C-CPM" && p.category === "conferencing" && p.action === "class" && p.to === "software" && typeof p.run_id === "number"));

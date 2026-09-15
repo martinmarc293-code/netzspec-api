@@ -1,24 +1,28 @@
 {
  "vendor": "cisco",
  "category": "interfaces-modules",
- "built_at": "2026-09-15T22:52:45.989Z",
- "commit": "9a734f7ba27364704867e3f28204553e1ab21277",
- "uncommitted_rule_files": [],
+ "built_at": "2026-09-15T23:24:29.707Z",
+ "commit": "daa609b5f1a24431ec097b320227e7df1b36b063",
+ "uncommitted_rule_files": [
+  "data/reference/family-carriers.json",
+  "data/reference/layers-cross-claims.json",
+  "scripts/build-layers.mts"
+ ],
  "mapping_file": "data/reference/product-lines/cisco-interfaces-modules.json",
- "parts": 1400,
+ "parts": 1145,
  "lines": [
   {
    "line": "Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)",
-   "parts": 831,
+   "parts": 870,
    "series": [
     {
      "series": "NIM (Network Interface Modules)",
      "family": null,
      "role": null,
      "note": "multi-platform router cards (A.3 rule 1); C-NIM- is the Catalyst-generation spelling (C-NIM-1X, C-NIM-8T)",
-     "parts": 94,
+     "parts": 95,
      "kinds": {
-      "interface": 73,
+      "interface": 74,
       "cellular": 21
      },
      "roles": {},
@@ -31,22 +35,21 @@
       "C-NIM-4X= — Cisco C-NIM-4X="
      ],
      "rules": {
-      "sku": 94
+      "sku": 95
      },
-     "pending_in": {
-      "unified-communications": 1
-     }
+     "pending_in": {}
     },
     {
      "series": "SM-X and SM Service Modules",
      "family": null,
      "role": null,
      "note": "^SM-(?!X|[0-9]{2}$) (layers round 3, security round): the rule claimed SM-40 / SM-48 / SM-56, the Firepower 9300 security modules in security. Re-audit decisions (operator, 15 Sep 2026, Q-13): the UCS E-Series is a server sold as a router module and lives in servers-unified-computing, kind server (reverses pre-ruling C3) — ^UCS-E and ^SVC-E are removed and the four UCS-E modules carry move plans to servers; the Services Ready Engine follows (SM-SRE-700 / 900, their disks, memory and cover), so the rule is fenced from SRE-, DSK-, HDD-SATA and MEM-VLP",
-     "parts": 69,
+     "parts": 79,
      "kinds": {
-      "interface": 59,
-      "mechanical": 7,
-      "accessory": 3
+      "interface": 63,
+      "mechanical": 8,
+      "accessory": 5,
+      "unknown": 3
      },
      "roles": {},
      "samples": [
@@ -58,21 +61,18 @@
       "C-SM-NIM-ADPT= — Cisco C-SM-NIM-ADPT="
      ],
      "rules": {
-      "sku": 69
+      "sku": 79
      },
-     "pending_in": {
-      "unified-communications": 7,
-      "security": 3
-     }
+     "pending_in": {}
     },
     {
      "series": "ISM / EM Internal Service Modules",
      "family": null,
      "role": null,
      "note": "ISM-VPN-29 / -39 are engines without network ports: kind module (pre-ruling C2); the EM voice expansion modules are interface cards. Re-audit decisions (operator, 15 Sep 2026): the ISM-SRE-300 engines follow the Services Ready Engine to servers-unified-computing (Q-13), so ^ISM- is fenced from SRE; ^EM3-HDA- places EM3-HDA-8FXS, the voice expansion module planned in from routers beside EM-HDA-8FXS (servers' ^EM3- rule, meant for the UCS-E M3 memory and SSDs, had claimed it as an E-Series part)",
-     "parts": 9,
+     "parts": 11,
      "kinds": {
-      "interface": 5,
+      "interface": 7,
       "module": 4
      },
      "roles": {},
@@ -81,40 +81,41 @@
       "EM-4BRI-NT/TE= — 4-port voice/fax expansion module - BRI",
       "EM-HDA-3FXS/4FXO — 7-port voice/fax expansion module - 3FXS/4FXO",
       "EM-HDA-3FXS/4FXO= — 7-port voice/fax expansion module - 3FXS/4FXO",
-      "EM-HDA-8FXS — Cisco EM-HDA-8FXS",
-      "ISM-VPN-29 — 3DES/AES/SUITE-B VPN Encryption module"
+      "EM-HDA-6FXO — Cisco EM-HDA-6FXO",
+      "EM-HDA-8FXS — Cisco EM-HDA-8FXS"
      ],
      "rules": {
-      "sku": 9
+      "sku": 11
      },
-     "pending_in": {
-      "unified-communications": 1,
-      "routers": 1
-     }
+     "pending_in": {}
     },
     {
      "series": "AIM (Advanced Integration Modules)",
      "family": null,
      "role": null,
      "note": "layers round 3, security round: Cisco's Advanced Integration Modules, the internal module slot of the 1800 / 2600 / 2800 / 3600 / 3700 / 3800 routers (the ISM's predecessor). AIM-DES/BP 'DES Crypto AIM for Cisco 2600' arrives from security and AIM-VOICE-30 from routers, both by plan (A.3 rule 1: multi-platform router cards live here)",
-     "parts": 0,
-     "kinds": {},
+     "parts": 2,
+     "kinds": {
+      "unknown": 2
+     },
      "roles": {},
-     "samples": [],
-     "rules": {},
-     "pending_in": {
-      "security": 1,
-      "routers": 1
-     }
+     "samples": [
+      "AIM-DES/BP — DES Crypto AIM for Cisco 2600 - Base Performance",
+      "AIM-VOICE-30 — Cisco AIM-VOICE-30"
+     ],
+     "rules": {
+      "sku": 2
+     },
+     "pending_in": {}
     },
     {
      "series": "EHWIC / HWIC / VWIC / WIC",
      "family": null,
      "role": null,
      "note": "ILPM-4= / ILPM-8= are the inline-power daughter modules of the EtherSwitch HWICs (data sheet 'Cisco EtherSwitch 4- and 9-Port High-Speed WAN Interface Cards'). The label's platform supplies, antennas and datasheet tokens are planned out (layers round 3)",
-     "parts": 156,
+     "parts": 162,
      "kinds": {
-      "interface": 84,
+      "interface": 90,
       "cellular": 51,
       "radio": 16,
       "mechanical": 3,
@@ -130,20 +131,19 @@
       "EHWIC-3G-EVDO-S — 3G EHWIC EDVO for Sprint with GPS"
      ],
      "rules": {
-      "sku": 156
+      "sku": 162
      },
-     "pending_in": {
-      "unified-communications": 6
-     }
+     "pending_in": {}
     },
     {
      "series": "NM / NME Network Modules",
      "family": null,
      "role": null,
      "note": "GE-DCARD-ESW(=) is the Gigabit daughter card of the EtherSwitch network modules (its name: 'daughtercard for Etherswitch NM')",
-     "parts": 70,
+     "parts": 72,
      "kinds": {
-      "interface": 61,
+      "interface": 62,
+      "mechanical": 1,
       "module": 9
      },
      "roles": {},
@@ -156,21 +156,18 @@
       "NM-16ESW= — 1 16 port 10/100 EtherSwitch NM"
      ],
      "rules": {
-      "sku": 70
+      "sku": 72
      },
-     "pending_in": {
-      "switches": 1,
-      "security": 1
-     }
+     "pending_in": {}
     },
     {
      "series": "PVDM Voice DSP Modules",
      "family": null,
      "role": null,
      "note": null,
-     "parts": 36,
+     "parts": 45,
      "kinds": {
-      "module": 36
+      "module": 45
      },
      "roles": {},
      "samples": [
@@ -182,20 +179,18 @@
       "PVDM2-24DM — 24 Port Digital Modem Module"
      ],
      "rules": {
-      "sku": 36
+      "sku": 45
      },
-     "pending_in": {
-      "unified-communications": 9
-     }
+     "pending_in": {}
     },
     {
      "series": "VIC Voice Interface Cards",
      "family": null,
      "role": null,
      "note": null,
-     "parts": 19,
+     "parts": 22,
      "kinds": {
-      "interface": 19
+      "interface": 22
      },
      "roles": {},
      "samples": [
@@ -207,11 +202,9 @@
       "VIC2-2BRI-NT/TE= — Two-port Voice Interface Card - BRI (NT and TE)"
      ],
      "rules": {
-      "sku": 19
+      "sku": 22
      },
-     "pending_in": {
-      "unified-communications": 3
-     }
+     "pending_in": {}
     },
     {
      "series": "SPA Shared Port Adapters",
@@ -363,10 +356,10 @@
      "family": "(shared across the line)",
      "role": null,
      "note": null,
-     "parts": 34,
+     "parts": 38,
      "kinds": {
       "mechanical": 2,
-      "cable": 32
+      "cable": 36
      },
      "roles": {},
      "samples": [
@@ -379,11 +372,9 @@
      ],
      "rules": {
       "label-unsupported": 2,
-      "accessory": 32
+      "accessory": 36
      },
-     "pending_in": {
-      "routers": 4
-     }
+     "pending_in": {}
     }
    ]
   },
@@ -444,16 +435,16 @@
   },
   {
    "line": "Cables and accessories",
-   "parts": 114,
+   "parts": 151,
    "series": [
     {
      "series": "Fiber patch panels and MPO / breakout cables (CB- / PP)",
      "family": null,
      "role": null,
      "note": "Cisco's 'High-Density Fiber Patch Panel, Simplex, MPO, and Breakout Cables Portfolio' data sheet: the CB- patch and trunk cables (CB-M12-M12-MMF10 and -MMF1.5 are printed so there) and the PP1 / PP2 / PP4 patch panels. Renamed from 'Fiber and M12 cables (CB-)' in layers round 3. The third-party structured cabling filed under the same label carries class plans (decision 3)",
-     "parts": 61,
+     "parts": 94,
      "kinds": {
-      "cable": 55,
+      "cable": 88,
       "accessory": 6
      },
      "roles": {},
@@ -461,25 +452,23 @@
       "CB-LC-LC-MMF10M — Cisco CB-LC-LC-MMF10M",
       "CB-LC-LC-MMF15M — Cisco CB-LC-LC-MMF15M",
       "CB-LC-LC-MMF1M — Cisco CB-LC-LC-MMF1M",
+      "CB-LC-LC-MMF1M= — Cisco CB-LC-LC-MMF1M=",
       "CB-LC-LC-MMF20M — Cisco CB-LC-LC-MMF20M",
-      "CB-LC-LC-MMF25M — Cisco CB-LC-LC-MMF25M",
-      "CB-LC-LC-MMF2M — Cisco CB-LC-LC-MMF2M"
+      "CB-LC-LC-MMF25M — Cisco CB-LC-LC-MMF25M"
      ],
      "rules": {
-      "sku": 61
+      "sku": 94
      },
-     "pending_in": {
-      "servers-unified-computing": 33
-     }
+     "pending_in": {}
     },
     {
      "series": "Small Business Network Accessories (SB-PWR / RPS1000)",
      "family": null,
      "role": null,
      "note": "decision pending: SB-PWR home — the Small Business 12V / 48V power adapters, PoE injectors and the RPS1000 380W redundant supply. Cisco files their data sheets and EoL notices under interfaces-modules / small-business-network-accessories, and no compatible relation ties one to a platform, so they stay here (A.3 rule 1: multi-platform) rather than going to switches as the exclusion had them (operator, layers round 3: read before assigning)",
-     "parts": 50,
+     "parts": 54,
      "kinds": {
-      "power": 50
+      "power": 54
      },
      "roles": {},
      "samples": [
@@ -491,11 +480,9 @@
       "SB-PWR-12V-AU — Cisco Small Business 12V Power Adapter (Australia, New Zeala"
      ],
      "rules": {
-      "sku": 50
+      "sku": 54
      },
-     "pending_in": {
-      "wireless": 4
-     }
+     "pending_in": {}
     },
     {
      "series": "Cables and accessories shared parts",
@@ -525,94 +512,6 @@
  "not_this_category": [],
  "pending_plans": [
   {
-   "sku": "15216-CS-MM-Y=",
-   "name": "Y-cable splitter/combiner module, multimode, single-width module, installs in Cisco FlexLayer shelf assembly (15216-FL-SA)",
-   "series_label": "Optical Transponders",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "passive WDM mux/demux/OADM/splitter — optical-networking's own `mux` kind"
-  },
-  {
-   "sku": "15216-CS-SM-Y=",
-   "name": "Y-cable splitter/combiner module, single-mode, single-width module, LC connectors, installs in Cisco FlexLayer shelf assembly (15216-FL-SA)",
-   "series_label": "Optical Transponders",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "passive WDM mux/demux/OADM/splitter — optical-networking's own `mux` kind"
-  },
-  {
-   "sku": "15216-FL-SA=",
-   "name": "Shelf assembly, 4 module slots, 1-rack unit high, 19- or 23-inch rack mounting, Cisco FlexLayer platform",
-   "series_label": "Optical Transponders",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "FlexLayer SHELF assembly (4 module slots, 1 RU)"
-  },
-  {
-   "sku": "15216-FLD-4-39.7=",
-   "name": "Edge 4-Ch Bi-Directional OADM Mod 1539.77 to 1542.14",
-   "series_label": "Transceiver Modules",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "passive WDM mux/demux/OADM/splitter — optical-networking's own `mux` kind"
-  },
-  {
-   "sku": "15216-FLD-4-42.9=",
-   "name": "Edge 4-Ch Bi-Directional OADM Mod 1542.94 to 1545.32",
-   "series_label": "Transceiver Modules",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "passive WDM mux/demux/OADM/splitter — optical-networking's own `mux` kind"
-  },
-  {
-   "sku": "15216-FLD-4-46.1=",
-   "name": "Edge 4-Ch Bi-Directional OADM Mod 1546.12 to 1548.51",
-   "series_label": "Transceiver Modules",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "passive WDM mux/demux/OADM/splitter — optical-networking's own `mux` kind"
-  },
-  {
-   "sku": "15216-FLD-4-49.3=",
-   "name": "Edge 4-Ch Bi-Directional OADM Mod 1549.32 to 1551.72",
-   "series_label": "Transceiver Modules",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "passive WDM mux/demux/OADM/splitter — optical-networking's own `mux` kind"
-  },
-  {
-   "sku": "15216-FLD-4-52.5=",
-   "name": "Edge 4-Ch Bi-Directional OADM Mod 1552.52 to 1554.94",
-   "series_label": "Transceiver Modules",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "passive WDM mux/demux/OADM/splitter — optical-networking's own `mux` kind"
-  },
-  {
-   "sku": "15216-FLD-4-55.7=",
-   "name": "Edge 4-Ch Bi-Directional OADM Mod 1555.75 to 1558.17",
-   "series_label": "Transceiver Modules",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "passive WDM mux/demux/OADM/splitter — optical-networking's own `mux` kind"
-  },
-  {
-   "sku": "15454-32DMX-O=",
-   "name": "32-channel demultiplexer card, C-band, 100-GHz, MPO connectors for drop path, LC connectors for interconnection, includes one 2-m LC/LC fiber-optic cables",
-   "series_label": "WDM Transmission Modules",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "passive WDM mux/demux/OADM/splitter — optical-networking's own `mux` kind"
-  },
-  {
-   "sku": "15454-32MUX-O=",
-   "name": "32-channel multiplexer card, C-band, 100-GHz, MPO connectors for add path, LC connector for interconnection",
-   "series_label": "WDM Transmission Modules",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "passive WDM mux/demux/OADM/splitter — optical-networking's own `mux` kind"
-  },
-  {
    "sku": "15454-AD-1B-xx=",
    "name": "1-band OADM, C-band, 100-GHz, LC connectors, includes two 2-m LC/LC fiber-optic cables",
    "series_label": "WDM Transmission Modules",
@@ -627,926 +526,6 @@
    "action": "class",
    "to": "non_product",
    "reason": "channel placeholder: not an orderable PID — the band 'xx' stands for the orderable OADM bands (the datasheet-cell rule, transceiver decision 2; re-audit decisions, operator, 15 Sep 2026: a class plan, not a move to optical-networking)"
-  },
-  {
-   "sku": "15454-CONSOLE-02",
-   "name": "Cable, console, Cisco ML-Series, RJ-11 plug to RJ-45 jack, 22 in. (55.9 cm) long, SONET (ANSI) system",
-   "series_label": "Line cards",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "ONS 15454 ML-Series Ethernet card or its console cable (SONET 15454- and SDH 15454E- systems): the ONS 15454 lives in optical-networking (operator, layers round 3: ^15454 → optical-networking as plans)"
-  },
-  {
-   "sku": "15454-ML1000-2",
-   "name": "1000-Mbps Ethernet card, 2 SFP slots, Layer 2 and Layer 3 switching, SONET (ANSI) system",
-   "series_label": "Line cards",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "ONS 15454 ML-Series Ethernet card or its console cable (SONET 15454- and SDH 15454E- systems): the ONS 15454 lives in optical-networking (operator, layers round 3: ^15454 → optical-networking as plans)"
-  },
-  {
-   "sku": "15454-ML100T-12",
-   "name": "10/100-Mbps Ethernet card, 12 ports, RJ-45, Layer 2 and Layer 3 switching, SONET (ANSI) system, includes console cable",
-   "series_label": "Line cards",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "ONS 15454 ML-Series Ethernet card or its console cable (SONET 15454- and SDH 15454E- systems): the ONS 15454 lives in optical-networking (operator, layers round 3: ^15454 → optical-networking as plans)"
-  },
-  {
-   "sku": "15454-ML100X-8",
-   "name": "100 Mbps BASE-FX/LX Ethernet card, eight SFP connections, Layer 2 and Layer 3 switching, SONET (ANSI) system",
-   "series_label": "Line cards",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "ONS 15454 ML-Series Ethernet card or its console cable (SONET 15454- and SDH 15454E- systems): the ONS 15454 lives in optical-networking (operator, layers round 3: ^15454 → optical-networking as plans)"
-  },
-  {
-   "sku": "15454E-CONSOLE-02",
-   "name": "Cable, console, Cisco ML-Series, RJ-11 plug to RJ-45 jack, 22 in. (55.9 cm) long, SDH (ETSI) system",
-   "series_label": "Line cards",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "ONS 15454 ML-Series Ethernet card or its console cable (SONET 15454- and SDH 15454E- systems): the ONS 15454 lives in optical-networking (operator, layers round 3: ^15454 → optical-networking as plans)"
-  },
-  {
-   "sku": "15454E-ML1000-2",
-   "name": "1000-Mbps Ethernet card, 2 SFP slots, Layer 2 and Layer 3 switching, SDH (ETSI) system",
-   "series_label": "Line cards",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "ONS 15454 ML-Series Ethernet card or its console cable (SONET 15454- and SDH 15454E- systems): the ONS 15454 lives in optical-networking (operator, layers round 3: ^15454 → optical-networking as plans)"
-  },
-  {
-   "sku": "15454E-ML100T-12",
-   "name": "10/100-Mbps Ethernet card, 12 ports, RJ-45, Layer 2 and Layer 3 switching, SDH (ETSI) system, includes console cable",
-   "series_label": "Line cards",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "ONS 15454 ML-Series Ethernet card or its console cable (SONET 15454- and SDH 15454E- systems): the ONS 15454 lives in optical-networking (operator, layers round 3: ^15454 → optical-networking as plans)"
-  },
-  {
-   "sku": "15454E-ML100X-8",
-   "name": "100 Mbps BASE-FX/LX Ethernet card, eight SFP connections, Layer 2 and Layer 3 switching, SDH (ETSI) system",
-   "series_label": "Line cards",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "ONS 15454 ML-Series Ethernet card or its console cable (SONET 15454- and SDH 15454E- systems): the ONS 15454 lives in optical-networking (operator, layers round 3: ^15454 → optical-networking as plans)"
-  },
-  {
-   "sku": "2911-BEZEL=",
-   "name": "Cisco 2911 Front Bezel (Replacement Plastic Bezel)",
-   "series_label": "Network Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "ISR G1 / G2 platform part — a DRAM upgrade, certification label, front bezel or PoE / inline-power supply named for one ISR model: goes with its platform in routers (A.3 rule 1); filed here by the labels 'Network Modules' / 'High-Speed WAN Interface Cards'"
-  },
-  {
-   "sku": "7300-1OC12POS-SMI",
-   "name": "1-port OC-12c/STM-4 Packet over SONET/SDH, Cisco 7300 Line Card, Single-mode – Intermediate Reach",
-   "series_label": "Line cards",
-   "action": "move",
-   "to": "routers",
-   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
-  },
-  {
-   "sku": "7300-1OC12POS-SMI=",
-   "name": "1-port OC-12c/STM-4 Packet over SONET/SDH, Cisco 7300 Line Card, Single-mode – Intermediate Reach, SPARE",
-   "series_label": "Line cards",
-   "action": "move",
-   "to": "routers",
-   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
-  },
-  {
-   "sku": "7300-1OC12POS-X",
-   "name": "Cisco 7300-1OC12POS-X",
-   "series_label": "Line cards",
-   "action": "move",
-   "to": "routers",
-   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
-  },
-  {
-   "sku": "7300-1OC48POS-SMI",
-   "name": "Cisco 7304 1-Port OC-48c/STM-16 Packet over SONET/SDH Line Card, single mode-intermediate reach (SM-IR)",
-   "series_label": "Line cards",
-   "action": "move",
-   "to": "routers",
-   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
-  },
-  {
-   "sku": "7300-1OC48POS-SMI=",
-   "name": "Cisco 7304 1-Port OC-48c/STM-16 Packet over SONET/SDH (SM-IR), spare",
-   "series_label": "Line cards",
-   "action": "move",
-   "to": "routers",
-   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
-  },
-  {
-   "sku": "7300-1OC48POS-SMS",
-   "name": "Cisco 7304 1-Port OC-48c/STM-16 Packet over SONET/SDH Line Card, single mode-short reach (SM-SR)",
-   "series_label": "Line cards",
-   "action": "move",
-   "to": "routers",
-   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
-  },
-  {
-   "sku": "7300-1OC48POS-SMS=",
-   "name": "Cisco 7304 1-Port OC-48c/STM-16 Packet over SONET/SDH Line Card (SM-SR), spare",
-   "series_label": "Line cards",
-   "action": "move",
-   "to": "routers",
-   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
-  },
-  {
-   "sku": "7300-2OC12POS-SMI",
-   "name": "2-port OC-12c/STM-4 Packet over SONET/SDH, Cisco 7300 Line Card, Single-mode – Intermediate Reach",
-   "series_label": "Line cards",
-   "action": "move",
-   "to": "routers",
-   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
-  },
-  {
-   "sku": "7300-2OC12POS-SMI=",
-   "name": "2-port OC-12c/STM-4 Packet over SONET/SDH, Cisco 7300 Line Card, Single-mode – Intermediate Reach, SPARE",
-   "series_label": "Line cards",
-   "action": "move",
-   "to": "routers",
-   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
-  },
-  {
-   "sku": "7300-2OC12POS-X",
-   "name": "Cisco 7300-2OC12POS-X",
-   "series_label": "Line cards",
-   "action": "move",
-   "to": "routers",
-   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
-  },
-  {
-   "sku": "7300-2OC3ATM-MM",
-   "name": "2-port OC-3 ATM line card for Cisco 7304 Router, MM",
-   "series_label": "Line cards",
-   "action": "move",
-   "to": "routers",
-   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
-  },
-  {
-   "sku": "7300-2OC3ATM-MM=",
-   "name": "2-port OC-3 ATM line card for Cisco 7304 Router, MM, spare",
-   "series_label": "Line cards",
-   "action": "move",
-   "to": "routers",
-   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
-  },
-  {
-   "sku": "7300-2OC3ATM-SMI",
-   "name": "2-port OC-3 ATM line card for Cisco 7304 Router, SM-IR",
-   "series_label": "Line cards",
-   "action": "move",
-   "to": "routers",
-   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
-  },
-  {
-   "sku": "7300-2OC3ATM-SMI=",
-   "name": "2-port OC-3 ATM line card for Cisco 7304 Router, SM-IR, spare",
-   "series_label": "Line cards",
-   "action": "move",
-   "to": "routers",
-   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
-  },
-  {
-   "sku": "7300-2OC3POS-MM",
-   "name": "2-port OC-3c/STM-1 POS/SDH, Cisco 7304 Line Card,Multi-mode (MM )",
-   "series_label": "Line cards",
-   "action": "move",
-   "to": "routers",
-   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
-  },
-  {
-   "sku": "7300-2OC3POS-MM=",
-   "name": "2-port OC-3c/STM-1 POS/SDH, Cisco 7304 Line Card, MM, spare",
-   "series_label": "Line cards",
-   "action": "move",
-   "to": "routers",
-   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
-  },
-  {
-   "sku": "7300-2OC3POS-SMI",
-   "name": "2-port OC-3c/STM-1 POS/SDH, Cisco 7304 Line Card, SM-IR",
-   "series_label": "Line cards",
-   "action": "move",
-   "to": "routers",
-   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
-  },
-  {
-   "sku": "7300-2OC3POS-SMI=",
-   "name": "2-port OC-3c/STM-1 POS/SDH, Cisco 7304 Line Card, SM-IR, spare",
-   "series_label": "Line cards",
-   "action": "move",
-   "to": "routers",
-   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
-  },
-  {
-   "sku": "7300-4OC3POS-SMI",
-   "name": "4-port OC-3c/STM-1 POS/SDH, Cisco 7304 Line Card, Single-mode-Intermediate Reach (SM-IR)",
-   "series_label": "Line cards",
-   "action": "move",
-   "to": "routers",
-   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
-  },
-  {
-   "sku": "7300-4OC3POS-SMI=",
-   "name": "4-port OC-3c/STM-1 POS/SDH, Cisco 7304 Line Card, SM-IR, spare",
-   "series_label": "Line cards",
-   "action": "move",
-   "to": "routers",
-   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
-  },
-  {
-   "sku": "7600-SSC-400=",
-   "name": "Cisco 7600/Catalyst 6500 Services SPA Carrier Card",
-   "series_label": "Shared Port Adapters/SPA Interface Processors",
-   "action": "move",
-   "to": "switches",
-   "reason": "spare of 7600-SSC-400, which is in switches under Catalyst 6500 (layers review B.5: 7600-SIP-400 / SSC-400 stay under Catalyst 6500); X and X= carry one placement (A.1)"
-  },
-  {
-   "sku": "88-LCO-34H14FH",
-   "name": "Cisco 88-LCO-34H14FH",
-   "series_label": "Transceiver Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "Cisco 8800 line card (letter-O spelling of 88-LC0-…): routers Cisco 8000 holds the family (operator, layers round 3: 88-LC → routers Cisco 8000)"
-  },
-  {
-   "sku": "88-LCO-36FH",
-   "name": "Cisco 88-LCO-36FH",
-   "series_label": "Transceiver Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "Cisco 8800 line card (letter-O spelling of 88-LC0-…): routers Cisco 8000 holds the family (operator, layers round 3: 88-LC → routers Cisco 8000)"
-  },
-  {
-   "sku": "88-LCO-36FH-M",
-   "name": "Cisco 88-LCO-36FH-M",
-   "series_label": "Transceiver Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "Cisco 8800 line card (letter-O spelling of 88-LC0-…): routers Cisco 8000 holds the family (operator, layers round 3: 88-LC → routers Cisco 8000)"
-  },
-  {
-   "sku": "ACE30-BASE-04-K9",
-   "name": "ACE30 Module with 4G, 1G Comp, 1K SSL TPS and 5VC",
-   "series_label": "Services Modules",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
-  },
-  {
-   "sku": "ACE30-MOD-04-K9",
-   "name": "ACE30 Module with 4G, 4G Comp, 30K SSL TPS and 250VC",
-   "series_label": "Services Modules",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
-  },
-  {
-   "sku": "ACE30-MOD-08-K9",
-   "name": "ACE30 Module with 8G, 6G Comp, 30K SSL TPS and 250VC",
-   "series_label": "Services Modules",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
-  },
-  {
-   "sku": "ACE30-MOD-16-K9",
-   "name": "ACE30 Module with 16G, 6G Comp, 30K SSL TPS and 250VC",
-   "series_label": "Services Modules",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
-  },
-  {
-   "sku": "ACE30-MOD-K9",
-   "name": "Application Control Engine 30 Hardware",
-   "series_label": "Services Modules",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
-  },
-  {
-   "sku": "ACE30-MOD-K9=",
-   "name": "Application Control Engine 30 Hardware",
-   "series_label": "Services Modules",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
-  },
-  {
-   "sku": "ACE30-SYS-AC-04-K9",
-   "name": "ACE30 16G 6504-E 720-10G-3C 6716 AC System",
-   "series_label": "Services Modules",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
-  },
-  {
-   "sku": "ACE30-SYS-DC-04-K9",
-   "name": "ACE30 16G 6504-E 720-10G-3C 6716 DC System",
-   "series_label": "Services Modules",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
-  },
-  {
-   "sku": "ACS-2900-RM-23",
-   "name": "23 inch rack mount kit for Cisco 2911/2921/2951 ISR",
-   "series_label": "Network Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "rack-mount kit for the Cisco 2901 / 2911 / 2921 / 2951 ISR only: bound to ISR 2900 (A.3 rule 1)"
-  },
-  {
-   "sku": "ACS-2900-RM-23=",
-   "name": "23 inch rack mount kit for Cisco 2911/2921/2951 ISR (only as spare)",
-   "series_label": "Network Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "rack-mount kit for the Cisco 2901 / 2911 / 2921 / 2951 ISR only: bound to ISR 2900 (A.3 rule 1)"
-  },
-  {
-   "sku": "ACS-2900-RM-ETSI",
-   "name": "ETSI rack mount kit for Cisco 2911/2921/2951 ISR",
-   "series_label": "Network Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "rack-mount kit for the Cisco 2901 / 2911 / 2921 / 2951 ISR only: bound to ISR 2900 (A.3 rule 1)"
-  },
-  {
-   "sku": "ACS-2900-RM-ETSI=",
-   "name": "ETSI rack mount kit for Cisco 2911/2921/2951 ISR",
-   "series_label": "Network Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "rack-mount kit for the Cisco 2901 / 2911 / 2921 / 2951 ISR only: bound to ISR 2900 (A.3 rule 1)"
-  },
-  {
-   "sku": "ACS-2901-RM-23",
-   "name": "23 inch rack mount kit for Cisco 2901 ISR",
-   "series_label": "Network Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "rack-mount kit for the Cisco 2901 / 2911 / 2921 / 2951 ISR only: bound to ISR 2900 (A.3 rule 1)"
-  },
-  {
-   "sku": "ACS-2901-RM-23=",
-   "name": "23 inch rack mount kit for Cisco 2901 ISR (only as spare)",
-   "series_label": "Network Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "rack-mount kit for the Cisco 2901 / 2911 / 2921 / 2951 ISR only: bound to ISR 2900 (A.3 rule 1)"
-  },
-  {
-   "sku": "ACS-2901-RM-ETSI",
-   "name": "ETSI rack mount kit for Cisco 2901 ISR",
-   "series_label": "Network Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "rack-mount kit for the Cisco 2901 / 2911 / 2921 / 2951 ISR only: bound to ISR 2900 (A.3 rule 1)"
-  },
-  {
-   "sku": "ACS-2901-RM-ETSI=",
-   "name": "ETSI rack mount kit for Cisco 2901 ISR",
-   "series_label": "Network Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "rack-mount kit for the Cisco 2901 / 2911 / 2921 / 2951 ISR only: bound to ISR 2900 (A.3 rule 1)"
-  },
-  {
-   "sku": "AIR-ANT-LOC-01=",
-   "name": "Hyperlocation Antenna, Model 1, Attached Omni",
-   "series_label": "Access Point Modules",
-   "action": "move",
-   "to": "wireless",
-   "reason": "access point add-on module (Wireless Security and Spectrum Intelligence / Hyperlocation) or its Hyperlocation antenna: the AP lives in wireless (operator, layers round 3: AIR-RM radio modules → wireless, kind module)"
-  },
-  {
-   "sku": "AIR-ANT25-LOC-02=",
-   "name": "Hyperlocation Antenna, Model 2, + WiFi Ant., Directional",
-   "series_label": "Access Point Modules",
-   "action": "move",
-   "to": "wireless",
-   "reason": "access point add-on module (Wireless Security and Spectrum Intelligence / Hyperlocation) or its Hyperlocation antenna: the AP lives in wireless (operator, layers round 3: AIR-RM radio modules → wireless, kind module)"
-  },
-  {
-   "sku": "AIR-RM3000M",
-   "name": "2.4 GHz & 5 GHz XOR Security Monitor Module",
-   "series_label": "Access Point Modules",
-   "action": "move",
-   "to": "wireless",
-   "reason": "access point add-on module (Wireless Security and Spectrum Intelligence / Hyperlocation) or its Hyperlocation antenna: the AP lives in wireless (operator, layers round 3: AIR-RM radio modules → wireless, kind module)"
-  },
-  {
-   "sku": "AIR-RM3000M++=",
-   "name": "Wireless Security Module - TAA",
-   "series_label": "Access Point Modules",
-   "action": "move",
-   "to": "wireless",
-   "reason": "access point add-on module (Wireless Security and Spectrum Intelligence / Hyperlocation) or its Hyperlocation antenna: the AP lives in wireless (operator, layers round 3: AIR-RM radio modules → wireless, kind module)"
-  },
-  {
-   "sku": "AIR-RM3000M-10",
-   "name": "2.4 GHz & 5 GHz XOR Security Monitor Module",
-   "series_label": "Access Point Modules",
-   "action": "move",
-   "to": "wireless",
-   "reason": "access point add-on module (Wireless Security and Spectrum Intelligence / Hyperlocation) or its Hyperlocation antenna: the AP lives in wireless (operator, layers round 3: AIR-RM radio modules → wireless, kind module)"
-  },
-  {
-   "sku": "AIR-RM3000M-10++=",
-   "name": "Wireless Security Module 10 Pack TAA",
-   "series_label": "Access Point Modules",
-   "action": "move",
-   "to": "wireless",
-   "reason": "access point add-on module (Wireless Security and Spectrum Intelligence / Hyperlocation) or its Hyperlocation antenna: the AP lives in wireless (operator, layers round 3: AIR-RM radio modules → wireless, kind module)"
-  },
-  {
-   "sku": "AIR-RM3000M-10=",
-   "name": "Wireless Security Module, 10 Pack",
-   "series_label": "Access Point Modules",
-   "action": "move",
-   "to": "wireless",
-   "reason": "access point add-on module (Wireless Security and Spectrum Intelligence / Hyperlocation) or its Hyperlocation antenna: the AP lives in wireless (operator, layers round 3: AIR-RM radio modules → wireless, kind module)"
-  },
-  {
-   "sku": "AIR-RM3000M-BULK",
-   "name": "BOM Level Wireless Security & Spectrum Intelligence Bulk PID",
-   "series_label": "Access Point Modules",
-   "action": "move",
-   "to": "wireless",
-   "reason": "access point add-on module (Wireless Security and Spectrum Intelligence / Hyperlocation) or its Hyperlocation antenna: the AP lives in wireless (operator, layers round 3: AIR-RM radio modules → wireless, kind module)"
-  },
-  {
-   "sku": "AIR-RM3000M-BULK=",
-   "name": "BOM Level Wireless Security & Spectrum Intelligence Bulk PID",
-   "series_label": "Access Point Modules",
-   "action": "move",
-   "to": "wireless",
-   "reason": "access point add-on module (Wireless Security and Spectrum Intelligence / Hyperlocation) or its Hyperlocation antenna: the AP lives in wireless (operator, layers round 3: AIR-RM radio modules → wireless, kind module)"
-  },
-  {
-   "sku": "AIR-RM3000M=",
-   "name": "Wireless Security Module",
-   "series_label": "Access Point Modules",
-   "action": "move",
-   "to": "wireless",
-   "reason": "access point add-on module (Wireless Security and Spectrum Intelligence / Hyperlocation) or its Hyperlocation antenna: the AP lives in wireless (operator, layers round 3: AIR-RM radio modules → wireless, kind module)"
-  },
-  {
-   "sku": "AIR-RM3000MTAABULK",
-   "name": "BOM Level Wireless Security Module TAA Bulk PID",
-   "series_label": "Access Point Modules",
-   "action": "move",
-   "to": "wireless",
-   "reason": "access point add-on module (Wireless Security and Spectrum Intelligence / Hyperlocation) or its Hyperlocation antenna: the AP lives in wireless (operator, layers round 3: AIR-RM radio modules → wireless, kind module)"
-  },
-  {
-   "sku": "AIR-RM3010L-A-K9",
-   "name": "Hyperlocation Module with Advance Security; Reg. Domain -A",
-   "series_label": "Access Point Modules",
-   "action": "move",
-   "to": "wireless",
-   "reason": "access point add-on module (Wireless Security and Spectrum Intelligence / Hyperlocation) or its Hyperlocation antenna: the AP lives in wireless (operator, layers round 3: AIR-RM radio modules → wireless, kind module)"
-  },
-  {
-   "sku": "AIR-RM3010L-A-K9=",
-   "name": "Hyperlocation Module with Advance Security; Reg. Domain -A",
-   "series_label": "Access Point Modules",
-   "action": "move",
-   "to": "wireless",
-   "reason": "access point add-on module (Wireless Security and Spectrum Intelligence / Hyperlocation) or its Hyperlocation antenna: the AP lives in wireless (operator, layers round 3: AIR-RM radio modules → wireless, kind module)"
-  },
-  {
-   "sku": "AIR-RM3010L-B-K9",
-   "name": "Hyperlocation Module with Advance Security; Reg. Domain -B",
-   "series_label": "Access Point Modules",
-   "action": "move",
-   "to": "wireless",
-   "reason": "access point add-on module (Wireless Security and Spectrum Intelligence / Hyperlocation) or its Hyperlocation antenna: the AP lives in wireless (operator, layers round 3: AIR-RM radio modules → wireless, kind module)"
-  },
-  {
-   "sku": "AIR-RM3010L-B-K9=",
-   "name": "Hyperlocation Module with Advance Security; Reg. Domain -B",
-   "series_label": "Access Point Modules",
-   "action": "move",
-   "to": "wireless",
-   "reason": "access point add-on module (Wireless Security and Spectrum Intelligence / Hyperlocation) or its Hyperlocation antenna: the AP lives in wireless (operator, layers round 3: AIR-RM radio modules → wireless, kind module)"
-  },
-  {
-   "sku": "AIR-RM3010L-C-K9=",
-   "name": "Hyperlocation Module with Advance Security; Reg. Domain -C",
-   "series_label": "Access Point Modules",
-   "action": "move",
-   "to": "wireless",
-   "reason": "access point add-on module (Wireless Security and Spectrum Intelligence / Hyperlocation) or its Hyperlocation antenna: the AP lives in wireless (operator, layers round 3: AIR-RM radio modules → wireless, kind module)"
-  },
-  {
-   "sku": "AIR-RM3010L-D-K9=",
-   "name": "Hyperlocation Module with Advance Security; Reg. Domain -D",
-   "series_label": "Access Point Modules",
-   "action": "move",
-   "to": "wireless",
-   "reason": "access point add-on module (Wireless Security and Spectrum Intelligence / Hyperlocation) or its Hyperlocation antenna: the AP lives in wireless (operator, layers round 3: AIR-RM radio modules → wireless, kind module)"
-  },
-  {
-   "sku": "AIR-RM3010L-E-K9",
-   "name": "Hyperlocation Module with Advance Security; Reg. Domain -E",
-   "series_label": "Access Point Modules",
-   "action": "move",
-   "to": "wireless",
-   "reason": "access point add-on module (Wireless Security and Spectrum Intelligence / Hyperlocation) or its Hyperlocation antenna: the AP lives in wireless (operator, layers round 3: AIR-RM radio modules → wireless, kind module)"
-  },
-  {
-   "sku": "AIR-RM3010L-E-K9=",
-   "name": "Hyperlocation Module with Advance Security; Reg. Domain -E",
-   "series_label": "Access Point Modules",
-   "action": "move",
-   "to": "wireless",
-   "reason": "access point add-on module (Wireless Security and Spectrum Intelligence / Hyperlocation) or its Hyperlocation antenna: the AP lives in wireless (operator, layers round 3: AIR-RM radio modules → wireless, kind module)"
-  },
-  {
-   "sku": "AIR-RM3010L-F-K9=",
-   "name": "Hyperlocation Module with Advance Security; Reg. Domain -F",
-   "series_label": "Access Point Modules",
-   "action": "move",
-   "to": "wireless",
-   "reason": "access point add-on module (Wireless Security and Spectrum Intelligence / Hyperlocation) or its Hyperlocation antenna: the AP lives in wireless (operator, layers round 3: AIR-RM radio modules → wireless, kind module)"
-  },
-  {
-   "sku": "AIR-RM3010L-H-K9=",
-   "name": "Hyperlocation Module with Advance Security; Reg. Domain -H",
-   "series_label": "Access Point Modules",
-   "action": "move",
-   "to": "wireless",
-   "reason": "access point add-on module (Wireless Security and Spectrum Intelligence / Hyperlocation) or its Hyperlocation antenna: the AP lives in wireless (operator, layers round 3: AIR-RM radio modules → wireless, kind module)"
-  },
-  {
-   "sku": "AIR-RM3010L-I-K9=",
-   "name": "Hyperlocation Module with Advance Security; Reg. Domain -I",
-   "series_label": "Access Point Modules",
-   "action": "move",
-   "to": "wireless",
-   "reason": "access point add-on module (Wireless Security and Spectrum Intelligence / Hyperlocation) or its Hyperlocation antenna: the AP lives in wireless (operator, layers round 3: AIR-RM radio modules → wireless, kind module)"
-  },
-  {
-   "sku": "AIR-RM3010L-K-K9=",
-   "name": "Hyperlocation Module with Advance Security; Reg. Domain -K",
-   "series_label": "Access Point Modules",
-   "action": "move",
-   "to": "wireless",
-   "reason": "access point add-on module (Wireless Security and Spectrum Intelligence / Hyperlocation) or its Hyperlocation antenna: the AP lives in wireless (operator, layers round 3: AIR-RM radio modules → wireless, kind module)"
-  },
-  {
-   "sku": "AIR-RM3010L-N-K9=",
-   "name": "Hyperlocation Module with Advance Security; Reg. Domain -N",
-   "series_label": "Access Point Modules",
-   "action": "move",
-   "to": "wireless",
-   "reason": "access point add-on module (Wireless Security and Spectrum Intelligence / Hyperlocation) or its Hyperlocation antenna: the AP lives in wireless (operator, layers round 3: AIR-RM radio modules → wireless, kind module)"
-  },
-  {
-   "sku": "AIR-RM3010L-Q-K9=",
-   "name": "Hyperlocation Module with Advance Security; Reg. Domain -Q",
-   "series_label": "Access Point Modules",
-   "action": "move",
-   "to": "wireless",
-   "reason": "access point add-on module (Wireless Security and Spectrum Intelligence / Hyperlocation) or its Hyperlocation antenna: the AP lives in wireless (operator, layers round 3: AIR-RM radio modules → wireless, kind module)"
-  },
-  {
-   "sku": "AIR-RM3010L-R-K9=",
-   "name": "Hyperlocation Module with Advance Security; Reg. Domain -R",
-   "series_label": "Access Point Modules",
-   "action": "move",
-   "to": "wireless",
-   "reason": "access point add-on module (Wireless Security and Spectrum Intelligence / Hyperlocation) or its Hyperlocation antenna: the AP lives in wireless (operator, layers round 3: AIR-RM radio modules → wireless, kind module)"
-  },
-  {
-   "sku": "AIR-RM3010L-S-K9=",
-   "name": "Hyperlocation Module with Advance Security; Reg. Domain -S",
-   "series_label": "Access Point Modules",
-   "action": "move",
-   "to": "wireless",
-   "reason": "access point add-on module (Wireless Security and Spectrum Intelligence / Hyperlocation) or its Hyperlocation antenna: the AP lives in wireless (operator, layers round 3: AIR-RM radio modules → wireless, kind module)"
-  },
-  {
-   "sku": "AIR-RM3010L-T-K9=",
-   "name": "Hyperlocation Module with Advance Security; Reg. Domain -T",
-   "series_label": "Access Point Modules",
-   "action": "move",
-   "to": "wireless",
-   "reason": "access point add-on module (Wireless Security and Spectrum Intelligence / Hyperlocation) or its Hyperlocation antenna: the AP lives in wireless (operator, layers round 3: AIR-RM radio modules → wireless, kind module)"
-  },
-  {
-   "sku": "AIR-RM3010L-UXK9=",
-   "name": "Wireless Security & Location Module; Universal SKU",
-   "series_label": "Access Point Modules",
-   "action": "move",
-   "to": "wireless",
-   "reason": "access point add-on module (Wireless Security and Spectrum Intelligence / Hyperlocation) or its Hyperlocation antenna: the AP lives in wireless (operator, layers round 3: AIR-RM radio modules → wireless, kind module)"
-  },
-  {
-   "sku": "AIR-RM3010L-Z-K9=",
-   "name": "Hyperlocation Module with Advance Security; Reg. Domain -Z",
-   "series_label": "Access Point Modules",
-   "action": "move",
-   "to": "wireless",
-   "reason": "access point add-on module (Wireless Security and Spectrum Intelligence / Hyperlocation) or its Hyperlocation antenna: the AP lives in wireless (operator, layers round 3: AIR-RM radio modules → wireless, kind module)"
-  },
-  {
-   "sku": "AIR-RM3010LA-UXK9=",
-   "name": "Wireless Security & Location Module+ Omni Antenna; Univ. SKU",
-   "series_label": "Access Point Modules",
-   "action": "move",
-   "to": "wireless",
-   "reason": "access point add-on module (Wireless Security and Spectrum Intelligence / Hyperlocation) or its Hyperlocation antenna: the AP lives in wireless (operator, layers round 3: AIR-RM radio modules → wireless, kind module)"
-  },
-  {
-   "sku": "ANT-1.4-PNL-OUT-N",
-   "name": "Outdoor Panel Antenna for WIMAX 1.4 GHz",
-   "series_label": "Connected Grid Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "Connected Grid (CGR 1000) WiMAX panel antenna / connector: bound to the CGR in routers (operator, layers round 3: CGR antennas → routers Industrial shared parts)"
-  },
-  {
-   "sku": "ANT-1.4-PNL-OUT-N=",
-   "name": "Outdoor Panel Antenna for WIMAX 1.4 GHz",
-   "series_label": "Connected Grid Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "Connected Grid (CGR 1000) WiMAX panel antenna / connector: bound to the CGR in routers (operator, layers round 3: CGR antennas → routers Industrial shared parts)"
-  },
-  {
-   "sku": "ANT-1.8-PNL-OUT-N",
-   "name": "Outdoor Panel Antenna for WIMAX 1.8 GHz",
-   "series_label": "Connected Grid Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "Connected Grid (CGR 1000) WiMAX panel antenna / connector: bound to the CGR in routers (operator, layers round 3: CGR antennas → routers Industrial shared parts)"
-  },
-  {
-   "sku": "ANT-1.8-PNL-OUT-N=",
-   "name": "Outdoor Panel Antenna for WIMAX 1.8 GHz",
-   "series_label": "Connected Grid Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "Connected Grid (CGR 1000) WiMAX panel antenna / connector: bound to the CGR in routers (operator, layers round 3: CGR antennas → routers Industrial shared parts)"
-  },
-  {
-   "sku": "ANT-2.X-PNL-OUT-N",
-   "name": "Outdoor Panel Antenna for WIMAX 2.x GHz",
-   "series_label": "Connected Grid Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "Connected Grid (CGR 1000) WiMAX panel antenna / connector: bound to the CGR in routers (operator, layers round 3: CGR antennas → routers Industrial shared parts)"
-  },
-  {
-   "sku": "ANT-2.X-PNL-OUT-N=",
-   "name": "Outdoor Panel Antenna for WIMAX 2.x GHz",
-   "series_label": "Connected Grid Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "Connected Grid (CGR 1000) WiMAX panel antenna / connector: bound to the CGR in routers (operator, layers round 3: CGR antennas → routers Industrial shared parts)"
-  },
-  {
-   "sku": "ANT-4G-PNL-OUT-N",
-   "name": "50-ft (15 m) Ultra-Low-Loss LMR 400 Cable TNC-N Connector",
-   "series_label": "High-Speed WAN Interface Cards",
-   "action": "move",
-   "to": "routers",
-   "reason": "multiband 4G LTE antenna of the family routers already holds (ANT-4G-CM-IN-TNC, ANT-4G-DP-IN-TNC, ANT-4G-OMNI-OUT-N and the spare ANT-4G-SR-OUT-TNC= are in routers' shared parts): X and X= split across categories"
-  },
-  {
-   "sku": "ANT-4G-SR-OUT-TNC",
-   "name": "Multiband Low-Profile Saucer Outdoor 4G Antenna",
-   "series_label": "High-Speed WAN Interface Cards",
-   "action": "move",
-   "to": "routers",
-   "reason": "multiband 4G LTE antenna of the family routers already holds (ANT-4G-CM-IN-TNC, ANT-4G-DP-IN-TNC, ANT-4G-OMNI-OUT-N and the spare ANT-4G-SR-OUT-TNC= are in routers' shared parts): X and X= split across categories"
-  },
-  {
-   "sku": "ANT-MP-INT-OUT-M",
-   "name": "Cisco ANT-MP-INT-OUT-M",
-   "series_label": "Connected Grid Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "Connected Grid (CGR 1000) WiMAX panel antenna / connector: bound to the CGR in routers (operator, layers round 3: CGR antennas → routers Industrial shared parts)"
-  },
-  {
-   "sku": "ASA-SSC-AIP-5-K9=",
-   "name": "Cisco ASA 5500 Series Advanced Inspection and Prevention Security Services Card 5 (AIP-SSC-5)",
-   "series_label": "Security Modules for Security Appliances",
-   "action": "move",
-   "to": "security",
-   "reason": "ASA 5500 Security Services Module / Card (AIP / CSC): bound to the ASA 5500 in security (operator, layers round 3: ASA-SSM → security); expected kind module — securityKind names ASA-SSC-AIP-5-K9= `appliance` today, a defect for the security round"
-  },
-  {
-   "sku": "ASA-SSM-AIP-10-K9=",
-   "name": "Cisco ASA 5500 Series Advanced Inspection and Prevention Security Services Module 10 (AIP-SSM-10)",
-   "series_label": "Security Modules for Security Appliances",
-   "action": "move",
-   "to": "security",
-   "reason": "ASA 5500 Security Services Module / Card (AIP / CSC): bound to the ASA 5500 in security (operator, layers round 3: ASA-SSM → security); expected kind module — securityKind names ASA-SSC-AIP-5-K9= `appliance` today, a defect for the security round"
-  },
-  {
-   "sku": "ASA-SSM-AIP-20-K9=",
-   "name": "Cisco ASA 5500 Series Advanced Inspection and Prevention Security Services Module 20 (AIP-SSM-20)",
-   "series_label": "Security Modules for Security Appliances",
-   "action": "move",
-   "to": "security",
-   "reason": "ASA 5500 Security Services Module / Card (AIP / CSC): bound to the ASA 5500 in security (operator, layers round 3: ASA-SSM → security); expected kind module — securityKind names ASA-SSC-AIP-5-K9= `appliance` today, a defect for the security round"
-  },
-  {
-   "sku": "ASA-SSM-AIP-40-K9=",
-   "name": "Cisco ASA 5500 Series Advanced Inspection and Prevention Security Services Module 40 (AIP-SSM-40)",
-   "series_label": "Security Modules for Security Appliances",
-   "action": "move",
-   "to": "security",
-   "reason": "ASA 5500 Security Services Module / Card (AIP / CSC): bound to the ASA 5500 in security (operator, layers round 3: ASA-SSM → security); expected kind module — securityKind names ASA-SSC-AIP-5-K9= `appliance` today, a defect for the security round"
-  },
-  {
-   "sku": "ASA-SSM-CSC-10-K9",
-   "name": "• SMARTnet 8x5xNBD • SMARTnet 8x5x4 • SMARTnet 24x7x4 • SMARTnet 24x7x2 • SMARTnet onsite 8x5xNBD • SMARTnet onsite 8x5x4 • SMARTnet onsite 24x7x4 • SMARTnet onsite 24x7x2",
-   "series_label": "Security Modules for Security Appliances",
-   "action": "move",
-   "to": "security",
-   "reason": "ASA 5500 Security Services Module / Card (AIP / CSC): bound to the ASA 5500 in security (operator, layers round 3: ASA-SSM → security); expected kind module — securityKind names ASA-SSC-AIP-5-K9= `appliance` today, a defect for the security round"
-  },
-  {
-   "sku": "ASA-SSM-CSC-10-K9=",
-   "name": "Cisco ASA Content Security and Control Security Services Module 10 (CSC-SSM-10) with 50-user antivirus/antispyware, 1-year subscription",
-   "series_label": "Security Modules for Security Appliances",
-   "action": "move",
-   "to": "security",
-   "reason": "ASA 5500 Security Services Module / Card (AIP / CSC): bound to the ASA 5500 in security (operator, layers round 3: ASA-SSM → security); expected kind module — securityKind names ASA-SSC-AIP-5-K9= `appliance` today, a defect for the security round"
-  },
-  {
-   "sku": "ASA-SSM-CSC-20-K9",
-   "name": "• SMARTnet 8x5xNBD • SMARTnet 8x5x4 • SMARTnet 24x7x4 • SMARTnet 24x7x2 • SMARTnet onsite 8x5xNBD • SMARTnet onsite 8x5x4 • SMARTnet onsite 24x7x4 • SMARTnet onsite 24x7x2",
-   "series_label": "Security Modules for Security Appliances",
-   "action": "move",
-   "to": "security",
-   "reason": "ASA 5500 Security Services Module / Card (AIP / CSC): bound to the ASA 5500 in security (operator, layers round 3: ASA-SSM → security); expected kind module — securityKind names ASA-SSC-AIP-5-K9= `appliance` today, a defect for the security round"
-  },
-  {
-   "sku": "ASA-SSM-CSC-20-K9=",
-   "name": "Cisco ASA Content Security and Control Security Services Module 20 (CSC-SSM-20) with 500-user antivirus/antispyware, 1-year subscription",
-   "series_label": "Security Modules for Security Appliances",
-   "action": "move",
-   "to": "security",
-   "reason": "ASA 5500 Security Services Module / Card (AIP / CSC): bound to the ASA 5500 in security (operator, layers round 3: ASA-SSM → security); expected kind module — securityKind names ASA-SSC-AIP-5-K9= `appliance` today, a defect for the security round"
-  },
-  {
-   "sku": "ASA5505-50-AIP5-K9",
-   "name": "Cisco ASA 5505 50-User Adaptive Security Appliance with AIP-SSC-5 (chassis, software, 8 Fast Ethernet interfaces,10 IPsec VPN peers, 2 SSL VPN peers, 3DES/AES license)",
-   "series_label": "Security Modules for Security Appliances",
-   "action": "move",
-   "to": "security",
-   "reason": "ASA 5500 appliance bundle filed in interfaces-modules"
-  },
-  {
-   "sku": "ASA5505-U-AIP5P-K9",
-   "name": "Cisco ASA 5505 Unlimited-User IPS Edition; includes Security Plus License and AIP-SSC-5 (chassis, software, 8 Fast Ethernet interfaces, 25 IPsec VPN peers, 2 Premium VPN peers, DMZ support, stateless Active/Standby high availability, 3DES/AES license)",
-   "series_label": "Security Modules for Security Appliances",
-   "action": "move",
-   "to": "security",
-   "reason": "ASA 5500 appliance bundle filed in interfaces-modules"
-  },
-  {
-   "sku": "ASA5510-AIP10-K9",
-   "name": "Cisco ASA 5510 Adaptive Security Appliance with AIP-SSM-10 (chassis, software, 250 VPN peers, 4 Fast Ethernet interfaces, Triple Data Encryption Standard/Advanced Encryption Standard [3DES/AES])",
-   "series_label": "Security Modules for Security Appliances",
-   "action": "move",
-   "to": "security",
-   "reason": "ASA 5500 appliance bundle filed in interfaces-modules"
-  },
-  {
-   "sku": "ASA5510-AIP10SP-K9",
-   "name": "Cisco ASA 5510 Adaptive Security Appliance with Security Plus License and AIP-SSM-10 (chassis, software, 2 Gigabit Ethernet interfaces, 3 Fast Ethernet interfaces, 250 IPsec VPN peers, 2 SSL VPN peers, Active/Active high availability, 3DES/AES)",
-   "series_label": "Security Modules for Security Appliances",
-   "action": "move",
-   "to": "security",
-   "reason": "ASA 5500 appliance bundle filed in interfaces-modules"
-  },
-  {
-   "sku": "ASA5510-AIP20SP-K9",
-   "name": "Cisco ASA 5510 Adaptive Security Appliance with Security Plus License and AIP-SSM-20 (chassis, software, 2 Gigabit Ethernet interfaces, 3 Fast Ethernet interfaces, 250 IPsec VPN peers, 2 SSL VPN peers, Active/Active high availability, 3DES/AES)",
-   "series_label": "Security Modules for Security Appliances",
-   "action": "move",
-   "to": "security",
-   "reason": "ASA 5500 appliance bundle filed in interfaces-modules"
-  },
-  {
-   "sku": "ASA5510-CSC10-K9",
-   "name": "• SMARTnet 8x5xNBD (Next Business Day) • SMARTnet 8x5x4 • SMARTnet 24x7x4 • SMARTnet 24x7x2 • SMARTnet onsite 8x5xNBD • SMARTnet onsite 8x5x4 • SMARTnet onsite 24x7x4 • SMARTnet onsite 24x7x2",
-   "series_label": "Security Modules for Security Appliances",
-   "action": "move",
-   "to": "security",
-   "reason": "ASA 5500 appliance bundle filed in interfaces-modules"
-  },
-  {
-   "sku": "ASA5510-CSC20-K9",
-   "name": "• SMARTnet 8x5xNBD • SMARTnet 8x5x4 • SMARTnet 24x7x4 • SMARTnet 24x7x2 • SMARTnet onsite 8x5xNBD • SMARTnet onsite 8x5x4 • SMARTnet onsite 24x7x4 • SMARTnet onsite 24x7x2",
-   "series_label": "Security Modules for Security Appliances",
-   "action": "move",
-   "to": "security",
-   "reason": "ASA 5500 appliance bundle filed in interfaces-modules"
-  },
-  {
-   "sku": "ASA5520-AIP10-K9",
-   "name": "Cisco ASA 5520 IPS Edition; includes AIP-SSM-10, firewall services, 750 IPsec VPN peers, 2 Premium VPN peers, 4 Gigabit Ethernet interfaces, 1 Fast Ethernet interface",
-   "series_label": "Security Modules for Security Appliances",
-   "action": "move",
-   "to": "security",
-   "reason": "ASA 5500 appliance bundle filed in interfaces-modules"
-  },
-  {
-   "sku": "ASA5520-AIP20-K9",
-   "name": "Cisco ASA 5520 IPS Edition; includes AIP-SSM-20, firewall services, 750 IPsec VPN peers, 2 Premium VPN peers, 4 Gigabit Ethernet interfaces, 1 Fast Ethernet interface",
-   "series_label": "Security Modules for Security Appliances",
-   "action": "move",
-   "to": "security",
-   "reason": "ASA 5500 appliance bundle filed in interfaces-modules"
-  },
-  {
-   "sku": "ASA5520-AIP40-K9",
-   "name": "Cisco ASA 5520 IPS Edition; includes AIP-SSM-40, firewall services, 750 IPsec VPN peers, 2 Premium VPN peers, 4 Gigabit Ethernet interfaces, 1 Fast Ethernet interface",
-   "series_label": "Security Modules for Security Appliances",
-   "action": "move",
-   "to": "security",
-   "reason": "ASA 5500 appliance bundle filed in interfaces-modules"
-  },
-  {
-   "sku": "ASA5520-CSC10-K9",
-   "name": "• SMARTnet 8x5xNBD • SMARTnet 8x5x4 • SMARTnet 24x7x4 • SMARTnet 24x7x2 • SMARTnet onsite 8x5xNBD • SMARTnet onsite 8x5x4 • SMARTnet onsite 24x7x4 • SMARTnet onsite 24x7x2",
-   "series_label": "Security Modules for Security Appliances",
-   "action": "move",
-   "to": "security",
-   "reason": "ASA 5500 appliance bundle filed in interfaces-modules"
-  },
-  {
-   "sku": "ASA5520-CSC20-K9",
-   "name": "• SMARTnet 8x5xNBD • SMARTnet 8x5x4 • SMARTnet 24x7x4 • SMARTnet 24x7x2 • SMARTnet onsite 8x5xNBD • SMARTnet onsite 8x5x4 • SMARTnet onsite 24x7x4 • SMARTnet onsite 24x7x2",
-   "series_label": "Security Modules for Security Appliances",
-   "action": "move",
-   "to": "security",
-   "reason": "ASA 5500 appliance bundle filed in interfaces-modules"
-  },
-  {
-   "sku": "ASA5540-AIP20-K9",
-   "name": "Cisco ASA 5540 IPS Edition; includes AIP-SSM-20, firewall services, 5000 IPsec VPN peers, 2 Premium VPN peers, 4 Gigabit Ethernet interfaces, 1 Fast Ethernet interface",
-   "series_label": "Security Modules for Security Appliances",
-   "action": "move",
-   "to": "security",
-   "reason": "ASA 5500 appliance bundle filed in interfaces-modules"
-  },
-  {
-   "sku": "ASA5540-AIP40-K9",
-   "name": "Cisco ASA 5540 IPS Edition; includes AIP-SSM-40, firewall services, 5000 IPsec VPN peers, 2 Premium VPN peers, 4 Gigabit Ethernet interfaces, 1 Fast Ethernet interface",
-   "series_label": "Security Modules for Security Appliances",
-   "action": "move",
-   "to": "security",
-   "reason": "ASA 5500 appliance bundle filed in interfaces-modules"
-  },
-  {
-   "sku": "ASR1000X-AC-1100W",
-   "name": "Cisco ASR1000-X 1100W AC Power Supply",
-   "series_label": "Network Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 1000 power supply filed under interfaces-modules; its spare (=) is already in routers under ASR 1000"
-  },
-  {
-   "sku": "ASR1000X-DC-950W",
-   "name": "Cisco ASR1000-X 950W DC Power Supply",
-   "series_label": "Network Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 1000 power supply filed under interfaces-modules; its spare (=) is already in routers under ASR 1000"
-  },
-  {
-   "sku": "ASR1013/06-PWR-AC",
-   "name": "Cisco ASR1000 1600w AC Power Supply",
-   "series_label": "Network Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 1000 power supply filed under interfaces-modules; its spare (=) is already in routers under ASR 1000"
-  },
-  {
-   "sku": "ASR1013/06-PWR-DC",
-   "name": "Cisco ASR1000 1600w DC Power Supply",
-   "series_label": "Network Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 1000 power supply filed under interfaces-modules; its spare (=) is already in routers under ASR 1000"
   },
   {
    "sku": "AZ83NQ2S2AQM001",
@@ -1589,102 +568,6 @@
    "reason": "third-party (Panduit): cabling, cabinet or patch-panel part number, not a Cisco orderable PID (decision 3)"
   },
   {
-   "sku": "C6504E-ACE30-4-K9",
-   "name": "ACE30 4G 6504-E 720-10G-3C Bundle",
-   "series_label": "Services Modules",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 6500-E chassis bundle with an ACE30 blade"
-  },
-  {
-   "sku": "C6509E-ACE30-8X-K9",
-   "name": "ACE30 8G 6509-E 720-10G-3CXL Bundle",
-   "series_label": "Services Modules",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 6500-E chassis bundle with an ACE30 blade"
-  },
-  {
-   "sku": "CAB-OCT-V35-FC=",
-   "name": "8 Lead Octal Cable and 8 Female V35DCE Connectors",
-   "series_label": "Port Adapters",
-   "action": "move",
-   "to": "routers",
-   "reason": "the spare of a generic cord or cable whose base sits in routers ISR (Integrated Services Routers) shared parts: base and spare in one category, the base's (re-audit decisions, operator, 15 Sep 2026, Q-20 with the Q-19 rule)"
-  },
-  {
-   "sku": "CGM-WIMAX-1.4GHZ",
-   "name": "Connected Grid Module - IEEE 802.16e WiMAX 1.4 GHz",
-   "series_label": "Connected Grid Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
-  },
-  {
-   "sku": "CGM-WIMAX-1.4GHZ=",
-   "name": "Connected Grid Module- IEEE 802.16e WIMAX 1.4 GHz",
-   "series_label": "Connected Grid Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
-  },
-  {
-   "sku": "CGM-WIMAX-1.8GHZ",
-   "name": "Connected Grid Module - IEEE 802.16e WiMAX 1.8-1.830 GHz",
-   "series_label": "Connected Grid Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
-  },
-  {
-   "sku": "CGM-WIMAX-1.8GHZ=",
-   "name": "Connected Grid Module- IEEE 802.16e WIMAX 1.8-1.830 GHz",
-   "series_label": "Connected Grid Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
-  },
-  {
-   "sku": "CGM-WIMAX-2.3GHZ",
-   "name": "Connected Grid Module - IEEE 802.16e WiMAX 2.3-2.4 GHz",
-   "series_label": "Connected Grid Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
-  },
-  {
-   "sku": "CGM-WIMAX-2.3GHZ=",
-   "name": "Connected Grid Module- IEEE 802.16e WIMAX 2.3-2.4 GHz",
-   "series_label": "Connected Grid Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
-  },
-  {
-   "sku": "CGM-WPAN-FSK-NA",
-   "name": "Connected Grid Module - IEEE 802.15.4e/g WPAN 900 MHz (2FSK modulation)",
-   "series_label": "Connected Grid Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
-  },
-  {
-   "sku": "CGR-N-CONN-WPAN",
-   "name": "Cisco CGR-N-CONN-WPAN",
-   "series_label": "Connected Grid Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "Connected Grid (CGR 1000) WiMAX panel antenna / connector: bound to the CGR in routers (operator, layers round 3: CGR antennas → routers Industrial shared parts)"
-  },
-  {
-   "sku": "CISCO2811-AC-IP",
-   "name": "Cisco 2811 with AC+PoE, 2 Fast Ethernet ports , 4 HWICs, 2 packet voice DSP modules (PVDMs), 1enhanced network module [ (NME), 2 advanced integration modules (AIMs), IP BASE, 64F/256D",
-   "series_label": "High-Speed WAN Interface Cards",
-   "action": "move",
-   "to": "routers",
-   "reason": "Cisco 2811 router bundle filed in interfaces-modules"
-  },
-  {
    "sku": "CM8-UM08-04-E7G-ULL",
    "name": "Cisco CM8-UM08-04-E7G-ULL",
    "series_label": "Transceiver Modules",
@@ -1709,22 +592,6 @@
    "reason": "third-party (Panduit): cabling, cabinet or patch-panel part number, not a Cisco orderable PID (decision 3)"
   },
   {
-   "sku": "CSC-SSM-10",
-   "name": "Cisco CSC-SSM-10",
-   "series_label": "Security Modules for Security Appliances",
-   "action": "move",
-   "to": "security",
-   "reason": "ASA 5500 Content Security and Control SSM: bound to the ASA 5500 in security (A.3 rule 1); filed here by the label 'Security Modules for Security Appliances'"
-  },
-  {
-   "sku": "CSC-SSM-20",
-   "name": "Cisco CSC-SSM-20",
-   "series_label": "Security Modules for Security Appliances",
-   "action": "move",
-   "to": "security",
-   "reason": "ASA 5500 Content Security and Control SSM: bound to the ASA 5500 in security (A.3 rule 1); filed here by the label 'Security Modules for Security Appliances'"
-  },
-  {
    "sku": "DGE8-CP32-V1",
    "name": "Cisco DGE8-CP32-V1",
    "series_label": "Transceiver Modules",
@@ -1747,470 +614,6 @@
    "action": "class",
    "to": "non_product",
    "reason": "third-party (Corning): EDGE8 structured-cabling part number, not a Cisco orderable PID (decision 3); DGE8-* is the same number with its first letter lost, DGE8-xxU also a length placeholder"
-  },
-  {
-   "sku": "DS-13SLT-FAB1",
-   "name": "MDS 9513 Crossbar Switching Fabric Module",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9000 Fibre Channel line card, crossbar fabric or supervisor module: the MDS platform lives in storage-networking (operator, layers round 3: MDS → storage-networking)"
-  },
-  {
-   "sku": "DS-13SLT-FAB1=",
-   "name": "MDS 9513 crossbar switching fabric module, Spare",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9000 Fibre Channel line card, crossbar fabric or supervisor module: the MDS platform lives in storage-networking (operator, layers round 3: MDS → storage-networking)"
-  },
-  {
-   "sku": "DS-13SLT-FAB2HP=",
-   "name": "MDS 9513 Crossbar Switching Fabric Module 2 for HP, Promo",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9000 Fibre Channel line card, crossbar fabric or supervisor module: the MDS platform lives in storage-networking (operator, layers round 3: MDS → storage-networking)"
-  },
-  {
-   "sku": "DS-13SLT-FAB2P=",
-   "name": "MDS 9513 Crossbar Switching Fabric Module 2, Promo Spare",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9000 Fibre Channel line card, crossbar fabric or supervisor module: the MDS platform lives in storage-networking (operator, layers round 3: MDS → storage-networking)"
-  },
-  {
-   "sku": "DS-13SLT-FAB3NH=",
-   "name": "MDS 9513 Crossbar Switching Fabric3 Module for HP, Spare",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9000 Fibre Channel line card, crossbar fabric or supervisor module: the MDS platform lives in storage-networking (operator, layers round 3: MDS → storage-networking)"
-  },
-  {
-   "sku": "DS-C9710=",
-   "name": "MDS 9710 Chassis, Spare, No Power Supplies, Fans Included",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9710 chassis filed in interfaces-modules"
-  },
-  {
-   "sku": "DS-PAA-2",
-   "name": "MDS 9000 Port Analyzer Adapter",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9700 Supervisor-4 / MDS 9000 Port Analyzer Adapter: bound to the MDS platform in storage-networking (A.3 rule 1); filed here by the label 'Storage Networking Modules'"
-  },
-  {
-   "sku": "DS-X7-SF4-K9=",
-   "name": "MDS 9700 Series Supervisor-4",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9700 Supervisor-4 / MDS 9000 Port Analyzer Adapter: bound to the MDS platform in storage-networking (A.3 rule 1); filed here by the label 'Storage Networking Modules'"
-  },
-  {
-   "sku": "DS-X9032-SSM",
-   "name": "Cisco MDS 9000 Family 32-port Storage Services Module",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9000 Fibre Channel line card, crossbar fabric or supervisor module: the MDS platform lives in storage-networking (operator, layers round 3: MDS → storage-networking)"
-  },
-  {
-   "sku": "DS-X9032-SSM=",
-   "name": "Cisco MDS 9000 Family 32-port Storage Services Module, Spare",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9000 Fibre Channel line card, crossbar fabric or supervisor module: the MDS platform lives in storage-networking (operator, layers round 3: MDS → storage-networking)"
-  },
-  {
-   "sku": "DS-X9112-H=",
-   "name": "12-port 1/2/4-Gbps FC Module for HP with Service, Spare",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9000 Fibre Channel line card, crossbar fabric or supervisor module: the MDS platform lives in storage-networking (operator, layers round 3: MDS → storage-networking)"
-  },
-  {
-   "sku": "DS-X9112-HV",
-   "name": "12-port 1/2/4-Gbps Fibre Channel Switching Module, 12 SFPs",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9000 Fibre Channel line card, crossbar fabric or supervisor module: the MDS platform lives in storage-networking (operator, layers round 3: MDS → storage-networking)"
-  },
-  {
-   "sku": "DS-X9112-HV=",
-   "name": "12-port 1/2/4-Gbps Fibre Channel Switching Module, 12 SFPs",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9000 Fibre Channel line card, crossbar fabric or supervisor module: the MDS platform lives in storage-networking (operator, layers round 3: MDS → storage-networking)"
-  },
-  {
-   "sku": "DS-X9112=",
-   "name": "12-port 1/2/4-Gbps Fibre Channel Switching Module, Spare",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9000 Fibre Channel line card, crossbar fabric or supervisor module: the MDS platform lives in storage-networking (operator, layers round 3: MDS → storage-networking)"
-  },
-  {
-   "sku": "DS-X9124-H=",
-   "name": "24-port 1/2/4-Gbps FC Module for HP with Service, Spare",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9000 Fibre Channel line card, crossbar fabric or supervisor module: the MDS platform lives in storage-networking (operator, layers round 3: MDS → storage-networking)"
-  },
-  {
-   "sku": "DS-X9124-HV",
-   "name": "24-port 1/2/4-Gbps Fibre Channel Switching Module, 24 SFPs",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9000 Fibre Channel line card, crossbar fabric or supervisor module: the MDS platform lives in storage-networking (operator, layers round 3: MDS → storage-networking)"
-  },
-  {
-   "sku": "DS-X9124-HV=",
-   "name": "24-port 1/2/4-Gbps Fibre Channel Switching Module, 24 SFPs",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9000 Fibre Channel line card, crossbar fabric or supervisor module: the MDS platform lives in storage-networking (operator, layers round 3: MDS → storage-networking)"
-  },
-  {
-   "sku": "DS-X9124=",
-   "name": "24-port 1/2/4-Gbps Fibre Channel Switching Module, spare",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9000 Fibre Channel line card, crossbar fabric or supervisor module: the MDS platform lives in storage-networking (operator, layers round 3: MDS → storage-networking)"
-  },
-  {
-   "sku": "DS-X9148-H=",
-   "name": "48-port 1/2/4-Gbps FC Module for HP with Service, Spare",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9000 Fibre Channel line card, crossbar fabric or supervisor module: the MDS platform lives in storage-networking (operator, layers round 3: MDS → storage-networking)"
-  },
-  {
-   "sku": "DS-X9148-HV",
-   "name": "48-port 1/2/4-Gbps Fibre Channel Switching Module, 48 SFPs",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9000 Fibre Channel line card, crossbar fabric or supervisor module: the MDS platform lives in storage-networking (operator, layers round 3: MDS → storage-networking)"
-  },
-  {
-   "sku": "DS-X9148-HV=",
-   "name": "48-port 1/2/4-Gbps Fibre Channel Switching Module, 48 SFPs",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9000 Fibre Channel line card, crossbar fabric or supervisor module: the MDS platform lives in storage-networking (operator, layers round 3: MDS → storage-networking)"
-  },
-  {
-   "sku": "DS-X9148=",
-   "name": "48-port 1/2/4-Gbps Fibre Channel Switching Module, Spare",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9000 Fibre Channel line card, crossbar fabric or supervisor module: the MDS platform lives in storage-networking (operator, layers round 3: MDS → storage-networking)"
-  },
-  {
-   "sku": "DS-X9224-96H8K9=",
-   "name": "24-Port 8-Gbps Fibre Channel Switching Module, 24 8G SW SFPs",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9000 Fibre Channel line card, crossbar fabric or supervisor module: the MDS platform lives in storage-networking (operator, layers round 3: MDS → storage-networking)"
-  },
-  {
-   "sku": "DS-X9224-96HPK9=",
-   "name": "24-port Performance 8Gb FC Module for HP with Service, Spare",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9000 Fibre Channel line card, crossbar fabric or supervisor module: the MDS platform lives in storage-networking (operator, layers round 3: MDS → storage-networking)"
-  },
-  {
-   "sku": "DS-X9224-96HVK9=",
-   "name": "24-Port 8-Gbps Fibre Channel Switching Module, 24 4G SW SFPs",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9000 Fibre Channel line card, crossbar fabric or supervisor module: the MDS platform lives in storage-networking (operator, layers round 3: MDS → storage-networking)"
-  },
-  {
-   "sku": "DS-X9232-256BK9=",
-   "name": "32-Port 8-Gbps Advanced FC Module, 32 8G SW SFP+",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9000 Fibre Channel line card, crossbar fabric or supervisor module: the MDS platform lives in storage-networking (operator, layers round 3: MDS → storage-networking)"
-  },
-  {
-   "sku": "DS-X9232256HK9=",
-   "name": "Cisco MDS 9000 Family 32-Port 8-Gbps Advanced Fibre Channel",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9000 Fibre Channel line card, crossbar fabric or supervisor module: the MDS platform lives in storage-networking (operator, layers round 3: MDS → storage-networking)"
-  },
-  {
-   "sku": "DS-X9248-256BK9=",
-   "name": "48-Port 8-Gbps Advanced FC Module, 48 8G SW SFP+",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9000 Fibre Channel line card, crossbar fabric or supervisor module: the MDS platform lives in storage-networking (operator, layers round 3: MDS → storage-networking)"
-  },
-  {
-   "sku": "DS-X9248-48HPK9=",
-   "name": "4/44-Port Host Optimized 8G FC Module for HP with Service, S",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9000 Fibre Channel line card, crossbar fabric or supervisor module: the MDS platform lives in storage-networking (operator, layers round 3: MDS → storage-networking)"
-  },
-  {
-   "sku": "DS-X9248-48HVK9=",
-   "name": "4/44-Port Host Optimized 8-Gbps FC Module, 48 4G SW SFPs",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9000 Fibre Channel line card, crossbar fabric or supervisor module: the MDS platform lives in storage-networking (operator, layers round 3: MDS → storage-networking)"
-  },
-  {
-   "sku": "DS-X9248-96H8K9=",
-   "name": "48-Port 8-Gbps Fibre Channel Switching Module, 48 8G SW SFPs",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9000 Fibre Channel line card, crossbar fabric or supervisor module: the MDS platform lives in storage-networking (operator, layers round 3: MDS → storage-networking)"
-  },
-  {
-   "sku": "DS-X9248-96HPK9=",
-   "name": "48-port Performance 8Gb FC Module for HP with Service, Spare",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9000 Fibre Channel line card, crossbar fabric or supervisor module: the MDS platform lives in storage-networking (operator, layers round 3: MDS → storage-networking)"
-  },
-  {
-   "sku": "DS-X9248-96HVK9=",
-   "name": "48-Port 8-Gbps Fibre Channel Switching Module, 48 4G SW SFPs",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9000 Fibre Channel line card, crossbar fabric or supervisor module: the MDS platform lives in storage-networking (operator, layers round 3: MDS → storage-networking)"
-  },
-  {
-   "sku": "DS-X9248256HK9=",
-   "name": "Cisco MDS 9000 Family 48-Port 8-Gbps Advanced Fibre Channel",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9000 Fibre Channel line card, crossbar fabric or supervisor module: the MDS platform lives in storage-networking (operator, layers round 3: MDS → storage-networking)"
-  },
-  {
-   "sku": "DS-X9302-14K9",
-   "name": "Cisco MDS 9000 Family 14/2-port Multiprotocol Services Module",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9000 Fibre Channel line card, crossbar fabric or supervisor module: the MDS platform lives in storage-networking (operator, layers round 3: MDS → storage-networking)"
-  },
-  {
-   "sku": "DS-X9302-14K9=",
-   "name": "Cisco MDS 9000 Family 14/2-port Multiprotocol Services Module, Spare",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9000 Fibre Channel line card, crossbar fabric or supervisor module: the MDS platform lives in storage-networking (operator, layers round 3: MDS → storage-networking)"
-  },
-  {
-   "sku": "DS-X9308-SMIP",
-   "name": "MDS 9500 8-port 1GE IP Storage Module",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9000 Fibre Channel line card, crossbar fabric or supervisor module: the MDS platform lives in storage-networking (operator, layers round 3: MDS → storage-networking)"
-  },
-  {
-   "sku": "DS-X9308-SMIP=",
-   "name": "MDS 9500 8-port 1GE IP Services Module",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9000 Fibre Channel line card, crossbar fabric or supervisor module: the MDS platform lives in storage-networking (operator, layers round 3: MDS → storage-networking)"
-  },
-  {
-   "sku": "DS-X9334-K9",
-   "name": "Cisco MDS 9000 Family 24/10 SAN Extension Module",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9000 Fibre Channel line card, crossbar fabric or supervisor module: the MDS platform lives in storage-networking (operator, layers round 3: MDS → storage-networking)"
-  },
-  {
-   "sku": "DS-X9334-K9=",
-   "name": "Cisco MDS 9000 Family 24/10 SAN Extension Module, spare",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9000 Fibre Channel line card, crossbar fabric or supervisor module: the MDS platform lives in storage-networking (operator, layers round 3: MDS → storage-networking)"
-  },
-  {
-   "sku": "DS-X9448-768K9",
-   "name": "48-Port 16-Gbps Fibre Channel Switching Module",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9000 Fibre Channel line card, crossbar fabric or supervisor module: the MDS platform lives in storage-networking (operator, layers round 3: MDS → storage-networking)"
-  },
-  {
-   "sku": "DS-X9448-768K9=",
-   "name": "48-Port 16-Gbps Fibre Channel Switching Module",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9000 Fibre Channel line card, crossbar fabric or supervisor module: the MDS platform lives in storage-networking (operator, layers round 3: MDS → storage-networking)"
-  },
-  {
-   "sku": "DS-X9448768B8K9=",
-   "name": "MDS 9700 48-port 16Gbps FC Module + 48 8-Gbps SW SFP+, Spare",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9000 Fibre Channel line card, crossbar fabric or supervisor module: the MDS platform lives in storage-networking (operator, layers round 3: MDS → storage-networking)"
-  },
-  {
-   "sku": "DS-X9448768BSK9=",
-   "name": "MDS 9700 48-port 16Gbps FC Module + 48 16-Gbps SW SFP+, Spare",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9000 Fibre Channel line card, crossbar fabric or supervisor module: the MDS platform lives in storage-networking (operator, layers round 3: MDS → storage-networking)"
-  },
-  {
-   "sku": "DS-X9530-SF2-HK9=",
-   "name": "MDS 9500 Series Supervisor-2 for HP with Service, Spare",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9000 Fibre Channel line card, crossbar fabric or supervisor module: the MDS platform lives in storage-networking (operator, layers round 3: MDS → storage-networking)"
-  },
-  {
-   "sku": "DS-X9530-SF2A-HK9=",
-   "name": "MDS 9500 Series Supervisor-2A for HP with Service, Spare",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9000 Fibre Channel line card, crossbar fabric or supervisor module: the MDS platform lives in storage-networking (operator, layers round 3: MDS → storage-networking)"
-  },
-  {
-   "sku": "DS-X9648-1536K9",
-   "name": "MDS 9700 48-Port 32-Gbps Fibre Channel Switching Module",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9000 Fibre Channel line card, crossbar fabric or supervisor module: the MDS platform lives in storage-networking (operator, layers round 3: MDS → storage-networking)"
-  },
-  {
-   "sku": "DS-X9648-1536K9=",
-   "name": "MDS 9700 48-Port 32-Gbps Fibre Channel Switching Module, spare",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9000 Fibre Channel line card, crossbar fabric or supervisor module: the MDS platform lives in storage-networking (operator, layers round 3: MDS → storage-networking)"
-  },
-  {
-   "sku": "DS-X9648-1536K9B=",
-   "name": "MDS 9700 48-Port 32-Gbps Fibre Channel Switching Module and 48 16G SW SFP+",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9000 Fibre Channel line card, crossbar fabric or supervisor module: the MDS platform lives in storage-networking (operator, layers round 3: MDS → storage-networking)"
-  },
-  {
-   "sku": "DS-X9648-1536TLK9=",
-   "name": "MDS 9700 48-Port 32-Gbps Fibre Channel Switching Module and 48 32G LW SFP+",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9000 Fibre Channel line card, crossbar fabric or supervisor module: the MDS platform lives in storage-networking (operator, layers round 3: MDS → storage-networking)"
-  },
-  {
-   "sku": "DS-X9704-H=",
-   "name": "4-port 10Gbps FC Module for HP with Service, Spare",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9000 Fibre Channel line card, crossbar fabric or supervisor module: the MDS platform lives in storage-networking (operator, layers round 3: MDS → storage-networking)"
-  },
-  {
-   "sku": "DS-X9706-FAB1B=",
-   "name": "MDS 9706 Crossbar Switching Fabric-1 Module, Bundle of 3",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9000 Fibre Channel line card, crossbar fabric or supervisor module: the MDS platform lives in storage-networking (operator, layers round 3: MDS → storage-networking)"
-  },
-  {
-   "sku": "DS-X9710-FAB1B=",
-   "name": "MDS 9710 Crossbar Switching Fabric-1 Module, Bundle of 3",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9000 Fibre Channel line card, crossbar fabric or supervisor module: the MDS platform lives in storage-networking (operator, layers round 3: MDS → storage-networking)"
-  },
-  {
-   "sku": "DS-X9710-FAB3=",
-   "name": "MDS 9710 Crossbar Switching Fabric-3 Module",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9000 Fibre Channel line card, crossbar fabric or supervisor module: the MDS platform lives in storage-networking (operator, layers round 3: MDS → storage-networking)"
-  },
-  {
-   "sku": "DS-X9748-3072-TK9",
-   "name": "MDS 9700 48-Port 64-Gbps Fibre Channel Switching Module with 48 32G short-wave optics",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9000 Fibre Channel line card, crossbar fabric or supervisor module: the MDS platform lives in storage-networking (operator, layers round 3: MDS → storage-networking)"
-  },
-  {
-   "sku": "DS-X9748-3072-TK9=",
-   "name": "MDS 9700 48-Port 64-Gbps Fibre Channel Switching Module with 48 32G short-wave optics, spare",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9000 Fibre Channel line card, crossbar fabric or supervisor module: the MDS platform lives in storage-networking (operator, layers round 3: MDS → storage-networking)"
-  },
-  {
-   "sku": "DS-X9748-3072-VK9",
-   "name": "MDS 9700 48-Port 64-Gbps Fibre Channel Switching Module with 48 64G short-wave optics",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9000 Fibre Channel line card, crossbar fabric or supervisor module: the MDS platform lives in storage-networking (operator, layers round 3: MDS → storage-networking)"
-  },
-  {
-   "sku": "DS-X9748-3072-VK9=",
-   "name": "MDS 9700 48-Port 64-Gbps Fibre Channel Switching Module with 48 64G short-wave optics, spare",
-   "series_label": "Storage Networking Modules",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS 9000 Fibre Channel line card, crossbar fabric or supervisor module: the MDS platform lives in storage-networking (operator, layers round 3: MDS → storage-networking)"
   },
   {
    "sku": "ECM8-UM08-04-E7G-ULL",
@@ -2283,86 +686,6 @@
    "action": "class",
    "to": "non_product",
    "reason": "third-party (Corning): EDGE8 structured-cabling part number, not a Cisco orderable PID (decision 3); DGE8-* is the same number with its first letter lost, DGE8-xxU also a length placeholder"
-  },
-  {
-   "sku": "ENC-10G-ONT-01PR",
-   "name": "Cisco ENC-10G-ONT-01PR",
-   "series_label": "Transceiver Modules",
-   "action": "move",
-   "to": "switches",
-   "reason": "XGS-PON ONT device (Cisco '10G Routed PON ONT' data sheet): the operator's rule sends ONT devices to switches Catalyst PON with CGP-ONT's kind and flag — decision pending: Cisco names them Routed PON, not Catalyst PON (their OLT is the SFP-10G-OLT pluggable in transceiver)"
-  },
-  {
-   "sku": "ENC-10G-ONT-01PR=",
-   "name": "Ruggedized XGS-PON ONT, powered by PoE",
-   "series_label": "Transceiver Modules",
-   "action": "move",
-   "to": "switches",
-   "reason": "XGS-PON ONT device (Cisco '10G Routed PON ONT' data sheet): the operator's rule sends ONT devices to switches Catalyst PON with CGP-ONT's kind and flag — decision pending: Cisco names them Routed PON, not Catalyst PON (their OLT is the SFP-10G-OLT pluggable in transceiver)"
-  },
-  {
-   "sku": "ENC-10G-ONT-10",
-   "name": "Cisco ENC-10G-ONT-10",
-   "series_label": "Transceiver Modules",
-   "action": "move",
-   "to": "switches",
-   "reason": "XGS-PON ONT device (Cisco '10G Routed PON ONT' data sheet): the operator's rule sends ONT devices to switches Catalyst PON with CGP-ONT's kind and flag — decision pending: Cisco names them Routed PON, not Catalyst PON (their OLT is the SFP-10G-OLT pluggable in transceiver)"
-  },
-  {
-   "sku": "ENC-10G-ONT-10=",
-   "name": "XGS-PON ONT",
-   "series_label": "Transceiver Modules",
-   "action": "move",
-   "to": "switches",
-   "reason": "XGS-PON ONT device (Cisco '10G Routed PON ONT' data sheet): the operator's rule sends ONT devices to switches Catalyst PON with CGP-ONT's kind and flag — decision pending: Cisco names them Routed PON, not Catalyst PON (their OLT is the SFP-10G-OLT pluggable in transceiver)"
-  },
-  {
-   "sku": "ENC-10G-ONT-14A",
-   "name": "Cisco ENC-10G-ONT-14A",
-   "series_label": "Transceiver Modules",
-   "action": "move",
-   "to": "switches",
-   "reason": "XGS-PON ONT device (Cisco '10G Routed PON ONT' data sheet): the operator's rule sends ONT devices to switches Catalyst PON with CGP-ONT's kind and flag — decision pending: Cisco names them Routed PON, not Catalyst PON (their OLT is the SFP-10G-OLT pluggable in transceiver)"
-  },
-  {
-   "sku": "ENC-10G-ONT-14A=",
-   "name": "Multiport and ATA XGS-PON ONT",
-   "series_label": "Transceiver Modules",
-   "action": "move",
-   "to": "switches",
-   "reason": "XGS-PON ONT device (Cisco '10G Routed PON ONT' data sheet): the operator's rule sends ONT devices to switches Catalyst PON with CGP-ONT's kind and flag — decision pending: Cisco names them Routed PON, not Catalyst PON (their OLT is the SFP-10G-OLT pluggable in transceiver)"
-  },
-  {
-   "sku": "EPA-10X1GE",
-   "name": "Cisco ASR 1000 10x10GE Ethernet Port Adapter",
-   "series_label": "Network Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
-  },
-  {
-   "sku": "EWDM-OA=",
-   "name": "EWDM Optical Amplifier",
-   "series_label": "Transceiver Modules",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "optical amplifier (EDFA)"
-  },
-  {
-   "sku": "EWDM-OADM2=",
-   "name": "2-channels EWDM OADM Module",
-   "series_label": "Transceiver Modules",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "passive WDM mux/demux/OADM/splitter — optical-networking's own `mux` kind"
-  },
-  {
-   "sku": "EWDM-OADM4=",
-   "name": "4-channels EWDM OADM Module",
-   "series_label": "Transceiver Modules",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "passive WDM mux/demux/OADM/splitter — optical-networking's own `mux` kind"
   },
   {
    "sku": "FAPH0612BLMPO",
@@ -2453,54 +776,6 @@
    "reason": "third-party (Panduit): cabling, cabinet or patch-panel part number, not a Cisco orderable PID (decision 3)"
   },
   {
-   "sku": "FIPS-SHIELD-2901=",
-   "name": "FIPS opacity shield for Cisco 2901 ISR",
-   "series_label": "Network Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "FIPS opacity shield for one ISR model (Cisco 2901): goes with its platform in routers ISR 2900 (A.3 rule 1)"
-  },
-  {
-   "sku": "FIPS-SHIELD-2911=",
-   "name": "FIPS opacity shield for Cisco 2911 ISR",
-   "series_label": "Network Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "FIPS opacity shield for one ISR model (Cisco 2911): goes with its platform in routers ISR 2900 (A.3 rule 1)"
-  },
-  {
-   "sku": "FIPS-SHIELD-2921=",
-   "name": "FIPS opacity shield for Cisco 2921 ISR",
-   "series_label": "Network Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "FIPS opacity shield for one ISR model (Cisco 2921): goes with its platform in routers ISR 2900 (A.3 rule 1)"
-  },
-  {
-   "sku": "FIPS-SHIELD-2951=",
-   "name": "FIPS opacity shield for Cisco 2951 ISR",
-   "series_label": "Network Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "FIPS opacity shield for one ISR model (Cisco 2951): goes with its platform in routers ISR 2900 (A.3 rule 1)"
-  },
-  {
-   "sku": "FL-1900-256U512MB",
-   "name": "CISCO1905 DRAM Upgrade from 256MB to 512MB",
-   "series_label": "Network Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "ISR G1 / G2 platform part — a DRAM upgrade, certification label, front bezel or PoE / inline-power supply named for one ISR model: goes with its platform in routers (A.3 rule 1); filed here by the labels 'Network Modules' / 'High-Speed WAN Interface Cards'"
-  },
-  {
-   "sku": "FL-1900-256U512MB=",
-   "name": "CISCO1905 DRAM Upgrade from 256MB to 512MB",
-   "series_label": "Network Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "ISR G1 / G2 platform part — a DRAM upgrade, certification label, front bezel or PoE / inline-power supply named for one ISR model: goes with its platform in routers (A.3 rule 1); filed here by the labels 'Network Modules' / 'High-Speed WAN Interface Cards'"
-  },
-  {
    "sku": "FQ3ZO-08-10B",
    "name": "QuickNet SFQ 4 to 1 Breakout Cassette, Method B",
    "series_label": "Transceiver Modules",
@@ -2549,148 +824,12 @@
    "reason": "unidentified datasheet token: no linked document names it as a Cisco PID (pre-ruling C8, layers round 3)"
   },
   {
-   "sku": "GRWIC-2SHDSL",
-   "name": "Cisco Connected Grid G.SHDSL GRWIC",
-   "series_label": "Connected Grid Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
-  },
-  {
-   "sku": "GRWIC-2SHDSL=",
-   "name": "Cisco Connected Grid G.SHDSL GRWIC",
-   "series_label": "Connected Grid Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
-  },
-  {
-   "sku": "GRWIC-D-ES-2S-8PC",
-   "name": "● 8xFE RJ45 ports (Power over Ethernet [PoE] * support on first 4 ports) ● 1xGE combo port ● 1xGE fiber Small Form-Factor Pluggable (SFP) port",
-   "series_label": "Connected Grid Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
-  },
-  {
-   "sku": "GRWIC-D-ES-6S",
-   "name": "● 4xFE fiber SFP port ● 1xGE combo port ● 1xGE fiber SFP port",
-   "series_label": "Connected Grid Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
-  },
-  {
-   "sku": "GRWIC-ISDN-1B-U",
-   "name": "Cisco Connected Grid ISDN BRI U GRWIC",
-   "series_label": "Connected Grid Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
-  },
-  {
-   "sku": "GRWIC-ISDN-1B-U=",
-   "name": "Cisco Connected Grid ISDN BRI U GRWIC",
-   "series_label": "Connected Grid Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
-  },
-  {
-   "sku": "GRWIC-ISDN-B-S/T",
-   "name": "Cisco GRWIC-ISDN-B-S/T",
-   "series_label": "Connected Grid Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
-  },
-  {
-   "sku": "GRWIC-ISDN-B-S/T=",
-   "name": "Cisco GRWIC-ISDN-B-S/T=",
-   "series_label": "Connected Grid Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
-  },
-  {
-   "sku": "GRWIC-VA-DSL-A",
-   "name": "Cisco Connected Grid VDSL2 and ADSL2/ADSL2+ GRWIC - Annex A",
-   "series_label": "Connected Grid Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
-  },
-  {
-   "sku": "GRWIC-VA-DSL-A=",
-   "name": "Cisco Connected Grid VDSL2 and ADSL2/ADSL2+ GRWIC - Annex A",
-   "series_label": "Connected Grid Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
-  },
-  {
-   "sku": "GRWIC-VA-DSL-B",
-   "name": "Cisco Connected Grid VDSL2 and ADSL2/ADSL2+ GRWIC - Annex B",
-   "series_label": "Connected Grid Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
-  },
-  {
-   "sku": "GRWIC-VA-DSL-B=",
-   "name": "Cisco Connected Grid VDSL2 and ADSL2/ADSL2+ GRWIC - Annex B",
-   "series_label": "Connected Grid Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
-  },
-  {
-   "sku": "GRWIC-VA-DSL-M",
-   "name": "Cisco Connected Grid VDSL2 and ADSL2/ADSL2+ GRWIC - Annex M",
-   "series_label": "Connected Grid Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
-  },
-  {
-   "sku": "GRWIC-VA-DSL-M=",
-   "name": "Cisco Connected Grid VDSL2 and ADSL2/ADSL2+ GRWIC - Annex M",
-   "series_label": "Connected Grid Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "router card bound to one platform, which lives in routers (layers review 14 Sep 2026, A.3 rule 1)"
-  },
-  {
    "sku": "HN4000e",
    "name": "Cisco HN4000e",
    "series_label": "High-Speed WAN Interface Cards",
    "action": "class",
    "to": "non_product",
    "reason": "unidentified datasheet token: no linked document names it as a Cisco PID (pre-ruling C8, layers round 3)"
-  },
-  {
-   "sku": "ISM-SRE-300-K9",
-   "name": "Internal Services Module (ISM) with Services Ready Engine",
-   "series_label": "2900 ISR",
-   "action": "move",
-   "to": "servers-unified-computing",
-   "reason": "Services Ready Engine (the UCS E-Series' predecessor in the ISR G2): follows the E-Series to servers-unified-computing, series Services Ready Engine (ISM-SRE / SM-SRE), engines kind server, their disks as components (re-audit decisions, operator, 15 Sep 2026, Q-13: 'the SRE rows follow')"
-  },
-  {
-   "sku": "ISM-SRE-300-K9++=",
-   "name": "Services Ready Engine 300 (512MB MEM, 4GB Flash, 1C CPU)",
-   "series_label": "4000 ISR",
-   "action": "move",
-   "to": "servers-unified-computing",
-   "reason": "Services Ready Engine (the UCS E-Series' predecessor in the ISR G2): follows the E-Series to servers-unified-computing, series Services Ready Engine (ISM-SRE / SM-SRE), engines kind server, their disks as components (re-audit decisions, operator, 15 Sep 2026, Q-13: 'the SRE rows follow')"
-  },
-  {
-   "sku": "ISM-SRE-300-RS-K9=",
-   "name": "ISM 300 module for VPN software",
-   "series_label": "4000 ISR",
-   "action": "move",
-   "to": "servers-unified-computing",
-   "reason": "Services Ready Engine (the UCS E-Series' predecessor in the ISR G2): follows the E-Series to servers-unified-computing, series Services Ready Engine (ISM-SRE / SM-SRE), engines kind server, their disks as components (re-audit decisions, operator, 15 Sep 2026, Q-13: 'the SRE rows follow')"
   },
   {
    "sku": "LDP7AA46.017",
@@ -2717,102 +856,6 @@
    "reason": "unidentified datasheet token: no linked document names it as a Cisco PID (pre-ruling C8, layers round 3)"
   },
   {
-   "sku": "MEM-2951-512U2.5GB",
-   "name": "512MB to 2.5GB DRAM Upgrade (2GB+512MB) for Cisco 2951 ISR",
-   "series_label": "Network Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "ISR G1 / G2 platform part — a DRAM upgrade, certification label, front bezel or PoE / inline-power supply named for one ISR model: goes with its platform in routers (A.3 rule 1); filed here by the labels 'Network Modules' / 'High-Speed WAN Interface Cards'"
-  },
-  {
-   "sku": "MEM-C6K-APP-24GB",
-   "name": "Cat6500 24GB Service Module Memory",
-   "series_label": "Services Modules",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
-  },
-  {
-   "sku": "MEM-C6K-APP-24GB=",
-   "name": "Cat6500 24GB Service Module Memory",
-   "series_label": "Services Modules",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
-  },
-  {
-   "sku": "MEM-C6K-VSE-24GB=",
-   "name": "Cat6500 Service Module Memory 24GB",
-   "series_label": "Services Modules",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
-  },
-  {
-   "sku": "MEM-C6KNAM-2GB=",
-   "name": "2GB Memory for WS-SVC-NAM-1 and WS-SVC-NAM-2",
-   "series_label": "Services Modules",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
-  },
-  {
-   "sku": "NAL-FOC-2901",
-   "name": "NAL Certification labels for Cisco 2901",
-   "series_label": "Network Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "ISR G1 / G2 platform part — a DRAM upgrade, certification label, front bezel or PoE / inline-power supply named for one ISR model: goes with its platform in routers (A.3 rule 1); filed here by the labels 'Network Modules' / 'High-Speed WAN Interface Cards'"
-  },
-  {
-   "sku": "NAL-FOC-2911",
-   "name": "NAL Certification labels for Cisco 2911",
-   "series_label": "Network Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "ISR G1 / G2 platform part — a DRAM upgrade, certification label, front bezel or PoE / inline-power supply named for one ISR model: goes with its platform in routers (A.3 rule 1); filed here by the labels 'Network Modules' / 'High-Speed WAN Interface Cards'"
-  },
-  {
-   "sku": "NAL-FOC-2951",
-   "name": "NAL Certification labels for Cisco 2951",
-   "series_label": "Network Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "ISR G1 / G2 platform part — a DRAM upgrade, certification label, front bezel or PoE / inline-power supply named for one ISR model: goes with its platform in routers (A.3 rule 1); filed here by the labels 'Network Modules' / 'High-Speed WAN Interface Cards'"
-  },
-  {
-   "sku": "NAM2420-K9",
-   "name": "Cisco NAM2420-K9",
-   "series_label": "Services Modules",
-   "action": "move",
-   "to": "security",
-   "reason": "NAM 2400 Series standalone Network Analysis Module appliance (successor rows WS-SVC-NAM3-*): security, kind analytics (pre-ruling C5)"
-  },
-  {
-   "sku": "NAM2440-K9",
-   "name": "Cisco NAM2440-K9",
-   "series_label": "Services Modules",
-   "action": "move",
-   "to": "security",
-   "reason": "NAM 2400 Series standalone Network Analysis Module appliance (successor rows WS-SVC-NAM3-*): security, kind analytics (pre-ruling C5)"
-  },
-  {
-   "sku": "NAM3-HDD-600G",
-   "name": "Hard Drives - 600G - for NAM-3",
-   "series_label": "Services Modules",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
-  },
-  {
-   "sku": "NAM3-HDD-600G=",
-   "name": "Hard Drives - 600G - for NAM-3",
-   "series_label": "Services Modules",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
-  },
-  {
    "sku": "NANT-A",
    "name": "Cisco NANT-A",
    "series_label": "High-Speed WAN Interface Cards",
@@ -2821,68 +864,12 @@
    "reason": "unidentified datasheet token: no linked document names it as a Cisco PID (pre-ruling C8, layers round 3)"
   },
   {
-   "sku": "NCS-FAB-OPT",
-   "name": "Bundle of 96 CXP-100G-SR12",
-   "series_label": "Transceiver Modules",
-   "action": "move",
-   "to": "transceiver",
-   "reason": "Bundle of 96 CXP-100G-SR12 optics (EoL notice for the CXP-100G-SR12): transceiver, kind pluggable; pack_quantity 96 is parked (pre-ruling C4, decision 6)"
-  },
-  {
-   "sku": "NCS-FAB-OPT=",
-   "name": "Bundle of 96 CXP-100G-SR12",
-   "series_label": "Transceiver Modules",
-   "action": "move",
-   "to": "transceiver",
-   "reason": "Bundle of 96 CXP-100G-SR12 optics (EoL notice for the CXP-100G-SR12): transceiver, kind pluggable; pack_quantity 96 is parked (pre-ruling C4, decision 6)"
-  },
-  {
-   "sku": "NCS1K-MD-64-C=",
-   "name": "NCS 1000 64 chs Odd Mux/Demux Patch Panel - C-band",
-   "series_label": "Transceiver Modules",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "passive WDM mux/demux/OADM/splitter — optical-networking's own `mux` kind"
-  },
-  {
    "sku": "NSLT-A",
    "name": "Cisco NSLT-A",
    "series_label": "High-Speed WAN Interface Cards",
    "action": "class",
    "to": "non_product",
    "reason": "unidentified datasheet token: no linked document names it as a Cisco PID (pre-ruling C8, layers round 3)"
-  },
-  {
-   "sku": "ONS-BRK-CS-16LC=",
-   "name": "16-chs Colorless Flex-spectrum Mux/Dmx - LCs to CS connector",
-   "series_label": "Transceiver Modules",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "passive WDM mux/demux/OADM/splitter — optical-networking's own `mux` kind"
-  },
-  {
-   "sku": "ONS-BRK-CS-8LC=",
-   "name": "8-chs Colorless Flex-spectrum Mux/Dmx - LCs to CS connector",
-   "series_label": "Transceiver Modules",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "passive WDM mux/demux/OADM/splitter — optical-networking's own `mux` kind"
-  },
-  {
-   "sku": "ONS-CAB-CS-LC-5=",
-   "name": "Duplex optical patchcord, LC to CS connectors, 5m",
-   "series_label": "Transceiver Modules",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "optical patch cord (LC to CS) for the NCS 2000 / ONS line, filed in interfaces-modules; its home is optical-networking's patchcords series (operator, layers round 3, A-11)"
-  },
-  {
-   "sku": "ONS-QDD-OLS=",
-   "name": "QSFP-DD Open Line System, Pre and Bst EDFA, 2.4 THz C-Band",
-   "series_label": "Transceiver Modules",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "optical amplifier (EDFA)"
   },
   {
    "sku": "PHQ4SFP2A1MBL",
@@ -2933,140 +920,12 @@
    "reason": "family placeholder: the bare PVDM3 family SKU that the orderable PVDM3-16 / -32 / -64 / -128 / -192 / -256 extend (the datasheet-cell rule, extended in layers round 3)"
   },
   {
-   "sku": "PWR-1941-POE=",
-   "name": "Cisco 1941 AC Power Supply with Power Over Ethernet",
-   "series_label": "High-Speed WAN Interface Cards",
-   "action": "move",
-   "to": "routers",
-   "reason": "ISR G1 / G2 platform part — a DRAM upgrade, certification label, front bezel or PoE / inline-power supply named for one ISR model: goes with its platform in routers (A.3 rule 1); filed here by the labels 'Network Modules' / 'High-Speed WAN Interface Cards'"
-  },
-  {
-   "sku": "PWR-2801-AC-IP=",
-   "name": "Cisco 2801 AC inline power supply",
-   "series_label": "High-Speed WAN Interface Cards",
-   "action": "move",
-   "to": "routers",
-   "reason": "ISR G1 / G2 platform part — a DRAM upgrade, certification label, front bezel or PoE / inline-power supply named for one ISR model: goes with its platform in routers (A.3 rule 1); filed here by the labels 'Network Modules' / 'High-Speed WAN Interface Cards'"
-  },
-  {
-   "sku": "PWR-2811-AC-IP=",
-   "name": "Cisco 2811 AC inline power supply",
-   "series_label": "High-Speed WAN Interface Cards",
-   "action": "move",
-   "to": "routers",
-   "reason": "ISR G1 / G2 platform part — a DRAM upgrade, certification label, front bezel or PoE / inline-power supply named for one ISR model: goes with its platform in routers (A.3 rule 1); filed here by the labels 'Network Modules' / 'High-Speed WAN Interface Cards'"
-  },
-  {
-   "sku": "PWR-2821-51-AC-IP=",
-   "name": "Cisco 2821 and Cisco 2851 AC inline power supply",
-   "series_label": "High-Speed WAN Interface Cards",
-   "action": "move",
-   "to": "routers",
-   "reason": "ISR G1 / G2 platform part — a DRAM upgrade, certification label, front bezel or PoE / inline-power supply named for one ISR model: goes with its platform in routers (A.3 rule 1); filed here by the labels 'Network Modules' / 'High-Speed WAN Interface Cards'"
-  },
-  {
-   "sku": "PWR-2901-POE=",
-   "name": "Cisco 2901 AC Power Supply with Power Over Ethernet",
-   "series_label": "High-Speed WAN Interface Cards",
-   "action": "move",
-   "to": "routers",
-   "reason": "ISR G1 / G2 platform part — a DRAM upgrade, certification label, front bezel or PoE / inline-power supply named for one ISR model: goes with its platform in routers (A.3 rule 1); filed here by the labels 'Network Modules' / 'High-Speed WAN Interface Cards'"
-  },
-  {
-   "sku": "PWR-2911-POE=",
-   "name": "Cisco 2911 AC Power Supply with Power Over Ethernet",
-   "series_label": "High-Speed WAN Interface Cards",
-   "action": "move",
-   "to": "routers",
-   "reason": "ISR G1 / G2 platform part — a DRAM upgrade, certification label, front bezel or PoE / inline-power supply named for one ISR model: goes with its platform in routers (A.3 rule 1); filed here by the labels 'Network Modules' / 'High-Speed WAN Interface Cards'"
-  },
-  {
-   "sku": "PWR-2921-51-POE=",
-   "name": "Cisco 2921/2951 AC Power Supply with Power Over Ethernet",
-   "series_label": "High-Speed WAN Interface Cards",
-   "action": "move",
-   "to": "routers",
-   "reason": "ISR G1 / G2 platform part — a DRAM upgrade, certification label, front bezel or PoE / inline-power supply named for one ISR model: goes with its platform in routers (A.3 rule 1); filed here by the labels 'Network Modules' / 'High-Speed WAN Interface Cards'"
-  },
-  {
-   "sku": "PWR-3825-AC-IP=",
-   "name": "Cisco 3825 AC-IP power supply",
-   "series_label": "High-Speed WAN Interface Cards",
-   "action": "move",
-   "to": "routers",
-   "reason": "ISR G1 / G2 platform part — a DRAM upgrade, certification label, front bezel or PoE / inline-power supply named for one ISR model: goes with its platform in routers (A.3 rule 1); filed here by the labels 'Network Modules' / 'High-Speed WAN Interface Cards'"
-  },
-  {
-   "sku": "PWR-3845-AC-IP=",
-   "name": "Cisco 3845 AC-IP power supply",
-   "series_label": "High-Speed WAN Interface Cards",
-   "action": "move",
-   "to": "routers",
-   "reason": "ISR G1 / G2 platform part — a DRAM upgrade, certification label, front bezel or PoE / inline-power supply named for one ISR model: goes with its platform in routers (A.3 rule 1); filed here by the labels 'Network Modules' / 'High-Speed WAN Interface Cards'"
-  },
-  {
-   "sku": "PWR-3900-POE=",
-   "name": "Cisco 3925/3945 AC Power Supply with Power Over Ethernet",
-   "series_label": "High-Speed WAN Interface Cards",
-   "action": "move",
-   "to": "routers",
-   "reason": "ISR G1 / G2 platform part — a DRAM upgrade, certification label, front bezel or PoE / inline-power supply named for one ISR model: goes with its platform in routers (A.3 rule 1); filed here by the labels 'Network Modules' / 'High-Speed WAN Interface Cards'"
-  },
-  {
-   "sku": "RPS-COVER-2911=",
-   "name": "Cover for empty RPS Adapter slot on Cisco 2911 (only as spare)",
-   "series_label": "Network Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "cover for the empty RPS adapter slot on a Cisco 2911 / 2921 / 2951: bound to ISR 2900 (A.3 rule 1)"
-  },
-  {
-   "sku": "RPS-COVER-2921-51=",
-   "name": "Cover for empty RPS Adapter slot on Cisco 2921/2951 (only as spare)",
-   "series_label": "Network Modules",
-   "action": "move",
-   "to": "routers",
-   "reason": "cover for the empty RPS adapter slot on a Cisco 2911 / 2921 / 2951: bound to ISR 2900 (A.3 rule 1)"
-  },
-  {
    "sku": "SANT-F",
    "name": "Cisco SANT-F",
    "series_label": "High-Speed WAN Interface Cards",
    "action": "class",
    "to": "non_product",
    "reason": "unidentified datasheet token: no linked document names it as a Cisco PID (pre-ruling C8, layers round 3)"
-  },
-  {
-   "sku": "SD-X45-2GB-E",
-   "name": "Cisco Catalyst 4500 2 GB SD Memory Card for Supervisor 8-E",
-   "series_label": "Network Modules",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 4500 Supervisor 8-E SD / USB storage: bound to the Catalyst 4500 (A.3 rule 1) — their spares SD-X45-2GB-E= / USB-X45-4GB-E= are already in switches Catalyst 4500 (X and X= split across categories); filed here by the label 'Network Modules'"
-  },
-  {
-   "sku": "SM-DSK-SATA-500GB=",
-   "name": "Spare 50-GB hard disk for SM-SRE-900-K9",
-   "series_label": "2900 ISR",
-   "action": "move",
-   "to": "servers-unified-computing",
-   "reason": "Services Ready Engine (the UCS E-Series' predecessor in the ISR G2): follows the E-Series to servers-unified-computing, series Services Ready Engine (ISM-SRE / SM-SRE), engines kind server, their disks as components (re-audit decisions, operator, 15 Sep 2026, Q-13: 'the SRE rows follow')"
-  },
-  {
-   "sku": "SM-SRE-700-K9",
-   "name": "2-GB DRAM, 512-MB flash storage, 500GB hard disk, field- replaceable hard disk",
-   "series_label": "Network Modules",
-   "action": "move",
-   "to": "servers-unified-computing",
-   "reason": "Services Ready Engine (the UCS E-Series' predecessor in the ISR G2): follows the E-Series to servers-unified-computing, series Services Ready Engine (ISM-SRE / SM-SRE), engines kind server, their disks as components (re-audit decisions, operator, 15 Sep 2026, Q-13: 'the SRE rows follow')"
-  },
-  {
-   "sku": "SM-SRE-900-K9",
-   "name": "4GB DRAM, 2GB flash storage, 2 x 500GB hard disk (1 TB storage), embedded cryptography chip, RAID 0/1 support, hot swappable hard disk.",
-   "series_label": "Network Modules",
-   "action": "move",
-   "to": "servers-unified-computing",
-   "reason": "Services Ready Engine (the UCS E-Series' predecessor in the ISR G2): follows the E-Series to servers-unified-computing, series Services Ready Engine (ISM-SRE / SM-SRE), engines kind server, their disks as components (re-audit decisions, operator, 15 Sep 2026, Q-13: 'the SRE rows follow')"
   },
   {
    "sku": "SMLT-A",
@@ -3091,30 +950,6 @@
    "action": "class",
    "to": "non_product",
    "reason": "unidentified datasheet token: no linked document names it as a Cisco PID (pre-ruling C8, layers round 3)"
-  },
-  {
-   "sku": "SPA-DSP",
-   "name": "Cisco ASR 1000 Series Digital Signal Processor SPA",
-   "series_label": "ASR 1000",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 1000-only SPA (Digital Signal Processor SPA, WebEx Node SPA): goes with the ASR 1000 in routers (A.3 rule 1)"
-  },
-  {
-   "sku": "SPA-DSP=",
-   "name": "Digital Signal Processor SPA",
-   "series_label": "ASR 1000",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 1000-only SPA (Digital Signal Processor SPA, WebEx Node SPA): goes with the ASR 1000 in routers (A.3 rule 1)"
-  },
-  {
-   "sku": "SPA-WMA-K9",
-   "name": "Cisco WebEx Node SPA for ASR 1000 Series ( End-of-Sale )",
-   "series_label": "ASR 1000",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 1000-only SPA (Digital Signal Processor SPA, WebEx Node SPA): goes with the ASR 1000 in routers (A.3 rule 1)"
   },
   {
    "sku": "STGR-LIM-SL-48",
@@ -3163,502 +998,6 @@
    "action": "class",
    "to": "non_product",
    "reason": "third-party (Panduit): cabling, cabinet or patch-panel part number, not a Cisco orderable PID (decision 3)"
-  },
-  {
-   "sku": "UCS-ACC-6536",
-   "name": "UCS 6536 chassis accessory kit",
-   "series_label": "Unified Computing System Adapters",
-   "action": "move",
-   "to": "servers-unified-computing",
-   "reason": "UCS 6536 / 6600 fabric interconnect accessory kit, fan module or power supply: goes with the fabric interconnect in servers-unified-computing (A.3 rule 1); filed here by the label 'Unified Computing System Adapters'"
-  },
-  {
-   "sku": "UCS-ACC-6652",
-   "name": "UCS 6652 chassis accessory kit",
-   "series_label": "Unified Computing System Adapters",
-   "action": "move",
-   "to": "servers-unified-computing",
-   "reason": "UCS 6536 / 6600 fabric interconnect accessory kit, fan module or power supply: goes with the fabric interconnect in servers-unified-computing (A.3 rule 1); filed here by the label 'Unified Computing System Adapters'"
-  },
-  {
-   "sku": "UCS-ACC-6664",
-   "name": "UCS 6664 chassis accessory kit",
-   "series_label": "Unified Computing System Adapters",
-   "action": "move",
-   "to": "servers-unified-computing",
-   "reason": "UCS 6536 / 6600 fabric interconnect accessory kit, fan module or power supply: goes with the fabric interconnect in servers-unified-computing (A.3 rule 1); filed here by the label 'Unified Computing System Adapters'"
-  },
-  {
-   "sku": "UCS-E1100D-M6/K9",
-   "name": "UCS-E, double-wide, Intel Icelake 10-core CPU; up to 128 GB RAM, 1-4 SSD",
-   "series_label": "Catalyst 8300",
-   "action": "move",
-   "to": "servers-unified-computing",
-   "reason": "UCS E-Series server module: the E-Series lives in servers-unified-computing, series UCS E-Series, kind server (re-audit decisions, operator, 15 Sep 2026, Q-13 — reverses pre-ruling C3)"
-  },
-  {
-   "sku": "UCS-E1120D-M3/K9",
-   "name": "UCS-E, double-wide, Intel Broadwell 12-core CPU; up to 128 GB RAM, 1-4 HDD",
-   "series_label": "Catalyst 8300",
-   "action": "move",
-   "to": "servers-unified-computing",
-   "reason": "UCS E-Series server module: the E-Series lives in servers-unified-computing, series UCS E-Series, kind server (re-audit decisions, operator, 15 Sep 2026, Q-13 — reverses pre-ruling C3)"
-  },
-  {
-   "sku": "UCS-E160S-M3/K9",
-   "name": "UCS-E, single-wide, Intel Broadwell 6-core CPU; up to 64 GB RAM, 1-2 HDD",
-   "series_label": "Catalyst 8300",
-   "action": "move",
-   "to": "servers-unified-computing",
-   "reason": "UCS E-Series server module: the E-Series lives in servers-unified-computing, series UCS E-Series, kind server (re-audit decisions, operator, 15 Sep 2026, Q-13 — reverses pre-ruling C3)"
-  },
-  {
-   "sku": "UCS-E180D-M3/K9",
-   "name": "UCS-E, double-wide, Intel Broadwell 8-core CPU; up to 128 GB RAM, 1-4 HDD",
-   "series_label": "Catalyst 8300",
-   "action": "move",
-   "to": "servers-unified-computing",
-   "reason": "UCS E-Series server module: the E-Series lives in servers-unified-computing, series UCS E-Series, kind server (re-audit decisions, operator, 15 Sep 2026, Q-13 — reverses pre-ruling C3)"
-  },
-  {
-   "sku": "UCS-FAN-6536",
-   "name": "UCS 6536 fan module",
-   "series_label": "Unified Computing System Adapters",
-   "action": "move",
-   "to": "servers-unified-computing",
-   "reason": "UCS 6536 / 6600 fabric interconnect accessory kit, fan module or power supply: goes with the fabric interconnect in servers-unified-computing (A.3 rule 1); filed here by the label 'Unified Computing System Adapters'"
-  },
-  {
-   "sku": "UCS-FAN-6652",
-   "name": "UCS 6652 fan module",
-   "series_label": "Unified Computing System Adapters",
-   "action": "move",
-   "to": "servers-unified-computing",
-   "reason": "UCS 6536 / 6600 fabric interconnect accessory kit, fan module or power supply: goes with the fabric interconnect in servers-unified-computing (A.3 rule 1); filed here by the label 'Unified Computing System Adapters'"
-  },
-  {
-   "sku": "UCS-FAN-6664",
-   "name": "UCS 6664 fan module",
-   "series_label": "Unified Computing System Adapters",
-   "action": "move",
-   "to": "servers-unified-computing",
-   "reason": "UCS 6536 / 6600 fabric interconnect accessory kit, fan module or power supply: goes with the fabric interconnect in servers-unified-computing (A.3 rule 1); filed here by the label 'Unified Computing System Adapters'"
-  },
-  {
-   "sku": "UCS-FI-6652-U",
-   "name": "1RU FI, with no PSU, with 52 ports",
-   "series_label": "Unified Computing System Adapters",
-   "action": "move",
-   "to": "servers-unified-computing",
-   "reason": "UCS fabric interconnect filed in interfaces-modules"
-  },
-  {
-   "sku": "UCS-FI-6664-U",
-   "name": "2RU FI, with no PSU, with 64 ports",
-   "series_label": "Unified Computing System Adapters",
-   "action": "move",
-   "to": "servers-unified-computing",
-   "reason": "UCS fabric interconnect filed in interfaces-modules"
-  },
-  {
-   "sku": "UCS-PSU-6536-AC",
-   "name": "UCS 6536 platinum power supply/100-240VAC (1100 W)",
-   "series_label": "Unified Computing System Adapters",
-   "action": "move",
-   "to": "servers-unified-computing",
-   "reason": "UCS 6536 / 6600 fabric interconnect accessory kit, fan module or power supply: goes with the fabric interconnect in servers-unified-computing (A.3 rule 1); filed here by the label 'Unified Computing System Adapters'"
-  },
-  {
-   "sku": "UCS-PSU-6600-AC",
-   "name": "UCS 6600 platinum power supply/100-240VAC (1400 W)",
-   "series_label": "Unified Computing System Adapters",
-   "action": "move",
-   "to": "servers-unified-computing",
-   "reason": "UCS 6536 / 6600 fabric interconnect accessory kit, fan module or power supply: goes with the fabric interconnect in servers-unified-computing (A.3 rule 1); filed here by the label 'Unified Computing System Adapters'"
-  },
-  {
-   "sku": "USB-X45-4GB-E",
-   "name": "Cisco Catalyst 4500 4 GB USB device for Supervisor 8-E (Future Roadmap)",
-   "series_label": "Network Modules",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 4500 Supervisor 8-E SD / USB storage: bound to the Catalyst 4500 (A.3 rule 1) — their spares SD-X45-2GB-E= / USB-X45-4GB-E= are already in switches Catalyst 4500 (X and X= split across categories); filed here by the label 'Network Modules'"
-  },
-  {
-   "sku": "WS-SVC-ASA-SM1",
-   "name": "Base ASA Services Module PID for K8/K9",
-   "series_label": "Services Modules",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
-  },
-  {
-   "sku": "WS-SVC-ASA-SM1-K7",
-   "name": "ASA Services Module for Catalyst 6500-E, NPE",
-   "series_label": "Services Modules",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
-  },
-  {
-   "sku": "WS-SVC-ASA-SM1-K7=",
-   "name": "ASA K7 Service Module for the Catalyst 6500-E, DES (Spare)",
-   "series_label": "Services Modules",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
-  },
-  {
-   "sku": "WS-SVC-ASA-SM1-K8",
-   "name": "ASA Services Module for Catalyst 6500-E, DES",
-   "series_label": "Services Modules",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
-  },
-  {
-   "sku": "WS-SVC-ASA-SM1-K8=",
-   "name": "ASA Services Module for Catalyst 6500-E, DES (spare)",
-   "series_label": "Services Modules",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
-  },
-  {
-   "sku": "WS-SVC-ASA-SM1-K9",
-   "name": "ASA Services Module for Catalyst 6500-E, 3DES/AES",
-   "series_label": "Services Modules",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
-  },
-  {
-   "sku": "WS-SVC-ASA-SM1-K9=",
-   "name": "ASA Services Module for Catalyst 6500-E, 3DES/AES (spare)",
-   "series_label": "Services Modules",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
-  },
-  {
-   "sku": "WS-SVC-ASA-SM1=",
-   "name": "ASA Services Module for Catalyst 6500-E K8/K9 (Spare)",
-   "series_label": "Services Modules",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
-  },
-  {
-   "sku": "WS-SVC-ASASM1B-K9",
-   "name": "ASA Services Module for Catalyst 6500-E, 3DES/AES",
-   "series_label": "Services Modules",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
-  },
-  {
-   "sku": "WS-SVC-IDS2-BUN-K9",
-   "name": "600M IDSM-2 Mod for Cat",
-   "series_label": "Services Modules",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
-  },
-  {
-   "sku": "WS-SVC-IDS2BUNK9=",
-   "name": "600M IDSM-2 Mod Spare",
-   "series_label": "Services Modules",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
-  },
-  {
-   "sku": "WS-SVC-NAM-3-K9",
-   "name": "Cisco Catalyst 6500 Series NAM-3",
-   "series_label": "Services Modules",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
-  },
-  {
-   "sku": "WS-SVC-NAM-3-K9=",
-   "name": "Cisco Catalyst 6500 Series NAM-3",
-   "series_label": "Services Modules",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
-  },
-  {
-   "sku": "WS-SVC-NAM3-6G-K9",
-   "name": "Cisco Catalyst 6500 Series Network Analysis Module (NAM-3)",
-   "series_label": "Services Modules",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
-  },
-  {
-   "sku": "WS-SVC-NAM3-6G-K9=",
-   "name": "Cisco Catalyst 6500 Series Network Analysis Module (NAM-3)",
-   "series_label": "Services Modules",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
-  },
-  {
-   "sku": "WS-SVC-NAM3KS2T-K9",
-   "name": "NAM-3 for Keystone Sup2T bundles",
-   "series_label": "Services Modules",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
-  },
-  {
-   "sku": "WS-SVC-WEBVPN-K9",
-   "name": "WebVPN Services Module for Cisco Catalyst 6500 Series and Cisco 7600 Series",
-   "series_label": "Services Modules",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
-  },
-  {
-   "sku": "WS-SVC-WEBVPN-K9=",
-   "name": "WebVPN Services Module (spare)",
-   "series_label": "Services Modules",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 6500 / 7600 service module or its memory / disk: platform-bound, kept with the platform (kind module)"
-  },
-  {
-   "sku": "WS-X4124-FX-MT=",
-   "name": "Catalyst 4500 FE Switching Module, 24- 100FX (MTRJ)(Spare)",
-   "series_label": "Line cards",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 4500 switching line card: bound to the Catalyst 4500-E chassis in switches (operator, layers round 3: WS-X4 → switches Catalyst 4500-E)"
-  },
-  {
-   "sku": "WS-X4124-RJ45=",
-   "name": "Catalyst 4500 10/100 Module, 24-Ports(RJ45)",
-   "series_label": "Line cards",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 4500 switching line card: bound to the Catalyst 4500-E chassis in switches (operator, layers round 3: WS-X4 → switches Catalyst 4500-E)"
-  },
-  {
-   "sku": "WS-X4148-FX-MT=",
-   "name": "Catalyst 4500 FE Switching Module, 48‑100FX MMF(MTRJ)(Spare)",
-   "series_label": "Line cards",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 4500 switching line card: bound to the Catalyst 4500-E chassis in switches (operator, layers round 3: WS-X4 → switches Catalyst 4500-E)"
-  },
-  {
-   "sku": "WS-X4148-RJ",
-   "name": "Cisco Catalyst 4500 10/100 Auto Module, 48-Port (RJ-45)",
-   "series_label": "Line cards",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 4500 switching line card: bound to the Catalyst 4500-E chassis in switches (operator, layers round 3: WS-X4 → switches Catalyst 4500-E)"
-  },
-  {
-   "sku": "WS-X4148-RJ21=",
-   "name": "Catalyst 4500 10/100 Module, 48-Ports Telco (4xRJ21)(spare)",
-   "series_label": "Line cards",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 4500 switching line card: bound to the Catalyst 4500-E chassis in switches (operator, layers round 3: WS-X4 → switches Catalyst 4500-E)"
-  },
-  {
-   "sku": "WS-X4148-RJ=",
-   "name": "Catalyst 4500 10/100 Auto Module, 48-Ports (RJ-45) (Spare)",
-   "series_label": "Line cards",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 4500 switching line card: bound to the Catalyst 4500-E chassis in switches (operator, layers round 3: WS-X4 → switches Catalyst 4500-E)"
-  },
-  {
-   "sku": "WS-X4224-RJ45V=",
-   "name": "Catalyst 4500 PoE 802.3af 10/100 24-ports ( RJ45)",
-   "series_label": "Line cards",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 4500 switching line card: bound to the Catalyst 4500-E chassis in switches (operator, layers round 3: WS-X4 → switches Catalyst 4500-E)"
-  },
-  {
-   "sku": "WS-X4232-GB-RJ=",
-   "name": "Catalyst 4500 32-10/100 (RJ-45),2-GE(GBIC)",
-   "series_label": "Line cards",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 4500 switching line card: bound to the Catalyst 4500-E chassis in switches (operator, layers round 3: WS-X4 → switches Catalyst 4500-E)"
-  },
-  {
-   "sku": "WS-X4248-FE-SFP",
-   "name": "Cisco Catalyst 4500 Fast Ethernet Switching Module, 48-port 100BASE-X (SFP)",
-   "series_label": "Line cards",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 4500 switching line card: bound to the Catalyst 4500-E chassis in switches (operator, layers round 3: WS-X4 → switches Catalyst 4500-E)"
-  },
-  {
-   "sku": "WS-X4248-FX-MT",
-   "name": "Cisco WS-X4248-FX-MT",
-   "series_label": "Line cards",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 4500 switching line card: bound to the Catalyst 4500-E chassis in switches (operator, layers round 3: WS-X4 → switches Catalyst 4500-E)"
-  },
-  {
-   "sku": "WS-X4248-RJ21V=",
-   "name": "Catalyst 4500 PoE 802.3af 10/100, 48-Ports (RJ21)",
-   "series_label": "Line cards",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 4500 switching line card: bound to the Catalyst 4500-E chassis in switches (operator, layers round 3: WS-X4 → switches Catalyst 4500-E)"
-  },
-  {
-   "sku": "WS-X4248-RJ45V",
-   "name": "Cisco Catalyst 4500 PoE 802.3af 10/100, 48-port (RJ-45)",
-   "series_label": "Line cards",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 4500 switching line card: bound to the Catalyst 4500-E chassis in switches (operator, layers round 3: WS-X4 → switches Catalyst 4500-E)"
-  },
-  {
-   "sku": "WS-X4248-RJ45V=",
-   "name": "Catalyst 4500 PoE802.3af 10/100, 48-Ports (RJ45)",
-   "series_label": "Line cards",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 4500 switching line card: bound to the Catalyst 4500-E chassis in switches (operator, layers round 3: WS-X4 → switches Catalyst 4500-E)"
-  },
-  {
-   "sku": "WS-X4302-GB=",
-   "name": "Catalyst 4500 Gigabit Ethernet Module, 2-Ports (GBIC)",
-   "series_label": "Line cards",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 4500 switching line card: bound to the Catalyst 4500-E chassis in switches (operator, layers round 3: WS-X4 → switches Catalyst 4500-E)"
-  },
-  {
-   "sku": "WS-X4306-GB",
-   "name": "Cisco Catalyst 4500 Gigabit Ethernet Module, 6-port (GBIC)",
-   "series_label": "Line cards",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 4500 switching line card: bound to the Catalyst 4500-E chassis in switches (operator, layers round 3: WS-X4 → switches Catalyst 4500-E)"
-  },
-  {
-   "sku": "WS-X4306-GB=",
-   "name": "Catalyst 4500 Gigabit Ethernet Module, 6-Ports (GBIC) (Spare)",
-   "series_label": "Line cards",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 4500 switching line card: bound to the Catalyst 4500-E chassis in switches (operator, layers round 3: WS-X4 → switches Catalyst 4500-E)"
-  },
-  {
-   "sku": "WS-X4418-GB",
-   "name": "Cisco Catalyst 4500 Gigabit Ethernet Module, server switching 18 ports (GBIC)",
-   "series_label": "Line cards",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 4500 switching line card: bound to the Catalyst 4500-E chassis in switches (operator, layers round 3: WS-X4 → switches Catalyst 4500-E)"
-  },
-  {
-   "sku": "WS-X4424-GB-RJ45=",
-   "name": "Catalyst 4500 24-port 10/100/1000 Module (RJ45) (Spare)",
-   "series_label": "Line cards",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 4500 switching line card: bound to the Catalyst 4500-E chassis in switches (operator, layers round 3: WS-X4 → switches Catalyst 4500-E)"
-  },
-  {
-   "sku": "WS-X4448-GB-LX",
-   "name": "Cisco WS-X4448-GB-LX",
-   "series_label": "Line cards",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 4500 switching line card: bound to the Catalyst 4500-E chassis in switches (operator, layers round 3: WS-X4 → switches Catalyst 4500-E)"
-  },
-  {
-   "sku": "WS-X4448-GB-SFP",
-   "name": "Cisco Catalyst 4500 Gigabit Ethernet Module, 48-port 1000BASE-X (optional SFPs)",
-   "series_label": "Line cards",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 4500 switching line card: bound to the Catalyst 4500-E chassis in switches (operator, layers round 3: WS-X4 → switches Catalyst 4500-E)"
-  },
-  {
-   "sku": "WS-X4506-GB-T",
-   "name": "Cisco Catalyst 4500 Gigabit Ethernet Module, 6-port 10/100/1000 802.3af PoE or 1000BASE-X (SFP)",
-   "series_label": "Line cards",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 4500 switching line card: bound to the Catalyst 4500-E chassis in switches (operator, layers round 3: WS-X4 → switches Catalyst 4500-E)"
-  },
-  {
-   "sku": "WS-X4524-GB-RJ45V",
-   "name": "Cisco Catalyst 4500 PoE 802.3af 10/100/1000, 24-port (RJ-45)",
-   "series_label": "Line cards",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 4500 switching line card: bound to the Catalyst 4500-E chassis in switches (operator, layers round 3: WS-X4 → switches Catalyst 4500-E)"
-  },
-  {
-   "sku": "WS-X4524-GB-RJ45V=",
-   "name": "Catalyst 4500 PoE 802.3af 10/ 100/1000 24-ports (RJ45)",
-   "series_label": "Line cards",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 4500 switching line card: bound to the Catalyst 4500-E chassis in switches (operator, layers round 3: WS-X4 → switches Catalyst 4500-E)"
-  },
-  {
-   "sku": "WS-X4548-GB-RJ45",
-   "name": "Cisco Catalyst 4500 Enhanced Module, 48-port 10/100/1000 (RJ-45)",
-   "series_label": "Line cards",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 4500 switching line card: bound to the Catalyst 4500-E chassis in switches (operator, layers round 3: WS-X4 → switches Catalyst 4500-E)"
-  },
-  {
-   "sku": "WS-X4548-GB-RJ45=",
-   "name": "Catalyst 4500 Enhanced 48-Port 10/100/1000 Base-T (RJ-45)",
-   "series_label": "Line cards",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 4500 switching line card: bound to the Catalyst 4500-E chassis in switches (operator, layers round 3: WS-X4 → switches Catalyst 4500-E)"
-  },
-  {
-   "sku": "WS-X4548-GB-RJ45V",
-   "name": "Cisco Catalyst 4500 PoE IEEE 802.3af 10/100/1000, 48 Ports (RJ-45)",
-   "series_label": "Line cards",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 4500 switching line card: bound to the Catalyst 4500-E chassis in switches (operator, layers round 3: WS-X4 → switches Catalyst 4500-E)"
-  },
-  {
-   "sku": "WS-X4548-RJ45V+",
-   "name": "Cisco Catalyst 4500 48-Port 802.3af PoE and 802.3at PoEP 10/100/1000 (RJ-45)",
-   "series_label": "Line cards",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 4500 switching line card: bound to the Catalyst 4500-E chassis in switches (operator, layers round 3: WS-X4 → switches Catalyst 4500-E)"
-  },
-  {
-   "sku": "WS-X4548-RJ45V+=",
-   "name": "Catalyst 4500 PoE+ Ready 10/100/1000, 48-Port (RJ45)",
-   "series_label": "Line cards",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 4500 switching line card: bound to the Catalyst 4500-E chassis in switches (operator, layers round 3: WS-X4 → switches Catalyst 4500-E)"
-  },
-  {
-   "sku": "WS-X4648-RJ45V+E=",
-   "name": "Catalyst 4500 E-Series 48‑Port PoE+ Ready 10/100/1000(RJ45)",
-   "series_label": "Line cards",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 4500 switching line card: bound to the Catalyst 4500-E chassis in switches (operator, layers round 3: WS-X4 → switches Catalyst 4500-E)"
   },
   {
    "sku": "XG74222BS0001",

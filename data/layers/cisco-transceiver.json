@@ -1,11 +1,15 @@
 {
  "vendor": "cisco",
  "category": "transceiver",
- "built_at": "2026-09-15T22:52:45.460Z",
- "commit": "9a734f7ba27364704867e3f28204553e1ab21277",
- "uncommitted_rule_files": [],
+ "built_at": "2026-09-15T23:24:29.107Z",
+ "commit": "daa609b5f1a24431ec097b320227e7df1b36b063",
+ "uncommitted_rule_files": [
+  "data/reference/family-carriers.json",
+  "data/reference/layers-cross-claims.json",
+  "scripts/build-layers.mts"
+ ],
  "mapping_file": "data/reference/product-lines/cisco-transceiver.json",
- "parts": 2107,
+ "parts": 2158,
  "lines": [
   {
    "line": "Direct-attach and active optical cables",
@@ -68,32 +72,30 @@
   },
   {
    "line": "Cable access and PON optics",
-   "parts": 129,
+   "parts": 186,
    "series": [
     {
      "series": "Remote PHY SFP+ optics",
      "family": null,
      "role": null,
      "note": "decided home (operator, layers round 3): the 120 RPHY-S10G-<reach>-<channel>= rows are transceivers — Cisco's own bulletin calls them 'Remote PHY SFPs'; the Remote PHY shelves, RPDs and cabling stay in video. The 57 video rows carry move plans in (run after the re-audit); video's ^RPHY rule is recorded as too broad and fenced in the video round",
-     "parts": 63,
+     "parts": 120,
      "kinds": {
-      "pluggable": 63
+      "pluggable": 120
      },
      "roles": {},
      "samples": [
-      "RPHY-S10G-20K-400= — Cisco RPHY-S10G-20K-400=",
-      "RPHY-S10G-20K-410= — Cisco RPHY-S10G-20K-410=",
-      "RPHY-S10G-20K-420= — Cisco RPHY-S10G-20K-420=",
-      "RPHY-S10G-20K-430= — Cisco RPHY-S10G-20K-430=",
-      "RPHY-S10G-20K-440= — Cisco RPHY-S10G-20K-440=",
-      "RPHY-S10G-20K-450= — Cisco RPHY-S10G-20K-450="
+      "RPHY-S10G-20K-200= — Cisco RPHY-S10G-20K-200=",
+      "RPHY-S10G-20K-210= — Cisco RPHY-S10G-20K-210=",
+      "RPHY-S10G-20K-220= — Cisco RPHY-S10G-20K-220=",
+      "RPHY-S10G-20K-230= — Cisco RPHY-S10G-20K-230=",
+      "RPHY-S10G-20K-240= — Cisco RPHY-S10G-20K-240=",
+      "RPHY-S10G-20K-250= — Cisco RPHY-S10G-20K-250="
      ],
      "rules": {
-      "sku": 63
+      "sku": 120
      },
-     "pending_in": {
-      "video": 57
-     }
+     "pending_in": {}
     },
     {
      "series": "XFP-RF QAM transmitters (Prisma)",
@@ -147,16 +149,16 @@
   },
   {
    "line": "Fibre Channel transceivers (MDS)",
-   "parts": 99,
+   "parts": 100,
    "series": [
     {
      "series": "MDS Fibre Channel SFP / X2 / CWDM",
      "family": null,
      "role": null,
      "note": "^DS-FC-SW places DS-FC-SW-4PK= (a 4-pack of FC SFPs) planned in from storage-networking. The DS-CWDM rule refuses the MDS CWDM passives (DS-CWDM-MUX8A=, DS-CWDMOADM4A=, DS-CWDMCHASSIS=), which are planned to optical-networking and must not fall back to an optic series if a plan is withdrawn (reviewer A-11, layers round 3)",
-     "parts": 99,
+     "parts": 100,
      "kinds": {
-      "pluggable": 99
+      "pluggable": 100
      },
      "roles": {},
      "samples": [
@@ -168,29 +170,27 @@
       "DS-CWDM-1570= — Cisco CWDM 1570 NM Gigabit Ethernet and 1/2 Gbps Fibre Chann"
      ],
      "rules": {
-      "sku": 99
+      "sku": 100
      },
-     "pending_in": {
-      "storage-networking": 1
-     }
+     "pending_in": {}
     }
    ]
   },
   {
    "line": "Optical networking pluggables (ONS / NCS 2000)",
-   "parts": 644,
+   "parts": 670,
    "series": [
     {
      "series": "ONS 15454 / NCS 2000 pluggables",
      "family": null,
      "role": null,
      "note": "the ONS rule names the optic and cable-assembly tokens opticalKind names, not every ONS- SKU: the bare prefix claimed the patch cord ONS-CAB-CS-LC-5= in interfaces-modules (reviewer A-11, layers round 3). The twelve 15454-SFP / 15454E-SFP rows are planned to optical-networking (operator: ^15454 goes with the ONS 15454 platform, and the asymmetry with the ONS-prefixed optics that stay here is intended); the 15216-GBIC rows sit in GBIC (legacy)",
-     "parts": 644,
+     "parts": 670,
      "kinds": {
-      "pluggable": 624,
+      "pluggable": 633,
+      "tunable": 23,
       "cable": 3,
-      "tunable": 8,
-      "bidi": 9
+      "bidi": 11
      },
      "roles": {},
      "samples": [
@@ -198,17 +198,13 @@
       "15327-SFP-LC-LX=EOS — 1000BASE-LX LC, SFP",
       "15327-SFP-LC-SX= — Cisco 15327-SFP-LC-SX=",
       "15327-SFP-LC-SX=EOS — 1000BASE-SX LC, SFP",
-      "ONS-CC-100G-LR4 — Multi Rate CFP - LR4 - Commercial temp",
-      "ONS-CC-100G-LR4= — 100GE Multi-Rate CFP – LR4 – Commercial temp"
+      "ONS-C2-WDM-DE-1HL — 200G, 100G, WDM Digital CFP2 pluggable Licensed 100G only",
+      "ONS-C2-WDM-DE-1HL= — 200G, 100G, WDM Digital CFP2 pluggable Licensed 100G only"
      ],
      "rules": {
-      "sku": 644
+      "sku": 670
      },
-     "pending_in": {
-      "routers": 2,
-      "optical-networking": 18,
-      "switches": 6
-     }
+     "pending_in": {}
     }
    ]
   },
@@ -325,7 +321,7 @@
   },
   {
    "line": "Ethernet transceivers",
-   "parts": 500,
+   "parts": 507,
    "series": [
     {
      "series": "800G OSFP / QSFP-DD800",
@@ -404,9 +400,9 @@
      "family": null,
      "role": null,
      "note": "was '100G CFP / CFP2 / CPAK / CXP'; the series also holds the CFP-40G modules and the CPAK 10x10G. ^NCS-FAB-OPT (layers round 3, pre-ruling C4): NCS-FAB-OPT(=) \"Bundle of 96 CXP-100G-SR12\", planned in from interfaces-modules — kind pluggable at the unit, pack quantity 96 parked with the other packs (decision 6)",
-     "parts": 36,
+     "parts": 38,
      "kinds": {
-      "pluggable": 36
+      "pluggable": 38
      },
      "roles": {},
      "samples": [
@@ -418,11 +414,9 @@
       "CFP-100G-SR10= — 100GBASE-SR10 CFP transceiver, 100m OM3 MMF"
      ],
      "rules": {
-      "sku": 36
+      "sku": 38
      },
-     "pending_in": {
-      "interfaces-modules": 2
-     }
+     "pending_in": {}
     },
     {
      "series": "50G SFP56",
@@ -453,9 +447,9 @@
      "family": null,
      "role": null,
      "note": null,
-     "parts": 57,
+     "parts": 58,
      "kinds": {
-      "pluggable": 28,
+      "pluggable": 29,
       "breakout-cable": 29
      },
      "roles": {},
@@ -468,11 +462,9 @@
       "QSFP-40G-CSR4= — QSFP 4x10GBASE-SR transceiver module, MPO, 300M, Spare"
      ],
      "rules": {
-      "sku": 57
+      "sku": 58
      },
-     "pending_in": {
-      "switches": 1
-     }
+     "pending_in": {}
     },
     {
      "series": "25G SFP28",
@@ -503,9 +495,9 @@
      "family": null,
      "role": null,
      "note": "CSP-SFP-1WSR / 1WLR are 10GE SFP+ for the CSP 2100's Intel NICs (were in 1G by prefix); EXP-10GSFP places the Expressway SFP+ planned in from unified-communications (layers round 3)",
-     "parts": 53,
+     "parts": 55,
      "kinds": {
-      "pluggable": 41,
+      "pluggable": 43,
       "bidi": 12
      },
      "roles": {},
@@ -515,14 +507,12 @@
       "CSP-SFP-1WLR — SFP+ for Intel X520, 10GE, LR Optical",
       "CSP-SFP-1WSR — SFP+ for Intel X520 & XL710, 10GE, SR Optical",
       "CSP-SFP-1WSR= — SFP+ for Intel X520 & XL710, 10GE, SR Optical",
-      "FET-10G — Cisco FET-10G 10GBASE-SR (FET) SFP+-Modul — FET (Fabric Exte"
+      "EXP-10GSFP-SR-MP — 10 Gigabit Ethernet SFP Module 10GBASE-SR SFP+ SR Optics"
      ],
      "rules": {
-      "sku": 53
+      "sku": 55
      },
-     "pending_in": {
-      "unified-communications": 2
-     }
+     "pending_in": {}
     },
     {
      "series": "10G X2 / XENPAK / XFP (legacy)",
@@ -552,9 +542,9 @@
      "family": null,
      "role": null,
      "note": null,
-     "parts": 115,
+     "parts": 116,
      "kinds": {
-      "pluggable": 86,
+      "pluggable": 87,
       "bidi": 29
      },
      "roles": {},
@@ -567,20 +557,18 @@
       "GLC-2BX-D-I — Cisco GLC-2BX-D-I 2-Kanal 1000BASE-BX10-D Compact SFP — BiDi"
      ],
      "rules": {
-      "sku": 115
+      "sku": 116
      },
-     "pending_in": {
-      "switches": 1
-     }
+     "pending_in": {}
     },
     {
      "series": "GBIC (legacy)",
      "family": null,
      "role": null,
      "note": "every GBIC form-factor optic outside a platform line: the 1000BASE GBICs WS-G548x and the WDM GBICs DWDM-GBIC (32), CWDM-GBIC (8) and 15216-GBIC (2) (operator, layers round 3). The bare GBIC token took Catalyst 6500 GBIC line cards (review record) and is gone. ONS-GC-GE-* GBICs stay with the ONS / NCS 2000 platform line",
-     "parts": 47,
+     "parts": 48,
      "kinds": {
-      "pluggable": 47
+      "pluggable": 48
      },
      "roles": {},
      "samples": [
@@ -592,11 +580,9 @@
       "CWDM-GBIC-1530 — 1000BASE-CWDM GBIC 1530 nm (green)"
      ],
      "rules": {
-      "sku": 47
+      "sku": 48
      },
-     "pending_in": {
-      "switches": 1
-     }
+     "pending_in": {}
     }
    ]
   },
@@ -634,300 +620,12 @@
  "not_this_category": [],
  "pending_plans": [
   {
-   "sku": "15454-SFP-200=",
-   "name": "SFP-ESCON - 1310 nm - MM - LC",
-   "series_label": "Network Convergence System 2000 Series",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "ONS 15454 SFP (Ethernet / FC / ESCON / OC-n) bound to the ONS 15454 MSTP platform — operator decision, layers round 3: the ^15454 SKUs go to optical-networking as plans, not as a cross-claim entry"
-  },
-  {
-   "sku": "15454-SFP-GE+-LX=",
-   "name": "Cisco 15454-SFP-GE+-LX=",
-   "series_label": "Network Convergence System 2000 Series",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "ONS 15454 SFP (Ethernet / FC / ESCON / OC-n) bound to the ONS 15454 MSTP platform — operator decision, layers round 3: the ^15454 SKUs go to optical-networking as plans, not as a cross-claim entry"
-  },
-  {
-   "sku": "15454-SFP-GE+-LX=EOS",
-   "name": "SFP - GE/1G-FC/2G-FC - 1310 nm - MM - LC",
-   "series_label": "Network Convergence System 2000 Series",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "ONS 15454 SFP (Ethernet / FC / ESCON / OC-n) bound to the ONS 15454 MSTP platform — operator decision, layers round 3: the ^15454 SKUs go to optical-networking as plans, not as a cross-claim entry"
-  },
-  {
-   "sku": "15454-SFP-GEFC-SX=",
-   "name": "Cisco 15454-SFP-GEFC-SX=",
-   "series_label": "Network Convergence System 2000 Series",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "ONS 15454 SFP (Ethernet / FC / ESCON / OC-n) bound to the ONS 15454 MSTP platform — operator decision, layers round 3: the ^15454 SKUs go to optical-networking as plans, not as a cross-claim entry"
-  },
-  {
-   "sku": "15454-SFP-GEFC-SX=EOS",
-   "name": "SFP - GE/1G-FC/2G-FC - 850 nm - MM - LC",
-   "series_label": "Network Convergence System 2000 Series",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "ONS 15454 SFP (Ethernet / FC / ESCON / OC-n) bound to the ONS 15454 MSTP platform — operator decision, layers round 3: the ^15454 SKUs go to optical-networking as plans, not as a cross-claim entry"
-  },
-  {
-   "sku": "15454-SFP-LC-LX/LH=",
-   "name": "Cisco 15454-SFP-LC-LX/LH=",
-   "series_label": "Network Convergence System 2000 Series",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "ONS 15454 SFP (Ethernet / FC / ESCON / OC-n) bound to the ONS 15454 MSTP platform — operator decision, layers round 3: the ^15454 SKUs go to optical-networking as plans, not as a cross-claim entry"
-  },
-  {
-   "sku": "15454-SFP-LC-LX=",
-   "name": "1000BASE LX LC, SFP",
-   "series_label": "Network Convergence System 2000 Series",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "ONS 15454 SFP (Ethernet / FC / ESCON / OC-n) bound to the ONS 15454 MSTP platform — operator decision, layers round 3: the ^15454 SKUs go to optical-networking as plans, not as a cross-claim entry"
-  },
-  {
-   "sku": "15454-SFP-LC-SX=",
-   "name": "1000BASE-ASESX LC, SFP",
-   "series_label": "Network Convergence System 2000 Series",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "ONS 15454 SFP (Ethernet / FC / ESCON / OC-n) bound to the ONS 15454 MSTP platform — operator decision, layers round 3: the ^15454 SKUs go to optical-networking as plans, not as a cross-claim entry"
-  },
-  {
-   "sku": "15454-SFP-OC48-IR=",
-   "name": "Cisco 15454-SFP-OC48-IR=",
-   "series_label": "Network Convergence System 2000 Series",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "ONS 15454 SFP (Ethernet / FC / ESCON / OC-n) bound to the ONS 15454 MSTP platform — operator decision, layers round 3: the ^15454 SKUs go to optical-networking as plans, not as a cross-claim entry"
-  },
-  {
-   "sku": "15454-SFP12-4-IR=",
-   "name": "Cisco 15454-SFP12-4-IR=",
-   "series_label": "Network Convergence System 2000 Series",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "ONS 15454 SFP (Ethernet / FC / ESCON / OC-n) bound to the ONS 15454 MSTP platform — operator decision, layers round 3: the ^15454 SKUs go to optical-networking as plans, not as a cross-claim entry"
-  },
-  {
-   "sku": "15454-SFP3-1-IR=",
-   "name": "Cisco 15454-SFP3-1-IR=",
-   "series_label": "Network Convergence System 2000 Series",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "ONS 15454 SFP (Ethernet / FC / ESCON / OC-n) bound to the ONS 15454 MSTP platform — operator decision, layers round 3: the ^15454 SKUs go to optical-networking as plans, not as a cross-claim entry"
-  },
-  {
-   "sku": "15454E-SFP-L.16.1=",
-   "name": "SFP - OC-48/STM-16 - 1310nm SH - SM - LC",
-   "series_label": "ONS 15454 Series Multiservice Transport Platforms",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "ONS 15454 SFP (Ethernet / FC / ESCON / OC-n) bound to the ONS 15454 MSTP platform — operator decision, layers round 3: the ^15454 SKUs go to optical-networking as plans, not as a cross-claim entry"
-  },
-  {
-   "sku": "CWDM-MUX-4-SF1=",
-   "name": "Single Fiber 4-Channel Mux/Demux",
-   "series_label": "Transceiver Modules",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "a passive CWDM mux/demux, OADM plug-in or its chassis — no transceiver kind describes it; optical-networking holds the `mux` kind and its cup set"
-  },
-  {
-   "sku": "CWDM-MUX-4-SF2=",
-   "name": "Single Fiber 4-Channel Mux/Demux",
-   "series_label": "Transceiver Modules",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "a passive CWDM mux/demux, OADM plug-in or its chassis — no transceiver kind describes it; optical-networking holds the `mux` kind and its cup set"
-  },
-  {
-   "sku": "CWDM-MUX-4=",
-   "name": "4-Wavelength Add/Drop Mux for CWDM-CHASSIS-2=",
-   "series_label": "3750",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "a passive CWDM mux/demux, OADM plug-in or its chassis — no transceiver kind describes it; optical-networking holds the `mux` kind and its cup set"
-  },
-  {
-   "sku": "CWDM-MUX-8=",
-   "name": "8-Wavelength Mux/Demux Plug-in Module for CWDM-CHASSIS-2=",
-   "series_label": "3750",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "a passive CWDM mux/demux, OADM plug-in or its chassis — no transceiver kind describes it; optical-networking holds the `mux` kind and its cup set"
-  },
-  {
-   "sku": "CWDM-MUX-AD-1470=",
-   "name": "1470 nm Add/Drop Mux Plug-in Module for CWDM-CHASSIS-2=",
-   "series_label": "3750",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "a passive CWDM mux/demux, OADM plug-in or its chassis — no transceiver kind describes it; optical-networking holds the `mux` kind and its cup set"
-  },
-  {
-   "sku": "CWDM-MUX-AD-1490=",
-   "name": "1490 nm Add/Drop Mux Plug-in Module for CWDM-CHASSIS-2=",
-   "series_label": "3750",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "a passive CWDM mux/demux, OADM plug-in or its chassis — no transceiver kind describes it; optical-networking holds the `mux` kind and its cup set"
-  },
-  {
-   "sku": "CWDM-MUX-AD-1510=",
-   "name": "1510 nm Add/Drop Mux Plug-in Module for CWDM-CHASSIS-2=",
-   "series_label": "3750",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "a passive CWDM mux/demux, OADM plug-in or its chassis — no transceiver kind describes it; optical-networking holds the `mux` kind and its cup set"
-  },
-  {
-   "sku": "CWDM-MUX-AD-1530=",
-   "name": "1530 nm Add/Drop Mux Plug-in Module for CWDM-CHASSIS-2=",
-   "series_label": "3750",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "a passive CWDM mux/demux, OADM plug-in or its chassis — no transceiver kind describes it; optical-networking holds the `mux` kind and its cup set"
-  },
-  {
-   "sku": "CWDM-MUX-AD-1550=",
-   "name": "1550 nm Add/Drop Mux Plug-in Module for CWDM-CHASSIS-2=",
-   "series_label": "3750",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "a passive CWDM mux/demux, OADM plug-in or its chassis — no transceiver kind describes it; optical-networking holds the `mux` kind and its cup set"
-  },
-  {
-   "sku": "CWDM-MUX-AD-1570=",
-   "name": "1570 nm Add/Drop Mux Plug-in Module for CWDM-CHASSIS-2=",
-   "series_label": "3750",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "a passive CWDM mux/demux, OADM plug-in or its chassis — no transceiver kind describes it; optical-networking holds the `mux` kind and its cup set"
-  },
-  {
-   "sku": "CWDM-MUX-AD-1590=",
-   "name": "1590 nm Add/Drop Mux Plug-in Module for CWDM-CHASSIS-2=",
-   "series_label": "3750",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "a passive CWDM mux/demux, OADM plug-in or its chassis — no transceiver kind describes it; optical-networking holds the `mux` kind and its cup set"
-  },
-  {
-   "sku": "CWDM-MUX-AD-1610=",
-   "name": "1610 nm Add/Drop Mux Plug-in Module for CWDM-CHASSIS-2=",
-   "series_label": "3750",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "a passive CWDM mux/demux, OADM plug-in or its chassis — no transceiver kind describes it; optical-networking holds the `mux` kind and its cup set"
-  },
-  {
-   "sku": "CWDM-MUX8A=",
-   "name": "Cisco CWDM-MUX8A=",
-   "series_label": "3750",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "a passive CWDM mux/demux, OADM plug-in or its chassis — no transceiver kind describes it; optical-networking holds the `mux` kind and its cup set"
-  },
-  {
-   "sku": "CWDM-OADM1-1470=",
-   "name": "Dual single channel OADM Module ( 1470nm)",
-   "series_label": "Transceiver Modules",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "a passive CWDM mux/demux, OADM plug-in or its chassis — no transceiver kind describes it; optical-networking holds the `mux` kind and its cup set"
-  },
-  {
-   "sku": "CWDM-OADM1-1490=",
-   "name": "Dual single channel OADM Module ( 1490nm)",
-   "series_label": "Transceiver Modules",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "a passive CWDM mux/demux, OADM plug-in or its chassis — no transceiver kind describes it; optical-networking holds the `mux` kind and its cup set"
-  },
-  {
-   "sku": "CWDM-OADM1-1510=",
-   "name": "Dual single channel OADM Module ( 1510nm)",
-   "series_label": "Transceiver Modules",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "a passive CWDM mux/demux, OADM plug-in or its chassis — no transceiver kind describes it; optical-networking holds the `mux` kind and its cup set"
-  },
-  {
-   "sku": "CWDM-OADM1-1530=",
-   "name": "Dual single channel OADM Module ( 1530nm)",
-   "series_label": "Transceiver Modules",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "a passive CWDM mux/demux, OADM plug-in or its chassis — no transceiver kind describes it; optical-networking holds the `mux` kind and its cup set"
-  },
-  {
-   "sku": "CWDM-OADM1-1550=",
-   "name": "Dual single channel OADM Module ( 1550nm)",
-   "series_label": "Transceiver Modules",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "a passive CWDM mux/demux, OADM plug-in or its chassis — no transceiver kind describes it; optical-networking holds the `mux` kind and its cup set"
-  },
-  {
-   "sku": "CWDM-OADM1-1570=",
-   "name": "Dual single channel OADM Module ( 1570nm)",
-   "series_label": "Transceiver Modules",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "a passive CWDM mux/demux, OADM plug-in or its chassis — no transceiver kind describes it; optical-networking holds the `mux` kind and its cup set"
-  },
-  {
-   "sku": "CWDM-OADM1-1590=",
-   "name": "Dual single channel OADM Module ( 1590nm)",
-   "series_label": "Transceiver Modules",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "a passive CWDM mux/demux, OADM plug-in or its chassis — no transceiver kind describes it; optical-networking holds the `mux` kind and its cup set"
-  },
-  {
-   "sku": "CWDM-OADM1-1610=",
-   "name": "Dual single channel OADM Module ( 1610nm)",
-   "series_label": "Transceiver Modules",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "a passive CWDM mux/demux, OADM plug-in or its chassis — no transceiver kind describes it; optical-networking holds the `mux` kind and its cup set"
-  },
-  {
-   "sku": "CWDM-OADM4-1=",
-   "name": "4-channels CWDM OADM Module ( 1470, 1490, 1510, 1530)",
-   "series_label": "Transceiver Modules",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "a passive CWDM mux/demux, OADM plug-in or its chassis — no transceiver kind describes it; optical-networking holds the `mux` kind and its cup set"
-  },
-  {
-   "sku": "CWDM-OADM4-2=",
-   "name": "4-channels CWDM OADM Module ( 1550, 1570, 1590, 16100)",
-   "series_label": "Transceiver Modules",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "a passive CWDM mux/demux, OADM plug-in or its chassis — no transceiver kind describes it; optical-networking holds the `mux` kind and its cup set"
-  },
-  {
    "sku": "CWDM-SFP-1xxx=",
    "name": "Cisco CWDM-SFP-1xxx=",
    "series_label": "Nexus 7000",
    "action": "class",
    "to": "non_product",
    "reason": "channel placeholder: not an orderable PID (the datasheet-cell rule, extended to three placeholder shapes — operator, layers round 3)"
-  },
-  {
-   "sku": "DS-CWDM-MUX8A=",
-   "name": "8-channel multiplexer/demultiplexer",
-   "series_label": "MDS 9500 Series Multilayer Directors",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "a passive CWDM mux/demux, OADM plug-in or its chassis — no transceiver kind describes it; optical-networking holds the `mux` kind and its cup set"
   },
   {
    "sku": "DS-CWDM4GXXXX=",
@@ -944,38 +642,6 @@
    "action": "class",
    "to": "non_product",
    "reason": "channel placeholder: not an orderable PID (the datasheet-cell rule, extended to three placeholder shapes — operator, layers round 3)"
-  },
-  {
-   "sku": "DS-CWDMCHASSIS=",
-   "name": "2-slot chassis for Cisco OADM and multiplexer/demultiplexer",
-   "series_label": "MDS 9500 Series Multilayer Directors",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "a passive CWDM mux/demux, OADM plug-in or its chassis — no transceiver kind describes it; optical-networking holds the `mux` kind and its cup set"
-  },
-  {
-   "sku": "DS-CWDMOADM4A=",
-   "name": "4-channel (1470, 1490, 1510, and 1530 nm) optical add/drop multiplexer OADM",
-   "series_label": "MDS 9500 Series Multilayer Directors",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "a passive CWDM mux/demux, OADM plug-in or its chassis — no transceiver kind describes it; optical-networking holds the `mux` kind and its cup set"
-  },
-  {
-   "sku": "DS-CWDMOADM4B=",
-   "name": "4-channel (1550, 1570, 1590, and 1610 nm) optical add/drop multiplexer OADM",
-   "series_label": "MDS 9500 Series Multilayer Directors",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "a passive CWDM mux/demux, OADM plug-in or its chassis — no transceiver kind describes it; optical-networking holds the `mux` kind and its cup set"
-  },
-  {
-   "sku": "DS-CWDMOADM4x=",
-   "name": "Cisco DS-CWDMOADM4x=",
-   "series_label": "MDS 9500 Series Multilayer Directors",
-   "action": "move",
-   "to": "optical-networking",
-   "reason": "a passive CWDM mux/demux, OADM plug-in or its chassis — no transceiver kind describes it; optical-networking holds the `mux` kind and its cup set"
   },
   {
    "sku": "DS-SFP-10GE-LR=SFP-10G-LR=",

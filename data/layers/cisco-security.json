@@ -1,11 +1,15 @@
 {
  "vendor": "cisco",
  "category": "security",
- "built_at": "2026-09-15T22:52:45.599Z",
- "commit": "9a734f7ba27364704867e3f28204553e1ab21277",
- "uncommitted_rule_files": [],
+ "built_at": "2026-09-15T23:24:29.218Z",
+ "commit": "daa609b5f1a24431ec097b320227e7df1b36b063",
+ "uncommitted_rule_files": [
+  "data/reference/family-carriers.json",
+  "data/reference/layers-cross-claims.json",
+  "scripts/build-layers.mts"
+ ],
  "mapping_file": "data/reference/product-lines/cisco-security.json",
- "parts": 1980,
+ "parts": 1993,
  "lines": [
   {
    "line": "Secure Firewall and Firepower",
@@ -324,7 +328,7 @@
   },
   {
    "line": "ASA and ISA",
-   "parts": 423,
+   "parts": 447,
    "series": [
     {
      "series": "ASA 5585-X",
@@ -412,9 +416,9 @@
      "family": null,
      "role": null,
      "note": null,
-     "parts": 65,
+     "parts": 79,
      "kinds": {
-      "firewall": 58,
+      "firewall": 72,
       "accessory": 2,
       "memory": 1,
       "power": 2,
@@ -422,19 +426,17 @@
      },
      "roles": {},
      "samples": [
+      "ASA5505-50-AIP5-K9 — Cisco ASA 5505 50-User Adaptive Security Appliance with AIP-",
       "ASA5505-50-BUN-K8 — ASA 5505 Appliance with SW, 50 Users, 8 ports, DES",
       "ASA5505-50-BUN-K9 — Cisco ASA 5505 50-User Bundle; includes 8-port Fast Ethernet",
       "ASA5505-BUN-K9 — Cisco ASA 5505 10-User Bundle; includes 8-port Fast Ethernet",
       "ASA5505-DISTI-512= — 512MB Memory for Cisco ASA 5505",
-      "ASA5505-FIPS-KIT — ^Cisco ASA 5505 Fips Kit",
-      "ASA5505-FIPS-KIT= — ASA 5505 FIPS Kit"
+      "ASA5505-FIPS-KIT — ^Cisco ASA 5505 Fips Kit"
      ],
      "rules": {
-      "sku": 65
+      "sku": 79
      },
-     "pending_in": {
-      "interfaces-modules": 14
-     }
+     "pending_in": {}
     },
     {
      "series": "ISA 3000",
@@ -462,12 +464,13 @@
      "family": "(shared across the line)",
      "role": null,
      "note": "^CSC-SSM- (layers round 3): CSC-SSM-10 / -20, the ASA 5500 Content Security and Control SSMs planned in from interfaces-modules, land beside the ASA-SSM / ASA-SSC modules planned with them (their series inside ASA 5500 is the security round's)",
-     "parts": 31,
+     "parts": 41,
      "kinds": {
       "power": 5,
       "mechanical": 14,
+      "appliance": 1,
       "security-module": 5,
-      "module": 2,
+      "module": 11,
       "drive": 5
      },
      "roles": {},
@@ -480,32 +483,35 @@
       "ASA-IC-A-BLANK= — ^ASA 5512-X/5515-X Interface Card Blank Slot Cover(Spare)"
      ],
      "rules": {
-      "sku": 26,
+      "sku": 36,
       "label": 5
      },
-     "pending_in": {
-      "interfaces-modules": 10
-     }
+     "pending_in": {}
     }
    ]
   },
   {
    "line": "Network Analysis Module (NAM) appliances",
-   "parts": 0,
+   "parts": 2,
    "series": [
     {
      "series": "NAM 2400 Series",
      "family": null,
      "role": null,
      "note": "decision pending: NAM 2400 home — NAM2420-K9 / NAM2440-K9 are planned in from interfaces-modules under pre-ruling C5 (security, kind analytics; the reviewer's confidence: medium). Security had no NAM line, so this one is opened with Cisco's product name until the security round reviews it",
-     "parts": 0,
-     "kinds": {},
+     "parts": 2,
+     "kinds": {
+      "appliance": 2
+     },
      "roles": {},
-     "samples": [],
-     "rules": {},
-     "pending_in": {
-      "interfaces-modules": 2
-     }
+     "samples": [
+      "NAM2420-K9 — Cisco NAM2420-K9",
+      "NAM2440-K9 — Cisco NAM2440-K9"
+     ],
+     "rules": {
+      "sku": 2
+     },
+     "pending_in": {}
     }
    ]
   },
@@ -946,14 +952,14 @@
   },
   {
    "line": "Secure Malware Analytics",
-   "parts": 71,
+   "parts": 72,
    "series": [
     {
      "series": "Malware Analytics (Threat Grid) appliances",
      "family": null,
      "role": null,
      "note": null,
-     "parts": 70,
+     "parts": 71,
      "kinds": {
       "nic": 4,
       "analytics": 13,
@@ -963,7 +969,8 @@
       "power": 12,
       "storage-controller": 5,
       "tpm": 3,
-      "mechanical": 2
+      "mechanical": 2,
+      "appliance": 1
      },
      "roles": {},
      "samples": [
@@ -975,11 +982,9 @@
       "TG-HDD-1.2TB= — 1.2TB SATA 10K RPM 12G SAS"
      ],
      "rules": {
-      "sku": 70
+      "sku": 71
      },
-     "pending_in": {
-      "servers-unified-computing": 1
-     }
+     "pending_in": {}
     },
     {
      "series": "Secure Malware Analytics shared parts",
@@ -1041,21 +1046,25 @@
   },
   {
    "line": "Duo",
-   "parts": 0,
+   "parts": 1,
    "series": [
     {
      "series": "Duo hardware tokens",
      "family": null,
      "role": null,
      "note": "layers round 3 (servers round): DUO-TOKEN-10PACK 'A hardware token used with a Cisco Duo subscription (10 pack)', planned in from servers-unified-computing; the Duo subscriptions filed beside it are class plans (licence), not hardware",
-     "parts": 0,
-     "kinds": {},
+     "parts": 1,
+     "kinds": {
+      "accessory": 1
+     },
      "roles": {},
-     "samples": [],
-     "rules": {},
-     "pending_in": {
-      "servers-unified-computing": 1
-     }
+     "samples": [
+      "DUO-TOKEN-10PACK — A hardware token used with a Cisco Duo subscription (10 pack"
+     ],
+     "rules": {
+      "sku": 1
+     },
+     "pending_in": {}
     }
    ]
   },
@@ -1199,128 +1208,7 @@
   }
  ],
  "not_this_category": [],
- "pending_plans": [
-  {
-   "sku": "AIM-DES/BP",
-   "name": "DES Crypto AIM for Cisco 2600 - Base Performance",
-   "series_label": "FirePOWER 7000 Appliances",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router crypto service module (SM-EC-DES / 3DES for the ISR, AIM-DES for the 2600, NM-DES for the 3600) filed under a FirePOWER 7000 label: its category is interfaces-modules (the exclusion's reason, now a plan — layers round 3, security round)"
-  },
-  {
-   "sku": "MEM-7100-CFL128M",
-   "name": "Cisco 7160 Compact Flash Disk, 128 MB",
-   "series_label": "FirePOWER 7000 Appliances",
-   "action": "move",
-   "to": "routers",
-   "reason": "a Cisco 7100 Series VPN Router (7120 / 7140 / 7160) part: memory, power or blank of a router, filed under FirePOWER 7000 because Cisco publishes the 'Cisco Select 7100 components' end-of-sale notice in the FirePOWER 7000 collateral — A.3 rule 1 puts it with its platform (routers, series 'Cisco 7100 VPN routers'; layers round 3, security round)"
-  },
-  {
-   "sku": "MEM-7120/40-128P",
-   "name": "Cisco 7100 128 MB SDRAM Packet Memory",
-   "series_label": "FirePOWER 7000 Appliances",
-   "action": "move",
-   "to": "routers",
-   "reason": "a Cisco 7100 Series VPN Router (7120 / 7140 / 7160) part: memory, power or blank of a router, filed under FirePOWER 7000 because Cisco publishes the 'Cisco Select 7100 components' end-of-sale notice in the FirePOWER 7000 collateral — A.3 rule 1 puts it with its platform (routers, series 'Cisco 7100 VPN routers'; layers round 3, security round)"
-  },
-  {
-   "sku": "MEM-71XX-1024S",
-   "name": "Cisco 7160 1024 MB SDRAM System Memory",
-   "series_label": "FirePOWER 7000 Appliances",
-   "action": "move",
-   "to": "routers",
-   "reason": "a Cisco 7100 Series VPN Router (7120 / 7140 / 7160) part: memory, power or blank of a router, filed under FirePOWER 7000 because Cisco publishes the 'Cisco Select 7100 components' end-of-sale notice in the FirePOWER 7000 collateral — A.3 rule 1 puts it with its platform (routers, series 'Cisco 7100 VPN routers'; layers round 3, security round)"
-  },
-  {
-   "sku": "MEM-71XX-256S",
-   "name": "Cisco 7160 256 MB SDRAM System Memory (default)",
-   "series_label": "FirePOWER 7000 Appliances",
-   "action": "move",
-   "to": "routers",
-   "reason": "a Cisco 7100 Series VPN Router (7120 / 7140 / 7160) part: memory, power or blank of a router, filed under FirePOWER 7000 because Cisco publishes the 'Cisco Select 7100 components' end-of-sale notice in the FirePOWER 7000 collateral — A.3 rule 1 puts it with its platform (routers, series 'Cisco 7100 VPN routers'; layers round 3, security round)"
-  },
-  {
-   "sku": "NM-DES/MP",
-   "name": "DES Crypto NM for Cisco 3620/40 - Mid Performance",
-   "series_label": "FirePOWER 7000 Appliances",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router crypto service module (SM-EC-DES / 3DES for the ISR, AIM-DES for the 2600, NM-DES for the 3600) filed under a FirePOWER 7000 label: its category is interfaces-modules (the exclusion's reason, now a plan — layers round 3, security round)"
-  },
-  {
-   "sku": "PWR-2XAC-71XX",
-   "name": "Cisco 7160 Dual AC Power Supply",
-   "series_label": "FirePOWER 7000 Appliances",
-   "action": "move",
-   "to": "routers",
-   "reason": "a Cisco 7100 Series VPN Router (7120 / 7140 / 7160) part: memory, power or blank of a router, filed under FirePOWER 7000 because Cisco publishes the 'Cisco Select 7100 components' end-of-sale notice in the FirePOWER 7000 collateral — A.3 rule 1 puts it with its platform (routers, series 'Cisco 7100 VPN routers'; layers round 3, security round)"
-  },
-  {
-   "sku": "PWR-AC-71XX",
-   "name": "Cisco 7160 Single AC Power Supply (default)",
-   "series_label": "FirePOWER 7000 Appliances",
-   "action": "move",
-   "to": "routers",
-   "reason": "a Cisco 7100 Series VPN Router (7120 / 7140 / 7160) part: memory, power or blank of a router, filed under FirePOWER 7000 because Cisco publishes the 'Cisco Select 7100 components' end-of-sale notice in the FirePOWER 7000 collateral — A.3 rule 1 puts it with its platform (routers, series 'Cisco 7100 VPN routers'; layers round 3, security round)"
-  },
-  {
-   "sku": "PWR-BLANK-71XX",
-   "name": "Cisco 7160 blank for power supply",
-   "series_label": "FirePOWER 7000 Appliances",
-   "action": "move",
-   "to": "routers",
-   "reason": "a Cisco 7100 Series VPN Router (7120 / 7140 / 7160) part: memory, power or blank of a router, filed under FirePOWER 7000 because Cisco publishes the 'Cisco Select 7100 components' end-of-sale notice in the FirePOWER 7000 collateral — A.3 rule 1 puts it with its platform (routers, series 'Cisco 7100 VPN routers'; layers round 3, security round)"
-  },
-  {
-   "sku": "PWR-IE50W-AC",
-   "name": "Cisco PWR-IE50W-AC",
-   "series_label": "3000 Series Industrial Security Appliances (ISA)",
-   "action": "move",
-   "to": "switches",
-   "reason": "the Industrial Ethernet 50 W supply: its spare and 16 more PWR-IE supplies sit in switches Industrial Ethernet (the family's home); the base, placed in ASA and ISA shared parts by the label check, joins them (A.3 rule 1; re-audit decisions, operator, 15 Sep 2026, Q-20)"
-  },
-  {
-   "sku": "PWR-IE50W-AC-IEC",
-   "name": "Cisco PWR-IE50W-AC-IEC",
-   "series_label": "3000 Series Industrial Security Appliances (ISA)",
-   "action": "move",
-   "to": "switches",
-   "reason": "the Industrial Ethernet 50 W supply with IEC connector: its spare and 16 more PWR-IE supplies sit in switches Industrial Ethernet (the family's home); the base joins them (A.3 rule 1; re-audit decisions, operator, 15 Sep 2026, Q-20)"
-  },
-  {
-   "sku": "SM-71XX-BLANK",
-   "name": "Cisco 7160 Service Module Blank Face Plate",
-   "series_label": "FirePOWER 7000 Appliances",
-   "action": "move",
-   "to": "routers",
-   "reason": "a Cisco 7100 Series VPN Router (7120 / 7140 / 7160) part: memory, power or blank of a router, filed under FirePOWER 7000 because Cisco publishes the 'Cisco Select 7100 components' end-of-sale notice in the FirePOWER 7000 collateral — A.3 rule 1 puts it with its platform (routers, series 'Cisco 7100 VPN routers'; layers round 3, security round)"
-  },
-  {
-   "sku": "SM-EC-3DES",
-   "name": "Service Module for 168-bit DES Encryption",
-   "series_label": "FirePOWER 7000 Appliances",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router crypto service module (SM-EC-DES / 3DES for the ISR, AIM-DES for the 2600, NM-DES for the 3600) filed under a FirePOWER 7000 label: its category is interfaces-modules (the exclusion's reason, now a plan — layers round 3, security round)"
-  },
-  {
-   "sku": "SM-EC-3DES=",
-   "name": "^Service Module for 168-bit DES Encryption, Spare",
-   "series_label": "FirePOWER 7000 Appliances",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router crypto service module (SM-EC-DES / 3DES for the ISR, AIM-DES for the 2600, NM-DES for the 3600) filed under a FirePOWER 7000 label: its category is interfaces-modules (the exclusion's reason, now a plan — layers round 3, security round)"
-  },
-  {
-   "sku": "SM-EC-DES",
-   "name": "Service Module for 56-bit DES Encryption",
-   "series_label": "FirePOWER 7000 Appliances",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router crypto service module (SM-EC-DES / 3DES for the ISR, AIM-DES for the 2600, NM-DES for the 3600) filed under a FirePOWER 7000 label: its category is interfaces-modules (the exclusion's reason, now a plan — layers round 3, security round)"
-  }
- ],
+ "pending_plans": [],
  "unplaced": [],
  "label_check": {
   "applied": true,

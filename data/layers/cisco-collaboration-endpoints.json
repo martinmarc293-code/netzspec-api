@@ -1,11 +1,15 @@
 {
  "vendor": "cisco",
  "category": "collaboration-endpoints",
- "built_at": "2026-09-15T22:52:45.245Z",
- "commit": "9a734f7ba27364704867e3f28204553e1ab21277",
- "uncommitted_rule_files": [],
+ "built_at": "2026-09-15T23:24:28.907Z",
+ "commit": "daa609b5f1a24431ec097b320227e7df1b36b063",
+ "uncommitted_rule_files": [
+  "data/reference/family-carriers.json",
+  "data/reference/layers-cross-claims.json",
+  "scripts/build-layers.mts"
+ ],
  "mapping_file": "data/reference/product-lines/cisco-collaboration-endpoints.json",
- "parts": 2808,
+ "parts": 2871,
  "lines": [
   {
    "line": "Headsets",
@@ -369,7 +373,7 @@
   },
   {
    "line": "Webex Room Series",
-   "parts": 650,
+   "parts": 702,
    "series": [
     {
      "series": "Room Bar Pro",
@@ -424,13 +428,13 @@
      "family": null,
      "role": null,
      "note": "layers round 3, collaboration round — rows that sat in the line's shared parts by their label: CS-KPRO-Q / -Z 'Cisco Room Kit Pro G2 / Room Kit Vision PTZ', CS-EQX-* 'Room Kit EQX' (no codec, centre and side modules), CS-ROOM-USB-K9(=) 'Room USB' (its spare 'Room Kit Mini/Room USB (unit)'; Cisco's Room USB end-of-sale notice, successor CS-BAR-T); CAB-EQX-SPKR= 'Room Kit EQX Complete set of Speaker Cables' (SKU token EQX), which sat in the line's shared parts",
-     "parts": 125,
+     "parts": 126,
      "kinds": {
       "cable": 1,
       "accessory": 2,
       "video-device": 5,
       "mechanical": 29,
-      "video-codec": 88
+      "video-codec": 89
      },
      "roles": {},
      "samples": [
@@ -442,11 +446,9 @@
       "CS-EQX-FRAME= — Room Kit EQX front frame module - First Light"
      ],
      "rules": {
-      "sku": 125
+      "sku": 126
      },
-     "pending_in": {
-      "wireless": 1
-     }
+     "pending_in": {}
     },
     {
      "series": "Codec Plus / Pro / EQ",
@@ -507,9 +509,9 @@
      "family": null,
      "role": null,
      "note": "^CS-R55- (layers round 3, collaboration round): the six 'Cisco Webex Room 55 Main Unit' PIDs sat in the line's shared parts by their label. ^CTS-NAL-ROOM55 (same round): 'CS Room 55 NAL label for China' sat in TelePresence (legacy) shared parts by ^CTS-",
-     "parts": 48,
+     "parts": 50,
      "kinds": {
-      "video-device": 16,
+      "video-device": 18,
       "mechanical": 23,
       "display": 8,
       "accessory": 1
@@ -524,40 +526,38 @@
       "CS-R55-UNI2-NR-K9= — Cisco Webex Room 55 Main Unit Non Radio"
      ],
      "rules": {
-      "sku": 48
+      "sku": 50
      },
-     "pending_in": {
-      "wireless": 2
-     }
+     "pending_in": {}
     },
     {
      "series": "Room 70 / 70S / 70D",
      "family": null,
      "role": null,
      "note": "layers round 3 (wireless round): the Room 70 speaker, HDMI and DC cables and the Room 70 antenna kit (named 'for ROOM 70'), planned in from wireless where they sat under the 'Policy Suite for Mobile' label",
-     "parts": 79,
+     "parts": 120,
      "kinds": {
-      "power-cord": 6,
-      "cable": 33,
-      "mechanical": 18,
-      "video-device": 20,
-      "display": 2
+      "accessory": 2,
+      "power-cord": 8,
+      "cable": 45,
+      "mechanical": 33,
+      "speaker": 2,
+      "video-device": 24,
+      "display": 6
      },
      "roles": {},
      "samples": [
+      "ANT-ROOM70-KIT- — Antenna kit for ROOM 70 with brackets.",
+      "ANT-ROOM70-KIT= — Antenna kit for ROOM 70 with brackets.",
       "CAB-2DC-BRL-0.30M- — DC Power Cable w/Barrel Plug, 0.3 meters long",
       "CAB-2DC-BRL-0.30M= — DC Power Cable w/Barrel Plug, 0.3 meters long",
       "CAB-2DC-BRL-0.6M- — DC Power Cable w/Barrel Plug, 0.6 meters long for MXCAM-D",
-      "CAB-2DC-BRL-0.6M= — DC Power Cable w/Barrel Plus, 0.6 meters long for MXCAM-D",
-      "CAB-2DC-BRL-1.15M- — DC Power Cable w/Barrel Plug, 1.15 meters long for MXCAM-D",
-      "CAB-2DC-BRL-1.15M= — DC Power Cable w/Barrel Plus, 1.15 meters long for MXCAM-D"
+      "CAB-2DC-BRL-0.6M= — DC Power Cable w/Barrel Plus, 0.6 meters long for MXCAM-D"
      ],
      "rules": {
-      "sku": 79
+      "sku": 120
      },
-     "pending_in": {
-      "wireless": 41
-     }
+     "pending_in": {}
     },
     {
      "series": "Room Navigator and Touch 10",
@@ -589,10 +589,10 @@
      "family": "(shared across the line)",
      "role": null,
      "note": "layers round 3 (wireless round): the USB A-B cables 'for ROOM 70 / MX800 Dual' and the grey right-angled C7 power cords, planned in from wireless — shared by several Room devices. ^CS-ROOM removed (collaboration-endpoints round): every CS-ROOM row it matched is now decided by a named Room series above it (Room Kit, Room Panorama, Room 70), so the rule decided nothing",
-     "parts": 164,
+     "parts": 172,
      "kinds": {
-      "cable": 47,
-      "power-cord": 83,
+      "cable": 51,
+      "power-cord": 87,
       "accessory": 8,
       "mechanical": 10,
       "power": 13,
@@ -609,12 +609,10 @@
      ],
      "rules": {
       "accessory": 98,
-      "sku": 29,
+      "sku": 37,
       "label": 37
      },
-     "pending_in": {
-      "wireless": 8
-     }
+     "pending_in": {}
     }
    ]
   },
@@ -809,21 +807,21 @@
   },
   {
    "line": "TelePresence (legacy)",
-   "parts": 651,
+   "parts": 654,
    "series": [
     {
      "series": "TelePresence MX (MX200 / MX300 / MX700 / MX800)",
      "family": null,
      "role": null,
      "note": "layers round 3, collaboration round: CTS-MXCAM-D / -S 'Dual / Single Camera option for MX700/MX800' and CTS-MXCODEC 'Codec for MX700/MX800' sat in the line's shared parts by ^CTS-; so did the 'MX200 / MX300 NAL label for China' and the 'ATP Demo' MX200 / MX300 units (^CTS-(NAL|ATP)-MX), and the 'Left / Right Speaker Cable for MX700 / MX800' (^CAB-MX)",
-     "parts": 161,
+     "parts": 162,
      "kinds": {
       "mechanical": 78,
       "cable": 8,
       "video-device": 35,
       "unknown": 2,
       "display": 24,
-      "speaker": 1,
+      "speaker": 2,
       "camera": 6,
       "video-codec": 3,
       "accessory": 4
@@ -839,11 +837,9 @@
      ],
      "rules": {
       "label": 10,
-      "sku": 151
+      "sku": 152
      },
-     "pending_in": {
-      "wireless": 1
-     }
+     "pending_in": {}
     },
     {
      "series": "TelePresence SX (SX10 / SX20 / SX80)",
@@ -955,9 +951,9 @@
      "family": "(shared across the line)",
      "role": null,
      "note": "^AVIZ-CA(300|750) (layers round 3, collaboration-endpoints round): the Avizia CA300 / CA750 clinical carts and their cabinets, trays and cords (SolutionsPlus), labelled TelePresence MX Series by the generic collaboration end-of-sale notice. The label check kept them in TelePresence MX on the cart's own model number — CA300 read as the MX300 token, CA750 as a 7xx model of MX700 — which names no MX; with AVIZ-EDU=, AVIZ-SYN= and AVIZ-TAC-K9 they are Avizia products no document ties to one system. AVIZ-MXCART= 'Avizia MX Cart' names MX and stays there. — decision pending: CTS-LAPT-DISP / CTS-LAPT-DISP= 'TelePresence Laptop Display' and CTS-VX-EDUCATOR-K9 'VX Educator package' are whole products (kinds display / video-device) that no document ties to a TelePresence series — only the generic 'HW Collaboration PIDs' / 'Collaboration PIDs' end-of-sale notices name them, under the TelePresence MX Series label, and the catalogue holds no other VX row. Kept here (recommendation) until a series is named (layers round 3, collaboration-endpoints round)",
-     "parts": 241,
+     "parts": 243,
      "kinds": {
-      "mechanical": 11,
+      "mechanical": 13,
       "accessory": 18,
       "cable": 71,
       "power-cord": 122,
@@ -976,19 +972,17 @@
       "AVIZ-CA750-ACC-KB — Avizia CA750 Keyboard / Mouse Tray"
      ],
      "rules": {
-      "sku": 46,
+      "sku": 48,
       "label-unsupported": 6,
       "accessory": 189
      },
-     "pending_in": {
-      "wireless": 2
-     }
+     "pending_in": {}
     }
    ]
   },
   {
    "line": "IP Phones",
-   "parts": 843,
+   "parts": 856,
    "series": [
     {
      "series": "IP Phone 3900",
@@ -1100,15 +1094,15 @@
      "family": null,
      "role": "desk",
      "note": "^CP-WMK-[A-Z]+-6900 (layers round 3, collaboration-endpoints round): the 6900 wall-mount kits CP-WMK-AW-6900= / CP-WMK-C-6900= (named only by their PIDs) sat in IP Phones shared parts by ^CP-",
-     "parts": 36,
+     "parts": 45,
      "kinds": {
       "accessory": 5,
-      "phone": 26,
+      "phone": 35,
       "mechanical": 3,
       "power": 2
      },
      "roles": {
-      "desk": 26
+      "desk": 35
      },
      "samples": [
       "CP-6900-LHS-AW-WB= — Cisco CP-6900-LHS-AW-WB=",
@@ -1119,11 +1113,9 @@
       "CP-6901-CL-K9= — Cisco Unified IP Phone 6901, Charcoal, Slimline Handset"
      ],
      "rules": {
-      "sku": 36
+      "sku": 45
      },
-     "pending_in": {
-      "unified-communications": 9
-     }
+     "pending_in": {}
     },
     {
      "series": "IP Conference Phone 7832",
@@ -1183,11 +1175,11 @@
      "family": null,
      "role": "wireless",
      "note": "^CP-.*792x (layers round 3, collaboration-endpoints round): the handsets' batteries, cases, holsters, clips, lock sets, USB cables, desktop and multi-chargers and their power supplies (CP-BATT-7921G-STD=, CP-PWR-DC7925G-NA=, CP-MCHGR-7925G-BUN …) carry the phone's model mid-SKU and sat in IP Phones shared parts by ^CP-. The CAB-AC2 cords 'for … 7920/7921G Multi-Charger' name the phone only in their names and stay in shared parts",
-     "parts": 137,
+     "parts": 138,
      "kinds": {
       "phone": 61,
       "accessory": 15,
-      "power": 44,
+      "power": 45,
       "cable": 2,
       "mechanical": 12,
       "power-cord": 3
@@ -1204,11 +1196,9 @@
       "CP-7920-EE-CH1-K9 — Cisco Unified Wireless IP Phone 7920 Phone/ETSI with Cisco U"
      ],
      "rules": {
-      "sku": 137
+      "sku": 138
      },
-     "pending_in": {
-      "servers-unified-computing": 1
-     }
+     "pending_in": {}
     },
     {
      "series": "Unified IP Conference Station 7935 / 7936 / 7937",
@@ -1240,13 +1230,13 @@
      "family": null,
      "role": "desk",
      "note": null,
-     "parts": 72,
+     "parts": 74,
      "kinds": {
-      "phone": 67,
+      "phone": 69,
       "expansion-module": 5
      },
      "roles": {
-      "desk": 67
+      "desk": 69
      },
      "samples": [
       "CP-7902G — Cisco IP Phone 7902G, Global",
@@ -1257,11 +1247,9 @@
       "CP-7905G — Cisco IP Phone 7905G, Global"
      ],
      "rules": {
-      "sku": 72
+      "sku": 74
      },
-     "pending_in": {
-      "unified-communications": 2
-     }
+     "pending_in": {}
     },
     {
      "series": "Wireless IP Phone 8821",
@@ -1535,31 +1523,29 @@
      "family": "(shared across the line)",
      "role": null,
      "note": "^CIUS-BATTERY (layers round 3, servers round): CIUS-BATTERY=, the Cius tablet endpoint's battery planned in from servers-unified-computing; the catalogue holds no Cius endpoint to give it a series. ^MB100$ (collaboration-endpoints round): 'Wall-mount brackets for SPA 300, SPA 500, CP 500, and SPA 900 Series' names two series of this line and two outside it; the label check kept it in SPA300 IP Phones because a sibling's three-digit token (500) is too weak to contradict a label, but a part named for several series is what the line's shared parts hold",
-     "parts": 57,
+     "parts": 58,
      "kinds": {
       "power-cord": 16,
+      "unknown": 2,
       "accessory": 7,
       "mechanical": 3,
-      "power": 30,
-      "unknown": 1
+      "power": 30
      },
      "roles": {},
      "samples": [
       "CAB-AC2AUS= — AC Power Cord Australia for Cisco Unified Wireless IP Phone ",
       "CAB-AC2CHI= — AC Power Cord China for Cisco Unified Wireless IP Phone 7920",
       "CAB-AC2J= — AC Power Cord Japan for Cisco Unified Wireless IP Phone 7920",
+      "CIUS-BATTERY= — Cisco CIUS-BATTERY=",
       "CP-DX-CORD= — ● Spare Handset Cord for Cisco IP Phone 8800, DX600 Series, ",
-      "CP-DX-HS-NB= — Replacement Narrowband Handset for Cisco 6800 and 7811-SPARE",
-      "CP-DX-HS= — ● Spare Handset for Cisco IP Phone 7800, 8800, DX600 Series,"
+      "CP-DX-HS-NB= — Replacement Narrowband Handset for Cisco 6800 and 7811-SPARE"
      ],
      "rules": {
       "accessory": 3,
-      "sku": 53,
+      "sku": 54,
       "label-unsupported": 1
      },
-     "pending_in": {
-      "servers-unified-computing": 1
-     }
+     "pending_in": {}
     }
    ]
   },
@@ -1701,48 +1687,7 @@
   }
  ],
  "not_this_category": [],
- "pending_plans": [
-  {
-   "sku": "AIR-PWRINJ6",
-   "name": "Power injector",
-   "series_label": "Room Series",
-   "action": "move",
-   "to": "wireless",
-   "reason": "Aironet 802.3at power injector: its spare AIR-PWRINJ6= is filed in wireless (series 'Power injectors, supplies and cords'), and a base goes with its spare (spare = base)"
-  },
-  {
-   "sku": "CAB-AC2=",
-   "name": "AC Power Cord N. America for Cisco Unified Wireless IP Phone 7920/7921G Multi-Charger Spare",
-   "series_label": "7900 - Unified IP Phone",
-   "action": "move",
-   "to": "routers",
-   "reason": "the spare of a generic AC power cord whose base sits in routers ISR shared parts: base and spare in one category, the base's (re-audit decisions, operator, 15 Sep 2026, Q-19 / F-10)"
-  },
-  {
-   "sku": "CAB-AC2E=",
-   "name": "AC Power Cord Europe for Cisco Unified Wireless IP Phone 7920/7921G Multi-Charger Spare",
-   "series_label": "7900 - Unified IP Phone",
-   "action": "move",
-   "to": "routers",
-   "reason": "the spare of a generic AC power cord whose base sits in routers ISR shared parts: base and spare in one category, the base's (re-audit decisions, operator, 15 Sep 2026, Q-19 / F-10)"
-  },
-  {
-   "sku": "CAB-AC2UK=",
-   "name": "AC Power Cord United Kingdom for Cisco Unified Wireless IP Phone 7920/7921G Multi-Charger Spare",
-   "series_label": "7900 - Unified IP Phone",
-   "action": "move",
-   "to": "routers",
-   "reason": "the spare of a generic AC power cord whose base sits in routers ISR shared parts: base and spare in one category, the base's (re-audit decisions, operator, 15 Sep 2026, Q-19 / F-10)"
-  },
-  {
-   "sku": "CAB-PWR-C15-CHN-A=",
-   "name": "Power Cord, C15, Black, 2.5m, 10A, China",
-   "series_label": "Room Series",
-   "action": "move",
-   "to": "switches",
-   "reason": "the spare of a generic C15 power cord whose base sits in switches Nexus shared parts: base and spare in one category, the base's (re-audit decisions, operator, 15 Sep 2026, Q-19 / F-10)"
-  }
- ],
+ "pending_plans": [],
  "unplaced": [],
  "label_check": {
   "applied": true,

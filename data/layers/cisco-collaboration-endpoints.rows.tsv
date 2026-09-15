@@ -3,7 +3,8 @@ ACC-MX200-42-KIT	Cisco TelePresence MX200 42 Accessory Kit	TelePresence MX Serie
 ACC-MX200-42-KIT=	Cisco TelePresence MX200 42 Accessory Kit	TelePresence MX Series	mechanical	layered	TelePresence (legacy)		TelePresence MX (MX200 / MX300 / MX700 / MX800)	label TelePresence MX Series						sku-token: 200	
 ACC-PHD1080P=	Cable Accessories Kit for PrecisionHD Camera 1080p12x and 4x	TelePresence PrecisionHD Cameras	mechanical	layered	Cameras		Precision 40 / 60 / PrecisionHD cameras	label TelePresence PrecisionHD Cameras						name: PrecisionHD	
 ADPT-HDMI-DVID=	Adaptor HDMI to DVID cable	TelePresence PrecisionHD Cameras	cable	layered	Cameras	(shared across the line)	Cameras shared parts	label-unsupported (label TelePresence PrecisionHD Cameras; was Precision 40 / 60 / PrecisionHD cameras): no series token in the SKU or name, no compatible part placed in the series						none: no series token in the SKU or name, no compatible part placed in the series	
-AIR-PWRINJ6	Power injector	Room Series	power	pending_plan								move wireless			
+ANT-ROOM70-KIT-	Antenna kit for ROOM 70 with brackets.	Policy Suite for Mobile	accessory	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^(CAB-ROOM70|ANT-ROOM70|CAB-2HDMILK|CAB-2DC-BRL)							
+ANT-ROOM70-KIT=	Antenna kit for ROOM 70 with brackets.	Policy Suite for Mobile	accessory	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^(CAB-ROOM70|ANT-ROOM70|CAB-2HDMILK|CAB-2DC-BRL)							
 AVIZ-CA300-A-K9	SolutionsPlus: Avizia Clinical Cart CA300	TelePresence MX Series	mechanical	layered	TelePresence (legacy)	(shared across the line)	TelePresence (legacy) shared parts	sku ^AVIZ-CA(300|750)							
 AVIZ-CA300-ACC-PCC	Avizia CA300 PC cabinet	TelePresence MX Series	accessory	layered	TelePresence (legacy)	(shared across the line)	TelePresence (legacy) shared parts	sku ^AVIZ-CA(300|750)							
 AVIZ-CA750-1-K9	SolutionsPlus:Avizia ClinicalCart CA750 1 screen-drawer mod	TelePresence MX Series	mechanical	layered	TelePresence (legacy)	(shared across the line)	TelePresence (legacy) shared parts	sku ^AVIZ-CA(300|750)							
@@ -32,6 +33,8 @@ CAB-2DC-BRL-0.30M-	DC Power Cable w/Barrel Plug, 0.3 meters long	Room Series	pow
 CAB-2DC-BRL-0.30M=	DC Power Cable w/Barrel Plug, 0.3 meters long	Room Series	power-cord	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^(CAB-ROOM70|ANT-ROOM70|CAB-2HDMILK|CAB-2DC-BRL)							
 CAB-2DC-BRL-0.6M-	DC Power Cable w/Barrel Plug, 0.6 meters long for MXCAM-D	TelePresence MX Series	power-cord	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^(CAB-ROOM70|ANT-ROOM70|CAB-2HDMILK|CAB-2DC-BRL)							
 CAB-2DC-BRL-0.6M=	DC Power Cable w/Barrel Plus, 0.6 meters long for MXCAM-D	TelePresence MX Series	power-cord	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^(CAB-ROOM70|ANT-ROOM70|CAB-2HDMILK|CAB-2DC-BRL)							
+CAB-2DC-BRL-0.93M-	DC Power Cable w/Barrel Plus, 0.93 meters long for ROOM 70	Policy Suite for Mobile	power-cord	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^(CAB-ROOM70|ANT-ROOM70|CAB-2HDMILK|CAB-2DC-BRL)							
+CAB-2DC-BRL-0.93M=	DC Power Cable w/Barrel Plus, 0.93 meters long for ROOM 70	Policy Suite for Mobile	power-cord	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^(CAB-ROOM70|ANT-ROOM70|CAB-2HDMILK|CAB-2DC-BRL)							
 CAB-2DC-BRL-1.15M-	DC Power Cable w/Barrel Plug, 1.15 meters long for MXCAM-D	TelePresence MX Series	power-cord	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^(CAB-ROOM70|ANT-ROOM70|CAB-2HDMILK|CAB-2DC-BRL)							
 CAB-2DC-BRL-1.15M=	DC Power Cable w/Barrel Plus, 1.15 meters long for MXCAM-D	TelePresence MX Series	power-cord	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^(CAB-ROOM70|ANT-ROOM70|CAB-2HDMILK|CAB-2DC-BRL)							
 CAB-2DC4MIN-0.65M-	4-PIN MINI DIN, 0.65 meters for MX800	TelePresence MX Series	power-cord	layered	TelePresence (legacy)	(shared across the line)	TelePresence (legacy) shared parts	accessory ^CAB- (label TelePresence MX Series)							
@@ -64,6 +67,8 @@ CAB-2HDMILK-0.95M-	HDMI to HDMI Cable, 0.95 meters long for MX700	TelePresence M
 CAB-2HDMILK-0.95M=	HDMI to HDMI Cable, 0.95 meters long for MX700	TelePresence MX Series	cable	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^(CAB-ROOM70|ANT-ROOM70|CAB-2HDMILK|CAB-2DC-BRL)							
 CAB-2HDMILK-0.96M-	HDMI to HDMI Cable right angl, 0.96 meters long for ROOM 55D	Room Series	cable	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^(CAB-ROOM70|ANT-ROOM70|CAB-2HDMILK|CAB-2DC-BRL)							
 CAB-2HDMILK-0.96M=	^HDMI to HDMI Cable right angl, 0.96 meters long for ROOM 55D	Room Series	cable	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^(CAB-ROOM70|ANT-ROOM70|CAB-2HDMILK|CAB-2DC-BRL)							
+CAB-2HDMILK-1.15M-	HDMI to HDMI Cable, 1.15 meters long for ROOM 70	Policy Suite for Mobile	cable	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^(CAB-ROOM70|ANT-ROOM70|CAB-2HDMILK|CAB-2DC-BRL)							
+CAB-2HDMILK-1.15M=	HDMI to HDMI Cable, 1.15 meters long for ROOM 70	Policy Suite for Mobile	cable	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^(CAB-ROOM70|ANT-ROOM70|CAB-2HDMILK|CAB-2DC-BRL)							
 CAB-2HDMILK-1.20M-	HDMI to HDMI Cable, 1.20 meters long for MX800	TelePresence MX Series	cable	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^(CAB-ROOM70|ANT-ROOM70|CAB-2HDMILK|CAB-2DC-BRL)							
 CAB-2HDMILK-1.20M=	HDMI to HDMI Cable, 1.20 meters long for MX800	TelePresence MX Series	cable	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^(CAB-ROOM70|ANT-ROOM70|CAB-2HDMILK|CAB-2DC-BRL)							
 CAB-2HDMILK-1.27M-	HDMI to HDMI Cable, 1.27 meters long for ROOM 70	Room Series	cable	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^(CAB-ROOM70|ANT-ROOM70|CAB-2HDMILK|CAB-2DC-BRL)							
@@ -87,16 +92,15 @@ CAB-2HDMILK-2.2M-	HDMI to HDMI Cable, 2.2 meters long for MX700	TelePresence MX 
 CAB-2HDMILK-2.2M=	HDMI to HDMI cable	TelePresence MX Series	cable	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^(CAB-ROOM70|ANT-ROOM70|CAB-2HDMILK|CAB-2DC-BRL)							
 CAB-2HDMILK-2.75M-	HDMI to HDMI Cable, 2.75 meters long for MX800 Dual	TelePresence MX Series	cable	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^(CAB-ROOM70|ANT-ROOM70|CAB-2HDMILK|CAB-2DC-BRL)							
 CAB-2HDMILK-2.75M=	HDMI to HDMI Cable, 2.75 meters long for MX800 Dual	TelePresence MX Series	cable	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^(CAB-ROOM70|ANT-ROOM70|CAB-2HDMILK|CAB-2DC-BRL)							
+CAB-2HDMILK-2.78M-	HDMI to HDMI Cable, 2.78 meters long for ROOM 70	Policy Suite for Mobile	cable	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^(CAB-ROOM70|ANT-ROOM70|CAB-2HDMILK|CAB-2DC-BRL)							
+CAB-2HDMILK-2.78M=	HDMI to HDMI Cable, 2.78 meters long for ROOM 70	Policy Suite for Mobile	cable	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^(CAB-ROOM70|ANT-ROOM70|CAB-2HDMILK|CAB-2DC-BRL)							
 CAB-2HDMILK-2.82M-	HDMI to HDMI Cable, 2.82 meters long for ROOM 70	Room Series	cable	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^(CAB-ROOM70|ANT-ROOM70|CAB-2HDMILK|CAB-2DC-BRL)							
 CAB-2HDMILK-2.82M=	HDMI to HDMI Cable, 2.82 meters long for ROOM 70	Room Series	cable	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^(CAB-ROOM70|ANT-ROOM70|CAB-2HDMILK|CAB-2DC-BRL)							
 CAB-2VGA-6M	VGA to VGA Cable 6m	TelePresence MX Series	cable	layered	TelePresence (legacy)	(shared across the line)	TelePresence (legacy) shared parts	accessory ^CAB- (label TelePresence MX Series)							
 CAB-2VGA-6M=	VGA to VGA Cable 6m	TelePresence MX Series	cable	layered	TelePresence (legacy)	(shared across the line)	TelePresence (legacy) shared parts	accessory ^CAB- (label TelePresence MX Series)							
-CAB-AC2=	AC Power Cord N. America for Cisco Unified Wireless IP Phone 7920/7921G Multi-Charger Spare	7900 - Unified IP Phone	power-cord	pending_plan								move routers			
 CAB-AC2AUS=	AC Power Cord Australia for Cisco Unified Wireless IP Phone 7920/7921G Multi-Charger Spare	7900 - Unified IP Phone	power-cord	layered	IP Phones	(shared across the line)	IP Phones shared parts	accessory ^CAB- (label 7900 - Unified IP Phone)							
 CAB-AC2CHI=	AC Power Cord China for Cisco Unified Wireless IP Phone 7920/7921G Multi-Charger Spare	7900 - Unified IP Phone	power-cord	layered	IP Phones	(shared across the line)	IP Phones shared parts	accessory ^CAB- (label 7900 - Unified IP Phone)							
-CAB-AC2E=	AC Power Cord Europe for Cisco Unified Wireless IP Phone 7920/7921G Multi-Charger Spare	7900 - Unified IP Phone	power-cord	pending_plan								move routers			
 CAB-AC2J=	AC Power Cord Japan for Cisco Unified Wireless IP Phone 7920/7921G Multi-Charger Spare	7900 - Unified IP Phone	power-cord	layered	IP Phones	(shared across the line)	IP Phones shared parts	accessory ^CAB- (label 7900 - Unified IP Phone)							
-CAB-AC2UK=	AC Power Cord United Kingdom for Cisco Unified Wireless IP Phone 7920/7921G Multi-Charger Spare	7900 - Unified IP Phone	power-cord	pending_plan								move routers			
 CAB-CAT5E-12M	12 meter round gray Ethernet cable for Cisco Devices	Spark Board	cable	layered	Webex Board Series	(shared across the line)	Webex Board Series shared parts	accessory ^CAB- (label Spark Board)							
 CAB-CAT5E-12M=	Ethernet CAT5E Round Cable - 12 meter - Gray - SPARE (for Room Navigator)	Spark Board	cable	layered	Webex Board Series	(shared across the line)	Webex Board Series shared parts	accessory ^CAB- (label Spark Board)							
 CAB-CAT5E-4M	4 meter round gray Ethernet cable for Cisco Devices	Spark Board	cable	layered	Webex Board Series	(shared across the line)	Webex Board Series shared parts	accessory ^CAB- (label Spark Board)							
@@ -247,7 +251,6 @@ CAB-PWR-C15-BRA-A	Power Cord, C15, Black, 2.5m, 10A, Brazil	Room Series	power-co
 CAB-PWR-C15-BRA-A=	Power Cord, C15, Black, 2.5m, 10A, Brazil	Room Series	power-cord	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	accessory ^CAB- (label Room Series)							
 CAB-PWR-C15-CHE-A	Power Cord, C15, Black, 2.5m, 10A, Switzerland	Room Series	power-cord	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	accessory ^CAB- (label Room Series)							
 CAB-PWR-C15-CHE-A=	Power Cord, C15, Black, 2.5m, 10A, Switzerland	Room Series	power-cord	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	accessory ^CAB- (label Room Series)							
-CAB-PWR-C15-CHN-A=	Power Cord, C15, Black, 2.5m, 10A, China	Room Series	power-cord	pending_plan								move switches			
 CAB-PWR-C15-DNK-A	Power Cord, C15, Black, 2.5m, 10A, Denmark	Room Series	power-cord	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	accessory ^CAB- (label Room Series)							
 CAB-PWR-C15-DNK-A=	Power Cord, C15, Black, 2.5m, 10A, Denmark	Room Series	power-cord	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	accessory ^CAB- (label Room Series)							
 CAB-PWR-C15-EUR-A	Power Cord, C15, Black, 2.5m, 10A, Europe	Room Series	power-cord	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	accessory ^CAB- (label Room Series)							
@@ -281,6 +284,7 @@ CAB-PWR-C7-CHE-A=	Power Cord, C7-Right Angled, Grey, 4.5m, Switzerland	Room Seri
 CAB-PWR-C7-CHN-A	Power Cord, C7-Right Angled, Grey, 4.5m, China	Room Series	power-cord	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	sku ^(CAB-USB-A-B-1[.](35|7)M|CAB-PWR-C7-[A-Z]{3}-A)							
 CAB-PWR-C7-CHN-A=	Power Cord, C7-Right Angled, Grey, 4.5m, China	Room Series	power-cord	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	sku ^(CAB-USB-A-B-1[.](35|7)M|CAB-PWR-C7-[A-Z]{3}-A)							
 CAB-PWR-C7-DNK-A	Power Cord, C7-Right Angled, Grey, 4.5m, Denmark	Room Series	power-cord	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	sku ^(CAB-USB-A-B-1[.](35|7)M|CAB-PWR-C7-[A-Z]{3}-A)							
+CAB-PWR-C7-DNK-A=	Power Cord, C7-Right Angled, Grey, 4.5m, Denmark	Policy Suite for Mobile	power-cord	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	sku ^(CAB-USB-A-B-1[.](35|7)M|CAB-PWR-C7-[A-Z]{3}-A)							
 CAB-PWR-C7-EUR-A	Power Cord, C7-Right Angled, Grey, 4.5m, Europe	Room Series	power-cord	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	sku ^(CAB-USB-A-B-1[.](35|7)M|CAB-PWR-C7-[A-Z]{3}-A)							
 CAB-PWR-C7-EUR-A=	Power Cord, C7-Right Angled, Grey, 4.5m, Europe	Room Series	power-cord	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	sku ^(CAB-USB-A-B-1[.](35|7)M|CAB-PWR-C7-[A-Z]{3}-A)							
 CAB-PWR-C7-GBR-A	Power Cord, C7-Right Angled, Grey, 4.5m, United Kingdom	Room Series	power-cord	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	sku ^(CAB-USB-A-B-1[.](35|7)M|CAB-PWR-C7-[A-Z]{3}-A)							
@@ -288,12 +292,15 @@ CAB-PWR-C7-GBR-A=	Power Cord, C7-Right Angled, Grey, 4.5m, United Kingdom	Room S
 CAB-PWR-C7-IND-A	Power Cord, C7-Right Angled, Grey, 4.5m, India	Room Series	power-cord	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	sku ^(CAB-USB-A-B-1[.](35|7)M|CAB-PWR-C7-[A-Z]{3}-A)							
 CAB-PWR-C7-IND-A=	Power Cord, C7-Right Angled, Grey, 4.5m, India	Room Series	power-cord	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	sku ^(CAB-USB-A-B-1[.](35|7)M|CAB-PWR-C7-[A-Z]{3}-A)							
 CAB-PWR-C7-ISR-A	Power Cord, C7-Right Angled, Grey, 4.5m, Israel	Room Series	power-cord	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	sku ^(CAB-USB-A-B-1[.](35|7)M|CAB-PWR-C7-[A-Z]{3}-A)							
+CAB-PWR-C7-ISR-A=	Power Cord, C7-Right Angled, Grey, 4.5m, Israel	Policy Suite for Mobile	power-cord	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	sku ^(CAB-USB-A-B-1[.](35|7)M|CAB-PWR-C7-[A-Z]{3}-A)							
 CAB-PWR-C7-ITA-A	Power Cord, C7-Right Angled, Grey, 4.5m, Italy	Room Series	power-cord	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	sku ^(CAB-USB-A-B-1[.](35|7)M|CAB-PWR-C7-[A-Z]{3}-A)							
+CAB-PWR-C7-ITA-A=	Power Cord, C7-Right Angled, Grey, 4.5m, Italy	Policy Suite for Mobile	power-cord	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	sku ^(CAB-USB-A-B-1[.](35|7)M|CAB-PWR-C7-[A-Z]{3}-A)							
 CAB-PWR-C7-JPN-A	Power Cord, C7-Right Angled, Grey, 4.5m, Japan	Room Series	power-cord	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	sku ^(CAB-USB-A-B-1[.](35|7)M|CAB-PWR-C7-[A-Z]{3}-A)							
 CAB-PWR-C7-JPN-A=	Power Cord, C7-Right Angled, Grey, 4.5m, Japan	Room Series	power-cord	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	sku ^(CAB-USB-A-B-1[.](35|7)M|CAB-PWR-C7-[A-Z]{3}-A)							
 CAB-PWR-C7-KOR-A	Power Cord, C7-Right Angled, Grey, 4.5m, South Korea	Room Series	power-cord	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	sku ^(CAB-USB-A-B-1[.](35|7)M|CAB-PWR-C7-[A-Z]{3}-A)							
 CAB-PWR-C7-KOR-A=	Power Cord, C7-Right Angled, Grey, 4.5m, South Korea	Room Series	power-cord	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	sku ^(CAB-USB-A-B-1[.](35|7)M|CAB-PWR-C7-[A-Z]{3}-A)							
 CAB-PWR-C7-TWN-A	Power Cord, C7-Right Angled, Grey, 4.5m, Taiwan	Room Series	power-cord	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	sku ^(CAB-USB-A-B-1[.](35|7)M|CAB-PWR-C7-[A-Z]{3}-A)							
+CAB-PWR-C7-TWN-A=	Power Cord, C7-Right Angled, Grey, 4.5m, Taiwan	Policy Suite for Mobile	power-cord	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	sku ^(CAB-USB-A-B-1[.](35|7)M|CAB-PWR-C7-[A-Z]{3}-A)							
 CAB-PWR-C7-USA-A	Power Cord, C7-Right Angled, Grey, 4.5m, United States	Room Series	power-cord	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	sku ^(CAB-USB-A-B-1[.](35|7)M|CAB-PWR-C7-[A-Z]{3}-A)							
 CAB-PWR-C7-USA-A=	Power Cord, C7-Right Angled, Grey, 4.5m, United States	Room Series	power-cord	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	sku ^(CAB-USB-A-B-1[.](35|7)M|CAB-PWR-C7-[A-Z]{3}-A)							
 CAB-PWR-C7-ZAF-A	Power Cord, C7-Right Angled, Grey, 4.5m, South Africa	Room Series	power-cord	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	sku ^(CAB-USB-A-B-1[.](35|7)M|CAB-PWR-C7-[A-Z]{3}-A)							
@@ -302,6 +309,14 @@ CAB-PWR-MF-1.0M=	Pwr cable 1.0m black	TelePresence PrecisionHD Cameras	power-cor
 CAB-PWR-RMRF-0.2M=	Pwr cable 0.2m	TelePresence MX Series	power-cord	layered	TelePresence (legacy)	(shared across the line)	TelePresence (legacy) shared parts	accessory ^CAB- (label TelePresence MX Series)							
 CAB-PWR-ST-SHORT-	Two 12V power cables (0.45m & 0.2m) for SpeakerTrack 60	SpeakerTrack 60	power-cord	layered	Cameras		SpeakerTrack 60	sku ^CAB-(ETH|PWR)-ST-							
 CAB-PWR-ST-SHORT=	Two 12V power cables (0.45m&0.2m) for SpeakerTrack 60 spare	SpeakerTrack 60	power-cord	layered	Cameras		SpeakerTrack 60	sku ^CAB-(ETH|PWR)-ST-							
+CAB-ROOM70-L-SPKR-	Left Speaker Cable for ROOM 70	Policy Suite for Mobile	cable	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^(CAB-ROOM70|ANT-ROOM70|CAB-2HDMILK|CAB-2DC-BRL)							
+CAB-ROOM70-L-SPKR=	Left Speaker Cable for ROOM 70	Policy Suite for Mobile	cable	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^(CAB-ROOM70|ANT-ROOM70|CAB-2HDMILK|CAB-2DC-BRL)							
+CAB-ROOM70-L3-SPK-	Left Speaker Cable for ROOM 70 - 3 speakers	Policy Suite for Mobile	cable	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^(CAB-ROOM70|ANT-ROOM70|CAB-2HDMILK|CAB-2DC-BRL)							
+CAB-ROOM70-L3-SPK=	Left Speaker Cable for ROOM 70 - 3 speakers	Policy Suite for Mobile	cable	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^(CAB-ROOM70|ANT-ROOM70|CAB-2HDMILK|CAB-2DC-BRL)							
+CAB-ROOM70-R-SPKR-	Right Speaker Cable for ROOM 70	Policy Suite for Mobile	cable	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^(CAB-ROOM70|ANT-ROOM70|CAB-2HDMILK|CAB-2DC-BRL)							
+CAB-ROOM70-R-SPKR=	Right Speaker Cable for ROOM 70	Policy Suite for Mobile	cable	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^(CAB-ROOM70|ANT-ROOM70|CAB-2HDMILK|CAB-2DC-BRL)							
+CAB-ROOM70-R3-SPK-	Right Speaker Cable for ROOM 70 - 3 speakers	Policy Suite for Mobile	cable	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^(CAB-ROOM70|ANT-ROOM70|CAB-2HDMILK|CAB-2DC-BRL)							
+CAB-ROOM70-R3-SPK=	Right Speaker Cable for ROOM 70 - 3 speakers	Policy Suite for Mobile	cable	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^(CAB-ROOM70|ANT-ROOM70|CAB-2HDMILK|CAB-2DC-BRL)							
 CAB-ROOM70-SPKR-	Speaker Cable for ROOM 70	Room Series	cable	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^(CAB-ROOM70|ANT-ROOM70|CAB-2HDMILK|CAB-2DC-BRL)							
 CAB-SX20-SERIAL	^Serial Cable for SX20.5 meters long	TelePresence SX Series (QuickSet)	cable	layered	TelePresence (legacy)		TelePresence SX (SX10 / SX20 / SX80)	sku ^CAB-SX20-							
 CAB-SX20-SERIAL=	Serial Cable for SX20.5 meters long	TelePresence SX Series (QuickSet)	cable	layered	TelePresence (legacy)		TelePresence SX (SX10 / SX20 / SX80)	sku ^CAB-SX20-							
@@ -325,8 +340,12 @@ CAB-USB-A-B-1.02M=	USB A - USB B Cable, 1.02 meters long for Room55D	Room Series
 CAB-USB-A-B-1.15M-	USB A to USB B Cable, 1.15 meters long for MX700	TelePresence MX Series	cable	layered	TelePresence (legacy)	(shared across the line)	TelePresence (legacy) shared parts	accessory ^CAB- (label TelePresence MX Series)							
 CAB-USB-A-B-1.15M=	USB A to USB B Cable, 1.15 meters long for MX700	TelePresence MX Series	cable	layered	TelePresence (legacy)	(shared across the line)	TelePresence (legacy) shared parts	accessory ^CAB- (label TelePresence MX Series)							
 CAB-USB-A-B-1.35M	^USB A - USB B Cable, 1.35 meters long for ROOM 70	Room Series	cable	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	sku ^(CAB-USB-A-B-1[.](35|7)M|CAB-PWR-C7-[A-Z]{3}-A)							
+CAB-USB-A-B-1.35M-	USB A - USB B Cable, 1.35 meters long for ROOM 70	Policy Suite for Mobile	cable	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	sku ^(CAB-USB-A-B-1[.](35|7)M|CAB-PWR-C7-[A-Z]{3}-A)							
+CAB-USB-A-B-1.35M=	USB A - USB B Cable, 1.35 meters long for ROOM70	Policy Suite for Mobile	cable	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	sku ^(CAB-USB-A-B-1[.](35|7)M|CAB-PWR-C7-[A-Z]{3}-A)							
 CAB-USB-A-B-1.45M-	USB A to USB B Cable, 1.45 meters long for MX700/800	Room Series	cable	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	accessory ^CAB- (label Room Series)							
 CAB-USB-A-B-1.45M=	USB A to USB B Cable, 1.45 meters long for Room 55D	Room Series	cable	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	accessory ^CAB- (label Room Series)							
+CAB-USB-A-B-1.7M-	USB A to USB B Cable, 1.7 meters long for MX800 Dual	Policy Suite for Mobile	cable	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	sku ^(CAB-USB-A-B-1[.](35|7)M|CAB-PWR-C7-[A-Z]{3}-A)							
+CAB-USB-A-B-1.7M=	USB A to USB B Cable, 1.7 meters long for Room 70D, MX800D	Policy Suite for Mobile	cable	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	sku ^(CAB-USB-A-B-1[.](35|7)M|CAB-PWR-C7-[A-Z]{3}-A)							
 CAB-USB-ETH	USB to Ethernet cable for direct pairing	TelePresence MX Series	cable	layered	TelePresence (legacy)	(shared across the line)	TelePresence (legacy) shared parts	accessory ^CAB- (label TelePresence MX Series)							
 CAB-USB-ETH=	USB to Ethernet cable for direct pairing	TelePresence MX Series	cable	layered	TelePresence (legacy)	(shared across the line)	TelePresence (legacy) shared parts	accessory ^CAB- (label TelePresence MX Series)							
 CAB-USBC-1.5M	USB-C 3.2 Gen 2X2 Passive Cable, 1.5M length	Desk Series	cable	layered	Webex Desk Series	(shared across the line)	Webex Desk Series shared parts	accessory ^CAB- (label Desk Series)							
@@ -355,6 +374,7 @@ CD-DSKCAM-P-US	Cisco Desk Camera 4K in platinum for United States (includes USB 
 CD-DSKCAM-P-WW	Cisco Desk Camera 4K in platinum for worldwide (includes USB 3.0 C-to-A and USB 3.0 C-to-C cables)	Desk Series	camera	layered	Cameras		Desk Camera	sku ^CD-DSKCAM							
 CD-DSKCAMD-C-US	Cisco Desk Camera 1080p in carbon black for United States (includes USB 2.0 C-to-A cable)	Desk Series	camera	layered	Cameras		Desk Camera	sku ^CD-DSKCAM							
 CD-DSKCAMD-C-WW	Cisco Desk Camera 1080p in carbon black for worldwide (includes USB 2.0 C-to-A cable)	Desk Series	camera	layered	Cameras		Desk Camera	sku ^CD-DSKCAM							
+CIUS-BATTERY=	Cisco CIUS-BATTERY=	Mini Series	unknown	layered	IP Phones	(shared across the line)	IP Phones shared parts	sku ^CIUS-BATTERY							
 CP-3905	Cisco Unified SIP Phone 3905, Charcoal, Standard Handset	Unified SIP Phone 3900 Series	phone	layered	IP Phones		IP Phone 3900	sku ^CP-39	desk	series:IP Phone 3900					
 CP-3905-HS-CORD=	Spare Handset Cord for Cisco Unified SIP Phone 3905, Charcoal	Unified SIP Phone 3900 Series	accessory	layered	IP Phones		IP Phone 3900	sku ^CP-39							
 CP-3905-HS=	Spare Handset for Cisco Unified SIP Phone 3905, Charcoal	Unified SIP Phone 3900 Series	accessory	layered	IP Phones		IP Phone 3900	sku ^CP-39							
@@ -466,12 +486,21 @@ CP-6911-C-K9=	Cisco Unified IP Phone 6911, Charcoal, Standard Handset	Unified IP
 CP-6911-CL-K9=	Cisco Unified IP Phone 6911, Charcoal, Slimline Handset	Unified IP Phone 6900 Series	phone	layered	IP Phones		Unified IP Phone 6900	sku ^CP-69	desk	series:Unified IP Phone 6900					
 CP-6911-W-K9=	Cisco Unified IP Phone 6911, White, Standard Handset	Unified IP Phone 6900 Series	phone	layered	IP Phones		Unified IP Phone 6900	sku ^CP-69	desk	series:Unified IP Phone 6900					
 CP-6911-WL-K9=	Cisco Unified IP Phone 6911, White, Slimline Handset	Unified IP Phone 6900 Series	phone	layered	IP Phones		Unified IP Phone 6900	sku ^CP-69	desk	series:Unified IP Phone 6900					
+CP-6921-C-K9-APACP	Cisco UC Phone 6921, Charcoal, Std handset, APAC	Unified Communications Manager (CallManager)	phone	layered	IP Phones		Unified IP Phone 6900	sku ^CP-69	desk	series:Unified IP Phone 6900					
+CP-6921-C-K9-LATAM	Cisco UC Phone 6921, Charcoal, Std Handset, LATAM	Unified Communications Manager (CallManager)	phone	layered	IP Phones		Unified IP Phone 6900	sku ^CP-69	desk	series:Unified IP Phone 6900					
 CP-6921-C-K9=	Cisco Unified IP Phone 6921, Charcoal, Standard Handset	Unified IP Phone 6900 Series	phone	layered	IP Phones		Unified IP Phone 6900	sku ^CP-69	desk	series:Unified IP Phone 6900					
+CP-6921-CL-K9-APAC	Cisco Unified IP Phone 6921, Charcoal, light handset, APAC	Unified Communications Manager (CallManager)	phone	layered	IP Phones		Unified IP Phone 6900	sku ^CP-69	desk	series:Unified IP Phone 6900					
 CP-6921-CL-K9=	Cisco Unified IP Phone 6921, Charcoal, Slimline Handset	Unified IP Phone 6900 Series	phone	layered	IP Phones		Unified IP Phone 6900	sku ^CP-69	desk	series:Unified IP Phone 6900					
+CP-6921-CLK9-APACP	Cisco UC Phone 6921, Charcoal, light handset, APAC	Unified Communications Manager (CallManager)	phone	layered	IP Phones		Unified IP Phone 6900	sku ^CP-69	desk	series:Unified IP Phone 6900					
+CP-6921-CLK9-LATAM	Cisco UC Phone 6921, Charcoal, Slimline Hdst, LATAM	Unified Communications Manager (CallManager)	phone	layered	IP Phones		Unified IP Phone 6900	sku ^CP-69	desk	series:Unified IP Phone 6900					
+CP-6921-W-K9-APACP	Cisco UC Phone 6921, White, Std handset, APAC	Unified Communications Manager (CallManager)	phone	layered	IP Phones		Unified IP Phone 6900	sku ^CP-69	desk	series:Unified IP Phone 6900					
 CP-6921-W-K9=	Cisco Unified IP Phone 6921, White, Standard Handset	Unified IP Phone 6900 Series	phone	layered	IP Phones		Unified IP Phone 6900	sku ^CP-69	desk	series:Unified IP Phone 6900					
 CP-6921-WL-K9=	Cisco Unified IP Phone 6921, White, Slimline Handset	Unified IP Phone 6900 Series	phone	layered	IP Phones		Unified IP Phone 6900	sku ^CP-69	desk	series:Unified IP Phone 6900					
+CP-6921-WLK9-APACP	Cisco UC Phone 6921, White, light handset, APAC	Unified Communications Manager (CallManager)	phone	layered	IP Phones		Unified IP Phone 6900	sku ^CP-69	desk	series:Unified IP Phone 6900					
+CP-6941-C-K9-LATAM	Cisco UC Phone 6941, Charcoal, Std Handset, LATAM	Unified Communications Manager (CallManager)	phone	layered	IP Phones		Unified IP Phone 6900	sku ^CP-69	desk	series:Unified IP Phone 6900					
 CP-6941-C-K9=	Cisco Unified IP Phone 6941, Charcoal, Standard Handset	Unified IP Phone 6900 Series	phone	layered	IP Phones		Unified IP Phone 6900	sku ^CP-69	desk	series:Unified IP Phone 6900					
 CP-6941-CL-K9=	Cisco Unified IP Phone 6941, Charcoal, Slimline Handset	Unified IP Phone 6900 Series	phone	layered	IP Phones		Unified IP Phone 6900	sku ^CP-69	desk	series:Unified IP Phone 6900					
+CP-6941-CLK9-LATAM	Cisco UC Phone 6941, Charcoal, Slimline Hdst, LATAM	Unified Communications Manager (CallManager)	phone	layered	IP Phones		Unified IP Phone 6900	sku ^CP-69	desk	series:Unified IP Phone 6900					
 CP-6941-W-K9=	Cisco Unified IP Phone 6941, White, Standard Handset	Unified IP Phone 6900 Series	phone	layered	IP Phones		Unified IP Phone 6900	sku ^CP-69	desk	series:Unified IP Phone 6900					
 CP-6941-WL-K9=	Cisco Unified IP Phone 6941, White, Slimline Handset	Unified IP Phone 6900 Series	phone	layered	IP Phones		Unified IP Phone 6900	sku ^CP-69	desk	series:Unified IP Phone 6900					
 CP-6945-C-K9=	Cisco Unified IP Phone 6945, Charcoal, Standard Handset	Unified IP Phone 6900 Series	phone	layered	IP Phones		Unified IP Phone 6900	sku ^CP-69	desk	series:Unified IP Phone 6900					
@@ -633,9 +662,11 @@ CP-7935-RF	Cisco IP Conference Station 7935, refurbished	7900 - Unified IP Phone
 CP-7935=	Cisco IP Conference Station 7935, spare	7900 - Unified IP Phone	phone	layered	IP Phones		Unified IP Conference Station 7935 / 7936 / 7937	sku ^CP-793[5-7]	conference	series:Unified IP Conference Station 7935 / 7936 / 7937					
 CP-7940	Cisco CP-7940	7900 - Unified IP Phone	phone	layered	IP Phones		Unified IP Phone 7900	sku ^CP-79	desk	series:Unified IP Phone 7900					
 CP-7940=	Cisco CP-7940=	7900 - Unified IP Phone	phone	layered	IP Phones		Unified IP Phone 7900	sku ^CP-79	desk	series:Unified IP Phone 7900					
+CP-7941G-PROMO	Cisco Unified IP Phone 7941G With License - Special Bundle	Unified Communications Manager (CallManager)	phone	layered	IP Phones		Unified IP Phone 7900	sku ^CP-79	desk	series:Unified IP Phone 7900					
 CP-7942-APACPH-OPT	7942 Phone Option	7900 - Unified IP Phone	phone	layered	IP Phones		Unified IP Phone 7900	sku ^CP-79	desk	series:Unified IP Phone 7900					
 CP-7942G	Cisco UC Phone 7942	7900 - Unified IP Phone	phone	layered	IP Phones		Unified IP Phone 7900	sku ^CP-79	desk	series:Unified IP Phone 7900					
 CP-7942G++=	Cisco UC Phone 7942, spare, TAA	7900 - Unified IP Phone	phone	layered	IP Phones		Unified IP Phone 7900	sku ^CP-79	desk	series:Unified IP Phone 7900					
+CP-7942G-APACSP	Cisco UC phone 7942G AsiaPac Bundle	Unified Communications Manager (CallManager)	phone	layered	IP Phones		Unified IP Phone 7900	sku ^CP-79	desk	series:Unified IP Phone 7900					
 CP-7942G-BULK	Cisco UC Phone 7942, BULK	7900 - Unified IP Phone	phone	layered	IP Phones		Unified IP Phone 7900	sku ^CP-79	desk	series:Unified IP Phone 7900					
 CP-7942G-CCME	Cisco UC Phone 7942 with 1 CCME RTU License	7900 - Unified IP Phone	phone	layered	IP Phones		Unified IP Phone 7900	sku ^CP-79	desk	series:Unified IP Phone 7900					
 CP-7942G-CH1	Cisco Unified IP Phone 7942 with 1 RTU License	7900 - Unified IP Phone	phone	layered	IP Phones		Unified IP Phone 7900	sku ^CP-79	desk	series:Unified IP Phone 7900					
@@ -893,6 +924,7 @@ CP-BATT-7920-STD=	Cisco Unified Wireless IP Phone 7920 Battery, Standard	7900 - 
 CP-BATT-7921G-EXT=	Cisco Unified Wireless IP Phone 7921G Battery, Extended	7900 - Unified IP Phone	accessory	layered	IP Phones		Unified Wireless IP Phone 7920 / 7921 / 7925 / 7926	sku ^CP-.*(?<![0-9])792[0156]G?(?![0-9])							
 CP-BATT-7921G-STD=	Cisco Unified Wireless IP Phone 7921G Battery, Standard	7900 - Unified IP Phone	accessory	layered	IP Phones		Unified Wireless IP Phone 7920 / 7921 / 7925 / 7926	sku ^CP-.*(?<![0-9])792[0156]G?(?![0-9])							
 CP-BATT-7925G-EXT	Cisco 7925G Battery, Extended	7900 - Unified IP Phone	power	layered	IP Phones		Unified Wireless IP Phone 7920 / 7921 / 7925 / 7926	sku ^CP-.*(?<![0-9])792[0156]G?(?![0-9])							
+CP-BATT-7925G-EXT=	Cisco 7925G Battery, Extended	Mini Series	power	layered	IP Phones		Unified Wireless IP Phone 7920 / 7921 / 7925 / 7926	sku ^CP-.*(?<![0-9])792[0156]G?(?![0-9])							
 CP-BATT-7925G-STD=	Cisco 7925G Battery, Standard	7900 - Unified IP Phone	power	layered	IP Phones		Unified Wireless IP Phone 7920 / 7921 / 7925 / 7926	sku ^CP-.*(?<![0-9])792[0156]G?(?![0-9])							
 CP-BATT-8821=	Cisco CP-BATT-8821=	IP Phone 8800 Series	accessory	layered	IP Phones		Wireless IP Phone 8821	sku ^CP-.*(?<![0-9])8821(?![0-9])							
 CP-BEKEM	Cisco IP Phone 8800 Key Expansion Module	IP Phone 8800 Series	expansion-module	layered	IP Phones		IP Phone 8800 (8811 - 8875)	sku ^CP-BEKEM							
@@ -1551,6 +1583,7 @@ CS-KIT-EQ-K9++	Cisco CS-KIT-EQ-K9++	Room Series	video-codec	layered	Webex Room S
 CS-KIT-EQ-K9--	Cisco CS-KIT-EQ-K9--	Room Series	video-codec	layered	Webex Room Series		Room Kit (Kit / Mini / Plus / Pro / EQ)	sku ^CS-KIT							
 CS-KIT-EQ-NR-K9	Cisco CS-KIT-EQ-NR-K9	Room Series	video-codec	layered	Webex Room Series		Room Kit (Kit / Mini / Plus / Pro / EQ)	sku ^CS-KIT							
 CS-KIT-EQX-FSK-C=	Cisco Room Kit EQX Floor Stand - Carbon Black	Room Series	mechanical	layered	Webex Room Series		Room Kit (Kit / Mini / Plus / Pro / EQ)	sku ^CS-KIT							
+CS-KIT-EQX-K9	Cisco CS-KIT-EQX-K9	Policy Suite for Mobile	video-codec	layered	Webex Room Series		Room Kit (Kit / Mini / Plus / Pro / EQ)	sku ^CS-KIT							
 CS-KIT-EQX-NR-K9	Cisco CS-KIT-EQX-NR-K9	Room Series	video-codec	layered	Webex Room Series		Room Kit (Kit / Mini / Plus / Pro / EQ)	sku ^CS-KIT							
 CS-KIT-EQX-WMK-C=	Cisco Room Kit EQX Wall Mount - Carbon Black	Room Series	mechanical	layered	Webex Room Series		Room Kit (Kit / Mini / Plus / Pro / EQ)	sku ^CS-KIT							
 CS-KIT-EQX-WSK-C=	Cisco Room Kit EQX Wall Stand - Carbon Black	Room Series	mechanical	layered	Webex Room Series		Room Kit (Kit / Mini / Plus / Pro / EQ)	sku ^CS-KIT							
@@ -1762,7 +1795,12 @@ CS-R55-UNI2-NR-K7=	Cisco Webex Room 55 Main Unit, Non Encryption and Non Radio	R
 CS-R55-UNI2-NR-K9+	Cisco Webex Room 55 Main Unit Non Radio	Room Series	video-device	layered	Webex Room Series		Room 55 / 55D	sku ^CS-R55-							
 CS-R55-UNI2-NR-K9=	Cisco Webex Room 55 Main Unit Non Radio	Room Series	video-device	layered	Webex Room Series		Room 55 / 55D	sku ^CS-R55-							
 CS-R70-PRES-BTM	Below Screen mount for 70 Panorama - Samsung 55"	Room Series	mechanical	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^CS-R70							
+CS-R70-PRES-BTM=	Below Screen mount for 70 Panorama - Samsung 55"	Policy Suite for Mobile	mechanical	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^CS-R70							
 CS-R70-PRES-TOP	Above Screen mount for 70 Panorama - Samsung 65"	Room Series	mechanical	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^CS-R70							
+CS-R70-PRES-TOP=	Above Screen mount for 70 Panorama - Samsung 65"	Policy Suite for Mobile	mechanical	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^CS-R70							
+CS-R70-R55D-SPKR-	Top speaker for Room 55d and Room 70	Policy Suite for Mobile	speaker	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^CS-R70							
+CS-R70-R55D-SPKR=	Top speaker for Room 70 and Room 55D	Policy Suite for Mobile	speaker	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^CS-R70							
+CS-R70P-SCREENKIT	Panorama Presentation Screen Kit for Room 70D G2	Policy Suite for Mobile	video-device	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^CS-R70							
 CS-R70P-UPG-BUN	Cisco Webex Room 70 Panorama upgrade	Room Series	video-device	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^CS-R70							
 CS-RCODPLUS-K9	^Cisco Room CodecPLUS	Room Series	video-codec	layered	Webex Room Series		Codec Plus / Pro / EQ	sku ^CS-RCOD(PLUS|PRO)							
 CS-RCODPLUS-K9+	Cisco Room CodecPLUS	Room Series	video-codec	layered	Webex Room Series		Codec Plus / Pro / EQ	sku ^CS-RCOD(PLUS|PRO)							
@@ -1791,6 +1829,8 @@ CS-ROOM-PANO85-NR-K7	Cisco Room Panorama, no-radio, no-encryption	Room Series	vi
 CS-ROOM-PANO85-NR-K9	Cisco Room Panorama, no-radio	Room Series	video-device	layered	Webex Room Series		Room Panorama	sku ^CS-ROOM-PANO							
 CS-ROOM-USB-K9	Room USB - With Remote	Room Series	video-device	layered	Webex Room Series		Room Kit (Kit / Mini / Plus / Pro / EQ)	sku ^CS-ROOM-USB							
 CS-ROOM-USB-K9=	Cisco Webex Room Kit Mini/Room USB (unit) – SPARE	Room Series	video-device	layered	Webex Room Series		Room Kit (Kit / Mini / Plus / Pro / EQ)	sku ^CS-ROOM-USB							
+CS-ROOM55-70-CFBC=	Cisco Webex Room 55 and 70 Center Floor Bottom Cover	Policy Suite for Mobile	video-device	layered	Webex Room Series		Room 55 / 55D	sku ^CS-ROOM55							
+CS-ROOM55-70-WSB=	Cisco Webex Room 55 and 70 Wall Secure Bracket	Policy Suite for Mobile	video-device	layered	Webex Room Series		Room 55 / 55D	sku ^CS-ROOM55							
 CS-ROOM55-FSK	Webex Room 55, Floor Stand Kit	Room Series	mechanical	layered	Webex Room Series		Room 55 / 55D	sku ^CS-ROOM55							
 CS-ROOM55-FSK=	Webex Room 55, Floor Stand Kit	Room Series	mechanical	layered	Webex Room Series		Room 55 / 55D	sku ^CS-ROOM55							
 CS-ROOM55-K9	Room 55 with Navigator and Mount	Room Series	video-device	layered	Webex Room Series		Room 55 / 55D	sku ^CS-ROOM55							
@@ -1832,13 +1872,29 @@ CS-ROOM55D-WM-GRK-	Room 55D Wallmount Grill Kit	Room Series	mechanical	layered	W
 CS-ROOM55D-WM-GRK=	Room 55D Wallmount Grill Kit	Room Series	mechanical	layered	Webex Room Series		Room 55 / 55D	sku ^CS-ROOM55							
 CS-ROOM55D-WMK	Cisco Room 55 Dual Screen Wall Mount Kit	Room Series	mechanical	layered	Webex Room Series		Room 55 / 55D	sku ^CS-ROOM55							
 CS-ROOM55D-WMK=	Cisco Room 55 Dual Screen Wall Mount Kit	Room Series	mechanical	layered	Webex Room Series		Room 55 / 55D	sku ^CS-ROOM55							
+CS-ROOM70-CFBB-	Center Frame Bottom Bracket Room 70	Policy Suite for Mobile	mechanical	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^CS-ROOM70							
+CS-ROOM70-CFBB=	Center Frame Bottom Bracket Room 70	Policy Suite for Mobile	mechanical	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^CS-ROOM70							
+CS-ROOM70-MON-SCV-	Sidecover for Room 70 monitor ( left and right included)	Policy Suite for Mobile	mechanical	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^CS-ROOM70							
+CS-ROOM70-MON-SCV=	Sidecover for Room 70 monitor ( left and right included)	Policy Suite for Mobile	mechanical	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^CS-ROOM70							
 CS-ROOM70-PANO-K9	Cisco Webex Room 70 Panorama, Dual 70-inch screens + presentation screen	Room Series	video-device	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^CS-ROOM70							
+CS-ROOM70-SCRWKIT=	Screws and Part Kit for Room 70	Policy Suite for Mobile	video-device	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^CS-ROOM70							
+CS-ROOM70D-CAMCV-	Dual cam top rear cover, Center Top profile and.....	Policy Suite for Mobile	mechanical	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^CS-ROOM70							
+CS-ROOM70D-CAMCV=	Dual cam top rear cover, Center Top profile and.....	Policy Suite for Mobile	mechanical	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^CS-ROOM70							
+CS-ROOM70D-FS-GRK-	Room 70D Floorstand Grill Kit	Policy Suite for Mobile	mechanical	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^CS-ROOM70							
+CS-ROOM70D-FS-GRK=	Room 70D Floorstand Grill Kit	Policy Suite for Mobile	mechanical	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^CS-ROOM70							
 CS-ROOM70D-FSK	Cisco Room 70 Dual Screen Floor Stand Kit	TelePresence MX Series	mechanical	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^CS-ROOM70							
 CS-ROOM70D-FSK=	Cisco Room 70 Dual Screen Floor Stand Kit	TelePresence MX Series	mechanical	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^CS-ROOM70							
 CS-ROOM70D-K9	Cisco Webex Room 70 Dual with Touch10	Room Series	video-device	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^CS-ROOM70							
+CS-ROOM70D-MB=	Cisco Webex Room 70 Upper Joining Bracket for Monitors	Policy Suite for Mobile	mechanical	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^CS-ROOM70							
+CS-ROOM70D-MON-L-	Left Monitor for Room 70 Dual	Policy Suite for Mobile	display	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^CS-ROOM70							
+CS-ROOM70D-MON-L=	Left Monitor for Room 70 Dual	Policy Suite for Mobile	display	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^CS-ROOM70							
+CS-ROOM70D-MON-R-	Right Monitor for Room 70 Dual	Policy Suite for Mobile	display	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^CS-ROOM70							
+CS-ROOM70D-MON-R=	Right Monitor for Room 70 Dual	Policy Suite for Mobile	display	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^CS-ROOM70							
 CS-ROOM70D-MSRP-K9	Cisco Webex Room 70 Dual with Touch10 for Webex Subscription	Room Series	video-device	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^CS-ROOM70							
 CS-ROOM70D-NR-K7	Cisco Webex Room 70 Dual, Non Encryption and Non Radio	Room Series	video-device	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^CS-ROOM70							
 CS-ROOM70D-NR-K9	Cisco Webex Room 70 Dual with Touch10 Non Radio	Room Series	video-device	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^CS-ROOM70							
+CS-ROOM70D-WM-GRK-	Room 70D Wallmount Grill Kit	Policy Suite for Mobile	mechanical	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^CS-ROOM70							
+CS-ROOM70D-WM-GRK=	Room 70D Wallmount Grill Kit	Policy Suite for Mobile	mechanical	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^CS-ROOM70							
 CS-ROOM70D-WMK	Cisco Room 70 Dual Screen Wall Mount Kit	TelePresence MX Series	mechanical	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^CS-ROOM70							
 CS-ROOM70D-WMK=	Cisco Room 70 Dual Screen Wall Mount Kit	TelePresence MX Series	mechanical	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^CS-ROOM70							
 CS-ROOM70DG2-K9	Cisco Webex Room 70 G2 Dual with Codec Pro and Navigator	TelePresence MX Series	video-device	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^CS-ROOM70							
@@ -1846,9 +1902,13 @@ CS-ROOM70DG2-M-K9	Cisco Webex Room 70 Dual G2 with Touch10 for Webex Subs	TelePr
 CS-ROOM70DG2-NR-K7	Cisco Webex Room 70 Dual G2, Non Encryption and Non Radio	TelePresence MX Series	video-device	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^CS-ROOM70							
 CS-ROOM70DG2-NR-K9	Cisco Webex Room 70 Dual G2 w/Codec Pro and Touch Non Radio	TelePresence MX Series	video-device	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^CS-ROOM70							
 CS-ROOM70P-FSK	Cisco Webex Room 70 Panorama Floor Stand Kit, free stand or secured to the wall (both options included)	Room Series	mechanical	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^CS-ROOM70							
+CS-ROOM70P-FSK=	Cisco Room 70 Panorama Floor Stand Kit	Policy Suite for Mobile	mechanical	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^CS-ROOM70							
 CS-ROOM70P-NR-K7	Cisco Webex Room 70 Panorama, NoCrypto – No-Radio	Room Series	video-device	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^CS-ROOM70							
 CS-ROOM70P-NR-K9	Cisco Webex Room 70 Panorama, No-Radio	Room Series	video-device	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^CS-ROOM70							
+CS-ROOM70P-SFSK	Cisco Room 70 Panorama Floor Stand Kit (SHORT)	Policy Suite for Mobile	video-device	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^CS-ROOM70							
+CS-ROOM70P-SFSK=	Cisco Room 70 Panorama Floor Stand Kit (SHORT)	Policy Suite for Mobile	video-device	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^CS-ROOM70							
 CS-ROOM70P-WMK	Cisco Room 70 Panorama Wall Mount Kit - hangs on wall	Room Series	mechanical	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^CS-ROOM70							
+CS-ROOM70P-WMK=	Cisco Room 70 Panorama Wall Mount Kit - hangs on wall	Policy Suite for Mobile	mechanical	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^CS-ROOM70							
 CS-ROOM70S-FS-GRK-	Room 70S Floorstand Grill Kit	Room Series	mechanical	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^CS-ROOM70							
 CS-ROOM70S-FS-GRK=	Room 70S Floorstand Grill Kit	Room Series	mechanical	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^CS-ROOM70							
 CS-ROOM70S-FSK	Cisco Room 70 Single Screen Floor Stand Kit	Room Series	mechanical	layered	Webex Room Series		Room 70 / 70S / 70D	sku ^CS-ROOM70							
@@ -2156,6 +2216,8 @@ CTS-MIC-TABL60=	Cisco TelePresence Table Microphone 60 Spare	Microphones	microph
 CTS-MON-42-WW	Cisco TelePresence 42 Inch Auxiliary Display - World Wide	TelePresence IX5000 Series	display	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-MON-							
 CTS-MON-55-WW	Cisco TelePresence 55 Inch Auxiliary Display - World Wide	TelePresence IX5000 Series	display	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-MON-							
 CTS-MON-55-WW=	Cisco TelePresence 55 Inch Auxiliary Display - World Wide	TelePresence IX5000 Series	display	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-MON-							
+CTS-MX-FSK-SKI-	Cisco MX700, MX800 og Room70D Ski for Floor Stand Kit	Policy Suite for Mobile	mechanical	layered	TelePresence (legacy)	(shared across the line)	TelePresence (legacy) shared parts	sku ^CTS-							
+CTS-MX-FSK-SKI=	Cisco MX700, MX800 og Room70D Ski for Floor Stand Kit	Policy Suite for Mobile	mechanical	layered	TelePresence (legacy)	(shared across the line)	TelePresence (legacy) shared parts	sku ^CTS-							
 CTS-MX200-42-FSK	Cisco TelePresence MX200 42 Floor Stand Option	TelePresence MX Series	mechanical	layered	TelePresence (legacy)		TelePresence MX (MX200 / MX300 / MX700 / MX800)	sku ^CTS-MX[0-9]							
 CTS-MX200-42-FSK=	Cisco TelePresence MX200 42 Floor Stand Option	TelePresence MX Series	mechanical	layered	TelePresence (legacy)		TelePresence MX (MX200 / MX300 / MX700 / MX800)	sku ^CTS-MX[0-9]							
 CTS-MX200-42-K9	Cisco TelePresence MX200 42, PHD 1080p 4x, NPP, Touch, Mic	TelePresence MX Series	video-device	layered	TelePresence (legacy)		TelePresence MX (MX200 / MX300 / MX700 / MX800)	sku ^CTS-MX[0-9]							
@@ -2240,6 +2302,7 @@ CTS-MX700-S-CAMCV=	Single cam top rear cover, Center Top profile and....	TelePre
 CTS-MX700800-CFBB-	Center Frame Bottom Bracket MX700 and MX800	TelePresence MX Series	mechanical	layered	TelePresence (legacy)		TelePresence MX (MX200 / MX300 / MX700 / MX800)	sku ^CTS-MX[0-9]							
 CTS-MX700800-CFBB=	Center Frame Bottom Bracket MX700 and MX800	TelePresence MX Series	mechanical	layered	TelePresence (legacy)		TelePresence MX (MX200 / MX300 / MX700 / MX800)	sku ^CTS-MX[0-9]							
 CTS-MX700800-SPKR-	Top speaker for MX700/800 and ROOM 70	Room Series	speaker	layered	TelePresence (legacy)		TelePresence MX (MX200 / MX300 / MX700 / MX800)	sku ^CTS-MX[0-9]							
+CTS-MX700800-SPKR=	Top speaker for MX700/800 and ROOM 70	Policy Suite for Mobile	speaker	layered	TelePresence (legacy)		TelePresence MX (MX200 / MX300 / MX700 / MX800)	sku ^CTS-MX[0-9]							
 CTS-MX700800-WSBK=	Wallmount Security Bracket Kit for MX700D, MX800S, MX800D	TelePresence MX Series	mechanical	layered	TelePresence (legacy)		TelePresence MX (MX200 / MX300 / MX700 / MX800)	sku ^CTS-MX[0-9]							
 CTS-MX700D-1CAM-K9	Cisco MX700 dual 55”, single camera option (comes with Cisco Touch 10, 2 microphones, 2 presentation cables, HDMI and VGA, and power cable)	TelePresence MX Series	video-device	layered	TelePresence (legacy)		TelePresence MX (MX200 / MX300 / MX700 / MX800)	sku ^CTS-MX[0-9]							
 CTS-MX700D-2CAM-K9	Cisco MX700 dual 55”, dual camera option (comes with Cisco Touch 10, 2 microphones, 2 presentation cables, HDMI and VGA, and power cable)	TelePresence MX Series	video-device	layered	TelePresence (legacy)		TelePresence MX (MX200 / MX300 / MX700 / MX800)	sku ^CTS-MX[0-9]							

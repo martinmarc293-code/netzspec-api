@@ -1,11 +1,15 @@
 {
  "vendor": "cisco",
  "category": "servers-unified-computing",
- "built_at": "2026-09-15T22:52:42.921Z",
- "commit": "9a734f7ba27364704867e3f28204553e1ab21277",
- "uncommitted_rule_files": [],
+ "built_at": "2026-09-15T23:24:26.550Z",
+ "commit": "daa609b5f1a24431ec097b320227e7df1b36b063",
+ "uncommitted_rule_files": [
+  "data/reference/family-carriers.json",
+  "data/reference/layers-cross-claims.json",
+  "scripts/build-layers.mts"
+ ],
  "mapping_file": "data/reference/product-lines/cisco-servers-unified-computing.json",
- "parts": 9504,
+ "parts": 9492,
  "lines": [
   {
    "line": "UCS Solution Bundles",
@@ -402,18 +406,20 @@
   },
   {
    "line": "UCS E-Series Server Modules",
-   "parts": 177,
+   "parts": 197,
    "series": [
     {
      "series": "UCS E-Series",
      "family": null,
      "role": null,
      "note": "layers round 3: ^FL-UCSE removed — it placed no row. ^E1[0-9]{2}(DP?|S)M[0-9](-10G)?-SVC$ places the ten E140D / E140DP / E140S / E160D / E160DP / E180D service spares ('CANIS SERVICES ONLY SPARE'), which the label check had moved to shared parts for want of name evidence: their SKU names the module. Re-audit decisions (operator, 15 Sep 2026, Q-13): the UCS E-Series lives here, kind server — it reverses pre-ruling C3. The four UCS-E modules in interfaces-modules and the routers' E100 / E-SSD parts carry move plans in; ^SVC-E is back (the three SVC-E service spares stay, their plans to interfaces-modules removed); ^EM3-(?!HDA) keeps the UCS-E M3 memory and SSDs (EM3-MEM-, EM3-AF-) and lets EM3-HDA-8FXS, a voice expansion module, go to interfaces-modules",
-     "parts": 167,
+     "parts": 181,
      "kinds": {
-      "drive": 64,
-      "server": 92,
-      "memory": 8,
+      "drive": 68,
+      "server": 96,
+      "mechanical": 2,
+      "accessory": 2,
+      "memory": 10,
       "unknown": 3
      },
      "roles": {},
@@ -426,46 +432,41 @@
       "E-SSD-SATA-480G= — 480 GB, SATA SSD drive for UCS-E M6 spare"
      ],
      "rules": {
-      "sku": 167
+      "sku": 181
      },
-     "pending_in": {
-      "routers": 10,
-      "interfaces-modules": 4
-     }
+     "pending_in": {}
     },
     {
      "series": "Services Ready Engine (ISM-SRE / SM-SRE)",
      "family": null,
      "role": null,
      "note": "re-audit decisions (operator, 15 Sep 2026, Q-13): the Services Ready Engine, the UCS E-Series' predecessor in the ISR G2, follows the E-Series into servers-unified-computing — the engines kind server, their drives, memory and disk cover as components. The ten SRE rows this category had planned to interfaces-modules stay (plans removed: ISM-SRE-300-BUN-K9, ISM-SRE-300-K9=, SM-DSK-COVER, SM-HDD-SATA-500GB(=), SM-HDDB-SATA500GB, SM-MEM-VLP-2GB(=) / 4GB(=)); the six SRE rows interfaces-modules holds (ISM-SRE-300-K9, -K9++=, -RS-K9=, SM-SRE-700-K9, SM-SRE-900-K9, SM-DSK-SATA-500GB=) carry move plans in",
-     "parts": 10,
+     "parts": 16,
      "kinds": {
-      "server": 2,
+      "server": 7,
       "mechanical": 1,
-      "drive": 3,
+      "drive": 4,
       "memory": 4
      },
      "roles": {},
      "samples": [
       "ISM-SRE-300-BUN-K9 — Services Ready Engine (SRE) 300 ISM for VSEC-SRE bundle",
+      "ISM-SRE-300-K9 — Internal Services Module (ISM) with Services Ready Engine",
+      "ISM-SRE-300-K9++= — Services Ready Engine 300 (512MB MEM, 4GB Flash, 1C CPU)",
       "ISM-SRE-300-K9= — Services Ready Engine 300 (512MB MEM, 4GB Flash, 1C CPU)",
-      "SM-DSK-COVER — Hard disk drive face plate cover for SRE 700 and 900",
-      "SM-HDD-SATA-500GB — 500 GB hard disk drive for SRE 710 and 910",
-      "SM-HDD-SATA-500GB= — 500 GB hard disk drive for SRE 710 and 910",
-      "SM-HDDB-SATA500GB — 500 GB hard disk drive for SRE 710 and 910"
+      "ISM-SRE-300-RS-K9= — ISM 300 module for VPN software",
+      "SM-DSK-COVER — Hard disk drive face plate cover for SRE 700 and 900"
      ],
      "rules": {
-      "sku": 10
+      "sku": 16
      },
-     "pending_in": {
-      "interfaces-modules": 6
-     }
+     "pending_in": {}
     }
    ]
   },
   {
    "line": "UCS Fabric Interconnects",
-   "parts": 153,
+   "parts": 164,
    "series": [
     {
      "series": "UCS Mini (6324)",
@@ -544,12 +545,12 @@
      "family": null,
      "role": null,
      "note": null,
-     "parts": 28,
+     "parts": 29,
      "kinds": {
       "mechanical": 4,
       "fan": 4,
       "fabric-interconnect": 9,
-      "power": 11
+      "power": 12
      },
      "roles": {},
      "samples": [
@@ -561,11 +562,9 @@
       "UCS-FAN-6332-D — UCS 6332/ 6454 Fan Module"
      ],
      "rules": {
-      "sku": 28
+      "sku": 29
      },
-     "pending_in": {
-      "switches": 1
-     }
+     "pending_in": {}
     },
     {
      "series": "UCS 6400 Fabric Interconnects",
@@ -598,53 +597,53 @@
      "family": null,
      "role": null,
      "note": null,
-     "parts": 13,
+     "parts": 16,
      "kinds": {
+      "mechanical": 1,
       "accessory": 3,
-      "fan": 1,
+      "fan": 2,
       "fabric-interconnect": 6,
-      "power": 3
+      "power": 4
      },
      "roles": {},
      "samples": [
+      "UCS-ACC-6536 — UCS 6536 chassis accessory kit",
       "UCS-ACC-6536-D — Cisco UCS-ACC-6536-D",
       "UCS-ACC-6536-D= — Cisco UCS-ACC-6536-D=",
       "UCS-ACC-6536= — Cisco UCS-ACC-6536=",
-      "UCS-FAN-6536-D — Cisco UCS-FAN-6536-D",
-      "UCS-FI-6536-D-CH — Cisco UCS-FI-6536-D-CH",
-      "UCS-FI-6536-D-U — Cisco UCS-FI-6536-D-U"
+      "UCS-FAN-6536 — UCS 6536 fan module",
+      "UCS-FAN-6536-D — Cisco UCS-FAN-6536-D"
      ],
      "rules": {
-      "sku": 13
+      "sku": 16
      },
-     "pending_in": {
-      "interfaces-modules": 3
-     }
+     "pending_in": {}
     },
     {
      "series": "UCS 6600 Fabric Interconnects",
      "family": null,
      "role": null,
      "note": "layers round 3: Cisco's 'UCS 6600 Series Fabric Interconnects Data Sheet' names the series (UCS-FI-6652 1RU 52 ports, UCS-FI-6664 2RU 64 ports). The spares UCS-FI-6652= / ++= and UCS-FI-6664= / ++= sat in the line's shared parts (fabric interconnects in shared parts); UCS-FI-6652-U / 6664-U arrive from interfaces-modules by plan. With them and the 6200 cards placed, the line's shared-parts rule ^UCSX?-FI- decided no row (every match went to a model series) and was removed with its series entry. ^UCS-PSU-6600 places UCS-PSU-6600-AC= 'UCS 6600 1.4KW AC Power Supply' and the UCS-PSU-6600-AC arriving from interfaces-modules, which were the last rows of UCS Server Components' 'Power supplies and fans' (every other UCS-PSU / UCS-FAN row names its fabric interconnect); that series and its two rules were removed",
-     "parts": 5,
+     "parts": 12,
      "kinds": {
-      "fabric-interconnect": 4,
-      "power": 1
+      "mechanical": 2,
+      "fan": 2,
+      "fabric-interconnect": 6,
+      "power": 2
      },
      "roles": {},
      "samples": [
+      "UCS-ACC-6652 — UCS 6652 chassis accessory kit",
+      "UCS-ACC-6664 — UCS 6664 chassis accessory kit",
+      "UCS-FAN-6652 — UCS 6652 fan module",
+      "UCS-FAN-6664 — UCS 6664 fan module",
       "UCS-FI-6652++= — Cisco UCS-FI-6652++=",
-      "UCS-FI-6652= — Cisco UCS-FI-6652=",
-      "UCS-FI-6664++= — Cisco UCS-FI-6664++=",
-      "UCS-FI-6664= — Cisco UCS-FI-6664=",
-      "UCS-PSU-6600-AC= — UCS 6600 1.4KW AC Power Supply, Port-side Exhaust"
+      "UCS-FI-6652-U — 1RU FI, with no PSU, with 52 ports"
      ],
      "rules": {
-      "sku": 5
+      "sku": 12
      },
-     "pending_in": {
-      "interfaces-modules": 7
-     }
+     "pending_in": {}
     },
     {
      "series": "UCS Fabric Interconnects shared parts",
@@ -724,7 +723,7 @@
   },
   {
    "line": "UCS X-Series Modular System",
-   "parts": 1114,
+   "parts": 1115,
    "series": [
     {
      "series": "UCS X9508 chassis",
@@ -890,7 +889,7 @@
      "family": "(shared across the line)",
      "role": null,
      "note": null,
-     "parts": 1055,
+     "parts": 1056,
      "kinds": {
       "cable": 9,
       "cpu": 494,
@@ -905,7 +904,7 @@
       "memory": 79,
       "unknown": 2,
       "power": 2,
-      "tpm": 13
+      "tpm": 14
      },
      "roles": {},
      "samples": [
@@ -919,11 +918,9 @@
      "rules": {
       "accessory": 8,
       "label": 15,
-      "sku": 1032
+      "sku": 1033
      },
-     "pending_in": {
-      "routers": 1
-     }
+     "pending_in": {}
     }
    ]
   },
@@ -1160,7 +1157,7 @@
   },
   {
    "line": "UCS C-Series Rack Servers",
-   "parts": 1857,
+   "parts": 1859,
    "series": [
     {
      "series": "UCS C880A M8 (AI)",
@@ -1300,10 +1297,10 @@
      "family": null,
      "role": null,
      "note": "layers round 3: the two model rules are fenced to the prefixes of the rows they decide (UCSC- / UCS- for C220, UCSC- / CBL- for 220M): unfenced they claimed the C220-based parts of other products — AIR- / CMX- / MSE- / DN3-LOC / IWA- (wireless: 5520 controller, CMX / MSE, the Catalyst Center location appliance, IEC6400) and XRV-FAN-C220M4= (routers: the XRv 9000 appliance) — and the HX- / HCI- rows of the two hyperconverged categories. ^UCS-MAN-S72A2T0V0$ 'MSFT AzureStack HCI Hyb CTO Node C220 M7sn' (its SKU names no model; it and its spare sat in UCS Server Components shared parts)",
-     "parts": 168,
+     "parts": 169,
      "kinds": {
       "cable": 19,
-      "server": 53,
+      "server": 54,
       "bundle": 15,
       "mechanical": 20,
       "accessory": 30,
@@ -1322,11 +1319,9 @@
       "CBL-FNVME-220M6= — C220 / C225 M6 1U x4 Front NVMe cable"
      ],
      "rules": {
-      "sku": 168
+      "sku": 169
      },
-     "pending_in": {
-      "routers": 1
-     }
+     "pending_in": {}
     },
     {
      "series": "UCS C225",
@@ -1529,12 +1524,12 @@
      "family": "(shared across the line)",
      "role": null,
      "note": null,
-     "parts": 801,
+     "parts": 802,
      "kinds": {
       "mechanical": 64,
       "pdu": 1,
       "accessory": 41,
-      "cable": 97,
+      "cable": 98,
       "fan": 4,
       "memory": 32,
       "bundle": 6,
@@ -1552,18 +1547,16 @@
       "A04-BTHP3= — Replacement Thermal Pad for UCS B440/B230",
       "C16-2PDU — AddOn-Bullion 2PDU",
       "C16-CB16 — AddOn-Bullion 8 Module Connecting Box CB16",
+      "CAB-48DC-40A-8AWG — C-Series -48VDC PSU Power Cord, 3.5M, 3 Wire, 8AWG, 40A",
       "CAB-48DC-40A-8AWG= — Cisco CAB-48DC-40A-8AWG=",
-      "CAB-48DC-40A-AS-D — Cisco CAB-48DC-40A-AS-D",
-      "CAB-48DC-40A-AS-D= — Cisco CAB-48DC-40A-AS-D="
+      "CAB-48DC-40A-AS-D — Cisco CAB-48DC-40A-AS-D"
      ],
      "rules": {
       "label": 38,
-      "accessory": 41,
+      "accessory": 42,
       "sku": 722
      },
-     "pending_in": {
-      "routers": 1
-     }
+     "pending_in": {}
     }
    ]
   },
@@ -1601,16 +1594,16 @@
   },
   {
    "line": "UCS Server Components",
-   "parts": 2417,
+   "parts": 2422,
    "series": [
     {
      "series": "Processors",
      "family": null,
      "role": null,
      "note": null,
-     "parts": 1159,
+     "parts": 1160,
      "kinds": {
-      "cpu": 1159
+      "cpu": 1160
      },
      "roles": {},
      "samples": [
@@ -1622,20 +1615,18 @@
       "UCS-CPU-3106C= — DISTI: 1.7 GHz 3106/85W 8C/11MB Cache/DDR4 2133MHz"
      ],
      "rules": {
-      "sku": 1159
+      "sku": 1160
      },
-     "pending_in": {
-      "routers": 1
-     }
+     "pending_in": {}
     },
     {
      "series": "Memory",
      "family": null,
      "role": null,
      "note": null,
-     "parts": 220,
+     "parts": 221,
      "kinds": {
-      "memory": 220
+      "memory": 221
      },
      "roles": {},
      "samples": [
@@ -1647,20 +1638,18 @@
       "UCS-MKIT-082RX-C — Mem kit for UCS-MR-2X082RX-C"
      ],
      "rules": {
-      "sku": 220
+      "sku": 221
      },
-     "pending_in": {
-      "routers": 1
-     }
+     "pending_in": {}
     },
     {
      "series": "Drives and storage",
      "family": null,
      "role": null,
      "note": null,
-     "parts": 945,
+     "parts": 946,
      "kinds": {
-      "drive": 929,
+      "drive": 930,
       "storage-controller": 3,
       "mechanical": 2,
       "accessory": 1,
@@ -1676,11 +1665,9 @@
       "A03-D500GC3= — 500GB 6Gb SATA 7.2K RPM SFF hot plug/drive sled mounted"
      ],
      "rules": {
-      "sku": 945
+      "sku": 946
      },
-     "pending_in": {
-      "routers": 1
-     }
+     "pending_in": {}
     },
     {
      "series": "GPUs",
@@ -1708,10 +1695,11 @@
      "family": null,
      "role": null,
      "note": "layers round 3: ^UCS-PCI and ^UCS-SDHPCIE removed — every row they matched is a drive decided by 'Drives and storage' (UCS-PCI25…, UCS-SD…); ^XRV-PCIE- places the XRv appliance PCIe NICs planned in from routers (their arrival exceptions there are retired). Dead rules removed elsewhere in the file: ^C880(?![0-9A]), ^C260-, 2[1-4]0[48]XP, ^UCSB-B22-, 9416(?![0-9]), ^UCS-COPC-240, ^[0-9]{3}P[0-9]$, ^N01-M",
-     "parts": 37,
+     "parts": 39,
      "kinds": {
       "nic": 26,
-      "storage-controller": 11
+      "storage-controller": 11,
+      "unknown": 2
      },
      "roles": {},
      "samples": [
@@ -1723,11 +1711,9 @@
       "N2XX-ABPCI03-M3= — Broadcom 5709 Quad Port 1Gb w/TOE iSCSI for M3 & later"
      ],
      "rules": {
-      "sku": 37
+      "sku": 39
      },
-     "pending_in": {
-      "routers": 2
-     }
+     "pending_in": {}
     },
     {
      "series": "TPM",
@@ -2612,14 +2598,6 @@
    "reason": "programme or solution label (round-7 family \"solution-or-programme-label-only\")"
   },
   {
-   "sku": "AIR-1520-BATT-6AH=",
-   "name": "Cisco AIR-1520-BATT-6AH=",
-   "series_label": "Mini Series",
-   "action": "move",
-   "to": "wireless",
-   "reason": "a battery of another product line (Cius tablet / Aironet 1520 outdoor AP) filed under UCS"
-  },
-  {
    "sku": "AMD9575F",
    "name": "Cisco AMD9575F",
    "series_label": "UCS C-Series",
@@ -2780,110 +2758,6 @@
    "reason": "an ordering setting, option, test or programme label that ships nothing"
   },
   {
-   "sku": "CAB-250V-10A-AR=",
-   "name": "Cisco CAB-250V-10A-AR=",
-   "series_label": "UCS C-Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "the spare of a generic cord or cable whose base sits in routers NCS (Network Convergence System) shared parts: base and spare in one category, the base's (re-audit decisions, operator, 15 Sep 2026, Q-20 with the Q-19 rule)"
-  },
-  {
-   "sku": "CAB-250V-10A-CN=",
-   "name": "Cisco CAB-250V-10A-CN=",
-   "series_label": "UCS C-Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "the spare of a generic cord or cable whose base sits in routers NCS (Network Convergence System) shared parts: base and spare in one category, the base's (re-audit decisions, operator, 15 Sep 2026, Q-20 with the Q-19 rule)"
-  },
-  {
-   "sku": "CAB-250V-10A-ID=",
-   "name": "Cisco CAB-250V-10A-ID=",
-   "series_label": "UCS C-Series",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "the spare of a generic cord or cable whose base sits in storage-networking MDS 9000 Multilayer SAN Switches shared parts: base and spare in one category, the base's (re-audit decisions, operator, 15 Sep 2026, Q-20 with the Q-19 rule)"
-  },
-  {
-   "sku": "CAB-250V-10A-IS=",
-   "name": "Cisco CAB-250V-10A-IS=",
-   "series_label": "UCS C-Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "the spare of a generic cord or cable whose base sits in routers NCS (Network Convergence System) shared parts: base and spare in one category, the base's (re-audit decisions, operator, 15 Sep 2026, Q-20 with the Q-19 rule)"
-  },
-  {
-   "sku": "CAB-449FC=",
-   "name": "RS-449 Cable, DCE, Female, 10 Feet",
-   "series_label": "UCS E-Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "the spare of a generic cord or cable whose base sits in routers ISR (Integrated Services Routers) shared parts: base and spare in one category, the base's (re-audit decisions, operator, 15 Sep 2026, Q-20 with the Q-19 rule)"
-  },
-  {
-   "sku": "CAB-449MT=",
-   "name": "RS-449 Cable, DTE, Male, 10 Feet",
-   "series_label": "UCS E-Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "the spare of a generic cord or cable whose base sits in routers ISR (Integrated Services Routers) shared parts: base and spare in one category, the base's (re-audit decisions, operator, 15 Sep 2026, Q-20 with the Q-19 rule)"
-  },
-  {
-   "sku": "CAB-ACTW=",
-   "name": "Cisco CAB-ACTW=",
-   "series_label": "UCS C-Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "the spare of a generic cord or cable whose base sits in routers NCS (Network Convergence System) shared parts: base and spare in one category, the base's (re-audit decisions, operator, 15 Sep 2026, Q-20 with the Q-19 rule)"
-  },
-  {
-   "sku": "CAB-C13-C14-2M=",
-   "name": "Cisco CAB-C13-C14-2M=",
-   "series_label": "UCS C-Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "the spare of a generic cord or cable whose base sits in routers NCS (Network Convergence System) shared parts: base and spare in one category, the base's (re-audit decisions, operator, 15 Sep 2026, Q-20 with the Q-19 rule)"
-  },
-  {
-   "sku": "CAB-C13-C14-AC=",
-   "name": "Cisco CAB-C13-C14-AC=",
-   "series_label": "UCS C-Series",
-   "action": "move",
-   "to": "switches",
-   "reason": "the spare of a generic cord or cable whose base sits in switches Nexus shared parts: base and spare in one category, the base's (re-audit decisions, operator, 15 Sep 2026, Q-20 with the Q-19 rule)"
-  },
-  {
-   "sku": "CAB-C13-CBN=",
-   "name": "Cisco CAB-C13-CBN=",
-   "series_label": "UCS C-Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "the spare of a generic cord or cable whose base sits in routers NCS (Network Convergence System) shared parts: base and spare in one category, the base's (re-audit decisions, operator, 15 Sep 2026, Q-20 with the Q-19 rule)"
-  },
-  {
-   "sku": "CAB-C2316-C19-IT=",
-   "name": "Cisco CAB-C2316-C19-IT=",
-   "series_label": "UCS C-Series",
-   "action": "move",
-   "to": "switches",
-   "reason": "the spare of a generic cord or cable whose base sits in switches Nexus shared parts: base and spare in one category, the base's (re-audit decisions, operator, 15 Sep 2026, Q-20 with the Q-19 rule)"
-  },
-  {
-   "sku": "CAB-IR2073-C19-AR=",
-   "name": "Cisco CAB-IR2073-C19-AR=",
-   "series_label": "UCS C-Series",
-   "action": "move",
-   "to": "switches",
-   "reason": "the spare of a generic cord or cable whose base sits in switches Nexus shared parts: base and spare in one category, the base's (re-audit decisions, operator, 15 Sep 2026, Q-20 with the Q-19 rule)"
-  },
-  {
-   "sku": "CAB-N5K6A-NA=",
-   "name": "Cisco CAB-N5K6A-NA=",
-   "series_label": "UCS C-Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "the spare of a generic cord or cable whose base sits in routers NCS (Network Convergence System) shared parts: base and spare in one category, the base's (re-audit decisions, operator, 15 Sep 2026, Q-20 with the Q-19 rule)"
-  },
-  {
    "sku": "CAI-P-N7D200GF",
    "name": "VOID - not in use",
    "series_label": "UCS C-Series",
@@ -2906,270 +2780,6 @@
    "action": "class",
    "to": "non_product",
    "reason": "datasheet cell value or fragment enumerated as a part"
-  },
-  {
-   "sku": "CB-LC-LC-MMF1M=",
-   "name": "Cisco CB-LC-LC-MMF1M=",
-   "series_label": "UCS X-Series",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "Cisco LC / MPO patch and trunk cable (the 'High-Density Fiber Patch Panel, Simplex, MPO, and Breakout Cables Portfolio'): interfaces-modules holds the family and most of these spares' bases (X and X= split across categories — layers round 3)"
-  },
-  {
-   "sku": "CB-LC-LC-MMF2M=",
-   "name": "Cisco CB-LC-LC-MMF2M=",
-   "series_label": "UCS X-Series",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "Cisco LC / MPO patch and trunk cable (the 'High-Density Fiber Patch Panel, Simplex, MPO, and Breakout Cables Portfolio'): interfaces-modules holds the family and most of these spares' bases (X and X= split across categories — layers round 3)"
-  },
-  {
-   "sku": "CB-LC-LC-MMF3M=",
-   "name": "Cisco CB-LC-LC-MMF3M=",
-   "series_label": "UCS X-Series",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "Cisco LC / MPO patch and trunk cable (the 'High-Density Fiber Patch Panel, Simplex, MPO, and Breakout Cables Portfolio'): interfaces-modules holds the family and most of these spares' bases (X and X= split across categories — layers round 3)"
-  },
-  {
-   "sku": "CB-LC-LC-MMF4M=",
-   "name": "Cisco CB-LC-LC-MMF4M=",
-   "series_label": "UCS X-Series",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "Cisco LC / MPO patch and trunk cable (the 'High-Density Fiber Patch Panel, Simplex, MPO, and Breakout Cables Portfolio'): interfaces-modules holds the family and most of these spares' bases (X and X= split across categories — layers round 3)"
-  },
-  {
-   "sku": "CB-LC-LC-MMF5M=",
-   "name": "Cisco CB-LC-LC-MMF5M=",
-   "series_label": "UCS X-Series",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "Cisco LC / MPO patch and trunk cable (the 'High-Density Fiber Patch Panel, Simplex, MPO, and Breakout Cables Portfolio'): interfaces-modules holds the family and most of these spares' bases (X and X= split across categories — layers round 3)"
-  },
-  {
-   "sku": "CB-LC-LC-MMF7M=",
-   "name": "Cisco CB-LC-LC-MMF7M=",
-   "series_label": "UCS X-Series",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "Cisco LC / MPO patch and trunk cable (the 'High-Density Fiber Patch Panel, Simplex, MPO, and Breakout Cables Portfolio'): interfaces-modules holds the family and most of these spares' bases (X and X= split across categories — layers round 3)"
-  },
-  {
-   "sku": "CB-M12-4LC-MMF1.5=",
-   "name": "Cisco CB-M12-4LC-MMF1.5=",
-   "series_label": "UCS X-Series",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "Cisco LC / MPO patch and trunk cable (the 'High-Density Fiber Patch Panel, Simplex, MPO, and Breakout Cables Portfolio'): interfaces-modules holds the family and most of these spares' bases (X and X= split across categories — layers round 3)"
-  },
-  {
-   "sku": "CB-M12-4LC-MMF10M=",
-   "name": "Cisco CB-M12-4LC-MMF10M=",
-   "series_label": "UCS X-Series",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "Cisco LC / MPO patch and trunk cable (the 'High-Density Fiber Patch Panel, Simplex, MPO, and Breakout Cables Portfolio'): interfaces-modules holds the family and most of these spares' bases (X and X= split across categories — layers round 3)"
-  },
-  {
-   "sku": "CB-M12-4LC-MMF15M=",
-   "name": "Cisco CB-M12-4LC-MMF15M=",
-   "series_label": "UCS X-Series",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "Cisco LC / MPO patch and trunk cable (the 'High-Density Fiber Patch Panel, Simplex, MPO, and Breakout Cables Portfolio'): interfaces-modules holds the family and most of these spares' bases (X and X= split across categories — layers round 3)"
-  },
-  {
-   "sku": "CB-M12-4LC-MMF20M=",
-   "name": "Cisco CB-M12-4LC-MMF20M=",
-   "series_label": "UCS X-Series",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "Cisco LC / MPO patch and trunk cable (the 'High-Density Fiber Patch Panel, Simplex, MPO, and Breakout Cables Portfolio'): interfaces-modules holds the family and most of these spares' bases (X and X= split across categories — layers round 3)"
-  },
-  {
-   "sku": "CB-M12-4LC-MMF25M=",
-   "name": "Cisco CB-M12-4LC-MMF25M=",
-   "series_label": "UCS X-Series",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "Cisco LC / MPO patch and trunk cable (the 'High-Density Fiber Patch Panel, Simplex, MPO, and Breakout Cables Portfolio'): interfaces-modules holds the family and most of these spares' bases (X and X= split across categories — layers round 3)"
-  },
-  {
-   "sku": "CB-M12-4LC-MMF2M=",
-   "name": "Cisco CB-M12-4LC-MMF2M=",
-   "series_label": "UCS X-Series",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "Cisco LC / MPO patch and trunk cable (the 'High-Density Fiber Patch Panel, Simplex, MPO, and Breakout Cables Portfolio'): interfaces-modules holds the family and most of these spares' bases (X and X= split across categories — layers round 3)"
-  },
-  {
-   "sku": "CB-M12-4LC-MMF30M=",
-   "name": "Cisco CB-M12-4LC-MMF30M=",
-   "series_label": "UCS X-Series",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "Cisco LC / MPO patch and trunk cable (the 'High-Density Fiber Patch Panel, Simplex, MPO, and Breakout Cables Portfolio'): interfaces-modules holds the family and most of these spares' bases (X and X= split across categories — layers round 3)"
-  },
-  {
-   "sku": "CB-M12-4LC-MMF3M=",
-   "name": "Cisco CB-M12-4LC-MMF3M=",
-   "series_label": "UCS X-Series",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "Cisco LC / MPO patch and trunk cable (the 'High-Density Fiber Patch Panel, Simplex, MPO, and Breakout Cables Portfolio'): interfaces-modules holds the family and most of these spares' bases (X and X= split across categories — layers round 3)"
-  },
-  {
-   "sku": "CB-M12-4LC-MMF4M=",
-   "name": "Cisco CB-M12-4LC-MMF4M=",
-   "series_label": "UCS X-Series",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "Cisco LC / MPO patch and trunk cable (the 'High-Density Fiber Patch Panel, Simplex, MPO, and Breakout Cables Portfolio'): interfaces-modules holds the family and most of these spares' bases (X and X= split across categories — layers round 3)"
-  },
-  {
-   "sku": "CB-M12-4LC-MMF5M=",
-   "name": "Cisco CB-M12-4LC-MMF5M=",
-   "series_label": "UCS X-Series",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "Cisco LC / MPO patch and trunk cable (the 'High-Density Fiber Patch Panel, Simplex, MPO, and Breakout Cables Portfolio'): interfaces-modules holds the family and most of these spares' bases (X and X= split across categories — layers round 3)"
-  },
-  {
-   "sku": "CB-M12-4LC-MMF7M=",
-   "name": "Cisco CB-M12-4LC-MMF7M=",
-   "series_label": "UCS X-Series",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "Cisco LC / MPO patch and trunk cable (the 'High-Density Fiber Patch Panel, Simplex, MPO, and Breakout Cables Portfolio'): interfaces-modules holds the family and most of these spares' bases (X and X= split across categories — layers round 3)"
-  },
-  {
-   "sku": "CB-M12-4LC-SMFSM",
-   "name": "Cisco CB-M12-4LC-SMFSM",
-   "series_label": "UCS C-Series",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "Cisco LC / MPO patch and trunk cable (the 'High-Density Fiber Patch Panel, Simplex, MPO, and Breakout Cables Portfolio'): interfaces-modules holds the family and most of these spares' bases (X and X= split across categories — layers round 3)"
-  },
-  {
-   "sku": "CB-M12-M12-MMF1.5=",
-   "name": "Cisco CB-M12-M12-MMF1.5=",
-   "series_label": "UCS X-Series",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "Cisco LC / MPO patch and trunk cable (the 'High-Density Fiber Patch Panel, Simplex, MPO, and Breakout Cables Portfolio'): interfaces-modules holds the family and most of these spares' bases (X and X= split across categories — layers round 3)"
-  },
-  {
-   "sku": "CB-M12-M12-MMF10M",
-   "name": "Cisco CB-M12-M12-MMF10M",
-   "series_label": "UCS C-Series",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "Cisco LC / MPO patch and trunk cable (the 'High-Density Fiber Patch Panel, Simplex, MPO, and Breakout Cables Portfolio'): interfaces-modules holds the family and most of these spares' bases (X and X= split across categories — layers round 3)"
-  },
-  {
-   "sku": "CB-M12-M12-MMF10M=",
-   "name": "Cisco CB-M12-M12-MMF10M=",
-   "series_label": "UCS X-Series",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "Cisco LC / MPO patch and trunk cable (the 'High-Density Fiber Patch Panel, Simplex, MPO, and Breakout Cables Portfolio'): interfaces-modules holds the family and most of these spares' bases (X and X= split across categories — layers round 3)"
-  },
-  {
-   "sku": "CB-M12-M12-MMF15M=",
-   "name": "Cisco CB-M12-M12-MMF15M=",
-   "series_label": "UCS X-Series",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "Cisco LC / MPO patch and trunk cable (the 'High-Density Fiber Patch Panel, Simplex, MPO, and Breakout Cables Portfolio'): interfaces-modules holds the family and most of these spares' bases (X and X= split across categories — layers round 3)"
-  },
-  {
-   "sku": "CB-M12-M12-MMF1M=",
-   "name": "Cisco CB-M12-M12-MMF1M=",
-   "series_label": "UCS X-Series",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "Cisco LC / MPO patch and trunk cable (the 'High-Density Fiber Patch Panel, Simplex, MPO, and Breakout Cables Portfolio'): interfaces-modules holds the family and most of these spares' bases (X and X= split across categories — layers round 3)"
-  },
-  {
-   "sku": "CB-M12-M12-MMF20M=",
-   "name": "Cisco CB-M12-M12-MMF20M=",
-   "series_label": "UCS X-Series",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "Cisco LC / MPO patch and trunk cable (the 'High-Density Fiber Patch Panel, Simplex, MPO, and Breakout Cables Portfolio'): interfaces-modules holds the family and most of these spares' bases (X and X= split across categories — layers round 3)"
-  },
-  {
-   "sku": "CB-M12-M12-MMF25M=",
-   "name": "Cisco CB-M12-M12-MMF25M=",
-   "series_label": "UCS X-Series",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "Cisco LC / MPO patch and trunk cable (the 'High-Density Fiber Patch Panel, Simplex, MPO, and Breakout Cables Portfolio'): interfaces-modules holds the family and most of these spares' bases (X and X= split across categories — layers round 3)"
-  },
-  {
-   "sku": "CB-M12-M12-MMF2M=",
-   "name": "Cisco CB-M12-M12-MMF2M=",
-   "series_label": "UCS X-Series",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "Cisco LC / MPO patch and trunk cable (the 'High-Density Fiber Patch Panel, Simplex, MPO, and Breakout Cables Portfolio'): interfaces-modules holds the family and most of these spares' bases (X and X= split across categories — layers round 3)"
-  },
-  {
-   "sku": "CB-M12-M12-MMF30M=",
-   "name": "Cisco CB-M12-M12-MMF30M=",
-   "series_label": "UCS X-Series",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "Cisco LC / MPO patch and trunk cable (the 'High-Density Fiber Patch Panel, Simplex, MPO, and Breakout Cables Portfolio'): interfaces-modules holds the family and most of these spares' bases (X and X= split across categories — layers round 3)"
-  },
-  {
-   "sku": "CB-M12-M12-MMF3M=",
-   "name": "Cisco CB-M12-M12-MMF3M=",
-   "series_label": "UCS X-Series",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "Cisco LC / MPO patch and trunk cable (the 'High-Density Fiber Patch Panel, Simplex, MPO, and Breakout Cables Portfolio'): interfaces-modules holds the family and most of these spares' bases (X and X= split across categories — layers round 3)"
-  },
-  {
-   "sku": "CB-M12-M12-MMF4M=",
-   "name": "Cisco CB-M12-M12-MMF4M=",
-   "series_label": "UCS X-Series",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "Cisco LC / MPO patch and trunk cable (the 'High-Density Fiber Patch Panel, Simplex, MPO, and Breakout Cables Portfolio'): interfaces-modules holds the family and most of these spares' bases (X and X= split across categories — layers round 3)"
-  },
-  {
-   "sku": "CB-M12-M12-MMF5M=",
-   "name": "Cisco CB-M12-M12-MMF5M=",
-   "series_label": "UCS X-Series",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "Cisco LC / MPO patch and trunk cable (the 'High-Density Fiber Patch Panel, Simplex, MPO, and Breakout Cables Portfolio'): interfaces-modules holds the family and most of these spares' bases (X and X= split across categories — layers round 3)"
-  },
-  {
-   "sku": "CB-M12-M12-MMF7M=",
-   "name": "Cisco CB-M12-M12-MMF7M=",
-   "series_label": "UCS X-Series",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "Cisco LC / MPO patch and trunk cable (the 'High-Density Fiber Patch Panel, Simplex, MPO, and Breakout Cables Portfolio'): interfaces-modules holds the family and most of these spares' bases (X and X= split across categories — layers round 3)"
-  },
-  {
-   "sku": "CB-M12-M12-SMF2M",
-   "name": "Cisco CB-M12-M12-SMF2M",
-   "series_label": "UCS C-Series",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "Cisco LC / MPO patch and trunk cable (the 'High-Density Fiber Patch Panel, Simplex, MPO, and Breakout Cables Portfolio'): interfaces-modules holds the family and most of these spares' bases (X and X= split across categories — layers round 3)"
-  },
-  {
-   "sku": "CB-M12-M12-SMF3M",
-   "name": "Cisco CB-M12-M12-SMF3M",
-   "series_label": "UCS C-Series",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "Cisco LC / MPO patch and trunk cable (the 'High-Density Fiber Patch Panel, Simplex, MPO, and Breakout Cables Portfolio'): interfaces-modules holds the family and most of these spares' bases (X and X= split across categories — layers round 3)"
   },
   {
    "sku": "CBL-GPU-C220M6=",
@@ -3196,14 +2806,6 @@
    "reason": "self-declared VOID PID"
   },
   {
-   "sku": "CIUS-BATTERY=",
-   "name": "Cisco CIUS-BATTERY=",
-   "series_label": "Mini Series",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "a battery of another product line (Cius tablet / Aironet 1520 outdoor AP) filed under UCS"
-  },
-  {
    "sku": "COMPUTE-AI",
    "name": "Cisco COMPUTE-AI",
    "series_label": "Unified Edge",
@@ -3220,28 +2822,12 @@
    "reason": "datasheet cell value or fragment enumerated as a part"
   },
   {
-   "sku": "CP-BATT-7925G-EXT=",
-   "name": "Cisco 7925G Battery, Extended",
-   "series_label": "Mini Series",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "Unified Wireless IP Phone 7925G extended battery filed in servers under the label 'Mini Series': its base CP-BATT-7925G-EXT and CP-BATT-7925G-STD= are in collaboration-endpoints (Unified Wireless IP Phone 7920 / 7921 / 7925 / 7926), and a spare goes with its base"
-  },
-  {
    "sku": "DCN-FGLB-XF3",
    "name": "Cisco DCN-FGLB-XF3",
    "series_label": "UCS C-Series",
    "action": "class",
    "to": "non_product",
    "reason": "datasheet cell value or fragment enumerated as a part"
-  },
-  {
-   "sku": "DUO-TOKEN-10PACK",
-   "name": "A hardware token used with a Cisco Duo subscription (10 pack)",
-   "series_label": "UCS C-Series",
-   "action": "move",
-   "to": "security",
-   "reason": "a Duo hardware token is a security accessory"
   },
   {
    "sku": "E3.S",
@@ -11506,14 +11092,6 @@
    "action": "class",
    "to": "non_product",
    "reason": "programme or solution label (round-7 family \"solution-or-programme-label-only\")"
-  },
-  {
-   "sku": "TG5500-C220M3S-K9",
-   "name": "Cisco TG5500-C220M3S-K9",
-   "series_label": "UCS C-Series",
-   "action": "move",
-   "to": "security",
-   "reason": "Threat Grid 5500 appliance (on a C220 M3): security's Malware Analytics (Threat Grid) appliances, where security's ^TG rule already claims it (layers round 3)"
   },
   {
    "sku": "UCS-C3K-EX40TE=",

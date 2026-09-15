@@ -1,15 +1,19 @@
 {
  "vendor": "cisco",
  "category": "switches",
- "built_at": "2026-09-15T22:52:43.568Z",
- "commit": "9a734f7ba27364704867e3f28204553e1ab21277",
- "uncommitted_rule_files": [],
+ "built_at": "2026-09-15T23:24:27.191Z",
+ "commit": "daa609b5f1a24431ec097b320227e7df1b36b063",
+ "uncommitted_rule_files": [
+  "data/reference/family-carriers.json",
+  "data/reference/layers-cross-claims.json",
+  "scripts/build-layers.mts"
+ ],
  "mapping_file": "data/reference/product-lines/cisco-switches.json",
- "parts": 7472,
+ "parts": 7520,
  "lines": [
   {
    "line": "Catalyst",
-   "parts": 3123,
+   "parts": 3227,
    "series": [
     {
      "series": "Catalyst 9400",
@@ -334,24 +338,24 @@
      "family": null,
      "role": "core-agg",
      "note": null,
-     "parts": 362,
+     "parts": 422,
      "kinds": {
-      "linecard": 128,
+      "linecard": 129,
+      "module": 81,
+      "switch": 47,
       "flash": 18,
-      "accessory": 9,
-      "module": 55,
+      "accessory": 10,
       "fan": 20,
-      "memory": 24,
-      "drive": 2,
+      "memory": 32,
+      "drive": 4,
       "power": 25,
       "supervisor": 29,
-      "switch": 25,
       "mechanical": 13,
       "chassis": 12,
       "bundle": 2
      },
      "roles": {
-      "core-agg": 25
+      "core-agg": 47
      },
      "samples": [
       "2D-X6816-10G-2T= — 16 Port 10G with DFC4 with 2D barcode",
@@ -362,14 +366,10 @@
       "2D-X6904-40G-2TXL= — Cat 6900 Series 4P 40G/16P 10G Fiber Mod DFC4XL w/2D Barcode"
      ],
      "rules": {
-      "sku": 303,
+      "sku": 363,
       "label": 59
      },
-     "pending_in": {
-      "interfaces-modules": 35,
-      "wireless": 7,
-      "routers": 18
-     }
+     "pending_in": {}
     },
     {
      "series": "Catalyst 4500-X",
@@ -405,16 +405,16 @@
      "family": "Catalyst 4500",
      "role": "core-agg",
      "note": "^(SD|USB)-X45- (layers round 3): the Supervisor 8-E SD card and USB device SD-X45-2GB-E / USB-X45-4GB-E are planned in from interfaces-modules; their spares sat here by the label Catalyst 4500 and now place by SKU with them",
-     "parts": 292,
+     "parts": 324,
      "kinds": {
       "chassis": 16,
       "switch": 52,
       "supervisor": 36,
       "bundle": 52,
-      "linecard": 86,
+      "linecard": 115,
       "mechanical": 13,
       "memory": 6,
-      "flash": 4,
+      "flash": 7,
       "power": 27
      },
      "roles": {
@@ -429,22 +429,19 @@
       "C1-C4506E-S7L+96V+ — Cisco ONE4506-E Chassis 2x WS-X4648-RJ45V+E Sup7L-E LAN Base"
      ],
      "rules": {
-      "sku": 275,
-      "label": 17
+      "sku": 306,
+      "label": 18
      },
-     "pending_in": {
-      "video": 1,
-      "interfaces-modules": 31
-     }
+     "pending_in": {}
     },
     {
      "series": "Catalyst 4900",
      "family": null,
      "role": "datacenter",
      "note": null,
-     "parts": 82,
+     "parts": 83,
      "kinds": {
-      "mechanical": 16,
+      "mechanical": 17,
       "power": 21,
       "switch": 20,
       "linecard": 25
@@ -461,11 +458,9 @@
       "4900M-X2-CVR= — Spare X2 cover for 4900M"
      ],
      "rules": {
-      "sku": 82
+      "sku": 83
      },
-     "pending_in": {
-      "wireless": 1
-     }
+     "pending_in": {}
     },
     {
      "series": "Catalyst 3850",
@@ -1055,12 +1050,12 @@
      "family": "(shared across the line)",
      "role": null,
      "note": null,
-     "parts": 389,
+     "parts": 400,
      "kinds": {
       "power": 97,
       "mechanical": 51,
-      "power-cord": 155,
-      "cable": 30,
+      "power-cord": 165,
+      "cable": 31,
       "stack-cable": 45,
       "accessory": 2,
       "fan": 5,
@@ -1077,38 +1072,46 @@
      ],
      "rules": {
       "label-unsupported": 149,
-      "accessory": 240
+      "accessory": 251
      },
-     "pending_in": {
-      "storage-networking": 9,
-      "routers": 2
-     }
+     "pending_in": {}
     }
    ]
   },
   {
    "line": "Routed PON",
-   "parts": 0,
+   "parts": 6,
    "series": [
     {
      "series": "10G Routed PON ONT",
      "family": null,
      "role": null,
      "note": "re-audit decisions (operator, 15 Sep 2026, Q-2): ENC-10G-ONT-01PR / -10 / -14A (with spares), Cisco's '10G Routed PON ONT' — XGS-PON ONTs of the Routed PON solution, whose OLT is the SFP-10G-OLT20-X pluggable in transceiver; a different product from Catalyst PON (CGP-), so a line of its own and no deploy role. They are planned in from interfaces-modules. Kind: the decision is `ont`; the switches kind axis has no `ont` noun and a new noun needs its cup set, so the change waits for the parked kind rebuild (Q-28) — until then they read switch with CGP-ONT's flag",
-     "parts": 0,
-     "kinds": {},
-     "roles": {},
-     "samples": [],
-     "rules": {},
-     "pending_in": {
-      "interfaces-modules": 6
-     }
+     "parts": 6,
+     "kinds": {
+      "switch": 6
+     },
+     "roles": {
+      "(kind issue)": 6
+     },
+     "samples": [
+      "ENC-10G-ONT-01PR — Cisco ENC-10G-ONT-01PR",
+      "ENC-10G-ONT-01PR= — Ruggedized XGS-PON ONT, powered by PoE",
+      "ENC-10G-ONT-10 — Cisco ENC-10G-ONT-10",
+      "ENC-10G-ONT-10= — XGS-PON ONT",
+      "ENC-10G-ONT-14A — Cisco ENC-10G-ONT-14A",
+      "ENC-10G-ONT-14A= — Multiport and ATA XGS-PON ONT"
+     ],
+     "rules": {
+      "sku": 6
+     },
+     "pending_in": {}
     }
    ]
   },
   {
    "line": "Nexus",
-   "parts": 1864,
+   "parts": 1868,
    "series": [
     {
      "series": "Nexus 2000 Fabric Extenders",
@@ -1625,10 +1628,10 @@
      "family": "(shared across the line)",
      "role": null,
      "note": null,
-     "parts": 60,
+     "parts": 64,
      "kinds": {
       "cable": 2,
-      "power-cord": 31,
+      "power-cord": 35,
       "fan": 7,
       "accessory": 2,
       "mechanical": 13,
@@ -1645,19 +1648,16 @@
       "CAB-AC-16A-SG-AZ — Cisco CAB-AC-16A-SG-AZ"
      ],
      "rules": {
-      "accessory": 37,
+      "accessory": 41,
       "label-unsupported": 23
      },
-     "pending_in": {
-      "servers-unified-computing": 3,
-      "collaboration-endpoints": 1
-     }
+     "pending_in": {}
     }
    ]
   },
   {
    "line": "Industrial Ethernet",
-   "parts": 294,
+   "parts": 297,
    "series": [
     {
      "series": "IE 1000",
@@ -1911,9 +1911,7 @@
      "rules": {
       "sku": 10
      },
-     "pending_in": {
-      "security": 2
-     }
+     "pending_in": {}
     },
     {
      "series": "IE 3500H",
@@ -2094,11 +2092,12 @@
      "family": "(shared across the line)",
      "role": null,
      "note": "CW-SFP-KIT1 'SFP Installation Kit for IE-3500H-12P2MU2X', planned in from routers (operator, layers round 3: an arrival in a reviewed category). The rows the label check or the accessory rule send to this line's shared parts land here too",
-     "parts": 37,
+     "parts": 40,
      "kinds": {
       "cable": 1,
       "stack-cable": 2,
-      "power": 22,
+      "accessory": 1,
+      "power": 24,
       "mechanical": 6,
       "flash": 6
      },
@@ -2107,17 +2106,16 @@
       "CAB-CONSOLE-M12= — Console Cable 6ft with M12 and DB9F for Cisco Catalyst IE340",
       "CAB-STK-0.5M= — Cisco 0.5M stack cable",
       "CAB-STK-1M= — Cisco 1M stack cable",
+      "CW-SFP-KIT1 — SFP Installation Kit for IE-3500H-12P2MU2X",
       "PWR-IE160W-67-DC — Cisco PWR-IE160W-67-DC",
-      "PWR-IE160W-67-DC= — IP67-rated PoE DC-DC power supply, Input:18V-60V Output: 54V",
-      "PWR-IE170W-PC-AC= — 170W AC to DC or High DC to DC Power Supply"
+      "PWR-IE160W-67-DC= — IP67-rated PoE DC-DC power supply, Input:18V-60V Output: 54V"
      ],
      "rules": {
       "accessory": 5,
-      "label-unsupported": 32
+      "sku": 1,
+      "label-unsupported": 34
      },
-     "pending_in": {
-      "routers": 1
-     }
+     "pending_in": {}
     }
    ]
   },
@@ -2973,21 +2971,33 @@
   },
   {
    "line": "Silicon One switches (open software)",
-   "parts": 0,
+   "parts": 6,
    "series": [
     {
      "series": "CQ211L01",
      "family": null,
      "role": "datacenter",
      "note": "CQ211L01-48H8FH \"Switch, 48 x 100G DSFP + 8 x QSFP-DD, 8T Capability\" (and -O \"Open SW\") with its accessory kit: arriving from routers, where no switches series could place them (re-audit at 2f3d17a (14 Sep 2026))",
-     "parts": 0,
-     "kinds": {},
-     "roles": {},
-     "samples": [],
-     "rules": {},
-     "pending_in": {
-      "routers": 6
-     }
+     "parts": 6,
+     "kinds": {
+      "switch": 4,
+      "mechanical": 2
+     },
+     "roles": {
+      "datacenter": 4
+     },
+     "samples": [
+      "CQ211L01-48H8FH — Switch, 48 x 100G DSFP + 8 x QSFP-DD, 8T Capability",
+      "CQ211L01-48H8FH-O — Switch, 48 x 100G DSFP + 8 x QSFP-DD, 8T Capability, Open SW",
+      "CQ211L01-48H8FH-O= — Switch, 48 x 100G DSFP + 8 x QSFP-DD, 8T Capability, Open SW",
+      "CQ211L01-48H8FH= — Switch, 48 x 100G DSFP + 8 x QSFP-DD, 8T Capability",
+      "CQ211L01-ACC-KIT — CQ211L01-48 Fixed Accessory Kit, 1RU front and rear removal",
+      "CQ211L01-ACC-KIT= — CQ211L01-48 Fixed Accessory Kit, 1RU front and rear removal"
+     ],
+     "rules": {
+      "sku": 6
+     },
+     "pending_in": {}
     }
    ]
   },
@@ -3271,278 +3281,6 @@
    "reason": "datasheet cell (a PSU wattage / connector string, no document, no fact)"
   },
   {
-   "sku": "76-ES+XT-2TG3C",
-   "name": "Cisco 7600 Series ES Plus XT, LAN/WAN PHY, OTN/G.709, 2x10GE, XFP, DFC3C",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "routers",
-   "reason": "Cisco 7600 router line card / route switch processor (7600-only), filed under the Catalyst 6500 label"
-  },
-  {
-   "sku": "76-ES+XT-2TG3CXL",
-   "name": "Cisco 7600 Series ES Plus XT, LAN/WAN PHY, OTN/G.709, 2x10GE, XFP, DFC3CXL",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "routers",
-   "reason": "Cisco 7600 router line card / route switch processor (7600-only), filed under the Catalyst 6500 label"
-  },
-  {
-   "sku": "76-ES+XT-4TG3C",
-   "name": "Cisco 7600 Series ES Plus XT, LAN/WAN PHY, OTN/G.709, 4x10GE, XFP, DFC3C",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "routers",
-   "reason": "Cisco 7600 router line card / route switch processor (7600-only), filed under the Catalyst 6500 label"
-  },
-  {
-   "sku": "76-ES+XT-4TG3CXL",
-   "name": "Cisco 7600 Series ES Plus XT, LAN/WAN PHY, OTN/G.709, 4x10GE, XFP, DFC3CXL",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "routers",
-   "reason": "Cisco 7600 router line card / route switch processor (7600-only), filed under the Catalyst 6500 label"
-  },
-  {
-   "sku": "7600-ES+2TG3C",
-   "name": "Cisco 7600 Series Ethernet Services Plus 20G Line Card, 2-port 10 GE XFP and DFC-3C",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "routers",
-   "reason": "Cisco 7600 router line card / route switch processor (7600-only), filed under the Catalyst 6500 label"
-  },
-  {
-   "sku": "7600-ES+2TG3CXL",
-   "name": "Cisco 7600 Series Ethernet Services Plus 20G Line Card, 2-port 10 GE XFP and DFC-3CXL",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "routers",
-   "reason": "Cisco 7600 router line card / route switch processor (7600-only), filed under the Catalyst 6500 label"
-  },
-  {
-   "sku": "7600-ES+4TG3C",
-   "name": "Cisco 7600 Series Ethernet Services Plus 40G Line Card, 4-port 10 GE XFP and DFC-3C",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "routers",
-   "reason": "Cisco 7600 router line card / route switch processor (7600-only), filed under the Catalyst 6500 label"
-  },
-  {
-   "sku": "7600-ES+4TG3CXL",
-   "name": "Cisco 7600 Series Ethernet Services Plus 40G Line Card, 4-port 10 GE XFP and DFC-3CXL",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "routers",
-   "reason": "Cisco 7600 router line card / route switch processor (7600-only), filed under the Catalyst 6500 label"
-  },
-  {
-   "sku": "7603S-S32-10G-B-P",
-   "name": "Cisco 7603S Chassis, 3-slot, SUP32-2X10GE-3B, PS",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "routers",
-   "reason": "Cisco 7600 router chassis bundle (7606S/7609S/7613 with SUP32) filed under Catalyst 6500"
-  },
-  {
-   "sku": "7603S-S32-10G-B-R",
-   "name": "Cisco 7603S Chassis, 3-slot, Redundant SUP32-2X10GE-3B, PS",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "routers",
-   "reason": "Cisco 7600 router chassis bundle (7606S/7609S/7613 with SUP32) filed under Catalyst 6500"
-  },
-  {
-   "sku": "7603S-S32-8G-B-P",
-   "name": "Cisco 7603S Chassis, 3-slot, SUP32-8GE-3B, PS",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "routers",
-   "reason": "Cisco 7600 router chassis bundle (7606S/7609S/7613 with SUP32) filed under Catalyst 6500"
-  },
-  {
-   "sku": "7603S-S32-8G-B-R",
-   "name": "Cisco 7603S Chassis, 3-slot, Redundant SUP32-8GE-3B, PS",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "routers",
-   "reason": "Cisco 7600 router chassis bundle (7606S/7609S/7613 with SUP32) filed under Catalyst 6500"
-  },
-  {
-   "sku": "7604-S323B-10G-P",
-   "name": "Cisco 7604 Chassis, 4-slot, SUP32-2X10GE-3B, PS",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "routers",
-   "reason": "Cisco 7600 router chassis bundle (7606S/7609S/7613 with SUP32) filed under Catalyst 6500"
-  },
-  {
-   "sku": "7604-S323B-10G-R",
-   "name": "Cisco 7604 Chassis, 4-slot, Redundant SUP32-2X10GE-3B and PS",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "routers",
-   "reason": "Cisco 7600 router chassis bundle (7606S/7609S/7613 with SUP32) filed under Catalyst 6500"
-  },
-  {
-   "sku": "7604-S323B-8G-P",
-   "name": "Cisco 7604 Chassis, 4-slot, SUP32-8GE-3B, PS",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "routers",
-   "reason": "Cisco 7600 router chassis bundle (7606S/7609S/7613 with SUP32) filed under Catalyst 6500"
-  },
-  {
-   "sku": "7604-S323B-8G-R",
-   "name": "Cisco 7604 Chassis, 4-slot, Redundant SUP32-8GE-3B and PS",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "routers",
-   "reason": "Cisco 7600 router chassis bundle (7606S/7609S/7613 with SUP32) filed under Catalyst 6500"
-  },
-  {
-   "sku": "7606S-S32-10G-B-P",
-   "name": "Cisco 7606S Chassis, 6-slot, SUP32-2X10GE-3B, PS",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "routers",
-   "reason": "Cisco 7600 router chassis bundle (7606S/7609S/7613 with SUP32) filed under Catalyst 6500"
-  },
-  {
-   "sku": "7606S-S32-10G-B-R",
-   "name": "Cisco 7606S Chassis, 6-slot, Redundant SUP32-2X10GE-3B, PS",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "routers",
-   "reason": "Cisco 7600 router chassis bundle (7606S/7609S/7613 with SUP32) filed under Catalyst 6500"
-  },
-  {
-   "sku": "7606S-S32-8G-B-P",
-   "name": "Cisco 7606S Chassis, 6-slot, SUP32-8GE-3B, PS",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "routers",
-   "reason": "Cisco 7600 router chassis bundle (7606S/7609S/7613 with SUP32) filed under Catalyst 6500"
-  },
-  {
-   "sku": "7606S-S32-8G-B-R",
-   "name": "Cisco 7606S Chassis, 6-slot, Redundant SUP32-8GE-3B,PS",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "routers",
-   "reason": "Cisco 7600 router chassis bundle (7606S/7609S/7613 with SUP32) filed under Catalyst 6500"
-  },
-  {
-   "sku": "7609S-S32-10G-B-P",
-   "name": "Cisco 7609S Chassis, 9-slot, SUP32-2X10GE-3B, PS",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "routers",
-   "reason": "Cisco 7600 router chassis bundle (7606S/7609S/7613 with SUP32) filed under Catalyst 6500"
-  },
-  {
-   "sku": "7609S-S32-10G-B-R",
-   "name": "Cisco 7609S Chassis, 9-slot,Redundant SUP32-2X10GE-3B, PS",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "routers",
-   "reason": "Cisco 7600 router chassis bundle (7606S/7609S/7613 with SUP32) filed under Catalyst 6500"
-  },
-  {
-   "sku": "7609S-S32-8G-B-P",
-   "name": "Cisco 7609S Chassis, 9-slot, SUP32-8GE-3B, PS",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "routers",
-   "reason": "Cisco 7600 router chassis bundle (7606S/7609S/7613 with SUP32) filed under Catalyst 6500"
-  },
-  {
-   "sku": "7609S-S32-8G-B-R",
-   "name": "Cisco 7609S Chassis, 9-slot, Redundant SUP32-8GE-3B, PS",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "routers",
-   "reason": "Cisco 7600 router chassis bundle (7606S/7609S/7613 with SUP32) filed under Catalyst 6500"
-  },
-  {
-   "sku": "7613-S323B-10G-P",
-   "name": "Cisco 7613 Chassis, 13-slot, SUP32-2X10GE-3B, PS",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "routers",
-   "reason": "Cisco 7600 router chassis bundle (7606S/7609S/7613 with SUP32) filed under Catalyst 6500"
-  },
-  {
-   "sku": "7613-S323B-10G-R",
-   "name": "Cisco7613 Chassis, 13-slot, Redundant SUP32-2X10GE-3B and PS",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "routers",
-   "reason": "Cisco 7600 router chassis bundle (7606S/7609S/7613 with SUP32) filed under Catalyst 6500"
-  },
-  {
-   "sku": "7613-S323B-8G-P",
-   "name": "Cisco 7613 Chassis, 13-slot, SUP32-8GE-3B, PS",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "routers",
-   "reason": "Cisco 7600 router chassis bundle (7606S/7609S/7613 with SUP32) filed under Catalyst 6500"
-  },
-  {
-   "sku": "7613-S323B-8G-R",
-   "name": "Cisco 7613 Chassis, 13-slot, Redundant SUP32-8GE-3B and PS",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "routers",
-   "reason": "Cisco 7600 router chassis bundle (7606S/7609S/7613 with SUP32) filed under Catalyst 6500"
-  },
-  {
-   "sku": "8K-2RU-2P-KIT",
-   "name": "Cisco installation kit 2 posts",
-   "series_label": "Nexus 9000",
-   "action": "move",
-   "to": "routers",
-   "reason": "Cisco 8000 router installation kit filed under the Nexus 9000 label"
-  },
-  {
-   "sku": "8K-2RU-2P-KIT=",
-   "name": "Cisco installation kit 2 posts, spare",
-   "series_label": "Nexus 9000",
-   "action": "move",
-   "to": "routers",
-   "reason": "Cisco 8000 router installation kit filed under the Nexus 9000 label"
-  },
-  {
-   "sku": "8K-2RU-KIT-L",
-   "name": "Cisco 2RU fixed system installation kit long",
-   "series_label": "Nexus 9000",
-   "action": "move",
-   "to": "routers",
-   "reason": "Cisco 8000 router installation kit filed under the Nexus 9000 label"
-  },
-  {
-   "sku": "8K-2RU-KIT-L=",
-   "name": "Cisco 2RU fixed system installation kit long, spare",
-   "series_label": "Nexus 9000",
-   "action": "move",
-   "to": "routers",
-   "reason": "Cisco 8000 router installation kit filed under the Nexus 9000 label"
-  },
-  {
-   "sku": "8K-2RU-KIT-S",
-   "name": "Cisco 2RU fixed system installation kit short",
-   "series_label": "Nexus 9000",
-   "action": "move",
-   "to": "routers",
-   "reason": "Cisco 8000 router installation kit filed under the Nexus 9000 label"
-  },
-  {
-   "sku": "8K-2RU-KIT-S=",
-   "name": "Cisco 2RU fixed system installation kit short, spare",
-   "series_label": "Nexus 9000",
-   "action": "move",
-   "to": "routers",
-   "reason": "Cisco 8000 router installation kit filed under the Nexus 9000 label"
-  },
-  {
    "sku": "9300-GX2A/B",
    "name": "Cisco 9300-GX2A/B",
    "series_label": "Nexus 9000",
@@ -3597,62 +3335,6 @@
    "action": "class",
    "to": "non_product",
    "reason": "datasheet cell or bare family name enumerated as a part"
-  },
-  {
-   "sku": "AIR-AP1131AG",
-   "name": "Cisco Aironet 1130AG Series access point",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "wireless",
-   "reason": "Aironet access point filed under Catalyst 6500"
-  },
-  {
-   "sku": "AIR-AP1210",
-   "name": "Cisco AIR-AP1210",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "wireless",
-   "reason": "Aironet access point filed under Catalyst 6500"
-  },
-  {
-   "sku": "AIR-AP1230A",
-   "name": "Cisco AIR-AP1230A",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "wireless",
-   "reason": "Aironet access point filed under Catalyst 6500"
-  },
-  {
-   "sku": "AIR-AP1230B",
-   "name": "Cisco AIR-AP1230B",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "wireless",
-   "reason": "Aironet access point filed under Catalyst 6500"
-  },
-  {
-   "sku": "AIR-AP1232AG",
-   "name": "Cisco Aironet 1230AG Series access point",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "wireless",
-   "reason": "Aironet access point filed under Catalyst 6500"
-  },
-  {
-   "sku": "AIR-AP1242AG",
-   "name": "Cisco Aironet 1240AG Series access point",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "wireless",
-   "reason": "Aironet access point filed under Catalyst 6500"
-  },
-  {
-   "sku": "AIR-BR1310G",
-   "name": "Cisco Aironet 1300 Series outdoor access point/bridge (Supported in access point mode only)",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "wireless",
-   "reason": "Aironet access point filed under Catalyst 6500"
   },
   {
    "sku": "ASE2",
@@ -3893,14 +3575,6 @@
    "action": "class",
    "to": "non_product",
    "reason": "truncated PID ending in '-' (name is the SKU, no twin, no document, no fact) — the routers precedent; a '-' row WITH a twin is its twin's component PID and shares its placement (re-audit decisions, operator, 15 Sep 2026, N-1)"
-  },
-  {
-   "sku": "CAB-AC-L620-C13=",
-   "name": "North America, NEMA L6-20-C13 (2.0 meter)",
-   "series_label": "Nexus 5000",
-   "action": "move",
-   "to": "routers",
-   "reason": "the spare of a generic cord or cable whose base sits in routers NCS (Network Convergence System) shared parts: base and spare in one category, the base's (re-audit decisions, operator, 15 Sep 2026, Q-20 with the Q-19 rule)"
   },
   {
    "sku": "CAB-CAT5E/6E",
@@ -4647,14 +4321,6 @@
    "reason": "third-party (Panduit) cabling part number cited in a Catalyst 9300 datasheet, not a Cisco PID; switchKind names it `accessory` until the class change runs"
   },
   {
-   "sku": "CLK-7600=",
-   "name": "Spare Clock card for CISCO7603, CISCO7606 or CISCO7609 (FRU)",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "routers",
-   "reason": "Cisco 7600 clock card (CISCO7603 / 7606 / 7609 FRU), filed under Catalyst 6500"
-  },
-  {
    "sku": "CP24BLY",
    "name": "24-Port Patch Panel",
    "series_label": "Catalyst 9300",
@@ -4671,118 +4337,6 @@
    "reason": "third-party (Panduit patch panel / QuickNet cassette cited in a Cisco datasheet, not a Cisco PID)"
   },
   {
-   "sku": "CWWLSE-1130-19-K9",
-   "name": "CiscoWorks WLSE (optional)",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "wireless",
-   "reason": "CiscoWorks Wireless LAN Solution Engine filed under Catalyst 6500"
-  },
-  {
-   "sku": "DS-C9124V-8EK9",
-   "name": "Cisco MDS 9124V 64G Fibre-Channel-Switch (24 Ports)",
-   "series_label": "MDS V",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS Fibre Channel switch / director filed as an Ethernet switch"
-  },
-  {
-   "sku": "DS-C9132T-MEK9",
-   "name": "MDS 9132 32G 1 RU FC switch, w/ 8 active FC ports, 2 Fans, 1 PSU, Port Side Exhaust",
-   "series_label": "MDS T",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS Fibre Channel switch / director filed as an Ethernet switch"
-  },
-  {
-   "sku": "DS-C9148S-12PK9",
-   "name": "Cisco MDS 9148S 16G Fibre-Channel-Switch (48 Ports)",
-   "series_label": "MDS S",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS Fibre Channel switch / director filed as an Ethernet switch"
-  },
-  {
-   "sku": "DS-C9148T-24EK9",
-   "name": "Cisco MDS 9148T 32G Fibre-Channel-Switch (48 Ports)",
-   "series_label": "MDS T",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS Fibre Channel switch / director filed as an Ethernet switch"
-  },
-  {
-   "sku": "DS-C9148V-24EK9",
-   "name": "Cisco MDS 9148V 64G Fibre-Channel-Switch (48 Ports)",
-   "series_label": "MDS V",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS Fibre Channel switch / director filed as an Ethernet switch"
-  },
-  {
-   "sku": "DS-C9220I-4PEK9",
-   "name": "MDS 9220i Multiprotocol Fixed Switch Base configuration (4xFC, 2 x IPS 1 Gbps), port side exhaust",
-   "series_label": "MDS MS",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS Fibre Channel switch / director filed as an Ethernet switch"
-  },
-  {
-   "sku": "DS-C9250I-K9",
-   "name": "MDS 9250i 50 port switch base config (20xFC, 8xFCoE, 2xFCIP)",
-   "series_label": "MDS MS",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS Fibre Channel switch / director filed as an Ethernet switch"
-  },
-  {
-   "sku": "DS-C9396S-48EK9",
-   "name": "Cisco MDS 9396S 16G Fibre-Channel-Switch (96 Ports, 2 HE)",
-   "series_label": "MDS S",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS Fibre Channel switch / director filed as an Ethernet switch"
-  },
-  {
-   "sku": "DS-C9396T-48EK9",
-   "name": "MDS 9396T 32G 2 RU Fibre Channel switch, with 48 active Fibre Channel ports, 2 fans, 2 PSU, port side exhaust",
-   "series_label": "MDS T",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS Fibre Channel switch / director filed as an Ethernet switch"
-  },
-  {
-   "sku": "DS-C9396V-48EK9",
-   "name": "MDS 9396V 64G 2RU FC switch, w/ 48 active ports, 3 Fans, 2 PSUs, exhaust",
-   "series_label": "MDS V",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS Fibre Channel switch / director filed as an Ethernet switch"
-  },
-  {
-   "sku": "DS-C9706",
-   "name": "MDS 9706 Chassis, No Power Supplies, Fans Included",
-   "series_label": "MDS 9700",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS Fibre Channel switch / director filed as an Ethernet switch"
-  },
-  {
-   "sku": "DS-C9710",
-   "name": "MDS 9710 Chassis, No Power Supplies, Fans Included",
-   "series_label": "MDS 9700",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS Fibre Channel switch / director filed as an Ethernet switch"
-  },
-  {
-   "sku": "DS-C9718",
-   "name": "MDS 9718 Chassis, No Power Supplies, Fans Included",
-   "series_label": "MDS 9700",
-   "action": "move",
-   "to": "storage-networking",
-   "reason": "MDS Fibre Channel switch / director filed as an Ethernet switch"
-  },
-  {
    "sku": "E100",
    "name": "Cisco E100",
    "series_label": "C9550",
@@ -4797,14 +4351,6 @@
    "action": "class",
    "to": "non_product",
    "reason": "datasheet cell or bare family name enumerated as a part"
-  },
-  {
-   "sku": "FAN-1RU-PI-V2=",
-   "name": "Cisco aux fan tray, port-side intake airflow, spare",
-   "series_label": "Nexus 9000",
-   "action": "move",
-   "to": "routers",
-   "reason": "the spare of the auxiliary fan tray FAN-1RU-PI-V2, whose base sits in routers Cisco 8000 shared parts: base and spare in one category, the base's (no document names one platform; re-audit decisions, operator, 15 Sep 2026, Q-20 with the Q-19 rule)"
   },
   {
    "sku": "FPS6X88MTG",
@@ -4861,22 +4407,6 @@
    "action": "class",
    "to": "non_product",
    "reason": "tracking / deployment-option / test PID (\"For Tracking Only\", \"Test Only-Not for Customer Use\", RFID option)"
-  },
-  {
-   "sku": "IC3000-2C2F-K9++",
-   "name": "Industrial Compute appliance (TAA)",
-   "series_label": "IE 4000",
-   "action": "move",
-   "to": "routers",
-   "reason": "IC3000 Industrial Compute Gateway: an edge-compute appliance (IOx), no switching — routers.appliance is the kind the routers lane created for uCPE/compute appliances"
-  },
-  {
-   "sku": "IC3000-2C2F-K9=",
-   "name": "Industrial Compute gateway Spare PID for TAC services",
-   "series_label": "IE 4000",
-   "action": "move",
-   "to": "routers",
-   "reason": "IC3000 Industrial Compute Gateway: an edge-compute appliance (IOx), no switching — routers.appliance is the kind the routers lane created for uCPE/compute appliances"
   },
   {
    "sku": "IE3100",
@@ -4949,14 +4479,6 @@
    "action": "class",
    "to": "non_product",
    "reason": "datasheet cell or bare family name enumerated as a part"
-  },
-  {
-   "sku": "MGBBX1",
-   "name": "Cisco MGBBX1",
-   "series_label": "220 Smart",
-   "action": "move",
-   "to": "transceiver",
-   "reason": "pluggable optic filed as a switch"
   },
   {
    "sku": "MS100",
@@ -5053,62 +4575,6 @@
    "action": "class",
    "to": "non_product",
    "reason": "tracking / deployment-option / test PID (\"For Tracking Only\", \"Test Only-Not for Customer Use\", RFID option)"
-  },
-  {
-   "sku": "NM-BLANK-T1=",
-   "name": "Cisco Catalyst Type 1 Network Module Blank, spare",
-   "series_label": "Catalyst 9300",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "router network-module slot blank: interfaces-modules, in the NM / NME Network Modules series it blanks (pre-ruling C7, layers round 3)"
-  },
-  {
-   "sku": "ONS-SE-GE-BXD=",
-   "name": "SFP – 1000BASE BX D – GE Bidirectional Downstream Ext Temp",
-   "series_label": "Catalyst IE9300 Rugged Series",
-   "action": "move",
-   "to": "transceiver",
-   "reason": "pluggable optic filed as a switch"
-  },
-  {
-   "sku": "ONS-SE-GE-BXU=",
-   "name": "SFP – 1000BASE-BX U – GE Bidirectional Upstream – Ext Temp",
-   "series_label": "Catalyst IE9300 Rugged Series",
-   "action": "move",
-   "to": "transceiver",
-   "reason": "pluggable optic filed as a switch"
-  },
-  {
-   "sku": "ONS-SI+-10G-ER=",
-   "name": "SFP+ ER - Industrial Temp",
-   "series_label": "Catalyst IE9300 Rugged Series",
-   "action": "move",
-   "to": "transceiver",
-   "reason": "pluggable optic filed as a switch"
-  },
-  {
-   "sku": "ONS-SI+-10G-LR=",
-   "name": "SFP+ LR - Industrial Temp",
-   "series_label": "Catalyst IE9300 Rugged Series",
-   "action": "move",
-   "to": "transceiver",
-   "reason": "pluggable optic filed as a switch"
-  },
-  {
-   "sku": "ONS-SI+-10G-SR=",
-   "name": "SFP+ SR - Industrial Temp",
-   "series_label": "Catalyst IE9300 Rugged Series",
-   "action": "move",
-   "to": "transceiver",
-   "reason": "pluggable optic filed as a switch"
-  },
-  {
-   "sku": "ONS-SI+-10G-ZR=",
-   "name": "SFP+-ZR- Industrial Temp",
-   "series_label": "Catalyst IE9300 Rugged Series",
-   "action": "move",
-   "to": "transceiver",
-   "reason": "pluggable optic filed as a switch"
   },
   {
    "sku": "OTN/G.709",
@@ -5285,38 +4751,6 @@
    "action": "class",
    "to": "non_product",
    "reason": "third-party (Panduit patch panel / QuickNet cassette cited in a Cisco datasheet, not a Cisco PID)"
-  },
-  {
-   "sku": "RSP720-3C-10GE",
-   "name": "Cisco RSP720-3C-10GE",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "routers",
-   "reason": "Cisco 7600 router line card / route switch processor (7600-only), filed under the Catalyst 6500 label"
-  },
-  {
-   "sku": "RSP720-3C-10GE=",
-   "name": "Cisco RSP720-3C-10GE=",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "routers",
-   "reason": "Cisco 7600 router line card / route switch processor (7600-only), filed under the Catalyst 6500 label"
-  },
-  {
-   "sku": "RSP720-3C-GE",
-   "name": "Cisco RSP720-3C-GE",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "routers",
-   "reason": "Cisco 7600 router line card / route switch processor (7600-only), filed under the Catalyst 6500 label"
-  },
-  {
-   "sku": "RSP720-3C-GE=",
-   "name": "Cisco RSP720-3C-GE=",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "routers",
-   "reason": "Cisco 7600 router line card / route switch processor (7600-only), filed under the Catalyst 6500 label"
   },
   {
    "sku": "S6400",
@@ -6087,14 +5521,6 @@
    "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
   },
   {
-   "sku": "UCS-PSU-6332-DC=",
-   "name": "N9K 930W DC Power Supply, Reversed airflow (port side exhaust), Spare",
-   "series_label": "Nexus 3000",
-   "action": "move",
-   "to": "servers-unified-computing",
-   "reason": "the spare of UCS-PSU-6332-DC, which servers-unified-computing holds in UCS 6300 Fabric Interconnects with its nine UCS-PSU-6332-* siblings: the spare rule puts X and X= in one series, and A.3 rule 1 puts a platform-bound part with its platform (the UCS 6332 fabric interconnect) — the switches round's 'correctly filed here' entry is withdrawn (layers round 3, servers + hyperconverged round)"
-  },
-  {
    "sku": "UTP28X3BU",
    "name": "Cisco UTP28X3BU",
    "series_label": "Catalyst 9300",
@@ -6111,22 +5537,6 @@
    "reason": "datasheet cell or bare family name enumerated as a part"
   },
   {
-   "sku": "WS-G5483=",
-   "name": "1000BASE-T GBIC",
-   "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "transceiver",
-   "reason": "pluggable optic filed as a switch"
-  },
-  {
-   "sku": "WSP-Q40G-LR4L",
-   "name": "Cisco WSP-Q40G-LR4L",
-   "series_label": "Nexus 5000",
-   "action": "move",
-   "to": "transceiver",
-   "reason": "pluggable optic filed as a switch"
-  },
-  {
    "sku": "XR-10GB-LR",
    "name": "10GBASE-LR X2 (single-mode fiber)",
    "series_label": "Catalyst 6500",
@@ -6138,11 +5548,11 @@
  "unplaced": [],
  "label_check": {
   "applied": true,
-  "label_placed": 375,
+  "label_placed": 378,
   "by_kind": {
-   "none": 204,
+   "none": 206,
    "sku-token": 27,
-   "name": 143,
+   "name": 144,
    "family": 1
   },
   "moved": [
@@ -7281,6 +6691,22 @@
     "from_series": "IE 3100",
     "to_series": "Industrial Ethernet shared parts",
     "why": "no platform token (3100) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-IE50W-AC",
+    "name": "Cisco PWR-IE50W-AC",
+    "series_label": "3000 Series Industrial Security Appliances (ISA)",
+    "from_series": "IE 3400",
+    "to_series": "Industrial Ethernet shared parts",
+    "why": "no platform token (3400) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWR-IE50W-AC-IEC",
+    "name": "Cisco PWR-IE50W-AC-IEC",
+    "series_label": "3000 Series Industrial Security Appliances (ISA)",
+    "from_series": "IE 3400",
+    "to_series": "Industrial Ethernet shared parts",
+    "why": "no platform token (3400) in the SKU or name, no compatible part placed in the series"
    },
    {
     "sku": "PWR-IE50W-AC-IEC=",

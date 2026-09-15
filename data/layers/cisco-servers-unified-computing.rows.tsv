@@ -138,7 +138,6 @@ A16-4A	Cisco A16-4A	UCS X-Series	unknown	pending_plan								class non_product
 A16-8A	Cisco A16-8A	UCS X-Series	unknown	pending_plan								class non_product			
 AIPOD-POD1	AI POD for Inferencing/Edge (pre-trained models)	UCS X-Series	non-product	pending_plan								class non_product			
 AIPOD-POD2	AI POD for Training/Fine-Tuning (customizable, scalable)	UCS X-Series	non-product	pending_plan								class non_product			
-AIR-1520-BATT-6AH=	Cisco AIR-1520-BATT-6AH=	Mini Series	accessory	pending_plan								move wireless			
 AMD9575F	Cisco AMD9575F	UCS C-Series	unknown	pending_plan								class non_product			
 APIC-O-ID10GC	APIC Intel X710T2LOCPV3G1L 2x10GbE RJ45 OCP3.0 NIC	Nexus Dashboard	nic	layered	Cisco Appliances on UCS		APIC / Nexus Dashboard appliance	sku ^APIC-							
 APIC-P-I8D25GF	APIC Cisco-Intel E810XXVDA2 2x25/10 GbE SFP28 PCIe NIC	Nexus Dashboard	nic	layered	Cisco Appliances on UCS		APIC / Nexus Dashboard appliance	sku ^APIC-							
@@ -555,12 +554,7 @@ C890-M5-THERM=	Void: Not Used	UCS B-Series	server	pending_plan								class non_
 C890-M5-TPM	C890 M5 Trusted Platform Module	UCS B-Series	server	layered	UCS C-Series Rack Servers		UCS C890 M5	sku ^C890							
 C890-M5-TPM=	C890 M5 Trusted Platform Module	UCS B-Series	server	layered	UCS C-Series Rack Servers		UCS C890 M5	sku ^C890							
 CAAPL-RAID10	^Enable RAID 10 Setting	UCS C-Series	unknown	pending_plan								class non_product			
-CAB-250V-10A-AR=	Cisco CAB-250V-10A-AR=	UCS C-Series	cable	pending_plan								move routers			
-CAB-250V-10A-CN=	Cisco CAB-250V-10A-CN=	UCS C-Series	cable	pending_plan								move routers			
-CAB-250V-10A-ID=	Cisco CAB-250V-10A-ID=	UCS C-Series	cable	pending_plan								move storage-networking			
-CAB-250V-10A-IS=	Cisco CAB-250V-10A-IS=	UCS C-Series	cable	pending_plan								move routers			
-CAB-449FC=	RS-449 Cable, DCE, Female, 10 Feet	UCS E-Series	cable	pending_plan								move routers			
-CAB-449MT=	RS-449 Cable, DTE, Male, 10 Feet	UCS E-Series	cable	pending_plan								move routers			
+CAB-48DC-40A-8AWG	C-Series -48VDC PSU Power Cord, 3.5M, 3 Wire, 8AWG, 40A	8000	cable	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	accessory ^CAB- (label UCS C-Series)							
 CAB-48DC-40A-8AWG1	Cisco CAB-48DC-40A-8AWG1	UCS B-Series	cable	layered	UCS B-Series Blade Servers	(shared across the line)	UCS B-Series Blade Servers shared parts	accessory ^CAB- (label UCS B-Series)							
 CAB-48DC-40A-8AWG=	Cisco CAB-48DC-40A-8AWG=	UCS C-Series	cable	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	accessory ^CAB- (label UCS C-Series)							
 CAB-48DC-40A-AS-D	Cisco CAB-48DC-40A-AS-D	UCS C-Series	cable	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	accessory ^CAB- (label UCS C-Series)							
@@ -574,18 +568,14 @@ CAB-9K10A-KOR1	Cisco CAB-9K10A-KOR1	UCS C-Series	cable	layered	UCS C-Series Rack
 CAB-9K12A-NA1	Cisco CAB-9K12A-NA1	UCS C-Series	cable	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	accessory ^CAB- (label UCS C-Series)							
 CAB-AC-L620-C13-D	Cisco CAB-AC-L620-C13-D	UCS C-Series	cable	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	accessory ^CAB- (label UCS C-Series)							
 CAB-AC-L620-C13-D=	Cisco CAB-AC-L620-C13-D=	UCS C-Series	cable	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	accessory ^CAB- (label UCS C-Series)							
-CAB-ACTW=	Cisco CAB-ACTW=	UCS C-Series	cable	pending_plan								move routers			
 CAB-C13-C14-1M	UCSW Whiptail Power Cord Jumper, C13-C14 Connectors, 1 Meter	UCS C-Series	cable	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	accessory ^CAB- (label UCS C-Series)							
 CAB-C13-C14-1M=	UCSW Whiptail Power Cord Jumper, C13-C14 Connectors, 1 Meter	UCS C-Series	cable	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	accessory ^CAB- (label UCS C-Series)							
 CAB-C13-C14-2M-JP	Cisco CAB-C13-C14-2M-JP	UCS X-Series	cable	layered	UCS X-Series Modular System	(shared across the line)	UCS X-Series Modular System shared parts	accessory ^CAB- (label UCS X-Series)							
 CAB-C13-C14-2M-JP=	Cisco CAB-C13-C14-2M-JP=	UCS C-Series	cable	layered	UCS X-Series Modular System	(shared across the line)	UCS X-Series Modular System shared parts	accessory ^CAB- (label UCS X-Series)							
-CAB-C13-C14-2M=	Cisco CAB-C13-C14-2M=	UCS C-Series	cable	pending_plan								move routers			
 CAB-C13-C14-3M-IN	Cisco CAB-C13-C14-3M-IN	UCS X-Series	cable	layered	UCS X-Series Modular System	(shared across the line)	UCS X-Series Modular System shared parts	accessory ^CAB- (label UCS X-Series)							
 CAB-C13-C14-3M-IN=	Cisco CAB-C13-C14-3M-IN=	UCS C-Series	cable	layered	UCS X-Series Modular System	(shared across the line)	UCS X-Series Modular System shared parts	accessory ^CAB- (label UCS X-Series)							
-CAB-C13-C14-AC=	Cisco CAB-C13-C14-AC=	UCS C-Series	cable	pending_plan								move switches			
 CAB-C13-C14-IN	Cisco CAB-C13-C14-IN	UCS X-Series	cable	layered	UCS X-Series Modular System	(shared across the line)	UCS X-Series Modular System shared parts	accessory ^CAB- (label UCS X-Series)							
 CAB-C13-C14-IN=	Cisco CAB-C13-C14-IN=	UCS C-Series	cable	layered	UCS X-Series Modular System	(shared across the line)	UCS X-Series Modular System shared parts	accessory ^CAB- (label UCS X-Series)							
-CAB-C13-CBN=	Cisco CAB-C13-CBN=	UCS C-Series	cable	pending_plan								move routers			
 CAB-C13C142M-JP-D	Cisco CAB-C13C142M-JP-D	UCS C-Series	cable	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	accessory ^CAB- (label UCS C-Series)							
 CAB-C13C142M-JP-D=	Cisco CAB-C13C142M-JP-D=	UCS C-Series	cable	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	accessory ^CAB- (label UCS C-Series)							
 CAB-C14-C9-10A-EU	Power Cord C14-C19 10A EU	UCS C-Series	cable	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	accessory ^CAB- (label UCS C-Series)							
@@ -594,11 +584,8 @@ CAB-C14C19-10A-EU	Cisco CAB-C14C19-10A-EU	UCS C-Series	cable	layered	UCS C-Serie
 CAB-C14C19-10A-EU=	Cisco CAB-C14C19-10A-EU=	UCS C-Series	cable	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	accessory ^CAB- (label UCS C-Series)							
 CAB-C19-C20-IND-D	Cisco CAB-C19-C20-IND-D	UCS C-Series	cable	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	accessory ^CAB- (label UCS C-Series)							
 CAB-C19C203M-JP-D	Cisco CAB-C19C203M-JP-D	UCS C-Series	cable	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	accessory ^CAB- (label UCS C-Series)							
-CAB-C2316-C19-IT=	Cisco CAB-C2316-C19-IT=	UCS C-Series	cable	pending_plan								move switches			
-CAB-IR2073-C19-AR=	Cisco CAB-IR2073-C19-AR=	UCS C-Series	cable	pending_plan								move switches			
 CAB-JPN-3PIN	Cisco CAB-JPN-3PIN	UCS X-Series	cable	layered	UCS X-Series Modular System	(shared across the line)	UCS X-Series Modular System shared parts	accessory ^CAB- (label UCS X-Series)							
 CAB-JPN-3PIN=	Cisco CAB-JPN-3PIN=	UCS C-Series	cable	layered	UCS X-Series Modular System	(shared across the line)	UCS X-Series Modular System shared parts	accessory ^CAB- (label UCS X-Series)							
-CAB-N5K6A-NA=	Cisco CAB-N5K6A-NA=	UCS C-Series	cable	pending_plan								move routers			
 CAB-S132-C19-ISRL=	Cisco CAB-S132-C19-ISRL=	UCS C-Series	cable	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	accessory ^CAB- (label UCS C-Series)							
 CAB-SABS-C19-IND=	Cisco CAB-SABS-C19-IND=	UCS C-Series	cable	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	accessory ^CAB- (label UCS C-Series)							
 CAB-US515P-C19-US=	Cisco CAB-US515P-C19-US=	UCS C-Series	cable	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	accessory ^CAB- (label UCS C-Series)							
@@ -611,39 +598,6 @@ CAI-GPU-MI350P=	Cisco CAI-GPU-MI350P=	UCS C-Series	gpu	layered	UCS Server Compon
 CAI-P-N7D200GF	VOID - not in use	UCS C-Series	nic	pending_plan								class non_product			
 CAI-P-N7D200GF=	VOID - not in use	UCS C-Series	nic	pending_plan								class non_product			
 CAT64	Cisco CAT64	UCS C-Series	unknown	pending_plan								class non_product			
-CB-LC-LC-MMF1M=	Cisco CB-LC-LC-MMF1M=	UCS X-Series	cable	pending_plan								move interfaces-modules			
-CB-LC-LC-MMF2M=	Cisco CB-LC-LC-MMF2M=	UCS X-Series	cable	pending_plan								move interfaces-modules			
-CB-LC-LC-MMF3M=	Cisco CB-LC-LC-MMF3M=	UCS X-Series	cable	pending_plan								move interfaces-modules			
-CB-LC-LC-MMF4M=	Cisco CB-LC-LC-MMF4M=	UCS X-Series	cable	pending_plan								move interfaces-modules			
-CB-LC-LC-MMF5M=	Cisco CB-LC-LC-MMF5M=	UCS X-Series	cable	pending_plan								move interfaces-modules			
-CB-LC-LC-MMF7M=	Cisco CB-LC-LC-MMF7M=	UCS X-Series	cable	pending_plan								move interfaces-modules			
-CB-M12-4LC-MMF1.5=	Cisco CB-M12-4LC-MMF1.5=	UCS X-Series	cable	pending_plan								move interfaces-modules			
-CB-M12-4LC-MMF10M=	Cisco CB-M12-4LC-MMF10M=	UCS X-Series	cable	pending_plan								move interfaces-modules			
-CB-M12-4LC-MMF15M=	Cisco CB-M12-4LC-MMF15M=	UCS X-Series	cable	pending_plan								move interfaces-modules			
-CB-M12-4LC-MMF20M=	Cisco CB-M12-4LC-MMF20M=	UCS X-Series	cable	pending_plan								move interfaces-modules			
-CB-M12-4LC-MMF25M=	Cisco CB-M12-4LC-MMF25M=	UCS X-Series	cable	pending_plan								move interfaces-modules			
-CB-M12-4LC-MMF2M=	Cisco CB-M12-4LC-MMF2M=	UCS X-Series	cable	pending_plan								move interfaces-modules			
-CB-M12-4LC-MMF30M=	Cisco CB-M12-4LC-MMF30M=	UCS X-Series	cable	pending_plan								move interfaces-modules			
-CB-M12-4LC-MMF3M=	Cisco CB-M12-4LC-MMF3M=	UCS X-Series	cable	pending_plan								move interfaces-modules			
-CB-M12-4LC-MMF4M=	Cisco CB-M12-4LC-MMF4M=	UCS X-Series	cable	pending_plan								move interfaces-modules			
-CB-M12-4LC-MMF5M=	Cisco CB-M12-4LC-MMF5M=	UCS X-Series	cable	pending_plan								move interfaces-modules			
-CB-M12-4LC-MMF7M=	Cisco CB-M12-4LC-MMF7M=	UCS X-Series	cable	pending_plan								move interfaces-modules			
-CB-M12-4LC-SMFSM	Cisco CB-M12-4LC-SMFSM	UCS C-Series	cable	pending_plan								move interfaces-modules			
-CB-M12-M12-MMF1.5=	Cisco CB-M12-M12-MMF1.5=	UCS X-Series	cable	pending_plan								move interfaces-modules			
-CB-M12-M12-MMF10M	Cisco CB-M12-M12-MMF10M	UCS C-Series	cable	pending_plan								move interfaces-modules			
-CB-M12-M12-MMF10M=	Cisco CB-M12-M12-MMF10M=	UCS X-Series	cable	pending_plan								move interfaces-modules			
-CB-M12-M12-MMF15M=	Cisco CB-M12-M12-MMF15M=	UCS X-Series	cable	pending_plan								move interfaces-modules			
-CB-M12-M12-MMF1M=	Cisco CB-M12-M12-MMF1M=	UCS X-Series	cable	pending_plan								move interfaces-modules			
-CB-M12-M12-MMF20M=	Cisco CB-M12-M12-MMF20M=	UCS X-Series	cable	pending_plan								move interfaces-modules			
-CB-M12-M12-MMF25M=	Cisco CB-M12-M12-MMF25M=	UCS X-Series	cable	pending_plan								move interfaces-modules			
-CB-M12-M12-MMF2M=	Cisco CB-M12-M12-MMF2M=	UCS X-Series	cable	pending_plan								move interfaces-modules			
-CB-M12-M12-MMF30M=	Cisco CB-M12-M12-MMF30M=	UCS X-Series	cable	pending_plan								move interfaces-modules			
-CB-M12-M12-MMF3M=	Cisco CB-M12-M12-MMF3M=	UCS X-Series	cable	pending_plan								move interfaces-modules			
-CB-M12-M12-MMF4M=	Cisco CB-M12-M12-MMF4M=	UCS X-Series	cable	pending_plan								move interfaces-modules			
-CB-M12-M12-MMF5M=	Cisco CB-M12-M12-MMF5M=	UCS X-Series	cable	pending_plan								move interfaces-modules			
-CB-M12-M12-MMF7M=	Cisco CB-M12-M12-MMF7M=	UCS X-Series	cable	pending_plan								move interfaces-modules			
-CB-M12-M12-SMF2M	Cisco CB-M12-M12-SMF2M	UCS C-Series	cable	pending_plan								move interfaces-modules			
-CB-M12-M12-SMF3M	Cisco CB-M12-M12-SMF3M	UCS C-Series	cable	pending_plan								move interfaces-modules			
 CBL-E3S-220M8-P1	Cisco CBL-E3S-220M8-P1	UCS C-Series	cable	layered	UCS C-Series Rack Servers		UCS C220	sku ^(?=UCSC-|CBL-).*(?<![0-9])220-?M[1-8]							
 CBL-E3S-220M8-P2	Cisco CBL-E3S-220M8-P2	UCS C-Series	cable	layered	UCS C-Series Rack Servers		UCS C220	sku ^(?=UCSC-|CBL-).*(?<![0-9])220-?M[1-8]							
 CBL-E3S-220M8-P3	Cisco CBL-E3S-220M8-P3	UCS C-Series	cable	layered	UCS C-Series Rack Servers		UCS C220	sku ^(?=UCSC-|CBL-).*(?<![0-9])220-?M[1-8]							
@@ -715,14 +669,12 @@ CBL-SDSAS-245M6	C245M6 2U24SFF MB CPU1(NVMe-D) to PB PLUS	UCS C-Series	cable	lay
 CBL-SDSAS-245M6=	C245M6 2U24SFF MB CPU1(NVMe-D) to PB PLUS	UCS C-Series	cable	layered	UCS C-Series Rack Servers		UCS C245	sku ^(?=UCSC-|CBL-).*(?<![0-9])245-?M[1-8]							
 CBL-SDSAS-C240M7=	Cisco CBL-SDSAS-C240M7=	UCS C-Series	cable	layered	UCS C-Series Rack Servers		UCS C240	sku ^(?=UCSC?-|CBL-).*(?<![A-Z0-9])C240(?![0-9])							
 CBL-X580P-GPU-N=	Cisco CBL-X580P-GPU-N=	UCS X-Series	cable	layered	UCS X-Series Modular System		UCS X580p PCIe node	sku X580P?(?![0-9])							
-CIUS-BATTERY=	Cisco CIUS-BATTERY=	Mini Series	accessory	pending_plan								move collaboration-endpoints			
 CIVS-ENC-KIT-OPT	CIVS-ENC Video Card Manufacturing Kit Option	UCS C-Series	mechanical	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	label UCS C-Series							
 CIVS-FAN-2RU=	Fan Assembly for CIVS-MSP-2RU	UCS C-Series	fan	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	label UCS C-Series							
 CIVS-MSP-MEMUP6G	MultiService Platform memory upgrade to 6GB	UCS C-Series	memory	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	label UCS C-Series							
 CIVS-SS-4RU-KIT=	CIVS-SS: Rail Kit with screws, etc. for 4-RU; Spare	UCS C-Series	mechanical	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	label UCS C-Series							
 COMPUTE-AI	Cisco COMPUTE-AI	Unified Edge	unknown	pending_plan								class non_product			
 COMPUTE-OTHER	Cisco COMPUTE-OTHER	Unified Edge	unknown	pending_plan								class non_product			
-CP-BATT-7925G-EXT=	Cisco 7925G Battery, Extended	Mini Series	power	pending_plan								move collaboration-endpoints			
 CPU1	Cisco CPU1	UCS X-Series	cpu	layered	UCS X-Series Modular System	(shared across the line)	UCS X-Series Modular System shared parts	label UCS X-Series							
 CPU2	Cisco CPU2	UCS X-Series	cpu	layered	UCS X-Series Modular System	(shared across the line)	UCS X-Series Modular System shared parts	label UCS X-Series							
 CR1632	Cisco CR1632	Mini Series	accessory	layered	UCS Fabric Interconnects	(shared across the line)	UCS Fabric Interconnects shared parts	accessory ^CR[0-9]{4} (label Mini Series)							
@@ -787,7 +739,6 @@ DN3-HW-APL-XL	Cisco Catalyst Center Appliance (Gen 3) - 80 Core	Catalyst Center	
 DN3-HW-APL-XL=	Spare Cisco Catalyst Center Appliance (Gen 3) - 80 Core	Catalyst Center	server	layered	Cisco Appliances on UCS		Catalyst Center appliance	sku ^DN[0-9]-(?!LOC|L-)							
 DN3-P-I8D25GF	Cisco-Intel E810XXVDA2 2x25/10 GbE SFP28 PCIe NIC	Catalyst Center	nic	layered	Cisco Appliances on UCS		Catalyst Center appliance	sku ^DN[0-9]-(?!LOC|L-)							
 DN3-P-I8Q25GF	Cisco-Intel E810XXVDA4L 4x25/10 GbE SFP28 PCIe NIC	Catalyst Center	nic	layered	Cisco Appliances on UCS		Catalyst Center appliance	sku ^DN[0-9]-(?!LOC|L-)							
-DUO-TOKEN-10PACK	A hardware token used with a Cisco Duo subscription (10 pack)	UCS C-Series	unknown	pending_plan								move security			
 E-SSD-SATA-1TB	1 TB, SATA SSD drive for UCS-E M6	UCS E-Series	drive	layered	UCS E-Series Server Modules		UCS E-Series	sku ^E-SSD							
 E-SSD-SATA-1TB=	1 TB, SATA SSD drive for UCS-E M6 spare	UCS E-Series	drive	layered	UCS E-Series Server Modules		UCS E-Series	sku ^E-SSD							
 E-SSD-SATA-2TB	2 TB, SATA SSD drive for UCS-E M6	UCS E-Series	drive	layered	UCS E-Series Server Modules		UCS E-Series	sku ^E-SSD							
@@ -796,8 +747,14 @@ E-SSD-SATA-480G	480 GB, SATA SSD drive for UCS-E M6	UCS E-Series	drive	layered	U
 E-SSD-SATA-480G=	480 GB, SATA SSD drive for UCS-E M6 spare	UCS E-Series	drive	layered	UCS E-Series Server Modules		UCS E-Series	sku ^E-SSD							
 E-SSD-SATA-4TB	4 TB, SATA SSD drive for UCS-E M6	UCS E-Series	drive	layered	UCS E-Series Server Modules		UCS E-Series	sku ^E-SSD							
 E-SSD-SATA-4TB=	4 TB, SATA SSD drive for UCS-E M6 spare	UCS E-Series	drive	layered	UCS E-Series Server Modules		UCS E-Series	sku ^E-SSD							
+E-SSD-U2N-2TB	2 TB, NVME SSD drive for UCS-E M6	Catalyst 8300 Series Edge uCPE	drive	layered	UCS E-Series Server Modules		UCS E-Series	sku ^E-SSD							
+E-SSD-U2N-2TB=	2 TB, U.2 NVME SSD drive for UCS-E M6 Spare	Catalyst 8300 Series Edge uCPE	drive	layered	UCS E-Series Server Modules		UCS E-Series	sku ^E-SSD							
+E-SSD-U2N-4TB	4 TB, U.2 NVME SSD drive for UCS-E M6	Catalyst 8300 Series Edge uCPE	drive	layered	UCS E-Series Server Modules		UCS E-Series	sku ^E-SSD							
+E-SSD-U2N-4TB=	4 TB, U.2 NVME SSD drive for UCS-E M6 Spare	Catalyst 8300 Series Edge uCPE	drive	layered	UCS E-Series Server Modules		UCS E-Series	sku ^E-SSD							
 E100-4-8-MEM-UPG	Upgrades EN120S first memory dimm from 4GB to 8GB	UCS E-Series	server	layered	UCS E-Series Server Modules		UCS E-Series	sku ^E1[0-9]{2}[A-Z]?-							
 E100-8-16-MEM-UPG	Upgrades E140/160 First memory dimm from 8 to 16GB	UCS E-Series	server	layered	UCS E-Series Server Modules		UCS E-Series	sku ^E1[0-9]{2}[A-Z]?-							
+E100-FCPLT-BRKT	Bracket Used To Attach Faceplate to E100 Series Module	Catalyst 8200 Edge uCPE	mechanical	layered	UCS E-Series Server Modules		UCS E-Series	sku ^E1[0-9]{2}[A-Z]?-							
+E100-FCPLT-BRKT=	Bracket Used To Attach Faceplate to E100 Series Module	Catalyst 8200 Edge uCPE	mechanical	layered	UCS E-Series Server Modules		UCS E-Series	sku ^E1[0-9]{2}[A-Z]?-							
 E100-PCIE-4PGE	4 port GE, PCIe card, RJ-45, for DblWide UCS-E Series	UCS E-Series	server	layered	UCS E-Series Server Modules		UCS E-Series	sku ^E1[0-9]{2}[A-Z]?-							
 E100-PCIE-4PGE=	4 port GE, PCIe card, RJ-45, for DblWide UCS-E Series, Spare	UCS E-Series	server	layered	UCS E-Series Server Modules		UCS E-Series	sku ^E1[0-9]{2}[A-Z]?-							
 E100-PCIE10GEFCOE	1 port SFP+, PCIe, 10GE fiber, FCOE support, DblWide UCS-E	UCS E-Series	server	layered	UCS E-Series Server Modules		UCS E-Series	sku ^E1[0-9]{2}[A-Z]?-							
@@ -854,6 +811,8 @@ E100N-SSD-200G	200 GB, mSATA SSD for NCE NIM	UCS E-Series	drive	layered	UCS E-Se
 E100N-SSD-200G=	200 GB, mSATA SSD for NCE NIM	UCS E-Series	drive	layered	UCS E-Series Server Modules		UCS E-Series	sku ^E1[0-9]{2}[A-Z]?-							
 E100N-SSD-50G	50 GB, mSATA SSD for NCE NIM	UCS E-Series	drive	layered	UCS E-Series Server Modules		UCS E-Series	sku ^E1[0-9]{2}[A-Z]?-							
 E100N-SSD-50G=	50 GB, mSATA SSD for NCE NIM	UCS E-Series	drive	layered	UCS E-Series Server Modules		UCS E-Series	sku ^E1[0-9]{2}[A-Z]?-							
+E100S-CON-DGL	KVM Dongle	Catalyst 8200 Edge uCPE	accessory	layered	UCS E-Series Server Modules		UCS E-Series	sku ^E1[0-9]{2}[A-Z]?-							
+E100S-CON-DGL=	KVM Dongle	Catalyst 8200 Edge uCPE	accessory	layered	UCS E-Series Server Modules		UCS E-Series	sku ^E1[0-9]{2}[A-Z]?-							
 E100S-HDD-SAS18T	Cisco E100S-HDD-SAS18T	UCS E-Series	drive	layered	UCS E-Series Server Modules		UCS E-Series	sku ^E1[0-9]{2}[A-Z]?-							
 E100S-HDD-SAS18T=	Cisco E100S-HDD-SAS18T=	UCS E-Series	drive	layered	UCS E-Series Server Modules		UCS E-Series	sku ^E1[0-9]{2}[A-Z]?-							
 E100S-HDD-SAS18TB	1.8 TB, SAS hard disk drive for SingleWide UCS-E	UCS E-Series	drive	layered	UCS E-Series Server Modules		UCS E-Series	sku ^E1[0-9]{2}[A-Z]?-							
@@ -874,6 +833,8 @@ E100S-HDSASED600G	600 GB, SAS SED hard disk drive, for SingleWide UCS-E	UCS E-Se
 E100S-HDSASED600G=	600 GB, SAS SED hard disk drive, for SingleWide UCS-E, Spare	UCS E-Series	server	layered	UCS E-Series Server Modules		UCS E-Series	sku ^E1[0-9]{2}[A-Z]?-							
 E100S-MEM-UDIMM4G	4GB 667MHz VLP UDIMM/PC3-10600 2R for SingleWide UCS-E	UCS E-Series	server	layered	UCS E-Series Server Modules		UCS E-Series	sku ^E1[0-9]{2}[A-Z]?-							
 E100S-MEM-UDIMM4G=	4GB 667MHz VLP UDIMM/PC3-10600 2R for SingleWide UCS-E	UCS E-Series	server	layered	UCS E-Series Server Modules		UCS E-Series	sku ^E1[0-9]{2}[A-Z]?-							
+E100S-MEM-UDIMM8G	8GB 667MHz VLP UDIMM/PC3-10600 2R for SingleWide UCS-E	Catalyst 8200 Edge uCPE	memory	layered	UCS E-Series Server Modules		UCS E-Series	sku ^E1[0-9]{2}[A-Z]?-							
+E100S-MEM-UDIMM8G=	8GB 667MHz VLP UDIMM/PC3-10600 2R for SingleWide UCS-E	Catalyst 8200 Edge uCPE	memory	layered	UCS E-Series Server Modules		UCS E-Series	sku ^E1[0-9]{2}[A-Z]?-							
 E100S-SAS-18T	1.8 TB, SAS 4Kn hard disk drive, for Single Wide UCS-E	UCS E-Series	server	layered	UCS E-Series Server Modules		UCS E-Series	sku ^E1[0-9]{2}[A-Z]?-							
 E100S-SAS-18T=	1.8 TB, SAS 4Kn hard disk drive, for Single Wide UCS-E	UCS E-Series	server	layered	UCS E-Series Server Modules		UCS E-Series	sku ^E1[0-9]{2}[A-Z]?-							
 E100S-SED-12T	1.2 TB, SAS SED hard disk drive, for SingleWide UCS-E	UCS E-Series	server	layered	UCS E-Series Server Modules		UCS E-Series	sku ^E1[0-9]{2}[A-Z]?-							
@@ -1907,7 +1868,10 @@ INSTALL-OS-FLASH	Cisco INSTALL-OS-FLASH	UCS E-Series	unknown	pending_plan							
 INSTALL-OS-HDD	Cisco INSTALL-OS-HDD	UCS E-Series	unknown	pending_plan								class non_product			
 ISM-MANAGED	Cisco ISM-MANAGED	UCS C-Series	unknown	pending_plan								class non_product			
 ISM-SRE-300-BUN-K9	Services Ready Engine (SRE) 300 ISM for VSEC-SRE bundle	UCS E-Series	server	layered	UCS E-Series Server Modules		Services Ready Engine (ISM-SRE / SM-SRE)	sku ^ISM-SRE-							
+ISM-SRE-300-K9	Internal Services Module (ISM) with Services Ready Engine	2900 ISR	server	layered	UCS E-Series Server Modules		Services Ready Engine (ISM-SRE / SM-SRE)	sku ^ISM-SRE-							
+ISM-SRE-300-K9++=	Services Ready Engine 300 (512MB MEM, 4GB Flash, 1C CPU)	4000 ISR	server	layered	UCS E-Series Server Modules		Services Ready Engine (ISM-SRE / SM-SRE)	sku ^ISM-SRE-							
 ISM-SRE-300-K9=	Services Ready Engine 300 (512MB MEM, 4GB Flash, 1C CPU)	UCS E-Series	server	layered	UCS E-Series Server Modules		Services Ready Engine (ISM-SRE / SM-SRE)	sku ^ISM-SRE-							
+ISM-SRE-300-RS-K9=	ISM 300 module for VPN software	4000 ISR	server	layered	UCS E-Series Server Modules		Services Ready Engine (ISM-SRE / SM-SRE)	sku ^ISM-SRE-							
 KIN-BBLKD-L2	M5 KIN Appliances LFF drive blanking panel	UCS C-Series	mechanical	layered	Cisco Appliances on UCS		Kinetic appliance	sku ^KIN-							
 KIN-BBLKD-L2=	M5 KIN Appliances LFF drive blanking panel	UCS C-Series	mechanical	layered	Cisco Appliances on UCS		Kinetic appliance	sku ^KIN-							
 KIN-BBLKD-S2	Kinetic UCS C-Series M5 SFF drive blanking panel	UCS C-Series	mechanical	layered	Cisco Appliances on UCS		Kinetic appliance	sku ^KIN-							
@@ -2251,6 +2215,7 @@ SAS3	Cisco SAS3	S-Series Storage	storage-controller	layered	UCS S-Series Storage
 SASCBLSHORT-003	1 Short SAS Cable for UCS C210 Server ( for SAS Expander)	UCS C-Series	cable	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	label UCS C-Series							
 SASCBLSHORT-003=	2 Short SAS Cables for UCS C210 Server ( for SAS Expander)	UCS C-Series	cable	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	label UCS C-Series							
 SM-DSK-COVER	Hard disk drive face plate cover for SRE 700 and 900	UCS E-Series	mechanical	layered	UCS E-Series Server Modules		Services Ready Engine (ISM-SRE / SM-SRE)	sku ^SM-(DSK-|HDDB?-SATA-?500GB|MEM-VLP-[24]GB)							
+SM-DSK-SATA-500GB=	Spare 50-GB hard disk for SM-SRE-900-K9	2900 ISR	drive	layered	UCS E-Series Server Modules		Services Ready Engine (ISM-SRE / SM-SRE)	sku ^SM-(DSK-|HDDB?-SATA-?500GB|MEM-VLP-[24]GB)							
 SM-HDD-SATA-500GB	500 GB hard disk drive for SRE 710 and 910	UCS E-Series	drive	layered	UCS E-Series Server Modules		Services Ready Engine (ISM-SRE / SM-SRE)	sku ^SM-(DSK-|HDDB?-SATA-?500GB|MEM-VLP-[24]GB)							
 SM-HDD-SATA-500GB=	500 GB hard disk drive for SRE 710 and 910	UCS E-Series	drive	layered	UCS E-Series Server Modules		Services Ready Engine (ISM-SRE / SM-SRE)	sku ^SM-(DSK-|HDDB?-SATA-?500GB|MEM-VLP-[24]GB)							
 SM-HDDB-SATA500GB	500 GB hard disk drive for SRE 710 and 910	UCS E-Series	drive	layered	UCS E-Series Server Modules		Services Ready Engine (ISM-SRE / SM-SRE)	sku ^SM-(DSK-|HDDB?-SATA-?500GB|MEM-VLP-[24]GB)							
@@ -2258,6 +2223,8 @@ SM-MEM-VLP-2GB	2GB very low profile SDRAM for SRE service modules	UCS E-Series	m
 SM-MEM-VLP-2GB=	2GB very low profile SDRAM for SRE service modules	UCS E-Series	memory	layered	UCS E-Series Server Modules		Services Ready Engine (ISM-SRE / SM-SRE)	sku ^SM-(DSK-|HDDB?-SATA-?500GB|MEM-VLP-[24]GB)							
 SM-MEM-VLP-4GB	4GB very low profile SDRAM upgrade for SRE (for total 8GB)	UCS E-Series	memory	layered	UCS E-Series Server Modules		Services Ready Engine (ISM-SRE / SM-SRE)	sku ^SM-(DSK-|HDDB?-SATA-?500GB|MEM-VLP-[24]GB)							
 SM-MEM-VLP-4GB=	4GB very low profile SDRAM upgrade for SRE (for total 8GB)	UCS E-Series	memory	layered	UCS E-Series Server Modules		Services Ready Engine (ISM-SRE / SM-SRE)	sku ^SM-(DSK-|HDDB?-SATA-?500GB|MEM-VLP-[24]GB)							
+SM-SRE-700-K9	2-GB DRAM, 512-MB flash storage, 500GB hard disk, field- replaceable hard disk	Network Modules	server	layered	UCS E-Series Server Modules		Services Ready Engine (ISM-SRE / SM-SRE)	sku ^SM-SRE-							
+SM-SRE-900-K9	4GB DRAM, 2GB flash storage, 2 x 500GB hard disk (1 TB storage), embedded cryptography chip, RAID 0/1 support, hot swappable hard disk.	Network Modules	server	layered	UCS E-Series Server Modules		Services Ready Engine (ISM-SRE / SM-SRE)	sku ^SM-SRE-							
 SM7-UCSE	Configuration container for UCS Express on SRE 700	UCS E-Series	unknown	pending_plan								class non_product			
 SM9-UCSE	Configuration container for UCS Express on SRE 900	UCS E-Series	unknown	pending_plan								class non_product			
 SMD=0.875	Cisco SMD=0.875	UCS C-Series	unknown	pending_plan								class non_product			
@@ -2272,7 +2239,6 @@ START-BNDL-EXP	Expand Option	UCS C-Series	non-product	pending_plan								class 
 SVC-E1120D-M3	Cisco Internal. E1120D-M3 Service Spare	UCS E-Series	unknown	layered	UCS E-Series Server Modules		UCS E-Series	sku ^SVC-E							
 SVC-E160S-M3	UCS-E, SingleWide, 6 Core CPU, 8 GB Flash	UCS E-Series	unknown	layered	UCS E-Series Server Modules		UCS E-Series	sku ^SVC-E							
 SVC-E180D-M3	Cisco Internal. E180D-M3 Service Spare	UCS E-Series	unknown	layered	UCS E-Series Server Modules		UCS E-Series	sku ^SVC-E							
-TG5500-C220M3S-K9	Cisco TG5500-C220M3S-K9	UCS C-Series	server	pending_plan								move security			
 UCS-220CBLMR4	C220 M4 RAID controller cable (1) for 4HDD bckpln chassis	UCS C-Series	cable	layered	UCS C-Series Rack Servers		UCS C220	sku ^UCS-220CBL							
 UCS-220CBLMR4=	C220 M4 RAID controller cable (1) for 4HDD bckpln chassis	UCS C-Series	cable	layered	UCS C-Series Rack Servers		UCS C220	sku ^UCS-220CBL							
 UCS-220CBLMR8	C220 M4 set of 2 RAID cntrlr cables for 8HDD bckpln chassis	UCS C-Series	cable	layered	UCS C-Series Rack Servers		UCS C220	sku ^UCS-220CBL							
@@ -2304,9 +2270,12 @@ UCS-ACC-64108	UCS 64108 chassis accessory kit	5100 Blade Series	mechanical	layer
 UCS-ACC-64108-D	UCS 64108 Chassis Accessory Kit	UCS C-Series	mechanical	layered	UCS Fabric Interconnects		UCS 6400 Fabric Interconnects	sku (?<!CPU-[A-Z]{0,2})64108							
 UCS-ACC-64108-D=	UCS 64108 Chassis Accessory Kit	UCS C-Series	mechanical	layered	UCS Fabric Interconnects		UCS 6400 Fabric Interconnects	sku (?<!CPU-[A-Z]{0,2})64108							
 UCS-ACC-64108=	UCS 64108 Chassis Accessory Kit	UCS C-Series	mechanical	layered	UCS Fabric Interconnects		UCS 6400 Fabric Interconnects	sku (?<!CPU-[A-Z]{0,2})64108							
+UCS-ACC-6536	UCS 6536 chassis accessory kit	Unified Computing System Adapters	mechanical	layered	UCS Fabric Interconnects		UCS 6500 Fabric Interconnects	sku (?<!CPU-[A-Z]{0,2})6536							
 UCS-ACC-6536-D	Cisco UCS-ACC-6536-D	UCS X-Series	accessory	layered	UCS Fabric Interconnects		UCS 6500 Fabric Interconnects	sku (?<!CPU-[A-Z]{0,2})6536							
 UCS-ACC-6536-D=	Cisco UCS-ACC-6536-D=	UCS X-Series	accessory	layered	UCS Fabric Interconnects		UCS 6500 Fabric Interconnects	sku (?<!CPU-[A-Z]{0,2})6536							
 UCS-ACC-6536=	Cisco UCS-ACC-6536=	UCS X-Series	accessory	layered	UCS Fabric Interconnects		UCS 6500 Fabric Interconnects	sku (?<!CPU-[A-Z]{0,2})6536							
+UCS-ACC-6652	UCS 6652 chassis accessory kit	Unified Computing System Adapters	mechanical	layered	UCS Fabric Interconnects		UCS 6600 Fabric Interconnects	sku (?<!CPU-[A-Z]{0,2})66(52|64)(?![0-9])							
+UCS-ACC-6664	UCS 6664 chassis accessory kit	Unified Computing System Adapters	mechanical	layered	UCS Fabric Interconnects		UCS 6600 Fabric Interconnects	sku (?<!CPU-[A-Z]{0,2})66(52|64)(?![0-9])							
 UCS-ASR57-5108-AC	UCS 5108 AC Chassis, 8x B200M4 blades	UCS B-Series	bundle	layered	UCS Solution Bundles		Solution, reference and promotion bundles	sku ^UCS-(SA|SL|SM|SR|SB|SF|CX|STM|SHRPT|ASR[0-9]*|FSA[0-9]*|BD|BDMRES|NFVI|VSAN|VXI|YES|BR)-							
 UCS-ASR57-5108-DC	UCS 5108 DC Chassis, 8x B200M4 blades	UCS B-Series	bundle	layered	UCS Solution Bundles		Solution, reference and promotion bundles	sku ^UCS-(SA|SL|SM|SR|SB|SF|CX|STM|SHRPT|ASR[0-9]*|FSA[0-9]*|BD|BDMRES|NFVI|VSAN|VXI|YES|BR)-							
 UCS-ASR57-6248-AC	UCS 6248UP 1RU Fabric Int AC Power	UCS B-Series	fabric-interconnect	layered	UCS Solution Bundles		Solution, reference and promotion bundles	sku ^UCS-(SA|SL|SM|SR|SB|SF|CX|STM|SHRPT|ASR[0-9]*|FSA[0-9]*|BD|BDMRES|NFVI|VSAN|VXI|YES|BR)-							
@@ -2445,6 +2414,7 @@ UCS-CPU-5118	2.3 GHz 5118/105W 12C/16.50MB Cache/DDR4 2400MHz	UCS B-Series	cpu	l
 UCS-CPU-5118=	2.3 GHz 5118/105W 12C/16.50MB Cache/DDR4 2400MHz	UCS C-Series	cpu	layered	UCS Server Components		Processors	sku ^UCS-CPU							
 UCS-CPU-5118C=	DISTI: 2.3 GHz 5118/105W 12C/16.50MB Cache/DDR4 2400MHz	UCS C-Series	cpu	layered	UCS Server Components		Processors	sku ^UCS-CPU							
 UCS-CPU-5120	2.2 GHz 5120/105W 14C/19.25MB Cache/DDR4 2400MHz	UCS B-Series	cpu	layered	UCS Server Components		Processors	sku ^UCS-CPU							
+UCS-CPU-5120=	2.2 GHz 5120/105W 14C/19.25MB Cache/DDR4 2400MHz	ASR 9000	cpu	layered	UCS Server Components		Processors	sku ^UCS-CPU							
 UCS-CPU-5120C=	DISTI: 2.2 GHz 5120/105W 14C/19.25MB Cache/DDR4 2400MHz	UCS C-Series	cpu	layered	UCS Server Components		Processors	sku ^UCS-CPU							
 UCS-CPU-5122	3.6 GHz 5122/105W 4C/16.50MB Cache/DDR4 2666MHz	UCS B-Series	cpu	layered	UCS Server Components		Processors	sku ^UCS-CPU							
 UCS-CPU-5122=	3.6 GHz 5122/105W 4C/16.50MB Cache/DDR4 2666MHz	UCS C-Series	cpu	layered	UCS Server Components		Processors	sku ^UCS-CPU							
@@ -3613,7 +3583,9 @@ UCS-DIMM-BLK	Cisco UCS-DIMM-BLK	UCS C-Series	accessory	layered	UCS Server Compon
 UCS-DIMM-BLK=	Cisco UCS-DIMM-BLK=	UCS C-Series	accessory	layered	UCS Server Components	(shared across the line)	UCS Server Components shared parts	sku ^UCS-							
 UCS-DISTI	UCSDI WW Disti	UCS B-Series	unknown	pending_plan								class non_product			
 UCS-E1100D-M6	UCS-E, Double Wide, 10 Core, IceLake 3.0 GHz CPU, 4 HDD	UCS E-Series	server	layered	UCS E-Series Server Modules		UCS E-Series	sku ^UCS-EN?[0-9]							
+UCS-E1100D-M6/K9	UCS-E, double-wide, Intel Icelake 10-core CPU; up to 128 GB RAM, 1-4 SSD	Catalyst 8300	server	layered	UCS E-Series Server Modules		UCS E-Series	sku ^UCS-EN?[0-9]							
 UCS-E1100D-M6=	UCS-E, Double Wide, 10 Core, IceLake 3.0GHz CPU, 4 HDD spare	UCS E-Series	server	layered	UCS E-Series Server Modules		UCS E-Series	sku ^UCS-EN?[0-9]							
+UCS-E1120D-M3/K9	UCS-E, double-wide, Intel Broadwell 12-core CPU; up to 128 GB RAM, 1-4 HDD	Catalyst 8300	server	layered	UCS E-Series Server Modules		UCS E-Series	sku ^UCS-EN?[0-9]							
 UCS-E1120D-M3/K9=	UCS-E Double-Wide, 12 Core, 1.6GHz Intel Broadwell	UCS E-Series	server	layered	UCS E-Series Server Modules		UCS E-Series	sku ^UCS-EN?[0-9]							
 UCS-E140D-M1/K9	UCS-E, DoubleWide, 4 Core CPU, 2x8G SD, 1x8G RDIMM, 1-3 HDD	UCS E-Series	server	layered	UCS E-Series Server Modules		UCS E-Series	sku ^UCS-EN?[0-9]							
 UCS-E140D-M1/K9=	UCS-E, DoubleWide, 4 Core CPU, 2x8G SD, 1x8G RDIMM, 1-3 HDD, Spare	UCS E-Series	server	layered	UCS E-Series Server Modules		UCS E-Series	sku ^UCS-EN?[0-9]							
@@ -3636,11 +3608,13 @@ UCS-E160D-M2/K9=	UCS-E,DoubleWide,6 Core CPU 2.0,2x8G SD,1x8GB RDIMM,1-3 HDD	UCS
 UCS-E160D-M2BUN/K9	Promotional UCS-E160D-M2/K9 bundled with ISR-G2	UCS E-Series	server	layered	UCS E-Series Server Modules		UCS E-Series	sku ^UCS-EN?[0-9]							
 UCS-E160DP-M1/K9	UCS-E, DblWide, 6CoreCPU, 2x8G SD, 1x8G RDIMM, 1-2HDD, 1PCIe	UCS E-Series	server	layered	UCS E-Series Server Modules		UCS E-Series	sku ^UCS-EN?[0-9]							
 UCS-E160DP-M1/K9=	UCS-E, DblWide, 6CoreCPU, 2x8G SD, 1x8G RDIMM, 1-2HDD, 1PCIe, Spare	UCS E-Series	server	layered	UCS E-Series Server Modules		UCS E-Series	sku ^UCS-EN?[0-9]							
+UCS-E160S-M3/K9	UCS-E, single-wide, Intel Broadwell 6-core CPU; up to 64 GB RAM, 1-2 HDD	Catalyst 8300	server	layered	UCS E-Series Server Modules		UCS E-Series	sku ^UCS-EN?[0-9]							
 UCS-E160S-M3/K9++=	UCS-E, SingleWide, 6 Core CPU, 8 GB Flash, 1-2 TAA PID	UCS E-Series	server	layered	UCS E-Series Server Modules		UCS E-Series	sku ^UCS-EN?[0-9]							
 UCS-E160S-M3/K9=	UCS-E, SingleWide, 6 Core CPU, 8 GB Flash, 1-2 HDD	UCS E-Series	server	layered	UCS E-Series Server Modules		UCS E-Series	sku ^UCS-EN?[0-9]							
 UCS-E180D-M2/K9	UCS-E,DoubleWide,8Core 1.8 GHzCPU,2x8G SD,1x8G RDIMM,1-3 HDD	UCS E-Series	server	layered	UCS E-Series Server Modules		UCS E-Series	sku ^UCS-EN?[0-9]							
 UCS-E180D-M2/K9=	UCS-E,DoubleWide,8Core 1.8 GHzCPU,2x8G SD,1x8G RDIMM,1-3 HDD	UCS E-Series	server	layered	UCS E-Series Server Modules		UCS E-Series	sku ^UCS-EN?[0-9]							
 UCS-E180D-M2BUN/K9	Promotional UCS-E180D-M2/K9 bundled with ISR-G2	UCS E-Series	server	layered	UCS E-Series Server Modules		UCS E-Series	sku ^UCS-EN?[0-9]							
+UCS-E180D-M3/K9	UCS-E, double-wide, Intel Broadwell 8-core CPU; up to 128 GB RAM, 1-4 HDD	Catalyst 8300	server	layered	UCS E-Series Server Modules		UCS E-Series	sku ^UCS-EN?[0-9]							
 UCS-E180D-M3/K9=	UCS-E, Double Wide, 8 Core, 2.0 GHz CPU,4 HDD	UCS E-Series	server	layered	UCS E-Series Server Modules		UCS E-Series	sku ^UCS-EN?[0-9]							
 UCS-EM-B200M4-1S	B200M4 w/1xE52660v4, 4x32GB, VIC1340	UCS B-Series	server	layered	UCS B-Series Blade Servers		UCS B200	sku (?<![A-Z0-9])B200(?![0-9])							
 UCS-EN120E	Cisco UCS-EN120E	UCS E-Series	server	layered	UCS E-Series Server Modules		UCS E-Series	sku ^UCS-EN?[0-9]							
@@ -3801,7 +3775,10 @@ UCS-FAN-64108	UCS 64108 fan module	5100 Blade Series	fan	layered	UCS Fabric Inte
 UCS-FAN-64108-D	UCS 64108 Fan Module	UCS C-Series	fan	layered	UCS Fabric Interconnects		UCS 6400 Fabric Interconnects	sku (?<!CPU-[A-Z]{0,2})64108							
 UCS-FAN-64108-D=	UCS 64108 Fan Module	UCS C-Series	fan	layered	UCS Fabric Interconnects		UCS 6400 Fabric Interconnects	sku (?<!CPU-[A-Z]{0,2})64108							
 UCS-FAN-64108=	UCS 64108 Fan Module	UCS C-Series	fan	layered	UCS Fabric Interconnects		UCS 6400 Fabric Interconnects	sku (?<!CPU-[A-Z]{0,2})64108							
+UCS-FAN-6536	UCS 6536 fan module	Unified Computing System Adapters	fan	layered	UCS Fabric Interconnects		UCS 6500 Fabric Interconnects	sku (?<!CPU-[A-Z]{0,2})6536							
 UCS-FAN-6536-D	Cisco UCS-FAN-6536-D	UCS X-Series	fan	layered	UCS Fabric Interconnects		UCS 6500 Fabric Interconnects	sku (?<!CPU-[A-Z]{0,2})6536							
+UCS-FAN-6652	UCS 6652 fan module	Unified Computing System Adapters	fan	layered	UCS Fabric Interconnects		UCS 6600 Fabric Interconnects	sku (?<!CPU-[A-Z]{0,2})66(52|64)(?![0-9])							
+UCS-FAN-6664	UCS 6664 fan module	Unified Computing System Adapters	fan	layered	UCS Fabric Interconnects		UCS 6600 Fabric Interconnects	sku (?<!CPU-[A-Z]{0,2})66(52|64)(?![0-9])							
 UCS-FI-6248-PAK	(Not a standalone SKU) 6248UP w/2PSU,32 UP, 12p LIC	UCS B-Series	fabric-interconnect	layered	UCS Fabric Interconnects		UCS 6200 Fabric Interconnects	sku (?<!CPU-[A-Z]{0,2})6248							
 UCS-FI-6248-PS-BUN	UCS 6248UP and 2 AC PSU for DISTI STOCKING	UCS C-Series	fabric-interconnect	layered	UCS Fabric Interconnects		UCS 6200 Fabric Interconnects	sku (?<!CPU-[A-Z]{0,2})6248							
 UCS-FI-6248E16-28P	UCS 6248UP and 16P Expansion Module with 28 Port Licenses	UCS B-Series	fabric-interconnect	layered	UCS Fabric Interconnects		UCS 6200 Fabric Interconnects	sku (?<!CPU-[A-Z]{0,2})6248							
@@ -3854,8 +3831,10 @@ UCS-FI-6536-D-U	Cisco UCS-FI-6536-D-U	UCS 6300 Series Fabric Interconnects	fabri
 UCS-FI-6536-D=	Cisco UCS-FI-6536-D=	UCS 6300 Series Fabric Interconnects	fabric-interconnect	layered	UCS Fabric Interconnects		UCS 6500 Fabric Interconnects	sku (?<!CPU-[A-Z]{0,2})6536							
 UCS-FI-6536-U	1RU FI for UCS Manager, with no PSU, with 36 ports	Unified Computing System Adapters	fabric-interconnect	layered	UCS Fabric Interconnects		UCS 6500 Fabric Interconnects	sku (?<!CPU-[A-Z]{0,2})6536							
 UCS-FI-6652++=	Cisco UCS-FI-6652++=	UCS 6400 Series Fabric Interconnects	fabric-interconnect	layered	UCS Fabric Interconnects		UCS 6600 Fabric Interconnects	sku (?<!CPU-[A-Z]{0,2})66(52|64)(?![0-9])							
+UCS-FI-6652-U	1RU FI, with no PSU, with 52 ports	Unified Computing System Adapters	fabric-interconnect	layered	UCS Fabric Interconnects		UCS 6600 Fabric Interconnects	sku (?<!CPU-[A-Z]{0,2})66(52|64)(?![0-9])							
 UCS-FI-6652=	Cisco UCS-FI-6652=	UCS 6400 Series Fabric Interconnects	fabric-interconnect	layered	UCS Fabric Interconnects		UCS 6600 Fabric Interconnects	sku (?<!CPU-[A-Z]{0,2})66(52|64)(?![0-9])							
 UCS-FI-6664++=	Cisco UCS-FI-6664++=	UCS 6400 Series Fabric Interconnects	fabric-interconnect	layered	UCS Fabric Interconnects		UCS 6600 Fabric Interconnects	sku (?<!CPU-[A-Z]{0,2})66(52|64)(?![0-9])							
+UCS-FI-6664-U	2RU FI, with no PSU, with 64 ports	Unified Computing System Adapters	fabric-interconnect	layered	UCS Fabric Interconnects		UCS 6600 Fabric Interconnects	sku (?<!CPU-[A-Z]{0,2})66(52|64)(?![0-9])							
 UCS-FI-6664=	Cisco UCS-FI-6664=	UCS 6400 Series Fabric Interconnects	fabric-interconnect	layered	UCS Fabric Interconnects		UCS 6600 Fabric Interconnects	sku (?<!CPU-[A-Z]{0,2})66(52|64)(?![0-9])							
 UCS-FI-DL2	UCS 6248 Layer 2 Daughter Card	6200 Fabric Interconnects	fabric-interconnect	layered	UCS Fabric Interconnects		UCS 6200 Fabric Interconnects	sku ^UCS-FI-(DL2|E16UP)							
 UCS-FI-DL2=	UCS 6248 Layer 2 Daughter Card	UCS B-Series	fabric-interconnect	layered	UCS Fabric Interconnects		UCS 6200 Fabric Interconnects	sku ^UCS-FI-(DL2|E16UP)							
@@ -4179,6 +4158,7 @@ UCS-M2-240G-D	Cisco UCS-M2-240G-D	UCS C-Series	drive	layered	UCS Server Componen
 UCS-M2-240G-D=	Cisco UCS-M2-240G-D=	UCS C-Series	drive	layered	UCS Server Components		Drives and storage	sku ^UCS-(SD|HD|HDL|HDM|HDB|HDD|HY|NVB|NVE|NVM|NVME|SDB|M2|USBFLSH|STOR|MSTOR|PCI25)							
 UCS-M2-240GB	Cisco UCS-M2-240GB	UCS B-Series	drive	layered	UCS Server Components		Drives and storage	sku ^UCS-(SD|HD|HDL|HDM|HDB|HDD|HY|NVB|NVE|NVM|NVME|SDB|M2|USBFLSH|STOR|MSTOR|PCI25)							
 UCS-M2-240GB-D	Cisco UCS-M2-240GB-D	UCS C-Series	drive	layered	UCS Server Components		Drives and storage	sku ^UCS-(SD|HD|HDL|HDM|HDB|HDD|HY|NVB|NVE|NVM|NVME|SDB|M2|USBFLSH|STOR|MSTOR|PCI25)							
+UCS-M2-240GB=	Cisco UCS-M2-240GB=	ASR 9000	drive	layered	UCS Server Components		Drives and storage	sku ^UCS-(SD|HD|HDL|HDM|HDB|HDD|HY|NVB|NVE|NVM|NVME|SDB|M2|USBFLSH|STOR|MSTOR|PCI25)							
 UCS-M2-480G-D	Cisco UCS-M2-480G-D	UCS C-Series	drive	layered	UCS Server Components		Drives and storage	sku ^UCS-(SD|HD|HDL|HDM|HDB|HDD|HY|NVB|NVE|NVM|NVME|SDB|M2|USBFLSH|STOR|MSTOR|PCI25)							
 UCS-M2-480G-D=	Cisco UCS-M2-480G-D=	UCS C-Series	drive	layered	UCS Server Components		Drives and storage	sku ^UCS-(SD|HD|HDL|HDM|HDB|HDD|HY|NVB|NVE|NVM|NVME|SDB|M2|USBFLSH|STOR|MSTOR|PCI25)							
 UCS-M2-960G	Cisco UCS-M2-960G	UCS B-Series	drive	layered	UCS Server Components		Drives and storage	sku ^UCS-(SD|HD|HDL|HDM|HDB|HDD|HY|NVB|NVE|NVM|NVME|SDB|M2|USBFLSH|STOR|MSTOR|PCI25)							
@@ -4373,6 +4353,7 @@ UCS-MR-2X164RX-D=	2X16GB NHS DDR3-1333-MHz RDIMM/PC3-10600/quad rank/x4/1.35v	UC
 UCS-MR-2X324RX-C	2X32GB DDR3-1333-MHz RDIMM/PC3-10600/quad rank/x4/1.35v	UCS B-Series	memory	layered	UCS Server Components		Memory	sku ^UCS-M(R|L|RX|KIT|P)							
 UCS-MR-2X324RX-C=	2X32GB DDR3-1333-MHz RDIMM/PC3-10600/quad rank/x4/1.35v [spa	UCS C-Series	memory	layered	UCS Server Components		Memory	sku ^UCS-M(R|L|RX|KIT|P)							
 UCS-MR-X16G1RS-H	16GB DDR4-2666-MHz RDIMM/PC4-21300/single rank/x4/1.2v	UCS B-Series	memory	layered	UCS Server Components		Memory	sku ^UCS-M(R|L|RX|KIT|P)							
+UCS-MR-X16G1RS-H=	Cisco UCS-MR-X16G1RS-H=	ASR 9000	memory	layered	UCS Server Components		Memory	sku ^UCS-M(R|L|RX|KIT|P)							
 UCS-MR-X16G1RSHM	16GB DDR4-2666-MHz RDIMM/single rank/x4/1.2v. Micron only	UCS B-Series	memory	layered	UCS Server Components		Memory	sku ^UCS-M(R|L|RX|KIT|P)							
 UCS-MR-X16G1RT-H	Cisco UCS-MR-X16G1RT-H	UCS B-Series	memory	layered	UCS Server Components		Memory	sku ^UCS-M(R|L|RX|KIT|P)							
 UCS-MR-X16G1RW2	Cisco UCS-MR-X16G1RW2	UCS B-Series	memory	layered	UCS Server Components		Memory	sku ^UCS-M(R|L|RX|KIT|P)							
@@ -4633,6 +4614,7 @@ UCS-PSU-6332-AC=	UCS 6332/ 6454 Power Supply/100-240VAC	UCS C-Series	power	layer
 UCS-PSU-6332-DC	N9K 930W DC Power Supply, Reversed airflow (port side exhaust)	5100 Blade Series	power	layered	UCS Fabric Interconnects		UCS 6300 Fabric Interconnects	sku (?<!CPU-[A-Z]{0,2})6332							
 UCS-PSU-6332-DC-D	UCS 6332/ 6454/ 64108 Power Supply/-48VDC	UCS C-Series	power	layered	UCS Fabric Interconnects		UCS 6300 Fabric Interconnects	sku (?<!CPU-[A-Z]{0,2})6332							
 UCS-PSU-6332-DC-D=	UCS 6332/ 6454/ 64108 Power Supply/-48VDC	UCS C-Series	power	layered	UCS Fabric Interconnects		UCS 6300 Fabric Interconnects	sku (?<!CPU-[A-Z]{0,2})6332							
+UCS-PSU-6332-DC=	N9K 930W DC Power Supply, Reversed airflow (port side exhaust), Spare	Nexus 3000	power	layered	UCS Fabric Interconnects		UCS 6300 Fabric Interconnects	sku (?<!CPU-[A-Z]{0,2})6332							
 UCS-PSU-6332-NAC	UCS 6332 NEBS 650W V2 AC Power Supply (100-240V)	UCS 6300 Series Fabric Interconnects	power	layered	UCS Fabric Interconnects		UCS 6300 Fabric Interconnects	sku (?<!CPU-[A-Z]{0,2})6332							
 UCS-PSU-6332-NAC=	UCS 6332 NEBS 650W V2 AC Power Supply (100-240V)	UCS 6300 Series Fabric Interconnects	power	layered	UCS Fabric Interconnects		UCS 6300 Fabric Interconnects	sku (?<!CPU-[A-Z]{0,2})6332							
 UCS-PSU-6332-NDC	UCS 6332 NEBS DC Power Supply	UCS 6300 Series Fabric Interconnects	power	layered	UCS Fabric Interconnects		UCS 6300 Fabric Interconnects	sku (?<!CPU-[A-Z]{0,2})6332							
@@ -4643,9 +4625,11 @@ UCS-PSU-64108-AC-D=	Cisco UCS-PSU-64108-AC-D=	UCS B-Series	power	layered	UCS Fab
 UCS-PSU-64108-AC=	UCS 64108 Power Supply/100-240VAC	UCS C-Series	power	layered	UCS Fabric Interconnects		UCS 6400 Fabric Interconnects	sku (?<!CPU-[A-Z]{0,2})64108							
 UCS-PSU-64108AC-D	UCS 64108 Power Supply/100-240VAC	UCS C-Series	power	layered	UCS Fabric Interconnects		UCS 6400 Fabric Interconnects	sku (?<!CPU-[A-Z]{0,2})64108							
 UCS-PSU-64108AC-D=	UCS 64108 Power Supply/100-240VAC	UCS C-Series	power	layered	UCS Fabric Interconnects		UCS 6400 Fabric Interconnects	sku (?<!CPU-[A-Z]{0,2})64108							
+UCS-PSU-6536-AC	UCS 6536 platinum power supply/100-240VAC (1100 W)	Unified Computing System Adapters	power	layered	UCS Fabric Interconnects		UCS 6500 Fabric Interconnects	sku (?<!CPU-[A-Z]{0,2})6536							
 UCS-PSU-6536-AC-D	Cisco UCS-PSU-6536-AC-D	UCS X-Series	power	layered	UCS Fabric Interconnects		UCS 6500 Fabric Interconnects	sku (?<!CPU-[A-Z]{0,2})6536							
 UCS-PSU-6536-AC-D=	Cisco UCS-PSU-6536-AC-D=	UCS X-Series	power	layered	UCS Fabric Interconnects		UCS 6500 Fabric Interconnects	sku (?<!CPU-[A-Z]{0,2})6536							
 UCS-PSU-6536-AC=	Cisco UCS-PSU-6536-AC=	UCS X-Series	power	layered	UCS Fabric Interconnects		UCS 6500 Fabric Interconnects	sku (?<!CPU-[A-Z]{0,2})6536							
+UCS-PSU-6600-AC	UCS 6600 platinum power supply/100-240VAC (1400 W)	Unified Computing System Adapters	power	layered	UCS Fabric Interconnects		UCS 6600 Fabric Interconnects	sku ^UCS-PSU-6600							
 UCS-PSU-6600-AC=	UCS 6600 1.4KW AC Power Supply, Port-side Exhaust	UCS C-Series	power	layered	UCS Fabric Interconnects		UCS 6600 Fabric Interconnects	sku ^UCS-PSU-6600							
 UCS-RAID-BBU=	BBU09 for 9266	UCS C-Series	storage-controller	layered	UCS Server Components		Network and storage adapters	sku ^UCS-RAID							
 UCS-RAID-CV-420	Cisco UCS-RAID-CV-420	UCS C-Series	storage-controller	layered	UCS Server Components		Network and storage adapters	sku ^UCS-RAID							
@@ -6904,6 +6888,7 @@ UCSC-C220-M5SN	Cisco UCSC-C220-M5SN	Transceiver Modules	server	layered	UCS C-Ser
 UCSC-C220-M5SX	Cisco UCSC-C220-M5SX	Transceiver Modules	server	layered	UCS C-Series Rack Servers		UCS C220	sku ^(?=UCSC?-).*(?<![A-Z0-9])C220(?![0-9])							
 UCSC-C220-M5SX-BR	Cisco UCSC-C220-M5SX-BR	UCS B-Series	server	layered	UCS C-Series Rack Servers		UCS C220	sku ^(?=UCSC?-).*(?<![A-Z0-9])C220(?![0-9])							
 UCSC-C220-M5SX-CH	Cisco UCSC-C220-M5SX-CH	UCS C-Series	server	layered	UCS C-Series Rack Servers		UCS C220	sku ^(?=UCSC?-).*(?<![A-Z0-9])C220(?![0-9])							
+UCSC-C220-M5SX=	Cisco UCSC-C220-M5SX=	ASR 9000	server	layered	UCS C-Series Rack Servers		UCS C220	sku ^(?=UCSC?-).*(?<![A-Z0-9])C220(?![0-9])							
 UCSC-C220-M6S-BR	VOID, NOT USED	UCS C-Series	server	pending_plan								class non_product			
 UCSC-C220-M7N	C220 M7 1RU NVMe optimized server with up to 10x NVMe drive capability	UCS C-Series	server	layered	UCS C-Series Rack Servers		UCS C220	sku ^(?=UCSC?-).*(?<![A-Z0-9])C220(?![0-9])							
 UCSC-C220-M7S	C220 M7 1RU standard server with up to 10x SFF drive bays	UCS C-Series	server	layered	UCS C-Series Rack Servers		UCS C220	sku ^(?=UCSC?-).*(?<![A-Z0-9])C220(?![0-9])							
@@ -9346,6 +9331,7 @@ UCSX-TPM1-002	Trusted Platform Module 2.0 for UCS servers (LPC based)	UCS C-Seri
 UCSX-TPM1-002=	Trusted Platform Module 2.0 for UCS servers (LPC based)	UCS C-Series	tpm	layered	UCS X-Series Modular System	(shared across the line)	UCS X-Series Modular System shared parts	sku ^UCSX-							
 UCSX-TPM2-001	Cisco UCSX-TPM2-001	UCS X-Series	tpm	layered	UCS X-Series Modular System	(shared across the line)	UCS X-Series Modular System shared parts	sku ^UCSX-							
 UCSX-TPM2-002	Cisco UCSX-TPM2-002	UCS X-Series	tpm	layered	UCS X-Series Modular System	(shared across the line)	UCS X-Series Modular System shared parts	sku ^UCSX-							
+UCSX-TPM2-002=	Cisco UCSX-TPM2-002=	ASR 9000	tpm	layered	UCS X-Series Modular System	(shared across the line)	UCS X-Series Modular System shared parts	sku ^UCSX-							
 UCSX-TPM2-002D-D	Cisco UCSX-TPM2-002D-D	UCS X-Series	tpm	layered	UCS X-Series Modular System	(shared across the line)	UCS X-Series Modular System shared parts	sku ^UCSX-							
 UCSX-V4-BRIDGE	UCS VIC 14000 bridge to connect the Cisco VIC 14425 mLOM and Cisco VIC Mezz for the X210c Compute Node	UCS Virtual Interface Cards	accessory	layered	UCS X-Series Modular System	(shared across the line)	UCS X-Series Modular System shared parts	sku ^UCSX-							
 UCSX-V4-BRIDGE=	UCS VIC 14000 bridge connect mLOM and mezz X Compute Node	UCS X-Series	accessory	layered	UCS X-Series Modular System	(shared across the line)	UCS X-Series Modular System shared parts	sku ^UCSX-							
@@ -9503,3 +9489,5 @@ X9108-IFM-100G	Cisco X9108-IFM-100G	UCS X-Series	io-module	layered	UCS X-Series 
 X9108-IFM-25G	Cisco X9108-IFM-25G	UCS X-Series	io-module	layered	UCS X-Series Modular System	(shared across the line)	UCS X-Series Modular System shared parts	label UCS X-Series							
 X9508	Cisco X9508	9100 Fabric Interconnects	unknown	pending_plan								class non_product			
 XE150c	Cisco XE150c	Unified Edge	unknown	pending_plan								class non_product			
+XRV-PCIE-C40Q-03	Cisco VIC 1385 Dual Port 40Gb QSFP+ CNA w/RDMA	ASR 9000	unknown	layered	UCS Server Components		Network and storage adapters	sku ^XRV-PCIE-							
+XRV-PCIE-IQ10GF	Cisco XRV-PCIE-IQ10GF	ASR 9000	unknown	layered	UCS Server Components		Network and storage adapters	sku ^XRV-PCIE-							

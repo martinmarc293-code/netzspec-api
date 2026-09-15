@@ -1,7 +1,4 @@
 sku	name	series_label	kind	bucket	product_line	product_family	series	placed_by	deploy_role	role_rule	role_issue	plan	belongs	label_evidence	family_carrier
-CW9172	Cisco CW9172	Meraki	access-point	pending_plan					indoor	series:Catalyst CW9171 / 9172 / 9174 / 9176 / 9178 / 9179 (Wi-Fi 7)		move wireless			
-CW9176	Cisco CW9176	Meraki	access-point	pending_plan					indoor	series:Catalyst CW9171 / 9172 / 9174 / 9176 / 9178 / 9179 (Wi-Fi 7)		move wireless			
-CW9178	Cisco CW9178	Meraki	access-point	pending_plan					indoor	series:Catalyst CW9171 / 9172 / 9174 / 9176 / 9178 / 9179 (Wi-Fi 7)		move wireless			
 MG21	Cisco MG21	Meraki	gateway	layered	Meraki MG Cellular Gateways		MG21 / MG21E	sku ^MG21E?(?![0-9])							
 MG21-HW-NA	Meraki MG21 Cellular Gateway – North America	Meraki	gateway	layered	Meraki MG Cellular Gateways		MG21 / MG21E	sku ^MG21E?(?![0-9])							
 MG21-HW-WW	Meraki MG21 Cellular Gateway – Worldwide	Meraki	gateway	layered	Meraki MG Cellular Gateways		MG21 / MG21E	sku ^MG21E?(?![0-9])							
@@ -20,35 +17,6 @@ MG52	Cisco MG52	Meraki	gateway	layered	Meraki MG Cellular Gateways		MG52 / MG52E
 MG52-HW	Cisco MG52-HW	Meraki	gateway	layered	Meraki MG Cellular Gateways		MG52 / MG52E	sku ^MG52E?(?![0-9])							
 MG52E	Cisco MG52E	Meraki	gateway	layered	Meraki MG Cellular Gateways		MG52 / MG52E	sku ^MG52E?(?![0-9])							
 MG52E-HW	Cisco MG52E-HW	Meraki	gateway	layered	Meraki MG Cellular Gateways		MG52 / MG52E	sku ^MG52E?(?![0-9])							
-MR11	Cisco MR11	Meraki	access-point	pending_plan					indoor	series:Meraki MR indoor		move wireless			
-MR12	Cisco MR12	Meraki	access-point	pending_plan					indoor	series:Meraki MR indoor		move wireless			
-MR14	Cisco MR14	Meraki	access-point	pending_plan					indoor	series:Meraki MR indoor		move wireless			
-MR16	Cisco MR16	Meraki	access-point	pending_plan					indoor	series:Meraki MR indoor		move wireless			
-MR20	Cisco MR20	Meraki	access-point	pending_plan					indoor	series:Meraki MR indoor		move wireless			
-MR24	Cisco MR24	Meraki	access-point	pending_plan					indoor	series:Meraki MR indoor		move wireless			
-MR28	Cisco MR28	Meraki	access-point	pending_plan					indoor	series:Meraki MR indoor		move wireless			
-MR28-HW	Cisco MR28-HW	Meraki	access-point	pending_plan					indoor	series:Meraki MR indoor		move wireless			
-MR30	Cisco MR30	Meraki	access-point	pending_plan					indoor	series:Meraki MR indoor		move wireless			
-MR30H	Cisco MR30H	Meraki	access-point	pending_plan					indoor	series:Meraki MR indoor		move wireless			
-MR33	Cisco MR33	Meraki	access-point	pending_plan					indoor	series:Meraki MR indoor		move wireless			
-MR42	Cisco MR42	Meraki	access-point	pending_plan					indoor	series:Meraki MR indoor		move wireless			
-MR42E	Cisco MR42E	Meraki	access-point	pending_plan					indoor	series:Meraki MR indoor		move wireless			
-MR45	Cisco MR45	Meraki	access-point	pending_plan					indoor	series:Meraki MR indoor		move wireless			
-MR52	Cisco MR52	Meraki	access-point	pending_plan					indoor	series:Meraki MR indoor		move wireless			
-MR53	Cisco MR53	Meraki	access-point	pending_plan					indoor	series:Meraki MR indoor		move wireless			
-MR53E	Cisco MR53E	Meraki	access-point	pending_plan					indoor	series:Meraki MR indoor		move wireless			
-MR55	Cisco MR55	Meraki	access-point	pending_plan					indoor	series:Meraki MR indoor		move wireless			
-MR56-HW	Cisco MR56-HW	Meraki	access-point	pending_plan					indoor	series:Meraki MR indoor		move wireless			
-MR57-HW	Cisco MR57-HW	Meraki	access-point	pending_plan					indoor	series:Meraki MR indoor		move wireless			
-MR58	Cisco MR58	Meraki	access-point	pending_plan					outdoor	series:Meraki MR outdoor (MR58 / 66 / 70 / 72 / 74 / 76 / 78 / 84 / 86)		move wireless			
-MR62	Cisco MR62	Meraki	access-point	pending_plan					indoor	series:Meraki MR indoor		move wireless			
-MR66	Cisco MR66	Meraki	access-point	pending_plan					outdoor	series:Meraki MR outdoor (MR58 / 66 / 70 / 72 / 74 / 76 / 78 / 84 / 86)		move wireless			
-MR70	Cisco MR70	Meraki	access-point	pending_plan					outdoor	series:Meraki MR outdoor (MR58 / 66 / 70 / 72 / 74 / 76 / 78 / 84 / 86)		move wireless			
-MR74	Cisco MR74	Meraki	access-point	pending_plan					outdoor	series:Meraki MR outdoor (MR58 / 66 / 70 / 72 / 74 / 76 / 78 / 84 / 86)		move wireless			
-MR76-HW	Cisco MR76-HW	Meraki	access-point	pending_plan					outdoor	series:Meraki MR outdoor (MR58 / 66 / 70 / 72 / 74 / 76 / 78 / 84 / 86)		move wireless			
-MR78-HW	Cisco MR78-HW	Meraki	access-point	pending_plan					outdoor	series:Meraki MR outdoor (MR58 / 66 / 70 / 72 / 74 / 76 / 78 / 84 / 86)		move wireless			
-MR84	Cisco MR84	Meraki	access-point	pending_plan					outdoor	series:Meraki MR outdoor (MR58 / 66 / 70 / 72 / 74 / 76 / 78 / 84 / 86)		move wireless			
-MR86-HW	Cisco MR86-HW	Meraki	access-point	pending_plan					outdoor	series:Meraki MR outdoor (MR58 / 66 / 70 / 72 / 74 / 76 / 78 / 84 / 86)		move wireless			
 MT10	Cisco MT10	Meraki	sensor	layered	Meraki MT Sensors		MT10	sku ^MT10(?![0-9])							
 MT10-HW	Cisco MT10-HW	Meraki	sensor	layered	Meraki MT Sensors		MT10	sku ^MT10(?![0-9])							
 MT11	Cisco MT11	Meraki	sensor	layered	Meraki MT Sensors		MT11	sku ^MT11(?![0-9])							

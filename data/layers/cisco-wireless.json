@@ -1,15 +1,19 @@
 {
  "vendor": "cisco",
  "category": "wireless",
- "built_at": "2026-09-15T22:52:44.903Z",
- "commit": "9a734f7ba27364704867e3f28204553e1ab21277",
- "uncommitted_rule_files": [],
+ "built_at": "2026-09-15T23:24:28.541Z",
+ "commit": "daa609b5f1a24431ec097b320227e7df1b36b063",
+ "uncommitted_rule_files": [
+  "data/reference/family-carriers.json",
+  "data/reference/layers-cross-claims.json",
+  "scripts/build-layers.mts"
+ ],
  "mapping_file": "data/reference/product-lines/cisco-wireless.json",
- "parts": 3985,
+ "parts": 3907,
  "lines": [
   {
    "line": "Catalyst Wireless Access Points",
-   "parts": 47,
+   "parts": 65,
    "series": [
     {
      "series": "Catalyst CW9163E (outdoor, Wi-Fi 6E)",
@@ -38,14 +42,22 @@
      "family": null,
      "role": "outdoor",
      "note": "no CW9177 row in wireless today: the series carries the outdoor role for the CW9177 rows planned to move here from routers",
-     "parts": 0,
-     "kinds": {},
-     "roles": {},
-     "samples": [],
-     "rules": {},
-     "pending_in": {
-      "routers": 3
-     }
+     "parts": 3,
+     "kinds": {
+      "ap": 3
+     },
+     "roles": {
+      "outdoor": 3
+     },
+     "samples": [
+      "CW9177D — Cisco Wireless 9177 Outdoor Access Point, Wi-Fi 7, internal ",
+      "CW9177E — Cisco Wireless 9177 Outdoor Access Point, Wi-Fi 7, external ",
+      "CW9177I — Cisco Wireless 9177 Outdoor Access Point, internal omnicirec"
+     ],
+     "rules": {
+      "sku": 3
+     },
+     "pending_in": {}
     },
     {
      "series": "Catalyst CW9162 / CW9164 / CW9166 (Wi-Fi 6E)",
@@ -77,41 +89,38 @@
      "family": null,
      "role": "indoor",
      "note": null,
-     "parts": 8,
+     "parts": 12,
      "kinds": {
-      "ap": 8
+      "ap": 12
      },
      "roles": {
-      "indoor": 8
+      "indoor": 12
      },
      "samples": [
       "CW9171I — Cisco Wireless 9171I Access Point, Wi-Fi 7, internal omni di",
+      "CW9172 — Cisco CW9172",
       "CW9172H — Cisco Wireless 9172H Access Point, Wi-Fi 7, internal omni-di",
       "CW9172I — Cisco Wireless 9172I Access Point, Wi-Fi 7, internal omni-di",
       "CW9174E — Cisco Wireless 9174E Access Point, Wi-Fi 7, DART8 antenna co",
-      "CW9174I — Cisco Wireless 9174I Access Point, Wi-Fi 7, internal omni di",
-      "CW9176D1 — Cisco Wireless 9176D1 Access Point, Wi-Fi 7, internal direct"
+      "CW9174I — Cisco Wireless 9174I Access Point, Wi-Fi 7, internal omni di"
      ],
      "rules": {
-      "sku": 8
+      "sku": 12
      },
-     "pending_in": {
-      "meraki": 3,
-      "routers": 1
-     }
+     "pending_in": {}
     },
     {
      "series": "Catalyst Wireless Access Points shared parts",
      "family": "(shared across the line)",
      "role": null,
      "note": null,
-     "parts": 22,
+     "parts": 33,
      "kinds": {
-      "mechanical": 14,
-      "accessory": 2,
+      "mechanical": 16,
+      "accessory": 5,
       "module": 1,
       "cable": 1,
-      "antenna": 3,
+      "antenna": 9,
       "power-injector": 1
      },
      "roles": {},
@@ -125,11 +134,9 @@
      ],
      "rules": {
       "accessory": 6,
-      "sku": 16
+      "sku": 27
      },
-     "pending_in": {
-      "routers": 11
-     }
+     "pending_in": {}
     }
    ]
   },
@@ -313,7 +320,7 @@
   },
   {
    "line": "Aironet Access Points",
-   "parts": 1782,
+   "parts": 1820,
    "series": [
     {
      "series": "Aironet 1800s Active Sensor",
@@ -570,38 +577,43 @@
      "family": null,
      "role": "indoor",
      "note": "layers round 3: ^AIR-AP1[12][0-9]{2}[A-Z]{0,2}$ places the legacy 1100 / 1200 access points planned in from switches (AIR-AP1131AG, AIR-AP1210, AIR-AP1230A / B, AIR-AP1232AG, AIR-AP1242AG); the end anchor keeps the 1100 / 1140 / 1200 mounting kits (AIR-AP1100MNTGKIT=, AIR-AP1131-STAND=) in the line's shared parts",
-     "parts": 3,
+     "parts": 9,
      "kinds": {
-      "ap": 3
+      "ap": 9
      },
      "roles": {
-      "indoor": 3
+      "indoor": 9
      },
      "samples": [
-      "AIR-AP852I-BULK — BOM Level AP852i Bulk PID for Universal Domain",
-      "AIR-CAP27IBO-BBULK — BOM Level AP2700i Bulk PID for B reg domain",
-      "AIR-CAP37IBO-EBULK — BOM Level AP3700i Bulk PID for E reg domain"
+      "AIR-AP1131AG — Cisco Aironet 1130AG Series access point",
+      "AIR-AP1210 — Cisco AIR-AP1210",
+      "AIR-AP1230A — Cisco AIR-AP1230A",
+      "AIR-AP1230B — Cisco AIR-AP1230B",
+      "AIR-AP1232AG — Cisco Aironet 1230AG Series access point",
+      "AIR-AP1242AG — Cisco Aironet 1240AG Series access point"
      ],
      "rules": {
-      "sku": 3
+      "sku": 9
      },
-     "pending_in": {
-      "switches": 6
-     }
+     "pending_in": {}
     },
     {
      "series": "Aironet 1310 outdoor access point / bridge (legacy)",
      "family": null,
      "role": "outdoor",
      "note": "layers round 3: AIR-BR1310G, the Aironet 1310 outdoor access point / bridge planned in from switches (its arrival exception there is retired)",
-     "parts": 0,
-     "kinds": {},
+     "parts": 1,
+     "kinds": {
+      "unknown": 1
+     },
      "roles": {},
-     "samples": [],
-     "rules": {},
-     "pending_in": {
-      "switches": 1
-     }
+     "samples": [
+      "AIR-BR1310G — Cisco Aironet 1300 Series outdoor access point/bridge (Suppo"
+     ],
+     "rules": {
+      "sku": 1
+     },
+     "pending_in": {}
     },
     {
      "series": "Aironet 1540",
@@ -736,38 +748,36 @@
      "family": null,
      "role": null,
      "note": "the bare 15[23]0 rule claimed the CWDM 1530 nm optics; fenced to AIR- in layers round 3 (operator: fixed in the wireless round). It also places AIR-1520-BATT-6AH= (planned in from servers-unified-computing) and AIR-ACC1530-PMK1 (planned in from routers, beside its spare)",
-     "parts": 13,
+     "parts": 15,
      "kinds": {
+      "accessory": 1,
       "power": 3,
-      "mechanical": 10
+      "mechanical": 11
      },
      "roles": {},
      "samples": [
+      "AIR-1520-BATT-6AH= — Cisco AIR-1520-BATT-6AH=",
       "AIR-1520-BATT12AH — 1520 Series Battery, 12 Amp Hour",
       "AIR-1520-FIB-REEL — 1520 Series Take-up Reel for Fiber Cable",
       "AIR-1520-FIB-REEL= — 1520/1550 Series Fiber-Cable Take-up Reel KIT",
       "AIR-ACC1530-CVR= — Cover and Solar Shield for AP1530 Series",
-      "AIR-ACC1530-KIT1= — Spare accessory kit for AP1530/1560 Series",
-      "AIR-ACC1530-PMK1= — Standard Pole/Wall Mount Kit for AP1530/1560 Series"
+      "AIR-ACC1530-KIT1= — Spare accessory kit for AP1530/1560 Series"
      ],
      "rules": {
-      "sku": 13
+      "sku": 15
      },
-     "pending_in": {
-      "servers-unified-computing": 1,
-      "routers": 1
-     }
+     "pending_in": {}
     },
     {
      "series": "Aironet Access Points shared parts",
      "family": "(shared across the line)",
      "role": null,
      "note": "^AIR-RM30 (layers round 3): the AIR-RM3000M Wireless Security and Spectrum Intelligence modules and AIR-RM3010L Hyperlocation modules of the Aironet 3600 / 3700, planned in from interfaces-modules (operator: AIR-RM radio modules -> wireless, kind module). AP(?!-VBLE) leaves AIR-AP-VBLE-ADPTR= to the VBLE series below. VAP removed from the first rule (re-audit decisions, operator, 15 Sep 2026, Q-12): the AIR-VAP- access pods and mounting kits are MobileAccessVE rows, placed in their own series",
-     "parts": 105,
+     "parts": 134,
      "kinds": {
       "unknown": 6,
       "mechanical": 57,
-      "module": 10,
+      "module": 39,
       "power": 22,
       "accessory": 8,
       "cable": 1,
@@ -784,17 +794,15 @@
      ],
      "rules": {
       "label-unsupported": 13,
-      "sku": 92
+      "sku": 121
      },
-     "pending_in": {
-      "interfaces-modules": 29
-     }
+     "pending_in": {}
     }
    ]
   },
   {
    "line": "Industrial Wireless",
-   "parts": 300,
+   "parts": 310,
    "series": [
     {
      "series": "IW3700 (IW3702)",
@@ -853,24 +861,25 @@
      "family": null,
      "role": "industrial",
      "note": null,
-     "parts": 3,
+     "parts": 13,
      "kinds": {
-      "ap": 3
+      "ap": 13
      },
      "roles": {
-      "industrial": 3
+      "industrial": 13
      },
      "samples": [
       "IW9165D — Cisco IW9165D",
+      "IW9165DH-x-AP — Industrial Wireless 9165D, 11ax 6E, 2 RF ports, x domain, Wi",
+      "IW9165DH-x-URWB — Industrial Wireless 9165D, 11ax 6E, 2 RF ports, x domain, UR",
       "IW9165E — Cisco IW9165E",
-      "IW9167E — Cisco IW9167E"
+      "IW9165E-x-AP — Industrial Wireless 9165E, 11ax 6E, 4 RF ports, x domain, Wi",
+      "IW9165E-x-URWB — Industrial Wireless 9165E, 11ax 6E, 4 RF ports, x domain, UR"
      ],
      "rules": {
-      "sku": 3
+      "sku": 13
      },
-     "pending_in": {
-      "routers": 10
-     }
+     "pending_in": {}
     },
     {
      "series": "Ultra-Reliable Wireless Backhaul (Fluidmesh)",
@@ -1164,58 +1173,57 @@
   },
   {
    "line": "Meraki MR Access Points",
-   "parts": 45,
+   "parts": 74,
    "series": [
     {
      "series": "Meraki MR outdoor (MR58 / 66 / 70 / 72 / 74 / 76 / 78 / 84 / 86)",
      "family": null,
      "role": "outdoor",
      "note": "MR58/66/70/72/74/84 extend the III.0 rule (MR76/78/86) to the older outdoor models held as bare family rows in meraki (14 Sep 2026)",
-     "parts": 3,
+     "parts": 11,
      "kinds": {
-      "ap": 3
+      "ap": 11
      },
      "roles": {
-      "outdoor": 3
+      "outdoor": 11
      },
      "samples": [
+      "MR58 — Cisco MR58",
+      "MR66 — Cisco MR66",
+      "MR70 — Cisco MR70",
+      "MR74 — Cisco MR74",
       "MR76 — Cisco MR76",
-      "MR78 — Cisco MR78",
-      "MR86 — Cisco MR86"
+      "MR76-HW — Cisco MR76-HW"
      ],
      "rules": {
-      "sku": 3
+      "sku": 11
      },
-     "pending_in": {
-      "meraki": 8
-     }
+     "pending_in": {}
     },
     {
      "series": "Meraki MR indoor",
      "family": null,
      "role": "indoor",
      "note": "MR11-MR62 older indoor models extend the III.0 rule (MR36/44/46/56/57) (14 Sep 2026)",
-     "parts": 12,
+     "parts": 33,
      "kinds": {
-      "ap": 12
+      "ap": 33
      },
      "roles": {
-      "indoor": 12
+      "indoor": 33
      },
      "samples": [
-      "MR36 — Cisco MR36",
-      "MR36-HW — Meraki MR36 Wi-Fi 6 Indoor AP",
-      "MR36H — Cisco MR36H",
-      "MR36H-HW — Meraki MR36H Wi-Fi 6 Cloud Managed AP",
-      "MR44 — Cisco MR44",
-      "MR44-HW — Meraki MR44 WiFi 6 Indoor AP"
+      "MR11 — Cisco MR11",
+      "MR12 — Cisco MR12",
+      "MR14 — Cisco MR14",
+      "MR16 — Cisco MR16",
+      "MR20 — Cisco MR20",
+      "MR24 — Cisco MR24"
      ],
      "rules": {
-      "sku": 12
+      "sku": 33
      },
-     "pending_in": {
-      "meraki": 21
-     }
+     "pending_in": {}
     },
     {
      "series": "Meraki MR Access Points shared parts",
@@ -1673,43 +1681,43 @@
   },
   {
    "line": "Wireless LAN Solution Engine (legacy)",
-   "parts": 1,
+   "parts": 2,
    "series": [
     {
      "series": "CiscoWorks Wireless LAN Solution Engine (WLSE 1130 / Express 1030)",
      "family": null,
      "role": null,
      "note": "layers round 3: CWWLSE-1130-19-K9, planned in from switches (its arrival exception there is retired), and RACK-QCN-SN5= 'Rack for CWWLSE Express 1030', which sat in Wireless Antennas and Accessories shared parts by label",
-     "parts": 1,
+     "parts": 2,
      "kinds": {
+      "unknown": 1,
       "mechanical": 1
      },
      "roles": {},
      "samples": [
+      "CWWLSE-1130-19-K9 — CiscoWorks WLSE (optional)",
       "RACK-QCN-SN5= — Rack for CWWLSE Express 1030"
      ],
      "rules": {
-      "sku": 1
+      "sku": 2
      },
-     "pending_in": {
-      "switches": 1
-     }
+     "pending_in": {}
     }
    ]
   },
   {
    "line": "Wireless Antennas and Accessories",
-   "parts": 297,
+   "parts": 306,
    "series": [
     {
      "series": "Antennas",
      "family": null,
      "role": null,
      "note": "^ANT- removed (layers round 3): it placed no wireless row (the two it matched, ANT-ROOM70-KIT, are Webex Room 70 parts excluded to collaboration-endpoints) and claimed 34 routers antennas. ^AIR-ANT also places the 7 Aironet antennas planned in from routers, beside their spares",
-     "parts": 141,
+     "parts": 149,
      "kinds": {
       "cable": 1,
-      "antenna": 139,
+      "antenna": 147,
       "mechanical": 1
      },
      "roles": {},
@@ -1717,28 +1725,25 @@
       "AIR-420-1625-0500 — 5 in. (12.7 cm) MMCX to RP-TNC Antenna Converter Cable",
       "AIR-ANT-GPS-1 — GPS Antenna for AP1570",
       "AIR-ANT-GPS-1= — GPS Antenna for AP1570",
+      "AIR-ANT-LOC-01= — Hyperlocation Antenna, Model 1, Attached Omni",
       "AIR-ANT-SE-WIFI-D= — 2.4-2.5 and 4.9-5.9 GHz Directional Antenna, Spare",
-      "AIR-ANT-SE-WIFI-O= — 2.4-2.5 and 4.9-5.9 GHz Omni Antenna, Spare",
-      "AIR-ANT1728 — 2.4 GHz, 5.2 dBi Ceiling Omni Ant. w/RP-TNC Connector"
+      "AIR-ANT-SE-WIFI-O= — 2.4-2.5 and 4.9-5.9 GHz Omni Antenna, Spare"
      ],
      "rules": {
-      "sku": 141
+      "sku": 149
      },
-     "pending_in": {
-      "interfaces-modules": 2,
-      "routers": 6
-     }
+     "pending_in": {}
     },
     {
      "series": "Power injectors, supplies and cords",
      "family": null,
      "role": null,
      "note": "^PWR- fenced to the wireless rows it holds (layers round 3; operator: claimant-rule-too-broad, fixed in the wireless round): the 3504 / 2504 controller supplies, the internal C13-C14 cords and PWR-RPS-DC1=. CH1-(750W?ACR|950WDCR) removed (re-audit decisions, operator, 15 Sep 2026, Q-11): the PWR-CH1 750 W / 950 W supplies are the Catalyst 8500's (their spares in routers are named 'Cisco C8500 750W AC Power'); the three wireless rows PWR-CH1-750ACR / 750WACR / 950WDCR carry move plans to routers Catalyst 8500. The INT cords are fenced to the 0.7 m length wireless holds (collaboration-endpoints round): the 0.2 / 0.22 / 0.6 / 1.3 / 1.4 / 1.45 / 1.85 / 3.0 m INT cords are Room and TelePresence parts (Room Panorama and Room Kit EQX amp-to-camera cables, TelePresence C13-C14 jumpers) and stay in collaboration-endpoints",
-     "parts": 96,
+     "parts": 97,
      "kinds": {
       "cable": 65,
       "power": 18,
-      "power-injector": 13
+      "power-injector": 14
      },
      "roles": {},
      "samples": [
@@ -1750,11 +1755,9 @@
       "AIR-PWR-5500-AC — Cisco 5500 Series Wireless Controller Redundant Power Supply"
      ],
      "rules": {
-      "sku": 96
+      "sku": 97
      },
-     "pending_in": {
-      "collaboration-endpoints": 1
-     }
+     "pending_in": {}
     },
     {
      "series": "Cables",
@@ -1810,1472 +1813,7 @@
   }
  ],
  "not_this_category": [],
- "pending_plans": [
-  {
-   "sku": "ANT-ROOM70-KIT-",
-   "name": "Antenna kit for ROOM 70 with brackets.",
-   "series_label": "Policy Suite for Mobile",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "Webex Room 70 / Panorama accessory (screen mounts, speaker and HDMI cables, floor stands, antenna kit) filed under the 'Policy Suite for Mobile' label: its product lives in collaboration-endpoints (the exclusion's reason, now a plan — layers round 3, wireless round)"
-  },
-  {
-   "sku": "ANT-ROOM70-KIT=",
-   "name": "Antenna kit for ROOM 70 with brackets.",
-   "series_label": "Policy Suite for Mobile",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "Webex Room 70 / Panorama accessory (screen mounts, speaker and HDMI cables, floor stands, antenna kit) filed under the 'Policy Suite for Mobile' label: its product lives in collaboration-endpoints (the exclusion's reason, now a plan — layers round 3, wireless round)"
-  },
-  {
-   "sku": "ASR5000-CHS-SP-K9=",
-   "name": "ASR-5000 Spare Chassis",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (empty spare chassis)"
-  },
-  {
-   "sku": "ASR5000-CHS-SYS-K9",
-   "name": "ASR-5000 Multimedia Core Platform Complete Chassis",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (ASR 5000/5500 complete system (chassis + cards))"
-  },
-  {
-   "sku": "ASR5000-CHSSYS-K9=",
-   "name": "ASR-5000 Multimedia Core Platform Complete Chassis",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (ASR 5000/5500 complete system (chassis + cards))"
-  },
-  {
-   "sku": "ASR55-04-UDPCRX",
-   "name": "ASR5500 UDPC Card and Initial System SW, KDDI Only",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (management / packet-processing card, no ports (the ESP reading: decision record rule 4))"
-  },
-  {
-   "sku": "ASR55-04-UDPCRX=",
-   "name": "ASR5500 UDPC Card and Initial System SW, KDDI Only",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (management / packet-processing card, no ports (the ESP reading: decision record rule 4))"
-  },
-  {
-   "sku": "ASR55-CHS-SYS-U-B",
-   "name": "ASR5500-U System w/chassis, 4 UDPC, 2 UMIO-SR, 4 FSC, 2 SSC",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (ASR 5000/5500 complete system (chassis + cards))"
-  },
-  {
-   "sku": "ASR55-CHS-SYS-U-BL",
-   "name": "ASR5500-U System w/chassis, 4 UDPC, 2 UMIO-LR, 4 FSC, 2 SSC",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (ASR 5000/5500 complete system (chassis + cards))"
-  },
-  {
-   "sku": "ASR55-CHS-SYS-U6B",
-   "name": "ASR5500-U System w/chassis, 6 UDPC, 2 UMIO-SR, 4 FSC, 2 SSC",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (ASR 5000/5500 complete system (chassis + cards))"
-  },
-  {
-   "sku": "ASR55-CHS-SYS-U6BL",
-   "name": "ASR5500-U System w/chassis, 6 UDPC, 2 UMIO-LR, 4 FSC, 2 SSC",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (ASR 5000/5500 complete system (chassis + cards))"
-  },
-  {
-   "sku": "ASR55-CHS-SYS-U8B",
-   "name": "ASR5500-U System w/chassis, 8 UDPC, 2 UMIO-SR, 4 FSC, 2 SSC",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (ASR 5000/5500 complete system (chassis + cards))"
-  },
-  {
-   "sku": "ASR55-CHS-SYS-U8BL",
-   "name": "ASR5500-U System w/chassis, 8 UDPC, 2 UMIO-LR, 4 FSC, 2 SSC",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (ASR 5000/5500 complete system (chassis + cards))"
-  },
-  {
-   "sku": "ASR55-DPC",
-   "name": "ASR5500 Data Processing Card (DPC)",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (management / packet-processing card, no ports (the ESP reading: decision record rule 4))"
-  },
-  {
-   "sku": "ASR55-DPC-K9",
-   "name": "ASR5500 Data Processing Card (DPC)",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (management / packet-processing card, no ports (the ESP reading: decision record rule 4))"
-  },
-  {
-   "sku": "ASR55-DPC-K9=",
-   "name": "ASR5500 Data Processing Card (DPC)",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (management / packet-processing card, no ports (the ESP reading: decision record rule 4))"
-  },
-  {
-   "sku": "ASR55-DPC=",
-   "name": "ASR5500 Data Processing Card (DPC)",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (management / packet-processing card, no ports (the ESP reading: decision record rule 4))"
-  },
-  {
-   "sku": "ASR55-UDPC-K9",
-   "name": "ASR5500 Universal Data Processing Card (UDPC)",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (management / packet-processing card, no ports (the ESP reading: decision record rule 4))"
-  },
-  {
-   "sku": "ASR55-UDPC-K9=",
-   "name": "ASR5500 Universal Data Processing Card (UDPC)",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (management / packet-processing card, no ports (the ESP reading: decision record rule 4))"
-  },
-  {
-   "sku": "ASR5K-0110G-MM-K9",
-   "name": "XGLC 1-Port 10 Gigabit Ethernet Line Card w/MM SFP+",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
-  },
-  {
-   "sku": "ASR5K-0110G-MM-K9=",
-   "name": "XGLC 1-Port 10 Gigabit Ethernet Line Card w/MM SFP+",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
-  },
-  {
-   "sku": "ASR5K-0110G-SM-K9",
-   "name": "XGLC 1-Port 10 Gigabit Ethernet Line Card w/SM SFP+",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
-  },
-  {
-   "sku": "ASR5K-0110G-SM-K9=",
-   "name": "XGLC 1-Port 10 Gigabit Ethernet Line Card w/SM SFP+",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
-  },
-  {
-   "sku": "ASR5K-011G2-LX-K9",
-   "name": "GLC2 1-Port 1xGbE Line Card - 2nd Gen w/LX SM SFP",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
-  },
-  {
-   "sku": "ASR5K-011G2-LX-K9=",
-   "name": "GLC2 1-Port 1xGbE Line Card - 2nd Gen w/LX SM SFP",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
-  },
-  {
-   "sku": "ASR5K-011G2-SX-K9",
-   "name": "GLC2 1-Port 1xGbE Line Card - 2nd Gen w/SX MM SFP",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
-  },
-  {
-   "sku": "ASR5K-011G2-SX-K9=",
-   "name": "GLC2 1-Port 1xGbE Line Card - 2nd Gen w/SX MM SFP",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
-  },
-  {
-   "sku": "ASR5K-011G2-T-K9",
-   "name": "GLC2 1-Port 1xGbE Line Card - 2nd Gen w/Copper SFP",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
-  },
-  {
-   "sku": "ASR5K-011G2-T-K9=",
-   "name": "GLC2 1-Port 1xGbE Line Card - 2nd Gen w/Copper SFP",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
-  },
-  {
-   "sku": "ASR5K-041GE-LX-K9",
-   "name": "QGLC 4-Port Ethernet 1000 Line Card w/LX SM Long Haul SFP",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
-  },
-  {
-   "sku": "ASR5K-041GE-LX-K9=",
-   "name": "QGLC 4-Port Ethernet 1000 Line Card w/LX SM Long Haul SFP",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
-  },
-  {
-   "sku": "ASR5K-041GE-SX-K9",
-   "name": "QGLC 4-Port Ethernet 1000 Line Card w/SX MM Short Haul SFP",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
-  },
-  {
-   "sku": "ASR5K-041GE-SX-K9=",
-   "name": "QGLC 4-Port Ethernet 1000 Line Card w/SX MM Short Haul SFP",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
-  },
-  {
-   "sku": "ASR5K-041GE-T-K9",
-   "name": "QGLC 4-Port Ethernet 1000 Line Card w/Copper SFP",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
-  },
-  {
-   "sku": "ASR5K-041GE-T-K9=",
-   "name": "QGLC 4-Port Ethernet 1000 Line Card w/Copper SFP",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
-  },
-  {
-   "sku": "ASR5K-042GE-LX-K9",
-   "name": "QGLC Rev2 4-Port Ethernet 1000 Card w/LX SM Long Haul SFP",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
-  },
-  {
-   "sku": "ASR5K-042GE-LX-K9=",
-   "name": "QGLC Rev2 4-Port Ethernet 1000 Card w/LX SM Long Haul SFP",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
-  },
-  {
-   "sku": "ASR5K-042GE-SX-K9",
-   "name": "QGLC Rev2 4-Port Ethernet 1000 Card w/SX MM Short Haul SFP",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
-  },
-  {
-   "sku": "ASR5K-042GE-SX-K9=",
-   "name": "QGLC Rev2 4-Port Ethernet 1000 Card w/SX MM Short Haul SFP",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
-  },
-  {
-   "sku": "ASR5K-042GE-T-K9",
-   "name": "QGLC Rev2 4-Port Ethernet 1000 Line Card w/Copper SFP",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
-  },
-  {
-   "sku": "ASR5K-042GE-T-K9=",
-   "name": "QGLC Rev2 4-Port Ethernet 1000 Line Card w/Copper SFP",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
-  },
-  {
-   "sku": "ASR5K-08100E-K9",
-   "name": "FLC2 8-Port Ethernet 10/100, 2nd Generation",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
-  },
-  {
-   "sku": "ASR5K-08100E-K9=",
-   "name": "FLC2 8-Port Ethernet 10/100, 2nd Generation",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
-  },
-  {
-   "sku": "ASR5K-0F-B00-2069=",
-   "name": "Motorola PSC2 LTE Hardware and Software bundle",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (management / packet-processing card, no ports (the ESP reading: decision record rule 4))"
-  },
-  {
-   "sku": "ASR5K-12-LABADV-K9",
-   "name": "ASR-5000 Platform Partner Lab Bundle, Advanced Chassis",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (partner-lab system bundle with chassis)"
-  },
-  {
-   "sku": "ASR5K-12-LABBSE-K9",
-   "name": "ASR-5000 Platform Partner Lab Bundle, Base Chassis",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (partner-lab system bundle with chassis)"
-  },
-  {
-   "sku": "ASR5K-12-PSC32GK9=",
-   "name": "Packet Services Card (PSC2) 32GB, ATT Femto only",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (management / packet-processing card, no ports (the ESP reading: decision record rule 4))"
-  },
-  {
-   "sku": "ASR5K-20-LAB-PPC",
-   "name": "ASR 5000 Platform Partner Lab Bundle, 3x PPC",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (partner-lab pack of 3 PPC/PSC cards)"
-  },
-  {
-   "sku": "ASR5K-20-LAB-PSC2",
-   "name": "ASR 5000 Platform Partner Lab Bundle, 3x PSC2",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (partner-lab pack of 3 PPC/PSC cards)"
-  },
-  {
-   "sku": "ASR5K-20-LAB-PSC3",
-   "name": "ASR 5000 Platform Partner Lab Bundle, 3x PSC3",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (partner-lab pack of 3 PPC/PSC cards)"
-  },
-  {
-   "sku": "ASR5K-232216S3-K9",
-   "name": "ASR5000 Bundle, incl 2xSMC/3xPSC 16GB/2xRCC/2xSPIO Str3 3PN",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (system card complement (2xSMC/3xPSC/2xRCC/2xSPIO) — no routers bundle kind; nearest is sp-core, confirm with the routers lane)"
-  },
-  {
-   "sku": "ASR5K-232216SB-K9",
-   "name": "ASR5000 Bundle, incl 2xSMC/3xPSC 16GB/2xRCC/2xSPIO Str3 BNC",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (system card complement (2xSMC/3xPSC/2xRCC/2xSPIO) — no routers bundle kind; nearest is sp-core, confirm with the routers lane)"
-  },
-  {
-   "sku": "ASR5K-232216V3-K9",
-   "name": "ASR5000 Bundle, incl 2xSMC/3xPSC2 16GB/2xRCC/2xSPIO 3PN",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (system card complement (2xSMC/3xPSC/2xRCC/2xSPIO) — no routers bundle kind; nearest is sp-core, confirm with the routers lane)"
-  },
-  {
-   "sku": "ASR5K-232216VB-K9",
-   "name": "ASR5000 Bundle, incl 2xSMC/3xPSC2 16GB/2xRCC/2xSPIO BNC",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (system card complement (2xSMC/3xPSC/2xRCC/2xSPIO) — no routers bundle kind; nearest is sp-core, confirm with the routers lane)"
-  },
-  {
-   "sku": "ASR5K-232216VS3-K9",
-   "name": "ASR5000 Bundle, incl 2xSMC/3xPSC2 16GB/2xRCC/2xSPIOStr3 3PN",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (system card complement (2xSMC/3xPSC/2xRCC/2xSPIO) — no routers bundle kind; nearest is sp-core, confirm with the routers lane)"
-  },
-  {
-   "sku": "ASR5K-232216VSB-K9",
-   "name": "ASR5000 Bundle, incl 2xSMC/3xPSC2 16GB/2xRCC/2xSPIOStr3 BNC",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (system card complement (2xSMC/3xPSC/2xRCC/2xSPIO) — no routers bundle kind; nearest is sp-core, confirm with the routers lane)"
-  },
-  {
-   "sku": "ASR5K-232232V3-K9",
-   "name": "ASR5000 Bundle, incl 2xSMC/3xPSC2 32GB/2xRCC/2xSPIO 3PN",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (system card complement (2xSMC/3xPSC/2xRCC/2xSPIO) — no routers bundle kind; nearest is sp-core, confirm with the routers lane)"
-  },
-  {
-   "sku": "ASR5K-232232VB-K9",
-   "name": "ASR5000 Bundle, incl 2xSMC/3xPSC2 32GB/2xRCC/2xSPIO BNC",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (system card complement (2xSMC/3xPSC/2xRCC/2xSPIO) — no routers bundle kind; nearest is sp-core, confirm with the routers lane)"
-  },
-  {
-   "sku": "ASR5K-232232VS3-K9",
-   "name": "ASR5000 Bundle, incl 2xSMC/3xPSC2 32GB/2xRCC/2xSPIOStr3 3PN",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (system card complement (2xSMC/3xPSC/2xRCC/2xSPIO) — no routers bundle kind; nearest is sp-core, confirm with the routers lane)"
-  },
-  {
-   "sku": "ASR5K-232232VSB-K9",
-   "name": "ASR5000 Bundle, incl 2xSMC/3xPSC2 32GB/2xRCC/2xSPIOStr3 BNC",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (system card complement (2xSMC/3xPSC/2xRCC/2xSPIO) — no routers bundle kind; nearest is sp-core, confirm with the routers lane)"
-  },
-  {
-   "sku": "ASR5K-4OC3C-MM-K9",
-   "name": "OLC2 4 Port ATM STM-1c/OC-3c Line Card w/Multi-Mode SFP",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
-  },
-  {
-   "sku": "ASR5K-4OC3C-MM-K9=",
-   "name": "OLC2 4 Port ATM STM-1c/OC-3c Line Card w/Multi-Mode SFP",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
-  },
-  {
-   "sku": "ASR5K-4OC3C-SM-K9",
-   "name": "OLC2 4 Port ATM STM-1c/OC-3c Line Card w/Single Mode SFP",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
-  },
-  {
-   "sku": "ASR5K-4OC3C-SM-K9=",
-   "name": "OLC2 4 Port ATM STM-1c/OC-3c Line Card w/Single Mode SFP",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
-  },
-  {
-   "sku": "ASR5K-ACCY-LUG=",
-   "name": "ASR-5000 Chassis Lug Accessory Kit",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (blanking panel / air filter / lug kit)"
-  },
-  {
-   "sku": "ASR5K-BLNK-FR",
-   "name": "ASR-5000 Blanking Panel, Front",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (blanking panel / air filter / lug kit)"
-  },
-  {
-   "sku": "ASR5K-BLNK-FR=",
-   "name": "ASR-5000 Blanking Panel, Front",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (blanking panel / air filter / lug kit)"
-  },
-  {
-   "sku": "ASR5K-BLNK-RR-FH",
-   "name": "ASR-5000 Blanking Panel, Full Height, Rear (XGLC only)",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (blanking panel / air filter / lug kit)"
-  },
-  {
-   "sku": "ASR5K-BLNK-RR-FH=",
-   "name": "ASR-5000 Blanking Panel, Full Height, Rear (XGLC only)",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (blanking panel / air filter / lug kit)"
-  },
-  {
-   "sku": "ASR5K-BLNK-RR-HH",
-   "name": "ASR-5000 Blanking Panel, Half Height, Rear",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (blanking panel / air filter / lug kit)"
-  },
-  {
-   "sku": "ASR5K-BLNK-RR-HH=",
-   "name": "ASR-5000 Blanking Panel, Half Height, Rear",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (blanking panel / air filter / lug kit)"
-  },
-  {
-   "sku": "ASR5K-C4OC3-MM-K9",
-   "name": "CLC2 Channelized 4-Port STM-1/OC-3 Line Card w/MM SFP",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
-  },
-  {
-   "sku": "ASR5K-C4OC3-MM-K9=",
-   "name": "CLC2 Channelized 4-Port STM-1/OC-3 Line Card w/MM SFP",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
-  },
-  {
-   "sku": "ASR5K-C4OC3-SM-K9",
-   "name": "CLC2 Channelized 4-Port STM-1/OC-3 Line Card w/SM SFP",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
-  },
-  {
-   "sku": "ASR5K-C4OC3-SM-K9=",
-   "name": "CLC2 Channelized 4-Port STM-1/OC-3 Line Card w/SM SFP",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (port-carrying line card (XGLC/GLC2/QGLC/FLC2/OLC2/CLC2))"
-  },
-  {
-   "sku": "ASR5K-CBL-CON=",
-   "name": "ASR-5x00 Console Cable",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (console cable)"
-  },
-  {
-   "sku": "ASR5K-FANT-LW",
-   "name": "ASR-5000 Fan Tray, Lower",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (fan tray)"
-  },
-  {
-   "sku": "ASR5K-FANT-LW=",
-   "name": "ASR-5000 Fan Tray, Lower",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (fan tray)"
-  },
-  {
-   "sku": "ASR5K-FANT-UP",
-   "name": "ASR-5000 Fan Tray, Upper",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (fan tray)"
-  },
-  {
-   "sku": "ASR5K-FANT-UP=",
-   "name": "ASR-5000 Fan Tray, Upper",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (fan tray)"
-  },
-  {
-   "sku": "ASR5K-FLTR-AIR=",
-   "name": "ASR-5000 Air Filter Spare",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (blanking panel / air filter / lug kit)"
-  },
-  {
-   "sku": "ASR5K-MEM-PSC2=",
-   "name": "DIMM Replacement Kit for PSC2 - 32GB",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (DIMM replacement kit)"
-  },
-  {
-   "sku": "ASR5K-MEM-PSC3=",
-   "name": "DIMM Replacement Kit for PSC3 - 64GB",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (DIMM replacement kit)"
-  },
-  {
-   "sku": "ASR5K-PFU",
-   "name": "ASR5000 Power Filter Unit, Non-Redundant, Single 165A",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (power filter unit)"
-  },
-  {
-   "sku": "ASR5K-PFU/2",
-   "name": "ASR5000 Power Filter Unit, Dual Redundant 165A",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (power filter unit)"
-  },
-  {
-   "sku": "ASR5K-PFU=",
-   "name": "ASR5000 Power Filter Unit, Non-Redundant, Single 165A",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (power filter unit)"
-  },
-  {
-   "sku": "ASR5K-PSC-32G-K9",
-   "name": "Packet Services Card (PSC2) 32GB",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (management / packet-processing card, no ports (the ESP reading: decision record rule 4))"
-  },
-  {
-   "sku": "ASR5K-PSC-32G-K9=",
-   "name": "Packet Services Card (PSC2) 32GB",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (management / packet-processing card, no ports (the ESP reading: decision record rule 4))"
-  },
-  {
-   "sku": "ASR5K-PSC-64G-B4=",
-   "name": "Packet Services Card (PSC3) 64GB, 4 for 2 w/4-PSC2 Trade-in",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (management / packet-processing card, no ports (the ESP reading: decision record rule 4))"
-  },
-  {
-   "sku": "ASR5K-PSC-64G-K9",
-   "name": "Packet Services Card (PSC3) 64GB",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (management / packet-processing card, no ports (the ESP reading: decision record rule 4))"
-  },
-  {
-   "sku": "ASR5K-PSC-64G-K9=",
-   "name": "Packet Services Card (PSC3) 64GB",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (management / packet-processing card, no ports (the ESP reading: decision record rule 4))"
-  },
-  {
-   "sku": "ASR5K-RCC-K9",
-   "name": "Redundancy Crossbar",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (redundancy crossbar card)"
-  },
-  {
-   "sku": "ASR5K-RCC-K9=",
-   "name": "Redundancy Crossbar",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (redundancy crossbar card)"
-  },
-  {
-   "sku": "ASR5K-SMC-K9",
-   "name": "System Management Card 4GB",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (management / packet-processing card, no ports (the ESP reading: decision record rule 4))"
-  },
-  {
-   "sku": "ASR5K-SMC-K9=",
-   "name": "System Management Card 4GB",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (management / packet-processing card, no ports (the ESP reading: decision record rule 4))"
-  },
-  {
-   "sku": "ASR5K-SPIO-3PN-K9",
-   "name": "Switch Processor I/O, 3-Pin BITS",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (Switch Processor I/O card (management / BITS ports))"
-  },
-  {
-   "sku": "ASR5K-SPIO-3PN-K9=",
-   "name": "Switch Processor I/O, 3-Pin BITS",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (Switch Processor I/O card (management / BITS ports))"
-  },
-  {
-   "sku": "ASR5K-SPIO-BNC-K9",
-   "name": "Switch Processor I/O, BNC BITS",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (Switch Processor I/O card (management / BITS ports))"
-  },
-  {
-   "sku": "ASR5K-SPIO-BNC-K9=",
-   "name": "Switch Processor I/O, BNC BITS",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (Switch Processor I/O card (management / BITS ports))"
-  },
-  {
-   "sku": "ASR5K-SPS3-3PN-K9",
-   "name": "Switch Processor I/O, 3-Pin BITS with Stratum 3",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (Switch Processor I/O card (management / BITS ports))"
-  },
-  {
-   "sku": "ASR5K-SPS3-3PN-K9=",
-   "name": "Switch Processor I/O, 3-Pin BITS with Stratum 3",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (Switch Processor I/O card (management / BITS ports))"
-  },
-  {
-   "sku": "ASR5K-SPS3-BNC-K9",
-   "name": "Switch Processor I/O, BNC BITS with Stratum 3",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (Switch Processor I/O card (management / BITS ports))"
-  },
-  {
-   "sku": "ASR5K-SPS3-BNC-K9=",
-   "name": "Switch Processor I/O, BNC BITS with Stratum 3",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (Switch Processor I/O card (management / BITS ports))"
-  },
-  {
-   "sku": "C4948E-BKT-KIT=",
-   "name": "C49xxE front and rear mount brackets",
-   "series_label": "Catalyst 9163",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 4948E front and rear mount brackets filed under a Catalyst 9163 label: goes with the Catalyst 4900 in switches (A.3 rule 1; the exclusion's reason, now a plan)"
-  },
-  {
-   "sku": "CAB-2DC-BRL-0.93M-",
-   "name": "DC Power Cable w/Barrel Plus, 0.93 meters long for ROOM 70",
-   "series_label": "Policy Suite for Mobile",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "Webex Room 70 / Panorama accessory (screen mounts, speaker and HDMI cables, floor stands, antenna kit) filed under the 'Policy Suite for Mobile' label: its product lives in collaboration-endpoints (the exclusion's reason, now a plan — layers round 3, wireless round)"
-  },
-  {
-   "sku": "CAB-2DC-BRL-0.93M=",
-   "name": "DC Power Cable w/Barrel Plus, 0.93 meters long for ROOM 70",
-   "series_label": "Policy Suite for Mobile",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "Webex Room 70 / Panorama accessory (screen mounts, speaker and HDMI cables, floor stands, antenna kit) filed under the 'Policy Suite for Mobile' label: its product lives in collaboration-endpoints (the exclusion's reason, now a plan — layers round 3, wireless round)"
-  },
-  {
-   "sku": "CAB-2HDMILK-1.15M-",
-   "name": "HDMI to HDMI Cable, 1.15 meters long for ROOM 70",
-   "series_label": "Policy Suite for Mobile",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "Webex Room 70 / Panorama accessory (screen mounts, speaker and HDMI cables, floor stands, antenna kit) filed under the 'Policy Suite for Mobile' label: its product lives in collaboration-endpoints (the exclusion's reason, now a plan — layers round 3, wireless round)"
-  },
-  {
-   "sku": "CAB-2HDMILK-1.15M=",
-   "name": "HDMI to HDMI Cable, 1.15 meters long for ROOM 70",
-   "series_label": "Policy Suite for Mobile",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "Webex Room 70 / Panorama accessory (screen mounts, speaker and HDMI cables, floor stands, antenna kit) filed under the 'Policy Suite for Mobile' label: its product lives in collaboration-endpoints (the exclusion's reason, now a plan — layers round 3, wireless round)"
-  },
-  {
-   "sku": "CAB-2HDMILK-2.78M-",
-   "name": "HDMI to HDMI Cable, 2.78 meters long for ROOM 70",
-   "series_label": "Policy Suite for Mobile",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "Webex Room 70 / Panorama accessory (screen mounts, speaker and HDMI cables, floor stands, antenna kit) filed under the 'Policy Suite for Mobile' label: its product lives in collaboration-endpoints (the exclusion's reason, now a plan — layers round 3, wireless round)"
-  },
-  {
-   "sku": "CAB-2HDMILK-2.78M=",
-   "name": "HDMI to HDMI Cable, 2.78 meters long for ROOM 70",
-   "series_label": "Policy Suite for Mobile",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "Webex Room 70 / Panorama accessory (screen mounts, speaker and HDMI cables, floor stands, antenna kit) filed under the 'Policy Suite for Mobile' label: its product lives in collaboration-endpoints (the exclusion's reason, now a plan — layers round 3, wireless round)"
-  },
-  {
-   "sku": "CAB-PWR-C7-DNK-A=",
-   "name": "Power Cord, C7-Right Angled, Grey, 4.5m, Denmark",
-   "series_label": "Policy Suite for Mobile",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "Webex Room 70 / Panorama accessory (screen mounts, speaker and HDMI cables, floor stands, antenna kit) filed under the 'Policy Suite for Mobile' label: its product lives in collaboration-endpoints (the exclusion's reason, now a plan — layers round 3, wireless round)"
-  },
-  {
-   "sku": "CAB-PWR-C7-ISR-A=",
-   "name": "Power Cord, C7-Right Angled, Grey, 4.5m, Israel",
-   "series_label": "Policy Suite for Mobile",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "Webex Room 70 / Panorama accessory (screen mounts, speaker and HDMI cables, floor stands, antenna kit) filed under the 'Policy Suite for Mobile' label: its product lives in collaboration-endpoints (the exclusion's reason, now a plan — layers round 3, wireless round)"
-  },
-  {
-   "sku": "CAB-PWR-C7-ITA-A=",
-   "name": "Power Cord, C7-Right Angled, Grey, 4.5m, Italy",
-   "series_label": "Policy Suite for Mobile",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "Webex Room 70 / Panorama accessory (screen mounts, speaker and HDMI cables, floor stands, antenna kit) filed under the 'Policy Suite for Mobile' label: its product lives in collaboration-endpoints (the exclusion's reason, now a plan — layers round 3, wireless round)"
-  },
-  {
-   "sku": "CAB-PWR-C7-TWN-A=",
-   "name": "Power Cord, C7-Right Angled, Grey, 4.5m, Taiwan",
-   "series_label": "Policy Suite for Mobile",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "Webex Room 70 / Panorama accessory (screen mounts, speaker and HDMI cables, floor stands, antenna kit) filed under the 'Policy Suite for Mobile' label: its product lives in collaboration-endpoints (the exclusion's reason, now a plan — layers round 3, wireless round)"
-  },
-  {
-   "sku": "CAB-ROOM70-L-SPKR-",
-   "name": "Left Speaker Cable for ROOM 70",
-   "series_label": "Policy Suite for Mobile",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "Webex Room 70 / Panorama accessory (screen mounts, speaker and HDMI cables, floor stands, antenna kit) filed under the 'Policy Suite for Mobile' label: its product lives in collaboration-endpoints (the exclusion's reason, now a plan — layers round 3, wireless round)"
-  },
-  {
-   "sku": "CAB-ROOM70-L-SPKR=",
-   "name": "Left Speaker Cable for ROOM 70",
-   "series_label": "Policy Suite for Mobile",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "Webex Room 70 / Panorama accessory (screen mounts, speaker and HDMI cables, floor stands, antenna kit) filed under the 'Policy Suite for Mobile' label: its product lives in collaboration-endpoints (the exclusion's reason, now a plan — layers round 3, wireless round)"
-  },
-  {
-   "sku": "CAB-ROOM70-L3-SPK-",
-   "name": "Left Speaker Cable for ROOM 70 - 3 speakers",
-   "series_label": "Policy Suite for Mobile",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "Webex Room 70 / Panorama accessory (screen mounts, speaker and HDMI cables, floor stands, antenna kit) filed under the 'Policy Suite for Mobile' label: its product lives in collaboration-endpoints (the exclusion's reason, now a plan — layers round 3, wireless round)"
-  },
-  {
-   "sku": "CAB-ROOM70-L3-SPK=",
-   "name": "Left Speaker Cable for ROOM 70 - 3 speakers",
-   "series_label": "Policy Suite for Mobile",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "Webex Room 70 / Panorama accessory (screen mounts, speaker and HDMI cables, floor stands, antenna kit) filed under the 'Policy Suite for Mobile' label: its product lives in collaboration-endpoints (the exclusion's reason, now a plan — layers round 3, wireless round)"
-  },
-  {
-   "sku": "CAB-ROOM70-R-SPKR-",
-   "name": "Right Speaker Cable for ROOM 70",
-   "series_label": "Policy Suite for Mobile",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "Webex Room 70 / Panorama accessory (screen mounts, speaker and HDMI cables, floor stands, antenna kit) filed under the 'Policy Suite for Mobile' label: its product lives in collaboration-endpoints (the exclusion's reason, now a plan — layers round 3, wireless round)"
-  },
-  {
-   "sku": "CAB-ROOM70-R-SPKR=",
-   "name": "Right Speaker Cable for ROOM 70",
-   "series_label": "Policy Suite for Mobile",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "Webex Room 70 / Panorama accessory (screen mounts, speaker and HDMI cables, floor stands, antenna kit) filed under the 'Policy Suite for Mobile' label: its product lives in collaboration-endpoints (the exclusion's reason, now a plan — layers round 3, wireless round)"
-  },
-  {
-   "sku": "CAB-ROOM70-R3-SPK-",
-   "name": "Right Speaker Cable for ROOM 70 - 3 speakers",
-   "series_label": "Policy Suite for Mobile",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "Webex Room 70 / Panorama accessory (screen mounts, speaker and HDMI cables, floor stands, antenna kit) filed under the 'Policy Suite for Mobile' label: its product lives in collaboration-endpoints (the exclusion's reason, now a plan — layers round 3, wireless round)"
-  },
-  {
-   "sku": "CAB-ROOM70-R3-SPK=",
-   "name": "Right Speaker Cable for ROOM 70 - 3 speakers",
-   "series_label": "Policy Suite for Mobile",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "Webex Room 70 / Panorama accessory (screen mounts, speaker and HDMI cables, floor stands, antenna kit) filed under the 'Policy Suite for Mobile' label: its product lives in collaboration-endpoints (the exclusion's reason, now a plan — layers round 3, wireless round)"
-  },
-  {
-   "sku": "CAB-USB-A-B-1.35M-",
-   "name": "USB A - USB B Cable, 1.35 meters long for ROOM 70",
-   "series_label": "Policy Suite for Mobile",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "Webex Room 70 / Panorama accessory (screen mounts, speaker and HDMI cables, floor stands, antenna kit) filed under the 'Policy Suite for Mobile' label: its product lives in collaboration-endpoints (the exclusion's reason, now a plan — layers round 3, wireless round)"
-  },
-  {
-   "sku": "CAB-USB-A-B-1.35M=",
-   "name": "USB A - USB B Cable, 1.35 meters long for ROOM70",
-   "series_label": "Policy Suite for Mobile",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "Webex Room 70 / Panorama accessory (screen mounts, speaker and HDMI cables, floor stands, antenna kit) filed under the 'Policy Suite for Mobile' label: its product lives in collaboration-endpoints (the exclusion's reason, now a plan — layers round 3, wireless round)"
-  },
-  {
-   "sku": "CAB-USB-A-B-1.7M-",
-   "name": "USB A to USB B Cable, 1.7 meters long for MX800 Dual",
-   "series_label": "Policy Suite for Mobile",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "Webex Room 70 / Panorama accessory (screen mounts, speaker and HDMI cables, floor stands, antenna kit) filed under the 'Policy Suite for Mobile' label: its product lives in collaboration-endpoints (the exclusion's reason, now a plan — layers round 3, wireless round)"
-  },
-  {
-   "sku": "CAB-USB-A-B-1.7M=",
-   "name": "USB A to USB B Cable, 1.7 meters long for Room 70D, MX800D",
-   "series_label": "Policy Suite for Mobile",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "Webex Room 70 / Panorama accessory (screen mounts, speaker and HDMI cables, floor stands, antenna kit) filed under the 'Policy Suite for Mobile' label: its product lives in collaboration-endpoints (the exclusion's reason, now a plan — layers round 3, wireless round)"
-  },
-  {
-   "sku": "CS-KIT-EQX-K9",
-   "name": "Cisco CS-KIT-EQX-K9",
-   "series_label": "Policy Suite for Mobile",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "TelePresence room-system part filed in wireless"
-  },
-  {
-   "sku": "CS-R70-PRES-BTM=",
-   "name": "Below Screen mount for 70 Panorama - Samsung 55\"",
-   "series_label": "Policy Suite for Mobile",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "Webex Room 70 / Panorama accessory (screen mounts, speaker and HDMI cables, floor stands, antenna kit) filed under the 'Policy Suite for Mobile' label: its product lives in collaboration-endpoints (the exclusion's reason, now a plan — layers round 3, wireless round)"
-  },
-  {
-   "sku": "CS-R70-PRES-TOP=",
-   "name": "Above Screen mount for 70 Panorama - Samsung 65\"",
-   "series_label": "Policy Suite for Mobile",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "Webex Room 70 / Panorama accessory (screen mounts, speaker and HDMI cables, floor stands, antenna kit) filed under the 'Policy Suite for Mobile' label: its product lives in collaboration-endpoints (the exclusion's reason, now a plan — layers round 3, wireless round)"
-  },
-  {
-   "sku": "CS-R70-R55D-SPKR-",
-   "name": "Top speaker for Room 55d and Room 70",
-   "series_label": "Policy Suite for Mobile",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "TelePresence room-system part filed in wireless"
-  },
-  {
-   "sku": "CS-R70-R55D-SPKR=",
-   "name": "Top speaker for Room 70 and Room 55D",
-   "series_label": "Policy Suite for Mobile",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "TelePresence room-system part filed in wireless"
-  },
-  {
-   "sku": "CS-R70P-SCREENKIT",
-   "name": "Panorama Presentation Screen Kit for Room 70D G2",
-   "series_label": "Policy Suite for Mobile",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "Webex Room 70 / Panorama accessory (screen mounts, speaker and HDMI cables, floor stands, antenna kit) filed under the 'Policy Suite for Mobile' label: its product lives in collaboration-endpoints (the exclusion's reason, now a plan — layers round 3, wireless round)"
-  },
-  {
-   "sku": "CS-ROOM55-70-CFBC=",
-   "name": "Cisco Webex Room 55 and 70 Center Floor Bottom Cover",
-   "series_label": "Policy Suite for Mobile",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "Webex Room 70 / Panorama accessory (screen mounts, speaker and HDMI cables, floor stands, antenna kit) filed under the 'Policy Suite for Mobile' label: its product lives in collaboration-endpoints (the exclusion's reason, now a plan — layers round 3, wireless round)"
-  },
-  {
-   "sku": "CS-ROOM55-70-WSB=",
-   "name": "Cisco Webex Room 55 and 70 Wall Secure Bracket",
-   "series_label": "Policy Suite for Mobile",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "Webex Room 70 / Panorama accessory (screen mounts, speaker and HDMI cables, floor stands, antenna kit) filed under the 'Policy Suite for Mobile' label: its product lives in collaboration-endpoints (the exclusion's reason, now a plan — layers round 3, wireless round)"
-  },
-  {
-   "sku": "CS-ROOM70-CFBB-",
-   "name": "Center Frame Bottom Bracket Room 70",
-   "series_label": "Policy Suite for Mobile",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "Webex Room 70 / Panorama accessory (screen mounts, speaker and HDMI cables, floor stands, antenna kit) filed under the 'Policy Suite for Mobile' label: its product lives in collaboration-endpoints (the exclusion's reason, now a plan — layers round 3, wireless round)"
-  },
-  {
-   "sku": "CS-ROOM70-CFBB=",
-   "name": "Center Frame Bottom Bracket Room 70",
-   "series_label": "Policy Suite for Mobile",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "Webex Room 70 / Panorama accessory (screen mounts, speaker and HDMI cables, floor stands, antenna kit) filed under the 'Policy Suite for Mobile' label: its product lives in collaboration-endpoints (the exclusion's reason, now a plan — layers round 3, wireless round)"
-  },
-  {
-   "sku": "CS-ROOM70-MON-SCV-",
-   "name": "Sidecover for Room 70 monitor ( left and right included)",
-   "series_label": "Policy Suite for Mobile",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "TelePresence room-system part filed in wireless"
-  },
-  {
-   "sku": "CS-ROOM70-MON-SCV=",
-   "name": "Sidecover for Room 70 monitor ( left and right included)",
-   "series_label": "Policy Suite for Mobile",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "TelePresence room-system part filed in wireless"
-  },
-  {
-   "sku": "CS-ROOM70-SCRWKIT=",
-   "name": "Screws and Part Kit for Room 70",
-   "series_label": "Policy Suite for Mobile",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "Webex Room 70 / Panorama accessory (screen mounts, speaker and HDMI cables, floor stands, antenna kit) filed under the 'Policy Suite for Mobile' label: its product lives in collaboration-endpoints (the exclusion's reason, now a plan — layers round 3, wireless round)"
-  },
-  {
-   "sku": "CS-ROOM70D-CAMCV-",
-   "name": "Dual cam top rear cover, Center Top profile and.....",
-   "series_label": "Policy Suite for Mobile",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "Webex Room 70 / Panorama accessory (screen mounts, speaker and HDMI cables, floor stands, antenna kit) filed under the 'Policy Suite for Mobile' label: its product lives in collaboration-endpoints (the exclusion's reason, now a plan — layers round 3, wireless round)"
-  },
-  {
-   "sku": "CS-ROOM70D-CAMCV=",
-   "name": "Dual cam top rear cover, Center Top profile and.....",
-   "series_label": "Policy Suite for Mobile",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "Webex Room 70 / Panorama accessory (screen mounts, speaker and HDMI cables, floor stands, antenna kit) filed under the 'Policy Suite for Mobile' label: its product lives in collaboration-endpoints (the exclusion's reason, now a plan — layers round 3, wireless round)"
-  },
-  {
-   "sku": "CS-ROOM70D-FS-GRK-",
-   "name": "Room 70D Floorstand Grill Kit",
-   "series_label": "Policy Suite for Mobile",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "Webex Room 70 / Panorama accessory (screen mounts, speaker and HDMI cables, floor stands, antenna kit) filed under the 'Policy Suite for Mobile' label: its product lives in collaboration-endpoints (the exclusion's reason, now a plan — layers round 3, wireless round)"
-  },
-  {
-   "sku": "CS-ROOM70D-FS-GRK=",
-   "name": "Room 70D Floorstand Grill Kit",
-   "series_label": "Policy Suite for Mobile",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "Webex Room 70 / Panorama accessory (screen mounts, speaker and HDMI cables, floor stands, antenna kit) filed under the 'Policy Suite for Mobile' label: its product lives in collaboration-endpoints (the exclusion's reason, now a plan — layers round 3, wireless round)"
-  },
-  {
-   "sku": "CS-ROOM70D-MB=",
-   "name": "Cisco Webex Room 70 Upper Joining Bracket for Monitors",
-   "series_label": "Policy Suite for Mobile",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "Webex Room 70 / Panorama accessory (screen mounts, speaker and HDMI cables, floor stands, antenna kit) filed under the 'Policy Suite for Mobile' label: its product lives in collaboration-endpoints (the exclusion's reason, now a plan — layers round 3, wireless round)"
-  },
-  {
-   "sku": "CS-ROOM70D-MON-L-",
-   "name": "Left Monitor for Room 70 Dual",
-   "series_label": "Policy Suite for Mobile",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "TelePresence room-system part filed in wireless"
-  },
-  {
-   "sku": "CS-ROOM70D-MON-L=",
-   "name": "Left Monitor for Room 70 Dual",
-   "series_label": "Policy Suite for Mobile",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "TelePresence room-system part filed in wireless"
-  },
-  {
-   "sku": "CS-ROOM70D-MON-R-",
-   "name": "Right Monitor for Room 70 Dual",
-   "series_label": "Policy Suite for Mobile",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "TelePresence room-system part filed in wireless"
-  },
-  {
-   "sku": "CS-ROOM70D-MON-R=",
-   "name": "Right Monitor for Room 70 Dual",
-   "series_label": "Policy Suite for Mobile",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "TelePresence room-system part filed in wireless"
-  },
-  {
-   "sku": "CS-ROOM70D-WM-GRK-",
-   "name": "Room 70D Wallmount Grill Kit",
-   "series_label": "Policy Suite for Mobile",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "Webex Room 70 / Panorama accessory (screen mounts, speaker and HDMI cables, floor stands, antenna kit) filed under the 'Policy Suite for Mobile' label: its product lives in collaboration-endpoints (the exclusion's reason, now a plan — layers round 3, wireless round)"
-  },
-  {
-   "sku": "CS-ROOM70D-WM-GRK=",
-   "name": "Room 70D Wallmount Grill Kit",
-   "series_label": "Policy Suite for Mobile",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "Webex Room 70 / Panorama accessory (screen mounts, speaker and HDMI cables, floor stands, antenna kit) filed under the 'Policy Suite for Mobile' label: its product lives in collaboration-endpoints (the exclusion's reason, now a plan — layers round 3, wireless round)"
-  },
-  {
-   "sku": "CS-ROOM70P-FSK=",
-   "name": "Cisco Room 70 Panorama Floor Stand Kit",
-   "series_label": "Policy Suite for Mobile",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "Webex Room 70 / Panorama accessory (screen mounts, speaker and HDMI cables, floor stands, antenna kit) filed under the 'Policy Suite for Mobile' label: its product lives in collaboration-endpoints (the exclusion's reason, now a plan — layers round 3, wireless round)"
-  },
-  {
-   "sku": "CS-ROOM70P-SFSK",
-   "name": "Cisco Room 70 Panorama Floor Stand Kit (SHORT)",
-   "series_label": "Policy Suite for Mobile",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "Webex Room 70 / Panorama accessory (screen mounts, speaker and HDMI cables, floor stands, antenna kit) filed under the 'Policy Suite for Mobile' label: its product lives in collaboration-endpoints (the exclusion's reason, now a plan — layers round 3, wireless round)"
-  },
-  {
-   "sku": "CS-ROOM70P-SFSK=",
-   "name": "Cisco Room 70 Panorama Floor Stand Kit (SHORT)",
-   "series_label": "Policy Suite for Mobile",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "Webex Room 70 / Panorama accessory (screen mounts, speaker and HDMI cables, floor stands, antenna kit) filed under the 'Policy Suite for Mobile' label: its product lives in collaboration-endpoints (the exclusion's reason, now a plan — layers round 3, wireless round)"
-  },
-  {
-   "sku": "CS-ROOM70P-WMK=",
-   "name": "Cisco Room 70 Panorama Wall Mount Kit - hangs on wall",
-   "series_label": "Policy Suite for Mobile",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "Webex Room 70 / Panorama accessory (screen mounts, speaker and HDMI cables, floor stands, antenna kit) filed under the 'Policy Suite for Mobile' label: its product lives in collaboration-endpoints (the exclusion's reason, now a plan — layers round 3, wireless round)"
-  },
-  {
-   "sku": "CTS-MX-FSK-SKI-",
-   "name": "Cisco MX700, MX800 og Room70D Ski for Floor Stand Kit",
-   "series_label": "Policy Suite for Mobile",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "TelePresence room-system part filed in wireless"
-  },
-  {
-   "sku": "CTS-MX-FSK-SKI=",
-   "name": "Cisco MX700, MX800 og Room70D Ski for Floor Stand Kit",
-   "series_label": "Policy Suite for Mobile",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "TelePresence room-system part filed in wireless"
-  },
-  {
-   "sku": "CTS-MX700800-SPKR=",
-   "name": "Top speaker for MX700/800 and ROOM 70",
-   "series_label": "Policy Suite for Mobile",
-   "action": "move",
-   "to": "collaboration-endpoints",
-   "reason": "TelePresence room-system part filed in wireless"
-  },
-  {
-   "sku": "MEM-SAMI-6P-2GB",
-   "name": "SAMI 6xPPCs with 2GB per PPC Memory Option",
-   "series_label": "7600 Wireless Security Gateway",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 6500 service module part (SAMI, its memory, the WiSM2 FIPS kit): kept with the platform"
-  },
-  {
-   "sku": "MEM-SAMI-6P-2GB=",
-   "name": "SAMI 6xPPCs with 2GB per PPC Memory Option",
-   "series_label": "7600 Wireless Security Gateway",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 6500 service module part (SAMI, its memory, the WiSM2 FIPS kit): kept with the platform"
-  },
-  {
-   "sku": "MEM-SAMI-6P-4GB",
-   "name": "SAMI 6xPPCs with 4GB per PPC Memory Option",
-   "series_label": "7600 Wireless Security Gateway",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 6500 service module part (SAMI, its memory, the WiSM2 FIPS kit): kept with the platform"
-  },
-  {
-   "sku": "MEM-SAMI-6P-4GB=",
-   "name": "SAMI 6xPPCs with 4GB per PPC Memory Option",
-   "series_label": "7600 Wireless Security Gateway",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 6500 service module part (SAMI, its memory, the WiSM2 FIPS kit): kept with the platform"
-  },
-  {
-   "sku": "MIXS-12-PA2071DC=",
-   "name": "PAS DC CABINET EXTENSION [ATT US PAS ONLY]",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (PAS cabinet / enclosure (ATT))"
-  },
-  {
-   "sku": "MIXS-12-PA2091DC=",
-   "name": "PAS DC ENCLOSURE [ATT US PAS ONLY]",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (PAS cabinet / enclosure (ATT))"
-  },
-  {
-   "sku": "MIXS-12-PA2101AC=",
-   "name": "PAS AC STARTUP CABINET [ATT US PAS ONLY]",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (PAS cabinet / enclosure (ATT))"
-  },
-  {
-   "sku": "MIXS-12-PA2121AC=",
-   "name": "PAS AC ENCLOSURE [ATT US PAS Only]",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (PAS cabinet / enclosure (ATT))"
-  },
-  {
-   "sku": "MIXS-12-PA2131CO=",
-   "name": "PAS 1G ENCLOSURE SWITCH [ATT US PAS Only]",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (PAS 1G/10G enclosure switch (ATT) — a blade-enclosure switch module)"
-  },
-  {
-   "sku": "MIXS-12-PA2141CO=",
-   "name": "PAS 10G ENCLOSURE SWITCH [ATT US PAS Only]",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (PAS 1G/10G enclosure switch (ATT) — a blade-enclosure switch module)"
-  },
-  {
-   "sku": "MIXS-12-PA2211BL=",
-   "name": "PAS SPARE BLADE [ATT US PAS Only]",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (PAS spare blade / 'MOMAT' (ATT) — unreadable, the routers lane reads it)"
-  },
-  {
-   "sku": "MIXS-12-PA2261MM=",
-   "name": "PAS DC MOMAT [ATT US PAS ONLY]",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (PAS spare blade / 'MOMAT' (ATT) — unreadable, the routers lane reads it)"
-  },
-  {
-   "sku": "MIXS-12-PA2331CO=",
-   "name": "PAS DC SEISMIC CABINET (no encl) [ATT US PAS ONLY]",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (PAS cabinet / enclosure (ATT))"
-  },
-  {
-   "sku": "MIXS-12-PA2531MM=",
-   "name": "PAS AC MOMAT [ATT US PAS ONLY]",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (PAS spare blade / 'MOMAT' (ATT) — unreadable, the routers lane reads it)"
-  },
-  {
-   "sku": "MIXS-12-PA2541AC=",
-   "name": "PAS AC RMS CABINET (no Encl) [ATT US PAS ONLY]",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (PAS cabinet / enclosure (ATT))"
-  },
-  {
-   "sku": "MIXS-12-PA2551AC=",
-   "name": "PAS AC CABINET EXTENSION [ATT US PAS ONLY]",
-   "series_label": "ASR 5000 Series",
-   "action": "move",
-   "to": "routers",
-   "reason": "ASR 5000/5500 mobile packet core filed in wireless (PAS cabinet / enclosure (ATT))"
-  },
-  {
-   "sku": "PWR-CH1-750ACR",
-   "name": "Cisco Catalyst Wireless Controller 750W AC Power Supply",
-   "series_label": "Catalyst 9800 Series Wireless Controllers",
-   "action": "move",
-   "to": "routers",
-   "reason": "Catalyst 8500 750 W AC / 950 W DC supply: its spares sit in routers Catalyst 8500 named 'Cisco C8500 … Power, Spare'; one home, routers (re-audit decisions, operator, 15 Sep 2026, Q-11)"
-  },
-  {
-   "sku": "PWR-CH1-750WACR",
-   "name": "Cisco Catalyst wireless controller 750W AC Power Supply",
-   "series_label": "Catalyst 9800 Series Wireless Controllers",
-   "action": "move",
-   "to": "routers",
-   "reason": "Catalyst 8500 750 W AC / 950 W DC supply: its spares sit in routers Catalyst 8500 named 'Cisco C8500 … Power, Spare'; one home, routers (re-audit decisions, operator, 15 Sep 2026, Q-11)"
-  },
-  {
-   "sku": "PWR-CH1-950WDCR",
-   "name": "Cisco 950W DC power adapter",
-   "series_label": "Catalyst 9800 Series Wireless Controllers",
-   "action": "move",
-   "to": "routers",
-   "reason": "Catalyst 8500 750 W AC / 950 W DC supply: its spares sit in routers Catalyst 8500 named 'Cisco C8500 … Power, Spare'; one home, routers (re-audit decisions, operator, 15 Sep 2026, Q-11)"
-  },
-  {
-   "sku": "SB-PWR-48V",
-   "name": "Cisco Small Business 48V Power Adapter",
-   "series_label": "Small Business 500",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "Cisco Small Business 48V Power Adapter: interfaces-modules holds the SB-PWR family in 'Small Business Network Accessories (SB-PWR / RPS1000)' (layers round 3, interfaces-modules; that home is itself decision pending)"
-  },
-  {
-   "sku": "SB-PWR-48V-xx",
-   "name": "48-Volt Power Adapter",
-   "series_label": "Small Business 300",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "family carrier (11 facts, 1 document(s)) of the SB-PWR-48V regional variants, every one of which sits in interfaces-modules Small Business Network Accessories: it keeps its row (Q-10 vs Q-23 — Q-23 governs) and goes to its family's category (one home per product; re-audit decisions, operator, 15 Sep 2026)"
-  },
-  {
-   "sku": "SB-PWR-INJ1-xx",
-   "name": "Cisco Small Business Gigabit Power over Ethernet Injector",
-   "series_label": "Small Business 100",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "family carrier (11 facts, 1 document(s)) of the SB-PWR-INJ1 regional variants, every one of which sits in interfaces-modules Small Business Network Accessories: it keeps its row (Q-10 vs Q-23 — Q-23 governs) and goes to its family's category (one home per product; re-audit decisions, operator, 15 Sep 2026)"
-  },
-  {
-   "sku": "SB-PWR-INJ2-xx",
-   "name": "Gigabit Power over Ethernet Injector - 30 Watts",
-   "series_label": "Small Business 100",
-   "action": "move",
-   "to": "interfaces-modules",
-   "reason": "family carrier (11 facts, 2 document(s)) of the SB-PWR-INJ2 regional variants, every one of which sits in interfaces-modules Small Business Network Accessories: it keeps its row (Q-10 vs Q-23 — Q-23 governs) and goes to its family's category (one home per product; re-audit decisions, operator, 15 Sep 2026)"
-  },
-  {
-   "sku": "WS-SVC-SAMI-BB-K9",
-   "name": "Service Application Module for IP (6 x PPC w/ 2GB) (Cryto)",
-   "series_label": "7600 Wireless Security Gateway",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 6500 service module part (SAMI, its memory, the WiSM2 FIPS kit): kept with the platform"
-  },
-  {
-   "sku": "WS-SVC-SAMI-BB-K9=",
-   "name": "Service Application Module for IP (6 x PPC w/ 2GB) (Cryto)",
-   "series_label": "7600 Wireless Security Gateway",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 6500 service module part (SAMI, its memory, the WiSM2 FIPS kit): kept with the platform"
-  },
-  {
-   "sku": "WS-SVCWISM2FIPKIT=",
-   "name": "WS-SVC-WISM2 FIPS Kit",
-   "series_label": "Aironet 1550",
-   "action": "move",
-   "to": "switches",
-   "reason": "Catalyst 6500 service module part (SAMI, its memory, the WiSM2 FIPS kit): kept with the platform"
-  }
- ],
+ "pending_plans": [],
  "unplaced": [],
  "label_check": {
   "applied": true,

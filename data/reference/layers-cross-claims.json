@@ -20,14 +20,14 @@
    "claimed_by": "hyperconverged-systems",
    "series": "HX220c",
    "rule": "sku ^(?=HX|UCSC-|CBL-).*(?<![0-9])220-?M[4-7]",
-   "rows": 69,
+   "rows": 70,
    "examples": [
     "CBL-FNVME-220M6",
     "CBL-FNVME-220M6=",
     "UCSC-10C220M4S-LI"
    ],
    "status": "pending-decision:Q-14",
-   "reason": "the row is a UCS C-Series part (a UCSC- / UCS- / CBL- PID) filed in servers-unified-computing; HyperFlex HX220c / HX240c / HX245c nodes are built on the same C220 / C240 / C245 servers and hyperconverged-systems files the same generic components under its node series, so its model rule — fenced in this round to the HX / UCSC- / CBL- prefixes of the rows it decides — reads them by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round) — status pending-decision:Q-14 (re-audit decisions, operator, 15 Sep 2026, F-6): kept where filed while Q-14 (generic UCS components in HyperFlex / Compute Hyperconverged: plan to servers) is measured; not a decision"
+   "reason": "the row is a UCS C-Series part (a UCSC- / UCS- / CBL- PID) filed in servers-unified-computing; HyperFlex HX220c / HX240c / HX245c nodes are built on the same C220 / C240 / C245 servers and hyperconverged-systems files the same generic components under its node series, so its model rule — fenced in this round to the HX / UCSC- / CBL- prefixes of the rows it decides — reads them by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round) — status pending-decision:Q-14 (re-audit decisions, operator, 15 Sep 2026, F-6): kept where filed while Q-14 (generic UCS components in HyperFlex / Compute Hyperconverged: plan to servers) is measured; not a decision — count 69 -> 70 on 16 Sep: the interfaces-modules -> servers move (run #1162) brought one more UCSC- row under the same claim"
   },
   {
    "category": "servers-unified-computing",
@@ -417,6 +417,46 @@
    ],
    "status": "decided-home",
    "reason": "UCSC-C220-M3SBE= 'UCS C220 M3 SFF TRC2 Server' is the C220 M3S Tested Reference Configuration for Collaboration (its end-of-sale notice; successor BE6M-M4-K9=), filed in unified-communications' Business Edition 6000; servers-unified-computing's C220 rule reads the UCSC- C220 PID by design (layers round 3, unified-communications round)"
+  },
+  {
+   "category": "routers",
+   "claimed_by": "interfaces-modules",
+   "series": "SM-X and SM Service Modules",
+   "rule": "sku ^SM-(?!X|SRE-|DSK-|HDDB?-SATA|MEM-VLP|[0-9]{2}$)",
+   "rows": 1,
+   "examples": [
+    "SM-71XX-BLANK"
+   ],
+   "status": "decided-home",
+   "reason": "SM-71XX-BLANK is the blank panel of the Cisco 7100 VPN router, placed in routers by that platform's own SKU rule; it arrived from security with the move of 16 Sep (run #1150, a 7100 part filed under FirePOWER 7000). The interfaces-modules SM- rule reads any SM- PID that is not an SM-X, an SRE or a disk, so it also claims this one: one home per SKU, and the home is routers (implementer, operator's 12-hour delegation, 16 Sep 2026)"
+  },
+  {
+   "category": "optical-networking",
+   "claimed_by": "transceiver",
+   "series": "CWDM SFP / SFP+",
+   "rule": "sku ^CWDM-(?!GBIC)",
+   "rows": 23,
+   "examples": [
+    "CWDM-MUX-4-SF1=",
+    "CWDM-MUX-4-SF2=",
+    "CWDM-MUX-4="
+   ],
+   "status": "decided-home",
+   "reason": "passive CWDM mux / demux / OADM plug-ins and their chassis, which the transceiver -> optical-networking move of 16 Sep (run #1168) put in optical-networking, where the CWDM mux series holds them; the transceiver CWDM rule matches any CWDM- PID that is not a GBIC, so it also claims them — one home per SKU, and the home is optical-networking (implementer, operator's 12-hour delegation, 16 Sep 2026)"
+  },
+  {
+   "category": "routers",
+   "claimed_by": "interfaces-modules",
+   "series": "SPA Shared Port Adapters",
+   "rule": "sku ^SPA-",
+   "rows": 3,
+   "examples": [
+    "SPA-DSP",
+    "SPA-DSP=",
+    "SPA-WMA-K9"
+   ],
+   "status": "decided-home",
+   "reason": "TWO DECISIONS MET HERE AND THE LATER ONE STANDS. The interfaces-modules round (14 Sep 2026, item 7) gave every NIM / SPA / EPA / HWIC / PVDM / VIC / SM-X card one home, interfaces-modules, and its plan ran (run #1068). The re-audit then planned the ASR 1000-ONLY SPAs back to routers under A.3 rule 1 (a card bound to one platform lives with its platform), and that plan ran on 16 Sep (run #1174). So these three rows sit in routers, placed by the ASR 1000 series rule, while the interfaces-modules ^SPA- rule still claims every SPA- PID: one home per SKU, and the home is routers. The operator may prefer the earlier blanket rule — it is a question about the SPA family, not about these rows' placement (implementer, operator's 12-hour delegation, 16 Sep 2026)"
   }
  ]
 }

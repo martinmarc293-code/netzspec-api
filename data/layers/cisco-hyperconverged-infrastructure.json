@@ -1,9 +1,13 @@
 {
  "vendor": "cisco",
  "category": "hyperconverged-infrastructure",
- "built_at": "2026-09-15T22:52:46.263Z",
- "commit": "9a734f7ba27364704867e3f28204553e1ab21277",
- "uncommitted_rule_files": [],
+ "built_at": "2026-09-15T23:24:29.781Z",
+ "commit": "daa609b5f1a24431ec097b320227e7df1b36b063",
+ "uncommitted_rule_files": [
+  "data/reference/family-carriers.json",
+  "data/reference/layers-cross-claims.json",
+  "scripts/build-layers.mts"
+ ],
  "mapping_file": "data/reference/product-lines/cisco-hyperconverged-infrastructure.json",
  "parts": 775,
  "lines": [

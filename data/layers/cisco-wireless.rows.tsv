@@ -104,6 +104,7 @@ sku	name	series_label	kind	bucket	product_line	product_family	series	placed_by	d
 5-CBW240AC-x	CBW240AC 802.11ac 4x4 Wave 2 Access Point Ceiling Mount – 5 Pack	Business 200	ap	layered	Cisco Business Wireless		Cisco Business 240AC	sku ^([35]-)?CBW240	smb	series:Cisco Business 240AC					true
 9800-L	Cisco 9800-L	Catalyst 9800 Series Wireless Controllers	wlc	layered	Catalyst 9800 Wireless Controllers		Catalyst 9800-L	sku ^C?9800-L							true
 ACCESSORY-KIT-RU	Contains Compliance and Auto test Blank Labels	2800	mechanical	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	label-unsupported (label 2800; was Aironet 2800): no platform token (2800) in the SKU or name, no compatible part placed in the series						none: no platform token (2800) in the SKU or name, no compatible part placed in the series	
+AIR-1520-BATT-6AH=	Cisco AIR-1520-BATT-6AH=	Mini Series	accessory	layered	Aironet Access Points		Aironet 1520 / 1530	sku ^AIR-.*15[23]0							
 AIR-1520-BATT12AH	1520 Series Battery, 12 Amp Hour	Aironet 1550	power	layered	Aironet Access Points		Aironet 1520 / 1530	sku ^AIR-.*15[23]0							
 AIR-1520-FIB-REEL	1520 Series Take-up Reel for Fiber Cable	Aironet 1550	mechanical	layered	Aironet Access Points		Aironet 1520 / 1530	sku ^AIR-.*15[23]0							
 AIR-1520-FIB-REEL=	1520/1550 Series Fiber-Cable Take-up Reel KIT	Aironet 1550	mechanical	layered	Aironet Access Points		Aironet 1520 / 1530	sku ^AIR-.*15[23]0							
@@ -148,6 +149,7 @@ AIR-ACC15-N-CAP=	Accessory, Cover-cap for N-connector, bag of 10 units, for AP15
 AIR-ACC15-SFP-GLD=	Accessory, SFP external Gland/Adaptor, bag of 5 units	Aironet 1550	accessory	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-(AP(?!-VBLE|[0-9]{4}[A-Z]-WLC)|ACC|MOD|BLE|BAND|CHNL|SFP)							
 AIR-ACC1530-CVR=	Cover and Solar Shield for AP1530 Series	Aironet 1550	mechanical	layered	Aironet Access Points		Aironet 1520 / 1530	sku ^AIR-.*15[23]0							
 AIR-ACC1530-KIT1=	Spare accessory kit for AP1530/1560 Series	Aironet 1560	mechanical	layered	Aironet Access Points		Aironet 1520 / 1530	sku ^AIR-.*15[23]0							
+AIR-ACC1530-PMK1	Standard pole/wall mount kit for AP1530/1560 Series	Wireless Gateway for LoRaWAN	mechanical	layered	Aironet Access Points		Aironet 1520 / 1530	sku ^AIR-.*15[23]0							
 AIR-ACC1530-PMK1=	Standard Pole/Wall Mount Kit for AP1530/1560 Series	Aironet 1540	mechanical	layered	Aironet Access Points		Aironet 1520 / 1530	sku ^AIR-.*15[23]0							
 AIR-ACC1530-PMK2=	Pole mount kit for AP1530/1560 Series with tilt adjustment	Aironet 1540	mechanical	layered	Aironet Access Points		Aironet 1520 / 1530	sku ^AIR-.*15[23]0							
 AIR-ACC1540-CVR=	Cover and solar shield for AP1540 Series	Aironet 1540	mechanical	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-(AP(?!-VBLE|[0-9]{4}[A-Z]-WLC)|ACC|MOD|BLE|BAND|CHNL|SFP)							
@@ -190,6 +192,7 @@ AIR-ACCSMK1570-3	Adjustable-height SMK. Offers approximately 2.7 inches of clear
 AIR-ACCSMK1570-3=	Outdoor-AP1570, Strand-Mount-Kit 3, Adjustable	Antennas/Accessories	mechanical	layered	Aironet Access Points		Aironet 1570	sku ^AIR-.*1570							
 AIR-ANT-GPS-1	GPS Antenna for AP1570	Aironet 1550	antenna	layered	Wireless Antennas and Accessories		Antennas	sku ^AIR-ANT							
 AIR-ANT-GPS-1=	GPS Antenna for AP1570	Aironet 1550	antenna	layered	Wireless Antennas and Accessories		Antennas	sku ^AIR-ANT							
+AIR-ANT-LOC-01=	Hyperlocation Antenna, Model 1, Attached Omni	Access Point Modules	antenna	layered	Wireless Antennas and Accessories		Antennas	sku ^AIR-ANT							
 AIR-ANT-SE-WIFI-D=	2.4-2.5 and 4.9-5.9 GHz Directional Antenna, Spare	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories		Antennas	sku ^AIR-ANT							
 AIR-ANT-SE-WIFI-O=	2.4-2.5 and 4.9-5.9 GHz Omni Antenna, Spare	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories		Antennas	sku ^AIR-ANT							
 AIR-ANT1728	2.4 GHz, 5.2 dBi Ceiling Omni Ant. w/RP-TNC Connector	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories		Antennas	sku ^AIR-ANT							
@@ -234,12 +237,15 @@ AIR-ANT2470PD-NA	2.4 GHz, Diversity 7 dBi Patch with N Connector, Right Angle	Ai
 AIR-ANT2480V-N	Cisco AIR-ANT2480V-N	Aironet 1560	antenna	layered	Wireless Antennas and Accessories		Antennas	sku ^AIR-ANT							
 AIR-ANT2480V-N=	2.4GHz 8dBi Omnidirectional Colinear Array Antenna, Connectors N-Male	Catalyst 9163	antenna	layered	Wireless Antennas and Accessories		Antennas	sku ^AIR-ANT							
 AIR-ANT2485P-R	2.4 GHz, 8.5 dBi Patch Antenna w/ RP-TNC Connector	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories		Antennas	sku ^AIR-ANT							
+AIR-ANT25-LOC-02=	Hyperlocation Antenna, Model 2, + WiFi Ant., Directional	Access Point Modules	antenna	layered	Wireless Antennas and Accessories		Antennas	sku ^AIR-ANT							
 AIR-ANT2506	2.4 GHz, 5.2 dBi Mast Mount Omni Ant w/RP-TNC Connector	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories		Antennas	sku ^AIR-ANT							
 AIR-ANT2506-SK	5.2 dBi Omnidirectional Mast Mount Antenna	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories		Antennas	sku ^AIR-ANT							
 AIR-ANT25137NP-R4=	2.4 GHz 13 dBi/5 GHz 7 dBi 11n Dual Band Patch Ant., Qty 4	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories		Antennas	sku ^AIR-ANT							
 AIR-ANT25137NP-R=	2.4 GHz 13 dBi/5 GHz 7 dBi 802.11n Dual Band Patch Antenna	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories		Antennas	sku ^AIR-ANT							
+AIR-ANT2513P4M-N/NS	2.4GHz/5GHz 13dBi Patch Antenna 4port, Nconn	3800 Series Integrated Services Routers ISR	antenna	layered	Wireless Antennas and Accessories		Antennas	sku ^AIR-ANT							
 AIR-ANT2513P4M-N=	2.4GHz 13dBi / 5GHz 13dBi Dual-Band Polarization Diverse Patch Array Antenna, Connectors N-Female Bulkhead (4x RF Coaxial Cable needed)	Catalyst 9163	antenna	layered	Wireless Antennas and Accessories		Antennas	sku ^AIR-ANT							
 AIR-ANT2513P4M-NS=	2.4GHz 13dBi / 5GHz 13dBi Dual-Band Polarization Diverse Patch Array Antenna, Connectors N-Female Bulkhead (4x RF Coaxial Cable needed)	Catalyst 9163	antenna	layered	Wireless Antennas and Accessories		Antennas	sku ^AIR-ANT							
+AIR-ANT2524DB-R	Cisco Aironet dual-band dipole antenna; Black; Peak Gain 2 dBi at 2.4. GHz and 4 dBi at 5 GHz	800 ISR	antenna	layered	Wireless Antennas and Accessories		Antennas	sku ^AIR-ANT							
 AIR-ANT2524DB-R/=	2.4 GHz 2 dBi/5 GHz 4 dBi Dipole Ant., Black, connectors RP-TNC	Catalyst 9100	antenna	layered	Wireless Antennas and Accessories		Antennas	sku ^AIR-ANT							
 AIR-ANT2524DB-R=	2.4 GHz 2 dBi/5 GHz 4 dBi Dipole Ant., Blk, RP-TNC	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories		Antennas	sku ^AIR-ANT							
 AIR-ANT2524DG-R	Cisco Aironet dual-band dipole antenna; Grey; Peak Gain 2 dBi at 2.4. GHz and 4 dBi at 5 GHz	Catalyst 9163	antenna	layered	Wireless Antennas and Accessories		Antennas	sku ^AIR-ANT							
@@ -260,6 +266,8 @@ AIR-ANT2544V4M-R	Wall Mount Omni Antenna, 4-port, with RP-TNC connectors. Note: 
 AIR-ANT2544V4M-R8=	Dual-band Multiple-Input, Multiple-Output (MIMO) wall-mounted omnidirectional antenna with 8-ft antenna cable operates in the 2.4- and 5-GHz frequency ranges and is designed for indoor or outdoor use with the Aironet 1830, 1850, 2800, and 3800 Series and Cisco Catalyst 9115AX, 9120AX, 9130AX Series access points.	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories		Antennas	sku ^AIR-ANT							
 AIR-ANT2544V4M-R=	2.4 GHz 4 dBi/5 GHz 4 dBi Wall Mount Omni Ant., 4-port, connectors RP-TNC	Catalyst 9100	antenna	layered	Wireless Antennas and Accessories		Antennas	sku ^AIR-ANT							
 AIR-ANT2544V4M-RS=	Cisco Aironet omni antenna, wall/pole mount, Peak Gain 2 dBi at 2.4 GHz and 4 dBi at 5 GHz	Catalyst 9163	antenna	layered	Wireless Antennas and Accessories		Antennas	sku ^AIR-ANT							
+AIR-ANT2547V-N	Cisco AIR-ANT2547V-N	800 ISR	antenna	layered	Wireless Antennas and Accessories		Antennas	sku ^AIR-ANT							
+AIR-ANT2547V-N-HZ	Cisco AIR-ANT2547V-N-HZ	800 ISR	antenna	layered	Wireless Antennas and Accessories		Antennas	sku ^AIR-ANT							
 AIR-ANT2547V-N-HZ=	Cisco AIR-ANT2547V-N-HZ=	Aironet 1550	antenna	layered	Wireless Antennas and Accessories		Antennas	sku ^AIR-ANT							
 AIR-ANT2547V-N=	2.4GHz 4dBi / 5GHz 7dBi Omnidirectional Colinear Array Antenna, Connectors N-Male	Catalyst 9163	antenna	layered	Wireless Antennas and Accessories		Antennas	sku ^AIR-ANT							
 AIR-ANT2547VG-N	2.4 GHz 4dBi/5 GHz 7dBi Dual Band Omni Antenna, Gray, N conn	Aironet 1560	antenna	layered	Wireless Antennas and Accessories		Antennas	sku ^AIR-ANT							
@@ -277,6 +285,7 @@ AIR-ANT2568VG-N	Cisco AIR-ANT2568VG-N	Aironet 1560	antenna	layered	Wireless Ante
 AIR-ANT2568VG-NS	2.4GHz 6dBi / 5GHz 8dBi Omnidirectional Antenna, Connectors N-Male	Catalyst 9163	antenna	layered	Wireless Antennas and Accessories		Antennas	sku ^AIR-ANT							
 AIR-ANT2568VG-NS=	2.4GHz 6dBi / 5GHz 8dBi Omnidirectional Antenna, Connectors N-Male	Catalyst 9163	antenna	layered	Wireless Antennas and Accessories		Antennas	sku ^AIR-ANT							
 AIR-ANT2588P3M-N=	Dual-band directional antenna with 3 N-type connectors. It can be used with the outdoor access points and has no cable attachments.	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories		Antennas	sku ^AIR-ANT							
+AIR-ANT2588P4M-NS	2.4GHz/5GHz 8Bi Patch Antenna 4port, Nconn	3800 Series Integrated Services Routers ISR	antenna	layered	Wireless Antennas and Accessories		Antennas	sku ^AIR-ANT							
 AIR-ANT2588P4M-NS=	2.4GHz 8dBi / 5GHz 8dBi 4-Element Dual-Polarized Patch Antenna, Connectors N-Female Bulkhead (4x RF Coaxial Cable needed)	Catalyst 9163	antenna	layered	Wireless Antennas and Accessories		Antennas	sku ^AIR-ANT							
 AIR-ANT3213	2.4 GHz, 5.2 dBi Divers. Pillar Omni Ant. w/RP-TNC Con.	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories		Antennas	sku ^AIR-ANT							
 AIR-ANT3338	2.4 Ghz, 21 dBi Solid Dish Antenna w/RP-TNC Connector	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories		Antennas	sku ^AIR-ANT							
@@ -288,6 +297,7 @@ AIR-ANT5114P-N=	5-GHz patch antenna for use in the 4950- to 5850-MHz frequency b
 AIR-ANT5114P-NA	Set of 2 Ant 4.9-5.8 GHz 14 dBi Patch N Cnctr, R. Angle, Brk	Aironet 1550	antenna	layered	Wireless Antennas and Accessories		Antennas	sku ^AIR-ANT							
 AIR-ANT5114P2M-N=	5-GHz, directional antenna with 2 orthogonally polarized ports. Comes with two 30-in. cables terminated in right-angle N-type connectors. Suitable for use on Aironet outdoor access points.	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories		Antennas	sku ^AIR-ANT							
 AIR-ANT5117S-N=	4.9 GHz-5.8 GHz, 17 dBi Sector, 90 Deg with N Connector	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories		Antennas	sku ^AIR-ANT							
+AIR-ANT5135	Cisco AIR-ANT5135	800 ISR	antenna	layered	Wireless Antennas and Accessories		Antennas	sku ^AIR-ANT							
 AIR-ANT5135D-R	5 GHz 3.5 dBi Swivel Dipole Antenna Black, RP-TNC	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories		Antennas	sku ^AIR-ANT							
 AIR-ANT5135D-R=	5 GHz 3.5 dBi Swivel Dipole Antenna Black, RP-TNC	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories		Antennas	sku ^AIR-ANT							
 AIR-ANT5135DB-R	5 GHz 3.5 dBi Swivel Dipole Antenna Black, RP-TNC	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories		Antennas	sku ^AIR-ANT							
@@ -349,9 +359,15 @@ AIR-AP-T-RAIL-R	Ceiling grid clip (recessed mounting); this is the default optio
 AIR-AP-VBLE-ADPTR=	Adapter for beacon point / AP mounting	Mobility Services Engine	accessory	layered	Location and Spaces Appliances		Exciters and BLE / VBLE radio modules	sku ^AIR-AP-VBLE							
 AIR-AP1100MNTGKIT=	1100 Series Ceiling/Wall/Cube Mount Bracket Kit- spare	Antennas/Accessories	mechanical	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-(AP(?!-VBLE|[0-9]{4}[A-Z]-WLC)|ACC|MOD|BLE|BAND|CHNL|SFP)							
 AIR-AP1131-STAND=	AP 1130 Table Top Stand	Aironet 1550	mechanical	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-(AP(?!-VBLE|[0-9]{4}[A-Z]-WLC)|ACC|MOD|BLE|BAND|CHNL|SFP)							
+AIR-AP1131AG	Cisco Aironet 1130AG Series access point	Catalyst 6500	ap	layered	Aironet Access Points		Aironet 700 / 802 / 852 / 1100 / 1200 / 2700 / 3700 (legacy indoor)	sku ^AIR-AP1[12][0-9]{2}[A-Z]{0,2}$	indoor	series:Aironet 700 / 802 / 852 / 1100 / 1200 / 2700 / 3700 (legacy indoor)					
 AIR-AP1140MNTGKIT=	1140, 1260 or 3500 Series Ceiling, Wall Mount Bracket Kit	Antennas/Accessories	mechanical	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-(AP(?!-VBLE|[0-9]{4}[A-Z]-WLC)|ACC|MOD|BLE|BAND|CHNL|SFP)							
 AIR-AP1140RETROMT=	1040/1140/1260/3500/3600 Mount Kit Fits AP to 1130 Brackets	Antennas/Accessories	mechanical	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-(AP(?!-VBLE|[0-9]{4}[A-Z]-WLC)|ACC|MOD|BLE|BAND|CHNL|SFP)							
 AIR-AP1200MNTGKIT=	1200 Series (Non-AP1242)Ceiling/Wall Mount Bracket Kit-spare	Antennas/Accessories	mechanical	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-(AP(?!-VBLE|[0-9]{4}[A-Z]-WLC)|ACC|MOD|BLE|BAND|CHNL|SFP)							
+AIR-AP1210	Cisco AIR-AP1210	Catalyst 6500	ap	layered	Aironet Access Points		Aironet 700 / 802 / 852 / 1100 / 1200 / 2700 / 3700 (legacy indoor)	sku ^AIR-AP1[12][0-9]{2}[A-Z]{0,2}$	indoor	series:Aironet 700 / 802 / 852 / 1100 / 1200 / 2700 / 3700 (legacy indoor)					
+AIR-AP1230A	Cisco AIR-AP1230A	Catalyst 6500	ap	layered	Aironet Access Points		Aironet 700 / 802 / 852 / 1100 / 1200 / 2700 / 3700 (legacy indoor)	sku ^AIR-AP1[12][0-9]{2}[A-Z]{0,2}$	indoor	series:Aironet 700 / 802 / 852 / 1100 / 1200 / 2700 / 3700 (legacy indoor)					
+AIR-AP1230B	Cisco AIR-AP1230B	Catalyst 6500	ap	layered	Aironet Access Points		Aironet 700 / 802 / 852 / 1100 / 1200 / 2700 / 3700 (legacy indoor)	sku ^AIR-AP1[12][0-9]{2}[A-Z]{0,2}$	indoor	series:Aironet 700 / 802 / 852 / 1100 / 1200 / 2700 / 3700 (legacy indoor)					
+AIR-AP1232AG	Cisco Aironet 1230AG Series access point	Catalyst 6500	ap	layered	Aironet Access Points		Aironet 700 / 802 / 852 / 1100 / 1200 / 2700 / 3700 (legacy indoor)	sku ^AIR-AP1[12][0-9]{2}[A-Z]{0,2}$	indoor	series:Aironet 700 / 802 / 852 / 1100 / 1200 / 2700 / 3700 (legacy indoor)					
+AIR-AP1242AG	Cisco Aironet 1240AG Series access point	Catalyst 6500	ap	layered	Aironet Access Points		Aironet 700 / 802 / 852 / 1100 / 1200 / 2700 / 3700 (legacy indoor)	sku ^AIR-AP1[12][0-9]{2}[A-Z]{0,2}$	indoor	series:Aironet 700 / 802 / 852 / 1100 / 1200 / 2700 / 3700 (legacy indoor)					
 AIR-AP1542D-A-K9	802.11ac W2 Value Outdoor AP, Direct. Ant, A Reg Dom.	Aironet 1540	ap	layered	Aironet Access Points		Aironet 1540	sku ^(AIR-)?AP154[02]	outdoor	series:Aironet 1540					
 AIR-AP1542D-B-K9	802.11ac W2 Value Outdoor AP, Direct. Ant, B Reg Dom.	Aironet 1540	ap	layered	Aironet Access Points		Aironet 1540	sku ^(AIR-)?AP154[02]	outdoor	series:Aironet 1540					
 AIR-AP1542D-C-K9	802.11ac W2 Value Outdoor AP, Direct. Ant, C Reg Dom.	Aironet 1540	ap	layered	Aironet Access Points		Aironet 1540	sku ^(AIR-)?AP154[02]	outdoor	series:Aironet 1540					
@@ -1670,6 +1686,7 @@ AIR-BLE-USB-10	USB BLE Beacon for Access Points; Pack of 10 units	3800	module	la
 AIR-BLE-USB-50	USB BLE Beacon for Access Points; Pack of 50 units	3800	module	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-(AP(?!-VBLE|[0-9]{4}[A-Z]-WLC)|ACC|MOD|BLE|BAND|CHNL|SFP)							
 AIR-BLE-USB-BULK	BOM Level USN BLE Bulk PID	3800	module	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-(AP(?!-VBLE|[0-9]{4}[A-Z]-WLC)|ACC|MOD|BLE|BAND|CHNL|SFP)							
 AIR-BLE-USB=	Spare USB BLE Beacon for Access Points	3800	module	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-(AP(?!-VBLE|[0-9]{4}[A-Z]-WLC)|ACC|MOD|BLE|BAND|CHNL|SFP)							
+AIR-BR1310G	Cisco Aironet 1300 Series outdoor access point/bridge (Supported in access point mode only)	Catalyst 6500	unknown	layered	Aironet Access Points		Aironet 1310 outdoor access point / bridge (legacy)	sku ^AIR-BR1310							
 AIR-BZL-C220M4	Cisco 5520 Wireless Controller Security Bezel	Antennas/Accessories	mechanical	layered	Location and Spaces Appliances		CMX 3375 / MSE 3355 / 3365	sku ^AIR-(MR|SD|PSU|BZL|RAID|MRAID|CPU|PCI|SVR|DC)-							
 AIR-BZL-C220M4=	Cisco 5520 Wireless Controller Security Bezel	Antennas/Accessories	mechanical	layered	Location and Spaces Appliances		CMX 3375 / MSE 3355 / 3365	sku ^AIR-(MR|SD|PSU|BZL|RAID|MRAID|CPU|PCI|SVR|DC)-							
 AIR-BZL-C240M4	Cisco 8540 Wireless Controller Security Bezel	Antennas/Accessories	mechanical	layered	Location and Spaces Appliances		CMX 3375 / MSE 3355 / 3365	sku ^AIR-(MR|SD|PSU|BZL|RAID|MRAID|CPU|PCI|SVR|DC)-							
@@ -2090,12 +2107,42 @@ AIR-PWRINJ4	Power Injector - AP-3600 Series w/ Modules	Antennas/Accessories	powe
 AIR-PWRINJ4=	Power Injector - AP-3600 Series w/ Modules-SPARE	Antennas/Accessories	power-injector	layered	Wireless Antennas and Accessories		Power injectors, supplies and cords	sku ^AIR-PWR							
 AIR-PWRINJ5	Power Injector	Antennas/Accessories	power-injector	layered	Wireless Antennas and Accessories		Power injectors, supplies and cords	sku ^AIR-PWR							
 AIR-PWRINJ5=	Power Injector (802.3af) for AP 1600, 2600 and 3600 w/o mod	Catalyst 9163	power-injector	layered	Wireless Antennas and Accessories		Power injectors, supplies and cords	sku ^AIR-PWR							
+AIR-PWRINJ6	Power injector	Room Series	power-injector	layered	Wireless Antennas and Accessories		Power injectors, supplies and cords	sku ^AIR-PWR							
 AIR-PWRINJ6=	Power injector, 802.3at, indoor	Catalyst 9163	power-injector	layered	Wireless Antennas and Accessories		Power injectors, supplies and cords	sku ^AIR-PWR							
 AIR-PWRINJ7=	Cisco AIR-PWRINJ7=	Catalyst 9163	power-injector	layered	Wireless Antennas and Accessories		Power injectors, supplies and cords	sku ^AIR-PWR							
 AIR-RAID-9266NB	MegaRAID 9266-8i with no battery back up	Aironet 1550	module	layered	Location and Spaces Appliances		CMX 3375 / MSE 3355 / 3365	sku ^AIR-(MR|SD|PSU|BZL|RAID|MRAID|CPU|PCI|SVR|DC)-							
 AIR-RAID-ROM1	MegaRAID 9266-8i with no battery back up	Aironet 1550	module	layered	Location and Spaces Appliances		CMX 3375 / MSE 3355 / 3365	sku ^AIR-(MR|SD|PSU|BZL|RAID|MRAID|CPU|PCI|SVR|DC)-							
 AIR-RAID-ROM5	Embedded SW RAID 0/1/10, 8 ports SAS/SATA	Aironet 1550	module	layered	Location and Spaces Appliances		CMX 3375 / MSE 3355 / 3365	sku ^AIR-(MR|SD|PSU|BZL|RAID|MRAID|CPU|PCI|SVR|DC)-							
 AIR-RM-VBLE2-K9=	Cisco AIR-RM-VBLE2-K9=	Mobility Services Engine	module	layered	Location and Spaces Appliances		Exciters and BLE / VBLE radio modules	sku ^AIR-RM-VBLE							
+AIR-RM3000M	2.4 GHz & 5 GHz XOR Security Monitor Module	Access Point Modules	module	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-RM30							
+AIR-RM3000M++=	Wireless Security Module - TAA	Access Point Modules	module	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-RM30							
+AIR-RM3000M-10	2.4 GHz & 5 GHz XOR Security Monitor Module	Access Point Modules	module	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-RM30							
+AIR-RM3000M-10++=	Wireless Security Module 10 Pack TAA	Access Point Modules	module	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-RM30							
+AIR-RM3000M-10=	Wireless Security Module, 10 Pack	Access Point Modules	module	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-RM30							
+AIR-RM3000M-BULK	BOM Level Wireless Security & Spectrum Intelligence Bulk PID	Access Point Modules	module	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-RM30							
+AIR-RM3000M-BULK=	BOM Level Wireless Security & Spectrum Intelligence Bulk PID	Access Point Modules	module	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-RM30							
+AIR-RM3000M=	Wireless Security Module	Access Point Modules	module	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-RM30							
+AIR-RM3000MTAABULK	BOM Level Wireless Security Module TAA Bulk PID	Access Point Modules	module	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-RM30							
+AIR-RM3010L-A-K9	Hyperlocation Module with Advance Security; Reg. Domain -A	Access Point Modules	module	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-RM30							
+AIR-RM3010L-A-K9=	Hyperlocation Module with Advance Security; Reg. Domain -A	Access Point Modules	module	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-RM30							
+AIR-RM3010L-B-K9	Hyperlocation Module with Advance Security; Reg. Domain -B	Access Point Modules	module	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-RM30							
+AIR-RM3010L-B-K9=	Hyperlocation Module with Advance Security; Reg. Domain -B	Access Point Modules	module	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-RM30							
+AIR-RM3010L-C-K9=	Hyperlocation Module with Advance Security; Reg. Domain -C	Access Point Modules	module	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-RM30							
+AIR-RM3010L-D-K9=	Hyperlocation Module with Advance Security; Reg. Domain -D	Access Point Modules	module	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-RM30							
+AIR-RM3010L-E-K9	Hyperlocation Module with Advance Security; Reg. Domain -E	Access Point Modules	module	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-RM30							
+AIR-RM3010L-E-K9=	Hyperlocation Module with Advance Security; Reg. Domain -E	Access Point Modules	module	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-RM30							
+AIR-RM3010L-F-K9=	Hyperlocation Module with Advance Security; Reg. Domain -F	Access Point Modules	module	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-RM30							
+AIR-RM3010L-H-K9=	Hyperlocation Module with Advance Security; Reg. Domain -H	Access Point Modules	module	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-RM30							
+AIR-RM3010L-I-K9=	Hyperlocation Module with Advance Security; Reg. Domain -I	Access Point Modules	module	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-RM30							
+AIR-RM3010L-K-K9=	Hyperlocation Module with Advance Security; Reg. Domain -K	Access Point Modules	module	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-RM30							
+AIR-RM3010L-N-K9=	Hyperlocation Module with Advance Security; Reg. Domain -N	Access Point Modules	module	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-RM30							
+AIR-RM3010L-Q-K9=	Hyperlocation Module with Advance Security; Reg. Domain -Q	Access Point Modules	module	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-RM30							
+AIR-RM3010L-R-K9=	Hyperlocation Module with Advance Security; Reg. Domain -R	Access Point Modules	module	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-RM30							
+AIR-RM3010L-S-K9=	Hyperlocation Module with Advance Security; Reg. Domain -S	Access Point Modules	module	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-RM30							
+AIR-RM3010L-T-K9=	Hyperlocation Module with Advance Security; Reg. Domain -T	Access Point Modules	module	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-RM30							
+AIR-RM3010L-UXK9=	Wireless Security & Location Module; Universal SKU	Access Point Modules	module	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-RM30							
+AIR-RM3010L-Z-K9=	Hyperlocation Module with Advance Security; Reg. Domain -Z	Access Point Modules	module	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-RM30							
+AIR-RM3010LA-UXK9=	Wireless Security & Location Module+ Omni Antenna; Univ. SKU	Access Point Modules	module	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-RM30							
 AIR-SD-32G-S	32GB SD Card for UCS servers	Antennas/Accessories	module	layered	Location and Spaces Appliances		CMX 3375 / MSE 3355 / 3365	sku ^AIR-(MR|SD|PSU|BZL|RAID|MRAID|CPU|PCI|SVR|DC)-							
 AIR-SD240G0KS2-EV	240GB 2.5 inch Enterprise Value 6G SATA SSD	8500	module	layered	AireOS Wireless LAN Controllers	(shared across the line)	AireOS Wireless LAN Controllers shared parts	label-unsupported (label 8500; was 8500 (8510 / 8540 / 8580)): no platform token (8500, 8510, 8540, 8580) in the SKU or name, no compatible part placed in the series						none: no platform token (8500, 8510, 8540, 8580) in the SKU or name, no compatible part placed in the series	
 AIR-SD240G0KS2-EV=	Spare SSD for Cisco Wireless Controller 5520 and 8540	5500	module	layered	AireOS Wireless LAN Controllers	(shared across the line)	AireOS Wireless LAN Controllers shared parts	label-unsupported (label 8500; was 8500 (8510 / 8540 / 8580)): names 8500 (8510 / 8540 / 8580) and another series of the line equally: 5500 (5508 / 5520 / 5540) (name 5520)						none: names 8500 (8510 / 8540 / 8580) and another series of the line equally: 5500 (5508 / 5520 / 5540) (name 5520)	
@@ -2263,8 +2310,6 @@ AIRCT2504-702I-T5	Bundle WLC2504 w/ 10 AP Lic. and 5 AP-702i T Reg Domain	2500	b
 AIRCT2504-702I-Z10	Bundle WLC2504 w/ 10 AP Lic. and 10 AP-702i Z Reg Domain	2500	bundle	layered	AireOS Wireless LAN Controllers		2500 (2504)	sku CT25[0-9]{2}							
 AIRCT2504-702I-Z5	Bundle WLC2504 w/ 10 AP Lic. and 5 AP-702i Z Reg Domain	2500	bundle	layered	AireOS Wireless LAN Controllers		2500 (2504)	sku CT25[0-9]{2}							
 AIRWLC4400FIPSKIT=	FIPS Kit WLC 4400 Spare	Antennas/Accessories	mechanical	layered	Wireless Antennas and Accessories	(shared across the line)	Wireless Antennas and Accessories shared parts	label Antennas/Accessories							
-ANT-ROOM70-KIT-	Antenna kit for ROOM 70 with brackets.	Policy Suite for Mobile	antenna	pending_plan								move collaboration-endpoints			
-ANT-ROOM70-KIT=	Antenna kit for ROOM 70 with brackets.	Policy Suite for Mobile	antenna	pending_plan								move collaboration-endpoints			
 AP-MIGR-PRM	10 AP Bundle for UK	Aironet 1550	bundle	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	label-unsupported (label Aironet 1550; was Aironet 1550): no platform token (1550) in the SKU or name, no compatible part placed in the series						none: no platform token (1550) in the SKU or name, no compatible part placed in the series	
 AP1572EAC	Cisco AP1572EAC	Aironet 1570	ap	layered	Aironet Access Points		Aironet 1570	sku ^(AIR-)?AP157[02]	outdoor	series:Aironet 1570					true
 AP1572EC	Cisco AP1572EC	Aironet 1570	ap	layered	Aironet Access Points		Aironet 1570	sku ^(AIR-)?AP157[02]	outdoor	series:Aironet 1570					true
@@ -2272,107 +2317,6 @@ AP1572IC	Cisco AP1572IC	Aironet 1570	ap	layered	Aironet Access Points		Aironet 1
 AP18321-UXK9	Hydra 3X3 cost saving version for Corsica Lite AP1830	Aironet 1830	ap	layered	Aironet Access Points		Aironet 1830	sku ^(AIR-?|PROMO-|PPN-|PULS-)?AP183[02]	indoor	series:Aironet 1830					
 ASCT-EX2000	Cisco ASCT-EX2000	Mobility Services Engine	unknown	layered	Location and Spaces Appliances		Exciters and BLE / VBLE radio modules	sku ^ASCT-							
 ASCT-EX3200	Compact exciter	Mobility Services Engine	unknown	layered	Location and Spaces Appliances		Exciters and BLE / VBLE radio modules	sku ^ASCT-							
-ASR5000-CHS-SP-K9=	ASR-5000 Spare Chassis	ASR 5000 Series	appliance	pending_plan								move routers			
-ASR5000-CHS-SYS-K9	ASR-5000 Multimedia Core Platform Complete Chassis	ASR 5000 Series	appliance	pending_plan								move routers			
-ASR5000-CHSSYS-K9=	ASR-5000 Multimedia Core Platform Complete Chassis	ASR 5000 Series	appliance	pending_plan								move routers			
-ASR55-04-UDPCRX	ASR5500 UDPC Card and Initial System SW, KDDI Only	ASR 5000 Series	unknown	pending_plan								move routers			
-ASR55-04-UDPCRX=	ASR5500 UDPC Card and Initial System SW, KDDI Only	ASR 5000 Series	unknown	pending_plan								move routers			
-ASR55-CHS-SYS-U-B	ASR5500-U System w/chassis, 4 UDPC, 2 UMIO-SR, 4 FSC, 2 SSC	ASR 5000 Series	appliance	pending_plan								move routers			
-ASR55-CHS-SYS-U-BL	ASR5500-U System w/chassis, 4 UDPC, 2 UMIO-LR, 4 FSC, 2 SSC	ASR 5000 Series	appliance	pending_plan								move routers			
-ASR55-CHS-SYS-U6B	ASR5500-U System w/chassis, 6 UDPC, 2 UMIO-SR, 4 FSC, 2 SSC	ASR 5000 Series	appliance	pending_plan								move routers			
-ASR55-CHS-SYS-U6BL	ASR5500-U System w/chassis, 6 UDPC, 2 UMIO-LR, 4 FSC, 2 SSC	ASR 5000 Series	appliance	pending_plan								move routers			
-ASR55-CHS-SYS-U8B	ASR5500-U System w/chassis, 8 UDPC, 2 UMIO-SR, 4 FSC, 2 SSC	ASR 5000 Series	appliance	pending_plan								move routers			
-ASR55-CHS-SYS-U8BL	ASR5500-U System w/chassis, 8 UDPC, 2 UMIO-LR, 4 FSC, 2 SSC	ASR 5000 Series	appliance	pending_plan								move routers			
-ASR55-DPC	ASR5500 Data Processing Card (DPC)	ASR 5000 Series	module	pending_plan								move routers			
-ASR55-DPC-K9	ASR5500 Data Processing Card (DPC)	ASR 5000 Series	module	pending_plan								move routers			
-ASR55-DPC-K9=	ASR5500 Data Processing Card (DPC)	ASR 5000 Series	module	pending_plan								move routers			
-ASR55-DPC=	ASR5500 Data Processing Card (DPC)	ASR 5000 Series	module	pending_plan								move routers			
-ASR55-UDPC-K9	ASR5500 Universal Data Processing Card (UDPC)	ASR 5000 Series	module	pending_plan								move routers			
-ASR55-UDPC-K9=	ASR5500 Universal Data Processing Card (UDPC)	ASR 5000 Series	module	pending_plan								move routers			
-ASR5K-0110G-MM-K9	XGLC 1-Port 10 Gigabit Ethernet Line Card w/MM SFP+	ASR 5000 Series	module	pending_plan								move routers			
-ASR5K-0110G-MM-K9=	XGLC 1-Port 10 Gigabit Ethernet Line Card w/MM SFP+	ASR 5000 Series	module	pending_plan								move routers			
-ASR5K-0110G-SM-K9	XGLC 1-Port 10 Gigabit Ethernet Line Card w/SM SFP+	ASR 5000 Series	module	pending_plan								move routers			
-ASR5K-0110G-SM-K9=	XGLC 1-Port 10 Gigabit Ethernet Line Card w/SM SFP+	ASR 5000 Series	module	pending_plan								move routers			
-ASR5K-011G2-LX-K9	GLC2 1-Port 1xGbE Line Card - 2nd Gen w/LX SM SFP	ASR 5000 Series	module	pending_plan								move routers			
-ASR5K-011G2-LX-K9=	GLC2 1-Port 1xGbE Line Card - 2nd Gen w/LX SM SFP	ASR 5000 Series	module	pending_plan								move routers			
-ASR5K-011G2-SX-K9	GLC2 1-Port 1xGbE Line Card - 2nd Gen w/SX MM SFP	ASR 5000 Series	module	pending_plan								move routers			
-ASR5K-011G2-SX-K9=	GLC2 1-Port 1xGbE Line Card - 2nd Gen w/SX MM SFP	ASR 5000 Series	module	pending_plan								move routers			
-ASR5K-011G2-T-K9	GLC2 1-Port 1xGbE Line Card - 2nd Gen w/Copper SFP	ASR 5000 Series	module	pending_plan								move routers			
-ASR5K-011G2-T-K9=	GLC2 1-Port 1xGbE Line Card - 2nd Gen w/Copper SFP	ASR 5000 Series	module	pending_plan								move routers			
-ASR5K-041GE-LX-K9	QGLC 4-Port Ethernet 1000 Line Card w/LX SM Long Haul SFP	ASR 5000 Series	module	pending_plan								move routers			
-ASR5K-041GE-LX-K9=	QGLC 4-Port Ethernet 1000 Line Card w/LX SM Long Haul SFP	ASR 5000 Series	module	pending_plan								move routers			
-ASR5K-041GE-SX-K9	QGLC 4-Port Ethernet 1000 Line Card w/SX MM Short Haul SFP	ASR 5000 Series	module	pending_plan								move routers			
-ASR5K-041GE-SX-K9=	QGLC 4-Port Ethernet 1000 Line Card w/SX MM Short Haul SFP	ASR 5000 Series	module	pending_plan								move routers			
-ASR5K-041GE-T-K9	QGLC 4-Port Ethernet 1000 Line Card w/Copper SFP	ASR 5000 Series	module	pending_plan								move routers			
-ASR5K-041GE-T-K9=	QGLC 4-Port Ethernet 1000 Line Card w/Copper SFP	ASR 5000 Series	module	pending_plan								move routers			
-ASR5K-042GE-LX-K9	QGLC Rev2 4-Port Ethernet 1000 Card w/LX SM Long Haul SFP	ASR 5000 Series	module	pending_plan								move routers			
-ASR5K-042GE-LX-K9=	QGLC Rev2 4-Port Ethernet 1000 Card w/LX SM Long Haul SFP	ASR 5000 Series	module	pending_plan								move routers			
-ASR5K-042GE-SX-K9	QGLC Rev2 4-Port Ethernet 1000 Card w/SX MM Short Haul SFP	ASR 5000 Series	module	pending_plan								move routers			
-ASR5K-042GE-SX-K9=	QGLC Rev2 4-Port Ethernet 1000 Card w/SX MM Short Haul SFP	ASR 5000 Series	module	pending_plan								move routers			
-ASR5K-042GE-T-K9	QGLC Rev2 4-Port Ethernet 1000 Line Card w/Copper SFP	ASR 5000 Series	module	pending_plan								move routers			
-ASR5K-042GE-T-K9=	QGLC Rev2 4-Port Ethernet 1000 Line Card w/Copper SFP	ASR 5000 Series	module	pending_plan								move routers			
-ASR5K-08100E-K9	FLC2 8-Port Ethernet 10/100, 2nd Generation	ASR 5000 Series	module	pending_plan								move routers			
-ASR5K-08100E-K9=	FLC2 8-Port Ethernet 10/100, 2nd Generation	ASR 5000 Series	module	pending_plan								move routers			
-ASR5K-0F-B00-2069=	Motorola PSC2 LTE Hardware and Software bundle	ASR 5000 Series	unknown	pending_plan								move routers			
-ASR5K-12-LABADV-K9	ASR-5000 Platform Partner Lab Bundle, Advanced Chassis	ASR 5000 Series	bundle	pending_plan								move routers			
-ASR5K-12-LABBSE-K9	ASR-5000 Platform Partner Lab Bundle, Base Chassis	ASR 5000 Series	bundle	pending_plan								move routers			
-ASR5K-12-PSC32GK9=	Packet Services Card (PSC2) 32GB, ATT Femto only	ASR 5000 Series	unknown	pending_plan								move routers			
-ASR5K-20-LAB-PPC	ASR 5000 Platform Partner Lab Bundle, 3x PPC	ASR 5000 Series	bundle	pending_plan								move routers			
-ASR5K-20-LAB-PSC2	ASR 5000 Platform Partner Lab Bundle, 3x PSC2	ASR 5000 Series	bundle	pending_plan								move routers			
-ASR5K-20-LAB-PSC3	ASR 5000 Platform Partner Lab Bundle, 3x PSC3	ASR 5000 Series	bundle	pending_plan								move routers			
-ASR5K-232216S3-K9	ASR5000 Bundle, incl 2xSMC/3xPSC 16GB/2xRCC/2xSPIO Str3 3PN	ASR 5000 Series	bundle	pending_plan								move routers			
-ASR5K-232216SB-K9	ASR5000 Bundle, incl 2xSMC/3xPSC 16GB/2xRCC/2xSPIO Str3 BNC	ASR 5000 Series	bundle	pending_plan								move routers			
-ASR5K-232216V3-K9	ASR5000 Bundle, incl 2xSMC/3xPSC2 16GB/2xRCC/2xSPIO 3PN	ASR 5000 Series	bundle	pending_plan								move routers			
-ASR5K-232216VB-K9	ASR5000 Bundle, incl 2xSMC/3xPSC2 16GB/2xRCC/2xSPIO BNC	ASR 5000 Series	bundle	pending_plan								move routers			
-ASR5K-232216VS3-K9	ASR5000 Bundle, incl 2xSMC/3xPSC2 16GB/2xRCC/2xSPIOStr3 3PN	ASR 5000 Series	bundle	pending_plan								move routers			
-ASR5K-232216VSB-K9	ASR5000 Bundle, incl 2xSMC/3xPSC2 16GB/2xRCC/2xSPIOStr3 BNC	ASR 5000 Series	bundle	pending_plan								move routers			
-ASR5K-232232V3-K9	ASR5000 Bundle, incl 2xSMC/3xPSC2 32GB/2xRCC/2xSPIO 3PN	ASR 5000 Series	bundle	pending_plan								move routers			
-ASR5K-232232VB-K9	ASR5000 Bundle, incl 2xSMC/3xPSC2 32GB/2xRCC/2xSPIO BNC	ASR 5000 Series	bundle	pending_plan								move routers			
-ASR5K-232232VS3-K9	ASR5000 Bundle, incl 2xSMC/3xPSC2 32GB/2xRCC/2xSPIOStr3 3PN	ASR 5000 Series	bundle	pending_plan								move routers			
-ASR5K-232232VSB-K9	ASR5000 Bundle, incl 2xSMC/3xPSC2 32GB/2xRCC/2xSPIOStr3 BNC	ASR 5000 Series	bundle	pending_plan								move routers			
-ASR5K-4OC3C-MM-K9	OLC2 4 Port ATM STM-1c/OC-3c Line Card w/Multi-Mode SFP	ASR 5000 Series	module	pending_plan								move routers			
-ASR5K-4OC3C-MM-K9=	OLC2 4 Port ATM STM-1c/OC-3c Line Card w/Multi-Mode SFP	ASR 5000 Series	module	pending_plan								move routers			
-ASR5K-4OC3C-SM-K9	OLC2 4 Port ATM STM-1c/OC-3c Line Card w/Single Mode SFP	ASR 5000 Series	module	pending_plan								move routers			
-ASR5K-4OC3C-SM-K9=	OLC2 4 Port ATM STM-1c/OC-3c Line Card w/Single Mode SFP	ASR 5000 Series	module	pending_plan								move routers			
-ASR5K-ACCY-LUG=	ASR-5000 Chassis Lug Accessory Kit	ASR 5000 Series	mechanical	pending_plan								move routers			
-ASR5K-BLNK-FR	ASR-5000 Blanking Panel, Front	ASR 5000 Series	mechanical	pending_plan								move routers			
-ASR5K-BLNK-FR=	ASR-5000 Blanking Panel, Front	ASR 5000 Series	mechanical	pending_plan								move routers			
-ASR5K-BLNK-RR-FH	ASR-5000 Blanking Panel, Full Height, Rear (XGLC only)	ASR 5000 Series	mechanical	pending_plan								move routers			
-ASR5K-BLNK-RR-FH=	ASR-5000 Blanking Panel, Full Height, Rear (XGLC only)	ASR 5000 Series	mechanical	pending_plan								move routers			
-ASR5K-BLNK-RR-HH	ASR-5000 Blanking Panel, Half Height, Rear	ASR 5000 Series	mechanical	pending_plan								move routers			
-ASR5K-BLNK-RR-HH=	ASR-5000 Blanking Panel, Half Height, Rear	ASR 5000 Series	mechanical	pending_plan								move routers			
-ASR5K-C4OC3-MM-K9	CLC2 Channelized 4-Port STM-1/OC-3 Line Card w/MM SFP	ASR 5000 Series	module	pending_plan								move routers			
-ASR5K-C4OC3-MM-K9=	CLC2 Channelized 4-Port STM-1/OC-3 Line Card w/MM SFP	ASR 5000 Series	module	pending_plan								move routers			
-ASR5K-C4OC3-SM-K9	CLC2 Channelized 4-Port STM-1/OC-3 Line Card w/SM SFP	ASR 5000 Series	module	pending_plan								move routers			
-ASR5K-C4OC3-SM-K9=	CLC2 Channelized 4-Port STM-1/OC-3 Line Card w/SM SFP	ASR 5000 Series	module	pending_plan								move routers			
-ASR5K-CBL-CON=	ASR-5x00 Console Cable	ASR 5000 Series	cable	pending_plan								move routers			
-ASR5K-FANT-LW	ASR-5000 Fan Tray, Lower	ASR 5000 Series	module	pending_plan								move routers			
-ASR5K-FANT-LW=	ASR-5000 Fan Tray, Lower	ASR 5000 Series	module	pending_plan								move routers			
-ASR5K-FANT-UP	ASR-5000 Fan Tray, Upper	ASR 5000 Series	module	pending_plan								move routers			
-ASR5K-FANT-UP=	ASR-5000 Fan Tray, Upper	ASR 5000 Series	module	pending_plan								move routers			
-ASR5K-FLTR-AIR=	ASR-5000 Air Filter Spare	ASR 5000 Series	mechanical	pending_plan								move routers			
-ASR5K-MEM-PSC2=	DIMM Replacement Kit for PSC2 - 32GB	ASR 5000 Series	module	pending_plan								move routers			
-ASR5K-MEM-PSC3=	DIMM Replacement Kit for PSC3 - 64GB	ASR 5000 Series	module	pending_plan								move routers			
-ASR5K-PFU	ASR5000 Power Filter Unit, Non-Redundant, Single 165A	ASR 5000 Series	power	pending_plan								move routers			
-ASR5K-PFU/2	ASR5000 Power Filter Unit, Dual Redundant 165A	ASR 5000 Series	power	pending_plan								move routers			
-ASR5K-PFU=	ASR5000 Power Filter Unit, Non-Redundant, Single 165A	ASR 5000 Series	power	pending_plan								move routers			
-ASR5K-PSC-32G-K9	Packet Services Card (PSC2) 32GB	ASR 5000 Series	module	pending_plan								move routers			
-ASR5K-PSC-32G-K9=	Packet Services Card (PSC2) 32GB	ASR 5000 Series	module	pending_plan								move routers			
-ASR5K-PSC-64G-B4=	Packet Services Card (PSC3) 64GB, 4 for 2 w/4-PSC2 Trade-in	ASR 5000 Series	module	pending_plan								move routers			
-ASR5K-PSC-64G-K9	Packet Services Card (PSC3) 64GB	ASR 5000 Series	module	pending_plan								move routers			
-ASR5K-PSC-64G-K9=	Packet Services Card (PSC3) 64GB	ASR 5000 Series	module	pending_plan								move routers			
-ASR5K-RCC-K9	Redundancy Crossbar	ASR 5000 Series	module	pending_plan								move routers			
-ASR5K-RCC-K9=	Redundancy Crossbar	ASR 5000 Series	module	pending_plan								move routers			
-ASR5K-SMC-K9	System Management Card 4GB	ASR 5000 Series	module	pending_plan								move routers			
-ASR5K-SMC-K9=	System Management Card 4GB	ASR 5000 Series	module	pending_plan								move routers			
-ASR5K-SPIO-3PN-K9	Switch Processor I/O, 3-Pin BITS	ASR 5000 Series	module	pending_plan								move routers			
-ASR5K-SPIO-3PN-K9=	Switch Processor I/O, 3-Pin BITS	ASR 5000 Series	module	pending_plan								move routers			
-ASR5K-SPIO-BNC-K9	Switch Processor I/O, BNC BITS	ASR 5000 Series	module	pending_plan								move routers			
-ASR5K-SPIO-BNC-K9=	Switch Processor I/O, BNC BITS	ASR 5000 Series	module	pending_plan								move routers			
-ASR5K-SPS3-3PN-K9	Switch Processor I/O, 3-Pin BITS with Stratum 3	ASR 5000 Series	module	pending_plan								move routers			
-ASR5K-SPS3-3PN-K9=	Switch Processor I/O, 3-Pin BITS with Stratum 3	ASR 5000 Series	module	pending_plan								move routers			
-ASR5K-SPS3-BNC-K9	Switch Processor I/O, BNC BITS with Stratum 3	ASR 5000 Series	module	pending_plan								move routers			
-ASR5K-SPS3-BNC-K9=	Switch Processor I/O, BNC BITS with Stratum 3	ASR 5000 Series	module	pending_plan								move routers			
 BTIMGE-K9	Cisco BTIMGE-K9	Aironet 1550	unknown	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	label-unsupported (label Aironet 1550; was Aironet 1550): no platform token (1550) in the SKU or name, no compatible part placed in the series						none: no platform token (1550) in the SKU or name, no compatible part placed in the series	
 C-ANT9101=	Tri-band MIMO Ceiling mount omnidirectional antenna operates in the 2.4-, 5- and 6-GHz frequency ranges and supports IoT. This antenna is designed for indoor use with 9130AX Series access points	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories	(shared across the line)	Wireless Antennas and Accessories shared parts	label Antennas/Accessories							
 C-ANT9102=	Tri-band MIMO Wall/Pole mount omnidirectional antenna operates in the 2.4-, 5- and 6-GHz frequency ranges and supports IoT. This antenna is designed for indoor use with 9130AX Series access points	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories	(shared across the line)	Wireless Antennas and Accessories shared parts	label Antennas/Accessories							
@@ -2390,7 +2334,6 @@ C1-AIR-CT8510-K9++	Cisco ONE - 8500 series WLAN Controller w/ 0 AP lics (TAA)	85
 C1-AIR-CT8540-K9	Cisco ONE - Cisco 8540 Wireless LAN Controller with 0AP Lics	8500	wlc	layered	AireOS Wireless LAN Controllers		8500 (8510 / 8540 / 8580)	sku CT85([0-9]{2}|DC)							
 C1-AIR-CT8540-K9++	Cisco ONE - Cisco 8540 Wireless LAN Controller w/ 0AP (TAA)	8500	wlc	layered	AireOS Wireless LAN Controllers		8500 (8510 / 8540 / 8580)	sku CT85([0-9]{2}|DC)							
 C1-AIRCT2504-K9++	Cisco ONE - 2500 series WLAN Controller w/ 0 AP (TAA)	2500	wlc	layered	AireOS Wireless LAN Controllers		2500 (2504)	sku CT25[0-9]{2}							
-C4948E-BKT-KIT=	C49xxE front and rear mount brackets	Catalyst 9163	mechanical	pending_plan								move switches			
 C9105	Cisco C9105	Catalyst 9105AX	ap	layered	Catalyst 9100 Access Points		Catalyst 9105AX	sku ^C9105	indoor	series:Catalyst 9105AX					true
 C9105AXI-A	Cisco Catalyst 9105AX Series	Catalyst 9100	ap	layered	Catalyst 9100 Access Points		Catalyst 9105AX	sku ^C9105	indoor	series:Catalyst 9105AX					
 C9105AXI-B	Cisco Catalyst 9105AX Series	Catalyst 9100	ap	layered	Catalyst 9100 Access Points		Catalyst 9105AX	sku ^C9105	indoor	series:Catalyst 9105AX					
@@ -3037,12 +2980,6 @@ C9800-L-F-CA-K9	Cisco 9800-L Wireless Controller fiber service	Catalyst 9800 Ser
 C9800-L-F-K9	Cisco Catalyst 9800-L-F Wireless Controller_Fiber Uplink (ships with one AC power adapter)	Catalyst 9800 Series Wireless Controllers	wlc	layered	Catalyst 9800 Wireless Controllers		Catalyst 9800-L	sku ^C?9800-L							
 C9800L-RMNT	Cisco 9800 Wireless Controller rack mount tray	Catalyst 9163	mechanical	layered	Catalyst 9800 Wireless Controllers	(shared across the line)	Catalyst 9800 Wireless Controllers shared parts	sku ^C9800							
 C9800L-RMNT=	Cisco Catalyst 9800 Series Wireless Controller Rack Mount Bracket	Catalyst 9800 Series Wireless Controllers	mechanical	layered	Catalyst 9800 Wireless Controllers	(shared across the line)	Catalyst 9800 Wireless Controllers shared parts	sku ^C9800							
-CAB-2DC-BRL-0.93M-	DC Power Cable w/Barrel Plus, 0.93 meters long for ROOM 70	Policy Suite for Mobile	cable	pending_plan								move collaboration-endpoints			
-CAB-2DC-BRL-0.93M=	DC Power Cable w/Barrel Plus, 0.93 meters long for ROOM 70	Policy Suite for Mobile	cable	pending_plan								move collaboration-endpoints			
-CAB-2HDMILK-1.15M-	HDMI to HDMI Cable, 1.15 meters long for ROOM 70	Policy Suite for Mobile	cable	pending_plan								move collaboration-endpoints			
-CAB-2HDMILK-1.15M=	HDMI to HDMI Cable, 1.15 meters long for ROOM 70	Policy Suite for Mobile	cable	pending_plan								move collaboration-endpoints			
-CAB-2HDMILK-2.78M-	HDMI to HDMI Cable, 2.78 meters long for ROOM 70	Policy Suite for Mobile	cable	pending_plan								move collaboration-endpoints			
-CAB-2HDMILK-2.78M=	HDMI to HDMI Cable, 2.78 meters long for ROOM 70	Policy Suite for Mobile	cable	pending_plan								move collaboration-endpoints			
 CAB-AC-C5	AC Power Cord, Type C5, US, Canada	Catalyst 9163	cable	layered	Wireless Antennas and Accessories		Cables	sku ^CAB-(AC-C5|L400-20-N-R|C13-C14-JMPRCAB-ACS|C15-ACB)							
 CAB-AC-C5-ARG	AC Power Cord, Type C5, Argentina	Catalyst 9163	cable	layered	Wireless Antennas and Accessories		Cables	sku ^CAB-(AC-C5|L400-20-N-R|C13-C14-JMPRCAB-ACS|C15-ACB)							
 CAB-AC-C5-AUS	AC Power Cord, Type C5, Australia	Catalyst 9163	cable	layered	Wireless Antennas and Accessories		Cables	sku ^CAB-(AC-C5|L400-20-N-R|C13-C14-JMPRCAB-ACS|C15-ACB)							
@@ -3062,22 +2999,6 @@ CAB-C13-C14-JMPRCAB-ACS	Cisco Power Cable	Catalyst 9163	cable	layered	Wireless A
 CAB-C15-ACB	Brazil AC Type A Power Cable	Catalyst 9163	cable	layered	Wireless Antennas and Accessories		Cables	sku ^CAB-(AC-C5|L400-20-N-R|C13-C14-JMPRCAB-ACS|C15-ACB)							
 CAB-L400-20-N-R	RA-N (m) to RP-TNC (jack), LMR-400-DB, 20 ft	Catalyst IW9167 Heavy Duty Series	cable	layered	Wireless Antennas and Accessories		Cables	sku ^CAB-(AC-C5|L400-20-N-R|C13-C14-JMPRCAB-ACS|C15-ACB)							
 CAB-L400-20-N-R=	RA-N (m) to RP-TNC (jack), LMR-400-DB, 20 ft	Catalyst IW9167 Heavy Duty Series	cable	layered	Wireless Antennas and Accessories		Cables	sku ^CAB-(AC-C5|L400-20-N-R|C13-C14-JMPRCAB-ACS|C15-ACB)							
-CAB-PWR-C7-DNK-A=	Power Cord, C7-Right Angled, Grey, 4.5m, Denmark	Policy Suite for Mobile	cable	pending_plan								move collaboration-endpoints			
-CAB-PWR-C7-ISR-A=	Power Cord, C7-Right Angled, Grey, 4.5m, Israel	Policy Suite for Mobile	cable	pending_plan								move collaboration-endpoints			
-CAB-PWR-C7-ITA-A=	Power Cord, C7-Right Angled, Grey, 4.5m, Italy	Policy Suite for Mobile	cable	pending_plan								move collaboration-endpoints			
-CAB-PWR-C7-TWN-A=	Power Cord, C7-Right Angled, Grey, 4.5m, Taiwan	Policy Suite for Mobile	cable	pending_plan								move collaboration-endpoints			
-CAB-ROOM70-L-SPKR-	Left Speaker Cable for ROOM 70	Policy Suite for Mobile	cable	pending_plan								move collaboration-endpoints			
-CAB-ROOM70-L-SPKR=	Left Speaker Cable for ROOM 70	Policy Suite for Mobile	cable	pending_plan								move collaboration-endpoints			
-CAB-ROOM70-L3-SPK-	Left Speaker Cable for ROOM 70 - 3 speakers	Policy Suite for Mobile	cable	pending_plan								move collaboration-endpoints			
-CAB-ROOM70-L3-SPK=	Left Speaker Cable for ROOM 70 - 3 speakers	Policy Suite for Mobile	cable	pending_plan								move collaboration-endpoints			
-CAB-ROOM70-R-SPKR-	Right Speaker Cable for ROOM 70	Policy Suite for Mobile	cable	pending_plan								move collaboration-endpoints			
-CAB-ROOM70-R-SPKR=	Right Speaker Cable for ROOM 70	Policy Suite for Mobile	cable	pending_plan								move collaboration-endpoints			
-CAB-ROOM70-R3-SPK-	Right Speaker Cable for ROOM 70 - 3 speakers	Policy Suite for Mobile	cable	pending_plan								move collaboration-endpoints			
-CAB-ROOM70-R3-SPK=	Right Speaker Cable for ROOM 70 - 3 speakers	Policy Suite for Mobile	cable	pending_plan								move collaboration-endpoints			
-CAB-USB-A-B-1.35M-	USB A - USB B Cable, 1.35 meters long for ROOM 70	Policy Suite for Mobile	cable	pending_plan								move collaboration-endpoints			
-CAB-USB-A-B-1.35M=	USB A - USB B Cable, 1.35 meters long for ROOM70	Policy Suite for Mobile	cable	pending_plan								move collaboration-endpoints			
-CAB-USB-A-B-1.7M-	USB A to USB B Cable, 1.7 meters long for MX800 Dual	Policy Suite for Mobile	cable	pending_plan								move collaboration-endpoints			
-CAB-USB-A-B-1.7M=	USB A to USB B Cable, 1.7 meters long for Room 70D, MX800D	Policy Suite for Mobile	cable	pending_plan								move collaboration-endpoints			
 CB-PWRINJ-AR	Cisco Business Power Over Ethernet Injector	Business 100	power-injector	layered	Cisco Business Wireless	(shared across the line)	Cisco Business Wireless shared parts	sku ^CB-PWRINJ							
 CB-PWRINJ-AU	Cisco Business Power Over Ethernet Injector	Business 100	power-injector	layered	Cisco Business Wireless	(shared across the line)	Cisco Business Wireless shared parts	sku ^CB-PWRINJ							
 CB-PWRINJ-BR	Cisco Business Power Over Ethernet Injector	Business 100	power-injector	layered	Cisco Business Wireless	(shared across the line)	Cisco Business Wireless shared parts	sku ^CB-PWRINJ							
@@ -3286,42 +3207,15 @@ CMX-RAILB-M4	Ball Bearing Rail Kit for C220 & C240 M4 & M5 rack servers	Mobility
 CMX-SD960GM1X-EV	960GB 2.5 inch Enterprise Value 6G SATA SSD	Mobility Services Engine	module	layered	Location and Spaces Appliances		CMX 3375 / MSE 3355 / 3365	sku ^CMX-							
 CMX-TPM2-001	Trusted Platform Module 1.2 for UCS (SPI-based)	Mobility Services Engine	module	layered	Location and Spaces Appliances		CMX 3375 / MSE 3355 / 3365	sku ^CMX-							
 COGNIO-SEWIFI-CB	Cognio Spectrum Expert cardbus adapter and software	Spectrum Expert	module	layered	Location and Spaces Appliances		Spectrum Expert	sku ^COGNIO							
-CS-KIT-EQX-K9	Cisco CS-KIT-EQX-K9	Policy Suite for Mobile	accessory	pending_plan								move collaboration-endpoints			
 CS-MGNT-TRAY+	Table Mount for Ethernet Switch Panorama	Policy Suite for Mobile	mechanical	layered	Wireless Antennas and Accessories	(shared across the line)	Wireless Antennas and Accessories shared parts	label Policy Suite for Mobile							
-CS-R70-PRES-BTM=	Below Screen mount for 70 Panorama - Samsung 55"	Policy Suite for Mobile	mechanical	pending_plan								move collaboration-endpoints			
-CS-R70-PRES-TOP=	Above Screen mount for 70 Panorama - Samsung 65"	Policy Suite for Mobile	mechanical	pending_plan								move collaboration-endpoints			
-CS-R70-R55D-SPKR-	Top speaker for Room 55d and Room 70	Policy Suite for Mobile	unknown	pending_plan								move collaboration-endpoints			
-CS-R70-R55D-SPKR=	Top speaker for Room 70 and Room 55D	Policy Suite for Mobile	unknown	pending_plan								move collaboration-endpoints			
-CS-R70P-SCREENKIT	Panorama Presentation Screen Kit for Room 70D G2	Policy Suite for Mobile	mechanical	pending_plan								move collaboration-endpoints			
-CS-ROOM55-70-CFBC=	Cisco Webex Room 55 and 70 Center Floor Bottom Cover	Policy Suite for Mobile	mechanical	pending_plan								move collaboration-endpoints			
-CS-ROOM55-70-WSB=	Cisco Webex Room 55 and 70 Wall Secure Bracket	Policy Suite for Mobile	mechanical	pending_plan								move collaboration-endpoints			
-CS-ROOM70-CFBB-	Center Frame Bottom Bracket Room 70	Policy Suite for Mobile	mechanical	pending_plan								move collaboration-endpoints			
-CS-ROOM70-CFBB=	Center Frame Bottom Bracket Room 70	Policy Suite for Mobile	mechanical	pending_plan								move collaboration-endpoints			
-CS-ROOM70-MON-SCV-	Sidecover for Room 70 monitor ( left and right included)	Policy Suite for Mobile	unknown	pending_plan								move collaboration-endpoints			
-CS-ROOM70-MON-SCV=	Sidecover for Room 70 monitor ( left and right included)	Policy Suite for Mobile	unknown	pending_plan								move collaboration-endpoints			
-CS-ROOM70-SCRWKIT=	Screws and Part Kit for Room 70	Policy Suite for Mobile	mechanical	pending_plan								move collaboration-endpoints			
-CS-ROOM70D-CAMCV-	Dual cam top rear cover, Center Top profile and.....	Policy Suite for Mobile	mechanical	pending_plan								move collaboration-endpoints			
-CS-ROOM70D-CAMCV=	Dual cam top rear cover, Center Top profile and.....	Policy Suite for Mobile	mechanical	pending_plan								move collaboration-endpoints			
-CS-ROOM70D-FS-GRK-	Room 70D Floorstand Grill Kit	Policy Suite for Mobile	mechanical	pending_plan								move collaboration-endpoints			
-CS-ROOM70D-FS-GRK=	Room 70D Floorstand Grill Kit	Policy Suite for Mobile	mechanical	pending_plan								move collaboration-endpoints			
-CS-ROOM70D-MB=	Cisco Webex Room 70 Upper Joining Bracket for Monitors	Policy Suite for Mobile	mechanical	pending_plan								move collaboration-endpoints			
-CS-ROOM70D-MON-L-	Left Monitor for Room 70 Dual	Policy Suite for Mobile	unknown	pending_plan								move collaboration-endpoints			
-CS-ROOM70D-MON-L=	Left Monitor for Room 70 Dual	Policy Suite for Mobile	unknown	pending_plan								move collaboration-endpoints			
-CS-ROOM70D-MON-R-	Right Monitor for Room 70 Dual	Policy Suite for Mobile	unknown	pending_plan								move collaboration-endpoints			
-CS-ROOM70D-MON-R=	Right Monitor for Room 70 Dual	Policy Suite for Mobile	unknown	pending_plan								move collaboration-endpoints			
-CS-ROOM70D-WM-GRK-	Room 70D Wallmount Grill Kit	Policy Suite for Mobile	mechanical	pending_plan								move collaboration-endpoints			
-CS-ROOM70D-WM-GRK=	Room 70D Wallmount Grill Kit	Policy Suite for Mobile	mechanical	pending_plan								move collaboration-endpoints			
-CS-ROOM70P-FSK=	Cisco Room 70 Panorama Floor Stand Kit	Policy Suite for Mobile	mechanical	pending_plan								move collaboration-endpoints			
-CS-ROOM70P-SFSK	Cisco Room 70 Panorama Floor Stand Kit (SHORT)	Policy Suite for Mobile	mechanical	pending_plan								move collaboration-endpoints			
-CS-ROOM70P-SFSK=	Cisco Room 70 Panorama Floor Stand Kit (SHORT)	Policy Suite for Mobile	mechanical	pending_plan								move collaboration-endpoints			
-CS-ROOM70P-WMK=	Cisco Room 70 Panorama Wall Mount Kit - hangs on wall	Policy Suite for Mobile	mechanical	pending_plan								move collaboration-endpoints			
-CTS-MX-FSK-SKI-	Cisco MX700, MX800 og Room70D Ski for Floor Stand Kit	Policy Suite for Mobile	unknown	pending_plan								move collaboration-endpoints			
-CTS-MX-FSK-SKI=	Cisco MX700, MX800 og Room70D Ski for Floor Stand Kit	Policy Suite for Mobile	unknown	pending_plan								move collaboration-endpoints			
-CTS-MX700800-SPKR=	Top speaker for MX700/800 and ROOM 70	Policy Suite for Mobile	unknown	pending_plan								move collaboration-endpoints			
 CW-ACC-9179-A-00	Indoor Environment Pack for CW9179F	Catalyst 9163	accessory	layered	Catalyst Wireless Access Points	(shared across the line)	Catalyst Wireless Access Points shared parts	sku ^CW-							
+CW-ACC-9179-B-00	CW9179F environment pack for outdoor deployment	3800 Series Integrated Services Routers ISR	accessory	layered	Catalyst Wireless Access Points	(shared across the line)	Catalyst Wireless Access Points shared parts	sku ^CW-							
 CW-ACC-9179-CVR	Solar Shield Kit for CW9179F	Catalyst 9163	mechanical	layered	Catalyst Wireless Access Points	(shared across the line)	Catalyst Wireless Access Points shared parts	sku ^CW-							
+CW-ACC-ADPT1	Antenna mount adapter for CW-ANT-T-D2-D8 with C-ANT9103 mount	3800 Series Integrated Services Routers ISR	mechanical	layered	Catalyst Wireless Access Points	(shared across the line)	Catalyst Wireless Access Points shared parts	sku ^CW-							
+CW-ACC-CVR2	Cisco CW-ACC-CVR2	3800 Series Integrated Services Routers ISR	accessory	layered	Catalyst Wireless Access Points	(shared across the line)	Catalyst Wireless Access Points shared parts	sku ^CW-							
 CW-ACC-DESK1-00	Desk top stand accessory for Cisco Wireless 9172H access point	Catalyst 9163	mechanical	layered	Catalyst Wireless Access Points	(shared across the line)	Catalyst Wireless Access Points shared parts	sku ^CW-							
 CW-ACC-KIT1-00	Accessory Kit for CW9163E	Catalyst 9163	mechanical	layered	Catalyst Wireless Access Points	(shared across the line)	Catalyst Wireless Access Points shared parts	sku ^CW-							
+CW-ACC-KIT2	Cisco CW-ACC-KIT2	3800 Series Integrated Services Routers ISR	accessory	layered	Catalyst Wireless Access Points	(shared across the line)	Catalyst Wireless Access Points shared parts	sku ^CW-							
 CW-ACC-MEM-32G	Additional 32GB Storage for Application Hosting. Note: Only available at the time of ordering; Cannot be added after time of sale.	Catalyst 9800 Series Wireless Controllers	module	layered	Catalyst Wireless Access Points	(shared across the line)	Catalyst Wireless Access Points shared parts	sku ^CW-							
 CW-ACC-N2RPTNC	4 pack of N-type to RP-TNC adapters	Catalyst 9163	accessory	layered	Catalyst Wireless Access Points	(shared across the line)	Catalyst Wireless Access Points shared parts	sku ^CW-							
 CW-ACC-QCKCNCT1	Quick connect Cat 6A extension cable, 25cm for CW9179F	Catalyst 9163	cable	layered	Catalyst Wireless Access Points	(shared across the line)	Catalyst Wireless Access Points shared parts	sku ^CW-							
@@ -3329,7 +3223,14 @@ CW-ACC-SPACER1-00	Wall spacer accessory for Cisco Wireless 9172H access point	Ca
 CW-ANT-D1-NS-00	External 4-Port Directional Patch Self-Identifying Antenna (SIA) with N-Type Connectors, includes CW-MNT-ART2-00, articulating arm bracket	Catalyst 9163	antenna	layered	Catalyst Wireless Access Points	(shared across the line)	Catalyst Wireless Access Points shared parts	sku ^CW-							
 CW-ANT-GPS2-S-00	External GPS Antenna for CW9163E; Wi-Fi 6E; 2x2:2SS	Catalyst 9163	antenna	layered	Catalyst Wireless Access Points	(shared across the line)	Catalyst Wireless Access Points shared parts	sku ^CW-							
 CW-ANT-O1-NS-00	External omni-directional antenna for CW9163E; Wi-Fi 6E; 2x2:2SS, Four (4) antennas required to fully populate antenna ports on CW9163E	Catalyst 9163	antenna	layered	Catalyst Wireless Access Points	(shared across the line)	Catalyst Wireless Access Points shared parts	sku ^CW-							
+CW-ANT-T-D2-D8	6/6/6 dBi 75x75 Tri-band directional antenna, 8-port, DART	3800 Series Integrated Services Routers ISR	antenna	layered	Catalyst Wireless Access Points	(shared across the line)	Catalyst Wireless Access Points shared parts	sku ^CW-							
+CW-ANT-T-D3-N	6/6/6 dBi Directional Mini Patch, N connector for CW9179F AP	3800 Series Integrated Services Routers ISR	antenna	layered	Catalyst Wireless Access Points	(shared across the line)	Catalyst Wireless Access Points shared parts	sku ^CW-							
+CW-ANT-T-D4-N	Cisco 8/8/8dBi, Tri band, dir. ant, 8xN-Type	3800 Series Integrated Services Routers ISR	antenna	layered	Catalyst Wireless Access Points	(shared across the line)	Catalyst Wireless Access Points shared parts	sku ^CW-							
+CW-ANT-T-O2-D8	2/5/5 dBi Tri-band ceiling mount omni antenna, 8-port, DART	3800 Series Integrated Services Routers ISR	antenna	layered	Catalyst Wireless Access Points	(shared across the line)	Catalyst Wireless Access Points shared parts	sku ^CW-							
+CW-ANT-T-O3-N	Cisco 5/6/5dBi, Tri band, Omni dir. ant, 8xN-Type	3800 Series Integrated Services Routers ISR	antenna	layered	Catalyst Wireless Access Points	(shared across the line)	Catalyst Wireless Access Points shared parts	sku ^CW-							
+CW-ANT-T-O4-R	3/5/5 dBi Tri-band dipole antennas, RP-TNC	3800 Series Integrated Services Routers ISR	antenna	layered	Catalyst Wireless Access Points	(shared across the line)	Catalyst Wireless Access Points shared parts	sku ^CW-							
 CW-INJ-8	Cisco CW-INJ-8	Catalyst 9163	power-injector	layered	Catalyst Wireless Access Points	(shared across the line)	Catalyst Wireless Access Points shared parts	sku ^CW-							
+CW-MNT-9	CW9174E Integrated AP/antenna mounting bracket	3800 Series Integrated Services Routers ISR	mechanical	layered	Catalyst Wireless Access Points	(shared across the line)	Catalyst Wireless Access Points shared parts	sku ^CW-							
 CW-MNT-ART2-00	Articulating arm for bracket 2	Catalyst 9163	mechanical	layered	Catalyst Wireless Access Points	(shared across the line)	Catalyst Wireless Access Points shared parts	sku ^CW-							
 CW-MNT-ART3	Cisco Wireless Articulating Mount Kit 3	Catalyst 9163	mechanical	layered	Catalyst Wireless Access Points	(shared across the line)	Catalyst Wireless Access Points shared parts	sku ^CW-							
 CW-MNT-H1-00	Bracket for Cisco Wireless 9172H access point mounting	Catalyst 9163	mechanical	layered	Catalyst Wireless Access Points	(shared across the line)	Catalyst Wireless Access Points shared parts	sku ^CW-							
@@ -3352,13 +3253,20 @@ CW9166I	Cisco CW9166I	Catalyst Center	ap	layered	Catalyst Wireless Access Points
 CW9166I-MR	Cisco Catalyst 9166I Access Point, Wi-Fi 6E, internal antennas, 4x4+4x4+4x4 MIMO with XOR radio, 5G mGig with Meraki Note: Customers ordering 9160 access points shipping with Meraki Management Mode (-MR) must have a Meraki license to operate with the Meraki dashboard or to migrate to Cisco DNA Management Mode.	Catalyst 9163	ap	layered	Catalyst Wireless Access Points		Catalyst CW9162 / CW9164 / CW9166 (Wi-Fi 6E)	sku ^CW916[246]	indoor	series:Catalyst CW9162 / CW9164 / CW9166 (Wi-Fi 6E)					
 CW9166I-X	Cisco Catalyst 9166I Access Point, Wi-Fi 6E, internal antennas, 4x4+4x4+4x4 MIMO with XOR radio, 5G mGig with Reg-X	Catalyst 9163	ap	layered	Catalyst Wireless Access Points		Catalyst CW9162 / CW9164 / CW9166 (Wi-Fi 6E)	sku ^CW916[246]	indoor	series:Catalyst CW9162 / CW9164 / CW9166 (Wi-Fi 6E)					true
 CW9171I	Cisco Wireless 9171I Access Point, Wi-Fi 7, internal omni directional antennas, tri-band, 4 spatial streams with 2x2:2 on all radios. Operates in either 2/5 of 2/6 mode. 2.5Gbps uplink, USB 2.0, DC power jack. Integrated BLE and 802.15.4 for IoT. Global Use.	Catalyst 9163	ap	layered	Catalyst Wireless Access Points		Catalyst CW9171 / 9172 / 9174 / 9176 / 9178 / 9179 (Wi-Fi 7)	sku ^CW91(7[12468]|79)	indoor	series:Catalyst CW9171 / 9172 / 9174 / 9176 / 9178 / 9179 (Wi-Fi 7)					
+CW9172	Cisco CW9172	Meraki	ap	layered	Catalyst Wireless Access Points		Catalyst CW9171 / 9172 / 9174 / 9176 / 9178 / 9179 (Wi-Fi 7)	sku ^CW91(7[12468]|79)	indoor	series:Catalyst CW9171 / 9172 / 9174 / 9176 / 9178 / 9179 (Wi-Fi 7)					
 CW9172H	Cisco Wireless 9172H Access Point, Wi-Fi 7, internal omni-directional antennas, tri-radio, 6 spatial streams with 2x2:2 on all radios. 2.5Gbps uplink, 3x 1Gbps LAN ports with PoE out, 1 passthrough port. Integrated BLE and 802.15.4 for IoT. Compact, energy-efficient design. Global Use.	Catalyst 9163	ap	layered	Catalyst Wireless Access Points		Catalyst CW9171 / 9172 / 9174 / 9176 / 9178 / 9179 (Wi-Fi 7)	sku ^CW91(7[12468]|79)	indoor	series:Catalyst CW9171 / 9172 / 9174 / 9176 / 9178 / 9179 (Wi-Fi 7)					
 CW9172I	Cisco Wireless 9172I Access Point, Wi-Fi 7, internal omni-directional antennas, tri-radio or dual-radio, 6 spatial streams with 2x2:2 on 2.4GHz, 5GHz, and 6GHz, or 2x2:2 on 2.4GHz and 4x4:4 on 5GHz with 6GHz disabled. 2.5Gbps uplink, USB 2.0, DC power jack. Integrated BLE and 802.15.4 for IoT. Energy-efficient operation. Global Use.	Catalyst 9163	ap	layered	Catalyst Wireless Access Points		Catalyst CW9171 / 9172 / 9174 / 9176 / 9178 / 9179 (Wi-Fi 7)	sku ^CW91(7[12468]|79)	indoor	series:Catalyst CW9171 / 9172 / 9174 / 9176 / 9178 / 9179 (Wi-Fi 7)					
 CW9174E	Cisco Wireless 9174E Access Point, Wi-Fi 7, DART8 antenna connector, tri-band, up to 10 spatial streams with 2x2:2 on 2.4GHz, 4x4:4 on 5GHz and 4x4:4 on 6GHz or 4x4:4 on 2.4GHz and 4x4:4 on 5GHz with 6GHz disabled. 5Gbps uplink, USB 2.0, DC power jack. Integrated BLE and 802.15.4 for IoT. Global Use.	Catalyst 9163	ap	layered	Catalyst Wireless Access Points		Catalyst CW9171 / 9172 / 9174 / 9176 / 9178 / 9179 (Wi-Fi 7)	sku ^CW91(7[12468]|79)	indoor	series:Catalyst CW9171 / 9172 / 9174 / 9176 / 9178 / 9179 (Wi-Fi 7)					
 CW9174I	Cisco Wireless 9174I Access Point, Wi-Fi 7, internal omni directional antennas, tri-band, up to 10 spatial streams with 2x2:2 on 2.4GHz, 4x4:4 on 5GHz and 4x4:4 on 6GHz or 4x4:4 on 2.4GHz and 4x4:4 on 5GHz with 6GHz disabled. 5Gbps uplink, USB 2.0, DC power jack. Integrated BLE and 802.15.4 for IoT. Global Use.	Catalyst 9163	ap	layered	Catalyst Wireless Access Points		Catalyst CW9171 / 9172 / 9174 / 9176 / 9178 / 9179 (Wi-Fi 7)	sku ^CW91(7[12468]|79)	indoor	series:Catalyst CW9171 / 9172 / 9174 / 9176 / 9178 / 9179 (Wi-Fi 7)					
+CW9176	Cisco CW9176	Meraki	ap	layered	Catalyst Wireless Access Points		Catalyst CW9171 / 9172 / 9174 / 9176 / 9178 / 9179 (Wi-Fi 7)	sku ^CW91(7[12468]|79)	indoor	series:Catalyst CW9171 / 9172 / 9174 / 9176 / 9178 / 9179 (Wi-Fi 7)					
 CW9176D1	Cisco Wireless 9176D1 Access Point, Wi-Fi 7, internal directional antennas, tri-band, 12 spatial streams with 4x4:4 on all radios. Operates in either 2/5/6 mode or 5/5/6 mode. 10G mGig, Integrated GNSS/GPS, UWB. Global Use.	Catalyst 9163	ap	layered	Catalyst Wireless Access Points		Catalyst CW9171 / 9172 / 9174 / 9176 / 9178 / 9179 (Wi-Fi 7)	sku ^CW91(7[12468]|79)	indoor	series:Catalyst CW9171 / 9172 / 9174 / 9176 / 9178 / 9179 (Wi-Fi 7)					
 CW9176I	Cisco Wireless 9176I Access Point, Wi-Fi 7, internal omni directional antennas, tri-band, 12 spatial streams with 4x4:4 on all radios. Operates in either 2/5/6 mode or 5/5/6 mode. 10G mGig, Integrated GNSS/GPS, UWB. Global Use.	Catalyst 9163	ap	layered	Catalyst Wireless Access Points		Catalyst CW9171 / 9172 / 9174 / 9176 / 9178 / 9179 (Wi-Fi 7)	sku ^CW91(7[12468]|79)	indoor	series:Catalyst CW9171 / 9172 / 9174 / 9176 / 9178 / 9179 (Wi-Fi 7)					
+CW9177D	Cisco Wireless 9177 Outdoor Access Point, Wi-Fi 7, internal directonal antennas, Wi-Fi 7, 4x4:4SS	3800 Series Integrated Services Routers ISR	ap	layered	Catalyst Wireless Access Points		Catalyst CW9177 (outdoor, Wi-Fi 7)	sku ^CW9177	outdoor	series:Catalyst CW9177 (outdoor, Wi-Fi 7)					
+CW9177E	Cisco Wireless 9177 Outdoor Access Point, Wi-Fi 7, external antenna connectors, Wi-Fi 7, 4x4:4SS	3800 Series Integrated Services Routers ISR	ap	layered	Catalyst Wireless Access Points		Catalyst CW9177 (outdoor, Wi-Fi 7)	sku ^CW9177	outdoor	series:Catalyst CW9177 (outdoor, Wi-Fi 7)					
+CW9177I	Cisco Wireless 9177 Outdoor Access Point, internal omnicirectional antennas, Wi-Fi 7, 4x4:4SS	3800 Series Integrated Services Routers ISR	ap	layered	Catalyst Wireless Access Points		Catalyst CW9177 (outdoor, Wi-Fi 7)	sku ^CW9177	outdoor	series:Catalyst CW9177 (outdoor, Wi-Fi 7)					
+CW9178	Cisco CW9178	Meraki	ap	layered	Catalyst Wireless Access Points		Catalyst CW9171 / 9172 / 9174 / 9176 / 9178 / 9179 (Wi-Fi 7)	sku ^CW91(7[12468]|79)	indoor	series:Catalyst CW9171 / 9172 / 9174 / 9176 / 9178 / 9179 (Wi-Fi 7)					
 CW9178I	Cisco Wireless 9178I Access Point, Wi-Fi 7, internal antennas, quad client-serving radios, tri-band with 4x4:4 on all radios, up to 16 spatial streams, dual 5 GHz, 10G mGig, Integrated GNSS/GPS, UWB. Global Use	Catalyst 9163	ap	layered	Catalyst Wireless Access Points		Catalyst CW9171 / 9172 / 9174 / 9176 / 9178 / 9179 (Wi-Fi 7)	sku ^CW91(7[12468]|79)	indoor	series:Catalyst CW9171 / 9172 / 9174 / 9176 / 9178 / 9179 (Wi-Fi 7)					
+CW9179F	Cisco Wireless 9179F Large Public Venue Access Point, internal directional antennas with software configurable patterns, N-type antenna connectors; Wi-Fi 7, 4x4:4SS	3800 Series Integrated Services Routers ISR	ap	layered	Catalyst Wireless Access Points		Catalyst CW9171 / 9172 / 9174 / 9176 / 9178 / 9179 (Wi-Fi 7)	sku ^CW91(7[12468]|79)	indoor	series:Catalyst CW9171 / 9172 / 9174 / 9176 / 9178 / 9179 (Wi-Fi 7)					
 CW9800H1	Cisco Catalyst CW9800H1 Wireless Controller	Catalyst 9800 Series Wireless Controllers	wlc	layered	Catalyst 9800 Wireless Controllers		Catalyst CW9800H1 / CW9800H2	sku ^CW9800H							
 CW9800H1-MCG	Campus Gateway	Catalyst 9800 Series Wireless Controllers	wlc	layered	Catalyst 9800 Wireless Controllers		Catalyst CW9800H1 / CW9800H2	sku ^CW9800H							
 CW9800H2	Cisco Catalyst CW9800H2 Wireless Controller	Catalyst 9800 Series Wireless Controllers	wlc	layered	Catalyst 9800 Wireless Controllers		Catalyst CW9800H1 / CW9800H2	sku ^CW9800H							
@@ -3369,6 +3277,7 @@ CW9800L-RMNT	Rack mount tray for CW9800L	Catalyst 9800 Series Wireless Controlle
 CW9800L-RMNT-R	Rear rack mount bracket for CW9800L-RMNT	Catalyst 9800 Series Wireless Controllers	mechanical	layered	Catalyst 9800 Wireless Controllers		Catalyst 9800-L	sku ^CW9800L							
 CW9800L-RPS=	Redundant Power Supply kit, which includes: ● Redundant Power Supply module ● 8-pin to 6-pin DC cable to connect RPS to CW9800L ● An additional power supply with power cord	Catalyst 9800 Series Wireless Controllers	power	layered	Catalyst 9800 Wireless Controllers		Catalyst 9800-L	sku ^CW9800L							
 CW9800M	Cisco Catalyst CW9800M Wireless Controller (ships with one AC power adapter)	Catalyst 9800 Series Wireless Controllers	wlc	layered	Catalyst 9800 Wireless Controllers		Catalyst CW9800M	sku ^CW9800M							
+CWWLSE-1130-19-K9	CiscoWorks WLSE (optional)	Catalyst 6500	unknown	layered	Wireless LAN Solution Engine (legacy)		CiscoWorks Wireless LAN Solution Engine (WLSE 1130 / Express 1030)	sku ^CWWLSE							
 DN3-L-MR-X16G1RS-H	16GB DDR4-2666-MHz RDIMM/PC4-21300/single rank/x4/1.2v	Mobility Services Engine	module	layered	Location and Spaces Appliances		Catalyst Center location appliance (DN3-LOC)	sku ^DN3-L							
 DN3-L-SD960GM1X-EV	960GB 2.5 inch Enterprise Value 6G SATA SSD	Mobility Services Engine	module	layered	Location and Spaces Appliances		Catalyst Center location appliance (DN3-LOC)	sku ^DN3-L							
 DN3-LOC-BZL-C220M5	C220 M5 Security Bezel	Mobility Services Engine	mechanical	layered	Location and Spaces Appliances		Catalyst Center location appliance (DN3-LOC)	sku ^DN3-L							
@@ -3689,8 +3598,18 @@ IW3702-4E-R-K9	Industrial Wireless AP 3702, 4 antenna ports on top, R domain	IW 
 IW3702-4E-S-K9	Industrial Wireless AP 3702, 4 RF ports on top, S reg domain	IW 3700 Industrial	ap	layered	Industrial Wireless		IW3700 (IW3702)	sku ^IW-?3702	industrial	series:IW3700 (IW3702)					
 IW3702-4E-Z-K9	Industrial Wireless AP 3702, 4 RF ports on top, Z reg domain	IW 3700 Industrial	ap	layered	Industrial Wireless		IW3700 (IW3702)	sku ^IW-?3702	industrial	series:IW3700 (IW3702)					
 IW9165D	Cisco IW9165D	Ultra-Reliable Wireless Backhaul	ap	layered	Industrial Wireless		Catalyst IW9165 / IW9167	sku ^IW-?916[57]	industrial	series:Catalyst IW9165 / IW9167					
+IW9165DH-x-AP	Industrial Wireless 9165D, 11ax 6E, 2 RF ports, x domain, Wi-Fi AP software	3800 Series Integrated Services Routers ISR	ap	layered	Industrial Wireless		Catalyst IW9165 / IW9167	sku ^IW-?916[57]	industrial	series:Catalyst IW9165 / IW9167					true
+IW9165DH-x-URWB	Industrial Wireless 9165D, 11ax 6E, 2 RF ports, x domain, URWB software	3800 Series Integrated Services Routers ISR	ap	layered	Industrial Wireless		Catalyst IW9165 / IW9167	sku ^IW-?916[57]	industrial	series:Catalyst IW9165 / IW9167					true
 IW9165E	Cisco IW9165E	Ultra-Reliable Wireless Backhaul	ap	layered	Industrial Wireless		Catalyst IW9165 / IW9167	sku ^IW-?916[57]	industrial	series:Catalyst IW9165 / IW9167					
+IW9165E-x-AP	Industrial Wireless 9165E, 11ax 6E, 4 RF ports, x domain, Wi-Fi AP software	3800 Series Integrated Services Routers ISR	ap	layered	Industrial Wireless		Catalyst IW9165 / IW9167	sku ^IW-?916[57]	industrial	series:Catalyst IW9165 / IW9167					true
+IW9165E-x-URWB	Industrial Wireless 9165E, 11ax 6E, 4 RF ports, x domain, URWB software	3800 Series Integrated Services Routers ISR	ap	layered	Industrial Wireless		Catalyst IW9165 / IW9167	sku ^IW-?916[57]	industrial	series:Catalyst IW9165 / IW9167					true
+IW9165E-x-WGB	Industrial Wireless 9165E, 11ax 6E, 4 RF ports, x domain, WGB software	3800 Series Integrated Services Routers ISR	ap	layered	Industrial Wireless		Catalyst IW9165 / IW9167	sku ^IW-?916[57]	industrial	series:Catalyst IW9165 / IW9167					true
 IW9167E	Cisco IW9167E	Ultra-Reliable Wireless Backhaul	ap	layered	Industrial Wireless		Catalyst IW9165 / IW9167	sku ^IW-?916[57]	industrial	series:Catalyst IW9165 / IW9167					
+IW9167EH-x-AP	Industrial Wireless 9167E, 11ax 6E AP, 8 RF ports, x domain, Wi-Fi software	3800 Series Integrated Services Routers ISR	ap	layered	Industrial Wireless		Catalyst IW9165 / IW9167	sku ^IW-?916[57]	industrial	series:Catalyst IW9165 / IW9167					true
+IW9167EH-x-HZ	Industrial Wireless 9167EH-HZ, 11ax 6E AP, 8 RF ports, x domain, Hazardous Locations	3800 Series Integrated Services Routers ISR	ap	layered	Industrial Wireless		Catalyst IW9165 / IW9167	sku ^IW-?916[57]	industrial	series:Catalyst IW9165 / IW9167					true
+IW9167EH-x-URWB	Industrial Wireless 9167E, 11ax 6E AP, 8 RF ports, x domain, URWB software	3800 Series Integrated Services Routers ISR	ap	layered	Industrial Wireless		Catalyst IW9165 / IW9167	sku ^IW-?916[57]	industrial	series:Catalyst IW9165 / IW9167					true
+IW9167EH-x-WGB	Industrial Wireless 9167E, 11ax 6E AP, 8 RF ports, x domain, WGB software	3800 Series Integrated Services Routers ISR	ap	layered	Industrial Wireless		Catalyst IW9165 / IW9167	sku ^IW-?916[57]	industrial	series:Catalyst IW9165 / IW9167					true
+IW9167IH-x-AP	Industrial Wireless 9167I, 11ax 6E AP, internal antenna, x domain, Wi-Fi software	3800 Series Integrated Services Routers ISR	ap	layered	Industrial Wireless		Catalyst IW9165 / IW9167	sku ^IW-?916[57]	industrial	series:Catalyst IW9165 / IW9167					true
 IWA-CPU-I4310	Intel 4310 2.1GHz/120W 12C/18MB DDR4 2667MHz	Ultra-Reliable Wireless Backhaul	module	layered	Industrial Wireless		IEC6400 edge compute (URWB)	sku ^IWA-							
 IWA-MR-X16G1RW	16GB RDIMM SRx4 3200 (8Gb)	Ultra-Reliable Wireless Backhaul	module	layered	Industrial Wireless		IEC6400 edge compute (URWB)	sku ^IWA-							
 IWA-PCIE-C25Q-04	Cisco UCS VIC 1455 Quad Port 10/25G SFP28 CNA PCIE (optional)	Ultra-Reliable Wireless Backhaul	module	layered	Industrial Wireless		IEC6400 edge compute (URWB)	sku ^IWA-							
@@ -3731,37 +3650,50 @@ MA-PWR-30W-xx	Standard power adapter. Regional plugs per SKU.	Catalyst 9163	powe
 MA-PWR-50WAC	Cisco MA-PWR-50WAC	Catalyst 9163	power	layered	Meraki MR Access Points	(shared across the line)	Meraki MR Access Points shared parts	sku ^MA-(ANT|MNT|UMNT|PWR)-							
 MA-UMNT-MR-A2	Meraki MR Adaptor for Cisco Universal Mounts	Catalyst 9100	mechanical	layered	Meraki MR Access Points	(shared across the line)	Meraki MR Access Points shared parts	sku ^MA-(ANT|MNT|UMNT|PWR)-							
 MA-UMNT-MR-A3	Meraki MR Adaptor for Aruba Universal Mounts	Catalyst 9100	mechanical	layered	Meraki MR Access Points	(shared across the line)	Meraki MR Access Points shared parts	sku ^MA-(ANT|MNT|UMNT|PWR)-							
-MEM-SAMI-6P-2GB	SAMI 6xPPCs with 2GB per PPC Memory Option	7600 Wireless Security Gateway	module	pending_plan								move switches			
-MEM-SAMI-6P-2GB=	SAMI 6xPPCs with 2GB per PPC Memory Option	7600 Wireless Security Gateway	module	pending_plan								move switches			
-MEM-SAMI-6P-4GB	SAMI 6xPPCs with 4GB per PPC Memory Option	7600 Wireless Security Gateway	module	pending_plan								move switches			
-MEM-SAMI-6P-4GB=	SAMI 6xPPCs with 4GB per PPC Memory Option	7600 Wireless Security Gateway	module	pending_plan								move switches			
-MIXS-12-PA2071DC=	PAS DC CABINET EXTENSION [ATT US PAS ONLY]	ASR 5000 Series	unknown	pending_plan								move routers			
-MIXS-12-PA2091DC=	PAS DC ENCLOSURE [ATT US PAS ONLY]	ASR 5000 Series	mechanical	pending_plan								move routers			
-MIXS-12-PA2101AC=	PAS AC STARTUP CABINET [ATT US PAS ONLY]	ASR 5000 Series	unknown	pending_plan								move routers			
-MIXS-12-PA2121AC=	PAS AC ENCLOSURE [ATT US PAS Only]	ASR 5000 Series	mechanical	pending_plan								move routers			
-MIXS-12-PA2131CO=	PAS 1G ENCLOSURE SWITCH [ATT US PAS Only]	ASR 5000 Series	mechanical	pending_plan								move routers			
-MIXS-12-PA2141CO=	PAS 10G ENCLOSURE SWITCH [ATT US PAS Only]	ASR 5000 Series	mechanical	pending_plan								move routers			
-MIXS-12-PA2211BL=	PAS SPARE BLADE [ATT US PAS Only]	ASR 5000 Series	unknown	pending_plan								move routers			
-MIXS-12-PA2261MM=	PAS DC MOMAT [ATT US PAS ONLY]	ASR 5000 Series	unknown	pending_plan								move routers			
-MIXS-12-PA2331CO=	PAS DC SEISMIC CABINET (no encl) [ATT US PAS ONLY]	ASR 5000 Series	unknown	pending_plan								move routers			
-MIXS-12-PA2531MM=	PAS AC MOMAT [ATT US PAS ONLY]	ASR 5000 Series	unknown	pending_plan								move routers			
-MIXS-12-PA2541AC=	PAS AC RMS CABINET (no Encl) [ATT US PAS ONLY]	ASR 5000 Series	unknown	pending_plan								move routers			
-MIXS-12-PA2551AC=	PAS AC CABINET EXTENSION [ATT US PAS ONLY]	ASR 5000 Series	unknown	pending_plan								move routers			
+MR11	Cisco MR11	Meraki	ap	layered	Meraki MR Access Points		Meraki MR indoor	sku ^MR(1[1-8]|2[0-8]|3[0-6]|4[2-6]|5[2-7]|62)[A-Z]?(-|$)	indoor	series:Meraki MR indoor					
+MR12	Cisco MR12	Meraki	ap	layered	Meraki MR Access Points		Meraki MR indoor	sku ^MR(1[1-8]|2[0-8]|3[0-6]|4[2-6]|5[2-7]|62)[A-Z]?(-|$)	indoor	series:Meraki MR indoor					
+MR14	Cisco MR14	Meraki	ap	layered	Meraki MR Access Points		Meraki MR indoor	sku ^MR(1[1-8]|2[0-8]|3[0-6]|4[2-6]|5[2-7]|62)[A-Z]?(-|$)	indoor	series:Meraki MR indoor					
+MR16	Cisco MR16	Meraki	ap	layered	Meraki MR Access Points		Meraki MR indoor	sku ^MR(1[1-8]|2[0-8]|3[0-6]|4[2-6]|5[2-7]|62)[A-Z]?(-|$)	indoor	series:Meraki MR indoor					
+MR20	Cisco MR20	Meraki	ap	layered	Meraki MR Access Points		Meraki MR indoor	sku ^MR(1[1-8]|2[0-8]|3[0-6]|4[2-6]|5[2-7]|62)[A-Z]?(-|$)	indoor	series:Meraki MR indoor					
+MR24	Cisco MR24	Meraki	ap	layered	Meraki MR Access Points		Meraki MR indoor	sku ^MR(1[1-8]|2[0-8]|3[0-6]|4[2-6]|5[2-7]|62)[A-Z]?(-|$)	indoor	series:Meraki MR indoor					
+MR28	Cisco MR28	Meraki	ap	layered	Meraki MR Access Points		Meraki MR indoor	sku ^MR(1[1-8]|2[0-8]|3[0-6]|4[2-6]|5[2-7]|62)[A-Z]?(-|$)	indoor	series:Meraki MR indoor					
+MR28-HW	Cisco MR28-HW	Meraki	ap	layered	Meraki MR Access Points		Meraki MR indoor	sku ^MR(1[1-8]|2[0-8]|3[0-6]|4[2-6]|5[2-7]|62)[A-Z]?(-|$)	indoor	series:Meraki MR indoor					
+MR30	Cisco MR30	Meraki	ap	layered	Meraki MR Access Points		Meraki MR indoor	sku ^MR(1[1-8]|2[0-8]|3[0-6]|4[2-6]|5[2-7]|62)[A-Z]?(-|$)	indoor	series:Meraki MR indoor					
+MR30H	Cisco MR30H	Meraki	ap	layered	Meraki MR Access Points		Meraki MR indoor	sku ^MR(1[1-8]|2[0-8]|3[0-6]|4[2-6]|5[2-7]|62)[A-Z]?(-|$)	indoor	series:Meraki MR indoor					
+MR33	Cisco MR33	Meraki	ap	layered	Meraki MR Access Points		Meraki MR indoor	sku ^MR(1[1-8]|2[0-8]|3[0-6]|4[2-6]|5[2-7]|62)[A-Z]?(-|$)	indoor	series:Meraki MR indoor					
 MR36	Cisco MR36	Catalyst 9800 Series Wireless Controllers	ap	layered	Meraki MR Access Points		Meraki MR indoor	sku ^MR(1[1-8]|2[0-8]|3[0-6]|4[2-6]|5[2-7]|62)[A-Z]?(-|$)	indoor	series:Meraki MR indoor					true
 MR36-HW	Meraki MR36 Wi-Fi 6 Indoor AP	Catalyst 9100	ap	layered	Meraki MR Access Points		Meraki MR indoor	sku ^MR(1[1-8]|2[0-8]|3[0-6]|4[2-6]|5[2-7]|62)[A-Z]?(-|$)	indoor	series:Meraki MR indoor					
 MR36H	Cisco MR36H	Catalyst 9800 Series Wireless Controllers	ap	layered	Meraki MR Access Points		Meraki MR indoor	sku ^MR(1[1-8]|2[0-8]|3[0-6]|4[2-6]|5[2-7]|62)[A-Z]?(-|$)	indoor	series:Meraki MR indoor					
 MR36H-HW	Meraki MR36H Wi-Fi 6 Cloud Managed AP	Catalyst 9100	ap	layered	Meraki MR Access Points		Meraki MR indoor	sku ^MR(1[1-8]|2[0-8]|3[0-6]|4[2-6]|5[2-7]|62)[A-Z]?(-|$)	indoor	series:Meraki MR indoor					
+MR42	Cisco MR42	Meraki	ap	layered	Meraki MR Access Points		Meraki MR indoor	sku ^MR(1[1-8]|2[0-8]|3[0-6]|4[2-6]|5[2-7]|62)[A-Z]?(-|$)	indoor	series:Meraki MR indoor					
+MR42E	Cisco MR42E	Meraki	ap	layered	Meraki MR Access Points		Meraki MR indoor	sku ^MR(1[1-8]|2[0-8]|3[0-6]|4[2-6]|5[2-7]|62)[A-Z]?(-|$)	indoor	series:Meraki MR indoor					
 MR44	Cisco MR44	Catalyst 9800 Series Wireless Controllers	ap	layered	Meraki MR Access Points		Meraki MR indoor	sku ^MR(1[1-8]|2[0-8]|3[0-6]|4[2-6]|5[2-7]|62)[A-Z]?(-|$)	indoor	series:Meraki MR indoor					
 MR44-HW	Meraki MR44 WiFi 6 Indoor AP	Catalyst 9100	ap	layered	Meraki MR Access Points		Meraki MR indoor	sku ^MR(1[1-8]|2[0-8]|3[0-6]|4[2-6]|5[2-7]|62)[A-Z]?(-|$)	indoor	series:Meraki MR indoor					
+MR45	Cisco MR45	Meraki	ap	layered	Meraki MR Access Points		Meraki MR indoor	sku ^MR(1[1-8]|2[0-8]|3[0-6]|4[2-6]|5[2-7]|62)[A-Z]?(-|$)	indoor	series:Meraki MR indoor					
 MR46	Cisco MR46	Catalyst 9800 Series Wireless Controllers	ap	layered	Meraki MR Access Points		Meraki MR indoor	sku ^MR(1[1-8]|2[0-8]|3[0-6]|4[2-6]|5[2-7]|62)[A-Z]?(-|$)	indoor	series:Meraki MR indoor					true
 MR46-HW	Meraki MR46 Wi-Fi 6 Indoor AP	Catalyst 9100	ap	layered	Meraki MR Access Points		Meraki MR indoor	sku ^MR(1[1-8]|2[0-8]|3[0-6]|4[2-6]|5[2-7]|62)[A-Z]?(-|$)	indoor	series:Meraki MR indoor					
 MR46E	Cisco MR46E	Catalyst 9800 Series Wireless Controllers	ap	layered	Meraki MR Access Points		Meraki MR indoor	sku ^MR(1[1-8]|2[0-8]|3[0-6]|4[2-6]|5[2-7]|62)[A-Z]?(-|$)	indoor	series:Meraki MR indoor					
 MR46E-HW	Meraki MR46E Wi-Fi 6 Indoor AP w External Antenna Connectors	Catalyst 9100	ap	layered	Meraki MR Access Points		Meraki MR indoor	sku ^MR(1[1-8]|2[0-8]|3[0-6]|4[2-6]|5[2-7]|62)[A-Z]?(-|$)	indoor	series:Meraki MR indoor					
+MR52	Cisco MR52	Meraki	ap	layered	Meraki MR Access Points		Meraki MR indoor	sku ^MR(1[1-8]|2[0-8]|3[0-6]|4[2-6]|5[2-7]|62)[A-Z]?(-|$)	indoor	series:Meraki MR indoor					
+MR53	Cisco MR53	Meraki	ap	layered	Meraki MR Access Points		Meraki MR indoor	sku ^MR(1[1-8]|2[0-8]|3[0-6]|4[2-6]|5[2-7]|62)[A-Z]?(-|$)	indoor	series:Meraki MR indoor					
+MR53E	Cisco MR53E	Meraki	ap	layered	Meraki MR Access Points		Meraki MR indoor	sku ^MR(1[1-8]|2[0-8]|3[0-6]|4[2-6]|5[2-7]|62)[A-Z]?(-|$)	indoor	series:Meraki MR indoor					
+MR55	Cisco MR55	Meraki	ap	layered	Meraki MR Access Points		Meraki MR indoor	sku ^MR(1[1-8]|2[0-8]|3[0-6]|4[2-6]|5[2-7]|62)[A-Z]?(-|$)	indoor	series:Meraki MR indoor					
 MR56	Cisco MR56	Catalyst 9800 Series Wireless Controllers	ap	layered	Meraki MR Access Points		Meraki MR indoor	sku ^MR(1[1-8]|2[0-8]|3[0-6]|4[2-6]|5[2-7]|62)[A-Z]?(-|$)	indoor	series:Meraki MR indoor					
+MR56-HW	Cisco MR56-HW	Meraki	ap	layered	Meraki MR Access Points		Meraki MR indoor	sku ^MR(1[1-8]|2[0-8]|3[0-6]|4[2-6]|5[2-7]|62)[A-Z]?(-|$)	indoor	series:Meraki MR indoor					
 MR57	Cisco MR57	Catalyst 9800 Series Wireless Controllers	ap	layered	Meraki MR Access Points		Meraki MR indoor	sku ^MR(1[1-8]|2[0-8]|3[0-6]|4[2-6]|5[2-7]|62)[A-Z]?(-|$)	indoor	series:Meraki MR indoor					
+MR57-HW	Cisco MR57-HW	Meraki	ap	layered	Meraki MR Access Points		Meraki MR indoor	sku ^MR(1[1-8]|2[0-8]|3[0-6]|4[2-6]|5[2-7]|62)[A-Z]?(-|$)	indoor	series:Meraki MR indoor					
+MR58	Cisco MR58	Meraki	ap	layered	Meraki MR Access Points		Meraki MR outdoor (MR58 / 66 / 70 / 72 / 74 / 76 / 78 / 84 / 86)	sku ^MR(58|66|70|72|74|76|78|84|86)(-|$)	outdoor	series:Meraki MR outdoor (MR58 / 66 / 70 / 72 / 74 / 76 / 78 / 84 / 86)					
+MR62	Cisco MR62	Meraki	ap	layered	Meraki MR Access Points		Meraki MR indoor	sku ^MR(1[1-8]|2[0-8]|3[0-6]|4[2-6]|5[2-7]|62)[A-Z]?(-|$)	indoor	series:Meraki MR indoor					
+MR66	Cisco MR66	Meraki	ap	layered	Meraki MR Access Points		Meraki MR outdoor (MR58 / 66 / 70 / 72 / 74 / 76 / 78 / 84 / 86)	sku ^MR(58|66|70|72|74|76|78|84|86)(-|$)	outdoor	series:Meraki MR outdoor (MR58 / 66 / 70 / 72 / 74 / 76 / 78 / 84 / 86)					
+MR70	Cisco MR70	Meraki	ap	layered	Meraki MR Access Points		Meraki MR outdoor (MR58 / 66 / 70 / 72 / 74 / 76 / 78 / 84 / 86)	sku ^MR(58|66|70|72|74|76|78|84|86)(-|$)	outdoor	series:Meraki MR outdoor (MR58 / 66 / 70 / 72 / 74 / 76 / 78 / 84 / 86)					
+MR74	Cisco MR74	Meraki	ap	layered	Meraki MR Access Points		Meraki MR outdoor (MR58 / 66 / 70 / 72 / 74 / 76 / 78 / 84 / 86)	sku ^MR(58|66|70|72|74|76|78|84|86)(-|$)	outdoor	series:Meraki MR outdoor (MR58 / 66 / 70 / 72 / 74 / 76 / 78 / 84 / 86)					
 MR76	Cisco MR76	Catalyst 9800 Series Wireless Controllers	ap	layered	Meraki MR Access Points		Meraki MR outdoor (MR58 / 66 / 70 / 72 / 74 / 76 / 78 / 84 / 86)	sku ^MR(58|66|70|72|74|76|78|84|86)(-|$)	outdoor	series:Meraki MR outdoor (MR58 / 66 / 70 / 72 / 74 / 76 / 78 / 84 / 86)					
+MR76-HW	Cisco MR76-HW	Meraki	ap	layered	Meraki MR Access Points		Meraki MR outdoor (MR58 / 66 / 70 / 72 / 74 / 76 / 78 / 84 / 86)	sku ^MR(58|66|70|72|74|76|78|84|86)(-|$)	outdoor	series:Meraki MR outdoor (MR58 / 66 / 70 / 72 / 74 / 76 / 78 / 84 / 86)					
 MR78	Cisco MR78	Catalyst 9800 Series Wireless Controllers	ap	layered	Meraki MR Access Points		Meraki MR outdoor (MR58 / 66 / 70 / 72 / 74 / 76 / 78 / 84 / 86)	sku ^MR(58|66|70|72|74|76|78|84|86)(-|$)	outdoor	series:Meraki MR outdoor (MR58 / 66 / 70 / 72 / 74 / 76 / 78 / 84 / 86)					
+MR78-HW	Cisco MR78-HW	Meraki	ap	layered	Meraki MR Access Points		Meraki MR outdoor (MR58 / 66 / 70 / 72 / 74 / 76 / 78 / 84 / 86)	sku ^MR(58|66|70|72|74|76|78|84|86)(-|$)	outdoor	series:Meraki MR outdoor (MR58 / 66 / 70 / 72 / 74 / 76 / 78 / 84 / 86)					
+MR84	Cisco MR84	Meraki	ap	layered	Meraki MR Access Points		Meraki MR outdoor (MR58 / 66 / 70 / 72 / 74 / 76 / 78 / 84 / 86)	sku ^MR(58|66|70|72|74|76|78|84|86)(-|$)	outdoor	series:Meraki MR outdoor (MR58 / 66 / 70 / 72 / 74 / 76 / 78 / 84 / 86)					
 MR86	Cisco MR86	Catalyst 9800 Series Wireless Controllers	ap	layered	Meraki MR Access Points		Meraki MR outdoor (MR58 / 66 / 70 / 72 / 74 / 76 / 78 / 84 / 86)	sku ^MR(58|66|70|72|74|76|78|84|86)(-|$)	outdoor	series:Meraki MR outdoor (MR58 / 66 / 70 / 72 / 74 / 76 / 78 / 84 / 86)					
+MR86-HW	Cisco MR86-HW	Meraki	ap	layered	Meraki MR Access Points		Meraki MR outdoor (MR58 / 66 / 70 / 72 / 74 / 76 / 78 / 84 / 86)	sku ^MR(58|66|70|72|74|76|78|84|86)(-|$)	outdoor	series:Meraki MR outdoor (MR58 / 66 / 70 / 72 / 74 / 76 / 78 / 84 / 86)					
 MSE-A03-D600GA2	600GB 6Gb SAS 10K RPM SFF HDD/hot plug/drive sled mounted	Mobility Services Engine	module	layered	Location and Spaces Appliances		CMX 3375 / MSE 3355 / 3365	sku ^MSE-							
 MSE-A03-D600GA2=	600GB 6Gb SAS 10K RPM SFF HDD/hot plug/drive sled mounted	Mobility Services Engine	module	layered	Location and Spaces Appliances		CMX 3375 / MSE 3355 / 3365	sku ^MSE-							
 MSE-BZL-C220M4	Cisco MSE-BZL-C220M4	Mobility Services Engine	mechanical	layered	Location and Spaces Appliances		CMX 3375 / MSE 3355 / 3365	sku ^MSE-							
@@ -3899,15 +3831,8 @@ PWR-CAB-JPN-0.2M	Internal C13-C14 Power Cord for Japan	Policy Suite for Mobile	c
 PWR-CAB-JPN-0.2M=	Internal C13-C14 Power Cord for Japan	Policy Suite for Mobile	cable	layered	Wireless Antennas and Accessories		Power injectors, supplies and cords	sku ^PWR-(CAB-(JPN-|INT-0[.]7M)|115W-AC|2504-AC|750WACR-RED|RPS-DC1)							
 PWR-CAB-JPN-0.7M	Internal C13-C14 Power Cord for Japan	Policy Suite for Mobile	cable	layered	Wireless Antennas and Accessories		Power injectors, supplies and cords	sku ^PWR-(CAB-(JPN-|INT-0[.]7M)|115W-AC|2504-AC|750WACR-RED|RPS-DC1)							
 PWR-CAB-JPN-0.7M=	Internal C13-C14 Power Cord for Japan	Policy Suite for Mobile	cable	layered	Wireless Antennas and Accessories		Power injectors, supplies and cords	sku ^PWR-(CAB-(JPN-|INT-0[.]7M)|115W-AC|2504-AC|750WACR-RED|RPS-DC1)							
-PWR-CH1-750ACR	Cisco Catalyst Wireless Controller 750W AC Power Supply	Catalyst 9800 Series Wireless Controllers	power	pending_plan								move routers			
-PWR-CH1-750WACR	Cisco Catalyst wireless controller 750W AC Power Supply	Catalyst 9800 Series Wireless Controllers	power	pending_plan								move routers			
-PWR-CH1-950WDCR	Cisco 950W DC power adapter	Catalyst 9800 Series Wireless Controllers	power	pending_plan								move routers			
 PWR-RPS-DC1=	Spare Redundant Power Supply module (no PSU, no cables)	Catalyst 9800 Series Wireless Controllers	power	layered	Wireless Antennas and Accessories		Power injectors, supplies and cords	sku ^PWR-(CAB-(JPN-|INT-0[.]7M)|115W-AC|2504-AC|750WACR-RED|RPS-DC1)							
 RACK-QCN-SN5=	Rack for CWWLSE Express 1030	Antennas/Accessories	mechanical	layered	Wireless LAN Solution Engine (legacy)		CiscoWorks Wireless LAN Solution Engine (WLSE 1130 / Express 1030)	sku ^RACK-QCN-SN5							
-SB-PWR-48V	Cisco Small Business 48V Power Adapter	Small Business 500	power	pending_plan								move interfaces-modules			
-SB-PWR-48V-xx	48-Volt Power Adapter	Small Business 300	power	pending_plan								move interfaces-modules			true
-SB-PWR-INJ1-xx	Cisco Small Business Gigabit Power over Ethernet Injector	Small Business 100	power-injector	pending_plan								move interfaces-modules			true
-SB-PWR-INJ2-xx	Gigabit Power over Ethernet Injector - 30 Watts	Small Business 100	power-injector	pending_plan								move interfaces-modules			true
 WAP121-A-K9-AR	Cisco WAP121 Wireless-N Access Point with Single Point Setup (Argentina)	Small Business 100	ap	layered	Small Business Wireless (WAP)		WAP100 series (WAP121 / WAP125 / WAP150)	sku ^WAP1[0-9]{2}	smb	series:WAP100 series (WAP121 / WAP125 / WAP150)					
 WAP121-A-K9-AU	Cisco WAP121 Wireless-N Access Point with Single Point Setup (Australia, New Zealand)	Small Business 100	ap	layered	Small Business Wireless (WAP)		WAP100 series (WAP121 / WAP125 / WAP150)	sku ^WAP1[0-9]{2}	smb	series:WAP100 series (WAP121 / WAP125 / WAP150)					
 WAP121-A-K9-CA	Cisco WAP121 Wireless-N Access Point with Single Point Setup (Canada)	Small Business 100	ap	layered	Small Business Wireless (WAP)		WAP100 series (WAP121 / WAP125 / WAP150)	sku ^WAP1[0-9]{2}	smb	series:WAP100 series (WAP121 / WAP125 / WAP150)					
@@ -3981,6 +3906,3 @@ WL5520-28-ADV-100	Cisco WL5520-28-ADV-100	2800	bundle	layered	AireOS Wireless LA
 WL5520-38-PLUS-100	Cisco WL5520-38-PLUS-100	3800	bundle	layered	AireOS Wireless LAN Controllers		WLC + access point bundles	sku ^WL(55|85)[0-9]{2}-							
 WL8540-28-ADV-300	Cisco WL8540-28-ADV-300	2800	bundle	layered	AireOS Wireless LAN Controllers		WLC + access point bundles	sku ^WL(55|85)[0-9]{2}-							
 WL8540-38-PLUS-300	Cisco WL8540-38-PLUS-300	3800	bundle	layered	AireOS Wireless LAN Controllers		WLC + access point bundles	sku ^WL(55|85)[0-9]{2}-							
-WS-SVC-SAMI-BB-K9	Service Application Module for IP (6 x PPC w/ 2GB) (Cryto)	7600 Wireless Security Gateway	module	pending_plan								move switches			
-WS-SVC-SAMI-BB-K9=	Service Application Module for IP (6 x PPC w/ 2GB) (Cryto)	7600 Wireless Security Gateway	module	pending_plan								move switches			
-WS-SVCWISM2FIPKIT=	WS-SVC-WISM2 FIPS Kit	Aironet 1550	mechanical	pending_plan								move switches			

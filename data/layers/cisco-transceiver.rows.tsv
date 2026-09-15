@@ -5,18 +5,6 @@ sku	name	series_label	kind	bucket	product_line	product_family	series	placed_by	d
 15327-SFP-LC-LX=EOS	1000BASE-LX LC, SFP	Network Convergence System 2000 Series	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^15327-SFP							
 15327-SFP-LC-SX=	Cisco 15327-SFP-LC-SX=	Network Convergence System 2000 Series	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^15327-SFP							
 15327-SFP-LC-SX=EOS	1000BASE-SX LC, SFP	Network Convergence System 2000 Series	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^15327-SFP							
-15454-SFP-200=	SFP-ESCON - 1310 nm - MM - LC	Network Convergence System 2000 Series	pluggable	pending_plan								move optical-networking			
-15454-SFP-GE+-LX=	Cisco 15454-SFP-GE+-LX=	Network Convergence System 2000 Series	pluggable	pending_plan								move optical-networking			
-15454-SFP-GE+-LX=EOS	SFP - GE/1G-FC/2G-FC - 1310 nm - MM - LC	Network Convergence System 2000 Series	pluggable	pending_plan								move optical-networking			
-15454-SFP-GEFC-SX=	Cisco 15454-SFP-GEFC-SX=	Network Convergence System 2000 Series	pluggable	pending_plan								move optical-networking			
-15454-SFP-GEFC-SX=EOS	SFP - GE/1G-FC/2G-FC - 850 nm - MM - LC	Network Convergence System 2000 Series	pluggable	pending_plan								move optical-networking			
-15454-SFP-LC-LX/LH=	Cisco 15454-SFP-LC-LX/LH=	Network Convergence System 2000 Series	pluggable	pending_plan								move optical-networking			
-15454-SFP-LC-LX=	1000BASE LX LC, SFP	Network Convergence System 2000 Series	pluggable	pending_plan								move optical-networking			
-15454-SFP-LC-SX=	1000BASE-ASESX LC, SFP	Network Convergence System 2000 Series	pluggable	pending_plan								move optical-networking			
-15454-SFP-OC48-IR=	Cisco 15454-SFP-OC48-IR=	Network Convergence System 2000 Series	pluggable	pending_plan								move optical-networking			
-15454-SFP12-4-IR=	Cisco 15454-SFP12-4-IR=	Network Convergence System 2000 Series	pluggable	pending_plan								move optical-networking			
-15454-SFP3-1-IR=	Cisco 15454-SFP3-1-IR=	Network Convergence System 2000 Series	pluggable	pending_plan								move optical-networking			
-15454E-SFP-L.16.1=	SFP - OC-48/STM-16 - 1310nm SH - SM - LC	ONS 15454 Series Multiservice Transport Platforms	pluggable	pending_plan								move optical-networking			
 C3-XENPAK-10GB-LR=	10GBASE-LR, up to 10 km single mode fiber	3750	pluggable	layered	Ethernet transceivers		10G X2 / XENPAK / XFP (legacy)	sku ^C3-XENPAK							
 CE-10GSFP-SR	10 Gigabit Ethernet SFP Module 10GBASE-SR SFP+ SR Optics	TelePresence Video Communication Server (VCS)	pluggable	layered	Ethernet transceivers		10G SFP+	sku ^CE-10GSFP							
 CE-10GSFP-SR=	10 Gigabit Ethernet SFP Module 10GBASE-SR SFP+ SR Optics	TelePresence Video Communication Server (VCS)	pluggable	layered	Ethernet transceivers		10G SFP+	sku ^CE-10GSFP							
@@ -105,29 +93,6 @@ CWDM-GBIC-1550	1000BASE-CWDM GBIC 1550 nm (yellow)	Network Modules	pluggable	lay
 CWDM-GBIC-1570	1000BASE-CWDM GBIC 1570 nm (orange)	Network Modules	pluggable	layered	Ethernet transceivers		GBIC (legacy)	sku ^(DWDM|CWDM|15216)-GBIC-							
 CWDM-GBIC-1590	1000BASE-CWDM GBIC 1590 nm (red)	Network Modules	pluggable	layered	Ethernet transceivers		GBIC (legacy)	sku ^(DWDM|CWDM|15216)-GBIC-							
 CWDM-GBIC-1610	1000BASE-CWDM GBIC 1610 nm (brown)	Network Modules	pluggable	layered	Ethernet transceivers		GBIC (legacy)	sku ^(DWDM|CWDM|15216)-GBIC-							
-CWDM-MUX-4-SF1=	Single Fiber 4-Channel Mux/Demux	Transceiver Modules	accessory	pending_plan								move optical-networking			
-CWDM-MUX-4-SF2=	Single Fiber 4-Channel Mux/Demux	Transceiver Modules	accessory	pending_plan								move optical-networking			
-CWDM-MUX-4=	4-Wavelength Add/Drop Mux for CWDM-CHASSIS-2=	3750	accessory	pending_plan								move optical-networking			
-CWDM-MUX-8=	8-Wavelength Mux/Demux Plug-in Module for CWDM-CHASSIS-2=	3750	accessory	pending_plan								move optical-networking			
-CWDM-MUX-AD-1470=	1470 nm Add/Drop Mux Plug-in Module for CWDM-CHASSIS-2=	3750	accessory	pending_plan								move optical-networking			
-CWDM-MUX-AD-1490=	1490 nm Add/Drop Mux Plug-in Module for CWDM-CHASSIS-2=	3750	accessory	pending_plan								move optical-networking			
-CWDM-MUX-AD-1510=	1510 nm Add/Drop Mux Plug-in Module for CWDM-CHASSIS-2=	3750	accessory	pending_plan								move optical-networking			
-CWDM-MUX-AD-1530=	1530 nm Add/Drop Mux Plug-in Module for CWDM-CHASSIS-2=	3750	accessory	pending_plan								move optical-networking			
-CWDM-MUX-AD-1550=	1550 nm Add/Drop Mux Plug-in Module for CWDM-CHASSIS-2=	3750	accessory	pending_plan								move optical-networking			
-CWDM-MUX-AD-1570=	1570 nm Add/Drop Mux Plug-in Module for CWDM-CHASSIS-2=	3750	accessory	pending_plan								move optical-networking			
-CWDM-MUX-AD-1590=	1590 nm Add/Drop Mux Plug-in Module for CWDM-CHASSIS-2=	3750	accessory	pending_plan								move optical-networking			
-CWDM-MUX-AD-1610=	1610 nm Add/Drop Mux Plug-in Module for CWDM-CHASSIS-2=	3750	accessory	pending_plan								move optical-networking			
-CWDM-MUX8A=	Cisco CWDM-MUX8A=	3750	accessory	pending_plan								move optical-networking			
-CWDM-OADM1-1470=	Dual single channel OADM Module ( 1470nm)	Transceiver Modules	accessory	pending_plan								move optical-networking			
-CWDM-OADM1-1490=	Dual single channel OADM Module ( 1490nm)	Transceiver Modules	accessory	pending_plan								move optical-networking			
-CWDM-OADM1-1510=	Dual single channel OADM Module ( 1510nm)	Transceiver Modules	accessory	pending_plan								move optical-networking			
-CWDM-OADM1-1530=	Dual single channel OADM Module ( 1530nm)	Transceiver Modules	accessory	pending_plan								move optical-networking			
-CWDM-OADM1-1550=	Dual single channel OADM Module ( 1550nm)	Transceiver Modules	accessory	pending_plan								move optical-networking			
-CWDM-OADM1-1570=	Dual single channel OADM Module ( 1570nm)	Transceiver Modules	accessory	pending_plan								move optical-networking			
-CWDM-OADM1-1590=	Dual single channel OADM Module ( 1590nm)	Transceiver Modules	accessory	pending_plan								move optical-networking			
-CWDM-OADM1-1610=	Dual single channel OADM Module ( 1610nm)	Transceiver Modules	accessory	pending_plan								move optical-networking			
-CWDM-OADM4-1=	4-channels CWDM OADM Module ( 1470, 1490, 1510, 1530)	Transceiver Modules	accessory	pending_plan								move optical-networking			
-CWDM-OADM4-2=	4-channels CWDM OADM Module ( 1550, 1570, 1590, 16100)	Transceiver Modules	accessory	pending_plan								move optical-networking			
 CWDM-SFP-1470	Cisco CWDM-SFP-1470 1000BASE-CWDM SFP — 1470 nm, Singlemode, Gigabit Ethernet & 1/2G FC	Cisco	pluggable	layered	WDM transceivers		CWDM SFP / SFP+	sku ^CWDM-(?!GBIC)							
 CWDM-SFP-1470=	Cisco Coarse-Wavelength Division Multiplexing (CWDM) 1470-nm SFP Gigabit Ethernet and 1G/2G fibre Channel	Catalyst IE3400 Rugged Series	pluggable	layered	WDM transceivers		CWDM SFP / SFP+	sku ^CWDM-(?!GBIC)							
 CWDM-SFP-1490	Cisco CWDM-SFP-1490 1000BASE-CWDM SFP — 1490 nm, Singlemode, Gigabit Ethernet & 1/2G FC	Cisco	pluggable	layered	WDM transceivers		CWDM SFP / SFP+	sku ^CWDM-(?!GBIC)							
@@ -204,7 +169,6 @@ DS-CWDM-1550=	Cisco CWDM 1550 NM Gigabit Ethernet and 1/2 Gbps Fibre Channel SFP
 DS-CWDM-1570=	Cisco CWDM 1570 NM Gigabit Ethernet and 1/2 Gbps Fibre Channel SFP optics, Spare	MDS 9000 Series Multilayer	pluggable	layered	Fibre Channel transceivers (MDS)		MDS Fibre Channel SFP / X2 / CWDM	sku ^DS-CWDM(?!-?MUX|OADM|CHASSIS)							
 DS-CWDM-1590=	Cisco CWDM 1590 NM Gigabit Ethernet and 1/2 Gbps Fibre Channel SFP optics, Spare	MDS 9000 Series Multilayer	pluggable	layered	Fibre Channel transceivers (MDS)		MDS Fibre Channel SFP / X2 / CWDM	sku ^DS-CWDM(?!-?MUX|OADM|CHASSIS)							
 DS-CWDM-1610=	Cisco CWDM 1610 NM Gigabit Ethernet and 1/2 Gbps Fibre Channel SFP optics, Spare	MDS 9000 Series Multilayer	pluggable	layered	Fibre Channel transceivers (MDS)		MDS Fibre Channel SFP / X2 / CWDM	sku ^DS-CWDM(?!-?MUX|OADM|CHASSIS)							
-DS-CWDM-MUX8A=	8-channel multiplexer/demultiplexer	MDS 9500 Series Multilayer Directors	accessory	pending_plan								move optical-networking			
 DS-CWDM4G1470=	1470 nm CWDM 1/2/4-Gbps Fibre Channel SFP	MDS 9500 Series Multilayer Directors	pluggable	layered	Fibre Channel transceivers (MDS)		MDS Fibre Channel SFP / X2 / CWDM	sku ^DS-CWDM(?!-?MUX|OADM|CHASSIS)							
 DS-CWDM4G1490=	1490 nm CWDM 1/2/4-Gbps Fibre Channel SFP	MDS 9500 Series Multilayer Directors	pluggable	layered	Fibre Channel transceivers (MDS)		MDS Fibre Channel SFP / X2 / CWDM	sku ^DS-CWDM(?!-?MUX|OADM|CHASSIS)							
 DS-CWDM4G1510=	1510 nm CWDM 1/2/4-Gbps Fibre Channel SFP	MDS 9500 Series Multilayer Directors	pluggable	layered	Fibre Channel transceivers (MDS)		MDS Fibre Channel SFP / X2 / CWDM	sku ^DS-CWDM(?!-?MUX|OADM|CHASSIS)							
@@ -223,10 +187,7 @@ DS-CWDM8G1570=	1570 nm CWDM 2/4/8-Gbps Fibre Channel SFP+ , Spare	Storage Networ
 DS-CWDM8G1590=	1590 nm CWDM 2/4/8-Gbps Fibre Channel SFP+ , Spare	Storage Networking Modules	pluggable	layered	Fibre Channel transceivers (MDS)		MDS Fibre Channel SFP / X2 / CWDM	sku ^DS-CWDM(?!-?MUX|OADM|CHASSIS)							
 DS-CWDM8G1610=	1610 nm CWDM 2/4/8-Gbps Fibre Channel SFP+ , Spare	Storage Networking Modules	pluggable	layered	Fibre Channel transceivers (MDS)		MDS Fibre Channel SFP / X2 / CWDM	sku ^DS-CWDM(?!-?MUX|OADM|CHASSIS)							
 DS-CWDM8Gxxxx=	Cisco MDS 2/4/8-Gbps CWDM Long Distance SFP, LC, spare	MDS 9300 Series Multilayer Fabric	pluggable	pending_plan								class non_product			
-DS-CWDMCHASSIS=	2-slot chassis for Cisco OADM and multiplexer/demultiplexer	MDS 9500 Series Multilayer Directors	accessory	pending_plan								move optical-networking			
-DS-CWDMOADM4A=	4-channel (1470, 1490, 1510, and 1530 nm) optical add/drop multiplexer OADM	MDS 9500 Series Multilayer Directors	accessory	pending_plan								move optical-networking			
-DS-CWDMOADM4B=	4-channel (1550, 1570, 1590, and 1610 nm) optical add/drop multiplexer OADM	MDS 9500 Series Multilayer Directors	accessory	pending_plan								move optical-networking			
-DS-CWDMOADM4x=	Cisco DS-CWDMOADM4x=	MDS 9500 Series Multilayer Directors	accessory	pending_plan								move optical-networking			
+DS-FC-SW-4PK=	1/2-Gbps Fibre Channel-Shortwave, SFP, LC, 4 pack, Spare	MDS 9500 Series Multilayer Directors	pluggable	layered	Fibre Channel transceivers (MDS)		MDS Fibre Channel SFP / X2 / CWDM	sku ^DS-FC-SW							
 DS-SFP-10GE-LR	Cisco DS-SFP-10GE-LR	MDS 9700 Series Multilayer Directors	pluggable	layered	Fibre Channel transceivers (MDS)		MDS Fibre Channel SFP / X2 / CWDM	sku ^DS-(SFP|X2)							
 DS-SFP-10GE-LR=	Cisco DS-SFP-10GE-LR=	MDS 9700 Series Multilayer Directors	pluggable	layered	Fibre Channel transceivers (MDS)		MDS Fibre Channel SFP / X2 / CWDM	sku ^DS-(SFP|X2)							
 DS-SFP-10GE-LR=SFP-10G-LR=	10GBASE-LR SFP Module , Spare	Storage Networking Modules	pluggable	pending_plan								class non_product			
@@ -663,6 +624,8 @@ DWDM-XFP-60.61	10GBASE-DWDM 1560.61 nm XFP (100-GHz ITU grid)	Cisco	pluggable	la
 DWDM-XFP-60.61=	10GBASE-DWDM 1560.61 nm XFP (100-GHz ITU grid)	Catalyst 6500	pluggable	layered	WDM transceivers		DWDM SFP / SFP+ / XFP / X2 / XENPAK	sku ^DWDM-(?!GBIC)							
 DWDM-XFP-C	10G MultiRate C Band Tunable DWDM XFP	Cisco	tunable	layered	WDM transceivers		DWDM SFP / SFP+ / XFP / X2 / XENPAK	sku ^DWDM-(?!GBIC)							
 DWDM-XFP-C=	10G MultiRate C Band Tunable DWDM XFP	Transceiver Modules	tunable	layered	WDM transceivers		DWDM SFP / SFP+ / XFP / X2 / XENPAK	sku ^DWDM-(?!GBIC)							
+EXP-10GSFP-SR-MP	10 Gigabit Ethernet SFP Module 10GBASE-SR SFP+ SR Optics	Expressway Series	pluggable	layered	Ethernet transceivers		10G SFP+	sku ^EXP-10GSFP							
+EXP-10GSFP-SR-MP=	10 Gigabit Ethernet SFP Module 10GBASE-SR SFP+ SR Optics	Expressway Series	pluggable	layered	Ethernet transceivers		10G SFP+	sku ^EXP-10GSFP							
 EXP-1GSFP-T	1 Gigabit Ethernet SFP Module 10/100/1000BASE-T	Expressway Series	pluggable	layered	Ethernet transceivers		1G and 100M SFP	sku ^EXP-1GSFP							
 EXP-1GSFP-T=	Spare 1 Gigabit Ethernet SFP Module 10/100/1000BASE-T	Expressway Series	pluggable	layered	Ethernet transceivers		1G and 100M SFP	sku ^EXP-1GSFP							
 FET-10G	Cisco FET-10G 10GBASE-SR (FET) SFP+-Modul — FET (Fabric Extender), Multimode (OM2/OM3/OM4), 25 m (OM2) / 100 m (OM3+)	Cisco	pluggable	layered	Ethernet transceivers		10G SFP+	sku ^FET-10G							
@@ -779,10 +742,15 @@ MA-SFP-10GB-ZR	Cisco Meraki MA-SFP-10GB-ZR 10GBASE-ZR SFP+ — ZR (Weitverkehr),
 MA-SFP-1GB-LX10	Cisco Meraki MA-SFP-1GB-LX10 1000BASE-LX10 SFP — LX10 (Langstrecke), Singlemode, 10 km	Meraki	pluggable	layered	Meraki transceivers and cables		Meraki MA-SFP / MA-QSFP / MA-CBL	sku ^MA-(SFP|QSFP|CBL)-							
 MA-SFP-1GB-SX	Cisco Meraki MA-SFP-1GB-SX 1000BASE-SX SFP — SX (Kurzstrecke), Multimode, bis 550 m (OM2)	Meraki	pluggable	layered	Meraki transceivers and cables		Meraki MA-SFP / MA-QSFP / MA-CBL	sku ^MA-(SFP|QSFP|CBL)-							
 MA-SFP-1GB-TX	Cisco Meraki MA-SFP-1GB-TX 1000BASE-T SFP — T (Kupfer), Kupfer (Cat-5e), 100 m	Meraki	pluggable	layered	Meraki transceivers and cables		Meraki MA-SFP / MA-QSFP / MA-CBL	sku ^MA-(SFP|QSFP|CBL)-							
+MGBBX1	Cisco MGBBX1	220 Smart	pluggable	layered	Ethernet transceivers		1G and 100M SFP	sku ^MGB							
 MGBLH1	Cisco MGBLH1 1000BASE-LH SFP (mini-GBIC) — Singlemode, 40 km	Cisco	pluggable	layered	Ethernet transceivers		1G and 100M SFP	sku ^MGB							
 MGBLX1	Cisco MGBLX1 1000BASE-LX SFP (mini-GBIC) — Singlemode, 10 km	Cisco	pluggable	layered	Ethernet transceivers		1G and 100M SFP	sku ^MGB							
 MGBSX1	Cisco MGBSX1 1000BASE-SX SFP (mini-GBIC) — Multimode, bis 550 m	Cisco	pluggable	layered	Ethernet transceivers		1G and 100M SFP	sku ^MGB							
 MGBT1	Cisco MGBT1 1000BASE-T SFP (mini-GBIC) — Kupfer (Cat-5e), 100 m	Cisco	pluggable	layered	Ethernet transceivers		1G and 100M SFP	sku ^MGB							
+NCS-FAB-OPT	Bundle of 96 CXP-100G-SR12	Transceiver Modules	pluggable	layered	Ethernet transceivers		40G / 100G CFP, CFP2, CPAK and CXP	sku ^NCS-FAB-OPT							
+NCS-FAB-OPT=	Bundle of 96 CXP-100G-SR12	Transceiver Modules	pluggable	layered	Ethernet transceivers		40G / 100G CFP, CFP2, CPAK and CXP	sku ^NCS-FAB-OPT							
+ONS-C2-WDM-DE-1HL	200G, 100G, WDM Digital CFP2 pluggable Licensed 100G only	Network Convergence System 5500 Series	tunable	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^ONS-(S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)							
+ONS-C2-WDM-DE-1HL=	200G, 100G, WDM Digital CFP2 pluggable Licensed 100G only	Network Convergence System 5500 Series	tunable	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^ONS-(S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)							
 ONS-CC-100G-LR4	Multi Rate CFP - LR4 - Commercial temp	ONS 15454 Series Multiservice Transport Platforms	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^ONS-(S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)							
 ONS-CC-100G-LR4=	100GE Multi-Rate CFP – LR4 – Commercial temp	Network Convergence System 2000 Series	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^ONS-(S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)							
 ONS-CC-100GE-LR4=	100GE Single rate CFP - LR4 - Commercial temp	Network Convergence System 2000 Series	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^ONS-(S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)							
@@ -791,10 +759,27 @@ ONS-CC-40G-LR4=	40-Gbps Multirate CFP – LR4 – Commercial temp	Network Conver
 ONS-CCC-100G-10=	CXP-CFP MPO cable, 10m long	Network Convergence System 2000 Series	cable	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^ONS-(S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)							
 ONS-CCC-100G-20=	CXP-CFP MPO cable, 20m long	Network Convergence System 2000 Series	cable	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^ONS-(S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)							
 ONS-CCC-100G-5=	CXP-CFP MPO cable, 5m long	Network Convergence System 2000 Series	cable	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^ONS-(S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)							
+ONS-CFP2-ACO-BDL	WDM CFP2 Pluggable Bundle - Licensed - No Feature	ONS 15454 Series Multiservice Transport Platforms	tunable	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^ONS-(S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)							
+ONS-CFP2-BUN-SK	1X CFP2-WDM - 1X LIC	ONS 15454 Series Multiservice Transport Platforms	tunable	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^ONS-(S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)							
+ONS-CFP2-BUN2-SK	Cisco ONS-CFP2-BUN2-SK	ONS 15454 Series Multiservice Transport Platforms	tunable	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^ONS-(S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)							
 ONS-CFP2-WDM	100G QPSK / 200G 16-QAM - WDM CFP2 Pluggable	Cisco	tunable	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^ONS-(S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)							
+ONS-CFP2-WDM-1KE	100G QPSK / 200G 16-QAM - WDM CFP2 Pluggable, Enhanced	ONS 15454 Series Multiservice Transport Platforms	tunable	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^ONS-(S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)							
+ONS-CFP2-WDM-1KE=	100G QPSK / 200G 16-QAM - WDM CFP2 Pluggable, Enhanced	Network Convergence System 2000 Series	tunable	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^ONS-(S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)							
+ONS-CFP2-WDM-1KL=	100G QPSK / 200G 16-QAM - WDM CFP2 Pluggable, C temp	Network Convergence System 2000 Series	tunable	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^ONS-(S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)							
 ONS-CFP2-WDM2	Cisco ONS-CFP2-WDM2 Analog-Coherent CFP2 der zweiten Generation — 100G/200G, NCS 2000	Cisco	tunable	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^ONS-(S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)							
+ONS-CFP2-WDM2=	100G QPSK/200G 16-QAM - WDM CFP2 Pluggable	Network Convergence System 2000 Series	tunable	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^ONS-(S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)							
+ONS-CFP2-WDM=	100G QPSK / 200G 16-QAM - WDM CFP2 Pluggable	Network Convergence System 4000 Series	tunable	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^ONS-(S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)							
 ONS-CFP2D-400G-C	400G CFP2 DCO Multi-rate WDM C Band Tuneable	Cisco	tunable	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^ONS-(S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)							
+ONS-CFP2D-400G-C=	400G CFP2 DCO Multi-rate WDM C Band Tuneable	Network Convergence System 2000 Series	tunable	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^ONS-(S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)							
+ONS-CFP2WDM-BUN	10 x ONS-CFP2-WDM Bundle	ONS 15454 Series Multiservice Transport Platforms	tunable	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^ONS-(S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)							
+ONS-CFP2WDM-BUN4	4 x ONS-CFP2-WDM Bundle	ONS 15454 Series Multiservice Transport Platforms	tunable	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^ONS-(S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)							
+ONS-CFP2WDM2-BUN	Cisco ONS-CFP2WDM2-BUN	ONS 15454 Series Multiservice Transport Platforms	tunable	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^ONS-(S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)							
+ONS-CFP2WDM2-BUN4	Cisco ONS-CFP2WDM2-BUN4	ONS 15454 Series Multiservice Transport Platforms	tunable	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^ONS-(S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)							
+ONS-CPAK-LR4=	100GE/OTU4 Multi-Rate CPAK Pluggable - LR4	Network Convergence System 4000 Series	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^ONS-(S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)							
+ONS-CPAK-SR10=	100GE/OTU4 Multi-Rate CPAK Pluggable - SR10	Network Convergence System 4000 Series	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^ONS-(S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)							
+ONS-CXP-100G-SR10=	CXP - 100GBASE-SR - Commercial Temp	ONS 15454 Series Multiservice Transport Platforms	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^ONS-(S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)							
 ONS-CXP2-SR25	Cisco ONS-CXP2-SR25 CXP — 300G (12×25G) SR, Multimode, 24-Faser-MPO	Cisco	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^ONS-(S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)							
+ONS-CXP2-SR25=	CXP2 Transceiver module - 12x25G - Fabric Interconnect	Network Convergence System 4000 Series	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^ONS-(S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)							
 ONS-GC-GE-LX	GBIC- 1000Base-LX, SC, SM	ONS 15454 Series Multiservice Transport Platforms	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^ONS-(S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)							
 ONS-GC-GE-LX=	1000BASE-LX, SC, SM, or MM	Network Convergence System 2000 Series	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^ONS-(S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)							
 ONS-GC-GE-SX	GBIC- 1000Base-SX, SC, MM	ONS 15454 Series Multiservice Transport Platforms	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^ONS-(S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)							
@@ -811,6 +796,7 @@ ONS-QSFP-4X10-MER=	4x10Gbps Multi-rate QSFP+, ER	Network Convergence System 4000
 ONS-QSFP-4X10-MLR=	100GBASE LR4 QSFP Transceiver, LC, 10km over SMF	Network Convergence System 4000 Series	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^ONS-(S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)							
 ONS-QSFP-OTDR=	ONS OTDR pluggable module	Network Convergence System 1000 Series	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^ONS-(S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)							
 ONS-QSFP28-LR4	Cisco ONS-QSFP28-LR4 100GBASE-LR4 QSFP28 — Singlemode, 10 km, LC, NCS 2000	Cisco	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^ONS-(S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)							
+ONS-QSFP28-LR4=	100Gbps Multi-rate QSFP28, LR	Network Convergence System 4000 Series	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^ONS-(S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)							
 ONS-SC+-10-CU1=	10G BASE-CU SFP+ Cable 1 Meter	ONS 15454 Series Multiservice Transport Platforms	cable	layered	Direct-attach and active optical cables		DAC and AOC cables (SFP+ / SFP28 / SFP56 / QSFP / QSFP-DD)	sku ^(?!Q(?:SFP|DD)?-?[0-9]+(?:SFP|X[0-9]|Q[0-9]|ZQ|S[0-9])).*(?<!E)CU[0-9]							
 ONS-SC+-10-CU3=	10G BASE-CU SFP+ Cable 3 Meter	ONS 15454 Series Multiservice Transport Platforms	cable	layered	Direct-attach and active optical cables		DAC and AOC cables (SFP+ / SFP28 / SFP56 / QSFP / QSFP-DD)	sku ^(?!Q(?:SFP|DD)?-?[0-9]+(?:SFP|X[0-9]|Q[0-9]|ZQ|S[0-9])).*(?<!E)CU[0-9]							
 ONS-SC+-10-CU5=	10G BASE-CU SFP+ Cable 5 Meter	ONS 15454 Series Multiservice Transport Platforms	cable	layered	Direct-attach and active optical cables		DAC and AOC cables (SFP+ / SFP28 / SFP56 / QSFP / QSFP-DD)	sku ^(?!Q(?:SFP|DD)?-?[0-9]+(?:SFP|X[0-9]|Q[0-9]|ZQ|S[0-9])).*(?<!E)CU[0-9]							
@@ -1293,6 +1279,8 @@ ONS-SE-622-1610	SFP - OC12/STM4, CWDM, 1610 nm, EXT	ONS 15454 Series Multiservic
 ONS-SE-622-1610=	SFP - OC-12/STM-4, CWDM, 1610 nm, EXT	Network Convergence System 2000 Series	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^ONS-(S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)							
 ONS-SE-G2F-LX=	GE/1-Gbps FC/2-Gbps FC/HDTV, 1310 nm, single-mode, EXT temperature range, LC connectors	ONS 15454 Series Multiservice Transport Platforms	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^ONS-(S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)							
 ONS-SE-G2F-SX=	GE/1-Gbps FC/2-Gbps FC, 850 nm, multimode, EXT temperature range, LC connectors	Network Convergence System 2000 Series	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^ONS-(S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)							
+ONS-SE-GE-BXD=	SFP – 1000BASE BX D – GE Bidirectional Downstream Ext Temp	Catalyst IE9300 Rugged Series	bidi	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^ONS-(S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)							
+ONS-SE-GE-BXU=	SFP – 1000BASE-BX U – GE Bidirectional Upstream – Ext Temp	Catalyst IE9300 Rugged Series	bidi	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^ONS-(S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)							
 ONS-SE-GE-ZX	1000BASE-ZX Gigabit Ethernet SFP, 1550, SM	ONS 15454 Series Multiservice Transport Platforms	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^ONS-(S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)							
 ONS-SE-GE-ZX=	SFP - 1000BASE-ZX Gigabit Ethernet, 1550, SM, Ext‑Temp	Network Convergence System 2000 Series	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^ONS-(S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)							
 ONS-SE-Z1	1000BASE-LX Gigabit Ethernet / OC-48/STM-16 IR / OC-12/-2 / STM-1/-4 SR transceiver module, 1310 nm, SFP, extended temperature range	ASR 900	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^ONS-(S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)							
@@ -1300,9 +1288,13 @@ ONS-SE-Z1=	SFP-OC-48IR1,12/3SR1, GE LX STM S-16.1, I-4, I-1, 1310nm EXT-TEMP	Net
 ONS-SE-ZE-EL	10/100/1000BASE-T SFP transceiver module for Category 5 copper wire, extended operating temperature range, RJ-45 connector	ASR 900	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^ONS-(S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)							
 ONS-SE-ZE-EL=	SFP – 10/100/1000 Ethernet BASE-T Multirate Copper RJ-45	Network Convergence System 4200 Series	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^ONS-(S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)							
 ONS-SI+-10G-ER	Cisco ONS-SI+-10G-ER 10GBASE-ER SFP+ — ER (Extended Reach, industriell), 1550 nm, 40 km	Cisco	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^ONS-(S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)							
+ONS-SI+-10G-ER=	SFP+ ER - Industrial Temp	Catalyst IE9300 Rugged Series	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^ONS-(S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)							
 ONS-SI+-10G-LR	Cisco ONS-SI+-10G-LR 10GBASE-LR SFP+ — LR (Long Reach, industriell), 1310 nm, 10 km	Cisco	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^ONS-(S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)							
+ONS-SI+-10G-LR=	SFP+ LR - Industrial Temp	Catalyst IE9300 Rugged Series	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^ONS-(S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)							
 ONS-SI+-10G-SR	SFP+ SR - Industrial Temp	Cisco	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^ONS-(S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)							
+ONS-SI+-10G-SR=	SFP+ SR - Industrial Temp	Catalyst IE9300 Rugged Series	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^ONS-(S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)							
 ONS-SI+-10G-ZR	SFP+-ZR- Industrial Temp	Cisco	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^ONS-(S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)							
+ONS-SI+-10G-ZR=	SFP+-ZR- Industrial Temp	Catalyst IE9300 Rugged Series	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^ONS-(S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)							
 ONS-SI-100-BXD=	Cisco ONS-SI-100-BXD=	Network Convergence System 2000 Series	bidi	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^ONS-(S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)							
 ONS-SI-100-BXU=	Cisco ONS-SI-100-BXU=	Network Convergence System 2000 Series	bidi	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^ONS-(S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)							
 ONS-SI-100-FX=	SFP - 100 Mbps Short Reach - 1310 nm - MM - LC, I‑TEMP	Network Convergence System 4200 Series	pluggable	layered	Optical networking pluggables (ONS / NCS 2000)		ONS 15454 / NCS 2000 pluggables	sku ^ONS-(S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CCC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2|C2-WDM-)							
@@ -1700,6 +1692,26 @@ QSFP100GMX1-2-BUN	Routed Optical Networking 2x100G C-Band MX1-A1 QSFP Bundle	Tra
 QSFP100GMX1-20-BUN	Routed Optical Networking 20x100G C-Band MX1-A1 QSFP Bundle	Transceiver Modules	tunable	layered	Coherent and digital-coherent pluggables		400G / 800G ZR, ZR+ and CFP2 DCO	sku ^QSFP100GMX							
 QSFP100GMX2-2-BUN	Routed Optical Networking 2x100G C-Band MX2-A1 QSFP Bundle	Transceiver Modules	tunable	layered	Coherent and digital-coherent pluggables		400G / 800G ZR, ZR+ and CFP2 DCO	sku ^QSFP100GMX							
 QSFP100GMX2-20-BUN	Routed Optical Networking 20x100G C-Band MX2-A1 QSFP Bundle	Transceiver Modules	tunable	layered	Coherent and digital-coherent pluggables		400G / 800G ZR, ZR+ and CFP2 DCO	sku ^QSFP100GMX							
+RPHY-S10G-20K-200=	Cisco RPHY-S10G-20K-200=	GS7000 Nodes	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
+RPHY-S10G-20K-210=	Cisco RPHY-S10G-20K-210=	GS7000 Nodes	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
+RPHY-S10G-20K-220=	Cisco RPHY-S10G-20K-220=	GS7000 Nodes	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
+RPHY-S10G-20K-230=	Cisco RPHY-S10G-20K-230=	GS7000 Nodes	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
+RPHY-S10G-20K-240=	Cisco RPHY-S10G-20K-240=	GS7000 Nodes	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
+RPHY-S10G-20K-250=	Cisco RPHY-S10G-20K-250=	GS7000 Nodes	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
+RPHY-S10G-20K-260=	Cisco RPHY-S10G-20K-260=	GS7000 Nodes	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
+RPHY-S10G-20K-270=	Cisco RPHY-S10G-20K-270=	GS7000 Nodes	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
+RPHY-S10G-20K-280=	Cisco RPHY-S10G-20K-280=	GS7000 Nodes	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
+RPHY-S10G-20K-290=	Cisco RPHY-S10G-20K-290=	GS7000 Nodes	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
+RPHY-S10G-20K-300=	Cisco RPHY-S10G-20K-300=	GS7000 Nodes	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
+RPHY-S10G-20K-310=	Cisco RPHY-S10G-20K-310=	GS7000 Nodes	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
+RPHY-S10G-20K-320=	Cisco RPHY-S10G-20K-320=	GS7000 Nodes	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
+RPHY-S10G-20K-330=	Cisco RPHY-S10G-20K-330=	GS7000 Nodes	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
+RPHY-S10G-20K-340=	Cisco RPHY-S10G-20K-340=	GS7000 Nodes	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
+RPHY-S10G-20K-350=	Cisco RPHY-S10G-20K-350=	GS7000 Nodes	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
+RPHY-S10G-20K-360=	Cisco RPHY-S10G-20K-360=	GS7000 Nodes	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
+RPHY-S10G-20K-370=	Cisco RPHY-S10G-20K-370=	GS7000 Nodes	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
+RPHY-S10G-20K-380=	Cisco RPHY-S10G-20K-380=	GS7000 Nodes	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
+RPHY-S10G-20K-390=	Cisco RPHY-S10G-20K-390=	GS7000 Nodes	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
 RPHY-S10G-20K-400=	Cisco RPHY-S10G-20K-400=	Transceiver Modules	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
 RPHY-S10G-20K-410=	Cisco RPHY-S10G-20K-410=	Transceiver Modules	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
 RPHY-S10G-20K-420=	Cisco RPHY-S10G-20K-420=	Transceiver Modules	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
@@ -1720,9 +1732,26 @@ RPHY-S10G-20K-560=	Cisco RPHY-S10G-20K-560=	Transceiver Modules	pluggable	layere
 RPHY-S10G-20K-570=	Cisco RPHY-S10G-20K-570=	Transceiver Modules	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
 RPHY-S10G-20K-580=	Cisco RPHY-S10G-20K-580=	Transceiver Modules	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
 RPHY-S10G-20K-590=	Cisco RPHY-S10G-20K-590=	Transceiver Modules	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
+RPHY-S10G-40K-200=	Cisco RPHY-S10G-40K-200=	GS7000 Nodes	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
+RPHY-S10G-40K-210=	Cisco RPHY-S10G-40K-210=	GS7000 Nodes	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
+RPHY-S10G-40K-220=	Cisco RPHY-S10G-40K-220=	GS7000 Nodes	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
+RPHY-S10G-40K-230=	Cisco RPHY-S10G-40K-230=	GS7000 Nodes	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
+RPHY-S10G-40K-240=	Cisco RPHY-S10G-40K-240=	GS7000 Nodes	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
+RPHY-S10G-40K-250=	Cisco RPHY-S10G-40K-250=	GS7000 Nodes	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
+RPHY-S10G-40K-260=	Cisco RPHY-S10G-40K-260=	GS7000 Nodes	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
+RPHY-S10G-40K-270=	Cisco RPHY-S10G-40K-270=	GS7000 Nodes	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
+RPHY-S10G-40K-280=	Cisco RPHY-S10G-40K-280=	GS7000 Nodes	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
+RPHY-S10G-40K-290=	Cisco RPHY-S10G-40K-290=	GS7000 Nodes	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
+RPHY-S10G-40K-300=	Cisco RPHY-S10G-40K-300=	GS7000 Nodes	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
+RPHY-S10G-40K-310=	Cisco RPHY-S10G-40K-310=	GS7000 Nodes	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
+RPHY-S10G-40K-320=	Cisco RPHY-S10G-40K-320=	GS7000 Nodes	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
 RPHY-S10G-40K-330=	Cisco RPHY-S10G-40K-330=	Transceiver Modules	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
+RPHY-S10G-40K-340=	Cisco RPHY-S10G-40K-340=	GS7000 Nodes	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
 RPHY-S10G-40K-350=	Cisco RPHY-S10G-40K-350=	Transceiver Modules	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
+RPHY-S10G-40K-360=	Cisco RPHY-S10G-40K-360=	GS7000 Nodes	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
 RPHY-S10G-40K-370=	Cisco RPHY-S10G-40K-370=	Transceiver Modules	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
+RPHY-S10G-40K-380=	Cisco RPHY-S10G-40K-380=	GS7000 Nodes	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
+RPHY-S10G-40K-390=	Cisco RPHY-S10G-40K-390=	GS7000 Nodes	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
 RPHY-S10G-40K-400=	Cisco RPHY-S10G-40K-400=	Transceiver Modules	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
 RPHY-S10G-40K-410=	Cisco RPHY-S10G-40K-410=	Transceiver Modules	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
 RPHY-S10G-40K-420=	Cisco RPHY-S10G-40K-420=	Transceiver Modules	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
@@ -1743,6 +1772,26 @@ RPHY-S10G-40K-560=	Cisco RPHY-S10G-40K-560=	Transceiver Modules	pluggable	layere
 RPHY-S10G-40K-570=	Cisco RPHY-S10G-40K-570=	Transceiver Modules	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
 RPHY-S10G-40K-580=	Cisco RPHY-S10G-40K-580=	Transceiver Modules	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
 RPHY-S10G-40K-590=	Cisco RPHY-S10G-40K-590=	Transceiver Modules	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
+RPHY-S10G-80K-200=	Cisco RPHY-S10G-80K-200=	GS7000 Nodes	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
+RPHY-S10G-80K-210=	Cisco RPHY-S10G-80K-210=	GS7000 Nodes	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
+RPHY-S10G-80K-220=	Cisco RPHY-S10G-80K-220=	GS7000 Nodes	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
+RPHY-S10G-80K-230=	Cisco RPHY-S10G-80K-230=	GS7000 Nodes	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
+RPHY-S10G-80K-240=	Cisco RPHY-S10G-80K-240=	GS7000 Nodes	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
+RPHY-S10G-80K-250=	Cisco RPHY-S10G-80K-250=	GS7000 Nodes	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
+RPHY-S10G-80K-260=	Cisco RPHY-S10G-80K-260=	GS7000 Nodes	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
+RPHY-S10G-80K-270=	Cisco RPHY-S10G-80K-270=	GS7000 Nodes	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
+RPHY-S10G-80K-280=	Cisco RPHY-S10G-80K-280=	GS7000 Nodes	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
+RPHY-S10G-80K-290=	Cisco RPHY-S10G-80K-290=	GS7000 Nodes	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
+RPHY-S10G-80K-300=	Cisco RPHY-S10G-80K-300=	GS7000 Nodes	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
+RPHY-S10G-80K-310=	Cisco RPHY-S10G-80K-310=	GS7000 Nodes	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
+RPHY-S10G-80K-320=	Cisco RPHY-S10G-80K-320=	GS7000 Nodes	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
+RPHY-S10G-80K-330=	Cisco RPHY-S10G-80K-330=	GS7000 Nodes	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
+RPHY-S10G-80K-340=	Cisco RPHY-S10G-80K-340=	GS7000 Nodes	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
+RPHY-S10G-80K-350=	Cisco RPHY-S10G-80K-350=	GS7000 Nodes	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
+RPHY-S10G-80K-360=	Cisco RPHY-S10G-80K-360=	GS7000 Nodes	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
+RPHY-S10G-80K-370=	Cisco RPHY-S10G-80K-370=	GS7000 Nodes	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
+RPHY-S10G-80K-380=	Cisco RPHY-S10G-80K-380=	GS7000 Nodes	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
+RPHY-S10G-80K-390=	Cisco RPHY-S10G-80K-390=	GS7000 Nodes	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
 RPHY-S10G-80K-400=	Cisco RPHY-S10G-80K-400=	Transceiver Modules	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
 RPHY-S10G-80K-410=	Cisco RPHY-S10G-80K-410=	Transceiver Modules	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
 RPHY-S10G-80K-420=	Cisco RPHY-S10G-80K-420=	Transceiver Modules	pluggable	layered	Cable access and PON optics		Remote PHY SFP+ optics	sku ^RPHY-							
@@ -1998,10 +2047,12 @@ VIP-SFP-1GE-SX	Small form-factor pluggable transceiver - 1GE SX	1000	pluggable	l
 VIP-SFP-1GE-SX=	Small form-factor pluggable transceiver - 1GE SX	1000	pluggable	layered	Ethernet transceivers		1G and 100M SFP	sku ^VIP-SFP							
 WDM-XENPAK-REC	Cisco WDM-XENPAK-REC Receive-Only WDM XENPAK — DWDM-Empfangsmodul, Singlemode	Cisco	pluggable	layered	WDM transceivers		DWDM SFP / SFP+ / XFP / X2 / XENPAK	sku ^WDM-XENPAK							
 WS-G5483	1000BASE-T GBIC	Cisco	pluggable	layered	Ethernet transceivers		GBIC (legacy)	sku ^WS-G548							
+WS-G5483=	1000BASE-T GBIC	Catalyst 6500	pluggable	layered	Ethernet transceivers		GBIC (legacy)	sku ^WS-G548							
 WS-G5484	Cisco WS-G5484 1000BASE-SX GBIC — Multimode, 850 nm, 550 m, SC	Cisco	pluggable	layered	Ethernet transceivers		GBIC (legacy)	sku ^WS-G548							
 WS-G5486	Cisco WS-G5486 1000BASE-LX/LH GBIC — Singlemode, 1310 nm, 10 km, SC	Cisco	pluggable	layered	Ethernet transceivers		GBIC (legacy)	sku ^WS-G548							
 WS-G5486=	Cisco 1000BASE-LX/LH GBIC transceiver module for SMF and MMF, 1300-nm wavelength, commercial operating temperature range, 32°F to 158°F (0°C to 70°C)	Transceiver Modules	pluggable	layered	Ethernet transceivers		GBIC (legacy)	sku ^WS-G548							
 WS-G5487	Cisco WS-G5487 1000BASE-ZX GBIC — Singlemode, 1550 nm, bis 100 km, SC	Cisco	pluggable	layered	Ethernet transceivers		GBIC (legacy)	sku ^WS-G548							
+WSP-Q40G-LR4L	Cisco WSP-Q40G-LR4L	Nexus 5000	pluggable	layered	Ethernet transceivers		40G QSFP+	sku ^WSP-Q40G							
 WSP-Q40GLR4L	Cisco WSP-Q40GLR4L 40GBASE-LR4-Lite QSFP+ Modul — 1310 nm SMF, Duplex LC, 2 km, DOM	Cisco	pluggable	layered	Ethernet transceivers		40G QSFP+	sku ^WSP-Q40G							
 WSP-Q40GLRL	Cisco WSP-Q40GLRL	Transceiver Modules	pluggable	layered	Ethernet transceivers		40G QSFP+	sku ^WSP-Q40G							
 X2-10G-DWDM	32 wavelengths over single strand of single-mode fiber; 80 km	Catalyst 6500	pluggable	layered	Ethernet transceivers		10G X2 / XENPAK / XFP (legacy)	sku ^X2-							true

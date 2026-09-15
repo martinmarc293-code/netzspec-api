@@ -72,7 +72,13 @@ if (dump) {
 type Plan = { sku: string; category: string; action: string; to: string; reason?: string | null; run_id?: number | string | null };
 const planFile = path.join(REPO_ROOT, "data", "reference", "kind-layer-plans-2026-09-13.json");
 const allPlans: Plan[] = fs.existsSync(planFile) ? JSON.parse(fs.readFileSync(planFile, "utf8")) as Plan[] : [];
-const planOf = new Map<string, Plan>(allPlans.map((x) => [`${x.category}|${x.sku.trim().toUpperCase()}`, x]));
+// ONLY PENDING PLANS PARK A ROW. A plan that has RUN is history, and keying on it parks a row that a LATER plan legitimately brought
+// back: SPA-DSP, SPA-DSP= and SPA-WMA-K9 carry both routers -> interfaces-modules (run #1068, "one home for NIM/SPA/EPA cards") and
+// interfaces-modules -> routers (run #1174, A.3 rule 1 "a platform-bound card lives with its platform", the later re-audit decision), so
+// after the second run they sat in routers reading "pending move to interfaces-modules" with no series — and their own SKU rule read as
+// DEAD because no layered row matched it. A row still sitting in a category whose plan has run is reported where it belongs, by
+// plansRanButStillInKind in the cup ledger and the completeness report (src/core/kindLayerPlans.ts), not by parking it here.
+const planOf = new Map<string, Plan>(allPlans.filter((x) => x.run_id === null).map((x) => [`${x.category}|${x.sku.trim().toUpperCase()}`, x]));
 // FAMILY CARRIERS (re-audit decisions, operator, 15 Sep 2026): the rows that carry their family's facts or document — bare model rows
 // (Q-23) and regional placeholders (Q-10 vs Q-23) — keep their rows and are flagged, never orderable. Keyed by SKU: a carrier keeps its
 // flag when a plan moves it to its family's category.

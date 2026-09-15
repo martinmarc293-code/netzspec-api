@@ -103,43 +103,10 @@ sku	name	series_label	kind	bucket	product_line	product_family	series	placed_by	d
 715W-P	Cisco 715W-P	Catalyst 9300	power	pending_plan								class non_product			
 715WAC	Cisco 715WAC	Catalyst 3850	power	pending_plan								class non_product			
 715WAC-P	Cisco 715WAC-P	Catalyst 9300	power	pending_plan								class non_product			
-76-ES+XT-2TG3C	Cisco 7600 Series ES Plus XT, LAN/WAN PHY, OTN/G.709, 2x10GE, XFP, DFC3C	Catalyst 6500	linecard	pending_plan								move routers			
-76-ES+XT-2TG3CXL	Cisco 7600 Series ES Plus XT, LAN/WAN PHY, OTN/G.709, 2x10GE, XFP, DFC3CXL	Catalyst 6500	linecard	pending_plan								move routers			
-76-ES+XT-4TG3C	Cisco 7600 Series ES Plus XT, LAN/WAN PHY, OTN/G.709, 4x10GE, XFP, DFC3C	Catalyst 6500	linecard	pending_plan								move routers			
-76-ES+XT-4TG3CXL	Cisco 7600 Series ES Plus XT, LAN/WAN PHY, OTN/G.709, 4x10GE, XFP, DFC3CXL	Catalyst 6500	linecard	pending_plan								move routers			
-7600-ES+2TG3C	Cisco 7600 Series Ethernet Services Plus 20G Line Card, 2-port 10 GE XFP and DFC-3C	Catalyst 6500	linecard	pending_plan								move routers			
-7600-ES+2TG3CXL	Cisco 7600 Series Ethernet Services Plus 20G Line Card, 2-port 10 GE XFP and DFC-3CXL	Catalyst 6500	linecard	pending_plan								move routers			
-7600-ES+4TG3C	Cisco 7600 Series Ethernet Services Plus 40G Line Card, 4-port 10 GE XFP and DFC-3C	Catalyst 6500	linecard	pending_plan								move routers			
-7600-ES+4TG3CXL	Cisco 7600 Series Ethernet Services Plus 40G Line Card, 4-port 10 GE XFP and DFC-3CXL	Catalyst 6500	linecard	pending_plan								move routers			
 7600-SIP-400	Cisco 7600 Series SPA Interface Processor-400	Catalyst 6500	linecard	layered	Catalyst		Catalyst 6500	sku ^7600-S(IP|SC)-400							
 7600-SIP-400=	Cisco 7600 Series SPA Interface Processor-400, spare	Catalyst 6500	linecard	layered	Catalyst		Catalyst 6500	sku ^7600-S(IP|SC)-400							
 7600-SSC-400	Cisco 7600 Series/Catalyst 6500 Series Services SPA Carrier-400	Catalyst 6500	linecard	layered	Catalyst		Catalyst 6500	sku ^7600-S(IP|SC)-400							
-7603S-S32-10G-B-P	Cisco 7603S Chassis, 3-slot, SUP32-2X10GE-3B, PS	Catalyst 6500	switch	pending_plan						sw.issue.router	router (Cisco 7600)	move routers			
-7603S-S32-10G-B-R	Cisco 7603S Chassis, 3-slot, Redundant SUP32-2X10GE-3B, PS	Catalyst 6500	switch	pending_plan						sw.issue.router	router (Cisco 7600)	move routers			
-7603S-S32-8G-B-P	Cisco 7603S Chassis, 3-slot, SUP32-8GE-3B, PS	Catalyst 6500	switch	pending_plan						sw.issue.router	router (Cisco 7600)	move routers			
-7603S-S32-8G-B-R	Cisco 7603S Chassis, 3-slot, Redundant SUP32-8GE-3B, PS	Catalyst 6500	switch	pending_plan						sw.issue.router	router (Cisco 7600)	move routers			
-7604-S323B-10G-P	Cisco 7604 Chassis, 4-slot, SUP32-2X10GE-3B, PS	Catalyst 6500	switch	pending_plan						sw.issue.router	router (Cisco 7600)	move routers			
-7604-S323B-10G-R	Cisco 7604 Chassis, 4-slot, Redundant SUP32-2X10GE-3B and PS	Catalyst 6500	switch	pending_plan						sw.issue.router	router (Cisco 7600)	move routers			
-7604-S323B-8G-P	Cisco 7604 Chassis, 4-slot, SUP32-8GE-3B, PS	Catalyst 6500	switch	pending_plan						sw.issue.router	router (Cisco 7600)	move routers			
-7604-S323B-8G-R	Cisco 7604 Chassis, 4-slot, Redundant SUP32-8GE-3B and PS	Catalyst 6500	switch	pending_plan						sw.issue.router	router (Cisco 7600)	move routers			
-7606S-S32-10G-B-P	Cisco 7606S Chassis, 6-slot, SUP32-2X10GE-3B, PS	Catalyst 6500	switch	pending_plan						sw.issue.router	router (Cisco 7600)	move routers			
-7606S-S32-10G-B-R	Cisco 7606S Chassis, 6-slot, Redundant SUP32-2X10GE-3B, PS	Catalyst 6500	switch	pending_plan						sw.issue.router	router (Cisco 7600)	move routers			
-7606S-S32-8G-B-P	Cisco 7606S Chassis, 6-slot, SUP32-8GE-3B, PS	Catalyst 6500	switch	pending_plan						sw.issue.router	router (Cisco 7600)	move routers			
-7606S-S32-8G-B-R	Cisco 7606S Chassis, 6-slot, Redundant SUP32-8GE-3B,PS	Catalyst 6500	switch	pending_plan						sw.issue.router	router (Cisco 7600)	move routers			
-7609S-S32-10G-B-P	Cisco 7609S Chassis, 9-slot, SUP32-2X10GE-3B, PS	Catalyst 6500	switch	pending_plan						sw.issue.router	router (Cisco 7600)	move routers			
-7609S-S32-10G-B-R	Cisco 7609S Chassis, 9-slot,Redundant SUP32-2X10GE-3B, PS	Catalyst 6500	switch	pending_plan						sw.issue.router	router (Cisco 7600)	move routers			
-7609S-S32-8G-B-P	Cisco 7609S Chassis, 9-slot, SUP32-8GE-3B, PS	Catalyst 6500	switch	pending_plan						sw.issue.router	router (Cisco 7600)	move routers			
-7609S-S32-8G-B-R	Cisco 7609S Chassis, 9-slot, Redundant SUP32-8GE-3B, PS	Catalyst 6500	switch	pending_plan						sw.issue.router	router (Cisco 7600)	move routers			
-7613-S323B-10G-P	Cisco 7613 Chassis, 13-slot, SUP32-2X10GE-3B, PS	Catalyst 6500	switch	pending_plan						sw.issue.router	router (Cisco 7600)	move routers			
-7613-S323B-10G-R	Cisco7613 Chassis, 13-slot, Redundant SUP32-2X10GE-3B and PS	Catalyst 6500	switch	pending_plan						sw.issue.router	router (Cisco 7600)	move routers			
-7613-S323B-8G-P	Cisco 7613 Chassis, 13-slot, SUP32-8GE-3B, PS	Catalyst 6500	switch	pending_plan						sw.issue.router	router (Cisco 7600)	move routers			
-7613-S323B-8G-R	Cisco 7613 Chassis, 13-slot, Redundant SUP32-8GE-3B and PS	Catalyst 6500	switch	pending_plan						sw.issue.router	router (Cisco 7600)	move routers			
-8K-2RU-2P-KIT	Cisco installation kit 2 posts	Nexus 9000	mechanical	pending_plan								move routers			
-8K-2RU-2P-KIT=	Cisco installation kit 2 posts, spare	Nexus 9000	mechanical	pending_plan								move routers			
-8K-2RU-KIT-L	Cisco 2RU fixed system installation kit long	Nexus 9000	mechanical	pending_plan								move routers			
-8K-2RU-KIT-L=	Cisco 2RU fixed system installation kit long, spare	Nexus 9000	mechanical	pending_plan								move routers			
-8K-2RU-KIT-S	Cisco 2RU fixed system installation kit short	Nexus 9000	mechanical	pending_plan								move routers			
-8K-2RU-KIT-S=	Cisco 2RU fixed system installation kit short, spare	Nexus 9000	mechanical	pending_plan								move routers			
+7600-SSC-400=	Cisco 7600/Catalyst 6500 Services SPA Carrier Card	Shared Port Adapters/SPA Interface Processors	linecard	layered	Catalyst		Catalyst 6500	sku ^7600-S(IP|SC)-400							
 9300-GX2A/B	Cisco 9300-GX2A/B	Nexus 9000	switch	pending_plan						sw.issue.placeholder	datasheet cell / bare family name (not a PID)	class non_product			
 9364E-SG2	Cisco 9364E-SG2	Nexus 9000	switch	layered	Nexus	Nexus 9000	Nexus 9300	sku ^N?9364E	datacenter	series:Nexus 9300					
 97434	Cisco 97434	Catalyst 9600	switch	pending_plan						sw.issue.placeholder	datasheet cell / bare family name (not a PID)	class non_product			
@@ -150,17 +117,18 @@ sku	name	series_label	kind	bucket	product_line	product_family	series	placed_by	d
 97451	Cisco 97451	Catalyst 9600	switch	pending_plan						sw.issue.placeholder	datasheet cell / bare family name (not a PID)	class non_product			
 ACC-KIT-T1=	Accessory kit for Cisco Catalyst 3650 Series	Catalyst 9200	mechanical	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^ACC-KIT (name Catalyst 3650 Series)							
 ACC-RPS2300=	Spare Accessory Kit for Cisco Redundant Power System 2300	2960-Plus	mechanical	layered	Catalyst		Redundant Power System	sku RPS2300							
+ACE30-BASE-04-K9	ACE30 Module with 4G, 1G Comp, 1K SSL TPS and 5VC	Services Modules	module	layered	Catalyst		Catalyst 6500	sku ^ACE[0-9]{2}-							
+ACE30-MOD-04-K9	ACE30 Module with 4G, 4G Comp, 30K SSL TPS and 250VC	Services Modules	module	layered	Catalyst		Catalyst 6500	sku ^ACE[0-9]{2}-							
+ACE30-MOD-08-K9	ACE30 Module with 8G, 6G Comp, 30K SSL TPS and 250VC	Services Modules	module	layered	Catalyst		Catalyst 6500	sku ^ACE[0-9]{2}-							
+ACE30-MOD-16-K9	ACE30 Module with 16G, 6G Comp, 30K SSL TPS and 250VC	Services Modules	module	layered	Catalyst		Catalyst 6500	sku ^ACE[0-9]{2}-							
+ACE30-MOD-K9	Application Control Engine 30 Hardware	Services Modules	module	layered	Catalyst		Catalyst 6500	sku ^ACE[0-9]{2}-							
+ACE30-MOD-K9=	Application Control Engine 30 Hardware	Services Modules	module	layered	Catalyst		Catalyst 6500	sku ^ACE[0-9]{2}-							
+ACE30-SYS-AC-04-K9	ACE30 16G 6504-E 720-10G-3C 6716 AC System	Services Modules	switch	layered	Catalyst		Catalyst 6500	sku ^ACE[0-9]{2}-	core-agg	series:Catalyst 6500					
+ACE30-SYS-DC-04-K9	ACE30 16G 6504-E 720-10G-3C 6716 DC System	Services Modules	switch	layered	Catalyst		Catalyst 6500	sku ^ACE[0-9]{2}-	core-agg	series:Catalyst 6500					
 ACI-C9336-APIC-B1	ACI Bundle with 2 9336 and APIC	Nexus 9000	bundle	layered	Nexus	Nexus 9000	Nexus 9300	sku ^ACI-C93							
 ACI-C9336-B3-EAL	ACI Bundle with 2 9336, 2 9396PX Leafs, 4/8QSFP and APIC Clu	Nexus 9000	bundle	layered	Nexus	Nexus 9000	Nexus 9300	sku ^ACI-C93							
 ACI-C9336-BL-96PX	ACI Lab Bun with 1 9336, 2 Fiber Leafs, 2/4 QSFP and 1 APIC	Nexus 9000	bundle	layered	Nexus	Nexus 9000	Nexus 9300	sku ^ACI-C93							
 ACI-C9336-BL-EAL	ACI Lab Bun with 1 9336, 2 9396PX Leafs, 2/4 QSFP and 1 APIC	Nexus 9000	bundle	layered	Nexus	Nexus 9000	Nexus 9300	sku ^ACI-C93							
-AIR-AP1131AG	Cisco Aironet 1130AG Series access point	Catalyst 6500	switch	pending_plan						sw.issue.wireless	access point / WLSE	move wireless			
-AIR-AP1210	Cisco AIR-AP1210	Catalyst 6500	switch	pending_plan						sw.issue.wireless	access point / WLSE	move wireless			
-AIR-AP1230A	Cisco AIR-AP1230A	Catalyst 6500	switch	pending_plan						sw.issue.wireless	access point / WLSE	move wireless			
-AIR-AP1230B	Cisco AIR-AP1230B	Catalyst 6500	switch	pending_plan						sw.issue.wireless	access point / WLSE	move wireless			
-AIR-AP1232AG	Cisco Aironet 1230AG Series access point	Catalyst 6500	switch	pending_plan						sw.issue.wireless	access point / WLSE	move wireless			
-AIR-AP1242AG	Cisco Aironet 1240AG Series access point	Catalyst 6500	switch	pending_plan						sw.issue.wireless	access point / WLSE	move wireless			
-AIR-BR1310G	Cisco Aironet 1300 Series outdoor access point/bridge (Supported in access point mode only)	Catalyst 6500	switch	pending_plan						sw.issue.wireless	access point / WLSE	move wireless			
 ASE2	Cisco ASE2	Nexus 9000	switch	pending_plan						sw.issue.placeholder	datasheet cell / bare family name (not a PID)	class non_product			
 B-3400EG12-T	ME3400 System, 10x1G RTU License and ANA	ME 3400E Ethernet Access	switch	layered	Metro Ethernet		ME 3400	sku ^B-3400	access	series:ME 3400					
 B3140H	Cisco B3140H	Nexus 9000	switch	pending_plan						sw.issue.placeholder	datasheet cell / bare family name (not a PID)	class non_product			
@@ -752,6 +720,7 @@ C4948-BKT-KIT=	Cisco Catalyst 4900 front and rear mount brackets	4900	mechanical
 C4948-BKT-REC=	C49xx front 2inch rec mounting brackets	4900	mechanical	layered	Catalyst		Catalyst 4900	sku ^(WS-)?C49[0-9]{2}							
 C4948-REAR-BKT=	C49xx rear mount brackets	4900	mechanical	layered	Catalyst		Catalyst 4900	sku ^(WS-)?C49[0-9]{2}							
 C4948E-ACC-KIT=	49xxE spare accessory kit	4900	mechanical	layered	Catalyst		Catalyst 4900	sku ^(WS-)?C49[0-9]{2}							
+C4948E-BKT-KIT=	C49xxE front and rear mount brackets	Catalyst 9163	mechanical	layered	Catalyst		Catalyst 4900	sku ^(WS-)?C49[0-9]{2}							
 C4948E-BKT-REC=	C49xxE front 2inch rec mounting brackets	4900	mechanical	layered	Catalyst		Catalyst 4900	sku ^(WS-)?C49[0-9]{2}							
 C4948E-REAR-BKT=	C49xx high performance rear mount brackets	4900	mechanical	layered	Catalyst		Catalyst 4900	sku ^(WS-)?C49[0-9]{2}							
 C4K-SLOT-CVR-E	Catalyst 4500 E-Series Family Slot Cover	Catalyst 4500	mechanical	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	label Catalyst 4500						name: 4500	
@@ -783,6 +752,8 @@ C6-MFG-TEST-SW2	Test Only-Not for Customer Use	Catalyst 6500	switch	pending_plan
 C6-MFG-TEST-SW3	Test Only-Not for Customer Use	Catalyst 6500	switch	pending_plan						sw.issue.tracking	tracking/option PID (not a product)	class non_product			
 C6-MFG-TEST-SW4	Test Only-Not for Customer Use	Catalyst 6500	switch	pending_plan						sw.issue.tracking	tracking/option PID (not a product)	class non_product			
 C6-MFG-TEST-SW5	Test Only-Not for Customer Use	Catalyst 6500	switch	pending_plan						sw.issue.tracking	tracking/option PID (not a product)	class non_product			
+C6504E-ACE30-4-K9	ACE30 4G 6504-E 720-10G-3C Bundle	Services Modules	switch	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}	core-agg	series:Catalyst 6500					
+C6509E-ACE30-8X-K9	ACE30 8G 6509-E 720-10G-3CXL Bundle	Services Modules	switch	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}	core-agg	series:Catalyst 6500					
 C6800-16P10G	Catalyst 6800 16-port 10GE with integrated DFC4	Cat6500 Modules	linecard	layered	Catalyst	Catalyst 6800	Catalyst 6807-XL / 6880-X / 6840-X	sku ^(C1-)?C68[0-9]{2}							
 C6800-16P10G++=	Catalyst 6800 16 port 10GE with integrated DFC4	Catalyst 6500	linecard	layered	Catalyst	Catalyst 6800	Catalyst 6807-XL / 6880-X / 6840-X	sku ^(C1-)?C68[0-9]{2}							
 C6800-16P10G-XL	Catalyst 6800 16-port 10GE with integrated DFC4-XL	Cat6500 Modules	linecard	layered	Catalyst	Catalyst 6800	Catalyst 6807-XL / 6880-X / 6840-X	sku ^(C1-)?C68[0-9]{2}							
@@ -1536,12 +1507,19 @@ CAB-7KACR=	Cisco CAB-7KACR=	Catalyst 4500	power-cord	layered	Catalyst	(shared ac
 CAB-7KACSXX	AC power cord (Switzerland)	4900	power-cord	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label 4900)							
 CAB-7KACU=	Cisco CAB-7KACU=	Catalyst 4500	power-cord	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label Catalyst 4500)							
 CAB-9K16A-AUS	Power cord 250VAC 16A, Australia, source plug AU20S3	C9610	power-cord	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label C9610)							
+CAB-9K16A-AUS=	Power cord 250VAC 16A, Australia, source plug AU20S3 , Spare	MDS 9700 Series Multilayer Directors	power-cord	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label C9610)							
 CAB-9K16A-CH	Power cord 250VAC 16A, China, source plug GB16C	C9610	power-cord	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label C9610)							
+CAB-9K16A-CH=	Power cord 250VAC 16A, China, source plug GB16C , Spare	MDS 9700 Series Multilayer Directors	power-cord	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label C9610)							
 CAB-9K16A-EU	Power cord 250VAC 16A, Europe, source plug CEE 7/7	C9610	power-cord	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label C9610)							
+CAB-9K16A-EU=	Power cord 250VAC 16A, Europe, source plug CEE 7/7 , Spare	MDS 9700 Series Multilayer Directors	power-cord	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label C9610)							
 CAB-9K16A-INT	Power cord 250VAC 16A, international, source plug IEC 309	C9610	power-cord	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label C9610)							
+CAB-9K16A-INT=	Power cord 250VAC 16A, international, source plug IEC 309 , Spare	MDS 9700 Series Multilayer Directors	power-cord	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label C9610)							
 CAB-9K16A-SW	Power cord 250VAC 16A, Switzerland, source plug SEV 5934-2 Type 23	C9610	power-cord	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label C9610)							
+CAB-9K16A-SW=	Power cord 250VAC 16A, Switzerland, source plug SEV 5934-2 Type 23 , Spare	MDS 9700 Series Multilayer Directors	power-cord	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label C9610)							
 CAB-9K16A-US2	Power cord 250VAC 16A, United States/Japan, source plug NEMA L6-20	C9610	power-cord	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label C9610)							
+CAB-9K16A-US2=	Power cord 250VAC 16A, United States/Japan, source plug NEMA L6-20 , Spare	MDS 9700 Series Multilayer Directors	power-cord	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label C9610)							
 CAB-9K20A-NA	Power Cord, 125VAC 20A NEMA 5-20 Plug, North America/Japan	C9610	power-cord	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label C9610)							
+CAB-9K20A-NA=	Power Cord, 125VAC 20A NEMA 5-20 Plug, North America/Japan , Spare	MDS 9700 Series Multilayer Directors	power-cord	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label C9610)							
 CAB-A3112-C19-AUS	Cisco CAB-A3112-C19-AUS	Catalyst 4500	power-cord	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label Catalyst 4500)							
 CAB-AC	AC Power Cord (US, Canada), C13, NEMA 5-15P, 2.5m	2960-Plus	power-cord	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label 2960-Plus)							
 CAB-AC-16A-AUS	Power Cord, 250 VAC, 16A, Australia C19	Nexus 9000	power-cord	layered	Nexus	(shared across the line)	Nexus shared parts	accessory ^CAB- (label Nexus 9000)							
@@ -1565,7 +1543,6 @@ CAB-AC-2500W-US1	Power Cord 250VAC 16A, Japan and North America (nonlocking) 200
 CAB-AC-250V/13A	North America, NEMA L6-20 250V/20A plug-IEC320/C13 receptacle (2.0 meter)	Nexus 5000	power-cord	layered	Nexus	(shared across the line)	Nexus shared parts	accessory ^CAB- (label Nexus 5000)							
 CAB-AC-C19-TW	Power Cord, 250 V, 16A, C19, Taiwan, more	Nexus 9000	power-cord	layered	Nexus	(shared across the line)	Nexus shared parts	accessory ^CAB- (label Nexus 9000)							
 CAB-AC-C6K-TWLK	Power Cord, 250 VAC, 16A, twist lock NEMA L6-20 plug, United States	Power Supply	power-cord	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label Power Supply)							
-CAB-AC-L620-C13=	North America, NEMA L6-20-C13 (2.0 meter)	Nexus 5000	power-cord	pending_plan								move routers			
 CAB-AC-LA	Power Cord,110V, Left Angle	3560-CX	power-cord	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label 3560-CX)							
 CAB-AC15A-90L-US	15A AC Pwr Cord, left-angle (United States)	2960	power-cord	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label 2960)							
 CAB-AC15A-90L-USA	15A AC power cord, right angle (United States)	2960-XR	power-cord	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label 2960-XR)							
@@ -1590,6 +1567,7 @@ CAB-ACS	AC Power Cord (Switzerland), C13, IEC 60884-1, 2.5m	2960	power-cord	laye
 CAB-ACS-16	AC Power Cord (Swiss) 16A	Nexus 9000	power-cord	layered	Nexus	(shared across the line)	Nexus shared parts	accessory ^CAB- (label Nexus 9000)							
 CAB-ACS-RA	AC Power Cord for Switzerland, Right Angle	2960	power-cord	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label 2960)							
 CAB-ACSA	AC Power Cord (South Africa), C15, SABS 164-1, 1.8m	2960-Plus	power-cord	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label 2960-Plus)							
+CAB-ACSA=	^AC Power Cord (South Africa), C13, BS 546, 1.8m	2900 ISR	power-cord	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label 2960-Plus)							
 CAB-ACU	AC Power Cord (UK), C13, BS 1363, 2.5m	2960	power-cord	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label 2960)							
 CAB-ACU-LA	Power Cord UK, Left Angle	3560-CX	power-cord	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label 3560-CX)							
 CAB-ACU-RA	AC Power Cord UK, Right Angle	2960	power-cord	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label 2960)							
@@ -1598,13 +1576,17 @@ CAB-BS1363-C15-UK	AC power cord (United Kingdom)	4900	power-cord	layered	Catalys
 CAB-BS1363-C19-UK=	Cisco CAB-BS1363-C19-UK=	Catalyst 4500	power-cord	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label Catalyst 4500)							
 CAB-BS546-C15-SA	AC power cord (South Africa)	4900	power-cord	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label 4900)							
 CAB-C13-C14-AC	Power cord, C13 to C14 (recessed receptacle), 10A (3 meter)	Nexus 9000	power-cord	layered	Nexus	(shared across the line)	Nexus shared parts	accessory ^CAB- (label Nexus 9000)							
+CAB-C13-C14-AC=	Cisco CAB-C13-C14-AC=	UCS C-Series	power-cord	layered	Nexus	(shared across the line)	Nexus shared parts	accessory ^CAB- (label Nexus 9000)							
 CAB-C15-CBN	Cabinet Jumper Power Cord, 250 VAC 13A, C14-C15 Connectors, Spare	C9610	power-cord	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label C9610)							
 CAB-C15-CBN-JP	Japan Cabinet Jumper Power Cord, 250 VAC 12A, C14-C15	C9610	power-cord	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label C9610)							
 CAB-C15-CBN-JP=	Japan Cabinet Jumper Power Cord, 250 VAC 13A, C14-C15	2960-XR	power-cord	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label C9610)							
+CAB-C15-CBN=	Cabinet Jumper Power Cord, 250 VAC 13A, C14-C15 Connectors, spare	MDS 9300 Series Multilayer Fabric	power-cord	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label C9610)							
 CAB-C15-ISR	Power cord for Israel	2960-XR	power-cord	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label 2960-XR)							
 CAB-C19-CBN	Cabinet Jumper Power Cord, 250 VAC 16A, C20-C19 Connectors	C9610	power-cord	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label C9610)							
+CAB-C19-CBN=	Cabinet Jumper Power Cord, 250 VAC 16A, C20-C19 Connectors , Spare	MDS 9700 Series Multilayer Directors	power-cord	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label C9610)							
 CAB-C2316-C15-IT	AC power cord CD12 (Italy)	4900	power-cord	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label 4900)							
 CAB-C2316-C19-IT	CEI 23-16 to IEC-C19 14ft, Italy	Nexus 9000	power-cord	layered	Nexus	(shared across the line)	Nexus shared parts	accessory ^CAB- (label Nexus 9000)							
+CAB-C2316-C19-IT=	Cisco CAB-C2316-C19-IT=	UCS C-Series	power-cord	layered	Nexus	(shared across the line)	Nexus shared parts	accessory ^CAB- (label Nexus 9000)							
 CAB-CAT5E/6E	CAT5E cables, various lengths	Nexus 9000	cable	pending_plan								class non_product			
 CAB-CEE77-C15-EU	AC power cord (Europe)	4900	power-cord	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label 4900)							
 CAB-CEE77-C19-EU	Cisco CAB-CEE77-C19-EU	Catalyst 4500	power-cord	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label Catalyst 4500)							
@@ -1612,6 +1594,7 @@ CAB-CON-C4K-RJ45	Console Cable 6ft with RJ-45-to-RJ-45	4500-X	cable	layered	Cata
 CAB-CON-C4K-RJ45=	Console Cable 6ft with RJ-45-to-RJ-45	Catalyst 4500	cable	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label 4500-X)							
 CAB-CONSOLE-M12=	Console Cable 6ft with M12 and DB9F for Cisco Catalyst IE3400 Heavy Duty Series Switch	Catalyst IE3400 Heavy Duty Series	cable	layered	Industrial Ethernet	(shared across the line)	Industrial Ethernet shared parts	accessory ^CAB- (label Catalyst IE3400 Heavy Duty Series)							
 CAB-CONSOLE-RJ45	Console Cable 6ft with RJ45 and DB9F (both system and spare)	C9610	cable	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label C9610)							
+CAB-CONSOLE-RJ45=	Console cable: 6 ft with RJ-45 and DB9F (spare)	ASR 901	cable	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label C9610)							
 CAB-CONSOLE-USB	Console Cable 6 ft with USB Type A and mini-B connectors (Both system and spare)	C9610	cable	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label C9610)							
 CAB-CONSOLE-USB-C	Console cable USB-C type	Catalyst 1300X	cable	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label Catalyst 1300X)							
 CAB-CONSOLE-USB-C=	Console cable USB-C type	Catalyst 1300X	cable	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label Catalyst 1300X)							
@@ -1632,6 +1615,7 @@ CAB-INF-28G-1=	Cisco 1m CX4 patch cable for XENPAK-10GB-CX4	Catalyst 6500	cable	
 CAB-INF-28G-5=	Cisco 5m CX4 patch cable for XENPAK-10GB-CX4	Catalyst 6500	cable	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label Catalyst 6500)							
 CAB-IR2073-C15-AR	AC power cord (Argentina)	4900	power-cord	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label 4900)							
 CAB-IR2073-C19-AR	IRSM 2073 to IEC-C19 14ft, Argentina	Nexus 9000	power-cord	layered	Nexus	(shared across the line)	Nexus shared parts	accessory ^CAB- (label Nexus 9000)							
+CAB-IR2073-C19-AR=	Cisco CAB-IR2073-C19-AR=	UCS C-Series	power-cord	layered	Nexus	(shared across the line)	Nexus shared parts	accessory ^CAB- (label Nexus 9000)							
 CAB-JPN	AC Power Cord (Japan), C13, Japan 2-prong, 1.8m	2960-Plus	power-cord	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label 2960-Plus)							
 CAB-JPN-12A	AC Power Cord (Japan), C13, Japan 2-prong, 1.8m	2960-S	power-cord	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label 2960-S)							
 CAB-JPN-LA	Power Cord-Japan, Left Angle	3560-CX	power-cord	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label 3560-CX)							
@@ -1643,6 +1627,7 @@ CAB-L620P-C13-JPN	Power Cord, 250VAC, 15A, NEMA L6-20 to C13, JAPAN	2960	power-c
 CAB-L620P-C13-US	Power Cord, 250VAC, 15A, NEMA L6-20 to C13, US	2960	power-cord	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label 2960)							
 CAB-MCP-LC=	IEEE 802.3z-compliant optical fiber assembly consisting of a single-mode fiber permanently coupled off-center to a 62.5-micron multimode optical fiber with duplex SC connectors at one end and duplex LC connectors at the other end. The patch cord is 1 meter (3.28 feet) in length.	3750	cable	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label 3750)							
 CAB-PWR-C15-CHN-A	Power Cord, C15, Black, 2.5m, 10A, China, more	Nexus 9000	power-cord	layered	Nexus	(shared across the line)	Nexus shared parts	accessory ^CAB- (label Nexus 9000)							
+CAB-PWR-C15-CHN-A=	Power Cord, C15, Black, 2.5m, 10A, China	Room Series	power-cord	layered	Nexus	(shared across the line)	Nexus shared parts	accessory ^CAB- (label Nexus 9000)							
 CAB-RPS-1614=	1 RPS 675 connector cable 16/14	3750	cable	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label 3750)							
 CAB-RPS2300	RPS 2300 Cable for Devices other than E-Series Switches	3650	cable	layered	Catalyst		Redundant Power System	sku RPS2300							
 CAB-RPS2300-E	RPS Cable for Cat 3K-E, 2960 PoE Switches and ISR G2 Routers	3650	cable	layered	Catalyst		Redundant Power System	sku RPS2300							
@@ -2568,7 +2553,6 @@ CH-C3560-24TS-S-24	C3560V2 24 10/100 +2SFP Std 24-Unit Bundle	3750	bundle	layere
 CH-C3560-48TS-S-24	C3560V2 48 10/100 +2SFP Std 24-unit bundle	3750	bundle	layered	Catalyst	Catalyst 3560	Catalyst 3560 / 3560G / 3560v2	sku ^CH-C3560							
 CJ6X88TGBU	Cisco CJ6X88TGBU	Catalyst 9300	accessory	pending_plan								class non_product			
 CJS6X88TGY	Cisco CJS6X88TGY	Catalyst 9300	accessory	pending_plan								class non_product			
-CLK-7600=	Spare Clock card for CISCO7603, CISCO7606 or CISCO7609 (FRU)	Catalyst 6500	accessory	pending_plan								move routers			
 CMICR-4PC	Catalyst Micro Switch, 1 x copper + 1 SFP	CMICR	switch	layered	Catalyst		Catalyst Micro	sku ^CMICR	access	series:Catalyst Micro					
 CMICR-4PC=	Catalyst Micro Switch, 1 x copper + 1 SFP Spare	Catalyst Micro	switch	layered	Catalyst		Catalyst Micro	sku ^CMICR	access	series:Catalyst Micro					
 CMICR-4PS	Catalyst Micro Switch for Walljack Deployments, 2 x SFP Up S	CMICR	switch	layered	Catalyst		Catalyst Micro	sku ^CMICR	access	series:Catalyst Micro					
@@ -2611,6 +2595,12 @@ CONNECTOR-KIT	Connector Kit	Catalyst 6500	accessory	layered	Catalyst	(shared acr
 CONNECTOR-KIT=	Connector Kit	Catalyst 6500	accessory	layered	Catalyst	(shared across the line)	Catalyst shared parts	label-unsupported (label Catalyst 6500; was Catalyst 6500): no platform token (6500) in the SKU or name, no compatible part placed in the series						none: no platform token (6500) in the SKU or name, no compatible part placed in the series	
 CP24BLY	24-Port Patch Panel	Catalyst 9300	mechanical	pending_plan								class non_product			
 CPP24FMWBLY	24-Port Patch Panel	Catalyst 9300	mechanical	pending_plan								class non_product			
+CQ211L01-48H8FH	Switch, 48 x 100G DSFP + 8 x QSFP-DD, 8T Capability	8000	switch	layered	Silicon One switches (open software)		CQ211L01	sku ^CQ211L01	datacenter	series:CQ211L01					
+CQ211L01-48H8FH-O	Switch, 48 x 100G DSFP + 8 x QSFP-DD, 8T Capability, Open SW	8000	switch	layered	Silicon One switches (open software)		CQ211L01	sku ^CQ211L01	datacenter	series:CQ211L01					
+CQ211L01-48H8FH-O=	Switch, 48 x 100G DSFP + 8 x QSFP-DD, 8T Capability, Open SW	8000	switch	layered	Silicon One switches (open software)		CQ211L01	sku ^CQ211L01	datacenter	series:CQ211L01					
+CQ211L01-48H8FH=	Switch, 48 x 100G DSFP + 8 x QSFP-DD, 8T Capability	8000	switch	layered	Silicon One switches (open software)		CQ211L01	sku ^CQ211L01	datacenter	series:CQ211L01					
+CQ211L01-ACC-KIT	CQ211L01-48 Fixed Accessory Kit, 1RU front and rear removal	8000	mechanical	layered	Silicon One switches (open software)		CQ211L01	sku ^CQ211L01							
+CQ211L01-ACC-KIT=	CQ211L01-48 Fixed Accessory Kit, 1RU front and rear removal	8000	mechanical	layered	Silicon One switches (open software)		CQ211L01	sku ^CQ211L01							
 CS-PANO-SWITCH+	Room Panorama Cisco Catalyst 3560-CX 12 Port PoE IP Base	Room Series	switch	layered	Catalyst	Catalyst 3560	Catalyst 3560-C and 3560-CX	sku ^CS-PANO-SWITCH\+$	access	series:Catalyst 3560-C and 3560-CX					
 CS-PANO-SWITCH2+	Room Panorama - Cisco C1000 16 Port Switch	Room Series	switch	layered	Catalyst		Catalyst 1000	sku ^CS-PANO-SWITCH2\+$	access	series:Catalyst 1000					
 CSS5-CABLX-LCSC=	Cisco CSS 11500 Series Content Services Switch, 10m single-mode fiber, LX LC-to-SC connectors	3750	cable	layered	Content Services Switches (legacy)		CSS 11500	sku ^CSS5-							
@@ -2618,23 +2608,10 @@ CSS5-CABSX-LC=	Cisco CSS 11500 10m multimode fiber, SX LC connectors	3750	cable	
 CSS5-CABSX-LCSC=	Cisco CSS 11500 10m multimode fiber, SX LC-to-SC connectors	3750	cable	layered	Content Services Switches (legacy)		CSS 11500	sku ^CSS5-							
 CTS-5K-LC-SWITCH	Catalyst 2960C Switch 12 FE PoE, 2 x Dual Uplink, Lan Base	TelePresence IX5000 Series	switch	layered	Catalyst	Catalyst 2960	Catalyst 2960-C and 2960-CX	sku ^CTS-5K-(LC|UI)-SWITCH$	access	series:Catalyst 2960-C and 2960-CX					
 CTS-5K-UI-SWITCH	Catalyst 2960C Switch 8 FE PoE, 2 x Dual Uplink, LAN Base	TelePresence IX5000 Series	switch	layered	Catalyst	Catalyst 2960	Catalyst 2960-C and 2960-CX	sku ^CTS-5K-(LC|UI)-SWITCH$	access	series:Catalyst 2960-C and 2960-CX					
-CWWLSE-1130-19-K9	CiscoWorks WLSE (optional)	Catalyst 6500	switch	pending_plan						sw.issue.wireless	access point / WLSE	move wireless			
+CW-SFP-KIT1	SFP Installation Kit for IE-3500H-12P2MU2X	3800 Series Integrated Services Routers ISR	accessory	layered	Industrial Ethernet	(shared across the line)	Industrial Ethernet shared parts	sku ^CW-SFP-KIT							
 DFC3C	Cisco DFC3C	Catalyst 6500	module	layered	Catalyst		Catalyst 6500	label Catalyst 6500						sku-token: DFC3	
 DFC3CXL	Cisco DFC3CXL	Catalyst 6500	module	layered	Catalyst		Catalyst 6500	label Catalyst 6500						sku-token: DFC3	
 DINCLP-IE3000=	Spare Din Rail Clip Pack, IE 3000	IE 3000	mechanical	layered	Industrial Ethernet		IE 3000	label IE 3000						name: IE 3000	
-DS-C9124V-8EK9	Cisco MDS 9124V 64G Fibre-Channel-Switch (24 Ports)	MDS V	switch	pending_plan						sw.issue.fc	Fibre Channel switch/director (storage-networking)	move storage-networking			
-DS-C9132T-MEK9	MDS 9132 32G 1 RU FC switch, w/ 8 active FC ports, 2 Fans, 1 PSU, Port Side Exhaust	MDS T	switch	pending_plan						sw.issue.fc	Fibre Channel switch/director (storage-networking)	move storage-networking			
-DS-C9148S-12PK9	Cisco MDS 9148S 16G Fibre-Channel-Switch (48 Ports)	MDS S	switch	pending_plan						sw.issue.fc	Fibre Channel switch/director (storage-networking)	move storage-networking			
-DS-C9148T-24EK9	Cisco MDS 9148T 32G Fibre-Channel-Switch (48 Ports)	MDS T	switch	pending_plan						sw.issue.fc	Fibre Channel switch/director (storage-networking)	move storage-networking			
-DS-C9148V-24EK9	Cisco MDS 9148V 64G Fibre-Channel-Switch (48 Ports)	MDS V	switch	pending_plan						sw.issue.fc	Fibre Channel switch/director (storage-networking)	move storage-networking			
-DS-C9220I-4PEK9	MDS 9220i Multiprotocol Fixed Switch Base configuration (4xFC, 2 x IPS 1 Gbps), port side exhaust	MDS MS	switch	pending_plan						sw.issue.fc	Fibre Channel switch/director (storage-networking)	move storage-networking			
-DS-C9250I-K9	MDS 9250i 50 port switch base config (20xFC, 8xFCoE, 2xFCIP)	MDS MS	switch	pending_plan						sw.issue.fc	Fibre Channel switch/director (storage-networking)	move storage-networking			
-DS-C9396S-48EK9	Cisco MDS 9396S 16G Fibre-Channel-Switch (96 Ports, 2 HE)	MDS S	switch	pending_plan						sw.issue.fc	Fibre Channel switch/director (storage-networking)	move storage-networking			
-DS-C9396T-48EK9	MDS 9396T 32G 2 RU Fibre Channel switch, with 48 active Fibre Channel ports, 2 fans, 2 PSU, port side exhaust	MDS T	switch	pending_plan						sw.issue.fc	Fibre Channel switch/director (storage-networking)	move storage-networking			
-DS-C9396V-48EK9	MDS 9396V 64G 2RU FC switch, w/ 48 active ports, 3 Fans, 2 PSUs, exhaust	MDS V	switch	pending_plan						sw.issue.fc	Fibre Channel switch/director (storage-networking)	move storage-networking			
-DS-C9706	MDS 9706 Chassis, No Power Supplies, Fans Included	MDS 9700	switch	pending_plan						sw.issue.fc	Fibre Channel switch/director (storage-networking)	move storage-networking			
-DS-C9710	MDS 9710 Chassis, No Power Supplies, Fans Included	MDS 9700	switch	pending_plan						sw.issue.fc	Fibre Channel switch/director (storage-networking)	move storage-networking			
-DS-C9718	MDS 9718 Chassis, No Power Supplies, Fans Included	MDS 9700	switch	pending_plan						sw.issue.fc	Fibre Channel switch/director (storage-networking)	move storage-networking			
 E100	Cisco E100	C9550	switch	pending_plan						sw.issue.placeholder	datasheet cell / bare family name (not a PID)	class non_product			
 E104	Cisco E104	C9550	switch	pending_plan						sw.issue.placeholder	datasheet cell / bare family name (not a PID)	class non_product			
 EDU-C2960X-24PD-L	Catalyst 2960-X 24 GigE PoE 370W, 2 x 10G SFP+, LAN Base K12	2960-X	switch	layered	Catalyst	Catalyst 2960	Catalyst 2960-X and 2960-XR	sku ^(C1-|NAL-|EDU-)?(WS-)?C?2960X	access	series:Catalyst 2960-X and 2960-XR					
@@ -2662,6 +2639,12 @@ EDU-C3850-48P-S	Cisco Catalyst 3850 48 Port Full PoE IP Base for K12	Catalyst 38
 EDU-C3850-48PW-S	Cisco Catalyst 3850 48 Port Full PoE w/ 5 AP license IPB K12	Catalyst 3850	switch	layered	Catalyst		Catalyst 3850	sku ^(C1-|NAL-|EDU-)?(WS-)?C?3850	access	series:Catalyst 3850					
 EDU-C3850-48U-L	Cisco Catalyst 3850 48 Port UPOE LAN Base for K12	Catalyst 3850	switch	layered	Catalyst		Catalyst 3850	sku ^(C1-|NAL-|EDU-)?(WS-)?C?3850	access	series:Catalyst 3850					
 EDU-C3850-48U-S	Cisco Catalyst 3850 48 Port UPOE IP Base for K12	Catalyst 3850	switch	layered	Catalyst		Catalyst 3850	sku ^(C1-|NAL-|EDU-)?(WS-)?C?3850	access	series:Catalyst 3850					
+ENC-10G-ONT-01PR	Cisco ENC-10G-ONT-01PR	Transceiver Modules	switch	layered	Routed PON		10G Routed PON ONT	sku ^ENC-10G-ONT		sw.issue.ont	PON ONT/OLT (PON equipment, not an Ethernet switch)				
+ENC-10G-ONT-01PR=	Ruggedized XGS-PON ONT, powered by PoE	Transceiver Modules	switch	layered	Routed PON		10G Routed PON ONT	sku ^ENC-10G-ONT		sw.issue.ont	PON ONT/OLT (PON equipment, not an Ethernet switch)				
+ENC-10G-ONT-10	Cisco ENC-10G-ONT-10	Transceiver Modules	switch	layered	Routed PON		10G Routed PON ONT	sku ^ENC-10G-ONT		sw.issue.ont	PON ONT/OLT (PON equipment, not an Ethernet switch)				
+ENC-10G-ONT-10=	XGS-PON ONT	Transceiver Modules	switch	layered	Routed PON		10G Routed PON ONT	sku ^ENC-10G-ONT		sw.issue.ont	PON ONT/OLT (PON equipment, not an Ethernet switch)				
+ENC-10G-ONT-14A	Cisco ENC-10G-ONT-14A	Transceiver Modules	switch	layered	Routed PON		10G Routed PON ONT	sku ^ENC-10G-ONT		sw.issue.ont	PON ONT/OLT (PON equipment, not an Ethernet switch)				
+ENC-10G-ONT-14A=	Multiport and ATA XGS-PON ONT	Transceiver Modules	switch	layered	Routed PON		10G Routed PON ONT	sku ^ENC-10G-ONT		sw.issue.ont	PON ONT/OLT (PON equipment, not an Ethernet switch)				
 ESS-2020-16TC-CON	Embedded Service 2020 Switch, Expansion board, Conduction cooled	Embedded Services 2020	switch	layered	Embedded Services		ESS 2020	sku ^ESS-?2020	industrial	series:ESS 2020					
 ESS-2020-16TC-NCP	Embedded Service 2020 Switch, Expansion board, No cooling plate	Embedded Services 2020	switch	layered	Embedded Services		ESS 2020	sku ^ESS-?2020	industrial	series:ESS 2020					
 ESS-2020-24TC-CON	Embedded Service 2020 Switch, Main/Expansion board bundle, Conduction cooled, LAN Lite software	Embedded Services 2020	switch	layered	Embedded Services		ESS 2020	sku ^ESS-?2020	industrial	series:ESS 2020					
@@ -2681,7 +2664,6 @@ ESS-3300-CON-E	ESS 3300 mainboard, with cooling plate, Network Essentials softwa
 ESS-3300-NCP-A	ESS 3300 mainboard, no cooling plate, Network Advantage software	Embedded Service 3000	switch	layered	Embedded Services		ESS 3300	sku ^ESS-?3300	industrial	series:ESS 3300					
 ESS-3300-NCP-E	ESS 3300 mainboard, no cooling plate, Network Essentials software	Embedded Service 3000	switch	layered	Embedded Services		ESS 3300	sku ^ESS-?3300	industrial	series:ESS 3300					
 ESS-9300-10X-E	ESS9300 board, no cooling plate, Network Essentials software	Catalyst ESS9300 Embedded	switch	layered	Embedded Services		ESS 9300	sku ^ESS-?93	industrial	series:ESS 9300					
-FAN-1RU-PI-V2=	Cisco aux fan tray, port-side intake airflow, spare	Nexus 9000	fan	pending_plan								move routers			
 FAN-MOD-09	Fan Module for CISCO7609 and Catalyst WS-C6509-NEB-A	Catalyst 6500	fan	layered	Catalyst		Catalyst 6500	label Catalyst 6500						name: 6500	
 FAN-MOD-09=	Fan Mod CISCO7609 (2 required)/Cat6509-NEB-A (1 required)	Catalyst 6500	fan	layered	Catalyst		Catalyst 6500	label Catalyst 6500						name: 6500	
 FAN-MOD-3HS	Cisco Catalyst 6503 high-speed fan tray	Catalyst 6500	fan	layered	Catalyst		Catalyst 6500	label Catalyst 6500						name: 6500	
@@ -2707,8 +2689,6 @@ G.652/-	Cisco G.652/-	Nexus 7000	switch	pending_plan						sw.issue.placeholder	d
 GLE-GE-100FX=	100BASE-FX (multimode fiber) (works in “multispeed” Gigabit Ethernet SFP ports of other Cisco platforms such as the Cisco Catalyst 3560, Cisco Catalyst 3750 [nonmetro], and Cisco Catalyst 2970 Series)	ME 3400E Ethernet Access	switch	pending_plan						sw.issue.optic	transceiver	class non_product			
 GROUND-LUG-KIT=	Ground Lug Kit for Chassis	Catalyst 6500	mechanical	layered	Catalyst	(shared across the line)	Catalyst shared parts	label-unsupported (label Catalyst 6500; was Catalyst 6500): no platform token (6500) in the SKU or name, no compatible part placed in the series						none: no platform token (6500) in the SKU or name, no compatible part placed in the series	
 IBM-SN-POINTER	IBM SN for MT3722 (Internal)	Nexus 5000	switch	pending_plan						sw.issue.tracking	tracking/option PID (not a product)	class non_product			
-IC3000-2C2F-K9++	Industrial Compute appliance (TAA)	IE 4000	switch	pending_plan						sw.issue.compute	industrial compute	move routers			
-IC3000-2C2F-K9=	Industrial Compute gateway Spare PID for TAC services	IE 4000	switch	pending_plan						sw.issue.compute	industrial compute	move routers			
 IE-1000-4P2S-LM	Cisco IE-1000-4P2S-LM Industrial-Ethernet-IE1000 lüfterloser Layer-2-Industrie-Switch – 4× FE-RJ45 + 2× SFP	IE1000	switch	layered	Industrial Ethernet		IE 1000	sku ^IE-?1000	industrial	series:IE 1000					
 IE-1000-4T1T-LM	Cisco IE-1000-4T1T-LM Industrial-Ethernet-IE1000 lüfterloser Layer-2-Industrie-Switch – 4× FE-RJ45 + 1× RJ45	IE1000	switch	layered	Industrial Ethernet		IE 1000	sku ^IE-?1000	industrial	series:IE 1000					
 IE-1000-6T2T-LM	Cisco IE-1000-6T2T-LM Industrial-Ethernet-IE1000 lüfterloser Layer-2-Industrie-Switch – 6× FE-RJ45 + 2× RJ45	IE1000	switch	layered	Industrial Ethernet		IE 1000	sku ^IE-?1000	industrial	series:IE 1000					
@@ -2987,7 +2967,10 @@ MEM-A-MSFC3-1GB=	1G Memory Upgrade Option Spare	Catalyst 6500	memory	layered	Cat
 MEM-C4K-256-SDRAM	256 DIMM DRAM for Supervisor II-Plus-10GE	Catalyst 4500	memory	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	label Catalyst 4500						sku-token: C4K	
 MEM-C4K-256-SDRAM=	256 DIMM DRAM for Supervisor II-Plus-10GE	Catalyst 4500	memory	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	label Catalyst 4500						sku-token: C4K	
 MEM-C4K-FLD128M	Cisco Catalyst 4500 Cisco IOS Software-Based Supervisor Engine, Compact Flash memory, 128-MB option	Catalyst 4500	flash	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	label Catalyst 4500						name: 4500	
+MEM-C4K-FLD128M=	Cat 4500 IOS-based Supervisor, Compact Flash, 128MB Spare	RF Gateway Series	flash	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	label Catalyst 4500						name: 4500	
 MEM-C4K-FLD64M	Cisco Catalyst 4500 Cisco IOS Software-Based Supervisor Engine, Compact Flash memory, 64-MB option	Catalyst 4500	flash	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	label Catalyst 4500						name: 4500	
+MEM-C6K-APP-24GB	Cat6500 24GB Service Module Memory	Services Modules	memory	layered	Catalyst		Catalyst 6500	sku ^MEM-C6K							
+MEM-C6K-APP-24GB=	Cat6500 24GB Service Module Memory	Services Modules	memory	layered	Catalyst		Catalyst 6500	sku ^MEM-C6K							
 MEM-C6K-CPTFL128M	Cat6500 Sup720 Compact Flash Mem 128MB	Catalyst 6500	flash	layered	Catalyst		Catalyst 6500	sku ^MEM-C6K							
 MEM-C6K-CPTFL128M=	Cisco MEM-C6K-CPTFL128M=	Catalyst 6500	flash	layered	Catalyst		Catalyst 6500	sku ^MEM-C6K							
 MEM-C6K-CPTFL1GB	Cisco Catalyst 6500 Compact Flash Memory 1GB	Catalyst 6500	flash	layered	Catalyst		Catalyst 6500	sku ^MEM-C6K							
@@ -3003,6 +2986,8 @@ MEM-C6K-CPTFL64M=	Cat6500 Sup720/Sup32 Compact Flash Mem 64MB	Catalyst 6500	flas
 MEM-C6K-DRV-1G	Catalyst 6500 Microdrive, 1GB	Catalyst 6500	drive	layered	Catalyst		Catalyst 6500	sku ^MEM-C6K							
 MEM-C6K-DRV-1G=	Catalyst 6500 Microdrive, 1GB	Catalyst 6500	drive	layered	Catalyst		Catalyst 6500	sku ^MEM-C6K							
 MEM-C6K-INTFL1GB	Internal 1G Compact Flash	Catalyst 6500	flash	layered	Catalyst		Catalyst 6500	sku ^MEM-C6K							
+MEM-C6K-VSE-24GB=	Cat6500 Service Module Memory 24GB	Services Modules	memory	layered	Catalyst		Catalyst 6500	sku ^MEM-C6K							
+MEM-C6KNAM-2GB=	2GB Memory for WS-SVC-NAM-1 and WS-SVC-NAM-2	Services Modules	memory	layered	Catalyst		Catalyst 6500	sku ^MEM-C6K							
 MEM-DFC-128MB	Catalyst 6500 128MB DRAM for DFC	Catalyst 6500	memory	layered	Catalyst		Catalyst 6500	label Catalyst 6500						name: Catalyst 6500	
 MEM-DFC-128MB=	Catalyst 6500 128MB DRAM for DFC, Spare	Catalyst 6500	memory	layered	Catalyst		Catalyst 6500	label Catalyst 6500						name: Catalyst 6500	
 MEM-DFC-256MB	Catalyst 6500 256MB DRAM for DFC	Catalyst 6500	memory	layered	Catalyst		Catalyst 6500	label Catalyst 6500						name: Catalyst 6500	
@@ -3014,6 +2999,10 @@ MEM-MSFC2-512MB=	Catalyst 6500 512MB DRAM on the MSFC2 or SUP720 MSFC3, Spare	Ca
 MEM-MSFC3-1GB	Default route processor (RP) DRAM on PISA (Programmable Intelligent Services Accelerator)	Catalyst 6500	memory	layered	Catalyst		Catalyst 6500	sku ^MEM-MSFC							
 MEM-MSFC3-1GB=	1GB Mem for Sup720, Sup720-3B and MSFC2A	Catalyst 6500	memory	layered	Catalyst		Catalyst 6500	sku ^MEM-MSFC							
 MEM-S3-1GB	Catalyst 6500 1GB SP DRAM for Sup720 and Sup720-3B	Catalyst 6500	memory	layered	Catalyst		Catalyst 6500	label Catalyst 6500						name: Catalyst 6500	
+MEM-SAMI-6P-2GB	SAMI 6xPPCs with 2GB per PPC Memory Option	7600 Wireless Security Gateway	memory	layered	Catalyst		Catalyst 6500	sku ^MEM-SAMI							
+MEM-SAMI-6P-2GB=	SAMI 6xPPCs with 2GB per PPC Memory Option	7600 Wireless Security Gateway	memory	layered	Catalyst		Catalyst 6500	sku ^MEM-SAMI							
+MEM-SAMI-6P-4GB	SAMI 6xPPCs with 4GB per PPC Memory Option	7600 Wireless Security Gateway	memory	layered	Catalyst		Catalyst 6500	sku ^MEM-SAMI							
+MEM-SAMI-6P-4GB=	SAMI 6xPPCs with 4GB per PPC Memory Option	7600 Wireless Security Gateway	memory	layered	Catalyst		Catalyst 6500	sku ^MEM-SAMI							
 MEM-SD-1GB-RGD	1 GB industrial-grade Secure Digital (SD) memory card	IE 2000U	flash	layered	Industrial Ethernet		CGS 2500 Connected Grid	sku ^MEM-SD-(1GB|COVER)-RGD							
 MEM-SD-1GB-RGD=	SD Flash for Cisco CGS2520	CGS 2500 Connected Grid	flash	layered	Industrial Ethernet		CGS 2500 Connected Grid	sku ^MEM-SD-(1GB|COVER)-RGD							
 MEM-SD-COVER-RGD=	SD Flash cover for Cisco CGS2520	IE 3010	mechanical	layered	Industrial Ethernet		CGS 2500 Connected Grid	sku ^MEM-SD-(1GB|COVER)-RGD							
@@ -3032,7 +3021,6 @@ MEM-XCEF720-256M	Catalyst 6500 256MB DDR, xCEF720 (67xx interface, DFC3A)	Cataly
 MEM-XCEF720-256M=	256MB DDR, for xCEF720 (67xx and 68xx) interface mods, spare	Catalyst 6500	memory	layered	Catalyst		Catalyst 6500	label Catalyst 6500						sku-token: CEF720	
 MEM-XCEF720-512M	Default switch processor (SP) DRAM on the Supervisor Engine 32 PISA baseboard	Catalyst 6500	memory	layered	Catalyst		Catalyst 6500	label Catalyst 6500						sku-token: CEF720	
 MEM-XCEF720-512M=	512MB DDR, for xCEF720 (67xx interface, DFC3A/DFC3B), Spare	Catalyst 6500	memory	layered	Catalyst		Catalyst 6500	label Catalyst 6500						sku-token: CEF720	
-MGBBX1	Cisco MGBBX1	220 Smart	switch	pending_plan						sw.issue.optic	transceiver	move transceiver			
 MS100	Cisco MS100	Meraki	switch	pending_plan								class non_product			
 MS120	Cisco MS120	Meraki	switch	layered	Meraki MS		MS120	sku ^MS120	access	series:MS120					
 MS120-24	Cisco MS120-24	Meraki	switch	layered	Meraki MS		MS120	sku ^MS120	access	series:MS120					
@@ -4829,7 +4817,8 @@ NAL-C3750X-48T-E	NAL PID for 3750X 48 Data IPS switch	3750-X	switch	layered	Cata
 NAL-C3750X-48T-L	NAL PID for 3750X 48 Data LB switch	3750-X	switch	layered	Catalyst	Catalyst 3750	Catalyst 3750-X	sku ^(C1-|NAL-)?(WS-)?C?3750X	access	series:Catalyst 3750-X					
 NAL-C3750X-48T-S	NAL PID for 3750X 48 Data IPB switch	3750-X	switch	layered	Catalyst	Catalyst 3750	Catalyst 3750-X	sku ^(C1-|NAL-)?(WS-)?C?3750X	access	series:Catalyst 3750-X					
 NAL-C3750X-48U-L	NAL PID for 3750X 48 UPoE LB switch	3750-X	switch	layered	Catalyst	Catalyst 3750	Catalyst 3750-X	sku ^(C1-|NAL-)?(WS-)?C?3750X	access	series:Catalyst 3750-X					
-NM-BLANK-T1=	Cisco Catalyst Type 1 Network Module Blank, spare	Catalyst 9300	mechanical	pending_plan								move interfaces-modules			
+NAM3-HDD-600G	Hard Drives - 600G - for NAM-3	Services Modules	drive	layered	Catalyst		Catalyst 6500	sku ^NAM3-							
+NAM3-HDD-600G=	Hard Drives - 600G - for NAM-3	Services Modules	drive	layered	Catalyst		Catalyst 6500	sku ^NAM3-							
 NXA-ACC-KIT-BAV	Airflow Vent 2348TQ, 2348TQ-E and 2332TQ only.	Nexus 2000 Fabric Extenders	mechanical	layered	Nexus	Nexus 9000	Nexus 9000 shared parts	sku ^NXA-							
 NXA-ACC-KIT-BAV=	Nexus 2K/3K airflow vent accessory kit	Nexus 2000 Fabric Extenders	mechanical	layered	Nexus	Nexus 9000	Nexus 9000 shared parts	sku ^NXA-							
 NXA-AIRFLOW-SLV	Nexus Airflow Extension Sleeve	Nexus 2000 Fabric Extenders	mechanical	layered	Nexus	Nexus 9000	Nexus 9000 shared parts	sku ^NXA-							
@@ -4984,12 +4973,6 @@ NXM-X4D	Nexus 400G Line Expansion Module	Nexus 3000	linecard	layered	Nexus	(shar
 NXM-X4D=	Nexus 400G Line Expansion Module spare	Nexus 3000	linecard	layered	Nexus	(shared across the line)	Nexus shared parts	label-unsupported (label Nexus 3000; was Nexus 3016 / 3048 / 3064 / 3100 / 3200 / 3400): no platform token (3016, 3048, 3064, 3100, 3200, 3400) in the SKU or name, no compatible part placed in the series						none: no platform token (3016, 3048, 3064, 3100, 3200, 3400) in the SKU or name, no compatible part placed in the series	
 NXM-XBLNK	Nexus Blank Line Expansion Module	Nexus 3000	mechanical	layered	Nexus	(shared across the line)	Nexus shared parts	accessory BLNK (label Nexus 3000)							
 NXM-XBLNK=	Nexus Blank Line Expansion Module spare	Nexus 3000	mechanical	layered	Nexus	(shared across the line)	Nexus shared parts	accessory BLNK (label Nexus 3000)							
-ONS-SE-GE-BXD=	SFP – 1000BASE BX D – GE Bidirectional Downstream Ext Temp	Catalyst IE9300 Rugged Series	switch	pending_plan						sw.issue.optic	transceiver	move transceiver			
-ONS-SE-GE-BXU=	SFP – 1000BASE-BX U – GE Bidirectional Upstream – Ext Temp	Catalyst IE9300 Rugged Series	switch	pending_plan						sw.issue.optic	transceiver	move transceiver			
-ONS-SI+-10G-ER=	SFP+ ER - Industrial Temp	Catalyst IE9300 Rugged Series	switch	pending_plan						sw.issue.optic	transceiver	move transceiver			
-ONS-SI+-10G-LR=	SFP+ LR - Industrial Temp	Catalyst IE9300 Rugged Series	switch	pending_plan						sw.issue.optic	transceiver	move transceiver			
-ONS-SI+-10G-SR=	SFP+ SR - Industrial Temp	Catalyst IE9300 Rugged Series	switch	pending_plan						sw.issue.optic	transceiver	move transceiver			
-ONS-SI+-10G-ZR=	SFP+-ZR- Industrial Temp	Catalyst IE9300 Rugged Series	switch	pending_plan						sw.issue.optic	transceiver	move transceiver			
 OTN/G.709	Cisco OTN/G.709	Catalyst 6500	switch	pending_plan						sw.issue.placeholder	datasheet cell / bare family name (not a PID)	class non_product			
 PEM-20A-AC+	PwrEntryMod use w/1400W AC P/S for CISCO7603, WS-C6503	Catalyst 6500	power	layered	Catalyst		Catalyst 6500	label Catalyst 6500						name: 6500	
 PEM-20A-AC+=	PwrEntryMod use w/1400W AC P/S for CISCO7603, WS-C6503	Catalyst 6500	power	layered	Catalyst		Catalyst 6500	label Catalyst 6500						name: 6500	
@@ -5228,6 +5211,8 @@ PWR-IE3000-CLP=	Spare connector, IE3000 Power transformer	IE 3000	power	layered	
 PWR-IE3000-CNCT=	Spare power connector, IE 3000	IE 3000	power	layered	Industrial Ethernet		IE 3000	label IE 3000						name: IE 3000	
 PWR-IE400W-AC-IEC=	400W AC to DC Power Supply with IEC connector (IEC 60320 C16)	Catalyst IE3100 Rugged Series	power	layered	Industrial Ethernet	(shared across the line)	Industrial Ethernet shared parts	label-unsupported (label Catalyst IE3100 Rugged Series; was IE 3100): no platform token (3100) in the SKU or name, no compatible part placed in the series						none: no platform token (3100) in the SKU or name, no compatible part placed in the series	
 PWR-IE480W-PCAC-L=	480W AC to DC Power Supply	Catalyst IE3100 Rugged Series	power	layered	Industrial Ethernet	(shared across the line)	Industrial Ethernet shared parts	label-unsupported (label Catalyst IE3100 Rugged Series; was IE 3100): no platform token (3100) in the SKU or name, no compatible part placed in the series						none: no platform token (3100) in the SKU or name, no compatible part placed in the series	
+PWR-IE50W-AC	Cisco PWR-IE50W-AC	3000 Series Industrial Security Appliances (ISA)	power	layered	Industrial Ethernet	(shared across the line)	Industrial Ethernet shared parts	label-unsupported (label Catalyst IE3400 Rugged Series; was IE 3400): no platform token (3400) in the SKU or name, no compatible part placed in the series						none: no platform token (3400) in the SKU or name, no compatible part placed in the series	
+PWR-IE50W-AC-IEC	Cisco PWR-IE50W-AC-IEC	3000 Series Industrial Security Appliances (ISA)	power	layered	Industrial Ethernet	(shared across the line)	Industrial Ethernet shared parts	label-unsupported (label Catalyst IE3400 Rugged Series; was IE 3400): no platform token (3400) in the SKU or name, no compatible part placed in the series						none: no platform token (3400) in the SKU or name, no compatible part placed in the series	
 PWR-IE50W-AC-IEC=	50W AC to DC Power Supply with IEC connector (IEC 60320 C14)	Catalyst IE3400 Rugged Series	power	layered	Industrial Ethernet	(shared across the line)	Industrial Ethernet shared parts	label-unsupported (label Catalyst IE3400 Rugged Series; was IE 3400): no platform token (3400) in the SKU or name, no compatible part placed in the series						none: no platform token (3400) in the SKU or name, no compatible part placed in the series	
 PWR-IE50W-AC-L=	50W AC to DC Power Supply	Catalyst IE3100 Rugged Series	power	layered	Industrial Ethernet	(shared across the line)	Industrial Ethernet shared parts	label-unsupported (label Catalyst IE3100 Rugged Series; was IE 3100): no platform token (3100) in the SKU or name, no compatible part placed in the series						none: no platform token (3100) in the SKU or name, no compatible part placed in the series	
 PWR-IE50W-AC=	50W AC to DC or High DC to DC Power Supply	Catalyst IE3400 Rugged Series	power	layered	Industrial Ethernet	(shared across the line)	Industrial Ethernet shared parts	label-unsupported (label Catalyst IE3400 Rugged Series; was IE 3400): no platform token (3400) in the SKU or name, no compatible part placed in the series						none: no platform token (3400) in the SKU or name, no compatible part placed in the series	
@@ -5285,10 +5270,6 @@ RPNL-IE3000=	Spare, IE 3000 Right Panel	IE 3000	mechanical	layered	Industrial Et
 RPS-CG-COVER=	Spare PSU slot cover	IE 3010	mechanical	layered	Catalyst		Redundant Power System	sku ^RPS(?!-COVER|-ADPTR|1000)							
 RPS2300-1150BDL	Cisco Redundant Power System 2300 with 1150W Power Supply	3650	power	layered	Catalyst		Redundant Power System	sku RPS2300							
 RPS2300-750BDL	Cisco Redundant Power System 2300 with 750W Power Supply	3650	power	layered	Catalyst		Redundant Power System	sku RPS2300							
-RSP720-3C-10GE	Cisco RSP720-3C-10GE	Catalyst 6500	supervisor	pending_plan								move routers			
-RSP720-3C-10GE=	Cisco RSP720-3C-10GE=	Catalyst 6500	supervisor	pending_plan								move routers			
-RSP720-3C-GE	Cisco RSP720-3C-GE	Catalyst 6500	supervisor	pending_plan								move routers			
-RSP720-3C-GE=	Cisco RSP720-3C-GE=	Catalyst 6500	supervisor	pending_plan								move routers			
 S6400	Cisco S6400	Nexus 9000	switch	pending_plan						sw.issue.placeholder	datasheet cell / bare family name (not a PID)	class non_product			
 SD-IE-16GB	IE 16GB SD Memory card	Catalyst IE3400 Heavy Duty Series	flash	layered	Industrial Ethernet	(shared across the line)	Industrial Ethernet shared parts	label-unsupported (label Catalyst IE3400 Heavy Duty Series; was IE 3400H): no platform token (3400) in the SKU or name, no compatible part placed in the series						none: no platform token (3400) in the SKU or name, no compatible part placed in the series	
 SD-IE-16GB=	Industrial Ethernet (IE) 16GB SD memory card for IE	Catalyst IE9300 Rugged Series	flash	layered	Industrial Ethernet	(shared across the line)	Industrial Ethernet shared parts	label-unsupported (label Catalyst IE3400 Heavy Duty Series; was IE 3400H): no platform token (3400) in the SKU or name, no compatible part placed in the series						none: no platform token (3400) in the SKU or name, no compatible part placed in the series	
@@ -5296,6 +5277,7 @@ SD-IE-1GB	IE 1GB SD Memory Card for IE2000, IE3010	IE 2000	flash	layered	Industr
 SD-IE-1GB=	1 GB Ruggedized SD memory card (must be ordered, not included by default)	Catalyst IE3100 Rugged Series	flash	layered	Industrial Ethernet	(shared across the line)	Industrial Ethernet shared parts	label-unsupported (label IE 2000; was IE 2000): no platform token (2000) in the SKU or name, no compatible part placed in the series						none: no platform token (2000) in the SKU or name, no compatible part placed in the series	
 SD-IE-4GB	IE 4GB SD Memory Card for IE	Catalyst IE3100 Rugged Series	flash	layered	Industrial Ethernet	(shared across the line)	Industrial Ethernet shared parts	label-unsupported (label Catalyst IE3100 Rugged Series; was IE 3100): no platform token (3100) in the SKU or name, no compatible part placed in the series						none: no platform token (3100) in the SKU or name, no compatible part placed in the series	
 SD-IE-4GB=	IE 4GB SD Memory Card	Catalyst IE3100 Rugged Series	flash	layered	Industrial Ethernet	(shared across the line)	Industrial Ethernet shared parts	label-unsupported (label Catalyst IE3100 Rugged Series; was IE 3100): no platform token (3100) in the SKU or name, no compatible part placed in the series						none: no platform token (3100) in the SKU or name, no compatible part placed in the series	
+SD-X45-2GB-E	Cisco Catalyst 4500 2 GB SD Memory Card for Supervisor 8-E	Network Modules	flash	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^(SD|USB)-X45-							
 SD-X45-2GB-E=	Catalyst 4500 2GB SD Memory Card	Catalyst 4500	flash	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^(SD|USB)-X45-							
 SF110-16-AU	SF110-16 16-Port 10/100 Switch	110 Unmanaged	switch	layered	Small Business		Small Business 110 Unmanaged (SF110/SG110)	sku ^S[FG]11[0-9]	smb	series:Small Business 110 Unmanaged (SF110/SG110)					
 SF110-16-EU	SF110-16 16-Port 10/100 Switch	110 Unmanaged	switch	layered	Small Business		Small Business 110 Unmanaged (SF110/SG110)	sku ^S[FG]11[0-9]	smb	series:Small Business 110 Unmanaged (SF110/SG110)					
@@ -6325,9 +6307,9 @@ TA-N9K-C9372PX-E	Nexus 9372PX-E with 48p 10G SFP+ and 6p 40G QSFP+	Nexus 9000	sw
 TA-N9K-C9372PX-E=	Nexus 9372PX-E with 48p 10G SFP+ and 6p 40G QSFP+	Nexus 9000	switch	layered	Nexus	Nexus 9000	Nexus 9300	sku ^TA-(N9K-)?C93	datacenter	series:Nexus 9300					
 TA-N9K-C9372TX-E	Nexus 9372TX-E with 48p 1/10G-T and 6p 40G QSFP+	Nexus 9000	switch	layered	Nexus	Nexus 9000	Nexus 9300	sku ^TA-(N9K-)?C93	datacenter	series:Nexus 9300					
 TA-N9K-C9372TX-E=	Nexus 9372TX-E with 48p 1/10G-T and 6p 40G QSFP+	Nexus 9000	switch	layered	Nexus	Nexus 9000	Nexus 9300	sku ^TA-(N9K-)?C93	datacenter	series:Nexus 9300					
-UCS-PSU-6332-DC=	N9K 930W DC Power Supply, Reversed airflow (port side exhaust), Spare	Nexus 3000	power	pending_plan								move servers-unified-computing			
 UCSC-PSU-930WDC	N9K 930W DC Power Supply, Forward airflow (port side intake)	Nexus 9000	power	layered	Nexus	Nexus 9000	Nexus 9000 shared parts	label Nexus 9000						name: N9K	
 UCSC-PSU-930WDC=	N9K 930W DC Power Supply, Forward airflow (port side intake), Spare	Nexus 3000	power	layered	Nexus	Nexus 9000	Nexus 9000 shared parts	label Nexus 9000						name: N9K	
+USB-X45-4GB-E	Cisco Catalyst 4500 4 GB USB device for Supervisor 8-E (Future Roadmap)	Network Modules	flash	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^(SD|USB)-X45-							
 USB-X45-4GB-E=	Catalyst 4500 4GB USB device for Sup7-E	Catalyst 4500	flash	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^(SD|USB)-X45-							
 UTP28X3BU	Cisco UTP28X3BU	Catalyst 9300	accessory	pending_plan								class non_product			
 VBR-rt	Cisco VBR-rt	Catalyst 6500	switch	pending_plan						sw.issue.placeholder	datasheet cell / bare family name (not a PID)	class non_product			
@@ -7068,29 +7050,41 @@ WS-C4KE-PS-CVR=	4500 E-Series Chassis Power Supply Blank Cover Spare	Catalyst 45
 WS-C6503-E	Catalyst 6500 Enhanced 3-slot chassis,4RU,no PS,no Fan Tray	6500E	chassis	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}							
 WS-C6503-E-FAN	Catalyst 6503-E Chassis Fan Tray	Catalyst 6500	fan	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}							
 WS-C6503-E-FAN=	Cisco Catalyst 6503 Enhanced Chassis Fan Tray Spare	Catalyst 6500	fan	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}							
+WS-C6503-E-FWM-K9WS	Cisco WS-C6503-E-FWM-K9WS	2900 ISR	switch	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}	core-agg	series:Catalyst 6500					
 WS-C6503-E=	Catalyst 6500 Enhanced 3-slot chassis,4RU,no PS,no Fan Tray	Catalyst 6500	chassis	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}							
 WS-C6503E-S32-10GE	Cat6503E chassis, WS-SUP32-10GE-3B, Fan Tray (req.P/S)	Catalyst 6500	switch	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}	core-agg	series:Catalyst 6500					
 WS-C6503E-S32-GE	Cisco Catalyst 6503E, WS-SUP32-GE-3B, Fan Tray (req. P/S)	Catalyst 6500	switch	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}	core-agg	series:Catalyst 6500					
+WS-C6503E-S32P-GEWS	Cisco WS-C6503E-S32P-GEWS	2900 ISR	switch	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}	core-agg	series:Catalyst 6500					
+WS-C6503E-S32P10GEWS-	Cisco WS-C6503E-S32P10GEWS-	2900 ISR	switch	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}	core-agg	series:Catalyst 6500					
 WS-C6504-E	Catalyst 6500 Enhanced 4-slot chassis,5RU,no PS,no Fan Tray	6500E	chassis	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}							
 WS-C6504-E-FAN=	Cisco Catalyst 6504 Enhanced Chassis Fan Tray Spare	Catalyst 6500	fan	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}							
 WS-C6504-E-VPN+-K9	Cisco Catalyst 6504E IPSec VSPA Security System	Catalyst 6500	switch	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}	core-agg	series:Catalyst 6500					
+WS-C6504-E-VPN+-K9WS-	Cisco WS-C6504-E-VPN+-K9WS-	2900 ISR	switch	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}	core-agg	series:Catalyst 6500					
 WS-C6504-E=	Catalyst 6500 Enhanced 4-slot chassis,5RU,no PS,no Fan Tray	Catalyst 6500	chassis	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}							
 WS-C6504E-S32-10GE	6504-E Chassis + Fan Tray + Sup32-10GE	Catalyst 6500	switch	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}	core-agg	series:Catalyst 6500					
 WS-C6504E-S32-GE	6504-E Chassis + Fan Tray + Sup32-GE	Catalyst 6500	switch	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}	core-agg	series:Catalyst 6500					
+WS-C6504E-S32P-GEWS-	Cisco WS-C6504E-S32P-GEWS-	2900 ISR	switch	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}	core-agg	series:Catalyst 6500					
+WS-C6504E-S32P10GEWS	Cisco WS-C6504E-S32P10GEWS	2900 ISR	switch	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}	core-agg	series:Catalyst 6500					
 WS-C6506-E	Catalyst 6500 Enhanced 6-slot chassis,11RU,no PS,no Fan Tray	6500E	chassis	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}							
 WS-C6506-E-FAN	Catalyst 6506-E Chassis Fan Tray	Catalyst 6500	fan	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}							
 WS-C6506-E-FAN=	Cisco Catalyst 6506 Enhanced Chassis Fan Tray Spare	Catalyst 6500	fan	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}							
+WS-C6506-E-FWM-K9WS-	Cisco WS-C6506-E-FWM-K9WS-	2900 ISR	switch	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}	core-agg	series:Catalyst 6500					
 WS-C6506-E-NAM3-K9	Cisco Catalyst 6506E NAM3 System	Catalyst 6500	switch	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}	core-agg	series:Catalyst 6500					
 WS-C6506-E-VPN+-K9	Cisco Catalyst 6506E IPSec VSPA Security System	Catalyst 6500	switch	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}	core-agg	series:Catalyst 6500					
+WS-C6506-E-VPN+-K9WS-	Cisco WS-C6506-E-VPN+-K9WS-	2900 ISR	switch	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}	core-agg	series:Catalyst 6500					
 WS-C6506-E=	Catalyst 6500 Enhanced 6-slot chassis,11RU,no PS,no Fan Tray	Catalyst 6500	chassis	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}							
 WS-C6506E-S32-10GE	Cat6506E chassis, WS-SUP32-10GE-3B, Fan Tray (req.P/S)	Catalyst 6500	switch	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}	core-agg	series:Catalyst 6500					
 WS-C6506E-S32-GE	Cisco Catalyst 6506E, WS-SUP32-GE-3B, Fan Tray (req. P/S)	Catalyst 6500	switch	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}	core-agg	series:Catalyst 6500					
+WS-C6506E-S32P-GEWS-	Cisco WS-C6506E-S32P-GEWS-	2900 ISR	switch	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}	core-agg	series:Catalyst 6500					
+WS-C6506E-S32P10GEWS-	Cisco WS-C6506E-S32P10GEWS-	2900 ISR	switch	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}	core-agg	series:Catalyst 6500					
 WS-C6509-E	Catalyst 6500 Enhanced 9-slot chassis,14RU,no PS,no Fan Tray	6500E	chassis	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}							
 WS-C6509-E-FAN	Catalyst 6509-E Chassis Fan Tray	Catalyst 6500	fan	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}							
 WS-C6509-E-FAN=	Cisco Catalyst 6509 Enhanced Chassis Fan Tray Spare	Catalyst 6500	fan	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}							
+WS-C6509-E-FWM-K9WS-	Cisco WS-C6509-E-FWM-K9WS-	2900 ISR	switch	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}	core-agg	series:Catalyst 6500					
 WS-C6509-E-NAM3-K9	Cisco Catalyst 6509E NAM-3 System	Catalyst 6500	switch	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}	core-agg	series:Catalyst 6500					
 WS-C6509-E-RACK=	Catalyst 6509-E Rack Mount Kit	Catalyst 6500	mechanical	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}							
 WS-C6509-E-VPN+-K9	Cisco Catalyst 6509E IPSec VSPA Security System	Catalyst 6500	switch	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}	core-agg	series:Catalyst 6500					
+WS-C6509-E-VPN+-K9WS-	Cisco WS-C6509-E-VPN+-K9WS-	2900 ISR	switch	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}	core-agg	series:Catalyst 6500					
 WS-C6509-E=	Catalyst 6500 Enhanced 9-slot chassis,14RU,no PS,no Fan Tray	Catalyst 6500	chassis	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}							
 WS-C6509-V-E	Catalyst 6500 Enhanced 9-slot Chassis (Vertical), No PS, Fan	6500E	chassis	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}							
 WS-C6509-V-E-CM	Catalyst 6509-V-E Chassis Cable Management	Catalyst 6500	mechanical	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}							
@@ -7100,14 +7094,20 @@ WS-C6509-V-E-FAN=	Cisco Catalyst 6509 Vertical Enhanced Chassis Fan Tray Spare	C
 WS-C6509-V-E=	Catalyst 6500 Enhanced 9-slot Chassis (Vertical), No PS, Fan	Catalyst 6500	chassis	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}							
 WS-C6509E-S32-10GE	Cat6509E chassis, WS-SUP32-10GE-3B, Fan Tray (req.P/S)	Catalyst 6500	switch	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}	core-agg	series:Catalyst 6500					
 WS-C6509E-S32-GE	Cisco Catalyst 6509E, WS-SUP32-GE-3B, Fan Tray (req. P/S)	Catalyst 6500	switch	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}	core-agg	series:Catalyst 6500					
+WS-C6509E-S32P-GEWS-	Cisco WS-C6509E-S32P-GEWS-	2900 ISR	switch	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}	core-agg	series:Catalyst 6500					
+WS-C6509E-S32P10GEWS-	Cisco WS-C6509E-S32P10GEWS-	2900 ISR	switch	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}	core-agg	series:Catalyst 6500					
 WS-C6513-E	Enh C6513 Chassis, 13slot, 19RU, No Pow Supply, No Fan Tray	6500E	chassis	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}							
 WS-C6513-E-FAN	Catalyst 6513-E Fan Tray	Catalyst 6500	fan	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}							
 WS-C6513-E-FAN=	Cisco Catalyst 6513 Enhanced Chassis Fan Tray Spare	Catalyst 6500	fan	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}							
 WS-C6513-E=	Enh C6513 Chassis, 13slot, 19RU, No Pow Supply, No Fan Tray	Catalyst 6500	chassis	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}							
+WS-C6513-FWM-K9	Cisco WS-C6513-FWM-K9	2900 ISR	switch	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}	core-agg	series:Catalyst 6500					
 WS-C6513-RACK=	Catalyst 6513 Rack Mount Kit and Cable Organizer, Spare	Catalyst 6500	mechanical	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}							
 WS-C6513-S32-10GE	Cat6513 chassis, WS-SUP32-10GE-3B, Fan Tray (req. P/S)	Catalyst 6500	switch	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}	core-agg	series:Catalyst 6500					
 WS-C6513-S32-GE	Cisco Catalyst 6513, WS-SUP32-GE-3B, Fan Tray (req. P/S)	Catalyst 6500	switch	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}	core-agg	series:Catalyst 6500					
+WS-C6513-S32P-GEWS-	Cisco WS-C6513-S32P-GEWS-	2900 ISR	switch	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}	core-agg	series:Catalyst 6500					
+WS-C6513-S32P10GEWS-	Cisco WS-C6513-S32P10GEWS-	2900 ISR	switch	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}	core-agg	series:Catalyst 6500					
 WS-C6513-VPN+-K9	Cisco Catalyst 6513 IPSec VSPA Security System	Catalyst 6500	switch	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}	core-agg	series:Catalyst 6500					
+WS-C6513-VPN+-K9WS-	Cisco WS-C6513-VPN+-K9WS-	2900 ISR	switch	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}	core-agg	series:Catalyst 6500					
 WS-C6597=	Catalyst C6506/9(E and Non-E) 23in Center Rack Mount Kit	Catalyst 6500	mechanical	layered	Catalyst		Catalyst 6500	sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}							
 WS-C6K-13SLT-FAN2	High Speed Fan Tray for Catalyst 6513/Cisco 7613	Catalyst 6500	fan	layered	Catalyst		Catalyst 6500	label Catalyst 6500						name: 6500	
 WS-C6K-13SLT-FAN2=	High Speed Fan Tray, Spare, for Catalyst 6513/Cisco 7613	Catalyst 6500	fan	layered	Catalyst		Catalyst 6500	label Catalyst 6500						name: 6500	
@@ -7170,7 +7170,6 @@ WS-F6K-VPWR-GE=	Cisco Catalyst 6500 Series Cisco Prestandard PoE Daughter Card f
 WS-F6K-VPWR=	Cisco Catalyst 6500 Series Cisco Prestandard PoE Daughter Card for 10/100 modules (for WS-X6148-RJxx and WS-X6348-xx)	Catalyst 6500	module	layered	Catalyst		Catalyst 6500	sku ^WS-F6							
 WS-F6K-XENBLNKCVR	Catalyst 6500 Xenpak Blank Covers for WS-X6704-10GE	Catalyst 6500	accessory	layered	Catalyst		Catalyst 6500	sku ^WS-F6							
 WS-F6K-XENBLNKCVR=	Catalyst 6500 Xenpak Blank Covers for WS-X6704-10GE	Catalyst 6500	accessory	layered	Catalyst		Catalyst 6500	sku ^WS-F6							
-WS-G5483=	1000BASE-T GBIC	Catalyst 6500	switch	pending_plan						sw.issue.optic	transceiver	move transceiver			
 WS-IPSEC-3	Cisco Catalyst 6500 Series VPN Services Port Adapter	Catalyst 6500	module	layered	Catalyst		Catalyst 6500	sku ^WS-IPSEC							
 WS-IPSEC-SSC600-L1	Cisco Catalyst 6500 IPsec VSPA Bundle 1 (system only)	Catalyst 6500	linecard	layered	Catalyst		Catalyst 6500	sku ^WS-IPSEC							
 WS-IPSEC-SSC600-L2	Cisco Catalyst 6500 IPsec VSPA Bundle 2 (system only)	Catalyst 6500	linecard	layered	Catalyst		Catalyst 6500	sku ^WS-IPSEC							
@@ -7185,30 +7184,71 @@ WS-SUP720	Cisco Catalyst 6500 Series Supervisor Engine 720 (required for switche
 WS-SUP720-3B	Catalyst 6500/Cisco 7600 Supervisor 720 Fabric MSFC3 PFC3B	Catalyst 6500	supervisor	layered	Catalyst		Catalyst 6500	sku ^WS-SUP							
 WS-SUP720-3BXL	Catalyst 6500/Cisco 7600 Supervisor 720 Fabric MSFC3 PFC3BXL	Catalyst 6500	supervisor	layered	Catalyst		Catalyst 6500	sku ^WS-SUP							
 WS-SVC-AON-1-K9	Cisco Catalyst 6500 Series Application-Oriented Networking Module, embedded planning, design, and implementation (PDI) services	Catalyst 6500	module	layered	Catalyst		Catalyst 6500	sku ^WS-SVC							
+WS-SVC-ASA-SM1	Base ASA Services Module PID for K8/K9	Services Modules	module	layered	Catalyst		Catalyst 6500	sku ^WS-SVC							
+WS-SVC-ASA-SM1-K7	ASA Services Module for Catalyst 6500-E, NPE	Services Modules	module	layered	Catalyst		Catalyst 6500	sku ^WS-SVC							
+WS-SVC-ASA-SM1-K7=	ASA K7 Service Module for the Catalyst 6500-E, DES (Spare)	Services Modules	module	layered	Catalyst		Catalyst 6500	sku ^WS-SVC							
+WS-SVC-ASA-SM1-K8	ASA Services Module for Catalyst 6500-E, DES	Services Modules	module	layered	Catalyst		Catalyst 6500	sku ^WS-SVC							
+WS-SVC-ASA-SM1-K8=	ASA Services Module for Catalyst 6500-E, DES (spare)	Services Modules	module	layered	Catalyst		Catalyst 6500	sku ^WS-SVC							
+WS-SVC-ASA-SM1-K9	ASA Services Module for Catalyst 6500-E, 3DES/AES	Services Modules	module	layered	Catalyst		Catalyst 6500	sku ^WS-SVC							
+WS-SVC-ASA-SM1-K9=	ASA Services Module for Catalyst 6500-E, 3DES/AES (spare)	Services Modules	module	layered	Catalyst		Catalyst 6500	sku ^WS-SVC							
+WS-SVC-ASA-SM1=	ASA Services Module for Catalyst 6500-E K8/K9 (Spare)	Services Modules	module	layered	Catalyst		Catalyst 6500	sku ^WS-SVC							
+WS-SVC-ASASM1B-K9	ASA Services Module for Catalyst 6500-E, 3DES/AES	Services Modules	module	layered	Catalyst		Catalyst 6500	sku ^WS-SVC							
 WS-SVC-CMM	Cisco Communication Media Module	Catalyst 6500	module	layered	Catalyst		Catalyst 6500	sku ^WS-SVC							
 WS-SVC-CMM-24FXS	24-port FXS Analog Port Adapter	Catalyst 6500	module	layered	Catalyst		Catalyst 6500	sku ^WS-SVC							
 WS-SVC-CMM-6E1	6-port E1 Interface Port Adapter	Catalyst 6500	module	layered	Catalyst		Catalyst 6500	sku ^WS-SVC							
 WS-SVC-CMM-6T1	6-port T1 Interface Port Adapter	Catalyst 6500	module	layered	Catalyst		Catalyst 6500	sku ^WS-SVC							
 WS-SVC-CMM-ACT	Conferencing and Transcoding Port Adapter	Catalyst 6500	module	layered	Catalyst		Catalyst 6500	sku ^WS-SVC							
+WS-SVC-IDS2-BUN-K9	600M IDSM-2 Mod for Cat	Services Modules	module	layered	Catalyst		Catalyst 6500	sku ^WS-SVC							
+WS-SVC-IDS2BUNK9=	600M IDSM-2 Mod Spare	Services Modules	module	layered	Catalyst		Catalyst 6500	sku ^WS-SVC							
+WS-SVC-NAM-3-K9	Cisco Catalyst 6500 Series NAM-3	Services Modules	module	layered	Catalyst		Catalyst 6500	sku ^WS-SVC							
+WS-SVC-NAM-3-K9=	Cisco Catalyst 6500 Series NAM-3	Services Modules	module	layered	Catalyst		Catalyst 6500	sku ^WS-SVC							
+WS-SVC-NAM3-6G-K9	Cisco Catalyst 6500 Series Network Analysis Module (NAM-3)	Services Modules	module	layered	Catalyst		Catalyst 6500	sku ^WS-SVC							
+WS-SVC-NAM3-6G-K9=	Cisco Catalyst 6500 Series Network Analysis Module (NAM-3)	Services Modules	module	layered	Catalyst		Catalyst 6500	sku ^WS-SVC							
+WS-SVC-NAM3KS2T-K9	NAM-3 for Keystone Sup2T bundles	Services Modules	module	layered	Catalyst		Catalyst 6500	sku ^WS-SVC							
+WS-SVC-SAMI-BB-K9	Service Application Module for IP (6 x PPC w/ 2GB) (Cryto)	7600 Wireless Security Gateway	module	layered	Catalyst		Catalyst 6500	sku ^WS-SVC							
+WS-SVC-SAMI-BB-K9=	Service Application Module for IP (6 x PPC w/ 2GB) (Cryto)	7600 Wireless Security Gateway	module	layered	Catalyst		Catalyst 6500	sku ^WS-SVC							
+WS-SVC-WEBVPN-K9	WebVPN Services Module for Cisco Catalyst 6500 Series and Cisco 7600 Series	Services Modules	module	layered	Catalyst		Catalyst 6500	sku ^WS-SVC							
+WS-SVC-WEBVPN-K9=	WebVPN Services Module (spare)	Services Modules	module	layered	Catalyst		Catalyst 6500	sku ^WS-SVC							
 WS-SVC-WISM-1-K9	Cisco Wireless Services Module with support for up to 300 Cisco Aironet access points	Catalyst 6500	module	layered	Catalyst		Catalyst 6500	sku ^WS-SVC							
 WS-SVC-WLAN-1-K9	Cisco Catalyst 6500 Series WLSM	Catalyst 6500	module	layered	Catalyst		Catalyst 6500	sku ^WS-SVC							
+WS-SVCWISM2FIPKIT=	WS-SVC-WISM2 FIPS Kit	Aironet 1550	accessory	layered	Catalyst		Catalyst 6500	sku ^WS-SVC							
 WS-UA-SUP9E	Wireless Card for WS-X45-SUP9-E	Catalyst 4500	supervisor	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-UA-SUP9E							
 WS-UPOE-12VPSPL	12V uPoE Pass-Through Splitter	Catalyst 4500	power	layered	Catalyst	(shared across the line)	Catalyst shared parts	label-unsupported (label Catalyst 4500; was Catalyst 4500-E): no platform token (4500) in the SKU or name, no compatible part placed in the series						none: no platform token (4500) in the SKU or name, no compatible part placed in the series	
 WS-UPOE-12VPSPL=	UPoE 12V Passthrough Splitter	Catalyst 4500	power	layered	Catalyst	(shared across the line)	Catalyst shared parts	label-unsupported (label Catalyst 4500; was Catalyst 4500-E): no platform token (4500) in the SKU or name, no compatible part placed in the series						none: no platform token (4500) in the SKU or name, no compatible part placed in the series	
 WS-X4013+/2	Cisco Catalyst 4500 Redundant Supervisor Engine II-Plus, 2 Gigabit Ethernet, console RJ-45 (Cisco IOS Software based)	Catalyst 4500	supervisor	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X4[0-8][0-9]{2}							
 WS-X4124-FX-MT	Cisco Catalyst 4000 Fast Ethernet Switching Module, 24-port 100BASE-FX (MT-RJ)	Catalyst 4500	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X4[0-8][0-9]{2}							
+WS-X4124-FX-MT=	Catalyst 4500 FE Switching Module, 24- 100FX (MTRJ)(Spare)	Line cards	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X4[0-8][0-9]{2}							
 WS-X4124-RJ45	Cisco Catalyst 4500 10/100 Module, 24-port (RJ-45)	Catalyst 4500	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X4[0-8][0-9]{2}							
+WS-X4124-RJ45=	Catalyst 4500 10/100 Module, 24-Ports(RJ45)	Line cards	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X4[0-8][0-9]{2}							
 WS-X4148-FE-BD-LC	Cisco Catalyst 4500 Fast Ethernet Switching Module, 48-port 100BASE-BX-D SMF (LC)	Catalyst 4500	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X4[0-8][0-9]{2}							
 WS-X4148-FX-MT	Cisco Catalyst 4500 Series 48-Port 100BASE-FX Fast Ethernet Line Card (MT-RJ) for multimode fiber	Catalyst 4500	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X4[0-8][0-9]{2}							
 WS-X4148-FX-MT++=	Catalyst 4500 FE Switching Module, 48‑100FX MMF(MTRJ)(Spare)	Catalyst 4500	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X4[0-8][0-9]{2}							
+WS-X4148-FX-MT=	Catalyst 4500 FE Switching Module, 48‑100FX MMF(MTRJ)(Spare)	Line cards	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X4[0-8][0-9]{2}							
+WS-X4148-RJ	Cisco Catalyst 4500 10/100 Auto Module, 48-Port (RJ-45)	Line cards	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X4[0-8][0-9]{2}							
 WS-X4148-RJ21	Cisco Catalyst 4500 10/100 Module, 48-port telco (4 x RJ-21)	Catalyst 4500	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X4[0-8][0-9]{2}							
+WS-X4148-RJ21=	Catalyst 4500 10/100 Module, 48-Ports Telco (4xRJ21)(spare)	Line cards	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X4[0-8][0-9]{2}							
+WS-X4148-RJ=	Catalyst 4500 10/100 Auto Module, 48-Ports (RJ-45) (Spare)	Line cards	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X4[0-8][0-9]{2}							
 WS-X4224-RJ45V	Cisco Catalyst 4500 PoE 803.3af 10/100, 24-port (RJ-45)	Catalyst 4500	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X4[0-8][0-9]{2}							
+WS-X4224-RJ45V=	Catalyst 4500 PoE 802.3af 10/100 24-ports ( RJ45)	Line cards	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X4[0-8][0-9]{2}							
 WS-X4232-GB-RJ	Cisco Catalyst 4500 32-Port 10/100 (RJ-45), 2 Gigabit Ethernet (GBIC) modules	Catalyst 4500	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X4[0-8][0-9]{2}							
+WS-X4232-GB-RJ=	Catalyst 4500 32-10/100 (RJ-45),2-GE(GBIC)	Line cards	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X4[0-8][0-9]{2}							
+WS-X4248-FE-SFP	Cisco Catalyst 4500 Fast Ethernet Switching Module, 48-port 100BASE-X (SFP)	Line cards	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X4[0-8][0-9]{2}							
 WS-X4248-FE-SFP++=	Catalyst 4500 48-Port 100BASE-X (SFPs Optional)	Catalyst 4500	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X4[0-8][0-9]{2}							
 WS-X4248-FE-SFP=	Catalyst 4500 48-Port 100BASE-X (SFPs Optional)	Catalyst 4500	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X4[0-8][0-9]{2}							
+WS-X4248-FX-MT	Cisco WS-X4248-FX-MT	Line cards	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X4[0-8][0-9]{2}							
 WS-X4248-RJ21V	Cisco Catalyst 4500 PoE 802.3af 10/100, 48-port (RJ-21)	Catalyst 4500	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X4[0-8][0-9]{2}							
+WS-X4248-RJ21V=	Catalyst 4500 PoE 802.3af 10/100, 48-Ports (RJ21)	Line cards	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X4[0-8][0-9]{2}							
+WS-X4248-RJ45V	Cisco Catalyst 4500 PoE 802.3af 10/100, 48-port (RJ-45)	Line cards	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X4[0-8][0-9]{2}							
+WS-X4248-RJ45V=	Catalyst 4500 PoE802.3af 10/100, 48-Ports (RJ45)	Line cards	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X4[0-8][0-9]{2}							
 WS-X4302-GB	Cisco Catalyst 4500 Gigabit Ethernet Module, 2-port (GBIC)	Catalyst 4500	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X4[0-8][0-9]{2}							
+WS-X4302-GB=	Catalyst 4500 Gigabit Ethernet Module, 2-Ports (GBIC)	Line cards	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X4[0-8][0-9]{2}							
+WS-X4306-GB	Cisco Catalyst 4500 Gigabit Ethernet Module, 6-port (GBIC)	Line cards	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X4[0-8][0-9]{2}							
+WS-X4306-GB=	Catalyst 4500 Gigabit Ethernet Module, 6-Ports (GBIC) (Spare)	Line cards	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X4[0-8][0-9]{2}							
+WS-X4418-GB	Cisco Catalyst 4500 Gigabit Ethernet Module, server switching 18 ports (GBIC)	Line cards	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X4[0-8][0-9]{2}							
 WS-X4424-GB-RJ45	Cisco Catalyst 4500 24-Port 10/100/1000 Module (RJ-45)	Catalyst 4500	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X4[0-8][0-9]{2}							
+WS-X4424-GB-RJ45=	Catalyst 4500 24-port 10/100/1000 Module (RJ45) (Spare)	Line cards	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X4[0-8][0-9]{2}							
+WS-X4448-GB-LX	Cisco WS-X4448-GB-LX	Line cards	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X4[0-8][0-9]{2}							
+WS-X4448-GB-SFP	Cisco Catalyst 4500 Gigabit Ethernet Module, 48-port 1000BASE-X (optional SFPs)	Line cards	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X4[0-8][0-9]{2}							
 WS-X4448-GB-SFP=	Catalyst 4500 48-Port 1000 Base-X (SFPs Optional)	Catalyst 4500	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X4[0-8][0-9]{2}							
 WS-X45-SUP6-E	Cisco WS-X45-SUP6-E Supervisor-Engine für Catalyst 4500-E	Cat4500E Modules	supervisor	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X45							
 WS-X45-SUP6L-E	Catalyst 4500 E-Series Sup 6-E Lite, 2x10GE(X2) w/ Twin Gig	Cat4500E Modules	supervisor	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X45							
@@ -7236,6 +7276,7 @@ WS-X4503E-19CNTR=	C4503 E Center Mount 19 Inch Rack Kit L/R C	Catalyst 4500	line
 WS-X4503E-23CNTR=	C4503 E Center Mount 23 Inch Rack Kit L/R C	Catalyst 4500	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X45							
 WS-X4503E-ACC-KIT=	Catalyst C4503-E spare accessory kit	Catalyst 4500	mechanical	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X45							
 WS-X4506-FILTER=	C4506 Center Mount 23 Inch Filter (1 Set)	Catalyst 4500	mechanical	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X45							
+WS-X4506-GB-T	Cisco Catalyst 4500 Gigabit Ethernet Module, 6-port 10/100/1000 802.3af PoE or 1000BASE-X (SFP)	Line cards	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X45							
 WS-X4506E-19CNTR=	C4506 E Center Mount 19 Inch Rack Kit L/R C	Catalyst 4500	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X45							
 WS-X4506E-23CNTR=	C4506 E Center Mount 23 Inch Rack Kit L/R C	Catalyst 4500	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X45							
 WS-X4506E-ACC-KIT=	Catalyst C4506-E spare accessory kit	Catalyst 4500	mechanical	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X45							
@@ -7250,8 +7291,15 @@ WS-X4510E-ACC-KIT=	Catalyst C4510-E spare accessory kit	Catalyst 4500	mechanical
 WS-X4516-10GE	Catalyst 4500 Supervisor V-10GE, 2x10GE (X2) and 4x1GE (SFP)	Catalyst 4500	supervisor	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X45							
 WS-X4516-10GE/2	Cisco Catalyst 4500 Redundant Supervisor Engine V-10GE, (2X10GE (X2) or 4X1GE (SFP), Console RJ-45	Catalyst 4500	supervisor	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X45							
 WS-X4516-10GE=	Catalyst 4500 Supervisor V-10GE, 2x10GE (X2) and 4x1GE (SFP)	Catalyst 4500	supervisor	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X45							
+WS-X4524-GB-RJ45V	Cisco Catalyst 4500 PoE 802.3af 10/100/1000, 24-port (RJ-45)	Line cards	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X45							
+WS-X4524-GB-RJ45V=	Catalyst 4500 PoE 802.3af 10/ 100/1000 24-ports (RJ45)	Line cards	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X45							
+WS-X4548-GB-RJ45	Cisco Catalyst 4500 Enhanced Module, 48-port 10/100/1000 (RJ-45)	Line cards	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X45							
+WS-X4548-GB-RJ45=	Catalyst 4500 Enhanced 48-Port 10/100/1000 Base-T (RJ-45)	Line cards	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X45							
+WS-X4548-GB-RJ45V	Cisco Catalyst 4500 PoE IEEE 802.3af 10/100/1000, 48 Ports (RJ-45)	Line cards	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X45							
 WS-X4548-GB-RJ45V+	Cisco Catalyst 4500 PoEP ready 10/100/1000, 48-port (RJ-45)	Catalyst 4500	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X45							
 WS-X4548-GB-RJ45V=	Catalyst 4500 PoE 802.3af 10/100/1000, 48-Ports (RJ45)	Catalyst 4500	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X45							
+WS-X4548-RJ45V+	Cisco Catalyst 4500 48-Port 802.3af PoE and 802.3at PoEP 10/100/1000 (RJ-45)	Line cards	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X45							
+WS-X4548-RJ45V+=	Catalyst 4500 PoE+ Ready 10/100/1000, 48-Port (RJ45)	Line cards	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X45							
 WS-X4582+E=	Catalyst 4510R+E Fan Tray (Spare)	Catalyst 4500	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X45							
 WS-X4593-E=	Catalyst 4503-E Fan Tray (Spare)	Catalyst 4500	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X45							
 WS-X4596-E=	Catalyst 4506-E Fan Tray (Spare)	Catalyst 4500	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X45							
@@ -7272,6 +7320,7 @@ WS-X4648-RJ45-E	Catalyst 4500 E-Series 48‑Port 10/100/1000 (RJ45)	Cat4500E Mod
 WS-X4648-RJ45-E++=	Catalyst 4500 E-Series 48‑Port 10/100/1000 (RJ45)	Catalyst 4500	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X4[0-8][0-9]{2}							
 WS-X4648-RJ45-E=	Catalyst 4500 E-Series 48‑Port 10/100/1000 (RJ45)	Catalyst 4500	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X4[0-8][0-9]{2}							
 WS-X4648-RJ45V+E	Catalyst 4500 E-Series 48‑Port PoE+ Ready 10/100/1000(RJ45)	Cat4500E Modules	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X4[0-8][0-9]{2}							
+WS-X4648-RJ45V+E=	Catalyst 4500 E-Series 48‑Port PoE+ Ready 10/100/1000(RJ45)	Line cards	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X4[0-8][0-9]{2}							
 WS-X4648-RJ45V-E	Catalyst 4500 E-Series 48-Port PoE 802.3af 10/100/1000(RJ45)	Cat4500E Modules	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X4[0-8][0-9]{2}							
 WS-X4648-RJ45V-E=	Catalyst 4500 E-Series 48-Port PoE 802.3af 10/100/1000(RJ45)	Catalyst 4500	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X4[0-8][0-9]{2}							
 WS-X4648-RJ45VE++=	Catalyst 4500 E-Series 48‑Port PoE+ Ready 10/100/1000(RJ45)	Catalyst 4500	linecard	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^WS-X4[0-8][0-9]{2}							
@@ -7444,7 +7493,6 @@ WS-X6K-SLOT-CVR=	Catalyst 6000 Blank Line Card Slot Cover	Catalyst 6500	mechanic
 WS4506E-8L+96SFP++	C4506-E Chassis, two ME-X4748-SFP-E, Sup8L-E,LAN Base Bundle	Catalyst 4500	switch	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^(ME|WS)-?45[01][0-9]	core-agg	series:Catalyst 4500-E					
 WS4507E-8L+96SFP++	C4507R+E Chassis, two ME-X4748-SFP-E, Sup8L-E, LAN Base	Catalyst 4500	switch	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^(ME|WS)-?45[01][0-9]	core-agg	series:Catalyst 4500-E					
 WS4510E-S8+96SFP++	4510R+E Chassis, two ME-X4748-SFP-E, Sup8E, LAN Base Bundle	Catalyst 4500	switch	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^(ME|WS)-?45[01][0-9]	core-agg	series:Catalyst 4500-E					
-WSP-Q40G-LR4L	Cisco WSP-Q40G-LR4L	Nexus 5000	switch	pending_plan						sw.issue.optic	transceiver	move transceiver			
 X9432PQ	Cisco X9432PQ	Nexus 9000	linecard	layered	Nexus	Nexus 9000	Nexus 9500	sku ^X9[4-7][0-9]{2}							
 X9464PX	Cisco X9464PX	Nexus 9000	linecard	layered	Nexus	Nexus 9000	Nexus 9500	sku ^X9[4-7][0-9]{2}							
 X9464TX2	Cisco X9464TX2	Nexus 9000	linecard	layered	Nexus	Nexus 9000	Nexus 9500	sku ^X9[4-7][0-9]{2}							
