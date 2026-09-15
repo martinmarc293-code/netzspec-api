@@ -29,6 +29,14 @@ full; the ones that bite hardest here are restated.
   vendor filter first.
 - **The site's concerns stay out.** No slugs for URLs beyond the part slug, no SEO titles, no
   indexability, no shop prices.
+- **Never cat, grep, sed, type or head a `.env` file, and never print a connection string.** Use
+  `node scripts/env-keys.mjs [path]` — it prints KEY NAMES ONLY — and `--same KEY_A KEY_B` to learn
+  whether two URLs carry the same credential (true / false). A database name comes from
+  `databaseName(resolveDatabaseUrl())`, never from the URL on screen. On 15 Sep 2026 a grep | sed that
+  "masked" `DATABASE_URL_TEST` masked the host and printed the user and password into a stored
+  transcript; the one password is shared by production and every test database, and sits in 23
+  files on the laptop and 7 on the box. A mask written by hand against a value's shape fails on the
+  shape nobody expected; a helper that never outputs a value cannot.
 
 ## Proof rules
 
