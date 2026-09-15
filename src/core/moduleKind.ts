@@ -97,7 +97,11 @@ export type ModuleKind =
   | "accessory"  // brackets, blanks, bezels, panels, antennas, third-party structured cabling
   | "mux"        // passive WDM mux / demux / OADM / splitter — a MOVE proposal to optical-networking
   | "optic"      // a transceiver filed here — a MOVE proposal, asked nothing of a module
-  | "device";    // a whole device filed here — a MOVE proposal, asked nothing of a module
+  | "device"     // a whole device filed here — a MOVE proposal, asked nothing of a module
+  // layers round 3 (15 Sep 2026): the axis names `mechanical` from the SKU for the slot dividers and NIM carriers, as routerKind's
+  // `mechanical-shield-divider-cap` rule does for the same SKUs. NOT added to MOD_KINDS: cupLedger's "interfaces-modules" list
+  // already carries `mechanical` through NAME_ONLY_KINDS, and a second copy there would change the ledger's list, which is cup side.
+  | "mechanical";
 
 /**
  * Kinds that carry PORTS of their own, and are asked a port count.
@@ -192,6 +196,13 @@ const RULES: { kind: ModuleKind; re: RegExp }[] = [
   //        same family a cable. That is 56 of the report's "≈110 Panduit rows"; the real
   //        third-party population is 65.
   { kind: "cable", re: /(?:^|-)(?:CAB|CBL|CABLE)(?:-|=|$)|^CB-|^ONS-CAB-|-CONSOLE-\d/ },
+  // 2b. SLOT DIVIDERS AND NIM CARRIERS (layers round 3, 15 Sep 2026; operator decision 1: "C-SM-NIM-ADPT base and spare -> one
+  // kind"). HWIC-SLOT-DIVIDER= "HWIC/EHWIC Slot Divider (Guide)" was `interface` through its HWIC prefix and SM-SLOT-DIVIDER=
+  // `unknown`; C-SM-NIM-ADPT "Single-wide 2x NIM carrier module in SM-X form factor" was `mechanical` only through its NAME, so
+  // its spare (named "Cisco C-SM-NIM-ADPT=") stayed `unknown` — the pair disagreed. A guide and a carrier have no port of their
+  // own. The same SKUs are `mechanical` in routerKind (rule mechanical-shield-divider-cap), which this rule copies. SM-NM-ADPTR
+  // ("Network Module Adapter for SM Slot") stays `accessory` below: the routers rule does not name it either.
+  { kind: "mechanical", re: /SLOT-DIVIDER|-NIM-ADPTR?(?:=|$)/ },
   // 3. THIRD-PARTY STRUCTURED CABLING AND THE PHYSICAL ODDS (65 Panduit rows plus 27 Cisco).
   // The Panduit families are enumerated rather than pattern-matched: they are catalogue codes
   // (AZ83NQ2S2AQM005, FZTRR7N7NYNF001, E787802GNZ20xxxM) with no internal structure, and the
@@ -228,7 +239,8 @@ const RULES: { kind: ModuleKind; re: RegExp }[] = [
   // class it as a licence and why it fell to the default here. The shape is exact (a platform, a
   // from-size, `U`, a to-size, a unit) and matches those two rows and nothing else in the whole
   // catalogue — checked against all 91k parts, not just this category.
-  { kind: "memory", re: /^MEM-|^FL-\d{3,4}-\d+U[\d.]+(?:MB|GB)|(?:^|-)SD-X\d|(?:^|-)USB-X\d|(?:^|-)HDD(?:-|=|\d|$)|^NAM\d?-HDD/ },
+  // `^SM-DSK-` (layers round 3): SM-DSK-SATA-500GB= "Spare 50-GB hard disk for SM-SRE-900-K9" fell to the default.
+  { kind: "memory", re: /^MEM-|^FL-\d{3,4}-\d+U[\d.]+(?:MB|GB)|(?:^|-)SD-X\d|(?:^|-)USB-X\d|(?:^|-)HDD(?:-|=|\d|$)|^NAM\d?-HDD|^SM-DSK-/ },
   // 7. WHOLE DEVICES FILED HERE (87 rows, MOVE — see the report). Named families only, every row
   // read. Routers: CISCO####-* (9), the C18xx/C19xx/C28xx/C29xx/C39xx SHDSL, 3G/4G and WAAS
   // bundles (36), ASR1001-HX, NCS-55A2-MOD-S, NCS-57B1-*. Switches: WS-C####. Servers: UCS-FI-,
@@ -270,21 +282,31 @@ const RULES: { kind: ModuleKind; re: RegExp }[] = [
   //        P-LTEA7-* and P-5GS6-* cellular pluggables (which live in `routers`). It states one
   //        port in its own SKU, so it is an `interface`. The `-LTEA?` alternative below still
   //        catches a cellular P- module if one ever lands here.
-  { kind: "cellular", re: /^(?:E?HWIC|NIM|NM|GRWIC)-(?:3G|4G|LTE)|-LTEA?(?:-|=|$)|(?:^|-)(?:3G|4G)-(?:CDMA|HSPA|EVDO|GSM)/ },
+  // layers round 3 (15 Sep 2026, operator decision 1: "P-LTE / P-5GS6 / WIM cellular -> cellular"): the pluggable interface
+  // modules P-5GS6-GL "5G Sub-6 pluggable interface module", P-LTEA7-NA "CAT7 LTE advanced pluggable", P-LTEAP18-GL "CAT18 LTE
+  // Advanced Pluggable" (12 rows) carried no `-LTE-` segment and fell to the default; WIM-3G "Dual SIM-multimode 3G WAN Interface
+  // Module" likewise. `^WIM-(?:3G|4G|LTE)` leaves WIM-1T, the 800M serial WIM, to the interface rule.
+  { kind: "cellular", re: /^(?:E?HWIC|NIM|NM|GRWIC)-(?:3G|4G|LTE)|-LTEA?(?:-|=|$)|(?:^|-)(?:3G|4G)-(?:CDMA|HSPA|EVDO|GSM)|^P-(?:LTE|5G)|^WIM-(?:3G|4G|LTE)/ },
   // 10. RADIO — 802.11, WiMAX and WPAN. HWIC-AP-* access-point HWICs, the AIR-RM3000M / AIR-RM3010L
   // wireless security and hyperlocation modules (45 rows, 43 part-evidence) and, from 12 Sep 2026,
   // the seven Connected Grid WiMAX/WPAN modules. Their cup is `ieee_standards` — 16 rows hold it
   // already ("802.11 B,G" on HWIC-AP-G-A) — not `cellular_bands`, and not `radio_bands`, which
   // catalogue-wide holds THREE different quantities (Wi-Fi bands in `wireless`, cellular bands
   // here, and an AC mains frequency on seven HPE parts in this very category: "50Hz/60Hz").
-  { kind: "radio", re: /^E?HWIC-AP|^AIR-RM\d|^CGM-(?:WIMAX|WPAN)/ },
+  // `^WP-WIFI` (layers round 3, operator decision 1: "WP Wi-Fi pluggables -> radio"): the 36 WP-WIFI6-* "WiFi6 Pluggable Module
+  // for IoT Routers" rows, all `unknown` before.
+  { kind: "radio", re: /^E?HWIC-AP|^AIR-RM\d|^CGM-(?:WIMAX|WPAN)|^WP-WIFI/ },
   // 11. SERVICE, COMPUTE AND SECURITY-SERVICE MODULES. SM-SRE-/NME-/SC-SVC- service-ready
   // engines, WS-SVC- Catalyst 6500 service blades (18 rows, 13 part-evidence), the ASA SSM/SSC
   // and CSC-SSM blades (10, 6/0), ACE30 application-control modules, the IPSec SPAs and the
   // NAM appliances filed here. These run a workload, so they are asked DRAM and storage and
   // never a port count: 0 of them hold `ports`, 42 hold `dram`.
   // kind-layer (13 Sep 2026): named `module` (was `service`) — II.11's target name for service modules.
-  { kind: "module", re: /^SM-SRE|^NME-|^SC-SVC-|^WS-SVC-|^ASA-SS[MC]|^CSC-SSM|^ACE30-|^SPA-IPSEC|^NAM\d|^SM-NAM|^SM-\d?SRE/ },
+  // layers round 3 (15 Sep 2026): `^ISM-` (pre-ruling C2 — ISM-SRE-300-K9 "Internal Services Module with Services Ready Engine",
+  // ISM-VPN-29 "3DES/AES/SUITE-B VPN Encryption module": engines without network ports are `module`, the SM-SRE / NME noun) and
+  // `^UCS-E\d` / `^SVC-E\d` (pre-ruling C3 — the UCS E-Series compute modules in the SM-X form factor, UCS-E160S-M3/K9 "UCS-E,
+  // single-wide, Intel Broadwell 6-core CPU"; flagged compute module, the server cups are a parked cup-side decision).
+  { kind: "module", re: /^SM-SRE|^NME-|^SC-SVC-|^WS-SVC-|^ASA-SS[MC]|^CSC-SSM|^ACE30-|^SPA-IPSEC|^NAM\d|^SM-NAM|^SM-\d?SRE|^ISM-|^UCS-E\d|^SVC-E\d/ },
   // 11b. CROSSBAR SWITCHING-FABRIC MODULES, BEFORE INTERFACE (8 rows), added 12 Sep 2026 (round 8,
   // reviewer §6). THREE OF THE EIGHT WERE `interface` AND BEING ASKED A PORT COUNT: DS-X9706-FAB1B=,
   // DS-X9710-FAB1B= and DS-X9710-FAB3= are MDS crossbar fabric modules caught by the `^DS-X\d`
@@ -319,7 +341,12 @@ const RULES: { kind: ModuleKind; re: RegExp }[] = [
     //        and Cisco prints the zero form.
     //   ^P-\d+T          the ISR 1100 serial pluggables (P-1T, P-1T=) — see the cellular rule above,
     //        which they left today.
-    re: /^NIM-|^E?HWIC\d?-|^V?WIC\d?-|^NMD?-|^SM-(?:[XD]-|ES\d|\d)|^GRWIC-|^(?:SPA|ESPA|EPA|PA)-|(?:^|-)SIP-\d|-SIP(?:=|$)|^(?:73\d\d|76\d\d|1[02]000)-|^\d+(?:CH)?OC-?\d+|^OC\d+E?\/(?:POS|ATM)|^\d+X?\d*(?:GE|FE)-|^STM\d|^WS-X\d|^DS-X\d|^15454E?-ML|^MGX-|^GE-DCARD|^UCSC?-VIC|^UCSC-(?:P|PCIE)-|^88-LC[O0]-|^P-\d+T(?:-|=|$)|^N7K-|^C\d{4}-LC-/,
+    // layers round 3 (15 Sep 2026, operator decision 1: "EHWIC / NIM / SM-X / ISM / WIC -> interface"): `^C-NIM-` (C-NIM-1X
+    //   "1-port 10Gbps SFP/SFP+ NIM with WAN MACSec", C-NIM-8T "8-port 100 Mbps/1 Gbps switch NIM", 10 rows) and `^C-SM-` (C-SM-
+    //   16P4M2X "Cisco 22-port Catalyst L2 switch module with UADP ASIC", 4 rows) were `unknown`: the NIM- and SM- prefixes above
+    //   are anchored at the start, and the Catalyst-generation cards put a C- before them. `^WIM-\d*T` is the 800M serial WIM
+    //   (WIM-1T "Cisco 800M Router 1-Port Serial WAN Interface Module"). The ISM engines and UCS-E went to `module` (C2, C3).
+    re: /^NIM-|^E?HWIC\d?-|^V?WIC\d?-|^NMD?-|^SM-(?:[XD]-|ES\d|\d)|^GRWIC-|^(?:SPA|ESPA|EPA|PA)-|(?:^|-)SIP-\d|-SIP(?:=|$)|^(?:73\d\d|76\d\d|1[02]000)-|^\d+(?:CH)?OC-?\d+|^OC\d+E?\/(?:POS|ATM)|^\d+X?\d*(?:GE|FE)-|^STM\d|^WS-X\d|^DS-X\d|^15454E?-ML|^MGX-|^GE-DCARD|^UCSC?-VIC|^UCSC-(?:P|PCIE)-|^88-LC[O0]-|^P-\d+T(?:-|=|$)|^N7K-|^C\d{4}-LC-|^C-NIM-|^C-SM-|^WIM-\d*T(?:-|=|$)/,
   },
 ];
 

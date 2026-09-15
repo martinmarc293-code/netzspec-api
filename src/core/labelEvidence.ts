@@ -43,7 +43,11 @@ const STOP = new Set(["catalyst", "nexus", "cisco", "series", "router", "routers
   "hardened", "secure", "console", "business", "small", "managed", "smart", "unmanaged", "stackable", "instant", "access", "fabric", "extenders",
   "embedded", "terminal", "cellular", "legacy", "content", "open", "software", "silicon", "platform", "platforms", "modules", "module",
   "network", "networks", "convergence", "power", "redundant", "digital", "building", "micro", "interface", "internal", "voice", "cards",
-  "pluggable", "compute", "enterprise", "and", "for", "with", "the"]);
+  "pluggable", "compute", "enterprise", "and", "for", "with", "the",
+  // layers round 3, pre-ruling C10 (15 Sep 2026): the generic nouns of a FORM-FACTOR series name are not evidence, a product token
+  // is — "Fiber" in "Fiber and M12 cables (CB-)" kept FQMAP46CG "Fiber Optic Migration Adapter Panel", a Panduit panel, in a
+  // Cisco cable series. Measured before the change: 0 switches, routers or transceiver rows were kept by any of these words.
+  "fiber", "fibre", "cable", "cables", "adapter", "adapters", "patch", "panel", "panels", "breakout"]);
 
 /** Numbers a Cisco string carries that are not platforms: watts ("1100WAC", "1900WHV" — a wattage ends in 0 or 5, where a model
  * with a W suffix does not: C881W, C1941W), memory, frequencies, speeds, lengths, DIMM grades (DDR4-2400, PC4-19200). */

@@ -144,6 +144,10 @@ function build(cat: string): Tree {
     for (const r of mine) {
       const p = placed.get(r.sku);
       if (!p || p.line === "(not this category)" || !p.rule.startsWith("label") || planOf.has(`${cat}|${r.sku.trim().toUpperCase()}`)) continue;
+      // layers round 3, pre-ruling C1: a stored label the mapping sends DIRECTLY to a shared-parts series claims no series, so
+      // there is no placement to test (it used to be "moved" from shared parts to the same shared parts). The standing check
+      // asserts the label is listed on that shared-parts series in the file.
+      if (p.series === SHARED_PARTS(p.line)) continue;
       const ln = loaded.file.lines.find((l) => l.line === p.line)!;
       evidence.set(r.sku, labelEvidence(r, p.series, { family: familyOf(loaded, p.series), siblings: ln.series.map((s) => ({ series: s.series, family: s.family?.trim() || null })) }, partners.get(r.id)));
     }

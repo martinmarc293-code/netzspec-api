@@ -157,12 +157,26 @@
     {
      "series": "ASA and ISA shared parts",
      "sku": [
-      "^ASA"
+      "^ASA",
+      "^CSC-SSM-"
      ],
      "labels": [
       "ASA 5500 Series Next Generation",
       "ASA"
-     ]
+     ],
+     "note": "^CSC-SSM- (layers round 3): CSC-SSM-10 / -20, the ASA 5500 Content Security and Control SSMs planned in from interfaces-modules, land beside the ASA-SSM / ASA-SSC modules planned with them (their series inside ASA 5500 is the security round's)"
+    }
+   ]
+  },
+  {
+   "line": "Network Analysis Module (NAM) appliances",
+   "series": [
+    {
+     "series": "NAM 2400 Series",
+     "sku": [
+      "^NAM24[0-9]{2}"
+     ],
+     "note": "decision pending: NAM 2400 home — NAM2420-K9 / NAM2440-K9 are planned in from interfaces-modules under pre-ruling C5 (security, kind analytics; the reviewer's confidence: medium). Security had no NAM line, so this one is opened with Cisco's product name until the security round reviews it"
     }
    ]
   },

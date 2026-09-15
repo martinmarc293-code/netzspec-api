@@ -73,6 +73,12 @@ export function labelViolations(rows: LayerRow[]): { sku: string; why: string }[
   for (const r of rows) {
     if (r.bucket !== "layered") continue;
     const pb = r.placed_by ?? "", ev = r.label_evidence ?? "";
+    // pre-ruling C1 (layers round 3): a label mapped directly to the line's shared parts claims no series and is not judged —
+    // sharedLabelNotExplicit() checks that the mapping file lists that label on the shared-parts series
+    if (pb.startsWith("label ") && r.series === `${r.product_line} shared parts`) {
+      if (ev) out.push({ sku: r.sku, why: `a label placed it directly in ${r.series}, yet evidence "${ev}" was recorded (C1: such a row is not judged)` });
+      continue;
+    }
     if (pb.startsWith("label ")) {
       if (!ev) out.push({ sku: r.sku, why: "placed by a label, no label_evidence recorded" });
       else if (ev.startsWith("none")) out.push({ sku: r.sku, why: `placed in ${r.series} by a label the evidence does not support (${ev})` });
@@ -80,6 +86,21 @@ export function labelViolations(rows: LayerRow[]): { sku: string; why: string }[
       if (r.series !== `${r.product_line} shared parts`) out.push({ sku: r.sku, why: `moved by the label check but sits in ${r.series}` });
       if (!ev.startsWith("none")) out.push({ sku: r.sku, why: `moved by the label check with evidence "${ev}"` });
     }
+  }
+  return out;
+}
+
+/** Pre-ruling C1 (layers round 3): rows a stored label placed directly in a shared-parts series, whose label the mapping file does
+ * NOT list on that series — "a label mapped directly to shared parts is not judged" holds only while the mapping says so explicitly. */
+export function sharedLabelNotExplicit(category: string, rows: LayerRow[], vendor = "cisco"): { sku: string; why: string }[] {
+  const loaded = loadLineFile(vendor, category);
+  const out: { sku: string; why: string }[] = [];
+  for (const r of rows) {
+    if (r.bucket !== "layered" || !(r.placed_by ?? "").startsWith("label ") || r.series !== `${r.product_line} shared parts`) continue;
+    const label = (r.placed_by ?? "").slice("label ".length).trim().toLowerCase();
+    const s = loaded?.file.lines.find((l) => l.line === r.product_line)?.series.find((x) => x.series === r.series);
+    if (!s) out.push({ sku: r.sku, why: `${r.series} is not a series of the mapping file` });
+    else if (!(s.labels ?? []).some((x) => x.trim().toLowerCase() === label)) out.push({ sku: r.sku, why: `label "${label}" is not listed on ${r.series}` });
   }
   return out;
 }

@@ -278,11 +278,13 @@
      "sku": [
       "^(CISCO|C)19(05|21|41)(?![0-9])",
       "^ACS-19[0-9]{2}-",
-      "^(MEM|PWR|FIPS-SHIELD)-19(00|41)-"
+      "^(MEM|PWR|FIPS-SHIELD)-19(00|41)-",
+      "^FL-1900-[0-9]+U[0-9]+MB"
      ],
      "labels": [
       "1900 ISR"
      ],
+     "note": "FL-1900-256U512MB(=) \"CISCO1905 DRAM Upgrade from 256MB to 512MB\" is planned in from interfaces-modules (layers round 3, A.3 rule 1): a DRAM part wearing the feature-licence prefix",
      "family": "ISR G2"
     },
     {
@@ -291,8 +293,9 @@
      "sku": [
       "^(CISCO|C)28[0-5]1(?![0-9])",
       "^MEM28[1-5]1-",
-      "^PWR-28[1-5]1-"
+      "^PWR-28[0-5]1-"
      ],
+     "note": "^PWR-28[0-5]1- (was [1-5]) so PWR-2801-AC-IP=, the 2801 inline-power supply planned in from interfaces-modules, places by its SKU (layers round 3)",
      "family": "ISR G1"
     },
     {
@@ -302,23 +305,29 @@
       "^(CISCO|C|CONE-|SPIAD)29[0-5]1(?![0-9])",
       "^29[0-9]{2}(-[0-9]{2})?-",
       "^ACS-29[0-9]{2}-",
-      "^PWR-29(11|21)-"
+      "^PWR-29(01|11|21)-",
+      "^MEM-2951-",
+      "^FOC-29(01|11|51)$",
+      "^RPS-COVER-29",
+      "^FIPS-SHIELD-29(01|11|21|51)"
      ],
      "labels": [
       "2900 ISR"
      ],
+     "note": "layers round 3, for the ISR 2900 parts planned in from interfaces-modules (A.3 rule 1): ^PWR-29(01|11|21)- (was (11|21)) places PWR-2901-POE=; ^MEM-2951- places MEM-2951-512U2.5GB (its siblings sat here by the label 2900 ISR with the token 2900); ^FOC-29(01|11|51)$ places the NAL certification labels NAL-FOC-2901 / 2911 / 2951 — the patterns see the SKU without its NAL- ordering prefix; ^RPS-COVER-29 places RPS-COVER-2911= / RPS-COVER-2921-51= 'Cover for empty RPS Adapter slot on Cisco 2911 / 2921/2951' (planned in from interfaces-modules in the kind layer), which reached ISR 3900 only through the two stale labels removed there; ^FIPS-SHIELD-29(01|11|21|51) places the four 'FIPS opacity shield for Cisco 29x1 ISR' spares planned in from interfaces-modules (the 1900 and 3900 shields already place here by the MEM|PWR|FIPS-SHIELD rules)",
      "family": "ISR G2"
     },
     {
      "series": "ISR 3800",
      "role": "branch",
      "sku": [
-      "^(CISCO|C)38[24]5(?![0-9])"
+      "^(CISCO|C)38[24]5(?![0-9])",
+      "^PWR-38[24]5-"
      ],
      "labels": [
-      "3800 Series Integrated Services Routers ISR",
-      "Port Adapters"
+      "3800 Series Integrated Services Routers ISR"
      ],
+     "note": "layers round 3: ^PWR-38[24]5- places PWR-3825-AC-IP= / PWR-3845-AC-IP=, planned in from interfaces-modules; the label \"Port Adapters\" was removed — it placed no routers row (the one row carrying it, CISCO3845-V/K9, is placed by its SKU) and it would have filed an arriving port adapter under ISR 3800",
      "family": "ISR G1"
     },
     {
@@ -331,10 +340,9 @@
       "^(MEM|PWR|FIPS-SHIELD)-3900-"
      ],
      "labels": [
-      "3900 Series Integrated Services Routers ISR",
-      "High-Speed WAN Interface Cards",
-      "Network Modules"
+      "3900 Series Integrated Services Routers ISR"
      ],
+     "note": "layers round 3: the labels \"High-Speed WAN Interface Cards\" and \"Network Modules\" were removed — interfaces-modules maps them; in routers they placed no row (all 44 rows carrying them are ISR bundles placed by their SKUs) and they would have filed the ISR supplies, DRAM and labels planned in from interfaces-modules under ISR 3900",
      "family": "ISR G2"
     }
    ],
@@ -391,12 +399,13 @@
       "^(M-)?ASR1[0-9]{3}",
       "^(M-)?ASR1K",
       "^EPA-(?!3GE|GE/FE)",
-      "^CUBESP-"
+      "^CUBESP-",
+      "^SPA-(DSP|WMA-K9)"
      ],
      "labels": [
       "ASR 1000"
      ],
-     "note": "CUBESP-AP-* (CUBE(SP) appliances, SIP-10 slots) placed by SKU (closing items at aa1143f (14 Sep 2026), item 1)"
+     "note": "CUBESP-AP-* (CUBE(SP) appliances, SIP-10 slots) placed by SKU (closing items at aa1143f (14 Sep 2026), item 1). SPA-DSP(=) \"Cisco ASR 1000 Series Digital Signal Processor SPA\" and SPA-WMA-K9 \"WebEx Node SPA for ASR 1000 Series\" are planned in from interfaces-modules (layers round 3, A.3 rule 1)"
     },
     {
      "series": "ASR 5000 and 5500",
@@ -694,6 +703,16 @@
       "^IC3000"
      ],
      "note": "IC3000-2C2F-K9= / IC3000-2C2F-K9++ planned in from switches: an edge-compute appliance (IOx) of the IoT line, kind appliance (operator, layers round 3: an arrival in a reviewed category)"
+    },
+    {
+     "series": "Industrial and IoT Routers shared parts",
+     "sku": [
+      "^ANT-(1[.]4|1[.]8|2[.]X)-PNL-OUT",
+      "^ANT-MP-INT-OUT",
+      "^CGR-N-CONN-WPAN",
+      "^ANT-4G-(PNL-OUT-N|SR-OUT-TNC)"
+     ],
+     "note": "layers round 3: the rows planned in from interfaces-modules land here by SKU — the Connected Grid WiMAX panel antennas and the WPAN connector (operator: CGR antennas -> routers Industrial shared parts; the WiMAX connector CGR-N-CONN-WIMAX stays in CGR 1000 by its label), and the 4G antennas ANT-4G-PNL-OUT-N / ANT-4G-SR-OUT-TNC, whose spare and siblings already sit in this shared parts. The line's other shared parts still arrive through the accessory rule"
     }
    ],
    "no_family_reason": "Cisco names IR 1101, 1800, 8100, 8300, 800, IR 500 WPAN, the Catalyst / LoRaWAN gateways and the IC3000 compute gateway as separate series"

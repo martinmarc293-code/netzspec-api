@@ -1,7 +1,8 @@
 {
  "vendor": "cisco",
  "category": "interfaces-modules",
- "_about": "Layer 2 (product line) and layer 3 (series) of Cisco interfaces and modules, 14 Sep 2026. This category is the single home for router interface cards (layers review 14 Sep 2026, item 7; docs/decisions/2026-09-14-sp-router-roles.md §3): the 'Router Interface Modules' series carry the SAME names as the routers mapping, so the 500 planned arrivals land in the series they already had. Catalyst 4500 line cards, MDS modules, AP and ASA modules, the XGS-PON ONTs and Small Business power adapters belong to other categories (not this category, with reasons). No role axis.",
+ "family_layer": "assigned",
+ "_about": "Layer 2 (product line) and layer 3 (series) of Cisco interfaces and modules, 14 Sep 2026; reviewed in layers round 3 (15 Sep 2026). This category is the single home for MULTI-PLATFORM router interface cards (layers review 14 Sep 2026, item 7; docs/decisions/2026-09-14-sp-router-roles.md §3); a card bound to one platform goes with that platform (A.3 rule 1). The card series carry the SAME names they had in the routers mapping, so the planned arrivals land in the series they already had. Cisco names no family above these series (family_layer assigned, no_family_reason on the card line). Catalyst 4500 line cards, MDS modules, AP and ASA modules, the Routed PON ONTs and the ISR / ASR 1000 / UCS platform parts belong to other categories (not this category or planned, with reasons). No role axis.",
  "not_this_category": [
   {
    "sku": "^DS-(X9|13SLT|C9)",
@@ -25,12 +26,7 @@
   },
   {
    "sku": "^ENC-10G-ONT",
-   "why": "Catalyst PON XGS-PON ONT (an endpoint device, not a module)",
-   "belongs": "switches"
-  },
-  {
-   "sku": "^SB-PWR",
-   "why": "Small Business switch / WAP power adapter",
+   "why": "XGS-PON ONT device (Cisco 10G Routed PON ONT), not a module: planned to switches Catalyst PON with CGP-ONT's kind and flag (operator, layers round 3; decision pending on the Routed PON name)",
    "belongs": "switches"
   },
   {
@@ -44,8 +40,8 @@
    "belongs": "routers"
   },
   {
-   "sku": "^15454-",
-   "why": "ONS 15454 MSTP card",
+   "sku": "^15454E?-",
+   "why": "ONS 15454 ML-Series card or console cable, SONET (15454-) or SDH (15454E-) system (operator, layers round 3: ^15454 -> optical-networking as plans)",
    "belongs": "optical-networking"
   },
   {
@@ -77,11 +73,22 @@
    "sku": "^(WS-SVC|ACE[0-9]{2}-|7600-S(IP|SC)-|MEM-C6K|NAM3-)",
    "why": "Catalyst 6500 / 7600 service module (ASA-SM, NAM-3, IDSM-2, WebVPN, ACE30) or its memory / disk: a platform-bound card, kept with the platform in switches under Catalyst 6500 (layers review round 2 decision (14 Sep 2026); A.3 rule 1)",
    "belongs": "switches"
+  },
+  {
+   "sku": "^NAM24[0-9]{2}",
+   "why": "NAM 2400 Series standalone Network Analysis Module appliance: security, kind analytics (pre-ruling C5, layers round 3)",
+   "belongs": "security"
+  },
+  {
+   "sku": "^NCS-FAB-OPT",
+   "why": "a bundle of 96 CXP-100G-SR12 optics: transceiver (pre-ruling C4, layers round 3)",
+   "belongs": "transceiver"
   }
  ],
  "lines": [
   {
-   "line": "Router Interface Modules",
+   "line": "Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)",
+   "no_family_reason": "Cisco sells these card families (NIM, SM-X, EHWIC / HWIC / WIC, NM, ISM / EM, SPA, PA, PVDM, VIC, the pluggable and cellular modules) each under its own name, by the slot it fits, with no grouping above them",
    "series": [
     {
      "series": "NIM (Network Interface Modules)",
@@ -89,7 +96,7 @@
       "^NIM-",
       "^C-NIM-"
      ],
-     "note": "multi-platform router cards (A.3 rule 1). Patterns that match no row here yet (C-NIM, C-SM, UCS-E, ISM/EM, WIC, P-LTE/5G, WP, MC/PCEX/WIM) are for the rows planned to move in from routers, switches and unified-communications"
+     "note": "multi-platform router cards (A.3 rule 1); C-NIM- is the Catalyst-generation spelling (C-NIM-1X, C-NIM-8T)"
     },
     {
      "series": "SM-X and SM Service Modules",
@@ -97,34 +104,41 @@
       "^SM-X",
       "^SM-(?!X)",
       "^C-SM-",
-      "^UCS-E"
-     ]
+      "^UCS-E",
+      "^SVC-E"
+     ],
+     "note": "UCS-E / SVC-E are compute modules in the SM-X form factor: kind module, flagged compute module (pre-ruling C3; the server cups are a parked cup-side decision). SVC-E places the three service spares planned in from servers-unified-computing"
     },
     {
      "series": "ISM / EM Internal Service Modules",
      "sku": [
       "^ISM-",
       "^EM-"
-     ]
+     ],
+     "note": "ISM-SRE-300 and ISM-VPN-29 / -39 are engines without network ports: kind module (pre-ruling C2); the EM voice expansion modules are interface cards"
     },
     {
      "series": "EHWIC / HWIC / VWIC / WIC",
      "sku": [
       "^E?HWIC",
-      "^V?WIC"
+      "^V?WIC",
+      "^ILPM-"
      ],
      "labels": [
       "High-Speed WAN Interface Cards"
-     ]
+     ],
+     "note": "ILPM-4= / ILPM-8= are the inline-power daughter modules of the EtherSwitch HWICs (data sheet 'Cisco EtherSwitch 4- and 9-Port High-Speed WAN Interface Cards'). The label's platform supplies, antennas and datasheet tokens are planned out (layers round 3)"
     },
     {
      "series": "NM / NME Network Modules",
      "sku": [
-      "^NMD?E?-"
+      "^NMD?E?-",
+      "^GE-DCARD-ESW"
      ],
      "labels": [
       "Network Modules"
-     ]
+     ],
+     "note": "GE-DCARD-ESW(=) is the Gigabit daughter card of the EtherSwitch network modules (its name: 'daughtercard for Etherswitch NM')"
     },
     {
      "series": "PVDM Voice DSP Modules",
@@ -157,10 +171,12 @@
      ]
     },
     {
-     "series": "Pluggable Interface Modules (LTE / 5G)",
+     "series": "Pluggable Interface Modules (LTE / 5G / serial)",
      "sku": [
-      "^P-(LTE|5G|LTEA|LTEAP)"
-     ]
+      "^P-(LTE|5G)",
+      "^P-[0-9]+T"
+     ],
+     "note": "the ISR 1100 / IR pluggable interface modules (PIM): LTE, 5G Sub-6 and the one-port serial P-1T (renamed from '(LTE / 5G)' in layers round 3, when P-1T got its rule)"
     },
     {
      "series": "WP pluggable modules (IoT routers)",
@@ -169,12 +185,13 @@
      ]
     },
     {
-     "series": "Cellular Cards (MC / PCEX / WIM)",
+     "series": "Cellular and WAN interface modules (MC / PCEX / WIM)",
      "sku": [
       "^MC7[0-9]{3}",
       "^PCEX",
       "^WIM-"
-     ]
+     ],
+     "note": "renamed from 'Cellular Cards (MC / PCEX / WIM)' in layers round 3: the 800M WAN interface modules include the serial WIM-1T (kind interface) beside the 3G / LTE WIMs, the Sierra MC modems and the PCEX cards"
     },
     {
      "series": "MC3810 modules (legacy)",
@@ -191,28 +208,28 @@
      "series": "Cisco 12000 / XR 12000 SIP and line cards",
      "sku": [
       "^12000-",
-      "^[0-9]{1,2}OC(3|12|48)",
+      "^[0-9]{1,2}OC(3|12)X?/",
       "^OC48E",
       "^4OC-3",
-      "^[0-9]{1,2}(GE|CHOC|X10GE)"
-     ]
-    },
-    {
-     "series": "NAM 2400 appliances (Services Modules label)",
-     "sku": [
-      "^NAM24[0-9]{2}"
+      "^([0-9](GE-SFP|CHOC)|1X10GE-)",
+      "^8FE-",
+      "^MEM-(LC-)?ISE-",
+      "^EPA-(3GE|GE/FE)"
      ],
-     "labels": [
-      "Services Modules"
-     ],
-     "note": "what is left once the Catalyst 6500 / 7600 service modules moved to switches (layers review round 2 decision (14 Sep 2026)): NAM2420-K9 / NAM2440-K9 are standalone Network Analysis Module appliances filed under the \"Services Modules\" label — their category is a question for the interfaces-modules round"
+     "note": "the two digit-led rules are fenced to the Cisco 12000 shapes (pre-ruling C6, layers round 3): the bare ^[0-9]{1,2}(GE|CHOC|X10GE) and ^[0-9]{1,2}OC(3|12|48) also claimed routers' CRS bundles (10GE-EMSE-140G=) and 4OC48-POS, and a first fence still claimed the CRS card 40X10GE-WLO(=); the rules now name 4GE-SFP-LC, 4CHOC12/DS3-I-SCB, 1x10GE-ER-SC / -LR-SC and the nOC3 / nOC12 POS and ATM cards. 8FE-, MEM-(LC-)ISE- and EPA-3GE / EPA-GE/FE carry the data sheets 'Cisco 12000 Series 8-Port Fast Ethernet Line Card', 'Cisco 12000 Series Channelized Line Card' and 'Cisco XR 12000 and 12000 Series Gigabit Ethernet Line Cards'"
     },
     {
      "series": "Router and switch line cards (legacy) shared parts",
+     "sku": [
+      "^WS-X5[0-9]{3}",
+      "^10000-SIP-",
+      "^UBR10-"
+     ],
      "labels": [
       "Line cards",
       "Route Processors and Route Switch Processors"
-     ]
+     ],
+     "note": "cards of platforms that have no series in the catalogue: the Catalyst 5000 ATM LANE modules (WS-X5153 / 5154 / 5156 / 5157, 'End Of Life of Catalyst 5000 ATM LAN Emulation Module'), the Cisco 10000 SIP-600, the uBR10012 wideband SPA carrier and, by their label, the MGX 8800 / 8900 RPM-XF and its backcards"
     }
    ]
   },
@@ -220,13 +237,23 @@
    "line": "Cables and accessories",
    "series": [
     {
-     "series": "Fiber and M12 cables (CB-)",
+     "series": "Fiber patch panels and MPO / breakout cables (CB- / PP)",
      "sku": [
-      "^CB-"
+      "^CB-",
+      "^PP[124]-"
      ],
      "labels": [
       "Transceiver Modules"
-     ]
+     ],
+     "note": "Cisco's 'High-Density Fiber Patch Panel, Simplex, MPO, and Breakout Cables Portfolio' data sheet: the CB- patch and trunk cables (CB-M12-M12-MMF10 and -MMF1.5 are printed so there) and the PP1 / PP2 / PP4 patch panels. Renamed from 'Fiber and M12 cables (CB-)' in layers round 3. The third-party structured cabling filed under the same label carries class plans (decision 3)"
+    },
+    {
+     "series": "Small Business Network Accessories (SB-PWR / RPS1000)",
+     "sku": [
+      "^SB-PWR",
+      "^RPS1000"
+     ],
+     "note": "decision pending: SB-PWR home — the Small Business 12V / 48V power adapters, PoE injectors and the RPS1000 380W redundant supply. Cisco files their data sheets and EoL notices under interfaces-modules / small-business-network-accessories, and no compatible relation ties one to a platform, so they stay here (A.3 rule 1: multi-platform) rather than going to switches as the exclusion had them (operator, layers round 3: read before assigning)"
     },
     {
      "series": "Cables and accessories shared parts",

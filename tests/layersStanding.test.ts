@@ -8,10 +8,10 @@
 import fs from "node:fs";
 import path from "node:path";
 import { REPO_ROOT } from "../src/config.js";
-import { readLayerRows, pairDisagreements, twinGroups, crossClaims, ruleUse, classifyRules, incomingRows, labelViolations, labelEvidenceDrift, seriesEntryDisagreements, deviceInSharedParts, unplacedArrivals, DEVICE_KINDS, type LayerRow } from "../src/core/layerChecks.js";
+import { readLayerRows, pairDisagreements, twinGroups, crossClaims, ruleUse, classifyRules, incomingRows, labelViolations, labelEvidenceDrift, seriesEntryDisagreements, deviceInSharedParts, unplacedArrivals, sharedLabelNotExplicit, DEVICE_KINDS, type LayerRow } from "../src/core/layerChecks.js";
 import { labelEvidence } from "../src/core/labelEvidence.js";
 
-export const REVIEWED = ["switches", "routers", "transceiver"];
+export const REVIEWED = ["switches", "routers", "transceiver", "interfaces-modules"];
 // spare = base exceptions, each read against the built row
 const PAIR_EXCEPTIONS: Record<string, string> = {
   "switches|N5K-C5696Q-C": "the spare row is named '^Invalid SKU' and carries a class non_product plan; its base is the live 'Nexus 5696Q Chassis with license and SW image'",
@@ -24,10 +24,11 @@ const LABEL_EXPECT: Record<string, { min?: number; exactly?: number; why: string
   switches: { min: 100, why: "hundreds of rows are placed by a stored series label" },
   routers: { min: 100, why: "hundreds of rows are placed by a stored series label" },
   transceiver: { exactly: 0, why: "every transceiver row is placed by its SKU's form-factor and speed family; the mapping's labels place nothing (layers round 3)" },
+  "interfaces-modules": { exactly: 5, why: "the cards are placed by their SKU families; 5 rows are judged on a stored label — STM1-CN-MM / -SMI kept by the name token PA, and AIC-DBL-PNL, AIC-SGL-PNL and WDM-SFP-2CH-CONV= moved to shared parts; the 30 labels mapped directly to a line's shared parts are not judged (pre-ruling C1, layers round 3)" },
 };
 // THE FAMILY LAYER, per category: "in-use" where Cisco names families over series (switches, routers); "none" where Cisco names none
 // and every line of 3+ series says why (layers round 3: optics and modules, operator — "—" with a no_family_reason is the expected result).
-const FAMILY_EXPECT: Record<string, "in-use" | "none"> = { switches: "in-use", routers: "in-use", transceiver: "none" };
+const FAMILY_EXPECT: Record<string, "in-use" | "none"> = { switches: "in-use", routers: "in-use", transceiver: "none", "interfaces-modules": "none" };
 // ARRIVALS (layers round 3): a not-run move plan out of a reviewed category must land placed in its target's mapping. These four
 // plans predate the check (switches + routers rounds) and their targets cannot place them yet; each is listed with the round that
 // owns the target's rule. A listed row that now places is a stale exception and fails. (Operator, layers round 3: 11 -> 4 — the
@@ -135,8 +136,12 @@ for (const cat of REVIEWED) {
   const lem = labelExpectMiss(cat, withEv);
   check(`label check ${cat}: the label-placed count meets the category's recorded expectation`, lem === null, lem ?? "");
   // every row placed through a label carries the evidence it was judged on (a label placement without evidence is the check not running)
-  const unjudged = rows.filter((r) => r.bucket === "layered" && /^label[ -]/.test(r.placed_by ?? "") && !r.label_evidence);
+  // — except a label the mapping sends DIRECTLY to its line's shared parts, which claims no series (pre-ruling C1, layers round 3)
+  const direct = (r: LayerRow) => /^label /.test(r.placed_by ?? "") && r.series === `${r.product_line} shared parts`;
+  const unjudged = rows.filter((r) => r.bucket === "layered" && /^label[ -]/.test(r.placed_by ?? "") && !r.label_evidence && !direct(r));
   check(`label check ${cat}: 0 label-placed rows without recorded evidence`, unjudged.length === 0, unjudged.slice(0, 5).map((r) => r.sku).join(", "));
+  const notExplicit = sharedLabelNotExplicit(cat, rows);
+  check(`label check ${cat}: every label placed directly in a line's shared parts (${rows.filter((r) => r.bucket === "layered" && direct(r)).length} rows) is listed on that series in the mapping (C1)`, notExplicit.length === 0, notExplicit.slice(0, 5).map((x) => `${x.sku}: ${x.why}`).join("; "));
 
   // arrivals: every not-run move plan out of this category lands placed in its target's mapping (layers round 3)
   {
@@ -211,6 +216,46 @@ for (const cat of REVIEWED) {
   check(`transceiver page: the 42 WDM GBICs are layered (operator: a GBIC rule that matches its 42 rows)`, gbic === 42, `${gbic}`);
 }
 
+// interfaces-modules on the built rows (layers round 3): the operator's decisions and the pre-rulings are where they put the rows
+{
+  const im = new Map(readLayerRows("interfaces-modules").map((r) => [r.sku, r]));
+  const CARDS = "Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)";
+  const at = (sku: string, series: string, kind?: string) => {
+    const r = im.get(sku);
+    check(`interfaces-modules page: ${sku} is layered in ${series}${kind ? `, kind ${kind}` : ""}`, r?.bucket === "layered" && r.series === series && (!kind || r.kind === kind), `got ${r?.bucket} / ${r?.series} / ${r?.kind}`);
+  };
+  at("C-NIM-1X", "NIM (Network Interface Modules)", "interface");
+  at("C-SM-NIM-ADPT", "SM-X and SM Service Modules", "mechanical");
+  at("C-SM-NIM-ADPT=", "SM-X and SM Service Modules", "mechanical");
+  at("UCS-E160S-M3/K9", "SM-X and SM Service Modules", "module");
+  at("ISM-SRE-300-K9", "ISM / EM Internal Service Modules", "module");
+  at("WP-WIFI6-A", "WP pluggable modules (IoT routers)", "radio");
+  at("P-5GS6-GL", "Pluggable Interface Modules (LTE / 5G / serial)", "cellular");
+  at("P-1T", "Pluggable Interface Modules (LTE / 5G / serial)", "interface");
+  at("ILPM-4=", "EHWIC / HWIC / VWIC / WIC", "power");
+  at("GE-DCARD-ESW", "NM / NME Network Modules", "interface");
+  at("16OC3/POS-MM", "Cisco 12000 / XR 12000 SIP and line cards", "interface");
+  at("8FE-TX-RJ45-B", "Cisco 12000 / XR 12000 SIP and line cards");
+  at("WS-X5153", "Router and switch line cards (legacy) shared parts");
+  at("SB-PWR-48V-EU", "Small Business Network Accessories (SB-PWR / RPS1000)", "power");
+  at("RPS1000", "Small Business Network Accessories (SB-PWR / RPS1000)");
+  at("PP1-72X100G-SMF", "Fiber patch panels and MPO / breakout cables (CB- / PP)");
+  check(`interfaces-modules page: the card line is renamed (C9) and holds the NIMs`, im.get("NIM-2T")?.product_line === CARDS, `${im.get("NIM-2T")?.product_line}`);
+  const planned = (sku: string, plan: string) => check(`interfaces-modules page: ${sku} carries the plan "${plan}"`, im.get(sku)?.bucket === "pending_plan" && im.get(sku)?.plan === plan, `got ${im.get(sku)?.bucket} "${im.get(sku)?.plan}"`);
+  planned("ENC-10G-ONT-10=", "move switches");
+  planned("DS-X9148-HV", "move storage-networking");
+  planned("AIR-RM3000M", "move wireless");
+  planned("NAM2420-K9", "move security");
+  planned("NCS-FAB-OPT=", "move transceiver");
+  planned("PWR-3845-AC-IP=", "move routers");
+  planned("FQMAP46CG", "class non_product");
+  planned("HN4000e", "class non_product");
+  const ntc = readLayerRows("interfaces-modules").filter((r) => r.bucket === "not_this_category").length;
+  check(`interfaces-modules page: the 190 not-this-category rows of the round's start are all planned or placed (0 left)`, ntc === 0, `${ntc}`);
+  const sw = new Map(readLayerRows("switches").map((r) => [r.sku, r]));
+  check(`switches page: NM-BLANK-T1= carries the plan to interfaces-modules (C7)`, sw.get("NM-BLANK-T1=")?.plan === "move interfaces-modules", `${sw.get("NM-BLANK-T1=")?.plan}`);
+}
+
 // SABOTAGE: each check sees a planted defect, for the stated reason.
 {
   const row = (sku: string, o: Partial<LayerRow> = {}): LayerRow => ({ sku, name: "x", series_label: "", kind: "switch", bucket: "layered", series: "A", plan: "", ...o });
@@ -255,6 +300,24 @@ for (const cat of REVIEWED) {
     [{ sku: "15454-SFP-GE+-LX=", category: "zz", action: "move", to: "optical-networking", run_id: null }, { sku: "ZZ-NO-RULE-9", category: "zz", action: "move", to: "optical-networking", run_id: null },
       { sku: "15454-SFP-GE+-LX=", category: "zz", action: "move", to: "routers", run_id: 1234 }]);
   check("SABOTAGE arrivals: a planned SKU no target rule places is reported; a placed one and a plan that ran are not", ua.length === 1 && ua[0].sku === "ZZ-NO-RULE-9" && /no rule of optical-networking/.test(ua[0].why), JSON.stringify(ua));
+
+  // pre-ruling C1 (layers round 3): a label mapped directly to a line's shared parts is not judged, but only while the mapping lists it
+  const c1 = sharedLabelNotExplicit("interfaces-modules", [
+    row("ZZ-C1-LISTED", { product_line: "Cables and accessories", series: "Cables and accessories shared parts", placed_by: "label Access Point Modules" }),
+    row("ZZ-C1-UNLISTED", { product_line: "Cables and accessories", series: "Cables and accessories shared parts", placed_by: "label Bogus Label" })]);
+  check("SABOTAGE C1: a shared-parts label the mapping does not list is reported, a listed one is not", c1.length === 1 && c1[0].sku === "ZZ-C1-UNLISTED" && /not listed/.test(c1[0].why), JSON.stringify(c1));
+  const c1v = labelViolations([
+    row("ZZ-C1-QUIET", { product_line: "L", series: "L shared parts", placed_by: "label X" }),
+    row("ZZ-C1-JUDGED", { product_line: "L", series: "L shared parts", placed_by: "label X", label_evidence: "none: no series token" })]);
+  check("SABOTAGE C1: a direct shared-parts label row with no evidence passes; one that recorded evidence is refused for that reason", c1v.length === 1 && c1v[0].sku === "ZZ-C1-JUDGED" && /not judged/.test(c1v[0].why), JSON.stringify(c1v));
+  // pre-ruling C10: a generic form-factor noun of the series name is not evidence; a product token of the name still is
+  {
+    const ctx = { family: null, siblings: [{ series: "Fiber and M12 cables (CB-)", family: null }, { series: "NIM (Network Interface Modules)", family: null }] };
+    const fq = labelEvidence({ sku: "FQMAP46CG", name: "Fiber Optic Migration Adapter Panel - 4 MPO Adapters – Type B" }, "Fiber and M12 cables (CB-)", ctx);
+    check("SABOTAGE C10: FQMAP46CG is not kept in the CB- series by the word Fiber", fq.kind === "none", JSON.stringify(fq));
+    const mpo = labelEvidence({ sku: "ZZ-TRUNK-12", name: "MPO trunk cable, 12 fibre" }, "Fiber patch panels and MPO / breakout cables (CB- / PP)", ctx);
+    check("SABOTAGE C10: and the product token MPO still evidences the renamed series (the stop-words took only the generic nouns)", mpo.kind === "name" && mpo.detail === "MPO", JSON.stringify(mpo));
+  }
 
   // the label check on built rows: a bare label in a series, and a moved row left in its series, are each refused
   const lv = labelViolations([

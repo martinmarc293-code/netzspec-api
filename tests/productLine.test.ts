@@ -256,18 +256,52 @@ witness("optical-networking", [
 
 // ---- interfaces-modules (done 14 Sep 2026): the single home for router cards; series named as in the routers file ----
 witness("interfaces-modules", [
-  ["EHWIC-4G-LTE-A=", "4G LTE EHWIC for ATT", "High-Speed WAN Interface Cards", "Router Interface Modules", "EHWIC / HWIC / VWIC / WIC"],
-  ["PA-MC-2T1=", "2 port multichannel T1 port adapter", "Port Adapters", "Router Interface Modules", "PA Port Adapters (7200 / 7500 VIP)"],
+  ["EHWIC-4G-LTE-A=", "4G LTE EHWIC for ATT", "High-Speed WAN Interface Cards", "Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)", "EHWIC / HWIC / VWIC / WIC"],
+  ["PA-MC-2T1=", "2 port multichannel T1 port adapter", "Port Adapters", "Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)", "PA Port Adapters (7200 / 7500 VIP)"],
   ["12000-SIP-601=", "XR 12000 SPA Interface Processor", "Line cards", "Router and switch line cards (legacy)", "Cisco 12000 / XR 12000 SIP and line cards"],
   ["4GE-SFP-LC", "Cisco XR 12000 and 12000 Series 4-Port Gigabit Ethernet", "Line cards", "Router and switch line cards (legacy)", "Cisco 12000 / XR 12000 SIP and line cards"],
   ["WS-SVC-NAM-3-K9", "Cisco Catalyst 6500 Series NAM-3", "Services Modules", "(not this category)", "switches"],  // round-2 decision: service modules live with the platform
-  ["NAM2420-K9", "Cisco NAM2420-K9", "Services Modules", "Router and switch line cards (legacy)", "NAM 2400 appliances (Services Modules label)"],
+  ["NAM2420-K9", "Cisco NAM2420-K9", "Services Modules", "(not this category)", "security"],  // pre-ruling C5 (layers round 3)
   ["DS-X9248-96HPK9=", "48-port Performance 8Gb FC Module", "Storage Networking Modules", "(not this category)", "storage-networking"],
   ["WS-X4548-GB-RJ45V", "Catalyst 4500 PoE line card", "Line cards", "(not this category)", "switches"],
   ["AIR-RM3010L-N-K9=", "Hyperlocation Module", "Access Point Modules", "(not this category)", "wireless"],
   // the same SKU places the same series in both files — the planned move cannot change a card's series
-  ["NIM-2T", "2-port serial WAN interface card", "Network Modules", "Router Interface Modules", "NIM (Network Interface Modules)"],
+  ["NIM-2T", "2-port serial WAN interface card", "Network Modules", "Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)", "NIM (Network Interface Modules)"],
+  // layers round 3 (15 Sep 2026)
+  ["SB-PWR-48V-EU", "Cisco Small Business 48V Power Adapter (Europe)", "Small Business Network Accessories", "Cables and accessories", "Small Business Network Accessories (SB-PWR / RPS1000)"],
+  ["RPS1000", "380W Redundant Power Supply Unit", "Small Business Network Accessories", "Cables and accessories", "Small Business Network Accessories (SB-PWR / RPS1000)"],
+  ["ENC-10G-ONT-10", "XGS-PON ONT", "Transceiver Modules", "(not this category)", "switches"],
+  ["WS-X5153", "Catalyst 5000 ATM LANE module, dual PHY UTP", "Network Modules", "Router and switch line cards (legacy)", "Router and switch line cards (legacy) shared parts"],
+  ["8FE-TX-RJ45-B", "8-port Fast Ethernet 100BASE-TX interface, RJ-45 connectors, with ECC memory", "Line cards", "Router and switch line cards (legacy)", "Cisco 12000 / XR 12000 SIP and line cards"],
+  ["1x10GE-ER-SC", "Cisco 12000 Series 1-Port 10-Gigabit Ethernet Line Card", "Line cards", "Router and switch line cards (legacy)", "Cisco 12000 / XR 12000 SIP and line cards"],
+  ["P-1T", "High Speed Serial Pluggable LATAM and India", "Network Modules", "Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)", "Pluggable Interface Modules (LTE / 5G / serial)"],
+  ["PP2-144X100G-MMF", "Cisco PP2-144X100G-MMF", "Transceiver Modules", "Cables and accessories", "Fiber patch panels and MPO / breakout cables (CB- / PP)"],
+  ["SVC-E180D-M3", "Cisco Internal. E180D-M3 Service Spare", "UCS E-Series Servers", "Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)", "SM-X and SM Service Modules"],
 ]);
+// pre-ruling C6 (layers round 3): the Cisco 12000 rules no longer claim routers' CRS cards and 4OC48-POS
+for (const [sku, name] of [["40X10GE-WLO", "CRS 40x10GE card"], ["10GE-EMSE-140G=", "CRS bundle"], ["4OC48-POS", "4-port OC-48 POS"]]) {
+  const p = placePart("cisco", "interfaces-modules", { sku, name, series: "" });
+  check(`C6: ${sku} is not placed in interfaces-modules' Cisco 12000 series`, p?.series !== "Cisco 12000 / XR 12000 SIP and line cards", `${p?.series} (${p?.rule})`);
+}
+// the arrivals of layers round 3 place in their targets by SKU
+witness("routers", [
+  ["FL-1900-256U512MB", "CISCO1905 DRAM Upgrade from 256MB to 512MB", "Network Modules", "ISR (Integrated Services Routers)", "ISR 1900"],
+  ["NAL-FOC-2911", "NAL Certification labels for Cisco 2911", "Network Modules", "ISR (Integrated Services Routers)", "ISR 2900"],
+  ["PWR-3845-AC-IP=", "Cisco 3845 AC-IP power supply", "High-Speed WAN Interface Cards", "ISR (Integrated Services Routers)", "ISR 3800"],
+  ["SPA-WMA-K9", "Cisco WebEx Node SPA for ASR 1000 Series", "", "ASR (Aggregation Services Routers)", "ASR 1000"],
+  ["ANT-1.8-PNL-OUT-N", "Outdoor Panel Antenna for WIMAX 1.8 GHz", "Connected Grid Modules", "Industrial and IoT Routers", "Industrial and IoT Routers shared parts"],
+]);
+witness("switches", [["ENC-10G-ONT-14A=", "Multiport and ATA XGS-PON ONT", "Transceiver Modules", "Catalyst", "Catalyst PON"]]);
+witness("security", [["NAM2440-K9", "Cisco NAM2440-K9", "Services Modules", "Network Analysis Module (NAM) appliances", "NAM 2400 Series"]]);
+witness("transceiver", [["NCS-FAB-OPT=", "Bundle of 96 CXP-100G-SR12", "Transceiver Modules", "Ethernet transceivers", "40G / 100G CFP, CFP2, CPAK and CXP"]]);
+witness("optical-networking", [
+  ["EWDM-OADM2=", "2-channels EWDM OADM Module", "Transceiver Modules", "CWDM passives (CWDM-CHASSIS-2 system)", "CWDM mux/demux, OADM plug-ins and chassis (CWDM-MUX / CWDM-OADM / DS-CWDM)"],
+  ["ONS-BRK-CS-16LC=", "16-chs Colorless Flex-spectrum Mux/Dmx - LCs to CS connector", "Transceiver Modules", "Routed Optical Networking", "QSFP-DD Pluggable Open Line System (QDD OLS)"],
+]);
+{
+  const p = placePart("cisco", "switches", { sku: "RPS1000-EU", name: "380W Redundant Power Supply Unit", series: "Small Business Network Accessories" });
+  check("switches: the Redundant Power System rule no longer claims RPS1000 (fenced, layers round 3)", p?.series !== "Redundant Power System", `${p?.series} (${p?.rule})`);
+}
 // A.3 rule 1 (layers review 14 Sep 2026): a card bound to ONE platform stays with that platform's series in routers
 witness("routers", [
   ["EPA-18X1GE", "Cisco ASR 1000 18x1GE Ethernet Port Adapter", "ASR 1000", "ASR (Aggregation Services Routers)", "ASR 1000"],
@@ -280,14 +314,15 @@ witness("routers", [
 witness("interfaces-modules", [
   ["GRWIC-2SHDSL", "Cisco Connected Grid G.SHDSL GRWIC", "Connected Grid Modules", "(not this category)", "routers"],
   ["7300-1OC12POS-SMI", "1-port OC-12c/STM-4 POS, Cisco 7304", "Line cards", "(not this category)", "routers"],
-  ["EPA-3GE-SX/LH-LC", "Cisco 12000 Series 3-Port Gigabit Ethernet Port Adapter", "Line cards", "Router and switch line cards (legacy)", "Router and switch line cards (legacy) shared parts"], // 12000: no platform in routers
+  ["EPA-3GE-SX/LH-LC", "Cisco 12000 Series 3-Port Gigabit Ethernet Port Adapter", "Line cards", "Router and switch line cards (legacy)", "Cisco 12000 / XR 12000 SIP and line cards"], // 12000: no platform in routers; its own SKU rule since layers round 3
 ]);
 // item 7 carried out (runs #1068 / #1069; closing items at aa1143f, item 2): the multi-platform router cards place in interfaces-modules'
 // Router Interface Modules line, and no routers SKU rule claims them any more (a card arriving in routers is unplaced, a visible decision)
 {
   const cards = ["NIM-2T", "SPA-1X10GE-L-V2", "EHWIC-VA-DSL-A", "PVDM4-32", "C-NIM-1X", "P-LTEA-EA", "WP-WIFI6-A"];
   const im = cards.map((s) => [s, placePart("cisco", "interfaces-modules", { sku: s, name: "", series: "" })] as const);
-  check("item 7: every router card places under interfaces-modules / Router Interface Modules", im.every(([, p]) => p?.line === "Router Interface Modules"), im.filter(([, p]) => p?.line !== "Router Interface Modules").map(([s, p]) => `${s} -> ${p?.line}`).join("; "));
+  const CARDS = "Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)"; // renamed from "Router Interface Modules" (pre-ruling C9, layers round 3)
+  check("item 7: every router card places under interfaces-modules / Interface cards", im.every(([, p]) => p?.line === CARDS), im.filter(([, p]) => p?.line !== CARDS).map(([s, p]) => `${s} -> ${p?.line}`).join("; "));
   const rt = cards.map((s) => [s, placePart("cisco", "routers", { sku: s, name: "", series: "" })] as const).filter(([, p]) => p !== null);
   check("item 7: no routers rule claims a router card any more", rt.length === 0, rt.map(([s, p]) => `${s} -> ${p!.series} (${p!.rule})`).join("; "));
 }

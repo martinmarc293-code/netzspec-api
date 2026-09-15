@@ -182,9 +182,10 @@
      "sku": [
       "^CFP",
       "^CPAK",
-      "^CXP"
+      "^CXP",
+      "^NCS-FAB-OPT"
      ],
-     "note": "was '100G CFP / CFP2 / CPAK / CXP'; the series also holds the CFP-40G modules and the CPAK 10x10G"
+     "note": "was '100G CFP / CFP2 / CPAK / CXP'; the series also holds the CFP-40G modules and the CPAK 10x10G. ^NCS-FAB-OPT (layers round 3, pre-ruling C4): NCS-FAB-OPT(=) \"Bundle of 96 CXP-100G-SR12\", planned in from interfaces-modules — kind pluggable at the unit, pack quantity 96 parked with the other packs (decision 6)"
     },
     {
      "series": "50G SFP56",

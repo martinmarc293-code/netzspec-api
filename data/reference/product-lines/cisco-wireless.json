@@ -312,8 +312,10 @@
     {
      "series": "Aironet Access Points shared parts",
      "sku": [
-      "^AIR-(AP|VAP|ACC|MOD|BLE|BAND|CHNL|SFP)"
-     ]
+      "^AIR-(AP|VAP|ACC|MOD|BLE|BAND|CHNL|SFP)",
+      "^AIR-RM30"
+     ],
+     "note": "^AIR-RM30 (layers round 3): the AIR-RM3000M Wireless Security and Spectrum Intelligence modules and AIR-RM3010L Hyperlocation modules of the Aironet 3600 / 3700, planned in from interfaces-modules (operator: AIR-RM radio modules -> wireless, kind module); their series is the wireless round's"
     }
    ]
   },

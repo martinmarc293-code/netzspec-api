@@ -139,18 +139,6 @@
   },
   {
    "category": "switches",
-   "claimed_by": "interfaces-modules",
-   "series": "NM / NME Network Modules",
-   "rule": "sku ^NMD?E?-",
-   "rows": 1,
-   "examples": [
-    "NM-BLANK-T1="
-   ],
-   "status": "pending-round",
-   "reason": "NM-BLANK-T1= filed under Catalyst shared parts: a router network-module blank — decided in the transceiver + interfaces-modules round"
-  },
-  {
-   "category": "switches",
    "claimed_by": "servers-unified-computing",
    "series": "UCS 6300 Fabric Interconnects",
    "rule": "sku (?<!CPU-[A-Z]{0,2})6332",
@@ -205,20 +193,6 @@
   },
   {
    "category": "routers",
-   "claimed_by": "interfaces-modules",
-   "series": "Cisco 12000 / XR 12000 SIP and line cards",
-   "rule": "sku ^[0-9]{1,2}(GE|CHOC|X10GE)",
-   "rows": 7,
-   "examples": [
-    "10GE-EMSE-140G=",
-    "10GE-EMSE-400G=",
-    "10GE-EMSE-OS-140G="
-   ],
-   "status": "claimant-rule-too-broad",
-   "reason": "the row is correctly filed here; the claiming mapping's SKU rule is wider than the family it names — fix it in the interfaces-modules round"
-  },
-  {
-   "category": "routers",
    "claimed_by": "wireless",
    "series": "Antennas",
    "rule": "sku ^AIR-ANT",
@@ -258,19 +232,6 @@
    ],
    "status": "pending-round",
    "reason": "UCS E-Series accessories and SSDs filed under the Catalyst 8000 / ISR routers (E100-FCPLT-BRKT, E-SSD-U2N-2TB, EM3-HDA-8FXS): servers or router module — decided in the servers-unified-computing round"
-  },
-  {
-   "category": "routers",
-   "claimed_by": "interfaces-modules",
-   "series": "Cisco 12000 / XR 12000 SIP and line cards",
-   "rule": "sku ^[0-9]{1,2}OC(3|12|48)",
-   "rows": 2,
-   "examples": [
-    "4OC48-POS",
-    "4OC48-POS="
-   ],
-   "status": "claimant-rule-too-broad",
-   "reason": "the row is correctly filed here; the claiming mapping's SKU rule is wider than the family it names — fix it in the interfaces-modules round"
   },
   {
    "category": "routers",
@@ -439,6 +400,34 @@
    ],
    "status": "claimant-rule-too-broad",
    "reason": "operator decision, layers round 3: the RPHY-S10G-<reach>-<channel>= rows are transceivers — Cisco's own bulletin 'End-of-Sale and End-of-Life Announcement for the Cisco Remote PHY Shelf 7200 and Remote PHY SFPs' names them SFPs, and the Remote PHY shelves, RPDs and cabling are already in video. The video ^RPHY rule is fenced in the video round; the 57 video rows planned into transceiver run after the re-audit"
+  },
+  {
+   "category": "interfaces-modules",
+   "claimed_by": "wireless",
+   "series": "Cables",
+   "rule": "sku ^CAB-",
+   "rows": 30,
+   "examples": [
+    "CAB-25AS-FDTE",
+    "CAB-25AS-MMOD",
+    "CAB-ADPT-75-120"
+   ],
+   "status": "claimant-rule-too-broad",
+   "reason": "the row is correctly filed here (the E1 / T3 / X.21 / smart-serial / EtherSwitch power cables of the router interface cards, in the card line's shared parts); the claiming mapping's SKU rule is wider than the family it names — fix it in the wireless round (layers round 3)"
+  },
+  {
+   "category": "interfaces-modules",
+   "claimed_by": "servers-unified-computing",
+   "series": "UCS E-Series",
+   "rule": "sku ^UCS-EN?[0-9]",
+   "rows": 4,
+   "examples": [
+    "UCS-E1100D-M6/K9",
+    "UCS-E1120D-M3/K9",
+    "UCS-E160S-M3/K9"
+   ],
+   "status": "decided-home",
+   "reason": "pre-ruling C3, applied by the operator (layers round 3): the UCS E-Series server modules in the SM-X form factor live in interfaces-modules, kind module, and the SVC-E service spares are planned in from servers-unified-computing; the servers mapping's UCS E-Series rule is fenced in its round"
   }
  ]
 }

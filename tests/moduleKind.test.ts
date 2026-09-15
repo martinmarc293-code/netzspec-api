@@ -117,6 +117,13 @@ const CASES: [string, ModuleKind][] = [
   // kind-layer (13 Sep 2026): the default is named `unknown` (III.1), a FALLBACK kind.
   ["DS-PAA-2", "unknown"], ["C6800-SUP6T-XL=", "unknown"], ["EWDM-OA=", "unknown"],
   ["NCS-FAB-OPT=", "unknown"], ["15216-FL-SA=", "unknown"], ["SMLT-A", "unknown"],
+  // layers round 3 (15 Sep 2026, operator decision 1 with pre-rulings C2 / C3): the 82 former defaults, one or more per rule
+  ["C-NIM-1X", "interface"], ["C-NIM-2T=", "interface"], ["C-SM-16P4M2X", "interface"], ["C-SM-40P8M2X=", "interface"], ["WIM-1T", "interface"],
+  ["P-5GS6-GL", "cellular"], ["P-LTEA7-NA", "cellular"], ["P-LTEAP18-GL", "cellular"], ["WIM-3G=", "cellular"],
+  ["WP-WIFI6-A", "radio"], ["WP-WIFI6-Z=", "radio"],
+  ["ISM-SRE-300-K9", "module"], ["ISM-VPN-29=", "module"], ["UCS-E160S-M3/K9", "module"], ["SVC-E180D-M3", "module"],
+  ["SM-DSK-SATA-500GB=", "memory"],
+  ["HWIC-SLOT-DIVIDER=", "mechanical"], ["SM-SLOT-DIVIDER=", "mechanical"], ["C-SM-NIM-ADPT", "mechanical"], ["C-SM-NIM-ADPT=", "mechanical"], ["SM-X-NIM-ADPTR=", "mechanical"],
 ];
 for (const [sku, want] of CASES) eq(`${sku} is ${want}`, moduleKind(sku), want);
 
@@ -206,6 +213,13 @@ const REFUSALS: [string, ModuleKind, string][] = [
   // the Panduit prefix must not swallow a Cisco family
   ["FQMAP46CG", "accessory", "a Panduit fibre migration adapter panel"],
   ["FC29N-12-10U", "accessory", "a Panduit cassette, not an FC (Fibre Channel) part"],
+  // --- layers round 3 refusals (15 Sep 2026) ----------------------------------------------------------
+  ["SM-NM-ADPTR=", "accessory", "\"Network Module Adapter for SM Slot\" — not a NIM carrier: the mechanical rule names -NIM-ADPT(R) only"],
+  ["WIM-1T=", "interface", "the 800M SERIAL WIM: the cellular WIM rule names 3G / 4G / LTE only"],
+  ["WIM-LTE-AS=", "cellular", "and the control: the LTE WIM stays cellular"],
+  ["UCSC-P-I8D100GF", "interface", "a PCIe NIC: the compute-module rule is ^UCS-E followed by a DIGIT, never UCSC-"],
+  ["P-1T", "interface", "the serial pluggable is not taken by the new ^P-(LTE|5G) cellular alternative"],
+  ["EHWIC-4G-LTE-A=", "cellular", "decision 1's EHWIC -> interface was about the defaults; a cellular EHWIC keeps its measured kind"],
 ];
 for (const [sku, want, why] of REFUSALS) eq(`${sku} stays ${want} (${why})`, moduleKind(sku), want);
 
@@ -267,6 +281,17 @@ const SABOTAGE: Sab[] = [
   { family: "fabric-before-interface", sku: "DS-X9706-FAB1B=", live: "fabric", ifDisabled: "interface" },
   // Without the EtherSwitch rule, NMD-36-ESW-PWR-2G= is taken by the power `-PWR` token.
   { family: "esw-before-power", sku: "NMD-36-ESW-PWR-2G=", live: "interface", ifDisabled: "power" },
+  // --- layers round 3 (15 Sep 2026), one per new rule family ------------------------------------------------
+  // Without the slot / carrier rule, HWIC-SLOT-DIVIDER= is taken by the interface HWIC- prefix and asked a port count.
+  { family: "slot-mechanical-before-interface", sku: "HWIC-SLOT-DIVIDER=", live: "mechanical", ifDisabled: "interface" },
+  // Without the ^C-NIM- / ^C-SM- alternatives, the Catalyst-generation cards fall to the default.
+  { family: "c-prefixed-interface", sku: "C-NIM-1X", live: "interface", ifDisabled: "unknown" },
+  // Without the ^P-(LTE|5G) alternative, the 5G pluggable falls to the default.
+  { family: "pluggable-cellular", sku: "P-5GS6-GL", live: "cellular", ifDisabled: "unknown" },
+  // Without ^WP-WIFI, the IoT-router Wi-Fi 6 pluggable falls to the default.
+  { family: "wp-radio", sku: "WP-WIFI6-A", live: "radio", ifDisabled: "unknown" },
+  // Without ^ISM- / ^UCS-E\d / ^SVC-E\d, the engines fall to the default.
+  { family: "engine-module", sku: "ISM-SRE-300-K9", live: "module", ifDisabled: "unknown" },
 ];
 for (const s of SABOTAGE) {
   eq(`sabotage ${s.family}: ${s.sku} is ${s.live} today`, moduleKind(s.sku), s.live);
