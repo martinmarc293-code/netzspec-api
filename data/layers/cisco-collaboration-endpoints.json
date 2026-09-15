@@ -1,11 +1,11 @@
 {
  "vendor": "cisco",
  "category": "collaboration-endpoints",
- "built_at": "2026-09-15T22:39:21.237Z",
- "commit": "c9ebf59177f9d5950f8cd9384dd9346e76c7670b",
+ "built_at": "2026-09-15T22:52:45.245Z",
+ "commit": "9a734f7ba27364704867e3f28204553e1ab21277",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-collaboration-endpoints.json",
- "parts": 2825,
+ "parts": 2808,
  "lines": [
   {
    "line": "Headsets",
@@ -1711,54 +1711,6 @@
    "reason": "Aironet 802.3at power injector: its spare AIR-PWRINJ6= is filed in wireless (series 'Power injectors, supplies and cords'), and a base goes with its spare (spare = base)"
   },
   {
-   "sku": "BRKT-PHD2X-MONITR",
-   "name": "^Not Used",
-   "series_label": "TelePresence MX Series",
-   "action": "class",
-   "to": "non_product",
-   "reason": "not orderable: the catalogue row itself says 'Not used' / 'Do not use' (the wireless precedent; re-audit decisions, operator, 15 Sep 2026, N-3)"
-  },
-  {
-   "sku": "BRKT-PHD2X-MONITR=",
-   "name": "^Not Used",
-   "series_label": "TelePresence MX Series",
-   "action": "class",
-   "to": "non_product",
-   "reason": "not orderable: the catalogue row itself says 'Not used' / 'Do not use' (the wireless precedent; re-audit decisions, operator, 15 Sep 2026, N-3)"
-  },
-  {
-   "sku": "BRKT-PHDX-WMK",
-   "name": "^Not Used",
-   "series_label": "TelePresence MX Series",
-   "action": "class",
-   "to": "non_product",
-   "reason": "not orderable: the catalogue row itself says 'Not used' / 'Do not use' (the wireless precedent; re-audit decisions, operator, 15 Sep 2026, N-3)"
-  },
-  {
-   "sku": "BRKT-PHDX-WMK=",
-   "name": "^Not Used",
-   "series_label": "TelePresence MX Series",
-   "action": "class",
-   "to": "non_product",
-   "reason": "not orderable: the catalogue row itself says 'Not used' / 'Do not use' (the wireless precedent; re-audit decisions, operator, 15 Sep 2026, N-3)"
-  },
-  {
-   "sku": "BRKT-SX10-WMK-",
-   "name": "Not used",
-   "series_label": "TelePresence SX Series (QuickSet)",
-   "action": "class",
-   "to": "non_product",
-   "reason": "not orderable: the catalogue row itself says 'Not used' / 'Do not use' (the wireless precedent; re-audit decisions, operator, 15 Sep 2026, N-3)"
-  },
-  {
-   "sku": "CAB-2HDMI-1.5M-",
-   "name": "Not used",
-   "series_label": "Room Series",
-   "action": "class",
-   "to": "non_product",
-   "reason": "not orderable: the catalogue row itself says 'Not used' / 'Do not use' (the wireless precedent; re-audit decisions, operator, 15 Sep 2026, N-3)"
-  },
-  {
    "sku": "CAB-AC2=",
    "name": "AC Power Cord N. America for Cisco Unified Wireless IP Phone 7920/7921G Multi-Charger Spare",
    "series_label": "7900 - Unified IP Phone",
@@ -1789,94 +1741,6 @@
    "action": "move",
    "to": "switches",
    "reason": "the spare of a generic C15 power cord whose base sits in switches Nexus shared parts: base and spare in one category, the base's (re-audit decisions, operator, 15 Sep 2026, Q-19 / F-10)"
-  },
-  {
-   "sku": "CP-PWR-CORD-xx=",
-   "name": "Cisco Unified IP Phone Power Country Cord",
-   "series_label": "IP Phone 8800 Series",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CTS-SX10CODEC-",
-   "name": "Not used",
-   "series_label": "TelePresence SX Series (QuickSet)",
-   "action": "class",
-   "to": "non_product",
-   "reason": "not orderable: the catalogue row itself says 'Not used' / 'Do not use' (the wireless precedent; re-audit decisions, operator, 15 Sep 2026, N-3)"
-  },
-  {
-   "sku": "CTS-SX20G2-K9+",
-   "name": "^Not used",
-   "series_label": "TelePresence MX Series",
-   "action": "class",
-   "to": "non_product",
-   "reason": "not orderable: the catalogue row itself says 'Not used' / 'Do not use' (the wireless precedent; re-audit decisions, operator, 15 Sep 2026, N-3)"
-  },
-  {
-   "sku": "DOC-MX700-DDC-FSK",
-   "name": "Installation sheet for MX700 dual camera, floor stand kit",
-   "series_label": "TelePresence MX Series",
-   "action": "class",
-   "to": "non_product",
-   "reason": "installation sheet"
-  },
-  {
-   "sku": "DOC-MX700-DDC-WMK",
-   "name": "Installation sheet for MX700 dual camera, wall mount kit",
-   "series_label": "TelePresence MX Series",
-   "action": "class",
-   "to": "non_product",
-   "reason": "installation sheet"
-  },
-  {
-   "sku": "DOC-MX700-DSC-FSK",
-   "name": "Installation sheet for MX700 single camera, floor stand kit",
-   "series_label": "TelePresence MX Series",
-   "action": "class",
-   "to": "non_product",
-   "reason": "installation sheet"
-  },
-  {
-   "sku": "DOC-MX700-DSC-WMK",
-   "name": "Installation sheet for MX700 single camera, wall mount kit",
-   "series_label": "TelePresence MX Series",
-   "action": "class",
-   "to": "non_product",
-   "reason": "installation sheet"
-  },
-  {
-   "sku": "DOC-MX800-DDC-FSK",
-   "name": "Installation sheet for MX800 dual camera, floor stand kit",
-   "series_label": "TelePresence MX Series",
-   "action": "class",
-   "to": "non_product",
-   "reason": "installation sheet"
-  },
-  {
-   "sku": "DOC-MX800-DDC-WMK",
-   "name": "Installation sheet for MX800 dual camera, wall mount kit",
-   "series_label": "TelePresence MX Series",
-   "action": "class",
-   "to": "non_product",
-   "reason": "installation sheet"
-  },
-  {
-   "sku": "HS-WL-ADPT-USBA",
-   "name": "NOT USED Cisco Headset Wireless Bluetooth USB-A HD Adapter",
-   "series_label": "Headset 700 Series",
-   "action": "class",
-   "to": "non_product",
-   "reason": "not orderable: the catalogue row itself says 'Not used' / 'Do not use' (the wireless precedent; re-audit decisions, operator, 15 Sep 2026, N-3)"
-  },
-  {
-   "sku": "MISC-SHIP-FPO",
-   "name": "Misc Shipping Item - Mfg FPO Org",
-   "series_label": "TelePresence MX Series",
-   "action": "class",
-   "to": "non_product",
-   "reason": "shipping item"
   }
  ],
  "unplaced": [],

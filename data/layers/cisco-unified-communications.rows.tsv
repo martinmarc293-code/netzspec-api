@@ -160,7 +160,6 @@ CTI-VCS-CONTRL-K9	VCS Control	TelePresence Video Communication Server (VCS)	unkn
 CTI-VCS-EXPRESS-K9	VCS Expressway	TelePresence Video Communication Server (VCS)	unknown	layered	Expressway and VCS		TelePresence VCS appliances	sku ^CTI-VCS							
 CTI-VCS-EXPWY-K9	Cisco VCS Expressway	TelePresence Video Communication Server (VCS)	unknown	layered	Expressway and VCS		TelePresence VCS appliances	sku ^CTI-VCS							
 CTI-VCS-STPAK-K9	VCS Starter Pack Express 50 regs 5 trav calls Movi 5 PHD USB	TelePresence Video Communication Server (VCS)	unknown	layered	Expressway and VCS		TelePresence VCS appliances	sku ^CTI-VCS							
-DOC-CCM-3.3=	1500 pg hardcopy of docs shipping on CD with CCM 3.3	Unified Communications Licensing	accessory	pending_plan								class non_product			
 EM-HDA-6FXO	Cisco EM-HDA-6FXO	TDM Gateways	voice-module	pending_plan								move interfaces-modules			
 EXP-10GSFP-SR-MP	10 Gigabit Ethernet SFP Module 10GBASE-SR SFP+ SR Optics	Expressway Series	transceiver	pending_plan								move transceiver			
 EXP-10GSFP-SR-MP=	10 Gigabit Ethernet SFP Module 10GBASE-SR SFP+ SR Optics	Expressway Series	transceiver	pending_plan								move transceiver			

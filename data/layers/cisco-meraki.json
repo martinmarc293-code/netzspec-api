@@ -1,11 +1,11 @@
 {
  "vendor": "cisco",
  "category": "meraki",
- "built_at": "2026-09-15T22:39:22.265Z",
- "commit": "c9ebf59177f9d5950f8cd9384dd9346e76c7670b",
+ "built_at": "2026-09-15T22:52:46.509Z",
+ "commit": "9a734f7ba27364704867e3f28204553e1ab21277",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-meraki.json",
- "parts": 155,
+ "parts": 123,
  "lines": [
   {
    "line": "Meraki MV Smart Cameras",
@@ -863,22 +863,6 @@
  "not_this_category": [],
  "pending_plans": [
   {
-   "sku": "CW9163E",
-   "name": "Cisco CW9163E",
-   "series_label": "Meraki",
-   "action": "class",
-   "to": "non_product",
-   "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)"
-  },
-  {
-   "sku": "CW9166ID1",
-   "name": "Cisco CW9166ID1",
-   "series_label": "Meraki",
-   "action": "class",
-   "to": "non_product",
-   "reason": "misprint of CW9166D1: the CW9166 datasheet's bracket list joins the I and D1 models"
-  },
-  {
    "sku": "CW9172",
    "name": "Cisco CW9172",
    "series_label": "Meraki",
@@ -901,62 +885,6 @@
    "action": "move",
    "to": "wireless",
    "reason": "Catalyst Wireless access point (the Meraki-mode CW9172 / CW9176 / CW9178 family rows): wireless holds the Catalyst Wireless series and their -MR SKUs; one home for an access point (decision pending: Meraki MR / CW home, recommendation wireless by the Meraki MS precedent, run #1061)"
-  },
-  {
-   "sku": "CW917H",
-   "name": "Cisco CW917H",
-   "series_label": "Meraki",
-   "action": "class",
-   "to": "non_product",
-   "reason": "misprint of CW9172H: the CW9172H datasheet's own text drops the 2"
-  },
-  {
-   "sku": "MCS1",
-   "name": "Cisco MCS1",
-   "series_label": "Meraki",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell: a Wi-Fi modulation and coding scheme index (MCS1), not a PID"
-  },
-  {
-   "sku": "MCS2",
-   "name": "Cisco MCS2",
-   "series_label": "Meraki",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell: a Wi-Fi modulation and coding scheme index (MCS2), not a PID"
-  },
-  {
-   "sku": "MCS3",
-   "name": "Cisco MCS3",
-   "series_label": "Meraki",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell: a Wi-Fi modulation and coding scheme index (MCS3), not a PID"
-  },
-  {
-   "sku": "MCS5",
-   "name": "Cisco MCS5",
-   "series_label": "Meraki",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell: a Wi-Fi modulation and coding scheme index (MCS5), not a PID"
-  },
-  {
-   "sku": "MCS6",
-   "name": "Cisco MCS6",
-   "series_label": "Meraki",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell: a Wi-Fi modulation and coding scheme index (MCS6), not a PID"
-  },
-  {
-   "sku": "MGKIT-1",
-   "name": "Cisco MGKIT-1",
-   "series_label": "Meraki",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet token: a fragment of the accessory PID MA-ACC-MGKIT-1 (not held), not a PID"
   },
   {
    "sku": "MR11",
@@ -1045,14 +973,6 @@
    "action": "move",
    "to": "wireless",
    "reason": "Meraki MR access point: wireless holds the Meraki MR Access Points line (indoor / outdoor series) and its -HW rows; the Meraki MS switches moved to switches (run #1061) — the same noun rule (decision pending: Meraki MR / CW home, recommendation wireless)"
-  },
-  {
-   "sku": "MR4",
-   "name": "Cisco MR4",
-   "series_label": "Meraki",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet token: a cut-off related-article teaser ('MR4...'), not a PID"
   },
   {
    "sku": "MR42",
@@ -1197,182 +1117,6 @@
    "action": "move",
    "to": "wireless",
    "reason": "Meraki MR access point: wireless holds the Meraki MR Access Points line (indoor / outdoor series) and its -HW rows; the Meraki MS switches moved to switches (run #1061) — the same noun rule (decision pending: Meraki MR / CW home, recommendation wireless)"
-  },
-  {
-   "sku": "MS15",
-   "name": "Cisco MS15",
-   "series_label": "Meraki",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet token: the Meraki MS firmware version MS15, not a switch"
-  },
-  {
-   "sku": "MV10",
-   "name": "Cisco MV10",
-   "series_label": "Meraki",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet token: a fragment of the accessory PID MA-MNT-MV10 (Wall-Mount Arm, not held), not a camera"
-  },
-  {
-   "sku": "MV13",
-   "name": "Cisco MV13",
-   "series_label": "Meraki",
-   "action": "class",
-   "to": "non_product",
-   "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)"
-  },
-  {
-   "sku": "MV13M",
-   "name": "Cisco MV13M",
-   "series_label": "Meraki",
-   "action": "class",
-   "to": "non_product",
-   "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)"
-  },
-  {
-   "sku": "MV23M",
-   "name": "Cisco MV23M",
-   "series_label": "Meraki",
-   "action": "class",
-   "to": "non_product",
-   "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)"
-  },
-  {
-   "sku": "MV23X",
-   "name": "Cisco MV23X",
-   "series_label": "Meraki",
-   "action": "class",
-   "to": "non_product",
-   "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)"
-  },
-  {
-   "sku": "MV33",
-   "name": "Cisco MV33",
-   "series_label": "Meraki",
-   "action": "class",
-   "to": "non_product",
-   "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)"
-  },
-  {
-   "sku": "MV33M",
-   "name": "Cisco MV33M",
-   "series_label": "Meraki",
-   "action": "class",
-   "to": "non_product",
-   "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)"
-  },
-  {
-   "sku": "MV4",
-   "name": "Cisco MV4",
-   "series_label": "Meraki",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet token: the Meraki MV firmware version MV4.x, not a camera"
-  },
-  {
-   "sku": "MV5",
-   "name": "Cisco MV5",
-   "series_label": "Meraki",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet token: a cut-off related-article teaser ('MV5...'), not a PID"
-  },
-  {
-   "sku": "MV63",
-   "name": "Cisco MV63",
-   "series_label": "Meraki",
-   "action": "class",
-   "to": "non_product",
-   "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)"
-  },
-  {
-   "sku": "MV63M",
-   "name": "Cisco MV63M",
-   "series_label": "Meraki",
-   "action": "class",
-   "to": "non_product",
-   "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)"
-  },
-  {
-   "sku": "MV63X",
-   "name": "Cisco MV63X",
-   "series_label": "Meraki",
-   "action": "class",
-   "to": "non_product",
-   "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)"
-  },
-  {
-   "sku": "MV73M",
-   "name": "Cisco MV73M",
-   "series_label": "Meraki",
-   "action": "class",
-   "to": "non_product",
-   "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)"
-  },
-  {
-   "sku": "MV73X",
-   "name": "Cisco MV73X",
-   "series_label": "Meraki",
-   "action": "class",
-   "to": "non_product",
-   "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)"
-  },
-  {
-   "sku": "MV93",
-   "name": "Cisco MV93",
-   "series_label": "Meraki",
-   "action": "class",
-   "to": "non_product",
-   "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)"
-  },
-  {
-   "sku": "MV93M",
-   "name": "Cisco MV93M",
-   "series_label": "Meraki",
-   "action": "class",
-   "to": "non_product",
-   "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)"
-  },
-  {
-   "sku": "MV93X",
-   "name": "Cisco MV93X",
-   "series_label": "Meraki",
-   "action": "class",
-   "to": "non_product",
-   "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)"
-  },
-  {
-   "sku": "MX16",
-   "name": "Cisco MX16",
-   "series_label": "Meraki",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet token: the Meraki MX firmware version MX16.x, not an appliance"
-  },
-  {
-   "sku": "MX18",
-   "name": "Cisco MX18",
-   "series_label": "Meraki",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet token: the Meraki MX firmware version MX18.x, not an appliance"
-  },
-  {
-   "sku": "MX26",
-   "name": "Cisco MX26",
-   "series_label": "Meraki",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet token: the Meraki MX firmware version MX26.x, not an appliance"
-  },
-  {
-   "sku": "MX650",
-   "name": "Cisco MX650",
-   "series_label": "Meraki",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet token: a page tag on the C8455-G2-MX datasheet ('MX650 Datasheet', 'MX650 Installation'), no document or fact names an MX650 appliance"
   }
  ],
  "unplaced": [],

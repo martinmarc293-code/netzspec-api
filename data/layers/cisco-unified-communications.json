@@ -1,11 +1,11 @@
 {
  "vendor": "cisco",
  "category": "unified-communications",
- "built_at": "2026-09-15T22:39:22.219Z",
- "commit": "c9ebf59177f9d5950f8cd9384dd9346e76c7670b",
+ "built_at": "2026-09-15T22:52:46.417Z",
+ "commit": "9a734f7ba27364704867e3f28204553e1ab21277",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-unified-communications.json",
- "parts": 470,
+ "parts": 469,
  "lines": [
   {
    "line": "Voice Gateways",
@@ -647,14 +647,6 @@
    "action": "move",
    "to": "collaboration-endpoints",
    "reason": "Cisco IP phone filed under a UC software label (Unified Communications Manager): its category is collaboration-endpoints, whose IP Phone series place it (the exclusion's reason, now a plan — layers round 3, unified-communications round)"
-  },
-  {
-   "sku": "DOC-CCM-3.3=",
-   "name": "1500 pg hardcopy of docs shipping on CD with CCM 3.3",
-   "series_label": "Unified Communications Licensing",
-   "action": "class",
-   "to": "non_product",
-   "reason": "documentation hardcopy"
   },
   {
    "sku": "EM-HDA-6FXO",

@@ -171,7 +171,6 @@ AIR-ACCAMK-1=	Attaches certain directional antennas directly to the AP (e.g., AI
 AIR-ACCAMK-2=	1560 External Directional Antenna Mount Kit	Antennas/Accessories	mechanical	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-(AP(?!-VBLE|[0-9]{4}[A-Z]-WLC)|ACC|MOD|BLE|BAND|CHNL|SFP)							
 AIR-ACCAMK1520-1	1520 Series Antenna Mount Kit, 3 Omni	Aironet 1550	mechanical	layered	Aironet Access Points		Aironet 1520 / 1530	sku ^AIR-.*15[23]0							
 AIR-ACCAMK1520-2	1520 Series Antenna Mount Kit, Dual Patch	Aironet 1550	mechanical	layered	Aironet Access Points		Aironet 1520 / 1530	sku ^AIR-.*15[23]0							
-AIR-ACCAMK1520-3	NOT USED YET	Aironet 1550	mechanical	pending_plan								class non_product			
 AIR-ACCGMK1520-1	1520 Series Ground Pedestal Mount Kit	Aironet 1550	mechanical	layered	Aironet Access Points		Aironet 1520 / 1530	sku ^AIR-.*15[23]0							
 AIR-ACCPMK1520=	1520 Series Pole Mount Kit	Antennas/Accessories	mechanical	layered	Aironet Access Points		Aironet 1520 / 1530	sku ^AIR-.*15[23]0							
 AIR-ACCPMK1550=	Cisco AIR-ACCPMK1550=	Aironet 1550	mechanical	layered	Aironet Access Points		Aironet 1550	sku ^AIR-.*1550							
@@ -228,7 +227,6 @@ AIR-ANT2451NV-R=	2.4 GHz 2.5dBi/5 GHz 3.5dBi 802.11n Omni Antenna, RP-TNC	Antenn
 AIR-ANT2451V-R=	2.4 GHz, 3 dBi; 5 GHz, 3.5 dBi Omni Ant w/RP-TNC Connectors	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories		Antennas	sku ^AIR-ANT							
 AIR-ANT2452V-R=	2.4 GHz 5.2 dBi Diversity pillar mount ant, RP-TNC Connectors	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories		Antennas	sku ^AIR-ANT							
 AIR-ANT2455V-N=	2.4-GHz omnidirectional antenna for mesh access points. Suitable for use on Aironet 1560 and 1570 Series mesh access points. It mounts directly to the access point and has no cable attachments.	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories		Antennas	sku ^AIR-ANT							
-AIR-ANT2457V-N	Do Not Use - invalid PID	Aironet 1550	antenna	pending_plan								class non_product			
 AIR-ANT2460NP-R=	2.4 GHz 6 dBi 802.11n directional antenna	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories		Antennas	sku ^AIR-ANT							
 AIR-ANT2460P-R	2.4 GHz, 6 dBi Patch Antenna w/RP-TNC Connector	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories		Antennas	sku ^AIR-ANT							
 AIR-ANT2465P-R	2.4 GHz, 6.5 dBi Diversity Patch Antenna w/RP-TNC Connectors	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories		Antennas	sku ^AIR-ANT							
@@ -316,7 +314,6 @@ AIR-ANT5160V-R	5GHz 6dBi Omni Antenna w/RP-TNC connector	Antennas/Accessories	an
 AIR-ANT5160V-R=	5Ghz 6dBi Omni Antenna w/RP-TNC connector	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories		Antennas	sku ^AIR-ANT							
 AIR-ANT5170P-R	5Ghz 7dBi Diversity Patch Antenna w/RP-TNC connectors	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories		Antennas	sku ^AIR-ANT							
 AIR-ANT5170P-R=	^5Ghz 7dBi Diversity Patch Antenna w/RP-TNC connector	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories		Antennas	sku ^AIR-ANT							
-AIR-ANT5175V-N	NOT USED 4.9 GHz-5.8 GHz Omni with N Connector	Antennas/Accessories	antenna	pending_plan								class non_product			
 AIR-ANT5175V-N=	4.9 GHz-5.8 GHz, 7.5 dBi Omni with N Connector	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories		Antennas	sku ^AIR-ANT							
 AIR-ANT5180V-N	Cisco AIR-ANT5180V-N	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories		Antennas	sku ^AIR-ANT							
 AIR-ANT5180V-N=	5GHz 8dBi 2-Element Omnidirectional Colinear Array Antenna, Connectors N-Male	Catalyst 9163	antenna	layered	Wireless Antennas and Accessories		Antennas	sku ^AIR-ANT							
@@ -347,7 +344,6 @@ AIR-AP-BRACKET-W4	Bracket for Cisco Catalyst 9105w access point mounting	Catalys
 AIR-AP-BRACKET-W=	AP702W Series Mounting Bracket	Antennas/Accessories	mechanical	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-(AP(?!-VBLE|[0-9]{4}[A-Z]-WLC)|ACC|MOD|BLE|BAND|CHNL|SFP)							
 AIR-AP-BRACKET-WP	AP702W Series Mounting Bracket covering Ethernet ports	Antennas/Accessories	mechanical	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-(AP(?!-VBLE|[0-9]{4}[A-Z]-WLC)|ACC|MOD|BLE|BAND|CHNL|SFP)							
 AIR-AP-BRACKET-WP=	AP702W Series Mounting Bracket covering Ethernet ports	Antennas/Accessories	mechanical	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-(AP(?!-VBLE|[0-9]{4}[A-Z]-WLC)|ACC|MOD|BLE|BAND|CHNL|SFP)							
-AIR-AP-NO-BRACKET	Select this option if no bracket is required	Catalyst 9163	mechanical	pending_plan								class non_product			
 AIR-AP-T-RAIL-F	Ceiling grid clip (flush mounting)	Catalyst 9163	mechanical	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-(AP(?!-VBLE|[0-9]{4}[A-Z]-WLC)|ACC|MOD|BLE|BAND|CHNL|SFP)							
 AIR-AP-T-RAIL-R	Ceiling grid clip (recessed mounting); this is the default option	Catalyst 9163	mechanical	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-(AP(?!-VBLE|[0-9]{4}[A-Z]-WLC)|ACC|MOD|BLE|BAND|CHNL|SFP)							
 AIR-AP-VBLE-ADPTR=	Adapter for beacon point / AP mounting	Mobility Services Engine	accessory	layered	Location and Spaces Appliances		Exciters and BLE / VBLE radio modules	sku ^AIR-AP-VBLE							
@@ -480,7 +476,6 @@ AIR-AP1572EAC-Q-K9	802.11ac Outdoor AP, External-Ant, AC-power, Reg. Domain-Q	Ai
 AIR-AP1572EAC-R-K9	802.11ac Outdoor AP, External-Ant, AC-power, Reg. Domain-R	Aironet 1570	ap	layered	Aironet Access Points		Aironet 1570	sku ^(AIR-)?AP157[02]	outdoor	series:Aironet 1570					
 AIR-AP1572EAC-S-K9	802.11ac Outdoor AP, External-Ant, AC-power, Reg. Domain-S	Aironet 1570	ap	layered	Aironet Access Points		Aironet 1570	sku ^(AIR-)?AP157[02]	outdoor	series:Aironet 1570					
 AIR-AP1572EAC-T-K9	802.11ac Outdoor AP, External-Ant, AC-power, Reg. Domain-T	Aironet 1570	ap	layered	Aironet Access Points		Aironet 1570	sku ^(AIR-)?AP157[02]	outdoor	series:Aironet 1570					
-AIR-AP1572EAC-UXK9	DO NOT USE	Aironet 1570	ap	pending_plan					outdoor	series:Aironet 1570		class non_product			
 AIR-AP1572EAC-Z-K9	802.11ac Outdoor AP, External-Ant, AC-power, Reg. Domain-Z	Aironet 1570	ap	layered	Aironet Access Points		Aironet 1570	sku ^(AIR-)?AP157[02]	outdoor	series:Aironet 1570					
 AIR-AP1572EAC-x-K9	E: External Antenna, AC Power	Aironet 1570	ap	layered	Aironet Access Points		Aironet 1570	sku ^(AIR-)?AP157[02]	outdoor	series:Aironet 1570					true
 AIR-AP1572EACBK9++	802.11ac Outdoor AP, External-Ant, AC-power, (B - TAA)	Aironet 1570	ap	layered	Aironet Access Points		Aironet 1570	sku ^(AIR-)?AP157[02]	outdoor	series:Aironet 1570					
@@ -492,7 +487,6 @@ AIR-AP1572EC1-H-K9	802.11ac Outdoor AP, Ext-Ant, Cable NA-D3.0 42/88MHz, Reg-H	A
 AIR-AP1572EC1-K-K9	802.11ac Outdoor AP, Ext-Ant, Cable NA-D3.0 42/88MHz, Reg-K	Aironet 1570	ap	layered	Aironet Access Points		Aironet 1570	sku ^(AIR-)?AP157[02]	outdoor	series:Aironet 1570					
 AIR-AP1572EC1-N-K9	802.11ac Outdoor AP, Ext-Ant, Cable NA-D3.0 42/88MHz, Reg-N	Aironet 1570	ap	layered	Aironet Access Points		Aironet 1570	sku ^(AIR-)?AP157[02]	outdoor	series:Aironet 1570					
 AIR-AP1572EC1-T-K9	802.11ac Outdoor AP, Ext-Ant, Cable NA-D3.0 42/88MHz, Reg-T	Aironet 1570	ap	layered	Aironet Access Points		Aironet 1570	sku ^(AIR-)?AP157[02]	outdoor	series:Aironet 1570					
-AIR-AP1572EC1-UXK9	DO NOT USE	Aironet 1570	ap	pending_plan					outdoor	series:Aironet 1570		class non_product			
 AIR-AP1572EC1-Z-K9	802.11ac Outdoor AP, Ext-Ant, Cable NA-D3.0 42/88MHz, Reg-Z	Aironet 1570	ap	layered	Aironet Access Points		Aironet 1570	sku ^(AIR-)?AP157[02]	outdoor	series:Aironet 1570					
 AIR-AP1572EC1-x-K9	E: External Antenna, C1: Power-over-Cable; NA-DOCSIS 42/ 88 MHz	Aironet 1570	ap	layered	Aironet Access Points		Aironet 1570	sku ^(AIR-)?AP157[02]	outdoor	series:Aironet 1570					true
 AIR-AP1572EC2-A-K9	802.11ac Outdoor AP, Ext-Ant, Cable NA-D3.0 85/108MHz, Reg-A	Aironet 1570	ap	layered	Aironet Access Points		Aironet 1570	sku ^(AIR-)?AP157[02]	outdoor	series:Aironet 1570					
@@ -503,7 +497,6 @@ AIR-AP1572EC2-K-K9	802.11ac Outdoor AP, Ext-Ant, Cable NA-D3.0 85/108MHz, Reg-K	
 AIR-AP1572EC2-N-K9	802.11ac Outdoor AP, Ext-Ant, Cable NA-D3.0 85/108MHz, Reg-N	Aironet 1570	ap	layered	Aironet Access Points		Aironet 1570	sku ^(AIR-)?AP157[02]	outdoor	series:Aironet 1570					
 AIR-AP1572EC2-S-K9	802.11ac Outdoor AP, Ext-Ant, Cable NA-D3.0 85/108MHz, Reg-S	Aironet 1570	ap	layered	Aironet Access Points		Aironet 1570	sku ^(AIR-)?AP157[02]	outdoor	series:Aironet 1570					
 AIR-AP1572EC2-T-K9	802.11ac Outdoor AP, Ext-Ant, Cable NA-D3.0 85/108MHz, Reg-T	Aironet 1570	ap	layered	Aironet Access Points		Aironet 1570	sku ^(AIR-)?AP157[02]	outdoor	series:Aironet 1570					
-AIR-AP1572EC2-UXK9	DO NOT USE	Aironet 1570	ap	pending_plan					outdoor	series:Aironet 1570		class non_product			
 AIR-AP1572EC2-Z-K9	802.11ac Outdoor AP, Ext-Ant, Cable NA-D3.0 85/108MHz, Reg-Z	Aironet 1570	ap	layered	Aironet Access Points		Aironet 1570	sku ^(AIR-)?AP157[02]	outdoor	series:Aironet 1570					
 AIR-AP1572EC2-x-K9	E: External Antenna, C2: Power-over-Cable; NA-DOCSIS 85/ 108 MHz	Aironet 1570	ap	layered	Aironet Access Points		Aironet 1570	sku ^(AIR-)?AP157[02]	outdoor	series:Aironet 1570					true
 AIR-AP1572EC3-C-K9	802.11ac Outdoor AP, Ext-Ant, Cable EU-D3.0 65/108MHz, Reg-C	Aironet 1570	ap	layered	Aironet Access Points		Aironet 1570	sku ^(AIR-)?AP157[02]	outdoor	series:Aironet 1570					
@@ -512,7 +505,6 @@ AIR-AP1572EC3-E-K9	802.11ac Outdoor AP, Ext-Ant, Cable EU-D3.0 65/108MHz, Reg-E	
 AIR-AP1572EC3-H-K9	802.11ac Outdoor AP, Ext-Ant, Cable EU-D3.0 65/108MHz, Reg-H	Aironet 1570	ap	layered	Aironet Access Points		Aironet 1570	sku ^(AIR-)?AP157[02]	outdoor	series:Aironet 1570					
 AIR-AP1572EC3-R-K9	802.11ac Outdoor AP, Ext-Ant, Cable EU-D3.0 65/108MHz, Reg-R	Aironet 1570	ap	layered	Aironet Access Points		Aironet 1570	sku ^(AIR-)?AP157[02]	outdoor	series:Aironet 1570					
 AIR-AP1572EC3-T-K9	802.11ac Outdoor AP, Ext-Ant, Cable EU-D3.0 65/108MHz, Reg-T	Aironet 1570	ap	layered	Aironet Access Points		Aironet 1570	sku ^(AIR-)?AP157[02]	outdoor	series:Aironet 1570					
-AIR-AP1572EC3-UXK9	DO NOT USE	Aironet 1570	ap	pending_plan					outdoor	series:Aironet 1570		class non_product			
 AIR-AP1572EC3-Z-K9	802.11ac Outdoor AP, Ext-Ant, Cable EU-D3.0 65/108MHz, Reg-Z	Aironet 1570	ap	layered	Aironet Access Points		Aironet 1570	sku ^(AIR-)?AP157[02]	outdoor	series:Aironet 1570					
 AIR-AP1572EC3-x-K9	E: External Antenna, C3: Power-over-Cable; Euro-DOCSIS 65/ 108 MHz	Aironet 1570	ap	layered	Aironet Access Points		Aironet 1570	sku ^(AIR-)?AP157[02]	outdoor	series:Aironet 1570					true
 AIR-AP1572EC4-Q-K9	802.11ac Outdoor AP, Ext-Ant, Cable JP-D3.0 65/108MHz, Reg-Q	Aironet 1570	ap	layered	Aironet Access Points		Aironet 1570	sku ^(AIR-)?AP157[02]	outdoor	series:Aironet 1570					
@@ -526,7 +518,6 @@ AIR-AP1572IC1-K-K9	802.11ac Outdoor AP, Int-Ant, Cable NA-D3.0 42/88MHz, Reg-K	A
 AIR-AP1572IC1-N-K9	802.11ac Outdoor AP, Int-Ant, Cable NA-D3.0 42/88MHz, Reg-N	Aironet 1570	ap	layered	Aironet Access Points		Aironet 1570	sku ^(AIR-)?AP157[02]	outdoor	series:Aironet 1570					
 AIR-AP1572IC1-S-K9	802.11ac Outdoor AP, Int-Ant, Cable NA-D3.0 42/88MHz, Reg-S	Aironet 1570	ap	layered	Aironet Access Points		Aironet 1570	sku ^(AIR-)?AP157[02]	outdoor	series:Aironet 1570					
 AIR-AP1572IC1-T-K9	802.11ac Outdoor AP, Int-Ant, Cable NA-D3.0 42/88MHz, Reg-T	Aironet 1570	ap	layered	Aironet Access Points		Aironet 1570	sku ^(AIR-)?AP157[02]	outdoor	series:Aironet 1570					
-AIR-AP1572IC1-UXK9	DO NOT USE	Aironet 1570	ap	pending_plan					outdoor	series:Aironet 1570		class non_product			
 AIR-AP1572IC1-Z-K9	802.11ac Outdoor AP, Int-Ant, Cable NA-D3.0 42/88MHz, Reg-Z	Aironet 1570	ap	layered	Aironet Access Points		Aironet 1570	sku ^(AIR-)?AP157[02]	outdoor	series:Aironet 1570					
 AIR-AP1572IC1-x-K9	I: Internal Antenna, C1: Power-over-Cable; NA-DOCSIS 42/ 88 MHz	Aironet 1570	ap	layered	Aironet Access Points		Aironet 1570	sku ^(AIR-)?AP157[02]	outdoor	series:Aironet 1570					true
 AIR-AP1572IC2-A-K9	802.11ac Outdoor AP, Int-Ant, Cable NA-D3.0 85/108MHz, Reg-A	Aironet 1570	ap	layered	Aironet Access Points		Aironet 1570	sku ^(AIR-)?AP157[02]	outdoor	series:Aironet 1570					
@@ -537,7 +528,6 @@ AIR-AP1572IC2-K-K9	802.11ac Outdoor AP, Int-Ant, Cable NA-D3.0 85/108MHz, Reg-K	
 AIR-AP1572IC2-N-K9	802.11ac Outdoor AP, Int-Ant, Cable NA-D3.0 85/108MHz, Reg-N	Aironet 1570	ap	layered	Aironet Access Points		Aironet 1570	sku ^(AIR-)?AP157[02]	outdoor	series:Aironet 1570					
 AIR-AP1572IC2-S-K9	802.11ac Outdoor AP, Int-Ant, Cable NA-D3.0 85/108MHz, Reg-S	Aironet 1570	ap	layered	Aironet Access Points		Aironet 1570	sku ^(AIR-)?AP157[02]	outdoor	series:Aironet 1570					
 AIR-AP1572IC2-T-K9	802.11ac Outdoor AP, Int-Ant, Cable NA-D3.0 85/108MHz, Reg-T	Aironet 1570	ap	layered	Aironet Access Points		Aironet 1570	sku ^(AIR-)?AP157[02]	outdoor	series:Aironet 1570					
-AIR-AP1572IC2-UXK9	DO NOT USE	Aironet 1570	ap	pending_plan					outdoor	series:Aironet 1570		class non_product			
 AIR-AP1572IC2-Z-K9	802.11ac Outdoor AP, Int-Ant, Cable NA-D3.0 85/108MHz, Reg-Z	Aironet 1570	ap	layered	Aironet Access Points		Aironet 1570	sku ^(AIR-)?AP157[02]	outdoor	series:Aironet 1570					
 AIR-AP1572IC2-x-K9	I: Internal Antenna, C2: Power-over-Cable; NA-DOCSIS 85/ 108 MHz	Aironet 1570	ap	layered	Aironet Access Points		Aironet 1570	sku ^(AIR-)?AP157[02]	outdoor	series:Aironet 1570					true
 AIR-AP1572IC3-C-K9	802.11ac Outdoor AP, Int-Ant, Cable EU-D3.0 65/108MHz, Reg-C	Aironet 1570	ap	layered	Aironet Access Points		Aironet 1570	sku ^(AIR-)?AP157[02]	outdoor	series:Aironet 1570					
@@ -547,7 +537,6 @@ AIR-AP1572IC3-H-K9	802.11ac Outdoor AP, Int-Ant, Cable EU-D3.0 65/108MHz, Reg-H	
 AIR-AP1572IC3-R-K9	802.11ac Outdoor AP, Int-Ant, Cable EU-D3.0 65/108MHz, Reg-R	Aironet 1570	ap	layered	Aironet Access Points		Aironet 1570	sku ^(AIR-)?AP157[02]	outdoor	series:Aironet 1570					
 AIR-AP1572IC3-S-K9	802.11ac Outdoor AP, Int-Ant, Cable EU-D3.0 65/108MHz, Reg-S	Aironet 1570	ap	layered	Aironet Access Points		Aironet 1570	sku ^(AIR-)?AP157[02]	outdoor	series:Aironet 1570					
 AIR-AP1572IC3-T-K9	802.11ac Outdoor AP, Int-Ant, Cable EU-D3.0 65/108MHz, Reg-T	Aironet 1570	ap	layered	Aironet Access Points		Aironet 1570	sku ^(AIR-)?AP157[02]	outdoor	series:Aironet 1570					
-AIR-AP1572IC3-UXK9	DO NOT USE	Aironet 1570	ap	pending_plan					outdoor	series:Aironet 1570		class non_product			
 AIR-AP1572IC3-Z-K9	802.11ac Outdoor AP, Int-Ant, Cable EU-D3.0 65/108MHz, Reg-Z	Aironet 1570	ap	layered	Aironet Access Points		Aironet 1570	sku ^(AIR-)?AP157[02]	outdoor	series:Aironet 1570					
 AIR-AP1572IC3-x-K9	I: Internal Antenna, C3: Power-over-Cable; Euro-DOCSIS 65/ 108 MHz	Aironet 1570	ap	layered	Aironet Access Points		Aironet 1570	sku ^(AIR-)?AP157[02]	outdoor	series:Aironet 1570					true
 AIR-AP1572IC4-Q-K9	802.11ac Outdoor AP, Int-Ant, Cable JP-D3.0 65/108MHz, Reg-Q	Aironet 1570	ap	layered	Aironet Access Points		Aironet 1570	sku ^(AIR-)?AP157[02]	outdoor	series:Aironet 1570					
@@ -2403,7 +2392,6 @@ C1-AIR-CT8540-K9++	Cisco ONE - Cisco 8540 Wireless LAN Controller w/ 0AP (TAA)	8
 C1-AIRCT2504-K9++	Cisco ONE - 2500 series WLAN Controller w/ 0 AP (TAA)	2500	wlc	layered	AireOS Wireless LAN Controllers		2500 (2504)	sku CT25[0-9]{2}							
 C4948E-BKT-KIT=	C49xxE front and rear mount brackets	Catalyst 9163	mechanical	pending_plan								move switches			
 C9105	Cisco C9105	Catalyst 9105AX	ap	layered	Catalyst 9100 Access Points		Catalyst 9105AX	sku ^C9105	indoor	series:Catalyst 9105AX					true
-C9105AXI	Cisco C9105AXI	Catalyst 9105AX	ap	pending_plan					indoor	series:Catalyst 9105AX		class non_product			
 C9105AXI-A	Cisco Catalyst 9105AX Series	Catalyst 9100	ap	layered	Catalyst 9100 Access Points		Catalyst 9105AX	sku ^C9105	indoor	series:Catalyst 9105AX					
 C9105AXI-B	Cisco Catalyst 9105AX Series	Catalyst 9100	ap	layered	Catalyst 9100 Access Points		Catalyst 9105AX	sku ^C9105	indoor	series:Catalyst 9105AX					
 C9105AXI-B++	Cisco Catalyst 9105AX Series	Catalyst 9100	ap	layered	Catalyst 9100 Access Points		Catalyst 9105AX	sku ^C9105	indoor	series:Catalyst 9105AX					
@@ -2479,11 +2467,9 @@ C9105AXW-G	Cisco Catalyst 9105AX Series-Wallplate	Catalyst 9100	ap	layered	Catal
 C9105AXW-H	Cisco Catalyst 9105AX Series-Wallplate	Catalyst 9100	ap	layered	Catalyst 9100 Access Points		Catalyst 9105AX	sku ^C9105	indoor	series:Catalyst 9105AX					
 C9105AXW-I	Cisco Catalyst 9105AX Series-Wallplate	Catalyst 9100	ap	layered	Catalyst 9100 Access Points		Catalyst 9105AX	sku ^C9105	indoor	series:Catalyst 9105AX					
 C9105AXW-K	Cisco Catalyst 9105AX Series-Wallplate	Catalyst 9100	ap	layered	Catalyst 9100 Access Points		Catalyst 9105AX	sku ^C9105	indoor	series:Catalyst 9105AX					
-C9105AXW-KIT	Do not use	Catalyst 9100	accessory	pending_plan								class non_product			
 C9105AXW-KIT=	C9105AX Series Spacer Kit	Catalyst 9100	mechanical	layered	Catalyst 9100 Access Points		Catalyst 9105AX	sku ^C9105							
 C9105AXW-MULTI	Minimum Quantity =10	Catalyst 9100	ap	layered	Catalyst 9100 Access Points		Catalyst 9105AX	sku ^C9105	indoor	series:Catalyst 9105AX					
 C9105AXW-N	Cisco Catalyst 9105AX Series-Wallplate	Catalyst 9100	ap	layered	Catalyst 9100 Access Points		Catalyst 9105AX	sku ^C9105	indoor	series:Catalyst 9105AX					
-C9105AXW-NO-KIT	No C9105AX Series Spacer Kit	Catalyst 9100	accessory	pending_plan								class non_product			
 C9105AXW-Q	Cisco Catalyst 9105AX Series-Wallplate	Catalyst 9100	ap	layered	Catalyst 9100 Access Points		Catalyst 9105AX	sku ^C9105	indoor	series:Catalyst 9105AX					
 C9105AXW-R	Cisco Catalyst 9105AX Series-Wallplate	Catalyst 9100	ap	layered	Catalyst 9100 Access Points		Catalyst 9105AX	sku ^C9105	indoor	series:Catalyst 9105AX					
 C9105AXW-S	Cisco Catalyst 9105AX Series-Wallplate	Catalyst 9100	ap	layered	Catalyst 9100 Access Points		Catalyst 9105AX	sku ^C9105	indoor	series:Catalyst 9105AX					
@@ -2882,7 +2868,6 @@ C9124AXI-EWC-A	Wi-Fi 6 Outdoor AP w/EWC, Internal Ant, -A Regulatory Domain	Cata
 C9124AXI-EWC-B	Wi-Fi 6 Outdoor AP w/EWC, Internal Ant, -B Regulatory Domain	Catalyst Embedded Controller	ap	layered	Catalyst 9100 Access Points		Catalyst 9124AX (outdoor)	sku ^C9124	outdoor	series:Catalyst 9124AX (outdoor)					
 C9124AXI-EWC-B-EDU	Cisco Catalyst 9124AX Series - EDU	Catalyst Embedded Controller	ap	layered	Catalyst 9100 Access Points		Catalyst 9124AX (outdoor)	sku ^C9124	outdoor	series:Catalyst 9124AX (outdoor)					
 C9124AXI-EWC-B1	Cisco Embedded Wireless Controller on C9124AX Access Point	Catalyst Embedded Controller	ap	layered	Catalyst 9100 Access Points		Catalyst 9124AX (outdoor)	sku ^C9124	outdoor	series:Catalyst 9124AX (outdoor)					
-C9124AXI-EWC-C	Do not use	Catalyst Embedded Controller	ap	pending_plan					outdoor	series:Catalyst 9124AX (outdoor)		class non_product			
 C9124AXI-EWC-E	Wi-Fi 6 Outdoor AP w/EWC, Internal Ant, -E Regulatory Domain	Catalyst Embedded Controller	ap	layered	Catalyst 9100 Access Points		Catalyst 9124AX (outdoor)	sku ^C9124	outdoor	series:Catalyst 9124AX (outdoor)					
 C9124AXI-EWC-E1	Cisco Embedded Wireless Controller on C9124AX Access Point	Catalyst Embedded Controller	ap	layered	Catalyst 9100 Access Points		Catalyst 9124AX (outdoor)	sku ^C9124	outdoor	series:Catalyst 9124AX (outdoor)					
 C9124AXI-EWC-F	Wi-Fi 6 Outdoor AP w/EWC, Internal Ant, -F Regulatory Domain	Catalyst Embedded Controller	ap	layered	Catalyst 9100 Access Points		Catalyst 9124AX (outdoor)	sku ^C9124	outdoor	series:Catalyst 9124AX (outdoor)					
@@ -3301,7 +3286,6 @@ CMX-RAILB-M4	Ball Bearing Rail Kit for C220 & C240 M4 & M5 rack servers	Mobility
 CMX-SD960GM1X-EV	960GB 2.5 inch Enterprise Value 6G SATA SSD	Mobility Services Engine	module	layered	Location and Spaces Appliances		CMX 3375 / MSE 3355 / 3365	sku ^CMX-							
 CMX-TPM2-001	Trusted Platform Module 1.2 for UCS (SPI-based)	Mobility Services Engine	module	layered	Location and Spaces Appliances		CMX 3375 / MSE 3355 / 3365	sku ^CMX-							
 COGNIO-SEWIFI-CB	Cognio Spectrum Expert cardbus adapter and software	Spectrum Expert	module	layered	Location and Spaces Appliances		Spectrum Expert	sku ^COGNIO							
-COUNTRYPOWERCAAV3	Cisco COUNTRYPOWERCAAV3	Mobility Services Engine	unknown	pending_plan								class non_product			
 CS-KIT-EQX-K9	Cisco CS-KIT-EQX-K9	Policy Suite for Mobile	accessory	pending_plan								move collaboration-endpoints			
 CS-MGNT-TRAY+	Table Mount for Ethernet Switch Panorama	Policy Suite for Mobile	mechanical	layered	Wireless Antennas and Accessories	(shared across the line)	Wireless Antennas and Accessories shared parts	label Policy Suite for Mobile							
 CS-R70-PRES-BTM=	Below Screen mount for 70 Panorama - Samsung 55"	Policy Suite for Mobile	mechanical	pending_plan								move collaboration-endpoints			
@@ -3758,9 +3742,7 @@ MIXS-12-PA2121AC=	PAS AC ENCLOSURE [ATT US PAS Only]	ASR 5000 Series	mechanical	
 MIXS-12-PA2131CO=	PAS 1G ENCLOSURE SWITCH [ATT US PAS Only]	ASR 5000 Series	mechanical	pending_plan								move routers			
 MIXS-12-PA2141CO=	PAS 10G ENCLOSURE SWITCH [ATT US PAS Only]	ASR 5000 Series	mechanical	pending_plan								move routers			
 MIXS-12-PA2211BL=	PAS SPARE BLADE [ATT US PAS Only]	ASR 5000 Series	unknown	pending_plan								move routers			
-MIXS-12-PA2221CO=	PAS SPARE COMPONENTS [ATT US PAS Only]	ASR 5000 Series	unknown	pending_plan								class non_product			
 MIXS-12-PA2261MM=	PAS DC MOMAT [ATT US PAS ONLY]	ASR 5000 Series	unknown	pending_plan								move routers			
-MIXS-12-PA2291CO=	PAS DOCUMENTATION [ATT US PAS ONLY]	ASR 5000 Series	unknown	pending_plan								class non_product			
 MIXS-12-PA2331CO=	PAS DC SEISMIC CABINET (no encl) [ATT US PAS ONLY]	ASR 5000 Series	unknown	pending_plan								move routers			
 MIXS-12-PA2531MM=	PAS AC MOMAT [ATT US PAS ONLY]	ASR 5000 Series	unknown	pending_plan								move routers			
 MIXS-12-PA2541AC=	PAS AC RMS CABINET (no Encl) [ATT US PAS ONLY]	ASR 5000 Series	unknown	pending_plan								move routers			
@@ -3799,13 +3781,11 @@ MSE-SD480G0KS2-EV	480 GB 2.5 inch Enterprise Value 6G SATA SSD	Mobility Services
 MSE-SD960G0KS2-EV	960 GB 2.5 inch Enterprise Value 6G SATA SSD	Mobility Services Engine	module	layered	Location and Spaces Appliances		CMX 3375 / MSE 3355 / 3365	sku ^MSE-							
 MSE-TPM2-001	Trusted Platform Module 1.2 for UCS (SPI-based)	Mobility Services Engine	module	layered	Location and Spaces Appliances		CMX 3375 / MSE 3355 / 3365	sku ^MSE-							
 ON100-M6-K9	ON100 Network Agent Multipack	Aironet 1550	unknown	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	label-unsupported (label Aironet 1550; was Aironet 1550): no platform token (1550) in the SKU or name, no compatible part placed in the series						none: no platform token (1550) in the SKU or name, no compatible part placed in the series	
-PI-MSE-PRMO-INSRT	Insert, Packout - PI-MSE	Aironet 1550	unknown	pending_plan								class non_product			
 PPN-3802E-ATO	3K External ATO model	3800	ap	layered	Aironet Access Points		Aironet 3800	sku ^(AIR-?|PROMO-|PPN-|PULS-)?(AP)?380[02]	indoor	series:Aironet 3800					
 PPN-3802I-ATO	3K Internal ATO model	3800	ap	layered	Aironet Access Points		Aironet 3800	sku ^(AIR-?|PROMO-|PPN-|PULS-)?(AP)?380[02]	indoor	series:Aironet 3800					
 PPN-3802I-PIKPAK-B	Barbados 3K pik pak-B	3800	ap	layered	Aironet Access Points		Aironet 3800	sku ^(AIR-?|PROMO-|PPN-|PULS-)?(AP)?380[02]	indoor	series:Aironet 3800					
 PPN-3802I-PIKPAK-E	Barbados 3K pik pak-E	3800	ap	layered	Aironet Access Points		Aironet 3800	sku ^(AIR-?|PROMO-|PPN-|PULS-)?(AP)?380[02]	indoor	series:Aironet 3800					
 PPN-AP1832I-UXK9	Hydra 3X3 cost saving version for Corsica Lite AP1830	Aironet 1830	ap	layered	Aironet Access Points		Aironet 1830	sku ^(AIR-?|PROMO-|PPN-|PULS-)?AP183[02]	indoor	series:Aironet 1830					
-PRODUCTEXPANSAAV4	Cisco PRODUCTEXPANSAAV4	Mobility Services Engine	unknown	pending_plan								class non_product			
 PROMO-AP1815-B1G1	Discount restricted SKU. Buy an AP, get one free.	Aironet 1815	ap	layered	Aironet Access Points		Aironet 1815	sku ^(AIR-|PROMO-|PPN-|PULS-)?(AP|OEAP)1815	indoor	series:Aironet 1815					
 PROMO-AP1840-B1G1	Discount restricted SKU. Buy an AP, get one free.	Aironet 1840	ap	layered	Aironet Access Points		Aironet 1840	sku ^(AIR-|PROMO-|PPN-|PULS-)?AP1840	indoor	series:Aironet 1840					
 PROMO-AP1850-B1G1	Discount restricted SKU. Buy an AP, get one free.	Aironet 1850	ap	layered	Aironet Access Points		Aironet 1850	sku ^(AIR-?|PROMO-|PPN-|PULS-)?AP185[02]	indoor	series:Aironet 1850					
@@ -3928,7 +3908,6 @@ SB-PWR-48V	Cisco Small Business 48V Power Adapter	Small Business 500	power	pendi
 SB-PWR-48V-xx	48-Volt Power Adapter	Small Business 300	power	pending_plan								move interfaces-modules			true
 SB-PWR-INJ1-xx	Cisco Small Business Gigabit Power over Ethernet Injector	Small Business 100	power-injector	pending_plan								move interfaces-modules			true
 SB-PWR-INJ2-xx	Gigabit Power over Ethernet Injector - 30 Watts	Small Business 100	power-injector	pending_plan								move interfaces-modules			true
-SOFTWAREAAV1	Cisco SOFTWAREAAV1	Mobility Services Engine	unknown	pending_plan								class non_product			
 WAP121-A-K9-AR	Cisco WAP121 Wireless-N Access Point with Single Point Setup (Argentina)	Small Business 100	ap	layered	Small Business Wireless (WAP)		WAP100 series (WAP121 / WAP125 / WAP150)	sku ^WAP1[0-9]{2}	smb	series:WAP100 series (WAP121 / WAP125 / WAP150)					
 WAP121-A-K9-AU	Cisco WAP121 Wireless-N Access Point with Single Point Setup (Australia, New Zealand)	Small Business 100	ap	layered	Small Business Wireless (WAP)		WAP100 series (WAP121 / WAP125 / WAP150)	sku ^WAP1[0-9]{2}	smb	series:WAP100 series (WAP121 / WAP125 / WAP150)					
 WAP121-A-K9-CA	Cisco WAP121 Wireless-N Access Point with Single Point Setup (Canada)	Small Business 100	ap	layered	Small Business Wireless (WAP)		WAP100 series (WAP121 / WAP125 / WAP150)	sku ^WAP1[0-9]{2}	smb	series:WAP100 series (WAP121 / WAP125 / WAP150)					

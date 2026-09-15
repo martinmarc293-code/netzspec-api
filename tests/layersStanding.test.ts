@@ -15,7 +15,8 @@ export const REVIEWED = ["switches", "routers", "transceiver", "interfaces-modul
 // spare = base exceptions, each read against the built row
 const PAIR_EXCEPTIONS: Record<string, string> = {
   "switches|N5K-C5696Q-C": "the spare row is named '^Invalid SKU' and carries a class non_product plan; its base is the live 'Nexus 5696Q Chassis with license and SW image'",
-  "wireless|C9105AXW-KIT": "the base row is named 'Do not use' and carries a class non_product plan; its spare C9105AXW-KIT= is the live 'C9105AX Series Spacer Kit' (layers round 3)",
+  // C9105AXW-KIT's exception went with batch 3a (run #1118, 16 Sep 2026): the "Do not use" base is no longer a hardware row, so the pair no
+  // longer disagrees and a kept entry would be the stale exception the check below exists to catch
   // servers + hyperconverged round (layers round 3): Cisco voided one member of each pair — the voided member carries the kind layer's
   // class non_product plan ("self-declared VOID PID"), the other is the live part in its series
   "servers-unified-computing|UCS-C3K-EX40TE": "the spare is named 'VOID; Not Used' and carries a class non_product plan; the base is the live 'UCS C3X60 Expander 4x 10TB … 40TB' in UCS S3260",
@@ -38,12 +39,9 @@ const PAIR_EXCEPTIONS: Record<string, string> = {
   // re-audit decisions (operator, 15 Sep 2026): the check covers X, X=, X- and X-- (N-1, the twin rule), keyed by the group's base —
   // or its lowest member when no base is a row. N-3 classes the rows whose own catalogue entry says "Not used" / "Do not use"; where a
   // twin of such a row is the live part, the pair disagrees on purpose (the VOID precedent above)
-  "collaboration-endpoints|BRKT-SX10-WMK": "the component PID BRKT-SX10-WMK- is named 'Not used' and carries the N-3 class non_product plan; the base BRKT-SX10-WMK is the live wall-mount kit in TelePresence SX",
-  "collaboration-endpoints|CTS-SX10CODEC=": "the component PID CTS-SX10CODEC- is named 'Not used' and carries the N-3 class non_product plan; the spare CTS-SX10CODEC= is the live SX10 codec in TelePresence SX",
-  "collaboration-endpoints|CTS-SX20G2-K9+": "the auto-expand PID CTS-SX20G2-K9+ is named '^Not used' and carries the N-3 class non_product plan; its spare CTS-SX20G2-K9+= '^SX20 Codec - encrypted' is the live row in TelePresence SX",
-  "collaboration-endpoints|HS-WL-ADPT-USBA": "the base is named 'NOT USED Cisco Headset Wireless Bluetooth USB-A HD Adapter' and carries the N-3 class non_product plan; its spare HS-WL-ADPT-USBA= '… Adapter - SPARE' is the live row in Headsets shared parts",
-  "security|FP-NMSB-40G": "the base is named 'Do Not Use - FirePOWER 40G Switch Module for 40Gbps Net Mods' and carries the N-3 class non_product plan; its twins FP-NMSB-40G- (the component PID) and FP-NMSB-40G= are the live 'Cisco FirePOWER 40G Switch Module' in FirePOWER 7000 / 8000 (legacy)",
-  "wireless|AIR-ANT5175V-N": "the base is named 'NOT USED 4.9 GHz-5.8 GHz Omni with N Connector' and carries the N-3 class non_product plan; its spare AIR-ANT5175V-N= '4.9 GHz-5.8 GHz, 7.5 dBi Omni with N Connector' is the live row in Antennas",
+  // the six N-3 twin exceptions (BRKT-SX10-WMK, CTS-SX10CODEC=, CTS-SX20G2-K9+, HS-WL-ADPT-USBA, FP-NMSB-40G, AIR-ANT5175V-N) went with
+  // batch 3a (runs #1112 / #1115 / #1118, 16 Sep 2026): each "Not used" member has left its hardware page, so the twins on the page agree
+  // again and the entries would now be stale — which is exactly what the check below refuses
 };
 
 // device-in-shared-parts exceptions (collaboration round): a whole product with no series and no document naming one. Re-audit decisions
@@ -275,7 +273,9 @@ const CARRIER_SKUS: ReadonlySet<string> = new Set(CARRIERS.map((c) => c.sku));
     const left = readLayerRows(cat).filter((r) => r.bucket === "layered" && regionPlaceholder(r.sku) && !CARRIER_SKUS.has(r.sku));
     check(`region placeholders ${cat}: 0 layered regulatory-domain / plug-region stand-ins that are not listed family carriers (Q-10, Q-23 governs)`, left.length === 0, left.slice(0, 6).map((r) => r.sku).join(", "));
   }
-  const q10 = (PLANS as { sku: string; category: string; action: string; to: string; run_id: unknown; reason?: string }[]).filter((p) => p.run_id === null && /^regulatory-domain( \/ plug-region)? placeholder/.test(p.reason ?? ""));
+  // counted whether or not the plan has RUN: the decision was 175 plans, and CP-PWR-CORD-xx= ran in batch 3a (run #1112, 16 Sep 2026), so a
+  // count of pending plans alone would shrink with every batch and stop measuring the decision
+  const q10 = (PLANS as { sku: string; category: string; action: string; to: string; run_id: unknown; reason?: string }[]).filter((p) => /^regulatory-domain( \/ plug-region)? placeholder/.test(p.reason ?? ""));
   check(`region placeholders: the Q-10 class plans number 175 — the stand-ins that carry nothing (switches 174, collaboration-endpoints 1)`, q10.length === 175 && q10.every((p) => p.action === "class" && p.to === "non_product" && !CARRIER_SKUS.has(p.sku)), `${q10.length}`);
   const q10carriers = CARRIERS.filter((c) => c.decision === "Q-10 vs Q-23");
   check(`region placeholders: 79 stand-ins carry a fact or a document and are listed carriers (wireless 60, switches 17, interfaces-modules 2)`, q10carriers.length === 79 && q10carriers.every((c) => regionPlaceholder(c.sku) && c.facts + c.docs > 0), `${q10carriers.length}`);
@@ -462,8 +462,11 @@ check("SABOTAGE merge: a plan that calls a hardware row non-hardware is refused"
   at("C9120AXI-x", "Catalyst 9120AX", "ap");
   check(`wireless page: C9120AXI-x is flagged a family carrier`, wl.get("C9120AXI-x")?.family_carrier === "true", `${wl.get("C9120AXI-x")?.family_carrier}`);
   at("C9105AXI-EWC-x", "Catalyst 9105AX", "ap");   // a carrier too (2 facts, 2 documents)
-  planned("AIR-AP1572EAC-UXK9", "class non_product");
-  planned("C9105AXI", "class non_product");
+  // their class-non_product plans RAN in batch 3a (run #1118, 16 Sep 2026): no longer hardware rows, and the plans carry the run id
+  for (const sku of ["AIR-AP1572EAC-UXK9", "C9105AXI"])
+    check(`wireless page: ${sku} left the hardware page by its class-non_product plan (run id recorded)`, !wl.get(sku)
+      && (PLANS as { sku: string; category: string; action: string; to: string; run_id: unknown }[]).some((p) => p.sku === sku && p.category === "wireless" && p.action === "class" && p.to === "non_product" && typeof p.run_id === "number"),
+      `${wl.get(sku)?.bucket ?? "(not a row)"}`);
   planned("SB-PWR-48V", "move interfaces-modules");
   planned("CS-ROOM70P-WMK=", "move collaboration-endpoints");
   const ntc = [...wl.values()].filter((r) => r.bucket === "not_this_category").length;
@@ -483,6 +486,10 @@ check("SABOTAGE merge: a plan that calls a hardware row non-hardware is refused"
     check(`re-audit ${cat}: ${sku} is layered in ${series}${kind ? `, kind ${kind}` : ""}${by ? `, placed by ${by.source}` : ""}`, r?.bucket === "layered" && r.series === series && (!kind || r.kind === kind) && (!by || by.test(r.placed_by ?? "")), `got ${r?.bucket} / ${r?.series} / ${r?.kind} / ${r?.placed_by}`);
   };
   const planned = (cat: string, sku: string, plan: string) => { const r = get(cat, sku); check(`re-audit ${cat}: ${sku} carries the plan "${plan}"`, r?.bucket === "pending_plan" && r.plan === plan, `got ${r?.bucket} "${r?.plan}"`); };
+  // a witness whose class plan HAS RUN: the row left the hardware page and its plan carries the run id (batch 2 / 3a, 16 Sep 2026)
+  const ranClass = (cat: string, sku: string, to: string) => check(`re-audit ${cat}: ${sku} left the hardware page by its class-${to} plan (run id recorded)`, !get(cat, sku)
+    && (PLANS as { sku: string; category: string; action: string; to: string; run_id: unknown }[]).some((p) => p.sku === sku && p.category === cat && p.action === "class" && p.to === to && typeof p.run_id === "number"),
+    `${get(cat, sku)?.bucket ?? "(not a row)"}`);
   // F-1: platform-bound modules, cards, fans and supplies in their series (A.3 rule 1)
   at("security", "ASA-CX40-INC-K8", "ASA 5585-X", undefined, /^sku /);
   at("security", "ASA-IC-6GE-SFP-B=", "ASA 5500-X (5506 / 5508 / 5512 / 5515 / 5516 / 5525 / 5545 / 5555)", undefined, /^sku /);
@@ -513,21 +520,21 @@ check("SABOTAGE merge: a plan that calls a hardware row non-hardware is refused"
   at("security", "5545-X", "ASA 5500-X (5506 / 5508 / 5512 / 5515 / 5516 / 5525 / 5545 / 5555)");
   at("transceiver", "SFP-H10GB-CU", "DAC and AOC cables (SFP+ / SFP28 / SFP56 / QSFP / QSFP-DD)", "cable");
   at("transceiver", "X2-10G-DWDM", "10G X2 / XENPAK / XFP (legacy)");
-  planned("wireless", "C9105AXI", "class non_product");
+  ranClass("wireless", "C9105AXI", "non_product");
   // N-1: twins share placement; the truncated token with no twin is classed
   at("transceiver", "CPAK-100G-LR4-", "40G / 100G CFP, CFP2, CPAK and CXP");
   at("interfaces-modules", "NM-HDV-", "NM / NME Network Modules");
   at("collaboration-endpoints", "CAB-CAT5E-8M-", "Webex Board Series shared parts");
   at("collaboration-endpoints", "PSU-12VDC-70W-GR-", "Webex Room Series shared parts");
   planned("switches", "C9600-PWR-", "class non_product");
-  planned("optical-networking", "15216-MD-48-", "class non_product");
+  ranClass("optical-networking", "15216-MD-48-", "non_product");
   // N-3, Q-10, Q-15, Q-19 / Q-20, F-7
-  planned("security", "FPR4K-NM-4X40G-F=", "class non_product");
+  ranClass("security", "FPR4K-NM-4X40G-F=", "non_product");
   at("wireless", "CW9166I-X", "Catalyst CW9162 / CW9164 / CW9166 (Wi-Fi 6E)");   // a family carrier (Q-10 vs Q-23)
   planned("wireless", "SB-PWR-48V-xx", "move interfaces-modules");               // a carrier, to its family's category
   at("switches", "SF110D-05-xx", "Small Business 110 Unmanaged (SF110/SG110)");  // a carrier: 9 facts and the 110 Series data sheet
   planned("switches", "CBS350-8XT-xx", "class non_product");
-  planned("collaboration-endpoints", "CP-PWR-CORD-xx=", "class non_product");
+  ranClass("collaboration-endpoints", "CP-PWR-CORD-xx=", "non_product");
   planned("hyperconverged-infrastructure", "R2XX-DMYMPWRCORD", "class non_product");
   planned("collaboration-endpoints", "CAB-AC2UK=", "move routers");
   planned("storage-networking", "CAB-9K16A-EU=", "move switches");

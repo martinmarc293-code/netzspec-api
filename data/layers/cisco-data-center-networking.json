@@ -1,8 +1,8 @@
 {
  "vendor": "cisco",
  "category": "data-center-networking",
- "built_at": "2026-09-15T22:39:22.319Z",
- "commit": "c9ebf59177f9d5950f8cd9384dd9346e76c7670b",
+ "built_at": "2026-09-15T22:52:46.567Z",
+ "commit": "9a734f7ba27364704867e3f28204553e1ab21277",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-data-center-networking.json",
  "parts": 22,

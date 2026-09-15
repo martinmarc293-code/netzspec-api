@@ -20,16 +20,11 @@ BRKT-12X-MONITR	Bracket mounting for 12x PHD camera to screen	TelePresence Preci
 BRKT-12X-MONITR=	Spare bracket mounting for 12x PHD camera to monitor	TelePresence Precision Cameras (P60)	mechanical	layered	Cameras	(shared across the line)	Cameras shared parts	accessory BRKT (label TelePresence Precision Cameras (P60))							
 BRKT-P40-MONITR	Bracket mounting for P40 camera to screen	TelePresence Precision Cameras (P60)	mechanical	layered	Cameras	(shared across the line)	Cameras shared parts	accessory BRKT (label TelePresence Precision Cameras (P60))							
 BRKT-P40-MONITR=	Bracket mounting for P40 camera to screen	TelePresence Precision Cameras (P60)	mechanical	layered	Cameras	(shared across the line)	Cameras shared parts	accessory BRKT (label TelePresence Precision Cameras (P60))							
-BRKT-PHD2X-MONITR	^Not Used	TelePresence MX Series	mechanical	pending_plan								class non_product			
-BRKT-PHD2X-MONITR=	^Not Used	TelePresence MX Series	mechanical	pending_plan								class non_product			
-BRKT-PHDX-WMK	^Not Used	TelePresence MX Series	mechanical	pending_plan								class non_product			
-BRKT-PHDX-WMK=	^Not Used	TelePresence MX Series	mechanical	pending_plan								class non_product			
 BRKT-QCAM2-WMK-	Wall-mount bracket for Cisco Quad Camera (only in Quad Camera bundles)	Room Series	mechanical	layered	Cameras		Room Vision PTZ and Quad Camera	sku ^BRKT-QCAM							
 BRKT-SX10-SMK	Screen Mount Kit for SX10 Quick Set	TelePresence SX Series (QuickSet)	mechanical	layered	TelePresence (legacy)		TelePresence SX (SX10 / SX20 / SX80)	sku ^BRKT-SX(10|20)-							
 BRKT-SX10-SMK+	SX10 Screen Mount Kit	TelePresence SX Series (QuickSet)	mechanical	layered	TelePresence (legacy)		TelePresence SX (SX10 / SX20 / SX80)	sku ^BRKT-SX(10|20)-							
 BRKT-SX10-SMK=	SX10 Screen Mount Kit	TelePresence SX Series (QuickSet)	mechanical	layered	TelePresence (legacy)		TelePresence SX (SX10 / SX20 / SX80)	sku ^BRKT-SX(10|20)-							
 BRKT-SX10-WMK	Wall Mount Kit for SX10 Quick Set	TelePresence SX Series (QuickSet)	mechanical	layered	TelePresence (legacy)		TelePresence SX (SX10 / SX20 / SX80)	sku ^BRKT-SX(10|20)-							
-BRKT-SX10-WMK-	Not used	TelePresence SX Series (QuickSet)	mechanical	pending_plan								class non_product			
 BRKT-SX10-WMK=	SX10 Wall Mount	TelePresence SX Series (QuickSet)	mechanical	layered	TelePresence (legacy)		TelePresence SX (SX10 / SX20 / SX80)	sku ^BRKT-SX(10|20)-							
 BRKT-SX20-MONITOR	Bracket for SX20 and HD monitor	TelePresence SX Series (QuickSet)	mechanical	layered	TelePresence (legacy)		TelePresence SX (SX10 / SX20 / SX80)	sku ^BRKT-SX(10|20)-							
 BRKT-SX20-MONITOR=	PID not used	TelePresence SX Series (QuickSet)	mechanical	layered	TelePresence (legacy)		TelePresence SX (SX10 / SX20 / SX80)	sku ^BRKT-SX(10|20)-							
@@ -45,7 +40,6 @@ CAB-2DC4MINI-0.3M-	4-PIN MINI DIN, 0.3 meters for MX700	TelePresence MX Series	p
 CAB-2DC4MINI-0.3M=	4-PIN MINI DIN, 0.3 meters for MX700	TelePresence MX Series	power-cord	layered	TelePresence (legacy)	(shared across the line)	TelePresence (legacy) shared parts	accessory ^CAB- (label TelePresence MX Series)							
 CAB-2HDMI-1.26M-	HDMI to HDMI Cable, 1.26 meters long for ROOM 70	Room Series	cable	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	accessory ^CAB- (label Room Series)							
 CAB-2HDMI-1.26M=	HDMI to HDMI Cable, 1.26 meters long for ROOM 70	Room Series	cable	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	accessory ^CAB- (label Room Series)							
-CAB-2HDMI-1.5M-	Not used	Room Series	cable	pending_plan								class non_product			
 CAB-2HDMI-1.5M-GR	Second screen 1.5 m HDMI 2.0 certified cable	Room Series	cable	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	accessory ^CAB- (label Room Series)							
 CAB-2HDMI-1.5M-GR-	HDMI 2.0 Cable - 1.5 meter - Gray (for one monitor)	Room Series	cable	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	accessory ^CAB- (label Room Series)							
 CAB-2HDMI-1.5M-GR=	HDMI 2.0 Cable - 1.5 meter - Gray - SPARE (for monitors)	Room Series	cable	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	accessory ^CAB- (label Room Series)							
@@ -1096,7 +1090,6 @@ CP-PWR-CORD-SA=	Cisco CP-PWR-CORD-SA=	Desk Phone 9800 Series	power-cord	layered	
 CP-PWR-CORD-SW=	● Power Cord Switzerland	IP Phone 8800 Series	power-cord	layered	IP Phones	(shared across the line)	IP Phones shared parts	sku ^CP-							
 CP-PWR-CORD-TW=	Cisco CP-PWR-CORD-TW=	Desk Phone 9800 Series	power-cord	layered	IP Phones	(shared across the line)	IP Phones shared parts	sku ^CP-							
 CP-PWR-CORD-UK=	● Power Cord United Kingdom	IP Phone 8800 Series	power-cord	layered	IP Phones	(shared across the line)	IP Phones shared parts	sku ^CP-							
-CP-PWR-CORD-xx=	Cisco Unified IP Phone Power Country Cord	IP Phone 8800 Series	power-cord	pending_plan								class non_product			
 CP-PWR-CUBE-3	IP Phone power transformer for the 7900 phone series	7900 - Unified IP Phone	power	layered	IP Phones	(shared across the line)	IP Phones shared parts	sku ^CP-							
 CP-PWR-CUBE-3=	Local power adapter for sites where PoE is not available; refer to Table 5 for the right power cord part number for your region	IP Phone 8800 Series	power	layered	IP Phones	(shared across the line)	IP Phones shared parts	sku ^CP-							
 CP-PWR-CUBE-4	Cisco Power Cube 4	IP Phone 8800 Series	power	layered	IP Phones	(shared across the line)	IP Phones shared parts	sku ^CP-							
@@ -2369,7 +2362,6 @@ CTS-ST-INT-PLATE-=	^Interface plate CAM-P60 to Speaker Track 60	SpeakerTrack 60	
 CTS-ST-INT-PLATE=	Interface plate CAM-P60 to Speaker Track 60	SpeakerTrack 60	mechanical	layered	TelePresence (legacy)	(shared across the line)	TelePresence (legacy) shared parts	sku ^CTS-							
 CTS-SX10-K9	SX10 HD w/ wall mount, int 5x cam and mic	TelePresence SX Series (QuickSet)	video-codec	layered	TelePresence (legacy)		TelePresence SX (SX10 / SX20 / SX80)	sku ^CTS-SX[0-9]							
 CTS-SX10CODEC+	SX10 Codec	TelePresence SX Series (QuickSet)	video-codec	layered	TelePresence (legacy)		TelePresence SX (SX10 / SX20 / SX80)	sku ^CTS-SX[0-9]							
-CTS-SX10CODEC-	Not used	TelePresence SX Series (QuickSet)	video-codec	pending_plan								class non_product			
 CTS-SX10CODEC=	SX10 HD w/ int 5x Cam Spare	TelePresence SX Series (QuickSet)	video-codec	layered	TelePresence (legacy)		TelePresence SX (SX10 / SX20 / SX80)	sku ^CTS-SX[0-9]							
 CTS-SX10N-AU	Non-Encrypted SX10 w/ wall mount, int 5x cam, mic and PSU	TelePresence SX Series (QuickSet)	video-codec	layered	TelePresence (legacy)		TelePresence SX (SX10 / SX20 / SX80)	sku ^CTS-SX[0-9]							
 CTS-SX10N-K9	SX10 HD w/ wall mount, int 5x cam, mic and power supply	TelePresence SX Series (QuickSet)	video-codec	layered	TelePresence (legacy)		TelePresence SX (SX10 / SX20 / SX80)	sku ^CTS-SX[0-9]							
@@ -2387,7 +2379,6 @@ CTS-SX20CODEC	SX20 Codec - no encryption	TelePresence SX Series (QuickSet)	video
 CTS-SX20CODEC-K9	SX20 Codec - encrypted	TelePresence SX Series (QuickSet)	video-codec	layered	TelePresence (legacy)		TelePresence SX (SX10 / SX20 / SX80)	sku ^CTS-SX[0-9]							
 CTS-SX20CODEC-K9=	SPARE SX20 Codec encrypted	TelePresence SX Series (QuickSet)	video-codec	layered	TelePresence (legacy)		TelePresence SX (SX10 / SX20 / SX80)	sku ^CTS-SX[0-9]							
 CTS-SX20CODEC=	SX20 Codec - no encryption	TelePresence SX Series (QuickSet)	video-codec	layered	TelePresence (legacy)		TelePresence SX (SX10 / SX20 / SX80)	sku ^CTS-SX[0-9]							
-CTS-SX20G2-K9+	^Not used	TelePresence MX Series	video-codec	pending_plan								class non_product			
 CTS-SX20G2-K9+=	^SX20 Codec - encrypted	TelePresence MX Series	video-codec	layered	TelePresence (legacy)		TelePresence SX (SX10 / SX20 / SX80)	sku ^CTS-SX[0-9]							
 CTS-SX20N-12X-K9	SX20 w/ 12x Cam, 1 mic, remote and CE9 - Lead time extended	TelePresence Precision Cameras (P60)	video-codec	layered	TelePresence (legacy)		TelePresence SX (SX10 / SX20 / SX80)	sku ^CTS-SX[0-9]							
 CTS-SX20N-C-12X-K9	SX20 Quick Set w/ 12X cam, 1 mic, remote cntrl	TelePresence Precision Cameras (P60)	video-codec	layered	TelePresence (legacy)		TelePresence SX (SX10 / SX20 / SX80)	sku ^CTS-SX[0-9]							
@@ -2425,12 +2416,6 @@ DBS-210-3PC-AU-K9=	Cisco IP DECT Base Station 210 Series, MPP, Australia and New
 DBS-210-3PC-CE-K9=	Cisco IP DECT Base Station 210 Series, MPP, European Union and APAC, 1880 - 1900 MHz, Continental Europe Power Adapter	IP DECT 6800 Series with Multiplatform Firmware	dect-base	layered	IP Phones		IP DECT base stations and repeaters	sku ^DBS-							
 DBS-210-3PC-NA-K9=	Cisco IP DECT Base Station 210 Series, MPP, U.S. and Canada, 1920 - 1930 MHz, North America Power Adapter	IP DECT 6800 Series with Multiplatform Firmware	dect-base	layered	IP Phones		IP DECT base stations and repeaters	sku ^DBS-							
 DBS-210-3PC-UK-K9=	Cisco IP DECT Base Station 210 Series, MPP, United Kingdom, 1880 - 1900 MHz, United Kingdom Power Adapter	IP DECT 6800 Series with Multiplatform Firmware	dect-base	layered	IP Phones		IP DECT base stations and repeaters	sku ^DBS-							
-DOC-MX700-DDC-FSK	Installation sheet for MX700 dual camera, floor stand kit	TelePresence MX Series	accessory	pending_plan								class non_product			
-DOC-MX700-DDC-WMK	Installation sheet for MX700 dual camera, wall mount kit	TelePresence MX Series	accessory	pending_plan								class non_product			
-DOC-MX700-DSC-FSK	Installation sheet for MX700 single camera, floor stand kit	TelePresence MX Series	accessory	pending_plan								class non_product			
-DOC-MX700-DSC-WMK	Installation sheet for MX700 single camera, wall mount kit	TelePresence MX Series	accessory	pending_plan								class non_product			
-DOC-MX800-DDC-FSK	Installation sheet for MX800 dual camera, floor stand kit	TelePresence MX Series	accessory	pending_plan								class non_product			
-DOC-MX800-DDC-WMK	Installation sheet for MX800 dual camera, wall mount kit	TelePresence MX Series	accessory	pending_plan								class non_product			
 DP-9800-CORD-L=	Desk Phone 9800 Replacement Handset Cord, First Light - SPARE	Desk Phone 9800 Series	accessory	layered	IP Phones		Desk Phone 9800 (9811 - 9871)	sku ^DP-98							
 DP-9800-CORD=	Desk Phone 9800 Replacement Handset Cord, Carbon Black - SPARE	Desk Phone 9800 Series	accessory	layered	IP Phones		Desk Phone 9800 (9811 - 9871)	sku ^DP-98							
 DP-9800-FS=	Desk Phone 9841 & 9851 Replacement Footstand, Carbon Black - SPARE	Desk Phone 9800 Series	mechanical	layered	IP Phones		Desk Phone 9800 (9811 - 9871)	sku ^DP-98							
@@ -2523,11 +2508,9 @@ HS-WL-980-EC2-C=	Ear cushion spares – Black Anthracite	900 Series Bang & Olufs
 HS-WL-980-EC2-L=	Ear cushion spares – First Light	900 Series Bang & Olufsen Headsets	headset	layered	Headsets		Bang & Olufsen 900 (950 / 980)	sku ^HS-WL-9							
 HS-WL-980-L	B&O Cisco 980 Wireless Over-ear Headset - First Light	900 Series Bang & Olufsen Headsets	headset	layered	Headsets		Bang & Olufsen 900 (950 / 980)	sku ^HS-WL-9							
 HS-WL-980-L=	Spare B&O Cisco 980 Wireless, Over-Ear Headset in First Light finish with travel case, USB-A and 3.5mm cables	900 Series Bang & Olufsen Headsets	headset	layered	Headsets		Bang & Olufsen 900 (950 / 980)	sku ^HS-WL-9							
-HS-WL-ADPT-USBA	NOT USED Cisco Headset Wireless Bluetooth USB-A HD Adapter	Headset 700 Series	accessory	pending_plan								class non_product			
 HS-WL-ADPT-USBA=	Headset Wireless Bluetooth USB-A HD Adapter - SPARE	Headset 700 Series	accessory	layered	Headsets	(shared across the line)	Headsets shared parts	sku ^HS-							
 HS-WL-ADPT-USBC=	Cisco Headset Wireless Bluetooth USB-C Adapter with USB-C to A converter	Headset 700 Series	accessory	layered	Headsets	(shared across the line)	Headsets shared parts	sku ^HS-							
 MB100	Wall-mount brackets for SPA 300, SPA 500, CP 500, and SPA 900 Series	SPA300 IP Phones	mechanical	layered	IP Phones	(shared across the line)	IP Phones shared parts	sku ^MB100$							
-MISC-SHIP-FPO	Misc Shipping Item - Mfg FPO Org	TelePresence MX Series	accessory	pending_plan								class non_product			
 PA100-AS	Power Supply for Linksys VoIP Products - 5V/2A (AS)	SPA500 IP Phones	power	layered	IP Phones		SPA500 IP Phones	sku ^PA100-							
 PA100-AU	Power supply for SPA500, CP500, and SPA9xx-5V/2A (AU style plug). Power supply for SPA500 and SPA 900 Series-5V/2A ( NA )	SPA500 IP Phones	power	layered	IP Phones		SPA500 IP Phones	sku ^PA100-							
 PA100-EU	Power supply for SPA500, CP500, and SPA 900 Series-5V/2A (EU style plug)	SPA500 IP Phones	power	layered	IP Phones		SPA500 IP Phones	sku ^PA100-							

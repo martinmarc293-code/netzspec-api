@@ -1,11 +1,11 @@
 {
  "vendor": "cisco",
  "category": "security",
- "built_at": "2026-09-15T22:39:21.561Z",
- "commit": "c9ebf59177f9d5950f8cd9384dd9346e76c7670b",
+ "built_at": "2026-09-15T22:52:45.599Z",
+ "commit": "9a734f7ba27364704867e3f28204553e1ab21277",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-security.json",
- "parts": 1984,
+ "parts": 1980,
  "lines": [
   {
    "line": "Secure Firewall and Firepower",
@@ -1207,38 +1207,6 @@
    "action": "move",
    "to": "interfaces-modules",
    "reason": "router crypto service module (SM-EC-DES / 3DES for the ISR, AIM-DES for the 2600, NM-DES for the 3600) filed under a FirePOWER 7000 label: its category is interfaces-modules (the exclusion's reason, now a plan — layers round 3, security round)"
-  },
-  {
-   "sku": "FP-NMSB-40G",
-   "name": "Do Not Use - FirePOWER 40G Switch Module for 40Gbps Net Mods",
-   "series_label": "Firepower 9300 Series",
-   "action": "class",
-   "to": "non_product",
-   "reason": "not orderable: the catalogue row itself says 'Not used' / 'Do not use' (the wireless precedent; re-audit decisions, operator, 15 Sep 2026, N-3)"
-  },
-  {
-   "sku": "FPR4K-NM-4X40G-F",
-   "name": "DO NOT USE",
-   "series_label": "Firepower NGFW",
-   "action": "class",
-   "to": "non_product",
-   "reason": "not orderable: the catalogue row itself says 'Not used' / 'Do not use' (the wireless precedent; re-audit decisions, operator, 15 Sep 2026, N-3)"
-  },
-  {
-   "sku": "FPR4K-NM-4X40G-F=",
-   "name": "DO NOT USE",
-   "series_label": "Firepower NGFW",
-   "action": "class",
-   "to": "non_product",
-   "reason": "not orderable: the catalogue row itself says 'Not used' / 'Do not use' (the wireless precedent; re-audit decisions, operator, 15 Sep 2026, N-3)"
-  },
-  {
-   "sku": "FS4K-RAID5",
-   "name": "Cisco FireSIGHT RAID 5 Pre-Configuration",
-   "series_label": "Defense Center",
-   "action": "class",
-   "to": "non_product",
-   "reason": "'Cisco FireSIGHT RAID 5 Pre-Configuration' — a factory configuration option PID, no part ships"
   },
   {
    "sku": "MEM-7100-CFL128M",

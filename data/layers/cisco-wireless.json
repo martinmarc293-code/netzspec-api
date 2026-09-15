@@ -1,11 +1,11 @@
 {
  "vendor": "cisco",
  "category": "wireless",
- "built_at": "2026-09-15T22:39:20.889Z",
- "commit": "c9ebf59177f9d5950f8cd9384dd9346e76c7670b",
+ "built_at": "2026-09-15T22:52:44.903Z",
+ "commit": "9a734f7ba27364704867e3f28204553e1ab21277",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-wireless.json",
- "parts": 4006,
+ "parts": 3985,
  "lines": [
   {
    "line": "Catalyst Wireless Access Points",
@@ -1812,94 +1812,6 @@
  "not_this_category": [],
  "pending_plans": [
   {
-   "sku": "AIR-ACCAMK1520-3",
-   "name": "NOT USED YET",
-   "series_label": "Aironet 1550",
-   "action": "class",
-   "to": "non_product",
-   "reason": "not orderable: the catalogue row itself says 'Do not use' / 'invalid PID' / 'not used yet' (the datasheet-cell rule of round 2c: a SKU that is not an orderable PID)"
-  },
-  {
-   "sku": "AIR-ANT2457V-N",
-   "name": "Do Not Use - invalid PID",
-   "series_label": "Aironet 1550",
-   "action": "class",
-   "to": "non_product",
-   "reason": "not orderable: the catalogue row itself says 'Do not use' / 'invalid PID' / 'not used yet' (the datasheet-cell rule of round 2c: a SKU that is not an orderable PID)"
-  },
-  {
-   "sku": "AIR-ANT5175V-N",
-   "name": "NOT USED 4.9 GHz-5.8 GHz Omni with N Connector",
-   "series_label": "Antennas/Accessories",
-   "action": "class",
-   "to": "non_product",
-   "reason": "not orderable: the catalogue row itself says 'Not used' / 'Do not use' (the wireless precedent; re-audit decisions, operator, 15 Sep 2026, N-3)"
-  },
-  {
-   "sku": "AIR-AP-NO-BRACKET",
-   "name": "Select this option if no bracket is required",
-   "series_label": "Catalyst 9163",
-   "action": "class",
-   "to": "non_product",
-   "reason": "ordering option / unused PID"
-  },
-  {
-   "sku": "AIR-AP1572EAC-UXK9",
-   "name": "DO NOT USE",
-   "series_label": "Aironet 1570",
-   "action": "class",
-   "to": "non_product",
-   "reason": "not orderable: the catalogue row itself says 'Do not use' / 'invalid PID' / 'not used yet' (the datasheet-cell rule of round 2c: a SKU that is not an orderable PID)"
-  },
-  {
-   "sku": "AIR-AP1572EC1-UXK9",
-   "name": "DO NOT USE",
-   "series_label": "Aironet 1570",
-   "action": "class",
-   "to": "non_product",
-   "reason": "not orderable: the catalogue row itself says 'Do not use' / 'invalid PID' / 'not used yet' (the datasheet-cell rule of round 2c: a SKU that is not an orderable PID)"
-  },
-  {
-   "sku": "AIR-AP1572EC2-UXK9",
-   "name": "DO NOT USE",
-   "series_label": "Aironet 1570",
-   "action": "class",
-   "to": "non_product",
-   "reason": "not orderable: the catalogue row itself says 'Do not use' / 'invalid PID' / 'not used yet' (the datasheet-cell rule of round 2c: a SKU that is not an orderable PID)"
-  },
-  {
-   "sku": "AIR-AP1572EC3-UXK9",
-   "name": "DO NOT USE",
-   "series_label": "Aironet 1570",
-   "action": "class",
-   "to": "non_product",
-   "reason": "not orderable: the catalogue row itself says 'Do not use' / 'invalid PID' / 'not used yet' (the datasheet-cell rule of round 2c: a SKU that is not an orderable PID)"
-  },
-  {
-   "sku": "AIR-AP1572IC1-UXK9",
-   "name": "DO NOT USE",
-   "series_label": "Aironet 1570",
-   "action": "class",
-   "to": "non_product",
-   "reason": "not orderable: the catalogue row itself says 'Do not use' / 'invalid PID' / 'not used yet' (the datasheet-cell rule of round 2c: a SKU that is not an orderable PID)"
-  },
-  {
-   "sku": "AIR-AP1572IC2-UXK9",
-   "name": "DO NOT USE",
-   "series_label": "Aironet 1570",
-   "action": "class",
-   "to": "non_product",
-   "reason": "not orderable: the catalogue row itself says 'Do not use' / 'invalid PID' / 'not used yet' (the datasheet-cell rule of round 2c: a SKU that is not an orderable PID)"
-  },
-  {
-   "sku": "AIR-AP1572IC3-UXK9",
-   "name": "DO NOT USE",
-   "series_label": "Aironet 1570",
-   "action": "class",
-   "to": "non_product",
-   "reason": "not orderable: the catalogue row itself says 'Do not use' / 'invalid PID' / 'not used yet' (the datasheet-cell rule of round 2c: a SKU that is not an orderable PID)"
-  },
-  {
    "sku": "ANT-ROOM70-KIT-",
    "name": "Antenna kit for ROOM 70 with brackets.",
    "series_label": "Policy Suite for Mobile",
@@ -2732,38 +2644,6 @@
    "reason": "Catalyst 4948E front and rear mount brackets filed under a Catalyst 9163 label: goes with the Catalyst 4900 in switches (A.3 rule 1; the exclusion's reason, now a plan)"
   },
   {
-   "sku": "C9105AXI",
-   "name": "Cisco C9105AXI",
-   "series_label": "Catalyst 9105AX",
-   "action": "class",
-   "to": "non_product",
-   "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)"
-  },
-  {
-   "sku": "C9105AXW-KIT",
-   "name": "Do not use",
-   "series_label": "Catalyst 9100",
-   "action": "class",
-   "to": "non_product",
-   "reason": "ordering option / unused PID"
-  },
-  {
-   "sku": "C9105AXW-NO-KIT",
-   "name": "No C9105AX Series Spacer Kit",
-   "series_label": "Catalyst 9100",
-   "action": "class",
-   "to": "non_product",
-   "reason": "ordering option / unused PID"
-  },
-  {
-   "sku": "C9124AXI-EWC-C",
-   "name": "Do not use",
-   "series_label": "Catalyst Embedded Controller",
-   "action": "class",
-   "to": "non_product",
-   "reason": "not orderable: the catalogue row itself says 'Do not use' / 'invalid PID' / 'not used yet' (the datasheet-cell rule of round 2c: a SKU that is not an orderable PID)"
-  },
-  {
    "sku": "CAB-2DC-BRL-0.93M-",
    "name": "DC Power Cable w/Barrel Plus, 0.93 meters long for ROOM 70",
    "series_label": "Policy Suite for Mobile",
@@ -2938,14 +2818,6 @@
    "action": "move",
    "to": "collaboration-endpoints",
    "reason": "Webex Room 70 / Panorama accessory (screen mounts, speaker and HDMI cables, floor stands, antenna kit) filed under the 'Policy Suite for Mobile' label: its product lives in collaboration-endpoints (the exclusion's reason, now a plan — layers round 3, wireless round)"
-  },
-  {
-   "sku": "COUNTRYPOWERCAAV3",
-   "name": "Cisco COUNTRYPOWERCAAV3",
-   "series_label": "Mobility Services Engine",
-   "action": "class",
-   "to": "non_product",
-   "reason": "placeholder / packout insert"
   },
   {
    "sku": "CS-KIT-EQX-K9",
@@ -3284,28 +3156,12 @@
    "reason": "ASR 5000/5500 mobile packet core filed in wireless (PAS spare blade / 'MOMAT' (ATT) — unreadable, the routers lane reads it)"
   },
   {
-   "sku": "MIXS-12-PA2221CO=",
-   "name": "PAS SPARE COMPONENTS [ATT US PAS Only]",
-   "series_label": "ASR 5000 Series",
-   "action": "class",
-   "to": "non_product",
-   "reason": "PAS documentation / spare-components placeholder"
-  },
-  {
    "sku": "MIXS-12-PA2261MM=",
    "name": "PAS DC MOMAT [ATT US PAS ONLY]",
    "series_label": "ASR 5000 Series",
    "action": "move",
    "to": "routers",
    "reason": "ASR 5000/5500 mobile packet core filed in wireless (PAS spare blade / 'MOMAT' (ATT) — unreadable, the routers lane reads it)"
-  },
-  {
-   "sku": "MIXS-12-PA2291CO=",
-   "name": "PAS DOCUMENTATION [ATT US PAS ONLY]",
-   "series_label": "ASR 5000 Series",
-   "action": "class",
-   "to": "non_product",
-   "reason": "PAS documentation / spare-components placeholder"
   },
   {
    "sku": "MIXS-12-PA2331CO=",
@@ -3338,22 +3194,6 @@
    "action": "move",
    "to": "routers",
    "reason": "ASR 5000/5500 mobile packet core filed in wireless (PAS cabinet / enclosure (ATT))"
-  },
-  {
-   "sku": "PI-MSE-PRMO-INSRT",
-   "name": "Insert, Packout - PI-MSE",
-   "series_label": "Aironet 1550",
-   "action": "class",
-   "to": "non_product",
-   "reason": "placeholder / packout insert"
-  },
-  {
-   "sku": "PRODUCTEXPANSAAV4",
-   "name": "Cisco PRODUCTEXPANSAAV4",
-   "series_label": "Mobility Services Engine",
-   "action": "class",
-   "to": "non_product",
-   "reason": "placeholder / packout insert"
   },
   {
    "sku": "PWR-CH1-750ACR",
@@ -3410,14 +3250,6 @@
    "action": "move",
    "to": "interfaces-modules",
    "reason": "family carrier (11 facts, 2 document(s)) of the SB-PWR-INJ2 regional variants, every one of which sits in interfaces-modules Small Business Network Accessories: it keeps its row (Q-10 vs Q-23 — Q-23 governs) and goes to its family's category (one home per product; re-audit decisions, operator, 15 Sep 2026)"
-  },
-  {
-   "sku": "SOFTWAREAAV1",
-   "name": "Cisco SOFTWAREAAV1",
-   "series_label": "Mobility Services Engine",
-   "action": "class",
-   "to": "non_product",
-   "reason": "placeholder / packout insert"
   },
   {
    "sku": "WS-SVC-SAMI-BB-K9",

@@ -1,11 +1,11 @@
 {
  "vendor": "cisco",
  "category": "storage-networking",
- "built_at": "2026-09-15T22:39:22.155Z",
- "commit": "c9ebf59177f9d5950f8cd9384dd9346e76c7670b",
+ "built_at": "2026-09-15T22:52:46.316Z",
+ "commit": "9a734f7ba27364704867e3f28204553e1ab21277",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-storage-networking.json",
- "parts": 598,
+ "parts": 597,
  "lines": [
   {
    "line": "MDS 9000 Multilayer SAN Switches",
@@ -244,14 +244,6 @@
  ],
  "not_this_category": [],
  "pending_plans": [
-  {
-   "sku": "C97-743576-00",
-   "name": "Cisco C97-743576-00",
-   "series_label": "MDS 9700 Series Multilayer Directors",
-   "action": "class",
-   "to": "non_product",
-   "reason": "a Cisco collateral document number (C97-) enumerated as a part (III.0 item 6)"
-  },
   {
    "sku": "CAB-9K16A-AUS=",
    "name": "Power cord 250VAC 16A, Australia, source plug AU20S3 , Spare",

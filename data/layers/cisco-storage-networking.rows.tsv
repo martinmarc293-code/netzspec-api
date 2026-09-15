@@ -1,5 +1,4 @@
 sku	name	series_label	kind	bucket	product_line	product_family	series	placed_by	deploy_role	role_rule	role_issue	plan	belongs	label_evidence	family_carrier
-C97-743576-00	Cisco C97-743576-00	MDS 9700 Series Multilayer Directors	unknown	pending_plan								class non_product			
 CAB-1900W-CH	Power Cord, 250VAC, 16A GB1002 Plug, China	MDS 9500 Series Multilayer Directors	cable	layered	MDS 9000 Multilayer SAN Switches	(shared across the line)	MDS 9000 Multilayer SAN Switches shared parts	accessory ^CAB- (label MDS 9500 Series Multilayer Directors)							
 CAB-1900W-CH=	Power Cord, 250VAC, 16A GB1002 Plug, China, Spare	MDS 9500 Series Multilayer Directors	cable	layered	MDS 9000 Multilayer SAN Switches	(shared across the line)	MDS 9000 Multilayer SAN Switches shared parts	accessory ^CAB- (label MDS 9500 Series Multilayer Directors)							
 CAB-1900W-EU	Power Cord 250VAC 16A, Europe, Src Plug CEE 7/7	MDS 9500 Series Multilayer Directors	cable	layered	MDS 9000 Multilayer SAN Switches	(shared across the line)	MDS 9000 Multilayer SAN Switches shared parts	accessory ^CAB- (label MDS 9500 Series Multilayer Directors)							

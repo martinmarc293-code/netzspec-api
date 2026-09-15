@@ -1,11 +1,11 @@
 {
  "vendor": "cisco",
  "category": "optical-networking",
- "built_at": "2026-09-15T22:39:21.988Z",
- "commit": "c9ebf59177f9d5950f8cd9384dd9346e76c7670b",
+ "built_at": "2026-09-15T22:52:46.176Z",
+ "commit": "9a734f7ba27364704867e3f28204553e1ab21277",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-optical-networking.json",
- "parts": 1185,
+ "parts": 1180,
  "lines": [
   {
    "line": "NCS 1000",
@@ -355,38 +355,6 @@
  ],
  "not_this_category": [],
  "pending_plans": [
-  {
-   "sku": "15216-MD-48-",
-   "name": "Cisco 15216-MD-48-",
-   "series_label": "ONS 15200 Series DWDM Systems",
-   "action": "class",
-   "to": "non_product",
-   "reason": "truncated PID ending in '-' (name is the SKU, no twin, no document, no fact) — the routers precedent; a '-' row WITH a twin is its twin's component PID and shares its placement (re-audit decisions, operator, 15 Sep 2026, N-1)"
-  },
-  {
-   "sku": "15454-QWEST-EXPAND",
-   "name": "15454 QWEST LOCAL BUNDLE EXPANSION CLASS",
-   "series_label": "ONS 15200 Series DWDM Systems",
-   "action": "class",
-   "to": "non_product",
-   "reason": "'15454 QWEST LOCAL BUNDLE EXPANSION CLASS' — an ordering class"
-  },
-  {
-   "sku": "40-SMR1",
-   "name": "Cisco 40-SMR1",
-   "series_label": "ONS 15454 Series Multiservice Transport Platforms",
-   "action": "class",
-   "to": "non_product",
-   "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)"
-  },
-  {
-   "sku": "40-SMR2",
-   "name": "Cisco 40-SMR2",
-   "series_label": "ONS 15454 Series Multiservice Transport Platforms",
-   "action": "class",
-   "to": "non_product",
-   "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)"
-  },
   {
    "sku": "A900-IMA-FILLER=",
    "name": "ASR 900 Interface Module Filler Cover, Spare",
@@ -1106,14 +1074,6 @@
    "action": "move",
    "to": "transceiver",
    "reason": "fixed-wavelength pluggable (CPAK / CXP / CXP2 / QSFP28) filed under optical-networking ('100Gbps Multi-rate QSFP28, LR')"
-  },
-  {
-   "sku": "ONS-QSP28-LR4=",
-   "name": "Cisco ONS-QSP28-LR4=",
-   "series_label": "Network Convergence System 2000 Series",
-   "action": "class",
-   "to": "non_product",
-   "reason": "typo twin of ONS-QSFP28-LR4= (placeholder name 'Cisco ONS-QSP28-LR4=')"
   },
   {
    "sku": "PANEL-144-1-AMP64",

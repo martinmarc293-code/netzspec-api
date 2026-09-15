@@ -763,7 +763,6 @@ FP-NMSB-10G-	Cisco FirePOWER LCD 10G Switch - 2U	Firepower 9300 Series	module	la
 FP-NMSB-10G=	Cisco FirePOWER LCD 10G Switch - 2U	Firepower 9300 Series	module	layered	Secure Firewall and Firepower		FirePOWER 7000 / 8000 (legacy)	sku ^FP-NMSB							
 FP-NMSB-1U-10G-	Cisco FirePOWER LCD 10G Switch - 1U	Firepower 9300 Series	module	layered	Secure Firewall and Firepower		FirePOWER 7000 / 8000 (legacy)	sku ^FP-NMSB							
 FP-NMSB-1U-10G=	Cisco FirePOWER LCD 10G Switch - 1U	Firepower 9300 Series	module	layered	Secure Firewall and Firepower		FirePOWER 7000 / 8000 (legacy)	sku ^FP-NMSB							
-FP-NMSB-40G	Do Not Use - FirePOWER 40G Switch Module for 40Gbps Net Mods	Firepower 9300 Series	module	pending_plan								class non_product			
 FP-NMSB-40G-	Cisco FirePOWER 40G Switch Module to support 40Gbps Net Mods	Firepower 9300 Series	module	layered	Secure Firewall and Firepower		FirePOWER 7000 / 8000 (legacy)	sku ^FP-NMSB							
 FP-NMSB-40G=	Cisco FirePOWER 40G Switch Module to support 40Gbps Net Mods	Firepower 9300 Series	module	layered	Secure Firewall and Firepower		FirePOWER 7000 / 8000 (legacy)	sku ^FP-NMSB							
 FP-NMSB-CABLE	Cisco FirePOWER Stacking Module Cables	FirePOWER 8000 Appliances	cable	layered	Secure Firewall and Firepower		FirePOWER 7000 / 8000 (legacy)	sku ^FP-NMSB							
@@ -1188,8 +1187,6 @@ FPR4K-NM-2X100G=	Cisco FirePower 2 port 100G Network Module	4100 Firepower	modul
 FPR4K-NM-2X40G-F	Cisco Firepower 2-port 40G SR FTW Network Module	Firepower 9300 Series	module	layered	Secure Firewall and Firepower		Firepower 4100	sku ^FPR4K							
 FPR4K-NM-2X40G-F=	Cisco Firepower 2-port 40G SR FTW Network Module (Spare)	Firepower 9300 Series	module	layered	Secure Firewall and Firepower		Firepower 4100	sku ^FPR4K							
 FPR4K-NM-4X40G	Cisco Firepower 4-port QSFP+ Network Module	4100 Firepower	module	layered	Secure Firewall and Firepower		Firepower 4100	sku ^FPR4K							
-FPR4K-NM-4X40G-F	DO NOT USE	Firepower NGFW	module	pending_plan								class non_product			
-FPR4K-NM-4X40G-F=	DO NOT USE	Firepower NGFW	module	pending_plan								class non_product			
 FPR4K-NM-4X40G=	Cisco Firepower 4-port QSFP+ Network Module	4100 Firepower	module	layered	Secure Firewall and Firepower		Firepower 4100	sku ^FPR4K							
 FPR4K-NM-6X10LR-F	Cisco Firepower 6-port 10G LR FTW Network Module	Firepower 9300 Series	module	layered	Secure Firewall and Firepower		Firepower 4100	sku ^FPR4K							
 FPR4K-NM-6X10LR-F=	Cisco Firepower 6-port 10G LR FTW Network Module (Spare)	Firepower 9300 Series	module	layered	Secure Firewall and Firepower		Firepower 4100	sku ^FPR4K							
@@ -1363,7 +1360,6 @@ FS4K-PWR-AC-650W=	Cisco FireSIGHT AC Power Supply 650W	Defense Center	power	laye
 FS4K-PWR-DC-930W	Cisco FireSIGHT DC Power Supply 930W	Defense Center	power	layered	Secure Firewall Management Center		Management Center / FireSIGHT appliances	sku ^FS-?[0-9]							
 FS4K-PWR-DC-930W=	Cisco FireSIGHT DC Power Supply 930W	Defense Center	power	layered	Secure Firewall Management Center		Management Center / FireSIGHT appliances	sku ^FS-?[0-9]							
 FS4K-RAID-9271	Cisco FireSIGHT MegaRaid PCIe SAS Controller with Supercap	Defense Center	storage-controller	layered	Secure Firewall Management Center		Management Center / FireSIGHT appliances	sku ^FS-?[0-9]							
-FS4K-RAID5	Cisco FireSIGHT RAID 5 Pre-Configuration	Defense Center	storage-controller	pending_plan								class non_product			
 FS4K-SSD-800G	Cisco FireSIGHT 800GB SSD Drive	Defense Center	drive	layered	Secure Firewall Management Center		Management Center / FireSIGHT appliances	sku ^FS-?[0-9]							
 FS4K-SSD-800G=	Cisco FireSIGHT 800GB SSD Drive	Defense Center	drive	layered	Secure Firewall Management Center		Management Center / FireSIGHT appliances	sku ^FS-?[0-9]							
 FS4K-SSD-960G	Cisco FireSIGHT 960GB SSD Drive	Defense Center	drive	layered	Secure Firewall Management Center		Management Center / FireSIGHT appliances	sku ^FS-?[0-9]							
