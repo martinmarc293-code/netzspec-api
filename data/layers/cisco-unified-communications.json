@@ -1,11 +1,11 @@
 {
  "vendor": "cisco",
  "category": "unified-communications",
- "built_at": "2026-09-15T18:46:58.249Z",
- "commit": "1c0ea75c91291ab89011332e77f373457dbbcd39",
+ "built_at": "2026-09-15T21:08:32.705Z",
+ "commit": "8be11a7fef41580fd431b5d086caf6fe0a50a2a8",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-unified-communications.json",
- "parts": 497,
+ "parts": 470,
  "lines": [
   {
    "line": "Voice Gateways",
@@ -561,30 +561,6 @@
    "reason": "a Cisco 3945 ISR chassis configured as an analog voice gateway: a router"
   },
   {
-   "sku": "CP-6821-3PW-NA-MK9",
-   "name": "MLB Subscription - 6821",
-   "series_label": "Spark Flex Plan",
-   "action": "class",
-   "to": "license",
-   "reason": "device subscription (MLB)"
-  },
-  {
-   "sku": "CP-6825-3PC-NA-MK9",
-   "name": "MLB Subscription - IP Phone 6825",
-   "series_label": "Spark Flex Plan",
-   "action": "class",
-   "to": "license",
-   "reason": "device subscription (MLB)"
-  },
-  {
-   "sku": "CP-6851-3PW-NA-MK9",
-   "name": "MLB Subscription - Phone 8851",
-   "series_label": "Spark Flex Plan",
-   "action": "class",
-   "to": "license",
-   "reason": "device subscription (MLB)"
-  },
-  {
    "sku": "CP-6921-C-K9-APACP",
    "name": "Cisco UC Phone 6921, Charcoal, Std handset, APAC",
    "series_label": "Unified Communications Manager (CallManager)",
@@ -657,46 +633,6 @@
    "reason": "Cisco IP phone filed under a UC software label (Unified Communications Manager): its category is collaboration-endpoints, whose IP Phone series place it (the exclusion's reason, now a plan — layers round 3, unified-communications round)"
   },
   {
-   "sku": "CP-7811-3PW-NA-MK9",
-   "name": "MLB Subscription - Phone 7811",
-   "series_label": "Spark Flex Plan",
-   "action": "class",
-   "to": "license",
-   "reason": "device subscription (MLB)"
-  },
-  {
-   "sku": "CP-7821-3PW-NA-MK9",
-   "name": "MLB Subscription - Phone 7821",
-   "series_label": "Spark Flex Plan",
-   "action": "class",
-   "to": "license",
-   "reason": "device subscription (MLB)"
-  },
-  {
-   "sku": "CP-7832-3PW-NA-MK9",
-   "name": "MLB Subscription - Phone 7832",
-   "series_label": "Spark Flex Plan",
-   "action": "class",
-   "to": "license",
-   "reason": "device subscription (MLB)"
-  },
-  {
-   "sku": "CP-7841-3PW-NA-MK9",
-   "name": "MLB Subscription - Phone 7841",
-   "series_label": "Spark Flex Plan",
-   "action": "class",
-   "to": "license",
-   "reason": "device subscription (MLB)"
-  },
-  {
-   "sku": "CP-7861-3PW-NA-MK9",
-   "name": "MLB Subscription - Phone 7861",
-   "series_label": "Spark Flex Plan",
-   "action": "class",
-   "to": "license",
-   "reason": "device subscription (MLB)"
-  },
-  {
    "sku": "CP-7941G-PROMO",
    "name": "Cisco Unified IP Phone 7941G With License - Special Bundle",
    "series_label": "Unified Communications Manager (CallManager)",
@@ -711,110 +647,6 @@
    "action": "move",
    "to": "collaboration-endpoints",
    "reason": "Cisco IP phone filed under a UC software label (Unified Communications Manager): its category is collaboration-endpoints, whose IP Phone series place it (the exclusion's reason, now a plan — layers round 3, unified-communications round)"
-  },
-  {
-   "sku": "CP-8800-A-KEM-M3PC",
-   "name": "MLB Subscription- CP8000 A-KEM",
-   "series_label": "Spark Flex Plan",
-   "action": "class",
-   "to": "license",
-   "reason": "device subscription (MLB)"
-  },
-  {
-   "sku": "CP-8811-3PW-NA-MK9",
-   "name": "MLB Subscription - 8811",
-   "series_label": "Spark Flex Plan",
-   "action": "class",
-   "to": "license",
-   "reason": "device subscription (MLB)"
-  },
-  {
-   "sku": "CP-8841-3PW-NA-MK9",
-   "name": "MLB Subscription - Phone 8841",
-   "series_label": "Spark Flex Plan",
-   "action": "class",
-   "to": "license",
-   "reason": "device subscription (MLB)"
-  },
-  {
-   "sku": "CP-8845-3PW-NA-MK9",
-   "name": "MLB Subscription - Phone 8845",
-   "series_label": "Spark Flex Plan",
-   "action": "class",
-   "to": "license",
-   "reason": "device subscription (MLB)"
-  },
-  {
-   "sku": "CP-8851-3PW-NA-MK9",
-   "name": "MLB Subscription- Phone 8851",
-   "series_label": "Spark Flex Plan",
-   "action": "class",
-   "to": "license",
-   "reason": "device subscription (MLB)"
-  },
-  {
-   "sku": "CP-8861-3PW-NA-MK9",
-   "name": "MLB Subscription - Phone 8861",
-   "series_label": "Spark Flex Plan",
-   "action": "class",
-   "to": "license",
-   "reason": "device subscription (MLB)"
-  },
-  {
-   "sku": "CP-ROOMPH-NA-MK9",
-   "name": "MLB Subscription Room Phone",
-   "series_label": "Spark Flex Plan",
-   "action": "class",
-   "to": "license",
-   "reason": "device subscription (MLB)"
-  },
-  {
-   "sku": "CS-DESKPRO-SUB-K9",
-   "name": "MLB for Subscription - DeskPro",
-   "series_label": "Spark Flex Plan",
-   "action": "class",
-   "to": "license",
-   "reason": "device subscription (MLB)"
-  },
-  {
-   "sku": "CS-KIT-SUB-K9",
-   "name": "MLB for Subscription Room Kit",
-   "series_label": "Spark Flex Plan",
-   "action": "class",
-   "to": "license",
-   "reason": "device subscription (MLB)"
-  },
-  {
-   "sku": "CS-KITPLUS-SUB-K9",
-   "name": "MLB Subscription - KIT Plus",
-   "series_label": "Spark Flex Plan",
-   "action": "class",
-   "to": "license",
-   "reason": "device subscription (MLB)"
-  },
-  {
-   "sku": "CS-KITPRO-SUB-K9",
-   "name": "MLB for Subscription - KIT Pro",
-   "series_label": "Spark Flex Plan",
-   "action": "class",
-   "to": "license",
-   "reason": "device subscription (MLB)"
-  },
-  {
-   "sku": "CS-ROOM-USB-SUB-K9",
-   "name": "MLB Subscription - Room USB",
-   "series_label": "Spark Flex Plan",
-   "action": "class",
-   "to": "license",
-   "reason": "device subscription (MLB)"
-  },
-  {
-   "sku": "DBS-210-3PC-NA-MK9",
-   "name": "MLB Subscription - Phone 210",
-   "series_label": "Spark Flex Plan",
-   "action": "class",
-   "to": "license",
-   "reason": "device subscription (MLB)"
   },
   {
    "sku": "DOC-CCM-3.3=",
@@ -847,54 +679,6 @@
    "action": "move",
    "to": "transceiver",
    "reason": "pluggable optic filed in unified-communications"
-  },
-  {
-   "sku": "IPT-RM-1S250P",
-   "name": "UC Remote Mgmt Svc 1site, 250 Phones",
-   "series_label": "Unified Communications Licensing",
-   "action": "class",
-   "to": "service",
-   "reason": "remote management service"
-  },
-  {
-   "sku": "IPT-RM-1S500P",
-   "name": "UC Remote Mgmt Svc 1Site, 500 Phones",
-   "series_label": "Unified Communications Licensing",
-   "action": "class",
-   "to": "service",
-   "reason": "remote management service"
-  },
-  {
-   "sku": "IPT-RM-20S1000P",
-   "name": "UC Remote Mgmt Svc up to 20 Sites, 1k Phones",
-   "series_label": "Unified Communications Licensing",
-   "action": "class",
-   "to": "service",
-   "reason": "remote management service"
-  },
-  {
-   "sku": "IPT-RM-30S1500P",
-   "name": "UC Remote Mgmt Svc up to 30 Sites, 1500 Phones",
-   "series_label": "Unified Communications Licensing",
-   "action": "class",
-   "to": "service",
-   "reason": "remote management service"
-  },
-  {
-   "sku": "IPT-RM-3S250P",
-   "name": "UC Remote Mgmt Svc up to 3 Sites, 250 Phones",
-   "series_label": "Unified Communications Licensing",
-   "action": "class",
-   "to": "service",
-   "reason": "remote management service"
-  },
-  {
-   "sku": "IPT-RM-50ADDPHONES",
-   "name": "UC Remote Mgmt Svc 50 Phones-Add on to IPT-RM Svc",
-   "series_label": "Unified Communications Licensing",
-   "action": "class",
-   "to": "service",
-   "reason": "remote management service"
   },
   {
    "sku": "NIM-4FXSP=",

@@ -1,11 +1,11 @@
 {
  "vendor": "cisco",
  "category": "collaboration-endpoints",
- "built_at": "2026-09-15T18:46:57.221Z",
- "commit": "1c0ea75c91291ab89011332e77f373457dbbcd39",
+ "built_at": "2026-09-15T21:08:31.513Z",
+ "commit": "8be11a7fef41580fd431b5d086caf6fe0a50a2a8",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-collaboration-endpoints.json",
- "parts": 2835,
+ "parts": 2825,
  "lines": [
   {
    "line": "Headsets",
@@ -1791,92 +1791,12 @@
    "reason": "the spare of a generic C15 power cord whose base sits in switches Nexus shared parts: base and spare in one category, the base's (re-audit decisions, operator, 15 Sep 2026, Q-19 / F-10)"
   },
   {
-   "sku": "CP-6841-3PW-NA-MK9",
-   "name": "MLB Subscription - 6841",
-   "series_label": "6800 - IP Phone w/Multiplatform Firmware",
-   "action": "class",
-   "to": "license",
-   "reason": "device subscription (MLB)"
-  },
-  {
-   "sku": "CP-6861-3PW-NA-MK9",
-   "name": "MLB Subscription - Phone 6861",
-   "series_label": "6800 - IP Phone w/Multiplatform Firmware",
-   "action": "class",
-   "to": "license",
-   "reason": "device subscription (MLB)"
-  },
-  {
-   "sku": "CP-6871-3PW-NA-MK9",
-   "name": "MLB Subscription - Phone 6871",
-   "series_label": "6800 - IP Phone w/Multiplatform Firmware",
-   "action": "class",
-   "to": "license",
-   "reason": "device subscription (MLB)"
-  },
-  {
-   "sku": "CP-8865-3PW-NA-MK9",
-   "name": "MLB Subscription - Phone 8865",
-   "series_label": "IP Phone 8800 Series",
-   "action": "class",
-   "to": "license",
-   "reason": "device subscription (MLB)"
-  },
-  {
-   "sku": "CP-DX80-SUB-K9",
-   "name": "MLB for Subscription Room Kit",
-   "series_label": "Desk Series",
-   "action": "class",
-   "to": "license",
-   "reason": "device subscription (MLB)"
-  },
-  {
    "sku": "CP-PWR-CORD-xx=",
    "name": "Cisco Unified IP Phone Power Country Cord",
    "series_label": "IP Phone 8800 Series",
    "action": "class",
    "to": "non_product",
    "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CS-BOARD55S-SUB-K9",
-   "name": "MLB for Subscription - Board 55",
-   "series_label": "Spark Board",
-   "action": "class",
-   "to": "license",
-   "reason": "device subscription (MLB)"
-  },
-  {
-   "sku": "CS-BOARD70S-SUB-K9",
-   "name": "MLB for Subscription Board 70s",
-   "series_label": "Spark Board",
-   "action": "class",
-   "to": "license",
-   "reason": "device subscription (MLB)"
-  },
-  {
-   "sku": "CS-BOARD85S-SUB-K9",
-   "name": "MLB for Subscription - Board 85s",
-   "series_label": "Spark Board",
-   "action": "class",
-   "to": "license",
-   "reason": "device subscription (MLB)"
-  },
-  {
-   "sku": "CS-KIT-MINI-SUB-K9",
-   "name": "MLB Subscription - Kit Mini",
-   "series_label": "Room Series",
-   "action": "class",
-   "to": "license",
-   "reason": "device subscription (MLB)"
-  },
-  {
-   "sku": "CS-ROOM70DG-SUB-K9",
-   "name": "MLB for Subscription - Webex Board 70",
-   "series_label": "Spark Board",
-   "action": "class",
-   "to": "license",
-   "reason": "device subscription (MLB)"
   },
   {
    "sku": "CTS-SX10CODEC-",

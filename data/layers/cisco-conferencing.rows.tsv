@@ -1,70 +1,69 @@
-sku	name	series_label	kind	bucket	product_line	product_family	series	placed_by	deploy_role	role_rule	role_issue	plan	belongs	label_evidence
-AIPOD-COLLAB	Cisco AI PODs for Collaboration (Hardware)	AI PODs for Collaboration	server	pending_plan								move collaboration-endpoints		
-C-CPM	Cisco C-CPM	Meeting Server	unknown	pending_plan								class software		
-CIT3-5108-PKG-HW	UCS 5108 Packaging for chassis with half width blades.	Meeting Server	mechanical	pending_plan								move collaboration-endpoints		
-CIT3-B200-M4	UCS B200 M4 w/o CPU, mem, drive bays, HDD, mezz	Meeting Server	server	pending_plan								move collaboration-endpoints		
-CIT3-B200-M4-CON	UCS B200 M4 w/o CPU, mem, drive bays, HDD, mezz	Meeting Server	server	pending_plan								move collaboration-endpoints		
-CIT3-B200-M5	Cisco Meeting Server 2000 M5 Media Blade	Meeting Server	server	pending_plan								move collaboration-endpoints		
-CIT3-B200-M5-CON	Cisco Meeting Server 2000 M5 Control Blade	Meeting Server	server	pending_plan								move collaboration-endpoints		
-CIT3-B200-M5V2	Cisco Meeting Server 2000 M5v2 Media Blade	Meeting Server	server	pending_plan								move collaboration-endpoints		
-CIT3-B200-M5V2-CON	Cisco Meeting Server 2000 M5v2 Control Blade	Meeting Server	server	pending_plan								move collaboration-endpoints		
-CIT3-B200-M6	Cisco Meeting Server 2000 M6 Media Blade	Meeting Server	server	pending_plan								move collaboration-endpoints		
-CIT3-B200-M6-CON	Cisco Meeting Server 2000 M6 Control Blade	Meeting Server	server	pending_plan								move collaboration-endpoints		
-CIT3-CPU-6140	2.3 GHz 6140/140W 18C/24.75MB Cache/DDR4 2666MHz	Meeting Server	cpu	pending_plan								move collaboration-endpoints		
-CIT3-CPU-E52695E	2.10 GHz E5-2695 v4/120W 18C/45MB Cache/DDR4 2400MHz	Meeting Server	cpu	pending_plan								move collaboration-endpoints		
-CIT3-CPU-I6240	Intel 6240 2.6GHz/150W 18C/24.75MB DCP DDR4 2933 MHz	Meeting Server	cpu	pending_plan								move collaboration-endpoints		
-CIT3-CPU-I6240=	^Intel 6240 2.6GHz/150W 18C/24.75MB DCP DDR4 2933 MHz	Meeting Server	cpu	pending_plan								move collaboration-endpoints		
-CIT3-CPU-I6336Y	Intel 6336Y 2.4GHz/185W 24C/36MB DDR4 3200MHz	Meeting Server	cpu	pending_plan								move collaboration-endpoints		
-CIT3-FAN5	Fan module for UCS 5108	Meeting Server	accessory	pending_plan								move collaboration-endpoints		
-CIT3-FI-M-6324	UCS 6324 In-Chassis FI with 4 UP, 1x40G Exp Port, 16 10Gb	Meeting Server	unknown	pending_plan								move collaboration-endpoints		
-CIT3-HD300G10K12G	300GB 12G SAS 10K RPM SFF HDD	Meeting Server	drive	pending_plan								move collaboration-endpoints		
-CIT3-HD300G10K12N	300GB 12G SAS 10K RPM SFF HDD	Meeting Server	drive	pending_plan								move collaboration-endpoints		
-CIT3-LSTOR-BK	FlexStorage blanking panels w/o controller, w/o drive bays	Meeting Server	mechanical	pending_plan								move collaboration-endpoints		
-CIT3-MLOM-40G-03	Cisco UCS VIC 1340 modular LOM for blade servers	Meeting Server	nic	pending_plan								move collaboration-endpoints		
-CIT3-MLOM-40G-04	Cisco UCS VIC 1440 modular LOM for Blade Servers	Meeting Server	nic	pending_plan								move collaboration-endpoints		
-CIT3-MLOM-PT-01	Cisco UCS Port Expander Card (mezz) for VIC	Meeting Server	nic	pending_plan								move collaboration-endpoints		
-CIT3-MR-1X081RV-A	8GB DDR4-2400-MHz RDIMM/PC4-19200/single rank/x4/1.2v	Meeting Server	memory	pending_plan								move collaboration-endpoints		
-CIT3-MR-X16G1RS-H	16GB DDR4-2666-MHz RDIMM/PC4-21300/single rank/x4/1.2v	Meeting Server	memory	pending_plan								move collaboration-endpoints		
-CIT3-MR-X16G1RT-H	16GB DDR4-2933-MHz RDIMM/1Rx4/1.2v	Meeting Server	memory	pending_plan								move collaboration-endpoints		
-CIT3-MR-X16G1RW	16GB RDIMM SRx4 3200 (8Gb)	Meeting Server	memory	pending_plan								move collaboration-endpoints		
-CIT3-MRAID12G	Cisco 12G SAS Modular Raid Controller	Meeting Server	storage-controller	pending_plan								move collaboration-endpoints		
-CIT3-PSU-2500ACDV	2500W Platinum AC Hot Plug Power Supply - DV	Meeting Server	power	pending_plan								move collaboration-endpoints		
-CIT3-PSU1-1050W	Cisco UCS 1050W AC Power Supply for Rack Server	Meeting Server	power	pending_plan								move collaboration-endpoints		
-CIT3-PSU1-1200W	1200W Titanium power supply for C-Series Servers	Meeting Server	power	pending_plan								move collaboration-endpoints		
-CIT3-PSU1-770W	770W AC Hot-Plug Power Supply for 1U C-Series Rack Server	Meeting Server	power	pending_plan								move collaboration-endpoints		
-CIT3-PSUT2500ACDV	2500W Titanium AC Hot Plug Power Supply - DV	Meeting Server	power	pending_plan								move collaboration-endpoints		
-CIT3-RAID-220M6	Cisco 12G SAS RAID Controller w/4GB FBWC (16 Drv) w/1U Brkt	Meeting Server	storage-controller	pending_plan								move collaboration-endpoints		
-CIT3-RAID-M5	Cisco 12G Modular RAID controller with 2GB cache	Meeting Server	storage-controller	pending_plan								move collaboration-endpoints		
-CIT3-RAID12G-M6	Cisco M6 FlexStorage 12G SAS RAID Controller	Meeting Server	storage-controller	pending_plan								move collaboration-endpoints		
-CIT3-SD960G61X-EV	960GB 2.5 inch Enterprise Value 6G SATA SSD	Meeting Server	drive	pending_plan								move collaboration-endpoints		
-CIT3-SD960G6S1X-EV	960GB 2.5 inch Enterprise Value 6G SATA SSD	Meeting Server	drive	pending_plan								move collaboration-endpoints		
-CIT3-SD960G6SB-EV	960GB 2.5 inch Enterprise Value 6G SATA SSD	Meeting Server	drive	pending_plan								move collaboration-endpoints		
-CIT3-SD960GBKS4-EV	960GB 2.5 inch Enterprise Value 6G SATA SSD	Meeting Server	drive	pending_plan								move collaboration-endpoints		
-CIT3-SD960GS26-EV	960GB 2.5 inch Enterprise Value 6G SATA SSD	Meeting Server	drive	pending_plan								move collaboration-endpoints		
-CIT3-SDB960SA1V	960GB 2.5in 6G SATA Enter Value 1X Samsung G1PM893A SSD	Meeting Server	drive	pending_plan								move collaboration-endpoints		
-CIT3-SDC960SA1V	960GB 2.5in 6G SATA Enter Value 1X Samsung G1PM893A SSD	Meeting Server	drive	pending_plan								move collaboration-endpoints		
-CIT3-TPM-002C	TPM 2.0, TCG, FIPS140-2, CC EAL4+ Certified, for M6 servers	Meeting Server	tpm	pending_plan								move collaboration-endpoints		
-CIT3-TPM2-002	Trusted Platform Module 2.0 for UCS servers	Meeting Server	tpm	pending_plan								move collaboration-endpoints		
-CIT3-UAC1	Single phase AC power module for UCS 5108	Meeting Server	power	pending_plan								move collaboration-endpoints		
-CIT3-UCSB-MRAID12G	Cisco FlexStorage 12G SAS RAID controller with Drive bays	Meeting Server	storage-controller	pending_plan								move collaboration-endpoints		
-CMS-M-M8-K9	Cisco CMS-M-M8-K9	Meeting Server	server	pending_plan								move collaboration-endpoints		
-CMS-S-M7-K9	Cisco CMS-S-M7-K9	Meeting Server	server	pending_plan								move collaboration-endpoints		
-CTI-ATP-TMS-APL-K9	ATP Demo -TMS Server Appliance Incl TMS and Scheduler-25 lic	TelePresence Management Suite (TMS)	server	pending_plan								move collaboration-endpoints		
-CTI-CMS-1000-K9	Cisco Meeting Server 1000	Meeting Server	server	pending_plan								move collaboration-endpoints		
-CTI-CMS-1000-M5-K9	CMS 1000 M5 Server	Meeting Server	server	pending_plan								move collaboration-endpoints		
-CTI-CMS-1K-BUN-K9	Cisco Meeting Server 1000 Bundle	Meeting Server	server	pending_plan								move collaboration-endpoints		
-CTI-CMS-1K-M5V2-K9	CMS 1000 M5v2 Server	Meeting Server	server	pending_plan								move collaboration-endpoints		
-CTI-CMS-1K-M6-K9	CMS 1000 M6 Server	Meeting Server	server	pending_plan								move collaboration-endpoints		
-CTI-CMS-2000-K9	Cisco Meeting Server 2000	Meeting Server	server	pending_plan								move collaboration-endpoints		
-CTI-CMS-2000-M5-K9	Cisco Meeting Server 2000 M5	Meeting Server	server	pending_plan								move collaboration-endpoints		
-CTI-CMS-2K-BUN-K9	Cisco Meeting Server 2000 Bundle	Meeting Server	server	pending_plan								move collaboration-endpoints		
-CTI-CMS-2K-M5V2-K9	Cisco Meeting Server 2000 M5v2	Meeting Server	server	pending_plan								move collaboration-endpoints		
-CTI-CMS-2K-M6-K9	Cisco Meeting Server 2000 M6	Meeting Server	server	pending_plan								move collaboration-endpoints		
-CTI-CMS1KM5-BUN-K9	Cisco Meeting Server 1000 M5 Bundle	Meeting Server	server	pending_plan								move collaboration-endpoints		
-CTI-CMS1KM52BUN-K9	CMS 1000 M5v2 Server bundle	Meeting Server	server	pending_plan								move collaboration-endpoints		
-CTI-CMS2KM5-BUN-K9	Cisco Meeting Server 2000 M5 Bundle	Meeting Server	server	pending_plan								move collaboration-endpoints		
-CTI-CMS2KM52BUN-K9	Cisco Meeting Server 2000 M5v2 bundle	Meeting Server	server	pending_plan								move collaboration-endpoints		
-CTI-TMS-APL-K9	Cisco TelePresence Management Server	TelePresence Management Suite (TMS)	server	pending_plan								move collaboration-endpoints		
-CTI-TMS-APL-K9=	Cisco TelePresence Management Server - Spare	TelePresence Management Suite (TMS)	server	pending_plan								move collaboration-endpoints		
-UCSC-C240-M8-CL	UCS C240 M8 2U Rack Server for Collaboration AI	AI PODs for Collaboration	server	pending_plan								move collaboration-endpoints		
-UCSC-C240-M8-CL-G	UCS C240 M8 2U Rack Server for Collaboration AI (GPU)	AI PODs for Collaboration	server	pending_plan								move collaboration-endpoints		
+sku	name	series_label	kind	bucket	product_line	product_family	series	placed_by	deploy_role	role_rule	role_issue	plan	belongs	label_evidence	family_carrier
+AIPOD-COLLAB	Cisco AI PODs for Collaboration (Hardware)	AI PODs for Collaboration	server	pending_plan								move collaboration-endpoints			
+CIT3-5108-PKG-HW	UCS 5108 Packaging for chassis with half width blades.	Meeting Server	mechanical	pending_plan								move collaboration-endpoints			
+CIT3-B200-M4	UCS B200 M4 w/o CPU, mem, drive bays, HDD, mezz	Meeting Server	server	pending_plan								move collaboration-endpoints			
+CIT3-B200-M4-CON	UCS B200 M4 w/o CPU, mem, drive bays, HDD, mezz	Meeting Server	server	pending_plan								move collaboration-endpoints			
+CIT3-B200-M5	Cisco Meeting Server 2000 M5 Media Blade	Meeting Server	server	pending_plan								move collaboration-endpoints			
+CIT3-B200-M5-CON	Cisco Meeting Server 2000 M5 Control Blade	Meeting Server	server	pending_plan								move collaboration-endpoints			
+CIT3-B200-M5V2	Cisco Meeting Server 2000 M5v2 Media Blade	Meeting Server	server	pending_plan								move collaboration-endpoints			
+CIT3-B200-M5V2-CON	Cisco Meeting Server 2000 M5v2 Control Blade	Meeting Server	server	pending_plan								move collaboration-endpoints			
+CIT3-B200-M6	Cisco Meeting Server 2000 M6 Media Blade	Meeting Server	server	pending_plan								move collaboration-endpoints			
+CIT3-B200-M6-CON	Cisco Meeting Server 2000 M6 Control Blade	Meeting Server	server	pending_plan								move collaboration-endpoints			
+CIT3-CPU-6140	2.3 GHz 6140/140W 18C/24.75MB Cache/DDR4 2666MHz	Meeting Server	cpu	pending_plan								move collaboration-endpoints			
+CIT3-CPU-E52695E	2.10 GHz E5-2695 v4/120W 18C/45MB Cache/DDR4 2400MHz	Meeting Server	cpu	pending_plan								move collaboration-endpoints			
+CIT3-CPU-I6240	Intel 6240 2.6GHz/150W 18C/24.75MB DCP DDR4 2933 MHz	Meeting Server	cpu	pending_plan								move collaboration-endpoints			
+CIT3-CPU-I6240=	^Intel 6240 2.6GHz/150W 18C/24.75MB DCP DDR4 2933 MHz	Meeting Server	cpu	pending_plan								move collaboration-endpoints			
+CIT3-CPU-I6336Y	Intel 6336Y 2.4GHz/185W 24C/36MB DDR4 3200MHz	Meeting Server	cpu	pending_plan								move collaboration-endpoints			
+CIT3-FAN5	Fan module for UCS 5108	Meeting Server	accessory	pending_plan								move collaboration-endpoints			
+CIT3-FI-M-6324	UCS 6324 In-Chassis FI with 4 UP, 1x40G Exp Port, 16 10Gb	Meeting Server	unknown	pending_plan								move collaboration-endpoints			
+CIT3-HD300G10K12G	300GB 12G SAS 10K RPM SFF HDD	Meeting Server	drive	pending_plan								move collaboration-endpoints			
+CIT3-HD300G10K12N	300GB 12G SAS 10K RPM SFF HDD	Meeting Server	drive	pending_plan								move collaboration-endpoints			
+CIT3-LSTOR-BK	FlexStorage blanking panels w/o controller, w/o drive bays	Meeting Server	mechanical	pending_plan								move collaboration-endpoints			
+CIT3-MLOM-40G-03	Cisco UCS VIC 1340 modular LOM for blade servers	Meeting Server	nic	pending_plan								move collaboration-endpoints			
+CIT3-MLOM-40G-04	Cisco UCS VIC 1440 modular LOM for Blade Servers	Meeting Server	nic	pending_plan								move collaboration-endpoints			
+CIT3-MLOM-PT-01	Cisco UCS Port Expander Card (mezz) for VIC	Meeting Server	nic	pending_plan								move collaboration-endpoints			
+CIT3-MR-1X081RV-A	8GB DDR4-2400-MHz RDIMM/PC4-19200/single rank/x4/1.2v	Meeting Server	memory	pending_plan								move collaboration-endpoints			
+CIT3-MR-X16G1RS-H	16GB DDR4-2666-MHz RDIMM/PC4-21300/single rank/x4/1.2v	Meeting Server	memory	pending_plan								move collaboration-endpoints			
+CIT3-MR-X16G1RT-H	16GB DDR4-2933-MHz RDIMM/1Rx4/1.2v	Meeting Server	memory	pending_plan								move collaboration-endpoints			
+CIT3-MR-X16G1RW	16GB RDIMM SRx4 3200 (8Gb)	Meeting Server	memory	pending_plan								move collaboration-endpoints			
+CIT3-MRAID12G	Cisco 12G SAS Modular Raid Controller	Meeting Server	storage-controller	pending_plan								move collaboration-endpoints			
+CIT3-PSU-2500ACDV	2500W Platinum AC Hot Plug Power Supply - DV	Meeting Server	power	pending_plan								move collaboration-endpoints			
+CIT3-PSU1-1050W	Cisco UCS 1050W AC Power Supply for Rack Server	Meeting Server	power	pending_plan								move collaboration-endpoints			
+CIT3-PSU1-1200W	1200W Titanium power supply for C-Series Servers	Meeting Server	power	pending_plan								move collaboration-endpoints			
+CIT3-PSU1-770W	770W AC Hot-Plug Power Supply for 1U C-Series Rack Server	Meeting Server	power	pending_plan								move collaboration-endpoints			
+CIT3-PSUT2500ACDV	2500W Titanium AC Hot Plug Power Supply - DV	Meeting Server	power	pending_plan								move collaboration-endpoints			
+CIT3-RAID-220M6	Cisco 12G SAS RAID Controller w/4GB FBWC (16 Drv) w/1U Brkt	Meeting Server	storage-controller	pending_plan								move collaboration-endpoints			
+CIT3-RAID-M5	Cisco 12G Modular RAID controller with 2GB cache	Meeting Server	storage-controller	pending_plan								move collaboration-endpoints			
+CIT3-RAID12G-M6	Cisco M6 FlexStorage 12G SAS RAID Controller	Meeting Server	storage-controller	pending_plan								move collaboration-endpoints			
+CIT3-SD960G61X-EV	960GB 2.5 inch Enterprise Value 6G SATA SSD	Meeting Server	drive	pending_plan								move collaboration-endpoints			
+CIT3-SD960G6S1X-EV	960GB 2.5 inch Enterprise Value 6G SATA SSD	Meeting Server	drive	pending_plan								move collaboration-endpoints			
+CIT3-SD960G6SB-EV	960GB 2.5 inch Enterprise Value 6G SATA SSD	Meeting Server	drive	pending_plan								move collaboration-endpoints			
+CIT3-SD960GBKS4-EV	960GB 2.5 inch Enterprise Value 6G SATA SSD	Meeting Server	drive	pending_plan								move collaboration-endpoints			
+CIT3-SD960GS26-EV	960GB 2.5 inch Enterprise Value 6G SATA SSD	Meeting Server	drive	pending_plan								move collaboration-endpoints			
+CIT3-SDB960SA1V	960GB 2.5in 6G SATA Enter Value 1X Samsung G1PM893A SSD	Meeting Server	drive	pending_plan								move collaboration-endpoints			
+CIT3-SDC960SA1V	960GB 2.5in 6G SATA Enter Value 1X Samsung G1PM893A SSD	Meeting Server	drive	pending_plan								move collaboration-endpoints			
+CIT3-TPM-002C	TPM 2.0, TCG, FIPS140-2, CC EAL4+ Certified, for M6 servers	Meeting Server	tpm	pending_plan								move collaboration-endpoints			
+CIT3-TPM2-002	Trusted Platform Module 2.0 for UCS servers	Meeting Server	tpm	pending_plan								move collaboration-endpoints			
+CIT3-UAC1	Single phase AC power module for UCS 5108	Meeting Server	power	pending_plan								move collaboration-endpoints			
+CIT3-UCSB-MRAID12G	Cisco FlexStorage 12G SAS RAID controller with Drive bays	Meeting Server	storage-controller	pending_plan								move collaboration-endpoints			
+CMS-M-M8-K9	Cisco CMS-M-M8-K9	Meeting Server	server	pending_plan								move collaboration-endpoints			
+CMS-S-M7-K9	Cisco CMS-S-M7-K9	Meeting Server	server	pending_plan								move collaboration-endpoints			
+CTI-ATP-TMS-APL-K9	ATP Demo -TMS Server Appliance Incl TMS and Scheduler-25 lic	TelePresence Management Suite (TMS)	server	pending_plan								move collaboration-endpoints			
+CTI-CMS-1000-K9	Cisco Meeting Server 1000	Meeting Server	server	pending_plan								move collaboration-endpoints			
+CTI-CMS-1000-M5-K9	CMS 1000 M5 Server	Meeting Server	server	pending_plan								move collaboration-endpoints			
+CTI-CMS-1K-BUN-K9	Cisco Meeting Server 1000 Bundle	Meeting Server	server	pending_plan								move collaboration-endpoints			
+CTI-CMS-1K-M5V2-K9	CMS 1000 M5v2 Server	Meeting Server	server	pending_plan								move collaboration-endpoints			
+CTI-CMS-1K-M6-K9	CMS 1000 M6 Server	Meeting Server	server	pending_plan								move collaboration-endpoints			
+CTI-CMS-2000-K9	Cisco Meeting Server 2000	Meeting Server	server	pending_plan								move collaboration-endpoints			
+CTI-CMS-2000-M5-K9	Cisco Meeting Server 2000 M5	Meeting Server	server	pending_plan								move collaboration-endpoints			
+CTI-CMS-2K-BUN-K9	Cisco Meeting Server 2000 Bundle	Meeting Server	server	pending_plan								move collaboration-endpoints			
+CTI-CMS-2K-M5V2-K9	Cisco Meeting Server 2000 M5v2	Meeting Server	server	pending_plan								move collaboration-endpoints			
+CTI-CMS-2K-M6-K9	Cisco Meeting Server 2000 M6	Meeting Server	server	pending_plan								move collaboration-endpoints			
+CTI-CMS1KM5-BUN-K9	Cisco Meeting Server 1000 M5 Bundle	Meeting Server	server	pending_plan								move collaboration-endpoints			
+CTI-CMS1KM52BUN-K9	CMS 1000 M5v2 Server bundle	Meeting Server	server	pending_plan								move collaboration-endpoints			
+CTI-CMS2KM5-BUN-K9	Cisco Meeting Server 2000 M5 Bundle	Meeting Server	server	pending_plan								move collaboration-endpoints			
+CTI-CMS2KM52BUN-K9	Cisco Meeting Server 2000 M5v2 bundle	Meeting Server	server	pending_plan								move collaboration-endpoints			
+CTI-TMS-APL-K9	Cisco TelePresence Management Server	TelePresence Management Suite (TMS)	server	pending_plan								move collaboration-endpoints			
+CTI-TMS-APL-K9=	Cisco TelePresence Management Server - Spare	TelePresence Management Suite (TMS)	server	pending_plan								move collaboration-endpoints			
+UCSC-C240-M8-CL	UCS C240 M8 2U Rack Server for Collaboration AI	AI PODs for Collaboration	server	pending_plan								move collaboration-endpoints			
+UCSC-C240-M8-CL-G	UCS C240 M8 2U Rack Server for Collaboration AI (GPU)	AI PODs for Collaboration	server	pending_plan								move collaboration-endpoints			

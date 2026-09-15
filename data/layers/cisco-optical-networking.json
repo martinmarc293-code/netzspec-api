@@ -1,11 +1,11 @@
 {
  "vendor": "cisco",
  "category": "optical-networking",
- "built_at": "2026-09-15T18:46:57.994Z",
- "commit": "1c0ea75c91291ab89011332e77f373457dbbcd39",
+ "built_at": "2026-09-15T21:08:32.433Z",
+ "commit": "8be11a7fef41580fd431b5d086caf6fe0a50a2a8",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-optical-networking.json",
- "parts": 1186,
+ "parts": 1185,
  "lines": [
   {
    "line": "NCS 1000",
@@ -1010,14 +1010,6 @@
    "action": "move",
    "to": "transceiver",
    "reason": "coherent tunable CFP2 / CFP2-DCO pluggable filed under optical-networking ('100G QPSK / 200G 16-QAM - WDM CFP2 Pluggable, C temp')"
-  },
-  {
-   "sku": "ONS-CFP2-WDM-LIC",
-   "name": "CFP2 WDM - C-band Tunable - Lic. For 100G HD-FEC- ATO",
-   "series_label": "ONS 15454 Series Multiservice Transport Platforms",
-   "action": "class",
-   "to": "license",
-   "reason": "'CFP2 WDM - C-band Tunable - Lic. For 100G HD-FEC- ATO' — a licence"
   },
   {
    "sku": "ONS-CFP2-WDM2=",

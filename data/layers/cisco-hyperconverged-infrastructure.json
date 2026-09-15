@@ -1,11 +1,11 @@
 {
  "vendor": "cisco",
  "category": "hyperconverged-infrastructure",
- "built_at": "2026-09-15T18:46:58.120Z",
- "commit": "1c0ea75c91291ab89011332e77f373457dbbcd39",
+ "built_at": "2026-09-15T21:08:32.543Z",
+ "commit": "8be11a7fef41580fd431b5d086caf6fe0a50a2a8",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-hyperconverged-infrastructure.json",
- "parts": 786,
+ "parts": 775,
  "lines": [
   {
    "line": "Compute Hyperconverged with VMware vSAN",
@@ -434,52 +434,12 @@
    "reason": "datasheet cell value or fragment enumerated as a part"
   },
   {
-   "sku": "HCI-AOSAHV-73-SWK9",
-   "name": "Cisco HCI-AOSAHV-73-SWK9",
-   "series_label": "Compute Hyperconverged Nutanix",
-   "action": "class",
-   "to": "software",
-   "reason": "software, a subscription or a software option"
-  },
-  {
-   "sku": "HCI-AOSAHV-73SWK9",
-   "name": "Cisco HCI-AOSAHV-73SWK9",
-   "series_label": "Compute Hyperconverged Nutanix",
-   "action": "class",
-   "to": "software",
-   "reason": "software, a subscription or a software option"
-  },
-  {
-   "sku": "HCI-AOSAHV-75-SWK9",
-   "name": "Cisco HCI-AOSAHV-75-SWK9",
-   "series_label": "Compute Hyperconverged Nutanix",
-   "action": "class",
-   "to": "software",
-   "reason": "software, a subscription or a software option"
-  },
-  {
    "sku": "HCI-AOSAHV-NO-OS",
    "name": "Cisco HCI-AOSAHV-NO-OS",
    "series_label": "Compute Hyperconverged Nutanix",
    "action": "class",
    "to": "non_product",
    "reason": "an ordering setting, option, test or programme label that ships nothing"
-  },
-  {
-   "sku": "HCI-AOSAHV-SWK9M6",
-   "name": "HCI AOS AHV SW",
-   "series_label": "Compute Hyperconverged Nutanix",
-   "action": "class",
-   "to": "software",
-   "reason": "software, a subscription or a software option"
-  },
-  {
-   "sku": "HCI-AOSESXI-SWK9M6",
-   "name": "HCI AOS ESXI SW",
-   "series_label": "Compute Hyperconverged Nutanix",
-   "action": "class",
-   "to": "software",
-   "reason": "software, a subscription or a software option"
   },
   {
    "sku": "HCI-TPM-OPT-OUT",
@@ -512,14 +472,6 @@
    "action": "class",
    "to": "non_product",
    "reason": "an ordering setting, option, test or programme label that ships nothing"
-  },
-  {
-   "sku": "HCIX-AOSAHV-73SWK9",
-   "name": "Cisco HCIX-AOSAHV-73SWK9",
-   "series_label": "Compute Hyperconverged Nutanix",
-   "action": "class",
-   "to": "software",
-   "reason": "software, a subscription or a software option"
   },
   {
    "sku": "HCIXVS215C",
@@ -568,46 +520,6 @@
    "action": "class",
    "to": "non_product",
    "reason": "datasheet cell value or fragment enumerated as a part"
-  },
-  {
-   "sku": "NTX-NCI-USE-CASE1",
-   "name": "Cisco NTX-NCI-USE-CASE1",
-   "series_label": "Compute Hyperconverged Nutanix",
-   "action": "class",
-   "to": "software",
-   "reason": "software, a subscription or a software option"
-  },
-  {
-   "sku": "NTX-SW",
-   "name": "Cisco NTX-SW",
-   "series_label": "Compute Hyperconverged Nutanix",
-   "action": "class",
-   "to": "software",
-   "reason": "software, a subscription or a software option"
-  },
-  {
-   "sku": "NTX-SW-1Y",
-   "name": "Cisco NTX-SW-1Y",
-   "series_label": "Compute Hyperconverged Nutanix",
-   "action": "class",
-   "to": "software",
-   "reason": "software, a subscription or a software option"
-  },
-  {
-   "sku": "NTX-SW-LO",
-   "name": "Cisco NTX-SW-LO",
-   "series_label": "Compute Hyperconverged Nutanix",
-   "action": "class",
-   "to": "software",
-   "reason": "software, a subscription or a software option"
-  },
-  {
-   "sku": "NTX-SW-PS",
-   "name": "Cisco NTX-SW-PS",
-   "series_label": "Compute Hyperconverged Nutanix",
-   "action": "class",
-   "to": "software",
-   "reason": "software, a subscription or a software option"
   },
   {
    "sku": "P5620",

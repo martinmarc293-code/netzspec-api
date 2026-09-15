@@ -1,11 +1,11 @@
 {
  "vendor": "cisco",
  "category": "security",
- "built_at": "2026-09-15T18:46:57.556Z",
- "commit": "1c0ea75c91291ab89011332e77f373457dbbcd39",
+ "built_at": "2026-09-15T21:08:31.922Z",
+ "commit": "8be11a7fef41580fd431b5d086caf6fe0a50a2a8",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-security.json",
- "parts": 1990,
+ "parts": 1984,
  "lines": [
   {
    "line": "Secure Firewall and Firepower",
@@ -1209,38 +1209,6 @@
    "reason": "router crypto service module (SM-EC-DES / 3DES for the ISR, AIM-DES for the 2600, NM-DES for the 3600) filed under a FirePOWER 7000 label: its category is interfaces-modules (the exclusion's reason, now a plan — layers round 3, security round)"
   },
   {
-   "sku": "CSACS-3415-K9",
-   "name": "ACS application & BASE license for SNS-3415-K9 appliance",
-   "series_label": "Identity Services Engine",
-   "action": "class",
-   "to": "license",
-   "reason": "Cisco ACS application licence / upgrade for an SNS appliance, not the appliance"
-  },
-  {
-   "sku": "CSACS-3415-UP-K9",
-   "name": "Upgrade to ACS application on SNS-3415-K9 appl. w/ BASE lic.",
-   "series_label": "Identity Services Engine",
-   "action": "class",
-   "to": "license",
-   "reason": "Cisco ACS application licence / upgrade for an SNS appliance, not the appliance"
-  },
-  {
-   "sku": "CSACS-3495-K9",
-   "name": "ACS SW application & BASE license for SNS-3495-K9 appliance",
-   "series_label": "Identity Services Engine",
-   "action": "class",
-   "to": "license",
-   "reason": "Cisco ACS application licence / upgrade for an SNS appliance, not the appliance"
-  },
-  {
-   "sku": "CSACS-3495-UP-K9",
-   "name": "Upgrade to ACS application on SNS-3495-K9 appl. w/ BASE lic.",
-   "series_label": "Identity Services Engine",
-   "action": "class",
-   "to": "license",
-   "reason": "Cisco ACS application licence / upgrade for an SNS appliance, not the appliance"
-  },
-  {
    "sku": "FP-NMSB-40G",
    "name": "Do Not Use - FirePOWER 40G Switch Module for 40Gbps Net Mods",
    "series_label": "Firepower 9300 Series",
@@ -1271,14 +1239,6 @@
    "action": "class",
    "to": "non_product",
    "reason": "'Cisco FireSIGHT RAID 5 Pre-Configuration' — a factory configuration option PID, no part ships"
-  },
-  {
-   "sku": "ISA-FP-541213-K9",
-   "name": "IDS / IPS for Industrial Security Appliances K9 level",
-   "series_label": "3000 Series Industrial Security Appliances (ISA)",
-   "action": "class",
-   "to": "license",
-   "reason": "'IDS / IPS for Industrial Security Appliances K9 level' — a FirePOWER subscription/licence for ISA 3000"
   },
   {
    "sku": "MEM-7100-CFL128M",
@@ -1391,14 +1351,6 @@
    "action": "move",
    "to": "interfaces-modules",
    "reason": "router crypto service module (SM-EC-DES / 3DES for the ISR, AIM-DES for the 2600, NM-DES for the 3600) filed under a FirePOWER 7000 label: its category is interfaces-modules (the exclusion's reason, now a plan — layers round 3, security round)"
-  },
-  {
-   "sku": "TB-ESS-100GB",
-   "name": "Cisco TB-ESS-100GB",
-   "series_label": "Secure Network Analytics",
-   "action": "class",
-   "to": "license",
-   "reason": "Telemetry Broker Essentials volume licence (100 GB)"
   }
  ],
  "unplaced": [],

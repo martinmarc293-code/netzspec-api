@@ -526,7 +526,9 @@ check("SABOTAGE merge: a plan that calls a hardware row non-hardware is refused"
   planned("collaboration-endpoints", "CAB-AC2UK=", "move routers");
   planned("storage-networking", "CAB-9K16A-EU=", "move switches");
   planned("security", "PWR-IE50W-AC", "move switches");
-  planned("conferencing", "C-CPM", "class software");
+  // F-7's class plan RAN (run #1080, operator's yes, 15 Sep 2026): C-CPM is no longer a hardware row, and its plan carries the run id
+  check(`re-audit conferencing: C-CPM left the hardware page by its class-software plan (run id recorded)`, !get("conferencing", "C-CPM")
+    && (PLANS as { sku: string; category: string; action: string; to: string; run_id: unknown }[]).some((p) => p.sku === "C-CPM" && p.category === "conferencing" && p.action === "class" && p.to === "software" && typeof p.run_id === "number"));
   // the upper-case -X model names stay hardware rows (Q-10 is never case-insensitive)
   at("routers", "ASR1001-X", "ASR 1000");
   at("transceiver", "SFP-10G-LR-X", "10G SFP+");

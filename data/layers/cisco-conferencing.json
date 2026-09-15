@@ -1,11 +1,11 @@
 {
  "vendor": "cisco",
  "category": "conferencing",
- "built_at": "2026-09-15T18:46:58.322Z",
- "commit": "1c0ea75c91291ab89011332e77f373457dbbcd39",
+ "built_at": "2026-09-15T21:08:32.811Z",
+ "commit": "8be11a7fef41580fd431b5d086caf6fe0a50a2a8",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-conferencing.json",
- "parts": 69,
+ "parts": 68,
  "lines": [
   {
    "line": "Meeting Server and TelePresence Management",
@@ -59,14 +59,6 @@
    "action": "move",
    "to": "collaboration-endpoints",
    "reason": "category merge: conferencing -> collaboration-endpoints (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
-  },
-  {
-   "sku": "C-CPM",
-   "name": "Cisco C-CPM",
-   "series_label": "Meeting Server",
-   "action": "class",
-   "to": "software",
-   "reason": "a third-party cloud subscription, not hardware: 'SolutionsPlus: Vyopta CPM Cloud Subscription', the replacement PID for V-CLOUD in Cisco's 'End-of-Sale and End-of-Life Announcement for the Cisco Vyopta vAnalytics' (c51-742914, under the Meeting Server end-of-life notices) — precedent: 'software, a subscription or a software option' (re-audit decisions, operator, 15 Sep 2026, F-7)"
   },
   {
    "sku": "CIT3-5108-PKG-HW",

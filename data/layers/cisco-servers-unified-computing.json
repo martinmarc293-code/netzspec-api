@@ -1,11 +1,11 @@
 {
  "vendor": "cisco",
  "category": "servers-unified-computing",
- "built_at": "2026-09-15T18:46:54.871Z",
- "commit": "1c0ea75c91291ab89011332e77f373457dbbcd39",
+ "built_at": "2026-09-15T21:08:28.671Z",
+ "commit": "8be11a7fef41580fd431b5d086caf6fe0a50a2a8",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-servers-unified-computing.json",
- "parts": 9579,
+ "parts": 9504,
  "lines": [
   {
    "line": "UCS Solution Bundles",
@@ -3196,92 +3196,12 @@
    "reason": "self-declared VOID PID"
   },
   {
-   "sku": "CEM-DC-ENERGY",
-   "name": "Cisco CEM-DC-ENERGY",
-   "series_label": "UCS B-Series",
-   "action": "class",
-   "to": "software",
-   "reason": "software, a subscription or a software option"
-  },
-  {
-   "sku": "CEM-DC-PER",
-   "name": "Cisco CEM-DC-PER",
-   "series_label": "UCS B-Series",
-   "action": "class",
-   "to": "software",
-   "reason": "software, a subscription or a software option"
-  },
-  {
-   "sku": "CIMC-SUP-B02",
-   "name": "Cisco CIMC-SUP-B02",
-   "series_label": "UCS B-Series",
-   "action": "class",
-   "to": "software",
-   "reason": "software, a subscription or a software option"
-  },
-  {
-   "sku": "CIMC-SUP-B10",
-   "name": "Cisco CIMC-SUP-B10",
-   "series_label": "UCS B-Series",
-   "action": "class",
-   "to": "software",
-   "reason": "software, a subscription or a software option"
-  },
-  {
    "sku": "CIUS-BATTERY=",
    "name": "Cisco CIUS-BATTERY=",
    "series_label": "Mini Series",
    "action": "move",
    "to": "collaboration-endpoints",
    "reason": "a battery of another product line (Cius tablet / Aironet 1520 outdoor AP) filed under UCS"
-  },
-  {
-   "sku": "COHS-PS-INS-NORACK",
-   "name": "Onsite configuration of 1 pre-racked/stacked/cabled cluster",
-   "series_label": "UCS C-Series",
-   "action": "class",
-   "to": "service",
-   "reason": "a service, training or professional-services PID"
-  },
-  {
-   "sku": "COHS-PS-INST-LG",
-   "name": "Cisco COHS-PS-INST-LG",
-   "series_label": "UCS C-Series",
-   "action": "class",
-   "to": "service",
-   "reason": "a service, training or professional-services PID"
-  },
-  {
-   "sku": "COHS-PS-INST-MD",
-   "name": "Cisco COHS-PS-INST-MD",
-   "series_label": "UCS C-Series",
-   "action": "class",
-   "to": "service",
-   "reason": "a service, training or professional-services PID"
-  },
-  {
-   "sku": "COHS-PS-INST-SM",
-   "name": "Cisco COHS-PS-INST-SM",
-   "series_label": "UCS C-Series",
-   "action": "class",
-   "to": "service",
-   "reason": "a service, training or professional-services PID"
-  },
-  {
-   "sku": "COHS-PS-INST-XL",
-   "name": "Cisco COHS-PS-INST-XL",
-   "series_label": "UCS C-Series",
-   "action": "class",
-   "to": "service",
-   "reason": "a service, training or professional-services PID"
-  },
-  {
-   "sku": "COHS-TR-RMSEAT-1D",
-   "name": "One seat for one day of an instructor-led in-person class",
-   "series_label": "UCS B-Series",
-   "action": "class",
-   "to": "service",
-   "reason": "a service, training or professional-services PID"
   },
   {
    "sku": "COMPUTE-AI",
@@ -3316,78 +3236,6 @@
    "reason": "datasheet cell value or fragment enumerated as a part"
   },
   {
-   "sku": "DUO-ADV-FED",
-   "name": "Cisco Duo Advantage edition for Federal Customers (Moderate-Class C)",
-   "series_label": "UCS C-Series",
-   "action": "class",
-   "to": "license",
-   "reason": "a licence or subscription entitlement"
-  },
-  {
-   "sku": "DUO-ADV-FED-HI",
-   "name": "Cisco Duo Advantage edition for Federal Customers (High-Class D)",
-   "series_label": "UCS C-Series",
-   "action": "class",
-   "to": "license",
-   "reason": "a licence or subscription entitlement"
-  },
-  {
-   "sku": "DUO-ADVANTAGE",
-   "name": "Standard Cisco Duo Advantage edition",
-   "series_label": "UCS C-Series",
-   "action": "class",
-   "to": "license",
-   "reason": "a licence or subscription entitlement"
-  },
-  {
-   "sku": "DUO-ESS-FED",
-   "name": "Cisco Duo Essentials edition for Federal Customers (Moderate-Class C)",
-   "series_label": "UCS C-Series",
-   "action": "class",
-   "to": "license",
-   "reason": "a licence or subscription entitlement"
-  },
-  {
-   "sku": "DUO-ESS-FED-HI",
-   "name": "Cisco Duo Essentials edition for Federal Customers (High-Class D)",
-   "series_label": "UCS C-Series",
-   "action": "class",
-   "to": "license",
-   "reason": "a licence or subscription entitlement"
-  },
-  {
-   "sku": "DUO-ESSENTIALS",
-   "name": "Standard Cisco Duo Essentials edition",
-   "series_label": "UCS C-Series",
-   "action": "class",
-   "to": "license",
-   "reason": "a licence or subscription entitlement"
-  },
-  {
-   "sku": "DUO-PREMIER",
-   "name": "Standard Cisco Duo Premier edition",
-   "series_label": "UCS C-Series",
-   "action": "class",
-   "to": "license",
-   "reason": "a licence or subscription entitlement"
-  },
-  {
-   "sku": "DUO-SUBACCT",
-   "name": "A separate Cisco Duo child account linked to the main account",
-   "series_label": "UCS C-Series",
-   "action": "class",
-   "to": "license",
-   "reason": "a licence or subscription entitlement"
-  },
-  {
-   "sku": "DUO-TLPHNY-1K",
-   "name": "Increments of 1000 telephony credits for any edition",
-   "series_label": "UCS C-Series",
-   "action": "class",
-   "to": "license",
-   "reason": "a licence or subscription entitlement"
-  },
-  {
    "sku": "DUO-TOKEN-10PACK",
    "name": "A hardware token used with a Cisco Duo subscription (10 pack)",
    "series_label": "UCS C-Series",
@@ -3404,14 +3252,6 @@
    "reason": "datasheet cell value or fragment enumerated as a part"
   },
   {
-   "sku": "E3A-UFAB-SW-AD",
-   "name": "Cisco Unified Fabric License",
-   "series_label": "UCS 6300 Series Fabric Interconnects",
-   "action": "class",
-   "to": "license",
-   "reason": "a licence or subscription entitlement"
-  },
-  {
    "sku": "EL224-C19",
    "name": "Cisco EL224-C19",
    "series_label": "UCS C-Series",
@@ -3426,102 +3266,6 @@
    "action": "class",
    "to": "non_product",
    "reason": "datasheet token: the FIPS 140-2 certification named in a compliance cell, not an orderable PID — no linked document, no fact, no relation (the datasheet-cell rule; pre-ruling C8's shape, the token identified)"
-  },
-  {
-   "sku": "FL-SRE-V-HOST",
-   "name": "Permanent paper license for VMware ESXi on UCSE MAX 32GB RAM",
-   "series_label": "UCS E-Series",
-   "action": "class",
-   "to": "license",
-   "reason": "a licence or subscription entitlement"
-  },
-  {
-   "sku": "FL-SRE-V-HOST=",
-   "name": "Paper PAC for SRE VMware ESXi - MAX 32GB RAM W/ LICENSE",
-   "series_label": "UCS E-Series",
-   "action": "class",
-   "to": "license",
-   "reason": "a licence or subscription entitlement"
-  },
-  {
-   "sku": "FL-SRE-V-HOSTVC",
-   "name": "Paper license for SRE VMware ESXi with vCenter agent",
-   "series_label": "UCS E-Series",
-   "action": "class",
-   "to": "license",
-   "reason": "a licence or subscription entitlement"
-  },
-  {
-   "sku": "FL-SRE-V-HOSTVC=",
-   "name": "Paper PAC for SRE VMware ESXi with vCenter agent",
-   "series_label": "UCS E-Series",
-   "action": "class",
-   "to": "license",
-   "reason": "a licence or subscription entitlement"
-  },
-  {
-   "sku": "FL-SRE-V-VC-UPG=",
-   "name": "Paper PAC to upgrade SRE VMware ESXi with vCenter agent",
-   "series_label": "UCS E-Series",
-   "action": "class",
-   "to": "license",
-   "reason": "a licence or subscription entitlement"
-  },
-  {
-   "sku": "FL-UCSE-VS6-FND",
-   "name": "Cisco FL-UCSE-VS6-FND",
-   "series_label": "UCS E-Series",
-   "action": "class",
-   "to": "license",
-   "reason": "a licence or subscription entitlement"
-  },
-  {
-   "sku": "FL-UCSE-VS6-FND=",
-   "name": "Cisco FL-UCSE-VS6-FND=",
-   "series_label": "UCS E-Series",
-   "action": "class",
-   "to": "license",
-   "reason": "a licence or subscription entitlement"
-  },
-  {
-   "sku": "FL-UCSE-VS6-HYP",
-   "name": "Cisco FL-UCSE-VS6-HYP",
-   "series_label": "UCS E-Series",
-   "action": "class",
-   "to": "license",
-   "reason": "a licence or subscription entitlement"
-  },
-  {
-   "sku": "FL-UCSE-VS6-HYP=",
-   "name": "Cisco FL-UCSE-VS6-HYP=",
-   "series_label": "UCS E-Series",
-   "action": "class",
-   "to": "license",
-   "reason": "a licence or subscription entitlement"
-  },
-  {
-   "sku": "FL-UCSE-VS6-STD",
-   "name": "Cisco FL-UCSE-VS6-STD",
-   "series_label": "UCS E-Series",
-   "action": "class",
-   "to": "license",
-   "reason": "a licence or subscription entitlement"
-  },
-  {
-   "sku": "FL-UCSE-VSAN6-STD",
-   "name": "UCS E-Series VMware vSAN 6 Standard License",
-   "series_label": "UCS C-Series",
-   "action": "class",
-   "to": "license",
-   "reason": "a licence or subscription entitlement"
-  },
-  {
-   "sku": "FL-UCSE-VSAN6-STD=",
-   "name": "UCS E-Series VMware vSAN 6 Standard License",
-   "series_label": "UCS C-Series",
-   "action": "class",
-   "to": "license",
-   "reason": "a licence or subscription entitlement"
   },
   {
    "sku": "FNVMEX4",
@@ -11460,14 +11204,6 @@
    "reason": "datasheet cell value or fragment enumerated as a part"
   },
   {
-   "sku": "ICLOUD-SVC-UCS",
-   "name": "Cisco Intercloud Services with UCS",
-   "series_label": "UCS B-Series",
-   "action": "class",
-   "to": "service",
-   "reason": "a service, training or professional-services PID"
-  },
-  {
    "sku": "IMM-MANAGED",
    "name": "Cisco IMM-MANAGED",
    "series_label": "UCS X-Series",
@@ -11620,38 +11356,6 @@
    "reason": "programme or solution label (round-7 family \"solution-or-programme-label-only\")"
   },
   {
-   "sku": "NFR-UCS-PM-EE",
-   "name": "NOT FOR RESALE - UCS Performance Manager Express",
-   "series_label": "UCS C-Series",
-   "action": "class",
-   "to": "software",
-   "reason": "software, a subscription or a software option"
-  },
-  {
-   "sku": "NFR-UCS-PM-EE=",
-   "name": "NOT FOR RESALE - UCS Performance Manager Express",
-   "series_label": "UCS C-Series",
-   "action": "class",
-   "to": "software",
-   "reason": "software, a subscription or a software option"
-  },
-  {
-   "sku": "NFR-UCS-PM-IE",
-   "name": "NOT FOR RESALE - UCS Performance Manager",
-   "series_label": "UCS C-Series",
-   "action": "class",
-   "to": "software",
-   "reason": "software, a subscription or a software option"
-  },
-  {
-   "sku": "NFR-UCS-PM-IE=",
-   "name": "NOT FOR RESALE - UCS Performance Manager",
-   "series_label": "UCS C-Series",
-   "action": "class",
-   "to": "software",
-   "reason": "software, a subscription or a software option"
-  },
-  {
    "sku": "NL-SAS",
    "name": "Cisco NL-SAS",
    "series_label": "S-Series Storage",
@@ -11756,38 +11460,6 @@
    "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)"
   },
   {
-   "sku": "SCALITY-DCS-1YR",
-   "name": "Dedicated Care Service; Extended; Annual Fee",
-   "series_label": "UCS C-Series",
-   "action": "class",
-   "to": "service",
-   "reason": "a service, training or professional-services PID"
-  },
-  {
-   "sku": "SCALITY-DCS-F-1YR",
-   "name": "Dedicated Care Service; Fundamental; Annual Fee",
-   "series_label": "UCS C-Series",
-   "action": "class",
-   "to": "service",
-   "reason": "a service, training or professional-services PID"
-  },
-  {
-   "sku": "SCALITY-PS-POC",
-   "name": "Proof of Concept (5 days on site up to 10 days)",
-   "series_label": "UCS C-Series",
-   "action": "class",
-   "to": "service",
-   "reason": "a service, training or professional-services PID"
-  },
-  {
-   "sku": "SCALITY-PS-SOW=",
-   "name": "Custom Statement of Work (SOW) - Requires BU Approval",
-   "series_label": "UCS C-Series",
-   "action": "class",
-   "to": "service",
-   "reason": "a service, training or professional-services PID"
-  },
-  {
    "sku": "SM7-UCSE",
    "name": "Configuration container for UCS Express on SRE 700",
    "series_label": "UCS E-Series",
@@ -11828,78 +11500,6 @@
    "reason": "datasheet cell value or fragment enumerated as a part"
   },
   {
-   "sku": "SSTACK-LS-DAY",
-   "name": "SwiftStack Professional Services, 1 Day",
-   "series_label": "UCS C-Series",
-   "action": "class",
-   "to": "service",
-   "reason": "a service, training or professional-services PID"
-  },
-  {
-   "sku": "SSTACK-LS-MC",
-   "name": "Swiftstack Implementation Assistance (Single-Region)",
-   "series_label": "UCS C-Series",
-   "action": "class",
-   "to": "service",
-   "reason": "a service, training or professional-services PID"
-  },
-  {
-   "sku": "SSTACK-LS-MCP",
-   "name": "Swiftstack Implementation Assistance (Multi-Region)",
-   "series_label": "UCS C-Series",
-   "action": "class",
-   "to": "service",
-   "reason": "a service, training or professional-services PID"
-  },
-  {
-   "sku": "SSTACK-LS-OPS",
-   "name": "SwiftStack Operations & Admin Training (max 10 attendees)",
-   "series_label": "UCS C-Series",
-   "action": "class",
-   "to": "service",
-   "reason": "a service, training or professional-services PID"
-  },
-  {
-   "sku": "SSTACK-MC",
-   "name": "Cisco SSTACK-MC",
-   "series_label": "UCS C-Series",
-   "action": "class",
-   "to": "software",
-   "reason": "software, a subscription or a software option"
-  },
-  {
-   "sku": "SSTACK-MC-PRIV-T1",
-   "name": "Cisco SSTACK-MC-PRIV-T1",
-   "series_label": "UCS C-Series",
-   "action": "class",
-   "to": "software",
-   "reason": "software, a subscription or a software option"
-  },
-  {
-   "sku": "SSTACK-MC-PRIV-T2",
-   "name": "Cisco SSTACK-MC-PRIV-T2",
-   "series_label": "UCS C-Series",
-   "action": "class",
-   "to": "software",
-   "reason": "software, a subscription or a software option"
-  },
-  {
-   "sku": "SSTACK-MC-PRIV-T3",
-   "name": "Cisco SSTACK-MC-PRIV-T3",
-   "series_label": "UCS C-Series",
-   "action": "class",
-   "to": "software",
-   "reason": "software, a subscription or a software option"
-  },
-  {
-   "sku": "SSTACK-MC-PRIV-T4",
-   "name": "Cisco SSTACK-MC-PRIV-T4",
-   "series_label": "UCS C-Series",
-   "action": "class",
-   "to": "software",
-   "reason": "software, a subscription or a software option"
-  },
-  {
    "sku": "START-BNDL-EXP",
    "name": "Expand Option",
    "series_label": "UCS C-Series",
@@ -11914,102 +11514,6 @@
    "action": "move",
    "to": "security",
    "reason": "Threat Grid 5500 appliance (on a C220 M3): security's Malware Analytics (Threat Grid) appliances, where security's ^TG rule already claims it (layers round 3)"
-  },
-  {
-   "sku": "UCS-BDMR-PSX-PL",
-   "name": "POSIX Platinum Client",
-   "series_label": "UCS B-Series",
-   "action": "class",
-   "to": "software",
-   "reason": "software, a subscription or a software option"
-  },
-  {
-   "sku": "UCS-BDMR-PSX-PL-1Y",
-   "name": "POSIX Platinum - Per Client - Reqr. MapR-XD Ent-Prem 1 Year",
-   "series_label": "UCS B-Series",
-   "action": "class",
-   "to": "software",
-   "reason": "software, a subscription or a software option"
-  },
-  {
-   "sku": "UCS-BDMR-PSX-PL-3Y",
-   "name": "POSIX Platinum - Per Client - Reqr. MapR-XD Ent-Prem 3 Year",
-   "series_label": "UCS B-Series",
-   "action": "class",
-   "to": "software",
-   "reason": "software, a subscription or a software option"
-  },
-  {
-   "sku": "UCS-BDMR-PSX-PL-5Y",
-   "name": "POSIX Platinum - Per Client - Reqr. MapR-XD Ent-Prem 5 Year",
-   "series_label": "UCS B-Series",
-   "action": "class",
-   "to": "software",
-   "reason": "software, a subscription or a software option"
-  },
-  {
-   "sku": "UCS-BDMRES-DD",
-   "name": "MapR-DB Document Database Enterprise Standard",
-   "series_label": "UCS B-Series",
-   "action": "class",
-   "to": "software",
-   "reason": "software, a subscription or a software option"
-  },
-  {
-   "sku": "UCS-BDMRES-DD-1Y",
-   "name": "MapR-DB Doc DB Ent-Std. Per Compute Unit - 1 year.",
-   "series_label": "UCS B-Series",
-   "action": "class",
-   "to": "software",
-   "reason": "software, a subscription or a software option"
-  },
-  {
-   "sku": "UCS-BDMRES-DD-3Y",
-   "name": "MapR-DB Doc DB Ent-Std. Per Compute Unit - 3 year.",
-   "series_label": "UCS B-Series",
-   "action": "class",
-   "to": "software",
-   "reason": "software, a subscription or a software option"
-  },
-  {
-   "sku": "UCS-BDMRES-DD-5Y",
-   "name": "MapR-DB Doc DB Ent-Std. Per Compute Unit - 5 year.",
-   "series_label": "UCS B-Series",
-   "action": "class",
-   "to": "software",
-   "reason": "software, a subscription or a software option"
-  },
-  {
-   "sku": "UCS-BDMRES-EDS",
-   "name": "MapR-ES Event Data Streams Enterprise Standard",
-   "series_label": "UCS B-Series",
-   "action": "class",
-   "to": "software",
-   "reason": "software, a subscription or a software option"
-  },
-  {
-   "sku": "UCS-BDMRES-EDS-1Y",
-   "name": "MapR-ES Event Data Streams Ent-Std. Per Compute Unit 1 year.",
-   "series_label": "UCS B-Series",
-   "action": "class",
-   "to": "software",
-   "reason": "software, a subscription or a software option"
-  },
-  {
-   "sku": "UCS-BDMRES-EDS-3Y",
-   "name": "MapR-ES Event Data Streams Ent-Std. Per Compute Unit 3 year.",
-   "series_label": "UCS B-Series",
-   "action": "class",
-   "to": "software",
-   "reason": "software, a subscription or a software option"
-  },
-  {
-   "sku": "UCS-BDMRES-EDS-5Y",
-   "name": "MapR-ES Event Data Streams Ent-Std. Per Compute Unit 5 year.",
-   "series_label": "UCS B-Series",
-   "action": "class",
-   "to": "software",
-   "reason": "software, a subscription or a software option"
   },
   {
    "sku": "UCS-C3K-EX40TE=",
@@ -12332,38 +11836,6 @@
    "reason": "self-declared VOID PID"
   },
   {
-   "sku": "UCS-PM-EE",
-   "name": "UCS Performance Manager Express",
-   "series_label": "UCS B-Series",
-   "action": "class",
-   "to": "software",
-   "reason": "software, a subscription or a software option"
-  },
-  {
-   "sku": "UCS-PM-EE=",
-   "name": "UCS Performance Manager Express",
-   "series_label": "UCS C-Series",
-   "action": "class",
-   "to": "software",
-   "reason": "software, a subscription or a software option"
-  },
-  {
-   "sku": "UCS-PM-IE",
-   "name": "UCS Performance Manager",
-   "series_label": "UCS B-Series",
-   "action": "class",
-   "to": "software",
-   "reason": "software, a subscription or a software option"
-  },
-  {
-   "sku": "UCS-PM-IE=",
-   "name": "UCS Performance Manager",
-   "series_label": "UCS C-Series",
-   "action": "class",
-   "to": "software",
-   "reason": "software, a subscription or a software option"
-  },
-  {
    "sku": "UCS-S3260-EX32T=",
    "name": "VOID; Not Used",
    "series_label": "UCS C-Series",
@@ -12412,30 +11884,6 @@
    "reason": "Cisco HyperFlex (HX) node or component filed under a UCS label: its category is hyperconverged-systems (the exclusion's reason, now a plan — layers round 3, servers + hyperconverged round)"
   },
   {
-   "sku": "UCS-STOR-16TB-1YR",
-   "name": "StorMagic SvSAN - Platinum Support - 16TB",
-   "series_label": "UCS B-Series",
-   "action": "class",
-   "to": "software",
-   "reason": "software, a subscription or a software option"
-  },
-  {
-   "sku": "UCS-STOR-4TB-1YR",
-   "name": "StorMagic SvSAN - Platinum Support - 4TB",
-   "series_label": "UCS B-Series",
-   "action": "class",
-   "to": "software",
-   "reason": "software, a subscription or a software option"
-  },
-  {
-   "sku": "UCS-STOR-8TB-1YR",
-   "name": "StorMagic SvSAN - Platinum Support - 8TB",
-   "series_label": "UCS B-Series",
-   "action": "class",
-   "to": "software",
-   "reason": "software, a subscription or a software option"
-  },
-  {
    "sku": "UCS-SW-CUST-002",
    "name": "Test ONLY for designated use; selecting will delay order",
    "series_label": "UCS C-Series",
@@ -12482,46 +11930,6 @@
    "action": "class",
    "to": "non_product",
    "reason": "self-declared VOID PID"
-  },
-  {
-   "sku": "UCS-VSAN-IVB-28TBP",
-   "name": "UCS vSAN Beginner Pack 28T",
-   "series_label": "UCS B-Series",
-   "action": "class",
-   "to": "license",
-   "reason": "a licence or subscription entitlement"
-  },
-  {
-   "sku": "UCS-VSAN-IVB-HI-BP",
-   "name": "UCS Virtual SAN Beginner Pack for high capacity workload",
-   "series_label": "UCS B-Series",
-   "action": "class",
-   "to": "license",
-   "reason": "a licence or subscription entitlement"
-  },
-  {
-   "sku": "UCS-VSAN-IVB-M-BP",
-   "name": "UCS Virtual SAN Beginner Pack for medium capacity workload",
-   "series_label": "UCS B-Series",
-   "action": "class",
-   "to": "license",
-   "reason": "a licence or subscription entitlement"
-  },
-  {
-   "sku": "UCS-VSAN-IVB-VDI-F",
-   "name": "UCS Virtual SAN Beginner Pack for VDI full clones workload",
-   "series_label": "UCS B-Series",
-   "action": "class",
-   "to": "license",
-   "reason": "a licence or subscription entitlement"
-  },
-  {
-   "sku": "UCS-VSAN-IVB-VDI-L",
-   "name": "UCS Virtual SAN Beginner Pack for VDI linked clones workload",
-   "series_label": "UCS B-Series",
-   "action": "class",
-   "to": "license",
-   "reason": "a licence or subscription entitlement"
   },
   {
    "sku": "UCS-VSAN-MLB",
@@ -12826,14 +12234,6 @@
    "action": "class",
    "to": "non_product",
    "reason": "datasheet cell value or fragment enumerated as a part"
-  },
-  {
-   "sku": "VEEAM-SPLUS-DPHX",
-   "name": "Veeam Solutions Plus HyperFlex",
-   "series_label": "UCS B-Series",
-   "action": "class",
-   "to": "license",
-   "reason": "a licence or subscription entitlement"
   },
   {
    "sku": "VSCC15",

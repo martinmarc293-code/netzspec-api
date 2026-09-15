@@ -1,15 +1,15 @@
 {
  "vendor": "cisco",
  "category": "interfaces-modules",
- "built_at": "2026-09-15T18:46:57.846Z",
- "commit": "1c0ea75c91291ab89011332e77f373457dbbcd39",
+ "built_at": "2026-09-15T21:08:32.268Z",
+ "commit": "8be11a7fef41580fd431b5d086caf6fe0a50a2a8",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-interfaces-modules.json",
  "parts": 1400,
  "lines": [
   {
    "line": "Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)",
-   "parts": 829,
+   "parts": 831,
    "series": [
     {
      "series": "NIM (Network Interface Modules)",
@@ -112,11 +112,11 @@
      "family": null,
      "role": null,
      "note": "ILPM-4= / ILPM-8= are the inline-power daughter modules of the EtherSwitch HWICs (data sheet 'Cisco EtherSwitch 4- and 9-Port High-Speed WAN Interface Cards'). The label's platform supplies, antennas and datasheet tokens are planned out (layers round 3)",
-     "parts": 154,
+     "parts": 156,
      "kinds": {
       "interface": 84,
       "cellular": 51,
-      "radio": 14,
+      "radio": 16,
       "mechanical": 3,
       "power": 2
      },
@@ -130,7 +130,7 @@
       "EHWIC-3G-EVDO-S — 3G EHWIC EDVO for Sprint with GPS"
      ],
      "rules": {
-      "sku": 154
+      "sku": 156
      },
      "pending_in": {
       "unified-communications": 6
@@ -494,7 +494,7 @@
       "sku": 50
      },
      "pending_in": {
-      "wireless": 1
+      "wireless": 4
      }
     },
     {
@@ -2667,22 +2667,6 @@
    "action": "class",
    "to": "non_product",
    "reason": "unidentified datasheet token: no linked document names it as a Cisco PID (pre-ruling C8, layers round 3)"
-  },
-  {
-   "sku": "HWIC-AP-AG-x",
-   "name": "IEEE 802.11 A/B/G Access Point HWIC (High Speed WLAN Interface Card)",
-   "series_label": "High-Speed WAN Interface Cards",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "HWIC-AP-G-x",
-   "name": "IEEE 802.11 B/G Access Point HWIC (High Speed WLAN Interface Card)",
-   "series_label": "High-Speed WAN Interface Cards",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
   },
   {
    "sku": "ISM-SRE-300-K9",

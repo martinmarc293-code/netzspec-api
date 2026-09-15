@@ -1,15 +1,15 @@
 {
  "vendor": "cisco",
  "category": "switches",
- "built_at": "2026-09-15T18:46:55.524Z",
- "commit": "1c0ea75c91291ab89011332e77f373457dbbcd39",
+ "built_at": "2026-09-15T21:08:29.447Z",
+ "commit": "8be11a7fef41580fd431b5d086caf6fe0a50a2a8",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-switches.json",
  "parts": 7507,
  "lines": [
   {
    "line": "Catalyst",
-   "parts": 3121,
+   "parts": 3123,
    "series": [
     {
      "series": "Catalyst 9400",
@@ -1001,13 +1001,13 @@
      "family": null,
      "role": "access",
      "note": "the rule names the OLT and ONT devices: the bare ^CGP- also claimed the Catalyst PON OLT optic CGP-SFP-OC(=), which is a transceiver (reviewer A-8, layers round 3). ^ENC-10G-ONT removed (re-audit decisions, operator, 15 Sep 2026, Q-2): the six XGS-PON ONTs are Cisco's '10G Routed PON ONT' (their OLT is the SFP-10G-OLT pluggable), not Catalyst PON — they land in the Routed PON line",
-     "parts": 19,
+     "parts": 20,
      "kinds": {
-      "switch": 11,
+      "switch": 12,
       "power": 8
      },
      "roles": {
-      "(kind issue)": 11
+      "(kind issue)": 12
      },
      "samples": [
       "CGP-OLT — Cisco CGP-OLT",
@@ -1018,7 +1018,7 @@
       "CGP-ONT-4P — Cisco GPON ONT 4X1G PoE+, 2.5G uplink"
      ],
      "rules": {
-      "sku": 11,
+      "sku": 12,
       "label": 8
      },
      "pending_in": {}
@@ -1055,9 +1055,9 @@
      "family": "(shared across the line)",
      "role": null,
      "note": null,
-     "parts": 388,
+     "parts": 389,
      "kinds": {
-      "power": 96,
+      "power": 97,
       "mechanical": 51,
       "power-cord": 155,
       "cable": 30,
@@ -1076,7 +1076,7 @@
       "ACC-KIT-T1= — Accessory kit for Cisco Catalyst 3650 Series"
      ],
      "rules": {
-      "label-unsupported": 148,
+      "label-unsupported": 149,
       "accessory": 240
      },
      "pending_in": {
@@ -2199,19 +2199,19 @@
   },
   {
    "line": "Small Business",
-   "parts": 854,
+   "parts": 869,
    "series": [
     {
      "series": "Small Business 95 Unmanaged (SF95/SG95)",
      "family": null,
      "role": "smb",
      "note": null,
-     "parts": 38,
+     "parts": 43,
      "kinds": {
-      "switch": 38
+      "switch": 43
      },
      "roles": {
-      "smb": 38
+      "smb": 43
      },
      "samples": [
       "SF95-24-AS — SF95-24 24-Port 10/100 Switch",
@@ -2222,7 +2222,7 @@
       "SF95D-05-AS — SF95D-05 5-Port 10/100 Desktop Switch"
      ],
      "rules": {
-      "sku": 38
+      "sku": 43
      },
      "pending_in": {}
     },
@@ -2231,12 +2231,12 @@
      "family": null,
      "role": "smb",
      "note": null,
-     "parts": 79,
+     "parts": 89,
      "kinds": {
-      "switch": 79
+      "switch": 89
      },
      "roles": {
-      "smb": 79
+      "smb": 89
      },
      "samples": [
       "SF110-16-AU — SF110-16 16-Port 10/100 Switch",
@@ -2247,7 +2247,7 @@
       "SF110-24-AU — SF110-24 24-Port 10/100 Switch"
      ],
      "rules": {
-      "sku": 79
+      "sku": 89
      },
      "pending_in": {}
     },
@@ -4719,14 +4719,6 @@
    "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
   },
   {
-   "sku": "CGP-ONT-4TVCW-x",
-   "name": "Catalyst PON 4-port GPON ONT, 2 POTS RJ11, 1 CATV Coax, 1 Wi-Fi 2.4G/5GHz. x=Region Prefix. Currently -EU, -NA and -IN available. Please reach out for other regions. EU – EU power adapter, -E Wireless LNA regulatory domain NA – NA power adapter, -A Wireless LNA regulatory domain IN – IN power adapter, -H Wireless LNA regulatory domain",
-   "series_label": "PON Series",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
    "sku": "CJ6X88TGBU",
    "name": "Cisco CJ6X88TGBU",
    "series_label": "Catalyst 9300",
@@ -5535,14 +5527,6 @@
    "reason": "third-party (Panduit) cabling part number cited in a Catalyst 9300 datasheet, not a Cisco PID; switchKind names it `accessory` until the class change runs"
   },
   {
-   "sku": "PWRADPT-WM-18-xx",
-   "name": "Cisco PWRADPT-WM-18-xx",
-   "series_label": "Catalyst 1300X",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
    "sku": "QPP24BL",
    "name": "QuickNet 24-Port Patch Panel",
    "series_label": "Nexus 3000",
@@ -5621,46 +5605,6 @@
    "action": "class",
    "to": "software",
    "reason": "software image / release PID"
-  },
-  {
-   "sku": "SF110D-05-xx",
-   "name": "Cisco SF110D-05 - 5-Port 10/100 Desktop Switch",
-   "series_label": "110 Unmanaged",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SF110D-08-xx",
-   "name": "Cisco SF110D-08 8-port 10/100 Desktop Switch",
-   "series_label": "110 Unmanaged",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SF110D-08HP-xx",
-   "name": "Cisco SF110D-08P 8-port 10/100 PoE Desktop Switch",
-   "series_label": "110 Unmanaged",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SF110D-16-xx",
-   "name": "Cisco SF110D-16 16-port 10/100 Desktop Switch",
-   "series_label": "110 Unmanaged",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SF110D-16HP-xx",
-   "name": "Cisco SF110D-16P 16-port 10/100 PoE Desktop Switch",
-   "series_label": "110 Unmanaged",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
   },
   {
    "sku": "SF220-24-K9-xx",
@@ -5850,70 +5794,6 @@
    "sku": "SF550X-48P-K9-xx",
    "name": "Cisco SF550X-48P-K9-xx",
    "series_label": "550X Stackable Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SF95D-05-xx",
-   "name": "Cisco SF95D-05 - 5-Port 10/100 Desktop Switch",
-   "series_label": "95 Unmanaged",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SF95D-08-xx",
-   "name": "Cisco SF95D-08 8-port 10/100 Desktop Switch",
-   "series_label": "95 Unmanaged",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SF95D-16-xx",
-   "name": "Cisco SF95D-16 16-port 10/100 Desktop Switch",
-   "series_label": "95 Unmanaged",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG110-16HP-xx",
-   "name": "Cisco SG110-16HP 16-Port PoE Gigabit Switch",
-   "series_label": "110 Unmanaged",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG110-24HP-xx",
-   "name": "Cisco SG110-24HP 24-Port PoE Gigabit Switch",
-   "series_label": "110 Unmanaged",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG110D-05-xx",
-   "name": "Cisco SG110D-05 5-port Gigabit Desktop Switch",
-   "series_label": "110 Unmanaged",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG110D-08-xx",
-   "name": "Cisco SG110D-08 8-Port Gigabit Switch",
-   "series_label": "110 Unmanaged",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG110D-08HP-xx",
-   "name": "Cisco SG110D-08P 8-Port Gigabit PoE Switch",
-   "series_label": "110 Unmanaged",
    "action": "class",
    "to": "non_product",
    "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
@@ -6383,22 +6263,6 @@
    "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
   },
   {
-   "sku": "SG95D-05-xx",
-   "name": "Cisco SG95D-05 5-port Gigabit Desktop Switch",
-   "series_label": "95 Unmanaged",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG95D-08-xx",
-   "name": "Cisco SG95D-08 8-Port Gigabit Switch",
-   "series_label": "95 Unmanaged",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
    "sku": "SNMPv1",
    "name": "Cisco SNMPv1",
    "series_label": "Catalyst 9200",
@@ -6554,9 +6418,9 @@
  "unplaced": [],
  "label_check": {
   "applied": true,
-  "label_placed": 374,
+  "label_placed": 375,
   "by_kind": {
-   "none": 203,
+   "none": 204,
    "sku-token": 27,
    "name": 143,
    "family": 1
@@ -7805,6 +7669,14 @@
    {
     "sku": "PWRADPT-WM-18-NA=",
     "name": "Cisco PWRADPT-WM-18-NA=",
+    "series_label": "Catalyst 1300X",
+    "from_series": "Catalyst 1300",
+    "to_series": "Catalyst shared parts",
+    "why": "no platform token (1300) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "PWRADPT-WM-18-xx",
+    "name": "Cisco PWRADPT-WM-18-xx",
     "series_label": "Catalyst 1300X",
     "from_series": "Catalyst 1300",
     "to_series": "Catalyst shared parts",

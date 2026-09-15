@@ -1,11 +1,11 @@
 {
  "vendor": "cisco",
  "category": "hyperconverged-systems",
- "built_at": "2026-09-15T18:46:57.919Z",
- "commit": "1c0ea75c91291ab89011332e77f373457dbbcd39",
+ "built_at": "2026-09-15T21:08:32.347Z",
+ "commit": "8be11a7fef41580fd431b5d086caf6fe0a50a2a8",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-hyperconverged-systems.json",
- "parts": 1204,
+ "parts": 1193,
  "lines": [
   {
    "line": "HyperFlex",
@@ -340,28 +340,12 @@
    "reason": "datasheet cell value or fragment enumerated as a part"
   },
   {
-   "sku": "AS-DCN-CNSLT",
-   "name": "Cisco AS-DCN-CNSLT",
-   "series_label": "HyperFlex HX Series",
-   "action": "class",
-   "to": "service",
-   "reason": "a service, training or professional-services PID"
-  },
-  {
    "sku": "C240M5SD",
    "name": "Cisco C240M5SD",
    "series_label": "HyperFlex HX Series",
    "action": "class",
    "to": "non_product",
    "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)"
-  },
-  {
-   "sku": "CPHC-HX",
-   "name": "Cisco+ Hybrid Cloud for Hyperconverged Infrastructure",
-   "series_label": "HyperFlex HX Series",
-   "action": "class",
-   "to": "service",
-   "reason": "a service, training or professional-services PID"
   },
   {
    "sku": "CRS-DG",
@@ -396,14 +380,6 @@
    "reason": "third-party (Intel): Intel's Ethernet SFP+ SR optic part number, cited in a HyperFlex HX220c M6 Edge spec sheet — not a Cisco PID (decision 3)"
   },
   {
-   "sku": "E3-A-HXDP",
-   "name": "Cisco E3-A-HXDP",
-   "series_label": "HyperFlex HX Series",
-   "action": "class",
-   "to": "software",
-   "reason": "HyperFlex Data Platform / full-stack subscription or data-protection software"
-  },
-  {
    "sku": "FRA-DG",
    "name": "Cisco FRA-DG",
    "series_label": "HyperFlex HX Series",
@@ -436,36 +412,12 @@
    "reason": "an ordering setting, option, test or programme label that ships nothing"
   },
   {
-   "sku": "HX-E-M5S-HXDP",
-   "name": "Cisco HyperFlex M5 Edge Hybrid & All Flash (w/o FI)",
-   "series_label": "HyperFlex HX Series",
-   "action": "class",
-   "to": "software",
-   "reason": "HyperFlex Data Platform / full-stack subscription or data-protection software"
-  },
-  {
-   "sku": "HX-E-M5S-HXDP-BR",
-   "name": "Cisco HyperFlex M5 Edge Hybrid & All Flash (w/o FI)",
-   "series_label": "HyperFlex HX Series",
-   "action": "class",
-   "to": "software",
-   "reason": "HyperFlex Data Platform / full-stack subscription or data-protection software"
-  },
-  {
    "sku": "HX-EXPRESS-MLB",
    "name": "Cisco Hyperflex Express MLB",
    "series_label": "HyperFlex HX Series",
    "action": "class",
    "to": "non_product",
    "reason": "an ordering setting, option, test or programme label that ships nothing"
-  },
-  {
-   "sku": "HX-M4S-HXDP",
-   "name": "Cisco HX-M4S-HXDP",
-   "series_label": "HyperFlex HX Series",
-   "action": "class",
-   "to": "software",
-   "reason": "HyperFlex Data Platform / full-stack subscription or data-protection software"
   },
   {
    "sku": "HX-M6-AAS",
@@ -484,36 +436,12 @@
    "reason": "an ordering setting, option, test or programme label that ships nothing"
   },
   {
-   "sku": "HX-RES-OND-HX",
-   "name": "Full Stack Usage based ATO for Hyperflex",
-   "series_label": "HyperFlex HX Series",
-   "action": "class",
-   "to": "service",
-   "reason": "a service, training or professional-services PID"
-  },
-  {
    "sku": "HX-SYSTEMDRIVE",
    "name": "Hyperflex Express SYSLOG",
    "series_label": "HyperFlex HX Series",
    "action": "class",
    "to": "non_product",
    "reason": "an ordering setting, option, test or programme label that ships nothing"
-  },
-  {
-   "sku": "HX-VB-B00R00",
-   "name": "Veeam Data Protection on HX LFF",
-   "series_label": "HyperFlex HX Series",
-   "action": "class",
-   "to": "software",
-   "reason": "HyperFlex Data Platform / full-stack subscription or data-protection software"
-  },
-  {
-   "sku": "HX-VSE2VSP-3A=",
-   "name": "Upgrade PAC vSphere: Ent to EntPlus 1-CPU, 3 yr Supp Req",
-   "series_label": "HyperFlex HX Series",
-   "action": "class",
-   "to": "license",
-   "reason": "a licence or subscription entitlement"
   },
   {
    "sku": "HX220",
@@ -554,22 +482,6 @@
    "action": "class",
    "to": "non_product",
    "reason": "self-declared VOID PID"
-  },
-  {
-   "sku": "HXAF-FSS-3YR",
-   "name": "Hyperconverged System Full Stack Subscription Bundle - 3YR",
-   "series_label": "HyperFlex HX Series",
-   "action": "class",
-   "to": "software",
-   "reason": "HyperFlex Data Platform / full-stack subscription or data-protection software"
-  },
-  {
-   "sku": "HXAF-FSS-5YR",
-   "name": "Hyperconverged System Full Stack Subscription Bundle - 5YR",
-   "series_label": "HyperFlex HX Series",
-   "action": "class",
-   "to": "software",
-   "reason": "HyperFlex Data Platform / full-stack subscription or data-protection software"
   },
   {
    "sku": "PLHC-FI-D2-RES",
