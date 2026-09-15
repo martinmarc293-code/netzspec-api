@@ -1,8 +1,8 @@
 {
  "vendor": "cisco",
  "category": "optical-networking",
- "built_at": "2026-09-15T10:45:21.516Z",
- "commit": "4bbc9fb03a996ea73f16677f9cda0e0e82221a16",
+ "built_at": "2026-09-15T10:59:02.371Z",
+ "commit": "4071ca68fce49f9895a1ac101635b6dd37db71a7",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-optical-networking.json",
  "parts": 1186,
@@ -16,9 +16,8 @@
      "family": null,
      "role": null,
      "note": null,
-     "parts": 130,
+     "parts": 129,
      "kinds": {
-      "unknown": 1,
       "transponder": 18,
       "chassis": 16,
       "mechanical": 15,
@@ -33,15 +32,14 @@
      },
      "roles": {},
      "samples": [
-      "4X100G-LR-S — Cisco 4X100G-LR-S",
       "CIM8-C-K9= — Coherent Interface Module 8 C-Band",
       "CIM8-CE-K9= — Coherent Interface Module 8 enhanced C-Band",
       "CIM8-LE-K9 — Coherent Interface Module 8 enhanced L-Band",
       "NCS1001-K9= — Network Convergence System 1001 line system 3 slots",
-      "NCS1002++= — Network Convergence System 1002 20 QSFP28/QSFP+ slots, TAA"
+      "NCS1002++= — Network Convergence System 1002 20 QSFP28/QSFP+ slots, TAA",
+      "NCS1002-K9 — Network Convergence System 1002 20 QSFP28/QSFP+ slots"
      ],
      "rules": {
-      "label": 1,
       "sku": 129
      },
      "pending_in": {
@@ -53,17 +51,20 @@
      "family": "(shared across the line)",
      "role": null,
      "note": null,
-     "parts": 3,
+     "parts": 4,
      "kinds": {
+      "unknown": 1,
       "cable": 3
      },
      "roles": {},
      "samples": [
+      "4X100G-LR-S — Cisco 4X100G-LR-S",
       "ONS-4X10-MMCBL-10= — 4x10G Foldable MPO to LC cable - Multimode - 10 meter",
       "ONS-4X10-MMCBL-20= — 4x10G Foldable MPO to LC cable - Multimode - 20 meter",
       "ONS-4X10-MMCBL-5= — 4x 10G Foldable MPO to LC cable - Multimode - 5 meter"
      ],
      "rules": {
+      "label-unsupported": 1,
       "accessory": 3
      },
      "pending_in": {}
@@ -72,22 +73,22 @@
   },
   {
    "line": "ONS 15454 MSTP and NCS 2000",
-   "parts": 422,
+   "parts": 413,
    "series": [
     {
      "series": "NCS 2000 (NCS 2002 / 2006 / 2015)",
      "family": null,
      "role": null,
      "note": null,
-     "parts": 147,
+     "parts": 142,
      "kinds": {
-      "unknown": 9,
       "power": 7,
       "mechanical": 16,
       "fan": 3,
       "chassis": 8,
       "accessory": 8,
-      "cable": 8,
+      "cable": 6,
+      "unknown": 6,
       "transponder": 21,
       "mux": 23,
       "roadm": 20,
@@ -96,15 +97,14 @@
      },
      "roles": {},
      "samples": [
-      "800-103176-01 — Cisco 800-103176-01",
-      "800-39910-07 — Cisco 800-39910-07",
-      "800-41495-01 — Cisco 800-41495-01",
       "NCS2002-AC= — AC Power Supply Module, Cisco NCS2002",
       "NCS2002-DC-E= — DC ETSI Power Supply Module, Cisco NCS2002",
-      "NCS2002-DC= — DC Power Supply Module, Cisco NCS2002"
+      "NCS2002-DC= — DC Power Supply Module, Cisco NCS2002",
+      "NCS2002-DDR= — Chassis Deep Door, Cisco NCS2002",
+      "NCS2002-DR= — Chassis Door, Cisco NCS2002",
+      "NCS2002-FTA= — Fran Tray assembly, Cisco NCS2002"
      ],
      "rules": {
-      "label": 5,
       "sku": 142
      },
      "pending_in": {}
@@ -114,13 +114,13 @@
      "family": null,
      "role": null,
      "note": null,
-     "parts": 275,
+     "parts": 261,
      "kinds": {
-      "transponder": 44,
-      "unknown": 28,
+      "transponder": 39,
+      "unknown": 21,
       "cable": 45,
       "mux": 11,
-      "roadm": 20,
+      "roadm": 18,
       "chassis": 8,
       "linecard": 17,
       "mechanical": 28,
@@ -142,13 +142,38 @@
      ],
      "rules": {
       "sku": 260,
-      "label": 15
+      "label": 1
      },
      "pending_in": {
       "interfaces-modules": 12,
       "routers": 2,
       "transceiver": 12
      }
+    },
+    {
+     "series": "ONS 15454 MSTP and NCS 2000 shared parts",
+     "family": "(shared across the line)",
+     "role": null,
+     "note": null,
+     "parts": 10,
+     "kinds": {
+      "unknown": 3,
+      "transponder": 5,
+      "cable": 2
+     },
+     "roles": {},
+     "samples": [
+      "800-103176-01 — Cisco 800-103176-01",
+      "800-39910-07 — Cisco 800-39910-07",
+      "800-41495-01 — Cisco 800-41495-01",
+      "CO-10TDL50-X1001= — 10G DWDM dispersion tolerant TRP (chirped)",
+      "CO-10TDL51-X1001= — 10G DWDM dispersion tolerant TRP (PIN)",
+      "CO-40TDL40-X1001= — 40G DWDM CP-QPSK Transponder (customer variant B)"
+     ],
+     "rules": {
+      "label-unsupported": 10
+     },
+     "pending_in": {}
     }
    ]
   },
@@ -187,7 +212,7 @@
      "series": "ONS 15216 filters, OADM, mux/demux and DCU",
      "family": null,
      "role": null,
-     "note": null,
+     "note": "^15216(?!-GBIC) (layers round 3, optical round): 15216-GBIC-1510(=) is a GBIC the transceiver round filed in GBIC (legacy); the rule claimed it",
      "parts": 308,
      "kinds": {
       "mux": 229,
@@ -278,34 +303,13 @@
   },
   {
    "line": "Routed Optical Networking",
-   "parts": 4,
+   "parts": 0,
    "series": [
-    {
-     "series": "NCS 5500 OTN interface processors",
-     "family": null,
-     "role": null,
-     "note": null,
-     "parts": 4,
-     "kinds": {
-      "linecard": 4
-     },
-     "roles": {},
-     "samples": [
-      "NC55-OIP-02 — NCS 5500, 8 ports OTU2/2e/OC192/OC48/FC MPA",
-      "NC55-OIP-02-FC — NCS 5500, 8 ports OTU2/2e/OC192/OC48/FC MPA",
-      "NC55-OIP-02-FC= — NCS 5500, 8 ports OTU2/2e/OC192/OC48/FC MPA",
-      "NC55-OIP-02= — NCS 5500, 8 ports OTU2/2e/OC192/OC48/FC MPA"
-     ],
-     "rules": {
-      "sku": 4
-     },
-     "pending_in": {}
-    },
     {
      "series": "QSFP-DD Pluggable Open Line System (QDD OLS)",
      "family": null,
      "role": null,
-     "note": "layers round 3 (15 Sep 2026): ONS-QDD-OLS= 'QSFP-DD Open Line System, Pre and Bst EDFA' and the colorless mux/dmx breakouts ONS-BRK-CS-8LC= / -16LC=, planned in from interfaces-modules (kind layer, 13 Sep) — the parts of Cisco's 'QSFP-DD Pluggable Open Line System (QDD OLS)' data sheet; the series is named for that product and is the optical round's to review",
+     "note": "layers round 3 (15 Sep 2026): ONS-QDD-OLS= 'QSFP-DD Open Line System, Pre and Bst EDFA' and the colorless mux/dmx breakouts ONS-BRK-CS-8LC= / -16LC=, planned in from interfaces-modules (kind layer, 13 Sep) — the parts of Cisco's 'QSFP-DD Pluggable Open Line System (QDD OLS)' data sheet; the series is named for that product (reviewed in the optical round: kept). The series 'NCS 5500 OTN interface processors' (^NC55-OIP, label 'Routed Optical Networking') was removed in the optical round: its four NC55-OIP-02 MPAs carry plans to routers' NCS 5500 (A.3 rule 1)",
      "parts": 0,
      "kinds": {},
      "roles": {},
@@ -325,7 +329,7 @@
      "series": "MPO / LC patchcords, attenuators and patch panels",
      "family": null,
      "role": null,
-     "note": "^ONS-CAB- places ONS-CAB-CS-LC-5= 'Duplex optical patchcord, LC to CS connectors, 5m', planned in from interfaces-modules (layers round 3, A-11)",
+     "note": "^ONS-CAB- places ONS-CAB-CS-LC-5= 'Duplex optical patchcord, LC to CS connectors, 5m', planned in from interfaces-modules (layers round 3, A-11). CXP2-MPO (layers round 3, optical round): the CXP2 alternative is for the ONS-CXP2-MPO patchcords; it claimed the CXP2 transceiver ONS-CXP2-SR25 in transceiver",
      "parts": 31,
      "kinds": {
       "cable": 31
@@ -358,6 +362,22 @@
    "action": "class",
    "to": "non_product",
    "reason": "'15454 QWEST LOCAL BUNDLE EXPANSION CLASS' — an ordering class"
+  },
+  {
+   "sku": "40-SMR1",
+   "name": "Cisco 40-SMR1",
+   "series_label": "ONS 15454 Series Multiservice Transport Platforms",
+   "action": "class",
+   "to": "non_product",
+   "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)"
+  },
+  {
+   "sku": "40-SMR2",
+   "name": "Cisco 40-SMR2",
+   "series_label": "ONS 15454 Series Multiservice Transport Platforms",
+   "action": "class",
+   "to": "non_product",
+   "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)"
   },
   {
    "sku": "A900-IMA-FILLER=",
@@ -542,6 +562,38 @@
    "action": "move",
    "to": "storage-networking",
    "reason": "MDS Fibre Channel switching module ('48-port 1/2/4-Gbps Fibre Channel Switching Module') filed under optical-networking"
+  },
+  {
+   "sku": "NC55-OIP-02",
+   "name": "NCS 5500, 8 ports OTU2/2e/OC192/OC48/FC MPA",
+   "series_label": "Routed Optical Networking",
+   "action": "move",
+   "to": "routers",
+   "reason": "an NCS 5500 modular port adapter ('NCS 5500, 8 ports OTU2/2e/OC192/OC48/FC MPA'): A.3 rule 1 puts a platform-bound part with its platform, the NCS 5500 in routers, whose NCS 5500 series already reads it (layers round 3, optical round)"
+  },
+  {
+   "sku": "NC55-OIP-02-FC",
+   "name": "NCS 5500, 8 ports OTU2/2e/OC192/OC48/FC MPA",
+   "series_label": "Routed Optical Networking",
+   "action": "move",
+   "to": "routers",
+   "reason": "an NCS 5500 modular port adapter ('NCS 5500, 8 ports OTU2/2e/OC192/OC48/FC MPA'): A.3 rule 1 puts a platform-bound part with its platform, the NCS 5500 in routers, whose NCS 5500 series already reads it (layers round 3, optical round)"
+  },
+  {
+   "sku": "NC55-OIP-02-FC=",
+   "name": "NCS 5500, 8 ports OTU2/2e/OC192/OC48/FC MPA",
+   "series_label": "Routed Optical Networking",
+   "action": "move",
+   "to": "routers",
+   "reason": "an NCS 5500 modular port adapter ('NCS 5500, 8 ports OTU2/2e/OC192/OC48/FC MPA'): A.3 rule 1 puts a platform-bound part with its platform, the NCS 5500 in routers, whose NCS 5500 series already reads it (layers round 3, optical round)"
+  },
+  {
+   "sku": "NC55-OIP-02=",
+   "name": "NCS 5500, 8 ports OTU2/2e/OC192/OC48/FC MPA",
+   "series_label": "Routed Optical Networking",
+   "action": "move",
+   "to": "routers",
+   "reason": "an NCS 5500 modular port adapter ('NCS 5500, 8 ports OTU2/2e/OC192/OC48/FC MPA'): A.3 rule 1 puts a platform-bound part with its platform, the NCS 5500 in routers, whose NCS 5500 series already reads it (layers round 3, optical round)"
   },
   {
    "sku": "NCS4200-1H-PK",
@@ -904,6 +956,30 @@
    "reason": "NCS 4200: SP access router platform, filed by Cisco under routers (kind sp-router, role sp-access)"
   },
   {
+   "sku": "ONS-CFP2-ACO-BDL",
+   "name": "WDM CFP2 Pluggable Bundle - Licensed - No Feature",
+   "series_label": "ONS 15454 Series Multiservice Transport Platforms",
+   "action": "move",
+   "to": "transceiver",
+   "reason": "a bundle of WDM CFP2 pluggables (with their licence where named): the operator's packs decision (transceiver round, decision 6) keeps a pack of optics in transceiver with the unit's kind — the unit, ONS-CFP2-WDM / -WDM2, is a transceiver `tunable`, and the pluggables filed beside these bundles already carry plans there (layers round 3, optical round)"
+  },
+  {
+   "sku": "ONS-CFP2-BUN-SK",
+   "name": "1X CFP2-WDM - 1X LIC",
+   "series_label": "ONS 15454 Series Multiservice Transport Platforms",
+   "action": "move",
+   "to": "transceiver",
+   "reason": "a bundle of WDM CFP2 pluggables (with their licence where named): the operator's packs decision (transceiver round, decision 6) keeps a pack of optics in transceiver with the unit's kind — the unit, ONS-CFP2-WDM / -WDM2, is a transceiver `tunable`, and the pluggables filed beside these bundles already carry plans there (layers round 3, optical round)"
+  },
+  {
+   "sku": "ONS-CFP2-BUN2-SK",
+   "name": "Cisco ONS-CFP2-BUN2-SK",
+   "series_label": "ONS 15454 Series Multiservice Transport Platforms",
+   "action": "move",
+   "to": "transceiver",
+   "reason": "a bundle of WDM CFP2 pluggables (with their licence where named): the operator's packs decision (transceiver round, decision 6) keeps a pack of optics in transceiver with the unit's kind — the unit, ONS-CFP2-WDM / -WDM2, is a transceiver `tunable`, and the pluggables filed beside these bundles already carry plans there (layers round 3, optical round)"
+  },
+  {
    "sku": "ONS-CFP2-WDM-1KE",
    "name": "100G QPSK / 200G 16-QAM - WDM CFP2 Pluggable, Enhanced",
    "series_label": "ONS 15454 Series Multiservice Transport Platforms",
@@ -958,6 +1034,38 @@
    "action": "move",
    "to": "transceiver",
    "reason": "coherent tunable CFP2 / CFP2-DCO pluggable filed under optical-networking ('400G CFP2 DCO Multi-rate WDM C Band Tuneable')"
+  },
+  {
+   "sku": "ONS-CFP2WDM-BUN",
+   "name": "10 x ONS-CFP2-WDM Bundle",
+   "series_label": "ONS 15454 Series Multiservice Transport Platforms",
+   "action": "move",
+   "to": "transceiver",
+   "reason": "a bundle of WDM CFP2 pluggables (with their licence where named): the operator's packs decision (transceiver round, decision 6) keeps a pack of optics in transceiver with the unit's kind — the unit, ONS-CFP2-WDM / -WDM2, is a transceiver `tunable`, and the pluggables filed beside these bundles already carry plans there (layers round 3, optical round)"
+  },
+  {
+   "sku": "ONS-CFP2WDM-BUN4",
+   "name": "4 x ONS-CFP2-WDM Bundle",
+   "series_label": "ONS 15454 Series Multiservice Transport Platforms",
+   "action": "move",
+   "to": "transceiver",
+   "reason": "a bundle of WDM CFP2 pluggables (with their licence where named): the operator's packs decision (transceiver round, decision 6) keeps a pack of optics in transceiver with the unit's kind — the unit, ONS-CFP2-WDM / -WDM2, is a transceiver `tunable`, and the pluggables filed beside these bundles already carry plans there (layers round 3, optical round)"
+  },
+  {
+   "sku": "ONS-CFP2WDM2-BUN",
+   "name": "Cisco ONS-CFP2WDM2-BUN",
+   "series_label": "ONS 15454 Series Multiservice Transport Platforms",
+   "action": "move",
+   "to": "transceiver",
+   "reason": "a bundle of WDM CFP2 pluggables (with their licence where named): the operator's packs decision (transceiver round, decision 6) keeps a pack of optics in transceiver with the unit's kind — the unit, ONS-CFP2-WDM / -WDM2, is a transceiver `tunable`, and the pluggables filed beside these bundles already carry plans there (layers round 3, optical round)"
+  },
+  {
+   "sku": "ONS-CFP2WDM2-BUN4",
+   "name": "Cisco ONS-CFP2WDM2-BUN4",
+   "series_label": "ONS 15454 Series Multiservice Transport Platforms",
+   "action": "move",
+   "to": "transceiver",
+   "reason": "a bundle of WDM CFP2 pluggables (with their licence where named): the operator's packs decision (transceiver round, decision 6) keeps a pack of optics in transceiver with the unit's kind — the unit, ONS-CFP2-WDM / -WDM2, is a transceiver `tunable`, and the pluggables filed beside these bundles already carry plans there (layers round 3, optical round)"
   },
   {
    "sku": "ONS-CPAK-LR4=",
@@ -1018,10 +1126,102 @@
  ],
  "unplaced": [],
  "label_check": {
-  "applied": false,
-  "label_placed": 0,
-  "by_kind": {},
-  "moved": []
+  "applied": true,
+  "label_placed": 12,
+  "by_kind": {
+   "none": 11,
+   "sku-token": 1
+  },
+  "moved": [
+   {
+    "sku": "4X100G-LR-S",
+    "name": "Cisco 4X100G-LR-S",
+    "series_label": "Network Convergence System 1000 Series",
+    "from_series": "NCS 1001 / 1002 / 1004 / 1010 / 1014",
+    "to_series": "NCS 1000 shared parts",
+    "why": "no platform token (1001, 1002, 1004, 1010, 1014) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "800-103176-01",
+    "name": "Cisco 800-103176-01",
+    "series_label": "Network Convergence System 2000 Series",
+    "from_series": "NCS 2000 (NCS 2002 / 2006 / 2015)",
+    "to_series": "ONS 15454 MSTP and NCS 2000 shared parts",
+    "why": "no platform token (2000, 2002, 2006, 2015) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "800-39910-07",
+    "name": "Cisco 800-39910-07",
+    "series_label": "Network Convergence System 2000 Series",
+    "from_series": "NCS 2000 (NCS 2002 / 2006 / 2015)",
+    "to_series": "ONS 15454 MSTP and NCS 2000 shared parts",
+    "why": "no platform token (2000, 2002, 2006, 2015) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "800-41495-01",
+    "name": "Cisco 800-41495-01",
+    "series_label": "Network Convergence System 2000 Series",
+    "from_series": "NCS 2000 (NCS 2002 / 2006 / 2015)",
+    "to_series": "ONS 15454 MSTP and NCS 2000 shared parts",
+    "why": "no platform token (2000, 2002, 2006, 2015) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "CO-10TDL50-X1001=",
+    "name": "10G DWDM dispersion tolerant TRP (chirped)",
+    "series_label": "ONS 15454 Series Multiservice Transport Platforms",
+    "from_series": "ONS 15454 MSTP (M2 / M6 / M12 shelves and cards)",
+    "to_series": "ONS 15454 MSTP and NCS 2000 shared parts",
+    "why": "no platform token (15454) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "CO-10TDL51-X1001=",
+    "name": "10G DWDM dispersion tolerant TRP (PIN)",
+    "series_label": "ONS 15454 Series Multiservice Transport Platforms",
+    "from_series": "ONS 15454 MSTP (M2 / M6 / M12 shelves and cards)",
+    "to_series": "ONS 15454 MSTP and NCS 2000 shared parts",
+    "why": "no platform token (15454) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "CO-40TDL40-X1001=",
+    "name": "40G DWDM CP-QPSK Transponder (customer variant B)",
+    "series_label": "ONS 15454 Series Multiservice Transport Platforms",
+    "from_series": "ONS 15454 MSTP (M2 / M6 / M12 shelves and cards)",
+    "to_series": "ONS 15454 MSTP and NCS 2000 shared parts",
+    "why": "no platform token (15454) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "CO-40TDL40-X1010=",
+    "name": "40G DWDM CP-QPSK Transponder (customer variant C)",
+    "series_label": "ONS 15454 Series Multiservice Transport Platforms",
+    "from_series": "ONS 15454 MSTP (M2 / M6 / M12 shelves and cards)",
+    "to_series": "ONS 15454 MSTP and NCS 2000 shared parts",
+    "why": "no platform token (15454) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "CO-40TDL40-X2110=",
+    "name": "40G module for NSN, variant X2110 (NeoPhotonics)",
+    "series_label": "ONS 15454 Series Multiservice Transport Platforms",
+    "from_series": "ONS 15454 MSTP (M2 / M6 / M12 shelves and cards)",
+    "to_series": "ONS 15454 MSTP and NCS 2000 shared parts",
+    "why": "no platform token (15454) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "ONS-MPO-16LC-2=",
+    "name": "16-fiber MPO to 16xLC Fan-Out MPO cable - 2m",
+    "series_label": "Network Convergence System 2000 Series",
+    "from_series": "NCS 2000 (NCS 2002 / 2006 / 2015)",
+    "to_series": "ONS 15454 MSTP and NCS 2000 shared parts",
+    "why": "no platform token (2000, 2002, 2006, 2015) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "ONS-MPO24-2MPO12=",
+    "name": "Two 40G SR4 to 100G SR10, 2x12MPO-24MPO 20m CPAK cable",
+    "series_label": "Network Convergence System 2000 Series",
+    "from_series": "NCS 2000 (NCS 2002 / 2006 / 2015)",
+    "to_series": "ONS 15454 MSTP and NCS 2000 shared parts",
+    "why": "no platform token (2000, 2002, 2006, 2015) in the SKU or name, no compatible part placed in the series"
+   }
+  ]
  },
  "pending_review": [],
  "inbound_unplaced": {},

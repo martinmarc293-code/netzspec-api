@@ -1,8 +1,8 @@
 {
  "vendor": "cisco",
  "category": "switches",
- "built_at": "2026-09-15T10:45:18.873Z",
- "commit": "4bbc9fb03a996ea73f16677f9cda0e0e82221a16",
+ "built_at": "2026-09-15T10:58:59.206Z",
+ "commit": "4071ca68fce49f9895a1ac101635b6dd37db71a7",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-switches.json",
  "parts": 7507,

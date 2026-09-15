@@ -1,8 +1,8 @@
 {
  "vendor": "cisco",
  "category": "transceiver",
- "built_at": "2026-09-15T10:45:20.872Z",
- "commit": "4bbc9fb03a996ea73f16677f9cda0e0e82221a16",
+ "built_at": "2026-09-15T10:59:01.622Z",
+ "commit": "4071ca68fce49f9895a1ac101635b6dd37db71a7",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-transceiver.json",
  "parts": 2107,
@@ -15,7 +15,7 @@
      "series": "DAC and AOC cables (SFP+ / SFP28 / SFP56 / QSFP / QSFP-DD)",
      "family": null,
      "role": null,
-     "note": "same-cage cables only. A breakout (one QSFP / QSFP-DD host cage fanned out to 2 or 4 smaller cages: QSFP-4SFP25G-CU1M, QSFP-4X10G-AOC1M, QDD-4ZQ100-CU1M) is refused by the lookahead and placed in its host cage's speed series with kind breakout-cable (operator, layers round 3); the standing check asserts no breakout-cable row sits here",
+     "note": "same-cage cables only. A breakout (one QSFP / QSFP-DD host cage fanned out to 2 or 4 smaller cages: QSFP-4SFP25G-CU1M, QSFP-4X10G-AOC1M, QDD-4ZQ100-CU1M) is refused by the lookahead and placed in its host cage's speed series with kind breakout-cable (operator, layers round 3); the standing check asserts no breakout-cable row sits here. (?<!E)CU (layers round 3, optical round): the copper-DAC rule claimed the External Connection Units 15454-M6-ECU2, NCS2006-ECU60-S= and NCS4K-ECU2 in optical-networking",
      "parts": 158,
      "kinds": {
       "cable": 158
@@ -206,7 +206,7 @@
      },
      "pending_in": {
       "routers": 2,
-      "optical-networking": 11,
+      "optical-networking": 18,
       "switches": 6
      }
     }

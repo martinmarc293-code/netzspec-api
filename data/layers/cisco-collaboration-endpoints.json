@@ -1,8 +1,8 @@
 {
  "vendor": "cisco",
  "category": "collaboration-endpoints",
- "built_at": "2026-09-15T10:45:20.641Z",
- "commit": "4bbc9fb03a996ea73f16677f9cda0e0e82221a16",
+ "built_at": "2026-09-15T10:59:01.431Z",
+ "commit": "4071ca68fce49f9895a1ac101635b6dd37db71a7",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-collaboration-endpoints.json",
  "parts": 2835,

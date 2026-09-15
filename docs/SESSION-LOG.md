@@ -4,6 +4,11 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-15 (day, 6) - Opus/PARENT. Layers round 3, optical-networking block done: rules `4071ca6`, pages rebuilt at that commit; record `docs/decisions/2026-09-15-layers-round3-optical-networking.md`. No database write.**
+  - **Applied:** family_layer assigned; the transceiver round's claimant fences (`^15216(?!-GBIC)`, `CXP2-MPO`); transceiver DAC rule `(?<!E)CU`; 13 plans (CFP2 bundles → transceiver by the packs decision, NC55-OIP MPAs → routers by A.3 rule 1, 40-SMR1 / 2 placeholders); EWDM and QDD OLS series reviewed and kept.
+  - **Verified:** layersStanding 591/0 (11 reviewed); productLine 340/0; opticalKind 195/0; typecheck clean; `npm test` 66/71, reds identical; other published pages 0 row changes. Dry runs matched (optical 96).
+  - **Traps hit:** productLine witnesses typed from memory named a line that does not exist ("ONS and NCS 2000 pluggables") and SKUs that are not rows; the test caught the line, a row lookup caught the SKUs.
+  - **Next:** storage-networking (its MDS digit rules claim rows in servers 10, wireless, video — fence them), then unified-communications, collaboration-endpoints, meraki, conferencing + data-center-networking.
 - **2026-09-15 (day, 5) - Opus/PARENT. Layers round 3, video block done: rules `4bbc9fb`, pages rebuilt at that commit; record `docs/decisions/2026-09-15-layers-round3-video.md`. No database write, no plans added.**
   - **Applied:** family_layer assigned ("—" with reasons); the operator's RPHY fence `^RPHY(?!-S10G-)` (63-row claim gone); DEVICE_KINDS + node / system; three Prisma II chassis rows out of shared parts by their end-of-sale notices; 4035899 → Prisma D-PON (its notice names it).
   - **Verified:** layersStanding 566/0 (10 reviewed); productLine 332/0; videoKind 266/0; typecheck clean; `npm test` 66/71, reds identical; other published pages 0 row changes. Dry run: video → transceiver 57/57.
