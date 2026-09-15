@@ -1,8 +1,8 @@
 {
  "vendor": "cisco",
  "category": "interfaces-modules",
- "built_at": "2026-09-15T11:10:38.737Z",
- "commit": "9048d2d7f3be223cc8fa84785f806405d8b1a6aa",
+ "built_at": "2026-09-15T11:25:53.060Z",
+ "commit": "0eecef097b60c600545a6854270d27123ad094c5",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-interfaces-modules.json",
  "parts": 1400,
@@ -63,7 +63,7 @@
       "sku": 76
      },
      "pending_in": {
-      "unified-communications": 5,
+      "unified-communications": 7,
       "servers-unified-computing": 11,
       "security": 3
      }

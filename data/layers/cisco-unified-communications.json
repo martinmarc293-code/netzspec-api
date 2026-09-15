@@ -1,15 +1,15 @@
 {
  "vendor": "cisco",
  "category": "unified-communications",
- "built_at": "2026-09-15T11:10:39.164Z",
- "commit": "9048d2d7f3be223cc8fa84785f806405d8b1a6aa",
+ "built_at": "2026-09-15T11:25:53.456Z",
+ "commit": "0eecef097b60c600545a6854270d27123ad094c5",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-unified-communications.json",
  "parts": 497,
  "lines": [
   {
    "line": "Voice Gateways",
-   "parts": 89,
+   "parts": 87,
    "series": [
     {
      "series": "VG200 / VG202 / VG204 / VG224",
@@ -89,17 +89,35 @@
      "pending_in": {}
     },
     {
+     "series": "VG-2BRI Euro-ISDN Media Gateway",
+     "family": null,
+     "role": null,
+     "note": "layers round 3, UC round: Cisco's 'Euro-ISDN Media Gateway VG-2BRI' end-of-sale notice names the product; VG-2BRI and VG-2BRI-R sat in the line's shared parts by their label (gateways in shared parts, which the device check names)",
+     "parts": 2,
+     "kinds": {
+      "gateway": 2
+     },
+     "roles": {},
+     "samples": [
+      "VG-2BRI — Euro-ISDN Media Gateway, 2 BRI",
+      "VG-2BRI-R — Euro-ISDN Media Gateway, 2 BRI - RMCS"
+     ],
+     "rules": {
+      "sku": 2
+     },
+     "pending_in": {}
+    },
+    {
      "series": "Voice Gateways shared parts",
      "family": "(shared across the line)",
      "role": null,
      "note": "MEM-243-* (IAD2430 integrated access device DRAM and flash, moved in from routers by run #1074): the IAD2430 itself is not in the catalogue, so its memory sits with the line's shared parts",
-     "parts": 13,
+     "parts": 9,
      "kinds": {
       "memory": 2,
       "flash": 3,
       "power": 3,
-      "mechanical": 3,
-      "gateway": 2
+      "mechanical": 1
      },
      "roles": {},
      "samples": [
@@ -112,8 +130,7 @@
      ],
      "rules": {
       "sku": 5,
-      "label": 6,
-      "accessory": 2
+      "label": 4
      },
      "pending_in": {}
     }
@@ -196,14 +213,13 @@
      "pending_in": {}
     },
     {
-     "series": "Analog Telephone Adapters and SPA shared parts",
-     "family": "(shared across the line)",
+     "series": "SPA232D Multi-Line DECT ATA",
+     "family": null,
      "role": null,
-     "note": null,
-     "parts": 24,
+     "note": "layers round 3, UC round: named by Cisco's 'SPA232D Multi-Line DECT ATA and SPA302D Multi-Line DECT Handset' end-of-sale notice; the nine SPA232D rows sat in the line's shared parts by their label (ATAs in shared parts)",
+     "parts": 9,
      "kinds": {
-      "ata": 17,
-      "gateway": 7
+      "ata": 9
      },
      "roles": {},
      "samples": [
@@ -215,7 +231,53 @@
       "SPA232D-R1 — Multi-Line DECT ATA"
      ],
      "rules": {
-      "label": 24
+      "sku": 9
+     },
+     "pending_in": {}
+    },
+    {
+     "series": "SPA8000 / SPA8800 IP Telephony Gateways",
+     "family": null,
+     "role": null,
+     "note": "layers round 3, UC round: named by Cisco's 'IP Telephony Gateway SPA8000 and SPA8800' end-of-sale notice; the seven rows sat in the line's shared parts by their label (gateways in shared parts)",
+     "parts": 7,
+     "kinds": {
+      "gateway": 7
+     },
+     "roles": {},
+     "samples": [
+      "SPA8000-BR — 8-Port IP Telephony Gateway",
+      "SPA8000-G1 — 8-Port IP Telephony Gateway",
+      "SPA8000-G4 — 8-Port IP Telephony Gateway",
+      "SPA8000-G5 — 8-Port IP Telephony Gateway",
+      "SPA8000-XU — 8-Port IP Telephony Gateway, SRTP Removed",
+      "SPA8800 — IP Telephony Gateway with 4 FXS and 4 FXO Ports"
+     ],
+     "rules": {
+      "sku": 7
+     },
+     "pending_in": {}
+    },
+    {
+     "series": "WRP400 / WRP500 Broadband Routers with 2 Phone Ports",
+     "family": null,
+     "role": null,
+     "note": "layers round 3, UC round: named by Cisco's 'WRP400 Wireless-G' and 'WRP500 Wireless-AC Broadband Router with 2 Phone Ports' end-of-sale notices; the eight rows (kind ata) sat in the line's shared parts by their label. With the SPA232D, SPA8000 / SPA8800 and WRP series placed, the line's shared-parts entry (label 'Small Business Voice Gateways and ATAs') held no row and was removed",
+     "parts": 8,
+     "kinds": {
+      "ata": 8
+     },
+     "roles": {},
+     "samples": [
+      "WRP400-G1 — Wireless-G Broadband Router with 2 Phone Ports",
+      "WRP400-G2 — Wireless-G Broadband Router with 2 Phone Ports",
+      "WRP400-G3 — WRP400-G3, V1.0, Wireless-G Broadband Router, 2 Phone Ports",
+      "WRP400-G4 — Wireless-G Broadband Router with 2 Phone Ports",
+      "WRP400-R2 — Wireless-G Broadband Router with 2 Phone Ports",
+      "WRP500-A-K9 — Wireless Router for NA; Pb-Free"
+     ],
+     "rules": {
+      "sku": 8
      },
      "pending_in": {}
     }
@@ -260,16 +322,16 @@
      "series": "Business Edition 6000 (BE6K / BE6M / BE6H / BE6S)",
      "family": null,
      "role": null,
-     "note": null,
-     "parts": 68,
+     "note": "^UCSC-C220-M3SBE (layers round 3, UC round): 'UCS C220 M3 SFF TRC2 Server', the C220 M3S Tested Reference Configuration for Collaboration (its end-of-sale notice) whose successor is BE6M-M4-K9=; the label check found no 6000 in its name and held the server for review",
+     "parts": 62,
      "kinds": {
       "server": 24,
       "nic": 2,
-      "cpu": 5,
-      "drive": 9,
-      "power": 5,
-      "storage-controller": 6,
-      "memory": 10,
+      "cpu": 4,
+      "drive": 8,
+      "power": 4,
+      "storage-controller": 4,
+      "memory": 9,
       "tpm": 1,
       "unknown": 1,
       "mechanical": 1,
@@ -285,8 +347,34 @@
       "BE6K-CPU — 2.2 GHz 4114/85W 10C/13.75MB Cache/DDR4 2400MHz"
      ],
      "rules": {
-      "sku": 61,
-      "label": 7
+      "sku": 62
+     },
+     "pending_in": {}
+    },
+    {
+     "series": "Business Edition shared parts",
+     "family": "(shared across the line)",
+     "role": null,
+     "note": null,
+     "parts": 6,
+     "kinds": {
+      "drive": 1,
+      "cpu": 1,
+      "memory": 1,
+      "power": 1,
+      "storage-controller": 2
+     },
+     "roles": {},
+     "samples": [
+      "UC-A03-D500GC3 — 500GB 6Gb SATA 7.2K RPM SFF Hot Plug/Drive Sled Mounted",
+      "UC-CPU-E5-2609 — 2.4 GHz E5-2609/80W 4C/10MB Cache/DDR3 1066MHz",
+      "UC-MR-1X082RY-A — 8GB DDR3-1600-MHz RDIMM/PC3-12800/Dual Rank/1.35v",
+      "UC-PSU-650W — 650W Power Supply Unit For UCSC C220 Rack Server",
+      "UC-RAID-9266 — MegaRAID 9266-8i + Battery Backup for C240 and C220",
+      "UC-RAID-9271 — MegaRAID 9271-8i + Battery Backup for C240 and C220"
+     ],
+     "rules": {
+      "label-unsupported": 6
      },
      "pending_in": {}
     }
@@ -300,7 +388,7 @@
      "series": "Expressway appliances (CE1100 / CE1200)",
      "family": null,
      "role": null,
-     "note": null,
+     "note": "^EXP-(?![0-9]+GSFP) (layers round 3, UC round): the rule claimed the Expressway SFPs EXP-1GSFP-T(=) that the transceiver round filed as transceivers",
      "parts": 45,
      "kinds": {
       "mechanical": 3,
@@ -332,7 +420,7 @@
      "series": "TelePresence VCS appliances",
      "family": null,
      "role": null,
-     "note": null,
+     "note": "^CE-(?![0-9]+GSFP) (layers round 3, UC round): the rule claimed the CE-10GSFP-SR / CE-1GSFP-T optics that the transceiver round filed as transceivers",
      "parts": 28,
      "kinds": {
       "cpu": 1,
@@ -372,9 +460,8 @@
      "family": null,
      "role": null,
      "note": null,
-     "parts": 38,
+     "parts": 36,
      "kinds": {
-      "accessory": 2,
       "server": 15,
       "drive": 4,
       "storage-controller": 2,
@@ -383,16 +470,34 @@
      },
      "roles": {},
      "samples": [
-      "KEY-CCM-ADMIN-K9= — CUCM Admin Security Token, 4.3, 6.0, or Newer, CoO USA",
-      "KEY-UCM-ADMIN2-K9= — CUCM Admin Security Token, 7.1 or Newer",
       "MCS-7825-I5-IPC1 — Cisco MCS-7825-I5-IPC1",
       "MCS-7825H-3.0-ECSP — MCS 7825 Unity; 512MB; RAID 1; Win2K",
       "MCS-7835-I3-IPC1 — Cisco MCS-7835-I3-IPC1",
-      "MCS-EXT-DAT — External DAT tape drive for MCS servers"
+      "MCS-EXT-DAT — External DAT tape drive for MCS servers",
+      "MCS-EXT-DAT= — External DAT tape drive for MCS servers",
+      "MCS-EXT-SCSI — SCSI card option for external DAT drive"
      ],
      "rules": {
-      "label": 2,
       "sku": 36
+     },
+     "pending_in": {}
+    },
+    {
+     "series": "Unity Connection and MCS servers shared parts",
+     "family": "(shared across the line)",
+     "role": null,
+     "note": null,
+     "parts": 2,
+     "kinds": {
+      "accessory": 2
+     },
+     "roles": {},
+     "samples": [
+      "KEY-CCM-ADMIN-K9= — CUCM Admin Security Token, 4.3, 6.0, or Newer, CoO USA",
+      "KEY-UCM-ADMIN2-K9= — CUCM Admin Security Token, 7.1 or Newer"
+     ],
+     "rules": {
+      "label-unsupported": 2
      },
      "pending_in": {}
     }
@@ -429,85 +534,7 @@
    ]
   }
  ],
- "not_this_category": [
-  {
-   "sku": "CP-6921-C-K9-APACP",
-   "name": "Cisco UC Phone 6921, Charcoal, Std handset, APAC",
-   "series_label": "Unified Communications Manager (CallManager)",
-   "why": "Cisco IP phone filed under a UC software label (Unified Communications Manager)",
-   "belongs": "collaboration-endpoints"
-  },
-  {
-   "sku": "CP-6921-C-K9-LATAM",
-   "name": "Cisco UC Phone 6921, Charcoal, Std Handset, LATAM",
-   "series_label": "Unified Communications Manager (CallManager)",
-   "why": "Cisco IP phone filed under a UC software label (Unified Communications Manager)",
-   "belongs": "collaboration-endpoints"
-  },
-  {
-   "sku": "CP-6921-CL-K9-APAC",
-   "name": "Cisco Unified IP Phone 6921, Charcoal, light handset, APAC",
-   "series_label": "Unified Communications Manager (CallManager)",
-   "why": "Cisco IP phone filed under a UC software label (Unified Communications Manager)",
-   "belongs": "collaboration-endpoints"
-  },
-  {
-   "sku": "CP-6921-CLK9-APACP",
-   "name": "Cisco UC Phone 6921, Charcoal, light handset, APAC",
-   "series_label": "Unified Communications Manager (CallManager)",
-   "why": "Cisco IP phone filed under a UC software label (Unified Communications Manager)",
-   "belongs": "collaboration-endpoints"
-  },
-  {
-   "sku": "CP-6921-CLK9-LATAM",
-   "name": "Cisco UC Phone 6921, Charcoal, Slimline Hdst, LATAM",
-   "series_label": "Unified Communications Manager (CallManager)",
-   "why": "Cisco IP phone filed under a UC software label (Unified Communications Manager)",
-   "belongs": "collaboration-endpoints"
-  },
-  {
-   "sku": "CP-6921-W-K9-APACP",
-   "name": "Cisco UC Phone 6921, White, Std handset, APAC",
-   "series_label": "Unified Communications Manager (CallManager)",
-   "why": "Cisco IP phone filed under a UC software label (Unified Communications Manager)",
-   "belongs": "collaboration-endpoints"
-  },
-  {
-   "sku": "CP-6921-WLK9-APACP",
-   "name": "Cisco UC Phone 6921, White, light handset, APAC",
-   "series_label": "Unified Communications Manager (CallManager)",
-   "why": "Cisco IP phone filed under a UC software label (Unified Communications Manager)",
-   "belongs": "collaboration-endpoints"
-  },
-  {
-   "sku": "CP-6941-C-K9-LATAM",
-   "name": "Cisco UC Phone 6941, Charcoal, Std Handset, LATAM",
-   "series_label": "Unified Communications Manager (CallManager)",
-   "why": "Cisco IP phone filed under a UC software label (Unified Communications Manager)",
-   "belongs": "collaboration-endpoints"
-  },
-  {
-   "sku": "CP-6941-CLK9-LATAM",
-   "name": "Cisco UC Phone 6941, Charcoal, Slimline Hdst, LATAM",
-   "series_label": "Unified Communications Manager (CallManager)",
-   "why": "Cisco IP phone filed under a UC software label (Unified Communications Manager)",
-   "belongs": "collaboration-endpoints"
-  },
-  {
-   "sku": "CP-7941G-PROMO",
-   "name": "Cisco Unified IP Phone 7941G With License - Special Bundle",
-   "series_label": "Unified Communications Manager (CallManager)",
-   "why": "Cisco IP phone filed under a UC software label (Unified Communications Manager)",
-   "belongs": "collaboration-endpoints"
-  },
-  {
-   "sku": "CP-7942G-APACSP",
-   "name": "Cisco UC phone 7942G AsiaPac Bundle",
-   "series_label": "Unified Communications Manager (CallManager)",
-   "why": "Cisco IP phone filed under a UC software label (Unified Communications Manager)",
-   "belongs": "collaboration-endpoints"
-  }
- ],
+ "not_this_category": [],
  "pending_plans": [
   {
    "sku": "ACS-4460-FANASSY",
@@ -558,6 +585,78 @@
    "reason": "device subscription (MLB)"
   },
   {
+   "sku": "CP-6921-C-K9-APACP",
+   "name": "Cisco UC Phone 6921, Charcoal, Std handset, APAC",
+   "series_label": "Unified Communications Manager (CallManager)",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "Cisco IP phone filed under a UC software label (Unified Communications Manager): its category is collaboration-endpoints, whose IP Phone series place it (the exclusion's reason, now a plan — layers round 3, unified-communications round)"
+  },
+  {
+   "sku": "CP-6921-C-K9-LATAM",
+   "name": "Cisco UC Phone 6921, Charcoal, Std Handset, LATAM",
+   "series_label": "Unified Communications Manager (CallManager)",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "Cisco IP phone filed under a UC software label (Unified Communications Manager): its category is collaboration-endpoints, whose IP Phone series place it (the exclusion's reason, now a plan — layers round 3, unified-communications round)"
+  },
+  {
+   "sku": "CP-6921-CL-K9-APAC",
+   "name": "Cisco Unified IP Phone 6921, Charcoal, light handset, APAC",
+   "series_label": "Unified Communications Manager (CallManager)",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "Cisco IP phone filed under a UC software label (Unified Communications Manager): its category is collaboration-endpoints, whose IP Phone series place it (the exclusion's reason, now a plan — layers round 3, unified-communications round)"
+  },
+  {
+   "sku": "CP-6921-CLK9-APACP",
+   "name": "Cisco UC Phone 6921, Charcoal, light handset, APAC",
+   "series_label": "Unified Communications Manager (CallManager)",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "Cisco IP phone filed under a UC software label (Unified Communications Manager): its category is collaboration-endpoints, whose IP Phone series place it (the exclusion's reason, now a plan — layers round 3, unified-communications round)"
+  },
+  {
+   "sku": "CP-6921-CLK9-LATAM",
+   "name": "Cisco UC Phone 6921, Charcoal, Slimline Hdst, LATAM",
+   "series_label": "Unified Communications Manager (CallManager)",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "Cisco IP phone filed under a UC software label (Unified Communications Manager): its category is collaboration-endpoints, whose IP Phone series place it (the exclusion's reason, now a plan — layers round 3, unified-communications round)"
+  },
+  {
+   "sku": "CP-6921-W-K9-APACP",
+   "name": "Cisco UC Phone 6921, White, Std handset, APAC",
+   "series_label": "Unified Communications Manager (CallManager)",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "Cisco IP phone filed under a UC software label (Unified Communications Manager): its category is collaboration-endpoints, whose IP Phone series place it (the exclusion's reason, now a plan — layers round 3, unified-communications round)"
+  },
+  {
+   "sku": "CP-6921-WLK9-APACP",
+   "name": "Cisco UC Phone 6921, White, light handset, APAC",
+   "series_label": "Unified Communications Manager (CallManager)",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "Cisco IP phone filed under a UC software label (Unified Communications Manager): its category is collaboration-endpoints, whose IP Phone series place it (the exclusion's reason, now a plan — layers round 3, unified-communications round)"
+  },
+  {
+   "sku": "CP-6941-C-K9-LATAM",
+   "name": "Cisco UC Phone 6941, Charcoal, Std Handset, LATAM",
+   "series_label": "Unified Communications Manager (CallManager)",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "Cisco IP phone filed under a UC software label (Unified Communications Manager): its category is collaboration-endpoints, whose IP Phone series place it (the exclusion's reason, now a plan — layers round 3, unified-communications round)"
+  },
+  {
+   "sku": "CP-6941-CLK9-LATAM",
+   "name": "Cisco UC Phone 6941, Charcoal, Slimline Hdst, LATAM",
+   "series_label": "Unified Communications Manager (CallManager)",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "Cisco IP phone filed under a UC software label (Unified Communications Manager): its category is collaboration-endpoints, whose IP Phone series place it (the exclusion's reason, now a plan — layers round 3, unified-communications round)"
+  },
+  {
    "sku": "CP-7811-3PW-NA-MK9",
    "name": "MLB Subscription - Phone 7811",
    "series_label": "Spark Flex Plan",
@@ -596,6 +695,22 @@
    "action": "class",
    "to": "license",
    "reason": "device subscription (MLB)"
+  },
+  {
+   "sku": "CP-7941G-PROMO",
+   "name": "Cisco Unified IP Phone 7941G With License - Special Bundle",
+   "series_label": "Unified Communications Manager (CallManager)",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "Cisco IP phone filed under a UC software label (Unified Communications Manager): its category is collaboration-endpoints, whose IP Phone series place it (the exclusion's reason, now a plan — layers round 3, unified-communications round)"
+  },
+  {
+   "sku": "CP-7942G-APACSP",
+   "name": "Cisco UC phone 7942G AsiaPac Bundle",
+   "series_label": "Unified Communications Manager (CallManager)",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "Cisco IP phone filed under a UC software label (Unified Communications Manager): its category is collaboration-endpoints, whose IP Phone series place it (the exclusion's reason, now a plan — layers round 3, unified-communications round)"
   },
   {
    "sku": "CP-8800-A-KEM-M3PC",
@@ -894,6 +1009,22 @@
    "reason": "router interface card (SM-X / SM): one home for NIM/SPA/EPA/HWIC/PVDM/VIC/SM-X is interfaces-modules (layers review 14 Sep 2026, item 7)"
   },
   {
+   "sku": "SM-DW-BLANK",
+   "name": "Double Wide Service Module Blank Cover",
+   "series_label": "VG Series Gateways",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "a blank cover for a double-wide service-module slot — the slot of the ISR G2 2900 / 3900 routers and the VG350 gateway built on them; A.3 rule 1 puts a multi-platform router slot part in interfaces-modules, which holds the SM slot blanks SM-S-BLANK and SM-BLANK-KIT= (layers round 3, unified-communications round)"
+  },
+  {
+   "sku": "SM-DW-BLANK=",
+   "name": "Double Wide Service Module Blank Cover",
+   "series_label": "VG Series Gateways",
+   "action": "move",
+   "to": "interfaces-modules",
+   "reason": "a blank cover for a double-wide service-module slot — the slot of the ISR G2 2900 / 3900 routers and the VG350 gateway built on them; A.3 rule 1 puts a multi-platform router slot part in interfaces-modules, which holds the SM slot blanks SM-S-BLANK and SM-BLANK-KIT= (layers round 3, unified-communications round)"
+  },
+  {
    "sku": "SM-X-NIM-ADPTR",
    "name": "SM-X Adapter for one NIM module for Cisco 4000 Series ISR",
    "series_label": "TDM Gateways",
@@ -976,10 +1107,79 @@
  ],
  "unplaced": [],
  "label_check": {
-  "applied": false,
-  "label_placed": 0,
-  "by_kind": {},
-  "moved": []
+  "applied": true,
+  "label_placed": 16,
+  "by_kind": {
+   "name": 4,
+   "none": 8,
+   "sku-token": 4
+  },
+  "moved": [
+   {
+    "sku": "KEY-CCM-ADMIN-K9=",
+    "name": "CUCM Admin Security Token, 4.3, 6.0, or Newer, CoO USA",
+    "series_label": "Unified Communications Manager (CallManager)",
+    "from_series": "Unity Connection PIMG gateways and MCS servers",
+    "to_series": "Unity Connection and MCS servers shared parts",
+    "why": "no series token in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "KEY-UCM-ADMIN2-K9=",
+    "name": "CUCM Admin Security Token, 7.1 or Newer",
+    "series_label": "Unified Communications Manager Session Management Edition",
+    "from_series": "Unity Connection PIMG gateways and MCS servers",
+    "to_series": "Unity Connection and MCS servers shared parts",
+    "why": "no series token in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "UC-A03-D500GC3",
+    "name": "500GB 6Gb SATA 7.2K RPM SFF Hot Plug/Drive Sled Mounted",
+    "series_label": "Business Edition 6000",
+    "from_series": "Business Edition 6000 (BE6K / BE6M / BE6H / BE6S)",
+    "to_series": "Business Edition shared parts",
+    "why": "no platform token (6000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "UC-CPU-E5-2609",
+    "name": "2.4 GHz E5-2609/80W 4C/10MB Cache/DDR3 1066MHz",
+    "series_label": "Business Edition 6000",
+    "from_series": "Business Edition 6000 (BE6K / BE6M / BE6H / BE6S)",
+    "to_series": "Business Edition shared parts",
+    "why": "no platform token (6000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "UC-MR-1X082RY-A",
+    "name": "8GB DDR3-1600-MHz RDIMM/PC3-12800/Dual Rank/1.35v",
+    "series_label": "Business Edition 6000",
+    "from_series": "Business Edition 6000 (BE6K / BE6M / BE6H / BE6S)",
+    "to_series": "Business Edition shared parts",
+    "why": "no platform token (6000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "UC-PSU-650W",
+    "name": "650W Power Supply Unit For UCSC C220 Rack Server",
+    "series_label": "Business Edition 6000",
+    "from_series": "Business Edition 6000 (BE6K / BE6M / BE6H / BE6S)",
+    "to_series": "Business Edition shared parts",
+    "why": "no platform token (6000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "UC-RAID-9266",
+    "name": "MegaRAID 9266-8i + Battery Backup for C240 and C220",
+    "series_label": "Business Edition 6000",
+    "from_series": "Business Edition 6000 (BE6K / BE6M / BE6H / BE6S)",
+    "to_series": "Business Edition shared parts",
+    "why": "no platform token (6000) in the SKU or name, no compatible part placed in the series"
+   },
+   {
+    "sku": "UC-RAID-9271",
+    "name": "MegaRAID 9271-8i + Battery Backup for C240 and C220",
+    "series_label": "Business Edition 6000",
+    "from_series": "Business Edition 6000 (BE6K / BE6M / BE6H / BE6S)",
+    "to_series": "Business Edition shared parts",
+    "why": "no platform token (6000) in the SKU or name, no compatible part placed in the series"
+   }
+  ]
  },
  "pending_review": [],
  "inbound_unplaced": {},

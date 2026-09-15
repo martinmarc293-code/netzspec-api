@@ -4,6 +4,11 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-15 (day, 8) - Opus/PARENT. Layers round 3, unified-communications block done: rules `0eecef0`, pages rebuilt at that commit; record `docs/decisions/2026-09-15-layers-round3-unified-communications.md`. No database write.**
+  - **Applied:** family_layer assigned; DEVICE_KINDS + phone / gateway / ata (26 rows named → four series named by Cisco's end-of-sale notices; a held C220 TRC server → BE6000); `^CE-` / `^EXP-` optic fences; 13 plans (CP- phones → collaboration-endpoints, SM-DW-BLANK → interfaces-modules).
+  - **Verified:** layersStanding 636/0 (13 reviewed); productLine 354/0; collabKind 319/0; source-scan 8/0; typecheck clean; `npm test` 66/71, reds identical; other published pages 0 row changes. Dry runs matched (UC 71).
+  - **Traps hit:** a witness-name fix went through `sed -i` against the house rule (plain text, no backslash; the control-character scan and the test run confirm the file) — the Edit tool for the second line.
+  - **Next:** collaboration-endpoints (the video endpoints and room peripherals: video-device / video-codec / camera / microphone / display / expansion-module rows in shared parts), then meraki, conferencing + data-center-networking.
 - **2026-09-15 (day, 7) - Opus/PARENT. Layers round 3, storage-networking block done: rules `9048d2d`, pages rebuilt at that commit; record `docs/decisions/2026-09-15-layers-round3-storage-networking.md`. No database write, no plans added.**
   - **Applied:** family_layer assigned; the MDS 9100 / 9200 / 9300 digit rules fenced to DS- / MDS- PIDs (six recorded claim entries on wireless, switches, servers and video gone); DEVICE_KINDS + fc-switch / director; SAN50C-R (IBM's 9250i, in Cisco's notice) → MDS 9200; a redundant rule removed.
   - **Verified:** layersStanding 603/0 (12 reviewed); productLine 346/0; sanKind 101/0; typecheck clean; `npm test` 66/71, reds identical; other published pages 0 row changes. Dry runs matched (2).

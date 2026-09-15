@@ -1,8 +1,8 @@
 {
  "vendor": "cisco",
  "category": "collaboration-endpoints",
- "built_at": "2026-09-15T11:10:38.054Z",
- "commit": "9048d2d7f3be223cc8fa84785f806405d8b1a6aa",
+ "built_at": "2026-09-15T11:25:52.452Z",
+ "commit": "0eecef097b60c600545a6854270d27123ad094c5",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-collaboration-endpoints.json",
  "parts": 2835,
@@ -1065,7 +1065,9 @@
      "rules": {
       "sku": 34
      },
-     "pending_in": {}
+     "pending_in": {
+      "unified-communications": 9
+     }
     },
     {
      "series": "IP Conference Phone 7832",
@@ -1194,7 +1196,9 @@
      "rules": {
       "sku": 72
      },
-     "pending_in": {}
+     "pending_in": {
+      "unified-communications": 2
+     }
     },
     {
      "series": "Wireless IP Phone 8821",

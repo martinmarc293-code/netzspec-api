@@ -81,15 +81,15 @@ BE7M-M6-XU	Cisco Business Edition 7000M (M6) Appliance, Exp Unrestr SW	Business 
 BE7M-M7-K9	Cisco Business Edition 7000M Svr (M7), Export Restricted SW	Business Edition 7000	server	layered	Business Edition		Business Edition 7000 (BE7K / BE7M / BE7H)	sku ^BE7						
 BE7M-M7-XU	Cisco Business Edition 7000M Svr (M7), Export Unrestricted SW	Business Edition 7000	server	layered	Business Edition		Business Edition 7000 (BE7K / BE7M / BE7H)	sku ^BE7						
 C3945-112FXS/K9	High Density Analog Voice Gateway	VG Series Gateways	gateway	pending_plan								move routers		
-CE-CPU-E5-2643	3.30 GHz E5-2643/130W 4C/10MB Cache/DDR3 1600MHz	TelePresence Video Communication Server (VCS)	cpu	layered	Expressway and VCS		TelePresence VCS appliances	sku ^CE-						
-CE-HDD1TI2F212	1TB SAS 7.2K RPM 3.5 inch HDD/hot plug/drive sled mounted	TelePresence Video Communication Server (VCS)	drive	layered	Expressway and VCS		TelePresence VCS appliances	sku ^CE-						
-CE-MR-1X082RY-A	8GB DDR3-1600-MHz RDIMM/PC3-12800/dual rank/1.35v	TelePresence Video Communication Server (VCS)	memory	layered	Expressway and VCS		TelePresence VCS appliances	sku ^CE-						
-CE-N2XX-ABPCI01	Broadcom 5709 Dual Port 1Gb w/TOE iSCSI for M3 Servers	TelePresence Video Communication Server (VCS)	nic	layered	Expressway and VCS		TelePresence VCS appliances	sku ^CE-						
-CE-N2XX-AIPCI01	Intel X520 Dual Port 10Gb SFP+ Adapter	TelePresence Video Communication Server (VCS)	nic	layered	Expressway and VCS		TelePresence VCS appliances	sku ^CE-						
-CE-RAID9271-8I	MegaRAID 9271 w/Supercap, 2X4 internal SAS connector	TelePresence Video Communication Server (VCS)	storage-controller	layered	Expressway and VCS		TelePresence VCS appliances	sku ^CE-						
-CE-UCSC-PSU-650W	650W power supply for C-series rack servers	TelePresence Video Communication Server (VCS)	power	layered	Expressway and VCS		TelePresence VCS appliances	sku ^CE-						
-CE-UCSCRAID-ROM1	Embedded SW RAID 0/1/10/5 4 ports SAS/SATA	TelePresence Video Communication Server (VCS)	storage-controller	layered	Expressway and VCS		TelePresence VCS appliances	sku ^CE-						
-CE-UCSX-TPM1-001	TPM Module For UCS	TelePresence Video Communication Server (VCS)	tpm	layered	Expressway and VCS		TelePresence VCS appliances	sku ^CE-						
+CE-CPU-E5-2643	3.30 GHz E5-2643/130W 4C/10MB Cache/DDR3 1600MHz	TelePresence Video Communication Server (VCS)	cpu	layered	Expressway and VCS		TelePresence VCS appliances	sku ^CE-(?![0-9]+GSFP)						
+CE-HDD1TI2F212	1TB SAS 7.2K RPM 3.5 inch HDD/hot plug/drive sled mounted	TelePresence Video Communication Server (VCS)	drive	layered	Expressway and VCS		TelePresence VCS appliances	sku ^CE-(?![0-9]+GSFP)						
+CE-MR-1X082RY-A	8GB DDR3-1600-MHz RDIMM/PC3-12800/dual rank/1.35v	TelePresence Video Communication Server (VCS)	memory	layered	Expressway and VCS		TelePresence VCS appliances	sku ^CE-(?![0-9]+GSFP)						
+CE-N2XX-ABPCI01	Broadcom 5709 Dual Port 1Gb w/TOE iSCSI for M3 Servers	TelePresence Video Communication Server (VCS)	nic	layered	Expressway and VCS		TelePresence VCS appliances	sku ^CE-(?![0-9]+GSFP)						
+CE-N2XX-AIPCI01	Intel X520 Dual Port 10Gb SFP+ Adapter	TelePresence Video Communication Server (VCS)	nic	layered	Expressway and VCS		TelePresence VCS appliances	sku ^CE-(?![0-9]+GSFP)						
+CE-RAID9271-8I	MegaRAID 9271 w/Supercap, 2X4 internal SAS connector	TelePresence Video Communication Server (VCS)	storage-controller	layered	Expressway and VCS		TelePresence VCS appliances	sku ^CE-(?![0-9]+GSFP)						
+CE-UCSC-PSU-650W	650W power supply for C-series rack servers	TelePresence Video Communication Server (VCS)	power	layered	Expressway and VCS		TelePresence VCS appliances	sku ^CE-(?![0-9]+GSFP)						
+CE-UCSCRAID-ROM1	Embedded SW RAID 0/1/10/5 4 ports SAS/SATA	TelePresence Video Communication Server (VCS)	storage-controller	layered	Expressway and VCS		TelePresence VCS appliances	sku ^CE-(?![0-9]+GSFP)						
+CE-UCSX-TPM1-001	TPM Module For UCS	TelePresence Video Communication Server (VCS)	tpm	layered	Expressway and VCS		TelePresence VCS appliances	sku ^CE-(?![0-9]+GSFP)						
 CIT-8-16-MEM-UPG	Upgrades E140/160 First memory dimm from 8 to 16GB	Business Edition 6000	memory	layered	Business Edition		Business Edition 6000 (BE6K / BE6M / BE6H / BE6S)	sku ^CIT-						
 CIT-A03-D300GA2	Cisco CIT-A03-D300GA2	Business Edition 6000	drive	layered	Business Edition		Business Edition 6000 (BE6K / BE6M / BE6H / BE6S)	sku ^CIT-						
 CIT-CPU-E5-2665	2.40 GHz E5-2665/115W 8C/20MB Cache/DDR3 1600MHz	Business Edition 6000	cpu	layered	Business Edition		Business Edition 6000 (BE6K / BE6M / BE6H / BE6S)	sku ^CIT-						
@@ -137,22 +137,22 @@ CIT2-RAID-9271CV	MegaRAID 9271CV Raid card with 8 internal SAS/SATA parts, S	Bus
 CP-6821-3PW-NA-MK9	MLB Subscription - 6821	Spark Flex Plan	software	pending_plan								class license		
 CP-6825-3PC-NA-MK9	MLB Subscription - IP Phone 6825	Spark Flex Plan	software	pending_plan								class license		
 CP-6851-3PW-NA-MK9	MLB Subscription - Phone 8851	Spark Flex Plan	software	pending_plan								class license		
-CP-6921-C-K9-APACP	Cisco UC Phone 6921, Charcoal, Std handset, APAC	Unified Communications Manager (CallManager)	phone	not_this_category				exclude ^CP-[0-9]{4}	desk	series:Unified IP Phone 6900			collaboration-endpoints	
-CP-6921-C-K9-LATAM	Cisco UC Phone 6921, Charcoal, Std Handset, LATAM	Unified Communications Manager (CallManager)	phone	not_this_category				exclude ^CP-[0-9]{4}	desk	series:Unified IP Phone 6900			collaboration-endpoints	
-CP-6921-CL-K9-APAC	Cisco Unified IP Phone 6921, Charcoal, light handset, APAC	Unified Communications Manager (CallManager)	phone	not_this_category				exclude ^CP-[0-9]{4}	desk	series:Unified IP Phone 6900			collaboration-endpoints	
-CP-6921-CLK9-APACP	Cisco UC Phone 6921, Charcoal, light handset, APAC	Unified Communications Manager (CallManager)	phone	not_this_category				exclude ^CP-[0-9]{4}	desk	series:Unified IP Phone 6900			collaboration-endpoints	
-CP-6921-CLK9-LATAM	Cisco UC Phone 6921, Charcoal, Slimline Hdst, LATAM	Unified Communications Manager (CallManager)	phone	not_this_category				exclude ^CP-[0-9]{4}	desk	series:Unified IP Phone 6900			collaboration-endpoints	
-CP-6921-W-K9-APACP	Cisco UC Phone 6921, White, Std handset, APAC	Unified Communications Manager (CallManager)	phone	not_this_category				exclude ^CP-[0-9]{4}	desk	series:Unified IP Phone 6900			collaboration-endpoints	
-CP-6921-WLK9-APACP	Cisco UC Phone 6921, White, light handset, APAC	Unified Communications Manager (CallManager)	phone	not_this_category				exclude ^CP-[0-9]{4}	desk	series:Unified IP Phone 6900			collaboration-endpoints	
-CP-6941-C-K9-LATAM	Cisco UC Phone 6941, Charcoal, Std Handset, LATAM	Unified Communications Manager (CallManager)	phone	not_this_category				exclude ^CP-[0-9]{4}	desk	series:Unified IP Phone 6900			collaboration-endpoints	
-CP-6941-CLK9-LATAM	Cisco UC Phone 6941, Charcoal, Slimline Hdst, LATAM	Unified Communications Manager (CallManager)	phone	not_this_category				exclude ^CP-[0-9]{4}	desk	series:Unified IP Phone 6900			collaboration-endpoints	
+CP-6921-C-K9-APACP	Cisco UC Phone 6921, Charcoal, Std handset, APAC	Unified Communications Manager (CallManager)	phone	pending_plan					desk	series:Unified IP Phone 6900		move collaboration-endpoints		
+CP-6921-C-K9-LATAM	Cisco UC Phone 6921, Charcoal, Std Handset, LATAM	Unified Communications Manager (CallManager)	phone	pending_plan					desk	series:Unified IP Phone 6900		move collaboration-endpoints		
+CP-6921-CL-K9-APAC	Cisco Unified IP Phone 6921, Charcoal, light handset, APAC	Unified Communications Manager (CallManager)	phone	pending_plan					desk	series:Unified IP Phone 6900		move collaboration-endpoints		
+CP-6921-CLK9-APACP	Cisco UC Phone 6921, Charcoal, light handset, APAC	Unified Communications Manager (CallManager)	phone	pending_plan					desk	series:Unified IP Phone 6900		move collaboration-endpoints		
+CP-6921-CLK9-LATAM	Cisco UC Phone 6921, Charcoal, Slimline Hdst, LATAM	Unified Communications Manager (CallManager)	phone	pending_plan					desk	series:Unified IP Phone 6900		move collaboration-endpoints		
+CP-6921-W-K9-APACP	Cisco UC Phone 6921, White, Std handset, APAC	Unified Communications Manager (CallManager)	phone	pending_plan					desk	series:Unified IP Phone 6900		move collaboration-endpoints		
+CP-6921-WLK9-APACP	Cisco UC Phone 6921, White, light handset, APAC	Unified Communications Manager (CallManager)	phone	pending_plan					desk	series:Unified IP Phone 6900		move collaboration-endpoints		
+CP-6941-C-K9-LATAM	Cisco UC Phone 6941, Charcoal, Std Handset, LATAM	Unified Communications Manager (CallManager)	phone	pending_plan					desk	series:Unified IP Phone 6900		move collaboration-endpoints		
+CP-6941-CLK9-LATAM	Cisco UC Phone 6941, Charcoal, Slimline Hdst, LATAM	Unified Communications Manager (CallManager)	phone	pending_plan					desk	series:Unified IP Phone 6900		move collaboration-endpoints		
 CP-7811-3PW-NA-MK9	MLB Subscription - Phone 7811	Spark Flex Plan	software	pending_plan								class license		
 CP-7821-3PW-NA-MK9	MLB Subscription - Phone 7821	Spark Flex Plan	software	pending_plan								class license		
 CP-7832-3PW-NA-MK9	MLB Subscription - Phone 7832	Spark Flex Plan	software	pending_plan								class license		
 CP-7841-3PW-NA-MK9	MLB Subscription - Phone 7841	Spark Flex Plan	software	pending_plan								class license		
 CP-7861-3PW-NA-MK9	MLB Subscription - Phone 7861	Spark Flex Plan	software	pending_plan								class license		
-CP-7941G-PROMO	Cisco Unified IP Phone 7941G With License - Special Bundle	Unified Communications Manager (CallManager)	phone	not_this_category				exclude ^CP-[0-9]{4}	desk	series:Unified IP Phone 7900			collaboration-endpoints	
-CP-7942G-APACSP	Cisco UC phone 7942G AsiaPac Bundle	Unified Communications Manager (CallManager)	phone	not_this_category				exclude ^CP-[0-9]{4}	desk	series:Unified IP Phone 7900			collaboration-endpoints	
+CP-7941G-PROMO	Cisco Unified IP Phone 7941G With License - Special Bundle	Unified Communications Manager (CallManager)	phone	pending_plan					desk	series:Unified IP Phone 7900		move collaboration-endpoints		
+CP-7942G-APACSP	Cisco UC phone 7942G AsiaPac Bundle	Unified Communications Manager (CallManager)	phone	pending_plan					desk	series:Unified IP Phone 7900		move collaboration-endpoints		
 CP-8800-A-KEM-M3PC	MLB Subscription- CP8000 A-KEM	Spark Flex Plan	expansion-module	pending_plan								class license		
 CP-8811-3PW-NA-MK9	MLB Subscription - 8811	Spark Flex Plan	software	pending_plan								class license		
 CP-8841-3PW-NA-MK9	MLB Subscription - Phone 8841	Spark Flex Plan	software	pending_plan								class license		
@@ -168,10 +168,10 @@ CS-ROOM-USB-SUB-K9	MLB Subscription - Room USB	Spark Flex Plan	software	pending_
 CTI-ATP-VCS-CTRLK9	ATP Demo - VCS Control	TelePresence Video Communication Server (VCS)	unknown	layered	Expressway and VCS		TelePresence VCS appliances	sku ^CTI-ATP						
 CTI-ATP-VCS-EXPWK9	ATP Demo - VCS Expressway	TelePresence Video Communication Server (VCS)	unknown	layered	Expressway and VCS		TelePresence VCS appliances	sku ^CTI-ATP						
 CTI-ATP-VCS-SPAKK9	ATP Demo-VCS Starter Pack Exp, 50 regs, 5 trav, Movi, 5 PHD USB	TelePresence Video Communication Server (VCS)	unknown	layered	Expressway and VCS		TelePresence VCS appliances	sku ^CTI-ATP						
-CTI-CE1K-BDL-K9	VCS Control And Expressway Platform UCS C220 M3 Bundle	TelePresence Video Communication Server (VCS)	server	layered	Expressway and VCS		TelePresence VCS appliances	label TelePresence Video Communication Server (VCS)						
-CTI-CE1K-BDL-K9=	Spare VCS Control And Expressway Platform UCS C220 M3 Bundle	TelePresence Video Communication Server (VCS)	server	layered	Expressway and VCS		TelePresence VCS appliances	label TelePresence Video Communication Server (VCS)						
-CTI-CE500-BDL-K9	VCS Control And Expressway Platform UCS C220 M3 Bundle	TelePresence Video Communication Server (VCS)	server	layered	Expressway and VCS		TelePresence VCS appliances	label TelePresence Video Communication Server (VCS)						
-CTI-CE500-BDL-K9=	Spare VCS Control And Expressway Platform UCS C220 M3 Bundle	TelePresence Video Communication Server (VCS)	server	layered	Expressway and VCS		TelePresence VCS appliances	label TelePresence Video Communication Server (VCS)						
+CTI-CE1K-BDL-K9	VCS Control And Expressway Platform UCS C220 M3 Bundle	TelePresence Video Communication Server (VCS)	server	layered	Expressway and VCS		TelePresence VCS appliances	label TelePresence Video Communication Server (VCS)						name: VCS
+CTI-CE1K-BDL-K9=	Spare VCS Control And Expressway Platform UCS C220 M3 Bundle	TelePresence Video Communication Server (VCS)	server	layered	Expressway and VCS		TelePresence VCS appliances	label TelePresence Video Communication Server (VCS)						name: VCS
+CTI-CE500-BDL-K9	VCS Control And Expressway Platform UCS C220 M3 Bundle	TelePresence Video Communication Server (VCS)	server	layered	Expressway and VCS		TelePresence VCS appliances	label TelePresence Video Communication Server (VCS)						name: VCS
+CTI-CE500-BDL-K9=	Spare VCS Control And Expressway Platform UCS C220 M3 Bundle	TelePresence Video Communication Server (VCS)	server	layered	Expressway and VCS		TelePresence VCS appliances	label TelePresence Video Communication Server (VCS)						name: VCS
 CTI-VCS-BASE-K9=	SPARE - VCS Control And Expressway	TelePresence Video Communication Server (VCS)	unknown	layered	Expressway and VCS		TelePresence VCS appliances	sku ^CTI-VCS						
 CTI-VCS-BASE=	VCS Control And Expressway Non Encrypted Version Spare	TelePresence Video Communication Server (VCS)	unknown	layered	Expressway and VCS		TelePresence VCS appliances	sku ^CTI-VCS						
 CTI-VCS-BRAGEEARS=	116269 Brage Rack Ears Kit	TelePresence Video Communication Server (VCS)	mechanical	layered	Expressway and VCS		TelePresence VCS appliances	sku ^CTI-VCS						
@@ -185,37 +185,37 @@ DOC-CCM-3.3=	1500 pg hardcopy of docs shipping on CD with CCM 3.3	Unified Commun
 EM-HDA-6FXO	Cisco EM-HDA-6FXO	TDM Gateways	voice-module	pending_plan								move interfaces-modules		
 EXP-10GSFP-SR-MP	10 Gigabit Ethernet SFP Module 10GBASE-SR SFP+ SR Optics	Expressway Series	transceiver	pending_plan								move transceiver		
 EXP-10GSFP-SR-MP=	10 Gigabit Ethernet SFP Module 10GBASE-SR SFP+ SR Optics	Expressway Series	transceiver	pending_plan								move transceiver		
-EXP-BZL-C220M5	C220 M5 Security Bezel	Expressway Series	mechanical	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-						
-EXP-CPU-6134	3.2 GHz 6134/130W 8C/24.75MB Cache/DDR4 2666MHz	Expressway Series	cpu	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-						
-EXP-CPU-E5-2643	3.30 GHz E5-2643/130W 4C/10MB Cache/DDR3 1600MHz	Expressway Series	cpu	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-						
-EXP-CPU-E52637D	3.50 GHz E5-2637 v3/135W 4C/15MB Cache/DDR4 2133MHz	TelePresence Video Communication Server (VCS)	cpu	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-						
-EXP-CPU-I6334	Intel 6334 3.6GHz/165W 8C/18MB DDR4 3200MHz	Expressway Series	cpu	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-						
-EXP-HD12T10NK9	1.2TB 12G SAS 10K RPM SFF HDD (SED)	Expressway Series	drive	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-						
-EXP-HD2T7KL12G	2 TB 12G SAS 7.2K RPM LFF HDD	TelePresence Video Communication Server (VCS)	drive	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-						
-EXP-HD2T7KL12N	2 TB 12G SAS 7.2K RPM LFF HDD	Expressway Series	drive	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-						
-EXP-M2-240G	240GB SATA M.2	Expressway Series	drive	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-						
-EXP-M2-HWRAID	Cisco Boot optimized M.2 Raid controller	Expressway Series	storage-controller	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-						
-EXP-MR-1X082RY-A	8GB DDR3-1600-MHz RDIMM/PC3-12800/dual rank/1.35v	Expressway Series	memory	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-						
-EXP-MR-1X161RV-A	16GB DDR4-2400-MHz RDIMM/PC4-19200/single rank/x4/1.2v	TelePresence Video Communication Server (VCS)	memory	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-						
-EXP-MR-X16G1RT-H	16GB DDR4-2933-MHz RDIMM/1Rx4/1.2v	Expressway Series	memory	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-						
-EXP-MR-X16G1RW	16GB RDIMM SRx4 3200 (8Gb)	Expressway Series	memory	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-						
-EXP-MRAID12G	Cisco 12G SAS Modular Raid Controller	TelePresence Video Communication Server (VCS)	storage-controller	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-						
-EXP-MRAID1GB-KIT	SAS RAID KIT for C220M5L	Expressway Series	storage-controller	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-						
-EXP-MSTOR-SD	Mini Storage Carrier for SD (holds up to 2)	Expressway Series	mechanical	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-						
-EXP-PCIE-ID10GF	Intel X710-DA2 dual-port 10G SFP+ NIC	Expressway Series	nic	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-						
-EXP-PSU1-1050W	Cisco UCS 1050W AC Power Supply for Rack Server Platinum	Expressway Series	power	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-						
-EXP-PSU1-1200W	1200W Titanium power supply for C-Series Servers	Expressway Series	power	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-						
-EXP-PSU1-770W	770W AC Hot-Plug Power Supply for 1U C-Series Rack Server	Expressway Series	power	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-						
-EXP-RAID-220M6	Cisco 12G SAS RAID Controller w/4GB FBWC (16 Drv) w/1U Brkt	Expressway Series	storage-controller	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-						
-EXP-RAID9271-8I	MegaRAID 9271 w/Supercap, 2 X4 internal SAS connector	Expressway Series	storage-controller	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-						
-EXP-SD-32G-S	32GB SD Card for UCS servers	Expressway Series	drive	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-						
-EXP-SECBZL	Security Bezel for CE1100	TelePresence Video Communication Server (VCS)	mechanical	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-						
-EXP-TPM-002C	TPM 2.0, TCG, FIPS140-2, CC EAL4+ Certified, for M6 servers	Expressway Series	tpm	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-						
-EXP-TPM2-001	Trusted Platform Module 1.2 for EXP (SPI-based)	TelePresence Video Communication Server (VCS)	tpm	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-						
-EXP-TPM2-002	Trusted Platform Module 2.0 for UCS servers	Expressway Series	tpm	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-						
-EXP-UCSC-PSU-650W	650W power supply for C-series rack servers	Expressway Series	power	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-						
-EXP-UCSCRAID-ROM1	Embedded SW RAID 0/1/10/5 4 ports SAS/SATA	Expressway Series	storage-controller	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-						
-EXP-UCSX-TPM1-001	TPM Module For UCS	Expressway Series	tpm	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-						
+EXP-BZL-C220M5	C220 M5 Security Bezel	Expressway Series	mechanical	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-(?![0-9]+GSFP)						
+EXP-CPU-6134	3.2 GHz 6134/130W 8C/24.75MB Cache/DDR4 2666MHz	Expressway Series	cpu	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-(?![0-9]+GSFP)						
+EXP-CPU-E5-2643	3.30 GHz E5-2643/130W 4C/10MB Cache/DDR3 1600MHz	Expressway Series	cpu	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-(?![0-9]+GSFP)						
+EXP-CPU-E52637D	3.50 GHz E5-2637 v3/135W 4C/15MB Cache/DDR4 2133MHz	TelePresence Video Communication Server (VCS)	cpu	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-(?![0-9]+GSFP)						
+EXP-CPU-I6334	Intel 6334 3.6GHz/165W 8C/18MB DDR4 3200MHz	Expressway Series	cpu	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-(?![0-9]+GSFP)						
+EXP-HD12T10NK9	1.2TB 12G SAS 10K RPM SFF HDD (SED)	Expressway Series	drive	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-(?![0-9]+GSFP)						
+EXP-HD2T7KL12G	2 TB 12G SAS 7.2K RPM LFF HDD	TelePresence Video Communication Server (VCS)	drive	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-(?![0-9]+GSFP)						
+EXP-HD2T7KL12N	2 TB 12G SAS 7.2K RPM LFF HDD	Expressway Series	drive	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-(?![0-9]+GSFP)						
+EXP-M2-240G	240GB SATA M.2	Expressway Series	drive	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-(?![0-9]+GSFP)						
+EXP-M2-HWRAID	Cisco Boot optimized M.2 Raid controller	Expressway Series	storage-controller	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-(?![0-9]+GSFP)						
+EXP-MR-1X082RY-A	8GB DDR3-1600-MHz RDIMM/PC3-12800/dual rank/1.35v	Expressway Series	memory	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-(?![0-9]+GSFP)						
+EXP-MR-1X161RV-A	16GB DDR4-2400-MHz RDIMM/PC4-19200/single rank/x4/1.2v	TelePresence Video Communication Server (VCS)	memory	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-(?![0-9]+GSFP)						
+EXP-MR-X16G1RT-H	16GB DDR4-2933-MHz RDIMM/1Rx4/1.2v	Expressway Series	memory	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-(?![0-9]+GSFP)						
+EXP-MR-X16G1RW	16GB RDIMM SRx4 3200 (8Gb)	Expressway Series	memory	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-(?![0-9]+GSFP)						
+EXP-MRAID12G	Cisco 12G SAS Modular Raid Controller	TelePresence Video Communication Server (VCS)	storage-controller	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-(?![0-9]+GSFP)						
+EXP-MRAID1GB-KIT	SAS RAID KIT for C220M5L	Expressway Series	storage-controller	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-(?![0-9]+GSFP)						
+EXP-MSTOR-SD	Mini Storage Carrier for SD (holds up to 2)	Expressway Series	mechanical	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-(?![0-9]+GSFP)						
+EXP-PCIE-ID10GF	Intel X710-DA2 dual-port 10G SFP+ NIC	Expressway Series	nic	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-(?![0-9]+GSFP)						
+EXP-PSU1-1050W	Cisco UCS 1050W AC Power Supply for Rack Server Platinum	Expressway Series	power	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-(?![0-9]+GSFP)						
+EXP-PSU1-1200W	1200W Titanium power supply for C-Series Servers	Expressway Series	power	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-(?![0-9]+GSFP)						
+EXP-PSU1-770W	770W AC Hot-Plug Power Supply for 1U C-Series Rack Server	Expressway Series	power	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-(?![0-9]+GSFP)						
+EXP-RAID-220M6	Cisco 12G SAS RAID Controller w/4GB FBWC (16 Drv) w/1U Brkt	Expressway Series	storage-controller	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-(?![0-9]+GSFP)						
+EXP-RAID9271-8I	MegaRAID 9271 w/Supercap, 2 X4 internal SAS connector	Expressway Series	storage-controller	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-(?![0-9]+GSFP)						
+EXP-SD-32G-S	32GB SD Card for UCS servers	Expressway Series	drive	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-(?![0-9]+GSFP)						
+EXP-SECBZL	Security Bezel for CE1100	TelePresence Video Communication Server (VCS)	mechanical	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-(?![0-9]+GSFP)						
+EXP-TPM-002C	TPM 2.0, TCG, FIPS140-2, CC EAL4+ Certified, for M6 servers	Expressway Series	tpm	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-(?![0-9]+GSFP)						
+EXP-TPM2-001	Trusted Platform Module 1.2 for EXP (SPI-based)	TelePresence Video Communication Server (VCS)	tpm	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-(?![0-9]+GSFP)						
+EXP-TPM2-002	Trusted Platform Module 2.0 for UCS servers	Expressway Series	tpm	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-(?![0-9]+GSFP)						
+EXP-UCSC-PSU-650W	650W power supply for C-series rack servers	Expressway Series	power	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-(?![0-9]+GSFP)						
+EXP-UCSCRAID-ROM1	Embedded SW RAID 0/1/10/5 4 ports SAS/SATA	Expressway Series	storage-controller	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-(?![0-9]+GSFP)						
+EXP-UCSX-TPM1-001	TPM Module For UCS	Expressway Series	tpm	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXP-(?![0-9]+GSFP)						
 EXPWY-1200-K9	Cisco Expressway Series Multi-purpose 1200 Appliance	Expressway Series	server	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXPWY						
 EXPWY-1200-K9=	Cisco Expressway Series Multi-purpose 1200 Appliance	Expressway Series	server	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXPWY						
 EXPWY-1300-K9	Cisco Expressway Series Multi-purpose 1300 Appliance	Expressway Series	server	layered	Expressway and VCS		Expressway appliances (CE1100 / CE1200)	sku ^EXPWY						
@@ -236,8 +236,8 @@ IPT-RM-20S1000P	UC Remote Mgmt Svc up to 20 Sites, 1k Phones	Unified Communicati
 IPT-RM-30S1500P	UC Remote Mgmt Svc up to 30 Sites, 1500 Phones	Unified Communications Licensing	accessory	pending_plan								class service		
 IPT-RM-3S250P	UC Remote Mgmt Svc up to 3 Sites, 250 Phones	Unified Communications Licensing	accessory	pending_plan								class service		
 IPT-RM-50ADDPHONES	UC Remote Mgmt Svc 50 Phones-Add on to IPT-RM Svc	Unified Communications Licensing	accessory	pending_plan								class service		
-KEY-CCM-ADMIN-K9=	CUCM Admin Security Token, 4.3, 6.0, or Newer, CoO USA	Unified Communications Manager (CallManager)	accessory	layered	Unity Connection and MCS servers		Unity Connection PIMG gateways and MCS servers	label Unified Communications Manager (CallManager)						
-KEY-UCM-ADMIN2-K9=	CUCM Admin Security Token, 7.1 or Newer	Unified Communications Manager Session Management Edition	accessory	layered	Unity Connection and MCS servers		Unity Connection PIMG gateways and MCS servers	label Unified Communications Manager Session Management Edition						
+KEY-CCM-ADMIN-K9=	CUCM Admin Security Token, 4.3, 6.0, or Newer, CoO USA	Unified Communications Manager (CallManager)	accessory	layered	Unity Connection and MCS servers	(shared across the line)	Unity Connection and MCS servers shared parts	label-unsupported (label Unified Communications Manager (CallManager); was Unity Connection PIMG gateways and MCS servers): no series token in the SKU or name, no compatible part placed in the series						none: no series token in the SKU or name, no compatible part placed in the series
+KEY-UCM-ADMIN2-K9=	CUCM Admin Security Token, 7.1 or Newer	Unified Communications Manager Session Management Edition	accessory	layered	Unity Connection and MCS servers	(shared across the line)	Unity Connection and MCS servers shared parts	label-unsupported (label Unified Communications Manager Session Management Edition; was Unity Connection PIMG gateways and MCS servers): no series token in the SKU or name, no compatible part placed in the series						none: no series token in the SKU or name, no compatible part placed in the series
 MCS-7825-I5-IPC1	Cisco MCS-7825-I5-IPC1	Unity Connection	server	layered	Unity Connection and MCS servers		Unity Connection PIMG gateways and MCS servers	sku ^MCS						
 MCS-7825H-3.0-ECSP	MCS 7825 Unity; 512MB; RAID 1; Win2K	Unity Connection	server	layered	Unity Connection and MCS servers		Unity Connection PIMG gateways and MCS servers	sku ^MCS						
 MCS-7835-I3-IPC1	Cisco MCS-7835-I3-IPC1	Unity Connection	server	layered	Unity Connection and MCS servers		Unity Connection PIMG gateways and MCS servers	sku ^MCS						
@@ -306,8 +306,8 @@ SM-D-48FXS-E	Cisco 48 Port FXS OPX-Lite Double Wide Service Module	VG Series Gat
 SM-D-48FXS-E=	Cisco 48 Port FXS OPX-Lite Double Wide Service Module	VG Series Gateways	voice-module	pending_plan								move interfaces-modules		
 SM-D-72FXS	Cisco 72 Port FXS Double Wide Service Module	VG Series Gateways	voice-module	pending_plan								move interfaces-modules		
 SM-D-72FXS=	Cisco 72 Port FXS Double Wide Service Module	VG Series Gateways	voice-module	pending_plan								move interfaces-modules		
-SM-DW-BLANK	Double Wide Service Module Blank Cover	VG Series Gateways	mechanical	layered	Voice Gateways	(shared across the line)	Voice Gateways shared parts	accessory BLANK (label VG Series Gateways)						
-SM-DW-BLANK=	Double Wide Service Module Blank Cover	VG Series Gateways	mechanical	layered	Voice Gateways	(shared across the line)	Voice Gateways shared parts	accessory BLANK (label VG Series Gateways)						
+SM-DW-BLANK	Double Wide Service Module Blank Cover	VG Series Gateways	mechanical	pending_plan								move interfaces-modules		
+SM-DW-BLANK=	Double Wide Service Module Blank Cover	VG Series Gateways	mechanical	pending_plan								move interfaces-modules		
 SM-X-NIM-ADPTR	SM-X Adapter for one NIM module for Cisco 4000 Series ISR	TDM Gateways	unknown	pending_plan								move interfaces-modules		
 SP-ATLAS-180-2=	Rail PR for Ceiling Mounting of FEST-I8S / FEST-IH Enclosure	Paging Server	mechanical	layered	Paging		Atlas IP paging speakers and enclosures	sku ^SP-ATLAS						
 SP-ATLAS-DSSE-DC=	Double Sided Surface Mount Clock, PoE+	Paging Server	mechanical	layered	Paging		Atlas IP paging speakers and enclosures	sku ^SP-ATLAS						
@@ -376,15 +376,15 @@ SPA2102-BU	Single Port Router with 2 Phone Ports	Small Business Voice Gateways a
 SPA2102-EU	Single Port Router with 2 Phone Ports (Europe)	Small Business Voice Gateways and ATAs	ata	layered	Analog Telephone Adapters and SPA		SPA100 / SPA2100 adapters (SPA112 / SPA122 / SPA2102)	sku ^SPA(1[0-9]{2}|2[0-9]{3})						
 SPA2102-R1	Single Port Router with 2 Phone Ports (North America)	Small Business Voice Gateways and ATAs	ata	layered	Analog Telephone Adapters and SPA		SPA100 / SPA2100 adapters (SPA112 / SPA122 / SPA2102)	sku ^SPA(1[0-9]{2}|2[0-9]{3})						
 SPA2102-R2	Single Port Router with 2 Phone Ports (Europe)	Small Business Voice Gateways and ATAs	ata	layered	Analog Telephone Adapters and SPA		SPA100 / SPA2100 adapters (SPA112 / SPA122 / SPA2102)	sku ^SPA(1[0-9]{2}|2[0-9]{3})						
-SPA232D	Analog Telephone Adapter with DECT Base Station	Small Business Voice Gateways and ATAs	ata	layered	Analog Telephone Adapters and SPA	(shared across the line)	Analog Telephone Adapters and SPA shared parts	label Small Business Voice Gateways and ATAs						
-SPA232D-G1	Multi-Line DECT ATA	Small Business Voice Gateways and ATAs	ata	layered	Analog Telephone Adapters and SPA	(shared across the line)	Analog Telephone Adapters and SPA shared parts	label Small Business Voice Gateways and ATAs						
-SPA232D-G1-1	Multi-Line DECT ATA	Small Business Voice Gateways and ATAs	ata	layered	Analog Telephone Adapters and SPA	(shared across the line)	Analog Telephone Adapters and SPA shared parts	label Small Business Voice Gateways and ATAs						
-SPA232D-G7	Multi-Line DECT ATA	Small Business Voice Gateways and ATAs	ata	layered	Analog Telephone Adapters and SPA	(shared across the line)	Analog Telephone Adapters and SPA shared parts	label Small Business Voice Gateways and ATAs						
-SPA232D-G7-1	Multi-Line DECT ATA	Small Business Voice Gateways and ATAs	ata	layered	Analog Telephone Adapters and SPA	(shared across the line)	Analog Telephone Adapters and SPA shared parts	label Small Business Voice Gateways and ATAs						
-SPA232D-R1	Multi-Line DECT ATA	Small Business Voice Gateways and ATAs	ata	layered	Analog Telephone Adapters and SPA	(shared across the line)	Analog Telephone Adapters and SPA shared parts	label Small Business Voice Gateways and ATAs						
-SPA232D-R7	Multi-Line DECT ATA	Small Business Voice Gateways and ATAs	ata	layered	Analog Telephone Adapters and SPA	(shared across the line)	Analog Telephone Adapters and SPA shared parts	label Small Business Voice Gateways and ATAs						
-SPA232D-RC	Analog Telephone Adapter with DECT Base Station	Small Business Voice Gateways and ATAs	ata	layered	Analog Telephone Adapters and SPA	(shared across the line)	Analog Telephone Adapters and SPA shared parts	label Small Business Voice Gateways and ATAs						
-SPA232D-XU	Multi-Line DECT ATA, SRPT Removed	Small Business Voice Gateways and ATAs	ata	layered	Analog Telephone Adapters and SPA	(shared across the line)	Analog Telephone Adapters and SPA shared parts	label Small Business Voice Gateways and ATAs						
+SPA232D	Analog Telephone Adapter with DECT Base Station	Small Business Voice Gateways and ATAs	ata	layered	Analog Telephone Adapters and SPA		SPA232D Multi-Line DECT ATA	sku ^SPA232D						
+SPA232D-G1	Multi-Line DECT ATA	Small Business Voice Gateways and ATAs	ata	layered	Analog Telephone Adapters and SPA		SPA232D Multi-Line DECT ATA	sku ^SPA232D						
+SPA232D-G1-1	Multi-Line DECT ATA	Small Business Voice Gateways and ATAs	ata	layered	Analog Telephone Adapters and SPA		SPA232D Multi-Line DECT ATA	sku ^SPA232D						
+SPA232D-G7	Multi-Line DECT ATA	Small Business Voice Gateways and ATAs	ata	layered	Analog Telephone Adapters and SPA		SPA232D Multi-Line DECT ATA	sku ^SPA232D						
+SPA232D-G7-1	Multi-Line DECT ATA	Small Business Voice Gateways and ATAs	ata	layered	Analog Telephone Adapters and SPA		SPA232D Multi-Line DECT ATA	sku ^SPA232D						
+SPA232D-R1	Multi-Line DECT ATA	Small Business Voice Gateways and ATAs	ata	layered	Analog Telephone Adapters and SPA		SPA232D Multi-Line DECT ATA	sku ^SPA232D						
+SPA232D-R7	Multi-Line DECT ATA	Small Business Voice Gateways and ATAs	ata	layered	Analog Telephone Adapters and SPA		SPA232D Multi-Line DECT ATA	sku ^SPA232D						
+SPA232D-RC	Analog Telephone Adapter with DECT Base Station	Small Business Voice Gateways and ATAs	ata	layered	Analog Telephone Adapters and SPA		SPA232D Multi-Line DECT ATA	sku ^SPA232D						
+SPA232D-XU	Multi-Line DECT ATA, SRPT Removed	Small Business Voice Gateways and ATAs	ata	layered	Analog Telephone Adapters and SPA		SPA232D Multi-Line DECT ATA	sku ^SPA232D						
 SPA302D-G1	Mobility Enhanced Cordless Handset	Small Business Voice Gateways and ATAs	phone	layered	Analog Telephone Adapters and SPA		SPA302D DECT handset	sku ^SPA302D	dect	series:SPA302D DECT handset				
 SPA302D-G1-1	Mobility Enhanced Cordless Handset	Small Business Voice Gateways and ATAs	phone	layered	Analog Telephone Adapters and SPA		SPA302D DECT handset	sku ^SPA302D	dect	series:SPA302D DECT handset				
 SPA302D-G7	Mobility Enhanced Cordless Handset	Small Business Voice Gateways and ATAs	phone	layered	Analog Telephone Adapters and SPA		SPA302D DECT handset	sku ^SPA302D	dect	series:SPA302D DECT handset				
@@ -392,20 +392,20 @@ SPA302D-G7-1	Mobility Enhanced Cordless Handset	Small Business Voice Gateways an
 SPA302DKIT-G1	Multi-Line DECT Handset with Base Station	Small Business Voice Gateways and ATAs	phone	layered	Analog Telephone Adapters and SPA		SPA302D DECT handset	sku ^SPA302D	dect	series:SPA302D DECT handset				
 SPA302DKIT-G7	Multi-Line DECT Handset with Base Station	Small Business Voice Gateways and ATAs	phone	layered	Analog Telephone Adapters and SPA		SPA302D DECT handset	sku ^SPA302D	dect	series:SPA302D DECT handset				
 SPA302DKIT-XU	Multi-Line DECT Handset with Base Station, SRTP Removed	Small Business Voice Gateways and ATAs	phone	layered	Analog Telephone Adapters and SPA		SPA302D DECT handset	sku ^SPA302D	dect	series:SPA302D DECT handset				
-SPA8000-BR	8-Port IP Telephony Gateway	Small Business Voice Gateways and ATAs	gateway	layered	Analog Telephone Adapters and SPA	(shared across the line)	Analog Telephone Adapters and SPA shared parts	label Small Business Voice Gateways and ATAs						
-SPA8000-G1	8-Port IP Telephony Gateway	Small Business Voice Gateways and ATAs	gateway	layered	Analog Telephone Adapters and SPA	(shared across the line)	Analog Telephone Adapters and SPA shared parts	label Small Business Voice Gateways and ATAs						
-SPA8000-G4	8-Port IP Telephony Gateway	Small Business Voice Gateways and ATAs	gateway	layered	Analog Telephone Adapters and SPA	(shared across the line)	Analog Telephone Adapters and SPA shared parts	label Small Business Voice Gateways and ATAs						
-SPA8000-G5	8-Port IP Telephony Gateway	Small Business Voice Gateways and ATAs	gateway	layered	Analog Telephone Adapters and SPA	(shared across the line)	Analog Telephone Adapters and SPA shared parts	label Small Business Voice Gateways and ATAs						
-SPA8000-XU	8-Port IP Telephony Gateway, SRTP Removed	Small Business Voice Gateways and ATAs	gateway	layered	Analog Telephone Adapters and SPA	(shared across the line)	Analog Telephone Adapters and SPA shared parts	label Small Business Voice Gateways and ATAs						
-SPA8800	IP Telephony Gateway with 4 FXS and 4 FXO Ports	Small Business Voice Gateways and ATAs	gateway	layered	Analog Telephone Adapters and SPA	(shared across the line)	Analog Telephone Adapters and SPA shared parts	label Small Business Voice Gateways and ATAs						
-SPA8800-XU	IP Telephony Gateway with 4 FXS and 4 FXO Ports SRTP Removed	Small Business Voice Gateways and ATAs	gateway	layered	Analog Telephone Adapters and SPA	(shared across the line)	Analog Telephone Adapters and SPA shared parts	label Small Business Voice Gateways and ATAs						
-UC-A03-D500GC3	500GB 6Gb SATA 7.2K RPM SFF Hot Plug/Drive Sled Mounted	Business Edition 6000	drive	layered	Business Edition		Business Edition 6000 (BE6K / BE6M / BE6H / BE6S)	label Business Edition 6000						
-UC-CPU-E5-2609	2.4 GHz E5-2609/80W 4C/10MB Cache/DDR3 1066MHz	Business Edition 6000	cpu	layered	Business Edition		Business Edition 6000 (BE6K / BE6M / BE6H / BE6S)	label Business Edition 6000						
-UC-MR-1X082RY-A	8GB DDR3-1600-MHz RDIMM/PC3-12800/Dual Rank/1.35v	Business Edition 6000	memory	layered	Business Edition		Business Edition 6000 (BE6K / BE6M / BE6H / BE6S)	label Business Edition 6000						
-UC-PSU-650W	650W Power Supply Unit For UCSC C220 Rack Server	Business Edition 6000	power	layered	Business Edition		Business Edition 6000 (BE6K / BE6M / BE6H / BE6S)	label Business Edition 6000						
-UC-RAID-9266	MegaRAID 9266-8i + Battery Backup for C240 and C220	Business Edition 6000	storage-controller	layered	Business Edition		Business Edition 6000 (BE6K / BE6M / BE6H / BE6S)	label Business Edition 6000						
-UC-RAID-9271	MegaRAID 9271-8i + Battery Backup for C240 and C220	Business Edition 6000	storage-controller	layered	Business Edition		Business Edition 6000 (BE6K / BE6M / BE6H / BE6S)	label Business Edition 6000						
-UCSC-C220-M3SBE=	UCS C220 M3 SFF TRC2 Server	Business Edition 6000	server	layered	Business Edition		Business Edition 6000 (BE6K / BE6M / BE6H / BE6S)	label Business Edition 6000						
+SPA8000-BR	8-Port IP Telephony Gateway	Small Business Voice Gateways and ATAs	gateway	layered	Analog Telephone Adapters and SPA		SPA8000 / SPA8800 IP Telephony Gateways	sku ^SPA8[08]00						
+SPA8000-G1	8-Port IP Telephony Gateway	Small Business Voice Gateways and ATAs	gateway	layered	Analog Telephone Adapters and SPA		SPA8000 / SPA8800 IP Telephony Gateways	sku ^SPA8[08]00						
+SPA8000-G4	8-Port IP Telephony Gateway	Small Business Voice Gateways and ATAs	gateway	layered	Analog Telephone Adapters and SPA		SPA8000 / SPA8800 IP Telephony Gateways	sku ^SPA8[08]00						
+SPA8000-G5	8-Port IP Telephony Gateway	Small Business Voice Gateways and ATAs	gateway	layered	Analog Telephone Adapters and SPA		SPA8000 / SPA8800 IP Telephony Gateways	sku ^SPA8[08]00						
+SPA8000-XU	8-Port IP Telephony Gateway, SRTP Removed	Small Business Voice Gateways and ATAs	gateway	layered	Analog Telephone Adapters and SPA		SPA8000 / SPA8800 IP Telephony Gateways	sku ^SPA8[08]00						
+SPA8800	IP Telephony Gateway with 4 FXS and 4 FXO Ports	Small Business Voice Gateways and ATAs	gateway	layered	Analog Telephone Adapters and SPA		SPA8000 / SPA8800 IP Telephony Gateways	sku ^SPA8[08]00						
+SPA8800-XU	IP Telephony Gateway with 4 FXS and 4 FXO Ports SRTP Removed	Small Business Voice Gateways and ATAs	gateway	layered	Analog Telephone Adapters and SPA		SPA8000 / SPA8800 IP Telephony Gateways	sku ^SPA8[08]00						
+UC-A03-D500GC3	500GB 6Gb SATA 7.2K RPM SFF Hot Plug/Drive Sled Mounted	Business Edition 6000	drive	layered	Business Edition	(shared across the line)	Business Edition shared parts	label-unsupported (label Business Edition 6000; was Business Edition 6000 (BE6K / BE6M / BE6H / BE6S)): no platform token (6000) in the SKU or name, no compatible part placed in the series						none: no platform token (6000) in the SKU or name, no compatible part placed in the series
+UC-CPU-E5-2609	2.4 GHz E5-2609/80W 4C/10MB Cache/DDR3 1066MHz	Business Edition 6000	cpu	layered	Business Edition	(shared across the line)	Business Edition shared parts	label-unsupported (label Business Edition 6000; was Business Edition 6000 (BE6K / BE6M / BE6H / BE6S)): no platform token (6000) in the SKU or name, no compatible part placed in the series						none: no platform token (6000) in the SKU or name, no compatible part placed in the series
+UC-MR-1X082RY-A	8GB DDR3-1600-MHz RDIMM/PC3-12800/Dual Rank/1.35v	Business Edition 6000	memory	layered	Business Edition	(shared across the line)	Business Edition shared parts	label-unsupported (label Business Edition 6000; was Business Edition 6000 (BE6K / BE6M / BE6H / BE6S)): no platform token (6000) in the SKU or name, no compatible part placed in the series						none: no platform token (6000) in the SKU or name, no compatible part placed in the series
+UC-PSU-650W	650W Power Supply Unit For UCSC C220 Rack Server	Business Edition 6000	power	layered	Business Edition	(shared across the line)	Business Edition shared parts	label-unsupported (label Business Edition 6000; was Business Edition 6000 (BE6K / BE6M / BE6H / BE6S)): no platform token (6000) in the SKU or name, no compatible part placed in the series						none: no platform token (6000) in the SKU or name, no compatible part placed in the series
+UC-RAID-9266	MegaRAID 9266-8i + Battery Backup for C240 and C220	Business Edition 6000	storage-controller	layered	Business Edition	(shared across the line)	Business Edition shared parts	label-unsupported (label Business Edition 6000; was Business Edition 6000 (BE6K / BE6M / BE6H / BE6S)): no platform token (6000) in the SKU or name, no compatible part placed in the series						none: no platform token (6000) in the SKU or name, no compatible part placed in the series
+UC-RAID-9271	MegaRAID 9271-8i + Battery Backup for C240 and C220	Business Edition 6000	storage-controller	layered	Business Edition	(shared across the line)	Business Edition shared parts	label-unsupported (label Business Edition 6000; was Business Edition 6000 (BE6K / BE6M / BE6H / BE6S)): no platform token (6000) in the SKU or name, no compatible part placed in the series						none: no platform token (6000) in the SKU or name, no compatible part placed in the series
+UCSC-C220-M3SBE=	UCS C220 M3 SFF TRC2 Server	Business Edition 6000	server	layered	Business Edition		Business Edition 6000 (BE6K / BE6M / BE6H / BE6S)	sku ^UCSC-C220-M3SBE						
 UNITY-PIMG-ANALOG	PBX-IP Media Gateway for analog integrations	Unity Connection	gateway	layered	Unity Connection and MCS servers		Unity Connection PIMG gateways and MCS servers	sku ^UNITY						
 UNITY-PIMG-ANALOG=	PBX-IP Media Gateway for analog integrations	Unity Connection	gateway	layered	Unity Connection and MCS servers		Unity Connection PIMG gateways and MCS servers	sku ^UNITY						
 UNITY-PIMG-DIG	PBX-IP Media Gateway-Digital	Unity Connection	gateway	layered	Unity Connection and MCS servers		Unity Connection PIMG gateways and MCS servers	sku ^UNITY						
@@ -421,12 +421,12 @@ UNITY-PIMG-ROLM=	PBX IP MEDIA GATEWAY-ROLM	Unity Connection	gateway	layered	Unit
 UNITY-TIMG-1	T1 IP-Media Gateway	Unity Connection	gateway	layered	Unity Connection and MCS servers		Unity Connection PIMG gateways and MCS servers	sku ^UNITY						
 UNITY-TIMG-1=	T1 IP-Media Gateway	Unity Connection	gateway	layered	Unity Connection and MCS servers		Unity Connection PIMG gateways and MCS servers	sku ^UNITY						
 UNITYCN7-BUNDLE	Unity Connection 7.x SW plus HW Bundle	Unity Connection	unknown	layered	Unity Connection and MCS servers		Unity Connection PIMG gateways and MCS servers	sku ^UNITY						
-VCS-C-BDL-K9	VCS-C Appliance Bundle	TelePresence Video Communication Server (VCS)	server	layered	Expressway and VCS		TelePresence VCS appliances	label TelePresence Video Communication Server (VCS)						
-VCS-C-BDL-K9=	VCS-C or VCS-E Appliance Bundle Spare	TelePresence Video Communication Server (VCS)	server	layered	Expressway and VCS		TelePresence VCS appliances	label TelePresence Video Communication Server (VCS)						
-VCS-E-BDL-K9	VCS-E Appliance Bundle	TelePresence Video Communication Server (VCS)	server	layered	Expressway and VCS		TelePresence VCS appliances	label TelePresence Video Communication Server (VCS)						
-VCS-E-BDL-K9=	VCS-E Appliance Bundle Spare	TelePresence Video Communication Server (VCS)	server	layered	Expressway and VCS		TelePresence VCS appliances	label TelePresence Video Communication Server (VCS)						
-VG-2BRI	Euro-ISDN Media Gateway, 2 BRI	VG Series Gateways	gateway	layered	Voice Gateways	(shared across the line)	Voice Gateways shared parts	label VG Series Gateways						
-VG-2BRI-R	Euro-ISDN Media Gateway, 2 BRI - RMCS	VG Series Gateways	gateway	layered	Voice Gateways	(shared across the line)	Voice Gateways shared parts	label VG Series Gateways						
+VCS-C-BDL-K9	VCS-C Appliance Bundle	TelePresence Video Communication Server (VCS)	server	layered	Expressway and VCS		TelePresence VCS appliances	label TelePresence Video Communication Server (VCS)						sku-token: VCS
+VCS-C-BDL-K9=	VCS-C or VCS-E Appliance Bundle Spare	TelePresence Video Communication Server (VCS)	server	layered	Expressway and VCS		TelePresence VCS appliances	label TelePresence Video Communication Server (VCS)						sku-token: VCS
+VCS-E-BDL-K9	VCS-E Appliance Bundle	TelePresence Video Communication Server (VCS)	server	layered	Expressway and VCS		TelePresence VCS appliances	label TelePresence Video Communication Server (VCS)						sku-token: VCS
+VCS-E-BDL-K9=	VCS-E Appliance Bundle Spare	TelePresence Video Communication Server (VCS)	server	layered	Expressway and VCS		TelePresence VCS appliances	label TelePresence Video Communication Server (VCS)						sku-token: VCS
+VG-2BRI	Euro-ISDN Media Gateway, 2 BRI	VG Series Gateways	gateway	layered	Voice Gateways		VG-2BRI Euro-ISDN Media Gateway	sku ^VG-2BRI						
+VG-2BRI-R	Euro-ISDN Media Gateway, 2 BRI - RMCS	VG Series Gateways	gateway	layered	Voice Gateways		VG-2BRI Euro-ISDN Media Gateway	sku ^VG-2BRI						
 VG202	Cisco VG202 Analog Voice Gateway	VG Series Gateways	gateway	layered	Voice Gateways		VG200 / VG202 / VG204 / VG224	sku ^VG2[0-9]{2}						
 VG202XM	Cisco VG202XM Analog Voice Gateway	VG Series Gateways	gateway	layered	Voice Gateways		VG200 / VG202 / VG204 / VG224	sku ^VG2[0-9]{2}						
 VG204	Cisco VG204 Analog Voice Gateway	VG Series Gateways	gateway	layered	Voice Gateways		VG200 / VG202 / VG204 / VG224	sku ^VG2[0-9]{2}						
@@ -488,11 +488,11 @@ VWIC3-1MFT-T1/E1=	1-Port 3rd Gen Multiflex Trunk Voice/WAN Int. Card - T1/E1	VG 
 VWIC3-2MFT-T1/E1	2-Port 3rd Gen Multiflex Trunk Voice/WAN Int. Card - T1/E1	TDM Gateways	voice-module	pending_plan								move interfaces-modules		
 VWIC3-2MFT-T1/E1=	2-Port 3rd Gen Multiflex Trunk Voice/WAN Int. Card - T1/E1	VG Series Gateways	voice-module	pending_plan								move interfaces-modules		
 VWIC3-4MFT-T1/E1	4-Port 3rd Gen Multiflex Trunk Voice/WAN Int. Card - T1/E1	TDM Gateways	voice-module	pending_plan								move interfaces-modules		
-WRP400-G1	Wireless-G Broadband Router with 2 Phone Ports	Small Business Voice Gateways and ATAs	ata	layered	Analog Telephone Adapters and SPA	(shared across the line)	Analog Telephone Adapters and SPA shared parts	label Small Business Voice Gateways and ATAs						
-WRP400-G2	Wireless-G Broadband Router with 2 Phone Ports	Small Business Voice Gateways and ATAs	ata	layered	Analog Telephone Adapters and SPA	(shared across the line)	Analog Telephone Adapters and SPA shared parts	label Small Business Voice Gateways and ATAs						
-WRP400-G3	WRP400-G3, V1.0, Wireless-G Broadband Router, 2 Phone Ports	Small Business Voice Gateways and ATAs	ata	layered	Analog Telephone Adapters and SPA	(shared across the line)	Analog Telephone Adapters and SPA shared parts	label Small Business Voice Gateways and ATAs						
-WRP400-G4	Wireless-G Broadband Router with 2 Phone Ports	Small Business Voice Gateways and ATAs	ata	layered	Analog Telephone Adapters and SPA	(shared across the line)	Analog Telephone Adapters and SPA shared parts	label Small Business Voice Gateways and ATAs						
-WRP400-R2	Wireless-G Broadband Router with 2 Phone Ports	Small Business Voice Gateways and ATAs	ata	layered	Analog Telephone Adapters and SPA	(shared across the line)	Analog Telephone Adapters and SPA shared parts	label Small Business Voice Gateways and ATAs						
-WRP500-A-K9	Wireless Router for NA; Pb-Free	Small Business Voice Gateways and ATAs	ata	layered	Analog Telephone Adapters and SPA	(shared across the line)	Analog Telephone Adapters and SPA shared parts	label Small Business Voice Gateways and ATAs						
-WRP500-E-K9	Wireless Router for EU; Pb-Free	Small Business Voice Gateways and ATAs	ata	layered	Analog Telephone Adapters and SPA	(shared across the line)	Analog Telephone Adapters and SPA shared parts	label Small Business Voice Gateways and ATAs						
-WRP500-Z-K9	Wireless Router for EU; Encryption Striped, Pb-Free	Small Business Voice Gateways and ATAs	ata	layered	Analog Telephone Adapters and SPA	(shared across the line)	Analog Telephone Adapters and SPA shared parts	label Small Business Voice Gateways and ATAs						
+WRP400-G1	Wireless-G Broadband Router with 2 Phone Ports	Small Business Voice Gateways and ATAs	ata	layered	Analog Telephone Adapters and SPA		WRP400 / WRP500 Broadband Routers with 2 Phone Ports	sku ^WRP[45]00						
+WRP400-G2	Wireless-G Broadband Router with 2 Phone Ports	Small Business Voice Gateways and ATAs	ata	layered	Analog Telephone Adapters and SPA		WRP400 / WRP500 Broadband Routers with 2 Phone Ports	sku ^WRP[45]00						
+WRP400-G3	WRP400-G3, V1.0, Wireless-G Broadband Router, 2 Phone Ports	Small Business Voice Gateways and ATAs	ata	layered	Analog Telephone Adapters and SPA		WRP400 / WRP500 Broadband Routers with 2 Phone Ports	sku ^WRP[45]00						
+WRP400-G4	Wireless-G Broadband Router with 2 Phone Ports	Small Business Voice Gateways and ATAs	ata	layered	Analog Telephone Adapters and SPA		WRP400 / WRP500 Broadband Routers with 2 Phone Ports	sku ^WRP[45]00						
+WRP400-R2	Wireless-G Broadband Router with 2 Phone Ports	Small Business Voice Gateways and ATAs	ata	layered	Analog Telephone Adapters and SPA		WRP400 / WRP500 Broadband Routers with 2 Phone Ports	sku ^WRP[45]00						
+WRP500-A-K9	Wireless Router for NA; Pb-Free	Small Business Voice Gateways and ATAs	ata	layered	Analog Telephone Adapters and SPA		WRP400 / WRP500 Broadband Routers with 2 Phone Ports	sku ^WRP[45]00						
+WRP500-E-K9	Wireless Router for EU; Pb-Free	Small Business Voice Gateways and ATAs	ata	layered	Analog Telephone Adapters and SPA		WRP400 / WRP500 Broadband Routers with 2 Phone Ports	sku ^WRP[45]00						
+WRP500-Z-K9	Wireless Router for EU; Encryption Striped, Pb-Free	Small Business Voice Gateways and ATAs	ata	layered	Analog Telephone Adapters and SPA		WRP400 / WRP500 Broadband Routers with 2 Phone Ports	sku ^WRP[45]00						
