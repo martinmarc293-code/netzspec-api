@@ -1,8 +1,8 @@
 {
  "vendor": "cisco",
  "category": "switches",
- "built_at": "2026-09-14T18:51:52.391Z",
- "commit": "772e13a7a448849218d73dce174d4dae2df8cba1",
+ "built_at": "2026-09-15T07:31:40.969Z",
+ "commit": "55ea21c5a7fdfe0e3678c8c88eeb242421f0e5ea",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-switches.json",
  "parts": 7507,
@@ -995,7 +995,7 @@
      "series": "Catalyst PON",
      "family": null,
      "role": "access",
-     "note": null,
+     "note": "the rule names the OLT and ONT devices: the bare ^CGP- also claimed the Catalyst PON OLT optic CGP-SFP-OC(=), which is a transceiver (reviewer A-8, layers round 3)",
      "parts": 20,
      "kinds": {
       "switch": 12,
@@ -1080,7 +1080,7 @@
   },
   {
    "line": "Nexus",
-   "parts": 1858,
+   "parts": 1867,
    "series": [
     {
      "series": "Nexus 2000 Fabric Extenders",
@@ -1406,14 +1406,14 @@
      "series": "Nexus 9200",
      "family": "Nexus 9000",
      "role": "datacenter",
-     "note": null,
-     "parts": 31,
+     "note": "Tetration Analytics PIDs: TA-N9K-C9236C is the Nexus 9236C sold as part of a Tetration cluster — a switch under an appliance PID stays a switch (operator, layers round 3; its servers plan is cancelled)",
+     "parts": 32,
      "kinds": {
       "bundle": 4,
-      "switch": 27
+      "switch": 28
      },
      "roles": {
-      "datacenter": 27
+      "datacenter": 28
      },
      "samples": [
       "C1-N9K-C92160-B18Q — Cisco ONE 2 Nexus 92160YC-X with 8 QSFP-40G-SR-BD",
@@ -1424,7 +1424,7 @@
       "C1-N9K-C9272Q — Cisco ONE Nexus 9K Fixed with 72p 40G QSFP+"
      ],
      "rules": {
-      "sku": 31
+      "sku": 32
      },
      "pending_in": {}
     },
@@ -1432,17 +1432,17 @@
      "series": "Nexus 9300",
      "family": "Nexus 9000",
      "role": "datacenter",
-     "note": null,
-     "parts": 211,
+     "note": "Tetration Analytics PIDs: TA-C93180YC-FX(-NR / 3 / =) and TA-N9K-C9372PX-E(=) / TA-N9K-C9372TX-E(=) are the Nexus 9300 switches sold in Tetration clusters — a switch under an appliance PID stays a switch (operator, layers round 3; their servers plans are cancelled)",
+     "parts": 219,
      "kinds": {
-      "switch": 157,
+      "switch": 165,
       "bundle": 31,
       "mechanical": 3,
       "fan": 12,
       "module": 8
      },
      "roles": {
-      "datacenter": 157
+      "datacenter": 165
      },
      "samples": [
       "9364E-SG2 — Cisco 9364E-SG2",
@@ -1453,7 +1453,7 @@
       "C1-N9K-C93108-B18Q — Cisco ONE 2 Nexus 93108TC-EX with 8 QSFP-40G-SR-BD"
      ],
      "rules": {
-      "sku": 211
+      "sku": 219
      },
      "pending_in": {}
     },
@@ -2060,7 +2060,7 @@
      "series": "Industrial Ethernet shared parts",
      "family": "(shared across the line)",
      "role": null,
-     "note": null,
+     "note": "CW-SFP-KIT1 'SFP Installation Kit for IE-3500H-12P2MU2X', planned in from routers (operator, layers round 3: an arrival in a reviewed category). The rows the label check or the accessory rule send to this line's shared parts land here too",
      "parts": 37,
      "kinds": {
       "cable": 1,
@@ -2082,7 +2082,9 @@
       "accessory": 5,
       "label-unsupported": 32
      },
-     "pending_in": {}
+     "pending_in": {
+      "routers": 1
+     }
     }
    ]
   },
@@ -4211,9 +4213,9 @@
    "sku": "GLE-GE-100FX=",
    "name": "100BASE-FX (multimode fiber) (works in “multispeed” Gigabit Ethernet SFP ports of other Cisco platforms such as the Cisco Catalyst 3560, Cisco Catalyst 3750 [nonmetro], and Cisco Catalyst 2970 Series)",
    "series_label": "ME 3400E Ethernet Access",
-   "action": "move",
-   "to": "transceiver",
-   "reason": "pluggable optic filed as a switch"
+   "action": "class",
+   "to": "non_product",
+   "reason": "misprint of GLC-GE-100FX=: not an orderable PID (was a move to transceiver; operator, layers round 3)"
   },
   {
    "sku": "IBM-SN-POINTER",
@@ -4888,78 +4890,6 @@
    "reason": "third-party (Panduit) cabling part number cited in a Catalyst 9300 datasheet, not a Cisco PID; switchKind names it `accessory` until the class change runs"
   },
   {
-   "sku": "TA-C93180YC-FX",
-   "name": "Nexus 9300 with 48p 10/25G SFP+, 6p 100G QSFP, MACsec, UP",
-   "series_label": "Tetration Analytics",
-   "action": "move",
-   "to": "servers-unified-computing",
-   "reason": "Tetration Analytics appliance"
-  },
-  {
-   "sku": "TA-C93180YC-FX-NR",
-   "name": "Nexus9300 with 48p 10/25G SFP+,6p 100G QSFP,MACsec,UP NoRack",
-   "series_label": "Tetration Analytics",
-   "action": "move",
-   "to": "servers-unified-computing",
-   "reason": "Tetration Analytics appliance"
-  },
-  {
-   "sku": "TA-C93180YC-FX3",
-   "name": "Workload M6 Nexus9300 48p10/25G SFP+,6p100G QSFP,MACsec,UP",
-   "series_label": "Tetration Analytics",
-   "action": "move",
-   "to": "servers-unified-computing",
-   "reason": "Tetration Analytics appliance"
-  },
-  {
-   "sku": "TA-C93180YC-FX=",
-   "name": "Nexus 9300 with 48p 10/25G SFP+, 6p 100G QSFP, MACsec, UP",
-   "series_label": "Tetration Analytics",
-   "action": "move",
-   "to": "servers-unified-computing",
-   "reason": "Tetration Analytics appliance"
-  },
-  {
-   "sku": "TA-N9K-C9236C",
-   "name": "Nexus 9K Fixed with 36p 100G QSFP28",
-   "series_label": "Nexus 9000",
-   "action": "move",
-   "to": "servers-unified-computing",
-   "reason": "Tetration Analytics appliance"
-  },
-  {
-   "sku": "TA-N9K-C9372PX-E",
-   "name": "Nexus 9372PX-E with 48p 10G SFP+ and 6p 40G QSFP+",
-   "series_label": "Nexus 9000",
-   "action": "move",
-   "to": "servers-unified-computing",
-   "reason": "Tetration Analytics appliance"
-  },
-  {
-   "sku": "TA-N9K-C9372PX-E=",
-   "name": "Nexus 9372PX-E with 48p 10G SFP+ and 6p 40G QSFP+",
-   "series_label": "Nexus 9000",
-   "action": "move",
-   "to": "servers-unified-computing",
-   "reason": "Tetration Analytics appliance"
-  },
-  {
-   "sku": "TA-N9K-C9372TX-E",
-   "name": "Nexus 9372TX-E with 48p 1/10G-T and 6p 40G QSFP+",
-   "series_label": "Nexus 9000",
-   "action": "move",
-   "to": "servers-unified-computing",
-   "reason": "Tetration Analytics appliance"
-  },
-  {
-   "sku": "TA-N9K-C9372TX-E=",
-   "name": "Nexus 9372TX-E with 48p 1/10G-T and 6p 40G QSFP+",
-   "series_label": "Nexus 9000",
-   "action": "move",
-   "to": "servers-unified-computing",
-   "reason": "Tetration Analytics appliance"
-  },
-  {
    "sku": "UTP28X3BU",
    "name": "Cisco UTP28X3BU",
    "series_label": "Catalyst 9300",
@@ -4995,9 +4925,9 @@
    "sku": "XR-10GB-LR",
    "name": "10GBASE-LR X2 (single-mode fiber)",
    "series_label": "Catalyst 6500",
-   "action": "move",
-   "to": "transceiver",
-   "reason": "pluggable optic filed as a switch"
+   "action": "class",
+   "to": "non_product",
+   "reason": "misprint of X2-10GB-LR: not an orderable PID (was a move to transceiver; operator, layers round 3)"
   }
  ],
  "unplaced": [],
@@ -6679,8 +6609,7 @@
  },
  "pending_review": [],
  "inbound_unplaced": {
-  "data-center-networking": 16,
-  "routers": 1
+  "data-center-networking": 16
  },
  "done": true
 }

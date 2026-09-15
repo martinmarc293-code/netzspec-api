@@ -1,8 +1,8 @@
 {
  "vendor": "cisco",
  "category": "routers",
- "built_at": "2026-09-14T18:52:08.242Z",
- "commit": "772e13a7a448849218d73dce174d4dae2df8cba1",
+ "built_at": "2026-09-15T07:31:49.057Z",
+ "commit": "55ea21c5a7fdfe0e3678c8c88eeb242421f0e5ea",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-routers.json",
  "parts": 5093,
@@ -1675,6 +1675,20 @@
       "sku": 4
      },
      "pending_in": {}
+    },
+    {
+     "series": "IC3000 Industrial Compute Gateway",
+     "family": null,
+     "role": "industrial-iot",
+     "note": "IC3000-2C2F-K9= / IC3000-2C2F-K9++ planned in from switches: an edge-compute appliance (IOx) of the IoT line, kind appliance (operator, layers round 3: an arrival in a reviewed category)",
+     "parts": 0,
+     "kinds": {},
+     "roles": {},
+     "samples": [],
+     "rules": {},
+     "pending_in": {
+      "switches": 2
+     }
     },
     {
      "series": "Industrial and IoT Routers shared parts",
@@ -5946,8 +5960,7 @@
  },
  "pending_review": [],
  "inbound_unplaced": {
-  "wireless": 14,
-  "switches": 2
+  "wireless": 14
  },
  "done": true
 }

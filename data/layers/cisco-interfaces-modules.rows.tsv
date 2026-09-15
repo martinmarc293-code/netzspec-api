@@ -765,7 +765,7 @@ OC48E/POS-SR-FC-B	1 Port OC-48c/STM-16c SONET/SDH 1310nm SR with FC, GSR	Line ca
 OC48E/POS-SR-FC-B=	1 Port OC-48c/STM-16c SONET/SDH 1310nm SR with FC, GSR	Line cards	interface	layered	Router and switch line cards (legacy)		Cisco 12000 / XR 12000 SIP and line cards	sku ^OC48E						
 ONS-BRK-CS-16LC=	16-chs Colorless Flex-spectrum Mux/Dmx - LCs to CS connector	Transceiver Modules	mux	pending_plan								move optical-networking		
 ONS-BRK-CS-8LC=	8-chs Colorless Flex-spectrum Mux/Dmx - LCs to CS connector	Transceiver Modules	mux	pending_plan								move optical-networking		
-ONS-CAB-CS-LC-5=	Duplex optical patchcord, LC to CS connectors, 5m	Transceiver Modules	cable	layered	Cables and accessories		Fiber and M12 cables (CB-)	label Transceiver Modules						
+ONS-CAB-CS-LC-5=	Duplex optical patchcord, LC to CS connectors, 5m	Transceiver Modules	cable	pending_plan								move optical-networking		
 ONS-QDD-OLS=	QSFP-DD Open Line System, Pre and Bst EDFA, 2.4 THz C-Band	Transceiver Modules	optic	pending_plan								move optical-networking		
 P-1T	High Speed Serial Pluggable LATAM and India	Network Modules	interface	layered	Router Interface Modules		NM / NME Network Modules	label Network Modules						
 P-1T=	High Speed Serial Pluggable LATAM and India	Network Modules	interface	layered	Router Interface Modules		NM / NME Network Modules	label Network Modules						

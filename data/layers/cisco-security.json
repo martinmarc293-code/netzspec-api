@@ -1,7 +1,9 @@
 {
  "vendor": "cisco",
  "category": "security",
- "built_at": "2026-09-14T14:00:56.843Z",
+ "built_at": "2026-09-15T07:32:16.803Z",
+ "commit": "55ea21c5a7fdfe0e3678c8c88eeb242421f0e5ea",
+ "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-security.json",
  "parts": 1990,
  "lines": [
@@ -11,6 +13,7 @@
    "series": [
     {
      "series": "Secure Firewall 200",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 7,
@@ -29,10 +32,12 @@
      ],
      "rules": {
       "sku": 7
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Secure Firewall 1200",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 25,
@@ -55,10 +60,12 @@
      "rules": {
       "sku": 24,
       "label": 1
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Secure Firewall 6100",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 29,
@@ -82,10 +89,12 @@
      ],
      "rules": {
       "sku": 29
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Firepower 1000",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 35,
@@ -106,10 +115,12 @@
      ],
      "rules": {
       "sku": 35
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Firepower 2100",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 88,
@@ -133,10 +144,12 @@
      ],
      "rules": {
       "sku": 88
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Secure Firewall 3100",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 40,
@@ -159,10 +172,12 @@
      ],
      "rules": {
       "sku": 40
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Secure Firewall 4200",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 46,
@@ -185,10 +200,12 @@
      ],
      "rules": {
       "sku": 46
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Firepower 4100",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 125,
@@ -212,10 +229,12 @@
      "rules": {
       "sku": 123,
       "label": 2
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Firepower 9300",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 113,
@@ -242,10 +261,12 @@
      "rules": {
       "sku": 110,
       "label": 3
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "FirePOWER 7000 / 8000 (legacy)",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 123,
@@ -271,10 +292,12 @@
      "rules": {
       "sku": 116,
       "label": 7
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Secure Firewall and Firepower shared parts",
+     "family": "(shared across the line)",
      "role": null,
      "note": null,
      "parts": 28,
@@ -296,7 +319,8 @@
      "rules": {
       "accessory": 3,
       "sku": 25
-     }
+     },
+     "pending_in": {}
     }
    ]
   },
@@ -306,6 +330,7 @@
    "series": [
     {
      "series": "ASA 5585-X",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 146,
@@ -331,10 +356,12 @@
      ],
      "rules": {
       "sku": 146
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "ASA 5580",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 9,
@@ -352,10 +379,12 @@
      ],
      "rules": {
       "sku": 9
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "ASA 5500-X (5506 / 5508 / 5512 / 5515 / 5516 / 5525 / 5545 / 5555)",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 147,
@@ -376,10 +405,12 @@
      ],
      "rules": {
       "sku": 147
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "ASA 5500 (5505 / 5510 / 5520 / 5540 / 5550)",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 65,
@@ -401,10 +432,14 @@
      ],
      "rules": {
       "sku": 65
+     },
+     "pending_in": {
+      "interfaces-modules": 14
      }
     },
     {
      "series": "ISA 3000",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 6,
@@ -424,10 +459,12 @@
      "rules": {
       "sku": 4,
       "label": 2
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "ASA and ISA shared parts",
+     "family": "(shared across the line)",
      "role": null,
      "note": null,
      "parts": 68,
@@ -455,7 +492,8 @@
      "rules": {
       "label": 23,
       "sku": 45
-     }
+     },
+     "pending_in": {}
     }
    ]
   },
@@ -465,6 +503,7 @@
    "series": [
     {
      "series": "IPS 4300 / 4500",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 26,
@@ -485,7 +524,8 @@
      ],
      "rules": {
       "sku": 26
-     }
+     },
+     "pending_in": {}
     }
    ]
   },
@@ -495,6 +535,7 @@
    "series": [
     {
      "series": "Management Center / FireSIGHT appliances",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 120,
@@ -522,7 +563,8 @@
      ],
      "rules": {
       "sku": 120
-     }
+     },
+     "pending_in": {}
     }
    ]
   },
@@ -532,6 +574,7 @@
    "series": [
     {
      "series": "Secure Network Server (SNS) appliances",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 89,
@@ -562,10 +605,12 @@
      "rules": {
       "label": 11,
       "sku": 78
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Identity Services Engine shared parts",
+     "family": "(shared across the line)",
      "role": null,
      "note": null,
      "parts": 2,
@@ -579,7 +624,8 @@
      ],
      "rules": {
       "accessory": 2
-     }
+     },
+     "pending_in": {}
     }
    ]
   },
@@ -589,6 +635,7 @@
    "series": [
     {
      "series": "Flow Sensor",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 68,
@@ -606,10 +653,12 @@
      ],
      "rules": {
       "sku": 68
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Flow Collector",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 77,
@@ -635,10 +684,12 @@
      ],
      "rules": {
       "sku": 77
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Management Console",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 24,
@@ -656,10 +707,12 @@
      ],
      "rules": {
       "sku": 24
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "UDP Director / Flow Replicator",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 27,
@@ -677,10 +730,12 @@
      ],
      "rules": {
       "sku": 27
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Data Store",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 5,
@@ -697,10 +752,12 @@
      ],
      "rules": {
       "sku": 5
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Secure Network Analytics (Stealthwatch) shared parts",
+     "family": "(shared across the line)",
      "role": null,
      "note": null,
      "parts": 87,
@@ -730,7 +787,8 @@
       "sku": 82,
       "label": 4,
       "accessory": 1
-     }
+     },
+     "pending_in": {}
     }
    ]
   },
@@ -740,6 +798,7 @@
    "series": [
     {
      "series": "Email Security Appliance (ESA)",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 37,
@@ -758,10 +817,12 @@
      ],
      "rules": {
       "sku": 37
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Secure Web Appliance (WSA)",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 40,
@@ -781,10 +842,12 @@
      ],
      "rules": {
       "sku": 40
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Security Management Appliance (SMA)",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 37,
@@ -804,10 +867,12 @@
      ],
      "rules": {
       "sku": 37
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Secure Email and Web shared parts",
+     "family": "(shared across the line)",
      "role": null,
      "note": null,
      "parts": 85,
@@ -833,7 +898,8 @@
      ],
      "rules": {
       "sku": 85
-     }
+     },
+     "pending_in": {}
     }
    ]
   },
@@ -843,6 +909,7 @@
    "series": [
     {
      "series": "Malware Analytics (Threat Grid) appliances",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 70,
@@ -868,10 +935,12 @@
      ],
      "rules": {
       "sku": 70
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Secure Malware Analytics shared parts",
+     "family": "(shared across the line)",
      "role": null,
      "note": null,
      "parts": 1,
@@ -884,7 +953,8 @@
      ],
      "rules": {
       "accessory": 1
-     }
+     },
+     "pending_in": {}
     }
    ]
   },
@@ -894,6 +964,7 @@
    "series": [
     {
      "series": "Secure Endpoint (AMP) private cloud appliances",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 36,
@@ -920,7 +991,8 @@
      ],
      "rules": {
       "sku": 36
-     }
+     },
+     "pending_in": {}
     }
    ]
   },
@@ -930,6 +1002,7 @@
    "series": [
     {
      "series": "Cyber Vision Center appliances",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 27,
@@ -955,7 +1028,8 @@
      ],
      "rules": {
       "sku": 27
-     }
+     },
+     "pending_in": {}
     }
    ]
   },
@@ -965,6 +1039,7 @@
    "series": [
     {
      "series": "Security Manager (CSM) appliances",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 17,
@@ -989,12 +1064,14 @@
      "rules": {
       "sku": 16,
       "label": 1
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Secure Workload (Tetration)",
+     "family": null,
      "role": null,
-     "note": null,
+     "note": "the TA- rule refuses the Nexus 9300 / 9200 switch PIDs of Tetration clusters (TA-C93180YC-FX, TA-N9K-C9372PX-E …), which are switches (operator, layers round 3); the clusters TA-CL-39U-M6-K9 / TA-CL-8U-M6-K9 stay here",
      "parts": 4,
      "kinds": {
       "analytics": 4
@@ -1008,17 +1085,20 @@
      ],
      "rules": {
       "sku": 4
-     }
+     },
+     "pending_in": {}
     },
     {
      "series": "Secure Client (AnyConnect)",
+     "family": null,
      "role": null,
      "note": null,
      "parts": 0,
      "kinds": {},
      "roles": {},
      "samples": [],
-     "rules": {}
+     "rules": {},
+     "pending_in": {}
     }
    ]
   }
@@ -1112,5 +1192,15 @@
   }
  ],
  "unplaced": [],
+ "label_check": {
+  "applied": false,
+  "label_placed": 0,
+  "by_kind": {},
+  "moved": []
+ },
+ "pending_review": [],
+ "inbound_unplaced": {
+  "servers-unified-computing": 1
+ },
  "done": true
 }

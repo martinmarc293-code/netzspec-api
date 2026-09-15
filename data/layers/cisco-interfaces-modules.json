@@ -1,8 +1,8 @@
 {
  "vendor": "cisco",
  "category": "interfaces-modules",
- "built_at": "2026-09-14T18:52:35.423Z",
- "commit": "772e13a7a448849218d73dce174d4dae2df8cba1",
+ "built_at": "2026-09-15T07:31:56.870Z",
+ "commit": "55ea21c5a7fdfe0e3678c8c88eeb242421f0e5ea",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-interfaces-modules.json",
  "parts": 1400,
@@ -454,17 +454,17 @@
   },
   {
    "line": "Cables and accessories",
-   "parts": 130,
+   "parts": 129,
    "series": [
     {
      "series": "Fiber and M12 cables (CB-)",
      "family": null,
      "role": null,
      "note": null,
-     "parts": 112,
+     "parts": 111,
      "kinds": {
       "accessory": 49,
-      "cable": 57,
+      "cable": 56,
       "mechanical": 2,
       "unknown": 4
      },
@@ -478,7 +478,7 @@
       "CB-LC-LC-MMF10M — Cisco CB-LC-LC-MMF10M"
      ],
      "rules": {
-      "label": 57,
+      "label": 56,
       "sku": 55
      },
      "pending_in": {}
@@ -2697,6 +2697,14 @@
    "action": "move",
    "to": "optical-networking",
    "reason": "passive WDM mux/demux/OADM/splitter — optical-networking's own `mux` kind"
+  },
+  {
+   "sku": "ONS-CAB-CS-LC-5=",
+   "name": "Duplex optical patchcord, LC to CS connectors, 5m",
+   "series_label": "Transceiver Modules",
+   "action": "move",
+   "to": "optical-networking",
+   "reason": "optical patch cord (LC to CS) for the NCS 2000 / ONS line, filed in interfaces-modules; its home is optical-networking's patchcords series (operator, layers round 3, A-11)"
   },
   {
    "sku": "ONS-QDD-OLS=",
