@@ -348,6 +348,18 @@
    ]
   },
   {
+   "line": "Duo",
+   "series": [
+    {
+     "series": "Duo hardware tokens",
+     "sku": [
+      "^DUO-TOKEN"
+     ],
+     "note": "layers round 3 (servers round): DUO-TOKEN-10PACK 'A hardware token used with a Cisco Duo subscription (10 pack)', planned in from servers-unified-computing; the Duo subscriptions filed beside it are class plans (licence), not hardware"
+    }
+   ]
+  },
+  {
    "line": "Cyber Vision",
    "series": [
     {

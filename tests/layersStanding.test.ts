@@ -11,11 +11,25 @@ import { REPO_ROOT } from "../src/config.js";
 import { readLayerRows, pairDisagreements, twinGroups, crossClaims, ruleUse, classifyRules, incomingRows, labelViolations, labelEvidenceDrift, seriesEntryDisagreements, deviceInSharedParts, unplacedArrivals, sharedLabelNotExplicit, DEVICE_KINDS, type LayerRow } from "../src/core/layerChecks.js";
 import { labelEvidence } from "../src/core/labelEvidence.js";
 
-export const REVIEWED = ["switches", "routers", "transceiver", "interfaces-modules", "wireless"];
+export const REVIEWED = ["switches", "routers", "transceiver", "interfaces-modules", "wireless", "servers-unified-computing", "hyperconverged-infrastructure", "hyperconverged-systems"];
 // spare = base exceptions, each read against the built row
 const PAIR_EXCEPTIONS: Record<string, string> = {
   "switches|N5K-C5696Q-C": "the spare row is named '^Invalid SKU' and carries a class non_product plan; its base is the live 'Nexus 5696Q Chassis with license and SW image'",
   "wireless|C9105AXW-KIT": "the base row is named 'Do not use' and carries a class non_product plan; its spare C9105AXW-KIT= is the live 'C9105AX Series Spacer Kit' (layers round 3)",
+  // servers + hyperconverged round (layers round 3): Cisco voided one member of each pair — the voided member carries the kind layer's
+  // class non_product plan ("self-declared VOID PID"), the other is the live part in its series
+  "servers-unified-computing|UCS-C3K-EX40TE": "the spare is named 'VOID; Not Used' and carries a class non_product plan; the base is the live 'UCS C3X60 Expander 4x 10TB … 40TB' in UCS S3260",
+  "servers-unified-computing|UCS-C3K-SSD10": "the spare is named 'VOID: not used' and carries a class non_product plan; the base is the live 'Cisco UCS C3X60 SSD+HDD Row' in UCS S3260",
+  "servers-unified-computing|UCS-S3260-EX32T": "the spare is named 'VOID; Not Used' and carries a class non_product plan; the base is the live 'S3260 HDD Expander with 4x 8TB …' in UCS S3260",
+  "servers-unified-computing|UCS-S3260-EX48T": "the spare is named 'Void; Not Used' and carries a class non_product plan; the base is the live 'UCS S3260 Disk Expansion Tray with 4x 12TB' in UCS S3260",
+  "servers-unified-computing|UCS-S3260-EX64T": "the spare is named 'VOID; Not Used' and carries a class non_product plan; the base is the live 'UCS S3260 Rear Expander with 4x16TB …' in UCS S3260",
+  "servers-unified-computing|UCS-S3260-EX8T": "the spare is named 'Void; Not Used' and carries a class non_product plan; the base is the live 'UCS S3260 Disk Expansion Tray with 4x 2TB' in UCS S3260",
+  "servers-unified-computing|UCSB-EX-M4-1": "the BASE is named 'VOID-TO BE OBSOLETED' and carries a class non_product plan; the spare UCSB-EX-M4-1= is the live 'UCS Scalable M4 Blade Module w/o CPU/DIMM/HDD'",
+  "servers-unified-computing|UCSX-440P": "the spare is named 'VOID; Not Used' and carries a class non_product plan; the base is the live 'Cisco UCS X-Series Gen4 PCIe node within UCS X210c config' in UCS X440p PCIe node",
+  "servers-unified-computing|UCS-MAN-S72A2T0V0": "kind only: the base is named 'MSFT AzureStack HCI Hyb CTO Node C220 M7sn w/Mellanox' (server), the spare only by its SKU, so the kind axis reads its MAN token (bundle); both sit in UCS C220",
+  "servers-unified-computing|UCSW-MSX-PCBL": "kind only: the base 'UCS Invicta Scaling System Mellanox Switch Power Cable' reads server from its SKU token, the spare '… Mellanox Jumper Cable' reads cable through its name; both sit in UCS Invicta (Whiptail) — a kind-layer defect listed in the round's record, not changed in a layers round",
+  "servers-unified-computing|UCSW-WT-35HDDT": "kind only: the base (name cut to 'UCSW Whiptail Super Micro 3.5') reads server from its SKU token, the spare '… 3.5\" HDD Tray …' reads drive through its name, and a tray is neither; both sit in UCS Invicta (Whiptail) — a kind-layer defect listed in the round's record",
+  "hyperconverged-systems|HXAF-E-240-M5SX": "the spare is named 'VOID; Not Used' and carries a class non_product plan; the base is the live 'Cisco HyperFlex All Flash Edge 240 Full Capacity M5 system' in HyperFlex Edge",
 };
 
 // THE LABEL CHECK, per category (layers round 3, operator: the round-2 floor "more than 100 label-placed rows" failed by construction
@@ -27,20 +41,24 @@ const LABEL_EXPECT: Record<string, { min?: number; exactly?: number; why: string
   transceiver: { exactly: 0, why: "every transceiver row is placed by its SKU's form-factor and speed family; the mapping's labels place nothing (layers round 3)" },
   wireless: { exactly: 30, why: "access points, controllers and their parts are placed by SKU; 30 rows are judged on a stored label (11 kept by a token or name, 19 moved to their line's shared parts — layers round 3)" },
   "interfaces-modules": { exactly: 5, why: "the cards are placed by their SKU families; 5 rows are judged on a stored label — STM1-CN-MM / -SMI kept by the name token PA, and AIC-DBL-PNL, AIC-SGL-PNL and WDM-SFP-2CH-CONV= moved to shared parts; the 30 labels mapped directly to a line's shared parts are not judged (pre-ruling C1, layers round 3)" },
+  "servers-unified-computing": { exactly: 1, why: "UCS rows are placed by SKU; one row is judged on a stored label — SAS3 (a datasheet fragment, label 'S-Series Storage'), moved to the S-Series line's shared parts; the rows whose label maps directly to a line's shared parts are not judged (pre-ruling C1). The ten E1x0 service spares and the SRE parts the check had moved are SKU-placed or planned out since the servers round" },
+  "hyperconverged-infrastructure": { exactly: 0, why: "HCI rows are placed by SKU; its 97 label-placed rows carry labels mapped directly to the Nutanix line's shared parts (pre-ruling C1, not judged)" },
+  "hyperconverged-systems": { exactly: 0, why: "HyperFlex rows are placed by SKU or, for five Cisco+ offers, by name; its 32 label-placed rows carry the label mapped directly to HyperFlex shared parts (pre-ruling C1, not judged)" },
 };
 // THE FAMILY LAYER, per category: "in-use" where Cisco names families over series (switches, routers); "none" where Cisco names none
 // and every line of 3+ series says why (layers round 3: optics and modules, operator — "—" with a no_family_reason is the expected result).
-const FAMILY_EXPECT: Record<string, "in-use" | "none"> = { switches: "in-use", routers: "in-use", transceiver: "none", "interfaces-modules": "none", wireless: "none" };
+const FAMILY_EXPECT: Record<string, "in-use" | "none"> = { switches: "in-use", routers: "in-use", transceiver: "none", "interfaces-modules": "none", wireless: "none",
+  // servers + hyperconverged round: Cisco names the UCS server families as the lines themselves (C-Series, B-Series, X-Series …) and
+  // no family between a line and its models; HyperFlex and Compute Hyperconverged name nodes directly under the product
+  "servers-unified-computing": "none", "hyperconverged-infrastructure": "none", "hyperconverged-systems": "none" };
 // ARRIVALS (layers round 3): a not-run move plan out of a reviewed category must land placed in its target's mapping. These four
 // plans predate the check (switches + routers rounds) and their targets cannot place them yet; each is listed with the round that
 // owns the target's rule. A listed row that now places is a stale exception and fails. (Operator, layers round 3: 11 -> 4 — the
 // IC3000 series in routers and CW-SFP-KIT1 in switches were added, the nine TA-* plans were cancelled: those rows are Nexus switches.)
 // Layers round 3, wireless round: AIR-BR1310G and CWWLSE-1130-19-K9 now place (wireless series "Aironet 1310 outdoor access point /
 // bridge (legacy)" and line "Wireless LAN Solution Engine (legacy)"); their exceptions are retired.
-const ARRIVAL_EXCEPTIONS: Record<string, string> = {
-  "routers|XRV-PCIE-C40Q-03": "PCIe NIC for the XRv appliance: servers-unified-computing places it in its round",
-  "routers|XRV-PCIE-IQ10GF": "PCIe NIC for the XRv appliance: servers-unified-computing places it in its round",
-};
+// Servers round: XRV-PCIE-C40Q-03 and XRV-PCIE-IQ10GF now place (servers "Network and storage adapters", ^XRV-PCIE-); retired.
+const ARRIVAL_EXCEPTIONS: Record<string, string> = {};
 // transceiver (operator, layers round 3): the same-cage cable series holds only cables, and a breakout cable sits in its host cage's
 // speed series, never in the DAC series
 const TX_DAC_SERIES = "DAC and AOC cables (SFP+ / SFP28 / SFP56 / QSFP / QSFP-DD)";
@@ -75,7 +93,9 @@ const STATUSES = new Set(["claimant-rule-too-broad", "decided-home", "pending-ro
 
 for (const cat of REVIEWED) {
   const rows = readLayerRows(cat);
-  check(`${cat}: the built rows are not empty`, rows.length > 1000, `${rows.length} rows`);
+  // was "rows > 1000", a floor that failed by construction on the small categories reviewed from the servers round on (786 rows in
+  // hyperconverged-infrastructure); the page's own parts count is the stronger statement (checked below with the summary)
+  check(`${cat}: the built rows are not empty`, rows.length > 0, `${rows.length} rows`);
 
   const dis = pairDisagreements(rows).filter((d) => !PAIR_EXCEPTIONS[`${cat}|${d.sku}`]);
   check(`spare=base ${cat}: 0 base/spare pairs disagree on series, kind, bucket or plan`, dis.length === 0, dis.slice(0, 8).map((d) => `${d.sku} [${d.fields.join(",")}]`).join("; "));
@@ -122,6 +142,7 @@ for (const cat of REVIEWED) {
   const { drift } = labelEvidenceDrift(cat, rows);
   check(`label check ${cat}: the recorded evidence of every kept label row is what labelEvidence gives today`, drift.length === 0, drift.slice(0, 5).map((d) => `${d.sku}: recorded "${d.recorded}", now "${d.now}"`).join("; "));
   const summary = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, "data", "layers", `cisco-${cat}.json`), "utf8"));
+  check(`${cat}: the page's parts count is its row count`, summary.parts === rows.length, `page ${summary.parts}, rows ${rows.length}`);
   const sed = seriesEntryDisagreements(summary, rows);
   check(`series entries ${cat}: every series entry of the JSON agrees with its rows on parts, kinds, roles and family`, sed.length === 0, sed.slice(0, 5).map((d) => `${d.series} [${d.fields.join(",")}] ${d.detail}`).join("; "));
   // a series with 0 parts is a placeholder only while rows are planned into it, and it says so (closing items at aa1143f, item 2)
@@ -316,6 +337,10 @@ for (const cat of REVIEWED) {
   const dv3 = deviceInSharedParts(["device", "ont", "olt", "ap", "wlc", "backhaul", "sensor"].map((k, i) => row(`ZZ-DEV-${i}`, { kind: k, series: "Cables and accessories shared parts" })));
   check("SABOTAGE devices (round 3): a whole device of kind device / ont / olt / ap / wlc / backhaul / sensor in shared parts is caught", dv3.length === 7 && ["device", "ont", "olt", "ap", "wlc", "backhaul", "sensor"].every((k) => DEVICE_KINDS.has(k)), JSON.stringify(dv3.map((r) => r.kind)));
   check("SABOTAGE devices (wireless round): an antenna or a bundle in shared parts is not a device", deviceInSharedParts([row("ZZ-ANT", { kind: "antenna", series: "X shared parts" }), row("ZZ-BUN", { kind: "bundle", series: "X shared parts" })]).length === 0);
+  const dvs = deviceInSharedParts([row("UCSC-C420-M3", { kind: "server", series: "UCS C-Series Rack Servers shared parts" }), row("UCS-FI-6652=", { kind: "fabric-interconnect", series: "UCS Fabric Interconnects shared parts" }),
+    row("UCS-S3348-RAIDM5", { kind: "storage-controller", series: "UCS Server Components shared parts" }), row("UCS-M6-MLB", { kind: "bundle", series: "UCS Server Components shared parts" })]);
+  check("SABOTAGE devices (servers round): a server and a fabric interconnect in shared parts are caught, a storage controller and a bundle there are not",
+    dvs.map((r) => r.sku).join() === "UCSC-C420-M3,UCS-FI-6652=" && DEVICE_KINDS.has("server") && DEVICE_KINDS.has("fabric-interconnect"), JSON.stringify(dvs.map((r) => r.sku)));
 
   // round 3: the transceiver cable contract, the label expectation and the arrivals check, each refusing for its stated reason
   const cc = cableContract([row("SFP-H25G-CU1M", { kind: "cable", series: TX_DAC_SERIES, product_line: "Direct-attach and active optical cables" }),

@@ -17,20 +17,6 @@
   },
   {
    "category": "switches",
-   "claimed_by": "servers-unified-computing",
-   "series": "UCS X9508 chassis",
-   "rule": "sku (?<!CPU-[A-Z]{0,2})9508(?![0-9])",
-   "rows": 25,
-   "examples": [
-    "C1-N9K-C9508",
-    "C1-N9K-C9508-B2",
-    "C1-N9K-C9508-B3-E"
-   ],
-   "status": "claimant-rule-too-broad",
-   "reason": "the row is correctly filed here; the claiming mapping's SKU rule is wider than the family it names — fix it in the servers-unified-computing round"
-  },
-  {
-   "category": "switches",
    "claimed_by": "storage-networking",
    "series": "MDS 9300 fabric switches (9396S / 9396T / 9396V)",
    "rule": "sku (?<![0-9])9396",
@@ -82,120 +68,6 @@
    ],
    "status": "decided-home",
    "reason": "whole Catalyst switches sold as Room / IX5000 options stay in switches (layers review round 2, A.6; run #1024 moved them); the collab SKU rule is wider than its room parts — fix it in the collaboration-endpoints round"
-  },
-  {
-   "category": "switches",
-   "claimed_by": "servers-unified-computing",
-   "series": "R42610 / R42612 racks and PDUs",
-   "rule": "sku ^RACK",
-   "rows": 2,
-   "examples": [
-    "RACK-KIT-T1=",
-    "RACKMNT-19-CMPACT"
-   ],
-   "status": "claimant-rule-too-broad",
-   "reason": "the row is correctly filed here; the claiming mapping's SKU rule is wider than the family it names — fix it in the servers-unified-computing round"
-  },
-  {
-   "category": "switches",
-   "claimed_by": "servers-unified-computing",
-   "series": "UCS Mini (6324)",
-   "rule": "sku (?<!CPU-[A-Z]{0,2})6324(?![0-9])",
-   "rows": 2,
-   "examples": [
-    "WS-X6324-100FX-MM",
-    "WS-X6324-100FX-SM"
-   ],
-   "status": "claimant-rule-too-broad",
-   "reason": "the row is correctly filed here; the claiming mapping's SKU rule is wider than the family it names — fix it in the servers-unified-computing round"
-  },
-  {
-   "category": "switches",
-   "claimed_by": "servers-unified-computing",
-   "series": "UCS 6300 Fabric Interconnects",
-   "rule": "sku (?<!CPU-[A-Z]{0,2})6332",
-   "rows": 1,
-   "examples": [
-    "UCS-PSU-6332-DC="
-   ],
-   "status": "claimant-rule-too-broad",
-   "reason": "the row is correctly filed here; the claiming mapping's SKU rule is wider than the family it names — fix it in the servers-unified-computing round"
-  },
-  {
-   "category": "routers",
-   "claimed_by": "servers-unified-computing",
-   "series": "UCS E-Series",
-   "rule": "sku ^E1[0-9]{2}[A-Z]?-",
-   "rows": 6,
-   "examples": [
-    "E100-FCPLT-BRKT",
-    "E100-FCPLT-BRKT=",
-    "E100S-CON-DGL"
-   ],
-   "status": "pending-round",
-   "reason": "UCS E-Series accessories and SSDs filed under the Catalyst 8000 / ISR routers (E100-FCPLT-BRKT, E-SSD-U2N-2TB, EM3-HDA-8FXS): servers or router module — decided in the servers-unified-computing round"
-  },
-  {
-   "category": "routers",
-   "claimed_by": "servers-unified-computing",
-   "series": "UCS E-Series",
-   "rule": "sku ^E-SSD",
-   "rows": 4,
-   "examples": [
-    "E-SSD-U2N-2TB",
-    "E-SSD-U2N-2TB=",
-    "E-SSD-U2N-4TB"
-   ],
-   "status": "pending-round",
-   "reason": "UCS E-Series accessories and SSDs filed under the Catalyst 8000 / ISR routers (E100-FCPLT-BRKT, E-SSD-U2N-2TB, EM3-HDA-8FXS): servers or router module — decided in the servers-unified-computing round"
-  },
-  {
-   "category": "routers",
-   "claimed_by": "servers-unified-computing",
-   "series": "UCS E-Series",
-   "rule": "sku ^EM3-",
-   "rows": 1,
-   "examples": [
-    "EM3-HDA-8FXS"
-   ],
-   "status": "pending-round",
-   "reason": "UCS E-Series accessories and SSDs filed under the Catalyst 8000 / ISR routers (E100-FCPLT-BRKT, E-SSD-U2N-2TB, EM3-HDA-8FXS): servers or router module — decided in the servers-unified-computing round"
-  },
-  {
-   "category": "routers",
-   "claimed_by": "hyperconverged-infrastructure",
-   "series": "HCI C220 nodes",
-   "rule": "sku (?<![A-Z0-9])C220(?![0-9])",
-   "rows": 1,
-   "examples": [
-    "XRV-FAN-C220M4="
-   ],
-   "status": "claimant-rule-too-broad",
-   "reason": "the row is correctly filed here; the claiming mapping's SKU rule is wider than the family it names — fix it in the servers + HCI round"
-  },
-  {
-   "category": "routers",
-   "claimed_by": "hyperconverged-systems",
-   "series": "HX220c",
-   "rule": "sku (?<![0-9])220-?M[4-7]",
-   "rows": 1,
-   "examples": [
-    "XRV-FAN-C220M4="
-   ],
-   "status": "claimant-rule-too-broad",
-   "reason": "the row is correctly filed here; the claiming mapping's SKU rule is wider than the family it names — fix it in the servers + HCI round"
-  },
-  {
-   "category": "routers",
-   "claimed_by": "servers-unified-computing",
-   "series": "UCS C220",
-   "rule": "sku (?<![A-Z0-9])C220(?![0-9])",
-   "rows": 1,
-   "examples": [
-    "XRV-FAN-C220M4="
-   ],
-   "status": "claimant-rule-too-broad",
-   "reason": "the row is correctly filed here; the claiming mapping's SKU rule is wider than the family it names — fix it in the servers-unified-computing round"
   },
   {
    "category": "transceiver",
@@ -320,152 +192,6 @@
    "reason": "Meraki MR access points filed in wireless beside the meraki category's own MR rows; the home of Meraki MR hardware is decided in the meraki round (the switches precedent: Meraki MS moved to switches, run #1061) — layers round 3, wireless round"
   },
   {
-   "category": "wireless",
-   "claimed_by": "hyperconverged-systems",
-   "series": "HX220c",
-   "rule": "sku (?<![0-9])220-?M[4-7]",
-   "rows": 12,
-   "examples": [
-    "AIR-BZL-C220M4",
-    "AIR-BZL-C220M4=",
-    "AIR-FAN-C220M4="
-   ],
-   "status": "claimant-rule-too-broad",
-   "reason": "the row is correctly filed here: a bezel, fan or riser of the C220 / C240 M4-based 5520 / 8540 controllers or MSE / CMX appliances, sold under AIR- / MSE- / CMX- PIDs; the claiming mapping's model-number rule is wider than the family it names — fix it in the hyperconverged round (layers round 3, wireless round)"
-  },
-  {
-   "category": "wireless",
-   "claimed_by": "hyperconverged-infrastructure",
-   "series": "HCI C220 nodes",
-   "rule": "sku (?<![A-Z0-9])C220(?![0-9])",
-   "rows": 11,
-   "examples": [
-    "AIR-BZL-C220M4",
-    "AIR-BZL-C220M4=",
-    "AIR-FAN-C220M4="
-   ],
-   "status": "claimant-rule-too-broad",
-   "reason": "the row is correctly filed here: a bezel, fan, riser or SATA interposer of the C220 / C240-based wireless controllers and appliances (5520, 8540, MSE, CMX, IEC6400), sold under wireless PIDs; the claiming mapping's model-number rule is wider than the family it names — fix it in the hyperconverged round (layers round 3, wireless round)"
-  },
-  {
-   "category": "wireless",
-   "claimed_by": "servers-unified-computing",
-   "series": "UCS C220",
-   "rule": "sku (?<![A-Z0-9])C220(?![0-9])",
-   "rows": 10,
-   "examples": [
-    "AIR-BZL-C220M4",
-    "AIR-BZL-C220M4=",
-    "AIR-FAN-C220M4="
-   ],
-   "status": "claimant-rule-too-broad",
-   "reason": "the row is correctly filed here: a bezel, fan, riser or SATA interposer of the C220 / C240-based wireless controllers and appliances (5520, 8540, MSE, CMX, IEC6400), sold under wireless PIDs; servers' model-number rule is wider than the family it names — fix it in the servers-unified-computing round (layers round 3, wireless round)"
-  },
-  {
-   "category": "wireless",
-   "claimed_by": "servers-unified-computing",
-   "series": "Catalyst Center appliance",
-   "rule": "sku ^DN[0-9]-",
-   "rows": 9,
-   "examples": [
-    "DN3-L-MR-X16G1RS-H",
-    "DN3-L-SD960GM1X-EV",
-    "DN3-LOC-BZL-C220M5"
-   ],
-   "status": "claimant-rule-too-broad",
-   "reason": "the rows are parts of the Catalyst Center location appliance (DN3-LOC), correctly filed in wireless' Location and Spaces Appliances; servers' Catalyst Center appliance rule claims every DN3- — fix it in the servers-unified-computing round (layers round 3, wireless round)"
-  },
-  {
-   "category": "wireless",
-   "claimed_by": "hyperconverged-systems",
-   "series": "HX240c",
-   "rule": "sku (?<![0-9])240-?M[4-7]",
-   "rows": 4,
-   "examples": [
-    "AIR-BZL-C240M4",
-    "AIR-BZL-C240M4=",
-    "AIR-FAN-C240M4="
-   ],
-   "status": "claimant-rule-too-broad",
-   "reason": "the row is correctly filed here: a bezel, fan or riser of the C220 / C240 M4-based 5520 / 8540 controllers or MSE / CMX appliances, sold under AIR- / MSE- / CMX- PIDs; the claiming mapping's model-number rule is wider than the family it names — fix it in the hyperconverged round (layers round 3, wireless round)"
-  },
-  {
-   "category": "wireless",
-   "claimed_by": "hyperconverged-infrastructure",
-   "series": "HCI C240 nodes",
-   "rule": "sku (?<![A-Z0-9])C240(?![0-9])",
-   "rows": 3,
-   "examples": [
-    "AIR-BZL-C240M4",
-    "AIR-BZL-C240M4=",
-    "AIR-FAN-C240M4="
-   ],
-   "status": "claimant-rule-too-broad",
-   "reason": "the row is correctly filed here: a bezel, fan, riser or SATA interposer of the C220 / C240-based wireless controllers and appliances (5520, 8540, MSE, CMX, IEC6400), sold under wireless PIDs; the claiming mapping's model-number rule is wider than the family it names — fix it in the hyperconverged round (layers round 3, wireless round)"
-  },
-  {
-   "category": "wireless",
-   "claimed_by": "servers-unified-computing",
-   "series": "UCS C240",
-   "rule": "sku (?<![A-Z0-9])C240(?![0-9])",
-   "rows": 3,
-   "examples": [
-    "AIR-BZL-C240M4",
-    "AIR-BZL-C240M4=",
-    "AIR-FAN-C240M4="
-   ],
-   "status": "claimant-rule-too-broad",
-   "reason": "the row is correctly filed here: a bezel, fan, riser or SATA interposer of the C220 / C240-based wireless controllers and appliances (5520, 8540, MSE, CMX, IEC6400), sold under wireless PIDs; servers' model-number rule is wider than the family it names — fix it in the servers-unified-computing round (layers round 3, wireless round)"
-  },
-  {
-   "category": "wireless",
-   "claimed_by": "servers-unified-computing",
-   "series": "UCS C240",
-   "rule": "sku (?<![0-9])240-?M[1-8]",
-   "rows": 1,
-   "examples": [
-    "AIR-PCI-1A-240M4"
-   ],
-   "status": "claimant-rule-too-broad",
-   "reason": "the row is correctly filed here: a bezel, fan, riser or SATA interposer of the C220 / C240-based wireless controllers and appliances (5520, 8540, MSE, CMX, IEC6400), sold under wireless PIDs; servers' model-number rule is wider than the family it names — fix it in the servers-unified-computing round (layers round 3, wireless round)"
-  },
-  {
-   "category": "wireless",
-   "claimed_by": "hyperconverged-infrastructure",
-   "series": "HCI C220 nodes",
-   "rule": "sku (?<![0-9])220-?M[6-8]",
-   "rows": 1,
-   "examples": [
-    "IWA-SATAIN-220M6"
-   ],
-   "status": "claimant-rule-too-broad",
-   "reason": "the row is correctly filed here: a bezel, fan, riser or SATA interposer of the C220 / C240-based wireless controllers and appliances (5520, 8540, MSE, CMX, IEC6400), sold under wireless PIDs; the claiming mapping's model-number rule is wider than the family it names — fix it in the hyperconverged round (layers round 3, wireless round)"
-  },
-  {
-   "category": "wireless",
-   "claimed_by": "servers-unified-computing",
-   "series": "UCS C220",
-   "rule": "sku (?<![0-9])220-?M[1-8]",
-   "rows": 1,
-   "examples": [
-    "IWA-SATAIN-220M6"
-   ],
-   "status": "claimant-rule-too-broad",
-   "reason": "the row is correctly filed here: a bezel, fan, riser or SATA interposer of the C220 / C240-based wireless controllers and appliances (5520, 8540, MSE, CMX, IEC6400), sold under wireless PIDs; servers' model-number rule is wider than the family it names — fix it in the servers-unified-computing round (layers round 3, wireless round)"
-  },
-  {
-   "category": "wireless",
-   "claimed_by": "servers-unified-computing",
-   "series": "R42610 / R42612 racks and PDUs",
-   "rule": "sku ^RACK",
-   "rows": 1,
-   "examples": [
-    "RACK-QCN-SN5="
-   ],
-   "status": "claimant-rule-too-broad",
-   "reason": "RACK-QCN-SN5= 'Rack for CWWLSE Express 1030' belongs with the WLSE in wireless; servers' ^RACK rule is wider than the R42610 / R42612 racks it names — fix it in the servers-unified-computing round (layers round 3, wireless round)"
-  },
-  {
    "category": "routers",
    "claimed_by": "wireless",
    "series": "Power injectors, supplies and cords",
@@ -477,6 +203,467 @@
    ],
    "status": "pending-round",
    "reason": "PWR-CH1-750WACR= / PWR-CH1-950WDCR= are the spares of supplies shared by the Catalyst 8500 (routers, named 'Cisco C8500 750W AC Power, Spare') and the Catalyst 9800-80 controller (whose bases sit in wireless, named 'Catalyst wireless controller 750W AC Power Supply'): one home for the pair is an operator decision (decision pending, layers round 3, wireless round)"
+  },
+  {
+   "category": "servers-unified-computing",
+   "claimed_by": "hyperconverged-systems",
+   "series": "HX240c",
+   "rule": "sku ^(?=HX|UCSC?-|CBL-).*(?<![0-9])240-?M[4-7]",
+   "rows": 251,
+   "examples": [
+    "CBL-FNVME-C240M7",
+    "CBL-FNVME-C240M7=",
+    "CBL-G5GPU-C240M7="
+   ],
+   "status": "decided-home",
+   "reason": "the row is a UCS C-Series part (a UCSC- / UCS- / CBL- PID) filed in servers-unified-computing; HyperFlex HX220c / HX240c / HX245c nodes are built on the same C220 / C240 / C245 servers and hyperconverged-systems files the same generic components under its node series, so its model rule — fenced in this round to the HX / UCSC- / CBL- prefixes of the rows it decides — reads them by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
+  },
+  {
+   "category": "servers-unified-computing",
+   "claimed_by": "interfaces-modules",
+   "series": "SM-X and SM Service Modules",
+   "rule": "sku ^UCS-E",
+   "rows": 177,
+   "examples": [
+    "UCS-E1100D-M6",
+    "UCS-E1100D-M6=",
+    "UCS-E1120D-M3/K9="
+   ],
+   "status": "pending-round",
+   "reason": "the UCS E-Series server modules and their parts filed in servers-unified-computing (UCS-E1100D-M6, UCS-E160S-M3/K9= …); interfaces-modules holds four UCS-E modules (pre-ruling C3: kind module) and its SM-X series rule ^UCS-E reads these. Decision pending: UCS E-Series home — one category for all UCS-E rows, servers-unified-computing (Cisco's UCS E-Series Servers) or interfaces-modules (the SM-X form factor) (layers round 3, servers + hyperconverged round)"
+  },
+  {
+   "category": "servers-unified-computing",
+   "claimed_by": "hyperconverged-systems",
+   "series": "HX220c",
+   "rule": "sku ^(?=HX|UCSC-|CBL-).*(?<![0-9])220-?M[4-7]",
+   "rows": 69,
+   "examples": [
+    "CBL-FNVME-220M6",
+    "CBL-FNVME-220M6=",
+    "UCSC-10C220M4S-LI"
+   ],
+   "status": "decided-home",
+   "reason": "the row is a UCS C-Series part (a UCSC- / UCS- / CBL- PID) filed in servers-unified-computing; HyperFlex HX220c / HX240c / HX245c nodes are built on the same C220 / C240 / C245 servers and hyperconverged-systems files the same generic components under its node series, so its model rule — fenced in this round to the HX / UCSC- / CBL- prefixes of the rows it decides — reads them by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
+  },
+  {
+   "category": "servers-unified-computing",
+   "claimed_by": "hyperconverged-systems",
+   "series": "HX220c",
+   "rule": "sku ^(?=HX|UCSC-|CBL-).*(?<![A-Z0-9])C220(?![0-9])",
+   "rows": 62,
+   "examples": [
+    "UCSC-10PK-C220",
+    "UCSC-10PK-C220M3L",
+    "UCSC-10PK-C220M3S"
+   ],
+   "status": "decided-home",
+   "reason": "the row is a UCS C-Series part (a UCSC- / UCS- / CBL- PID) filed in servers-unified-computing; HyperFlex HX220c / HX240c / HX245c nodes are built on the same C220 / C240 / C245 servers and hyperconverged-systems files the same generic components under its node series, so its model rule — fenced in this round to the HX / UCSC- / CBL- prefixes of the rows it decides — reads them by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
+  },
+  {
+   "category": "servers-unified-computing",
+   "claimed_by": "hyperconverged-infrastructure",
+   "series": "HCI C240 nodes",
+   "rule": "sku ^(?=HC[IO]|UCSC-).*(?<![0-9])240-?M[6-8]",
+   "rows": 52,
+   "examples": [
+    "UCSC-240M8E3-16X4",
+    "UCSC-240M8E3-24X4",
+    "UCSC-240M8E3-32X2"
+   ],
+   "status": "decided-home",
+   "reason": "the row is a UCS C-Series part (a UCSC- PID) filed in servers-unified-computing; the Compute Hyperconverged C220 / C240 nodes are built on the same servers and hyperconverged-infrastructure files generic UCSC- risers under its node series, so its model rule — fenced in this round to the HCI / UCSC- prefixes of the rows it decides — reads them by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
+  },
+  {
+   "category": "servers-unified-computing",
+   "claimed_by": "hyperconverged-infrastructure",
+   "series": "HCI C220 nodes",
+   "rule": "sku ^(?=HC[IO]|UCSC-).*(?<![0-9])220-?M[6-8]",
+   "rows": 44,
+   "examples": [
+    "UCSC-AD-C220M8=",
+    "UCSC-C220-M7N",
+    "UCSC-C220-M7S"
+   ],
+   "status": "decided-home",
+   "reason": "the row is a UCS C-Series part (a UCSC- PID) filed in servers-unified-computing; the Compute Hyperconverged C220 / C240 nodes are built on the same servers and hyperconverged-infrastructure files generic UCSC- risers under its node series, so its model rule — fenced in this round to the HCI / UCSC- prefixes of the rows it decides — reads them by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
+  },
+  {
+   "category": "servers-unified-computing",
+   "claimed_by": "storage-networking",
+   "series": "MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)",
+   "rule": "sku (?<![0-9])91(20|24|32|34|40|48)",
+   "rows": 6,
+   "examples": [
+    "UCS-CPU-A9124",
+    "UCS-CPU-A9124=",
+    "UCS-CPU-A9124C="
+   ],
+   "status": "claimant-rule-too-broad",
+   "reason": "the rows are UCS processors (UCS-CPU-A9124 …, AMD EPYC 9124) and RAID controllers (UCSC-RAID-9220-4I / -8I, Broadcom 9220) correctly filed in servers-unified-computing; storage-networking's MDS 9100 / 9200 digit rules read 9124 / 9220 wherever they occur — fix it in the storage-networking round (layers round 3, servers + hyperconverged round)"
+  },
+  {
+   "category": "servers-unified-computing",
+   "claimed_by": "storage-networking",
+   "series": "MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)",
+   "rule": "sku (?<![0-9])92(16|20|22|50)",
+   "rows": 4,
+   "examples": [
+    "UCSC-RAID-9220-4I",
+    "UCSC-RAID-9220-4I=",
+    "UCSC-RAID-9220-8I"
+   ],
+   "status": "claimant-rule-too-broad",
+   "reason": "the rows are UCS processors (UCS-CPU-A9124 …, AMD EPYC 9124) and RAID controllers (UCSC-RAID-9220-4I / -8I, Broadcom 9220) correctly filed in servers-unified-computing; storage-networking's MDS 9100 / 9200 digit rules read 9124 / 9220 wherever they occur — fix it in the storage-networking round (layers round 3, servers + hyperconverged round)"
+  },
+  {
+   "category": "servers-unified-computing",
+   "claimed_by": "switches",
+   "series": "Catalyst 6500",
+   "rule": "sku ^(C1-|2D-)?(WS-|VS-)?C65[0-9]{2}",
+   "rows": 1,
+   "examples": [
+    "C6508-BUN1"
+   ],
+   "status": "decided-home",
+   "reason": "C6508-BUN1 '^DISTIonly: UCS 5108 Chassis, 8fans, 2 FEX, 2PSUs, Rack kit' is a UCS 5108 chassis bundle, filed in servers-unified-computing's UCS 5108 blade chassis series; its PID reuses the Catalyst 6508 model number, which switches' Catalyst 6500 rule reads by design (layers round 3, servers + hyperconverged round)"
+  },
+  {
+   "category": "servers-unified-computing",
+   "claimed_by": "hyperconverged-systems",
+   "series": "HX245c",
+   "rule": "sku ^(?=UCSC-).*(?<![0-9])245-?M[6-7]",
+   "rows": 1,
+   "examples": [
+    "UCSC-C245-M6SX1"
+   ],
+   "status": "decided-home",
+   "reason": "the row is a UCS C-Series part (a UCSC- / UCS- / CBL- PID) filed in servers-unified-computing; HyperFlex HX220c / HX240c / HX245c nodes are built on the same C220 / C240 / C245 servers and hyperconverged-systems files the same generic components under its node series, so its model rule — fenced in this round to the HX / UCSC- / CBL- prefixes of the rows it decides — reads them by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
+  },
+  {
+   "category": "hyperconverged-infrastructure",
+   "claimed_by": "servers-unified-computing",
+   "series": "Processors",
+   "rule": "sku ^UCS-CPU",
+   "rows": 33,
+   "examples": [
+    "UCS-CPU-I4314",
+    "UCS-CPU-I4316",
+    "UCS-CPU-I5218N"
+   ],
+   "status": "decided-home",
+   "reason": "the row is a generic UCS component (UCS-CPU- / UCS-M- / UCS-M2- / UCS-TPM-) filed in hyperconverged-infrastructure, whose spec sheets order it for the Compute Hyperconverged nodes; servers-unified-computing's component series read the same PIDs by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
+  },
+  {
+   "category": "hyperconverged-infrastructure",
+   "claimed_by": "servers-unified-computing",
+   "series": "Memory",
+   "rule": "sku ^UCS-M(R|L|RX|KIT|P)",
+   "rows": 12,
+   "examples": [
+    "UCS-ML-128G4RW",
+    "UCS-ML-128G4RW1",
+    "UCS-ML-128G4RW=1"
+   ],
+   "status": "decided-home",
+   "reason": "the row is a generic UCS component (UCS-CPU- / UCS-M- / UCS-M2- / UCS-TPM-) filed in hyperconverged-infrastructure, whose spec sheets order it for the Compute Hyperconverged nodes; servers-unified-computing's component series read the same PIDs by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
+  },
+  {
+   "category": "hyperconverged-infrastructure",
+   "claimed_by": "servers-unified-computing",
+   "series": "Drives and storage",
+   "rule": "sku ^UCS-(SD|HD|HDL|HDM|HDB|HDD|HY|NVB|NVE|NVM|NVME|SDB|M2|USBFLSH|STOR|MSTOR|PCI25)",
+   "rows": 11,
+   "examples": [
+    "UCS-M2-240G",
+    "UCS-M2-240G=",
+    "UCS-M2-480G"
+   ],
+   "status": "decided-home",
+   "reason": "the row is a generic UCS component (UCS-CPU- / UCS-M- / UCS-M2- / UCS-TPM-) filed in hyperconverged-infrastructure, whose spec sheets order it for the Compute Hyperconverged nodes; servers-unified-computing's component series read the same PIDs by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
+  },
+  {
+   "category": "hyperconverged-infrastructure",
+   "claimed_by": "servers-unified-computing",
+   "series": "TPM",
+   "rule": "sku ^UCS-TPM",
+   "rows": 1,
+   "examples": [
+    "UCS-TPM-002D"
+   ],
+   "status": "decided-home",
+   "reason": "the row is a generic UCS component (UCS-CPU- / UCS-M- / UCS-M2- / UCS-TPM-) filed in hyperconverged-infrastructure, whose spec sheets order it for the Compute Hyperconverged nodes; servers-unified-computing's component series read the same PIDs by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
+  },
+  {
+   "category": "hyperconverged-infrastructure",
+   "claimed_by": "servers-unified-computing",
+   "series": "UCS 5108 blade chassis",
+   "rule": "sku ^UCSB-PSU",
+   "rows": 1,
+   "examples": [
+    "UCSB-PSU-2500HVDC"
+   ],
+   "status": "decided-home",
+   "reason": "the row is a UCS C-Series / B-Series part (UCSC-R2R3-C220M6, UCSC-RIS2A-240M6, UCSB-PSU-2500HVDC) filed in hyperconverged-infrastructure for the nodes built on that server or chassis; servers-unified-computing's model rules — fenced in this round to the UCSC- / UCS- / CBL- prefixes of the rows they decide — read it by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
+  },
+  {
+   "category": "hyperconverged-infrastructure",
+   "claimed_by": "hyperconverged-systems",
+   "series": "HX220c",
+   "rule": "sku ^(?=HX|UCSC-|CBL-).*(?<![0-9])220-?M[4-7]",
+   "rows": 1,
+   "examples": [
+    "UCSC-R2R3-C220M6"
+   ],
+   "status": "decided-home",
+   "reason": "the row is a generic UCS C-Series riser (UCSC-R2R3-C220M6, UCSC-RIS2A-240M6) filed in hyperconverged-infrastructure for its C220 / C240 nodes; hyperconverged-systems files the same generic UCSC- parts under its HX220c / HX240c series, so its fenced model rule reads them by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
+  },
+  {
+   "category": "hyperconverged-infrastructure",
+   "claimed_by": "servers-unified-computing",
+   "series": "UCS C220",
+   "rule": "sku ^(?=UCSC?-).*(?<![A-Z0-9])C220(?![0-9])",
+   "rows": 1,
+   "examples": [
+    "UCSC-R2R3-C220M6"
+   ],
+   "status": "decided-home",
+   "reason": "the row is a UCS C-Series / B-Series part (UCSC-R2R3-C220M6, UCSC-RIS2A-240M6, UCSB-PSU-2500HVDC) filed in hyperconverged-infrastructure for the nodes built on that server or chassis; servers-unified-computing's model rules — fenced in this round to the UCSC- / UCS- / CBL- prefixes of the rows they decide — read it by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
+  },
+  {
+   "category": "hyperconverged-infrastructure",
+   "claimed_by": "hyperconverged-systems",
+   "series": "HX240c",
+   "rule": "sku ^(?=HX|UCSC?-|CBL-).*(?<![0-9])240-?M[4-7]",
+   "rows": 1,
+   "examples": [
+    "UCSC-RIS2A-240M6"
+   ],
+   "status": "decided-home",
+   "reason": "the row is a generic UCS C-Series riser (UCSC-R2R3-C220M6, UCSC-RIS2A-240M6) filed in hyperconverged-infrastructure for its C220 / C240 nodes; hyperconverged-systems files the same generic UCSC- parts under its HX220c / HX240c series, so its fenced model rule reads them by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
+  },
+  {
+   "category": "hyperconverged-infrastructure",
+   "claimed_by": "servers-unified-computing",
+   "series": "UCS C240",
+   "rule": "sku ^(?=UCSC?-|CBL-).*(?<![0-9])240-?M[1-8]",
+   "rows": 1,
+   "examples": [
+    "UCSC-RIS2A-240M6"
+   ],
+   "status": "decided-home",
+   "reason": "the row is a UCS C-Series / B-Series part (UCSC-R2R3-C220M6, UCSC-RIS2A-240M6, UCSB-PSU-2500HVDC) filed in hyperconverged-infrastructure for the nodes built on that server or chassis; servers-unified-computing's model rules — fenced in this round to the UCSC- / UCS- / CBL- prefixes of the rows they decide — read it by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
+  },
+  {
+   "category": "hyperconverged-systems",
+   "claimed_by": "servers-unified-computing",
+   "series": "UCS C240",
+   "rule": "sku ^(?=UCSC?-|CBL-).*(?<![0-9])240-?M[1-8]",
+   "rows": 20,
+   "examples": [
+    "CBL-FNVME-240M6",
+    "CBL-FNVME-240M6=",
+    "CBL-RSASR1B-240M6="
+   ],
+   "status": "decided-home",
+   "reason": "the row is a UCS C-Series part (a UCSC- / UCS- / CBL- PID: a cable, riser, fan, heat sink or bezel of the C220 / C225 / C240 / C245) filed in hyperconverged-systems for the HyperFlex node built on that server; servers-unified-computing's model rules — fenced in this round to the UCSC- / UCS- / CBL- prefixes of the rows they decide — read it by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
+  },
+  {
+   "category": "hyperconverged-systems",
+   "claimed_by": "servers-unified-computing",
+   "series": "UCS C240",
+   "rule": "sku ^(?=UCSC?-|CBL-).*(?<![A-Z0-9])C240(?![0-9])",
+   "rows": 13,
+   "examples": [
+    "CBL-GPU-C240M6",
+    "CBL-GPU-C240M6=",
+    "CBL-R3BS3-C240M6L="
+   ],
+   "status": "decided-home",
+   "reason": "the row is a UCS C-Series part (a UCSC- / UCS- / CBL- PID: a cable, riser, fan, heat sink or bezel of the C220 / C225 / C240 / C245) filed in hyperconverged-systems for the HyperFlex node built on that server; servers-unified-computing's model rules — fenced in this round to the UCSC- / UCS- / CBL- prefixes of the rows they decide — read it by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
+  },
+  {
+   "category": "hyperconverged-systems",
+   "claimed_by": "servers-unified-computing",
+   "series": "UCS C220",
+   "rule": "sku ^(?=UCSC?-).*(?<![A-Z0-9])C220(?![0-9])",
+   "rows": 9,
+   "examples": [
+    "UCSC-BAFF-C220M4=",
+    "UCSC-EARS-C220M4=",
+    "UCSC-FAN-C220M4="
+   ],
+   "status": "decided-home",
+   "reason": "the row is a UCS C-Series part (a UCSC- / UCS- / CBL- PID: a cable, riser, fan, heat sink or bezel of the C220 / C225 / C240 / C245) filed in hyperconverged-systems for the HyperFlex node built on that server; servers-unified-computing's model rules — fenced in this round to the UCSC- / UCS- / CBL- prefixes of the rows they decide — read it by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
+  },
+  {
+   "category": "hyperconverged-systems",
+   "claimed_by": "hyperconverged-infrastructure",
+   "series": "HCI C240 nodes",
+   "rule": "sku ^(?=HC[IO]|UCSC-).*(?<![0-9])240-?M[6-8]",
+   "rows": 7,
+   "examples": [
+    "UCSC-ADGPU-240M6=",
+    "UCSC-HSHP-240M6",
+    "UCSC-HSHP-240M6="
+   ],
+   "status": "decided-home",
+   "reason": "the row is a generic UCS C-Series part (UCSC-ADGPU-240M6=, UCSC-HSHP-240M6, UCSC-R2R3-C220M6= …) filed in hyperconverged-systems for its HX220c / HX240c nodes; hyperconverged-infrastructure files the same generic UCSC- parts under its C220 / C240 node series, so its fenced model rule reads them by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
+  },
+  {
+   "category": "hyperconverged-systems",
+   "claimed_by": "servers-unified-computing",
+   "series": "UCS C220",
+   "rule": "sku ^(?=UCSC-|CBL-).*(?<![0-9])220-?M[1-8]",
+   "rows": 4,
+   "examples": [
+    "CBL-SAS-C220M6=",
+    "CBL-SATA-C220M6=",
+    "UCSC-SATAIN-220M5="
+   ],
+   "status": "decided-home",
+   "reason": "the row is a UCS C-Series part (a UCSC- / UCS- / CBL- PID: a cable, riser, fan, heat sink or bezel of the C220 / C225 / C240 / C245) filed in hyperconverged-systems for the HyperFlex node built on that server; servers-unified-computing's model rules — fenced in this round to the UCSC- / UCS- / CBL- prefixes of the rows they decide — read it by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
+  },
+  {
+   "category": "hyperconverged-systems",
+   "claimed_by": "servers-unified-computing",
+   "series": "UCS C220",
+   "rule": "sku ^UCS-220CBL",
+   "rows": 2,
+   "examples": [
+    "UCS-220CBLMR8=",
+    "UCS-220CBLSR8="
+   ],
+   "status": "decided-home",
+   "reason": "the row is a UCS C-Series part (a UCSC- / UCS- / CBL- PID: a cable, riser, fan, heat sink or bezel of the C220 / C225 / C240 / C245) filed in hyperconverged-systems for the HyperFlex node built on that server; servers-unified-computing's model rules — fenced in this round to the UCSC- / UCS- / CBL- prefixes of the rows they decide — read it by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
+  },
+  {
+   "category": "hyperconverged-systems",
+   "claimed_by": "servers-unified-computing",
+   "series": "Drives and storage",
+   "rule": "sku ^UCS-(SD|HD|HDL|HDM|HDB|HDD|HY|NVB|NVE|NVM|NVME|SDB|M2|USBFLSH|STOR|MSTOR|PCI25)",
+   "rows": 2,
+   "examples": [
+    "UCS-HD8T7KL4KN",
+    "UCS-MSTOR-M2="
+   ],
+   "status": "decided-home",
+   "reason": "the row is a generic UCS component (UCS-CPU-LPCVR=, UCS-HD8T7KL4KN, UCS-MSTOR-M2=) filed in hyperconverged-systems, whose spec sheets order it for the HyperFlex nodes; servers-unified-computing's component series read the same PIDs by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
+  },
+  {
+   "category": "hyperconverged-systems",
+   "claimed_by": "servers-unified-computing",
+   "series": "UCS C245",
+   "rule": "sku ^(?=UCSC-|CBL-).*(?<![A-Z0-9])C245(?![0-9])",
+   "rows": 2,
+   "examples": [
+    "UCSC-HSHP-C245M6",
+    "UCSC-HSHP-C245M6="
+   ],
+   "status": "decided-home",
+   "reason": "the row is a UCS C-Series part (a UCSC- / UCS- / CBL- PID: a cable, riser, fan, heat sink or bezel of the C220 / C225 / C240 / C245) filed in hyperconverged-systems for the HyperFlex node built on that server; servers-unified-computing's model rules — fenced in this round to the UCSC- / UCS- / CBL- prefixes of the rows they decide — read it by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
+  },
+  {
+   "category": "hyperconverged-systems",
+   "claimed_by": "servers-unified-computing",
+   "series": "UCS C225",
+   "rule": "sku ^(?=UCSC-|CBL-).*(?<![A-Z0-9])C225(?![0-9])",
+   "rows": 1,
+   "examples": [
+    "CBL-SAS-C225M6="
+   ],
+   "status": "decided-home",
+   "reason": "the row is a UCS C-Series part (a UCSC- / UCS- / CBL- PID: a cable, riser, fan, heat sink or bezel of the C220 / C225 / C240 / C245) filed in hyperconverged-systems for the HyperFlex node built on that server; servers-unified-computing's model rules — fenced in this round to the UCSC- / UCS- / CBL- prefixes of the rows they decide — read it by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
+  },
+  {
+   "category": "hyperconverged-systems",
+   "claimed_by": "servers-unified-computing",
+   "series": "R42610 / R42612 racks and PDUs",
+   "rule": "sku ^RP[0-9]{3}-",
+   "rows": 1,
+   "examples": [
+    "RP208-30-2P-U-2"
+   ],
+   "status": "decided-home",
+   "reason": "an R42610 rack part or PDU (RACK-BLANK-001, RACK-CBLMGT-001 …, RP208-30-2P-U-2) sold on the HyperFlex price list and filed in hyperconverged-systems' shared parts; servers-unified-computing's rack series reads it by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
+  },
+  {
+   "category": "hyperconverged-systems",
+   "claimed_by": "servers-unified-computing",
+   "series": "Processors",
+   "rule": "sku ^UCS-CPU",
+   "rows": 1,
+   "examples": [
+    "UCS-CPU-LPCVR="
+   ],
+   "status": "decided-home",
+   "reason": "the row is a generic UCS component (UCS-CPU-LPCVR=, UCS-HD8T7KL4KN, UCS-MSTOR-M2=) filed in hyperconverged-systems, whose spec sheets order it for the HyperFlex nodes; servers-unified-computing's component series read the same PIDs by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
+  },
+  {
+   "category": "hyperconverged-systems",
+   "claimed_by": "hyperconverged-infrastructure",
+   "series": "HCI C220 nodes",
+   "rule": "sku ^(?=HC[IO]|UCSC-).*(?<![0-9])220-?M[6-8]",
+   "rows": 1,
+   "examples": [
+    "UCSC-R2R3-C220M6="
+   ],
+   "status": "decided-home",
+   "reason": "the row is a generic UCS C-Series part (UCSC-ADGPU-240M6=, UCSC-HSHP-240M6, UCSC-R2R3-C220M6= …) filed in hyperconverged-systems for its HX220c / HX240c nodes; hyperconverged-infrastructure files the same generic UCSC- parts under its C220 / C240 node series, so its fenced model rule reads them by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
+  },
+  {
+   "category": "routers",
+   "claimed_by": "servers-unified-computing",
+   "series": "UCS E-Series",
+   "rule": "sku ^E1[0-9]{2}[A-Z]?-",
+   "rows": 6,
+   "examples": [
+    "E100-FCPLT-BRKT",
+    "E100-FCPLT-BRKT=",
+    "E100S-CON-DGL"
+   ],
+   "status": "pending-round",
+   "reason": "UCS E-Series accessories and SSDs filed under the Catalyst 8000 / ISR routers (E100-FCPLT-BRKT, E100S-CON-DGL, E100S-MEM-UDIMM8G, E-SSD-U2N-2TB / 4TB, EM3-HDA-8FXS); servers-unified-computing's UCS E-Series rules read them. Decision pending: UCS E-Series home — the servers round keeps the UCS-E rows where they are filed and carries the question to the operator (layers round 3)"
+  },
+  {
+   "category": "routers",
+   "claimed_by": "servers-unified-computing",
+   "series": "UCS E-Series",
+   "rule": "sku ^E-SSD",
+   "rows": 4,
+   "examples": [
+    "E-SSD-U2N-2TB",
+    "E-SSD-U2N-2TB=",
+    "E-SSD-U2N-4TB"
+   ],
+   "status": "pending-round",
+   "reason": "UCS E-Series accessories and SSDs filed under the Catalyst 8000 / ISR routers (E100-FCPLT-BRKT, E100S-CON-DGL, E100S-MEM-UDIMM8G, E-SSD-U2N-2TB / 4TB, EM3-HDA-8FXS); servers-unified-computing's UCS E-Series rules read them. Decision pending: UCS E-Series home — the servers round keeps the UCS-E rows where they are filed and carries the question to the operator (layers round 3)"
+  },
+  {
+   "category": "routers",
+   "claimed_by": "servers-unified-computing",
+   "series": "UCS E-Series",
+   "rule": "sku ^EM3-",
+   "rows": 1,
+   "examples": [
+    "EM3-HDA-8FXS"
+   ],
+   "status": "pending-round",
+   "reason": "UCS E-Series accessories and SSDs filed under the Catalyst 8000 / ISR routers (E100-FCPLT-BRKT, E100S-CON-DGL, E100S-MEM-UDIMM8G, E-SSD-U2N-2TB / 4TB, EM3-HDA-8FXS); servers-unified-computing's UCS E-Series rules read them. Decision pending: UCS E-Series home — the servers round keeps the UCS-E rows where they are filed and carries the question to the operator (layers round 3)"
+  },
+  {
+   "category": "hyperconverged-systems",
+   "claimed_by": "servers-unified-computing",
+   "series": "R42610 / R42612 racks and PDUs",
+   "rule": "sku ^RACK[0-9]?-(UCS|[A-Z]+-[0-9]{3}(?![0-9]))",
+   "rows": 8,
+   "examples": [
+    "RACK-BLANK-001",
+    "RACK-CBLMGT-001",
+    "RACK-CBLMGT-011"
+   ],
+   "status": "decided-home",
+   "reason": "an R42610 rack part or PDU (RACK-BLANK-001, RACK-CBLMGT-001 …, RP208-30-2P-U-2) sold on the HyperFlex price list and filed in hyperconverged-systems' shared parts; servers-unified-computing's rack series reads it by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
   }
  ]
 }

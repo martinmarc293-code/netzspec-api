@@ -1,6 +1,7 @@
 {
  "vendor": "cisco",
  "category": "hyperconverged-infrastructure",
+ "family_layer": "assigned",
  "_about": "Layer 2 (product line) and layer 3 (series) of Cisco Compute Hyperconverged, 14 Sep 2026: with Nutanix (HCI / HCO nodes by rack model, HCIX X-Series, HCIXE Unified Edge, fabric) and with VMware vSAN (HCIVS / HCIXVS). The vSAN line comes first because its node SKUs carry the same platform tokens (HCIVS240C). A component whose SKU names a node platform (HCI-CMA-C240M7, HCI-RIS3A-225M8) sits with that node; any other HCI- / UCS- component in the line's shared parts. No role axis.",
  "lines": [
   {
@@ -10,11 +11,12 @@
      "series": "vSAN nodes (C220 / C225 / C240 / C245 / X210c / X215c)",
      "sku": [
       "^HC[IO]X?VS",
-      "VSAN"
+      "^HC[IO].*VSAN"
      ],
      "labels": [
       "Compute Hyperconverged with VMware vSAN"
-     ]
+     ],
+     "note": "^HC[IO].*VSAN (layers round 3): the bare VSAN rule decides HCI-M8-VSAN-MLB and HCIX-M8-VSAN-MLB and claimed seven UCS vSAN bundles in servers-unified-computing (UCS-SA-VSAN-EXP-DP, UCS-SPL-VSAN1 …)"
     }
    ]
   },
@@ -28,42 +30,47 @@
      ]
     },
     {
-     "series": "HCIX X-Series (X210c / X215c / X9508)",
+     "series": "HCIX X-Series (X210c / X215c / X440p / X9508)",
      "sku": [
       "^HC[IO]X(NX|AF|F)?-?21[05]C",
       "^HC[IO]X-?9508",
-      "^HCIX-(210|215)"
-     ]
+      "^HC[IO]X-440P"
+     ],
+     "note": "^HCIX-(210|215) removed in layers round 3: ^HC[IO]X(NX|AF|F)?-?21[05]C decides both rows it matched. ^HC[IO]X-440P (layers round 3): HCIX-440P / -U, the X440p PCIe node of the X9508 (named only by their SKUs; kind server), sat in the line's shared parts — the device check names a server there"
     },
     {
      "series": "HCI fabric interconnects and X-Fabric",
      "sku": [
       "^HC[IO]X?-F[IS]",
-      "^HCI-PSU-6"
-     ]
+      "^HCI-PSU-6",
+      "^HC[IO]X-S9108"
+     ],
+     "note": "^HC[IO]X-S9108 (layers round 3): HCIX-S9108-100G 'Cisco UCS Fabric Interconnect 9108 100G' and HCIX-S9108-SW sat in the line's shared parts with kind fabric-interconnect"
     },
     {
      "series": "HCI C220 nodes",
      "sku": [
       "^HC[IO](AF|NX|F|HY)?220C",
-      "(?<![0-9])220-?M[6-8]",
-      "(?<![A-Z0-9])C220(?![0-9])"
-     ]
+      "^(?=HC[IO]|UCSC-).*(?<![0-9])220-?M[6-8]",
+      "^(?=HC[IO]).*(?<![A-Z0-9])C220(?![0-9])"
+     ],
+     "note": "layers round 3: the two model rules are fenced to the prefixes of the rows they decide (HCI- and the one UCSC-R2R3-C220M6 for 220M; HCI- for C220 — the other row it decided, 'C220/C240/B200', is a family placeholder with a class plan); unfenced they claimed the C220-based parts of the 5520 controller, CMX / MSE and IEC6400 in wireless, XRV-FAN-C220M4= in routers, and the UCS C220 rows of servers-unified-computing and hyperconverged-systems"
     },
     {
      "series": "HCI C225 nodes",
      "sku": [
-      "^HC[IO](AF|NX|F|HY)?225C",
-      "(?<![0-9])225-?M[6-8]"
-     ]
+      "^HC[IO]X?(AF|NX|F|HY)?225C",
+      "^(?=HC[IO]).*(?<![0-9])225-?M[6-8]"
+     ],
+     "note": "layers round 3: ^HC[IO]X? — HCOXNX225C-M8SN / -U 'Cisco Compute-Only C225 M8 Node' sat in the line's shared parts (servers in shared parts); the 225M rule is fenced to the HCI- rows it decides (unfenced it claimed UCS C225 rows of servers-unified-computing and hyperconverged-systems)"
     },
     {
      "series": "HCI C240 nodes",
      "sku": [
       "^HC[IO](AF|NX|F|HY)?240C",
-      "(?<![0-9])240-?M[6-8]",
-      "(?<![A-Z0-9])C240(?![0-9])"
-     ]
+      "^(?=HC[IO]|UCSC-).*(?<![0-9])240-?M[6-8]"
+     ],
+     "note": "the C240 alternative was removed in layers round 3: it decided none of its 5 matches and claimed 301 servers, 29 hyperconverged-systems and 3 wireless rows. The 240M rule is fenced in the same round to the prefixes of the rows it decides (HCI- and UCSC-RIS2A-240M6)"
     },
     {
      "series": "Compute Hyperconverged with Nutanix shared parts",
@@ -75,7 +82,8 @@
       "Compute Hyperconverged with Nutanix"
      ]
     }
-   ]
+   ],
+   "no_family_reason": "Cisco names the HCI XE-Series, HCIX X-Series (with the X440p PCIe node), the fabric interconnects and the HCI C220 / C225 / C240 nodes under Compute Hyperconverged with Nutanix, with no family between"
   }
  ],
  "shared_accessories": [

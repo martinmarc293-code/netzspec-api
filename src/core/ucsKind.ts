@@ -40,7 +40,11 @@ export type UcsKind =
   | "server" | "chassis" | "fabric-interconnect"
   | "cpu" | "memory" | "drive" | "power" | "nic" | "gpu" | "storage-controller" | "io-module"
   | "cable" | "fan" | "tpm" | "pdu"
-  | "accessory" | "os-license" | "software" | "bundle" | "non-product" | "unknown";
+  | "accessory" | "os-license" | "software" | "bundle" | "non-product" | "unknown"
+  // layers round 3 (15 Sep 2026): the axis names `mechanical` from the SKU for the R42610 rack's bar, doors, hardware kit, locks and
+  // side panel (PRE_RULES), as moduleKind does for the slot dividers. NOT added to UCS_KINDS: cupLedger's three UCS lists already
+  // carry `mechanical` through NAME_ONLY_KINDS, and a second copy there would change the ledger's list, which is cup side.
+  | "mechanical";
 
 /** Kinds that are a whole machine — the only ones a physical specification belongs to. */
 export const UCS_MACHINE: readonly UcsKind[] = ["server", "chassis", "fabric-interconnect"];
@@ -335,6 +339,20 @@ export const PRE_RULES: { kind: UcsKind; re: RegExp }[] = [
   { kind: "non-product", re: /-TOPO\d+$|^DISK-MODE-|^UCSC-SW-C\d{3}M\d-[PE]\d|^UCSC-CCARD-|-(?:IS|IMM)-MANAGED(?:-M\d)?$|^(?:HX|UCS)-DCPMM-|^DDR\d-\d{4}|^E5-\d{4}$/ },
   { kind: "io-module", re: /(?:^|-)IOM-?\d{4}|(?:^|-)IFM(?:-|$)|(?:^|-)I-?9108-|^X9108-IFM/ },
   { kind: "chassis", re: /^N20-C65\d\d/ },
+  // layers round 3 (15 Sep 2026): the R42610 rack parts RACK-BAR-001 / RACK-DOOR-001 / -002 / RACK-HW-001 / RACK-LOCK-001 / -002 /
+  // RACK-SIDE-001 are `accessory` by the RACK token, so the NAME decides the fallback: the bases are named "DO NOT PUBLISH" and stay
+  // accessory, the spares ("Rear cable access bar", "…door", "…side panel") read `cable` / `mechanical` — seven base / spare pairs
+  // disagreed. A bar, a door, a hardware kit, a lock and a side panel are mechanical parts of the rack.
+  { kind: "mechanical", re: /^RACK-(?:BAR|DOOR|HW|LOCK|SIDE)-\d/ },
+  // layers round 3 (15 Sep 2026), the servers round's device check (a `server` / `fabric-interconnect` in a shared-parts series):
+  //   R2XX-DMYMPWRCORD(=) "no power cord" is an ordering SETTING used across the C-Series — the `non-product` rule's own scope
+  //     ("ordering-system settings … not things anyone ships") — and the R2XX token read it as a C200 server.
+  //   UCS-S3348-HBAM5(=) "UCS S3348 Pass through Controller (IT) based on LSI" and UCS-S3X48-FAN(=) "UCS S3X48 Chassis Fan" took
+  //     `server` from the S3 prefix; their sibling UCS-S3348-RAIDM5 already reads storage-controller. No series names the S3348
+  //     platform, so they stay in UCS Server Components shared parts, where a server kind is a defect the check names.
+  { kind: "non-product", re: /^R2XX-DMYMPWRCORD$/ },
+  { kind: "storage-controller", re: /^UCS-S3348-HBA/ },
+  { kind: "fan", re: /^UCS-S3X48-FAN$/ },
   // kind-layer (13 Sep 2026), III.0 item 4 §7b: CSP-5200= "5200 1RU NFV appliance chassis spare" and CSP-5400= "5400 2RU
   // NFV appliance chassis spare" are the empty chassis of the CSP 5000 platforms, which the server rule below took by
   // their `CSP-5\d{3}` shape. Exact, so CSP-5228 / CSP-5444 / CSP-5456 (the platforms) stay servers.

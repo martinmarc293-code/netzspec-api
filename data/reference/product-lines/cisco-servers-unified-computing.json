@@ -1,6 +1,7 @@
 {
  "vendor": "cisco",
  "category": "servers-unified-computing",
+ "family_layer": "assigned",
  "_about": "Layer 2 (product line) and layer 3 (series) of Cisco UCS, 14 Sep 2026. Lines are Cisco's server families. A part whose SKU names a MODEL (C240, B200, X210c, 6454) sits in that model's series; a part whose SKU names only the FAMILY prefix (UCSC-, UCSB-, UCSX-, UCSXE-, CSP-) sits in '<line> shared parts' (the reviewer's shared-parts rule); a generic UCS- component that fits several families sits in the 'UCS Server Components' line by component type. Order is load-bearing: bundles and fabric interconnects first (their SKUs carry server model tokens), model series before family shared parts.",
  "not_this_category": [
   {
@@ -28,9 +29,10 @@
     {
      "series": "UCS EZ bundles",
      "sku": [
-      "^(UCS|UCSB|UCSC|UCUCS|WMS)-EZ",
+      "^(UCS|UCSB|UCSC|UCSV|UCUCS|WMS)-EZ",
       "^UCSEZ[A-Z]"
-     ]
+     ],
+     "note": "UCSV (layers round 3): UCSV-EZ-C250-DOM-2 'UCS EZ DOM C250M2 …' sat in B-Series shared parts by its label — a server in shared parts, which the device check names"
     },
     {
      "series": "Solution, reference and promotion bundles",
@@ -44,7 +46,8 @@
       "FPOD"
      ]
     }
-   ]
+   ],
+   "no_family_reason": "the Smart Play / SP Select, UCS EZ, solution-reference-promotion and FlexPod bundles are ordering programmes, not a Cisco product family"
   },
   {
    "line": "Cisco Appliances on UCS",
@@ -52,11 +55,12 @@
     {
      "series": "Catalyst Center appliance",
      "sku": [
-      "^DN[0-9]-"
+      "^DN[0-9]-(?!LOC|L-)"
      ],
      "labels": [
       "Catalyst Center"
-     ]
+     ],
+     "note": "(?!LOC|L-) (layers round 3): the rule claimed the nine DN3-LOC / DN3-L- parts of the Catalyst Center location appliance, which wireless holds (its round recorded the claim for this round); the four rows it decides here are DN3-HW-APL-XL(=) and DN3-P-I8D25GF / I8Q25GF"
     },
     {
      "series": "APIC / Nexus Dashboard appliance",
@@ -73,7 +77,8 @@
       "^KIN-"
      ]
     }
-   ]
+   ],
+   "no_family_reason": "the Catalyst Center, APIC / Nexus Dashboard and Kinetic appliances are separate Cisco products that run on UCS hardware, with no family between"
   },
   {
    "line": "UCS Invicta Flash Storage",
@@ -88,13 +93,27 @@
   },
   {
    "line": "UCS Unified Edge (XE)",
+   "no_family_reason": "Cisco names the XE130c and XE150c compute nodes and the XE9305 chassis under UCS Unified Edge, with no family between",
    "series": [
+    {
+     "series": "UCS XE130c",
+     "sku": [
+      "^UCSXE-130C"
+     ],
+     "note": "layers round 3: the six UCSXE-130C-M8-12 / -20 / -32 (and -U) rows, named 'Cisco UCS XE130c M8 Compute Node …', sat in the line's shared parts — servers in shared parts, which the device check names"
+    },
     {
      "series": "UCS XE150c",
      "sku": [
-      "^UCSXE-150C",
-      "^XE150"
+      "^UCSXE-150C"
      ]
+    },
+    {
+     "series": "UCS XE9305 chassis",
+     "sku": [
+      "^UCSXE-9305"
+     ],
+     "note": "layers round 3: UCSXE-9305-U 'Cisco UCS XE9305 Chassis Configured' and its spare sat in the line's shared parts — a chassis in shared parts, which the device check names. ^XE150 (dead) removed from UCS XE150c"
     },
     {
      "series": "UCS Unified Edge (XE) shared parts",
@@ -135,15 +154,14 @@
      "sku": [
       "^UCS-EN?[0-9]",
       "^E1[0-9]{2}[A-Z]?-",
+      "^E1[0-9]{2}(DP?|S)M[0-9](-10G)?-SVC$",
       "^E-SSD",
-      "^EM3-",
-      "^FL-UCSE",
-      "^SVC-E",
-      "^SM-MEM"
+      "^EM3-"
      ],
      "labels": [
       "UCS E-Series"
-     ]
+     ],
+     "note": "layers round 3: ^FL-UCSE and ^SVC-E removed — they placed no row (the SVC-E service spares carry plans to interfaces-modules). ^E1[0-9]{2}(DP?|S)M[0-9](-10G)?-SVC$ places the ten E140D / E140DP / E140S / E160D / E160DP / E180D service spares ('CANIS SERVICES ONLY SPARE'), which the label check had moved to shared parts for want of name evidence: their SKU names the module. ^SM-MEM removed (same round): SM-MEM-VLP-2GB / 4GB are SDRAM 'for SRE service modules', and they and the SRE disks and disk cover (SM-HDD-SATA-500GB, SM-HDDB-SATA500GB, SM-DSK-COVER) carry plans to interfaces-modules, which holds the SM-SRE modules (A.3 rule 1; SRE is not the E-Series). Decision pending: UCS E-Series home — this series holds the UCS-E rows while interfaces-modules holds 4 UCS-E modules (pre-ruling C3, kind module) and plans the SVC-E / ISM-SRE rows in; each mapping's rule claims the other's rows (recorded)"
     }
    ]
   },
@@ -153,12 +171,13 @@
     {
      "series": "UCS Mini (6324)",
      "sku": [
-      "(?<!CPU-[A-Z]{0,2})6324(?![0-9])",
+      "(?<!CPU-[A-Z]{0,2}|WS-X)6324(?![0-9])",
       "^UCS-MINI"
      ],
      "labels": [
       "Mini Series"
-     ]
+     ],
+     "note": "(?<!…|WS-X) (layers round 3): the rule claimed WS-X6324-100FX-MM / -SM, Catalyst 6500 line cards that switches holds (its round recorded the claim for this round)"
     },
     {
      "series": "UCS Fabric Interconnect 9108 100G",
@@ -171,8 +190,11 @@
      "sku": [
       "(?<!CPU-[A-Z]{0,2})62[49]6(?![0-9])",
       "(?<!CPU-[A-Z]{0,2})6248",
-      "(?<!CPU-[A-Z]{0,2})6296"
+      "^UCS-FI(48|96)-SEED",
+      "^UCS-SPINFRAFI96",
+      "^UCS-FI-(DL2|E16UP)"
      ],
+     "note": "(?<!CPU-…)6296 removed in layers round 3: 62[49]6 decides every 6296 row (the rule-shadowing check named it). Added in layers round 3, each a 6200 part that sat in a shared-parts series with kind fabric-interconnect (the device check names it): UCS-FI48-SEED / FI96-SEED 'UCS SEED 6248UP / 6296UP … Fabric Int', UCS-SPINFRAFI96-RL 'UCS 6296UP BUN 2RU Fabric Int', UCS-FI-DL2(=) 'UCS 6248 Layer 2 Daughter Card' and UCS-FI-E16UP(=) 'UCS 6200 16-port Expansion module' (the last two are cards the kind axis reads as fabric interconnects by their FI token — listed for the kind layer)",
      "labels": [
       "6200 Fabric Interconnects"
      ]
@@ -206,12 +228,15 @@
      ]
     },
     {
-     "series": "UCS Fabric Interconnects shared parts",
+     "series": "UCS 6600 Fabric Interconnects",
      "sku": [
-      "^UCSX?-FI-"
-     ]
+      "(?<!CPU-[A-Z]{0,2})66(52|64)(?![0-9])",
+      "^UCS-PSU-6600"
+     ],
+     "note": "layers round 3: Cisco's 'UCS 6600 Series Fabric Interconnects Data Sheet' names the series (UCS-FI-6652 1RU 52 ports, UCS-FI-6664 2RU 64 ports). The spares UCS-FI-6652= / ++= and UCS-FI-6664= / ++= sat in the line's shared parts (fabric interconnects in shared parts); UCS-FI-6652-U / 6664-U arrive from interfaces-modules by plan. With them and the 6200 cards placed, the line's shared-parts rule ^UCSX?-FI- decided no row (every match went to a model series) and was removed with its series entry. ^UCS-PSU-6600 places UCS-PSU-6600-AC= 'UCS 6600 1.4KW AC Power Supply' and the UCS-PSU-6600-AC arriving from interfaces-modules, which were the last rows of UCS Server Components' 'Power supplies and fans' (every other UCS-PSU / UCS-FAN row names its fabric interconnect); that series and its two rules were removed"
     }
-   ]
+   ],
+   "no_family_reason": "Cisco names the UCS Mini, 9108 100G and the 6200 / 6300 / 6400 / 6500 / 6600 Fabric Interconnect series under the line, with no family between"
   },
   {
    "line": "UCS S-Series Storage Servers",
@@ -222,11 +247,13 @@
       "S3260",
       "C3X60",
       "^UCS-C3K-",
-      "C3[12]60(?![0-9])"
+      "C3[12]60(?![0-9])",
+      "^UCS-S-"
      ],
      "labels": [
       "S-Series Storage"
-     ]
+     ],
+     "note": "^UCS-S- (layers round 3): the 24 UCS-S- rows ('UCS S3260 1row of drives 14x 12TB …', '… Rear Expander …', '… Boot SSD', UCS-S-MSD960GBK9) sat in UCS Server Components shared parts with kind server — the kind axis reads the S token as an S-Series server (listed for the kind layer); their names say S3260"
     }
    ]
   },
@@ -236,17 +263,16 @@
     {
      "series": "UCS X9508 chassis",
      "sku": [
-      "X9508",
-      "^UCSX-9508",
-      "(?<!CPU-[A-Z]{0,2})9508(?![0-9])"
-     ]
+      "^UCSX-9508"
+     ],
+     "note": "layers round 3: X9508 (dead) and (?<!CPU-…)9508(?![0-9]) (redundant, and it claimed 25 Nexus 9508 rows in switches) removed"
     },
     {
      "series": "UCS X210c compute node",
      "sku": [
-      "^UCSX.*210C(?![0-9])",
-      "X210C?(?![0-9])"
-     ]
+      "^UCSX.*210C(?![0-9])"
+     ],
+     "note": "X210C?(?![0-9]) removed in layers round 3: it decided no row and claimed 8 HCIX X210c nodes in hyperconverged-infrastructure"
     },
     {
      "series": "UCS X215c compute node",
@@ -277,8 +303,7 @@
      "series": "UCS X-Series fabric modules",
      "sku": [
       "^UCSX-I-9",
-      "^UCSX-F-9",
-      "9416(?![0-9])"
+      "^UCSX-F-9"
      ]
     },
     {
@@ -292,7 +317,8 @@
       "9100 Fabric Interconnects"
      ]
     }
-   ]
+   ],
+   "no_family_reason": "the X9508 chassis, the X210c / X215c / X410c compute nodes, the X440p / X580p PCIe nodes and the fabric modules are the members of Cisco's UCS X-Series Modular System, which is the line itself"
   },
   {
    "line": "UCS B-Series Blade Servers",
@@ -301,14 +327,19 @@
      "series": "UCS B200",
      "sku": [
       "(?<![A-Z0-9])B200(?![0-9])"
-     ]
+     ],
+     "name": [
+      "(?<![A-Z0-9])B200 M[0-9]"
+     ],
+     "note": "name rule (layers round 3): the Cisco+ Hybrid Cloud offers PLHC-BMGPCI-M51A / BMPCI-M51 / VDIGPCI-M51A / VSIGPCI-M51A / VSIPCI-M51A, named 'Cisco+ B200 M5 for …', sat in B-Series shared parts by their label — servers in shared parts; their SKUs carry no model token"
     },
     {
      "series": "UCS B22 M3",
      "sku": [
       "(?<![A-Z0-9])B22-?M3",
-      "^UCSB-B22-"
-     ]
+      "^UCSB-DBUN-B22-"
+     ],
+     "note": "^UCSB-DBUN-B22- (layers round 3): UCSB-DBUN-B22-362 'UCS B22 M3 Blade, 1xE5-2440, 1x8GB' sat in B-Series shared parts — a server in shared parts"
     },
     {
      "series": "UCS B230",
@@ -321,6 +352,13 @@
      "sku": [
       "(?<![A-Z0-9])B250(?![0-9])"
      ]
+    },
+    {
+     "series": "UCS B260 M4 / B460 M4 (Scalable M4 Blade Module)",
+     "sku": [
+      "^UCSB-EX-M4-"
+     ],
+     "note": "layers round 3: Cisco builds the B260 M4 from one 'UCS Scalable M4 Blade Module' and the B460 M4 from two joined by a 'Scalability Connector' (a single module takes a 'Scalability Terminator'); the 41 UCSB-EX-M4- modules, connectors and terminators sat in B-Series shared parts with kind server (the connectors and terminators are accessories the kind axis reads by their EX token — listed for the kind layer). No UCSB-B260 / B460 M4 PID exists in the catalogue beside them; the bundles that name B260 M4 / B460 M4 stay in their bundle series"
     },
     {
      "series": "UCS B420 / B440 / B460 / B480",
@@ -339,17 +377,18 @@
       "^N20-CBLK",
       "^N20-PAC5",
       "^N20-FAN5",
-      "^UCSB-PSU"
+      "^UCSB-PSU",
+      "^VCE-UCS-CH-6508"
      ],
      "labels": [
       "5100 Blade Series"
-     ]
+     ],
+     "note": "^VCE-UCS-CH-6508 (layers round 3): 'VCE UCS 5108 Blade Svr AC Chassis' sat in C-Series shared parts by its label — a chassis in shared parts"
     },
     {
      "series": "UCS 2000 fabric extenders (IOM)",
      "sku": [
-      "^UCS-IOM",
-      "2[1-4]0[48]XP"
+      "^UCS-IOM"
      ]
     },
     {
@@ -364,7 +403,8 @@
       "UCS B-Series"
      ]
     }
-   ]
+   ],
+   "no_family_reason": "Cisco names each blade (B200, B22, B230, B250, B260 M4 / B460 M4, B420–B480), the 5108 chassis and the 2000 IOMs under the UCS B-Series line, with no family between"
   },
   {
    "line": "UCS C-Series Rack Servers",
@@ -387,8 +427,7 @@
     {
      "series": "UCS C880 M4 / M5",
      "sku": [
-      "^C880-",
-      "^C880(?![0-9A])"
+      "^C880-"
      ]
     },
     {
@@ -410,35 +449,41 @@
     {
      "series": "UCS C220",
      "sku": [
-      "(?<![A-Z0-9])C220(?![0-9])",
-      "(?<![0-9])220-?M[1-8]",
+      "^(?=UCSC?-).*(?<![A-Z0-9])C220(?![0-9])",
+      "^(?=UCSC-|CBL-).*(?<![0-9])220-?M[1-8]",
       "^UCS-220CBL",
-      "^UCS-COPC-220"
-     ]
+      "^UCS-COPC-220",
+      "^UCS-MAN-S72A2T0V0$"
+     ],
+     "note": "layers round 3: the two model rules are fenced to the prefixes of the rows they decide (UCSC- / UCS- for C220, UCSC- / CBL- for 220M): unfenced they claimed the C220-based parts of other products — AIR- / CMX- / MSE- / DN3-LOC / IWA- (wireless: 5520 controller, CMX / MSE, the Catalyst Center location appliance, IEC6400) and XRV-FAN-C220M4= (routers: the XRv 9000 appliance) — and the HX- / HCI- rows of the two hyperconverged categories. ^UCS-MAN-S72A2T0V0$ 'MSFT AzureStack HCI Hyb CTO Node C220 M7sn' (its SKU names no model; it and its spare sat in UCS Server Components shared parts)"
     },
     {
      "series": "UCS C225",
      "sku": [
-      "(?<![A-Z0-9])C225(?![0-9])",
-      "(?<![0-9])225-?M[1-8]"
-     ]
+      "^(?=UCSC-|CBL-).*(?<![A-Z0-9])C225(?![0-9])",
+      "^(?=UCSC-).*(?<![0-9])225-?M[1-8]"
+     ],
+     "note": "layers round 3: fenced to the prefixes of the rows each rule decides; unfenced the 225M rule claimed HXAF225-M6S (hyperconverged-systems)"
     },
     {
      "series": "UCS C240",
      "sku": [
-      "(?<![A-Z0-9])C240(?![0-9])",
-      "(?<![0-9])240-?M[1-8]",
+      "^(?=UCSC?-|CBL-).*(?<![A-Z0-9])C240(?![0-9])",
+      "^(?=UCSC?-|CBL-).*(?<![0-9])240-?M[1-8]",
       "^UCS-240CBL",
       "^UCS-300WK-240",
-      "^UCS-COPC-240"
-     ]
+      "^UCS-MAN-S00A0T[0-2]V0$",
+      "^UCS-MAN-S71A2T0V0$"
+     ],
+     "note": "layers round 3: the two model rules are fenced to the prefixes of the rows they decide (UCSC- / UCS- / CBL-); unfenced they claimed the C240-based parts of the 8540 controller and the CMX / MSE appliances in wireless (AIR-BZL-C240M4, AIR-FAN-C240M4=, AIR-PCI-1A-240M4) and HX- / HCI- rows. ^UCS-MAN-S00A0T[0-2]V0$ 'MSFT AzureStack CTO / FixedNode C240 M4L …' and ^UCS-MAN-S71A2T0V0$ '… CTO Node C240 M7sn' (their SKUs name no model; they sat in UCS Server Components shared parts — servers in shared parts). UCS-MAN-S01A0T0V0, named only by its SKU, stays there (kind bundle)"
     },
     {
      "series": "UCS C245",
      "sku": [
-      "(?<![A-Z0-9])C245(?![0-9])",
-      "(?<![0-9])245-?M[1-8]"
-     ]
+      "^(?=UCSC-|CBL-).*(?<![A-Z0-9])C245(?![0-9])",
+      "^(?=UCSC-|CBL-).*(?<![0-9])245-?M[1-8]"
+     ],
+     "note": "layers round 3: fenced to the prefixes of the rows each rule decides (UCSC- / CBL-)"
     },
     {
      "series": "UCS C460 / C480",
@@ -449,19 +494,29 @@
      ]
     },
     {
+     "series": "UCS C420 M3",
+     "sku": [
+      "(?<![A-Z0-9])C420-?M3"
+     ],
+     "note": "layers round 3: UCSC-C420-M3, -M3= and -M3-CH2 'UCS C420 M3 w/o CPU, mem, HDD, PCIe, PSU, rail kit' sat in C-Series shared parts — servers in shared parts; Cisco names the UCS C420 M3 Rack Server"
+    },
+    {
      "series": "UCS C22 / C24 M3",
      "sku": [
-      "(?<![A-Z0-9])C2[24]-?M3"
-     ]
+      "(?<![A-Z0-9])C2[24]-?M3",
+      "^UCSC-DBUN-C2[24]S-"
+     ],
+     "note": "^UCSC-DBUN-C2[24]S- (layers round 3): the six UCSC-DBUN-C22S-30x / C24S-32x 'UCS C22 / C24 M3 SFF, 2xE5-24x0 …' sat in C-Series shared parts — servers in shared parts"
     },
     {
      "series": "UCS C200 / C210 / C250 / C260 (M1/M2)",
      "sku": [
       "^(UCSC-)?C2[0156]0(?![0-9])",
-      "^C260-",
-      "^R2XX-",
-      "^R2[015]0-"
-     ]
+      "^R2XX-(?!DMYMPWRCORD)",
+      "^R2[015]0-",
+      "^UCS-C2[0156]0M[12]"
+     ],
+     "note": "layers round 3: ^R2XX-(?!DMYMPWRCORD) — R2XX-DMYMPWRCORD 'no power cord' is an ordering setting used across the C-Series (kind non-product), not a C200 part; ^UCS-C2[0156]0M[12] places UCS-C260M2-VCD2 'UCS C260 M2 Rack Server …', which sat in UCS Server Components shared parts"
     },
     {
      "series": "UCS C-Series Rack Servers shared parts",
@@ -474,7 +529,8 @@
       "Transceiver Modules"
      ]
     }
-   ]
+   ],
+   "no_family_reason": "Cisco names each rack server (C220, C225, C240, C245, C420 M3, C460 / C480, C880 / C890, C125 / C4200 …) under the UCS C-Series line; the M-generations are models, not families"
   },
   {
    "line": "Racks and PDUs",
@@ -482,15 +538,15 @@
     {
      "series": "R42610 / R42612 racks and PDUs",
      "sku": [
-      "^RACK",
+      "^RACK[0-9]?-(UCS|[A-Z]+-[0-9]{3}(?![0-9]))",
       "^RP[0-9]{3}-",
       "^RP-",
-      "^R426",
-      "^[0-9]{3}P[0-9]$"
+      "^R426"
      ],
      "labels": [
       "R-Series Racks"
-     ]
+     ],
+     "note": "^RACK[0-9]?-(UCS|[A-Z]+-[0-9]{3}) (layers round 3): the R42610 / R42612 racks are RACK- / RACK2-UCS… and their parts RACK- / RACK2-<part>-<three digits>; ^RACK claimed RACK-KIT-T1= and RACKMNT-19-CMPACT (switches' rack kits) and RACK-QCN-SN5= 'Rack for CWWLSE Express 1030' (wireless), each recorded for this round. (A first fence without the UCS alternative dropped the seven RACK-UCS / RACK2-UCS racks to C-Series shared parts — found in the row diff, not by a check.)"
     }
    ]
   },
@@ -507,8 +563,7 @@
      "series": "Memory",
      "sku": [
       "^UCS-M(R|L|RX|KIT|P)",
-      "^A02-MEMKIT",
-      "^N01-M"
+      "^A02-MEMKIT"
      ]
     },
     {
@@ -528,18 +583,11 @@
      "series": "Network and storage adapters",
      "sku": [
       "^N2XX-A",
-      "^UCS-PCI",
       "^UCS-VIC",
-      "^UCS-SDHPCIE",
-      "^UCS-RAID"
-     ]
-    },
-    {
-     "series": "Power supplies and fans",
-     "sku": [
-      "^UCS-PSU",
-      "^UCS-FAN"
-     ]
+      "^UCS-RAID",
+      "^XRV-PCIE-"
+     ],
+     "note": "layers round 3: ^UCS-PCI and ^UCS-SDHPCIE removed — every row they matched is a drive decided by 'Drives and storage' (UCS-PCI25…, UCS-SD…); ^XRV-PCIE- places the XRv appliance PCIe NICs planned in from routers (their arrival exceptions there are retired). Dead rules removed elsewhere in the file: ^C880(?![0-9A]), ^C260-, 2[1-4]0[48]XP, ^UCSB-B22-, 9416(?![0-9]), ^UCS-COPC-240, ^[0-9]{3}P[0-9]$, ^N01-M"
     },
     {
      "series": "TPM",
@@ -550,15 +598,16 @@
     {
      "series": "UCS Server Components shared parts",
      "sku": [
-      "^UCS-ACC",
       "^UCS-"
      ],
+     "note": "^UCS-ACC removed in layers round 3: its last rows, the UCS-ACC-6652 / 6664 accessory kits arriving from interfaces-modules, are decided by UCS 6600 Fabric Interconnects; every other UCS-ACC- kit names its fabric interconnect",
      "labels": [
       "Unified Computing System",
       "UCS Virtual Interface Cards"
      ]
     }
-   ]
+   ],
+   "no_family_reason": "processors, memory, drives, GPUs, adapters and TPM are component series of the UCS catalogue, not a Cisco product family"
   }
  ],
  "shared_accessories": [

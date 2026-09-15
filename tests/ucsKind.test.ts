@@ -187,6 +187,23 @@ const REF13: [string, string, string][] = [
   ["UCSC-XPAND-C24", "storage-controller", "'SAS Expander' — NYTRO is its own token, SAS stays where it was"],
 ];
 for (const [sku, not, why] of REF13) eq(`13 Sep REFUSAL ${sku} is not ${not} — ${why.slice(0, 50)}`, ucsKind(sku) === not, false);
+// --- layers round 3 (15 Sep 2026): the R42610 rack's mechanical parts (seven base / spare pairs disagreed) and the rows the
+// servers round's device check found in shared parts with a machine kind they are not. Every SKU is a live catalogue row.
+const POS15: [string, string][] = [
+  ["RACK-BAR-001", "mechanical"], ["RACK-BAR-001=", "mechanical"], ["RACK-DOOR-002=", "mechanical"], ["RACK-HW-001", "mechanical"],
+  ["RACK-LOCK-001=", "mechanical"], ["R2XX-DMYMPWRCORD", "non-product"], ["R2XX-DMYMPWRCORD=", "non-product"],
+  ["UCS-S3348-HBAM5", "storage-controller"], ["UCS-S3348-HBAM5=", "storage-controller"], ["UCS-S3X48-FAN", "fan"], ["UCS-S3X48-FAN=", "fan"],
+];
+for (const [sku, kind] of POS15) eq(`15 Sep: ${sku}`, ucsKind(sku), kind);
+const REF15: [string, string, string][] = [
+  ["RACK-FOOT-001=", "mechanical", "'Front caster, fixed' — the rule names the bar, doors, hardware kit, locks and side panel only"],
+  ["RACK-BADGE-001=", "mechanical", "'Badge w/Cisco logo'"],
+  ["R2XX-PL003", "non-product", "'LSI 6G MegaRAID 9261-8i card' — a real controller; only the no-power-cord setting is named"],
+  ["R2XX-PSUBLKP", "non-product", "'Power supply unit blanking panel' — a real part"],
+  ["UCS-S3348-RAIDM5", "fan", "'UCS S3348 Raid Controller' — stays a storage controller"],
+  ["UCS-S3X48-SNM5-HS", "fan", "'UCS SX348 M5 Heatsink' — FAN is anchored to the whole SKU"],
+];
+for (const [sku, not, why] of REF15) eq(`15 Sep REFUSAL ${sku} is not ${not} — ${why.slice(0, 50)}`, ucsKind(sku) === not, false);
 // SABOTAGE: disable each rule family and its own positive must change kind.
 for (let i = 0; i < PRE_RULES.length; i++) {
   // round-7 addendum (12 Sep 2026): a probe per RULE, not per kind — two rules now return `server`, and the
@@ -199,7 +216,9 @@ for (let i = 0; i < PRE_RULES.length; i++) {
     // kind-layer (13 Sep 2026): one probe per new rule
     "CSP-5200=", "UCSX-M2-HWRAID", "R250-PL003", "UCSC-RC-1M-C260", "UCS-STM-C240M4-L2", "UCS-C3260-SA-D",
     "HX-DH-FI6332-16UP", "A02-MEMKIT-008A", "UCSXS960G6I1XEV-D", "R200-DISTIPSU-650W", "RP208-30-2P-U-2",
-    "UCSW-WT-IM2P", "CR2032", "N1K-VSG-UCS-BUN"];
+    "UCSW-WT-IM2P", "CR2032", "N1K-VSG-UCS-BUN",
+    // layers round 3 (15 Sep 2026): one probe per new rule
+    "RACK-BAR-001=", "R2XX-DMYMPWRCORD", "UCS-S3348-HBAM5", "UCS-S3X48-FAN="];
   const probe = PROBES.find((p) => PRE_RULES[i].re.test(p.toUpperCase().replace(/=+$/, "")));
   if (!probe) { eq(`a sabotage probe exists for PRE_RULES[${i}]`, false, true); continue; }
   const before = ucsKind(probe);

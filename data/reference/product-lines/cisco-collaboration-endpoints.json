@@ -482,8 +482,10 @@
     {
      "series": "IP Phones shared parts",
      "sku": [
-      "^CP-"
-     ]
+      "^CP-",
+      "^CIUS-BATTERY"
+     ],
+     "note": "^CIUS-BATTERY (layers round 3, servers round): CIUS-BATTERY=, the Cius tablet endpoint's battery planned in from servers-unified-computing; the catalogue holds no Cius endpoint to give it a series"
     }
    ]
   },

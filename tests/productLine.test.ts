@@ -122,7 +122,45 @@ witness("servers-unified-computing", [
   ["UCS-SDB480OA1V", "Cisco UCS-SDB480OA1V", "UCS B-Series", "UCS Server Components", "Drives and storage"],           // not B480
   ["HX-SD800G12TX-EP", "800GB 2.5in Enterprise performance 12G SAS SSD", "UCS C-Series", "(not this category)", "hyperconverged-systems"],
   ["HCI-CPU-I8480+", "Intel 8480+", "UCS C-Series", "(not this category)", "hyperconverged-infrastructure"],
+  // layers round 3, servers + hyperconverged round: series the device check found missing, and the rows that had sat in shared parts
+  ["UCSC-C420-M3", "UCS C420 M3 w/o CPU, mem, HDD, PCIe, PSU, rail kit", "UCS C-Series", "UCS C-Series Rack Servers", "UCS C420 M3"],
+  ["UCS-FI-6652=", "Cisco UCS-FI-6652=", "UCS 6400 Series Fabric Interconnects", "UCS Fabric Interconnects", "UCS 6600 Fabric Interconnects"], // label says 6400
+  ["UCS-PSU-6600-AC", "UCS 6600 platinum power supply/100-240VAC (1400W)", "Unified Computing System Adapters", "UCS Fabric Interconnects", "UCS 6600 Fabric Interconnects"], // arriving from interfaces-modules
+  ["UCS-CPU-I6652", "Intel 6652", "UCS C-Series", "UCS Server Components", "Processors"],                          // a CPU number is not a 6652 FI
+  ["UCS-FI-E16UP=", "UCS 6200 16-port Expansion module/16 UP/ 8p LIC", "UCS B-Series", "UCS Fabric Interconnects", "UCS 6200 Fabric Interconnects"],
+  ["UCSB-EX-M4-4SC", "UCS Scalability Connector for B460 M4", "UCS B-Series", "UCS B-Series Blade Servers", "UCS B260 M4 / B460 M4 (Scalable M4 Blade Module)"],
+  ["UCSXE-130C-M8-12", "Cisco UCS XE130c M8 Compute Node with 12-core CPU", "Unified Edge", "UCS Unified Edge (XE)", "UCS XE130c"],
+  ["PLHC-BMPCI-M51", "Cisco+ B200 M5 for Bare Metal 2-CI", "UCS B-Series", "UCS B-Series Blade Servers", "UCS B200"],   // by name: the SKU names no model
+  ["UCS-S-HD12TK9", "UCS S3260 12TB (4Kn) 7.2K RPM SED Drives Top Load", "UCS C-Series", "UCS S-Series Storage Servers", "UCS S3260"],
+  ["E160DPM1-10G-SVC", "CANIS SERVICES ONLY SPARE", "UCS E-Series", "UCS E-Series Server Modules", "UCS E-Series"],  // SKU names the module
+  ["RACK-UCS2", "Cisco R42610 standard rack, w/side panels", "UCS C-Series", "Racks and PDUs", "R42610 / R42612 racks and PDUs"],
+  ["RACK2-DOOR-001=", "Front door", "R-Series Racks", "Racks and PDUs", "R42610 / R42612 racks and PDUs"],
+  ["UCS-MAN-S71A2T0V0", "MSFT AzureStack HCI Hyb CTO Node C240 M7sn w/Mellanox", "UCS C-Series", "UCS C-Series Rack Servers", "UCS C240"],
+  ["UCSC-HSHP-C245M6", "Heat sink for C245 M6", "HyperFlex HX Series", "UCS C-Series Rack Servers", "UCS C245"],
 ]);
+// layers round 3, servers + hyperconverged round: the fenced rules no longer claim other products' rows (each was recorded by an earlier
+// round as "claimant rule too broad — fix it in the servers round"); the placement a mapping gives them must not be a model series
+for (const [cat, sku, name, not] of [
+  ["servers-unified-computing", "AIR-BZL-C220M4", "Cisco 5520 Wireless Controller Security Bezel", "UCS C220"],
+  ["servers-unified-computing", "AIR-PCI-1A-240M4", "Right PCIe Riser Board (Riser 1) (x8 + GPU) for C240 M4", "UCS C240"],
+  ["servers-unified-computing", "XRV-FAN-C220M4=", "C220 M4 Fan Module (one) for XRv9K Appliance", "UCS C220"],
+  ["servers-unified-computing", "IWA-SATAIN-220M6", "C220M6 SATA Interposer board (1U)", "UCS C220"],
+  ["servers-unified-computing", "HXAF225-M6S", "Cisco HXAF225-M6S", "UCS C225"],
+  ["servers-unified-computing", "DN3-LOC-BZL-C220M5", "C220 M5 Security Bezel", "Catalyst Center appliance"],
+  ["servers-unified-computing", "WS-X6324-100FX-MM", "Catalyst 6500 24-port 100BASE-FX", "UCS Mini (6324)"],
+  ["servers-unified-computing", "RACK-KIT-T1=", "19, 23, 24 inch and ETSI Type 1 rack mount kit", "R42610 / R42612 racks and PDUs"],
+  ["servers-unified-computing", "RACK-QCN-SN5=", "Rack for CWWLSE Express 1030", "R42610 / R42612 racks and PDUs"],
+  ["servers-unified-computing", "R2XX-DMYMPWRCORD=", "Cisco R2XX-DMYMPWRCORD=", "UCS C200 / C210 / C250 / C260 (M1/M2)"],
+  ["hyperconverged-infrastructure", "CMX-FAN-C220M5", "CMX 3375 (C220 M5) Fan Module", "HCI C220 nodes"],
+  ["hyperconverged-infrastructure", "UCS-M10CBL-C240M5=", "C240 M5 cable", "HCI C240 nodes"],   // (UCSC- rows stay readable: HCI files UCSC- risers — the 44 / 52 claims are recorded decided-home)
+  ["hyperconverged-infrastructure", "UCS-SPL-VSAN1", "UCS SmartPlay vSAN", "vSAN nodes (C220 / C225 / C240 / C245 / X210c / X215c)"],
+  ["hyperconverged-systems", "MSE-FAN-C220M4=", "C220 M4 Fan Module (one)", "HX220c"],
+  ["hyperconverged-systems", "AIR-FAN-C240M4=", "Spare fan - Cisco 8540 Wireless Controller", "HX240c"],
+  ["hyperconverged-systems", "CBL-SAS24-245M6", "C245M6 SAS cable", "HX245c"],
+]) {
+  const p = placePart("cisco", cat, { sku, name, series: "" });
+  check(`servers round REFUSAL: ${cat} does not place ${sku} in ${not}`, p?.series !== not, `${p?.series} (${p?.rule})`);
+}
 
 // ---- wireless (done 14 Sep 2026) ----
 witness("wireless", [
@@ -229,16 +267,30 @@ witness("security", [
 
 // ---- hyperconverged-systems (HyperFlex) and hyperconverged-infrastructure (Nutanix / vSAN), done 14 Sep 2026 ----
 witness("hyperconverged-systems", [
-  ["HX-C240-M6SX", "Compute UCS C240 M6 Rack", "HyperFlex HX Series", "HyperFlex", "HyperFlex compute-only nodes (C220 / C240 / C480 / B200)"], // not the HX240c node
+  ["HX-C240-M6SX", "Compute UCS C240 M6 Rack", "HyperFlex HX Series", "HyperFlex", "HyperFlex compute-only nodes (C220 / C240 / C480 / B200 / B480)"], // not the HX240c node
   ["HXAF240C-M6SX-EXP", "HXAF240c M6 All Flash Express", "HyperFlex HX Series", "HyperFlex", "HX240c"],
   ["HX-RIS-2A-240M5", "Riser 2A 3PCIe slots", "HyperFlex HX Series", "HyperFlex", "HX240c"],
   ["HX-E-220M6S", "HyperFlex Hybrid Edge 220 M6", "HyperFlex HX Series", "HyperFlex", "HyperFlex Edge"],
   ["HX-CPU-6140", "2.3 GHz 6140/140W", "HyperFlex HX Series", "HyperFlex", "HyperFlex shared parts"],
+  // layers round 3, servers + hyperconverged round
+  ["HX220-M6S-EXP", "Cisco HX220-M6S-EXP", "HyperFlex HX Series", "HyperFlex", "HX220c"],            // the model sits in the prefix: a dash-bound fence lost it
+  ["HXAF225-M6S", "Cisco HXAF225-M6S", "HyperFlex HX Series", "HyperFlex", "HX225c"],
+  ["HX-B480-M5-U", "Compute UCS B480 M5 Blade w/o CPU, mem, HDD, mezz (UPG)", "HyperFlex HX Series", "HyperFlex", "HyperFlex compute-only nodes (C220 / C240 / C480 / B200 / B480)"],
+  ["HX-DH-FI6332-16UP", "HX SAP Datahub FI3232UP w/4x40G Lic/8xUP Lic", "HyperFlex HX Series", "HyperFlex", "HyperFlex Fabric Interconnects"],
+  ["HX-M5S-HXDP", "Cisco HX2X0C M5 Hyperflex System", "HyperFlex HX Series", "HyperFlex", "HyperFlex bundles and starter packs"],
+  ["PLHC-EDGEPHXE-M51A", "Cisco+ HyperFlex Hybrid Edge 220 M5 system", "HyperFlex HX Series", "HyperFlex", "HyperFlex Edge"],            // by name
+  ["PLHC-VSIGPHXA-M51A", "Cisco+ HyperFlex HX240c M5 All Flash Node VSI-HX", "HyperFlex HX Series", "HyperFlex", "HX240c"],               // by name
 ]);
 witness("hyperconverged-infrastructure", [
   ["HCIVS240C-M8SN", "Compute Hyperconverged C240 M8 2RU", "Compute Hyperconverged with VMware vSAN", "Compute Hyperconverged with VMware vSAN", "vSAN nodes (C220 / C225 / C240 / C245 / X210c / X215c)"], // vSAN before C240
   ["HCINX240C-M8L", "Compute Hyperconverged C240 M8 2RU", "Compute Hyperconverged Nutanix", "Compute Hyperconverged with Nutanix", "HCI C240 nodes"],
-  ["HCIX-210C-M7", "Compute Hyperconverged X210c M7", "Compute Hyperconverged with Nutanix", "Compute Hyperconverged with Nutanix", "HCIX X-Series (X210c / X215c / X9508)"],
+  ["HCIX-210C-M7", "Compute Hyperconverged X210c M7", "Compute Hyperconverged with Nutanix", "Compute Hyperconverged with Nutanix", "HCIX X-Series (X210c / X215c / X440p / X9508)"],
+  // layers round 3, servers + hyperconverged round
+  ["HCIX-440P", "Cisco HCIX-440P", "Compute Hyperconverged Nutanix", "Compute Hyperconverged with Nutanix", "HCIX X-Series (X210c / X215c / X440p / X9508)"],
+  ["HCIX-S9108-100G", "Cisco UCS Fabric Interconnect 9108 100G", "Compute Hyperconverged Nutanix", "Compute Hyperconverged with Nutanix", "HCI fabric interconnects and X-Fabric"],
+  ["HCOXNX225C-M8SN", "Cisco Compute-Only C225 M8 Node", "Compute Hyperconverged Nutanix", "Compute Hyperconverged with Nutanix", "HCI C225 nodes"],
+  ["HCI-M8-VSAN-MLB", "Cisco HCI-M8-VSAN-MLB", "Compute Hyperconverged Nutanix", "Compute Hyperconverged with VMware vSAN", "vSAN nodes (C220 / C225 / C240 / C245 / X210c / X215c)"],
+  ["UCSC-RIS2A-240M6", "Riser 2A for C240 M6", "Compute Hyperconverged Nutanix", "Compute Hyperconverged with Nutanix", "HCI C240 nodes"],
   ["HCIXENX130C-M8-32", "HCI XE130c M8 32-Core", "Compute Hyperconverged with Nutanix", "Compute Hyperconverged with Nutanix", "HCI XE-Series (XE130c / XE9305)"],
   ["HCI-CPU-A9115", "Cisco HCI-CPU-A9115", "Compute Hyperconverged Nutanix", "Compute Hyperconverged with Nutanix", "Compute Hyperconverged with Nutanix shared parts"],
 ]);
