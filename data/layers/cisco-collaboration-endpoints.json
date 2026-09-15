@@ -1,8 +1,8 @@
 {
  "vendor": "cisco",
  "category": "collaboration-endpoints",
- "built_at": "2026-09-15T12:12:56.419Z",
- "commit": "70980429b6e6f3cfadd881bf5bb948973b4759a7",
+ "built_at": "2026-09-15T12:44:24.077Z",
+ "commit": "735fb0605f4ce5d68ac7d3368a928cc438c08eb9",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-collaboration-endpoints.json",
  "parts": 2835,
@@ -477,7 +477,7 @@
      "series": "Room Panorama",
      "family": null,
      "role": null,
-     "note": "layers round 3, collaboration round: CS-ROOM-P85-NR-K7 / -K9 'Webex Room Panorama 85' (placed in shared parts by ^CS-ROOM), CS-RPQUADCAM(+/=) 'Fully automatic quadcamera for Room Panorama' (by their label) and CAB-PANO-L / -R-SPKR 'Left / Right Speaker Cable for Room Panorama' (SKU token PANO)",
+     "note": "layers round 3, collaboration round: CS-ROOM-P85-NR-K7 / -K9 'Webex Room Panorama 85' (placed in shared parts by ^CS-ROOM), CS-RPQUADCAM(+/=) 'Fully automatic quadcamera for Room Panorama' (by their label) and CAB-PANO-L / -R-SPKR 'Left / Right Speaker Cable for Room Panorama' (SKU token PANO). ^CS-PANO fenced (meraki round, the collaboration round's recorded claimant fix): CS-PANO-SWITCH+ / SWITCH2+ are whole Catalyst 3560-CX / C1000 switches that stay in switches (layers review round 2, A.6)",
      "parts": 49,
      "kinds": {
       "cable": 4,
@@ -877,7 +877,7 @@
      "series": "TelePresence IX5000",
      "family": null,
      "role": null,
-     "note": "^CTS-MON- (layers round 3, collaboration round): 'Cisco TelePresence 42 / 55 Inch Auxiliary Display', sold in the 'TelePresence IX5000 Series' end-of-sale notice, sat in the line's shared parts by ^CTS-",
+     "note": "^CTS-MON- (layers round 3, collaboration round): 'Cisco TelePresence 42 / 55 Inch Auxiliary Display', sold in the 'TelePresence IX5000 Series' end-of-sale notice, sat in the line's shared parts by ^CTS-. ^CTS-5K fenced (meraki round, the collaboration round's recorded claimant fix): CTS-5K-LC-SWITCH / CTS-5K-UI-SWITCH are whole Catalyst 2960-C switches that stay in switches (layers review round 2, A.6)",
      "parts": 172,
      "kinds": {
       "mechanical": 59,

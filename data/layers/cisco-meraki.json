@@ -1,122 +1,626 @@
 {
  "vendor": "cisco",
  "category": "meraki",
- "built_at": "2026-09-15T12:12:57.488Z",
- "commit": "70980429b6e6f3cfadd881bf5bb948973b4759a7",
+ "built_at": "2026-09-15T12:44:25.179Z",
+ "commit": "735fb0605f4ce5d68ac7d3368a928cc438c08eb9",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-meraki.json",
  "parts": 155,
  "lines": [
   {
-   "line": "Meraki",
-   "parts": 155,
+   "line": "Meraki MV Smart Cameras",
+   "parts": 35,
    "series": [
     {
-     "series": "Meraki MR access points",
-     "family": null,
+     "series": "MV2",
+     "family": "Second Generation MV Cameras",
      "role": null,
-     "note": null,
-     "parts": 30,
+     "note": "family from Cisco's documents: the MV Smart Camera FAQ lists 'All second-generation MV cameras (MV12, MV2, MV22(x), MV32, MV52, MV72(x))' and the MT FAQ 'Gen2: MV2, MV12(W/WE/N), MV22(X), MV32, MV72(X)'; the datasheet is titled 'Second Generation MV Cameras: Datasheet' (decision pending: generations as families)",
+     "parts": 1,
      "kinds": {
-      "access-point": 30
+      "camera": 1
      },
-     "roles": {
-      "indoor": 21,
-      "outdoor": 8
-     },
+     "roles": {},
      "samples": [
-      "MR11 — Cisco MR11",
-      "MR12 — Cisco MR12",
-      "MR14 — Cisco MR14",
-      "MR16 — Cisco MR16",
-      "MR20 — Cisco MR20",
-      "MR24 — Cisco MR24"
+      "MV2 — Cisco MV2"
      ],
      "rules": {
-      "sku": 30
+      "sku": 1
      },
      "pending_in": {}
     },
     {
-     "series": "Catalyst Wireless in Meraki mode (CW)",
+     "series": "MV12",
+     "family": "Second Generation MV Cameras",
+     "role": null,
+     "note": null,
+     "parts": 4,
+     "kinds": {
+      "camera": 4
+     },
+     "roles": {},
+     "samples": [
+      "MV12 — Cisco MV12",
+      "MV12N — Cisco MV12N",
+      "MV12W — Cisco MV12W",
+      "MV12WE — Cisco MV12WE"
+     ],
+     "rules": {
+      "sku": 4
+     },
+     "pending_in": {}
+    },
+    {
+     "series": "MV22",
+     "family": "Second Generation MV Cameras",
+     "role": null,
+     "note": null,
+     "parts": 2,
+     "kinds": {
+      "camera": 2
+     },
+     "roles": {},
+     "samples": [
+      "MV22 — Cisco MV22",
+      "MV22X — Cisco MV22X"
+     ],
+     "rules": {
+      "sku": 2
+     },
+     "pending_in": {}
+    },
+    {
+     "series": "MV32",
+     "family": "Second Generation MV Cameras",
+     "role": null,
+     "note": null,
+     "parts": 1,
+     "kinds": {
+      "camera": 1
+     },
+     "roles": {},
+     "samples": [
+      "MV32 — Cisco MV32"
+     ],
+     "rules": {
+      "sku": 1
+     },
+     "pending_in": {}
+    },
+    {
+     "series": "MV52",
+     "family": "Second Generation MV Cameras",
+     "role": null,
+     "note": null,
+     "parts": 1,
+     "kinds": {
+      "camera": 1
+     },
+     "roles": {},
+     "samples": [
+      "MV52 — Cisco MV52"
+     ],
+     "rules": {
+      "sku": 1
+     },
+     "pending_in": {}
+    },
+    {
+     "series": "MV72",
+     "family": "Second Generation MV Cameras",
+     "role": null,
+     "note": null,
+     "parts": 2,
+     "kinds": {
+      "camera": 2
+     },
+     "roles": {},
+     "samples": [
+      "MV72 — Cisco MV72",
+      "MV72X — Cisco MV72X"
+     ],
+     "rules": {
+      "sku": 2
+     },
+     "pending_in": {}
+    },
+    {
+     "series": "MV13",
+     "family": "Third Generation MV Cameras",
+     "role": null,
+     "note": "family from Cisco's documents: the MV Smart Camera FAQ names 'Third-generation MV cameras (MV13, MV33, MV63(x), MV93(x)', the MT FAQ 'Gen3: MV13/M, MV23M/X, MV33/M, MV63/M/X, MV73M/X, MV93/M/X', and the accessories page mounts 'for Third-Gen MV'; the bare MV13 / MV13M rows carry class plans (family placeholders of MV13-HW / MV13M-HW)",
+     "parts": 2,
+     "kinds": {
+      "camera": 2
+     },
+     "roles": {},
+     "samples": [
+      "MV13-HW — Cisco MV13-HW",
+      "MV13M-HW — Cisco MV13M-HW"
+     ],
+     "rules": {
+      "sku": 2
+     },
+     "pending_in": {}
+    },
+    {
+     "series": "MV23",
+     "family": "Third Generation MV Cameras",
+     "role": null,
+     "note": null,
+     "parts": 3,
+     "kinds": {
+      "camera": 3
+     },
+     "roles": {},
+     "samples": [
+      "MV23 — Cisco MV23",
+      "MV23M-HW — Cisco MV23M-HW",
+      "MV23X-HW — Cisco MV23X-HW"
+     ],
+     "rules": {
+      "sku": 3
+     },
+     "pending_in": {}
+    },
+    {
+     "series": "MV33",
+     "family": "Third Generation MV Cameras",
+     "role": null,
+     "note": null,
+     "parts": 2,
+     "kinds": {
+      "camera": 2
+     },
+     "roles": {},
+     "samples": [
+      "MV33-HW — Cisco MV33-HW",
+      "MV33M-HW — Cisco MV33M-HW"
+     ],
+     "rules": {
+      "sku": 2
+     },
+     "pending_in": {}
+    },
+    {
+     "series": "MV63",
+     "family": "Third Generation MV Cameras",
+     "role": null,
+     "note": null,
+     "parts": 3,
+     "kinds": {
+      "camera": 3
+     },
+     "roles": {},
+     "samples": [
+      "MV63-HW — Cisco MV63-HW",
+      "MV63M-HW — Cisco MV63M-HW",
+      "MV63X-HW — Cisco MV63X-HW"
+     ],
+     "rules": {
+      "sku": 3
+     },
+     "pending_in": {}
+    },
+    {
+     "series": "MV73",
+     "family": "Third Generation MV Cameras",
+     "role": null,
+     "note": null,
+     "parts": 3,
+     "kinds": {
+      "camera": 3
+     },
+     "roles": {},
+     "samples": [
+      "MV73 — Cisco MV73",
+      "MV73M-HW — Cisco MV73M-HW",
+      "MV73X-HW — Cisco MV73X-HW"
+     ],
+     "rules": {
+      "sku": 3
+     },
+     "pending_in": {}
+    },
+    {
+     "series": "MV93",
+     "family": "Third Generation MV Cameras",
+     "role": null,
+     "note": null,
+     "parts": 3,
+     "kinds": {
+      "camera": 3
+     },
+     "roles": {},
+     "samples": [
+      "MV93-HW — Cisco MV93-HW",
+      "MV93M-HW — Cisco MV93M-HW",
+      "MV93X-HW — Cisco MV93X-HW"
+     ],
+     "rules": {
+      "sku": 3
+     },
+     "pending_in": {}
+    },
+    {
+     "series": "MV21",
+     "family": null,
+     "role": null,
+     "note": null,
+     "parts": 1,
+     "kinds": {
+      "camera": 1
+     },
+     "roles": {},
+     "samples": [
+      "MV21 — Cisco MV21"
+     ],
+     "rules": {
+      "sku": 1
+     },
+     "pending_in": {}
+    },
+    {
+     "series": "MV71",
+     "family": null,
+     "role": null,
+     "note": null,
+     "parts": 1,
+     "kinds": {
+      "camera": 1
+     },
+     "roles": {},
+     "samples": [
+      "MV71 — Cisco MV71"
+     ],
+     "rules": {
+      "sku": 1
+     },
+     "pending_in": {}
+    },
+    {
+     "series": "MV44X",
+     "family": null,
+     "role": null,
+     "note": null,
+     "parts": 2,
+     "kinds": {
+      "camera": 2
+     },
+     "roles": {},
+     "samples": [
+      "MV44X — Cisco MV44X",
+      "MV44X-HW — Cisco MV44X-HW"
+     ],
+     "rules": {
+      "sku": 2
+     },
+     "pending_in": {}
+    },
+    {
+     "series": "MV53X",
+     "family": null,
+     "role": null,
+     "note": null,
+     "parts": 2,
+     "kinds": {
+      "camera": 2
+     },
+     "roles": {},
+     "samples": [
+      "MV53X — Cisco MV53X",
+      "MV53X-HW — Cisco MV53X-HW"
+     ],
+     "rules": {
+      "sku": 2
+     },
+     "pending_in": {}
+    },
+    {
+     "series": "MV84X",
+     "family": null,
+     "role": null,
+     "note": null,
+     "parts": 2,
+     "kinds": {
+      "camera": 2
+     },
+     "roles": {},
+     "samples": [
+      "MV84X — Cisco MV84X",
+      "MV84X-HW — Cisco MV84X-HW"
+     ],
+     "rules": {
+      "sku": 2
+     },
+     "pending_in": {}
+    }
+   ]
+  },
+  {
+   "line": "Meraki MX Security and SD-WAN Appliances",
+   "parts": 18,
+   "series": [
+    {
+     "series": "MX64",
+     "family": null,
+     "role": null,
+     "note": null,
+     "parts": 2,
+     "kinds": {
+      "appliance": 2
+     },
+     "roles": {},
+     "samples": [
+      "MX64 — Cisco MX64",
+      "MX64W — Cisco MX64W"
+     ],
+     "rules": {
+      "sku": 2
+     },
+     "pending_in": {}
+    },
+    {
+     "series": "MX65",
+     "family": null,
+     "role": null,
+     "note": null,
+     "parts": 2,
+     "kinds": {
+      "appliance": 2
+     },
+     "roles": {},
+     "samples": [
+      "MX65 — Cisco MX65",
+      "MX65W — Cisco MX65W"
+     ],
+     "rules": {
+      "sku": 2
+     },
+     "pending_in": {}
+    },
+    {
+     "series": "MX67",
+     "family": null,
+     "role": null,
+     "note": null,
+     "parts": 3,
+     "kinds": {
+      "appliance": 3
+     },
+     "roles": {},
+     "samples": [
+      "MX67 — Cisco MX67",
+      "MX67C — Cisco MX67C",
+      "MX67W — Cisco MX67W"
+     ],
+     "rules": {
+      "sku": 3
+     },
+     "pending_in": {}
+    },
+    {
+     "series": "MX68",
+     "family": null,
+     "role": null,
+     "note": null,
+     "parts": 3,
+     "kinds": {
+      "appliance": 3
+     },
+     "roles": {},
+     "samples": [
+      "MX68 — Cisco MX68",
+      "MX68CW — Cisco MX68CW",
+      "MX68W — Cisco MX68W"
+     ],
+     "rules": {
+      "sku": 3
+     },
+     "pending_in": {}
+    },
+    {
+     "series": "MX75",
+     "family": null,
+     "role": null,
+     "note": null,
+     "parts": 1,
+     "kinds": {
+      "appliance": 1
+     },
+     "roles": {},
+     "samples": [
+      "MX75 — Cisco MX75"
+     ],
+     "rules": {
+      "sku": 1
+     },
+     "pending_in": {}
+    },
+    {
+     "series": "MX84",
+     "family": null,
+     "role": null,
+     "note": null,
+     "parts": 1,
+     "kinds": {
+      "appliance": 1
+     },
+     "roles": {},
+     "samples": [
+      "MX84 — Cisco MX84"
+     ],
+     "rules": {
+      "sku": 1
+     },
+     "pending_in": {}
+    },
+    {
+     "series": "MX85",
+     "family": null,
+     "role": null,
+     "note": null,
+     "parts": 1,
+     "kinds": {
+      "appliance": 1
+     },
+     "roles": {},
+     "samples": [
+      "MX85 — Cisco MX85"
+     ],
+     "rules": {
+      "sku": 1
+     },
+     "pending_in": {}
+    },
+    {
+     "series": "MX95",
+     "family": null,
+     "role": null,
+     "note": null,
+     "parts": 1,
+     "kinds": {
+      "appliance": 1
+     },
+     "roles": {},
+     "samples": [
+      "MX95 — Cisco MX95"
+     ],
+     "rules": {
+      "sku": 1
+     },
+     "pending_in": {}
+    },
+    {
+     "series": "MX100",
+     "family": null,
+     "role": null,
+     "note": null,
+     "parts": 1,
+     "kinds": {
+      "appliance": 1
+     },
+     "roles": {},
+     "samples": [
+      "MX100 — Cisco MX100"
+     ],
+     "rules": {
+      "sku": 1
+     },
+     "pending_in": {}
+    },
+    {
+     "series": "MX105",
+     "family": null,
+     "role": null,
+     "note": null,
+     "parts": 1,
+     "kinds": {
+      "appliance": 1
+     },
+     "roles": {},
+     "samples": [
+      "MX105 — Cisco MX105"
+     ],
+     "rules": {
+      "sku": 1
+     },
+     "pending_in": {}
+    },
+    {
+     "series": "MX250",
+     "family": null,
+     "role": null,
+     "note": null,
+     "parts": 1,
+     "kinds": {
+      "appliance": 1
+     },
+     "roles": {},
+     "samples": [
+      "MX250 — Cisco MX250"
+     ],
+     "rules": {
+      "sku": 1
+     },
+     "pending_in": {}
+    },
+    {
+     "series": "MX450",
+     "family": null,
+     "role": null,
+     "note": null,
+     "parts": 1,
+     "kinds": {
+      "appliance": 1
+     },
+     "roles": {},
+     "samples": [
+      "MX450 — Cisco MX450"
+     ],
+     "rules": {
+      "sku": 1
+     },
+     "pending_in": {}
+    }
+   ]
+  },
+  {
+   "line": "Meraki Z Teleworker Gateways",
+   "parts": 4,
+   "series": [
+    {
+     "series": "Z4",
+     "family": null,
+     "role": null,
+     "note": null,
+     "parts": 2,
+     "kinds": {
+      "appliance": 2
+     },
+     "roles": {},
+     "samples": [
+      "Z4 — Cisco Z4",
+      "Z4-HW — Meraki Z4 Cloud Managed Teleworker Gateway"
+     ],
+     "rules": {
+      "sku": 2
+     },
+     "pending_in": {}
+    },
+    {
+     "series": "Z4C",
+     "family": null,
+     "role": null,
+     "note": null,
+     "parts": 2,
+     "kinds": {
+      "appliance": 2
+     },
+     "roles": {},
+     "samples": [
+      "Z4C — Cisco Z4C",
+      "Z4C-HW — Meraki Z4C Cloud Managed Teleworker Gateway"
+     ],
+     "rules": {
+      "sku": 2
+     },
+     "pending_in": {}
+    }
+   ]
+  },
+  {
+   "line": "Meraki MG Cellular Gateways",
+   "parts": 18,
+   "series": [
+    {
+     "series": "MG21 / MG21E",
      "family": null,
      "role": null,
      "note": null,
      "parts": 6,
      "kinds": {
-      "access-point": 6
-     },
-     "roles": {
-      "outdoor": 1,
-      "indoor": 4
-     },
-     "samples": [
-      "CW9163E — Cisco CW9163E",
-      "CW9166ID1 — Cisco CW9166ID1",
-      "CW9172 — Cisco CW9172",
-      "CW9176 — Cisco CW9176",
-      "CW9178 — Cisco CW9178",
-      "CW917H — Cisco CW917H"
-     ],
-     "rules": {
-      "sku": 6
-     },
-     "pending_in": {}
-    },
-    {
-     "series": "Meraki MV smart cameras",
-     "family": null,
-     "role": null,
-     "note": null,
-     "parts": 52,
-     "kinds": {
-      "camera": 52
-     },
-     "roles": {},
-     "samples": [
-      "MV10 — Cisco MV10",
-      "MV12 — Cisco MV12",
-      "MV12N — Cisco MV12N",
-      "MV12W — Cisco MV12W",
-      "MV12WE — Cisco MV12WE",
-      "MV13 — Cisco MV13"
-     ],
-     "rules": {
-      "sku": 52
-     },
-     "pending_in": {}
-    },
-    {
-     "series": "Meraki MX and Z security appliances",
-     "family": null,
-     "role": null,
-     "note": null,
-     "parts": 26,
-     "kinds": {
-      "appliance": 26
-     },
-     "roles": {},
-     "samples": [
-      "MX100 — Cisco MX100",
-      "MX105 — Cisco MX105",
-      "MX16 — Cisco MX16",
-      "MX18 — Cisco MX18",
-      "MX250 — Cisco MX250",
-      "MX26 — Cisco MX26"
-     ],
-     "rules": {
-      "sku": 26
-     },
-     "pending_in": {}
-    },
-    {
-     "series": "Meraki MG cellular gateways",
-     "family": null,
-     "role": null,
-     "note": null,
-     "parts": 18,
-     "kinds": {
-      "gateway": 18
+      "gateway": 6
      },
      "roles": {},
      "samples": [
@@ -128,72 +632,228 @@
       "MG21E-HW-WW — Meraki MG21E Cellular Gateway External Antennas – Worldwide"
      ],
      "rules": {
-      "sku": 18
+      "sku": 6
      },
      "pending_in": {}
     },
     {
-     "series": "Meraki MT sensors",
+     "series": "MG41 / MG41E",
      "family": null,
      "role": null,
      "note": null,
-     "parts": 16,
+     "parts": 4,
      "kinds": {
-      "sensor": 16
+      "gateway": 4
+     },
+     "roles": {},
+     "samples": [
+      "MG41 — Cisco MG41",
+      "MG41-HW — Meraki MG41 Cellular Gateway",
+      "MG41E — Cisco MG41E",
+      "MG41E-HW — Meraki MG41 Cellular Gateway – External Antennas"
+     ],
+     "rules": {
+      "sku": 4
+     },
+     "pending_in": {}
+    },
+    {
+     "series": "MG51 / MG51E",
+     "family": null,
+     "role": null,
+     "note": null,
+     "parts": 4,
+     "kinds": {
+      "gateway": 4
+     },
+     "roles": {},
+     "samples": [
+      "MG51 — Cisco MG51",
+      "MG51-HW — Cisco MG51-HW",
+      "MG51E — Cisco MG51E",
+      "MG51E-HW — Cisco MG51E-HW"
+     ],
+     "rules": {
+      "sku": 4
+     },
+     "pending_in": {}
+    },
+    {
+     "series": "MG52 / MG52E",
+     "family": null,
+     "role": null,
+     "note": null,
+     "parts": 4,
+     "kinds": {
+      "gateway": 4
+     },
+     "roles": {},
+     "samples": [
+      "MG52 — Cisco MG52",
+      "MG52-HW — Cisco MG52-HW",
+      "MG52E — Cisco MG52E",
+      "MG52E-HW — Cisco MG52E-HW"
+     ],
+     "rules": {
+      "sku": 4
+     },
+     "pending_in": {}
+    }
+   ]
+  },
+  {
+   "line": "Meraki MT Sensors",
+   "parts": 16,
+   "series": [
+    {
+     "series": "MT10",
+     "family": null,
+     "role": null,
+     "note": null,
+     "parts": 2,
+     "kinds": {
+      "sensor": 2
      },
      "roles": {},
      "samples": [
       "MT10 — Cisco MT10",
-      "MT10-HW — Cisco MT10-HW",
+      "MT10-HW — Cisco MT10-HW"
+     ],
+     "rules": {
+      "sku": 2
+     },
+     "pending_in": {}
+    },
+    {
+     "series": "MT11",
+     "family": null,
+     "role": null,
+     "note": null,
+     "parts": 2,
+     "kinds": {
+      "sensor": 2
+     },
+     "roles": {},
+     "samples": [
       "MT11 — Cisco MT11",
-      "MT11-HW — Cisco MT11-HW",
+      "MT11-HW — Cisco MT11-HW"
+     ],
+     "rules": {
+      "sku": 2
+     },
+     "pending_in": {}
+    },
+    {
+     "series": "MT12",
+     "family": null,
+     "role": null,
+     "note": null,
+     "parts": 2,
+     "kinds": {
+      "sensor": 2
+     },
+     "roles": {},
+     "samples": [
       "MT12 — Cisco MT12",
       "MT12-HW — Cisco MT12-HW"
      ],
      "rules": {
-      "sku": 16
+      "sku": 2
      },
      "pending_in": {}
     },
     {
-     "series": "Meraki MS switches",
+     "series": "MT14",
      "family": null,
      "role": null,
      "note": null,
-     "parts": 1,
+     "parts": 2,
      "kinds": {
-      "switch": 1
+      "sensor": 2
      },
      "roles": {},
      "samples": [
-      "MS15 — Cisco MS15"
+      "MT14 — Cisco MT14",
+      "MT14-HW — Cisco MT14-HW"
      ],
      "rules": {
-      "sku": 1
+      "sku": 2
      },
      "pending_in": {}
     },
     {
-     "series": "Meraki shared parts",
-     "family": "(shared across the line)",
+     "series": "MT15",
+     "family": null,
      "role": null,
      "note": null,
-     "parts": 6,
+     "parts": 2,
      "kinds": {
-      "unknown": 5,
-      "accessory": 1
+      "sensor": 2
      },
      "roles": {},
      "samples": [
-      "MCS1 — Cisco MCS1",
-      "MCS2 — Cisco MCS2",
-      "MCS3 — Cisco MCS3",
-      "MCS5 — Cisco MCS5",
-      "MCS6 — Cisco MCS6",
-      "MGKIT-1 — Cisco MGKIT-1"
+      "MT15 — Cisco MT15",
+      "MT15-HW — Cisco MT15-HW"
      ],
      "rules": {
-      "label": 6
+      "sku": 2
+     },
+     "pending_in": {}
+    },
+    {
+     "series": "MT20",
+     "family": null,
+     "role": null,
+     "note": null,
+     "parts": 2,
+     "kinds": {
+      "sensor": 2
+     },
+     "roles": {},
+     "samples": [
+      "MT20 — Cisco MT20",
+      "MT20-HW — Cisco MT20-HW"
+     ],
+     "rules": {
+      "sku": 2
+     },
+     "pending_in": {}
+    },
+    {
+     "series": "MT30",
+     "family": null,
+     "role": null,
+     "note": null,
+     "parts": 2,
+     "kinds": {
+      "sensor": 2
+     },
+     "roles": {},
+     "samples": [
+      "MT30 — Cisco MT30",
+      "MT30-HW — Cisco MT30-HW"
+     ],
+     "rules": {
+      "sku": 2
+     },
+     "pending_in": {}
+    },
+    {
+     "series": "MT40",
+     "family": null,
+     "role": null,
+     "note": null,
+     "parts": 2,
+     "kinds": {
+      "sensor": 2
+     },
+     "roles": {},
+     "samples": [
+      "MT40 — Cisco MT40",
+      "MT40-HW — Cisco MT40-HW"
+     ],
+     "rules": {
+      "sku": 2
      },
      "pending_in": {}
     }
@@ -201,10 +861,523 @@
   }
  ],
  "not_this_category": [],
- "pending_plans": [],
+ "pending_plans": [
+  {
+   "sku": "CW9163E",
+   "name": "Cisco CW9163E",
+   "series_label": "Meraki",
+   "action": "class",
+   "to": "non_product",
+   "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)"
+  },
+  {
+   "sku": "CW9166ID1",
+   "name": "Cisco CW9166ID1",
+   "series_label": "Meraki",
+   "action": "class",
+   "to": "non_product",
+   "reason": "misprint of CW9166D1: the CW9166 datasheet's bracket list joins the I and D1 models"
+  },
+  {
+   "sku": "CW9172",
+   "name": "Cisco CW9172",
+   "series_label": "Meraki",
+   "action": "move",
+   "to": "wireless",
+   "reason": "Catalyst Wireless access point (the Meraki-mode CW9172 / CW9176 / CW9178 family rows): wireless holds the Catalyst Wireless series and their -MR SKUs; one home for an access point (decision pending: Meraki MR / CW home, recommendation wireless by the Meraki MS precedent, run #1061)"
+  },
+  {
+   "sku": "CW9176",
+   "name": "Cisco CW9176",
+   "series_label": "Meraki",
+   "action": "move",
+   "to": "wireless",
+   "reason": "Catalyst Wireless access point (the Meraki-mode CW9172 / CW9176 / CW9178 family rows): wireless holds the Catalyst Wireless series and their -MR SKUs; one home for an access point (decision pending: Meraki MR / CW home, recommendation wireless by the Meraki MS precedent, run #1061)"
+  },
+  {
+   "sku": "CW9178",
+   "name": "Cisco CW9178",
+   "series_label": "Meraki",
+   "action": "move",
+   "to": "wireless",
+   "reason": "Catalyst Wireless access point (the Meraki-mode CW9172 / CW9176 / CW9178 family rows): wireless holds the Catalyst Wireless series and their -MR SKUs; one home for an access point (decision pending: Meraki MR / CW home, recommendation wireless by the Meraki MS precedent, run #1061)"
+  },
+  {
+   "sku": "CW917H",
+   "name": "Cisco CW917H",
+   "series_label": "Meraki",
+   "action": "class",
+   "to": "non_product",
+   "reason": "misprint of CW9172H: the CW9172H datasheet's own text drops the 2"
+  },
+  {
+   "sku": "MCS1",
+   "name": "Cisco MCS1",
+   "series_label": "Meraki",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell: a Wi-Fi modulation and coding scheme index (MCS1), not a PID"
+  },
+  {
+   "sku": "MCS2",
+   "name": "Cisco MCS2",
+   "series_label": "Meraki",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell: a Wi-Fi modulation and coding scheme index (MCS2), not a PID"
+  },
+  {
+   "sku": "MCS3",
+   "name": "Cisco MCS3",
+   "series_label": "Meraki",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell: a Wi-Fi modulation and coding scheme index (MCS3), not a PID"
+  },
+  {
+   "sku": "MCS5",
+   "name": "Cisco MCS5",
+   "series_label": "Meraki",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell: a Wi-Fi modulation and coding scheme index (MCS5), not a PID"
+  },
+  {
+   "sku": "MCS6",
+   "name": "Cisco MCS6",
+   "series_label": "Meraki",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell: a Wi-Fi modulation and coding scheme index (MCS6), not a PID"
+  },
+  {
+   "sku": "MGKIT-1",
+   "name": "Cisco MGKIT-1",
+   "series_label": "Meraki",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet token: a fragment of the accessory PID MA-ACC-MGKIT-1 (not held), not a PID"
+  },
+  {
+   "sku": "MR11",
+   "name": "Cisco MR11",
+   "series_label": "Meraki",
+   "action": "move",
+   "to": "wireless",
+   "reason": "Meraki MR access point: wireless holds the Meraki MR Access Points line (indoor / outdoor series) and its -HW rows; the Meraki MS switches moved to switches (run #1061) — the same noun rule (decision pending: Meraki MR / CW home, recommendation wireless)"
+  },
+  {
+   "sku": "MR12",
+   "name": "Cisco MR12",
+   "series_label": "Meraki",
+   "action": "move",
+   "to": "wireless",
+   "reason": "Meraki MR access point: wireless holds the Meraki MR Access Points line (indoor / outdoor series) and its -HW rows; the Meraki MS switches moved to switches (run #1061) — the same noun rule (decision pending: Meraki MR / CW home, recommendation wireless)"
+  },
+  {
+   "sku": "MR14",
+   "name": "Cisco MR14",
+   "series_label": "Meraki",
+   "action": "move",
+   "to": "wireless",
+   "reason": "Meraki MR access point: wireless holds the Meraki MR Access Points line (indoor / outdoor series) and its -HW rows; the Meraki MS switches moved to switches (run #1061) — the same noun rule (decision pending: Meraki MR / CW home, recommendation wireless)"
+  },
+  {
+   "sku": "MR16",
+   "name": "Cisco MR16",
+   "series_label": "Meraki",
+   "action": "move",
+   "to": "wireless",
+   "reason": "Meraki MR access point: wireless holds the Meraki MR Access Points line (indoor / outdoor series) and its -HW rows; the Meraki MS switches moved to switches (run #1061) — the same noun rule (decision pending: Meraki MR / CW home, recommendation wireless)"
+  },
+  {
+   "sku": "MR20",
+   "name": "Cisco MR20",
+   "series_label": "Meraki",
+   "action": "move",
+   "to": "wireless",
+   "reason": "Meraki MR access point: wireless holds the Meraki MR Access Points line (indoor / outdoor series) and its -HW rows; the Meraki MS switches moved to switches (run #1061) — the same noun rule (decision pending: Meraki MR / CW home, recommendation wireless)"
+  },
+  {
+   "sku": "MR24",
+   "name": "Cisco MR24",
+   "series_label": "Meraki",
+   "action": "move",
+   "to": "wireless",
+   "reason": "Meraki MR access point: wireless holds the Meraki MR Access Points line (indoor / outdoor series) and its -HW rows; the Meraki MS switches moved to switches (run #1061) — the same noun rule (decision pending: Meraki MR / CW home, recommendation wireless)"
+  },
+  {
+   "sku": "MR28",
+   "name": "Cisco MR28",
+   "series_label": "Meraki",
+   "action": "move",
+   "to": "wireless",
+   "reason": "Meraki MR access point: wireless holds the Meraki MR Access Points line (indoor / outdoor series) and its -HW rows; the Meraki MS switches moved to switches (run #1061) — the same noun rule (decision pending: Meraki MR / CW home, recommendation wireless)"
+  },
+  {
+   "sku": "MR28-HW",
+   "name": "Cisco MR28-HW",
+   "series_label": "Meraki",
+   "action": "move",
+   "to": "wireless",
+   "reason": "Meraki MR access point: wireless holds the Meraki MR Access Points line (indoor / outdoor series) and its -HW rows; the Meraki MS switches moved to switches (run #1061) — the same noun rule (decision pending: Meraki MR / CW home, recommendation wireless)"
+  },
+  {
+   "sku": "MR30",
+   "name": "Cisco MR30",
+   "series_label": "Meraki",
+   "action": "move",
+   "to": "wireless",
+   "reason": "Meraki MR access point: wireless holds the Meraki MR Access Points line (indoor / outdoor series) and its -HW rows; the Meraki MS switches moved to switches (run #1061) — the same noun rule (decision pending: Meraki MR / CW home, recommendation wireless)"
+  },
+  {
+   "sku": "MR30H",
+   "name": "Cisco MR30H",
+   "series_label": "Meraki",
+   "action": "move",
+   "to": "wireless",
+   "reason": "Meraki MR access point: wireless holds the Meraki MR Access Points line (indoor / outdoor series) and its -HW rows; the Meraki MS switches moved to switches (run #1061) — the same noun rule (decision pending: Meraki MR / CW home, recommendation wireless)"
+  },
+  {
+   "sku": "MR33",
+   "name": "Cisco MR33",
+   "series_label": "Meraki",
+   "action": "move",
+   "to": "wireless",
+   "reason": "Meraki MR access point: wireless holds the Meraki MR Access Points line (indoor / outdoor series) and its -HW rows; the Meraki MS switches moved to switches (run #1061) — the same noun rule (decision pending: Meraki MR / CW home, recommendation wireless)"
+  },
+  {
+   "sku": "MR4",
+   "name": "Cisco MR4",
+   "series_label": "Meraki",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet token: a cut-off related-article teaser ('MR4...'), not a PID"
+  },
+  {
+   "sku": "MR42",
+   "name": "Cisco MR42",
+   "series_label": "Meraki",
+   "action": "move",
+   "to": "wireless",
+   "reason": "Meraki MR access point: wireless holds the Meraki MR Access Points line (indoor / outdoor series) and its -HW rows; the Meraki MS switches moved to switches (run #1061) — the same noun rule (decision pending: Meraki MR / CW home, recommendation wireless)"
+  },
+  {
+   "sku": "MR42E",
+   "name": "Cisco MR42E",
+   "series_label": "Meraki",
+   "action": "move",
+   "to": "wireless",
+   "reason": "Meraki MR access point: wireless holds the Meraki MR Access Points line (indoor / outdoor series) and its -HW rows; the Meraki MS switches moved to switches (run #1061) — the same noun rule (decision pending: Meraki MR / CW home, recommendation wireless)"
+  },
+  {
+   "sku": "MR45",
+   "name": "Cisco MR45",
+   "series_label": "Meraki",
+   "action": "move",
+   "to": "wireless",
+   "reason": "Meraki MR access point: wireless holds the Meraki MR Access Points line (indoor / outdoor series) and its -HW rows; the Meraki MS switches moved to switches (run #1061) — the same noun rule (decision pending: Meraki MR / CW home, recommendation wireless)"
+  },
+  {
+   "sku": "MR52",
+   "name": "Cisco MR52",
+   "series_label": "Meraki",
+   "action": "move",
+   "to": "wireless",
+   "reason": "Meraki MR access point: wireless holds the Meraki MR Access Points line (indoor / outdoor series) and its -HW rows; the Meraki MS switches moved to switches (run #1061) — the same noun rule (decision pending: Meraki MR / CW home, recommendation wireless)"
+  },
+  {
+   "sku": "MR53",
+   "name": "Cisco MR53",
+   "series_label": "Meraki",
+   "action": "move",
+   "to": "wireless",
+   "reason": "Meraki MR access point: wireless holds the Meraki MR Access Points line (indoor / outdoor series) and its -HW rows; the Meraki MS switches moved to switches (run #1061) — the same noun rule (decision pending: Meraki MR / CW home, recommendation wireless)"
+  },
+  {
+   "sku": "MR53E",
+   "name": "Cisco MR53E",
+   "series_label": "Meraki",
+   "action": "move",
+   "to": "wireless",
+   "reason": "Meraki MR access point: wireless holds the Meraki MR Access Points line (indoor / outdoor series) and its -HW rows; the Meraki MS switches moved to switches (run #1061) — the same noun rule (decision pending: Meraki MR / CW home, recommendation wireless)"
+  },
+  {
+   "sku": "MR55",
+   "name": "Cisco MR55",
+   "series_label": "Meraki",
+   "action": "move",
+   "to": "wireless",
+   "reason": "Meraki MR access point: wireless holds the Meraki MR Access Points line (indoor / outdoor series) and its -HW rows; the Meraki MS switches moved to switches (run #1061) — the same noun rule (decision pending: Meraki MR / CW home, recommendation wireless)"
+  },
+  {
+   "sku": "MR56-HW",
+   "name": "Cisco MR56-HW",
+   "series_label": "Meraki",
+   "action": "move",
+   "to": "wireless",
+   "reason": "Meraki MR access point: wireless holds the Meraki MR Access Points line (indoor / outdoor series) and its -HW rows; the Meraki MS switches moved to switches (run #1061) — the same noun rule (decision pending: Meraki MR / CW home, recommendation wireless)"
+  },
+  {
+   "sku": "MR57-HW",
+   "name": "Cisco MR57-HW",
+   "series_label": "Meraki",
+   "action": "move",
+   "to": "wireless",
+   "reason": "Meraki MR access point: wireless holds the Meraki MR Access Points line (indoor / outdoor series) and its -HW rows; the Meraki MS switches moved to switches (run #1061) — the same noun rule (decision pending: Meraki MR / CW home, recommendation wireless)"
+  },
+  {
+   "sku": "MR58",
+   "name": "Cisco MR58",
+   "series_label": "Meraki",
+   "action": "move",
+   "to": "wireless",
+   "reason": "Meraki MR access point: wireless holds the Meraki MR Access Points line (indoor / outdoor series) and its -HW rows; the Meraki MS switches moved to switches (run #1061) — the same noun rule (decision pending: Meraki MR / CW home, recommendation wireless)"
+  },
+  {
+   "sku": "MR62",
+   "name": "Cisco MR62",
+   "series_label": "Meraki",
+   "action": "move",
+   "to": "wireless",
+   "reason": "Meraki MR access point: wireless holds the Meraki MR Access Points line (indoor / outdoor series) and its -HW rows; the Meraki MS switches moved to switches (run #1061) — the same noun rule (decision pending: Meraki MR / CW home, recommendation wireless)"
+  },
+  {
+   "sku": "MR66",
+   "name": "Cisco MR66",
+   "series_label": "Meraki",
+   "action": "move",
+   "to": "wireless",
+   "reason": "Meraki MR access point: wireless holds the Meraki MR Access Points line (indoor / outdoor series) and its -HW rows; the Meraki MS switches moved to switches (run #1061) — the same noun rule (decision pending: Meraki MR / CW home, recommendation wireless)"
+  },
+  {
+   "sku": "MR70",
+   "name": "Cisco MR70",
+   "series_label": "Meraki",
+   "action": "move",
+   "to": "wireless",
+   "reason": "Meraki MR access point: wireless holds the Meraki MR Access Points line (indoor / outdoor series) and its -HW rows; the Meraki MS switches moved to switches (run #1061) — the same noun rule (decision pending: Meraki MR / CW home, recommendation wireless)"
+  },
+  {
+   "sku": "MR74",
+   "name": "Cisco MR74",
+   "series_label": "Meraki",
+   "action": "move",
+   "to": "wireless",
+   "reason": "Meraki MR access point: wireless holds the Meraki MR Access Points line (indoor / outdoor series) and its -HW rows; the Meraki MS switches moved to switches (run #1061) — the same noun rule (decision pending: Meraki MR / CW home, recommendation wireless)"
+  },
+  {
+   "sku": "MR76-HW",
+   "name": "Cisco MR76-HW",
+   "series_label": "Meraki",
+   "action": "move",
+   "to": "wireless",
+   "reason": "Meraki MR access point: wireless holds the Meraki MR Access Points line (indoor / outdoor series) and its -HW rows; the Meraki MS switches moved to switches (run #1061) — the same noun rule (decision pending: Meraki MR / CW home, recommendation wireless)"
+  },
+  {
+   "sku": "MR78-HW",
+   "name": "Cisco MR78-HW",
+   "series_label": "Meraki",
+   "action": "move",
+   "to": "wireless",
+   "reason": "Meraki MR access point: wireless holds the Meraki MR Access Points line (indoor / outdoor series) and its -HW rows; the Meraki MS switches moved to switches (run #1061) — the same noun rule (decision pending: Meraki MR / CW home, recommendation wireless)"
+  },
+  {
+   "sku": "MR84",
+   "name": "Cisco MR84",
+   "series_label": "Meraki",
+   "action": "move",
+   "to": "wireless",
+   "reason": "Meraki MR access point: wireless holds the Meraki MR Access Points line (indoor / outdoor series) and its -HW rows; the Meraki MS switches moved to switches (run #1061) — the same noun rule (decision pending: Meraki MR / CW home, recommendation wireless)"
+  },
+  {
+   "sku": "MR86-HW",
+   "name": "Cisco MR86-HW",
+   "series_label": "Meraki",
+   "action": "move",
+   "to": "wireless",
+   "reason": "Meraki MR access point: wireless holds the Meraki MR Access Points line (indoor / outdoor series) and its -HW rows; the Meraki MS switches moved to switches (run #1061) — the same noun rule (decision pending: Meraki MR / CW home, recommendation wireless)"
+  },
+  {
+   "sku": "MS15",
+   "name": "Cisco MS15",
+   "series_label": "Meraki",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet token: the Meraki MS firmware version MS15, not a switch"
+  },
+  {
+   "sku": "MV10",
+   "name": "Cisco MV10",
+   "series_label": "Meraki",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet token: a fragment of the accessory PID MA-MNT-MV10 (Wall-Mount Arm, not held), not a camera"
+  },
+  {
+   "sku": "MV13",
+   "name": "Cisco MV13",
+   "series_label": "Meraki",
+   "action": "class",
+   "to": "non_product",
+   "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)"
+  },
+  {
+   "sku": "MV13M",
+   "name": "Cisco MV13M",
+   "series_label": "Meraki",
+   "action": "class",
+   "to": "non_product",
+   "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)"
+  },
+  {
+   "sku": "MV23M",
+   "name": "Cisco MV23M",
+   "series_label": "Meraki",
+   "action": "class",
+   "to": "non_product",
+   "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)"
+  },
+  {
+   "sku": "MV23X",
+   "name": "Cisco MV23X",
+   "series_label": "Meraki",
+   "action": "class",
+   "to": "non_product",
+   "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)"
+  },
+  {
+   "sku": "MV33",
+   "name": "Cisco MV33",
+   "series_label": "Meraki",
+   "action": "class",
+   "to": "non_product",
+   "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)"
+  },
+  {
+   "sku": "MV33M",
+   "name": "Cisco MV33M",
+   "series_label": "Meraki",
+   "action": "class",
+   "to": "non_product",
+   "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)"
+  },
+  {
+   "sku": "MV4",
+   "name": "Cisco MV4",
+   "series_label": "Meraki",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet token: the Meraki MV firmware version MV4.x, not a camera"
+  },
+  {
+   "sku": "MV5",
+   "name": "Cisco MV5",
+   "series_label": "Meraki",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet token: a cut-off related-article teaser ('MV5...'), not a PID"
+  },
+  {
+   "sku": "MV63",
+   "name": "Cisco MV63",
+   "series_label": "Meraki",
+   "action": "class",
+   "to": "non_product",
+   "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)"
+  },
+  {
+   "sku": "MV63M",
+   "name": "Cisco MV63M",
+   "series_label": "Meraki",
+   "action": "class",
+   "to": "non_product",
+   "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)"
+  },
+  {
+   "sku": "MV63X",
+   "name": "Cisco MV63X",
+   "series_label": "Meraki",
+   "action": "class",
+   "to": "non_product",
+   "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)"
+  },
+  {
+   "sku": "MV73M",
+   "name": "Cisco MV73M",
+   "series_label": "Meraki",
+   "action": "class",
+   "to": "non_product",
+   "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)"
+  },
+  {
+   "sku": "MV73X",
+   "name": "Cisco MV73X",
+   "series_label": "Meraki",
+   "action": "class",
+   "to": "non_product",
+   "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)"
+  },
+  {
+   "sku": "MV93",
+   "name": "Cisco MV93",
+   "series_label": "Meraki",
+   "action": "class",
+   "to": "non_product",
+   "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)"
+  },
+  {
+   "sku": "MV93M",
+   "name": "Cisco MV93M",
+   "series_label": "Meraki",
+   "action": "class",
+   "to": "non_product",
+   "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)"
+  },
+  {
+   "sku": "MV93X",
+   "name": "Cisco MV93X",
+   "series_label": "Meraki",
+   "action": "class",
+   "to": "non_product",
+   "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)"
+  },
+  {
+   "sku": "MX16",
+   "name": "Cisco MX16",
+   "series_label": "Meraki",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet token: the Meraki MX firmware version MX16.x, not an appliance"
+  },
+  {
+   "sku": "MX18",
+   "name": "Cisco MX18",
+   "series_label": "Meraki",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet token: the Meraki MX firmware version MX18.x, not an appliance"
+  },
+  {
+   "sku": "MX26",
+   "name": "Cisco MX26",
+   "series_label": "Meraki",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet token: the Meraki MX firmware version MX26.x, not an appliance"
+  },
+  {
+   "sku": "MX650",
+   "name": "Cisco MX650",
+   "series_label": "Meraki",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet token: a page tag on the C8455-G2-MX datasheet ('MX650 Datasheet', 'MX650 Installation'), no document or fact names an MX650 appliance"
+  }
+ ],
  "unplaced": [],
  "label_check": {
-  "applied": false,
+  "applied": true,
   "label_placed": 0,
   "by_kind": {},
   "moved": []

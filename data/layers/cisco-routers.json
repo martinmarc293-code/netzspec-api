@@ -1,8 +1,8 @@
 {
  "vendor": "cisco",
  "category": "routers",
- "built_at": "2026-09-15T12:12:55.537Z",
- "commit": "70980429b6e6f3cfadd881bf5bb948973b4759a7",
+ "built_at": "2026-09-15T12:44:23.208Z",
+ "commit": "735fb0605f4ce5d68ac7d3368a928cc438c08eb9",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-routers.json",
  "parts": 5093,

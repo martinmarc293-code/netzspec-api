@@ -1,8 +1,8 @@
 {
  "vendor": "cisco",
  "category": "wireless",
- "built_at": "2026-09-15T12:12:56.029Z",
- "commit": "70980429b6e6f3cfadd881bf5bb948973b4759a7",
+ "built_at": "2026-09-15T12:44:23.740Z",
+ "commit": "735fb0605f4ce5d68ac7d3368a928cc438c08eb9",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-wireless.json",
  "parts": 4010,
@@ -95,6 +95,7 @@
       "sku": 8
      },
      "pending_in": {
+      "meraki": 3,
       "routers": 1
      }
     },
@@ -1164,7 +1165,9 @@
      "rules": {
       "sku": 3
      },
-     "pending_in": {}
+     "pending_in": {
+      "meraki": 8
+     }
     },
     {
      "series": "Meraki MR indoor",
@@ -1189,7 +1192,9 @@
      "rules": {
       "sku": 10
      },
-     "pending_in": {}
+     "pending_in": {
+      "meraki": 21
+     }
     },
     {
      "series": "Meraki MR Access Points shared parts",

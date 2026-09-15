@@ -1718,40 +1718,40 @@ CS-MX800D-2CAM-K9	SPARK MX800D, Dual 70, Dual Cam, SPARK subscription only	TeleP
 CS-MX800S-2CAM-K9	SPARK MX800S, Single 70, Dual Cam, SPARK subcription only	TelePresence MX Series	video-device	layered	TelePresence (legacy)		TelePresence MX (MX200 / MX300 / MX700 / MX800)	label TelePresence MX Series						sku-token: 800
 CS-NAL-ROOM70	Codec Plus and Room 70-codec NAL label for China	Room Series	accessory	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	accessory NAL (label Room Series)						
 CS-OC-CLIP=	Holder OC Cable and Holder OC cable Jack for 85"	Room Series	mechanical	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	label Room Series						
-CS-PANO-240-CSTM	Room Panorama Custom wall - low ceiling bracket	Room Series	mechanical	layered	Webex Room Series		Room Panorama	sku ^CS-PANO						
-CS-PANO-82-CAV=	Room Panorama Display Cavity for 82"	Room Series	mechanical	layered	Webex Room Series		Room Panorama	sku ^CS-PANO						
-CS-PANO-ANT+	Room Panorama Wifi and BT antenna kit	Room Series	accessory	layered	Webex Room Series		Room Panorama	sku ^CS-PANO						
-CS-PANO-ANT=	Room Panorama Wifi and BT antenna kit	Room Series	accessory	layered	Webex Room Series		Room Panorama	sku ^CS-PANO						
-CS-PANO-BASS=	Bass unit for Room Panorama and Room Kit EQX	Room Series	speaker	layered	Webex Room Series		Room Panorama	sku ^CS-PANO						
-CS-PANO-FANKIT+	Room Panorama cooling fans	Room Series	accessory	layered	Webex Room Series		Room Panorama	sku ^CS-PANO						
-CS-PANO-FANKIT=	Room Panorama cooling fans	Room Series	accessory	layered	Webex Room Series		Room Panorama	sku ^CS-PANO						
-CS-PANO-GRILL+	Room Panorama upper and lower grill	Room Series	mechanical	layered	Webex Room Series		Room Panorama	sku ^CS-PANO						
-CS-PANO-GRILL=	Room Panorama upper and lower grill	Room Series	mechanical	layered	Webex Room Series		Room Panorama	sku ^CS-PANO						
-CS-PANO-MON55	Samsung 55" presentation screen for Panorama	Room Series	display	layered	Webex Room Series		Room Panorama	sku ^CS-PANO						
-CS-PANO-MON55=	Samsung 55" presentation screen for Panorama	Room Series	display	layered	Webex Room Series		Room Panorama	sku ^CS-PANO						
-CS-PANO-MON65	Samsung 65" presentation screen for Room Panorama & Room 70	Room Series	display	layered	Webex Room Series		Room Panorama	sku ^CS-PANO						
-CS-PANO-MON65=	Samsung 65" presentation screen for Room Panorama & Room 70	Room Series	display	layered	Webex Room Series		Room Panorama	sku ^CS-PANO						
-CS-PANO-MON82+	Samsung 82" 8K main monitor for Room Panorama	Room Series	display	layered	Webex Room Series		Room Panorama	sku ^CS-PANO						
-CS-PANO-MON82=	Samsung 82" 8K main monitor for Room Panorama	Room Series	display	layered	Webex Room Series		Room Panorama	sku ^CS-PANO						
-CS-PANO-MON85+	Samsung 85" 8K main monitor for Room Panorama	Room Series	display	layered	Webex Room Series		Room Panorama	sku ^CS-PANO						
-CS-PANO-MON85=	Samsung 85" 8K main monitor for Room Panorama	Room Series	display	layered	Webex Room Series		Room Panorama	sku ^CS-PANO						
-CS-PANO-NOPRES	Room Panorama Low Ceiling Height Option - No presentation	Room Series	accessory	layered	Webex Room Series		Room Panorama	sku ^CS-PANO						
-CS-PANO-PRES-TOP	Screen mount for Samsung 65" presentation screen	Room Series	mechanical	layered	Webex Room Series		Room Panorama	sku ^CS-PANO						
-CS-PANO-PRES-TOP=	^Screen mount for Samsung 65" presentation screen	Room Series	mechanical	layered	Webex Room Series		Room Panorama	sku ^CS-PANO						
-CS-PANO-SPKR+	Top speaker for Room Panorama	Room Series	speaker	layered	Webex Room Series		Room Panorama	sku ^CS-PANO						
-CS-PANO-SPKR=	Top speaker for Room Panorama and Room Kit EQX	Room Series	speaker	layered	Webex Room Series		Room Panorama	sku ^CS-PANO						
-CS-PANO-VESA-	VESA bracket for 85", 82" and 65" Panorama screens	Room Series	mechanical	layered	Webex Room Series		Room Panorama	sku ^CS-PANO						
-CS-PANO-VESA=	VESA bracket for 85", 82" and 65" Panorama screens	Room Series	mechanical	layered	Webex Room Series		Room Panorama	sku ^CS-PANO						
-CS-PANO-WAL-LIGH2=	Oak wood finish for Panorama Wall structure -Low Ceiling ver	Room Series	accessory	layered	Webex Room Series		Room Panorama	sku ^CS-PANO						
-CS-PANO-WALL-CSTM	Panorama Custom Wall Kit - Parts needed for Carpenter to bui	Room Series	mechanical	layered	Webex Room Series		Room Panorama	sku ^CS-PANO						
-CS-PANO-WALL-LIGH2	Oak wood finish for Panorama Wall structure -Low Ceiling ver	Room Series	mechanical	layered	Webex Room Series		Room Panorama	sku ^CS-PANO						
-CS-PANO-WALL-LIGH=	Spare Light Oak wood package	Room Series	mechanical	layered	Webex Room Series		Room Panorama	sku ^CS-PANO						
-CS-PANO-WALL-LIGHT	Oak wood finish for Panorama Wall structure, Light Colour	Room Series	mechanical	layered	Webex Room Series		Room Panorama	sku ^CS-PANO						
-CS-PANO-WALL-PAIN2	Panorama Wall structure, ready for painting - Low Ceiling	Room Series	mechanical	layered	Webex Room Series		Room Panorama	sku ^CS-PANO						
-CS-PANO-WALL-PAINT	Panorama Wall structure, ready for painting	Room Series	mechanical	layered	Webex Room Series		Room Panorama	sku ^CS-PANO						
-CS-PANO-WALL-PNT=	Spare Ready for Paint wood package	Room Series	mechanical	layered	Webex Room Series		Room Panorama	sku ^CS-PANO						
-CS-PANO85-GRILL+	Room Panorama 85 upper and lower grill	Room Series	mechanical	layered	Webex Room Series		Room Panorama	sku ^CS-PANO						
-CS-PANO85-GRILL=	Webex Room Panorama 85 upper and lower grill	Room Series	mechanical	layered	Webex Room Series		Room Panorama	sku ^CS-PANO						
+CS-PANO-240-CSTM	Room Panorama Custom wall - low ceiling bracket	Room Series	mechanical	layered	Webex Room Series		Room Panorama	sku ^CS-PANO(?!-SWITCH)						
+CS-PANO-82-CAV=	Room Panorama Display Cavity for 82"	Room Series	mechanical	layered	Webex Room Series		Room Panorama	sku ^CS-PANO(?!-SWITCH)						
+CS-PANO-ANT+	Room Panorama Wifi and BT antenna kit	Room Series	accessory	layered	Webex Room Series		Room Panorama	sku ^CS-PANO(?!-SWITCH)						
+CS-PANO-ANT=	Room Panorama Wifi and BT antenna kit	Room Series	accessory	layered	Webex Room Series		Room Panorama	sku ^CS-PANO(?!-SWITCH)						
+CS-PANO-BASS=	Bass unit for Room Panorama and Room Kit EQX	Room Series	speaker	layered	Webex Room Series		Room Panorama	sku ^CS-PANO(?!-SWITCH)						
+CS-PANO-FANKIT+	Room Panorama cooling fans	Room Series	accessory	layered	Webex Room Series		Room Panorama	sku ^CS-PANO(?!-SWITCH)						
+CS-PANO-FANKIT=	Room Panorama cooling fans	Room Series	accessory	layered	Webex Room Series		Room Panorama	sku ^CS-PANO(?!-SWITCH)						
+CS-PANO-GRILL+	Room Panorama upper and lower grill	Room Series	mechanical	layered	Webex Room Series		Room Panorama	sku ^CS-PANO(?!-SWITCH)						
+CS-PANO-GRILL=	Room Panorama upper and lower grill	Room Series	mechanical	layered	Webex Room Series		Room Panorama	sku ^CS-PANO(?!-SWITCH)						
+CS-PANO-MON55	Samsung 55" presentation screen for Panorama	Room Series	display	layered	Webex Room Series		Room Panorama	sku ^CS-PANO(?!-SWITCH)						
+CS-PANO-MON55=	Samsung 55" presentation screen for Panorama	Room Series	display	layered	Webex Room Series		Room Panorama	sku ^CS-PANO(?!-SWITCH)						
+CS-PANO-MON65	Samsung 65" presentation screen for Room Panorama & Room 70	Room Series	display	layered	Webex Room Series		Room Panorama	sku ^CS-PANO(?!-SWITCH)						
+CS-PANO-MON65=	Samsung 65" presentation screen for Room Panorama & Room 70	Room Series	display	layered	Webex Room Series		Room Panorama	sku ^CS-PANO(?!-SWITCH)						
+CS-PANO-MON82+	Samsung 82" 8K main monitor for Room Panorama	Room Series	display	layered	Webex Room Series		Room Panorama	sku ^CS-PANO(?!-SWITCH)						
+CS-PANO-MON82=	Samsung 82" 8K main monitor for Room Panorama	Room Series	display	layered	Webex Room Series		Room Panorama	sku ^CS-PANO(?!-SWITCH)						
+CS-PANO-MON85+	Samsung 85" 8K main monitor for Room Panorama	Room Series	display	layered	Webex Room Series		Room Panorama	sku ^CS-PANO(?!-SWITCH)						
+CS-PANO-MON85=	Samsung 85" 8K main monitor for Room Panorama	Room Series	display	layered	Webex Room Series		Room Panorama	sku ^CS-PANO(?!-SWITCH)						
+CS-PANO-NOPRES	Room Panorama Low Ceiling Height Option - No presentation	Room Series	accessory	layered	Webex Room Series		Room Panorama	sku ^CS-PANO(?!-SWITCH)						
+CS-PANO-PRES-TOP	Screen mount for Samsung 65" presentation screen	Room Series	mechanical	layered	Webex Room Series		Room Panorama	sku ^CS-PANO(?!-SWITCH)						
+CS-PANO-PRES-TOP=	^Screen mount for Samsung 65" presentation screen	Room Series	mechanical	layered	Webex Room Series		Room Panorama	sku ^CS-PANO(?!-SWITCH)						
+CS-PANO-SPKR+	Top speaker for Room Panorama	Room Series	speaker	layered	Webex Room Series		Room Panorama	sku ^CS-PANO(?!-SWITCH)						
+CS-PANO-SPKR=	Top speaker for Room Panorama and Room Kit EQX	Room Series	speaker	layered	Webex Room Series		Room Panorama	sku ^CS-PANO(?!-SWITCH)						
+CS-PANO-VESA-	VESA bracket for 85", 82" and 65" Panorama screens	Room Series	mechanical	layered	Webex Room Series		Room Panorama	sku ^CS-PANO(?!-SWITCH)						
+CS-PANO-VESA=	VESA bracket for 85", 82" and 65" Panorama screens	Room Series	mechanical	layered	Webex Room Series		Room Panorama	sku ^CS-PANO(?!-SWITCH)						
+CS-PANO-WAL-LIGH2=	Oak wood finish for Panorama Wall structure -Low Ceiling ver	Room Series	accessory	layered	Webex Room Series		Room Panorama	sku ^CS-PANO(?!-SWITCH)						
+CS-PANO-WALL-CSTM	Panorama Custom Wall Kit - Parts needed for Carpenter to bui	Room Series	mechanical	layered	Webex Room Series		Room Panorama	sku ^CS-PANO(?!-SWITCH)						
+CS-PANO-WALL-LIGH2	Oak wood finish for Panorama Wall structure -Low Ceiling ver	Room Series	mechanical	layered	Webex Room Series		Room Panorama	sku ^CS-PANO(?!-SWITCH)						
+CS-PANO-WALL-LIGH=	Spare Light Oak wood package	Room Series	mechanical	layered	Webex Room Series		Room Panorama	sku ^CS-PANO(?!-SWITCH)						
+CS-PANO-WALL-LIGHT	Oak wood finish for Panorama Wall structure, Light Colour	Room Series	mechanical	layered	Webex Room Series		Room Panorama	sku ^CS-PANO(?!-SWITCH)						
+CS-PANO-WALL-PAIN2	Panorama Wall structure, ready for painting - Low Ceiling	Room Series	mechanical	layered	Webex Room Series		Room Panorama	sku ^CS-PANO(?!-SWITCH)						
+CS-PANO-WALL-PAINT	Panorama Wall structure, ready for painting	Room Series	mechanical	layered	Webex Room Series		Room Panorama	sku ^CS-PANO(?!-SWITCH)						
+CS-PANO-WALL-PNT=	Spare Ready for Paint wood package	Room Series	mechanical	layered	Webex Room Series		Room Panorama	sku ^CS-PANO(?!-SWITCH)						
+CS-PANO85-GRILL+	Room Panorama 85 upper and lower grill	Room Series	mechanical	layered	Webex Room Series		Room Panorama	sku ^CS-PANO(?!-SWITCH)						
+CS-PANO85-GRILL=	Webex Room Panorama 85 upper and lower grill	Room Series	mechanical	layered	Webex Room Series		Room Panorama	sku ^CS-PANO(?!-SWITCH)						
 CS-POE-INJ	Touch PoE power injector	Room Series	power	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	label Room Series						
 CS-POE-INJ+	Touch PoE power injector	Room Series	power	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	label Room Series						
 CS-POE-INJ-	Touch PoE power injector	Room Series	power	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	label Room Series						
@@ -1953,142 +1953,142 @@ CS-WALL-STRUCT2+	Room Panorama Wall Structure Low Ceiling	Room Series	mechanical
 CS-WALL85-STRUCT+	Room Panorama 85 Wall Structure	Room Series	mechanical	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	label Room Series						
 CS-WALL85-STRUCT2+	Room Panorama 85 Wall Structure Low Ceiling	Room Series	mechanical	layered	Webex Room Series	(shared across the line)	Webex Room Series shared parts	label Room Series						
 CTS-1700-PR-K9	MXP 1700 Promotion	TelePresence MX Series	video-device	layered	TelePresence (legacy)		TelePresence MXP (1700 MXP / Integrator Package 6000 MXP)	sku ^CTS-(1700|INTP6000)						
-CTS-5K-18-SEAT-TBL	CTS-IX5000 18 Seat Table Option	TelePresence MX Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-18-SEAT-UPG	CTS-IX5000 6 Seat Table to 18 Seat Table Upgrade Kit	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-6-SEAT-TBL	CTS-IX5000 6 Seat Table Option	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-70-G1	CTS-IX5000 70 Display, 1 Qty	TelePresence IX5000 Series	display	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-70-G1=	CTS-IX5000 70 Display, 1 Qty	TelePresence IX5000 Series	display	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-AMP-PWR	CTS-IX5000 Audio Amplifer Power Brick	TelePresence IX5000 Series	speaker	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-AMP-PWR=	CTS-IX5000 Audio Amplifer Power Brick	TelePresence IX5000 Series	speaker	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-AMP-SUBWFR	CTS-IX5000 Audio Subwoofer Amplifier	TelePresence IX5000 Series	speaker	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-AMP-SUBWFR=	CTS-IX5000 Audio Subwoofer Amplifier	TelePresence IX5000 Series	speaker	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-BZL-KIT	CTS-IX5000 Horizontal and Vertical Display Bezel	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-BZL-KIT=	CTS-IX5000 Horizontal and Vertical Display Bezel	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-CAM-CLSTR	CTS-IX5000 Camera Cluster	TelePresence IX5000 Series	camera	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-CAM-CLSTR=	CTS-IX5000 Camera Cluster	TelePresence IX5000 Series	camera	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-CAM-HS	CTS-IX5000 Plastic Camera Housing	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-CAM-HS=	CTS-IX5000 Plastic Camera Housing	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-CAM-TOOL	CTS-IX5000 Camera Alignment Tool, QTY 2	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-CAM-TOOL=	CTS-IX5000 Camera Alignment Tool, QTY 2	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-CBL-70DSP	CTS-IX5000 Cable kit for main the main displays	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-CBL-70DSP=	CTS-IX5000 Cable kit for main the main displays	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-CBL-AUX-6M=	HDMI-DVI display cable for data displays, 6M	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-CBL-B-KIT	CTS-IX5000 Back Row Table Cable Kit	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-CBL-CODEC	CTS-IX5000 Cable kit for the Encoder	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-CBL-CODEC=	CTS-IX5000 Cable kit for the Encoder	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-CBL-CUP-KIT	CTS-IX5000 Presentation Cable Cup	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-CBL-CUP=	CTS-IX5000 Presentation Cable Cup	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-CBL-DISP=	CTS-IX5000 3m HDMI-DVI display cable	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-CBL-EP	CTS-IX5000 Cable Kit for speaker, lights and camera	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-CBL-EP=	CTS-IX5000 Cable Kit for speaker, lights and camera	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-CBL-F-KIT	CTS-IX5000 Front Row Table Cable Kit	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-CBL-HOST	CTS-IX5000 Cable kit for the Host CPU	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-CBL-HOST=	CTS-IX5000 Cable kit for the Host CPU	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-CBL-R1-AC	CTS-IX5000 Cable kit, front row AC cables	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-CBL-R1-AC=	CTS-IX5000 Cable kit, front row AC cables	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-CBL-R1-LAP	CTS-IX5000 Cable kit, front row table Ethernet Lapconns	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-CBL-R1-LAP=	CTS-IX5000 Cable kit, front row table Ethernet Lapconns	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-CBL-R1-MIC	CTS-IX5000 Cable kit, front row table audio	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-CBL-R1-MIC=	CTS-IX5000 Cable kit, front row table audio	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-CBL-R1-SW	CTS-IX5000 Cable kit, front row table switch	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-CBL-R1-SW=	CTS-IX5000 Cable kit, front row table switch	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-CBL-R2-AC	CTS-IX5000 Cable kit, back row AC cables	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-CBL-R2-AC=	CTS-IX5000 Cable kit, back row AC cables	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-CBL-R2-LAP	CTS-IX5000 Cable kit, back row table Ethernet Lapconns	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-CBL-R2-LAP=	CTS-IX5000 Cable kit, back row table Ethernet Lapconns	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-CBL-R2-MIC	CTS-IX5000 Cable kit, back row table audio	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-CBL-R2-MIC=	CTS-IX5000 Cable kit, back row table audio	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-CBL-R2-SW	CTS-IX5000 Cable kit, back row switches	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-CBL-R2-SW=	CTS-IX5000 Cable kit, back row switches	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-CBL-RTR-KIT	CTS-IX5000 Presentation cable, Retractor Assy	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-CBL-RTR=	CTS-IX5000 Presentation cable, Retractor Assy	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-CBL-RUN	CTS-IX5000 Cable Runner Assy	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-CBL-RUN-A	CTS-IX5000 Cable Runner Assy For Use With Lower Aux Display	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-CBL-RUN-A=	CTS-IX5000 42 Aux Display Brackets and Cable Runner	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-CBL-RUN=	CTS-IX5000 Cable Runner Assy	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-CBL-SUBW	CTS-IX5000 Cable Kit for the Subwoofer	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-CBL-SUBW=	CTS-IX5000 Cable Kit for the Subwoofer	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-CTRL-DVX-10	Touch 10 Control Device - selectable option for IX5x00	TelePresence IX5000 Series	touch-panel	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-DISP42	CTS-IX5000 42	TelePresence IX5000 Series	display	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-DISP42-KIT	CTS-IX5000 42" Brackets and Cable Runner	TelePresence MX Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-DISP42-KIT=	CTS-IX5000 42	TelePresence MX Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-DISP42=	CTS-IX5000 42	TelePresence IX5000 Series	display	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-ENCODER	CTS-IX5000 Encoder / Decoder for World Wide Shipment	TelePresence IX5000 Series	video-codec	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-ENCODER++	CTS-IX5000 TAA Encoder / Decoder for US only	TelePresence MX Series	video-codec	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-ENCODER++=	CTS-IX5000 TAA Encoder / Decoder for US only	TelePresence MX Series	video-codec	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-ENCODER-CH	CTS-IX5000 Encoder / Decoder For China Only	TelePresence IX5000 Series	video-codec	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-ENCODER-CH=	CTS-IX5000 Encoder / Decoder For China Only	TelePresence IX5000 Series	video-codec	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-ENCODER=	CTS-IX5000 Encoder / Decoder for World Wide Shipment	TelePresence IX5000 Series	video-codec	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-EP-CBL-KIT	CTS-IX5000 Endpoint Cable Kit	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-EP-HW-KIT	CTS-IX5000 Endpoint Hardware Kit	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-EP-HW-KIT=	CTS-IX5000 Endpoint Hardware Kit	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-EP-PDU	CTS-IX5000 End Point Power Distribution Unit, 1 Qty	TelePresence IX5000 Series	power	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-EP-PDU=	CTS-IX5000 End Point Power Distribution Unit, 1 Qty	TelePresence IX5000 Series	power	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-FAB-PNL-B	CTS-IX5000 Back Table Panels Fabric Set	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-FAB-PNL-B=	CTS-IX5000 Back Table Panels Fabric Set	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-FAB-PNL-EP	CTS-IX5000 End-Point Panel Fabric Set	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-FAB-PNL-EP=	CTS-IX5000 End-Point Panel Fabric Set	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-FAB-PNL-F	CTS-IX5000 Front Row Table Panels Fabric Set	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-FAB-PNL-F=	CTS-IX5000 Front Row Table Panels Fabric Set	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-FASCIA-KIT	CTS-IX5000 Fascia Top and Bottom	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-FASCIA-KIT=	CTS-IX5000 Fascia Top and Bottom	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-HOSTCPU	CTS-IX5000 Host CPU for World Wide Shipment	TelePresence IX5000 Series	accessory	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-HOSTCPU-CH	CTS-IX5000 Host CPU For China Only	TelePresence IX5000 Series	accessory	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-HOSTCPU-CH=	CTS-IX5000 Host CPU For China Only	TelePresence IX5000 Series	accessory	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-HOSTCPU=	CTS-IX5000 Host CPU for World Wide Shipment	TelePresence IX5000 Series	accessory	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-HW-BR-KIT	CTS-IX5000 Back Row Table Hardware Kit	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-HW-BR-KIT=	CTS-IX5000 Back Row Table Hardware Kit	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-HW-FR-KIT	CTS-IX5000 Front Row Table Hardware Kit	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-HW-FR-KIT=	CTS-IX5000 Front Row Table Hardware Kit	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-LED-KIT	CTS-IX5000 LED Light Fixtures Kit	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-LED-KIT=	CTS-IX5000 LED Light Fixtures Kit	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-LEGS-BACK	CTS-IX5000 Table Back Row Legs	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-LEGS-BACK=	CTS-IX5000 Table Back Row Legs	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-LEGS-FRNT	CTS-IX5000 Table Front Row Legs	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-LEGS-FRNT=	CTS-IX5000 Table Front Row Legs	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-LPS-MECH	Mechnical Kit for Lapconn Switch	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-LPS-MECH=	Mechnical Kit for Lapconn Switch	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-MECH-FRAME	CTS-IX5000 Endpoint Frame Kit	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-MECH-FRAME=	CTS-IX5000 Endpoint Frame Kit	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-MIC	CTS-IX5000 Microphone, 1 Qty	TelePresence IX5000 Series	microphone	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-MIC-TA	CTS-IX5000 Turn Around Microphone, 1 Qty	TelePresence IX5000 Series	microphone	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-MIC-TA=	CTS-IX5000 Backward Facing Microphone, 1 Qty	TelePresence IX5000 Series	microphone	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-MIC=	CTS-IX5000 Microphone, 1 Qty	TelePresence IX5000 Series	microphone	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-MTL-BR-KIT	CTS-IX5000 Back Row Table Sheetmetal Kit	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-MTL-BR-KIT=	CTS-IX5000 Back Row Table Sheetmetal Kit	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-MTL-FR-KIT	CTS-IX5000 Front Row Table Sheetmetal Kit	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-MTL-FR-KIT=	CTS-IX5000 Front Row Table Sheetmetal Kit	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-MUTE-BTN	CTS-IX5000 Mute Button	TelePresence IX5000 Series	accessory	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-MUTE-BTN=	CTS-IX5000 Mute Button	TelePresence IX5000 Series	accessory	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-R2-15M-DP=	Mic cable, 15m	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-SEISMIC	CTS-IX5000 Seismic Bracket Kit	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-SEISMIC=	CTS-IX5000 Seismic Bracket Kit	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-SHTML-MISC	CTS-IX5000 Sheetmetal Kit Miscellanous	TelePresence MX Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-SHTML-MISC=	^CTS-IX5000 Sheetmetal Kit Miscellanous	TelePresence MX Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-SPKR	CTS-IX5000 Main Speakers, 1 Qty	TelePresence IX5000 Series	speaker	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-SPKR=	CTS-IX5000 Spare Main Speaker, 1 Qty	TelePresence IX5000 Series	speaker	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-SUBWOOFER	CTS-IX5000 Audio Subwoofer	TelePresence IX5000 Series	speaker	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-SUBWOOFER=	CTS-IX5000 Audio Subwoofer	TelePresence IX5000 Series	speaker	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-TBL-H-18S	CTS-IX5000 Front and Back Row Hickory Table Tops, 18 Seats	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-TBL-H-18S=	CTS-IX5000 Front and Back Row Hickory Table Tops, 18 Seats	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-TBL-H-6S	CTS-IX5000 Front Row Hickory Table Top, 6 Seats	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-TBL-H-6S=	CTS-IX5000 Front Row Hickory Table Top, 6 Seats	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-TBL-M-18S	CTS-IX5000 Front and Back Row Maple Table Tops, 18 Seats	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-TBL-M-18S=	CTS-IX5000 Front and Back Row Maple Table Tops, 18 Seats	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-TBL-M-6S	CTS-IX5000 Front Row Maple Table Top, 6 Seats	TelePresence MX Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-TBL-M-6S=	^CTS-IX5000 Front Row Maple Table Top, 6 Seats	TelePresence MX Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-TBL-PDU	CTS-IX5000 Power Distribution Unit for Table, 1 Qty	TelePresence IX5000 Series	power	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-TBL-PDU=	CTS-IX5000 Power Distribution Unit for Table, 1 Qty	TelePresence IX5000 Series	power	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-TBL-W-18S	CTS-IX5000 Front and Back Row Walnut Table Tops, 18 Seats	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-TBL-W-18S=	CTS-IX5000 Front and Back Row Walnut Table Tops, 18 Seats	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-TBL-W-6S	CTS-IX5000 Front Row Walnut Table Top, 6 Seats	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-TBL-W-6S=	CTS-IX5000 Front Row Walnut Table Top, 6 Seats	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-TDM	CTS-IX5000 Time Division Multiplex	TelePresence IX5000 Series	accessory	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-TDM=	CTS-IX5000 Time Division Multiplex	TelePresence IX5000 Series	accessory	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-THERM-PNLS	CTS-IX5000 Endpoint Thermoform Panels	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-THERM-PNLS=	CTS-IX5000 Endpoint Thermoform Panels	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-WHTBD-TOOL	CTS-IX5000 Whiteboard Alignment Tool, QTY 4	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
-CTS-5K-WHTBD-TOOL=	CTS-IX5000 Whiteboard Alignment Tool, QTY 4	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K						
+CTS-5K-18-SEAT-TBL	CTS-IX5000 18 Seat Table Option	TelePresence MX Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-18-SEAT-UPG	CTS-IX5000 6 Seat Table to 18 Seat Table Upgrade Kit	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-6-SEAT-TBL	CTS-IX5000 6 Seat Table Option	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-70-G1	CTS-IX5000 70 Display, 1 Qty	TelePresence IX5000 Series	display	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-70-G1=	CTS-IX5000 70 Display, 1 Qty	TelePresence IX5000 Series	display	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-AMP-PWR	CTS-IX5000 Audio Amplifer Power Brick	TelePresence IX5000 Series	speaker	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-AMP-PWR=	CTS-IX5000 Audio Amplifer Power Brick	TelePresence IX5000 Series	speaker	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-AMP-SUBWFR	CTS-IX5000 Audio Subwoofer Amplifier	TelePresence IX5000 Series	speaker	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-AMP-SUBWFR=	CTS-IX5000 Audio Subwoofer Amplifier	TelePresence IX5000 Series	speaker	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-BZL-KIT	CTS-IX5000 Horizontal and Vertical Display Bezel	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-BZL-KIT=	CTS-IX5000 Horizontal and Vertical Display Bezel	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-CAM-CLSTR	CTS-IX5000 Camera Cluster	TelePresence IX5000 Series	camera	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-CAM-CLSTR=	CTS-IX5000 Camera Cluster	TelePresence IX5000 Series	camera	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-CAM-HS	CTS-IX5000 Plastic Camera Housing	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-CAM-HS=	CTS-IX5000 Plastic Camera Housing	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-CAM-TOOL	CTS-IX5000 Camera Alignment Tool, QTY 2	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-CAM-TOOL=	CTS-IX5000 Camera Alignment Tool, QTY 2	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-CBL-70DSP	CTS-IX5000 Cable kit for main the main displays	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-CBL-70DSP=	CTS-IX5000 Cable kit for main the main displays	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-CBL-AUX-6M=	HDMI-DVI display cable for data displays, 6M	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-CBL-B-KIT	CTS-IX5000 Back Row Table Cable Kit	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-CBL-CODEC	CTS-IX5000 Cable kit for the Encoder	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-CBL-CODEC=	CTS-IX5000 Cable kit for the Encoder	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-CBL-CUP-KIT	CTS-IX5000 Presentation Cable Cup	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-CBL-CUP=	CTS-IX5000 Presentation Cable Cup	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-CBL-DISP=	CTS-IX5000 3m HDMI-DVI display cable	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-CBL-EP	CTS-IX5000 Cable Kit for speaker, lights and camera	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-CBL-EP=	CTS-IX5000 Cable Kit for speaker, lights and camera	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-CBL-F-KIT	CTS-IX5000 Front Row Table Cable Kit	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-CBL-HOST	CTS-IX5000 Cable kit for the Host CPU	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-CBL-HOST=	CTS-IX5000 Cable kit for the Host CPU	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-CBL-R1-AC	CTS-IX5000 Cable kit, front row AC cables	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-CBL-R1-AC=	CTS-IX5000 Cable kit, front row AC cables	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-CBL-R1-LAP	CTS-IX5000 Cable kit, front row table Ethernet Lapconns	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-CBL-R1-LAP=	CTS-IX5000 Cable kit, front row table Ethernet Lapconns	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-CBL-R1-MIC	CTS-IX5000 Cable kit, front row table audio	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-CBL-R1-MIC=	CTS-IX5000 Cable kit, front row table audio	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-CBL-R1-SW	CTS-IX5000 Cable kit, front row table switch	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-CBL-R1-SW=	CTS-IX5000 Cable kit, front row table switch	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-CBL-R2-AC	CTS-IX5000 Cable kit, back row AC cables	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-CBL-R2-AC=	CTS-IX5000 Cable kit, back row AC cables	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-CBL-R2-LAP	CTS-IX5000 Cable kit, back row table Ethernet Lapconns	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-CBL-R2-LAP=	CTS-IX5000 Cable kit, back row table Ethernet Lapconns	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-CBL-R2-MIC	CTS-IX5000 Cable kit, back row table audio	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-CBL-R2-MIC=	CTS-IX5000 Cable kit, back row table audio	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-CBL-R2-SW	CTS-IX5000 Cable kit, back row switches	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-CBL-R2-SW=	CTS-IX5000 Cable kit, back row switches	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-CBL-RTR-KIT	CTS-IX5000 Presentation cable, Retractor Assy	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-CBL-RTR=	CTS-IX5000 Presentation cable, Retractor Assy	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-CBL-RUN	CTS-IX5000 Cable Runner Assy	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-CBL-RUN-A	CTS-IX5000 Cable Runner Assy For Use With Lower Aux Display	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-CBL-RUN-A=	CTS-IX5000 42 Aux Display Brackets and Cable Runner	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-CBL-RUN=	CTS-IX5000 Cable Runner Assy	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-CBL-SUBW	CTS-IX5000 Cable Kit for the Subwoofer	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-CBL-SUBW=	CTS-IX5000 Cable Kit for the Subwoofer	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-CTRL-DVX-10	Touch 10 Control Device - selectable option for IX5x00	TelePresence IX5000 Series	touch-panel	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-DISP42	CTS-IX5000 42	TelePresence IX5000 Series	display	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-DISP42-KIT	CTS-IX5000 42" Brackets and Cable Runner	TelePresence MX Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-DISP42-KIT=	CTS-IX5000 42	TelePresence MX Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-DISP42=	CTS-IX5000 42	TelePresence IX5000 Series	display	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-ENCODER	CTS-IX5000 Encoder / Decoder for World Wide Shipment	TelePresence IX5000 Series	video-codec	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-ENCODER++	CTS-IX5000 TAA Encoder / Decoder for US only	TelePresence MX Series	video-codec	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-ENCODER++=	CTS-IX5000 TAA Encoder / Decoder for US only	TelePresence MX Series	video-codec	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-ENCODER-CH	CTS-IX5000 Encoder / Decoder For China Only	TelePresence IX5000 Series	video-codec	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-ENCODER-CH=	CTS-IX5000 Encoder / Decoder For China Only	TelePresence IX5000 Series	video-codec	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-ENCODER=	CTS-IX5000 Encoder / Decoder for World Wide Shipment	TelePresence IX5000 Series	video-codec	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-EP-CBL-KIT	CTS-IX5000 Endpoint Cable Kit	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-EP-HW-KIT	CTS-IX5000 Endpoint Hardware Kit	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-EP-HW-KIT=	CTS-IX5000 Endpoint Hardware Kit	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-EP-PDU	CTS-IX5000 End Point Power Distribution Unit, 1 Qty	TelePresence IX5000 Series	power	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-EP-PDU=	CTS-IX5000 End Point Power Distribution Unit, 1 Qty	TelePresence IX5000 Series	power	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-FAB-PNL-B	CTS-IX5000 Back Table Panels Fabric Set	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-FAB-PNL-B=	CTS-IX5000 Back Table Panels Fabric Set	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-FAB-PNL-EP	CTS-IX5000 End-Point Panel Fabric Set	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-FAB-PNL-EP=	CTS-IX5000 End-Point Panel Fabric Set	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-FAB-PNL-F	CTS-IX5000 Front Row Table Panels Fabric Set	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-FAB-PNL-F=	CTS-IX5000 Front Row Table Panels Fabric Set	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-FASCIA-KIT	CTS-IX5000 Fascia Top and Bottom	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-FASCIA-KIT=	CTS-IX5000 Fascia Top and Bottom	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-HOSTCPU	CTS-IX5000 Host CPU for World Wide Shipment	TelePresence IX5000 Series	accessory	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-HOSTCPU-CH	CTS-IX5000 Host CPU For China Only	TelePresence IX5000 Series	accessory	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-HOSTCPU-CH=	CTS-IX5000 Host CPU For China Only	TelePresence IX5000 Series	accessory	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-HOSTCPU=	CTS-IX5000 Host CPU for World Wide Shipment	TelePresence IX5000 Series	accessory	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-HW-BR-KIT	CTS-IX5000 Back Row Table Hardware Kit	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-HW-BR-KIT=	CTS-IX5000 Back Row Table Hardware Kit	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-HW-FR-KIT	CTS-IX5000 Front Row Table Hardware Kit	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-HW-FR-KIT=	CTS-IX5000 Front Row Table Hardware Kit	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-LED-KIT	CTS-IX5000 LED Light Fixtures Kit	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-LED-KIT=	CTS-IX5000 LED Light Fixtures Kit	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-LEGS-BACK	CTS-IX5000 Table Back Row Legs	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-LEGS-BACK=	CTS-IX5000 Table Back Row Legs	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-LEGS-FRNT	CTS-IX5000 Table Front Row Legs	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-LEGS-FRNT=	CTS-IX5000 Table Front Row Legs	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-LPS-MECH	Mechnical Kit for Lapconn Switch	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-LPS-MECH=	Mechnical Kit for Lapconn Switch	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-MECH-FRAME	CTS-IX5000 Endpoint Frame Kit	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-MECH-FRAME=	CTS-IX5000 Endpoint Frame Kit	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-MIC	CTS-IX5000 Microphone, 1 Qty	TelePresence IX5000 Series	microphone	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-MIC-TA	CTS-IX5000 Turn Around Microphone, 1 Qty	TelePresence IX5000 Series	microphone	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-MIC-TA=	CTS-IX5000 Backward Facing Microphone, 1 Qty	TelePresence IX5000 Series	microphone	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-MIC=	CTS-IX5000 Microphone, 1 Qty	TelePresence IX5000 Series	microphone	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-MTL-BR-KIT	CTS-IX5000 Back Row Table Sheetmetal Kit	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-MTL-BR-KIT=	CTS-IX5000 Back Row Table Sheetmetal Kit	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-MTL-FR-KIT	CTS-IX5000 Front Row Table Sheetmetal Kit	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-MTL-FR-KIT=	CTS-IX5000 Front Row Table Sheetmetal Kit	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-MUTE-BTN	CTS-IX5000 Mute Button	TelePresence IX5000 Series	accessory	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-MUTE-BTN=	CTS-IX5000 Mute Button	TelePresence IX5000 Series	accessory	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-R2-15M-DP=	Mic cable, 15m	TelePresence IX5000 Series	cable	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-SEISMIC	CTS-IX5000 Seismic Bracket Kit	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-SEISMIC=	CTS-IX5000 Seismic Bracket Kit	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-SHTML-MISC	CTS-IX5000 Sheetmetal Kit Miscellanous	TelePresence MX Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-SHTML-MISC=	^CTS-IX5000 Sheetmetal Kit Miscellanous	TelePresence MX Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-SPKR	CTS-IX5000 Main Speakers, 1 Qty	TelePresence IX5000 Series	speaker	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-SPKR=	CTS-IX5000 Spare Main Speaker, 1 Qty	TelePresence IX5000 Series	speaker	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-SUBWOOFER	CTS-IX5000 Audio Subwoofer	TelePresence IX5000 Series	speaker	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-SUBWOOFER=	CTS-IX5000 Audio Subwoofer	TelePresence IX5000 Series	speaker	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-TBL-H-18S	CTS-IX5000 Front and Back Row Hickory Table Tops, 18 Seats	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-TBL-H-18S=	CTS-IX5000 Front and Back Row Hickory Table Tops, 18 Seats	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-TBL-H-6S	CTS-IX5000 Front Row Hickory Table Top, 6 Seats	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-TBL-H-6S=	CTS-IX5000 Front Row Hickory Table Top, 6 Seats	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-TBL-M-18S	CTS-IX5000 Front and Back Row Maple Table Tops, 18 Seats	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-TBL-M-18S=	CTS-IX5000 Front and Back Row Maple Table Tops, 18 Seats	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-TBL-M-6S	CTS-IX5000 Front Row Maple Table Top, 6 Seats	TelePresence MX Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-TBL-M-6S=	^CTS-IX5000 Front Row Maple Table Top, 6 Seats	TelePresence MX Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-TBL-PDU	CTS-IX5000 Power Distribution Unit for Table, 1 Qty	TelePresence IX5000 Series	power	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-TBL-PDU=	CTS-IX5000 Power Distribution Unit for Table, 1 Qty	TelePresence IX5000 Series	power	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-TBL-W-18S	CTS-IX5000 Front and Back Row Walnut Table Tops, 18 Seats	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-TBL-W-18S=	CTS-IX5000 Front and Back Row Walnut Table Tops, 18 Seats	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-TBL-W-6S	CTS-IX5000 Front Row Walnut Table Top, 6 Seats	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-TBL-W-6S=	CTS-IX5000 Front Row Walnut Table Top, 6 Seats	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-TDM	CTS-IX5000 Time Division Multiplex	TelePresence IX5000 Series	accessory	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-TDM=	CTS-IX5000 Time Division Multiplex	TelePresence IX5000 Series	accessory	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-THERM-PNLS	CTS-IX5000 Endpoint Thermoform Panels	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-THERM-PNLS=	CTS-IX5000 Endpoint Thermoform Panels	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-WHTBD-TOOL	CTS-IX5000 Whiteboard Alignment Tool, QTY 4	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
+CTS-5K-WHTBD-TOOL=	CTS-IX5000 Whiteboard Alignment Tool, QTY 4	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)		TelePresence IX5000	sku ^CTS-5K(?!-(LC|UI)-SWITCH)						
 CTS-ATP-C60-K9	ATP Demo - Codec C60- NPP,Rackmt Kit,Rmt Cntrl, HDMI,Pwr Cbl	TelePresence MX Series	video-codec	layered	TelePresence (legacy)		TelePresence C-series codecs	sku ^CTS-ATP-C[0-9]{2}						
 CTS-ATP-C90-K9	ATP Demo - Codec C90- NPP,Rackmt Kit,Rmt Cntrl, HDMI,Pwr Cbl	TelePresence MX Series	video-codec	layered	TelePresence (legacy)		TelePresence C-series codecs	sku ^CTS-ATP-C[0-9]{2}						
 CTS-ATP-MX200-K9	ATP Demo Cisco TelePresence MX200 42	TelePresence MX Series	unknown	layered	TelePresence (legacy)		TelePresence MX (MX200 / MX300 / MX700 / MX800)	sku ^CTS-(NAL|ATP)-MX[0-9]						
