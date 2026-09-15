@@ -288,6 +288,7 @@ witness("collaboration-endpoints", [
   ["CP-8821-K9-BUN", "Cisco Unified Wireless IP Phone 8821, World Mode Bundle", "IP Phone 8800 Series", "IP Phones", "Wireless IP Phone 8821"],
   ["CP-PWR-DC7925G-NA=", "Cisco 7925G Desk Top Charger Power Supply For North America", "7900 - Unified IP Phone", "IP Phones", "Unified Wireless IP Phone 7920 / 7921 / 7925 / 7926"], // not 7900
   ["CP-WMK-C-6900=", "Cisco CP-WMK-C-6900=", "Unified IP Phone 6900 Series", "IP Phones", "Unified IP Phone 6900"],
+  ["CP-800-USBCH=", "Cisco 800 USB Cable with Worldwide Wall Charger", "Wireless Phone", "IP Phones", "Wireless Phone 840 / 860"],  // the 800 Series, not MX800
   ["SPA303-G2", "3 Line IP Phone w/ Display and PC Port, Europe Power Adapter", "SPA300 IP Phones", "IP Phones", "SPA300 IP Phones"],
   ["PA100-AS", "Power Supply for Linksys VoIP Products - 5V/2A (AS)", "SPA500 IP Phones", "IP Phones", "SPA500 IP Phones"],        // with its plug siblings
   ["MB100", "Wall-mount brackets for SPA 300, SPA 500, CP 500, and SPA 900 Series", "SPA300 IP Phones", "IP Phones", "IP Phones shared parts"], // names several series

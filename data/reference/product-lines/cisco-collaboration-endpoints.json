@@ -498,11 +498,13 @@
      "series": "Wireless Phone 840 / 860",
      "role": "wireless",
      "sku": [
-      "^CP-8[46]0S?-"
+      "^CP-8[46]0S?-",
+      "^CP-800-"
      ],
      "labels": [
       "Wireless Phone"
-     ]
+     ],
+     "note": "^CP-800- (layers round 3, collaboration-endpoints round): CP-800-USBCH= 'Cisco 800 USB Cable with Worldwide Wall Charger', the charger of the Wireless Phone 800 Series (840 / 860), sat in IP Phones shared parts by ^CP-"
     },
     {
      "series": "Wireless Phone 9821",
