@@ -11,7 +11,7 @@ import { REPO_ROOT } from "../src/config.js";
 import { readLayerRows, pairDisagreements, twinGroups, crossClaims, ruleUse, classifyRules, incomingRows, labelViolations, labelEvidenceDrift, seriesEntryDisagreements, deviceInSharedParts, unplacedArrivals, sharedLabelNotExplicit, DEVICE_KINDS, type LayerRow } from "../src/core/layerChecks.js";
 import { labelEvidence } from "../src/core/labelEvidence.js";
 
-export const REVIEWED = ["switches", "routers", "transceiver", "interfaces-modules", "wireless", "servers-unified-computing", "hyperconverged-infrastructure", "hyperconverged-systems", "security", "video", "optical-networking"];
+export const REVIEWED = ["switches", "routers", "transceiver", "interfaces-modules", "wireless", "servers-unified-computing", "hyperconverged-infrastructure", "hyperconverged-systems", "security", "video", "optical-networking", "storage-networking"];
 // spare = base exceptions, each read against the built row
 const PAIR_EXCEPTIONS: Record<string, string> = {
   "switches|N5K-C5696Q-C": "the spare row is named '^Invalid SKU' and carries a class non_product plan; its base is the live 'Nexus 5696Q Chassis with license and SW image'",
@@ -49,7 +49,8 @@ const LABEL_EXPECT: Record<string, { min?: number; exactly?: number; why: string
   "servers-unified-computing": { exactly: 1, why: "UCS rows are placed by SKU; one row is judged on a stored label — SAS3 (a datasheet fragment, label 'S-Series Storage'), moved to the S-Series line's shared parts; the rows whose label maps directly to a line's shared parts are not judged (pre-ruling C1). The ten E1x0 service spares and the SRE parts the check had moved are SKU-placed or planned out since the servers round" },
   "hyperconverged-infrastructure": { exactly: 0, why: "HCI rows are placed by SKU; its 97 label-placed rows carry labels mapped directly to the Nutanix line's shared parts (pre-ruling C1, not judged)" },
   "hyperconverged-systems": { exactly: 0, why: "HyperFlex rows are placed by SKU or, for five Cisco+ offers, by name; its 32 label-placed rows carry the label mapped directly to HyperFlex shared parts (pre-ruling C1, not judged)" },
-  "optical-networking": { exactly: 12, why: "optical rows are placed by SKU; 12 are judged on a stored label — CISCO-15454-M6 kept by the SKU token 15454, 11 moved to their line's shared parts (4X100G-LR-S, internal 800- numbers, customer-variant CO- transponders, two MPO cables); the family placeholders 40-SMR1 / 40-SMR2 carry class plans (layers round 3)" },
+  "storage-networking": { exactly: 2, why: "MDS rows are placed by SKU; 2 are judged on a stored label and moved to the line's shared parts — M9XT-FC1632 / = 'MDS 32G FC Port Expansion module' (label MDS 9100, no platform token); SAN50C-R, held for review as a whole switch, is SKU-placed from the MDS 9250i end-of-sale notice (layers round 3)" },
+  "optical-networking": { exactly: 12, why:"optical rows are placed by SKU; 12 are judged on a stored label — CISCO-15454-M6 kept by the SKU token 15454, 11 moved to their line's shared parts (4X100G-LR-S, internal 800- numbers, customer-variant CO- transponders, two MPO cables); the family placeholders 40-SMR1 / 40-SMR2 carry class plans (layers round 3)" },
   video: { exactly: 1, why:"cable-access rows are placed by SKU or by the family their name states; one row is judged on a stored label and moved to its line's shared parts — PWR-CAB-AC-BLK (a power cord, label cBR-8); 4035899, which the check had moved for want of name evidence, is SKU-placed from its end-of-sale notice (layers round 3)" },
   security: { exactly: 16, why:"security appliances are placed by SKU; 16 rows are judged on a stored label — CAB-CONS-USB-C= kept by the name token 1200, ISE-SNS-ACCYKIT by the SKU token SNS, 14 moved to their line's shared parts (UCS spares filed under ISE, desktop and IE power supplies, CSACS-ACCYKIT, PRIME-ACC-REG); 9 rows on labels mapped directly to shared parts are not judged (pre-ruling C1, layers round 3)" },
 };
@@ -64,7 +65,9 @@ const FAMILY_EXPECT: Record<string, "in-use" | "none"> = { switches: "in-use", r
   // video round: the GS7000, Prisma II, Remote PHY, RF Gateway and cBR-8 platforms are the lines; Cisco names nothing between them and their series
   video: "none",
   // optical round: NCS 1000, ONS 15454 / NCS 2000, ONS 15216 / 15200, NCS 4000 and Routed Optical Networking are the lines; no line holds 3+ series
-  "optical-networking": "none" };
+  "optical-networking": "none",
+  // storage round: MDS 9000 is the family and the line; directors and fabric switches are kinds
+  "storage-networking": "none" };
 // ARRIVALS (layers round 3): a not-run move plan out of a reviewed category must land placed in its target's mapping. These four
 // plans predate the check (switches + routers rounds) and their targets cannot place them yet; each is listed with the round that
 // owns the target's rule. A listed row that now places is a stale exception and fails. (Operator, layers round 3: 11 -> 4 — the
@@ -353,6 +356,10 @@ for (const cat of REVIEWED) {
   check("SABOTAGE devices (wireless round): an antenna or a bundle in shared parts is not a device", deviceInSharedParts([row("ZZ-ANT", { kind: "antenna", series: "X shared parts" }), row("ZZ-BUN", { kind: "bundle", series: "X shared parts" })]).length === 0);
   const dvs = deviceInSharedParts([row("UCSC-C420-M3", { kind: "server", series: "UCS C-Series Rack Servers shared parts" }), row("UCS-FI-6652=", { kind: "fabric-interconnect", series: "UCS Fabric Interconnects shared parts" }),
     row("UCS-S3348-RAIDM5", { kind: "storage-controller", series: "UCS Server Components shared parts" }), row("UCS-M6-MLB", { kind: "bundle", series: "UCS Server Components shared parts" })]);
+  const dvsan = deviceInSharedParts([row("ZZ-FC", { kind: "fc-switch", series: "MDS 9000 Multilayer SAN Switches shared parts" }), row("ZZ-DIR", { kind: "director", series: "MDS 9000 Multilayer SAN Switches shared parts" }),
+    row("ZZ-LC", { kind: "linecard", series: "MDS 9000 Multilayer SAN Switches shared parts" })]);
+  check("SABOTAGE devices (storage round): an fc-switch and a director in shared parts are caught, a line card is not",
+    dvsan.map((r) => r.sku).join() === "ZZ-FC,ZZ-DIR" && DEVICE_KINDS.has("fc-switch") && DEVICE_KINDS.has("director"), JSON.stringify(dvsan.map((r) => r.sku)));
   const dvvid = deviceInSharedParts([row("ZZ-NODE", { kind: "node", series: "GS7000 Nodes and Optical Hubs shared parts" }), row("ZZ-SYS", { kind: "system", series: "Prisma II Optical Transport shared parts" }),
     row("ZZ-PLUG", { kind: "plug-in", series: "Prisma II Optical Transport shared parts" }), row("ZZ-TX", { kind: "transmitter", series: "Prisma II Optical Transport shared parts" })]);
   check("SABOTAGE devices (video round): a node and a system in shared parts are caught, a plug-in and a transmitter are not",

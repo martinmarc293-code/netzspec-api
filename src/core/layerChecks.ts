@@ -33,7 +33,9 @@ export type LayerRow = Record<string, string>;
 export const DEVICE_KINDS: ReadonlySet<string> = new Set(["router", "sp-router", "switch", "fex", "chassis", "appliance", "device", "ont", "olt", "ap", "wlc", "backhaul", "sensor", "server", "fabric-interconnect",
   "firewall", "ips", "email-gateway", "web-gateway", "management", "analytics", "identity",
   // Layers round 3, video round: videoKind's VIDEO_BOX joins — `node` (GS7000 / fibre nodes) and `system` (configured systems); `chassis` was in.
-  "node", "system"]);
+  "node", "system",
+  // Layers round 3, storage round: sanKind's SAN_BOX joins — `fc-switch` (MDS fabric switches) and `director` (MDS directors).
+  "fc-switch", "director"]);
 export function deviceInSharedParts(rows: LayerRow[]): LayerRow[] {
   return rows.filter((r) => /shared parts$/.test(r.series ?? "") && DEVICE_KINDS.has(r.kind ?? ""));
 }

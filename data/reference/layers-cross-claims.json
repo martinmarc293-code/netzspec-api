@@ -17,34 +17,6 @@
   },
   {
    "category": "switches",
-   "claimed_by": "storage-networking",
-   "series": "MDS 9300 fabric switches (9396S / 9396T / 9396V)",
-   "rule": "sku (?<![0-9])9396",
-   "rows": 20,
-   "examples": [
-    "C1-N9K-C9396PX",
-    "C1-N9K-C9396PX-BUN",
-    "C1-N9K-C9396PXB18Q"
-   ],
-   "status": "claimant-rule-too-broad",
-   "reason": "the row is correctly filed here; the claiming mapping's SKU rule is wider than the family it names — fix it in the storage-networking round"
-  },
-  {
-   "category": "switches",
-   "claimed_by": "storage-networking",
-   "series": "MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)",
-   "rule": "sku (?<![0-9])92(16|20|22|50)",
-   "rows": 8,
-   "examples": [
-    "C1-N9K-C92160-B18Q",
-    "C1-N9K-C92160-BUN",
-    "C1-N9K-C92160YC-X"
-   ],
-   "status": "claimant-rule-too-broad",
-   "reason": "the row is correctly filed here; the claiming mapping's SKU rule is wider than the family it names — fix it in the storage-networking round"
-  },
-  {
-   "category": "switches",
    "claimed_by": "collaboration-endpoints",
    "series": "Room Panorama",
    "rule": "sku ^CS-PANO",
@@ -109,20 +81,6 @@
    ],
    "status": "decided-home",
    "reason": "pre-ruling C3, applied by the operator (layers round 3): the UCS E-Series server modules in the SM-X form factor live in interfaces-modules, kind module, and the SVC-E service spares are planned in from servers-unified-computing; the servers mapping's UCS E-Series rule is fenced in its round"
-  },
-  {
-   "category": "wireless",
-   "claimed_by": "storage-networking",
-   "series": "MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)",
-   "rule": "sku (?<![0-9])91(20|24|32|34|40|48)",
-   "rows": 212,
-   "examples": [
-    "C9120AXE-A",
-    "C9120AXE-B",
-    "C9120AXE-B++"
-   ],
-   "status": "claimant-rule-too-broad",
-   "reason": "the rows are Catalyst 9120 / 9124 / 9130 access points correctly filed in wireless; storage-networking's MDS 9100 digit rule reads 9120 / 9124 / 9132 / 9134 / 9140 / 9148 wherever they occur — fix it in the storage-networking round (layers round 3, wireless round)"
   },
   {
    "category": "wireless",
@@ -248,34 +206,6 @@
    ],
    "status": "decided-home",
    "reason": "the row is a UCS C-Series part (a UCSC- PID) filed in servers-unified-computing; the Compute Hyperconverged C220 / C240 nodes are built on the same servers and hyperconverged-infrastructure files generic UCSC- risers under its node series, so its model rule — fenced in this round to the HCI / UCSC- prefixes of the rows it decides — reads them by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
-  },
-  {
-   "category": "servers-unified-computing",
-   "claimed_by": "storage-networking",
-   "series": "MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)",
-   "rule": "sku (?<![0-9])91(20|24|32|34|40|48)",
-   "rows": 6,
-   "examples": [
-    "UCS-CPU-A9124",
-    "UCS-CPU-A9124=",
-    "UCS-CPU-A9124C="
-   ],
-   "status": "claimant-rule-too-broad",
-   "reason": "the rows are UCS processors (UCS-CPU-A9124 …, AMD EPYC 9124) and RAID controllers (UCSC-RAID-9220-4I / -8I, Broadcom 9220) correctly filed in servers-unified-computing; storage-networking's MDS 9100 / 9200 digit rules read 9124 / 9220 wherever they occur — fix it in the storage-networking round (layers round 3, servers + hyperconverged round)"
-  },
-  {
-   "category": "servers-unified-computing",
-   "claimed_by": "storage-networking",
-   "series": "MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)",
-   "rule": "sku (?<![0-9])92(16|20|22|50)",
-   "rows": 4,
-   "examples": [
-    "UCSC-RAID-9220-4I",
-    "UCSC-RAID-9220-4I=",
-    "UCSC-RAID-9220-8I"
-   ],
-   "status": "claimant-rule-too-broad",
-   "reason": "the rows are UCS processors (UCS-CPU-A9124 …, AMD EPYC 9124) and RAID controllers (UCSC-RAID-9220-4I / -8I, Broadcom 9220) correctly filed in servers-unified-computing; storage-networking's MDS 9100 / 9200 digit rules read 9124 / 9220 wherever they occur — fix it in the storage-networking round (layers round 3, servers + hyperconverged round)"
   },
   {
    "category": "servers-unified-computing",
@@ -639,18 +569,6 @@
    ],
    "status": "pending-round",
    "reason": "UCS E-Series accessories and SSDs filed under the Catalyst 8000 / ISR routers (E100-FCPLT-BRKT, E100S-CON-DGL, E100S-MEM-UDIMM8G, E-SSD-U2N-2TB / 4TB, EM3-HDA-8FXS); servers-unified-computing's UCS E-Series rules read them. Decision pending: UCS E-Series home — the servers round keeps the UCS-E rows where they are filed and carries the question to the operator (layers round 3)"
-  },
-  {
-   "category": "video",
-   "claimed_by": "storage-networking",
-   "series": "MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)",
-   "rule": "sku (?<![0-9])92(16|20|22|50)",
-   "rows": 1,
-   "examples": [
-    "9220F-DIFL"
-   ],
-   "status": "claimant-rule-too-broad",
-   "reason": "9220F-DIFL '9220 W/DIFL OPTIONS' is a Prisma II-era transmitter option sold in Cisco's 'Prisma II transmitters, EDFAs, and select accessories' end-of-sale notice, correctly filed in video; storage-networking's MDS 9200 digit rule reads 9220 wherever it occurs — fix it in the storage-networking round (layers round 3, video round)"
   }
  ]
 }

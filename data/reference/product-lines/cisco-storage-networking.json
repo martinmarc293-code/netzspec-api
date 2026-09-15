@@ -1,6 +1,7 @@
 {
  "vendor": "cisco",
  "category": "storage-networking",
+ "family_layer": "assigned",
  "_about": "Layer 2 (product line) and layer 3 (series) of Cisco storage networking (MDS 9000), 14 Sep 2026. Series by platform: 9100 / 9200 / 9300 fabric switches, 9500 / 9700 directors, and the switching modules. Order is load-bearing: module SKUs carry fabric-switch numbers (DS-X9148 is a 48-port module for the 9500, not an MDS 9148), so the module series come first; 9700 modules (DS-X97, X9448/X9648/X9748, X9824) before the 9500/9200 ones. Accessory kits and power supplies whose SKU names a platform sit with it. No role axis.",
  "lines": [
   {
@@ -12,12 +13,12 @@
       "^DS-X97",
       "^DS-X9[4678]48",
       "^DS-X9824",
-      "^DS-X9(706|710|718)",
       "(?<![0-9])97(06|10|18)(?![0-9])"
      ],
      "labels": [
       "MDS 9700 Series Multilayer Directors"
-     ]
+     ],
+     "note": "^DS-X9(706|710|718) removed in layers round 3 (storage round): ^DS-X97 decides every row it matched (the rule-shadowing check named it)"
     },
     {
      "series": "MDS 9500 / 9200 switching modules",
@@ -43,30 +44,34 @@
     {
      "series": "MDS 9300 fabric switches (9396S / 9396T / 9396V)",
      "sku": [
-      "(?<![0-9])9396"
+      "^(?=DS-).*(?<![0-9])9396"
      ],
      "labels": [
       "MDS 9300 Series Multilayer Fabric"
-     ]
+     ],
+     "note": "^(?=DS-) (layers round 3, storage round): the 48 rows the rule decides are DS- PIDs; unfenced it claimed 20 Nexus 9396PX rows in switches"
     },
     {
      "series": "MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)",
      "sku": [
-      "(?<![0-9])92(16|20|22|50)",
-      "^DS-C50I"
+      "^(?=DS-|MDS-).*(?<![0-9])92(16|20|22|50)",
+      "^DS-C50I",
+      "^SAN50C-R$"
      ],
      "labels": [
       "MDS 9200 Series Multiservice"
-     ]
+     ],
+     "note": "^(?=DS-|MDS-) (layers round 3, storage round): the 35 rows the rule decides are DS- PIDs and MDS-9222I-75-PPT; unfenced it claimed the Nexus 92160 rows in switches, the UCSC-RAID-9220 controllers in servers and the Prisma II 9220F-DIFL option in video. ^SAN50C-R$ (same round): 'IBM SAN50C-R', the IBM-branded MDS 9250i that Cisco's 'MDS 9250i Multiservice Fabric Switch' end-of-sale notice lists; the label check found no platform token and held it for review (a whole switch)"
     },
     {
      "series": "MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)",
      "sku": [
-      "(?<![0-9])91(20|24|32|34|40|48)"
+      "^(?=DS-).*(?<![0-9])91(20|24|32|34|40|48)"
      ],
      "labels": [
       "MDS 9100 Series Multilayer Fabric"
-     ]
+     ],
+     "note": "^(?=DS-) (layers round 3, storage round): the 169 rows the rule decides are DS- PIDs; unfenced it claimed 212 Catalyst 9120 / 9124 access points in wireless and 6 AMD EPYC 9124 processors in servers"
     },
     {
      "series": "MDS blade-server FC switches (HP / IBM / Dell)",
@@ -84,7 +89,8 @@
       "Network Convergence System 2000 Series"
      ]
     }
-   ]
+   ],
+   "no_family_reason": "Cisco names the MDS 9100 / 9200 / 9300 fabric switches and the MDS 9500 / 9700 directors as series of the MDS 9000 family, which is the line itself; director versus fabric switch is the kind (director / fc-switch), not a family"
   }
  ],
  "shared_accessories": [

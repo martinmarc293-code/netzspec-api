@@ -273,6 +273,20 @@ witness("security", [
   ["MEM-71XX-256S", "Cisco 7160 256 MB SDRAM System Memory (default)", "FirePOWER 7000 Appliances", "(not this category)", "routers"],   // a 7100 VPN router part
   ["NM-DES/MP", "DES Crypto NM for Cisco 3620/40 - Mid Performance", "FirePOWER 7000 Appliances", "(not this category)", "interfaces-modules"],
 ]);
+// layers round 3, storage round: the MDS digit rules take DS- (and MDS-) PIDs only
+for (const [cat, sku, name, not] of [
+  ["storage-networking", "C9120AXE-A", "C9120AX External 802.11ax 4x4:4 MIMO;IOT;BT5;mGig", "MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)"],
+  ["storage-networking", "UCS-CPU-A9124", "AMD 9124 3.0GHz 200W 16C/64MB Cache DDR5 4800MT/s", "MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)"],
+  ["storage-networking", "UCSC-RAID-9220-4I", "MegaRAID 9220-4i, RAID 0/1/10 for C22", "MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)"],
+  ["storage-networking", "C1-N9K-C9396PX", "Cisco ONE Nexus 9300 48p 1/10G SFP+ and 1 uplink module", "MDS 9300 fabric switches (9396S / 9396T / 9396V)"],
+]) {
+  const p = placePart("cisco", cat, { sku, name, series: "" });
+  check(`storage round REFUSAL: ${cat} does not place ${sku} in ${not}`, p?.series !== not, `${p?.series} (${p?.rule})`);
+}
+witness("storage-networking", [
+  ["SAN50C-R", "IBM SAN50C-R", "MDS 9200 Series Multiservice", "MDS 9000 Multilayer SAN Switches", "MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)"],
+  ["DS-9124-KIT-CSCO", "MDS 9124 Accessory kit for Cisco", "MDS 9100 Series Multilayer Fabric", "MDS 9000 Multilayer SAN Switches", "MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)"],
+]);
 // layers round 3, optical round: the fenced claimants and the rows planned out
 for (const [cat, sku, name, not] of [
   ["optical-networking", "15216-GBIC-1510", "1000 BASE-T GBIC, one port modules", "ONS 15216 filters, OADM, mux/demux and DCU"],
