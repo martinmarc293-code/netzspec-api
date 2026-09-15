@@ -128,9 +128,17 @@
      "labels": [
       "9130AX"
      ]
+    },
+    {
+     "series": "Catalyst 9136",
+     "role": "indoor",
+     "sku": [
+      "^C9136"
+     ],
+     "note": "restored in the re-audit decisions (operator, 15 Sep 2026, Q-10 vs Q-23 — Q-23 governs): its one row, C9136I-x 'Cisco Catalyst 9136I Access Point, Wi-Fi 6E', carries the family's facts and document, so it keeps its row as the family carrier (flagged family_carrier); the layers round-3 wireless block had removed the series while that row carried a class plan"
     }
    ],
-   "no_family_reason": "Catalyst 9100 is the line Cisco names (\"Cisco Catalyst 9100 Access Points\"); the 9105AX … 9130AX are its series, with no family between. The Catalyst 9136 series was removed in layers round 3: its one row, C9136I-x, is a regulatory-domain placeholder (class non_product plan), so the series and its ^C9136 rule placed nothing"
+   "no_family_reason": "Catalyst 9100 is the line Cisco names (\"Cisco Catalyst 9100 Access Points\"); the 9105AX … 9136 are its series, with no family between"
   },
   {
    "line": "Aironet Access Points",

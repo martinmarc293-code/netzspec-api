@@ -260,22 +260,44 @@ const TWIN_SPLITS_PENDING: Record<string, readonly string[]> = {
   check("SABOTAGE cross-category twins: X- and X-- are twins of X (N-1)", planted([row("ZZ-CORD-2")], [row("ZZ-CORD-2-"), row("ZZ-CORD-2--")]).length === 1 && planted([row("ZZ-CORD-2-")], [row("ZZ-CORD-2--")]).length === 1);
 }
 
-// THE REGULATORY-DOMAIN / PLUG-REGION PLACEHOLDER (re-audit decisions, operator, 15 Sep 2026, Q-10): no layered row anywhere is a stand-in —
-// lower-case x / xx in the region position, case-sensitive, plus the 14 upper-case -X rows Cisco's ordering guide and the Embedded Wireless
-// Controller FAQ write as the same stand-in, named by SKU. Never a case-insensitive match: -X is a model name elsewhere (ASR1001-X).
+// THE REGULATORY-DOMAIN / PLUG-REGION PLACEHOLDER (re-audit decisions, operator, 15 Sep 2026, Q-10): lower-case x / xx in the region position,
+// case-sensitive, plus the 14 upper-case -X rows Cisco's ordering guide and the Embedded Wireless Controller FAQ write as the same stand-in,
+// named by SKU. Never a case-insensitive match: -X is a model name elsewhere (ASR1001-X). Q-10 vs Q-23 (operator, same day): Q-23 governs —
+// a stand-in that carries its family's facts or document is the family's model row and keeps it, flagged a family carrier; the ones that
+// carry nothing are classed. So no layered row is a stand-in unless it is a listed family carrier.
 const REGION_X_BY_SKU: ReadonlySet<string> = new Set(["C9115AXE-EWC-X", "C9115AXI-EWC-X", "C9117AXI-EWC-X", "C9120AXE-EWC-X", "C9120AXI-EWC-X", "C9120AXP-EWC-X", "C9124AXD-EWC-X", "C9124AXE-EWC-X", "C9124AXI-EWC-X", "C9130AXE-EWC-X", "C9130AXI-EWC-X", "CW9164I-X", "CW9166D1-X", "CW9166I-X"]);
 export const regionPlaceholder = (sku: string): boolean => /-x{1,2}(-|=?$)/.test(sku) || REGION_X_BY_SKU.has(sku.replace(/=+$/, ""));
+type Carrier = { sku: string; category: string; decision: string; facts: number; docs: number };
+const CARRIERS = (JSON.parse(fs.readFileSync(path.join(REPO_ROOT, "data", "reference", "family-carriers.json"), "utf8")) as { carriers: Carrier[] }).carriers;
+const CARRIER_SKUS: ReadonlySet<string> = new Set(CARRIERS.map((c) => c.sku));
 {
   for (const cat of [...REVIEWED, "conferencing", "data-center-networking"]) {
-    const left = readLayerRows(cat).filter((r) => r.bucket === "layered" && regionPlaceholder(r.sku));
-    check(`region placeholders ${cat}: 0 layered regulatory-domain / plug-region stand-ins (Q-10)`, left.length === 0, left.slice(0, 6).map((r) => r.sku).join(", "));
+    const left = readLayerRows(cat).filter((r) => r.bucket === "layered" && regionPlaceholder(r.sku) && !CARRIER_SKUS.has(r.sku));
+    check(`region placeholders ${cat}: 0 layered regulatory-domain / plug-region stand-ins that are not listed family carriers (Q-10, Q-23 governs)`, left.length === 0, left.slice(0, 6).map((r) => r.sku).join(", "));
   }
   const q10 = (PLANS as { sku: string; category: string; action: string; to: string; run_id: unknown; reason?: string }[]).filter((p) => p.run_id === null && /^regulatory-domain( \/ plug-region)? placeholder/.test(p.reason ?? ""));
-  check(`region placeholders: the Q-10 class plans number 254 (wireless 46 + 14, switches 191, interfaces-modules 2, collaboration-endpoints 1)`, q10.length === 254 && q10.every((p) => p.action === "class" && p.to === "non_product"), `${q10.length}`);
+  check(`region placeholders: the Q-10 class plans number 175 — the stand-ins that carry nothing (switches 174, collaboration-endpoints 1)`, q10.length === 175 && q10.every((p) => p.action === "class" && p.to === "non_product" && !CARRIER_SKUS.has(p.sku)), `${q10.length}`);
+  const q10carriers = CARRIERS.filter((c) => c.decision === "Q-10 vs Q-23");
+  check(`region placeholders: 79 stand-ins carry a fact or a document and are listed carriers (wireless 60, switches 17, interfaces-modules 2)`, q10carriers.length === 79 && q10carriers.every((c) => regionPlaceholder(c.sku) && c.facts + c.docs > 0), `${q10carriers.length}`);
   check("SABOTAGE region placeholder: CBS110-8PP-D-xx, AIR-AP1562I-x-K9 and CP-PWR-CORD-xx= are stand-ins", ["CBS110-8PP-D-xx", "AIR-AP1562I-x-K9", "CP-PWR-CORD-xx="].every(regionPlaceholder));
   check("SABOTAGE region placeholder: C9120AXI-EWC-X is a stand-in by name, and its spare spelling too", regionPlaceholder("C9120AXI-EWC-X") && regionPlaceholder("C9120AXI-EWC-X="));
   check("SABOTAGE region placeholder: the model names ASR1001-X, N9K-C92160YC-X and SFP-10G-LR-X are NOT (never case-insensitive)", !["ASR1001-X", "N9K-C92160YC-X", "SFP-10G-LR-X", "C6880-X="].some(regionPlaceholder));
   check("SABOTAGE region placeholder: a channel placeholder DWDM-SFP10G-xx.xx is not this shape (decision 2 classes it)", !regionPlaceholder("DWDM-SFP10G-xx.xx"));
+}
+
+// FAMILY CARRIERS (re-audit decisions, operator, 15 Sep 2026): the 102 rows that carry their family's facts or document (Q-23 23, Q-10 vs Q-23
+// 79) keep their rows — no class plan, a move only to their family's category — and the page flags each one, and nothing else, `family_carrier`
+{
+  const rowsBySku = new Map<string, LayerRow & { page: string }>();
+  for (const c of CATS) for (const r of readLayerRows(c)) rowsBySku.set(r.sku, { ...r, page: c });
+  check(`family carriers: the list holds 102 (Q-23 23, Q-10 vs Q-23 79), no SKU twice`, CARRIERS.length === 102 && CARRIER_SKUS.size === 102 && CARRIERS.filter((c) => c.decision === "Q-23").length === 23);
+  const bad = CARRIERS.filter((c) => { const r = rowsBySku.get(c.sku); return !r || r.family_carrier !== "true" || r.plan.startsWith("class ") || (r.bucket !== "layered" && !r.plan.startsWith("move ")) || c.facts + c.docs === 0; });
+  check(`family carriers: every listed carrier is a row, flagged, carrying a fact or a document, layered or planned to move (never classed)`, bad.length === 0,
+    bad.slice(0, 6).map((c) => { const r = rowsBySku.get(c.sku); return `${c.sku}: ${r ? `${r.bucket} "${r.plan}" flag=${r.family_carrier}` : "not a row"}`; }).join("; "));
+  const flagged = [...rowsBySku.values()].filter((r) => r.family_carrier === "true" && !CARRIER_SKUS.has(r.sku));
+  check(`family carriers: no row outside the list carries the flag`, flagged.length === 0, flagged.slice(0, 6).map((r) => r.sku).join(", "));
+  const moves = (PLANS as { sku: string; action: string; to: string; run_id: unknown }[]).filter((p) => p.run_id === null && CARRIER_SKUS.has(p.sku));
+  check(`family carriers: the only plans on carriers are the 3 SB-PWR moves to interfaces-modules (their families' category)`, moves.length === 3 && moves.every((p) => p.action === "move" && p.to === "interfaces-modules" && /^SB-PWR-/.test(p.sku)), JSON.stringify(moves));
 }
 
 // MERGE CANDIDATES (layers round 3, operator: "as merge PLANS with the redirect map, not runs"): a category the spec merges away holds no
@@ -407,7 +429,8 @@ check("SABOTAGE merge: a plan that calls a hardware row non-hardware is refused"
   planned("ISM-SRE-300-K9", "move servers-unified-computing");
   planned("SM-SRE-900-K9", "move servers-unified-computing");
   planned("15454-AD-1B-xx=", "class non_product");
-  planned("HWIC-AP-AG-x", "class non_product");
+  at("HWIC-AP-AG-x", "EHWIC / HWIC / VWIC / WIC", "radio");   // a family carrier (1 fact) since Q-10 vs Q-23, not a class plan
+  check(`interfaces-modules page: HWIC-AP-AG-x is flagged a family carrier`, im.get("HWIC-AP-AG-x")?.family_carrier === "true", `${im.get("HWIC-AP-AG-x")?.family_carrier}`);
   planned("CGR-N-CONN-WPAN", "move routers");
   const ntc = readLayerRows("interfaces-modules").filter((r) => r.bucket === "not_this_category").length;
   check(`interfaces-modules page: the 190 not-this-category rows of the round's start are all planned or placed (0 left)`, ntc === 0, `${ntc}`);
@@ -429,15 +452,18 @@ check("SABOTAGE merge: a plan that calls a hardware row non-hardware is refused"
   at("AIR-FAN-C220M4=", "5500 (5508 / 5520 / 5540)");  // kept by the name token 5520 once "Wireless" is not a watt
   at("RACK-QCN-SN5=", "CiscoWorks Wireless LAN Solution Engine (WLSE 1130 / Express 1030)");
   const planned = (sku: string, plan: string) => check(`wireless page: ${sku} carries the plan "${plan}"`, wl.get(sku)?.bucket === "pending_plan" && wl.get(sku)?.plan === plan, `got ${wl.get(sku)?.bucket} "${wl.get(sku)?.plan}"`);
-  planned("C9120AXI-x", "class non_product");
+  // re-audit decisions (15 Sep 2026, Q-10 vs Q-23): C9120AXI-x carries its family's facts — a carrier row now, not a class plan
+  at("C9120AXI-x", "Catalyst 9120AX", "ap");
+  check(`wireless page: C9120AXI-x is flagged a family carrier`, wl.get("C9120AXI-x")?.family_carrier === "true", `${wl.get("C9120AXI-x")?.family_carrier}`);
+  at("C9105AXI-EWC-x", "Catalyst 9105AX", "ap");   // a carrier too (2 facts, 2 documents)
   planned("AIR-AP1572EAC-UXK9", "class non_product");
   planned("C9105AXI", "class non_product");
   planned("SB-PWR-48V", "move interfaces-modules");
   planned("CS-ROOM70P-WMK=", "move collaboration-endpoints");
   const ntc = [...wl.values()].filter((r) => r.bucket === "not_this_category").length;
   check(`wireless page: 0 not-this-category rows left (the 44 of the round's start are planned)`, ntc === 0, `${ntc}`);
-  const regionLeft = [...wl.values()].filter((r) => r.bucket === "layered" && /(^|-)x(-|$)|-xx$/.test(r.sku));
-  check(`wireless page: 0 layered regulatory-domain / plug-region placeholders (lowercase -x / -xx SKUs)`, regionLeft.length === 0, regionLeft.slice(0, 6).map((r) => r.sku).join(", "));
+  const regionLeft = [...wl.values()].filter((r) => r.bucket === "layered" && /(^|-)x(-|$)|-xx$/.test(r.sku) && r.family_carrier !== "true");
+  check(`wireless page: 0 layered regulatory-domain / plug-region placeholders (lowercase -x / -xx SKUs) that are not family carriers`, regionLeft.length === 0, regionLeft.slice(0, 6).map((r) => r.sku).join(", "));
   const rt = new Map(readLayerRows("routers").map((r) => [r.sku, r]));
   check(`routers page: the Aironet antennas and the 1530 mount kit carry their plans to wireless`, ["AIR-ANT2524DB-R", "AIR-ACC1530-PMK1"].every((s) => rt.get(s)?.plan === "move wireless"), ["AIR-ANT2524DB-R", "AIR-ACC1530-PMK1"].map((s) => `${s} ${rt.get(s)?.plan}`).join("; "));
 }
@@ -491,7 +517,9 @@ check("SABOTAGE merge: a plan that calls a hardware row non-hardware is refused"
   planned("optical-networking", "15216-MD-48-", "class non_product");
   // N-3, Q-10, Q-15, Q-19 / Q-20, F-7
   planned("security", "FPR4K-NM-4X40G-F=", "class non_product");
-  planned("wireless", "CW9166I-X", "class non_product");
+  at("wireless", "CW9166I-X", "Catalyst CW9162 / CW9164 / CW9166 (Wi-Fi 6E)");   // a family carrier (Q-10 vs Q-23)
+  planned("wireless", "SB-PWR-48V-xx", "move interfaces-modules");               // a carrier, to its family's category
+  at("switches", "SF110D-05-xx", "Small Business 110 Unmanaged (SF110/SG110)");  // a carrier: 9 facts and the 110 Series data sheet
   planned("switches", "CBS350-8XT-xx", "class non_product");
   planned("collaboration-endpoints", "CP-PWR-CORD-xx=", "class non_product");
   planned("hyperconverged-infrastructure", "R2XX-DMYMPWRCORD", "class non_product");

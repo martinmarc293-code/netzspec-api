@@ -73,6 +73,11 @@ type Plan = { sku: string; category: string; action: string; to: string; reason?
 const planFile = path.join(REPO_ROOT, "data", "reference", "kind-layer-plans-2026-09-13.json");
 const allPlans: Plan[] = fs.existsSync(planFile) ? JSON.parse(fs.readFileSync(planFile, "utf8")) as Plan[] : [];
 const planOf = new Map<string, Plan>(allPlans.map((x) => [`${x.category}|${x.sku.trim().toUpperCase()}`, x]));
+// FAMILY CARRIERS (re-audit decisions, operator, 15 Sep 2026): the rows that carry their family's facts or document — bare model rows
+// (Q-23) and regional placeholders (Q-10 vs Q-23) — keep their rows and are flagged, never orderable. Keyed by SKU: a carrier keeps its
+// flag when a plan moves it to its family's category.
+const carrierFile = path.join(REPO_ROOT, "data", "reference", "family-carriers.json");
+const CARRIERS = new Set<string>(fs.existsSync(carrierFile) ? (JSON.parse(fs.readFileSync(carrierFile, "utf8")) as { carriers: { sku: string }[] }).carriers.map((c) => c.sku.trim().toUpperCase()) : []);
 // closing items at aa1143f, item 1: a DEVICE never sits in shared parts — a device the label evidence does not support is held for review.
 // The set is the standing check's own (src/core/layerChecks.ts), so the build and the check cannot disagree on what a device is.
 import { DEVICE_KINDS } from "../src/core/layerChecks.js";
@@ -109,6 +114,8 @@ type LayerRow = {
   belongs: string | null;
   /** label-placed rows of a label-checked category: "<kind>: <detail>" (sku-token / name / family / compatible / none) */
   label_evidence: string | null;
+  /** the row carries its family's facts or document and is the family's model row, not an orderable (data/reference/family-carriers.json) */
+  family_carrier: boolean;
 };
 
 /** Series each part is placed in by a SKU or name rule (not a label, not shared parts), then the series its compatible partners sit in. */
@@ -169,7 +176,7 @@ function build(cat: string): Tree {
     // the role the CUP ENGINE gives this part (deployRoleResult, which reads the series table first) — recorded on every row
     const rr = deployRoleResult(cat, kind, r.sku, r.name);
     const ev = evidence.get(r.sku);
-    const base = { sku: r.sku, name: r.name, series_label: r.series, kind, deploy_role: rr.role, role_rule: rr.rule, role_issue: rr.issue, label_evidence: ev ? `${ev.kind}: ${ev.detail}` : null };
+    const base = { sku: r.sku, name: r.name, series_label: r.series, kind, deploy_role: rr.role, role_rule: rr.rule, role_issue: rr.issue, label_evidence: ev ? `${ev.kind}: ${ev.detail}` : null, family_carrier: CARRIERS.has(r.sku.trim().toUpperCase()) };
     if (plan) {
       tree.pending_plans.push({ sku: r.sku, name: r.name, series_label: r.series, action: plan.action, to: plan.to, reason: plan.reason ?? null });
       tree.rows.push({ ...base, bucket: "pending_plan", product_line: null, product_family: null, series: null, placed_by: null, plan: { action: plan.action, to: plan.to, reason: plan.reason ?? null }, belongs: null });
@@ -289,9 +296,9 @@ for (const cat of targets) {
     const { rows: tRows, ...summary } = t;
     fs.writeFileSync(path.join(REPO_ROOT, "data", "layers", `${vendor}-${cat}.json`), JSON.stringify(summary, null, 1) + "\n");
     const cell = (x: unknown) => String(x ?? "").replace(/[\t\r\n]+/g, " ");
-    const head = ["sku", "name", "series_label", "kind", "bucket", "product_line", "product_family", "series", "placed_by", "deploy_role", "role_rule", "role_issue", "plan", "belongs", "label_evidence"];
+    const head = ["sku", "name", "series_label", "kind", "bucket", "product_line", "product_family", "series", "placed_by", "deploy_role", "role_rule", "role_issue", "plan", "belongs", "label_evidence", "family_carrier"];
     const lines = tRows.map((r) => [r.sku, r.name, r.series_label, r.kind, r.bucket, r.product_line, r.product_family, r.series, r.placed_by, r.deploy_role, r.role_rule, r.role_issue,
-      r.plan ? `${r.plan.action} ${r.plan.to}` : "", r.belongs, r.label_evidence].map(cell).join("\t"));
+      r.plan ? `${r.plan.action} ${r.plan.to}` : "", r.belongs, r.label_evidence, r.family_carrier ? "true" : ""].map(cell).join("\t"));
     fs.writeFileSync(path.join(REPO_ROOT, "data", "layers", `${vendor}-${cat}.rows.tsv`), [head.join("\t"), ...lines].join("\n") + "\n");
   }
   console.log(`${cat.padEnd(30)} parts ${String(t.parts).padStart(5)}  lines ${String(t.lines.length).padStart(2)}  series ${String(t.lines.reduce((a, l) => a + l.series.length, 0)).padStart(3)}  not-this-category ${String(t.not_this_category.length).padStart(4)}  planned ${String(t.pending_plans.length).padStart(4)}  unplaced ${String(t.unplaced.length).padStart(5)}  ${t.pending_review.length ? `pending-review ${t.pending_review.length}  ` : ""}${t.label_check.applied ? `label-placed ${t.label_check.label_placed} moved ${t.label_check.moved.length} ${JSON.stringify(t.label_check.by_kind)}  ` : ""}${!t.mapping_file ? "NOT STARTED" : t.done ? "DONE" : "IN PROGRESS"}`);

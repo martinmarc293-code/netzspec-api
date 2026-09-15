@@ -1,0 +1,821 @@
+{
+ "_about": "FAMILY CARRIERS (re-audit decisions, operator, 15 Sep 2026): a row that carries its family's facts or document — a bare model row (Q-23) or a regional placeholder (Q-10 vs Q-23: Q-23 governs) — is the family's model row, not an orderable. It keeps its row and its device kind; the layers pages flag it `family_carrier`, and the `parts.family_carrier` column (migration 0022, set by scripts/family-carrier.mts in a recorded run) keeps any shop feed from listing it as orderable. Phase 2 inherits its facts to the orderable variants. facts / docs as measured on 15 Sep 2026.",
+ "carriers": [
+  {
+   "sku": "HWIC-AP-AG-x",
+   "category": "interfaces-modules",
+   "decision": "Q-10 vs Q-23",
+   "facts": 1,
+   "docs": 0,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "HWIC-AP-G-x",
+   "category": "interfaces-modules",
+   "decision": "Q-10 vs Q-23",
+   "facts": 1,
+   "docs": 0,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "NM-HDV-",
+   "category": "interfaces-modules",
+   "decision": "Q-23",
+   "facts": 0,
+   "docs": 1,
+   "note": "bare model row carrying its family's facts / document"
+  },
+  {
+   "sku": "5515-X",
+   "category": "security",
+   "decision": "Q-23",
+   "facts": 0,
+   "docs": 1,
+   "note": "bare model row carrying its family's facts / document"
+  },
+  {
+   "sku": "5525-X",
+   "category": "security",
+   "decision": "Q-23",
+   "facts": 0,
+   "docs": 1,
+   "note": "bare model row carrying its family's facts / document"
+  },
+  {
+   "sku": "5545-X",
+   "category": "security",
+   "decision": "Q-23",
+   "facts": 0,
+   "docs": 1,
+   "note": "bare model row carrying its family's facts / document"
+  },
+  {
+   "sku": "CGP-ONT-4TVCW-x",
+   "category": "switches",
+   "decision": "Q-10 vs Q-23",
+   "facts": 13,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "PWRADPT-WM-18-xx",
+   "category": "switches",
+   "decision": "Q-10 vs Q-23",
+   "facts": 9,
+   "docs": 2,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "SF110D-05-xx",
+   "category": "switches",
+   "decision": "Q-10 vs Q-23",
+   "facts": 9,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "SF110D-08-xx",
+   "category": "switches",
+   "decision": "Q-10 vs Q-23",
+   "facts": 9,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "SF110D-08HP-xx",
+   "category": "switches",
+   "decision": "Q-10 vs Q-23",
+   "facts": 9,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "SF110D-16-xx",
+   "category": "switches",
+   "decision": "Q-10 vs Q-23",
+   "facts": 9,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "SF110D-16HP-xx",
+   "category": "switches",
+   "decision": "Q-10 vs Q-23",
+   "facts": 9,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "SF95D-05-xx",
+   "category": "switches",
+   "decision": "Q-10 vs Q-23",
+   "facts": 9,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "SF95D-08-xx",
+   "category": "switches",
+   "decision": "Q-10 vs Q-23",
+   "facts": 9,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "SF95D-16-xx",
+   "category": "switches",
+   "decision": "Q-10 vs Q-23",
+   "facts": 9,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "SG110-16HP-xx",
+   "category": "switches",
+   "decision": "Q-10 vs Q-23",
+   "facts": 9,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "SG110-24HP-xx",
+   "category": "switches",
+   "decision": "Q-10 vs Q-23",
+   "facts": 9,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "SG110D-05-xx",
+   "category": "switches",
+   "decision": "Q-10 vs Q-23",
+   "facts": 8,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "SG110D-08-xx",
+   "category": "switches",
+   "decision": "Q-10 vs Q-23",
+   "facts": 8,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "SG110D-08HP-xx",
+   "category": "switches",
+   "decision": "Q-10 vs Q-23",
+   "facts": 9,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "SG95D-05-xx",
+   "category": "switches",
+   "decision": "Q-10 vs Q-23",
+   "facts": 8,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "SG95D-08-xx",
+   "category": "switches",
+   "decision": "Q-10 vs Q-23",
+   "facts": 8,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "DWDM-SFP10G",
+   "category": "transceiver",
+   "decision": "Q-23",
+   "facts": 0,
+   "docs": 2,
+   "note": "bare model row carrying its family's facts / document"
+  },
+  {
+   "sku": "DWDM-X2",
+   "category": "transceiver",
+   "decision": "Q-23",
+   "facts": 2,
+   "docs": 1,
+   "note": "bare model row carrying its family's facts / document"
+  },
+  {
+   "sku": "QSFP-100G-AOC",
+   "category": "transceiver",
+   "decision": "Q-23",
+   "facts": 8,
+   "docs": 1,
+   "note": "bare model row carrying its family's facts / document"
+  },
+  {
+   "sku": "SFP-10G-AOC",
+   "category": "transceiver",
+   "decision": "Q-23",
+   "facts": 5,
+   "docs": 1,
+   "note": "bare model row carrying its family's facts / document"
+  },
+  {
+   "sku": "SFP-H10GB-ACU",
+   "category": "transceiver",
+   "decision": "Q-23",
+   "facts": 5,
+   "docs": 1,
+   "note": "bare model row carrying its family's facts / document"
+  },
+  {
+   "sku": "SFP-H10GB-CU",
+   "category": "transceiver",
+   "decision": "Q-23",
+   "facts": 5,
+   "docs": 1,
+   "note": "bare model row carrying its family's facts / document"
+  },
+  {
+   "sku": "X2-10G-DWDM",
+   "category": "transceiver",
+   "decision": "Q-23",
+   "facts": 3,
+   "docs": 2,
+   "note": "bare model row carrying its family's facts / document"
+  },
+  {
+   "sku": "3-CBW140AC-x",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 5,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "3-CBW240AC-x",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 6,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "5-CBW140AC-x",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 5,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "5-CBW240AC-x",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 6,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "9800-L",
+   "category": "wireless",
+   "decision": "Q-23",
+   "facts": 0,
+   "docs": 1,
+   "note": "bare model row carrying its family's facts / document"
+  },
+  {
+   "sku": "AIR-AP1542D-x-K9",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 0,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "AIR-AP1542I-x-K9",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 0,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "AIR-AP1562D-x-K9",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 0,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "AIR-AP1562E-x-K9",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 0,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "AIR-AP1562I-x-K9",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 0,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "AIR-AP1572EAC-x-K9",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 0,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "AIR-AP1572EC1-x-K9",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 0,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "AIR-AP1572EC2-x-K9",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 0,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "AIR-AP1572EC3-x-K9",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 0,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "AIR-AP1572EC4-x-K9",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 0,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "AIR-AP1572IC1-x-K9",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 0,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "AIR-AP1572IC2-x-K9",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 0,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "AIR-AP1572IC3-x-K9",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 0,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "AIR-AP1572IC4-x-K9",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 0,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "AIR-CAP1552H-x-K9",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 0,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "AP1572EAC",
+   "category": "wireless",
+   "decision": "Q-23",
+   "facts": 2,
+   "docs": 1,
+   "note": "bare model row carrying its family's facts / document"
+  },
+  {
+   "sku": "AP1572EC",
+   "category": "wireless",
+   "decision": "Q-23",
+   "facts": 2,
+   "docs": 1,
+   "note": "bare model row carrying its family's facts / document"
+  },
+  {
+   "sku": "AP1572IC",
+   "category": "wireless",
+   "decision": "Q-23",
+   "facts": 2,
+   "docs": 1,
+   "note": "bare model row carrying its family's facts / document"
+  },
+  {
+   "sku": "C9105",
+   "category": "wireless",
+   "decision": "Q-23",
+   "facts": 0,
+   "docs": 1,
+   "note": "bare model row carrying its family's facts / document"
+  },
+  {
+   "sku": "C9105AXI-EWC-x",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 2,
+   "docs": 2,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "C9105AXI-x",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 3,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "C9105AXW-x",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 3,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "C9115AXE-EWC-X",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 0,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "C9115AXE-x",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 2,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "C9115AXI-EWC-X",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 0,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "C9115AXI-x",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 2,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "C9117AXI-EWC-X",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 0,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "C9120AXE-EWC-X",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 0,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "C9120AXE-x",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 2,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "C9120AXI-EWC-X",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 0,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "C9120AXI-x",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 2,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "C9120AXP-EWC-X",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 2,
+   "docs": 2,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "C9120AXP-x",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 2,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "C9124AXD-EWC-X",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 0,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "C9124AXD-x",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 2,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "C9124AXE-EWC-X",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 0,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "C9124AXE-x",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 2,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "C9124AXI-EWC-X",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 0,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "C9124AXI-x",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 2,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "C9130AXE",
+   "category": "wireless",
+   "decision": "Q-23",
+   "facts": 0,
+   "docs": 1,
+   "note": "bare model row carrying its family's facts / document"
+  },
+  {
+   "sku": "C9130AXE-EWC-X",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 0,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "C9130AXE-STA-x",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 2,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "C9130AXE-x",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 2,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "C9130AXI",
+   "category": "wireless",
+   "decision": "Q-23",
+   "facts": 0,
+   "docs": 1,
+   "note": "bare model row carrying its family's facts / document"
+  },
+  {
+   "sku": "C9130AXI-EWC-X",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 0,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "C9130AXI-x",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 2,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "C9136I-x",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 2,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "C9800-L",
+   "category": "wireless",
+   "decision": "Q-23",
+   "facts": 0,
+   "docs": 1,
+   "note": "bare model row carrying its family's facts / document"
+  },
+  {
+   "sku": "CBW140AC-x",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 5,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "CBW141ACM-x-xx",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 4,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "CBW142ACM-x-xx",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 4,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "CBW143ACM-x-xx",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 5,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "CBW145AC-x",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 5,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "CBW240AC-x",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 6,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "CW9162",
+   "category": "wireless",
+   "decision": "Q-23",
+   "facts": 4,
+   "docs": 3,
+   "note": "bare model row carrying its family's facts / document"
+  },
+  {
+   "sku": "CW9162I-x",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 2,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "CW9163E-x",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 2,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "CW9164I-X",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 2,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "CW9166",
+   "category": "wireless",
+   "decision": "Q-23",
+   "facts": 3,
+   "docs": 2,
+   "note": "bare model row carrying its family's facts / document"
+  },
+  {
+   "sku": "CW9166D1-X",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 2,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "CW9166I-X",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 2,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "MA-PWR-30W-xx",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 0,
+   "docs": 4,
+   "note": "regional placeholder carrying its family's facts / document; the orderables are its regional variants"
+  },
+  {
+   "sku": "MR36",
+   "category": "wireless",
+   "decision": "Q-23",
+   "facts": 5,
+   "docs": 7,
+   "note": "bare model row carrying its family's facts / document"
+  },
+  {
+   "sku": "MR46",
+   "category": "wireless",
+   "decision": "Q-23",
+   "facts": 7,
+   "docs": 13,
+   "note": "bare model row carrying its family's facts / document"
+  },
+  {
+   "sku": "SB-PWR-48V-xx",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 11,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts; planned to interfaces-modules beside its variants"
+  },
+  {
+   "sku": "SB-PWR-INJ1-xx",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 11,
+   "docs": 1,
+   "note": "regional placeholder carrying its family's facts; planned to interfaces-modules beside its variants"
+  },
+  {
+   "sku": "SB-PWR-INJ2-xx",
+   "category": "wireless",
+   "decision": "Q-10 vs Q-23",
+   "facts": 11,
+   "docs": 2,
+   "note": "regional placeholder carrying its family's facts; planned to interfaces-modules beside its variants"
+  }
+ ]
+}
