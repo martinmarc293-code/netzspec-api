@@ -385,13 +385,13 @@ SPA232D-R1	Multi-Line DECT ATA	Small Business Voice Gateways and ATAs	ata	layere
 SPA232D-R7	Multi-Line DECT ATA	Small Business Voice Gateways and ATAs	ata	layered	Analog Telephone Adapters and SPA		SPA232D Multi-Line DECT ATA	sku ^SPA232D						
 SPA232D-RC	Analog Telephone Adapter with DECT Base Station	Small Business Voice Gateways and ATAs	ata	layered	Analog Telephone Adapters and SPA		SPA232D Multi-Line DECT ATA	sku ^SPA232D						
 SPA232D-XU	Multi-Line DECT ATA, SRPT Removed	Small Business Voice Gateways and ATAs	ata	layered	Analog Telephone Adapters and SPA		SPA232D Multi-Line DECT ATA	sku ^SPA232D						
-SPA302D-G1	Mobility Enhanced Cordless Handset	Small Business Voice Gateways and ATAs	phone	layered	Analog Telephone Adapters and SPA		SPA302D DECT handset	sku ^SPA302D	dect	series:SPA302D DECT handset				
-SPA302D-G1-1	Mobility Enhanced Cordless Handset	Small Business Voice Gateways and ATAs	phone	layered	Analog Telephone Adapters and SPA		SPA302D DECT handset	sku ^SPA302D	dect	series:SPA302D DECT handset				
-SPA302D-G7	Mobility Enhanced Cordless Handset	Small Business Voice Gateways and ATAs	phone	layered	Analog Telephone Adapters and SPA		SPA302D DECT handset	sku ^SPA302D	dect	series:SPA302D DECT handset				
-SPA302D-G7-1	Mobility Enhanced Cordless Handset	Small Business Voice Gateways and ATAs	phone	layered	Analog Telephone Adapters and SPA		SPA302D DECT handset	sku ^SPA302D	dect	series:SPA302D DECT handset				
-SPA302DKIT-G1	Multi-Line DECT Handset with Base Station	Small Business Voice Gateways and ATAs	phone	layered	Analog Telephone Adapters and SPA		SPA302D DECT handset	sku ^SPA302D	dect	series:SPA302D DECT handset				
-SPA302DKIT-G7	Multi-Line DECT Handset with Base Station	Small Business Voice Gateways and ATAs	phone	layered	Analog Telephone Adapters and SPA		SPA302D DECT handset	sku ^SPA302D	dect	series:SPA302D DECT handset				
-SPA302DKIT-XU	Multi-Line DECT Handset with Base Station, SRTP Removed	Small Business Voice Gateways and ATAs	phone	layered	Analog Telephone Adapters and SPA		SPA302D DECT handset	sku ^SPA302D	dect	series:SPA302D DECT handset				
+SPA302D-G1	Mobility Enhanced Cordless Handset	Small Business Voice Gateways and ATAs	phone	layered	Analog Telephone Adapters and SPA		SPA302D DECT handset	sku ^SPA302D	dect	ph.dect				
+SPA302D-G1-1	Mobility Enhanced Cordless Handset	Small Business Voice Gateways and ATAs	phone	layered	Analog Telephone Adapters and SPA		SPA302D DECT handset	sku ^SPA302D	dect	ph.dect				
+SPA302D-G7	Mobility Enhanced Cordless Handset	Small Business Voice Gateways and ATAs	phone	layered	Analog Telephone Adapters and SPA		SPA302D DECT handset	sku ^SPA302D	dect	ph.dect				
+SPA302D-G7-1	Mobility Enhanced Cordless Handset	Small Business Voice Gateways and ATAs	phone	layered	Analog Telephone Adapters and SPA		SPA302D DECT handset	sku ^SPA302D	dect	ph.dect				
+SPA302DKIT-G1	Multi-Line DECT Handset with Base Station	Small Business Voice Gateways and ATAs	phone	layered	Analog Telephone Adapters and SPA		SPA302D DECT handset	sku ^SPA302D	dect	ph.dect				
+SPA302DKIT-G7	Multi-Line DECT Handset with Base Station	Small Business Voice Gateways and ATAs	phone	layered	Analog Telephone Adapters and SPA		SPA302D DECT handset	sku ^SPA302D	dect	ph.dect				
+SPA302DKIT-XU	Multi-Line DECT Handset with Base Station, SRTP Removed	Small Business Voice Gateways and ATAs	phone	layered	Analog Telephone Adapters and SPA		SPA302D DECT handset	sku ^SPA302D	dect	ph.dect				
 SPA8000-BR	8-Port IP Telephony Gateway	Small Business Voice Gateways and ATAs	gateway	layered	Analog Telephone Adapters and SPA		SPA8000 / SPA8800 IP Telephony Gateways	sku ^SPA8[08]00						
 SPA8000-G1	8-Port IP Telephony Gateway	Small Business Voice Gateways and ATAs	gateway	layered	Analog Telephone Adapters and SPA		SPA8000 / SPA8800 IP Telephony Gateways	sku ^SPA8[08]00						
 SPA8000-G4	8-Port IP Telephony Gateway	Small Business Voice Gateways and ATAs	gateway	layered	Analog Telephone Adapters and SPA		SPA8000 / SPA8800 IP Telephony Gateways	sku ^SPA8[08]00						

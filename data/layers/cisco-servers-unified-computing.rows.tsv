@@ -732,7 +732,7 @@ COHS-PS-INST-XL	Cisco COHS-PS-INST-XL	UCS C-Series	unknown	pending_plan								c
 COHS-TR-RMSEAT-1D	One seat for one day of an instructor-led in-person class	UCS B-Series	unknown	pending_plan								class service		
 COMPUTE-AI	Cisco COMPUTE-AI	Unified Edge	unknown	pending_plan								class non_product		
 COMPUTE-OTHER	Cisco COMPUTE-OTHER	Unified Edge	unknown	pending_plan								class non_product		
-CP-BATT-7925G-EXT=	Cisco 7925G Battery, Extended	Mini Series	power	layered	UCS Fabric Interconnects	(shared across the line)	UCS Fabric Interconnects shared parts	accessory BATT (label Mini Series)						
+CP-BATT-7925G-EXT=	Cisco 7925G Battery, Extended	Mini Series	power	pending_plan								move collaboration-endpoints		
 CPU1	Cisco CPU1	UCS X-Series	cpu	layered	UCS X-Series Modular System	(shared across the line)	UCS X-Series Modular System shared parts	label UCS X-Series						
 CPU2	Cisco CPU2	UCS X-Series	cpu	layered	UCS X-Series Modular System	(shared across the line)	UCS X-Series Modular System shared parts	label UCS X-Series						
 CR1632	Cisco CR1632	Mini Series	accessory	layered	UCS Fabric Interconnects	(shared across the line)	UCS Fabric Interconnects shared parts	accessory ^CR[0-9]{4} (label Mini Series)						

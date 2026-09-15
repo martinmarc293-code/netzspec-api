@@ -1,8 +1,8 @@
 {
  "vendor": "cisco",
  "category": "interfaces-modules",
- "built_at": "2026-09-15T11:25:53.060Z",
- "commit": "0eecef097b60c600545a6854270d27123ad094c5",
+ "built_at": "2026-09-15T12:12:57.045Z",
+ "commit": "70980429b6e6f3cfadd881bf5bb948973b4759a7",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-interfaces-modules.json",
  "parts": 1400,
@@ -293,7 +293,7 @@
      "series": "WP pluggable modules (IoT routers)",
      "family": null,
      "role": null,
-     "note": null,
+     "note": "fenced (layers round 3, collaboration-endpoints round): WP-9821- is the Webex Wireless Phone 9821 and its batteries, chargers and cases (17 rows in collaboration-endpoints), not an IoT router pluggable module",
      "parts": 36,
      "kinds": {
       "radio": 36

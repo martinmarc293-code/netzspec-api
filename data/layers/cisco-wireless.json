@@ -1,8 +1,8 @@
 {
  "vendor": "cisco",
  "category": "wireless",
- "built_at": "2026-09-15T11:25:52.054Z",
- "commit": "0eecef097b60c600545a6854270d27123ad094c5",
+ "built_at": "2026-09-15T12:12:56.029Z",
+ "commit": "70980429b6e6f3cfadd881bf5bb948973b4759a7",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-wireless.json",
  "parts": 4010,
@@ -1684,7 +1684,7 @@
      "series": "Power injectors, supplies and cords",
      "family": null,
      "role": null,
-     "note": "^PWR- fenced to the wireless rows it holds (layers round 3; operator: claimant-rule-too-broad, fixed in the wireless round): the 3504 / 2504 controller supplies, the Catalyst wireless controller 750 W / 950 W supplies PWR-CH1-750ACR / 750WACR / 950WDCR (the other PWR-CH1- supplies are routers'), the internal C13-C14 cords and PWR-RPS-DC1=",
+     "note": "^PWR- fenced to the wireless rows it holds (layers round 3; operator: claimant-rule-too-broad, fixed in the wireless round): the 3504 / 2504 controller supplies, the Catalyst wireless controller 750 W / 950 W supplies PWR-CH1-750ACR / 750WACR / 950WDCR (the other PWR-CH1- supplies are routers'), the internal C13-C14 cords and PWR-RPS-DC1=. The INT cords are fenced to the 0.7 m length wireless holds (collaboration-endpoints round): the 0.2 / 0.22 / 0.6 / 1.3 / 1.4 / 1.45 / 1.85 / 3.0 m INT cords are Room and TelePresence parts (Room Panorama and Room Kit EQX amp-to-camera cables, TelePresence C13-C14 jumpers) and stay in collaboration-endpoints",
      "parts": 99,
      "kinds": {
       "cable": 65,
@@ -1703,7 +1703,9 @@
      "rules": {
       "sku": 99
      },
-     "pending_in": {}
+     "pending_in": {
+      "collaboration-endpoints": 1
+     }
     },
     {
      "series": "Cables",

@@ -1,8 +1,8 @@
 {
  "vendor": "cisco",
  "category": "servers-unified-computing",
- "built_at": "2026-09-15T11:25:50.167Z",
- "commit": "0eecef097b60c600545a6854270d27123ad094c5",
+ "built_at": "2026-09-15T12:12:54.117Z",
+ "commit": "70980429b6e6f3cfadd881bf5bb948973b4759a7",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-servers-unified-computing.json",
  "parts": 9579,
@@ -452,7 +452,7 @@
   },
   {
    "line": "UCS Fabric Interconnects",
-   "parts": 154,
+   "parts": 153,
    "series": [
     {
      "series": "UCS Mini (6324)",
@@ -638,20 +638,18 @@
      "family": "(shared across the line)",
      "role": null,
      "note": null,
-     "parts": 4,
+     "parts": 3,
      "kinds": {
-      "power": 1,
       "accessory": 3
      },
      "roles": {},
      "samples": [
-      "CP-BATT-7925G-EXT= — Cisco 7925G Battery, Extended",
       "CR1632 — Cisco CR1632",
       "CR2032 — Cisco CR2032",
       "CR2450 — Cisco CR2450"
      ],
      "rules": {
-      "accessory": 4
+      "accessory": 3
      },
      "pending_in": {}
     }
@@ -3180,6 +3178,14 @@
    "action": "class",
    "to": "non_product",
    "reason": "datasheet cell value or fragment enumerated as a part"
+  },
+  {
+   "sku": "CP-BATT-7925G-EXT=",
+   "name": "Cisco 7925G Battery, Extended",
+   "series_label": "Mini Series",
+   "action": "move",
+   "to": "collaboration-endpoints",
+   "reason": "Unified Wireless IP Phone 7925G extended battery filed in servers under the label 'Mini Series': its base CP-BATT-7925G-EXT and CP-BATT-7925G-STD= are in collaboration-endpoints (Unified Wireless IP Phone 7920 / 7921 / 7925 / 7926), and a spare goes with its base"
   },
   {
    "sku": "DCN-FGLB-XF3",
