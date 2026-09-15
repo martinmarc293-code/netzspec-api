@@ -273,6 +273,19 @@ witness("security", [
   ["MEM-71XX-256S", "Cisco 7160 256 MB SDRAM System Memory (default)", "FirePOWER 7000 Appliances", "(not this category)", "routers"],   // a 7100 VPN router part
   ["NM-DES/MP", "DES Crypto NM for Cisco 3620/40 - Mid Performance", "FirePOWER 7000 Appliances", "(not this category)", "interfaces-modules"],
 ]);
+// layers round 3, video round
+witness("video", [
+  ["4011176", "Chassis, Frt Acc, No RF, 2/DC Pwr", "Prisma II Products", "Prisma II Optical Transport", "Prisma II"],
+  ["1RU-DRF-XFP=", "1RU Chassis for 12 XFP Tx; NC and BC port;CCB3 Control", "Prisma II Products", "Prisma II Optical Transport", "Prisma II"],
+  ["4035899", "Cisco 4035899", "Prisma D-PON", "Prisma II Optical Transport", "Prisma D-PON"],
+  ["RPHYSHLF_6X12=", "RPHY Shelf Spare, 6 1x2 RPD, No power Supplies", "Remote PHY Shelves", "Remote PHY", "Remote PHY shelves and cabling"],
+]);
+for (const [cat, sku, name, not] of [
+  ["video", "RPHY-S10G-40K-330=", "Cisco RPHY-S10G-40K-330=", "Remote PHY shelves and cabling"],   // the Remote PHY SFPs are transceivers (operator)
+]) {
+  const p = placePart("cisco", cat, { sku, name, series: "" });
+  check(`video round REFUSAL: ${cat} does not place ${sku} in ${not}`, p?.series !== not, `${p?.series} (${p?.rule})`);
+}
 witness("routers", [
   ["MEM-71XX-256S", "Cisco 7160 256 MB SDRAM System Memory (default)", "FirePOWER 7000 Appliances", "Legacy Service Routers", "Cisco 7100 VPN routers (7120 / 7140 / 7160)"], // arriving from security
 ]);

@@ -1,6 +1,7 @@
 {
  "vendor": "cisco",
  "category": "video",
+ "family_layer": "assigned",
  "_about": "Layer 2 (product line) and layer 3 (series) of Cisco cable access (the 'video' category), 14 Sep 2026: GS7000 nodes and optical hubs, Prisma II optical transport, cBR-8, Remote PHY, RF Gateway, optical passives. Most legacy Scientific-Atlanta parts are bare 7-digit numbers whose NAME states the family ('(P2-HD-13TXF-15-SP) 1310HD Fwd Tx', 'GS7000 Fwd Config Module', 'RFGW-1 AC Power Supply'), so name rules place them; the 18-character G… / HA… / HB… SKUs are GS7000 node and optical-hub configuration codes. No role axis in this category.",
  "lines": [
   {
@@ -74,7 +75,8 @@
       "GS7000 Optical Hub and Hub-Node"
      ]
     }
-   ]
+   ],
+   "no_family_reason": "Cisco names the GS7000 configured nodes, the Optical Hub, the iNode, their optical transmitters / receivers and modules, and the GainMaker plug-ins under the GS7000 platform itself, with no family between"
   },
   {
    "line": "Prisma II Optical Transport",
@@ -101,17 +103,24 @@
     },
     {
      "series": "Prisma D-PON",
+     "sku": [
+      "^4035899$"
+     ],
      "name": [
       "DPON"
      ],
      "labels": [
       "Prisma D-PON"
-     ]
+     ],
+     "note": "^4035899$ (layers round 3, video round): named only 'Cisco 4035899', so the label check found no evidence and moved it to shared parts; Cisco's 'Prisma D-PON Optical Network Terminal and Accessories' end-of-sale notice lists it as CYL-BWDM-DPON-13101490/15501610-900-SA, a D-PON BWDM filter"
     },
     {
      "series": "Prisma II",
      "sku": [
-      "^P2-"
+      "^P2-",
+      "^4011176(?![0-9])",
+      "^4008670$",
+      "^1RU-DRF-XFP"
      ],
      "name": [
       "[(]P2-",
@@ -119,7 +128,8 @@
       "Prisma II",
       "PRISMA 2",
       "ICIM"
-     ]
+     ],
+     "note": "layers round 3, video round: three chassis rows sat in the line's shared parts by the label 'Prisma II Products' — 4011176 'Chassis, Frt Acc, No RF, 2/DC Pwr' (the base number of the 4011176.xxx '(P2-CH-F-…) Chassis' rows this series holds; Cisco's 'Prisma II Full Height Chassis and modules' end-of-sale notice), 4008670 'Faceplate, Chassis' (the same notice; a faceplate the kind axis reads as a chassis — listed for the kind layer) and 1RU-DRF-XFP= '1RU Chassis for 12 XFP Tx' (the Prisma II XFP QAM transmitters' end-of-sale notice)"
     },
     {
      "series": "Prisma II Optical Transport shared parts",
@@ -127,7 +137,8 @@
       "Prisma II Products"
      ]
     }
-   ]
+   ],
+   "no_family_reason": "Prisma II is the platform the line names; Prisma II HD, XD and D-PON are its module generations and Cisco groups nothing between the platform and them"
   },
   {
    "line": "cBR-8 Converged Broadband Router",
@@ -166,13 +177,15 @@
     {
      "series": "Remote PHY shelves and cabling",
      "sku": [
-      "^RPHY"
+      "^RPHY(?!-S10G-)"
      ],
      "labels": [
       "Remote PHY Shelves"
-     ]
+     ],
+     "note": "^RPHY(?!-S10G-) (operator decision, layers round 3): the RPHY-S10G-<reach>-<channel> rows are the Remote PHY SFPs Cisco's end-of-sale bulletin names — transceivers; the rule claimed 63 of them in transceiver and the 57 filed here carry plans to it"
     }
-   ]
+   ],
+   "no_family_reason": "Cisco names the Remote PHY devices, the Remote PHY Shelf 7200 and its cabling directly under Remote PHY, with no family between"
   },
   {
    "line": "RF Gateway",

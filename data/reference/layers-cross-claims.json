@@ -122,20 +122,6 @@
    "reason": "ONS-CXP2-SR25 is a CXP2 300G SR transceiver (its spare ONS-CXP2-SR25= is already planned from optical-networking into transceiver); optical-networking's CXP2 alternative is meant for the ONS-CXP2-MPO patch cords — fix in the optical-networking round"
   },
   {
-   "category": "transceiver",
-   "claimed_by": "video",
-   "series": "Remote PHY shelves and cabling",
-   "rule": "sku ^RPHY",
-   "rows": 63,
-   "examples": [
-    "RPHY-S10G-20K-400=",
-    "RPHY-S10G-40K-330=",
-    "RPHY-S10G-80K-590="
-   ],
-   "status": "claimant-rule-too-broad",
-   "reason": "operator decision, layers round 3: the RPHY-S10G-<reach>-<channel>= rows are transceivers — Cisco's own bulletin 'End-of-Sale and End-of-Life Announcement for the Cisco Remote PHY Shelf 7200 and Remote PHY SFPs' names them SFPs, and the Remote PHY shelves, RPDs and cabling are already in video. The video ^RPHY rule is fenced in the video round; the 57 video rows planned into transceiver run after the re-audit"
-  },
-  {
    "category": "interfaces-modules",
    "claimed_by": "servers-unified-computing",
    "series": "UCS E-Series",
@@ -612,6 +598,34 @@
    "reason": "the row is a generic UCS C-Series part (UCSC-ADGPU-240M6=, UCSC-HSHP-240M6, UCSC-R2R3-C220M6= …) filed in hyperconverged-systems for its HX220c / HX240c nodes; hyperconverged-infrastructure files the same generic UCSC- parts under its C220 / C240 node series, so its fenced model rule reads them by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
   },
   {
+   "category": "hyperconverged-systems",
+   "claimed_by": "servers-unified-computing",
+   "series": "R42610 / R42612 racks and PDUs",
+   "rule": "sku ^RACK[0-9]?-(UCS|[A-Z]+-[0-9]{3}(?![0-9]))",
+   "rows": 8,
+   "examples": [
+    "RACK-BLANK-001",
+    "RACK-CBLMGT-001",
+    "RACK-CBLMGT-011"
+   ],
+   "status": "decided-home",
+   "reason": "an R42610 rack part or PDU (RACK-BLANK-001, RACK-CBLMGT-001 …, RP208-30-2P-U-2) sold on the HyperFlex price list and filed in hyperconverged-systems' shared parts; servers-unified-computing's rack series reads it by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
+  },
+  {
+   "category": "security",
+   "claimed_by": "servers-unified-computing",
+   "series": "Drives and storage",
+   "rule": "sku ^UCS-(SD|HD|HDL|HDM|HDB|HDD|HY|NVB|NVE|NVM|NVME|SDB|M2|USBFLSH|STOR|MSTOR|PCI25)",
+   "rows": 8,
+   "examples": [
+    "UCS-HD12TB10K12N=",
+    "UCS-HD18TB10K4KN=",
+    "UCS-HD600G10K12N="
+   ],
+   "status": "decided-home",
+   "reason": "UCS drive spares (UCS-HD12TB10K12N=, UCS-HD600G10K12N=, UCS-SD960GM2NK9= …) filed in security under the Secure Network Analytics and Identity Services Engine labels — the drives of the Stealthwatch and SNS appliances, which Cisco builds on UCS C-Series servers; servers-unified-computing's drive series reads the same PIDs by design. One home per SKU: the category the row is filed in (the servers round's decision-pending question 2 asks the same of generic UCS parts filed outside servers; layers round 3, security round)"
+  },
+  {
    "category": "routers",
    "claimed_by": "servers-unified-computing",
    "series": "UCS E-Series",
@@ -652,32 +666,16 @@
    "reason": "UCS E-Series accessories and SSDs filed under the Catalyst 8000 / ISR routers (E100-FCPLT-BRKT, E100S-CON-DGL, E100S-MEM-UDIMM8G, E-SSD-U2N-2TB / 4TB, EM3-HDA-8FXS); servers-unified-computing's UCS E-Series rules read them. Decision pending: UCS E-Series home — the servers round keeps the UCS-E rows where they are filed and carries the question to the operator (layers round 3)"
   },
   {
-   "category": "hyperconverged-systems",
-   "claimed_by": "servers-unified-computing",
-   "series": "R42610 / R42612 racks and PDUs",
-   "rule": "sku ^RACK[0-9]?-(UCS|[A-Z]+-[0-9]{3}(?![0-9]))",
-   "rows": 8,
+   "category": "video",
+   "claimed_by": "storage-networking",
+   "series": "MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)",
+   "rule": "sku (?<![0-9])92(16|20|22|50)",
+   "rows": 1,
    "examples": [
-    "RACK-BLANK-001",
-    "RACK-CBLMGT-001",
-    "RACK-CBLMGT-011"
+    "9220F-DIFL"
    ],
-   "status": "decided-home",
-   "reason": "an R42610 rack part or PDU (RACK-BLANK-001, RACK-CBLMGT-001 …, RP208-30-2P-U-2) sold on the HyperFlex price list and filed in hyperconverged-systems' shared parts; servers-unified-computing's rack series reads it by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
-  },
-  {
-   "category": "security",
-   "claimed_by": "servers-unified-computing",
-   "series": "Drives and storage",
-   "rule": "sku ^UCS-(SD|HD|HDL|HDM|HDB|HDD|HY|NVB|NVE|NVM|NVME|SDB|M2|USBFLSH|STOR|MSTOR|PCI25)",
-   "rows": 8,
-   "examples": [
-    "UCS-HD12TB10K12N=",
-    "UCS-HD18TB10K4KN=",
-    "UCS-HD600G10K12N="
-   ],
-   "status": "decided-home",
-   "reason": "UCS drive spares (UCS-HD12TB10K12N=, UCS-HD600G10K12N=, UCS-SD960GM2NK9= …) filed in security under the Secure Network Analytics and Identity Services Engine labels — the drives of the Stealthwatch and SNS appliances, which Cisco builds on UCS C-Series servers; servers-unified-computing's drive series reads the same PIDs by design. One home per SKU: the category the row is filed in (the servers round's decision-pending question 2 asks the same of generic UCS parts filed outside servers; layers round 3, security round)"
+   "status": "claimant-rule-too-broad",
+   "reason": "9220F-DIFL '9220 W/DIFL OPTIONS' is a Prisma II-era transmitter option sold in Cisco's 'Prisma II transmitters, EDFAs, and select accessories' end-of-sale notice, correctly filed in video; storage-networking's MDS 9200 digit rule reads 9220 wherever it occurs — fix it in the storage-networking round (layers round 3, video round)"
   }
  ]
 }

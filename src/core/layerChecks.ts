@@ -31,7 +31,9 @@ export type LayerRow = Record<string, string>;
 // Layers round 3, security round: securityKind's SEC_BOX joins — `firewall`, `ips`, `email-gateway`, `web-gateway`, `management`,
 // `analytics`, `identity` (`appliance` was already here). Only the security axis returns these words.
 export const DEVICE_KINDS: ReadonlySet<string> = new Set(["router", "sp-router", "switch", "fex", "chassis", "appliance", "device", "ont", "olt", "ap", "wlc", "backhaul", "sensor", "server", "fabric-interconnect",
-  "firewall", "ips", "email-gateway", "web-gateway", "management", "analytics", "identity"]);
+  "firewall", "ips", "email-gateway", "web-gateway", "management", "analytics", "identity",
+  // Layers round 3, video round: videoKind's VIDEO_BOX joins — `node` (GS7000 / fibre nodes) and `system` (configured systems); `chassis` was in.
+  "node", "system"]);
 export function deviceInSharedParts(rows: LayerRow[]): LayerRow[] {
   return rows.filter((r) => /shared parts$/.test(r.series ?? "") && DEVICE_KINDS.has(r.kind ?? ""));
 }
