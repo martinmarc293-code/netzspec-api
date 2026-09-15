@@ -1,8 +1,8 @@
 {
  "vendor": "cisco",
  "category": "switches",
- "built_at": "2026-09-15T21:08:29.447Z",
- "commit": "8be11a7fef41580fd431b5d086caf6fe0a50a2a8",
+ "built_at": "2026-09-15T22:28:25.578Z",
+ "commit": "b08e909396b859a93f5bc1fcacbb84152412e090",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-switches.json",
  "parts": 7507,
@@ -5299,8 +5299,8 @@
    "name": "NDB license for 1 Cisco Nexus fixed switch ● Cisco Nexus 9300 ● Cisco Nexus 3500",
    "series_label": "Nexus 3000",
    "action": "class",
-   "to": "software",
-   "reason": "software image / release PID"
+   "to": "license",
+   "reason": "licence: the name states \"NDB license for 1 Cisco Nexus fixed switch\" — a right-to-use licence, not a software image (implementer, operator's 12-hour delegation, 16 Sep 2026; was class software)"
   },
   {
    "sku": "NM-BLANK-T1=",

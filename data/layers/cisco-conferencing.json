@@ -1,8 +1,8 @@
 {
  "vendor": "cisco",
  "category": "conferencing",
- "built_at": "2026-09-15T21:08:32.811Z",
- "commit": "8be11a7fef41580fd431b5d086caf6fe0a50a2a8",
+ "built_at": "2026-09-15T22:28:28.424Z",
+ "commit": "b08e909396b859a93f5bc1fcacbb84152412e090",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-conferencing.json",
  "parts": 68,

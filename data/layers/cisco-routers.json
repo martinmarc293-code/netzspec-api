@@ -1,8 +1,8 @@
 {
  "vendor": "cisco",
  "category": "routers",
- "built_at": "2026-09-15T21:08:30.531Z",
- "commit": "8be11a7fef41580fd431b5d086caf6fe0a50a2a8",
+ "built_at": "2026-09-15T22:28:26.449Z",
+ "commit": "b08e909396b859a93f5bc1fcacbb84152412e090",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-routers.json",
  "parts": 5093,
@@ -1402,7 +1402,7 @@
   },
   {
    "line": "Industrial and IoT Routers",
-   "parts": 329,
+   "parts": 330,
    "series": [
     {
      "series": "IR 1101",
@@ -1662,12 +1662,12 @@
      "family": null,
      "role": "branch",
      "note": null,
-     "parts": 11,
+     "parts": 12,
      "kinds": {
-      "router": 11
+      "router": 12
      },
      "roles": {
-      "branch": 11
+      "branch": 12
      },
      "samples": [
       "CG113-4GW6A — Cisco Catalyst Wireless Gateway, WiFi6, 4G LTE, Domain A",
@@ -1675,10 +1675,10 @@
       "CG113-4GW6E — Cisco Catalyst Wireless Gateway, WiFi6, 4G LTE, Domain E",
       "CG113-4GW6H — Cisco Catalyst Wireless Gateway, WiFi6, 4G LTE, Domain H",
       "CG113-4GW6Z — Cisco Catalyst Wireless Gateway, WiFi6, 4G LTE, Domain Z",
-      "CG113-W6A — Cisco Catalyst Wireless Gateway, WiFi6, Domain A"
+      "CG113-4GW6x — Cisco DNA On-Prem Lic for Remote-worker gateway – 3Y Cisco D"
      ],
      "rules": {
-      "sku": 11
+      "sku": 12
      },
      "pending_in": {}
     },
@@ -2565,14 +2565,6 @@
    "action": "class",
    "to": "software",
    "reason": "software image / firmware / software product PID"
-  },
-  {
-   "sku": "CG113-4GW6x",
-   "name": "Cisco DNA On-Prem Lic for Remote-worker gateway – 3Y Cisco DNA Cloud Lic for Remote-worker gateway – 3Y Cisco DNA On-Prem Lic for Remote-worker gateway – 5Y Cisco DNA Cloud Lic for Remote-worker gateway – 5Y Cisco DNA On-Prem Lic for Remote-worker gateway – 7Y Cisco DNA Cloud Lic for Remote-worker gateway – 7Y",
-   "series_label": "Catalyst Wireless Gateway CG113",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use / subscription PID"
   },
   {
    "sku": "CGR2010/NFR",
