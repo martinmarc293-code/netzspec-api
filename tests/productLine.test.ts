@@ -273,6 +273,22 @@ witness("security", [
   ["MEM-71XX-256S", "Cisco 7160 256 MB SDRAM System Memory (default)", "FirePOWER 7000 Appliances", "(not this category)", "routers"],   // a 7100 VPN router part
   ["NM-DES/MP", "DES Crypto NM for Cisco 3620/40 - Mid Performance", "FirePOWER 7000 Appliances", "(not this category)", "interfaces-modules"],
 ]);
+// layers round 3, unified-communications round
+witness("unified-communications", [
+  ["SPA232D-G1", "Multi-Line DECT ATA", "Small Business Voice Gateways and ATAs", "Analog Telephone Adapters and SPA", "SPA232D Multi-Line DECT ATA"],
+  ["SPA8800", "IP Telephony Gateway with 4 FXS and 4 FXO Ports", "Small Business Voice Gateways and ATAs", "Analog Telephone Adapters and SPA", "SPA8000 / SPA8800 IP Telephony Gateways"],
+  ["WRP500-A-K9", "Wireless Router for NA; Pb-Free", "Small Business Voice Gateways and ATAs", "Analog Telephone Adapters and SPA", "WRP400 / WRP500 Broadband Routers with 2 Phone Ports"],
+  ["VG-2BRI", "Euro-ISDN Media Gateway, 2 BRI", "VG Series Gateways", "Voice Gateways", "VG-2BRI Euro-ISDN Media Gateway"],
+  ["UCSC-C220-M3SBE=", "UCS C220 M3 SFF TRC2 Server", "Business Edition 6000", "Business Edition", "Business Edition 6000 (BE6K / BE6M / BE6H / BE6S)"],
+  ["SPA302D-G1", "Mobility Enhanced Cordless Handset", "Small Business Voice Gateways and ATAs", "Analog Telephone Adapters and SPA", "SPA302D DECT handset"], // not SPA232D
+]);
+for (const [cat, sku, name, not] of [
+  ["unified-communications", "CE-10GSFP-SR", "10 Gigabit Ethernet SFP Module 10GBASE-SR SFP+ SR", "TelePresence VCS appliances"],
+  ["unified-communications", "EXP-1GSFP-T", "1 Gigabit Ethernet SFP Module 10/100/1000BASE-T", "Expressway appliances (CE1100 / CE1200)"],
+]) {
+  const p = placePart("cisco", cat, { sku, name, series: "" });
+  check(`UC round REFUSAL: ${cat} does not place ${sku} in ${not}`, p?.series !== not, `${p?.series} (${p?.rule})`);
+}
 // layers round 3, storage round: the MDS digit rules take DS- (and MDS-) PIDs only
 for (const [cat, sku, name, not] of [
   ["storage-networking", "C9120AXE-A", "C9120AX External 802.11ax 4x4:4 MIMO;IOT;BT5;mGig", "MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)"],

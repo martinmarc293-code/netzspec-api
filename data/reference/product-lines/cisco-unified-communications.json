@@ -1,6 +1,7 @@
 {
  "vendor": "cisco",
  "category": "unified-communications",
+ "family_layer": "assigned",
  "_about": "Layer 2 (product line) and layer 3 (series) of Cisco unified communications hardware, 14 Sep 2026: VG voice gateways, analog telephone adapters, Business Edition 6000 / 7000 appliances, Expressway and VCS appliances, Unity Connection / MCS servers, Atlas paging. IP desk phones filed under UC labels belong to collaboration-endpoints (not this category); their deploy_role still comes from the collaboration-endpoints series table. No role axis of its own.",
  "not_this_category": [
   {
@@ -37,6 +38,13 @@
      ]
     },
     {
+     "series": "VG-2BRI Euro-ISDN Media Gateway",
+     "sku": [
+      "^VG-2BRI"
+     ],
+     "note": "layers round 3, UC round: Cisco's 'Euro-ISDN Media Gateway VG-2BRI' end-of-sale notice names the product; VG-2BRI and VG-2BRI-R sat in the line's shared parts by their label (gateways in shared parts, which the device check names)"
+    },
+    {
      "series": "Voice Gateways shared parts",
      "labels": [
       "VG Series Gateways",
@@ -47,7 +55,8 @@
      ],
      "note": "MEM-243-* (IAD2430 integrated access device DRAM and flash, moved in from routers by run #1074): the IAD2430 itself is not in the catalogue, so its memory sits with the line's shared parts"
     }
-   ]
+   ],
+   "no_family_reason": "Cisco names the VG200 / VG300 / VG400 series and the VG-2BRI media gateway directly under its VG Series Gateways, with no family between"
   },
   {
    "line": "Analog Telephone Adapters and SPA",
@@ -74,12 +83,28 @@
      ]
     },
     {
-     "series": "Analog Telephone Adapters and SPA shared parts",
-     "labels": [
-      "Small Business Voice Gateways and ATAs"
-     ]
+     "series": "SPA232D Multi-Line DECT ATA",
+     "sku": [
+      "^SPA232D"
+     ],
+     "note": "layers round 3, UC round: named by Cisco's 'SPA232D Multi-Line DECT ATA and SPA302D Multi-Line DECT Handset' end-of-sale notice; the nine SPA232D rows sat in the line's shared parts by their label (ATAs in shared parts)"
+    },
+    {
+     "series": "SPA8000 / SPA8800 IP Telephony Gateways",
+     "sku": [
+      "^SPA8[08]00"
+     ],
+     "note": "layers round 3, UC round: named by Cisco's 'IP Telephony Gateway SPA8000 and SPA8800' end-of-sale notice; the seven rows sat in the line's shared parts by their label (gateways in shared parts)"
+    },
+    {
+     "series": "WRP400 / WRP500 Broadband Routers with 2 Phone Ports",
+     "sku": [
+      "^WRP[45]00"
+     ],
+     "note": "layers round 3, UC round: named by Cisco's 'WRP400 Wireless-G' and 'WRP500 Wireless-AC Broadband Router with 2 Phone Ports' end-of-sale notices; the eight rows (kind ata) sat in the line's shared parts by their label. With the SPA232D, SPA8000 / SPA8800 and WRP series placed, the line's shared-parts entry (label 'Small Business Voice Gateways and ATAs') held no row and was removed"
     }
-   ]
+   ],
+   "no_family_reason": "Cisco names the ATA 190, SPA100 / SPA2100, SPA232D, SPA8000 / SPA8800 and WRP400 / WRP500 products directly under its Small Business Voice Gateways and ATAs, with no family between"
   },
   {
    "line": "Business Edition",
@@ -98,11 +123,13 @@
      "series": "Business Edition 6000 (BE6K / BE6M / BE6H / BE6S)",
      "sku": [
       "^BE6",
-      "^CIT-"
+      "^CIT-",
+      "^UCSC-C220-M3SBE"
      ],
      "labels": [
       "Business Edition 6000"
-     ]
+     ],
+     "note": "^UCSC-C220-M3SBE (layers round 3, UC round): 'UCS C220 M3 SFF TRC2 Server', the C220 M3S Tested Reference Configuration for Collaboration (its end-of-sale notice) whose successor is BE6M-M4-K9=; the label check found no 6000 in its name and held the server for review"
     }
    ]
   },
@@ -113,8 +140,9 @@
      "series": "Expressway appliances (CE1100 / CE1200)",
      "sku": [
       "^EXPWY",
-      "^EXP-"
+      "^EXP-(?![0-9]+GSFP)"
      ],
+     "note": "^EXP-(?![0-9]+GSFP) (layers round 3, UC round): the rule claimed the Expressway SFPs EXP-1GSFP-T(=) that the transceiver round filed as transceivers",
      "labels": [
       "Expressway Series"
      ]
@@ -124,8 +152,9 @@
      "sku": [
       "^CTI-VCS",
       "^CTI-ATP",
-      "^CE-"
+      "^CE-(?![0-9]+GSFP)"
      ],
+     "note": "^CE-(?![0-9]+GSFP) (layers round 3, UC round): the rule claimed the CE-10GSFP-SR / CE-1GSFP-T optics that the transceiver round filed as transceivers",
      "labels": [
       "TelePresence Video Communication Server (VCS)"
      ]

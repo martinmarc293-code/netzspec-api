@@ -38806,5 +38806,148 @@
   "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)",
   "evidence": "name \"Cisco 40-SMR2\" · label \"ONS 15454 Series Multiservice Transport Platforms\" · no document, no fact · the orderable PIDs are 15454-40-SMR2-C / -C= · today layered in ONS 15454 MSTP and NCS 2000 shared parts (label-unsupported (label ONS 15454 Series Multiservice Trans)",
   "planned_by": "parent 15 Sep 2026 (layers round 3, optical-networking block — operator instructions of 14 Sep 2026 night, unattended)"
+ },
+ {
+  "sku": "CP-6921-C-K9-APACP",
+  "category": "unified-communications",
+  "action": "move",
+  "to": "collaboration-endpoints",
+  "run_id": null,
+  "expected_kind_after": "phone",
+  "reason": "Cisco IP phone filed under a UC software label (Unified Communications Manager): its category is collaboration-endpoints, whose IP Phone series place it (the exclusion's reason, now a plan — layers round 3, unified-communications round)",
+  "evidence": "name \"Cisco UC Phone 6921, Charcoal, Std handset, APAC\" · label \"Unified Communications Manager (CallManager)\" · today not_this_category (exclude ^CP-[0-9]{4})",
+  "planned_by": "parent 15 Sep 2026 (layers round 3, unified-communications block — operator instructions of 14 Sep 2026 night, unattended)"
+ },
+ {
+  "sku": "CP-6921-C-K9-LATAM",
+  "category": "unified-communications",
+  "action": "move",
+  "to": "collaboration-endpoints",
+  "run_id": null,
+  "expected_kind_after": "phone",
+  "reason": "Cisco IP phone filed under a UC software label (Unified Communications Manager): its category is collaboration-endpoints, whose IP Phone series place it (the exclusion's reason, now a plan — layers round 3, unified-communications round)",
+  "evidence": "name \"Cisco UC Phone 6921, Charcoal, Std Handset, LATAM\" · label \"Unified Communications Manager (CallManager)\" · today not_this_category (exclude ^CP-[0-9]{4})",
+  "planned_by": "parent 15 Sep 2026 (layers round 3, unified-communications block — operator instructions of 14 Sep 2026 night, unattended)"
+ },
+ {
+  "sku": "CP-6921-CL-K9-APAC",
+  "category": "unified-communications",
+  "action": "move",
+  "to": "collaboration-endpoints",
+  "run_id": null,
+  "expected_kind_after": "phone",
+  "reason": "Cisco IP phone filed under a UC software label (Unified Communications Manager): its category is collaboration-endpoints, whose IP Phone series place it (the exclusion's reason, now a plan — layers round 3, unified-communications round)",
+  "evidence": "name \"Cisco Unified IP Phone 6921, Charcoal, light handset, APAC\" · label \"Unified Communications Manager (CallManager)\" · today not_this_category (exclude ^CP-[0-9]{4})",
+  "planned_by": "parent 15 Sep 2026 (layers round 3, unified-communications block — operator instructions of 14 Sep 2026 night, unattended)"
+ },
+ {
+  "sku": "CP-6921-CLK9-APACP",
+  "category": "unified-communications",
+  "action": "move",
+  "to": "collaboration-endpoints",
+  "run_id": null,
+  "expected_kind_after": "phone",
+  "reason": "Cisco IP phone filed under a UC software label (Unified Communications Manager): its category is collaboration-endpoints, whose IP Phone series place it (the exclusion's reason, now a plan — layers round 3, unified-communications round)",
+  "evidence": "name \"Cisco UC Phone 6921, Charcoal, light handset, APAC\" · label \"Unified Communications Manager (CallManager)\" · today not_this_category (exclude ^CP-[0-9]{4})",
+  "planned_by": "parent 15 Sep 2026 (layers round 3, unified-communications block — operator instructions of 14 Sep 2026 night, unattended)"
+ },
+ {
+  "sku": "CP-6921-CLK9-LATAM",
+  "category": "unified-communications",
+  "action": "move",
+  "to": "collaboration-endpoints",
+  "run_id": null,
+  "expected_kind_after": "phone",
+  "reason": "Cisco IP phone filed under a UC software label (Unified Communications Manager): its category is collaboration-endpoints, whose IP Phone series place it (the exclusion's reason, now a plan — layers round 3, unified-communications round)",
+  "evidence": "name \"Cisco UC Phone 6921, Charcoal, Slimline Hdst, LATAM\" · label \"Unified Communications Manager (CallManager)\" · today not_this_category (exclude ^CP-[0-9]{4})",
+  "planned_by": "parent 15 Sep 2026 (layers round 3, unified-communications block — operator instructions of 14 Sep 2026 night, unattended)"
+ },
+ {
+  "sku": "CP-6921-W-K9-APACP",
+  "category": "unified-communications",
+  "action": "move",
+  "to": "collaboration-endpoints",
+  "run_id": null,
+  "expected_kind_after": "phone",
+  "reason": "Cisco IP phone filed under a UC software label (Unified Communications Manager): its category is collaboration-endpoints, whose IP Phone series place it (the exclusion's reason, now a plan — layers round 3, unified-communications round)",
+  "evidence": "name \"Cisco UC Phone 6921, White, Std handset, APAC\" · label \"Unified Communications Manager (CallManager)\" · today not_this_category (exclude ^CP-[0-9]{4})",
+  "planned_by": "parent 15 Sep 2026 (layers round 3, unified-communications block — operator instructions of 14 Sep 2026 night, unattended)"
+ },
+ {
+  "sku": "CP-6921-WLK9-APACP",
+  "category": "unified-communications",
+  "action": "move",
+  "to": "collaboration-endpoints",
+  "run_id": null,
+  "expected_kind_after": "phone",
+  "reason": "Cisco IP phone filed under a UC software label (Unified Communications Manager): its category is collaboration-endpoints, whose IP Phone series place it (the exclusion's reason, now a plan — layers round 3, unified-communications round)",
+  "evidence": "name \"Cisco UC Phone 6921, White, light handset, APAC\" · label \"Unified Communications Manager (CallManager)\" · today not_this_category (exclude ^CP-[0-9]{4})",
+  "planned_by": "parent 15 Sep 2026 (layers round 3, unified-communications block — operator instructions of 14 Sep 2026 night, unattended)"
+ },
+ {
+  "sku": "CP-6941-C-K9-LATAM",
+  "category": "unified-communications",
+  "action": "move",
+  "to": "collaboration-endpoints",
+  "run_id": null,
+  "expected_kind_after": "phone",
+  "reason": "Cisco IP phone filed under a UC software label (Unified Communications Manager): its category is collaboration-endpoints, whose IP Phone series place it (the exclusion's reason, now a plan — layers round 3, unified-communications round)",
+  "evidence": "name \"Cisco UC Phone 6941, Charcoal, Std Handset, LATAM\" · label \"Unified Communications Manager (CallManager)\" · today not_this_category (exclude ^CP-[0-9]{4})",
+  "planned_by": "parent 15 Sep 2026 (layers round 3, unified-communications block — operator instructions of 14 Sep 2026 night, unattended)"
+ },
+ {
+  "sku": "CP-6941-CLK9-LATAM",
+  "category": "unified-communications",
+  "action": "move",
+  "to": "collaboration-endpoints",
+  "run_id": null,
+  "expected_kind_after": "phone",
+  "reason": "Cisco IP phone filed under a UC software label (Unified Communications Manager): its category is collaboration-endpoints, whose IP Phone series place it (the exclusion's reason, now a plan — layers round 3, unified-communications round)",
+  "evidence": "name \"Cisco UC Phone 6941, Charcoal, Slimline Hdst, LATAM\" · label \"Unified Communications Manager (CallManager)\" · today not_this_category (exclude ^CP-[0-9]{4})",
+  "planned_by": "parent 15 Sep 2026 (layers round 3, unified-communications block — operator instructions of 14 Sep 2026 night, unattended)"
+ },
+ {
+  "sku": "CP-7941G-PROMO",
+  "category": "unified-communications",
+  "action": "move",
+  "to": "collaboration-endpoints",
+  "run_id": null,
+  "expected_kind_after": "phone",
+  "reason": "Cisco IP phone filed under a UC software label (Unified Communications Manager): its category is collaboration-endpoints, whose IP Phone series place it (the exclusion's reason, now a plan — layers round 3, unified-communications round)",
+  "evidence": "name \"Cisco Unified IP Phone 7941G With License - Special Bundle\" · label \"Unified Communications Manager (CallManager)\" · today not_this_category (exclude ^CP-[0-9]{4})",
+  "planned_by": "parent 15 Sep 2026 (layers round 3, unified-communications block — operator instructions of 14 Sep 2026 night, unattended)"
+ },
+ {
+  "sku": "CP-7942G-APACSP",
+  "category": "unified-communications",
+  "action": "move",
+  "to": "collaboration-endpoints",
+  "run_id": null,
+  "expected_kind_after": "phone",
+  "reason": "Cisco IP phone filed under a UC software label (Unified Communications Manager): its category is collaboration-endpoints, whose IP Phone series place it (the exclusion's reason, now a plan — layers round 3, unified-communications round)",
+  "evidence": "name \"Cisco UC phone 7942G AsiaPac Bundle\" · label \"Unified Communications Manager (CallManager)\" · today not_this_category (exclude ^CP-[0-9]{4})",
+  "planned_by": "parent 15 Sep 2026 (layers round 3, unified-communications block — operator instructions of 14 Sep 2026 night, unattended)"
+ },
+ {
+  "sku": "SM-DW-BLANK",
+  "category": "unified-communications",
+  "action": "move",
+  "to": "interfaces-modules",
+  "run_id": null,
+  "expected_kind_after": "mechanical",
+  "reason": "a blank cover for a double-wide service-module slot — the slot of the ISR G2 2900 / 3900 routers and the VG350 gateway built on them; A.3 rule 1 puts a multi-platform router slot part in interfaces-modules, which holds the SM slot blanks SM-S-BLANK and SM-BLANK-KIT= (layers round 3, unified-communications round)",
+  "evidence": "name \"Double Wide Service Module Blank Cover\" · label \"VG Series Gateways\" · listed in the 'Select VG350 Software Licenses' end-of-sale notice · today layered in Voice Gateways shared parts (accessory BLANK (label VG Series Gateways))",
+  "planned_by": "parent 15 Sep 2026 (layers round 3, unified-communications block — operator instructions of 14 Sep 2026 night, unattended)"
+ },
+ {
+  "sku": "SM-DW-BLANK=",
+  "category": "unified-communications",
+  "action": "move",
+  "to": "interfaces-modules",
+  "run_id": null,
+  "expected_kind_after": "mechanical",
+  "reason": "a blank cover for a double-wide service-module slot — the slot of the ISR G2 2900 / 3900 routers and the VG350 gateway built on them; A.3 rule 1 puts a multi-platform router slot part in interfaces-modules, which holds the SM slot blanks SM-S-BLANK and SM-BLANK-KIT= (layers round 3, unified-communications round)",
+  "evidence": "name \"Double Wide Service Module Blank Cover\" · label \"VG Series Gateways\" · listed in the 'Select VG350 Software Licenses' end-of-sale notice · today layered in Voice Gateways shared parts (accessory BLANK (label VG Series Gateways))",
+  "planned_by": "parent 15 Sep 2026 (layers round 3, unified-communications block — operator instructions of 14 Sep 2026 night, unattended)"
  }
 ]
