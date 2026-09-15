@@ -103,7 +103,10 @@ const RULES: { kind: WirelessKind; re: RegExp }[] = [
   // SFP installation kit and channel-rail adapter, racks (RACK-QCN-SN5 "Rack for CWWLSE"), Meraki universal-mount
   // adapters (MA-UMNT-MR-A2), and item 3's three AP issues: C9105AXWT_COVER "Back cover", AIR-AP1131-STAND "Table Top
   // Stand", AIR-AP1140RETROMT "Mount Kit Fits AP to 1130 Brackets".
-  { kind: "mechanical", re: /FIPS?KIT|(?:^|-)(?:BRACKET|BRKT|BRK|MNT|RMNT|RMK|CVR|COVER|BLANK|BLNK|BZL|CLIP|CAP|GLANDS?|TRAY|SHLD|ACCPMK)(?:-|=|$)|^AIR-ACC[PSAG]MK|^AIR-ANTMNTGKIT|^AIR-[A-Z]*MNTG|^IOT-ACC[PSAG]MK|MNTGKIT|^AIR-SEC-|^AIR-SFP-KIT|^AIR-CHNL-|RAIL[A-Z]?-|_COVER=?$|^AIR-AP1131-STAND|^AIR-AP1140RETROMT|^FM-(?:SHIELD(?:-SPL)?|WMOUNT)$|^RACK-|^MA-UMNT-|^AIR-ACC-CLIP/ },
+  { kind: "mechanical", re: /FIPS?KIT|(?:^|-)(?:BRACKET|BRKT|BRK|MNT|RMNT|RMK|CVR|COVER|BLANK|BLNK|BZL|CLIP|CAP|GLANDS?|TRAY|SHLD|ACCPMK)(?:-|=|$)|^AIR-ACC[PSAG]MK|^AIR-ANTMNTGKIT|^AIR-[A-Z]*MNTG|^IOT-ACC[PSAG]MK|MNTGKIT|^AIR-SEC-|^AIR-SFP-KIT|^AIR-CHNL-|RAIL[A-Z]?-|_COVER=?$|^AIR-AP1131-STAND|^AIR-AP1140RETROMT|^FM-(?:SHIELD(?:-SPL)?|WMOUNT)$|^RACK-|^MA-UMNT-|^AIR-ACC-CLIP|-FIB-(?:REEL|KIT)(?:-|=|$)/ },
+  // ^ -FIB-(REEL|KIT) (layers round 3, 15 Sep 2026): AIR-1520-FIB-REEL "1520 Series Take-up Reel for Fiber Cable" was `accessory`
+  // by the REEL token and its spare AIR-1520-FIB-REEL= "…Fiber-Cable Take-up Reel KIT" `mechanical` through its name — the pair
+  // disagreed (spare = base). A take-up reel is a mounted mechanical kit, as AIR-1550S-FIB-KIT= already was.
   // Accessories: connectors and adapters, batteries, reels, tools, RFID tags, band tools, generic kits.
   // AIR-ACC1622 "RP-TNC Male Connector", AIR-CONSADPT "Serial RJ45 to 4-pin TTL console adapter", AIR-1520-BATT12AH.
   // kind-layer (13 Sep 2026): the Fluidmesh RF parts FM-ATT-06-N (attenuator), FM-QMA2SMA / FM-RPSMA2RPSMA (connector

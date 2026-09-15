@@ -409,9 +409,10 @@
     },
     {
      "series": "ASR 5000 and 5500",
-     "note": "PENDING ARRIVAL: 115 hardware rows sit in wireless today (113 carry a move plan to routers); this series is empty until the move runs. Mobile packet core: no SP router role assigned.",
+     "note": "PENDING ARRIVAL: 115 hardware rows sit in wireless today (113 carry a move plan to routers); this series is empty until the move runs. Mobile packet core: no SP router role assigned. ^ASR55 (layers round 3, wireless round): the ASR 5500 cards and systems (ASR55-UDPC-K9, ASR55-CHS-SYS-U6B …) matched no rule, so the arrivals check named the 14 ASR55 rows planned in from wireless as unplaced.",
      "sku": [
       "^ASR5K",
+      "^ASR55",
       "^ASR-?5[05]00",
       "^MIXS"
      ]

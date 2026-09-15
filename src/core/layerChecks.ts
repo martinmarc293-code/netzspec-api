@@ -21,7 +21,10 @@ export type LayerRow = Record<string, string>;
 /** closing items at aa1143f, item 1: a device is never a shared part. Layers round 3 (operator, 14 Sep 2026): every whole-device
  * kind joins — `device` (interfaces-modules' marker for a whole device filed among cards), `ont` and `olt`. One set, read by
  * scripts/build-layers.mts (the pending_review hold) and by the standing check. */
-export const DEVICE_KINDS: ReadonlySet<string> = new Set(["router", "sp-router", "switch", "fex", "chassis", "appliance", "device", "ont", "olt"]);
+// Layers round 3, wireless round: the wireless whole-device kinds join — `ap` (access points and mesh extenders), `wlc` (controllers),
+// `backhaul` (the URWB radios) and `sensor` (the Aironet 1800s active sensor). A controller in shared parts was found the same day
+// (AIR-CT85DC-K9 in AireOS shared parts); the check now names such a row.
+export const DEVICE_KINDS: ReadonlySet<string> = new Set(["router", "sp-router", "switch", "fex", "chassis", "appliance", "device", "ont", "olt", "ap", "wlc", "backhaul", "sensor"]);
 export function deviceInSharedParts(rows: LayerRow[]): LayerRow[] {
   return rows.filter((r) => /shared parts$/.test(r.series ?? "") && DEVICE_KINDS.has(r.kind ?? ""));
 }

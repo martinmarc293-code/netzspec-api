@@ -52,7 +52,9 @@ const STOP = new Set(["catalyst", "nexus", "cisco", "series", "router", "routers
 /** Numbers a Cisco string carries that are not platforms: watts ("1100WAC", "1900WHV" — a wattage ends in 0 or 5, where a model
  * with a W suffix does not: C881W, C1941W), memory, frequencies, speeds, lengths, DIMM grades (DDR4-2400, PC4-19200). */
 const NOT_PLATFORM_BEFORE = "(?<![0-9.]|DDR[0-9]-|PC[0-9]-)";
-const NOT_PLATFORM_AFTER = "(?![0-9])(?!(?<=[05])\\s?W)(?!\\s?(?:KW|VA|MB|GB|MHZ|BASE|MBPS|MM(?![A-Z])|V(?![A-Z0-9])))";
+// (?!IRELESS) (layers round 3, wireless round): "Spare fan - Cisco 5520 Wireless Controller" read 5520 as a wattage ("5520 W…") and
+// moved the fan out of 5500 (5508 / 5520 / 5540); a W that starts the word Wireless is not a watt. The patterns carry the i flag.
+const NOT_PLATFORM_AFTER = "(?![0-9])(?!(?<=[05])\\s?W(?!IRELESS))(?!\\s?(?:KW|VA|MB|GB|MHZ|BASE|MBPS|MM(?![A-Z])|V(?![A-Z0-9])))";
 /** "10/100/1000" is a speed list, not the Catalyst 1000 or the ISR 1000. */
 const SPEEDS = /(?<![0-9])10\/100(?:\/1000)?(?:\/10000)?(?![0-9])|(?<![0-9])100\/1000(?![0-9])/g;
 

@@ -25,11 +25,12 @@
     {
      "series": "Meraki MA-SFP / MA-QSFP / MA-CBL",
      "sku": [
-      "^MA-"
+      "^MA-(SFP|QSFP|CBL)-"
      ],
      "labels": [
       "Meraki"
-     ]
+     ],
+     "note": "^MA- fenced to the optics and cables it names (layers round 3, wireless round): the bare rule claimed wireless' Meraki MR antennas, mounts and power adapters (MA-ANT-3-A1 …, 30 rows)"
     }
    ]
   },

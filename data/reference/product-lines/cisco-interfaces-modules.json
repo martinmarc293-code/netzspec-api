@@ -239,7 +239,7 @@
     {
      "series": "Fiber patch panels and MPO / breakout cables (CB- / PP)",
      "sku": [
-      "^CB-",
+      "^CB-(LC|M12)-",
       "^PP[124]-"
      ],
      "labels": [

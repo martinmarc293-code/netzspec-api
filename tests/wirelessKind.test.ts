@@ -78,6 +78,7 @@ const REFUSALS: [string, string, string][] = [
   ["ASR5K-05-HAXXEXT", "unknown", "'Willcom Only, HA SW, 10K sessions' — two digits is not a line-card token"],
   ["AIR-BLE-USB-10", "module", "USB BLE beacons that plug into an AP"],
   ["AIR-SEC-50=", "mechanical", "a physical security kit for a wall-plate AP"],
+  ["AIR-1520-FIB-REEL", "mechanical", "a fibre take-up reel: the REEL accessory token must not split it from its spare AIR-1520-FIB-REEL= (layers round 3)"],
   ["CS-R70-PRES-TOP=", "unknown", "a Room 70 screen mount filed in wireless (video) — asked nothing here"],
   ["ANT-ROOM70-KIT=", "accessory", "'Antenna kit for ROOM 70 with brackets' — the KIT wins over ANT"],
   ["U-NII-5", "unknown", "a band name enumerated as a part"],

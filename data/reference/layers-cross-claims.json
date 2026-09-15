@@ -3,34 +3,6 @@
  "entries": [
   {
    "category": "switches",
-   "claimed_by": "wireless",
-   "series": "Cables",
-   "rule": "sku ^CAB-",
-   "rows": 231,
-   "examples": [
-    "CAB-04X-07",
-    "CAB-04X-07=",
-    "CAB-16AWG-AC"
-   ],
-   "status": "claimant-rule-too-broad",
-   "reason": "the row is correctly filed here; the claiming mapping's SKU rule is wider than the family it names — fix it in the wireless round (232 -> 231 on 14 Sep 2026: CAB-CAT5E/6E is a datasheet cell, class non_product plan)"
-  },
-  {
-   "category": "switches",
-   "claimed_by": "wireless",
-   "series": "Power injectors, supplies and cords",
-   "rule": "sku ^PWR-",
-   "rows": 222,
-   "examples": [
-    "PWR-1400-AC",
-    "PWR-1400-AC=",
-    "PWR-2700-AC/4"
-   ],
-   "status": "claimant-rule-too-broad",
-   "reason": "the row is correctly filed here; the claiming mapping's SKU rule is wider than the family it names — fix it in the wireless round"
-  },
-  {
-   "category": "switches",
    "claimed_by": "meraki",
    "series": "Meraki MS switches",
    "rule": "sku ^MS[0-9]",
@@ -151,62 +123,6 @@
   },
   {
    "category": "routers",
-   "claimed_by": "wireless",
-   "series": "Power injectors, supplies and cords",
-   "rule": "sku ^PWR-",
-   "rows": 132,
-   "examples": [
-    "PWR-1.6KW-AC",
-    "PWR-1.6KW-DC",
-    "PWR-125W-AC"
-   ],
-   "status": "claimant-rule-too-broad",
-   "reason": "the row is correctly filed here; the claiming mapping's SKU rule is wider than the family it names — fix it in the wireless round"
-  },
-  {
-   "category": "routers",
-   "claimed_by": "wireless",
-   "series": "Cables",
-   "rule": "sku ^CAB-",
-   "rows": 118,
-   "examples": [
-    "CAB-250V-10A-AR",
-    "CAB-250V-10A-CN",
-    "CAB-250V-10A-IS"
-   ],
-   "status": "claimant-rule-too-broad",
-   "reason": "the row is correctly filed here; the claiming mapping's SKU rule is wider than the family it names — fix it in the wireless round"
-  },
-  {
-   "category": "routers",
-   "claimed_by": "wireless",
-   "series": "Antennas",
-   "rule": "sku ^ANT-",
-   "rows": 34,
-   "examples": [
-    "ANT-2-4G2-O",
-    "ANT-2-WLAN-D-O",
-    "ANT-2.3-PNL-OUT-N"
-   ],
-   "status": "claimant-rule-too-broad",
-   "reason": "the row is correctly filed here; the claiming mapping's SKU rule is wider than the family it names — fix it in the wireless round"
-  },
-  {
-   "category": "routers",
-   "claimed_by": "wireless",
-   "series": "Antennas",
-   "rule": "sku ^AIR-ANT",
-   "rows": 6,
-   "examples": [
-    "AIR-ANT2513P4M-N/NS",
-    "AIR-ANT2524DB-R",
-    "AIR-ANT2547V-N"
-   ],
-   "status": "pending-round",
-   "reason": "Aironet antennas filed under ISR shared parts: generic antennas (wireless) or ISR WLAN accessories (routers) — decided in the wireless round"
-  },
-  {
-   "category": "routers",
    "claimed_by": "servers-unified-computing",
    "series": "UCS E-Series",
    "rule": "sku ^E1[0-9]{2}[A-Z]?-",
@@ -232,18 +148,6 @@
    ],
    "status": "pending-round",
    "reason": "UCS E-Series accessories and SSDs filed under the Catalyst 8000 / ISR routers (E100-FCPLT-BRKT, E-SSD-U2N-2TB, EM3-HDA-8FXS): servers or router module — decided in the servers-unified-computing round"
-  },
-  {
-   "category": "routers",
-   "claimed_by": "wireless",
-   "series": "Aironet 1520 / 1530",
-   "rule": "sku 15[23]0",
-   "rows": 1,
-   "examples": [
-    "AIR-ACC1530-PMK1"
-   ],
-   "status": "pending-round",
-   "reason": "AIR-ACC1530-PMK1 AP1530/1560 pole mount kit filed under the LoRaWAN gateway in routers — decided in the wireless round"
   },
   {
    "category": "routers",
@@ -292,48 +196,6 @@
    ],
    "status": "claimant-rule-too-broad",
    "reason": "the row is correctly filed here; the claiming mapping's SKU rule is wider than the family it names — fix it in the servers-unified-computing round"
-  },
-  {
-   "category": "transceiver",
-   "claimed_by": "wireless",
-   "series": "Aironet 1520 / 1530",
-   "rule": "sku 15[23]0",
-   "rows": 16,
-   "examples": [
-    "CWDM-GBIC-1530",
-    "CWDM-SFP-1530",
-    "CWDM-SFP-1530="
-   ],
-   "status": "claimant-rule-too-broad",
-   "reason": "the wireless mapping reads the CWDM wavelength 1530 nm (CWDM-SFP-1530, CWDM-GBIC-1530, DS-CWDM-1530=, ONS-SE-2G-1530) as the Aironet 1530 model number; the rows are optics and correctly filed here — fix in the wireless round (operator, layers round 3)"
-  },
-  {
-   "category": "transceiver",
-   "claimed_by": "wireless",
-   "series": "Aironet 1550",
-   "rule": "sku 1550",
-   "rows": 16,
-   "examples": [
-    "CWDM-GBIC-1550",
-    "CWDM-SFP-1550",
-    "CWDM-SFP-1550="
-   ],
-   "status": "claimant-rule-too-broad",
-   "reason": "the wireless mapping reads the CWDM wavelength 1550 nm (CWDM-SFP-1550, CWDM-GBIC-1550, DS-CWDM-1550=, ONS-SE-2G-1550) as the Aironet 1550 model number; the rows are optics and correctly filed here — fix in the wireless round (operator, layers round 3)"
-  },
-  {
-   "category": "transceiver",
-   "claimed_by": "wireless",
-   "series": "Aironet 1570",
-   "rule": "sku 1570",
-   "rows": 16,
-   "examples": [
-    "CWDM-GBIC-1570",
-    "CWDM-SFP-1570",
-    "CWDM-SFP-1570="
-   ],
-   "status": "claimant-rule-too-broad",
-   "reason": "the wireless mapping reads the CWDM wavelength 1570 nm (CWDM-SFP-1570, CWDM-GBIC-1570, DS-CWDM-1570=, ONS-SE-2G-1570) as the Aironet 1570 model number; the rows are optics and correctly filed here — fix in the wireless round (operator, layers round 3)"
   },
   {
    "category": "transceiver",
@@ -403,20 +265,6 @@
   },
   {
    "category": "interfaces-modules",
-   "claimed_by": "wireless",
-   "series": "Cables",
-   "rule": "sku ^CAB-",
-   "rows": 30,
-   "examples": [
-    "CAB-25AS-FDTE",
-    "CAB-25AS-MMOD",
-    "CAB-ADPT-75-120"
-   ],
-   "status": "claimant-rule-too-broad",
-   "reason": "the row is correctly filed here (the E1 / T3 / X.21 / smart-serial / EtherSwitch power cables of the router interface cards, in the card line's shared parts); the claiming mapping's SKU rule is wider than the family it names — fix it in the wireless round (layers round 3)"
-  },
-  {
-   "category": "interfaces-modules",
    "claimed_by": "servers-unified-computing",
    "series": "UCS E-Series",
    "rule": "sku ^UCS-EN?[0-9]",
@@ -428,6 +276,207 @@
    ],
    "status": "decided-home",
    "reason": "pre-ruling C3, applied by the operator (layers round 3): the UCS E-Series server modules in the SM-X form factor live in interfaces-modules, kind module, and the SVC-E service spares are planned in from servers-unified-computing; the servers mapping's UCS E-Series rule is fenced in its round"
+  },
+  {
+   "category": "wireless",
+   "claimed_by": "storage-networking",
+   "series": "MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)",
+   "rule": "sku (?<![0-9])91(20|24|32|34|40|48)",
+   "rows": 212,
+   "examples": [
+    "C9120AXE-A",
+    "C9120AXE-B",
+    "C9120AXE-B++"
+   ],
+   "status": "claimant-rule-too-broad",
+   "reason": "the rows are Catalyst 9120 / 9124 / 9130 access points correctly filed in wireless; storage-networking's MDS 9100 digit rule reads 9120 / 9124 / 9132 / 9134 / 9140 / 9148 wherever they occur — fix it in the storage-networking round (layers round 3, wireless round)"
+  },
+  {
+   "category": "wireless",
+   "claimed_by": "meraki",
+   "series": "Catalyst Wireless in Meraki mode (CW)",
+   "rule": "sku ^CW9",
+   "rows": 34,
+   "examples": [
+    "CW9162I",
+    "CW9162I-MR",
+    "CW9163"
+   ],
+   "status": "pending-round",
+   "reason": "Catalyst Wireless CW916x / CW917x access points, including their Meraki-managed -MR SKUs, filed in wireless; the meraki mapping's CW series claims them — which category holds the Meraki-mode SKUs is decided in the meraki round (layers round 3, wireless round)"
+  },
+  {
+   "category": "wireless",
+   "claimed_by": "meraki",
+   "series": "Meraki MR access points",
+   "rule": "sku ^MR[0-9]",
+   "rows": 13,
+   "examples": [
+    "MR36-HW",
+    "MR36H",
+    "MR36H-HW"
+   ],
+   "status": "pending-round",
+   "reason": "Meraki MR access points filed in wireless beside the meraki category's own MR rows; the home of Meraki MR hardware is decided in the meraki round (the switches precedent: Meraki MS moved to switches, run #1061) — layers round 3, wireless round"
+  },
+  {
+   "category": "wireless",
+   "claimed_by": "hyperconverged-systems",
+   "series": "HX220c",
+   "rule": "sku (?<![0-9])220-?M[4-7]",
+   "rows": 12,
+   "examples": [
+    "AIR-BZL-C220M4",
+    "AIR-BZL-C220M4=",
+    "AIR-FAN-C220M4="
+   ],
+   "status": "claimant-rule-too-broad",
+   "reason": "the row is correctly filed here: a bezel, fan or riser of the C220 / C240 M4-based 5520 / 8540 controllers or MSE / CMX appliances, sold under AIR- / MSE- / CMX- PIDs; the claiming mapping's model-number rule is wider than the family it names — fix it in the hyperconverged round (layers round 3, wireless round)"
+  },
+  {
+   "category": "wireless",
+   "claimed_by": "hyperconverged-infrastructure",
+   "series": "HCI C220 nodes",
+   "rule": "sku (?<![A-Z0-9])C220(?![0-9])",
+   "rows": 11,
+   "examples": [
+    "AIR-BZL-C220M4",
+    "AIR-BZL-C220M4=",
+    "AIR-FAN-C220M4="
+   ],
+   "status": "claimant-rule-too-broad",
+   "reason": "the row is correctly filed here: a bezel, fan, riser or SATA interposer of the C220 / C240-based wireless controllers and appliances (5520, 8540, MSE, CMX, IEC6400), sold under wireless PIDs; the claiming mapping's model-number rule is wider than the family it names — fix it in the hyperconverged round (layers round 3, wireless round)"
+  },
+  {
+   "category": "wireless",
+   "claimed_by": "servers-unified-computing",
+   "series": "UCS C220",
+   "rule": "sku (?<![A-Z0-9])C220(?![0-9])",
+   "rows": 10,
+   "examples": [
+    "AIR-BZL-C220M4",
+    "AIR-BZL-C220M4=",
+    "AIR-FAN-C220M4="
+   ],
+   "status": "claimant-rule-too-broad",
+   "reason": "the row is correctly filed here: a bezel, fan, riser or SATA interposer of the C220 / C240-based wireless controllers and appliances (5520, 8540, MSE, CMX, IEC6400), sold under wireless PIDs; servers' model-number rule is wider than the family it names — fix it in the servers-unified-computing round (layers round 3, wireless round)"
+  },
+  {
+   "category": "wireless",
+   "claimed_by": "servers-unified-computing",
+   "series": "Catalyst Center appliance",
+   "rule": "sku ^DN[0-9]-",
+   "rows": 9,
+   "examples": [
+    "DN3-L-MR-X16G1RS-H",
+    "DN3-L-SD960GM1X-EV",
+    "DN3-LOC-BZL-C220M5"
+   ],
+   "status": "claimant-rule-too-broad",
+   "reason": "the rows are parts of the Catalyst Center location appliance (DN3-LOC), correctly filed in wireless' Location and Spaces Appliances; servers' Catalyst Center appliance rule claims every DN3- — fix it in the servers-unified-computing round (layers round 3, wireless round)"
+  },
+  {
+   "category": "wireless",
+   "claimed_by": "hyperconverged-systems",
+   "series": "HX240c",
+   "rule": "sku (?<![0-9])240-?M[4-7]",
+   "rows": 4,
+   "examples": [
+    "AIR-BZL-C240M4",
+    "AIR-BZL-C240M4=",
+    "AIR-FAN-C240M4="
+   ],
+   "status": "claimant-rule-too-broad",
+   "reason": "the row is correctly filed here: a bezel, fan or riser of the C220 / C240 M4-based 5520 / 8540 controllers or MSE / CMX appliances, sold under AIR- / MSE- / CMX- PIDs; the claiming mapping's model-number rule is wider than the family it names — fix it in the hyperconverged round (layers round 3, wireless round)"
+  },
+  {
+   "category": "wireless",
+   "claimed_by": "hyperconverged-infrastructure",
+   "series": "HCI C240 nodes",
+   "rule": "sku (?<![A-Z0-9])C240(?![0-9])",
+   "rows": 3,
+   "examples": [
+    "AIR-BZL-C240M4",
+    "AIR-BZL-C240M4=",
+    "AIR-FAN-C240M4="
+   ],
+   "status": "claimant-rule-too-broad",
+   "reason": "the row is correctly filed here: a bezel, fan, riser or SATA interposer of the C220 / C240-based wireless controllers and appliances (5520, 8540, MSE, CMX, IEC6400), sold under wireless PIDs; the claiming mapping's model-number rule is wider than the family it names — fix it in the hyperconverged round (layers round 3, wireless round)"
+  },
+  {
+   "category": "wireless",
+   "claimed_by": "servers-unified-computing",
+   "series": "UCS C240",
+   "rule": "sku (?<![A-Z0-9])C240(?![0-9])",
+   "rows": 3,
+   "examples": [
+    "AIR-BZL-C240M4",
+    "AIR-BZL-C240M4=",
+    "AIR-FAN-C240M4="
+   ],
+   "status": "claimant-rule-too-broad",
+   "reason": "the row is correctly filed here: a bezel, fan, riser or SATA interposer of the C220 / C240-based wireless controllers and appliances (5520, 8540, MSE, CMX, IEC6400), sold under wireless PIDs; servers' model-number rule is wider than the family it names — fix it in the servers-unified-computing round (layers round 3, wireless round)"
+  },
+  {
+   "category": "wireless",
+   "claimed_by": "servers-unified-computing",
+   "series": "UCS C240",
+   "rule": "sku (?<![0-9])240-?M[1-8]",
+   "rows": 1,
+   "examples": [
+    "AIR-PCI-1A-240M4"
+   ],
+   "status": "claimant-rule-too-broad",
+   "reason": "the row is correctly filed here: a bezel, fan, riser or SATA interposer of the C220 / C240-based wireless controllers and appliances (5520, 8540, MSE, CMX, IEC6400), sold under wireless PIDs; servers' model-number rule is wider than the family it names — fix it in the servers-unified-computing round (layers round 3, wireless round)"
+  },
+  {
+   "category": "wireless",
+   "claimed_by": "hyperconverged-infrastructure",
+   "series": "HCI C220 nodes",
+   "rule": "sku (?<![0-9])220-?M[6-8]",
+   "rows": 1,
+   "examples": [
+    "IWA-SATAIN-220M6"
+   ],
+   "status": "claimant-rule-too-broad",
+   "reason": "the row is correctly filed here: a bezel, fan, riser or SATA interposer of the C220 / C240-based wireless controllers and appliances (5520, 8540, MSE, CMX, IEC6400), sold under wireless PIDs; the claiming mapping's model-number rule is wider than the family it names — fix it in the hyperconverged round (layers round 3, wireless round)"
+  },
+  {
+   "category": "wireless",
+   "claimed_by": "servers-unified-computing",
+   "series": "UCS C220",
+   "rule": "sku (?<![0-9])220-?M[1-8]",
+   "rows": 1,
+   "examples": [
+    "IWA-SATAIN-220M6"
+   ],
+   "status": "claimant-rule-too-broad",
+   "reason": "the row is correctly filed here: a bezel, fan, riser or SATA interposer of the C220 / C240-based wireless controllers and appliances (5520, 8540, MSE, CMX, IEC6400), sold under wireless PIDs; servers' model-number rule is wider than the family it names — fix it in the servers-unified-computing round (layers round 3, wireless round)"
+  },
+  {
+   "category": "wireless",
+   "claimed_by": "servers-unified-computing",
+   "series": "R42610 / R42612 racks and PDUs",
+   "rule": "sku ^RACK",
+   "rows": 1,
+   "examples": [
+    "RACK-QCN-SN5="
+   ],
+   "status": "claimant-rule-too-broad",
+   "reason": "RACK-QCN-SN5= 'Rack for CWWLSE Express 1030' belongs with the WLSE in wireless; servers' ^RACK rule is wider than the R42610 / R42612 racks it names — fix it in the servers-unified-computing round (layers round 3, wireless round)"
+  },
+  {
+   "category": "routers",
+   "claimed_by": "wireless",
+   "series": "Power injectors, supplies and cords",
+   "rule": "sku ^PWR-(CAB-(JPN|INT)-|115W-AC|2504-AC|750WACR-RED|CH1-(750W?ACR|950WDCR)|RPS-DC1)",
+   "rows": 2,
+   "examples": [
+    "PWR-CH1-750WACR=",
+    "PWR-CH1-950WDCR="
+   ],
+   "status": "pending-round",
+   "reason": "PWR-CH1-750WACR= / PWR-CH1-950WDCR= are the spares of supplies shared by the Catalyst 8500 (routers, named 'Cisco C8500 750W AC Power, Spare') and the Catalyst 9800-80 controller (whose bases sit in wireless, named 'Catalyst wireless controller 750W AC Power Supply'): one home for the pair is an operator decision (decision pending, layers round 3, wireless round)"
   }
  ]
 }

@@ -11,10 +11,11 @@ import { REPO_ROOT } from "../src/config.js";
 import { readLayerRows, pairDisagreements, twinGroups, crossClaims, ruleUse, classifyRules, incomingRows, labelViolations, labelEvidenceDrift, seriesEntryDisagreements, deviceInSharedParts, unplacedArrivals, sharedLabelNotExplicit, DEVICE_KINDS, type LayerRow } from "../src/core/layerChecks.js";
 import { labelEvidence } from "../src/core/labelEvidence.js";
 
-export const REVIEWED = ["switches", "routers", "transceiver", "interfaces-modules"];
+export const REVIEWED = ["switches", "routers", "transceiver", "interfaces-modules", "wireless"];
 // spare = base exceptions, each read against the built row
 const PAIR_EXCEPTIONS: Record<string, string> = {
   "switches|N5K-C5696Q-C": "the spare row is named '^Invalid SKU' and carries a class non_product plan; its base is the live 'Nexus 5696Q Chassis with license and SW image'",
+  "wireless|C9105AXW-KIT": "the base row is named 'Do not use' and carries a class non_product plan; its spare C9105AXW-KIT= is the live 'C9105AX Series Spacer Kit' (layers round 3)",
 };
 
 // THE LABEL CHECK, per category (layers round 3, operator: the round-2 floor "more than 100 label-placed rows" failed by construction
@@ -24,18 +25,19 @@ const LABEL_EXPECT: Record<string, { min?: number; exactly?: number; why: string
   switches: { min: 100, why: "hundreds of rows are placed by a stored series label" },
   routers: { min: 100, why: "hundreds of rows are placed by a stored series label" },
   transceiver: { exactly: 0, why: "every transceiver row is placed by its SKU's form-factor and speed family; the mapping's labels place nothing (layers round 3)" },
+  wireless: { exactly: 30, why: "access points, controllers and their parts are placed by SKU; 30 rows are judged on a stored label (11 kept by a token or name, 19 moved to their line's shared parts — layers round 3)" },
   "interfaces-modules": { exactly: 5, why: "the cards are placed by their SKU families; 5 rows are judged on a stored label — STM1-CN-MM / -SMI kept by the name token PA, and AIC-DBL-PNL, AIC-SGL-PNL and WDM-SFP-2CH-CONV= moved to shared parts; the 30 labels mapped directly to a line's shared parts are not judged (pre-ruling C1, layers round 3)" },
 };
 // THE FAMILY LAYER, per category: "in-use" where Cisco names families over series (switches, routers); "none" where Cisco names none
 // and every line of 3+ series says why (layers round 3: optics and modules, operator — "—" with a no_family_reason is the expected result).
-const FAMILY_EXPECT: Record<string, "in-use" | "none"> = { switches: "in-use", routers: "in-use", transceiver: "none", "interfaces-modules": "none" };
+const FAMILY_EXPECT: Record<string, "in-use" | "none"> = { switches: "in-use", routers: "in-use", transceiver: "none", "interfaces-modules": "none", wireless: "none" };
 // ARRIVALS (layers round 3): a not-run move plan out of a reviewed category must land placed in its target's mapping. These four
 // plans predate the check (switches + routers rounds) and their targets cannot place them yet; each is listed with the round that
 // owns the target's rule. A listed row that now places is a stale exception and fails. (Operator, layers round 3: 11 -> 4 — the
 // IC3000 series in routers and CW-SFP-KIT1 in switches were added, the nine TA-* plans were cancelled: those rows are Nexus switches.)
+// Layers round 3, wireless round: AIR-BR1310G and CWWLSE-1130-19-K9 now place (wireless series "Aironet 1310 outdoor access point /
+// bridge (legacy)" and line "Wireless LAN Solution Engine (legacy)"); their exceptions are retired.
 const ARRIVAL_EXCEPTIONS: Record<string, string> = {
-  "switches|AIR-BR1310G": "Aironet 1310 outdoor bridge: wireless places it in its round (next)",
-  "switches|CWWLSE-1130-19-K9": "CiscoWorks Wireless LAN Solution Engine appliance: wireless places it in its round (next)",
   "routers|XRV-PCIE-C40Q-03": "PCIe NIC for the XRv appliance: servers-unified-computing places it in its round",
   "routers|XRV-PCIE-IQ10GF": "PCIe NIC for the XRv appliance: servers-unified-computing places it in its round",
 };
@@ -127,7 +129,7 @@ for (const cat of REVIEWED) {
   const deadEmpty = deadPlaceholders(summary);
   check(`placeholders ${cat}: every series with 0 parts carries "pending N from <category>" (${empty.length} placeholder(s))`, deadEmpty.length === 0, deadEmpty.join("; "));
   const dev = deviceInSharedParts(rows);
-  check(`devices ${cat}: 0 router / sp-router / switch / fex / chassis / appliance rows in any shared parts series`, dev.length === 0, dev.slice(0, 6).map((r) => `${r.sku} (${r.kind}) ${r.series}`).join("; "));
+  check(`devices ${cat}: 0 whole-device rows (${[...DEVICE_KINDS].join(" / ")}) in any shared parts series`, dev.length === 0, dev.slice(0, 6).map((r) => `${r.sku} (${r.kind}) ${r.series}`).join("; "));
   check(`devices ${cat}: 0 rows pending review, and the page lists exactly the rows in that bucket`, rows.filter((r) => r.bucket === "pending_review").length === (summary.pending_review?.length ?? -1) && (summary.pending_review?.length ?? -1) === 0, `rows ${rows.filter((r) => r.bucket === "pending_review").length}, page ${summary.pending_review?.length}`);
   const withEv = rows.filter((r) => r.label_evidence).length, moved = rows.filter((r) => r.bucket === "layered" && (r.placed_by ?? "").startsWith("label-unsupported")).length;
   check(`label check ${cat}: applied, and the page's counts are the rows' (label-placed ${withEv}, moved ${moved})`,
@@ -256,6 +258,33 @@ for (const cat of REVIEWED) {
   check(`switches page: NM-BLANK-T1= carries the plan to interfaces-modules (C7)`, sw.get("NM-BLANK-T1=")?.plan === "move interfaces-modules", `${sw.get("NM-BLANK-T1=")?.plan}`);
 }
 
+// wireless on the built rows (layers round 3)
+{
+  const wl = new Map(readLayerRows("wireless").map((r) => [r.sku, r]));
+  const at = (sku: string, series: string, kind?: string) => {
+    const r = wl.get(sku);
+    check(`wireless page: ${sku} is layered in ${series}${kind ? `, kind ${kind}` : ""}`, r?.bucket === "layered" && r.series === series && (!kind || r.kind === kind), `got ${r?.bucket} / ${r?.series} / ${r?.kind}`);
+  };
+  at("AIR-CT85DC-K9", "8500 (8510 / 8540 / 8580)", "wlc");  // was a controller in AireOS shared parts
+  at("AIR-AP1702I-WLC", "WLC + access point bundles");
+  at("AIR-1520-FIB-REEL", "Aironet 1520 / 1530", "mechanical");
+  at("AIR-1520-FIB-REEL=", "Aironet 1520 / 1530", "mechanical");
+  at("AIR-FAN-C220M4=", "5500 (5508 / 5520 / 5540)");  // kept by the name token 5520 once "Wireless" is not a watt
+  at("RACK-QCN-SN5=", "CiscoWorks Wireless LAN Solution Engine (WLSE 1130 / Express 1030)");
+  const planned = (sku: string, plan: string) => check(`wireless page: ${sku} carries the plan "${plan}"`, wl.get(sku)?.bucket === "pending_plan" && wl.get(sku)?.plan === plan, `got ${wl.get(sku)?.bucket} "${wl.get(sku)?.plan}"`);
+  planned("C9120AXI-x", "class non_product");
+  planned("AIR-AP1572EAC-UXK9", "class non_product");
+  planned("C9105AXI", "class non_product");
+  planned("SB-PWR-48V", "move interfaces-modules");
+  planned("CS-ROOM70P-WMK=", "move collaboration-endpoints");
+  const ntc = [...wl.values()].filter((r) => r.bucket === "not_this_category").length;
+  check(`wireless page: 0 not-this-category rows left (the 44 of the round's start are planned)`, ntc === 0, `${ntc}`);
+  const regionLeft = [...wl.values()].filter((r) => r.bucket === "layered" && /(^|-)x(-|$)|-xx$/.test(r.sku));
+  check(`wireless page: 0 layered regulatory-domain / plug-region placeholders (lowercase -x / -xx SKUs)`, regionLeft.length === 0, regionLeft.slice(0, 6).map((r) => r.sku).join(", "));
+  const rt = new Map(readLayerRows("routers").map((r) => [r.sku, r]));
+  check(`routers page: the Aironet antennas and the 1530 mount kit carry their plans to wireless`, ["AIR-ANT2524DB-R", "AIR-ACC1530-PMK1"].every((s) => rt.get(s)?.plan === "move wireless"), ["AIR-ANT2524DB-R", "AIR-ACC1530-PMK1"].map((s) => `${s} ${rt.get(s)?.plan}`).join("; "));
+}
+
 // SABOTAGE: each check sees a planted defect, for the stated reason.
 {
   const row = (sku: string, o: Partial<LayerRow> = {}): LayerRow => ({ sku, name: "x", series_label: "", kind: "switch", bucket: "layered", series: "A", plan: "", ...o });
@@ -284,8 +313,9 @@ for (const cat of REVIEWED) {
   check("SABOTAGE placeholders: an empty series with nothing pending is reported, one pending rows from routers is not", dp.join() === "Nexus / Nexus 9800", JSON.stringify(dp));
   const dv = deviceInSharedParts([row("CVR328W-K9-CN", { kind: "router", product_line: "Small Business Routers", series: "Small Business Routers shared parts" }), row("PWR-60W-AC", { kind: "power", series: "ISR shared parts" })]);
   check("SABOTAGE devices: a router in shared parts is caught, a power supply there is not", dv.length === 1 && dv[0].sku === "CVR328W-K9-CN", JSON.stringify(dv));
-  const dv3 = deviceInSharedParts(["device", "ont", "olt"].map((k, i) => row(`ZZ-DEV-${i}`, { kind: k, series: "Cables and accessories shared parts" })));
-  check("SABOTAGE devices (round 3): a whole device of kind device / ont / olt in shared parts is caught", dv3.length === 3 && ["device", "ont", "olt"].every((k) => DEVICE_KINDS.has(k)), JSON.stringify(dv3.map((r) => r.kind)));
+  const dv3 = deviceInSharedParts(["device", "ont", "olt", "ap", "wlc", "backhaul", "sensor"].map((k, i) => row(`ZZ-DEV-${i}`, { kind: k, series: "Cables and accessories shared parts" })));
+  check("SABOTAGE devices (round 3): a whole device of kind device / ont / olt / ap / wlc / backhaul / sensor in shared parts is caught", dv3.length === 7 && ["device", "ont", "olt", "ap", "wlc", "backhaul", "sensor"].every((k) => DEVICE_KINDS.has(k)), JSON.stringify(dv3.map((r) => r.kind)));
+  check("SABOTAGE devices (wireless round): an antenna or a bundle in shared parts is not a device", deviceInSharedParts([row("ZZ-ANT", { kind: "antenna", series: "X shared parts" }), row("ZZ-BUN", { kind: "bundle", series: "X shared parts" })]).length === 0);
 
   // round 3: the transceiver cable contract, the label expectation and the arrivals check, each refusing for its stated reason
   const cc = cableContract([row("SFP-H25G-CU1M", { kind: "cable", series: TX_DAC_SERIES, product_line: "Direct-attach and active optical cables" }),
@@ -349,6 +379,12 @@ for (const cat of REVIEWED) {
   check("SABOTAGE label: no token but a compatible link into the series keeps it as compatible", e.kind === "compatible", JSON.stringify(e));
   e = v("ZZ-PLAIN-PART", "Cisco ZZ-PLAIN-PART", "ISR 2900", isr, ["ISR 3900"]);
   check("SABOTAGE label: a compatible link into ANOTHER series does not", e.kind === "none", JSON.stringify(e));
+  // wireless round: a W that starts "Wireless" is not a watt; "1900W HVAC" still is
+  const wlc = { family: null, siblings: ["2500 (2504)", "3500 (3504)", "5500 (5508 / 5520 / 5540)", "8500 (8510 / 8540 / 8580)"].map((s) => ({ series: s, family: null })) };
+  e = v("AIR-FAN-C220M4=", "Spare fan - Cisco 5520 Wireless Controller", "5500 (5508 / 5520 / 5540)", wlc);
+  check("SABOTAGE label: '5520 Wireless Controller' is the platform 5520, not 5520 W", e.kind === "name" && e.detail === "5520", JSON.stringify(e));
+  e = v("ZZ-PSU-5520W", "Power supply 5520 W AC", "5500 (5508 / 5520 / 5540)", wlc);
+  check("SABOTAGE label: and '5520 W AC' is still a wattage (the fence kept its reason)", e.kind === "none", JSON.stringify(e));
   e = v("PWR-ADPT-18W", "Power adaptor, 18W, for Catalyst 1000 switches", "Catalyst 1000", { ...cat, family: null });
   check("SABOTAGE label: the whole series name in the name keeps it", e.kind === "name" && e.detail === "Catalyst 1000", JSON.stringify(e));
 }

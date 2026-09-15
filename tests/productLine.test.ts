@@ -298,6 +298,26 @@ witness("optical-networking", [
   ["EWDM-OADM2=", "2-channels EWDM OADM Module", "Transceiver Modules", "CWDM passives (CWDM-CHASSIS-2 system)", "CWDM mux/demux, OADM plug-ins and chassis (CWDM-MUX / CWDM-OADM / DS-CWDM)"],
   ["ONS-BRK-CS-16LC=", "16-chs Colorless Flex-spectrum Mux/Dmx - LCs to CS connector", "Transceiver Modules", "Routed Optical Networking", "QSFP-DD Pluggable Open Line System (QDD OLS)"],
 ]);
+// wireless round (layers round 3): the fenced claimant rules no longer read other categories' rows
+for (const [sku, name, notSeries] of [["CWDM-SFP-1530", "CWDM 1530 nm SFP", "Aironet 1520 / 1530"], ["CWDM-GBIC-1550", "CWDM 1550 nm GBIC", "Aironet 1550"], ["CWDM-SFP-1570=", "CWDM 1570 nm SFP", "Aironet 1570"],
+  ["CAB-250V-10A-AR", "Power Cord, 250V, 10A, Argentina", "Cables"], ["PWR-1400-AC", "Catalyst 1400W AC supply", "Power injectors, supplies and cords"], ["ANT-4G-OMNI-OUT-N", "Multiband Omni-Directional Stick Outdoor 4G Antenna", "Antennas"]]) {
+  const p = placePart("cisco", "wireless", { sku, name, series: "" });
+  check(`wireless: ${sku} is not claimed by ${notSeries}`, p?.series !== notSeries, `${p?.series} (${p?.rule})`);
+}
+{
+  const p = placePart("cisco", "transceiver", { sku: "MA-ANT-3-A1", name: "Meraki Indoor Dual-band Dipole Antenna", series: "" });
+  check("transceiver: the Meraki optics rule no longer claims MA-ANT-3-A1", p?.series !== "Meraki MA-SFP / MA-QSFP / MA-CBL", `${p?.series} (${p?.rule})`);
+  const q = placePart("cisco", "interfaces-modules", { sku: "CB-PWRINJ-AR", name: "Cisco Business PoE injector", series: "" });
+  check("interfaces-modules: the CB- cable rule no longer claims the Cisco Business injector CB-PWRINJ-AR", q?.series !== "Fiber patch panels and MPO / breakout cables (CB- / PP)", `${q?.series} (${q?.rule})`);
+}
+witness("wireless", [
+  ["AIR-BR1310G", "Aironet 1310 outdoor bridge", "Catalyst 6500", "Aironet Access Points", "Aironet 1310 outdoor access point / bridge (legacy)"],
+  ["CWWLSE-1130-19-K9", "CiscoWorks Wireless LAN Solution Engine", "Catalyst 6500", "Wireless LAN Solution Engine (legacy)", "CiscoWorks Wireless LAN Solution Engine (WLSE 1130 / Express 1030)"],
+  ["AIR-AP1242AG", "Aironet 1240AG Series access point", "Catalyst 6500", "Aironet Access Points", "Aironet 700 / 802 / 852 / 1100 / 1200 / 2700 / 3700 (legacy indoor)"],
+  ["AIR-AP1140MNTGKIT=", "1140 Series Ceiling, Wall Mount Bracket Kit", "", "Aironet Access Points", "Aironet Access Points shared parts"],
+]);
+witness("routers", [["ASR55-UDPC-K9", "ASR5500 Universal Data Processing Card (UDPC)", "ASR 5000 Series", "ASR (Aggregation Services Routers)", "ASR 5000 and 5500"]]);
+witness("collaboration-endpoints", [["CAB-ROOM70-L-SPKR=", "Left Speaker Cable for ROOM 70", "Policy Suite for Mobile", "Webex Room Series", "Room 70 / 70S / 70D"]]);
 {
   const p = placePart("cisco", "switches", { sku: "RPS1000-EU", name: "380W Redundant Power Supply Unit", series: "Small Business Network Accessories" });
   check("switches: the Redundant Power System rule no longer claims RPS1000 (fenced, layers round 3)", p?.series !== "Redundant Power System", `${p?.series} (${p?.rule})`);

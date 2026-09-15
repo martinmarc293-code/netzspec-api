@@ -162,8 +162,10 @@
      "series": "Room 70 / 70S / 70D",
      "sku": [
       "^CS-ROOM70",
-      "^CS-R70"
-     ]
+      "^CS-R70",
+      "^(CAB-ROOM70|ANT-ROOM70|CAB-2HDMILK|CAB-2DC-BRL)"
+     ],
+     "note": "layers round 3 (wireless round): the Room 70 speaker, HDMI and DC cables and the Room 70 antenna kit (named 'for ROOM 70'), planned in from wireless where they sat under the 'Policy Suite for Mobile' label"
     },
     {
      "series": "Room Navigator and Touch 10",
@@ -180,11 +182,13 @@
     {
      "series": "Webex Room Series shared parts",
      "sku": [
-      "^CS-ROOM"
+      "^CS-ROOM",
+      "^(CAB-USB-A-B-1[.](35|7)M|CAB-PWR-C7-[A-Z]{3}-A)"
      ],
      "labels": [
       "Room Series"
-     ]
+     ],
+     "note": "layers round 3 (wireless round): the USB A-B cables 'for ROOM 70 / MX800 Dual' and the grey right-angled C7 power cords, planned in from wireless — shared by several Room devices"
     }
    ]
   },

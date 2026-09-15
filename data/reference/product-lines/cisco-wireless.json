@@ -1,7 +1,8 @@
 {
  "vendor": "cisco",
  "category": "wireless",
- "_about": "Layer 2 (product line) and layer 3 (series) of Cisco wireless, 14 Sep 2026. Access points by Cisco family and model; controllers by platform; Meraki MR bare family rows in their own line. The series ROLE is the access-point deploy_role the cup engine reads (deployRole.ts, axis ap): every role here reproduces the III.0 SKU rules row for row (checked when written: 0 changes). The Aironet 1552 is split because its models carry two roles (E/I/C outdoor, H/SA/SD/WU hazardous-location industrial). SKU prefixes AIR-, PROMO-, PPN-, KAISER- and the glued AIRAP are matched explicitly (placePart strips only 2D-/C1-/EDU-/NAL-).",
+ "family_layer": "assigned",
+ "_about": "Layer 2 (product line) and layer 3 (series) of Cisco wireless, 14 Sep 2026; reviewed in layers round 3 (15 Sep 2026): no family layer — Cisco names each access-point and controller series on its own under the line (\"Cisco Aironet 2800 Series\", \"Cisco Catalyst 9100 Access Points\"), so every line of 3+ series records a no_family_reason. Access points by Cisco family and model; controllers by platform; Meraki MR bare family rows in their own line. The series ROLE is the access-point deploy_role the cup engine reads (deployRole.ts, axis ap): every role here reproduces the III.0 SKU rules row for row (checked when written: 0 changes). The Aironet 1552 is split because its models carry two roles (E/I/C outdoor, H/SA/SD/WU hazardous-location industrial). SKU prefixes AIR-, PROMO-, PPN-, KAISER- and the glued AIRAP are matched explicitly (placePart strips only 2D-/C1-/EDU-/NAL-).",
  "not_this_category": [
   {
    "sku": "^(ASR5K|ASR55|ASR-?5[05]00|MIXS)",
@@ -71,7 +72,8 @@
       "^CW-"
      ]
     }
-   ]
+   ],
+   "no_family_reason": "Cisco names the CW9162 / 9164 / 9166, CW9163E, CW9171–9179 and CW9177 access points as series of its Catalyst Wireless line, with no family between"
   },
   {
    "line": "Catalyst 9100 Access Points",
@@ -126,22 +128,9 @@
      "labels": [
       "9130AX"
      ]
-    },
-    {
-     "series": "Catalyst 9136",
-     "role": "indoor",
-     "sku": [
-      "^C9136"
-     ]
-    },
-    {
-     "series": "Catalyst 9100 Access Points shared parts",
-     "labels": [
-      "Catalyst 9100",
-      "Catalyst Embedded Controller"
-     ]
     }
-   ]
+   ],
+   "no_family_reason": "Catalyst 9100 is the line Cisco names (\"Cisco Catalyst 9100 Access Points\"); the 9105AX … 9130AX are its series, with no family between. The Catalyst 9136 series was removed in layers round 3: its one row, C9136I-x, is a regulatory-domain placeholder (class non_product plan), so the series and its ^C9136 rule placed nothing"
   },
   {
    "line": "Aironet Access Points",
@@ -247,12 +236,22 @@
      ]
     },
     {
-     "series": "Aironet 700 / 802 / 852 / 2700 / 3700 (legacy indoor)",
+     "series": "Aironet 700 / 802 / 852 / 1100 / 1200 / 2700 / 3700 (legacy indoor)",
      "role": "indoor",
      "sku": [
       "^(AIR-)?AP852I",
-      "^(AIR-)?CAP[23]7IBO"
-     ]
+      "^(AIR-)?CAP[23]7IBO",
+      "^AIR-AP1[12][0-9]{2}[A-Z]{0,2}$"
+     ],
+     "note": "layers round 3: ^AIR-AP1[12][0-9]{2}[A-Z]{0,2}$ places the legacy 1100 / 1200 access points planned in from switches (AIR-AP1131AG, AIR-AP1210, AIR-AP1230A / B, AIR-AP1232AG, AIR-AP1242AG); the end anchor keeps the 1100 / 1140 / 1200 mounting kits (AIR-AP1100MNTGKIT=, AIR-AP1131-STAND=) in the line's shared parts"
+    },
+    {
+     "series": "Aironet 1310 outdoor access point / bridge (legacy)",
+     "role": "outdoor",
+     "sku": [
+      "^AIR-BR1310"
+     ],
+     "note": "layers round 3: AIR-BR1310G, the Aironet 1310 outdoor access point / bridge planned in from switches (its arrival exception there is retired)"
     },
     {
      "series": "Aironet 1540",
@@ -279,8 +278,9 @@
      "role": "outdoor",
      "sku": [
       "^(AIR-)?AP157[02]",
-      "1570"
+      "^AIR-.*1570"
      ],
+     "note": "the bare 1570 rule claimed the CWDM 1570 nm optics (CWDM-SFP-1570 …); fenced to the AIR- mount kits in layers round 3 (operator: claimant-rule-too-broad, fixed in the wireless round)",
      "labels": [
       "Aironet 1570"
      ]
@@ -297,8 +297,9 @@
      "role": "outdoor",
      "sku": [
       "^(AIR-)?CAP1552",
-      "1550"
+      "^AIR-.*1550"
      ],
+     "note": "the bare 1550 rule claimed the CWDM 1550 nm optics; fenced to AIR- in layers round 3 (operator: fixed in the wireless round)",
      "labels": [
       "Aironet 1550"
      ]
@@ -306,18 +307,20 @@
     {
      "series": "Aironet 1520 / 1530",
      "sku": [
-      "15[23]0"
-     ]
+      "^AIR-.*15[23]0"
+     ],
+     "note": "the bare 15[23]0 rule claimed the CWDM 1530 nm optics; fenced to AIR- in layers round 3 (operator: fixed in the wireless round). It also places AIR-1520-BATT-6AH= (planned in from servers-unified-computing) and AIR-ACC1530-PMK1 (planned in from routers, beside its spare)"
     },
     {
      "series": "Aironet Access Points shared parts",
      "sku": [
-      "^AIR-(AP|VAP|ACC|MOD|BLE|BAND|CHNL|SFP)",
+      "^AIR-(AP(?!-VBLE|[0-9]{4}[A-Z]-WLC)|VAP|ACC|MOD|BLE|BAND|CHNL|SFP)",
       "^AIR-RM30"
      ],
-     "note": "^AIR-RM30 (layers round 3): the AIR-RM3000M Wireless Security and Spectrum Intelligence modules and AIR-RM3010L Hyperlocation modules of the Aironet 3600 / 3700, planned in from interfaces-modules (operator: AIR-RM radio modules -> wireless, kind module); their series is the wireless round's"
+     "note": "^AIR-RM30 (layers round 3): the AIR-RM3000M Wireless Security and Spectrum Intelligence modules and AIR-RM3010L Hyperlocation modules of the Aironet 3600 / 3700, planned in from interfaces-modules (operator: AIR-RM radio modules -> wireless, kind module). AP(?!-VBLE) leaves AIR-AP-VBLE-ADPTR= to the VBLE series below"
     }
-   ]
+   ],
+   "no_family_reason": "Cisco names each Aironet series by its number (\"Cisco Aironet 2800 Series\", \"Cisco Aironet 1560 Series\") with no family between the Aironet line and the series"
   },
   {
    "line": "Industrial Wireless",
@@ -369,7 +372,8 @@
       "^IWA-"
      ]
     }
-   ]
+   ],
+   "no_family_reason": "Cisco names IW3700, IW6300 / ESW6300, Catalyst IW9165 / IW9167, Ultra-Reliable Wireless Backhaul and the IEC6400 edge compute as separate series of Industrial Wireless, with no family between"
   },
   {
    "line": "Cisco Business Wireless",
@@ -416,7 +420,8 @@
       "^CB-PWRINJ"
      ]
     }
-   ]
+   ],
+   "no_family_reason": "Cisco names the Business 140AC / 145AC / 150AX, 240AC and 141 / 142 / 143 mesh extenders as series of Cisco Business Wireless, with no family between"
   },
   {
    "line": "Small Business Wireless (WAP)",
@@ -457,14 +462,9 @@
      "labels": [
       "Small Business 500"
      ]
-    },
-    {
-     "series": "Small Business Wireless (WAP) shared parts",
-     "sku": [
-      "^SB-PWR"
-     ]
     }
-   ]
+   ],
+   "no_family_reason": "Cisco names the WAP100, WAP300, WAP500 and WAP571E series of Small Business Wireless, with no family between. The line's SB-PWR adapters and injectors are planned out (layers round 3): SB-PWR-48V to interfaces-modules' Small Business Network Accessories, the three -xx rows as region placeholders"
   },
   {
    "line": "Meraki MR Access Points",
@@ -488,8 +488,9 @@
     {
      "series": "Meraki MR Access Points shared parts",
      "sku": [
-      "^MA-"
-     ]
+      "^MA-(ANT|MNT|UMNT|PWR)-"
+     ],
+     "note": "^MA- fenced to the Meraki MR antennas, mounts and power adapters (layers round 3): the Meraki MA-SFP / MA-QSFP / MA-CBL optics are transceivers"
     }
    ]
   },
@@ -536,7 +537,8 @@
       "Catalyst 9800 Series Wireless Controllers"
      ]
     }
-   ]
+   ],
+   "no_family_reason": "Cisco names the 9800-80, 9800-40, 9800-L, CW9800M and CW9800H1 / H2 controllers as series of the Catalyst 9800 line, with no family between"
   },
   {
    "line": "AireOS Wireless LAN Controllers",
@@ -544,9 +546,9 @@
     {
      "series": "2500 (2504)",
      "sku": [
-      "CT25[0-9]{2}",
-      "^AIRCT2504"
+      "CT25[0-9]{2}"
      ],
+     "note": "^AIRCT2504 removed in layers round 3: CT25[0-9]{2} already decides every AIRCT2504 bundle (the rule-shadowing check named it redundant)",
      "labels": [
       "2500"
      ]
@@ -575,9 +577,10 @@
     {
      "series": "8500 (8510 / 8540 / 8580)",
      "sku": [
-      "CT85[0-9]{2}",
+      "CT85([0-9]{2}|DC)",
       "^AIR-85[48]0"
      ],
+     "note": "CT85DC (layers round 3): AIR-CT85DC-K9 / AIR-CT85DC-SP-K9, the 8510 DC controllers, sat in the line's shared parts through ^AIR-(CT|WLC|VPN) — a controller in shared parts",
      "labels": [
       "8500"
      ]
@@ -586,8 +589,10 @@
      "series": "WLC + access point bundles",
      "sku": [
       "^WL(55|85)[0-9]{2}-",
-      "^KAISER-WLC"
-     ]
+      "^KAISER-WLC",
+      "^AIR-AP[0-9]{4}[A-Z]-WLC"
+     ],
+     "note": "^AIR-AP[0-9]{4}[A-Z]-WLC (layers round 3): AIR-AP1702I-WLC / AIR-AP2702I-WLC / AIR-AP3702I-WLC 'Bundle 2 AP…I and WLC2504 with 25 licenses' sat in the Aironet shared parts"
     },
     {
      "series": "AireOS Wireless LAN Controllers shared parts",
@@ -596,7 +601,8 @@
       "^AIR-330-"
      ]
     }
-   ]
+   ],
+   "no_family_reason": "Cisco names the 2500, 3500, 5500 and 8500 controller series of AireOS Wireless LAN Controllers, with no family between"
   },
   {
    "line": "Location and Spaces Appliances",
@@ -637,6 +643,20 @@
       "Spectrum Expert"
      ]
     }
+   ],
+   "no_family_reason": "Cisco names the MSE / CMX appliances, the Catalyst Center location appliance, the BLE exciters and Spectrum Expert separately, with no family between"
+  },
+  {
+   "line": "Wireless LAN Solution Engine (legacy)",
+   "series": [
+    {
+     "series": "CiscoWorks Wireless LAN Solution Engine (WLSE 1130 / Express 1030)",
+     "sku": [
+      "^CWWLSE",
+      "^RACK-QCN-SN5"
+     ],
+     "note": "layers round 3: CWWLSE-1130-19-K9, planned in from switches (its arrival exception there is retired), and RACK-QCN-SN5= 'Rack for CWWLSE Express 1030', which sat in Wireless Antennas and Accessories shared parts by label"
+    }
    ]
   },
   {
@@ -646,26 +666,28 @@
      "series": "Antennas",
      "sku": [
       "^AIR-ANT",
-      "^ANT-",
       "^AIR-420-1625",
       "^IW-ANT"
-     ]
+     ],
+     "note": "^ANT- removed (layers round 3): it placed no wireless row (the two it matched, ANT-ROOM70-KIT, are Webex Room 70 parts excluded to collaboration-endpoints) and claimed 34 routers antennas. ^AIR-ANT also places the 7 Aironet antennas planned in from routers, beside their spares"
     },
     {
      "series": "Power injectors, supplies and cords",
      "sku": [
       "^AIR-PWR",
       "^AIR-CORD",
-      "^PWR-"
-     ]
+      "^PWR-(CAB-(JPN|INT)-|115W-AC|2504-AC|750WACR-RED|CH1-(750W?ACR|950WDCR)|RPS-DC1)"
+     ],
+     "note": "^PWR- fenced to the wireless rows it holds (layers round 3; operator: claimant-rule-too-broad, fixed in the wireless round): the 3504 / 2504 controller supplies, the Catalyst wireless controller 750 W / 950 W supplies PWR-CH1-750ACR / 750WACR / 950WDCR (the other PWR-CH1- supplies are routers'), the internal C13-C14 cords and PWR-RPS-DC1="
     },
     {
      "series": "Cables",
      "sku": [
       "^AIR-CAB",
       "^AIR-420-",
-      "^CAB-"
-     ]
+      "^CAB-(AC-C5|L400-20-N-R|C13-C14-JMPRCAB-ACS|C15-ACB)"
+     ],
+     "note": "^CAB- fenced to the wireless rows it holds (layers round 3; operator: fixed in the wireless round): the type C5 power cords of the AP adapters, the LMR-400 RP-TNC cable and two controller power cables"
     },
     {
      "series": "Wireless Antennas and Accessories shared parts",
@@ -677,7 +699,8 @@
       "ASR 5000 Series"
      ]
     }
-   ]
+   ],
+   "no_family_reason": "antennas, power and cables are accessory series of the wireless catalogue, not a Cisco product family"
   }
  ],
  "shared_accessories": [
