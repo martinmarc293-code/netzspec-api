@@ -77,7 +77,26 @@ The full table is in the morning report; the holds:
 **Question (Q-10 vs Q-23):** Q-23 keeps a bare model row that carries a fact or a document ("classing the row orphans it"); 79 of the 254
 region placeholders are that shape. Keep them as the family's rows until inheritance (79 plans removed), or class them as decided?
 
-## 5. Not in this block
+## 5. Runs: the class-change tool and the first dry runs
+No tool ran a class plan: the 401 plans that ran were moves (`move-category --plans`, runs #1068 / #1069 / #1074), and the morning
+report's "class plans run through the class-change path" named a path that did not exist. **`scripts/class-change.mts`** is that path now,
+the class half of `move-category`: the selector is the pending class plans of one (category, class); every planned SKU must be a live
+hardware part of the category or nothing is written; the commit is one transaction in a `class-change` run (product_class and a
+`class-plan:<class>: <reason>` reason the reclassify pass does not own), the run id goes into the plans, and the result is read from a new
+connection. It writes no fact: inherited and own facts are counted and left. `tests/db/class-change.test.ts` 17 / 0 (10 sabotage cases) on
+the test database.
+
+Dry runs of the 18 licence / software / service groups against the store, 15 Sep 2026 (read-only; the store holds 0 `class-change` runs
+afterwards): **305 parts, each group matching its plans** — collaboration-endpoints license 10, conferencing software 1 (C-CPM),
+hyperconverged-infrastructure software 11, hyperconverged-systems license 1 / service 3 / software 7, optical-networking license 1, routers
+license 68 / software 56, security license 6, servers-unified-computing license 28 / service 15 / software 32, switches license 24 /
+software 11, unified-communications license 21 / service 6, wireless license 4. Fourteen groups carry no fact; **routers license 68: 87
+inherited (87 served) and 9 own; routers software 56: 79 inherited (79 served) and 107 own; switches license 24: 42 inherited (37 served)
+and 5 own; switches software 11: 11 inherited (9 served) and 1 own.** A class change leaves those facts attached to parts that are no
+longer hardware; retracting the inherited ones is the reclassify-nonhardware precedent (a gated `apply-` run) — a question before those
+four groups run.
+
+## 6. Not in this block
 Q-14's exact list (a separate 2–3 h block); Q-26 / Q-27 after the runs; Q-28 with the parked kind rebuild (now also: `device` for the
 MobileAccessVE units, `ont` for the Routed PON ONTs, the 36 E100 parts); **Q-29** (the enumeration filter learning the six documentation
 shapes and a check for documentation-sourced rows with no document and no fact) — decided, queued, not built in this block.
