@@ -542,7 +542,9 @@ check("SABOTAGE merge: a plan that calls a hardware row non-hardware is refused"
   // as carriers, and NDB-FX-SWT-K9 ("NDB license for 1 Cisco Nexus fixed switch") is planned a licence, not a software image
   at("routers", "CG113-4GW6x", "Catalyst Wireless Gateway CG113");
   at("routers", "CG113-W6x", "Catalyst Wireless Gateway CG113");
-  planned("switches", "NDB-FX-SWT-K9", "class license");
+  // its class-licence plan RAN in batch 2 (run #1107), so it is no longer a hardware row — the C-CPM shape
+  check(`re-audit switches: NDB-FX-SWT-K9 left the hardware page by its class-license plan (run id recorded)`, !get("switches", "NDB-FX-SWT-K9")
+    && (PLANS as { sku: string; category: string; action: string; to: string; run_id: unknown }[]).some((p) => p.sku === "NDB-FX-SWT-K9" && p.category === "switches" && p.action === "class" && p.to === "license" && typeof p.run_id === "number"));
 }
 
 // SABOTAGE: each check sees a planted defect, for the stated reason.

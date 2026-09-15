@@ -1,11 +1,11 @@
 {
  "vendor": "cisco",
  "category": "routers",
- "built_at": "2026-09-15T22:28:26.449Z",
- "commit": "b08e909396b859a93f5bc1fcacbb84152412e090",
+ "built_at": "2026-09-15T22:39:20.404Z",
+ "commit": "c9ebf59177f9d5950f8cd9384dd9346e76c7670b",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-routers.json",
- "parts": 5093,
+ "parts": 4970,
  "lines": [
   {
    "line": "Secure Routers",
@@ -2055,30 +2055,6 @@
    "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
   },
   {
-   "sku": "3G-CDMA-BSNL-PR1.0",
-   "name": "Provisioning Package for BSNL HWIC",
-   "series_label": "800",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / firmware / software product PID"
-  },
-  {
-   "sku": "3G-CDMA-TATA-PR1.0",
-   "name": "Provisioning Package for TATA HWIC",
-   "series_label": "800",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / firmware / software product PID"
-  },
-  {
-   "sku": "3G-EVDO-BSNL-P1.0",
-   "name": "3G EVDO BSNL Provisioning 1.0",
-   "series_label": "800",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / firmware / software product PID"
-  },
-  {
    "sku": "4-40GE-PK",
    "name": "Phantom PID for 4x40GE LAN/OTN Interface Module",
    "series_label": "Carrier Routing System",
@@ -2119,28 +2095,12 @@
    "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
   },
   {
-   "sku": "8010-FC-SW",
-   "name": "Standard SW ATO FCM 2.0 for Cisco 8010 Series",
-   "series_label": "8000",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use PID: the name states a licence, not hardware (the 8010 twin of 8K-SW-FC 'Standard SW ATO FCM 2.0', already planned license)"
-  },
-  {
    "sku": "8FXS",
    "name": "Cisco 8FXS",
    "series_label": "2900 ISR",
    "action": "class",
    "to": "non_product",
    "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "8K-SW-FC",
-   "name": "Standard SW ATO FCM 2.0 for Cisco 8000 Series",
-   "series_label": "8000",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use / subscription PID"
   },
   {
    "sku": "9800-40",
@@ -2167,54 +2127,6 @@
    "reason": "promo-bundle: a region-restricted, time-limited migration ordering PID ('<region> Only - Bundle <model> for N months Migration'); the hardware is its base PID (C899G-LTE-GA-K9 / C881G-4G-GA-K9 / C887VA-K9), which stays a router"
   },
   {
-   "sku": "A4_9.00.60",
-   "name": "Cisco A4_9.00.60",
-   "series_label": "800",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / firmware / software product PID"
-  },
-  {
-   "sku": "A99-1200G-ADVRTNG",
-   "name": "ASR 9900 Standard Advanced routing license for route scales exceeding 128K for IPv4 and 64K for IPv6 per 12-port 100GE line card",
-   "series_label": "ASR 9000",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use PID: the name states a licence, not hardware"
-  },
-  {
-   "sku": "A99-1200G-AIP",
-   "name": "ASR 9900 Standard Advanced IP License to turn on full-scale VRF instances per 12-port 100-GE line card",
-   "series_label": "ASR 9000",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use PID: the name states a licence, not hardware"
-  },
-  {
-   "sku": "A99-1200G-IVRF",
-   "name": "ASR 9900 Standard License to activate up to 8 VRFs on 12x100GE Line Card",
-   "series_label": "ASR 9000",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use PID: the name states a licence, not hardware"
-  },
-  {
-   "sku": "A9K-400G-L-AIP",
-   "name": "ASR 9K Standard License Advanced IP for 4-port 100GE LAN Line Card",
-   "series_label": "ASR 9000",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use PID: the name states a licence, not hardware (layers review C.7, named)"
-  },
-  {
-   "sku": "A9K-4HG-200G-DWDM=",
-   "name": "PAYG for 200Gbs use in 400G IPoDWDM cards",
-   "series_label": "ASR 9000",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use PID: the name states a licence, not hardware (pay-as-you-grow bandwidth for the IPoDWDM card)"
-  },
-  {
    "sku": "ABLT-D",
    "name": "Cisco ABLT-D",
    "series_label": "800",
@@ -2229,22 +2141,6 @@
    "action": "class",
    "to": "non_product",
    "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "ADN-PRM-8KSW-100G",
-   "name": "Advantage to Premium Right-to-Use 100G Cisco 8000 Series",
-   "series_label": "8000",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use / subscription PID"
-  },
-  {
-   "sku": "ADN-PRM-8KSW-400G",
-   "name": "Advantage to Premium Right-to-Use 400G Cisco 8000 Series",
-   "series_label": "8000",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use / subscription PID"
   },
   {
    "sku": "ADSL2",
@@ -2343,22 +2239,6 @@
    "reason": "Aironet antenna filed under ISR shared parts: wireless holds the Aironet antenna family and most of these rows' spares (layers round 3, wireless round — the pending-round cross-claim decided)"
   },
   {
-   "sku": "AIR-AP1815-K9-ME-8-5-110-0.tar",
-   "name": "Cisco 111X Models AP delivers industry-leading wireless performance with support for the latest Wi-Fi standard, IEEE’s 802.11ac Wave 2 and Mobility Express.",
-   "series_label": "1000",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / firmware / software product PID"
-  },
-  {
-   "sku": "AIR-AP1815-K9-ME-8-8-110-0.tar",
-   "name": "Cisco 1101 and 1109 Models AP delivers industry-leading wireless performance with support for the latest Wi-Fi standard, IEEE’s 802.11ac Wave 2 and Mobility Express.",
-   "series_label": "1000",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / firmware / software product PID"
-  },
-  {
    "sku": "ATU-32C",
    "name": "Cisco ATU-32C",
    "series_label": "800",
@@ -2383,36 +2263,12 @@
    "reason": "configurator-selector"
   },
   {
-   "sku": "C1-ASR1K-UPG",
-   "name": "Cisco ONE Upgrade for ASR 1000 Series",
-   "series_label": "ASR 1000",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use / subscription PID"
-  },
-  {
    "sku": "C1-ISR-ADD",
    "name": "Cisco ONE for ISR - CHOOSE ONLY QTY 1 HERE",
    "series_label": "3900 Series Integrated Services Routers ISR",
    "action": "class",
    "to": "non_product",
    "reason": "configurator-selector"
-  },
-  {
-   "sku": "C1-ISR-UPG-M",
-   "name": "Cisco ONE Upgrade for ISR",
-   "series_label": "2900 ISR",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use / subscription PID"
-  },
-  {
-   "sku": "C8000V-PF",
-   "name": "Cisco C8000V-PF",
-   "series_label": "Catalyst 8000V Edge Software",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / firmware / software product PID"
   },
   {
    "sku": "C8200-UCPE-PF",
@@ -2535,60 +2391,12 @@
    "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
   },
   {
-   "sku": "CDASR1000-AESK9=",
-   "name": "Cisco CDASR1000-AESK9=",
-   "series_label": "ASR 1000",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / firmware / software product PID"
-  },
-  {
-   "sku": "CDASR1000-AISK9=",
-   "name": "Cisco CDASR1000-AISK9=",
-   "series_label": "ASR 1000",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / firmware / software product PID"
-  },
-  {
-   "sku": "CDASR1000-IPB=",
-   "name": "Cisco CDASR1000-IPB=",
-   "series_label": "ASR 1000",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / firmware / software product PID"
-  },
-  {
-   "sku": "CDASR1000-IPBK9=",
-   "name": "Cisco CDASR1000-IPBK9=",
-   "series_label": "ASR 1000",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / firmware / software product PID"
-  },
-  {
    "sku": "CGR2010/NFR",
    "name": "CGR 2010 Channel Kit",
    "series_label": "2000 Series Connected Grid",
    "action": "class",
    "to": "non_product",
    "reason": "not-for-resale channel kit of the CGR 2010 (layers review C.5)"
-  },
-  {
-   "sku": "CISCO-MATE-STE",
-   "name": "Cisco MATE Suite",
-   "series_label": "WAN Automation Engine (WAE)",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / firmware / software product PID"
-  },
-  {
-   "sku": "CISCO5921-K9",
-   "name": "Cisco 5921 Embedded Services Router SW for x86 Processor",
-   "series_label": "5900 Embedded Services",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / firmware / software product PID"
   },
   {
    "sku": "CISCOUTM1100",
@@ -2607,36 +2415,12 @@
    "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
   },
   {
-   "sku": "CN-BNG-100k-L",
-   "name": "Session scale for 100K subscribers (Network Wide)",
-   "series_label": "Cloud Native Broadband Network Gateway (BNG)",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use / subscription PID"
-  },
-  {
-   "sku": "CN-BNG-BASE-L",
-   "name": "Base PID for cnBNG Control Plane (Per Cluster)",
-   "series_label": "Cloud Native Broadband Network Gateway (BNG)",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use / subscription PID"
-  },
-  {
    "sku": "CP-DQPSK",
    "name": "Cisco CP-DQPSK",
    "series_label": "ASR 9000",
    "action": "class",
    "to": "non_product",
    "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "CP-SW-SBP-K9",
-   "name": "Cisco CP-SW-SBP-K9",
-   "series_label": "WAN Automation Engine (WAE)",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / firmware / software product PID"
   },
   {
    "sku": "CQ211L01-48H8FH",
@@ -2879,14 +2663,6 @@
    "reason": "UCS E-Series part (the E100 module's faceplate bracket, KVM dongle and memory; the U.2 NVMe SSDs 'for UCS-E M6'): with the E-Series in servers-unified-computing, placed by its ^E1[0-9]{2}[A-Z]?- / ^E-SSD rules (re-audit decisions, operator, 15 Sep 2026, Q-13)"
   },
   {
-   "sku": "E.67.15.1",
-   "name": "Cisco E.67.15.1",
-   "series_label": "800",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / firmware / software product PID"
-  },
-  {
    "sku": "E100-FCPLT-BRKT",
    "name": "Bracket Used To Attach Faceplate to E100 Series Module",
    "series_label": "Catalyst 8200 Edge uCPE",
@@ -2983,244 +2759,12 @@
    "reason": "planning, packaging, configuration-option or programme PID (ships nothing)"
   },
   {
-   "sku": "ESS-ADN-8KSW-100G",
-   "name": "Essential to Advantage Right-to-Use 100G Cisco 8000 Series",
-   "series_label": "8000",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use / subscription PID"
-  },
-  {
-   "sku": "ESS-ADN-8KSW-400G",
-   "name": "Essential to Advantage Right-to-Use 400G Cisco 8000 Series",
-   "series_label": "8000",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use / subscription PID"
-  },
-  {
-   "sku": "FL-8XX-512U1GB",
-   "name": "512 MB DRAM upgrade to 1 GB for Cisco 892FSP, 896VA, 897VA, 897VAB, 898EA, 891F model (Feature License)",
-   "series_label": "800",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use PID: the name states a licence, not hardware ('DRAM upgrade … (Feature License)': an FL- feature licence, kind memory until now)"
-  },
-  {
-   "sku": "FL-8XX-512U1GB=",
-   "name": "CISCO800 DRAM Upgrade from 512MB to 1GB",
-   "series_label": "800",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use PID: the name states a licence, not hardware (the spare of the feature licence; A.1 one class for X and X=)"
-  },
-  {
-   "sku": "FL-SRE-WLC-25",
-   "name": "25 access point license for Cisco Wireless Controller on SRE (when sold with ISR G2 system)",
-   "series_label": "2900 ISR",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use / subscription PID"
-  },
-  {
-   "sku": "FL-SRE-WLC-25A",
-   "name": "25 Access Point Adder License for Cisco Wireless Controller on SRE (Paper Certificate)",
-   "series_label": "2900 ISR",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use / subscription PID"
-  },
-  {
-   "sku": "FL-SRE-WLC-5",
-   "name": "5 access point license for Cisco Wireless Controller on SRE (when sold with ISR G2 system)",
-   "series_label": "2900 ISR",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use / subscription PID"
-  },
-  {
-   "sku": "FL-SRE-WLC-5A",
-   "name": "5 Access Point Adder License for Cisco Wireless Controller on SRE (Paper Certificate)",
-   "series_label": "2900 ISR",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use / subscription PID"
-  },
-  {
-   "sku": "FLS-A901-4S",
-   "name": "Cisco ASR 901 4 Port SFP GE Upgrade - Physical",
-   "series_label": "ASR 901",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use PID: the name states a licence, not hardware ('Upgrade - Physical' is the physical delivery of the licence its spare names)"
-  },
-  {
-   "sku": "FLS-A901-4S=",
-   "name": "ASR 901 4 Port SFP GE Upgrade License: Paper License",
-   "series_label": "ASR 901",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use PID: the name states a licence, not hardware"
-  },
-  {
-   "sku": "FLS-A901-4T",
-   "name": "Cisco ASR 901 4 Port Copper GE Upgrade - Physical",
-   "series_label": "ASR 901",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use PID: the name states a licence, not hardware (the same)"
-  },
-  {
-   "sku": "FLS-A901-4T=",
-   "name": "ASR 901 4 Port Copper GE Upgrade License: Paper License",
-   "series_label": "ASR 901",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use PID: the name states a licence, not hardware"
-  },
-  {
    "sku": "FRC887VA-K9",
    "name": "EMEA Only - Bundle C887VA-K9 for 12 months Migration",
    "series_label": "800",
    "action": "class",
    "to": "non_product",
    "reason": "promo-bundle: a region-restricted, time-limited migration ordering PID ('<region> Only - Bundle <model> for N months Migration'); the hardware is its base PID (C899G-LTE-GA-K9 / C881G-4G-GA-K9 / C887VA-K9), which stays a router"
-  },
-  {
-   "sku": "FW-7430-LTE-AU",
-   "name": "Cisco FW-7430-LTE-AU",
-   "series_label": "800",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / firmware / software product PID"
-  },
-  {
-   "sku": "FW-7430-LTE-GN",
-   "name": "Cisco FW-7430-LTE-GN",
-   "series_label": "800",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / firmware / software product PID"
-  },
-  {
-   "sku": "FW-7430-LTE-JP",
-   "name": "Cisco FW-7430-LTE-JP",
-   "series_label": "800",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / firmware / software product PID"
-  },
-  {
-   "sku": "FW-7430-LTE-KD",
-   "name": "Cisco FW-7430-LTE-KD",
-   "series_label": "800 ISR",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / firmware / software product PID"
-  },
-  {
-   "sku": "FW-7430-LTE-SB",
-   "name": "Cisco FW-7430-LTE-SB",
-   "series_label": "800 ISR",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / firmware / software product PID"
-  },
-  {
-   "sku": "FW-7455-LTE-AT",
-   "name": "Cisco FW-7455-LTE-AT",
-   "series_label": "800 ISR",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / firmware / software product PID"
-  },
-  {
-   "sku": "FW-7455-LTE-GN",
-   "name": "Cisco FW-7455-LTE-GN",
-   "series_label": "800 ISR",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / firmware / software product PID"
-  },
-  {
-   "sku": "FW-7455-LTE-VZ",
-   "name": "Cisco FW-7455-LTE-VZ",
-   "series_label": "800 ISR",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / firmware / software product PID"
-  },
-  {
-   "sku": "FW-MC7304-LTE-AU",
-   "name": "Cisco FW-MC7304-LTE-AU",
-   "series_label": "800",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / firmware / software product PID"
-  },
-  {
-   "sku": "FW-MC7304-LTE-GB",
-   "name": "Cisco FW-MC7304-LTE-GB",
-   "series_label": "800",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / firmware / software product PID"
-  },
-  {
-   "sku": "FW-MC7350-LTE-ST",
-   "name": "Cisco FW-MC7350-LTE-ST",
-   "series_label": "800",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / firmware / software product PID"
-  },
-  {
-   "sku": "FW-MC7350-LTE-VZ",
-   "name": "Cisco FW-MC7350-LTE-VZ",
-   "series_label": "800",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / firmware / software product PID"
-  },
-  {
-   "sku": "FW-MC7354-LTE-AT",
-   "name": "Cisco FW-MC7354-LTE-AT",
-   "series_label": "800",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / firmware / software product PID"
-  },
-  {
-   "sku": "FW-MC7354-LTE-CA",
-   "name": "Cisco FW-MC7354-LTE-CA",
-   "series_label": "800",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / firmware / software product PID"
-  },
-  {
-   "sku": "FW-MC7354M-LTE-AT",
-   "name": "Cisco FW-MC7354M-LTE-AT",
-   "series_label": "800",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / firmware / software product PID"
-  },
-  {
-   "sku": "FW-MC7354M-LTE-VZ",
-   "name": "Cisco FW-MC7354M-LTE-VZ",
-   "series_label": "800",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / firmware / software product PID"
-  },
-  {
-   "sku": "FW-VA-39D",
-   "name": "VDSL2/ADSL2+ Firmware for Multimode DSL products",
-   "series_label": "800",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / firmware / software product PID"
   },
   {
    "sku": "G703",
@@ -3271,68 +2815,12 @@
    "reason": "planning, packaging, configuration-option or programme PID (ships nothing)"
   },
   {
-   "sku": "IOTOD-IW-A",
-   "name": "Cisco IOTOD-IW-A",
-   "series_label": "3800 Series Integrated Services Routers ISR",
-   "action": "class",
-   "to": "license",
-   "reason": "URWB licence PID, not an access point (item 3 read it as an AP from its IW prefix)"
-  },
-  {
-   "sku": "IOTOD-IW-E",
-   "name": "Cisco IOTOD-IW-E",
-   "series_label": "3800 Series Integrated Services Routers ISR",
-   "action": "class",
-   "to": "license",
-   "reason": "URWB licence PID, not an access point (item 3 read it as an AP from its IW prefix)"
-  },
-  {
    "sku": "IP20",
    "name": "Cisco IP20",
    "series_label": "800 ISR",
    "action": "class",
    "to": "non_product",
    "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "ISR-CCP-CD",
-   "name": "Cisco Config Professional on CD, CCP-Express on Router Flash (Both system and spare)",
-   "series_label": "2900 ISR",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / firmware / software product PID"
-  },
-  {
-   "sku": "ISR-CCP-CD-NOCONF",
-   "name": "Cisco Config Pro on CD, CCP-Express on CF w/o default config",
-   "series_label": "2900 ISR",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / firmware / software product PID"
-  },
-  {
-   "sku": "ISR-CCP-EXP",
-   "name": "Cisco Config Pro Express on Router Flash",
-   "series_label": "2900 ISR",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / firmware / software product PID"
-  },
-  {
-   "sku": "ISR-CCP-EXP-NOCONF",
-   "name": "Cisco Config Pro Express on Router Flash w/o default config",
-   "series_label": "2900 ISR",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / firmware / software product PID"
-  },
-  {
-   "sku": "IW9165-URWB-NW-P",
-   "name": "Cisco IW9165-URWB-NW-P",
-   "series_label": "3800 Series Integrated Services Routers ISR",
-   "action": "class",
-   "to": "license",
-   "reason": "URWB licence PID, not an access point (item 3 read it as an AP from its IW prefix)"
   },
   {
    "sku": "IW9165DH-x-AP",
@@ -3375,14 +2863,6 @@
    "reason": "access point filed in routers"
   },
   {
-   "sku": "IW9167-URWB-NW-P",
-   "name": "Cisco IW9167-URWB-NW-P",
-   "series_label": "3800 Series Integrated Services Routers ISR",
-   "action": "class",
-   "to": "license",
-   "reason": "URWB licence PID, not an access point (item 3 read it as an AP from its IW prefix)"
-  },
-  {
    "sku": "IW9167EH-x-AP",
    "name": "Industrial Wireless 9167E, 11ax 6E AP, 8 RF ports, x domain, Wi-Fi software",
    "series_label": "3800 Series Integrated Services Routers ISR",
@@ -3421,14 +2901,6 @@
    "action": "move",
    "to": "wireless",
    "reason": "access point filed in routers"
-  },
-  {
-   "sku": "L7D6AA47.174",
-   "name": "Cisco L7D6AA47.174",
-   "series_label": "800",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / firmware / software product PID"
   },
   {
    "sku": "MCS0",
@@ -3551,30 +3023,6 @@
    "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
   },
   {
-   "sku": "N520-10G-2",
-   "name": "Cisco NCS 520 Series 2-Port 10G Upgrade License",
-   "series_label": "Network Convergence System 500",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use PID: the name states a licence, not hardware"
-  },
-  {
-   "sku": "N520-1G-8",
-   "name": "Cisco NCS 520 Series 8 Ports GE Upgrade License",
-   "series_label": "Network Convergence System 500",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use PID: the name states a licence, not hardware"
-  },
-  {
-   "sku": "N520-S-M",
-   "name": "Metro Access License (base software)",
-   "series_label": "Network Convergence System 500",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use PID: the name states a licence, not hardware (base software)"
-  },
-  {
    "sku": "NA/250M",
    "name": "Cisco NA/250M",
    "series_label": "ESR6300 Embedded",
@@ -3613,46 +3061,6 @@
    "action": "class",
    "to": "non_product",
    "reason": "truncated PID ending in '-' (name is the SKU, no document)"
-  },
-  {
-   "sku": "NRS-WAE-SWSUB",
-   "name": "PF WAE NRS PID SWSUB",
-   "series_label": "WAN Automation Engine (WAE)",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use / subscription PID"
-  },
-  {
-   "sku": "OEM-PRI-MC7430",
-   "name": "Cisco OEM PRI Load for MC7430",
-   "series_label": "800",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / firmware / software product PID"
-  },
-  {
-   "sku": "OEM-PRI-MC7430=",
-   "name": "Cisco OEM PRI Load for MC7430",
-   "series_label": "800",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / firmware / software product PID"
-  },
-  {
-   "sku": "OEM-PRI-MC7455",
-   "name": "Cisco OEM PRI Load for MC7455",
-   "series_label": "800",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / firmware / software product PID"
-  },
-  {
-   "sku": "OEM-PRI-MC7455=",
-   "name": "Cisco OEM PRI Load for MC7455",
-   "series_label": "800",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / firmware / software product PID"
   },
   {
    "sku": "ONS-C2-WDM-DE-1HL",
@@ -3743,52 +3151,12 @@
    "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
   },
   {
-   "sku": "QW-E-PLATFORM",
-   "name": "Quantum WAVE Platform Base",
-   "series_label": "WAN Automation Engine (WAE)",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / firmware / software product PID"
-  },
-  {
-   "sku": "R4.2.1",
-   "name": "Cisco R4.2.1",
-   "series_label": "800",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / firmware / software product PID"
-  },
-  {
-   "sku": "R4.3.1",
-   "name": "Cisco R4.3.1",
-   "series_label": "800",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / firmware / software product PID"
-  },
-  {
    "sku": "RE-ADSL2",
    "name": "Cisco RE-ADSL2",
    "series_label": "900 ISR",
    "action": "class",
    "to": "non_product",
    "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "ROUT-P-C8200-E-7Y",
-   "name": "Cisco ROUT-P-C8200-E-7Y",
-   "series_label": "Catalyst 8200",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use / subscription PID"
-  },
-  {
-   "sku": "ROUT-P-C8300-E-7Y",
-   "name": "Cisco ROUT-P-C8300-E-7Y",
-   "series_label": "Catalyst 8200",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use / subscription PID"
   },
   {
    "sku": "RS-232",
@@ -3805,182 +3173,6 @@
    "action": "class",
    "to": "non_product",
    "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "S-ASR920-10G-2-B",
-   "name": "Cisco ASR 920 Series - 2 ports 10GE license for ClassB ASR920 (Smart License)",
-   "series_label": "ASR 920 Series Aggregation Services Router",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use / subscription PID"
-  },
-  {
-   "sku": "S-NC6-2T-PG-200-L=",
-   "name": "NCS6000 2x100GE LSR PAYG Upgrade License Spare",
-   "series_label": "6000",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use / subscription PID"
-  },
-  {
-   "sku": "S-NC6-2T-PG-200-M=",
-   "name": "NCS6000 2x100GE Multiservice PAYG Upgrade License Spare",
-   "series_label": "6000",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use / subscription PID"
-  },
-  {
-   "sku": "S-NC6-MS-UPG",
-   "name": "NCS 6000 Smart License LSR to MS Upgrade Bundle",
-   "series_label": "6000",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use / subscription PID"
-  },
-  {
-   "sku": "S-NC6-MS-UPG=",
-   "name": "NCS 6000 License LSR to MS Upgrade Bundle",
-   "series_label": "6000",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use / subscription PID"
-  },
-  {
-   "sku": "S-XR-BNG-1M",
-   "name": "Billing PID for SBP XRV9K -BNG 1M",
-   "series_label": "ASR 9000",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use / subscription PID"
-  },
-  {
-   "sku": "S-XR-BNG-256K",
-   "name": "Billing PID for SBP XRV9K - BNG 256K",
-   "series_label": "ASR 9000",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use / subscription PID"
-  },
-  {
-   "sku": "S-XR-BNG-512K",
-   "name": "Billing PID for SBP XRV9K - BNG 512K",
-   "series_label": "ASR 9000",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use / subscription PID"
-  },
-  {
-   "sku": "S-XR-BNG-8K",
-   "name": "Billing PID for SBP XRV9K -BNG 8K",
-   "series_label": "ASR 9000",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use / subscription PID"
-  },
-  {
-   "sku": "S-XR-BNG-ADV-1M",
-   "name": "Billing PID for SBP XRV9K - BNG ADV 1M",
-   "series_label": "ASR 9000",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use / subscription PID"
-  },
-  {
-   "sku": "S-XR-BNG-ADV-256K",
-   "name": "Billing PID for SBP XRV9K -BNG ADV 256K",
-   "series_label": "ASR 9000",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use / subscription PID"
-  },
-  {
-   "sku": "S-XR-BNG-ADV-512K",
-   "name": "Billing PID for SBP XRV9K -BNG ADV 512K",
-   "series_label": "ASR 9000",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use / subscription PID"
-  },
-  {
-   "sku": "S-XR-BNG-ADV-8K",
-   "name": "Billing PID for SBP XRV9K - BNG ADV 8K",
-   "series_label": "ASR 9000",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use / subscription PID"
-  },
-  {
-   "sku": "S-XR-BNG-PRO",
-   "name": "Billing PID for SBP XRV9K - BNG PRO",
-   "series_label": "ASR 9000",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use / subscription PID"
-  },
-  {
-   "sku": "S-XR-SESSION-8K",
-   "name": "Billing PID for SBP XRV9K - BNG 8K Session",
-   "series_label": "ASR 9000",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use / subscription PID"
-  },
-  {
-   "sku": "SA1KHXK9-173",
-   "name": "Cisco SA1KHXK9-173",
-   "series_label": "ASR 1000",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / firmware / software product PID"
-  },
-  {
-   "sku": "SA1KHXNLIK9-173",
-   "name": "Cisco SA1KHXNLIK9-173",
-   "series_label": "ASR 1000",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / firmware / software product PID"
-  },
-  {
-   "sku": "SA1KHXNPEK9-173",
-   "name": "Cisco SA1KHXNPEK9-173",
-   "series_label": "ASR 1000",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / firmware / software product PID"
-  },
-  {
-   "sku": "SA1KHXNPNLK9173",
-   "name": "Cisco SA1KHXNPNLK9173",
-   "series_label": "ASR 1000",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / firmware / software product PID"
-  },
-  {
-   "sku": "SA1KRPUNLIK9-173",
-   "name": "Cisco SA1KRPUNLIK9-173",
-   "series_label": "ASR 1000",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / firmware / software product PID"
-  },
-  {
-   "sku": "SA1KRPUNPEK9173",
-   "name": "Cisco SA1KRPUNPEK9173",
-   "series_label": "ASR 1000",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / firmware / software product PID"
-  },
-  {
-   "sku": "SA1KRPUNPNLK9173",
-   "name": "Cisco SA1KRPUNPNLK9173",
-   "series_label": "ASR 1000",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / firmware / software product PID"
   },
   {
    "sku": "SDFE-2",
@@ -4031,102 +3223,6 @@
    "reason": "planning, packaging, configuration-option or programme PID (ships nothing)"
   },
   {
-   "sku": "SPAOA-WAE-I",
-   "name": "Core & Aggregation Essentials SW Right-to-Use v1.0 per 100G",
-   "series_label": "WAN Automation Engine (WAE)",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use / subscription PID"
-  },
-  {
-   "sku": "SPAOA-WAENET-I",
-   "name": "Offer Attribution (Immediate) for BAM WAENET",
-   "series_label": "WAN Automation Engine (WAE)",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use / subscription PID"
-  },
-  {
-   "sku": "SPAUTO-CP",
-   "name": "Cisco SPAUTO-CP",
-   "series_label": "WAN Automation Engine (WAE)",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / firmware / software product PID"
-  },
-  {
-   "sku": "SPAUTO-CP-PS",
-   "name": "Cisco SPAUTO-CP-PS",
-   "series_label": "WAN Automation Engine (WAE)",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / firmware / software product PID"
-  },
-  {
-   "sku": "SPNA-AUTO-WAE-EN",
-   "name": "SPNA Automation - WAE Premier",
-   "series_label": "WAN Automation Engine (WAE)",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use / subscription PID"
-  },
-  {
-   "sku": "SPNA-AUTO-WAE-ES",
-   "name": "SPNA Automation - WAE Essentials",
-   "series_label": "WAN Automation Engine (WAE)",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use / subscription PID"
-  },
-  {
-   "sku": "SPNA-AUTO-WAE-F",
-   "name": "SPNA Automation - WAE Advantage",
-   "series_label": "WAN Automation Engine (WAE)",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use / subscription PID"
-  },
-  {
-   "sku": "SPNA-R-CRS-S",
-   "name": "SPNA Routing for CRS - Standard",
-   "series_label": "Carrier Routing System",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use / subscription PID"
-  },
-  {
-   "sku": "SPNA-S-CRS-L",
-   "name": "SPNA Routing SW Licenses for CRS - Standard",
-   "series_label": "Carrier Routing System",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use / subscription PID"
-  },
-  {
-   "sku": "SPOA-WAE-D",
-   "name": "Core & Aggr Essentials SIA per 100G 3 year term",
-   "series_label": "WAN Automation Engine (WAE)",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use / subscription PID"
-  },
-  {
-   "sku": "SPOA-WAENET-D",
-   "name": "Offer Attribution (Daily) for BAM WAENET",
-   "series_label": "WAN Automation Engine (WAE)",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use / subscription PID"
-  },
-  {
-   "sku": "SRE-WLC",
-   "name": "Wireless Controller on SRE option when sold with ISR G2 system",
-   "series_label": "2900 ISR",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use / subscription PID"
-  },
-  {
    "sku": "T1/E1",
    "name": "Cisco T1/E1",
    "series_label": "2900 ISR",
@@ -4141,14 +3237,6 @@
    "action": "class",
    "to": "non_product",
    "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "TG-OS-E-O",
-   "name": "Cisco TG-OS-E-O",
-   "series_label": "Secure Console",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / firmware / software product PID"
   },
   {
    "sku": "UCS-CPU-5120=",
@@ -4237,22 +3325,6 @@
    "action": "class",
    "to": "non_product",
    "reason": "truncated PID ending in '-' (name is the SKU, no document)"
-  },
-  {
-   "sku": "VIPTELA-OS-192",
-   "name": "Viptela OS version 19.2.0 (ISR1100 Series only)",
-   "series_label": "1000",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / firmware / software product PID"
-  },
-  {
-   "sku": "VIPTELA-OS-204",
-   "name": "Viptela OS versions 20.4 (ISR 1100 and ISR 1100X Series)",
-   "series_label": "1000",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / firmware / software product PID"
   },
   {
    "sku": "VSLN-PP-CORE",
@@ -4381,38 +3453,6 @@
    "action": "class",
    "to": "non_product",
    "reason": "truncated PID ending in '-' (name is the SKU, no document)"
-  },
-  {
-   "sku": "WAEFEATURESSUBBDQ7",
-   "name": "Cisco WAEFEATURESSUBBDQ7",
-   "series_label": "WAN Automation Engine (WAE)",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use / subscription PID"
-  },
-  {
-   "sku": "WAEPLANNINGUSBAY3",
-   "name": "Cisco WAEPLANNINGUSBAY3",
-   "series_label": "WAN Automation Engine (WAE)",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use / subscription PID"
-  },
-  {
-   "sku": "WAEPLANNINGUSBAY5",
-   "name": "Cisco WAEPLANNINGUSBAY5",
-   "series_label": "WAN Automation Engine (WAE)",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use / subscription PID"
-  },
-  {
-   "sku": "WAEPLANNINGUSBAY7",
-   "name": "Cisco WAEPLANNINGUSBAY7",
-   "series_label": "WAN Automation Engine (WAE)",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use / subscription PID"
   },
   {
    "sku": "WS-C6503-E-FWM-K9WS",
@@ -4565,30 +3605,6 @@
    "action": "class",
    "to": "non_product",
    "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "XRD-VR-CP-DP-ADN",
-   "name": "XRd vRouter Advantage offer",
-   "series_label": "ASR 9000",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use / subscription PID"
-  },
-  {
-   "sku": "XRD-VR-CP-DP-ADV",
-   "name": "XRd vRouter Advanced offer",
-   "series_label": "ASR 9000",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use / subscription PID"
-  },
-  {
-   "sku": "XRD-VR-CP-DP-ESS",
-   "name": "XRd vRouter Essentials offer",
-   "series_label": "ASR 9000",
-   "action": "class",
-   "to": "license",
-   "reason": "licence / right-to-use / subscription PID"
   },
   {
    "sku": "XRV-PCIE-C40Q-03",

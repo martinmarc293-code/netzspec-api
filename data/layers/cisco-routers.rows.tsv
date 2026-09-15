@@ -108,9 +108,6 @@ sku	name	series_label	kind	bucket	product_line	product_family	series	placed_by	d
 3G-CAB-ULL-20=	20-ft (6M) Ultra Low Loss LMR 400 Cable with TNC Connector	800	cable	layered	ISR (Integrated Services Routers)	(shared across the line)	ISR (Integrated Services Routers) shared parts	accessory ^(3G|4G|5G|LTE|3G4G|GPS)- (label 800)							
 3G-CAB-ULL-50	50-ft (15M) Ultra Low Loss LMR 400 Cable with TNC Connector	800	cable	layered	ISR (Integrated Services Routers)	(shared across the line)	ISR (Integrated Services Routers) shared parts	accessory ^(3G|4G|5G|LTE|3G4G|GPS)- (label 800)							
 3G-CAB-ULL-50=	50-ft (15M) Ultra Low Loss LMR 400 Cable with TNC Connector	800	cable	layered	ISR (Integrated Services Routers)	(shared across the line)	ISR (Integrated Services Routers) shared parts	accessory ^(3G|4G|5G|LTE|3G4G|GPS)- (label 800)							
-3G-CDMA-BSNL-PR1.0	Provisioning Package for BSNL HWIC	800	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software			
-3G-CDMA-TATA-PR1.0	Provisioning Package for TATA HWIC	800	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software			
-3G-EVDO-BSNL-P1.0	3G EVDO BSNL Provisioning 1.0	800	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software			
 3G4G-CAB-USB-RSVD	3G & 4G USB diagnostic cable accessory	800	cable	layered	ISR (Integrated Services Routers)	(shared across the line)	ISR (Integrated Services Routers) shared parts	accessory ^(3G|4G|5G|LTE|3G4G|GPS)- (label 800)							
 3G4G-CAB-USB-RSVD=	3G & 4G USB diagnostic cable accessory	800	cable	layered	ISR (Integrated Services Routers)	(shared across the line)	ISR (Integrated Services Routers) shared parts	accessory ^(3G|4G|5G|LTE|3G4G|GPS)- (label 800)							
 4-10GBE-WL-XFP	Cisco CRS-1 Series 4x10GbE WAN/LAN XFP Interface Module	Carrier Routing System	module	layered	CRS (Carrier Routing System)		CRS	label Carrier Routing System						name: CRS	
@@ -186,7 +183,6 @@ sku	name	series_label	kind	bucket	product_line	product_family	series	placed_by	d
 8000-QSFP-DCAP	QSFP Dust CAP	8000	mechanical	layered	Cisco 8000		Cisco 8000	sku ^8[0-9]{3}(-|$)							
 800G2-POE-2	2 Port PoE Module for 880 Series Router	800	power	layered	ISR (Integrated Services Routers)	ISR 800	ISR 810 / 840 / 860 / 870 / 880 / 890	sku ^8[0-9]{2}(VA|EA|W|G|M|H)							
 800G2-POE-2=	2 Port 802.3af compatible PoE module for 880 Series	800	power	layered	ISR (Integrated Services Routers)	ISR 800	ISR 810 / 840 / 860 / 870 / 880 / 890	sku ^8[0-9]{2}(VA|EA|W|G|M|H)							
-8010-FC-SW	Standard SW ATO FCM 2.0 for Cisco 8010 Series	8000	sp-router	pending_plan					sp-core	series:Cisco 8000		class license			
 8011-12G12X4Y-A	Cisco 8011-12G12X4Y-A	ASR 920 Series Aggregation Services Router	sp-router	layered	Cisco 8000		Cisco 8000	sku ^8[0-9]{3}(-|$)	sp-core	series:Cisco 8000					
 8011-12G12X4Y-A/D	Cisco 8011-12G12X4Y-A/D	8000	sp-router	layered	Cisco 8000		Cisco 8000	sku ^8[0-9]{3}(-|$)	sp-core	series:Cisco 8000					
 8011-12G12X4Y-A=	Cisco 8011-12G12X4Y-A=	ASR 920 Series Aggregation Services Router	sp-router	layered	Cisco 8000		Cisco 8000	sku ^8[0-9]{3}(-|$)	sp-core	series:Cisco 8000					
@@ -324,13 +320,11 @@ sku	name	series_label	kind	bucket	product_line	product_family	series	placed_by	d
 8K-MPA-16Z2D	Cisco 8700 MPA with 16 ports SFP56 and 2 ports QSFP56-DD * * 4xQDD ports that can be used in 2x400G or 4x100G/200G	8000	module	layered	Cisco 8000		Cisco 8000	sku ^8K-							
 8K-MPA-18Z1D	Cisco 8700 MPA with 18 x SFP56 and 1 port of QSFP56-DD	8000	module	layered	Cisco 8000		Cisco 8000	sku ^8K-							
 8K-MPA-4D	Cisco 8700 MPA with 4 x QSFP56 DD	8000	module	layered	Cisco 8000		Cisco 8000	sku ^8K-							
-8K-SW-FC	Standard SW ATO FCM 2.0 for Cisco 8000 Series	8000	router	pending_plan						rt.issue.licence	licence/software/planning PID	class license			
 9800-40	Cisco 9800-40	Catalyst Wireless Gateway CG113	router	pending_plan						rt.issue.wlc	wireless LAN controller	class non_product			
 9800-80	Cisco 9800-80	Catalyst Wireless Gateway CG113	router	pending_plan						rt.issue.wlc	wireless LAN controller	class non_product			
 A1C899G-LTE-GA-K9	Austria Only - Bundle C899G LTE -GA for 18 months Migration	800	router	pending_plan					branch	rt.branch.isr		class non_product			
 A1K-1RU-REAR=	ASR1001-X and ASR1001-HX Rear Mount Brackets, Spare	ASR 1000	mechanical	layered	ASR (Aggregation Services Routers)		ASR 1000	label ASR 1000						name: 1000	
 A1K-2RU-REAR=	ASR1002-X and ASR1002-HX Rear Mount Brackets, Spare	ASR 1000	mechanical	layered	ASR (Aggregation Services Routers)		ASR 1000	label ASR 1000						name: 1000	
-A4_9.00.60	Cisco A4_9.00.60	800	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software			
 A900-CM-GNSS	ASR 900 Global Navigation Satellite System Module	Network Convergence System 500	module	layered	ASR (Aggregation Services Routers)	ASR 900	ASR 902 / 903 / 907 / 914	sku ^A90[0-9]-							
 A900-CM-GNSS=	ASR 900 Global Navigation Satellite System Module, spare	Network Convergence System 500	module	layered	ASR (Aggregation Services Routers)	ASR 900	ASR 902 / 903 / 907 / 914	sku ^A90[0-9]-							
 A900-CONS-KIT-S	ASR 900 Serial Console Cabling Kit	ASR 920 Series Aggregation Services Router	mechanical	layered	ASR (Aggregation Services Routers)	ASR 900	ASR 902 / 903 / 907 / 914	sku ^A90[0-9]-							
@@ -514,9 +508,6 @@ A920-RCKMT-ETSI-HD	ETSI Rack mount Option for ClassB Cisco ASR 920, DC	ASR 920 S
 A920-WALLMT-H	Wall Mount Option for ClassB Cisco ASR 920	ASR 920 Series Aggregation Services Router	mechanical	layered	ASR (Aggregation Services Routers)	ASR 900	ASR 920	sku ^A920							
 A99-10X400GE-X-SE	ASR 9000 4T Service Edge Line Card - 5 th Generation	ASR 9000	linecard	layered	ASR (Aggregation Services Routers)		ASR 9000	sku ^A99-							
 A99-10X400GE-X-TR	ASR 9000 4T Packet Transport Line Card - 5 th Generation	ASR 9000	linecard	layered	ASR (Aggregation Services Routers)		ASR 9000	sku ^A99-							
-A99-1200G-ADVRTNG	ASR 9900 Standard Advanced routing license for route scales exceeding 128K for IPv4 and 64K for IPv6 per 12-port 100GE line card	ASR 9000	linecard	pending_plan								class license			
-A99-1200G-AIP	ASR 9900 Standard Advanced IP License to turn on full-scale VRF instances per 12-port 100-GE line card	ASR 9000	linecard	pending_plan								class license			
-A99-1200G-IVRF	ASR 9900 Standard License to activate up to 8 VRFs on 12x100GE Line Card	ASR 9000	linecard	pending_plan								class license			
 A99-12X100GE	ASR 9900 12-port 100GE Line Card	ASR 9000	linecard	layered	ASR (Aggregation Services Routers)		ASR 9000	sku ^A99-							
 A99-12X100GE-CM	ASR 9900 12-port 100GE Consumption Model Line Card	ASR 9000	linecard	layered	ASR (Aggregation Services Routers)		ASR 9000	sku ^A99-							
 A99-12X100GE-CM=	ASR 9900 12-port 100GE Consumption Model Line Card, Spare	ASR 9000	linecard	layered	ASR (Aggregation Services Routers)		ASR 9000	sku ^A99-							
@@ -665,7 +656,6 @@ A9K-3KW-AC	3kW AC Power Module	ASR 9000	power	layered	ASR (Aggregation Services 
 A9K-3KW-AC=	3kW AC Power Module	ASR 9000	power	layered	ASR (Aggregation Services Routers)		ASR 9000	sku ^A9KV?-							
 A9K-400G-DWDM-TR	ASR9000 400G IPoDWDM Packet Transport Optimized LC	ASR 9000	linecard	layered	ASR (Aggregation Services Routers)		ASR 9000	sku ^A9KV?-							
 A9K-400G-DWDM-TR=	ASR9000 400G IPoDWDM Packet Transport Optimized LC	ASR 9000	linecard	layered	ASR (Aggregation Services Routers)		ASR 9000	sku ^A9KV?-							
-A9K-400G-L-AIP	ASR 9K Standard License Advanced IP for 4-port 100GE LAN Line Card	ASR 9000	linecard	pending_plan								class license			
 A9K-400GE-LAN-FC	ASR 9000 4-port 100GE QSFP28 Flexible Consumption Model LAN Line Card	ASR 9000	linecard	layered	ASR (Aggregation Services Routers)		ASR 9000	sku ^A9KV?-							
 A9K-400GE-LAN-FC=	ASR 9000 4-port 100GE QSFP28 Flexible Consumption Model LC	ASR 9000	linecard	layered	ASR (Aggregation Services Routers)		ASR 9000	sku ^A9KV?-							
 A9K-40GE-B	40-Port GE Medium Queue Line Card, requires SFPs	ASR 9000	linecard	layered	ASR (Aggregation Services Routers)		ASR 9000	sku ^A9KV?-							
@@ -686,7 +676,6 @@ A9K-48X10GE-1G-SE	ASR 9000 48-port dual-rate 10G/1G service edge–optimized lin
 A9K-48X10GE-1G-SE=	ASR 9000 48-port 10GE & 1GE dual rate SE LC	ASR 9000	linecard	layered	ASR (Aggregation Services Routers)		ASR 9000	sku ^A9KV?-							
 A9K-48X10GE-1G-TR	ASR 9000 48-port dual-rate 10G/1G packet transport–optimized line card	ASR 9000	linecard	layered	ASR (Aggregation Services Routers)		ASR 9000	sku ^A9KV?-							
 A9K-48X10GE-1G-TR=	ASR 9000 48-port 10GE & 1GE dual rate -TR LC	ASR 9000	linecard	layered	ASR (Aggregation Services Routers)		ASR 9000	sku ^A9KV?-							
-A9K-4HG-200G-DWDM=	PAYG for 200Gbs use in 400G IPoDWDM cards	ASR 9000	linecard	pending_plan								class license			
 A9K-4HG-FLEX-FC	ASR 9000 400GB Flexible Consumption Line Card - 5 th Generation	ASR 9000	linecard	layered	ASR (Aggregation Services Routers)		ASR 9000	sku ^A9KV?-							
 A9K-4HG-FLEX-FC=	Cisco A9K-4HG-FLEX-FC=	ASR 9000	linecard	layered	ASR (Aggregation Services Routers)		ASR 9000	sku ^A9KV?-							
 A9K-4HG-FLEX-SE	ASR 9000 400GE Combo Service Edge Line Card - 5 th Generation	ASR 9000	linecard	layered	ASR (Aggregation Services Routers)		ASR 9000	sku ^A9KV?-							
@@ -931,8 +920,6 @@ ACS-CF-COVER=	Compact Flash Cover (Guard) for Cisco 1900, 2900, 3900 ISR (only a
 ACS-IAD2400RM-19=	19 inch Rack Mount Bracket for Cisco IAD24xx	2900 ISR	mechanical	layered	ISR (Integrated Services Routers)	(shared across the line)	ISR (Integrated Services Routers) shared parts	accessory RM-?(19|23) (label 2900 ISR)							
 ACS-IAD2435RM-19	IAD2435 19 Rack Bracket	800	mechanical	layered	ISR (Integrated Services Routers)	(shared across the line)	ISR (Integrated Services Routers) shared parts	accessory RM-?(19|23) (label 800)							
 ACS-IAD2435RM-19=	IAD2435 19 Rack Bracket	2900 ISR	mechanical	layered	ISR (Integrated Services Routers)	(shared across the line)	ISR (Integrated Services Routers) shared parts	accessory RM-?(19|23) (label 800)							
-ADN-PRM-8KSW-100G	Advantage to Premium Right-to-Use 100G Cisco 8000 Series	8000	router	pending_plan						rt.issue.licence	licence/software/planning PID	class license			
-ADN-PRM-8KSW-400G	Advantage to Premium Right-to-Use 400G Cisco 8000 Series	8000	router	pending_plan						rt.issue.licence	licence/software/planning PID	class license			
 ADSL2	Cisco ADSL2	900 ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
 ADSL2+	Cisco ADSL2+	900 ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
 ADSL2+M	Cisco ADSL2+M	900 ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
@@ -946,8 +933,6 @@ AIR-ANT2547V-N	Cisco AIR-ANT2547V-N	800 ISR	antenna	pending_plan								move wir
 AIR-ANT2547V-N-HZ	Cisco AIR-ANT2547V-N-HZ	800 ISR	antenna	pending_plan								move wireless			
 AIR-ANT2588P4M-NS	2.4GHz/5GHz 8Bi Patch Antenna 4port, Nconn	3800 Series Integrated Services Routers ISR	antenna	pending_plan								move wireless			
 AIR-ANT5135	Cisco AIR-ANT5135	800 ISR	antenna	pending_plan								move wireless			
-AIR-AP1815-K9-ME-8-5-110-0.tar	Cisco 111X Models AP delivers industry-leading wireless performance with support for the latest Wi-Fi standard, IEEE’s 802.11ac Wave 2 and Mobility Express.	1000	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software			
-AIR-AP1815-K9-ME-8-8-110-0.tar	Cisco 1101 and 1109 Models AP delivers industry-leading wireless performance with support for the latest Wi-Fi standard, IEEE’s 802.11ac Wave 2 and Mobility Express.	1000	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software			
 ANT-2-4G2-O	Cisco ANT-2-4G2-O	Catalyst IR1800 Rugged	antenna	layered	Industrial and IoT Routers	(shared across the line)	Industrial and IoT Routers shared parts	accessory ^ANT- (label Catalyst IR1800 Rugged)							
 ANT-2-WLAN-D-O	Cisco ANT-2-WLAN-D-O	800 ISR	antenna	layered	ISR (Integrated Services Routers)	(shared across the line)	ISR (Integrated Services Routers) shared parts	accessory ^ANT- (label 800 ISR)							
 ANT-2.3-PNL-OUT-N	Cisco ANT-2.3-PNL-OUT-N	1000 Connected Grid	antenna	layered	Industrial and IoT Routers	(shared across the line)	Industrial and IoT Routers shared parts	accessory ^ANT- (label 1000 Connected Grid)							
@@ -1427,7 +1412,6 @@ C1-ASR1006X/K9	Cisco ONE - ASR1006-X	ASR 1000	router	layered	ASR (Aggregation Se
 C1-ASR1009X/K9	Cisco ONE - ASR1009-X	ASR 1000	router	layered	ASR (Aggregation Services Routers)		ASR 1000	sku ^(M-)?ASR1[0-9]{3}	edge	series:ASR 1000					
 C1-ASR1013/K9	Cisco ONE - ASR1013	ASR 1000	router	layered	ASR (Aggregation Services Routers)		ASR 1000	sku ^(M-)?ASR1[0-9]{3}	edge	series:ASR 1000					
 C1-ASR1K-ADD	Cisco ONE for ASR 1000 Series	ASR 1000	router	pending_plan						rt.issue.licence	licence/software/planning PID	class non_product			
-C1-ASR1K-UPG	Cisco ONE Upgrade for ASR 1000 Series	ASR 1000	router	pending_plan						rt.issue.licence	licence/software/planning PID	class license			
 C1-CISCO1921/K9	Cisco ONE - ISR 1921	1900 ISR	router	layered	ISR (Integrated Services Routers)	ISR G2	ISR 1900	sku ^(CISCO|C)19(05|21|41)(?![0-9])	branch	series:ISR 1900					
 C1-CISCO1941/K9	Cisco ONE - ISR 1941	1900 ISR	router	layered	ISR (Integrated Services Routers)	ISR G2	ISR 1900	sku ^(CISCO|C)19(05|21|41)(?![0-9])	branch	series:ISR 1900					
 C1-CISCO2901/K9	Cisco ONE - ISR 2901	2900 ISR	router	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	sku ^(CISCO|C|CONE-|SPIAD)29[0-5]1(?![0-9])	branch	series:ISR 2900					
@@ -1449,7 +1433,6 @@ C1-CISCO4351/K9	Cisco ONE ISR 4351 (3GE,3NIM,2SM,4G FLASH,4G DRAM,IPB)	3900 Seri
 C1-CISCO4431/K9	Cisco ONE ISR 4431 (4GE,3NIM,8G FLASH,4G DRAM,IPB)	3900 Series Integrated Services Routers ISR	router	layered	ISR (Integrated Services Routers)		ISR 4000	sku ^(CISCO)?4[2-4][0-9]{2}(?![0-9])	branch	series:ISR 4000					
 C1-CISCO4451/K9	Cisco ONE ISR 4451 (4GE,3NIM,2SM,8G FLASH,4G DRAM, IPB)	3900 Series Integrated Services Routers ISR	router	layered	ISR (Integrated Services Routers)		ISR 4000	sku ^(CISCO)?4[2-4][0-9]{2}(?![0-9])	branch	series:ISR 4000					
 C1-ISR-ADD	Cisco ONE for ISR - CHOOSE ONLY QTY 1 HERE	3900 Series Integrated Services Routers ISR	router	pending_plan						rt.issue.licence	licence/software/planning PID	class non_product			
-C1-ISR-UPG-M	Cisco ONE Upgrade for ISR	2900 ISR	router	pending_plan						rt.issue.licence	licence/software/planning PID	class license			
 C1100TG-1N24P32A	Cisco 1100 Terminal Services Gateway w/ 32 Async,24-layer 2 switch Port, 1 NIM with support for 4G DRAM	Terminal Services Gateways	appliance	layered	Console and Terminal Servers		Terminal Services Gateways	sku ^C1100TGX?-							
 C1100TG-1N32A	Cisco 1100 Terminal Services Gateway w/ 32 Async, 1 NIM (support for 2 GB DRAM)	Terminal Services Gateways	appliance	layered	Console and Terminal Servers		Terminal Services Gateways	sku ^C1100TGX?-							
 C1100TGX-1N24P32A	Cisco 1100 Terminal Services Gateway w/ 32 Async,24-layer 2 switch Port, 1 NIM with support for 8G DRAM	Terminal Services Gateways	appliance	layered	Console and Terminal Servers		Terminal Services Gateways	sku ^C1100TGX?-							
@@ -1750,7 +1733,6 @@ C3945E-VSEC-SRE/K9	Cisco 3945E SRE Bundle, SRE 900, PVDM3-64, UC and SEC License
 C3945E-VSEC/K9	Cisco 3945E Voice Sec. Bundle, PVDM3-64, UC and SEC License PAK	2900 ISR	router	layered	ISR (Integrated Services Routers)	ISR G2	ISR 3900	sku ^(CISCO|C|CONE-|SPIAD)39(00|[24]5)(?![0-9])	branch	series:ISR 3900					
 C800-PWRINJ-4	External 4 Port 802.3af inline pwr module for Cisco Routers	800	power	layered	ISR (Integrated Services Routers)	ISR 800	ISR 810 / 840 / 860 / 870 / 880 / 890	sku ^(CISCO|C)8(?!8[05]|90)[0-9]{2}(?![0-9])							
 C800-PWRINJ-4=	External 4 Port 802.3af inline pwr module for Cisco Routers	800	power	layered	ISR (Integrated Services Routers)	ISR 800	ISR 810 / 840 / 860 / 870 / 880 / 890	sku ^(CISCO|C)8(?!8[05]|90)[0-9]{2}(?![0-9])							
-C8000V-PF	Cisco C8000V-PF	Catalyst 8000V Edge Software	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software			
 C810-BR-CM	^C812 series ceiling mount bracket	800	mechanical	layered	ISR (Integrated Services Routers)	ISR 800	ISR 810 / 840 / 860 / 870 / 880 / 890	sku ^(CISCO|C)8(?!8[05]|90)[0-9]{2}(?![0-9])							
 C810-BR-CM=	C812 series ceiling mount bracket	800	mechanical	layered	ISR (Integrated Services Routers)	ISR 800	ISR 810 / 840 / 860 / 870 / 880 / 890	sku ^(CISCO|C)8(?!8[05]|90)[0-9]{2}(?![0-9])							
 C810-POE-SPL	C812 series POE+ power supply splitter	800	power	layered	ISR (Integrated Services Routers)	ISR 800	ISR 810 / 840 / 860 / 870 / 880 / 890	sku ^(CISCO|C)8(?!8[05]|90)[0-9]{2}(?![0-9])							
@@ -2223,10 +2205,6 @@ CAT6	Cisco CAT6	8100 Series Secure	router	pending_plan						rt.issue.placeholder
 CAT7	Cisco CAT7	8100 Series Secure	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
 CBL-BRKT-V1	Cisco CBL-BRKT-V1	8000	accessory	layered	Cisco 8000	(shared across the line)	Cisco 8000 shared parts	accessory ^CBL- (label 8000)							
 CBL-BRKT-V2	Cable Management Bracket for 8010 Series Router	8000	mechanical	layered	Cisco 8000	(shared across the line)	Cisco 8000 shared parts	accessory ^CBL- (label 8000)							
-CDASR1000-AESK9=	Cisco CDASR1000-AESK9=	ASR 1000	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software			
-CDASR1000-AISK9=	Cisco CDASR1000-AISK9=	ASR 1000	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software			
-CDASR1000-IPB=	Cisco CDASR1000-IPB=	ASR 1000	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software			
-CDASR1000-IPBK9=	Cisco CDASR1000-IPBK9=	ASR 1000	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software			
 CG113-4GW6A	Cisco Catalyst Wireless Gateway, WiFi6, 4G LTE, Domain A	Catalyst Wireless Gateway CG113	router	layered	Industrial and IoT Routers		Catalyst Wireless Gateway CG113	sku ^CG113	branch	series:Catalyst Wireless Gateway CG113					
 CG113-4GW6B	Cisco Catalyst Wireless Gateway, WiFi6, 4G LTE, Domain B	Catalyst Wireless Gateway CG113	router	layered	Industrial and IoT Routers		Catalyst Wireless Gateway CG113	sku ^CG113	branch	series:Catalyst Wireless Gateway CG113					
 CG113-4GW6E	Cisco Catalyst Wireless Gateway, WiFi6, 4G LTE, Domain E	Catalyst Wireless Gateway CG113	router	layered	Industrial and IoT Routers		Catalyst Wireless Gateway CG113	sku ^CG113	branch	series:Catalyst Wireless Gateway CG113					
@@ -2311,7 +2289,6 @@ CGR1240/K9=	CGR1240 w/ 4 module slots,2 GE,2 serial,4 FE LAN,Wi-Fi,GPS	1000 Conn
 CGR2010/NFR	CGR 2010 Channel Kit	2000 Series Connected Grid	router	pending_plan						rt.issue.component	module/modem/accessory	class non_product			
 CGSE-PLUS-PK	Phantom PID for CRS Service Card for CGN, Anti DDoS and SDN	Carrier Routing System	linecard	layered	CRS (Carrier Routing System)		CRS	label Carrier Routing System						name: CRS	
 CISCO-FIPS-KIT=	Tamper Proof for 80/18/28/38/72/73 Routers and ASA	Catalyst 8200	mechanical	layered	Catalyst 8000 Edge	(shared across the line)	Catalyst 8000 Edge shared parts	label-unsupported (label Catalyst 8200; was Catalyst 8200): no platform token (8200) in the SKU or name, no compatible part placed in the series						none: no platform token (8200) in the SKU or name, no compatible part placed in the series	
-CISCO-MATE-STE	Cisco MATE Suite	WAN Automation Engine (WAE)	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software			
 CISCO1811/K9	Cisco CISCO1811/K9	2900 ISR	router	layered	ISR (Integrated Services Routers)	ISR G1	ISR 1800	sku ^(CISCO|C)18[0-9]{2}(?![0-9])	branch	series:ISR 1800					
 CISCO1811W-AG-A/K9	Cisco CISCO1811W-AG-A/K9	2900 ISR	router	layered	ISR (Integrated Services Routers)	ISR G1	ISR 1800	sku ^(CISCO|C)18[0-9]{2}(?![0-9])	branch	series:ISR 1800					
 CISCO1812/K9	Cisco CISCO1812/K9	2900 ISR	router	layered	ISR (Integrated Services Routers)	ISR G1	ISR 1800	sku ^(CISCO|C)18[0-9]{2}(?![0-9])	branch	series:ISR 1800					
@@ -2423,7 +2400,6 @@ CISCO3945E-V/K9	Cisco 3945E Voice Bundle, PVDM3-64, UC License PAK, FL-CUBE25	29
 CISCO3945E/K9	Cisco 3945E w/SPE250 (4GE, 3EHWIC, 3DSP, 4SM, 256MBCF, 1GBDRAM, IPB)	2900 ISR	router	layered	ISR (Integrated Services Routers)	ISR G2	ISR 3900	sku ^(CISCO|C|CONE-|SPIAD)39(00|[24]5)(?![0-9])	branch	series:ISR 3900					
 CISCO5915RA-K9	Cisco 5915 ESR air-cooled card with 2 Fast Ethernet routed ports, 3 Fast Ethernet switched ports and 1 console port.	5900 Embedded Services	router	layered	Embedded Services Routers		5900 Embedded Services	sku ^(CISCO)?59[0-9]{2}	industrial-iot	series:5900 Embedded Services					
 CISCO5915RC-K9	Cisco 5915 ESR conduction-cooled card with 2 Fast Ethernet routed ports, 3 Fast Ethernet switched ports and 1 console port.	5900 Embedded Services	router	layered	Embedded Services Routers		5900 Embedded Services	sku ^(CISCO)?59[0-9]{2}	industrial-iot	series:5900 Embedded Services					
-CISCO5921-K9	Cisco 5921 Embedded Services Router SW for x86 Processor	5900 Embedded Services	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software			
 CISCO5930-K9	Cisco 5930 Embedded Services Router	5900 Embedded Services	router	layered	Embedded Services Routers		5900 Embedded Services	sku ^(CISCO)?59[0-9]{2}	industrial-iot	series:5900 Embedded Services					
 CISCO5940-A/K9	Cisco 5940 ESR air-cooled card with RTM and Cisco 5940 Advanced Enterprise Cisco IOS Software image	5900 Embedded Services	router	layered	Embedded Services Routers		5900 Embedded Services	sku ^(CISCO)?59[0-9]{2}	industrial-iot	series:5900 Embedded Services					
 CISCO5940-C/K9	Cisco 5940 ESR conduction-cooled card with RTM and Cisco 5940 Advanced Enterprise Cisco IOS Software image	5900 Embedded Services	router	layered	Embedded Services Routers		5900 Embedded Services	sku ^(CISCO)?59[0-9]{2}	industrial-iot	series:5900 Embedded Services					
@@ -2551,11 +2527,8 @@ CISCO892J-K9	Cisco 892 GigaE SecRouter Japan	800	router	layered	ISR (Integrated 
 CISCO892W-AGN-P-K9	Cisco 892 GigaE SecRouter w/ 802.11n a/b/g/ Japan Comp	800	router	layered	ISR (Integrated Services Routers)	ISR 800	ISR 810 / 840 / 860 / 870 / 880 / 890	sku ^(CISCO|C)8(?!8[05]|90)[0-9]{2}(?![0-9])	branch	series:ISR 810 / 840 / 860 / 870 / 880 / 890					
 CISCOUTM1100	Unified Threat Management 1100 Bundle	800	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
 CISCOUTM2100	Unified Threat Management 2100 Bundle	2900 ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-CN-BNG-100k-L	Session scale for 100K subscribers (Network Wide)	Cloud Native Broadband Network Gateway (BNG)	router	pending_plan						rt.issue.licence	licence/software/planning PID	class license			
-CN-BNG-BASE-L	Base PID for cnBNG Control Plane (Per Cluster)	Cloud Native Broadband Network Gateway (BNG)	router	pending_plan						rt.issue.licence	licence/software/planning PID	class license			
 CONE-2921-ATO	ISR 2921 for Cisco ONE	2900 ISR	router	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	sku ^(CISCO|C|CONE-|SPIAD)29[0-5]1(?![0-9])	branch	series:ISR 2900					
 CP-DQPSK	Cisco CP-DQPSK	ASR 9000	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-CP-SW-SBP-K9	Cisco CP-SW-SBP-K9	WAN Automation Engine (WAE)	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software			
 CPA-CAB-232FC=	RS-232 CABLE,DCE,FEMALE,10 FT	4000 ISR	cable	layered	ISR (Integrated Services Routers)	(shared across the line)	ISR (Integrated Services Routers) shared parts	accessory -CAB- (label 4000 ISR)							
 CPA-CAB-V35FC=	V.35 CABLE,DCE,FEMALE,10 FEET	4000 ISR	cable	layered	ISR (Integrated Services Routers)	(shared across the line)	ISR (Integrated Services Routers) shared parts	accessory -CAB- (label 4000 ISR)							
 CPT-50-FTF=	CPT-50 Fan Tray Filter	ASR 9000	mechanical	layered	ASR (Aggregation Services Routers)	(shared across the line)	ASR (Aggregation Services Routers) shared parts	label-unsupported (label ASR 9000; was ASR 9000): no platform token (9000) in the SKU or name, no compatible part placed in the series						none: no platform token (9000) in the SKU or name, no compatible part placed in the series	
@@ -3173,7 +3146,6 @@ E-SSD-U2N-2TB	2 TB, NVME SSD drive for UCS-E M6	Catalyst 8300 Series Edge uCPE	d
 E-SSD-U2N-2TB=	2 TB, U.2 NVME SSD drive for UCS-E M6 Spare	Catalyst 8300 Series Edge uCPE	drive	pending_plan								move servers-unified-computing			
 E-SSD-U2N-4TB	4 TB, U.2 NVME SSD drive for UCS-E M6	Catalyst 8300 Series Edge uCPE	drive	pending_plan								move servers-unified-computing			
 E-SSD-U2N-4TB=	4 TB, U.2 NVME SSD drive for UCS-E M6 Spare	Catalyst 8300 Series Edge uCPE	drive	pending_plan								move servers-unified-computing			
-E.67.15.1	Cisco E.67.15.1	800	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software			
 E100-FCPLT-BRKT	Bracket Used To Attach Faceplate to E100 Series Module	Catalyst 8200 Edge uCPE	mechanical	pending_plan								move servers-unified-computing			
 E100-FCPLT-BRKT=	Bracket Used To Attach Faceplate to E100 Series Module	Catalyst 8200 Edge uCPE	mechanical	pending_plan								move servers-unified-computing			
 E100S-CON-DGL	KVM Dongle	Catalyst 8200 Edge uCPE	accessory	pending_plan								move servers-unified-computing			
@@ -3245,8 +3217,6 @@ EPA-QSFP-1X100GE	Cisco ASR 1000 1x100GE Ethernet Port Adapter (QSFP)	ASR 1000	mo
 EPA-QSFP-1X100GE=	Cisco ASR 1000 1x100GE QSFP Ethernet Port Adapter, spare	ASR 1000	module	layered	ASR (Aggregation Services Routers)		ASR 1000	sku ^EPA-(?!3GE|GE/FE)							
 ESR-6300-CON-K9	Cisco ESR6300 conduction cooled card with 2x Gigabit Ethernet routed ports and 4x Gigabit Ethernet switched ports	ESR6300 Embedded	router	layered	Embedded Services Routers		ESR 6300	sku ^ESR-?6300	industrial-iot	series:ESR 6300					
 ESR-6300-NCP-K9	Cisco ESR6300 no cooling plate card with 2x Gigabit Ethernet routed ports and 4x Gigabit Ethernet switched ports	ESR6300 Embedded	router	layered	Embedded Services Routers		ESR 6300	sku ^ESR-?6300	industrial-iot	series:ESR 6300					
-ESS-ADN-8KSW-100G	Essential to Advantage Right-to-Use 100G Cisco 8000 Series	8000	router	pending_plan						rt.issue.licence	licence/software/planning PID	class license			
-ESS-ADN-8KSW-400G	Essential to Advantage Right-to-Use 400G Cisco 8000 Series	8000	router	pending_plan						rt.issue.licence	licence/software/planning PID	class license			
 EVM-HD-8FXS/DID	Cisco EVM-HD-8FXS/DID	2900 ISR	module	layered	ISR (Integrated Services Routers)	(shared across the line)	ISR (Integrated Services Routers) shared parts	label-unsupported (label 2900 ISR; was ISR 2900): no platform token (2900) in the SKU or name, no compatible part placed in the series						none: no platform token (2900) in the SKU or name, no compatible part placed in the series	
 FAN-1RU-PE	1RU Fan with Port-side Exhaust	8000	fan	layered	Cisco 8000	(shared across the line)	Cisco 8000 shared parts	label-unsupported (label 8000; was Cisco 8000): no platform token (8000) in the SKU or name, no compatible part placed in the series						none: no platform token (8000) in the SKU or name, no compatible part placed in the series	
 FAN-1RU-PE-V2	1RU Fan with Port-side Air Exhaust	8000	fan	layered	Cisco 8000	(shared across the line)	Cisco 8000 shared parts	label-unsupported (label 8000; was Cisco 8000): no platform token (8000) in the SKU or name, no compatible part placed in the series						none: no platform token (8000) in the SKU or name, no compatible part placed in the series	
@@ -3260,38 +3230,11 @@ FAN-PE-V3	Cisco 8000 FAN - port-side Exhaust	8000	fan	layered	Cisco 8000		Cisco 
 FAN-PI-V3	Cisco 8000 FAN - port-side intake	8000	fan	layered	Cisco 8000		Cisco 8000	label 8000						name: Cisco 8000	
 FIPS-SHIELD-1900=	FIPS opacity shield for Cisco 1905, Cisco 1921 ISR	2900 ISR	mechanical	layered	ISR (Integrated Services Routers)	(shared across the line)	ISR (Integrated Services Routers) shared parts	label-unsupported (label 2900 ISR; was ISR 2900): names another series of the line: ISR 1900 (sku 1900)						none: names another series of the line: ISR 1900 (sku 1900)	
 FIPS-SHIELD-3900=	FIPS opacity shield for Cisco 3925 - 3945EISR	2900 ISR	mechanical	layered	ISR (Integrated Services Routers)	(shared across the line)	ISR (Integrated Services Routers) shared parts	label-unsupported (label 2900 ISR; was ISR 2900): names another series of the line: ISR 3900 (sku 3900)						none: names another series of the line: ISR 3900 (sku 3900)	
-FL-8XX-512U1GB	512 MB DRAM upgrade to 1 GB for Cisco 892FSP, 896VA, 897VA, 897VAB, 898EA, 891F model (Feature License)	800	memory	pending_plan								class license			
-FL-8XX-512U1GB=	CISCO800 DRAM Upgrade from 512MB to 1GB	800	memory	pending_plan								class license			
-FL-SRE-WLC-25	25 access point license for Cisco Wireless Controller on SRE (when sold with ISR G2 system)	2900 ISR	router	pending_plan						rt.issue.licence	licence/software/planning PID	class license			
-FL-SRE-WLC-25A	25 Access Point Adder License for Cisco Wireless Controller on SRE (Paper Certificate)	2900 ISR	router	pending_plan						rt.issue.licence	licence/software/planning PID	class license			
-FL-SRE-WLC-5	5 access point license for Cisco Wireless Controller on SRE (when sold with ISR G2 system)	2900 ISR	router	pending_plan						rt.issue.licence	licence/software/planning PID	class license			
-FL-SRE-WLC-5A	5 Access Point Adder License for Cisco Wireless Controller on SRE (Paper Certificate)	2900 ISR	router	pending_plan						rt.issue.licence	licence/software/planning PID	class license			
 FLS-A901-2Z	Cisco ASR 901 10G Router - 2x10GE Port Upgrade - Physical	ASR 901	sp-router	layered	ASR (Aggregation Services Routers)	ASR 900	ASR 901	sku ^FLS-A901	sp-access	series:ASR 901					
 FLS-A901-2Z=	Cisco ASR 901 10G Router - 2x10GE Port Upgrade - Physical	ASR 901	sp-router	layered	ASR (Aggregation Services Routers)	ASR 900	ASR 901	sku ^FLS-A901	sp-access	series:ASR 901					
 FLS-A901-4	Cisco ASR 901 10G Router - 4 Flex Port GE Upgrade - Physical	ASR 901	sp-router	layered	ASR (Aggregation Services Routers)	ASR 900	ASR 901	sku ^FLS-A901	sp-access	series:ASR 901					
 FLS-A901-4=	Cisco ASR 901 10G Router - 4 Flex Port GE Upgrade - Physical	ASR 901	sp-router	layered	ASR (Aggregation Services Routers)	ASR 900	ASR 901	sku ^FLS-A901	sp-access	series:ASR 901					
-FLS-A901-4S	Cisco ASR 901 4 Port SFP GE Upgrade - Physical	ASR 901	sp-router	pending_plan					sp-access	series:ASR 901		class license			
-FLS-A901-4S=	ASR 901 4 Port SFP GE Upgrade License: Paper License	ASR 901	sp-router	pending_plan					sp-access	series:ASR 901		class license			
-FLS-A901-4T	Cisco ASR 901 4 Port Copper GE Upgrade - Physical	ASR 901	sp-router	pending_plan					sp-access	series:ASR 901		class license			
-FLS-A901-4T=	ASR 901 4 Port Copper GE Upgrade License: Paper License	ASR 901	sp-router	pending_plan					sp-access	series:ASR 901		class license			
 FRC887VA-K9	EMEA Only - Bundle C887VA-K9 for 12 months Migration	800	router	pending_plan					branch	rt.branch.isr		class non_product			
-FW-7430-LTE-AU	Cisco FW-7430-LTE-AU	800	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software			
-FW-7430-LTE-GN	Cisco FW-7430-LTE-GN	800	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software			
-FW-7430-LTE-JP	Cisco FW-7430-LTE-JP	800	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software			
-FW-7430-LTE-KD	Cisco FW-7430-LTE-KD	800 ISR	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software			
-FW-7430-LTE-SB	Cisco FW-7430-LTE-SB	800 ISR	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software			
-FW-7455-LTE-AT	Cisco FW-7455-LTE-AT	800 ISR	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software			
-FW-7455-LTE-GN	Cisco FW-7455-LTE-GN	800 ISR	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software			
-FW-7455-LTE-VZ	Cisco FW-7455-LTE-VZ	800 ISR	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software			
-FW-MC7304-LTE-AU	Cisco FW-MC7304-LTE-AU	800	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software			
-FW-MC7304-LTE-GB	Cisco FW-MC7304-LTE-GB	800	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software			
-FW-MC7350-LTE-ST	Cisco FW-MC7350-LTE-ST	800	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software			
-FW-MC7350-LTE-VZ	Cisco FW-MC7350-LTE-VZ	800	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software			
-FW-MC7354-LTE-AT	Cisco FW-MC7354-LTE-AT	800	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software			
-FW-MC7354-LTE-CA	Cisco FW-MC7354-LTE-CA	800	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software			
-FW-MC7354M-LTE-AT	Cisco FW-MC7354M-LTE-AT	800	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software			
-FW-MC7354M-LTE-VZ	Cisco FW-MC7354M-LTE-VZ	800	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software			
-FW-VA-39D	VDSL2/ADSL2+ Firmware for Multimode DSL products	800	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software			
 G703	Cisco G703	2900 ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
 GPS-ACT-ANTM-SMA	Cisco GPS-ACT-ANTM-SMA	800 ISR	antenna	layered	ISR (Integrated Services Routers)	(shared across the line)	ISR (Integrated Services Routers) shared parts	accessory ^(3G|4G|5G|LTE|3G4G|GPS)- (label 800 ISR)							
 GPS-ACT-ANTM-SMA=	Cisco GPS-ACT-ANTM-SMA=	800	antenna	layered	ISR (Integrated Services Routers)	(shared across the line)	ISR (Integrated Services Routers) shared parts	accessory ^(3G|4G|5G|LTE|3G4G|GPS)- (label 800 ISR)							
@@ -3336,8 +3279,6 @@ IAD888FW-GN-A-K9	Cisco IAD888 G.SHDSL FXS Sec ISDN B/U 802.11n FCC Comp	800	rout
 IAD888FW-GN-E-K9	Cisco IAD888 G.SHDSL FXS Sec ISDN B/U 802.11n ETSI Comp	800	router	layered	ISR (Integrated Services Routers)	ISR 800	ISR 810 / 840 / 860 / 870 / 880 / 890	sku ^IAD88	branch	series:ISR 810 / 840 / 860 / 870 / 880 / 890					
 INDUSTRYOPTIOAPN7	Industry Options	Wireless Gateway for LoRaWAN	router	pending_plan						rt.issue.licence	licence/software/planning PID	class non_product			
 IOT-LA-NM-NF	Cisco IOT-LA-NM-NF	Catalyst IR8100 Heavy Duty	accessory	layered	Industrial and IoT Routers	(shared across the line)	Industrial and IoT Routers shared parts	label-unsupported (label Catalyst IR8100 Heavy Duty; was IR 8100): no platform token (8100) in the SKU or name, no compatible part placed in the series						none: no platform token (8100) in the SKU or name, no compatible part placed in the series	
-IOTOD-IW-A	Cisco IOTOD-IW-A	3800 Series Integrated Services Routers ISR	router	pending_plan						rt.issue.ap	access point	class license			
-IOTOD-IW-E	Cisco IOTOD-IW-E	3800 Series Integrated Services Routers ISR	router	pending_plan						rt.issue.ap	access point	class license			
 IP20	Cisco IP20	800 ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
 IR-ANT-PLUG	Cisco IR-ANT-PLUG	Catalyst IR8100 Heavy Duty	antenna	layered	Industrial and IoT Routers	(shared across the line)	Industrial and IoT Routers shared parts	label-unsupported (label Catalyst IR8100 Heavy Duty; was IR 8100): no platform token (8100) in the SKU or name, no compatible part placed in the series						none: no platform token (8100) in the SKU or name, no compatible part placed in the series	
 IR-BAND	Cisco IR-BAND	Catalyst IR8100 Heavy Duty	accessory	layered	Industrial and IoT Routers	(shared across the line)	Industrial and IoT Routers shared parts	label-unsupported (label Catalyst IR8100 Heavy Duty; was IR 8100): no platform token (8100) in the SKU or name, no compatible part placed in the series						none: no platform token (8100) in the SKU or name, no compatible part placed in the series	
@@ -3454,10 +3395,6 @@ IRMH-WPAN-BRZ	Cisco IRMH-WPAN-BRZ	Catalyst IR8100 Heavy Duty	module	layered	Indu
 IRMH-WPAN-BRZ=	Cisco IRMH-WPAN-BRZ=	1000 Connected Grid	module	layered	Industrial and IoT Routers		IR 8100	sku ^IRMH-							
 IRMH-WPAN-NA	Cisco IRMH-WPAN-NA	Catalyst IR8100 Heavy Duty	module	layered	Industrial and IoT Routers		IR 8100	sku ^IRMH-							
 IRMH-WPAN-NA=	Cisco IRMH-WPAN-NA=	1000 Connected Grid	module	layered	Industrial and IoT Routers		IR 8100	sku ^IRMH-							
-ISR-CCP-CD	Cisco Config Professional on CD, CCP-Express on Router Flash (Both system and spare)	2900 ISR	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software			
-ISR-CCP-CD-NOCONF	Cisco Config Pro on CD, CCP-Express on CF w/o default config	2900 ISR	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software			
-ISR-CCP-EXP	Cisco Config Pro Express on Router Flash	2900 ISR	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software			
-ISR-CCP-EXP-NOCONF	Cisco Config Pro Express on Router Flash w/o default config	2900 ISR	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software			
 ISR1100-4G	ISR1100 Series Router, 4 Eth LAN/WAN Ports, 4G RAM	1000	router	layered	ISR (Integrated Services Routers)		ISR 1100	sku ^ISR11	branch	series:ISR 1100					
 ISR1100-4GLTEGB	ISR1100 Router, 4 Eth LAN/WAN Ports, 1 LTE Port, 4G RAM	8100 Series Secure	router	layered	ISR (Integrated Services Routers)		ISR 1100	sku ^ISR11	branch	series:ISR 1100					
 ISR1100-4GLTENA	ISR1100 Router, 4 Eth LAN/WAN Ports, 1 LTE Port, 4G RAM	8100 Series Secure	router	layered	ISR (Integrated Services Routers)		ISR 1100	sku ^ISR11	branch	series:ISR 1100					
@@ -3538,13 +3475,11 @@ ISR4461-V/K9	Cisco ISR 4461 UC Bundle, PVDM4-64, UC Lic,CUBE25	4000 ISR	router	l
 ISR4461-VSEC/K9	Cisco ISR 4461 VSEC Bundle, PVDM4-64 w/ UC,SEC Lic,CUBE-25	4000 ISR	router	layered	ISR (Integrated Services Routers)		ISR 4000	sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
 ISR4461/K9	ISR4461/K9 – Cisco ISR 4461 with 4 onboard GE, 3 NIM slots, 1 ISC slot, 3 SM slots, 8 GB Flash Memory default, 2 GB DRAM default (data plane), 4 GB DRAM default (control plane)	4000	router	layered	ISR (Integrated Services Routers)		ISR 4000	sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
 ISR4461/K9++	Cisco ISR 4461 (2x10GE+4x1GE,3NIM,3SM,8G FLASH,4G DRAM)-TAA	4000 ISR	router	layered	ISR (Integrated Services Routers)		ISR 4000	sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
-IW9165-URWB-NW-P	Cisco IW9165-URWB-NW-P	3800 Series Integrated Services Routers ISR	router	pending_plan						rt.issue.ap	access point	class license			
 IW9165DH-x-AP	Industrial Wireless 9165D, 11ax 6E, 2 RF ports, x domain, Wi-Fi AP software	3800 Series Integrated Services Routers ISR	router	pending_plan						rt.issue.ap	access point	move wireless			
 IW9165DH-x-URWB	Industrial Wireless 9165D, 11ax 6E, 2 RF ports, x domain, URWB software	3800 Series Integrated Services Routers ISR	router	pending_plan						rt.issue.ap	access point	move wireless			
 IW9165E-x-AP	Industrial Wireless 9165E, 11ax 6E, 4 RF ports, x domain, Wi-Fi AP software	3800 Series Integrated Services Routers ISR	router	pending_plan						rt.issue.ap	access point	move wireless			
 IW9165E-x-URWB	Industrial Wireless 9165E, 11ax 6E, 4 RF ports, x domain, URWB software	3800 Series Integrated Services Routers ISR	router	pending_plan						rt.issue.ap	access point	move wireless			
 IW9165E-x-WGB	Industrial Wireless 9165E, 11ax 6E, 4 RF ports, x domain, WGB software	3800 Series Integrated Services Routers ISR	router	pending_plan						rt.issue.ap	access point	move wireless			
-IW9167-URWB-NW-P	Cisco IW9167-URWB-NW-P	3800 Series Integrated Services Routers ISR	router	pending_plan						rt.issue.ap	access point	class license			
 IW9167EH-x-AP	Industrial Wireless 9167E, 11ax 6E AP, 8 RF ports, x domain, Wi-Fi software	3800 Series Integrated Services Routers ISR	router	pending_plan						rt.issue.ap	access point	move wireless			
 IW9167EH-x-HZ	Industrial Wireless 9167EH-HZ, 11ax 6E AP, 8 RF ports, x domain, Hazardous Locations	3800 Series Integrated Services Routers ISR	router	pending_plan						rt.issue.ap	access point	move wireless			
 IW9167EH-x-URWB	Industrial Wireless 9167E, 11ax 6E AP, 8 RF ports, x domain, URWB software	3800 Series Integrated Services Routers ISR	router	pending_plan						rt.issue.ap	access point	move wireless			
@@ -3552,7 +3487,6 @@ IW9167EH-x-WGB	Industrial Wireless 9167E, 11ax 6E AP, 8 RF ports, x domain, WGB 
 IW9167IH-x-AP	Industrial Wireless 9167I, 11ax 6E AP, internal antenna, x domain, Wi-Fi software	3800 Series Integrated Services Routers ISR	router	pending_plan						rt.issue.ap	access point	move wireless			
 IXM-LPWA-800-K9+	● TAA part number for Cisco wireless gateway for LoRaWAN, operates on the frequency subset of 863 - 870 MHz ISM band, applicable to LoRaWAN regional profile for Europe, Middle East, Africa and India	Wireless Gateway for LoRaWAN	router	layered	Industrial and IoT Routers		Wireless Gateway for LoRaWAN	sku ^IXM-	industrial-iot	series:Wireless Gateway for LoRaWAN					
 IXM-LPWA-900-K9+	TAA PID for Cisco wireless gateway for LoRaWAN, operates on the frequency subset of 902 - 928 MHz ISM band, applicable to LoRaWAN regional profile for Americas, Asia (not for India and China) and Pacific	Wireless Gateway for LoRaWAN	router	layered	Industrial and IoT Routers		Wireless Gateway for LoRaWAN	sku ^IXM-	industrial-iot	series:Wireless Gateway for LoRaWAN					
-L7D6AA47.174	Cisco L7D6AA47.174	800	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software			
 LCC/D-FC-FBR-10	Cisco CRS-1 Series Line Card - Line Card Chass Fiber 10m	Carrier Routing System	cable	layered	CRS (Carrier Routing System)		CRS	sku ^LCC/							
 LCC/D-FC-FBR-100	Cisco CRS-1 Series Line Card - Line Card Chass Fiber 100m	Carrier Routing System	cable	layered	CRS (Carrier Routing System)		CRS	sku ^LCC/							
 LCC/D-FC-FBR-100=	Cisco CRS-1 Series Line Card - Line Card Chass Fiber 100m	Carrier Routing System	cable	layered	CRS (Carrier Routing System)		CRS	sku ^LCC/							
@@ -3856,8 +3790,6 @@ MEMUSB-128FT=	128MB USB Flash Token for Cisco 1800/2800/3800 series	2900 ISR	dri
 MEMUSB-8GB	8GB USB Flash Token	Catalyst 8500	drive	layered	Catalyst 8000 Edge	(shared across the line)	Catalyst 8000 Edge shared parts	label-unsupported (label Catalyst 8500; was Catalyst 8500): no platform token (8500) in the SKU or name, no compatible part placed in the series						none: no platform token (8500) in the SKU or name, no compatible part placed in the series	
 MEMUSB-8GB=	8GB USB Flash Token	Catalyst 8500	drive	layered	Catalyst 8000 Edge	(shared across the line)	Catalyst 8000 Edge shared parts	label-unsupported (label Catalyst 8500; was Catalyst 8500): no platform token (8500) in the SKU or name, no compatible part placed in the series						none: no platform token (8500) in the SKU or name, no compatible part placed in the series	
 MWR-3941	Muti-Service Cell Site router/ Career Ethernet switch	ASR 901 10G	sp-router	layered	ASR (Aggregation Services Routers)	ASR 900	ASR 901	sku ^MWR-	sp-access	series:ASR 901					
-N520-10G-2	Cisco NCS 520 Series 2-Port 10G Upgrade License	Network Convergence System 500	sp-router	pending_plan					sp-access	series:NCS 520, 540 and 560		class license			
-N520-1G-8	Cisco NCS 520 Series 8 Ports GE Upgrade License	Network Convergence System 500	sp-router	pending_plan					sp-access	series:NCS 520, 540 and 560		class license			
 N520-20G4Z-A	Cisco NCS 520 - 20xGE + 4x10GE, Commercial Temp, AC power	Network Convergence System 500	sp-router	layered	NCS (Network Convergence System)		NCS 520, 540 and 560	sku ^N5[246]0(?![0-9])	sp-access	series:NCS 520, 540 and 560					
 N520-20G4Z-A=	Cisco NCS 520 - 20xGE + 4x10GE, Commercial Temp	Network Convergence System 500	sp-router	layered	NCS (Network Convergence System)		NCS 520, 540 and 560	sku ^N5[246]0(?![0-9])	sp-access	series:NCS 520, 540 and 560					
 N520-20G4Z-D	Cisco NCS 520 - 20xGE + 4x10GE, Commercial Temp, DC power	Network Convergence System 500	sp-router	layered	NCS (Network Convergence System)		NCS 520, 540 and 560	sku ^N5[246]0(?![0-9])	sp-access	series:NCS 520, 540 and 560					
@@ -3893,7 +3825,6 @@ N520-RMT-ETSI-D3A	NCS 520 ETSI Rackmount for 24 Port, AC	Network Convergence Sys
 N520-RMT-ETSI-D3A=	NCS 520 ETSI Rackmount for 24 Port, AC	Network Convergence System 500	mechanical	layered	NCS (Network Convergence System)		NCS 520, 540 and 560	sku ^N5[246]0(?![0-9])							
 N520-RMT-ETSI-D3D	NCS 520 ETSI Rackmount for 24 Port, DC	Network Convergence System 500	mechanical	layered	NCS (Network Convergence System)		NCS 520, 540 and 560	sku ^N5[246]0(?![0-9])							
 N520-RMT-ETSI-D3D=	NCS 520 ETSI Rackmount for 24 Port, DC	Network Convergence System 500	mechanical	layered	NCS (Network Convergence System)		NCS 520, 540 and 560	sku ^N5[246]0(?![0-9])							
-N520-S-M	Metro Access License (base software)	Network Convergence System 500	sp-router	pending_plan					sp-access	series:NCS 520, 540 and 560		class license			
 N520-WALLMT	NCS 520 Wall Mount	Network Convergence System 500	mechanical	layered	NCS (Network Convergence System)		NCS 520, 540 and 560	sku ^N5[246]0(?![0-9])							
 N520-WALLMT=	NCS 520 Wall Mount	Network Convergence System 500	mechanical	layered	NCS (Network Convergence System)		NCS 520, 540 and 560	sku ^N5[246]0(?![0-9])							
 N520-X-20G4Z-A	Cisco NCS 520 - 20xGE + 4x10GE, Industrial Temp, AC power	Network Convergence System 500	sp-router	layered	NCS (Network Convergence System)		NCS 520, 540 and 560	sku ^N5[246]0(?![0-9])	sp-access	series:NCS 520, 540 and 560					
@@ -4537,14 +4468,9 @@ NCS560-4=	NCS 560-4 Router Chassis, Spare	Network Convergence System 500	chassis
 NE/250M	Cisco NE/250M	ESR6300 Embedded	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
 NE/50M	Cisco NE/50M	ESR6300 Embedded	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
 NM-HD-	Cisco NM-HD-	2900 ISR	module	pending_plan								class non_product			
-NRS-WAE-SWSUB	PF WAE NRS PID SWSUB	WAN Automation Engine (WAE)	router	pending_plan						rt.issue.licence	licence/software/planning PID	class license			
 OBD2-J1939Y1-MF4	Cisco OBD2-J1939Y1-MF4	Catalyst IR1800 Rugged	cable	layered	Industrial and IoT Routers	(shared across the line)	Industrial and IoT Routers shared parts	label-unsupported (label Catalyst IR1800 Rugged; was IR 1800): no platform token (1800) in the SKU or name, no compatible part placed in the series						none: no platform token (1800) in the SKU or name, no compatible part placed in the series	
 OBD2-J1939Y2-MF4	Cisco OBD2-J1939Y2-MF4	Catalyst IR1800 Rugged	cable	layered	Industrial and IoT Routers	(shared across the line)	Industrial and IoT Routers shared parts	label-unsupported (label Catalyst IR1800 Rugged; was IR 1800): no platform token (1800) in the SKU or name, no compatible part placed in the series						none: no platform token (1800) in the SKU or name, no compatible part placed in the series	
 OBD2-J1962YA-MF4	Cisco OBD2-J1962YA-MF4	Catalyst IR1800 Rugged	cable	layered	Industrial and IoT Routers	(shared across the line)	Industrial and IoT Routers shared parts	label-unsupported (label Catalyst IR1800 Rugged; was IR 1800): no platform token (1800) in the SKU or name, no compatible part placed in the series						none: no platform token (1800) in the SKU or name, no compatible part placed in the series	
-OEM-PRI-MC7430	Cisco OEM PRI Load for MC7430	800	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software			
-OEM-PRI-MC7430=	Cisco OEM PRI Load for MC7430	800	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software			
-OEM-PRI-MC7455	Cisco OEM PRI Load for MC7455	800	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software			
-OEM-PRI-MC7455=	Cisco OEM PRI Load for MC7455	800	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software			
 ONS-C2-WDM-DE-1HL	200G, 100G, WDM Digital CFP2 pluggable Licensed 100G only	Network Convergence System 5500 Series	accessory	pending_plan								move transceiver			
 ONS-C2-WDM-DE-1HL=	200G, 100G, WDM Digital CFP2 pluggable Licensed 100G only	Network Convergence System 5500 Series	accessory	pending_plan								move transceiver			
 P-LPWA-800	Cisco 800MHz LoRaWAN PIM 8-Channels	Wireless Gateway for LoRaWAN	module	layered	Industrial and IoT Routers		Wireless Gateway for LoRaWAN	label Wireless Gateway for LoRaWAN						name: LoRaWAN	
@@ -4755,11 +4681,8 @@ PWR2-20W-AC=	C819 20W AC power supply with WiFi	800	power	layered	ISR (Integrate
 PWR2-22W-20-60VDC	Cisco PWR2-22W-20-60VDC	800	power	layered	ISR (Integrated Services Routers)	(shared across the line)	ISR (Integrated Services Routers) shared parts	label-unsupported (label 800; was ISR 810 / 840 / 860 / 870 / 880 / 890): no platform token (810, 840, 860, 870, 880, 890) in the SKU or name, no compatible part placed in the series						none: no platform token (810, 840, 860, 870, 880, 890) in the SKU or name, no compatible part placed in the series	
 Q100	Cisco Q100	8000	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
 Q200	Cisco Q200	8000	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-QW-E-PLATFORM	Quantum WAVE Platform Base	WAN Automation Engine (WAE)	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software			
 R260-K9-KR	Cisco R260-K9-KR	RV Series	router	layered	Small Business Routers		RV Series	sku ^R260P?-	smb	series:RV Series					
 R260P-K9-KR	Cisco R260P-K9-KR	RV Series	router	layered	Small Business Routers		RV Series	sku ^R260P?-	smb	series:RV Series					
-R4.2.1	Cisco R4.2.1	800	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software			
-R4.3.1	Cisco R4.3.1	800	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software			
 RCKMT-19-A	Cisco RCKMT-19-A	8000	accessory	layered	Cisco 8000	(shared across the line)	Cisco 8000 shared parts	accessory ^RCKMT (label 8000)							
 RCKMT-19-D	Cisco RCKMT-19-D	8000	accessory	layered	Cisco 8000	(shared across the line)	Cisco 8000 shared parts	accessory ^RCKMT (label 8000)							
 RCKMT-19-KIT1	2 Post 19-inch Rack Mounting Kit for 8010 Series	8000	mechanical	layered	Cisco 8000	(shared across the line)	Cisco 8000 shared parts	accessory ^RCKMT (label 8000)							
@@ -4778,8 +4701,6 @@ RCKMT-ETSI-V1	Cisco RCKMT-ETSI-V1	8000	accessory	layered	Cisco 8000	(shared acro
 RE-ADSL2	Cisco RE-ADSL2	900 ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
 RJ45-DCE	Cisco RJ45-DCE	1000 Connected Grid	accessory	layered	Industrial and IoT Routers	(shared across the line)	Industrial and IoT Routers shared parts	label-unsupported (label 1000 Connected Grid; was CGR 1000 Connected Grid): no platform token (1000) in the SKU or name, no compatible part placed in the series						none: no platform token (1000) in the SKU or name, no compatible part placed in the series	
 RJ45-DTE	Cisco RJ45-DTE	1000 Connected Grid	accessory	layered	Industrial and IoT Routers	(shared across the line)	Industrial and IoT Routers shared parts	label-unsupported (label 1000 Connected Grid; was CGR 1000 Connected Grid): no platform token (1000) in the SKU or name, no compatible part placed in the series						none: no platform token (1000) in the SKU or name, no compatible part placed in the series	
-ROUT-P-C8200-E-7Y	Cisco ROUT-P-C8200-E-7Y	Catalyst 8200	router	pending_plan						rt.issue.licence	licence/software/planning PID	class license			
-ROUT-P-C8300-E-7Y	Cisco ROUT-P-C8300-E-7Y	Catalyst 8200	router	pending_plan						rt.issue.licence	licence/software/planning PID	class license			
 RPS-ADPTR-2911	Cisco 2911 RPS Adapter for use with External RPS (Both system & spare)	2900 ISR	power	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	label 2900 ISR						sku-token: 2900	
 RPS-ADPTR-2911=	Cisco 2911 RPS Adapter for use with External RPS	2900 ISR	power	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	label 2900 ISR						sku-token: 2900	
 RPS-ADPTR-2921-51	Cisco 2921/2951 RPS Adapter for use with External RPS (Both system & spare)	2900 ISR	power	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	label 2900 ISR						sku-token: 2900	
@@ -4941,28 +4862,6 @@ RV345P-K9-CN	Cisco RV345P Dual WAN Gigabit VPN Router	RV Series	router	layered	S
 RV345P-K9-G5	Cisco RV345P Dual WAN Gigabit VPN Router	RV Series	router	layered	Small Business Routers		RV Series	sku ^RV[0-9]	smb	series:RV Series					
 RV345P-K9-IN	Cisco RV345P Dual WAN Gigabit VPN Router	RV Series	router	layered	Small Business Routers		RV Series	sku ^RV[0-9]	smb	series:RV Series					
 RV345P-K9-NA	Cisco RV345P Dual WAN Gigabit VPN Router	RV Series	router	layered	Small Business Routers		RV Series	sku ^RV[0-9]	smb	series:RV Series					
-S-ASR920-10G-2-B	Cisco ASR 920 Series - 2 ports 10GE license for ClassB ASR920 (Smart License)	ASR 920 Series Aggregation Services Router	router	pending_plan						rt.issue.licence	licence/software/planning PID	class license			
-S-NC6-2T-PG-200-L=	NCS6000 2x100GE LSR PAYG Upgrade License Spare	6000	router	pending_plan						rt.issue.licence	licence/software/planning PID	class license			
-S-NC6-2T-PG-200-M=	NCS6000 2x100GE Multiservice PAYG Upgrade License Spare	6000	router	pending_plan						rt.issue.licence	licence/software/planning PID	class license			
-S-NC6-MS-UPG	NCS 6000 Smart License LSR to MS Upgrade Bundle	6000	router	pending_plan						rt.issue.licence	licence/software/planning PID	class license			
-S-NC6-MS-UPG=	NCS 6000 License LSR to MS Upgrade Bundle	6000	router	pending_plan						rt.issue.licence	licence/software/planning PID	class license			
-S-XR-BNG-1M	Billing PID for SBP XRV9K -BNG 1M	ASR 9000	router	pending_plan						rt.issue.licence	licence/software/planning PID	class license			
-S-XR-BNG-256K	Billing PID for SBP XRV9K - BNG 256K	ASR 9000	router	pending_plan						rt.issue.licence	licence/software/planning PID	class license			
-S-XR-BNG-512K	Billing PID for SBP XRV9K - BNG 512K	ASR 9000	router	pending_plan						rt.issue.licence	licence/software/planning PID	class license			
-S-XR-BNG-8K	Billing PID for SBP XRV9K -BNG 8K	ASR 9000	router	pending_plan						rt.issue.licence	licence/software/planning PID	class license			
-S-XR-BNG-ADV-1M	Billing PID for SBP XRV9K - BNG ADV 1M	ASR 9000	router	pending_plan						rt.issue.licence	licence/software/planning PID	class license			
-S-XR-BNG-ADV-256K	Billing PID for SBP XRV9K -BNG ADV 256K	ASR 9000	router	pending_plan						rt.issue.licence	licence/software/planning PID	class license			
-S-XR-BNG-ADV-512K	Billing PID for SBP XRV9K -BNG ADV 512K	ASR 9000	router	pending_plan						rt.issue.licence	licence/software/planning PID	class license			
-S-XR-BNG-ADV-8K	Billing PID for SBP XRV9K - BNG ADV 8K	ASR 9000	router	pending_plan						rt.issue.licence	licence/software/planning PID	class license			
-S-XR-BNG-PRO	Billing PID for SBP XRV9K - BNG PRO	ASR 9000	router	pending_plan						rt.issue.licence	licence/software/planning PID	class license			
-S-XR-SESSION-8K	Billing PID for SBP XRV9K - BNG 8K Session	ASR 9000	router	pending_plan						rt.issue.licence	licence/software/planning PID	class license			
-SA1KHXK9-173	Cisco SA1KHXK9-173	ASR 1000	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software			
-SA1KHXNLIK9-173	Cisco SA1KHXNLIK9-173	ASR 1000	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software			
-SA1KHXNPEK9-173	Cisco SA1KHXNPEK9-173	ASR 1000	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software			
-SA1KHXNPNLK9173	Cisco SA1KHXNPNLK9173	ASR 1000	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software			
-SA1KRPUNLIK9-173	Cisco SA1KRPUNLIK9-173	ASR 1000	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software			
-SA1KRPUNPEK9173	Cisco SA1KRPUNPEK9173	ASR 1000	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software			
-SA1KRPUNPNLK9173	Cisco SA1KRPUNPNLK9173	ASR 1000	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software			
 SDFE-2	Cisco SDFE-2	800	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
 SDFE-4	Cisco SDFE-4	800	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
 SI-ISR4321-IWAN/K9	ISR 4321 SEED IT Program Offering	1000	router	layered	ISR (Integrated Services Routers)		ISR 4000	sku ^SI-ISR4	branch	series:ISR 4000					
@@ -4974,10 +4873,6 @@ SI-ISR4K-IWAN/K9	ISR 4K SEED IT Program	4000 ISR	router	pending_plan						rt.iss
 SO-TG-TRK	Cisco SO-TG-TRK	Secure Console	router	pending_plan						rt.issue.licence	licence/software/planning PID	class non_product			
 SOCRATES-4e	Cisco SOCRATES-4e	800	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
 SOLUTIONOPTIOAPN9	Solution Options	Wireless Gateway for LoRaWAN	router	pending_plan						rt.issue.licence	licence/software/planning PID	class non_product			
-SPAOA-WAE-I	Core & Aggregation Essentials SW Right-to-Use v1.0 per 100G	WAN Automation Engine (WAE)	router	pending_plan						rt.issue.licence	licence/software/planning PID	class license			
-SPAOA-WAENET-I	Offer Attribution (Immediate) for BAM WAENET	WAN Automation Engine (WAE)	router	pending_plan						rt.issue.licence	licence/software/planning PID	class license			
-SPAUTO-CP	Cisco SPAUTO-CP	WAN Automation Engine (WAE)	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software			
-SPAUTO-CP-PS	Cisco SPAUTO-CP-PS	WAN Automation Engine (WAE)	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software			
 SPIAD2901	Cisco SPIAD2901 with UC License	2900 ISR	router	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	sku ^(CISCO|C|CONE-|SPIAD)29[0-5]1(?![0-9])	branch	series:ISR 2900					
 SPIAD2901-8FXS/K9	Cisco SPIAD2901 with 8FXS, PVDM3-16, UC License PAK	2900 ISR	router	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	sku ^(CISCO|C|CONE-|SPIAD)29[0-5]1(?![0-9])	branch	series:ISR 2900					
 SPIAD2901CME8F/K9	Cisco SPIAD2901 with CME 8FXS, PVDM3-16, UC License PAK	2900 ISR	router	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	sku ^(CISCO|C|CONE-|SPIAD)29[0-5]1(?![0-9])	branch	series:ISR 2900					
@@ -4986,14 +4881,6 @@ SPIAD2911-16FXS/K9	Cisco SPIAD2911 with 16FXS, PVDM3-32, UC License PAK	2900 ISR
 SPIAD2911-24FXS/K9	Cisco SPIAD2911 with 24FXS, PVDM3-64, UC License PAK	2900 ISR	router	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	sku ^(CISCO|C|CONE-|SPIAD)29[0-5]1(?![0-9])	branch	series:ISR 2900					
 SPIAD2911CME16F/K9	Cisco SPIAD2911 with CME, 16FXS, PVDM3-32, UC License PAK	2900 ISR	router	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	sku ^(CISCO|C|CONE-|SPIAD)29[0-5]1(?![0-9])	branch	series:ISR 2900					
 SPIAD2921	Cisco SPIAD2921 with UC License	2900 ISR	router	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	sku ^(CISCO|C|CONE-|SPIAD)29[0-5]1(?![0-9])	branch	series:ISR 2900					
-SPNA-AUTO-WAE-EN	SPNA Automation - WAE Premier	WAN Automation Engine (WAE)	router	pending_plan						rt.issue.licence	licence/software/planning PID	class license			
-SPNA-AUTO-WAE-ES	SPNA Automation - WAE Essentials	WAN Automation Engine (WAE)	router	pending_plan						rt.issue.licence	licence/software/planning PID	class license			
-SPNA-AUTO-WAE-F	SPNA Automation - WAE Advantage	WAN Automation Engine (WAE)	router	pending_plan						rt.issue.licence	licence/software/planning PID	class license			
-SPNA-R-CRS-S	SPNA Routing for CRS - Standard	Carrier Routing System	router	pending_plan						rt.issue.licence	licence/software/planning PID	class license			
-SPNA-S-CRS-L	SPNA Routing SW Licenses for CRS - Standard	Carrier Routing System	router	pending_plan						rt.issue.licence	licence/software/planning PID	class license			
-SPOA-WAE-D	Core & Aggr Essentials SIA per 100G 3 year term	WAN Automation Engine (WAE)	router	pending_plan						rt.issue.licence	licence/software/planning PID	class license			
-SPOA-WAENET-D	Offer Attribution (Daily) for BAM WAENET	WAN Automation Engine (WAE)	router	pending_plan						rt.issue.licence	licence/software/planning PID	class license			
-SRE-WLC	Wireless Controller on SRE option when sold with ISR G2 system	2900 ISR	router	pending_plan						rt.issue.licence	licence/software/planning PID	class license			
 SSD-E1SSED-2T	E1.S NVMe 2 TB Self-Encrypted-Disk (SED) Storage ● SED functionality not supported. Disk will be enabled only in non-SED mode	Catalyst 8300 Series Edge uCPE	drive	layered	Catalyst 8000 Edge	(shared across the line)	Catalyst 8000 Edge shared parts	label-unsupported (label Catalyst 8300 Series Edge uCPE; was Catalyst 8300 Edge uCPE): no platform token (8300) in the SKU or name, no compatible part placed in the series						none: no platform token (8300) in the SKU or name, no compatible part placed in the series	
 SSD-E1SSED-2T=	E1.S NVMe 2 TB Self-Encrypted-Disk (SED) Storage Spare ● SED functionality not supported. Disk will be enabled only in non-SED mode	Catalyst 8300 Series Edge uCPE	drive	layered	Catalyst 8000 Edge	(shared across the line)	Catalyst 8000 Edge shared parts	label-unsupported (label Catalyst 8300 Series Edge uCPE; was Catalyst 8300 Edge uCPE): no platform token (8300) in the SKU or name, no compatible part placed in the series						none: no platform token (8300) in the SKU or name, no compatible part placed in the series	
 SSD-M2NVME-2T	Cisco C8000 Edge Platform – 2TB M.2 NVMe Self-Encrypted Drive (SED) Storage	Catalyst 8500L	drive	layered	Catalyst 8000 Edge	(shared across the line)	Catalyst 8000 Edge shared parts	name Catalyst 8000 Edge							
@@ -5022,7 +4909,6 @@ SSD-STAT-4TB	4TB SATA Solid disk drive for Cisco uCPE 8200	5000 Enterprise Netwo
 SSD-STAT-960GB	960 GB eMLC SSD for Cisco ENCS 5400	5000 Enterprise Network Compute	drive	layered	ENCS (Enterprise Network Compute)		ENCS 5000	label 5000 Enterprise Network Compute						name: 5000	
 T1/E1	Cisco T1/E1	2900 ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
 T1/E1-DI	Cisco T1/E1-DI	2900 ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-TG-OS-E-O	Cisco TG-OS-E-O	Secure Console	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software			
 UCS-CPU-5120=	2.2 GHz 5120/105W 14C/19.25MB Cache/DDR4 2400MHz	ASR 9000	processor	pending_plan								move servers-unified-computing			
 UCS-M2-240GB=	Cisco UCS-M2-240GB=	ASR 9000	drive	pending_plan								move servers-unified-computing			
 UCS-MR-X16G1RS-H=	Cisco UCS-MR-X16G1RS-H=	ASR 9000	memory	pending_plan								move servers-unified-computing			
@@ -5034,8 +4920,6 @@ V6-INLN	Cisco V6-INLN	ASR 9000	router	pending_plan						rt.issue.placeholder	dat
 VDSL2	Cisco VDSL2	800	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
 VIC2-	Cisco VIC2-	2900 ISR	module	pending_plan								class non_product			
 VIC3-	Cisco VIC3-	2900 ISR	module	pending_plan								class non_product			
-VIPTELA-OS-192	Viptela OS version 19.2.0 (ISR1100 Series only)	1000	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software			
-VIPTELA-OS-204	Viptela OS versions 20.4 (ISR 1100 and ISR 1100X Series)	1000	router	pending_plan						rt.issue.licence	licence/software/planning PID	class software			
 VSLN-PP-CORE	Cisco VSLN-PP-CORE	ASR 9000	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
 VSLN-PP-EDGE	Cisco VSLN-PP-EDGE	ASR 9000	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
 VSLN-PP-MO500	Cisco VSLN-PP-MO500	ASR 9000	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
@@ -5053,10 +4937,6 @@ VWIC-1MFT-	Cisco VWIC-1MFT-	2900 ISR	module	pending_plan								class non_produc
 VWIC-2MFT-	Cisco VWIC-2MFT-	2900 ISR	module	pending_plan								class non_product			
 VWIC2-2MFT-	Cisco VWIC2-2MFT-	2900 ISR	module	pending_plan								class non_product			
 W-ANTM2050D-RPSMA	Cisco W-ANTM2050D-RPSMA	Catalyst IR1800 Rugged	antenna	layered	Industrial and IoT Routers	(shared across the line)	Industrial and IoT Routers shared parts	label-unsupported (label Catalyst IR1800 Rugged; was IR 1800): no platform token (1800) in the SKU or name, no compatible part placed in the series						none: no platform token (1800) in the SKU or name, no compatible part placed in the series	
-WAEFEATURESSUBBDQ7	Cisco WAEFEATURESSUBBDQ7	WAN Automation Engine (WAE)	router	pending_plan						rt.issue.licence	licence/software/planning PID	class license			
-WAEPLANNINGUSBAY3	Cisco WAEPLANNINGUSBAY3	WAN Automation Engine (WAE)	router	pending_plan						rt.issue.licence	licence/software/planning PID	class license			
-WAEPLANNINGUSBAY5	Cisco WAEPLANNINGUSBAY5	WAN Automation Engine (WAE)	router	pending_plan						rt.issue.licence	licence/software/planning PID	class license			
-WAEPLANNINGUSBAY7	Cisco WAEPLANNINGUSBAY7	WAN Automation Engine (WAE)	router	pending_plan						rt.issue.licence	licence/software/planning PID	class license			
 WS-C6503-E-FWM-K9WS	Cisco WS-C6503-E-FWM-K9WS	2900 ISR	router	pending_plan						rt.issue.switch	switch	move switches			
 WS-C6503E-S32P-GEWS	Cisco WS-C6503E-S32P-GEWS	2900 ISR	router	pending_plan						rt.issue.switch	switch	move switches			
 WS-C6503E-S32P10GEWS-	Cisco WS-C6503E-S32P10GEWS-	2900 ISR	router	pending_plan						rt.issue.switch	switch	move switches			
@@ -5076,9 +4956,6 @@ WS-C6513-S32P-GEWS-	Cisco WS-C6513-S32P-GEWS-	2900 ISR	router	pending_plan						
 WS-C6513-S32P10GEWS-	Cisco WS-C6513-S32P10GEWS-	2900 ISR	router	pending_plan						rt.issue.switch	switch	move switches			
 WS-C6513-VPN+-K9WS-	Cisco WS-C6513-VPN+-K9WS-	2900 ISR	router	pending_plan						rt.issue.switch	switch	move switches			
 X.21	Cisco X.21	1900 ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-XRD-VR-CP-DP-ADN	XRd vRouter Advantage offer	ASR 9000	router	pending_plan						rt.issue.licence	licence/software/planning PID	class license			
-XRD-VR-CP-DP-ADV	XRd vRouter Advanced offer	ASR 9000	router	pending_plan						rt.issue.licence	licence/software/planning PID	class license			
-XRD-VR-CP-DP-ESS	XRd vRouter Essentials offer	ASR 9000	router	pending_plan						rt.issue.licence	licence/software/planning PID	class license			
 XRV-240GB-M2	Cisco XRV-240GB-M2	ASR 9000	drive	layered	ASR (Aggregation Services Routers)	(shared across the line)	ASR (Aggregation Services Routers) shared parts	label-unsupported (label ASR 9000; was ASR 9000): no platform token (9000) in the SKU or name, no compatible part placed in the series						none: no platform token (9000) in the SKU or name, no compatible part placed in the series	
 XRV-CPU-5120	Cisco XRV-CPU-5120	ASR 9000	processor	layered	ASR (Aggregation Services Routers)	(shared across the line)	ASR (Aggregation Services Routers) shared parts	label-unsupported (label ASR 9000; was ASR 9000): no platform token (9000) in the SKU or name, no compatible part placed in the series						none: no platform token (9000) in the SKU or name, no compatible part placed in the series	
 XRV-CPU-E52667E	3.20 GHz E5-2667 v4/135W 8C/25MB Cache/DDR4 2400MHz	ASR 9000	processor	layered	ASR (Aggregation Services Routers)	(shared across the line)	ASR (Aggregation Services Routers) shared parts	label-unsupported (label ASR 9000; was ASR 9000): no platform token (9000) in the SKU or name, no compatible part placed in the series						none: no platform token (9000) in the SKU or name, no compatible part placed in the series	

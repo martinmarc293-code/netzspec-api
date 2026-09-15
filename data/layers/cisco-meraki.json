@@ -1,8 +1,8 @@
 {
  "vendor": "cisco",
  "category": "meraki",
- "built_at": "2026-09-15T22:28:28.389Z",
- "commit": "b08e909396b859a93f5bc1fcacbb84152412e090",
+ "built_at": "2026-09-15T22:39:22.265Z",
+ "commit": "c9ebf59177f9d5950f8cd9384dd9346e76c7670b",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-meraki.json",
  "parts": 155,

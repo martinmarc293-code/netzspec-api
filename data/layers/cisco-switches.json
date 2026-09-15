@@ -1,11 +1,11 @@
 {
  "vendor": "cisco",
  "category": "switches",
- "built_at": "2026-09-15T22:28:25.578Z",
- "commit": "b08e909396b859a93f5bc1fcacbb84152412e090",
+ "built_at": "2026-09-15T22:39:19.538Z",
+ "commit": "c9ebf59177f9d5950f8cd9384dd9346e76c7670b",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-switches.json",
- "parts": 7507,
+ "parts": 7472,
  "lines": [
   {
    "line": "Catalyst",
@@ -3695,60 +3695,12 @@
    "reason": "datasheet cell or bare family name enumerated as a part"
   },
   {
-   "sku": "C1-FLOW-IE4K",
-   "name": "Cisco ONE Netflow IE4000",
-   "series_label": "IE 4000",
-   "action": "class",
-   "to": "license",
-   "reason": "licence (port-upgrade, services or Cisco ONE entitlement)"
-  },
-  {
-   "sku": "C1-FLOW-IE5K",
-   "name": "Cisco ONE Netflow IE 5000",
-   "series_label": "Industrial Ethernet 5000",
-   "action": "class",
-   "to": "license",
-   "reason": "licence (port-upgrade, services or Cisco ONE entitlement)"
-  },
-  {
    "sku": "C1-IE-ADD",
    "name": "Cisco ONE for IE Switches - CHOOSE ONLY QTY 1 HERE",
    "series_label": "Industrial Ethernet 4010",
    "action": "class",
    "to": "non_product",
    "reason": "configurator-selector"
-  },
-  {
-   "sku": "C1-N55-SERVICES1K9",
-   "name": "Nexus 5500 Network Services (includes ITD, RISE)",
-   "series_label": "Nexus 5000",
-   "action": "class",
-   "to": "license",
-   "reason": "licence (port-upgrade, services or Cisco ONE entitlement)"
-  },
-  {
-   "sku": "C1-N56-SERVICES1K9",
-   "name": "Nexus 5600 Network Services (includes ITD, RISE)",
-   "series_label": "Nexus 5000",
-   "action": "class",
-   "to": "license",
-   "reason": "licence (port-upgrade, services or Cisco ONE entitlement)"
-  },
-  {
-   "sku": "C1-N56128-128PK9",
-   "name": "Cisco ONE Nexus 56128 Chassis Storage License",
-   "series_label": "Nexus 5000",
-   "action": "class",
-   "to": "license",
-   "reason": "licence (port-upgrade, services or Cisco ONE entitlement)"
-  },
-  {
-   "sku": "C1-N5672-72P-K9",
-   "name": "Cisco ONE Nexus 5672 Chassis Storage License",
-   "series_label": "Nexus 5000",
-   "action": "class",
-   "to": "license",
-   "reason": "licence (port-upgrade, services or Cisco ONE entitlement)"
   },
   {
    "sku": "C1-N5K-ADD",
@@ -3767,22 +3719,6 @@
    "reason": "configurator-selector"
   },
   {
-   "sku": "C1-N6001-64P-K9",
-   "name": "Cisco ONE Nexus 6001 Storage Lic, 64-port 10G or 16-port 40G",
-   "series_label": "Nexus 5000",
-   "action": "class",
-   "to": "license",
-   "reason": "licence (port-upgrade, services or Cisco ONE entitlement)"
-  },
-  {
-   "sku": "C1-N6004-12Q-K9",
-   "name": "Cisco ONE 96 Ports 40G Storage - Qty 8 of N55-8P-SSK9",
-   "series_label": "Nexus 5000",
-   "action": "class",
-   "to": "license",
-   "reason": "licence (port-upgrade, services or Cisco ONE entitlement)"
-  },
-  {
    "sku": "C1-N6K-ADD",
    "name": "Cisco ONE for Nexus 6000 - CHOOSE ONLY QTY 1 HERE",
    "series_label": "Nexus 5000",
@@ -3797,14 +3733,6 @@
    "action": "class",
    "to": "non_product",
    "reason": "configurator-selector"
-  },
-  {
-   "sku": "C1-N6K-SERVICES1K9",
-   "name": "Nexus 6000 Network Services (includes ITD, RISE)",
-   "series_label": "Nexus 5000",
-   "action": "class",
-   "to": "license",
-   "reason": "licence (port-upgrade, services or Cisco ONE entitlement)"
   },
   {
    "sku": "C1-N7K-ADD",
@@ -3829,22 +3757,6 @@
    "action": "class",
    "to": "non_product",
    "reason": "datasheet cell (a PSU wattage / connector string, no document, no fact)"
-  },
-  {
-   "sku": "C4500X-16P-IP-ES",
-   "name": "C4500X-16P-IP-ES – Catalyst 4500-X IP BASE to Enterprise Services upgrade license (paper delivery) for 16-port and 24-port models",
-   "series_label": "Catalyst 4500 X",
-   "action": "class",
-   "to": "license",
-   "reason": "licence (port-upgrade, services or Cisco ONE entitlement)"
-  },
-  {
-   "sku": "C4500X-IP-ES",
-   "name": "Catalyst 4500-X IP BASE to Enterprise Services upgrade license (paper delivery) for 32-port and 40-port models",
-   "series_label": "4500-X",
-   "action": "class",
-   "to": "license",
-   "reason": "licence (port-upgrade, services or Cisco ONE entitlement)"
   },
   {
    "sku": "C6-MFG-TEST-SW1",
@@ -5055,84 +4967,12 @@
    "reason": "no Meraki MS100 switch exists; the row is 'Cisco MS100' with no document (operator ruling on the routers pass, 13 Sep 2026: MS100 refused)"
   },
   {
-   "sku": "N3064T-16T-UPG=",
-   "name": "16 Port Upgrade License for N3064-32T",
-   "series_label": "Nexus 3000",
-   "action": "class",
-   "to": "license",
-   "reason": "licence (port-upgrade, services or Cisco ONE entitlement)"
-  },
-  {
-   "sku": "N3548-24P-UPG=",
-   "name": "Nexus 3524 additional 24 port license",
-   "series_label": "Nexus 3000",
-   "action": "class",
-   "to": "license",
-   "reason": "licence (port-upgrade, services or Cisco ONE entitlement)"
-  },
-  {
-   "sku": "N3K-16T-UPG=",
-   "name": "16 Port Upgrade License for N3172TQ-32T.",
-   "series_label": "Nexus 3000",
-   "action": "class",
-   "to": "license",
-   "reason": "licence (port-upgrade, services or Cisco ONE entitlement)"
-  },
-  {
-   "sku": "N55-SERVICES1K9",
-   "name": "Nexus 5500 Network Services (includes ITD, RISE)",
-   "series_label": "Nexus 5000",
-   "action": "class",
-   "to": "license",
-   "reason": "licence (port-upgrade, services or Cisco ONE entitlement)"
-  },
-  {
-   "sku": "N55-SERVICES1K9=",
-   "name": "Nexus 5500 Network Services (includes ITD, RISE)",
-   "series_label": "Nexus 5000",
-   "action": "class",
-   "to": "license",
-   "reason": "licence (port-upgrade, services or Cisco ONE entitlement)"
-  },
-  {
-   "sku": "N56-SERVICES1K9",
-   "name": "Nexus 5600 Network Services (includes ITD, RISE)",
-   "series_label": "Nexus 5000",
-   "action": "class",
-   "to": "license",
-   "reason": "licence (port-upgrade, services or Cisco ONE entitlement)"
-  },
-  {
-   "sku": "N56-SERVICES1K9=",
-   "name": "Nexus 5600 Network Services (includes ITD, RISE)",
-   "series_label": "Nexus 5000",
-   "action": "class",
-   "to": "license",
-   "reason": "licence (port-upgrade, services or Cisco ONE entitlement)"
-  },
-  {
    "sku": "N5K-C5696Q-C=",
    "name": "^Invalid SKU",
    "series_label": "Nexus 5000",
    "action": "class",
    "to": "non_product",
    "reason": "the vendor's own name for the row is \"^Invalid SKU\""
-  },
-  {
-   "sku": "N6K-SERVICES1K9",
-   "name": "Nexus 6000 Network Services (includes ITD, RISE)",
-   "series_label": "Nexus 5000",
-   "action": "class",
-   "to": "license",
-   "reason": "licence (port-upgrade, services or Cisco ONE entitlement)"
-  },
-  {
-   "sku": "N6K-SERVICES1K9=",
-   "name": "Nexus 6000 Network Services (includes ITD, RISE)",
-   "series_label": "Nexus 5000",
-   "action": "class",
-   "to": "license",
-   "reason": "licence (port-upgrade, services or Cisco ONE entitlement)"
   },
   {
    "sku": "N7K-CAMPUS-CORE",
@@ -5213,94 +5053,6 @@
    "action": "class",
    "to": "non_product",
    "reason": "tracking / deployment-option / test PID (\"For Tracking Only\", \"Test Only-Not for Customer Use\", RFID option)"
-  },
-  {
-   "sku": "N7K-SERVICES1K9",
-   "name": "Nexus 7000 Network Services (includes ITD, RISE)",
-   "series_label": "Nexus 7000",
-   "action": "class",
-   "to": "license",
-   "reason": "licence (port-upgrade, services or Cisco ONE entitlement)"
-  },
-  {
-   "sku": "N7K-SERVICES1K9=",
-   "name": "Nexus 7000 Network Services (includes ITD, RISE)",
-   "series_label": "Nexus 7000",
-   "action": "class",
-   "to": "license",
-   "reason": "licence (port-upgrade, services or Cisco ONE entitlement)"
-  },
-  {
-   "sku": "N9K-EX-24P-UPG=",
-   "name": "Cisco N9300 48-port upgrade license for EX switches",
-   "series_label": "Nexus 9000",
-   "action": "class",
-   "to": "license",
-   "reason": "licence (port-upgrade, services or Cisco ONE entitlement)"
-  },
-  {
-   "sku": "N9K-FX-24P-UPG=",
-   "name": "Cisco N9300 48-port upgrade license for FX switches",
-   "series_label": "Nexus 9000",
-   "action": "class",
-   "to": "license",
-   "reason": "licence (port-upgrade, services or Cisco ONE entitlement)"
-  },
-  {
-   "sku": "NDB-3.0",
-   "name": "Nexus Data Broker Version 3.0 (all sub-versions)",
-   "series_label": "Nexus 9000",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / release PID"
-  },
-  {
-   "sku": "NDB-3.1",
-   "name": "Nexus Data Broker Version 3.1 (all sub-versions)",
-   "series_label": "Nexus 9000",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / release PID"
-  },
-  {
-   "sku": "NDB-3.2",
-   "name": "Nexus Data Broker Version 3.2 (all sub-versions)",
-   "series_label": "Nexus 9000",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / release PID"
-  },
-  {
-   "sku": "NDB-3.3",
-   "name": "Nexus Data Broker Version 3.3 (all sub-versions)",
-   "series_label": "Nexus 9000",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / release PID"
-  },
-  {
-   "sku": "NDB-3.4",
-   "name": "Nexus Data Broker Version 3.4 (all sub-versions)",
-   "series_label": "Nexus 9000",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / release PID"
-  },
-  {
-   "sku": "NDB-3.5",
-   "name": "Nexus Data Broker Version 3.5 (all sub-versions)",
-   "series_label": "Nexus 9000",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / release PID"
-  },
-  {
-   "sku": "NDB-FX-SWT-K9",
-   "name": "NDB license for 1 Cisco Nexus fixed switch ● Cisco Nexus 9300 ● Cisco Nexus 3500",
-   "series_label": "Nexus 3000",
-   "action": "class",
-   "to": "license",
-   "reason": "licence: the name states \"NDB license for 1 Cisco Nexus fixed switch\" — a right-to-use licence, not a software image (implementer, operator's 12-hour delegation, 16 Sep 2026; was class software)"
   },
   {
    "sku": "NM-BLANK-T1=",
@@ -5535,22 +5287,6 @@
    "reason": "third-party (Panduit patch panel / QuickNet cassette cited in a Cisco datasheet, not a Cisco PID)"
   },
   {
-   "sku": "R-ME3400E-B2A=",
-   "name": "Metro Base to Metro Access Image upgrade for ME3400E switch",
-   "series_label": "ME 3400E Ethernet Access",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / release PID"
-  },
-  {
-   "sku": "R-ME3400E-B2I=",
-   "name": "Metro Base to Metro IPAccess Image Upgrade for ME3400E Switch",
-   "series_label": "ME 3400E Ethernet Access",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / release PID"
-  },
-  {
    "sku": "RSP720-3C-10GE",
    "name": "Cisco RSP720-3C-10GE",
    "series_label": "Catalyst 6500",
@@ -5589,22 +5325,6 @@
    "action": "class",
    "to": "non_product",
    "reason": "datasheet cell or bare family name enumerated as a part"
-  },
-  {
-   "sku": "S9500ULPEK9-1610",
-   "name": "Cisco Catalyst 9500 XE 16.10 UNIVERSAL W/O DTLS",
-   "series_label": "Catalyst 9500",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / release PID"
-  },
-  {
-   "sku": "S9500ULPEK9-165",
-   "name": "UNIVERSAL W/O DTLS",
-   "series_label": "Catalyst 9500",
-   "action": "class",
-   "to": "software",
-   "reason": "software image / release PID"
   },
   {
    "sku": "SF220-24-K9-xx",

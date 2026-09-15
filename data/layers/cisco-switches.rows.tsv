@@ -216,8 +216,6 @@ C1-C6824-X-LE-40G	Cisco ONE Catalyst 6824-X-Chassis and 2x40G Standard Tables	68
 C1-C6832-X-LE	Cisco ONE Catalyst 6832-X-Chassis (Standard Tables)	6800	switch	layered	Catalyst	Catalyst 6800	Catalyst 6807-XL / 6880-X / 6840-X	sku ^(C1-)?C68[0-9]{2}	core-agg	series:Catalyst 6807-XL / 6880-X / 6840-X					
 C1-C6840-X-LE-40G	Cisco ONE Catalyst 6840-X-Chassis and 2x40G Standard Tables	6800	switch	layered	Catalyst	Catalyst 6800	Catalyst 6807-XL / 6880-X / 6840-X	sku ^(C1-)?C68[0-9]{2}	core-agg	series:Catalyst 6807-XL / 6880-X / 6840-X					
 C1-C6880-X-LE	Cisco Catalyst 6880-X-Chassis (Standard Tables)	6800	switch	layered	Catalyst	Catalyst 6800	Catalyst 6807-XL / 6880-X / 6840-X	sku ^(C1-)?C68[0-9]{2}	core-agg	series:Catalyst 6807-XL / 6880-X / 6840-X					
-C1-FLOW-IE4K	Cisco ONE Netflow IE4000	IE 4000	switch	pending_plan						sw.issue.licence	licence/software	class license			
-C1-FLOW-IE5K	Cisco ONE Netflow IE 5000	Industrial Ethernet 5000	switch	pending_plan						sw.issue.licence	licence/software	class license			
 C1-IE-ADD	Cisco ONE for IE Switches - CHOOSE ONLY QTY 1 HERE	Industrial Ethernet 4010	switch	pending_plan						sw.issue.licence	licence/software	class non_product			
 C1-N3K-C3048TP	Cisco ONE Nexus 3048TP-1GE 1RU 48x10/100/1K and 4x10GE ports	Nexus 3000	switch	layered	Nexus	Nexus 3000	Nexus 3016 / 3048 / 3064 / 3100 / 3200 / 3400	sku ^(C1-)?N3K-	datacenter	series:Nexus 3016 / 3048 / 3064 / 3100 / 3200 / 3400					
 C1-N3K-C31108PC-V	Cisco ONE Nexus 31108-VXLAN, 48 x SFP+ and 6C/6Q QSFP ports	Nexus 7000	switch	layered	Nexus	Nexus 3000	Nexus 3016 / 3048 / 3064 / 3100 / 3200 / 3400	sku ^(C1-)?N3K-	datacenter	series:Nexus 3016 / 3048 / 3064 / 3100 / 3200 / 3400					
@@ -235,7 +233,6 @@ C1-N3K-C3264Q	Cisco ONE Nexus 3264Q Switch with 64 ports of QSFP	Nexus 3000	swit
 C1-N3K-C3524X	Cisco ONE Nexus 3524X, 24 SFP+ ports	Nexus 7000	switch	layered	Nexus	Nexus 3000	Nexus 3500	sku ^(C1-)?N3K-C35	datacenter	series:Nexus 3500					
 C1-N3K-C3548P	Cisco ONE Nexus 3548, 48 SFP+ ports	Nexus 3000	switch	layered	Nexus	Nexus 3000	Nexus 3500	sku ^(C1-)?N3K-C35	datacenter	series:Nexus 3500					
 C1-N3K-C3548X	Cisco ONE Nexus 3548X, 48 SFP+ ports	Nexus 7000	switch	layered	Nexus	Nexus 3000	Nexus 3500	sku ^(C1-)?N3K-C35	datacenter	series:Nexus 3500					
-C1-N55-SERVICES1K9	Nexus 5500 Network Services (includes ITD, RISE)	Nexus 5000	switch	pending_plan						sw.issue.licence	licence/software	class license			
 C1-N5548UP-B-S32	Cisco ONE N5548UP Storage Sol Bun,32 port storage serv lic	Nexus 5000	switch	layered	Nexus	Nexus 5000	Nexus 5500	sku ^N55[0-9]{2}	datacenter	series:Nexus 5500					
 C1-N5548UP-BUN	Cisco ONE Nexus 5548UP in N5548UP-N2K Bundle	Nexus 5000	switch	layered	Nexus	Nexus 5000	Nexus 5500	sku ^N55[0-9]{2}	datacenter	series:Nexus 5500					
 C1-N5548UP4N2232PF	Cisco One Nexus 5548UP/Expansion Module/4xN2232PP/64xFET	Nexus 5000	switch	layered	Nexus	Nexus 5000	Nexus 5500	sku ^N55[0-9]{2}	datacenter	series:Nexus 5500					
@@ -248,11 +245,8 @@ C1-N5596UP-B-FC48	^Cisco ONE Nexus 5596UP, 48 FC transceiver	Nexus 7000	switch	l
 C1-N5596UP-BUN	Cisco ONE Nexus 5596UP in N5548UP-N2K Bundle	Nexus 5000	switch	layered	Nexus	Nexus 5000	Nexus 5500	sku ^N55[0-9]{2}	datacenter	series:Nexus 5500					
 C1-N5596UP6N2248TF	Cisco One Nexus 5596UP/6xN2248TP/48xFET	Nexus 5000	switch	layered	Nexus	Nexus 5000	Nexus 5500	sku ^N55[0-9]{2}	datacenter	series:Nexus 5500					
 C1-N5596UP6N2248TP	Cisco One Nexus 5596UP/6xN2248TP	Nexus 5000	switch	layered	Nexus	Nexus 5000	Nexus 5500	sku ^N55[0-9]{2}	datacenter	series:Nexus 5500					
-C1-N56-SERVICES1K9	Nexus 5600 Network Services (includes ITD, RISE)	Nexus 5000	switch	pending_plan						sw.issue.licence	licence/software	class license			
-C1-N56128-128PK9	Cisco ONE Nexus 56128 Chassis Storage License	Nexus 5000	switch	pending_plan						sw.issue.licence	licence/software	class license			
 C1-N5624-B-24Q	Cisco ONE Nexus 5624Q Chassis 24x40GEPorts/FCoEBun,2PS,3 FAN	Nexus 5000	switch	layered	Nexus	Nexus 5000	Nexus 5600	sku ^N56[0-9]{2}	datacenter	series:Nexus 5600					
 C1-N5624Q	Cisco ONE Nexus 5624Q VXLAN 1RU Chassis, 12x40G QSFP+	Nexus 5000	switch	layered	Nexus	Nexus 5000	Nexus 5600	sku ^N56[0-9]{2}	datacenter	series:Nexus 5600					
-C1-N5672-72P-K9	Cisco ONE Nexus 5672 Chassis Storage License	Nexus 5000	switch	pending_plan						sw.issue.licence	licence/software	class license			
 C1-N5672UP-4FEX-1G	Cisco ONE N5672UP Chassis with 4 x 1G FEXes with FETs	Nexus 5000	bundle	layered	Nexus	Nexus 5000	Nexus 5600	sku ^N56[0-9]{2}							
 C1-N5672UP-6FEX-1G	Cisco ONE N5672UP Chassis with 6 x 1G FEXes with FETs	Nexus 5000	bundle	layered	Nexus	Nexus 5000	Nexus 5600	sku ^N56[0-9]{2}							
 C1-N5672UP-8FEX-1G	Cisco ONE N5672UP Chassis with 8 x 1G FEXes with FETs	Nexus 5000	bundle	layered	Nexus	Nexus 5000	Nexus 5600	sku ^N56[0-9]{2}							
@@ -273,9 +267,7 @@ C1-N5K-C5672UP	Cisco OneNexus5672UP 1RU, 32x10G SFP+, 16pxUP SFP+, 6x40G QSFP+	N
 C1-N5K-C5672UP-16G	Cisco ONENexus5672UP 1RU, 24x10G SFP+, 24pxUP SFP+, 6x40G QSFP+	Nexus 5000	switch	layered	Nexus	Nexus 5000	Nexus 5600	sku ^(C1-)?N5K-C56	datacenter	series:Nexus 5600					
 C1-N5K-C5672UP-BUN	Cisco ONE Nexus 5672UP 1RU, 32x10GSFP+, 16pxUPSFP+, 6x40G QSFP+	Nexus 5000	switch	layered	Nexus	Nexus 5000	Nexus 5600	sku ^(C1-)?N5K-C56	datacenter	series:Nexus 5600					
 C1-N6001-64P	Cisco ONE Nexus 6001,1RUswitch,fixed48p 10G SFP+ and 4pQSFP+	Nexus 5000	switch	layered	Nexus		Nexus 6000	sku ^(C1-)?N600[0-9]	datacenter	series:Nexus 6000					
-C1-N6001-64P-K9	Cisco ONE Nexus 6001 Storage Lic, 64-port 10G or 16-port 40G	Nexus 5000	switch	pending_plan						sw.issue.licence	licence/software	class license			
 C1-N6001-64T	Cisco ONE Nexus 6001, 1RUswitch, fixed48p 10GBASE-Tand4pQSFP+	Nexus 6000	switch	layered	Nexus		Nexus 6000	sku ^(C1-)?N600[0-9]	datacenter	series:Nexus 6000					
-C1-N6004-12Q-K9	Cisco ONE 96 Ports 40G Storage - Qty 8 of N55-8P-SSK9	Nexus 5000	switch	pending_plan						sw.issue.licence	licence/software	class license			
 C1-N6004-96Q	Cisco ONE Nexus 6004 4RU 48Fixed 40GE Ethernet/FCoE, 6PS, 4FAN	Nexus 6000	switch	layered	Nexus		Nexus 6000	sku ^(C1-)?N600[0-9]	datacenter	series:Nexus 6000					
 C1-N6004-B-24Q	Cisco ONE Nexus 6004 EF, 24x40GE Ports/FCoE Bundle;6PS, 4 FAN	Nexus 6000	switch	layered	Nexus		Nexus 6000	sku ^(C1-)?N600[0-9]	datacenter	series:Nexus 6000					
 C1-N6004EF-4FEX-1G	Cisco ONE N6004 Chassis EF with 4 x 1G FEXe with FETs	Nexus 6000	bundle	layered	Nexus		Nexus 6000	sku ^(C1-)?N600[0-9]							
@@ -284,7 +276,6 @@ C1-N6004X-B-24Q	Cisco ONE Nexus 6004X, 24x40GE Ports/FCoE Bundle; 6PS, 4 FAN	Nex
 C1-N6K-ADD	Cisco ONE for Nexus 6000 - CHOOSE ONLY QTY 1 HERE	Nexus 5000	switch	pending_plan						sw.issue.licence	licence/software	class non_product			
 C1-N6K-ADD-M	Cisco ONE for Nexus 6000	Nexus 5000	switch	pending_plan						sw.issue.licence	licence/software	class non_product			
 C1-N6K-C6001-64P	Cisco One Nexus 6001, 1RU switch, fixed 48P 10G SFP+, 4P QSFP+	Nexus 6000	switch	layered	Nexus		Nexus 6000	sku ^(C1-)?N6K-	datacenter	series:Nexus 6000					
-C1-N6K-SERVICES1K9	Nexus 6000 Network Services (includes ITD, RISE)	Nexus 5000	switch	pending_plan						sw.issue.licence	licence/software	class license			
 C1-N7004-S2	Cisco ONE Nexus 7004 Bundle (Chassis,1xSUP2),NoPowSup	Nexus 7000	switch	layered	Nexus	Nexus 7000	Nexus 7004 / 7009 / 7010 / 7018	sku ^N70[0-9]{2}	datacenter	series:Nexus 7004 / 7009 / 7010 / 7018					
 C1-N7004-S2-R	Cisco ONE Nexus 7004 Bundle (Chassis,2xSUP2),NoPowSup	Nexus 7000	switch	layered	Nexus	Nexus 7000	Nexus 7004 / 7009 / 7010 / 7018	sku ^N70[0-9]{2}	datacenter	series:Nexus 7004 / 7009 / 7010 / 7018					
 C1-N7004-S2E	Cisco ONE Nexus 7004 Bundle (Chassis,1xSUP2E),NoPowSup	Nexus 7000	switch	layered	Nexus	Nexus 7000	Nexus 7004 / 7009 / 7010 / 7018	sku ^N70[0-9]{2}	datacenter	series:Nexus 7004 / 7009 / 7010 / 7018					
@@ -736,8 +727,6 @@ C4500E-S8L-S8-SFP	Upgrade WS-X45-SUP8E with dual ME-X4748-SFP-E Bundle	Catalyst 
 C4500E-S8L-SFP+	Default WS-X45-SUP8L-E with dual WS-X4712-SFP+E Bundle	Catalyst 4500	bundle	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^(C1-)?(WS-)?C45[0-9]{2}							
 C4500E-S8L-SFP-DEF	Default WS-X45-SUP8L-E with dual ME-X4748-SFP-E Bundle	Catalyst 4500	bundle	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^(C1-)?(WS-)?C45[0-9]{2}							
 C4500RE-S7-MGIG	MGIG Upgrade for 7 slot chassis bundle(96 UPOE with 24 mGIG)	Catalyst 4500	bundle	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^(C1-)?(WS-)?C45[0-9]{2}							
-C4500X-16P-IP-ES	C4500X-16P-IP-ES – Catalyst 4500-X IP BASE to Enterprise Services upgrade license (paper delivery) for 16-port and 24-port models	Catalyst 4500 X	switch	pending_plan						sw.issue.licence	licence/software	class license			
-C4500X-IP-ES	Catalyst 4500-X IP BASE to Enterprise Services upgrade license (paper delivery) for 32-port and 40-port models	4500-X	switch	pending_plan						sw.issue.licence	licence/software	class license			
 C4503-1S7ES-C	4503-E Chassis and Sup7-E + free EntServices	Catalyst 4500	switch	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^(C1-)?(WS-)?C45[0-9]{2}	core-agg	series:Catalyst 4500-E					
 C4503-1S7LES-C	Cisco C4503-1S7LES-C	Catalyst 4500	switch	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^(C1-)?(WS-)?C45[0-9]{2}	core-agg	series:Catalyst 4500-E					
 C4503-S6L-C	4503-E Chassis and Sup6L-E	Catalyst 4500	switch	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^(C1-)?(WS-)?C45[0-9]{2}	core-agg	series:Catalyst 4500-E					
@@ -3428,15 +3417,12 @@ N2K-QSFP-SFP	N2K Uplink-QSFP to SFP-2xQSFP-40G-SR4 & 8xSFP-10G-SR4	Nexus 5000	ac
 N2K-QSFPBD-QSFPBD	N2K Uplink option QSFP-Bidi with QSFP Bidi	Nexus 2000 Fabric Extenders	accessory	layered	Nexus		Nexus 2000 Fabric Extenders	sku ^N2K-							
 N2K-UCS2232PF	Nexus 2232PP with 16 FET (2 AC PS, 1 FAN (Std Airflow)	Nexus 2000 Fabric Extenders	fex	layered	Nexus		Nexus 2000 Fabric Extenders	sku ^N2K-							
 N2K-UCS2232PP	Nexus 2232PP(no PS, no Fan)	Nexus 2000 Fabric Extenders	fex	layered	Nexus		Nexus 2000 Fabric Extenders	sku ^N2K-							
-N3064T-16T-UPG=	16 Port Upgrade License for N3064-32T	Nexus 3000	switch	pending_plan						sw.issue.upg-licence	licence/software	class license			
 N35-F-48X	Nexus 3550-F Modular Layer 1 Matrix Switch	Nexus 3550 Series	switch	layered	Nexus	Nexus 3000	Nexus 3550	sku ^N35-	datacenter	series:Nexus 3550					
 N35-F-X16P	Nexus 3550-F 16-port SFP line card	Nexus FDK	linecard	layered	Nexus	Nexus 3000	Nexus 3550	sku ^N35-							
 N35-F-X16P=	Nexus 3550-F 16-port SFP line card	Nexus FDK	linecard	layered	Nexus	Nexus 3000	Nexus 3550	sku ^N35-							
 N35-F-X4Q	Nexus 3550-F 4-port QSFP line card	Nexus FDK	linecard	layered	Nexus	Nexus 3000	Nexus 3550	sku ^N35-							
 N35-F-X4Q=	Nexus 3550-F 4-port QSFP line card	Nexus FDK	linecard	layered	Nexus	Nexus 3000	Nexus 3550	sku ^N35-							
 N35-FM-48X	Nexus 3550-F Programmable Multiplexer Switch	Nexus 3550 Series	switch	layered	Nexus	Nexus 3000	Nexus 3550	sku ^N35-	datacenter	series:Nexus 3550					
-N3548-24P-UPG=	Nexus 3524 additional 24 port license	Nexus 3000	switch	pending_plan						sw.issue.upg-licence	licence/software	class license			
-N3K-16T-UPG=	16 Port Upgrade License for N3172TQ-32T.	Nexus 3000	switch	pending_plan						sw.issue.upg-licence	licence/software	class license			
 N3K-C3016-BA-L3	Nexus 3016, AC, Reversed Airflow (port side intake), Base and LAN Ent Lic Bundle	Nexus 3000	switch	layered	Nexus	Nexus 3000	Nexus 3016 / 3048 / 3064 / 3100 / 3200 / 3400	sku ^(C1-)?N3K-	datacenter	series:Nexus 3016 / 3048 / 3064 / 3100 / 3200 / 3400					
 N3K-C3016-BD-L3	Nexus 3016, DC, Reversed Airflow (port side intake), Base and LAN Ent Lic Bundle	Nexus 3000	switch	layered	Nexus	Nexus 3000	Nexus 3016 / 3048 / 3064 / 3100 / 3200 / 3400	sku ^(C1-)?N3K-	datacenter	series:Nexus 3016 / 3048 / 3064 / 3100 / 3200 / 3400					
 N3K-C3016-FA-L3	Nexus 3016, AC, Forward Airflow (port side exhaust), Base and LAN Ent Lic Bundle	Nexus 3000	switch	layered	Nexus	Nexus 3000	Nexus 3016 / 3048 / 3064 / 3100 / 3200 / 3400	sku ^(C1-)?N3K-	datacenter	series:Nexus 3016 / 3048 / 3064 / 3100 / 3200 / 3400					
@@ -3705,8 +3691,6 @@ N55-PDC-1100W	Cisco Nexus 5500/6000 PSU module, DC 1100W	Nexus 6000	power	layere
 N55-PDC-1100W=	Cisco Nexus 6001 PSU Front-to-Back Airflow module spare, D/C, - 40 to -72VDC, 1100W	Nexus 6000	power	layered	Nexus	Nexus 5000	Nexus 5500	sku ^(C1-)?N55-							
 N55-PDC-750W	Nexus 5500 750W DC Power Supply	Nexus 5000	power	layered	Nexus	Nexus 5000	Nexus 5500	sku ^(C1-)?N55-							
 N55-PDC-750W=	Nexus 5500 750W DC Power Supply	Nexus 5000	power	layered	Nexus	Nexus 5000	Nexus 5500	sku ^(C1-)?N55-							
-N55-SERVICES1K9	Nexus 5500 Network Services (includes ITD, RISE)	Nexus 5000	switch	pending_plan						sw.issue.licence	licence/software	class license			
-N55-SERVICES1K9=	Nexus 5500 Network Services (includes ITD, RISE)	Nexus 5000	switch	pending_plan						sw.issue.licence	licence/software	class license			
 N5548-ACC-KIT	Nexus 5548 Chassis Accessory Kit	Nexus 5000	mechanical	layered	Nexus	Nexus 5000	Nexus 5500	sku ^N55[0-9]{2}							
 N5548-ACC-KIT-I	Nexus 5548 Chassis Accessory Kit, IBM	Nexus 5000	mechanical	layered	Nexus	Nexus 5000	Nexus 5500	sku ^N55[0-9]{2}							
 N5548-ACC-KIT-IF=	Nexus 5548 Chassis Accessory Kit, IBM FRU	Nexus 5000	mechanical	layered	Nexus	Nexus 5000	Nexus 5500	sku ^N55[0-9]{2}							
@@ -3760,8 +3744,6 @@ N56-M-BLNK=	Nexus 5600 Module Blank Cover	Nexus 5000	mechanical	layered	Nexus	Ne
 N56-M24UP2Q	Cisco Nexus 56128P Expansion Module, 24x 10-Gbps SFP+ UP, 2 x QSFP+ fixed ports	Nexus 5000	module	layered	Nexus	Nexus 5000	Nexus 5600	sku ^(C1-)?N56-							
 N56-M24UP2Q-B	Nexus 56128P Module, 24x 10G SFP+UP, 2x QSFP+ used in Bundle	Nexus 5000	module	layered	Nexus	Nexus 5000	Nexus 5600	sku ^(C1-)?N56-							
 N56-M24UP2Q=	Cisco Nexus 56128P Expansion Module, 24x 10-Gbps SFP+ UP, 2 x QSFP+ fixed ports, Spare	Nexus 5000	module	layered	Nexus	Nexus 5000	Nexus 5600	sku ^(C1-)?N56-							
-N56-SERVICES1K9	Nexus 5600 Network Services (includes ITD, RISE)	Nexus 5000	switch	pending_plan						sw.issue.licence	licence/software	class license			
-N56-SERVICES1K9=	Nexus 5600 Network Services (includes ITD, RISE)	Nexus 5000	switch	pending_plan						sw.issue.licence	licence/software	class license			
 N5600-M-BLNK	Nexus 5624Q/5648Q Blank Module Cover	Nexus 5000	mechanical	layered	Nexus	Nexus 5000	Nexus 5600	sku ^N56[0-9]{2}							
 N5600-M-BLNK=	Nexus 5624Q/5648Q Blank Module Cover	Nexus 5000	mechanical	layered	Nexus	Nexus 5000	Nexus 5600	sku ^N56[0-9]{2}							
 N5600-M12Q	Nexus 5624Q/5648Q Chassis Module 12Q 40GE Ethernet/FCoE	Nexus 5000	module	layered	Nexus	Nexus 5000	Nexus 5600	sku ^N56[0-9]{2}							
@@ -3974,8 +3956,6 @@ N6K-PAC-1100W	^Nexus 6004 PSU module, 100-240VAC 1100W, spare	Nexus 5000	power	l
 N6K-PAC-1100W=	Nexus 6000 1100W AC Power Supply	Nexus 5000	power	layered	Nexus		Nexus 6000	sku ^(C1-)?N6K-							
 N6K-PS-BLANK	Nexus 6004 Power Supply Blank Cover	Nexus 6000	mechanical	layered	Nexus		Nexus 6000	sku ^(C1-)?N6K-							
 N6K-PS-BLANK=	Nexus 6004 Power Supply Blank Cover, spare	Nexus 6000	mechanical	layered	Nexus		Nexus 6000	sku ^(C1-)?N6K-							
-N6K-SERVICES1K9	Nexus 6000 Network Services (includes ITD, RISE)	Nexus 5000	switch	pending_plan						sw.issue.licence	licence/software	class license			
-N6K-SERVICES1K9=	Nexus 6000 Network Services (includes ITD, RISE)	Nexus 5000	switch	pending_plan						sw.issue.licence	licence/software	class license			
 N7009RISENAM-BUNP1	RISE NAM Bundles with Nexus 7009	Nexus 7000	bundle	layered	Nexus	Nexus 7000	Nexus 7004 / 7009 / 7010 / 7018	sku ^N70[0-9]{2}							
 N7009RISENAM-BUNP2	RISE NAM Bundles with Nexus 7009	Nexus 7000	bundle	layered	Nexus	Nexus 7000	Nexus 7004 / 7009 / 7010 / 7018	sku ^N70[0-9]{2}							
 N7010-ASAS60-K9	Cisco Nexus 7010 and Cisco ASA 5585-X chas (w/SSP60) Bundle	Nexus 7000	switch	layered	Nexus	Nexus 7000	Nexus 7004 / 7009 / 7010 / 7018	sku ^N70[0-9]{2}	datacenter	series:Nexus 7004 / 7009 / 7010 / 7018					
@@ -4360,8 +4340,6 @@ N7K-PS-BLANK-H	Nexus 7018 Chassis Power Supply Blank with Handle	Nexus 7000	mech
 N7K-PS-BLANK-H=	Cisco Nexus 7009 Chassis Power Supply Blank Slot Cover with Handle	Nexus 7000	mechanical	layered	Nexus	Nexus 7000	Nexus 7004 / 7009 / 7010 / 7018	sku ^(C1-)?N7K-							
 N7K-PS-BLANK=	Cisco Nexus 7010 Chassis Power Supply Blank Slot Cover	Nexus 7000	mechanical	layered	Nexus	Nexus 7000	Nexus 7004 / 7009 / 7010 / 7018	sku ^(C1-)?N7K-							
 N7K-RMK=	Cisco Nexus 7000-Rack Mount Kit	Nexus 7000	mechanical	layered	Nexus	Nexus 7000	Nexus 7004 / 7009 / 7010 / 7018	sku ^(C1-)?N7K-							
-N7K-SERVICES1K9	Nexus 7000 Network Services (includes ITD, RISE)	Nexus 7000	switch	pending_plan						sw.issue.licence	licence/software	class license			
-N7K-SERVICES1K9=	Nexus 7000 Network Services (includes ITD, RISE)	Nexus 7000	switch	pending_plan						sw.issue.licence	licence/software	class license			
 N7K-SUP-BLANK	Nexus 7000 - Supervisor Blank Slot Cover	Nexus 7000	mechanical	layered	Nexus	Nexus 7000	Nexus 7004 / 7009 / 7010 / 7018	sku ^(C1-)?N7K-							
 N7K-SUP-BLANK=	Cisco Nexus 7000 Series Supervisor Blank Slot Cover	Nexus 7000	mechanical	layered	Nexus	Nexus 7000	Nexus 7004 / 7009 / 7010 / 7018	sku ^(C1-)?N7K-							
 N7K-SUP1	Cisco N7K-SUP1 Supervisor-Engine für Nexus 7000	Nexus7000 Modules	supervisor	layered	Nexus	Nexus 7000	Nexus 7004 / 7009 / 7010 / 7018	sku ^(C1-)?N7K-							
@@ -4646,8 +4624,6 @@ N9K-C9808-FM-B	Cisco N9800 8-slot chassis fabric module (2 nd Generation)	Nexus 
 N9K-C9808-FM-CV	Cisco N9800 8-slot chassis fabric module slot cover	Nexus 9000	fabric	layered	Nexus	Nexus 9000	Nexus 9800	sku ^(C1-)?N9K-C98							
 N9K-C9808-PK-KIT	Cisco N9808 packaging kit	Nexus 9000	mechanical	layered	Nexus	Nexus 9000	Nexus 9800	sku ^(C1-)?N9K-C98							
 N9K-C9808-RMB	Cisco N9804 rear-mounting brackets	Nexus 9000	mechanical	layered	Nexus	Nexus 9000	Nexus 9800	sku ^(C1-)?N9K-C98							
-N9K-EX-24P-UPG=	Cisco N9300 48-port upgrade license for EX switches	Nexus 9000	switch	pending_plan						sw.issue.upg-licence	licence/software	class license			
-N9K-FX-24P-UPG=	Cisco N9300 48-port upgrade license for FX switches	Nexus 9000	switch	pending_plan						sw.issue.upg-licence	licence/software	class license			
 N9K-M12PQ	ACI capable Uplink Module for Nexus 9300, 12p 40G QSFP	Nexus 9000	module	layered	Nexus	Nexus 9000	Nexus 9300	sku ^(C1-)?N9K-M(6PQ|4PC|12PQ)							
 N9K-M12PQ=	ACI capable Uplink Module for Nexus 9300, 12p 40G QSFP	Nexus 9000	module	layered	Nexus	Nexus 9000	Nexus 9300	sku ^(C1-)?N9K-M(6PQ|4PC|12PQ)							
 N9K-M4PC-CFP2	Uplink Module for Nexus 9300, 4p 100G CFP2	Nexus 9000	module	layered	Nexus	Nexus 9000	Nexus 9300	sku ^(C1-)?N9K-M(6PQ|4PC|12PQ)							
@@ -4853,13 +4829,6 @@ NAL-C3750X-48T-E	NAL PID for 3750X 48 Data IPS switch	3750-X	switch	layered	Cata
 NAL-C3750X-48T-L	NAL PID for 3750X 48 Data LB switch	3750-X	switch	layered	Catalyst	Catalyst 3750	Catalyst 3750-X	sku ^(C1-|NAL-)?(WS-)?C?3750X	access	series:Catalyst 3750-X					
 NAL-C3750X-48T-S	NAL PID for 3750X 48 Data IPB switch	3750-X	switch	layered	Catalyst	Catalyst 3750	Catalyst 3750-X	sku ^(C1-|NAL-)?(WS-)?C?3750X	access	series:Catalyst 3750-X					
 NAL-C3750X-48U-L	NAL PID for 3750X 48 UPoE LB switch	3750-X	switch	layered	Catalyst	Catalyst 3750	Catalyst 3750-X	sku ^(C1-|NAL-)?(WS-)?C?3750X	access	series:Catalyst 3750-X					
-NDB-3.0	Nexus Data Broker Version 3.0 (all sub-versions)	Nexus 9000	switch	pending_plan						sw.issue.licence	licence/software	class software			
-NDB-3.1	Nexus Data Broker Version 3.1 (all sub-versions)	Nexus 9000	switch	pending_plan						sw.issue.licence	licence/software	class software			
-NDB-3.2	Nexus Data Broker Version 3.2 (all sub-versions)	Nexus 9000	switch	pending_plan						sw.issue.licence	licence/software	class software			
-NDB-3.3	Nexus Data Broker Version 3.3 (all sub-versions)	Nexus 9000	switch	pending_plan						sw.issue.licence	licence/software	class software			
-NDB-3.4	Nexus Data Broker Version 3.4 (all sub-versions)	Nexus 9000	switch	pending_plan						sw.issue.licence	licence/software	class software			
-NDB-3.5	Nexus Data Broker Version 3.5 (all sub-versions)	Nexus 9000	switch	pending_plan						sw.issue.licence	licence/software	class software			
-NDB-FX-SWT-K9	NDB license for 1 Cisco Nexus fixed switch ● Cisco Nexus 9300 ● Cisco Nexus 3500	Nexus 3000	switch	pending_plan						sw.issue.licence	licence/software	class license			
 NM-BLANK-T1=	Cisco Catalyst Type 1 Network Module Blank, spare	Catalyst 9300	mechanical	pending_plan								move interfaces-modules			
 NXA-ACC-KIT-BAV	Airflow Vent 2348TQ, 2348TQ-E and 2332TQ only.	Nexus 2000 Fabric Extenders	mechanical	layered	Nexus	Nexus 9000	Nexus 9000 shared parts	sku ^NXA-							
 NXA-ACC-KIT-BAV=	Nexus 2K/3K airflow vent accessory kit	Nexus 2000 Fabric Extenders	mechanical	layered	Nexus	Nexus 9000	Nexus 9000 shared parts	sku ^NXA-							
@@ -5289,8 +5258,6 @@ PWR675-AC-RPS-N1=	675W Redundant Power Supply with 1 connector cable	3750	power	
 PWRADPT-WM-18-NA=	Cisco PWRADPT-WM-18-NA=	Catalyst 1300X	power	layered	Catalyst	(shared across the line)	Catalyst shared parts	label-unsupported (label Catalyst 1300X; was Catalyst 1300): no platform token (1300) in the SKU or name, no compatible part placed in the series						none: no platform token (1300) in the SKU or name, no compatible part placed in the series	
 PWRADPT-WM-18-xx	Cisco PWRADPT-WM-18-xx	Catalyst 1300X	power	layered	Catalyst	(shared across the line)	Catalyst shared parts	label-unsupported (label Catalyst 1300X; was Catalyst 1300): no platform token (1300) in the SKU or name, no compatible part placed in the series						none: no platform token (1300) in the SKU or name, no compatible part placed in the series	true
 QPP24BL	QuickNet 24-Port Patch Panel	Nexus 3000	mechanical	pending_plan								class non_product			
-R-ME3400E-B2A=	Metro Base to Metro Access Image upgrade for ME3400E switch	ME 3400E Ethernet Access	switch	pending_plan						sw.issue.licence	licence/software	class software			
-R-ME3400E-B2I=	Metro Base to Metro IPAccess Image Upgrade for ME3400E Switch	ME 3400E Ethernet Access	switch	pending_plan						sw.issue.licence	licence/software	class software			
 RACK-KIT-T1=	19, 23, 24 inch and ETSI Type 1 rack mount kit	Catalyst 9200	mechanical	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory RACK-?(MOUNT|MNT|KIT) (label Catalyst 9200)							
 RACKMNT-19-CMPACT	19-Inch Rack Mounting Brackets for compact switches	Catalyst 9200	mechanical	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory RACK-?(MOUNT|MNT|KIT) (label Catalyst 9200)							
 RCKMNT-19-CMPCT	19 in Rackmount for DSBU Compact switches	3560-CX	mechanical	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^RCKMNT (label 3560-CX)							
@@ -5323,8 +5290,6 @@ RSP720-3C-10GE=	Cisco RSP720-3C-10GE=	Catalyst 6500	supervisor	pending_plan					
 RSP720-3C-GE	Cisco RSP720-3C-GE	Catalyst 6500	supervisor	pending_plan								move routers			
 RSP720-3C-GE=	Cisco RSP720-3C-GE=	Catalyst 6500	supervisor	pending_plan								move routers			
 S6400	Cisco S6400	Nexus 9000	switch	pending_plan						sw.issue.placeholder	datasheet cell / bare family name (not a PID)	class non_product			
-S9500ULPEK9-1610	Cisco Catalyst 9500 XE 16.10 UNIVERSAL W/O DTLS	Catalyst 9500	switch	pending_plan						sw.issue.licence	licence/software	class software			
-S9500ULPEK9-165	UNIVERSAL W/O DTLS	Catalyst 9500	switch	pending_plan						sw.issue.licence	licence/software	class software			
 SD-IE-16GB	IE 16GB SD Memory card	Catalyst IE3400 Heavy Duty Series	flash	layered	Industrial Ethernet	(shared across the line)	Industrial Ethernet shared parts	label-unsupported (label Catalyst IE3400 Heavy Duty Series; was IE 3400H): no platform token (3400) in the SKU or name, no compatible part placed in the series						none: no platform token (3400) in the SKU or name, no compatible part placed in the series	
 SD-IE-16GB=	Industrial Ethernet (IE) 16GB SD memory card for IE	Catalyst IE9300 Rugged Series	flash	layered	Industrial Ethernet	(shared across the line)	Industrial Ethernet shared parts	label-unsupported (label Catalyst IE3400 Heavy Duty Series; was IE 3400H): no platform token (3400) in the SKU or name, no compatible part placed in the series						none: no platform token (3400) in the SKU or name, no compatible part placed in the series	
 SD-IE-1GB	IE 1GB SD Memory Card for IE2000, IE3010	IE 2000	flash	layered	Industrial Ethernet	(shared across the line)	Industrial Ethernet shared parts	label-unsupported (label IE 2000; was IE 2000): names another series of the line: IE 3010 (name 3010)						none: names another series of the line: IE 3010 (name 3010)	
