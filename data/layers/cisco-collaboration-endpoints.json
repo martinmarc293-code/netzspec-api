@@ -1,8 +1,8 @@
 {
  "vendor": "cisco",
  "category": "collaboration-endpoints",
- "built_at": "2026-09-15T08:21:33.101Z",
- "commit": "a67ab8b568985f351b6fe5a575125a78315132ec",
+ "built_at": "2026-09-15T08:51:18.627Z",
+ "commit": "0daee011dae9de6c3b9e762847ffd00c9db08da5",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-collaboration-endpoints.json",
  "parts": 2835,
@@ -371,7 +371,7 @@
   },
   {
    "line": "Webex Room Series",
-   "parts": 635,
+   "parts": 658,
    "series": [
     {
      "series": "Room Bar Pro",
@@ -522,33 +522,37 @@
      "rules": {
       "sku": 41
      },
-     "pending_in": {}
+     "pending_in": {
+      "wireless": 2
+     }
     },
     {
      "series": "Room 70 / 70S / 70D",
      "family": null,
      "role": null,
-     "note": null,
-     "parts": 40,
+     "note": "layers round 3 (wireless round): the Room 70 speaker, HDMI and DC cables and the Room 70 antenna kit (named 'for ROOM 70'), planned in from wireless where they sat under the 'Policy Suite for Mobile' label",
+     "parts": 79,
      "kinds": {
+      "power-cord": 6,
+      "cable": 33,
       "mechanical": 18,
       "video-device": 20,
       "display": 2
      },
      "roles": {},
      "samples": [
-      "CS-R70-PRES-BTM — Below Screen mount for 70 Panorama - Samsung 55\"",
-      "CS-R70-PRES-TOP — Above Screen mount for 70 Panorama - Samsung 65\"",
-      "CS-R70P-UPG-BUN — Cisco Webex Room 70 Panorama upgrade",
-      "CS-ROOM70-PANO-K9 — Cisco Webex Room 70 Panorama, Dual 70-inch screens + present",
-      "CS-ROOM70D-FSK — Cisco Room 70 Dual Screen Floor Stand Kit",
-      "CS-ROOM70D-FSK= — Cisco Room 70 Dual Screen Floor Stand Kit"
+      "CAB-2DC-BRL-0.30M- — DC Power Cable w/Barrel Plug, 0.3 meters long",
+      "CAB-2DC-BRL-0.30M= — DC Power Cable w/Barrel Plug, 0.3 meters long",
+      "CAB-2DC-BRL-0.6M- — DC Power Cable w/Barrel Plug, 0.6 meters long for MXCAM-D",
+      "CAB-2DC-BRL-0.6M= — DC Power Cable w/Barrel Plus, 0.6 meters long for MXCAM-D",
+      "CAB-2DC-BRL-1.15M- — DC Power Cable w/Barrel Plug, 1.15 meters long for MXCAM-D",
+      "CAB-2DC-BRL-1.15M= — DC Power Cable w/Barrel Plus, 1.15 meters long for MXCAM-D"
      ],
      "rules": {
-      "sku": 40
+      "sku": 79
      },
      "pending_in": {
-      "wireless": 8
+      "wireless": 41
      }
     },
     {
@@ -579,13 +583,13 @@
      "series": "Webex Room Series shared parts",
      "family": "(shared across the line)",
      "role": null,
-     "note": null,
-     "parts": 248,
+     "note": "layers round 3 (wireless round): the USB A-B cables 'for ROOM 70 / MX800 Dual' and the grey right-angled C7 power cords, planned in from wireless — shared by several Room devices",
+     "parts": 232,
      "kinds": {
       "power": 13,
       "mechanical": 22,
-      "power-cord": 86,
-      "cable": 76,
+      "cable": 62,
+      "power-cord": 84,
       "accessory": 13,
       "video-device": 13,
       "video-codec": 19,
@@ -596,17 +600,19 @@
      "samples": [
       "AIR-PWRINJ6 — Power injector",
       "BRKT-QCAM2-WMK- — Wall-mount bracket for Cisco Quad Camera (only in Quad Camer",
-      "CAB-2DC-BRL-0.30M- — DC Power Cable w/Barrel Plug, 0.3 meters long",
-      "CAB-2DC-BRL-0.30M= — DC Power Cable w/Barrel Plug, 0.3 meters long",
       "CAB-2HDMI-1.26M- — HDMI to HDMI Cable, 1.26 meters long for ROOM 70",
-      "CAB-2HDMI-1.26M= — HDMI to HDMI Cable, 1.26 meters long for ROOM 70"
+      "CAB-2HDMI-1.26M= — HDMI to HDMI Cable, 1.26 meters long for ROOM 70",
+      "CAB-2HDMI-1.5M- — Not used",
+      "CAB-2HDMI-1.5M-GR — Second screen 1.5 m HDMI 2.0 certified cable"
      ],
      "rules": {
       "label": 82,
-      "accessory": 162,
-      "sku": 4
+      "accessory": 117,
+      "sku": 33
      },
-     "pending_in": {}
+     "pending_in": {
+      "wireless": 8
+     }
     }
    ]
   },
@@ -771,7 +777,7 @@
   },
   {
    "line": "TelePresence (legacy)",
-   "parts": 697,
+   "parts": 674,
    "series": [
     {
      "series": "TelePresence MX (MX200 / MX300 / MX700 / MX800)",
@@ -891,11 +897,11 @@
      "family": "(shared across the line)",
      "role": null,
      "note": null,
-     "parts": 319,
+     "parts": 296,
      "kinds": {
       "mechanical": 20,
-      "power-cord": 125,
-      "cable": 99,
+      "power-cord": 121,
+      "cable": 80,
       "video-device": 2,
       "video-codec": 17,
       "unknown": 10,
@@ -915,7 +921,7 @@
       "BRKT-SX10-SMK+ — SX10 Screen Mount Kit"
      ],
      "rules": {
-      "accessory": 234,
+      "accessory": 211,
       "sku": 85
      },
      "pending_in": {

@@ -1,8 +1,8 @@
 {
  "vendor": "cisco",
  "category": "transceiver",
- "built_at": "2026-09-15T08:21:33.287Z",
- "commit": "a67ab8b568985f351b6fe5a575125a78315132ec",
+ "built_at": "2026-09-15T08:51:18.930Z",
+ "commit": "0daee011dae9de6c3b9e762847ffd00c9db08da5",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-transceiver.json",
  "parts": 2107,
@@ -44,7 +44,7 @@
      "series": "Meraki MA-SFP / MA-QSFP / MA-CBL",
      "family": null,
      "role": null,
-     "note": null,
+     "note": "^MA- fenced to the optics and cables it names (layers round 3, wireless round): the bare rule claimed wireless' Meraki MR antennas, mounts and power adapters (MA-ANT-3-A1 …, 30 rows)",
      "parts": 25,
      "kinds": {
       "cable": 11,

@@ -1,8 +1,8 @@
 {
  "vendor": "cisco",
  "category": "servers-unified-computing",
- "built_at": "2026-09-15T08:21:30.627Z",
- "commit": "a67ab8b568985f351b6fe5a575125a78315132ec",
+ "built_at": "2026-09-15T08:51:15.749Z",
+ "commit": "0daee011dae9de6c3b9e762847ffd00c9db08da5",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-servers-unified-computing.json",
  "parts": 9579,

@@ -1,8 +1,8 @@
 {
  "vendor": "cisco",
  "category": "routers",
- "built_at": "2026-09-15T08:21:32.284Z",
- "commit": "a67ab8b568985f351b6fe5a575125a78315132ec",
+ "built_at": "2026-09-15T08:51:17.599Z",
+ "commit": "0daee011dae9de6c3b9e762847ffd00c9db08da5",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-routers.json",
  "parts": 5093,
@@ -357,7 +357,7 @@
   },
   {
    "line": "ISR (Integrated Services Routers)",
-   "parts": 1275,
+   "parts": 1269,
    "series": [
     {
      "series": "ISR 1100",
@@ -686,10 +686,10 @@
      "family": "(shared across the line)",
      "role": null,
      "note": null,
-     "parts": 195,
+     "parts": 189,
      "kinds": {
       "fan": 1,
-      "antenna": 42,
+      "antenna": 36,
       "cable": 75,
       "mechanical": 13,
       "module": 12,
@@ -712,7 +712,7 @@
      ],
      "rules": {
       "label-unsupported": 56,
-      "accessory": 139
+      "accessory": 133
      },
      "pending_in": {}
     }
@@ -855,14 +855,14 @@
      "series": "ASR 5000 and 5500",
      "family": null,
      "role": null,
-     "note": "PENDING ARRIVAL: 115 hardware rows sit in wireless today (113 carry a move plan to routers); this series is empty until the move runs. Mobile packet core: no SP router role assigned.",
+     "note": "PENDING ARRIVAL: 115 hardware rows sit in wireless today (113 carry a move plan to routers); this series is empty until the move runs. Mobile packet core: no SP router role assigned. ^ASR55 (layers round 3, wireless round): the ASR 5500 cards and systems (ASR55-UDPC-K9, ASR55-CHS-SYS-U6B …) matched no rule, so the arrivals check named the 14 ASR55 rows planned in from wireless as unplaced.",
      "parts": 0,
      "kinds": {},
      "roles": {},
      "samples": [],
      "rules": {},
      "pending_in": {
-      "wireless": 99
+      "wireless": 113
      }
     },
     {
@@ -1377,7 +1377,7 @@
   },
   {
    "line": "Industrial and IoT Routers",
-   "parts": 330,
+   "parts": 329,
    "series": [
     {
      "series": "IR 1101",
@@ -1699,11 +1699,11 @@
      "family": "(shared across the line)",
      "role": null,
      "note": "layers round 3: the rows planned in from interfaces-modules land here by SKU — the Connected Grid WiMAX panel antennas and the WPAN connector (operator: CGR antennas -> routers Industrial shared parts; the WiMAX connector CGR-N-CONN-WIMAX stays in CGR 1000 by its label), and the 4G antennas ANT-4G-PNL-OUT-N / ANT-4G-SR-OUT-TNC, whose spare and siblings already sit in this shared parts. The line's other shared parts still arrive through the accessory rule",
-     "parts": 102,
+     "parts": 101,
      "kinds": {
       "antenna": 43,
       "accessory": 19,
-      "mechanical": 4,
+      "mechanical": 3,
       "cable": 23,
       "power-cord": 5,
       "memory": 2,
@@ -1720,7 +1720,7 @@
      ],
      "rules": {
       "accessory": 69,
-      "label-unsupported": 32,
+      "label-unsupported": 31,
       "sku": 1
      },
      "pending_in": {
@@ -2270,6 +2270,62 @@
    "action": "class",
    "to": "non_product",
    "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
+  },
+  {
+   "sku": "AIR-ACC1530-PMK1",
+   "name": "Standard pole/wall mount kit for AP1530/1560 Series",
+   "series_label": "Wireless Gateway for LoRaWAN",
+   "action": "move",
+   "to": "wireless",
+   "reason": "Aironet 1530 / 1560 pole / wall mount kit filed under the LoRaWAN gateway: goes with the Aironet 1520 / 1530 accessories in wireless, beside its spare AIR-ACC1530-PMK1= (layers round 3, wireless round — the pending-round cross-claim decided)"
+  },
+  {
+   "sku": "AIR-ANT2513P4M-N/NS",
+   "name": "2.4GHz/5GHz 13dBi Patch Antenna 4port, Nconn",
+   "series_label": "3800 Series Integrated Services Routers ISR",
+   "action": "move",
+   "to": "wireless",
+   "reason": "Aironet antenna filed under ISR shared parts: wireless holds the Aironet antenna family and most of these rows' spares (layers round 3, wireless round — the pending-round cross-claim decided)"
+  },
+  {
+   "sku": "AIR-ANT2524DB-R",
+   "name": "Cisco Aironet dual-band dipole antenna; Black; Peak Gain 2 dBi at 2.4. GHz and 4 dBi at 5 GHz",
+   "series_label": "800 ISR",
+   "action": "move",
+   "to": "wireless",
+   "reason": "Aironet antenna filed under ISR shared parts: wireless holds the Aironet antenna family and most of these rows' spares (layers round 3, wireless round — the pending-round cross-claim decided)"
+  },
+  {
+   "sku": "AIR-ANT2547V-N",
+   "name": "Cisco AIR-ANT2547V-N",
+   "series_label": "800 ISR",
+   "action": "move",
+   "to": "wireless",
+   "reason": "Aironet antenna filed under ISR shared parts: wireless holds the Aironet antenna family and most of these rows' spares (layers round 3, wireless round — the pending-round cross-claim decided)"
+  },
+  {
+   "sku": "AIR-ANT2547V-N-HZ",
+   "name": "Cisco AIR-ANT2547V-N-HZ",
+   "series_label": "800 ISR",
+   "action": "move",
+   "to": "wireless",
+   "reason": "Aironet antenna filed under ISR shared parts: wireless holds the Aironet antenna family and most of these rows' spares (layers round 3, wireless round — the pending-round cross-claim decided)"
+  },
+  {
+   "sku": "AIR-ANT2588P4M-NS",
+   "name": "2.4GHz/5GHz 8Bi Patch Antenna 4port, Nconn",
+   "series_label": "3800 Series Integrated Services Routers ISR",
+   "action": "move",
+   "to": "wireless",
+   "reason": "Aironet antenna filed under ISR shared parts: wireless holds the Aironet antenna family and most of these rows' spares (layers round 3, wireless round — the pending-round cross-claim decided)"
+  },
+  {
+   "sku": "AIR-ANT5135",
+   "name": "Cisco AIR-ANT5135",
+   "series_label": "800 ISR",
+   "action": "move",
+   "to": "wireless",
+   "reason": "Aironet antenna filed under ISR shared parts: wireless holds the Aironet antenna family and most of these rows' spares (layers round 3, wireless round — the pending-round cross-claim decided)"
   },
   {
    "sku": "AIR-AP1815-K9-ME-8-5-110-0.tar",
@@ -4403,9 +4459,9 @@
  "unplaced": [],
  "label_check": {
   "applied": true,
-  "label_placed": 442,
+  "label_placed": 441,
   "by_kind": {
-   "none": 194,
+   "none": 193,
    "name": 137,
    "family": 20,
    "sku-token": 91
@@ -4490,14 +4546,6 @@
     "from_series": "ISR 2900",
     "to_series": "ISR (Integrated Services Routers) shared parts",
     "why": "no platform token (2900) in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "AIR-ACC1530-PMK1",
-    "name": "Standard pole/wall mount kit for AP1530/1560 Series",
-    "series_label": "Wireless Gateway for LoRaWAN",
-    "from_series": "Wireless Gateway for LoRaWAN",
-    "to_series": "Industrial and IoT Routers shared parts",
-    "why": "no series token in the SKU or name, no compatible part placed in the series"
    },
    {
     "sku": "AIR-ACC370-NF-NF",
@@ -5966,8 +6014,6 @@
   ]
  },
  "pending_review": [],
- "inbound_unplaced": {
-  "wireless": 14
- },
+ "inbound_unplaced": {},
  "done": true
 }
