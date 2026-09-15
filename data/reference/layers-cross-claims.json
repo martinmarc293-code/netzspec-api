@@ -1,33 +1,6 @@
 {
- "_about": "Cross-claims the layers standing check accepts (tests/layersStanding.test.ts): a layered row of <category> that <claimed_by>'s mapping also places by a SKU rule. Each group is recorded with its exact row count — a new group, a grown or shrunk count, or a stale entry fails the check. Statuses: claimant-rule-too-broad (fix in that category's round), decided-home (a decision placed the family here), pending-round (the home is decided in the named round).",
+ "_about": "Cross-claims the layers standing check accepts (tests/layersStanding.test.ts): a layered row of <category> that <claimed_by>'s mapping also places by a SKU rule. Each group is recorded with its exact row count — a new group, a grown or shrunk count, or a stale entry fails the check. Statuses: claimant-rule-too-broad (fix in that category's round), decided-home (a decision placed the family here), pending-round (the home is decided in the named round), pending-decision:Q-<n> (kept where filed while that open question is answered — re-audit decisions, operator, 15 Sep 2026, F-6; the status is stale once the question closes).",
  "entries": [
-  {
-   "category": "interfaces-modules",
-   "claimed_by": "servers-unified-computing",
-   "series": "UCS E-Series",
-   "rule": "sku ^UCS-EN?[0-9]",
-   "rows": 4,
-   "examples": [
-    "UCS-E1100D-M6/K9",
-    "UCS-E1120D-M3/K9",
-    "UCS-E160S-M3/K9"
-   ],
-   "status": "decided-home",
-   "reason": "pre-ruling C3, applied by the operator (layers round 3): the UCS E-Series server modules in the SM-X form factor live in interfaces-modules, kind module, and the SVC-E service spares are planned in from servers-unified-computing; the servers mapping's UCS E-Series rule is fenced in its round"
-  },
-  {
-   "category": "routers",
-   "claimed_by": "wireless",
-   "series": "Power injectors, supplies and cords",
-   "rule": "sku ^PWR-(CAB-(JPN-|INT-0[.]7M)|115W-AC|2504-AC|750WACR-RED|CH1-(750W?ACR|950WDCR)|RPS-DC1)",
-   "rows": 2,
-   "examples": [
-    "PWR-CH1-750WACR=",
-    "PWR-CH1-950WDCR="
-   ],
-   "status": "pending-round",
-   "reason": "PWR-CH1-750WACR= / PWR-CH1-950WDCR= are the spares of supplies shared by the Catalyst 8500 (routers, named 'Cisco C8500 750W AC Power, Spare') and the Catalyst 9800-80 controller (whose bases sit in wireless, named 'Catalyst wireless controller 750W AC Power Supply'): one home for the pair is an operator decision (decision pending, layers round 3, wireless round)"
-  },
   {
    "category": "servers-unified-computing",
    "claimed_by": "hyperconverged-systems",
@@ -39,22 +12,8 @@
     "CBL-FNVME-C240M7=",
     "CBL-G5GPU-C240M7="
    ],
-   "status": "decided-home",
-   "reason": "the row is a UCS C-Series part (a UCSC- / UCS- / CBL- PID) filed in servers-unified-computing; HyperFlex HX220c / HX240c / HX245c nodes are built on the same C220 / C240 / C245 servers and hyperconverged-systems files the same generic components under its node series, so its model rule — fenced in this round to the HX / UCSC- / CBL- prefixes of the rows it decides — reads them by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
-  },
-  {
-   "category": "servers-unified-computing",
-   "claimed_by": "interfaces-modules",
-   "series": "SM-X and SM Service Modules",
-   "rule": "sku ^UCS-E",
-   "rows": 177,
-   "examples": [
-    "UCS-E1100D-M6",
-    "UCS-E1100D-M6=",
-    "UCS-E1120D-M3/K9="
-   ],
-   "status": "pending-round",
-   "reason": "the UCS E-Series server modules and their parts filed in servers-unified-computing (UCS-E1100D-M6, UCS-E160S-M3/K9= …); interfaces-modules holds four UCS-E modules (pre-ruling C3: kind module) and its SM-X series rule ^UCS-E reads these. Decision pending: UCS E-Series home — one category for all UCS-E rows, servers-unified-computing (Cisco's UCS E-Series Servers) or interfaces-modules (the SM-X form factor) (layers round 3, servers + hyperconverged round)"
+   "status": "pending-decision:Q-14",
+   "reason": "the row is a UCS C-Series part (a UCSC- / UCS- / CBL- PID) filed in servers-unified-computing; HyperFlex HX220c / HX240c / HX245c nodes are built on the same C220 / C240 / C245 servers and hyperconverged-systems files the same generic components under its node series, so its model rule — fenced in this round to the HX / UCSC- / CBL- prefixes of the rows it decides — reads them by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round) — status pending-decision:Q-14 (re-audit decisions, operator, 15 Sep 2026, F-6): kept where filed while Q-14 (generic UCS components in HyperFlex / Compute Hyperconverged: plan to servers) is measured; not a decision"
   },
   {
    "category": "servers-unified-computing",
@@ -67,8 +26,8 @@
     "CBL-FNVME-220M6=",
     "UCSC-10C220M4S-LI"
    ],
-   "status": "decided-home",
-   "reason": "the row is a UCS C-Series part (a UCSC- / UCS- / CBL- PID) filed in servers-unified-computing; HyperFlex HX220c / HX240c / HX245c nodes are built on the same C220 / C240 / C245 servers and hyperconverged-systems files the same generic components under its node series, so its model rule — fenced in this round to the HX / UCSC- / CBL- prefixes of the rows it decides — reads them by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
+   "status": "pending-decision:Q-14",
+   "reason": "the row is a UCS C-Series part (a UCSC- / UCS- / CBL- PID) filed in servers-unified-computing; HyperFlex HX220c / HX240c / HX245c nodes are built on the same C220 / C240 / C245 servers and hyperconverged-systems files the same generic components under its node series, so its model rule — fenced in this round to the HX / UCSC- / CBL- prefixes of the rows it decides — reads them by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round) — status pending-decision:Q-14 (re-audit decisions, operator, 15 Sep 2026, F-6): kept where filed while Q-14 (generic UCS components in HyperFlex / Compute Hyperconverged: plan to servers) is measured; not a decision"
   },
   {
    "category": "servers-unified-computing",
@@ -81,8 +40,8 @@
     "UCSC-10PK-C220M3L",
     "UCSC-10PK-C220M3S"
    ],
-   "status": "decided-home",
-   "reason": "the row is a UCS C-Series part (a UCSC- / UCS- / CBL- PID) filed in servers-unified-computing; HyperFlex HX220c / HX240c / HX245c nodes are built on the same C220 / C240 / C245 servers and hyperconverged-systems files the same generic components under its node series, so its model rule — fenced in this round to the HX / UCSC- / CBL- prefixes of the rows it decides — reads them by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
+   "status": "pending-decision:Q-14",
+   "reason": "the row is a UCS C-Series part (a UCSC- / UCS- / CBL- PID) filed in servers-unified-computing; HyperFlex HX220c / HX240c / HX245c nodes are built on the same C220 / C240 / C245 servers and hyperconverged-systems files the same generic components under its node series, so its model rule — fenced in this round to the HX / UCSC- / CBL- prefixes of the rows it decides — reads them by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round) — status pending-decision:Q-14 (re-audit decisions, operator, 15 Sep 2026, F-6): kept where filed while Q-14 (generic UCS components in HyperFlex / Compute Hyperconverged: plan to servers) is measured; not a decision"
   },
   {
    "category": "servers-unified-computing",
@@ -95,8 +54,8 @@
     "UCSC-240M8E3-24X4",
     "UCSC-240M8E3-32X2"
    ],
-   "status": "decided-home",
-   "reason": "the row is a UCS C-Series part (a UCSC- PID) filed in servers-unified-computing; the Compute Hyperconverged C220 / C240 nodes are built on the same servers and hyperconverged-infrastructure files generic UCSC- risers under its node series, so its model rule — fenced in this round to the HCI / UCSC- prefixes of the rows it decides — reads them by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
+   "status": "pending-decision:Q-14",
+   "reason": "the row is a UCS C-Series part (a UCSC- PID) filed in servers-unified-computing; the Compute Hyperconverged C220 / C240 nodes are built on the same servers and hyperconverged-infrastructure files generic UCSC- risers under its node series, so its model rule — fenced in this round to the HCI / UCSC- prefixes of the rows it decides — reads them by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round) — status pending-decision:Q-14 (re-audit decisions, operator, 15 Sep 2026, F-6): kept where filed while Q-14 (generic UCS components in HyperFlex / Compute Hyperconverged: plan to servers) is measured; not a decision"
   },
   {
    "category": "servers-unified-computing",
@@ -109,8 +68,8 @@
     "UCSC-C220-M7N",
     "UCSC-C220-M7S"
    ],
-   "status": "decided-home",
-   "reason": "the row is a UCS C-Series part (a UCSC- PID) filed in servers-unified-computing; the Compute Hyperconverged C220 / C240 nodes are built on the same servers and hyperconverged-infrastructure files generic UCSC- risers under its node series, so its model rule — fenced in this round to the HCI / UCSC- prefixes of the rows it decides — reads them by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
+   "status": "pending-decision:Q-14",
+   "reason": "the row is a UCS C-Series part (a UCSC- PID) filed in servers-unified-computing; the Compute Hyperconverged C220 / C240 nodes are built on the same servers and hyperconverged-infrastructure files generic UCSC- risers under its node series, so its model rule — fenced in this round to the HCI / UCSC- prefixes of the rows it decides — reads them by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round) — status pending-decision:Q-14 (re-audit decisions, operator, 15 Sep 2026, F-6): kept where filed while Q-14 (generic UCS components in HyperFlex / Compute Hyperconverged: plan to servers) is measured; not a decision"
   },
   {
    "category": "servers-unified-computing",
@@ -133,8 +92,8 @@
    "examples": [
     "UCSC-C245-M6SX1"
    ],
-   "status": "decided-home",
-   "reason": "the row is a UCS C-Series part (a UCSC- / UCS- / CBL- PID) filed in servers-unified-computing; HyperFlex HX220c / HX240c / HX245c nodes are built on the same C220 / C240 / C245 servers and hyperconverged-systems files the same generic components under its node series, so its model rule — fenced in this round to the HX / UCSC- / CBL- prefixes of the rows it decides — reads them by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
+   "status": "pending-decision:Q-14",
+   "reason": "the row is a UCS C-Series part (a UCSC- / UCS- / CBL- PID) filed in servers-unified-computing; HyperFlex HX220c / HX240c / HX245c nodes are built on the same C220 / C240 / C245 servers and hyperconverged-systems files the same generic components under its node series, so its model rule — fenced in this round to the HX / UCSC- / CBL- prefixes of the rows it decides — reads them by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round) — status pending-decision:Q-14 (re-audit decisions, operator, 15 Sep 2026, F-6): kept where filed while Q-14 (generic UCS components in HyperFlex / Compute Hyperconverged: plan to servers) is measured; not a decision"
   },
   {
    "category": "hyperconverged-infrastructure",
@@ -147,8 +106,8 @@
     "UCS-CPU-I4316",
     "UCS-CPU-I5218N"
    ],
-   "status": "decided-home",
-   "reason": "the row is a generic UCS component (UCS-CPU- / UCS-M- / UCS-M2- / UCS-TPM-) filed in hyperconverged-infrastructure, whose spec sheets order it for the Compute Hyperconverged nodes; servers-unified-computing's component series read the same PIDs by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
+   "status": "pending-decision:Q-14",
+   "reason": "the row is a generic UCS component (UCS-CPU- / UCS-M- / UCS-M2- / UCS-TPM-) filed in hyperconverged-infrastructure, whose spec sheets order it for the Compute Hyperconverged nodes; servers-unified-computing's component series read the same PIDs by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round) — status pending-decision:Q-14 (re-audit decisions, operator, 15 Sep 2026, F-6): kept where filed while Q-14 (generic UCS components in HyperFlex / Compute Hyperconverged: plan to servers) is measured; not a decision"
   },
   {
    "category": "hyperconverged-infrastructure",
@@ -161,8 +120,8 @@
     "UCS-ML-128G4RW1",
     "UCS-ML-128G4RW=1"
    ],
-   "status": "decided-home",
-   "reason": "the row is a generic UCS component (UCS-CPU- / UCS-M- / UCS-M2- / UCS-TPM-) filed in hyperconverged-infrastructure, whose spec sheets order it for the Compute Hyperconverged nodes; servers-unified-computing's component series read the same PIDs by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
+   "status": "pending-decision:Q-14",
+   "reason": "the row is a generic UCS component (UCS-CPU- / UCS-M- / UCS-M2- / UCS-TPM-) filed in hyperconverged-infrastructure, whose spec sheets order it for the Compute Hyperconverged nodes; servers-unified-computing's component series read the same PIDs by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round) — status pending-decision:Q-14 (re-audit decisions, operator, 15 Sep 2026, F-6): kept where filed while Q-14 (generic UCS components in HyperFlex / Compute Hyperconverged: plan to servers) is measured; not a decision"
   },
   {
    "category": "hyperconverged-infrastructure",
@@ -175,8 +134,8 @@
     "UCS-M2-240G=",
     "UCS-M2-480G"
    ],
-   "status": "decided-home",
-   "reason": "the row is a generic UCS component (UCS-CPU- / UCS-M- / UCS-M2- / UCS-TPM-) filed in hyperconverged-infrastructure, whose spec sheets order it for the Compute Hyperconverged nodes; servers-unified-computing's component series read the same PIDs by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
+   "status": "pending-decision:Q-14",
+   "reason": "the row is a generic UCS component (UCS-CPU- / UCS-M- / UCS-M2- / UCS-TPM-) filed in hyperconverged-infrastructure, whose spec sheets order it for the Compute Hyperconverged nodes; servers-unified-computing's component series read the same PIDs by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round) — status pending-decision:Q-14 (re-audit decisions, operator, 15 Sep 2026, F-6): kept where filed while Q-14 (generic UCS components in HyperFlex / Compute Hyperconverged: plan to servers) is measured; not a decision"
   },
   {
    "category": "hyperconverged-infrastructure",
@@ -187,8 +146,8 @@
    "examples": [
     "UCS-TPM-002D"
    ],
-   "status": "decided-home",
-   "reason": "the row is a generic UCS component (UCS-CPU- / UCS-M- / UCS-M2- / UCS-TPM-) filed in hyperconverged-infrastructure, whose spec sheets order it for the Compute Hyperconverged nodes; servers-unified-computing's component series read the same PIDs by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
+   "status": "pending-decision:Q-14",
+   "reason": "the row is a generic UCS component (UCS-CPU- / UCS-M- / UCS-M2- / UCS-TPM-) filed in hyperconverged-infrastructure, whose spec sheets order it for the Compute Hyperconverged nodes; servers-unified-computing's component series read the same PIDs by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round) — status pending-decision:Q-14 (re-audit decisions, operator, 15 Sep 2026, F-6): kept where filed while Q-14 (generic UCS components in HyperFlex / Compute Hyperconverged: plan to servers) is measured; not a decision"
   },
   {
    "category": "hyperconverged-infrastructure",
@@ -199,8 +158,8 @@
    "examples": [
     "UCSB-PSU-2500HVDC"
    ],
-   "status": "decided-home",
-   "reason": "the row is a UCS C-Series / B-Series part (UCSC-R2R3-C220M6, UCSC-RIS2A-240M6, UCSB-PSU-2500HVDC) filed in hyperconverged-infrastructure for the nodes built on that server or chassis; servers-unified-computing's model rules — fenced in this round to the UCSC- / UCS- / CBL- prefixes of the rows they decide — read it by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
+   "status": "pending-decision:Q-14",
+   "reason": "the row is a UCS C-Series / B-Series part (UCSC-R2R3-C220M6, UCSC-RIS2A-240M6, UCSB-PSU-2500HVDC) filed in hyperconverged-infrastructure for the nodes built on that server or chassis; servers-unified-computing's model rules — fenced in this round to the UCSC- / UCS- / CBL- prefixes of the rows they decide — read it by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round) — status pending-decision:Q-14 (re-audit decisions, operator, 15 Sep 2026, F-6): kept where filed while Q-14 (generic UCS components in HyperFlex / Compute Hyperconverged: plan to servers) is measured; not a decision"
   },
   {
    "category": "hyperconverged-infrastructure",
@@ -211,8 +170,8 @@
    "examples": [
     "UCSC-R2R3-C220M6"
    ],
-   "status": "decided-home",
-   "reason": "the row is a generic UCS C-Series riser (UCSC-R2R3-C220M6, UCSC-RIS2A-240M6) filed in hyperconverged-infrastructure for its C220 / C240 nodes; hyperconverged-systems files the same generic UCSC- parts under its HX220c / HX240c series, so its fenced model rule reads them by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
+   "status": "pending-decision:Q-14",
+   "reason": "the row is a generic UCS C-Series riser (UCSC-R2R3-C220M6, UCSC-RIS2A-240M6) filed in hyperconverged-infrastructure for its C220 / C240 nodes; hyperconverged-systems files the same generic UCSC- parts under its HX220c / HX240c series, so its fenced model rule reads them by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round) — status pending-decision:Q-14 (re-audit decisions, operator, 15 Sep 2026, F-6): kept where filed while Q-14 (generic UCS components in HyperFlex / Compute Hyperconverged: plan to servers) is measured; not a decision"
   },
   {
    "category": "hyperconverged-infrastructure",
@@ -223,8 +182,8 @@
    "examples": [
     "UCSC-R2R3-C220M6"
    ],
-   "status": "decided-home",
-   "reason": "the row is a UCS C-Series / B-Series part (UCSC-R2R3-C220M6, UCSC-RIS2A-240M6, UCSB-PSU-2500HVDC) filed in hyperconverged-infrastructure for the nodes built on that server or chassis; servers-unified-computing's model rules — fenced in this round to the UCSC- / UCS- / CBL- prefixes of the rows they decide — read it by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
+   "status": "pending-decision:Q-14",
+   "reason": "the row is a UCS C-Series / B-Series part (UCSC-R2R3-C220M6, UCSC-RIS2A-240M6, UCSB-PSU-2500HVDC) filed in hyperconverged-infrastructure for the nodes built on that server or chassis; servers-unified-computing's model rules — fenced in this round to the UCSC- / UCS- / CBL- prefixes of the rows they decide — read it by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round) — status pending-decision:Q-14 (re-audit decisions, operator, 15 Sep 2026, F-6): kept where filed while Q-14 (generic UCS components in HyperFlex / Compute Hyperconverged: plan to servers) is measured; not a decision"
   },
   {
    "category": "hyperconverged-infrastructure",
@@ -235,8 +194,8 @@
    "examples": [
     "UCSC-RIS2A-240M6"
    ],
-   "status": "decided-home",
-   "reason": "the row is a generic UCS C-Series riser (UCSC-R2R3-C220M6, UCSC-RIS2A-240M6) filed in hyperconverged-infrastructure for its C220 / C240 nodes; hyperconverged-systems files the same generic UCSC- parts under its HX220c / HX240c series, so its fenced model rule reads them by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
+   "status": "pending-decision:Q-14",
+   "reason": "the row is a generic UCS C-Series riser (UCSC-R2R3-C220M6, UCSC-RIS2A-240M6) filed in hyperconverged-infrastructure for its C220 / C240 nodes; hyperconverged-systems files the same generic UCSC- parts under its HX220c / HX240c series, so its fenced model rule reads them by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round) — status pending-decision:Q-14 (re-audit decisions, operator, 15 Sep 2026, F-6): kept where filed while Q-14 (generic UCS components in HyperFlex / Compute Hyperconverged: plan to servers) is measured; not a decision"
   },
   {
    "category": "hyperconverged-infrastructure",
@@ -247,8 +206,8 @@
    "examples": [
     "UCSC-RIS2A-240M6"
    ],
-   "status": "decided-home",
-   "reason": "the row is a UCS C-Series / B-Series part (UCSC-R2R3-C220M6, UCSC-RIS2A-240M6, UCSB-PSU-2500HVDC) filed in hyperconverged-infrastructure for the nodes built on that server or chassis; servers-unified-computing's model rules — fenced in this round to the UCSC- / UCS- / CBL- prefixes of the rows they decide — read it by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
+   "status": "pending-decision:Q-14",
+   "reason": "the row is a UCS C-Series / B-Series part (UCSC-R2R3-C220M6, UCSC-RIS2A-240M6, UCSB-PSU-2500HVDC) filed in hyperconverged-infrastructure for the nodes built on that server or chassis; servers-unified-computing's model rules — fenced in this round to the UCSC- / UCS- / CBL- prefixes of the rows they decide — read it by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round) — status pending-decision:Q-14 (re-audit decisions, operator, 15 Sep 2026, F-6): kept where filed while Q-14 (generic UCS components in HyperFlex / Compute Hyperconverged: plan to servers) is measured; not a decision"
   },
   {
    "category": "hyperconverged-systems",
@@ -261,8 +220,8 @@
     "CBL-FNVME-240M6=",
     "CBL-RSASR1B-240M6="
    ],
-   "status": "decided-home",
-   "reason": "the row is a UCS C-Series part (a UCSC- / UCS- / CBL- PID: a cable, riser, fan, heat sink or bezel of the C220 / C225 / C240 / C245) filed in hyperconverged-systems for the HyperFlex node built on that server; servers-unified-computing's model rules — fenced in this round to the UCSC- / UCS- / CBL- prefixes of the rows they decide — read it by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
+   "status": "pending-decision:Q-14",
+   "reason": "the row is a UCS C-Series part (a UCSC- / UCS- / CBL- PID: a cable, riser, fan, heat sink or bezel of the C220 / C225 / C240 / C245) filed in hyperconverged-systems for the HyperFlex node built on that server; servers-unified-computing's model rules — fenced in this round to the UCSC- / UCS- / CBL- prefixes of the rows they decide — read it by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round) — status pending-decision:Q-14 (re-audit decisions, operator, 15 Sep 2026, F-6): kept where filed while Q-14 (generic UCS components in HyperFlex / Compute Hyperconverged: plan to servers) is measured; not a decision"
   },
   {
    "category": "hyperconverged-systems",
@@ -275,8 +234,8 @@
     "CBL-GPU-C240M6=",
     "CBL-R3BS3-C240M6L="
    ],
-   "status": "decided-home",
-   "reason": "the row is a UCS C-Series part (a UCSC- / UCS- / CBL- PID: a cable, riser, fan, heat sink or bezel of the C220 / C225 / C240 / C245) filed in hyperconverged-systems for the HyperFlex node built on that server; servers-unified-computing's model rules — fenced in this round to the UCSC- / UCS- / CBL- prefixes of the rows they decide — read it by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
+   "status": "pending-decision:Q-14",
+   "reason": "the row is a UCS C-Series part (a UCSC- / UCS- / CBL- PID: a cable, riser, fan, heat sink or bezel of the C220 / C225 / C240 / C245) filed in hyperconverged-systems for the HyperFlex node built on that server; servers-unified-computing's model rules — fenced in this round to the UCSC- / UCS- / CBL- prefixes of the rows they decide — read it by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round) — status pending-decision:Q-14 (re-audit decisions, operator, 15 Sep 2026, F-6): kept where filed while Q-14 (generic UCS components in HyperFlex / Compute Hyperconverged: plan to servers) is measured; not a decision"
   },
   {
    "category": "hyperconverged-systems",
@@ -289,8 +248,8 @@
     "UCSC-EARS-C220M4=",
     "UCSC-FAN-C220M4="
    ],
-   "status": "decided-home",
-   "reason": "the row is a UCS C-Series part (a UCSC- / UCS- / CBL- PID: a cable, riser, fan, heat sink or bezel of the C220 / C225 / C240 / C245) filed in hyperconverged-systems for the HyperFlex node built on that server; servers-unified-computing's model rules — fenced in this round to the UCSC- / UCS- / CBL- prefixes of the rows they decide — read it by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
+   "status": "pending-decision:Q-14",
+   "reason": "the row is a UCS C-Series part (a UCSC- / UCS- / CBL- PID: a cable, riser, fan, heat sink or bezel of the C220 / C225 / C240 / C245) filed in hyperconverged-systems for the HyperFlex node built on that server; servers-unified-computing's model rules — fenced in this round to the UCSC- / UCS- / CBL- prefixes of the rows they decide — read it by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round) — status pending-decision:Q-14 (re-audit decisions, operator, 15 Sep 2026, F-6): kept where filed while Q-14 (generic UCS components in HyperFlex / Compute Hyperconverged: plan to servers) is measured; not a decision"
   },
   {
    "category": "hyperconverged-systems",
@@ -303,8 +262,8 @@
     "UCSC-HSHP-240M6",
     "UCSC-HSHP-240M6="
    ],
-   "status": "decided-home",
-   "reason": "the row is a generic UCS C-Series part (UCSC-ADGPU-240M6=, UCSC-HSHP-240M6, UCSC-R2R3-C220M6= …) filed in hyperconverged-systems for its HX220c / HX240c nodes; hyperconverged-infrastructure files the same generic UCSC- parts under its C220 / C240 node series, so its fenced model rule reads them by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
+   "status": "pending-decision:Q-14",
+   "reason": "the row is a generic UCS C-Series part (UCSC-ADGPU-240M6=, UCSC-HSHP-240M6, UCSC-R2R3-C220M6= …) filed in hyperconverged-systems for its HX220c / HX240c nodes; hyperconverged-infrastructure files the same generic UCSC- parts under its C220 / C240 node series, so its fenced model rule reads them by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round) — status pending-decision:Q-14 (re-audit decisions, operator, 15 Sep 2026, F-6): kept where filed while Q-14 (generic UCS components in HyperFlex / Compute Hyperconverged: plan to servers) is measured; not a decision"
   },
   {
    "category": "hyperconverged-systems",
@@ -317,8 +276,8 @@
     "CBL-SATA-C220M6=",
     "UCSC-SATAIN-220M5="
    ],
-   "status": "decided-home",
-   "reason": "the row is a UCS C-Series part (a UCSC- / UCS- / CBL- PID: a cable, riser, fan, heat sink or bezel of the C220 / C225 / C240 / C245) filed in hyperconverged-systems for the HyperFlex node built on that server; servers-unified-computing's model rules — fenced in this round to the UCSC- / UCS- / CBL- prefixes of the rows they decide — read it by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
+   "status": "pending-decision:Q-14",
+   "reason": "the row is a UCS C-Series part (a UCSC- / UCS- / CBL- PID: a cable, riser, fan, heat sink or bezel of the C220 / C225 / C240 / C245) filed in hyperconverged-systems for the HyperFlex node built on that server; servers-unified-computing's model rules — fenced in this round to the UCSC- / UCS- / CBL- prefixes of the rows they decide — read it by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round) — status pending-decision:Q-14 (re-audit decisions, operator, 15 Sep 2026, F-6): kept where filed while Q-14 (generic UCS components in HyperFlex / Compute Hyperconverged: plan to servers) is measured; not a decision"
   },
   {
    "category": "hyperconverged-systems",
@@ -330,8 +289,8 @@
     "UCS-220CBLMR8=",
     "UCS-220CBLSR8="
    ],
-   "status": "decided-home",
-   "reason": "the row is a UCS C-Series part (a UCSC- / UCS- / CBL- PID: a cable, riser, fan, heat sink or bezel of the C220 / C225 / C240 / C245) filed in hyperconverged-systems for the HyperFlex node built on that server; servers-unified-computing's model rules — fenced in this round to the UCSC- / UCS- / CBL- prefixes of the rows they decide — read it by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
+   "status": "pending-decision:Q-14",
+   "reason": "the row is a UCS C-Series part (a UCSC- / UCS- / CBL- PID: a cable, riser, fan, heat sink or bezel of the C220 / C225 / C240 / C245) filed in hyperconverged-systems for the HyperFlex node built on that server; servers-unified-computing's model rules — fenced in this round to the UCSC- / UCS- / CBL- prefixes of the rows they decide — read it by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round) — status pending-decision:Q-14 (re-audit decisions, operator, 15 Sep 2026, F-6): kept where filed while Q-14 (generic UCS components in HyperFlex / Compute Hyperconverged: plan to servers) is measured; not a decision"
   },
   {
    "category": "hyperconverged-systems",
@@ -343,8 +302,8 @@
     "UCS-HD8T7KL4KN",
     "UCS-MSTOR-M2="
    ],
-   "status": "decided-home",
-   "reason": "the row is a generic UCS component (UCS-CPU-LPCVR=, UCS-HD8T7KL4KN, UCS-MSTOR-M2=) filed in hyperconverged-systems, whose spec sheets order it for the HyperFlex nodes; servers-unified-computing's component series read the same PIDs by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
+   "status": "pending-decision:Q-14",
+   "reason": "the row is a generic UCS component (UCS-CPU-LPCVR=, UCS-HD8T7KL4KN, UCS-MSTOR-M2=) filed in hyperconverged-systems, whose spec sheets order it for the HyperFlex nodes; servers-unified-computing's component series read the same PIDs by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round) — status pending-decision:Q-14 (re-audit decisions, operator, 15 Sep 2026, F-6): kept where filed while Q-14 (generic UCS components in HyperFlex / Compute Hyperconverged: plan to servers) is measured; not a decision"
   },
   {
    "category": "hyperconverged-systems",
@@ -356,8 +315,8 @@
     "UCSC-HSHP-C245M6",
     "UCSC-HSHP-C245M6="
    ],
-   "status": "decided-home",
-   "reason": "the row is a UCS C-Series part (a UCSC- / UCS- / CBL- PID: a cable, riser, fan, heat sink or bezel of the C220 / C225 / C240 / C245) filed in hyperconverged-systems for the HyperFlex node built on that server; servers-unified-computing's model rules — fenced in this round to the UCSC- / UCS- / CBL- prefixes of the rows they decide — read it by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
+   "status": "pending-decision:Q-14",
+   "reason": "the row is a UCS C-Series part (a UCSC- / UCS- / CBL- PID: a cable, riser, fan, heat sink or bezel of the C220 / C225 / C240 / C245) filed in hyperconverged-systems for the HyperFlex node built on that server; servers-unified-computing's model rules — fenced in this round to the UCSC- / UCS- / CBL- prefixes of the rows they decide — read it by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round) — status pending-decision:Q-14 (re-audit decisions, operator, 15 Sep 2026, F-6): kept where filed while Q-14 (generic UCS components in HyperFlex / Compute Hyperconverged: plan to servers) is measured; not a decision"
   },
   {
    "category": "hyperconverged-systems",
@@ -368,8 +327,8 @@
    "examples": [
     "CBL-SAS-C225M6="
    ],
-   "status": "decided-home",
-   "reason": "the row is a UCS C-Series part (a UCSC- / UCS- / CBL- PID: a cable, riser, fan, heat sink or bezel of the C220 / C225 / C240 / C245) filed in hyperconverged-systems for the HyperFlex node built on that server; servers-unified-computing's model rules — fenced in this round to the UCSC- / UCS- / CBL- prefixes of the rows they decide — read it by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
+   "status": "pending-decision:Q-14",
+   "reason": "the row is a UCS C-Series part (a UCSC- / UCS- / CBL- PID: a cable, riser, fan, heat sink or bezel of the C220 / C225 / C240 / C245) filed in hyperconverged-systems for the HyperFlex node built on that server; servers-unified-computing's model rules — fenced in this round to the UCSC- / UCS- / CBL- prefixes of the rows they decide — read it by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round) — status pending-decision:Q-14 (re-audit decisions, operator, 15 Sep 2026, F-6): kept where filed while Q-14 (generic UCS components in HyperFlex / Compute Hyperconverged: plan to servers) is measured; not a decision"
   },
   {
    "category": "hyperconverged-systems",
@@ -380,8 +339,8 @@
    "examples": [
     "RP208-30-2P-U-2"
    ],
-   "status": "decided-home",
-   "reason": "an R42610 rack part or PDU (RACK-BLANK-001, RACK-CBLMGT-001 …, RP208-30-2P-U-2) sold on the HyperFlex price list and filed in hyperconverged-systems' shared parts; servers-unified-computing's rack series reads it by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
+   "status": "pending-decision:Q-14",
+   "reason": "an R42610 rack part or PDU (RACK-BLANK-001, RACK-CBLMGT-001 …, RP208-30-2P-U-2) sold on the HyperFlex price list and filed in hyperconverged-systems' shared parts; servers-unified-computing's rack series reads it by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round) — status pending-decision:Q-14 (re-audit decisions, operator, 15 Sep 2026, F-6): kept where filed while Q-14 (generic UCS components in HyperFlex / Compute Hyperconverged: plan to servers) is measured; not a decision"
   },
   {
    "category": "hyperconverged-systems",
@@ -392,8 +351,8 @@
    "examples": [
     "UCS-CPU-LPCVR="
    ],
-   "status": "decided-home",
-   "reason": "the row is a generic UCS component (UCS-CPU-LPCVR=, UCS-HD8T7KL4KN, UCS-MSTOR-M2=) filed in hyperconverged-systems, whose spec sheets order it for the HyperFlex nodes; servers-unified-computing's component series read the same PIDs by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
+   "status": "pending-decision:Q-14",
+   "reason": "the row is a generic UCS component (UCS-CPU-LPCVR=, UCS-HD8T7KL4KN, UCS-MSTOR-M2=) filed in hyperconverged-systems, whose spec sheets order it for the HyperFlex nodes; servers-unified-computing's component series read the same PIDs by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round) — status pending-decision:Q-14 (re-audit decisions, operator, 15 Sep 2026, F-6): kept where filed while Q-14 (generic UCS components in HyperFlex / Compute Hyperconverged: plan to servers) is measured; not a decision"
   },
   {
    "category": "hyperconverged-systems",
@@ -404,8 +363,8 @@
    "examples": [
     "UCSC-R2R3-C220M6="
    ],
-   "status": "decided-home",
-   "reason": "the row is a generic UCS C-Series part (UCSC-ADGPU-240M6=, UCSC-HSHP-240M6, UCSC-R2R3-C220M6= …) filed in hyperconverged-systems for its HX220c / HX240c nodes; hyperconverged-infrastructure files the same generic UCSC- parts under its C220 / C240 node series, so its fenced model rule reads them by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
+   "status": "pending-decision:Q-14",
+   "reason": "the row is a generic UCS C-Series part (UCSC-ADGPU-240M6=, UCSC-HSHP-240M6, UCSC-R2R3-C220M6= …) filed in hyperconverged-systems for its HX220c / HX240c nodes; hyperconverged-infrastructure files the same generic UCSC- parts under its C220 / C240 node series, so its fenced model rule reads them by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round) — status pending-decision:Q-14 (re-audit decisions, operator, 15 Sep 2026, F-6): kept where filed while Q-14 (generic UCS components in HyperFlex / Compute Hyperconverged: plan to servers) is measured; not a decision"
   },
   {
    "category": "hyperconverged-systems",
@@ -418,8 +377,8 @@
     "RACK-CBLMGT-001",
     "RACK-CBLMGT-011"
    ],
-   "status": "decided-home",
-   "reason": "an R42610 rack part or PDU (RACK-BLANK-001, RACK-CBLMGT-001 …, RP208-30-2P-U-2) sold on the HyperFlex price list and filed in hyperconverged-systems' shared parts; servers-unified-computing's rack series reads it by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round)"
+   "status": "pending-decision:Q-14",
+   "reason": "an R42610 rack part or PDU (RACK-BLANK-001, RACK-CBLMGT-001 …, RP208-30-2P-U-2) sold on the HyperFlex price list and filed in hyperconverged-systems' shared parts; servers-unified-computing's rack series reads it by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round) — status pending-decision:Q-14 (re-audit decisions, operator, 15 Sep 2026, F-6): kept where filed while Q-14 (generic UCS components in HyperFlex / Compute Hyperconverged: plan to servers) is measured; not a decision"
   },
   {
    "category": "security",
@@ -432,48 +391,8 @@
     "UCS-HD18TB10K4KN=",
     "UCS-HD600G10K12N="
    ],
-   "status": "decided-home",
-   "reason": "UCS drive spares (UCS-HD12TB10K12N=, UCS-HD600G10K12N=, UCS-SD960GM2NK9= …) filed in security under the Secure Network Analytics and Identity Services Engine labels — the drives of the Stealthwatch and SNS appliances, which Cisco builds on UCS C-Series servers; servers-unified-computing's drive series reads the same PIDs by design. One home per SKU: the category the row is filed in (the servers round's decision-pending question 2 asks the same of generic UCS parts filed outside servers; layers round 3, security round)"
-  },
-  {
-   "category": "routers",
-   "claimed_by": "servers-unified-computing",
-   "series": "UCS E-Series",
-   "rule": "sku ^E1[0-9]{2}[A-Z]?-",
-   "rows": 6,
-   "examples": [
-    "E100-FCPLT-BRKT",
-    "E100-FCPLT-BRKT=",
-    "E100S-CON-DGL"
-   ],
-   "status": "pending-round",
-   "reason": "UCS E-Series accessories and SSDs filed under the Catalyst 8000 / ISR routers (E100-FCPLT-BRKT, E100S-CON-DGL, E100S-MEM-UDIMM8G, E-SSD-U2N-2TB / 4TB, EM3-HDA-8FXS); servers-unified-computing's UCS E-Series rules read them. Decision pending: UCS E-Series home — the servers round keeps the UCS-E rows where they are filed and carries the question to the operator (layers round 3)"
-  },
-  {
-   "category": "routers",
-   "claimed_by": "servers-unified-computing",
-   "series": "UCS E-Series",
-   "rule": "sku ^E-SSD",
-   "rows": 4,
-   "examples": [
-    "E-SSD-U2N-2TB",
-    "E-SSD-U2N-2TB=",
-    "E-SSD-U2N-4TB"
-   ],
-   "status": "pending-round",
-   "reason": "UCS E-Series accessories and SSDs filed under the Catalyst 8000 / ISR routers (E100-FCPLT-BRKT, E100S-CON-DGL, E100S-MEM-UDIMM8G, E-SSD-U2N-2TB / 4TB, EM3-HDA-8FXS); servers-unified-computing's UCS E-Series rules read them. Decision pending: UCS E-Series home — the servers round keeps the UCS-E rows where they are filed and carries the question to the operator (layers round 3)"
-  },
-  {
-   "category": "routers",
-   "claimed_by": "servers-unified-computing",
-   "series": "UCS E-Series",
-   "rule": "sku ^EM3-",
-   "rows": 1,
-   "examples": [
-    "EM3-HDA-8FXS"
-   ],
-   "status": "pending-round",
-   "reason": "UCS E-Series accessories and SSDs filed under the Catalyst 8000 / ISR routers (E100-FCPLT-BRKT, E100S-CON-DGL, E100S-MEM-UDIMM8G, E-SSD-U2N-2TB / 4TB, EM3-HDA-8FXS); servers-unified-computing's UCS E-Series rules read them. Decision pending: UCS E-Series home — the servers round keeps the UCS-E rows where they are filed and carries the question to the operator (layers round 3)"
+   "status": "pending-decision:Q-17",
+   "reason": "UCS drive spares (UCS-HD12TB10K12N=, UCS-HD600G10K12N=, UCS-SD960GM2NK9= …) filed in security under the Secure Network Analytics and Identity Services Engine labels — the drives of the Stealthwatch and SNS appliances, which Cisco builds on UCS C-Series servers; servers-unified-computing's drive series reads the same PIDs by design. One home per SKU: the category the row is filed in (the servers round's decision-pending question 2 asks the same of generic UCS parts filed outside servers; layers round 3, security round) — status pending-decision:Q-17 (re-audit decisions, operator, 15 Sep 2026, F-6): the UCS spares filed in security follow Q-14's answer"
   },
   {
    "category": "unified-communications",

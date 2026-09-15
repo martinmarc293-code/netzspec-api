@@ -455,8 +455,26 @@ witness("interfaces-modules", [
   ["1x10GE-ER-SC", "Cisco 12000 Series 1-Port 10-Gigabit Ethernet Line Card", "Line cards", "Router and switch line cards (legacy)", "Cisco 12000 / XR 12000 SIP and line cards"],
   ["P-1T", "High Speed Serial Pluggable LATAM and India", "Network Modules", "Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)", "Pluggable Interface Modules (LTE / 5G / serial)"],
   ["PP2-144X100G-MMF", "Cisco PP2-144X100G-MMF", "Transceiver Modules", "Cables and accessories", "Fiber patch panels and MPO / breakout cables (CB- / PP)"],
-  ["SVC-E180D-M3", "Cisco Internal. E180D-M3 Service Spare", "UCS E-Series Servers", "Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)", "SM-X and SM Service Modules"],
+  // re-audit decisions (operator, 15 Sep 2026, Q-13): the SVC-E service spares stay in servers-unified-computing (was placed here by ^SVC-E)
+  ["EM3-HDA-8FXS", "Cisco EM3-HDA-8FXS", "", "Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)", "ISM / EM Internal Service Modules"],
+  ["ISM-VPN-39", "3DES/AES/SUITE-B VPN Encryption module", "", "Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)", "ISM / EM Internal Service Modules"],
+  ["SM-D-ES3G-48-P", "Enhcd EtherSwitch, L2/L3, SM, 48 GE, 2 SFP, POE", "", "Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)", "SM-X and SM Service Modules"],
 ]);
+// re-audit decisions (operator, 15 Sep 2026, Q-13): the UCS E-Series and the Services Ready Engine are servers-unified-computing's —
+// interfaces-modules' SM-X / ISM rules refuse them, and the servers mapping places the engines, their parts and the SVC-E spares
+for (const sku of ["UCS-E160S-M3/K9", "SVC-E180D-M3", "ISM-SRE-300-K9", "SM-SRE-900-K9", "SM-DSK-SATA-500GB=", "SM-MEM-VLP-2GB"]) {
+  const p = placePart("cisco", "interfaces-modules", { sku, name: "", series: "" });
+  check(`Q-13 REFUSAL: interfaces-modules places no UCS-E / SRE row (${sku})`, p === null, `${p?.series} (${p?.rule})`);
+}
+witness("servers-unified-computing", [
+  ["UCS-E160S-M3/K9", "UCS-E, single-wide, Intel Broadwell 6-core CPU", "", "UCS E-Series Server Modules", "UCS E-Series"],
+  ["SVC-E1120D-M3", "Cisco Internal. E1120D-M3 Service Spare", "UCS E-Series", "UCS E-Series Server Modules", "UCS E-Series"],
+  ["EM3-MEM-16G", "16 GB 1200MHz VLP RDIMM/PC4-2400 2R for UCS-E M3", "UCS E-Series", "UCS E-Series Server Modules", "UCS E-Series"],
+  ["SM-SRE-700-K9", "2-GB DRAM, 512-MB flash storage, 500GB hard disk", "", "UCS E-Series Server Modules", "Services Ready Engine (ISM-SRE / SM-SRE)"],
+  ["ISM-SRE-300-K9++=", "Services Ready Engine 300", "", "UCS E-Series Server Modules", "Services Ready Engine (ISM-SRE / SM-SRE)"],
+  ["SM-HDDB-SATA500GB", "500 GB hard disk drive for SRE 710 and 910", "UCS E-Series", "UCS E-Series Server Modules", "Services Ready Engine (ISM-SRE / SM-SRE)"],
+]);
+check("Q-13 REFUSAL: servers' ^EM3- rule no longer claims the voice expansion module EM3-HDA-8FXS", placePart("cisco", "servers-unified-computing", { sku: "EM3-HDA-8FXS", name: "", series: "" }) === null);
 // pre-ruling C6 (layers round 3): the Cisco 12000 rules no longer claim routers' CRS cards and 4OC48-POS
 for (const [sku, name] of [["40X10GE-WLO", "CRS 40x10GE card"], ["10GE-EMSE-140G=", "CRS bundle"], ["4OC48-POS", "4-port OC-48 POS"]]) {
   const p = placePart("cisco", "interfaces-modules", { sku, name, series: "" });
@@ -470,7 +488,41 @@ witness("routers", [
   ["SPA-WMA-K9", "Cisco WebEx Node SPA for ASR 1000 Series", "", "ASR (Aggregation Services Routers)", "ASR 1000"],
   ["ANT-1.8-PNL-OUT-N", "Outdoor Panel Antenna for WIMAX 1.8 GHz", "Connected Grid Modules", "Industrial and IoT Routers", "Industrial and IoT Routers shared parts"],
 ]);
-witness("switches", [["ENC-10G-ONT-14A=", "Multiport and ATA XGS-PON ONT", "Transceiver Modules", "Catalyst", "Catalyst PON"]]);
+// re-audit decisions (operator, 15 Sep 2026, Q-2): the ENC-10G-ONT rows are Cisco's '10G Routed PON ONT', a line of their own — not Catalyst PON
+witness("switches", [["ENC-10G-ONT-14A=", "Multiport and ATA XGS-PON ONT", "Transceiver Modules", "Routed PON", "10G Routed PON ONT"],
+  ["CGP-ONT-4P", "Catalyst PON ONT", "PON Series", "Catalyst", "Catalyst PON"]]);
+// re-audit decisions (operator, 15 Sep 2026): Q-6 both CGR 1000 connector kits in CGR 1000 by SKU; Q-11 the PWR-CH1 750 W / 950 W supplies in
+// Catalyst 8500 by SKU; Q-12 the MobileAccessVE units in their own series; F-1 the platform-bound modules, cards, fans and supplies
+witness("routers", [
+  ["CGR-N-CONN-WPAN", "Cisco CGR-N-CONN-WPAN", "", "Industrial and IoT Routers", "CGR 1000 Connected Grid"],
+  ["CGR-N-CONN-WIMAX", "Cisco CGR-N-CONN-WIMAX", "", "Industrial and IoT Routers", "CGR 1000 Connected Grid"],
+  ["PWR-CH1-750ACR", "Cisco Catalyst Wireless Controller 750W AC Power Supply", "", "Catalyst 8000 Edge", "Catalyst 8500"],
+  ["PWR-CH1-950WDCR", "Cisco 950W DC power adapter", "", "Catalyst 8000 Edge", "Catalyst 8500"],
+]);
+check("Q-11 REFUSAL: the wireless power rule no longer claims the PWR-CH1 supplies", placePart("cisco", "wireless", { sku: "PWR-CH1-750WACR", name: "", series: "" }) === null);
+check("Q-11 REFUSAL: and the Catalyst 8500L supplies are not taken by the new rule", placePart("cisco", "routers", { sku: "PWR-CH1-400WAC", name: "", series: "" })?.series !== "Catalyst 8500");
+witness("wireless", [
+  ["AIR-330-EXP-BOX=", "MobileAccessVE Expansion Box", "", "AireOS Wireless LAN Controllers", "MobileAccessVE"],
+  ["AIR-VAP-CELLPCS", "MobileAccessVE Access Pod for CELL/PCS bands", "", "AireOS Wireless LAN Controllers", "MobileAccessVE"],
+  ["AIR-VCU-CELLPCS12", "MobileAccessVE Control Unit for CELL/PCS bands, 12 ports", "5500", "AireOS Wireless LAN Controllers", "MobileAccessVE"],
+  ["AIR-ACCBRKT-3700=", "Aironet 3700 bracket", "", "Aironet Access Points", "Aironet Access Points shared parts"],
+]);
+witness("security", [
+  ["ASA-CX10-INC-K8", "ASA 5585-X CX SSP-10 with 8GE, DES", "", "ASA and ISA", "ASA 5585-X"],
+  ["ASA-IC-6GECU-INC-C", "^ASA 5545-X/5555-X Intf Card 6-port 10/100/1000 (Incl w/ Bdl)", "", "ASA and ISA", "ASA 5500-X (5506 / 5508 / 5512 / 5515 / 5516 / 5525 / 5545 / 5555)"],
+  ["ASA-IC-A-BLANK=", "^ASA 5512-X/5515-X Interface Card Blank Slot Cover(Spare)", "", "ASA and ISA", "ASA and ISA shared parts"],
+  ["5525-X", "Cisco 5525-X", "", "ASA and ISA", "ASA 5500-X (5506 / 5508 / 5512 / 5515 / 5516 / 5525 / 5545 / 5555)"],
+]);
+witness("storage-networking", [
+  ["DS-9SL0T-FAN=", "Cisco MDS 9509 Fan Tray, Spare", "", "MDS 9000 Multilayer SAN Switches", "MDS 9500 directors (9506 / 9509 / 9513)"],
+  ["DS-6SLOT-CAB=", "MDS 9506 Rack Mount and Cable Mgmt Brackets, spare", "", "MDS 9000 Multilayer SAN Switches", "MDS 9500 directors (9506 / 9509 / 9513)"],
+  ["DS-1RU-FAN", "MDS 1RU Fan Tray", "", "MDS 9000 Multilayer SAN Switches", "MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)"],
+]);
+witness("servers-unified-computing", [
+  ["N01-UAC1", "Single phase AC power module for UCS 5108", "UCS C-Series", "UCS B-Series Blade Servers", "UCS 5108 blade chassis"],
+  ["N20-BBFLA-230=", "UCS B230 M2 and M1 air baffle for CPUs", "", "UCS B-Series Blade Servers", "UCS B230"],
+  ["N20-BBLKD=", "UCS 2.5 inch HDD blanking panel", "", "UCS B-Series Blade Servers", "UCS B-Series Blade Servers shared parts"],
+]);
 witness("security", [["NAM2440-K9", "Cisco NAM2440-K9", "Services Modules", "Network Analysis Module (NAM) appliances", "NAM 2400 Series"]]);
 witness("transceiver", [["NCS-FAB-OPT=", "Bundle of 96 CXP-100G-SR12", "Transceiver Modules", "Ethernet transceivers", "40G / 100G CFP, CFP2, CPAK and CXP"]]);
 witness("optical-networking", [

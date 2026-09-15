@@ -184,28 +184,34 @@ export function informativeName(sku: string, name: string | null | undefined): b
 }
 
 /**
- * THE SPARE RULE (layers review, 14 Sep 2026, A.1): `X=` is the spare orderable of `X` — the same hardware — so the two sit in
- * one product line and series. Each member is placed on its own evidence first; the pair then takes the placement with the
- * stronger evidence (placementStrength), ties going to the member whose name is informative, then to the base. Rows without
- * a partner are returned as placed. Keyed by the stored SKU.
+ * THE TWIN KEY (re-audit decisions, operator, 15 Sep 2026, N-1): `X`, `X=`, `X-` and `X--` are one piece of hardware — the spare
+ * orderable (`=`), the component / auto-expand PID (`-`) and the customized-model PID (`--`) that Cisco's own end-of-sale notices
+ * list beside it (CAB-2HDMILK-1.27M-, CCS-HD-250GB-, FAN-ROOM70-2PK-; CS-BARPRO-K9-- "Customized Model"). They are not misprints.
+ */
+export const twinKey = (sku: string): string => sku.toUpperCase().trim().replace(/[-=]+$/, "");
+/** the member order a tie falls back to: the base, then the spare, then the component PID, then the customized model */
+export const twinRank = (sku: string): number => { const s = sku.toUpperCase().trim(); return s.endsWith("=") ? 1 : /--$/.test(s) ? 3 : s.endsWith("-") ? 2 : 0; };
+
+/**
+ * THE SPARE RULE (layers review, 14 Sep 2026, A.1), widened to the twin rule (N-1, 15 Sep 2026): `X=` is the spare orderable of
+ * `X` — the same hardware — and so are `X-` and `X--`; the members sit in one product line and series. Each member is placed on its
+ * own evidence first; the group then takes the placement with the stronger evidence (placementStrength), ties going to the member
+ * whose name is informative, then to the base, the spare, the component PID, the customized model (twinRank). Rows without a
+ * partner are returned as placed. Keyed by the stored SKU.
  */
 export function placeWithSpareRule(vendor: string, category: string, rows: readonly { sku: string; name?: string | null; series?: string | null }[], loaded = loadLineFile(vendor, category)): Map<string, Placement | null> {
   const own = new Map(rows.map((r) => [r.sku, placePart(vendor, category, r, loaded)] as const));
-  const bySku = new Map(rows.map((r) => [r.sku.toUpperCase().trim(), r] as const));
+  const groups = new Map<string, (typeof rows)[number][]>();
+  for (const r of rows) { const k = twinKey(r.sku); groups.set(k, [...(groups.get(k) ?? []), r]); }
   const out = new Map(own);
-  for (const spare of rows) {
-    const s = spare.sku.toUpperCase().trim();
-    if (!s.endsWith("=")) continue;
-    const base = bySku.get(s.replace(/=+$/, ""));
-    if (!base) continue;
-    const ps = own.get(spare.sku) ?? null, pb = own.get(base.sku) ?? null;
-    const ss = placementStrength(ps), sb = placementStrength(pb);
-    let win: Placement | null;
-    if (ss !== sb) win = ss > sb ? ps : pb;
-    else if (informativeName(base.sku, base.name) !== informativeName(spare.sku, spare.name)) win = informativeName(spare.sku, spare.name) ? ps : pb;
-    else win = pb ?? ps;
-    out.set(spare.sku, win);
-    out.set(base.sku, win);
+  for (const members of groups.values()) {
+    if (members.length < 2) continue;
+    const best = [...members].sort((a, b) =>
+      (placementStrength(own.get(b.sku) ?? null) - placementStrength(own.get(a.sku) ?? null))
+      || (Number(informativeName(b.sku, b.name)) - Number(informativeName(a.sku, a.name)))
+      || (twinRank(a.sku) - twinRank(b.sku)))[0];
+    const win = own.get(best.sku) ?? null;
+    for (const m of members) out.set(m.sku, win);
   }
   return out;
 }

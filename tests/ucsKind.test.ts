@@ -218,7 +218,10 @@ for (let i = 0; i < PRE_RULES.length; i++) {
     "HX-DH-FI6332-16UP", "A02-MEMKIT-008A", "UCSXS960G6I1XEV-D", "R200-DISTIPSU-650W", "RP208-30-2P-U-2",
     "UCSW-WT-IM2P", "CR2032", "N1K-VSG-UCS-BUN",
     // layers round 3 (15 Sep 2026): one probe per new rule
-    "RACK-BAR-001=", "R2XX-DMYMPWRCORD", "UCS-S3348-HBAM5", "UCS-S3X48-FAN="];
+    "RACK-BAR-001=", "R2XX-DMYMPWRCORD", "UCS-S3348-HBAM5", "UCS-S3X48-FAN=",
+    // re-audit decisions (operator, 15 Sep 2026, Q-13): the SRE engine rule (off, the bundle component reads `bundle`), and the exact kinds of
+    // the rows planned in (off, the E100 prefix reads `server` and the SRE spare disk falls to the token)
+    "ISM-SRE-300-BUN-K9", "E100-FCPLT-BRKT=", "E100S-CON-DGL", "E100S-MEM-UDIMM8G=", "SM-DSK-SATA-500GB="];
   const probe = PROBES.find((p) => PRE_RULES[i].re.test(p.toUpperCase().replace(/=+$/, "")));
   if (!probe) { eq(`a sabotage probe exists for PRE_RULES[${i}]`, false, true); continue; }
   const before = ucsKind(probe);

@@ -35,11 +35,14 @@
       "^DS-X95",
       "(?<![0-9])95(06|09|13)(?![0-9])",
       "^DS-13SLT",
-      "^DS-9SLOT"
+      "^DS-9SLOT",
+      "^DS-6SL[0O]T-",
+      "^DS-9SL0T-"
      ],
      "labels": [
       "MDS 9500 Series Multilayer Directors"
-     ]
+     ],
+     "note": "^DS-6SL[0O]T- and ^DS-9SL0T- (re-audit decisions, operator, 15 Sep 2026, F-1): DS-6SLOT-FAN= / DS-6SL0T-FAN= 'MDS 9506 Fan Tray', DS-6SLOT-CAB= 'MDS 9506 Rack Mount and Cable Mgmt Brackets' and DS-9SL0T-FAN= 'MDS 9509 Fan Tray' (Cisco's SKUs print a zero for the O) name one director each; they sat in MDS shared parts by ^DS-, while DS-9SLOT-FAN= and DS-9SLOT-CAB= already sat here"
     },
     {
      "series": "MDS 9300 fabric switches (9396S / 9396T / 9396V)",
@@ -56,22 +59,25 @@
      "sku": [
       "^(?=DS-|MDS-).*(?<![0-9])92(16|20|22|50)",
       "^DS-C50I",
-      "^SAN50C-R$"
+      "^SAN50C-R$",
+      "^DS-2SLOT-"
      ],
      "labels": [
       "MDS 9200 Series Multiservice"
      ],
-     "note": "^(?=DS-|MDS-) (layers round 3, storage round): the 35 rows the rule decides are DS- PIDs and MDS-9222I-75-PPT; unfenced it claimed the Nexus 92160 rows in switches, the UCSC-RAID-9220 controllers in servers and the Prisma II 9220F-DIFL option in video. ^SAN50C-R$ (same round): 'IBM SAN50C-R', the IBM-branded MDS 9250i that Cisco's 'MDS 9250i Multiservice Fabric Switch' end-of-sale notice lists; the label check found no platform token and held it for review (a whole switch)"
+     "note": "^(?=DS-|MDS-) (layers round 3, storage round): the 35 rows the rule decides are DS- PIDs and MDS-9222I-75-PPT; unfenced it claimed the Nexus 92160 rows in switches, the UCSC-RAID-9220 controllers in servers and the Prisma II 9220F-DIFL option in video. ^SAN50C-R$ (same round): 'IBM SAN50C-R', the IBM-branded MDS 9250i that Cisco's 'MDS 9250i Multiservice Fabric Switch' end-of-sale notice lists; the label check found no platform token and held it for review (a whole switch). ^DS-2SLOT- (re-audit decisions, operator, 15 Sep 2026, F-1): DS-2SLOT-FAN= 'MDS 9216 Fan Tray' names the 9216 alone; it sat in MDS shared parts by ^DS-"
     },
     {
      "series": "MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)",
      "sku": [
-      "^(?=DS-).*(?<![0-9])91(20|24|32|34|40|48)"
+      "^(?=DS-).*(?<![0-9])91(20|24|32|34|40|48)",
+      "^DS-1RU-FAN",
+      "^DS-C24-300AC"
      ],
      "labels": [
       "MDS 9100 Series Multilayer Fabric"
      ],
-     "note": "^(?=DS-) (layers round 3, storage round): the 169 rows the rule decides are DS- PIDs; unfenced it claimed 212 Catalyst 9120 / 9124 access points in wireless and 6 AMD EPYC 9124 processors in servers"
+     "note": "^(?=DS-) (layers round 3, storage round): the 169 rows the rule decides are DS- PIDs; unfenced it claimed 212 Catalyst 9120 / 9124 access points in wireless and 6 AMD EPYC 9124 processors in servers. ^DS-1RU-FAN and ^DS-C24-300AC (re-audit decisions, operator, 15 Sep 2026, F-1): DS-1RU-FAN(=) 'Cisco MDS 9100 Series Fan Tray' and DS-C24-300AC(=, -IBM=) 'MDS 9124 Power Supply' / 'Cisco MDS 91x4 300W AC power supply' name this series alone; they sat in MDS shared parts by ^DS-"
     },
     {
      "series": "MDS blade-server FC switches (HP / IBM / Dell)",

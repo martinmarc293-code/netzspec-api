@@ -485,8 +485,23 @@ export const PRE_RULES: { kind: UcsKind; re: RegExp }[] = [
   // the SKU axis cannot return the name-only `mechanical`, so the placeholder-named panels are accessories).
   // UCS-M4-V3-LBL "Cisco M4 - v3 CPU asset tab ID label (Auto-Expand)": the label family once the generation token hides LBL.
   { kind: "accessory", re: /^CR\d{4}$|-BATT(?:ERY)?(?:-|$)|^UCS-M\d-V\d-LBL$|-CPU-CAR$|^UCS-SX\d{3}-CMC$|^(?:UCSX|HCIX)-X?580P|-HS-[FR]$|-FMEZZBLK$|^R210-SASX|^UCSC-IPSSD-|^C16-CB16$|^PLHC-MLOM-PT-|^N20-CDIVV$|^UCS-T\d{2}-TORX$|-SLED\d?-M\d|^PP-(?:\d+RU-CHAS|CAS-|\d+X\d+G-)/ },
+  // re-audit decisions (operator, 15 Sep 2026, Q-13): the Services Ready Engine follows the UCS E-Series into this category, "engines
+  // kind server" — ISM-SRE-300-K9 / -K9++= / -RS-K9= and SM-SRE-700-K9 / SM-SRE-900-K9 (router service-module engines: a CPU, DRAM,
+  // flash and disks), and ISM-SRE-300-BUN-K9 "Services Ready Engine (SRE) 300 ISM for VSEC-SRE bundle", the engine's bundle-component
+  // PID, which the bundle rule below read as a programme label (non-product). Before that rule, so the engine reading wins.
+  { kind: "server", re: /^(?:ISM|SM)-SRE-\d{3}(?:-|$)/ },
+  // Same decisions: the rows planned INTO this category keep the kind they read where they sit today, rather than take `server` from
+  // the E100 prefix — E100-FCPLT-BRKT(=) "Bracket Used To Attach Faceplate to E100 Series Module" (mechanical in routers),
+  // E100S-CON-DGL(=) "KVM Dongle" (accessory), E100S-MEM-UDIMM8G(=) "8GB … UDIMM for SingleWide UCS-E" (memory), and
+  // SM-DSK-SATA-500GB= "Spare 50-GB hard disk for SM-SRE-900-K9" (a drive; the name fallback read `mechanical`). Exact SKUs only: the
+  // 36 E100 parts this category already holds as `server` (memory, SD cards, PCIe cards, SED drives) are the kind-axis backlog the
+  // parked rebuild owns (Q-28), listed in the re-audit decisions record.
+  { kind: "mechanical", re: /^E100-FCPLT-BRKT$/ },
+  { kind: "accessory", re: /^E100S-CON-DGL$/ },
+  { kind: "memory", re: /^E100S-MEM-UDIMM8G$/ },
+  { kind: "drive", re: /^SM-DSK-SATA-/ },
   // Programme and bundle PIDs the token cannot reach (III.0 item 6 "bundles / MLB / multipacks / programme PIDs"):
-  // ISM-SRE-300-BUN-K9 (moved to routers by plan), N1K-VSG-UCS-BUN, OPEN-BLOCK-BNDL, START-BNDL-EXP, UCSB-M6-AAS,
+  // N1K-VSG-UCS-BUN, OPEN-BLOCK-BNDL, START-BNDL-EXP, UCSB-M6-AAS,
   // UCSX-M6-AAS, UCSO-STARTER, AIPOD-POD1, UCSC-EPOD-C220E-S "UCS EZ EXPRESS POD BDL /w2x3048, 2xC220",
   // UCSC-10C220M4S-LI "MULTIPACK: 10-Pk C220 M4", UCSB-10-PK-B200M5, UCS-M6-MULTIPACK, UCS-MAH-B00R00-M6 "Microsoft
   // Azure Stack MX HCI Bundle", UCS-MAFI-6332, N20-Z0001 "Cisco Unified Computing System", HXM4-MCLOUD+APPD,

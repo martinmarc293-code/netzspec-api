@@ -102,20 +102,19 @@
      "series": "SM-X and SM Service Modules",
      "sku": [
       "^SM-X",
-      "^SM-(?!X|[0-9]{2}$)",
-      "^C-SM-",
-      "^UCS-E",
-      "^SVC-E"
+      "^SM-(?!X|SRE-|DSK-|HDDB?-SATA|MEM-VLP|[0-9]{2}$)",
+      "^C-SM-"
      ],
-     "note": "UCS-E / SVC-E are compute modules in the SM-X form factor: kind module, flagged compute module (pre-ruling C3; the server cups are a parked cup-side decision). SVC-E places the three service spares planned in from servers-unified-computing. ^SM-(?!X|[0-9]{2}$) (layers round 3, security round): the rule claimed SM-40 / SM-48 / SM-56, the Firepower 9300 security modules in security"
+     "note": "^SM-(?!X|[0-9]{2}$) (layers round 3, security round): the rule claimed SM-40 / SM-48 / SM-56, the Firepower 9300 security modules in security. Re-audit decisions (operator, 15 Sep 2026, Q-13): the UCS E-Series is a server sold as a router module and lives in servers-unified-computing, kind server (reverses pre-ruling C3) — ^UCS-E and ^SVC-E are removed and the four UCS-E modules carry move plans to servers; the Services Ready Engine follows (SM-SRE-700 / 900, their disks, memory and cover), so the rule is fenced from SRE-, DSK-, HDD-SATA and MEM-VLP"
     },
     {
      "series": "ISM / EM Internal Service Modules",
      "sku": [
-      "^ISM-",
-      "^EM-"
+      "^ISM-(?!SRE)",
+      "^EM-",
+      "^EM3-HDA-"
      ],
-     "note": "ISM-SRE-300 and ISM-VPN-29 / -39 are engines without network ports: kind module (pre-ruling C2); the EM voice expansion modules are interface cards"
+     "note": "ISM-VPN-29 / -39 are engines without network ports: kind module (pre-ruling C2); the EM voice expansion modules are interface cards. Re-audit decisions (operator, 15 Sep 2026): the ISM-SRE-300 engines follow the Services Ready Engine to servers-unified-computing (Q-13), so ^ISM- is fenced from SRE; ^EM3-HDA- places EM3-HDA-8FXS, the voice expansion module planned in from routers beside EM-HDA-8FXS (servers' ^EM3- rule, meant for the UCS-E M3 memory and SSDs, had claimed it as an E-Series part)"
     },
     {
      "series": "AIM (Advanced Integration Modules)",

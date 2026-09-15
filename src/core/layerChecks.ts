@@ -13,7 +13,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { REPO_ROOT } from "../config.js";
-import { placePart, loadLineFile, familyOf, type Placement } from "./productLine.js";
+import { placePart, loadLineFile, familyOf, twinKey, twinRank, type Placement } from "./productLine.js";
 import { labelEvidence } from "./labelEvidence.js";
 
 export type LayerRow = Record<string, string>;
@@ -55,20 +55,39 @@ export function deviceInSharedParts(rows: LayerRow[]): LayerRow[] {
  * target mapping must place every arrival"). Read from the source's built rows (name and stored label as the page has them) and
  * the target's mapping file; plans that ran are history and are not judged.
  */
-export function unplacedArrivals(category: string, rows: LayerRow[], plans: readonly { sku: string; category: string; action: string; to: string; run_id?: number | string | null }[], vendor = "cisco"): { sku: string; to: string; why: string }[] {
+export function unplacedArrivals(category: string, rows: LayerRow[], plans: readonly { sku: string; category: string; action: string; to: string; run_id?: number | string | null; product_class?: string }[], vendor = "cisco",
+  targetRows: (to: string) => LayerRow[] = (to) => readLayerRows(to, vendor)): { sku: string; to: string; why: string }[] {
   const bySku = new Map(rows.map((r) => [r.sku, r]));
   const out: { sku: string; to: string; why: string }[] = [];
+  // the twin rule on the target page (re-audit decisions, N-1 / Q-20, 15 Sep 2026): a spare planned in beside its layered base — a
+  // generic cord whose label means nothing to the target mapping — lands in its twin's series when the pages are rebuilt
+  const twinsOf = new Map<string, Set<string>>();
+  const twinLayered = (to: string, sku: string) => {
+    if (!twinsOf.has(to)) { try { twinsOf.set(to, new Set(targetRows(to).filter((r) => r.bucket === "layered" && !r.plan).map((r) => twinKey(r.sku)))); } catch { twinsOf.set(to, new Set()); } }
+    return twinsOf.get(to)!.has(twinKey(sku));
+  };
   for (const p of plans) {
     if (p.category !== category || p.action !== "move" || (p.run_id ?? null) !== null) continue;
+    // re-audit decisions (operator, 15 Sep 2026, Q-24): a category merge moves every class; a plan that says its row is not hardware
+    // has no row on the hardware pages and no series to land in (nonHardwarePlansOnPage checks that the field tells the truth)
+    if (p.product_class && p.product_class !== "hardware") continue;
     const r = bySku.get(p.sku);
     if (!r) { out.push({ sku: p.sku, to: p.to, why: `the planned SKU is not a row of ${category}'s built rows` }); continue; }
     const loaded = loadLineFile(vendor, p.to);
     if (!loaded) { out.push({ sku: p.sku, to: p.to, why: `${p.to} has no mapping file` }); continue; }
     const q = placePart(vendor, p.to, { sku: r.sku, name: r.name, series: r.series_label }, loaded);
-    if (!q) out.push({ sku: p.sku, to: p.to, why: `no rule of ${p.to} places it` });
+    if (!q && twinLayered(p.to, p.sku)) continue;
+    if (!q) out.push({ sku: p.sku, to: p.to, why: `no rule of ${p.to} places it, and no twin of it is layered there` });
     else if (q.line === "(not this category)") out.push({ sku: p.sku, to: p.to, why: `${p.to} lists it as not this category (${(q as { why: string }).why})` });
   }
   return out;
+}
+
+/** Plans that say their row is NOT hardware (a merge moving every class, Q-24) whose SKU is nevertheless a row of the category's
+ * hardware page: the field would hide a hardware row from the arrivals check. */
+export function nonHardwarePlansOnPage(category: string, rows: LayerRow[], plans: readonly { sku: string; category: string; product_class?: string; run_id?: number | string | null }[]): string[] {
+  const onPage = new Set(rows.map((r) => r.sku.trim().toUpperCase()));
+  return plans.filter((p) => p.category === category && (p.run_id ?? null) === null && p.product_class && p.product_class !== "hardware" && onPage.has(p.sku.trim().toUpperCase())).map((p) => p.sku);
 }
 
 type SeriesEntry = { series: string; family: string | null; parts: number; kinds: Record<string, number>; roles: Record<string, number> };
@@ -155,17 +174,45 @@ export function readLayerRows(category: string, vendor = "cisco"): LayerRow[] {
   return lines.slice(1).map((l) => Object.fromEntries(l.split("\t").map((v, i) => [head[i], v])));
 }
 
-export function pairDisagreements(rows: LayerRow[]): { sku: string; fields: string[] }[] {
-  const by = new Map(rows.map((r) => [r.sku.trim().toUpperCase(), r]));
-  const out: { sku: string; fields: string[] }[] = [];
-  for (const [k, spare] of by) {
-    if (!k.endsWith("=")) continue;
-    const base = by.get(k.replace(/=+$/, ""));
-    if (!base) continue;
-    const fields = ["series", "kind", "bucket", "plan"].filter((f) => (base[f] ?? "") !== (spare[f] ?? ""));
-    if (fields.length) out.push({ sku: base.sku, fields });
+/**
+ * spare = base, widened to the twin rule (re-audit decisions, operator, 15 Sep 2026, N-1): X, X=, X- and X-- carry the same series,
+ * kind, bucket and plan. Each member is compared with the group's reference — the base when it is a row, else the lowest twinRank —
+ * and reported under the reference's SKU (the key the recorded exceptions use), with the member that disagrees.
+ */
+export function pairDisagreements(rows: LayerRow[]): { sku: string; member: string; fields: string[] }[] {
+  const groups = new Map<string, LayerRow[]>();
+  for (const r of rows) { const k = twinKey(r.sku); groups.set(k, [...(groups.get(k) ?? []), r]); }
+  const out: { sku: string; member: string; fields: string[] }[] = [];
+  for (const members of groups.values()) {
+    if (members.length < 2) continue;
+    const ref = [...members].sort((a, b) => twinRank(a.sku) - twinRank(b.sku))[0];
+    for (const m of members) {
+      if (m === ref) continue;
+      const fields = ["series", "kind", "bucket", "plan"].filter((f) => (ref[f] ?? "") !== (m[f] ?? ""));
+      if (fields.length) out.push({ sku: ref.sku, member: m.sku, fields });
+    }
   }
   return out;
+}
+
+/**
+ * THE CROSS-CATEGORY TWIN CHECK (re-audit decisions, operator, 15 Sep 2026, Q-20): the twin rule across pages — X, X=, X- and X-- live in
+ * ONE category. Each member's home once its plans run is its category, its move target, or nowhere (a class plan takes it off the
+ * hardware pages); a group whose hardware members still end in two or more categories is a split no plan joins.
+ */
+export function crossCategoryTwins(rowsByCat: ReadonlyMap<string, LayerRow[]>): { key: string; members: { category: string; sku: string; plan: string }[] }[] {
+  const groups = new Map<string, { category: string; sku: string; plan: string }[]>();
+  for (const [category, rows] of rowsByCat) for (const r of rows) {
+    const k = twinKey(r.sku);
+    groups.set(k, [...(groups.get(k) ?? []), { category, sku: r.sku, plan: r.plan ?? "" }]);
+  }
+  const out: { key: string; members: { category: string; sku: string; plan: string }[] }[] = [];
+  for (const [key, members] of groups) {
+    if (new Set(members.map((m) => m.category)).size < 2) continue;
+    const homes = new Set(members.filter((m) => !m.plan.startsWith("class ")).map((m) => (m.plan.startsWith("move ") ? m.plan.slice("move ".length) : m.category)));
+    if (homes.size > 1) out.push({ key, members });
+  }
+  return out.sort((a, b) => a.key.localeCompare(b.key));
 }
 
 /** Identity fold: case and every whitespace character. `C9200L-48P- 4G` and `c9200l-48p-4g` are one part. */

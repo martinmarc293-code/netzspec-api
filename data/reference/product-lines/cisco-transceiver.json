@@ -13,9 +13,10 @@
       "^(?!Q(?:SFP|DD)?-?[0-9]+(?:SFP|X[0-9]|Q[0-9]|ZQ|S[0-9])).*AOC",
       "^(?!Q(?:SFP|DD)?-?[0-9]+(?:SFP|X[0-9]|Q[0-9]|ZQ|S[0-9])).*(?<!E)CU[0-9]",
       "^Q?SFP-.*ACU",
-      "^PQSF2P"
+      "^PQSF2P",
+      "^SFP-H10GB-CU$"
      ],
-     "note": "same-cage cables only. A breakout (one QSFP / QSFP-DD host cage fanned out to 2 or 4 smaller cages: QSFP-4SFP25G-CU1M, QSFP-4X10G-AOC1M, QDD-4ZQ100-CU1M) is refused by the lookahead and placed in its host cage's speed series with kind breakout-cable (operator, layers round 3); the standing check asserts no breakout-cable row sits here. (?<!E)CU (layers round 3, optical round): the copper-DAC rule claimed the External Connection Units 15454-M6-ECU2, NCS2006-ECU60-S= and NCS4K-ECU2 in optical-networking"
+     "note": "^SFP-H10GB-CU$ (re-audit decisions, operator, 15 Sep 2026, N-2 / Q-23): the bare family row '10G SFP+ Twinax cable assembly, passive (Length - 1M to 5M)' carries 5 facts, so it stays a part (its class plan removed) and is placed beside its SFP-H10GB-CU1M / 3M / 5M orderables; the length-glued CU rule needs a digit. Same-cage cables only. A breakout (one QSFP / QSFP-DD host cage fanned out to 2 or 4 smaller cages: QSFP-4SFP25G-CU1M, QSFP-4X10G-AOC1M, QDD-4ZQ100-CU1M) is refused by the lookahead and placed in its host cage's speed series with kind breakout-cable (operator, layers round 3); the standing check asserts no breakout-cable row sits here. (?<!E)CU (layers round 3, optical round): the copper-DAC rule claimed the External Connection Units 15454-M6-ECU2, NCS2006-ECU60-S= and NCS4K-ECU2 in optical-networking"
     }
    ]
   },

@@ -8,7 +8,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { REPO_ROOT } from "../src/config.js";
-import { readLayerRows, pairDisagreements, twinGroups, crossClaims, ruleUse, classifyRules, incomingRows, labelViolations, labelEvidenceDrift, seriesEntryDisagreements, deviceInSharedParts, unplacedArrivals, sharedLabelNotExplicit, DEVICE_KINDS, type LayerRow } from "../src/core/layerChecks.js";
+import { readLayerRows, pairDisagreements, twinGroups, crossClaims, ruleUse, classifyRules, incomingRows, labelViolations, labelEvidenceDrift, seriesEntryDisagreements, deviceInSharedParts, unplacedArrivals, sharedLabelNotExplicit, crossCategoryTwins, nonHardwarePlansOnPage, DEVICE_KINDS, type LayerRow } from "../src/core/layerChecks.js";
 import { labelEvidence } from "../src/core/labelEvidence.js";
 
 export const REVIEWED = ["switches", "routers", "transceiver", "interfaces-modules", "wireless", "servers-unified-computing", "hyperconverged-infrastructure", "hyperconverged-systems", "security", "video", "optical-networking", "storage-networking", "unified-communications", "collaboration-endpoints", "meraki"];
@@ -35,13 +35,23 @@ const PAIR_EXCEPTIONS: Record<string, string> = {
   "video|P2-HD-EDR-SA": "kind only: the base is named only by its SKU ('Cisco P2-HD-EDR-SA', kind unknown), the spare 'Cisco Prisma II EDR Host Module with 2:1 Tx' reads plug-in through its name; both sit in Prisma II HD",
   "security|ASA5585-REAR-RACK":"kind only: the base 'ASA 5585 Rear Rack Mount' reads mechanical through its name, the spare 'ASA 5585-X Rear Rack Mounts (1 pair)' stays accessory (the name marker does not read the plural); both sit in ASA 5585-X — a kind-layer defect listed in the security round's record",
   "hyperconverged-systems|HXAF-E-240-M5SX":"the spare is named 'VOID; Not Used' and carries a class non_product plan; the base is the live 'Cisco HyperFlex All Flash Edge 240 Full Capacity M5 system' in HyperFlex Edge",
+  // re-audit decisions (operator, 15 Sep 2026): the check covers X, X=, X- and X-- (N-1, the twin rule), keyed by the group's base —
+  // or its lowest member when no base is a row. N-3 classes the rows whose own catalogue entry says "Not used" / "Do not use"; where a
+  // twin of such a row is the live part, the pair disagrees on purpose (the VOID precedent above)
+  "collaboration-endpoints|BRKT-SX10-WMK": "the component PID BRKT-SX10-WMK- is named 'Not used' and carries the N-3 class non_product plan; the base BRKT-SX10-WMK is the live wall-mount kit in TelePresence SX",
+  "collaboration-endpoints|CTS-SX10CODEC=": "the component PID CTS-SX10CODEC- is named 'Not used' and carries the N-3 class non_product plan; the spare CTS-SX10CODEC= is the live SX10 codec in TelePresence SX",
+  "collaboration-endpoints|CTS-SX20G2-K9+": "the auto-expand PID CTS-SX20G2-K9+ is named '^Not used' and carries the N-3 class non_product plan; its spare CTS-SX20G2-K9+= '^SX20 Codec - encrypted' is the live row in TelePresence SX",
+  "collaboration-endpoints|HS-WL-ADPT-USBA": "the base is named 'NOT USED Cisco Headset Wireless Bluetooth USB-A HD Adapter' and carries the N-3 class non_product plan; its spare HS-WL-ADPT-USBA= '… Adapter - SPARE' is the live row in Headsets shared parts",
+  "security|FP-NMSB-40G": "the base is named 'Do Not Use - FirePOWER 40G Switch Module for 40Gbps Net Mods' and carries the N-3 class non_product plan; its twins FP-NMSB-40G- (the component PID) and FP-NMSB-40G= are the live 'Cisco FirePOWER 40G Switch Module' in FirePOWER 7000 / 8000 (legacy)",
+  "wireless|AIR-ANT5175V-N": "the base is named 'NOT USED 4.9 GHz-5.8 GHz Omni with N Connector' and carries the N-3 class non_product plan; its spare AIR-ANT5175V-N= '4.9 GHz-5.8 GHz, 7.5 dBi Omni with N Connector' is the live row in Antennas",
 };
 
-// device-in-shared-parts exceptions (collaboration round): a whole product with no series and no document naming one — each is a decision pending
+// device-in-shared-parts exceptions (collaboration round): a whole product with no series and no document naming one. Re-audit decisions
+// (operator, 15 Sep 2026, Q-18): kept as exceptions — no invented series — with the operator's reason
 const DEVICE_EXCEPTIONS: Record<string, string> = {
-  "collaboration-endpoints|CTS-LAPT-DISP": "decision pending: 'TelePresence Laptop Display' (label TelePresence MX Series; only the generic 'HW Collaboration PIDs' end-of-sale notice names it) — no document ties it to a TelePresence system, so it stays in TelePresence (legacy) shared parts",
-  "collaboration-endpoints|CTS-LAPT-DISP=": "decision pending: the spare of CTS-LAPT-DISP 'TelePresence Laptop Display' — same as its base",
-  "collaboration-endpoints|CTS-VX-EDUCATOR-K9": "decision pending: 'VX Educator package' (label TelePresence MX Series; the generic 'Collaboration PIDs' end-of-sale notice) — the catalogue holds no other TelePresence VX row to give it a series, so it stays in TelePresence (legacy) shared parts",
+  "collaboration-endpoints|CTS-LAPT-DISP": "Cisco names no series; device kept out of shared-parts semantics by exception (Q-18) — 'TelePresence Laptop Display' (label TelePresence MX Series; only the generic 'HW Collaboration PIDs' end-of-sale notice names it), in TelePresence (legacy) shared parts",
+  "collaboration-endpoints|CTS-LAPT-DISP=": "Cisco names no series; device kept out of shared-parts semantics by exception (Q-18) — the spare of CTS-LAPT-DISP 'TelePresence Laptop Display'",
+  "collaboration-endpoints|CTS-VX-EDUCATOR-K9": "Cisco names no series; device kept out of shared-parts semantics by exception (Q-18) — 'VX Educator package' (label TelePresence MX Series; the generic 'Collaboration PIDs' end-of-sale notice), in TelePresence (legacy) shared parts",
 };
 
 // THE LABEL CHECK, per category (layers round 3, operator: the round-2 floor "more than 100 label-placed rows" failed by construction
@@ -51,7 +61,7 @@ const LABEL_EXPECT: Record<string, { min?: number; exactly?: number; why: string
   switches: { min: 100, why: "hundreds of rows are placed by a stored series label" },
   routers: { min: 100, why: "hundreds of rows are placed by a stored series label" },
   transceiver: { exactly: 0, why: "every transceiver row is placed by its SKU's form-factor and speed family; the mapping's labels place nothing (layers round 3)" },
-  wireless: { exactly: 30, why: "access points, controllers and their parts are placed by SKU; 30 rows are judged on a stored label (11 kept by a token or name, 19 moved to their line's shared parts — layers round 3)" },
+  wireless: { exactly: 28, why: "access points, controllers and their parts are placed by SKU; 28 rows are judged on a stored label (11 kept by a token or name, 17 moved to their line's shared parts — layers round 3). Re-audit decisions (15 Sep 2026): 30 -> 28, the MobileAccessVE control unit AIR-VCU-CELLPCS12(=), moved for want of a 5500 token, is SKU-placed in the MobileAccessVE series (Q-12)" },
   "interfaces-modules": { exactly: 5, why: "the cards are placed by their SKU families; 5 rows are judged on a stored label — STM1-CN-MM / -SMI kept by the name token PA, and AIC-DBL-PNL, AIC-SGL-PNL and WDM-SFP-2CH-CONV= moved to shared parts; the 30 labels mapped directly to a line's shared parts are not judged (pre-ruling C1, layers round 3)" },
   "servers-unified-computing": { exactly: 1, why: "UCS rows are placed by SKU; one row is judged on a stored label — SAS3 (a datasheet fragment, label 'S-Series Storage'), moved to the S-Series line's shared parts; the rows whose label maps directly to a line's shared parts are not judged (pre-ruling C1). The ten E1x0 service spares and the SRE parts the check had moved are SKU-placed or planned out since the servers round" },
   "hyperconverged-infrastructure": { exactly: 0, why: "HCI rows are placed by SKU; its 97 label-placed rows carry labels mapped directly to the Nutanix line's shared parts (pre-ruling C1, not judged)" },
@@ -62,7 +72,7 @@ const LABEL_EXPECT: Record<string, { min?: number; exactly?: number; why: string
   video: { exactly: 1, why:"cable-access rows are placed by SKU or by the family their name states; one row is judged on a stored label and moved to its line's shared parts — PWR-CAB-AC-BLK (a power cord, label cBR-8); 4035899, which the check had moved for want of name evidence, is SKU-placed from its end-of-sale notice (layers round 3)" },
   meraki: { exactly: 0, why: "every Meraki row is placed by its model's SKU rule; the mapping has no labels (layers round 3)" },
   "collaboration-endpoints": { exactly: 46, why:"endpoints and their parts are placed by SKU; 46 rows are judged on a stored label — 19 kept (the CS-MX / ACC-MX200 / SX rows by their SKU tokens, AVIZ-MXCART= 'Avizia MX Cart', PHD-KIT=, PSU-CAM-V=, ACC-PHD1080P= and the Webex Share rows by name), 27 moved to their line's shared parts (the Webex Share power adapters and clips, the SpeakerTrack 60 12 V supply, three Avizia and three Jabra SolutionsPlus rows, ADPT-HDMI-DVID=, WBP54G). The Avizia CA300 / CA750 carts the check had kept on their own model numbers are SKU-placed in TelePresence (legacy) shared parts (layers round 3)" },
-  security: { exactly: 16, why:"security appliances are placed by SKU; 16 rows are judged on a stored label — CAB-CONS-USB-C= kept by the name token 1200, ISE-SNS-ACCYKIT by the SKU token SNS, 14 moved to their line's shared parts (UCS spares filed under ISE, desktop and IE power supplies, CSACS-ACCYKIT, PRIME-ACC-REG); 9 rows on labels mapped directly to shared parts are not judged (pre-ruling C1, layers round 3)" },
+  security: { exactly: 14, why:"security appliances are placed by SKU; 14 rows are judged on a stored label — CAB-CONS-USB-C= kept by the name token 1200, ISE-SNS-ACCYKIT by the SKU token SNS, 12 moved to their line's shared parts (UCS spares filed under ISE, desktop power supplies, CSACS-ACCYKIT, PRIME-ACC-REG); 9 rows on labels mapped directly to shared parts are not judged (pre-ruling C1, layers round 3). Re-audit decisions (15 Sep 2026): 16 -> 14, the IE supplies PWR-IE50W-AC / -IEC carry move plans to switches Industrial Ethernet, beside their spares (Q-20)" },
 };
 // THE FAMILY LAYER, per category: "in-use" where Cisco names families over series (switches, routers); "none" where Cisco names none
 // and every line of 3+ series says why (layers round 3: optics and modules, operator — "—" with a no_family_reason is the expected result).
@@ -124,6 +134,10 @@ const PLANS = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, "data", "reference
 type Allowed = { category: string; claimed_by: string; series: string; rule: string; rows: number; status: string; reason: string };
 const ALLOW = (JSON.parse(fs.readFileSync(path.join(REPO_ROOT, "data", "reference", "layers-cross-claims.json"), "utf8")) as { entries: Allowed[] }).entries;
 const STATUSES = new Set(["claimant-rule-too-broad", "decided-home", "pending-round"]);
+// re-audit decisions (operator, 15 Sep 2026, F-6): a group kept where it is filed while a question is open says which question
+// (pending-decision:Q-<n>), so decided-home again means a decision exists; the status goes stale the day the question leaves this set
+export const OPEN_QUESTIONS: ReadonlySet<string> = new Set(["Q-14", "Q-17"]);
+const statusKnown = (s: string) => STATUSES.has(s) || (/^pending-decision:Q-[0-9]+$/.test(s) && OPEN_QUESTIONS.has(s.slice("pending-decision:".length)));
 
 for (const cat of REVIEWED) {
   const rows = readLayerRows(cat);
@@ -132,7 +146,7 @@ for (const cat of REVIEWED) {
   check(`${cat}: the built rows are not empty`, rows.length > 0, `${rows.length} rows`);
 
   const dis = pairDisagreements(rows).filter((d) => !PAIR_EXCEPTIONS[`${cat}|${d.sku}`]);
-  check(`spare=base ${cat}: 0 base/spare pairs disagree on series, kind, bucket or plan`, dis.length === 0, dis.slice(0, 8).map((d) => `${d.sku} [${d.fields.join(",")}]`).join("; "));
+  check(`spare=base ${cat}: 0 twin groups (X / X= / X- / X--) disagree on series, kind, bucket or plan`, dis.length === 0, dis.slice(0, 8).map((d) => `${d.sku} <> ${d.member} [${d.fields.join(",")}]`).join("; "));
   for (const k of Object.keys(PAIR_EXCEPTIONS).filter((x) => x.startsWith(`${cat}|`)))
     check(`spare=base ${cat}: the recorded exception ${k.split("|")[1]} still disagrees (a stale exception is a hole)`, pairDisagreements(rows).some((d) => d.sku === k.split("|")[1]));
 
@@ -161,7 +175,7 @@ for (const cat of REVIEWED) {
   }
   for (const a of allowed) {
     check(`leakage ${cat}: recorded group ${a.claimed_by} / ${a.series} still exists (a stale entry is a hole)`, claims.some((g) => g.claimed_by === a.claimed_by && g.series === a.series && g.rule === a.rule));
-    check(`leakage ${cat}: recorded group ${a.claimed_by} / ${a.series} has a known status and a reason`, STATUSES.has(a.status) && a.reason.length > 40);
+    check(`leakage ${cat}: recorded group ${a.claimed_by} / ${a.series} has a known status (or a pending decision on an open question) and a reason`, statusKnown(a.status) && a.reason.length > 40, `status ${a.status}`);
   }
 
   const { dead, redundant, shadowed } = classifyRules(ruleUse(cat, rows, incomingRows(cat, CATS, PLANS)));
@@ -214,11 +228,62 @@ for (const cat of REVIEWED) {
   check(`provenance ${cat}: the page lists its uncommitted rule files (an array, possibly empty)`, Array.isArray(summary.uncommitted_rule_files));
 }
 
+// THE CROSS-CATEGORY TWIN CHECK (re-audit decisions, operator, 15 Sep 2026, Q-20): X, X=, X- and X-- live in one category. A twin group
+// whose hardware members end in two or more categories once their plans run is refused — except the groups Q-14 and Q-17 leave open,
+// named here by twin key (Q-14: generic UCS components across servers / HyperFlex / Compute Hyperconverged; Q-17: the UCS spares
+// filed in security). A named group that is no longer split is stale; a question that closes takes its list with it.
+const TWIN_SPLITS_PENDING: Record<string, readonly string[]> = {
+  "Q-14": ["CAB-48DC-40A-AS", "CAB-48DC-40A-INT", "CAB-9K10A-KOR1", "CAB-BS1363-C19-UK", "CAB-S132-C19-ISRL", "CAB-SABS-C19-IND", "CAB-US515P-C19-US", "CAB-US520-C19-US", "CAB-US620P-C19-US",
+    "N20-BBLKD", "PACK-QSFP-SFP", "RACK-BLANK-001", "RACK-CBLMGT-001", "RACK-CBLMGT-011", "RACK-FASTEN-001", "RACK-FASTEN-002", "RACK-JOIN-001", "UCS-220CBLMR8", "UCS-220CBLSR8",
+    "UCS-HD8T7KL4KN", "UCS-M10CBL-C240M5", "UCS-ML-128G4RW", "UCS-MR-X32G2RW", "UCS-MR-X64G2RW", "UCS-MSTOR-M2", "UCS-P100CBL-240M5", "UCSC-HS-C220M4", "UCSC-LP-C25-1485",
+    "UCSC-LP-C40-1485", "UCSC-MLOM-BLK", "UCSC-PCIF-01F", "UCSC-PSU-BLKP240", "UCSC-R2R3-C220M6", "UCSC-RIS2A-240M6"],
+  "Q-17": ["N20-BKVM", "UCS-HD12TB10K12N", "UCS-NVMEG4-M960-D", "UCS-SD16TBKANK9-D", "UCS-SD960GM2NK9-D", "UCSC-PSU1-1050W", "UCSC-PSU1-1200W-D", "UCSC-RAIL-D", "UCSC-RAIL-M6", "UCSC-RAILB-M4", "UCSC-RAILF-M4"],
+};
+{
+  const byCat = new Map(CATS.map((c) => [c, readLayerRows(c)] as const));
+  const splits = crossCategoryTwins(byCat);
+  const pendingOf = new Map(Object.entries(TWIN_SPLITS_PENDING).flatMap(([q, keys]) => keys.map((k) => [k, q] as const)));
+  const unexcused = splits.filter((s) => !pendingOf.has(s.key));
+  check(`cross-category twins: 0 twin groups split across categories with no plan joining them (${splits.length - unexcused.length} named pending Q-14 / Q-17)`, unexcused.length === 0,
+    unexcused.slice(0, 6).map((s) => `${s.key}: ${s.members.map((m) => `${m.category}:${m.sku}${m.plan ? ` [${m.plan}]` : ""}`).join(" | ")}`).join("; "));
+  for (const [k, q] of pendingOf) {
+    check(`cross-category twins: the group ${k} named pending ${q} is still split (a stale name is a hole)`, splits.some((s) => s.key === k));
+    check(`cross-category twins: ${k} is named pending ${q}, a question still open`, OPEN_QUESTIONS.has(q));
+  }
+  // sabotage: a planted split is refused, a move plan or a class plan joins it, a base and its component PID count as twins
+  const row = (sku: string, plan = ""): LayerRow => ({ sku, name: "x", series_label: "", kind: "cable", bucket: plan ? "pending_plan" : "layered", series: "A", plan });
+  const planted = (a: LayerRow[], b: LayerRow[]) => crossCategoryTwins(new Map([["zz-a", a], ["zz-b", b]]));
+  check("SABOTAGE cross-category twins: a base in one category and its spare in another is a split", planted([row("ZZ-CORD-1")], [row("ZZ-CORD-1=")]).length === 1);
+  check("SABOTAGE cross-category twins: the spare's move plan to the base's category joins them", planted([row("ZZ-CORD-1")], [row("ZZ-CORD-1=", "move zz-a")]).length === 0);
+  check("SABOTAGE cross-category twins: a move plan to a THIRD category does not", planted([row("ZZ-CORD-1")], [row("ZZ-CORD-1=", "move zz-c")]).length === 1);
+  check("SABOTAGE cross-category twins: a class plan takes the member off the hardware pages", planted([row("ZZ-CORD-1")], [row("ZZ-CORD-1=", "class non_product")]).length === 0);
+  check("SABOTAGE cross-category twins: X- and X-- are twins of X (N-1)", planted([row("ZZ-CORD-2")], [row("ZZ-CORD-2-"), row("ZZ-CORD-2--")]).length === 1 && planted([row("ZZ-CORD-2-")], [row("ZZ-CORD-2--")]).length === 1);
+}
+
+// THE REGULATORY-DOMAIN / PLUG-REGION PLACEHOLDER (re-audit decisions, operator, 15 Sep 2026, Q-10): no layered row anywhere is a stand-in —
+// lower-case x / xx in the region position, case-sensitive, plus the 14 upper-case -X rows Cisco's ordering guide and the Embedded Wireless
+// Controller FAQ write as the same stand-in, named by SKU. Never a case-insensitive match: -X is a model name elsewhere (ASR1001-X).
+const REGION_X_BY_SKU: ReadonlySet<string> = new Set(["C9115AXE-EWC-X", "C9115AXI-EWC-X", "C9117AXI-EWC-X", "C9120AXE-EWC-X", "C9120AXI-EWC-X", "C9120AXP-EWC-X", "C9124AXD-EWC-X", "C9124AXE-EWC-X", "C9124AXI-EWC-X", "C9130AXE-EWC-X", "C9130AXI-EWC-X", "CW9164I-X", "CW9166D1-X", "CW9166I-X"]);
+export const regionPlaceholder = (sku: string): boolean => /-x{1,2}(-|=?$)/.test(sku) || REGION_X_BY_SKU.has(sku.replace(/=+$/, ""));
+{
+  for (const cat of [...REVIEWED, "conferencing", "data-center-networking"]) {
+    const left = readLayerRows(cat).filter((r) => r.bucket === "layered" && regionPlaceholder(r.sku));
+    check(`region placeholders ${cat}: 0 layered regulatory-domain / plug-region stand-ins (Q-10)`, left.length === 0, left.slice(0, 6).map((r) => r.sku).join(", "));
+  }
+  const q10 = (PLANS as { sku: string; category: string; action: string; to: string; run_id: unknown; reason?: string }[]).filter((p) => p.run_id === null && /^regulatory-domain( \/ plug-region)? placeholder/.test(p.reason ?? ""));
+  check(`region placeholders: the Q-10 class plans number 254 (wireless 46 + 14, switches 191, interfaces-modules 2, collaboration-endpoints 1)`, q10.length === 254 && q10.every((p) => p.action === "class" && p.to === "non_product"), `${q10.length}`);
+  check("SABOTAGE region placeholder: CBS110-8PP-D-xx, AIR-AP1562I-x-K9 and CP-PWR-CORD-xx= are stand-ins", ["CBS110-8PP-D-xx", "AIR-AP1562I-x-K9", "CP-PWR-CORD-xx="].every(regionPlaceholder));
+  check("SABOTAGE region placeholder: C9120AXI-EWC-X is a stand-in by name, and its spare spelling too", regionPlaceholder("C9120AXI-EWC-X") && regionPlaceholder("C9120AXI-EWC-X="));
+  check("SABOTAGE region placeholder: the model names ASR1001-X, N9K-C92160YC-X and SFP-10G-LR-X are NOT (never case-insensitive)", !["ASR1001-X", "N9K-C92160YC-X", "SFP-10G-LR-X", "C6880-X="].some(regionPlaceholder));
+  check("SABOTAGE region placeholder: a channel placeholder DWDM-SFP10G-xx.xx is not this shape (decision 2 classes it)", !regionPlaceholder("DWDM-SFP10G-xx.xx"));
+}
+
 // MERGE CANDIDATES (layers round 3, operator: "as merge PLANS with the redirect map, not runs"): a category the spec merges away holds no
 // layered row — every row carries a plan — and every planned move lands placed in its target's mapping, so the merge, when it runs,
 // leaves nothing unplaced on the target page. The redirect map and the class question are in the merge-plans decision record.
 export const MERGE_CANDIDATES: Record<string, string> = { conferencing: "collaboration-endpoints", "data-center-networking": "switches" };
 // a planned move of a merge candidate that goes somewhere other than the merge target, each with its reason and destination
+const MERGE_NON_HARDWARE: Record<string, number> = { conferencing: 3680, "data-center-networking": 11 };
 const MERGE_MOVE_EXCEPTIONS: Record<string, string> = {
   "data-center-networking|8K-2RU-KIT-SB": "routers: a Cisco 8000 2RU installation kit reused by the HF6100-64ED; its siblings 8K-2RU-KIT-L / -S / -2P-KIT in switches carry move plans to routers (A.3 rule 1)",
 };
@@ -233,7 +298,14 @@ for (const [cat, target] of Object.entries(MERGE_CANDIDATES)) {
   check(`merge ${cat} -> ${target}: every move goes to the merge target or is a recorded exception naming its destination`, elsewhere.length === 0, elsewhere.slice(0, 6).map((p) => `${p.sku} -> ${p.to}`).join("; "));
   for (const k of Object.keys(MERGE_MOVE_EXCEPTIONS).filter((x) => x.startsWith(`${cat}|`)))
     check(`merge ${cat}: the recorded exception ${k.split("|")[1]} is still a move away from ${target} (a stale exception is a hole)`, moves.some((p) => p.sku === k.split("|")[1] && p.to !== target));
+  // re-audit decisions (operator, 15 Sep 2026, Q-24): the merge moves EVERY class. The non-hardware rows are not on the pages, so the
+  // count the store held when the plans were written is recorded, and a plan claiming a hardware row as non-hardware is refused
+  const nonHw = (PLANS as { sku: string; category: string; action: string; to: string; run_id: unknown; product_class?: string }[]).filter((p) => p.category === cat && p.run_id === null && p.product_class && p.product_class !== "hardware");
+  check(`merge ${cat} -> ${target}: the ${MERGE_NON_HARDWARE[cat]} non-hardware rows the store held on 15 Sep 2026 carry move plans to ${target} (Q-24: every class)`, nonHw.length === MERGE_NON_HARDWARE[cat] && nonHw.every((p) => p.action === "move" && p.to === target), `${nonHw.length} plans`);
+  const lying = nonHardwarePlansOnPage(cat, rows, PLANS);
+  check(`merge ${cat}: no non-hardware plan names a row of the hardware page`, lying.length === 0, lying.slice(0, 6).join(", "));
 }
+check("SABOTAGE merge: a plan that calls a hardware row non-hardware is refused", nonHardwarePlansOnPage("zz", [{ sku: "ZZ-HW-1", bucket: "pending_plan" } as LayerRow], [{ sku: "ZZ-HW-1", category: "zz", product_class: "license", run_id: null }, { sku: "ZZ-LIC-1", category: "zz", product_class: "license", run_id: null }]).join() === "ZZ-HW-1");
 
 // THE FAMILY LAYER (operator, 14 Sep 2026): layer 3 where Cisco names a family, the explicit shared-across marker for line shared
 // parts, "—" (empty) otherwise — and the file says the category's families were assigned.
@@ -307,8 +379,9 @@ for (const [cat, target] of Object.entries(MERGE_CANDIDATES)) {
   at("C-NIM-1X", "NIM (Network Interface Modules)", "interface");
   at("C-SM-NIM-ADPT", "SM-X and SM Service Modules", "mechanical");
   at("C-SM-NIM-ADPT=", "SM-X and SM Service Modules", "mechanical");
-  at("UCS-E160S-M3/K9", "SM-X and SM Service Modules", "module");
-  at("ISM-SRE-300-K9", "ISM / EM Internal Service Modules", "module");
+  // re-audit decisions (15 Sep 2026, Q-13): the UCS-E modules and the SRE engines were witnesses of pre-ruling C3 here; they now carry
+  // move plans to servers-unified-computing (checked below with the planned rows)
+  at("ISM-VPN-29", "ISM / EM Internal Service Modules", "module");
   at("WP-WIFI6-A", "WP pluggable modules (IoT routers)", "radio");
   at("P-5GS6-GL", "Pluggable Interface Modules (LTE / 5G / serial)", "cellular");
   at("P-1T", "Pluggable Interface Modules (LTE / 5G / serial)", "interface");
@@ -330,6 +403,12 @@ for (const [cat, target] of Object.entries(MERGE_CANDIDATES)) {
   planned("PWR-3845-AC-IP=", "move routers");
   planned("FQMAP46CG", "class non_product");
   planned("HN4000e", "class non_product");
+  planned("UCS-E160S-M3/K9", "move servers-unified-computing");
+  planned("ISM-SRE-300-K9", "move servers-unified-computing");
+  planned("SM-SRE-900-K9", "move servers-unified-computing");
+  planned("15454-AD-1B-xx=", "class non_product");
+  planned("HWIC-AP-AG-x", "class non_product");
+  planned("CGR-N-CONN-WPAN", "move routers");
   const ntc = readLayerRows("interfaces-modules").filter((r) => r.bucket === "not_this_category").length;
   check(`interfaces-modules page: the 190 not-this-category rows of the round's start are all planned or placed (0 left)`, ntc === 0, `${ntc}`);
   const sw = new Map(readLayerRows("switches").map((r) => [r.sku, r]));
@@ -363,11 +442,90 @@ for (const [cat, target] of Object.entries(MERGE_CANDIDATES)) {
   check(`routers page: the Aironet antennas and the 1530 mount kit carry their plans to wireless`, ["AIR-ANT2524DB-R", "AIR-ACC1530-PMK1"].every((s) => rt.get(s)?.plan === "move wireless"), ["AIR-ANT2524DB-R", "AIR-ACC1530-PMK1"].map((s) => `${s} ${rt.get(s)?.plan}`).join("; "));
 }
 
+// THE RE-AUDIT DECISIONS on the built rows (operator, 15 Sep 2026): each decision's witnesses are where it put them
+{
+  const pageOf = new Map<string, Map<string, LayerRow>>();
+  const get = (cat: string, sku: string) => { if (!pageOf.has(cat)) pageOf.set(cat, new Map(readLayerRows(cat).map((r) => [r.sku, r]))); return pageOf.get(cat)!.get(sku); };
+  const at = (cat: string, sku: string, series: string, kind?: string, by?: RegExp) => {
+    const r = get(cat, sku);
+    check(`re-audit ${cat}: ${sku} is layered in ${series}${kind ? `, kind ${kind}` : ""}${by ? `, placed by ${by.source}` : ""}`, r?.bucket === "layered" && r.series === series && (!kind || r.kind === kind) && (!by || by.test(r.placed_by ?? "")), `got ${r?.bucket} / ${r?.series} / ${r?.kind} / ${r?.placed_by}`);
+  };
+  const planned = (cat: string, sku: string, plan: string) => { const r = get(cat, sku); check(`re-audit ${cat}: ${sku} carries the plan "${plan}"`, r?.bucket === "pending_plan" && r.plan === plan, `got ${r?.bucket} "${r?.plan}"`); };
+  // F-1: platform-bound modules, cards, fans and supplies in their series (A.3 rule 1)
+  at("security", "ASA-CX40-INC-K8", "ASA 5585-X", undefined, /^sku /);
+  at("security", "ASA-IC-6GE-SFP-B=", "ASA 5500-X (5506 / 5508 / 5512 / 5515 / 5516 / 5525 / 5545 / 5555)", undefined, /^sku /);
+  at("storage-networking", "DS-6SL0T-FAN=", "MDS 9500 directors (9506 / 9509 / 9513)");
+  at("storage-networking", "DS-C24-300AC-IBM=", "MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)");
+  at("storage-networking", "DS-2SLOT-FAN=", "MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)");
+  at("servers-unified-computing", "N01-UAC1=", "UCS 5108 blade chassis", "power");
+  at("servers-unified-computing", "N20-BBFLA", "UCS B420 / B440 / B460 / B480");
+  at("servers-unified-computing", "N20-BBFLA-230=", "UCS B230");
+  at("servers-unified-computing", "N20-BBLKD-7MM", "UCS B230");
+  at("servers-unified-computing", "N20-BBFLB=", "UCS B250");
+  // Q-13: the E-Series and the Services Ready Engine in servers
+  at("servers-unified-computing", "SVC-E180D-M3", "UCS E-Series", undefined, /^sku \^SVC-E/);
+  at("servers-unified-computing", "ISM-SRE-300-BUN-K9", "Services Ready Engine (ISM-SRE / SM-SRE)", "server");
+  at("servers-unified-computing", "SM-MEM-VLP-4GB=", "Services Ready Engine (ISM-SRE / SM-SRE)", "memory");
+  planned("routers", "E-SSD-U2N-4TB=", "move servers-unified-computing");
+  planned("routers", "EM3-HDA-8FXS", "move interfaces-modules");
+  // Q-11 / Q-12 / Q-6 / Q-2
+  planned("wireless", "PWR-CH1-750ACR", "move routers");
+  at("wireless", "AIR-VCU-CELLPCS12=", "MobileAccessVE");
+  at("wireless", "AIR-330-MB-2", "MobileAccessVE");
+  at("wireless", "AIR-VAPMNTG-V-KIT=", "MobileAccessVE", "mechanical");
+  at("routers", "CGR-N-CONN-WIMAX", "CGR 1000 Connected Grid", undefined, /^sku \^CGR-N-CONN-/);
+  planned("interfaces-modules", "ENC-10G-ONT-14A", "move switches");
+  // Q-23 / N-2: the carriers of a fact or a document keep their rows; the empty placeholder goes
+  at("wireless", "MR46", "Meraki MR indoor");
+  at("wireless", "C9800-L", "Catalyst 9800-L");
+  at("security", "5545-X", "ASA 5500-X (5506 / 5508 / 5512 / 5515 / 5516 / 5525 / 5545 / 5555)");
+  at("transceiver", "SFP-H10GB-CU", "DAC and AOC cables (SFP+ / SFP28 / SFP56 / QSFP / QSFP-DD)", "cable");
+  at("transceiver", "X2-10G-DWDM", "10G X2 / XENPAK / XFP (legacy)");
+  planned("wireless", "C9105AXI", "class non_product");
+  // N-1: twins share placement; the truncated token with no twin is classed
+  at("transceiver", "CPAK-100G-LR4-", "40G / 100G CFP, CFP2, CPAK and CXP");
+  at("interfaces-modules", "NM-HDV-", "NM / NME Network Modules");
+  at("collaboration-endpoints", "CAB-CAT5E-8M-", "Webex Board Series shared parts");
+  at("collaboration-endpoints", "PSU-12VDC-70W-GR-", "Webex Room Series shared parts");
+  planned("switches", "C9600-PWR-", "class non_product");
+  planned("optical-networking", "15216-MD-48-", "class non_product");
+  // N-3, Q-10, Q-15, Q-19 / Q-20, F-7
+  planned("security", "FPR4K-NM-4X40G-F=", "class non_product");
+  planned("wireless", "CW9166I-X", "class non_product");
+  planned("switches", "CBS350-8XT-xx", "class non_product");
+  planned("collaboration-endpoints", "CP-PWR-CORD-xx=", "class non_product");
+  planned("hyperconverged-infrastructure", "R2XX-DMYMPWRCORD", "class non_product");
+  planned("collaboration-endpoints", "CAB-AC2UK=", "move routers");
+  planned("storage-networking", "CAB-9K16A-EU=", "move switches");
+  planned("security", "PWR-IE50W-AC", "move switches");
+  planned("conferencing", "C-CPM", "class software");
+  // the upper-case -X model names stay hardware rows (Q-10 is never case-insensitive)
+  at("routers", "ASR1001-X", "ASR 1000");
+  at("transceiver", "SFP-10G-LR-X", "10G SFP+");
+}
+
 // SABOTAGE: each check sees a planted defect, for the stated reason.
 {
   const row = (sku: string, o: Partial<LayerRow> = {}): LayerRow => ({ sku, name: "x", series_label: "", kind: "switch", bucket: "layered", series: "A", plan: "", ...o });
   const pairs = pairDisagreements([row("ZZ-TEST-1"), row("ZZ-TEST-1=", { kind: "mechanical" })]);
   check("SABOTAGE a planted base/spare kind split is reported, naming the field", pairs.length === 1 && pairs[0].fields.join() === "kind", JSON.stringify(pairs));
+  // N-1 (re-audit decisions, 15 Sep 2026): the component PID X- and the customized model X-- are twins too, reported under the base
+  const tw1 = pairDisagreements([row("ZZ-TEST-2"), row("ZZ-TEST-2-", { series: "B" }), row("ZZ-TEST-2--"), row("ZZ-TEST-2=")]);
+  check("SABOTAGE twin rule: an X- in another series is reported under its base, and the agreeing X-- and X= are not", tw1.length === 1 && tw1[0].sku === "ZZ-TEST-2" && tw1[0].member === "ZZ-TEST-2-" && tw1[0].fields.join() === "series", JSON.stringify(tw1));
+  const tw2 = pairDisagreements([row("ZZ-TEST-3=", { plan: "class non_product", bucket: "pending_plan", series: "" }), row("ZZ-TEST-3-")]);
+  check("SABOTAGE twin rule: with no base row, the spare is the group's reference", tw2.length === 1 && tw2[0].sku === "ZZ-TEST-3=" && tw2[0].member === "ZZ-TEST-3-", JSON.stringify(tw2));
+  {
+    const { placeWithSpareRule } = await import("../src/core/productLine.js");
+    // collaboration-endpoints: CAB-CAT5E-8M (base) and = sit in Board Series shared parts by the label Spark Board, the component PID
+    // CAB-CAT5E-8M- in Room Series shared parts by the label Room Series — equal evidence, informative names: the base wins the tie
+    const trio = placeWithSpareRule("cisco", "collaboration-endpoints", [
+      { sku: "CAB-CAT5E-8M-", name: "Ethernet CAT5E Round Cable - 8 meter - Gray - SPARE (for Room Navigator)", series: "Room Series" },
+      { sku: "CAB-CAT5E-8M=", name: "Ethernet CAT5E Round Cable - 8 meter - Gray - SPARE (for Room Navigator)", series: "Spark Board" },
+      { sku: "CAB-CAT5E-8M", name: "8 meter round gray Ethernet cable for Cisco Devices", series: "Spark Board" }]);
+    check("SABOTAGE twin placement: the three members of CAB-CAT5E-8M share the base's series (Board Series shared parts)", ["CAB-CAT5E-8M-", "CAB-CAT5E-8M=", "CAB-CAT5E-8M"].every((s) => trio.get(s)?.series === "Webex Board Series shared parts"), JSON.stringify([...trio]));
+    const lone = placeWithSpareRule("cisco", "collaboration-endpoints", [{ sku: "CAB-CAT5E-8M-", name: "Ethernet CAT5E Round Cable - 8 meter - Gray - SPARE (for Room Navigator)", series: "Room Series" }]);
+    check("SABOTAGE twin placement: without its twins the component PID keeps its own placement (the rule is live, not a constant)", lone.get("CAB-CAT5E-8M-")?.series === "Webex Room Series shared parts", JSON.stringify([...lone]));
+  }
   const tw = twinGroups([row("C9200L-48P-4G"), row("C9200L-48P- 4G"), row("c9200l-48p-4g=")]);
   check("SABOTAGE a planted whitespace twin is one group of two (the spare is a different part)", tw.length === 1 && tw[0].length === 2, JSON.stringify(tw));
   // (was a planted MS120-24P claimed by the meraki mapping's MS series; the meraki round removed that series — the switches hold Meraki MS)

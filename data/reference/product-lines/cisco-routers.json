@@ -178,14 +178,16 @@
      "role": "edge",
      "sku": [
       "^C8500",
-      "^MEM-C8500-"
+      "^MEM-C8500-",
+      "^PWR-CH1-(750W?ACR|950WDCR)"
      ],
      "name": [
       "C8500(?!L)"
      ],
      "labels": [
       "Catalyst 8500"
-     ]
+     ],
+     "note": "^PWR-CH1-(750W?ACR|950WDCR) (re-audit decisions, operator, 15 Sep 2026, Q-11): the 750 W AC and 950 W DC supplies are the Catalyst 8500's (the spares here are named 'Cisco C8500 750W AC Power, Spare'); the three wireless rows PWR-CH1-750ACR / 750WACR / 950WDCR, named for the Catalyst wireless controller or for no platform, carry move plans in and land here by SKU"
     },
     {
      "series": "Catalyst 8000 Edge shared parts",
@@ -655,12 +657,14 @@
      "sku": [
       "^CGR-?1[0-9]{3}",
       "^CGM-",
-      "^CGR-PWRCORD-"
+      "^CGR-PWRCORD-",
+      "^CGR-N-CONN-"
      ],
      "labels": [
       "1000 Connected Grid"
      ],
-     "family": "Connected Grid Routers"
+     "family": "Connected Grid Routers",
+     "note": "^CGR-N-CONN- (re-audit decisions, operator, 15 Sep 2026, Q-6 — this REVERSES the operator's earlier 'WPAN with the CGR antennas'): both CGR 1000 connector kits, CGR-N-CONN-WIMAX (here by its label until now) and CGR-N-CONN-WPAN (planned in from interfaces-modules), sit in this series by SKU"
     },
     {
      "series": "CGR 2010 Connected Grid",
@@ -718,10 +722,9 @@
      "sku": [
       "^ANT-(1[.]4|1[.]8|2[.]X)-PNL-OUT",
       "^ANT-MP-INT-OUT",
-      "^CGR-N-CONN-WPAN",
       "^ANT-4G-(PNL-OUT-N|SR-OUT-TNC)"
      ],
-     "note": "layers round 3: the rows planned in from interfaces-modules land here by SKU — the Connected Grid WiMAX panel antennas and the WPAN connector (operator: CGR antennas -> routers Industrial shared parts; the WiMAX connector CGR-N-CONN-WIMAX stays in CGR 1000 by its label), and the 4G antennas ANT-4G-PNL-OUT-N / ANT-4G-SR-OUT-TNC, whose spare and siblings already sit in this shared parts. The line's other shared parts still arrive through the accessory rule"
+     "note": "layers round 3: the rows planned in from interfaces-modules land here by SKU — the Connected Grid WiMAX panel antennas (operator: CGR antennas -> routers Industrial shared parts), and the 4G antennas ANT-4G-PNL-OUT-N / ANT-4G-SR-OUT-TNC, whose spare and siblings already sit in this shared parts. The line's other shared parts still arrive through the accessory rule. ^CGR-N-CONN-WPAN removed (re-audit decisions, operator, 15 Sep 2026, Q-6): the WPAN connector kit goes to CGR 1000 beside its WiMAX sibling"
     }
    ],
    "no_family_reason": "Cisco names IR 1101, 1800, 8100, 8300, 800, IR 500 WPAN, the Catalyst / LoRaWAN gateways and the IC3000 compute gateway as separate series"

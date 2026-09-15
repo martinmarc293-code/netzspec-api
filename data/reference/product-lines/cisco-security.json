@@ -127,8 +127,10 @@
      "sku": [
       "^ASA-?5585",
       "^ASA-SSP",
-      "^ASA-IPS"
-     ]
+      "^ASA-IPS",
+      "^ASA-CX[0-9]+-INC-K8"
+     ],
+     "note": "^ASA-CX[0-9]+-INC-K8 (re-audit decisions, operator, 15 Sep 2026, F-1): ASA-CX10 / 20 / 40 / 60-INC-K8 'ASA 5585-X CX SSP-10 … SSP-60' are security service processors of this platform alone (A.3 rule 1); they sat in ASA and ISA shared parts by ^ASA"
     },
     {
      "series": "ASA 5580",
@@ -139,11 +141,14 @@
     {
      "series": "ASA 5500-X (5506 / 5508 / 5512 / 5515 / 5516 / 5525 / 5545 / 5555)",
      "sku": [
-      "^ASA-?55(0[68]|1[256]|25|45|55)"
+      "^ASA-?55(0[68]|1[256]|25|45|55)",
+      "^ASA-IC-6GE",
+      "^55(1[256]|25|45|55)-X$"
      ],
      "labels": [
       "5500-X ASA with Firepower"
-     ]
+     ],
+     "note": "re-audit decisions (operator, 15 Sep 2026): ^ASA-IC-6GE (F-1) places the ASA-IC-6GE-CU / -SFP / -6GECU-INC interface cards 'for ASA 5512-X / 5515-X / 5525-X / 5545-X / 5555-X', cards of this series alone (A.3 rule 1), which sat in ASA and ISA shared parts by ^ASA; their blank slot covers (ASA-IC-A / B / C-BLANK) are accessories and wait for the reverse label check (Q-27). ^55(1[256]|25|45|55)-X$ (Q-23): the bare model rows 5515-X / 5525-X / 5545-X carry a document each, so they stay as the family's rows (class plans removed)"
     },
     {
      "series": "ASA 5500 (5505 / 5510 / 5520 / 5540 / 5550)",

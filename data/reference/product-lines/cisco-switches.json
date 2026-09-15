@@ -511,13 +511,12 @@
      "series": "Catalyst PON",
      "role": "access",
      "sku": [
-      "^CGP-(OLT|ONT)",
-      "^ENC-10G-ONT"
+      "^CGP-(OLT|ONT)"
      ],
      "labels": [
       "PON Series"
      ],
-     "note": "the rule names the OLT and ONT devices: the bare ^CGP- also claimed the Catalyst PON OLT optic CGP-SFP-OC(=), which is a transceiver (reviewer A-8, layers round 3). ^ENC-10G-ONT: the six XGS-PON ONTs planned in from interfaces-modules, with CGP-ONT's kind (switch) and flag (sw.issue.ont) — operator, layers round 3: 'ENC-10G-ONT goes to Catalyst PON only if the rows are ONT devices'; they are. Decision pending: Cisco names them '10G Routed PON ONT' (data sheet filed under transceiver modules; their OLT is the SFP-10G-OLT pluggable in transceiver), not Catalyst PON — keep them in this series, or open a Routed PON series?"
+     "note": "the rule names the OLT and ONT devices: the bare ^CGP- also claimed the Catalyst PON OLT optic CGP-SFP-OC(=), which is a transceiver (reviewer A-8, layers round 3). ^ENC-10G-ONT removed (re-audit decisions, operator, 15 Sep 2026, Q-2): the six XGS-PON ONTs are Cisco's '10G Routed PON ONT' (their OLT is the SFP-10G-OLT pluggable), not Catalyst PON — they land in the Routed PON line"
     },
     {
      "series": "Redundant Power System",
@@ -535,6 +534,18 @@
     }
    ],
    "no_family_reason": "Cisco names Catalyst 6500, 4900, 3850, 3650, 1000, 1200, 1300, Micro, Digital Building and PON as series with no family above them; Redundant Power System is an accessory series"
+  },
+  {
+   "line": "Routed PON",
+   "series": [
+    {
+     "series": "10G Routed PON ONT",
+     "sku": [
+      "^ENC-10G-ONT"
+     ],
+     "note": "re-audit decisions (operator, 15 Sep 2026, Q-2): ENC-10G-ONT-01PR / -10 / -14A (with spares), Cisco's '10G Routed PON ONT' — XGS-PON ONTs of the Routed PON solution, whose OLT is the SFP-10G-OLT20-X pluggable in transceiver; a different product from Catalyst PON (CGP-), so a line of its own and no deploy role. They are planned in from interfaces-modules. Kind: the decision is `ont`; the switches kind axis has no `ont` noun and a new noun needs its cup set, so the change waits for the parked kind rebuild (Q-28) — until then they read switch with CGP-ONT's flag"
+    }
+   ]
   },
   {
    "line": "Nexus",

@@ -314,10 +314,10 @@
     {
      "series": "Aironet Access Points shared parts",
      "sku": [
-      "^AIR-(AP(?!-VBLE|[0-9]{4}[A-Z]-WLC)|VAP|ACC|MOD|BLE|BAND|CHNL|SFP)",
+      "^AIR-(AP(?!-VBLE|[0-9]{4}[A-Z]-WLC)|ACC|MOD|BLE|BAND|CHNL|SFP)",
       "^AIR-RM30"
      ],
-     "note": "^AIR-RM30 (layers round 3): the AIR-RM3000M Wireless Security and Spectrum Intelligence modules and AIR-RM3010L Hyperlocation modules of the Aironet 3600 / 3700, planned in from interfaces-modules (operator: AIR-RM radio modules -> wireless, kind module). AP(?!-VBLE) leaves AIR-AP-VBLE-ADPTR= to the VBLE series below"
+     "note": "^AIR-RM30 (layers round 3): the AIR-RM3000M Wireless Security and Spectrum Intelligence modules and AIR-RM3010L Hyperlocation modules of the Aironet 3600 / 3700, planned in from interfaces-modules (operator: AIR-RM radio modules -> wireless, kind module). AP(?!-VBLE) leaves AIR-AP-VBLE-ADPTR= to the VBLE series below. VAP removed from the first rule (re-audit decisions, operator, 15 Sep 2026, Q-12): the AIR-VAP- access pods and mounting kits are MobileAccessVE rows, placed in their own series"
     }
    ],
    "no_family_reason": "Cisco names each Aironet series by its number (\"Cisco Aironet 2800 Series\", \"Cisco Aironet 1560 Series\") with no family between the Aironet line and the series"
@@ -596,10 +596,18 @@
      "note": "^AIR-AP[0-9]{4}[A-Z]-WLC (layers round 3): AIR-AP1702I-WLC / AIR-AP2702I-WLC / AIR-AP3702I-WLC 'Bundle 2 AP…I and WLC2504 with 25 licenses' sat in the Aironet shared parts"
     },
     {
+     "series": "MobileAccessVE",
+     "sku": [
+      "^AIR-330-",
+      "^AIR-VAP",
+      "^AIR-VCU-"
+     ],
+     "note": "re-audit decisions (operator, 15 Sep 2026, Q-12 / F-12): Cisco MobileAccessVE, the in-building cellular units sold as AIR- PIDs — the main, remote and expansion building units (AIR-330-), the access pods for CELL / PCS bands (AIR-VAP-CELLPCS) with their mounting kits (AIR-VAPMNTG-H / -V-KIT=) and the 12-port control unit (AIR-VCU-CELLPCS12). They sat in the AireOS controllers' and the Aironet access points' shared parts with kind unknown. The series carries no vendor in its name (the rows name none). Kind: the operator decided `device` for the units; `device` is not a noun of the wireless kind axis and a new noun needs its cup set, so the kind change waits for the parked kind rebuild (Q-28) and the units stay `unknown` until then"
+    },
+    {
      "series": "AireOS Wireless LAN Controllers shared parts",
      "sku": [
-      "^AIR-(CT|WLC|VPN)",
-      "^AIR-330-"
+      "^AIR-(CT|WLC|VPN)"
      ]
     }
    ],
@@ -677,9 +685,9 @@
      "sku": [
       "^AIR-PWR",
       "^AIR-CORD",
-      "^PWR-(CAB-(JPN-|INT-0[.]7M)|115W-AC|2504-AC|750WACR-RED|CH1-(750W?ACR|950WDCR)|RPS-DC1)"
+      "^PWR-(CAB-(JPN-|INT-0[.]7M)|115W-AC|2504-AC|750WACR-RED|RPS-DC1)"
      ],
-     "note": "^PWR- fenced to the wireless rows it holds (layers round 3; operator: claimant-rule-too-broad, fixed in the wireless round): the 3504 / 2504 controller supplies, the Catalyst wireless controller 750 W / 950 W supplies PWR-CH1-750ACR / 750WACR / 950WDCR (the other PWR-CH1- supplies are routers'), the internal C13-C14 cords and PWR-RPS-DC1=. The INT cords are fenced to the 0.7 m length wireless holds (collaboration-endpoints round): the 0.2 / 0.22 / 0.6 / 1.3 / 1.4 / 1.45 / 1.85 / 3.0 m INT cords are Room and TelePresence parts (Room Panorama and Room Kit EQX amp-to-camera cables, TelePresence C13-C14 jumpers) and stay in collaboration-endpoints"
+     "note": "^PWR- fenced to the wireless rows it holds (layers round 3; operator: claimant-rule-too-broad, fixed in the wireless round): the 3504 / 2504 controller supplies, the internal C13-C14 cords and PWR-RPS-DC1=. CH1-(750W?ACR|950WDCR) removed (re-audit decisions, operator, 15 Sep 2026, Q-11): the PWR-CH1 750 W / 950 W supplies are the Catalyst 8500's (their spares in routers are named 'Cisco C8500 750W AC Power'); the three wireless rows PWR-CH1-750ACR / 750WACR / 950WDCR carry move plans to routers Catalyst 8500. The INT cords are fenced to the 0.7 m length wireless holds (collaboration-endpoints round): the 0.2 / 0.22 / 0.6 / 1.3 / 1.4 / 1.45 / 1.85 / 3.0 m INT cords are Room and TelePresence parts (Room Panorama and Room Kit EQX amp-to-camera cables, TelePresence C13-C14 jumpers) and stay in collaboration-endpoints"
     },
     {
      "series": "Cables",

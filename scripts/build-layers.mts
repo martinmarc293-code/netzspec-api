@@ -12,7 +12,7 @@ import path from "node:path";
 import { REPO_ROOT } from "../src/config.js";
 import { partKind } from "../src/core/partKind.js";
 import { deployRoleResult } from "../src/core/deployRole.js";
-import { lineFilePath, loadLineFile, placeWithSpareRule, familyOf, SHARED_PARTS, type Placement } from "../src/core/productLine.js";
+import { lineFilePath, loadLineFile, placeWithSpareRule, familyOf, twinKey, SHARED_PARTS, type Placement } from "../src/core/productLine.js";
 import { labelEvidence, type LabelEvidence } from "../src/core/labelEvidence.js";
 
 // layer 3 of a line-level shared-parts row (operator, 14 Sep 2026): explicit, never blank — the part fits several families of the
@@ -151,9 +151,10 @@ function build(cat: string): Tree {
       const ln = loaded.file.lines.find((l) => l.line === p.line)!;
       evidence.set(r.sku, labelEvidence(r, p.series, { family: familyOf(loaded, p.series), siblings: ln.series.map((s) => ({ series: s.series, family: s.family?.trim() || null })) }, partners.get(r.id)));
     }
-    // the spare rule holds here too: X and X= share one placement, so a pair keeps its series when EITHER member is evidenced
+    // the spare rule holds here too: X and X= share one placement, so a pair keeps its series when EITHER member is evidenced —
+    // and so do X- and X-- (the twin rule, re-audit decisions N-1, 15 Sep 2026)
     const byBase = new Map<string, string[]>();
-    for (const sku of evidence.keys()) { const k = sku.toUpperCase().trim().replace(/=+$/, ""); byBase.set(k, [...(byBase.get(k) ?? []), sku]); }
+    for (const sku of evidence.keys()) { const k = twinKey(sku); byBase.set(k, [...(byBase.get(k) ?? []), sku]); }
     for (const members of byBase.values()) {
       const good = members.find((m) => evidence.get(m)!.kind !== "none");
       if (!good) continue;
@@ -211,7 +212,10 @@ function build(cat: string): Tree {
     const inbound = allPlans.filter((x) => x.action === "move" && x.to === cat && x.category !== cat && (x.run_id ?? null) === null);
     const fromOf = new Map(inbound.map((x) => [`${x.category}|${x.sku.trim().toUpperCase()}`, x.category]));
     const inRows = rows.filter((r) => r.category !== cat && fromOf.has(`${r.category}|${r.sku.trim().toUpperCase()}`));
-    const inPlaced = placeWithSpareRule(vendor, cat, inRows, loaded);
+    // placed together with this page's own unplanned rows, so an arriving spare joins its layered twin (the twin rule, re-audit
+    // decisions N-1 / Q-20, 15 Sep 2026) as it will when the move has run and the page is rebuilt
+    const stay = mine.filter((r) => !planOf.has(`${cat}|${r.sku.trim().toUpperCase()}`));
+    const inPlaced = placeWithSpareRule(vendor, cat, [...stay, ...inRows], loaded);
     for (const r of inRows) {
       const from = fromOf.get(`${r.category}|${r.sku.trim().toUpperCase()}`)!, q = inPlaced.get(r.sku) ?? null;
       if (!q || q.line === "(not this category)") { tree.inbound_unplaced[from] = (tree.inbound_unplaced[from] ?? 0) + 1; continue; }
