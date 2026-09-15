@@ -6360,7 +6360,7 @@ TA-N9K-C9372PX-E	Nexus 9372PX-E with 48p 10G SFP+ and 6p 40G QSFP+	Nexus 9000	sw
 TA-N9K-C9372PX-E=	Nexus 9372PX-E with 48p 10G SFP+ and 6p 40G QSFP+	Nexus 9000	switch	layered	Nexus	Nexus 9000	Nexus 9300	sku ^TA-(N9K-)?C93	datacenter	series:Nexus 9300				
 TA-N9K-C9372TX-E	Nexus 9372TX-E with 48p 1/10G-T and 6p 40G QSFP+	Nexus 9000	switch	layered	Nexus	Nexus 9000	Nexus 9300	sku ^TA-(N9K-)?C93	datacenter	series:Nexus 9300				
 TA-N9K-C9372TX-E=	Nexus 9372TX-E with 48p 1/10G-T and 6p 40G QSFP+	Nexus 9000	switch	layered	Nexus	Nexus 9000	Nexus 9300	sku ^TA-(N9K-)?C93	datacenter	series:Nexus 9300				
-UCS-PSU-6332-DC=	N9K 930W DC Power Supply, Reversed airflow (port side exhaust), Spare	Nexus 3000	power	layered	Nexus	(shared across the line)	Nexus shared parts	label-unsupported (label Nexus 3000; was Nexus 3016 / 3048 / 3064 / 3100 / 3200 / 3400): no platform token (3016, 3048, 3064, 3100, 3200, 3400) in the SKU or name, no compatible part placed in the series						none: no platform token (3016, 3048, 3064, 3100, 3200, 3400) in the SKU or name, no compatible part placed in the series
+UCS-PSU-6332-DC=	N9K 930W DC Power Supply, Reversed airflow (port side exhaust), Spare	Nexus 3000	power	pending_plan								move servers-unified-computing		
 UCSC-PSU-930WDC	N9K 930W DC Power Supply, Forward airflow (port side intake)	Nexus 9000	power	layered	Nexus	Nexus 9000	Nexus 9000 shared parts	label Nexus 9000						name: N9K
 UCSC-PSU-930WDC=	N9K 930W DC Power Supply, Forward airflow (port side intake), Spare	Nexus 3000	power	layered	Nexus	Nexus 9000	Nexus 9000 shared parts	label Nexus 9000						name: N9K
 USB-X45-4GB-E=	Catalyst 4500 4GB USB device for Sup7-E	Catalyst 4500	flash	layered	Catalyst	Catalyst 4500	Catalyst 4500-E	sku ^(SD|USB)-X45-						

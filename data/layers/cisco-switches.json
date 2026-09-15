@@ -1,8 +1,8 @@
 {
  "vendor": "cisco",
  "category": "switches",
- "built_at": "2026-09-15T08:51:16.366Z",
- "commit": "0daee011dae9de6c3b9e762847ffd00c9db08da5",
+ "built_at": "2026-09-15T10:08:27.901Z",
+ "commit": "559872d6c2208280b56044c28bc503c091e43b85",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-switches.json",
  "parts": 7507,
@@ -1086,7 +1086,7 @@
   },
   {
    "line": "Nexus",
-   "parts": 1867,
+   "parts": 1866,
    "series": [
     {
      "series": "Nexus 2000 Fabric Extenders",
@@ -1603,7 +1603,7 @@
      "family": "(shared across the line)",
      "role": null,
      "note": null,
-     "parts": 65,
+     "parts": 64,
      "kinds": {
       "cable": 2,
       "power-cord": 32,
@@ -1611,7 +1611,7 @@
       "accessory": 2,
       "mechanical": 13,
       "linecard": 4,
-      "power": 3
+      "power": 2
      },
      "roles": {},
      "samples": [
@@ -1624,7 +1624,7 @@
      ],
      "rules": {
       "accessory": 38,
-      "label-unsupported": 27
+      "label-unsupported": 26
      },
      "pending_in": {}
     }
@@ -4904,6 +4904,14 @@
    "reason": "third-party (Panduit) cabling part number cited in a Catalyst 9300 datasheet, not a Cisco PID; switchKind names it `accessory` until the class change runs"
   },
   {
+   "sku": "UCS-PSU-6332-DC=",
+   "name": "N9K 930W DC Power Supply, Reversed airflow (port side exhaust), Spare",
+   "series_label": "Nexus 3000",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "the spare of UCS-PSU-6332-DC, which servers-unified-computing holds in UCS 6300 Fabric Interconnects with its nine UCS-PSU-6332-* siblings: the spare rule puts X and X= in one series, and A.3 rule 1 puts a platform-bound part with its platform (the UCS 6332 fabric interconnect) — the switches round's 'correctly filed here' entry is withdrawn (layers round 3, servers + hyperconverged round)"
+  },
+  {
    "sku": "UTP28X3BU",
    "name": "Cisco UTP28X3BU",
    "series_label": "Catalyst 9300",
@@ -4947,9 +4955,9 @@
  "unplaced": [],
  "label_check": {
   "applied": true,
-  "label_placed": 379,
+  "label_placed": 378,
   "by_kind": {
-   "none": 208,
+   "none": 207,
    "sku-token": 27,
    "name": 143,
    "family": 1
@@ -6562,14 +6570,6 @@
     "from_series": "IE 3400",
     "to_series": "Industrial Ethernet shared parts",
     "why": "no platform token (3400) in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "UCS-PSU-6332-DC=",
-    "name": "N9K 930W DC Power Supply, Reversed airflow (port side exhaust), Spare",
-    "series_label": "Nexus 3000",
-    "from_series": "Nexus 3016 / 3048 / 3064 / 3100 / 3200 / 3400",
-    "to_series": "Nexus shared parts",
-    "why": "no platform token (3016, 3048, 3064, 3100, 3200, 3400) in the SKU or name, no compatible part placed in the series"
    },
    {
     "sku": "WS-UPOE-12VPSPL",

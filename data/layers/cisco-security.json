@@ -1,8 +1,8 @@
 {
  "vendor": "cisco",
  "category": "security",
- "built_at": "2026-09-15T08:51:19.043Z",
- "commit": "0daee011dae9de6c3b9e762847ffd00c9db08da5",
+ "built_at": "2026-09-15T10:08:31.771Z",
+ "commit": "559872d6c2208280b56044c28bc503c091e43b85",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-security.json",
  "parts": 1990,
@@ -958,7 +958,9 @@
      "rules": {
       "sku": 70
      },
-     "pending_in": {}
+     "pending_in": {
+      "servers-unified-computing": 1
+     }
     },
     {
      "series": "Secure Malware Analytics shared parts",
@@ -1015,6 +1017,26 @@
       "sku": 36
      },
      "pending_in": {}
+    }
+   ]
+  },
+  {
+   "line": "Duo",
+   "parts": 0,
+   "series": [
+    {
+     "series": "Duo hardware tokens",
+     "family": null,
+     "role": null,
+     "note": "layers round 3 (servers round): DUO-TOKEN-10PACK 'A hardware token used with a Cisco Duo subscription (10 pack)', planned in from servers-unified-computing; the Duo subscriptions filed beside it are class plans (licence), not hardware",
+     "parts": 0,
+     "kinds": {},
+     "roles": {},
+     "samples": [],
+     "rules": {},
+     "pending_in": {
+      "servers-unified-computing": 1
+     }
     }
    ]
   },
@@ -1221,8 +1243,6 @@
   "moved": []
  },
  "pending_review": [],
- "inbound_unplaced": {
-  "servers-unified-computing": 1
- },
+ "inbound_unplaced": {},
  "done": true
 }

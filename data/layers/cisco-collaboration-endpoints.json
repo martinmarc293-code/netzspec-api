@@ -1,8 +1,8 @@
 {
  "vendor": "cisco",
  "category": "collaboration-endpoints",
- "built_at": "2026-09-15T08:51:18.627Z",
- "commit": "0daee011dae9de6c3b9e762847ffd00c9db08da5",
+ "built_at": "2026-09-15T10:08:30.804Z",
+ "commit": "559872d6c2208280b56044c28bc503c091e43b85",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-collaboration-endpoints.json",
  "parts": 2835,
@@ -1478,7 +1478,7 @@
      "series": "IP Phones shared parts",
      "family": "(shared across the line)",
      "role": null,
-     "note": null,
+     "note": "^CIUS-BATTERY (layers round 3, servers round): CIUS-BATTERY=, the Cius tablet endpoint's battery planned in from servers-unified-computing; the catalogue holds no Cius endpoint to give it a series",
      "parts": 194,
      "kinds": {
       "power-cord": 27,
@@ -1502,7 +1502,9 @@
       "accessory": 6,
       "sku": 188
      },
-     "pending_in": {}
+     "pending_in": {
+      "servers-unified-computing": 1
+     }
     }
    ]
   },
@@ -1708,8 +1710,7 @@
  },
  "pending_review": [],
  "inbound_unplaced": {
-  "conferencing": 69,
-  "servers-unified-computing": 1
+  "conferencing": 69
  },
  "done": true
 }

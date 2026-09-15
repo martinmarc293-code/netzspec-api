@@ -1,25 +1,25 @@
 {
  "vendor": "cisco",
  "category": "hyperconverged-infrastructure",
- "built_at": "2026-09-15T08:51:19.680Z",
- "commit": "0daee011dae9de6c3b9e762847ffd00c9db08da5",
+ "built_at": "2026-09-15T10:08:32.525Z",
+ "commit": "559872d6c2208280b56044c28bc503c091e43b85",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-hyperconverged-infrastructure.json",
  "parts": 786,
  "lines": [
   {
    "line": "Compute Hyperconverged with VMware vSAN",
-   "parts": 13,
+   "parts": 12,
    "series": [
     {
      "series": "vSAN nodes (C220 / C225 / C240 / C245 / X210c / X215c)",
      "family": null,
      "role": null,
-     "note": null,
-     "parts": 13,
+     "note": "^HC[IO].*VSAN (layers round 3): the bare VSAN rule decides HCI-M8-VSAN-MLB and HCIX-M8-VSAN-MLB and claimed seven UCS vSAN bundles in servers-unified-computing (UCS-SA-VSAN-EXP-DP, UCS-SPL-VSAN1 …)",
+     "parts": 12,
      "kinds": {
       "bundle": 2,
-      "server": 11
+      "server": 10
      },
      "roles": {},
      "samples": [
@@ -31,7 +31,7 @@
       "HCIVS240C-M8SN — Cisco Compute Hyperconverged C240 M8 2RU standard rack serve"
      ],
      "rules": {
-      "sku": 13
+      "sku": 12
      },
      "pending_in": {}
     }
@@ -39,7 +39,7 @@
   },
   {
    "line": "Compute Hyperconverged with Nutanix",
-   "parts": 722,
+   "parts": 721,
    "series": [
     {
      "series": "HCI XE-Series (XE130c / XE9305)",
@@ -63,29 +63,31 @@
      "rules": {
       "sku": 6
      },
-     "pending_in": {}
+     "pending_in": {
+      "servers-unified-computing": 4
+     }
     },
     {
-     "series": "HCIX X-Series (X210c / X215c / X9508)",
+     "series": "HCIX X-Series (X210c / X215c / X440p / X9508)",
      "family": null,
      "role": null,
-     "note": null,
-     "parts": 16,
+     "note": "^HCIX-(210|215) removed in layers round 3: ^HC[IO]X(NX|AF|F)?-?21[05]C decides both rows it matched. ^HC[IO]X-440P (layers round 3): HCIX-440P / -U, the X440p PCIe node of the X9508 (named only by their SKUs; kind server), sat in the line's shared parts — the device check names a server there",
+     "parts": 18,
      "kinds": {
-      "server": 13,
+      "server": 15,
       "chassis": 3
      },
      "roles": {},
      "samples": [
       "HCIX-210C-M7 — Cisco Compute Hyperconverged X210c M7 Node w/o CPU, memory, ",
       "HCIX-210C-M7-U — Cisco Compute Hyperconverged X210c M7 Node UPG w/o CPU, memo",
+      "HCIX-440P — Cisco HCIX-440P",
+      "HCIX-440P-U — Cisco HCIX-440P-U",
       "HCIX-9508-CH — DISTI: Cisco UCS X9508 Chassis",
-      "HCIX-9508-U — Cisco Compute Hyperconverged X9508 Server Chassis configured",
-      "HCIX-9508= — Cisco HCIX-9508=",
-      "HCIX210C-M7SN — Cisco HCIX210C-M7SN"
+      "HCIX-9508-U — Cisco Compute Hyperconverged X9508 Server Chassis configured"
      ],
      "rules": {
-      "sku": 16
+      "sku": 18
      },
      "pending_in": {}
     },
@@ -93,10 +95,10 @@
      "series": "HCI fabric interconnects and X-Fabric",
      "family": null,
      "role": null,
-     "note": null,
-     "parts": 12,
+     "note": "^HC[IO]X-S9108 (layers round 3): HCIX-S9108-100G 'Cisco UCS Fabric Interconnect 9108 100G' and HCIX-S9108-SW sat in the line's shared parts with kind fabric-interconnect",
+     "parts": 14,
      "kinds": {
-      "fabric-interconnect": 5,
+      "fabric-interconnect": 7,
       "power": 4,
       "io-module": 3
      },
@@ -110,34 +112,36 @@
       "HCI-PSU-6332-ACM6 — UCS 6332/ 6454 Power Supply/100-240VAC"
      ],
      "rules": {
-      "sku": 12
+      "sku": 14
      },
-     "pending_in": {}
+     "pending_in": {
+      "servers-unified-computing": 15
+     }
     },
     {
      "series": "HCI C220 nodes",
      "family": null,
      "role": null,
-     "note": null,
-     "parts": 21,
+     "note": "layers round 3: the two model rules are fenced to the prefixes of the rows they decide (HCI- and the one UCSC-R2R3-C220M6 for 220M; HCI- for C220 — the other row it decided, 'C220/C240/B200', is a family placeholder with a class plan); unfenced they claimed the C220-based parts of the 5520 controller, CMX / MSE and IEC6400 in wireless, XRV-FAN-C220M4= in routers, and the UCS C220 rows of servers-unified-computing and hyperconverged-systems",
+     "parts": 20,
      "kinds": {
-      "server": 13,
       "mechanical": 3,
       "accessory": 2,
       "gpu": 2,
-      "storage-controller": 1
+      "storage-controller": 1,
+      "server": 12
      },
      "roles": {},
      "samples": [
-      "C220/C240/B200 — Cisco C220/C240/B200",
       "HCI-BZL-C220-M6 — C220 M6 Security Bezel",
       "HCI-BZL-C220-M6= — C220 M6 Security Bezel",
       "HCI-CMA-C220M6 — Reversible CMA for C220 M6 ball bearing rail kit",
       "HCI-CMA-C220M7 — Cisco HCI-CMA-C220M7",
-      "HCI-GPURKIT-C220 — GPU Riser Bracket assy kit C220 / C225 1U"
+      "HCI-GPURKIT-C220 — GPU Riser Bracket assy kit C220 / C225 1U",
+      "HCI-GPURKIT-C220= — GPU Riser Bracket assy kit C220 / C225 1U"
      ],
      "rules": {
-      "sku": 21
+      "sku": 20
      },
      "pending_in": {}
     },
@@ -145,11 +149,11 @@
      "series": "HCI C225 nodes",
      "family": null,
      "role": null,
-     "note": null,
-     "parts": 9,
+     "note": "layers round 3: ^HC[IO]X? — HCOXNX225C-M8SN / -U 'Cisco Compute-Only C225 M8 Node' sat in the line's shared parts (servers in shared parts); the 225M rule is fenced to the HCI- rows it decides (unfenced it claimed UCS C225 rows of servers-unified-computing and hyperconverged-systems)",
+     "parts": 11,
      "kinds": {
       "accessory": 7,
-      "server": 2
+      "server": 4
      },
      "roles": {},
      "samples": [
@@ -161,7 +165,7 @@
       "HCI-RIS3A-225M8 — Cisco HCI-RIS3A-225M8"
      ],
      "rules": {
-      "sku": 9
+      "sku": 11
      },
      "pending_in": {}
     },
@@ -169,7 +173,7 @@
      "series": "HCI C240 nodes",
      "family": null,
      "role": null,
-     "note": null,
+     "note": "the C240 alternative was removed in layers round 3: it decided none of its 5 matches and claimed 301 servers, 29 hyperconverged-systems and 3 wireless rows. The 240M rule is fenced in the same round to the prefixes of the rows it decides (HCI- and UCSC-RIS2A-240M6)",
      "parts": 29,
      "kinds": {
       "drive": 2,
@@ -197,7 +201,7 @@
      "family": "(shared across the line)",
      "role": null,
      "note": null,
-     "parts": 629,
+     "parts": 623,
      "kinds": {
       "cable": 16,
       "cpu": 168,
@@ -211,10 +215,9 @@
       "power": 14,
       "mechanical": 2,
       "tpm": 11,
-      "server": 5,
       "io-module": 4,
       "unknown": 2,
-      "fabric-interconnect": 2
+      "non-product": 1
      },
      "roles": {},
      "samples": [
@@ -227,10 +230,12 @@
      ],
      "rules": {
       "accessory": 14,
-      "sku": 518,
+      "sku": 512,
       "label": 97
      },
-     "pending_in": {}
+     "pending_in": {
+      "servers-unified-computing": 463
+     }
     }
    ]
   }
@@ -414,6 +419,14 @@
    "reason": "datasheet cell value or fragment enumerated as a part"
   },
   {
+   "sku": "C220/C240/B200",
+   "name": "Cisco C220/C240/B200",
+   "series_label": "Compute Hyperconverged Nutanix",
+   "action": "class",
+   "to": "non_product",
+   "reason": "family placeholder: a slash list of bare model SKUs named 'Cisco <SKU>' — a datasheet cell naming the C220, C240 and B200 platforms, not an orderable PID (the datasheet-cell rule, extended in layers round 3)"
+  },
+  {
    "sku": "CX6Lx",
    "name": "Cisco CX6Lx",
    "series_label": "Compute Hyperconverged Nutanix",
@@ -508,6 +521,14 @@
    "action": "class",
    "to": "software",
    "reason": "software, a subscription or a software option"
+  },
+  {
+   "sku": "HCIXVS215C",
+   "name": "Cisco HCIXVS215C",
+   "series_label": "Compute Hyperconverged Nutanix",
+   "action": "class",
+   "to": "non_product",
+   "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)"
   },
   {
    "sku": "HCO-EXTSTG-IMM",
@@ -648,7 +669,7 @@
  ],
  "unplaced": [],
  "label_check": {
-  "applied": false,
+  "applied": true,
   "label_placed": 0,
   "by_kind": {},
   "moved": []
