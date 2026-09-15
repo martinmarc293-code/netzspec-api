@@ -38663,5 +38663,148 @@
   "reason": "an Advanced Integration Module (AIM), the internal module slot of the 2600XM / 2800 / 3700 / 3800 routers: A.3 rule 1 puts a multi-platform router card in interfaces-modules, whose series 'AIM (Advanced Integration Modules)' also receives AIM-DES/BP from security (layers round 3, security round)",
   "evidence": "name \"Cisco AIM-VOICE-30\" · label \"2900 ISR\" · today layered in ISR (Integrated Services Routers) shared parts (label-unsupported (label 2900 ISR; was ISR 2900): no platform token (2900) in the SKU or name, no compatible part placed in the series)",
   "planned_by": "parent 15 Sep 2026 (layers round 3, security block — operator instructions of 14 Sep 2026 night, unattended)"
+ },
+ {
+  "sku": "ONS-CFP2-ACO-BDL",
+  "category": "optical-networking",
+  "action": "move",
+  "to": "transceiver",
+  "run_id": null,
+  "expected_kind_after": "tunable",
+  "reason": "a bundle of WDM CFP2 pluggables (with their licence where named): the operator's packs decision (transceiver round, decision 6) keeps a pack of optics in transceiver with the unit's kind — the unit, ONS-CFP2-WDM / -WDM2, is a transceiver `tunable`, and the pluggables filed beside these bundles already carry plans there (layers round 3, optical round)",
+  "evidence": "name \"WDM CFP2 Pluggable Bundle - Licensed - No Feature\" · label \"ONS 15454 Series Multiservice Transport Platforms\" · today layered in ONS 15454 MSTP (M2 / M6 / M12 shelves and cards) (label ONS 15454 Series Multiservice Transport Platforms)",
+  "planned_by": "parent 15 Sep 2026 (layers round 3, optical-networking block — operator instructions of 14 Sep 2026 night, unattended)"
+ },
+ {
+  "sku": "ONS-CFP2-BUN-SK",
+  "category": "optical-networking",
+  "action": "move",
+  "to": "transceiver",
+  "run_id": null,
+  "expected_kind_after": "tunable",
+  "reason": "a bundle of WDM CFP2 pluggables (with their licence where named): the operator's packs decision (transceiver round, decision 6) keeps a pack of optics in transceiver with the unit's kind — the unit, ONS-CFP2-WDM / -WDM2, is a transceiver `tunable`, and the pluggables filed beside these bundles already carry plans there (layers round 3, optical round)",
+  "evidence": "name \"1X CFP2-WDM - 1X LIC\" · label \"ONS 15454 Series Multiservice Transport Platforms\" · today layered in ONS 15454 MSTP (M2 / M6 / M12 shelves and cards) (label ONS 15454 Series Multiservice Transport Platforms)",
+  "planned_by": "parent 15 Sep 2026 (layers round 3, optical-networking block — operator instructions of 14 Sep 2026 night, unattended)"
+ },
+ {
+  "sku": "ONS-CFP2-BUN2-SK",
+  "category": "optical-networking",
+  "action": "move",
+  "to": "transceiver",
+  "run_id": null,
+  "expected_kind_after": "tunable",
+  "reason": "a bundle of WDM CFP2 pluggables (with their licence where named): the operator's packs decision (transceiver round, decision 6) keeps a pack of optics in transceiver with the unit's kind — the unit, ONS-CFP2-WDM / -WDM2, is a transceiver `tunable`, and the pluggables filed beside these bundles already carry plans there (layers round 3, optical round)",
+  "evidence": "name \"Cisco ONS-CFP2-BUN2-SK\" · label \"ONS 15454 Series Multiservice Transport Platforms\" · today layered in ONS 15454 MSTP (M2 / M6 / M12 shelves and cards) (label ONS 15454 Series Multiservice Transport Platforms)",
+  "planned_by": "parent 15 Sep 2026 (layers round 3, optical-networking block — operator instructions of 14 Sep 2026 night, unattended)"
+ },
+ {
+  "sku": "ONS-CFP2WDM-BUN",
+  "category": "optical-networking",
+  "action": "move",
+  "to": "transceiver",
+  "run_id": null,
+  "expected_kind_after": "tunable",
+  "reason": "a bundle of WDM CFP2 pluggables (with their licence where named): the operator's packs decision (transceiver round, decision 6) keeps a pack of optics in transceiver with the unit's kind — the unit, ONS-CFP2-WDM / -WDM2, is a transceiver `tunable`, and the pluggables filed beside these bundles already carry plans there (layers round 3, optical round)",
+  "evidence": "name \"10 x ONS-CFP2-WDM Bundle\" · label \"ONS 15454 Series Multiservice Transport Platforms\" · today layered in ONS 15454 MSTP (M2 / M6 / M12 shelves and cards) (label ONS 15454 Series Multiservice Transport Platforms)",
+  "planned_by": "parent 15 Sep 2026 (layers round 3, optical-networking block — operator instructions of 14 Sep 2026 night, unattended)"
+ },
+ {
+  "sku": "ONS-CFP2WDM-BUN4",
+  "category": "optical-networking",
+  "action": "move",
+  "to": "transceiver",
+  "run_id": null,
+  "expected_kind_after": "tunable",
+  "reason": "a bundle of WDM CFP2 pluggables (with their licence where named): the operator's packs decision (transceiver round, decision 6) keeps a pack of optics in transceiver with the unit's kind — the unit, ONS-CFP2-WDM / -WDM2, is a transceiver `tunable`, and the pluggables filed beside these bundles already carry plans there (layers round 3, optical round)",
+  "evidence": "name \"4 x ONS-CFP2-WDM Bundle\" · label \"ONS 15454 Series Multiservice Transport Platforms\" · today layered in ONS 15454 MSTP (M2 / M6 / M12 shelves and cards) (label ONS 15454 Series Multiservice Transport Platforms)",
+  "planned_by": "parent 15 Sep 2026 (layers round 3, optical-networking block — operator instructions of 14 Sep 2026 night, unattended)"
+ },
+ {
+  "sku": "ONS-CFP2WDM2-BUN",
+  "category": "optical-networking",
+  "action": "move",
+  "to": "transceiver",
+  "run_id": null,
+  "expected_kind_after": "tunable",
+  "reason": "a bundle of WDM CFP2 pluggables (with their licence where named): the operator's packs decision (transceiver round, decision 6) keeps a pack of optics in transceiver with the unit's kind — the unit, ONS-CFP2-WDM / -WDM2, is a transceiver `tunable`, and the pluggables filed beside these bundles already carry plans there (layers round 3, optical round)",
+  "evidence": "name \"Cisco ONS-CFP2WDM2-BUN\" · label \"ONS 15454 Series Multiservice Transport Platforms\" · today layered in ONS 15454 MSTP (M2 / M6 / M12 shelves and cards) (label ONS 15454 Series Multiservice Transport Platforms)",
+  "planned_by": "parent 15 Sep 2026 (layers round 3, optical-networking block — operator instructions of 14 Sep 2026 night, unattended)"
+ },
+ {
+  "sku": "ONS-CFP2WDM2-BUN4",
+  "category": "optical-networking",
+  "action": "move",
+  "to": "transceiver",
+  "run_id": null,
+  "expected_kind_after": "tunable",
+  "reason": "a bundle of WDM CFP2 pluggables (with their licence where named): the operator's packs decision (transceiver round, decision 6) keeps a pack of optics in transceiver with the unit's kind — the unit, ONS-CFP2-WDM / -WDM2, is a transceiver `tunable`, and the pluggables filed beside these bundles already carry plans there (layers round 3, optical round)",
+  "evidence": "name \"Cisco ONS-CFP2WDM2-BUN4\" · label \"ONS 15454 Series Multiservice Transport Platforms\" · today layered in ONS 15454 MSTP (M2 / M6 / M12 shelves and cards) (label ONS 15454 Series Multiservice Transport Platforms)",
+  "planned_by": "parent 15 Sep 2026 (layers round 3, optical-networking block — operator instructions of 14 Sep 2026 night, unattended)"
+ },
+ {
+  "sku": "NC55-OIP-02",
+  "category": "optical-networking",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": "linecard",
+  "reason": "an NCS 5500 modular port adapter ('NCS 5500, 8 ports OTU2/2e/OC192/OC48/FC MPA'): A.3 rule 1 puts a platform-bound part with its platform, the NCS 5500 in routers, whose NCS 5500 series already reads it (layers round 3, optical round)",
+  "evidence": "name \"NCS 5500, 8 ports OTU2/2e/OC192/OC48/FC MPA\" · label \"Routed Optical Networking\" · today layered in NCS 5500 OTN interface processors (sku ^NC55-OIP)",
+  "planned_by": "parent 15 Sep 2026 (layers round 3, optical-networking block — operator instructions of 14 Sep 2026 night, unattended)"
+ },
+ {
+  "sku": "NC55-OIP-02-FC",
+  "category": "optical-networking",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": "linecard",
+  "reason": "an NCS 5500 modular port adapter ('NCS 5500, 8 ports OTU2/2e/OC192/OC48/FC MPA'): A.3 rule 1 puts a platform-bound part with its platform, the NCS 5500 in routers, whose NCS 5500 series already reads it (layers round 3, optical round)",
+  "evidence": "name \"NCS 5500, 8 ports OTU2/2e/OC192/OC48/FC MPA\" · label \"Routed Optical Networking\" · today layered in NCS 5500 OTN interface processors (sku ^NC55-OIP)",
+  "planned_by": "parent 15 Sep 2026 (layers round 3, optical-networking block — operator instructions of 14 Sep 2026 night, unattended)"
+ },
+ {
+  "sku": "NC55-OIP-02-FC=",
+  "category": "optical-networking",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": "linecard",
+  "reason": "an NCS 5500 modular port adapter ('NCS 5500, 8 ports OTU2/2e/OC192/OC48/FC MPA'): A.3 rule 1 puts a platform-bound part with its platform, the NCS 5500 in routers, whose NCS 5500 series already reads it (layers round 3, optical round)",
+  "evidence": "name \"NCS 5500, 8 ports OTU2/2e/OC192/OC48/FC MPA\" · label \"Routed Optical Networking\" · today layered in NCS 5500 OTN interface processors (sku ^NC55-OIP)",
+  "planned_by": "parent 15 Sep 2026 (layers round 3, optical-networking block — operator instructions of 14 Sep 2026 night, unattended)"
+ },
+ {
+  "sku": "NC55-OIP-02=",
+  "category": "optical-networking",
+  "action": "move",
+  "to": "routers",
+  "run_id": null,
+  "expected_kind_after": "linecard",
+  "reason": "an NCS 5500 modular port adapter ('NCS 5500, 8 ports OTU2/2e/OC192/OC48/FC MPA'): A.3 rule 1 puts a platform-bound part with its platform, the NCS 5500 in routers, whose NCS 5500 series already reads it (layers round 3, optical round)",
+  "evidence": "name \"NCS 5500, 8 ports OTU2/2e/OC192/OC48/FC MPA\" · label \"Routed Optical Networking\" · today layered in NCS 5500 OTN interface processors (sku ^NC55-OIP)",
+  "planned_by": "parent 15 Sep 2026 (layers round 3, optical-networking block — operator instructions of 14 Sep 2026 night, unattended)"
+ },
+ {
+  "sku": "40-SMR1",
+  "category": "optical-networking",
+  "action": "class",
+  "to": "non_product",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)",
+  "evidence": "name \"Cisco 40-SMR1\" · label \"ONS 15454 Series Multiservice Transport Platforms\" · no document, no fact · the orderable PIDs are 15454-40-SMR1-C / -C= · today layered in ONS 15454 MSTP and NCS 2000 shared parts (label-unsupported (label ONS 15454 Series Multiservice Trans)",
+  "planned_by": "parent 15 Sep 2026 (layers round 3, optical-networking block — operator instructions of 14 Sep 2026 night, unattended)"
+ },
+ {
+  "sku": "40-SMR2",
+  "category": "optical-networking",
+  "action": "class",
+  "to": "non_product",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)",
+  "evidence": "name \"Cisco 40-SMR2\" · label \"ONS 15454 Series Multiservice Transport Platforms\" · no document, no fact · the orderable PIDs are 15454-40-SMR2-C / -C= · today layered in ONS 15454 MSTP and NCS 2000 shared parts (label-unsupported (label ONS 15454 Series Multiservice Trans)",
+  "planned_by": "parent 15 Sep 2026 (layers round 3, optical-networking block — operator instructions of 14 Sep 2026 night, unattended)"
  }
 ]

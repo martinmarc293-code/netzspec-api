@@ -273,6 +273,24 @@ witness("security", [
   ["MEM-71XX-256S", "Cisco 7160 256 MB SDRAM System Memory (default)", "FirePOWER 7000 Appliances", "(not this category)", "routers"],   // a 7100 VPN router part
   ["NM-DES/MP", "DES Crypto NM for Cisco 3620/40 - Mid Performance", "FirePOWER 7000 Appliances", "(not this category)", "interfaces-modules"],
 ]);
+// layers round 3, optical round: the fenced claimants and the rows planned out
+for (const [cat, sku, name, not] of [
+  ["optical-networking", "15216-GBIC-1510", "1000 BASE-T GBIC, one port modules", "ONS 15216 filters, OADM, mux/demux and DCU"],
+  ["optical-networking", "ONS-CXP2-SR25", "Cisco ONS-CXP2-SR25 CXP 300G SR", "MPO / LC patchcords, attenuators and patch panels"],
+  ["transceiver", "15454-M6-ECU2", "6 service slot MSTP external connection unit with TOD/PPS", "DAC and AOC cables (SFP+ / SFP28 / SFP56 / QSFP / QSFP-DD)"],
+  ["transceiver", "NCS2006-ECU60-S=", "NCS 2006 External Connections Unit -w/ 2x USB 3.0 Ports -60V", "DAC and AOC cables (SFP+ / SFP28 / SFP56 / QSFP / QSFP-DD)"],
+]) {
+  const p = placePart("cisco", cat, { sku, name, series: "" });
+  check(`optical round REFUSAL: ${cat} does not place ${sku} in ${not}`, p?.series !== not, `${p?.series} (${p?.rule})`);
+}
+witness("optical-networking", [
+  ["ONS-CXP2-MPO-10=", "Multi-mode patchcord - MPO to MPO - For CXP2 - 10m", "", "Optical cabling and patch panels", "MPO / LC patchcords, attenuators and patch panels"],
+  ["15216-AD1-2-1510", "1510nm OADM Add Drop Multiplexer", "ONS 15200 Series DWDM Systems", "ONS 15216 / 15200 DWDM passives", "ONS 15216 filters, OADM, mux/demux and DCU"],
+]);
+witness("transceiver", [
+  ["SFP-H10GB-CU1M", "10GBASE-CU SFP+ Cable 1 Meter, passive (supported only with DS-X9708-K9)", "", "Direct-attach and active optical cables", "DAC and AOC cables (SFP+ / SFP28 / SFP56 / QSFP / QSFP-DD)"], // the ECU fence keeps a DAC
+  ["ONS-CFP2WDM-BUN", "10 x ONS-CFP2-WDM Bundle", "ONS 15454 Series Multiservice Transport Platforms", "Optical networking pluggables (ONS / NCS 2000)", "ONS 15454 / NCS 2000 pluggables"], // arriving from optical
+]);
 // layers round 3, video round
 witness("video", [
   ["4011176", "Chassis, Frt Acc, No RF, 2/DC Pwr", "Prisma II Products", "Prisma II Optical Transport", "Prisma II"],

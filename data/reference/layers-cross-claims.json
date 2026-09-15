@@ -97,31 +97,6 @@
    "reason": "EXP-1GSFP-T ('1 Gigabit Ethernet SFP Module 10/100/1000BASE-T') is the Expressway appliance's copper SFP, correctly filed here; the unified-communications ^EXP- rule is wider than the appliance family — fix in the unified-communications round"
   },
   {
-   "category": "transceiver",
-   "claimed_by": "optical-networking",
-   "series": "ONS 15216 filters, OADM, mux/demux and DCU",
-   "rule": "sku ^15216",
-   "rows": 2,
-   "examples": [
-    "15216-GBIC-1510",
-    "15216-GBIC-1510="
-   ],
-   "status": "claimant-rule-too-broad",
-   "reason": "15216-GBIC-1510 is a WDM GBIC, filed in GBIC (legacy) by the operator's round-3 decision; optical-networking's ^15216 names the 15216 passive family and also takes the GBIC — fix in the optical-networking round"
-  },
-  {
-   "category": "transceiver",
-   "claimed_by": "optical-networking",
-   "series": "MPO / LC patchcords, attenuators and patch panels",
-   "rule": "sku ^ONS-(FMPO|12MPO|CXP2)",
-   "rows": 1,
-   "examples": [
-    "ONS-CXP2-SR25"
-   ],
-   "status": "claimant-rule-too-broad",
-   "reason": "ONS-CXP2-SR25 is a CXP2 300G SR transceiver (its spare ONS-CXP2-SR25= is already planned from optical-networking into transceiver); optical-networking's CXP2 alternative is meant for the ONS-CXP2-MPO patch cords — fix in the optical-networking round"
-  },
-  {
    "category": "interfaces-modules",
    "claimed_by": "servers-unified-computing",
    "series": "UCS E-Series",

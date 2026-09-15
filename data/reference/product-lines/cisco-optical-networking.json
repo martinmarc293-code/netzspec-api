@@ -1,6 +1,7 @@
 {
  "vendor": "cisco",
  "category": "optical-networking",
+ "family_layer": "assigned",
  "_about": "Layer 2 (product line) and layer 3 (series) of Cisco optical networking, 14 Sep 2026: ONS 15454 MSTP / NCS 2000, ONS 15216 / 15200 DWDM passives, NCS 1000, NCS 4000, Routed Optical Networking, and optical cabling. The NCS 1000 In-Line Amplifier and OLT rows filed under the ONS 15454 label are NCS 1010 parts by SKU. No role axis.",
  "lines": [
   {
@@ -59,12 +60,13 @@
     {
      "series": "ONS 15216 filters, OADM, mux/demux and DCU",
      "sku": [
-      "^15216",
+      "^15216(?!-GBIC)",
       "^DCU-"
      ],
      "labels": [
       "ONS 15200 Series DWDM Systems"
-     ]
+     ],
+     "note": "^15216(?!-GBIC) (layers round 3, optical round): 15216-GBIC-1510(=) is a GBIC the transceiver round filed in GBIC (legacy); the rule claimed it"
     }
    ]
   },
@@ -103,21 +105,12 @@
    "line": "Routed Optical Networking",
    "series": [
     {
-     "series": "NCS 5500 OTN interface processors",
-     "sku": [
-      "^NC55-OIP"
-     ],
-     "labels": [
-      "Routed Optical Networking"
-     ]
-    },
-    {
      "series": "QSFP-DD Pluggable Open Line System (QDD OLS)",
      "sku": [
       "^ONS-QDD-OLS",
       "^ONS-BRK-CS-"
      ],
-     "note": "layers round 3 (15 Sep 2026): ONS-QDD-OLS= 'QSFP-DD Open Line System, Pre and Bst EDFA' and the colorless mux/dmx breakouts ONS-BRK-CS-8LC= / -16LC=, planned in from interfaces-modules (kind layer, 13 Sep) — the parts of Cisco's 'QSFP-DD Pluggable Open Line System (QDD OLS)' data sheet; the series is named for that product and is the optical round's to review"
+     "note": "layers round 3 (15 Sep 2026): ONS-QDD-OLS= 'QSFP-DD Open Line System, Pre and Bst EDFA' and the colorless mux/dmx breakouts ONS-BRK-CS-8LC= / -16LC=, planned in from interfaces-modules (kind layer, 13 Sep) — the parts of Cisco's 'QSFP-DD Pluggable Open Line System (QDD OLS)' data sheet; the series is named for that product (reviewed in the optical round: kept). The series 'NCS 5500 OTN interface processors' (^NC55-OIP, label 'Routed Optical Networking') was removed in the optical round: its four NC55-OIP-02 MPAs carry plans to routers' NCS 5500 (A.3 rule 1)"
     }
    ]
   },
@@ -127,11 +120,11 @@
     {
      "series": "MPO / LC patchcords, attenuators and patch panels",
      "sku": [
-      "^ONS-(FMPO|12MPO|CXP2)",
+      "^ONS-(FMPO|12MPO|CXP2-MPO)",
       "MPO-MPO",
       "^ONS-CAB-"
      ],
-     "note": "^ONS-CAB- places ONS-CAB-CS-LC-5= 'Duplex optical patchcord, LC to CS connectors, 5m', planned in from interfaces-modules (layers round 3, A-11)"
+     "note": "^ONS-CAB- places ONS-CAB-CS-LC-5= 'Duplex optical patchcord, LC to CS connectors, 5m', planned in from interfaces-modules (layers round 3, A-11). CXP2-MPO (layers round 3, optical round): the CXP2 alternative is for the ONS-CXP2-MPO patchcords; it claimed the CXP2 transceiver ONS-CXP2-SR25 in transceiver"
     }
    ]
   }
