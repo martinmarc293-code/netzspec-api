@@ -1,8 +1,8 @@
 {
  "vendor": "cisco",
  "category": "unified-communications",
- "built_at": "2026-09-15T12:44:25.131Z",
- "commit": "735fb0605f4ce5d68ac7d3368a928cc438c08eb9",
+ "built_at": "2026-09-15T13:11:01.023Z",
+ "commit": "5500d6b4b171a46c0b74fb8b47ec8428469a2ff7",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-unified-communications.json",
  "parts": 497,
@@ -420,7 +420,7 @@
      "series": "TelePresence VCS appliances",
      "family": null,
      "role": null,
-     "note": "^CE-(?![0-9]+GSFP) (layers round 3, UC round): the rule claimed the CE-10GSFP-SR / CE-1GSFP-T optics that the transceiver round filed as transceivers",
+     "note": "^CE-(?![0-9]+GSFP) (layers round 3, UC round): the rule claimed the CE-10GSFP-SR / CE-1GSFP-T optics that the transceiver round filed as transceivers. ^CTI-ATP(?!-TMS) (merge plan conferencing -> collaboration-endpoints): CTI-ATP-TMS-APL-K9 'ATP Demo - TMS Server Appliance' is the TelePresence Management Server demo, not a VCS",
      "parts": 28,
      "kinds": {
       "cpu": 1,

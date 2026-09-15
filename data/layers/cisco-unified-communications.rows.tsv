@@ -165,9 +165,9 @@ CS-KIT-SUB-K9	MLB for Subscription Room Kit	Spark Flex Plan	software	pending_pla
 CS-KITPLUS-SUB-K9	MLB Subscription - KIT Plus	Spark Flex Plan	software	pending_plan								class license		
 CS-KITPRO-SUB-K9	MLB for Subscription - KIT Pro	Spark Flex Plan	software	pending_plan								class license		
 CS-ROOM-USB-SUB-K9	MLB Subscription - Room USB	Spark Flex Plan	software	pending_plan								class license		
-CTI-ATP-VCS-CTRLK9	ATP Demo - VCS Control	TelePresence Video Communication Server (VCS)	unknown	layered	Expressway and VCS		TelePresence VCS appliances	sku ^CTI-ATP						
-CTI-ATP-VCS-EXPWK9	ATP Demo - VCS Expressway	TelePresence Video Communication Server (VCS)	unknown	layered	Expressway and VCS		TelePresence VCS appliances	sku ^CTI-ATP						
-CTI-ATP-VCS-SPAKK9	ATP Demo-VCS Starter Pack Exp, 50 regs, 5 trav, Movi, 5 PHD USB	TelePresence Video Communication Server (VCS)	unknown	layered	Expressway and VCS		TelePresence VCS appliances	sku ^CTI-ATP						
+CTI-ATP-VCS-CTRLK9	ATP Demo - VCS Control	TelePresence Video Communication Server (VCS)	unknown	layered	Expressway and VCS		TelePresence VCS appliances	sku ^CTI-ATP(?!-TMS)						
+CTI-ATP-VCS-EXPWK9	ATP Demo - VCS Expressway	TelePresence Video Communication Server (VCS)	unknown	layered	Expressway and VCS		TelePresence VCS appliances	sku ^CTI-ATP(?!-TMS)						
+CTI-ATP-VCS-SPAKK9	ATP Demo-VCS Starter Pack Exp, 50 regs, 5 trav, Movi, 5 PHD USB	TelePresence Video Communication Server (VCS)	unknown	layered	Expressway and VCS		TelePresence VCS appliances	sku ^CTI-ATP(?!-TMS)						
 CTI-CE1K-BDL-K9	VCS Control And Expressway Platform UCS C220 M3 Bundle	TelePresence Video Communication Server (VCS)	server	layered	Expressway and VCS		TelePresence VCS appliances	label TelePresence Video Communication Server (VCS)						name: VCS
 CTI-CE1K-BDL-K9=	Spare VCS Control And Expressway Platform UCS C220 M3 Bundle	TelePresence Video Communication Server (VCS)	server	layered	Expressway and VCS		TelePresence VCS appliances	label TelePresence Video Communication Server (VCS)						name: VCS
 CTI-CE500-BDL-K9	VCS Control And Expressway Platform UCS C220 M3 Bundle	TelePresence Video Communication Server (VCS)	server	layered	Expressway and VCS		TelePresence VCS appliances	label TelePresence Video Communication Server (VCS)						name: VCS

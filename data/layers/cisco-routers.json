@@ -1,8 +1,8 @@
 {
  "vendor": "cisco",
  "category": "routers",
- "built_at": "2026-09-15T12:44:23.208Z",
- "commit": "735fb0605f4ce5d68ac7d3368a928cc438c08eb9",
+ "built_at": "2026-09-15T13:10:58.989Z",
+ "commit": "5500d6b4b171a46c0b74fb8b47ec8428469a2ff7",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-routers.json",
  "parts": 5093,
@@ -1287,7 +1287,8 @@
      },
      "pending_in": {
       "interfaces-modules": 3,
-      "switches": 6
+      "switches": 6,
+      "data-center-networking": 1
      }
     },
     {

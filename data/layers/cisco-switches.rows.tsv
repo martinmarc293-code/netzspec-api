@@ -2698,7 +2698,7 @@ FAN-MOD-09=	Fan Mod CISCO7609 (2 required)/Cat6509-NEB-A (1 required)	Catalyst 6
 FAN-MOD-3HS	Cisco Catalyst 6503 high-speed fan tray	Catalyst 6500	fan	layered	Catalyst		Catalyst 6500	label Catalyst 6500						name: 6500
 FAN-MOD-4HS	High-Speed Fan Module for 7604/6504-E	Catalyst 6500	fan	layered	Catalyst		Catalyst 6500	label Catalyst 6500						name: 6500
 FAN-MOD-4HS=	High-Speed Fan Module for Cisco 7604/6504-E Chassis	Catalyst 6500	fan	layered	Catalyst		Catalyst 6500	label Catalyst 6500						name: 6500
-FAN-PI-V4=	Cisco fan tray, port-side intake airflow, spare	Nexus 9000	fan	layered	Nexus	(shared across the line)	Nexus shared parts	label-unsupported (label Nexus 9000; was Nexus 9000 shared parts): no platform token (9000) in the SKU or name, no compatible part placed in the series						none: no platform token (9000) in the SKU or name, no compatible part placed in the series
+FAN-PI-V4=	Cisco fan tray, port-side intake airflow, spare	Nexus 9000	fan	layered	Nexus	Nexus 9000	Nexus 9000 shared parts	sku ^(FAN-PI-V4|PSU3KW-HVPI)$						
 FAN-T1=	Cisco Type 1 Fan Module	3650	fan	layered	Catalyst	(shared across the line)	Catalyst shared parts	label-unsupported (label 3650; was Catalyst 3650): no platform token (3650) in the SKU or name, no compatible part placed in the series						none: no platform token (3650) in the SKU or name, no compatible part placed in the series
 FAN-T2	Cisco FAN-T2	Catalyst 9300	fan	layered	Catalyst	(shared across the line)	Catalyst shared parts	label-unsupported (label Catalyst 9300; was Catalyst 9300): no platform token (9300) in the SKU or name, no compatible part placed in the series						none: no platform token (9300) in the SKU or name, no compatible part placed in the series
 FAN-T2=	Fan module	Catalyst 9300	fan	layered	Catalyst	(shared across the line)	Catalyst shared parts	label-unsupported (label Catalyst 9300; was Catalyst 9300): no platform token (9300) in the SKU or name, no compatible part placed in the series						none: no platform token (9300) in the SKU or name, no compatible part placed in the series
@@ -5050,7 +5050,7 @@ PSU-OLT16-1OOWAC	FRU 100Watt AC Power for OLT-16 New SKU	PON Series	power	layere
 PSU-OLT8-72WDC	FRU 72Watt DC Power for OLT-8 NEW SKU	PON Series	power	layered	Catalyst		Catalyst PON	label PON Series						sku-token: OLT
 PSU-OLT8-80WAC	FRU 80Watt AC Power for OLT-8 NEW SKU	PON Series	power	layered	Catalyst		Catalyst PON	label PON Series						sku-token: OLT
 PSU-OLT8-80WDC	FRU 80Watt DC Power for OLT-8 NEW SKU	PON Series	power	layered	Catalyst		Catalyst PON	label PON Series						sku-token: OLT
-PSU3KW-HVPI=	Cisco 3000W HV power module with port-side intake, spare	Nexus 9000	power	layered	Nexus	(shared across the line)	Nexus shared parts	label-unsupported (label Nexus 9000; was Nexus 9000 shared parts): no platform token (9000) in the SKU or name, no compatible part placed in the series						none: no platform token (9000) in the SKU or name, no compatible part placed in the series
+PSU3KW-HVPI=	Cisco 3000W HV power module with port-side intake, spare	Nexus 9000	power	layered	Nexus	Nexus 9000	Nexus 9000 shared parts	sku ^(FAN-PI-V4|PSU3KW-HVPI)$						
 PSY6C04WH-CED	Cisco PSY6C04WH-CED	Catalyst 9300	accessory	pending_plan								class non_product		
 PUC6004BU-FE	Cisco PUC6004BU-FE	Catalyst 9300	accessory	pending_plan								class non_product		
 PUC6AV04BU-G	Cisco PUC6AV04BU-G	Catalyst 9300	accessory	pending_plan								class non_product		

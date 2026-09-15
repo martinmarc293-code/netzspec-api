@@ -1,8 +1,8 @@
 {
  "vendor": "cisco",
  "category": "collaboration-endpoints",
- "built_at": "2026-09-15T12:44:24.077Z",
- "commit": "735fb0605f4ce5d68ac7d3368a928cc438c08eb9",
+ "built_at": "2026-09-15T13:10:59.799Z",
+ "commit": "5500d6b4b171a46c0b74fb8b47ec8428469a2ff7",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-collaboration-endpoints.json",
  "parts": 2835,
@@ -1636,6 +1636,68 @@
      "pending_in": {}
     }
    ]
+  },
+  {
+   "line": "Meeting Server and TelePresence Management",
+   "parts": 0,
+   "series": [
+    {
+     "series": "Meeting Server 1000 / 2000",
+     "family": null,
+     "role": null,
+     "note": "arriving from conferencing (layers round 3, merge plan conferencing -> collaboration-endpoints, spec II.16 and decision record rule 5; not run): the Cisco Meeting Server 1000 (UCS C-Series) and 2000 (UCS 5108 with B200 media and control blades) appliances and bundles, CMS-M-M8-K9 / CMS-S-M7-K9 (Meeting Server data sheet c78-742168). The servers mapping's B200 / 5108 / 6324 rules and UC's none read these rows; record them decided-home when the move runs (the Business Edition precedent)",
+     "parts": 0,
+     "kinds": {},
+     "roles": {},
+     "samples": [],
+     "rules": {},
+     "pending_in": {
+      "conferencing": 25
+     }
+    },
+    {
+     "series": "TelePresence Management Server (TMS) appliances",
+     "family": null,
+     "role": null,
+     "note": "arriving from conferencing (merge plan): CTI-TMS-APL-K9(=) 'Cisco TelePresence Management Server' and its ATP demo unit (Cisco's TelePresence Management Server end-of-sale notice)",
+     "parts": 0,
+     "kinds": {},
+     "roles": {},
+     "samples": [],
+     "rules": {},
+     "pending_in": {
+      "conferencing": 3
+     }
+    },
+    {
+     "series": "AI PODs for Collaboration",
+     "family": null,
+     "role": null,
+     "note": "arriving from conferencing (merge plan): AIPOD-COLLAB and the UCS C240 M8 'Rack Server for Collaboration AI' (with GPU) of Cisco's 'AI PODs for Collaboration' data sheet; the servers mapping's C240 rule reads the two UCSC rows — record it decided-home when the move runs",
+     "parts": 0,
+     "kinds": {},
+     "roles": {},
+     "samples": [],
+     "rules": {},
+     "pending_in": {
+      "conferencing": 3
+     }
+    },
+    {
+     "series": "Meeting Server and TelePresence Management shared parts",
+     "family": "(shared across the line)",
+     "role": null,
+     "note": "arriving from conferencing (merge plan): the CIT3- UCS components sold for the Meeting Server appliances (CPUs, memory, drives, supplies, RAID controllers, VIC mLOMs, TPMs, the 5108 fan / power module / packaging, the 6324 in-chassis fabric interconnect, a FlexStorage blank)",
+     "parts": 0,
+     "kinds": {},
+     "roles": {},
+     "samples": [],
+     "rules": {},
+     "pending_in": {
+      "conferencing": 38
+     }
+    }
+   ]
   }
  ],
  "not_this_category": [],
@@ -2014,8 +2076,6 @@
   ]
  },
  "pending_review": [],
- "inbound_unplaced": {
-  "conferencing": 69
- },
+ "inbound_unplaced": {},
  "done": true
 }

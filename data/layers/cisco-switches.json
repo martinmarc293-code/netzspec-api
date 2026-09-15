@@ -1,8 +1,8 @@
 {
  "vendor": "cisco",
  "category": "switches",
- "built_at": "2026-09-15T12:44:22.054Z",
- "commit": "735fb0605f4ce5d68ac7d3368a928cc438c08eb9",
+ "built_at": "2026-09-15T13:10:58.200Z",
+ "commit": "5500d6b4b171a46c0b74fb8b47ec8428469a2ff7",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-switches.json",
  "parts": 7507,
@@ -132,7 +132,7 @@
      "series": "Catalyst 9500",
      "family": "Catalyst 9000",
      "role": "core-agg",
-     "note": null,
+     "note": "^PWR-C6-BLANK$ (layers round 3, merge plan data-center-networking -> switches): 'Catalyst 9500X power supply blank cover', listed by the Catalyst 9500 data sheets and ordering guide; arriving from data-center-networking",
      "parts": 98,
      "kinds": {
       "switch": 81,
@@ -156,7 +156,7 @@
       "label": 2
      },
      "pending_in": {
-      "data-center-networking": 2
+      "data-center-networking": 3
      }
     },
     {
@@ -1574,28 +1574,28 @@
      "series": "Nexus 9000 shared parts",
      "family": "Nexus 9000",
      "role": null,
-     "note": null,
-     "parts": 134,
+     "note": "^(FAN-PI-V4|PSU3KW-HVPI)$ (layers round 3, merge plan data-center-networking -> switches): the fan tray and 3000 W HV module the N9364E-SG2 / SP2R / SG2X and N9164E data sheets list (the Cisco 6000 Hyperfabric data sheet lists them too). Their spares sat in Nexus shared parts by the label check (the name carries no 9000); the bases arrive from data-center-networking, and one rule keeps each pair together",
+     "parts": 136,
      "kinds": {
-      "power": 99,
-      "mechanical": 10,
-      "fan": 25
+      "fan": 26,
+      "power": 100,
+      "mechanical": 10
      },
      "roles": {},
      "samples": [
+      "FAN-PI-V4= — Cisco fan tray, port-side intake airflow, spare",
       "N9K-PAC-1200W — Nexus 3164 1200W AC Power Supply, Port side intake",
       "N9K-PAC-1200W-B — Nexus 9300 1200W AC PS, Port-side Exhaust",
       "N9K-PAC-1200W-B= — Nexus 9300 1200W AC PS, Port-side Exhaust",
       "N9K-PAC-1200W= — Nexus 3164 1200W AC Power Supply, Port side intake",
-      "N9K-PAC-650W — N9K 650W AC Power Supply, Reversed airflow (port side intake",
-      "N9K-PAC-650W-B — N9K 650W AC Power Supply, Forward airflow (port side exhaust"
+      "N9K-PAC-650W — N9K 650W AC Power Supply, Reversed airflow (port side intake"
      ],
      "rules": {
-      "sku": 125,
+      "sku": 127,
       "label": 9
      },
      "pending_in": {
-      "data-center-networking": 2
+      "data-center-networking": 4
      }
     },
     {
@@ -1603,15 +1603,15 @@
      "family": "(shared across the line)",
      "role": null,
      "note": null,
-     "parts": 64,
+     "parts": 62,
      "kinds": {
       "cable": 2,
       "power-cord": 32,
-      "fan": 9,
+      "fan": 8,
       "accessory": 2,
       "mechanical": 13,
       "linecard": 4,
-      "power": 2
+      "power": 1
      },
      "roles": {},
      "samples": [
@@ -1624,7 +1624,7 @@
      ],
      "rules": {
       "accessory": 38,
-      "label-unsupported": 26
+      "label-unsupported": 24
      },
      "pending_in": {}
     }
@@ -2960,6 +2960,26 @@
      "rules": {},
      "pending_in": {
       "routers": 6
+     }
+    }
+   ]
+  },
+  {
+   "line": "Nexus Hyperfabric",
+   "parts": 0,
+   "series": [
+    {
+     "series": "Nexus Hyperfabric HF6100 (Cisco 6000 Series)",
+     "family": null,
+     "role": "datacenter",
+     "note": "arriving from data-center-networking (layers round 3, merge plan data-center-networking -> switches, not run): the HF6100-32D / 60L4D / 64ED switches ('Cisco 6000 Series Switches Data Sheet'), their 19-inch 4-post kit and the 1450 W supplies only that data sheet lists. The parts the HF6100 shares with the Nexus 9364E (FAN-PI-V4, PSU3KW-HVPI) go to Nexus 9000 shared parts beside their spares; the Catalyst 9500X fans, supplies and blank to Catalyst 9500 / 9000; 8K-2RU-KIT-SB to routers with its Cisco 8000 siblings",
+     "parts": 0,
+     "kinds": {},
+     "roles": {},
+     "samples": [],
+     "rules": {},
+     "pending_in": {
+      "data-center-networking": 12
      }
     }
    ]
@@ -4955,9 +4975,9 @@
  "unplaced": [],
  "label_check": {
   "applied": true,
-  "label_placed": 378,
+  "label_placed": 376,
   "by_kind": {
-   "none": 207,
+   "none": 205,
    "sku-token": 27,
    "name": 143,
    "family": 1
@@ -5086,14 +5106,6 @@
    {
     "sku": "FAN-1RU-PI-V2=",
     "name": "Cisco aux fan tray, port-side intake airflow, spare",
-    "series_label": "Nexus 9000",
-    "from_series": "Nexus 9000 shared parts",
-    "to_series": "Nexus shared parts",
-    "why": "no platform token (9000) in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "FAN-PI-V4=",
-    "name": "Cisco fan tray, port-side intake airflow, spare",
     "series_label": "Nexus 9000",
     "from_series": "Nexus 9000 shared parts",
     "to_series": "Nexus shared parts",
@@ -5346,14 +5358,6 @@
     "from_series": "Catalyst Micro",
     "to_series": "Catalyst shared parts",
     "why": "names another series of the line: Catalyst 3560-X (name 3560), Catalyst 3560-E (name 3560), Catalyst 3560-C and 3560-CX (name 3560) +1"
-   },
-   {
-    "sku": "PSU3KW-HVPI=",
-    "name": "Cisco 3000W HV power module with port-side intake, spare",
-    "series_label": "Nexus 9000",
-    "from_series": "Nexus 9000 shared parts",
-    "to_series": "Nexus shared parts",
-    "why": "no platform token (9000) in the SKU or name, no compatible part placed in the series"
    },
    {
     "sku": "PWR-C1-1100WAC",
@@ -6622,8 +6626,6 @@
   ]
  },
  "pending_review": [],
- "inbound_unplaced": {
-  "data-center-networking": 16
- },
+ "inbound_unplaced": {},
  "done": true
 }

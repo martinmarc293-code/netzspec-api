@@ -1,8 +1,8 @@
 {
  "vendor": "cisco",
  "category": "hyperconverged-systems",
- "built_at": "2026-09-15T12:44:24.811Z",
- "commit": "735fb0605f4ce5d68ac7d3368a928cc438c08eb9",
+ "built_at": "2026-09-15T13:11:00.602Z",
+ "commit": "5500d6b4b171a46c0b74fb8b47ec8428469a2ff7",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-hyperconverged-systems.json",
  "parts": 1204,

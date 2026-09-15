@@ -1,20 +1,20 @@
 sku	name	series_label	kind	bucket	product_line	product_family	series	placed_by	deploy_role	role_rule	role_issue	plan	belongs	label_evidence
-8K-2RU-KIT-SB	19" rackmount 4-post kit	Nexus Hyperfabric	mechanical	pending_plan								move switches		
+8K-2RU-KIT-SB	19" rackmount 4-post kit	Nexus Hyperfabric	mechanical	pending_plan								move routers		
 C9500X-FAN-1U-F	Catalyst 9500X back to front cooling fan (maximum 6 per switch)	Nexus Hyperfabric	fan	pending_plan								move switches		
 C9500X-FAN-1U-R	Catalyst 9500X front to back cooling fan (maximum 6 per switch)	Nexus Hyperfabric	fan	pending_plan								move switches		
 C9K-PWR-1500WAC	Catalyst 9500X 1500W AC Power Supply	Nexus Hyperfabric	power	pending_plan								move switches		
 C9K-PWR-1500WDC	Catalyst 9500X 1500W DC Power Supply	Nexus Hyperfabric	power	pending_plan								move switches		
 FAN-PI-V4	Cisco fan tray, port-side intake airflow	Nexus Hyperfabric	fan	pending_plan								move switches		
 HF-ACC-RM2-4P19L	19" rackmount 4-post kit	Nexus Hyperfabric	mechanical	pending_plan								move switches		
-HF6100-32D	Cisco Hyperfabric switch, 32x400Gbps QSFP-DD	Nexus Hyperfabric	switch	pending_plan					datacenter	sw.dc.hyperfabric		move switches		
-HF6100-32D-D	Cisco 6000 Hyperfabric switch, 32x400Gbps QSFP-DD, configurable hardware only	Nexus Hyperfabric	switch	pending_plan					datacenter	sw.dc.hyperfabric		move switches		
-HF6100-32D-S	Cisco 6000 Hyperfabric switch, 32x400Gbps QSFP-DD, fixed hardware only Port exhaust airflow, AC power supply	Nexus Hyperfabric	switch	pending_plan					datacenter	sw.dc.hyperfabric		move switches		
-HF6100-60L4D	Cisco Hyperfabric switch 60x50G SFP28 4x400G QSFP-DD	Nexus Hyperfabric	switch	pending_plan					datacenter	sw.dc.hyperfabric		move switches		
-HF6100-60L4D-D	Cisco 6000 Hyperfabric switch, 60x50G SFP56 4x400G QSFP-DD, configurable hardware only	Nexus Hyperfabric	switch	pending_plan					datacenter	sw.dc.hyperfabric		move switches		
-HF6100-60L4D-S	Cisco 6000 Hyperfabric switch, 60x50G SFP56 4x400G QSFP-DD, fixed hardware only Port exhaust airflow, AC power supply	Nexus Hyperfabric	switch	pending_plan					datacenter	sw.dc.hyperfabric		move switches		
-HF6100-64ED	Cisco HF6100-64ED	Nexus Hyperfabric	switch	pending_plan					datacenter	sw.dc.hyperfabric		move switches		
-HF6100-64ED-D	Cisco 6000 Hyperfabric switch, 64x800Gbps OSFP, configurable hardware only	Nexus Hyperfabric	switch	pending_plan					datacenter	sw.dc.hyperfabric		move switches		
-HF6100-64ED-S	Cisco 6000 Hyperfabric switch, 64x800Gbps OSFP, fixed hardware only	Nexus Hyperfabric	switch	pending_plan					datacenter	sw.dc.hyperfabric		move switches		
+HF6100-32D	Cisco Hyperfabric switch, 32x400Gbps QSFP-DD	Nexus Hyperfabric	switch	pending_plan					datacenter	series:Nexus Hyperfabric HF6100 (Cisco 6000 Series)		move switches		
+HF6100-32D-D	Cisco 6000 Hyperfabric switch, 32x400Gbps QSFP-DD, configurable hardware only	Nexus Hyperfabric	switch	pending_plan					datacenter	series:Nexus Hyperfabric HF6100 (Cisco 6000 Series)		move switches		
+HF6100-32D-S	Cisco 6000 Hyperfabric switch, 32x400Gbps QSFP-DD, fixed hardware only Port exhaust airflow, AC power supply	Nexus Hyperfabric	switch	pending_plan					datacenter	series:Nexus Hyperfabric HF6100 (Cisco 6000 Series)		move switches		
+HF6100-60L4D	Cisco Hyperfabric switch 60x50G SFP28 4x400G QSFP-DD	Nexus Hyperfabric	switch	pending_plan					datacenter	series:Nexus Hyperfabric HF6100 (Cisco 6000 Series)		move switches		
+HF6100-60L4D-D	Cisco 6000 Hyperfabric switch, 60x50G SFP56 4x400G QSFP-DD, configurable hardware only	Nexus Hyperfabric	switch	pending_plan					datacenter	series:Nexus Hyperfabric HF6100 (Cisco 6000 Series)		move switches		
+HF6100-60L4D-S	Cisco 6000 Hyperfabric switch, 60x50G SFP56 4x400G QSFP-DD, fixed hardware only Port exhaust airflow, AC power supply	Nexus Hyperfabric	switch	pending_plan					datacenter	series:Nexus Hyperfabric HF6100 (Cisco 6000 Series)		move switches		
+HF6100-64ED	Cisco HF6100-64ED	Nexus Hyperfabric	switch	pending_plan					datacenter	series:Nexus Hyperfabric HF6100 (Cisco 6000 Series)		move switches		
+HF6100-64ED-D	Cisco 6000 Hyperfabric switch, 64x800Gbps OSFP, configurable hardware only	Nexus Hyperfabric	switch	pending_plan					datacenter	series:Nexus Hyperfabric HF6100 (Cisco 6000 Series)		move switches		
+HF6100-64ED-S	Cisco 6000 Hyperfabric switch, 64x800Gbps OSFP, fixed hardware only	Nexus Hyperfabric	switch	pending_plan					datacenter	series:Nexus Hyperfabric HF6100 (Cisco 6000 Series)		move switches		
 N9K-ACC-KIT-1RU-L	19" rackmount 4-post kit, long	Nexus Hyperfabric	mechanical	pending_plan								move switches		
 N9K-ACC-KIT-1RU-S	19" rackmount 4-post kit, short	Nexus Hyperfabric	mechanical	pending_plan								move switches		
 PSU1.4KW-ACPE	1450 Watt AC power supply, port exhaust airflow	Nexus Hyperfabric	power	pending_plan								move switches		

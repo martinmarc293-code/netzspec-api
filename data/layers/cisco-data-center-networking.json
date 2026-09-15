@@ -1,8 +1,8 @@
 {
  "vendor": "cisco",
  "category": "data-center-networking",
- "built_at": "2026-09-15T12:44:25.239Z",
- "commit": "735fb0605f4ce5d68ac7d3368a928cc438c08eb9",
+ "built_at": "2026-09-15T13:11:01.145Z",
+ "commit": "5500d6b4b171a46c0b74fb8b47ec8428469a2ff7",
  "uncommitted_rule_files": [],
  "mapping_file": "data/reference/product-lines/cisco-data-center-networking.json",
  "parts": 22,
@@ -33,8 +33,8 @@
    "name": "19\" rackmount 4-post kit",
    "series_label": "Nexus Hyperfabric",
    "action": "move",
-   "to": "switches",
-   "reason": "category merge data-center-networking -> switches (hardware only)"
+   "to": "routers",
+   "reason": "category merge data-center-networking -> switches (hardware only), this row re-targeted to routers: a Cisco 8000 2RU installation kit (8K- prefix) reused by the HF6100-64ED; its siblings 8K-2RU-KIT-L / -S / -2P-KIT (and spares) in switches carry move plans to routers (A.3 rule 1: a platform part goes with its platform's category) — layers round 3, merge plans"
   },
   {
    "sku": "C9500X-FAN-1U-F",
