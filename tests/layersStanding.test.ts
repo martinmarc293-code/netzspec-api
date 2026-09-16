@@ -377,6 +377,10 @@ for (const cat of REVIEWED) {
   const back = movedRowsStillRefused(cat, rows);
   check(`label check ${cat}: 0 of the ${back.checked} moved rows would be kept by today's rule (${back.seriesGone} name a series the mapping no longer holds)`,
     back.wouldReturn.length === 0, back.wouldReturn.slice(0, 5).map((x) => `${x.sku} -> ${x.was} (${x.now})`).join("; "));
+  // and the parse gets its own assertion, because a row this cannot read is a row it did not check — the first version of the
+  // regex stopped at the bracket inside "Secure Network Server (SNS) appliances" and silently skipped 39 rows
+  check(`label check ${cat}: every moved row's placed_by parses (an unreadable row is an unchecked row, not a clean one)`,
+    back.unparsed.length === 0, back.unparsed.slice(0, 5).join(", "));
   const notExplicit = sharedLabelNotExplicit(cat, rows);
   check(`label check ${cat}: every label placed directly in a line's shared parts (${rows.filter((r) => r.bucket === "layered" && direct(r)).length} rows) is listed on that series in the mapping (C1)`, notExplicit.length === 0, notExplicit.slice(0, 5).map((x) => `${x.sku}: ${x.why}`).join("; "));
 

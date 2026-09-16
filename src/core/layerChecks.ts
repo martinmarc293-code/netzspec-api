@@ -179,19 +179,29 @@ export function labelEvidenceDrift(category: string, rows: LayerRow[], vendor = 
  * it today. Any hit means the built page is stale and a rebuild would move rows back. Measured when written: 472 moved rows,
  * 0 that today's rule would keep, so the pages and the code agree in BOTH directions.
  *
- * 39 rows name a series the mapping no longer holds; they are reported separately rather than counted as clean, because
- * "could not check" and "checked and fine" must not share a number.
+ * THE PARSE IS THE WHOLE CHECK, AND MINE WAS WRONG FIRST TIME (16 Sep 2026). `placed_by` reads
+ * `label-unsupported (label X; was SERIES): reason`, and SERIES routinely contains brackets — "Secure Network Server (SNS)
+ * appliances", "8500 (8510 / 8540 / 8580)". The first version terminated the capture on `[^;)]`, so every such name was cut at
+ * its opening bracket, matched no series, and was counted as `seriesGone` — 39 rows reported as "the mapping no longer holds
+ * this" that were really "my regex stopped early", and 39 moved rows never actually checked. The terminator is `): `, the
+ * bracket that closes `label-unsupported (`, taken non-greedily so a reason containing one cannot steal it.
+ *
+ * That is the failure this function was written to prevent, inside this function: a skip that shrinks the denominator while the
+ * headline still reads zero. So the three outcomes are three numbers — `checked`, `seriesGone` (parsed, but the mapping really
+ * has no such series) and `unparsed` (the format did not match at all, which is a defect in this parser or in the writer, never
+ * a clean row) — and the suite asserts `unparsed` is zero rather than letting it hide in a skip.
  */
 export function movedRowsStillRefused(category: string, rows: LayerRow[], vendor = "cisco"):
-  { wouldReturn: { sku: string; was: string; now: string }[]; checked: number; seriesGone: number } {
+  { wouldReturn: { sku: string; was: string; now: string }[]; checked: number; seriesGone: number; unparsed: string[] } {
   const loaded = loadLineFile(vendor, category);
   const wouldReturn: { sku: string; was: string; now: string }[] = [];
+  const unparsed: string[] = [];
   let checked = 0, seriesGone = 0;
-  if (!loaded) return { wouldReturn, checked, seriesGone };
+  if (!loaded) return { wouldReturn, checked, seriesGone, unparsed };
   for (const r of rows) {
     if (!(r.placed_by ?? "").startsWith("label-unsupported")) continue;
-    const m = /;\s*was\s+([^;)]+)/.exec(r.placed_by ?? "");
-    if (!m) continue;
+    const m = /;\s*was\s+(.+?)\):\s/.exec(r.placed_by ?? "");
+    if (!m) { unparsed.push(r.sku); continue; }
     const was = m[1].trim();
     const ln = loaded.file.lines.find((l) => l.series.some((s) => s.series === was));
     if (!ln) { seriesGone++; continue; }
@@ -200,7 +210,7 @@ export function movedRowsStillRefused(category: string, rows: LayerRow[], vendor
       { family: familyOf(loaded, was), siblings: ln.series.map((s) => ({ series: s.series, family: s.family?.trim() || null })) });
     if (ev.kind !== "none") wouldReturn.push({ sku: r.sku, was, now: `${ev.kind}: ${ev.detail}` });
   }
-  return { wouldReturn, checked, seriesGone };
+  return { wouldReturn, checked, seriesGone, unparsed };
 }
 
 /**
