@@ -1,4 +1,4 @@
-# Eight missing cache fixtures make eight adapter suites red, and one suite hangs (16 Sep 2026)
+# Eight missing cache fixtures make eight adapter suites red — and the ninth suite was my own timeout (16 Sep 2026)
 
 **Read-only. Nothing changed. Two of these are somebody else's lane and are reported, not touched.**
 
@@ -12,7 +12,7 @@ bottom, so all 32 suites in `tests/scraper/` were run.
 | --- | ---: |
 | green | **23** |
 | red, **every one** because a cache fixture is absent from this machine | **8** |
-| hangs | 1 |
+| ~~hangs~~ **slow; passes when not killed** | 1 |
 | real adapter failures | **0** |
 
 The scraper cache lives on the VPS; the laptop holds a working copy (`CLAUDE.md` § Environment traps). These eight
@@ -35,21 +35,35 @@ got missing"* rather than *"not cached"* — but it is the same cause said anoth
 **So: copying eight pages from the box's cache into the laptop's working copy would turn eight suites green and let
 `apply-acquired`'s gate pass here.** That is the whole fix, and it needs no code.
 
-## The one that is not environmental: `test_watchdog` hangs
+## ~~The one that is not environmental: `test_watchdog` hangs~~ — WRONG, AND CORRECTED
 
-It runs 44+ checks, prints
+**It does not hang. It is slow, it passes, and I reported a healthy suite as broken because my instrument was too
+short.** Left to run with no timeout at all it finishes: **257 PASS, 0 MISS.**
 
-```
-! pauseme: source disabled while this worker ran - dropping the lane
-every source this worker served is disabled; exiting
-```
+What I did, in order, and why each step was not enough:
 
-…and then **does not exit**. Killed at 180 s, then again at **540 s**, still running, no further output. So a worker the
-test spawns announces its exit and the suite waits for something that never comes.
+1. Ran all 32 suites under `timeout 180`. This one came back **exit 124** — the timeout's own code — with 44 passes and no
+   misses. I read that as a hang.
+2. Re-ran under `timeout 540`. Still 124. I took the second kill as confirmation, which it was not: **two too-short
+   budgets are one measurement repeated, not two measurements.**
+3. Dumped a traceback with `faulthandler` at 90 s: the main thread was in `psycopg` `wait_select` at
+   `test_watchdog.py:162`, a `DELETE` inside `reset()`. I read "waiting on the database" as "blocked on the database".
+4. Probed `pg_stat_activity` while it ran: **one session, `idle`, nothing blocked, nothing idle-in-transaction.** That
+   contradicted the lock reading, so I checked the cost instead — the test database holds **10 facts and 7 runs**, and
+   the `DELETE` plans as a trivial hash join. Not slow, not blocked.
+5. Let it run with no timeout and timed it: **566 s, exit 0, 257 PASS, 0 MISS.**
 
-Not diagnosed further and not touched: the watchdog is shared scraper infrastructure, and a hang wants careful reading
-rather than an unattended guess. It matters beyond itself — **anyone running the scraper suites in order stalls here**,
-which is one more reason a suite set quietly stops being run.
+**My 540-second budget missed it by twenty-six seconds.** That is the whole of the defect I reported.
+
+So the traceback at 90 s caught an ordinary in-flight statement, and `exit 124` was **my own timeout**, which is a fact
+about my budget and not about the suite. `CLAUDE.md` has this exactly: *"could not check is not is broken"*, and
+*"`cmd | head` then `$?` reports HEAD's exit status"* — same family, one process further out. The suite does spawn
+workers and sleep through supervisor cycles, so several minutes is its nature.
+
+**What is left of the finding, and it is much smaller:** `test_watchdog` needs **~9.5 minutes**, so any sweep under a
+routine budget kills it and shows `exit 124`. Anyone doing what I did will conclude what I concluded. That is worth a
+stated duration beside the suite — it spawns workers and sleeps through supervisor cycles, so the time is its nature —
+rather than a defect report.
 
 ## A note on my own instrument
 
