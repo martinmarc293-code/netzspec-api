@@ -51,6 +51,7 @@ import { spawnSync } from "node:child_process";
 import {
   getPool, closePool, withTx, withRun, hashFile, getPart, partsBySkuNorm, partsByAliasValue, ensureSourceDoc, docIdFor, linkDocParts,
   applyMerge, upsertAlias, upsertImage, upsertRelation, upsertLifecycle, recordSourceCheck, recordImageCandidate,
+  RELATION_KINDS as STORE_RELATION_KINDS,
   type RelationKind, type AliasKind, type CheckOutcome, type LifecycleInput, type PartRow, type PartCandidate, type AliasCandidate,
   type Queryable,
 } from "../store/index.js";
@@ -80,7 +81,23 @@ export type Acquired = {
   result: Result;
 };
 
-export const RELATION_KINDS = new Set<string>(["successor", "predecessor", "compatible", "module_of", "hosts_module", "supports_transceiver", "bundle_contains", "license_for", "accessory_for", "equivalent"]);
+/**
+ * The kinds an ACQUIRED DOCUMENT may propose — deliberately NARROWER than what the column holds, and
+ * derived so that the narrowing is the only hand-written part (16 Sep 2026).
+ *
+ * This was a third hand-written copy of the `relation_kind` enum, ten long while the database had
+ * eleven, and the omission was an accident: nobody updated it when `spare_of` was added. Keeping it
+ * out is nonetheless RIGHT, which is why this is an exclusion rather than a fix. `spare_of` is
+ * DERIVED from Cisco's `=` convention by scripts/build-spare-of.mts ("no document is read"), so a
+ * scraped file asserting one would be asserting something it cannot know — and line ~891 counts an
+ * unlisted kind as `relations_invalid_kind` and drops it, which is the correct answer for that.
+ *
+ * Written as a subtraction so a TWELFTH kind is admitted automatically and only the refusal needs a
+ * decision: a hand-kept list of what exists drifts (that is what produced this), a hand-kept list of
+ * what is EXCLUDED does not, because it is short and every entry has a reason.
+ */
+const NOT_FROM_DOCUMENTS = new Set<string>(["spare_of"]);
+export const RELATION_KINDS = new Set<string>(STORE_RELATION_KINDS.filter((k) => !NOT_FROM_DOCUMENTS.has(k)));
 export const ALIAS_KINDS = new Set<string>(["gtin", "upc", "ean", "legacy_sku", "variant_sku", "vendor_alias", "distributor_sku"]);
 export const DATE_RX = /^\d{4}-\d{2}-\d{2}$/;
 

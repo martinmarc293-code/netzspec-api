@@ -41,7 +41,7 @@ if (process.argv.includes("--sabotage-db-url")) {
 import {
   query, withTx, closePool, resolveDatabaseUrl, databaseName, getPool,
   openRun, closeRun, withRun, hashFile, getRun,
-  ensureCategory, upsertPart, findPart, slugify, PRODUCT_CLASSES,
+  ensureCategory, upsertPart, findPart, slugify, PRODUCT_CLASSES, RELATION_KINDS,
   docIdFor, ensureSourceDoc, getSourceDoc, linkDocParts,
   applyMerge, currentFacts, currentFact, factHistory, writeGapConfirmed, supersedeFact, packLocator, unpackLocator, rollbackRun,
   upsertLifecycle, mergeLifecycle,
@@ -51,6 +51,7 @@ import {
   recordSourceCheck,
 } from "../../src/store/index.js";
 import type { SpecEntry } from "../../src/core/specMerge.js";
+import { ALL_STATES } from "../../src/api/queries/shared.js";
 
 if (process.env.NETZSPEC_DB !== "test") {
   console.error("refusing: run with NETZSPEC_DB=test (this suite truncates tables)");
@@ -204,25 +205,54 @@ check("a second SKU with the same slug base gets -2", p1spare.created && p1spare
     /23505/.test(dup) && /parts_vendor_sku_(ci|ws)_uq/.test(dup), dup || "the insert was ACCEPTED");
 }
 {
-  // PRODUCT_CLASSES MUST EQUAL THE ENUM, and until 16 Sep 2026 nothing compared any TypeScript list
-  // of product classes to the database. There were four: this one (8, correct), core/productClass.ts
-  // (6, deliberately narrower — what the classifier may ASSIGN rather than what the column may HOLD),
-  // and hand-written Sets in api/queries/parts.ts and api/tools.ts with SEVEN, both missing
-  // `non_product`. Migration 0014 added that value on 10 Sep; 1,061 live parts carry it; and
-  // `/v1/parts?class=non_product` answered `unknown class "non_product"` until the two API copies
-  // were derived from this list. This check is what makes the next added value fail HERE — one line,
-  // with the schema named — instead of at a caller months later.
-  const inDb = (await query<{ enumlabel: string }>(
-    `SELECT e.enumlabel FROM pg_enum e JOIN pg_type t ON t.oid = e.enumtypid WHERE t.typname = 'product_class'`
-  )).rows.map((r) => r.enumlabel).sort();
-  const inCode = [...PRODUCT_CLASSES].sort();
-  check("PRODUCT_CLASSES equals the product_class enum in the database, as a set",
-    JSON.stringify(inDb) === JSON.stringify(inCode),
-    `db=${JSON.stringify(inDb)} code=${JSON.stringify(inCode)}`);
-  // The API must accept every class the column can hold — the defect above was exactly this gap.
+  // THE CODE'S ENUM LISTS MUST EQUAL THE DATABASE'S, and until 16 Sep 2026 nothing compared any of
+  // them. Two of the six had already drifted, both the same way — a migration added a value and the
+  // hand-written TypeScript copies were never updated:
+  //
+  //   product_class   8 in the enum, SEVEN in api/queries/parts.ts and api/tools.ts (no
+  //                   `non_product`, added 10 Sep by 0014) -> ?class=non_product was refused for
+  //                   1,061 live parts.
+  //   relation_kind  11 in the enum, TEN in store/relations.ts, api/tools.ts and apply-acquired.ts
+  //                   (no `spare_of`) -> 11,320 rows, the third-largest kind in the table, that no
+  //                   tool could name and the store's own writer could not write.
+  //
+  // A typecheck cannot catch this: half the copies are Sets of strings. Comparing the copies with
+  // EACH OTHER cannot either — they were consistently wrong. Only the schema settles it.
+  const dbEnums = (await query<{ typname: string; labels: string }>(
+    `SELECT t.typname, string_agg(e.enumlabel::text, ',' ORDER BY e.enumlabel) AS labels
+       FROM pg_type t JOIN pg_enum e ON e.enumtypid = t.oid
+       JOIN pg_namespace n ON n.oid = t.typnamespace WHERE n.nspname = 'public'
+      GROUP BY t.typname`)).rows;
+
+  // The lists that have ONE canonical value in the code. The rest are named below rather than
+  // silently omitted: a check that cannot see something must say so, not shrink its own denominator.
+  const REGISTERED: Record<string, readonly string[]> = {
+    product_class: PRODUCT_CLASSES,
+    relation_kind: RELATION_KINDS,
+    fact_state: ALL_STATES,
+  };
+  const UNREGISTERED: Record<string, string> = {
+    lifecycle_status: "two hand-written Sets (api/queries/lifecycle.ts, api/queries/tools.ts), no single canonical value — they agree with the enum today",
+    run_status: "store/runs.ts declares a TYPE, which cannot be iterated at runtime",
+    fetch_status: "no TypeScript list found",
+  };
+
+  for (const [name, list] of Object.entries(REGISTERED)) {
+    const inDb = (dbEnums.find((r) => r.typname === name)?.labels ?? "").split(",").filter(Boolean);
+    check(`${name}: the code's list equals the database enum, as a set`,
+      JSON.stringify(inDb) === JSON.stringify([...list].sort()),
+      `db=${JSON.stringify(inDb)} code=${JSON.stringify([...list].sort())}`);
+  }
+  // BOTH DIRECTIONS: a new enum must not slip past this check unnoticed. Registering it or naming
+  // why it cannot be registered is a deliberate act; doing neither now fails here.
+  const unaccounted = dbEnums.map((r) => r.typname).filter((n) => !(n in REGISTERED) && !(n in UNREGISTERED));
+  check("every enum in the database is either checked here or named as unregistered with a reason",
+    unaccounted.length === 0, `unaccounted: ${unaccounted.join(", ")}`);
+
+  // And the consumer-level half, which is where the product_class defect actually bit.
   const { listParts } = await import("../../src/api/queries/parts.js");
   const refused: string[] = [];
-  for (const cls of inDb) {
+  for (const cls of PRODUCT_CLASSES) {
     try { await listParts({ class: cls, limit: 1 } as never); }
     catch (e) { refused.push(`${cls}: ${(e as Error).message}`); }
   }

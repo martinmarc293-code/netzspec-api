@@ -33,6 +33,7 @@ import path from "node:path";
 import { REPO_ROOT } from "../config.js";
 import { FIELD_DICTIONARY, PROFILES, unitFor, type FieldType } from "../core/fieldSchema.js";
 import { PRODUCT_CLASSES as STORE_PRODUCT_CLASSES } from "../store/parts.js";
+import { RELATION_KINDS as STORE_RELATION_KINDS } from "../store/relations.js";
 import { compileFilter, parseTerm, splitFilterTerms, type FilterDictionary } from "./filter.js";
 import { badRequest } from "./errors.js";
 
@@ -84,11 +85,13 @@ export const UI_FOR_TYPE: Record<FieldType, ToolUi[]> = {
   struct: [],
 };
 
-/** The relation kinds `relations` table holds; a tool may not invent one. */
-export const RELATION_KINDS = [
-  "successor", "predecessor", "compatible", "module_of", "hosts_module",
-  "supports_transceiver", "bundle_contains", "license_for", "accessory_for", "equivalent",
-] as const;
+/**
+ * The relation kinds the `relations` table holds; a tool may not invent one. DERIVED from the store
+ * (16 Sep 2026) — this was a hand-written copy of ten, and the claim above was false: the table also
+ * held 11,320 `spare_of` rows, so a tool scoped to the third-largest kind in the catalogue was
+ * refused at load as naming an unknown one.
+ */
+export const RELATION_KINDS = STORE_RELATION_KINDS;
 
 /** Part-level columns a fixed_filter may name; everything else must be a dictionary key. */
 export const PART_LEVEL_FILTER_KEYS = new Set(["product_class"]);

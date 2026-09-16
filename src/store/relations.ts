@@ -14,9 +14,29 @@ import { getPool } from "./db.js";
 import { findPart } from "./parts.js";
 import type { Queryable } from "./runs.js";
 
-export type RelationKind =
-  | "successor" | "predecessor" | "compatible" | "module_of" | "hosts_module"
-  | "supports_transceiver" | "bundle_contains" | "license_for" | "accessory_for" | "equivalent";
+/**
+ * THE relation kinds the column may hold, as a value so consumers can iterate them; the type is
+ * derived from it (the `ALL_STATES`/`FactState` idiom). Mirrors the `relation_kind` enum.
+ *
+ * `spare_of` was missing from here, from `api/tools.ts` and from `apply-acquired.ts` until 16 Sep
+ * 2026 — three hand-written copies of one enum, all ten long, while the database had eleven and
+ * **11,320 rows** used the eleventh: the third-largest kind in the table. `scripts/build-spare-of.mts`
+ * writes them with raw SQL precisely because this type would not admit the value, so the bypass was
+ * the symptom rather than the cause. Nothing compared any of the three to the schema; a typecheck
+ * cannot, because two of them are Sets of strings.
+ *
+ * NOT every consumer should hold all eleven — see `apply-acquired.ts`, which excludes `spare_of` on
+ * purpose now that the exclusion is stated: that edge is DERIVED from Cisco's `=` convention and is
+ * never asserted by a document, so an acquired file proposing one is proposing something it cannot
+ * know. `tests/db/store.test.ts` asserts THIS list equals the enum.
+ */
+export const RELATION_KINDS = [
+  "successor", "predecessor", "compatible", "module_of", "hosts_module",
+  "supports_transceiver", "bundle_contains", "license_for", "accessory_for", "equivalent",
+  "spare_of",
+] as const;
+
+export type RelationKind = (typeof RELATION_KINDS)[number];
 
 export type RelationInput = {
   to_sku: string;
