@@ -6,35 +6,40 @@
  * WHY. `scripts/remap-cpu-power-to-tdp.mts` and `scripts/retract-group-inherited.mts` withdrew facts
  * by writing `superseded_at = now()` ALONE. Every reader in this repo — `currentFacts`, `factRows`,
  * `SUMMARY_FROM`, ~50 files — filters on `superseded_by IS NULL` and no reader consults
- * `superseded_at`, so the withdrawals never took effect. Both scripts were fixed on 16 Sep 2026
- * (commit `dc303a3`); this repairs the rows they had already written. Measured that night:
+ * `superseded_at`, so the withdrawals never took effect. Measured 16 Sep 2026:
  *
  *     superseded_at set, superseded_by NULL            3,790
  *     the reverse (a supersession with no timestamp)       0     <- the defect is one-directional
- *     rows with superseded_by = id anywhere in prod        0     <- the canonical path never used
  *     of the 3,790, passing every clause of factRows    3,186     <- served by the API today
+ *     of the 3,790, holding a withdrawal row                0     <- never properly retracted
  *     live parts serving BOTH power_max and tdp         1,571     (1,548 with the IDENTICAL raw)
  *
  * That last line is the user-visible damage: the remap created the `tdp` successor and its
  * withdrawal of `power_max` silently did nothing, so both are served with the same number.
  *
- * WHY `superseded_by = id` AND NOT A POINTER TO A SUCCESSOR. That is the store's RETIRED-IN-PLACE
- * idiom (`src/store/facts.ts:188`): a retraction withdraws with no replacement, so the row points at
- * itself, and the supersession-consistency checks exclude that case on purpose
- * (`invariants.test.ts:120`, `hygiene.test.ts:395`, both `o.superseded_by <> o.id`). It is the right
- * pointer here because it was MEASURED to be: of the 3,790, **0** have a live current fact on the
- * same (part_id, field_key). The `tdp` row is a different field, so it is not `power_max`'s
- * successor. The guard below re-checks that at run time rather than trusting this paragraph — if the
- * population has changed and some row now HAS a same-field successor, self-supersession would be the
- * wrong pointer and the script refuses instead of guessing.
+ * IT CALLS `retractFact`, AND THE FIRST VERSION OF THIS SCRIPT DID NOT — WHICH WAS THE SAME MISTAKE
+ * THE TWO SCRIPTS MADE. That version hand-wrote `superseded_by = id`, citing `facts.ts:188` as a
+ * "retired in place" idiom. It is not: line 188 is the PARK step INSIDE `supersedeFact`, overwritten
+ * seven lines later with the real successor id, which is why production holds 0 such rows at rest.
+ * The canonical retraction writes a WITHDRAWAL ROW — `raw=''`, `state=gap_unattempted`,
+ * `method=retracted:<rule>` — and points the old row at it. That path has been used **10,071 times**
+ * in this store. Self-superseding would have hidden the fact while recording no gap, so completeness
+ * would count the cup as never-asked rather than as withdrawn. Three copies of a helper is three
+ * copies of the same bug; this is the copy, deleted.
+ *
+ * THE RULE NAMES THE ORIGINAL INTENT, not this repair, so the withdrawal rows read like the ones the
+ * two scripts should have written: `rekeyed-to-tdp` for the remap's `power_max` rows (matching the
+ * existing `retracted:rekeyed-to-psu_rated_output`), `group-inherited` for the rest. The split is
+ * asserted to cover every candidate exactly once.
  *
  * WHAT THIS DOES NOT DO. It does not decide whether the withdrawals were right. Both scripts ran
- * deliberately, under a run, with their reasons recorded; this only makes their effect visible to
- * readers. Running it REMOVES ~3,186 facts from what the API serves, which is a content change — so
- * it is dry-run by default and the `--commit` is the operator's.
+ * deliberately, under a run, with their reasons recorded; this only completes them. Running it
+ * REMOVES ~3,186 facts from what the API serves, which is a content change — so it is dry-run by
+ * default and the `--commit` is the operator's.
  */
 import { getPool, closePool } from "../src/store/index.js";
 import { withRun } from "../src/store/runs.js";
+import { retractFact } from "../src/store/facts.js";
 
 type Row = { id: string; sku: string; field_key: string; raw: string; method: string; day: string; served: boolean };
 
@@ -50,14 +55,19 @@ const SELECT = `
    WHERE f.superseded_by IS NULL AND f.superseded_at IS NOT NULL
    ORDER BY f.id`;
 
-// A row that HAS a live same-field successor must not be self-superseded — its superseded_by should
-// name that successor. Measured 0 on 16 Sep; if it is ever non-zero the population has changed and
-// this script is the wrong tool, so it refuses rather than writing the easy answer.
+// A row that HAS a live same-field successor was superseded, not withdrawn, and retracting it would
+// write a gap over a value that was replaced. Measured 0 on 16 Sep; re-checked here rather than
+// quoted, because a paragraph is not a guard.
 const WITH_SUCCESSOR = `
   SELECT count(*)::text AS n FROM facts o
    WHERE o.superseded_by IS NULL AND o.superseded_at IS NOT NULL
      AND EXISTS (SELECT 1 FROM facts n WHERE n.part_id = o.part_id AND n.field_key = o.field_key
                    AND n.id <> o.id AND n.superseded_by IS NULL AND n.superseded_at IS NULL)`;
+
+/** Which script withdrew this row, and therefore which rule its withdrawal row should name. */
+function ruleFor(r: Row): string {
+  return r.field_key === "power_max" && r.method === "description_mining" ? "rekeyed-to-tdp" : "group-inherited";
+}
 
 async function main(): Promise<void> {
   const commit = process.argv.includes("--commit");
@@ -81,13 +91,19 @@ async function main(): Promise<void> {
   console.log(`  by withdrawal date: ${by((r) => r.day).map(([k, v]) => `${k}=${v}`).join(" ")}`);
   console.log(`  by method:          ${by((r) => r.method).map(([k, v]) => `${k}=${v}`).join(" ")}`);
   console.log(`  by field:           ${by((r) => r.field_key).map(([k, v]) => `${k}=${v}`).join(" ")}`);
+  console.log(`  withdrawal rule:    ${by(ruleFor).map(([k, v]) => `retracted:${k}=${v}`).join(" ")}`);
 
-  // THE GUARD, checked live rather than quoted from the header.
+  // THE GUARDS, checked live rather than quoted from the header.
   const successors = Number((await pool.query<{ n: string }>(WITH_SUCCESSOR)).rows[0].n);
   console.log(`  rows that HAVE a live same-field successor: ${successors} (must be 0)`);
   if (successors !== 0) {
-    console.error("  *** some rows have a real successor, so superseded_by = id is the WRONG pointer for them.");
-    console.error("      The population has changed since this was measured. Do not run this script.");
+    console.error("  *** some rows were SUPERSEDED, not withdrawn. Retracting them would write a gap over a");
+    console.error("      replaced value. The population has changed since this was measured; do not run this.");
+    process.exitCode = 1; await closePool(); return;
+  }
+  const ruled = rows.filter((r) => ruleFor(r) === "rekeyed-to-tdp").length + rows.filter((r) => ruleFor(r) === "group-inherited").length;
+  if (ruled !== rows.length) {
+    console.error(`  *** the rule split covers ${ruled} of ${rows.length} rows — it must cover every one exactly once.`);
     process.exitCode = 1; await closePool(); return;
   }
   if (rows.length > ceiling) {
@@ -100,7 +116,7 @@ async function main(): Promise<void> {
     const step = Math.max(1, Math.floor(rows.length / 8));
     for (let i = 0; i < rows.length; i += step) {
       const r = rows[i];
-      console.log(`   #${String(i).padStart(5)} ${r.sku.padEnd(24)} ${r.field_key.padEnd(20)} ${r.method.padEnd(18)} ${r.served ? "SERVED" : "hidden"}  raw=${JSON.stringify(r.raw)}`);
+      console.log(`   #${String(i).padStart(5)} ${r.sku.padEnd(24)} ${r.field_key.padEnd(20)} ${r.method.padEnd(18)} ${r.served ? "SERVED" : "hidden"}  -> retracted:${ruleFor(r)}`);
     }
     console.log("\nnothing written. re-run with --commit");
     await closePool(); return;
@@ -109,17 +125,20 @@ async function main(): Promise<void> {
   const out = await withRun("restamp-orphan-withdrawals",
     { rule: "superseded_at-without-superseded_by", candidates: rows.length, served_before: served,
       cause: "remap-cpu-power-to-tdp.mts and retract-group-inherited.mts wrote superseded_at alone (fixed dc303a3)" },
-    async () => {
-      const ids = rows.map((r) => Number(r.id));
-      const r = await pool.query("UPDATE facts SET superseded_by = id WHERE id = ANY($1::bigint[]) AND superseded_by IS NULL", [ids]);
-      return { stats: { restamped: r.rowCount ?? 0 } };
+    async (runId) => {
+      let retracted = 0;
+      // retractFact writes the withdrawal row and points the old row at it — the same path the two
+      // scripts should have called. One row at a time, because supersedeFact re-reads each row and
+      // refuses one that is no longer current.
+      for (const r of rows) { await retractFact(pool, Number(r.id), ruleFor(r), runId); retracted++; }
+      return { stats: { retracted } };
     });
 
   // READ IT BACK FROM A FRESH QUERY. The count an UPDATE reports is what it believed it did.
-  // And THE SELECTOR MUST REJECT ITS OWN OUTPUT: after this, superseded_by is set, so a second run
-  // matches nothing. A repair whose output its own selector still matches runs for ever.
+  // And THE SELECTOR MUST REJECT ITS OWN OUTPUT: after this, superseded_by names the withdrawal row,
+  // so a second run matches nothing. A repair whose output its own selector still matches runs for ever.
   const after = await pool.query<Row>(SELECT);
-  console.log(`\n  restamped: ${out.stats?.restamped}`);
+  console.log(`\n  retracted: ${out.stats?.retracted}`);
   console.log(`  selector re-run (MUST be 0, or this pass would repeat itself): ${after.rows.length}`);
   if (after.rows.length !== 0) {
     console.error("  *** the selector still matches after the write — do not re-run this script ***");

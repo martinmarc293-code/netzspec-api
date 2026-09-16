@@ -23,6 +23,7 @@
 //         npx tsx scripts/remap-cpu-power-to-tdp.mts --commit
 import { getPool, closePool } from "../src/store/index.js";
 import { withRun } from "../src/store/runs.js";
+import { retractFact } from "../src/store/facts.js";
 import { ucsKind } from "../src/core/ucsKind.js";
 
 type F = {
@@ -85,18 +86,20 @@ async function main(): Promise<void> {
            b.map((x) => x.doc_id), b.map((x) => x.locator), b.map((x) => x.extracted_at),
            b.map((x) => x.norm_v), runId]);
         inserted += ins.rowCount ?? 0;
-        // superseded_by = id is the store's RETIRED-IN-PLACE idiom (src/store/facts.ts:188): this
-        // power_max row is WITHDRAWN, not replaced by another power_max, and the tdp row is a
-        // different field so it is not this row's successor. Setting superseded_at ALONE — which
-        // this script did until 16 Sep 2026 — withdraws nothing, because every reader
-        // (currentFacts, factRows, SUMMARY_FROM, 50 files) filters on superseded_by IS NULL and
-        // never looks at superseded_at. Measured cost of the old form: 1,571 live parts served
-        // BOTH power_max and tdp, 1,548 of them with the identical raw value — the successor
-        // landed and the withdrawal silently did not.
-        const sup = await pool.query(
-          "UPDATE facts SET superseded_by = id, superseded_at = now() WHERE id = ANY($1::bigint[])",
-          [b.map((x) => x.id)]);
-        superseded += sup.rowCount ?? 0;
+        // CALL THE STORE, do not hand-write the withdrawal. Until 16 Sep 2026 this wrote
+        // `SET superseded_at = now()` alone, which withdraws NOTHING: every reader (currentFacts,
+        // factRows, SUMMARY_FROM, ~50 files) filters on `superseded_by IS NULL` and no reader
+        // consults superseded_at. Measured cost: 1,571 live parts served BOTH power_max and tdp,
+        // 1,548 with the identical raw value — the successor landed and the withdrawal did not.
+        //
+        // The first repair of this line was ALSO hand-written (`superseded_by = id`, citing
+        // facts.ts:188 as a "retired in place" idiom). That was wrong twice over: line 188 is the
+        // PARK inside supersedeFact, overwritten seven lines later, which is why production holds 0
+        // such rows at rest; and it would have hidden the fact while recording no gap, so the cup
+        // would read never-asked rather than withdrawn. `retractFact` writes the withdrawal row
+        // (`raw=''`, `gap_unattempted`, `method=retracted:<rule>`) and points this row at it — the
+        // path 10,071 rows in this store already took.
+        for (const x of b) { await retractFact(pool, Number(x.id), "rekeyed-to-tdp", runId); superseded++; }
       }
       return { stats: { tdp_inserted: inserted, power_max_superseded: superseded } };
     });
