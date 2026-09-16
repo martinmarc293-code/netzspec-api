@@ -267,6 +267,58 @@ export function sharedPartsNamedBySeries(rows: LayerRow[], category: string, ven
   return out;
 }
 
+/** How strongly a piece of evidence identifies a series. A WIDENED round number (200 matching 2xx) is the weakest — it is what
+ * `digitPattern` broadens on purpose, and the Q-27 review found it behind most of the queue's wrong proposals. An EXACT 3-5 digit
+ * token and the FULL series name carry their own identity; a WORD borrows it from the absence of a rival. */
+export function evidenceStrength(detail: string, series: string): "widened" | "exact" | "fullname" | "word" {
+  if (/^[0-9]+$/.test(detail))
+    return /^[1-9]000$/.test(detail) || /^[0-9]{2}00$/.test(detail) || /^[1-9]00$/.test(detail) ? "widened" : "exact";
+  return detail === series ? "fullname" : "word";
+}
+
+/**
+ * THE SCAN Q-27's REVERSE CHECK CANNOT MAKE (16 Sep 2026). `sharedPartsNamedBySeries` only ever asks the siblings of a row's OWN
+ * product line, which is right for promoting a row within its line — and it means a row filed under the WRONG LINE is invisible
+ * to it. `N20-BBLKD2=` is a "UCS C250 M2 and M1 HDD blanking panel" sitting in the B-Series line's shared parts, so the only
+ * series that could ever claim it was UCS B250: the wrong answer, reached because the right one was never a candidate.
+ *
+ * This asks the same question of every line of the category, and reports a row that NO series of its own line names while
+ * EXACTLY ONE series of another line does. It is deliberately restricted to STRONG evidence — an exact digit token or the full
+ * series name — because the unrestricted scan returns 541 rows of which 412 rest on a widened round number, and a queue that big
+ * at that precision is one nobody runs twice. The strong band is 49 rows and finds things like `AIR-PSU1-770W`, "770W AC
+ * Hot-Plug Power Supply for 5520 Controller", sitting under Wireless Antennas.
+ *
+ * Recorded as an exact count per category for the same reason Q-27's is: a rise is a new mis-file, a fall is a review doing its
+ * job, and both directions fail so neither drifts in silence.
+ */
+export function crossLineNamedBySeries(rows: LayerRow[], category: string, vendor = "cisco"):
+  { sku: string; from: string; fromLine: string; to: string; toLine: string; kind: string; detail: string }[] {
+  const loaded = loadLineFile(vendor, category);
+  if (!loaded) return [];
+  const out: { sku: string; from: string; fromLine: string; to: string; toLine: string; kind: string; detail: string }[] = [];
+  for (const r of rows) {
+    if (r.bucket !== "layered" || !/ shared parts$/.test(r.series ?? "")) continue;
+    let ownClaims = 0;
+    const other: { series: string; line: string; kind: string; detail: string }[] = [];
+    for (const ln of loaded.file.lines) {
+      const siblings = ln.series.map((s) => ({ series: s.series, family: s.family?.trim() || null }));
+      for (const s of ln.series) {
+        if (/ shared parts$/.test(s.series)) continue;
+        const ev = labelEvidence({ sku: r.sku, name: r.name ?? null }, s.series, { family: familyOf(loaded, s.series), siblings });
+        if (ev.kind !== "sku-token" && ev.kind !== "name") continue;
+        if (ln.line === r.product_line) { ownClaims++; continue; }
+        // only the bands that identify a series on their own; a widened number or a word is not enough to move a row's LINE
+        const strength = evidenceStrength(ev.detail, s.series);
+        if (strength === "exact" || strength === "fullname") other.push({ series: s.series, line: ln.line, kind: ev.kind, detail: ev.detail });
+      }
+    }
+    // a row its own line can place is the forward check's business, not this one
+    if (ownClaims > 0 || other.length !== 1) continue;
+    out.push({ sku: r.sku, from: r.series, fromLine: r.product_line ?? "", to: other[0].series, toLine: other[0].line, kind: other[0].kind, detail: other[0].detail });
+  }
+  return out;
+}
+
 export function readLayerRows(category: string, vendor = "cisco"): LayerRow[] {
   const p = path.join(REPO_ROOT, "data", "layers", `${vendor}-${category}.rows.tsv`);
   const lines = fs.readFileSync(p, "utf8").replace(/\r/g, "").split("\n").filter(Boolean);

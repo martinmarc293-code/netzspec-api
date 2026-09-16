@@ -8,7 +8,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { REPO_ROOT } from "../src/config.js";
-import { readLayerRows, pairDisagreements, twinGroups, crossClaims, ruleUse, classifyRules, incomingRows, labelViolations, labelEvidenceDrift, seriesEntryDisagreements, deviceInSharedParts, unplacedArrivals, sharedLabelNotExplicit, crossCategoryTwins, nonHardwarePlansOnPage, gluedDigitKeeps, sharedPartsNamedBySeries, DEVICE_KINDS, type LayerRow } from "../src/core/layerChecks.js";
+import { readLayerRows, pairDisagreements, twinGroups, crossClaims, ruleUse, classifyRules, incomingRows, labelViolations, labelEvidenceDrift, seriesEntryDisagreements, deviceInSharedParts, unplacedArrivals, sharedLabelNotExplicit, crossCategoryTwins, nonHardwarePlansOnPage, gluedDigitKeeps, sharedPartsNamedBySeries, crossLineNamedBySeries, DEVICE_KINDS, type LayerRow } from "../src/core/layerChecks.js";
 import { labelEvidence, digitPattern, ALIAS_REQUIRES, NUMBER_KEYED_ALIASES } from "../src/core/labelEvidence.js";
 
 export const REVIEWED = ["switches", "routers", "transceiver", "interfaces-modules", "wireless", "servers-unified-computing", "hyperconverged-infrastructure", "hyperconverged-systems", "security", "video", "optical-networking", "storage-networking", "unified-communications", "collaboration-endpoints", "meraki"];
@@ -117,6 +117,28 @@ const REVERSE_EXPECT: Record<string, number> = {
   "servers-unified-computing": 212, "hyperconverged-infrastructure": 109, "collaboration-endpoints": 79, switches: 90,
   wireless: 59, routers: 44, "storage-networking": 38, "hyperconverged-systems": 31, security: 22, "interfaces-modules": 9,
   "unified-communications": 5, video: 3, "optical-networking": 3, transceiver: 0, meraki: 0,
+};
+
+// THE CROSS-LINE SCAN (16 Sep 2026). Q-27's reverse check asks only the siblings of a row's OWN line, so a row filed under the
+// WRONG line is invisible to it — `N20-BBLKD2=` is a "UCS C250 M2 and M1 HDD blanking panel" in the B-Series line, where the only
+// series that could ever claim it was UCS B250. `crossLineNamedBySeries` asks every line of the category and reports a row NO
+// series of its own line names while exactly one series of another does, on STRONG evidence only (an exact digit token or the
+// full series name): the unrestricted scan returns 541 rows of which 412 rest on a widened round number, which is a list nobody
+// runs twice.
+//
+// Recorded as an exact count for the same reason REVERSE_EXPECT is, and with the same honesty: **all 90 were read**, and roughly
+// 55 are real. The good ones are worth the check on their own — eight Catalyst 9124AX mounting brackets and the 9105i and
+// C9130AXE brackets sitting in Aironet, four controller power supplies ("770W AC Hot-Plug Power Supply for 5520 Controller")
+// sitting under Wireless Antennas, UCS 5108 chassis parts, S3260 I/O expanders, fourteen TPM modules and six Optane memory
+// modules filed away from UCS Server Components. The ~35 that are wrong are causes already recorded and already unfixable here:
+// a CAPACITY read as a platform (`UCSX-M2-240G` "240GB SATA M.2" -> UCS C240; `SSD-120G` -> Meraki MS120; `CAB-SPWR-150CM`
+// -> MS150), the optical customer-variant codes (`X1001`), and a few bundles. A queue that contains known refusals is what Q-27's
+// own 704 already is; the number's job is that a NEW mis-file cannot appear in silence.
+const CROSSLINE_EXPECT: Record<string, number> = {
+  "servers-unified-computing": 52, wireless: 25, switches: 5, "optical-networking": 4,
+  "hyperconverged-infrastructure": 3, "collaboration-endpoints": 1,
+  routers: 0, transceiver: 0, "interfaces-modules": 0, "hyperconverged-systems": 0, security: 0,
+  video: 0, "storage-networking": 0, "unified-communications": 0, meraki: 0,
 };
 
 // The four rows the fence is known to LOSE, named so the cost cannot go quiet. `UCSC-SCCBL240` reads as UCS C-series /
@@ -306,6 +328,12 @@ for (const cat of REVIEWED) {
   check(`reverse label check ${cat}: ${REVERSE_EXPECT[cat] ?? "?"} shared-parts rows are named by exactly one series (the recorded review queue)`,
     reverse.length === REVERSE_EXPECT[cat],
     `now ${reverse.length}, recorded ${REVERSE_EXPECT[cat]}${reverse.length > (REVERSE_EXPECT[cat] ?? 0) ? ` — new: ${reverse.slice(0, 5).map((x) => `${x.sku} -> ${x.to} (${x.kind} ${x.detail})`).join("; ")}` : ""}`);
+  // the cross-line scan: a row NO series of its own line names, that exactly one series of ANOTHER line names on strong evidence
+  const cross = crossLineNamedBySeries(rows, cat);
+  check(`cross-line check ${cat}: ${CROSSLINE_EXPECT[cat] ?? "?"} shared-parts rows are named only by a series in ANOTHER line (the mis-filed queue)`,
+    cross.length === CROSSLINE_EXPECT[cat],
+    `now ${cross.length}, recorded ${CROSSLINE_EXPECT[cat]}${cross.length > (CROSSLINE_EXPECT[cat] ?? 0) ? ` — new: ${cross.slice(0, 4).map((x) => `${x.sku} (${x.fromLine}) -> ${x.to} (${x.toLine})`).join("; ")}` : ""}`);
+
   // A CONTENT CHANGE A COUNT CANNOT SEE. The range rule took three 863-928 MHz antennas OUT of IR 800 and the same three
   // ARRIVED at their real series, so routers reads 44 both before and after and no count check can tell the difference —
   // the second such case tonight. The outcome is therefore asserted directly: each antenna is proposed for the series its
