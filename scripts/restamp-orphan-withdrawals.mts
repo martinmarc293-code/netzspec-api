@@ -63,11 +63,20 @@ const SELECT = `
    WHERE f.superseded_by IS NULL AND f.superseded_at IS NOT NULL
    ORDER BY f.id`;
 
-const WITH_SUCCESSOR = `
-  SELECT count(*)::text AS n FROM facts o
-   WHERE o.superseded_by IS NULL AND o.superseded_at IS NOT NULL
-     AND EXISTS (SELECT 1 FROM facts n WHERE n.part_id = o.part_id AND n.field_key = o.field_key
-                   AND n.id <> o.id AND n.superseded_by IS NULL AND n.superseded_at IS NULL)`;
+// THE PROPERTY THIS SCRIPT RELIES ON: each withdrawn row is the ONLY current fact for its (part_id,
+// field_key), so it was withdrawn and not replaced, and a gap is the right thing to write over it.
+//
+// That property is guaranteed by the SCHEMA, not by the data, and an earlier version of this script got
+// that wrong. It ran a query counting withdrawn rows with a live same-field successor, printed
+// "0 (must be 0)", and 16 Sep 2026's notes cited "0 of 3,790" as MEASURED evidence. It was a structural
+// zero: `facts_current_uq` is UNIQUE (part_id, field_key) WHERE superseded_by IS NULL, and a withdrawn
+// row has superseded_by NULL, so a second current row on the same field is IMPOSSIBLE. The guard could
+// never fire. Proven on netzspec_test4: inserting a live successor beside a withdrawn row fails with
+// 23505 on facts_current_uq before this script is ever reached. So the check now asserts the thing
+// that actually makes the property true — the index — and refuses if it is gone, which is the only
+// state in which a replaced row could be mistaken for a withdrawn one.
+const CURRENT_UNIQUE_INDEX = `
+  SELECT indexdef FROM pg_indexes WHERE schemaname = 'public' AND indexname = 'facts_current_uq'`;
 
 /** Which script withdrew this row, and therefore which rule its withdrawal row should name. */
 function ruleFor(r: Row): string {
@@ -106,10 +115,16 @@ async function main(): Promise<void> {
     console.error(`  *** ${all.length} rows exceeds the ceiling of ${ceiling}. Re-measure before raising it.`);
     process.exitCode = 1; await closePool(); return;
   }
-  const successors = Number((await pool.query<{ n: string }>(WITH_SUCCESSOR)).rows[0].n);
-  console.log(`  rows that HAVE a live same-field successor: ${successors} (must be 0)`);
-  if (successors !== 0) {
-    console.error("  *** some rows were SUPERSEDED, not withdrawn; retracting them would write a gap over a replaced value.");
+  // Assert the SCHEMA guarantee rather than count a state it makes impossible. The definition must be
+  // unique, over (part_id, field_key), and partial on superseded_by IS NULL — all three, because a
+  // weakened index (dropped predicate, extra column) would silently allow a replaced row to sit beside
+  // a withdrawn one.
+  const idx = (await pool.query<{ indexdef: string }>(CURRENT_UNIQUE_INDEX)).rows[0]?.indexdef ?? "";
+  const guaranteed = /UNIQUE INDEX/i.test(idx) && /\(part_id, field_key\)/.test(idx) && /WHERE \(superseded_by IS NULL\)/.test(idx);
+  console.log(`  one-current-row-per-field guaranteed by facts_current_uq: ${guaranteed ? "yes" : "NO"}`);
+  if (!guaranteed) {
+    console.error(`  *** facts_current_uq is missing or changed (${idx || "absent"}). Without it a withdrawn row could sit beside`);
+    console.error("      a replacement, and retracting it would write a gap over a replaced value. Refusing.");
     process.exitCode = 1; await closePool(); return;
   }
 
