@@ -61,6 +61,15 @@ database, or by a build of the tool that computed the basis without storing it. 
 audited**, and the printed-bar ruling should not rest on it. Re-measuring it is cheap once the derive has actually run,
 which is the same blocked first step as everything else here.
 
+> **CORRECTED, later the same night.** The mundane reading turned out to be the right one and it is in
+> `2026-09-16-the-printed-bar-chain-is-severed-at-the-handoff.md`. That file is the *stdout summary* of a
+> `measure-printed-cups` run; its `link basis … {"explicit":3132}` line is separate again — `publish-arrangement.sh`
+> feeds the site "the newest derive-link-provenance **report**", a dry-run JSON file, not the store's columns. So no
+> mystery write ever happened: both numbers are honest outputs of tools reading files, and `doc_parts` has never held a
+> `link_basis`. What the same investigation did turn up is worse for the chain — **the producer writes
+> `cup-evidence-<vendor>-<category>.json` and the only reader asks for `cup-evidence-<vendor>.json`**, so the printed bar
+> cannot reach the report, the site or the freeze even once it is measured.
+
 It is deliberately left untracked. Committing it would give a number standing that its provenance does not support; this
 record is what makes the file interpretable to whoever finds it next.
 
