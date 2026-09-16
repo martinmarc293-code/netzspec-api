@@ -49,8 +49,9 @@ And `openRun` called it inside a **bare catch**:
 try { await reapStaleRuns(db); } catch { /* A reaper that cannot run must never stop the work … */ }
 ```
 
-The principle in that comment is right and the implementation is the failure mode: **~250 runs have opened since 8 Sep,
-every one of them failing to reap in silence.** And it is self-perpetuating — the three rows that break the reaper are
+The principle in that comment is right and the implementation is the failure mode: **346 runs have opened since the
+first of those rows appeared at 8 Sep 08:32 — every one of them calling the reaper, and every one failing in silence.**
+(I first wrote “~250” from memory of the run numbers; counted, it is 346, or 343 after all three rows existed.) And it is self-perpetuating — the three rows that break the reaper are
 exactly the rows it exists to remove, so it could never recover on its own.
 
 ## Fixed
