@@ -8,7 +8,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { REPO_ROOT } from "../src/config.js";
-import { readLayerRows, pairDisagreements, twinGroups, crossClaims, ruleUse, classifyRules, incomingRows, labelViolations, labelEvidenceDrift, seriesEntryDisagreements, deviceInSharedParts, unplacedArrivals, sharedLabelNotExplicit, crossCategoryTwins, nonHardwarePlansOnPage, DEVICE_KINDS, type LayerRow } from "../src/core/layerChecks.js";
+import { readLayerRows, pairDisagreements, twinGroups, crossClaims, ruleUse, classifyRules, incomingRows, labelViolations, labelEvidenceDrift, seriesEntryDisagreements, deviceInSharedParts, unplacedArrivals, sharedLabelNotExplicit, crossCategoryTwins, nonHardwarePlansOnPage, gluedDigitKeeps, DEVICE_KINDS, type LayerRow } from "../src/core/layerChecks.js";
 import { labelEvidence } from "../src/core/labelEvidence.js";
 
 export const REVIEWED = ["switches", "routers", "transceiver", "interfaces-modules", "wireless", "servers-unified-computing", "hyperconverged-infrastructure", "hyperconverged-systems", "security", "video", "optical-networking", "storage-networking", "unified-communications", "collaboration-endpoints", "meraki"];
@@ -58,6 +58,23 @@ const DEVICE_EXCEPTIONS: Record<string, string> = {
   // would be a device kind in ASA shared parts"). It is a CARD (the interfaces-modules plan records expected kind `module`), so the row is
   // right and the KIND is wrong: listed for the Q-28 rebuild, kept as an exception until the kind axis is fixed
   "security|ASA-SSC-AIP-5-K9=": "a kind-layer defect, not a device: securityKind reads the ASA 5500 AIP-SSC-5 CARD as `appliance`; it sits in ASA and ISA shared parts with the other ASA 5500 service modules (Q-28)",
+};
+
+// Q-26 (operator, "after the runs"): the rows the label check keeps on a digit token whose GLUED SPELLING the page does not attest.
+// `gluedDigitKeeps` in src/core/layerChecks.ts carries the measurement that settled the rule B1 proposed (it would have moved 40
+// correct rows and no wrong ones, and all three rows it was written for are already placed by SKU rules). These nine are the whole
+// list today, each kept because the glued letters are Cisco's own abbreviation of the series name written in a SKU — an abbreviation
+// no page rule attests, because no SKU-placed row of that series happens to use it. A NEW entry here is the B1 defect returning.
+const GLUED_DIGIT_EXCEPTIONS: Record<string, string> = {
+  "switches|NXK-ACC-KIT-2RU": "N9000 is Cisco's SKU spelling of Nexus 9000 — \"Cisco N3000/N9000 Fixed Accessory Kit, 2 RU\"; the Nexus 9000 shared-parts series has no SKU-placed row writing N9000",
+  "switches|NXK-ACC-RMK-1RU": "N9300 is a Nexus 9000 model — \"Cisco N9300 fixed accessory kit for 4-post rack\"",
+  "switches|NXK-DC-4.4KW-A": "N9800 is a Nexus 9000 model — \"Cisco N9800 DC power supply\"",
+  "switches|NXK-HV6.3KW20A-A": "N9800 is a Nexus 9000 model — \"Cisco N9800 6300W 20A AC and HV power supply\"",
+  "switches|NXK-HV6.3KW30A-A": "N9800 is a Nexus 9000 model — \"Cisco N9800 6300W 30A AC and HV power supply\"",
+  "switches|FAN-MOD-09=": "Cat6509 is Catalyst 6500 — \"Fan Mod CISCO7609 (2 required)/Cat6509-NEB-A\"; the page attests C+6500 (WS-C6597=) but not CAT+6500",
+  "switches|PWR-4000-DC": "Cat6509 is Catalyst 6500 — \"4000W DC PS for CISCO7609-S/CISCO7609/13, Cat6509/13\"",
+  "switches|PWR-6000-DC": "Cat6506/09/13 are Catalyst 6500 — \"6000W DC PS for CISCO7609/7609-S/13, Cat6506/09/13\"",
+  "switches|PWR-6000-DC=": "the spare of PWR-6000-DC, same name",
 };
 
 // THE LABEL CHECK, per category (layers round 3, operator: the round-2 floor "more than 100 label-placed rows" failed by construction
@@ -227,6 +244,14 @@ for (const cat of REVIEWED) {
     JSON.stringify({ applied: summary.label_check?.applied, label_placed: summary.label_check?.label_placed, moved: summary.label_check?.moved?.length }));
   const lem = labelExpectMiss(cat, withEv);
   check(`label check ${cat}: the label-placed count meets the category's recorded expectation`, lem === null, lem ?? "");
+  // Q-26: a kept row whose glued digit spelling the page cannot account for. Both directions, or the allowlist becomes a hole.
+  const glued = gluedDigitKeeps(rows);
+  const gluedNew = glued.filter((g) => !GLUED_DIGIT_EXCEPTIONS[`${cat}|${g.sku}`]);
+  check(`label check ${cat}: 0 rows kept on an unattested glued digit spelling (${glued.length - gluedNew.length} recorded exception(s))`,
+    gluedNew.length === 0, gluedNew.slice(0, 6).map((g) => `${g.sku}: ${g.why}`).join("; "));
+  for (const k of Object.keys(GLUED_DIGIT_EXCEPTIONS).filter((x) => x.startsWith(`${cat}|`)))
+    check(`label check ${cat}: the recorded exception ${k.split("|")[1]} is still kept on an unattested spelling (a stale exception is a hole)`,
+      glued.some((g) => g.sku === k.split("|")[1]));
   // every row placed through a label carries the evidence it was judged on (a label placement without evidence is the check not running)
   // — except a label the mapping sends DIRECTLY to its line's shared parts, which claims no series (pre-ruling C1, layers round 3)
   const direct = (r: LayerRow) => /^label /.test(r.placed_by ?? "") && r.series === `${r.product_line} shared parts`;

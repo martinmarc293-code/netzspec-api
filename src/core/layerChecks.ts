@@ -14,7 +14,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { REPO_ROOT } from "../config.js";
 import { placePart, loadLineFile, familyOf, twinKey, twinRank, type Placement } from "./productLine.js";
-import { labelEvidence } from "./labelEvidence.js";
+import { labelEvidence, digitTokens, digitPattern } from "./labelEvidence.js";
 
 export type LayerRow = Record<string, string>;
 
@@ -165,6 +165,63 @@ export function labelEvidenceDrift(category: string, rows: LayerRow[], vendor = 
     if (now !== r.label_evidence) drift.push({ sku: r.sku, recorded: r.label_evidence, now });
   }
   return { drift, compatible };
+}
+
+/**
+ * Q-26 (operator, "after the runs"; re-audit finding B1, 15 Sep 2026). B1 found the label check keeping rows on digits that are not
+ * platforms — MX700's 7xx range read "CA750" as a 7xx model and kept the Avizia carts in TelePresence MX — and proposed a rule: a
+ * digit token preceded by letters counts only when those letters are the series' own model prefix.
+ *
+ * MEASURED FIRST, over every page's committed rows, and the proposal does not survive its own measurement. 79 of the 462 kept label
+ * rows are evidenced by a series digit token that is glued to letters everywhere it appears, and reading all of them, every one is a
+ * CORRECT keep: the glued letters are the vendor's SKU spelling of the same platform, which the series NAME spells differently —
+ * C9300 for "Catalyst 9300", N9800 for "Nexus 9000", Cat6509 for "Catalyst 6500", ASR1002 for "ASR 1000", IW6300 for
+ * "IW6300 / ESW6300". The rule as proposed would move 40 right rows and no wrong ones, because all three rows B1 found are already
+ * gone: AVIZ-CA300 / CA750 are placed by a hard SKU rule into TelePresence (legacy) shared parts, the 7160 rows sit in a renamed
+ * "Cisco 7100 VPN routers (7120 / 7140 / 7160)" placed by SKU, and ACC-PHD1080P= is kept by the word "PrecisionHD", not by 1080.
+ *
+ * So this is a CHECK and not a placement rule: it moves nothing, and it reports the rows whose glued spelling the page cannot
+ * account for, so a returning CA750 shows up as a NEW entry instead of being kept in silence. Three rescues, each derivable from
+ * the page rather than from a hand list:
+ *   1. a clean, unglued hit of the same token anywhere in the SKU or name;
+ *   2. the glued letters, or the letters+token together, are a word of the series name (CGR1000 under "CGR 1000 Connected Grid",
+ *      IW6300 under "IW6300 / ESW6300");
+ *   3. a row of the SAME series placed by a SKU RULE — never by a label, or the weakest evidence would corroborate itself — writes
+ *      the same spelling (C9300X-NM-8Y= attests C+9300 for Catalyst 9300; kinship is a suffix match, so Cat6509 and WS-C6597 count
+ *      as one family).
+ * The control is the case it was written for: the TelePresence MX series has 152 SKU-placed rows and not one writes CA<ddd>, so a
+ * label-placed AVIZ-CA750 would be reported here.
+ */
+export function gluedDigitKeeps(rows: LayerRow[]): { sku: string; series: string; token: string; prefix: string; why: string }[] {
+  const seriesWords = (s: string) => new Set(s.toUpperCase().split(/[^A-Z0-9]+/).filter(Boolean));
+  const hits = (hay: string, tok: string): { prefix: string }[] => {
+    const g = new RegExp(digitPattern(tok).re.source, "gi");
+    const out: { prefix: string }[] = [];
+    for (let m = g.exec(hay); m; m = g.exec(hay)) out.push({ prefix: (/([A-Za-z]*)$/.exec(hay.slice(0, m.index)) ?? ["", ""])[1].toUpperCase() });
+    return out;
+  };
+  // rescue 3's index, from SKU-rule-placed rows only
+  const attested: { series: string; token: string; prefix: string; by: string }[] = [];
+  for (const r of rows) {
+    if (!/^sku /.test(r.placed_by ?? "") || !r.series) continue;
+    for (const tok of digitTokens(r.series)) for (const h of hits(r.sku ?? "", tok)) if (h.prefix) attested.push({ series: r.series, token: tok, prefix: h.prefix, by: r.sku });
+  }
+  const out: { sku: string; series: string; token: string; prefix: string; why: string }[] = [];
+  for (const r of rows) {
+    if (r.bucket !== "layered" || !/^label /.test(r.placed_by ?? "") || !r.label_evidence) continue;
+    const m = /^(?:sku-token|name): ([0-9]{3,5})$/.exec(r.label_evidence);
+    if (!m || !digitTokens(r.series ?? "").includes(m[1])) continue;
+    const token = m[1];
+    const all = [...hits(r.sku ?? "", token), ...hits(r.name ?? "", token)];
+    if (!all.length || all.some((h) => !h.prefix)) continue;                                   // 1
+    const words = seriesWords(r.series);
+    if (all.some((h) => words.has(h.prefix) || words.has(`${h.prefix}${token}`))) continue;     // 2
+    if (attested.some((a) => a.series === r.series && a.token === token                        // 3
+        && all.some((h) => h.prefix.endsWith(a.prefix) || a.prefix.endsWith(h.prefix)))) continue;
+    out.push({ sku: r.sku, series: r.series, token, prefix: all[0].prefix,
+      why: `kept on "${all[0].prefix}${token}", a spelling of ${token} this page does not attest for ${r.series}` });
+  }
+  return out;
 }
 
 export function readLayerRows(category: string, vendor = "cisco"): LayerRow[] {
