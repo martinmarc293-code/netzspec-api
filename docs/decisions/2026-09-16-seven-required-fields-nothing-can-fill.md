@@ -101,3 +101,49 @@ required field unfillable is a decision to fail forever."*
 **Not applied:** every one of these is a profile edit, and a profile edit is a DECISION that ships with the rebuilt
 ledgers, censuses, traces, completeness report and freeze on one commit — which is itself blocked (see
 `2026-09-16-step5-rebuild-is-blocked-at-its-first-step.md`).
+
+---
+
+# And the two the other way round: `securityShapes`, where the TEST asserts the proposal
+
+`tests/securityShapes.test.ts` is red on two rows, and they are the opposite shape to the seven above — the test expects
+**`req`** and the profile says **`opt`**:
+
+```
+MISS  management / Security Manager / managed_devices_max -> req: got "opt"
+      (kind-layer: MANAGEMENT archetype proposal (was opt: no enabled source publishes a label))
+MISS  drive / Defense Center / drive_form_factor -> req: got "opt"
+      (DRIVE archetype proposal (the NEW key the foundation created))
+```
+
+So the test encodes an **archetype proposal that was never applied**, and one of them contradicts a decision the security
+round had already taken on measured evidence (*"`managed_devices_max` two [labels] that are prose rather than specs"* →
+declared `opt` with the counts beside it). Measured the same way as the seven:
+
+### `managed_devices_max` — 16 live hardware parts in Security Manager; **5 labels, 5 occurrences**
+```
+1  Managed devices                                              <- the only one that means the field
+1  Maximum number of devices across networks                    \
+1  Maximum number of devices in a device group                   |  Meraki DASHBOARD limits — a different
+1  Maximum number of devices in a network                        |  quantity about a different product
+1  Maximum number of devices supported in a device group comparison  /
+```
+**One usable label in a corpus of 19,661.** The security round's `opt` is the answer the corpus supports.
+
+### `drive_form_factor` — 106 live hardware parts in Defense Center; **3 labels, 3 occurrences, none of them the field**
+```
+1  Disk drives (SFF)                     <- a label whose VALUE is a drive list; SFF sits in the label text
+1  SFF-based and CMIS-based management   <- SFF here is the Small Form Factor Pluggable committee, with CMIS:
+                                            this is an OPTICS label, a different SFF entirely
+1  Updates with LFF platform
+```
+
+Neither key holds a single current value anywhere in the catalogue, and neither is required of any part today.
+
+**Recommendation: keep both `opt`, and correct the two expectations in `securityShapes.test.ts` with this measurement
+beside them.** Promoting them would add 122 unfillable required slots to the 5,633 above and would re-open a question the
+security round had already closed with evidence.
+
+**Not done here, deliberately.** The red is a real open question, and silencing a check by editing its expectation is the
+operator's call, not mine — this repo's own rule is that a permanently red check teaches readers to ignore it, which is
+the argument for *ruling on it*, not for quietly making it green.
