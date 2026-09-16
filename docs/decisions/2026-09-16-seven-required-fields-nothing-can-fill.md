@@ -64,8 +64,10 @@ thrown away with the weights.
 
 ### `pcie_slots` — 2,395 parts, 9 labels, 15 occurrences
 `Expansion Slots` ×3, `Expansion slots` ×3, `All PCIe Gen5 slots` ×2, `PCIe slots`, `PCIe Slots`, `Expansion Slot`,
-`PCI Integration`, `Standards-based PCI-104`. The labels are real, and there are **15 of them against 2,395 parts
-(0.6%)**. → **demote to `opt` and alias the three clean spellings**, so a value lands where it exists.
+`Expansion slot`, `PCI Integration` ×2, `Standards-based PCI-104`. I first wrote "the labels are real" — **two are not**:
+`PCI Integration` is a feature statement and `Standards-based PCI-104` is a form factor, neither a slot count. Eleven
+usable occurrences against 2,395 parts (0.5%). → **demote to `opt` and alias the `Expansion slot(s)` / `PCIe slot(s)`
+spellings only.**
 
 ### `new_conn_per_sec` — 468 parts, 7 labels, 14 occurrences
 `NAT max connections per second` ×3, `Maximum new connections per second, with AVC` ×3, `Connections per second` ×2,
@@ -88,17 +90,46 @@ The ISE lines mean the field; the PoE lines are a **power** figure with the same
 recorded trap ("one plausible label plus one that is a firewall figure wearing the same words"). → **demote to `opt`;
 any alias must be anchored on `endpoints supported`, never on `maximum endpoint`.**
 
-### `tuning_range` — 88 parts, 31 labels, 37 occurrences
-`Wavelength range` ×5, `Transmitter: Wavelength range` ×3, `Operating Wavelength Range`, `C-Band Wavelength Range`,
-`OSC Wavelength Range`. Real, and worth a second look before aliasing: **`wavelength` is already its own key**, and a
-fixed-wavelength optic's "Wavelength range" is its tolerance, not a tuning range. Aliasing these to `tuning_range` would
-record a ±0.5 nm tolerance as a tunable band on optics that do not tune. → **demote to `opt`; alias only a label that
-says *tunable*, of which the corpus holds none today.**
+### `tuning_range` — 88 parts, **42** labels, 72 occurrences
 
-### `link_budget` — 41 parts, 9 labels, 10 occurrences
-`Radio Capabilities: Link Budget` ×2, `Link Budget`, `Link budget`, `Link Budget (no amplification)` — right; and
-`Directivity (optical path loss)`, `Upgrade path loss`, `Single-channel optical link (without DWDM): Link Budget` —
-**optical**, on a field required of wireless. → **demote to `opt`; alias the bare `Link budget` spellings only.**
+> **CORRECTED.** This said *"31 labels … alias only a label that says tunable, of which the corpus holds none today."*
+> I had read five of them. There are 42, and **several do say tunable** — which reverses the recommendation.
+
+The bulk (~35) are **wavelength ranges** and the trap I described is real: `Receiver Wavelength Range (nm)` ×10,
+`Operating Wavelength Range (nm)` ×7, `Transmitter Wavelength Range (nm)` ×4 … `wavelength` is already its own key, and a
+fixed optic's wavelength range is its **tolerance**, not a tuning range. Aliasing those would record a ±0.5 nm tolerance
+as a tunable band on optics that do not tune.
+
+But the corpus does hold the field, in seven places I had not looked at:
+
+```
+6  ITU Channel        + 1  ITU Channels      <- the grid a tunable optic covers
+1  Frequency tuning range (GHz)              <- the field, exactly
+1  Number of Channels Tunable to
+1  Tunable C-band operation
+1  10 Gigabit DWDM Tunable XFP (50-GHz ITU grid) *
+1  SFP+ (SR/LR/ER/ZR/Tunable-DWDM)                    <- a product list, not a value
+```
+
+→ **demote to `opt`, and alias the tunable / ITU-channel labels — never a "Wavelength Range" one.**
+
+### `link_budget` — 41 parts, **10** labels, 12 occurrences
+`Radio Capabilities: Link Budget` ×2, **`Link Budget (dB)` ×2** (which I had missed, and is the cleanest of them),
+`Link Budget`, `Link budget`, `Link Budget (no amplification)`, `Link budget (no amplification)` — right; and
+`Directivity (optical path loss)`, `Upgrade path loss`, two `Single-channel optical link (without DWDM) …` — **optical**,
+on a field required of wireless. → **demote to `opt`; alias the bare `Link budget` / `Link Budget (dB)` spellings only.**
+
+## A note on how these were read, because two of them were wrong
+
+Four of the seven sections above originally quoted a handful of labels and characterised the rest. **Two of those
+characterisations were false**, both in the same direction — I said a field had no usable label when it had one:
+`dimm_slots` (the exact label `DIMM slots`) and `tuning_range` (`Frequency tuning range (GHz)`, `ITU Channel` ×7 and
+three more that say *tunable*). A third, `pcie_slots`, called two labels real that are not. Only `max_endpoints`,
+`new_conn_per_sec` and `flows_per_second` were read in full the first time and stood.
+
+Every section now rests on the **complete** list. The failure mode is worth naming because it is the one that would have
+cost something: **"no label exists" is the claim that licenses throwing the field away**, and it is exactly the claim a
+partial read is least able to support.
 
 ## The recommendation, in one line
 
