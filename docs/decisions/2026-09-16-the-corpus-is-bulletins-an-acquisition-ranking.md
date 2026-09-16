@@ -98,11 +98,27 @@ datasheet may simply not name that SKU. What the 19,800 + 4,556 actually are is 
 whose own row is not named by that document**. Whether they may be held is precisely the `link_basis: family` question
 the operator ruled on 13 Sep.
 
-**And that is the number worth the operator's eye: the approved family rule** — family records, plus a model token in
-the title or header, plus ≥ 3 kind-cup labels — **produced 3 links in today's dry run, over the whole catalogue.** Either
-the rule is stricter than intended, or these parts genuinely are not described and the honest answer for them is a
-recorded gap rather than a fetch. Three is a small enough number to be a defect and a large enough claim to be a ruling;
-it is not mine to decide which.
+**A number that looked like a defect and is not — corrected here rather than left standing.** The approved family rule —
+family records, plus a model token in the title or header, plus ≥ 3 kind-cup labels — produced **3 links** in the dry
+run, and my first reading of that was *"either the rule is stricter than intended, or these parts are genuinely not
+described"*. Both are wrong, and checking the branch instead of theorising about it says why:
+
+- **989 of the 5,174 documents do carry family-scope records** (935 datasheet-html, 47 datasheet-pdf, 7 vendor-page), so
+  the branch is not starved of input. That was the first thing to rule out, and it is ruled out.
+- **`linkBasisFor` reaches the family clause only when the SKU is NOT on the page or in the records.** `doc_parts` links
+  were created in the first place by an extractor *finding the SKU*, so almost every link that exists is `explicit` **by
+  construction**: 122,731 of 124,330 (98.7%). Only **1,599** links reach the family / inferred region at all, and 1,497
+  of those are `could_not_check` because the page text is not held (PDFs). The family rule saw roughly **102 candidates
+  and said yes to 3**.
+
+So 3 is arithmetic, not strictness. **And the consequence matters more than the number: `link_basis: family` classifies
+links that already exist; it cannot create the 24,356 missing ones.** Whatever closes those is a link-CREATION step —
+the group-inheritance writer, or a ruling that a platform datasheet may name a part it does not list, which the hard rule
+currently forbids. It is not the derive.
+
+The number in that region actually worth the operator's eye is the other one: **1,497 links cannot be checked because the
+page text is not held** — PDFs the extractor never wrote records for. That is a measurable, closable gap, and it is the
+only part of this that a pipeline change reaches.
 
 ### The one path that needs neither network nor inference
 
