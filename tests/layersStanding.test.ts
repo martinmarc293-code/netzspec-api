@@ -106,8 +106,12 @@ const REVERSE_EXPECT: Record<string, number> = {
   // collaboration 88 -> 80 and switches 98 -> 90 (16 Sep 2026): a STANDARDS number is not a platform. Eight China power cords
   // reached "Integrator Package 6000 MXP" through IEC 60320, and eight more reached Catalyst 1000 / 1200 / 1300 and Nexus 6000
   // through NBR 14136, GB 2099.1, SEV 1011, BS 1363 and IS:1293. See STANDARDS_BODY in labelEvidence.
-  "servers-unified-computing": 218, "hyperconverged-infrastructure": 109, "collaboration-endpoints": 80, switches: 90,
-  wireless: 65, routers: 44, "storage-networking": 38, "hyperconverged-systems": 31, security: 27, "interfaces-modules": 11,
+  // 724 -> 708 (16 Sep 2026): seven CATEGORY NOUNS and BRAND words added to STOP — point/points, management, prime, package,
+  // serial, chassis. wireless 65 -> 59 (six AP brackets on "point", the category noun inside "…outdoor access point / bridge"),
+  // security 27 -> 22 (four "Cable Management Arm" rows, one Cisco Prime ACCESS REGISTRAR under Prime SECURITY MANAGER),
+  // servers 218 -> 216 (two MLBs on "chassis"), interfaces-modules 11 -> 9 ("serial"), collaboration 80 -> 79 ("package").
+  "servers-unified-computing": 216, "hyperconverged-infrastructure": 109, "collaboration-endpoints": 79, switches: 90,
+  wireless: 59, routers: 44, "storage-networking": 38, "hyperconverged-systems": 31, security: 22, "interfaces-modules": 9,
   "unified-communications": 5, video: 3, "optical-networking": 3, transceiver: 0, meraki: 0,
 };
 
@@ -902,6 +906,43 @@ check("SABOTAGE merge: a plan that calls a hardware row non-hardware is refused"
   ];
   for (const [tok, hay, want, why] of std)
     check(`SABOTAGE standards: ${why}`, digitPattern(tok).re.test(hay) === want, `${tok} in "${hay}" matched ${digitPattern(tok).re.test(hay)}`);
+
+  // CATEGORY NOUNS AND BRAND WORDS IN STOP (16 Sep 2026). A series name carries words that are not its identity — the
+  // category noun inside "…outdoor access POINT / bridge", the furniture in "Cable MANAGEMENT Arm", a brand shared by two
+  // products. Seven were added; the control asserts the series is still reachable by its NUMBER, because STOP only ever
+  // removes evidence and the risk is removing the only evidence a real part had.
+  // THE SIBLINGS COME FROM THE REAL MAPPING, not from a hand-written list, and that is not tidiness — my first version of
+  // these fixtures put "Security Management Appliance (SMA)" and "Management Console" in one siblings array, so `management`
+  // was a SIBLING WORD and already excluded. The case passed for the wrong reason and stayed green under sabotage. In the
+  // real mapping those two live in different LINES (Secure Email and Web; Secure Network Analytics), no sibling carries the
+  // word, and STOP is what does the work. A fixture must be negative under the rule it tests.
+  const { loadLineFile: loadLF } = await import("../src/core/productLine.js");
+  const ctxOf = (cat: string, series: string) => {
+    const loaded = loadLF("cisco", cat)!;
+    const ln = loaded.file.lines.find((l) => l.series.some((s) => s.series === series))!;
+    return { family: null, siblings: ln.series.map((s) => ({ series: s.series, family: s.family?.trim() || null })) };
+  };
+  const airCtx = ctxOf("wireless", "Aironet 1310 outdoor access point / bridge (legacy)");
+  e = v("AIR-AP-BRACKET-8", "Bracket for Cisco Catalyst 9105i access point mounting", "Aironet 1310 outdoor access point / bridge (legacy)", airCtx);
+  check("SABOTAGE stopword: 'point' is the category noun, so an AP bracket does not name Aironet 1310", e.kind === "none", JSON.stringify(e));
+  e = v("ZZ-1310", "Mounting kit for the Aironet 1310 bridge", "Aironet 1310 outdoor access point / bridge (legacy)", airCtx);
+  check("SABOTAGE stopword: CONTROL — the series is still reachable by its platform number", e.kind === "sku-token" && e.detail === "1310", JSON.stringify(e));
+  e = v("LC-RAILS=", "Cisco StealthWatch Sliding Rail Without Cable Management Arm", "Management Console", ctxOf("security", "Management Console"));
+  check("SABOTAGE stopword: 'Management' taken out of 'WITHOUT Cable Management Arm' does not place a rail kit", e.kind === "none", JSON.stringify(e));
+  e = v("CCS-CABLE-MGMT=", "Content Sec Cable Management Arm for the x70 models", "Security Management Appliance (SMA)", ctxOf("security", "Security Management Appliance (SMA)"));
+  check("SABOTAGE stopword: nor a Content Security cable-management arm the SMA", e.kind === "none", JSON.stringify(e));
+  e = v("PRIME-ACC-REG", "Cisco Prime Access Registrar 7.X - Physical", "Prime Security Manager (PRSM) appliances", ctxOf("security", "Prime Security Manager (PRSM) appliances"));
+  check("SABOTAGE stopword: 'Prime' is a brand — Access Registrar is not Security Manager", e.kind === "none", JSON.stringify(e));
+
+  // AND THE WORD DELIBERATELY NOT STOPPED. `mini` would withdraw one bad proposal and CREATE a worse one: this upgrade kit is
+  // claimed by BOTH "Room Kit (… Mini …)" on Mini and "Room Navigator and Touch 10" on Navigator, so the reverse scan sees two
+  // winners and correctly HOLDS it. Stopping `mini` removes the RIGHT claimant and leaves the incidental one. Both claims are
+  // asserted, because the hold only exists while both stand — this is the guard on a decision not to act.
+  const upg = "Upgrade Kit for Webex Room USB to Webex Room Kit Mini (upgrade license, Webex Room Navigator)";
+  e = v("CS-R-USB-UPG-BUN", upg, "Room Kit (Kit / Mini / Plus / Pro / EQ)", ctxOf("collaboration-endpoints", "Room Kit (Kit / Mini / Plus / Pro / EQ)"));
+  check("SABOTAGE stopword: 'mini' is NOT stopped, so the Room Kit Mini upgrade kit is still claimed by Room Kit", e.kind === "name" && e.detail === "Mini", JSON.stringify(e));
+  e = v("CS-R-USB-UPG-BUN", upg, "Room Navigator and Touch 10", ctxOf("collaboration-endpoints", "Room Navigator and Touch 10"));
+  check("SABOTAGE stopword: and Room Navigator claims it too, which is what HOLDS it in shared parts", e.kind === "name" && e.detail === "Navigator", JSON.stringify(e));
 }
 
 console.log(`    layers standing: ${passed} passed, ${misses.length} missed (${REVIEWED.join(", ")})`);

@@ -71,7 +71,26 @@ const STOP = new Set(["catalyst", "nexus", "cisco", "series", "router", "routers
   // layers round 3, pre-ruling C10 (15 Sep 2026): the generic nouns of a FORM-FACTOR series name are not evidence, a product token
   // is — "Fiber" in "Fiber and M12 cables (CB-)" kept FQMAP46CG "Fiber Optic Migration Adapter Panel", a Panduit panel, in a
   // Cisco cable series. Measured before the change: 0 switches, routers or transceiver rows were kept by any of these words.
-  "fiber", "fibre", "cable", "cables", "adapter", "adapters", "patch", "panel", "panels", "breakout"]);
+  "fiber", "fibre", "cable", "cables", "adapter", "adapters", "patch", "panel", "panels", "breakout",
+  // Q-27 (16 Sep 2026): words that are a CATEGORY NOUN or a BRAND rather than a product's identity. Each earned its place by
+  // a row it wrongly placed, and the whole set was measured over all 39,998 page rows before landing: 16 proposals withdrawn,
+  // 0 created, and ZERO published rows move.
+  //   point/points  "Aironet 1310 outdoor access point / bridge (legacy)" carries the category noun, so every AP bracket in
+  //                 wireless matched it — including one whose own name says it is for a Catalyst 9105i. (`points` changes
+  //                 nothing today and is here because the series names use both forms: "Aironet Access Points".)
+  //   management    "Cable Management Arm" is furniture. It put three Content Security arms into the Security Management
+  //                 Appliance, and LC-RAILS= — a rail kit whose name says "WITHOUT Cable Management Arm" — into Management
+  //                 Console, placed by a word taken out of that negation.
+  //   prime         a brand like catalyst and nexus, already here: Cisco Prime ACCESS REGISTRAR was filed under Cisco Prime
+  //                 SECURITY MANAGER on the shared brand word.
+  //   package       "Integrator Package 6000 MXP" — a "VX Educator package" is not that product.
+  //   serial        a variant qualifier inside "Pluggable Interface Modules (LTE / 5G / serial)".
+  //   chassis       "UCS X9508 chassis" — two Major Line Bundles reached it on the noun; the series keeps 9508 and X9508.
+  // NOT included, and the reason is the useful half: `mini` would withdraw one bad proposal (Mini-DP → Room Kit Mini) and
+  // CREATE a worse one. CS-R-USB-UPG-BUN is an "Upgrade Kit for Webex Room USB to Webex Room Kit Mini" that two series claim
+  // today — Room Kit on `Mini`, Room Navigator on `Navigator` — so it is correctly HELD as ambiguous. Stopping `mini` removes
+  // the CORRECT claimant and leaves the incidental one, turning a right hold into a confident wrong answer.
+  "point", "points", "management", "prime", "package", "serial", "chassis"]);
 
 /** Numbers a Cisco string carries that are not platforms: watts ("1100WAC", "1900WHV" — a wattage ends in 0 or 5, where a model
  * with a W suffix does not: C881W, C1941W), memory, frequencies, speeds, lengths, DIMM grades (DDR4-2400, PC4-19200). */
