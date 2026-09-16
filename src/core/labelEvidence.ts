@@ -62,14 +62,38 @@ export function digitTokens(text: string): string[] {
   return [...new Set((text.match(/(?<![0-9])[0-9]{3,5}(?![0-9])/g) ?? []))];
 }
 
-/** A platform token's pattern and its specificity (fixed digits). */
-export function digitPattern(tok: string): { re: RegExp; spec: number } {
+/** The letters a series name puts immediately before one of its own numbers: "UCS C200" -> C, "MX (MX200 …)" -> MX,
+ * "IE 3400" -> null (a space), "Aironet 1550" -> null. Null means the series offers no model letter to match against. */
+export function leadLetters(text: string, tok: string): string | null {
+  return (new RegExp(`([A-Za-z]+)${tok}`).exec(text) ?? [])[1] ?? null;
+}
+
+/** A platform token's pattern and its specificity (fixed digits).
+ *
+ * THE MODEL LETTER (16 Sep 2026). The three branches below WIDEN a round number into its family on purpose, so that
+ * "UCS C200 / C210 / C250 / C260" is named by a part saying C260. The widening keeps only the DIGITS, so `2[0-9]{2}`
+ * equally claimed `SN200` (an HGST drive), `H200` (an NVIDIA GPU), `B230` (a B-Series blade on a rack-server page),
+ * `D200G` (a 200-gigabit VIC), `EL223` (a Brazilian cord) and `CA300` (an Avizia cart under TelePresence MX).
+ *
+ * So where the SERIES itself puts letters in front of the number, the haystack's letters must END WITH THEM — or be
+ * absent, which is the ordinary "for the 5520 controller" shape and has to keep matching. `lead` is null for every
+ * series that writes its number as a separate word, which is most of them, and those are unaffected.
+ *
+ * Measured by running both versions of the real function over all 39,998 rows on every page: 944 verdicts differ, 864
+ * inert because an exclusion, SKU or name rule had already placed the row, **0 rows fall out of a series**, 1 loses
+ * only a rival claim and becomes decisive, 69 review proposals are withdrawn and 11 created. Nothing published moves.
+ * The known cost is named and accepted: 4 of the 69 withdrawals are wrong — `UCSC-SCCBL240(=)` and `UCSC-SCCBL220(=)`
+ * are supercap cables whose 240/220 really is the C240/C220, hidden behind the `L` of `CBL`. They stay in shared parts
+ * and `tests/layersStanding.test.ts` asserts that, so the day the rule changes the loss is visible rather than silent.
+ * Full record: docs/decisions/2026-09-16-the-model-letter-fence-prepared-not-applied.md */
+export function digitPattern(tok: string, lead?: string | null): { re: RegExp; spec: number } {
   let body: string, spec: number;
   if (/^[1-9]000$/.test(tok)) { body = `${tok[0]}[0-9]{3}[0-9]?`; spec = 1; }
   else if (/^[0-9]{2}00$/.test(tok)) { body = `${tok.slice(0, 2)}[0-9]{2}[0-9]?`; spec = 2; }
   else if (/^[1-9]00$/.test(tok)) { body = `${tok[0]}[0-9]{2}`; spec = 1; }
   else { body = tok; spec = tok.length; }
-  return { re: new RegExp(`${NOT_PLATFORM_BEFORE}${body}${NOT_PLATFORM_AFTER}`, "i"), spec };
+  const fence = lead ? `(?:(?<![A-Za-z])|(?<=${lead}))` : "";
+  return { re: new RegExp(`${NOT_PLATFORM_BEFORE}${fence}${body}${NOT_PLATFORM_AFTER}`, "i"), spec };
 }
 
 const esc = (s: string) => s.replace(/[.*+?^${}()|[\]\\/]/g, "\\$&");
@@ -85,7 +109,7 @@ function strongest(text: string, sku: string, name: string, words: boolean, excl
   // the whole series name, fenced: "IE 3400" is not named by "IE 3400H"
   if (new RegExp(`(?<![A-Za-z0-9])${esc(text)}(?![A-Za-z0-9])`, "i").test(name)) take({ spec: 9, detail: text, where: "name" });
   for (const d of digitTokens(text)) {
-    const { re, spec } = digitPattern(d);
+    const { re, spec } = digitPattern(d, leadLetters(text, d));
     if (re.test(sku)) take({ spec, detail: d, where: "sku" });
     else if (re.test(name)) take({ spec, detail: d, where: "name" });
   }

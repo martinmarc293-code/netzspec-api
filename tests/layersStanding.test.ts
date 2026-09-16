@@ -93,11 +93,25 @@ const GLUED_DIGIT_EXCEPTIONS: Record<string, string> = {
 // withdrawals of a claim nothing should have made: wireless 66 -> 65 (AIR-A03-D500GC3, a 500 GB SATA drive, proposed for
 // "Aironet 1550 hazardous-location (H / SA / SD / WU)" on SA inside SATA) and collaboration-endpoints 104 -> 100 (four
 // CAB-ETHRJ45 cables proposed for "TelePresence MX" on MX inside MXCAM-D, on a page that also carries a TelePresence MXP).
+//
+// 16 Sep 2026, 800 -> 742: the MODEL LETTER FENCE (`leadLetters` + `digitPattern`). 69 proposals withdrawn, 11 created, and
+// ZERO rows fall out of a series. Only two totals move — servers 264 -> 218 and collaboration 100 -> 88 — but TWO CATEGORIES
+// HOLD THE SAME NUMBER WITH DIFFERENT CONTENT: hyperconverged-systems lost its nine 480GB SSDs and the RP208 PDU and gained
+// ten C220/C240 rack-server rail kits, CMAs and RAID kits that previously tied between the compute-only-node series and
+// HX220c/HX240c. An unchanged count is not an unchanged queue, which is exactly why these are recorded per category and read
+// rather than trusted. Full record: docs/decisions/2026-09-16-the-model-letter-fence-prepared-not-applied.md
 const REVERSE_EXPECT: Record<string, number> = {
-  "servers-unified-computing": 264, "hyperconverged-infrastructure": 109, "collaboration-endpoints": 100, switches: 98,
+  "servers-unified-computing": 218, "hyperconverged-infrastructure": 109, "collaboration-endpoints": 88, switches: 98,
   wireless: 65, routers: 46, "storage-networking": 38, "hyperconverged-systems": 31, security: 27, "interfaces-modules": 11,
   "unified-communications": 5, video: 3, "optical-networking": 3, transceiver: 0, meraki: 0,
 };
+
+// The four rows the fence is known to LOSE, named so the cost cannot go quiet. `UCSC-SCCBL240` reads as UCS C-series /
+// SuperCap CaBLe / 240, and that 240 really is the C240 — but the letter before it is the `L` of `CBL`, so the fence refuses
+// a match that was right. They stay in their line's shared parts. This asserts that, so if anyone later rescues them (a
+// tuning, an alias, a mapping entry) the check goes red and the exception is re-read rather than silently outliving its
+// reason — a list of what a rule deliberately excludes should be a guard, not a comment.
+const FENCE_KNOWN_LOSSES = ["UCSC-SCCBL240", "UCSC-SCCBL240=", "UCSC-SCCBL220", "UCSC-SCCBL220="];
 
 // THE LABEL CHECK, per category (layers round 3, operator: the round-2 floor "more than 100 label-placed rows" failed by construction
 // on a category every row of which a SKU rule places). `min`: a floor that proves the check computed evidence where labels place
@@ -279,6 +293,13 @@ for (const cat of REVIEWED) {
   check(`reverse label check ${cat}: ${REVERSE_EXPECT[cat] ?? "?"} shared-parts rows are named by exactly one series (the recorded review queue)`,
     reverse.length === REVERSE_EXPECT[cat],
     `now ${reverse.length}, recorded ${REVERSE_EXPECT[cat]}${reverse.length > (REVERSE_EXPECT[cat] ?? 0) ? ` — new: ${reverse.slice(0, 5).map((x) => `${x.sku} -> ${x.to} (${x.kind} ${x.detail})`).join("; ")}` : ""}`);
+  // the four rows the model-letter fence knowingly loses: still present on this page, and still NOT proposed
+  for (const sku of FENCE_KNOWN_LOSSES.filter((s) => rows.some((r) => r.sku === s))) {
+    const row = rows.find((r) => r.sku === sku)!;
+    check(`fence cost ${cat}: ${sku} is still parked in shared parts, unproposed (the model-letter fence refuses its C240/C220 on the L of CBL)`,
+      / shared parts$/.test(row.series ?? "") && !reverse.some((x) => x.sku === sku),
+      `series "${row.series}", proposed ${reverse.some((x) => x.sku === sku)}`);
+  }
   // every row placed through a label carries the evidence it was judged on (a label placement without evidence is the check not running)
   // — except a label the mapping sends DIRECTLY to its line's shared parts, which claims no series (pre-ruling C1, layers round 3)
   const direct = (r: LayerRow) => /^label /.test(r.placed_by ?? "") && r.series === `${r.product_line} shared parts`;
@@ -818,6 +839,26 @@ check("SABOTAGE merge: a plan that calls a hardware row non-hardware is refused"
   check("SABOTAGE label: but an acronym followed by a LETTER does not (CGRXYZ)", e.kind === "none", JSON.stringify(e));
   e = v("ZZ-BLANK-7", "Small form factor blanking plate", "SM-X and SM Service Modules", sm);
   check("SABOTAGE label: the lowercase follow the OLD anchor already refused is still refused (SM in Small)", e.kind === "none", JSON.stringify(e));
+
+  // THE MODEL-LETTER FENCE (16 Sep 2026). `digitPattern` widens a round number into its family on purpose, and dropped the
+  // model letter doing it, so 2[0-9]{2} claimed SN200 (a drive), H200 (a GPU) and B230 (a blade) for a C-series page. Where
+  // the SERIES puts letters before its number, the haystack's must end with them — or be absent, which is the ordinary
+  // "for the 1550 Series" shape and is asserted here so a future tightening cannot quietly take it.
+  const ucs = { family: null, siblings: ["UCS C200 / C210 / C250 / C260 (M1/M2)", "UCS C240", "UCS B250"].map((s) => ({ series: s, family: null })) };
+  const air = { family: null, siblings: ["Aironet 1550 hazardous-location (H / SA / SD / WU)", "Aironet 1560"].map((s) => ({ series: s, family: null })) };
+  const hx = { family: null, siblings: ["HyperFlex compute-only nodes (C220 / C240 / C480 / B200 / B480)", "HX240c"].map((s) => ({ series: s, family: null })) };
+  e = v("ZZ-FENCE-1", "800GB 2.5in U.2 HGST SN200 NVMe High Perf", "UCS C200 / C210 / C250 / C260 (M1/M2)", ucs);
+  check("SABOTAGE fence: an HGST SN200 drive does not name UCS C200 (N is not C)", e.kind === "none", JSON.stringify(e));
+  e = v("ZZ-FENCE-2", "RAID battery backup for C260", "UCS C200 / C210 / C250 / C260 (M1/M2)", ucs);
+  check("SABOTAGE fence: and a real C260 part still keeps the series", e.kind === "name" && e.detail === "260", JSON.stringify(e));
+  e = v("ZZ-FENCE-3", "Replacement Thermal Pad for UCS B440/B230", "UCS C200 / C210 / C250 / C260 (M1/M2)", ucs);
+  check("SABOTAGE fence: a B230 blade part does not name a C-series page", e.kind === "none", JSON.stringify(e));
+  e = v("ZZ-FENCE-4", "Cover and solar shield for the 1550 Series", "Aironet 1550 hazardous-location (H / SA / SD / WU)", air);
+  check("SABOTAGE fence: a series whose number stands alone is UNFENCED and still matches a bare number", e.kind === "name" && e.detail === "1550", JSON.stringify(e));
+  e = v("ZZ-FENCE-5", "Ball Bearing Rail Kit for C240 M6 rack servers", "HX240c", hx);
+  check("SABOTAGE fence: a C240 RACK part does not name the HX240c hyperconverged node", e.kind === "none", JSON.stringify(e));
+  e = v("ZZ-FENCE-6", "Ball Bearing Rail Kit for C240 M6 rack servers", "HyperFlex compute-only nodes (C220 / C240 / C480 / B200 / B480)", hx);
+  check("SABOTAGE fence: and the compute-only-node series still claims it, so the tie breaks the right way", e.kind === "name" && e.detail === "240", JSON.stringify(e));
 }
 
 console.log(`    layers standing: ${passed} passed, ${misses.length} missed (${REVIEWED.join(", ")})`);

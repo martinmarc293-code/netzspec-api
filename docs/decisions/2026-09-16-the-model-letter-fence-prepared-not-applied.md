@@ -1,5 +1,15 @@
 # The model letter: a widened platform number claims anything with those digits (16 Sep 2026)
 
+> **APPLIED, 16 Sep 2026** — operator: *"just do the recommended thing"*, which is the yes this sheet was waiting for.
+> The filename keeps its original `-prepared-not-applied` wording so that every reference already pointing at it from
+> the source comment and the six Q-27 review sheets still resolves; renaming a file to make a title accurate is how a
+> record loses its inbound links. What follows the next heading is the measurement exactly as it stood before the
+> decision, unedited, and the "what landed" section at the end records what actually happened.
+
+Everything below this line was written while the change was still held. It is left as it was.
+
+---
+
 **PREPARED, NOT APPLIED.** The patch is below and measured in full. It is not a defect fix — it is a strictness
 trade-off with a named cost, and this repo's rule is that the second kind waits for the person who owns the trade-off.
 
@@ -119,3 +129,62 @@ goes to `(none)` rather than to the C250 series, because `sharedPartsNamedBySeri
 row's **own product line**. The row is filed under the wrong line. A row whose only claimant the fence refuses, where
 the disagreeing letter names a series in another line of the same category, is a **mis-filed row**, and that is a
 cheap query nobody has run.
+
+---
+
+# What landed (16 Sep 2026)
+
+Applied as measured. The predicted numbers held exactly, which is the first thing worth saying: the queue went
+**800 → 742**, and `69 withdrawn − 11 created = 58` is the difference.
+
+## Only two totals moved, and an unchanged total is not an unchanged queue
+
+```
+servers-unified-computing   264 -> 218
+collaboration-endpoints     100 ->  88
+everything else             unchanged
+```
+
+But **hyperconverged-systems holds 31 both before and after with different content**. It lost its nine 480 GB SSDs
+and the RP208 PDU, and gained ten C220/C240 rack-server parts — rail kits, CMAs, a RAID kit, a blanking panel — that
+previously tied between `HyperFlex compute-only nodes (C220 / C240 / …)` and `HX220c`/`HX240c` and so produced no
+proposal at all. Its verdict therefore moves from **14 accept / 17 refuse to 24 accept / 7 refuse**, and the sheet
+for that category is stale in its detail even though its count is not. A recorded count is a tripwire, not a
+description.
+
+## The 11 created proposals, judged
+
+Ten are the C220/C240 rack parts above — `HX-CMA-M4(=)`, `HX-CMAF-M4`, `HX-MRAID1GB-KIT(=)`, `HX-RAILF-M4(=)`,
+`HX-RAILS-M5(=)`, `UCSC-PSU-BLKP240=` — and all ten are **accept**: a rail kit whose name says *"for C220 & C240 M6
+rack servers"* belongs with the compute-only nodes, and the fence breaks the tie by refusing the `HX240c` claim on
+the grounds that the part says `C240` and that series says `HX240c`.
+
+The eleventh, `UCSC-VSPEX-V125` *("UCS EZ VSPEX M100 /w2x5548, 5xC220, 10x600GB")*, is **refused** — a solution
+bundle, not a C220 part, consistent with the four VSPEX rows already flagged in the servers review.
+
+## The queue's verdicts, re-stated
+
+| | before | after |
+| --- | ---: | ---: |
+| accept | 587 | **593** |
+| refuse | 211 | **147** |
+| arguable | 2 | 2 |
+| **total** | **800** | **742** |
+
+`593 = 587 − 4 + 10` (the four supercap cables leave the accept list as known losses, ten new accepts arrive) and
+`147 = 211 − 65 + 1`. **65 of the 211 refusals no longer need a human at all** — the rule now refuses them.
+
+## The cost is a guard, not a sentence
+
+The four rows this knowingly loses are asserted by `tests/layersStanding.test.ts`:
+
+```
+fence cost servers-unified-computing: UCSC-SCCBL240 is still parked in shared parts, unproposed …   x4
+```
+
+Under sabotage — reverting the fence — those four go red alongside both reverse counts and three of the six new
+`SABOTAGE fence:` cases, while all three controls stay green. **9 misses, and the four cost checks are among them**,
+which is what makes the accepted loss visible the day anyone changes the rule back rather than a line in a file
+nobody re-reads.
+
+Standing checks **915 → 925, 0 missed**; typecheck clean.
