@@ -434,6 +434,41 @@ await refuses("applyMerge on a part that does not exist", () => withTx((c) => ap
   const x = await upsertRelation(p1.id, { to_sku: "J9773A", kind: "equivalent", tier: 2 }, applyRun);
   refusals++;
   check("SABOTAGE upsertRelation never resolves across vendors (an HPE SKU is not a Cisco part)", x.to_part_id === null && x.to_sku === "J9773A");
+
+  // A RETIRED SKU IS NOT A TARGET; ITS SURVIVOR IS (16 Sep 2026). `hygiene case-duplicates` merged the
+  // 127 live case pairs migration 0010 refuses, and the losing spelling stays in `parts` for ever
+  // because a page printed it. `resolveTargetPart` carried its own copy of the identity rule, excluded
+  // no retired row, and ordered exact-spelling FIRST — so a document quoting the retired spelling
+  // resolved to the retired row. The twin below is inserted already retired because that is the only
+  // way the shape can exist: `parts_vendor_sku_ci_uq` is partial on `retired_at IS NULL`, so two LIVE
+  // spellings cannot coexist, and `upsertPart` would fold the second into the first.
+  const survivor = await upsertPart({ vendor: "cisco", sku: "RETTWIN-1", category: "transceiver" });
+  await query(
+    `INSERT INTO parts (vendor_id, sku, slug, category_id, product_class, retired_at, retired_into, retired_reason)
+     SELECT v.id, 'rettwin-1', 'rettwin-1-retired', c.id, 'hardware', now(), $1, 'case duplicate merged (fixture)'
+       FROM vendors v, categories c WHERE v.slug = 'cisco' AND c.slug = 'transceiver'`, [survivor.id]);
+  const dead = (await query<{ id: number; sku: string }>(
+    "SELECT id, sku FROM parts WHERE slug = 'rettwin-1-retired'")).rows[0];
+  // Without this the case would pass vacuously: absent the retired row, "rettwin-1" reaches the
+  // survivor through the ordinary case fold, so the fixture must prove the retired row is really
+  // there AND is an exact match for the to_sku — the only condition under which the old rule loses.
+  check("the retired twin exists and is an EXACT match for the to_sku (else the next case proves nothing)",
+    !!dead && dead.sku === "rettwin-1" && dead.id !== survivor.id, JSON.stringify(dead));
+  const ret = await upsertRelation(p1.id, { to_sku: "rettwin-1", kind: "compatible", tier: 2, doc_id: D1 }, applyRun);
+  check("upsertRelation follows a retired target to its survivor instead of pointing at the retired row",
+    ret.to_part_id === survivor.id && ret.to_part_id !== dead.id && ret.to_sku === "rettwin-1",
+    `to_part_id=${ret.to_part_id} survivor=${survivor.id} retired=${dead.id}`);
+
+  // A retired row with no survivor is a foreign part number, and null is the truthful answer to
+  // "which part is this" — never the dead row itself.
+  await query(
+    `INSERT INTO parts (vendor_id, sku, slug, category_id, product_class, retired_at, retired_reason)
+     SELECT v.id, 'ORPHAN-RET-1', 'orphan-ret-1', c.id, 'hardware', now(), 'retired with no survivor (fixture)'
+       FROM vendors v, categories c WHERE v.slug = 'cisco' AND c.slug = 'transceiver'`);
+  const orph = await upsertRelation(p1.id, { to_sku: "ORPHAN-RET-1", kind: "compatible", tier: 2 }, applyRun);
+  refusals++;
+  check("SABOTAGE a retired target with no survivor resolves to NULL, not to the retired row",
+    orph.to_part_id === null && orph.to_sku === "ORPHAN-RET-1", `to_part_id=${orph.to_part_id}`);
 }
 await refuses("upsertRelation with an unknown kind", () => upsertRelation(p1.id, { to_sku: "X", kind: "friend" as never, tier: 2 }, applyRun), /invalid input value for enum relation_kind/);
 

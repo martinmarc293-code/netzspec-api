@@ -3,13 +3,15 @@
 // The target is recorded as the SKU the source document wrote (`to_sku`) whether or not we hold
 // that part, and resolved to `to_part_id` only within the SAME vendor: a Cisco successor can
 // only be a Cisco part, and a match on letters alone across vendors would be a fiction. The
-// resolution is exact SKU first, then case-insensitive, like findPart. An edge whose target is
+// resolution IS findPart — not a second copy of it that says "like findPart" and then drifts,
+// which is what this file did until 16 Sep 2026 (see resolveTargetPart). An edge whose target is
 // not in the catalogue keeps its to_sku so the relation appears the day the target is imported
 // (to_part_id is re-resolved on the next upsert of the same edge).
 //
 // On a repeated (from, to_sku, kind): the lower tier wins and brings its provenance; equal or
 // higher tier fills NULL provenance only.
 import { getPool } from "./db.js";
+import { findPart } from "./parts.js";
 import type { Queryable } from "./runs.js";
 
 export type RelationKind =
@@ -27,16 +29,32 @@ export type RelationInput = {
 
 export type RelationRow = RelationInput & { id: number; from_part_id: number; to_part_id: number | null; run_id: number | null };
 
+/**
+ * The target part within the SAME vendor, under the store's ONE identity rule.
+ *
+ * This carried a second copy of that rule until 16 Sep 2026 — `p.sku = $2 OR p.sku_norm = upper($2)`,
+ * ordered exact-first — written while `parts.sku` was still case-sensitive. Migration 0010 ended
+ * that: identity folds case (0020 extended it to whitespace), the 127 live case pairs were merged by
+ * `ingest hygiene case-duplicates`, and the losing spelling is RETIRED, keeping its exact string for
+ * ever because a page printed it. The copy here learned none of it and excluded no retired row, so
+ * `ORDER BY (p.sku = $2) DESC` actively PREFERRED the retired twin whenever a document wrote the
+ * retired spelling — the one lookup that gets worse the more faithfully a source quotes the vendor.
+ * Nor did it reach the survivor by any other route: aliases carry all 137 retired spellings, but
+ * that is `partsByAliasValue`, which this never called.
+ *
+ * `findPart` already implements the whole rule (exact → survivor when retired; live case/whitespace
+ * fold; a retired row that points home → survivor), so this delegates instead of keeping a copy to
+ * drift. Measured over production before the change: of the 598 relations where the two rules CAN
+ * disagree, 0 verdicts move — no document has yet written a retired spelling into `to_sku`, so the
+ * hole was latent rather than live and closing it moves no stored edge.
+ */
 export async function resolveTargetPart(fromPartId: number, toSku: string, db: Queryable): Promise<number | null> {
-  const r = await db.query<{ id: number }>(
-    `SELECT p.id FROM parts p
-      WHERE p.vendor_id = (SELECT vendor_id FROM parts WHERE id = $1)
-        AND (p.sku = $2 OR p.sku_norm = upper($2))
-      ORDER BY (p.sku = $2) DESC, p.sku
-      LIMIT 1`,
-    [fromPartId, toSku],
+  const v = await db.query<{ slug: string }>(
+    "SELECT v.slug FROM parts p JOIN vendors v ON v.id = p.vendor_id WHERE p.id = $1",
+    [fromPartId],
   );
-  return r.rows[0]?.id ?? null;
+  const slug = v.rows[0]?.slug;
+  return slug ? ((await findPart(slug, toSku, db))?.id ?? null) : null;
 }
 
 export async function upsertRelation(
