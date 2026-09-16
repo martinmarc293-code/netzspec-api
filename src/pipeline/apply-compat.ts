@@ -138,8 +138,16 @@ async function partsBySku(vendor: string, skus: Iterable<string>, db: Queryable)
   const exact = new Map<string, PartRef>(), byNorm = new Map<string, PartRef>();
   for (let i = 0; i < wanted.length; i += 1000) {
     const r = await db.query<PartRef & { sku_norm: string }>(
+      // `AND p.retired_at IS NULL` (16 Sep 2026): without it the exact-spelling map below reaches a
+      // RETIRED row. `hygiene case-duplicates` merged the 127 case pairs migration 0010 refuses and
+      // the loser keeps its exact SKU for ever, so all 127 are reachable here by sku_norm (105 of
+      // them share their survivor's category). A TMG file quoting the retired spelling would take
+      // `exact.get()` straight to the dead row and hang an edge off it. Excluding it also RESOLVES
+      // the spelling correctly rather than dropping it: both twins share a sku_norm, so removing the
+      // retired row leaves `byNorm` holding the survivor. Measured first — 0 relations currently
+      // have a retired FROM side, so this moves no stored edge.
       `SELECT p.id, p.sku, p.sku_norm, c.slug AS category, p.family, p.datasheet_url FROM parts p JOIN categories c ON c.id = p.category_id
-        WHERE p.vendor_id = (SELECT id FROM vendors WHERE slug = $1) AND p.sku_norm = ANY($2::text[]) ORDER BY p.sku`, [vendor, wanted.slice(i, i + 1000)]);
+        WHERE p.vendor_id = (SELECT id FROM vendors WHERE slug = $1) AND p.retired_at IS NULL AND p.sku_norm = ANY($2::text[]) ORDER BY p.sku`, [vendor, wanted.slice(i, i + 1000)]);
     for (const row of r.rows) { const ref = { id: row.id, sku: row.sku, category: row.category, family: row.family, datasheet_url: row.datasheet_url }; exact.set(row.sku, ref); if (!byNorm.has(row.sku_norm)) byNorm.set(row.sku_norm, ref); }
   }
   return (sku) => exact.get(sku) ?? byNorm.get(sku.toUpperCase()) ?? null;
@@ -148,7 +156,7 @@ async function partsBySku(vendor: string, skus: Iterable<string>, db: Queryable)
 async function familySwitches(vendor: string, family: string, db: Queryable): Promise<PartRef[]> {
   const r = await db.query<PartRef>(
     `SELECT p.id, p.sku, c.slug AS category, p.family, p.datasheet_url FROM parts p JOIN categories c ON c.id = p.category_id
-      WHERE p.vendor_id = (SELECT id FROM vendors WHERE slug = $1) AND p.family = $2 AND p.product_class = 'hardware' AND c.slug = 'switches' ORDER BY p.sku`, [vendor, family]);
+      WHERE p.vendor_id = (SELECT id FROM vendors WHERE slug = $1) AND p.retired_at IS NULL AND p.family = $2 AND p.product_class = 'hardware' AND c.slug = 'switches' ORDER BY p.sku`, [vendor, family]);
   return r.rows;
 }
 
