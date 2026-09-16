@@ -23,7 +23,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { execSync } from "node:child_process";
 import { getPool, closePool } from "../src/store/index.js";
-import { partKind } from "../src/core/partKind.js";
+import { partKind, FALLBACK_KINDS } from "../src/core/partKind.js";
 import { kindQuestionSet, slotsAtNothingKnown, profileHash, LEDGER_KINDS } from "../src/core/cupLedger.js";
 import { PROFILES } from "../src/core/fieldSchema.js";
 import { NORM_VERSION } from "../src/core/specNormalize.js";
@@ -55,8 +55,14 @@ const arg = (n: string): string | undefined => { const i = process.argv.indexOf(
  * are written out (`either.device_noun_skus`) so the test can hold a hard zero against a NAMED residue.
  */
 import { deviceNounFinding, namesADeviceNoun, DEVICE_NOUN_EXEMPT_KINDS, DEVICE_NOUN_RULE_ABOUT } from "../src/core/deviceNoun.js";
-/** Kinds that mean "this axis could not say" — mirrors FALLBACK_KINDS in src/core/partKind.ts. */
-const FALLBACK_KINDS = new Set(["unknown", "other", "component", "accessory", "non-hardware", "(none)"]);
+// `FALLBACK_KINDS` (kinds that mean "this axis could not say") is IMPORTED from src/core/partKind.ts,
+// not restated here. Until 16 Sep 2026 this file hand-wrote its own six-member copy whose comment said
+// it "mirrors" the original — and it did not: the original has five members and the copy added the
+// report sentinel `"(none)"`, which partKind never returns. The two happened to be equivalent, so
+// nothing was wrong today; the hole was that a sixth member added to the real set would have reached
+// build-completeness.mts (which imports it) and NOT this builder, and the freeze pins both artifacts
+// as ONE unit. A comment claiming agreement with another module is a claim nothing checks.
+// `"(none)"` is composed below exactly as build-completeness.mts:418 composes it.
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1")), "..");
 
 // Source slug -> the class of document it reads. "prose" (a part's own name) is description_mining, which no
@@ -278,7 +284,7 @@ async function main(): Promise<void> {
       device_noun_exempt: rows.reduce((a, [, b]) => a + b.nounExempt, 0),
     };
   };
-  const isUnresolved = (k: string) => FALLBACK_KINDS.has(k);
+  const isUnresolved = (k: string) => FALLBACK_KINDS.has(k) || k === "(none)";
   const inUnion = (k: string) => askedNothing(k) || isUnresolved(k);
   const fallbackCensus = {
     _about: "TWO AXES. `asked_nothing` = the kind's question set is empty (a profile property, and the phase-1 number). `unresolved_kind` = the kind name means the axis could not say (a classifier property). They are independent: a named kind can be asked nothing, and an unresolved kind can be asked a cup. `facts3` and `device_noun` are the two detectors for a real product swallowed by either: a part holding three or more facts of its own, and a part whose NAME names a whole box. tests/cupLedger.test.ts asserts both axes. " + DEVICE_NOUN_RULE_ABOUT,
