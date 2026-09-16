@@ -19,6 +19,7 @@ import {
   applyMerge, currentFact, factHistory, restampTiers, retractFact, insertFact,
 } from "../../src/store/index.js";
 import { NONSENSICAL_PAIRS, type SpecEntry } from "../../src/core/specMerge.js";
+import { PROFILES } from "../../src/core/fieldSchema.js";   // the same symbol applicabilityCensus reads, so the fixture cannot disagree with it
 import {
   decide, gateRemerge, retypeMismatchedFacts, applicabilityCensus, retractInapplicableFacts,
   main as remergeMain, type ConflictRow, type Decision,
@@ -62,6 +63,8 @@ const chassis = (await upsertPart({ vendor: "cisco", sku: "C9200L-24P-4G", categ
 const optic = (await upsertPart({ vendor: "cisco", sku: "SFP-10G-LR=", category: "switches", family: "Cisco Catalyst 9200", product_class: "hardware" })).id;
 const licence = (await upsertPart({ vendor: "cisco", sku: "L-C9200-24-E-A", category: "switches", family: "Cisco Catalyst 9200", product_class: "license" })).id;
 const realOptic = (await upsertPart({ vendor: "cisco", sku: "QSFP-40G-SR4", category: "transceiver", family: "Cisco 40G QSFP+ Modules", product_class: "hardware" })).id;
+// its own part, for section 7b: that case needs a (part, field) carrying TWO conflicts and nothing else
+const chassis2 = (await upsertPart({ vendor: "cisco", sku: "C9200L-48P-4X", category: "switches", family: "Cisco Catalyst 9200", product_class: "hardware" })).id;
 
 const urlA = "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-9200-series-switches/dsA.html";
 const urlB = "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-7000-series-switches/dsB.html";
@@ -327,6 +330,51 @@ await closeRun(seedRun, "succeeded", { seed: true }, { precision: 1, recall: 1, 
 }
 
 // =================================================================================================
+// 7b. TWO conflicts on one (part, field) — the shape that left 51 production rows stuck (16 Sep 2026)
+// =================================================================================================
+//
+// invariant 5 has been red with 51 rows: `snmp_mibs` on switches, from run #70 of 4 Sep, every conflict RESOLVED and the
+// surviving fact still in state `conflict`. Each had exactly two conflicts — `prefix_truncated` (an agree) and
+// `list_superset` (a rewrite) — and the unhold sat inside the `agree` branch. `unholdFact` refuses while any conflict on
+// the pair is still open, correctly, so the agree unheld nothing and the rewrite never tried: the survivor kept
+// `conflict` for ever. Since `conflict` is not a served state, those switches have served no MIB list since.
+//
+// The unhold now runs once per surviving fact AFTER the whole group. This is that case, and it fails on the old code.
+{
+  const run = await openRun("apply-specs", { inputs: { two_conflicts: true } });
+  const e = entry({ k: "snmp_mibs", value: ["BRIDGE-MIB", "CISCO-SMI"] });
+  e.raw = "BRIDGE-MIB ; CISCO-SMI";
+  e.prov = { tier: 2, method: "html_table", doc_id: docA, locator: "t1:r1:c1", norm_v: "1.5.0" };
+  const factId = await withTx((c) => insertFact(c, chassis2, e, run));
+  await query("UPDATE facts SET state = 'conflict' WHERE id = $1", [factId]);
+  const seedConflict = async (rejected: unknown, rejectedRaw: string, normV: string) =>
+    query(`INSERT INTO conflicts (part_id, field_key, kept, rejected, reason, kept_raw, rejected_raw, kept_evidence, rejected_evidence, run_id)
+      VALUES ($1, 'snmp_mibs', $2::jsonb, $3::jsonb, 'seeded', $4, $5, $6::jsonb, $7::jsonb, $8)`,
+      [chassis2, JSON.stringify(e.value), JSON.stringify(rejected), e.raw, rejectedRaw,
+        JSON.stringify({ tier: 2, method: "html_table", doc_id: docA, norm_v: "1.5.0" }),
+        JSON.stringify({ tier: 2, method: "html_table", doc_id: docA, norm_v: normV }), run]);
+  // one AGREE (the same cell, truncated) and one REWRITE (the same cell re-read at a newer normaliser) — the production pair
+  await seedConflict(["BRIDGE-MIB", "CISCO-SM"], "BRIDGE-MIB ; CISCO-SM", "1.5.0");
+  await seedConflict(["BRIDGE-MIB"], "BRIDGE-MIB ; CISCO-SMI", "1.5.1");
+  await closeRun(run, "succeeded", { two_conflicts: true }, { precision: 1, recall: 1, passed: true });
+
+  await remergeMain(["--run", String(run), "--commit", "--no-retype"]);
+  const open = await query<{ n: number }>(
+    "SELECT count(*)::int AS n FROM conflicts WHERE part_id = $1 AND field_key = 'snmp_mibs' AND resolved_at IS NULL", [chassis2]);
+  check("both conflicts on the pair are resolved", open.rows[0].n === 0, JSON.stringify(open.rows[0]));
+  const f = await currentFact(chassis2, "snmp_mibs", getPool());
+  check("THE REGRESSION: with every conflict resolved the survivor is no longer in `conflict` — it was for 51 production rows",
+    f?.state !== "conflict", JSON.stringify({ state: f?.state, value: f?.value }));
+  check("and the state it takes is one the store serves, or one it can justify",
+    ["verified", "corroborated", "unverified"].includes(String(f?.state)), String(f?.state));
+  const inv5 = await query<{ n: number }>(
+    `SELECT count(*)::int AS n FROM facts f WHERE f.superseded_by IS NULL AND f.state = 'conflict'
+       AND NOT EXISTS (SELECT 1 FROM conflicts c WHERE c.part_id = f.part_id AND c.field_key = f.field_key AND c.resolved_at IS NULL)`);
+  check("invariant 5 holds on this database afterwards: no conflict-state fact without an open conflict",
+    inv5.rows[0].n === 0, JSON.stringify(inv5.rows[0]));
+}
+
+// =================================================================================================
 // 8. APPLICABILITY — a field the part's category profile does not list
 //
 // The rule is opt-in per (category, field) pair and the table ships EMPTY, because on the real
@@ -336,8 +384,21 @@ await closeRun(seedRun, "succeeded", { seed: true }, { precision: 1, recall: 1, 
 // =================================================================================================
 {
   const applyRun = await openRun("apply-specs", { inputs: { applicability: true } });
-  await ensureCategory("software");
-  const softPart = (await upsertPart({ vendor: "cisco", sku: "S-C9200-DNA", category: "software", family: "DNA Essentials", product_class: "software" })).id;
+  // THE CATEGORY IS DERIVED, NOT NAMED (16 Sep 2026). This fixture needs a category with NO profile, and it used to say
+  // `software` — which HAS one now (the arrangement work of 13–15 Sep took PROFILES to 26 categories). A negative fixture
+  // whose premise has quietly become false asserts nothing and reds the suite for a reason that reads like a real defect;
+  // this one did, and it is the same shape as the sabotage database named `netzspec_not_a_test` that ended in `_test`.
+  // So the category is picked from PROFILES at run time, and the premise is CHECKED rather than assumed.
+  // …and since EVERY seeded category now has one (all 26), the state has to be CONSTRUCTED. A fixture category row is
+  // inserted here and removed in the finally below: `categories` is seeded by migration and is NOT in this suite's
+  // TRUNCATE, so a stray row would follow every other suite that shares this database.
+  const noProfileCat = "zz-no-profile-fixture";
+  check(`the applicability fixture stands on a category with no profile ("${noProfileCat}")`, !PROFILES[noProfileCat],
+    `PROFILES covers ${Object.keys(PROFILES).length} categories`);
+  await query(`INSERT INTO categories (slug, name_en, name_de, is_hardware, sort_order)
+    VALUES ($1, 'No-profile fixture', 'No-profile fixture', false, 999) ON CONFLICT (slug) DO NOTHING`, [noProfileCat]);
+  await ensureCategory(noProfileCat);
+  const softPart = (await upsertPart({ vendor: "cisco", sku: "S-C9200-DNA", category: noProfileCat, family: "DNA Essentials", product_class: "software" })).id;
 
   // a chassis-side field on the transceiver, and a legitimate one the profile simply does not list
   const stack = entry({ k: "stack_max_members", value: 8, unit: undefined });
@@ -355,7 +416,7 @@ await closeRun(seedRun, "succeeded", { seed: true }, { precision: 1, recall: 1, 
     census0.some((c) => c.category === "transceiver" && c.field_key === "ip_rating" && c.live === 1 && !c.nonsensical),
     JSON.stringify(census0));
   check("SABOTAGE a category with NO profile contributes nothing to the census — the rule has no opinion",
-    !census0.some((c) => c.category === "software"), JSON.stringify(census0.filter((c) => c.category === "software")));
+    !census0.some((c) => c.category === noProfileCat), JSON.stringify(census0.filter((c) => c.category === noProfileCat)));
 
   check("SABOTAGE a part whose category has NO profile and no curated pair loses nothing",
     (await currentFact(softPart, "stack_max_members", getPool()))?.value === 8);
@@ -411,6 +472,13 @@ await closeRun(seedRun, "succeeded", { seed: true }, { precision: 1, recall: 1, 
     !NONSENSICAL_PAIRS.has("transceiver/stack_max_members")
     && decide(row({ part_id: realOptic, sku: "QSFP-40G-SR4", category: "transceiver", field_key: "stack_max_members" })).kind !== "retract");
   await closeRun(applyRun, "succeeded", { applicability: true }, { precision: 1, recall: 1, passed: true });
+
+  // the fixture category goes out again, and the check says so rather than trusting the DELETE: `categories` is seeded by
+  // migration and is not truncated by this suite, so a row left here would be inherited by every other suite on this database
+  await query("DELETE FROM parts WHERE category_id = (SELECT id FROM categories WHERE slug = $1)", [noProfileCat]);
+  await query("DELETE FROM categories WHERE slug = $1", [noProfileCat]);
+  const left = await query<{ n: number }>("SELECT count(*)::int AS n FROM categories WHERE slug = $1", [noProfileCat]);
+  check("the fixture category is removed, so the shared test database is as it was found", left.rows[0].n === 0);
 }
 
 console.log(`\n${pass}/${pass + misses.length} passed`);

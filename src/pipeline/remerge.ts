@@ -546,14 +546,21 @@ async function resolveConflict(client: Queryable, id: number, resolution: string
 /** After a conflict stops being open the field must stop being HELD. Recomputed from what survives,
  *  the same way rollbackRun does it, and never promoted past what facts_verified_needs_source
  *  allows for a row with no document of its own. */
-async function unholdFact(client: Queryable, factId: number): Promise<void> {
-  await client.query(
+async function unholdFact(client: Queryable, partId: number, fieldKey: string): Promise<boolean> {
+  const r = await client.query(
     `UPDATE facts f SET state = CASE
         WHEN EXISTS (SELECT 1 FROM conflicts c WHERE c.part_id = f.part_id AND c.field_key = f.field_key AND c.resolved_at IS NULL) THEN 'conflict'::fact_state
         WHEN f.tier <> 0 AND f.doc_id IS NULL THEN 'unverified'::fact_state
         WHEN (SELECT count(DISTINCT e.doc_id) FROM fact_evidence e WHERE e.fact_id = f.id) > 1 THEN 'corroborated'::fact_state
         ELSE 'verified'::fact_state END
-      WHERE f.id = $1 AND f.state = 'conflict'`, [factId]);
+      WHERE f.part_id = $1 AND f.field_key = $2 AND f.superseded_by IS NULL AND f.state = 'conflict'`, [partId, fieldKey]);
+  // BY (part, field) ON THE CURRENT ROW, not by the fact id the conflicts row carries (16 Sep 2026). A `rewrite`
+  // decision goes through applyMerge, which SUPERSEDES the disputed fact and writes a new one — and the new row inherits
+  // the entry's state, which is `conflict`. Unholding `conflicts.fact_id` therefore updated a row that was already
+  // superseded and left the live one held: the regression test in tests/db/remerge.test.ts § 7b caught exactly that,
+  // with the survivor still in `conflict` carrying the merged union value.
+  // It returns whether it CHANGED a row, so `facts_unheld` counts unholds and not attempts.
+  return (r.rowCount ?? 0) > 0;
 }
 
 /** The rejected side of a resolved agreement is a second document that says the same thing: that is
@@ -654,7 +661,6 @@ export async function main(argv: string[]): Promise<void> {
               if (await recordAgreeingEvidence(client, r, id)) effects.evidence_added++;
               await resolveConflict(client, r.id, `rule:${d.rule}`);
               effects.conflicts_resolved++;
-              if (r.fact_id != null) { await unholdFact(client, r.fact_id); effects.facts_unheld++; }
             } else if (d.kind === "rewrite") {
               // through applyMerge, so the write is the same code path the pipelines use
               const res = await applyMerge(client, r.part_id, incomingEntry(r), id);
@@ -663,6 +669,21 @@ export async function main(argv: string[]): Promise<void> {
               effects.conflicts_resolved++;
             }
           }
+          // THE UNHOLD BELONGS TO THE GROUP, NOT TO ONE DECISION (16 Sep 2026, invariant 5).
+          //
+          // It used to sit inside the `agree` branch, and `unholdFact` refuses while any conflict on the pair is still
+          // OPEN -- correctly. So on a pair holding two conflicts the agree unheld nothing (the other was still open) and
+          // the rewrite never unheld at all: the survivor kept `conflict` for ever, with every conflict resolved.
+          //
+          // That is not hypothetical. Production carries 51 such rows, every one `snmp_mibs` on a switch from run #70 of
+          // 4 Sep, each with exactly this pair -- `prefix_truncated` (an agree, from agreementRule) and `list_superset`
+          // (a rewrite, from the list_union action). Because `conflict` is not in SERVED_STATES, those 51 switches have
+          // served no MIB list since. Run after the whole group, the unhold sees no open conflict left and recomputes
+          // the state the resolutions imply.
+          //
+          // It is idempotent -- `unholdFact` touches only rows still in `conflict` and re-checks for open conflicts --
+          // so calling it once per surviving fact of the group is safe whatever the decisions were.
+          if (await unholdFact(client, group[0].part_id, group[0].field_key)) effects.facts_unheld++;
         });
       }
 
