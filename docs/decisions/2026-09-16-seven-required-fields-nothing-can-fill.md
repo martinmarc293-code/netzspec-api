@@ -41,14 +41,26 @@ UC 154 over 5,405; HCI 118 over 1,004; transceiver 88 over 2,366; conferencing 6
 
 Each probe is deliberately **wide** — a wide net that finds nothing is the finding.
 
-### `dimm_slots` — 2,395 parts, 41 labels, and NOT ONE of them is a DIMM-slot count
+### `dimm_slots` — 2,395 parts, 42 labels, and exactly **two** of them are the field
+
+> **CORRECTED (later the same night).** This section first said *"41 labels and NOT ONE of them is a DIMM-slot count —
+> every one is a weight … demote; no alias is safe here."* **I had read eight of the forty-one and generalised.** Read in
+> full there are 42, and the picture is different in the one way that matters.
+
 ```
-4  Weight with following options and including rail kit: 1 HDD, 1 CPU, 1 DIMM, and 1 1600 W power supply
-4  Weight with following options and including rail kit: 10 HDDs, 2 CPUs, 32 DIMMs, and 2 1600 W power supply
-4  Weight with following options and no rail kit: 24 HDDs, 2 CPUs, 32 DIMMs, and 2 2300 W power supply
+22  labels whose own text says "Weight"   Weight with following options and including rail kit: 1 HDD, 1 CPU, 1 DIMM …
+14  weight-TABLE row labels               Bare (0 HDD, 0 CPU, 0 DIMM, one power supply) · Maximum (8 HDDs, 2 CPUs, 16 DIMMs …)
+ 4  not this field at all                 External USB flash-memory slots (Type A)      <- my probe's "memory slot" clause
+ 2  DIMM slots                            <- THE FIELD, exactly named
 ```
-Every one of the 41 is a **weight** label that happens to mention DIMMs in its configuration list. An alias written on
-`/DIMM/` would fill 2,395 parts' `dimm_slots` with **kilograms**. → **demote; no alias is safe here.**
+
+So the warning stands and is the important half: **an alias on `/DIMM/` would fill 2,395 parts' `dimm_slots` with
+kilograms**, because 36 of the 42 are weight-table text. But *"no alias is safe here"* was wrong — the exact label
+`DIMM slots` exists, twice.
+
+→ **demote to `opt`, and alias on the exact label `DIMM slots` only** — never on a substring of it. Two occurrences
+against 2,395 parts is still nearly nothing, so the demotion is unchanged; what changes is that the one real label is not
+thrown away with the weights.
 
 ### `pcie_slots` — 2,395 parts, 9 labels, 15 occurrences
 `Expansion Slots` ×3, `Expansion slots` ×3, `All PCIe Gen5 slots` ×2, `PCIe slots`, `PCIe Slots`, `Expansion Slot`,
@@ -90,8 +102,8 @@ says *tunable*, of which the corpus holds none today.**
 
 ## The recommendation, in one line
 
-**All seven demote from required.** Six to `opt` with the alias rules above; `dimm_slots` to `opt` with **no alias**,
-because its only labels are weights. That removes 5,633 slots that can never be closed, and it is the same call the
+**All seven demote from required**, each to `opt` with the alias rule named in its own section above — including
+`dimm_slots`, whose one real label (`DIMM slots`, exactly, never a substring) survives among 36 weight-table labels. That removes 5,633 slots that can never be closed, and it is the same call the
 security round made for its own four, with the counts written beside each.
 
 The alternative — keep them required and treat the gap as real — is this project's own recorded failure mode: *"a
