@@ -32,6 +32,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { REPO_ROOT } from "../config.js";
 import { FIELD_DICTIONARY, PROFILES, unitFor, type FieldType } from "../core/fieldSchema.js";
+import { PRODUCT_CLASSES as STORE_PRODUCT_CLASSES } from "../store/parts.js";
 import { compileFilter, parseTerm, splitFilterTerms, type FilterDictionary } from "./filter.js";
 import { badRequest } from "./errors.js";
 
@@ -91,7 +92,10 @@ export const RELATION_KINDS = [
 
 /** Part-level columns a fixed_filter may name; everything else must be a dictionary key. */
 export const PART_LEVEL_FILTER_KEYS = new Set(["product_class"]);
-const PRODUCT_CLASSES = new Set(["hardware", "license", "service", "software", "accessory", "bundle", "unknown"]);
+// DERIVED, for the reason in store/parts.ts: this was the SECOND hand-written copy of the same
+// seven-element list, and it validates a tool's `fixed_filter`, so a tool scoped to non_product was
+// refused at load as naming an unknown class.
+const PRODUCT_CLASSES: ReadonlySet<string> = new Set(STORE_PRODUCT_CLASSES);
 
 export const RESERVED_RUN_PARAMS = ["limit", "cursor", "api_key"] as const;
 export const LIFECYCLE_RUN_PARAMS = ["status", "eos_after", "eos_before", "ldos_after", "ldos_before"] as const;

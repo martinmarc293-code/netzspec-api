@@ -27,13 +27,35 @@
 import { getPool } from "./db.js";
 import type { Queryable } from "./runs.js";
 
-// Mirrors the `product_class` enum in the database. TWO DECLARATIONS OF ONE ENUM, and they had
-// already drifted: this one carried `accessory` and `bundle` (declared in 0001_init, never
-// assigned) while core/productClass.ts did not, so adding `non_product` to one broke the other.
-// The typecheck caught it, which is the only reason it is not a runtime surprise.
-export type ProductClass =
-  | "hardware" | "license" | "service" | "software"
-  | "accessory" | "bundle" | "non_product" | "unknown";
+/**
+ * THE product classes, as a value so consumers can iterate them; the type is derived from it, the
+ * way `ALL_STATES`/`FactState` do it in api/queries/shared.ts.
+ *
+ * Mirrors the `product_class` enum in the database. TWO DECLARATIONS OF ONE ENUM, and they had
+ * already drifted once: this one carried `accessory` and `bundle` (declared in 0001_init, never
+ * assigned) while core/productClass.ts did not, so adding `non_product` to one broke the other.
+ * The typecheck caught it, which is the only reason it was not a runtime surprise.
+ *
+ * AND THAT IS EXACTLY WHY THE NEXT ONE WAS (16 Sep 2026). The typecheck can compare two TYPES; it is
+ * structurally blind to `new Set(["hardware", "license", …])`, which is just strings. There were two
+ * of those — `api/queries/parts.ts` and `api/tools.ts`, seven elements each, both missing
+ * `non_product` (added 10 Sep by migration 0014, carried by 1,061 live parts). So
+ * `/v1/parts?class=non_product` answered `unknown class "non_product"`, the API blaming the caller
+ * for its own stale list, and a tool scoped to that class was refused at load. Both now derive from
+ * here, and this list was made a VALUE so they could.
+ *
+ * `tests/db/store.test.ts` asserts this equals the enum in the database and that `?class=` accepts
+ * every value in it, so the next migration that adds one fails there — naming the schema — instead
+ * of at a caller months later. `core/productClass.ts` keeps its own NARROWER list on purpose: this
+ * is what the column may HOLD, that is what the classifier may ASSIGN, and they may differ (nothing
+ * assigns `accessory` or `bundle` today — 0 live parts — but the column still admits them).
+ */
+export const PRODUCT_CLASSES = [
+  "hardware", "license", "service", "software",
+  "accessory", "bundle", "non_product", "unknown",
+] as const;
+
+export type ProductClass = (typeof PRODUCT_CLASSES)[number];
 
 export type PartRow = {
   id: number;

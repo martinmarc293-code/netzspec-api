@@ -4,6 +4,7 @@
 // (vendor given → append `v.slug = $n`), never the value. The `filter=` grammar is compiled by
 // filter.ts against the dictionary, so an unknown key is a 400 before any SQL runs.
 import { query } from "../../store/db.js";
+import { PRODUCT_CLASSES as STORE_PRODUCT_CLASSES } from "../../store/parts.js";
 import { decodeCursor, encodeCursor } from "../cursor.js";
 import { badRequest } from "../errors.js";
 import { compileFilter } from "../filter.js";
@@ -60,7 +61,11 @@ const HAS_CLAUSES: Record<string, string> = {
   images: "EXISTS (SELECT 1 FROM images i WHERE i.part_id = p.id AND i.storage_path IS NOT NULL)",
 };
 
-const PRODUCT_CLASSES = new Set(["hardware", "license", "service", "software", "accessory", "bundle", "unknown"]);
+// DERIVED from the store's own list (16 Sep 2026). This was a hand-written Set of SEVEN, missing
+// `non_product` — added by migration 0014 on 10 Sep and carried by 1,061 live parts — so
+// `?class=non_product` answered `unknown class "non_product"`, the API blaming the caller for its
+// own stale list. A list of what EXISTS drifts the day something is added; derive it.
+const PRODUCT_CLASSES: ReadonlySet<string> = new Set(STORE_PRODUCT_CLASSES);
 
 export function parseHas(has: string): string[] {
   const clauses: string[] = [];

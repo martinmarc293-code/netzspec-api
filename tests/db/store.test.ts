@@ -41,7 +41,7 @@ if (process.argv.includes("--sabotage-db-url")) {
 import {
   query, withTx, closePool, resolveDatabaseUrl, databaseName, getPool,
   openRun, closeRun, withRun, hashFile, getRun,
-  ensureCategory, upsertPart, findPart, slugify,
+  ensureCategory, upsertPart, findPart, slugify, PRODUCT_CLASSES,
   docIdFor, ensureSourceDoc, getSourceDoc, linkDocParts,
   applyMerge, currentFacts, currentFact, factHistory, writeGapConfirmed, supersedeFact, packLocator, unpackLocator, rollbackRun,
   upsertLifecycle, mergeLifecycle,
@@ -202,6 +202,32 @@ check("a second SKU with the same slug base gets -2", p1spare.created && p1spare
   } catch (e) { dup = `${(e as { code?: string }).code} ${(e as { constraint?: string }).constraint}`; }
   check("SABOTAGE the index itself refuses a third spelling, so the fold cannot be bypassed by a raw INSERT",
     /23505/.test(dup) && /parts_vendor_sku_(ci|ws)_uq/.test(dup), dup || "the insert was ACCEPTED");
+}
+{
+  // PRODUCT_CLASSES MUST EQUAL THE ENUM, and until 16 Sep 2026 nothing compared any TypeScript list
+  // of product classes to the database. There were four: this one (8, correct), core/productClass.ts
+  // (6, deliberately narrower — what the classifier may ASSIGN rather than what the column may HOLD),
+  // and hand-written Sets in api/queries/parts.ts and api/tools.ts with SEVEN, both missing
+  // `non_product`. Migration 0014 added that value on 10 Sep; 1,061 live parts carry it; and
+  // `/v1/parts?class=non_product` answered `unknown class "non_product"` until the two API copies
+  // were derived from this list. This check is what makes the next added value fail HERE — one line,
+  // with the schema named — instead of at a caller months later.
+  const inDb = (await query<{ enumlabel: string }>(
+    `SELECT e.enumlabel FROM pg_enum e JOIN pg_type t ON t.oid = e.enumtypid WHERE t.typname = 'product_class'`
+  )).rows.map((r) => r.enumlabel).sort();
+  const inCode = [...PRODUCT_CLASSES].sort();
+  check("PRODUCT_CLASSES equals the product_class enum in the database, as a set",
+    JSON.stringify(inDb) === JSON.stringify(inCode),
+    `db=${JSON.stringify(inDb)} code=${JSON.stringify(inCode)}`);
+  // The API must accept every class the column can hold — the defect above was exactly this gap.
+  const { listParts } = await import("../../src/api/queries/parts.js");
+  const refused: string[] = [];
+  for (const cls of inDb) {
+    try { await listParts({ class: cls, limit: 1 } as never); }
+    catch (e) { refused.push(`${cls}: ${(e as Error).message}`); }
+  }
+  check("every class the enum holds is accepted by ?class= (not just the ones with parts today)",
+    refused.length === 0, refused.join(" | "));
 }
 
 // =================================================================================================
