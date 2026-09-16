@@ -142,6 +142,9 @@ export function staleBudgetSeconds(files: number | null | undefined): number {
  * Deliberately NOT touching the gate or stats: whatever the run recorded before it stopped is
  * evidence, and a reaper that blanked it would destroy the only trace of what happened.
  */
+/** so a broken reaper is reported once per process rather than on every openRun, and never silently */
+let reaperFailureReported = false;
+
 export async function reapStaleRuns(
   db: Queryable = getPool(),
   hours: number = RUN_STALE_HOURS,
@@ -150,13 +153,27 @@ export async function reapStaleRuns(
   // silent for two hours is reaped while a 494-file run still writing is not. The arithmetic is
   // staleBudgetSeconds() above, expressed here in SQL so it is one statement rather than a read,
   // a loop and N writes over a 333 ms round trip.
+  //
+  // `files` COMES IN TWO SHAPES AND THIS USED TO ASSUME ONE (16 Sep 2026). A file-driven run records
+  // inputs.files as an ARRAY of {path, sha256, bytes} — see RunInputFile — while others record a count or
+  // nothing. The expression was COALESCE(NULLIF(inputs->>'files','')::float, 1e9), which on an array casts
+  // the array's TEXT to float and raises 22P02. Three apply-specs rows with array-valued files went
+  // `running` on 8 Sep; every openRun since called this, it threw, and openRun's catch swallowed it — so the
+  // reaper had been dead for eight days and ~250 runs, and could never recover, because the rows that broke
+  // it are exactly the rows it exists to remove. It left 1,482 facts current under runs that never closed.
+  // Read the shape with jsonb_typeof and fall back to the ceiling for anything else: being wrong in the slow
+  // direction only delays a cleanup, being wrong in the fast direction ends a live run (tests/runStale.test.ts).
   const r = await db.query<{ id: number; age: number; budget: number }>(
     `WITH judged AS (
        SELECT id,
               extract(epoch FROM (now() - started_at)) AS age,
               LEAST($1::float * 3600,
                     GREATEST($2::float * 60,
-                             COALESCE(NULLIF((inputs->>'files'), '')::float, 1e9)
+                             CASE jsonb_typeof(inputs->'files')
+                               WHEN 'array'  THEN jsonb_array_length(inputs->'files')::float
+                               WHEN 'number' THEN (inputs->>'files')::float
+                               ELSE 1e9
+                             END
                              * $3::float * $4::float)) AS budget
          FROM runs WHERE status = 'running'
      )
@@ -188,8 +205,16 @@ export async function openRun(
   // than in a command nobody remembers to run is the difference between a reaper and a good idea.
   try {
     await reapStaleRuns(db);
-  } catch {
-    // A reaper that cannot run must never stop the work it was tidying up after.
+  } catch (e) {
+    // A reaper that cannot run must never stop the work it was tidying up after — but it must SAY SO. This catch was
+    // bare, and that is how a broken reaper stayed invisible for eight days and ~250 runs (16 Sep 2026): it threw 22P02
+    // on every call, nobody saw it, and the stale rows it could not reap were the ones keeping it broken. A swallowed
+    // failure in a self-healer is the healer's own failure mode. Printed once per process, never thrown.
+    if (!reaperFailureReported) {
+      reaperFailureReported = true;
+      console.error(`reapStaleRuns failed and was skipped: ${e instanceof Error ? e.message : String(e)}`
+        + " — stale `running` rows are NOT being closed out; nothing else is affected.");
+    }
   }
   // THE DISK GUARD (12 Sep 2026, diskGuard.ts): no run starts below 5 GB free on the database host, or on a
   // missing or stale reading. It throws BEFORE the row exists, so a refused run leaves nothing behind; the free
