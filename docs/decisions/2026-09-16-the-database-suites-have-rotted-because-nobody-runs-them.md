@@ -55,19 +55,34 @@ very likely why the database suites stopped being run at all.
 
 *(My MCS filter rule is not implicated: the string appears nowhere in either suite's output.)*
 
-## Left for the operator: the other three
+## Left for the operator: the other three — each now diagnosed to the line
 
-Each needs a judgement I should not make alone, because in each the honest question is *which side is wrong*:
+The judgement in each is *which side is wrong*, which is not mine to make. But leaving them as investigations costs the
+next person an evening, so each was chased to its exact cause. None is a real defect in the code under test.
 
-- **`inheritedFrom`** fails because the truncated test database holds no inherited facts — the suite says so itself, and
-  its own NOTE already proposes the ending: *"zero orphans: replace this file with FOREIGN KEY (inherited_from)
-  REFERENCES parts(sku) and delete it."* That is a schema decision, not a test edit.
-- **`migrate-atlas`** collides on `parts_vendor_sku_ci_uq` with `hx-test-1`. Either its fixture predates 0010 (like
-  `store`'s did) or it is leaving rows behind between runs — the hygiene suite hit the second shape tonight and the
-  answer there was to construct and remove the state explicitly.
-- **`reclassify`**'s sabotage asserts that classes its table did not decide are left alone, and picks `0.75K` and
-  `15.0.1M` — SKUs the `catalogue-noise: fails is_part_number` rule now claims. So either the fixture should pick SKUs
-  the noise rule does not touch, or the rule has widened past where that sabotage meant to stand.
+**`migrate-atlas` — the same cause as `store`, and just as unambiguous.** Line 151 deliberately creates
+`twinA = { sku: "hx-test-1" … "lower-case twin" }` beside `HX-TEST-1` at line 104, and line 364 asserts **"4 parts
+loaded, both case twins as written"**. Migration 0010 made that impossible, so the insert raises
+`23505 … (vendor_id, lower(sku))=(1, hx-test-1)`. It is a pre-0010 expectation, exactly like the one fixed in `store`.
+*Why it was not fixed with `store`:* this suite covers a one-time historical Atlas migration, so whether its
+expectations should be brought forward or the file retired is a question about the migration's life, not about 0010.
+
+**`reclassify` — one stale token.** The sabotage holds where it matters: both fixture parts are still reported as
+`foreign_by_reason` and neither appears in `changes`, so *"a class this table did not decide is left alone"* is still
+true. What moved is the hypothetical label beside them — it asserts
+`would_become["unknown->hardware"] === 1` and the plan now says `unknown->non_product`. The two parts are `0.75K`
+(switches, `is_hardware: true`) and `15.0.1M` (routers), both `product_class: unknown`, one carrying the reason
+`catalogue-noise: fails is_part_number`. A SKU that fails `is_part_number` resolving to `non_product` rather than
+`hardware` is the direction round 3's junk work deliberately moved in — so this reads as the expectation being stale
+rather than the rule being wrong, and the change is a single string. It is still an assertion about intended behaviour,
+which is why it is named here instead of edited.
+
+**`inheritedFrom` — its premise cannot hold in a truncated database.** It reports *"no live inherited facts at all — the
+query, not the data"*, which is the suite correctly refusing to pass on nothing; the other database suites truncate
+`facts`, so there is never anything for it to check. Its own NOTE already proposes the ending: *"zero orphans: replace
+this file with FOREIGN KEY (inherited_from) REFERENCES parts(sku) and delete it."* A schema decision, not a test edit —
+and note it is the same could-not-check-reported-as-a-miss shape as `apply-acquired` above, in a suite that has the
+grace to say which it is.
 
 ## The rule this suggests
 
