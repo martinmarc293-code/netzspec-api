@@ -11,14 +11,20 @@ Five runs have been `running` since 8–10 September:
 
 | run | kind | started | left behind |
 | --- | --- | --- | --- |
-| **#842** | apply-specs | 8 Sep 08:32 | **128 current facts** over 58 parts, 19 superseded, 3 conflicts |
-| **#843** | apply-specs | 8 Sep 08:44 | **1,354 current facts** over 552 parts, 378 superseded, 223 conflicts |
+| **#842** | apply-specs | 8 Sep 08:32 | **128 facts**, all `verified`, over 58 parts · 19 superseded · 3 conflicts |
+| **#843** | apply-specs | 8 Sep 08:44 | **1,354 facts** — 1,228 `verified`, 126 `corroborated` — over 552 parts · 378 superseded · 223 conflicts |
 | #845 | apply-specs | 8 Sep 11:37 | nothing |
 | #857 | recompute-completeness | 8 Sep 19:01 | nothing |
 | #904 | recompute-completeness | 10 Sep 10:30 | nothing |
 
-**1,482 current facts on about 610 parts, written by runs that never closed and never recorded a gate** (`stats {}`,
-`gate` null). They are being served now. This is the shape `CLAUDE.md`'s hard rule names: *"A write run whose process died
+**1,482 current facts on 556 distinct parts, written by runs that never closed and never recorded a gate** (`stats {}`,
+`gate` null). They are being served now.
+
+*Re-checked afterwards against my own worst habit*, because the first count was `superseded_by IS NULL` and nothing else
+— which includes GAP rows, and this project has recorded that exact error as *"a count built on one flag reported 122
+where the answer was 8"*. Split by state it survives intact: **verified 1,356, corroborated 126, gap rows zero**, so all
+1,482 are values and all 1,482 are in `SERVED_STATES`. The only correction is the part count — 58 + 552 was an addition,
+and the distinct union is **556**. This is the shape `CLAUDE.md`'s hard rule names: *"A write run whose process died
 is closed with `rollbackRun`, never with `closeRun` alone"* — and the 13 Sep incident it was written for left 1,387 facts
 in the same state, a number close enough to this one to be worth saying out loud.
 
