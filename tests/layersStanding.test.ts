@@ -9,7 +9,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { REPO_ROOT } from "../src/config.js";
 import { readLayerRows, pairDisagreements, twinGroups, crossClaims, ruleUse, classifyRules, incomingRows, labelViolations, labelEvidenceDrift, seriesEntryDisagreements, deviceInSharedParts, unplacedArrivals, sharedLabelNotExplicit, crossCategoryTwins, nonHardwarePlansOnPage, gluedDigitKeeps, sharedPartsNamedBySeries, DEVICE_KINDS, type LayerRow } from "../src/core/layerChecks.js";
-import { labelEvidence } from "../src/core/labelEvidence.js";
+import { labelEvidence, ALIAS_REQUIRES, NUMBER_KEYED_ALIASES } from "../src/core/labelEvidence.js";
 
 export const REVIEWED = ["switches", "routers", "transceiver", "interfaces-modules", "wireless", "servers-unified-computing", "hyperconverged-infrastructure", "hyperconverged-systems", "security", "video", "optical-networking", "storage-networking", "unified-communications", "collaboration-endpoints", "meraki"];
 // spare = base exceptions, each read against the built row
@@ -101,8 +101,10 @@ const GLUED_DIGIT_EXCEPTIONS: Record<string, string> = {
 // HX220c/HX240c. An unchanged count is not an unchanged queue, which is exactly why these are recorded per category and read
 // rather than trusted. Full record: docs/decisions/2026-09-16-the-model-letter-fence-prepared-not-applied.md
 const REVERSE_EXPECT: Record<string, number> = {
+  // routers 46 -> 44 (16 Sep 2026): CAB-N5K6A-NA(=) is a NEXUS 5000 power cord that reached NCS 5000, because LABEL_ALIASES
+  // is keyed by a bare number and "5000" offers `N5K` to every series carrying that number. See ALIAS_REQUIRES.
   "servers-unified-computing": 218, "hyperconverged-infrastructure": 109, "collaboration-endpoints": 88, switches: 98,
-  wireless: 65, routers: 46, "storage-networking": 38, "hyperconverged-systems": 31, security: 27, "interfaces-modules": 11,
+  wireless: 65, routers: 44, "storage-networking": 38, "hyperconverged-systems": 31, security: 27, "interfaces-modules": 11,
   "unified-communications": 5, video: 3, "optical-networking": 3, transceiver: 0, meraki: 0,
 };
 
@@ -859,6 +861,24 @@ check("SABOTAGE merge: a plan that calls a hardware row non-hardware is refused"
   check("SABOTAGE fence: a C240 RACK part does not name the HX240c hyperconverged node", e.kind === "none", JSON.stringify(e));
   e = v("ZZ-FENCE-6", "Ball Bearing Rail Kit for C240 M6 rack servers", "HyperFlex compute-only nodes (C220 / C240 / C480 / B200 / B480)", hx);
   check("SABOTAGE fence: and the compute-only-node series still claims it, so the tie breaks the right way", e.kind === "name" && e.detail === "240", JSON.stringify(e));
+
+  // THE NUMBER-KEYED ALIAS (16 Sep 2026). LABEL_ALIASES is keyed by a bare number, so "5000" offered the NEXUS spelling N5K
+  // to every series carrying 5000 — NCS 5000, ASR 5000, CSP 5000, TelePresence IX5000. Each such alias now declares the brand
+  // word its series must contain. The DRIFT CHECK first, because a two-table mapping with nothing comparing them is the
+  // failure this repo keeps paying for: the run refuses if any number-keyed alias has no entry.
+  const missingReq = [...new Set(NUMBER_KEYED_ALIASES)].filter((a) => !ALIAS_REQUIRES[a]);
+  check(`alias brands: every one of the ${new Set(NUMBER_KEYED_ALIASES).size} number-keyed aliases declares the brand its series must name`,
+    missingReq.length === 0, `no entry for: ${missingReq.join(", ")}`);
+  const strayReq = Object.keys(ALIAS_REQUIRES).filter((a) => !NUMBER_KEYED_ALIASES.includes(a));
+  check("alias brands: and no entry is stale (a requirement for an alias no number key offers is a hole)",
+    strayReq.length === 0, `stale: ${strayReq.join(", ")}`);
+
+  const ncs = { family: null, siblings: ["NCS 5000", "NCS 5500", "ASR 9000"].map((s) => ({ series: s, family: null })) };
+  const nex = { family: null, siblings: ["Nexus 5000", "Nexus 9300"].map((s) => ({ series: s, family: null })) };
+  e = v("CAB-N5K6A-NA", "Power Cord, 200/240V 6A, North America (2.5 meters)", "NCS 5000", ncs);
+  check("SABOTAGE alias: the Nexus spelling N5K does not name NCS 5000 (a number key is not a series)", e.kind === "none", JSON.stringify(e));
+  e = v("CAB-N5K6A-NA", "Power Cord, 200/240V 6A, North America (2.5 meters)", "Nexus 5000", nex);
+  check("SABOTAGE alias: and it still names Nexus 5000, which is whose spelling it is", e.kind === "sku-token" && e.detail === "N5K", JSON.stringify(e));
 }
 
 console.log(`    layers standing: ${passed} passed, ${misses.length} missed (${REVIEWED.join(", ")})`);

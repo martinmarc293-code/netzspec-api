@@ -37,6 +37,30 @@ export const LABEL_ALIASES: Readonly<Record<string, readonly string[]>> = {
   LoRaWAN: ["LORA", "IXM"],
 };
 
+/** THE BRAND A NUMBER-KEYED ALIAS BELONGS TO (16 Sep 2026).
+ *
+ * Fourteen of the keys above are a BARE NUMBER, and `strongest` looks aliases up by `digitTokens(text)` — so every series
+ * whose name contains 5000 was offered `N5K`, whether it was a Nexus or not. `CAB-N5K6A-NA`, a Nexus 5000 power cord,
+ * reached `NCS 5000` that way. Measured across the mapping, 45 non-Nexus series could inherit one: `UCS 6500 Fabric
+ * Interconnects` was offered `SUP720`, `MSFC` and `WS-X6`; `IPS 4300 / 4500` the Catalyst 4500 line-card spellings;
+ * `Desk Phone 9800` and the Catalyst 9800 wireless controllers `N9800`; `ASA 5500` and `TelePresence IX5000` theirs.
+ *
+ * The tag cannot live on the KEY, because "9000" carries both `N9K` (Nexus) and `C9K` (Catalyst). It lives per alias, and
+ * every number-keyed alias must have an entry — `tests/layersStanding.test.ts` refuses the run if one does not, so the two
+ * tables cannot drift apart the way a hand-maintained list always does. A non-numeric key ("ASR 9000", "LoRaWAN") already
+ * names its own series and needs nothing. */
+export const ALIAS_REQUIRES: Readonly<Record<string, string>> = {
+  N9K: "nexus", "N9K-C98": "nexus", "N9K-X98": "nexus", N9800: "nexus", N7K: "nexus", N77: "nexus", N5K: "nexus",
+  N55: "nexus", N56: "nexus", N3K: "nexus", "3K/9K": "nexus", N2K: "nexus", N6K: "nexus",
+  C9K: "catalyst", C65: "catalyst", C6K: "catalyst", S720: "catalyst", SUP720: "catalyst", SUP2T: "catalyst",
+  SUP32: "catalyst", "WS-X6": "catalyst", "WS-F6": "catalyst", DFC3: "catalyst", DFC4: "catalyst", CEF720: "catalyst",
+  MSFC: "catalyst", "CATALYST 6000": "catalyst", C6X0: "catalyst", C68: "catalyst", X45: "catalyst", C45: "catalyst",
+  "WS-X4": "catalyst", C4K: "catalyst", C49: "catalyst",
+};
+/** The number-keyed aliases, derived rather than listed, so the drift check has something to compare against. */
+export const NUMBER_KEYED_ALIASES: readonly string[] =
+  Object.entries(LABEL_ALIASES).filter(([k]) => /^[0-9]+$/.test(k)).flatMap(([, v]) => v);
+
 /** Words too common in Cisco series names to evidence one series. */
 const STOP = new Set(["catalyst", "nexus", "cisco", "series", "router", "routers", "switch", "switches", "edge", "gateway", "gateways", "wireless",
   "shared", "parts", "industrial", "ethernet", "connected", "grid", "services", "service", "integrated", "aggregation", "carrier", "routing", "system",
@@ -114,7 +138,11 @@ function strongest(text: string, sku: string, name: string, words: boolean, excl
     else if (re.test(name)) take({ spec, detail: d, where: "name" });
   }
   const keys = [text, ...digitTokens(text), ...text.split(/[\s/()]+/)];
+  const lower = text.toLowerCase();
   for (const k of keys) for (const a of LABEL_ALIASES[k] ?? []) {
+    // a Nexus or Catalyst spelling reached through a BARE NUMBER belongs only to a Nexus or Catalyst series
+    const need = ALIAS_REQUIRES[a];
+    if (need && !lower.includes(need)) continue;
     if (aliasRe(a, false).test(sku)) take({ spec: 2, detail: a, where: "sku" });
     else if (aliasRe(a, true).test(name)) take({ spec: 2, detail: a, where: "name" });
   }
