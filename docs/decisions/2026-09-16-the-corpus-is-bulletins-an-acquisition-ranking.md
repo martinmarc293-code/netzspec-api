@@ -117,8 +117,38 @@ the group-inheritance writer, or a ruling that a platform datasheet may name a p
 currently forbids. It is not the derive.
 
 The number in that region actually worth the operator's eye is the other one: **1,497 links cannot be checked because the
-page text is not held** — PDFs the extractor never wrote records for. That is a measurable, closable gap, and it is the
-only part of this that a pipeline change reaches.
+page text is not held.** That is a measurable, closable gap, and it is the only part of this that a pipeline change
+reaches — so it was chased to its cause.
+
+### The could-not-check 1,497: not a defect, a documented limit, and 65 documents wide
+
+`scripts/extract-doc-evidence.py` says it in its own docstring: `text/<doc_id>.txt` … **HTML only**. PDFs get their
+labels from the records the PDF extractor already wrote (`runs/extract/cisco-pdf-*.json`, matched on source_url) but no
+text file. And `linkBasisFor` turns that into `could_not_check` on purpose — *"absence in a text we do not hold is not
+evidence of absence"*. **This is the rule working, not failing.**
+
+What it costs, measured over the dump:
+
+| | documents | text held |
+| --- | ---: | ---: |
+| `vendor_eol_bulletin` | 3,110 | 3,102 (100%) |
+| `vendor_datasheet_html` | 994 | 980 (99%) |
+| `aggregator_page` | 828 | **0** |
+| `vendor_datasheet_pdf` | **65** | **0** |
+
+**2,779 links sit on a document whose text is not held — 1,536 of them on PDF datasheets**, 1,031 on aggregator pages
+(not spec-bearing, correctly never extracted), the rest on a handful of HTML documents that failed. 949 of the 975
+text-less documents carry a `cache_path`: **the bytes are on disk and the text was never extracted.**
+
+And the 65 are the highest-yield documents in the corpus — this repo measured PDF datasheets at **104.5 facts/doc against
+HTML's 49.7** — sitting in exactly the categories at the bottom of the ranking above: UCS C-Series and X-Series,
+HyperFlex, HCI, Stealthwatch, 2800-series routers.
+
+**The closable step, named and not taken:** export PDF text into the evidence dump alongside the records the extractor
+already produces. It needs no network — the PDFs are cached — and it would turn 1,497 refusals into decisions on the
+class of document that carries the most specification per page.
+
+(Four of the 65 have no extract records at all — `pdf_no_extract_records` — so they contribute neither text nor labels.)
 
 ### The one path that needs neither network nor inference
 
