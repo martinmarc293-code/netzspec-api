@@ -1319,7 +1319,13 @@ export async function main(argv: string[]): Promise<void> {
       result = (await checkCrossBrandFamily(a, pool)).result;
     } else if (check === "documentation-rows") {
       result = (await checkDocumentationRows(a, pool)).result;
-    } else {
+    } else if (check === "hw-variants") {
+      // NAMED, not a catch-all `else` (16 Sep 2026). This branch used to be the bare `else`, which
+      // covered `hw-variants` correctly and would ALSO have silently covered a ninth name added to
+      // CHECKS — running checkHwVariants and filing its counts under the new check's name, in a
+      // command that merges parts. A dispatch over a closed union should end in a `never`, not in a
+      // catch-all: the union is what makes the typecheck able to refuse an unhandled member, and an
+      // `else` throws that away. See the exhaustiveness guard below.
       const { result: r, work } = await checkHwVariants(a, pool);
       result = r;
       if (a.commit && work.length) {
@@ -1340,6 +1346,12 @@ export async function main(argv: string[]): Promise<void> {
         }, { partial: () => ({ stats: { linked: done, ...counts }, progress: `${done} of ${work.length} pairs` }) });
         runId = out.runId; stats = out.stats as Record<string, unknown>;
       }
+    } else {
+      // EXHAUSTIVENESS. `check` is a CheckName, so every member is handled above and this is
+      // unreachable — which is the point: add a name to CHECKS without a branch and `never` fails
+      // the TYPECHECK, here, instead of the run quietly producing another check's numbers.
+      const unhandled: never = check;
+      throw new Error(`hygiene: no implementation for check "${String(unhandled)}" — it is in CHECKS but has no branch`);
     }
 
     print(result, a.commit, runId);
