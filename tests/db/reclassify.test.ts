@@ -76,10 +76,17 @@ const count = async (sql: string, params: unknown[] = []) => (await query<{ n: n
   check("plan: the reason-only part is listed with its new rule and is NOT in changes",
     p.reason_only_by_rule["sku-prefix:L-"]?.count === 1 && !p.changes.some((c) => c.sku === "L-C9200-24-E-A"), p.reason_only_by_rule);
   sabotages++;
+  // `would_become` was `unknown->hardware` when this was written, and is `unknown->non_product` now (16 Sep 2026). Nothing about
+  // the GUARD changed — both rows are still counted foreign and still left alone, which is what the case is for. What changed is
+  // the hypothetical beside them: `classify` itself has since learned that a SKU failing `is_part_number` is not a product, so
+  // the header's own story ("a blind recompute promoted every one of them back to `hardware` — 0.375K, 0.75K, 15.0.1M,
+  // quantities and IOS releases") no longer describes what the classifier would do. The clause is kept rather than deleted
+  // because it proves the planner COMPUTED the hypothetical instead of skipping the row — and a regression to `hardware` would
+  // now fail here loudly, which is the alarm the original author wanted.
   check("SABOTAGE plan: a class this table did NOT decide is left alone — the 772 catalogue-noise parts are not promoted back to hardware",
     p.foreign_reason === 2 && !p.changes.some((c) => c.sku === "0.75K" || c.sku === "15.0.1M")
     && p.foreign_by_reason["catalogue-noise: fails is_part_number"]?.count === 1
-    && p.foreign_by_reason["catalogue-noise: fails is_part_number"].would_become["unknown->hardware"] === 1
+    && p.foreign_by_reason["catalogue-noise: fails is_part_number"].would_become["unknown->non_product"] === 1
     && p.foreign_by_reason["(null)"]?.count === 1, p.foreign_by_reason);
   check("ownedReason: a reason this table emits is owned; a hygiene reason and NULL are not",
     ownedReason("sku-prefix:L-") && ownedReason("category-is_hardware=true:switches") && ownedReason("empty-sku")
