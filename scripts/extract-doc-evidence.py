@@ -14,6 +14,11 @@ Reads the cache only (nothing is fetched) and writes, per document in --docs:
                      one view of the page. Without it every vendor_datasheet_pdf was text-less and 1,497 links came back
                      could_not_check -- correctly, since absence in a text we do not hold is not evidence of absence.
 Every document gets a status; a failure is recorded, never swallowed. The run records the sha256 of these files.
+
+CAUTION, --docs IS THE WHOLE TRUTH FOR doc-labels.json. The file is rebuilt from the documents in --docs and written
+whole, so pointing --docs at a SUBSET and --out at an existing dump replaces the labels of every document not in that
+subset with nothing. To re-extract part of a corpus, run into a fresh --out and copy back only the files you meant to
+change (text/<doc_id>.txt is per-document and safe to copy; doc-labels.json and doc-headers.json are not).
 """
 import sys
 sys.dont_write_bytecode = True
