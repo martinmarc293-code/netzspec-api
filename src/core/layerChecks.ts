@@ -285,8 +285,14 @@ export function evidenceStrength(detail: string, series: string): "widened" | "e
  * This asks the same question of every line of the category, and reports a row that NO series of its own line names while
  * EXACTLY ONE series of another line does. It is deliberately restricted to STRONG evidence — an exact digit token or the full
  * series name — because the unrestricted scan returns 541 rows of which 412 rest on a widened round number, and a queue that big
- * at that precision is one nobody runs twice. The strong band is 49 rows and finds things like `AIR-PSU1-770W`, "770W AC
- * Hot-Plug Power Supply for 5520 Controller", sitting under Wireless Antennas.
+ * at that precision is one nobody runs twice. It finds things like `AIR-PSU1-770W`, "770W AC Hot-Plug Power Supply for 5520
+ * Controller", sitting under Wireless Antennas.
+ *
+ * **90 rows, and a first measurement of the same idea said 49** — worth stating, because the two are different questions and the
+ * gap is the whole design decision. That version required exactly one claim AT ANY STRENGTH and then asked whether it was strong,
+ * so a row claimed strongly by one series and weakly by another was dropped as ambiguous. This one asks for exactly one STRONG
+ * claim and lets a weak rival stand, on the grounds that a widened number is not evidence enough to veto an exact one. All 90
+ * were read either way; the extra 41 are the same mixture as the 49.
  *
  * Recorded as an exact count per category for the same reason Q-27's is: a rise is a new mis-file, a fall is a review doing its
  * job, and both directions fail so neither drifts in silence.
