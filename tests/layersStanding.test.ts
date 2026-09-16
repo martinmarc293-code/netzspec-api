@@ -148,6 +148,19 @@ const CROSSLINE_EXPECT: Record<string, number> = {
 // reason — a list of what a rule deliberately excludes should be a guard, not a comment.
 const FENCE_KNOWN_LOSSES = ["UCSC-SCCBL240", "UCSC-SCCBL240=", "UCSC-SCCBL220", "UCSC-SCCBL220="];
 
+// The three rows the RANGE rule moved off IR 800 and onto the series their own names state. A count cannot see this — routers
+// reads 44 before and after — so the outcome is asserted by name.
+const RANGE_RULE_MOVES: [string, string][] = [
+  ["ANT-LPWA-SMA-D", "Wireless Gateway for LoRaWAN"], ["ANT-LPWA-SMA-D=", "Wireless Gateway for LoRaWAN"],
+  ["ANT-WPAN-OD-OUT-N", "IR 500 WPAN"],
+];
+
+// BOTH OF THE LISTS ABOVE NAME SKUs, AND A NAMED SKU CAN LEAVE THE PAGE. Their per-category loops skip a SKU they cannot find,
+// which is exactly the one-sided shape this suite already refuses everywhere else ("a stale exception is a hole" appears on the
+// leakage, glued-digit, arrivals, device and twin lists). These sets collect what was actually found so the run can assert,
+// once, that every listed SKU was seen — 16 Sep 2026, written after the same defect was found four times in one night.
+const fenceSeen = new Set<string>(), rangeSeen = new Set<string>();
+
 // THE LABEL CHECK, per category (layers round 3, operator: the round-2 floor "more than 100 label-placed rows" failed by construction
 // on a category every row of which a SKU rule places). `min`: a floor that proves the check computed evidence where labels place
 // rows; `exactly`: the category's measured count, so a mapping change that starts placing rows by label is a visible change.
@@ -338,15 +351,16 @@ for (const cat of REVIEWED) {
   // ARRIVED at their real series, so routers reads 44 both before and after and no count check can tell the difference —
   // the second such case tonight. The outcome is therefore asserted directly: each antenna is proposed for the series its
   // own name states, and not for the one a radio band put it in.
-  for (const [sku, want] of [["ANT-LPWA-SMA-D", "Wireless Gateway for LoRaWAN"], ["ANT-LPWA-SMA-D=", "Wireless Gateway for LoRaWAN"],
-    ["ANT-WPAN-OD-OUT-N", "IR 500 WPAN"]] as [string, string][]) {
-    const p = reverse.find((x) => x.sku === sku);
+  for (const [sku, want] of RANGE_RULE_MOVES) {
     if (!rows.some((r) => r.sku === sku)) continue;
+    rangeSeen.add(sku);
+    const p = reverse.find((x) => x.sku === sku);
     check(`range rule ${cat}: ${sku} (863-928 MHz) is proposed for "${want}", not for the IR 800 its radio band named`,
       p?.to === want, p ? `proposed for "${p.to}" on ${p.kind} ${p.detail}` : "not proposed at all");
   }
   // the four rows the model-letter fence knowingly loses: still present on this page, and still NOT proposed
   for (const sku of FENCE_KNOWN_LOSSES.filter((s) => rows.some((r) => r.sku === s))) {
+    fenceSeen.add(sku);
     const row = rows.find((r) => r.sku === sku)!;
     check(`fence cost ${cat}: ${sku} is still parked in shared parts, unproposed (the model-letter fence refuses its C240/C220 on the L of CBL)`,
       / shared parts$/.test(row.series ?? "") && !reverse.some((x) => x.sku === sku),
@@ -409,6 +423,15 @@ const TWIN_SPLITS_PENDING: Record<string, readonly string[]> = {
   check("SABOTAGE cross-category twins: a class plan takes the member off the hardware pages", planted([row("ZZ-CORD-1")], [row("ZZ-CORD-1=", "class non_product")]).length === 0);
   check("SABOTAGE cross-category twins: X- and X-- are twins of X (N-1)", planted([row("ZZ-CORD-2")], [row("ZZ-CORD-2-"), row("ZZ-CORD-2--")]).length === 1 && planted([row("ZZ-CORD-2-")], [row("ZZ-CORD-2--")]).length === 1);
 }
+
+// …and the stale half of those two SKU lists. Both loops above skip a SKU they cannot find on a page, so without this a listed
+// row that left the catalogue would take its check with it and the list would quietly describe the past. This is the shape the
+// suite already refuses on every other recorded list; it was missing from the two added on 16 Sep, and adding it is the scan
+// that night's fourth instance of the same defect earned.
+for (const sku of FENCE_KNOWN_LOSSES)
+  check(`fence cost: the recorded known-loss ${sku} is still a row of a reviewed page (a stale entry is a hole)`, fenceSeen.has(sku));
+for (const [sku] of RANGE_RULE_MOVES)
+  check(`range rule: the recorded move ${sku} is still a row of a reviewed page (a stale entry is a hole)`, rangeSeen.has(sku));
 
 // THE REGULATORY-DOMAIN / PLUG-REGION PLACEHOLDER (re-audit decisions, operator, 15 Sep 2026, Q-10): lower-case x / xx in the region position,
 // case-sensitive, plus the 14 upper-case -X rows Cisco's ordering guide and the Embedded Wireless Controller FAQ write as the same stand-in,
