@@ -1,7 +1,18 @@
 /**
  * Complete the withdrawals that two scripts started and never made visible.
  *
- *     npx tsx scripts/restamp-orphan-withdrawals.mts [--commit] [--ceiling N]
+ *     npx tsx scripts/restamp-orphan-withdrawals.mts [--commit] [--ceiling N] [--limit N]
+ *
+ * RUN IT ON THE BOX, NOT THROUGH THE TUNNEL. `retractFact` costs ~4 round trips per row, so 3,790
+ * rows is ~15,000 statements: about a second on the box (0.13 ms a query) and over an HOUR across
+ * the ~300 ms dev tunnel. An hour-long write run is the exact shape CLAUDE.md warns about — a
+ * process that dies mid-pass leaves facts current under a run that never closed, which is handoff
+ * item 3's open problem. Use a `git archive` of a named commit, as the heavy passes do.
+ *
+ * `--limit N` exists for the same reason and is safe BY CONSTRUCTION: every row is independent and
+ * the selector rejects its own output, so running it repeatedly in chunks converges on the same
+ * end state as one pass. Prefer several short runs over one long one if the tunnel is the only
+ * route available.
  *
  * WHY. `scripts/remap-cpu-power-to-tdp.mts` and `scripts/retract-group-inherited.mts` withdrew facts
  * by writing `superseded_at = now()` ALONE. Every reader in this repo — `currentFacts`, `factRows`,
@@ -73,9 +84,15 @@ async function main(): Promise<void> {
   const commit = process.argv.includes("--commit");
   const ci = process.argv.indexOf("--ceiling");
   const ceiling = ci >= 0 ? Number(process.argv[ci + 1]) : 4000;
+  const li = process.argv.indexOf("--limit");
+  const limit = li >= 0 ? Number(process.argv[li + 1]) : Infinity;
   const pool = getPool();
 
-  const { rows } = await pool.query<Row>(SELECT);
+  const all = await pool.query<Row>(SELECT);
+  // The ceiling is checked against the WHOLE population, not the limited slice, or `--limit` would
+  // silently disable it — a guard you can switch off with an unrelated flag is not a guard.
+  const rows = Number.isFinite(limit) ? all.rows.slice(0, limit) : all.rows;
+  if (Number.isFinite(limit)) console.log(`  --limit ${limit}: taking ${rows.length} of ${all.rows.length} candidates this pass`);
   console.log(`${commit ? "COMMIT" : "DRY RUN"} — facts withdrawn with superseded_at but no superseded_by`);
   console.log(`  candidates: ${rows.length}   (measured 3,790 on 16 Sep 2026)`);
   if (rows.length === 0) { console.log("  nothing to do — every withdrawal is visible to readers"); await closePool(); return; }
@@ -106,8 +123,8 @@ async function main(): Promise<void> {
     console.error(`  *** the rule split covers ${ruled} of ${rows.length} rows — it must cover every one exactly once.`);
     process.exitCode = 1; await closePool(); return;
   }
-  if (rows.length > ceiling) {
-    console.error(`  *** ${rows.length} candidates exceeds the ceiling of ${ceiling}. Re-measure before raising it.`);
+  if (all.rows.length > ceiling) {
+    console.error(`  *** ${all.rows.length} candidates exceeds the ceiling of ${ceiling}. Re-measure before raising it.`);
     process.exitCode = 1; await closePool(); return;
   }
 
@@ -139,9 +156,13 @@ async function main(): Promise<void> {
   // so a second run matches nothing. A repair whose output its own selector still matches runs for ever.
   const after = await pool.query<Row>(SELECT);
   console.log(`\n  retracted: ${out.stats?.retracted}`);
-  console.log(`  selector re-run (MUST be 0, or this pass would repeat itself): ${after.rows.length}`);
-  if (after.rows.length !== 0) {
-    console.error("  *** the selector still matches after the write — do not re-run this script ***");
+  // With --limit the remainder is EXPECTED to still match: that is the chunking working, not a
+  // repeating pass. The assertion is that this pass removed exactly what it retracted.
+  const expected = all.rows.length - rows.length;
+  console.log(`  selector re-run: ${after.rows.length}  (expected ${expected}${expected ? " — the --limit remainder; re-run to continue" : ", i.e. none"})`);
+  if (after.rows.length !== expected) {
+    console.error(`  *** the selector matches ${after.rows.length} rows, expected ${expected}. Either the write did not`);
+    console.error("      take, or this pass produces rows its own selector still matches. Do not re-run it.");
     process.exitCode = 1;
   }
   await closePool();
