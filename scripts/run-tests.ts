@@ -26,7 +26,9 @@ function collect(dir: string): string[] {
 }
 
 // COUNT WHAT WAS NOT RUN, AND SAY SO (16 Sep 2026). `collect` used to skip the db/ directory silently, so `npm test` ended on
-// "66/71 suites passed" — a number a reader takes for the whole picture while seventeen database suites had not been run at all.
+// "66/71 suites passed" — a number a reader takes for the whole picture while TWENTY-TWO database suites had not been run at
+// all. The real denominator is 93, so the headline was hiding nearly a quarter of the suite. (I wrote "seventeen" here from
+// memory before running it; the count is printed from the files themselves for the same reason.)
 // That is this repo's own rule turned on itself: *count what you could not check as its own number and put it in the output,
 // never folded into either*. Five of those suites were found rotted on 16 Sep, red for days, precisely because nothing ran them
 // and nothing said they were missing. The split itself is right — they need DATABASE_URL and a tunnel — so the fix is not to
