@@ -151,8 +151,16 @@ implementation grading the first"*). It needs no network — the PDFs are cached
 dependency. A failure is recorded as `pdf_text_failed` with its reason and never swallowed.
 
 Proven on six PDFs (HyperFlex HX225c, HCI 220 M7, UCS XE9305, UCS C240 M8, UCS X9508, an ISR datasheet): **6 of 6
-written**, 22 KB–320 KB of text each, at roughly **70 seconds per document** — so the full 65 is about 75 minutes of CPU
-and no network.
+written**, 22 KB–320 KB of text each.
+
+**What it costs — corrected, because the first figure was inferred rather than measured.** I first wrote "roughly 70
+seconds per document, so the full 65 is about 75 minutes", reading the probe's file timestamps against a *launch time I
+assumed*. Timed properly — one document, end to end, on an otherwise idle machine — `hx225m6-sff-specsheet-edge.pdf`
+takes **204 seconds**, and the six-document probe took about 10 minutes of wall clock, so **~100 s per document on
+average**. The same document run alongside this session's own database work took **22 minutes**, six times slower.
+
+So the real number is **roughly two hours for all 65 on a machine doing nothing else**, and several times that if anything
+is competing for it. It is CPU and memory (the process sits near 800 MB), never network. Run it when the box is idle.
 
 Then the A/B that matters, with exactly one variable: the live dump copied, those six text files overlaid, and the **real**
 `derive-link-provenance` run against each.
@@ -176,6 +184,12 @@ checked, and an unjustified link is a finding rather than a nuisance. But the ho
 PDF extract records, or the SKU map the extractor reads — and the page text does not support them. On the six measured,
 96% of the newly decided links are defects; projecting that to all 65 is a projection, not a measurement, and the way to
 settle it is to run the extractor over the remaining 59 and read the result.
+
+**That run was started and deliberately stopped.** It reached 1 document of 65 in 25 minutes while this session's own
+database work competed with it, which is what produced the timing control above. Two hours of contention to refine a
+projection already labelled as one is a poor trade, so it is left as a costed, ready step rather than a half-finished
+artifact: the six-document A/B stands as the evidence, and the scratch output was discarded. The live dump was never
+touched at any point.
 
 (Four of the 65 have no extract records at all — `pdf_no_extract_records` — so they contribute neither text nor labels.)
 
