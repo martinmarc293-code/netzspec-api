@@ -75,7 +75,18 @@ const STOP = new Set(["catalyst", "nexus", "cisco", "series", "router", "routers
 
 /** Numbers a Cisco string carries that are not platforms: watts ("1100WAC", "1900WHV" — a wattage ends in 0 or 5, where a model
  * with a W suffix does not: C881W, C1941W), memory, frequencies, speeds, lengths, DIMM grades (DDR4-2400, PC4-19200). */
-const NOT_PLATFORM_BEFORE = "(?<![0-9.]|DDR[0-9]-|PC[0-9]-)";
+// A STANDARDS NUMBER IS NOT A PLATFORM (16 Sep 2026). Power cords and cabling name the standard they are built to, and those
+// numbers are in the same three-to-five digit band as Cisco's platforms: `NBR 14136` (Brazil) reached Catalyst 1000, `BS 1363`
+// (UK) Catalyst 1300, `CEI 23-16` (Italy) and `IRSM 2073` (Argentina) Nexus 2000, `IS:1293` (India) Catalyst 1200, `SEV 1011`
+// (Swiss) Catalyst 1000, `GB2099.1/GB1002` (China) Catalyst 1000, and `IEC 60320` — the connector standard every appliance cord
+// in the world is built to — reached both "Integrator Package 6000 MXP" and Nexus 6000. Sixteen rows of the review queue.
+//
+// Each body is anchored on its own left edge, so the `IS` of `CHASSIS3000` is not read as the Indian standards body; that
+// nested lookbehind is the whole reason this is safe to put in a shared pattern. Bodies are LITERAL and short, which is what
+// makes this a guard against a named thing rather than a guess at the shape of a number — and it costs nothing in recall,
+// because no Cisco platform is introduced by the word `BS` or `NBR`.
+const STANDARDS_BODY = "(?:IEC|BS|NBR|SEV|CEI|IRAM|IRSM|NEMA|CSA|SABS|VDE|JIS|AS/NZS|ANSI|IEEE|UL|IS|GB)";
+const NOT_PLATFORM_BEFORE = `(?<![0-9.]|DDR[0-9]-|PC[0-9]-|(?<![A-Za-z])${STANDARDS_BODY}[ :.-]?)`;
 // (?!IRELESS) (layers round 3, wireless round): "Spare fan - Cisco 5520 Wireless Controller" read 5520 as a wattage ("5520 W…") and
 // moved the fan out of 5500 (5508 / 5520 / 5540); a W that starts the word Wireless is not a watt. The patterns carry the i flag.
 const NOT_PLATFORM_AFTER = "(?![0-9])(?!(?<=[05])\\s?W(?!IRELESS))(?!\\s?(?:KW|VA|MB|GB|MHZ|BASE|MBPS|MM(?![A-Z])|V(?![A-Z0-9])))";

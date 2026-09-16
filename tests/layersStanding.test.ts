@@ -9,7 +9,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { REPO_ROOT } from "../src/config.js";
 import { readLayerRows, pairDisagreements, twinGroups, crossClaims, ruleUse, classifyRules, incomingRows, labelViolations, labelEvidenceDrift, seriesEntryDisagreements, deviceInSharedParts, unplacedArrivals, sharedLabelNotExplicit, crossCategoryTwins, nonHardwarePlansOnPage, gluedDigitKeeps, sharedPartsNamedBySeries, DEVICE_KINDS, type LayerRow } from "../src/core/layerChecks.js";
-import { labelEvidence, ALIAS_REQUIRES, NUMBER_KEYED_ALIASES } from "../src/core/labelEvidence.js";
+import { labelEvidence, digitPattern, ALIAS_REQUIRES, NUMBER_KEYED_ALIASES } from "../src/core/labelEvidence.js";
 
 export const REVIEWED = ["switches", "routers", "transceiver", "interfaces-modules", "wireless", "servers-unified-computing", "hyperconverged-infrastructure", "hyperconverged-systems", "security", "video", "optical-networking", "storage-networking", "unified-communications", "collaboration-endpoints", "meraki"];
 // spare = base exceptions, each read against the built row
@@ -103,7 +103,10 @@ const GLUED_DIGIT_EXCEPTIONS: Record<string, string> = {
 const REVERSE_EXPECT: Record<string, number> = {
   // routers 46 -> 44 (16 Sep 2026): CAB-N5K6A-NA(=) is a NEXUS 5000 power cord that reached NCS 5000, because LABEL_ALIASES
   // is keyed by a bare number and "5000" offers `N5K` to every series carrying that number. See ALIAS_REQUIRES.
-  "servers-unified-computing": 218, "hyperconverged-infrastructure": 109, "collaboration-endpoints": 88, switches: 98,
+  // collaboration 88 -> 80 and switches 98 -> 90 (16 Sep 2026): a STANDARDS number is not a platform. Eight China power cords
+  // reached "Integrator Package 6000 MXP" through IEC 60320, and eight more reached Catalyst 1000 / 1200 / 1300 and Nexus 6000
+  // through NBR 14136, GB 2099.1, SEV 1011, BS 1363 and IS:1293. See STANDARDS_BODY in labelEvidence.
+  "servers-unified-computing": 218, "hyperconverged-infrastructure": 109, "collaboration-endpoints": 80, switches: 90,
   wireless: 65, routers: 44, "storage-networking": 38, "hyperconverged-systems": 31, security: 27, "interfaces-modules": 11,
   "unified-communications": 5, video: 3, "optical-networking": 3, transceiver: 0, meraki: 0,
 };
@@ -879,6 +882,26 @@ check("SABOTAGE merge: a plan that calls a hardware row non-hardware is refused"
   check("SABOTAGE alias: the Nexus spelling N5K does not name NCS 5000 (a number key is not a series)", e.kind === "none", JSON.stringify(e));
   e = v("CAB-N5K6A-NA", "Power Cord, 200/240V 6A, North America (2.5 meters)", "Nexus 5000", nex);
   check("SABOTAGE alias: and it still names Nexus 5000, which is whose spelling it is", e.kind === "sku-token" && e.detail === "N5K", JSON.stringify(e));
+
+  // A STANDARDS NUMBER IS NOT A PLATFORM (16 Sep 2026). A power cord names the standard it is built to, in the same 3-5 digit
+  // band as Cisco's platforms. The guard lives in NOT_PLATFORM_BEFORE beside the wattage and DDR rules, so it is shared by
+  // every digit pattern — which makes the ANCHORING controls the ones that matter: the `IS` of CHASSIS/ISR/analysis and the
+  // `GB` of 512GB must not be read as a standards body. Refusals and controls are asserted together, at the pattern level,
+  // because that is where the risk is.
+  const std: [string, string, boolean, string][] = [
+    ["1300", "AC Power Cord (UK), C13, BS 1363, 2.5m", false, "BS 1363 is the UK plug standard, not Catalyst 1300"],
+    ["1000", "Power Cord for AC V2 Power Module (Brazil), NBR 14136", false, "NBR 14136 is Brazil's"],
+    ["1000", "Power Cord for AC V2 Power Module (Swiss), SEV 1011", false, "SEV 1011 is Switzerland's"],
+    ["6000", "Internal C13-C14 Power Cord for China, IEC60320, 3x18 AWG", false, "IEC 60320 is the connector standard"],
+    ["1200", "India AC Power Cord for Cisco ASR 900, IS:1293", false, "IS:1293 is India's — and the cord says ASR 900"],
+    ["3000", "CHASSIS3000 spare", true, "CONTROL: the IS of CHASSIS is not the Indian standards body"],
+    ["4000", "Cisco ISR 4331 router", true, "CONTROL: nor the IS of ISR"],
+    ["9500", "for the analysis 9500 platform", true, "CONTROL: nor the IS of analysis"],
+    ["1000", "Catalyst 1000 switch", true, "CONTROL: a real platform still matches"],
+    ["6000", "Nexus 6000 fabric", true, "CONTROL: and so does Nexus 6000"],
+  ];
+  for (const [tok, hay, want, why] of std)
+    check(`SABOTAGE standards: ${why}`, digitPattern(tok).re.test(hay) === want, `${tok} in "${hay}" matched ${digitPattern(tok).re.test(hay)}`);
 }
 
 console.log(`    layers standing: ${passed} passed, ${misses.length} missed (${REVIEWED.join(", ")})`);
