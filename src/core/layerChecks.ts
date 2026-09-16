@@ -168,6 +168,42 @@ export function labelEvidenceDrift(category: string, rows: LayerRow[], vendor = 
 }
 
 /**
+ * THE OTHER HALF OF THE DRIFT CHECK (16 Sep 2026). `labelEvidenceDrift` asks whether every KEPT row's series still claims it, so
+ * it catches a rule change that would drop a row OUT of its series on the next build. It cannot see the opposite, and the
+ * opposite is real: a row the label check MOVED to shared parts goes back to its series the moment its evidence becomes
+ * non-none, and that happens without anyone touching its own rule — removing a SIBLING's rival claim is enough. Five narrowing
+ * rules landed on 16 Sep and two of them did exactly that: three 863-928 MHz antennas returned to LoRaWAN and IR 500 WPAN once
+ * the bogus IR 800 rival went, and eleven C220/C240 rack parts returned once the HX240c rival went.
+ *
+ * So for every row `placed_by` records as moved — `label-unsupported (label X; was SERIES; …)` — this asks whether SERIES claims
+ * it today. Any hit means the built page is stale and a rebuild would move rows back. Measured when written: 472 moved rows,
+ * 0 that today's rule would keep, so the pages and the code agree in BOTH directions.
+ *
+ * 39 rows name a series the mapping no longer holds; they are reported separately rather than counted as clean, because
+ * "could not check" and "checked and fine" must not share a number.
+ */
+export function movedRowsStillRefused(category: string, rows: LayerRow[], vendor = "cisco"):
+  { wouldReturn: { sku: string; was: string; now: string }[]; checked: number; seriesGone: number } {
+  const loaded = loadLineFile(vendor, category);
+  const wouldReturn: { sku: string; was: string; now: string }[] = [];
+  let checked = 0, seriesGone = 0;
+  if (!loaded) return { wouldReturn, checked, seriesGone };
+  for (const r of rows) {
+    if (!(r.placed_by ?? "").startsWith("label-unsupported")) continue;
+    const m = /;\s*was\s+([^;)]+)/.exec(r.placed_by ?? "");
+    if (!m) continue;
+    const was = m[1].trim();
+    const ln = loaded.file.lines.find((l) => l.series.some((s) => s.series === was));
+    if (!ln) { seriesGone++; continue; }
+    checked++;
+    const ev = labelEvidence({ sku: r.sku ?? "", name: r.name ?? null }, was,
+      { family: familyOf(loaded, was), siblings: ln.series.map((s) => ({ series: s.series, family: s.family?.trim() || null })) });
+    if (ev.kind !== "none") wouldReturn.push({ sku: r.sku, was, now: `${ev.kind}: ${ev.detail}` });
+  }
+  return { wouldReturn, checked, seriesGone };
+}
+
+/**
  * Q-26 (operator, "after the runs"; re-audit finding B1, 15 Sep 2026). B1 found the label check keeping rows on digits that are not
  * platforms — MX700's 7xx range read "CA750" as a 7xx model and kept the Avizia carts in TelePresence MX — and proposed a rule: a
  * digit token preceded by letters counts only when those letters are the series' own model prefix.

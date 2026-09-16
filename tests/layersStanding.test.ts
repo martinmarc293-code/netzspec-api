@@ -8,7 +8,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { REPO_ROOT } from "../src/config.js";
-import { readLayerRows, pairDisagreements, twinGroups, crossClaims, ruleUse, classifyRules, incomingRows, labelViolations, labelEvidenceDrift, seriesEntryDisagreements, deviceInSharedParts, unplacedArrivals, sharedLabelNotExplicit, crossCategoryTwins, nonHardwarePlansOnPage, gluedDigitKeeps, sharedPartsNamedBySeries, crossLineNamedBySeries, DEVICE_KINDS, type LayerRow } from "../src/core/layerChecks.js";
+import { readLayerRows, pairDisagreements, twinGroups, crossClaims, ruleUse, classifyRules, incomingRows, labelViolations, labelEvidenceDrift, movedRowsStillRefused, seriesEntryDisagreements, deviceInSharedParts, unplacedArrivals, sharedLabelNotExplicit, crossCategoryTwins, nonHardwarePlansOnPage, gluedDigitKeeps, sharedPartsNamedBySeries, crossLineNamedBySeries, DEVICE_KINDS, type LayerRow } from "../src/core/layerChecks.js";
 import { labelEvidence, digitPattern, ALIAS_REQUIRES, NUMBER_KEYED_ALIASES } from "../src/core/labelEvidence.js";
 
 export const REVIEWED = ["switches", "routers", "transceiver", "interfaces-modules", "wireless", "servers-unified-computing", "hyperconverged-infrastructure", "hyperconverged-systems", "security", "video", "optical-networking", "storage-networking", "unified-communications", "collaboration-endpoints", "meraki"];
@@ -357,6 +357,12 @@ for (const cat of REVIEWED) {
   const direct = (r: LayerRow) => /^label /.test(r.placed_by ?? "") && r.series === `${r.product_line} shared parts`;
   const unjudged = rows.filter((r) => r.bucket === "layered" && /^label[ -]/.test(r.placed_by ?? "") && !r.label_evidence && !direct(r));
   check(`label check ${cat}: 0 label-placed rows without recorded evidence`, unjudged.length === 0, unjudged.slice(0, 5).map((r) => r.sku).join(", "));
+  // …and the other direction: a row the check MOVED must still be refused by the series it was moved out of, or the built page
+  // is stale and a rebuild would move it back. `checked` and `seriesGone` are separate numbers because could-not-check is not
+  // checked-and-fine.
+  const back = movedRowsStillRefused(cat, rows);
+  check(`label check ${cat}: 0 of the ${back.checked} moved rows would be kept by today's rule (${back.seriesGone} name a series the mapping no longer holds)`,
+    back.wouldReturn.length === 0, back.wouldReturn.slice(0, 5).map((x) => `${x.sku} -> ${x.was} (${x.now})`).join("; "));
   const notExplicit = sharedLabelNotExplicit(cat, rows);
   check(`label check ${cat}: every label placed directly in a line's shared parts (${rows.filter((r) => r.bucket === "layered" && direct(r)).length} rows) is listed on that series in the mapping (C1)`, notExplicit.length === 0, notExplicit.slice(0, 5).map((x) => `${x.sku}: ${x.why}`).join("; "));
 
