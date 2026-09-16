@@ -239,3 +239,61 @@ The shape of what is left is different from what was removed. The 83 rules could
 thing — a model letter, a brand, a standards body — disagreed with the claim. The 129 that remain are cases where
 nothing in the string disagrees with anything, and only knowing what the product *is* settles them. That is the
 honest boundary between what a rule can do here and what a person has to.
+
+---
+
+# Closing the rule campaign: 211 refusals -> 106, and why it stops here (16 Sep 2026)
+
+Five rules landed. **None of them moved a single published row**, each was measured over all 39,998 page rows with the
+real function on both sides, and each is proved by reverting it and counting which cases go red.
+
+| | withdrawn | created | queue | refusals |
+| --- | ---: | ---: | ---: | ---: |
+| *(as reviewed)* | | | 800 | 211 |
+| model-letter fence | 69 | 11 | 742 | 147 |
+| a number-keyed alias belongs to one brand | 2 | 0 | 740 | 145 |
+| a standards number is not a platform | 16 | 0 | 724 | 129 |
+| category nouns and brand words into `STOP` | 16 | 0 | 708 | 113 |
+| the low end of a unit-bearing range | 7 | 3 | 704 | **106** |
+
+**Half the refusals are gone**, and every removal was a row this review had already read and rejected.
+
+## Two rules were measured and NOT applied, which is the other half of the result
+
+- **The one-series line** (42 rows) — the sibling guard is vacuous where a line has one series, but the fix unplaces
+  `ISE-SNS-ACCYKIT`, correctly filed in the only series its line has. Recorded in its own sheet; the real cause is that
+  the mapping lacks `CSP 2100`, `Cisco 10000` and `uBR10012`, which is a **scope question for the operator**.
+- **`mini` as a stop-word** — withdraws one bad proposal and creates a worse one, by removing the *correct* claimant
+  from a row two series rightly hold as ambiguous.
+
+## And the customer-variant codes have no safe rule either — 5 rows, measured
+
+`CO-10TDL50-X1001=`, `CO-40TDL40-X1010=`, `CO-40TDL40-X2110=` and two more reach NCS 2000 on a **customer-variant
+code**, which the optical mapping already records as such. There is no lexical rule for it:
+
+```
+X<3-4 digits> anywhere in a SKU            876 SKUs   — WS-X5153, HCIX-FS-X9516, PP1-72X100G …
+-X<4 digits> at the END of a SKU            56 SKUs   — and most are REAL placements:
+      DS-X9112 / DS-X9124 / DS-X9148   -> MDS 9500 / 9200 switching modules
+      DS-X9704                          -> MDS 9700 directors
+      WS-X4992 / WS-X4994               -> Catalyst 4900 fan trays
+      WS-X5153 / WS-X5154               -> Catalyst 5000 ATM LANE modules
+      UCSX-FS-X9516, HCIX-FS-X9516      -> X-Fabric modules
+```
+
+Even the narrowest shape that covers all five variants would unplace twenty real modules. Five rows stay as recorded
+refusals.
+
+## What is left, and why no rule takes it
+
+| cause | rows | the reason |
+| --- | ---: | --- |
+| family prefix on a line whose siblings cannot disagree | 42 | measured; the fix is a **mapping scope decision**, not code |
+| a capacity read as a platform | ~30 | measured; `CP-7942G` and `WS-C3750G` are real platforms of the same shape, so no `G` rule exists — it belongs in the dictionary, which already knows `GB` is a unit |
+| a component model number the letter fence cannot reach | ~15 | `HX-ML-256G8RW` has a hyphen before its digits, so there is no letter to disagree with |
+| a customer-variant code | 5 | measured above |
+| the rest — a CR2032 battery, an LSI 2208R chip, a wire gauge, bundles, remaining qualifier words | ~14 | each is a single row whose only tell is knowing what the product is |
+
+**The 105 rules could take were every case where a NAMED thing disagreed** — a model letter, a brand, a standards
+body, a category noun, a unit. The 106 that remain are cases where nothing in the string disagrees with anything.
+That is the boundary, and it is where the campaign stops rather than starts guessing.
