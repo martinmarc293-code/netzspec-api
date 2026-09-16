@@ -35,6 +35,12 @@ got missing"* rather than *"not cached"* — but it is the same cause said anoth
 **So: copying eight pages from the box's cache into the laptop's working copy would turn eight suites green and let
 `apply-acquired`'s gate pass here.** That is the whole fix, and it needs no code.
 
+*The more interesting explanation was ruled out rather than assumed away.* "Not cached" is the suite's own message, and a
+cache-KEY drift would produce it just as readily as a missing file — the page present, under a name nobody asks for. So
+each of the seven URLs was hashed five ways (as given, with and without a trailing slash, `http`, without `www`) against
+five extensions and checked against all **17,593** files in `scraper/cache`. Absent under every variant. The files really
+are not there, and the suites' key derivation is not at fault.
+
 ## ~~The one that is not environmental: `test_watchdog` hangs~~ — WRONG, AND CORRECTED
 
 **It does not hang. It is slow, it passes, and I reported a healthy suite as broken because my instrument was too
