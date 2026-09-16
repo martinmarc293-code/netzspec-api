@@ -16,6 +16,7 @@ import {
   buildLinkIndex, encodeSegment, linkBase, pagedUrl, partUrl, qs, type SeriesRow,
 } from "../src/api/links.js";
 import { PATH_KEY_HEADER } from "../src/api/auth.js";
+import { PRODUCT_CLASSES } from "../src/store/parts.js";
 
 const KEY = "nz_" + "A".repeat(43);
 const KEY2 = "nz_" + "B".repeat(43);
@@ -128,9 +129,19 @@ ok("the audit part records are present with facts and gaps",
      keyed.some((e) => e.url.endsWith(`/parts/cisco/${s}`)) &&
      keyed.some((e) => e.url.endsWith(`/parts/cisco/${s}/facts`)) &&
      keyed.some((e) => e.url.endsWith(`/parts/cisco/${s}/gaps`))));
-ok("every class of part is reachable",
-   ["hardware", "license", "service", "software", "unknown"].every((c) =>
-     keyed.some((e) => e.url.includes(`class=${c}`))));
+// "EVERY class" is checked against the store's list, which mirrors the database enum — NOT against a
+// hand-written copy. Until 16 Sep 2026 this case was named "every class of part is reachable" and
+// listed five of the eight, the same five links.ts hand-wrote, so the two copies agreed with each
+// other while both omitted `non_product` (1,061 live parts). A test that compares a list with
+// another copy of itself cannot catch the day both miss the same value.
+{
+  const unreachable = [...PRODUCT_CLASSES].filter((c) => !keyed.some((e) => e.url.includes(`class=${c}`)));
+  ok(`every class of part is reachable (${PRODUCT_CLASSES.length} classes, from the store's list)`,
+     unreachable.length === 0);
+  if (unreachable.length) lines.push(`      unreachable: ${unreachable.join(", ")}`);
+  ok("including non_product, the class this list silently dropped",
+     keyed.some((e) => e.url.includes("class=non_product")));
+}
 ok("the index is generic in the category",
    buildLinkIndex(`${BASE}/v1`, "cisco", "switches", []).every((e) =>
      !e.url.includes("category=security")));

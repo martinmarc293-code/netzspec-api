@@ -17,6 +17,7 @@
 // asserts both directions.
 import type { FastifyRequest } from "fastify";
 import { PATH_KEY_HEADER, QUERY_KEY_HEADER } from "./auth.js";
+import { PRODUCT_CLASSES } from "../store/parts.js";
 
 /**
  * The prefix every emitted URL is built on.
@@ -173,7 +174,14 @@ export function buildLinkIndex(
 
   // --- the parts, by the axes that change what a count means ----------------------------------
   add("parts", `/parts${qs({ ...vc, limit: 200 })}`);
-  for (const cls of ["hardware", "license", "service", "software", "unknown"]) {
+  // One link per class, DERIVED from the store's list, which mirrors the database enum. Until 16 Sep
+  // 2026 this hand-wrote five classes and silently omitted `non_product`, `accessory` and `bundle`, so
+  // an audit following these links had no route to the **1,061 live `non_product` parts** — the same
+  // population the API's `?class=` validator refused until that same night. It is the fourth
+  // instance of one drift: a migration adds an enum value and a hand-kept copy never follows.
+  // `accessory` and `bundle` hold 0 live parts today; their links return an empty list, which is a
+  // TRUE statement worth showing an auditor, and a class added tomorrow gets its link for free.
+  for (const cls of PRODUCT_CLASSES) {
     add(`parts, class=${cls}`, `/parts${qs({ ...vc, class: cls, limit: 200 })}`);
   }
   add("parts carrying facts", `/parts${qs({ ...vc, has: "facts", limit: 200 })}`);
