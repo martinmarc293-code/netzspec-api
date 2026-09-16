@@ -72,4 +72,46 @@ derive would take the total to 16.4% by refusing exactly the mentions this table
 SKUs individually; a UCS component's specification often lives in its chassis's datasheet, which is a *linking* question
 (the derive's `family` basis, 3 links today) rather than a fetching one. Before any queue is written, the question to
 answer for servers is which of the 8,517 uncovered parts have a datasheet that exists and is not linked, versus one that
-does not exist. That is a measurement, not a crawl, and it is not in this block.
+does not exist.
+
+## That question, answered — and it reverses the headline
+
+Same run, one query further. Of the **32,187** live hardware parts no spec-bearing document touches, split by whether
+anything names the SKU at all and whether the part's **series** is described somewhere:
+
+| | series IS described elsewhere | series described NOWHERE |
+| --- | ---: | ---: |
+| a NON-spec document names the SKU (a bulletin) | **19,800** | 7,096 |
+| no document names the SKU at all | 4,556 | 735 |
+
+**7,096 + 735 = 7,831**, which is exactly the acquisition count from the per-category split above — two different
+groupings of the same population agreeing, which is the reason to believe either.
+
+So **only 24% of the uncovered catalogue is an acquisition problem.** For servers-unified-computing it is 95 parts out of
+8,517: **99% of the largest category's gap is not missing datasheets.**
+
+### What the other 76% is, stated carefully
+
+It is NOT "a datasheet exists and someone forgot to link it". This repo's hard rule is *"Never inherit a family value
+into a SKU the document does not list"*, and a part whose series has a datasheet is not therefore described by it — the
+datasheet may simply not name that SKU. What the 19,800 + 4,556 actually are is **parts whose platform is documented and
+whose own row is not named by that document**. Whether they may be held is precisely the `link_basis: family` question
+the operator ruled on 13 Sep.
+
+**And that is the number worth the operator's eye: the approved family rule** — family records, plus a model token in
+the title or header, plus ≥ 3 kind-cup labels — **produced 3 links in today's dry run, over the whole catalogue.** Either
+the rule is stricter than intended, or these parts genuinely are not described and the honest answer for them is a
+recorded gap rather than a fetch. Three is a small enough number to be a defect and a large enough claim to be a ruling;
+it is not mine to decide which.
+
+### The one path that needs neither network nor inference
+
+**1,207 of the 32,187 are a spare (`X=` / `X-`) whose BASE part IS touched by a spec-bearing document.** A spare is the
+same hardware as its base — the repo already says so in the twin rule (N-1) and carries `facts.inherited` /
+`inherited_from` for exactly this, and `D:\Project\CLAUDE.md` records the earlier measurement ("8,106 undescribed spares
+have their base part in the catalogue and 1,116 of those bases are already described"). This is the cheapest real move
+available and it is still a write, so it is named here and not made.
+
+**Ordering, if these are ever worked:** the 1,207 spares (no network, no inference) → the family-basis ruling (19,800 +
+4,556, and the "3 links" question first) → acquisition for the 7,831, servers *last* rather than first despite being the
+largest category, because only 95 of its parts are in that bucket.
