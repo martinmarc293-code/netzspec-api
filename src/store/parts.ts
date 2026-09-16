@@ -83,6 +83,28 @@ export type PartRow = {
   retired_reason: string | null;
 };
 
+/**
+ * SEVEN COLUMNS OF `parts` ARE DELIBERATELY NOT HERE, and none of them is dead (checked 16 Sep 2026,
+ * when a schema-vs-code sweep asked which columns the store never selects).
+ *
+ *   series, name_de, name_lang, name_source   read constantly, just not through this row type
+ *                                             (`series` alone appears 385 times in src/)
+ *   series_raw (86,944 rows), family_raw       the ORIGINAL strings, kept on purpose. `series_raw`
+ *     (89,527)                                 is the messier one — "Ucs B Series Blade Servers",
+ *                                              "ASR 9000 Series Aggregation Services Routers" —
+ *                                              against a normalised "UCS B-Series", "ASR 9000".
+ *                                              27,641 rows differ. They exist so verification can
+ *                                              measure the TRUTH rather than the normaliser, which
+ *                                              is a rule this repo paid for once.
+ *   retired_run_id (149 of 149 retired rows)   provenance: which run retired the part. Perfect
+ *                                              coverage, read by nobody, and that is correct — it
+ *                                              is incident data, wanted on the day it is wanted.
+ *
+ * SO DO NOT DROP THEM AS UNUSED. A scan for write-only columns finds all three raw/provenance ones
+ * and every one is doing its job by existing; deleting them would remove the only record of what a
+ * page actually said and of who retired what. If a tidy-up ever wants them gone, that is a decision
+ * about whether this catalogue can still be audited, not a cleanup.
+ */
 const PART_COLUMNS = `id, vendor_id, sku, sku_norm, slug, category_id, family, product_class, product_class_reason,
   name, description, name_doc_id, datasheet_url, first_seen_source, enumerated_at::text AS enumerated_at,
   review_tier, created_at, updated_at, retired_at, retired_into, retired_reason`;
