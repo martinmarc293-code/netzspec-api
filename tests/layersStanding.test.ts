@@ -100,6 +100,15 @@ const GLUED_DIGIT_EXCEPTIONS: Record<string, string> = {
 // ten C220/C240 rack-server rail kits, CMAs and RAID kits that previously tied between the compute-only-node series and
 // HX220c/HX240c. An unchanged count is not an unchanged queue, which is exactly why these are recorded per category and read
 // rather than trusted. Full record: docs/decisions/2026-09-16-the-model-letter-fence-prepared-not-applied.md
+// DO NOT RELAX THESE TO A FLOOR (`>= 0`, "at most N", "no new rows"). 16 Sep 2026: the TypeScript side was scanned for
+// the silent-skip defect — 332 `continue` statements, 267 in files that judge and divide, 77 failure-guarded and
+// recording nothing. The genuine could-not-check skips cluster in the very functions these numbers cover, and
+// `sharedPartsNamedBySeries` is one of them: a row whose `product_line` is absent from the line file drops out with no
+// record (layerChecks.ts:302, `if (!ln) continue;`). NOT ONE of those skips is a live defect, and the only reason is
+// that these counts are EXACT and fail in BOTH directions — a function gone vacuous returns 0 where 212 is written
+// here, and the suite goes red. The safety is not in the skips; it is in these numbers. A floor would make seventy-seven
+// dormant hazards live in one commit, and nothing at the skip site would say so.
+// Full record: docs/decisions/2026-09-16-scanned-the-typescript-side-for-the-silent-skip-and-found-none.md
 const REVERSE_EXPECT: Record<string, number> = {
   // routers 46 -> 44 (16 Sep 2026): CAB-N5K6A-NA(=) is a NEXUS 5000 power cord that reached NCS 5000, because LABEL_ALIASES
   // is keyed by a bare number and "5000" offers `N5K` to every series carrying that number. See ALIAS_REQUIRES.
