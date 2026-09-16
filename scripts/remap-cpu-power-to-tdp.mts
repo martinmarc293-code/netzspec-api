@@ -85,8 +85,16 @@ async function main(): Promise<void> {
            b.map((x) => x.doc_id), b.map((x) => x.locator), b.map((x) => x.extracted_at),
            b.map((x) => x.norm_v), runId]);
         inserted += ins.rowCount ?? 0;
+        // superseded_by = id is the store's RETIRED-IN-PLACE idiom (src/store/facts.ts:188): this
+        // power_max row is WITHDRAWN, not replaced by another power_max, and the tdp row is a
+        // different field so it is not this row's successor. Setting superseded_at ALONE — which
+        // this script did until 16 Sep 2026 — withdraws nothing, because every reader
+        // (currentFacts, factRows, SUMMARY_FROM, 50 files) filters on superseded_by IS NULL and
+        // never looks at superseded_at. Measured cost of the old form: 1,571 live parts served
+        // BOTH power_max and tdp, 1,548 of them with the identical raw value — the successor
+        // landed and the withdrawal silently did not.
         const sup = await pool.query(
-          "UPDATE facts SET superseded_at = now() WHERE id = ANY($1::bigint[])",
+          "UPDATE facts SET superseded_by = id, superseded_at = now() WHERE id = ANY($1::bigint[])",
           [b.map((x) => x.id)]);
         superseded += sup.rowCount ?? 0;
       }

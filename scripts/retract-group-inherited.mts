@@ -107,8 +107,14 @@ async function main(): Promise<void> {
   const out = await withRun("retract-group-inherited",
     { category: CATEGORY, fields: PHYSICAL, reason: "inherited_from names a group, not a part" },
     async (runId) => {
+      // superseded_by = f.id is the store's RETIRED-IN-PLACE idiom (src/store/facts.ts:188). A
+      // retraction withdraws with no successor, so superseded_by points at the row itself; the
+      // supersession-consistency checks exclude that case on purpose (invariants.test.ts:120,
+      // hygiene.test.ts:395, both `o.superseded_by <> o.id`). Setting superseded_at ALONE — which
+      // this script did until 16 Sep 2026 — withdraws nothing: every reader filters on
+      // superseded_by IS NULL and no reader consults superseded_at.
       const { rowCount } = await pool.query(
-        `UPDATE facts f SET superseded_at = now()
+        `UPDATE facts f SET superseded_by = f.id, superseded_at = now()
            FROM parts p, vendors v, categories ct
           WHERE p.id = f.part_id AND v.id = p.vendor_id AND ct.id = p.category_id
             AND ${where}`, [CATEGORY, PHYSICAL, groups]);
