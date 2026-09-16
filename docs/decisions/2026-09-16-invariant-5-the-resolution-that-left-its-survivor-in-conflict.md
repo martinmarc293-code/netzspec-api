@@ -59,3 +59,29 @@ is given should be written down as the rule, because `remerge` will produce this
 
 **And the defect behind it is worth fixing at the source, or the 51 come back:** `remerge` resolves a conflict without
 restoring the survivor's state. Today it has produced 51 rows on one field; every field it touches can produce more.
+
+---
+
+## The source defect, found and fixed (`b712984`) — the data repair is still the operator's
+
+Reading the code after the rows, it had **two** parts, and only the first was the one I had predicted.
+
+**One: the unhold sat inside the `agree` branch.** `unholdFact` refuses while any conflict on the pair is still open —
+correctly — so on a pair holding *two* conflicts the agree unheld nothing (the other was still open) and the `rewrite`
+branch never tried at all. Each of the 51 has exactly that pair: `prefix_truncated` is an **agree** (from
+`agreementRule`) and `list_superset` is a **rewrite** (from the `list_union` action). The unhold now runs once per group,
+after every decision in it.
+
+**Two, which the regression test caught where I had not predicted it:** a `rewrite` goes through `applyMerge`, which
+**supersedes** the disputed fact and writes a new one — and the new row inherits the entry's state, which is `conflict`.
+So unholding `conflicts.fact_id` updated an already-superseded row and left the live one held. My first fix passed
+typecheck and still failed the test, with the survivor sitting in `conflict` carrying the merged union value. `unholdFact`
+now takes `(part, field)` and updates the **current** row.
+
+`tests/db/remerge.test.ts` § 7b builds the production shape — one fact, two seeded conflicts, one agree and one rewrite —
+and asserts all three things: both conflicts resolved, the survivor no longer `conflict`, and **invariant 5 holding on
+the database afterwards**. Proved alive by disabling the group unhold (69/72, all three red, naming the state and the
+union value); restored, 72/72, typecheck clean.
+
+**This stops the 52nd. It does not repair the 51** — that is still the fact-state write described above, and still the
+operator's.
