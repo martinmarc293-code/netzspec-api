@@ -49,12 +49,29 @@ async function main(): Promise<void> {
 
   // The kind is recomputed HERE rather than trusted from the query: the whole point is that this
   // set is CPUs, and a row that is not one must be left alone rather than re-keyed on faith.
-  const cpus = rows.filter((r) => ucsKind(r.sku) === "cpu");
+  const cpuRows = rows.filter((r) => ucsKind(r.sku) === "cpu");
   const notCpu = rows.filter((r) => ucsKind(r.sku) !== "cpu");
+
+  // IDEMPOTENCE, guarded on the CONDITION rather than on the predicate above (16 Sep 2026). This script
+  // INSERTs a tdp row per CPU and nothing stopped it inserting a SECOND one. It is safe to re-run today
+  // only by accident: its selection uses `superseded_at IS NULL`, which happens to exclude the 1,571
+  // CPU power_max rows its first run orphaned. The tempting "consistency" fix — `superseded_by IS NULL`,
+  // the store's own current-fact predicate — would select all 1,571 again and insert 1,571 duplicate tdp
+  // facts. So the guard is on what must never happen, whatever selects the rows: a part that already
+  // holds a current tdp is never given another.
+  const { rows: hasTdp } = await pool.query<{ part_id: string }>(
+    `SELECT DISTINCT part_id::text AS part_id FROM facts
+      WHERE field_key = 'tdp' AND superseded_by IS NULL AND part_id = ANY($1::bigint[])`,
+    [cpuRows.map((r) => r.part_id)]);
+  const alreadyTdp = new Set(hasTdp.map((r) => r.part_id));
+  const cpus = cpuRows.filter((r) => !alreadyTdp.has(String(r.part_id)));
+  const skippedHasTdp = cpuRows.length - cpus.length;
 
   console.log(`${commit ? "COMMIT" : "DRY RUN"} — power_max -> tdp on CPUs`);
   console.log(`  power_max facts in the category : ${rows.length}`);
-  console.log(`  on kind=cpu (will be remapped)  : ${cpus.length}`);
+  console.log(`  on kind=cpu                     : ${cpuRows.length}`);
+  console.log(`    already holding a current tdp  : ${skippedHasTdp}  (skipped — never given a second)`);
+  console.log(`    will be remapped               : ${cpus.length}`);
   console.log(`  on any other kind (LEFT ALONE)  : ${notCpu.length}`);
   for (const r of notCpu.slice(0, 5)) {
     console.log(`      left: ${r.sku} (${ucsKind(r.sku)}) ${String(r.name ?? "").slice(0, 44)}`);
