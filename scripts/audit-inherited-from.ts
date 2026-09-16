@@ -33,6 +33,20 @@
 import { getPool, closePool, resolveDatabaseUrl, databaseName } from "../src/store/index.js";
 
 /**
+ * THIS FILE USES A DIFFERENT "CURRENT FACT" TEST FROM THE REST OF THE CODEBASE, and the number below
+ * is therefore not comparable with any other count (noted 16 Sep 2026, not changed). The query says
+ * `superseded_at IS NULL`; the other 62 sites, including the store's own `currentFacts`, say
+ * `superseded_by IS NULL`. They disagree on 3,790 rows — all stamped 2026-09-09, none produced by any
+ * write path in the code today — so:
+ *
+ *     inherited facts naming no part, by superseded_at IS NULL  ->  34,824   (the CEILING below)
+ *     inherited facts naming no part, by superseded_by IS NULL  ->  37,043
+ *
+ * The 2,219 difference is this file's own servers-unified-computing cohort. A ratchet only has to be
+ * consistent with ITSELF, so the ceiling is sound and was not switched — but do not read it beside a
+ * figure from anywhere else without converting one of them.
+ * Full record: docs/decisions/2026-09-16-two-definitions-of-a-current-fact-and-3790-rows-between-them.md
+ *
  * Measured against PRODUCTION, never a test database — see the control below for why that matters.
  * 35,133 on 10 Sep 2026; 34,824 on 16 Sep 2026, and the aggregate still says every live one is a
  * group or a URL slug (`34,824 of 34,824 name no part, across 248 distinct sources`).
