@@ -40,6 +40,30 @@ is an empty array. The one printed-bar artefact that exists —
 `docs/reports/kind-layer-bar-routers-2026-09-13.md`, 448 lines, dated 13 Sep — is **untracked**, and it cannot have come
 from this database in this state.
 
+### The 13 Sep routers bar cannot be reproduced or audited, and that is its own finding
+
+That file is not a sketch. It is a full per-cup table for `routers` — printed %, mapped %, holders, required/optional,
+"measured" — the exact evidence the printed-bar decision is supposed to rest on. Its second line reads:
+
+> `link basis over spec-bearing links: {"explicit":3132}; linking_defects: 0 documents, 0 links`
+
+So when it was made, `doc_parts.link_basis` held 3,132 explicit links for routers alone. Today the column holds **zero
+for the whole catalogue**, and the store has no record of either state being written:
+
+- `runs` whose kind mentions provenance or derive: **0** — and `derive-link-provenance` opens its run under exactly that
+  kind, so the query could not have missed it;
+- runs whose **stats or inputs** mention `link_basis`, `doc_relevance` or `evidence_dir`, under any kind at all: **0**;
+- the run sequence across 12–14 Sep is dense and unbroken (#1047–#1078: renormalize, recompute, move-category) with no
+  gap a derive could hide in.
+
+So the numbers in that report describe a state this database has never recorded reaching — produced against another
+database, or by a build of the tool that computed the basis without storing it. Either way **it cannot be reproduced or
+audited**, and the printed-bar ruling should not rest on it. Re-measuring it is cheap once the derive has actually run,
+which is the same blocked first step as everything else here.
+
+It is deliberately left untracked. Committing it would give a number standing that its provenance does not support; this
+record is what makes the file interpretable to whoever finds it next.
+
 **So the five red suites are not waiting on the operator's printed-bar decision. They are waiting on a run that was never
 made, and the decision cannot even be put.**
 
