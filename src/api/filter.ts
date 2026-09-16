@@ -16,6 +16,7 @@
 //   * numeric operators use the generated columns (value_num, value_min, value_max), so they
 //     hit the index and never parse JSON; a numeric operator on a string field is a 400.
 import { badRequest } from "./errors.js";
+import { RENDERED_STATES } from "./queries/shared.js";
 
 export type FilterFieldType = "n" | "nr" | "b" | "e" | "s" | "ls" | "struct";
 export type FilterDictionary = ReadonlyMap<string, { type: FilterFieldType }>;
@@ -29,7 +30,17 @@ export type CompiledFilter = {
 const OPERATORS = ["!=", ">=", "<=", "=", ">", "<", "~"] as const;
 type Operator = (typeof OPERATORS)[number];
 
-const RENDERED_STATES_SQL = "('verified', 'corroborated')";
+/**
+ * DERIVED from `RENDERED_STATES`, not retyped (16 Sep 2026). This was the string
+ * `"('verified', 'corroborated')"`, a FOURTH hand-written copy of a fact that already lives in
+ * `queries/shared.ts` — whose own doc comment claims it governs "every count, filter and default",
+ * while this file quietly kept its own. Two of the copies are checked against each other
+ * (`SERVED_STATES` in store/classPlans.ts, asserted in tests/db/retract-inherited.test.ts); this one
+ * was checked by nothing, and it decides which facts a `?filter=` query matches — so a drift here
+ * would make filtering and rendering disagree about what a part holds, quietly and in one direction.
+ * Interpolation is safe: RENDERED_STATES is a literal `as const` tuple in this repo, never input.
+ */
+const RENDERED_STATES_SQL = `(${RENDERED_STATES.map((s) => `'${s}'`).join(", ")})`;
 
 /** Split on commas: the grammar has no quoting, so a value cannot contain a comma. */
 export function splitFilterTerms(input: string): string[] {
