@@ -1,13 +1,24 @@
-// tests/applyCompat.test.ts — proof for src/pipeline/apply-compat.ts, which had NO suite at all
-// until 16 Sep 2026, on 292 lines that write relations into the catalogue.
+// tests/applyCompat.test.ts — the PURE proof for src/pipeline/apply-compat.ts.
 //
 //   npx tsx tests/applyCompat.test.ts
 //
-// The gap surfaced while narrowing `partsBySku` to exclude retired rows: the change was measured
-// against production and correct, and there was nothing to prove it with. A clause with no sabotage
-// case is not a guard, so the file gets the suite it should have had. The two database helpers
-// (`partsBySku`, `familySwitches`) are private and stay uncovered here — that half needs a db suite
-// and is recorded as still owed, rather than quietly counted as done.
+// CORRECTION (16 Sep 2026, same night). When this file was written I said apply-compat "had NO
+// suite at all", and commit 78418f3 carries that claim too. It is wrong. `tests/db/apply-lifecycle.
+// test.ts` has covered apply-compat since it was written — **18 cases, 3 of them sabotage**, through
+// the real CLI: a dry run writes no relation, a committed run records kind apply-compat with its
+// structural gate, the TMG tool becomes a vendor_tool source_doc, unresolved SKUs are reported, and
+// `--commit` behind a failing gate exits 1 and writes nothing. I searched for a file NAMED
+// apply-compat.test.ts, found none, and concluded there was no coverage — the same defect as
+// grepping for a column and missing a guard that lives behind a named helper, one day apart.
+// **Coverage is not filed under the name of the thing covered.** Grep for the import, not the file.
+//
+// What was genuinely missing, and what this file adds, is the PURE half: the exported predicates and
+// the gate's own arithmetic, none of which needs a database. The db half stays where it is.
+//
+// STILL OWED, and named so it cannot be quietly counted as done: the retirement narrowing landed in
+// 78418f3 (`partsBySku`/`familySwitches` excluding retired rows) has NO case anywhere —
+// apply-lifecycle.test.ts does not mention `retired` once. That case belongs in the db block beside
+// the rest, not here, because it needs a retired part to exist.
 //
 // Written as PAIRS, like tests/specMerge.test.ts: every shape the gate ACCEPTS is twinned with one
 // it must still refuse, because an acceptance on its own only proves something got through.
