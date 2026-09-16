@@ -224,6 +224,49 @@ export function gluedDigitKeeps(rows: LayerRow[]): { sku: string; series: string
   return out;
 }
 
+/**
+ * Q-27 / re-audit finding B2 (operator, "after the runs"). A hard SKU catch-all into shared parts is invisible to every check: a
+ * rule like `^CP-` -> "IP Phones shared parts" places HARD, so the label check never judges those rows and the device check sees
+ * only device kinds. Collaboration's round ran this scan by hand and moved 189 rows out; nobody had run it anywhere else.
+ *
+ * THE REVERSE OF THE LABEL CHECK: for a row sitting in a line's shared parts, would any SIBLING series of that line keep it on its
+ * own evidence? It calls `labelEvidence` rather than re-implementing it, so the token strength is exactly the forward check's —
+ * `sku-token` or `name` only, never `family` (too weak to name one series) and never `compatible` (the built rows carry no
+ * relations). Exactly ONE winner is required: labelEvidence's rival rule already returns "none" when two series name a row as
+ * specifically, which is the collaboration round's "parts named for two products stay in shared parts", so that case falls out of
+ * the rule it already has rather than needing one of its own.
+ *
+ * Measured over the 15 reviewed categories: 6,607 shared-parts rows, 805 named by exactly one series (servers 264, HCI 109,
+ * collaboration 104 — a further 104 after that round moved 189 — switches 98, wireless 66, routers 46, storage 38, HX 31,
+ * security 27, IM 11, UC 5, video 3, optical 3; transceiver and meraki hold no shared-parts rows at all).
+ *
+ * It REPORTS. It must not move rows, and reading them says why: 12 of the 805 are named on a STANDARDS number, not a platform —
+ * CAB-ACU "AC Power Cord (UK), C13, BS 1363" reads as Catalyst 1300, PWR-CAB-CHN-* "IEC60320" as 6000, PWR-CAB-AC-CHN "GB2099" as
+ * Catalyst 1000. The forward check keeps 0 rows on that shape today, so this is not a defect on the published pages; it is the
+ * guard a reverse scan would need before it could ever place anything.
+ */
+export function sharedPartsNamedBySeries(rows: LayerRow[], category: string, vendor = "cisco"):
+  { sku: string; from: string; to: string; kind: string; detail: string; placed_by: string }[] {
+  const loaded = loadLineFile(vendor, category);
+  if (!loaded) return [];
+  const out: { sku: string; from: string; to: string; kind: string; detail: string; placed_by: string }[] = [];
+  for (const r of rows) {
+    if (r.bucket !== "layered" || !/ shared parts$/.test(r.series ?? "")) continue;
+    const ln = loaded.file.lines.find((l) => l.line === r.product_line);
+    if (!ln) continue;
+    const siblings = ln.series.map((s) => ({ series: s.series, family: s.family?.trim() || null }));
+    const won: { series: string; kind: string; detail: string }[] = [];
+    for (const s of ln.series) {
+      if (/ shared parts$/.test(s.series)) continue;
+      const ev = labelEvidence({ sku: r.sku, name: r.name ?? null }, s.series, { family: familyOf(loaded, s.series), siblings });
+      if (ev.kind === "sku-token" || ev.kind === "name") won.push({ series: s.series, kind: ev.kind, detail: ev.detail });
+    }
+    if (won.length !== 1) continue;
+    out.push({ sku: r.sku, from: r.series, to: won[0].series, kind: won[0].kind, detail: won[0].detail, placed_by: r.placed_by ?? "" });
+  }
+  return out;
+}
+
 export function readLayerRows(category: string, vendor = "cisco"): LayerRow[] {
   const p = path.join(REPO_ROOT, "data", "layers", `${vendor}-${category}.rows.tsv`);
   const lines = fs.readFileSync(p, "utf8").replace(/\r/g, "").split("\n").filter(Boolean);

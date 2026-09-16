@@ -8,7 +8,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { REPO_ROOT } from "../src/config.js";
-import { readLayerRows, pairDisagreements, twinGroups, crossClaims, ruleUse, classifyRules, incomingRows, labelViolations, labelEvidenceDrift, seriesEntryDisagreements, deviceInSharedParts, unplacedArrivals, sharedLabelNotExplicit, crossCategoryTwins, nonHardwarePlansOnPage, gluedDigitKeeps, DEVICE_KINDS, type LayerRow } from "../src/core/layerChecks.js";
+import { readLayerRows, pairDisagreements, twinGroups, crossClaims, ruleUse, classifyRules, incomingRows, labelViolations, labelEvidenceDrift, seriesEntryDisagreements, deviceInSharedParts, unplacedArrivals, sharedLabelNotExplicit, crossCategoryTwins, nonHardwarePlansOnPage, gluedDigitKeeps, sharedPartsNamedBySeries, DEVICE_KINDS, type LayerRow } from "../src/core/layerChecks.js";
 import { labelEvidence } from "../src/core/labelEvidence.js";
 
 export const REVIEWED = ["switches", "routers", "transceiver", "interfaces-modules", "wireless", "servers-unified-computing", "hyperconverged-infrastructure", "hyperconverged-systems", "security", "video", "optical-networking", "storage-networking", "unified-communications", "collaboration-endpoints", "meraki"];
@@ -75,6 +75,20 @@ const GLUED_DIGIT_EXCEPTIONS: Record<string, string> = {
   "switches|PWR-4000-DC": "Cat6509 is Catalyst 6500 — \"4000W DC PS for CISCO7609-S/CISCO7609/13, Cat6509/13\"",
   "switches|PWR-6000-DC": "Cat6506/09/13 are Catalyst 6500 — \"6000W DC PS for CISCO7609/7609-S/13, Cat6506/09/13\"",
   "switches|PWR-6000-DC=": "the spare of PWR-6000-DC, same name",
+};
+
+// Q-27 / B2 (operator, "after the runs"): the REVERSE label check — rows a hard SKU catch-all put in a line's shared parts that
+// exactly one sibling series would keep on its own evidence. `sharedPartsNamedBySeries` in src/core/layerChecks.ts carries the
+// measurement and the reason it reports rather than moves (12 of the 805 are named on a STANDARDS number — BS 1363 read as
+// Catalyst 1300 — a guard a mover would need first).
+//
+// Recorded as an EXACT count per category, not as a floor of zero: 805 rows is a review queue, and a check that must be zero from
+// today would be turned off on the first run. Each category's next round drives its number down and the record with it; a number
+// that RISES is a new catch-all placing rows nothing judges, which is exactly B2. Both directions fail, so neither drifts silently.
+const REVERSE_EXPECT: Record<string, number> = {
+  "servers-unified-computing": 264, "hyperconverged-infrastructure": 109, "collaboration-endpoints": 104, switches: 98,
+  wireless: 66, routers: 46, "storage-networking": 38, "hyperconverged-systems": 31, security: 27, "interfaces-modules": 11,
+  "unified-communications": 5, video: 3, "optical-networking": 3, transceiver: 0, meraki: 0,
 };
 
 // THE LABEL CHECK, per category (layers round 3, operator: the round-2 floor "more than 100 label-placed rows" failed by construction
@@ -252,6 +266,11 @@ for (const cat of REVIEWED) {
   for (const k of Object.keys(GLUED_DIGIT_EXCEPTIONS).filter((x) => x.startsWith(`${cat}|`)))
     check(`label check ${cat}: the recorded exception ${k.split("|")[1]} is still kept on an unattested spelling (a stale exception is a hole)`,
       glued.some((g) => g.sku === k.split("|")[1]));
+  // Q-27 / B2: the reverse label check, as a recorded count — a rise is a new catch-all placing rows nothing judges
+  const reverse = sharedPartsNamedBySeries(rows, cat);
+  check(`reverse label check ${cat}: ${REVERSE_EXPECT[cat] ?? "?"} shared-parts rows are named by exactly one series (the recorded review queue)`,
+    reverse.length === REVERSE_EXPECT[cat],
+    `now ${reverse.length}, recorded ${REVERSE_EXPECT[cat]}${reverse.length > (REVERSE_EXPECT[cat] ?? 0) ? ` — new: ${reverse.slice(0, 5).map((x) => `${x.sku} -> ${x.to} (${x.kind} ${x.detail})`).join("; ")}` : ""}`);
   // every row placed through a label carries the evidence it was judged on (a label placement without evidence is the check not running)
   // — except a label the mapping sends DIRECTLY to its line's shared parts, which claims no series (pre-ruling C1, layers round 3)
   const direct = (r: LayerRow) => /^label /.test(r.placed_by ?? "") && r.series === `${r.product_line} shared parts`;
