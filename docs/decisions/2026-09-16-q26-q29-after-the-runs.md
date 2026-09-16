@@ -33,6 +33,12 @@ silently outside the denominator**. The corrected figure is above; the conclusio
 
 ### All 79 were read, and every one is a correct keep
 
+*(Verified afterwards rather than asserted: the first pass printed 40 in full and a 24-row sample, so the claim rested on
+64 of 79. Re-run with nothing elided — 12 rescued by a clean unglued hit, 37 by a series word, 21 by a page attestation,
+9 flagged — and every one of the fifteen I had not actually seen is also a correct keep: `PWR-4450-POE-AC` under ISR 4000,
+`CS-MX300-K9` under TelePresence MX, `LPNL-IE3000=` under IE 3000, `WS-CF-UPG-1GB=` "Catalyst6500/Cisco7600 Compact Flash
+Adapter" under Catalyst 6500, and the rest. The conclusion stands; it is now standing on all of it.)*
+
 The glued letters are, in every case, the vendor's SKU spelling of the same platform — which the series NAME spells
 differently:
 
