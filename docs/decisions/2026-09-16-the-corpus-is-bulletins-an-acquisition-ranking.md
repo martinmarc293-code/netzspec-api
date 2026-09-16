@@ -187,6 +187,24 @@ same hardware as its base — the repo already says so in the twin rule (N-1) an
 have their base part in the catalogue and 1,116 of those bases are already described"). This is the cheapest real move
 available and it is still a write, so it is named here and not made.
 
+Measured, so the size is known before anyone decides: of the 1,207, **908 hold no current value fact at all**, 1,091 have
+a base that holds at least one, and **798 are both — an empty spare beside a described base**. Those bases carry **5,051
+current facts**, which is the upper bound on what inheritance could reach. By category: servers 306, routers 185,
+switches 140, interfaces-modules 75, HX 61, transceiver 14, the rest in ones and threes. Read as pairs they are
+unambiguous:
+
+```
+WS-X4624-SFP-E=   (0 facts)  <-  WS-X4624-SFP-E   (9 facts, 3 spec docs)
+CXP-100G-SR10=    (0 facts)  <-  CXP-100G-SR10    (9 facts, 2 spec docs)
+A99-4HG-FLEX-TR=  (0 facts)  <-  A99-4HG-FLEX-TR  (8 facts, 1 spec doc)
+```
+
+**And the two possible writes are different decisions, which is why neither is made here.** Linking the spare to its
+base's *document* is a claim that the document names it — straight into the hard rule, *never inherit a family value into
+a SKU the document does not list*. Inheriting the base's *facts* under `facts.inherited_from` rests on the twin rule
+instead: the same hardware, which is the whole reason `=` exists. The second is the defensible one; it is still a fact
+write inside a gated run, and it is the operator's.
+
 **Ordering, if these are ever worked:** the 1,207 spares (no network, no inference) → the family-basis ruling (19,800 +
 4,556, and the "3 links" question first) → acquisition for the 7,831, servers *last* rather than first despite being the
 largest category, because only 95 of its parts are in that bucket.
