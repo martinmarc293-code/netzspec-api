@@ -108,7 +108,13 @@ const STANDARDS_BODY = "(?:IEC|BS|NBR|SEV|CEI|IRAM|IRSM|NEMA|CSA|SABS|VDE|JIS|AS
 const NOT_PLATFORM_BEFORE = `(?<![0-9.]|DDR[0-9]-|PC[0-9]-|(?<![A-Za-z])${STANDARDS_BODY}[ :.-]?)`;
 // (?!IRELESS) (layers round 3, wireless round): "Spare fan - Cisco 5520 Wireless Controller" read 5520 as a wattage ("5520 W…") and
 // moved the fan out of 5500 (5508 / 5520 / 5540); a W that starts the word Wireless is not a watt. The patterns carry the i flag.
-const NOT_PLATFORM_AFTER = "(?![0-9])(?!(?<=[05])\\s?W(?!IRELESS))(?!\\s?(?:KW|VA|MB|GB|MHZ|BASE|MBPS|MM(?![A-Z])|V(?![A-Z0-9])))";
+// THE LOW END OF A UNIT-BEARING RANGE IS A MEASUREMENT (16 Sep 2026). A unit fences the number it follows, so `240V` is
+// already refused — but in a RANGE the unit sits on the far end and the near number is bare: `1400W AC Power Supply
+// (200 - 240V)` put four supplies into UCS C200, and `Outdoor omni-antenna, 863-928 MHz` put three antennas into IR 800.
+// Requiring a UNIT after the second number is what keeps it away from real SKUs, where a hyphen is followed by a port or
+// model code rather than a unit: C9500-32QC, IE-3400-8P2S, WS-C2960-24TC all survive because 32QC / 8P2S / 24TC are not units.
+const RANGE_UNIT = "(?!\\s?[-–]\\s?[0-9]{1,5}\\s?(?:VAC|VDC|MHZ|GHZ|KHZ|KW|VA|V|W|A)(?![A-Z0-9]))";
+const NOT_PLATFORM_AFTER = "(?![0-9])(?!(?<=[05])\\s?W(?!IRELESS))(?!\\s?(?:KW|VA|MB|GB|MHZ|BASE|MBPS|MM(?![A-Z])|V(?![A-Z0-9])))" + RANGE_UNIT;
 /** "10/100/1000" is a speed list, not the Catalyst 1000 or the ISR 1000. */
 const SPEEDS = /(?<![0-9])10\/100(?:\/1000)?(?:\/10000)?(?![0-9])|(?<![0-9])100\/1000(?![0-9])/g;
 

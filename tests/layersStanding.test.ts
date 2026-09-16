@@ -110,7 +110,11 @@ const REVERSE_EXPECT: Record<string, number> = {
   // serial, chassis. wireless 65 -> 59 (six AP brackets on "point", the category noun inside "…outdoor access point / bridge"),
   // security 27 -> 22 (four "Cable Management Arm" rows, one Cisco Prime ACCESS REGISTRAR under Prime SECURITY MANAGER),
   // servers 218 -> 216 (two MLBs on "chassis"), interfaces-modules 11 -> 9 ("serial"), collaboration 80 -> 79 ("package").
-  "servers-unified-computing": 216, "hyperconverged-infrastructure": 109, "collaboration-endpoints": 79, switches: 90,
+  // 708 -> 704 (16 Sep 2026): the low end of a unit-bearing RANGE is a measurement. servers 216 -> 212 (four "1400W AC Power
+  // Supply (200 - 240V)" rows out of UCS C200). ROUTERS IS UNCHANGED AT 44 AND ITS CONTENT IS NOT: three 863-928 MHz antennas
+  // leave IR 800, and the same three ARRIVE at "Wireless Gateway for LoRaWAN" and "IR 500 WPAN" — removing the false rival let
+  // their real series win a claim it had been tied out of. Second time tonight a total held still while the queue changed.
+  "servers-unified-computing": 212, "hyperconverged-infrastructure": 109, "collaboration-endpoints": 79, switches: 90,
   wireless: 59, routers: 44, "storage-networking": 38, "hyperconverged-systems": 31, security: 22, "interfaces-modules": 9,
   "unified-communications": 5, video: 3, "optical-networking": 3, transceiver: 0, meraki: 0,
 };
@@ -302,6 +306,17 @@ for (const cat of REVIEWED) {
   check(`reverse label check ${cat}: ${REVERSE_EXPECT[cat] ?? "?"} shared-parts rows are named by exactly one series (the recorded review queue)`,
     reverse.length === REVERSE_EXPECT[cat],
     `now ${reverse.length}, recorded ${REVERSE_EXPECT[cat]}${reverse.length > (REVERSE_EXPECT[cat] ?? 0) ? ` — new: ${reverse.slice(0, 5).map((x) => `${x.sku} -> ${x.to} (${x.kind} ${x.detail})`).join("; ")}` : ""}`);
+  // A CONTENT CHANGE A COUNT CANNOT SEE. The range rule took three 863-928 MHz antennas OUT of IR 800 and the same three
+  // ARRIVED at their real series, so routers reads 44 both before and after and no count check can tell the difference —
+  // the second such case tonight. The outcome is therefore asserted directly: each antenna is proposed for the series its
+  // own name states, and not for the one a radio band put it in.
+  for (const [sku, want] of [["ANT-LPWA-SMA-D", "Wireless Gateway for LoRaWAN"], ["ANT-LPWA-SMA-D=", "Wireless Gateway for LoRaWAN"],
+    ["ANT-WPAN-OD-OUT-N", "IR 500 WPAN"]] as [string, string][]) {
+    const p = reverse.find((x) => x.sku === sku);
+    if (!rows.some((r) => r.sku === sku)) continue;
+    check(`range rule ${cat}: ${sku} (863-928 MHz) is proposed for "${want}", not for the IR 800 its radio band named`,
+      p?.to === want, p ? `proposed for "${p.to}" on ${p.kind} ${p.detail}` : "not proposed at all");
+  }
   // the four rows the model-letter fence knowingly loses: still present on this page, and still NOT proposed
   for (const sku of FENCE_KNOWN_LOSSES.filter((s) => rows.some((r) => r.sku === s))) {
     const row = rows.find((r) => r.sku === sku)!;
@@ -903,6 +918,15 @@ check("SABOTAGE merge: a plan that calls a hardware row non-hardware is refused"
     ["9500", "for the analysis 9500 platform", true, "CONTROL: nor the IS of analysis"],
     ["1000", "Catalyst 1000 switch", true, "CONTROL: a real platform still matches"],
     ["6000", "Nexus 6000 fabric", true, "CONTROL: and so does Nexus 6000"],
+    // THE LOW END OF A UNIT-BEARING RANGE (16 Sep 2026). A unit fences the number it follows, but in a range the unit is on
+    // the FAR end and the near number is bare. Requiring a unit after the second number is what keeps this off real SKUs,
+    // where a hyphen is followed by a PORT CODE — and those controls are the point of the block, not decoration.
+    ["200", "1400W AC Power Supply (200 - 240V) 2U & 4U C Series Servers", false, "a voltage RANGE is not the UCS C200"],
+    ["800", "Outdoor omni-antenna, 863-928 MHz, 6 dBi, type N connector", false, "the LPWAN band 863-928 MHz is not IR 800"],
+    ["9500", "supported on C9500-32QC and C9500-48Y4C", true, "CONTROL: -32QC is a port code, not a unit"],
+    ["3400", "IE-3400-8P2S industrial switch", true, "CONTROL: -8P2S is a port code"],
+    ["2960", "WS-C2960-24TC-L", true, "CONTROL: -24TC is a port code"],
+    ["9300", "C9300-48U switch", true, "CONTROL: -48U is a port code"],
   ];
   for (const [tok, hay, want, why] of std)
     check(`SABOTAGE standards: ${why}`, digitPattern(tok).re.test(hay) === want, `${tok} in "${hay}" matched ${digitPattern(tok).re.test(hay)}`);
