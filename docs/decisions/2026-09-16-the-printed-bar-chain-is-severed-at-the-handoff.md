@@ -13,10 +13,25 @@ src/core/cupEvidence.ts              READS   data/reference/cup-evidence-<vendor
 `cupEvidenceFile(vendor)` is the only reader, and the completeness report, the arrangement site and the freeze all go
 through it. `measure-printed-cups` is the only writer, and it writes a **per-category** name the reader never asks for.
 
-**Nothing in the repo writes the per-vendor file.** Grepping every `.ts`, `.mts` and `.sh`: the only writes are inside
-`tests/heldProvenance.test.ts`, into a temp directory. On disk there is exactly one such file,
-`data/reference/cup-evidence-cisco.json`, **3 bytes — `[]`** — and git says it has one commit, `ca1adb3` of 13 Sep, which
-created it that size and never touched it again.
+**Nothing in the repo writes the per-vendor file.** Re-verified exhaustively afterwards — every mention of
+`cup-evidence` / `cupEvidence` / `cup_evidence` in **every file type**, excluding only `node_modules`, `.git`,
+`graphify-out` and `runs/` — because a grep scoped to the extensions I happened to think of is exactly how a claim like
+this goes wrong. Twenty-nine hits. Every consumer, no producer:
+
+- **reads** `src/core/cupEvidence.ts:57` (`loadCupEvidence`), `scripts/build-completeness.mts:174` (so the **completeness
+  report** depends on it), and `scripts/publish-arrangement.sh:73`, which passes
+  `--evidence "data/reference/cup-evidence-$VENDOR.json"` to the site builder — so the **site** reads it too, by that
+  exact name;
+- **writes** `scripts/measure-printed-cups.mts:161` → the per-**category** file; `build-arrangement-site.mts:397` →
+  `data/cup-evidence.json` *inside the published site's output directory*, a copy for the page rather than the source;
+  and `tests/heldProvenance.test.ts` → a temp directory.
+
+On disk there is exactly one such file, `data/reference/cup-evidence-cisco.json`, **3 bytes — `[]`** — and git gives it
+one commit, `ca1adb3` of 13 Sep, which created it that size and never touched it again.
+
+`docs/completeness-model.md` closes the loop: *"The evidence file is REQUIRED (`[]` is valid …)"*. So the build passes
+happily on the empty file and reports no mapper-gaps — which means the `mapper-gap` slot state, the whole point of
+ruling 6b, **has never been produced once.**
 
 So even after the derive runs and the bar is measured for all 17 categories, every consumer would still report
 **"not measured yet — no cup of this category has been checked against the printed-on-the-page bar"**, which is what the
