@@ -370,10 +370,14 @@ _PN_STANDARD = [
     # A BARE 802.11 modulation-and-coding-scheme index: MCS0 ... MCS31, read out of a
     # receive-sensitivity table. Q-29 (operator, 15 Sep 2026). The corpus is why this one is safe and
     # the other five shapes Q-29 names are not. The PID universe holds 15 bare MCS<n> (a first
-    # reading said zero and had parsed the file wrongly), and reading them ARGUES FOR the rule: all 15
-    # come from access-point datasheets under the evidence label "Item", never "Part number", and on
-    # all eight such documents the MCS tokens are the only PIDs contributed -- one also produced the
-    # transposed MSC0 ... MSC15. Every real MCS part number carries a dash (MCS-7825-I5-IPC1,
+    # reading said zero and had parsed the file wrongly), and reading them ARGUES FOR the rule:
+    # 15 distinct tokens, 118 mentions, 13 documents, every URL a wireless ACCESS-POINT datasheet.
+    # Of the 118 mentions 60 carry the evidence label "Item", 58 carry none, and NOT ONE carries a
+    # part-number label of any spelling -- against a universe where "End-of-Sale Product Part Number"
+    # (3,969), "Part Number" (1,491) and four more spellings are how a real PID is attested. 12 of
+    # the 13 documents contribute nothing but MCS tokens; the 13th adds the transposed MSC0 ...
+    # MSC15. (An earlier version said "eight documents" and "every one under Item" -- both were read
+    # off a partial listing.) Every real MCS part number carries a dash (MCS-7825-I5-IPC1,
     # MCS-EXT-DAT=, MCS-EXT-SCSI), so the anchors keep them. Of the 20 live rows this matches, 5 are
     # inert and 15 are filed in routers as hardware with documents and facts -- a stored defect this
     # gate cannot undo, only stop repeating. The "firmware version" shape (MS15, MX16) would also

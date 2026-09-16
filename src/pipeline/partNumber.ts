@@ -108,11 +108,17 @@ const PN_STANDARD = [
   //   * the 69,363-PID universe DOES hold 15 of them (MCS0, MCS4, MCS7 … MCS31) — a first reading
   //     said zero and was wrong, because it read `pids` at the top level of a file shaped
   //     {documents: {url: {pids}}} and compared against an empty set. Read properly, the 15 are the
-  //     argument FOR this rule and not against it: all 15 come from access-point datasheets, every
-  //     one under the evidence label "Item" and never "Part number", and on all EIGHT documents that
-  //     produce them the MCS tokens are the ONLY PIDs the document contributed — one of them
-  //     (aironet-1815) also produced the transposed MSC0 … MSC15. The universe is an enumeration
-  //     output with this same defect, not an ordering system, so it cannot vouch for a token.
+  //     argument FOR this rule and not against it. 15 distinct tokens, 118 mentions, 13 documents,
+  //     and every one of the 13 URLs is a wireless ACCESS-POINT datasheet. Of the 118 mentions, 60
+  //     carry the evidence label "Item", 58 carry no evidence entry, and **NOT ONE carries a
+  //     part-number label of any spelling** — against a universe where "End-of-Sale Product Part
+  //     Number" (3,969), "Part Number" (1,491), "Replacement Product Part Number" (1,308), "Part
+  //     number" (698), "Product Number" (378) and "Product ID (PID)" (246) are how a real PID is
+  //     attested. 12 of the 13 documents contribute NOTHING but MCS tokens; the 13th (aironet-1815)
+  //     adds only the transposed MSC0 … MSC15. The universe is an enumeration output carrying this
+  //     same defect, not an ordering system, so it cannot vouch for a token.
+  //     (An earlier version of this comment said "eight documents" and "every one under `Item`".
+  //     Both were read off a partial listing; the numbers above are the full count.)
   //   * every real MCS PID carries a dash, and they are live rows read one by one: MCS-7825-I5-IPC1,
   //     MCS-7835-I3-IPC1, MCS-7825H-3.0-ECSP, MCS-EXT-DAT=, MCS-EXT-SCSI (Media Convergence
   //     Servers). The anchors keep every one of them, and MCS123 with them.
@@ -120,6 +126,10 @@ const PN_STANDARD = [
   //     non_product, no document, no fact). The other 15 are filed in ROUTERS as hardware carrying
   //     2–16 documents and up to 9 facts each, which is a live defect this gate cannot undo: the
   //     filter stops the next one, never the ones already stored (docs/decisions, Q-29).
+  //     WHY ROUTERS, since every source URL is a wireless access-point datasheet: the universe file
+  //     categorises 5 of the 13 as `routers`, with series_name "3800 Series Integrated Services
+  //     Routers" on a Catalyst 9100/9120 access-point sheet. The rows went where the enumeration
+  //     said, and the enumeration was reading its own mis-categorisation.
   // The other five shapes Q-29 names are NOT shape-detectable and were measured and rejected: the
   // "firmware version" shape (MS15, MX16, MV4) also matches MR46, MR86, MV13 and 55 more REAL Meraki
   // models, and the "teaser" shape (MR4, MV5) also matches MV2, a real camera. Refusing those would

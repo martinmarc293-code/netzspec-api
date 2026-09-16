@@ -118,10 +118,28 @@ MR86, MV13 and 55 more live Meraki models; `^(MR|MV)[0-9]$` matches MV2, a real 
 **A wrong justification, caught and corrected.** The rule's first comment said "the PID universe holds no bare MCS<n>".
 That was measured against an **empty set** — the reader took `pids` from the top level of a file shaped
 `{documents: {url: {pids}}}`. Exactly zero is the shape a broken comparison makes, and it was not treated as one. Read
-properly, the universe holds **15**, and reading them argues FOR the rule: all 15 come from access-point datasheets,
-every one under the evidence label `Item` and never `Part number`, and on all eight such documents the MCS tokens are
-the only PIDs the document contributed — one (aironet-1815) also produced the transposed `MSC0 … MSC15`. The universe
-is an enumeration output carrying this same defect, not an ordering system.
+properly, the universe holds **15**, and reading them argues FOR the rule — though the first telling of that was itself
+read off a partial listing and said "eight documents, every one under `Item`". In full:
+
+| | |
+| --- | --- |
+| distinct bare `MCS<n>` tokens | 15 |
+| mentions | **118** |
+| documents | **13**, and every URL is a wireless ACCESS-POINT datasheet |
+| carrying the evidence label `Item` | 60 |
+| carrying no evidence entry | 58 |
+| carrying a part-number label, any spelling | **0** |
+| documents contributing nothing but MCS tokens | **12 of 13** (the 13th adds the transposed `MSC0 … MSC15`) |
+
+The zero is the load-bearing number, and it means more beside the control: in that same file a real PID is attested by
+`End-of-Sale Product Part Number` (3,969), `Part Number` (1,491), `Replacement Product Part Number` (1,308),
+`Part number` (698), `Product Number` (378) or `Product ID (PID)` (246). **Not one MCS mention carries any of them.** The
+universe is an enumeration output carrying this same defect, not an ordering system.
+
+**And it closes a loop left open above.** The 15 live MCS rows sit in `routers` although every source URL is a wireless
+access-point datasheet — because the universe file **categorises 5 of the 13 as `routers`**, with `series_name` "3800
+Series Integrated Services Routers" on a Catalyst 9100/9120 access-point sheet. The rows went where the enumeration said,
+and the enumeration was reading its own mis-categorisation.
 
 **A live defect the gate cannot undo.** Of the 20 live bare-MCS rows, 5 are inert (meraki, non_product, no document, no
 fact) and **15 are filed in `routers` as hardware carrying 2–16 documents and up to 9 facts each** (MCS0, MCS4, MCS7,

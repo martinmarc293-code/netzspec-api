@@ -29,9 +29,12 @@
     "are live rows read one by one — MCS-7825-I5-IPC1 and MCS-EXT-DAT= are Media Convergence Servers",
     "— so widening the rule past two digits or past the anchors must turn one of those three red.",
     "The PID universe holds 15 bare MCS<n> and that is an argument FOR the refusal, not against it:",
-    "all 15 come from access-point datasheets under the evidence label \"Item\", on documents that",
-    "contributed no other PID at all. (A first reading of that file said zero; it had parsed the",
-    "wrong level and compared against an empty set.)"
+    "118 mentions over 13 documents, every URL a wireless access-point datasheet, 12 of the 13",
+    "contributing no other PID at all — and NOT ONE of the 118 carrying a part-number label of any",
+    "spelling, where a real PID in that file is attested by one of six (\"End-of-Sale Product Part",
+    "Number\" 3,969, \"Part Number\" 1,491, and four more). (A first reading of that file said zero; it",
+    "had parsed the wrong level and compared against an empty set. A second said \"eight documents,",
+    "every one under Item\"; both numbers came off a partial listing and are corrected here.)"
   ],
   "cases": [
     { "token": "C9200L-24P-4G", "accept": true },
