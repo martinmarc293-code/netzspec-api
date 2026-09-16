@@ -151,8 +151,12 @@ const I = {
   },
   async e1(q: Q): Promise<Verdict> {
     const total = await q(`SELECT count(*)::int AS n FROM completeness`);
-    const v = await zeroRows(q, "C", "every hardware part has a completeness row",
-      `SELECT p.id, p.sku FROM parts p WHERE p.product_class = 'hardware' AND NOT EXISTS (SELECT 1 FROM completeness c WHERE c.part_id = p.id) ORDER BY p.id`);
+    // LIVE hardware parts only. A RETIRED part is not scored — `recompute-completeness` skips it and nothing reads a score for it — so
+    // counting retired rows made this check permanently red for a reason nobody could act on: measured 16 Sep 2026, all 130 offenders on
+    // production were retired (case and whitespace duplicates retired 5 and 14 Sep, `not_a_cisco_part:leading_zero`), and not one was live.
+    // The sabotage below now proves both directions: a live part without a row is still reported, a retired one is not.
+    const v = await zeroRows(q, "C", "every LIVE hardware part has a completeness row",
+      `SELECT p.id, p.sku FROM parts p WHERE p.product_class = 'hardware' AND p.retired_at IS NULL AND NOT EXISTS (SELECT 1 FROM completeness c WHERE c.part_id = p.id) ORDER BY p.id`);
     if (Number(total[0]?.n ?? 0) === 0) return { ...v, status: "PASS", note: `completeness is empty (nothing computed yet) — ${v.count} hardware part(s) without a row, passing vacuously` };
     return v;
   },
@@ -318,6 +322,14 @@ if (!READ_ONLY) {
     const v = await I.e1(q);
     return v.status === "FAIL" && v.offenders.some((o) => Number(o.id) === bare) && !v.offenders.some((o) => Number(o.id) === soft) && !v.offenders.some((o) => Number(o.id) === withRow)
       ? true : `${v.status} ${v.count}: ${v.offenders.map(short).join("|")}`;
+  });
+  await withSabotage("C: a RETIRED hardware part with no completeness row is NOT reported (the half that was making this check permanently red)", async (c, q) => {
+    const withRow = await mkPart(c, "INV-SAB-C4");
+    await c.query("INSERT INTO completeness (part_id, required_total, required_present, pct) VALUES ($1, 10, 5, 50.0)", [withRow]);
+    const gone = await mkPart(c, "INV-SAB-C5");
+    await c.query("UPDATE parts SET retired_at = now(), retired_reason = 'invariants sabotage: a retired duplicate' WHERE id = $1", [gone]);
+    const v = await I.e1(q);
+    return !v.offenders.some((o) => Number(o.id) === gone) ? true : `the retired part was still reported: ${v.offenders.map(short).join("|")}`;
   });
   await withSabotage("K: a gap_confirmed fact with a capable source never checked is reported", async (c, q) => {
     const p = await mkPart(c, "INV-SAB-K");
