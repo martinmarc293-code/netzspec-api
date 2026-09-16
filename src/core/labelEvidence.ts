@@ -98,9 +98,22 @@ function strongest(text: string, sku: string, name: string, words: boolean, excl
     if (!/[A-Za-z]/.test(w) || /^[0-9]/.test(w) || STOP.has(w.toLowerCase()) || excludeWords.has(w.toLowerCase())) continue;
     const acronym = /^[A-Z]{2,5}$/.test(w);
     if (!acronym && w.length < 4) continue;
-    const re = new RegExp(`(?<![A-Za-z])${esc(w)}(?![a-z])`, acronym ? "" : "i");
+    // THE TWO SIDES OF THE ACRONYM RULE ANCHORED DIFFERENTLY (16 Sep 2026). The SKU side has always required a
+    // non-letter on BOTH sides; the name side only forbade a following LOWERCASE letter, so an acronym matched the
+    // START of any longer ALL-CAPS word: SA in SATA, NM in NMEA, SD in SDRAM, and MX in MXP on a page carrying both a
+    // "TelePresence MX" and a "TelePresence MXP" series. That is how a 500 GB SATA drive came to name the "Aironet 1550
+    // hazardous-location (H / SA / SD)" series. The loose form exists so IE can match IE3000 — a DIGIT after the
+    // acronym — and `(?![A-Za-z])` keeps that while refusing SATA, so the two sides now anchor alike.
+    // Measured by running BOTH versions of this function over all 39,998 rows on every page — not over the rows this
+    // rule judges, which is the population I measured twice and got wrong twice (see
+    // docs/decisions/2026-09-16-the-acronym-anchor-and-the-population-i-kept-measuring.md). 235 verdicts differ; 229
+    // are inert because an exclusion, SKU or name rule had already placed the row; 0 rows fall out of a series; 1
+    // (STM1-CN-SMI) merely loses a RIVAL claim and so becomes decisive. The 5 real changes are all withdrawals of bad
+    // review proposals: a 500 GB SATA drive claimed by "Aironet 1550 hazardous-location (H / SA / SD / WU)", and four
+    // generic RJ45 cables claimed by "TelePresence MX" on MX inside MXCAM-D, on a page that also carries MXP.
+    const nameRe = new RegExp(`(?<![A-Za-z])${esc(w)}(?!${acronym ? "[A-Za-z]" : "[a-z]"})`, acronym ? "" : "i");
     if (acronym && new RegExp(`(?<![A-Z])${esc(w)}(?![A-Z])`).test(sku)) take({ spec: 1, detail: w, where: "sku" });
-    else if (re.test(name)) take({ spec: 1, detail: w, where: "name" });
+    else if (nameRe.test(name)) take({ spec: 1, detail: w, where: "name" });
   }
   return best;
 }

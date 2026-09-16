@@ -85,9 +85,17 @@ const GLUED_DIGIT_EXCEPTIONS: Record<string, string> = {
 // Recorded as an EXACT count per category, not as a floor of zero: 805 rows is a review queue, and a check that must be zero from
 // today would be turned off on the first run. Each category's next round drives its number down and the record with it; a number
 // that RISES is a new catch-all placing rows nothing judges, which is exactly B2. Both directions fail, so neither drifts silently.
+//
+// 16 Sep 2026, 805 -> 800: the acronym clause of `labelEvidence` anchored its NAME side as "no lowercase after", so an acronym
+// matched the start of any longer ALL-CAPS word. Tightening it to "no letter after" withdrew five proposals, and this check is
+// what caught that the change moved anything at all — my own blast measurement had filtered to the rows the rule JUDGES and so
+// could not see the shared-parts rows this check reads. Down is the direction a review is supposed to move, and all five are
+// withdrawals of a claim nothing should have made: wireless 66 -> 65 (AIR-A03-D500GC3, a 500 GB SATA drive, proposed for
+// "Aironet 1550 hazardous-location (H / SA / SD / WU)" on SA inside SATA) and collaboration-endpoints 104 -> 100 (four
+// CAB-ETHRJ45 cables proposed for "TelePresence MX" on MX inside MXCAM-D, on a page that also carries a TelePresence MXP).
 const REVERSE_EXPECT: Record<string, number> = {
-  "servers-unified-computing": 264, "hyperconverged-infrastructure": 109, "collaboration-endpoints": 104, switches: 98,
-  wireless: 66, routers: 46, "storage-networking": 38, "hyperconverged-systems": 31, security: 27, "interfaces-modules": 11,
+  "servers-unified-computing": 264, "hyperconverged-infrastructure": 109, "collaboration-endpoints": 100, switches: 98,
+  wireless: 65, routers: 46, "storage-networking": 38, "hyperconverged-systems": 31, security: 27, "interfaces-modules": 11,
   "unified-communications": 5, video: 3, "optical-networking": 3, transceiver: 0, meraki: 0,
 };
 
@@ -783,6 +791,33 @@ check("SABOTAGE merge: a plan that calls a hardware row non-hardware is refused"
   check("SABOTAGE label: and '5520 W AC' is still a wattage (the fence kept its reason)", e.kind === "none", JSON.stringify(e));
   e = v("PWR-ADPT-18W", "Power adaptor, 18W, for Catalyst 1000 switches", "Catalyst 1000", { ...cat, family: null });
   check("SABOTAGE label: the whole series name in the name keeps it", e.kind === "name" && e.detail === "Catalyst 1000", JSON.stringify(e));
+
+  // THE ACRONYM ANCHOR (16 Sep 2026). The clause's two sides had anchored differently: the SKU side required a non-letter on both
+  // sides, the NAME side only forbade a following LOWERCASE letter — so an acronym matched the START of any longer all-caps word,
+  // which is how a 500 GB SATA drive came to name an Aironet hazardous-location series on SA. Both directions are asserted, because
+  // the loose form exists for a real case: an acronym followed by a DIGIT (CGR1240) must still keep. Two series shapes are needed —
+  // a series carrying a platform NUMBER never reaches this clause, so the fixtures are number-less on purpose.
+  const sm = { family: null, siblings: ["SM-X and SM Service Modules", "EHWIC cards", "NIM modules"].map((s) => ({ series: s, family: null })) };
+  // The MX fixture names the series that ACTUALLY made the claim. My first version used "TelePresence MXP", whose acronym MXP is
+  // not a prefix of MXCAM at all — so it passed under BOTH anchors and proved nothing, which the sabotage run caught: a negative
+  // fixture must be negative under the rule it tests. The claim came from the MX sibling, and MX is a prefix of MXCAM.
+  const mxp = { family: null, siblings: ["TelePresence MX (MX200 / MX300 / MX700 / MX800)", "TelePresence MXP", "Webex Room Kit"].map((s) => ({ series: s, family: null })) };
+  const cgr = { family: null, siblings: ["CGR Connected Grid Routers", "IR Industrial Routers"].map((s) => ({ series: s, family: null })) };
+  // the SKU is neutral in every case: the SKU side is tried first and was never the defect
+  e = v("ZZ-BLANK-1", "Bundle of 2 pack PA MC STM1 SMI", "SM-X and SM Service Modules", sm);
+  check("SABOTAGE label: the acronym SM does not match inside SMI (the name side anchors on both sides)", e.kind === "none", JSON.stringify(e));
+  e = v("ZZ-BLANK-2", "Blank filler for the SM slot", "SM-X and SM Service Modules", sm);
+  check("SABOTAGE label: and SM as its own word still keeps the series", e.kind === "name" && e.detail === "SM", JSON.stringify(e));
+  e = v("ZZ-BLANK-3", "Cable w/ RJ45 0.7 mts, MXCAM-D", "TelePresence MX (MX200 / MX300 / MX700 / MX800)", mxp);
+  check("SABOTAGE label: MX does not match inside MXCAM (the four CAB-ETHRJ45 cables, withdrawn 16 Sep 2026)", e.kind === "none", JSON.stringify(e));
+  e = v("ZZ-BLANK-4", "Table microphone for MX", "TelePresence MX (MX200 / MX300 / MX700 / MX800)", mxp);
+  check("SABOTAGE label: and MX as its own word still keeps the series", e.kind === "name" && e.detail === "MX", JSON.stringify(e));
+  e = v("ZZ-BLANK-5", "DIN rail mount for CGR1240", "CGR Connected Grid Routers", cgr);
+  check("SABOTAGE label: an acronym followed by a DIGIT still keeps (CGR1240 — the case the loose anchor existed for)", e.kind === "name" && e.detail === "CGR", JSON.stringify(e));
+  e = v("ZZ-BLANK-6", "Power supply for CGRXYZ chassis", "CGR Connected Grid Routers", cgr);
+  check("SABOTAGE label: but an acronym followed by a LETTER does not (CGRXYZ)", e.kind === "none", JSON.stringify(e));
+  e = v("ZZ-BLANK-7", "Small form factor blanking plate", "SM-X and SM Service Modules", sm);
+  check("SABOTAGE label: the lowercase follow the OLD anchor already refused is still refused (SM in Small)", e.kind === "none", JSON.stringify(e));
 }
 
 console.log(`    layers standing: ${passed} passed, ${misses.length} missed (${REVIEWED.join(", ")})`);
