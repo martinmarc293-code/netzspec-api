@@ -71,9 +71,21 @@ export const SPEC_BEARING: ReadonlySet<DocClass> = new Set<DocClass>([
   //
   // ONE TENSION, RECORDED RATHER THAN HIDDEN: `vendor_tool` is also the class apply-compat.ts
   // stamps on Cisco's TMG transceiver matrix, which is a COMPATIBILITY matrix — it yields
-  // relations, not specifications, and is not spec-bearing. There are zero vendor_tool documents
-  // in the store today, so nothing is currently mis-counted; when apply-compat next writes one,
-  // the TMG matrix needs its own class rather than sharing this one. Cisco's own coverage is
+  // relations, not specifications, and is not spec-bearing.
+  //
+  // RE-MEASURED 16 Sep 2026, because "there are zero vendor_tool documents in the store today" had
+  // stopped being true and a reader checking would have found 108. The WARNING is still un-fired,
+  // which is the part that matters: all 108 are `apps.juniper.net` HCT pages — the case this entry
+  // exists for — and there is NO tmgmatrix document in the store at all, of any class. 0 live parts
+  // are counted spec-bearing only via a vendor_tool doc.
+  //
+  // It will fire on the first production `apply-compat --commit`, and a test already guarantees it:
+  // tests/db/apply-lifecycle.test.ts asserts "the TMG tool is a vendor_tool document". So the test
+  // enshrines the behaviour this comment calls a mis-count. That is a decision — split the class, or
+  // accept that a compatibility matrix counts as spec-bearing evidence — and it belongs to whoever
+  // owns the coverage arithmetic, not to a comment. Session log 14c.
+  //
+  // Cisco's own coverage is
   // unaffected either way: brands/base.py takes its spec-bearing list from the BRAND MANIFEST's
   // DocClass entries, and Cisco's manifest does not declare vendor_tool at all.
   "vendor_tool",
