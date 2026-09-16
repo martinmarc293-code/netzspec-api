@@ -72,10 +72,14 @@ page cannot account for. Three rescues, each derived from the page rather than f
 
 1. a clean, unglued hit of the same token anywhere in the SKU or name (12 rows);
 2. the glued letters, or letters+token together, are a word of the series name — `CGR1000` under "CGR 1000 Connected
-   Grid", `IW6300` under "IW6300 / ESW6300" (31 rows);
+   Grid", `IW6300` under "IW6300 / ESW6300" (**37** rows);
 3. a row of the SAME series placed by a **SKU rule** — never by a label, or the weakest evidence in the system would
    corroborate itself — writes the same spelling: `C9300X-NM-8Y=` attests `C+9300` for Catalyst 9300. Kinship is a suffix
    match, so `Cat6509` and `WS-C6597` count as one spelling family (21 rows).
+
+12 + 37 + 21 + 9 = 79, which is the whole population. (This line read 31 until the full re-read: the count predated the
+`prefix+token` half of rescue 2, which moved six rows out of the flagged set — the exceptions were updated to nine at the
+time and this number was not, so the four parts summed to 73.)
 
 **Nine rows remain**, all in switches, each recorded in `GLUED_DIGIT_EXCEPTIONS` with its reason: five `NXK-*`
 (N9000/N9300/N9800 = Nexus 9000) and four Catalyst 6500 power/fan rows (Cat6506/09/13). They are correct keeps whose
