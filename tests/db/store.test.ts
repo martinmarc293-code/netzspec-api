@@ -180,11 +180,28 @@ check("a second SKU with the same slug base gets -2", p1spare.created && p1spare
   check("findPart returns null for an unknown SKU", none === null);
 }
 {
-  await upsertPart({ vendor: "cisco", sku: "abc-1", category: "transceiver" });
-  await upsertPart({ vendor: "cisco", sku: "ABC-1", category: "transceiver" });
-  const lower = await findPart("cisco", "abc-1");
-  const upper = await findPart("cisco", "ABC-1");
-  check("two SKUs differing only in case are two parts, each found exactly", lower?.sku === "abc-1" && upper?.sku === "ABC-1" && lower?.id !== upper?.id);
+  // CASE IS NOT AN IDENTITY ANY MORE, and this block used to assert that it was (16 Sep 2026). Until migration 0010
+  // (`parts_vendor_sku_ci_uq`, extended to whitespace by 0020) `abc-1` and `ABC-1` were two parts; 0010 made them ONE,
+  // deliberately, with the merge that preceded it recorded in docs/decisions. The assertion here — "two parts, each
+  // found exactly" — has therefore been red since 0010 landed, asserting behaviour the store no longer has and no
+  // longer wants. It is rewritten to the rule that replaced it rather than deleted, because the behaviour is worth a
+  // check: upsertPart FOLDS, says it folded, and keeps the FIRST spelling the vendor gave.
+  const first = await upsertPart({ vendor: "cisco", sku: "abc-1", category: "transceiver" });
+  const second = await upsertPart({ vendor: "cisco", sku: "ABC-1", category: "transceiver" });
+  check("a SKU differing only in case is the SAME part: upsertPart folds it and says so",
+    second.id === first.id && second.created === false && second.case_folded === true, JSON.stringify(second));
+  check("and the stored SKU keeps the spelling it was first given — a differently-cased mention is evidence, not a correction",
+    (await findPart("cisco", "abc-1"))?.sku === "abc-1" && (await findPart("cisco", "ABC-1"))?.sku === "abc-1");
+  check("findPart reaches that one part from either spelling",
+    (await findPart("cisco", "ABC-1"))?.id === first.id && (await findPart("cisco", "abc-1"))?.id === first.id);
+  let dup = "";
+  try {
+    await query(`INSERT INTO parts (vendor_id, sku, slug, category_id, product_class)
+      SELECT v.id, 'AbC-1', 'abc-1-case-twin', c.id, 'hardware' FROM vendors v, categories c
+       WHERE v.slug = 'cisco' AND c.slug = 'transceiver'`);
+  } catch (e) { dup = `${(e as { code?: string }).code} ${(e as { constraint?: string }).constraint}`; }
+  check("SABOTAGE the index itself refuses a third spelling, so the fold cannot be bypassed by a raw INSERT",
+    /23505/.test(dup) && /parts_vendor_sku_(ci|ws)_uq/.test(dup), dup || "the insert was ACCEPTED");
 }
 
 // =================================================================================================
