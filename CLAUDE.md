@@ -109,9 +109,12 @@ source of truth for progress.
 
 ## Session log
 
-**Start every session by reading the newest `docs/HANDOFF-*.md`** (currently
-`docs/HANDOFF-2026-09-05.md`: rules in force, where things live, production numbers, what is
-committed, what is on disk, the backlog in order, the traps). The per-session handoff log lives in
+**Start every session by reading the newest `docs/HANDOFF-*.md`** — `ls docs/HANDOFF-*.md | sort | tail -1`,
+because the filename is a date and a pointer written here goes stale the day someone writes a new one.
+(It names: rules in force, where things live, production numbers, what is committed, what is on disk,
+the backlog in order, the traps.) The pointer used to name `HANDOFF-2026-09-05.md` and was eleven days
+out of date by 16 Sep — a hand-maintained list of what exists, which is the drift this file warns about
+everywhere else. The per-session handoff log lives in
 `docs/SESSION-LOG.md` (newest first; update it every session). It moved out of this file on 5 Sep 2026 because every agent reads this file and the
 log had grown past 400 lines — see the delegation gate above.
 
