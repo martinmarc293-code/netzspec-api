@@ -144,9 +144,38 @@ And the 65 are the highest-yield documents in the corpus — this repo measured 
 HTML's 49.7** — sitting in exactly the categories at the bottom of the ranking above: UCS C-Series and X-Series,
 HyperFlex, HCI, Stealthwatch, 2800-series routers.
 
-**The closable step, named and not taken:** export PDF text into the evidence dump alongside the records the extractor
-already produces. It needs no network — the PDFs are cached — and it would turn 1,497 refusals into decisions on the
-class of document that carries the most specification per page.
+**The closable step — taken, measured, and it does not say what I expected.** `scripts/extract-doc-evidence.py` now
+writes `text/<doc_id>.txt` for PDFs too, read through `cisco_specs_pdf.read_page` so the text and the extractor's records
+describe one view of the page (that function's own docstring: *"an interface it cannot call unchanged is a second
+implementation grading the first"*). It needs no network — the PDFs are cached — and `pdfplumber` is already a
+dependency. A failure is recorded as `pdf_text_failed` with its reason and never swallowed.
+
+Proven on six PDFs (HyperFlex HX225c, HCI 220 M7, UCS XE9305, UCS C240 M8, UCS X9508, an ISR datasheet): **6 of 6
+written**, 22 KB–320 KB of text each, at roughly **70 seconds per document** — so the full 65 is about 75 minutes of CPU
+and no network.
+
+Then the A/B that matters, with exactly one variable: the live dump copied, those six text files overlaid, and the **real**
+`derive-link-provenance` run against each.
+
+| | before | after | delta |
+| --- | ---: | ---: | ---: |
+| `explicit` | 122,731 | 122,732 | **+1** |
+| `could_not_check` | 1,497 | 1,470 | **−27** |
+| `inferred` | 99 | 125 | **+26** |
+| `family` | 3 | 3 | 0 |
+| linking defects | 99 links / 25 docs | 125 links / 28 docs | +26 / +3 |
+| held (live hardware) | 6,898 | 6,898 | **0** |
+
+**So exporting PDF text recovers no coverage at all. It converts "I could not check" into "this link is not
+justified."** Of 27 decisions it enables, 26 are `inferred` — the part's SKU is not in the PDF's text and nothing else
+supports the link — and 1 is `explicit`.
+
+That is worth having, and it is not the win the paragraph above it first implied: could-not-check must never pass as
+checked, and an unjustified link is a finding rather than a nuisance. But the honest headline is the one the numbers give:
+**these PDF datasheets appear to be linked to roughly 1,500 parts they do not name.** Something created those links — the
+PDF extract records, or the SKU map the extractor reads — and the page text does not support them. On the six measured,
+96% of the newly decided links are defects; projecting that to all 65 is a projection, not a measurement, and the way to
+settle it is to run the extractor over the remaining 59 and read the result.
 
 (Four of the 65 have no extract records at all — `pdf_no_extract_records` — so they contribute neither text nor labels.)
 

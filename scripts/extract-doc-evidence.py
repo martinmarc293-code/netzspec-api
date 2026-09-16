@@ -9,7 +9,10 @@ Reads the cache only (nothing is fetched) and writes, per document in --docs:
                      runs/extract/cisco-pdf-*.json (matched on source_url). Only SPEC-BEARING document types are extracted.
   doc-headers.json   {doc_id: [{l, t, c, axis: "column"}]} — every <th> cell and every cell of each table's first row, with
                      its table and column index (operator ruling 1: column headers are printed labels, with provenance).
-  text/<doc_id>.txt  the visible page text, upper-cased, for the SKU match of the link basis. HTML only.
+  text/<doc_id>.txt  the visible page text, upper-cased, for the SKU match of the link basis. HTML, and since 16 Sep 2026
+                     PDFs too, read through cisco_specs_pdf.read_page so the text and the extractor's records describe
+                     one view of the page. Without it every vendor_datasheet_pdf was text-less and 1,497 links came back
+                     could_not_check -- correctly, since absence in a text we do not hold is not evidence of absence.
 Every document gets a status; a failure is recorded, never swallowed. The run records the sha256 of these files.
 """
 import sys
@@ -75,6 +78,42 @@ for i, d in enumerate(docs):
     rec = {"status": None, "method": None, "family": [], "by_sku": {}}
     try:
         html = None
+        if is_pdf and path and os.path.exists(path):
+            # THE PDF TEXT, written to the same text/<doc_id>.txt the HTML branch writes (16 Sep 2026).
+            #
+            # Until today this file wrote text for HTML only -- its own docstring said so -- and the consequence was
+            # measured rather than assumed: all 65 vendor_datasheet_pdf documents had no text, 2,779 links sat on a
+            # text-less document (1,536 of them on a PDF datasheet), and derive-link-provenance answered could_not_check
+            # for 1,497 of them. That refusal is CORRECT -- absence in a text we do not hold is not evidence of absence --
+            # so this is not a bug fix; it is giving the rule something to read. The PDFs are already cached, and
+            # pdfplumber is already a dependency, so it costs no fetch.
+            #
+            # It reads through cisco_specs_pdf.read_page, which is not a convenience: that function's own docstring says
+            # "the auditor must read a page through exactly this function, and an interface it cannot call unchanged is a
+            # second implementation grading the first". A SKU match made against a differently-read page would grade the
+            # extractor against a document neither of them saw -- the overprint dedupe and the footnote-marker strip are
+            # part of what "on the page" means here.
+            #
+            # A failure is recorded and never swallowed: the status says pdf_text_failed with the reason, and the document
+            # keeps whatever its extract records give it. A PDF whose text cannot be read stays could-not-check, which is
+            # the honest answer and the one we had before.
+            try:
+                import pdfplumber                                        # already in scraper/requirements.txt
+                from adapters.cisco_specs_pdf import read_page           # imported here, so the HTML path pays nothing
+                pages = []
+                with pdfplumber.open(path) as pdf:
+                    for page in pdf.pages:
+                        pages.append(read_page(page)[1])
+                txt = re.sub(r"\s+", " ", " ".join(pages)).strip().upper()
+                if txt:
+                    open(os.path.join(args.out, "text", doc_id + ".txt"), "w", encoding="utf-8").write(txt)
+                    stats["pdf_text_written"] += 1
+                else:
+                    rec["pdf_text"] = "empty"
+                    stats["pdf_text_empty"] += 1
+            except Exception as e:  # noqa: BLE001 -- recorded, never swallowed; the labels below still run
+                rec["pdf_text"] = f"failed: {type(e).__name__} {str(e)[:120]}"
+                stats["pdf_text_failed"] += 1
         if not is_pdf and path and os.path.exists(path):
             html = open(path, encoding="utf-8", errors="replace").read()
             body = re.sub(r"(?is)<(script|style|noscript)[^>]*>.*?</\1>", " ", html)
