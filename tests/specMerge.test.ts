@@ -24,9 +24,11 @@ import {
   describesPart, familyMatches, componentShape, canInherit,
   fieldApplies, notApplicable, NONSENSICAL_PAIRS,
   MAX_CELL, NUMERIC_TOLERANCE, toleranceApplies, TOLERANCE_EXEMPT_DIMENSIONS,
+  CLASS_PARTITION,
   type SpecEntry, type Prov,
 } from "../src/core/specMerge.js";
 import { FIELD_DICTIONARY, PROFILES } from "../src/core/fieldSchema.js";
+import { PRODUCT_CLASSES } from "../src/store/parts.js";
 import { sourceKind, unionListValues as unionInApplyExtract } from "../src/pipeline/apply-extract.js";
 import {
   NORM_VERSION, CANON, COUNT_LIKE, unitLookup,
@@ -574,6 +576,52 @@ check("every curated pair names a real dictionary field and a category that has 
   }
   check("the table is restored after the sabotage",
     notApplicable({ sku: "S-DNA-E", categorySlug: "software", fieldKey: "stack_max_members" }) === null);
+}
+
+// =================================================================================================
+// THE THREE CLASS SETS MUST PARTITION THE product_class ENUM
+// =================================================================================================
+// `describesPart` refuses a family fact when the part's class is in NON_PRODUCT_CLASSES. That set
+// was hand-written before migration 0014 added `non_product` and never followed it, so for two days
+// the omission was DRIFT that looked deliberate — the same shape as `spare_of` missing from three
+// hand-written relation_kind lists, and `non_product` missing from two API validators (16 Sep).
+//
+// specMerge.ts now states three sets and this asserts they PARTITION the enum, so a value added by a
+// future migration lands in none of them and fails HERE rather than silently becoming a subject a
+// datasheet may describe. The domain is the STORE's PRODUCT_CLASSES (8 values, what the column can
+// hold) and NOT core/productClass.ts's `ProductClass` type (6, what the classifier can produce):
+// `accessory` and `bundle` are in these sets and absent from that type, so comparing against the
+// type would pass while missing exactly the values that matter.
+{
+  const { IS_A_SUBJECT, PENDING_DECISION, NON_PRODUCT_CLASSES: NPC } = CLASS_PARTITION;
+  const all = [...PRODUCT_CLASSES];
+  const unaccounted = all.filter((c) => !IS_A_SUBJECT.has(c) && !PENDING_DECISION.has(c) && !NPC.has(c));
+  check(`every product_class sits in one of the three sets (${all.length} values)`,
+    unaccounted.length === 0, `unaccounted: ${unaccounted.join(", ")} — put each in IS_A_SUBJECT, NON_PRODUCT_CLASSES or PENDING_DECISION with a reason`);
+
+  const twice = all.filter((c) => [IS_A_SUBJECT.has(c), PENDING_DECISION.has(c), NPC.has(c)].filter(Boolean).length > 1);
+  check("no product_class sits in two of them", twice.length === 0, twice.join(", "));
+
+  const invented = [...IS_A_SUBJECT, ...PENDING_DECISION, ...NPC].filter((c) => !all.includes(c as never));
+  check("none of the three sets names a class the enum does not have", invented.length === 0, invented.join(", "));
+
+  // The pending decision is RECORDED, not drifted: assert it is exactly what the sheet holds, so
+  // resolving it is a deliberate edit here and not a silent one.
+  check("`non_product` is held pending an operator decision, not missing by accident",
+    PENDING_DECISION.has("non_product") && !NPC.has("non_product"),
+    "see docs/decisions/2026-09-16-layers-round3-unattended-block.md §5");
+  // The fixture must ISOLATE the class rule. My first one gave no family on either side, so
+  // `family:unknown` refused it — and refused the hardware CONTROL identically, so it could not have
+  // told the two apart. Matching families on both sides, and the control proves the rest of
+  // describesPart lets this subject through, so the only variable left is the class.
+  const subject = { sku: "NZ-TEST-PART-9", partFamily: "Catalyst 2960-X", docFamily: "Catalyst 2960-X" };
+  check("CONTROL the fixture is otherwise acceptable, so the class is the only variable",
+    describesPart({ ...subject, productClass: "hardware" }) === null);
+  check("a `license` part IS refused — the rule that non_product is being held out of",
+    describesPart({ ...subject, productClass: "license" })?.rule === "class:license");
+  check("TODAY a non_product part is NOT refused: the pending decision, stated as behaviour",
+    describesPart({ ...subject, productClass: "non_product" }) === null,
+    "if this fires, the decision was taken — move non_product out of PENDING_DECISION and update the sheet");
 }
 
 console.log(`${pass}/${pass + misses.length} passed`);

@@ -606,7 +606,48 @@ export type InheritCheck = {
  * spec is worse than a recorded gap, and a refused inheritance costs a gap the part can still fill
  * from its own datasheet.
  */
-export const NON_PRODUCT_CLASSES: ReadonlySet<string> = new Set(["license", "software", "service", "accessory", "bundle"]);
+/**
+ * THE THREE SETS BELOW PARTITION THE `product_class` ENUM, and `tests/specMerge.test.ts` asserts
+ * exactly that against the store's `PRODUCT_CLASSES` — so a value added by a future migration lands
+ * in none of them and fails a test, instead of silently becoming a subject. That check is the whole
+ * point: the enum's domain is the store's (8 values, what the COLUMN can hold), not
+ * `core/productClass.ts`'s `ProductClass` (6, what the CLASSIFIER can produce) — `accessory` and
+ * `bundle` are in this file's sets and not in that type, which is why the comparison must name the
+ * store's list. It is not imported here because no `src/core` module imports `src/store`, and a
+ * layering change is not something to make in passing; this is the repo's documented answer where a
+ * single source is unavailable — keep the copies and fail when they drift.
+ *
+ * Classes a family datasheet CAN describe. `unknown` is unfinished work, not a negative answer.
+ */
+const IS_A_SUBJECT: ReadonlySet<string> = new Set(["hardware", "unknown"]);
+
+/**
+ * `non_product` IS ABSENT ON PURPOSE, PENDING AN OPERATOR DECISION — it is not drift, and until
+ * 16 Sep 2026 it was. Migration 0014 added the enum value; this set was written before it and never
+ * followed, so the omission was an accident that happened to look deliberate. It is now deliberate.
+ *
+ * Why it is not simply added: a `non_product` row is, in 0014's own words, "an ordering artefact,
+ * not a product", so a family datasheet plainly cannot describe it and the rule would be more
+ * correct with it in. But adding it STRENGTHENS a merge rule — it changes what every lane's apply
+ * refuses and makes remerge retract inherited facts on non_product rows it later processes (297 of
+ * them today: HCI 8, HX 10, interfaces-modules 2, routers 81, servers 20, switches 75, transceiver
+ * 101). That is a strictness trade-off, not a bug fix, and this repo's rule is never to land one of
+ * those under time pressure. It also has to be DEPLOYED to the box before any retraction on those
+ * rows is durable, or that apply tree re-inherits them.
+ * Sheet: `docs/decisions/2026-09-16-layers-round3-unattended-block.md` §5.
+ */
+const PENDING_DECISION: ReadonlySet<string> = new Set(["non_product"]);
+
+/**
+ * Classes whose rows a family-level fact may never reach. Derived, so a NEW enum value lands here
+ * automatically instead of silently becoming a subject; `tests/specMerge.test.ts` asserts every
+ * `product_class` sits in exactly one of the three sets, so a future value cannot fall in none.
+ */
+export const NON_PRODUCT_CLASSES: ReadonlySet<string> =
+  new Set(["license", "software", "service", "accessory", "bundle"]);
+
+/** Exported so the test can assert the three sets partition the enum, and name what is missing. */
+export const CLASS_PARTITION = { IS_A_SUBJECT, PENDING_DECISION, NON_PRODUCT_CLASSES } as const;
 
 /** Categories whose members are only ever accessories to the document that lists them. Kept short
  *  on purpose: `optical-networking` is NOT here, because it holds real ONS/NCS line cards and
