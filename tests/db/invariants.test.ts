@@ -123,6 +123,28 @@ const I = {
     return zeroRows(q, "6b", "no self-superseded orphan (a crash between the store's park and re-point statements)",
       `SELECT id, part_id, field_key FROM facts WHERE superseded_by = id ORDER BY id`);
   },
+  /**
+   * AN EMPTY `raw` HAS EXACTLY TWO LEGITIMATE WRITERS, and renormalize depends on it (16 Sep 2026).
+   * That file skips every empty-raw row — "COUNTED, never touched" — on the stated grounds that
+   * `raw` is empty so there is nothing to replay. That is sound for a retraction (the value was
+   * withdrawn) and for a confirmed gap (there was never a value). It is NOT sound for a third
+   * writer: a row whose raw went missing for some other reason would be skipped silently, for ever,
+   * by the one pass that exists to re-normalise everything.
+   *
+   * Measured before adding: 10,052 empty-raw rows across ALL history, every one `retracted:*`, and
+   * `writeGapConfirmed` has never written a row in this database — zero `gap_check` facts in any
+   * state, zero `gap_confirmed` facts current. `gap_check` is allowed here anyway, because the
+   * store writes it (facts.ts `writeGapConfirmed`, `raw: ""`) and a check that goes red the first
+   * time correct code runs is a false positive, not a guard. The first version of this check
+   * allowed only retractions and would have done exactly that.
+   */
+  async i6c(q: Q) {
+    return zeroRows(q, "6c", "an empty raw was written by a retraction or a gap confirmation, and carries no value",
+      `SELECT id, part_id, field_key, method, state FROM facts
+        WHERE superseded_by IS NULL AND raw = ''
+          AND (value IS NOT NULL OR method IS NULL OR (method NOT LIKE 'retracted%' AND method <> 'gap_check'))
+        ORDER BY id`);
+  },
   async i7(q: Q): Promise<Verdict> {
     const runs = await q(`SELECT id, kind, stats, notes FROM runs WHERE status = 'succeeded' ORDER BY kind, started_at, id`);
     const offenders: Row[] = [];
@@ -181,7 +203,14 @@ const I = {
 };
 
 async function runAll(q: Q): Promise<void> {
-  for (const fn of [I.i1, I.i2, I.i3, I.i4, I.i5, I.i6, I.i6b, I.i7, I.i8, I.e1, I.e2, I.e3]) report(await fn(q));
+  // DERIVED from `I`, not listed by hand (16 Sep 2026). This was
+  //   [I.i1, I.i2, I.i3, I.i4, I.i5, I.i6, I.i6b, I.i7, I.i8, I.e1, I.e2, I.e3]
+  // and adding `i6c` above did not add it here, so the new check was defined, sabotage-proven, and
+  // NEVER RUN — while the summary still said "12 PASS". A hand-kept list of what exists is the
+  // drift this repo pays for everywhere else, and it is worst here: the failure mode of a missing
+  // entry is a green suite that checks one thing fewer than it claims. Object key order is
+  // insertion order, so the report still reads in the order the checks are written.
+  for (const fn of Object.values(I)) report(await fn(q));
 }
 
 // ---- the checks, in one read-only transaction ---------------------------------------------------
@@ -273,6 +302,24 @@ if (!READ_ONLY) {
     await c.query("UPDATE facts SET superseded_by = $2, superseded_at = (SELECT created_at FROM facts WHERE id = $2) - interval '1 second' WHERE id = $1", [oldId, newId]);
     const after = await I.i6(q);
     return after.count === before.count + 1 && after.offenders.some((o) => Number(o.old_id) === oldId) ? true : `count ${before.count} -> ${after.count}`;
+  });
+  await withSabotage("6c: an empty raw from a THIRD writer is reported (mkFact's method is 'probe')", async (c, q) => {
+    const p = await mkPart(c, "INV-SAB-6C");
+    const before = await I.i6c(q);
+    const id = await mkFact(c, p, { raw: "" });   // method 'probe' — neither a retraction nor a gap check
+    const after = await I.i6c(q);
+    return after.count === before.count + 1 && after.offenders.some((o) => Number(o.id) === id) ? true : `count ${before.count} -> ${after.count}`;
+  });
+  await withSabotage("6c CONTROL: a real gap confirmation is NOT reported (the check must not fire on correct code)", async (c, q) => {
+    const p = await mkPart(c, "INV-SAB-6C-OK");
+    const before = await I.i6c(q);
+    await c.query(
+      `INSERT INTO facts (part_id, field_key, value, raw, state, tier, method)
+       VALUES ($1, 'switching_capacity', NULL, '', 'gap_confirmed', 2, 'gap_check')`, [p]);
+    const after = await I.i6c(q);
+    // the ONLY sabotage in this file that must NOT go red: the first version of 6c allowed
+    // retractions alone and would have failed here, on a row writeGapConfirmed writes by design.
+    return after.count === before.count ? true : `a legitimate gap confirmation was reported: ${before.count} -> ${after.count}`;
   });
   await withSabotage("6b: a self-superseded orphan is reported", async (c, q) => {
     const p = await mkPart(c, "INV-SAB-6B");
