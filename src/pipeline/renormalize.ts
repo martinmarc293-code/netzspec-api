@@ -37,6 +37,13 @@
 //                  in the run's stats. (A tier-0 row the replay agrees with is still re-stamped —
 //                  norm_v is bookkeeping, not a value; see restampNormV.)
 //   unrecoverable  `raw` is empty, so there is nothing to replay. COUNTED, never touched. 7,570
+//                  [RE-MEASURED 16 Sep 2026: 9,498 — the count rots, the PROPERTY did not. All
+//                  9,498 of 9,498 carry a `retracted:*` method, so "every one" below is still
+//                  exactly true; the largest groups are retracted:family:mismatch 1,797,
+//                  retracted:class:license 1,645, retracted:component:SFP 1,233. That property is
+//                  what the reasoning rests on, and it is the thing worth CHECKING rather than
+//                  restating — a non-retraction row with an empty raw would break the case for
+//                  "never touched". It belongs with the production invariants, not here.]
 //                  current rows are in this state today and every one is a gap row a retraction
 //                  wrote (`retracted:*` methods, value NULL, raw ''): they were never normalised,
 //                  so stamping a norm_v on them would be a claim about a normalisation that never

@@ -2257,6 +2257,12 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // standard per LINE CARD, and 28 of this category's modules carry a PoE token in their PID
     // (WS-X4748-RJ45V+E "Catalyst 4500E 48-Port PoE 802.3at", C9400-LC-48U-B, WS-X6148-RJ45V).
     // Exactly one of the 28 holds a poe_standard fact today, so this opens 27 real questions.
+    // RE-MEASURED 16 Sep 2026: **zero** of this category's parts hold a poe_standard fact in any
+    // state now, so it opens 28, not 27. The argument is unchanged and slightly stronger; only the
+    // number moved. (The fact side is what was re-measured — the "28 modules with a PoE token in the
+    // PID" half was not re-derived, because rebuilding someone else's predicate gives a different
+    // predicate. A count written into a comment has no source to check it against and will rot; this
+    // one is dated so the next reader knows which half was verified and when.)
     //
     // CORRECTED 11 Sep 2026. This comment used to say poe_budget stays device-only "which is what
     // their gate on poe_standard already achieves for a module whose poe_standard is unanswered".
