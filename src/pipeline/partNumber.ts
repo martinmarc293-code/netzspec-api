@@ -101,6 +101,32 @@ const PN_STANDARD = [
   // At most ONE dash group after the unit: "4G-LTE-ANTM-D" is a Cisco antenna PID and stays.
   /^[0-9]+(?:\.[0-9]+)?(?:\/[0-9]+)*(?:GBASE|BASE|GE|G)(?:-[A-Z0-9]{1,6})?$/i,
   /^(?:IEEE)?802(?:\.[0-9]+[A-Z]{0,3})+$/i,
+  // A BARE 802.11 MODULATION-AND-CODING-SCHEME INDEX: MCS0 … MCS31, read out of a receive-sensitivity
+  // table ("802.11n (HT20) MCS0 18.5 -95 MCS1 …"). Q-29 (operator, 15 Sep 2026) asked the filter to
+  // learn the shapes the Meraki enumeration turned into parts; this is the ONLY one of the six that
+  // the corpus says is safe, and the measurement is why:
+  //   * the 69,363-PID universe DOES hold 15 of them (MCS0, MCS4, MCS7 … MCS31) — a first reading
+  //     said zero and was wrong, because it read `pids` at the top level of a file shaped
+  //     {documents: {url: {pids}}} and compared against an empty set. Read properly, the 15 are the
+  //     argument FOR this rule and not against it: all 15 come from access-point datasheets, every
+  //     one under the evidence label "Item" and never "Part number", and on all EIGHT documents that
+  //     produce them the MCS tokens are the ONLY PIDs the document contributed — one of them
+  //     (aironet-1815) also produced the transposed MSC0 … MSC15. The universe is an enumeration
+  //     output with this same defect, not an ordering system, so it cannot vouch for a token.
+  //   * every real MCS PID carries a dash, and they are live rows read one by one: MCS-7825-I5-IPC1,
+  //     MCS-7835-I3-IPC1, MCS-7825H-3.0-ECSP, MCS-EXT-DAT=, MCS-EXT-SCSI (Media Convergence
+  //     Servers). The anchors keep every one of them, and MCS123 with them.
+  //   * the 20 live rows this shape matches are all rate-table cells — but only 5 are inert (meraki,
+  //     non_product, no document, no fact). The other 15 are filed in ROUTERS as hardware carrying
+  //     2–16 documents and up to 9 facts each, which is a live defect this gate cannot undo: the
+  //     filter stops the next one, never the ones already stored (docs/decisions, Q-29).
+  // The other five shapes Q-29 names are NOT shape-detectable and were measured and rejected: the
+  // "firmware version" shape (MS15, MX16, MV4) also matches MR46, MR86, MV13 and 55 more REAL Meraki
+  // models, and the "teaser" shape (MR4, MV5) also matches MV2, a real camera. Refusing those would
+  // cost real products, and a wrong refusal is forever. What catches them instead is the check on
+  // rows a documentation page created that no document and no fact ever confirmed (ingest hygiene
+  // documentation-rows).
+  /^MCS[0-9]{1,2}$/i,
 ];
 const PN_CONNECTOR = new RegExp(
   "^(?:RJ-?[0-9]{2}|USB(?:-?[A-C]|-?[0-9](?:\\.[0-9])?)?|HDMI|VGA|DVI|[QO]?SFP(?:\\+|28|56|-DD)?|XFP|GBIC|CFP[0-9]?|"

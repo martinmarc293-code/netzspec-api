@@ -28,8 +28,16 @@
 //
 // The suite also walks the DEPLOY ORDER, because that order is itself a decision that can be got
 // wrong: 0009 (columns) -> build duplicates -> 0010 refuses -> merge -> 0010 applies -> the twin
-// can never come back. It DROPS parts_vendor_sku_ci_uq at the start to reach the pre-0010 state
-// and re-creates it from the migration file at the end.
+// can never come back. It DROPS parts_vendor_sku_ci_uq AND parts_vendor_sku_ws_uq at the start to
+// reach the pre-0010 state and re-creates both from their migration files at the end.
+//
+// Both, because 0020's whitespace index folds case as well (`lower(regexp_replace(sku, …))`), so it
+// refuses every pair 0010 refuses. Dropping only the one this suite is about left the fixture's own
+// case twin unbuildable — the suite died on `parts_vendor_sku_ws_uq` at the first mkPart, before a
+// single check ran (measured on netzspec_test4, 16 Sep 2026; the index is the cause, so it holds on
+// any database where 0020 has been applied). 0020's comment
+// records that this suite replays 0010 "by that name"; what it missed is that the wider index is
+// live the whole time.
 import fs from "node:fs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
@@ -44,9 +52,9 @@ import type { SpecEntry } from "../../src/core/specMerge.js";
 import {
   parseArgs, decideCaseGroup, foreignShape, crossBrandFamily, fabricatedVerdict,
   mergePartInto, readCaseGroups, checkCaseDuplicates, checkForeignPids, checkHwVariants,
-  gapRank, isGapState,
+  gapRank, isGapState, documentationPage, skuShape, documentationRowVerdict, checkDocumentationRows,
   PART_FK_TABLES, PART_FK_HANDLED_ELSEWHERE, CHECKS,
-  type CaseGroup, type FabricatedCandidate, type Args,
+  type CaseGroup, type FabricatedCandidate, type Args, type DocRow, type DocRowVerdict,
 } from "../../src/pipeline/hygiene.js";
 
 if (process.env.NETZSPEC_DB !== "test") {
@@ -61,6 +69,7 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", ".
 const CLI = path.join(ROOT, "src", "pipeline", "cli.ts");
 const TSX = path.join(ROOT, "node_modules", ".bin", process.platform === "win32" ? "tsx.cmd" : "tsx");
 const MIGRATION_0010 = fs.readFileSync(path.join(ROOT, "db", "migrations", "0010_parts_case_unique.sql"), "utf8");
+const MIGRATION_0020 = fs.readFileSync(path.join(ROOT, "db", "migrations", "0020_parts_whitespace_unique.sql"), "utf8");
 
 let pass = 0;
 let sabotages = 0;
@@ -222,7 +231,10 @@ const CATALOGUE_FKS = (await query<{ tbl: string; col: string }>(
 // =================================================================================================
 // The index has to go before the duplicate can exist. That is not a workaround: it IS the deploy
 // order (0009 -> merge -> 0010), and the rest of this suite walks it.
+// both case-folding unique indexes come off: 0020's folds case as well as whitespace, so leaving it
+// live makes the fixture's own case twin impossible to insert. Both are restored in section 7.
 await query("DROP INDEX IF EXISTS parts_vendor_sku_ci_uq");
+await query("DROP INDEX IF EXISTS parts_vendor_sku_ws_uq");
 await query(`TRUNCATE facts, fact_evidence, conflicts, lifecycle, relations, images, image_variants,
   image_candidates, part_aliases, part_source_checks, completeness, doc_parts, fetch_queue, parts, source_docs, runs CASCADE`);
 await query(`INSERT INTO field_dictionary (key, type, unit, label_en, label_de) VALUES
@@ -656,6 +668,21 @@ await query("INSERT INTO lifecycle (part_id, status, end_of_sale_date) VALUES ($
     (await one<{ sku: string }>("SELECT sku FROM parts WHERE id = $1", [win])).sku === WIN_SKU);
   const dead = await upsertPart({ vendor: "cisco", sku: LOSE_SKU, category: "switches", name: "aimed at the retired row" });
   check("upsertPart aimed at a RETIRED spelling fills the survivor, not the dead row", dead.id === win && dead.created === false);
+
+  // 0020 goes back on AFTER sabotage 4, which asserts the refusal names ci_uq by name: with both
+  // indexes live, which one reports a duplicate is the planner's choice, not a fact about the rule.
+  // It is restored rather than left off because this is a SHARED test database — a suite that
+  // removes another migration's guard and walks away weakens every suite that runs after it.
+  await query(MIGRATION_0020);
+  check("0020's whitespace/case index is back, so the suite leaves the database as it found it",
+    (await num("SELECT count(*)::int AS n FROM pg_indexes WHERE indexname = 'parts_vendor_sku_ws_uq'")) === 1);
+  sabotages++;
+  let wsRefused = "";
+  try { await query(`INSERT INTO parts (vendor_id, sku, slug, category_id, product_class)
+    SELECT v.id, $1, 'zz-hyg-ws-twin', c.id, 'hardware' FROM vendors v, categories c WHERE v.slug = 'cisco' AND c.slug = 'switches'`,
+    [` ${WIN_SKU.toLowerCase()} `]); } catch (e) { wsRefused = `${(e as { code?: string }).code} ${(e as { constraint?: string }).constraint}`; }
+  check("SABOTAGE 4c: with 0020 restored, a SPACED lower-case twin is refused too — the restore put back the real guard, not just the name",
+    /23505/.test(wsRefused) && /parts_vendor_sku_ws_uq/.test(wsRefused), wsRefused || "the insert was ACCEPTED");
 }
 
 // =================================================================================================
@@ -771,6 +798,106 @@ await query("INSERT INTO lifecycle (part_id, status, end_of_sale_date) VALUES ($
     groups.length === 0, groups.map((g) => g.fold));
   const { result } = await checkCaseDuplicates(ARGS({ checks: ["case-duplicates"] }), getPool());
   check("a second dry run has nothing to do", result.scanned === 0);
+}
+
+// =================================================================================================
+// 12. documentation-rows (Q-29) — the CONTROL is the check, so the sabotage is deleting it
+// =================================================================================================
+{
+  // -- the pure half: the page test, the shape fold, and the verdict ------------------------------
+  check("documentationPage: a documentation site is labelled by its host",
+    documentationPage("https://documentation.meraki.com/Wireless/Product_Information/x") === "documentation.meraki.com");
+  check("documentationPage: a vendor support ARTICLE is labelled host + /support/docs",
+    documentationPage("https://www.cisco.com/c/en/us/support/docs/wireless/x.html") === "www.cisco.com/support/docs");
+  sabotages++;
+  check("SABOTAGE documentationPage: a /collateral/ datasheet is NOT one — those rows are waiting for a fetch, not evidence of prose read as a catalogue",
+    documentationPage("https://www.cisco.com/c/en/us/products/collateral/wireless/x.html") === null
+    && documentationPage("https://www.cisco.com/c/en/us/support/collateral/x.html") === null);
+  sabotages++;
+  check("SABOTAGE documentationPage: an unparseable URL, an empty one and null return null rather than throwing",
+    documentationPage("not a url") === null && documentationPage("  ") === null && documentationPage(null) === null);
+  check("skuShape folds digits, so MG51-HW meets MG41-HW and MS250-48 meets MS120-24",
+    skuShape("MG51-HW") === skuShape("MG41-HW") && skuShape("MS250-48") === skuShape("MS120-24") && skuShape("MG51-HW") === "MG#-HW");
+
+  const drow = (o: Partial<DocRow>): DocRow => ({ id: 1, sku: "MG51-HW", vendor: "cisco", product_class: "hardware", category: "meraki",
+    name: "Cisco MG51-HW", url: "https://documentation.meraki.com/SASE/x", docs: 0, facts: 0, ...o });
+  const SHAPES = new Set([skuShape("MG41-HW")]);
+  const v = (o: Partial<DocRow>, s: ReadonlySet<string> = SHAPES) => documentationRowVerdict(drow(o), s);
+  const why = (d: DocRowVerdict) => (d.listed ? "" : d.reason);
+  check("a row a document names is not listed, and the reason says so",
+    v({ docs: 1 }).listed === false && /document names it/.test(why(v({ docs: 1 }))));
+  check("a row holding a fact is not listed", v({ facts: 3 }).listed === false);
+  check("a row with no page recorded is not listed, and the reason is its own (never folded into 'not a documentation page')",
+    v({ url: null }).listed === false && /nothing to attribute/.test(why(v({ url: null }))));
+  check("a row from a collateral datasheet is not listed",
+    v({ url: "https://www.cisco.com/c/en/us/products/collateral/wireless/x.html" }).listed === false);
+
+  const shared = v({});
+  check("MG51-HW is listed as UNPROVABLE because MG41-HW, from the same pages, IS confirmed",
+    shared.listed === true && shared.rule.includes("also occurs on a CONFIRMED row") && shared.provable === false);
+  sabotages++;
+  const noControl = v({}, new Set<string>());
+  check("SABOTAGE delete the control and the SAME row changes verdict — the control is load-bearing, not decoration",
+    noControl.listed === true && noControl.rule.includes("only among the unconfirmed") && shared.listed && noControl.rule !== shared.rule);
+  const provable = v({ sku: "MCS1" });
+  check("a SKU the enumeration filter refuses today is listed as PROVABLE, naming the filter's own reason",
+    provable.listed === true && provable.provable === true && provable.rule.includes("standard"));
+  sabotages++;
+  const provableNoControl = v({ sku: "MCS1" }, new Set<string>());
+  check("SABOTAGE the provable branch does NOT depend on the control: an empty control set leaves MCS1 provable",
+    provableNoControl.listed === true && provableNoControl.provable === true);
+  sabotages++;
+  const otherShared = v({ sku: "MR46" });
+  check("SABOTAGE a row whose shape is shared is never reported as provable — an absence of evidence is not a rule",
+    shared.listed === true && shared.provable === false && otherShared.listed === true && otherShared.provable === false);
+
+  // -- the database half: seeded rows on one documentation page, confirmed and not ----------------
+  await ensureCategory("wireless");
+  const DOC_URL = "https://documentation.meraki.com/zz-hygiene/Product_Information";
+  const dpDoc = docIdFor(DOC_URL);
+  await ensureSourceDoc({ url: DOC_URL, doc_type: "vendor_datasheet_html", vendor: "cisco", fetched_at: "2026-09-01" });
+  let dn = 0;
+  const mkPaged = async (sku: string, url: string | null, pc = "hardware"): Promise<number> => Number((await one<{ id: number }>(
+    `INSERT INTO parts (vendor_id, sku, slug, category_id, product_class, datasheet_url)
+     SELECT v.id, $1, $2, c.id, $4::product_class, $3 FROM vendors v, categories c WHERE v.slug = 'cisco' AND c.slug = 'wireless' RETURNING id`,
+    [sku, `zz-doc-${++dn}`, url, pc])).id);
+  const cDoc = await mkPaged("ZZMG41-HW", DOC_URL);              // confirmed: a document names it
+  const cFact = await mkPaged("ZZMX67", DOC_URL);                // confirmed: it holds a fact
+  const uShared = await mkPaged("ZZMG51-HW", DOC_URL);           // shares ZZMG#-HW with the confirmed one
+  const uAlone = await mkPaged("ZZCW917H", DOC_URL, "non_product");
+  const uProvable = await mkPaged("MCS1", DOC_URL, "non_product");  // the filter refuses this SKU today
+  const uCollateral = await mkPaged("ZZC9300-24P", "https://www.cisco.com/c/en/us/products/collateral/switches/zz-doc.html");
+  await linkDocParts(dpDoc, [cDoc], getPool());
+  await withTx((c) => insertFact(c, cFact, entry({ k: "weight", value: 1.2, unit: "kg", raw: "1.2 kg" }), seedRun));
+
+  const { result: dr } = await checkDocumentationRows(ARGS({ checks: ["documentation-rows"], vendor: "cisco" }), getPool());
+  const listedSkus = new Set(dr.listing.map((x) => (x as { sku: string }).sku));
+  check("the check counts the CONTROL — rows from these pages that a document or a fact confirms — beside the finding",
+    dr.counts["of_those_CONFIRMED_by_a_document_or_a_fact"] === 2 && dr.counts["rows_enumerated_from_a_documentation_page"] === 5,
+    { counts: dr.counts });
+  sabotages++;
+  check("SABOTAGE a CONFIRMED row can never appear in the listing; it is counted as a refusal with its reason",
+    !listedSkus.has("ZZMG41-HW") && !listedSkus.has("ZZMX67")
+    && (dr.refusals["a document names it"] ?? 0) >= 1 && (dr.refusals["it holds a fact"] ?? 0) >= 1,
+    { listed: [...listedSkus], refusals: dr.refusals });
+  sabotages++;
+  check("SABOTAGE a row from a collateral page is outside the population entirely — neither listed nor counted as one of these pages' rows",
+    !listedSkus.has("ZZC9300-24P") && dr.counts["rows_enumerated_from_a_documentation_page"] === 5);
+  check("the three unconfirmed rows are listed, and only the SKU the filter refuses is marked provable",
+    listedSkus.has("ZZMG51-HW") && listedSkus.has("ZZCW917H") && listedSkus.has("MCS1")
+    && dr.listing.filter((x) => (x as { provable: boolean }).provable).map((x) => (x as { sku: string }).sku).join(",") === "MCS1",
+    dr.listing);
+  check("ZZMG51-HW is listed as unprovable BECAUSE ZZMG41-HW is confirmed — the control reaches the database half too",
+    ((dr.listing.find((x) => (x as { sku: string }).sku === "ZZMG51-HW") ?? {}) as { rule?: string }).rule?.includes("also occurs on a CONFIRMED row") === true);
+  check("the notes carry the confirmed count, so the number can never be read on its own as a junk count",
+    dr.notes.some((n) => /REPORT ONLY/.test(n) && /2 rows that a document or a fact DOES confirm/.test(n)), dr.notes);
+  sabotages++;
+  let dcErr = ""; try { parseArgs(["documentation-rows", "--commit"]); } catch (e) { dcErr = (e as Error).message; }
+  check("SABOTAGE --commit on documentation-rows is REFUSED as report-only, not silently ignored", /report-only/.test(dcErr), dcErr);
+
+  await query("DELETE FROM doc_parts WHERE doc_id = $1", [dpDoc]);
+  await query("DELETE FROM facts WHERE part_id = $1", [cFact]);
+  await query("DELETE FROM parts WHERE id = ANY($1::int[])", [[cDoc, cFact, uShared, uAlone, uProvable, uCollateral]]);
 }
 
 await query(`TRUNCATE facts, fact_evidence, conflicts, lifecycle, relations, images, image_variants,

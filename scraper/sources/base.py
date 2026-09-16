@@ -367,6 +367,20 @@ _PN_STANDARD = [
     # At most ONE dash group after the unit: "4G-LTE-ANTM-D" is a Cisco antenna PID and stays.
     re.compile(r"^[0-9]+(?:\.[0-9]+)?(?:/[0-9]+)*(?:GBASE|BASE|GE|G)(?:-[A-Z0-9]{1,6})?$", re.I),
     re.compile(r"^(?:IEEE)?802(?:\.[0-9]+[A-Z]{0,3})+$", re.I),
+    # A BARE 802.11 modulation-and-coding-scheme index: MCS0 ... MCS31, read out of a
+    # receive-sensitivity table. Q-29 (operator, 15 Sep 2026). The corpus is why this one is safe and
+    # the other five shapes Q-29 names are not. The PID universe holds 15 bare MCS<n> (a first
+    # reading said zero and had parsed the file wrongly), and reading them ARGUES FOR the rule: all 15
+    # come from access-point datasheets under the evidence label "Item", never "Part number", and on
+    # all eight such documents the MCS tokens are the only PIDs contributed -- one also produced the
+    # transposed MSC0 ... MSC15. Every real MCS part number carries a dash (MCS-7825-I5-IPC1,
+    # MCS-EXT-DAT=, MCS-EXT-SCSI), so the anchors keep them. Of the 20 live rows this matches, 5 are
+    # inert and 15 are filed in routers as hardware with documents and facts -- a stored defect this
+    # gate cannot undo, only stop repeating. The "firmware version" shape (MS15, MX16) would also
+    # refuse MR46, MR86, MV13 and 55 more real Meraki models; the "teaser" shape would refuse MV2, a
+    # real camera. src/pipeline/partNumber.ts carries the same pattern;
+    # tests/fixtures/partnumbers.json holds both sides and fails if they drift.
+    re.compile(r"^MCS[0-9]{1,2}$", re.I),
 ]
 _PN_CONNECTOR = re.compile(
     r"^(?:RJ-?[0-9]{2}|USB(?:-?[A-C]|-?[0-9](?:\.[0-9])?)?|HDMI|VGA|DVI|[QO]?SFP(?:\+|28|56|-DD)?|XFP|GBIC|CFP[0-9]?|"

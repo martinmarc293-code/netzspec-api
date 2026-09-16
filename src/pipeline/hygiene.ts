@@ -49,10 +49,10 @@ import { isPartNumber } from "./partNumber.js";
 // arguments
 // =================================================================================================
 
-export const CHECKS = ["case-duplicates", "whitespace-duplicates", "fabricated-pids", "foreign-pids", "value-pids", "cross-brand-family", "hw-variants"] as const;
+export const CHECKS = ["case-duplicates", "whitespace-duplicates", "fabricated-pids", "foreign-pids", "value-pids", "cross-brand-family", "hw-variants", "documentation-rows"] as const;
 export type CheckName = (typeof CHECKS)[number];
 /** report only: these checks have no --commit effect, and asking for one is refused rather than ignored */
-export const REPORT_ONLY: ReadonlySet<string> = new Set<CheckName>(["cross-brand-family"]);
+export const REPORT_ONLY: ReadonlySet<string> = new Set<CheckName>(["cross-brand-family", "documentation-rows"]);
 
 export type Args = { checks: CheckName[]; commit: boolean; examples: number; vendor: string | null };
 
@@ -212,6 +212,73 @@ export function valuePidShape(sku: string): { rule: string } | null {
   if (!VALUE_PID.test(s)) return null;
   const unit = s.replace(/^[\d.\s]+/, "").toLowerCase();
   return { rule: `value_as_pid:${unit}` };
+}
+
+// -------------------------------------------------------------------------------------------------
+// documentation-rows (Q-29, operator, 15 Sep 2026)
+// -------------------------------------------------------------------------------------------------
+/**
+ * A row an enumeration created from a page that DOCUMENTS products rather than one that LISTS them
+ * for order, which no document names and no fact describes. 136 today, all cisco, all from
+ * documentation.meraki.com.
+ *
+ * This check is REPORT ONLY and the control is the reason. The same pages also produced 147 rows
+ * that a document or a fact DOES confirm, and eight SKU shapes occur in both cohorts:
+ *
+ *     MG41-HW   confirmed, 1 document          MG51-HW   unconfirmed, no document
+ *     MR44      confirmed                      MR46      unconfirmed
+ *
+ * Those are the same KIND of thing — a real orderable Meraki PID — and what separates them is which
+ * datasheet happened to be fetched, not whether the part exists. A predicate that called the
+ * unconfirmed half junk would retire real products, so this one calls nothing junk: it reports the
+ * cohort, splits it by how much can actually be PROVED about each row, and prints the confirmed
+ * count beside it so the number can never be read as a junk count.
+ *
+ * Only one branch rests on a rule rather than on an absence: a SKU the enumeration filter itself
+ * refuses today (8 of the 136 — MCS1…MCS6 as `standard`, MR4/MV4/MV5 as `too_short`). Those rows
+ * predate the rule that would now stop them.
+ */
+export const DOCUMENTATION_HOSTS = /^(?:documentation|docs)\./i;
+
+/** The page a row was enumerated from, labelled, or null when it is not a documentation page. */
+export function documentationPage(url: string | null): string | null {
+  const u = (url ?? "").trim();
+  if (!u) return null;
+  let host: string, pathname: string;
+  try { const p = new URL(u); host = p.host.toLowerCase(); pathname = p.pathname.toLowerCase(); }
+  catch { return null; }
+  if (DOCUMENTATION_HOSTS.test(host)) return host;
+  // a vendor's support article under its main host: /c/en/us/support/docs/… . Deliberately NOT
+  // /collateral/, which is where the datasheets live — those rows are waiting for a fetch, not
+  // evidence of prose being read as a catalogue
+  if (/\/support\/docs\//.test(pathname) && !pathname.includes("/collateral/")) return `${host}/support/docs`;
+  return null;
+}
+
+/** digits folded to `#`, so MS250-48 and MS120-24 share a shape and MG51-HW meets MG41-HW */
+export function skuShape(sku: string): string { return sku.trim().toUpperCase().replace(/[0-9]+/g, "#"); }
+
+export type DocRow = { id: number; sku: string; vendor: string; product_class: string; category: string | null;
+  name: string | null; url: string | null; docs: number; facts: number };
+
+export type DocRowVerdict =
+  | { listed: false; reason: string }
+  | { listed: true; rule: string; provable: boolean };
+
+/**
+ * `confirmedShapes` is the control: the shapes of rows from the SAME pages that a document or a fact
+ * confirms. A row whose shape is in it is reported as unprovable BY CONSTRUCTION, never as a
+ * candidate — that is the whole point of passing the control in.
+ */
+export function documentationRowVerdict(r: DocRow, confirmedShapes: ReadonlySet<string>): DocRowVerdict {
+  if (r.docs > 0) return { listed: false, reason: "a document names it" };
+  if (r.facts > 0) return { listed: false, reason: "it holds a fact" };
+  if (!(r.url ?? "").trim()) return { listed: false, reason: "no page recorded: nothing to attribute it to" };
+  if (!documentationPage(r.url)) return { listed: false, reason: "not a documentation page" };
+  const verdict = isPartNumber(r.sku);
+  if (!verdict.ok) return { listed: true, rule: `the enumeration filter refuses this SKU today: ${verdict.reason}`, provable: true };
+  if (confirmedShapes.has(skuShape(r.sku))) return { listed: true, rule: "shape also occurs on a CONFIRMED row from these pages", provable: false };
+  return { listed: true, rule: "shape occurs only among the unconfirmed", provable: false };
 }
 
 /** Brands whose name in a `family` string means a vendor other than the row's own. */
@@ -804,6 +871,24 @@ export async function readFamilies(vendor: string | null, db: Queryable): Promis
   return r.rows;
 }
 
+/**
+ * Every live row that carries a page, with its document and current-value-fact counts. The
+ * documentation-page test and the confirmed/unconfirmed split are done in code, in
+ * `documentationPage` and `documentationRowVerdict`, so the rule the tests exercise is the rule that
+ * runs — a URL pattern re-written in SQL is a second copy waiting to drift.
+ */
+export async function readPagedRows(vendor: string | null, db: Queryable): Promise<DocRow[]> {
+  const r = await db.query<DocRow>(
+    `SELECT p.id, p.sku, ve.slug AS vendor, p.product_class::text AS product_class, c.slug AS category, p.name, p.datasheet_url AS url,
+            (SELECT count(*)::int FROM doc_parts d WHERE d.part_id = p.id) AS docs,
+            (SELECT count(*)::int FROM facts f WHERE f.part_id = p.id AND f.superseded_by IS NULL
+                                                 AND f.state NOT IN ('gap_confirmed','gap_unattempted','not_applicable')) AS facts
+       FROM parts p JOIN vendors ve ON ve.id = p.vendor_id LEFT JOIN categories c ON c.id = p.category_id
+      WHERE p.retired_at IS NULL AND p.datasheet_url IS NOT NULL ${vendorFilter(vendor)}
+      ORDER BY ve.slug, p.sku`, vendor ? [vendor] : []);
+  return r.rows;
+}
+
 export type HwPair = { base_id: number; base_sku: string; hw_id: number; hw_sku: string; vendor: string; base_facts: number; hw_facts: number };
 
 export async function readHwPairs(vendor: string | null, db: Queryable): Promise<HwPair[]> {
@@ -1046,6 +1131,41 @@ export async function checkCrossBrandFamily(a: Args, db: Queryable): Promise<{ r
   return { result };
 }
 
+export async function checkDocumentationRows(a: Args, db: Queryable): Promise<{ result: CheckResult }> {
+  const rows = await readPagedRows(a.vendor, db);
+  const onDocPage = rows.filter((r) => documentationPage(r.url));
+  // THE CONTROL, built first and passed into every verdict: the shapes of rows from these same pages
+  // that a document or a fact confirms. Without it the check is a list of rows nobody fetched yet.
+  const confirmed = onDocPage.filter((r) => r.docs > 0 || r.facts > 0);
+  const confirmedShapes = new Set(confirmed.map((r) => skuShape(r.sku)));
+  const result: CheckResult = { check: "documentation-rows", scanned: rows.length, counts: {}, refusals: {}, examples: [], listing: [], notes: [] };
+  inc(result.counts, "rows_enumerated_from_a_documentation_page", onDocPage.length);
+  inc(result.counts, "of_those_CONFIRMED_by_a_document_or_a_fact", confirmed.length);
+
+  const listed: { row: DocRow; v: Extract<DocRowVerdict, { listed: true }> }[] = [];
+  for (const r of rows) {
+    const v = documentationRowVerdict(r, confirmedShapes);
+    if (!v.listed) { if (documentationPage(r.url)) inc(result.refusals, v.reason); continue; }
+    listed.push({ row: r, v });
+    inc(result.counts, v.provable ? "PROVABLE: the filter refuses this SKU today" : `unprovable: ${v.rule}`);
+  }
+  const byHost = listed.reduce((a2: Record<string, number>, x) => { const h = documentationPage(x.row.url) ?? "?"; a2[h] = (a2[h] ?? 0) + 1; return a2; }, {});
+  result.listing = listed.map((x) => ({ sku: x.row.sku, vendor: x.row.vendor, category: x.row.category, product_class: x.row.product_class,
+    page: documentationPage(x.row.url), rule: x.v.rule, provable: x.v.provable, url: x.row.url }));
+  // provable rows first: they are the only ones a reader can act on without opening a page
+  for (const x of [...listed].sort((p, q) => Number(q.v.provable) - Number(p.v.provable)).slice(0, a.examples)) {
+    result.examples.push({ subject: `${x.row.vendor} ${x.row.sku}`, decision: x.v.rule,
+      detail: { provable: x.v.provable, class: x.row.product_class, category: x.row.category, page: documentationPage(x.row.url) } });
+  }
+  result.notes.push(`REPORT ONLY, and the control is why: the same pages produced ${confirmed.length} rows that a document or a fact DOES confirm, `
+    + `sharing ${new Set(listed.map((x) => skuShape(x.row.sku))).size ? [...new Set(listed.filter((x) => confirmedShapes.has(skuShape(x.row.sku))).map((x) => skuShape(x.row.sku)))].length : 0} SKU shapes with this list. `
+    + `MG41-HW is confirmed and MG51-HW is not; both are real orderable PIDs. This list is a queue to FETCH, never a list to retire`);
+  result.notes.push(`${result.counts["PROVABLE: the filter refuses this SKU today"] ?? 0} of ${listed.length} rest on a rule rather than on an absence of evidence — `
+    + `the enumeration filter would refuse that SKU today, so the row predates the rule that now stops it. The rest are unproven either way`);
+  result.notes.push(`by page: ${Object.entries(byHost).map(([k, v]) => `${k} ${v}`).join(", ") || "(none)"}`);
+  return { result };
+}
+
 export async function checkHwVariants(a: Args, db: Queryable): Promise<{ result: CheckResult; work: HwPair[] }> {
   const pairs = await readHwPairs(a.vendor, db);
   const result: CheckResult = { check: "hw-variants", scanned: pairs.length, counts: {}, refusals: {}, examples: [], listing: [], notes: [] };
@@ -1197,6 +1317,8 @@ export async function main(argv: string[]): Promise<void> {
       }
     } else if (check === "cross-brand-family") {
       result = (await checkCrossBrandFamily(a, pool)).result;
+    } else if (check === "documentation-rows") {
+      result = (await checkDocumentationRows(a, pool)).result;
     } else {
       const { result: r, work } = await checkHwVariants(a, pool);
       result = r;
