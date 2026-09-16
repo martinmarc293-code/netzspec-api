@@ -67,6 +67,18 @@ export type RelationRow = RelationInput & { id: number; from_part_id: number; to
  * drift. Measured over production before the change: of the 598 relations where the two rules CAN
  * disagree, 0 verdicts move — no document has yet written a retired spelling into `to_sku`, so the
  * hole was latent rather than live and closing it moves no stored edge.
+ *
+ * IT COSTS ONE EXTRA QUERY PER EDGE, and that is a deliberate trade rather than an oversight. The
+ * old copy was a single SELECT; this is a vendor lookup plus `findPart` (one query on a hit, up to
+ * three on a miss). `apply-compat.ts:268` awaits this in a sequential loop inside a transaction, so
+ * a bulk matrix apply pays it per relation. On the box — where applies run, and where a query costs
+ * ~0.13 ms — ten thousand edges is about a second; through the dev tunnel at ~300 ms a round trip it
+ * is not, but that loop was already sequential and already paid two round trips a row.
+ *
+ * DO NOT "optimise" it by inlining the identity rule back into one statement. That is precisely the
+ * second copy this change deleted, and the copy is what let `resolveTargetPart` prefer a retired
+ * twin for months. If the cost ever matters, give `findPart` a vendor-scope it can take from a part
+ * id, so the arms stay in ONE place and the lookup collapses to a single query.
  */
 export async function resolveTargetPart(fromPartId: number, toSku: string, db: Queryable): Promise<number | null> {
   const v = await db.query<{ slug: string }>(
