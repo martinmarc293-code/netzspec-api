@@ -22,6 +22,7 @@
 // CLI — a --commit behind a failing gate leaves the run failed and writes no lifecycle row. For
 // compat: a record whose "optic" is prose fails the structural gate and writes no relation.
 import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
 import crypto from "node:crypto";
 import { spawnSync } from "node:child_process";
@@ -338,8 +339,57 @@ function cli(args: string[]): { status: number | null; out: string } {
     r.status === 1 && failed.kind === "apply-compat" && failed.status === "failed" && failed.gate === null && /MALFORMED/.test(failed.notes ?? "") && (await query<{ n: number }>("SELECT count(*)::int AS n FROM relations")).rows[0].n === before, { status: r.status, tail: r.out.slice(-300) });
   fs.rmSync(path.join(ROOT, "runs", "reports", "tmg-unresolved-skus-2026-09-01.jsonl"), { force: true });
 }
+// =====================================================================================================
+// apply-compat: a RETIRED part is never the FROM side of an edge (16 Sep 2026, commit 78418f3)
+// =====================================================================================================
+{
+  // `ingest hygiene case-duplicates` merged the 127 live case pairs migration 0010 refuses, and the
+  // LOSING spelling is retired while keeping its exact string for ever, because a page printed it.
+  // Until 78418f3 `partsBySku` filtered no retired row AND preferred an exact-spelling key, so a
+  // matrix quoting the retired spelling hung its edges off the dead row — the one lookup that gets
+  // worse the more faithfully the source quotes the vendor. Measured over production at the time:
+  // all 127 pairs were reachable here by sku_norm, 0 relations had a retired FROM side, so the hole
+  // was latent rather than live. The twin below is INSERTED already retired because that is the only
+  // way the shape can exist: parts_vendor_sku_ci_uq is partial on `retired_at IS NULL`, so two LIVE
+  // spellings cannot coexist.
+  const liveOptic = await part("NZT-RETTWIN-OPT", optics, null);
+  await query(
+    `INSERT INTO parts (vendor_id, sku, slug, category_id, product_class, product_class_reason, retired_at, retired_into, retired_reason)
+     VALUES ($1, 'nzt-rettwin-opt', 'nzt-rettwin-opt-retired', $2, 'hardware', 'test', now(), $3, 'case duplicate merged (fixture)')`,
+    [cisco, optics, liveOptic]);
+  const dead = (await query<{ id: number; sku: string }>(
+    "SELECT id, sku FROM parts WHERE slug = 'nzt-rettwin-opt-retired'")).rows[0];
+  // Without this the case passes VACUOUSLY: absent the retired row, the lookup reaches the survivor
+  // through sku_norm anyway and the fixture proves nothing. It must be present AND an exact match.
+  check("the retired twin exists and is an EXACT match for the SKU the matrix writes",
+    !!dead && dead.sku === "nzt-rettwin-opt" && dead.id !== liveOptic, JSON.stringify(dead));
+
+  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "netzspec-tmg-"));
+  const twinFixture = path.join(tmpDir, "tmg-retired-twin.json");
+  fs.writeFileSync(twinFixture, JSON.stringify({
+    source: TMG_ORIGIN, generated_at: "2026-09-01",
+    records: [{ type: "transceiver", sku: "nzt-rettwin-opt", datasheet_url: null, end_of_sale: null, compat: [{ sku: "NZT-SFP-10G-SR" }] }],
+  }));
+  await compatMain([twinFixture, "--commit", "--sample", "10"]);
+  // Scoped by sku_norm, which BOTH twins share, so the query finds the edge whichever row it hung
+  // off — then the assertion says which. Scoping by the live spelling would hide the failure.
+  const edge = (await query<{ from_sku: string; from_retired: boolean; to_sku: string; kind: string }>(
+    `SELECT f.sku AS from_sku, (f.retired_at IS NOT NULL) AS from_retired, r.to_sku, r.kind
+       FROM relations r JOIN parts f ON f.id = r.from_part_id
+      WHERE f.sku_norm = 'NZT-RETTWIN-OPT'`)).rows[0];
+  check("an edge whose matrix SKU is a retired spelling hangs off the LIVE survivor, never the retired row",
+    edge?.from_sku === "NZT-RETTWIN-OPT" && edge.from_retired === false && edge.to_sku === "NZT-SFP-10G-SR" && edge.kind === "equivalent",
+    JSON.stringify(edge));
+
+  fs.rmSync(tmpDir, { recursive: true, force: true });
+  fs.rmSync(path.join(ROOT, "runs", "reports", "tmg-unresolved-skus-2026-09-01.jsonl"), { force: true });
+}
+
+// The succeeded count is 4 rather than 3 from 16 Sep 2026: the retired-twin block above commits a
+// fourth apply-compat run. An exact count that fails in BOTH directions is the point of this check,
+// so it is updated deliberately here rather than loosened to a floor.
 check("no sabotage run was ever recorded as succeeded",
-  (await query<{ n: number }>("SELECT count(*)::int AS n FROM runs WHERE status = 'succeeded'")).rows[0].n === 3 && (await query<{ n: number }>("SELECT count(*)::int AS n FROM runs WHERE status = 'failed'")).rows[0].n === 2);
+  (await query<{ n: number }>("SELECT count(*)::int AS n FROM runs WHERE status = 'succeeded'")).rows[0].n === 4 && (await query<{ n: number }>("SELECT count(*)::int AS n FROM runs WHERE status = 'failed'")).rows[0].n === 2);
 
 // ---- cleanup ----------------------------------------------------------------------------------------------
 cleanup();
