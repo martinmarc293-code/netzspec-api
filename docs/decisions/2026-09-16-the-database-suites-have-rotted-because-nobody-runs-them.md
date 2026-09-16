@@ -90,3 +90,30 @@ The five "red by design" suites are a deliberate, recorded state. These five wer
 `npm test` cannot see them. **Something should run `test:db` on a cadence, or the split should go away**; a suite that
 nothing runs decays into a suite that asserts the past, and then the first person to run it cannot tell a real defect
 from a stale premise. Tonight it took four separate investigations to make that distinction five times.
+
+## Resolution of all five (16 Sep 2026, later the same night)
+
+| suite | what it actually was | outcome |
+|---|---|---|
+| `store` | stale assertion — 0010 ended case identity | rewritten to the rule that replaced it (`6e0421c`) |
+| `reclassify` | stale expectation — `classify()` learned a new rule | clause corrected, 30/30 (`d210016`) |
+| `migrate-atlas` | **not a fixture at all** — the migration CRASHES, its contract made unsatisfiable by 0010 | recorded, not changed; already `do not re-run` (sheet: *a-retired-sku-is-not-a-target*) |
+| `inheritedFrom` | **not a test at all** — a PRODUCTION ratchet filed under `tests/db/` | moved to `scripts/audit-inherited-from.ts` (`667fc03`) |
+| `apply-acquired` | environment — its recall half needs a fixture page absent from this cache | unchanged; reported as an adapter/environment fault |
+
+**Two of the five were category errors, not rot**, and that is the correction to this sheet's own diagnosis. I filed
+`inheritedFrom` above as *"the test"* and `migrate-atlas` as *"a fixture against a case-folding index"*. Both were wrong
+in the same direction: I assumed the file was a test whose expectations had aged, when the file was **not a test of code
+at all**. `migrate-atlas` exercises a legacy one-shot tool already recorded do-not-re-run; `inheritedFrom` audits the
+production catalogue and `npm run test:db` pointed it at a truncated database, so it had never once measured the thing
+it is about — and it said so, in a sentence (*"no live inherited facts at all"*) that reads as data loss while
+production held 34,824.
+
+**The rule above still stands and gets sharper.** "Something should run `test:db` on a cadence" would not have helped
+either of these: a cadence over the wrong database is what kept `inheritedFrom` dead, and no cadence can make a
+crashing legacy loader pass. So the first question about a red suite is not *is its premise stale* but **is this a
+test?** — of what code, against which database, and could it ever go green there. Two of five could not.
+
+And the thing that found the only live defect of the night was not the fix to any of these: it was **reading
+`migrate-atlas`'s twin fixture and noticing it exercises `relations.ts`**, which is live. A red suite's value can lie
+entirely outside the suite.
