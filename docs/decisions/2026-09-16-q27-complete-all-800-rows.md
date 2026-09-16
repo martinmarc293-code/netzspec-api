@@ -194,3 +194,48 @@ Gigabit-Ethernet model suffix — and the fix does not live in a regex over the 
 pipeline already knows that `GB` is a unit, which is the dictionary, not `NOT_PLATFORM_AFTER`. The ~30 refusals stand
 as refusals; what changes is that no cheap rule closes them, and a sheet claiming otherwise would have sent the next
 person to write one.
+
+---
+
+# What the three landed rules did to this queue (16 Sep 2026)
+
+Operator: *"just do the recommended thing"*. All three prepared sheets were applied, each measured over all 39,998
+page rows with the real function on both sides, each with **zero rows falling out of a series**, each proved by
+sabotage.
+
+| | withdrawn | created | queue | standing checks |
+| --- | ---: | ---: | ---: | ---: |
+| *(as reviewed)* | | | 800 | 915 |
+| the **model-letter fence** | 69 | 11 | 742 | 925 |
+| a number-keyed **alias** belongs to one brand | 2 | 0 | 740 | 929 |
+| a **standards number** is not a platform | 16 | 0 | 724 | 939 |
+
+**Every one of the 87 withdrawals was a row this review had already judged**, and 83 of them were **refusals** — so
+the rules now refuse automatically what a person had to read and reject. The four that were accepts are the named
+supercap-cable cost, asserted by their own checks.
+
+## The verdicts, closed
+
+| | reviewed | now |
+| --- | ---: | ---: |
+| accept | 587 | **593** |
+| refuse | 211 | **129** |
+| arguable | 2 | 2 |
+| **total** | **800** | **724** |
+
+`129 = 211 − 65 − 2 − 16 + 1`. **Eighty-three of the 211 refusals no longer need a human at all.**
+
+## What the remaining 129 are, and why no rule takes them
+
+| cause | rows | why it is still here |
+| --- | ---: | --- |
+| a **family prefix** on a line whose siblings cannot disagree (`CSP`, `SIP`) | 42 | needs a rule about the LINE, not the string — and the HCIX case proves the same syntax is right elsewhere |
+| a **capacity** (480GB, 256GB, 250GB, 240GB, 120G) | ~30 | no `G` rule exists: `CP-7942G` and `WS-C3750G` are real platforms with the same shape |
+| a **generic or qualifier word** (`point`, `Management`, `Prime`, `Mini`, `Package`) | ~22 | `Codec`, `Panorama`, `Touch`, `ceiling` and `Webex` are words too, and all five are correct |
+| a **component model number** the letter fence cannot reach | ~15 | `HX-ML-256G8RW` has a hyphen before its digits, so there is no letter to disagree with |
+| a **speed, voltage, frequency, gauge**, and the rest | ~20 | `863-928 MHz` carries its unit on the other end of the range; `CR2032`, `2208R`, `16/14` carry none |
+
+The shape of what is left is different from what was removed. The 83 rules could take were all cases where a NAMED
+thing — a model letter, a brand, a standards body — disagreed with the claim. The 129 that remain are cases where
+nothing in the string disagrees with anything, and only knowing what the product *is* settles them. That is the
+honest boundary between what a rule can do here and what a person has to.
