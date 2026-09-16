@@ -129,10 +129,25 @@ lines.unshift(`    cup ledger: ${passed} passed, ${failed} missed (${files.lengt
 // optical-storage (12 Sep 2026): the two new axes. The fallback kind must ask LESS than any named kind (nothing at
 // all), a shelf must be asked its slots and an amplifier its gain, and a ledger that dropped the gain is caught.
 {
-  // kind-layer (13 Sep 2026): optical-networking's fallback is named `unknown` now (spec v2 III.1); storage-networking's is
-  // still `other`. Asking the profile about a kind name the axis no longer returns would pass vacuously — every unlisted
-  // kind asks nothing — so the name is taken from the axis's own kind list, and its absence fails.
-  for (const [cat, fallback] of [["optical-networking", "unknown"], ["storage-networking", "other"]] as const) {
+  // kind-layer (13 Sep 2026): optical-networking's fallback was renamed to `unknown` (spec v2 III.1).
+  //
+  // The fallback name is now DERIVED by asking the axis itself, never retyped here. It used to be a
+  // hand-written pair table — `[["optical-networking", "unknown"], ["storage-networking", "other"]]` —
+  // and storage-networking was renamed to `unknown` too, which left this file naming a kind its axis no
+  // longer returns. Asking the profile about an unlisted kind would pass VACUOUSLY (every unlisted kind
+  // asks nothing), so the `is a kind the axis names` check below exists precisely to refuse that, and it
+  // is what caught the drift (16 Sep 2026). Deriving means the next rename needs no edit here at all —
+  // a hand-kept list of what exists is the drift this repo keeps paying for.
+  //
+  // The probe must reach the axis's give-up path rather than a real rule, or every check below would be
+  // measuring the wrong kind while looking green. That is asserted, not assumed: its answer has to be a
+  // FALLBACK kind. `partKind` is called with NO name, because a name would let it reach through the
+  // fallback (partKind.ts:85) and return a real kind.
+  const NO_RULE_MATCHES = "ZZZ-NOTHING-9";
+  for (const cat of ["optical-networking", "storage-networking"] as const) {
+    const fallback = partKind(cat, NO_RULE_MATCHES) ?? "(none)";
+    check(`${cat}: the probe reaches the axis's fallback, not a real rule`, FALLBACK_KINDS.has(fallback),
+      `probe ${NO_RULE_MATCHES} returned "${fallback}" — pick a probe no rule matches`);
     check(`${cat}: has a committed ledger`, files.includes(`cisco-${cat}.json`), "run build-cup-ledger for it");
     check(`${cat}: its fallback kind "${fallback}" is a kind the axis names`, LEDGER_KINDS[cat].includes(fallback));
     const other = kindQuestionSet(cat, fallback);
