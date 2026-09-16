@@ -19,13 +19,22 @@ function collect(dir: string): string[] {
   const out: string[] = [];
   for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
     const p = path.join(dir, e.name);
-    if (e.isDirectory()) { if (e.name === "db" && !withDb) continue; out.push(...collect(p)); }
+    if (e.isDirectory()) out.push(...collect(p));
     else if (/\.test\.(ts|mjs|js)$/.test(e.name) || /^test-.*\.(ts|mjs)$/.test(e.name)) out.push(p);
   }
   return out.sort();
 }
 
-const files = collect(path.join(root, "tests")).filter((f) => only.length === 0 || only.some((o) => f.includes(o)));
+// COUNT WHAT WAS NOT RUN, AND SAY SO (16 Sep 2026). `collect` used to skip the db/ directory silently, so `npm test` ended on
+// "66/71 suites passed" — a number a reader takes for the whole picture while seventeen database suites had not been run at all.
+// That is this repo's own rule turned on itself: *count what you could not check as its own number and put it in the output,
+// never folded into either*. Five of those suites were found rotted on 16 Sep, red for days, precisely because nothing ran them
+// and nothing said they were missing. The split itself is right — they need DATABASE_URL and a tunnel — so the fix is not to
+// merge them but to make their absence impossible to read past.
+const dbDir = `${path.sep}db${path.sep}`;
+const everything = collect(path.join(root, "tests"));
+const notRun = withDb ? [] : everything.filter((f) => f.includes(dbDir));
+const files = everything.filter((f) => !notRun.includes(f)).filter((f) => only.length === 0 || only.some((o) => f.includes(o)));
 if (files.length === 0) { console.error("no test files found"); process.exit(1); }
 
 const tsx = path.join(root, "node_modules", ".bin", process.platform === "win32" ? "tsx.cmd" : "tsx");
@@ -39,4 +48,9 @@ for (const f of files) {
   console.log(`${ok ? "PASS" : "FAIL"}  ${rel}\n    ${tail}`);
 }
 console.log(`\n${files.length - failed}/${files.length} suites passed`);
+// the omission gets its own line, always, and names the command that closes it — a total that hides a whole category of
+// suites is the shape that let five of them rot unnoticed
+if (notRun.length)
+  console.log(`${notRun.length} DATABASE suites were NOT RUN by this command (they need DATABASE_URL): ${notRun.map((f) => path.basename(f)).join(", ")}\n` +
+    `  run them with:  npm run test:db`);
 if (failed) process.exit(1);
