@@ -159,3 +159,38 @@ So `G`+digit is safe and partial; `G`+edge cannot be used, because the Catalyst 
 platforms with exactly that shape; and `G`+letter covers the remaining third but was not tested against a platform
 list and must not be adopted on the strength of this table. A complete capacity rule needs the measurement this
 table only starts — which is the point of putting the table here rather than the sentence I first wrote.
+
+### That measurement was then run, and it closes the question: there is no `G` rule
+
+Over **1,911 distinct SKUs on every page** carrying `<3–5 digits>G`. Two things came out of it, one of which
+retracts part of what is above.
+
+**First, and not in doubt, because these rows were read rather than counted:** a trailing `G` on a Cisco SKU is
+*Gigabit Ethernet* at least as often as it is *gigabytes*, and the digits in front of it are then the platform.
+
+```
+CP-7942G, CP-7945G, CP-7962G, CP-7965G, CP-7975G-CH1   "Cisco UC Phone 7942 …"        — IP phones
+WS-C3750G-24TS-S     "24 Ethernet 10/100/1000 ports, 4 SFP-based Gigabit Ethernet"    — a Catalyst 3750G
+C819G-S-K9           "Cisco 819 Router with SPRINT EVDO RevA"
+CISCO886GW-GN-E-K9, IR829GW-LTE-VZ-AK9                                                — 886 and IR829 routers
+```
+
+The Catalyst 2960G and 3560G in the table above are not two awkward exceptions; they are a large family. **No
+character-level rule on what follows `G` can separate these from `480G6` or `256GS`.**
+
+**Second: my own scale measurement cannot be quoted for precision, and saying so is the point.** It labelled the two
+populations from each row's NAME and then scored rules on the SKU — independent signals, which is why it looked
+sound. Reading a spread sample of each population showed the labels are too noisy to carry a percentage:
+
+- Hundreds of rows have no name beyond `"Cisco <SKU>"`, so genuine capacities (`HX-MP-512GS-A0=`, `UCS-MR256G8RE3=`,
+  `UCS-SD960GM2NK9-D`) were labelled *platform* for want of a description.
+- My capacity test allowed `G` at a word boundary, so `"Cisco IP Phone 7902G, Global"` was labelled *capacity*.
+- And a **third population** was never separated at all: **speeds**. `CPAK-100G-CWDM4`, `QSFP-100G-B20U4-I`,
+  `NC-55-36X100GA-SE`, `1X100GBE++=` and `UCSC-P-MCD100GF-D` are 100-gigabit optics, line cards and NICs — neither a
+  capacity nor a platform.
+
+So the honest state of the capacity cause is: **the `G` suffix is three-way ambiguous — capacity, speed, and a
+Gigabit-Ethernet model suffix — and the fix does not live in a regex over the SKU.** It belongs wherever the
+pipeline already knows that `GB` is a unit, which is the dictionary, not `NOT_PLATFORM_AFTER`. The ~30 refusals stand
+as refusals; what changes is that no cheap rule closes them, and a sheet claiming otherwise would have sent the next
+person to write one.
