@@ -46,17 +46,17 @@ import { getPool, closePool, withTx, resolveDatabaseUrl, databaseName } from "..
 import { withRun, hashFile, type Queryable } from "../src/store/runs.js";
 import { retractFact } from "../src/store/facts.js";
 import { REPO_ROOT } from "../src/config.js";
-import { KIND_LAYER_PLANS_FILE, FAMILY_CARRIERS_FILE } from "../src/core/kindLayerPlans.js";
+import { KIND_LAYER_PLANS_FILE, FAMILY_CARRIERS_FILE, CLASS_TARGETS } from "../src/core/kindLayerPlans.js";
 import { describesPart } from "../src/core/specMerge.js";
-import { selectClassPlanParts, currentFactsOf, partitionFacts, isServed, factLine, GAP_STATES, type PartFact } from "../src/store/classPlans.js";
+import { selectClassPlanParts, selectByClass, currentFactsOf, partitionFacts, isServed, factLine, GAP_STATES, type PartFact } from "../src/store/classPlans.js";
 
 export const RETRACT_RULE = "class_plan_not_hardware";
 const RESOLUTION = `rule:inheritance_retracted:${RETRACT_RULE}`;
 
 const argv = process.argv.slice(2);
 const arg = (name: string): string | undefined => { const i = argv.indexOf(name); return i >= 0 ? argv[i + 1] : undefined; };
-const KNOWN = new Set(["--plans", "--category", "--to", "--commit", "--approved", "--vendor", "--plans-file", "--carriers-file"]);
-const WITH_VALUE = new Set(["--category", "--to", "--approved", "--vendor", "--plans-file", "--carriers-file"]);
+const KNOWN = new Set(["--plans", "--class", "--category", "--to", "--commit", "--approved", "--vendor", "--plans-file", "--carriers-file"]);
+const WITH_VALUE = new Set(["--class", "--category", "--to", "--approved", "--vendor", "--plans-file", "--carriers-file"]);
 for (let i = 0; i < argv.length; i++) {
   if (!KNOWN.has(argv[i])) { console.error(`REFUSED: unexpected argument ${argv[i]}`); process.exit(1); }
   if (WITH_VALUE.has(argv[i])) i++;
@@ -97,16 +97,28 @@ const NO_VALUE_SQL = "('gap_confirmed', 'gap_unattempted', 'not_applicable')";
 async function main(): Promise<void> {
   const commit = argv.includes("--commit");
   const category = arg("--category"), to = arg("--to"), approved = arg("--approved");
+  const byClass = arg("--class");
   const vendor = arg("--vendor") ?? "cisco";
   const planPath = path.resolve(arg("--plans-file") ?? path.join(REPO_ROOT, KIND_LAYER_PLANS_FILE));
   const carriersPath = path.resolve(arg("--carriers-file") ?? path.join(REPO_ROOT, FAMILY_CARRIERS_FILE));
-  if (!argv.includes("--plans") || !category || !to) throw new Error("usage: --plans --category <slug> --to <license|software|service|non_product> [--commit --approved \"...\"]");
+  if (argv.includes("--plans") && byClass) throw new Error("REFUSED: --plans and --class are two different selectors; use one");
+  if (!byClass && (!argv.includes("--plans") || !category || !to)) throw new Error("usage: --plans --category <slug> --to <license|software|service|non_product> [--commit --approved \"...\"]  |  --class <license|software|service|non_product|unknown> [--category <slug>] [--commit --approved \"...\"]");
+  // which classes --class may act on is decided in ONE place, selectByClass: two copies of that list would drift, and the one the CLI held
+  // refused `hardware` with a message that did not say why
   if (commit && !approved) throw new Error("REFUSED: --commit needs --approved \"<the operator's decision, verbatim>\": a retraction withdraws served facts");
 
   const pool = getPool();
   const dbName = databaseName(resolveDatabaseUrl());
   const suites = suitesFor(dbName);
-  const sel = await selectClassPlanParts(pool, { vendor, category, to, planPath, carriersPath });
+  // TWO SELECTORS, ONE BODY. --plans is the fact half of a class plan: parts still HARDWARE that a pending plan will re-class, and the
+  // retraction is justified by the class the plan will set. --class is the population that is ALREADY non-hardware and still carries
+  // inherited family facts — 5,157 served facts on 1,308 cisco parts as measured on 16 Sep, written before the class was corrected
+  // (`ingest reclassify` changes a class without retracting) — and there the justification is the class the row already has.
+  const sel = byClass
+    ? await selectByClass(pool, { vendor, klass: byClass, category })
+    : await selectClassPlanParts(pool, { vendor, category: category!, to: to!, planPath, carriersPath });
+  const targetClass = byClass ?? to!;
+  const expectedClass = byClass ?? "hardware";        // what the part's class must still be when the write happens
   const partIds = sel.parts.map((p) => p.id);
   const part = partitionFacts(await currentFactsOf(pool, partIds));
   const retract = part.inherited;
@@ -123,21 +135,29 @@ async function main(): Promise<void> {
   const byKey = countBy(retract, (f) => f.field_key);
   const byPart = new Map<string, PartFact[]>();
   for (const f of retract) (byPart.get(f.sku) ?? byPart.set(f.sku, []).get(f.sku)!).push(f);
-  console.log(`${commit ? "COMMIT" : "DRY RUN"} — retract inherited family facts, ${vendor} ${category} -> ${to}: ${sel.selected.length} pending plan(s) from ${path.relative(REPO_ROOT, planPath).replace(/\\/g, "/")} (database ${dbName})`);
+  console.log(byClass
+    ? `${commit ? "COMMIT" : "DRY RUN"} — retract inherited family facts, ${vendor} parts ALREADY classed ${byClass}${category ? ` in ${category}` : " (every category)"}: ${sel.parts.length} part(s) carry one (database ${dbName})`
+    : `${commit ? "COMMIT" : "DRY RUN"} — retract inherited family facts, ${vendor} ${category} -> ${to}: ${sel.selected.length} pending plan(s) from ${path.relative(REPO_ROOT, planPath).replace(/\\/g, "/")} (database ${dbName})`);
   console.log(`  inherited value facts to retract: ${retract.length} on ${byPart.size} of ${sel.parts.length} part(s) — served ${served}, by state ${JSON.stringify(countBy(retract, (f) => f.state))}`);
   console.log(`     by key: ${Object.entries(byKey).map(([k, n]) => `${k} ${n}`).join(", ") || "-"}`);
-  for (const [sku, list] of byPart) console.log(`     ${sku.padEnd(26)} ${String(list.length).padStart(3)} (served ${String(list.filter(isServed).length).padStart(3)})  ${list.map((f) => f.field_key).join(", ")}`);
+  // a by-class run reaches hundreds of parts, so the per-row listing is capped and the cap is stated rather than silently applied
+  const LIST = byClass ? 25 : byPart.size;
+  let shown = 0;
+  for (const [sku, list] of byPart) { if (shown++ >= LIST) break; console.log(`     ${sku.padEnd(26)} ${String(list.length).padStart(3)} (served ${String(list.filter(isServed).length).padStart(3)})  ${list.map((f) => f.field_key).join(", ")}`); }
+  if (byPart.size > LIST) console.log(`     … and ${byPart.size - LIST} more part(s) — every one is in the run's inputs (fact_ids) and in the TSV a dry run writes`);
   console.log(`  own values, NOT touched (the operator reads these): ${part.own.length} (served ${part.own.filter(isServed).length})`);
-  for (const f of part.own) console.log(`     ${factLine(f)}`);
+  for (const f of part.own.slice(0, byClass ? 25 : part.own.length)) console.log(`     ${factLine(f)}`);
+  if (byClass && part.own.length > 25) console.log(`     … and ${part.own.length - 25} more own value(s)`);
   console.log(`  gap rows earlier retractions left, NOT touched (no value, not served): ${part.retractionGaps.length} ${JSON.stringify(countBy(part.retractionGaps, (f) => `${f.method} run ${f.run_id}`))}`);
   console.log(`  other gap rows, NOT touched: ${part.otherGaps.length}; inherited rows holding no value, not selected: ${part.inheritedGaps.length}`);
   console.log(`  open conflicts on a retracted field, resolved with the retraction: ${toResolve.length}`);
-  for (const c of toResolve) console.log(`     #${c.id} ${c.sku.padEnd(24)} ${c.field_key.padEnd(24)} kept ${JSON.stringify(c.kept).slice(0, 50)}  rejected ${JSON.stringify(c.rejected).slice(0, 50)}  (${c.reason.slice(0, 60)})`);
+  for (const c of toResolve.slice(0, byClass ? 25 : toResolve.length)) console.log(`     #${c.id} ${c.sku.padEnd(24)} ${c.field_key.padEnd(24)} kept ${JSON.stringify(c.kept).slice(0, 50)}  rejected ${JSON.stringify(c.rejected).slice(0, 50)}  (${c.reason.slice(0, 60)})`);
+  if (byClass && toResolve.length > 25) console.log(`     … and ${toResolve.length - 25} more`);
   console.log(`  open conflicts on other fields, left open: ${leftOpen.length}${leftOpen.length ? ` — ${leftOpen.map((c) => `#${c.id} ${c.sku} ${c.field_key}`).join(", ")}` : ""}`);
 
   if (!retract.length) {
-    if (commit) throw new Error(`REFUSED: nothing to retract — no current inherited value fact on the ${sel.parts.length} planned part(s); no run opened. class-change.mts may run for ${category} -> ${to}`);
-    console.log(`\nNothing to retract: class-change.mts may run for ${category} -> ${to}.`);
+    if (commit) throw new Error(`REFUSED: nothing to retract — no current inherited value fact on the ${sel.parts.length} selected part(s); no run opened.${byClass ? "" : ` class-change.mts may run for ${category} -> ${to}`}`);
+    console.log(byClass ? `\nNothing to retract: no part classed ${byClass}${category ? ` in ${category}` : ""} carries an inherited value fact.` : `\nNothing to retract: class-change.mts may run for ${category} -> ${to}.`);
     await closePool();
     return;
   }
@@ -155,11 +175,11 @@ async function main(): Promise<void> {
     const r = reread.get(f.id);
     if (!r) { unreadable++; misses.push(`${f.sku} ${f.field_key}: fact ${f.id} could not be re-read`); continue; }
     if (!r.current || !r.inherited || (GAP_STATES as readonly string[]).includes(r.state)
-        || r.retired || r.pc !== "hardware" || Number(r.category_id) !== Number(sel.categoryId) || !planned.has(r.part_id)) {
-      changed++; misses.push(`${f.sku} ${f.field_key}: changed since it was read (current ${r.current}, inherited ${r.inherited}, state ${r.state}, class ${r.pc}, retired ${r.retired})`); continue;
+        || r.retired || r.pc !== expectedClass || (sel.categoryId !== null && Number(r.category_id) !== Number(sel.categoryId)) || !planned.has(r.part_id)) {
+      changed++; misses.push(`${f.sku} ${f.field_key}: changed since it was read (current ${r.current}, inherited ${r.inherited}, state ${r.state}, class ${r.pc} — expected ${expectedClass}, retired ${r.retired})`); continue;
     }
-    const refusal = describesPart({ sku: r.sku, productClass: to, categorySlug: category, partFamily: r.family, docFamily: r.inherited_from });
-    if (refusal?.rule !== `class:${to}`) { notRefused++; misses.push(`${r.sku} ${r.field_key}: the store's inheritance rule does not refuse a family fact to a ${to} (${refusal ? refusal.rule : "no refusal"})`); continue; }
+    const refusal = describesPart({ sku: r.sku, productClass: targetClass, categorySlug: category, partFamily: r.family, docFamily: r.inherited_from });
+    if (refusal?.rule !== `class:${targetClass}`) { notRefused++; misses.push(`${r.sku} ${r.field_key}: the store's inheritance rule does not refuse a family fact to a ${targetClass} (${refusal ? refusal.rule : "no refusal"})`); continue; }
     ok++;
   }
   const counted = (await pool.query<{ part_id: string; n: number }>(
@@ -176,7 +196,7 @@ async function main(): Promise<void> {
     precision: Number(precision.toFixed(4)), recall: Number(recall.toFixed(4)),
     passed: precision === 1 && recall === 1 && countedTotal === retract.length && suitesOk,
     checked: retract.length, ok, changed, unreadable, not_refused_by_store_rule: notRefused,
-    counted: countedTotal, listed: retract.length, rule: `describesPart(productClass ${to}) -> class:${to}`,
+    counted: countedTotal, listed: retract.length, rule: `describesPart(productClass ${targetClass}) -> class:${targetClass}`,
     suites: Object.fromEntries(suiteResults.map((s) => [s.name, { ok: s.ok, summary: s.summary }])),
     misses: misses.slice(0, 10),
   };
@@ -184,7 +204,7 @@ async function main(): Promise<void> {
 
   if (!commit) {
     console.log(gate.passed
-      ? `\nDRY RUN — nothing written. The run: --plans --category ${category} --to ${to} --commit --approved "..."`
+      ? `\nDRY RUN — nothing written. The run: ${byClass ? `--class ${byClass}${category ? ` --category ${category}` : ""}` : `--plans --category ${category} --to ${to}`} --commit --approved "..."`
       : `\nDRY RUN — nothing written, and the gate did not pass: a commit would be refused.`);
     await closePool();
     if (!gate.passed) process.exitCode = 2;
@@ -195,29 +215,48 @@ async function main(): Promise<void> {
   const ownBefore = part.own.map((f) => f.id).sort();
   const gapsBefore = [...part.retractionGaps, ...part.otherGaps, ...part.inheritedGaps].map((f) => f.id).sort();
   const gitSha = (() => { try { return execFileSync("git", ["rev-parse", "HEAD"], { cwd: REPO_ROOT, encoding: "utf8" }).trim(); } catch { return undefined; } })();
+  // ONE TRANSACTION PER CHUNK OF PARTS, not one for the whole selection. A plan group is a few dozen facts and fits in one; a by-class run
+  // reaches thousands, and retractFact is four statements per fact — one transaction would hold row locks for many minutes against every
+  // live apply, which is the contention that produced the 120 s statement timeouts this repo has paid for twice. The chunk is the
+  // reclassify-nonhardware precedent; a failure part-way is undone by rollbackRun, which is what makes chunking safe here.
+  const CHUNK_PARTS = 40;
+  const partOrder = [...new Set(retract.map((f) => f.part_id))];
+  const chunks: string[][] = [];
+  for (let i = 0; i < partOrder.length; i += CHUNK_PARTS) chunks.push(partOrder.slice(i, i + CHUNK_PARTS));
   const out = await withRun("apply-retract-inherited", {
-    vendor, category, to, rule: RETRACT_RULE, plans_file: hashFile(planPath), carriers_file: hashFile(carriersPath), skus: sel.skus, approved,
-    candidates: { parts: sel.parts.length, facts: retract.length, served, conflicts_to_resolve: toResolve.length },
+    // category and to stay TOP-LEVEL for a plan run: class-change.mts finds its group's retraction run by them (inputs->>'category',
+    // inputs->>'to'), and moving them inside `selector` silently broke that link — caught by the test that asserts class-change names the
+    // retraction run. A by-class run carries null for both, so it can never be mistaken for a group's retraction.
+    vendor, category: byClass ? null : category, to: byClass ? null : to,
+    selector: byClass ? { class: byClass, category: category ?? null } : { plans: true, category, to }, rule: RETRACT_RULE,
+    ...(byClass ? {} : { plans_file: hashFile(planPath), carriers_file: hashFile(carriersPath), skus: sel.skus }), approved,
+    candidates: { parts: sel.parts.length, facts: retract.length, served, conflicts_to_resolve: toResolve.length, chunks: chunks.length },
     fact_ids: retract.map((f) => f.id), conflict_ids: toResolve.map((c) => c.id), by_key: byKey,
     left: { own: part.own.length, retraction_gaps: part.retractionGaps.length, other_gaps: part.otherGaps.length, open_conflicts: leftOpen.length },
   }, async (runId) => {
-    const done = await withTx(async (tx) => {
-      let retracted = 0;
-      for (const f of retract) { await retractFact(tx, Number(f.id), RETRACT_RULE, runId); retracted++; }
-      const res = toResolve.length
-        ? await tx.query("UPDATE conflicts SET resolved_at = now(), resolution = $2, resolved_by = $3 WHERE id = ANY($1::bigint[]) AND resolved_at IS NULL",
-            [toResolve.map((c) => c.id), RESOLUTION, `retract-inherited#${runId}`])
-        : { rowCount: 0 };
-      if ((res.rowCount ?? 0) !== toResolve.length) throw new Error(`resolved ${res.rowCount} of ${toResolve.length} open conflicts — rolled back, nothing retracted`);
-      const left = (await tx.query<{ n: number }>(
-        `SELECT count(*)::int AS n FROM facts WHERE part_id = ANY($1::bigint[]) AND superseded_by IS NULL AND inherited AND state NOT IN ${NO_VALUE_SQL}`, [partIds])).rows[0].n;
-      if (left !== 0) throw new Error(`${left} inherited value fact(s) still current after the retraction — rolled back, nothing retracted`);
-      return { retracted, conflicts_resolved: res.rowCount ?? 0 };
-    });
-    return { stats: { ...done, category, to, rule: RETRACT_RULE, by_key: byKey, left: { own: part.own.length, retraction_gaps: part.retractionGaps.length } }, gate };
+    let retracted = 0, conflictsResolved = 0;
+    for (const [i, chunkParts] of chunks.entries()) {
+      const inChunk = new Set(chunkParts);
+      const facts = retract.filter((f) => inChunk.has(f.part_id));
+      const conflictIds = toResolve.filter((c) => inChunk.has(c.part_id)).map((c) => c.id);
+      await withTx(async (tx) => {
+        for (const f of facts) await retractFact(tx, Number(f.id), RETRACT_RULE, runId);
+        const res = conflictIds.length
+          ? await tx.query("UPDATE conflicts SET resolved_at = now(), resolution = $2, resolved_by = $3 WHERE id = ANY($1::bigint[]) AND resolved_at IS NULL",
+              [conflictIds, RESOLUTION, `retract-inherited#${runId}`])
+          : { rowCount: 0 };
+        if ((res.rowCount ?? 0) !== conflictIds.length) throw new Error(`chunk ${i + 1}: resolved ${res.rowCount} of ${conflictIds.length} open conflicts — rolled back`);
+        const left = (await tx.query<{ n: number }>(
+          `SELECT count(*)::int AS n FROM facts WHERE part_id = ANY($1::bigint[]) AND superseded_by IS NULL AND inherited AND state NOT IN ${NO_VALUE_SQL}`, [chunkParts])).rows[0].n;
+        if (left !== 0) throw new Error(`chunk ${i + 1}: ${left} inherited value fact(s) still current after the retraction — rolled back`);
+        retracted += facts.length; conflictsResolved += res.rowCount ?? 0;
+      });
+      if (chunks.length > 1) console.log(`   chunk ${i + 1}/${chunks.length}: ${retracted} fact(s) retracted, ${conflictsResolved} conflict(s) resolved`);
+    }
+    return { stats: { retracted, conflicts_resolved: conflictsResolved, selector: byClass ? `class:${byClass}` : `plans:${category}->${to}`, rule: RETRACT_RULE, by_key: byKey, chunks: chunks.length, left: { own: part.own.length, retraction_gaps: part.retractionGaps.length } }, gate };
   }, { gitSha });
   await closePool();
-  console.log(`\n  COMMITTED run ${out.runId}: retracted ${out.stats.retracted} inherited value fact(s) on ${byPart.size} part(s) of ${category} -> ${to}; conflicts resolved ${out.stats.conflicts_resolved}`);
+  console.log(`\n  COMMITTED run ${out.runId}: retracted ${out.stats.retracted} inherited value fact(s) on ${byPart.size} part(s) of ${byClass ? `class ${byClass}${category ? ` in ${category}` : ""}` : `${category} -> ${to}`}; conflicts resolved ${out.stats.conflicts_resolved}`);
 
   // THE ONLY READING THAT COUNTS: a NEW connection, after the pool that wrote is closed
   const v = new pg.Client({ connectionString: resolveDatabaseUrl(), application_name: `netzspec/retract-inherited-verify/${vendor}` });
@@ -234,16 +273,18 @@ async function main(): Promise<void> {
   const gapsAfter = await ids(`SELECT id::text AS id FROM facts WHERE part_id = ANY($1::bigint[]) AND superseded_by IS NULL AND state IN ${NO_VALUE_SQL} AND run_id IS DISTINCT FROM $2`, [partIds, out.runId]);
   const openOnRetracted = toResolve.length ? await one("SELECT count(*)::int AS n FROM conflicts WHERE id = ANY($1::bigint[]) AND resolved_at IS NULL", [toResolve.map((c) => c.id)]) : 0;
   const resolvedByRun = await one("SELECT count(*)::int AS n FROM conflicts WHERE resolved_by = $1", [`retract-inherited#${out.runId}`]);
-  const stillHw = await one("SELECT count(*)::int AS n FROM parts WHERE id = ANY($1::bigint[]) AND product_class = 'hardware' AND retired_at IS NULL", [partIds]);
+  const stillHw = await one("SELECT count(*)::int AS n FROM parts WHERE id = ANY($1::bigint[]) AND product_class::text = $2 AND retired_at IS NULL", [partIds, expectedClass]);
   const again = partitionFacts(await currentFactsOf(v as unknown as Queryable, partIds)).inherited.length;
   await v.end();
   const ownSame = JSON.stringify(ownAfter) === JSON.stringify(ownBefore), gapsSame = JSON.stringify(gapsAfter) === JSON.stringify(gapsBefore);
-  console.log(`  verified from a NEW connection: inherited value facts left (must be 0): ${inheritedLeft}; served inherited (must be 0): ${servedInherited}; retraction rows of run ${out.runId}: ${retractionRows} of ${retract.length}, superseding the listed facts: ${superseding}; own values the same rows: ${ownSame} (${ownAfter.length}); earlier gap rows the same rows: ${gapsSame} (${gapsAfter.length}); open conflicts on retracted fields (must be 0): ${openOnRetracted}, resolved by this run: ${resolvedByRun} of ${toResolve.length}; parts still hardware: ${stillHw} of ${partIds.length}; selector re-run (must be 0): ${again}`);
+  console.log(`  verified from a NEW connection: inherited value facts left (must be 0): ${inheritedLeft}; served inherited (must be 0): ${servedInherited}; retraction rows of run ${out.runId}: ${retractionRows} of ${retract.length}, superseding the listed facts: ${superseding}; own values the same rows: ${ownSame} (${ownAfter.length}); earlier gap rows the same rows: ${gapsSame} (${gapsAfter.length}); open conflicts on retracted fields (must be 0): ${openOnRetracted}, resolved by this run: ${resolvedByRun} of ${toResolve.length}; parts still ${expectedClass}: ${stillHw} of ${partIds.length}; selector re-run (must be 0): ${again}`);
   if (inheritedLeft !== 0 || servedInherited !== 0 || retractionRows !== retract.length || superseding !== retract.length || !ownSame || !gapsSame
       || openOnRetracted !== 0 || resolvedByRun !== toResolve.length || stillHw !== partIds.length || again !== 0) {
     console.error("  *** the retraction did not verify ***"); process.exitCode = 1;
   }
-  console.log(`  next: npx tsx scripts/class-change.mts --plans --category ${category} --to ${to} --commit --approved "..."`);
+  console.log(byClass
+    ? `  next: nothing — these parts already carry their class; the facts they should never have inherited are withdrawn`
+    : `  next: npx tsx scripts/class-change.mts --plans --category ${category} --to ${to} --commit --approved "..."`);
 }
 
 main().catch((e) => { console.error(e instanceof Error ? e.message : e); process.exit(1); });

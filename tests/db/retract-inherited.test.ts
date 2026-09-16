@@ -157,7 +157,7 @@ check("SERVED_STATES in src/store/classPlans.ts equals the API's RENDERED_STATES
     () => query("UPDATE parts SET retired_at = NULL, retired_reason = NULL WHERE sku = 'ZZ-LIC-2'"));
   await refusal("a planned part that is no longer hardware", () => retract(...commitArgs("routers", "license")), /no longer hardware: ZZ-LIC-1 \(software\)/,
     () => query("UPDATE parts SET product_class = 'software' WHERE sku = 'ZZ-LIC-1'"), () => query("UPDATE parts SET product_class = 'hardware' WHERE sku = 'ZZ-LIC-1'"));
-  await refusal("a fact-free group (nothing to retract) on --commit", () => retract(...commitArgs("routers", "service")), /nothing to retract — no current inherited value fact on the 1 planned part/);
+  await refusal("a fact-free group (nothing to retract) on --commit", () => retract(...commitArgs("routers", "service")), /nothing to retract — no current inherited value fact on the 1 selected part/);
   const dry = retract("--plans", "--category", "routers", "--to", "service");
   check("a fact-free group's dry run exits 0 and says class-change may run", dry.status === 0 && /Nothing to retract: class-change\.mts may run for routers -> service/.test(dry.out), dry.out.slice(-300));
   // an unreachable URL whose name is NOT a test name. (The first version said netzspec_not_a_test — which ends in _test, so the repo's
@@ -248,6 +248,36 @@ let runId = 0;
     c.status === 0 && /2 of 2 now license; still hardware \(must be 0\): 0; selector re-run \(must be 0\): 0; served inherited facts \(must be 0\): 0; own values still served \(the operator's list\): 1/.test(c.out), c.out.slice(-900));
   const run = (await query<{ inputs: Record<string, unknown> }>("SELECT inputs FROM runs WHERE kind = 'class-change'")).rows;
   check("class-change: one run, and its inputs name the retraction run", run.length === 1 && run[0].inputs.retraction_run === String(runId), run);
+}
+
+// ---- the OTHER selector: --class, for parts that already carry their class and still hold inherited facts ------------------------------
+{
+  await query(`INSERT INTO parts (vendor_id, sku, slug, category_id, product_class, product_class_reason) VALUES ($1, 'ZZ-OLD-LIC', 'cisco-zz-old-lic', $2, 'license', 'sku-prefix:ZZ-')`,
+    [cisco, await catId("routers")]);
+  const oldFact = await fact("ZZ-OLD-LIC", "weight", { value: 3, state: "verified", inherited: true, doc: FAM });
+  const runsBefore = await runsOf("apply-retract-inherited");
+  sabotages++;
+  const hw = retract("--class", "hardware");
+  check("SABOTAGE --class hardware is refused: a hardware part is meant to inherit its family's facts",
+    hw.status !== 0 && /a hardware part is meant to inherit/.test(hw.out) && (await runsOf("apply-retract-inherited")) === runsBefore, hw.out.slice(-200));
+  sabotages++;
+  const both = retract("--plans", "--category", "routers", "--to", "license", "--class", "license");
+  check("SABOTAGE --plans and --class together are refused: they are two selectors", both.status !== 0 && /two different selectors/.test(both.out), both.out.slice(-200));
+  const dry = retract("--class", "license");
+  check("--class license: the dry run finds the already-classed part and nothing else, and the gate passes",
+    dry.status === 0 && /ALREADY classed license/.test(dry.out) && /inherited value facts to retract: 1 on 1 of 1 part/.test(dry.out) && /"passed":true/.test(dry.out), dry.out.slice(-700));
+  const r = retract("--class", "license", "--commit", "--approved", "operator-test-yes");
+  check("--class license: the commit retracts it, verifies from a new connection, and says the part keeps its class",
+    r.status === 0 && /COMMITTED run \d+: retracted 1 inherited value fact\(s\) on 1 part\(s\) of class license/.test(r.out)
+      && /parts still license: 1 of 1/.test(r.out) && !/did not verify/.test(r.out), r.out.slice(-900));
+  const after = await query<{ state: string; method: string; inherited: boolean }>("SELECT state::text AS state, method, inherited FROM facts WHERE part_id = (SELECT id FROM parts WHERE sku = 'ZZ-OLD-LIC') AND superseded_by IS NULL");
+  check("--class license: the fact is superseded by the retraction gap row, and the old row is kept in history",
+    after.rows.length === 1 && after.rows[0].state === "gap_unattempted" && after.rows[0].method === "retracted:class_plan_not_hardware" && after.rows[0].inherited === false
+      && (await count("SELECT count(*)::int AS n FROM facts WHERE id = $1", [oldFact])) === 1, after.rows);
+  sabotages++;
+  const again = retract("--class", "license", "--commit", "--approved", "operator-test-yes");
+  check("SABOTAGE --class: its own output is not selected again — the second run is refused and opens no run",
+    again.status !== 0 && /no live cisco part classed license/.test(again.out), again.out.slice(-300));
 }
 
 await query("TRUNCATE facts, fact_evidence, conflicts, parts, source_docs, runs CASCADE");

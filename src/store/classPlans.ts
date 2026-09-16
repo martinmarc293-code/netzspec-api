@@ -22,7 +22,8 @@ export const RETRACTED_METHOD_PREFIX = "retracted:";
 
 export type PlanEntry = KindLayerPlan & { reason?: string | null };
 export type PlannedPart = { id: string; sku: string; name: string; pc: string; family: string | null };
-export type ClassPlanSelection = { planFile: PlanEntry[]; selected: PlanEntry[]; skus: string[]; categoryId: number; parts: PlannedPart[] };
+/** `categoryId` is null when the selection is not scoped to one category (a by-class selection over the whole catalogue). */
+export type ClassPlanSelection = { planFile: PlanEntry[]; selected: PlanEntry[]; skus: string[]; categoryId: number | null; parts: PlannedPart[] };
 
 /**
  * Every PENDING class plan (category, to) of the plan file, by exact SKU, and the parts they name. Refuses before anything is written:
@@ -54,6 +55,34 @@ export async function selectClassPlanParts(db: Queryable, o: { vendor: string; c
   const carried = parts.filter((r) => carrierSkus.has(r.sku.trim().toUpperCase()));
   if (carried.length) throw new Error(`REFUSED: planned part(s) are family carriers (${path.basename(o.carriersPath)}): ${carried.map((r) => r.sku).join(", ")} — a carrier keeps its row as hardware, so the class plan and the carrier list disagree; nothing written`);
   return { planFile, selected, skus, categoryId: cat.id, parts };
+}
+
+/**
+ * The OTHER selector: parts that ALREADY carry a class and still hold inherited family facts. This is the population `ingest reclassify`
+ * leaves behind — it corrects a part's class and writes no fact, so the facts the part should never have inherited stay and stay served
+ * (5,157 of them on 1,308 cisco parts, measured 16 Sep 2026). Scoped to one category with `category`, or the whole catalogue without.
+ *
+ * It refuses a class of `hardware`: a hardware part is SUPPOSED to inherit its family's facts, and a selector that accepted it would offer
+ * to retract the catalogue.
+ */
+export async function selectByClass(db: Queryable, o: { vendor: string; klass: string; category?: string }): Promise<ClassPlanSelection> {
+  if (o.klass === "hardware") throw new Error("REFUSED: --class hardware — a hardware part is meant to inherit its family's facts; there is nothing here to withdraw");
+  if (!(CLASS_TARGETS as readonly string[]).concat("unknown").includes(o.klass)) throw new Error(`REFUSED: --class ${o.klass} is not a product class (${CLASS_TARGETS.join(", ")}, unknown)`);
+  let categoryId: number | null = null;
+  if (o.category) {
+    const cat = (await db.query<{ id: number }>("SELECT id FROM categories WHERE slug = $1", [o.category])).rows[0];
+    if (!cat) throw new Error(`REFUSED: unknown category ${o.category}`);
+    categoryId = cat.id;
+  }
+  const parts = (await db.query<PlannedPart>(
+    `SELECT p.id::text AS id, p.sku, coalesce(p.name, '') AS name, p.product_class::text AS pc, p.family
+       FROM parts p JOIN vendors v ON v.id = p.vendor_id
+      WHERE v.slug = $1 AND p.retired_at IS NULL AND p.product_class::text = $2 ${o.category ? "AND p.category_id = $3" : ""}
+        AND EXISTS (SELECT 1 FROM facts f WHERE f.part_id = p.id AND f.superseded_by IS NULL AND f.inherited
+                      AND f.state NOT IN ('gap_confirmed', 'gap_unattempted', 'not_applicable'))
+      ORDER BY p.sku`, o.category ? [o.vendor, o.klass, categoryId] : [o.vendor, o.klass])).rows;
+  if (!parts.length) throw new Error(`REFUSED: no live ${o.vendor} part classed ${o.klass}${o.category ? ` in ${o.category}` : ""} carries an inherited value fact (a zero is a broken selector until proven otherwise)`);
+  return { planFile: [], selected: [], skus: parts.map((p) => p.sku), categoryId, parts };
 }
 
 export type PartFact = {
