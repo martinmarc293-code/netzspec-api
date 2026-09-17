@@ -70,12 +70,21 @@ the document-title family. **On 8 Sep `parts.family` became the MODEL** — the 
 migration 0013 applied 21:19 UTC) — and the title family moved to `parts.family_raw`. `git log -L` over `describesPart`,
 `familyMatches` and `familyModelTokens` returns only `57a6ba6`: the gate's code never followed.
 
-**It is latent, not live.** The gate runs only on inherited writes; only `apply-extract` produces them (the `apply-specs`
-runs; `apply-acquired` never inherits). The last `apply-specs` runs — 844 at 11:35 and 846 at 11:49 UTC on 8 Sep, with 50
-and 446 family refusals — predate migration 0013, so **every family refusal on record was made under the old values.**
-`apply-specs` is a manual command (`src/pipeline/cli.ts`); nothing schedules it. **The trigger is the next manual
-`apply-specs` run**, and it would not look like a failure: a refused inheritance leaves the existing fact in place, and
-`apply-extract`'s own KNOWN BOUNDARY note says a store-refused entry is still graded as produced by its gate.
+**It is latent, not live — with two manual triggers, and the second one deletes from the page.**
+
+1. **The next `apply-specs` run.** Only `apply-extract` writes inherited facts (`apply-acquired` never inherits). The last
+   `apply-specs` runs — 844 at 11:35 and 846 at 11:49 UTC on 8 Sep, with 50 and 446 family refusals — predate migration
+   0013, so **every family refusal on record was made under the old values.** A refused inheritance leaves the existing
+   fact in place, and `apply-extract`'s own KNOWN BOUNDARY note says a store-refused entry still grades as produced, so
+   that run would refuse without failing.
+2. **The next `remerge --commit`.** `remerge`'s `decide()` runs the same gate over every open conflict and RETRACTS an
+   inherited fact it refuses. Over the 17,460 open conflicts (12,758 on a current inherited fact), remerge's own loader
+   and `decide()` give: **6,584 retracted on a family rule today that would not be on `family_raw`** (on `family_raw`
+   5,478 would stay open, 1,093 be re-applied, 13 skipped) — e.g. `C9200L-24P-4G`'s `ieee_standards` from the Catalyst 9200 datasheet
+   — 207 the other way, 2,280 either way. The only `family:mismatch` withdrawals ever written are runs 56, 62 (4 Sep) and
+   76 (5 Sep), so no remerge has retracted on the misread family yet.
+
+Both commands are manual (`src/pipeline/cli.ts`); nothing in `scraper/` or `scripts/` invokes either.
 
 **Over every current inherited value fact on a live part — 37,043 facts (cisco 37,001, arista 42) over 9,468 (part,
 inherited_from) pairs — the real `describesPart`, run three ways:**
@@ -108,7 +117,8 @@ here.**
 
 ## 4. The decisions
 
-**A. Which level should the inheritance gate read?** *Recommended: decide before any `apply-specs` run.*
+**A. Which level should the inheritance gate read?** *Recommended: decide before any `apply-specs` run and before any
+`remerge --commit` — the second would retract 6,584 inherited facts on the misread level.*
 - **(a) `family_raw`** — the input the gate was written and tested for (whether each existing inherited fact actually
   passed the gate when written was not measured; some may predate it). A column-name change at the three call sites
   plus a test. Costs: `family_raw` is frozen at 8 Sep and
