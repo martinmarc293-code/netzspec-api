@@ -39,6 +39,10 @@ const DB_MODE = process.env.NETZSPEC_DB === "test";
 let pass = 0;
 let sabotages = 0;
 let skipped = 0;
+/** How many checks the database half runs. A unit run reports this many as skipped, and the database half asserts it ran
+ *  exactly this many. Until 17 Sep 2026 the skip line said 6 for a half that ran 7 (the build is two checks), and nothing
+ *  compared the two. */
+const DB_HALF_CHECKS = 7;
 const misses: string[] = [];
 function check(name: string, cond: boolean, detail?: unknown): void {
   if (cond) { pass++; console.log(`PASS  ${name}`); }
@@ -271,13 +275,14 @@ function inventoryPath(): string | null {
 // the database half
 // =================================================================================================
 if (!DB_MODE) {
-  skipped = 6;
-  console.log("SKIP  6 database checks (build against the test database, the cdw refusal, loadSourceFields, the '*' rows landing as category_id IS NULL, the required-field coverage through the gap_ledger JOIN, the unknown-key sabotage): run with NETZSPEC_DB=test and DATABASE_URL_TEST to prove them");
+  skipped = DB_HALF_CHECKS;
+  console.log(`SKIP  ${DB_HALF_CHECKS} database checks (the build's determinism and its golden fallback, the cdw refusal, loadSourceFields, the '*' rows landing as category_id IS NULL, the required-field coverage through the gap_ledger JOIN, the unknown-key sabotage): run with NETZSPEC_DB=test and DATABASE_URL_TEST to prove them`);
 } else {
   const { query, closePool, resolveDatabaseUrl, databaseName } = await import("../src/store/db.js");
   const dbName = databaseName(resolveDatabaseUrl());
   if (!/_test\d*$/.test(dbName)) { console.error(`refusing: database "${dbName}" is not a _test database`); process.exit(1); }
   console.log(`source-fields.test: database ${dbName}`);
+  const checksBeforeDbHalf = pass + misses.length;
   const { syncDictionary } = await import("../src/store/dictionary.js");
   const { loadSourceFields } = await import("../src/pipeline/queue.js");
   const { build } = await import("../src/pipeline/build-source-fields.js");
@@ -338,6 +343,8 @@ if (!DB_MODE) {
   fs.rmSync(tmp, { recursive: true, force: true });
   await query("TRUNCATE source_fields");
   await closePool();
+  const ranInDbHalf = pass + misses.length - checksBeforeDbHalf;
+  check(`the database half ran exactly the ${DB_HALF_CHECKS} checks a unit run reports as skipped`, ranInDbHalf === DB_HALF_CHECKS, { ran: ranInDbHalf });
 }
 
 console.log(`\n${pass} passed, ${misses.length} missed (${sabotages} sabotage cases${skipped ? `, ${skipped} database checks skipped` : ""})`);
