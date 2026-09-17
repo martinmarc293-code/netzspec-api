@@ -1,12 +1,12 @@
 {
  "vendor": "cisco",
  "category": "meraki",
- "built_at": "2026-09-17T15:03:36.737Z",
- "commit": "d1dc019816149c7943c27418992ee68157b97d3a",
+ "built_at": "2026-09-17T16:44:30.040Z",
+ "commit": "9906ab560b795534340c0409e64087e41b8efab9",
  "uncommitted_rule_files": [
-  "data/reference/layers-cross-claims.json",
+  "data/reference/kind-layer-plans-2026-09-13.json",
   "data/reference/product-lines/cisco-servers-unified-computing.json",
-  "src/core/layerChecks.ts"
+  "data/reference/product-lines/cisco-wireless.json"
  ],
  "mapping_file": "data/reference/product-lines/cisco-meraki.json",
  "parts": 91,

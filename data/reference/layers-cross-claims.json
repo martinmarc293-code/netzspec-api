@@ -99,7 +99,7 @@
    "category": "hyperconverged-infrastructure",
    "claimed_by": "servers-unified-computing",
    "series": "Processors",
-   "rule": "sku ^UCS-CPU",
+   "rule": "sku ^UCS-CPU(?!-CVR|-GREASE|-TIM|-E[NP]2?-PNP|AT)",
    "rows": 33,
    "examples": [
     "UCS-CPU-I4314",
@@ -107,7 +107,7 @@
     "UCS-CPU-I5218N"
    ],
    "status": "pending-decision:Q-14",
-   "reason": "the row is a generic UCS component (UCS-CPU- / UCS-M- / UCS-M2- / UCS-TPM-) filed in hyperconverged-infrastructure, whose spec sheets order it for the Compute Hyperconverged nodes; servers-unified-computing's component series read the same PIDs by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round) — status pending-decision:Q-14 (re-audit decisions, operator, 15 Sep 2026, F-6): kept where filed while Q-14 (generic UCS components in HyperFlex / Compute Hyperconverged: plan to servers) is measured; not a decision"
+   "reason": "the row is a generic UCS component (UCS-CPU- / UCS-M- / UCS-M2- / UCS-TPM-) filed in hyperconverged-infrastructure, whose spec sheets order it for the Compute Hyperconverged nodes; servers-unified-computing's component series read the same PIDs by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round) — status pending-decision:Q-14 (re-audit decisions, operator, 15 Sep 2026, F-6): kept where filed while Q-14 (generic UCS components in HyperFlex / Compute Hyperconverged: plan to servers) is measured; not a decision · Rule re-keyed on 17 Sep 2026 (layering re-check, fix list section 1): the servers tokens no longer claim CPU tools, grease, covers or TIM (CPU) or the C460 M4 SD riser card (SD); the same 33 row(s) are claimed."
   },
   {
    "category": "hyperconverged-infrastructure",
@@ -272,13 +272,13 @@
    "category": "hyperconverged-systems",
    "claimed_by": "servers-unified-computing",
    "series": "Processors",
-   "rule": "sku ^UCS-CPU",
+   "rule": "sku ^UCS-CPU(?!-CVR|-GREASE|-TIM|-E[NP]2?-PNP|AT)",
    "rows": 1,
    "examples": [
     "UCS-CPU-LPCVR="
    ],
    "status": "pending-decision:Q-14",
-   "reason": "the row is a generic UCS component (UCS-CPU-LPCVR=, UCS-HD8T7KL4KN, UCS-MSTOR-M2=) filed in hyperconverged-systems, whose spec sheets order it for the HyperFlex nodes; servers-unified-computing's component series read the same PIDs by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round) — status pending-decision:Q-14 (re-audit decisions, operator, 15 Sep 2026, F-6): kept where filed while Q-14 (generic UCS components in HyperFlex / Compute Hyperconverged: plan to servers) is measured; not a decision"
+   "reason": "the row is a generic UCS component (UCS-CPU-LPCVR=, UCS-HD8T7KL4KN, UCS-MSTOR-M2=) filed in hyperconverged-systems, whose spec sheets order it for the HyperFlex nodes; servers-unified-computing's component series read the same PIDs by design. One home per SKU: the category the row is filed in (layers round 3, servers + hyperconverged round) — status pending-decision:Q-14 (re-audit decisions, operator, 15 Sep 2026, F-6): kept where filed while Q-14 (generic UCS components in HyperFlex / Compute Hyperconverged: plan to servers) is measured; not a decision · Rule re-keyed on 17 Sep 2026 (layering re-check, fix list section 1): the servers tokens no longer claim CPU tools, grease, covers or TIM (CPU) or the C460 M4 SD riser card (SD); the same 1 row(s) are claimed."
   },
   {
    "category": "hyperconverged-systems",
@@ -376,7 +376,7 @@
    "category": "hyperconverged-infrastructure",
    "claimed_by": "servers-unified-computing",
    "series": "Processors",
-   "rule": "sku ^UCS(X|B|C|XE|AI)-(CPU)",
+   "rule": "sku ^UCS(X|B|C|XE|AI)-(CPU(?!-CVR|-GREASE|-TIM|-E[NP]2?-PNP|AT))",
    "rows": 20,
    "examples": [
     "UCSX-CPU-A90153",
@@ -384,13 +384,13 @@
     "UCSX-CPU-A9175F3"
    ],
    "status": "pending-decision:Q-14",
-   "reason": "the row is a generic UCS component (UCSX-CPU-A90153, UCSX-CPU-A91153, UCSX-CPU-A9175F3, …) filed in hyperconverged-infrastructure, whose spec sheets order it for the Compute Hyperconverged nodes; servers-unified-computing's component series claim family-prefixed components by component type since the operator's decision of 17 Sep 2026 (layering review fix list 4.2, 'go with your recommendations'), so they read these PIDs too. One home per SKU: the category the row is filed in — status pending-decision:Q-14 (re-audit decisions, operator, 15 Sep 2026, F-6): kept where filed while Q-14 (generic UCS components in HyperFlex / Compute Hyperconverged) is open; fix list 4.1 joined only the twin groups; not a decision"
+   "reason": "the row is a generic UCS component (UCSX-CPU-A90153, UCSX-CPU-A91153, UCSX-CPU-A9175F3, …) filed in hyperconverged-infrastructure, whose spec sheets order it for the Compute Hyperconverged nodes; servers-unified-computing's component series claim family-prefixed components by component type since the operator's decision of 17 Sep 2026 (layering review fix list 4.2, 'go with your recommendations'), so they read these PIDs too. One home per SKU: the category the row is filed in — status pending-decision:Q-14 (re-audit decisions, operator, 15 Sep 2026, F-6): kept where filed while Q-14 (generic UCS components in HyperFlex / Compute Hyperconverged) is open; fix list 4.1 joined only the twin groups; not a decision · Rule re-keyed on 17 Sep 2026 (layering re-check, fix list section 1): the servers tokens no longer claim CPU tools, grease, covers or TIM (CPU) or the C460 M4 SD riser card (SD); the same 20 row(s) are claimed."
   },
   {
    "category": "hyperconverged-infrastructure",
    "claimed_by": "servers-unified-computing",
    "series": "Drives and storage",
-   "rule": "sku ^UCS(X|B|C|XE|AI)-(SD(?!BKT)|HD(?!BP)|NV(?!L)|M2(?!EXT))",
+   "rule": "sku ^UCS(X|B|C|XE|AI)-(SD(?!BKT|-RSR)|HD(?!BP)|NV(?!L)|M2(?!EXT))",
    "rows": 3,
    "examples": [
     "UCSX-M2-I240GB",
@@ -398,7 +398,7 @@
     "UCSX-M2480OA1VM6"
    ],
    "status": "pending-decision:Q-14",
-   "reason": "the row is a generic UCS component (UCSX-M2-I240GB, UCSX-M2240OA1VM6, UCSX-M2480OA1VM6) filed in hyperconverged-infrastructure, whose spec sheets order it for the Compute Hyperconverged nodes; servers-unified-computing's component series claim family-prefixed components by component type since the operator's decision of 17 Sep 2026 (layering review fix list 4.2, 'go with your recommendations'), so they read these PIDs too. One home per SKU: the category the row is filed in — status pending-decision:Q-14 (re-audit decisions, operator, 15 Sep 2026, F-6): kept where filed while Q-14 (generic UCS components in HyperFlex / Compute Hyperconverged) is open; fix list 4.1 joined only the twin groups; not a decision"
+   "reason": "the row is a generic UCS component (UCSX-M2-I240GB, UCSX-M2240OA1VM6, UCSX-M2480OA1VM6) filed in hyperconverged-infrastructure, whose spec sheets order it for the Compute Hyperconverged nodes; servers-unified-computing's component series claim family-prefixed components by component type since the operator's decision of 17 Sep 2026 (layering review fix list 4.2, 'go with your recommendations'), so they read these PIDs too. One home per SKU: the category the row is filed in — status pending-decision:Q-14 (re-audit decisions, operator, 15 Sep 2026, F-6): kept where filed while Q-14 (generic UCS components in HyperFlex / Compute Hyperconverged) is open; fix list 4.1 joined only the twin groups; not a decision · Rule re-keyed on 17 Sep 2026 (layering re-check, fix list section 1): the servers tokens no longer claim CPU tools, grease, covers or TIM (CPU) or the C460 M4 SD riser card (SD); the same 3 row(s) are claimed."
   },
   {
    "category": "hyperconverged-infrastructure",

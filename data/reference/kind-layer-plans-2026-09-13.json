@@ -86453,5 +86453,104 @@
   "reason": "a generic UCS component split across categories: one category per twin group, and generic UCS components in servers-unified-computing (operator, 17 Sep 2026: layering review fix list 4.1 — Q-14 / Q-17)",
   "evidence": "name \"Cisco UCSC-RIS2A-240M6=\" · label \"HyperFlex HX Series\" · today layered in HX240c (sku ^(?=HX|UCSC?-|CBL-).*(?<![0-9])240-?M[4-7]) · twin UCSC-RIS2A-240M6 in hyperconverged-infrastructure HCI C240 nodes",
   "planned_by": "parent 17 Sep 2026 (layering review of 17 Sep 2026, fix list 4.1 — operator, 17 Sep 2026: \"go with your recommendations\")"
+ },
+ {
+  "sku": "CPU1",
+  "category": "servers-unified-computing",
+  "action": "class",
+  "to": "non_product",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "datasheet cell value or fragment enumerated as a part",
+  "evidence": "name \"Cisco CPU1\" (the SKU restated); label \"UCS X-Series\"; 0 facts, 0 documents (read 17 Sep 2026); layered in UCS X-Series Modular System shared parts by the label alone; kind now cpu",
+  "planned_by": "parent 17 Sep 2026 (layering re-check of 17 Sep 2026, fix list section 1 — the class plans the re-check asked for; not run)"
+ },
+ {
+  "sku": "CPU2",
+  "category": "servers-unified-computing",
+  "action": "class",
+  "to": "non_product",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "datasheet cell value or fragment enumerated as a part",
+  "evidence": "name \"Cisco CPU2\" (the SKU restated); label \"UCS X-Series\"; 0 facts, 0 documents (read 17 Sep 2026); layered in UCS X-Series Modular System shared parts by the label alone; kind now cpu",
+  "planned_by": "parent 17 Sep 2026 (layering re-check of 17 Sep 2026, fix list section 1 — the class plans the re-check asked for; not run)"
+ },
+ {
+  "sku": "M2511",
+  "category": "servers-unified-computing",
+  "action": "class",
+  "to": "non_product",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "datasheet cell value or fragment enumerated as a part",
+  "evidence": "name \"Cisco M2511\" (the SKU restated); label \"UCS X-Series\"; 0 facts, 0 documents (read 17 Sep 2026); layered in UCS X-Series Modular System shared parts by the label alone; kind now drive",
+  "planned_by": "parent 17 Sep 2026 (layering re-check of 17 Sep 2026, fix list section 1 — the class plans the re-check asked for; not run)"
+ },
+ {
+  "sku": "NVMe4",
+  "category": "servers-unified-computing",
+  "action": "class",
+  "to": "non_product",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "datasheet cell value or fragment enumerated as a part",
+  "evidence": "name \"Cisco NVMe4\" (the SKU restated); label \"UCS X-Series\"; 0 facts, 0 documents (read 17 Sep 2026); layered in UCS X-Series Modular System shared parts by the label alone; kind now drive",
+  "planned_by": "parent 17 Sep 2026 (layering re-check of 17 Sep 2026, fix list section 1 — the class plans the re-check asked for; not run)"
+ },
+ {
+  "sku": "HDD1",
+  "category": "servers-unified-computing",
+  "action": "class",
+  "to": "non_product",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "datasheet cell value or fragment enumerated as a part",
+  "evidence": "name \"Cisco HDD1\" (the SKU restated); label \"UCS B-Series\"; 0 facts, 1 document (a vendor_datasheet_pdf) (read 17 Sep 2026); layered in UCS B-Series Blade Servers shared parts by the label alone; kind now drive",
+  "planned_by": "parent 17 Sep 2026 (layering re-check of 17 Sep 2026, fix list section 1 — the class plans the re-check asked for; not run)"
+ },
+ {
+  "sku": "SSD1",
+  "category": "servers-unified-computing",
+  "action": "class",
+  "to": "non_product",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "datasheet cell value or fragment enumerated as a part",
+  "evidence": "name \"Cisco SSD1\" (the SKU restated); label \"UCS B-Series\"; 0 facts, 1 document (a vendor_datasheet_pdf) (read 17 Sep 2026); layered in UCS B-Series Blade Servers shared parts by the label alone; kind now drive",
+  "planned_by": "parent 17 Sep 2026 (layering re-check of 17 Sep 2026, fix list section 1 — the class plans the re-check asked for; not run)"
+ },
+ {
+  "sku": "RAID00",
+  "category": "servers-unified-computing",
+  "action": "class",
+  "to": "non_product",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "datasheet cell value or fragment enumerated as a part",
+  "evidence": "name \"Cisco RAID00\" (the SKU restated); label \"UCS C-Series\"; 0 facts, 0 documents (read 17 Sep 2026); layered in UCS C-Series Rack Servers shared parts by the label alone; kind now storage-controller",
+  "planned_by": "parent 17 Sep 2026 (layering re-check of 17 Sep 2026, fix list section 1 — the class plans the re-check asked for; not run)"
+ },
+ {
+  "sku": "SAS/SATA/U.3",
+  "category": "servers-unified-computing",
+  "action": "class",
+  "to": "non_product",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "datasheet cell value or fragment enumerated as a part",
+  "evidence": "name \"Cisco SAS/SATA/U.3\" (the SKU restated); label \"UCS C-Series\"; 0 facts, 0 documents (read 17 Sep 2026); layered in UCS C-Series Rack Servers shared parts by the label alone; kind now storage-controller",
+  "planned_by": "parent 17 Sep 2026 (layering re-check of 17 Sep 2026, fix list section 1 — the class plans the re-check asked for; not run)"
+ },
+ {
+  "sku": "GPU3",
+  "category": "hyperconverged-systems",
+  "action": "class",
+  "to": "non_product",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "datasheet cell value or fragment enumerated as a part",
+  "evidence": "name \"Cisco GPU3\" (the SKU restated); label \"HyperFlex HX Series\"; 0 facts, 0 documents (read 17 Sep 2026); layered in HyperFlex shared parts by the label alone; kind now gpu",
+  "planned_by": "parent 17 Sep 2026 (layering re-check of 17 Sep 2026, fix list section 1 — the class plans the re-check asked for; not run)"
  }
 ]

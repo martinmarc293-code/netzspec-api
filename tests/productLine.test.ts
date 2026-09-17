@@ -140,6 +140,22 @@ witness("servers-unified-computing", [
   ["RACK2-DOOR-001=", "Front door", "R-Series Racks", "Racks and PDUs", "R42610 / R42612 racks and PDUs"],
   ["UCS-MAN-S71A2T0V0", "MSFT AzureStack HCI Hyb CTO Node C240 M7sn w/Mellanox", "UCS C-Series", "UCS C-Series Rack Servers", "UCS C240"],
   ["UCSC-HSHP-C245M6", "Heat sink for C245 M6", "HyperFlex HX Series", "UCS C-Series Rack Servers", "UCS C245"],
+  // layering re-check of 17 Sep 2026, fix list section 1: the residue of the components move. A CPU tool, grease, cover or TIM is not a
+  // processor (the UCS- ones go to the components line's shared parts, the UCSX- ones stay with their family) …
+  ["UCS-CPU-GREASE3=", "Thermal Grease-covers 2 CPUs-all M4 servers-White syringe", "UCS C-Series", "UCS Server Components", "UCS Server Components shared parts"],
+  ["UCS-CPU-CVR-EP-M4=", "Unpopulated CPU sockets-dust cover for EP M4s", "UCS B-Series", "UCS Server Components", "UCS Server Components shared parts"],
+  ["UCS-CPU-EP2-PNP=", "Pick n place CPU tools for M3/EP v2 12 Core CPUs (Purple)", "UCS B-Series", "UCS Server Components", "UCS Server Components shared parts"],
+  ["UCSX-CPUATI-4=", "Cisco UCSX-CPUATI-4=", "UCS X-Series", "UCS X-Series Modular System", "UCS X-Series Modular System shared parts"],
+  ["UCS-CPU-E52690E", "2.60 GHz E5-2690 v4/135W 14C/35MB Cache/DDR4 2400MHz", "UCS B-Series", "UCS Server Components", "Processors"], // control: -E5… is a CPU, not an -EN / -EP PNP tool
+  // … an SD riser card is not a drive, and names its server …
+  ["UCSC-SD-RSR=", "C460 M4 SD riser card", "UCS C-Series", "UCS C-Series Rack Servers", "UCS C460 / C480"],
+  ["UCSC-SD-16G-C420=", "16GB SD card for C420 M3", "UCS C-Series", "UCS Server Components", "Drives and storage"],             // control: an SD card still is
+  // … and five components the move had left behind, plus the Video Surveillance parts a label had put in C-Series
+  ["SSD-SATA-800G=", "800 GB, SATA Solid State Disk", "UCS C-Series", "UCS Server Components", "Drives and storage"],
+  ["UCS-MSD-32G=", "32GB Micro SD Card for UCS M5 servers", "UCS C-Series", "UCS Server Components", "Drives and storage"],
+  ["UCS-MCX64G2RE11", "Cisco UCS-MCX64G2RE11", "UCS C-Series", "UCS Server Components", "Memory"],
+  ["UCS-S3348-RAIDM5=", "UCS S3348 Raid Controller based on LSI", "UCS C-Series", "UCS Server Components", "Network and storage adapters"],
+  ["CIVS-FAN-2RU=", "Fan Assembly for CIVS-MSP-2RU", "UCS C-Series", "Video Surveillance appliances", "Video Surveillance Multiservices Platform / Storage System (CIVS)"],
 ]);
 // layers round 3, servers + hyperconverged round: the fenced rules no longer claim other products' rows (each was recorded by an earlier
 // round as "claimant rule too broad — fix it in the servers round"); the placement a mapping gives them must not be a model series
@@ -181,6 +197,16 @@ witness("wireless", [
   ["MR84", "Cisco MR84", "", "Meraki MR Access Points", "Meraki MR outdoor (MR58 / 66 / 70 / 72 / 74 / 76 / 78 / 84 / 86)"],
   ["CS-ROOM70P-FSK=", "Cisco Room 70 Panorama Floor Stand Kit", "Policy Suite for Mobile", "(not this category)", "collaboration-endpoints"],
   ["ASR5K-SMC-K9", "System Management Card", "ASR 5000 Series", "(not this category)", "routers"],
+  // layering re-check of 17 Sep 2026, fix list section 1 (deviation a): a controller part is placed where its own name or its
+  // controller's end-of-sale notice names the controller, and a part neither names stays in the unnamed-platform series
+  ["AIR-PSU1-770W", "770W AC Hot-Plug Power Supply for 5520 Controller", "Antennas/Accessories", "AireOS Wireless LAN Controllers", "5500 (5508 / 5520 / 5540)"],
+  ["AIR-PSU2V2-1200W", "1200W V2 AC Power Supply for 8540 Controller", "Antennas/Accessories", "AireOS Wireless LAN Controllers", "8500 (8510 / 8540 / 8580)"],
+  ["AIR-SD240GBKS4-EV=", "Spare SSD for Cisco Wireless Controller 5520 and 8540", "Antennas/Accessories", "AireOS Wireless LAN Controllers", "AireOS Wireless LAN Controllers shared parts"],
+  ["AIR-MRAID12G", "Cisco 12G SAS Modular Raid Controller", "Antennas/Accessories", "Wireless Antennas and Accessories", "Modules and power (unnamed platform)"],
+  ["AIR-TPM2-001", "Trusted Platform Module 1.2 for UCS (SPI-based)", "Antennas/Accessories", "Wireless Antennas and Accessories", "Modules and power (unnamed platform)"],
+  ["AIR-PSU-BLKP1U", "Power Supply Blanking Panel for C220 M4 servers", "Antennas/Accessories", "AireOS Wireless LAN Controllers", "5500 (5508 / 5520 / 5540)"], // the 5520 notice lists it
+  ["AIR-PSU-650W", "650W power supply for C-series rack servers", "Aironet 1550", "Wireless Antennas and Accessories", "Modules and power (unnamed platform)"],         // no controller notice lists it
+  ["AIR-PCI-1A-240M4", "Right PCIe Riser Board (Riser 1) (x8 + GPU) for C240 M4", "Antennas/Accessories", "Wireless Antennas and Accessories", "Modules and power (unnamed platform)"],
 ]);
 {
   const { deployRoleResult } = await import("../src/core/deployRole.js");

@@ -1,17 +1,17 @@
 {
  "vendor": "cisco",
  "category": "servers-unified-computing",
- "built_at": "2026-09-17T15:03:31.795Z",
- "commit": "d1dc019816149c7943c27418992ee68157b97d3a",
+ "built_at": "2026-09-17T16:44:24.309Z",
+ "commit": "9906ab560b795534340c0409e64087e41b8efab9",
  "uncommitted_rule_files": [
-  "data/reference/layers-cross-claims.json",
+  "data/reference/kind-layer-plans-2026-09-13.json",
   "data/reference/product-lines/cisco-servers-unified-computing.json",
-  "src/core/layerChecks.ts"
+  "data/reference/product-lines/cisco-wireless.json"
  ],
  "mapping_file": "data/reference/product-lines/cisco-servers-unified-computing.json",
  "parts": 9492,
- "layered": 8229,
- "pending": 1263,
+ "layered": 8221,
+ "pending": 1271,
  "lines": [
   {
    "line": "UCS Solution Bundles",
@@ -216,6 +216,36 @@
    ]
   },
   {
+   "line": "Video Surveillance appliances",
+   "parts": 4,
+   "series": [
+    {
+     "series": "Video Surveillance Multiservices Platform / Storage System (CIVS)",
+     "family": "(none)",
+     "role": null,
+     "note": "^CIVS- (layering re-check of 17 Sep 2026, fix list section 1, decision recorded in docs/decisions/2026-09-17-layering-recheck-fix-list-section-1.md): CIVS-MSP-MEMUP6G 'MultiService Platform memory upgrade to 6GB', CIVS-FAN-2RU= 'Fan Assembly for CIVS-MSP-2RU', CIVS-SS-4RU-KIT= 'CIVS-SS: Rail Kit … for 4-RU' and CIVS-ENC-KIT-OPT 'CIVS-ENC Video Card Manufacturing Kit Option' are parts of the Cisco Video Surveillance Multiservices Platform and Storage System, which are not UCS C-Series servers; they sat in C-Series shared parts by the label 'UCS C-Series'. One series, because no row says which of the two platforms the encoder kit belongs to. No Video Surveillance category exists (video is cable access), so the category is unchanged",
+     "parts": 4,
+     "kinds": {
+      "mechanical": 2,
+      "fan": 1,
+      "memory": 1
+     },
+     "roles": {},
+     "samples": [
+      "CIVS-ENC-KIT-OPT — CIVS-ENC Video Card Manufacturing Kit Option",
+      "CIVS-FAN-2RU= — Fan Assembly for CIVS-MSP-2RU",
+      "CIVS-MSP-MEMUP6G — MultiService Platform memory upgrade to 6GB",
+      "CIVS-SS-4RU-KIT= — CIVS-SS: Rail Kit with screws, etc. for 4-RU; Spare"
+     ],
+     "rules": {
+      "sku": 4
+     },
+     "pending_in": {},
+     "pending_out": {}
+    }
+   ]
+  },
+  {
    "line": "UCS Invicta Flash Storage",
    "parts": 254,
    "series": [
@@ -329,7 +359,7 @@
      "series": "UCS Unified Edge (XE) shared parts",
      "family": "(shared across the line)",
      "role": null,
-     "note": "^UCSXE- fenced to the tokens the UCS Server Components series claim (operator, 17 Sep 2026, layering review fix list 4.2 ('go with your recommendations'))",
+     "note": "^UCSXE- fenced to the tokens the UCS Server Components series claim (operator, 17 Sep 2026, layering review fix list 4.2 ('go with your recommendations')) · ^UCSXE- fences: CPU -> CPU(?!-CVR|-GREASE|-TIM|-E[NP]2?-PNP|AT), SD(?!BKT) -> SD(?!BKT|-RSR) (layering re-check of 17 Sep 2026, fix list section 1): the same tokens as Processors and Drives and storage, so a CPU tool, grease, cover or TIM and the SD riser card stay with their family",
      "parts": 17,
      "kinds": {
       "unknown": 3,
@@ -931,14 +961,14 @@
      "series": "UCS X-Series Modular System shared parts",
      "family": "(shared across the line)",
      "role": null,
-     "note": "^UCSX- fenced to the tokens the UCS Server Components series claim; ^UCSX[A-Z]{2} removed (operator, 17 Sep 2026, layering review fix list 4.2 ('go with your recommendations')): ^UCSX[A-Z]{2} placed only the glued UCSXSD / UCSXNVME / UCSXS9 drives, which Drives and storage now claims",
+     "note": "^UCSX- fenced to the tokens the UCS Server Components series claim; ^UCSX[A-Z]{2} removed (operator, 17 Sep 2026, layering review fix list 4.2 ('go with your recommendations')): ^UCSX[A-Z]{2} placed only the glued UCSXSD / UCSXNVME / UCSXS9 drives, which Drives and storage now claims · ^UCSX- fences: CPU -> CPU(?!-CVR|-GREASE|-TIM|-E[NP]2?-PNP|AT), SD(?!BKT) -> SD(?!BKT|-RSR) (layering re-check of 17 Sep 2026, fix list section 1): the same tokens as Processors and Drives and storage, so a CPU tool, grease, cover or TIM and the SD riser card stay with their family",
      "parts": 64,
      "kinds": {
       "cable": 9,
-      "cpu": 2,
-      "drive": 3,
       "accessory": 30,
       "mechanical": 4,
+      "cpu": 4,
+      "drive": 1,
       "io-module": 5,
       "gpu": 4,
       "bundle": 3,
@@ -956,19 +986,19 @@
      ],
      "rules": {
       "accessory": 8,
-      "label": 14,
-      "sku": 42
+      "label": 10,
+      "sku": 46
      },
      "pending_in": {},
      "pending_out": {
-      "class -> non_product": 44
+      "class -> non_product": 48
      }
     }
    ]
   },
   {
    "line": "UCS B-Series Blade Servers",
-   "parts": 271,
+   "parts": 269,
    "series": [
     {
      "series": "UCS B200",
@@ -1176,11 +1206,11 @@
      "series": "UCS B-Series Blade Servers shared parts",
      "family": "(shared across the line)",
      "role": null,
-     "note": "^UCSB- fenced to the tokens the UCS Server Components series claim; ^N20-B fenced to the tokens the UCS Server Components series claim; ^A01-X removed (operator, 17 Sep 2026, layering review fix list 4.2 ('go with your recommendations')): ^A01-X placed only the 24 A01-X B-Series CPUs, which Processors now claims",
-     "parts": 58,
+     "note": "^UCSB- fenced to the tokens the UCS Server Components series claim; ^N20-B fenced to the tokens the UCS Server Components series claim; ^A01-X removed (operator, 17 Sep 2026, layering review fix list 4.2 ('go with your recommendations')): ^A01-X placed only the 24 A01-X B-Series CPUs, which Processors now claims · ^UCSB- fences: CPU -> CPU(?!-CVR|-GREASE|-TIM|-E[NP]2?-PNP|AT), SD(?!BKT) -> SD(?!BKT|-RSR) (layering re-check of 17 Sep 2026, fix list section 1): the same tokens as Processors and Drives and storage, so a CPU tool, grease, cover or TIM and the SD riser card stay with their family",
+     "parts": 56,
      "kinds": {
       "cable": 3,
-      "drive": 3,
+      "drive": 1,
       "bundle": 1,
       "mechanical": 37,
       "power": 5,
@@ -1191,14 +1221,14 @@
      "samples": [
       "CAB-48DC-40A-8AWG1 — Cisco CAB-48DC-40A-8AWG1",
       "CS-EZ-3TB-HDD — Cisco CS-EZ-3TB-HDD",
-      "HDD1 — Cisco HDD1",
       "N1K-VSG-UCS-BUN — Cisco N1K-VSG-UCS-BUN",
       "N20-BBLKD2 — HDD slot blanking panel for UCS C210/250 Servers",
-      "N20-BBLKD2= — UCS C250 M2 and M1 HDD blanking panel"
+      "N20-BBLKD2= — UCS C250 M2 and M1 HDD blanking panel",
+      "N20-BBLKD= — UCS 2.5 inch HDD blanking panel"
      ],
      "rules": {
       "accessory": 1,
-      "label": 10,
+      "label": 8,
       "sku": 47
      },
      "pending_in": {
@@ -1206,14 +1236,14 @@
       "security": 1
      },
      "pending_out": {
-      "class -> non_product": 30
+      "class -> non_product": 32
      }
     }
    ]
   },
   {
    "line": "UCS C-Series Rack Servers",
-   "parts": 1370,
+   "parts": 1364,
    "series": [
     {
      "series": "UCS C880A M8 (AI)",
@@ -1491,13 +1521,13 @@
      "series": "UCS C460 / C480",
      "family": "(none)",
      "role": null,
-     "note": null,
-     "parts": 58,
+     "note": "^UCSC-SD-RSR (layering re-check of 17 Sep 2026, fix list section 1): UCSC-SD-RSR(=) 'C460 M4 SD riser card' names this server alone (A.3 rule 1); the re-check moved it out of Drives and storage, and C-Series shared parts would only have put it in the reverse review queue for this series",
+     "parts": 60,
      "kinds": {
       "server": 34,
       "mechanical": 13,
       "cable": 1,
-      "drive": 1,
+      "drive": 3,
       "fan": 1,
       "gpu": 2,
       "memory": 2,
@@ -1514,7 +1544,7 @@
       "RC460-EUSB= — Cisco RC460-EUSB="
      ],
      "rules": {
-      "sku": 58
+      "sku": 60
      },
      "pending_in": {},
      "pending_out": {}
@@ -1606,22 +1636,21 @@
      "series": "UCS C-Series Rack Servers shared parts",
      "family": "(shared across the line)",
      "role": null,
-     "note": "^UCSC- fenced to the tokens the UCS Server Components series claim; ^UCSAI- fenced to the tokens the UCS Server Components series claim (operator, 17 Sep 2026, layering review fix list 4.2 ('go with your recommendations'))",
-     "parts": 313,
+     "note": "^UCSC- fenced to the tokens the UCS Server Components series claim; ^UCSAI- fenced to the tokens the UCS Server Components series claim (operator, 17 Sep 2026, layering review fix list 4.2 ('go with your recommendations')) · ^UCSC-, ^UCSAI- fences: CPU -> CPU(?!-CVR|-GREASE|-TIM|-E[NP]2?-PNP|AT), SD(?!BKT) -> SD(?!BKT|-RSR) (layering re-check of 17 Sep 2026, fix list section 1): the same tokens as Processors and Drives and storage, so a CPU tool, grease, cover or TIM and the SD riser card stay with their family",
+     "parts": 305,
      "kinds": {
-      "mechanical": 64,
+      "mechanical": 62,
       "pdu": 1,
       "accessory": 41,
       "cable": 93,
-      "fan": 4,
-      "memory": 2,
       "bundle": 6,
       "unknown": 18,
       "power": 58,
       "io-module": 5,
       "nic": 14,
-      "storage-controller": 2,
-      "drive": 5
+      "fan": 3,
+      "drive": 3,
+      "memory": 1
      },
      "roles": {},
      "samples": [
@@ -1633,7 +1662,7 @@
       "CAB-48DC-40A-AS-D — Cisco CAB-48DC-40A-AS-D"
      ],
      "rules": {
-      "label": 29,
+      "label": 21,
       "accessory": 37,
       "sku": 247
      },
@@ -1642,7 +1671,7 @@
       "security": 6
      },
      "pending_out": {
-      "class -> non_product": 80,
+      "class -> non_product": 82,
       "move to hyperconverged-infrastructure": 5
      }
     }
@@ -1687,16 +1716,16 @@
   },
   {
    "line": "UCS Server Components",
-   "parts": 4055,
+   "parts": 4051,
    "series": [
     {
      "series": "Processors",
      "family": "(none)",
      "role": null,
-     "note": "^UCS(X|B|C|XE|AI)-(CPU), ^A01-X (operator, 17 Sep 2026, layering review fix list 4.2 ('go with your recommendations'): the component kinds of the UCS platform lines' shared parts by component type, the platform visible in the SKU prefix): the X / B / C / XE / AI processors and A01-X (A01-X0100 … '3.33GHz Xeon X5680', the B-Series CPUs)",
-     "parts": 1679,
+     "note": "^UCS(X|B|C|XE|AI)-(CPU), ^A01-X (operator, 17 Sep 2026, layering review fix list 4.2 ('go with your recommendations'): the component kinds of the UCS platform lines' shared parts by component type, the platform visible in the SKU prefix): the X / B / C / XE / AI processors and A01-X (A01-X0100 … '3.33GHz Xeon X5680', the B-Series CPUs) · ^UCS-CPU and the (CPU) token fenced to CPU(?!-CVR|-GREASE|-TIM|-E[NP]2?-PNP|AT) (layering re-check of 17 Sep 2026, fix list section 1): the socket dust cover UCS-CPU-CVR-EP-M4=, the thermal grease UCS-CPU-GREASE / GREASE2 / GREASE3 (and =), the interface material UCS-CPU-TIM= / UCSX-CPU-TIM=, the pick-and-place tool sets UCS-CPU-EN-PNP / EP-PNP / EP2-PNP (and -C=) and the assembly tools UCS-CPUAT= / UCS-CPUATI-3= / UCSX-CPUAT= / UCSX-CPUATI-3= / -4= are not processors: the UCS- ones go to UCS Server Components shared parts, the UCSX- ones to X-Series shared parts",
+     "parts": 1659,
      "kinds": {
-      "cpu": 1679
+      "cpu": 1659
      },
      "roles": {},
      "samples": [
@@ -1708,7 +1737,7 @@
       "A01-X0105= — 2.66GHz Xeon X5650 95W CPU/12MB cache/DDR3 1333MHz"
      ],
      "rules": {
-      "sku": 1679
+      "sku": 1659
      },
      "pending_in": {},
      "pending_out": {
@@ -1719,22 +1748,22 @@
      "series": "Memory",
      "family": "(none)",
      "role": null,
-     "note": "^UCS(X|B|C|XE|AI)-(MR(?!AID)|ML-[0-9]|MP-) (operator, 17 Sep 2026, layering review fix list 4.2 ('go with your recommendations'): the component kinds of the UCS platform lines' shared parts by component type, the platform visible in the SKU prefix): RDIMMs (MR, not MRAID), LRDIMMs (ML-<size>), Optane PMem (MP-) and the C460 memory risers (MRBD); an ML-V / MLV part is an mLOM VIC and goes to adapters",
-     "parts": 306,
+     "note": "^UCS(X|B|C|XE|AI)-(MR(?!AID)|ML-[0-9]|MP-) (operator, 17 Sep 2026, layering review fix list 4.2 ('go with your recommendations'): the component kinds of the UCS platform lines' shared parts by component type, the platform visible in the SKU prefix): RDIMMs (MR, not MRAID), LRDIMMs (ML-<size>), Optane PMem (MP-) and the C460 memory risers (MRBD); an ML-V / MLV part is an mLOM VIC and goes to adapters · ^UCS-MCX (layering re-check of 17 Sep 2026, fix list section 1): UCS-MCX32G2RE11 / UCS-MCX64G2RE11 (32 GB / 64 GB, stored kind memory, linked to a UCS datasheet) sat in UCS Server Components shared parts through ^UCS-",
+     "parts": 308,
      "kinds": {
-      "memory": 306
+      "memory": 308
      },
      "roles": {},
      "samples": [
       "A02-MEMKIT-008A — Bundle component for A02-M316GB1-2",
       "A02-MEMKIT-008B — Bundle component for A02-M316GB3-2",
       "A02-MEMKIT-016B — Bundle Component for A02-M332GB3-2-L",
-      "UCS-MKIT-041RX-C — Mem kit for UCS-MR-2X041RX-C",
-      "UCS-MKIT-041RY-B — Mem kit for UCS-MR-2X041RY-B",
-      "UCS-MKIT-082RX-C — Mem kit for UCS-MR-2X082RX-C"
+      "UCS-MCX32G2RE11 — Cisco UCS-MCX32G2RE11",
+      "UCS-MCX64G2RE11 — Cisco UCS-MCX64G2RE11",
+      "UCS-MKIT-041RX-C — Mem kit for UCS-MR-2X041RX-C"
      ],
      "rules": {
-      "sku": 306
+      "sku": 308
      },
      "pending_in": {
       "hyperconverged-infrastructure": 3
@@ -1747,10 +1776,10 @@
      "series": "Drives and storage",
      "family": "(none)",
      "role": null,
-     "note": "^UCS(X|B|C|XE|AI)-(SD(?!BKT)|HD(?!BP)|NV(?!L)|M2(?!EXT)), ^UCS(B|C)-F-, ^UCSX(SD|NVME|S9), ^UCS6HDB, ^UCSSD[0-9], ^UCSV-HDD, ^SP-(A03-D|SSD) (operator, 17 Sep 2026, layering review fix list 4.2 ('go with your recommendations'): the component kinds of the UCS platform lines' shared parts by component type, the platform visible in the SKU prefix): drives, NVMe, M.2 (not the M2EXT extender) and SD (not SDBKT, HDBP, NVL) of X, B, C, XE and AI; the B / C PCIe flash (F-: Fusion ioMemory, 'PCIe/NVMe Storage Mezz'); the glued UCSXSD / UCSXNVME / UCSXS9 PIDs; and the label-placed UCS6HDB / UCSSD / UCSV-HDD / SP-A03-D / SP-SSD drives (^SSD-SATA- left out: it also matches 10 routers SSDs)",
-     "parts": 1483,
+     "note": "^UCS(X|B|C|XE|AI)-(SD(?!BKT)|HD(?!BP)|NV(?!L)|M2(?!EXT)), ^UCS(B|C)-F-, ^UCSX(SD|NVME|S9), ^UCS6HDB, ^UCSSD[0-9], ^UCSV-HDD, ^SP-(A03-D|SSD) (operator, 17 Sep 2026, layering review fix list 4.2 ('go with your recommendations'): the component kinds of the UCS platform lines' shared parts by component type, the platform visible in the SKU prefix): drives, NVMe, M.2 (not the M2EXT extender) and SD (not SDBKT, HDBP, NVL) of X, B, C, XE and AI; the B / C PCIe flash (F-: Fusion ioMemory, 'PCIe/NVMe Storage Mezz'); the glued UCSXSD / UCSXNVME / UCSXS9 PIDs; and the label-placed UCS6HDB / UCSSD / UCSV-HDD / SP-A03-D / SP-SSD drives (^SSD-SATA- left out: it also matches 10 routers SSDs) · SD token fenced to SD(?!BKT|-RSR) (layering re-check of 17 Sep 2026, fix list section 1): UCSC-SD-RSR(=) 'C460 M4 SD riser card' is a riser, not a drive, and goes to UCS C460 / C480, the one series its name names · ^UCS-MSD-, ^SSD-SATA-800G (layering re-check of 17 Sep 2026, fix list section 1): UCS-MSD-32G(=) '32GB Micro SD Card for UCS M5 servers' sat in UCS Server Components shared parts through ^UCS-; SSD-SATA-800G(=) '800 GB, SATA Solid State Disk' sat in C-Series shared parts by the label 'UCS C-Series' — the exact PID, because ^SSD-SATA- would also claim the ten routers SSDs",
+     "parts": 1485,
      "kinds": {
-      "drive": 1458,
+      "drive": 1460,
       "storage-controller": 12,
       "mechanical": 2,
       "accessory": 1,
@@ -1766,7 +1795,7 @@
       "A03-D500GC3= — 500GB 6Gb SATA 7.2K RPM SFF hot plug/drive sled mounted"
      ],
      "rules": {
-      "sku": 1483
+      "sku": 1485
      },
      "pending_in": {
       "security": 4,
@@ -1806,11 +1835,11 @@
      "series": "Network and storage adapters",
      "family": "(none)",
      "role": null,
-     "note": "layers round 3: ^UCS-PCI and ^UCS-SDHPCIE removed — every row they matched is a drive decided by 'Drives and storage' (UCS-PCI25…, UCS-SD…); ^XRV-PCIE- places the XRv appliance PCIe NICs planned in from routers (their arrival exceptions there are retired). Dead rules removed elsewhere in the file: ^C880(?![0-9A]), ^C260-, 2[1-4]0[48]XP, ^UCSB-B22-, 9416(?![0-9]), ^UCS-COPC-240, ^[0-9]{3}P[0-9]$, ^N01-M · ^UCSX-(ME-|P-|MLOM|ML-V|MLV|V[0-9]-(?!BRIDGE)|RAID|MRAID|X10C-(RAID|PT)), ^UCSB-(MLOM|ML-V|VIC|MEZ|RAID|MRAID), ^UCSC-(PCIE(?!-F|-R)|P-|O-|M-V|MLOM-(?!BLK)|RAID|MRAID|SAS|HBA|PSAS|NYTRO|9[45]00), ^UCS(AI|XE)-(P-|O-), ^N20-(AI|BRAID), ^R2X0-ML (operator, 17 Sep 2026, layering review fix list 4.2 ('go with your recommendations'): the component kinds of the UCS platform lines' shared parts by component type, the platform visible in the SKU prefix): VIC / mLOM (MLOM, ML-V, MLV, M-V) / mezz / PCIe and OCP NICs and modular RAID / SAS / HBA controllers of X, B, C, XE and AI — not the MLOM blanking panel, the VIC bridges, the PCIe fillers (PCIE-F…) or the PCIe riser boards (PCIE-R…) — plus N20-AI / N20-BRAID and the C200 R2X0-ML mezz. The stored kind reads memory for the MLOM, ML-V, MLV and MRAID parts (listed for the kind rebuild)",
-     "parts": 378,
+     "note": "layers round 3: ^UCS-PCI and ^UCS-SDHPCIE removed — every row they matched is a drive decided by 'Drives and storage' (UCS-PCI25…, UCS-SD…); ^XRV-PCIE- places the XRv appliance PCIe NICs planned in from routers (their arrival exceptions there are retired). Dead rules removed elsewhere in the file: ^C880(?![0-9A]), ^C260-, 2[1-4]0[48]XP, ^UCSB-B22-, 9416(?![0-9]), ^UCS-COPC-240, ^[0-9]{3}P[0-9]$, ^N01-M · ^UCSX-(ME-|P-|MLOM|ML-V|MLV|V[0-9]-(?!BRIDGE)|RAID|MRAID|X10C-(RAID|PT)), ^UCSB-(MLOM|ML-V|VIC|MEZ|RAID|MRAID), ^UCSC-(PCIE(?!-F|-R)|P-|O-|M-V|MLOM-(?!BLK)|RAID|MRAID|SAS|HBA|PSAS|NYTRO|9[45]00), ^UCS(AI|XE)-(P-|O-), ^N20-(AI|BRAID), ^R2X0-ML (operator, 17 Sep 2026, layering review fix list 4.2 ('go with your recommendations'): the component kinds of the UCS platform lines' shared parts by component type, the platform visible in the SKU prefix): VIC / mLOM (MLOM, ML-V, MLV, M-V) / mezz / PCIe and OCP NICs and modular RAID / SAS / HBA controllers of X, B, C, XE and AI — not the MLOM blanking panel, the VIC bridges, the PCIe fillers (PCIE-F…) or the PCIe riser boards (PCIE-R…) — plus N20-AI / N20-BRAID and the C200 R2X0-ML mezz. The stored kind reads memory for the MLOM, ML-V, MLV and MRAID parts (listed for the kind rebuild) · ^UCS-S3348-(HBA|RAID) (layering re-check of 17 Sep 2026, fix list section 1): UCS-S3348-HBAM5(=) 'UCS S3348 Pass through Controller (IT) based on LSI' and UCS-S3348-RAIDM5(=) 'UCS S3348 Raid Controller based on LSI' sat in UCS Server Components shared parts through ^UCS-",
+     "parts": 382,
      "kinds": {
       "nic": 233,
-      "storage-controller": 88,
+      "storage-controller": 92,
       "memory": 55,
       "unknown": 2
      },
@@ -1824,7 +1853,7 @@
       "N2XX-ABPCI01-M3= — Broadcom 5709 Dual-Port Ethernet PCIe Adapter M3 & later"
      ],
      "rules": {
-      "sku": 378
+      "sku": 382
      },
      "pending_in": {},
      "pending_out": {
@@ -1862,15 +1891,13 @@
      "family": "(shared across the line)",
      "role": null,
      "note": "^UCS-ACC removed in layers round 3: its last rows, the UCS-ACC-6652 / 6664 accessory kits arriving from interfaces-modules, are decided by UCS 6600 Fabric Interconnects; every other UCS-ACC- kit names its fabric interconnect",
-     "parts": 46,
+     "parts": 54,
      "kinds": {
       "mechanical": 7,
       "bundle": 11,
+      "cpu": 16,
       "accessory": 17,
-      "memory": 2,
-      "drive": 2,
       "cable": 1,
-      "storage-controller": 4,
       "fan": 2
      },
      "roles": {},
@@ -1878,12 +1905,12 @@
       "UCS-BLKE-6200 — UCS 6200 Series Expansion Module Blank",
       "UCS-BLKE-6200= — UCS 6200 Series Expansion Module Blank",
       "UCS-COPC-3260-SWST — Cisco UCS C3260 Base Chassis w/4x PSU, SSD, Railkit",
-      "UCS-DDR5-BLK — Cisco UCS-DDR5-BLK",
-      "UCS-DDR5-BLK= — Cisco UCS-DDR5-BLK=",
-      "UCS-DGPUM8-MLB — Cisco UCS-DGPUM8-MLB"
+      "UCS-CPU-CVR-EP-M4= — Unpopulated CPU sockets-dust cover for EP M4s",
+      "UCS-CPU-EN-PNP — Pick n place CPU tool set (for Intel E5 EN Socket B2)",
+      "UCS-CPU-EN-PNP-C= — DISTIonly: Factory PnP CPU tool set (for Intel E5 EN Socket"
      ],
      "rules": {
-      "sku": 46
+      "sku": 54
      },
      "pending_in": {},
      "pending_out": {
@@ -2979,6 +3006,22 @@
    "sku": "COMPUTE-OTHER",
    "name": "Cisco COMPUTE-OTHER",
    "series_label": "Unified Edge",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell value or fragment enumerated as a part"
+  },
+  {
+   "sku": "CPU1",
+   "name": "Cisco CPU1",
+   "series_label": "UCS X-Series",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell value or fragment enumerated as a part"
+  },
+  {
+   "sku": "CPU2",
+   "name": "Cisco CPU2",
+   "series_label": "UCS X-Series",
    "action": "class",
    "to": "non_product",
    "reason": "datasheet cell value or fragment enumerated as a part"
@@ -6894,6 +6937,14 @@
    "action": "move",
    "to": "hyperconverged-infrastructure",
    "reason": "Cisco Compute Hyperconverged with Nutanix (HCI / HCIX) node or component filed under a UCS label: its category is hyperconverged-infrastructure (the exclusion's reason, now a plan — layers round 3, servers + hyperconverged round)"
+  },
+  {
+   "sku": "HDD1",
+   "name": "Cisco HDD1",
+   "series_label": "UCS B-Series",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell value or fragment enumerated as a part"
   },
   {
    "sku": "HX-B-NVME2H-I1000",
@@ -11008,6 +11059,14 @@
    "reason": "datasheet cell value or fragment enumerated as a part"
   },
   {
+   "sku": "M2511",
+   "name": "Cisco M2511",
+   "series_label": "UCS X-Series",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell value or fragment enumerated as a part"
+  },
+  {
    "sku": "M5/M6/M7/M8",
    "name": "Cisco M5/M6/M7/M8",
    "series_label": "Unified Computing System",
@@ -11120,6 +11179,14 @@
    "reason": "datasheet cell value or fragment enumerated as a part"
   },
   {
+   "sku": "NVMe4",
+   "name": "Cisco NVMe4",
+   "series_label": "UCS X-Series",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell value or fragment enumerated as a part"
+  },
+  {
    "sku": "OMP=0.823",
    "name": "Cisco OMP=0.823",
    "series_label": "UCS C-Series",
@@ -11200,12 +11267,28 @@
    "reason": "an ordering setting that ships nothing — 'no power cord' (kind non-product on a hardware row contradicts itself; re-audit decisions, operator, 15 Sep 2026, Q-15)"
   },
   {
+   "sku": "RAID00",
+   "name": "Cisco RAID00",
+   "series_label": "UCS C-Series",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell value or fragment enumerated as a part"
+  },
+  {
    "sku": "S3260",
    "name": "Cisco S3260",
    "series_label": "S-Series Storage",
    "action": "class",
    "to": "non_product",
    "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)"
+  },
+  {
+   "sku": "SAS/SATA/U.3",
+   "name": "Cisco SAS/SATA/U.3",
+   "series_label": "UCS C-Series",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell value or fragment enumerated as a part"
   },
   {
    "sku": "SM7-UCSE",
@@ -11235,6 +11318,14 @@
    "sku": "SMD=1.50",
    "name": "Cisco SMD=1.50",
    "series_label": "UCS C-Series",
+   "action": "class",
+   "to": "non_product",
+   "reason": "datasheet cell value or fragment enumerated as a part"
+  },
+  {
+   "sku": "SSD1",
+   "name": "Cisco SSD1",
+   "series_label": "UCS B-Series",
    "action": "class",
    "to": "non_product",
    "reason": "datasheet cell value or fragment enumerated as a part"

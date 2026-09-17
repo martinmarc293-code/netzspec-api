@@ -40,7 +40,7 @@ DATA-DG	Cisco DATA-DG	HyperFlex HX Series	unknown	pending_plan								class non_
 E10GSFPLR	Cisco E10GSFPLR	HyperFlex HX Series	server	pending_plan								class non_product			
 E10GSFPSR	Cisco E10GSFPSR	HyperFlex HX Series	server	pending_plan								class non_product			
 FRA-DG	Cisco FRA-DG	HyperFlex HX Series	unknown	pending_plan								class non_product			
-GPU3	Cisco GPU3	HyperFlex HX Series	gpu	layered	HyperFlex	(shared across the line)	HyperFlex shared parts	label HyperFlex HX Series							
+GPU3	Cisco GPU3	HyperFlex HX Series	gpu	pending_plan								class non_product			
 HX-16-DC16C	Cisco HX-16-DC16C	HyperFlex HX Series	unknown	layered	HyperFlex	(none)	HyperFlex bundles and starter packs	sku ^HX-(SP|STD|16)-							
 HX-16-DC16C-NS	Cisco HX-16-DC16C-NS	HyperFlex HX Series	unknown	layered	HyperFlex	(none)	HyperFlex bundles and starter packs	sku ^HX-(SP|STD|16)-							
 HX-16-DC16C-RM	Cisco HX-16-DC16C-RM	HyperFlex HX Series	unknown	layered	HyperFlex	(none)	HyperFlex bundles and starter packs	sku ^HX-(SP|STD|16)-							

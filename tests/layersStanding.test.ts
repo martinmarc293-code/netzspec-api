@@ -157,7 +157,10 @@ const CROSSLINE_EXPECT: Record<string, number> = {
   // servers 47 -> 15 (17 Sep 2026, fix list 4.2): 32 rows of this queue were components in family shared parts that a UCS Server
   // Components series named — the TPMs (UCSX-TPM*, UCSXE-TPM-002D) by "TPM", the Optane PMem (UCSX-MP-*) and C460 risers (UCSC-MRBD-12)
   // by "Memory" — plus known false readings now filed by type (UCSX-M2-240G "240GB" -> UCS C240, UCSX-SDB480OA1* -> B480); only withdrawals
-  "servers-unified-computing": 15, wireless: 25, switches: 5, "optical-networking": 4,
+  // servers 15 -> 14 and wireless 25 -> 21 (17 Sep 2026, layering re-check fix list section 1): only withdrawals, each row now placed where
+  // the queue said — CIVS-MSP-MEMUP6G (proposed for "Memory" on the word) is in its own Video Surveillance series; AIR-PSU1-770W(=) "…for
+  // 5520 Controller" and AIR-PSU2V2-1200W(=) "…for 8540 Controller" are SKU-placed in 5500 / 8500. The reverse queues did not move.
+  "servers-unified-computing": 14, wireless: 21, switches: 5, "optical-networking": 4,
   "hyperconverged-infrastructure": 3, "collaboration-endpoints": 1,
   routers: 0, transceiver: 0, "interfaces-modules": 0, "hyperconverged-systems": 0, security: 0,
   video: 0, "storage-networking": 0, "unified-communications": 0, meraki: 0,
@@ -190,7 +193,7 @@ const LABEL_EXPECT: Record<string, { min?: number; exactly?: number; why: string
   switches: { min: 100, why: "hundreds of rows are placed by a stored series label" },
   routers: { min: 100, why: "hundreds of rows are placed by a stored series label" },
   transceiver: { exactly: 0, why: "every transceiver row is placed by its SKU's form-factor and speed family; the mapping's labels place nothing (layers round 3)" },
-  wireless: { exactly: 23, why: "access points, controllers and their parts are placed by SKU; 23 rows are judged on a stored label (was 28 = 11 kept by a token or name, 17 moved to their line's shared parts — layers round 3; 24 -> 23 on 17 Sep 2026: ON100-M6-K9 is SKU-placed in its own series, operator decision 4.3). Re-audit decisions (15 Sep 2026): 30 -> 28, the MobileAccessVE control unit AIR-VCU-CELLPCS12(=), moved for want of a 5500 token, is SKU-placed in the MobileAccessVE series (Q-12). Layering review of 17 Sep 2026 (fix list 2.2): 28 -> 24, the four label-moved rows AIR-AC-750W-R, AIR-AC-750W-R-BLK, AIR-A03-D500GC3 and AIR-TPM1-001 (a '9540 Controller' supply and blanking panel, a server drive, a UCS TPM — none an access-point part) are SKU-placed in Wireless Antennas and Accessories / Modules and power (unnamed platform); 11 kept, 13 moved" },
+  wireless: { exactly: 21, why: "access points, controllers and their parts are placed by SKU; 21 rows are judged on a stored label (was 28 = 11 kept by a token or name, 17 moved to their line's shared parts — layers round 3; 24 -> 23 on 17 Sep 2026: ON100-M6-K9 is SKU-placed in its own series, operator decision 4.3; 23 -> 21 on 17 Sep 2026, layering re-check fix list section 1: AIR-SD240G0KS2-EV(=), moved to AireOS shared parts for want of an 8500 token, are SKU-placed there by ^AIR-SD240G — their own end-of-sale notice is 'for Wireless Controllers 5520 and 8540'). Re-audit decisions (15 Sep 2026): 30 -> 28, the MobileAccessVE control unit AIR-VCU-CELLPCS12(=), moved for want of a 5500 token, is SKU-placed in the MobileAccessVE series (Q-12). Layering review of 17 Sep 2026 (fix list 2.2): 28 -> 24, the four label-moved rows AIR-AC-750W-R, AIR-AC-750W-R-BLK, AIR-A03-D500GC3 and AIR-TPM1-001 (a '9540 Controller' supply and blanking panel, a server drive, a UCS TPM — none an access-point part) are SKU-placed in Wireless Antennas and Accessories / Modules and power (unnamed platform); 11 kept, 13 moved" },
   "interfaces-modules": { exactly: 5, why: "the cards are placed by their SKU families; 5 rows are judged on a stored label — STM1-CN-MM / -SMI kept by the name token PA, and AIC-DBL-PNL, AIC-SGL-PNL and WDM-SFP-2CH-CONV= moved to shared parts; the 30 labels mapped directly to a line's shared parts are not judged (pre-ruling C1, layers round 3)" },
   "servers-unified-computing": { exactly: 1, why: "UCS rows are placed by SKU; one row is judged on a stored label — SAS3 (a datasheet fragment, label 'S-Series Storage'), moved to the S-Series line's shared parts; the rows whose label maps directly to a line's shared parts are not judged (pre-ruling C1). The ten E1x0 service spares and the SRE parts the check had moved are SKU-placed or planned out since the servers round" },
   "hyperconverged-infrastructure": { exactly: 0, why: "HCI rows are placed by SKU; its 97 label-placed rows carry labels mapped directly to the Nutanix line's shared parts (pre-ruling C1, not judged)" },
@@ -262,8 +265,10 @@ const STATUS_EXPECT: Record<string, number> = {
   // fix list 2.6 (17 Sep 2026): switches 315 -> 316 (N5K-C5672UP-C= class plan), collaboration-endpoints 0 -> 1 (BRKT-SX20-MONITOR=)
   // fix list 4.1 (17 Sep 2026, operator: "go with your recommendations"): 50 twin move plans — servers +5 (the C19 cord spares to HCI),
   // switches +1 (CAB-BS1363-C19-UK= to HCI), HCI +6, HX +27, security 0 -> 11 (its UCS spares to servers)
-  "servers-unified-computing": 1263, switches: 317, routers: 123, "interfaces-modules": 66, transceiver: 49,
-  "hyperconverged-infrastructure": 49, "hyperconverged-systems": 57, conferencing: 68, "data-center-networking": 22,
+  // layering re-check of 17 Sep 2026, fix list section 1: servers 1263 -> 1271 and HX 57 -> 58 — class -> non_product plans for the nine
+  // datasheet cells a label had layered as hardware: CPU1, CPU2, M2511, NVMe4, HDD1, SSD1, RAID00, SAS/SATA/U.3 (servers), GPU3 (HX)
+  "servers-unified-computing": 1271, switches: 317, routers: 123, "interfaces-modules": 66, transceiver: 49,
+  "hyperconverged-infrastructure": 49, "hyperconverged-systems": 58, conferencing: 68, "data-center-networking": 22,
   wireless: 0, video: 0, "collaboration-endpoints": 1, security: 11, "optical-networking": 0, "storage-networking": 0, "unified-communications": 0, meraki: 0,
 };
 /** rows layered in a series whose every row must carry a move plan */
@@ -1085,12 +1090,14 @@ check("SABOTAGE merge: a plan that calls a hardware row non-hardware is refused"
 // UCS family lines sit by type in UCS Server Components. Exact in both directions: every row of a component kind still in a family's shared
 // parts is named here with its reason, so a fence token dropped from one family's shared-parts rule (its components would stay behind and
 // break nothing else) fails, and so does a recorded row that has gone.
+// Layering re-check of 17 Sep 2026, fix list section 1: 36 -> 29. Gone: the eight datasheet cells (CPU1 … SAS/SATA/U.3 — class plans, no
+// longer layered), CIVS-MSP-MEMUP6G (its own Video Surveillance series) and SSD-SATA-800G(=) (Drives and storage, by the exact PID).
+// Added: the four UCSX- CPU tools the CPU token no longer claims — back with their family, their stored kind (cpu) wrong.
 const COMPONENT_KIND_LEFT_IN_FAMILY_SHARED: Record<string, string> = Object.fromEntries([
-  ...["CPU1", "CPU2", "HDD1", "SSD1", "NVMe4", "M2511", "RAID00", "SAS/SATA/U.3"].map((s) => [s, "placed only by a label and named only 'Cisco <SKU>': a datasheet cell or slot name, not a component PID"]),
-  ["CIVS-MSP-MEMUP6G", "a Video Surveillance MultiService Platform memory upgrade placed by a label, not a UCS family part"],
   ["CS-EZ-3TB-HDD", "placed only by a label, named only 'Cisco CS-EZ-3TB-HDD': no UCS family prefix to route by"],
   ...["PLHC-MLOM-40G-04", "PLHC-MRAID12G"].map((s) => [s, "a Cisco+ (PLHC-) variant placed by a label, not a UCS family prefix"]),
-  ...["SSD-SATA-800G", "SSD-SATA-800G="].map((s) => [s, "placed by a label; a ^SSD-SATA- rule would also claim 10 routers SSDs"]),
+  ["UCSX-CPU-TIM=", "CPU thermal interface material — the stored kind (cpu) is wrong; the CPU token refuses -TIM (re-check, 17 Sep 2026)"],
+  ...["UCSX-CPUAT=", "UCSX-CPUATI-3=", "UCSX-CPUATI-4="].map((s) => [s, "a CPU assembly tool (UCS-CPUAT= 'CPU Assembly Tool for M5 Servers') — the stored kind (cpu) is wrong; the CPU token refuses CPUAT (re-check, 17 Sep 2026)"]),
   ["UCSC-HDBP-C24-24=", "a 24-drive HDD BACKPLANE for C24 M3 — the stored kind (drive) is wrong"],
   ["UCSC-M2EXT-240-D", "an M.2 extender — the stored kind (drive) is wrong"],
   ["UCSC-MLOM-BLK", "an MLOM blanking panel — the stored kind (memory) is wrong"],

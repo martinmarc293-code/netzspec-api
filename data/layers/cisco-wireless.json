@@ -1,12 +1,12 @@
 {
  "vendor": "cisco",
  "category": "wireless",
- "built_at": "2026-09-17T15:03:34.675Z",
- "commit": "d1dc019816149c7943c27418992ee68157b97d3a",
+ "built_at": "2026-09-17T16:44:28.196Z",
+ "commit": "9906ab560b795534340c0409e64087e41b8efab9",
  "uncommitted_rule_files": [
-  "data/reference/layers-cross-claims.json",
+  "data/reference/kind-layer-plans-2026-09-13.json",
   "data/reference/product-lines/cisco-servers-unified-computing.json",
-  "src/core/layerChecks.ts"
+  "data/reference/product-lines/cisco-wireless.json"
  ],
  "mapping_file": "data/reference/product-lines/cisco-wireless.json",
  "parts": 3907,
@@ -1454,7 +1454,7 @@
   },
   {
    "line": "AireOS Wireless LAN Controllers",
-   "parts": 227,
+   "parts": 235,
    "series": [
     {
      "series": "2500 (2504)",
@@ -1512,11 +1512,11 @@
      "series": "5500 (5508 / 5520 / 5540)",
      "family": "(none)",
      "role": null,
-     "note": "^AIR-BZL-C220M4 and ^AIR-PSU-BLKP1U (layering review of 17 Sep 2026, fix list 2.1): 'Cisco 5520 Wireless Controller Security Bezel' and 'Power Supply Blanking Panel for C220 M4 servers', which the Cisco 5520 Wireless Controller end-of-sale notice lists (eos-eol-notice-c51-744430); both sat in CMX 3375 / MSE 3355 / 3365 through ^AIR-(MR|SD|PSU|BZL|RAID|MRAID|CPU|PCI|SVR|DC)-",
-     "parts": 65,
+     "note": "^AIR-BZL-C220M4 and ^AIR-PSU-BLKP1U (layering review of 17 Sep 2026, fix list 2.1): 'Cisco 5520 Wireless Controller Security Bezel' and 'Power Supply Blanking Panel for C220 M4 servers', which the Cisco 5520 Wireless Controller end-of-sale notice lists in its French copy (eos-eol-notice-c51-744430-fr; the English copy as cached lists neither); both sat in CMX 3375 / MSE 3355 / 3365 through ^AIR-(MR|SD|PSU|BZL|RAID|MRAID|CPU|PCI|SVR|DC)- · ^AIR-PSU1-770W (layering re-check of 17 Sep 2026, fix list section 1): AIR-PSU1-770W(=) '770W AC Hot-Plug Power Supply for 5520 Controller' names this controller, the evidence AIR-PSU-930WDC carries for 8500; it sat in Wireless Antennas and Accessories shared parts by the label 'Antennas/Accessories'. Deviation a, read against the notices: AIR-PSU-BLKP1U stays here (the 5520 notice lists it); AIR-PSU-650W and AIR-PCI-1A-240M4 stay in Modules and power (unnamed platform) — neither the 5520 nor the 8540 notice (English and French copies) nor the 5520 / 8540 SSD notice lists them, and the two accessory notices that do (wireless-misc-accessories-sw-lic-eol, aironet-accessories-eol15454) name a controller for the 770 W and 1200 W supplies beside them and none for these two",
+     "parts": 67,
      "kinds": {
       "wlc": 54,
-      "power": 4,
+      "power": 6,
       "mechanical": 4,
       "module": 3
      },
@@ -1530,7 +1530,7 @@
       "AIR-BZL-C220M4= — Cisco 5520 Wireless Controller Security Bezel"
      ],
      "rules": {
-      "sku": 62,
+      "sku": 64,
       "label": 3
      },
      "pending_in": {},
@@ -1540,10 +1540,10 @@
      "series": "8500 (8510 / 8540 / 8580)",
      "family": "(none)",
      "role": null,
-     "note": "CT85DC (layers round 3): AIR-CT85DC-K9 / AIR-CT85DC-SP-K9, the 8510 DC controllers, sat in the line's shared parts through ^AIR-(CT|WLC|VPN) — a controller in shared parts. ^AIR-BZL-C240M4, ^AIR-PSU-930WDC, ^AIR-SVR-PWR-DC (layering review of 17 Sep 2026, fix list 2.1): the parts named for an 8500 controller — 'Cisco 8540 Wireless Controller Security Bezel', '930W -48V DC Common Slot Power Supply for 8540 Controller', 'Field replaceable DC Power Supply for 8510DC (AIR-CT85DC-K9)', the last listed by the Cisco 8510 Wireless Controller end-of-sale notice (eos-eol-notice-c51-740222); with their spares they sat in CMX 3375 / MSE 3355 / 3365",
-     "parts": 45,
+     "note": "CT85DC (layers round 3): AIR-CT85DC-K9 / AIR-CT85DC-SP-K9, the 8510 DC controllers, sat in the line's shared parts through ^AIR-(CT|WLC|VPN) — a controller in shared parts. ^AIR-BZL-C240M4, ^AIR-PSU-930WDC, ^AIR-SVR-PWR-DC (layering review of 17 Sep 2026, fix list 2.1): the parts named for an 8500 controller — 'Cisco 8540 Wireless Controller Security Bezel', '930W -48V DC Common Slot Power Supply for 8540 Controller', 'Field replaceable DC Power Supply for 8510DC (AIR-CT85DC-K9)', the last listed by the Cisco 8510 Wireless Controller end-of-sale notice (eos-eol-notice-c51-740222); with their spares they sat in CMX 3375 / MSE 3355 / 3365 · ^AIR-PSU2V2-1200W (layering re-check of 17 Sep 2026, fix list section 1): AIR-PSU2V2-1200W(=) '1200W V2 AC Power Supply for 8540 Controller' names this controller; it sat in Wireless Antennas and Accessories shared parts by the label 'Antennas/Accessories'",
+     "parts": 47,
      "kinds": {
-      "power": 8,
+      "power": 10,
       "mechanical": 2,
       "wlc": 34,
       "module": 1
@@ -1558,7 +1558,7 @@
       "AIR-BZL-C240M4= — Cisco 8540 Wireless Controller Security Bezel"
      ],
      "rules": {
-      "sku": 44,
+      "sku": 46,
       "label": 1
      },
      "pending_in": {},
@@ -1617,10 +1617,10 @@
      "series": "AireOS Wireless LAN Controllers shared parts",
      "family": "(shared across the line)",
      "role": null,
-     "note": null,
-     "parts": 7,
+     "note": "^AIR-SD240G (layering re-check of 17 Sep 2026, fix list section 1): AIR-SD240GBKS2-EV= / AIR-SD240GBKS4-EV= 'Spare SSD for Cisco Wireless Controller 5520 and 8540' (with their base PIDs) name two controllers of this line, and AIR-SD240G0KS2-EV(=) has its own end-of-sale notice 'for Wireless Controllers 5520 and 8540' (eos-eol-notice-c51-737832); the first four sat in Wireless Antennas and Accessories shared parts by a label, the last two here by the label check",
+     "parts": 11,
      "kinds": {
-      "module": 6,
+      "module": 10,
       "power": 1
      },
      "roles": {},
@@ -1629,12 +1629,12 @@
       "AIR-CT6880-NIC-K9 — PCIe Network Interface 40G",
       "AIR-SD240G0KS2-EV — 240GB 2.5 inch Enterprise Value 6G SATA SSD",
       "AIR-SD240G0KS2-EV= — Spare SSD for Cisco Wireless Controller 5520 and 8540",
-      "AIR-SRVR-300GB-HD= — Field replaceable 300GB HD for wireless/management servers",
-      "AIR-SRVR-PWR= — Field replaceable AC power supply for wireless appliances"
+      "AIR-SD240GBKS2-EV — 240GB 2.5 inch Enterprise Value 6G SATA SSD",
+      "AIR-SD240GBKS2-EV= — Spare SSD for Cisco Wireless Controller 5520 and 8540"
      ],
      "rules": {
-      "sku": 3,
-      "label-unsupported": 4
+      "sku": 9,
+      "label-unsupported": 2
      },
      "pending_in": {},
      "pending_out": {}
@@ -1776,7 +1776,7 @@
   },
   {
    "line": "Wireless Antennas and Accessories",
-   "parts": 328,
+   "parts": 320,
    "series": [
     {
      "series": "Antennas",
@@ -1858,10 +1858,10 @@
      "series": "Modules and power (unnamed platform)",
      "family": "(none)",
      "role": null,
-     "note": "layering review of 17 Sep 2026 (fix list 2.1 / 2.2): server components and supplies of the UCS C-Series-based wireless controllers and appliances that name no platform this mapping places — CPUs, RDIMMs, MegaRAID and embedded RAID, a 32 GB SD card, a C240 M4 PCIe riser, a 650 W C-Series supply, a 500 GB drive, a UCS TPM — and the supplies named for a '9540' / '9580' controller that no series of this category names (AIR-AC-750W-R, its blanking panel, AIR-DC-950W). Cisco's end-of-sale notices list them only as 'Wireless Miscellaneous Accessories' (wireless-misc-accessories-sw-lic-eol) and 'Aironet Accessories' (aironet-accessories-eol15454), with no platform, so the series sits in the accessories line and claims no controller or appliance: the review proposed one 'Wireless controllers and appliances shared parts' series, and the rows span the AireOS controllers, the location appliances and controllers this mapping does not name. They sat in CMX 3375 / MSE 3355 / 3365 (^AIR-(MR|SD|PSU|BZL|RAID|MRAID|CPU|PCI|SVR|DC)-) and, by a label the check did not support, in Aironet Access Points shared parts (AIR-AC-750W-R, AIR-AC-750W-R-BLK, AIR-A03-D500GC3, AIR-TPM1-001). THE NAME CLAIMS NOTHING ON PURPOSE: every word of it is a labelEvidence stop word or a short word. The first name tried, 'Controller and appliance components', made 'Controller' a claim word, so the reverse check proposed 7 other controller supplies in the accessories shared parts for this series and withdrew 4 correct cross-line proposals (AIR-PSU1-770W(=) to the 5500 by '5520', AIR-PSU2V2-1200W(=) to the 8500 by '8540'); with this name both queues are the recorded 59 / 25",
-     "parts": 21,
+     "note": "layering review of 17 Sep 2026 (fix list 2.1 / 2.2): server components and supplies of the UCS C-Series-based wireless controllers and appliances that name no platform this mapping places — CPUs, RDIMMs, MegaRAID and embedded RAID, a 32 GB SD card, a C240 M4 PCIe riser, a 650 W C-Series supply, a 500 GB drive, a UCS TPM — and the supplies named for a '9540' / '9580' controller that no series of this category names (AIR-AC-750W-R, its blanking panel, AIR-DC-950W). Cisco's end-of-sale notices list them only as 'Wireless Miscellaneous Accessories' (wireless-misc-accessories-sw-lic-eol) and 'Aironet Accessories' (aironet-accessories-eol15454), with no platform, so the series sits in the accessories line and claims no controller or appliance: the review proposed one 'Wireless controllers and appliances shared parts' series, and the rows span the AireOS controllers, the location appliances and controllers this mapping does not name. They sat in CMX 3375 / MSE 3355 / 3365 (^AIR-(MR|SD|PSU|BZL|RAID|MRAID|CPU|PCI|SVR|DC)-) and, by a label the check did not support, in Aironet Access Points shared parts (AIR-AC-750W-R, AIR-AC-750W-R-BLK, AIR-A03-D500GC3, AIR-TPM1-001). THE NAME CLAIMS NOTHING ON PURPOSE: every word of it is a labelEvidence stop word or a short word. The first name tried, 'Controller and appliance components', made 'Controller' a claim word, so the reverse check proposed 7 other controller supplies in the accessories shared parts for this series and withdrew 4 correct cross-line proposals (AIR-PSU1-770W(=) to the 5500 by '5520', AIR-PSU2V2-1200W(=) to the 8500 by '8540'); with this name both queues are the recorded 59 / 25 · ^AIR-MRAID12G, ^AIR-TPM2- (layering re-check of 17 Sep 2026, fix list section 1): AIR-MRAID12G 'Cisco 12G SAS Modular Raid Controller', AIR-MRAID12G-1GB its cache module and AIR-TPM2-001 'Trusted Platform Module 1.2 for UCS' are the same class as the MegaRAID and TPM rows here, listed by aironet-accessories-eol15454 with no platform; they sat in Wireless Antennas and Accessories shared parts by the label 'Antennas/Accessories'",
+     "parts": 24,
      "kinds": {
-      "module": 16,
+      "module": 19,
       "power": 5
      },
      "roles": {},
@@ -1874,7 +1874,7 @@
       "AIR-DC-950W — Cisco 9580 Modular Wireless Controller 950W DC Power Supply"
      ],
      "rules": {
-      "sku": 21
+      "sku": 24
      },
      "pending_in": {},
      "pending_out": {}
@@ -1903,25 +1903,24 @@
      "family": "(shared across the line)",
      "role": null,
      "note": null,
-     "parts": 20,
+     "parts": 9,
      "kinds": {
-      "module": 9,
       "unknown": 1,
-      "power": 4,
       "mechanical": 2,
-      "antenna": 4
+      "antenna": 4,
+      "module": 2
      },
      "roles": {},
      "samples": [
-      "AIR-MRAID12G — Cisco 12G SAS Modular Raid Controller",
-      "AIR-MRAID12G-1GB — Cisco 12Gbps SAS 1GB FBWC Cache module (Raid 0/1/5/6)",
       "AIR-N-3006-DTA-K9 — ^NECJ AS3504 DTA",
-      "AIR-PSU1-770W — 770W AC Hot-Plug Power Supply for 5520 Controller",
-      "AIR-PSU1-770W= — 770W AC Hot-Plug Power Supply for 5520 Controller",
-      "AIR-PSU2V2-1200W — 1200W V2 AC Power Supply for 8540 Controller"
+      "AIRWLC4400FIPSKIT= — FIPS Kit WLC 4400 Spare",
+      "C-ANT9101= — Tri-band MIMO Ceiling mount omnidirectional antenna operates",
+      "C-ANT9102= — Tri-band MIMO Wall/Pole mount omnidirectional antenna operat",
+      "C-ANT9103= — Tri-band MIMO Wall/Pole mount directional antenna operates i",
+      "C-ANT9104= — Dual-band MIMO Wall/Pole mount directional antenna operates "
      ],
      "rules": {
-      "label": 20
+      "label": 9
      },
      "pending_in": {},
      "pending_out": {}
@@ -1934,9 +1933,9 @@
  "unplaced": [],
  "label_check": {
   "applied": true,
-  "label_placed": 23,
+  "label_placed": 21,
   "by_kind": {
-   "none": 12,
+   "none": 10,
    "sku-token": 2,
    "name": 9
   },
@@ -1972,22 +1971,6 @@
     "from_series": "Aironet 1550",
     "to_series": "Aironet Access Points shared parts",
     "why": "no platform token (1550) in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "AIR-SD240G0KS2-EV",
-    "name": "240GB 2.5 inch Enterprise Value 6G SATA SSD",
-    "series_label": "8500",
-    "from_series": "8500 (8510 / 8540 / 8580)",
-    "to_series": "AireOS Wireless LAN Controllers shared parts",
-    "why": "no platform token (8500, 8510, 8540, 8580) in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "AIR-SD240G0KS2-EV=",
-    "name": "Spare SSD for Cisco Wireless Controller 5520 and 8540",
-    "series_label": "5500",
-    "from_series": "8500 (8510 / 8540 / 8580)",
-    "to_series": "AireOS Wireless LAN Controllers shared parts",
-    "why": "names 8500 (8510 / 8540 / 8580) and another series of the line equally: 5500 (5508 / 5520 / 5540) (name 5520)"
    },
    {
     "sku": "AIR-SEC-50=",
