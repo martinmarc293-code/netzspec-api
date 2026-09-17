@@ -1,12 +1,12 @@
 {
  "vendor": "cisco",
  "category": "servers-unified-computing",
- "built_at": "2026-09-17T14:29:34.543Z",
- "commit": "74df4e68728d11c76688aa3e870bbcf59591c1a2",
+ "built_at": "2026-09-17T15:03:31.795Z",
+ "commit": "d1dc019816149c7943c27418992ee68157b97d3a",
  "uncommitted_rule_files": [
-  "data/reference/kind-layer-plans-2026-09-13.json",
+  "data/reference/layers-cross-claims.json",
   "data/reference/product-lines/cisco-servers-unified-computing.json",
-  "data/reference/product-lines/cisco-wireless.json"
+  "src/core/layerChecks.ts"
  ],
  "mapping_file": "data/reference/product-lines/cisco-servers-unified-computing.json",
  "parts": 9492,
@@ -257,7 +257,7 @@
   },
   {
    "line": "UCS Unified Edge (XE)",
-   "parts": 62,
+   "parts": 29,
    "series": [
     {
      "series": "UCS XE130c",
@@ -329,19 +329,13 @@
      "series": "UCS Unified Edge (XE) shared parts",
      "family": "(shared across the line)",
      "role": null,
-     "note": null,
-     "parts": 50,
+     "note": "^UCSXE- fenced to the tokens the UCS Server Components series claim (operator, 17 Sep 2026, layering review fix list 4.2 ('go with your recommendations'))",
+     "parts": 17,
      "kinds": {
       "unknown": 3,
       "accessory": 11,
-      "gpu": 4,
-      "drive": 13,
-      "storage-controller": 1,
       "bundle": 1,
-      "memory": 8,
-      "nic": 6,
-      "power": 2,
-      "tpm": 1
+      "power": 2
      },
      "roles": {},
      "samples": [
@@ -353,7 +347,7 @@
       "UCSXE-ECMC-G1 — Cisco UCSXE-ECMC-G1"
      ],
      "rules": {
-      "sku": 50
+      "sku": 17
      },
      "pending_in": {},
      "pending_out": {
@@ -761,7 +755,7 @@
   },
   {
    "line": "UCS X-Series Modular System",
-   "parts": 1115,
+   "parts": 123,
    "series": [
     {
      "series": "UCS X9508 chassis",
@@ -937,23 +931,19 @@
      "series": "UCS X-Series Modular System shared parts",
      "family": "(shared across the line)",
      "role": null,
-     "note": null,
-     "parts": 1056,
+     "note": "^UCSX- fenced to the tokens the UCS Server Components series claim; ^UCSX[A-Z]{2} removed (operator, 17 Sep 2026, layering review fix list 4.2 ('go with your recommendations')): ^UCSX[A-Z]{2} placed only the glued UCSXSD / UCSXNVME / UCSXS9 drives, which Drives and storage now claims",
+     "parts": 64,
      "kinds": {
       "cable": 9,
-      "cpu": 494,
-      "drive": 326,
+      "cpu": 2,
+      "drive": 3,
       "accessory": 30,
       "mechanical": 4,
       "io-module": 5,
-      "gpu": 50,
-      "storage-controller": 20,
+      "gpu": 4,
       "bundle": 3,
-      "nic": 18,
-      "memory": 79,
       "unknown": 2,
-      "power": 2,
-      "tpm": 14
+      "power": 2
      },
      "roles": {},
      "samples": [
@@ -966,19 +956,19 @@
      ],
      "rules": {
       "accessory": 8,
-      "label": 15,
-      "sku": 1033
+      "label": 14,
+      "sku": 42
      },
      "pending_in": {},
      "pending_out": {
-      "class -> non_product": 51
+      "class -> non_product": 44
      }
     }
    ]
   },
   {
    "line": "UCS B-Series Blade Servers",
-   "parts": 412,
+   "parts": 271,
    "series": [
     {
      "series": "UCS B200",
@@ -1186,34 +1176,30 @@
      "series": "UCS B-Series Blade Servers shared parts",
      "family": "(shared across the line)",
      "role": null,
-     "note": null,
-     "parts": 199,
+     "note": "^UCSB- fenced to the tokens the UCS Server Components series claim; ^N20-B fenced to the tokens the UCS Server Components series claim; ^A01-X removed (operator, 17 Sep 2026, layering review fix list 4.2 ('go with your recommendations')): ^A01-X placed only the 24 A01-X B-Series CPUs, which Processors now claims",
+     "parts": 58,
      "kinds": {
-      "cpu": 24,
       "cable": 3,
-      "drive": 73,
+      "drive": 3,
       "bundle": 1,
       "mechanical": 37,
-      "storage-controller": 7,
       "power": 5,
-      "accessory": 8,
-      "gpu": 7,
-      "nic": 11,
-      "memory": 23
+      "storage-controller": 1,
+      "accessory": 8
      },
      "roles": {},
      "samples": [
-      "A01-X0100 — 3.33GHz Xeon X5680 130W CPU/12MB cache/DDR3 1333MHz",
-      "A01-X0100= — 3.33GHz Xeon X5680 130W CPU/12M/DDR3 1333MHz/NoHeatSink",
-      "A01-X0102 — 2.93GHz Xeon X5670 95W CPU/12MB cache/DDR3 1333MHz",
-      "A01-X0102= — 2.93GHz Xeon X5670 95W CPU/12M/DDR3 1333MHz/NoHeatSink",
-      "A01-X0105 — 2.66GHz Xeon X5650 95W CPU/12MB cache/DDR3 1333MHz",
-      "A01-X0105= — 2.66GHz Xeon X5650 95W CPU/12MB cache/DDR3 1333MHz"
+      "CAB-48DC-40A-8AWG1 — Cisco CAB-48DC-40A-8AWG1",
+      "CS-EZ-3TB-HDD — Cisco CS-EZ-3TB-HDD",
+      "HDD1 — Cisco HDD1",
+      "N1K-VSG-UCS-BUN — Cisco N1K-VSG-UCS-BUN",
+      "N20-BBLKD2 — HDD slot blanking panel for UCS C210/250 Servers",
+      "N20-BBLKD2= — UCS C250 M2 and M1 HDD blanking panel"
      ],
      "rules": {
-      "sku": 186,
       "accessory": 1,
-      "label": 12
+      "label": 10,
+      "sku": 47
      },
      "pending_in": {
       "hyperconverged-systems": 1,
@@ -1227,7 +1213,7 @@
   },
   {
    "line": "UCS C-Series Rack Servers",
-   "parts": 1837,
+   "parts": 1370,
    "series": [
     {
      "series": "UCS C880A M8 (AI)",
@@ -1620,24 +1606,22 @@
      "series": "UCS C-Series Rack Servers shared parts",
      "family": "(shared across the line)",
      "role": null,
-     "note": null,
-     "parts": 780,
+     "note": "^UCSC- fenced to the tokens the UCS Server Components series claim; ^UCSAI- fenced to the tokens the UCS Server Components series claim (operator, 17 Sep 2026, layering review fix list 4.2 ('go with your recommendations'))",
+     "parts": 313,
      "kinds": {
       "mechanical": 64,
       "pdu": 1,
       "accessory": 41,
       "cable": 93,
       "fan": 4,
-      "memory": 32,
+      "memory": 2,
       "bundle": 6,
       "unknown": 18,
-      "nic": 186,
       "power": 58,
       "io-module": 5,
-      "storage-controller": 65,
-      "drive": 127,
-      "cpu": 3,
-      "gpu": 77
+      "nic": 14,
+      "storage-controller": 2,
+      "drive": 5
      },
      "roles": {},
      "samples": [
@@ -1649,16 +1633,16 @@
       "CAB-48DC-40A-AS-D — Cisco CAB-48DC-40A-AS-D"
      ],
      "rules": {
-      "label": 38,
+      "label": 29,
       "accessory": 37,
-      "sku": 705
+      "sku": 247
      },
      "pending_in": {
       "hyperconverged-systems": 9,
       "security": 6
      },
      "pending_out": {
-      "class -> non_product": 82,
+      "class -> non_product": 80,
       "move to hyperconverged-infrastructure": 5
      }
     }
@@ -1703,28 +1687,28 @@
   },
   {
    "line": "UCS Server Components",
-   "parts": 2422,
+   "parts": 4055,
    "series": [
     {
      "series": "Processors",
      "family": "(none)",
      "role": null,
-     "note": null,
-     "parts": 1160,
+     "note": "^UCS(X|B|C|XE|AI)-(CPU), ^A01-X (operator, 17 Sep 2026, layering review fix list 4.2 ('go with your recommendations'): the component kinds of the UCS platform lines' shared parts by component type, the platform visible in the SKU prefix): the X / B / C / XE / AI processors and A01-X (A01-X0100 … '3.33GHz Xeon X5680', the B-Series CPUs)",
+     "parts": 1679,
      "kinds": {
-      "cpu": 1160
+      "cpu": 1679
      },
      "roles": {},
      "samples": [
-      "UCS-CPU-3104 — 1.7 GHz 3104/85W 6C/8.25MB Cache/DDR4 2133MHz",
-      "UCS-CPU-3104= — 1.7 GHz 3104/85W 6C/8.25MB Cache/DDR4 2133MHz",
-      "UCS-CPU-3104C= — DISTI: 1.7 GHz 3104/85W 6C/8.25MB Cache/DDR4 2133MHz",
-      "UCS-CPU-3106 — 1.7 GHz 3106/85W 8C/11MB Cache/DDR4 2133MHz",
-      "UCS-CPU-3106= — 1.7 GHz 3106/85W 8C/11MB Cache/DDR4 2133MHz",
-      "UCS-CPU-3106C= — DISTI: 1.7 GHz 3106/85W 8C/11MB Cache/DDR4 2133MHz"
+      "A01-X0100 — 3.33GHz Xeon X5680 130W CPU/12MB cache/DDR3 1333MHz",
+      "A01-X0100= — 3.33GHz Xeon X5680 130W CPU/12M/DDR3 1333MHz/NoHeatSink",
+      "A01-X0102 — 2.93GHz Xeon X5670 95W CPU/12MB cache/DDR3 1333MHz",
+      "A01-X0102= — 2.93GHz Xeon X5670 95W CPU/12M/DDR3 1333MHz/NoHeatSink",
+      "A01-X0105 — 2.66GHz Xeon X5650 95W CPU/12MB cache/DDR3 1333MHz",
+      "A01-X0105= — 2.66GHz Xeon X5650 95W CPU/12MB cache/DDR3 1333MHz"
      ],
      "rules": {
-      "sku": 1160
+      "sku": 1679
      },
      "pending_in": {},
      "pending_out": {
@@ -1735,10 +1719,10 @@
      "series": "Memory",
      "family": "(none)",
      "role": null,
-     "note": null,
-     "parts": 221,
+     "note": "^UCS(X|B|C|XE|AI)-(MR(?!AID)|ML-[0-9]|MP-) (operator, 17 Sep 2026, layering review fix list 4.2 ('go with your recommendations'): the component kinds of the UCS platform lines' shared parts by component type, the platform visible in the SKU prefix): RDIMMs (MR, not MRAID), LRDIMMs (ML-<size>), Optane PMem (MP-) and the C460 memory risers (MRBD); an ML-V / MLV part is an mLOM VIC and goes to adapters",
+     "parts": 306,
      "kinds": {
-      "memory": 221
+      "memory": 306
      },
      "roles": {},
      "samples": [
@@ -1750,7 +1734,7 @@
       "UCS-MKIT-082RX-C — Mem kit for UCS-MR-2X082RX-C"
      ],
      "rules": {
-      "sku": 221
+      "sku": 306
      },
      "pending_in": {
       "hyperconverged-infrastructure": 3
@@ -1763,11 +1747,11 @@
      "series": "Drives and storage",
      "family": "(none)",
      "role": null,
-     "note": null,
-     "parts": 946,
+     "note": "^UCS(X|B|C|XE|AI)-(SD(?!BKT)|HD(?!BP)|NV(?!L)|M2(?!EXT)), ^UCS(B|C)-F-, ^UCSX(SD|NVME|S9), ^UCS6HDB, ^UCSSD[0-9], ^UCSV-HDD, ^SP-(A03-D|SSD) (operator, 17 Sep 2026, layering review fix list 4.2 ('go with your recommendations'): the component kinds of the UCS platform lines' shared parts by component type, the platform visible in the SKU prefix): drives, NVMe, M.2 (not the M2EXT extender) and SD (not SDBKT, HDBP, NVL) of X, B, C, XE and AI; the B / C PCIe flash (F-: Fusion ioMemory, 'PCIe/NVMe Storage Mezz'); the glued UCSXSD / UCSXNVME / UCSXS9 PIDs; and the label-placed UCS6HDB / UCSSD / UCSV-HDD / SP-A03-D / SP-SSD drives (^SSD-SATA- left out: it also matches 10 routers SSDs)",
+     "parts": 1483,
      "kinds": {
-      "drive": 930,
-      "storage-controller": 3,
+      "drive": 1458,
+      "storage-controller": 12,
       "mechanical": 2,
       "accessory": 1,
       "nic": 10
@@ -1782,7 +1766,7 @@
       "A03-D500GC3= — 500GB 6Gb SATA 7.2K RPM SFF hot plug/drive sled mounted"
      ],
      "rules": {
-      "sku": 946
+      "sku": 1483
      },
      "pending_in": {
       "security": 4,
@@ -1797,20 +1781,23 @@
      "series": "GPUs",
      "family": "(none)",
      "role": null,
-     "note": null,
-     "parts": 4,
+     "note": "^UCS(X|B|C|XE|AI)-(GPU(?!CBL|FM-BLK|-RKIT)), ^UCSX-X10C-GPUFM (operator, 17 Sep 2026, layering review fix list 4.2 ('go with your recommendations'): the component kinds of the UCS platform lines' shared parts by component type, the platform visible in the SKU prefix): the GPUs of X, B, C, XE and AI (not the GPUCBL cables, the GPUFM-BLK front-mezz blank or the unnamed GPU-RKIT kit) and the X10c GPU front mezz",
+     "parts": 142,
      "kinds": {
-      "gpu": 4
+      "gpu": 138,
+      "storage-controller": 4
      },
      "roles": {},
      "samples": [
       "CAI-GPU-MI210 — AMD Instinct MI210: 300W, 64GB, 2-slot FHFL GPU",
       "CAI-GPU-MI210= — AMD Instinct MI210: 300W, 64GB, 2-slot FHFL GPU",
       "CAI-GPU-MI350P — Cisco CAI-GPU-MI350P",
-      "CAI-GPU-MI350P= — Cisco CAI-GPU-MI350P="
+      "CAI-GPU-MI350P= — Cisco CAI-GPU-MI350P=",
+      "UCSB-GPU-M6 — UCS Blade Server M6 GPU HW - GRID 2.0 SW req d for VDI",
+      "UCSB-GPU-M6-CH — Disti UCS Blade Server M6 GPU HW - GRID 2.0 SW req d for VDI"
      ],
      "rules": {
-      "sku": 4
+      "sku": 142
      },
      "pending_in": {},
      "pending_out": {}
@@ -1819,36 +1806,39 @@
      "series": "Network and storage adapters",
      "family": "(none)",
      "role": null,
-     "note": "layers round 3: ^UCS-PCI and ^UCS-SDHPCIE removed — every row they matched is a drive decided by 'Drives and storage' (UCS-PCI25…, UCS-SD…); ^XRV-PCIE- places the XRv appliance PCIe NICs planned in from routers (their arrival exceptions there are retired). Dead rules removed elsewhere in the file: ^C880(?![0-9A]), ^C260-, 2[1-4]0[48]XP, ^UCSB-B22-, 9416(?![0-9]), ^UCS-COPC-240, ^[0-9]{3}P[0-9]$, ^N01-M",
-     "parts": 39,
+     "note": "layers round 3: ^UCS-PCI and ^UCS-SDHPCIE removed — every row they matched is a drive decided by 'Drives and storage' (UCS-PCI25…, UCS-SD…); ^XRV-PCIE- places the XRv appliance PCIe NICs planned in from routers (their arrival exceptions there are retired). Dead rules removed elsewhere in the file: ^C880(?![0-9A]), ^C260-, 2[1-4]0[48]XP, ^UCSB-B22-, 9416(?![0-9]), ^UCS-COPC-240, ^[0-9]{3}P[0-9]$, ^N01-M · ^UCSX-(ME-|P-|MLOM|ML-V|MLV|V[0-9]-(?!BRIDGE)|RAID|MRAID|X10C-(RAID|PT)), ^UCSB-(MLOM|ML-V|VIC|MEZ|RAID|MRAID), ^UCSC-(PCIE(?!-F|-R)|P-|O-|M-V|MLOM-(?!BLK)|RAID|MRAID|SAS|HBA|PSAS|NYTRO|9[45]00), ^UCS(AI|XE)-(P-|O-), ^N20-(AI|BRAID), ^R2X0-ML (operator, 17 Sep 2026, layering review fix list 4.2 ('go with your recommendations'): the component kinds of the UCS platform lines' shared parts by component type, the platform visible in the SKU prefix): VIC / mLOM (MLOM, ML-V, MLV, M-V) / mezz / PCIe and OCP NICs and modular RAID / SAS / HBA controllers of X, B, C, XE and AI — not the MLOM blanking panel, the VIC bridges, the PCIe fillers (PCIE-F…) or the PCIe riser boards (PCIE-R…) — plus N20-AI / N20-BRAID and the C200 R2X0-ML mezz. The stored kind reads memory for the MLOM, ML-V, MLV and MRAID parts (listed for the kind rebuild)",
+     "parts": 378,
      "kinds": {
-      "nic": 26,
-      "storage-controller": 11,
+      "nic": 233,
+      "storage-controller": 88,
+      "memory": 55,
       "unknown": 2
      },
      "roles": {},
      "samples": [
+      "N20-AI0102 — Cisco UCS CNA M61KR-I Intel Converged Network Adapter",
+      "N20-AI0102= — Cisco UCS CNA M61KR-I Intel Converged Network Adapter",
+      "N20-BRAID-K1 — RAID upgrade supporting RAID 5 and 6",
+      "N20-BRAID-K1= — Raid upgrade supporting RAID 5 and 6",
       "N2XX-ABPCI01-M3 — Broadcom 5709 Dual-Port Ethernet PCIe Adapter M3 & later",
-      "N2XX-ABPCI01-M3= — Broadcom 5709 Dual-Port Ethernet PCIe Adapter M3 & later",
-      "N2XX-ABPCI02 — Broadcom 57711 Dual Port 10GbE NIC w/TOE iSCSI",
-      "N2XX-ABPCI02= — Broadcom 57711 Dual Port 10GbE NIC w/TOE iSCSI",
-      "N2XX-ABPCI03-M3 — Broadcom 5709 Quad Port 1Gb w/TOE iSCSI for M3 & later",
-      "N2XX-ABPCI03-M3= — Broadcom 5709 Quad Port 1Gb w/TOE iSCSI for M3 & later"
+      "N2XX-ABPCI01-M3= — Broadcom 5709 Dual-Port Ethernet PCIe Adapter M3 & later"
      ],
      "rules": {
-      "sku": 39
+      "sku": 378
      },
      "pending_in": {},
-     "pending_out": {}
+     "pending_out": {
+      "class -> non_product": 2
+     }
     },
     {
      "series": "TPM",
      "family": "(none)",
      "role": null,
-     "note": null,
-     "parts": 6,
+     "note": "^UCS(X|B|C|XE|AI)-(TPM) (operator, 17 Sep 2026, layering review fix list 4.2 ('go with your recommendations'): the component kinds of the UCS platform lines' shared parts by component type, the platform visible in the SKU prefix): the TPMs of X, B, C, XE and AI",
+     "parts": 21,
      "kinds": {
-      "tpm": 6
+      "tpm": 21
      },
      "roles": {},
      "samples": [
@@ -1860,11 +1850,11 @@
       "UCS-TPM2-002D-D= — Cisco UCS-TPM2-002D-D="
      ],
      "rules": {
-      "sku": 6
+      "sku": 21
      },
      "pending_in": {},
      "pending_out": {
-      "class -> non_product": 2
+      "class -> non_product": 9
      }
     },
     {

@@ -90,6 +90,19 @@ export function nonHardwarePlansOnPage(category: string, rows: LayerRow[], plans
   return plans.filter((p) => p.category === category && (p.run_id ?? null) === null && p.product_class && p.product_class !== "hardware" && onPage.has(p.sku.trim().toUpperCase())).map((p) => p.sku);
 }
 
+/** THE COMPONENTS DECISION (operator, 17 Sep 2026, layering review fix list 4.2): a component of the UCS family lines sits by type in
+ * UCS Server Components, not in its family's shared parts. The mapping does this with SKU tokens, the component series claiming them and
+ * the family shared-parts rules fenced with the same tokens — so a token dropped from one fence leaves that family's components where
+ * they were, and no other check notices (they are not devices, and they break no count). These are the layered rows of a component KIND
+ * still in an X / B / C / XE family shared-parts series; the standing check names every one it accepts, because the stored kind is wrong
+ * for fillers, risers and blanks, and some rows are placed only by a label. */
+export const UCS_FAMILY_SHARED_PARTS: ReadonlySet<string> = new Set(["UCS X-Series Modular System shared parts", "UCS C-Series Rack Servers shared parts",
+  "UCS B-Series Blade Servers shared parts", "UCS Unified Edge (XE) shared parts"]);
+export const COMPONENT_KINDS: ReadonlySet<string> = new Set(["cpu", "memory", "drive", "gpu", "storage-controller", "nic", "tpm"]);
+export function componentKindsInFamilySharedParts(rows: LayerRow[]): LayerRow[] {
+  return rows.filter((r) => r.bucket === "layered" && UCS_FAMILY_SHARED_PARTS.has(r.series ?? "") && COMPONENT_KINDS.has(r.kind ?? ""));
+}
+
 /** The status fields of a built category summary (data/layers/<vendor>-<category>.json). */
 export type StatusSummary = {
   mapping_file: string | null; parts: number; layered: number; pending: number; done: boolean;

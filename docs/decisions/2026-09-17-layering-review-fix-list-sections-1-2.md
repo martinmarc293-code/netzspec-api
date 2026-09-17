@@ -97,6 +97,9 @@ blocking layering". The 35 rows stay listed in the actionable TSV for that rebui
 
 ## Section 4 — decisions for the operator (recommendations, nothing applied)
 
+**DECIDED, 17 Sep 2026 — operator: "yes publish, and go with your recommendations".** All five applied as recommended (no run):
+`2026-09-17-layering-review-operator-decisions-4-1-to-4-3.md`. The list below is kept as it was put to the operator.
+
 1. **ON100-M6-K9** "ON100 Network Agent Multipack" (Cisco OnPlus network agent; listed by the "Wireless Miscellaneous Accessories"
    end-of-sale notice). Not an access-point part. Options: (a) its own series in wireless (recommended: where Cisco's notice files
    it); (b) a move to another category; (c) leave it in Aironet shared parts (not recommended).

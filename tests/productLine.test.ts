@@ -115,7 +115,9 @@ witness("servers-unified-computing", [
   ["UCS-S3260-3KSD8", "Cisco UCS S3620 Top Load 3X 800G SSD", "S-Series Storage", "UCS S-Series Storage Servers", "UCS C3160 / S3260"], // renamed 17 Sep 2026 (C3160 and S3260 in one series)
   ["UCSC-C3K-M4SRB-U", "UCS S3260 M4 Svr Node w/o CPU, memory", "UCS C-Series", "UCS S-Series Storage Servers", "UCS C3160 / S3260"], // ^UCSC-C3K-: was C-Series shared parts through ^UCSC-
   ["UCS-SP-B200M4-BA4", "UCS SPSelect B200M4 Adv4", "UCS B-Series", "UCS Solution Bundles", "Smart Play and SP Select bundles"], // bundle before B200
-  ["UCSX-CPU-I6418H", "Intel 6418H", "UCS X-Series", "UCS X-Series Modular System", "UCS X-Series Modular System shared parts"], // family prefix only
+  ["UCSX-CPU-I6418H", "Intel 6418H", "UCS X-Series", "UCS Server Components", "Processors"], // operator, 17 Sep 2026 (fix list 4.2): components by type, the platform in the SKU prefix (was X-Series shared parts)
+  ["UCSB-MLOM-40G-04", "Cisco UCS VIC 1440 modular LOM for Blade Servers", "UCS B-Series", "UCS Server Components", "Network and storage adapters"], // an mLOM is an adapter, whatever its stored kind says
+  ["UCSC-MLOM-BLK", "MLOM Blanking Panel", "UCS C-Series", "UCS C-Series Rack Servers", "UCS C-Series Rack Servers shared parts"], // a blanking panel is not a component: the fence refuses MLOM-BLK
   // number collisions the audit found: Xeon model numbers are FI and X-node numbers
   ["UCS-CPU-6140", "2.3 GHz 6140/140W 18C", "UCS C-Series", "UCS Server Components", "Processors"],                  // not a 6140 FI
   ["UCS-CPU-I6248R", "Intel 6248R", "UCS C-Series", "UCS Server Components", "Processors"],                           // not a 6248 FI

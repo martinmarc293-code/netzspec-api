@@ -8,7 +8,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { REPO_ROOT } from "../src/config.js";
-import { readLayerRows, pairDisagreements, twinGroups, crossClaims, ruleUse, classifyRules, incomingRows, labelViolations, labelEvidenceDrift, movedRowsStillRefused, seriesEntryDisagreements, statusDisagreements, deviceInSharedParts, unplacedArrivals, sharedLabelNotExplicit, crossCategoryTwins, nonHardwarePlansOnPage, gluedDigitKeeps, sharedPartsNamedBySeries, crossLineNamedBySeries, DEVICE_KINDS, type LayerRow } from "../src/core/layerChecks.js";
+import { readLayerRows, pairDisagreements, twinGroups, crossClaims, ruleUse, classifyRules, incomingRows, labelViolations, labelEvidenceDrift, movedRowsStillRefused, seriesEntryDisagreements, statusDisagreements, componentKindsInFamilySharedParts, deviceInSharedParts, unplacedArrivals, sharedLabelNotExplicit, crossCategoryTwins, nonHardwarePlansOnPage, gluedDigitKeeps, sharedPartsNamedBySeries, crossLineNamedBySeries, DEVICE_KINDS, type LayerRow } from "../src/core/layerChecks.js";
 import { labelEvidence, digitPattern, ALIAS_REQUIRES, NUMBER_KEYED_ALIASES } from "../src/core/labelEvidence.js";
 
 export const REVIEWED = ["switches", "routers", "transceiver", "interfaces-modules", "wireless", "servers-unified-computing", "hyperconverged-infrastructure", "hyperconverged-systems", "security", "video", "optical-networking", "storage-networking", "unified-communications", "collaboration-endpoints", "meraki"];
@@ -127,7 +127,11 @@ const REVERSE_EXPECT: Record<string, number> = {
   // leave IR 800, and the same three ARRIVE at "Wireless Gateway for LoRaWAN" and "IR 500 WPAN" — removing the false rival let
   // their real series win a claim it had been tied out of. Second time tonight a total held still while the queue changed.
   // hyperconverged-systems 31 -> 30 (17 Sep 2026): UCSC-PSU-BLKP240= carries a fix list 4.1 twin move plan to servers, so it is not layered
-  "servers-unified-computing": 212, "hyperconverged-infrastructure": 109, "collaboration-endpoints": 79, switches: 90,
+  // servers 212 -> 170 (17 Sep 2026, fix list 4.2, operator: "go with your recommendations"): 1,633 components left the X / B / C / XE shared
+  // parts for the component-type series of UCS Server Components, and 42 of them were in this queue — only withdrawals, none added: e.g.
+  // UCSB-NVMEHW-I2000(=) proposed for "UCS 2000 fabric extenders", UCSX-ML-V5D200GV2 for "UCS X-Series fabric modules", UCSC-RAID-MZ-220(=)
+  // for UCS C220, UCSC-SD-16G-C420(=) for UCS C420 M3 (a platform-specific component now sits by type, its platform in the SKU)
+  "servers-unified-computing": 170, "hyperconverged-infrastructure": 109, "collaboration-endpoints": 79, switches: 90,
   wireless: 59, routers: 44, "storage-networking": 38, "hyperconverged-systems": 30, security: 22, "interfaces-modules": 9,
   "unified-communications": 5, video: 3, "optical-networking": 3, transceiver: 0, meraki: 0,
 };
@@ -150,7 +154,10 @@ const REVERSE_EXPECT: Record<string, number> = {
 const CROSSLINE_EXPECT: Record<string, number> = {
   // servers 52 -> 47 (17 Sep 2026): ^UCSC-C3K- in "UCS C3160 / S3260" SKU-places five rows this queue held — UCSC-C3K-M4IO(=) and
   // UCSC-C3K-M4SRI-U, named by the S3260 series, and UCSC-C3K-M4SVR3(=), named by "Memory" on the word in "CPU, Memory, RAID Controller"
-  "servers-unified-computing": 47, wireless: 25, switches: 5, "optical-networking": 4,
+  // servers 47 -> 15 (17 Sep 2026, fix list 4.2): 32 rows of this queue were components in family shared parts that a UCS Server
+  // Components series named — the TPMs (UCSX-TPM*, UCSXE-TPM-002D) by "TPM", the Optane PMem (UCSX-MP-*) and C460 risers (UCSC-MRBD-12)
+  // by "Memory" — plus known false readings now filed by type (UCSX-M2-240G "240GB" -> UCS C240, UCSX-SDB480OA1* -> B480); only withdrawals
+  "servers-unified-computing": 15, wireless: 25, switches: 5, "optical-networking": 4,
   "hyperconverged-infrastructure": 3, "collaboration-endpoints": 1,
   routers: 0, transceiver: 0, "interfaces-modules": 0, "hyperconverged-systems": 0, security: 0,
   video: 0, "storage-networking": 0, "unified-communications": 0, meraki: 0,
@@ -1072,6 +1079,42 @@ check("SABOTAGE merge: a plan that calls a hardware row non-hardware is refused"
   check("SABOTAGE stopword: 'mini' is NOT stopped, so the Room Kit Mini upgrade kit is still claimed by Room Kit", e.kind === "name" && e.detail === "Mini", JSON.stringify(e));
   e = v("CS-R-USB-UPG-BUN", upg, "Room Navigator and Touch 10", ctxOf("collaboration-endpoints", "Room Navigator and Touch 10"));
   check("SABOTAGE stopword: and Room Navigator claims it too, which is what HOLDS it in shared parts", e.kind === "name" && e.detail === "Navigator", JSON.stringify(e));
+}
+
+// THE COMPONENTS DECISION (operator, 17 Sep 2026, layering review fix list 4.2: "go with your recommendations"): the components of the
+// UCS family lines sit by type in UCS Server Components. Exact in both directions: every row of a component kind still in a family's shared
+// parts is named here with its reason, so a fence token dropped from one family's shared-parts rule (its components would stay behind and
+// break nothing else) fails, and so does a recorded row that has gone.
+const COMPONENT_KIND_LEFT_IN_FAMILY_SHARED: Record<string, string> = Object.fromEntries([
+  ...["CPU1", "CPU2", "HDD1", "SSD1", "NVMe4", "M2511", "RAID00", "SAS/SATA/U.3"].map((s) => [s, "placed only by a label and named only 'Cisco <SKU>': a datasheet cell or slot name, not a component PID"]),
+  ["CIVS-MSP-MEMUP6G", "a Video Surveillance MultiService Platform memory upgrade placed by a label, not a UCS family part"],
+  ["CS-EZ-3TB-HDD", "placed only by a label, named only 'Cisco CS-EZ-3TB-HDD': no UCS family prefix to route by"],
+  ...["PLHC-MLOM-40G-04", "PLHC-MRAID12G"].map((s) => [s, "a Cisco+ (PLHC-) variant placed by a label, not a UCS family prefix"]),
+  ...["SSD-SATA-800G", "SSD-SATA-800G="].map((s) => [s, "placed by a label; a ^SSD-SATA- rule would also claim 10 routers SSDs"]),
+  ["UCSC-HDBP-C24-24=", "a 24-drive HDD BACKPLANE for C24 M3 — the stored kind (drive) is wrong"],
+  ["UCSC-M2EXT-240-D", "an M.2 extender — the stored kind (drive) is wrong"],
+  ["UCSC-MLOM-BLK", "an MLOM blanking panel — the stored kind (memory) is wrong"],
+  ...["UCSC-PCIE-FLR-F", "UCSC-PCIE-FLR-F=", "UCSC-PCIE-RSR-FLR", "UCSC-PCIE-RSR-FLR=", "UCSC-PCIF-01F", "UCSC-PCIF-01H", "UCSC-PCIF-01H="].map((s) => [s, "a PCIe slot or module filler — the stored kind (nic) is wrong"]),
+  ...["UCSC-PCIE-RL-C22=", "UCSC-PCIE-RL-C24=", "UCSC-PCIE-RR-C22=", "UCSC-PCIE-RR-C24=", "UCSC-PCIE-RSR-05", "UCSC-PCIE-RSR-05="].map((s) => [s, "a PCIe riser board — the stored kind (nic) is wrong"]),
+  ["UCSC-SDBKT-24XM7=", "an SD bracket named only by its SKU — the stored kind (drive) is not established"],
+  ["UCSX-F-X9516=", "an X-Fabric (X9516) module named only by its SKU — the stored kind (drive) is wrong"],
+  ...["UCSX-GPU-RKIT-NV", "UCSX-GPU-RKIT-NV="].map((s) => [s, "a GPU riser kit named only by its SKU: an accessory, not a GPU"]),
+  ...["UCSX-GPUFM-BLK", "UCSX-GPUFM-BLK="].map((s) => [s, "'UCSX GPU Front Mezz slot blank' — the stored kind (gpu) is wrong"]),
+]);
+{
+  const left = componentKindsInFamilySharedParts(readLayerRows("servers-unified-computing"));
+  const unexpected = left.filter((r) => !(r.sku in COMPONENT_KIND_LEFT_IN_FAMILY_SHARED));
+  check(`components decision: 0 rows of a component kind in the UCS X / B / C / XE shared parts beyond the ${Object.keys(COMPONENT_KIND_LEFT_IN_FAMILY_SHARED).length} recorded`, unexpected.length === 0,
+    `${unexpected.length}: ${unexpected.slice(0, 8).map((r) => `${r.sku} (${r.kind}) ${r.series}`).join("; ")}`);
+  for (const sku of Object.keys(COMPONENT_KIND_LEFT_IN_FAMILY_SHARED))
+    check(`components decision: the recorded ${sku} is still a component-kind row in a family's shared parts (a stale entry is a hole)`, left.some((r) => r.sku === sku));
+  const planted = componentKindsInFamilySharedParts([
+    { sku: "UCSX-CPU-ZZ1", bucket: "layered", series: "UCS X-Series Modular System shared parts", kind: "cpu" },
+    { sku: "UCSX-CPU-ZZ2", bucket: "layered", series: "Processors", kind: "cpu" },
+    { sku: "UCSX-RAIL-ZZ", bucket: "layered", series: "UCS X-Series Modular System shared parts", kind: "mechanical" },
+    { sku: "UCSX-CPU-ZZ3", bucket: "pending_plan", series: "UCS X-Series Modular System shared parts", kind: "cpu" },
+  ] as LayerRow[]);
+  check("SABOTAGE components decision: a layered CPU in X-Series shared parts is found; one in Processors, a rail, and a pending row are not", planted.length === 1 && planted[0].sku === "UCSX-CPU-ZZ1", JSON.stringify(planted.map((r) => r.sku)));
 }
 
 // THE STATUS IS THE ROWS', ON ALL 17 CATEGORIES (review of 17 Sep 2026). Not REVIEWED: the two categories outside it — conferencing and

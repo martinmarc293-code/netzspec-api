@@ -371,6 +371,110 @@
    ],
    "status": "decided-home",
    "reason": "TWO DECISIONS MET HERE AND THE LATER ONE STANDS. The interfaces-modules round (14 Sep 2026, item 7) gave every NIM / SPA / EPA / HWIC / PVDM / VIC / SM-X card one home, interfaces-modules, and its plan ran (run #1068). The re-audit then planned the ASR 1000-ONLY SPAs back to routers under A.3 rule 1 (a card bound to one platform lives with its platform), and that plan ran on 16 Sep (run #1174). So these three rows sit in routers, placed by the ASR 1000 series rule, while the interfaces-modules ^SPA- rule still claims every SPA- PID: one home per SKU, and the home is routers. The operator may prefer the earlier blanket rule — it is a question about the SPA family, not about these rows' placement (implementer, operator's 12-hour delegation, 16 Sep 2026)"
+  },
+  {
+   "category": "hyperconverged-infrastructure",
+   "claimed_by": "servers-unified-computing",
+   "series": "Processors",
+   "rule": "sku ^UCS(X|B|C|XE|AI)-(CPU)",
+   "rows": 20,
+   "examples": [
+    "UCSX-CPU-A90153",
+    "UCSX-CPU-A91153",
+    "UCSX-CPU-A9175F3"
+   ],
+   "status": "pending-decision:Q-14",
+   "reason": "the row is a generic UCS component (UCSX-CPU-A90153, UCSX-CPU-A91153, UCSX-CPU-A9175F3, …) filed in hyperconverged-infrastructure, whose spec sheets order it for the Compute Hyperconverged nodes; servers-unified-computing's component series claim family-prefixed components by component type since the operator's decision of 17 Sep 2026 (layering review fix list 4.2, 'go with your recommendations'), so they read these PIDs too. One home per SKU: the category the row is filed in — status pending-decision:Q-14 (re-audit decisions, operator, 15 Sep 2026, F-6): kept where filed while Q-14 (generic UCS components in HyperFlex / Compute Hyperconverged) is open; fix list 4.1 joined only the twin groups; not a decision"
+  },
+  {
+   "category": "hyperconverged-infrastructure",
+   "claimed_by": "servers-unified-computing",
+   "series": "Drives and storage",
+   "rule": "sku ^UCS(X|B|C|XE|AI)-(SD(?!BKT)|HD(?!BP)|NV(?!L)|M2(?!EXT))",
+   "rows": 3,
+   "examples": [
+    "UCSX-M2-I240GB",
+    "UCSX-M2240OA1VM6",
+    "UCSX-M2480OA1VM6"
+   ],
+   "status": "pending-decision:Q-14",
+   "reason": "the row is a generic UCS component (UCSX-M2-I240GB, UCSX-M2240OA1VM6, UCSX-M2480OA1VM6) filed in hyperconverged-infrastructure, whose spec sheets order it for the Compute Hyperconverged nodes; servers-unified-computing's component series claim family-prefixed components by component type since the operator's decision of 17 Sep 2026 (layering review fix list 4.2, 'go with your recommendations'), so they read these PIDs too. One home per SKU: the category the row is filed in — status pending-decision:Q-14 (re-audit decisions, operator, 15 Sep 2026, F-6): kept where filed while Q-14 (generic UCS components in HyperFlex / Compute Hyperconverged) is open; fix list 4.1 joined only the twin groups; not a decision"
+  },
+  {
+   "category": "hyperconverged-infrastructure",
+   "claimed_by": "servers-unified-computing",
+   "series": "TPM",
+   "rule": "sku ^UCS(X|B|C|XE|AI)-(TPM)",
+   "rows": 3,
+   "examples": [
+    "UCSX-TPM-002C",
+    "UCSX-TPM2-002B",
+    "UCSX-TPM2-002D"
+   ],
+   "status": "pending-decision:Q-14",
+   "reason": "the row is a generic UCS component (UCSX-TPM-002C, UCSX-TPM2-002B, UCSX-TPM2-002D) filed in hyperconverged-infrastructure, whose spec sheets order it for the Compute Hyperconverged nodes; servers-unified-computing's component series claim family-prefixed components by component type since the operator's decision of 17 Sep 2026 (layering review fix list 4.2, 'go with your recommendations'), so they read these PIDs too. One home per SKU: the category the row is filed in — status pending-decision:Q-14 (re-audit decisions, operator, 15 Sep 2026, F-6): kept where filed while Q-14 (generic UCS components in HyperFlex / Compute Hyperconverged) is open; fix list 4.1 joined only the twin groups; not a decision"
+  },
+  {
+   "category": "hyperconverged-infrastructure",
+   "claimed_by": "servers-unified-computing",
+   "series": "Network and storage adapters",
+   "rule": "sku ^UCSB-(MLOM|ML-V|VIC|MEZ|RAID|MRAID)",
+   "rows": 2,
+   "examples": [
+    "UCSB-MLOM-40G-03",
+    "UCSB-VIC-M83-8P"
+   ],
+   "status": "pending-decision:Q-14",
+   "reason": "the row is a generic UCS component (UCSB-MLOM-40G-03, UCSB-VIC-M83-8P) filed in hyperconverged-infrastructure, whose spec sheets order it for the Compute Hyperconverged nodes; servers-unified-computing's component series claim family-prefixed components by component type since the operator's decision of 17 Sep 2026 (layering review fix list 4.2, 'go with your recommendations'), so they read these PIDs too. One home per SKU: the category the row is filed in — status pending-decision:Q-14 (re-audit decisions, operator, 15 Sep 2026, F-6): kept where filed while Q-14 (generic UCS components in HyperFlex / Compute Hyperconverged) is open; fix list 4.1 joined only the twin groups; not a decision"
+  },
+  {
+   "category": "hyperconverged-infrastructure",
+   "claimed_by": "servers-unified-computing",
+   "series": "Network and storage adapters",
+   "rule": "sku ^UCSC-(PCIE(?!-F|-R)|P-|O-|M-V|MLOM-(?!BLK)|RAID|MRAID|SAS|HBA|PSAS|NYTRO|9[45]00)",
+   "rows": 2,
+   "examples": [
+    "UCSC-P-ID10GC",
+    "UCSC-P-IQ10GC"
+   ],
+   "status": "pending-decision:Q-14",
+   "reason": "the row is a generic UCS component (UCSC-P-ID10GC, UCSC-P-IQ10GC) filed in hyperconverged-infrastructure, whose spec sheets order it for the Compute Hyperconverged nodes; servers-unified-computing's component series claim family-prefixed components by component type since the operator's decision of 17 Sep 2026 (layering review fix list 4.2, 'go with your recommendations'), so they read these PIDs too. One home per SKU: the category the row is filed in — status pending-decision:Q-14 (re-audit decisions, operator, 15 Sep 2026, F-6): kept where filed while Q-14 (generic UCS components in HyperFlex / Compute Hyperconverged) is open; fix list 4.1 joined only the twin groups; not a decision"
+  },
+  {
+   "category": "hyperconverged-infrastructure",
+   "claimed_by": "servers-unified-computing",
+   "series": "Network and storage adapters",
+   "rule": "sku ^UCSX-(ME-|P-|MLOM|ML-V|MLV|V[0-9]-(?!BRIDGE)|RAID|MRAID|X10C-(RAID|PT))",
+   "rows": 1,
+   "examples": [
+    "UCSX-MLV5D200GV2"
+   ],
+   "status": "pending-decision:Q-14",
+   "reason": "the row is a generic UCS component (UCSX-MLV5D200GV2) filed in hyperconverged-infrastructure, whose spec sheets order it for the Compute Hyperconverged nodes; servers-unified-computing's component series claim family-prefixed components by component type since the operator's decision of 17 Sep 2026 (layering review fix list 4.2, 'go with your recommendations'), so they read these PIDs too. One home per SKU: the category the row is filed in — status pending-decision:Q-14 (re-audit decisions, operator, 15 Sep 2026, F-6): kept where filed while Q-14 (generic UCS components in HyperFlex / Compute Hyperconverged) is open; fix list 4.1 joined only the twin groups; not a decision"
+  },
+  {
+   "category": "hyperconverged-infrastructure",
+   "claimed_by": "servers-unified-computing",
+   "series": "Memory",
+   "rule": "sku ^UCS(X|B|C|XE|AI)-(MR(?!AID)|ML-[0-9]|MP-)",
+   "rows": 1,
+   "examples": [
+    "UCSX-MR256G4RG54"
+   ],
+   "status": "pending-decision:Q-14",
+   "reason": "the row is a generic UCS component (UCSX-MR256G4RG54) filed in hyperconverged-infrastructure, whose spec sheets order it for the Compute Hyperconverged nodes; servers-unified-computing's component series claim family-prefixed components by component type since the operator's decision of 17 Sep 2026 (layering review fix list 4.2, 'go with your recommendations'), so they read these PIDs too. One home per SKU: the category the row is filed in — status pending-decision:Q-14 (re-audit decisions, operator, 15 Sep 2026, F-6): kept where filed while Q-14 (generic UCS components in HyperFlex / Compute Hyperconverged) is open; fix list 4.1 joined only the twin groups; not a decision"
+  },
+  {
+   "category": "hyperconverged-systems",
+   "claimed_by": "servers-unified-computing",
+   "series": "TPM",
+   "rule": "sku ^UCS(X|B|C|XE|AI)-(TPM)",
+   "rows": 1,
+   "examples": [
+    "UCSX-TPM2-002B-C="
+   ],
+   "status": "pending-decision:Q-14",
+   "reason": "the row is a generic UCS component (UCSX-TPM2-002B-C=) filed in hyperconverged-systems, whose spec sheets order it for the HyperFlex nodes; servers-unified-computing's component series claim family-prefixed components by component type since the operator's decision of 17 Sep 2026 (layering review fix list 4.2, 'go with your recommendations'), so they read these PIDs too. One home per SKU: the category the row is filed in — status pending-decision:Q-14 (re-audit decisions, operator, 15 Sep 2026, F-6): kept where filed while Q-14 (generic UCS components in HyperFlex / Compute Hyperconverged) is open; fix list 4.1 joined only the twin groups; not a decision"
   }
  ]
 }
