@@ -384,15 +384,19 @@
      "series": "IP DECT 6823 / 6825 handsets",
      "role": "dect",
      "sku": [
-      "^CP-682[35]"
-     ]
+      "^CP-682[35]",
+      "^CP-682X-PWR-"
+     ],
+     "note": "^CP-682X-PWR- (layering review of 17 Sep 2026, fix list 2.4): CP-682X-PWR-AU= / -CE= / -NA= / -UK=, each named 'Cisco IP DECT 6825, Power adapter for …', sat in IP Phone 6800 through ^CP-68 — the X stands for the 6823 / 6825 handset, not a 68xx desk phone"
     },
     {
      "series": "IP DECT base stations and repeaters",
      "sku": [
       "^DBS-",
-      "^RPT-110"
+      "^RPT-110",
+      "^CP-682X-WMK"
      ],
+     "note": "^CP-682X-WMK (layering review of 17 Sep 2026, fix list 2.4 — the same ^CP-68 fence; SKUs are matched upper-cased, so this is CP-682x-WMK=): 'Wall mount kit for Cisco IP Phone 6800 Series Base Stations and Repeater', the mount of the DECT base stations and repeater this series holds; it sat in IP Phone 6800, whose desk phones have no base station",
      "labels": [
       "IP DECT 6800 Series with Multiplatform Firmware"
      ]
@@ -401,8 +405,9 @@
      "series": "IP Phone 6800 (6821 / 6841 / 6851 / 6861 / 6871)",
      "role": "desk",
      "sku": [
-      "^CP-68"
+      "^CP-68(?!2[35X])"
      ],
+     "note": "^CP-68 fenced to ^CP-68(?!2[35X]) (layering review of 17 Sep 2026, fix list 2.4): CP-6823 / CP-6825 / CP-682X are the IP DECT handsets and their parts. The DECT series come first in this file and already won those rows; the fence makes this series stop claiming them whatever the rule order",
      "labels": [
       "6800 - IP Phone w/Multiplatform Firmware"
      ]

@@ -1,13 +1,12 @@
 {
  "vendor": "cisco",
  "category": "wireless",
- "built_at": "2026-09-17T13:05:45.588Z",
- "commit": "80696e3daf1c12d95bb79123a4818381782ed6ba",
+ "built_at": "2026-09-17T13:51:30.332Z",
+ "commit": "a8645484379b602e9dee8098ad2e59905a787821",
  "uncommitted_rule_files": [
-  "scripts/build-arrangement-site.mts",
-  "scripts/build-layers.mts",
-  "src/core/layerChecks.ts",
-  "src/core/productLine.ts"
+  "data/reference/kind-layer-plans-2026-09-13.json",
+  "data/reference/product-lines/cisco-collaboration-endpoints.json",
+  "data/reference/product-lines/cisco-wireless.json"
  ],
  "mapping_file": "data/reference/product-lines/cisco-wireless.json",
  "parts": 3907,
@@ -335,7 +334,7 @@
   },
   {
    "line": "Aironet Access Points",
-   "parts": 1820,
+   "parts": 1816,
    "series": [
     {
      "series": "Aironet 1800s Active Sensor",
@@ -806,27 +805,27 @@
      "family": "(shared across the line)",
      "role": null,
      "note": "^AIR-RM30 (layers round 3): the AIR-RM3000M Wireless Security and Spectrum Intelligence modules and AIR-RM3010L Hyperlocation modules of the Aironet 3600 / 3700, planned in from interfaces-modules (operator: AIR-RM radio modules -> wireless, kind module). AP(?!-VBLE) leaves AIR-AP-VBLE-ADPTR= to the VBLE series below. VAP removed from the first rule (re-audit decisions, operator, 15 Sep 2026, Q-12): the AIR-VAP- access pods and mounting kits are MobileAccessVE rows, placed in their own series",
-     "parts": 134,
+     "parts": 130,
      "kinds": {
       "unknown": 6,
       "mechanical": 57,
-      "module": 39,
-      "power": 22,
       "accessory": 8,
       "cable": 1,
+      "module": 37,
+      "power": 20,
       "bundle": 1
      },
      "roles": {},
      "samples": [
       "2KI-FINAL-PKG-RU — Contains packing Kit For 2KI",
       "ACCESSORY-KIT-RU — Contains Compliance and Auto test Blank Labels",
-      "AIR-A03-D500GC3 — 500GB 6Gb SATA 7.2K RPM SFF hot plug/drive sled mounted",
-      "AIR-AC-750W-R — Cisco 9540 750W AC Power Supply, Reverse Air",
-      "AIR-AC-750W-R-BLK — Power Supply Blanking Panel for 9540 Controller",
-      "AIR-ACC-CAT6= — CAT 6/6A Ethernet Cable Gland Assembly kit*"
+      "AIR-ACC-CAT6= — CAT 6/6A Ethernet Cable Gland Assembly kit*",
+      "AIR-ACC-CLIP-20= — Converter Clips:Small grid ceilings. For 10 APs or Antennas",
+      "AIR-ACC-KIT1= — Accessory kit for Catalyst 9124AX (5x ethernet, 2 dust cap, ",
+      "AIR-ACC-PS-MNT1= — AC/DC adapter mount bracket for AIR-MNT-HORZ1="
      ],
      "rules": {
-      "label-unsupported": 13,
+      "label-unsupported": 9,
       "sku": 121
      },
      "pending_in": {},
@@ -1455,7 +1454,7 @@
   },
   {
    "line": "AireOS Wireless LAN Controllers",
-   "parts": 218,
+   "parts": 227,
    "series": [
     {
      "series": "2500 (2504)",
@@ -1513,12 +1512,12 @@
      "series": "5500 (5508 / 5520 / 5540)",
      "family": "(none)",
      "role": null,
-     "note": null,
-     "parts": 62,
+     "note": "^AIR-BZL-C220M4 and ^AIR-PSU-BLKP1U (layering review of 17 Sep 2026, fix list 2.1): 'Cisco 5520 Wireless Controller Security Bezel' and 'Power Supply Blanking Panel for C220 M4 servers', which the Cisco 5520 Wireless Controller end-of-sale notice lists (eos-eol-notice-c51-744430); both sat in CMX 3375 / MSE 3355 / 3365 through ^AIR-(MR|SD|PSU|BZL|RAID|MRAID|CPU|PCI|SVR|DC)-",
+     "parts": 65,
      "kinds": {
       "wlc": 54,
-      "power": 3,
-      "mechanical": 2,
+      "power": 4,
+      "mechanical": 4,
       "module": 3
      },
      "roles": {},
@@ -1527,11 +1526,11 @@
       "AIR-5508H-HA-K9 — Cisco 5508 Series Wireless Ctlr for HA, Hospitality",
       "AIR-5540-AC-750W — Cisco 5540 750W AC Power Supply, Reverse Air",
       "AIR-5540-AC-750W= — Cisco 5540 750W AC Power Supply, Reverse Air",
-      "AIR-CT5500-RK-MNT — Rack Mounting Kit for the Cisco 5500 Wireless Controller",
-      "AIR-CT5508-100-K9 — 5500 Series Wireless Controller for up to 100 Cisco access p"
+      "AIR-BZL-C220M4 — Cisco 5520 Wireless Controller Security Bezel",
+      "AIR-BZL-C220M4= — Cisco 5520 Wireless Controller Security Bezel"
      ],
      "rules": {
-      "sku": 59,
+      "sku": 62,
       "label": 3
      },
      "pending_in": {},
@@ -1541,10 +1540,11 @@
      "series": "8500 (8510 / 8540 / 8580)",
      "family": "(none)",
      "role": null,
-     "note": "CT85DC (layers round 3): AIR-CT85DC-K9 / AIR-CT85DC-SP-K9, the 8510 DC controllers, sat in the line's shared parts through ^AIR-(CT|WLC|VPN) — a controller in shared parts",
-     "parts": 39,
+     "note": "CT85DC (layers round 3): AIR-CT85DC-K9 / AIR-CT85DC-SP-K9, the 8510 DC controllers, sat in the line's shared parts through ^AIR-(CT|WLC|VPN) — a controller in shared parts. ^AIR-BZL-C240M4, ^AIR-PSU-930WDC, ^AIR-SVR-PWR-DC (layering review of 17 Sep 2026, fix list 2.1): the parts named for an 8500 controller — 'Cisco 8540 Wireless Controller Security Bezel', '930W -48V DC Common Slot Power Supply for 8540 Controller', 'Field replaceable DC Power Supply for 8510DC (AIR-CT85DC-K9)', the last listed by the Cisco 8510 Wireless Controller end-of-sale notice (eos-eol-notice-c51-740222); with their spares they sat in CMX 3375 / MSE 3355 / 3365",
+     "parts": 45,
      "kinds": {
-      "power": 4,
+      "power": 8,
+      "mechanical": 2,
       "wlc": 34,
       "module": 1
      },
@@ -1554,11 +1554,11 @@
       "AIR-8580-AC-750W= — Cisco 8580 750W AC Power Supply",
       "AIR-8580-DC-950W — Cisco 8580 950W DC Power Supply",
       "AIR-8580-DC-950W= — Cisco 8580 950W DC Power Supply",
-      "AIR-CT8510-100-K9 — 8500 Series Controller for up to 100 Cisco access points",
-      "AIR-CT8510-100-K9Z — Cisco 8500 Series Wireless Controller Supporting 100 APs"
+      "AIR-BZL-C240M4 — Cisco 8540 Wireless Controller Security Bezel",
+      "AIR-BZL-C240M4= — Cisco 8540 Wireless Controller Security Bezel"
      ],
      "rules": {
-      "sku": 38,
+      "sku": 44,
       "label": 1
      },
      "pending_in": {},
@@ -1643,33 +1643,33 @@
   },
   {
    "line": "Location and Spaces Appliances",
-   "parts": 85,
+   "parts": 59,
    "series": [
     {
      "series": "CMX 3375 / MSE 3355 / 3365",
      "family": "(none)",
      "role": null,
-     "note": null,
-     "parts": 71,
+     "note": "^AIR-(MR|SD|PSU|BZL|RAID|MRAID|CPU|PCI|SVR|DC)- removed (layering review of 17 Sep 2026, fix list 2.1): it filed 26 AIR- server parts here that name no MSE or CMX appliance — 10 name a 5520 / 8540 / 8510DC / 9580 controller, 16 are generic UCS C-Series components. The 5520 and 8500 ones went to those series, the rest to Wireless Antennas and Accessories / Modules and power (unnamed platform). The appliances' own components carry MSE- and CMX- and stay here",
+     "parts": 45,
      "kinds": {
-      "mechanical": 10,
       "appliance": 6,
-      "module": 38,
-      "power": 12,
       "bundle": 4,
-      "unknown": 1
+      "module": 24,
+      "power": 4,
+      "unknown": 1,
+      "mechanical": 6
      },
      "roles": {},
      "samples": [
-      "AIR-BZL-C220M4 — Cisco 5520 Wireless Controller Security Bezel",
-      "AIR-BZL-C220M4= — Cisco 5520 Wireless Controller Security Bezel",
-      "AIR-BZL-C240M4 — Cisco 8540 Wireless Controller Security Bezel",
-      "AIR-BZL-C240M4= — Cisco 8540 Wireless Controller Security Bezel",
       "AIR-CMX-3375-K9 — CMX 3375 Appliance",
-      "AIR-CMX-3375-K9= — CMX 3375 SFF 10 HD w/o CPU, mem, HD, PCIe, PSU"
+      "AIR-CMX-3375-K9= — CMX 3375 SFF 10 HD w/o CPU, mem, HD, PCIe, PSU",
+      "AIR-MSE-3350-K9 — MSE Hardware SKU",
+      "AIR-MSE-3355-K9 — MSE 3355 Hardware SKU (Please select L-MSE-PAK for MSE Lic)",
+      "AIR-MSE-3355-K9Z — MSE 3355 Bundle PID; EQUIVALENT TO AIR-MSE-3355-K9",
+      "AIR-MSE-3365-K9 — MSE 3365 Appliance"
      ],
      "rules": {
-      "sku": 70,
+      "sku": 44,
       "label": 1
      },
      "pending_in": {},
@@ -1776,7 +1776,7 @@
   },
   {
    "line": "Wireless Antennas and Accessories",
-   "parts": 306,
+   "parts": 327,
    "series": [
     {
      "series": "Antennas",
@@ -1855,6 +1855,31 @@
      "pending_out": {}
     },
     {
+     "series": "Modules and power (unnamed platform)",
+     "family": "(none)",
+     "role": null,
+     "note": "layering review of 17 Sep 2026 (fix list 2.1 / 2.2): server components and supplies of the UCS C-Series-based wireless controllers and appliances that name no platform this mapping places — CPUs, RDIMMs, MegaRAID and embedded RAID, a 32 GB SD card, a C240 M4 PCIe riser, a 650 W C-Series supply, a 500 GB drive, a UCS TPM — and the supplies named for a '9540' / '9580' controller that no series of this category names (AIR-AC-750W-R, its blanking panel, AIR-DC-950W). Cisco's end-of-sale notices list them only as 'Wireless Miscellaneous Accessories' (wireless-misc-accessories-sw-lic-eol) and 'Aironet Accessories' (aironet-accessories-eol15454), with no platform, so the series sits in the accessories line and claims no controller or appliance: the review proposed one 'Wireless controllers and appliances shared parts' series, and the rows span the AireOS controllers, the location appliances and controllers this mapping does not name. They sat in CMX 3375 / MSE 3355 / 3365 (^AIR-(MR|SD|PSU|BZL|RAID|MRAID|CPU|PCI|SVR|DC)-) and, by a label the check did not support, in Aironet Access Points shared parts (AIR-AC-750W-R, AIR-AC-750W-R-BLK, AIR-A03-D500GC3, AIR-TPM1-001). THE NAME CLAIMS NOTHING ON PURPOSE: every word of it is a labelEvidence stop word or a short word. The first name tried, 'Controller and appliance components', made 'Controller' a claim word, so the reverse check proposed 7 other controller supplies in the accessories shared parts for this series and withdrew 4 correct cross-line proposals (AIR-PSU1-770W(=) to the 5500 by '5520', AIR-PSU2V2-1200W(=) to the 8500 by '8540'); with this name both queues are the recorded 59 / 25",
+     "parts": 21,
+     "kinds": {
+      "module": 16,
+      "power": 5
+     },
+     "roles": {},
+     "samples": [
+      "AIR-A03-D500GC3 — 500GB 6Gb SATA 7.2K RPM SFF hot plug/drive sled mounted",
+      "AIR-AC-750W-R — Cisco 9540 750W AC Power Supply, Reverse Air",
+      "AIR-AC-750W-R-BLK — Power Supply Blanking Panel for 9540 Controller",
+      "AIR-CPU-E52609D — 1.90 GHz E5-2609 v3/85W 6C/15MB Cache/DDR4 1600MHz",
+      "AIR-CPU-E52680D — 2.50 GHz E5-2680 v3/120W 12C/30MB Cache/DDR4 2133MHz",
+      "AIR-DC-950W — Cisco 9580 Modular Wireless Controller 950W DC Power Supply"
+     ],
+     "rules": {
+      "sku": 21
+     },
+     "pending_in": {},
+     "pending_out": {}
+    },
+    {
      "series": "Wireless Antennas and Accessories shared parts",
      "family": "(shared across the line)",
      "role": null,
@@ -1890,9 +1915,9 @@
  "unplaced": [],
  "label_check": {
   "applied": true,
-  "label_placed": 28,
+  "label_placed": 24,
   "by_kind": {
-   "none": 17,
+   "none": 13,
    "sku-token": 2,
    "name": 9
   },
@@ -1912,30 +1937,6 @@
     "from_series": "Aironet 2800",
     "to_series": "Aironet Access Points shared parts",
     "why": "no platform token (2800) in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "AIR-A03-D500GC3",
-    "name": "500GB 6Gb SATA 7.2K RPM SFF hot plug/drive sled mounted",
-    "series_label": "Aironet 1550",
-    "from_series": "Aironet 1550",
-    "to_series": "Aironet Access Points shared parts",
-    "why": "no platform token (1550) in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "AIR-AC-750W-R",
-    "name": "Cisco 9540 750W AC Power Supply, Reverse Air",
-    "series_label": "Aironet 1550",
-    "from_series": "Aironet 1550",
-    "to_series": "Aironet Access Points shared parts",
-    "why": "no platform token (1550) in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "AIR-AC-750W-R-BLK",
-    "name": "Power Supply Blanking Panel for 9540 Controller",
-    "series_label": "Aironet 1550",
-    "from_series": "Aironet 1550",
-    "to_series": "Aironet Access Points shared parts",
-    "why": "no platform token (1550) in the SKU or name, no compatible part placed in the series"
    },
    {
     "sku": "AIR-CONSADPT",
@@ -1992,14 +1993,6 @@
     "from_series": "8500 (8510 / 8540 / 8580)",
     "to_series": "AireOS Wireless LAN Controllers shared parts",
     "why": "no platform token (8500, 8510, 8540, 8580) in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "AIR-TPM1-001",
-    "name": "TPM Module For UCS",
-    "series_label": "Aironet 1550",
-    "from_series": "Aironet 1550",
-    "to_series": "Aironet Access Points shared parts",
-    "why": "no platform token (1550) in the SKU or name, no compatible part placed in the series"
    },
    {
     "sku": "AP-MIGR-PRM",

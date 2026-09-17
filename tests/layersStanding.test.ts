@@ -15,6 +15,9 @@ export const REVIEWED = ["switches", "routers", "transceiver", "interfaces-modul
 // spare = base exceptions, each read against the built row
 const PAIR_EXCEPTIONS: Record<string, string> = {
   "switches|N5K-C5696Q-C": "the spare row is named '^Invalid SKU' and carries a class non_product plan; its base is the live 'Nexus 5696Q Chassis with license and SW image'",
+  // layering review of 17 Sep 2026 (fix list 2.6): the two non-products still layered get the plans their siblings carry
+  "switches|N5K-C5672UP-C": "the spare row is named '^Invalid SKU' and carries a class non_product plan (its sibling N5K-C5696Q-C='s); its base is the live 'Nexus 5672UP Chassis with License and SW image for comcast'",
+  "collaboration-endpoints|BRKT-SX20-MONITOR": "the spare row is named 'PID not used' and carries the N-3 class non_product plan; its base is the live 'Bracket for SX20 and HD monitor' in TelePresence SX",
   // C9105AXW-KIT's exception went with batch 3a (run #1118, 16 Sep 2026): the "Do not use" base is no longer a hardware row, so the pair no
   // longer disagrees and a kept entry would be the stale exception the check below exists to catch
   // servers + hyperconverged round (layers round 3): Cisco voided one member of each pair — the voided member carries the kind layer's
@@ -177,7 +180,7 @@ const LABEL_EXPECT: Record<string, { min?: number; exactly?: number; why: string
   switches: { min: 100, why: "hundreds of rows are placed by a stored series label" },
   routers: { min: 100, why: "hundreds of rows are placed by a stored series label" },
   transceiver: { exactly: 0, why: "every transceiver row is placed by its SKU's form-factor and speed family; the mapping's labels place nothing (layers round 3)" },
-  wireless: { exactly: 28, why: "access points, controllers and their parts are placed by SKU; 28 rows are judged on a stored label (11 kept by a token or name, 17 moved to their line's shared parts — layers round 3). Re-audit decisions (15 Sep 2026): 30 -> 28, the MobileAccessVE control unit AIR-VCU-CELLPCS12(=), moved for want of a 5500 token, is SKU-placed in the MobileAccessVE series (Q-12)" },
+  wireless: { exactly: 24, why: "access points, controllers and their parts are placed by SKU; 24 rows are judged on a stored label (was 28 = 11 kept by a token or name, 17 moved to their line's shared parts — layers round 3). Re-audit decisions (15 Sep 2026): 30 -> 28, the MobileAccessVE control unit AIR-VCU-CELLPCS12(=), moved for want of a 5500 token, is SKU-placed in the MobileAccessVE series (Q-12). Layering review of 17 Sep 2026 (fix list 2.2): 28 -> 24, the four label-moved rows AIR-AC-750W-R, AIR-AC-750W-R-BLK, AIR-A03-D500GC3 and AIR-TPM1-001 (a '9540 Controller' supply and blanking panel, a server drive, a UCS TPM — none an access-point part) are SKU-placed in Wireless Antennas and Accessories / Modules and power (unnamed platform); 11 kept, 13 moved" },
   "interfaces-modules": { exactly: 5, why: "the cards are placed by their SKU families; 5 rows are judged on a stored label — STM1-CN-MM / -SMI kept by the name token PA, and AIC-DBL-PNL, AIC-SGL-PNL and WDM-SFP-2CH-CONV= moved to shared parts; the 30 labels mapped directly to a line's shared parts are not judged (pre-ruling C1, layers round 3)" },
   "servers-unified-computing": { exactly: 1, why: "UCS rows are placed by SKU; one row is judged on a stored label — SAS3 (a datasheet fragment, label 'S-Series Storage'), moved to the S-Series line's shared parts; the rows whose label maps directly to a line's shared parts are not judged (pre-ruling C1). The ten E1x0 service spares and the SRE parts the check had moved are SKU-placed or planned out since the servers round" },
   "hyperconverged-infrastructure": { exactly: 0, why: "HCI rows are placed by SKU; its 97 label-placed rows carry labels mapped directly to the Nutanix line's shared parts (pre-ruling C1, not judged)" },
@@ -246,9 +249,10 @@ const deadPlaceholders = (summary: { lines: { line: string; series: { series: st
  *  review + not this category). DONE is 0. Exact in both directions, so a run that layers rows moves this table on purpose, and a rebuild
  *  that silently drops pending rows fails as loudly as one that adds them. Layering is complete when every entry is 0. */
 const STATUS_EXPECT: Record<string, number> = {
-  "servers-unified-computing": 1258, switches: 315, routers: 123, "interfaces-modules": 66, transceiver: 49,
+  // fix list 2.6 (17 Sep 2026): switches 315 -> 316 (N5K-C5672UP-C= class plan), collaboration-endpoints 0 -> 1 (BRKT-SX20-MONITOR=)
+  "servers-unified-computing": 1258, switches: 316, routers: 123, "interfaces-modules": 66, transceiver: 49,
   "hyperconverged-infrastructure": 43, "hyperconverged-systems": 30, conferencing: 68, "data-center-networking": 22,
-  wireless: 0, video: 0, "collaboration-endpoints": 0, security: 0, "optical-networking": 0, "storage-networking": 0, "unified-communications": 0, meraki: 0,
+  wireless: 0, video: 0, "collaboration-endpoints": 1, security: 0, "optical-networking": 0, "storage-networking": 0, "unified-communications": 0, meraki: 0,
 };
 /** rows layered in a series whose every row must carry a move plan */
 const moveOutStrays = (rows: LayerRow[], moveOut: ReadonlySet<string>) => rows.filter((r) => r.bucket === "layered" && moveOut.has(r.series));

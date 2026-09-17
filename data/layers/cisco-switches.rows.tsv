@@ -3849,7 +3849,7 @@ N5K-C5672UP-B-LAB	Nexus 5672UP LAB Bundle with SBUN/Optics/Twinax included	Nexus
 N5K-C5672UP-B-NFR	Nexus 5672UP NFR Bundle with SBUN/Optics/Twinax included	Nexus 5000	switch	layered	Nexus	Nexus 5000	Nexus 5600	sku ^(C1-)?N5K-C56	datacenter	series:Nexus 5600					
 N5K-C5672UP-BUN	Nexus 5672UP 1RU, 32x10G SFP+, 16pxUP SFP+, 6x40G QSFP+	Nexus 5000	switch	layered	Nexus	Nexus 5000	Nexus 5600	sku ^(C1-)?N5K-C56	datacenter	series:Nexus 5600					
 N5K-C5672UP-C	Nexus 5672UP Chassis with License and SW image for comcast	Nexus 5000	switch	layered	Nexus	Nexus 5000	Nexus 5600	sku ^(C1-)?N5K-C56	datacenter	series:Nexus 5600					
-N5K-C5672UP-C=	^Invalid SKU	Nexus 5000	switch	layered	Nexus	Nexus 5000	Nexus 5600	sku ^(C1-)?N5K-C56	datacenter	series:Nexus 5600					
+N5K-C5672UP-C=	^Invalid SKU	Nexus 5000	switch	pending_plan					datacenter	series:Nexus 5600		class non_product			
 N5K-C5672UP-OSM	Nexus 5672UP Storage Solns Bundle, Full Stor Serv Lic, OSM	Nexus 5000	switch	layered	Nexus	Nexus 5000	Nexus 5600	sku ^(C1-)?N5K-C56	datacenter	series:Nexus 5600					
 N5K-C5672UP-OSM-BA	Nexus 5672UP OSM PID, AC, Reverse airflow	Nexus 5000	switch	layered	Nexus	Nexus 5000	Nexus 5600	sku ^(C1-)?N5K-C56	datacenter	series:Nexus 5600					
 N5K-C5672UP-OSM-FA	Nexus 5672UP OSM PID, AC, Forward airflow	Nexus 5000	switch	layered	Nexus	Nexus 5000	Nexus 5600	sku ^(C1-)?N5K-C56	datacenter	series:Nexus 5600					

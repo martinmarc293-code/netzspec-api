@@ -2541,6 +2541,17 @@
   "planned_by": "agent 1-switches"
  },
  {
+  "sku": "N5K-C5672UP-C=",
+  "category": "switches",
+  "action": "class",
+  "to": "non_product",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "the vendor's own name for the row is \"^Invalid SKU\"",
+  "evidence": "\"^Invalid SKU\" · docs 2, fact keys 0 (measured 17 Sep 2026; both docs are the Nexus 5500 / 5600 / 6000 NX-OS 7.3 end-of-sale notice, EN and FR, which list the base too) · today layered in Nexus 5600, the only ^Invalid SKU row not planned (its sibling N5K-C5696Q-C= carries this plan)",
+  "planned_by": "parent 17 Sep 2026 (layering review of 17 Sep 2026, fix list 2.6: non_product_in_tree)"
+ },
+ {
   "sku": "C6800-48P-TX and C6800-48P-TX-XL",
   "category": "switches",
   "action": "class",
@@ -25108,7 +25119,7 @@
   "to": "non_product",
   "run_id": null,
   "expected_kind_after": null,
-  "reason": "third-party (Corning): EDGE8 structured-cabling part number, not a Cisco orderable PID (decision 3); DGE8-* is the same number with its first letter lost, DGE8-xxU also a length placeholder",
+  "reason": "third-party (vendor not identified; EDGE8-shaped module number, no held document names a vendor — the wording of re-audit decisions, operator, 15 Sep 2026, Q-4 / F-8, carried to these rows by the layering review of 17 Sep 2026, fix list 2.7): not a Cisco orderable PID (decision 3); DGE8-* is the same number with its first letter lost, DGE8-xxU also a length placeholder",
   "evidence": "name \"Cisco DGE8-CP32-V1\" · label \"Transceiver Modules\" · today layered in Fiber and M12 cables (CB-) (label Transceiver Modules) · vendor: the EDGE8 brand token (Corning EDGE8, named by the operator in decision 3) · docs 0, facts 0",
   "planned_by": "parent 15 Sep 2026 (layers round 3, interfaces-modules block — operator decisions of 14 Sep 2026 night, unattended)"
  },
@@ -25119,7 +25130,7 @@
   "to": "non_product",
   "run_id": null,
   "expected_kind_after": null,
-  "reason": "third-party (Corning): EDGE8 structured-cabling part number, not a Cisco orderable PID (decision 3); DGE8-* is the same number with its first letter lost, DGE8-xxU also a length placeholder",
+  "reason": "third-party (vendor not identified; EDGE8-shaped module number, no held document names a vendor — the wording of re-audit decisions, operator, 15 Sep 2026, Q-4 / F-8, carried to these rows by the layering review of 17 Sep 2026, fix list 2.7): not a Cisco orderable PID (decision 3); DGE8-* is the same number with its first letter lost, DGE8-xxU also a length placeholder",
   "evidence": "name \"Cisco DGE8-CP32-V3\" · label \"Transceiver Modules\" · today layered in Fiber and M12 cables (CB-) (label Transceiver Modules) · vendor: the EDGE8 brand token (Corning EDGE8, named by the operator in decision 3) · docs 0, facts 0",
   "planned_by": "parent 15 Sep 2026 (layers round 3, interfaces-modules block — operator decisions of 14 Sep 2026 night, unattended)"
  },
@@ -25130,7 +25141,7 @@
   "to": "non_product",
   "run_id": null,
   "expected_kind_after": null,
-  "reason": "third-party (Corning): EDGE8 structured-cabling part number, not a Cisco orderable PID (decision 3); DGE8-* is the same number with its first letter lost, DGE8-xxU also a length placeholder",
+  "reason": "third-party (vendor not identified; EDGE8-shaped module number, no held document names a vendor — the wording of re-audit decisions, operator, 15 Sep 2026, Q-4 / F-8, carried to these rows by the layering review of 17 Sep 2026, fix list 2.7): not a Cisco orderable PID (decision 3); DGE8-* is the same number with its first letter lost, DGE8-xxU also a length placeholder",
   "evidence": "name \"Cisco DGE8-xxU\" · label \"Transceiver Modules\" · today layered in Fiber and M12 cables (CB-) (label Transceiver Modules) · vendor: the EDGE8 brand token (Corning EDGE8, named by the operator in decision 3) · docs 0, facts 0",
   "planned_by": "parent 15 Sep 2026 (layers round 3, interfaces-modules block — operator decisions of 14 Sep 2026 night, unattended)"
  },
@@ -25141,7 +25152,7 @@
   "to": "non_product",
   "run_id": null,
   "expected_kind_after": null,
-  "reason": "third-party (Corning): EDGE8 structured-cabling part number, not a Cisco orderable PID (decision 3); DGE8-* is the same number with its first letter lost, DGE8-xxU also a length placeholder",
+  "reason": "third-party (vendor not identified; EDGE8-shaped module number, no held document names a vendor — the wording of re-audit decisions, operator, 15 Sep 2026, Q-4 / F-8, carried to these rows by the layering review of 17 Sep 2026, fix list 2.7): not a Cisco orderable PID (decision 3); DGE8-* is the same number with its first letter lost, DGE8-xxU also a length placeholder",
   "evidence": "name \"Cisco EDGE8\" · label \"Transceiver Modules\" · today layered in Fiber and M12 cables (CB-) (label Transceiver Modules) · vendor: the EDGE8 brand token (Corning EDGE8, named by the operator in decision 3) · docs 0, facts 0",
   "planned_by": "parent 15 Sep 2026 (layers round 3, interfaces-modules block — operator decisions of 14 Sep 2026 night, unattended)"
  },
@@ -25152,7 +25163,7 @@
   "to": "non_product",
   "run_id": null,
   "expected_kind_after": null,
-  "reason": "third-party (Corning): EDGE8 structured-cabling part number, not a Cisco orderable PID (decision 3); DGE8-* is the same number with its first letter lost, DGE8-xxU also a length placeholder",
+  "reason": "third-party (vendor not identified; EDGE8-shaped module number, no held document names a vendor — the wording of re-audit decisions, operator, 15 Sep 2026, Q-4 / F-8, carried to these rows by the layering review of 17 Sep 2026, fix list 2.7): not a Cisco orderable PID (decision 3); DGE8-* is the same number with its first letter lost, DGE8-xxU also a length placeholder",
   "evidence": "name \"Cisco EDGE8-01U-SP\" · label \"Transceiver Modules\" · today layered in Fiber and M12 cables (CB-) (label Transceiver Modules) · vendor: the EDGE8 brand token (Corning EDGE8, named by the operator in decision 3) · docs 0, facts 0",
   "planned_by": "parent 15 Sep 2026 (layers round 3, interfaces-modules block — operator decisions of 14 Sep 2026 night, unattended)"
  },
@@ -25163,7 +25174,7 @@
   "to": "non_product",
   "run_id": null,
   "expected_kind_after": null,
-  "reason": "third-party (Corning): EDGE8 structured-cabling part number, not a Cisco orderable PID (decision 3); DGE8-* is the same number with its first letter lost, DGE8-xxU also a length placeholder",
+  "reason": "third-party (vendor not identified; EDGE8-shaped module number, no held document names a vendor — the wording of re-audit decisions, operator, 15 Sep 2026, Q-4 / F-8, carried to these rows by the layering review of 17 Sep 2026, fix list 2.7): not a Cisco orderable PID (decision 3); DGE8-* is the same number with its first letter lost, DGE8-xxU also a length placeholder",
   "evidence": "name \"Cisco EDGE8-02U\" · label \"Transceiver Modules\" · today layered in Fiber and M12 cables (CB-) (label Transceiver Modules) · vendor: the EDGE8 brand token (Corning EDGE8, named by the operator in decision 3) · docs 0, facts 0",
   "planned_by": "parent 15 Sep 2026 (layers round 3, interfaces-modules block — operator decisions of 14 Sep 2026 night, unattended)"
  },
@@ -25174,7 +25185,7 @@
   "to": "non_product",
   "run_id": null,
   "expected_kind_after": null,
-  "reason": "third-party (Corning): EDGE8 structured-cabling part number, not a Cisco orderable PID (decision 3); DGE8-* is the same number with its first letter lost, DGE8-xxU also a length placeholder",
+  "reason": "third-party (vendor not identified; EDGE8-shaped module number, no held document names a vendor — the wording of re-audit decisions, operator, 15 Sep 2026, Q-4 / F-8, carried to these rows by the layering review of 17 Sep 2026, fix list 2.7): not a Cisco orderable PID (decision 3); DGE8-* is the same number with its first letter lost, DGE8-xxU also a length placeholder",
   "evidence": "name \"Cisco EDGE8-04U\" · label \"Transceiver Modules\" · today layered in Fiber and M12 cables (CB-) (label Transceiver Modules) · vendor: the EDGE8 brand token (Corning EDGE8, named by the operator in decision 3) · docs 0, facts 0",
   "planned_by": "parent 15 Sep 2026 (layers round 3, interfaces-modules block — operator decisions of 14 Sep 2026 night, unattended)"
  },
@@ -25185,7 +25196,7 @@
   "to": "non_product",
   "run_id": null,
   "expected_kind_after": null,
-  "reason": "third-party (Corning): EDGE8 structured-cabling part number, not a Cisco orderable PID (decision 3); DGE8-* is the same number with its first letter lost, DGE8-xxU also a length placeholder",
+  "reason": "third-party (vendor not identified; EDGE8-shaped module number, no held document names a vendor — the wording of re-audit decisions, operator, 15 Sep 2026, Q-4 / F-8, carried to these rows by the layering review of 17 Sep 2026, fix list 2.7): not a Cisco orderable PID (decision 3); DGE8-* is the same number with its first letter lost, DGE8-xxU also a length placeholder",
   "evidence": "name \"Cisco EDGE8-CP32-V1\" · label \"Transceiver Modules\" · today layered in Fiber and M12 cables (CB-) (label Transceiver Modules) · vendor: the EDGE8 brand token (Corning EDGE8, named by the operator in decision 3) · docs 0, facts 0",
   "planned_by": "parent 15 Sep 2026 (layers round 3, interfaces-modules block — operator decisions of 14 Sep 2026 night, unattended)"
  },
@@ -25196,7 +25207,7 @@
   "to": "non_product",
   "run_id": null,
   "expected_kind_after": null,
-  "reason": "third-party (Corning): EDGE8 structured-cabling part number, not a Cisco orderable PID (decision 3); DGE8-* is the same number with its first letter lost, DGE8-xxU also a length placeholder",
+  "reason": "third-party (vendor not identified; EDGE8-shaped module number, no held document names a vendor — the wording of re-audit decisions, operator, 15 Sep 2026, Q-4 / F-8, carried to these rows by the layering review of 17 Sep 2026, fix list 2.7): not a Cisco orderable PID (decision 3); DGE8-* is the same number with its first letter lost, DGE8-xxU also a length placeholder",
   "evidence": "name \"Cisco EDGE8-CP32-V3\" · label \"Transceiver Modules\" · today layered in Fiber and M12 cables (CB-) (label Transceiver Modules) · vendor: the EDGE8 brand token (Corning EDGE8, named by the operator in decision 3) · docs 0, facts 0",
   "planned_by": "parent 15 Sep 2026 (layers round 3, interfaces-modules block — operator decisions of 14 Sep 2026 night, unattended)"
  },
@@ -41094,6 +41105,17 @@
   "reason": "not orderable: the catalogue row itself says 'Not used' / 'Do not use' (the wireless precedent; re-audit decisions, operator, 15 Sep 2026, N-3)",
   "evidence": "name \"Not used\" · label \"TelePresence SX Series (QuickSet)\" · today layered in TelePresence SX (SX10 / SX20 / SX80) (sku ^BRKT-SX(10|20)-) · docs 2, facts 0 · read first: listed in \"Annonce d’arrêt de commercialisation et de fin de vie de Cisco SX10 - Cisco\"",
   "planned_by": "parent 15 Sep 2026 (layers round 3, re-audit decisions — operator, 15 Sep 2026)"
+ },
+ {
+  "sku": "BRKT-SX20-MONITOR=",
+  "category": "collaboration-endpoints",
+  "action": "class",
+  "to": "non_product",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "not orderable: the catalogue row itself says 'Not used' / 'Do not use' (the wireless precedent; re-audit decisions, operator, 15 Sep 2026, N-3)",
+  "evidence": "name \"PID not used\" · label \"TelePresence SX Series (QuickSet)\" · today layered in TelePresence SX (SX10 / SX20 / SX80) (sku ^BRKT-SX(10|20)-) · docs 2, facts 0 · read first: listed in \"End-of-Sale and End-of-Life Announcement for the Cisco SX20 - Cisco\" (and its FR copy); the base BRKT-SX20-MONITOR 'Bracket for SX20 and HD monitor' stays hardware",
+  "planned_by": "parent 17 Sep 2026 (layering review of 17 Sep 2026, fix list 2.6: non_product_in_tree; the N-3 rule the 13 run plans of batch 3a / run 1115 applied)"
  },
  {
   "sku": "CAB-2HDMI-1.5M-",
