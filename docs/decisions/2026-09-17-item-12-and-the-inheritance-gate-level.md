@@ -129,7 +129,13 @@ here.**
 - **(b) `series`** — admits 10,448 facts' pairs the old gate refused (non-products among them) and refuses 2,057 it
   accepted; refuses all 267 item-12 candidates. Not recommended as a drop-in.
 - **(c) keep the model** and teach `familyMatches` to compare a model with a series — the durable fix; needs its own design
-  and the same three-way measurement before it lands.
+  and the same three-way measurement before it lands. The nearest precedent is `modelTokens(sku, series)` in
+  `src/core/linkBasis.ts` (13 Sep, written after the redesign for the link-basis rule): digit-bearing words of the series
+  label plus the SKU's leading model token. As written it would not match every pair — `IR809G-LTE-LA-K9` gives `IR809G`,
+  `809G` and its series' `800`, where the document family says `809` — so it is a starting point, not a drop-in.
+
+**Not affected by any of this:** `derive-link-provenance`, the first step of the rebuild. Its `family` link basis reads
+`parts.series` and the SKU through `modelTokens`, never `parts.family`.
 
 **B. Item 12.** *Recommended:*
 - **Restore the 267 candidates** — after A, by a prepared script that supersedes each withdrawal row with the withdrawn
