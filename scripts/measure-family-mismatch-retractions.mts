@@ -144,7 +144,8 @@ try {
     + `CONTROL, each part against another row's document: ${control} of ${pop.length}`);
 
   // The gate as applyMerge runs it reads parts.family (the MODEL since 8 Sep); the 4 Sep retraction ran when that column held
-  // what is now family_raw. All three levels, so "would a restore pass the gate" is answered for every level on offer.
+  // the title family, which family_raw keeps for the parts that had one (it equals the model for the rest — measured 17 Sep).
+  // All three levels, so "would a restore pass the gate" is answered for every level on offer.
   const gateAt = (r: Row, fam: string | null) =>
     describesPart({ sku: r.sku, productClass: r.product_class, categorySlug: r.category, partFamily: fam, docFamily: r.inherited_from })?.rule ?? "accepted";
   const classified = pop.map((r) => ({ ...r, ...bucketOf(r), gate: gateAt(r, r.family), gateRaw: gateAt(r, r.family_raw), gateSeries: gateAt(r, r.series) }));

@@ -65,11 +65,15 @@ anything back onto them.
 
 `describesPart` / `familyMatches` (`src/core/specMerge.ts`, `57a6ba6`, 4 Sep) decide whether a family-level value may reach
 a part by comparing the part's family with the value's `inherited_from`, on shared model-number tokens. `applyMerge`
-(`src/store/facts.ts`), `apply-extract` and `remerge` all pass **`parts.family`** — read in each file. Those are all of
-its callers: the fourth call site, inside `canInherit`, runs only when a caller passes a `subject`, and neither caller of
-`canInherit` (`apply-extract`, legacy `apply-specs-v2`) does. The gate was written when that column held
+(`src/store/facts.ts`), `apply-extract` and `remerge` all pass **`parts.family`** — read in each file. Every other call
+site was checked: inside `src/`, the one in `canInherit` runs only when a caller passes a `subject`, and neither caller of
+`canInherit` (`apply-extract`, legacy `apply-specs-v2`) does; in `scripts/`, `retract-inherited.mts` writes only when the
+refusal is exactly `class:<to>`, which `describesPart` decides before it reads any family, and
+`measure-family-scope-prize.mts` is read-only. (A first version of this paragraph said "all of its callers" after
+searching `src/` alone.) The gate was written when that column held
 the document-title family. **On 8 Sep `parts.family` became the MODEL** — the SKU minus its orderable suffix (`c9d5f48`;
-migration 0013 applied 21:19 UTC) — and the title family moved to `parts.family_raw`. `git log -L` over `describesPart`,
+migration 0013 applied 21:19 UTC) — and the title family moved to `parts.family_raw` (which, measured, holds a title only
+for ~10.9k Cisco parts and the model everywhere else; see option (a)). `git log -L` over `describesPart`,
 `familyMatches` and `familyModelTokens` returns only `57a6ba6`: the gate's code never followed.
 
 **It is latent, not live — with two manual triggers, and the second one deletes from the page.**
@@ -93,7 +97,7 @@ inherited_from) pairs — the real `describesPart`, run three ways:**
 
 | the gate's verdict changes… | facts |
 |---|---|
-| accepted on `family_raw` (the input it was written for), **refused on today's model `family`** | **12,216** |
+| accepted on `family_raw` (the title family, where a part had one — see below), **refused on today's model `family`** | **12,216** |
 | refused on `family_raw`, accepted on today's model `family` | 150 |
 | accepted on `family_raw`, refused on `series` | 2,057 |
 | refused on `family_raw`, accepted on `series` | 10,448 |
@@ -121,11 +125,14 @@ here.**
 
 **A. Which level should the inheritance gate read?** *Recommended: decide before any `apply-specs` run and before any
 `remerge --commit` — the second would retract 6,584 inherited facts on the misread level.*
-- **(a) `family_raw`** — the input the gate was written and tested for (whether each existing inherited fact actually
-  passed the gate when written was not measured; some may predate it). A column-name change at the three call sites
-  plus a test. Costs: `family_raw` is frozen at 8 Sep and
-  "sometimes the wrong series" (its own column comment), and it is null for parts that had no title family — those stay
-  refused as `family:unknown`, as before 8 Sep. **The conservative interim.**
+- **(a) `family_raw`** — a column-name change at the three call sites plus a test. **Measured 17 Sep, it is less than
+  its name suggests:** on live Cisco parts `family_raw` is never null, it EQUALS today's model family on 75,985 of
+  86,934 (the parts that had no title family — the same count `c9d5f48` filled), and it differs on 10,949, of which
+  10,944 contain a space (title-like). For every other vendor, a non-null `family_raw` equals `family`. So (a) restores
+  the title-family comparison only for Cisco's ~10.9k title-family parts and reads the model everywhere else, exactly as
+  today; the 12,216 facts above all sit on the first group, by construction. Also: those titles are frozen at 8 Sep and
+  "sometimes the wrong series" (the column's own comment), and whether each existing inherited fact passed the gate when
+  written was not measured. **Still the smallest interim change, but only a partial one.**
 - **(b) `series`** — admits 10,448 facts' pairs the old gate refused (non-products among them) and refuses 2,057 it
   accepted; refuses all 267 item-12 candidates. Not recommended as a drop-in.
 - **(c) keep the model** and teach `familyMatches` to compare a model with a series — the durable fix; needs its own design

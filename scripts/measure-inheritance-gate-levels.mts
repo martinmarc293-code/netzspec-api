@@ -9,7 +9,8 @@
 // 21:19 UTC) and the title family moved to parts.family_raw. The gate's code did not change.
 //
 // Over every CURRENT inherited value fact on a live part, this runs the real describesPart three ways — partFamily =
-// family_raw (the input it was written for), family (what it reads today), series (the level migration 0012 added) — and
+// family_raw (a title family only for the ~10.9k Cisco parts that had one; measured 17 Sep, it equals the model on the
+// other 75,985 and for every other vendor), family (what it reads today), series (the level migration 0012 added) — and
 // counts facts and (part, inherited_from) pairs per combination of verdicts, with examples. It changes nothing: which level
 // the gate should read is a decision, see docs/decisions/2026-09-17-item-12-and-the-inheritance-gate-level.md.
 import { closePool, databaseName, getPool, query, resolveDatabaseUrl } from "../src/store/db.js";

@@ -91,6 +91,9 @@ export type PartRow = {
  *                                             (`series` alone appears 385 times in src/)
  *   series_raw (86,944 rows), family_raw       the ORIGINAL strings, kept on purpose. `series_raw`
  *     (89,527)                                 is the messier one — "Ucs B Series Blade Servers",
+ *                                              (family_raw is original only where a part HAD a title
+ *                                              family: measured 17 Sep, it equals the derived model on
+ *                                              75,985 live Cisco parts and differs on 10,949.)
  *                                              "ASR 9000 Series Aggregation Services Routers" —
  *                                              against a normalised "UCS B-Series", "ASR 9000".
  *                                              27,641 rows differ. They exist so verification can
