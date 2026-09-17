@@ -1,21 +1,21 @@
 {
  "vendor": "cisco",
  "category": "hyperconverged-systems",
- "built_at": "2026-09-17T13:51:32.501Z",
- "commit": "a8645484379b602e9dee8098ad2e59905a787821",
+ "built_at": "2026-09-17T14:29:40.870Z",
+ "commit": "74df4e68728d11c76688aa3e870bbcf59591c1a2",
  "uncommitted_rule_files": [
   "data/reference/kind-layer-plans-2026-09-13.json",
-  "data/reference/product-lines/cisco-collaboration-endpoints.json",
+  "data/reference/product-lines/cisco-servers-unified-computing.json",
   "data/reference/product-lines/cisco-wireless.json"
  ],
  "mapping_file": "data/reference/product-lines/cisco-hyperconverged-systems.json",
  "parts": 1193,
- "layered": 1163,
- "pending": 30,
+ "layered": 1136,
+ "pending": 57,
  "lines": [
   {
    "line": "HyperFlex",
-   "parts": 1163,
+   "parts": 1136,
    "series": [
     {
      "series": "HyperFlex compute-only nodes (C220 / C240 / C480 / B200 / B480)",
@@ -158,14 +158,14 @@
      "family": "(none)",
      "role": null,
      "note": "layers round 3: the two model rules are fenced to the prefixes of the rows they decide (HX- / HXAF- / HXC- / HX220-, UCSC-, CBL-); unfenced they claimed the C220-based parts of the 5520 controller and CMX / MSE in wireless and XRV-FAN-C220M4= in routers",
-     "parts": 55,
+     "parts": 53,
      "kinds": {
       "cable": 3,
-      "mechanical": 11,
+      "mechanical": 10,
       "gpu": 2,
       "storage-controller": 4,
       "server": 24,
-      "accessory": 8,
+      "accessory": 7,
       "fan": 2,
       "unknown": 1
      },
@@ -179,12 +179,14 @@
       "HX-GPURKIT-C220 — GPU Riser Bracket assy kit C220 / C225 1U"
      ],
      "rules": {
-      "sku": 55
+      "sku": 53
      },
      "pending_in": {
       "servers-unified-computing": 22
      },
-     "pending_out": {}
+     "pending_out": {
+      "move to servers-unified-computing": 2
+     }
     },
     {
      "series": "HX225c",
@@ -217,11 +219,11 @@
      "family": "(none)",
      "role": null,
      "note": "the C240 alternative was removed in layers round 3: it decided none of its 39 matches and claimed 115 servers rows. The 240M rule is fenced in the same round to the prefixes of the rows it decides (HX- / HXAF- / HXC-, UCSC- / UCS-, CBL-); unfenced it claimed the 8540 controller's and CMX / MSE parts in wireless. The name rule places the Cisco+ offers PLHC-VDIGPHXA-M51A / VSIGPHXA-M51A 'Cisco+ HyperFlex HX240c M5 All Flash Node …', which sat in shared parts by their label",
-     "parts": 119,
+     "parts": 116,
      "kinds": {
-      "cable": 16,
+      "cable": 14,
       "drive": 5,
-      "accessory": 30,
+      "accessory": 29,
       "mechanical": 10,
       "server": 29,
       "fan": 3,
@@ -239,13 +241,15 @@
       "CBL-RSASR1B-240M6= — Cisco CBL-RSASR1B-240M6="
      ],
      "rules": {
-      "sku": 117,
+      "sku": 114,
       "name": 2
      },
      "pending_in": {
       "servers-unified-computing": 29
      },
-     "pending_out": {}
+     "pending_out": {
+      "move to servers-unified-computing": 3
+     }
     },
     {
      "series": "HX245c",
@@ -277,18 +281,18 @@
      "family": "(shared across the line)",
      "role": null,
      "note": null,
-     "parts": 842,
+     "parts": 820,
      "kinds": {
-      "cable": 21,
+      "cable": 14,
       "gpu": 28,
       "storage-controller": 24,
-      "accessory": 36,
-      "memory": 72,
-      "drive": 207,
-      "nic": 61,
-      "mechanical": 23,
+      "accessory": 31,
+      "memory": 71,
+      "drive": 206,
+      "nic": 60,
+      "mechanical": 18,
       "cpu": 331,
-      "power": 24,
+      "power": 22,
       "tpm": 11,
       "bundle": 3,
       "pdu": 1
@@ -296,22 +300,24 @@
      "roles": {},
      "samples": [
       "CAB-48DC-40A — Cisco CAB-48DC-40A",
-      "CAB-48DC-40A-AS= — Cisco CAB-48DC-40A-AS=",
-      "CAB-48DC-40A-INT= — Cisco CAB-48DC-40A-INT=",
-      "CAB-9K10A-KOR1= — Cisco CAB-9K10A-KOR1=",
       "CAB-9K12A-NA2= — Cisco CAB-9K12A-NA2=",
-      "CAB-9K12A-NA4= — Cisco CAB-9K12A-NA4="
+      "CAB-9K12A-NA4= — Cisco CAB-9K12A-NA4=",
+      "CAB-9K12A-NA5= — Cisco CAB-9K12A-NA5=",
+      "CAB-C13-C14-3M-IN1 — Cisco CAB-C13-C14-3M-IN1",
+      "CAB-C13-C14-3M-IN2 — Cisco CAB-C13-C14-3M-IN2"
      ],
      "rules": {
-      "accessory": 21,
-      "label": 32,
+      "accessory": 14,
+      "label": 17,
       "sku": 789
      },
      "pending_in": {
       "servers-unified-computing": 374
      },
      "pending_out": {
-      "class -> non_product": 29
+      "class -> non_product": 29,
+      "move to hyperconverged-infrastructure": 2,
+      "move to servers-unified-computing": 20
      }
     }
    ]
@@ -366,6 +372,30 @@
    "action": "class",
    "to": "non_product",
    "reason": "family placeholder: a bare family / base SKU named 'Cisco <SKU>' that the orderable PIDs extend with their domain, antenna or model suffix (the datasheet-cell rule, extended in layers round 3)"
+  },
+  {
+   "sku": "CAB-48DC-40A-AS=",
+   "name": "Cisco CAB-48DC-40A-AS=",
+   "series_label": "HyperFlex HX Series",
+   "action": "move",
+   "to": "hyperconverged-infrastructure",
+   "reason": "a generic power cord split across categories: base and spare in one category, the base's — the Q-19 rule (re-audit decisions, operator, 15 Sep 2026), applied to the pairs Q-14 left open (operator, 17 Sep 2026: layering review fix list 4.1)"
+  },
+  {
+   "sku": "CAB-48DC-40A-INT=",
+   "name": "Cisco CAB-48DC-40A-INT=",
+   "series_label": "HyperFlex HX Series",
+   "action": "move",
+   "to": "hyperconverged-infrastructure",
+   "reason": "a generic power cord split across categories: base and spare in one category, the base's — the Q-19 rule (re-audit decisions, operator, 15 Sep 2026), applied to the pairs Q-14 left open (operator, 17 Sep 2026: layering review fix list 4.1)"
+  },
+  {
+   "sku": "CAB-9K10A-KOR1=",
+   "name": "Cisco CAB-9K10A-KOR1=",
+   "series_label": "HyperFlex HX Series",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "a generic power cord split across categories: base and spare in one category, the base's — the Q-19 rule (re-audit decisions, operator, 15 Sep 2026), applied to the pairs Q-14 left open (operator, 17 Sep 2026: layering review fix list 4.1)"
   },
   {
    "sku": "CRS-DG",
@@ -504,12 +534,76 @@
    "reason": "self-declared VOID PID"
   },
   {
+   "sku": "N20-BBLKD",
+   "name": "UCS 2.5 inch HDD blanking panel",
+   "series_label": "HyperFlex HX Series",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "a generic UCS component split across categories: one category per twin group, and generic UCS components in servers-unified-computing (operator, 17 Sep 2026: layering review fix list 4.1 — Q-14 / Q-17)"
+  },
+  {
+   "sku": "PACK-QSFP-SFP=",
+   "name": "Cisco PACK-QSFP-SFP=",
+   "series_label": "HyperFlex HX Series",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "a generic UCS component split across categories: one category per twin group, and generic UCS components in servers-unified-computing (operator, 17 Sep 2026: layering review fix list 4.1 — Q-14 / Q-17)"
+  },
+  {
    "sku": "PLHC-FI-D2-RES",
    "name": "Cisco+ Hybrid Cloud Reserve for HX Fabric Interconnect",
    "series_label": "HyperFlex HX Series",
    "action": "class",
    "to": "non_product",
    "reason": "a capacity reservation, not a part"
+  },
+  {
+   "sku": "RACK-BLANK-001",
+   "name": "Filler panels (qty 12), 1U, plastic, toolless",
+   "series_label": "HyperFlex HX Series",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "an accessory of the R42610 / R42612 racks (servers-unified-computing, R42610 / R42612 racks and PDUs) split across categories: one category per twin group, the rack's (operator, 17 Sep 2026: layering review fix list 4.1, Q-14)"
+  },
+  {
+   "sku": "RACK-CBLMGT-001",
+   "name": "Cable mgt D rings (qty 10), metal",
+   "series_label": "HyperFlex HX Series",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "an accessory of the R42610 / R42612 racks (servers-unified-computing, R42610 / R42612 racks and PDUs) split across categories: one category per twin group, the rack's (operator, 17 Sep 2026: layering review fix list 4.1, Q-14)"
+  },
+  {
+   "sku": "RACK-CBLMGT-011",
+   "name": "Cable mgt straps (qty 10), Velcro",
+   "series_label": "HyperFlex HX Series",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "an accessory of the R42610 / R42612 racks (servers-unified-computing, R42610 / R42612 racks and PDUs) split across categories: one category per twin group, the rack's (operator, 17 Sep 2026: layering review fix list 4.1, Q-14)"
+  },
+  {
+   "sku": "RACK-FASTEN-001",
+   "name": "Mounting screws (qty 100), M6",
+   "series_label": "HyperFlex HX Series",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "an accessory of the R42610 / R42612 racks (servers-unified-computing, R42610 / R42612 racks and PDUs) split across categories: one category per twin group, the rack's (operator, 17 Sep 2026: layering review fix list 4.1, Q-14)"
+  },
+  {
+   "sku": "RACK-FASTEN-002",
+   "name": "Cage nuts (qty 50), M6",
+   "series_label": "HyperFlex HX Series",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "an accessory of the R42610 / R42612 racks (servers-unified-computing, R42610 / R42612 racks and PDUs) split across categories: one category per twin group, the rack's (operator, 17 Sep 2026: layering review fix list 4.1, Q-14)"
+  },
+  {
+   "sku": "RACK-JOIN-001",
+   "name": "Rack joining kit",
+   "series_label": "HyperFlex HX Series",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "an accessory of the R42610 / R42612 racks (servers-unified-computing, R42610 / R42612 racks and PDUs) split across categories: one category per twin group, the rack's (operator, 17 Sep 2026: layering review fix list 4.1, Q-14)"
   },
   {
    "sku": "REDO-DG",
@@ -528,12 +622,140 @@
    "reason": "datasheet cell value or fragment enumerated as a part"
   },
   {
+   "sku": "UCS-220CBLMR8=",
+   "name": "C220 M4 set of 2 RAID cntrlr cables for 8HDD bckpln chassis",
+   "series_label": "HyperFlex HX Series",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "a generic UCS component split across categories: one category per twin group, and generic UCS components in servers-unified-computing (operator, 17 Sep 2026: layering review fix list 4.1 — Q-14 / Q-17)"
+  },
+  {
+   "sku": "UCS-220CBLSR8=",
+   "name": "C220 M4 set of 2 SATA/SW RAID cables for 8HDD bckpln chassis",
+   "series_label": "HyperFlex HX Series",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "a generic UCS component split across categories: one category per twin group, and generic UCS components in servers-unified-computing (operator, 17 Sep 2026: layering review fix list 4.1 — Q-14 / Q-17)"
+  },
+  {
    "sku": "UCS-DCPMM-AD=",
    "name": "Cisco UCS-DCPMM-AD=",
    "series_label": "HyperFlex HX Series",
    "action": "class",
    "to": "non_product",
    "reason": "an Optane operating-mode SETTING (like HX-DCPMM-AD, already non-product in ucsKind)"
+  },
+  {
+   "sku": "UCS-HD8T7KL4KN",
+   "name": "8 TB 12G SAS 7.2K RPM LFF HDD (4K)",
+   "series_label": "HyperFlex HX Series",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "a generic UCS component split across categories: one category per twin group, and generic UCS components in servers-unified-computing (operator, 17 Sep 2026: layering review fix list 4.1 — Q-14 / Q-17)"
+  },
+  {
+   "sku": "UCS-M10CBL-C240M5",
+   "name": "Cisco UCS-M10CBL-C240M5",
+   "series_label": "HyperFlex HX Series",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "a generic UCS component split across categories: one category per twin group, and generic UCS components in servers-unified-computing (operator, 17 Sep 2026: layering review fix list 4.1 — Q-14 / Q-17)"
+  },
+  {
+   "sku": "UCS-MSTOR-M2=",
+   "name": "Cisco UCS-MSTOR-M2=",
+   "series_label": "HyperFlex HX Series",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "a generic UCS component split across categories: one category per twin group, and generic UCS components in servers-unified-computing (operator, 17 Sep 2026: layering review fix list 4.1 — Q-14 / Q-17)"
+  },
+  {
+   "sku": "UCS-P100CBL-240M5",
+   "name": "Cisco UCS-P100CBL-240M5",
+   "series_label": "HyperFlex HX Series",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "a generic UCS component split across categories: one category per twin group, and generic UCS components in servers-unified-computing (operator, 17 Sep 2026: layering review fix list 4.1 — Q-14 / Q-17)"
+  },
+  {
+   "sku": "UCSC-HS-C220M4=",
+   "name": "Heat sink for UCS C220 M4 rack servers",
+   "series_label": "HyperFlex HX Series",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "a generic UCS component split across categories: one category per twin group, and generic UCS components in servers-unified-computing (operator, 17 Sep 2026: layering review fix list 4.1 — Q-14 / Q-17)"
+  },
+  {
+   "sku": "UCSC-LP-C25-1485=",
+   "name": "Cisco UCSC-LP-C25-1485=",
+   "series_label": "HyperFlex HX Series",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "a generic UCS component split across categories: one category per twin group, and generic UCS components in servers-unified-computing (operator, 17 Sep 2026: layering review fix list 4.1 — Q-14 / Q-17)"
+  },
+  {
+   "sku": "UCSC-LP-C40-1485=",
+   "name": "Cisco UCSC-LP-C40-1485=",
+   "series_label": "HyperFlex HX Series",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "a generic UCS component split across categories: one category per twin group, and generic UCS components in servers-unified-computing (operator, 17 Sep 2026: layering review fix list 4.1 — Q-14 / Q-17)"
+  },
+  {
+   "sku": "UCSC-MLOM-BLK=",
+   "name": "MLOM Blanking Panel",
+   "series_label": "HyperFlex HX Series",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "a generic UCS component split across categories: one category per twin group, and generic UCS components in servers-unified-computing (operator, 17 Sep 2026: layering review fix list 4.1 — Q-14 / Q-17)"
+  },
+  {
+   "sku": "UCSC-PCIF-01F=",
+   "name": "Full height PCIe filler for C-Series",
+   "series_label": "HyperFlex HX Series",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "a generic UCS component split across categories: one category per twin group, and generic UCS components in servers-unified-computing (operator, 17 Sep 2026: layering review fix list 4.1 — Q-14 / Q-17)"
+  },
+  {
+   "sku": "UCSC-PSU-BLKP240=",
+   "name": "Power Supply Blanking Panel for C240 M4 servers",
+   "series_label": "HyperFlex HX Series",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "a generic UCS component split across categories: one category per twin group, and generic UCS components in servers-unified-computing (operator, 17 Sep 2026: layering review fix list 4.1 — Q-14 / Q-17)"
+  },
+  {
+   "sku": "UCSC-R2R3-C220M6=",
+   "name": "Cisco UCSC-R2R3-C220M6=",
+   "series_label": "HyperFlex HX Series",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "a generic UCS component split across categories: one category per twin group, and generic UCS components in servers-unified-computing (operator, 17 Sep 2026: layering review fix list 4.1 — Q-14 / Q-17)"
+  },
+  {
+   "sku": "UCSC-RAILB-M4",
+   "name": "Cisco UCSC-RAILB-M4",
+   "series_label": "HyperFlex HX Series",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "a generic UCS component split across categories: one category per twin group, and generic UCS components in servers-unified-computing (operator, 17 Sep 2026: layering review fix list 4.1 — Q-14 / Q-17)"
+  },
+  {
+   "sku": "UCSC-RAILF-M4=",
+   "name": "Cisco UCSC-RAILF-M4=",
+   "series_label": "HyperFlex HX Series",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "a generic UCS component split across categories: one category per twin group, and generic UCS components in servers-unified-computing (operator, 17 Sep 2026: layering review fix list 4.1 — Q-14 / Q-17)"
+  },
+  {
+   "sku": "UCSC-RIS2A-240M6=",
+   "name": "Cisco UCSC-RIS2A-240M6=",
+   "series_label": "HyperFlex HX Series",
+   "action": "move",
+   "to": "servers-unified-computing",
+   "reason": "a generic UCS component split across categories: one category per twin group, and generic UCS components in servers-unified-computing (operator, 17 Sep 2026: layering review fix list 4.1 — Q-14 / Q-17)"
   },
   {
    "sku": "UCSD5",

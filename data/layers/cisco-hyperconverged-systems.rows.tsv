@@ -6,9 +6,9 @@ sku	name	series_label	kind	bucket	product_line	product_family	series	placed_by	d
 A100	Cisco A100	HyperFlex HX Series	unknown	pending_plan								class non_product			
 C240M5SD	Cisco C240M5SD	HyperFlex HX Series	server	pending_plan								class non_product			
 CAB-48DC-40A	Cisco CAB-48DC-40A	HyperFlex HX Series	cable	layered	HyperFlex	(shared across the line)	HyperFlex shared parts	accessory ^CAB- (label HyperFlex HX Series)							
-CAB-48DC-40A-AS=	Cisco CAB-48DC-40A-AS=	HyperFlex HX Series	cable	layered	HyperFlex	(shared across the line)	HyperFlex shared parts	accessory ^CAB- (label HyperFlex HX Series)							
-CAB-48DC-40A-INT=	Cisco CAB-48DC-40A-INT=	HyperFlex HX Series	cable	layered	HyperFlex	(shared across the line)	HyperFlex shared parts	accessory ^CAB- (label HyperFlex HX Series)							
-CAB-9K10A-KOR1=	Cisco CAB-9K10A-KOR1=	HyperFlex HX Series	cable	layered	HyperFlex	(shared across the line)	HyperFlex shared parts	accessory ^CAB- (label HyperFlex HX Series)							
+CAB-48DC-40A-AS=	Cisco CAB-48DC-40A-AS=	HyperFlex HX Series	cable	pending_plan								move hyperconverged-infrastructure			
+CAB-48DC-40A-INT=	Cisco CAB-48DC-40A-INT=	HyperFlex HX Series	cable	pending_plan								move hyperconverged-infrastructure			
+CAB-9K10A-KOR1=	Cisco CAB-9K10A-KOR1=	HyperFlex HX Series	cable	pending_plan								move servers-unified-computing			
 CAB-9K12A-NA2=	Cisco CAB-9K12A-NA2=	HyperFlex HX Series	cable	layered	HyperFlex	(shared across the line)	HyperFlex shared parts	accessory ^CAB- (label HyperFlex HX Series)							
 CAB-9K12A-NA4=	Cisco CAB-9K12A-NA4=	HyperFlex HX Series	cable	layered	HyperFlex	(shared across the line)	HyperFlex shared parts	accessory ^CAB- (label HyperFlex HX Series)							
 CAB-9K12A-NA5=	Cisco CAB-9K12A-NA5=	HyperFlex HX Series	cable	layered	HyperFlex	(shared across the line)	HyperFlex shared parts	accessory ^CAB- (label HyperFlex HX Series)							
@@ -1108,35 +1108,35 @@ HXE-SD38T61X-EV	Cisco HXE-SD38T61X-EV	HyperFlex HX Series	drive	layered	HyperFle
 HXE-SD38T6S1X-EV	Cisco HX Express 3.8TB 2.5inch Enterprise Value 6G SATA SSD	HyperFlex HX Series	drive	layered	HyperFlex	(none)	HyperFlex Express	sku ^HXE-							
 HXE-SD76T61X-EV	Cisco HXE-SD76T61X-EV	HyperFlex HX Series	drive	layered	HyperFlex	(none)	HyperFlex Express	sku ^HXE-							
 HXE-SD76T6S1X-EV	Cisco HX Express 7.6TB 2.5inch Enterprise Value 6G SATA SSD	HyperFlex HX Series	drive	layered	HyperFlex	(none)	HyperFlex Express	sku ^HXE-							
-N20-BBLKD	UCS 2.5 inch HDD blanking panel	HyperFlex HX Series	mechanical	layered	HyperFlex	(shared across the line)	HyperFlex shared parts	accessory BBLKD (label HyperFlex HX Series)							
-PACK-QSFP-SFP=	Cisco PACK-QSFP-SFP=	HyperFlex HX Series	power	layered	HyperFlex	(shared across the line)	HyperFlex shared parts	label HyperFlex HX Series							
+N20-BBLKD	UCS 2.5 inch HDD blanking panel	HyperFlex HX Series	mechanical	pending_plan								move servers-unified-computing			
+PACK-QSFP-SFP=	Cisco PACK-QSFP-SFP=	HyperFlex HX Series	power	pending_plan								move servers-unified-computing			
 PLHC-EDGEPHXE-M51A	Cisco+ HyperFlex Hybrid Edge 220 M5 system	HyperFlex HX Series	server	layered	HyperFlex	(none)	HyperFlex Edge	name HyperFlex (Hybrid |All Flash )?Edge							
 PLHC-FI-D2-RES	Cisco+ Hybrid Cloud Reserve for HX Fabric Interconnect	HyperFlex HX Series	unknown	pending_plan								class non_product			
 PLHC-VDIGPHXA-M51A	Cisco+ HyperFlex HX240c M5 All Flash Node VDI-HX	HyperFlex HX Series	server	layered	HyperFlex	(none)	HX240c	name HX240c							
 PLHC-VDIGPHXC-M51A	Cisco+ Compute UCS C220 M5 SFF 10 HD VSI-HX	HyperFlex HX Series	server	layered	HyperFlex	(none)	HyperFlex compute-only nodes (C220 / C240 / C480 / B200 / B480)	name Compute UCS (C220|C240|C480|B200|B480)							
 PLHC-VSIGPHXA-M51A	Cisco+ HyperFlex HX240c M5 All Flash Node VSI-HX	HyperFlex HX Series	server	layered	HyperFlex	(none)	HX240c	name HX240c							
 PLHC-VSIGPHXC-M51A	Cisco+ Compute UCS C220 M5 SFF 10 HD VSI-HX	HyperFlex HX Series	server	layered	HyperFlex	(none)	HyperFlex compute-only nodes (C220 / C240 / C480 / B200 / B480)	name Compute UCS (C220|C240|C480|B200|B480)							
-RACK-BLANK-001	Filler panels (qty 12), 1U, plastic, toolless	HyperFlex HX Series	mechanical	layered	HyperFlex	(shared across the line)	HyperFlex shared parts	accessory BLANK (label HyperFlex HX Series)							
-RACK-CBLMGT-001	Cable mgt D rings (qty 10), metal	HyperFlex HX Series	cable	layered	HyperFlex	(shared across the line)	HyperFlex shared parts	label HyperFlex HX Series							
-RACK-CBLMGT-011	Cable mgt straps (qty 10), Velcro	HyperFlex HX Series	cable	layered	HyperFlex	(shared across the line)	HyperFlex shared parts	label HyperFlex HX Series							
-RACK-FASTEN-001	Mounting screws (qty 100), M6	HyperFlex HX Series	mechanical	layered	HyperFlex	(shared across the line)	HyperFlex shared parts	label HyperFlex HX Series							
-RACK-FASTEN-002	Cage nuts (qty 50), M6	HyperFlex HX Series	mechanical	layered	HyperFlex	(shared across the line)	HyperFlex shared parts	label HyperFlex HX Series							
-RACK-JOIN-001	Rack joining kit	HyperFlex HX Series	mechanical	layered	HyperFlex	(shared across the line)	HyperFlex shared parts	label HyperFlex HX Series							
+RACK-BLANK-001	Filler panels (qty 12), 1U, plastic, toolless	HyperFlex HX Series	mechanical	pending_plan								move servers-unified-computing			
+RACK-CBLMGT-001	Cable mgt D rings (qty 10), metal	HyperFlex HX Series	cable	pending_plan								move servers-unified-computing			
+RACK-CBLMGT-011	Cable mgt straps (qty 10), Velcro	HyperFlex HX Series	cable	pending_plan								move servers-unified-computing			
+RACK-FASTEN-001	Mounting screws (qty 100), M6	HyperFlex HX Series	mechanical	pending_plan								move servers-unified-computing			
+RACK-FASTEN-002	Cage nuts (qty 50), M6	HyperFlex HX Series	mechanical	pending_plan								move servers-unified-computing			
+RACK-JOIN-001	Rack joining kit	HyperFlex HX Series	mechanical	pending_plan								move servers-unified-computing			
 RACK-UCS1	Cisco RACK-UCS1	HyperFlex HX Series	accessory	layered	HyperFlex	(shared across the line)	HyperFlex shared parts	label HyperFlex HX Series							
 RACK-UCS21	Cisco RACK-UCS21	HyperFlex HX Series	accessory	layered	HyperFlex	(shared across the line)	HyperFlex shared parts	label HyperFlex HX Series							
 REDO-DG	Cisco REDO-DG	HyperFlex HX Series	unknown	pending_plan								class non_product			
 RP208-30-2P-U-2	Cisco RP208-30-2P-U-2	HyperFlex HX Series	pdu	layered	HyperFlex	(shared across the line)	HyperFlex shared parts	label HyperFlex HX Series							
 Two-CPU	Cisco Two-CPU	HyperFlex HX Series	unknown	pending_plan								class non_product			
-UCS-220CBLMR8=	C220 M4 set of 2 RAID cntrlr cables for 8HDD bckpln chassis	HyperFlex HX Series	cable	layered	HyperFlex	(shared across the line)	HyperFlex shared parts	label HyperFlex HX Series							
-UCS-220CBLSR8=	C220 M4 set of 2 SATA/SW RAID cables for 8HDD bckpln chassis	HyperFlex HX Series	cable	layered	HyperFlex	(shared across the line)	HyperFlex shared parts	label HyperFlex HX Series							
+UCS-220CBLMR8=	C220 M4 set of 2 RAID cntrlr cables for 8HDD bckpln chassis	HyperFlex HX Series	cable	pending_plan								move servers-unified-computing			
+UCS-220CBLSR8=	C220 M4 set of 2 SATA/SW RAID cables for 8HDD bckpln chassis	HyperFlex HX Series	cable	pending_plan								move servers-unified-computing			
 UCS-AMDCBL-C240M5	Cisco UCS-AMDCBL-C240M5	HyperFlex HX Series	cable	layered	HyperFlex	(none)	HX240c	sku ^(?=HX|UCSC?-|CBL-).*(?<![0-9])240-?M[4-7]							
 UCS-BBLKD-S2=	Cisco UCS-BBLKD-S2=	HyperFlex HX Series	accessory	layered	HyperFlex	(shared across the line)	HyperFlex shared parts	accessory BBLKD (label HyperFlex HX Series)							
 UCS-CPU-LPCVR=	Cisco UCS-CPU-LPCVR=	HyperFlex HX Series	cpu	layered	HyperFlex	(shared across the line)	HyperFlex shared parts	label HyperFlex HX Series							
 UCS-DCPMM-AD=	Cisco UCS-DCPMM-AD=	HyperFlex HX Series	non-product	pending_plan								class non_product			
-UCS-HD8T7KL4KN	8 TB 12G SAS 7.2K RPM LFF HDD (4K)	HyperFlex HX Series	drive	layered	HyperFlex	(shared across the line)	HyperFlex shared parts	label HyperFlex HX Series							
-UCS-M10CBL-C240M5	Cisco UCS-M10CBL-C240M5	HyperFlex HX Series	cable	layered	HyperFlex	(none)	HX240c	sku ^(?=HX|UCSC?-|CBL-).*(?<![0-9])240-?M[4-7]							
-UCS-MSTOR-M2=	Cisco UCS-MSTOR-M2=	HyperFlex HX Series	accessory	layered	HyperFlex	(shared across the line)	HyperFlex shared parts	label HyperFlex HX Series							
-UCS-P100CBL-240M5	Cisco UCS-P100CBL-240M5	HyperFlex HX Series	cable	layered	HyperFlex	(none)	HX240c	sku ^(?=HX|UCSC?-|CBL-).*(?<![0-9])240-?M[4-7]							
+UCS-HD8T7KL4KN	8 TB 12G SAS 7.2K RPM LFF HDD (4K)	HyperFlex HX Series	drive	pending_plan								move servers-unified-computing			
+UCS-M10CBL-C240M5	Cisco UCS-M10CBL-C240M5	HyperFlex HX Series	cable	pending_plan								move servers-unified-computing			
+UCS-MSTOR-M2=	Cisco UCS-MSTOR-M2=	HyperFlex HX Series	accessory	pending_plan								move servers-unified-computing			
+UCS-P100CBL-240M5	Cisco UCS-P100CBL-240M5	HyperFlex HX Series	cable	pending_plan								move servers-unified-computing			
 UCS-P40CBL-C240M5	Cisco UCS-P40CBL-C240M5	HyperFlex HX Series	cable	layered	HyperFlex	(none)	HX240c	sku ^(?=HX|UCSC?-|CBL-).*(?<![0-9])240-?M[4-7]							
 UCSC-AD-M6L=	Cisco UCSC-AD-M6L=	HyperFlex HX Series	accessory	layered	HyperFlex	(shared across the line)	HyperFlex shared parts	label HyperFlex HX Series							
 UCSC-AD-M6LGPU=	Cisco UCSC-AD-M6LGPU=	HyperFlex HX Series	accessory	layered	HyperFlex	(shared across the line)	HyperFlex shared parts	label HyperFlex HX Series							
@@ -1150,7 +1150,7 @@ UCSC-FAN-C220M5=	Cisco UCSC-FAN-C220M5=	HyperFlex HX Series	fan	layered	HyperFle
 UCSC-FAN-C240M5=	Cisco UCSC-FAN-C240M5=	HyperFlex HX Series	fan	layered	HyperFlex	(none)	HX240c	sku ^(?=HX|UCSC?-|CBL-).*(?<![0-9])240-?M[4-7]							
 UCSC-FANR-C240M5=	Cisco UCSC-FANR-C240M5=	HyperFlex HX Series	fan	layered	HyperFlex	(none)	HX240c	sku ^(?=HX|UCSC?-|CBL-).*(?<![0-9])240-?M[4-7]							
 UCSC-FBRS-C220	Cisco UCSC-FBRS-C220	HyperFlex HX Series	accessory	layered	HyperFlex	(none)	HX220c	sku ^(?=HX|UCSC-|CBL-).*(?<![A-Z0-9])C220(?![0-9])							
-UCSC-HS-C220M4=	Heat sink for UCS C220 M4 rack servers	HyperFlex HX Series	mechanical	layered	HyperFlex	(none)	HX220c	sku ^(?=HX|UCSC-|CBL-).*(?<![0-9])220-?M[4-7]							
+UCSC-HS-C220M4=	Heat sink for UCS C220 M4 rack servers	HyperFlex HX Series	mechanical	pending_plan								move servers-unified-computing			
 UCSC-HS-C220M5=	Cisco UCSC-HS-C220M5=	HyperFlex HX Series	accessory	layered	HyperFlex	(none)	HX220c	sku ^(?=HX|UCSC-|CBL-).*(?<![0-9])220-?M[4-7]							
 UCSC-HS-C240M5=	Cisco UCSC-HS-C240M5=	HyperFlex HX Series	accessory	layered	HyperFlex	(none)	HX240c	sku ^(?=HX|UCSC?-|CBL-).*(?<![0-9])240-?M[4-7]							
 UCSC-HS2-C220M5=	Cisco UCSC-HS2-C220M5=	HyperFlex HX Series	accessory	layered	HyperFlex	(none)	HX220c	sku ^(?=HX|UCSC-|CBL-).*(?<![0-9])220-?M[4-7]							
@@ -1161,24 +1161,24 @@ UCSC-HSHP-C245M6	Cisco UCSC-HSHP-C245M6	HyperFlex HX Series	accessory	layered	Hy
 UCSC-HSHP-C245M6=	Cisco UCSC-HSHP-C245M6=	HyperFlex HX Series	accessory	layered	HyperFlex	(none)	HX245c	sku ^(?=UCSC-).*(?<![0-9])245-?M[6-7]							
 UCSC-HSLP-M6	Cisco UCSC-HSLP-M6	HyperFlex HX Series	accessory	layered	HyperFlex	(shared across the line)	HyperFlex shared parts	label HyperFlex HX Series							
 UCSC-HSLP-M6=	Cisco UCSC-HSLP-M6=	HyperFlex HX Series	accessory	layered	HyperFlex	(shared across the line)	HyperFlex shared parts	label HyperFlex HX Series							
-UCSC-LP-C25-1485=	Cisco UCSC-LP-C25-1485=	HyperFlex HX Series	accessory	layered	HyperFlex	(shared across the line)	HyperFlex shared parts	label HyperFlex HX Series							
-UCSC-LP-C40-1485=	Cisco UCSC-LP-C40-1485=	HyperFlex HX Series	accessory	layered	HyperFlex	(shared across the line)	HyperFlex shared parts	label HyperFlex HX Series							
+UCSC-LP-C25-1485=	Cisco UCSC-LP-C25-1485=	HyperFlex HX Series	accessory	pending_plan								move servers-unified-computing			
+UCSC-LP-C40-1485=	Cisco UCSC-LP-C40-1485=	HyperFlex HX Series	accessory	pending_plan								move servers-unified-computing			
 UCSC-M2EXT-240M6=2	Cisco UCSC-M2EXT-240M6=2	HyperFlex HX Series	drive	layered	HyperFlex	(none)	HX240c	sku ^(?=HX|UCSC?-|CBL-).*(?<![0-9])240-?M[4-7]							
-UCSC-MLOM-BLK=	MLOM Blanking Panel	HyperFlex HX Series	memory	layered	HyperFlex	(shared across the line)	HyperFlex shared parts	label HyperFlex HX Series							
+UCSC-MLOM-BLK=	MLOM Blanking Panel	HyperFlex HX Series	memory	pending_plan								move servers-unified-computing			
 UCSC-MLOMBLK-M5	Cisco UCSC-MLOMBLK-M5	HyperFlex HX Series	memory	layered	HyperFlex	(shared across the line)	HyperFlex shared parts	label HyperFlex HX Series							
 UCSC-MPSTOM6L-KIT=	Cisco UCSC-MPSTOM6L-KIT=	HyperFlex HX Series	accessory	layered	HyperFlex	(shared across the line)	HyperFlex shared parts	label HyperFlex HX Series							
 UCSC-PCI-1-C240M5=	Cisco UCSC-PCI-1-C240M5=	HyperFlex HX Series	nic	layered	HyperFlex	(none)	HX240c	sku ^(?=HX|UCSC?-|CBL-).*(?<![0-9])240-?M[4-7]							
 UCSC-PCI-2B-240M5=	Cisco UCSC-PCI-2B-240M5=	HyperFlex HX Series	nic	layered	HyperFlex	(none)	HX240c	sku ^(?=HX|UCSC?-|CBL-).*(?<![0-9])240-?M[4-7]							
-UCSC-PCIF-01F=	Full height PCIe filler for C-Series	HyperFlex HX Series	nic	layered	HyperFlex	(shared across the line)	HyperFlex shared parts	label HyperFlex HX Series							
+UCSC-PCIF-01F=	Full height PCIe filler for C-Series	HyperFlex HX Series	nic	pending_plan								move servers-unified-computing			
 UCSC-PCIF-240M5=	Cisco UCSC-PCIF-240M5=	HyperFlex HX Series	nic	layered	HyperFlex	(none)	HX240c	sku ^(?=HX|UCSC?-|CBL-).*(?<![0-9])240-?M[4-7]							
 UCSC-PSU-BLKP1U=	Cisco UCSC-PSU-BLKP1U=	HyperFlex HX Series	power	layered	HyperFlex	(shared across the line)	HyperFlex shared parts	label HyperFlex HX Series							
-UCSC-PSU-BLKP240=	Power Supply Blanking Panel for C240 M4 servers	HyperFlex HX Series	power	layered	HyperFlex	(shared across the line)	HyperFlex shared parts	label HyperFlex HX Series							
-UCSC-R2R3-C220M6=	Cisco UCSC-R2R3-C220M6=	HyperFlex HX Series	accessory	layered	HyperFlex	(none)	HX220c	sku ^(?=HX|UCSC-|CBL-).*(?<![0-9])220-?M[4-7]							
-UCSC-RAILB-M4	Cisco UCSC-RAILB-M4	HyperFlex HX Series	accessory	layered	HyperFlex	(shared across the line)	HyperFlex shared parts	accessory RAIL (label HyperFlex HX Series)							
-UCSC-RAILF-M4=	Cisco UCSC-RAILF-M4=	HyperFlex HX Series	accessory	layered	HyperFlex	(shared across the line)	HyperFlex shared parts	accessory RAIL (label HyperFlex HX Series)							
+UCSC-PSU-BLKP240=	Power Supply Blanking Panel for C240 M4 servers	HyperFlex HX Series	power	pending_plan								move servers-unified-computing			
+UCSC-R2R3-C220M6=	Cisco UCSC-R2R3-C220M6=	HyperFlex HX Series	accessory	pending_plan								move servers-unified-computing			
+UCSC-RAILB-M4	Cisco UCSC-RAILB-M4	HyperFlex HX Series	accessory	pending_plan								move servers-unified-computing			
+UCSC-RAILF-M4=	Cisco UCSC-RAILF-M4=	HyperFlex HX Series	accessory	pending_plan								move servers-unified-computing			
 UCSC-RIS1B-240M6	Cisco UCSC-RIS1B-240M6	HyperFlex HX Series	accessory	layered	HyperFlex	(none)	HX240c	sku ^(?=HX|UCSC?-|CBL-).*(?<![0-9])240-?M[4-7]							
 UCSC-RIS1B-240M6=	Cisco UCSC-RIS1B-240M6=	HyperFlex HX Series	accessory	layered	HyperFlex	(none)	HX240c	sku ^(?=HX|UCSC?-|CBL-).*(?<![0-9])240-?M[4-7]							
-UCSC-RIS2A-240M6=	Cisco UCSC-RIS2A-240M6=	HyperFlex HX Series	accessory	layered	HyperFlex	(none)	HX240c	sku ^(?=HX|UCSC?-|CBL-).*(?<![0-9])240-?M[4-7]							
+UCSC-RIS2A-240M6=	Cisco UCSC-RIS2A-240M6=	HyperFlex HX Series	accessory	pending_plan								move servers-unified-computing			
 UCSC-RNVME-240M5=	Cisco UCSC-RNVME-240M5=	HyperFlex HX Series	accessory	layered	HyperFlex	(none)	HX240c	sku ^(?=HX|UCSC?-|CBL-).*(?<![0-9])240-?M[4-7]							
 UCSC-RSAS-240M5X=	Cisco UCSC-RSAS-240M5X=	HyperFlex HX Series	accessory	layered	HyperFlex	(none)	HX240c	sku ^(?=HX|UCSC?-|CBL-).*(?<![0-9])240-?M[4-7]							
 UCSC-RSAS-C240M5=	Cisco UCSC-RSAS-C240M5=	HyperFlex HX Series	accessory	layered	HyperFlex	(none)	HX240c	sku ^(?=HX|UCSC?-|CBL-).*(?<![0-9])240-?M[4-7]							

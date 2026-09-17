@@ -252,18 +252,19 @@
    "line": "UCS S-Series Storage Servers",
    "series": [
     {
-     "series": "UCS S3260",
+     "series": "UCS C3160 / S3260",
      "sku": [
       "S3260",
       "C3X60",
       "^UCS-C3K-",
+      "^UCSC-C3K-",
       "C3[12]60(?![0-9])",
       "^UCS-S-"
      ],
      "labels": [
       "S-Series Storage"
      ],
-     "note": "^UCS-S- (layers round 3): the 24 UCS-S- rows ('UCS S3260 1row of drives 14x 12TB …', '… Rear Expander …', '… Boot SSD', UCS-S-MSD960GBK9) sat in UCS Server Components shared parts with kind server — the kind axis reads the S token as an S-Series server (listed for the kind layer); their names say S3260"
+     "note": "^UCS-S- (layers round 3): the 24 UCS-S- rows ('UCS S3260 1row of drives 14x 12TB …', '… Rear Expander …', '… Boot SSD', UCS-S-MSD960GBK9) sat in UCS Server Components shared parts with kind server — the kind axis reads the S token as an S-Series server (listed for the kind layer); their names say S3260. RENAMED from 'UCS S3260' (operator, 17 Sep 2026, layering review fix list 2.5 / 4.3: 'go with your recommendations'): Cisco names the C3160 Rack Server and the S3260 Storage Server separately, and this series holds both — 7 UCSC-C3160 rows by C3[12]60 and 7 UCSC-C3X60 rows named 'Cisco UCS C3160 …', where the C3X60 SKU family is shared by the two generations, so a split would have to file those rows under one of them. ^UCSC-C3K- added the same day: 17 UCSC-C3K rows — S3260 / C3000 M4 server nodes, the S3260 I/O expander, and C3000 NVMe SSDs and drives 'for M4 Server Node' — sat in UCS C-Series Rack Servers shared parts through ^UCSC-, because ^UCS-C3K- does not match the UCSC- spelling; their kind reads drive (listed for the kind rebuild)"
     }
    ]
   },

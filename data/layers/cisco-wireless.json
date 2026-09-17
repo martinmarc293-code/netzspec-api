@@ -1,11 +1,11 @@
 {
  "vendor": "cisco",
  "category": "wireless",
- "built_at": "2026-09-17T13:51:30.332Z",
- "commit": "a8645484379b602e9dee8098ad2e59905a787821",
+ "built_at": "2026-09-17T14:29:39.192Z",
+ "commit": "74df4e68728d11c76688aa3e870bbcf59591c1a2",
  "uncommitted_rule_files": [
   "data/reference/kind-layer-plans-2026-09-13.json",
-  "data/reference/product-lines/cisco-collaboration-endpoints.json",
+  "data/reference/product-lines/cisco-servers-unified-computing.json",
   "data/reference/product-lines/cisco-wireless.json"
  ],
  "mapping_file": "data/reference/product-lines/cisco-wireless.json",
@@ -334,7 +334,7 @@
   },
   {
    "line": "Aironet Access Points",
-   "parts": 1816,
+   "parts": 1815,
    "series": [
     {
      "series": "Aironet 1800s Active Sensor",
@@ -778,12 +778,12 @@
      "series": "Aironet 1520 / 1530",
      "family": "(none)",
      "role": null,
-     "note": "the bare 15[23]0 rule claimed the CWDM 1530 nm optics; fenced to AIR- in layers round 3 (operator: fixed in the wireless round). It also places AIR-1520-BATT-6AH= (planned in from servers-unified-computing) and AIR-ACC1530-PMK1 (planned in from routers, beside its spare)",
-     "parts": 15,
+     "note": "the bare 15[23]0 rule claimed the CWDM 1530 nm optics; fenced to AIR- in layers round 3 (operator: fixed in the wireless round). It also places AIR-1520-BATT-6AH= (planned in from servers-unified-computing). Fenced from AIR-ACC1530-KIT* / -PMK* (operator, 17 Sep 2026, layering review fix list 2.3 / 4.3: 'go with your recommendations'): AIR-ACC1530-KIT1=, -PMK1, -PMK1=, -PMK2= name 'AP1530/1560 Series' — two series of this line, and our store links KIT1= to the Aironet 1560 ordering guide and PMK1 to the 1540 and 1560 ordering guides — so they are line shared parts (the operator's rule of 14 Sep 2026) and fall to Aironet Access Points shared parts through ^AIR-(…|ACC|…). AIR-ACC1530-CVR= names AP1530 only and stays",
+     "parts": 11,
      "kinds": {
       "accessory": 1,
       "power": 3,
-      "mechanical": 11
+      "mechanical": 7
      },
      "roles": {},
      "samples": [
@@ -792,10 +792,10 @@
       "AIR-1520-FIB-REEL — 1520 Series Take-up Reel for Fiber Cable",
       "AIR-1520-FIB-REEL= — 1520/1550 Series Fiber-Cable Take-up Reel KIT",
       "AIR-ACC1530-CVR= — Cover and Solar Shield for AP1530 Series",
-      "AIR-ACC1530-KIT1= — Spare accessory kit for AP1530/1560 Series"
+      "AIR-ACCAMK1520-1 — 1520 Series Antenna Mount Kit, 3 Omni"
      ],
      "rules": {
-      "sku": 15
+      "sku": 11
      },
      "pending_in": {},
      "pending_out": {}
@@ -805,10 +805,10 @@
      "family": "(shared across the line)",
      "role": null,
      "note": "^AIR-RM30 (layers round 3): the AIR-RM3000M Wireless Security and Spectrum Intelligence modules and AIR-RM3010L Hyperlocation modules of the Aironet 3600 / 3700, planned in from interfaces-modules (operator: AIR-RM radio modules -> wireless, kind module). AP(?!-VBLE) leaves AIR-AP-VBLE-ADPTR= to the VBLE series below. VAP removed from the first rule (re-audit decisions, operator, 15 Sep 2026, Q-12): the AIR-VAP- access pods and mounting kits are MobileAccessVE rows, placed in their own series",
-     "parts": 130,
+     "parts": 133,
      "kinds": {
-      "unknown": 6,
-      "mechanical": 57,
+      "unknown": 5,
+      "mechanical": 61,
       "accessory": 8,
       "cable": 1,
       "module": 37,
@@ -825,8 +825,8 @@
       "AIR-ACC-PS-MNT1= — AC/DC adapter mount bracket for AIR-MNT-HORZ1="
      ],
      "rules": {
-      "label-unsupported": 9,
-      "sku": 121
+      "label-unsupported": 8,
+      "sku": 125
      },
      "pending_in": {},
      "pending_out": {}
@@ -1776,7 +1776,7 @@
   },
   {
    "line": "Wireless Antennas and Accessories",
-   "parts": 327,
+   "parts": 328,
    "series": [
     {
      "series": "Antennas",
@@ -1880,6 +1880,25 @@
      "pending_out": {}
     },
     {
+     "series": "OnPlus Network Agent (ON100)",
+     "family": "(none)",
+     "role": null,
+     "note": "operator, 17 Sep 2026 (layering review fix list 2.2 / 4.3: 'go with your recommendations'): ON100-M6-K9 'ON100 Network Agent Multipack', the Cisco OnPlus network agent, is not an access-point part; it sat in Aironet Access Points shared parts by a stored label 'Aironet 1550' the label check had rejected. Its own series in the accessories line, because Cisco's end-of-sale notice files it with the 'Wireless Miscellaneous Accessories' (wireless-misc-accessories-sw-lic-eol) — the only document our store links to it",
+     "parts": 1,
+     "kinds": {
+      "unknown": 1
+     },
+     "roles": {},
+     "samples": [
+      "ON100-M6-K9 — ON100 Network Agent Multipack"
+     ],
+     "rules": {
+      "sku": 1
+     },
+     "pending_in": {},
+     "pending_out": {}
+    },
+    {
      "series": "Wireless Antennas and Accessories shared parts",
      "family": "(shared across the line)",
      "role": null,
@@ -1915,9 +1934,9 @@
  "unplaced": [],
  "label_check": {
   "applied": true,
-  "label_placed": 24,
+  "label_placed": 23,
   "by_kind": {
-   "none": 13,
+   "none": 12,
    "sku-token": 2,
    "name": 9
   },
@@ -2017,14 +2036,6 @@
     "from_series": "Aironet 3800",
     "to_series": "Aironet Access Points shared parts",
     "why": "no platform token (3800) in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "ON100-M6-K9",
-    "name": "ON100 Network Agent Multipack",
-    "series_label": "Aironet 1550",
-    "from_series": "Aironet 1550",
-    "to_series": "Aironet Access Points shared parts",
-    "why": "no platform token (1550) in the SKU or name, no compatible part placed in the series"
    }
   ]
  },

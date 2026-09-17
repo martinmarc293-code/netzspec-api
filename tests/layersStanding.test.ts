@@ -126,8 +126,9 @@ const REVERSE_EXPECT: Record<string, number> = {
   // Supply (200 - 240V)" rows out of UCS C200). ROUTERS IS UNCHANGED AT 44 AND ITS CONTENT IS NOT: three 863-928 MHz antennas
   // leave IR 800, and the same three ARRIVE at "Wireless Gateway for LoRaWAN" and "IR 500 WPAN" — removing the false rival let
   // their real series win a claim it had been tied out of. Second time tonight a total held still while the queue changed.
+  // hyperconverged-systems 31 -> 30 (17 Sep 2026): UCSC-PSU-BLKP240= carries a fix list 4.1 twin move plan to servers, so it is not layered
   "servers-unified-computing": 212, "hyperconverged-infrastructure": 109, "collaboration-endpoints": 79, switches: 90,
-  wireless: 59, routers: 44, "storage-networking": 38, "hyperconverged-systems": 31, security: 22, "interfaces-modules": 9,
+  wireless: 59, routers: 44, "storage-networking": 38, "hyperconverged-systems": 30, security: 22, "interfaces-modules": 9,
   "unified-communications": 5, video: 3, "optical-networking": 3, transceiver: 0, meraki: 0,
 };
 
@@ -147,7 +148,9 @@ const REVERSE_EXPECT: Record<string, number> = {
 // -> MS150), the optical customer-variant codes (`X1001`), and a few bundles. A queue that contains known refusals is what Q-27's
 // own 704 already is; the number's job is that a NEW mis-file cannot appear in silence.
 const CROSSLINE_EXPECT: Record<string, number> = {
-  "servers-unified-computing": 52, wireless: 25, switches: 5, "optical-networking": 4,
+  // servers 52 -> 47 (17 Sep 2026): ^UCSC-C3K- in "UCS C3160 / S3260" SKU-places five rows this queue held — UCSC-C3K-M4IO(=) and
+  // UCSC-C3K-M4SRI-U, named by the S3260 series, and UCSC-C3K-M4SVR3(=), named by "Memory" on the word in "CPU, Memory, RAID Controller"
+  "servers-unified-computing": 47, wireless: 25, switches: 5, "optical-networking": 4,
   "hyperconverged-infrastructure": 3, "collaboration-endpoints": 1,
   routers: 0, transceiver: 0, "interfaces-modules": 0, "hyperconverged-systems": 0, security: 0,
   video: 0, "storage-networking": 0, "unified-communications": 0, meraki: 0,
@@ -180,7 +183,7 @@ const LABEL_EXPECT: Record<string, { min?: number; exactly?: number; why: string
   switches: { min: 100, why: "hundreds of rows are placed by a stored series label" },
   routers: { min: 100, why: "hundreds of rows are placed by a stored series label" },
   transceiver: { exactly: 0, why: "every transceiver row is placed by its SKU's form-factor and speed family; the mapping's labels place nothing (layers round 3)" },
-  wireless: { exactly: 24, why: "access points, controllers and their parts are placed by SKU; 24 rows are judged on a stored label (was 28 = 11 kept by a token or name, 17 moved to their line's shared parts — layers round 3). Re-audit decisions (15 Sep 2026): 30 -> 28, the MobileAccessVE control unit AIR-VCU-CELLPCS12(=), moved for want of a 5500 token, is SKU-placed in the MobileAccessVE series (Q-12). Layering review of 17 Sep 2026 (fix list 2.2): 28 -> 24, the four label-moved rows AIR-AC-750W-R, AIR-AC-750W-R-BLK, AIR-A03-D500GC3 and AIR-TPM1-001 (a '9540 Controller' supply and blanking panel, a server drive, a UCS TPM — none an access-point part) are SKU-placed in Wireless Antennas and Accessories / Modules and power (unnamed platform); 11 kept, 13 moved" },
+  wireless: { exactly: 23, why: "access points, controllers and their parts are placed by SKU; 23 rows are judged on a stored label (was 28 = 11 kept by a token or name, 17 moved to their line's shared parts — layers round 3; 24 -> 23 on 17 Sep 2026: ON100-M6-K9 is SKU-placed in its own series, operator decision 4.3). Re-audit decisions (15 Sep 2026): 30 -> 28, the MobileAccessVE control unit AIR-VCU-CELLPCS12(=), moved for want of a 5500 token, is SKU-placed in the MobileAccessVE series (Q-12). Layering review of 17 Sep 2026 (fix list 2.2): 28 -> 24, the four label-moved rows AIR-AC-750W-R, AIR-AC-750W-R-BLK, AIR-A03-D500GC3 and AIR-TPM1-001 (a '9540 Controller' supply and blanking panel, a server drive, a UCS TPM — none an access-point part) are SKU-placed in Wireless Antennas and Accessories / Modules and power (unnamed platform); 11 kept, 13 moved" },
   "interfaces-modules": { exactly: 5, why: "the cards are placed by their SKU families; 5 rows are judged on a stored label — STM1-CN-MM / -SMI kept by the name token PA, and AIC-DBL-PNL, AIC-SGL-PNL and WDM-SFP-2CH-CONV= moved to shared parts; the 30 labels mapped directly to a line's shared parts are not judged (pre-ruling C1, layers round 3)" },
   "servers-unified-computing": { exactly: 1, why: "UCS rows are placed by SKU; one row is judged on a stored label — SAS3 (a datasheet fragment, label 'S-Series Storage'), moved to the S-Series line's shared parts; the rows whose label maps directly to a line's shared parts are not judged (pre-ruling C1). The ten E1x0 service spares and the SRE parts the check had moved are SKU-placed or planned out since the servers round" },
   "hyperconverged-infrastructure": { exactly: 0, why: "HCI rows are placed by SKU; its 97 label-placed rows carry labels mapped directly to the Nutanix line's shared parts (pre-ruling C1, not judged)" },
@@ -191,7 +194,7 @@ const LABEL_EXPECT: Record<string, { min?: number; exactly?: number; why: string
   video: { exactly: 1, why:"cable-access rows are placed by SKU or by the family their name states; one row is judged on a stored label and moved to its line's shared parts — PWR-CAB-AC-BLK (a power cord, label cBR-8); 4035899, which the check had moved for want of name evidence, is SKU-placed from its end-of-sale notice (layers round 3)" },
   meraki: { exactly: 0, why: "every Meraki row is placed by its model's SKU rule; the mapping has no labels (layers round 3)" },
   "collaboration-endpoints": { exactly: 46, why:"endpoints and their parts are placed by SKU; 46 rows are judged on a stored label — 19 kept (the CS-MX / ACC-MX200 / SX rows by their SKU tokens, AVIZ-MXCART= 'Avizia MX Cart', PHD-KIT=, PSU-CAM-V=, ACC-PHD1080P= and the Webex Share rows by name), 27 moved to their line's shared parts (the Webex Share power adapters and clips, the SpeakerTrack 60 12 V supply, three Avizia and three Jabra SolutionsPlus rows, ADPT-HDMI-DVID=, WBP54G). The Avizia CA300 / CA750 carts the check had kept on their own model numbers are SKU-placed in TelePresence (legacy) shared parts (layers round 3)" },
-  security: { exactly: 14, why:"security appliances are placed by SKU; 14 rows are judged on a stored label — CAB-CONS-USB-C= kept by the name token 1200, ISE-SNS-ACCYKIT by the SKU token SNS, 12 moved to their line's shared parts (UCS spares filed under ISE, desktop power supplies, CSACS-ACCYKIT, PRIME-ACC-REG); 9 rows on labels mapped directly to shared parts are not judged (pre-ruling C1, layers round 3). Re-audit decisions (15 Sep 2026): 16 -> 14, the IE supplies PWR-IE50W-AC / -IEC carry move plans to switches Industrial Ethernet, beside their spares (Q-20)" },
+  security: { exactly: 10, why:"17 Sep 2026: 14 -> 10 — N20-BKVM=, UCS-NVMEG4-M960-D=, UCS-SD16TBKANK9-D= and UCS-SD960GM2NK9-D=, label-moved UCS spares, carry fix list 4.1 twin move plans to servers and are not layered. Before: security appliances are placed by SKU; 14 rows are judged on a stored label —CAB-CONS-USB-C= kept by the name token 1200, ISE-SNS-ACCYKIT by the SKU token SNS, 12 moved to their line's shared parts (UCS spares filed under ISE, desktop power supplies, CSACS-ACCYKIT, PRIME-ACC-REG); 9 rows on labels mapped directly to shared parts are not judged (pre-ruling C1, layers round 3). Re-audit decisions (15 Sep 2026): 16 -> 14, the IE supplies PWR-IE50W-AC / -IEC carry move plans to switches Industrial Ethernet, beside their spares (Q-20)" },
 };
 // THE FAMILY LAYER, per category: "in-use" where Cisco names families over series (switches, routers); "none" where Cisco names none
 // and every line of 3+ series says why (layers round 3: optics and modules, operator — "—" with a no_family_reason is the expected result).
@@ -250,9 +253,11 @@ const deadPlaceholders = (summary: { lines: { line: string; series: { series: st
  *  that silently drops pending rows fails as loudly as one that adds them. Layering is complete when every entry is 0. */
 const STATUS_EXPECT: Record<string, number> = {
   // fix list 2.6 (17 Sep 2026): switches 315 -> 316 (N5K-C5672UP-C= class plan), collaboration-endpoints 0 -> 1 (BRKT-SX20-MONITOR=)
-  "servers-unified-computing": 1258, switches: 316, routers: 123, "interfaces-modules": 66, transceiver: 49,
-  "hyperconverged-infrastructure": 43, "hyperconverged-systems": 30, conferencing: 68, "data-center-networking": 22,
-  wireless: 0, video: 0, "collaboration-endpoints": 1, security: 0, "optical-networking": 0, "storage-networking": 0, "unified-communications": 0, meraki: 0,
+  // fix list 4.1 (17 Sep 2026, operator: "go with your recommendations"): 50 twin move plans — servers +5 (the C19 cord spares to HCI),
+  // switches +1 (CAB-BS1363-C19-UK= to HCI), HCI +6, HX +27, security 0 -> 11 (its UCS spares to servers)
+  "servers-unified-computing": 1263, switches: 317, routers: 123, "interfaces-modules": 66, transceiver: 49,
+  "hyperconverged-infrastructure": 49, "hyperconverged-systems": 57, conferencing: 68, "data-center-networking": 22,
+  wireless: 0, video: 0, "collaboration-endpoints": 1, security: 11, "optical-networking": 0, "storage-networking": 0, "unified-communications": 0, meraki: 0,
 };
 /** rows layered in a series whose every row must carry a move plan */
 const moveOutStrays = (rows: LayerRow[], moveOut: ReadonlySet<string>) => rows.filter((r) => r.bucket === "layered" && moveOut.has(r.series));
@@ -421,13 +426,12 @@ for (const cat of REVIEWED) {
 // whose hardware members end in two or more categories once their plans run is refused — except the groups Q-14 and Q-17 leave open,
 // named here by twin key (Q-14: generic UCS components across servers / HyperFlex / Compute Hyperconverged; Q-17: the UCS spares
 // filed in security). A named group that is no longer split is stale; a question that closes takes its list with it.
-const TWIN_SPLITS_PENDING: Record<string, readonly string[]> = {
-  "Q-14": ["CAB-48DC-40A-AS", "CAB-48DC-40A-INT", "CAB-9K10A-KOR1", "CAB-BS1363-C19-UK", "CAB-S132-C19-ISRL", "CAB-SABS-C19-IND", "CAB-US515P-C19-US", "CAB-US520-C19-US", "CAB-US620P-C19-US",
-    "N20-BBLKD", "PACK-QSFP-SFP", "RACK-BLANK-001", "RACK-CBLMGT-001", "RACK-CBLMGT-011", "RACK-FASTEN-001", "RACK-FASTEN-002", "RACK-JOIN-001", "UCS-220CBLMR8", "UCS-220CBLSR8",
-    "UCS-HD8T7KL4KN", "UCS-M10CBL-C240M5", "UCS-ML-128G4RW", "UCS-MR-X32G2RW", "UCS-MR-X64G2RW", "UCS-MSTOR-M2", "UCS-P100CBL-240M5", "UCSC-HS-C220M4", "UCSC-LP-C25-1485",
-    "UCSC-LP-C40-1485", "UCSC-MLOM-BLK", "UCSC-PCIF-01F", "UCSC-PSU-BLKP240", "UCSC-R2R3-C220M6", "UCSC-RIS2A-240M6"],
-  "Q-17": ["N20-BKVM", "UCS-HD12TB10K12N", "UCS-NVMEG4-M960-D", "UCS-SD16TBKANK9-D", "UCS-SD960GM2NK9-D", "UCSC-PSU1-1050W", "UCSC-PSU1-1200W-D", "UCSC-RAIL-D", "UCSC-RAIL-M6", "UCSC-RAILB-M4", "UCSC-RAILF-M4"],
-};
+// Operator, 17 Sep 2026 ("go with your recommendations" — layering review fix list 4.1): the 45 groups named here (Q-14 34, Q-17 11) are
+// each joined by move plans — one category per twin group: generic UCS parts (UCS- / UCSC- / N20- / PACK-, and the RACK- accessories of the
+// R42610 racks) in servers-unified-computing, cords in their base's category by the Q-19 rule. 50 plans, planned_by "layering review of 17 Sep
+// 2026, fix list 4.1"; the lists are empty because a joined group named here would be the stale entry the check below refuses. Q-14 / Q-17
+// stay OPEN for the rest of their scope (the generic UCS rows filed in HX / HCI / security that have no twin: the cross-claims entries).
+const TWIN_SPLITS_PENDING: Record<string, readonly string[]> = { "Q-14": [], "Q-17": [] };
 {
   const byCat = new Map(CATS.map((c) => [c, readLayerRows(c)] as const));
   const splits = crossCategoryTwins(byCat);

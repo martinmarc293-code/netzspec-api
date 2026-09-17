@@ -1573,7 +1573,7 @@ CAB-ACU-LA	Power Cord UK, Left Angle	3560-CX	power-cord	layered	Catalyst	(shared
 CAB-ACU-RA	AC Power Cord UK, Right Angle	2960	power-cord	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label 2960)							
 CAB-AS3112-C15-AU	AC power cord (Australia)	4900	power-cord	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label 4900)							
 CAB-BS1363-C15-UK	AC power cord (United Kingdom)	4900	power-cord	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label 4900)							
-CAB-BS1363-C19-UK=	Cisco CAB-BS1363-C19-UK=	Catalyst 4500	power-cord	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label Catalyst 4500)							
+CAB-BS1363-C19-UK=	Cisco CAB-BS1363-C19-UK=	Catalyst 4500	power-cord	pending_plan								move hyperconverged-infrastructure			
 CAB-BS546-C15-SA	AC power cord (South Africa)	4900	power-cord	layered	Catalyst	(shared across the line)	Catalyst shared parts	accessory ^CAB- (label 4900)							
 CAB-C13-C14-AC	Power cord, C13 to C14 (recessed receptacle), 10A (3 meter)	Nexus 9000	power-cord	layered	Nexus	(shared across the line)	Nexus shared parts	accessory ^CAB- (label Nexus 9000)							
 CAB-C13-C14-AC=	Cisco CAB-C13-C14-AC=	UCS C-Series	power-cord	layered	Nexus	(shared across the line)	Nexus shared parts	accessory ^CAB- (label Nexus 9000)							

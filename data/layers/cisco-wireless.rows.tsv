@@ -104,10 +104,10 @@ sku	name	series_label	kind	bucket	product_line	product_family	series	placed_by	d
 5-CBW240AC-x	CBW240AC 802.11ac 4x4 Wave 2 Access Point Ceiling Mount – 5 Pack	Business 200	ap	layered	Cisco Business Wireless	(none)	Cisco Business 240AC	sku ^([35]-)?CBW240	smb	series:Cisco Business 240AC					true
 9800-L	Cisco 9800-L	Catalyst 9800 Series Wireless Controllers	wlc	layered	Catalyst 9800 Wireless Controllers	(none)	Catalyst 9800-L	sku ^C?9800-L							true
 ACCESSORY-KIT-RU	Contains Compliance and Auto test Blank Labels	2800	mechanical	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	label-unsupported (label 2800; was Aironet 2800): no platform token (2800) in the SKU or name, no compatible part placed in the series						none: no platform token (2800) in the SKU or name, no compatible part placed in the series	
-AIR-1520-BATT-6AH=	Cisco AIR-1520-BATT-6AH=	Mini Series	accessory	layered	Aironet Access Points	(none)	Aironet 1520 / 1530	sku ^AIR-.*15[23]0							
-AIR-1520-BATT12AH	1520 Series Battery, 12 Amp Hour	Aironet 1550	power	layered	Aironet Access Points	(none)	Aironet 1520 / 1530	sku ^AIR-.*15[23]0							
-AIR-1520-FIB-REEL	1520 Series Take-up Reel for Fiber Cable	Aironet 1550	mechanical	layered	Aironet Access Points	(none)	Aironet 1520 / 1530	sku ^AIR-.*15[23]0							
-AIR-1520-FIB-REEL=	1520/1550 Series Fiber-Cable Take-up Reel KIT	Aironet 1550	mechanical	layered	Aironet Access Points	(none)	Aironet 1520 / 1530	sku ^AIR-.*15[23]0							
+AIR-1520-BATT-6AH=	Cisco AIR-1520-BATT-6AH=	Mini Series	accessory	layered	Aironet Access Points	(none)	Aironet 1520 / 1530	sku ^AIR-(?!ACC1530-(KIT|PMK)).*15[23]0							
+AIR-1520-BATT12AH	1520 Series Battery, 12 Amp Hour	Aironet 1550	power	layered	Aironet Access Points	(none)	Aironet 1520 / 1530	sku ^AIR-(?!ACC1530-(KIT|PMK)).*15[23]0							
+AIR-1520-FIB-REEL	1520 Series Take-up Reel for Fiber Cable	Aironet 1550	mechanical	layered	Aironet Access Points	(none)	Aironet 1520 / 1530	sku ^AIR-(?!ACC1530-(KIT|PMK)).*15[23]0							
+AIR-1520-FIB-REEL=	1520/1550 Series Fiber-Cable Take-up Reel KIT	Aironet 1550	mechanical	layered	Aironet Access Points	(none)	Aironet 1520 / 1530	sku ^AIR-(?!ACC1530-(KIT|PMK)).*15[23]0							
 AIR-1550-HAZBBU	1550 Series Hazardous Location Battery Backup Unit	Aironet 1550	power	layered	Aironet Access Points	(none)	Aironet 1550	sku ^AIR-.*1550							
 AIR-1550S-FIB-KIT=	1550S Fiber Cable Take-up Reel Kit	Antennas/Accessories	mechanical	layered	Aironet Access Points	(none)	Aironet 1550	sku ^AIR-.*1550							
 AIR-330-EXP-BOX	MobileAccessVE Expansion Box	5500	unknown	layered	AireOS Wireless LAN Controllers	(none)	MobileAccessVE	sku ^AIR-330-							
@@ -147,11 +147,11 @@ AIR-ACC15-DC-PLGS=	Accessory, DC-power terminal plug/connector, bag of 10 units	
 AIR-ACC15-GLANDS=	Accessory, Metal Cable Glands, bag of 10 units	Aironet 1570	mechanical	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-(AP(?!-VBLE|[0-9]{4}[A-Z]-WLC)|ACC|MOD|BLE|BAND|CHNL|SFP)							
 AIR-ACC15-N-CAP=	Accessory, Cover-cap for N-connector, bag of 10 units, for AP1572EAC/AP1552E	Aironet 1560	mechanical	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-(AP(?!-VBLE|[0-9]{4}[A-Z]-WLC)|ACC|MOD|BLE|BAND|CHNL|SFP)							
 AIR-ACC15-SFP-GLD=	Accessory, SFP external Gland/Adaptor, bag of 5 units	Aironet 1550	accessory	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-(AP(?!-VBLE|[0-9]{4}[A-Z]-WLC)|ACC|MOD|BLE|BAND|CHNL|SFP)							
-AIR-ACC1530-CVR=	Cover and Solar Shield for AP1530 Series	Aironet 1550	mechanical	layered	Aironet Access Points	(none)	Aironet 1520 / 1530	sku ^AIR-.*15[23]0							
-AIR-ACC1530-KIT1=	Spare accessory kit for AP1530/1560 Series	Aironet 1560	mechanical	layered	Aironet Access Points	(none)	Aironet 1520 / 1530	sku ^AIR-.*15[23]0							
-AIR-ACC1530-PMK1	Standard pole/wall mount kit for AP1530/1560 Series	Wireless Gateway for LoRaWAN	mechanical	layered	Aironet Access Points	(none)	Aironet 1520 / 1530	sku ^AIR-.*15[23]0							
-AIR-ACC1530-PMK1=	Standard Pole/Wall Mount Kit for AP1530/1560 Series	Aironet 1540	mechanical	layered	Aironet Access Points	(none)	Aironet 1520 / 1530	sku ^AIR-.*15[23]0							
-AIR-ACC1530-PMK2=	Pole mount kit for AP1530/1560 Series with tilt adjustment	Aironet 1540	mechanical	layered	Aironet Access Points	(none)	Aironet 1520 / 1530	sku ^AIR-.*15[23]0							
+AIR-ACC1530-CVR=	Cover and Solar Shield for AP1530 Series	Aironet 1550	mechanical	layered	Aironet Access Points	(none)	Aironet 1520 / 1530	sku ^AIR-(?!ACC1530-(KIT|PMK)).*15[23]0							
+AIR-ACC1530-KIT1=	Spare accessory kit for AP1530/1560 Series	Aironet 1560	mechanical	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-(AP(?!-VBLE|[0-9]{4}[A-Z]-WLC)|ACC|MOD|BLE|BAND|CHNL|SFP)							
+AIR-ACC1530-PMK1	Standard pole/wall mount kit for AP1530/1560 Series	Wireless Gateway for LoRaWAN	mechanical	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-(AP(?!-VBLE|[0-9]{4}[A-Z]-WLC)|ACC|MOD|BLE|BAND|CHNL|SFP)							
+AIR-ACC1530-PMK1=	Standard Pole/Wall Mount Kit for AP1530/1560 Series	Aironet 1540	mechanical	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-(AP(?!-VBLE|[0-9]{4}[A-Z]-WLC)|ACC|MOD|BLE|BAND|CHNL|SFP)							
+AIR-ACC1530-PMK2=	Pole mount kit for AP1530/1560 Series with tilt adjustment	Aironet 1540	mechanical	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-(AP(?!-VBLE|[0-9]{4}[A-Z]-WLC)|ACC|MOD|BLE|BAND|CHNL|SFP)							
 AIR-ACC1540-CVR=	Cover and solar shield for AP1540 Series	Aironet 1540	mechanical	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-(AP(?!-VBLE|[0-9]{4}[A-Z]-WLC)|ACC|MOD|BLE|BAND|CHNL|SFP)							
 AIR-ACC1540-KIT1=	Spare accessory kit for AP1540 Series	Aironet 1540	mechanical	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-(AP(?!-VBLE|[0-9]{4}[A-Z]-WLC)|ACC|MOD|BLE|BAND|CHNL|SFP)							
 AIR-ACC1560-CVR=	Cover and Solar Shield for AP1560 Series	Antennas/Accessories	mechanical	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-(AP(?!-VBLE|[0-9]{4}[A-Z]-WLC)|ACC|MOD|BLE|BAND|CHNL|SFP)							
@@ -171,10 +171,10 @@ AIR-ACC2662	Antenna Mount for use with ANT1949 and ANT5195	Antennas/Accessories	
 AIR-ACCAMK-1	1550 Directional Antenna Mount Kit	Aironet 1550	mechanical	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-(AP(?!-VBLE|[0-9]{4}[A-Z]-WLC)|ACC|MOD|BLE|BAND|CHNL|SFP)							
 AIR-ACCAMK-1=	Attaches certain directional antennas directly to the AP (e.g., AIR-ANT2413P2M-N= or AIR-ANT5114P2M-N=)	Antennas/Accessories	mechanical	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-(AP(?!-VBLE|[0-9]{4}[A-Z]-WLC)|ACC|MOD|BLE|BAND|CHNL|SFP)							
 AIR-ACCAMK-2=	1560 External Directional Antenna Mount Kit	Antennas/Accessories	mechanical	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	sku ^AIR-(AP(?!-VBLE|[0-9]{4}[A-Z]-WLC)|ACC|MOD|BLE|BAND|CHNL|SFP)							
-AIR-ACCAMK1520-1	1520 Series Antenna Mount Kit, 3 Omni	Aironet 1550	mechanical	layered	Aironet Access Points	(none)	Aironet 1520 / 1530	sku ^AIR-.*15[23]0							
-AIR-ACCAMK1520-2	1520 Series Antenna Mount Kit, Dual Patch	Aironet 1550	mechanical	layered	Aironet Access Points	(none)	Aironet 1520 / 1530	sku ^AIR-.*15[23]0							
-AIR-ACCGMK1520-1	1520 Series Ground Pedestal Mount Kit	Aironet 1550	mechanical	layered	Aironet Access Points	(none)	Aironet 1520 / 1530	sku ^AIR-.*15[23]0							
-AIR-ACCPMK1520=	1520 Series Pole Mount Kit	Antennas/Accessories	mechanical	layered	Aironet Access Points	(none)	Aironet 1520 / 1530	sku ^AIR-.*15[23]0							
+AIR-ACCAMK1520-1	1520 Series Antenna Mount Kit, 3 Omni	Aironet 1550	mechanical	layered	Aironet Access Points	(none)	Aironet 1520 / 1530	sku ^AIR-(?!ACC1530-(KIT|PMK)).*15[23]0							
+AIR-ACCAMK1520-2	1520 Series Antenna Mount Kit, Dual Patch	Aironet 1550	mechanical	layered	Aironet Access Points	(none)	Aironet 1520 / 1530	sku ^AIR-(?!ACC1530-(KIT|PMK)).*15[23]0							
+AIR-ACCGMK1520-1	1520 Series Ground Pedestal Mount Kit	Aironet 1550	mechanical	layered	Aironet Access Points	(none)	Aironet 1520 / 1530	sku ^AIR-(?!ACC1530-(KIT|PMK)).*15[23]0							
+AIR-ACCPMK1520=	1520 Series Pole Mount Kit	Antennas/Accessories	mechanical	layered	Aironet Access Points	(none)	Aironet 1520 / 1530	sku ^AIR-(?!ACC1530-(KIT|PMK)).*15[23]0							
 AIR-ACCPMK1550=	Cisco AIR-ACCPMK1550=	Aironet 1550	mechanical	layered	Aironet Access Points	(none)	Aironet 1550	sku ^AIR-.*1550							
 AIR-ACCPMK1550HZM=	1550 Hazardous Location Marine Grade Pole-Mount Kit	Catalyst IW9167 Heavy Duty Series	mechanical	layered	Aironet Access Points	(none)	Aironet 1550	sku ^AIR-.*1550							
 AIR-ACCPMK1570-1	Vertical pole only (2 to 6 inches in diameter). Does not require special band-installation tool.	Antennas/Accessories	mechanical	layered	Aironet Access Points	(none)	Aironet 1570	sku ^AIR-.*1570							
@@ -2093,9 +2093,9 @@ AIR-PWR-ST-LT-R3P=	1520 Series Street Light Power Tap, 4 ft.	Antennas/Accessorie
 AIR-PWR1743	350 WorkGroup Bridge 100-240V Pwr Supply; Spare	Antennas/Accessories	power	layered	Wireless Antennas and Accessories	(none)	Power injectors, supplies and cords	sku ^AIR-PWR							
 AIR-PWR1743=	350 WorkGroup Bridge 100-240V Pwr Supply; Spare	Antennas/Accessories	power	layered	Wireless Antennas and Accessories	(none)	Power injectors, supplies and cords	sku ^AIR-PWR							
 AIR-PWR2705	110/220V Power Option Supply for Bridge, US Line Cord	Aironet 1550	power	layered	Wireless Antennas and Accessories	(none)	Power injectors, supplies and cords	sku ^AIR-PWR							
-AIR-PWRADPT-1530=	Power Adapter (AC/DC) - Outdoor AP1530 Series	Antennas/Accessories	power	layered	Aironet Access Points	(none)	Aironet 1520 / 1530	sku ^AIR-.*15[23]0							
+AIR-PWRADPT-1530=	Power Adapter (AC/DC) - Outdoor AP1530 Series	Antennas/Accessories	power	layered	Aironet Access Points	(none)	Aironet 1520 / 1530	sku ^AIR-(?!ACC1530-(KIT|PMK)).*15[23]0							
 AIR-PWRADPT-RGD1=	Power Adapter for AP1530/1560 Series, no AC connector	Antennas/Accessories	power	layered	Wireless Antennas and Accessories	(none)	Power injectors, supplies and cords	sku ^AIR-PWR							
-AIR-PWRADPT2-1530=	Power Adapter (AC/DC) - Outdoor AP1530 Series, Japan	Antennas/Accessories	power	layered	Aironet Access Points	(none)	Aironet 1520 / 1530	sku ^AIR-.*15[23]0							
+AIR-PWRADPT2-1530=	Power Adapter (AC/DC) - Outdoor AP1530 Series, Japan	Antennas/Accessories	power	layered	Aironet Access Points	(none)	Aironet 1520 / 1530	sku ^AIR-(?!ACC1530-(KIT|PMK)).*15[23]0							
 AIR-PWRINJ-30=	Power Injector - 30W, non-rugged-SPARE	Antennas/Accessories	power-injector	layered	Wireless Antennas and Accessories	(none)	Power injectors, supplies and cords	sku ^AIR-PWR							
 AIR-PWRINJ-60-PMK=	Pole mount kit for AIR-PWRINJ-60	Catalyst 9163	power-injector	layered	Wireless Antennas and Accessories	(none)	Power injectors, supplies and cords	sku ^AIR-PWR							
 AIR-PWRINJ-60RGD1=	Power injector, 60W, outdoor, North America plug	Catalyst 9163	power-injector	layered	Wireless Antennas and Accessories	(none)	Power injectors, supplies and cords	sku ^AIR-PWR							
@@ -3712,7 +3712,7 @@ MSE-RAILB-M4	Ball Bearing Rail Kit for C220 M4 and C240 M4 rack servers	Mobility
 MSE-SD480G0KS2-EV	480 GB 2.5 inch Enterprise Value 6G SATA SSD	Mobility Services Engine	module	layered	Location and Spaces Appliances	(none)	CMX 3375 / MSE 3355 / 3365	sku ^MSE-							
 MSE-SD960G0KS2-EV	960 GB 2.5 inch Enterprise Value 6G SATA SSD	Mobility Services Engine	module	layered	Location and Spaces Appliances	(none)	CMX 3375 / MSE 3355 / 3365	sku ^MSE-							
 MSE-TPM2-001	Trusted Platform Module 1.2 for UCS (SPI-based)	Mobility Services Engine	module	layered	Location and Spaces Appliances	(none)	CMX 3375 / MSE 3355 / 3365	sku ^MSE-							
-ON100-M6-K9	ON100 Network Agent Multipack	Aironet 1550	unknown	layered	Aironet Access Points	(shared across the line)	Aironet Access Points shared parts	label-unsupported (label Aironet 1550; was Aironet 1550): no platform token (1550) in the SKU or name, no compatible part placed in the series						none: no platform token (1550) in the SKU or name, no compatible part placed in the series	
+ON100-M6-K9	ON100 Network Agent Multipack	Aironet 1550	unknown	layered	Wireless Antennas and Accessories	(none)	OnPlus Network Agent (ON100)	sku ^ON100							
 PPN-3802E-ATO	3K External ATO model	3800	ap	layered	Aironet Access Points	(none)	Aironet 3800	sku ^(AIR-?|PROMO-|PPN-|PULS-)?(AP)?380[02]	indoor	series:Aironet 3800					
 PPN-3802I-ATO	3K Internal ATO model	3800	ap	layered	Aironet Access Points	(none)	Aironet 3800	sku ^(AIR-?|PROMO-|PPN-|PULS-)?(AP)?380[02]	indoor	series:Aironet 3800					
 PPN-3802I-PIKPAK-B	Barbados 3K pik pak-B	3800	ap	layered	Aironet Access Points	(none)	Aironet 3800	sku ^(AIR-?|PROMO-|PPN-|PULS-)?(AP)?380[02]	indoor	series:Aironet 3800					

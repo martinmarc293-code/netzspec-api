@@ -315,9 +315,9 @@
     {
      "series": "Aironet 1520 / 1530",
      "sku": [
-      "^AIR-.*15[23]0"
+      "^AIR-(?!ACC1530-(KIT|PMK)).*15[23]0"
      ],
-     "note": "the bare 15[23]0 rule claimed the CWDM 1530 nm optics; fenced to AIR- in layers round 3 (operator: fixed in the wireless round). It also places AIR-1520-BATT-6AH= (planned in from servers-unified-computing) and AIR-ACC1530-PMK1 (planned in from routers, beside its spare)"
+     "note": "the bare 15[23]0 rule claimed the CWDM 1530 nm optics; fenced to AIR- in layers round 3 (operator: fixed in the wireless round). It also places AIR-1520-BATT-6AH= (planned in from servers-unified-computing). Fenced from AIR-ACC1530-KIT* / -PMK* (operator, 17 Sep 2026, layering review fix list 2.3 / 4.3: 'go with your recommendations'): AIR-ACC1530-KIT1=, -PMK1, -PMK1=, -PMK2= name 'AP1530/1560 Series' — two series of this line, and our store links KIT1= to the Aironet 1560 ordering guide and PMK1 to the 1540 and 1560 ordering guides — so they are line shared parts (the operator's rule of 14 Sep 2026) and fall to Aironet Access Points shared parts through ^AIR-(…|ACC|…). AIR-ACC1530-CVR= names AP1530 only and stays"
     },
     {
      "series": "Aironet Access Points shared parts",
@@ -722,6 +722,13 @@
       "^AIR-TPM1-"
      ],
      "note": "layering review of 17 Sep 2026 (fix list 2.1 / 2.2): server components and supplies of the UCS C-Series-based wireless controllers and appliances that name no platform this mapping places — CPUs, RDIMMs, MegaRAID and embedded RAID, a 32 GB SD card, a C240 M4 PCIe riser, a 650 W C-Series supply, a 500 GB drive, a UCS TPM — and the supplies named for a '9540' / '9580' controller that no series of this category names (AIR-AC-750W-R, its blanking panel, AIR-DC-950W). Cisco's end-of-sale notices list them only as 'Wireless Miscellaneous Accessories' (wireless-misc-accessories-sw-lic-eol) and 'Aironet Accessories' (aironet-accessories-eol15454), with no platform, so the series sits in the accessories line and claims no controller or appliance: the review proposed one 'Wireless controllers and appliances shared parts' series, and the rows span the AireOS controllers, the location appliances and controllers this mapping does not name. They sat in CMX 3375 / MSE 3355 / 3365 (^AIR-(MR|SD|PSU|BZL|RAID|MRAID|CPU|PCI|SVR|DC)-) and, by a label the check did not support, in Aironet Access Points shared parts (AIR-AC-750W-R, AIR-AC-750W-R-BLK, AIR-A03-D500GC3, AIR-TPM1-001). THE NAME CLAIMS NOTHING ON PURPOSE: every word of it is a labelEvidence stop word or a short word. The first name tried, 'Controller and appliance components', made 'Controller' a claim word, so the reverse check proposed 7 other controller supplies in the accessories shared parts for this series and withdrew 4 correct cross-line proposals (AIR-PSU1-770W(=) to the 5500 by '5520', AIR-PSU2V2-1200W(=) to the 8500 by '8540'); with this name both queues are the recorded 59 / 25"
+    },
+    {
+     "series": "OnPlus Network Agent (ON100)",
+     "sku": [
+      "^ON100"
+     ],
+     "note": "operator, 17 Sep 2026 (layering review fix list 2.2 / 4.3: 'go with your recommendations'): ON100-M6-K9 'ON100 Network Agent Multipack', the Cisco OnPlus network agent, is not an access-point part; it sat in Aironet Access Points shared parts by a stored label 'Aironet 1550' the label check had rejected. Its own series in the accessories line, because Cisco's end-of-sale notice files it with the 'Wireless Miscellaneous Accessories' (wireless-misc-accessories-sw-lic-eol) — the only document our store links to it"
     },
     {
      "series": "Wireless Antennas and Accessories shared parts",

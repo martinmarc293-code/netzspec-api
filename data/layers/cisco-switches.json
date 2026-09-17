@@ -1,21 +1,21 @@
 {
  "vendor": "cisco",
  "category": "switches",
- "built_at": "2026-09-17T13:51:26.892Z",
- "commit": "a8645484379b602e9dee8098ad2e59905a787821",
+ "built_at": "2026-09-17T14:29:35.883Z",
+ "commit": "74df4e68728d11c76688aa3e870bbcf59591c1a2",
  "uncommitted_rule_files": [
   "data/reference/kind-layer-plans-2026-09-13.json",
-  "data/reference/product-lines/cisco-collaboration-endpoints.json",
+  "data/reference/product-lines/cisco-servers-unified-computing.json",
   "data/reference/product-lines/cisco-wireless.json"
  ],
  "mapping_file": "data/reference/product-lines/cisco-switches.json",
  "parts": 7520,
- "layered": 7204,
- "pending": 316,
+ "layered": 7203,
+ "pending": 317,
  "lines": [
   {
    "line": "Catalyst",
-   "parts": 3227,
+   "parts": 3226,
    "series": [
     {
      "series": "Catalyst 9400",
@@ -1115,11 +1115,11 @@
      "family": "(shared across the line)",
      "role": null,
      "note": null,
-     "parts": 400,
+     "parts": 399,
      "kinds": {
       "power": 97,
       "mechanical": 51,
-      "power-cord": 165,
+      "power-cord": 164,
       "cable": 31,
       "stack-cable": 45,
       "accessory": 2,
@@ -1137,10 +1137,12 @@
      ],
      "rules": {
       "label-unsupported": 149,
-      "accessory": 251
+      "accessory": 250
      },
      "pending_in": {},
-     "pending_out": {}
+     "pending_out": {
+      "move to hyperconverged-infrastructure": 1
+     }
     }
    ]
   },
@@ -3763,6 +3765,14 @@
    "action": "class",
    "to": "non_product",
    "reason": "truncated PID ending in '-' (name is the SKU, no twin, no document, no fact) — the routers precedent; a '-' row WITH a twin is its twin's component PID and shares its placement (re-audit decisions, operator, 15 Sep 2026, N-1)"
+  },
+  {
+   "sku": "CAB-BS1363-C19-UK=",
+   "name": "Cisco CAB-BS1363-C19-UK=",
+   "series_label": "Catalyst 4500",
+   "action": "move",
+   "to": "hyperconverged-infrastructure",
+   "reason": "a generic power cord split across categories: base and spare in one category, the base's — the Q-19 rule (re-audit decisions, operator, 15 Sep 2026), applied to the pairs Q-14 left open (operator, 17 Sep 2026: layering review fix list 4.1)"
   },
   {
    "sku": "CAB-CAT5E/6E",

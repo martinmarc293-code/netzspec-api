@@ -1,17 +1,17 @@
 {
  "vendor": "cisco",
  "category": "servers-unified-computing",
- "built_at": "2026-09-17T13:51:25.852Z",
- "commit": "a8645484379b602e9dee8098ad2e59905a787821",
+ "built_at": "2026-09-17T14:29:34.543Z",
+ "commit": "74df4e68728d11c76688aa3e870bbcf59591c1a2",
  "uncommitted_rule_files": [
   "data/reference/kind-layer-plans-2026-09-13.json",
-  "data/reference/product-lines/cisco-collaboration-endpoints.json",
+  "data/reference/product-lines/cisco-servers-unified-computing.json",
   "data/reference/product-lines/cisco-wireless.json"
  ],
  "mapping_file": "data/reference/product-lines/cisco-servers-unified-computing.json",
  "parts": 9492,
- "layered": 8234,
- "pending": 1258,
+ "layered": 8229,
+ "pending": 1263,
  "lines": [
   {
    "line": "UCS Solution Bundles",
@@ -703,17 +703,17 @@
   },
   {
    "line": "UCS S-Series Storage Servers",
-   "parts": 441,
+   "parts": 458,
    "series": [
     {
-     "series": "UCS S3260",
+     "series": "UCS C3160 / S3260",
      "family": "(none)",
      "role": null,
-     "note": "^UCS-S- (layers round 3): the 24 UCS-S- rows ('UCS S3260 1row of drives 14x 12TB …', '… Rear Expander …', '… Boot SSD', UCS-S-MSD960GBK9) sat in UCS Server Components shared parts with kind server — the kind axis reads the S token as an S-Series server (listed for the kind layer); their names say S3260",
-     "parts": 439,
+     "note": "^UCS-S- (layers round 3): the 24 UCS-S- rows ('UCS S3260 1row of drives 14x 12TB …', '… Rear Expander …', '… Boot SSD', UCS-S-MSD960GBK9) sat in UCS Server Components shared parts with kind server — the kind axis reads the S token as an S-Series server (listed for the kind layer); their names say S3260. RENAMED from 'UCS S3260' (operator, 17 Sep 2026, layering review fix list 2.5 / 4.3: 'go with your recommendations'): Cisco names the C3160 Rack Server and the S3260 Storage Server separately, and this series holds both — 7 UCSC-C3160 rows by C3[12]60 and 7 UCSC-C3X60 rows named 'Cisco UCS C3160 …', where the C3X60 SKU family is shared by the two generations, so a split would have to file those rows under one of them. ^UCSC-C3K- added the same day: 17 UCSC-C3K rows — S3260 / C3000 M4 server nodes, the S3260 I/O expander, and C3000 NVMe SSDs and drives 'for M4 Server Node' — sat in UCS C-Series Rack Servers shared parts through ^UCSC-, because ^UCS-C3K- does not match the UCSC- spelling; their kind reads drive (listed for the kind rebuild)",
+     "parts": 456,
      "kinds": {
       "chassis": 80,
-      "drive": 93,
+      "drive": 110,
       "server": 258,
       "mechanical": 4,
       "io-module": 4
@@ -728,7 +728,7 @@
       "UCS-C3K-14HD10 — Cisco UCS-C3K-14HD10"
      ],
      "rules": {
-      "sku": 439
+      "sku": 456
      },
      "pending_in": {},
      "pending_out": {
@@ -1215,7 +1215,10 @@
       "accessory": 1,
       "label": 12
      },
-     "pending_in": {},
+     "pending_in": {
+      "hyperconverged-systems": 1,
+      "security": 1
+     },
      "pending_out": {
       "class -> non_product": 30
      }
@@ -1224,7 +1227,7 @@
   },
   {
    "line": "UCS C-Series Rack Servers",
-   "parts": 1859,
+   "parts": 1837,
    "series": [
     {
      "series": "UCS C880A M8 (AI)",
@@ -1395,7 +1398,10 @@
      "rules": {
       "sku": 169
      },
-     "pending_in": {},
+     "pending_in": {
+      "hyperconverged-systems": 4,
+      "hyperconverged-infrastructure": 1
+     },
      "pending_out": {
       "class -> non_product": 4
      }
@@ -1457,7 +1463,10 @@
      "rules": {
       "sku": 216
      },
-     "pending_in": {},
+     "pending_in": {
+      "hyperconverged-systems": 3,
+      "hyperconverged-infrastructure": 1
+     },
      "pending_out": {
       "class -> non_product": 7
      }
@@ -1612,12 +1621,12 @@
      "family": "(shared across the line)",
      "role": null,
      "note": null,
-     "parts": 802,
+     "parts": 780,
      "kinds": {
       "mechanical": 64,
       "pdu": 1,
       "accessory": 41,
-      "cable": 98,
+      "cable": 93,
       "fan": 4,
       "memory": 32,
       "bundle": 6,
@@ -1626,7 +1635,7 @@
       "power": 58,
       "io-module": 5,
       "storage-controller": 65,
-      "drive": 144,
+      "drive": 127,
       "cpu": 3,
       "gpu": 77
      },
@@ -1641,12 +1650,16 @@
      ],
      "rules": {
       "label": 38,
-      "accessory": 42,
-      "sku": 722
+      "accessory": 37,
+      "sku": 705
      },
-     "pending_in": {},
+     "pending_in": {
+      "hyperconverged-systems": 9,
+      "security": 6
+     },
      "pending_out": {
-      "class -> non_product": 82
+      "class -> non_product": 82,
+      "move to hyperconverged-infrastructure": 5
      }
     }
    ]
@@ -1679,7 +1692,9 @@
      "rules": {
       "sku": 93
      },
-     "pending_in": {},
+     "pending_in": {
+      "hyperconverged-systems": 6
+     },
      "pending_out": {
       "class -> non_product": 3
      }
@@ -1737,7 +1752,9 @@
      "rules": {
       "sku": 221
      },
-     "pending_in": {},
+     "pending_in": {
+      "hyperconverged-infrastructure": 3
+     },
      "pending_out": {
       "class -> non_product": 1
      }
@@ -1767,7 +1784,11 @@
      "rules": {
       "sku": 946
      },
-     "pending_in": {},
+     "pending_in": {
+      "security": 4,
+      "hyperconverged-systems": 2,
+      "hyperconverged-infrastructure": 1
+     },
      "pending_out": {
       "class -> non_product": 2
      }
@@ -2867,6 +2888,46 @@
    "action": "class",
    "to": "non_product",
    "reason": "an ordering setting, option, test or programme label that ships nothing"
+  },
+  {
+   "sku": "CAB-S132-C19-ISRL=",
+   "name": "Cisco CAB-S132-C19-ISRL=",
+   "series_label": "UCS C-Series",
+   "action": "move",
+   "to": "hyperconverged-infrastructure",
+   "reason": "a generic power cord split across categories: base and spare in one category, the base's — the Q-19 rule (re-audit decisions, operator, 15 Sep 2026), applied to the pairs Q-14 left open (operator, 17 Sep 2026: layering review fix list 4.1)"
+  },
+  {
+   "sku": "CAB-SABS-C19-IND=",
+   "name": "Cisco CAB-SABS-C19-IND=",
+   "series_label": "UCS C-Series",
+   "action": "move",
+   "to": "hyperconverged-infrastructure",
+   "reason": "a generic power cord split across categories: base and spare in one category, the base's — the Q-19 rule (re-audit decisions, operator, 15 Sep 2026), applied to the pairs Q-14 left open (operator, 17 Sep 2026: layering review fix list 4.1)"
+  },
+  {
+   "sku": "CAB-US515P-C19-US=",
+   "name": "Cisco CAB-US515P-C19-US=",
+   "series_label": "UCS C-Series",
+   "action": "move",
+   "to": "hyperconverged-infrastructure",
+   "reason": "a generic power cord split across categories: base and spare in one category, the base's — the Q-19 rule (re-audit decisions, operator, 15 Sep 2026), applied to the pairs Q-14 left open (operator, 17 Sep 2026: layering review fix list 4.1)"
+  },
+  {
+   "sku": "CAB-US520-C19-US=",
+   "name": "Cisco CAB-US520-C19-US=",
+   "series_label": "UCS C-Series",
+   "action": "move",
+   "to": "hyperconverged-infrastructure",
+   "reason": "a generic power cord split across categories: base and spare in one category, the base's — the Q-19 rule (re-audit decisions, operator, 15 Sep 2026), applied to the pairs Q-14 left open (operator, 17 Sep 2026: layering review fix list 4.1)"
+  },
+  {
+   "sku": "CAB-US620P-C19-US=",
+   "name": "Cisco CAB-US620P-C19-US=",
+   "series_label": "UCS C-Series",
+   "action": "move",
+   "to": "hyperconverged-infrastructure",
+   "reason": "a generic power cord split across categories: base and spare in one category, the base's — the Q-19 rule (re-audit decisions, operator, 15 Sep 2026), applied to the pairs Q-14 left open (operator, 17 Sep 2026: layering review fix list 4.1)"
   },
   {
    "sku": "CAI-P-N7D200GF",
@@ -11961,9 +12022,9 @@
     "sku": "SAS3",
     "name": "Cisco SAS3",
     "series_label": "S-Series Storage",
-    "from_series": "UCS S3260",
+    "from_series": "UCS C3160 / S3260",
     "to_series": "UCS S-Series Storage Servers shared parts",
-    "why": "no platform token (3260) in the SKU or name, no compatible part placed in the series"
+    "why": "no platform token (3160, 3260) in the SKU or name, no compatible part placed in the series"
    }
   ]
  },

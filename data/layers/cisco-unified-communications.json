@@ -1,11 +1,11 @@
 {
  "vendor": "cisco",
  "category": "unified-communications",
- "built_at": "2026-09-17T13:51:33.110Z",
- "commit": "a8645484379b602e9dee8098ad2e59905a787821",
+ "built_at": "2026-09-17T14:29:41.492Z",
+ "commit": "74df4e68728d11c76688aa3e870bbcf59591c1a2",
  "uncommitted_rule_files": [
   "data/reference/kind-layer-plans-2026-09-13.json",
-  "data/reference/product-lines/cisco-collaboration-endpoints.json",
+  "data/reference/product-lines/cisco-servers-unified-computing.json",
   "data/reference/product-lines/cisco-wireless.json"
  ],
  "mapping_file": "data/reference/product-lines/cisco-unified-communications.json",

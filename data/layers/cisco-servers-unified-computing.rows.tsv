@@ -586,11 +586,11 @@ CAB-C19-C20-IND-D	Cisco CAB-C19-C20-IND-D	UCS C-Series	cable	layered	UCS C-Serie
 CAB-C19C203M-JP-D	Cisco CAB-C19C203M-JP-D	UCS C-Series	cable	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	accessory ^CAB- (label UCS C-Series)							
 CAB-JPN-3PIN	Cisco CAB-JPN-3PIN	UCS X-Series	cable	layered	UCS X-Series Modular System	(shared across the line)	UCS X-Series Modular System shared parts	accessory ^CAB- (label UCS X-Series)							
 CAB-JPN-3PIN=	Cisco CAB-JPN-3PIN=	UCS C-Series	cable	layered	UCS X-Series Modular System	(shared across the line)	UCS X-Series Modular System shared parts	accessory ^CAB- (label UCS X-Series)							
-CAB-S132-C19-ISRL=	Cisco CAB-S132-C19-ISRL=	UCS C-Series	cable	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	accessory ^CAB- (label UCS C-Series)							
-CAB-SABS-C19-IND=	Cisco CAB-SABS-C19-IND=	UCS C-Series	cable	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	accessory ^CAB- (label UCS C-Series)							
-CAB-US515P-C19-US=	Cisco CAB-US515P-C19-US=	UCS C-Series	cable	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	accessory ^CAB- (label UCS C-Series)							
-CAB-US520-C19-US=	Cisco CAB-US520-C19-US=	UCS C-Series	cable	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	accessory ^CAB- (label UCS C-Series)							
-CAB-US620P-C19-US=	Cisco CAB-US620P-C19-US=	UCS C-Series	cable	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	accessory ^CAB- (label UCS C-Series)							
+CAB-S132-C19-ISRL=	Cisco CAB-S132-C19-ISRL=	UCS C-Series	cable	pending_plan								move hyperconverged-infrastructure			
+CAB-SABS-C19-IND=	Cisco CAB-SABS-C19-IND=	UCS C-Series	cable	pending_plan								move hyperconverged-infrastructure			
+CAB-US515P-C19-US=	Cisco CAB-US515P-C19-US=	UCS C-Series	cable	pending_plan								move hyperconverged-infrastructure			
+CAB-US520-C19-US=	Cisco CAB-US520-C19-US=	UCS C-Series	cable	pending_plan								move hyperconverged-infrastructure			
+CAB-US620P-C19-US=	Cisco CAB-US620P-C19-US=	UCS C-Series	cable	pending_plan								move hyperconverged-infrastructure			
 CAI-GPU-MI210	AMD Instinct MI210: 300W, 64GB, 2-slot FHFL GPU	UCS C-Series	gpu	layered	UCS Server Components	(none)	GPUs	sku ^CAI-GPU							
 CAI-GPU-MI210=	AMD Instinct MI210: 300W, 64GB, 2-slot FHFL GPU	UCS C-Series	gpu	layered	UCS Server Components	(none)	GPUs	sku ^CAI-GPU							
 CAI-GPU-MI350P	Cisco CAI-GPU-MI350P	UCS C-Series	gpu	layered	UCS Server Components	(none)	GPUs	sku ^CAI-GPU							
@@ -2211,7 +2211,7 @@ RP230-32M3P-12-12	32A Metered Input 3-Phase 12x C19, 12x C13 - 0U PDU	R-Series R
 RP230-32M3P-12-12=	32A Metered Input 3-Phase 12x C19, 12x C13 - 0U PDU	UCS C-Series	pdu	layered	Racks and PDUs	(none)	R42610 / R42612 racks and PDUs	sku ^RP[0-9]{3}-							
 S3260	Cisco S3260	S-Series Storage	server	pending_plan								class non_product			
 SAS/SATA/U.3	Cisco SAS/SATA/U.3	UCS C-Series	storage-controller	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	label UCS C-Series							
-SAS3	Cisco SAS3	S-Series Storage	storage-controller	layered	UCS S-Series Storage Servers	(shared across the line)	UCS S-Series Storage Servers shared parts	label-unsupported (label S-Series Storage; was UCS S3260): no platform token (3260) in the SKU or name, no compatible part placed in the series						none: no platform token (3260) in the SKU or name, no compatible part placed in the series	
+SAS3	Cisco SAS3	S-Series Storage	storage-controller	layered	UCS S-Series Storage Servers	(shared across the line)	UCS S-Series Storage Servers shared parts	label-unsupported (label S-Series Storage; was UCS C3160 / S3260): no platform token (3160, 3260) in the SKU or name, no compatible part placed in the series						none: no platform token (3160, 3260) in the SKU or name, no compatible part placed in the series	
 SASCBLSHORT-003	1 Short SAS Cable for UCS C210 Server ( for SAS Expander)	UCS C-Series	cable	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	label UCS C-Series							
 SASCBLSHORT-003=	2 Short SAS Cables for UCS C210 Server ( for SAS Expander)	UCS C-Series	cable	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	label UCS C-Series							
 SM-DSK-COVER	Hard disk drive face plate cover for SRE 700 and 900	UCS E-Series	mechanical	layered	UCS E-Series Server Modules	(none)	Services Ready Engine (ISM-SRE / SM-SRE)	sku ^SM-(DSK-|HDDB?-SATA-?500GB|MEM-VLP-[24]GB)							
@@ -2300,81 +2300,81 @@ UCS-BR-HD900G	900GB 12G SAS 10K RPM SFF HDD	UCS C-Series	drive	layered	UCS Solut
 UCS-BR-SD120G	120 GB 2.5 inch Enterprise Value 6G SATA SSD	UCS C-Series	drive	layered	UCS Solution Bundles	(none)	Solution, reference and promotion bundles	sku ^UCS-(SA|SL|SM|SR|SB|SF|CX|STM|SHRPT|ASR[0-9]*|FSA[0-9]*|BD|BDMRES|NFVI|VSAN|VXI|YES|BR)-							
 UCS-C220-NOSH	(Not a standalone SKU) C220 SFF w/2x2680,256GB,ROM55,2x600GB	UCS B-Series	server	layered	UCS C-Series Rack Servers	(none)	UCS C220	sku ^(?=UCSC?-).*(?<![A-Z0-9])C220(?![0-9])							
 UCS-C260M2-VCD2	UCS C260 M2 Rack Server w/ 2-E72870, 16x 2x4GB DDR	UCS C-Series	server	layered	UCS C-Series Rack Servers	(none)	UCS C200 / C210 / C250 / C260 (M1/M2)	sku ^UCS-C2[0156]0M[12]							
-UCS-C3260-SA-D	UCSC C3260 for Video Surveillance Solutions	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3[12]60(?![0-9])							
-UCS-C3K-10TEM	Cisco UCS C3000 10TB (512e) Top Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-C3K-							
-UCS-C3K-10TEM=	Cisco UCS C3000 10TB (512e) Top Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-C3K-							
-UCS-C3K-10TREM	Cisco UCS C3000 10TB (512e) Rear Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-C3K-							
-UCS-C3K-10TREM=	Cisco UCS C3000 10TB (512e) Rear Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-C3K-							
-UCS-C3K-14HD10	Cisco UCS-C3K-14HD10	S-Series Storage	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-C3K-							
-UCS-C3K-14HD10E	UCS C3X60 1 row of 10TB 512e NL-SAS drives (14 Total) 140TB	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-C3K-							
-UCS-C3K-14HD10E=	UCS C3X60 1 row of 10TB 512e NL-SAS drives (14 Total) 140TB	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-C3K-							
-UCS-C3K-14HD6E	UCS C3X60 1 row of 14x 6TB 512e NL-SAS drives (14Total) 84TB	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-C3K-							
-UCS-C3K-14HD6E=	UCS C3X60 1 row of 14x 6TB 512e NL-SAS drives (14Total) 84TB	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-C3K-							
-UCS-C3K-28HD10	Cisco UCS-C3K-28HD10	S-Series Storage	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-C3K-							
-UCS-C3K-28HD10E	UCS C3X60 2row of 28x 10TB 512e NL-SAS drives (28Total)280TB	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-C3K-							
-UCS-C3K-28HD6E	UCS C3X60 2row of 28x 6TB 512e NL-SAS drives (28 Total)168TB	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-C3K-							
-UCS-C3K-3XTSSD16	Cisco UCS-C3K-3XTSSD16	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-C3K-							
-UCS-C3K-3XTSSD16=	Cisco UCS-C3K-3XTSSD16=	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-C3K-							
-UCS-C3K-3XTSSD32	Cisco UCS-C3K-3XTSSD32	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-C3K-							
-UCS-C3K-3XTSSD32=	Cisco UCS-C3K-3XTSSD32=	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-C3K-							
-UCS-C3K-3XTSSD4	Cisco UCS-C3K-3XTSSD4	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-C3K-							
-UCS-C3K-3XTSSD4=	Cisco UCS-C3K-3XTSSD4=	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-C3K-							
-UCS-C3K-3XTSSD8	Cisco UCS-C3K-3XTSSD8	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-C3K-							
-UCS-C3K-3XTSSD8=	Cisco UCS-C3K-3XTSSD8=	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-C3K-							
-UCS-C3K-42HD10	Cisco UCS-C3K-42HD10	S-Series Storage	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-C3K-							
-UCS-C3K-42HD10E	UCS C3X60 3 row of 42x 10TB 512e NL-SAS drives (42 Total) 42	S-Series Storage	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-C3K-							
-UCS-C3K-42HD6E	UCS C3X60 3row of 42x 6TB 512e NL-SAS drives (42 Total)252TB	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-C3K-							
-UCS-C3K-56HD10	Cisco UCS-C3K-56HD10	S-Series Storage	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-C3K-							
-UCS-C3K-56HD10E	UCS C3X60 4row of 56x 10TB 512e NL-SAS drives (56Total)560TB	S-Series Storage	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-C3K-							
-UCS-C3K-56HD6E	UCS C3X60 4 row of 56x 6TB 512e NL-SAS drives (4Total) 336TB	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-C3K-							
-UCS-C3K-6TEM	Cisco UCS C3000 6TB (512e) Top Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-C3K-							
-UCS-C3K-6TEM=	Cisco UCS C3000 6TB (512e) Top Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-C3K-							
-UCS-C3K-6TREM	Cisco UCS C3000 6TB (512e) Rear Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-C3K-							
-UCS-C3K-6TREM=	Cisco UCS C3000 6TB (512e) Rear Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-C3K-							
-UCS-C3K-BSD48K9	UCS C3260 480G SATA SSD Self Encrypted Boot K9	UCS B-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-C3K-							
-UCS-C3K-BSD48K9=	UCS C3260 480G SATA SSD Self Encrypted Boot K9	UCS B-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-C3K-							
-UCS-C3K-EX24TE	UCS C3X60 Expander 4x 6TB 512e NL-SAS drives 24TB	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-C3K-							
-UCS-C3K-EX24TE=	UCS C3X60 Expander 4x 6TB 512e NL-SAS drives 24TB	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-C3K-							
-UCS-C3K-EX40TE	UCS C3X60 Expander 4x 10TB 512e NL-SAS drives 40TB	S-Series Storage	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-C3K-							
+UCS-C3260-SA-D	UCSC C3260 for Video Surveillance Solutions	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3[12]60(?![0-9])							
+UCS-C3K-10TEM	Cisco UCS C3000 10TB (512e) Top Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-C3K-							
+UCS-C3K-10TEM=	Cisco UCS C3000 10TB (512e) Top Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-C3K-							
+UCS-C3K-10TREM	Cisco UCS C3000 10TB (512e) Rear Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-C3K-							
+UCS-C3K-10TREM=	Cisco UCS C3000 10TB (512e) Rear Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-C3K-							
+UCS-C3K-14HD10	Cisco UCS-C3K-14HD10	S-Series Storage	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-C3K-							
+UCS-C3K-14HD10E	UCS C3X60 1 row of 10TB 512e NL-SAS drives (14 Total) 140TB	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-C3K-							
+UCS-C3K-14HD10E=	UCS C3X60 1 row of 10TB 512e NL-SAS drives (14 Total) 140TB	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-C3K-							
+UCS-C3K-14HD6E	UCS C3X60 1 row of 14x 6TB 512e NL-SAS drives (14Total) 84TB	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-C3K-							
+UCS-C3K-14HD6E=	UCS C3X60 1 row of 14x 6TB 512e NL-SAS drives (14Total) 84TB	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-C3K-							
+UCS-C3K-28HD10	Cisco UCS-C3K-28HD10	S-Series Storage	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-C3K-							
+UCS-C3K-28HD10E	UCS C3X60 2row of 28x 10TB 512e NL-SAS drives (28Total)280TB	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-C3K-							
+UCS-C3K-28HD6E	UCS C3X60 2row of 28x 6TB 512e NL-SAS drives (28 Total)168TB	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-C3K-							
+UCS-C3K-3XTSSD16	Cisco UCS-C3K-3XTSSD16	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-C3K-							
+UCS-C3K-3XTSSD16=	Cisco UCS-C3K-3XTSSD16=	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-C3K-							
+UCS-C3K-3XTSSD32	Cisco UCS-C3K-3XTSSD32	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-C3K-							
+UCS-C3K-3XTSSD32=	Cisco UCS-C3K-3XTSSD32=	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-C3K-							
+UCS-C3K-3XTSSD4	Cisco UCS-C3K-3XTSSD4	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-C3K-							
+UCS-C3K-3XTSSD4=	Cisco UCS-C3K-3XTSSD4=	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-C3K-							
+UCS-C3K-3XTSSD8	Cisco UCS-C3K-3XTSSD8	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-C3K-							
+UCS-C3K-3XTSSD8=	Cisco UCS-C3K-3XTSSD8=	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-C3K-							
+UCS-C3K-42HD10	Cisco UCS-C3K-42HD10	S-Series Storage	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-C3K-							
+UCS-C3K-42HD10E	UCS C3X60 3 row of 42x 10TB 512e NL-SAS drives (42 Total) 42	S-Series Storage	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-C3K-							
+UCS-C3K-42HD6E	UCS C3X60 3row of 42x 6TB 512e NL-SAS drives (42 Total)252TB	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-C3K-							
+UCS-C3K-56HD10	Cisco UCS-C3K-56HD10	S-Series Storage	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-C3K-							
+UCS-C3K-56HD10E	UCS C3X60 4row of 56x 10TB 512e NL-SAS drives (56Total)560TB	S-Series Storage	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-C3K-							
+UCS-C3K-56HD6E	UCS C3X60 4 row of 56x 6TB 512e NL-SAS drives (4Total) 336TB	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-C3K-							
+UCS-C3K-6TEM	Cisco UCS C3000 6TB (512e) Top Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-C3K-							
+UCS-C3K-6TEM=	Cisco UCS C3000 6TB (512e) Top Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-C3K-							
+UCS-C3K-6TREM	Cisco UCS C3000 6TB (512e) Rear Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-C3K-							
+UCS-C3K-6TREM=	Cisco UCS C3000 6TB (512e) Rear Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-C3K-							
+UCS-C3K-BSD48K9	UCS C3260 480G SATA SSD Self Encrypted Boot K9	UCS B-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-C3K-							
+UCS-C3K-BSD48K9=	UCS C3260 480G SATA SSD Self Encrypted Boot K9	UCS B-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-C3K-							
+UCS-C3K-EX24TE	UCS C3X60 Expander 4x 6TB 512e NL-SAS drives 24TB	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-C3K-							
+UCS-C3K-EX24TE=	UCS C3X60 Expander 4x 6TB 512e NL-SAS drives 24TB	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-C3K-							
+UCS-C3K-EX40TE	UCS C3X60 Expander 4x 10TB 512e NL-SAS drives 40TB	S-Series Storage	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-C3K-							
 UCS-C3K-EX40TE=	VOID; Not Used	UCS C-Series	drive	pending_plan								class non_product			
-UCS-C3K-HD4TB	UCS C3000 4TB NL-SAS 7200 RPM 12Gb HDD w Carrier- Top Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-C3K-							
-UCS-C3K-HD4TB=	UCS C3000 4TB NL-SAS 7200 RPM 12Gb HDD w Carrier- Top Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-C3K-							
-UCS-C3K-HD4TBRR	UCS C3000 4TB NL-SAS 7200 RPM 12Gb HDD w Carrier- Rear Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-C3K-							
-UCS-C3K-HD4TBRR=	UCS C3000 4TB NL-SAS 7200 RPM 12Gb HDD w Carrier- Rear Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-C3K-							
-UCS-C3K-HD6TK9	Cisco UCS C3000 6TB 4Kn Self Encrypt Top Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-C3K-							
-UCS-C3K-HD6TK9=	Cisco UCS C3000 6TB 4Kn Self Encrypt Top Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-C3K-							
-UCS-C3K-HD6TRK9	Cisco UCS C3000 6TB 4Kn Self Encrypt Rear Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-C3K-							
-UCS-C3K-HD6TRK9=	Cisco UCS C3000 6TB 4Kn Self Encrypt Rear Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-C3K-							
-UCS-C3K-M4HBA	Cisco UCS C3000 12G SAS HBA Controller for M4 Server Blade	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-C3K-							
-UCS-C3K-M4HBA=	Cisco UCS C3000 12G SAS HBA Controller for M4 Server Node	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-C3K-							
-UCS-C3K-M4RAID	Cisco UCS C3000 RAID Controller M4 Server w 4G RAID Cache	S-Series Storage	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-C3K-							
-UCS-C3K-M4RAID=	Cisco UCS C3000 RAID Controller M4 SrvNode w/4G RAID Cache	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-C3K-							
-UCS-C3K-M4SRB-PKG	UCS C3000 M4 Server Node Packaging Box	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-C3K-							
-UCS-C3K-M4SRB-PKG=	UCS C3000 M4 Server Node Packaging Box	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-C3K-							
-UCS-C3K-M4WIO-PKG	UCS C3000 M4 Server Node and PCIe Expansion Packaging Box	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-C3K-							
-UCS-C3K-M4WIO-PKG=	UCS C3000 M4 Server Node and PCIe Expansion Packaging Box	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-C3K-							
-UCS-C3K-SSD10	Cisco UCS C3X60 SSD+HDD Row	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-C3K-							
+UCS-C3K-HD4TB	UCS C3000 4TB NL-SAS 7200 RPM 12Gb HDD w Carrier- Top Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-C3K-							
+UCS-C3K-HD4TB=	UCS C3000 4TB NL-SAS 7200 RPM 12Gb HDD w Carrier- Top Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-C3K-							
+UCS-C3K-HD4TBRR	UCS C3000 4TB NL-SAS 7200 RPM 12Gb HDD w Carrier- Rear Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-C3K-							
+UCS-C3K-HD4TBRR=	UCS C3000 4TB NL-SAS 7200 RPM 12Gb HDD w Carrier- Rear Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-C3K-							
+UCS-C3K-HD6TK9	Cisco UCS C3000 6TB 4Kn Self Encrypt Top Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-C3K-							
+UCS-C3K-HD6TK9=	Cisco UCS C3000 6TB 4Kn Self Encrypt Top Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-C3K-							
+UCS-C3K-HD6TRK9	Cisco UCS C3000 6TB 4Kn Self Encrypt Rear Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-C3K-							
+UCS-C3K-HD6TRK9=	Cisco UCS C3000 6TB 4Kn Self Encrypt Rear Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-C3K-							
+UCS-C3K-M4HBA	Cisco UCS C3000 12G SAS HBA Controller for M4 Server Blade	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-C3K-							
+UCS-C3K-M4HBA=	Cisco UCS C3000 12G SAS HBA Controller for M4 Server Node	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-C3K-							
+UCS-C3K-M4RAID	Cisco UCS C3000 RAID Controller M4 Server w 4G RAID Cache	S-Series Storage	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-C3K-							
+UCS-C3K-M4RAID=	Cisco UCS C3000 RAID Controller M4 SrvNode w/4G RAID Cache	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-C3K-							
+UCS-C3K-M4SRB-PKG	UCS C3000 M4 Server Node Packaging Box	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-C3K-							
+UCS-C3K-M4SRB-PKG=	UCS C3000 M4 Server Node Packaging Box	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-C3K-							
+UCS-C3K-M4WIO-PKG	UCS C3000 M4 Server Node and PCIe Expansion Packaging Box	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-C3K-							
+UCS-C3K-M4WIO-PKG=	UCS C3000 M4 Server Node and PCIe Expansion Packaging Box	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-C3K-							
+UCS-C3K-SSD10	Cisco UCS C3X60 SSD+HDD Row	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-C3K-							
 UCS-C3K-SSD10=	VOID: not used	UCS C-Series	drive	pending_plan								class non_product			
-UCS-C3K-TSSD4K9	Cisco UCS C3000 400G Self Encrypt SED Top Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-C3K-							
-UCS-C3K-TSSD4K9=	Cisco UCS C3000 400G Self Encrypt SED Top Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-C3K-							
-UCS-C3X60-12G016	UCSC Cisco C3X60 1.6TB SSD	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCS-C3X60-12G016=	UCSC Cisco C3X60 1.6TB SSD	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCS-C3X60-12G0400	UCS C3X60 400GB Enterprise Performance 12G SAS SSD	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCS-C3X60-12G0400=	UCS C3X60 400GB Enterprise Performance 12G SAS SSD	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCS-C3X60-12G2160	UCSC C3X60 1.6TB 12Gbps SSD (Gen 2)	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCS-C3X60-12G2160=	UCSC C3X60 1.6TB 12Gbps SSD (Gen 2)	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCS-C3X60-12G240	UCSC C3X60 400GB 12Gbps SSD (Gen 2)	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCS-C3X60-12G240=	UCSC C3X60 400GB 12Gbps SSD (Gen 2)	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCS-C3X60-12G280	UCSC C3X60 800GB 12Gbps SSD (Gen 2)	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCS-C3X60-12G280=	UCSC C3X60 800GB 12Gbps SSD (Gen 2)	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCS-C3X60-G1SD480	Cisco UCS C3X60 480GB SATA Boot SSD	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCS-C3X60-G1SD480=	Cisco UCS C3X60 480GB SATA Boot SSD	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCS-C3X60-G2SD12	UCSC C3X60 120GB Boot SSD (Gen 2)	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCS-C3X60-G2SD12=	UCSC C3X60 120GB Boot SSD (Gen 2)	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCS-C3X60-G2SD160	UCSC C3X60 1.6TB Boot SSD (Gen 2)	S-Series Storage	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCS-C3X60-G2SD160=	UCSC C3X60 1.6TB Boot SSD (Gen 2)	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCS-C3X60-G2SD48	UCSC C3X60 480GB Boot SSD (Gen 2)	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCS-C3X60-G2SD48=	UCSC C3X60 480GB Boot SSD (Gen 2)	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
+UCS-C3K-TSSD4K9	Cisco UCS C3000 400G Self Encrypt SED Top Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-C3K-							
+UCS-C3K-TSSD4K9=	Cisco UCS C3000 400G Self Encrypt SED Top Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-C3K-							
+UCS-C3X60-12G016	UCSC Cisco C3X60 1.6TB SSD	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCS-C3X60-12G016=	UCSC Cisco C3X60 1.6TB SSD	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCS-C3X60-12G0400	UCS C3X60 400GB Enterprise Performance 12G SAS SSD	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCS-C3X60-12G0400=	UCS C3X60 400GB Enterprise Performance 12G SAS SSD	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCS-C3X60-12G2160	UCSC C3X60 1.6TB 12Gbps SSD (Gen 2)	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCS-C3X60-12G2160=	UCSC C3X60 1.6TB 12Gbps SSD (Gen 2)	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCS-C3X60-12G240	UCSC C3X60 400GB 12Gbps SSD (Gen 2)	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCS-C3X60-12G240=	UCSC C3X60 400GB 12Gbps SSD (Gen 2)	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCS-C3X60-12G280	UCSC C3X60 800GB 12Gbps SSD (Gen 2)	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCS-C3X60-12G280=	UCSC C3X60 800GB 12Gbps SSD (Gen 2)	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCS-C3X60-G1SD480	Cisco UCS C3X60 480GB SATA Boot SSD	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCS-C3X60-G1SD480=	Cisco UCS C3X60 480GB SATA Boot SSD	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCS-C3X60-G2SD12	UCSC C3X60 120GB Boot SSD (Gen 2)	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCS-C3X60-G2SD12=	UCSC C3X60 120GB Boot SSD (Gen 2)	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCS-C3X60-G2SD160	UCSC C3X60 1.6TB Boot SSD (Gen 2)	S-Series Storage	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCS-C3X60-G2SD160=	UCSC C3X60 1.6TB Boot SSD (Gen 2)	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCS-C3X60-G2SD48	UCSC C3X60 480GB Boot SSD (Gen 2)	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCS-C3X60-G2SD48=	UCSC C3X60 480GB Boot SSD (Gen 2)	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
 UCS-C4200-MLB	UCS 4200 MLB	UCS C4200 Series Rack Server Chassis	chassis	layered	UCS C-Series Rack Servers	(none)	UCS C125 / C4200	sku (?<![A-Z0-9])C4200(?![0-9])							
 UCS-COPC-220A-SWHP	UCS C220 M4 SFF w/o CPU, mem, HD, PCIe, PSU, rail kit	UCS C-Series	server	layered	UCS C-Series Rack Servers	(none)	UCS C220	sku ^UCS-COPC-220							
 UCS-COPC-220P-SWHP	UCS C220 M4 SFF w/o CPU, mem, HD, PCIe, PSU, rail kit	UCS C-Series	server	layered	UCS C-Series Rack Servers	(none)	UCS C220	sku ^UCS-COPC-220							
@@ -4642,291 +4642,291 @@ UCS-RAID9271CV-8I	MegaRAID 9271CV with 8 internal SAS/SATA ports with Supercap	U
 UCS-RAID9271CV-8I=	MegaRAID 9271CV with 8 internal SAS/SATA ports with Supercap	UCS C-Series	storage-controller	layered	UCS Server Components	(none)	Network and storage adapters	sku ^UCS-RAID							
 UCS-RAID9286CV-8E	MegaRAID 9286CV Raid card with 8 external SAS/SATA ports	UCS C-Series	storage-controller	layered	UCS Server Components	(none)	Network and storage adapters	sku ^UCS-RAID							
 UCS-RAID9286CV-8E=	MegaRAID 9286CV Raid card with 8 external SAS/SATA ports	UCS C-Series	storage-controller	layered	UCS Server Components	(none)	Network and storage adapters	sku ^UCS-RAID							
-UCS-S-14HD12K9	UCS S3260 1row of drives 14x 12TB SED Total: 168TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-S-							
-UCS-S-14HD12K9=	UCS S3260 1row of drives 14x 12TB SED Total: 168TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-S-							
-UCS-S-14HD18K9	UCS S3260 1row of drives 14x 18TB SED Total: 252TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-S-							
-UCS-S-14HD18K9=	UCS S3260 1row of drives 14x 18TB SED Total: 252TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-S-							
-UCS-S-28HD12K9	UCS S3260 2row of drives 28 x 12TB SED Total: 336TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-S-							
-UCS-S-28HD18K9	UCS S3260 2row of drives 28x 18TB SED Total: 504TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-S-							
-UCS-S-42HD12K9	UCS S3260 3row of drives 42 x 12TB SED Total: 504TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-S-							
-UCS-S-42HD18K9	UCS S3260 3row of drives 42x 18TB SED Total: 756TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-S-							
-UCS-S-56HD12K9	UCS S3260 4row of drives 56 x 12TB SED Total: 672TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-S-							
-UCS-S-56HD18K9	UCS S3260 4row of drives 56x 18TB SED Total: 1,008TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-S-							
-UCS-S-BSD960K9	UCS S3260 960G SATA SED Boot SSD	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-S-							
-UCS-S-BSD960K9=	UCS S3260 960G SATA SED Boot SSD	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-S-							
-UCS-S-EX48TK9	UCS S3260 Rear Expander with 4x 12TB SED NL-SAS Drives	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-S-							
-UCS-S-EX72TK9	UCS S3260 Rear Expander with 4x 18TB SED NL-SAS Total 72TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-S-							
-UCS-S-HD12TK9	UCS S3260 12TB (4Kn) 7.2K RPM SED Drives Top Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-S-							
-UCS-S-HD12TK9=	UCS S3260 12TB (4Kn) 7.2K RPM SED Drives Top Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-S-							
-UCS-S-HD12TRK9	UCS S3260 12TB (4Kn) 7.2K RPM SED Drives Rear Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-S-							
-UCS-S-HD12TRK9=	UCS S3260 12TB (4Kn) 7.2K RPM SED Drives Rear Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-S-							
-UCS-S-HD18TK9	UCS S3260 18TB (4Kn) 7.2K RPM SED Drives Top Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-S-							
-UCS-S-HD18TK9=	UCS S3260 18TB (4Kn) 7.2K RPM SED Drives Top Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-S-							
-UCS-S-HD18TRK9	UCS S3260 18TB (4Kn) 7.2K RPM SED Drives Rear Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-S-							
-UCS-S-HD18TRK9=	UCS S3260 18TB (4Kn) 7.2K RPM SED Drives Rear Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-S-							
-UCS-S-MSD960GBK9	Cisco UCS-S-MSD960GBK9	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-S-							
-UCS-S-MSD960GBK9=	Cisco UCS-S-MSD960GBK9=	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku ^UCS-S-							
-UCS-S3260-10TARR	10TB 12G SAS 7.2K RPM LFF HDD (4K) w Carrier- Rear Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-10TARR=	10TB 12G SAS 7.2K RPM LFF HDD (4K) w Carrier- Rear Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-14HD10A	UCS S3260 1row of drives 14x10TB 4Kn Air drives Total: 140TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-14HD10A=	UCS S3260 1row of drives 14x10TB 4Kn Air drives Total: 140TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-14HD12	UCS S3260 1row of drives 14x 12TB Total: 168TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-14HD12=	UCS S3260 1row of drives 14x 12TB Total: 168TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-14HD14	UCS S3260 1row of drives 14x 14TB SAS3 Total: 196TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-14HD14=	UCS S3260 1row of drives 14x 14TB SAS3 Total: 196TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-14HD16	UCS S3260 1row of drives 14x 16TB SAS3 Total: 224TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-14HD16=	UCS S3260 1row of drives 14x 16TB SAS3 Total: 224TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-14HD2	UCS S3260 1row of drives 14x 2TB Drives Total: 28TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-14HD2=	UCS S3260 1row of drives 14x 2TB Drives Total: 28TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-14HD4	Cisco UCS C3X60 One row of drives containing 14 x 4TB (Total	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-14HD4=	Cisco UCS C3X60 One row of drives containing 14 x 4TB (Total	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-14HD6K9	UCS S3260 1row of 14 x 6TB SED NL-SAS 7200 (14Total) 84TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-14HD6K9=	UCS S3260 1row of 14 x 6TB SED NL-SAS 7200 (14Total) 84TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-14HD8	S3260 1row of 8TB (UE10NL-SAS 7200RPM SAS-3 (14Total: 112TB)	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-14HD8=	S3260 1row of 8TB (UE10NL-SAS 7200RPM SAS-3 (14Total: 112TB)	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-14HD8A	UCS S3260 1row of drives 14x8TB NL-SAS 7200RPM (Total 112TB)	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-14HD8A=	UCS S3260 1row of drives 14x8TB NL-SAS 7200RPM (Total 112TB)	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-14SHD18	Cisco UCS-S3260-14SHD18	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-14THD14	UCS S3260 1row of drives 14x 14TB Toshiba SAS3 Total: 196TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-14THD14=	UCS S3260 1row of drives 14x 14TB Toshiba SAS3 Total: 196TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-14THD20	Cisco UCS-S3260-14THD20	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-14THD8	Cisco UCS-S3260-14THD8	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-14WHD14	Cisco UCS-S3260-14WHD14	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-14WHD16	UCS S3260 1row of drives 14x 16TB WD SAS3 Total: 224TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-14WHD16=	UCS S3260 1row of drives 14x 16TB WD SAS3 Total: 224TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-14WHD18	UCS S3260 1row of drives 14x 18TB WD Total: 252TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-14WHD18=	UCS S3260 1row of drives 14x 18TB WD Total: 252TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-28HD10A	UCS S3260 2row of drives 28x10TB 4Kn Air drives Total: 280TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-28HD12	UCS S3260 2rows of drives 28x 12TB Total: 336TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-28HD14	UCS S3260 2row of drives 28x 14TB SAS3 Total: 392TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-28HD16	UCS S3260 2row of drives 28x 16TB SAS3 Total: 448TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-28HD2	UCS S3260 2rows of drives 28x 2TB Total: 56TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-28HD2=	UCS S3260 2rows of drives 28x 2TB Total: 56TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-28HD4	Cisco UCS C3X60 Two row of drives containing 28 x 4TB (Total	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-28HD6K9	UCS S3260 2row of 28 x 6TB SED NL-SAS 7200 (28Total) 168TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-28HD8	S3260 2row of 8TB (UE10NL-SAS 7200RPM SAS-3 (28Total: 224TB)	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-28HD8A	UCS S3260 2row of drives 28x8TB NL-SAS 7200RPM (Total 224TB)	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-28SHD18	Cisco UCS-S3260-28SHD18	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-28THD14	UCS S3260 2row of drives 28x 14TB Toshina SAS3 Total: 392TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-28THD20	Cisco UCS-S3260-28THD20	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-28THD8	Cisco UCS-S3260-28THD8	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-28WHD14	Cisco UCS-S3260-28WHD14	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-28WHD16	UCS S3260 2row of drives 28x 16TB WD SAS3 Total: 448TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-28WHD18	UCS S3260 2row of drives 28x 18TB WD Total: 504TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-3KASD16	Cisco UCS-S3260-3KASD16	UCS B-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-3KASD16=	Cisco UCS-S3260-3KASD16=	UCS B-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-3KASD32	Cisco UCS-S3260-3KASD32	UCS B-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-3KASD32=	Cisco UCS-S3260-3KASD32=	UCS B-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-3KSD16	Cisco UCS S3260 Top Load 3X 1.6TB SSD	UCS B-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-3KSD16=	Cisco UCS S3260 Top Load 3X 1.6TB SSD	UCS B-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-3KSD32	Cisco UCS S3260 Top Load 3X 3.2TB SSD	UCS B-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-3KSD32=	Cisco UCS S3260 Top Load 3X 3.2TB SSD	UCS B-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-3KSD8	Cisco UCS S3620 Top Load 3X 800G SSD	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-3KSD8=	Cisco UCS S3620 Top Load 3X 800G SSD	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-3SSD16	Cisco UCS S3260 Top Load HGST 3X 1.6TB SSD	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-3SSD16=	Cisco UCS S3260 Top Load HGST 3X 1.6TB SSD	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-3SSD32	Cisco UCS S3260 Top Load HGST 3X 3.2TB SSD	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-3SSD32=	Cisco UCS S3260 Top Load HGST 3X 3.2TB SSD	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-3SSD4	Cisco UCS S3260 Top Load HGST 3X 400G SSD	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-3SSD4=	Cisco UCS S3260 Top Load HGST 3X 400G SSD	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-3SSD8	Cisco UCS S3260 Top Load HGST 3X 800G SSD	S-Series Storage	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-3SSD8=	Cisco UCS S3260 Top Load HGST 3X 800G SSD	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-3XSSD16	Cisco UCS S3260 Top Load 3X 1.6TB SSD	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-3XSSD16=	Cisco UCS S3260 Top Load 3X 1.6TB SSD	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-3XSSD32	Cisco UCS S3260 Top Load 3X 3.2TB SSD	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-3XSSD32=	Cisco UCS S3260 Top Load 3X 3.2TB SSD	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-3XSSD8	Cisco UCS S3260 Top Load 3X 800G SSD	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-3XSSD8=	Cisco UCS S3260 Top Load 3X 800G SSD	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-42HD10A	UCS S3260 3row of drives 42x10TB 4Kn Air drives Total: 420TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-42HD12	UCS S3260 3rows of drives 42x 12TB Total: 504TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-42HD14	UCS S3260 3rows of drives 42x 14TB SAS3 Total: 588TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-42HD16	UCS S3260 3row of drives 42x 16TB SAS3 Total: 672TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-42HD2	UCS S3260 3rows of drives 42x 2TB Total: 84TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-42HD4	Cisco UCS C3X60 Three row of drives containing 42 x 4TB (Tot	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-42HD6K9	UCS S3260 3row of 42 x 6TB SED NL-SAS 7200 (42Total) 252TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-42HD8	S3260 3row of 8TB (UE10NL-SAS 7200RPM SAS-3 (42Total: 336TB)	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-42HD8A	UCS S3260 3row of drives 42x8TB NL-SAS 7200RPM (Total 336TB)	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-42SHD18	Cisco UCS-S3260-42SHD18	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-42THD14	UCS S3260 3row of drives 42x 14TB Toshiba SAS3 Total: 588TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-42THD20	Cisco UCS-S3260-42THD20	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-42THD8	Cisco UCS-S3260-42THD8	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-42WHD14	Cisco UCS-S3260-42WHD14	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-42WHD16	UCS S3260 3row of drives 42x 16TB WD SAS3 Total: 672TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-42WHD18	UCS S3260 3row of drives 42x 18TB WD Total: 756TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-56HD10A	UCS S3260 4row of drives 56x10TB 4Kn Air drives Total: 560TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-56HD12	UCS S3260 4rows of drives 56x 12TB Total: 672TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-56HD14	UCS S3260 4rows of drives 56x 14TB SAS3 Total: 784TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-56HD16	UCS S3260 4row of drives 56x 16TB SAS3 Total: 896TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-56HD2	UCS S3260 4rows of drives containing 56x 2TB Total: 112TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-56HD4	Cisco UCS C3X60 Four row of drives containing 56 x 4TB (Tota	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-56HD6K9	UCS S3260 4row of 56 x 6TB SED NL-SAS 7200 (56Total) 336TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-56HD8	S3260 4row of 8TB (UE10NL-SAS 7200RPM SAS-3 (56Total: 448TB)	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-56HD8A	UCS S3260 4row of drives 56x8TB NL-SAS 7200RPM (Total 448TB)	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-56SHD18	Cisco UCS-S3260-56SHD18	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-56THD14	UCS S3260 4row of drives 56x 14TB Toshiba SAS3 Total: 784TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-56THD20	Cisco UCS-S3260-56THD20	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-56THD8	Cisco UCS-S3260-56THD8	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-56WHD14	Cisco UCS-S3260-56WHD14	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-56WHD16	UCS S3260 4row of drives 56x 16TB WD SAS3 Total: 896TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-56WHD18	UCS S3260 4row of drives 56x 18TB WD Total: 1,008TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-8TBRR	UCS S3260 8TB NL-SAS 7.2K UE10 HDD rear with HDD Carrier	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-8TBRR=	UCS S3260 8TB NL-SAS 7.2K UE10 HDD rear with HDD Carrier	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-DHBA	UCS S3260 Dual Pass Through based on LSI 3316	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-DHBA=	UCS S3260 Dual Pass Through based on LSI 3316	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-DRAID	UCS S3260 Dual Raid based on LSI 3316	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-DRAID=	UCS S3260 Dual Raid based on LSI 3316	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-EX16T	Cisco UCS C3X60 Expander with 4x 4TB 7200RPM NL-SAS Drives	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-EX16T=	Cisco UCS C3X60 Expander with 4x 4TB 7200RPM NL-SAS Drives	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-EX24TK9	UCS S3260 Expander with 4x 6TB SED NL-SAS Drives	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-EX32T	S3260 HDD Expander with 4x 8TB UE10 7200RPM NL-SAS Drives	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
+UCS-S-14HD12K9	UCS S3260 1row of drives 14x 12TB SED Total: 168TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-S-							
+UCS-S-14HD12K9=	UCS S3260 1row of drives 14x 12TB SED Total: 168TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-S-							
+UCS-S-14HD18K9	UCS S3260 1row of drives 14x 18TB SED Total: 252TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-S-							
+UCS-S-14HD18K9=	UCS S3260 1row of drives 14x 18TB SED Total: 252TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-S-							
+UCS-S-28HD12K9	UCS S3260 2row of drives 28 x 12TB SED Total: 336TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-S-							
+UCS-S-28HD18K9	UCS S3260 2row of drives 28x 18TB SED Total: 504TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-S-							
+UCS-S-42HD12K9	UCS S3260 3row of drives 42 x 12TB SED Total: 504TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-S-							
+UCS-S-42HD18K9	UCS S3260 3row of drives 42x 18TB SED Total: 756TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-S-							
+UCS-S-56HD12K9	UCS S3260 4row of drives 56 x 12TB SED Total: 672TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-S-							
+UCS-S-56HD18K9	UCS S3260 4row of drives 56x 18TB SED Total: 1,008TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-S-							
+UCS-S-BSD960K9	UCS S3260 960G SATA SED Boot SSD	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-S-							
+UCS-S-BSD960K9=	UCS S3260 960G SATA SED Boot SSD	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-S-							
+UCS-S-EX48TK9	UCS S3260 Rear Expander with 4x 12TB SED NL-SAS Drives	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-S-							
+UCS-S-EX72TK9	UCS S3260 Rear Expander with 4x 18TB SED NL-SAS Total 72TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-S-							
+UCS-S-HD12TK9	UCS S3260 12TB (4Kn) 7.2K RPM SED Drives Top Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-S-							
+UCS-S-HD12TK9=	UCS S3260 12TB (4Kn) 7.2K RPM SED Drives Top Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-S-							
+UCS-S-HD12TRK9	UCS S3260 12TB (4Kn) 7.2K RPM SED Drives Rear Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-S-							
+UCS-S-HD12TRK9=	UCS S3260 12TB (4Kn) 7.2K RPM SED Drives Rear Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-S-							
+UCS-S-HD18TK9	UCS S3260 18TB (4Kn) 7.2K RPM SED Drives Top Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-S-							
+UCS-S-HD18TK9=	UCS S3260 18TB (4Kn) 7.2K RPM SED Drives Top Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-S-							
+UCS-S-HD18TRK9	UCS S3260 18TB (4Kn) 7.2K RPM SED Drives Rear Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-S-							
+UCS-S-HD18TRK9=	UCS S3260 18TB (4Kn) 7.2K RPM SED Drives Rear Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-S-							
+UCS-S-MSD960GBK9	Cisco UCS-S-MSD960GBK9	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-S-							
+UCS-S-MSD960GBK9=	Cisco UCS-S-MSD960GBK9=	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCS-S-							
+UCS-S3260-10TARR	10TB 12G SAS 7.2K RPM LFF HDD (4K) w Carrier- Rear Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-10TARR=	10TB 12G SAS 7.2K RPM LFF HDD (4K) w Carrier- Rear Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-14HD10A	UCS S3260 1row of drives 14x10TB 4Kn Air drives Total: 140TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-14HD10A=	UCS S3260 1row of drives 14x10TB 4Kn Air drives Total: 140TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-14HD12	UCS S3260 1row of drives 14x 12TB Total: 168TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-14HD12=	UCS S3260 1row of drives 14x 12TB Total: 168TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-14HD14	UCS S3260 1row of drives 14x 14TB SAS3 Total: 196TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-14HD14=	UCS S3260 1row of drives 14x 14TB SAS3 Total: 196TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-14HD16	UCS S3260 1row of drives 14x 16TB SAS3 Total: 224TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-14HD16=	UCS S3260 1row of drives 14x 16TB SAS3 Total: 224TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-14HD2	UCS S3260 1row of drives 14x 2TB Drives Total: 28TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-14HD2=	UCS S3260 1row of drives 14x 2TB Drives Total: 28TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-14HD4	Cisco UCS C3X60 One row of drives containing 14 x 4TB (Total	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-14HD4=	Cisco UCS C3X60 One row of drives containing 14 x 4TB (Total	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-14HD6K9	UCS S3260 1row of 14 x 6TB SED NL-SAS 7200 (14Total) 84TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-14HD6K9=	UCS S3260 1row of 14 x 6TB SED NL-SAS 7200 (14Total) 84TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-14HD8	S3260 1row of 8TB (UE10NL-SAS 7200RPM SAS-3 (14Total: 112TB)	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-14HD8=	S3260 1row of 8TB (UE10NL-SAS 7200RPM SAS-3 (14Total: 112TB)	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-14HD8A	UCS S3260 1row of drives 14x8TB NL-SAS 7200RPM (Total 112TB)	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-14HD8A=	UCS S3260 1row of drives 14x8TB NL-SAS 7200RPM (Total 112TB)	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-14SHD18	Cisco UCS-S3260-14SHD18	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-14THD14	UCS S3260 1row of drives 14x 14TB Toshiba SAS3 Total: 196TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-14THD14=	UCS S3260 1row of drives 14x 14TB Toshiba SAS3 Total: 196TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-14THD20	Cisco UCS-S3260-14THD20	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-14THD8	Cisco UCS-S3260-14THD8	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-14WHD14	Cisco UCS-S3260-14WHD14	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-14WHD16	UCS S3260 1row of drives 14x 16TB WD SAS3 Total: 224TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-14WHD16=	UCS S3260 1row of drives 14x 16TB WD SAS3 Total: 224TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-14WHD18	UCS S3260 1row of drives 14x 18TB WD Total: 252TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-14WHD18=	UCS S3260 1row of drives 14x 18TB WD Total: 252TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-28HD10A	UCS S3260 2row of drives 28x10TB 4Kn Air drives Total: 280TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-28HD12	UCS S3260 2rows of drives 28x 12TB Total: 336TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-28HD14	UCS S3260 2row of drives 28x 14TB SAS3 Total: 392TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-28HD16	UCS S3260 2row of drives 28x 16TB SAS3 Total: 448TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-28HD2	UCS S3260 2rows of drives 28x 2TB Total: 56TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-28HD2=	UCS S3260 2rows of drives 28x 2TB Total: 56TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-28HD4	Cisco UCS C3X60 Two row of drives containing 28 x 4TB (Total	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-28HD6K9	UCS S3260 2row of 28 x 6TB SED NL-SAS 7200 (28Total) 168TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-28HD8	S3260 2row of 8TB (UE10NL-SAS 7200RPM SAS-3 (28Total: 224TB)	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-28HD8A	UCS S3260 2row of drives 28x8TB NL-SAS 7200RPM (Total 224TB)	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-28SHD18	Cisco UCS-S3260-28SHD18	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-28THD14	UCS S3260 2row of drives 28x 14TB Toshina SAS3 Total: 392TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-28THD20	Cisco UCS-S3260-28THD20	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-28THD8	Cisco UCS-S3260-28THD8	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-28WHD14	Cisco UCS-S3260-28WHD14	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-28WHD16	UCS S3260 2row of drives 28x 16TB WD SAS3 Total: 448TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-28WHD18	UCS S3260 2row of drives 28x 18TB WD Total: 504TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-3KASD16	Cisco UCS-S3260-3KASD16	UCS B-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-3KASD16=	Cisco UCS-S3260-3KASD16=	UCS B-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-3KASD32	Cisco UCS-S3260-3KASD32	UCS B-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-3KASD32=	Cisco UCS-S3260-3KASD32=	UCS B-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-3KSD16	Cisco UCS S3260 Top Load 3X 1.6TB SSD	UCS B-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-3KSD16=	Cisco UCS S3260 Top Load 3X 1.6TB SSD	UCS B-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-3KSD32	Cisco UCS S3260 Top Load 3X 3.2TB SSD	UCS B-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-3KSD32=	Cisco UCS S3260 Top Load 3X 3.2TB SSD	UCS B-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-3KSD8	Cisco UCS S3620 Top Load 3X 800G SSD	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-3KSD8=	Cisco UCS S3620 Top Load 3X 800G SSD	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-3SSD16	Cisco UCS S3260 Top Load HGST 3X 1.6TB SSD	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-3SSD16=	Cisco UCS S3260 Top Load HGST 3X 1.6TB SSD	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-3SSD32	Cisco UCS S3260 Top Load HGST 3X 3.2TB SSD	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-3SSD32=	Cisco UCS S3260 Top Load HGST 3X 3.2TB SSD	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-3SSD4	Cisco UCS S3260 Top Load HGST 3X 400G SSD	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-3SSD4=	Cisco UCS S3260 Top Load HGST 3X 400G SSD	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-3SSD8	Cisco UCS S3260 Top Load HGST 3X 800G SSD	S-Series Storage	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-3SSD8=	Cisco UCS S3260 Top Load HGST 3X 800G SSD	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-3XSSD16	Cisco UCS S3260 Top Load 3X 1.6TB SSD	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-3XSSD16=	Cisco UCS S3260 Top Load 3X 1.6TB SSD	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-3XSSD32	Cisco UCS S3260 Top Load 3X 3.2TB SSD	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-3XSSD32=	Cisco UCS S3260 Top Load 3X 3.2TB SSD	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-3XSSD8	Cisco UCS S3260 Top Load 3X 800G SSD	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-3XSSD8=	Cisco UCS S3260 Top Load 3X 800G SSD	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-42HD10A	UCS S3260 3row of drives 42x10TB 4Kn Air drives Total: 420TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-42HD12	UCS S3260 3rows of drives 42x 12TB Total: 504TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-42HD14	UCS S3260 3rows of drives 42x 14TB SAS3 Total: 588TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-42HD16	UCS S3260 3row of drives 42x 16TB SAS3 Total: 672TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-42HD2	UCS S3260 3rows of drives 42x 2TB Total: 84TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-42HD4	Cisco UCS C3X60 Three row of drives containing 42 x 4TB (Tot	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-42HD6K9	UCS S3260 3row of 42 x 6TB SED NL-SAS 7200 (42Total) 252TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-42HD8	S3260 3row of 8TB (UE10NL-SAS 7200RPM SAS-3 (42Total: 336TB)	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-42HD8A	UCS S3260 3row of drives 42x8TB NL-SAS 7200RPM (Total 336TB)	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-42SHD18	Cisco UCS-S3260-42SHD18	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-42THD14	UCS S3260 3row of drives 42x 14TB Toshiba SAS3 Total: 588TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-42THD20	Cisco UCS-S3260-42THD20	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-42THD8	Cisco UCS-S3260-42THD8	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-42WHD14	Cisco UCS-S3260-42WHD14	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-42WHD16	UCS S3260 3row of drives 42x 16TB WD SAS3 Total: 672TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-42WHD18	UCS S3260 3row of drives 42x 18TB WD Total: 756TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-56HD10A	UCS S3260 4row of drives 56x10TB 4Kn Air drives Total: 560TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-56HD12	UCS S3260 4rows of drives 56x 12TB Total: 672TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-56HD14	UCS S3260 4rows of drives 56x 14TB SAS3 Total: 784TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-56HD16	UCS S3260 4row of drives 56x 16TB SAS3 Total: 896TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-56HD2	UCS S3260 4rows of drives containing 56x 2TB Total: 112TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-56HD4	Cisco UCS C3X60 Four row of drives containing 56 x 4TB (Tota	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-56HD6K9	UCS S3260 4row of 56 x 6TB SED NL-SAS 7200 (56Total) 336TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-56HD8	S3260 4row of 8TB (UE10NL-SAS 7200RPM SAS-3 (56Total: 448TB)	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-56HD8A	UCS S3260 4row of drives 56x8TB NL-SAS 7200RPM (Total 448TB)	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-56SHD18	Cisco UCS-S3260-56SHD18	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-56THD14	UCS S3260 4row of drives 56x 14TB Toshiba SAS3 Total: 784TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-56THD20	Cisco UCS-S3260-56THD20	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-56THD8	Cisco UCS-S3260-56THD8	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-56WHD14	Cisco UCS-S3260-56WHD14	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-56WHD16	UCS S3260 4row of drives 56x 16TB WD SAS3 Total: 896TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-56WHD18	UCS S3260 4row of drives 56x 18TB WD Total: 1,008TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-8TBRR	UCS S3260 8TB NL-SAS 7.2K UE10 HDD rear with HDD Carrier	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-8TBRR=	UCS S3260 8TB NL-SAS 7.2K UE10 HDD rear with HDD Carrier	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-DHBA	UCS S3260 Dual Pass Through based on LSI 3316	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-DHBA=	UCS S3260 Dual Pass Through based on LSI 3316	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-DRAID	UCS S3260 Dual Raid based on LSI 3316	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-DRAID=	UCS S3260 Dual Raid based on LSI 3316	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-EX16T	Cisco UCS C3X60 Expander with 4x 4TB 7200RPM NL-SAS Drives	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-EX16T=	Cisco UCS C3X60 Expander with 4x 4TB 7200RPM NL-SAS Drives	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-EX24TK9	UCS S3260 Expander with 4x 6TB SED NL-SAS Drives	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-EX32T	S3260 HDD Expander with 4x 8TB UE10 7200RPM NL-SAS Drives	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
 UCS-S3260-EX32T=	VOID; Not Used	UCS C-Series	server	pending_plan								class non_product			
-UCS-S3260-EX32TA	UCS S3260 HDD Expander with 4x 8TB Ultrastar 7200RPM NL-SAS	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-EX32TA=	UCS S3260 HDD Expander with 4x 8TB Ultrastar 7200RPM NL-SAS	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-EX40TA	UCS S3260 Rear Expdr 4x10TB 4Kn Air drives NL-SAS Total 40TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-EX48T	UCS S3260 Disk Expansion Tray with 4x 12TB Total:48T	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
+UCS-S3260-EX32TA	UCS S3260 HDD Expander with 4x 8TB Ultrastar 7200RPM NL-SAS	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-EX32TA=	UCS S3260 HDD Expander with 4x 8TB Ultrastar 7200RPM NL-SAS	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-EX40TA	UCS S3260 Rear Expdr 4x10TB 4Kn Air drives NL-SAS Total 40TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-EX48T	UCS S3260 Disk Expansion Tray with 4x 12TB Total:48T	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
 UCS-S3260-EX48T=	Void; Not Used	UCS B-Series	server	pending_plan								class non_product			
-UCS-S3260-EX56T	UCS S3260 Rear Expander with 4x14TB NL-SAS Drives Total 56TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-EX64T	UCS S3260 Rear Expander with 4x16TB NL-SAS Drives Total 64TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
+UCS-S3260-EX56T	UCS S3260 Rear Expander with 4x14TB NL-SAS Drives Total 56TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-EX64T	UCS S3260 Rear Expander with 4x16TB NL-SAS Drives Total 64TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
 UCS-S3260-EX64T=	VOID; Not Used	UCS C-Series	server	pending_plan								class non_product			
-UCS-S3260-EX8T	UCS S3260 Disk Expansion Tray with 4x 2TB Total:8T	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
+UCS-S3260-EX8T	UCS S3260 Disk Expansion Tray with 4x 2TB Total:8T	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
 UCS-S3260-EX8T=	Void; Not Used	UCS C-Series	server	pending_plan								class non_product			
-UCS-S3260-EXS72T	Cisco UCS-S3260-EXS72T	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-EXT32TA	Cisco UCS-S3260-EXT32TA	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-EXT56T	UCS S3260 Rear Expander 4x14TB Toshiba NL-SAS Drv Total 56TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-EXW56T	Cisco UCS-S3260-EXW56T	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-EXW64T	UCS S3260 Rear Expander 4x16TB WD NL-SAS Drv Total 64TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-EXW72T	UCS S3260 Rear Expdr 4x18TB WD NL-SAS Drives Total 72TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-EXWD88T	Cisco UCS-S3260-EXWD88T	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-G2SD24	UCS S3260 240GB Boot SATA Drives	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-G2SD24=	UCS S3260 240GB Boot SATA Drives	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-G3SD160=	Cisco UCS-S3260-G3SD160=	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-G3SD24	Cisco UCS-S3260-G3SD24	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-G3SD24=	Cisco UCS-S3260-G3SD24=	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-G3SD24G	Cisco UCS-S3260-G3SD24G	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-G3SD24G=	Cisco UCS-S3260-G3SD24G=	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-G3SD48	Cisco UCS-S3260-G3SD48	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-G3SD48=	Cisco UCS-S3260-G3SD48=	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-G3SD48G	Cisco UCS-S3260-G3SD48G	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-G3SD48G=	Cisco UCS-S3260-G3SD48G=	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-HD10TA	10TB 12G SAS 7.2K RPM LFF HDD (4K) w Carrier- Top Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-HD10TA=	10TB 12G SAS 7.2K RPM LFF HDD (4K) w Carrier- Top Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-HD12T	UCS S3260 12TB NL-SAS 7200 RPM 12Gb HDD wCarrier- Top Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-HD12T=	UCS S3260 12TB NL-SAS 7200 RPM 12Gb HDD wCarrier- Top Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-HD12TR	UCS S3260 12TB NL-SAS 7200 RPM 12Gb HDD wCarrier-Rear Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-HD12TR=	UCS S3260 12TB NL-SAS 7200 RPM 12Gb HDD wCarrier-Rear Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-HD14T	UCS S3260 14TB NL-SAS 7200 RPM 12Gb HDD wCarrier- Top Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-HD14T=	UCS S3260 14TB NL-SAS 7200 RPM 12Gb HDD wCarrier- Top Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-HD14TR	UCS S3260 14TB NL-SAS 7200 RPM 12Gb HDD wCarrier-Rear Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-HD14TR=	UCS S3260 14TB NL-SAS 7200 RPM 12Gb HDD wCarrier-Rear Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-HD16T	UCS S3260 16TB NL-SAS 7200 RPM 12Gb HDD wCarrier- Top Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-HD16T=	UCS S3260 16TB NL-SAS 7200 RPM 12Gb HDD wCarrier- Top Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-HD16TR	UCS S3260 16TB NL-SAS 7200 RPM 12Gb HDD wCarrier-Rear Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-HD16TR=	UCS S3260 16TB NL-SAS 7200 RPM 12Gb HDD wCarrier-Rear Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-HD2T	UCS S3260 2TB NL-SAS 7200 RPM 12Gb HDD wCarrier- Top Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-HD2T=	UCS S3260 2TB NL-SAS 7200 RPM 12Gb HDD wCarrier- Top Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-HD2TR	UCS S3260 2TB NL-SAS 7200 RPM 12Gb HDD wCarrier- Rear Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-HD2TR=	UCS S3260 2TB NL-SAS 7200 RPM 12Gb HDD wCarrier- Rear Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-HD8TA	8 TB 12G SAS 7.2K RPM LFF HDD (4K)	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-HD8TA=	8 TB 12G SAS 7.2K RPM LFF HDD (4K)	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-HD8TARR	8 TB 12G SAS 7.2K RPM LFF HDD (4K)	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-HD8TARR=	8 TB 12G SAS 7.2K RPM LFF HDD (4K)	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-HD8TB	UCS S3260 8TB NL-SAS 7.2K UE10 HDD with HDD Carrier	S-Series Storage	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-HD8TB=	UCS S3260 8TB NL-SAS 7.2K UE10 HDD with HDD Carrier	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-HDS18T	Cisco UCS-S3260-HDS18T	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-HDS18T=	Cisco UCS-S3260-HDS18T=	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-HDS18TR	Cisco UCS-S3260-HDS18TR	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-HDT14T	UCS S3260 14TB Tosh NL-SAS7200RPM 12Gb HDD wCarrier-Top Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-HDT14T=	UCS S3260 14TB Tosh NL-SAS7200RPM 12Gb HDD wCarrier-Top Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-HDT14TR	UCS S3260 14TB Tosh NL-SAS7200RPM 12Gb HDDwCarrier-Rear Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-HDT14TR=	UCS S3260 14TB Tosh NL-SAS7200RPM 12Gb HDDwCarrier-Rear Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-HDT20T	Cisco UCS-S3260-HDT20T	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-HDT20TR	20TB 12G SAS 7.2K RPM LFF HDDRear Load (4K)	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-HDW14T	Cisco UCS-S3260-HDW14T	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-HDW14TR	Cisco UCS-S3260-HDW14TR	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-HDW16T	UCS S3260 16TB WD NL-SAS 7200RPM 12Gb HDD wCarrier-Top Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-HDW16T=	UCS S3260 16TB WD NL-SAS 7200RPM 12Gb HDD wCarrier-Top Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-HDW16TR	UCS S3260 16TB WD NL-SAS 7200RPM 12Gb HDD wCarrier-Rear Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-HDW16TR=	UCS S3260 16TB WD NL-SAS 7200RPM 12Gb HDD wCarrier-Rear Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-HDW18T	18TB 12G SAS 7.2K RPM LFF HDD(4K) wCarrier- Top Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-HDW18T=	18TB 12G SAS 7.2K RPM LFF HDD(4K) wCarrier- Top Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-HDW18TR	18TB NL-SAS 7200 RPM 12Gb HDD wCarrier- Rear Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-HDW18TR=	18TB NL-SAS 7200 RPM 12Gb HDD wCarrier- Rear Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-HDW20T	Cisco UCS-S3260-HDW20T	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-HDW20TR	Cisco UCS-S3260-HDW20TR	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-HDW20TR=	Cisco UCS-S3260-HDW20TR=	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-HDW22T	Cisco UCS-S3260-HDW22T	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-HDW22TR	Cisco UCS-S3260-HDW22TR	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-HDW22TR=	Cisco UCS-S3260-HDW22TR=	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-IOE2	Cisco UCS S3260 IO Expander Version 2	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-IOE2=	Cisco UCS S3260 IO Expander Version 2	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-IOLID=	Cisco UCS-S3260-IOLID=	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-M5HS	UCS S3260 M5 Server Node HeatSink	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-M5HS=	UCS S3260 M5 Server Node HeatSink	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-M5SBI-U	UCS S3260 M5 Svr Node w/IOE Configurable	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-M5SRB	UCS S3260 M5 Server Node for Intel Scalable CPUs	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-M5SRB-A=	UCS S3260 M5 Server Node with TI VRM (SPARE FRU ONLY)	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-M5SRB-P=	UCS S3260 M5 Server Node with Infineon VRM (SPARE FRU ONLY)	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-M5SRB-U	UCS S3260 M5 Svr Node w/o CPU, memory	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-M5SRB=	UCS S3260 M5 Server Node for Intel Scalable CPUs	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-M5SVR3	C3000 M5 ServerNode 2x5118 CPU, Memory, RAID Controller	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-NVG210	Cisco UCS-S3260-NVG210	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-NVG210=	Cisco UCS-S3260-NVG210=	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-NVG240	4TB 2.5in U.2 Intel P4501 NVMe Med. Perf. Value Endurance	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-NVG240=	4TB 2.5in U.2 Intel P4501 NVMe Med. Perf. Value Endurance	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-NVG25	UCS S3260 M5/SIOC 500G NVMe (no Sled)	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-NVG25=	UCS S3260 M5/SIOC 500G NVMe (no Sled)	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-NVM416	Cisco UCS-S3260-NVM416	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-NVM416=	Cisco UCS-S3260-NVM416=	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-NVM432	Cisco UCS-S3260-NVM432	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-NVM432=	Cisco UCS-S3260-NVM432=	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-NVM48	Cisco UCS S3260 800G NVMe SSD for M5 Node(SN 200)	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-NVM48=	Cisco UCS S3260 800G NVMe SSD for M5 Node(SN 200)	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-NVMM19T	Cisco UCS-S3260-NVMM19T	UCS B-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-NVMM19T=	Cisco UCS-S3260-NVMM19T=	UCS B-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-NVMM38T	Cisco UCS-S3260-NVMM38T	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-NVMM38T=	Cisco UCS-S3260-NVMM38T=	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-NVMM64T	Cisco UCS-S3260-NVMM64T	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-NVMM64T=	Cisco UCS-S3260-NVMM64T=	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-NVMM76T	Cisco UCS-S3260-NVMM76T	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-NVMM76T=	Cisco UCS-S3260-NVMM76T=	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-NVMSLD1	UCS S3260 M5 Svr Node NVMe Sled	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-NVMSLD1=	UCS S3260 M5 Svr Node NVMe Sled	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-NVMSLD2	UCS S3260 PCIe SIOC NVMe Sled	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-NVMSLD2=	UCS S3260 PCIe SIOC NVMe Sled	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-NVMW16	1.6TB 2.5in U.2 WD SN840 NVMe Extreme Perf. High Endurance	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-NVMW16=	1.6TB 2.5in U.2 WD SN840 NVMe Extreme Perf. High Endurance	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-NVMW19T	1.9TB 2.5in U.2 WD SN640 NVMe Med. Perf. Value Endurance	UCS B-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-NVMW19T=	1.9TB 2.5in U.2 WD SN640 NVMe Med. Perf. Value Endurance	UCS B-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-NVMW32	3.2TB 2.5in U.2 WD SN840 NVMe Extreme Perf. High Endurance	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-NVMW32=	3.2TB 2.5in U.2 WD SN840 NVMe Extreme Perf. High Endurance	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-NVMW38T	3.8TB 2.5 U.2 WD SN640 NVMe Med Perf. Value Endurance	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-NVMW38T=	3.8TB 2.5 U.2 WD SN640 NVMe Med Perf. Value Endurance	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-NVMW64	Cisco UCS-S3260-NVMW64	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-NVMW64=	Cisco UCS-S3260-NVMW64=	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-NVMW64T	6.4TB 2.5in U.2 WD SN640 NVMe Med. Perf. High Endurance	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-NVMW64T=	6.4TB 2.5in U.2 WD SN640 NVMe Med. Perf. High Endurance	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-PCISIOC	UCS S3260 PCIe SIOC	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-PCISIOC=	UCS S3260 PCIe SIOC	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-SFFET	UCS S3260 SFF Drive Expansion Tray (with M5 Server Node)	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-SFFET=	UCS S3260 SFF Drive Expansion Tray (with M5 Server Node)	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-TSD16K9	UCS S3260 1.6TB (10X) SED Top Load K9	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-TSD16K9=	UCS S3260 1.6TB (10X) SED Top Load K9	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-TSD4K9	Cisco UCS S3260 400G SED Top Load K9	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-TSD4K9=	Cisco UCS S3260 400G SED Top Load K9	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260-TSD8K9	Cisco UCS-S3260-TSD8K9	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S326014HDW22T	Cisco UCS-S326014HDW22T	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S326014WHDT20	Cisco UCS-S326014WHDT20	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S326028HDW22T	Cisco UCS-S326028HDW22T	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S326028WHDT20	Cisco UCS-S326028WHDT20	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S326042HDW22T	Cisco UCS-S326042HDW22T	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S326042WHDT20	Cisco UCS-S326042WHDT20	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S326056HDW22T	Cisco UCS-S326056HDW22T	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S326056WHDT20	Cisco UCS-S326056WHDT20	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260EXWHDT80	Cisco UCS-S3260EXWHDT80	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260G3SD160T	Cisco UCS-S3260G3SD160T	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260T-HD8TA	Cisco UCS-S3260T-HD8TA	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260T-HD8TA=	Cisco UCS-S3260T-HD8TA=	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCS-S3260THD8TARR	Cisco UCS-S3260THD8TARR	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
+UCS-S3260-EXS72T	Cisco UCS-S3260-EXS72T	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-EXT32TA	Cisco UCS-S3260-EXT32TA	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-EXT56T	UCS S3260 Rear Expander 4x14TB Toshiba NL-SAS Drv Total 56TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-EXW56T	Cisco UCS-S3260-EXW56T	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-EXW64T	UCS S3260 Rear Expander 4x16TB WD NL-SAS Drv Total 64TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-EXW72T	UCS S3260 Rear Expdr 4x18TB WD NL-SAS Drives Total 72TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-EXWD88T	Cisco UCS-S3260-EXWD88T	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-G2SD24	UCS S3260 240GB Boot SATA Drives	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-G2SD24=	UCS S3260 240GB Boot SATA Drives	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-G3SD160=	Cisco UCS-S3260-G3SD160=	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-G3SD24	Cisco UCS-S3260-G3SD24	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-G3SD24=	Cisco UCS-S3260-G3SD24=	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-G3SD24G	Cisco UCS-S3260-G3SD24G	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-G3SD24G=	Cisco UCS-S3260-G3SD24G=	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-G3SD48	Cisco UCS-S3260-G3SD48	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-G3SD48=	Cisco UCS-S3260-G3SD48=	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-G3SD48G	Cisco UCS-S3260-G3SD48G	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-G3SD48G=	Cisco UCS-S3260-G3SD48G=	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-HD10TA	10TB 12G SAS 7.2K RPM LFF HDD (4K) w Carrier- Top Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-HD10TA=	10TB 12G SAS 7.2K RPM LFF HDD (4K) w Carrier- Top Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-HD12T	UCS S3260 12TB NL-SAS 7200 RPM 12Gb HDD wCarrier- Top Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-HD12T=	UCS S3260 12TB NL-SAS 7200 RPM 12Gb HDD wCarrier- Top Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-HD12TR	UCS S3260 12TB NL-SAS 7200 RPM 12Gb HDD wCarrier-Rear Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-HD12TR=	UCS S3260 12TB NL-SAS 7200 RPM 12Gb HDD wCarrier-Rear Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-HD14T	UCS S3260 14TB NL-SAS 7200 RPM 12Gb HDD wCarrier- Top Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-HD14T=	UCS S3260 14TB NL-SAS 7200 RPM 12Gb HDD wCarrier- Top Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-HD14TR	UCS S3260 14TB NL-SAS 7200 RPM 12Gb HDD wCarrier-Rear Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-HD14TR=	UCS S3260 14TB NL-SAS 7200 RPM 12Gb HDD wCarrier-Rear Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-HD16T	UCS S3260 16TB NL-SAS 7200 RPM 12Gb HDD wCarrier- Top Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-HD16T=	UCS S3260 16TB NL-SAS 7200 RPM 12Gb HDD wCarrier- Top Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-HD16TR	UCS S3260 16TB NL-SAS 7200 RPM 12Gb HDD wCarrier-Rear Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-HD16TR=	UCS S3260 16TB NL-SAS 7200 RPM 12Gb HDD wCarrier-Rear Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-HD2T	UCS S3260 2TB NL-SAS 7200 RPM 12Gb HDD wCarrier- Top Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-HD2T=	UCS S3260 2TB NL-SAS 7200 RPM 12Gb HDD wCarrier- Top Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-HD2TR	UCS S3260 2TB NL-SAS 7200 RPM 12Gb HDD wCarrier- Rear Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-HD2TR=	UCS S3260 2TB NL-SAS 7200 RPM 12Gb HDD wCarrier- Rear Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-HD8TA	8 TB 12G SAS 7.2K RPM LFF HDD (4K)	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-HD8TA=	8 TB 12G SAS 7.2K RPM LFF HDD (4K)	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-HD8TARR	8 TB 12G SAS 7.2K RPM LFF HDD (4K)	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-HD8TARR=	8 TB 12G SAS 7.2K RPM LFF HDD (4K)	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-HD8TB	UCS S3260 8TB NL-SAS 7.2K UE10 HDD with HDD Carrier	S-Series Storage	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-HD8TB=	UCS S3260 8TB NL-SAS 7.2K UE10 HDD with HDD Carrier	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-HDS18T	Cisco UCS-S3260-HDS18T	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-HDS18T=	Cisco UCS-S3260-HDS18T=	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-HDS18TR	Cisco UCS-S3260-HDS18TR	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-HDT14T	UCS S3260 14TB Tosh NL-SAS7200RPM 12Gb HDD wCarrier-Top Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-HDT14T=	UCS S3260 14TB Tosh NL-SAS7200RPM 12Gb HDD wCarrier-Top Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-HDT14TR	UCS S3260 14TB Tosh NL-SAS7200RPM 12Gb HDDwCarrier-Rear Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-HDT14TR=	UCS S3260 14TB Tosh NL-SAS7200RPM 12Gb HDDwCarrier-Rear Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-HDT20T	Cisco UCS-S3260-HDT20T	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-HDT20TR	20TB 12G SAS 7.2K RPM LFF HDDRear Load (4K)	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-HDW14T	Cisco UCS-S3260-HDW14T	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-HDW14TR	Cisco UCS-S3260-HDW14TR	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-HDW16T	UCS S3260 16TB WD NL-SAS 7200RPM 12Gb HDD wCarrier-Top Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-HDW16T=	UCS S3260 16TB WD NL-SAS 7200RPM 12Gb HDD wCarrier-Top Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-HDW16TR	UCS S3260 16TB WD NL-SAS 7200RPM 12Gb HDD wCarrier-Rear Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-HDW16TR=	UCS S3260 16TB WD NL-SAS 7200RPM 12Gb HDD wCarrier-Rear Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-HDW18T	18TB 12G SAS 7.2K RPM LFF HDD(4K) wCarrier- Top Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-HDW18T=	18TB 12G SAS 7.2K RPM LFF HDD(4K) wCarrier- Top Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-HDW18TR	18TB NL-SAS 7200 RPM 12Gb HDD wCarrier- Rear Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-HDW18TR=	18TB NL-SAS 7200 RPM 12Gb HDD wCarrier- Rear Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-HDW20T	Cisco UCS-S3260-HDW20T	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-HDW20TR	Cisco UCS-S3260-HDW20TR	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-HDW20TR=	Cisco UCS-S3260-HDW20TR=	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-HDW22T	Cisco UCS-S3260-HDW22T	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-HDW22TR	Cisco UCS-S3260-HDW22TR	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-HDW22TR=	Cisco UCS-S3260-HDW22TR=	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-IOE2	Cisco UCS S3260 IO Expander Version 2	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-IOE2=	Cisco UCS S3260 IO Expander Version 2	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-IOLID=	Cisco UCS-S3260-IOLID=	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-M5HS	UCS S3260 M5 Server Node HeatSink	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-M5HS=	UCS S3260 M5 Server Node HeatSink	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-M5SBI-U	UCS S3260 M5 Svr Node w/IOE Configurable	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-M5SRB	UCS S3260 M5 Server Node for Intel Scalable CPUs	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-M5SRB-A=	UCS S3260 M5 Server Node with TI VRM (SPARE FRU ONLY)	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-M5SRB-P=	UCS S3260 M5 Server Node with Infineon VRM (SPARE FRU ONLY)	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-M5SRB-U	UCS S3260 M5 Svr Node w/o CPU, memory	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-M5SRB=	UCS S3260 M5 Server Node for Intel Scalable CPUs	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-M5SVR3	C3000 M5 ServerNode 2x5118 CPU, Memory, RAID Controller	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-NVG210	Cisco UCS-S3260-NVG210	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-NVG210=	Cisco UCS-S3260-NVG210=	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-NVG240	4TB 2.5in U.2 Intel P4501 NVMe Med. Perf. Value Endurance	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-NVG240=	4TB 2.5in U.2 Intel P4501 NVMe Med. Perf. Value Endurance	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-NVG25	UCS S3260 M5/SIOC 500G NVMe (no Sled)	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-NVG25=	UCS S3260 M5/SIOC 500G NVMe (no Sled)	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-NVM416	Cisco UCS-S3260-NVM416	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-NVM416=	Cisco UCS-S3260-NVM416=	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-NVM432	Cisco UCS-S3260-NVM432	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-NVM432=	Cisco UCS-S3260-NVM432=	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-NVM48	Cisco UCS S3260 800G NVMe SSD for M5 Node(SN 200)	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-NVM48=	Cisco UCS S3260 800G NVMe SSD for M5 Node(SN 200)	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-NVMM19T	Cisco UCS-S3260-NVMM19T	UCS B-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-NVMM19T=	Cisco UCS-S3260-NVMM19T=	UCS B-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-NVMM38T	Cisco UCS-S3260-NVMM38T	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-NVMM38T=	Cisco UCS-S3260-NVMM38T=	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-NVMM64T	Cisco UCS-S3260-NVMM64T	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-NVMM64T=	Cisco UCS-S3260-NVMM64T=	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-NVMM76T	Cisco UCS-S3260-NVMM76T	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-NVMM76T=	Cisco UCS-S3260-NVMM76T=	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-NVMSLD1	UCS S3260 M5 Svr Node NVMe Sled	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-NVMSLD1=	UCS S3260 M5 Svr Node NVMe Sled	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-NVMSLD2	UCS S3260 PCIe SIOC NVMe Sled	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-NVMSLD2=	UCS S3260 PCIe SIOC NVMe Sled	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-NVMW16	1.6TB 2.5in U.2 WD SN840 NVMe Extreme Perf. High Endurance	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-NVMW16=	1.6TB 2.5in U.2 WD SN840 NVMe Extreme Perf. High Endurance	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-NVMW19T	1.9TB 2.5in U.2 WD SN640 NVMe Med. Perf. Value Endurance	UCS B-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-NVMW19T=	1.9TB 2.5in U.2 WD SN640 NVMe Med. Perf. Value Endurance	UCS B-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-NVMW32	3.2TB 2.5in U.2 WD SN840 NVMe Extreme Perf. High Endurance	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-NVMW32=	3.2TB 2.5in U.2 WD SN840 NVMe Extreme Perf. High Endurance	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-NVMW38T	3.8TB 2.5 U.2 WD SN640 NVMe Med Perf. Value Endurance	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-NVMW38T=	3.8TB 2.5 U.2 WD SN640 NVMe Med Perf. Value Endurance	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-NVMW64	Cisco UCS-S3260-NVMW64	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-NVMW64=	Cisco UCS-S3260-NVMW64=	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-NVMW64T	6.4TB 2.5in U.2 WD SN640 NVMe Med. Perf. High Endurance	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-NVMW64T=	6.4TB 2.5in U.2 WD SN640 NVMe Med. Perf. High Endurance	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-PCISIOC	UCS S3260 PCIe SIOC	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-PCISIOC=	UCS S3260 PCIe SIOC	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-SFFET	UCS S3260 SFF Drive Expansion Tray (with M5 Server Node)	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-SFFET=	UCS S3260 SFF Drive Expansion Tray (with M5 Server Node)	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-TSD16K9	UCS S3260 1.6TB (10X) SED Top Load K9	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-TSD16K9=	UCS S3260 1.6TB (10X) SED Top Load K9	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-TSD4K9	Cisco UCS S3260 400G SED Top Load K9	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-TSD4K9=	Cisco UCS S3260 400G SED Top Load K9	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260-TSD8K9	Cisco UCS-S3260-TSD8K9	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S326014HDW22T	Cisco UCS-S326014HDW22T	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S326014WHDT20	Cisco UCS-S326014WHDT20	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S326028HDW22T	Cisco UCS-S326028HDW22T	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S326028WHDT20	Cisco UCS-S326028WHDT20	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S326042HDW22T	Cisco UCS-S326042HDW22T	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S326042WHDT20	Cisco UCS-S326042WHDT20	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S326056HDW22T	Cisco UCS-S326056HDW22T	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S326056WHDT20	Cisco UCS-S326056WHDT20	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260EXWHDT80	Cisco UCS-S3260EXWHDT80	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260G3SD160T	Cisco UCS-S3260G3SD160T	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260T-HD8TA	Cisco UCS-S3260T-HD8TA	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260T-HD8TA=	Cisco UCS-S3260T-HD8TA=	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCS-S3260THD8TARR	Cisco UCS-S3260THD8TARR	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
 UCS-S3348-HBAM5	UCS S3348 Pass through Controller (IT) based on LSI	UCS C-Series	storage-controller	layered	UCS Server Components	(shared across the line)	UCS Server Components shared parts	sku ^UCS-							
 UCS-S3348-HBAM5=	UCS S3348 Pass through Controller (IT) based on LSI	UCS C-Series	storage-controller	layered	UCS Server Components	(shared across the line)	UCS Server Components shared parts	sku ^UCS-							
 UCS-S3348-RAIDM5	UCS S3348 Raid Controller based on LSI	UCS C-Series	storage-controller	layered	UCS Server Components	(shared across the line)	UCS Server Components shared parts	sku ^UCS-							
@@ -5480,7 +5480,7 @@ UCS-SDHPCIE16TB	1.6TB 2.5 in NVMe based PCIeSSD	UCS C-Series	drive	layered	UCS S
 UCS-SDHPCIE16TB=	1.6TB 2.5 in NVMe based PCIeSSD	UCS C-Series	drive	layered	UCS Server Components	(none)	Drives and storage	sku ^UCS-(SD|HD|HDL|HDM|HDB|HDD|HY|NVB|NVE|NVM|NVME|SDB|M2|USBFLSH|STOR|MSTOR|PCI25)							
 UCS-SDHPCIE800GB	800GB 2.5 in NVMe based PCIeSSD	UCS C-Series	drive	layered	UCS Server Components	(none)	Drives and storage	sku ^UCS-(SD|HD|HDL|HDM|HDB|HDD|HY|NVB|NVE|NVM|NVME|SDB|M2|USBFLSH|STOR|MSTOR|PCI25)							
 UCS-SDHPCIE800GB=	800GB 2.5 in NVMe based PCIeSSD	UCS C-Series	drive	layered	UCS Server Components	(none)	Drives and storage	sku ^UCS-(SD|HD|HDL|HDM|HDB|HDD|HY|NVB|NVE|NVM|NVME|SDB|M2|USBFLSH|STOR|MSTOR|PCI25)							
-UCS-SEED-C3260	UCS SEED C3260 w/ 2x E52660v2, 256G	UCS B-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3[12]60(?![0-9])							
+UCS-SEED-C3260	UCS SEED C3260 w/ 2x E52660v2, 256G	UCS B-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3[12]60(?![0-9])							
 UCS-SEED-HX220	UCS SP HX220c w/2xE52630v4, 8x32Gmem, 1yrSW +Addnl 2xFI reqd	UCS B-Series	bundle	pending_plan								move hyperconverged-systems			
 UCS-SEED-HX240	UCS SP HX240c w/2xE52630v4, 8x32Gmem, 1yrSW +Addnl 2xFI reqd	UCS B-Series	bundle	pending_plan								move hyperconverged-systems			
 UCS-SF-960GBKS4	UCS Solidfire 960GB 2.5 inch Enterprise Value 6G SATA SSD	UCS C-Series	drive	layered	UCS Solution Bundles	(none)	Solution, reference and promotion bundles	sku ^UCS-(SA|SL|SM|SR|SB|SF|CX|STM|SHRPT|ASR[0-9]*|FSA[0-9]*|BD|BDMRES|NFVI|VSAN|VXI|YES|BR)-							
@@ -6977,105 +6977,105 @@ UCSC-C245-M8S	Cisco UCSC-C245-M8S	UCS C-Series	server	layered	UCS C-Series Rack 
 UCSC-C245-M8SX	C245 M8 2RU standard server with up to 28x SFF drive bays	UCS C-Series	server	layered	UCS C-Series Rack Servers	(none)	UCS C245	sku ^(?=UCSC-|CBL-).*(?<![A-Z0-9])C245(?![0-9])							
 UCSC-C260M2-HANA	UCS C260 M2 Rack Server w/ CPU, PSU for HANA	UCS B-Series	server	layered	UCS C-Series Rack Servers	(none)	UCS C200 / C210 / C250 / C260 (M1/M2)	sku ^(UCSC-)?C2[0156]0(?![0-9])							
 UCSC-C260XS-HANA	UCS C260 M2 Rack Server w/ CPU, PSU for Extra Small HANA	UCS B-Series	server	layered	UCS C-Series Rack Servers	(none)	UCS C200 / C210 / C250 / C260 (M1/M2)	sku ^(UCSC-)?C2[0156]0(?![0-9])							
-UCSC-C3160	Cisco UCS C3160 Base Chassis w/ 4x PSU, RailKit, Bezel	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3[12]60(?![0-9])							
-UCSC-C3160-400SSD	UCS C3160 400GB Enterprise Performance 6G SAS SSD	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3[12]60(?![0-9])							
-UCSC-C3160-400SSD=	UCS C3160 400GB Enterprise Performance 6G SAS SSD	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3[12]60(?![0-9])							
-UCSC-C3160-BEZEL	Cisco UCS C3160 System Bezel	UCS C-Series	mechanical	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3[12]60(?![0-9])							
-UCSC-C3160-BEZEL=	Cisco UCS C3160 System Bezel (SPARE)	UCS C-Series	mechanical	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3[12]60(?![0-9])							
-UCSC-C3160-SIOC	Cisco UCS C3160 System IO Controller with mLOM mez adapter	UCS C-Series	io-module	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3[12]60(?![0-9])							
-UCSC-C3160-SIOC=	Cisco UCS C3160 System IO Controller with mLOM mez adpt (SP)	UCS C-Series	io-module	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3[12]60(?![0-9])							
-UCSC-C3260	Cisco UCS C3260 Base Chassis w/4x PSU, SSD, Railkit	UCS B-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3[12]60(?![0-9])							
-UCSC-C3260-SIOC	Cisco UCS C3260 System IO Controller with VIC 1300 incl.	UCS C-Series	io-module	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3[12]60(?![0-9])							
-UCSC-C3260-SIOC=	Cisco UCS C3260 System IO Controller w VIC1300 incl (Spare)	UCS C-Series	io-module	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3[12]60(?![0-9])							
-UCSC-C3K-HD4TB	Cisco UCSC-C3K-HD4TB	S-Series Storage	drive	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	sku ^UCSC-							
-UCSC-C3K-HD4TB=	Cisco UCSC-C3K-HD4TB=	S-Series Storage	drive	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	sku ^UCSC-							
-UCSC-C3K-M4IO	Cisco UCS S3260 I/O Expander for M4/M5 Server Node	S-Series Storage	drive	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	sku ^UCSC-							
-UCSC-C3K-M4IO=	Cisco UCS S3260 I/O Expander for M4/M5 Server Node	UCS C-Series	drive	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	sku ^UCSC-							
-UCSC-C3K-M4IOTOOL=	Cisco UCSC-C3K-M4IOTOOL=	S-Series Storage	drive	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	sku ^UCSC-							
-UCSC-C3K-M4SRB	UCS C3000 M4 Server Node for Intel E5-2600 v4	S-Series Storage	drive	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	sku ^UCSC-							
-UCSC-C3K-M4SRB-U	UCS S3260 M4 Svr Node w/o CPU, memory	UCS C-Series	drive	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	sku ^UCSC-							
-UCSC-C3K-M4SRB=	UCS S3260 M4 Svr Node w/o CPU, memory (svc spare)	UCS C-Series	drive	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	sku ^UCSC-							
-UCSC-C3K-M4SRI-U	UCS S3260 M4 Svr Node w/IOE Configurable	UCS C-Series	drive	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	sku ^UCSC-							
-UCSC-C3K-M4SVR3	C3000 M4 ServerNode 2xE5-2680V4 CPU, Memory, RAID Controller	UCS B-Series	drive	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	sku ^UCSC-							
-UCSC-C3K-M4SVR3=	C3000 M4 ServerNode 2xE5-2680V4 CPU, Memory, RAID Controller	UCS B-Series	drive	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	sku ^UCSC-							
-UCSC-C3K-NV16	Cisco UCS C3000 1.6TB NVMe SSD for M4 Server Node	UCS C-Series	drive	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	sku ^UCSC-							
-UCSC-C3K-NV16=	Cisco UCS C3000 1.6TB NVMe SSD for M4 Server Node	UCS C-Series	drive	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	sku ^UCSC-							
-UCSC-C3K-NV38	Cisco UCS C3000 3.8TB NVMe SSD for M4 Server Blade	UCS C-Series	drive	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	sku ^UCSC-							
-UCSC-C3K-NV38=	Cisco UCS C3000 3.8TB NVMe SSD for M4 Server Blade	UCS C-Series	drive	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	sku ^UCSC-							
-UCSC-C3K-NV8	Cisco UCS C3000 800G NVMe SSD for M4 Server Node	UCS C-Series	drive	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	sku ^UCSC-							
-UCSC-C3K-NV8=	Cisco UCS C3000 800G NVMe SSD for M4 Server Node	UCS C-Series	drive	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	sku ^UCSC-							
-UCSC-C3X60-10TB	Cisco UCSC-C3X60-10TB	S-Series Storage	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-12SSD	UCS C3X60 SATA SSD 120GB Enterprise Value	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-12SSD=	UCS C3X60 SATA SSD 120GB Enterprise Value	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-14HD4	Cisco UCS C3X60 One row of 14x 4TB (Total:56TB) Drives	S-Series Storage	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-14HD4=	Cisco UCS C3X60 One row of drives containing 14x4TB SPARE	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-14HD6	Cisco UCS C3X60 One row of drives containing 14 x 6TB (Total	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-14HD6=	Cisco UCS C3X60 One row of drives containing 14 x 6TB (Total	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-14HD8	UCS C3X60 1 row of 8TB NL-SAS 7200 RPM SAS-3 (14Total) 112TB	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-14HD8=	UCS C3X60 1 row of 8TB NL-SAS 7200 RPM SAS-3 (14Total) 112TB	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-28HD4	Cisco UCS C3X60 two row of 28x 4TB(Total: 112TB) Drives	S-Series Storage	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-28HD6	Cisco UCS C3X60 Two row of drives containing 28 x 6TB (Total	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-28HD8	UCS C3X60 2 rows of 8TB NL-SAS7200 RPM SAS-3 (28Total) 224TB	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-42HD4	Cisco UCS C3X60 Three rows of 42x 4TB (Total:168TB) Drives	S-Series Storage	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-42HD6	Cisco UCS C3X60 Three row of drives containing 42 x 6TB (Tot	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-42HD8	UCS C3X60 3 rows of 8TB NL-SAS7200 RPM SAS-3 (42Total) 336TB	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-56HD4	Cisco UCS C3X60 Four rows56x 4TB (Total:224TB) Drives	S-Series Storage	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-56HD6	Cisco UCS C3X60 Four row of drives containing 56 x 6TB (Tota	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-56HD8	UCS C3X60 4 rows of 8TB NL-SAS7200 RPM SAS-3 (56Total) 448TB	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-6TBRR	UCS C3X60 6TB 12Gbps NL-SAS 7200RPM HDD w carrier- Rear-load	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-6TBRR=	UCS C3X60 6TB 12Gbps NL-SAS 7200RPM HDD w carrier- Rear-load	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-8TBRR	UCSC 3X60 8TB NL-SAS 7.2K Helium HDD rear with HDD Carrier	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-8TBRR=	UCSC 3X60 8TB NL-SAS 7.2K Helium HDD rear with HDD Carrier	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-BASE	Cisco UCS C3160 Base Chassis (Base PID for Colusa)	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-BASE++=	Cisco UCS C3160 Base Chassis FRU Only - TAA	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-BASE=	Cisco UCS C3160 Base Chassis FRU Only	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-BLKP	Cisco UCS C3X60 Server Node blanking plate	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-BLKP=	Cisco UCS C3X60 Server Node blanking plate (SPARE)	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-EX16T	Cisco UCS C3X60 Disk Exp Tray w/ 4x 4TB Total:16TB Drives	S-Series Storage	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-EX16T=	Cisco UCS C3160 Disk Exp Tray w/ 4x 4TB (Total:16TB) Drives	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-EX24T	Cisco UCS C3160 Expander with 4x 6TB 7200RPM NL-SAS Drives	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-EX24T=	Cisco UCS C3160 Expander with 4x 6TB 7200RPM NL-SAS Drives	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-EX32T	UCS C3X60 Expander with 4x 8TB 7200RPM NL-SAS Drives	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-EXPT=	Cisco UCS C3X60 Expansion Tray No Drives FRU Only	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-FANM=	Cisco UCS C3X60 Fan module containing 2x80mm fans	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-HBA	UCS CX260 12G SAS Pass through Controller	S-Series Storage	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-HBA=	UCS CX260 12G SAS Pass through Controller	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-HD4TB	UCS C3X60 4TB NL-SAS 7.2K HDD including C3X60 HDD carrier	S-Series Storage	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-HD4TB=	UCS C3X60 4TB SAS 7.2K HDD ncluding C3X60 HDD carrier (FRU)	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-HD6TB	UCS C3X60 6TB 12Gbps NL-SAS 7200RPM HDD w carrier- Top-load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-HD6TB=	UCS C3X60 6TB 12Gbps NL-SAS 7200RPM HDD w carrier- Top-load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-HD8TB	UCSC 3X60 8TB NL-SAS 7.2KHelium HDD with HDD Carrier	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-HD8TB=	UCSC 3X60 8TB NL-SAS 7.2KHelium HDD including HDD Carrier	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-R1GB	UCS C3X60 12G SAS RAID Controller with 1GB cache	S-Series Storage	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-R1GB=	UCS C3X60 12G SAS RAID Controller with 1GB cache (SPARE)	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-R4GB	UCS C3X60 12G SAS RAID Controller with 4GB cache	S-Series Storage	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-R4GB=	UCS C3X60 12G SAS RAID Controller with 4GB cache (SPARE)	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-RAIL	UCS C3X60 Rack Rails Kit	UCS C-Series	mechanical	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-RAIL=	Cisco UCS C3X60 Rack Rails Kit (SPARE)	UCS C-Series	mechanical	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-SBLKP	UCS C3x60 SIOC blanking plate	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-SBLKP=	Cisco UCS C3X60 SIOC blanking plate(SPARE)	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-SSD4	Cisco UCS C3X60 one row - 14 drives: 400GB SSD and 4TB Driv	S-Series Storage	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-SSD4=	Cisco UCS C3X60 one row - 14 drives: 400GB SSD and 4TB Driv	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-SSD6	Cisco UCS C3X60 one row - 14 drives: 400GB SSD and 6TB Driv	S-Series Storage	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-SSD6=	Cisco UCS C3X60 one row - 14 drives: 400GB SSD and 6TB Driv	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-SSD8	Cisco UCS C3X60 8TB HDD/SSD Combo	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-SVRN1	UCS C3X60 Server Node E5-2620 v2 CPU 128GB 1GB RAID cache	S-Series Storage	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-SVRN1=	UCS C3X60 Server Node E5-2620 v2 CPU 128GB 1GB RAID cache	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-SVRN2	UCS C3X60 Server Node E5-2620 v2 CPU 256GB 4GB RAID cache	S-Series Storage	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-SVRN2=	UCS C3X60 Server Node E5-2620 v2 CPU 256GB 4GB RAID cache	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-SVRN3	Cisco C3X60 Server Node E5-2660 v2 CPU 256GB 4GB RAID cache	S-Series Storage	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-SVRN3=	Cisco C3X60 Server Node E5-2660 v2 CPU 256GB 4GB RAID cache	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-SVRN4	Cisco C3X60 Server Node E5-2695 v2 CPU 256GB 4GB RAID cache	S-Series Storage	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-SVRN4=	Cisco C3X60 Server Node E5-2695 v2 CPU 256GB 4GB RAID cache	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-SVRN5	UCS C3X60 Server Node E5-2695 v2 CPU 512GB 4GB RAID cache	S-Series Storage	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-SVRN5=	UCS C3X60 Server Node E5-2695 v2 CPU 512GB 4GB RAID cache	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-SVRN6	UCS C3X60 Server Node E5-2660 v2 CPU 128GB SAS HBA	S-Series Storage	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-SVRN6=	UCS C3X60 Server Node E5-2660 v2 CPU 128GB SAS HBA	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-SVRN7	Cisco C3X60 Server Node E5-2695 v2 CPU 256GB SAS HBA Mode	S-Series Storage	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-SVRN7=	Cisco C3X60 Server Node E5-2695 v2 CPU 256GB SAS HBA Mode	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-SVRN8	Cisco C3X60 Server Node E5-2620 v2 CPU (6C), 256G, HBA	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-SVRN8=	Cisco C3X60 Server Node E5-2620 v2 CPU (6C), 256G, HBA	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
-UCSC-C3X60-SVRNB=	Cisco UCS C3160 Server Node FRU	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku C3X60							
+UCSC-C3160	Cisco UCS C3160 Base Chassis w/ 4x PSU, RailKit, Bezel	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3[12]60(?![0-9])							
+UCSC-C3160-400SSD	UCS C3160 400GB Enterprise Performance 6G SAS SSD	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3[12]60(?![0-9])							
+UCSC-C3160-400SSD=	UCS C3160 400GB Enterprise Performance 6G SAS SSD	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3[12]60(?![0-9])							
+UCSC-C3160-BEZEL	Cisco UCS C3160 System Bezel	UCS C-Series	mechanical	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3[12]60(?![0-9])							
+UCSC-C3160-BEZEL=	Cisco UCS C3160 System Bezel (SPARE)	UCS C-Series	mechanical	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3[12]60(?![0-9])							
+UCSC-C3160-SIOC	Cisco UCS C3160 System IO Controller with mLOM mez adapter	UCS C-Series	io-module	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3[12]60(?![0-9])							
+UCSC-C3160-SIOC=	Cisco UCS C3160 System IO Controller with mLOM mez adpt (SP)	UCS C-Series	io-module	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3[12]60(?![0-9])							
+UCSC-C3260	Cisco UCS C3260 Base Chassis w/4x PSU, SSD, Railkit	UCS B-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3[12]60(?![0-9])							
+UCSC-C3260-SIOC	Cisco UCS C3260 System IO Controller with VIC 1300 incl.	UCS C-Series	io-module	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3[12]60(?![0-9])							
+UCSC-C3260-SIOC=	Cisco UCS C3260 System IO Controller w VIC1300 incl (Spare)	UCS C-Series	io-module	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3[12]60(?![0-9])							
+UCSC-C3K-HD4TB	Cisco UCSC-C3K-HD4TB	S-Series Storage	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCSC-C3K-							
+UCSC-C3K-HD4TB=	Cisco UCSC-C3K-HD4TB=	S-Series Storage	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCSC-C3K-							
+UCSC-C3K-M4IO	Cisco UCS S3260 I/O Expander for M4/M5 Server Node	S-Series Storage	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCSC-C3K-							
+UCSC-C3K-M4IO=	Cisco UCS S3260 I/O Expander for M4/M5 Server Node	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCSC-C3K-							
+UCSC-C3K-M4IOTOOL=	Cisco UCSC-C3K-M4IOTOOL=	S-Series Storage	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCSC-C3K-							
+UCSC-C3K-M4SRB	UCS C3000 M4 Server Node for Intel E5-2600 v4	S-Series Storage	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCSC-C3K-							
+UCSC-C3K-M4SRB-U	UCS S3260 M4 Svr Node w/o CPU, memory	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCSC-C3K-							
+UCSC-C3K-M4SRB=	UCS S3260 M4 Svr Node w/o CPU, memory (svc spare)	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCSC-C3K-							
+UCSC-C3K-M4SRI-U	UCS S3260 M4 Svr Node w/IOE Configurable	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCSC-C3K-							
+UCSC-C3K-M4SVR3	C3000 M4 ServerNode 2xE5-2680V4 CPU, Memory, RAID Controller	UCS B-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCSC-C3K-							
+UCSC-C3K-M4SVR3=	C3000 M4 ServerNode 2xE5-2680V4 CPU, Memory, RAID Controller	UCS B-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCSC-C3K-							
+UCSC-C3K-NV16	Cisco UCS C3000 1.6TB NVMe SSD for M4 Server Node	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCSC-C3K-							
+UCSC-C3K-NV16=	Cisco UCS C3000 1.6TB NVMe SSD for M4 Server Node	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCSC-C3K-							
+UCSC-C3K-NV38	Cisco UCS C3000 3.8TB NVMe SSD for M4 Server Blade	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCSC-C3K-							
+UCSC-C3K-NV38=	Cisco UCS C3000 3.8TB NVMe SSD for M4 Server Blade	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCSC-C3K-							
+UCSC-C3K-NV8	Cisco UCS C3000 800G NVMe SSD for M4 Server Node	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCSC-C3K-							
+UCSC-C3K-NV8=	Cisco UCS C3000 800G NVMe SSD for M4 Server Node	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku ^UCSC-C3K-							
+UCSC-C3X60-10TB	Cisco UCSC-C3X60-10TB	S-Series Storage	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-12SSD	UCS C3X60 SATA SSD 120GB Enterprise Value	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-12SSD=	UCS C3X60 SATA SSD 120GB Enterprise Value	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-14HD4	Cisco UCS C3X60 One row of 14x 4TB (Total:56TB) Drives	S-Series Storage	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-14HD4=	Cisco UCS C3X60 One row of drives containing 14x4TB SPARE	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-14HD6	Cisco UCS C3X60 One row of drives containing 14 x 6TB (Total	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-14HD6=	Cisco UCS C3X60 One row of drives containing 14 x 6TB (Total	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-14HD8	UCS C3X60 1 row of 8TB NL-SAS 7200 RPM SAS-3 (14Total) 112TB	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-14HD8=	UCS C3X60 1 row of 8TB NL-SAS 7200 RPM SAS-3 (14Total) 112TB	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-28HD4	Cisco UCS C3X60 two row of 28x 4TB(Total: 112TB) Drives	S-Series Storage	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-28HD6	Cisco UCS C3X60 Two row of drives containing 28 x 6TB (Total	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-28HD8	UCS C3X60 2 rows of 8TB NL-SAS7200 RPM SAS-3 (28Total) 224TB	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-42HD4	Cisco UCS C3X60 Three rows of 42x 4TB (Total:168TB) Drives	S-Series Storage	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-42HD6	Cisco UCS C3X60 Three row of drives containing 42 x 6TB (Tot	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-42HD8	UCS C3X60 3 rows of 8TB NL-SAS7200 RPM SAS-3 (42Total) 336TB	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-56HD4	Cisco UCS C3X60 Four rows56x 4TB (Total:224TB) Drives	S-Series Storage	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-56HD6	Cisco UCS C3X60 Four row of drives containing 56 x 6TB (Tota	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-56HD8	UCS C3X60 4 rows of 8TB NL-SAS7200 RPM SAS-3 (56Total) 448TB	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-6TBRR	UCS C3X60 6TB 12Gbps NL-SAS 7200RPM HDD w carrier- Rear-load	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-6TBRR=	UCS C3X60 6TB 12Gbps NL-SAS 7200RPM HDD w carrier- Rear-load	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-8TBRR	UCSC 3X60 8TB NL-SAS 7.2K Helium HDD rear with HDD Carrier	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-8TBRR=	UCSC 3X60 8TB NL-SAS 7.2K Helium HDD rear with HDD Carrier	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-BASE	Cisco UCS C3160 Base Chassis (Base PID for Colusa)	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-BASE++=	Cisco UCS C3160 Base Chassis FRU Only - TAA	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-BASE=	Cisco UCS C3160 Base Chassis FRU Only	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-BLKP	Cisco UCS C3X60 Server Node blanking plate	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-BLKP=	Cisco UCS C3X60 Server Node blanking plate (SPARE)	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-EX16T	Cisco UCS C3X60 Disk Exp Tray w/ 4x 4TB Total:16TB Drives	S-Series Storage	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-EX16T=	Cisco UCS C3160 Disk Exp Tray w/ 4x 4TB (Total:16TB) Drives	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-EX24T	Cisco UCS C3160 Expander with 4x 6TB 7200RPM NL-SAS Drives	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-EX24T=	Cisco UCS C3160 Expander with 4x 6TB 7200RPM NL-SAS Drives	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-EX32T	UCS C3X60 Expander with 4x 8TB 7200RPM NL-SAS Drives	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-EXPT=	Cisco UCS C3X60 Expansion Tray No Drives FRU Only	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-FANM=	Cisco UCS C3X60 Fan module containing 2x80mm fans	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-HBA	UCS CX260 12G SAS Pass through Controller	S-Series Storage	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-HBA=	UCS CX260 12G SAS Pass through Controller	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-HD4TB	UCS C3X60 4TB NL-SAS 7.2K HDD including C3X60 HDD carrier	S-Series Storage	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-HD4TB=	UCS C3X60 4TB SAS 7.2K HDD ncluding C3X60 HDD carrier (FRU)	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-HD6TB	UCS C3X60 6TB 12Gbps NL-SAS 7200RPM HDD w carrier- Top-load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-HD6TB=	UCS C3X60 6TB 12Gbps NL-SAS 7200RPM HDD w carrier- Top-load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-HD8TB	UCSC 3X60 8TB NL-SAS 7.2KHelium HDD with HDD Carrier	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-HD8TB=	UCSC 3X60 8TB NL-SAS 7.2KHelium HDD including HDD Carrier	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-R1GB	UCS C3X60 12G SAS RAID Controller with 1GB cache	S-Series Storage	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-R1GB=	UCS C3X60 12G SAS RAID Controller with 1GB cache (SPARE)	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-R4GB	UCS C3X60 12G SAS RAID Controller with 4GB cache	S-Series Storage	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-R4GB=	UCS C3X60 12G SAS RAID Controller with 4GB cache (SPARE)	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-RAIL	UCS C3X60 Rack Rails Kit	UCS C-Series	mechanical	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-RAIL=	Cisco UCS C3X60 Rack Rails Kit (SPARE)	UCS C-Series	mechanical	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-SBLKP	UCS C3x60 SIOC blanking plate	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-SBLKP=	Cisco UCS C3X60 SIOC blanking plate(SPARE)	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-SSD4	Cisco UCS C3X60 one row - 14 drives: 400GB SSD and 4TB Driv	S-Series Storage	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-SSD4=	Cisco UCS C3X60 one row - 14 drives: 400GB SSD and 4TB Driv	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-SSD6	Cisco UCS C3X60 one row - 14 drives: 400GB SSD and 6TB Driv	S-Series Storage	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-SSD6=	Cisco UCS C3X60 one row - 14 drives: 400GB SSD and 6TB Driv	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-SSD8	Cisco UCS C3X60 8TB HDD/SSD Combo	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-SVRN1	UCS C3X60 Server Node E5-2620 v2 CPU 128GB 1GB RAID cache	S-Series Storage	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-SVRN1=	UCS C3X60 Server Node E5-2620 v2 CPU 128GB 1GB RAID cache	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-SVRN2	UCS C3X60 Server Node E5-2620 v2 CPU 256GB 4GB RAID cache	S-Series Storage	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-SVRN2=	UCS C3X60 Server Node E5-2620 v2 CPU 256GB 4GB RAID cache	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-SVRN3	Cisco C3X60 Server Node E5-2660 v2 CPU 256GB 4GB RAID cache	S-Series Storage	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-SVRN3=	Cisco C3X60 Server Node E5-2660 v2 CPU 256GB 4GB RAID cache	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-SVRN4	Cisco C3X60 Server Node E5-2695 v2 CPU 256GB 4GB RAID cache	S-Series Storage	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-SVRN4=	Cisco C3X60 Server Node E5-2695 v2 CPU 256GB 4GB RAID cache	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-SVRN5	UCS C3X60 Server Node E5-2695 v2 CPU 512GB 4GB RAID cache	S-Series Storage	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-SVRN5=	UCS C3X60 Server Node E5-2695 v2 CPU 512GB 4GB RAID cache	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-SVRN6	UCS C3X60 Server Node E5-2660 v2 CPU 128GB SAS HBA	S-Series Storage	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-SVRN6=	UCS C3X60 Server Node E5-2660 v2 CPU 128GB SAS HBA	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-SVRN7	Cisco C3X60 Server Node E5-2695 v2 CPU 256GB SAS HBA Mode	S-Series Storage	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-SVRN7=	Cisco C3X60 Server Node E5-2695 v2 CPU 256GB SAS HBA Mode	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-SVRN8	Cisco C3X60 Server Node E5-2620 v2 CPU (6C), 256G, HBA	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-SVRN8=	Cisco C3X60 Server Node E5-2620 v2 CPU (6C), 256G, HBA	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
+UCSC-C3X60-SVRNB=	Cisco UCS C3160 Server Node FRU	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku C3X60							
 UCSC-C420-M3	UCS C420 M3 w/o CPU, mem, HDD, PCIe, PSU, rail kit	UCS C-Series	server	layered	UCS C-Series Rack Servers	(none)	UCS C420 M3	sku (?<![A-Z0-9])C420-?M3							
 UCSC-C420-M3-CH2	DISTI: UCS C420 M3 w/o CPU, HSnk, mem, HD, PSU, w/Rails, Blnk	UCS C-Series	server	layered	UCS C-Series Rack Servers	(none)	UCS C420 M3	sku (?<![A-Z0-9])C420-?M3							
 UCSC-C420-M3=	UCS C420 M3 w/o CPU, mem, HDD, PCIe, PSU, rail kit	UCS C-Series	server	layered	UCS C-Series Rack Servers	(none)	UCS C420 M3	sku (?<![A-Z0-9])C420-?M3							
@@ -7966,8 +7966,8 @@ UCSC-RISAB-245M8	Cisco UCSC-RISAB-245M8	UCS C-Series	accessory	layered	UCS C-Ser
 UCSC-RISAB-24XM7=	Cisco UCSC-RISAB-24XM7=	UCS C-Series	accessory	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	sku ^UCSC-							
 UCSC-RVBFE-220M8=	C220 M8 RV Baffle	UCS C-Series	mechanical	layered	UCS C-Series Rack Servers	(none)	UCS C220	sku ^(?=UCSC-|CBL-).*(?<![0-9])220-?M[1-8]							
 UCSC-RVBFE-240M8=	C240 M8 RV Baffle	UCS C-Series	mechanical	layered	UCS C-Series Rack Servers	(none)	UCS C240	sku ^(?=UCSC?-|CBL-).*(?<![0-9])240-?M[1-8]							
-UCSC-S3260-HD2T	Cisco UCSC-S3260-HD2T	S-Series Storage	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
-UCSC-S3260-HD2T=	Cisco UCSC-S3260-HD2T=	S-Series Storage	drive	layered	UCS S-Series Storage Servers	(none)	UCS S3260	sku S3260							
+UCSC-S3260-HD2T	Cisco UCSC-S3260-HD2T	S-Series Storage	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
+UCSC-S3260-HD2T=	Cisco UCSC-S3260-HD2T=	S-Series Storage	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260	sku S3260							
 UCSC-SAS-T-D	Cisco UCSC-SAS-T-D	UCS C-Series	storage-controller	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	sku ^UCSC-							
 UCSC-SAS-T-D=	Cisco UCSC-SAS-T-D=	UCS C-Series	storage-controller	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	sku ^UCSC-							
 UCSC-SAS12GHBA	Cisco 12Gbps Modular (non-RAID) SAS HBA	UCS C-Series	storage-controller	layered	UCS C-Series Rack Servers	(shared across the line)	UCS C-Series Rack Servers shared parts	sku ^UCSC-							

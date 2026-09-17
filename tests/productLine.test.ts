@@ -112,7 +112,8 @@ witness("servers-unified-computing", [
   ["UCSB-B200-M6", "Cisco UCS B200 M6 Blade w/o CPU, memory", "Mini Series", "UCS B-Series Blade Servers", "UCS B200"], // label says Mini
   ["UCSX-210C-M6", "UCS X210c M6 Compute Node", "UCS X-Series", "UCS X-Series Modular System", "UCS X210c compute node"],
   ["UCS-FI-6454", "Configured model: UCS 6454 1RU FI", "5100 Blade Series", "UCS Fabric Interconnects", "UCS 6400 Fabric Interconnects"],
-  ["UCS-S3260-3KSD8", "Cisco UCS S3620 Top Load 3X 800G SSD", "S-Series Storage", "UCS S-Series Storage Servers", "UCS S3260"],
+  ["UCS-S3260-3KSD8", "Cisco UCS S3620 Top Load 3X 800G SSD", "S-Series Storage", "UCS S-Series Storage Servers", "UCS C3160 / S3260"], // renamed 17 Sep 2026 (C3160 and S3260 in one series)
+  ["UCSC-C3K-M4SRB-U", "UCS S3260 M4 Svr Node w/o CPU, memory", "UCS C-Series", "UCS S-Series Storage Servers", "UCS C3160 / S3260"], // ^UCSC-C3K-: was C-Series shared parts through ^UCSC-
   ["UCS-SP-B200M4-BA4", "UCS SPSelect B200M4 Adv4", "UCS B-Series", "UCS Solution Bundles", "Smart Play and SP Select bundles"], // bundle before B200
   ["UCSX-CPU-I6418H", "Intel 6418H", "UCS X-Series", "UCS X-Series Modular System", "UCS X-Series Modular System shared parts"], // family prefix only
   // number collisions the audit found: Xeon model numbers are FI and X-node numbers
@@ -131,7 +132,7 @@ witness("servers-unified-computing", [
   ["UCSB-EX-M4-4SC", "UCS Scalability Connector for B460 M4", "UCS B-Series", "UCS B-Series Blade Servers", "UCS B260 M4 / B460 M4 (Scalable M4 Blade Module)"],
   ["UCSXE-130C-M8-12", "Cisco UCS XE130c M8 Compute Node with 12-core CPU", "Unified Edge", "UCS Unified Edge (XE)", "UCS XE130c"],
   ["PLHC-BMPCI-M51", "Cisco+ B200 M5 for Bare Metal 2-CI", "UCS B-Series", "UCS B-Series Blade Servers", "UCS B200"],   // by name: the SKU names no model
-  ["UCS-S-HD12TK9", "UCS S3260 12TB (4Kn) 7.2K RPM SED Drives Top Load", "UCS C-Series", "UCS S-Series Storage Servers", "UCS S3260"],
+  ["UCS-S-HD12TK9", "UCS S3260 12TB (4Kn) 7.2K RPM SED Drives Top Load", "UCS C-Series", "UCS S-Series Storage Servers", "UCS C3160 / S3260"],
   ["E160DPM1-10G-SVC", "CANIS SERVICES ONLY SPARE", "UCS E-Series", "UCS E-Series Server Modules", "UCS E-Series"],  // SKU names the module
   ["RACK-UCS2", "Cisco R42610 standard rack, w/side panels", "UCS C-Series", "Racks and PDUs", "R42610 / R42612 racks and PDUs"],
   ["RACK2-DOOR-001=", "Front door", "R-Series Racks", "Racks and PDUs", "R42610 / R42612 racks and PDUs"],
