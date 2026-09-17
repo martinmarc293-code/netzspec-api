@@ -65,7 +65,9 @@ anything back onto them.
 
 `describesPart` / `familyMatches` (`src/core/specMerge.ts`, `57a6ba6`, 4 Sep) decide whether a family-level value may reach
 a part by comparing the part's family with the value's `inherited_from`, on shared model-number tokens. `applyMerge`
-(`src/store/facts.ts`), `apply-extract` and `remerge` all pass **`parts.family`**. The gate was written when that column held
+(`src/store/facts.ts`), `apply-extract` and `remerge` all pass **`parts.family`** — read in each file. Those are all of
+its callers: the fourth call site, inside `canInherit`, runs only when a caller passes a `subject`, and neither caller of
+`canInherit` (`apply-extract`, legacy `apply-specs-v2`) does. The gate was written when that column held
 the document-title family. **On 8 Sep `parts.family` became the MODEL** — the SKU minus its orderable suffix (`c9d5f48`;
 migration 0013 applied 21:19 UTC) — and the title family moved to `parts.family_raw`. `git log -L` over `describesPart`,
 `familyMatches` and `familyModelTokens` returns only `57a6ba6`: the gate's code never followed.
