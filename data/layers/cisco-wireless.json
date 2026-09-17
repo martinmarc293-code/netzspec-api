@@ -1,15 +1,18 @@
 {
  "vendor": "cisco",
  "category": "wireless",
- "built_at": "2026-09-15T23:24:28.541Z",
- "commit": "daa609b5f1a24431ec097b320227e7df1b36b063",
+ "built_at": "2026-09-17T13:05:45.588Z",
+ "commit": "80696e3daf1c12d95bb79123a4818381782ed6ba",
  "uncommitted_rule_files": [
-  "data/reference/family-carriers.json",
-  "data/reference/layers-cross-claims.json",
-  "scripts/build-layers.mts"
+  "scripts/build-arrangement-site.mts",
+  "scripts/build-layers.mts",
+  "src/core/layerChecks.ts",
+  "src/core/productLine.ts"
  ],
  "mapping_file": "data/reference/product-lines/cisco-wireless.json",
  "parts": 3907,
+ "layered": 3907,
+ "pending": 0,
  "lines": [
   {
    "line": "Catalyst Wireless Access Points",
@@ -17,7 +20,7 @@
    "series": [
     {
      "series": "Catalyst CW9163E (outdoor, Wi-Fi 6E)",
-     "family": null,
+     "family": "(none)",
      "role": "outdoor",
      "note": null,
      "parts": 3,
@@ -35,11 +38,12 @@
      "rules": {
       "sku": 3
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Catalyst CW9177 (outdoor, Wi-Fi 7)",
-     "family": null,
+     "family": "(none)",
      "role": "outdoor",
      "note": "no CW9177 row in wireless today: the series carries the outdoor role for the CW9177 rows planned to move here from routers",
      "parts": 3,
@@ -57,11 +61,12 @@
      "rules": {
       "sku": 3
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Catalyst CW9162 / CW9164 / CW9166 (Wi-Fi 6E)",
-     "family": null,
+     "family": "(none)",
      "role": "indoor",
      "note": null,
      "parts": 14,
@@ -82,11 +87,12 @@
      "rules": {
       "sku": 14
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Catalyst CW9171 / 9172 / 9174 / 9176 / 9178 / 9179 (Wi-Fi 7)",
-     "family": null,
+     "family": "(none)",
      "role": "indoor",
      "note": null,
      "parts": 12,
@@ -107,7 +113,8 @@
      "rules": {
       "sku": 12
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Catalyst Wireless Access Points shared parts",
@@ -136,7 +143,8 @@
       "accessory": 6,
       "sku": 27
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -146,7 +154,7 @@
    "series": [
     {
      "series": "Catalyst 9124AX (outdoor)",
-     "family": null,
+     "family": "(none)",
      "role": "outdoor",
      "note": null,
      "parts": 43,
@@ -168,11 +176,12 @@
      "rules": {
       "sku": 43
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Catalyst 9105AX",
-     "family": null,
+     "family": "(none)",
      "role": "indoor",
      "note": null,
      "parts": 113,
@@ -194,11 +203,12 @@
      "rules": {
       "sku": 113
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Catalyst 9115AX",
-     "family": null,
+     "family": "(none)",
      "role": "indoor",
      "note": null,
      "parts": 114,
@@ -219,11 +229,12 @@
      "rules": {
       "sku": 114
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Catalyst 9117AX",
-     "family": null,
+     "family": "(none)",
      "role": "indoor",
      "note": null,
      "parts": 42,
@@ -244,11 +255,12 @@
      "rules": {
       "sku": 42
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Catalyst 9120AX",
-     "family": null,
+     "family": "(none)",
      "role": "indoor",
      "note": null,
      "parts": 175,
@@ -269,11 +281,12 @@
      "rules": {
       "sku": 175
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Catalyst 9130AX",
-     "family": null,
+     "family": "(none)",
      "role": "indoor",
      "note": null,
      "parts": 120,
@@ -294,11 +307,12 @@
      "rules": {
       "sku": 120
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Catalyst 9136",
-     "family": null,
+     "family": "(none)",
      "role": "indoor",
      "note": "restored in the re-audit decisions (operator, 15 Sep 2026, Q-10 vs Q-23 — Q-23 governs): its one row, C9136I-x 'Cisco Catalyst 9136I Access Point, Wi-Fi 6E', carries the family's facts and document, so it keeps its row as the family carrier (flagged family_carrier); the layers round-3 wireless block had removed the series while that row carried a class plan",
      "parts": 1,
@@ -314,7 +328,8 @@
      "rules": {
       "sku": 1
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -324,7 +339,7 @@
    "series": [
     {
      "series": "Aironet 1800s Active Sensor",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 15,
@@ -343,11 +358,12 @@
      "rules": {
       "sku": 15
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Aironet 1800",
-     "family": null,
+     "family": "(none)",
      "role": "indoor",
      "note": null,
      "parts": 32,
@@ -368,11 +384,12 @@
      "rules": {
       "sku": 32
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Aironet 1810 / 1810W",
-     "family": null,
+     "family": "(none)",
      "role": "indoor",
      "note": null,
      "parts": 32,
@@ -393,11 +410,12 @@
      "rules": {
       "sku": 32
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Aironet 1815",
-     "family": null,
+     "family": "(none)",
      "role": "indoor",
      "note": null,
      "parts": 130,
@@ -419,11 +437,12 @@
      "rules": {
       "sku": 130
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Aironet 1830",
-     "family": null,
+     "family": "(none)",
      "role": "indoor",
      "note": null,
      "parts": 78,
@@ -445,11 +464,12 @@
      "rules": {
       "sku": 78
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Aironet 1840",
-     "family": null,
+     "family": "(none)",
      "role": "indoor",
      "note": null,
      "parts": 33,
@@ -470,11 +490,12 @@
      "rules": {
       "sku": 33
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Aironet 1850",
-     "family": null,
+     "family": "(none)",
      "role": "indoor",
      "note": null,
      "parts": 124,
@@ -495,11 +516,12 @@
      "rules": {
       "sku": 124
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Aironet 2800",
-     "family": null,
+     "family": "(none)",
      "role": "indoor",
      "note": null,
      "parts": 361,
@@ -520,11 +542,12 @@
      "rules": {
       "sku": 361
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Aironet 3800",
-     "family": null,
+     "family": "(none)",
      "role": "indoor",
      "note": null,
      "parts": 473,
@@ -545,11 +568,12 @@
      "rules": {
       "sku": 473
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Aironet 4800",
-     "family": null,
+     "family": "(none)",
      "role": "indoor",
      "note": null,
      "parts": 72,
@@ -570,11 +594,12 @@
      "rules": {
       "sku": 72
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Aironet 700 / 802 / 852 / 1100 / 1200 / 2700 / 3700 (legacy indoor)",
-     "family": null,
+     "family": "(none)",
      "role": "indoor",
      "note": "layers round 3: ^AIR-AP1[12][0-9]{2}[A-Z]{0,2}$ places the legacy 1100 / 1200 access points planned in from switches (AIR-AP1131AG, AIR-AP1210, AIR-AP1230A / B, AIR-AP1232AG, AIR-AP1242AG); the end anchor keeps the 1100 / 1140 / 1200 mounting kits (AIR-AP1100MNTGKIT=, AIR-AP1131-STAND=) in the line's shared parts",
      "parts": 9,
@@ -595,11 +620,12 @@
      "rules": {
       "sku": 9
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Aironet 1310 outdoor access point / bridge (legacy)",
-     "family": null,
+     "family": "(none)",
      "role": "outdoor",
      "note": "layers round 3: AIR-BR1310G, the Aironet 1310 outdoor access point / bridge planned in from switches (its arrival exception there is retired)",
      "parts": 1,
@@ -613,11 +639,12 @@
      "rules": {
       "sku": 1
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Aironet 1540",
-     "family": null,
+     "family": "(none)",
      "role": "outdoor",
      "note": null,
      "parts": 40,
@@ -638,11 +665,12 @@
      "rules": {
       "sku": 40
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Aironet 1560",
-     "family": null,
+     "family": "(none)",
      "role": "outdoor",
      "note": null,
      "parts": 69,
@@ -663,11 +691,12 @@
      "rules": {
       "sku": 69
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Aironet 1570",
-     "family": null,
+     "family": "(none)",
      "role": "outdoor",
      "note": "the bare 1570 rule claimed the CWDM 1570 nm optics (CWDM-SFP-1570 …); fenced to the AIR- mount kits in layers round 3 (operator: claimant-rule-too-broad, fixed in the wireless round)",
      "parts": 94,
@@ -689,11 +718,12 @@
      "rules": {
       "sku": 94
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Aironet 1550 hazardous-location (H / SA / SD / WU)",
-     "family": null,
+     "family": "(none)",
      "role": "industrial",
      "note": null,
      "parts": 46,
@@ -714,11 +744,12 @@
      "rules": {
       "sku": 46
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Aironet 1550",
-     "family": null,
+     "family": "(none)",
      "role": "outdoor",
      "note": "the bare 1550 rule claimed the CWDM 1550 nm optics; fenced to AIR- in layers round 3 (operator: fixed in the wireless round)",
      "parts": 62,
@@ -741,11 +772,12 @@
      "rules": {
       "sku": 62
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Aironet 1520 / 1530",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "the bare 15[23]0 rule claimed the CWDM 1530 nm optics; fenced to AIR- in layers round 3 (operator: fixed in the wireless round). It also places AIR-1520-BATT-6AH= (planned in from servers-unified-computing) and AIR-ACC1530-PMK1 (planned in from routers, beside its spare)",
      "parts": 15,
@@ -766,7 +798,8 @@
      "rules": {
       "sku": 15
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Aironet Access Points shared parts",
@@ -796,7 +829,8 @@
       "label-unsupported": 13,
       "sku": 121
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -806,7 +840,7 @@
    "series": [
     {
      "series": "IW3700 (IW3702)",
-     "family": null,
+     "family": "(none)",
      "role": "industrial",
      "note": null,
      "parts": 32,
@@ -827,11 +861,12 @@
      "rules": {
       "sku": 32
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "IW6300 / ESW6300",
-     "family": null,
+     "family": "(none)",
      "role": "industrial",
      "note": null,
      "parts": 73,
@@ -854,11 +889,12 @@
       "sku": 67,
       "label": 6
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Catalyst IW9165 / IW9167",
-     "family": null,
+     "family": "(none)",
      "role": "industrial",
      "note": null,
      "parts": 13,
@@ -879,11 +915,12 @@
      "rules": {
       "sku": 13
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Ultra-Reliable Wireless Backhaul (Fluidmesh)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "^FM(?!C) (layers round 3, security round): the Fluidmesh rule claimed the 77 FMC- rows of security (Firepower Management Center appliances and their parts); no Fluidmesh PID starts FMC",
      "parts": 184,
@@ -910,11 +947,12 @@
      "rules": {
       "sku": 184
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "IEC6400 edge compute (URWB)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 8,
@@ -934,7 +972,8 @@
      "rules": {
       "sku": 8
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -944,7 +983,7 @@
    "series": [
     {
      "series": "Cisco Business 141 / 142 / 143 mesh extenders",
-     "family": null,
+     "family": "(none)",
      "role": "mesh-extender",
      "note": null,
      "parts": 121,
@@ -965,11 +1004,12 @@
      "rules": {
       "sku": 121
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Cisco Business 140AC / 145AC / 150AX",
-     "family": null,
+     "family": "(none)",
      "role": "smb",
      "note": null,
      "parts": 91,
@@ -990,11 +1030,12 @@
      "rules": {
       "sku": 91
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Cisco Business 240AC",
-     "family": null,
+     "family": "(none)",
      "role": "smb",
      "note": null,
      "parts": 59,
@@ -1015,11 +1056,12 @@
      "rules": {
       "sku": 59
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Cisco Business Mesh starter kits",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 14,
@@ -1038,7 +1080,8 @@
      "rules": {
       "sku": 14
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Cisco Business Wireless shared parts",
@@ -1061,7 +1104,8 @@
      "rules": {
       "sku": 10
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -1071,7 +1115,7 @@
    "series": [
     {
      "series": "WAP571E (outdoor)",
-     "family": null,
+     "family": "(none)",
      "role": "outdoor",
      "note": null,
      "parts": 8,
@@ -1092,11 +1136,12 @@
      "rules": {
       "sku": 8
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "WAP100 series (WAP121 / WAP125 / WAP150)",
-     "family": null,
+     "family": "(none)",
      "role": "smb",
      "note": null,
      "parts": 33,
@@ -1117,11 +1162,12 @@
      "rules": {
       "sku": 33
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "WAP300 series (WAP361 / WAP371)",
-     "family": null,
+     "family": "(none)",
      "role": "smb",
      "note": null,
      "parts": 11,
@@ -1142,11 +1188,12 @@
      "rules": {
       "sku": 11
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "WAP500 series (WAP571 / WAP581)",
-     "family": null,
+     "family": "(none)",
      "role": "smb",
      "note": null,
      "parts": 17,
@@ -1167,7 +1214,8 @@
      "rules": {
       "sku": 17
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -1177,7 +1225,7 @@
    "series": [
     {
      "series": "Meraki MR outdoor (MR58 / 66 / 70 / 72 / 74 / 76 / 78 / 84 / 86)",
-     "family": null,
+     "family": "(none)",
      "role": "outdoor",
      "note": "MR58/66/70/72/74/84 extend the III.0 rule (MR76/78/86) to the older outdoor models held as bare family rows in meraki (14 Sep 2026)",
      "parts": 11,
@@ -1198,11 +1246,12 @@
      "rules": {
       "sku": 11
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Meraki MR indoor",
-     "family": null,
+     "family": "(none)",
      "role": "indoor",
      "note": "MR11-MR62 older indoor models extend the III.0 rule (MR36/44/46/56/57) (14 Sep 2026)",
      "parts": 33,
@@ -1223,7 +1272,8 @@
      "rules": {
       "sku": 33
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Meraki MR Access Points shared parts",
@@ -1248,7 +1298,8 @@
      "rules": {
       "sku": 30
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -1258,7 +1309,7 @@
    "series": [
     {
      "series": "Catalyst 9800-80",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 7,
@@ -1277,11 +1328,12 @@
      "rules": {
       "sku": 7
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Catalyst 9800-40",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 6,
@@ -1300,11 +1352,12 @@
      "rules": {
       "sku": 6
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Catalyst 9800-L",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 12,
@@ -1326,11 +1379,12 @@
      "rules": {
       "sku": 12
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Catalyst CW9800M",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 2,
@@ -1345,11 +1399,12 @@
      "rules": {
       "sku": 2
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Catalyst CW9800H1 / CW9800H2",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 5,
@@ -1367,7 +1422,8 @@
      "rules": {
       "sku": 5
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Catalyst 9800 Wireless Controllers shared parts",
@@ -1392,7 +1448,8 @@
      "rules": {
       "sku": 23
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -1402,7 +1459,7 @@
    "series": [
     {
      "series": "2500 (2504)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "^AIRCT2504 removed in layers round 3: CT25[0-9]{2} already decides every AIRCT2504 bundle (the rule-shadowing check named it redundant)",
      "parts": 78,
@@ -1424,11 +1481,12 @@
      "rules": {
       "sku": 78
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "3500 (3504)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 10,
@@ -1448,11 +1506,12 @@
      "rules": {
       "sku": 10
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "5500 (5508 / 5520 / 5540)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 62,
@@ -1475,11 +1534,12 @@
       "sku": 59,
       "label": 3
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "8500 (8510 / 8540 / 8580)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "CT85DC (layers round 3): AIR-CT85DC-K9 / AIR-CT85DC-SP-K9, the 8510 DC controllers, sat in the line's shared parts through ^AIR-(CT|WLC|VPN) — a controller in shared parts",
      "parts": 39,
@@ -1501,11 +1561,12 @@
       "sku": 38,
       "label": 1
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "WLC + access point bundles",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "^AIR-AP[0-9]{4}[A-Z]-WLC (layers round 3): AIR-AP1702I-WLC / AIR-AP2702I-WLC / AIR-AP3702I-WLC 'Bundle 2 AP…I and WLC2504 with 25 licenses' sat in the Aironet shared parts",
      "parts": 8,
@@ -1524,11 +1585,12 @@
      "rules": {
       "sku": 8
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MobileAccessVE",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "re-audit decisions (operator, 15 Sep 2026, Q-12 / F-12): Cisco MobileAccessVE, the in-building cellular units sold as AIR- PIDs — the main, remote and expansion building units (AIR-330-), the access pods for CELL / PCS bands (AIR-VAP-CELLPCS) with their mounting kits (AIR-VAPMNTG-H / -V-KIT=) and the 12-port control unit (AIR-VCU-CELLPCS12). They sat in the AireOS controllers' and the Aironet access points' shared parts with kind unknown. The series carries no vendor in its name (the rows name none). Kind: the operator decided `device` for the units; `device` is not a noun of the wireless kind axis and a new noun needs its cup set, so the kind change waits for the parked kind rebuild (Q-28) and the units stay `unknown` until then",
      "parts": 14,
@@ -1548,7 +1610,8 @@
      "rules": {
       "sku": 14
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "AireOS Wireless LAN Controllers shared parts",
@@ -1573,7 +1636,8 @@
       "sku": 3,
       "label-unsupported": 4
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -1583,7 +1647,7 @@
    "series": [
     {
      "series": "CMX 3375 / MSE 3355 / 3365",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 71,
@@ -1608,11 +1672,12 @@
       "sku": 70,
       "label": 1
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Catalyst Center location appliance (DN3-LOC)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 9,
@@ -1634,11 +1699,12 @@
      "rules": {
       "sku": 9
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Exciters and BLE / VBLE radio modules",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 4,
@@ -1657,11 +1723,12 @@
      "rules": {
       "sku": 4
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Spectrum Expert",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 1,
@@ -1675,7 +1742,8 @@
      "rules": {
       "sku": 1
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -1685,7 +1753,7 @@
    "series": [
     {
      "series": "CiscoWorks Wireless LAN Solution Engine (WLSE 1130 / Express 1030)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "layers round 3: CWWLSE-1130-19-K9, planned in from switches (its arrival exception there is retired), and RACK-QCN-SN5= 'Rack for CWWLSE Express 1030', which sat in Wireless Antennas and Accessories shared parts by label",
      "parts": 2,
@@ -1701,7 +1769,8 @@
      "rules": {
       "sku": 2
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -1711,7 +1780,7 @@
    "series": [
     {
      "series": "Antennas",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "^ANT- removed (layers round 3): it placed no wireless row (the two it matched, ANT-ROOM70-KIT, are Webex Room 70 parts excluded to collaboration-endpoints) and claimed 34 routers antennas. ^AIR-ANT also places the 7 Aironet antennas planned in from routers, beside their spares",
      "parts": 149,
@@ -1732,11 +1801,12 @@
      "rules": {
       "sku": 149
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Power injectors, supplies and cords",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "^PWR- fenced to the wireless rows it holds (layers round 3; operator: claimant-rule-too-broad, fixed in the wireless round): the 3504 / 2504 controller supplies, the internal C13-C14 cords and PWR-RPS-DC1=. CH1-(750W?ACR|950WDCR) removed (re-audit decisions, operator, 15 Sep 2026, Q-11): the PWR-CH1 750 W / 950 W supplies are the Catalyst 8500's (their spares in routers are named 'Cisco C8500 750W AC Power'); the three wireless rows PWR-CH1-750ACR / 750WACR / 950WDCR carry move plans to routers Catalyst 8500. The INT cords are fenced to the 0.7 m length wireless holds (collaboration-endpoints round): the 0.2 / 0.22 / 0.6 / 1.3 / 1.4 / 1.45 / 1.85 / 3.0 m INT cords are Room and TelePresence parts (Room Panorama and Room Kit EQX amp-to-camera cables, TelePresence C13-C14 jumpers) and stay in collaboration-endpoints",
      "parts": 97,
@@ -1757,11 +1827,12 @@
      "rules": {
       "sku": 97
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Cables",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "^CAB- fenced to the wireless rows it holds (layers round 3; operator: fixed in the wireless round): the type C5 power cords of the AP adapters, the LMR-400 RP-TNC cable and two controller power cables",
      "parts": 40,
@@ -1780,7 +1851,8 @@
      "rules": {
       "sku": 40
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Wireless Antennas and Accessories shared parts",
@@ -1807,7 +1879,8 @@
      "rules": {
       "label": 20
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   }

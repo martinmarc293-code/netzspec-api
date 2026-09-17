@@ -90,6 +90,35 @@ export function nonHardwarePlansOnPage(category: string, rows: LayerRow[], plans
   return plans.filter((p) => p.category === category && (p.run_id ?? null) === null && p.product_class && p.product_class !== "hardware" && onPage.has(p.sku.trim().toUpperCase())).map((p) => p.sku);
 }
 
+/** The status fields of a built category summary (data/layers/<vendor>-<category>.json). */
+export type StatusSummary = {
+  mapping_file: string | null; parts: number; layered: number; pending: number; done: boolean;
+  pending_plans: unknown[]; unplaced: unknown[]; pending_review: unknown[]; not_this_category: unknown[];
+  lines: { line: string; series: { series: string; family: string | null }[] }[];
+};
+/** THE STATUS IS THE ROWS' (review of 17 Sep 2026): every page and the index said DONE over 1,974 rows waiting on a plan — conferencing and
+ * data-center-networking with 0 layered rows — because `done` read only the unplaced and held-for-review counts. What a built summary
+ * must agree with its own rows on: each bucket list holds exactly the rows in that bucket; `layered` and `pending` are the rows'; done is
+ * exactly (a mapping file AND every row layered), counted from the ROWS, so a summary whose pending and done lie together is still caught;
+ * and layer 3 is never blank — a layered row or a series carries a family, "(shared across the line)" or "(none)". */
+export function statusDisagreements(summary: StatusSummary, rows: LayerRow[]): string[] {
+  const out: string[] = [];
+  const inBucket = (b: string) => rows.filter((r) => r.bucket === b).length;
+  const lists = [["pending_plans", "pending_plan"], ["unplaced", "unplaced"], ["pending_review", "pending_review"], ["not_this_category", "not_this_category"]] as const;
+  for (const [field, bucket] of lists) if ((summary[field]?.length ?? -1) !== inBucket(bucket)) out.push(`${field} lists ${summary[field]?.length}, rows in bucket ${bucket} ${inBucket(bucket)}`);
+  const notLayered = rows.filter((r) => r.bucket !== "layered").length;
+  if (summary.parts !== rows.length) out.push(`parts ${summary.parts}, rows ${rows.length}`);
+  if (summary.layered !== inBucket("layered")) out.push(`layered ${summary.layered}, layered rows ${inBucket("layered")}`);
+  if (summary.pending !== notLayered) out.push(`pending ${summary.pending}, rows not layered ${notLayered}`);
+  const expectDone = !!summary.mapping_file && notLayered === 0;
+  if (summary.done !== expectDone) out.push(`done ${summary.done} with ${notLayered} row(s) not layered${summary.mapping_file ? "" : " and no mapping file"}`);
+  const blankRows = rows.filter((r) => r.bucket === "layered" && !(r.product_family ?? "").trim());
+  if (blankRows.length) out.push(`${blankRows.length} layered row(s) with a blank family, e.g. ${blankRows[0].sku}`);
+  const blankSeries = summary.lines.flatMap((l) => l.series.filter((s) => !(s.family ?? "").trim()).map((s) => `${l.line} / ${s.series}`));
+  if (blankSeries.length) out.push(`${blankSeries.length} series with a blank family, e.g. ${blankSeries[0]}`);
+  return out;
+}
+
 type SeriesEntry = { series: string; family: string | null; parts: number; kinds: Record<string, number>; roles: Record<string, number> };
 /** A series entry of the page JSON that does not agree with its own rows (closing items at aa1143f, item 11): parts, the kind and
  * role tallies, and the family — every layered row of the series carries the entry's family ("" on a row = null on the entry). */

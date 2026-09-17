@@ -1,15 +1,18 @@
 {
  "vendor": "cisco",
  "category": "routers",
- "built_at": "2026-09-15T23:24:28.065Z",
- "commit": "daa609b5f1a24431ec097b320227e7df1b36b063",
+ "built_at": "2026-09-17T13:05:44.554Z",
+ "commit": "80696e3daf1c12d95bb79123a4818381782ed6ba",
  "uncommitted_rule_files": [
-  "data/reference/family-carriers.json",
-  "data/reference/layers-cross-claims.json",
-  "scripts/build-layers.mts"
+  "scripts/build-arrangement-site.mts",
+  "scripts/build-layers.mts",
+  "src/core/layerChecks.ts",
+  "src/core/productLine.ts"
  ],
  "mapping_file": "data/reference/product-lines/cisco-routers.json",
  "parts": 5231,
+ "layered": 5108,
+ "pending": 123,
  "lines": [
   {
    "line": "Secure Routers",
@@ -17,7 +20,7 @@
    "series": [
     {
      "series": "8100 Secure Router",
-     "family": null,
+     "family": "(none)",
      "role": "branch",
      "note": null,
      "parts": 15,
@@ -38,11 +41,14 @@
      "rules": {
       "sku": 15
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 5
+     }
     },
     {
      "series": "8200 Secure Router",
-     "family": null,
+     "family": "(none)",
      "role": "branch",
      "note": null,
      "parts": 9,
@@ -63,11 +69,12 @@
      "rules": {
       "sku": 9
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "8300 Secure Router",
-     "family": null,
+     "family": "(none)",
      "role": "branch",
      "note": null,
      "parts": 2,
@@ -84,11 +91,12 @@
      "rules": {
       "sku": 2
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "8400 Secure Router",
-     "family": null,
+     "family": "(none)",
      "role": "branch",
      "note": null,
      "parts": 2,
@@ -105,11 +113,12 @@
      "rules": {
       "sku": 2
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "8500 Secure Router",
-     "family": null,
+     "family": "(none)",
      "role": "edge",
      "note": null,
      "parts": 2,
@@ -126,11 +135,12 @@
      "rules": {
       "sku": 2
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "8600 Secure Router",
-     "family": null,
+     "family": "(none)",
      "role": "edge",
      "note": null,
      "parts": 1,
@@ -146,7 +156,8 @@
      "rules": {
       "sku": 1
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -156,7 +167,7 @@
    "series": [
     {
      "series": "Catalyst 8200 Edge uCPE",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 12,
@@ -177,11 +188,14 @@
       "sku": 2,
       "name": 10
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 1
+     }
     },
     {
      "series": "Catalyst 8300 Edge uCPE",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 5,
@@ -201,11 +215,14 @@
      "rules": {
       "sku": 5
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 1
+     }
     },
     {
      "series": "Catalyst 8200",
-     "family": null,
+     "family": "(none)",
      "role": "branch",
      "note": null,
      "parts": 29,
@@ -230,11 +247,12 @@
       "sku": 26,
       "name": 3
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Catalyst 8300",
-     "family": null,
+     "family": "(none)",
      "role": "branch",
      "note": null,
      "parts": 68,
@@ -261,11 +279,12 @@
       "name": 23,
       "sku": 45
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Catalyst 8500L",
-     "family": null,
+     "family": "(none)",
      "role": "edge",
      "note": null,
      "parts": 21,
@@ -292,11 +311,12 @@
       "sku": 14,
       "name": 7
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Catalyst 8500",
-     "family": null,
+     "family": "(none)",
      "role": "edge",
      "note": "^PWR-CH1-(750W?ACR|950WDCR) (re-audit decisions, operator, 15 Sep 2026, Q-11): the 750 W AC and 950 W DC supplies are the Catalyst 8500's (the spares here are named 'Cisco C8500 750W AC Power, Spare'); the three wireless rows PWR-CH1-750ACR / 750WACR / 950WDCR, named for the Catalyst wireless controller or for no platform, carry move plans in and land here by SKU",
      "parts": 38,
@@ -324,7 +344,8 @@
       "sku": 30,
       "name": 8
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Catalyst 8000 Edge shared parts",
@@ -354,7 +375,8 @@
       "label-unsupported": 22,
       "name": 9
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -364,7 +386,7 @@
    "series": [
     {
      "series": "ISR 1100",
-     "family": null,
+     "family": "(none)",
      "role": "branch",
      "note": null,
      "parts": 120,
@@ -385,11 +407,12 @@
      "rules": {
       "sku": 120
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "ISR 4000",
-     "family": null,
+     "family": "(none)",
      "role": "branch",
      "note": null,
      "parts": 186,
@@ -418,11 +441,14 @@
       "sku": 124,
       "label": 62
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 2
+     }
     },
     {
      "series": "ISR 900",
-     "family": null,
+     "family": "(none)",
      "role": "branch",
      "note": null,
      "parts": 37,
@@ -444,7 +470,10 @@
      "rules": {
       "sku": 37
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 4
+     }
     },
     {
      "series": "ISR 819 (M2M)",
@@ -471,7 +500,8 @@
       "sku": 39,
       "name": 10
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "ISR 810 / 840 / 860 / 870 / 880 / 890",
@@ -501,7 +531,10 @@
       "label": 23,
       "sku": 268
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 26
+     }
     },
     {
      "series": "ISR 1800",
@@ -528,7 +561,8 @@
      "rules": {
       "sku": 20
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "ISR 1900",
@@ -556,7 +590,10 @@
      "rules": {
       "sku": 78
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 3
+     }
     },
     {
      "series": "ISR 2800",
@@ -583,7 +620,8 @@
      "rules": {
       "sku": 54
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "ISR 2900",
@@ -614,7 +652,10 @@
       "sku": 159,
       "label": 11
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 26
+     }
     },
     {
      "series": "ISR 3800",
@@ -640,7 +681,10 @@
      "rules": {
       "sku": 21
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 15
+     }
     },
     {
      "series": "ISR 3900",
@@ -671,7 +715,10 @@
      "rules": {
       "sku": 89
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 1
+     }
     },
     {
      "series": "ISR (Integrated Services Routers) shared parts",
@@ -706,7 +753,8 @@
       "label-unsupported": 54,
       "accessory": 137
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -738,7 +786,8 @@
      "rules": {
       "sku": 35
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "ASR 920",
@@ -768,7 +817,8 @@
      "rules": {
       "sku": 69
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "ASR 902 / 903 / 907 / 914",
@@ -801,11 +851,12 @@
       "sku": 138,
       "label": 2
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "ASR 1000",
-     "family": null,
+     "family": "(none)",
      "role": "edge",
      "note": "CUBESP-AP-* (CUBE(SP) appliances, SIP-10 slots) placed by SKU (closing items at aa1143f (14 Sep 2026), item 1). SPA-DSP(=) \"Cisco ASR 1000 Series Digital Signal Processor SPA\" and SPA-WMA-K9 \"WebEx Node SPA for ASR 1000 Series\" are planned in from interfaces-modules (layers round 3, A.3 rule 1)",
      "parts": 354,
@@ -837,11 +888,14 @@
       "label": 8,
       "sku": 346
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 1
+     }
     },
     {
      "series": "ASR 5000 and 5500",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "PENDING ARRIVAL: 115 hardware rows sit in wireless today (113 carry a move plan to routers); this series is empty until the move runs. Mobile packet core: no SP router role assigned. ^ASR55 (layers round 3, wireless round): the ASR 5500 cards and systems (ASR55-UDPC-K9, ASR55-CHS-SYS-U6B …) matched no rule, so the arrivals check named the 14 ASR55 rows planned in from wireless as unplaced.",
      "parts": 113,
@@ -872,11 +926,12 @@
      "rules": {
       "sku": 113
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "ASR 9000",
-     "family": null,
+     "family": "(none)",
      "role": "sp-edge",
      "note": null,
      "parts": 448,
@@ -908,7 +963,10 @@
       "sku": 436,
       "label": 12
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 14
+     }
     },
     {
      "series": "ASR (Aggregation Services Routers) shared parts",
@@ -938,7 +996,8 @@
       "accessory": 29,
       "label-unsupported": 16
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -948,7 +1007,7 @@
    "series": [
     {
      "series": "Cisco 7200",
-     "family": null,
+     "family": "(none)",
      "role": "edge",
      "note": null,
      "parts": 4,
@@ -967,11 +1026,12 @@
      "rules": {
       "sku": 4
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Cisco 7600",
-     "family": null,
+     "family": "(none)",
      "role": "edge",
      "note": null,
      "parts": 37,
@@ -993,11 +1053,12 @@
      "rules": {
       "sku": 37
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Cisco 7300",
-     "family": null,
+     "family": "(none)",
      "role": "edge",
      "note": "layers review C.4 (14 Sep 2026): the legacy 7200 / 7300 / 7600 follow one rule — kind router, role edge; CISCO7301/2+VPNK9 was sp-router by the sp-legacy token with no role",
      "parts": 21,
@@ -1018,11 +1079,12 @@
      "rules": {
       "sku": 21
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Cisco 7100 VPN routers (7120 / 7140 / 7160)",
-     "family": null,
+     "family": "(none)",
      "role": "edge",
      "note": "layers round 3, security round: the Cisco 7100 Series VPN Router parts — MEM-7100-CFL128M 'Cisco 7160 Compact Flash Disk', MEM-7120/40-128P, MEM-71XX-1024S / 256S, PWR-AC-71XX / PWR-2XAC-71XX / PWR-BLANK-71XX, SM-71XX-BLANK — arrive from security, where Cisco's 'Cisco Select 7100 components' end-of-sale notice (published in the FirePOWER 7000 collateral) had filed them. No 7100 chassis is in the catalogue; the series holds the parts, role edge with the other legacy routers",
      "parts": 8,
@@ -1044,7 +1106,8 @@
      "rules": {
       "sku": 8
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -1054,7 +1117,7 @@
    "series": [
     {
      "series": "NCS 520, 540 and 560",
-     "family": null,
+     "family": "(none)",
      "role": "sp-access",
      "note": null,
      "parts": 128,
@@ -1081,11 +1144,12 @@
      "rules": {
       "sku": 128
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "NCS 4200",
-     "family": null,
+     "family": "(none)",
      "role": "sp-access",
      "note": "arriving from optical-networking (layers review round 2 decision, 14 Sep 2026): 67 rows carry move plans. DUAL-PLATFORM (closing items at aa1143f (14 Sep 2026), item 8, decided): the CABLE-16TDM-* cables and kits cable the 16-port TDM CEM interface modules of BOTH the NCS 4200 and the ASR 902 / 903 (A900-IMA16D); they stay here by SKU, the way 7600-SIP-400 (a Cisco 7600 card) stays under Catalyst 6500 — ASR shared parts would misfile the NCS half",
      "parts": 81,
@@ -1113,11 +1177,12 @@
      "rules": {
       "sku": 81
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "NCS 5500",
-     "family": null,
+     "family": "(none)",
      "role": "sp-edge",
      "note": null,
      "parts": 236,
@@ -1148,11 +1213,12 @@
       "sku": 230,
       "label": 6
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "NCS 5700",
-     "family": null,
+     "family": "(none)",
      "role": "sp-edge",
      "note": null,
      "parts": 87,
@@ -1179,11 +1245,12 @@
      "rules": {
       "sku": 87
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "NCS 5000",
-     "family": null,
+     "family": "(none)",
      "role": "sp-edge",
      "note": "layers review C.3 (14 Sep 2026): NCS 5001 / 5002 / 5011 are sp-edge",
      "parts": 38,
@@ -1206,11 +1273,12 @@
      "rules": {
       "sku": 38
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "NCS 6000",
-     "family": null,
+     "family": "(none)",
      "role": "sp-core",
      "note": null,
      "parts": 140,
@@ -1240,7 +1308,8 @@
       "sku": 136,
       "label": 4
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "NCS (Network Convergence System) shared parts",
@@ -1267,7 +1336,8 @@
       "accessory": 24,
       "label-unsupported": 18
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -1277,7 +1347,7 @@
    "series": [
     {
      "series": "Cisco 8000",
-     "family": null,
+     "family": "(none)",
      "role": "sp-core",
      "note": null,
      "parts": 142,
@@ -1310,6 +1380,9 @@
      },
      "pending_in": {
       "data-center-networking": 1
+     },
+     "pending_out": {
+      "class -> non_product": 4
      }
     },
     {
@@ -1338,7 +1411,8 @@
       "accessory": 33,
       "label-unsupported": 26
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -1348,7 +1422,7 @@
    "series": [
     {
      "series": "CRS",
-     "family": null,
+     "family": "(none)",
      "role": "sp-core",
      "note": null,
      "parts": 707,
@@ -1385,7 +1459,10 @@
       "sku": 640,
       "label": 67
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 7
+     }
     },
     {
      "series": "CRS (Carrier Routing System) shared parts",
@@ -1409,7 +1486,8 @@
      "rules": {
       "label-unsupported": 14
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -1419,7 +1497,7 @@
    "series": [
     {
      "series": "IR 1101",
-     "family": null,
+     "family": "(none)",
      "role": "industrial-iot",
      "note": null,
      "parts": 2,
@@ -1436,11 +1514,12 @@
      "rules": {
       "sku": 2
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "IR 1800",
-     "family": null,
+     "family": "(none)",
      "role": "industrial-iot",
      "note": null,
      "parts": 8,
@@ -1462,11 +1541,12 @@
      "rules": {
       "sku": 8
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "IR 8100",
-     "family": null,
+     "family": "(none)",
      "role": "industrial-iot",
      "note": null,
      "parts": 33,
@@ -1489,11 +1569,12 @@
      "rules": {
       "sku": 33
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "IR 8300",
-     "family": null,
+     "family": "(none)",
      "role": "industrial-iot",
      "note": null,
      "parts": 7,
@@ -1517,11 +1598,12 @@
      "rules": {
       "sku": 7
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "IR 800",
-     "family": null,
+     "family": "(none)",
      "role": "industrial-iot",
      "note": null,
      "parts": 40,
@@ -1545,11 +1627,12 @@
      "rules": {
       "sku": 40
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "IR 500 WPAN",
-     "family": null,
+     "family": "(none)",
      "role": "industrial-iot",
      "note": null,
      "parts": 13,
@@ -1571,7 +1654,8 @@
      "rules": {
       "sku": 13
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "CGR 1000 Connected Grid",
@@ -1603,7 +1687,8 @@
       "sku": 54,
       "label": 13
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "CGR 2010 Connected Grid",
@@ -1634,11 +1719,14 @@
       "sku": 46,
       "label": 5
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 2
+     }
     },
     {
      "series": "Wireless Gateway for LoRaWAN",
-     "family": null,
+     "family": "(none)",
      "role": "industrial-iot",
      "note": null,
      "parts": 14,
@@ -1664,11 +1752,14 @@
       "label": 12,
       "sku": 2
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 3
+     }
     },
     {
      "series": "Catalyst Wireless Gateway CG113",
-     "family": null,
+     "family": "(none)",
      "role": "branch",
      "note": null,
      "parts": 12,
@@ -1689,11 +1780,12 @@
      "rules": {
       "sku": 12
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Catalyst Cellular Gateway CG418 and CG522",
-     "family": null,
+     "family": "(none)",
      "role": "industrial-iot",
      "note": null,
      "parts": 4,
@@ -1712,11 +1804,12 @@
      "rules": {
       "sku": 4
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "IC3000 Industrial Compute Gateway",
-     "family": null,
+     "family": "(none)",
      "role": "industrial-iot",
      "note": "IC3000-2C2F-K9= / IC3000-2C2F-K9++ planned in from switches: an edge-compute appliance (IOx) of the IoT line, kind appliance (operator, layers round 3: an arrival in a reviewed category)",
      "parts": 2,
@@ -1731,7 +1824,8 @@
      "rules": {
       "sku": 2
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Industrial and IoT Routers shared parts",
@@ -1762,7 +1856,8 @@
       "label-unsupported": 31,
       "sku": 10
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -1772,7 +1867,7 @@
    "series": [
     {
      "series": "RV Series",
-     "family": null,
+     "family": "(none)",
      "role": "smb",
      "note": "R260 / R260P (Korea) and CVR328W are Small Business routers placed by SKU (closing items at aa1143f (14 Sep 2026), item 1)",
      "parts": 155,
@@ -1793,7 +1888,8 @@
      "rules": {
       "sku": 155
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -1803,7 +1899,7 @@
    "series": [
     {
      "series": "5900 Embedded Services",
-     "family": null,
+     "family": "(none)",
      "role": "industrial-iot",
      "note": null,
      "parts": 16,
@@ -1825,11 +1921,12 @@
      "rules": {
       "sku": 16
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "ESR 6300",
-     "family": null,
+     "family": "(none)",
      "role": "industrial-iot",
      "note": null,
      "parts": 2,
@@ -1846,7 +1943,10 @@
      "rules": {
       "sku": 2
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 4
+     }
     }
    ]
   },
@@ -1856,7 +1956,7 @@
    "series": [
     {
      "series": "ENCS 5000",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 66,
@@ -1881,7 +1981,10 @@
       "sku": 48,
       "label": 18
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 1
+     }
     }
    ]
   },
@@ -1891,7 +1994,7 @@
    "series": [
     {
      "series": "Secure Console",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 2,
@@ -1907,11 +2010,14 @@
      "rules": {
       "sku": 2
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 1
+     }
     },
     {
      "series": "Terminal Services Gateways",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 3,
@@ -1927,7 +2033,8 @@
      "rules": {
       "sku": 3
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Console and Terminal Servers shared parts",
@@ -1947,7 +2054,8 @@
      "rules": {
       "label-unsupported": 3
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   }
@@ -4426,5 +4534,5 @@
  },
  "pending_review": [],
  "inbound_unplaced": {},
- "done": true
+ "done": false
 }

@@ -1,15 +1,18 @@
 {
  "vendor": "cisco",
  "category": "storage-networking",
- "built_at": "2026-09-15T23:24:29.835Z",
- "commit": "daa609b5f1a24431ec097b320227e7df1b36b063",
+ "built_at": "2026-09-17T13:05:47.773Z",
+ "commit": "80696e3daf1c12d95bb79123a4818381782ed6ba",
  "uncommitted_rule_files": [
-  "data/reference/family-carriers.json",
-  "data/reference/layers-cross-claims.json",
-  "scripts/build-layers.mts"
+  "scripts/build-arrangement-site.mts",
+  "scripts/build-layers.mts",
+  "src/core/layerChecks.ts",
+  "src/core/productLine.ts"
  ],
  "mapping_file": "data/reference/product-lines/cisco-storage-networking.json",
  "parts": 661,
+ "layered": 661,
+ "pending": 0,
  "lines": [
   {
    "line": "MDS 9000 Multilayer SAN Switches",
@@ -17,7 +20,7 @@
    "series": [
     {
      "series": "MDS 9700 directors (9706 / 9710 / 9718) and modules",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "^DS-X9(706|710|718) removed in layers round 3 (storage round): ^DS-X97 decides every row it matched (the rule-shadowing check named it)",
      "parts": 111,
@@ -42,11 +45,12 @@
      "rules": {
       "sku": 111
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MDS 9500 / 9200 switching modules",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 55,
@@ -65,11 +69,12 @@
      "rules": {
       "sku": 55
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MDS 9500 directors (9506 / 9509 / 9513)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "^DS-6SL[0O]T- and ^DS-9SL0T- (re-audit decisions, operator, 15 Sep 2026, F-1): DS-6SLOT-FAN= / DS-6SL0T-FAN= 'MDS 9506 Fan Tray', DS-6SLOT-CAB= 'MDS 9506 Rack Mount and Cable Mgmt Brackets' and DS-9SL0T-FAN= 'MDS 9509 Fan Tray' (Cisco's SKUs print a zero for the O) name one director each; they sat in MDS shared parts by ^DS-, while DS-9SLOT-FAN= and DS-9SLOT-CAB= already sat here",
      "parts": 91,
@@ -94,11 +99,12 @@
      "rules": {
       "sku": 91
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MDS 9300 fabric switches (9396S / 9396T / 9396V)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "^(?=DS-) (layers round 3, storage round): the 48 rows the rule decides are DS- PIDs; unfenced it claimed 20 Nexus 9396PX rows in switches",
      "parts": 48,
@@ -118,11 +124,12 @@
      "rules": {
       "sku": 48
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "^(?=DS-|MDS-) (layers round 3, storage round): the 35 rows the rule decides are DS- PIDs and MDS-9222I-75-PPT; unfenced it claimed the Nexus 92160 rows in switches, the UCSC-RAID-9220 controllers in servers and the Prisma II 9220F-DIFL option in video. ^SAN50C-R$ (same round): 'IBM SAN50C-R', the IBM-branded MDS 9250i that Cisco's 'MDS 9250i Multiservice Fabric Switch' end-of-sale notice lists; the label check found no platform token and held it for review (a whole switch). ^DS-2SLOT- (re-audit decisions, operator, 15 Sep 2026, F-1): DS-2SLOT-FAN= 'MDS 9216 Fan Tray' names the 9216 alone; it sat in MDS shared parts by ^DS-",
      "parts": 41,
@@ -145,11 +152,12 @@
      "rules": {
       "sku": 41
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "^(?=DS-) (layers round 3, storage round): the 169 rows the rule decides are DS- PIDs; unfenced it claimed 212 Catalyst 9120 / 9124 access points in wireless and 6 AMD EPYC 9124 processors in servers. ^DS-1RU-FAN and ^DS-C24-300AC (re-audit decisions, operator, 15 Sep 2026, F-1): DS-1RU-FAN(=) 'Cisco MDS 9100 Series Fan Tray' and DS-C24-300AC(=, -IBM=) 'MDS 9124 Power Supply' / 'Cisco MDS 91x4 300W AC power supply' name this series alone; they sat in MDS shared parts by ^DS-",
      "parts": 174,
@@ -172,11 +180,12 @@
      "rules": {
       "sku": 174
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MDS blade-server FC switches (HP / IBM / Dell)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 4,
@@ -193,7 +202,8 @@
      "rules": {
       "sku": 4
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MDS 9000 Multilayer SAN Switches shared parts",
@@ -225,7 +235,8 @@
       "label-unsupported": 2,
       "label": 2
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   }

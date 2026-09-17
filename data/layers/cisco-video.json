@@ -1,15 +1,18 @@
 {
  "vendor": "cisco",
  "category": "video",
- "built_at": "2026-09-15T23:24:28.766Z",
- "commit": "daa609b5f1a24431ec097b320227e7df1b36b063",
+ "built_at": "2026-09-17T13:05:45.900Z",
+ "commit": "80696e3daf1c12d95bb79123a4818381782ed6ba",
  "uncommitted_rule_files": [
-  "data/reference/family-carriers.json",
-  "data/reference/layers-cross-claims.json",
-  "scripts/build-layers.mts"
+  "scripts/build-arrangement-site.mts",
+  "scripts/build-layers.mts",
+  "src/core/layerChecks.ts",
+  "src/core/productLine.ts"
  ],
  "mapping_file": "data/reference/product-lines/cisco-video.json",
  "parts": 3261,
+ "layered": 3261,
+ "pending": 0,
  "lines": [
   {
    "line": "GS7000 Nodes and Optical Hubs",
@@ -17,7 +20,7 @@
    "series": [
     {
      "series": "GS7000 configured nodes",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 438,
@@ -36,11 +39,12 @@
      "rules": {
       "sku": 438
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "GS7000 Optical Hub",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 19,
@@ -64,11 +68,12 @@
       "name": 5,
       "sku": 14
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "GS7000 iNode",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 28,
@@ -91,11 +96,12 @@
      "rules": {
       "sku": 28
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "GS7000 optical transmitters and receivers (numeric PIDs)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "bare Scientific-Atlanta part numbers (base.channel) of GS7000 EDR / DWDM / CWDM optical transmitters and receivers",
      "parts": 387,
@@ -114,11 +120,12 @@
      "rules": {
       "sku": 387
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "GS7000 node modules and housings",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 571,
@@ -148,11 +155,12 @@
       "name": 129,
       "sku": 442
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "GainMaker plug-ins (pads, equalizers)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 43,
@@ -174,7 +182,8 @@
       "name": 2,
       "sku": 41
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "GS7000 Nodes and Optical Hubs shared parts",
@@ -204,7 +213,8 @@
       "label": 130,
       "accessory": 3
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -214,7 +224,7 @@
    "series": [
     {
      "series": "Prisma II HD",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 399,
@@ -240,11 +250,12 @@
       "name": 259,
       "sku": 140
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Prisma II XD",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 7,
@@ -265,11 +276,12 @@
      "rules": {
       "name": 7
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Prisma D-PON",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "^4035899$ (layers round 3, video round): named only 'Cisco 4035899', so the label check found no evidence and moved it to shared parts; Cisco's 'Prisma D-PON Optical Network Terminal and Accessories' end-of-sale notice lists it as CYL-BWDM-DPON-13101490/15501610-900-SA, a D-PON BWDM filter",
      "parts": 11,
@@ -291,11 +303,12 @@
       "name": 10,
       "sku": 1
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Prisma II",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "layers round 3, video round: three chassis rows sat in the line's shared parts by the label 'Prisma II Products' — 4011176 'Chassis, Frt Acc, No RF, 2/DC Pwr' (the base number of the 4011176.xxx '(P2-CH-F-…) Chassis' rows this series holds; Cisco's 'Prisma II Full Height Chassis and modules' end-of-sale notice), 4008670 'Faceplate, Chassis' (the same notice; a faceplate the kind axis reads as a chassis — listed for the kind layer) and 1RU-DRF-XFP= '1RU Chassis for 12 XFP Tx' (the Prisma II XFP QAM transmitters' end-of-sale notice)",
      "parts": 270,
@@ -325,7 +338,8 @@
       "sku": 75,
       "name": 195
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Prisma II Optical Transport shared parts",
@@ -357,7 +371,8 @@
       "label": 86,
       "accessory": 1
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -367,7 +382,7 @@
    "series": [
     {
      "series": "cBR-8",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 122,
@@ -393,7 +408,8 @@
      "rules": {
       "sku": 122
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "cBR-8 Converged Broadband Router shared parts",
@@ -411,7 +427,8 @@
      "rules": {
       "label-unsupported": 1
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -421,7 +438,7 @@
    "series": [
     {
      "series": "Remote PHY devices (RPD / Smart PHY)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 4,
@@ -438,11 +455,12 @@
      "rules": {
       "sku": 4
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Remote PHY Shelf 7200",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 28,
@@ -467,11 +485,12 @@
      "rules": {
       "sku": 28
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Remote PHY shelves and cabling",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "^RPHY(?!-S10G-) (operator decision, layers round 3): the RPHY-S10G-<reach>-<channel> rows are the Remote PHY SFPs Cisco's end-of-sale bulletin names — transceivers; the rule claimed 63 of them in transceiver and the 57 filed here carry plans to it",
      "parts": 20,
@@ -491,7 +510,8 @@
      "rules": {
       "sku": 20
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -501,7 +521,7 @@
    "series": [
     {
      "series": "RFGW-10",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 33,
@@ -527,11 +547,12 @@
      "rules": {
       "sku": 33
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "RFGW-1",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 306,
@@ -558,7 +579,8 @@
       "name": 9,
       "sku": 297
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "RF Gateway shared parts",
@@ -588,7 +610,8 @@
       "accessory": 3,
       "sku": 34
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -598,7 +621,7 @@
    "series": [
     {
      "series": "Dispersion compensation modules",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 16,
@@ -618,11 +641,12 @@
       "name": 9,
       "sku": 7
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Mux / demux, OADM and WDM filters",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 101,
@@ -642,7 +666,8 @@
       "name": 78,
       "sku": 23
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Optical Passive Components shared parts",
@@ -666,7 +691,8 @@
      "rules": {
       "label": 194
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   }

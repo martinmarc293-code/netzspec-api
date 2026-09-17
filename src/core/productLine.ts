@@ -1,6 +1,7 @@
-// src/core/productLine.ts — layers 2 and 3 of a category as the OPERATOR defines them (14 Sep 2026): the PRODUCT LINE a
-// buyer names (switches: Catalyst, Nexus, Industrial Ethernet, …) and the SERIES inside it (Catalyst 9300, Nexus 7000,
-// IE 4000). The part-type axis (partKind: switch / power / linecard) stays underneath and still decides the cups.
+// src/core/productLine.ts — the layers under a category as the OPERATOR defines them (14 Sep 2026; LAYER_MODEL below is the one
+// statement of them): the PRODUCT LINE a buyer names (switches: Catalyst, Nexus, Industrial Ethernet, …), the FAMILY where Cisco
+// names one, and the SERIES (Catalyst 9300, Nexus 7700, IE 4000). The part-type axis (partKind: switch / power / linecard) stays
+// underneath and still decides the cups.
 //
 // THE MAPPING IS DATA, one file per category: data/reference/product-lines/<vendor>-<category>.json, hand-read from the
 // live series labels, SKUs and names. A part is placed by the FIRST matching rule, in this order over the whole file:
@@ -9,7 +10,9 @@
 //   2. series `sku` patterns (the SKU is the most precise evidence; it overrides a wrong series label);
 //   3. series `name` patterns (case-insensitive, for rows whose SKU carries no family token);
 //   4. series `labels` (the stored parts.series value, compared trimmed and case-insensitive).
-// A part no rule places is UNPLACED and returned as null: a category is done only when that count is 0.
+// A part no rule places is UNPLACED and returned as null. A category is done only when every row is LAYERED: 0 unplaced, and
+// also 0 rows with a pending move or class plan, 0 held for review, 0 not this category (scripts/build-layers.mts — a plan is
+// not a placement; the pages said DONE over 1,974 planned rows until the review of 17 Sep 2026).
 // No `\b` anywhere (product tokens are not word-shaped): anchor with ^ and explicit character classes.
 import fs from "node:fs";
 import path from "node:path";
@@ -48,6 +51,20 @@ type Compiled = {
 };
 
 export const SHARED_PARTS = (line: string) => `${line} shared parts`;
+
+/** Layer 3 of a layered row or a series whose line names no family there: explicit in the built JSON and TSV, never null — the
+ * review of 17 Sep 2026 read `product_family: null` as undecided. null stays for a row that is not layered at all (its product
+ * line and series are null too). The line-level shared-parts marker is "(shared across the line)" (scripts/build-layers.mts). */
+export const NO_FAMILY = "(none)";
+
+/** THE ONE STATEMENT OF THE LAYER MODEL (operator, 14 Sep 2026, docs/decisions/2026-09-14-family-layer.md), printed by the layer
+ * pages AND the arrangement site. The review of 17 Sep 2026 found three numberings in print: the index said "layer 3 = series", the
+ * category pages "layer 4 series", the arrangement README "layer 2 kind, layer 3 role, layer 4 cups". */
+export const layerModel = (vendor: string): string => {
+  const v = vendor.charAt(0).toUpperCase() + vendor.slice(1);
+  return `Layers: 1 category → 2 product line → 3 family (only where ${v} names one) → 4 series. ` +
+    `The part type (kind), the deploy role and the cups sit under each series; they are not layers.`;
+};
 
 /** Shape and consistency errors of a line file, one line each (the test and the builder refuse on any). */
 export function validateLineFile(f: LineFile): string[] {

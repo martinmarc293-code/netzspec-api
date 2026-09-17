@@ -1,15 +1,18 @@
 {
  "vendor": "cisco",
  "category": "meraki",
- "built_at": "2026-09-15T23:24:29.943Z",
- "commit": "daa609b5f1a24431ec097b320227e7df1b36b063",
+ "built_at": "2026-09-17T13:05:47.968Z",
+ "commit": "80696e3daf1c12d95bb79123a4818381782ed6ba",
  "uncommitted_rule_files": [
-  "data/reference/family-carriers.json",
-  "data/reference/layers-cross-claims.json",
-  "scripts/build-layers.mts"
+  "scripts/build-arrangement-site.mts",
+  "scripts/build-layers.mts",
+  "src/core/layerChecks.ts",
+  "src/core/productLine.ts"
  ],
  "mapping_file": "data/reference/product-lines/cisco-meraki.json",
  "parts": 91,
+ "layered": 91,
+ "pending": 0,
  "lines": [
   {
    "line": "Meraki MV Smart Cameras",
@@ -31,7 +34,8 @@
      "rules": {
       "sku": 1
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MV12",
@@ -52,7 +56,8 @@
      "rules": {
       "sku": 4
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MV22",
@@ -71,7 +76,8 @@
      "rules": {
       "sku": 2
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MV32",
@@ -89,7 +95,8 @@
      "rules": {
       "sku": 1
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MV52",
@@ -107,7 +114,8 @@
      "rules": {
       "sku": 1
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MV72",
@@ -126,7 +134,8 @@
      "rules": {
       "sku": 2
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MV13",
@@ -145,7 +154,8 @@
      "rules": {
       "sku": 2
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MV23",
@@ -165,7 +175,8 @@
      "rules": {
       "sku": 3
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MV33",
@@ -184,7 +195,8 @@
      "rules": {
       "sku": 2
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MV63",
@@ -204,7 +216,8 @@
      "rules": {
       "sku": 3
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MV73",
@@ -224,7 +237,8 @@
      "rules": {
       "sku": 3
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MV93",
@@ -244,11 +258,12 @@
      "rules": {
       "sku": 3
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MV21",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 1,
@@ -262,11 +277,12 @@
      "rules": {
       "sku": 1
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MV71",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 1,
@@ -280,11 +296,12 @@
      "rules": {
       "sku": 1
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MV44X",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 2,
@@ -299,11 +316,12 @@
      "rules": {
       "sku": 2
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MV53X",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 2,
@@ -318,11 +336,12 @@
      "rules": {
       "sku": 2
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MV84X",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 2,
@@ -337,7 +356,8 @@
      "rules": {
       "sku": 2
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -347,7 +367,7 @@
    "series": [
     {
      "series": "MX64",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 2,
@@ -362,11 +382,12 @@
      "rules": {
       "sku": 2
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MX65",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 2,
@@ -381,11 +402,12 @@
      "rules": {
       "sku": 2
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MX67",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 3,
@@ -401,11 +423,12 @@
      "rules": {
       "sku": 3
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MX68",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 3,
@@ -421,11 +444,12 @@
      "rules": {
       "sku": 3
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MX75",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 1,
@@ -439,11 +463,12 @@
      "rules": {
       "sku": 1
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MX84",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 1,
@@ -457,11 +482,12 @@
      "rules": {
       "sku": 1
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MX85",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 1,
@@ -475,11 +501,12 @@
      "rules": {
       "sku": 1
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MX95",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 1,
@@ -493,11 +520,12 @@
      "rules": {
       "sku": 1
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MX100",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 1,
@@ -511,11 +539,12 @@
      "rules": {
       "sku": 1
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MX105",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 1,
@@ -529,11 +558,12 @@
      "rules": {
       "sku": 1
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MX250",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 1,
@@ -547,11 +577,12 @@
      "rules": {
       "sku": 1
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MX450",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 1,
@@ -565,7 +596,8 @@
      "rules": {
       "sku": 1
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -575,7 +607,7 @@
    "series": [
     {
      "series": "Z4",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 2,
@@ -590,11 +622,12 @@
      "rules": {
       "sku": 2
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Z4C",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 2,
@@ -609,7 +642,8 @@
      "rules": {
       "sku": 2
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -619,7 +653,7 @@
    "series": [
     {
      "series": "MG21 / MG21E",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 6,
@@ -638,11 +672,12 @@
      "rules": {
       "sku": 6
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MG41 / MG41E",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 4,
@@ -659,11 +694,12 @@
      "rules": {
       "sku": 4
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MG51 / MG51E",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 4,
@@ -680,11 +716,12 @@
      "rules": {
       "sku": 4
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MG52 / MG52E",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 4,
@@ -701,7 +738,8 @@
      "rules": {
       "sku": 4
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -711,7 +749,7 @@
    "series": [
     {
      "series": "MT10",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 2,
@@ -726,11 +764,12 @@
      "rules": {
       "sku": 2
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MT11",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 2,
@@ -745,11 +784,12 @@
      "rules": {
       "sku": 2
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MT12",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 2,
@@ -764,11 +804,12 @@
      "rules": {
       "sku": 2
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MT14",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 2,
@@ -783,11 +824,12 @@
      "rules": {
       "sku": 2
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MT15",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 2,
@@ -802,11 +844,12 @@
      "rules": {
       "sku": 2
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MT20",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 2,
@@ -821,11 +864,12 @@
      "rules": {
       "sku": 2
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MT30",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 2,
@@ -840,11 +884,12 @@
      "rules": {
       "sku": 2
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MT40",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 2,
@@ -859,7 +904,8 @@
      "rules": {
       "sku": 2
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   }

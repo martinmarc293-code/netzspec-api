@@ -1,15 +1,18 @@
 {
  "vendor": "cisco",
  "category": "data-center-networking",
- "built_at": "2026-09-15T23:24:29.998Z",
- "commit": "daa609b5f1a24431ec097b320227e7df1b36b063",
+ "built_at": "2026-09-17T13:05:48.076Z",
+ "commit": "80696e3daf1c12d95bb79123a4818381782ed6ba",
  "uncommitted_rule_files": [
-  "data/reference/family-carriers.json",
-  "data/reference/layers-cross-claims.json",
-  "scripts/build-layers.mts"
+  "scripts/build-arrangement-site.mts",
+  "scripts/build-layers.mts",
+  "src/core/layerChecks.ts",
+  "src/core/productLine.ts"
  ],
  "mapping_file": "data/reference/product-lines/cisco-data-center-networking.json",
  "parts": 22,
+ "layered": 0,
+ "pending": 22,
  "lines": [
   {
    "line": "Nexus Hyperfabric",
@@ -17,7 +20,7 @@
    "series": [
     {
      "series": "Nexus Hyperfabric HF6100",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 0,
@@ -25,7 +28,11 @@
      "roles": {},
      "samples": [],
      "rules": {},
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "move to routers": 1,
+      "move to switches": 21
+     }
     }
    ]
   }
@@ -218,5 +225,5 @@
  },
  "pending_review": [],
  "inbound_unplaced": {},
- "done": true
+ "done": false
 }

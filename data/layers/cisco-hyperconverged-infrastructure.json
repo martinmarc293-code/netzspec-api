@@ -1,15 +1,18 @@
 {
  "vendor": "cisco",
  "category": "hyperconverged-infrastructure",
- "built_at": "2026-09-15T23:24:29.781Z",
- "commit": "daa609b5f1a24431ec097b320227e7df1b36b063",
+ "built_at": "2026-09-17T13:05:47.699Z",
+ "commit": "80696e3daf1c12d95bb79123a4818381782ed6ba",
  "uncommitted_rule_files": [
-  "data/reference/family-carriers.json",
-  "data/reference/layers-cross-claims.json",
-  "scripts/build-layers.mts"
+  "scripts/build-arrangement-site.mts",
+  "scripts/build-layers.mts",
+  "src/core/layerChecks.ts",
+  "src/core/productLine.ts"
  ],
  "mapping_file": "data/reference/product-lines/cisco-hyperconverged-infrastructure.json",
  "parts": 775,
+ "layered": 732,
+ "pending": 43,
  "lines": [
   {
    "line": "Compute Hyperconverged with VMware vSAN",
@@ -17,7 +20,7 @@
    "series": [
     {
      "series": "vSAN nodes (C220 / C225 / C240 / C245 / X210c / X215c)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "^HC[IO].*VSAN (layers round 3): the bare VSAN rule decides HCI-M8-VSAN-MLB and HCIX-M8-VSAN-MLB and claimed seven UCS vSAN bundles in servers-unified-computing (UCS-SA-VSAN-EXP-DP, UCS-SPL-VSAN1 …)",
      "parts": 12,
@@ -37,7 +40,10 @@
      "rules": {
       "sku": 12
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 1
+     }
     }
    ]
   },
@@ -47,7 +53,7 @@
    "series": [
     {
      "series": "HCI XE-Series (XE130c / XE9305)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 6,
@@ -69,11 +75,12 @@
      },
      "pending_in": {
       "servers-unified-computing": 4
-     }
+     },
+     "pending_out": {}
     },
     {
      "series": "HCIX X-Series (X210c / X215c / X440p / X9508)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "^HCIX-(210|215) removed in layers round 3: ^HC[IO]X(NX|AF|F)?-?21[05]C decides both rows it matched. ^HC[IO]X-440P (layers round 3): HCIX-440P / -U, the X440p PCIe node of the X9508 (named only by their SKUs; kind server), sat in the line's shared parts — the device check names a server there",
      "parts": 18,
@@ -93,11 +100,12 @@
      "rules": {
       "sku": 18
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "HCI fabric interconnects and X-Fabric",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "^HC[IO]X-S9108 (layers round 3): HCIX-S9108-100G 'Cisco UCS Fabric Interconnect 9108 100G' and HCIX-S9108-SW sat in the line's shared parts with kind fabric-interconnect",
      "parts": 14,
@@ -120,11 +128,12 @@
      },
      "pending_in": {
       "servers-unified-computing": 15
-     }
+     },
+     "pending_out": {}
     },
     {
      "series": "HCI C220 nodes",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "layers round 3: the two model rules are fenced to the prefixes of the rows they decide (HCI- and the one UCSC-R2R3-C220M6 for 220M; HCI- for C220 — the other row it decided, 'C220/C240/B200', is a family placeholder with a class plan); unfenced they claimed the C220-based parts of the 5520 controller, CMX / MSE and IEC6400 in wireless, XRV-FAN-C220M4= in routers, and the UCS C220 rows of servers-unified-computing and hyperconverged-systems",
      "parts": 20,
@@ -147,11 +156,12 @@
      "rules": {
       "sku": 20
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "HCI C225 nodes",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "layers round 3: ^HC[IO]X? — HCOXNX225C-M8SN / -U 'Cisco Compute-Only C225 M8 Node' sat in the line's shared parts (servers in shared parts); the 225M rule is fenced to the HCI- rows it decides (unfenced it claimed UCS C225 rows of servers-unified-computing and hyperconverged-systems)",
      "parts": 11,
@@ -171,11 +181,12 @@
      "rules": {
       "sku": 11
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "HCI C240 nodes",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "the C240 alternative was removed in layers round 3: it decided none of its 5 matches and claimed 301 servers, 29 hyperconverged-systems and 3 wireless rows. The 240M rule is fenced in the same round to the prefixes of the rows it decides (HCI- and UCSC-RIS2A-240M6)",
      "parts": 29,
@@ -198,7 +209,8 @@
      "rules": {
       "sku": 29
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Compute Hyperconverged with Nutanix shared parts",
@@ -238,6 +250,9 @@
      },
      "pending_in": {
       "servers-unified-computing": 463
+     },
+     "pending_out": {
+      "class -> non_product": 42
      }
     }
    ]
@@ -599,5 +614,5 @@
  },
  "pending_review": [],
  "inbound_unplaced": {},
- "done": true
+ "done": false
 }

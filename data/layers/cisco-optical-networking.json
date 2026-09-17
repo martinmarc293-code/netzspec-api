@@ -1,15 +1,18 @@
 {
  "vendor": "cisco",
  "category": "optical-networking",
- "built_at": "2026-09-15T23:24:29.623Z",
- "commit": "daa609b5f1a24431ec097b320227e7df1b36b063",
+ "built_at": "2026-09-17T13:05:47.440Z",
+ "commit": "80696e3daf1c12d95bb79123a4818381782ed6ba",
  "uncommitted_rule_files": [
-  "data/reference/family-carriers.json",
-  "data/reference/layers-cross-claims.json",
-  "scripts/build-layers.mts"
+  "scripts/build-arrangement-site.mts",
+  "scripts/build-layers.mts",
+  "src/core/layerChecks.ts",
+  "src/core/productLine.ts"
  ],
  "mapping_file": "data/reference/product-lines/cisco-optical-networking.json",
  "parts": 1158,
+ "layered": 1158,
+ "pending": 0,
  "lines": [
   {
    "line": "NCS 1000",
@@ -17,7 +20,7 @@
    "series": [
     {
      "series": "NCS 1001 / 1002 / 1004 / 1010 / 1014",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 130,
@@ -46,7 +49,8 @@
      "rules": {
       "sku": 130
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "NCS 1000 shared parts",
@@ -69,7 +73,8 @@
       "label-unsupported": 1,
       "accessory": 3
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -79,7 +84,7 @@
    "series": [
     {
      "series": "NCS 2000 (NCS 2002 / 2006 / 2015)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 142,
@@ -109,11 +114,12 @@
      "rules": {
       "sku": 142
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "ONS 15454 MSTP (M2 / M6 / M12 shelves and cards)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 285,
@@ -147,7 +153,8 @@
       "sku": 284,
       "label": 1
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "ONS 15454 MSTP and NCS 2000 shared parts",
@@ -172,7 +179,8 @@
      "rules": {
       "label-unsupported": 10
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -182,7 +190,7 @@
    "series": [
     {
      "series": "ONS 15200 (15201 / 15252) CLIP and NAM modules",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 121,
@@ -205,11 +213,12 @@
      "rules": {
       "sku": 121
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "ONS 15216 filters, OADM, mux/demux and DCU",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "^15216(?!-GBIC) (layers round 3, optical round): 15216-GBIC-1510(=) is a GBIC the transceiver round filed in GBIC (legacy); the rule claimed it",
      "parts": 316,
@@ -236,7 +245,8 @@
      "rules": {
       "sku": 316
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -246,7 +256,7 @@
    "series": [
     {
      "series": "CWDM mux/demux, OADM plug-ins and chassis (CWDM-MUX / CWDM-OADM / DS-CWDM)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "the home of the 28 passive CWDM mux/demux, OADM plug-ins and the 2-slot chassis planned in from transceiver (18 in the kind layer, 10 CWDM-OADM1 / OADM4 in layers round 3, 14 Sep 2026). The MDS CWDM SFP optics (DS-CWDM-1470=, DS-CWDM8G1610=) are transceivers and are not matched. ^EWDM- (layers round 3, 15 Sep 2026): EWDM-OADM2= / EWDM-OADM4= and the EWDM-OA= amplifier, planned in from interfaces-modules (kind layer, 13 Sep) — Cisco's EoL notice sells the EWDM OADMs with the CWDM Mux/Demux ('End-of-Sale … Infiniband Cables, CWDM Mux/Demux, EWDM OADM'); their exact series is the optical round's",
      "parts": 31,
@@ -267,7 +277,8 @@
      "rules": {
       "sku": 31
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -277,7 +288,7 @@
    "series": [
     {
      "series": "NCS 4009 / 4016",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 84,
@@ -305,7 +316,8 @@
      "rules": {
       "sku": 84
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -315,7 +327,7 @@
    "series": [
     {
      "series": "QSFP-DD Pluggable Open Line System (QDD OLS)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "layers round 3 (15 Sep 2026): ONS-QDD-OLS= 'QSFP-DD Open Line System, Pre and Bst EDFA' and the colorless mux/dmx breakouts ONS-BRK-CS-8LC= / -16LC=, planned in from interfaces-modules (kind layer, 13 Sep) — the parts of Cisco's 'QSFP-DD Pluggable Open Line System (QDD OLS)' data sheet; the series is named for that product (reviewed in the optical round: kept). The series 'NCS 5500 OTN interface processors' (^NC55-OIP, label 'Routed Optical Networking') was removed in the optical round: its four NC55-OIP-02 MPAs carry plans to routers' NCS 5500 (A.3 rule 1)",
      "parts": 3,
@@ -332,7 +344,8 @@
      "rules": {
       "sku": 3
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -342,7 +355,7 @@
    "series": [
     {
      "series": "MPO / LC patchcords, attenuators and patch panels",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "^ONS-CAB- places ONS-CAB-CS-LC-5= 'Duplex optical patchcord, LC to CS connectors, 5m', planned in from interfaces-modules (layers round 3, A-11). CXP2-MPO (layers round 3, optical round): the CXP2 alternative is for the ONS-CXP2-MPO patchcords; it claimed the CXP2 transceiver ONS-CXP2-SR25 in transceiver",
      "parts": 32,
@@ -361,7 +374,8 @@
      "rules": {
       "sku": 32
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   }

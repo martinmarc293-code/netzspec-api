@@ -78,6 +78,12 @@ if ! $T scripts/build-arrangement-site.mts --vendor "$VENDOR" --out "$SITE/$VEND
 fi
 cat logs/site.txt
 chmod -R a+rX "$SITE/$VENDOR.new"
+# THE LAYER PAGES LIVE IN THIS DIRECTORY TOO: scripts/publish-layers.sh publishes layers/ and data/layers-cross-claims.json into it, and
+# the swap below replaces the whole directory and deletes the old one — so until 17 Sep 2026 an arrangement publish would have deleted
+# the live layer pages. Carried across unchanged; they print their own commit, and publish-layers.sh rebuilds them from a commit.
+if [ -d "$SITE/$VENDOR/layers" ]; then cp -a "$SITE/$VENDOR/layers" "$SITE/$VENDOR.new/layers" || { echo "FAILED to carry layers/ across — the live site is unchanged"; exit 7; }; fi
+if [ -f "$SITE/$VENDOR/data/layers-cross-claims.json" ]; then mkdir -p "$SITE/$VENDOR.new/data" && cp -a "$SITE/$VENDOR/data/layers-cross-claims.json" "$SITE/$VENDOR.new/data/" || { echo "FAILED to carry layers-cross-claims.json across — the live site is unchanged"; exit 7; }; fi
+echo "   carried across: layers/ $(ls "$SITE/$VENDOR.new/layers" 2>/dev/null | wc -l) files"
 [ -d "$SITE/$VENDOR" ] && mv "$SITE/$VENDOR" "$SITE/$VENDOR.old"
 mv "$SITE/$VENDOR.new" "$SITE/$VENDOR" && rm -rf "$SITE/$VENDOR.old"
 echo "   published $(date +%H:%M:%S)"

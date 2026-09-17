@@ -17,6 +17,9 @@
 import fs from "node:fs";
 import path from "node:path";
 import { FIELD_DICTIONARY } from "../src/core/fieldSchema.js";
+// the one statement of the layer model, shared with the layer pages (review of 17 Sep 2026: this site numbered kind / role / cups as
+// layers 2-4 while the layer pages numbered product line / family / series)
+import { layerModel } from "../src/core/productLine.js";
 
 // ---------------------------------------------------------------------------------------------------------------- args
 const argv = process.argv.slice(2);
@@ -249,7 +252,8 @@ const sevTag = (s: string) => `<span class="tag ${s === "bad" ? "t-gap" : s === 
   }).join("");
   const body = `<h1>${esc(vendor)} — phase 1: arranging cups</h1>
 ${questions ? `<div class="banner b-refused"><b>OPEN QUESTIONS FOR THE REVIEWER</b> — decisions the parent has not taken, each with its measurement: <a href="questions.html">questions.html</a> (raw: <a href="questions.md">questions.md</a>)</div>` : ""}
-<p>This site shows how every ${esc(vendor)} hardware part is ARRANGED before any value is filled: which <b>category</b> table it sits in (layer 1), which <b>kind</b> it is (layer 2, derived from the SKU by code), which <b>role</b> within the kind where the kind is too coarse (layer 3, <code>deploy_role</code>), and which <b>cups</b> — required, pending, optional, not applicable — that combination is asked (layer 4). Then, per cup, the state of every slot: filled, not published, not parsed, mapper gap, not held. Everything wrong or missing that a rule can detect is on the <a href="findings.html">findings</a> page.</p>
+<p>${esc(layerModel(vendor))} The layers are on the <a href="layers/index.html">layer pages</a>.</p>
+<p>This site shows how every ${esc(vendor)} hardware part is ARRANGED before any value is filled, under its series: which <b>category</b> table it sits in, which <b>kind</b> it is (derived from the SKU by code), which <b>role</b> within the kind where the kind is too coarse (<code>deploy_role</code>), and which <b>cups</b> — required, pending, optional, not applicable — that combination is asked. Then, per cup, the state of every slot: filled, not published, not parsed, mapper gap, not held. Everything wrong or missing that a rule can detect is on the <a href="findings.html">findings</a> page.</p>
 <h2>Brand</h2><div class=wrap><table>${brandRows.map(([k, v]) => `<tr><th>${k}</th><td>${v}</td></tr>`).join("")}</table></div>
 <h2>Findings at a glance</h2>${tableOf(findings.map((x) => ({ severity: x.severity, finding: x.title, count: x.count, over: x.denominator })), ["severity", "finding", "count", "over"])}
 <p><a href="findings.html">open every finding with its rows →</a></p>
@@ -373,9 +377,10 @@ ${roleBlocks.length ? `<p><b>roles</b></p>${tableOf(roleBlocks)}` : ""}
   const section = specSection(cat);
   const body = `<h1>${esc(cat)}</h1>
 <p>hardware parts ${n(c.hardware_parts)} · held ${frac(c.held)} · filled ${frac(c.filled)} · not parsed ${n(c.filled?.not_parsed)} · mapper gap ${n(c.filled?.mapper_gap ?? null)} · not held parts ${n(c.filled?.not_held_parts)} · unresolved kind ${n(c.unresolved_kind_parts ?? null)} · profile ${esc(c.profile_hash)} · ledger on ${esc(l.built_on_commit ?? "no ledger")}</p>
-<h2>Layer 2 — kinds</h2><div class=wrap><table><tr><th>kind</th><th class=r>parts</th><th>role axis</th><th class=r>required</th><th class=r>pending</th><th class=r>n/a</th><th class=r>optional</th><th>held</th><th>filled</th><th class=r>not parsed</th><th class=r>mapper gap</th><th class=r>not held parts</th><th>kind</th></tr>${kindRows}</table></div>
-<h2>Layer 4 — cup matrix (required / pending / optional / n/a per kind core)</h2>${matrix}
-<h2>Each kind: question set, roles (layer 3), evidence, slot states</h2>${kindSections}
+<p class=muted>${esc(layerModel(vendor))} This category's layers: <a href="../layers/${esc(slug(cat))}.html">layer page</a>.</p>
+<h2>Kinds</h2><div class=wrap><table><tr><th>kind</th><th class=r>parts</th><th>role axis</th><th class=r>required</th><th class=r>pending</th><th class=r>n/a</th><th class=r>optional</th><th>held</th><th>filled</th><th class=r>not parsed</th><th class=r>mapper gap</th><th class=r>not held parts</th><th>kind</th></tr>${kindRows}</table></div>
+<h2>Cup matrix (required / pending / optional / n/a per kind core)</h2>${matrix}
+<h2>Each kind: question set, roles, evidence, slot states</h2>${kindSections}
 <h2>Plans touching ${esc(cat)}</h2><p>moves out ${po.filter((p) => p.action === "move").length} · moves in ${pi.length} · class changes ${po.filter((p) => p.action === "class").length}</p>
 <details><summary>moves out</summary>${tableOf(po.filter((p) => p.action === "move").map((p) => ({ sku: p.sku, to: p.to, expected_kind_after: p.expected_kind_after, run_id: p.run_id, reason: p.reason })), undefined, 1000)}</details>
 <details><summary>moves in</summary>${tableOf(pi.map((p) => ({ sku: p.sku, from: p.category, expected_kind_after: p.expected_kind_after, run_id: p.run_id, reason: p.reason })), undefined, 1000)}</details>
@@ -404,13 +409,19 @@ write("README.txt", `netzspec arrangement site — ${vendor}
 Generated ${generatedAt} from commit ${commit} (state: ${state}${refused || failedChecks.length ? `; report build failed ${failedChecks.length} cross-check(s): ${failedChecks.map((c) => c.name).join(", ")}` : ""}).
 
 What this is: phase 1 ("arranging cups") of the ${vendor} catalogue — how every hardware part is arranged BEFORE values are filled.
-  layer 1 category  (the table a part sits in)
-  layer 2 kind      (derived from the SKU by code)
-  layer 3 role      (deploy_role, only where a kind is too coarse)
-  layer 4 cups      (required / pending / optional / not applicable per kind and role)
+${layerModel(vendor)}
+  layer 1 category      (the table a part sits in)
+  layer 2 product line  (the line a buyer names)
+  layer 3 family        (only where the vendor names one; "(none)" in the layer JSON where it does not)
+  layer 4 series        (the layer pages: layers/index.html, one page and one JSON per category)
+Under each series, and not layers:
+  kind   (derived from the SKU by code)
+  role   (deploy_role, only where a kind is too coarse)
+  cups   (required / pending / optional / not applicable per kind and role)
 and per cup the state of every slot: filled, not published, not parsed, mapper gap, not held, would refuse.
 
 Pages (HTML, no JavaScript needed):
+  layers/index.html              the layers per category: status, product lines, families, series, every row (scripts/build-layers.mts)
   questions.html / questions.md  OPEN QUESTIONS for the reviewer, each with its measurement (read first)
   index.html                     brand numbers, categories, findings summary
   findings.html                  every rule-detected problem with its rows and denominators

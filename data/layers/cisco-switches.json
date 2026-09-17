@@ -1,15 +1,18 @@
 {
  "vendor": "cisco",
  "category": "switches",
- "built_at": "2026-09-15T23:24:27.191Z",
- "commit": "daa609b5f1a24431ec097b320227e7df1b36b063",
+ "built_at": "2026-09-17T13:05:42.436Z",
+ "commit": "80696e3daf1c12d95bb79123a4818381782ed6ba",
  "uncommitted_rule_files": [
-  "data/reference/family-carriers.json",
-  "data/reference/layers-cross-claims.json",
-  "scripts/build-layers.mts"
+  "scripts/build-arrangement-site.mts",
+  "scripts/build-layers.mts",
+  "src/core/layerChecks.ts",
+  "src/core/productLine.ts"
  ],
  "mapping_file": "data/reference/product-lines/cisco-switches.json",
  "parts": 7520,
+ "layered": 7205,
+ "pending": 315,
  "lines": [
   {
    "line": "Catalyst",
@@ -46,7 +49,8 @@
      "rules": {
       "sku": 83
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Catalyst 9200",
@@ -75,7 +79,10 @@
       "sku": 100,
       "label": 3
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 1
+     }
     },
     {
      "series": "Catalyst 9300",
@@ -103,7 +110,10 @@
       "sku": 193,
       "label": 18
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 33
+     }
     },
     {
      "series": "Catalyst 9350",
@@ -130,7 +140,10 @@
      "rules": {
       "sku": 27
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 1
+     }
     },
     {
      "series": "Catalyst 9500",
@@ -161,6 +174,9 @@
      },
      "pending_in": {
       "data-center-networking": 3
+     },
+     "pending_out": {
+      "class -> non_product": 3
      }
     },
     {
@@ -187,7 +203,10 @@
      "rules": {
       "sku": 10
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 3
+     }
     },
     {
      "series": "Catalyst 9600",
@@ -215,7 +234,10 @@
      "rules": {
       "sku": 27
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 7
+     }
     },
     {
      "series": "Catalyst 9610",
@@ -244,7 +266,10 @@
      "rules": {
       "sku": 16
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 4
+     }
     },
     {
      "series": "Catalyst 9000 shared parts",
@@ -273,7 +298,8 @@
      },
      "pending_in": {
       "data-center-networking": 2
-     }
+     },
+     "pending_out": {}
     },
     {
      "series": "Catalyst 6800 Instant Access",
@@ -297,7 +323,8 @@
      "rules": {
       "sku": 5
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Catalyst 6807-XL / 6880-X / 6840-X",
@@ -331,11 +358,14 @@
      "rules": {
       "sku": 111
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 8
+     }
     },
     {
      "series": "Catalyst 6500",
-     "family": null,
+     "family": "(none)",
      "role": "core-agg",
      "note": null,
      "parts": 422,
@@ -369,7 +399,10 @@
       "sku": 363,
       "label": 59
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 9
+     }
     },
     {
      "series": "Catalyst 4500-X",
@@ -398,7 +431,8 @@
      "rules": {
       "sku": 34
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Catalyst 4500-E",
@@ -432,11 +466,12 @@
       "sku": 306,
       "label": 18
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Catalyst 4900",
-     "family": null,
+     "family": "(none)",
      "role": "datacenter",
      "note": null,
      "parts": 83,
@@ -460,11 +495,12 @@
      "rules": {
       "sku": 83
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Catalyst 3850",
-     "family": null,
+     "family": "(none)",
      "role": "access",
      "note": null,
      "parts": 187,
@@ -489,11 +525,14 @@
       "label": 19,
       "sku": 168
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 3
+     }
     },
     {
      "series": "Catalyst 3650",
-     "family": null,
+     "family": "(none)",
      "role": "access",
      "note": null,
      "parts": 206,
@@ -516,7 +555,8 @@
      "rules": {
       "sku": 206
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Catalyst 3750-X",
@@ -545,7 +585,8 @@
      "rules": {
       "sku": 96
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Catalyst 3560-X",
@@ -570,7 +611,8 @@
      "rules": {
       "sku": 49
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Catalyst 3750-E",
@@ -595,7 +637,8 @@
      "rules": {
       "sku": 12
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Catalyst 3560-E",
@@ -620,7 +663,8 @@
      "rules": {
       "sku": 16
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Catalyst 3750 / 3750G / 3750v2",
@@ -645,7 +689,10 @@
      "rules": {
       "sku": 44
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 1
+     }
     },
     {
      "series": "Catalyst 3560-C and 3560-CX",
@@ -672,7 +719,8 @@
       "sku": 41,
       "label": 2
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Catalyst 3560 / 3560G / 3560v2",
@@ -699,7 +747,8 @@
      "rules": {
       "sku": 31
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Catalyst 2960-C and 2960-CX",
@@ -724,7 +773,8 @@
      "rules": {
       "sku": 26
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Catalyst 2960-X and 2960-XR",
@@ -753,7 +803,10 @@
       "sku": 159,
       "label": 6
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 7
+     }
     },
     {
      "series": "Catalyst 2960-S",
@@ -779,7 +832,8 @@
      "rules": {
       "sku": 24
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Catalyst 2960-Plus",
@@ -804,7 +858,8 @@
      "rules": {
       "sku": 35
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Catalyst 2960-L",
@@ -829,7 +884,8 @@
      "rules": {
       "sku": 62
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Catalyst 2960 / 2960G",
@@ -855,11 +911,14 @@
       "sku": 22,
       "label": 1
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 1
+     }
     },
     {
      "series": "Catalyst 1000",
-     "family": null,
+     "family": "(none)",
      "role": "access",
      "note": null,
      "parts": 79,
@@ -882,11 +941,12 @@
       "sku": 73,
       "label": 6
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Catalyst 1200",
-     "family": null,
+     "family": "(none)",
      "role": "smb",
      "note": null,
      "parts": 17,
@@ -907,11 +967,12 @@
      "rules": {
       "sku": 17
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Catalyst 1300",
-     "family": null,
+     "family": "(none)",
      "role": "smb",
      "note": null,
      "parts": 38,
@@ -932,11 +993,12 @@
      "rules": {
       "sku": 38
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Catalyst Micro",
-     "family": null,
+     "family": "(none)",
      "role": "access",
      "note": null,
      "parts": 26,
@@ -961,11 +1023,12 @@
       "sku": 22,
       "label": 4
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Catalyst Digital Building",
-     "family": null,
+     "family": "(none)",
      "role": "access",
      "note": null,
      "parts": 16,
@@ -989,11 +1052,12 @@
      "rules": {
       "sku": 16
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Catalyst PON",
-     "family": null,
+     "family": "(none)",
      "role": "access",
      "note": "the rule names the OLT and ONT devices: the bare ^CGP- also claimed the Catalyst PON OLT optic CGP-SFP-OC(=), which is a transceiver (reviewer A-8, layers round 3). ^ENC-10G-ONT removed (re-audit decisions, operator, 15 Sep 2026, Q-2): the six XGS-PON ONTs are Cisco's '10G Routed PON ONT' (their OLT is the SFP-10G-OLT pluggable), not Catalyst PON — they land in the Routed PON line",
      "parts": 20,
@@ -1016,11 +1080,12 @@
       "sku": 12,
       "label": 8
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Redundant Power System",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "^RPS fenced from RPS1000 (layers round 3): the RPS1000 380W Redundant Power Supply Unit is a Small Business network accessory that Cisco files under interfaces-modules, where it stays (decision pending there); the bare rule claimed its three rows",
      "parts": 20,
@@ -1043,7 +1108,8 @@
      "rules": {
       "sku": 20
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Catalyst shared parts",
@@ -1074,7 +1140,8 @@
       "label-unsupported": 149,
       "accessory": 251
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -1084,7 +1151,7 @@
    "series": [
     {
      "series": "10G Routed PON ONT",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "re-audit decisions (operator, 15 Sep 2026, Q-2): ENC-10G-ONT-01PR / -10 / -14A (with spares), Cisco's '10G Routed PON ONT' — XGS-PON ONTs of the Routed PON solution, whose OLT is the SFP-10G-OLT20-X pluggable in transceiver; a different product from Catalyst PON (CGP-), so a line of its own and no deploy role. They are planned in from interfaces-modules. Kind: the decision is `ont`; the switches kind axis has no `ont` noun and a new noun needs its cup set, so the change waits for the parked kind rebuild (Q-28) — until then they read switch with CGP-ONT's flag",
      "parts": 6,
@@ -1105,7 +1172,8 @@
      "rules": {
       "sku": 6
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -1115,7 +1183,7 @@
    "series": [
     {
      "series": "Nexus 2000 Fabric Extenders",
-     "family": null,
+     "family": "(none)",
      "role": "datacenter",
      "note": null,
      "parts": 212,
@@ -1139,7 +1207,8 @@
      "rules": {
       "sku": 212
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Nexus 3550",
@@ -1165,7 +1234,8 @@
      "rules": {
       "sku": 6
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Nexus 3500",
@@ -1190,7 +1260,8 @@
      "rules": {
       "sku": 21
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Nexus 3600",
@@ -1212,7 +1283,8 @@
      "rules": {
       "sku": 3
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Nexus 3016 / 3048 / 3064 / 3100 / 3200 / 3400",
@@ -1243,7 +1315,10 @@
       "sku": 209,
       "label": 1
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 3
+     }
     },
     {
      "series": "Nexus 5500",
@@ -1273,7 +1348,8 @@
      "rules": {
       "sku": 151
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Nexus 5600",
@@ -1303,7 +1379,10 @@
      "rules": {
       "sku": 116
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 1
+     }
     },
     {
      "series": "Nexus 5010 / 5020",
@@ -1329,11 +1408,14 @@
      "rules": {
       "sku": 6
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 3
+     }
     },
     {
      "series": "Nexus 6000",
-     "family": null,
+     "family": "(none)",
      "role": "datacenter",
      "note": null,
      "parts": 82,
@@ -1360,7 +1442,10 @@
      "rules": {
       "sku": 82
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 2
+     }
     },
     {
      "series": "Nexus 7700",
@@ -1394,7 +1479,8 @@
      "rules": {
       "sku": 193
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Nexus 7004 / 7009 / 7010 / 7018",
@@ -1431,7 +1517,10 @@
      "rules": {
       "sku": 223
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 13
+     }
     },
     {
      "series": "Nexus 9200",
@@ -1457,7 +1546,8 @@
      "rules": {
       "sku": 32
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Nexus 9300",
@@ -1486,7 +1576,8 @@
      "rules": {
       "sku": 219
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Nexus 9400",
@@ -1513,7 +1604,8 @@
      "rules": {
       "sku": 6
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Nexus 9500",
@@ -1544,7 +1636,8 @@
      "rules": {
       "sku": 157
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Nexus 9800",
@@ -1572,7 +1665,8 @@
      "rules": {
       "sku": 29
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Nexus 9100",
@@ -1593,7 +1687,8 @@
      "rules": {
       "sku": 2
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Nexus 9000 shared parts",
@@ -1621,6 +1716,9 @@
      },
      "pending_in": {
       "data-center-networking": 4
+     },
+     "pending_out": {
+      "class -> non_product": 15
      }
     },
     {
@@ -1651,7 +1749,10 @@
       "accessory": 41,
       "label-unsupported": 23
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 1
+     }
     }
    ]
   },
@@ -1661,7 +1762,7 @@
    "series": [
     {
      "series": "IE 1000",
-     "family": null,
+     "family": "(none)",
      "role": "industrial",
      "note": null,
      "parts": 4,
@@ -1680,11 +1781,12 @@
      "rules": {
       "sku": 4
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "IE 2000U",
-     "family": null,
+     "family": "(none)",
      "role": "industrial",
      "note": null,
      "parts": 7,
@@ -1705,11 +1807,12 @@
      "rules": {
       "sku": 7
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "IE 2000",
-     "family": null,
+     "family": "(none)",
      "role": "industrial",
      "note": null,
      "parts": 30,
@@ -1730,11 +1833,12 @@
      "rules": {
       "sku": 30
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "IE 3000",
-     "family": null,
+     "family": "(none)",
      "role": "industrial",
      "note": null,
      "parts": 19,
@@ -1761,11 +1865,12 @@
       "label": 9,
       "sku": 10
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "IE 3010",
-     "family": null,
+     "family": "(none)",
      "role": "industrial",
      "note": null,
      "parts": 9,
@@ -1788,11 +1893,12 @@
       "sku": 2,
       "label": 7
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "IE 3100",
-     "family": null,
+     "family": "(none)",
      "role": "industrial",
      "note": null,
      "parts": 13,
@@ -1813,11 +1919,14 @@
      "rules": {
       "sku": 13
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 1
+     }
     },
     {
      "series": "IE 3200",
-     "family": null,
+     "family": "(none)",
      "role": "industrial",
      "note": null,
      "parts": 2,
@@ -1834,11 +1943,12 @@
      "rules": {
       "sku": 2
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "IE 3300",
-     "family": null,
+     "family": "(none)",
      "role": "industrial",
      "note": null,
      "parts": 24,
@@ -1860,11 +1970,12 @@
      "rules": {
       "sku": 24
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "IE 3400H",
-     "family": null,
+     "family": "(none)",
      "role": "industrial",
      "note": null,
      "parts": 18,
@@ -1885,11 +1996,12 @@
      "rules": {
       "sku": 18
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "IE 3400",
-     "family": null,
+     "family": "(none)",
      "role": "industrial",
      "note": null,
      "parts": 10,
@@ -1911,11 +2023,14 @@
      "rules": {
       "sku": 10
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 1
+     }
     },
     {
      "series": "IE 3500H",
-     "family": null,
+     "family": "(none)",
      "role": "industrial",
      "note": null,
      "parts": 21,
@@ -1936,11 +2051,14 @@
      "rules": {
       "sku": 21
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 5
+     }
     },
     {
      "series": "IE 3500",
-     "family": null,
+     "family": "(none)",
      "role": "industrial",
      "note": null,
      "parts": 37,
@@ -1962,11 +2080,14 @@
      "rules": {
       "sku": 37
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 3
+     }
     },
     {
      "series": "IE 4010",
-     "family": null,
+     "family": "(none)",
      "role": "industrial",
      "note": null,
      "parts": 4,
@@ -1985,11 +2106,14 @@
      "rules": {
       "sku": 4
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 1
+     }
     },
     {
      "series": "IE 4000",
-     "family": null,
+     "family": "(none)",
      "role": "industrial",
      "note": null,
      "parts": 12,
@@ -2010,11 +2134,12 @@
      "rules": {
       "sku": 12
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "IE 5000",
-     "family": null,
+     "family": "(none)",
      "role": "industrial",
      "note": null,
      "parts": 4,
@@ -2033,11 +2158,12 @@
      "rules": {
       "sku": 4
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "IE 9300",
-     "family": null,
+     "family": "(none)",
      "role": "industrial",
      "note": null,
      "parts": 32,
@@ -2058,11 +2184,14 @@
      "rules": {
       "sku": 32
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 1
+     }
     },
     {
      "series": "CGS 2500 Connected Grid",
-     "family": null,
+     "family": "(none)",
      "role": "industrial",
      "note": null,
      "parts": 11,
@@ -2085,7 +2214,8 @@
      "rules": {
       "sku": 11
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Industrial Ethernet shared parts",
@@ -2115,7 +2245,8 @@
       "sku": 1,
       "label-unsupported": 34
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -2125,7 +2256,7 @@
    "series": [
     {
      "series": "ESS 2020",
-     "family": null,
+     "family": "(none)",
      "role": "industrial",
      "note": null,
      "parts": 10,
@@ -2146,11 +2277,12 @@
      "rules": {
       "sku": 10
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "ESS 3300",
-     "family": null,
+     "family": "(none)",
      "role": "industrial",
      "note": null,
      "parts": 8,
@@ -2171,11 +2303,12 @@
      "rules": {
       "sku": 8
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "ESS 9300",
-     "family": null,
+     "family": "(none)",
      "role": "industrial",
      "note": null,
      "parts": 1,
@@ -2191,7 +2324,10 @@
      "rules": {
       "sku": 1
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 1
+     }
     }
    ]
   },
@@ -2201,7 +2337,7 @@
    "series": [
     {
      "series": "Small Business 95 Unmanaged (SF95/SG95)",
-     "family": null,
+     "family": "(none)",
      "role": "smb",
      "note": null,
      "parts": 43,
@@ -2222,11 +2358,12 @@
      "rules": {
       "sku": 43
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Small Business 110 Unmanaged (SF110/SG110)",
-     "family": null,
+     "family": "(none)",
      "role": "smb",
      "note": null,
      "parts": 89,
@@ -2247,11 +2384,12 @@
      "rules": {
       "sku": 89
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Small Business 220 Smart (SF220/SG220)",
-     "family": null,
+     "family": "(none)",
      "role": "smb",
      "note": null,
      "parts": 60,
@@ -2272,11 +2410,14 @@
      "rules": {
       "sku": 60
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 9
+     }
     },
     {
      "series": "Small Business 250 Smart (SF250/SG250)",
-     "family": null,
+     "family": "(none)",
      "role": "smb",
      "note": null,
      "parts": 129,
@@ -2297,11 +2438,14 @@
      "rules": {
       "sku": 129
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 17
+     }
     },
     {
      "series": "Small Business 350X Stackable (SG350X/SX350X)",
-     "family": null,
+     "family": "(none)",
      "role": "smb",
      "note": null,
      "parts": 174,
@@ -2322,11 +2466,14 @@
      "rules": {
       "sku": 174
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 20
+     }
     },
     {
      "series": "Small Business 350 Managed (SF350/SG350)",
-     "family": null,
+     "family": "(none)",
      "role": "smb",
      "note": null,
      "parts": 201,
@@ -2347,11 +2494,14 @@
      "rules": {
       "sku": 201
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 24
+     }
     },
     {
      "series": "Small Business 550X Stackable (SF550X/SG550X/SX550X)",
-     "family": null,
+     "family": "(none)",
      "role": "smb",
      "note": null,
      "parts": 173,
@@ -2372,7 +2522,10 @@
      "rules": {
       "sku": 173
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 23
+     }
     }
    ]
   },
@@ -2382,7 +2535,7 @@
    "series": [
     {
      "series": "Business 110 Unmanaged (CBS110)",
-     "family": null,
+     "family": "(none)",
      "role": "smb",
      "note": null,
      "parts": 48,
@@ -2403,11 +2556,14 @@
      "rules": {
       "sku": 48
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 8
+     }
     },
     {
      "series": "Business 220 Smart (CBS220)",
-     "family": null,
+     "family": "(none)",
      "role": "smb",
      "note": null,
      "parts": 53,
@@ -2428,11 +2584,14 @@
      "rules": {
       "sku": 53
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 17
+     }
     },
     {
      "series": "Business 250 Smart (CBS250)",
-     "family": null,
+     "family": "(none)",
      "role": "smb",
      "note": null,
      "parts": 209,
@@ -2453,11 +2612,14 @@
      "rules": {
       "sku": 209
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 21
+     }
     },
     {
      "series": "Business 350 Managed (CBS350)",
-     "family": null,
+     "family": "(none)",
      "role": "smb",
      "note": null,
      "parts": 395,
@@ -2478,7 +2640,10 @@
      "rules": {
       "sku": 395
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 40
+     }
     }
    ]
   },
@@ -2488,7 +2653,7 @@
    "series": [
     {
      "series": "MS120",
-     "family": null,
+     "family": "(none)",
      "role": "access",
      "note": null,
      "parts": 17,
@@ -2509,11 +2674,12 @@
      "rules": {
       "sku": 17
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MS125",
-     "family": null,
+     "family": "(none)",
      "role": "access",
      "note": null,
      "parts": 11,
@@ -2534,11 +2700,12 @@
      "rules": {
       "sku": 11
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MS130",
-     "family": null,
+     "family": "(none)",
      "role": "access",
      "note": null,
      "parts": 30,
@@ -2559,11 +2726,12 @@
      "rules": {
       "sku": 30
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MS150",
-     "family": null,
+     "family": "(none)",
      "role": "access",
      "note": null,
      "parts": 29,
@@ -2584,11 +2752,12 @@
      "rules": {
       "sku": 29
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MS210",
-     "family": null,
+     "family": "(none)",
      "role": "access",
      "note": null,
      "parts": 11,
@@ -2609,11 +2778,12 @@
      "rules": {
       "sku": 11
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MS225",
-     "family": null,
+     "family": "(none)",
      "role": "access",
      "note": null,
      "parts": 11,
@@ -2634,11 +2804,12 @@
      "rules": {
       "sku": 11
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MS250",
-     "family": null,
+     "family": "(none)",
      "role": "access",
      "note": null,
      "parts": 11,
@@ -2659,11 +2830,12 @@
      "rules": {
       "sku": 11
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MS320",
-     "family": null,
+     "family": "(none)",
      "role": "access",
      "note": null,
      "parts": 2,
@@ -2681,11 +2853,12 @@
      "rules": {
       "sku": 2
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MS350",
-     "family": null,
+     "family": "(none)",
      "role": "access",
      "note": null,
      "parts": 13,
@@ -2706,11 +2879,12 @@
      "rules": {
       "sku": 13
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MS355",
-     "family": null,
+     "family": "(none)",
      "role": "access",
      "note": null,
      "parts": 9,
@@ -2731,11 +2905,12 @@
      "rules": {
       "sku": 9
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MS390",
-     "family": null,
+     "family": "(none)",
      "role": "access",
      "note": "role access (reviewer's correction of the spec, closing items at aa1143f (14 Sep 2026), item 9): Cisco positions the MS390 as a cloud-managed access switch on Catalyst 9300 hardware; MS410 / MS425 / MS450 stay core-agg",
      "parts": 23,
@@ -2756,11 +2931,12 @@
      "rules": {
       "sku": 23
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MS410",
-     "family": null,
+     "family": "(none)",
      "role": "core-agg",
      "note": null,
      "parts": 5,
@@ -2780,11 +2956,12 @@
      "rules": {
       "sku": 5
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MS425",
-     "family": null,
+     "family": "(none)",
      "role": "core-agg",
      "note": null,
      "parts": 5,
@@ -2804,11 +2981,12 @@
      "rules": {
       "sku": 5
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MS450",
-     "family": null,
+     "family": "(none)",
      "role": "core-agg",
      "note": null,
      "parts": 3,
@@ -2826,7 +3004,8 @@
      "rules": {
       "sku": 3
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -2836,7 +3015,7 @@
    "series": [
     {
      "series": "ME 3400",
-     "family": null,
+     "family": "(none)",
      "role": "access",
      "note": null,
      "parts": 19,
@@ -2859,11 +3038,14 @@
      "rules": {
       "sku": 19
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 1
+     }
     },
     {
      "series": "ME 3600X",
-     "family": null,
+     "family": "(none)",
      "role": "access",
      "note": null,
      "parts": 1,
@@ -2879,11 +3061,12 @@
      "rules": {
       "sku": 1
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "ME 3800X",
-     "family": null,
+     "family": "(none)",
      "role": "core-agg",
      "note": null,
      "parts": 1,
@@ -2899,11 +3082,12 @@
      "rules": {
       "sku": 1
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "ME 4900",
-     "family": null,
+     "family": "(none)",
      "role": "core-agg",
      "note": null,
      "parts": 1,
@@ -2919,7 +3103,8 @@
      "rules": {
       "sku": 1
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Metro Ethernet shared parts",
@@ -2939,7 +3124,8 @@
      "rules": {
       "accessory": 3
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -2949,7 +3135,7 @@
    "series": [
     {
      "series": "CSS 11500",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "CSS 11500 Series Content Services Switch fibre cables (CSS5-CABLX-LCSC= \"…10m single-mode fiber, LX LC-to-SC\"), which a \"3750\" label had filed under Catalyst 3750 (re-audit at 2f3d17a (14 Sep 2026)); the CSS appliances themselves are not in the catalogue",
      "parts": 3,
@@ -2965,7 +3151,8 @@
      "rules": {
       "sku": 3
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -2975,7 +3162,7 @@
    "series": [
     {
      "series": "CQ211L01",
-     "family": null,
+     "family": "(none)",
      "role": "datacenter",
      "note": "CQ211L01-48H8FH \"Switch, 48 x 100G DSFP + 8 x QSFP-DD, 8T Capability\" (and -O \"Open SW\") with its accessory kit: arriving from routers, where no switches series could place them (re-audit at 2f3d17a (14 Sep 2026))",
      "parts": 6,
@@ -2997,7 +3184,8 @@
      "rules": {
       "sku": 6
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -3007,7 +3195,7 @@
    "series": [
     {
      "series": "Nexus Hyperfabric HF6100 (Cisco 6000 Series)",
-     "family": null,
+     "family": "(none)",
      "role": "datacenter",
      "note": "arriving from data-center-networking (layers round 3, merge plan data-center-networking -> switches, not run): the HF6100-32D / 60L4D / 64ED switches ('Cisco 6000 Series Switches Data Sheet'), their 19-inch 4-post kit and the 1450 W supplies only that data sheet lists. The parts the HF6100 shares with the Nexus 9364E (FAN-PI-V4, PSU3KW-HVPI) go to Nexus 9000 shared parts beside their spares; the Catalyst 9500X fans, supplies and blank to Catalyst 9500 / 9000; 8K-2RU-KIT-SB to routers with its Cisco 8000 siblings",
      "parts": 0,
@@ -3017,7 +3205,8 @@
      "rules": {},
      "pending_in": {
       "data-center-networking": 12
-     }
+     },
+     "pending_out": {}
     }
    ]
   }
@@ -7208,5 +7397,5 @@
  },
  "pending_review": [],
  "inbound_unplaced": {},
- "done": true
+ "done": false
 }

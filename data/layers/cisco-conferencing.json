@@ -1,15 +1,18 @@
 {
  "vendor": "cisco",
  "category": "conferencing",
- "built_at": "2026-09-15T23:24:29.974Z",
- "commit": "daa609b5f1a24431ec097b320227e7df1b36b063",
+ "built_at": "2026-09-17T13:05:48.001Z",
+ "commit": "80696e3daf1c12d95bb79123a4818381782ed6ba",
  "uncommitted_rule_files": [
-  "data/reference/family-carriers.json",
-  "data/reference/layers-cross-claims.json",
-  "scripts/build-layers.mts"
+  "scripts/build-arrangement-site.mts",
+  "scripts/build-layers.mts",
+  "src/core/layerChecks.ts",
+  "src/core/productLine.ts"
  ],
  "mapping_file": "data/reference/product-lines/cisco-conferencing.json",
  "parts": 68,
+ "layered": 0,
+ "pending": 68,
  "lines": [
   {
    "line": "Meeting Server and TelePresence Management",
@@ -17,7 +20,7 @@
    "series": [
     {
      "series": "Meeting Server appliances",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 0,
@@ -25,11 +28,14 @@
      "roles": {},
      "samples": [],
      "rules": {},
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "move to collaboration-endpoints": 62
+     }
     },
     {
      "series": "TelePresence Management Suite (TMS)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 0,
@@ -37,11 +43,14 @@
      "roles": {},
      "samples": [],
      "rules": {},
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "move to collaboration-endpoints": 3
+     }
     },
     {
      "series": "AI PODs for Collaboration",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 0,
@@ -49,7 +58,10 @@
      "roles": {},
      "samples": [],
      "rules": {},
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "move to collaboration-endpoints": 3
+     }
     }
    ]
   }
@@ -610,5 +622,5 @@
  },
  "pending_review": [],
  "inbound_unplaced": {},
- "done": true
+ "done": false
 }

@@ -1,15 +1,18 @@
 {
  "vendor": "cisco",
  "category": "collaboration-endpoints",
- "built_at": "2026-09-15T23:24:28.907Z",
- "commit": "daa609b5f1a24431ec097b320227e7df1b36b063",
+ "built_at": "2026-09-17T13:05:46.119Z",
+ "commit": "80696e3daf1c12d95bb79123a4818381782ed6ba",
  "uncommitted_rule_files": [
-  "data/reference/family-carriers.json",
-  "data/reference/layers-cross-claims.json",
-  "scripts/build-layers.mts"
+  "scripts/build-arrangement-site.mts",
+  "scripts/build-layers.mts",
+  "src/core/layerChecks.ts",
+  "src/core/productLine.ts"
  ],
  "mapping_file": "data/reference/product-lines/cisco-collaboration-endpoints.json",
  "parts": 2871,
+ "layered": 2871,
+ "pending": 0,
  "lines": [
   {
    "line": "Headsets",
@@ -17,7 +20,7 @@
    "series": [
     {
      "series": "Headset 320",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 12,
@@ -36,11 +39,12 @@
      "rules": {
       "sku": 12
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Headset 500",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 35,
@@ -60,11 +64,12 @@
      "rules": {
       "sku": 35
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Headset 700",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 22,
@@ -86,11 +91,12 @@
      "rules": {
       "sku": 22
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Bang & Olufsen 900 (950 / 980)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 15,
@@ -109,7 +115,8 @@
      "rules": {
       "sku": 15
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Headsets shared parts",
@@ -134,7 +141,8 @@
      "rules": {
       "sku": 12
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -144,7 +152,7 @@
    "series": [
     {
      "series": "Desk Pro",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "^CS-DSKPRO (layers round 3, collaboration round): the customized-model Desk Pro PIDs CS-DSKPRO-MM-K9 / -MM-NR-K9 / -NR-K9--= sat in the line's shared parts by their label (video devices in shared parts)",
      "parts": 39,
@@ -164,11 +172,12 @@
      "rules": {
       "sku": 39
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Desk Mini",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 11,
@@ -187,11 +196,12 @@
      "rules": {
       "sku": 11
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Desk",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 28,
@@ -211,11 +221,12 @@
      "rules": {
       "sku": 28
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "DX70 / DX80",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "^CS-DX (layers round 3, collaboration round): CS-DX70-K9= / CS-DX80-K9=, the Webex-registration spares, sat in the line's shared parts by their label. ^CTS-NAL-CP-DX[78]0 (same round): the 'DX70 / DX80 NAL label for China' sat in TelePresence (legacy) shared parts by ^CTS-",
      "parts": 31,
@@ -236,7 +247,8 @@
      "rules": {
       "sku": 31
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Webex Desk Series shared parts",
@@ -263,7 +275,8 @@
       "accessory": 10,
       "label": 5
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -273,7 +286,7 @@
    "series": [
     {
      "series": "Board Pro G2 (55 / 75)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 52,
@@ -293,11 +306,12 @@
      "rules": {
       "sku": 52
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Board Pro (55 / 75)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 43,
@@ -317,11 +331,12 @@
      "rules": {
       "sku": 43
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Webex Board 55 / 70 / 85 (Spark Board)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "^CS-BRD-PENTIPS (layers round 3, collaboration round): 'Cisco Webex Board S Pen Tips - 30 tips for stylus', sold in the 'Webex Board S TAA and MM' end-of-sale notice; it sat in the line's shared parts with kind video-device (a kind-layer defect, listed). ^SPBOARD- (same round): SPBOARD-CBLMGMT(=) 'Cisco Spark Board, Cable Management Kit' sat in Webex Room Series shared parts by the label Room Series, and SPBOARD-WS-SCRW= 'Screw kit for Cisco Webex Board Wall Stand' in TelePresence (legacy) shared parts by the label TelePresence MX Series; the Spark Board is this series. ^CS-BRD85- and ^CS-BRD-PENKIT(?!SOFT) (same round): 'Spare transport frame for Webex Board 85' and 'Webex Board S Pen Kit' sat in Webex Board Series shared parts by their label; the soft-tip pen kit (CS-BRD-PENKITSOFT, 'Cisco Board Pen Kit') names no board and stays there",
      "parts": 112,
@@ -342,7 +357,8 @@
      "rules": {
       "sku": 112
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Webex Board Series shared parts",
@@ -367,7 +383,8 @@
       "accessory": 26,
       "label": 2
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -377,7 +394,7 @@
    "series": [
     {
      "series": "Room Bar Pro",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 14,
@@ -397,11 +414,12 @@
      "rules": {
       "sku": 14
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Room Bar",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 13,
@@ -421,11 +439,12 @@
      "rules": {
       "sku": 13
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Room Kit (Kit / Mini / Plus / Pro / EQ)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "layers round 3, collaboration round — rows that sat in the line's shared parts by their label: CS-KPRO-Q / -Z 'Cisco Room Kit Pro G2 / Room Kit Vision PTZ', CS-EQX-* 'Room Kit EQX' (no codec, centre and side modules), CS-ROOM-USB-K9(=) 'Room USB' (its spare 'Room Kit Mini/Room USB (unit)'; Cisco's Room USB end-of-sale notice, successor CS-BAR-T); CAB-EQX-SPKR= 'Room Kit EQX Complete set of Speaker Cables' (SKU token EQX), which sat in the line's shared parts",
      "parts": 126,
@@ -448,11 +467,12 @@
      "rules": {
       "sku": 126
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Codec Plus / Pro / EQ",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "^CS-RCOD(PLUS|PRO) (layers round 3, collaboration round): the 15 'Cisco Room CodecPLUS' / 'Room Codec PRO' PIDs sat in the line's shared parts by their label (video codecs in shared parts). ^CS-CODPL2- (same round): 'Antennas for Codec Plus 2' sat in the line's shared parts",
      "parts": 84,
@@ -473,11 +493,12 @@
      "rules": {
       "sku": 84
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Room Panorama",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "layers round 3, collaboration round: CS-ROOM-P85-NR-K7 / -K9 'Webex Room Panorama 85' (placed in shared parts by ^CS-ROOM), CS-RPQUADCAM(+/=) 'Fully automatic quadcamera for Room Panorama' (by their label) and CAB-PANO-L / -R-SPKR 'Left / Right Speaker Cable for Room Panorama' (SKU token PANO). ^CS-PANO fenced (meraki round, the collaboration round's recorded claimant fix): CS-PANO-SWITCH+ / SWITCH2+ are whole Catalyst 3560-CX / C1000 switches that stay in switches (layers review round 2, A.6)",
      "parts": 49,
@@ -502,11 +523,12 @@
      "rules": {
       "sku": 49
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Room 55 / 55D",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "^CS-R55- (layers round 3, collaboration round): the six 'Cisco Webex Room 55 Main Unit' PIDs sat in the line's shared parts by their label. ^CTS-NAL-ROOM55 (same round): 'CS Room 55 NAL label for China' sat in TelePresence (legacy) shared parts by ^CTS-",
      "parts": 50,
@@ -528,11 +550,12 @@
      "rules": {
       "sku": 50
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Room 70 / 70S / 70D",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "layers round 3 (wireless round): the Room 70 speaker, HDMI and DC cables and the Room 70 antenna kit (named 'for ROOM 70'), planned in from wireless where they sat under the 'Policy Suite for Mobile' label",
      "parts": 120,
@@ -557,11 +580,12 @@
      "rules": {
       "sku": 120
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Room Navigator and Touch 10",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "^CAB-DV10- and ^CS-R-USB-T10 (layers round 3, collaboration-endpoints round): the flat grey Ethernet cables 'for Touch 10' / 'for Room Navigator' (4 / 8 / 12.5 m) and 'Touch 10 Kit for Room USB Upgrade' sat in Webex Room Series shared parts",
      "parts": 74,
@@ -582,7 +606,8 @@
      "rules": {
       "sku": 74
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Webex Room Series shared parts",
@@ -612,7 +637,8 @@
       "sku": 37,
       "label": 37
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -622,7 +648,7 @@
    "series": [
     {
      "series": "SpeakerTrack 60",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "layers round 3, collaboration round: CTS-SPKER-TRACK60 'Cisco TelePresence Speaker Track 60 Kit' and CTS-ST-ARRAY60(+/=) 'Speaker Track 60 Microphone Array' sat in TelePresence (legacy) shared parts by ^CTS- (their SKUs spell TRACK60 / ARRAY60, not ST60); CAB-ETH-ST-SHORT / CAB-PWR-ST-SHORT 'Two Ethernet / 12V power cables … for SpeakerTrack 60' sat in Cameras shared parts",
      "parts": 8,
@@ -645,11 +671,12 @@
      "rules": {
       "sku": 8
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Precision 40 / 60 / PrecisionHD cameras",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "^CTS-CAM-P40 (layers round 3, collaboration round): 'Precision 40 Camera with 8x zoom' (label TelePresence Precision Cameras) sat in TelePresence (legacy) shared parts by ^CTS-; the series name gains Precision 40",
      "parts": 27,
@@ -671,11 +698,12 @@
       "label": 3,
       "sku": 24
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Desk Camera",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "layers round 3, collaboration round: 'Cisco Desk Camera 4K' and 'Desk Camera 1080p' (carbon black / platinum, US / worldwide) sat in Webex Desk Series shared parts by their label (cameras in shared parts); Cisco sells the Desk Camera as a product of its own. Named 'Desk Camera' without its resolutions: a series name's digits are platform tokens to the label check, and '1080' contradicted ACC-PHD1080P= 'Cable Accessories Kit for PrecisionHD Camera 1080p12x' out of the Precision series. ^CD-CBL- (same round): the 'Spare USB 3.0 C-to-A / C-to-C cable for Desk Camera series' sat in Webex Desk Series shared parts",
      "parts": 8,
@@ -695,11 +723,12 @@
      "rules": {
       "sku": 8
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Room Vision PTZ and Quad Camera",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "^CS-PTZ4K- and ^BRKT-QCAM (layers round 3, collaboration-endpoints round): the 'PTZ 4K Camera' wall and ceiling mounting brackets and the 'Wall-mount bracket for Cisco Quad Camera' sat in Webex Room Series shared parts",
      "parts": 30,
@@ -719,7 +748,8 @@
      "rules": {
       "sku": 30
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Cameras shared parts",
@@ -746,7 +776,8 @@
       "label-unsupported": 4,
       "accessory": 23
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -756,7 +787,7 @@
    "series": [
     {
      "series": "Table, ceiling and wireless microphones",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "^CTS-QSC20-MIC (layers round 3, collaboration round): 'Performance Microphone 20' (and the auto-expand variants) of the QuickSet C20 sat in TelePresence (legacy) shared parts with kind video-codec (a kind-layer defect, listed)",
      "parts": 70,
@@ -778,7 +809,8 @@
      "rules": {
       "sku": 70
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Microphones shared parts",
@@ -801,7 +833,8 @@
      "rules": {
       "accessory": 6
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -811,7 +844,7 @@
    "series": [
     {
      "series": "TelePresence MX (MX200 / MX300 / MX700 / MX800)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "layers round 3, collaboration round: CTS-MXCAM-D / -S 'Dual / Single Camera option for MX700/MX800' and CTS-MXCODEC 'Codec for MX700/MX800' sat in the line's shared parts by ^CTS-; so did the 'MX200 / MX300 NAL label for China' and the 'ATP Demo' MX200 / MX300 units (^CTS-(NAL|ATP)-MX), and the 'Left / Right Speaker Cable for MX700 / MX800' (^CAB-MX)",
      "parts": 162,
@@ -839,11 +872,12 @@
       "label": 10,
       "sku": 152
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "TelePresence SX (SX10 / SX20 / SX80)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "^CTS-CC-SX10 (layers round 3, collaboration round): 'SX10 HD w/ screen mount, int 5x cam and mic' sat in the line's shared parts by ^CTS-; so did the 'SX10 / SX20 / SX80 NAL label for China', the SX10 screen and wall mount kits, 'Bracket for SX20 and HD monitor' and 'Serial Cable for SX20'. CAB-SX80-IPQC 'Audio Cable Quad Camera to SX80' names the Quad Camera as well and stays in shared parts",
      "parts": 62,
@@ -867,11 +901,12 @@
       "sku": 59,
       "label": 3
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "TelePresence IX5000",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "^CTS-MON- (layers round 3, collaboration round): 'Cisco TelePresence 42 / 55 Inch Auxiliary Display', sold in the 'TelePresence IX5000 Series' end-of-sale notice, sat in the line's shared parts by ^CTS-. ^CTS-5K fenced (meraki round, the collaboration round's recorded claimant fix): CTS-5K-LC-SWITCH / CTS-5K-UI-SWITCH are whole Catalyst 2960-C switches that stay in switches (layers review round 2, A.6)",
      "parts": 172,
@@ -900,11 +935,12 @@
      "rules": {
       "sku": 172
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "TelePresence C-series codecs",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "layers round 3, collaboration round: CTS-ATP-C60 / C90-K9 'ATP Demo - Codec C60 / C90' and the QuickSet C20 packages CTS-QSC20-K9 / -W4 / -W12 / QSC20SD (a C20 codec with camera, microphone and remote) sat in the line's shared parts by ^CTS-",
      "parts": 13,
@@ -924,11 +960,12 @@
      "rules": {
       "sku": 13
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "TelePresence MXP (1700 MXP / Integrator Package 6000 MXP)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "layers round 3, collaboration round: CTS-1700-PR-K9 'MXP 1700 Promotion' and CTS-INTP6000-WP-K9 'IntPkg 6000 MXP - PAL, Encrypted, BW, PrecisionHD Cam, Mic', the legacy TelePresence MXP systems named by their rows, sat in the line's shared parts (a video device and a codec in shared parts)",
      "parts": 2,
@@ -944,7 +981,8 @@
      "rules": {
       "sku": 2
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "TelePresence (legacy) shared parts",
@@ -976,7 +1014,8 @@
       "label-unsupported": 6,
       "accessory": 189
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -986,7 +1025,7 @@
    "series": [
     {
      "series": "IP Phone 3900",
-     "family": null,
+     "family": "(none)",
      "role": "desk",
      "note": null,
      "parts": 14,
@@ -1009,11 +1048,12 @@
      "rules": {
       "sku": 14
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "IP DECT 6823 / 6825 handsets",
-     "family": null,
+     "family": "(none)",
      "role": "dect",
      "note": null,
      "parts": 29,
@@ -1035,11 +1075,12 @@
      "rules": {
       "sku": 29
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "IP DECT base stations and repeaters",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 12,
@@ -1058,11 +1099,12 @@
      "rules": {
       "sku": 12
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "IP Phone 6800 (6821 / 6841 / 6851 / 6861 / 6871)",
-     "family": null,
+     "family": "(none)",
      "role": "desk",
      "note": null,
      "parts": 50,
@@ -1087,11 +1129,12 @@
      "rules": {
       "sku": 50
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Unified IP Phone 6900",
-     "family": null,
+     "family": "(none)",
      "role": "desk",
      "note": "^CP-WMK-[A-Z]+-6900 (layers round 3, collaboration-endpoints round): the 6900 wall-mount kits CP-WMK-AW-6900= / CP-WMK-C-6900= (named only by their PIDs) sat in IP Phones shared parts by ^CP-",
      "parts": 45,
@@ -1115,11 +1158,12 @@
      "rules": {
       "sku": 45
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "IP Conference Phone 7832",
-     "family": null,
+     "family": "(none)",
      "role": "conference",
      "note": null,
      "parts": 7,
@@ -1141,11 +1185,12 @@
      "rules": {
       "sku": 7
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "IP Phone 7800 (7811 / 7821 / 7841 / 7861)",
-     "family": null,
+     "family": "(none)",
      "role": "desk",
      "note": null,
      "parts": 52,
@@ -1168,11 +1213,12 @@
      "rules": {
       "sku": 52
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Unified Wireless IP Phone 7920 / 7921 / 7925 / 7926",
-     "family": null,
+     "family": "(none)",
      "role": "wireless",
      "note": "^CP-.*792x (layers round 3, collaboration-endpoints round): the handsets' batteries, cases, holsters, clips, lock sets, USB cables, desktop and multi-chargers and their power supplies (CP-BATT-7921G-STD=, CP-PWR-DC7925G-NA=, CP-MCHGR-7925G-BUN …) carry the phone's model mid-SKU and sat in IP Phones shared parts by ^CP-. The CAB-AC2 cords 'for … 7920/7921G Multi-Charger' name the phone only in their names and stay in shared parts",
      "parts": 138,
@@ -1198,11 +1244,12 @@
      "rules": {
       "sku": 138
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Unified IP Conference Station 7935 / 7936 / 7937",
-     "family": null,
+     "family": "(none)",
      "role": "conference",
      "note": null,
      "parts": 6,
@@ -1223,11 +1270,12 @@
      "rules": {
       "sku": 6
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Unified IP Phone 7900",
-     "family": null,
+     "family": "(none)",
      "role": "desk",
      "note": null,
      "parts": 74,
@@ -1249,11 +1297,12 @@
      "rules": {
       "sku": 74
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Wireless IP Phone 8821",
-     "family": null,
+     "family": "(none)",
      "role": "wireless",
      "note": "^CP-.*8821 (layers round 3, collaboration-endpoints round): the 8821 / 8821-EX battery, desktop and multi-chargers, wall-mount kit and regional power supplies (CP-BATT-8821=, CP-DSKCH-8821-EX=, CP-PWR-DC8821-UK …) carry the model mid-SKU and sat in IP Phones shared parts by ^CP-",
      "parts": 47,
@@ -1278,11 +1327,12 @@
      "rules": {
       "sku": 47
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "IP Conference Phone 8831 / 8832",
-     "family": null,
+     "family": "(none)",
      "role": "conference",
      "note": "^CP-MIC-(WIRED|WRLS)-S (layers round 3, collaboration round): 'Cisco 8831 Wired Microphone Kit' and the 'Spare 8831 Wireless Microphone' PIDs sat in IP Phones shared parts by ^CP- (microphones in shared parts); a microphone carries no phone role",
      "parts": 105,
@@ -1308,11 +1358,12 @@
      "rules": {
       "sku": 105
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "IP Phone 8800 (8811 - 8875)",
-     "family": null,
+     "family": "(none)",
      "role": "desk",
      "note": "^CP-BEKEM (layers round 3, collaboration round): the 'Cisco IP Phone 8800 Key Expansion Module' PIDs sat in IP Phones shared parts by ^CP-; an expansion module carries no phone role",
      "parts": 80,
@@ -1335,11 +1386,12 @@
      "rules": {
       "sku": 80
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Wireless Phone 840 / 860",
-     "family": null,
+     "family": "(none)",
      "role": "wireless",
      "note": "^CP-800- (layers round 3, collaboration-endpoints round): CP-800-USBCH= 'Cisco 800 USB Cable with Worldwide Wall Charger', the charger of the Wireless Phone 800 Series (840 / 860), sat in IP Phones shared parts by ^CP-",
      "parts": 32,
@@ -1364,11 +1416,12 @@
      "rules": {
       "sku": 32
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Wireless Phone 9821",
-     "family": null,
+     "family": "(none)",
      "role": "wireless",
      "note": null,
      "parts": 17,
@@ -1392,11 +1445,12 @@
      "rules": {
       "sku": 17
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Spectralink 8744",
-     "family": null,
+     "family": "(none)",
      "role": "wireless",
      "note": null,
      "parts": 3,
@@ -1414,11 +1468,12 @@
      "rules": {
       "sku": 3
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Desk Phone 9800 (9811 - 9871)",
-     "family": null,
+     "family": "(none)",
      "role": "desk",
      "note": null,
      "parts": 43,
@@ -1442,11 +1497,12 @@
      "rules": {
       "sku": 43
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "SPA300 IP Phones",
-     "family": null,
+     "family": "(none)",
      "role": "desk",
      "note": "^SPA3 fenced (layers round 3, collaboration-endpoints round): SPA302D is the Multi-Line DECT handset, filed in unified-communications beside its SPA232D base. The empty 'SPA302D DECT handset' series that used to sit here only to give those rows a dect role is removed; with the fence, deployRole finds no role-bearing series for SPA302D here and its own ph.dect rule gives dect",
      "parts": 9,
@@ -1467,11 +1523,12 @@
      "rules": {
       "sku": 9
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "SPA500 IP Phones",
-     "family": null,
+     "family": "(none)",
      "role": "desk",
      "note": "^PA100- (layers round 3, collaboration-endpoints round): the PA100 5V / 2A supply in five plug variants. Four names say 'Power supply for SPA500, CP500, and SPA 900 Series' and the label check kept them here; PA100-AS says only 'Linksys VoIP Products' and was moved to IP Phones shared parts, splitting one supply across two series by the wording of one plug variant",
      "parts": 33,
@@ -1494,11 +1551,12 @@
      "rules": {
       "sku": 33
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Webex Room Phone",
-     "family": null,
+     "family": "(none)",
      "role": "conference",
      "note": null,
      "parts": 2,
@@ -1516,7 +1574,8 @@
      "rules": {
       "sku": 2
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "IP Phones shared parts",
@@ -1545,7 +1604,8 @@
       "sku": 54,
       "label-unsupported": 1
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -1555,7 +1615,7 @@
    "series": [
     {
      "series": "Webex Share",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 3,
@@ -1572,11 +1632,12 @@
      "rules": {
       "label": 3
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Virtualization Experience Media Engine",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "^SPVAC-(C7416|H5610|UC725) (layers round 3, collaboration-endpoints round): the nine SolutionsPlus accessory PIDs listed by Cisco's 'Virtualization Experience Media Engine Accessories Data Sheet' (c78-702849, under collaboration-endpoints/virtualization-experience-media-engine); their names are bare placeholders ('Cisco <PID>'), so the label check could not read a series token and moved them to the line's shared parts, leaving the series empty. The other SPVAC- rows (SPVAC-H450, a Jabra handset for TelePresence MX) are not on that sheet and are not matched",
      "parts": 9,
@@ -1595,7 +1656,8 @@
      "rules": {
       "sku": 9
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Webex Share and Media Engines shared parts",
@@ -1619,7 +1681,8 @@
      "rules": {
       "label-unsupported": 16
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -1629,7 +1692,7 @@
    "series": [
     {
      "series": "Meeting Server 1000 / 2000",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "arriving from conferencing (layers round 3, merge plan conferencing -> collaboration-endpoints, spec II.16 and decision record rule 5; not run): the Cisco Meeting Server 1000 (UCS C-Series) and 2000 (UCS 5108 with B200 media and control blades) appliances and bundles, CMS-M-M8-K9 / CMS-S-M7-K9 (Meeting Server data sheet c78-742168). The servers mapping's B200 / 5108 / 6324 rules and UC's none read these rows; record them decided-home when the move runs (the Business Edition precedent)",
      "parts": 0,
@@ -1639,11 +1702,12 @@
      "rules": {},
      "pending_in": {
       "conferencing": 24
-     }
+     },
+     "pending_out": {}
     },
     {
      "series": "TelePresence Management Server (TMS) appliances",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "arriving from conferencing (merge plan): CTI-TMS-APL-K9(=) 'Cisco TelePresence Management Server' and its ATP demo unit (Cisco's TelePresence Management Server end-of-sale notice)",
      "parts": 0,
@@ -1653,11 +1717,12 @@
      "rules": {},
      "pending_in": {
       "conferencing": 3
-     }
+     },
+     "pending_out": {}
     },
     {
      "series": "AI PODs for Collaboration",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "arriving from conferencing (merge plan): AIPOD-COLLAB and the UCS C240 M8 'Rack Server for Collaboration AI' (with GPU) of Cisco's 'AI PODs for Collaboration' data sheet; the servers mapping's C240 rule reads the two UCSC rows — record it decided-home when the move runs",
      "parts": 0,
@@ -1667,7 +1732,8 @@
      "rules": {},
      "pending_in": {
       "conferencing": 3
-     }
+     },
+     "pending_out": {}
     },
     {
      "series": "Meeting Server and TelePresence Management shared parts",
@@ -1681,7 +1747,8 @@
      "rules": {},
      "pending_in": {
       "conferencing": 38
-     }
+     },
+     "pending_out": {}
     }
    ]
   }

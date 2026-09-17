@@ -1,15 +1,18 @@
 {
  "vendor": "cisco",
  "category": "security",
- "built_at": "2026-09-15T23:24:29.218Z",
- "commit": "daa609b5f1a24431ec097b320227e7df1b36b063",
+ "built_at": "2026-09-17T13:05:46.663Z",
+ "commit": "80696e3daf1c12d95bb79123a4818381782ed6ba",
  "uncommitted_rule_files": [
-  "data/reference/family-carriers.json",
-  "data/reference/layers-cross-claims.json",
-  "scripts/build-layers.mts"
+  "scripts/build-arrangement-site.mts",
+  "scripts/build-layers.mts",
+  "src/core/layerChecks.ts",
+  "src/core/productLine.ts"
  ],
  "mapping_file": "data/reference/product-lines/cisco-security.json",
  "parts": 1993,
+ "layered": 1993,
+ "pending": 0,
  "lines": [
   {
    "line": "Secure Firewall and Firepower",
@@ -17,7 +20,7 @@
    "series": [
     {
      "series": "Secure Firewall 200",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 7,
@@ -37,11 +40,12 @@
      "rules": {
       "sku": 7
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Secure Firewall 1200",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 25,
@@ -65,11 +69,12 @@
       "sku": 24,
       "label": 1
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Secure Firewall 6100",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 29,
@@ -94,11 +99,12 @@
      "rules": {
       "sku": 29
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Firepower 1000",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 35,
@@ -120,11 +126,12 @@
      "rules": {
       "sku": 35
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Firepower 2100",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 88,
@@ -149,11 +156,12 @@
      "rules": {
       "sku": 88
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Secure Firewall 3100",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 40,
@@ -177,11 +185,12 @@
      "rules": {
       "sku": 40
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Secure Firewall 4200",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 46,
@@ -205,11 +214,12 @@
      "rules": {
       "sku": 46
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Firepower 4100",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "^ASA-VPN-15K-BUN$ (layers round 3, security round): 'Cisco Recommended ASA VPN Bundle for 15K users' is sold in the Firepower 4100 Series end-of-sale notice (firepower-4100-series-security-appliances-eol); it sat in ASA and ISA shared parts by ^ASA with kind firewall",
      "parts": 122,
@@ -233,11 +243,12 @@
      "rules": {
       "sku": 122
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Firepower 9300",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "^SM-[0-9]{2}$ (layers round 3, security round): SM-40 / SM-48 / SM-56, the Firepower 9300 security modules of the 'Cisco Firepower 9300 Series Data Sheet' (15 facts each), were moved to shared parts by the label check — their SKU names no 9300",
      "parts": 113,
@@ -264,11 +275,12 @@
      "rules": {
       "sku": 113
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "FirePOWER 7000 / 8000 (legacy)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 115,
@@ -293,7 +305,8 @@
      "rules": {
       "sku": 115
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Secure Firewall and Firepower shared parts",
@@ -322,7 +335,8 @@
       "sku": 25,
       "label-unsupported": 2
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -332,7 +346,7 @@
    "series": [
     {
      "series": "ASA 5585-X",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "^ASA-CX[0-9]+-INC-K8 (re-audit decisions, operator, 15 Sep 2026, F-1): ASA-CX10 / 20 / 40 / 60-INC-K8 'ASA 5585-X CX SSP-10 … SSP-60' are security service processors of this platform alone (A.3 rule 1); they sat in ASA and ISA shared parts by ^ASA",
      "parts": 150,
@@ -359,11 +373,12 @@
      "rules": {
       "sku": 150
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "ASA 5580",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 9,
@@ -382,11 +397,12 @@
      "rules": {
       "sku": 9
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "ASA 5500-X (5506 / 5508 / 5512 / 5515 / 5516 / 5525 / 5545 / 5555)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "re-audit decisions (operator, 15 Sep 2026): ^ASA-IC-6GE (F-1) places the ASA-IC-6GE-CU / -SFP / -6GECU-INC interface cards 'for ASA 5512-X / 5515-X / 5525-X / 5545-X / 5555-X', cards of this series alone (A.3 rule 1), which sat in ASA and ISA shared parts by ^ASA; their blank slot covers (ASA-IC-A / B / C-BLANK) are accessories and wait for the reverse label check (Q-27). ^55(1[256]|25|45|55)-X$ (Q-23): the bare model rows 5515-X / 5525-X / 5545-X carry a document each, so they stay as the family's rows (class plans removed)",
      "parts": 164,
@@ -409,11 +425,12 @@
      "rules": {
       "sku": 164
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "ASA 5500 (5505 / 5510 / 5520 / 5540 / 5550)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 79,
@@ -436,11 +453,12 @@
      "rules": {
       "sku": 79
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "ISA 3000",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 4,
@@ -457,7 +475,8 @@
      "rules": {
       "sku": 4
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "ASA and ISA shared parts",
@@ -486,7 +505,8 @@
       "sku": 36,
       "label": 5
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -496,7 +516,7 @@
    "series": [
     {
      "series": "NAM 2400 Series",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "decision pending: NAM 2400 home — NAM2420-K9 / NAM2440-K9 are planned in from interfaces-modules under pre-ruling C5 (security, kind analytics; the reviewer's confidence: medium). Security had no NAM line, so this one is opened with Cisco's product name until the security round reviews it",
      "parts": 2,
@@ -511,7 +531,8 @@
      "rules": {
       "sku": 2
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -521,7 +542,7 @@
    "series": [
     {
      "series": "IPS 4300 / 4500",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 26,
@@ -543,7 +564,8 @@
      "rules": {
       "sku": 26
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -553,7 +575,7 @@
    "series": [
     {
      "series": "Management Center / FireSIGHT appliances",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "name rule (layers round 3, security round): UCSC-PSU1-1200W-D= '1200W Power Supply Spare for FMC1800, 2800, 4800' carried the label 'Identity Services Engine' and was moved to that line's shared parts by the label check",
      "parts": 121,
@@ -583,7 +605,8 @@
       "sku": 120,
       "name": 1
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -593,7 +616,7 @@
    "series": [
     {
      "series": "Secure Network Server (SNS) appliances",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 79,
@@ -622,7 +645,8 @@
       "label": 1,
       "sku": 78
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Identity Services Engine shared parts",
@@ -651,7 +675,8 @@
       "label-unsupported": 9,
       "accessory": 2
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -661,7 +686,7 @@
    "series": [
     {
      "series": "Flow Sensor",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 68,
@@ -680,11 +705,12 @@
      "rules": {
       "sku": 68
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Flow Collector",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 77,
@@ -711,11 +737,12 @@
      "rules": {
       "sku": 77
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Management Console",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 24,
@@ -734,11 +761,12 @@
      "rules": {
       "sku": 24
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "UDP Director / Flow Replicator",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 27,
@@ -757,11 +785,12 @@
      "rules": {
       "sku": 27
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Data Store",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "^ST-DN (layers round 3, security round): the Data Node 6300 / 6400 appliances ('Cisco Secure Network Analytics Data Node 6300', ST-DN6300-CHAS-K9 'Data Store 6300 - RMA') of the Secure Network Analytics Data Store sat in the line's shared parts with kind analytics",
      "parts": 10,
@@ -780,11 +809,12 @@
      "rules": {
       "sku": 10
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Telemetry Broker",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "layers round 3, security round: 'Cisco Telemetry Broker 2300' / 2400 (and their -CHAS RMA units) sat in the line's shared parts with kind analytics; Cisco names the product Telemetry Broker",
      "parts": 4,
@@ -801,7 +831,8 @@
      "rules": {
       "sku": 4
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Secure Network Analytics (Stealthwatch) shared parts",
@@ -835,7 +866,8 @@
       "label": 4,
       "accessory": 1
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -845,7 +877,7 @@
    "series": [
     {
      "series": "Email Security Appliance (ESA)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 37,
@@ -865,11 +897,12 @@
      "rules": {
       "sku": 37
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Secure Web Appliance (WSA)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 40,
@@ -890,11 +923,12 @@
      "rules": {
       "sku": 40
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Security Management Appliance (SMA)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 37,
@@ -915,7 +949,8 @@
      "rules": {
       "sku": 37
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Secure Email and Web shared parts",
@@ -946,7 +981,8 @@
      "rules": {
       "sku": 85
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -956,7 +992,7 @@
    "series": [
     {
      "series": "Malware Analytics (Threat Grid) appliances",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 71,
@@ -984,7 +1020,8 @@
      "rules": {
       "sku": 71
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Secure Malware Analytics shared parts",
@@ -1002,7 +1039,8 @@
      "rules": {
       "accessory": 1
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -1012,7 +1050,7 @@
    "series": [
     {
      "series": "Secure Endpoint (AMP) private cloud appliances",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 36,
@@ -1040,7 +1078,8 @@
      "rules": {
       "sku": 36
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -1050,7 +1089,7 @@
    "series": [
     {
      "series": "Duo hardware tokens",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "layers round 3 (servers round): DUO-TOKEN-10PACK 'A hardware token used with a Cisco Duo subscription (10 pack)', planned in from servers-unified-computing; the Duo subscriptions filed beside it are class plans (licence), not hardware",
      "parts": 1,
@@ -1064,7 +1103,8 @@
      "rules": {
       "sku": 1
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -1074,7 +1114,7 @@
    "series": [
     {
      "series": "Cyber Vision Center appliances",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 27,
@@ -1101,7 +1141,8 @@
      "rules": {
       "sku": 27
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -1111,7 +1152,7 @@
    "series": [
     {
      "series": "Security Manager (CSM) appliances",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 16,
@@ -1135,11 +1176,12 @@
      "rules": {
       "sku": 16
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Secure Workload (Tetration)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "the TA- rule refuses the Nexus 9300 / 9200 switch PIDs of Tetration clusters (TA-C93180YC-FX, TA-N9K-C9372PX-E …), which are switches (operator, layers round 3); the clusters TA-CL-39U-M6-K9 / TA-CL-8U-M6-K9 stay here",
      "parts": 4,
@@ -1156,11 +1198,12 @@
      "rules": {
       "sku": 4
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Prime Security Manager (PRSM) appliances",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "layers round 3, security round: PRSM-HW1-25 / 50 / 100-K9 'Prime Security Manager - HW C220M3 - … Device Management' and PRSM-APPLSW2-25 / 50-K9, PRSM-APPSW2-100-K9 'PRSM Software Bundled With Physical Appliance' sat in ASA and ISA shared parts by their label (kind management). The series 'Secure Client (AnyConnect)' was removed in the same round: no row carries its label and nothing is planned into it",
      "parts": 15,
@@ -1184,7 +1227,8 @@
      "rules": {
       "sku": 15
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Security Manager and Secure Workload shared parts",
@@ -1202,7 +1246,8 @@
      "rules": {
       "label-unsupported": 1
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   }

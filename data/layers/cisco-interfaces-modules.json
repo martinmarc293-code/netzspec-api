@@ -1,15 +1,18 @@
 {
  "vendor": "cisco",
  "category": "interfaces-modules",
- "built_at": "2026-09-15T23:24:29.707Z",
- "commit": "daa609b5f1a24431ec097b320227e7df1b36b063",
+ "built_at": "2026-09-17T13:05:47.605Z",
+ "commit": "80696e3daf1c12d95bb79123a4818381782ed6ba",
  "uncommitted_rule_files": [
-  "data/reference/family-carriers.json",
-  "data/reference/layers-cross-claims.json",
-  "scripts/build-layers.mts"
+  "scripts/build-arrangement-site.mts",
+  "scripts/build-layers.mts",
+  "src/core/layerChecks.ts",
+  "src/core/productLine.ts"
  ],
  "mapping_file": "data/reference/product-lines/cisco-interfaces-modules.json",
  "parts": 1145,
+ "layered": 1079,
+ "pending": 66,
  "lines": [
   {
    "line": "Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)",
@@ -17,7 +20,7 @@
    "series": [
     {
      "series": "NIM (Network Interface Modules)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "multi-platform router cards (A.3 rule 1); C-NIM- is the Catalyst-generation spelling (C-NIM-1X, C-NIM-8T)",
      "parts": 95,
@@ -37,11 +40,12 @@
      "rules": {
       "sku": 95
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "SM-X and SM Service Modules",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "^SM-(?!X|[0-9]{2}$) (layers round 3, security round): the rule claimed SM-40 / SM-48 / SM-56, the Firepower 9300 security modules in security. Re-audit decisions (operator, 15 Sep 2026, Q-13): the UCS E-Series is a server sold as a router module and lives in servers-unified-computing, kind server (reverses pre-ruling C3) — ^UCS-E and ^SVC-E are removed and the four UCS-E modules carry move plans to servers; the Services Ready Engine follows (SM-SRE-700 / 900, their disks, memory and cover), so the rule is fenced from SRE-, DSK-, HDD-SATA and MEM-VLP",
      "parts": 79,
@@ -63,11 +67,12 @@
      "rules": {
       "sku": 79
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "ISM / EM Internal Service Modules",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "ISM-VPN-29 / -39 are engines without network ports: kind module (pre-ruling C2); the EM voice expansion modules are interface cards. Re-audit decisions (operator, 15 Sep 2026): the ISM-SRE-300 engines follow the Services Ready Engine to servers-unified-computing (Q-13), so ^ISM- is fenced from SRE; ^EM3-HDA- places EM3-HDA-8FXS, the voice expansion module planned in from routers beside EM-HDA-8FXS (servers' ^EM3- rule, meant for the UCS-E M3 memory and SSDs, had claimed it as an E-Series part)",
      "parts": 11,
@@ -87,11 +92,12 @@
      "rules": {
       "sku": 11
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "AIM (Advanced Integration Modules)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "layers round 3, security round: Cisco's Advanced Integration Modules, the internal module slot of the 1800 / 2600 / 2800 / 3600 / 3700 / 3800 routers (the ISM's predecessor). AIM-DES/BP 'DES Crypto AIM for Cisco 2600' arrives from security and AIM-VOICE-30 from routers, both by plan (A.3 rule 1: multi-platform router cards live here)",
      "parts": 2,
@@ -106,11 +112,12 @@
      "rules": {
       "sku": 2
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "EHWIC / HWIC / VWIC / WIC",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "ILPM-4= / ILPM-8= are the inline-power daughter modules of the EtherSwitch HWICs (data sheet 'Cisco EtherSwitch 4- and 9-Port High-Speed WAN Interface Cards'). The label's platform supplies, antennas and datasheet tokens are planned out (layers round 3)",
      "parts": 162,
@@ -133,11 +140,14 @@
      "rules": {
       "sku": 162
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 16
+     }
     },
     {
      "series": "NM / NME Network Modules",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "GE-DCARD-ESW(=) is the Gigabit daughter card of the EtherSwitch network modules (its name: 'daughtercard for Etherswitch NM')",
      "parts": 72,
@@ -158,11 +168,12 @@
      "rules": {
       "sku": 72
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "PVDM Voice DSP Modules",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 45,
@@ -181,11 +192,14 @@
      "rules": {
       "sku": 45
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 1
+     }
     },
     {
      "series": "VIC Voice Interface Cards",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 22,
@@ -204,11 +218,12 @@
      "rules": {
       "sku": 22
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "SPA Shared Port Adapters",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 138,
@@ -229,11 +244,12 @@
      "rules": {
       "sku": 138
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "PA Port Adapters (7200 / 7500 VIP)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 116,
@@ -253,11 +269,12 @@
       "sku": 114,
       "label": 2
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Pluggable Interface Modules (LTE / 5G / serial)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "the ISR 1100 / IR pluggable interface modules (PIM): LTE, 5G Sub-6 and the one-port serial P-1T (renamed from '(LTE / 5G)' in layers round 3, when P-1T got its rule)",
      "parts": 27,
@@ -277,11 +294,12 @@
      "rules": {
       "sku": 27
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "WP pluggable modules (IoT routers)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "fenced (layers round 3, collaboration-endpoints round): WP-9821- is the Webex Wireless Phone 9821 and its batteries, chargers and cases (17 rows in collaboration-endpoints), not an IoT router pluggable module",
      "parts": 36,
@@ -300,11 +318,12 @@
      "rules": {
       "sku": 36
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Cellular and WAN interface modules (MC / PCEX / WIM)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "renamed from 'Cellular Cards (MC / PCEX / WIM)' in layers round 3: the 800M WAN interface modules include the serial WIM-1T (kind interface) beside the 3G / LTE WIMs, the Sierra MC modems and the PCEX cards",
      "parts": 20,
@@ -325,11 +344,12 @@
      "rules": {
       "sku": 20
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "MC3810 modules (legacy)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 7,
@@ -349,7 +369,8 @@
      "rules": {
       "sku": 7
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular) shared parts",
@@ -374,7 +395,8 @@
       "label-unsupported": 2,
       "accessory": 36
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -384,7 +406,7 @@
    "series": [
     {
      "series": "Cisco 12000 / XR 12000 SIP and line cards",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "the two digit-led rules are fenced to the Cisco 12000 shapes (pre-ruling C6, layers round 3): the bare ^[0-9]{1,2}(GE|CHOC|X10GE) and ^[0-9]{1,2}OC(3|12|48) also claimed routers' CRS bundles (10GE-EMSE-140G=) and 4OC48-POS, and a first fence still claimed the CRS card 40X10GE-WLO(=); the rules now name 4GE-SFP-LC, 4CHOC12/DS3-I-SCB, 1x10GE-ER-SC / -LR-SC and the nOC3 / nOC12 POS and ATM cards. 8FE-, MEM-(LC-)ISE- and EPA-3GE / EPA-GE/FE carry the data sheets 'Cisco 12000 Series 8-Port Fast Ethernet Line Card', 'Cisco 12000 Series Channelized Line Card' and 'Cisco XR 12000 and 12000 Series Gigabit Ethernet Line Cards'",
      "parts": 42,
@@ -405,7 +427,8 @@
      "rules": {
       "sku": 42
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Router and switch line cards (legacy) shared parts",
@@ -429,7 +452,8 @@
       "sku": 12,
       "label": 4
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -439,7 +463,7 @@
    "series": [
     {
      "series": "Fiber patch panels and MPO / breakout cables (CB- / PP)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "Cisco's 'High-Density Fiber Patch Panel, Simplex, MPO, and Breakout Cables Portfolio' data sheet: the CB- patch and trunk cables (CB-M12-M12-MMF10 and -MMF1.5 are printed so there) and the PP1 / PP2 / PP4 patch panels. Renamed from 'Fiber and M12 cables (CB-)' in layers round 3. The third-party structured cabling filed under the same label carries class plans (decision 3)",
      "parts": 94,
@@ -459,11 +483,14 @@
      "rules": {
       "sku": 94
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 47
+     }
     },
     {
      "series": "Small Business Network Accessories (SB-PWR / RPS1000)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "decision pending: SB-PWR home — the Small Business 12V / 48V power adapters, PoE injectors and the RPS1000 380W redundant supply. Cisco files their data sheets and EoL notices under interfaces-modules / small-business-network-accessories, and no compatible relation ties one to a platform, so they stay here (A.3 rule 1: multi-platform) rather than going to switches as the exclusion had them (operator, layers round 3: read before assigning)",
      "parts": 54,
@@ -482,7 +509,8 @@
      "rules": {
       "sku": 54
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Cables and accessories shared parts",
@@ -504,7 +532,8 @@
       "accessory": 2,
       "label-unsupported": 1
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   }
@@ -1077,5 +1106,5 @@
  },
  "pending_review": [],
  "inbound_unplaced": {},
- "done": true
+ "done": false
 }

@@ -1,15 +1,18 @@
 {
  "vendor": "cisco",
  "category": "servers-unified-computing",
- "built_at": "2026-09-15T23:24:26.550Z",
- "commit": "daa609b5f1a24431ec097b320227e7df1b36b063",
+ "built_at": "2026-09-17T13:05:41.322Z",
+ "commit": "80696e3daf1c12d95bb79123a4818381782ed6ba",
  "uncommitted_rule_files": [
-  "data/reference/family-carriers.json",
-  "data/reference/layers-cross-claims.json",
-  "scripts/build-layers.mts"
+  "scripts/build-arrangement-site.mts",
+  "scripts/build-layers.mts",
+  "src/core/layerChecks.ts",
+  "src/core/productLine.ts"
  ],
  "mapping_file": "data/reference/product-lines/cisco-servers-unified-computing.json",
  "parts": 9492,
+ "layered": 8234,
+ "pending": 1258,
  "lines": [
   {
    "line": "UCS Solution Bundles",
@@ -17,7 +20,7 @@
    "series": [
     {
      "series": "Smart Play and SP Select bundles",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 744,
@@ -41,11 +44,12 @@
      "rules": {
       "sku": 744
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "UCS EZ bundles",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "UCSV (layers round 3): UCSV-EZ-C250-DOM-2 'UCS EZ DOM C250M2 …' sat in B-Series shared parts by its label — a server in shared parts, which the device check names",
      "parts": 164,
@@ -70,11 +74,12 @@
      "rules": {
       "sku": 164
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Solution, reference and promotion bundles",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 219,
@@ -98,11 +103,14 @@
      "rules": {
       "sku": 219
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 1
+     }
     },
     {
      "series": "FlexPod bundles",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 5,
@@ -120,7 +128,8 @@
      "rules": {
       "sku": 5
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -130,7 +139,7 @@
    "series": [
     {
      "series": "Catalyst Center appliance",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "(?!LOC|L-) (layers round 3): the rule claimed the nine DN3-LOC / DN3-L- parts of the Catalyst Center location appliance, which wireless holds (its round recorded the claim for this round); the four rows it decides here are DN3-HW-APL-XL(=) and DN3-P-I8D25GF / I8Q25GF",
      "parts": 4,
@@ -148,11 +157,12 @@
      "rules": {
       "sku": 4
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "APIC / Nexus Dashboard appliance",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 4,
@@ -170,11 +180,12 @@
      "rules": {
       "sku": 4
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Kinetic appliance",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 23,
@@ -200,7 +211,8 @@
      "rules": {
       "sku": 23
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -210,7 +222,7 @@
    "series": [
     {
      "series": "UCS Invicta (Whiptail)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 254,
@@ -239,7 +251,8 @@
      "rules": {
       "sku": 254
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -249,7 +262,7 @@
    "series": [
     {
      "series": "UCS XE130c",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "layers round 3: the six UCSXE-130C-M8-12 / -20 / -32 (and -U) rows, named 'Cisco UCS XE130c M8 Compute Node …', sat in the line's shared parts — servers in shared parts, which the device check names",
      "parts": 6,
@@ -268,11 +281,12 @@
      "rules": {
       "sku": 6
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "UCS XE150c",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 4,
@@ -289,11 +303,12 @@
      "rules": {
       "sku": 4
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "UCS XE9305 chassis",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "layers round 3: UCSXE-9305-U 'Cisco UCS XE9305 Chassis Configured' and its spare sat in the line's shared parts — a chassis in shared parts, which the device check names. ^XE150 (dead) removed from UCS XE150c",
      "parts": 2,
@@ -308,7 +323,8 @@
      "rules": {
       "sku": 2
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "UCS Unified Edge (XE) shared parts",
@@ -340,7 +356,10 @@
      "rules": {
       "sku": 50
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 3
+     }
     }
    ]
   },
@@ -350,7 +369,7 @@
    "series": [
     {
      "series": "CSP 5000",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 14,
@@ -370,7 +389,8 @@
      "rules": {
       "sku": 14
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Cloud Services Platform shared parts",
@@ -400,7 +420,8 @@
      "rules": {
       "sku": 38
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -410,7 +431,7 @@
    "series": [
     {
      "series": "UCS E-Series",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "layers round 3: ^FL-UCSE removed — it placed no row. ^E1[0-9]{2}(DP?|S)M[0-9](-10G)?-SVC$ places the ten E140D / E140DP / E140S / E160D / E160DP / E180D service spares ('CANIS SERVICES ONLY SPARE'), which the label check had moved to shared parts for want of name evidence: their SKU names the module. Re-audit decisions (operator, 15 Sep 2026, Q-13): the UCS E-Series lives here, kind server — it reverses pre-ruling C3. The four UCS-E modules in interfaces-modules and the routers' E100 / E-SSD parts carry move plans in; ^SVC-E is back (the three SVC-E service spares stay, their plans to interfaces-modules removed); ^EM3-(?!HDA) keeps the UCS-E M3 memory and SSDs (EM3-MEM-, EM3-AF-) and lets EM3-HDA-8FXS, a voice expansion module, go to interfaces-modules",
      "parts": 181,
@@ -434,11 +455,14 @@
      "rules": {
       "sku": 181
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 4
+     }
     },
     {
      "series": "Services Ready Engine (ISM-SRE / SM-SRE)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "re-audit decisions (operator, 15 Sep 2026, Q-13): the Services Ready Engine, the UCS E-Series' predecessor in the ISR G2, follows the E-Series into servers-unified-computing — the engines kind server, their drives, memory and disk cover as components. The ten SRE rows this category had planned to interfaces-modules stay (plans removed: ISM-SRE-300-BUN-K9, ISM-SRE-300-K9=, SM-DSK-COVER, SM-HDD-SATA-500GB(=), SM-HDDB-SATA500GB, SM-MEM-VLP-2GB(=) / 4GB(=)); the six SRE rows interfaces-modules holds (ISM-SRE-300-K9, -K9++=, -RS-K9=, SM-SRE-700-K9, SM-SRE-900-K9, SM-DSK-SATA-500GB=) carry move plans in",
      "parts": 16,
@@ -460,7 +484,8 @@
      "rules": {
       "sku": 16
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -470,7 +495,7 @@
    "series": [
     {
      "series": "UCS Mini (6324)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "(?<!…|WS-X) (layers round 3): the rule claimed WS-X6324-100FX-MM / -SM, Catalyst 6500 line cards that switches holds (its round recorded the claim for this round)",
      "parts": 7,
@@ -490,11 +515,12 @@
      "rules": {
       "sku": 7
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "UCS Fabric Interconnect 9108 100G",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 4,
@@ -511,11 +537,12 @@
      "rules": {
       "sku": 4
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "UCS 6200 Fabric Interconnects",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "(?<!CPU-…)6296 removed in layers round 3: 62[49]6 decides every 6296 row (the rule-shadowing check named it). Added in layers round 3, each a 6200 part that sat in a shared-parts series with kind fabric-interconnect (the device check names it): UCS-FI48-SEED / FI96-SEED 'UCS SEED 6248UP / 6296UP … Fabric Int', UCS-SPINFRAFI96-RL 'UCS 6296UP BUN 2RU Fabric Int', UCS-FI-DL2(=) 'UCS 6248 Layer 2 Daughter Card' and UCS-FI-E16UP(=) 'UCS 6200 16-port Expansion module' (the last two are cards the kind axis reads as fabric interconnects by their FI token — listed for the kind layer)",
      "parts": 47,
@@ -538,11 +565,12 @@
      "rules": {
       "sku": 47
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "UCS 6300 Fabric Interconnects",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 29,
@@ -564,11 +592,12 @@
      "rules": {
       "sku": 29
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "UCS 6400 Fabric Interconnects",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 46,
@@ -590,11 +619,14 @@
      "rules": {
       "sku": 46
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 1
+     }
     },
     {
      "series": "UCS 6500 Fabric Interconnects",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 16,
@@ -617,11 +649,12 @@
      "rules": {
       "sku": 16
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "UCS 6600 Fabric Interconnects",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "layers round 3: Cisco's 'UCS 6600 Series Fabric Interconnects Data Sheet' names the series (UCS-FI-6652 1RU 52 ports, UCS-FI-6664 2RU 64 ports). The spares UCS-FI-6652= / ++= and UCS-FI-6664= / ++= sat in the line's shared parts (fabric interconnects in shared parts); UCS-FI-6652-U / 6664-U arrive from interfaces-modules by plan. With them and the 6200 cards placed, the line's shared-parts rule ^UCSX?-FI- decided no row (every match went to a model series) and was removed with its series entry. ^UCS-PSU-6600 places UCS-PSU-6600-AC= 'UCS 6600 1.4KW AC Power Supply' and the UCS-PSU-6600-AC arriving from interfaces-modules, which were the last rows of UCS Server Components' 'Power supplies and fans' (every other UCS-PSU / UCS-FAN row names its fabric interconnect); that series and its two rules were removed",
      "parts": 12,
@@ -643,7 +676,8 @@
      "rules": {
       "sku": 12
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "UCS Fabric Interconnects shared parts",
@@ -663,7 +697,8 @@
      "rules": {
       "accessory": 3
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -673,7 +708,7 @@
    "series": [
     {
      "series": "UCS S3260",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "^UCS-S- (layers round 3): the 24 UCS-S- rows ('UCS S3260 1row of drives 14x 12TB …', '… Rear Expander …', '… Boot SSD', UCS-S-MSD960GBK9) sat in UCS Server Components shared parts with kind server — the kind axis reads the S token as an S-Series server (listed for the kind layer); their names say S3260",
      "parts": 439,
@@ -696,7 +731,10 @@
      "rules": {
       "sku": 439
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 22
+     }
     },
     {
      "series": "UCS S-Series Storage Servers shared parts",
@@ -717,7 +755,8 @@
       "accessory": 1,
       "label-unsupported": 1
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -727,7 +766,7 @@
    "series": [
     {
      "series": "UCS X9508 chassis",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "layers round 3: X9508 (dead) and (?<!CPU-…)9508(?![0-9]) (redundant, and it claimed 25 Nexus 9508 rows in switches) removed",
      "parts": 14,
@@ -746,11 +785,12 @@
      "rules": {
       "sku": 14
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "UCS X210c compute node",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "X210C?(?![0-9]) removed in layers round 3: it decided no row and claimed 8 HCIX X210c nodes in hyperconverged-infrastructure",
      "parts": 17,
@@ -770,11 +810,12 @@
      "rules": {
       "sku": 17
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "UCS X215c compute node",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 3,
@@ -790,11 +831,12 @@
      "rules": {
       "sku": 3
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "UCS X410c compute node",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 8,
@@ -813,11 +855,12 @@
      "rules": {
       "sku": 8
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "UCS X440p PCIe node",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 9,
@@ -838,11 +881,14 @@
      "rules": {
       "sku": 9
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 1
+     }
     },
     {
      "series": "UCS X580p PCIe node",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 3,
@@ -859,11 +905,14 @@
      "rules": {
       "sku": 3
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 2
+     }
     },
     {
      "series": "UCS X-Series fabric modules",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 5,
@@ -882,7 +931,8 @@
      "rules": {
       "sku": 5
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "UCS X-Series Modular System shared parts",
@@ -920,7 +970,10 @@
       "label": 15,
       "sku": 1033
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 51
+     }
     }
    ]
   },
@@ -930,7 +983,7 @@
    "series": [
     {
      "series": "UCS B200",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "name rule (layers round 3): the Cisco+ Hybrid Cloud offers PLHC-BMGPCI-M51A / BMPCI-M51 / VDIGPCI-M51A / VSIGPCI-M51A / VSIPCI-M51A, named 'Cisco+ B200 M5 for …', sat in B-Series shared parts by their label — servers in shared parts; their SKUs carry no model token",
      "parts": 54,
@@ -953,11 +1006,12 @@
       "name": 5,
       "sku": 49
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "UCS B22 M3",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "^UCSB-DBUN-B22- (layers round 3): UCSB-DBUN-B22-362 'UCS B22 M3 Blade, 1xE5-2440, 1x8GB' sat in B-Series shared parts — a server in shared parts",
      "parts": 8,
@@ -977,11 +1031,12 @@
      "rules": {
       "sku": 8
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "UCS B230",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "re-audit decisions (operator, 15 Sep 2026, F-1): N20-BBFLA-230(=) 'UCS B230 M2 and M1 air baffle for CPUs' and N20-BBLKD-7MM(=) 'UCS B230 M2 and M1 7mm SSD blanking panel' name this blade alone (A.3 rule 1); they sat in B-Series shared parts by ^N20-B",
      "parts": 11,
@@ -1001,11 +1056,12 @@
      "rules": {
       "sku": 11
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "UCS B250",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "re-audit decisions (operator, 15 Sep 2026, F-1): N20-BBFLB= 'UCS B250 M2 and M1 air baffle kit' names this blade alone; it sat in B-Series shared parts by ^N20-B",
      "parts": 2,
@@ -1020,11 +1076,12 @@
      "rules": {
       "sku": 2
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "UCS B260 M4 / B460 M4 (Scalable M4 Blade Module)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "layers round 3: Cisco builds the B260 M4 from one 'UCS Scalable M4 Blade Module' and the B460 M4 from two joined by a 'Scalability Connector' (a single module takes a 'Scalability Terminator'); the 41 UCSB-EX-M4- modules, connectors and terminators sat in B-Series shared parts with kind server (the connectors and terminators are accessories the kind axis reads by their EX token — listed for the kind layer). No UCSB-B260 / B460 M4 PID exists in the catalogue beside them; the bundles that name B260 M4 / B460 M4 stay in their bundle series",
      "parts": 41,
@@ -1043,11 +1100,14 @@
      "rules": {
       "sku": 41
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 1
+     }
     },
     {
      "series": "UCS B420 / B440 / B460 / B480",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "re-audit decisions (operator, 15 Sep 2026, F-1): N20-BBFLA(=) 'UCS B440 M2 and M1 air baffle' names the B440 alone; it sat in B-Series shared parts by ^N20-B",
      "parts": 27,
@@ -1067,11 +1127,14 @@
      "rules": {
       "sku": 27
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 1
+     }
     },
     {
      "series": "UCS 5108 blade chassis",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "^VCE-UCS-CH-6508 (layers round 3): 'VCE UCS 5108 Blade Svr AC Chassis' sat in C-Series shared parts by its label — a chassis in shared parts. ^N01-UAC1$ (re-audit decisions, operator, 15 Sep 2026, F-1): N01-UAC1(=) 'Single phase AC power module for UCS 5108' sat in C-Series Rack Servers shared parts by the label 'UCS C-Series' — the wrong line",
      "parts": 54,
@@ -1093,11 +1156,12 @@
      "rules": {
       "sku": 54
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "UCS 2000 fabric extenders (IOM)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 16,
@@ -1116,7 +1180,8 @@
      "rules": {
       "sku": 16
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "UCS B-Series Blade Servers shared parts",
@@ -1151,7 +1216,10 @@
       "accessory": 1,
       "label": 12
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 30
+     }
     }
    ]
   },
@@ -1161,7 +1229,7 @@
    "series": [
     {
      "series": "UCS C880A M8 (AI)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 26,
@@ -1181,11 +1249,12 @@
      "rules": {
       "sku": 26
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "UCS C885A M8 (AI)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 126,
@@ -1206,11 +1275,12 @@
      "rules": {
       "sku": 126
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "UCS C880 M4 / M5",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 170,
@@ -1233,11 +1303,12 @@
      "rules": {
       "sku": 170
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "UCS C890 M5",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 100,
@@ -1260,11 +1331,14 @@
      "rules": {
       "sku": 100
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 10
+     }
     },
     {
      "series": "UCS C125 / C4200",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 33,
@@ -1290,11 +1364,12 @@
      "rules": {
       "sku": 33
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "UCS C220",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "layers round 3: the two model rules are fenced to the prefixes of the rows they decide (UCSC- / UCS- for C220, UCSC- / CBL- for 220M): unfenced they claimed the C220-based parts of other products — AIR- / CMX- / MSE- / DN3-LOC / IWA- (wireless: 5520 controller, CMX / MSE, the Catalyst Center location appliance, IEC6400) and XRV-FAN-C220M4= (routers: the XRv 9000 appliance) — and the HX- / HCI- rows of the two hyperconverged categories. ^UCS-MAN-S72A2T0V0$ 'MSFT AzureStack HCI Hyb CTO Node C220 M7sn' (its SKU names no model; it and its spare sat in UCS Server Components shared parts)",
      "parts": 169,
@@ -1321,11 +1396,14 @@
      "rules": {
       "sku": 169
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 4
+     }
     },
     {
      "series": "UCS C225",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "layers round 3: fenced to the prefixes of the rows each rule decides; unfenced the 225M rule claimed HXAF225-M6S (hyperconverged-systems)",
      "parts": 27,
@@ -1348,11 +1426,12 @@
      "rules": {
       "sku": 27
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "UCS C240",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "layers round 3: the two model rules are fenced to the prefixes of the rows they decide (UCSC- / UCS- / CBL-); unfenced they claimed the C240-based parts of the 8540 controller and the CMX / MSE appliances in wireless (AIR-BZL-C240M4, AIR-FAN-C240M4=, AIR-PCI-1A-240M4) and HX- / HCI- rows. ^UCS-MAN-S00A0T[0-2]V0$ 'MSFT AzureStack CTO / FixedNode C240 M4L …' and ^UCS-MAN-S71A2T0V0$ '… CTO Node C240 M7sn' (their SKUs name no model; they sat in UCS Server Components shared parts — servers in shared parts). UCS-MAN-S01A0T0V0, named only by its SKU, stays there (kind bundle)",
      "parts": 216,
@@ -1379,11 +1458,14 @@
      "rules": {
       "sku": 216
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 7
+     }
     },
     {
      "series": "UCS C245",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "layers round 3: fenced to the prefixes of the rows each rule decides (UCSC- / CBL-)",
      "parts": 28,
@@ -1406,11 +1488,14 @@
      "rules": {
       "sku": 28
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 2
+     }
     },
     {
      "series": "UCS C460 / C480",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 58,
@@ -1437,11 +1522,12 @@
      "rules": {
       "sku": 58
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "UCS C420 M3",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "layers round 3: UCSC-C420-M3, -M3= and -M3-CH2 'UCS C420 M3 w/o CPU, mem, HDD, PCIe, PSU, rail kit' sat in C-Series shared parts — servers in shared parts; Cisco names the UCS C420 M3 Rack Server",
      "parts": 6,
@@ -1462,11 +1548,12 @@
      "rules": {
       "sku": 6
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "UCS C22 / C24 M3",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "^UCSC-DBUN-C2[24]S- (layers round 3): the six UCSC-DBUN-C22S-30x / C24S-32x 'UCS C22 / C24 M3 SFF, 2xE5-24x0 …' sat in C-Series shared parts — servers in shared parts",
      "parts": 27,
@@ -1487,11 +1574,12 @@
      "rules": {
       "sku": 27
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "UCS C200 / C210 / C250 / C260 (M1/M2)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "layers round 3: ^R2XX-(?!DMYMPWRCORD) — R2XX-DMYMPWRCORD 'no power cord' is an ordering setting used across the C-Series (kind non-product), not a C200 part; ^UCS-C2[0156]0M[12] places UCS-C260M2-VCD2 'UCS C260 M2 Rack Server …', which sat in UCS Server Components shared parts",
      "parts": 71,
@@ -1517,7 +1605,8 @@
      "rules": {
       "sku": 71
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "UCS C-Series Rack Servers shared parts",
@@ -1556,7 +1645,10 @@
       "accessory": 42,
       "sku": 722
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 82
+     }
     }
    ]
   },
@@ -1566,7 +1658,7 @@
    "series": [
     {
      "series": "R42610 / R42612 racks and PDUs",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "^RACK[0-9]?-(UCS|[A-Z]+-[0-9]{3}) (layers round 3): the R42610 / R42612 racks are RACK- / RACK2-UCS… and their parts RACK- / RACK2-<part>-<three digits>; ^RACK claimed RACK-KIT-T1= and RACKMNT-19-CMPACT (switches' rack kits) and RACK-QCN-SN5= 'Rack for CWWLSE Express 1030' (wireless), each recorded for this round. (A first fence without the UCS alternative dropped the seven RACK-UCS / RACK2-UCS racks to C-Series shared parts — found in the row diff, not by a check.)",
      "parts": 93,
@@ -1588,7 +1680,10 @@
      "rules": {
       "sku": 93
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 3
+     }
     }
    ]
   },
@@ -1598,7 +1693,7 @@
    "series": [
     {
      "series": "Processors",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 1160,
@@ -1617,11 +1712,14 @@
      "rules": {
       "sku": 1160
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 26
+     }
     },
     {
      "series": "Memory",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 221,
@@ -1640,11 +1738,14 @@
      "rules": {
       "sku": 221
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 1
+     }
     },
     {
      "series": "Drives and storage",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 946,
@@ -1667,11 +1768,14 @@
      "rules": {
       "sku": 946
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 2
+     }
     },
     {
      "series": "GPUs",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 4,
@@ -1688,11 +1792,12 @@
      "rules": {
       "sku": 4
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Network and storage adapters",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "layers round 3: ^UCS-PCI and ^UCS-SDHPCIE removed — every row they matched is a drive decided by 'Drives and storage' (UCS-PCI25…, UCS-SD…); ^XRV-PCIE- places the XRv appliance PCIe NICs planned in from routers (their arrival exceptions there are retired). Dead rules removed elsewhere in the file: ^C880(?![0-9A]), ^C260-, 2[1-4]0[48]XP, ^UCSB-B22-, 9416(?![0-9]), ^UCS-COPC-240, ^[0-9]{3}P[0-9]$, ^N01-M",
      "parts": 39,
@@ -1713,11 +1818,12 @@
      "rules": {
       "sku": 39
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "TPM",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 6,
@@ -1736,7 +1842,10 @@
      "rules": {
       "sku": 6
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 2
+     }
     },
     {
      "series": "UCS Server Components shared parts",
@@ -1766,7 +1875,10 @@
      "rules": {
       "sku": 46
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 10
+     }
     }
    ]
   }
@@ -11858,5 +11970,5 @@
  },
  "pending_review": [],
  "inbound_unplaced": {},
- "done": true
+ "done": false
 }

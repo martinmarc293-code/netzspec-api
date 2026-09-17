@@ -1,15 +1,18 @@
 {
  "vendor": "cisco",
  "category": "transceiver",
- "built_at": "2026-09-15T23:24:29.107Z",
- "commit": "daa609b5f1a24431ec097b320227e7df1b36b063",
+ "built_at": "2026-09-17T13:05:46.461Z",
+ "commit": "80696e3daf1c12d95bb79123a4818381782ed6ba",
  "uncommitted_rule_files": [
-  "data/reference/family-carriers.json",
-  "data/reference/layers-cross-claims.json",
-  "scripts/build-layers.mts"
+  "scripts/build-arrangement-site.mts",
+  "scripts/build-layers.mts",
+  "src/core/layerChecks.ts",
+  "src/core/productLine.ts"
  ],
  "mapping_file": "data/reference/product-lines/cisco-transceiver.json",
  "parts": 2158,
+ "layered": 2109,
+ "pending": 49,
  "lines": [
   {
    "line": "Direct-attach and active optical cables",
@@ -17,7 +20,7 @@
    "series": [
     {
      "series": "DAC and AOC cables (SFP+ / SFP28 / SFP56 / QSFP / QSFP-DD)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "^SFP-H10GB-CU$ (re-audit decisions, operator, 15 Sep 2026, N-2 / Q-23): the bare family row '10G SFP+ Twinax cable assembly, passive (Length - 1M to 5M)' carries 5 facts, so it stays a part (its class plan removed) and is placed beside its SFP-H10GB-CU1M / 3M / 5M orderables; the length-glued CU rule needs a digit. Same-cage cables only. A breakout (one QSFP / QSFP-DD host cage fanned out to 2 or 4 smaller cages: QSFP-4SFP25G-CU1M, QSFP-4X10G-AOC1M, QDD-4ZQ100-CU1M) is refused by the lookahead and placed in its host cage's speed series with kind breakout-cable (operator, layers round 3); the standing check asserts no breakout-cable row sits here. (?<!E)CU (layers round 3, optical round): the copper-DAC rule claimed the External Connection Units 15454-M6-ECU2, NCS2006-ECU60-S= and NCS4K-ECU2 in optical-networking",
      "parts": 162,
@@ -36,7 +39,10 @@
      "rules": {
       "sku": 162
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 19
+     }
     }
    ]
   },
@@ -46,7 +52,7 @@
    "series": [
     {
      "series": "Meraki MA-SFP / MA-QSFP / MA-CBL",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "^MA- fenced to the optics and cables it names (layers round 3, wireless round): the bare rule claimed wireless' Meraki MR antennas, mounts and power adapters (MA-ANT-3-A1 …, 30 rows)",
      "parts": 25,
@@ -66,7 +72,8 @@
      "rules": {
       "sku": 25
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -76,7 +83,7 @@
    "series": [
     {
      "series": "Remote PHY SFP+ optics",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "decided home (operator, layers round 3): the 120 RPHY-S10G-<reach>-<channel>= rows are transceivers — Cisco's own bulletin calls them 'Remote PHY SFPs'; the Remote PHY shelves, RPDs and cabling stay in video. The 57 video rows carry move plans in (run after the re-audit); video's ^RPHY rule is recorded as too broad and fenced in the video round",
      "parts": 120,
@@ -95,11 +102,12 @@
      "rules": {
       "sku": 120
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "XFP-RF QAM transmitters (Prisma)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 44,
@@ -119,11 +127,12 @@
      "rules": {
       "sku": 44
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "GPON / XGS-PON OLT and RF Gateway SFPs",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "SFP-10G-OLT20-X (an XGS-PON OLT SFP+) was in 10G SFP+ by its speed prefix; a PON OLT optic is sold with the PON line (layers round 3)",
      "parts": 22,
@@ -143,7 +152,8 @@
      "rules": {
       "sku": 22
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -153,7 +163,7 @@
    "series": [
     {
      "series": "MDS Fibre Channel SFP / X2 / CWDM",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "^DS-FC-SW places DS-FC-SW-4PK= (a 4-pack of FC SFPs) planned in from storage-networking. The DS-CWDM rule refuses the MDS CWDM passives (DS-CWDM-MUX8A=, DS-CWDMOADM4A=, DS-CWDMCHASSIS=), which are planned to optical-networking and must not fall back to an optic series if a plan is withdrawn (reviewer A-11, layers round 3)",
      "parts": 100,
@@ -172,7 +182,10 @@
      "rules": {
       "sku": 100
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 5
+     }
     }
    ]
   },
@@ -182,7 +195,7 @@
    "series": [
     {
      "series": "ONS 15454 / NCS 2000 pluggables",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "the ONS rule names the optic and cable-assembly tokens opticalKind names, not every ONS- SKU: the bare prefix claimed the patch cord ONS-CAB-CS-LC-5= in interfaces-modules (reviewer A-11, layers round 3). The twelve 15454-SFP / 15454E-SFP rows are planned to optical-networking (operator: ^15454 goes with the ONS 15454 platform, and the asymmetry with the ONS-prefixed optics that stay here is intended); the 15216-GBIC rows sit in GBIC (legacy)",
      "parts": 670,
@@ -204,7 +217,10 @@
      "rules": {
       "sku": 670
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 11
+     }
     }
    ]
   },
@@ -214,7 +230,7 @@
    "series": [
     {
      "series": "400G / 800G ZR, ZR+ and CFP2 DCO",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "QSFP100GMX1/MX2-2/-20-BUN are Routed Optical Networking bundles of the DP01QS28-MX1/MX2 100G DCO QSFP28 (were in 100G QSFP28 by prefix); Q100-ZR4-S-EA= is a fixed 80 km 100GBASE-ZR4 QSFP28, not coherent, and moved to 100G QSFP28 (layers round 3)",
      "parts": 55,
@@ -233,7 +249,8 @@
      "rules": {
       "sku": 55
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -243,7 +260,7 @@
    "series": [
     {
      "series": "DWDM SFP / SFP+ / XFP / X2 / XENPAK",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "the unanchored DWDM token took CRS / ASR 9000 / NCS 5500 DWDM line cards in routers (review record: fix in the transceiver round) and is gone; the one transceiver row it named, X2-10G-DWDM, is a family placeholder with a class plan (operator, layers round 3). DWDM-GBIC rows sit in GBIC (legacy)",
      "parts": 323,
@@ -263,11 +280,14 @@
      "rules": {
       "sku": 323
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 6
+     }
     },
     {
      "series": "CWDM SFP / SFP+",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "CWDM-GBIC rows sit in GBIC (legacy); the CWDM-OADM1 / OADM4 plug-ins are planned to optical-networking with the CWDM-MUX rows (layers round 3)",
      "parts": 32,
@@ -286,7 +306,10 @@
      "rules": {
       "sku": 32
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 1
+     }
     }
    ]
   },
@@ -296,7 +319,7 @@
    "series": [
     {
      "series": "OC-3 / OC-12 / OC-48 and T1/E1/T3 SFPs",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 27,
@@ -315,7 +338,8 @@
      "rules": {
       "sku": 27
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -325,7 +349,7 @@
    "series": [
     {
      "series": "800G OSFP / QSFP-DD800",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "QDD-2X400G-FR4 and QDD-8X100G-FR are QSFP-DD800 modules by their own names (were in 200G / 400G by the QDD prefix); the bare 800G token took the ISR 880 PoE module 800G2-POE-2 (review record) and is gone (layers round 3)",
      "parts": 8,
@@ -344,11 +368,12 @@
      "rules": {
       "sku": 8
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "200G / 400G QSFP-DD, QSFP112 and QSFP56",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "QSFP-4S50-CU1M / 2M / 3M (a 200G QSFP56 host fanned out to 4 x 50G SFP56) sit here by their host cage like every other breakout (reviewer A-2, layers round 3; they were in 50G SFP56 by the fan-out end)",
      "parts": 43,
@@ -368,11 +393,12 @@
      "rules": {
       "sku": 43
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "100G QSFP28",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "QSFP-40/100-SRBD (dual-rate 40/100G BiDi QSFP28) was in 40G QSFP+: the rule named only the QSFP-40/100G spelling (layers round 3)",
      "parts": 55,
@@ -393,11 +419,14 @@
      "rules": {
       "sku": 55
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 1
+     }
     },
     {
      "series": "40G / 100G CFP, CFP2, CPAK and CXP",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "was '100G CFP / CFP2 / CPAK / CXP'; the series also holds the CFP-40G modules and the CPAK 10x10G. ^NCS-FAB-OPT (layers round 3, pre-ruling C4): NCS-FAB-OPT(=) \"Bundle of 96 CXP-100G-SR12\", planned in from interfaces-modules — kind pluggable at the unit, pack quantity 96 parked with the other packs (decision 6)",
      "parts": 38,
@@ -416,11 +445,12 @@
      "rules": {
       "sku": 38
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "50G SFP56",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 8,
@@ -440,11 +470,12 @@
      "rules": {
       "sku": 8
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "40G QSFP+",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 58,
@@ -464,11 +495,14 @@
      "rules": {
       "sku": 58
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 2
+     }
     },
     {
      "series": "25G SFP28",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 19,
@@ -488,11 +522,14 @@
      "rules": {
       "sku": 19
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 2
+     }
     },
     {
      "series": "10G SFP+",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "CSP-SFP-1WSR / 1WLR are 10GE SFP+ for the CSP 2100's Intel NICs (were in 1G by prefix); EXP-10GSFP places the Expressway SFP+ planned in from unified-communications (layers round 3)",
      "parts": 55,
@@ -512,11 +549,12 @@
      "rules": {
       "sku": 55
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "10G X2 / XENPAK / XFP (legacy)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 59,
@@ -535,11 +573,12 @@
      "rules": {
       "sku": 59
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "1G and 100M SFP",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 116,
@@ -559,11 +598,14 @@
      "rules": {
       "sku": 116
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {
+      "class -> non_product": 1
+     }
     },
     {
      "series": "GBIC (legacy)",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": "every GBIC form-factor optic outside a platform line: the 1000BASE GBICs WS-G548x and the WDM GBICs DWDM-GBIC (32), CWDM-GBIC (8) and 15216-GBIC (2) (operator, layers round 3). The bare GBIC token took Catalyst 6500 GBIC line cards (review record) and is gone. ONS-GC-GE-* GBICs stay with the ONS / NCS 2000 platform line",
      "parts": 48,
@@ -582,7 +624,8 @@
      "rules": {
       "sku": 48
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   },
@@ -592,7 +635,7 @@
    "series": [
     {
      "series": "CVR converter modules, trays and brackets",
-     "family": null,
+     "family": "(none)",
      "role": null,
      "note": null,
      "parts": 22,
@@ -612,7 +655,8 @@
      "rules": {
       "sku": 22
      },
-     "pending_in": {}
+     "pending_in": {},
+     "pending_out": {}
     }
    ]
   }
@@ -1021,5 +1065,5 @@
  },
  "pending_review": [],
  "inbound_unplaced": {},
- "done": true
+ "done": false
 }

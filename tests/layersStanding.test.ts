@@ -8,7 +8,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { REPO_ROOT } from "../src/config.js";
-import { readLayerRows, pairDisagreements, twinGroups, crossClaims, ruleUse, classifyRules, incomingRows, labelViolations, labelEvidenceDrift, movedRowsStillRefused, seriesEntryDisagreements, deviceInSharedParts, unplacedArrivals, sharedLabelNotExplicit, crossCategoryTwins, nonHardwarePlansOnPage, gluedDigitKeeps, sharedPartsNamedBySeries, crossLineNamedBySeries, DEVICE_KINDS, type LayerRow } from "../src/core/layerChecks.js";
+import { readLayerRows, pairDisagreements, twinGroups, crossClaims, ruleUse, classifyRules, incomingRows, labelViolations, labelEvidenceDrift, movedRowsStillRefused, seriesEntryDisagreements, statusDisagreements, deviceInSharedParts, unplacedArrivals, sharedLabelNotExplicit, crossCategoryTwins, nonHardwarePlansOnPage, gluedDigitKeeps, sharedPartsNamedBySeries, crossLineNamedBySeries, DEVICE_KINDS, type LayerRow } from "../src/core/layerChecks.js";
 import { labelEvidence, digitPattern, ALIAS_REQUIRES, NUMBER_KEYED_ALIASES } from "../src/core/labelEvidence.js";
 
 export const REVIEWED = ["switches", "routers", "transceiver", "interfaces-modules", "wireless", "servers-unified-computing", "hyperconverged-infrastructure", "hyperconverged-systems", "security", "video", "optical-networking", "storage-networking", "unified-communications", "collaboration-endpoints", "meraki"];
@@ -236,9 +236,20 @@ const labelExpectMiss = (cat: string, labelPlaced: number): string | null => {
 /** a family found on a layered row (the shared-across marker and "" are not families) */
 const familiesInUse = (rows: LayerRow[]) => rows.filter((r) => r.bucket === "layered" && r.product_family && !r.product_family.startsWith("("));
 
-/** series with 0 parts that say nothing about what they wait for */
-const deadPlaceholders = (summary: { lines: { line: string; series: { series: string; parts: number; pending_in?: Record<string, number> }[] }[] }) =>
-  summary.lines.flatMap((l) => l.series.filter((x) => x.parts === 0 && Object.keys(x.pending_in ?? {}).length === 0).map((x) => `${l.line} / ${x.series}`));
+/** series with 0 parts that say nothing about what they wait for: neither rows planned INTO them (pending_in) nor, on a category whose
+ *  rows all wait on a merge, the rows planned OUT of them (pending_out — review of 17 Sep 2026: conferencing's 3 and data-center-networking's
+ *  1 empty series said nothing, and the check never saw them because it ran over REVIEWED only) */
+const deadPlaceholders = (summary: { lines: { line: string; series: { series: string; parts: number; pending_in?: Record<string, number>; pending_out?: Record<string, number> }[] }[] }) =>
+  summary.lines.flatMap((l) => l.series.filter((x) => x.parts === 0 && Object.keys(x.pending_in ?? {}).length === 0 && Object.keys(x.pending_out ?? {}).length === 0).map((x) => `${l.line} / ${x.series}`));
+
+/** THE STATUS EVERY PAGE MUST PRINT (review of 17 Sep 2026), exact per category: the rows not layered yet (pending plans + unplaced + held for
+ *  review + not this category). DONE is 0. Exact in both directions, so a run that layers rows moves this table on purpose, and a rebuild
+ *  that silently drops pending rows fails as loudly as one that adds them. Layering is complete when every entry is 0. */
+const STATUS_EXPECT: Record<string, number> = {
+  "servers-unified-computing": 1258, switches: 315, routers: 123, "interfaces-modules": 66, transceiver: 49,
+  "hyperconverged-infrastructure": 43, "hyperconverged-systems": 30, conferencing: 68, "data-center-networking": 22,
+  wireless: 0, video: 0, "collaboration-endpoints": 0, security: 0, "optical-networking": 0, "storage-networking": 0, "unified-communications": 0, meraki: 0,
+};
 /** rows layered in a series whose every row must carry a move plan */
 const moveOutStrays = (rows: LayerRow[], moveOut: ReadonlySet<string>) => rows.filter((r) => r.bucket === "layered" && moveOut.has(r.series));
 
@@ -322,10 +333,7 @@ for (const cat of REVIEWED) {
   check(`${cat}: the page's parts count is its row count`, summary.parts === rows.length, `page ${summary.parts}, rows ${rows.length}`);
   const sed = seriesEntryDisagreements(summary, rows);
   check(`series entries ${cat}: every series entry of the JSON agrees with its rows on parts, kinds, roles and family`, sed.length === 0, sed.slice(0, 5).map((d) => `${d.series} [${d.fields.join(",")}] ${d.detail}`).join("; "));
-  // a series with 0 parts is a placeholder only while rows are planned into it, and it says so (closing items at aa1143f, item 2)
-  const empty = summary.lines.flatMap((l: any) => l.series.filter((x: any) => x.parts === 0).map((x: any) => ({ line: l.line, ...x })));
-  const deadEmpty = deadPlaceholders(summary);
-  check(`placeholders ${cat}: every series with 0 parts carries "pending N from <category>" (${empty.length} placeholder(s))`, deadEmpty.length === 0, deadEmpty.join("; "));
+  // (the 0-part series check moved to the status loop below, which covers all 17 categories — 17 Sep 2026)
   const dev = deviceInSharedParts(rows).filter((r) => !DEVICE_EXCEPTIONS[`${cat}|${r.sku}`]);
   check(`devices ${cat}: 0 whole-device rows (${[...DEVICE_KINDS].join(" / ")}) in any shared parts series`, dev.length === 0, dev.slice(0, 6).map((r) => `${r.sku} (${r.kind}) ${r.series}`).join("; "));
   for (const k of Object.keys(DEVICE_EXCEPTIONS).filter((x) => x.startsWith(`${cat}|`)))
@@ -533,15 +541,17 @@ for (const [cat, target] of Object.entries(MERGE_CANDIDATES)) {
 check("SABOTAGE merge: a plan that calls a hardware row non-hardware is refused", nonHardwarePlansOnPage("zz", [{ sku: "ZZ-HW-1", bucket: "pending_plan" } as LayerRow], [{ sku: "ZZ-HW-1", category: "zz", product_class: "license", run_id: null }, { sku: "ZZ-LIC-1", category: "zz", product_class: "license", run_id: null }]).join() === "ZZ-HW-1");
 
 // THE FAMILY LAYER (operator, 14 Sep 2026): layer 3 where Cisco names a family, the explicit shared-across marker for line shared
-// parts, "—" (empty) otherwise — and the file says the category's families were assigned.
+// parts, "(none)" otherwise (NO_FAMILY — it was "" / null until the review of 17 Sep 2026 read null as undecided) — and the file says
+// the category's families were assigned.
 {
-  const { loadLineFile, validateLineFile, SHARED_PARTS } = await import("../src/core/productLine.js");
+  const { loadLineFile, validateLineFile, SHARED_PARTS, NO_FAMILY } = await import("../src/core/productLine.js");
+  check(`family layer: the no-family marker is "(none)" — the rows, the pages and the review read that exact string`, NO_FAMILY === "(none)");
   for (const cat of REVIEWED) {
     const loaded = loadLineFile("cisco", cat)!;
     check(`family layer ${cat}: the mapping file declares family_layer "assigned"`, loaded.file.family_layer === "assigned");
-    const famOf = new Map(loaded.file.lines.flatMap((l) => l.series.map((s) => [s.series, s.family ?? ""] as const)));
+    const famOf = new Map(loaded.file.lines.flatMap((l) => l.series.map((s) => [s.series, s.family?.trim() || NO_FAMILY] as const)));
     const wrong = readLayerRows(cat).filter((r) => r.bucket === "layered").filter((r) =>
-      r.product_family !== (r.series === SHARED_PARTS(r.product_line) ? "(shared across the line)" : famOf.get(r.series) ?? ""));
+      r.product_family !== (r.series === SHARED_PARTS(r.product_line) ? "(shared across the line)" : famOf.get(r.series) ?? NO_FAMILY));
     check(`family layer ${cat}: every layered row carries its series' family (or the shared-across marker)`, wrong.length === 0, wrong.slice(0, 5).map((r) => `${r.sku} ${r.series} [${r.product_family}]`).join("; "));
     const expect = FAMILY_EXPECT[cat];
     check(`family layer ${cat}: an expectation is recorded ("in-use" or "none")`, expect === "in-use" || expect === "none", `${expect}`);
@@ -796,6 +806,23 @@ check("SABOTAGE merge: a plan that calls a hardware row non-hardware is refused"
   check("SABOTAGE series entries: a parts count the rows do not carry is reported on parts alone", d2.length === 1 && d2[0].fields.join() === "parts", JSON.stringify(d2));
   const dp = deadPlaceholders({ lines: [{ line: "Nexus", series: [{ series: "Nexus 9800", parts: 0 }, { series: "CQ211L01", parts: 0, pending_in: { routers: 6 } }, { series: "Nexus 9300", parts: 5 }] }] });
   check("SABOTAGE placeholders: an empty series with nothing pending is reported, one pending rows from routers is not", dp.join() === "Nexus / Nexus 9800", JSON.stringify(dp));
+  const dpOut = deadPlaceholders({ lines: [{ line: "Nexus Hyperfabric", series: [{ series: "Nexus Hyperfabric HF6100", parts: 0, pending_in: {}, pending_out: { "move to switches": 21 } }, { series: "Empty", parts: 0, pending_in: {}, pending_out: {} }] }] });
+  check("SABOTAGE placeholders: an empty series whose rows are all planned out is not dead, one with empty pending_in AND pending_out is", dpOut.join() === "Nexus Hyperfabric / Empty", JSON.stringify(dpOut));
+
+  // the status is the rows' (review of 17 Sep 2026): the summary conferencing was published with at 274feac said done with 68 rows waiting
+  const stRows = [row("CMS-1000-M5-K9", { bucket: "pending_plan", series: "" }), row("CMS-2000-K9", { bucket: "pending_plan", series: "" })];
+  const stBase = (): Parameters<typeof statusDisagreements>[0] => ({ mapping_file: "data/reference/product-lines/cisco-zz.json", parts: 2, layered: 0, pending: 2, done: false,
+    pending_plans: [{}, {}], unplaced: [], pending_review: [], not_this_category: [], lines: [{ line: "Meeting Server", series: [{ series: "Meeting Server appliances", family: "(none)" }] }] });
+  check("SABOTAGE status: the truthful pending summary disagrees with nothing", statusDisagreements(stBase(), stRows).length === 0, statusDisagreements(stBase(), stRows).join("; "));
+  const st274 = statusDisagreements({ ...stBase(), pending: 0, done: true }, stRows);
+  check("SABOTAGE status: done:true over 2 planned rows (the 274feac page) is refused, and so is the pending count that let it through", st274.some((x) => /^done true with 2 row/.test(x)) && st274.some((x) => /^pending 0, rows not layered 2/.test(x)), st274.join("; "));
+  const stOld = statusDisagreements({ ...stBase(), pending_plans: [], pending: 0, done: true }, stRows);
+  check("SABOTAGE status: a summary that drops its pending list AND says done is refused on the list, not only on done", stOld.some((x) => /^pending_plans lists 0, rows in bucket pending_plan 2/.test(x)) && stOld.some((x) => /^done true/.test(x)), stOld.join("; "));
+  const stNoMap = statusDisagreements({ ...stBase(), mapping_file: null, parts: 0, pending: 0, pending_plans: [], done: true, lines: [] }, []);
+  check("SABOTAGE status: no mapping file is never done, even with no rows", stNoMap.length === 1 && /^done true with 0 row.*no mapping file/.test(stNoMap[0]), stNoMap.join("; "));
+  const stBlank = statusDisagreements({ ...stBase(), layered: 1, pending: 1, pending_plans: [{}], lines: [{ line: "L", series: [{ series: "S", family: null }] }] },
+    [row("ZZ-1", { bucket: "pending_plan" }), row("ZZ-2", { product_line: "L", series: "S", product_family: "" })]);
+  check("SABOTAGE status: a layered row with a blank family and a series with a null family are both refused", stBlank.length === 2 && /^1 layered row\(s\) with a blank family, e.g. ZZ-2/.test(stBlank[0]) && /^1 series with a blank family, e.g. L \/ S/.test(stBlank[1]), stBlank.join("; "));
   const dv = deviceInSharedParts([row("CVR328W-K9-CN", { kind: "router", product_line: "Small Business Routers", series: "Small Business Routers shared parts" }), row("PWR-60W-AC", { kind: "power", series: "ISR shared parts" })]);
   check("SABOTAGE devices: a router in shared parts is caught, a power supply there is not", dv.length === 1 && dv[0].sku === "CVR328W-K9-CN", JSON.stringify(dv));
   const dv3 = deviceInSharedParts(["device", "ont", "olt", "ap", "wlc", "backhaul", "sensor"].map((k, i) => row(`ZZ-DEV-${i}`, { kind: k, series: "Cables and accessories shared parts" })));
@@ -1039,5 +1066,24 @@ check("SABOTAGE merge: a plan that calls a hardware row non-hardware is refused"
   check("SABOTAGE stopword: and Room Navigator claims it too, which is what HOLDS it in shared parts", e.kind === "name" && e.detail === "Navigator", JSON.stringify(e));
 }
 
-console.log(`    layers standing: ${passed} passed, ${misses.length} missed (${REVIEWED.join(", ")})`);
+// THE STATUS IS THE ROWS', ON ALL 17 CATEGORIES (review of 17 Sep 2026). Not REVIEWED: the two categories outside it — conferencing and
+// data-center-networking, 0 layered rows each — were exactly the two whose pages said DONE with nothing layered, and the 0-part series
+// check never saw their empty series because it ran over REVIEWED only.
+{
+  check(`status: the product-line directory holds the 17 categories the status table records`, CATS.length === 17 && CATS.every((c) => c in STATUS_EXPECT) && Object.keys(STATUS_EXPECT).length === 17,
+    `dir ${CATS.length}: ${CATS.filter((c) => !(c in STATUS_EXPECT)).join(", ")}; table ${Object.keys(STATUS_EXPECT).length}`);
+  for (const cat of CATS) {
+    const rows = readLayerRows(cat);
+    const summary = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, "data", "layers", `cisco-${cat}.json`), "utf8"));
+    const sd = statusDisagreements(summary, rows);
+    check(`status ${cat}: done, pending, layered and the four lists are the rows' own counts`, sd.length === 0, sd.join("; "));
+    check(`status ${cat}: ${STATUS_EXPECT[cat] === 0 ? "DONE" : `PENDING ${STATUS_EXPECT[cat]}`} — the recorded count of rows not layered`, summary.pending === STATUS_EXPECT[cat] && summary.done === (STATUS_EXPECT[cat] === 0),
+      `page ${summary.done ? "DONE" : `PENDING ${summary.pending}`}, recorded ${STATUS_EXPECT[cat]}`);
+    const empty = summary.lines.flatMap((l: any) => l.series.filter((x: any) => x.parts === 0));
+    const deadEmpty = deadPlaceholders(summary);
+    check(`placeholders ${cat}: every series with 0 parts says what it waits for — pending in from a category, or its rows planned out (${empty.length} such series)`, deadEmpty.length === 0, deadEmpty.join("; "));
+  }
+}
+
+console.log(`    layers standing: ${passed} passed, ${misses.length} missed (${REVIEWED.join(", ")}; status on all ${CATS.length})`);
 if (misses.length) { console.log(misses.join("\n")); process.exit(1); }
