@@ -152,6 +152,9 @@ const entry = (o: Partial<SpecEntry> & { k: string; value: unknown }): SpecEntry
     hist.length === 2 && JSON.stringify(hist[0].value) === JSON.stringify(["802.1p"]) && hist[0].superseded_by === r.newId);
   check("and its evidence row was not deleted",
     ((await query("SELECT 1 FROM fact_evidence WHERE fact_id = $1", [hist[0].id])).rowCount ?? 0) === 1);
+  // The mirror, decided by facts.ts's GAP_STATES: the withdrawal row is a gap, so it gets no evidence of its own.
+  check("and the gap row that withdrew it carries no evidence of its own",
+    after !== null && ((await query("SELECT 1 FROM fact_evidence WHERE fact_id = $1", [after.id])).rowCount ?? 0) === 0);
 }
 
 // =================================================================================================

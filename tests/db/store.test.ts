@@ -50,7 +50,7 @@ import {
   upsertAlias,
   recordSourceCheck,
 } from "../../src/store/index.js";
-import type { SpecEntry } from "../../src/core/specMerge.js";
+import { VALUE_STATES, GAP_STATES, type SpecEntry } from "../../src/core/specMerge.js";
 import { ALL_STATES } from "../../src/api/queries/shared.js";
 
 if (process.env.NETZSPEC_DB !== "test") {
@@ -243,6 +243,28 @@ check("a second SKU with the same slug base gets -2", p1spare.created && p1spare
       JSON.stringify(inDb) === JSON.stringify([...list].sort()),
       `db=${JSON.stringify(inDb)} code=${JSON.stringify([...list].sort())}`);
   }
+  // THE VALUE/GAP HALVES MUST PARTITION fact_state, checked against the schema rather than against ALL_STATES (another
+  // copy). Three consumers act on the split: facts.ts gives a gap row no evidence and lets a value replace it,
+  // remerge's census counts every state outside GAP_STATES as live, and partitionFacts refuses a state in neither —
+  // but only when it meets such a row. Until 17 Sep 2026 the partition itself was a comment, called "guaranteed".
+  const partitionProblems = (labels: readonly string[], value: readonly string[], gap: readonly string[]): string[] => [
+    ...value.filter((s) => gap.includes(s)).map((s) => `${s}: in both halves`),
+    ...labels.filter((s) => !value.includes(s) && !gap.includes(s)).map((s) => `${s}: in the enum, in neither half`),
+    ...[...value, ...gap].filter((s) => !labels.includes(s)).map((s) => `${s}: in a half, not in the enum`),
+  ];
+  const factStateLabels = (dbEnums.find((r) => r.typname === "fact_state")?.labels ?? "").split(",").filter(Boolean);
+  const partition = partitionProblems(factStateLabels, VALUE_STATES, GAP_STATES);
+  check(`fact_state: VALUE_STATES (${VALUE_STATES.length}) and GAP_STATES (${GAP_STATES.length}) are disjoint and together exactly the enum's ${factStateLabels.length} values`,
+    factStateLabels.length > 0 && partition.length === 0, j(partition));
+  const gained = partitionProblems([...factStateLabels, "gap_pending"], VALUE_STATES, GAP_STATES);
+  check("SABOTAGE partition: a state the enum gains and neither half lists is named",
+    gained.length === 1 && gained[0] === "gap_pending: in the enum, in neither half", j(gained));
+  const twice = partitionProblems(factStateLabels, VALUE_STATES, [...GAP_STATES, "conflict"]);
+  check("SABOTAGE partition: a state listed in both halves is named",
+    twice.length === 1 && twice[0] === "conflict: in both halves", j(twice));
+  const lost = partitionProblems(factStateLabels.filter((s) => s !== "not_applicable"), VALUE_STATES, GAP_STATES);
+  check("SABOTAGE partition: a state a half still lists after the enum lost it is named",
+    lost.length === 1 && lost[0] === "not_applicable: in a half, not in the enum", j(lost));
   // BOTH DIRECTIONS: a new enum must not slip past this check unnoticed. Registering it or naming
   // why it cannot be registered is a deliberate act; doing neither now fails here.
   const unaccounted = dbEnums.map((r) => r.typname).filter((n) => !(n in REGISTERED) && !(n in UNREGISTERED));
@@ -401,6 +423,10 @@ const p2 = await upsertPart({ vendor: "cisco", sku: "C9200-48P", category: "swit
   const cur = hist.filter((h) => h.superseded_by === null);
   check("writeGapConfirmed supersedes a gap_unattempted row with a NULL-value gap_confirmed row",
     r.action === "insert" && r.supersededId === hist[0].id && cur.length === 1 && cur[0].state === "gap_confirmed" && cur[0].value === null && hist.length === 2);
+  // facts.ts's GAP_STATES decides this. Emptying that set (17 Sep 2026) turned the MERGE cases red — a value over a gap
+  // row became a conflict — but no case read EVIDENCE on a gap row until this one and the insert case below.
+  const supersededGapEvidence = await query<{ n: number }>("SELECT count(*)::int AS n FROM fact_evidence WHERE fact_id = $1", [cur[0].id]);
+  check("a gap row written by SUPERSEDING carries no evidence row (supersedeFact)", supersededGapEvidence.rows[0].n === 0, j(supersededGapEvidence.rows[0]));
   const r2 = await withTx((c) => writeGapConfirmed(c, p2.id, "ieee_standards", applyRun));
   check("writeGapConfirmed on an existing gap_confirmed row is a no-op", r2.action === "agree_same_doc" && r2.factId === cur[0].id);
   const r3 = await withTx((c) => applyMerge(c, p2.id, entry("ieee_standards", ["IEEE 802.1Q", "IEEE 802.3ad"], "802.1Q, 802.3ad", html(D2, "t4:r2:c2")), applyRun));
@@ -411,6 +437,8 @@ const p2 = await upsertPart({ vendor: "cisco", sku: "C9200-48P", category: "swit
   const r4 = await withTx((c) => writeGapConfirmed(c, p2.id, "switching_capacity", applyRun));
   const g = await currentFact(p2.id, "switching_capacity", pool);
   check("writeGapConfirmed with no row inserts a gap_confirmed row", r4.action === "insert" && g?.state === "gap_confirmed" && g?.value === null);
+  const insertedGapEvidence = await query<{ n: number }>("SELECT count(*)::int AS n FROM fact_evidence WHERE fact_id = $1", [g?.id]);
+  check("a gap row written by INSERTING carries no evidence row (insertFact)", g !== null && insertedGapEvidence.rows[0].n === 0, j(insertedGapEvidence.rows[0]));
 }
 await refuses("writeGapConfirmed over a current VALUE",
   () => withTx((c) => writeGapConfirmed(c, p2.id, "ieee_standards", applyRun)), /cannot be confirmed over it/);

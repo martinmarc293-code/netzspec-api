@@ -22,6 +22,16 @@ export type FieldState =
   | "gap_unattempted"  // no source checked yet
   | "not_applicable";  // the category profile marks it N/A for this part
 
+// The two halves of FieldState as VALUES, because a type cannot be iterated at runtime and every consumer that needs
+// the list otherwise hand-writes one: store/facts.ts, store/classPlans.ts and pipeline/remerge.ts each had. They live
+// here, beside the type, so the store's write path can read them without importing anything above it. `satisfies`
+// keeps every entry a real FieldState; tests/db/store.test.ts checks that together they are exactly the database's
+// fact_state enum and that no state is in both — until 17 Sep 2026 that partition was a comment nothing checked.
+/** States that hold a value. `conflict` is held and never rendered, but it is still a value on the row. */
+export const VALUE_STATES = ["verified", "corroborated", "unverified", "conflict"] as const satisfies readonly FieldState[];
+/** States that hold no value: a gap row carries no evidence, and a real value replaces it instead of conflicting with it. */
+export const GAP_STATES = ["gap_confirmed", "gap_unattempted", "not_applicable"] as const satisfies readonly FieldState[];
+
 export type Prov = {
   tier: number;                 // 0 operator-reviewed · 1 vendor PDF · 2 vendor HTML/tool · 3 aggregator · 4 distributor
   method: string;               // structured_api | html_table | pdf_table | pdf_text | hexcat_seed

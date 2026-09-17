@@ -22,7 +22,7 @@
 // are the only two places that know this; a migration adding facts.revision_label would replace
 // them and nothing else.
 import {
-  mergeField, describesPart, notApplicable, tryTierFor,
+  mergeField, describesPart, notApplicable, tryTierFor, GAP_STATES as GAP_STATE_LIST,
   type MergeAction, type Prov, type SpecEntry, type FieldState,
 } from "../core/specMerge.js";
 import type { Queryable } from "./runs.js";
@@ -52,7 +52,10 @@ export type FactRow = {
 const FACT_COLUMNS = `id, part_id, field_key, value, unit, raw, state, tier, method, doc_id, locator,
   extracted_at::text AS extracted_at, norm_v, inherited, inherited_from, run_id, created_at, superseded_by, superseded_at`;
 
-const GAP_STATES: ReadonlySet<FieldState> = new Set(["gap_confirmed", "gap_unattempted", "not_applicable"]);
+// Derived from src/core/specMerge.ts, not retyped. This set decides that a gap row carries no evidence (insertFact,
+// supersedeFact — so every retraction) and that a real value replaces a gap row instead of being merged with it
+// (applyMerge). A gap state missing from a hand-written copy would get an evidence row and be merged as a value.
+const GAP_STATES: ReadonlySet<FieldState> = new Set(GAP_STATE_LIST);
 
 export function packLocator(prov: Prov): string | null {
   const base = prov.locator ?? "";

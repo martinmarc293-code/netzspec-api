@@ -10,11 +10,11 @@ import fs from "node:fs";
 import path from "node:path";
 import type { Queryable } from "./runs.js";
 import { CLASS_TARGETS, type KindLayerPlan } from "../core/kindLayerPlans.js";
+import { VALUE_STATES, GAP_STATES } from "../core/specMerge.js";
 
-/** States that hold a value. `conflict` is held and never rendered, but it is still a value on the row. */
-export const VALUE_STATES = ["verified", "corroborated", "unverified", "conflict"] as const;
-/** States that hold no value. With VALUE_STATES this is the whole fact_state enum; a state in neither refuses (partitionFacts). */
-export const GAP_STATES = ["gap_confirmed", "gap_unattempted", "not_applicable"] as const;
+/** The value/gap halves of fact_state, defined in src/core/specMerge.ts (checked against the enum by tests/db/store.test.ts) and
+ *  re-exported for the scripts that import them from here. A state in neither still refuses in partitionFacts. */
+export { VALUE_STATES, GAP_STATES };
 /** The states the API renders: src/api/queries/shared.ts RENDERED_STATES. tests/db/retract-inherited.test.ts fails if the two drift. */
 export const SERVED_STATES = ["verified", "corroborated"] as const;
 /** The method prefix retractFact writes on its gap row (src/store/facts.ts). */
