@@ -129,11 +129,12 @@ write no file).
 | hyperconverged-systems | 30 | 10 (8) | 0 | refused |
 | collaboration-endpoints | 1 | 0 | 0 | **ready** |
 
-**Six of the eight are blocked by a decision already on the handoff, not by this review.** The order the operator set is
+**Seven of the eight (895 parts) are blocked by a decision already on the handoff, not by this review.** (Commit `c410730`'s
+message says "the other six": it is seven — every row of the table above but collaboration-endpoints.) The order the operator set is
 retract-inherited → class-change → verify, and `scripts/retract-inherited.mts` refuses `non_product` by design: its gate asks the
 store's own inheritance rule, and `non_product` sits in `PENDING_DECISION`, not `NON_PRODUCT_CLASSES` (interfaces-modules dry run:
 `precision 0, not_refused_by_store_rule 2`). That is HANDOFF-2026-09-16 §3.7, which sized it as "remerge would retract 297 inherited
-facts" — **the six refusals above sum to exactly 297** (75 + 81 + 20 + 2 + 101 + 8 + 10). So: decide §3.7 (move `non_product` into
+facts" — **the seven refusals above sum to exactly 297** (75 + 81 + 20 + 2 + 101 + 8 + 10). So: decide §3.7 (move `non_product` into
 `NON_PRODUCT_CLASSES`, update the test case, deploy), then each group runs retract-inherited → class-change → verify. §3.13 (the
 inheritance gate level) does not touch this path: retract-inherited acts only on a `class:<to>` refusal.
 
