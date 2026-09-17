@@ -418,6 +418,25 @@ await closeRun(seedRun, "succeeded", { seed: true }, { precision: 1, recall: 1, 
   check("SABOTAGE a category with NO profile contributes nothing to the census — the rule has no opinion",
     !census0.some((c) => c.category === noProfileCat), JSON.stringify(census0.filter((c) => c.category === noProfileCat)));
 
+  // THE GAP/LIVE SPLIT WAS UNTESTED (17 Sep 2026). The census counts every state NOT in its gap set as
+  // `live`, and nothing here asserted a `gap` count — so emptying that set left this suite green, 72/72,
+  // while every gap row would have been tallied as a live value. Plant a gap-state fact on the SAME pair
+  // that already has one live fact (transceiver / ip_rating) and require it to land in `gap`, not `live`.
+  // It goes on a SECOND transceiver: facts_current_uq allows one current row per (part, field), and
+  // realOptic already holds a current ip_rating. Removed in the finally so no later case sees it.
+  const gapOptic = (await upsertPart({ vendor: "cisco", sku: "QSFP-40G-NZGAP", category: "transceiver", family: "Cisco 40G QSFP+ Modules", product_class: "hardware" })).id;
+  try {
+    const gapIp = entry({ k: "ip_rating", value: null, state: "gap_confirmed", raw: "" });
+    await withTx((c) => insertFact(c, gapOptic, gapIp, applyRun));
+    const censusGap = await applicabilityCensus(getPool());
+    const ipRow = censusGap.find((c) => c.category === "transceiver" && c.field_key === "ip_rating");
+    check("a gap-state fact is counted as GAP, not live — the live count stays 1 and gap becomes 1",
+      ipRow?.live === 1 && ipRow?.gap === 1, JSON.stringify(ipRow));
+  } finally {
+    await query("DELETE FROM facts WHERE part_id = $1", [gapOptic]);
+    await query("DELETE FROM parts WHERE id = $1", [gapOptic]);
+  }
+
   check("SABOTAGE a part whose category has NO profile and no curated pair loses nothing",
     (await currentFact(softPart, "stack_max_members", getPool()))?.value === 8);
 

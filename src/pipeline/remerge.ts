@@ -43,6 +43,7 @@ import { PROFILES } from "../core/fieldSchema.js";
 import { FIELD_DICTIONARY } from "../core/fieldSchema.js";
 import { normalizeField, NORM_VERSION } from "../core/specNormalize.js";
 import { REPO_ROOT } from "../config.js";
+import { GAP_STATES } from "../store/classPlans.js";
 
 export type RemergeArgs = { commit: boolean; run: number | null; limit: number | null; sample: number; examples: number; retype: boolean; retractInapplicable: boolean };
 
@@ -481,7 +482,11 @@ export async function applicabilityCensus(db: Queryable): Promise<ApplicabilityR
        FROM facts f JOIN parts p ON p.id = f.part_id JOIN categories c ON c.id = p.category_id
       WHERE f.superseded_by IS NULL
       GROUP BY 1, 2, 3`);
-  const gapStates = new Set(["gap_confirmed", "gap_unattempted", "not_applicable"]);
+  // From classPlans.ts, where GAP_STATES + VALUE_STATES are guaranteed to partition fact_state
+  // (partitionFacts refuses a state in neither). This was a hand-written copy, and the line below
+  // counts every state NOT in it as `live` — so a gap state added to the enum but missed here would
+  // be silently tallied as a live value rather than failing.
+  const gapStates: ReadonlySet<string> = new Set(GAP_STATES);
   const out = new Map<string, ApplicabilityRow>();
   for (const row of r.rows) {
     // Two populations, reported together because they are two halves of one question:

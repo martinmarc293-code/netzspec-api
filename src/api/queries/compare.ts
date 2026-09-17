@@ -15,7 +15,7 @@
 import { query } from "../../store/db.js";
 import { badRequest, notFound } from "../errors.js";
 import type { PartSummaryT } from "../schemas.js";
-import { SUMMARY_COLUMNS, SUMMARY_FROM, toSummary, type SummaryRow } from "./shared.js";
+import { RENDERED_STATES, SUMMARY_COLUMNS, SUMMARY_FROM, toSummary, type SummaryRow } from "./shared.js";
 
 export const COMPARE_MIN_REFS = 2;
 export const COMPARE_MAX_REFS = 8;
@@ -53,7 +53,11 @@ type FactRow = {
   value: unknown; raw: string; state: string;
 };
 
-const RENDERED = new Set(["verified", "corroborated"]);
+// Derived from shared.ts, not retyped. This was a third hand-written copy of the rendered states
+// (with shared.ts's own and filter.ts's, the last derived in 3821302): identical today, and the day a
+// state is added to what the API renders, a copy here would keep hiding it from /compare while every
+// other endpoint showed it.
+const RENDERED: ReadonlySet<string> = new Set(RENDERED_STATES);
 
 /** Stable text for value equality: jsonb already canonicalises key order before it reaches us. */
 function canon(v: unknown): string {
