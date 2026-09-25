@@ -127,3 +127,81 @@ something.
   existence contradicts the arrangement (§1) or is implausible on its face (§4).
 - **The 322 unknown-kind parts in mixed series** (§7): the series cannot decide for them, and their next evidence is
   the 233 linked documents, which is a document-reading job.
+
+---
+
+# AUDIT 2 — THE CONSUMER'S LENS: can Claude turn a category into a JTL-Shop CSV?
+
+*Operator, 25 Sep 2026: "sancha" is the MOULD, and a mould is only correct if what comes out of it is usable —
+specifically, if Claude can read a category's structured data and convert it to a JTL-Shop import CSV.*
+
+Every audit above looked at the arrangement from the INSIDE: does it describe itself consistently. This one asks
+the opposite question — **hand the mould to a consumer and see what it cannot make.**
+
+## What the mould already gives a consumer, and it is most of the job
+
+`/v1/fields[/:category]` returns, per key: `label_de`, `label_en`, `type`, `unit`, `domain`, `band`, `shape`,
+`requirement`, and `facts_current_by_vendor`. `/v1/export?category=…` pages full part records. So the flow is two
+calls and a join, and the hard parts are already solved:
+
+- **Every one of the 607 dictionary keys has a German name.** 0 missing. A Merkmal never lacks a name.
+- Units, plausibility bands and the `requirement` are all on the same object.
+
+## What it cannot make: THE VALUE LAYER IS ONLY HALF TRANSLATED
+
+The dictionary translates a field's NAME into German and says nothing about its VALUE. Measured over live facts:
+
+| type | keys | cisco facts | share | what a German CSV cell needs and the mould does not state |
+|---|---|---|---|---|
+| `e` enum | 20 | 13,169 | 27.4% | a German value — the mould holds only the English slug |
+| `ls` list | 21 | 4,479 | 9.3% | a separator; none is stated anywhere |
+| `struct` | 4 | 2,796 | 5.8% | a flattening; `shape` is PROSE (`"list{ port_typ: e(rj45\|sfp…), speed: ls, anzahl: n }"`) a consumer must parse |
+| `b` boolean | 8 | 2,118 | 4.4% | Ja/Nein |
+
+**20,444 of 48,063 live Cisco facts — 42.5% — are in a type whose German rendering the consumer must invent.**
+Across all vendors the same four types carry 35,561 facts.
+
+## How big the translation job actually is — and my first two numbers were wrong
+
+A raw count says 285 enum domain values. A regex classing "technical identifier" vs "English word" said 123 need
+translation. **Both overstate it, and reading the residue is what fixed the number.** Most of the 123 are also
+technical: single letters (`regulatory_domain` a–z), vendor proper nouns, form-factor acronyms (`gbic`, `xenpak`),
+connector types (`rp-tnc`, `sma`), laser types (`vcsel`, `dfb`), drive interfaces (`sas`, `nvme`).
+
+Restricted to keys a HARDWARE category declares and values that are genuinely English words: **79 values over 20
+keys**, and of those perhaps 45 are shop-facing prose a German buyer would notice —
+
+```
+airflow       front-to-back, back-to-front, side, reversible, port-side-intake, port-side-exhaust
+cooling       fanless, fixed-fans, redundant-replaceable        mgmt_class   managed, smart-managed, unmanaged
+psu_config    fixed-internal, modular-single, modular-redundant, external    temp_class  commercial, extended, industrial
+mic_type      omnidirectional, unidirectional, array, beamforming            dac_type    passive, active
+license_type  perpetual, subscription, term, trial, embedded                 antenna_type internal, external
+form_factor   desktop, din-rail, modular-chassis                             delivery_method electronic, physical
+```
+
+That is an afternoon, not a project — **and it is finishing a job the dictionary already does by halves**, since
+the key's own name is already German for all 607 (`airflow` → "Luftstromrichtung").
+
+`deploy_role` shows up in that scan with 17 values and should NOT: it is the role AXIS, an internal discriminator,
+not a Merkmal a shop would ever show. Worth separating before anyone translates it.
+
+## Two smaller things this lens found
+
+- **`expansion_io` is typed `struct` with NO declared shape.** Every other struct states one. It holds **no facts**,
+  so this is latent rather than live — but a struct whose shape is undefined cannot be read by any consumer, and
+  the first fact written under it would be unrenderable.
+- **The deployed API is behind the repo.** `/health` reports `version: cf95d4a1…`, several commits older than the
+  arrangement work. The static arrangement site is published from the commit; the `/v1` service is not, so a
+  consumer reading `/v1/fields` today gets the older dictionary.
+
+## Recommendation
+
+Add a **rendering contract** to the dictionary — German values for the ~45 shop-facing enum values, a stated list
+separator, a machine-readable struct flattening, and Ja/Nein. It is purely additive: it refuses nothing, changes no
+stored value and moves no denominator, exactly like the not-applicable ruling.
+
+**It needs the operator's yes on one point**, because `CLAUDE.md` says *"the site's concerns stay out — no slugs for
+URLs, no SEO titles, no indexability, no shop prices."* A German rendering of `front-to-back` is none of those, and
+the dictionary already carries German names; but whether the value layer belongs here or in the shop-side importer
+is a scope call, not mine. A wrong German technical term is worse than an honest English slug.
