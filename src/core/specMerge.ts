@@ -632,21 +632,25 @@ export type InheritCheck = {
 const IS_A_SUBJECT: ReadonlySet<string> = new Set(["hardware", "unknown"]);
 
 /**
- * `non_product` IS ABSENT ON PURPOSE, PENDING AN OPERATOR DECISION — it is not drift, and until
- * 16 Sep 2026 it was. Migration 0014 added the enum value; this set was written before it and never
- * followed, so the omission was an accident that happened to look deliberate. It is now deliberate.
+ * EMPTY, and it has to stay a set rather than a comment: the partition test below puts a NEW enum
+ * value nowhere by default, and "nowhere" is what it must name. A class sits here only while a
+ * decision on it is open.
  *
- * Why it is not simply added: a `non_product` row is, in 0014's own words, "an ordering artefact,
- * not a product", so a family datasheet plainly cannot describe it and the rule would be more
- * correct with it in. But adding it STRENGTHENS a merge rule — it changes what every lane's apply
- * refuses and makes remerge retract inherited facts on non_product rows it later processes (297 of
- * them today: HCI 8, HX 10, interfaces-modules 2, routers 81, servers 20, switches 75, transceiver
- * 101). That is a strictness trade-off, not a bug fix, and this repo's rule is never to land one of
- * those under time pressure. It also has to be DEPLOYED to the box before any retraction on those
- * rows is durable, or that apply tree re-inherits them.
- * Sheet: `docs/decisions/2026-09-16-layers-round3-unattended-block.md` §5.
+ * `non_product` sat here from 16 Sep 2026 until the operator's decision of 25 Sep 2026 ("fix all
+ * the gaps and holes"), because adding it STRENGTHENS a merge rule — a strictness trade-off, not a
+ * bug fix, and this repo does not land one of those under time pressure. What settled it was the
+ * measurement the sheet asked for, taken across ALL vendors rather than this one:
+ *
+ *     live non_product parts        cisco 1,061      hpe 0      juniper 0      (every other vendor 0)
+ *     inherited facts on them       136 on 41 parts  —          —
+ *     the 905 planned cisco rows    297 inherited facts to retract first; their own 64 facts stay
+ *
+ * So the class exists in one vendor's catalogue only: no other lane's apply changes behaviour, and
+ * the bounded cost is 136 + 297 inherited values withdrawn from rows that are, in migration 0014's
+ * words, "an ordering artefact, not a product". Record:
+ * `docs/decisions/2026-09-25-non-product-is-not-a-subject.md`.
  */
-const PENDING_DECISION: ReadonlySet<string> = new Set(["non_product"]);
+const PENDING_DECISION: ReadonlySet<string> = new Set<string>([]);
 
 /**
  * Classes whose rows a family-level fact may never reach. Derived, so a NEW enum value lands here
@@ -654,7 +658,7 @@ const PENDING_DECISION: ReadonlySet<string> = new Set(["non_product"]);
  * `product_class` sits in exactly one of the three sets, so a future value cannot fall in none.
  */
 export const NON_PRODUCT_CLASSES: ReadonlySet<string> =
-  new Set(["license", "software", "service", "accessory", "bundle"]);
+  new Set(["license", "software", "service", "accessory", "bundle", "non_product"]);
 
 /** Exported so the test can assert the three sets partition the enum, and name what is missing. */
 export const CLASS_PARTITION = { IS_A_SUBJECT, PENDING_DECISION, NON_PRODUCT_CLASSES } as const;

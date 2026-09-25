@@ -605,11 +605,16 @@ check("every curated pair names a real dictionary field and a category that has 
   const invented = [...IS_A_SUBJECT, ...PENDING_DECISION, ...NPC].filter((c) => !all.includes(c as never));
   check("none of the three sets names a class the enum does not have", invented.length === 0, invented.join(", "));
 
-  // The pending decision is RECORDED, not drifted: assert it is exactly what the sheet holds, so
-  // resolving it is a deliberate edit here and not a silent one.
-  check("`non_product` is held pending an operator decision, not missing by accident",
-    PENDING_DECISION.has("non_product") && !NPC.has("non_product"),
-    "see docs/decisions/2026-09-16-layers-round3-unattended-block.md §5");
+  // The decision was TAKEN (operator, 25 Sep 2026: "fix all the gaps and holes"), on the measurement the
+  // sheet asked for: `non_product` is a live class in ONE vendor's catalogue — cisco 1,061 parts, hpe 0,
+  // juniper 0 — so no other lane's apply changes behaviour, and the cost is 136 inherited facts on those
+  // rows plus 297 on the 905 planned ones. Asserted in BOTH directions so neither a silent revert nor a
+  // silent re-park can pass: the set now holds it, and nothing is left pending.
+  check("`non_product` is a NON-SUBJECT class, by the decision of 25 Sep 2026",
+    NPC.has("non_product") && !PENDING_DECISION.has("non_product"),
+    "see docs/decisions/2026-09-25-non-product-is-not-a-subject.md");
+  check("no class is left pending a decision (one would have to be named here with its sheet)",
+    PENDING_DECISION.size === 0, `pending: ${[...PENDING_DECISION].join(", ")}`);
   // The fixture must ISOLATE the class rule. My first one gave no family on either side, so
   // `family:unknown` refused it — and refused the hardware CONTROL identically, so it could not have
   // told the two apart. Matching families on both sides, and the control proves the rest of
@@ -617,11 +622,14 @@ check("every curated pair names a real dictionary field and a category that has 
   const subject = { sku: "NZ-TEST-PART-9", partFamily: "Catalyst 2960-X", docFamily: "Catalyst 2960-X" };
   check("CONTROL the fixture is otherwise acceptable, so the class is the only variable",
     describesPart({ ...subject, productClass: "hardware" }) === null);
-  check("a `license` part IS refused — the rule that non_product is being held out of",
+  check("a `license` part IS refused — the rule non_product now joins",
     describesPart({ ...subject, productClass: "license" })?.rule === "class:license");
-  check("TODAY a non_product part is NOT refused: the pending decision, stated as behaviour",
-    describesPart({ ...subject, productClass: "non_product" }) === null,
-    "if this fires, the decision was taken — move non_product out of PENDING_DECISION and update the sheet");
+  check("a non_product part IS refused, and for the CLASS reason — what retract-inherited's gate reads",
+    describesPart({ ...subject, productClass: "non_product" })?.rule === "class:non_product",
+    JSON.stringify(describesPart({ ...subject, productClass: "non_product" })));
+  // The control must still pass with the new member in the set, or the change refused everything.
+  check("CONTROL a hardware part is still accepted after the change",
+    describesPart({ ...subject, productClass: "hardware" }) === null);
 }
 
 console.log(`${pass}/${pass + misses.length} passed`);
