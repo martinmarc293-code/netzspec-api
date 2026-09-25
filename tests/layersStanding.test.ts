@@ -14,22 +14,21 @@ import { labelEvidence, digitPattern, ALIAS_REQUIRES, NUMBER_KEYED_ALIASES } fro
 export const REVIEWED = ["switches", "routers", "transceiver", "interfaces-modules", "wireless", "servers-unified-computing", "hyperconverged-infrastructure", "hyperconverged-systems", "security", "video", "optical-networking", "storage-networking", "unified-communications", "collaboration-endpoints", "meraki"];
 // spare = base exceptions, each read against the built row
 const PAIR_EXCEPTIONS: Record<string, string> = {
-  "switches|N5K-C5696Q-C": "the spare row is named '^Invalid SKU' and carries a class non_product plan; its base is the live 'Nexus 5696Q Chassis with license and SW image'",
-  // layering review of 17 Sep 2026 (fix list 2.6): the two non-products still layered get the plans their siblings carry
-  "switches|N5K-C5672UP-C": "the spare row is named '^Invalid SKU' and carries a class non_product plan (its sibling N5K-C5696Q-C='s); its base is the live 'Nexus 5672UP Chassis with License and SW image for comcast'",
-  "collaboration-endpoints|BRKT-SX20-MONITOR": "the spare row is named 'PID not used' and carries the N-3 class non_product plan; its base is the live 'Bracket for SX20 and HD monitor' in TelePresence SX",
-  // C9105AXW-KIT's exception went with batch 3a (run #1118, 16 Sep 2026): the "Do not use" base is no longer a hardware row, so the pair no
-  // longer disagrees and a kept entry would be the stale exception the check below exists to catch
-  // servers + hyperconverged round (layers round 3): Cisco voided one member of each pair — the voided member carries the kind layer's
-  // class non_product plan ("self-declared VOID PID"), the other is the live part in its series
-  "servers-unified-computing|UCS-C3K-EX40TE": "the spare is named 'VOID; Not Used' and carries a class non_product plan; the base is the live 'UCS C3X60 Expander 4x 10TB … 40TB' in UCS S3260",
-  "servers-unified-computing|UCS-C3K-SSD10": "the spare is named 'VOID: not used' and carries a class non_product plan; the base is the live 'Cisco UCS C3X60 SSD+HDD Row' in UCS S3260",
-  "servers-unified-computing|UCS-S3260-EX32T": "the spare is named 'VOID; Not Used' and carries a class non_product plan; the base is the live 'S3260 HDD Expander with 4x 8TB …' in UCS S3260",
-  "servers-unified-computing|UCS-S3260-EX48T": "the spare is named 'Void; Not Used' and carries a class non_product plan; the base is the live 'UCS S3260 Disk Expansion Tray with 4x 12TB' in UCS S3260",
-  "servers-unified-computing|UCS-S3260-EX64T": "the spare is named 'VOID; Not Used' and carries a class non_product plan; the base is the live 'UCS S3260 Rear Expander with 4x16TB …' in UCS S3260",
-  "servers-unified-computing|UCS-S3260-EX8T": "the spare is named 'Void; Not Used' and carries a class non_product plan; the base is the live 'UCS S3260 Disk Expansion Tray with 4x 2TB' in UCS S3260",
-  "servers-unified-computing|UCSB-EX-M4-1": "the BASE is named 'VOID-TO BE OBSOLETED' and carries a class non_product plan; the spare UCSB-EX-M4-1= is the live 'UCS Scalable M4 Blade Module w/o CPU/DIMM/HDD'",
-  "servers-unified-computing|UCSX-440P": "the spare is named 'VOID; Not Used' and carries a class non_product plan; the base is the live 'Cisco UCS X-Series Gen4 PCIe node within UCS X210c config' in UCS X440p PCIe node",
+  // THE TWELVE "VOID / Invalid SKU / PID not used" EXCEPTIONS ARE GONE (25 Sep 2026, the class runs). Each named a pair whose
+  // voided member carried a class -> non_product plan, so the pair disagreed ON PURPOSE while the plan waited. The plans ran
+  // (runs 1190 / 1192 / 1198 / 1200 / 1202 / 1203), those members left their hardware pages, and the twins on the page now agree —
+  // so a kept entry would be exactly the stale exception the check below exists to catch. Removed, not silenced:
+  // switches N5K-C5696Q-C / N5K-C5672UP-C; collaboration BRKT-SX20-MONITOR; servers UCS-C3K-EX40TE, UCS-C3K-SSD10,
+  // UCS-S3260-EX32T / -EX48T / -EX64T / -EX8T, UCSB-EX-M4-1, UCSX-440P; hyperconverged-systems HXAF-E-240-M5SX.
+  // C9105AXW-KIT's went the same way with batch 3a (run #1118, 16 Sep 2026).
+  //
+  // FOUR NEW KIND-ONLY EXCEPTIONS, PREDICTED BEFORE THE RUNS AND CONFIRMED BY THEM (fix list 4.1, 17 Sep 2026: "four of the 45
+  // groups will disagree on kind once both members sit in servers"). The twin move plans joined each pair in one category, and the
+  // classifier reads the two members differently because only one carries a descriptive name. Held for the kind rebuild.
+  "servers-unified-computing|UCSC-LP-C25-1485": "kind only: the base reads mechanical and the spare accessory — a low-profile bracket named only by its SKU on one side; both now sit in servers after the 17 Sep twin move plans ran (runs 1208 / 1210)",
+  "servers-unified-computing|UCSC-LP-C40-1485": "kind only: the same low-profile bracket pair at 40G — mechanical against accessory, both in servers after the twin moves ran",
+  "servers-unified-computing|UCSC-RAIL-D": "kind only: the base reads accessory and the spare mechanical for one rail kit; both in servers after the twin moves ran — a kind-layer defect, listed for the kind rebuild",
+  "servers-unified-computing|UCSC-RAILB-M4": "kind only: the same disagreement on the ball-bearing rail kit — accessory against mechanical, both in servers after the twin moves ran",
   "servers-unified-computing|UCS-MAN-S72A2T0V0": "kind only: the base is named 'MSFT AzureStack HCI Hyb CTO Node C220 M7sn w/Mellanox' (server), the spare only by its SKU, so the kind axis reads its MAN token (bundle); both sit in UCS C220",
   "servers-unified-computing|UCSW-MSX-PCBL": "kind only: the base 'UCS Invicta Scaling System Mellanox Switch Power Cable' reads server from its SKU token, the spare '… Mellanox Jumper Cable' reads cable through its name; both sit in UCS Invicta (Whiptail) — a kind-layer defect listed in the round's record, not changed in a layers round",
   "servers-unified-computing|UCSW-WT-35HDDT": "kind only: the base (name cut to 'UCSW Whiptail Super Micro 3.5') reads server from its SKU token, the spare '… 3.5\" HDD Tray …' reads drive through its name, and a tray is neither; both sit in UCS Invicta (Whiptail) — a kind-layer defect listed in the round's record",
@@ -38,7 +37,6 @@ const PAIR_EXCEPTIONS: Record<string, string> = {
   "video|CBR-PS-BLANK":"kind only: the base 'cBR-8 Power Supply Blanks (for empty Power Supply slots)' reads power from its PS token, the spare 'Blanks for the Power Supply Slots' reads accessory; both sit in cBR-8 — a kind-layer defect listed in the video round's record",
   "video|P2-HD-EDR-SA": "kind only: the base is named only by its SKU ('Cisco P2-HD-EDR-SA', kind unknown), the spare 'Cisco Prisma II EDR Host Module with 2:1 Tx' reads plug-in through its name; both sit in Prisma II HD",
   "security|ASA5585-REAR-RACK":"kind only: the base 'ASA 5585 Rear Rack Mount' reads mechanical through its name, the spare 'ASA 5585-X Rear Rack Mounts (1 pair)' stays accessory (the name marker does not read the plural); both sit in ASA 5585-X — a kind-layer defect listed in the security round's record",
-  "hyperconverged-systems|HXAF-E-240-M5SX":"the spare is named 'VOID; Not Used' and carries a class non_product plan; the base is the live 'Cisco HyperFlex All Flash Edge 240 Full Capacity M5 system' in HyperFlex Edge",
   // re-audit decisions (operator, 15 Sep 2026): the check covers X, X=, X- and X-- (N-1, the twin rule), keyed by the group's base —
   // or its lowest member when no base is a row. N-3 classes the rows whose own catalogue entry says "Not used" / "Do not use"; where a
   // twin of such a row is the live part, the pair disagrees on purpose (the VOID precedent above)
@@ -131,8 +129,13 @@ const REVERSE_EXPECT: Record<string, number> = {
   // parts for the component-type series of UCS Server Components, and 42 of them were in this queue — only withdrawals, none added: e.g.
   // UCSB-NVMEHW-I2000(=) proposed for "UCS 2000 fabric extenders", UCSX-ML-V5D200GV2 for "UCS X-Series fabric modules", UCSC-RAID-MZ-220(=)
   // for UCS C220, UCSC-SD-16G-C420(=) for UCS C420 M3 (a platform-specific component now sits by type, its platform in the SKU)
-  "servers-unified-computing": 170, "hyperconverged-infrastructure": 109, "collaboration-endpoints": 79, switches: 90,
-  wireless: 59, routers: 44, "storage-networking": 38, "hyperconverged-systems": 30, security: 22, "interfaces-modules": 9,
+  // 25 Sep 2026, after the ten move runs: the queue grows where rows ARRIVED, because a moved row lands in its new line's shared
+  // parts and that line's series then name it. servers 170 -> 171, switches 90 -> 92, HX 30 -> 31, collaboration 79 -> 84 (the
+  // conferencing merge), and HCI 109 -> 341 — the 487 rows that came from servers are UCSC- / HCI- components whose SKUs carry a
+  // 220 / 240 platform token, so the C220 / C240 node series name them. That queue is PROPOSALS to read, not placements: it is
+  // recorded exactly so its growth is visible rather than silent, and reading it is the next layering round's work.
+  "servers-unified-computing": 171, "hyperconverged-infrastructure": 341, "collaboration-endpoints": 84, switches: 92,
+  wireless: 59, routers: 44, "storage-networking": 38, "hyperconverged-systems": 31, security: 22, "interfaces-modules": 9,
   "unified-communications": 5, video: 3, "optical-networking": 3, transceiver: 0, meraki: 0,
 };
 
@@ -265,11 +268,14 @@ const STATUS_EXPECT: Record<string, number> = {
   // fix list 2.6 (17 Sep 2026): switches 315 -> 316 (N5K-C5672UP-C= class plan), collaboration-endpoints 0 -> 1 (BRKT-SX20-MONITOR=)
   // fix list 4.1 (17 Sep 2026, operator: "go with your recommendations"): 50 twin move plans — servers +5 (the C19 cord spares to HCI),
   // switches +1 (CAB-BS1363-C19-UK= to HCI), HCI +6, HX +27, security 0 -> 11 (its UCS spares to servers)
-  // layering re-check of 17 Sep 2026, fix list section 1: servers 1263 -> 1271 and HX 57 -> 58 — class -> non_product plans for the nine
-  // datasheet cells a label had layered as hardware: CPU1, CPU2, M2511, NVMe4, HDD1, SSD1, RAID00, SAS/SATA/U.3 (servers), GPU3 (HX)
-  "servers-unified-computing": 1271, switches: 317, routers: 123, "interfaces-modules": 66, transceiver: 49,
-  "hyperconverged-infrastructure": 49, "hyperconverged-systems": 58, conferencing: 68, "data-center-networking": 22,
-  wireless: 0, video: 0, "collaboration-endpoints": 1, security: 11, "optical-networking": 0, "storage-networking": 0, "unified-communications": 0, meraki: 0,
+  // 25 SEP 2026: EVERY ENTRY IS 0 — the layering is complete. All 7,533 plans ran on the operator's decision ("fix all the gaps and
+  // holes"): 905 parts reclassified to non_product in eight gated groups (runs 1189-1203, 297 inherited facts retracted first) and
+  // 4,821 moves in ten groups (runs 1204-1213), including the two merges. conferencing and data-center-networking now hold NO rows
+  // at all, which is what a completed merge looks like; their entries stay at 0 so an arrival there is still a failure.
+  // This table is the layering's definition of done, so it must be read as such: any entry going above 0 is a new unplaced row.
+  "servers-unified-computing": 0, switches: 0, routers: 0, "interfaces-modules": 0, transceiver: 0,
+  "hyperconverged-infrastructure": 0, "hyperconverged-systems": 0, conferencing: 0, "data-center-networking": 0,
+  wireless: 0, video: 0, "collaboration-endpoints": 0, security: 0, "optical-networking": 0, "storage-networking": 0, "unified-communications": 0, meraki: 0,
 };
 /** rows layered in a series whose every row must carry a move plan */
 const moveOutStrays = (rows: LayerRow[], moveOut: ReadonlySet<string>) => rows.filter((r) => r.bucket === "layered" && moveOut.has(r.series));
@@ -292,6 +298,13 @@ const ranMove = (from: string, sku: string, to: string) => check(`${from} page: 
   !pageRow(from, sku) && !!pageRow(to, sku)
   && (PLANS as { sku: string; category: string; action: string; to: string; run_id: unknown }[]).some((p) => p.sku === sku && p.category === from && p.action === "move" && p.to === to && typeof p.run_id === "number"),
   `${from}: ${pageRow(from, sku)?.bucket ?? "(gone)"}, ${to}: ${pageRow(to, sku)?.bucket ?? "(not a row)"}`);
+/** THE CLASS HALF OF THE SAME WITNESS (25 Sep 2026, when the eight class groups ran). A class change has no target page, so the
+ *  witness is: the row has LEFT its hardware page AND its plan carries the run id that took it off. Asserting only "not on the page"
+ *  would pass for a row deleted, retired or never built — the run id is what makes it a witness rather than an absence. */
+const ranClass = (cat: string, sku: string, to = "non_product") => check(`${cat} page: ${sku} left the hardware page as ${to} — off the page, run id recorded`,
+  !pageRow(cat, sku)
+  && (PLANS as { sku: string; category: string; action: string; to: string; run_id: unknown }[]).some((p) => p.sku === sku && p.category === cat && p.action === "class" && p.to === to && typeof p.run_id === "number"),
+  `${cat}: ${pageRow(cat, sku)?.bucket ?? "(gone)"}`);
 type Allowed = { category: string; claimed_by: string; series: string; rule: string; rows: number; status: string; reason: string };
 const ALLOW = (JSON.parse(fs.readFileSync(path.join(REPO_ROOT, "data", "reference", "layers-cross-claims.json"), "utf8")) as { entries: Allowed[] }).entries;
 const STATUSES = new Set(["claimant-rule-too-broad", "decided-home", "pending-round"]);
@@ -540,21 +553,26 @@ const MERGE_NON_HARDWARE: Record<string, number> = { conferencing: 3680, "data-c
 const MERGE_MOVE_EXCEPTIONS: Record<string, string> = {
   "data-center-networking|8K-2RU-KIT-SB": "routers: a Cisco 8000 2RU installation kit reused by the HF6100-64ED; its siblings 8K-2RU-KIT-L / -S / -2P-KIT in switches carry move plans to routers (A.3 rule 1)",
 };
+// THE MERGES HAVE RUN (25 Sep 2026, runs 1204 / 1207 / 1212). What these checks assert therefore INVERTS: they used to prove every
+// row carried a plan and every plan would land; they now prove the merge COMPLETED and stayed complete. The plan-side assertions are
+// kept against RAN plans rather than deleted, because a plan file rewritten to drop them would read exactly like a merge that never
+// needed them (the same reason the ranMove witnesses exist).
 for (const [cat, target] of Object.entries(MERGE_CANDIDATES)) {
   const rows = readLayerRows(cat);
-  const notPlanned = rows.filter((r) => r.bucket !== "pending_plan");
-  check(`merge ${cat} -> ${target}: every one of the ${rows.length} rows carries a plan (none layered, not-this-category or unplaced)`, rows.length > 0 && notPlanned.length === 0, notPlanned.slice(0, 6).map((r) => `${r.sku} ${r.bucket}`).join("; "));
-  const arr = unplacedArrivals(cat, rows, PLANS);
-  check(`merge ${cat} -> ${target}: every planned move lands placed in its target mapping`, arr.length === 0, arr.slice(0, 6).map((a) => `${a.sku} -> ${a.to}: ${a.why}`).join("; "));
-  const moves = (PLANS as { sku: string; category: string; action: string; to: string; run_id: unknown }[]).filter((p) => p.category === cat && p.action === "move" && p.run_id === null);
+  check(`merge ${cat} -> ${target}: the merge RAN — the source page holds no row at all`, rows.length === 0, `${rows.length} rows still here: ${rows.slice(0, 6).map((r) => `${r.sku} ${r.bucket}`).join("; ")}`);
+  const all = (PLANS as { sku: string; category: string; action: string; to: string; run_id: unknown; product_class?: string }[]).filter((p) => p.category === cat);
+  const moves = all.filter((p) => p.action === "move");
+  check(`merge ${cat} -> ${target}: every one of its ${moves.length} move plans carries a run id`, moves.length > 0 && moves.every((p) => typeof p.run_id === "number"),
+    `${moves.filter((p) => typeof p.run_id !== "number").length} without one`);
   const elsewhere = moves.filter((p) => p.to !== target && !(MERGE_MOVE_EXCEPTIONS[`${cat}|${p.sku}`] ?? "").startsWith(`${p.to}:`));
-  check(`merge ${cat} -> ${target}: every move goes to the merge target or is a recorded exception naming its destination`, elsewhere.length === 0, elsewhere.slice(0, 6).map((p) => `${p.sku} -> ${p.to}`).join("; "));
+  check(`merge ${cat} -> ${target}: every move went to the merge target or is a recorded exception naming its destination`, elsewhere.length === 0, elsewhere.slice(0, 6).map((p) => `${p.sku} -> ${p.to}`).join("; "));
   for (const k of Object.keys(MERGE_MOVE_EXCEPTIONS).filter((x) => x.startsWith(`${cat}|`)))
-    check(`merge ${cat}: the recorded exception ${k.split("|")[1]} is still a move away from ${target} (a stale exception is a hole)`, moves.some((p) => p.sku === k.split("|")[1] && p.to !== target));
-  // re-audit decisions (operator, 15 Sep 2026, Q-24): the merge moves EVERY class. The non-hardware rows are not on the pages, so the
-  // count the store held when the plans were written is recorded, and a plan claiming a hardware row as non-hardware is refused
-  const nonHw = (PLANS as { sku: string; category: string; action: string; to: string; run_id: unknown; product_class?: string }[]).filter((p) => p.category === cat && p.run_id === null && p.product_class && p.product_class !== "hardware");
-  check(`merge ${cat} -> ${target}: the ${MERGE_NON_HARDWARE[cat]} non-hardware rows the store held on 15 Sep 2026 carry move plans to ${target} (Q-24: every class)`, nonHw.length === MERGE_NON_HARDWARE[cat] && nonHw.every((p) => p.action === "move" && p.to === target), `${nonHw.length} plans`);
+    check(`merge ${cat}: the recorded exception ${k.split("|")[1]} still moved away from ${target} (a stale exception is a hole)`, moves.some((p) => p.sku === k.split("|")[1] && p.to !== target));
+  // re-audit decisions (operator, 15 Sep 2026, Q-24): the merge moves EVERY class. The non-hardware rows were never on the pages, so
+  // the count the store held when the plans were written is recorded — now asserted against the plans that RAN.
+  const nonHw = all.filter((p) => p.product_class && p.product_class !== "hardware");
+  check(`merge ${cat} -> ${target}: the ${MERGE_NON_HARDWARE[cat]} non-hardware rows the store held on 15 Sep 2026 moved to ${target} too (Q-24: every class)`,
+    nonHw.length === MERGE_NON_HARDWARE[cat] && nonHw.every((p) => p.action === "move" && p.to === target && typeof p.run_id === "number"), `${nonHw.length} plans`);
   const lying = nonHardwarePlansOnPage(cat, rows, PLANS);
   check(`merge ${cat}: no non-hardware plan names a row of the hardware page`, lying.length === 0, lying.slice(0, 6).join(", "));
 }
@@ -657,12 +675,12 @@ check("SABOTAGE merge: a plan that calls a hardware row non-hardware is refused"
   ranMove("interfaces-modules", "NAM2420-K9", "security");
   ranMove("interfaces-modules", "NCS-FAB-OPT=", "transceiver");
   ranMove("interfaces-modules", "PWR-3845-AC-IP=", "routers");
-  planned("FQMAP46CG", "class non_product");
-  planned("HN4000e", "class non_product");
+  ranClass("interfaces-modules", "FQMAP46CG");
+  ranClass("interfaces-modules", "HN4000e");
   ranMove("interfaces-modules", "UCS-E160S-M3/K9", "servers-unified-computing");
   ranMove("interfaces-modules", "ISM-SRE-300-K9", "servers-unified-computing");
   ranMove("interfaces-modules", "SM-SRE-900-K9", "servers-unified-computing");
-  planned("15454-AD-1B-xx=", "class non_product");
+  ranClass("interfaces-modules", "15454-AD-1B-xx=");
   at("HWIC-AP-AG-x", "EHWIC / HWIC / VWIC / WIC", "radio");   // a family carrier (1 fact) since Q-10 vs Q-23, not a class plan
   check(`interfaces-modules page: HWIC-AP-AG-x is flagged a family carrier`, im.get("HWIC-AP-AG-x")?.family_carrier === "true", `${im.get("HWIC-AP-AG-x")?.family_carrier}`);
   ranMove("interfaces-modules", "CGR-N-CONN-WPAN", "routers");
@@ -754,16 +772,16 @@ check("SABOTAGE merge: a plan that calls a hardware row non-hardware is refused"
   at("interfaces-modules", "NM-HDV-", "NM / NME Network Modules");
   at("collaboration-endpoints", "CAB-CAT5E-8M-", "Webex Board Series shared parts");
   at("collaboration-endpoints", "PSU-12VDC-70W-GR-", "Webex Room Series shared parts");
-  planned("switches", "C9600-PWR-", "class non_product");
+  ranClass("switches", "C9600-PWR-", "non_product");
   ranClass("optical-networking", "15216-MD-48-", "non_product");
   // N-3, Q-10, Q-15, Q-19 / Q-20, F-7
   ranClass("security", "FPR4K-NM-4X40G-F=", "non_product");
   at("wireless", "CW9166I-X", "Catalyst CW9162 / CW9164 / CW9166 (Wi-Fi 6E)");   // a family carrier (Q-10 vs Q-23)
   ranMove("wireless", "SB-PWR-48V-xx", "interfaces-modules");                    // a carrier, moved to its family's category (run #1145)
   at("switches", "SF110D-05-xx", "Small Business 110 Unmanaged (SF110/SG110)");  // a carrier: 9 facts and the 110 Series data sheet
-  planned("switches", "CBS350-8XT-xx", "class non_product");
+  ranClass("switches", "CBS350-8XT-xx", "non_product");
   ranClass("collaboration-endpoints", "CP-PWR-CORD-xx=", "non_product");
-  planned("hyperconverged-infrastructure", "R2XX-DMYMPWRCORD", "class non_product");
+  ranClass("hyperconverged-infrastructure", "R2XX-DMYMPWRCORD", "non_product");
   ranMove("collaboration-endpoints", "CAB-AC2UK=", "routers");
   ranMove("storage-networking", "CAB-9K16A-EU=", "switches");
   ranMove("security", "PWR-IE50W-AC", "switches");
@@ -1100,8 +1118,8 @@ const COMPONENT_KIND_LEFT_IN_FAMILY_SHARED: Record<string, string> = Object.from
   ...["UCSX-CPUAT=", "UCSX-CPUATI-3=", "UCSX-CPUATI-4="].map((s) => [s, "a CPU assembly tool (UCS-CPUAT= 'CPU Assembly Tool for M5 Servers') — the stored kind (cpu) is wrong; the CPU token refuses CPUAT (re-check, 17 Sep 2026)"]),
   ["UCSC-HDBP-C24-24=", "a 24-drive HDD BACKPLANE for C24 M3 — the stored kind (drive) is wrong"],
   ["UCSC-M2EXT-240-D", "an M.2 extender — the stored kind (drive) is wrong"],
-  ["UCSC-MLOM-BLK", "an MLOM blanking panel — the stored kind (memory) is wrong"],
-  ...["UCSC-PCIE-FLR-F", "UCSC-PCIE-FLR-F=", "UCSC-PCIE-RSR-FLR", "UCSC-PCIE-RSR-FLR=", "UCSC-PCIF-01F", "UCSC-PCIF-01H", "UCSC-PCIF-01H="].map((s) => [s, "a PCIe slot or module filler — the stored kind (nic) is wrong"]),
+  ...["UCSC-MLOM-BLK", "UCSC-MLOM-BLK="].map((s) => [s, "an MLOM blanking panel — the stored kind (memory) is wrong; the = spare arrived from hyperconverged-systems in the 25 Sep twin moves (run 1208)"]),
+  ...["UCSC-PCIE-FLR-F", "UCSC-PCIE-FLR-F=", "UCSC-PCIE-RSR-FLR", "UCSC-PCIE-RSR-FLR=", "UCSC-PCIF-01F", "UCSC-PCIF-01F=", "UCSC-PCIF-01H", "UCSC-PCIF-01H="].map((s) => [s, "a PCIe slot or module filler — the stored kind (nic) is wrong; UCSC-PCIF-01F= arrived from hyperconverged-systems in the 25 Sep twin moves (run 1208)"]),
   ...["UCSC-PCIE-RL-C22=", "UCSC-PCIE-RL-C24=", "UCSC-PCIE-RR-C22=", "UCSC-PCIE-RR-C24=", "UCSC-PCIE-RSR-05", "UCSC-PCIE-RSR-05="].map((s) => [s, "a PCIe riser board — the stored kind (nic) is wrong"]),
   ["UCSC-SDBKT-24XM7=", "an SD bracket named only by its SKU — the stored kind (drive) is not established"],
   ["UCSX-F-X9516=", "an X-Fabric (X9516) module named only by its SKU — the stored kind (drive) is wrong"],
@@ -1138,6 +1156,16 @@ const COMPONENT_KIND_LEFT_IN_FAMILY_SHARED: Record<string, string> = Object.from
     check(`status ${cat}: ${STATUS_EXPECT[cat] === 0 ? "DONE" : `PENDING ${STATUS_EXPECT[cat]}`} — the recorded count of rows not layered`, summary.pending === STATUS_EXPECT[cat] && summary.done === (STATUS_EXPECT[cat] === 0),
       `page ${summary.done ? "DONE" : `PENDING ${summary.pending}`}, recorded ${STATUS_EXPECT[cat]}`);
     const empty = summary.lines.flatMap((l: any) => l.series.filter((x: any) => x.parts === 0));
+    // A MERGED-AWAY CATEGORY IS ALLOWED TO BE EMPTY, AND NOTHING ELSE IS (25 Sep 2026). After the merges ran, conferencing and
+    // data-center-networking hold no row: every series is empty and none of them waits for anything, which is what a finished merge
+    // looks like and what this check would otherwise call a dead placeholder. The exemption is not "0 parts" — that would pass for a
+    // category whose rows had silently vanished — it is "0 parts AND this category is a recorded merge source", asserted here so an
+    // empty category that is not one still fails.
+    if (summary.parts === 0) {
+      check(`placeholders ${cat}: the page holds no row because the category was MERGED AWAY into ${MERGE_CANDIDATES[cat] ?? "(nothing recorded)"} — every series empty, nothing waiting`,
+        cat in MERGE_CANDIDATES, `${cat} has 0 parts and is not a recorded merge source`);
+      continue;
+    }
     const deadEmpty = deadPlaceholders(summary);
     check(`placeholders ${cat}: every series with 0 parts says what it waits for — pending in from a category, or its rows planned out (${empty.length} such series)`, deadEmpty.length === 0, deadEmpty.join("; "));
   }

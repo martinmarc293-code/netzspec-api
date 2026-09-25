@@ -7,8 +7,6 @@ sku	name	series_label	kind	bucket	product_line	product_family	series	placed_by	d
 12000-SIP-501=	Cisco XR 12000 and 12000 Series SPA Interface Processor-501, spare	Line cards	interface	layered	Router and switch line cards (legacy)	(none)	Cisco 12000 / XR 12000 SIP and line cards	sku ^12000-							
 12000-SIP-601	Cisco XR 12000 and 12000 Series SPA Interface Processor-601	Line cards	interface	layered	Router and switch line cards (legacy)	(none)	Cisco 12000 / XR 12000 SIP and line cards	sku ^12000-							
 12000-SIP-601=	Cisco XR 12000 and 12000 Series SPA Interface Processor-601, spare	Line cards	interface	layered	Router and switch line cards (legacy)	(none)	Cisco 12000 / XR 12000 SIP and line cards	sku ^12000-							
-15454-AD-1B-xx=	1-band OADM, C-band, 100-GHz, LC connectors, includes two 2-m LC/LC fiber-optic cables	WDM Transmission Modules	mux	pending_plan								class non_product			
-15454-AD-4B-xx=	4-band OADM, C-band, 100-GHz, LC connectors, includes two 2-m LC/LC fiber-optic cables	WDM Transmission Modules	mux	pending_plan								class non_product			
 16OC3/POS-MM	16 port OC3/STM1 SONET/SDH Multi-Mode LC with MTRJ connector	Line cards	interface	layered	Router and switch line cards (legacy)	(none)	Cisco 12000 / XR 12000 SIP and line cards	sku ^[0-9]{1,2}OC(3|12)X?/							
 16OC3/POS-MM=	16 port OC3/STM1 SONET/SDH Multi-Mode LC with MTRJ conn	Line cards	interface	layered	Router and switch line cards (legacy)	(none)	Cisco 12000 / XR 12000 SIP and line cards	sku ^[0-9]{1,2}OC(3|12)X?/							
 16OC3/POS-SM	16 port OC3/STM1 SONET/SDH Single-Mode LC with LC connector	Line cards	interface	layered	Router and switch line cards (legacy)	(none)	Cisco 12000 / XR 12000 SIP and line cards	sku ^[0-9]{1,2}OC(3|12)X?/							
@@ -48,11 +46,6 @@ AIC-DBL-PNL	Patch panel for terminating up to two AIC or 128 alarm points	Networ
 AIC-SGL-PNL	Patch panel with power monitoring terminals, for terminating one AIC with eight lugs and fuses for power monitoring	Network Modules	mechanical	layered	Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)	(shared across the line)	Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular) shared parts	label-unsupported (label Network Modules; was NM / NME Network Modules): no series token in the SKU or name, no compatible part placed in the series						none: no series token in the SKU or name, no compatible part placed in the series	
 AIM-DES/BP	DES Crypto AIM for Cisco 2600 - Base Performance	FirePOWER 7000 Appliances	unknown	layered	Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)	(none)	AIM (Advanced Integration Modules)	sku ^AIM-							
 AIM-VOICE-30	Cisco AIM-VOICE-30	2900 ISR	unknown	layered	Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)	(none)	AIM (Advanced Integration Modules)	sku ^AIM-							
-AZ83NQ2S2AQM001	Cisco AZ83NQ2S2AQM001	Transceiver Modules	accessory	pending_plan								class non_product			
-AZ83NQ2S2AQM002	Cisco AZ83NQ2S2AQM002	Transceiver Modules	accessory	pending_plan								class non_product			
-AZ83NQ2S2AQM003	Cisco AZ83NQ2S2AQM003	Transceiver Modules	accessory	pending_plan								class non_product			
-AZ83NQ2S2AQM005	Cisco AZ83NQ2S2AQM005	Transceiver Modules	accessory	pending_plan								class non_product			
-AZ83NQ2S2AQM007	Cisco AZ83NQ2S2AQM007	Transceiver Modules	accessory	pending_plan								class non_product			
 C-NIM-1M	1-port 2.5/1Gbps RJ-45 WAN, 90W Poe 802.3 af/at/bt NIM	Catalyst 8300	interface	layered	Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)	(none)	NIM (Network Interface Modules)	sku ^C-NIM-							
 C-NIM-1X	1-port 10Gbps SFP/SFP+ NIM with WAN MACSec	Catalyst 8300	interface	layered	Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)	(none)	NIM (Network Interface Modules)	sku ^C-NIM-							
 C-NIM-2T	2-port 100Mbps/1Gbps dual-mode RJ45/SFP, NIM with WAN MACSec	Catalyst 8300	interface	layered	Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)	(none)	NIM (Network Interface Modules)	sku ^C-NIM-							
@@ -195,21 +188,6 @@ CBL-RPR-OC192-L	Long length RPR mate cable for single port RPR SPAs	Shared Port 
 CBL-RPR-OC192-L=	Long length RPR mate cable for single port RPR SPAs	Shared Port Adapters/SPA Interface Processors	cable	layered	Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)	(shared across the line)	Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular) shared parts	accessory ^CBL- (label Shared Port Adapters/SPA Interface Processors)							
 CBL-RPR-OC192-S	Standard length RPR mate cable for single port RPR SPAs	Shared Port Adapters/SPA Interface Processors	cable	layered	Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)	(shared across the line)	Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular) shared parts	accessory ^CBL- (label Shared Port Adapters/SPA Interface Processors)							
 CBL-RPR-OC192-S=	Standard length RPR mate cable for single port RPR SPAs	Shared Port Adapters/SPA Interface Processors	cable	layered	Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)	(shared across the line)	Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular) shared parts	accessory ^CBL- (label Shared Port Adapters/SPA Interface Processors)							
-CM8-UM08-04-E7G-ULL	Cisco CM8-UM08-04-E7G-ULL	Transceiver Modules	accessory	pending_plan								class non_product			
-CM8-UM08-05-E5Q-ULL	Cisco CM8-UM08-05-E5Q-ULL	Transceiver Modules	accessory	pending_plan								class non_product			
-CMPH1	Panduit Cable Manager 1 RU	Transceiver Modules	cable	pending_plan								class non_product			
-DGE8-CP32-V1	Cisco DGE8-CP32-V1	Transceiver Modules	accessory	pending_plan								class non_product			
-DGE8-CP32-V3	Cisco DGE8-CP32-V3	Transceiver Modules	accessory	pending_plan								class non_product			
-DGE8-xxU	Cisco DGE8-xxU	Transceiver Modules	accessory	pending_plan								class non_product			
-ECM8-UM08-04-E7G-ULL	Cisco ECM8-UM08-04-E7G-ULL	Transceiver Modules	accessory	pending_plan								class non_product			
-ECM8-UM08-04-E8G-ULL	Cisco ECM8-UM08-04-E8G-ULL	Transceiver Modules	accessory	pending_plan								class non_product			
-ECM8-UM08-05-E5Q-ULL	Cisco ECM8-UM08-05-E5Q-ULL	Transceiver Modules	accessory	pending_plan								class non_product			
-EDGE8	Cisco EDGE8	Transceiver Modules	accessory	pending_plan								class non_product			
-EDGE8-01U-SP	Cisco EDGE8-01U-SP	Transceiver Modules	accessory	pending_plan								class non_product			
-EDGE8-02U	Cisco EDGE8-02U	Transceiver Modules	accessory	pending_plan								class non_product			
-EDGE8-04U	Cisco EDGE8-04U	Transceiver Modules	accessory	pending_plan								class non_product			
-EDGE8-CP32-V1	Cisco EDGE8-CP32-V1	Transceiver Modules	accessory	pending_plan								class non_product			
-EDGE8-CP32-V3	Cisco EDGE8-CP32-V3	Transceiver Modules	accessory	pending_plan								class non_product			
 EHWIC-1GE-SFP-CU	EHWIC 1 port dual mode SFP(100M/1G) or GE(10M/100M/1G)	High-Speed WAN Interface Cards	interface	layered	Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)	(none)	EHWIC / HWIC / VWIC / WIC	sku ^E?HWIC							
 EHWIC-1GE-SFP-CU=	EHWIC 1 port dual mode SFP(100M/1G) or GE(10M/100M/1G) Spare	Network Modules	interface	layered	Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)	(none)	EHWIC / HWIC / VWIC / WIC	sku ^E?HWIC							
 EHWIC-1GE-SFPCU++=	EHWIC 1 port dual mode SFP(100M/1G) or GE(10M/100M/1G)	Network Modules	interface	layered	Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)	(none)	EHWIC / HWIC / VWIC / WIC	sku ^E?HWIC							
@@ -290,26 +268,8 @@ EM-HDA-8FXS	Cisco EM-HDA-8FXS	2900 ISR	interface	layered	Interface cards (NIM / 
 EM3-HDA-8FXS	Cisco EM3-HDA-8FXS	2900 ISR	interface	layered	Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)	(none)	ISM / EM Internal Service Modules	sku ^EM3-HDA-							
 EPA-3GE-SX/LH-LC	Cisco 12000 Series 3-Port Gigabit Ethernet Port Adapter	Line cards	interface	layered	Router and switch line cards (legacy)	(none)	Cisco 12000 / XR 12000 SIP and line cards	sku ^EPA-(3GE|GE/FE)							
 EPA-GE/FE-BBRD	Cisco 12000 Series Gigabit Ethernet Modular Baseboard	Line cards	interface	layered	Router and switch line cards (legacy)	(none)	Cisco 12000 / XR 12000 SIP and line cards	sku ^EPA-(3GE|GE/FE)							
-FAPH0612BLMPO	Cisco FAPH0612BLMPO	Transceiver Modules	accessory	pending_plan								class non_product			
-FAPH0612CG-	Cisco FAPH0612CG-	Transceiver Modules	accessory	pending_plan								class non_product			
-FAPH0612CGMPO	Cisco FAPH0612CGMPO	Transceiver Modules	accessory	pending_plan								class non_product			
-FAPH12MBLMPO	Cisco FAPH12MBLMPO	Transceiver Modules	accessory	pending_plan								class non_product			
-FC29N-12-10U	Cisco FC29N-12-10U	Transceiver Modules	accessory	pending_plan								class non_product			
-FC2ZO-12-10U	Cisco FC2ZO-12-10U	Transceiver Modules	accessory	pending_plan								class non_product			
-FHC9N-12-10U	Cisco FHC9N-12-10U	Transceiver Modules	accessory	pending_plan								class non_product			
-FHCZO-12-10U	Cisco FHCZO-12-10U	Transceiver Modules	accessory	pending_plan								class non_product			
-FHMP-6-ABL	Cisco FHMP-6-ABL	Transceiver Modules	accessory	pending_plan								class non_product			
-FHMP-6-BCG	Cisco FHMP-6-BCG	Transceiver Modules	accessory	pending_plan								class non_product			
-FHMP-6M-ABL	Cisco FHMP-6M-ABL	Transceiver Modules	accessory	pending_plan								class non_product			
-FQ3ZO-08-10B	QuickNet SFQ 4 to 1 Breakout Cassette, Method B	Transceiver Modules	accessory	pending_plan								class non_product			
-FQMAP46CG	Fiber Optic Migration Adapter Panel - 4 MPO Adapters – Type B	Transceiver Modules	mechanical	pending_plan								class non_product			
-FQMAP66CG	Fiber Optic Migration Adapter Panel - 6 MPO Adapters – Type B	Transceiver Modules	mechanical	pending_plan								class non_product			
-FZTRP7N7NYNF003	OM4 12 fiber PanMPO Interconnect, Female to Female, Method B, 3ft	Transceiver Modules	accessory	pending_plan								class non_product			
-FZTRR7N7NYNF001	OM4 12 fiber PanMPO Interconnect, Female to Female, Method B, 1ft	Transceiver Modules	accessory	pending_plan								class non_product			
-G100	Cisco G100	High-Speed WAN Interface Cards	unknown	pending_plan								class non_product			
 GE-DCARD-ESW	1 GE (1000BaseT) daughtercard for Etherswitch Modules	Network Modules	interface	layered	Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)	(none)	NM / NME Network Modules	sku ^GE-DCARD-ESW							
 GE-DCARD-ESW=	1 1000BaseT daughtercard for Etherswitch NM	Network Modules	interface	layered	Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)	(none)	NM / NME Network Modules	sku ^GE-DCARD-ESW							
-HN4000e	Cisco HN4000e	High-Speed WAN Interface Cards	unknown	pending_plan								class non_product			
 HWIC-16A	16-Port Async HWIC	High-Speed WAN Interface Cards	interface	layered	Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)	(none)	EHWIC / HWIC / VWIC / WIC	sku ^E?HWIC							
 HWIC-16A-T	16-Port Async Temperature Tolerant HWIC	2900 ISR	interface	layered	Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)	(none)	EHWIC / HWIC / VWIC / WIC	sku ^E?HWIC							
 HWIC-16A-T=	16-Port Async Temperature Tolerant HWIC	2900 ISR	interface	layered	Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)	(none)	EHWIC / HWIC / VWIC / WIC	sku ^E?HWIC							
@@ -386,9 +346,6 @@ ISM-VPN-29	3DES/AES/SUITE-B VPN Encryption module	2900 ISR	module	layered	Interf
 ISM-VPN-29=	3DES/AES/SUITE-B VPN Encryption module	2900 ISR	module	layered	Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)	(none)	ISM / EM Internal Service Modules	sku ^ISM-(?!SRE)							
 ISM-VPN-39	3DES/AES/SUITE-B VPN Encryption module	2900 ISR	module	layered	Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)	(none)	ISM / EM Internal Service Modules	sku ^ISM-(?!SRE)							
 ISM-VPN-39=	3DES/AES/SUITE-B VPN Encryption module	2900 ISR	module	layered	Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)	(none)	ISM / EM Internal Service Modules	sku ^ISM-(?!SRE)							
-LDP7AA46.017	Cisco LDP7AA46.017	High-Speed WAN Interface Cards	unknown	pending_plan								class non_product			
-LIM-SL-48	Cisco LIM-SL-48	High-Speed WAN Interface Cards	accessory	pending_plan								class non_product			
-LIM-SL-72	Cisco LIM-SL-72	High-Speed WAN Interface Cards	accessory	pending_plan								class non_product			
 MC7304-4G-LTE-GA	Sierra MC7304 Global LTE, Band 1, 3, 7, 8, 20	800	cellular	layered	Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)	(none)	Cellular and WAN interface modules (MC / PCEX / WIM)	sku ^MC7[0-9]{3}							
 MC7350-4G-LTE-VS	Sierra MC7350 Verizon and Sprint LTE, Band 13, AWS, Band 25	800	cellular	layered	Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)	(none)	Cellular and WAN interface modules (MC / PCEX / WIM)	sku ^MC7[0-9]{3}							
 MC7354-4G-LTE-MNA	Sierra MC7354 Multi-Carriers NA LTE, 2, 5, 13, 17, 25, AWS	800	cellular	layered	Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)	(none)	Cellular and WAN interface modules (MC / PCEX / WIM)	sku ^MC7[0-9]{3}							
@@ -400,7 +357,6 @@ MGX-2GE	Half-height, 2-port Gigabit Ethernet backcard for Cisco MGX 8800/8900 Se
 MGX-2OC12POS	Half-height, OC-12 POS backcard for Cisco MGX 8800/8900 Series RPM-XF	Route Processors and Route Switch Processors	interface	layered	Router and switch line cards (legacy)	(shared across the line)	Router and switch line cards (legacy) shared parts	label Route Processors and Route Switch Processors							
 MGX-RPM-XF-512	Route Processor Module-XF, 512 MB	Route Processors and Route Switch Processors	interface	layered	Router and switch line cards (legacy)	(shared across the line)	Router and switch line cards (legacy) shared parts	label Route Processors and Route Switch Processors							
 MGX-XF-UI/B	User interface card model B for Cisco MGX 8800/8900 Series RPM-XF	Route Processors and Route Switch Processors	interface	layered	Router and switch line cards (legacy)	(shared across the line)	Router and switch line cards (legacy) shared parts	label Route Processors and Route Switch Processors							
-NANT-A	Cisco NANT-A	High-Speed WAN Interface Cards	unknown	pending_plan								class non_product			
 NIM-16A	16-port Asynchronous Module	Catalyst 8300	interface	layered	Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)	(none)	NIM (Network Interface Modules)	sku ^NIM-							
 NIM-16A=	Cisco NIM-16A=	2900 ISR	interface	layered	Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)	(none)	NIM (Network Interface Modules)	sku ^NIM-							
 NIM-1CE1T1-PRI	1-port Multiflex trunk voice/channelized data T1/E1 module	Catalyst 8300	interface	layered	Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)	(none)	NIM (Network Interface Modules)	sku ^NIM-							
@@ -556,7 +512,6 @@ NMD-36-ESW=	1 36 port 10/100 EtherSwitch D-wide NM-opt GE +Line Power	Network Mo
 NME-RVPN-G2=	ISR G2 Bundle for Russian VPN and NM-SM-ADPTR	800	module	layered	Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)	(none)	NM / NME Network Modules	sku ^NMD?E?-							
 NME-RVPN-SEC1-G2=	Module for loading Russian VPN sofware security level 1	2900 ISR	module	layered	Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)	(none)	NM / NME Network Modules	sku ^NMD?E?-							
 NME-RVPN-SEC2-G2=	Module for loading Russian VPN sofware security level 2	2900 ISR	module	layered	Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)	(none)	NM / NME Network Modules	sku ^NMD?E?-							
-NSLT-A	Cisco NSLT-A	High-Speed WAN Interface Cards	unknown	pending_plan								class non_product			
 OC48E/POS-LR-FC-B	1 Port OC-48c/STM-16c SONET/SDH 1550nm LR with FC	Line cards	interface	layered	Router and switch line cards (legacy)	(none)	Cisco 12000 / XR 12000 SIP and line cards	sku ^OC48E							
 OC48E/POS-LR-FC-B=	1 Port OC-48c/STM-16c SONET/SDH 1550nm LR with FC	Line cards	interface	layered	Router and switch line cards (legacy)	(none)	Cisco 12000 / XR 12000 SIP and line cards	sku ^OC48E							
 OC48E/POS-SR-FC-B	1 Port OC-48c/STM-16c SONET/SDH 1310nm SR with FC, GSR	Line cards	interface	layered	Router and switch line cards (legacy)	(none)	Cisco 12000 / XR 12000 SIP and line cards	sku ^OC48E							
@@ -707,11 +662,6 @@ PCEX-3G-CDMA-S	Cisco 3G EVDO Rev A/0/1xRTT Modem-Sprint Networks	800	cellular	la
 PCEX-3G-CDMA-V	Cisco 3G EVDO Rev A/0/1xRTT Modem-Verizon Networks	800	cellular	layered	Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)	(none)	Cellular and WAN interface modules (MC / PCEX / WIM)	sku ^PCEX							
 PCEX-3G-HSPA-G	Cisco 3.5G HSPA/UMTS/EDGE/GPRS Modem-Global Networks (Global SKU, excluding USA)	800	cellular	layered	Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)	(none)	Cellular and WAN interface modules (MC / PCEX / WIM)	sku ^PCEX							
 PCEX-3G-HSPA-US	Cisco 3.5G HSPA/UMTS/EDGE/GPRS Modem-AT&T Network Only	800	cellular	layered	Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)	(none)	Cellular and WAN interface modules (MC / PCEX / WIM)	sku ^PCEX							
-PHQ4SFP2A1MBL	Cisco PHQ4SFP2A1MBL	Transceiver Modules	accessory	pending_plan								class non_product			
-PHQ4SFP2A2MBL	Cisco PHQ4SFP2A2MBL	Transceiver Modules	accessory	pending_plan								class non_product			
-PHQ4SFP2A3MBL	Cisco PHQ4SFP2A3MBL	Transceiver Modules	accessory	pending_plan								class non_product			
-PHQ4SFP2C4MBL	Cisco PHQ4SFP2C4MBL	Transceiver Modules	accessory	pending_plan								class non_product			
-PHQ4SFP2C5MBL	Cisco PHQ4SFP2C5MBL	Transceiver Modules	accessory	pending_plan								class non_product			
 PP1-72X100G-MMF	Cisco PP1-72X100G-MMF	Transceiver Modules	accessory	layered	Cables and accessories	(none)	Fiber patch panels and MPO / breakout cables (CB- / PP)	sku ^PP[124]-							
 PP1-72X100G-SMF	Cisco PP1-72X100G-SMF	Transceiver Modules	accessory	layered	Cables and accessories	(none)	Fiber patch panels and MPO / breakout cables (CB- / PP)	sku ^PP[124]-							
 PP2-144X100G-MMF	Cisco PP2-144X100G-MMF	Transceiver Modules	accessory	layered	Cables and accessories	(none)	Fiber patch panels and MPO / breakout cables (CB- / PP)	sku ^PP[124]-							
@@ -733,7 +683,6 @@ PVDM2-64	Cisco PVDM2-64	2900 ISR	module	layered	Interface cards (NIM / SM-X / HW
 PVDM2-8	Cisco PVDM2-8	2900 ISR	module	layered	Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)	(none)	PVDM Voice DSP Modules	sku ^PVDM							
 PVDM2-ADPTR	PVDM2 Adapter for PVDM Slot on Cisco 2900, 3900 Series ISR (Both system & spare)	2900 ISR	module	layered	Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)	(none)	PVDM Voice DSP Modules	sku ^PVDM							
 PVDM2-ADPTR=	PVDM2 Adapter for PVDM Slot on Cisco 2900, 3900 Series ISR	2900 ISR	module	layered	Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)	(none)	PVDM Voice DSP Modules	sku ^PVDM							
-PVDM3	Cisco PVDM3	2900 ISR	unknown	pending_plan								class non_product			
 PVDM3-128	128-channel high-density voice DSP module	VG Series Gateways	module	layered	Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)	(none)	PVDM Voice DSP Modules	sku ^PVDM							
 PVDM3-128=	128-channel high-density voice DSP module SPARE	VG Series Gateways	module	layered	Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)	(none)	PVDM Voice DSP Modules	sku ^PVDM							
 PVDM3-128U192	PVDM3 128-channel to 192-channel factory upgrade	2900 ISR	module	layered	Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)	(none)	PVDM Voice DSP Modules	sku ^PVDM							
@@ -767,7 +716,6 @@ PVDM4-64	Cisco PVDM4-64	4000 ISR	module	layered	Interface cards (NIM / SM-X / HW
 RPS1000	380W Redundant Power Supply Unit	Small Business Network Accessories	power	layered	Cables and accessories	(none)	Small Business Network Accessories (SB-PWR / RPS1000)	sku ^RPS1000							
 RPS1000-AU	380W Redundant Power Supply Unit	Small Business Network Accessories	power	layered	Cables and accessories	(none)	Small Business Network Accessories (SB-PWR / RPS1000)	sku ^RPS1000							
 RPS1000-EU	380W Redundant Power Supply Unit	Small Business Network Accessories	power	layered	Cables and accessories	(none)	Small Business Network Accessories (SB-PWR / RPS1000)	sku ^RPS1000							
-SANT-F	Cisco SANT-F	High-Speed WAN Interface Cards	unknown	pending_plan								class non_product			
 SB-PWR-12V	Cisco Small Business 12V Power Adapter	Small Business Network Accessories	power	layered	Cables and accessories	(none)	Small Business Network Accessories (SB-PWR / RPS1000)	sku ^SB-PWR							
 SB-PWR-12V-AR	Cisco Small Business 12V Power Adapter (Argentina)	Small Business Network Accessories	power	layered	Cables and accessories	(none)	Small Business Network Accessories (SB-PWR / RPS1000)	sku ^SB-PWR							
 SB-PWR-12V-AU	Cisco Small Business 12V Power Adapter (Australia, New Zealand)	Small Business Network Accessories	power	layered	Cables and accessories	(none)	Small Business Network Accessories (SB-PWR / RPS1000)	sku ^SB-PWR							
@@ -892,9 +840,6 @@ SM-X-PVDM-1000	1024-channel high-density voice DSP module	Catalyst 8300	interfac
 SM-X-PVDM-2000	2048-channel high-density voice DSP module	Catalyst 8300	interface	layered	Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)	(none)	SM-X and SM Service Modules	sku ^SM-X							
 SM-X-PVDM-3000	3080-channel high-density voice DSP module	Catalyst 8300	interface	layered	Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)	(none)	SM-X and SM Service Modules	sku ^SM-X							
 SM-X-PVDM-500	768-channel high-density voice DSP module	Catalyst 8300	interface	layered	Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)	(none)	SM-X and SM Service Modules	sku ^SM-X							
-SMLT-A	Cisco SMLT-A	High-Speed WAN Interface Cards	unknown	pending_plan								class non_product			
-SMLT-C	Cisco SMLT-C	High-Speed WAN Interface Cards	unknown	pending_plan								class non_product			
-SMLT-J	Cisco SMLT-J	High-Speed WAN Interface Cards	unknown	pending_plan								class non_product			
 SPA-10X1GE	Cisco 10-Port Gigabit Ethernet Shared Port Adapter	Line cards	interface	layered	Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)	(none)	SPA Shared Port Adapters	sku ^SPA-							
 SPA-10X1GE-V2	Cisco 10-Port Gigabit Ethernet Shared Port Adapter, Version 2	ASR 1000	interface	layered	Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)	(none)	SPA Shared Port Adapters	sku ^SPA-							
 SPA-10X1GE-V2=	Cisco 10-Port Gigabit Ethernet Shared Port Adapter, Spare	Shared Port Adapters/SPA Interface Processors	interface	layered	Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)	(none)	SPA Shared Port Adapters	sku ^SPA-							
@@ -1033,14 +978,8 @@ SPA-UBR10-DS-6G=	UBR10K High Density Downstream Shared Port Adapter 6G, SPARE	Sh
 SPA-UBR10-DS-HD	UBR10012 High Density Downstream Shared Port Adapter; Base HW	Shared Port Adapters/SPA Interface Processors	interface	layered	Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)	(none)	SPA Shared Port Adapters	sku ^SPA-							
 SPA-UBR10-DS-HD=	UBR10012 High Density Downstream Shared Port Adapter; Base HW Spare	Shared Port Adapters/SPA Interface Processors	interface	layered	Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)	(none)	SPA Shared Port Adapters	sku ^SPA-							
 SPA-UBR10-DS-SP=	Spare SPA w/ 0 License	Shared Port Adapters/SPA Interface Processors	interface	layered	Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)	(none)	SPA Shared Port Adapters	sku ^SPA-							
-STGR-LIM-SL-48	Cisco STGR-LIM-SL-48	High-Speed WAN Interface Cards	accessory	pending_plan								class non_product			
-STGR-LIM-SL-72	Cisco STGR-LIM-SL-72	High-Speed WAN Interface Cards	accessory	pending_plan								class non_product			
 STM1-CN-MM	China Bundle of 2 pack STM1 PA	Port Adapters	interface	layered	Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)	(none)	PA Port Adapters (7200 / 7500 VIP)	label Port Adapters						name: PA	
 STM1-CN-SMI	Bundle of 2 pack PA MC STM1 SMI	Port Adapters	interface	layered	Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)	(none)	PA Port Adapters (7200 / 7500 VIP)	label Port Adapters						name: PA	
-STUC-16	Cisco STUC-16	High-Speed WAN Interface Cards	unknown	pending_plan								class non_product			
-STUC-16A	Cisco STUC-16A	High-Speed WAN Interface Cards	unknown	pending_plan								class non_product			
-STUC-32A	Cisco STUC-32A	High-Speed WAN Interface Cards	unknown	pending_plan								class non_product			
-TLBP1S-V	Cisco TLBP1S-V	Transceiver Modules	unknown	pending_plan								class non_product			
 UBR10-2XDS-SIP	Cisco uBR10012 Wideband Downstream-only SPA Carrier Card	Shared Port Adapters/SPA Interface Processors	interface	layered	Router and switch line cards (legacy)	(shared across the line)	Router and switch line cards (legacy) shared parts	sku ^UBR10-							
 UBR10-2XDS-SIP=	Cisco uBR10012 Wideband Downstream-only SPA Carrier Card	Shared Port Adapters/SPA Interface Processors	interface	layered	Router and switch line cards (legacy)	(shared across the line)	Router and switch line cards (legacy) shared parts	sku ^UBR10-							
 VIC-1J1	One Port Digital Voice Interface Card (J1) for Japan	Network Modules	interface	layered	Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)	(none)	VIC Voice Interface Cards	sku ^VIC							
@@ -1139,8 +1078,3 @@ WS-X5156	Cisco WS-X5156	Network Modules	interface	layered	Router and switch line
 WS-X5156=	Cisco WS-X5156=	Network Modules	interface	layered	Router and switch line cards (legacy)	(shared across the line)	Router and switch line cards (legacy) shared parts	sku ^WS-X5[0-9]{3}							
 WS-X5157	Cisco WS-X5157	Network Modules	interface	layered	Router and switch line cards (legacy)	(shared across the line)	Router and switch line cards (legacy) shared parts	sku ^WS-X5[0-9]{3}							
 WS-X5157=	Cisco WS-X5157=	Network Modules	interface	layered	Router and switch line cards (legacy)	(shared across the line)	Router and switch line cards (legacy) shared parts	sku ^WS-X5[0-9]{3}							
-XG74222BS0001	Panduit FlexFusion Cabinet 700mm 42RU 1200mm deep	Transceiver Modules	accessory	pending_plan								class non_product			
-ZA-4452	Cisco ZA-4452	Transceiver Modules	accessory	pending_plan								class non_product			
-ZA-4454	Cisco ZA-4454	Transceiver Modules	accessory	pending_plan								class non_product			
-ZA-4457	Cisco ZA-4457	Transceiver Modules	accessory	pending_plan								class non_product			
-ZA-4460	Cisco ZA-4460	Transceiver Modules	accessory	pending_plan								class non_product			

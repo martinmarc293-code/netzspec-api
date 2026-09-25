@@ -15,7 +15,7 @@ import path from "node:path";
 import { REPO_ROOT } from "../src/config.js";
 import { partKind } from "../src/core/partKind.js";
 import { deployRoleResult } from "../src/core/deployRole.js";
-import { lineFilePath, loadLineFile, placeWithSpareRule, familyOf, twinKey, SHARED_PARTS, NO_FAMILY, layerModel, type Placement } from "../src/core/productLine.js";
+import { LINE_DIR, lineFilePath, loadLineFile, placeWithSpareRule, familyOf, twinKey, SHARED_PARTS, NO_FAMILY, layerModel, type Placement } from "../src/core/productLine.js";
 import { labelEvidence, type LabelEvidence } from "../src/core/labelEvidence.js";
 
 // layer 3 of a line-level shared-parts row (operator, 14 Sep 2026): explicit, never blank — the part fits several families of the
@@ -62,7 +62,14 @@ const rows = (await query<Row>(`SELECT p.id, p.sku, p.name, p.series, c.slug AS 
 // the label check reads compatible relations (a part linked to parts placed by SKU or name in the series evidences that series)
 const compatible = (await query<{ a: number; b: number }>(`SELECT from_part_id AS a, to_part_id AS b FROM relations WHERE kind = 'compatible' AND to_part_id IS NOT NULL`)).rows;
 await closePool();
-const categories = [...new Set(rows.map((r) => r.category))].sort((a, b) => rows.filter((r) => r.category === b).length - rows.filter((r) => r.category === a).length);
+// A CATEGORY THE STORE NO LONGER HOLDS A ROW IN STILL HAS A PAGE (25 Sep 2026). This list used to come from the ROWS alone, so a
+// category whose every part had moved away simply stopped being built — and its old page stayed on disk and on the site, saying
+// PENDING 68 about a merge that had completed. The standing check read that stale file and failed, which is the only reason it was
+// found. The list is now the mapping directory (the categories this vendor HAS) plus anything the rows name, so a merged-away
+// category is rebuilt as what it now is: 0 parts, nothing pending, DONE.
+const mapped = fs.readdirSync(LINE_DIR).filter((f) => f.startsWith(`${vendor}-`) && f.endsWith(".json")).map((f) => f.slice(vendor.length + 1, -5));
+const categories = [...new Set([...rows.map((r) => r.category), ...mapped])]
+  .sort((a, b) => rows.filter((r) => r.category === b).length - rows.filter((r) => r.category === a).length);
 
 if (dump) {
   const cat = one!;

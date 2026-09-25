@@ -1,17 +1,18 @@
 {
  "vendor": "cisco",
  "category": "data-center-networking",
- "built_at": "2026-09-17T16:44:30.132Z",
- "commit": "9906ab560b795534340c0409e64087e41b8efab9",
+ "built_at": "2026-09-25T12:58:46.089Z",
+ "commit": "06652e47e025275564aae6503694ce0b8035dae3",
  "uncommitted_rule_files": [
   "data/reference/kind-layer-plans-2026-09-13.json",
-  "data/reference/product-lines/cisco-servers-unified-computing.json",
-  "data/reference/product-lines/cisco-wireless.json"
+  "data/reference/layers-cross-claims.json",
+  "data/reference/product-lines/cisco-hyperconverged-systems.json",
+  "scripts/build-layers.mts"
  ],
  "mapping_file": "data/reference/product-lines/cisco-data-center-networking.json",
- "parts": 22,
+ "parts": 0,
  "layered": 0,
- "pending": 22,
+ "pending": 0,
  "lines": [
   {
    "line": "Nexus Hyperfabric",
@@ -28,193 +29,13 @@
      "samples": [],
      "rules": {},
      "pending_in": {},
-     "pending_out": {
-      "move to routers": 1,
-      "move to switches": 21
-     }
+     "pending_out": {}
     }
    ]
   }
  ],
  "not_this_category": [],
- "pending_plans": [
-  {
-   "sku": "8K-2RU-KIT-SB",
-   "name": "19\" rackmount 4-post kit",
-   "series_label": "Nexus Hyperfabric",
-   "action": "move",
-   "to": "routers",
-   "reason": "category merge data-center-networking -> switches (every class — re-audit decisions, operator, 15 Sep 2026, Q-24), this row re-targeted to routers: a Cisco 8000 2RU installation kit (8K- prefix) reused by the HF6100-64ED; its siblings 8K-2RU-KIT-L / -S / -2P-KIT (and spares) in switches carry move plans to routers (A.3 rule 1: a platform part goes with its platform's category) — layers round 3, merge plans"
-  },
-  {
-   "sku": "C9500X-FAN-1U-F",
-   "name": "Catalyst 9500X back to front cooling fan (maximum 6 per switch)",
-   "series_label": "Nexus Hyperfabric",
-   "action": "move",
-   "to": "switches",
-   "reason": "category merge data-center-networking -> switches (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
-  },
-  {
-   "sku": "C9500X-FAN-1U-R",
-   "name": "Catalyst 9500X front to back cooling fan (maximum 6 per switch)",
-   "series_label": "Nexus Hyperfabric",
-   "action": "move",
-   "to": "switches",
-   "reason": "category merge data-center-networking -> switches (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
-  },
-  {
-   "sku": "C9K-PWR-1500WAC",
-   "name": "Catalyst 9500X 1500W AC Power Supply",
-   "series_label": "Nexus Hyperfabric",
-   "action": "move",
-   "to": "switches",
-   "reason": "category merge data-center-networking -> switches (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
-  },
-  {
-   "sku": "C9K-PWR-1500WDC",
-   "name": "Catalyst 9500X 1500W DC Power Supply",
-   "series_label": "Nexus Hyperfabric",
-   "action": "move",
-   "to": "switches",
-   "reason": "category merge data-center-networking -> switches (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
-  },
-  {
-   "sku": "FAN-PI-V4",
-   "name": "Cisco fan tray, port-side intake airflow",
-   "series_label": "Nexus Hyperfabric",
-   "action": "move",
-   "to": "switches",
-   "reason": "category merge data-center-networking -> switches (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
-  },
-  {
-   "sku": "HF-ACC-RM2-4P19L",
-   "name": "19\" rackmount 4-post kit",
-   "series_label": "Nexus Hyperfabric",
-   "action": "move",
-   "to": "switches",
-   "reason": "category merge data-center-networking -> switches (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
-  },
-  {
-   "sku": "HF6100-32D",
-   "name": "Cisco Hyperfabric switch, 32x400Gbps QSFP-DD",
-   "series_label": "Nexus Hyperfabric",
-   "action": "move",
-   "to": "switches",
-   "reason": "category merge data-center-networking -> switches (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
-  },
-  {
-   "sku": "HF6100-32D-D",
-   "name": "Cisco 6000 Hyperfabric switch, 32x400Gbps QSFP-DD, configurable hardware only",
-   "series_label": "Nexus Hyperfabric",
-   "action": "move",
-   "to": "switches",
-   "reason": "category merge data-center-networking -> switches (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
-  },
-  {
-   "sku": "HF6100-32D-S",
-   "name": "Cisco 6000 Hyperfabric switch, 32x400Gbps QSFP-DD, fixed hardware only Port exhaust airflow, AC power supply",
-   "series_label": "Nexus Hyperfabric",
-   "action": "move",
-   "to": "switches",
-   "reason": "category merge data-center-networking -> switches (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
-  },
-  {
-   "sku": "HF6100-60L4D",
-   "name": "Cisco Hyperfabric switch 60x50G SFP28 4x400G QSFP-DD",
-   "series_label": "Nexus Hyperfabric",
-   "action": "move",
-   "to": "switches",
-   "reason": "category merge data-center-networking -> switches (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
-  },
-  {
-   "sku": "HF6100-60L4D-D",
-   "name": "Cisco 6000 Hyperfabric switch, 60x50G SFP56 4x400G QSFP-DD, configurable hardware only",
-   "series_label": "Nexus Hyperfabric",
-   "action": "move",
-   "to": "switches",
-   "reason": "category merge data-center-networking -> switches (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
-  },
-  {
-   "sku": "HF6100-60L4D-S",
-   "name": "Cisco 6000 Hyperfabric switch, 60x50G SFP56 4x400G QSFP-DD, fixed hardware only Port exhaust airflow, AC power supply",
-   "series_label": "Nexus Hyperfabric",
-   "action": "move",
-   "to": "switches",
-   "reason": "category merge data-center-networking -> switches (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
-  },
-  {
-   "sku": "HF6100-64ED",
-   "name": "Cisco HF6100-64ED",
-   "series_label": "Nexus Hyperfabric",
-   "action": "move",
-   "to": "switches",
-   "reason": "category merge data-center-networking -> switches (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
-  },
-  {
-   "sku": "HF6100-64ED-D",
-   "name": "Cisco 6000 Hyperfabric switch, 64x800Gbps OSFP, configurable hardware only",
-   "series_label": "Nexus Hyperfabric",
-   "action": "move",
-   "to": "switches",
-   "reason": "category merge data-center-networking -> switches (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
-  },
-  {
-   "sku": "HF6100-64ED-S",
-   "name": "Cisco 6000 Hyperfabric switch, 64x800Gbps OSFP, fixed hardware only",
-   "series_label": "Nexus Hyperfabric",
-   "action": "move",
-   "to": "switches",
-   "reason": "category merge data-center-networking -> switches (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
-  },
-  {
-   "sku": "N9K-ACC-KIT-1RU-L",
-   "name": "19\" rackmount 4-post kit, long",
-   "series_label": "Nexus Hyperfabric",
-   "action": "move",
-   "to": "switches",
-   "reason": "category merge data-center-networking -> switches (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
-  },
-  {
-   "sku": "N9K-ACC-KIT-1RU-S",
-   "name": "19\" rackmount 4-post kit, short",
-   "series_label": "Nexus Hyperfabric",
-   "action": "move",
-   "to": "switches",
-   "reason": "category merge data-center-networking -> switches (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
-  },
-  {
-   "sku": "PSU1.4KW-ACPE",
-   "name": "1450 Watt AC power supply, port exhaust airflow",
-   "series_label": "Nexus Hyperfabric",
-   "action": "move",
-   "to": "switches",
-   "reason": "category merge data-center-networking -> switches (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
-  },
-  {
-   "sku": "PSU1.4KW-ACPI",
-   "name": "1450 Watt AC power supply, port intake airflow",
-   "series_label": "Nexus Hyperfabric",
-   "action": "move",
-   "to": "switches",
-   "reason": "category merge data-center-networking -> switches (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
-  },
-  {
-   "sku": "PSU3KW-HVPI",
-   "name": "Cisco ® 3000W HV power module with port-side intake",
-   "series_label": "Nexus Hyperfabric",
-   "action": "move",
-   "to": "switches",
-   "reason": "category merge data-center-networking -> switches (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
-  },
-  {
-   "sku": "PWR-C6-BLANK",
-   "name": "Catalyst 9500X power supply blank cover",
-   "series_label": "Nexus Hyperfabric",
-   "action": "move",
-   "to": "switches",
-   "reason": "category merge data-center-networking -> switches (every class — re-audit decisions, operator, 15 Sep 2026, Q-24)"
-  }
- ],
+ "pending_plans": [],
  "unplaced": [],
  "label_check": {
   "applied": false,
@@ -224,5 +45,5 @@
  },
  "pending_review": [],
  "inbound_unplaced": {},
- "done": false
+ "done": true
 }

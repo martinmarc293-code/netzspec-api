@@ -1,21 +1,22 @@
 {
  "vendor": "cisco",
  "category": "switches",
- "built_at": "2026-09-17T16:44:25.842Z",
- "commit": "9906ab560b795534340c0409e64087e41b8efab9",
+ "built_at": "2026-09-25T12:58:42.038Z",
+ "commit": "06652e47e025275564aae6503694ce0b8035dae3",
  "uncommitted_rule_files": [
   "data/reference/kind-layer-plans-2026-09-13.json",
-  "data/reference/product-lines/cisco-servers-unified-computing.json",
-  "data/reference/product-lines/cisco-wireless.json"
+  "data/reference/layers-cross-claims.json",
+  "data/reference/product-lines/cisco-hyperconverged-systems.json",
+  "scripts/build-layers.mts"
  ],
  "mapping_file": "data/reference/product-lines/cisco-switches.json",
- "parts": 7520,
- "layered": 7203,
- "pending": 317,
+ "parts": 7224,
+ "layered": 7224,
+ "pending": 0,
  "lines": [
   {
    "line": "Catalyst",
-   "parts": 3226,
+   "parts": 3231,
    "series": [
     {
      "series": "Catalyst 9400",
@@ -79,9 +80,7 @@
       "label": 3
      },
      "pending_in": {},
-     "pending_out": {
-      "class -> non_product": 1
-     }
+     "pending_out": {}
     },
     {
      "series": "Catalyst 9300",
@@ -110,9 +109,7 @@
       "label": 18
      },
      "pending_in": {},
-     "pending_out": {
-      "class -> non_product": 33
-     }
+     "pending_out": {}
     },
     {
      "series": "Catalyst 9350",
@@ -140,21 +137,19 @@
       "sku": 27
      },
      "pending_in": {},
-     "pending_out": {
-      "class -> non_product": 1
-     }
+     "pending_out": {}
     },
     {
      "series": "Catalyst 9500",
      "family": "Catalyst 9000",
      "role": "core-agg",
      "note": "^PWR-C6-BLANK$ (layers round 3, merge plan data-center-networking -> switches): 'Catalyst 9500X power supply blank cover', listed by the Catalyst 9500 data sheets and ordering guide; arriving from data-center-networking",
-     "parts": 98,
+     "parts": 101,
      "kinds": {
       "switch": 81,
-      "mechanical": 11,
+      "mechanical": 12,
       "module": 4,
-      "fan": 2
+      "fan": 4
      },
      "roles": {
       "core-agg": 81
@@ -168,15 +163,11 @@
       "C9500-12Q-A — Cisco Catalyst 9500 12-port 40G switch, NW Adv. License"
      ],
      "rules": {
-      "sku": 96,
+      "sku": 99,
       "label": 2
      },
-     "pending_in": {
-      "data-center-networking": 3
-     },
-     "pending_out": {
-      "class -> non_product": 3
-     }
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Catalyst 9550",
@@ -203,9 +194,7 @@
       "sku": 10
      },
      "pending_in": {},
-     "pending_out": {
-      "class -> non_product": 3
-     }
+     "pending_out": {}
     },
     {
      "series": "Catalyst 9600",
@@ -234,9 +223,7 @@
       "sku": 27
      },
      "pending_in": {},
-     "pending_out": {
-      "class -> non_product": 7
-     }
+     "pending_out": {}
     },
     {
      "series": "Catalyst 9610",
@@ -266,18 +253,16 @@
       "sku": 16
      },
      "pending_in": {},
-     "pending_out": {
-      "class -> non_product": 4
-     }
+     "pending_out": {}
     },
     {
      "series": "Catalyst 9000 shared parts",
      "family": "Catalyst 9000",
      "role": null,
      "note": null,
-     "parts": 38,
+     "parts": 40,
      "kinds": {
-      "power": 16,
+      "power": 18,
       "accessory": 1,
       "mechanical": 10,
       "drive": 9,
@@ -293,11 +278,9 @@
       "C9K-ADPT-BRKT-8PT — Power adaptor bracket for C9200CX-8PT-2G"
      ],
      "rules": {
-      "sku": 38
+      "sku": 40
      },
-     "pending_in": {
-      "data-center-networking": 2
-     },
+     "pending_in": {},
      "pending_out": {}
     },
     {
@@ -358,9 +341,7 @@
       "sku": 111
      },
      "pending_in": {},
-     "pending_out": {
-      "class -> non_product": 8
-     }
+     "pending_out": {}
     },
     {
      "series": "Catalyst 6500",
@@ -399,9 +380,7 @@
       "label": 59
      },
      "pending_in": {},
-     "pending_out": {
-      "class -> non_product": 9
-     }
+     "pending_out": {}
     },
     {
      "series": "Catalyst 4500-X",
@@ -525,9 +504,7 @@
       "sku": 168
      },
      "pending_in": {},
-     "pending_out": {
-      "class -> non_product": 3
-     }
+     "pending_out": {}
     },
     {
      "series": "Catalyst 3650",
@@ -689,9 +666,7 @@
       "sku": 44
      },
      "pending_in": {},
-     "pending_out": {
-      "class -> non_product": 1
-     }
+     "pending_out": {}
     },
     {
      "series": "Catalyst 3560-C and 3560-CX",
@@ -803,9 +778,7 @@
       "label": 6
      },
      "pending_in": {},
-     "pending_out": {
-      "class -> non_product": 7
-     }
+     "pending_out": {}
     },
     {
      "series": "Catalyst 2960-S",
@@ -911,9 +884,7 @@
       "label": 1
      },
      "pending_in": {},
-     "pending_out": {
-      "class -> non_product": 1
-     }
+     "pending_out": {}
     },
     {
      "series": "Catalyst 1000",
@@ -1140,9 +1111,7 @@
       "accessory": 250
      },
      "pending_in": {},
-     "pending_out": {
-      "move to hyperconverged-infrastructure": 1
-     }
+     "pending_out": {}
     }
    ]
   },
@@ -1180,7 +1149,7 @@
   },
   {
    "line": "Nexus",
-   "parts": 1867,
+   "parts": 1871,
    "series": [
     {
      "series": "Nexus 2000 Fabric Extenders",
@@ -1317,9 +1286,7 @@
       "label": 1
      },
      "pending_in": {},
-     "pending_out": {
-      "class -> non_product": 3
-     }
+     "pending_out": {}
     },
     {
      "series": "Nexus 5500",
@@ -1381,9 +1348,7 @@
       "sku": 115
      },
      "pending_in": {},
-     "pending_out": {
-      "class -> non_product": 2
-     }
+     "pending_out": {}
     },
     {
      "series": "Nexus 5010 / 5020",
@@ -1410,9 +1375,7 @@
       "sku": 6
      },
      "pending_in": {},
-     "pending_out": {
-      "class -> non_product": 3
-     }
+     "pending_out": {}
     },
     {
      "series": "Nexus 6000",
@@ -1444,9 +1407,7 @@
       "sku": 82
      },
      "pending_in": {},
-     "pending_out": {
-      "class -> non_product": 2
-     }
+     "pending_out": {}
     },
     {
      "series": "Nexus 7700",
@@ -1519,9 +1480,7 @@
       "sku": 223
      },
      "pending_in": {},
-     "pending_out": {
-      "class -> non_product": 13
-     }
+     "pending_out": {}
     },
     {
      "series": "Nexus 9200",
@@ -1696,31 +1655,27 @@
      "family": "Nexus 9000",
      "role": null,
      "note": "^(FAN-PI-V4|PSU3KW-HVPI)$ (layers round 3, merge plan data-center-networking -> switches): the fan tray and 3000 W HV module the N9364E-SG2 / SP2R / SG2X and N9164E data sheets list (the Cisco 6000 Hyperfabric data sheet lists them too). Their spares sat in Nexus shared parts by the label check (the name carries no 9000); the bases arrive from data-center-networking, and one rule keeps each pair together",
-     "parts": 136,
+     "parts": 140,
      "kinds": {
-      "fan": 26,
-      "power": 100,
-      "mechanical": 10
+      "fan": 27,
+      "mechanical": 12,
+      "power": 101
      },
      "roles": {},
      "samples": [
+      "FAN-PI-V4 — Cisco fan tray, port-side intake airflow",
       "FAN-PI-V4= — Cisco fan tray, port-side intake airflow, spare",
+      "N9K-ACC-KIT-1RU-L — 19\" rackmount 4-post kit, long",
+      "N9K-ACC-KIT-1RU-S — 19\" rackmount 4-post kit, short",
       "N9K-PAC-1200W — Nexus 3164 1200W AC Power Supply, Port side intake",
-      "N9K-PAC-1200W-B — Nexus 9300 1200W AC PS, Port-side Exhaust",
-      "N9K-PAC-1200W-B= — Nexus 9300 1200W AC PS, Port-side Exhaust",
-      "N9K-PAC-1200W= — Nexus 3164 1200W AC Power Supply, Port side intake",
-      "N9K-PAC-650W — N9K 650W AC Power Supply, Reversed airflow (port side intake"
+      "N9K-PAC-1200W-B — Nexus 9300 1200W AC PS, Port-side Exhaust"
      ],
      "rules": {
-      "sku": 127,
+      "sku": 131,
       "label": 9
      },
-     "pending_in": {
-      "data-center-networking": 4
-     },
-     "pending_out": {
-      "class -> non_product": 15
-     }
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Nexus shared parts",
@@ -1751,9 +1706,7 @@
       "label-unsupported": 23
      },
      "pending_in": {},
-     "pending_out": {
-      "class -> non_product": 1
-     }
+     "pending_out": {}
     }
    ]
   },
@@ -1921,9 +1874,7 @@
       "sku": 13
      },
      "pending_in": {},
-     "pending_out": {
-      "class -> non_product": 1
-     }
+     "pending_out": {}
     },
     {
      "series": "IE 3200",
@@ -2025,9 +1976,7 @@
       "sku": 10
      },
      "pending_in": {},
-     "pending_out": {
-      "class -> non_product": 1
-     }
+     "pending_out": {}
     },
     {
      "series": "IE 3500H",
@@ -2053,9 +2002,7 @@
       "sku": 21
      },
      "pending_in": {},
-     "pending_out": {
-      "class -> non_product": 5
-     }
+     "pending_out": {}
     },
     {
      "series": "IE 3500",
@@ -2082,9 +2029,7 @@
       "sku": 37
      },
      "pending_in": {},
-     "pending_out": {
-      "class -> non_product": 3
-     }
+     "pending_out": {}
     },
     {
      "series": "IE 4010",
@@ -2108,9 +2053,7 @@
       "sku": 4
      },
      "pending_in": {},
-     "pending_out": {
-      "class -> non_product": 1
-     }
+     "pending_out": {}
     },
     {
      "series": "IE 4000",
@@ -2186,9 +2129,7 @@
       "sku": 32
      },
      "pending_in": {},
-     "pending_out": {
-      "class -> non_product": 1
-     }
+     "pending_out": {}
     },
     {
      "series": "CGS 2500 Connected Grid",
@@ -2326,9 +2267,7 @@
       "sku": 1
      },
      "pending_in": {},
-     "pending_out": {
-      "class -> non_product": 1
-     }
+     "pending_out": {}
     }
    ]
   },
@@ -2412,9 +2351,7 @@
       "sku": 60
      },
      "pending_in": {},
-     "pending_out": {
-      "class -> non_product": 9
-     }
+     "pending_out": {}
     },
     {
      "series": "Small Business 250 Smart (SF250/SG250)",
@@ -2440,9 +2377,7 @@
       "sku": 129
      },
      "pending_in": {},
-     "pending_out": {
-      "class -> non_product": 17
-     }
+     "pending_out": {}
     },
     {
      "series": "Small Business 350X Stackable (SG350X/SX350X)",
@@ -2468,9 +2403,7 @@
       "sku": 174
      },
      "pending_in": {},
-     "pending_out": {
-      "class -> non_product": 20
-     }
+     "pending_out": {}
     },
     {
      "series": "Small Business 350 Managed (SF350/SG350)",
@@ -2496,9 +2429,7 @@
       "sku": 201
      },
      "pending_in": {},
-     "pending_out": {
-      "class -> non_product": 24
-     }
+     "pending_out": {}
     },
     {
      "series": "Small Business 550X Stackable (SF550X/SG550X/SX550X)",
@@ -2524,9 +2455,7 @@
       "sku": 173
      },
      "pending_in": {},
-     "pending_out": {
-      "class -> non_product": 23
-     }
+     "pending_out": {}
     }
    ]
   },
@@ -2558,9 +2487,7 @@
       "sku": 48
      },
      "pending_in": {},
-     "pending_out": {
-      "class -> non_product": 8
-     }
+     "pending_out": {}
     },
     {
      "series": "Business 220 Smart (CBS220)",
@@ -2586,9 +2513,7 @@
       "sku": 53
      },
      "pending_in": {},
-     "pending_out": {
-      "class -> non_product": 17
-     }
+     "pending_out": {}
     },
     {
      "series": "Business 250 Smart (CBS250)",
@@ -2614,9 +2539,7 @@
       "sku": 209
      },
      "pending_in": {},
-     "pending_out": {
-      "class -> non_product": 21
-     }
+     "pending_out": {}
     },
     {
      "series": "Business 350 Managed (CBS350)",
@@ -2642,9 +2565,7 @@
       "sku": 395
      },
      "pending_in": {},
-     "pending_out": {
-      "class -> non_product": 40
-     }
+     "pending_out": {}
     }
    ]
   },
@@ -3040,9 +2961,7 @@
       "sku": 19
      },
      "pending_in": {},
-     "pending_out": {
-      "class -> non_product": 1
-     }
+     "pending_out": {}
     },
     {
      "series": "ME 3600X",
@@ -3192,2565 +3111,41 @@
   },
   {
    "line": "Nexus Hyperfabric",
-   "parts": 0,
+   "parts": 12,
    "series": [
     {
      "series": "Nexus Hyperfabric HF6100 (Cisco 6000 Series)",
      "family": "(none)",
      "role": "datacenter",
      "note": "arriving from data-center-networking (layers round 3, merge plan data-center-networking -> switches, not run): the HF6100-32D / 60L4D / 64ED switches ('Cisco 6000 Series Switches Data Sheet'), their 19-inch 4-post kit and the 1450 W supplies only that data sheet lists. The parts the HF6100 shares with the Nexus 9364E (FAN-PI-V4, PSU3KW-HVPI) go to Nexus 9000 shared parts beside their spares; the Catalyst 9500X fans, supplies and blank to Catalyst 9500 / 9000; 8K-2RU-KIT-SB to routers with its Cisco 8000 siblings",
-     "parts": 0,
-     "kinds": {},
-     "roles": {},
-     "samples": [],
-     "rules": {},
-     "pending_in": {
-      "data-center-networking": 12
+     "parts": 12,
+     "kinds": {
+      "mechanical": 1,
+      "switch": 9,
+      "power": 2
      },
+     "roles": {
+      "datacenter": 9
+     },
+     "samples": [
+      "HF-ACC-RM2-4P19L — 19\" rackmount 4-post kit",
+      "HF6100-32D — Cisco Hyperfabric switch, 32x400Gbps QSFP-DD",
+      "HF6100-32D-D — Cisco 6000 Hyperfabric switch, 32x400Gbps QSFP-DD, configura",
+      "HF6100-32D-S — Cisco 6000 Hyperfabric switch, 32x400Gbps QSFP-DD, fixed har",
+      "HF6100-60L4D — Cisco Hyperfabric switch 60x50G SFP28 4x400G QSFP-DD",
+      "HF6100-60L4D-D — Cisco 6000 Hyperfabric switch, 60x50G SFP56 4x400G QSFP-DD, "
+     ],
+     "rules": {
+      "sku": 12
+     },
+     "pending_in": {},
      "pending_out": {}
     }
    ]
   }
  ],
  "not_this_category": [],
- "pending_plans": [
-  {
-   "sku": "0.375K",
-   "name": "Cisco 0.375K",
-   "series_label": "2960-X",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell or bare family name enumerated as a part"
-  },
-  {
-   "sku": "0.6-1.2A",
-   "name": "Cisco 0.6-1.2A",
-   "series_label": "3750",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell or bare family name enumerated as a part"
-  },
-  {
-   "sku": "0.75K",
-   "name": "Cisco 0.75K",
-   "series_label": "2960-X",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell or bare family name enumerated as a part"
-  },
-  {
-   "sku": "0.875K",
-   "name": "Cisco 0.875K",
-   "series_label": "2960-X",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell or bare family name enumerated as a part"
-  },
-  {
-   "sku": "1000BASE-EX1000BASE-EX",
-   "name": "Cisco 1000BASE-EX1000BASE-EX",
-   "series_label": "IE3500 Rugged Series",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell (a media-standard string, not an orderable PID)"
-  },
-  {
-   "sku": "1000BASE-LX/LH",
-   "name": "Cisco 1000BASE-LX/LH",
-   "series_label": "Catalyst ESS9300 Embedded",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell (a media-standard string, not an orderable PID)"
-  },
-  {
-   "sku": "1000BASE-LX1000BASE-LX",
-   "name": "Cisco 1000BASE-LX1000BASE-LX",
-   "series_label": "IE3500 Rugged Series",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell (a media-standard string, not an orderable PID)"
-  },
-  {
-   "sku": "1000BASE-SX1000BASE-SX",
-   "name": "Cisco 1000BASE-SX1000BASE-SX",
-   "series_label": "IE3500 Rugged Series",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell (a media-standard string, not an orderable PID)"
-  },
-  {
-   "sku": "1025WAC",
-   "name": "Cisco 1025WAC",
-   "series_label": "2960-XR",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell (a PSU wattage / connector string, no document, no fact)"
-  },
-  {
-   "sku": "10GBASE-ER-I",
-   "name": "Cisco 10GBASE-ER-I",
-   "series_label": "IE3500 Heavy Duty Series",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell (a media-standard string, not an orderable PID)"
-  },
-  {
-   "sku": "10GBASE-LR-S",
-   "name": "Cisco 10GBASE-LR-S",
-   "series_label": "IE3500 Heavy Duty Series",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell (a media-standard string, not an orderable PID)"
-  },
-  {
-   "sku": "10GBASE-LR-X",
-   "name": "Cisco 10GBASE-LR-X",
-   "series_label": "IE3500 Heavy Duty Series",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell (a media-standard string, not an orderable PID)"
-  },
-  {
-   "sku": "10GBASE-SR-I",
-   "name": "Cisco 10GBASE-SR-I",
-   "series_label": "IE3500 Heavy Duty Series",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell (a media-standard string, not an orderable PID)"
-  },
-  {
-   "sku": "10GBASE-ZR-I",
-   "name": "Cisco 10GBASE-ZR-I",
-   "series_label": "IE3500 Heavy Duty Series",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell (a media-standard string, not an orderable PID)"
-  },
-  {
-   "sku": "10RU",
-   "name": "Cisco 10RU",
-   "series_label": "6800",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell or bare family name enumerated as a part"
-  },
-  {
-   "sku": "1100W-P",
-   "name": "Cisco 1100W-P",
-   "series_label": "Catalyst 9300",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell (a PSU wattage / connector string, no document, no fact)"
-  },
-  {
-   "sku": "1100WAC",
-   "name": "Cisco 1100WAC",
-   "series_label": "Catalyst 3850",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell (a PSU wattage / connector string, no document, no fact)"
-  },
-  {
-   "sku": "1100WAC-P",
-   "name": "Cisco 1100WAC-P",
-   "series_label": "Catalyst 9300",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell (a PSU wattage / connector string, no document, no fact)"
-  },
-  {
-   "sku": "16AWG",
-   "name": "Cisco 16AWG",
-   "series_label": "2960",
-   "action": "class",
-   "to": "non_product",
-   "reason": "third-party (Panduit) cabling part number cited in a Catalyst 9300 datasheet, not a Cisco PID; switchKind names it `accessory` until the class change runs"
-  },
-  {
-   "sku": "250WAC",
-   "name": "Cisco 250WAC",
-   "series_label": "2960-XR",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell (a PSU wattage / connector string, no document, no fact)"
-  },
-  {
-   "sku": "2960-S/SF",
-   "name": "Cisco 2960-S/SF",
-   "series_label": "2960-X",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell or bare family name enumerated as a part"
-  },
-  {
-   "sku": "2960-X",
-   "name": "Cisco 2960-X",
-   "series_label": "Configuration Professional for Catalyst",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell or bare family name enumerated as a part"
-  },
-  {
-   "sku": "2960-XR",
-   "name": "Cisco 2960-XR",
-   "series_label": "Configuration Professional for Catalyst",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell or bare family name enumerated as a part"
-  },
-  {
-   "sku": "2KWAC",
-   "name": "Cisco 2KWAC",
-   "series_label": "C9610",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell (a PSU wattage string, no document, no fact) — same rule as 1025WAC"
-  },
-  {
-   "sku": "2KWDC",
-   "name": "Cisco 2KWDC",
-   "series_label": "C9610",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell (a PSU wattage string, no document, no fact) — same rule as 1025WAC"
-  },
-  {
-   "sku": "350W-P",
-   "name": "Cisco 350W-P",
-   "series_label": "Catalyst 9300",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell (a PSU wattage / connector string, no document, no fact)"
-  },
-  {
-   "sku": "350WAC",
-   "name": "Cisco 350WAC",
-   "series_label": "Catalyst 3850",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell (a PSU wattage / connector string, no document, no fact)"
-  },
-  {
-   "sku": "3KWAC",
-   "name": "Cisco 3KWAC",
-   "series_label": "C9610",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell (a PSU wattage string, no document, no fact) — same rule as 1025WAC"
-  },
-  {
-   "sku": "640WAC",
-   "name": "Cisco 640WAC",
-   "series_label": "2960-XR",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell (a PSU wattage / connector string, no document, no fact)"
-  },
-  {
-   "sku": "715W-P",
-   "name": "Cisco 715W-P",
-   "series_label": "Catalyst 9300",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell (a PSU wattage / connector string, no document, no fact)"
-  },
-  {
-   "sku": "715WAC",
-   "name": "Cisco 715WAC",
-   "series_label": "Catalyst 3850",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell (a PSU wattage / connector string, no document, no fact)"
-  },
-  {
-   "sku": "715WAC-P",
-   "name": "Cisco 715WAC-P",
-   "series_label": "Catalyst 9300",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell (a PSU wattage / connector string, no document, no fact)"
-  },
-  {
-   "sku": "9300-GX2A/B",
-   "name": "Cisco 9300-GX2A/B",
-   "series_label": "Nexus 9000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell or bare family name enumerated as a part"
-  },
-  {
-   "sku": "97434",
-   "name": "Cisco 97434",
-   "series_label": "Catalyst 9600",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell or bare family name enumerated as a part"
-  },
-  {
-   "sku": "97436",
-   "name": "Cisco 97436",
-   "series_label": "Catalyst 9600",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell or bare family name enumerated as a part"
-  },
-  {
-   "sku": "97440",
-   "name": "Cisco 97440",
-   "series_label": "Catalyst 9600",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell or bare family name enumerated as a part"
-  },
-  {
-   "sku": "97444",
-   "name": "Cisco 97444",
-   "series_label": "Catalyst 9600",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell or bare family name enumerated as a part"
-  },
-  {
-   "sku": "97448",
-   "name": "Cisco 97448",
-   "series_label": "Catalyst 9600",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell or bare family name enumerated as a part"
-  },
-  {
-   "sku": "97451",
-   "name": "Cisco 97451",
-   "series_label": "Catalyst 9600",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell or bare family name enumerated as a part"
-  },
-  {
-   "sku": "ASE2",
-   "name": "Cisco ASE2",
-   "series_label": "Nexus 9000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell or bare family name enumerated as a part"
-  },
-  {
-   "sku": "B3140H",
-   "name": "Cisco B3140H",
-   "series_label": "Nexus 9000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell or bare family name enumerated as a part"
-  },
-  {
-   "sku": "B3220",
-   "name": "Cisco B3220",
-   "series_label": "Nexus 9000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell or bare family name enumerated as a part"
-  },
-  {
-   "sku": "B3220L",
-   "name": "Cisco B3220L",
-   "series_label": "Nexus 9000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell or bare family name enumerated as a part"
-  },
-  {
-   "sku": "B3240",
-   "name": "Cisco B3240",
-   "series_label": "Nexus 9000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell or bare family name enumerated as a part"
-  },
-  {
-   "sku": "C1-IE-ADD",
-   "name": "Cisco ONE for IE Switches - CHOOSE ONLY QTY 1 HERE",
-   "series_label": "Industrial Ethernet 4010",
-   "action": "class",
-   "to": "non_product",
-   "reason": "configurator-selector"
-  },
-  {
-   "sku": "C1-N5K-ADD",
-   "name": "Cisco ONE for Nexus 5000 - CHOOSE ONLY QTY 1 HERE",
-   "series_label": "Nexus 5000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "configurator-selector"
-  },
-  {
-   "sku": "C1-N5K-ADD-M",
-   "name": "Cisco ONE for Nexus 5000",
-   "series_label": "Nexus 5000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "configurator-selector"
-  },
-  {
-   "sku": "C1-N6K-ADD",
-   "name": "Cisco ONE for Nexus 6000 - CHOOSE ONLY QTY 1 HERE",
-   "series_label": "Nexus 5000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "configurator-selector"
-  },
-  {
-   "sku": "C1-N6K-ADD-M",
-   "name": "Cisco ONE for Nexus 6000",
-   "series_label": "Nexus 5000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "configurator-selector"
-  },
-  {
-   "sku": "C1-N7K-ADD",
-   "name": "Cisco ONE for Nexus 7000 - CHOOSE ONLY QTY 1 HERE",
-   "series_label": "Nexus 7000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "configurator-selector"
-  },
-  {
-   "sku": "C1-N7K-ADD-M",
-   "name": "Cisco ONE for Nexus 7000",
-   "series_label": "Nexus 7000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "configurator-selector"
-  },
-  {
-   "sku": "C14-C15",
-   "name": "Cisco C14-C15",
-   "series_label": "C9610",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell (a PSU wattage / connector string, no document, no fact)"
-  },
-  {
-   "sku": "C6-MFG-TEST-SW1",
-   "name": "Test Only-Not for Customer Use",
-   "series_label": "Catalyst 6500",
-   "action": "class",
-   "to": "non_product",
-   "reason": "tracking / deployment-option / test PID (\"For Tracking Only\", \"Test Only-Not for Customer Use\", RFID option)"
-  },
-  {
-   "sku": "C6-MFG-TEST-SW2",
-   "name": "Test Only-Not for Customer Use",
-   "series_label": "Catalyst 6500",
-   "action": "class",
-   "to": "non_product",
-   "reason": "tracking / deployment-option / test PID (\"For Tracking Only\", \"Test Only-Not for Customer Use\", RFID option)"
-  },
-  {
-   "sku": "C6-MFG-TEST-SW3",
-   "name": "Test Only-Not for Customer Use",
-   "series_label": "Catalyst 6500",
-   "action": "class",
-   "to": "non_product",
-   "reason": "tracking / deployment-option / test PID (\"For Tracking Only\", \"Test Only-Not for Customer Use\", RFID option)"
-  },
-  {
-   "sku": "C6-MFG-TEST-SW4",
-   "name": "Test Only-Not for Customer Use",
-   "series_label": "Catalyst 6500",
-   "action": "class",
-   "to": "non_product",
-   "reason": "tracking / deployment-option / test PID (\"For Tracking Only\", \"Test Only-Not for Customer Use\", RFID option)"
-  },
-  {
-   "sku": "C6-MFG-TEST-SW5",
-   "name": "Test Only-Not for Customer Use",
-   "series_label": "Catalyst 6500",
-   "action": "class",
-   "to": "non_product",
-   "reason": "tracking / deployment-option / test PID (\"For Tracking Only\", \"Test Only-Not for Customer Use\", RFID option)"
-  },
-  {
-   "sku": "C6800-48P-SFP and C6800-48P-SFP-XL",
-   "name": "C6800-48P-SFP and C6800-48P-SFP-XL",
-   "series_label": "Catalyst 6800",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell naming two PIDs (both PIDs exist as their own rows)"
-  },
-  {
-   "sku": "C6800-48P-TX and C6800-48P-TX-XL",
-   "name": "C6800-48P-TX and C6800-48P-TX-XL",
-   "series_label": "Catalyst 6800",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell naming two PIDs (both PIDs exist as their own rows)"
-  },
-  {
-   "sku": "C6800-CAMPUS-COLL",
-   "name": "Catalyst 6800 Collapsed Campus Core and Distribution",
-   "series_label": "6800",
-   "action": "class",
-   "to": "non_product",
-   "reason": "tracking / deployment-option / test PID (\"For Tracking Only\", \"Test Only-Not for Customer Use\", RFID option)"
-  },
-  {
-   "sku": "C6800-CAMPUS-CORE",
-   "name": "Catalyst 6800 Campus Core Deployment; For Tracking Only",
-   "series_label": "6800",
-   "action": "class",
-   "to": "non_product",
-   "reason": "tracking / deployment-option / test PID (\"For Tracking Only\", \"Test Only-Not for Customer Use\", RFID option)"
-  },
-  {
-   "sku": "C6800-CAMPUS-DIST",
-   "name": "Catalyst 6800 Campus Distribution Deployment; For Tracking O",
-   "series_label": "6800",
-   "action": "class",
-   "to": "non_product",
-   "reason": "tracking / deployment-option / test PID (\"For Tracking Only\", \"Test Only-Not for Customer Use\", RFID option)"
-  },
-  {
-   "sku": "C6800-DATA-CENTER",
-   "name": "Catalyst 6800 Data Center Deployment; For Tracking Only",
-   "series_label": "6800",
-   "action": "class",
-   "to": "non_product",
-   "reason": "tracking / deployment-option / test PID (\"For Tracking Only\", \"Test Only-Not for Customer Use\", RFID option)"
-  },
-  {
-   "sku": "C6800-OTHER",
-   "name": "Catalyst 6800 Other PIN; For Tracking Only",
-   "series_label": "6800",
-   "action": "class",
-   "to": "non_product",
-   "reason": "tracking / deployment-option / test PID (\"For Tracking Only\", \"Test Only-Not for Customer Use\", RFID option)"
-  },
-  {
-   "sku": "C9350",
-   "name": "Cisco C9350",
-   "series_label": "C9350",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell or bare family name enumerated as a part"
-  },
-  {
-   "sku": "C9500-RFID",
-   "name": "RFID Selected for C9500 high performance switches (C9500-24Y4C, C9500-48Y4C, C9500-32C, C9500-32QC)",
-   "series_label": "Catalyst 9500",
-   "action": "class",
-   "to": "non_product",
-   "reason": "tracking / deployment-option / test PID (\"For Tracking Only\", \"Test Only-Not for Customer Use\", RFID option)"
-  },
-  {
-   "sku": "C9500-RFID-NONE",
-   "name": "No RFID Selected for C9500 high performance and C9500X switches",
-   "series_label": "Catalyst 9500",
-   "action": "class",
-   "to": "non_product",
-   "reason": "tracking / deployment-option / test PID (\"For Tracking Only\", \"Test Only-Not for Customer Use\", RFID option)"
-  },
-  {
-   "sku": "C9500X-RFID",
-   "name": "RFID Selected for C9500X switches",
-   "series_label": "Catalyst 9500",
-   "action": "class",
-   "to": "non_product",
-   "reason": "tracking / deployment-option / test PID (\"For Tracking Only\", \"Test Only-Not for Customer Use\", RFID option)"
-  },
-  {
-   "sku": "C9600-PWR-",
-   "name": "Cisco C9600-PWR-",
-   "series_label": "C9610",
-   "action": "class",
-   "to": "non_product",
-   "reason": "truncated PID ending in '-' (name is the SKU, no twin, no document, no fact) — the routers precedent; a '-' row WITH a twin is its twin's component PID and shares its placement (re-audit decisions, operator, 15 Sep 2026, N-1)"
-  },
-  {
-   "sku": "CAB-BS1363-C19-UK=",
-   "name": "Cisco CAB-BS1363-C19-UK=",
-   "series_label": "Catalyst 4500",
-   "action": "move",
-   "to": "hyperconverged-infrastructure",
-   "reason": "a generic power cord split across categories: base and spare in one category, the base's — the Q-19 rule (re-audit decisions, operator, 15 Sep 2026), applied to the pairs Q-14 left open (operator, 17 Sep 2026: layering review fix list 4.1)"
-  },
-  {
-   "sku": "CAB-CAT5E/6E",
-   "name": "CAT5E cables, various lengths",
-   "series_label": "Nexus 9000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell (a cable type 'various lengths' / 'Copper cable for 1G' cited in a datasheet, not an orderable PID; same rule as 1025WAC)"
-  },
-  {
-   "sku": "CAT5E",
-   "name": "Copper cable for 1G",
-   "series_label": "Nexus 9000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell (a cable type 'various lengths' / 'Copper cable for 1G' cited in a datasheet, not an orderable PID; same rule as 1025WAC)"
-  },
-  {
-   "sku": "CAT6A",
-   "name": "Copper cable for 10G",
-   "series_label": "Nexus 9000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell (a cable type 'various lengths' / 'Copper cable for 1G' cited in a datasheet, not an orderable PID; same rule as 1025WAC)"
-  },
-  {
-   "sku": "CB-LC-LC-SMF",
-   "name": "Cable, duplex LC-LC patch cord, SMF, various lengths",
-   "series_label": "Nexus 9000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell (a cable type 'various lengths' / 'Copper cable for 1G' cited in a datasheet, not an orderable PID; same rule as 1025WAC)"
-  },
-  {
-   "sku": "CB-M12-4LC-SMF",
-   "name": "Cable, MPO12-4X duplex LC, breakout cable, SMF, various lengths",
-   "series_label": "Nexus 9000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell (a cable type 'various lengths' / 'Copper cable for 1G' cited in a datasheet, not an orderable PID; same rule as 1025WAC)"
-  },
-  {
-   "sku": "CB-M12-M12-SMF",
-   "name": "Cable, MPO12-MPO12, trunk cable, TYPE B, SMF, various lengths",
-   "series_label": "Nexus 9000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell (a cable type 'various lengths' / 'Copper cable for 1G' cited in a datasheet, not an orderable PID; same rule as 1025WAC)"
-  },
-  {
-   "sku": "CBS110",
-   "name": "Cisco CBS110",
-   "series_label": "Business 250 Smart",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell or bare family name enumerated as a part"
-  },
-  {
-   "sku": "CBS110-16PP-xx",
-   "name": "Cisco CBS110-16PP-xx",
-   "series_label": "Business 110 Series Unmanaged",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS110-16T-xx",
-   "name": "Cisco CBS110-16T-xx",
-   "series_label": "Business 110 Series Unmanaged",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS110-24PP-xx",
-   "name": "Cisco CBS110-24PP-xx",
-   "series_label": "Business 110 Series Unmanaged",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS110-24T-xx",
-   "name": "Cisco CBS110-24T-xx",
-   "series_label": "Business 110 Series Unmanaged",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS110-5T-D-xx",
-   "name": "Cisco CBS110-5T-D-xx",
-   "series_label": "Business 110 Series Unmanaged",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS110-8PP-D-xx",
-   "name": "Cisco CBS110-8PP-D-xx",
-   "series_label": "Business 110 Series Unmanaged",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS110-8T-D-xx",
-   "name": "Cisco CBS110-8T-D-xx",
-   "series_label": "Business 110 Series Unmanaged",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS220",
-   "name": "Cisco CBS220",
-   "series_label": "Business 250 Smart",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell or bare family name enumerated as a part"
-  },
-  {
-   "sku": "CBS220-16P-2G-xx",
-   "name": "Cisco CBS220-16P-2G-xx",
-   "series_label": "Business 220",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS220-16T-2G-xx",
-   "name": "Cisco CBS220-16T-2G-xx",
-   "series_label": "Business 220",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS220-24FP-4G-xx",
-   "name": "Cisco CBS220-24FP-4G-xx",
-   "series_label": "Business 220",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS220-24FP-4X-xx",
-   "name": "Cisco CBS220-24FP-4X-xx",
-   "series_label": "Business 220",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS220-24P-4G-xx",
-   "name": "Cisco CBS220-24P-4G-xx",
-   "series_label": "Business 220",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS220-24P-4X-xx",
-   "name": "Cisco CBS220-24P-4X-xx",
-   "series_label": "Business 220",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS220-24T-4G-xx",
-   "name": "Cisco CBS220-24T-4G-xx",
-   "series_label": "Business 220",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS220-24T-4X-xx",
-   "name": "Cisco CBS220-24T-4X-xx",
-   "series_label": "Business 220",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS220-48FP-4X-xx",
-   "name": "Cisco CBS220-48FP-4X-xx",
-   "series_label": "Business 220",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS220-48P-4G-xx",
-   "name": "Cisco CBS220-48P-4G-xx",
-   "series_label": "Business 220",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS220-48P-4X-xx",
-   "name": "Cisco CBS220-48P-4X-xx",
-   "series_label": "Business 220",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS220-48T-4G-xx",
-   "name": "Cisco CBS220-48T-4G-xx",
-   "series_label": "Business 220",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS220-48T-4X-xx",
-   "name": "Cisco CBS220-48T-4X-xx",
-   "series_label": "Business 220",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS220-8FP-E-2G-xx",
-   "name": "Cisco CBS220-8FP-E-2G-xx",
-   "series_label": "Business 220",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS220-8P-E-2G-xx",
-   "name": "Cisco CBS220-8P-E-2G-xx",
-   "series_label": "Business 220",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS220-8T-E-2G-xx",
-   "name": "Cisco CBS220-8T-E-2G-xx",
-   "series_label": "Business 220",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS250",
-   "name": "Cisco CBS250",
-   "series_label": "Business 250 Smart",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell or bare family name enumerated as a part"
-  },
-  {
-   "sku": "CBS250-16P-2G-xx",
-   "name": "Cisco CBS250-16P-2G-xx",
-   "series_label": "Business 250 Smart",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS250-16T-2G-xx",
-   "name": "Cisco CBS250-16T-2G-xx",
-   "series_label": "Business 250 Smart",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS250-24FP-4G-xx",
-   "name": "Cisco CBS250-24FP-4G-xx",
-   "series_label": "Business 250 Smart",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS250-24FP-4X-xx",
-   "name": "Cisco CBS250-24FP-4X-xx",
-   "series_label": "Business 250 Smart",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS250-24P-4G-xx",
-   "name": "Cisco CBS250-24P-4G-xx",
-   "series_label": "Business 250 Smart",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS250-24P-4X-xx",
-   "name": "Cisco CBS250-24P-4X-xx",
-   "series_label": "Business 250 Smart",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS250-24PP-4G-xx",
-   "name": "Cisco CBS250-24PP-4G-xx",
-   "series_label": "Business 250 Smart",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS250-24T-4G-xx",
-   "name": "Cisco CBS250-24T-4G-xx",
-   "series_label": "Business 250 Smart",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS250-24T-4X-xx",
-   "name": "Cisco CBS250-24T-4X-xx",
-   "series_label": "Business 250 Smart",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS250-48P-4G-xx",
-   "name": "Cisco CBS250-48P-4G-xx",
-   "series_label": "Business 250 Smart",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS250-48P-4X-xx",
-   "name": "Cisco CBS250-48P-4X-xx",
-   "series_label": "Business 250 Smart",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS250-48PP-4G-xx",
-   "name": "Cisco CBS250-48PP-4G-xx",
-   "series_label": "Business 250 Smart",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS250-48T-4G-xx",
-   "name": "Cisco CBS250-48T-4G-xx",
-   "series_label": "Business 250 Smart",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS250-48T-4X-xx",
-   "name": "Cisco CBS250-48T-4X-xx",
-   "series_label": "Business 250 Smart",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS250-8FP-E-2G-xx",
-   "name": "Cisco CBS250-8FP-E-2G-xx",
-   "series_label": "Business 250 Smart",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS250-8P-E-2G-xx",
-   "name": "Cisco CBS250-8P-E-2G-xx",
-   "series_label": "Business 250 Smart",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS250-8PP-D-xx",
-   "name": "Cisco CBS250-8PP-D-xx",
-   "series_label": "Business 250 Smart",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS250-8PP-E-2G-xx",
-   "name": "Cisco CBS250-8PP-E-2G-xx",
-   "series_label": "Business 250 Smart",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS250-8T-D-xx",
-   "name": "Cisco CBS250-8T-D-xx",
-   "series_label": "Business 250 Smart",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS250-8T-E-2G-xx",
-   "name": "Cisco CBS250-8T-E-2G-xx",
-   "series_label": "Business 250 Smart",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS350",
-   "name": "Cisco CBS350",
-   "series_label": "Business 250 Smart",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell or bare family name enumerated as a part"
-  },
-  {
-   "sku": "CBS350-12NP-4X-xx",
-   "name": "Cisco CBS350-12NP-4X-xx",
-   "series_label": "Business 350",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS350-12XS-xx",
-   "name": "Cisco CBS350-12XS-xx",
-   "series_label": "Business 350",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS350-12XT-xx",
-   "name": "Cisco CBS350-12XT-xx",
-   "series_label": "Business 350",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS350-16FP-2G-xx",
-   "name": "Cisco CBS350-16FP-2G-xx",
-   "series_label": "Business 350",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS350-16P-2G-xx",
-   "name": "Cisco CBS350-16P-2G-xx",
-   "series_label": "Business 350",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS350-16P-E-2G-xx",
-   "name": "Cisco CBS350-16P-E-2G-xx",
-   "series_label": "Business 350",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS350-16T-2G-xx",
-   "name": "Cisco CBS350-16T-2G-xx",
-   "series_label": "Business 350",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS350-16T-E-2G-xx",
-   "name": "Cisco CBS350-16T-E-2G-xx",
-   "series_label": "Business 350",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS350-16XTS-xx",
-   "name": "Cisco CBS350-16XTS-xx",
-   "series_label": "Business 350",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS350-24FP-4G-xx",
-   "name": "Cisco CBS350-24FP-4G-xx",
-   "series_label": "Business 350",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS350-24FP-4X-xx",
-   "name": "Cisco CBS350-24FP-4X-xx",
-   "series_label": "Business 350",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS350-24MGP-4X-xx",
-   "name": "Cisco CBS350-24MGP-4X-xx",
-   "series_label": "Business 350",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS350-24NGP-4X-xx",
-   "name": "Cisco CBS350-24NGP-4X-xx",
-   "series_label": "Business 350",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS350-24P-4G-xx",
-   "name": "Cisco CBS350-24P-4G-xx",
-   "series_label": "Business 350",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS350-24P-4X-xx",
-   "name": "Cisco CBS350-24P-4X-xx",
-   "series_label": "Business 350",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS350-24S-4G-xx",
-   "name": "Cisco CBS350-24S-4G-xx",
-   "series_label": "Business 350",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS350-24T-4G-xx",
-   "name": "Cisco CBS350-24T-4G-xx",
-   "series_label": "Business 350",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS350-24T-4X-xx",
-   "name": "Cisco CBS350-24T-4X-xx",
-   "series_label": "Business 350",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS350-24XS-xx",
-   "name": "Cisco CBS350-24XS-xx",
-   "series_label": "Business 350",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS350-24XT-xx",
-   "name": "Cisco CBS350-24XT-xx",
-   "series_label": "Business 350",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS350-24XTS-xx",
-   "name": "Cisco CBS350-24XTS-xx",
-   "series_label": "Business 350",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS350-48FP-4G-xx",
-   "name": "Cisco CBS350-48FP-4G-xx",
-   "series_label": "Business 350",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS350-48FP-4X-xx",
-   "name": "Cisco CBS350-48FP-4X-xx",
-   "series_label": "Business 350",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS350-48NGP-4X-xx",
-   "name": "Cisco CBS350-48NGP-4X-xx",
-   "series_label": "Business 350",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS350-48P-4G-xx",
-   "name": "Cisco CBS350-48P-4G-xx",
-   "series_label": "Business 350",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS350-48P-4X-xx",
-   "name": "Cisco CBS350-48P-4X-xx",
-   "series_label": "Business 350",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS350-48T-4G-xx",
-   "name": "Cisco CBS350-48T-4G-xx",
-   "series_label": "Business 350",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS350-48T-4X-xx",
-   "name": "Cisco CBS350-48T-4X-xx",
-   "series_label": "Business 350",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS350-48XT-4X-xx",
-   "name": "Cisco CBS350-48XT-4X-xx",
-   "series_label": "Business 350",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS350-8FP-2G-xx",
-   "name": "Cisco CBS350-8FP-2G-xx",
-   "series_label": "Business 350",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS350-8FP-E-2G-xx",
-   "name": "Cisco CBS350-8FP-E-2G-xx",
-   "series_label": "Business 350",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS350-8MGP-2X-xx",
-   "name": "Cisco CBS350-8MGP-2X-xx",
-   "series_label": "Business 350",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS350-8MP-2X-xx",
-   "name": "Cisco CBS350-8MP-2X-xx",
-   "series_label": "Business 350",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS350-8P-2G-xx",
-   "name": "Cisco CBS350-8P-2G-xx",
-   "series_label": "Business 350",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS350-8P-E-2G-xx",
-   "name": "Cisco CBS350-8P-E-2G-xx",
-   "series_label": "Business 350",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS350-8S-E-2G-xx",
-   "name": "Cisco CBS350-8S-E-2G-xx",
-   "series_label": "Business 350",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS350-8T-E-2G-xx",
-   "name": "Cisco CBS350-8T-E-2G-xx",
-   "series_label": "Business 350",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CBS350-8XT-xx",
-   "name": "Cisco CBS350-8XT-xx",
-   "series_label": "Business 350",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "CJ6X88TGBU",
-   "name": "Cisco CJ6X88TGBU",
-   "series_label": "Catalyst 9300",
-   "action": "class",
-   "to": "non_product",
-   "reason": "third-party (Panduit) cabling part number cited in a Catalyst 9300 datasheet, not a Cisco PID; switchKind names it `accessory` until the class change runs"
-  },
-  {
-   "sku": "CJS6X88TGY",
-   "name": "Cisco CJS6X88TGY",
-   "series_label": "Catalyst 9300",
-   "action": "class",
-   "to": "non_product",
-   "reason": "third-party (Panduit) cabling part number cited in a Catalyst 9300 datasheet, not a Cisco PID; switchKind names it `accessory` until the class change runs"
-  },
-  {
-   "sku": "CP24BLY",
-   "name": "24-Port Patch Panel",
-   "series_label": "Catalyst 9300",
-   "action": "class",
-   "to": "non_product",
-   "reason": "third-party (Panduit patch panel / QuickNet cassette cited in a Cisco datasheet, not a Cisco PID)"
-  },
-  {
-   "sku": "CPP24FMWBLY",
-   "name": "24-Port Patch Panel",
-   "series_label": "Catalyst 9300",
-   "action": "class",
-   "to": "non_product",
-   "reason": "third-party (Panduit patch panel / QuickNet cassette cited in a Cisco datasheet, not a Cisco PID)"
-  },
-  {
-   "sku": "E100",
-   "name": "Cisco E100",
-   "series_label": "C9550",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell or bare family name enumerated as a part"
-  },
-  {
-   "sku": "E104",
-   "name": "Cisco E104",
-   "series_label": "C9550",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell or bare family name enumerated as a part"
-  },
-  {
-   "sku": "FPS6X88MTG",
-   "name": "Cisco FPS6X88MTG",
-   "series_label": "Catalyst 9300",
-   "action": "class",
-   "to": "non_product",
-   "reason": "third-party (Panduit) cabling part number cited in a Catalyst 9300 datasheet, not a Cisco PID; switchKind names it `accessory` until the class change runs"
-  },
-  {
-   "sku": "FPUD6X88MTG",
-   "name": "Cisco FPUD6X88MTG",
-   "series_label": "Catalyst 9300",
-   "action": "class",
-   "to": "non_product",
-   "reason": "third-party (Panduit) cabling part number cited in a Catalyst 9300 datasheet, not a Cisco PID; switchKind names it `accessory` until the class change runs"
-  },
-  {
-   "sku": "FQ9N-12-10U",
-   "name": "QuickNet SFQ Universal Cassette, six LC Duplex Adapters to PanMPO",
-   "series_label": "Nexus 3000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "third-party (Panduit patch panel / QuickNet cassette cited in a Cisco datasheet, not a Cisco PID)"
-  },
-  {
-   "sku": "FQMAP66BL",
-   "name": "QuickNet Fiber Optic Migration Adapter Panel",
-   "series_label": "Nexus 3000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "third-party (Panduit patch panel / QuickNet cassette cited in a Cisco datasheet, not a Cisco PID)"
-  },
-  {
-   "sku": "G.652/-",
-   "name": "Cisco G.652/-",
-   "series_label": "Nexus 7000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell or bare family name enumerated as a part"
-  },
-  {
-   "sku": "GLE-GE-100FX=",
-   "name": "100BASE-FX (multimode fiber) (works in “multispeed” Gigabit Ethernet SFP ports of other Cisco platforms such as the Cisco Catalyst 3560, Cisco Catalyst 3750 [nonmetro], and Cisco Catalyst 2970 Series)",
-   "series_label": "ME 3400E Ethernet Access",
-   "action": "class",
-   "to": "non_product",
-   "reason": "misprint of GLC-GE-100FX=: not an orderable PID (was a move to transceiver; operator, layers round 3)"
-  },
-  {
-   "sku": "IBM-SN-POINTER",
-   "name": "IBM SN for MT3722 (Internal)",
-   "series_label": "Nexus 5000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "tracking / deployment-option / test PID (\"For Tracking Only\", \"Test Only-Not for Customer Use\", RFID option)"
-  },
-  {
-   "sku": "IE3100",
-   "name": "Cisco IE3100",
-   "series_label": "Catalyst IE3100 Heavy Duty Series",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell or bare family name enumerated as a part"
-  },
-  {
-   "sku": "IE3400",
-   "name": "Cisco IE3400",
-   "series_label": "Catalyst IE3400 Heavy Duty Series",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell or bare family name enumerated as a part"
-  },
-  {
-   "sku": "IE9300",
-   "name": "Cisco IE9300",
-   "series_label": "Catalyst IE9300 Rugged Series",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell or bare family name enumerated as a part"
-  },
-  {
-   "sku": "IPv6",
-   "name": "Cisco IPv6",
-   "series_label": "Business 350",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell or bare family name enumerated as a part"
-  },
-  {
-   "sku": "K100",
-   "name": "Cisco K100",
-   "series_label": "C9550",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell or bare family name enumerated as a part"
-  },
-  {
-   "sku": "LAN-PHY",
-   "name": "Cisco LAN-PHY",
-   "series_label": "Catalyst 6500",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell or bare family name enumerated as a part"
-  },
-  {
-   "sku": "LS1800FX",
-   "name": "Cisco LS1800FX",
-   "series_label": "Nexus 9000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell or bare family name enumerated as a part"
-  },
-  {
-   "sku": "LS1800FX3",
-   "name": "Cisco LS1800FX3",
-   "series_label": "Nexus 9000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell or bare family name enumerated as a part"
-  },
-  {
-   "sku": "LS6400GX",
-   "name": "Cisco LS6400GX",
-   "series_label": "Nexus 9000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell or bare family name enumerated as a part"
-  },
-  {
-   "sku": "MS100",
-   "name": "Cisco MS100",
-   "series_label": "Meraki",
-   "action": "class",
-   "to": "non_product",
-   "reason": "no Meraki MS100 switch exists; the row is 'Cisco MS100' with no document (operator ruling on the routers pass, 13 Sep 2026: MS100 refused)"
-  },
-  {
-   "sku": "N5K-C5672UP-C=",
-   "name": "^Invalid SKU",
-   "series_label": "Nexus 5000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "the vendor's own name for the row is \"^Invalid SKU\""
-  },
-  {
-   "sku": "N5K-C5696Q-C=",
-   "name": "^Invalid SKU",
-   "series_label": "Nexus 5000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "the vendor's own name for the row is \"^Invalid SKU\""
-  },
-  {
-   "sku": "N7K-CAMPUS-CORE",
-   "name": "N7K or N77 Campus Core Deployment; For Tracking Only",
-   "series_label": "Nexus 7000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "tracking / deployment-option / test PID (\"For Tracking Only\", \"Test Only-Not for Customer Use\", RFID option)"
-  },
-  {
-   "sku": "N7K-DC-AGG-SPINE",
-   "name": "N7K or N77 DC Agg or Spine Deployment; For Tracking Only",
-   "series_label": "Nexus 7000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "tracking / deployment-option / test PID (\"For Tracking Only\", \"Test Only-Not for Customer Use\", RFID option)"
-  },
-  {
-   "sku": "N7K-DC-CORE",
-   "name": "N7K or N77 DC Core Deployment; For Tracking Only",
-   "series_label": "Nexus 7000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "tracking / deployment-option / test PID (\"For Tracking Only\", \"Test Only-Not for Customer Use\", RFID option)"
-  },
-  {
-   "sku": "N7K-DCI",
-   "name": "N7K or N77 DC Interconnect Deployment; For Tracking Only",
-   "series_label": "Nexus 7000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "tracking / deployment-option / test PID (\"For Tracking Only\", \"Test Only-Not for Customer Use\", RFID option)"
-  },
-  {
-   "sku": "N7K-DP-AGG",
-   "name": "N7K or N77 Aggregation Deployment; For Tracking Only",
-   "series_label": "Nexus 7000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "tracking / deployment-option / test PID (\"For Tracking Only\", \"Test Only-Not for Customer Use\", RFID option)"
-  },
-  {
-   "sku": "N7K-DP-CAMPUS",
-   "name": "N7K or N77 Campus Deployment; For Tracking Only",
-   "series_label": "Nexus 7000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "tracking / deployment-option / test PID (\"For Tracking Only\", \"Test Only-Not for Customer Use\", RFID option)"
-  },
-  {
-   "sku": "N7K-DP-CORE",
-   "name": "N7K or N77 Core Deployment; For Tracking Only",
-   "series_label": "Nexus 7000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "tracking / deployment-option / test PID (\"For Tracking Only\", \"Test Only-Not for Customer Use\", RFID option)"
-  },
-  {
-   "sku": "N7K-DP-DCI",
-   "name": "N7K or N77 DCI Deployment; For Tracking Only",
-   "series_label": "Nexus 7000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "tracking / deployment-option / test PID (\"For Tracking Only\", \"Test Only-Not for Customer Use\", RFID option)"
-  },
-  {
-   "sku": "N7K-DP-NOTSURE",
-   "name": "N7K or N77 Not Sure Deployment; For Tracking Only",
-   "series_label": "Nexus 7000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "tracking / deployment-option / test PID (\"For Tracking Only\", \"Test Only-Not for Customer Use\", RFID option)"
-  },
-  {
-   "sku": "N7K-OTHER-DEPL",
-   "name": "N7K or N77 Other Deployment; For Tracking Only",
-   "series_label": "Nexus 7000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "tracking / deployment-option / test PID (\"For Tracking Only\", \"Test Only-Not for Customer Use\", RFID option)"
-  },
-  {
-   "sku": "OTN/G.709",
-   "name": "Cisco OTN/G.709",
-   "series_label": "Catalyst 6500",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell or bare family name enumerated as a part"
-  },
-  {
-   "sku": "PFC6004BU-G",
-   "name": "Cisco PFC6004BU-G",
-   "series_label": "Catalyst 9300",
-   "action": "class",
-   "to": "non_product",
-   "reason": "third-party (Panduit) cabling part number cited in a Catalyst 9300 datasheet, not a Cisco PID; switchKind names it `accessory` until the class change runs"
-  },
-  {
-   "sku": "PFC6X04BU-CEG",
-   "name": "Cisco PFC6X04BU-CEG",
-   "series_label": "Catalyst 9300",
-   "action": "class",
-   "to": "non_product",
-   "reason": "third-party (Panduit) cabling part number cited in a Catalyst 9300 datasheet, not a Cisco PID; switchKind names it `accessory` until the class change runs"
-  },
-  {
-   "sku": "PFL6004BU-G",
-   "name": "Cisco PFL6004BU-G",
-   "series_label": "Catalyst 9300",
-   "action": "class",
-   "to": "non_product",
-   "reason": "third-party (Panduit) cabling part number cited in a Catalyst 9300 datasheet, not a Cisco PID; switchKind names it `accessory` until the class change runs"
-  },
-  {
-   "sku": "PFL6X04WH-CEG",
-   "name": "Cisco PFL6X04WH-CEG",
-   "series_label": "Catalyst 9300",
-   "action": "class",
-   "to": "non_product",
-   "reason": "third-party (Panduit) cabling part number cited in a Catalyst 9300 datasheet, not a Cisco PID; switchKind names it `accessory` until the class change runs"
-  },
-  {
-   "sku": "PFP6C04BU-UG",
-   "name": "Cisco PFP6C04BU-UG",
-   "series_label": "Catalyst 9300",
-   "action": "class",
-   "to": "non_product",
-   "reason": "third-party (Panduit) cabling part number cited in a Catalyst 9300 datasheet, not a Cisco PID; switchKind names it `accessory` until the class change runs"
-  },
-  {
-   "sku": "PFP6X04BU-UG",
-   "name": "Cisco PFP6X04BU-UG",
-   "series_label": "Catalyst 9300",
-   "action": "class",
-   "to": "non_product",
-   "reason": "third-party (Panduit) cabling part number cited in a Catalyst 9300 datasheet, not a Cisco PID; switchKind names it `accessory` until the class change runs"
-  },
-  {
-   "sku": "PFR6C04BU-UG",
-   "name": "Cisco PFR6C04BU-UG",
-   "series_label": "Catalyst 9300",
-   "action": "class",
-   "to": "non_product",
-   "reason": "third-party (Panduit) cabling part number cited in a Catalyst 9300 datasheet, not a Cisco PID; switchKind names it `accessory` until the class change runs"
-  },
-  {
-   "sku": "PFR6X04BU-CG",
-   "name": "Cisco PFR6X04BU-CG",
-   "series_label": "Catalyst 9300",
-   "action": "class",
-   "to": "non_product",
-   "reason": "third-party (Panduit) cabling part number cited in a Catalyst 9300 datasheet, not a Cisco PID; switchKind names it `accessory` until the class change runs"
-  },
-  {
-   "sku": "PSY6C04WH-CED",
-   "name": "Cisco PSY6C04WH-CED",
-   "series_label": "Catalyst 9300",
-   "action": "class",
-   "to": "non_product",
-   "reason": "third-party (Panduit) cabling part number cited in a Catalyst 9300 datasheet, not a Cisco PID; switchKind names it `accessory` until the class change runs"
-  },
-  {
-   "sku": "PUC6004BU-FE",
-   "name": "Cisco PUC6004BU-FE",
-   "series_label": "Catalyst 9300",
-   "action": "class",
-   "to": "non_product",
-   "reason": "third-party (Panduit) cabling part number cited in a Catalyst 9300 datasheet, not a Cisco PID; switchKind names it `accessory` until the class change runs"
-  },
-  {
-   "sku": "PUC6AV04BU-G",
-   "name": "Cisco PUC6AV04BU-G",
-   "series_label": "Catalyst 9300",
-   "action": "class",
-   "to": "non_product",
-   "reason": "third-party (Panduit) cabling part number cited in a Catalyst 9300 datasheet, not a Cisco PID; switchKind names it `accessory` until the class change runs"
-  },
-  {
-   "sku": "PUFY6X04WH-HED",
-   "name": "Cisco PUFY6X04WH-HED",
-   "series_label": "Catalyst 9300",
-   "action": "class",
-   "to": "non_product",
-   "reason": "third-party (Panduit) cabling part number cited in a Catalyst 9300 datasheet, not a Cisco PID; switchKind names it `accessory` until the class change runs"
-  },
-  {
-   "sku": "PUL6004WH-FE",
-   "name": "Cisco PUL6004WH-FE",
-   "series_label": "Catalyst 9300",
-   "action": "class",
-   "to": "non_product",
-   "reason": "third-party (Panduit) cabling part number cited in a Catalyst 9300 datasheet, not a Cisco PID; switchKind names it `accessory` until the class change runs"
-  },
-  {
-   "sku": "PUL6AV04WH-EG",
-   "name": "Cisco PUL6AV04WH-EG",
-   "series_label": "Catalyst 9300",
-   "action": "class",
-   "to": "non_product",
-   "reason": "third-party (Panduit) cabling part number cited in a Catalyst 9300 datasheet, not a Cisco PID; switchKind names it `accessory` until the class change runs"
-  },
-  {
-   "sku": "PUP6AV04BU-G",
-   "name": "Cisco PUP6AV04BU-G",
-   "series_label": "Catalyst 9300",
-   "action": "class",
-   "to": "non_product",
-   "reason": "third-party (Panduit) cabling part number cited in a Catalyst 9300 datasheet, not a Cisco PID; switchKind names it `accessory` until the class change runs"
-  },
-  {
-   "sku": "PUP6C04BU-U",
-   "name": "Cisco PUP6C04BU-U",
-   "series_label": "Catalyst 9300",
-   "action": "class",
-   "to": "non_product",
-   "reason": "third-party (Panduit) cabling part number cited in a Catalyst 9300 datasheet, not a Cisco PID; switchKind names it `accessory` until the class change runs"
-  },
-  {
-   "sku": "PUR6AV04BU-G",
-   "name": "Cisco PUR6AV04BU-G",
-   "series_label": "Catalyst 9300",
-   "action": "class",
-   "to": "non_product",
-   "reason": "third-party (Panduit) cabling part number cited in a Catalyst 9300 datasheet, not a Cisco PID; switchKind names it `accessory` until the class change runs"
-  },
-  {
-   "sku": "PUR6C04BU-U",
-   "name": "Cisco PUR6C04BU-U",
-   "series_label": "Catalyst 9300",
-   "action": "class",
-   "to": "non_product",
-   "reason": "third-party (Panduit) cabling part number cited in a Catalyst 9300 datasheet, not a Cisco PID; switchKind names it `accessory` until the class change runs"
-  },
-  {
-   "sku": "PUY6004WH-HE",
-   "name": "Cisco PUY6004WH-HE",
-   "series_label": "Catalyst 9300",
-   "action": "class",
-   "to": "non_product",
-   "reason": "third-party (Panduit) cabling part number cited in a Catalyst 9300 datasheet, not a Cisco PID; switchKind names it `accessory` until the class change runs"
-  },
-  {
-   "sku": "PUY6AV04WH-EG",
-   "name": "Cisco PUY6AV04WH-EG",
-   "series_label": "Catalyst 9300",
-   "action": "class",
-   "to": "non_product",
-   "reason": "third-party (Panduit) cabling part number cited in a Catalyst 9300 datasheet, not a Cisco PID; switchKind names it `accessory` until the class change runs"
-  },
-  {
-   "sku": "QPP24BL",
-   "name": "QuickNet 24-Port Patch Panel",
-   "series_label": "Nexus 3000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "third-party (Panduit patch panel / QuickNet cassette cited in a Cisco datasheet, not a Cisco PID)"
-  },
-  {
-   "sku": "S6400",
-   "name": "Cisco S6400",
-   "series_label": "Nexus 9000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell or bare family name enumerated as a part"
-  },
-  {
-   "sku": "SF220-24-K9-xx",
-   "name": "Cisco SF220-24-K9-xx",
-   "series_label": "220 Smart",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SF220-24P-K9-xx",
-   "name": "Cisco SF220-24P-K9-xx",
-   "series_label": "220 Smart",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SF220-48-K9-xx",
-   "name": "Cisco SF220-48-K9-xx",
-   "series_label": "220 Smart",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SF220-48P-K9-xx",
-   "name": "Cisco SF220-48P-K9-xx",
-   "series_label": "220 Smart",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SF250-24-K9-xx",
-   "name": "Cisco SF250-24-K9-xx",
-   "series_label": "250 Smart",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SF250-24P-K9-xx",
-   "name": "Cisco SF250-24P-K9-xx",
-   "series_label": "250 Smart",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SF250-48-K9-xx",
-   "name": "Cisco SF250-48-K9-xx",
-   "series_label": "250 Smart",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SF250-48HP-K9-xx",
-   "name": "Cisco SF250-48HP-K9-xx",
-   "series_label": "250 Smart",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SF350-08-K9-xx",
-   "name": "Cisco SF350-08-K9-xx",
-   "series_label": "350 Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SF350-24-K9-xx",
-   "name": "Cisco SF350-24-K9-xx",
-   "series_label": "350 Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SF350-24MP-K9-xx",
-   "name": "Cisco SF350-24MP-K9-xx",
-   "series_label": "350 Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SF350-24P-K9-xx",
-   "name": "Cisco SF350-24P-K9-xx",
-   "series_label": "350 Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SF350-48-K9-xx",
-   "name": "Cisco SF350-48-K9-xx",
-   "series_label": "350 Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SF350-48MP-K9-xx",
-   "name": "Cisco SF350-48MP-K9-xx",
-   "series_label": "350 Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SF350-48P-K9-xx",
-   "name": "Cisco SF350-48P-K9-xx",
-   "series_label": "350 Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SF352-08-K9-xx",
-   "name": "Cisco SF352-08-K9-xx",
-   "series_label": "350 Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SF352-08MP-K9-xx",
-   "name": "Cisco SF352-08MP-K9-xx",
-   "series_label": "350 Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SF352-08P-K9-xx",
-   "name": "Cisco SF352-08P-K9-xx",
-   "series_label": "350 Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SF550X-24-K9-xx",
-   "name": "Cisco SF550X-24-K9-xx",
-   "series_label": "550X Stackable Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SF550X-24MP-K9-xx",
-   "name": "Cisco SF550X-24MP-K9-xx",
-   "series_label": "550X Stackable Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SF550X-24P-K9-xx",
-   "name": "Cisco SF550X-24P-K9-xx",
-   "series_label": "550X Stackable Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SF550X-48-K9-xx",
-   "name": "Cisco SF550X-48-K9-xx",
-   "series_label": "550X Stackable Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SF550X-48MP-K9-xx",
-   "name": "Cisco SF550X-48MP-K9-xx",
-   "series_label": "550X Stackable Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SF550X-48P-K9-xx",
-   "name": "Cisco SF550X-48P-K9-xx",
-   "series_label": "550X Stackable Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG220-26-K9-xx",
-   "name": "Cisco SG220-26-K9-xx",
-   "series_label": "220 Smart",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG220-26P-K9-xx",
-   "name": "Cisco SG220-26P-K9-xx",
-   "series_label": "220 Smart",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG220-28MP-K9-xx",
-   "name": "Cisco SG220-28MP-K9-xx",
-   "series_label": "220 Smart",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG220-50-K9-xx",
-   "name": "Cisco SG220-50-K9-xx",
-   "series_label": "220 Smart",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG220-50P-K9-xx",
-   "name": "Cisco SG220-50P-K9-xx",
-   "series_label": "220 Smart",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG250-08-K9-xx",
-   "name": "Cisco SG250-08-K9-xx",
-   "series_label": "250 Smart",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG250-08HP-K9-xx",
-   "name": "Cisco SG250-08HP-K9-xx",
-   "series_label": "250 Smart",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG250-18-K9-xx",
-   "name": "Cisco SG250-18-K9-xx",
-   "series_label": "250 Smart",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG250-26-K9-xx",
-   "name": "Cisco SG250-26-K9-xx",
-   "series_label": "250 Smart",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG250-26HP-K9-xx",
-   "name": "Cisco SG250-26HP-K9-xx",
-   "series_label": "250 Smart",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG250-26P-K9-xx",
-   "name": "Cisco SG250-26P-K9-xx",
-   "series_label": "250 Smart",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG250-50-K9-xx",
-   "name": "Cisco SG250-50-K9-xx",
-   "series_label": "250 Smart",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG250-50HP-K9-xx",
-   "name": "Cisco SG250-50HP-K9-xx",
-   "series_label": "250 Smart",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG250-50P-K9-xx",
-   "name": "Cisco SG250-50P-K9-xx",
-   "series_label": "250 Smart",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG250X-24-K9-xx",
-   "name": "Cisco SG250X-24-K9-xx",
-   "series_label": "250 Smart",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG250X-24P-K9-xx",
-   "name": "Cisco SG250X-24P-K9-xx",
-   "series_label": "250 Smart",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG250X-48-K9-xx",
-   "name": "Cisco SG250X-48-K9-xx",
-   "series_label": "250 Smart",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG250X-48P-K9-xx",
-   "name": "Cisco SG250X-48P-K9-xx",
-   "series_label": "250 Smart",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG350-10-K9-xx",
-   "name": "Cisco SG350-10-K9-xx",
-   "series_label": "350 Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG350-10MP-K9-xx",
-   "name": "Cisco SG350-10MP-K9-xx",
-   "series_label": "350 Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG350-10P-K9-xx",
-   "name": "Cisco SG350-10P-K9-xx",
-   "series_label": "350 Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG350-10SFP-K9-xx",
-   "name": "Cisco SG350-10SFP-K9-xx",
-   "series_label": "350 Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG350-20-K9-xx",
-   "name": "Cisco SG350-20-K9-xx",
-   "series_label": "350 Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG350-28-K9-xx",
-   "name": "Cisco SG350-28-K9-xx",
-   "series_label": "350 Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG350-28MP-K9-xx",
-   "name": "Cisco SG350-28MP-K9-xx",
-   "series_label": "350 Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG350-28P-K9-xx",
-   "name": "Cisco SG350-28P-K9-xx",
-   "series_label": "350 Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG350-28SFP-K9-xx",
-   "name": "Cisco SG350-28SFP-K9-xx",
-   "series_label": "350 Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG350-52-K9-xx",
-   "name": "Cisco SG350-52-K9-xx",
-   "series_label": "350 Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG350-52MP-K9-xx",
-   "name": "Cisco SG350-52MP-K9-xx",
-   "series_label": "350 Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG350-52P-K9-xx",
-   "name": "Cisco SG350-52P-K9-xx",
-   "series_label": "350 Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG350-8PD-K9-xx",
-   "name": "Cisco SG350-8PD-K9-xx",
-   "series_label": "350 Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG350X-12PMV-K9-xx",
-   "name": "Cisco SG350X-12PMV-K9-xx",
-   "series_label": "350X Stackable Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG350X-24-K9-xx",
-   "name": "Cisco SG350X-24-K9-xx",
-   "series_label": "350X Stackable Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG350X-24MP-K9-xx",
-   "name": "Cisco SG350X-24MP-K9-xx",
-   "series_label": "350X Stackable Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG350X-24P-K9-xx",
-   "name": "Cisco SG350X-24P-K9-xx",
-   "series_label": "350X Stackable Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG350X-24PD-K9-xx",
-   "name": "Cisco SG350X-24PD-K9-xx",
-   "series_label": "350X Stackable Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG350X-24PV-K9-xx",
-   "name": "Cisco SG350X-24PV-K9-xx",
-   "series_label": "350X Stackable Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG350X-48-K9-xx",
-   "name": "Cisco SG350X-48-K9-xx",
-   "series_label": "350X Stackable Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG350X-48MP-K9-xx",
-   "name": "Cisco SG350X-48MP-K9-xx",
-   "series_label": "350X Stackable Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG350X-48P-K9-xx",
-   "name": "Cisco SG350X-48P-K9-xx",
-   "series_label": "350X Stackable Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG350X-48PV-K9-xx",
-   "name": "Cisco SG350X-48PV-K9-xx",
-   "series_label": "350X Stackable Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG350X-8PMD-K9-xx",
-   "name": "Cisco SG350X-8PMD-K9-xx",
-   "series_label": "350X Stackable Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG350XG-24F-K9-xx",
-   "name": "Cisco SG350XG-24F-K9-xx",
-   "series_label": "350X Stackable Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG350XG-24T-K9-xx",
-   "name": "Cisco SG350XG-24T-K9-xx",
-   "series_label": "350X Stackable Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG350XG-2F10-K9-xx",
-   "name": "Cisco SG350XG-2F10-K9-xx",
-   "series_label": "350X Stackable Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG350XG-48T-K9-xx",
-   "name": "Cisco SG350XG-48T-K9-xx",
-   "series_label": "350X Stackable Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG355-10P-K9-xx",
-   "name": "Cisco SG355-10P-K9-xx",
-   "series_label": "350 Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG550X-24-K9-xx",
-   "name": "Cisco SG550X-24-K9-xx",
-   "series_label": "550X Stackable Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG550X-24MP-K9-xx",
-   "name": "Cisco SG550X-24MP-K9-xx",
-   "series_label": "550X Stackable Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG550X-24MPP-K9-xx",
-   "name": "Cisco SG550X-24MPP-K9-xx",
-   "series_label": "550X Stackable Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG550X-24P-K9-xx",
-   "name": "Cisco SG550X-24P-K9-xx",
-   "series_label": "550X Stackable Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG550X-48-K9-xx",
-   "name": "Cisco SG550X-48-K9-xx",
-   "series_label": "550X Stackable Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG550X-48MP-K9-xx",
-   "name": "Cisco SG550X-48MP-K9-xx",
-   "series_label": "550X Stackable Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG550X-48P-K9-xx",
-   "name": "Cisco SG550X-48P-K9-xx",
-   "series_label": "550X Stackable Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG550XG-24F-K9-xx",
-   "name": "Cisco SG550XG-24F-K9-xx",
-   "series_label": "550X Stackable Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG550XG-24T-K9-xx",
-   "name": "Cisco SG550XG-24T-K9-xx",
-   "series_label": "550X Stackable Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG550XG-48T-K9-xx",
-   "name": "Cisco SG550XG-48T-K9-xx",
-   "series_label": "550X Stackable Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SG550XG-8F8T-K9-xx",
-   "name": "Cisco SG550XG-8F8T-K9-xx",
-   "series_label": "550X Stackable Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SNMPv1",
-   "name": "Cisco SNMPv1",
-   "series_label": "Catalyst 9200",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell or bare family name enumerated as a part"
-  },
-  {
-   "sku": "STP28X1MBU",
-   "name": "Cisco STP28X1MBU",
-   "series_label": "Catalyst 9300",
-   "action": "class",
-   "to": "non_product",
-   "reason": "third-party (Panduit) cabling part number cited in a Catalyst 9300 datasheet, not a Cisco PID; switchKind names it `accessory` until the class change runs"
-  },
-  {
-   "sku": "SX350X-08-K9-xx",
-   "name": "Cisco SX350X-08-K9-xx",
-   "series_label": "350X Stackable Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SX350X-12-K9-xx",
-   "name": "Cisco SX350X-12-K9-xx",
-   "series_label": "350X Stackable Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SX350X-24-K9-xx",
-   "name": "Cisco SX350X-24-K9-xx",
-   "series_label": "350X Stackable Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SX350X-24F-K9-xx",
-   "name": "Cisco SX350X-24F-K9-xx",
-   "series_label": "350X Stackable Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SX350X-52-K9-xx",
-   "name": "Cisco SX350X-52-K9-xx",
-   "series_label": "350X Stackable Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SX550X-12F-K9-xx",
-   "name": "Cisco SX550X-12F-K9-xx",
-   "series_label": "550X Stackable Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SX550X-16FT-K9-xx",
-   "name": "Cisco SX550X-16FT-K9-xx",
-   "series_label": "550X Stackable Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SX550X-24-K9-xx",
-   "name": "Cisco SX550X-24-K9-xx",
-   "series_label": "550X Stackable Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SX550X-24F-K9-xx",
-   "name": "Cisco SX550X-24F-K9-xx",
-   "series_label": "550X Stackable Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SX550X-24FT-K9-xx",
-   "name": "Cisco SX550X-24FT-K9-xx",
-   "series_label": "550X Stackable Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "SX550X-52-K9-xx",
-   "name": "Cisco SX550X-52-K9-xx",
-   "series_label": "550X Stackable Managed",
-   "action": "class",
-   "to": "non_product",
-   "reason": "regulatory-domain / plug-region placeholder: the 'x' / 'xx' stands for the domain or plug the order picks, not an orderable PID — the datasheet-cell rule's fourth placeholder shape (re-audit decisions, operator, 15 Sep 2026, Q-10: all 254, lower-case x / xx in the region position, case-sensitive)"
-  },
-  {
-   "sku": "UTP28X3BU",
-   "name": "Cisco UTP28X3BU",
-   "series_label": "Catalyst 9300",
-   "action": "class",
-   "to": "non_product",
-   "reason": "third-party (Panduit) cabling part number cited in a Catalyst 9300 datasheet, not a Cisco PID; switchKind names it `accessory` until the class change runs"
-  },
-  {
-   "sku": "VBR-rt",
-   "name": "Cisco VBR-rt",
-   "series_label": "Catalyst 6500",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell or bare family name enumerated as a part"
-  },
-  {
-   "sku": "XR-10GB-LR",
-   "name": "10GBASE-LR X2 (single-mode fiber)",
-   "series_label": "Catalyst 6500",
-   "action": "class",
-   "to": "non_product",
-   "reason": "misprint of X2-10GB-LR: not an orderable PID (was a move to transceiver; operator, layers round 3)"
-  }
- ],
+ "pending_plans": [],
  "unplaced": [],
  "label_check": {
   "applied": true,
@@ -7414,5 +4809,5 @@
  },
  "pending_review": [],
  "inbound_unplaced": {},
- "done": false
+ "done": true
 }

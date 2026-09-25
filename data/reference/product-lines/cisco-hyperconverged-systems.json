@@ -8,18 +8,111 @@
    "line": "HyperFlex",
    "no_family_reason": "Cisco names the HX220c / HX225c / HX240c / HX245c nodes, HyperFlex Edge, HyperFlex Express, the compute-only nodes, the fabric interconnects and the starter bundles under HyperFlex, with no family between",
    "series": [
-    { "series": "HyperFlex compute-only nodes (C220 / C240 / C480 / B200 / B480)", "sku": ["^HX-(C220|C240|C480|B200|B480)"], "name": ["Compute UCS (C220|C240|C480|B200|B480)"], "note": "B480 (layers round 3): HX-B480-M5-U 'Compute UCS B480 M5 Blade …' sat in HyperFlex shared parts (a server in shared parts). The name rule places the Cisco+ offers PLHC-VDIGPHXC-M51A / VSIGPHXC-M51A 'Cisco+ Compute UCS C220 M5 SFF 10 HD VSI-HX', which sat there by their label" },
-    { "series": "HyperFlex Edge", "sku": ["^HX(AF)?-E-"], "name": ["HyperFlex (Hybrid |All Flash )?Edge"], "note": "name rule (layers round 3): PLHC-EDGEPHXE-M51A 'Cisco+ HyperFlex Hybrid Edge 220 M5 system' sat in HyperFlex shared parts by its label (a server in shared parts)" },
-    { "series": "HyperFlex Express", "sku": ["^HXE-"] },
-    { "series": "HyperFlex Fabric Interconnects", "sku": ["^HX-FI", "^UCS-HX-(UC-)?FI", "^HX-DH-FI"], "note": "^UCS-HX-(UC-)?FI (layers round 3): UCS-HX-FI48P / FI96P / UC-FI48P, planned in from servers-unified-computing. ^HX-DH-FI (same round): HX-DH-FI6332-16UP 'HX SAP Datahub FI3232UP …' sat in HyperFlex shared parts (a fabric interconnect in shared parts)" },
-    { "series": "HyperFlex bundles and starter packs", "sku": ["^HX-(SP|STD|16)-", "^UCS-SEED-HX", "^HX(AF)?-M[0-9]S-HXDP", "^HX2X0C-", "^HX-M[0-9]-MLB"], "note": "^UCS-SEED-HX (layers round 3): UCS-SEED-HX220 / HX240, planned in from servers-unified-computing. ^HX(AF)?-M[0-9]S-HXDP, ^HX2X0C- and ^HX-M[0-9]-MLB (same round): the system PIDs that order a HyperFlex cluster — HX-M5S-HXDP / HXAF-M5S-HXDP 'Cisco HX(AF)2X0C M5 Hyperflex System', HX2X0C-M4S / -M5S 'Cisco Hyperconverged System' and their successor HX-M6-MLB 'HX/HXAF/EDG M6 MLB' — sat in HyperFlex shared parts, the first six with kind server. HX-M4S-HXDP carries an earlier class plan to software (kind layer), which this round did not re-read" },
-    { "series": "HX220c", "sku": ["^HX(AF)?220C", "^(?=HX|UCSC-|CBL-).*(?<![0-9])220-?M[4-7]", "^(?=HX|UCSC-|CBL-).*(?<![A-Z0-9])C220(?![0-9])"], "note": "layers round 3: the two model rules are fenced to the prefixes of the rows they decide (HX- / HXAF- / HXC- / HX220-, UCSC-, CBL-); unfenced they claimed the C220-based parts of the 5520 controller and CMX / MSE in wireless and XRV-FAN-C220M4= in routers" },
-    { "series": "HX225c", "sku": ["^HX(AF)?225C", "^(?=HX|CBL-).*(?<![0-9])225-?M[6-7]"], "note": "the C225 alternative was removed in layers round 3: it decided no row (225-?M[6-7] decides them) and claimed 9 servers rows. The 225M rule is fenced in the same round to the prefixes of the rows it decides (HX- / HXAF225- / HX225-, CBL-); unfenced it claimed UCSC-C225-M6N / M6S / UCSC-HSHP-225M6 in servers" },
-    { "series": "HX240c", "sku": ["^HX(AF)?240C", "^(?=HX|UCSC?-|CBL-).*(?<![0-9])240-?M[4-7]"], "name": ["HX240c"], "note": "the C240 alternative was removed in layers round 3: it decided none of its 39 matches and claimed 115 servers rows. The 240M rule is fenced in the same round to the prefixes of the rows it decides (HX- / HXAF- / HXC-, UCSC- / UCS-, CBL-); unfenced it claimed the 8540 controller's and CMX / MSE parts in wireless. The name rule places the Cisco+ offers PLHC-VDIGPHXA-M51A / VSIGPHXA-M51A 'Cisco+ HyperFlex HX240c M5 All Flash Node …', which sat in shared parts by their label" },
-    { "series": "HX245c", "sku": ["^HX(AF)?245C", "^(?=UCSC-).*(?<![0-9])245-?M[6-7]"], "note": "the C245 alternative was removed in layers round 3: it decided no row and claimed 14 servers rows. The 245M rule is fenced in the same round to the UCSC- rows it decides (UCSC-HSHP-C245M6 / =); unfenced it claimed the CBL-SAS24- / CBL-SDFNVME- / CBL-SDSAS-245M6 cables in servers" },
-    { "series": "HyperFlex shared parts", "sku": ["^HX"], "labels": ["HyperFlex HX Series"] }
+    {
+     "series": "HyperFlex compute-only nodes (C220 / C240 / C480 / B200 / B480)",
+     "sku": [
+      "^HX-(C220|C240|C480|B200|B480)"
+     ],
+     "name": [
+      "Compute UCS (C220|C240|C480|B200|B480)"
+     ],
+     "note": "B480 (layers round 3): HX-B480-M5-U 'Compute UCS B480 M5 Blade …' sat in HyperFlex shared parts (a server in shared parts). The name rule places the Cisco+ offers PLHC-VDIGPHXC-M51A / VSIGPHXC-M51A 'Cisco+ Compute UCS C220 M5 SFF 10 HD VSI-HX', which sat there by their label"
+    },
+    {
+     "series": "HyperFlex Edge",
+     "sku": [
+      "^HX(AF)?-E-"
+     ],
+     "name": [
+      "HyperFlex (Hybrid |All Flash )?Edge"
+     ],
+     "note": "name rule (layers round 3): PLHC-EDGEPHXE-M51A 'Cisco+ HyperFlex Hybrid Edge 220 M5 system' sat in HyperFlex shared parts by its label (a server in shared parts)"
+    },
+    {
+     "series": "HyperFlex Express",
+     "sku": [
+      "^HXE-"
+     ]
+    },
+    {
+     "series": "HyperFlex Fabric Interconnects",
+     "sku": [
+      "^HX-FI",
+      "^UCS-HX-(UC-)?FI",
+      "^HX-DH-FI",
+      "^HX-UC-FI"
+     ],
+     "note": "^UCS-HX-(UC-)?FI (layers round 3): UCS-HX-FI48P / FI96P / UC-FI48P, planned in from servers-unified-computing. ^HX-DH-FI (same round): HX-DH-FI6332-16UP 'HX SAP Datahub FI3232UP …' sat in HyperFlex shared parts (a fabric interconnect in shared parts) · ^HX-UC-FI (layering runs of 25 Sep 2026 (operator: \"fix all the gaps and holes\")): HX-UC-FI6332 / HX-UC-FI6454 '(Not Sold Standalone) UC on HX TRC 6332 / 6454 FI' arrived from servers-unified-computing (run 1205) and sat in HyperFlex shared parts with kind fabric-interconnect — a device is never a shared part"
+    },
+    {
+     "series": "HyperFlex bundles and starter packs",
+     "sku": [
+      "^HX-(SP|STD|16)-",
+      "^UCS-SEED-HX",
+      "^HX(AF)?-M[0-9]S-HXDP",
+      "^HX2X0C-",
+      "^HX-M[0-9]-MLB",
+      "^HX[0-9]{3}-NFR"
+     ],
+     "note": "^UCS-SEED-HX (layers round 3): UCS-SEED-HX220 / HX240, planned in from servers-unified-computing. ^HX(AF)?-M[0-9]S-HXDP, ^HX2X0C- and ^HX-M[0-9]-MLB (same round): the system PIDs that order a HyperFlex cluster — HX-M5S-HXDP / HXAF-M5S-HXDP 'Cisco HX(AF)2X0C M5 Hyperflex System', HX2X0C-M4S / -M5S 'Cisco Hyperconverged System' and their successor HX-M6-MLB 'HX/HXAF/EDG M6 MLB' — sat in HyperFlex shared parts, the first six with kind server. HX-M4S-HXDP carries an earlier class plan to software (kind layer), which this round did not re-read · ^HX[0-9]{3}-NFR (layering runs of 25 Sep 2026 (operator: \"fix all the gaps and holes\")): HX220-NFR-FI-P1-1A / -V1-1A 'NFR HX220 Performance / Value bundle' arrived in the same run with kind server; they are not-for-resale BUNDLES, which is what this series holds"
+    },
+    {
+     "series": "HX220c",
+     "sku": [
+      "^HX(AF)?220C",
+      "^(?=HX|UCSC-|CBL-).*(?<![0-9])220-?M[4-7]",
+      "^(?=HX|UCSC-|CBL-).*(?<![A-Z0-9])C220(?![0-9])"
+     ],
+     "note": "layers round 3: the two model rules are fenced to the prefixes of the rows they decide (HX- / HXAF- / HXC- / HX220-, UCSC-, CBL-); unfenced they claimed the C220-based parts of the 5520 controller and CMX / MSE in wireless and XRV-FAN-C220M4= in routers"
+    },
+    {
+     "series": "HX225c",
+     "sku": [
+      "^HX(AF)?225C",
+      "^(?=HX|CBL-).*(?<![0-9])225-?M[6-7]"
+     ],
+     "note": "the C225 alternative was removed in layers round 3: it decided no row (225-?M[6-7] decides them) and claimed 9 servers rows. The 225M rule is fenced in the same round to the prefixes of the rows it decides (HX- / HXAF225- / HX225-, CBL-); unfenced it claimed UCSC-C225-M6N / M6S / UCSC-HSHP-225M6 in servers"
+    },
+    {
+     "series": "HX240c",
+     "sku": [
+      "^HX(AF)?240C",
+      "^(?=HX|UCSC?-|CBL-).*(?<![0-9])240-?M[4-7]"
+     ],
+     "name": [
+      "HX240c"
+     ],
+     "note": "the C240 alternative was removed in layers round 3: it decided none of its 39 matches and claimed 115 servers rows. The 240M rule is fenced in the same round to the prefixes of the rows it decides (HX- / HXAF- / HXC-, UCSC- / UCS-, CBL-); unfenced it claimed the 8540 controller's and CMX / MSE parts in wireless. The name rule places the Cisco+ offers PLHC-VDIGPHXA-M51A / VSIGPHXA-M51A 'Cisco+ HyperFlex HX240c M5 All Flash Node …', which sat in shared parts by their label"
+    },
+    {
+     "series": "HX245c",
+     "sku": [
+      "^HX(AF)?245C",
+      "^(?=UCSC-).*(?<![0-9])245-?M[6-7]"
+     ],
+     "note": "the C245 alternative was removed in layers round 3: it decided no row and claimed 14 servers rows. The 245M rule is fenced in the same round to the UCSC- rows it decides (UCSC-HSHP-C245M6 / =); unfenced it claimed the CBL-SAS24- / CBL-SDFNVME- / CBL-SDSAS-245M6 cables in servers"
+    },
+    {
+     "series": "HyperFlex shared parts",
+     "sku": [
+      "^HX"
+     ],
+     "labels": [
+      "HyperFlex HX Series"
+     ]
+    }
    ]
   }
  ],
- "shared_accessories": ["^CAB-", "^CBL-", "CABLE", "RAIL", "CMA", "BLANK", "BBLKD", "BZL", "BEZEL"]
+ "shared_accessories": [
+  "^CAB-",
+  "^CBL-",
+  "CABLE",
+  "RAIL",
+  "CMA",
+  "BLANK",
+  "BBLKD",
+  "BZL",
+  "BEZEL"
+ ]
 }

@@ -19,15 +19,11 @@ sku	name	series_label	kind	bucket	product_line	product_family	series	placed_by	d
 10GE-EMSE-OS-140G=	Cisco CRS Series 20x10GE Ethernet MSE Bundle	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	(none)	CRS	label Carrier Routing System						name: CRS	
 10GE-FP400G-BUN=	Cisco CRS Series 40x10GE FP Bundle	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	(none)	CRS	label Carrier Routing System						name: CRS	
 10GE-MSC400G-BUN=	Cisco CRS Series 40x10GE MSC Bundle	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	(none)	CRS	label Carrier Routing System						name: CRS	
-14X10GBE-PK	Phantom PID for 14x10GbE LAN/WAN-PHY Interface Module	Carrier Routing System	module	pending_plan								class non_product			
 14X10GBE-PROXY	Cisco CRS Series 14x10GbE LAN/WAN-PHY Interface Module Proxy	Carrier Routing System	module	layered	CRS (Carrier Routing System)	(none)	CRS	label Carrier Routing System						name: CRS	
 14X10GBE-WL-XFP	Cisco CRS Series 14x10GbE LAN/WAN-PHY Interface Module	Carrier Routing System	module	layered	CRS (Carrier Routing System)	(none)	CRS	label Carrier Routing System						name: CRS	
 14X10GBE-WL-XFP++=	Cisco CRS Series 14x10GbE LAN/WAN-PHY Interface Module TAA	Carrier Routing System	module	layered	CRS (Carrier Routing System)	(none)	CRS	label Carrier Routing System						name: CRS	
 14X10GBE-WL-XFP=	Cisco CRS Series 14x10GbE LAN/WAN-PHY Interface Module	Carrier Routing System	module	layered	CRS (Carrier Routing System)	(none)	CRS	label Carrier Routing System						name: CRS	
 1941-2901-FANBLWR=	Cisco 1941/2901 Fan Blower Assembly (only as spare)	2900 ISR	fan	layered	ISR (Integrated Services Routers)	(shared across the line)	ISR (Integrated Services Routers) shared parts	label-unsupported (label 2900 ISR; was ISR 2900): names ISR 2900 and another series of the line equally: ISR 1900 (sku 1900)						none: names ISR 2900 and another series of the line equally: ISR 1900 (sku 1900)	
-1FXO	Cisco 1FXO	800	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-1ISDN	Cisco 1ISDN	800	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-1MFT-G703	Cisco 1MFT-G703	2900 ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
 1OC768-DPSK/C	Cisco CRS-1 1-Port OC-768/STM-256c DPSK+ (C-band) DWDM PLIM	Carrier Routing System	module	layered	CRS (Carrier Routing System)	(none)	CRS	label Carrier Routing System						name: CRS	
 1OC768-DPSK/C-O=	Cisco CRS-1 1xOC768 (C-band) DPSK+ DWDM PLIM (Offset TDC)	Carrier Routing System	module	layered	CRS (Carrier Routing System)	(none)	CRS	label Carrier Routing System						name: CRS	
 1OC768-ITU/C	Cisco CRS-1 1-Port OC-768c/STM-256c (C-band) DWDM PLIM	Carrier Routing System	module	layered	CRS (Carrier Routing System)	(none)	CRS	label Carrier Routing System						name: CRS	
@@ -38,9 +34,7 @@ sku	name	series_label	kind	bucket	product_line	product_family	series	placed_by	d
 1OC768DPS/CO-4PK-B	4 pack of 1OC768-DPSK/C-O PLIM with MSC-B for Cisco CRS-1	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	(none)	CRS	label Carrier Routing System						name: CRS	
 1OC768ITU/C-1PK-B=	1 pack of 1OC768-ITU/C PLIM with MSC-B for the Cisco CRS-1	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	(none)	CRS	label Carrier Routing System						name: CRS	
 1OC768ITU/C-4PK-B=	4 pack of 1OC768-ITU/C PLIM with MSC-B for the Cisco CRS-1	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	(none)	CRS	label Carrier Routing System						name: CRS	
-1V/2V/2VE	Cisco 1V/2V/2VE	2900 ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
 1X100GBE++=	Cisco CRS Series 1x100GbE Interface Module TAA	Carrier Routing System	module	layered	CRS (Carrier Routing System)	(none)	CRS	label Carrier Routing System						name: CRS	
-1X100GBE-PK	Phantom PID for Cisco CRS Series 1x100GbE Interface Module	Carrier Routing System	module	pending_plan								class non_product			
 1X100GBE=	Cisco CRS Series 1x100GbE Interface Module	Carrier Routing System	module	layered	CRS (Carrier Routing System)	(none)	CRS	label Carrier Routing System						name: CRS	
 2-10GE-ITU-UPG=	2-10GE-ITU/C= and MSC-B 40G upgrade for the Cisco CRS-1	Carrier Routing System	module	layered	CRS (Carrier Routing System)	(none)	CRS	label Carrier Routing System						name: CRS	
 2-10GE-WL-FLEX	Cisco CRS-1 Series 2x10GE WAN/LAN Flexible Interface Module	Carrier Routing System	module	layered	CRS (Carrier Routing System)	(none)	CRS	label Carrier Routing System						name: CRS	
@@ -51,7 +45,6 @@ sku	name	series_label	kind	bucket	product_line	product_family	series	placed_by	d
 2-40GE-LAN/OTN=	Cisco CRS Series 2x40GE LAN/OTN Interface Module	Carrier Routing System	module	layered	CRS (Carrier Routing System)	(none)	CRS	label Carrier Routing System						name: CRS	
 20-1GE-FLEX	Cisco CRS-1 Series 20X1GE Flexible Interface Module	Carrier Routing System	module	layered	CRS (Carrier Routing System)	(none)	CRS	label Carrier Routing System						name: CRS	
 20-1GE-FLEX=	Cisco CRS-1 Series 20X1GE Flexible Interface Module	Carrier Routing System	module	layered	CRS (Carrier Routing System)	(none)	CRS	label Carrier Routing System						name: CRS	
-20X10GBE-PK	Phantom PID for 20x10GbE LAN/WAN-PHY Interface Module	Carrier Routing System	module	pending_plan								class non_product			
 20X10GBE-PROXY	Cisco CRS Series 20x10GbE LAN/WAN-PHY Interface Module Proxy	Carrier Routing System	module	layered	CRS (Carrier Routing System)	(none)	CRS	label Carrier Routing System						name: CRS	
 20X10GBE-WL-XFP	Cisco CRS Series 20x10GbE LAN/WAN-PHY Interface Module	Carrier Routing System	module	layered	CRS (Carrier Routing System)	(none)	CRS	label Carrier Routing System						name: CRS	
 20X10GBE-WL-XFP++=	Cisco CRS Series 20x10GbE LAN/WAN-PHY Interface Module TAA	Carrier Routing System	module	layered	CRS (Carrier Routing System)	(none)	CRS	label Carrier Routing System						name: CRS	
@@ -64,10 +57,6 @@ sku	name	series_label	kind	bucket	product_line	product_family	series	placed_by	d
 2921-51-FANASSY-2	Cisco 2921/2951 Fan Assembly and Bezel	2900 ISR	fan	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	sku ^29[0-9]{2}(-[0-9]{2})?-							
 2921-51-FANASSY-2=	Cisco 2921/2951 Fan Assembly and Bezel	2900 ISR	fan	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	sku ^29[0-9]{2}(-[0-9]{2})?-							
 2921-51-FANASSY=	Cisco 2921/2951 Fan Assembly and Bezel (only as spare)	2900 ISR	fan	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	sku ^29[0-9]{2}(-[0-9]{2})?-							
-2BRI	Cisco 2BRI	800	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-2BRI-NT/TE	Cisco 2BRI-NT/TE	2900 ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-2FXS-E/DID	Cisco 2FXS-E/DID	2900 ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-2MFT-T1/E1	Cisco 2MFT-T1/E1	2900 ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
 2X100GE-FLEX-40	Cisco CRS 2 port 100 Gigabit Ethernet and 5 port 40 Gigabit Ethernet LAN/OTN Flexible Interface Module	Carrier Routing System	module	layered	CRS (Carrier Routing System)	(none)	CRS	label Carrier Routing System						name: CRS	
 2X100GE-FLEX-40=	Cisco CRS Series 2x100GE+5x40GE LAN/OTN Interface Module	Carrier Routing System	module	layered	CRS (Carrier Routing System)	(none)	CRS	label Carrier Routing System						name: CRS	
 3900-FANASSY	Cisco 3925-3945E Fan Assembly (Both system & spare)	2900 ISR	fan	layered	ISR (Integrated Services Routers)	ISR G2	ISR 3900	sku ^39[0-9]{2}(-[0-9]{2})?-							
@@ -78,7 +67,6 @@ sku	name	series_label	kind	bucket	product_line	product_family	series	placed_by	d
 3900-FANASSY-NEBS	Cisco 3925/3945 Fan Assembly for NEBS w/3900-FANFLTR-NEBS & Bezel (Both system & spare)	2900 ISR	fan	layered	ISR (Integrated Services Routers)	ISR G2	ISR 3900	sku ^39[0-9]{2}(-[0-9]{2})?-							
 3900-FANASSY-NEBS=	Cisco 3900-FANASSY-NEBS=	3900 Series Integrated Services Routers ISR	fan	layered	ISR (Integrated Services Routers)	ISR G2	ISR 3900	sku ^39[0-9]{2}(-[0-9]{2})?-							
 3900-FANASSY=	Cisco 3900-FANASSY=	3900 Series Integrated Services Routers ISR	fan	layered	ISR (Integrated Services Routers)	ISR G2	ISR 3900	sku ^39[0-9]{2}(-[0-9]{2})?-							
-3FXS/4FXO	Cisco 3FXS/4FXO	2900 ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
 3G-ACC-OUT-LA	3G Outdoor Antenna Lightning Arrestor	800	antenna	layered	ISR (Integrated Services Routers)	(shared across the line)	ISR (Integrated Services Routers) shared parts	accessory ^(3G|4G|5G|LTE|3G4G|GPS)- (label 800)							
 3G-ACC-OUT-LA=	3G Outdoor Antenna Lighting Protector	800	antenna	layered	ISR (Integrated Services Routers)	(shared across the line)	ISR (Integrated Services Routers) shared parts	accessory ^(3G|4G|5G|LTE|3G4G|GPS)- (label 800)							
 3G-AE010-R	Single Unit antenna Extension Base (10 foot cable included)	800	antenna	layered	ISR (Integrated Services Routers)	(shared across the line)	ISR (Integrated Services Routers) shared parts	accessory ^(3G|4G|5G|LTE|3G4G|GPS)- (label 800)							
@@ -118,13 +106,10 @@ sku	name	series_label	kind	bucket	product_line	product_family	series	placed_by	d
 4-40GE-LAN/OTN	Cisco CRS Series 4x40GE LAN/OTN Interface Module	Carrier Routing System	module	layered	CRS (Carrier Routing System)	(none)	CRS	label Carrier Routing System						name: CRS	
 4-40GE-LAN/OTN=	Cisco CRS Series 4x40GE LAN/OTN Interface Module	Carrier Routing System	module	layered	CRS (Carrier Routing System)	(none)	CRS	label Carrier Routing System						name: CRS	
 4-40GE-LAN=	Cisco CRS Series 4x40GE LAN Interface Module	Carrier Routing System	module	layered	CRS (Carrier Routing System)	(none)	CRS	label Carrier Routing System						name: CRS	
-4-40GE-PK	Phantom PID for 4x40GE LAN/OTN Interface Module	Carrier Routing System	module	pending_plan								class non_product			
 40X10G-LSP-BUN=	CRS-X LSP Card and 40x10GE PLIM as bundle	Carrier Routing System	linecard	layered	CRS (Carrier Routing System)	(none)	CRS	label Carrier Routing System						name: CRS	
 40X10GE-WLO	Cisco CRS-X 40-port 10 Gigabit Ethernet Interface Module	Carrier Routing System	module	layered	CRS (Carrier Routing System)	(none)	CRS	label Carrier Routing System						name: CRS	
 40X10GE-WLO=	Cisco CRS Series 40x10GbE LAN/WAN/OTN Interface Module	Carrier Routing System	module	layered	CRS (Carrier Routing System)	(none)	CRS	label Carrier Routing System						name: CRS	
 42-1GE=	Cisco CRS-1 Series 42X1GE Interface Module	Carrier Routing System	module	layered	CRS (Carrier Routing System)	(none)	CRS	label Carrier Routing System						name: CRS	
-4FXO	Cisco 4FXO	2900 ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-4FXS/DID	Cisco 4FXS/DID	2900 ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
 4G-ACC-OUT-LA	Lightning Arrestor	Catalyst IR1800 Rugged	antenna	layered	Industrial and IoT Routers	(shared across the line)	Industrial and IoT Routers shared parts	accessory ^(3G|4G|5G|LTE|3G4G|GPS)- (label Catalyst IR1800 Rugged)							
 4G-ACC-OUT-LA=	Cisco 4G-ACC-OUT-LA=	800	antenna	layered	Industrial and IoT Routers	(shared across the line)	Industrial and IoT Routers shared parts	accessory ^(3G|4G|5G|LTE|3G4G|GPS)- (label Catalyst IR1800 Rugged)							
 4G-AE010-R	Cisco 4G-AE010-R	800	antenna	layered	ISR (Integrated Services Routers)	(shared across the line)	ISR (Integrated Services Routers) shared parts	accessory ^(3G|4G|5G|LTE|3G4G|GPS)- (label 800)							
@@ -158,11 +143,9 @@ sku	name	series_label	kind	bucket	product_line	product_family	series	placed_by	d
 5G-ANTM-O-4-B	Cisco 5G-ANTM-O-4-B	Catalyst IR1800 Rugged	antenna	layered	Industrial and IoT Routers	(shared across the line)	Industrial and IoT Routers shared parts	accessory ^(3G|4G|5G|LTE|3G4G|GPS)- (label Catalyst IR1800 Rugged)							
 5G-ANTM-SMA-D	Cisco 5G-ANTM-SMA-D	Catalyst IR1800 Rugged	antenna	layered	Industrial and IoT Routers	(shared across the line)	Industrial and IoT Routers shared parts	accessory ^(3G|4G|5G|LTE|3G4G|GPS)- (label Catalyst IR1800 Rugged)							
 5G-ANTM2-SMA-D	Cisco 5G-ANTM2-SMA-D	1000	antenna	layered	ISR (Integrated Services Routers)	(shared across the line)	ISR (Integrated Services Routers) shared parts	accessory ^(3G|4G|5G|LTE|3G4G|GPS)- (label 1000)							
-6-10GE-PK	Phantom PID for 6X10GE WAN/LAN/OTN Flexible PLIM	Carrier Routing System	module	pending_plan								class non_product			
 6-10GE-WLO-FLEX	CRS-3 6X10GE WAN/LAN/OTN Flexible PLIM	Carrier Routing System	module	layered	CRS (Carrier Routing System)	(none)	CRS	label Carrier Routing System						name: CRS	
 6-10GE-WLO-FLEX++=	CRS-3 6X10GE WAN/LAN/OTN Flexible PLIM	Carrier Routing System	module	layered	CRS (Carrier Routing System)	(none)	CRS	label Carrier Routing System						name: CRS	
 6-10GE-WLO-FLEX=	CRS-3 6X10GE WAN/LAN/OTN Flexible PLIM	Carrier Routing System	module	layered	CRS (Carrier Routing System)	(none)	CRS	label Carrier Routing System						name: CRS	
-6FXO	Cisco 6FXO	2900 ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
 7206VXR400/2+VPNK9	Cisco 7206VXR400/2+VPNK9	2900 ISR	router	layered	Legacy Service Routers	(none)	Cisco 7200	sku ^(CISCO)?72[0-9]{2}	edge	series:Cisco 7200					
 7206VXRG1/2+VPNK9	Cisco 7206VXRG1/2+VPNK9	2900 ISR	router	layered	Legacy Service Routers	(none)	Cisco 7200	sku ^(CISCO)?72[0-9]{2}	edge	series:Cisco 7200					
 7206VXRG2/2+VPNK9	Cisco 7206VXRG2/2+VPNK9	2900 ISR	router	layered	Legacy Service Routers	(none)	Cisco 7200	sku ^(CISCO)?72[0-9]{2}	edge	series:Cisco 7200					
@@ -362,13 +345,13 @@ sku	name	series_label	kind	bucket	product_line	product_family	series	placed_by	d
 897VA	Cisco 897VA	800	router	layered	ISR (Integrated Services Routers)	ISR 800	ISR 810 / 840 / 860 / 870 / 880 / 890	sku ^8[0-9]{2}(VA|EA|W|G|M|H)	branch	series:ISR 810 / 840 / 860 / 870 / 880 / 890					
 897VAB	Cisco 897VAB	800	router	layered	ISR (Integrated Services Routers)	ISR 800	ISR 810 / 840 / 860 / 870 / 880 / 890	sku ^8[0-9]{2}(VA|EA|W|G|M|H)	branch	series:ISR 810 / 840 / 860 / 870 / 880 / 890					
 898EA	Cisco 898EA	800	router	layered	ISR (Integrated Services Routers)	ISR 800	ISR 810 / 840 / 860 / 870 / 880 / 890	sku ^8[0-9]{2}(VA|EA|W|G|M|H)	branch	series:ISR 810 / 840 / 860 / 870 / 880 / 890					
-8FXS	Cisco 8FXS	2900 ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
 8K-2RU-2P-KIT	Cisco installation kit 2 posts	Nexus 9000	mechanical	layered	Cisco 8000	(none)	Cisco 8000	sku ^8K-							
 8K-2RU-2P-KIT=	Cisco installation kit 2 posts, spare	Nexus 9000	mechanical	layered	Cisco 8000	(none)	Cisco 8000	sku ^8K-							
 8K-2RU-KIT-L	Cisco 2RU fixed system installation kit long	Nexus 9000	mechanical	layered	Cisco 8000	(none)	Cisco 8000	sku ^8K-							
 8K-2RU-KIT-L=	Cisco 2RU fixed system installation kit long, spare	Nexus 9000	mechanical	layered	Cisco 8000	(none)	Cisco 8000	sku ^8K-							
 8K-2RU-KIT-S	Cisco 2RU fixed system installation kit short	Nexus 9000	mechanical	layered	Cisco 8000	(none)	Cisco 8000	sku ^8K-							
 8K-2RU-KIT-S=	Cisco 2RU fixed system installation kit short, spare	Nexus 9000	mechanical	layered	Cisco 8000	(none)	Cisco 8000	sku ^8K-							
+8K-2RU-KIT-SB	19" rackmount 4-post kit	Nexus Hyperfabric	mechanical	layered	Cisco 8000	(none)	Cisco 8000	sku ^8K-							
 8K-4RU-2P-RMK	8000 4RU 2 Post Rack Mount Kit 19-in.	8000	mechanical	layered	Cisco 8000	(none)	Cisco 8000	sku ^8K-							
 8K-4RU-2P-RMK-E	8000 4RU 2 Post Rack Mount Kit 23-in. ETSI	8000	mechanical	layered	Cisco 8000	(none)	Cisco 8000	sku ^8K-							
 8K-4RU-F2B-AIR	8000 Universal 4RU Front to Back Airflow Redirector	8000	mechanical	layered	Cisco 8000	(none)	Cisco 8000	sku ^8K-							
@@ -376,9 +359,6 @@ sku	name	series_label	kind	bucket	product_line	product_family	series	placed_by	d
 8K-MPA-16Z2D	Cisco 8700 MPA with 16 ports SFP56 and 2 ports QSFP56-DD * * 4xQDD ports that can be used in 2x400G or 4x100G/200G	8000	module	layered	Cisco 8000	(none)	Cisco 8000	sku ^8K-							
 8K-MPA-18Z1D	Cisco 8700 MPA with 18 x SFP56 and 1 port of QSFP56-DD	8000	module	layered	Cisco 8000	(none)	Cisco 8000	sku ^8K-							
 8K-MPA-4D	Cisco 8700 MPA with 4 x QSFP56 DD	8000	module	layered	Cisco 8000	(none)	Cisco 8000	sku ^8K-							
-9800-40	Cisco 9800-40	Catalyst Wireless Gateway CG113	router	pending_plan						rt.issue.wlc	wireless LAN controller	class non_product			
-9800-80	Cisco 9800-80	Catalyst Wireless Gateway CG113	router	pending_plan						rt.issue.wlc	wireless LAN controller	class non_product			
-A1C899G-LTE-GA-K9	Austria Only - Bundle C899G LTE -GA for 18 months Migration	800	router	pending_plan					branch	rt.branch.isr		class non_product			
 A1K-1RU-REAR=	ASR1001-X and ASR1001-HX Rear Mount Brackets, Spare	ASR 1000	mechanical	layered	ASR (Aggregation Services Routers)	(none)	ASR 1000	label ASR 1000						name: 1000	
 A1K-2RU-REAR=	ASR1002-X and ASR1002-HX Rear Mount Brackets, Spare	ASR 1000	mechanical	layered	ASR (Aggregation Services Routers)	(none)	ASR 1000	label ASR 1000						name: 1000	
 A900-CM-GNSS	ASR 900 Global Navigation Satellite System Module	Network Convergence System 500	module	layered	ASR (Aggregation Services Routers)	ASR 900	ASR 902 / 903 / 907 / 914	sku ^A90[0-9]-							
@@ -901,8 +881,6 @@ A9KV-V2-DC-A=	44-Port GE + 4-Port 10GE ASR 9000v-V2, DC Power ANSI Chassis	ASR 9
 A9KV-V2-DC-E=	44-Port GE + 4-Port 10GE ASR 9000v-V2, DC Power ETSI Chassis	ASR 9000	sp-router	layered	ASR (Aggregation Services Routers)	(none)	ASR 9000	sku ^A9KV?-	sp-edge	series:ASR 9000					
 A9KV-V2-FAN=	ASR-9000V2 Fan Tray with Filter	ASR 9000	fan	layered	ASR (Aggregation Services Routers)	(none)	ASR 9000	sku ^A9KV?-							
 A9XX-RSPB-BLANK=	ASR 900 Route Switch Processor Type-B Blank Cover, Spare	Network Convergence System 500	mechanical	layered	ASR (Aggregation Services Routers)	ASR 900	ASR 902 / 903 / 907 / 914	sku ^A9XX-							
-ABLT-D	Cisco ABLT-D	800	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-ABLT-F	Cisco ABLT-F	800	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
 ACC-800-CLIP=	800 cable clip in bundle of 25	800	accessory	layered	ISR (Integrated Services Routers)	ISR 800	ISR 810 / 840 / 860 / 870 / 880 / 890	label 800						family: ISR 800: sku 800	
 ACC-LA-G-SM-SF	Cisco ACC-LA-G-SM-SF	Catalyst IR1800 Rugged	accessory	layered	Industrial and IoT Routers	(shared across the line)	Industrial and IoT Routers shared parts	accessory ^(CGR|ACC)-LA- (label Catalyst IR1800 Rugged)							
 ACC-LA-G-TM-TF	Cisco ACC-LA-G-TM-TF	Catalyst IR1800 Rugged	accessory	layered	Industrial and IoT Routers	(shared across the line)	Industrial and IoT Routers shared parts	accessory ^(CGR|ACC)-LA- (label Catalyst IR1800 Rugged)							
@@ -995,10 +973,6 @@ ACS-CF-COVER=	Compact Flash Cover (Guard) for Cisco 1900, 2900, 3900 ISR (only a
 ACS-IAD2400RM-19=	19 inch Rack Mount Bracket for Cisco IAD24xx	2900 ISR	mechanical	layered	ISR (Integrated Services Routers)	(shared across the line)	ISR (Integrated Services Routers) shared parts	accessory RM-?(19|23) (label 2900 ISR)							
 ACS-IAD2435RM-19	IAD2435 19 Rack Bracket	800	mechanical	layered	ISR (Integrated Services Routers)	(shared across the line)	ISR (Integrated Services Routers) shared parts	accessory RM-?(19|23) (label 800)							
 ACS-IAD2435RM-19=	IAD2435 19 Rack Bracket	2900 ISR	mechanical	layered	ISR (Integrated Services Routers)	(shared across the line)	ISR (Integrated Services Routers) shared parts	accessory RM-?(19|23) (label 800)							
-ADSL2	Cisco ADSL2	900 ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-ADSL2+	Cisco ADSL2+	900 ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-ADSL2+M	Cisco ADSL2+M	900 ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-ADSL2/2+	Cisco ADSL2/2+	800	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
 AIR-ACC370-NF-NF	Cisco AIR-ACC370-NF-NF	Catalyst IR1800 Rugged	accessory	layered	Industrial and IoT Routers	(shared across the line)	Industrial and IoT Routers shared parts	label-unsupported (label Catalyst IR1800 Rugged; was IR 1800): no platform token (1800) in the SKU or name, no compatible part placed in the series						none: no platform token (1800) in the SKU or name, no compatible part placed in the series	
 ANT-1.4-PNL-OUT-N	Outdoor Panel Antenna for WIMAX 1.4 GHz	Connected Grid Modules	antenna	layered	Industrial and IoT Routers	(shared across the line)	Industrial and IoT Routers shared parts	sku ^ANT-(1[.]4|1[.]8|2[.]X)-PNL-OUT							
 ANT-1.4-PNL-OUT-N=	Outdoor Panel Antenna for WIMAX 1.4 GHz	Connected Grid Modules	antenna	layered	Industrial and IoT Routers	(shared across the line)	Industrial and IoT Routers shared parts	sku ^ANT-(1[.]4|1[.]8|2[.]X)-PNL-OUT							
@@ -1569,8 +1543,6 @@ ASR920-S-M	Cisco ASR 920 Series - Metro Access	ASR 920 Series Aggregation Servic
 ASR920-S-M-A=	Cisco ASR 920 Metro Access to Advanced Metro IP Access Paper PAK	ASR 920 Series Aggregation Services Router	sp-router	layered	ASR (Aggregation Services Routers)	ASR 900	ASR 920	sku ^ASR-?920	sp-access	series:ASR 920					
 ASR920-S-M-I=	Cisco ASR 920 Metro Access to Metro IP Access Paper PAK	ASR 920 Series Aggregation Services Router	sp-router	layered	ASR (Aggregation Services Routers)	ASR 900	ASR 920	sku ^ASR-?920	sp-access	series:ASR 920					
 ASR920-S-M=	Cisco ASR 920 Metro Access Services Paper Product Activation Key (PAK)	ASR 920 Series Aggregation Services Router	sp-router	layered	ASR (Aggregation Services Routers)	ASR 900	ASR 920	sku ^ASR-?920	sp-access	series:ASR 920					
-ATU-32C	Cisco ATU-32C	800	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-ATU-C	Cisco ATU-C	800	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
 C-E1S-BLANK	Cisco Catalyst E1.S Disk Blank	Catalyst 8300 Series Edge uCPE	mechanical	layered	Catalyst 8000 Edge	(shared across the line)	Catalyst 8000 Edge shared parts	accessory BLANK (label Catalyst 8300 Series Edge uCPE)							
 C-E1S-BLANK=	Cisco Catalyst E1.S Disk Blank Spare	Catalyst 8300 Series Edge uCPE	mechanical	layered	Catalyst 8000 Edge	(shared across the line)	Catalyst 8000 Edge shared parts	accessory BLANK (label Catalyst 8300 Series Edge uCPE)							
 C-HDD-BLANK	Cisco Catalyst 8200 Edge 2.5" HDD Blank	Catalyst 8200 Edge uCPE	mechanical	layered	Catalyst 8000 Edge	(shared across the line)	Catalyst 8000 Edge shared parts	accessory BLANK (name Catalyst 8200)							
@@ -1592,7 +1564,6 @@ C1-ASR1006/K9	Cisco ONE - ASR1006	ASR 1000	router	layered	ASR (Aggregation Servi
 C1-ASR1006X/K9	Cisco ONE - ASR1006-X	ASR 1000	router	layered	ASR (Aggregation Services Routers)	(none)	ASR 1000	sku ^(M-)?ASR1[0-9]{3}	edge	series:ASR 1000					
 C1-ASR1009X/K9	Cisco ONE - ASR1009-X	ASR 1000	router	layered	ASR (Aggregation Services Routers)	(none)	ASR 1000	sku ^(M-)?ASR1[0-9]{3}	edge	series:ASR 1000					
 C1-ASR1013/K9	Cisco ONE - ASR1013	ASR 1000	router	layered	ASR (Aggregation Services Routers)	(none)	ASR 1000	sku ^(M-)?ASR1[0-9]{3}	edge	series:ASR 1000					
-C1-ASR1K-ADD	Cisco ONE for ASR 1000 Series	ASR 1000	router	pending_plan						rt.issue.licence	licence/software/planning PID	class non_product			
 C1-CISCO1921/K9	Cisco ONE - ISR 1921	1900 ISR	router	layered	ISR (Integrated Services Routers)	ISR G2	ISR 1900	sku ^(CISCO|C)19(05|21|41)(?![0-9])	branch	series:ISR 1900					
 C1-CISCO1941/K9	Cisco ONE - ISR 1941	1900 ISR	router	layered	ISR (Integrated Services Routers)	ISR G2	ISR 1900	sku ^(CISCO|C)19(05|21|41)(?![0-9])	branch	series:ISR 1900					
 C1-CISCO2901/K9	Cisco ONE - ISR 2901	2900 ISR	router	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	sku ^(CISCO|C|CONE-|SPIAD)29[0-5]1(?![0-9])	branch	series:ISR 2900					
@@ -1613,7 +1584,6 @@ C1-CISCO4331T-P/K9	Cisco ONE ISR 4331 (3GE,2NIM,1SM,4G FL,4G RAM,w/PERF)	3900 Se
 C1-CISCO4351/K9	Cisco ONE ISR 4351 (3GE,3NIM,2SM,4G FLASH,4G DRAM,IPB)	3900 Series Integrated Services Routers ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000	sku ^(CISCO)?4[2-4][0-9]{2}(?![0-9])	branch	series:ISR 4000					
 C1-CISCO4431/K9	Cisco ONE ISR 4431 (4GE,3NIM,8G FLASH,4G DRAM,IPB)	3900 Series Integrated Services Routers ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000	sku ^(CISCO)?4[2-4][0-9]{2}(?![0-9])	branch	series:ISR 4000					
 C1-CISCO4451/K9	Cisco ONE ISR 4451 (4GE,3NIM,2SM,8G FLASH,4G DRAM, IPB)	3900 Series Integrated Services Routers ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000	sku ^(CISCO)?4[2-4][0-9]{2}(?![0-9])	branch	series:ISR 4000					
-C1-ISR-ADD	Cisco ONE for ISR - CHOOSE ONLY QTY 1 HERE	3900 Series Integrated Services Routers ISR	router	pending_plan						rt.issue.licence	licence/software/planning PID	class non_product			
 C1100TG-1N24P32A	Cisco 1100 Terminal Services Gateway w/ 32 Async,24-layer 2 switch Port, 1 NIM with support for 4G DRAM	Terminal Services Gateways	appliance	layered	Console and Terminal Servers	(none)	Terminal Services Gateways	sku ^C1100TGX?-							
 C1100TG-1N32A	Cisco 1100 Terminal Services Gateway w/ 32 Async, 1 NIM (support for 2 GB DRAM)	Terminal Services Gateways	appliance	layered	Console and Terminal Servers	(none)	Terminal Services Gateways	sku ^C1100TGX?-							
 C1100TGX-1N24P32A	Cisco 1100 Terminal Services Gateway w/ 32 Async,24-layer 2 switch Port, 1 NIM with support for 8G DRAM	Terminal Services Gateways	appliance	layered	Console and Terminal Servers	(none)	Terminal Services Gateways	sku ^C1100TGX?-							
@@ -1991,7 +1961,6 @@ C8200-RM-19-1R	Cisco C8200 Edge uCPE - Rack mount kit – 19 inch	Catalyst 8200 
 C8200-RM-23	Cisco C8200 1RU Edge Platform - Rack Mount kit - 23"	Catalyst 8200	mechanical	layered	Catalyst 8000 Edge	(none)	Catalyst 8200	sku ^C8200							
 C8200-UCPE-1N8	Cisco Catalyst 8200 Edge uCPE with 1 NIM slot and 1 PIM slot, 6 x 1 Gigabit Ethernet ports, and 8-core CPU, 2.5 in. HDD, M.2 slot	Catalyst 8200 Edge uCPE	appliance	layered	Catalyst 8000 Edge	(none)	Catalyst 8200 Edge uCPE	sku ^C8200-UCPE							
 C8200-UCPE-1N8=	Catalyst 8200-uCPE Edge Series (8-core Intel) chassis spare	Catalyst 8200 Edge uCPE	appliance	layered	Catalyst 8000 Edge	(none)	Catalyst 8200 Edge uCPE	sku ^C8200-UCPE							
-C8200-UCPE-PF	Cisco C8200-UCPE-PF	Catalyst 8300 Series Edge uCPE	router	pending_plan						rt.issue.licence	licence/software/planning PID	class non_product			
 C8200-WM-1R	Cisco C8200 1RU Edge Platform – Wall Mount Kit	Catalyst 8200	mechanical	layered	Catalyst 8000 Edge	(none)	Catalyst 8200	sku ^C8200							
 C8200L-1N-4T	Cisco Catalyst 8200 Edge platform with 1 NIM and 1 PIM slots 2x1GigE SFP, 2x1GigE RJ45, 4 GB DRAM and 16 GB M.2 SSD storage (C8200 1RU with 500Mbps WAN)	Catalyst 8200	router	layered	Catalyst 8000 Edge	(none)	Catalyst 8200	sku ^C8200	branch	series:Catalyst 8200					
 C8200U-NIM-BLANK	Cisco Catalyst 8200 Edge uCPE NIM Blank	Catalyst 8200	mechanical	layered	Catalyst 8000 Edge	(none)	Catalyst 8200	sku ^C8200							
@@ -2049,7 +2018,6 @@ C8300-UCPE-1N20	Catalyst 8300 Series Edge uCPE platform with 1 NIM and 1 PIM slo
 C8300-UCPE-1N20=	Catalyst 8300-uCPE Edge Series (20-core Intel) Spare	Catalyst 8300 Series Edge uCPE	appliance	layered	Catalyst 8000 Edge	(none)	Catalyst 8300 Edge uCPE	sku ^C8300-UCPE							
 C8300-UCPE-4PT=	Cisco Catalyst 8300 uCPE Rack Mount Kit 4 Post – 1RU Spare	Catalyst 8300 Series Edge uCPE	mechanical	layered	Catalyst 8000 Edge	(none)	Catalyst 8300 Edge uCPE	sku ^C8300-UCPE							
 C8300-UCPE-FAN=	Cisco Catalyst 8300 Fan Tray Spare	Catalyst 8300 Series Edge uCPE	fan	layered	Catalyst 8000 Edge	(none)	Catalyst 8300 Edge uCPE	sku ^C8300-UCPE							
-C8300-UCPE-PF	Cisco C8300-UCPE-PF	Catalyst 8300 Series Edge uCPE	router	pending_plan						rt.issue.licence	licence/software/planning PID	class non_product			
 C8300-WM-1R	Cisco Catalyst 8300 Wall Mount Kit – 1RU	Catalyst 8300 Series Edge uCPE	mechanical	layered	Catalyst 8000 Edge	(none)	Catalyst 8300	sku ^C8300							
 C8300-WM-1R=	Cisco Catalyst 8300 Wall Mount Kit – 1RU Spare	Catalyst 8300 Series Edge uCPE	mechanical	layered	Catalyst 8000 Edge	(none)	Catalyst 8300	sku ^C8300							
 C8355-G2	Cisco 8300 Secure Router with 4x10GE, 4x5GE, 2x1GE, and 1xPIM	8000	router	layered	Secure Routers	(none)	8300 Secure Router	sku ^C83[0-9]{2}[A-Z]?(-[A-Z0-9]{1,4})*-G2	branch	series:8300 Secure Router					
@@ -2111,7 +2079,6 @@ C881-V-K9++	Cisco881, FE WAN, 4 FXS, 2BRI, 1FXO TAA PID	800	router	layered	ISR (
 C881G+7-A-K9	Secure Router with WAN FE and Embedded 3.7G HSPA+ Release 7 with SMS/GPS for AT&T Networks	800	router	layered	ISR (Integrated Services Routers)	ISR 800	ISR 810 / 840 / 860 / 870 / 880 / 890	sku ^(CISCO|C)8(?!8[05]|90)[0-9]{2}(?![0-9])	branch	series:ISR 810 / 840 / 860 / 870 / 880 / 890					
 C881G+7-K9	Secure Router with WAN FE and Embedded 3.7G HSPA+ Release 7 with SMS/GPS	800	router	layered	ISR (Integrated Services Routers)	ISR 800	ISR 810 / 840 / 860 / 870 / 880 / 890	sku ^(CISCO|C)8(?!8[05]|90)[0-9]{2}(?![0-9])	branch	series:ISR 810 / 840 / 860 / 870 / 880 / 890					
 C881G-4G	Cisco C881G-4G	800	router	layered	ISR (Integrated Services Routers)	ISR 800	ISR 810 / 840 / 860 / 870 / 880 / 890	sku ^(CISCO|C)8(?!8[05]|90)[0-9]{2}(?![0-9])	branch	series:ISR 810 / 840 / 860 / 870 / 880 / 890					
-C881G-4G-GA-BUN-K9	Austria Only - Bundle C881G 4G for 18 months Migration	800	router	pending_plan					branch	series:ISR 810 / 840 / 860 / 870 / 880 / 890		class non_product			
 C881G-4G-GA-K9	Secure FE Router (non-US) 4G LTE / HSPA+ w/ SMS/GPS	800	router	layered	ISR (Integrated Services Routers)	ISR 800	ISR 810 / 840 / 860 / 870 / 880 / 890	sku ^(CISCO|C)8(?!8[05]|90)[0-9]{2}(?![0-9])	branch	series:ISR 810 / 840 / 860 / 870 / 880 / 890					
 C881G-B-K9	Secure Router with WAN FE and Embedded 3G EVDO Rev A with SMS/GPS for BSNL Networks	800	router	layered	ISR (Integrated Services Routers)	ISR 800	ISR 810 / 840 / 860 / 870 / 880 / 890	sku ^(CISCO|C)8(?!8[05]|90)[0-9]{2}(?![0-9])	branch	series:ISR 810 / 840 / 860 / 870 / 880 / 890					
 C881G-S-K9	Secure Router with WAN FE and Embedded 3G EVDO Rev A with SMS/GPS for Sprint Networks	800	router	layered	ISR (Integrated Services Routers)	ISR 800	ISR 810 / 840 / 860 / 870 / 880 / 890	sku ^(CISCO|C)8(?!8[05]|90)[0-9]{2}(?![0-9])	branch	series:ISR 810 / 840 / 860 / 870 / 880 / 890					
@@ -2399,11 +2366,6 @@ CABLE-16TDM-R3OL3	Kit with 3 16-port cables for TDM T3/E3 CEM IM, 1:1 red, Odd S
 CABLE-32T1E1	Cable for 32 Port T1/E1 Interface Module	ASR 920 Series Aggregation Services Router	cable	layered	ASR (Aggregation Services Routers)	(shared across the line)	ASR (Aggregation Services Routers) shared parts	accessory ^CABLE (label ASR 920 Series Aggregation Services Router)							
 CABLE-32T1E1=	Cable for 32 Port T1/E1 Interface Module	ASR 900	cable	layered	ASR (Aggregation Services Routers)	(shared across the line)	ASR (Aggregation Services Routers) shared parts	accessory ^CABLE (label ASR 920 Series Aggregation Services Router)							
 CABLESBIB4	Cisco CABLESBIB4	Wireless Gateway for LoRaWAN	cable	layered	Industrial and IoT Routers	(shared across the line)	Industrial and IoT Routers shared parts	accessory ^CABLE (label Wireless Gateway for LoRaWAN)							
-CAT18	Cisco CAT18	8100 Series Secure	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-CAT3	Cisco CAT3	8100 Series Secure	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-CAT4	Cisco CAT4	8100 Series Secure	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-CAT6	Cisco CAT6	8100 Series Secure	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-CAT7	Cisco CAT7	8100 Series Secure	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
 CBL-BRKT-V1	Cisco CBL-BRKT-V1	8000	accessory	layered	Cisco 8000	(shared across the line)	Cisco 8000 shared parts	accessory ^CBL- (label 8000)							
 CBL-BRKT-V2	Cable Management Bracket for 8010 Series Router	8000	mechanical	layered	Cisco 8000	(shared across the line)	Cisco 8000 shared parts	accessory ^CBL- (label 8000)							
 CG113-4GW6A	Cisco Catalyst Wireless Gateway, WiFi6, 4G LTE, Domain A	Catalyst Wireless Gateway CG113	router	layered	Industrial and IoT Routers	(none)	Catalyst Wireless Gateway CG113	sku ^CG113	branch	series:Catalyst Wireless Gateway CG113					
@@ -2495,7 +2457,6 @@ CGR1120-DINRAIL	Din rail mount kit for CGR1120	1000 Connected Grid	mechanical	la
 CGR1120-DINRAIL=	Din rail mount kit for CGR1120	1000 Connected Grid	mechanical	layered	Industrial and IoT Routers	Connected Grid Routers	CGR 1000 Connected Grid	sku ^CGR-?1[0-9]{3}							
 CGR1240-PWR-AC	Cisco CGR1240-PWR-AC	1000 Connected Grid	power	layered	Industrial and IoT Routers	Connected Grid Routers	CGR 1000 Connected Grid	sku ^CGR-?1[0-9]{3}							
 CGR1240/K9=	CGR1240 w/ 4 module slots,2 GE,2 serial,4 FE LAN,Wi-Fi,GPS	1000 Connected Grid	router	layered	Industrial and IoT Routers	Connected Grid Routers	CGR 1000 Connected Grid	sku ^CGR-?1[0-9]{3}	industrial-iot	series:CGR 1000 Connected Grid					
-CGR2010/NFR	CGR 2010 Channel Kit	2000 Series Connected Grid	router	pending_plan						rt.issue.component	module/modem/accessory	class non_product			
 CGSE-PLUS-PK	Phantom PID for CRS Service Card for CGN, Anti DDoS and SDN	Carrier Routing System	linecard	layered	CRS (Carrier Routing System)	(none)	CRS	label Carrier Routing System						name: CRS	
 CISCO-FIPS-KIT=	Tamper Proof for 80/18/28/38/72/73 Routers and ASA	Catalyst 8200	mechanical	layered	Catalyst 8000 Edge	(shared across the line)	Catalyst 8000 Edge shared parts	label-unsupported (label Catalyst 8200; was Catalyst 8200): no platform token (8200) in the SKU or name, no compatible part placed in the series						none: no platform token (8200) in the SKU or name, no compatible part placed in the series	
 CISCO1811/K9	Cisco CISCO1811/K9	2900 ISR	router	layered	ISR (Integrated Services Routers)	ISR G1	ISR 1800	sku ^(CISCO|C)18[0-9]{2}(?![0-9])	branch	series:ISR 1800					
@@ -2735,11 +2696,8 @@ CISCO892F-K9	Cisco 892 GigaE SecRouter with SFP	800	router	layered	ISR (Integrat
 CISCO892FW-A-K9	Cisco 892 GigaE SecRouter, SFP w/ 802.11n FCC Comp	800	router	layered	ISR (Integrated Services Routers)	ISR 800	ISR 810 / 840 / 860 / 870 / 880 / 890	sku ^(CISCO|C)8(?!8[05]|90)[0-9]{2}(?![0-9])	branch	series:ISR 810 / 840 / 860 / 870 / 880 / 890					
 CISCO892J-K9	Cisco 892 GigaE SecRouter Japan	800	router	layered	ISR (Integrated Services Routers)	ISR 800	ISR 810 / 840 / 860 / 870 / 880 / 890	sku ^(CISCO|C)8(?!8[05]|90)[0-9]{2}(?![0-9])	branch	series:ISR 810 / 840 / 860 / 870 / 880 / 890					
 CISCO892W-AGN-P-K9	Cisco 892 GigaE SecRouter w/ 802.11n a/b/g/ Japan Comp	800	router	layered	ISR (Integrated Services Routers)	ISR 800	ISR 810 / 840 / 860 / 870 / 880 / 890	sku ^(CISCO|C)8(?!8[05]|90)[0-9]{2}(?![0-9])	branch	series:ISR 810 / 840 / 860 / 870 / 880 / 890					
-CISCOUTM1100	Unified Threat Management 1100 Bundle	800	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-CISCOUTM2100	Unified Threat Management 2100 Bundle	2900 ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
 CLK-7600=	Spare Clock card for CISCO7603, CISCO7606 or CISCO7609 (FRU)	Catalyst 6500	router	layered	Legacy Service Routers	(none)	Cisco 7600	sku ^CLK-7600	edge	series:Cisco 7600					
 CONE-2921-ATO	ISR 2921 for Cisco ONE	2900 ISR	router	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	sku ^(CISCO|C|CONE-|SPIAD)29[0-5]1(?![0-9])	branch	series:ISR 2900					
-CP-DQPSK	Cisco CP-DQPSK	ASR 9000	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
 CPA-CAB-232FC=	RS-232 CABLE,DCE,FEMALE,10 FT	4000 ISR	cable	layered	ISR (Integrated Services Routers)	(shared across the line)	ISR (Integrated Services Routers) shared parts	accessory -CAB- (label 4000 ISR)							
 CPA-CAB-V35FC=	V.35 CABLE,DCE,FEMALE,10 FEET	4000 ISR	cable	layered	ISR (Integrated Services Routers)	(shared across the line)	ISR (Integrated Services Routers) shared parts	accessory -CAB- (label 4000 ISR)							
 CPT-50-FTF=	CPT-50 Fan Tray Filter	ASR 9000	mechanical	layered	ASR (Aggregation Services Routers)	(shared across the line)	ASR (Aggregation Services Routers) shared parts	label-unsupported (label ASR 9000; was ASR 9000): no platform token (9000) in the SKU or name, no compatible part placed in the series						none: no platform token (9000) in the SKU or name, no compatible part placed in the series	
@@ -3314,9 +3272,6 @@ CRS3-FCC=	Cisco CRS-3 FCC, spare (chassis only)	Carrier Routing System	chassis	l
 CRS3-MC-FC24	CRS-3 Multichassis System with 24-Slot Fabric Chassis	Carrier Routing System	chassis	layered	CRS (Carrier Routing System)	(none)	CRS	sku ^CRS							
 CUBESP-AP-H250B/K9	CUBE(SP) appliance,250 Session,10G Engine,2xSIP10,16xGE,HA	ASR 1000	router	layered	ASR (Aggregation Services Routers)	(none)	ASR 1000	sku ^CUBESP-	edge	series:ASR 1000					
 CUBESP-AP-H500B/K9	CUBE(SP) appliance,500 Session,10G Engine,2xSIP10,16xGE,HA	ASR 1000	router	layered	ASR (Aggregation Services Routers)	(none)	ASR 1000	sku ^CUBESP-	edge	series:ASR 1000					
-CVO860VAE-CFG	Cisco Virtual Office config for Cisco 860VAE Series	800	router	pending_plan						rt.issue.licence	licence/software/planning PID	class non_product			
-CVO860VAEW-CFG	CVO Configuration for 860VAE-W Products	800	router	pending_plan						rt.issue.licence	licence/software/planning PID	class non_product			
-CVO890VA-CFG	CVO Configuration for 890VA Products	800	router	pending_plan						rt.issue.licence	licence/software/planning PID	class non_product			
 CVR328W-K9-CN	Wireless-N 3G VPN Router	RV Series	router	layered	Small Business Routers	(none)	RV Series	sku ^CVR[0-9]{3}	smb	series:RV Series					
 CW-CAB-001-D8-R4	8-Port Smart antenna connector to 4-port RP-TNC connectors, 1ft	3800 Series Integrated Services Routers ISR	cable	layered	ISR (Integrated Services Routers)	(shared across the line)	ISR (Integrated Services Routers) shared parts	accessory -CAB- (label 3800 Series Integrated Services Routers ISR)							
 CW-CAB-004-N4-N4	Cisco CW-CAB-004-N4-N4	3800 Series Integrated Services Routers ISR	cable	layered	ISR (Integrated Services Routers)	(shared across the line)	ISR (Integrated Services Routers) shared parts	accessory -CAB- (label 3800 Series Integrated Services Routers ISR)							
@@ -3330,11 +3285,6 @@ DB25-F-DCE	Cisco DB25-F-DCE	1000 Connected Grid	accessory	layered	Industrial and
 DB25-M-DTE	Cisco DB25-M-DTE	1000 Connected Grid	accessory	layered	Industrial and IoT Routers	(shared across the line)	Industrial and IoT Routers shared parts	label-unsupported (label 1000 Connected Grid; was CGR 1000 Connected Grid): no platform token (1000) in the SKU or name, no compatible part placed in the series						none: no platform token (1000) in the SKU or name, no compatible part placed in the series	
 DB9-F-DCE	Cisco DB9-F-DCE	1000 Connected Grid	accessory	layered	Industrial and IoT Routers	(shared across the line)	Industrial and IoT Routers shared parts	label-unsupported (label 1000 Connected Grid; was CGR 1000 Connected Grid): no platform token (1000) in the SKU or name, no compatible part placed in the series						none: no platform token (1000) in the SKU or name, no compatible part placed in the series	
 DB9-M-DTE	Cisco DB9-M-DTE	1000 Connected Grid	accessory	layered	Industrial and IoT Routers	(shared across the line)	Industrial and IoT Routers shared parts	label-unsupported (label 1000 Connected Grid; was CGR 1000 Connected Grid): no platform token (1000) in the SKU or name, no compatible part placed in the series						none: no platform token (1000) in the SKU or name, no compatible part placed in the series	
-DNP3	Cisco DNP3	2000 Series Connected Grid	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-EDN312xi	Cisco EDN312xi	800	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-EDN312xp	Cisco EDN312xp	800	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-EM-HDA-	Cisco EM-HDA-	2900 ISR	module	pending_plan								class non_product			
-EM3-HDA-	Cisco EM3-HDA-	2900 ISR	module	pending_plan								class non_product			
 ENCS-DISK-COVER	Hard Disk Drive Blank Face Plate Cover for Cisco ENCS 5400	5000 Enterprise Network Compute	mechanical	layered	ENCS (Enterprise Network Compute)	(none)	ENCS 5000	sku ^ENCS							
 ENCS-DISK-COVER=	Hard Disk Drive Blank Face Plate Cover for Cisco ENCS 5400	5000 Enterprise Network Compute	mechanical	layered	ENCS (Enterprise Network Compute)	(none)	ENCS 5000	sku ^ENCS							
 ENCS-M2-200G	200 GB, M.2 SATA SSD for Cisco ENCS 5000	5000 Enterprise Network Compute	drive	layered	ENCS (Enterprise Network Compute)	(none)	ENCS 5000	sku ^ENCS							
@@ -3365,7 +3315,6 @@ ENCS5104-400/K9	Cisco ENCS 5104 (4-core AMD CPU, 16G DRAM, 400G SSD)	5000 Enterp
 ENCS5104-64/K9	Cisco ENCS 5104 (4-core AMD CPU, 16G DRAM, 64G SSD)	5000 Enterprise Network Compute	appliance	layered	ENCS (Enterprise Network Compute)	(none)	ENCS 5000	sku ^ENCS							
 ENCS5104P/K9	ENCS 5104 service spare, 4-core AMD, No DRAM, No SSD	5000 Enterprise Network Compute	appliance	layered	ENCS (Enterprise Network Compute)	(none)	ENCS 5000	sku ^ENCS							
 ENCS54-BEZEL=	ENCS 5400 Series Front Bezel	5000 Enterprise Network Compute	mechanical	layered	ENCS (Enterprise Network Compute)	(none)	ENCS 5000	sku ^ENCS							
-ENCS5400-PF	Cisco ENCS5400-PF	Catalyst 8300 Series Edge uCPE	router	pending_plan						rt.issue.licence	licence/software/planning PID	class non_product			
 ENCS5406/K9	Cisco ENCS 5406 (6-core Intel, 16G DRAM)	5000 Enterprise Network Compute	appliance	layered	ENCS (Enterprise Network Compute)	(none)	ENCS 5000	sku ^ENCS							
 ENCS5406P/K9	ENCS 5406 service spare (6-core Intel, No RAM, No Disk)	5000 Enterprise Network Compute	appliance	layered	ENCS (Enterprise Network Compute)	(none)	ENCS 5000	sku ^ENCS							
 ENCS5408/K9	Cisco ENCS 5408 (8-core Intel, 16G DRAM)	5000 Enterprise Network Compute	appliance	layered	ENCS (Enterprise Network Compute)	(none)	ENCS 5000	sku ^ENCS							
@@ -3420,8 +3369,6 @@ FLS-A901-2Z	Cisco ASR 901 10G Router - 2x10GE Port Upgrade - Physical	ASR 901	sp
 FLS-A901-2Z=	Cisco ASR 901 10G Router - 2x10GE Port Upgrade - Physical	ASR 901	sp-router	layered	ASR (Aggregation Services Routers)	ASR 900	ASR 901	sku ^FLS-A901	sp-access	series:ASR 901					
 FLS-A901-4	Cisco ASR 901 10G Router - 4 Flex Port GE Upgrade - Physical	ASR 901	sp-router	layered	ASR (Aggregation Services Routers)	ASR 900	ASR 901	sku ^FLS-A901	sp-access	series:ASR 901					
 FLS-A901-4=	Cisco ASR 901 10G Router - 4 Flex Port GE Upgrade - Physical	ASR 901	sp-router	layered	ASR (Aggregation Services Routers)	ASR 900	ASR 901	sku ^FLS-A901	sp-access	series:ASR 901					
-FRC887VA-K9	EMEA Only - Bundle C887VA-K9 for 12 months Migration	800	router	pending_plan					branch	rt.branch.isr		class non_product			
-G703	Cisco G703	2900 ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
 GPS-ACT-ANTM-SMA	Cisco GPS-ACT-ANTM-SMA	800 ISR	antenna	layered	ISR (Integrated Services Routers)	(shared across the line)	ISR (Integrated Services Routers) shared parts	accessory ^(3G|4G|5G|LTE|3G4G|GPS)- (label 800 ISR)							
 GPS-ACT-ANTM-SMA=	Cisco GPS-ACT-ANTM-SMA=	800	antenna	layered	ISR (Integrated Services Routers)	(shared across the line)	ISR (Integrated Services Routers) shared parts	accessory ^(3G|4G|5G|LTE|3G4G|GPS)- (label 800 ISR)							
 GRWIC-1CE1T1-PRI	1 port channelized T1/E1 and PRI GRWIC	2000 Series Connected Grid	module	layered	Industrial and IoT Routers	Connected Grid Routers	CGR 2010 Connected Grid	sku ^GRWIC							
@@ -3462,13 +3409,9 @@ GRWIC-VA-DSL-B	Cisco Connected Grid VDSL2 and ADSL2/ADSL2+ GRWIC - Annex B	Conne
 GRWIC-VA-DSL-B=	Cisco Connected Grid VDSL2 and ADSL2/ADSL2+ GRWIC - Annex B	Connected Grid Modules	module	layered	Industrial and IoT Routers	Connected Grid Routers	CGR 2010 Connected Grid	sku ^GRWIC							
 GRWIC-VA-DSL-M	Cisco Connected Grid VDSL2 and ADSL2/ADSL2+ GRWIC - Annex M	Connected Grid Modules	module	layered	Industrial and IoT Routers	Connected Grid Routers	CGR 2010 Connected Grid	sku ^GRWIC							
 GRWIC-VA-DSL-M=	Cisco Connected Grid VDSL2 and ADSL2/ADSL2+ GRWIC - Annex M	Connected Grid Modules	module	layered	Industrial and IoT Routers	Connected Grid Routers	CGR 2010 Connected Grid	sku ^GRWIC							
-H.323	Cisco H.323	2900 ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-H561SHEA	Cisco H561SHEA	800	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-HD-1V/2V/2VE	Cisco HD-1V/2V/2VE	2900 ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
 HDD-SATA-1TB	1 TB, SATA hard disk drive for Cisco uCPE 8200	Catalyst 8200 Edge uCPE	drive	layered	Catalyst 8000 Edge	(none)	Catalyst 8200 Edge uCPE	name uCPE 8200							
 HDD-SATA-1TB=	1 TB, SATA hard disk drive for Cisco uCPE 8200 spare	Catalyst 8200 Edge uCPE	drive	layered	Catalyst 8000 Edge	(none)	Catalyst 8200 Edge uCPE	name uCPE 8200							
 HDD-SATA-2TB	Cisco HDD SATA drive 2 TB	Catalyst 8200 Edge uCPE	drive	layered	Catalyst 8000 Edge	(shared across the line)	Catalyst 8000 Edge shared parts	label-unsupported (label Catalyst 8200 Edge uCPE; was Catalyst 8200 Edge uCPE): no platform token (8200) in the SKU or name, no compatible part placed in the series						none: no platform token (8200) in the SKU or name, no compatible part placed in the series	
-HDV2	Cisco HDV2	2900 ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
 IAD888B-K9	Cisco IAD888 G.SHDSL BRI Sec Router w/ ISDN B/U	800	router	layered	ISR (Integrated Services Routers)	ISR 800	ISR 810 / 840 / 860 / 870 / 880 / 890	sku ^IAD88	branch	series:ISR 810 / 840 / 860 / 870 / 880 / 890					
 IAD888BW-GN-A-K9	Cisco IAD888 G.SHDSL BRI Sec ISDN B/U 802.11n FCC Comp	800	router	layered	ISR (Integrated Services Routers)	ISR 800	ISR 810 / 840 / 860 / 870 / 880 / 890	sku ^IAD88	branch	series:ISR 810 / 840 / 860 / 870 / 880 / 890					
 IAD888BW-GN-E-K9	Cisco IAD888 G.SHDSL BRI Sec ISDN B/U 802.11n ETSI Comp	800	router	layered	ISR (Integrated Services Routers)	ISR 800	ISR 810 / 840 / 860 / 870 / 880 / 890	sku ^IAD88	branch	series:ISR 810 / 840 / 860 / 870 / 880 / 890					
@@ -3479,9 +3422,7 @@ IAD888FW-GN-A-K9	Cisco IAD888 G.SHDSL FXS Sec ISDN B/U 802.11n FCC Comp	800	rout
 IAD888FW-GN-E-K9	Cisco IAD888 G.SHDSL FXS Sec ISDN B/U 802.11n ETSI Comp	800	router	layered	ISR (Integrated Services Routers)	ISR 800	ISR 810 / 840 / 860 / 870 / 880 / 890	sku ^IAD88	branch	series:ISR 810 / 840 / 860 / 870 / 880 / 890					
 IC3000-2C2F-K9++	Industrial Compute appliance (TAA)	IE 4000	appliance	layered	Industrial and IoT Routers	(none)	IC3000 Industrial Compute Gateway	sku ^IC3000							
 IC3000-2C2F-K9=	Industrial Compute gateway Spare PID for TAC services	IE 4000	appliance	layered	Industrial and IoT Routers	(none)	IC3000 Industrial Compute Gateway	sku ^IC3000							
-INDUSTRYOPTIOAPN7	Industry Options	Wireless Gateway for LoRaWAN	router	pending_plan						rt.issue.licence	licence/software/planning PID	class non_product			
 IOT-LA-NM-NF	Cisco IOT-LA-NM-NF	Catalyst IR8100 Heavy Duty	accessory	layered	Industrial and IoT Routers	(shared across the line)	Industrial and IoT Routers shared parts	label-unsupported (label Catalyst IR8100 Heavy Duty; was IR 8100): no platform token (8100) in the SKU or name, no compatible part placed in the series						none: no platform token (8100) in the SKU or name, no compatible part placed in the series	
-IP20	Cisco IP20	800 ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
 IR-ANT-PLUG	Cisco IR-ANT-PLUG	Catalyst IR8100 Heavy Duty	antenna	layered	Industrial and IoT Routers	(shared across the line)	Industrial and IoT Routers shared parts	label-unsupported (label Catalyst IR8100 Heavy Duty; was IR 8100): no platform token (8100) in the SKU or name, no compatible part placed in the series						none: no platform token (8100) in the SKU or name, no compatible part placed in the series	
 IR-BAND	Cisco IR-BAND	Catalyst IR8100 Heavy Duty	accessory	layered	Industrial and IoT Routers	(shared across the line)	Industrial and IoT Routers shared parts	label-unsupported (label Catalyst IR8100 Heavy Duty; was IR 8100): no platform token (8100) in the SKU or name, no compatible part placed in the series						none: no platform token (8100) in the SKU or name, no compatible part placed in the series	
 IR-IP67GLAND	Cisco IR-IP67GLAND	Catalyst IR8100 Heavy Duty	accessory	layered	Industrial and IoT Routers	(shared across the line)	Industrial and IoT Routers shared parts	label-unsupported (label Catalyst IR8100 Heavy Duty; was IR 8100): no platform token (8100) in the SKU or name, no compatible part placed in the series						none: no platform token (8100) in the SKU or name, no compatible part placed in the series	
@@ -3816,21 +3757,6 @@ MASR1002X-HD-320G=	Cisco ASR1002-X 320GB HDD	ASR 1000	drive	layered	ASR (Aggrega
 MC-3G-EVDO-B	3G 1xEV-DO Rev A MC5728V with SMS/GPS for BSNL Networks	800	module	layered	ISR (Integrated Services Routers)	(shared across the line)	ISR (Integrated Services Routers) shared parts	label-unsupported (label 800; was ISR 810 / 840 / 860 / 870 / 880 / 890): no platform token (810, 840, 860, 870, 880, 890) in the SKU or name, no compatible part placed in the series						none: no platform token (810, 840, 860, 870, 880, 890) in the SKU or name, no compatible part placed in the series	
 MC-3G-HSPA+7	3.7G (non-US) HSPA+ Release 7 MC8705 with SMS/GPS	800	module	layered	ISR (Integrated Services Routers)	(shared across the line)	ISR (Integrated Services Routers) shared parts	label-unsupported (label 800; was ISR 810 / 840 / 860 / 870 / 880 / 890): no platform token (810, 840, 860, 870, 880, 890) in the SKU or name, no compatible part placed in the series						none: no platform token (810, 840, 860, 870, 880, 890) in the SKU or name, no compatible part placed in the series	
 MC-3G-HSPA-U	3.5G (non-US) HSPA MC8795V with SMS/GPS	800	module	layered	ISR (Integrated Services Routers)	(shared across the line)	ISR (Integrated Services Routers) shared parts	label-unsupported (label 800; was ISR 810 / 840 / 860 / 870 / 880 / 890): no platform token (810, 840, 860, 870, 880, 890) in the SKU or name, no compatible part placed in the series						none: no platform token (810, 840, 860, 870, 880, 890) in the SKU or name, no compatible part placed in the series	
-MCS0	Cisco MCS0	3800 Series Integrated Services Routers ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-MCS10	Cisco MCS10	3800 Series Integrated Services Routers ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-MCS11	Cisco MCS11	3800 Series Integrated Services Routers ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-MCS12	Cisco MCS12	3800 Series Integrated Services Routers ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-MCS15	Cisco MCS15	3800 Series Integrated Services Routers ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-MCS16	Cisco MCS16	3800 Series Integrated Services Routers ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-MCS20	Cisco MCS20	3800 Series Integrated Services Routers ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-MCS23	Cisco MCS23	3800 Series Integrated Services Routers ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-MCS24	Cisco MCS24	3800 Series Integrated Services Routers ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-MCS28	Cisco MCS28	3800 Series Integrated Services Routers ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-MCS31	Cisco MCS31	3800 Series Integrated Services Routers ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-MCS4	Cisco MCS4	3800 Series Integrated Services Routers ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-MCS7	Cisco MCS7	3800 Series Integrated Services Routers ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-MCS8	Cisco MCS8	3800 Series Integrated Services Routers ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-MCS9	Cisco MCS9	3800 Series Integrated Services Routers ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
 MEM-1900-1GB=	1GB DRAM for Cisco 1941/1941W ISR (only as spare)	2900 ISR	memory	layered	ISR (Integrated Services Routers)	ISR G2	ISR 1900	sku ^(MEM|PWR|FIPS-SHIELD)-19(00|41)-							
 MEM-1900-2GB=	2GB DRAM for Cisco 1941/1941W ISR (only as spare)	2900 ISR	memory	layered	ISR (Integrated Services Routers)	ISR G2	ISR 1900	sku ^(MEM|PWR|FIPS-SHIELD)-19(00|41)-							
 MEM-1900-512MB-DEF	512MB DRAM for Cisco 1941 ISR (Default)	2900 ISR	memory	layered	ISR (Integrated Services Routers)	ISR G2	ISR 1900	sku ^(MEM|PWR|FIPS-SHIELD)-19(00|41)-							
@@ -4125,8 +4051,6 @@ N560-RSP4	NCS 560 Route Switch Processor, 800G, L scale	Network Convergence Syst
 N560-RSP4-E	Cisco NCS 560 RSP4 Enhanced – 800G, XL Scale (/w ext. TCAM)	Network Convergence System 500	processor	layered	NCS (Network Convergence System)	(none)	NCS 520, 540 and 560	sku ^N5[246]0(?![0-9])							
 N560-RSP4-E=	Cisco NCS 560 RSP4 Enhanced – 800G, XL Scale (/w ext. TCAM), spare	Network Convergence System 500	processor	layered	NCS (Network Convergence System)	(none)	NCS 520, 540 and 560	sku ^N5[246]0(?![0-9])							
 N560-RSP4=	NCS 560 Route Switch Processor, 800G, L scale, Spare	Network Convergence System 500	processor	layered	NCS (Network Convergence System)	(none)	NCS 520, 540 and 560	sku ^N5[246]0(?![0-9])							
-NA/250M	Cisco NA/250M	ESR6300 Embedded	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-NA/50M	Cisco NA/50M	ESR6300 Embedded	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
 NAL-FDO-C8K-1N2X	NAL Certification labels for China	Catalyst 8300	accessory	layered	Catalyst 8000 Edge	(shared across the line)	Catalyst 8000 Edge shared parts	label-unsupported (label Catalyst 8300; was Catalyst 8300): no platform token (8300) in the SKU or name, no compatible part placed in the series						none: no platform token (8300) in the SKU or name, no compatible part placed in the series	
 NAL-FDO-C8K-1N6T	NAL Certification labels for China	Catalyst 8300	accessory	layered	Catalyst 8000 Edge	(shared across the line)	Catalyst 8000 Edge shared parts	label-unsupported (label Catalyst 8300; was Catalyst 8300): no platform token (8300) in the SKU or name, no compatible part placed in the series						none: no platform token (8300) in the SKU or name, no compatible part placed in the series	
 NAL-FDO-C8K-2N2X	NAL Certification labels for China	Catalyst 8200	accessory	layered	Catalyst 8000 Edge	(shared across the line)	Catalyst 8000 Edge shared parts	label-unsupported (label Catalyst 8200; was Catalyst 8200): no platform token (8200) in the SKU or name, no compatible part placed in the series						none: no platform token (8200) in the SKU or name, no compatible part placed in the series	
@@ -4726,9 +4650,6 @@ NCS4216-SA	NCS 4216 Shelf Assembly (16 slots - 7 RU)	Network Convergence System 
 NCS4216-SA=	NCS 4216 shelf assembly (16 slots, 7 RU), spare	Network Convergence System 4200 Series	chassis	layered	NCS (Network Convergence System)	(none)	NCS 4200	sku ^NCS-?42							
 NCS560-4	NCS 560-4 Router Chassis	Network Convergence System 500	chassis	layered	NCS (Network Convergence System)	(none)	NCS 520, 540 and 560	sku ^NCS-?5[246]0							
 NCS560-4=	NCS 560-4 Router Chassis, Spare	Network Convergence System 500	chassis	layered	NCS (Network Convergence System)	(none)	NCS 520, 540 and 560	sku ^NCS-?5[246]0							
-NE/250M	Cisco NE/250M	ESR6300 Embedded	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-NE/50M	Cisco NE/50M	ESR6300 Embedded	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-NM-HD-	Cisco NM-HD-	2900 ISR	module	pending_plan								class non_product			
 OBD2-J1939Y1-MF4	Cisco OBD2-J1939Y1-MF4	Catalyst IR1800 Rugged	cable	layered	Industrial and IoT Routers	(shared across the line)	Industrial and IoT Routers shared parts	label-unsupported (label Catalyst IR1800 Rugged; was IR 1800): no platform token (1800) in the SKU or name, no compatible part placed in the series						none: no platform token (1800) in the SKU or name, no compatible part placed in the series	
 OBD2-J1939Y2-MF4	Cisco OBD2-J1939Y2-MF4	Catalyst IR1800 Rugged	cable	layered	Industrial and IoT Routers	(shared across the line)	Industrial and IoT Routers shared parts	label-unsupported (label Catalyst IR1800 Rugged; was IR 1800): no platform token (1800) in the SKU or name, no compatible part placed in the series						none: no platform token (1800) in the SKU or name, no compatible part placed in the series	
 OBD2-J1962YA-MF4	Cisco OBD2-J1962YA-MF4	Catalyst IR1800 Rugged	cable	layered	Industrial and IoT Routers	(shared across the line)	Industrial and IoT Routers shared parts	label-unsupported (label Catalyst IR1800 Rugged; was IR 1800): no platform token (1800) in the SKU or name, no compatible part placed in the series						none: no platform token (1800) in the SKU or name, no compatible part placed in the series	
@@ -4736,16 +4657,12 @@ P-LPWA-800	Cisco 800MHz LoRaWAN PIM 8-Channels	Wireless Gateway for LoRaWAN	modu
 P-LPWA-800=	Cisco 800MHz LoRaWAN PIM 8-Channels	Wireless Gateway for LoRaWAN	module	layered	Industrial and IoT Routers	(none)	Wireless Gateway for LoRaWAN	label Wireless Gateway for LoRaWAN						name: LoRaWAN	
 P-LPWA-900	Cisco 900MHz LoRaWAN PIM 8-Channels	Wireless Gateway for LoRaWAN	module	layered	Industrial and IoT Routers	(none)	Wireless Gateway for LoRaWAN	label Wireless Gateway for LoRaWAN						name: LoRaWAN	
 P-LPWA-900=	Cisco 900MHz LoRaWAN PIM 8-Channels	Wireless Gateway for LoRaWAN	module	layered	Industrial and IoT Routers	(none)	Wireless Gateway for LoRaWAN	label Wireless Gateway for LoRaWAN						name: LoRaWAN	
-P100	Cisco P100	8000	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-P200	Cisco P200	8000	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
 P3G1-RCKMNT-19IN	EIA 19 Inch mounting brackets for single 3G CEM/IMSG IM patch panel	ASR 900	mechanical	layered	ASR (Aggregation Services Routers)	(shared across the line)	ASR (Aggregation Services Routers) shared parts	label-unsupported (label ASR 900; was ASR 902 / 903 / 907 / 914): no platform token (902, 903, 907, 914) in the SKU or name, no compatible part placed in the series						none: no platform token (902, 903, 907, 914) in the SKU or name, no compatible part placed in the series	
 P3G1-RCKMNT-23IN	EIA 23 Inch mounting brackets for single 3G CEM/IMSG IM patch panel	ASR 900	mechanical	layered	ASR (Aggregation Services Routers)	(shared across the line)	ASR (Aggregation Services Routers) shared parts	label-unsupported (label ASR 900; was ASR 902 / 903 / 907 / 914): no platform token (902, 903, 907, 914) in the SKU or name, no compatible part placed in the series						none: no platform token (902, 903, 907, 914) in the SKU or name, no compatible part placed in the series	
 P3G1-RCKMNT-ETSI	ETSI 21 Inch mounting brackets for single 3G CEM/IMSG IM patch panel	ASR 900	mechanical	layered	ASR (Aggregation Services Routers)	(shared across the line)	ASR (Aggregation Services Routers) shared parts	label-unsupported (label ASR 900; was ASR 902 / 903 / 907 / 914): no platform token (902, 903, 907, 914) in the SKU or name, no compatible part placed in the series						none: no platform token (902, 903, 907, 914) in the SKU or name, no compatible part placed in the series	
 P3G2-RCKMNT-19IN	EIA 19 Inch mounting brackets for double 3G CEM/IMSG IM patch panel	ASR 900	mechanical	layered	ASR (Aggregation Services Routers)	(shared across the line)	ASR (Aggregation Services Routers) shared parts	label-unsupported (label ASR 900; was ASR 902 / 903 / 907 / 914): no platform token (902, 903, 907, 914) in the SKU or name, no compatible part placed in the series						none: no platform token (902, 903, 907, 914) in the SKU or name, no compatible part placed in the series	
 P3G2-RCKMNT-23IN	EIA 23 Inch mounting brackets for double 3G CEM/IMSG IM patch panel	ASR 900	mechanical	layered	ASR (Aggregation Services Routers)	(shared across the line)	ASR (Aggregation Services Routers) shared parts	label-unsupported (label ASR 900; was ASR 902 / 903 / 907 / 914): no platform token (902, 903, 907, 914) in the SKU or name, no compatible part placed in the series						none: no platform token (902, 903, 907, 914) in the SKU or name, no compatible part placed in the series	
 P3G2-RCKMNT-ETSI	ETSI 21 Inch mounting brackets for double 3G CEM/IMSG IM patch panel	ASR 900	mechanical	layered	ASR (Aggregation Services Routers)	(shared across the line)	ASR (Aggregation Services Routers) shared parts	label-unsupported (label ASR 900; was ASR 902 / 903 / 907 / 914): no platform token (902, 903, 907, 914) in the SKU or name, no compatible part placed in the series						none: no platform token (902, 903, 907, 914) in the SKU or name, no compatible part placed in the series	
-PACK-800	Packaging PIDs for 800 with no 3G and POE	800	router	pending_plan						rt.issue.licence	licence/software/planning PID	class non_product			
-PACK-800-3G-POE	Packaging PIDs for 800 with 3G and POE	800	router	pending_plan						rt.issue.licence	licence/software/planning PID	class non_product			
 PANEL-144-1-AMP64	144 x 120 ohm E1/110 ohm DS1 termination, 12 x AMP 64-pin	Network Convergence System 4200 Series	accessory	layered	NCS (Network Convergence System)	(none)	NCS 4200	sku ^PANEL-144-1-AMP64							
 PANEL-16-BNC	Breakout panel with 16 T1/E1 75-ohm BNC ports	ASR 920 Series Aggregation Services Router	mechanical	layered	ASR (Aggregation Services Routers)	(shared across the line)	ASR (Aggregation Services Routers) shared parts	accessory ^PANEL- (label ASR 920 Series Aggregation Services Router)							
 PANEL-32-RJ48	Breakout panel with 32 T1/E1 100/120- ohm RJ48 ports	ASR 920 Series Aggregation Services Router	mechanical	layered	ASR (Aggregation Services Routers)	(shared across the line)	ASR (Aggregation Services Routers) shared parts	accessory ^PANEL- (label ASR 920 Series Aggregation Services Router)							
@@ -4768,11 +4685,8 @@ PDU-321-6-WYE	3 phase to 1 phase AC Wye PDU, 1 input/6 output	Carrier Routing Sy
 PDU-321-6-WYE=	3 phase to 1 phase AC Wye power distribution box, 1 input/6	Carrier Routing System	power	layered	CRS (Carrier Routing System)	(shared across the line)	CRS (Carrier Routing System) shared parts	label-unsupported (label Carrier Routing System; was CRS): no series token in the SKU or name, no compatible part placed in the series						none: no series token in the SKU or name, no compatible part placed in the series	
 PLG-PWRJCK	Cisco v2 LoRa interface DC power input jack plug	Wireless Gateway for LoRaWAN	power	layered	Industrial and IoT Routers	(none)	Wireless Gateway for LoRaWAN	label Wireless Gateway for LoRaWAN						name: LORA	
 PLG-PWRJCK=	Cisco v2 LoRa interface DC power input jack plug	Wireless Gateway for LoRaWAN	power	layered	Industrial and IoT Routers	(none)	Wireless Gateway for LoRaWAN	label Wireless Gateway for LoRaWAN						name: LORA	
-PNPOPTIONAZF8	PNP Option	Wireless Gateway for LoRaWAN	router	pending_plan						rt.issue.licence	licence/software/planning PID	class non_product			
 POE-COVER-4450	Cover for empty POE slot on Cisco ISR 4450	4000 ISR	mechanical	layered	ISR (Integrated Services Routers)	(shared across the line)	ISR (Integrated Services Routers) shared parts	accessory -COVER (label 4000 ISR)							
 POE-COVER-4450=	Cover for empty POE slot on Cisco ISR 4450	4000 ISR	mechanical	layered	ISR (Integrated Services Routers)	(shared across the line)	ISR (Integrated Services Routers) shared parts	accessory -COVER (label 4000 ISR)							
-PPN-CRS-16-FC140/M	S13 Planning PID	Carrier Routing System	router	pending_plan						rt.issue.licence	licence/software/planning PID	class non_product			
-PPN-CRS-8/S	material planning for product transition	Carrier Routing System	router	pending_plan						rt.issue.licence	licence/software/planning PID	class non_product			
 PPN-CRS-FCC-SFC140	S2 Planning PID	Carrier Routing System	fabric	layered	CRS (Carrier Routing System)	(none)	CRS	label Carrier Routing System						sku-token: CRS	
 PS-SWITCH-AC-2P	2 Prong C7/C8 On-Off AC Power Supply Switch	800	power	layered	ISR (Integrated Services Routers)	(shared across the line)	ISR (Integrated Services Routers) shared parts	label-unsupported (label 800; was ISR 810 / 840 / 860 / 870 / 880 / 890): no platform token (810, 840, 860, 870, 880, 890) in the SKU or name, no compatible part placed in the series						none: no platform token (810, 840, 860, 870, 880, 890) in the SKU or name, no compatible part placed in the series	
 PS-SWITCH-AC-2P=	2 Prong C7/C8 On-Off AC Power Supply Switch	800	power	layered	ISR (Integrated Services Routers)	(shared across the line)	ISR (Integrated Services Routers) shared parts	label-unsupported (label 800; was ISR 810 / 840 / 860 / 870 / 880 / 890): no platform token (810, 840, 860, 870, 880, 890) in the SKU or name, no compatible part placed in the series						none: no platform token (810, 840, 860, 870, 880, 890) in the SKU or name, no compatible part placed in the series	
@@ -4955,8 +4869,6 @@ PWR2-20W-24VDC=	C819(H)GW 24V DC power supply	800	power	layered	ISR (Integrated 
 PWR2-20W-AC	C819 20W AC power supply with WiFi	800	power	layered	ISR (Integrated Services Routers)	ISR 800	ISR 819 (M2M)	name (?<![0-9A-Z])C?819(?![0-9])							
 PWR2-20W-AC=	C819 20W AC power supply with WiFi	800	power	layered	ISR (Integrated Services Routers)	ISR 800	ISR 819 (M2M)	name (?<![0-9A-Z])C?819(?![0-9])							
 PWR2-22W-20-60VDC	Cisco PWR2-22W-20-60VDC	800	power	layered	ISR (Integrated Services Routers)	(shared across the line)	ISR (Integrated Services Routers) shared parts	label-unsupported (label 800; was ISR 810 / 840 / 860 / 870 / 880 / 890): no platform token (810, 840, 860, 870, 880, 890) in the SKU or name, no compatible part placed in the series						none: no platform token (810, 840, 860, 870, 880, 890) in the SKU or name, no compatible part placed in the series	
-Q100	Cisco Q100	8000	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-Q200	Cisco Q200	8000	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
 R260-K9-KR	Cisco R260-K9-KR	RV Series	router	layered	Small Business Routers	(none)	RV Series	sku ^R260P?-	smb	series:RV Series					
 R260P-K9-KR	Cisco R260P-K9-KR	RV Series	router	layered	Small Business Routers	(none)	RV Series	sku ^R260P?-	smb	series:RV Series					
 RCKMT-19-A	Cisco RCKMT-19-A	8000	accessory	layered	Cisco 8000	(shared across the line)	Cisco 8000 shared parts	accessory ^RCKMT (label 8000)							
@@ -4974,7 +4886,6 @@ RCKMT-ETSI-D	Cisco RCKMT-ETSI-D	8000	accessory	layered	Cisco 8000	(shared across
 RCKMT-ETSI-KIT1	2 Post 21-inch (ETSI) Rack Mounting Kit for 8010 Series	8000	mechanical	layered	Cisco 8000	(shared across the line)	Cisco 8000 shared parts	accessory ^RCKMT (label 8000)							
 RCKMT-ETSI-KIT2	4 Post 21-inch (ETSI) Rack Mounting Kit for 8010 Series	8000	mechanical	layered	Cisco 8000	(shared across the line)	Cisco 8000 shared parts	accessory ^RCKMT (label 8000)							
 RCKMT-ETSI-V1	Cisco RCKMT-ETSI-V1	8000	accessory	layered	Cisco 8000	(shared across the line)	Cisco 8000 shared parts	accessory ^RCKMT (label 8000)							
-RE-ADSL2	Cisco RE-ADSL2	900 ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
 RJ45-DCE	Cisco RJ45-DCE	1000 Connected Grid	accessory	layered	Industrial and IoT Routers	(shared across the line)	Industrial and IoT Routers shared parts	label-unsupported (label 1000 Connected Grid; was CGR 1000 Connected Grid): no platform token (1000) in the SKU or name, no compatible part placed in the series						none: no platform token (1000) in the SKU or name, no compatible part placed in the series	
 RJ45-DTE	Cisco RJ45-DTE	1000 Connected Grid	accessory	layered	Industrial and IoT Routers	(shared across the line)	Industrial and IoT Routers shared parts	label-unsupported (label 1000 Connected Grid; was CGR 1000 Connected Grid): no platform token (1000) in the SKU or name, no compatible part placed in the series						none: no platform token (1000) in the SKU or name, no compatible part placed in the series	
 RPS-ADPTR-2911	Cisco 2911 RPS Adapter for use with External RPS (Both system & spare)	2900 ISR	power	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	label 2900 ISR						sku-token: 2900	
@@ -4984,8 +4895,6 @@ RPS-ADPTR-2921-51=	Cisco 2921/2951 RPS Adapter for use with External RPS	2900 IS
 RPS-COVER-2911=	Cover for empty RPS Adapter slot on Cisco 2911 (only as spare)	Network Modules	mechanical	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	sku ^RPS-COVER-29							
 RPS-COVER-2921-51=	Cover for empty RPS Adapter slot on Cisco 2921/2951 (only as spare)	Network Modules	mechanical	layered	ISR (Integrated Services Routers)	ISR G2	ISR 2900	sku ^RPS-COVER-29							
 RPS-COVER-3900=	Cover for empty 2 nd Power Supply slot on Cisco 3925 - 3945E(only as spare)	2900 ISR	mechanical	layered	ISR (Integrated Services Routers)	(shared across the line)	ISR (Integrated Services Routers) shared parts	accessory -COVER (label 2900 ISR)							
-RS-232	Cisco RS-232	4000 ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-RS-449	Cisco RS-449	1900 ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
 RSP440-SE	Route Switch Processor 440G SE Option for ASR-9904 System	ASR 9000	processor	layered	ASR (Aggregation Services Routers)	(none)	ASR 9000	label ASR 9000						name: ASR-99	
 RSP440-TR	Route Switch Processor 440G TR Option for ASR-9904 System	ASR 9000	processor	layered	ASR (Aggregation Services Routers)	(none)	ASR 9000	label ASR 9000						name: ASR-99	
 RSP720-3C-10GE	Cisco RSP720-3C-10GE	Catalyst 6500	processor	layered	Legacy Service Routers	(none)	Cisco 7600	sku ^RSP720							
@@ -5144,18 +5053,12 @@ RV345P-K9-CN	Cisco RV345P Dual WAN Gigabit VPN Router	RV Series	router	layered	S
 RV345P-K9-G5	Cisco RV345P Dual WAN Gigabit VPN Router	RV Series	router	layered	Small Business Routers	(none)	RV Series	sku ^RV[0-9]	smb	series:RV Series					
 RV345P-K9-IN	Cisco RV345P Dual WAN Gigabit VPN Router	RV Series	router	layered	Small Business Routers	(none)	RV Series	sku ^RV[0-9]	smb	series:RV Series					
 RV345P-K9-NA	Cisco RV345P Dual WAN Gigabit VPN Router	RV Series	router	layered	Small Business Routers	(none)	RV Series	sku ^RV[0-9]	smb	series:RV Series					
-SDFE-2	Cisco SDFE-2	800	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-SDFE-4	Cisco SDFE-4	800	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
 SI-ISR4321-IWAN/K9	ISR 4321 SEED IT Program Offering	1000	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000	sku ^SI-ISR4	branch	series:ISR 4000					
 SI-ISR4331-IWAN/K9	ISR 4331 SEED IT Program Offering	1000	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000	sku ^SI-ISR4	branch	series:ISR 4000					
 SI-ISR4351-IWAN/K9	ISR 4351 SEED IT Program Offering	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000	sku ^SI-ISR4	branch	series:ISR 4000					
 SI-ISR4431-IWAN/K9	ISR 4431 SEED IT Program Offering	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000	sku ^SI-ISR4	branch	series:ISR 4000					
 SI-ISR4451-IWAN/K9	ISR 4451 SEED IT Program Offering	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000	sku ^SI-ISR4	branch	series:ISR 4000					
-SI-ISR4K-IWAN/K9	ISR 4K SEED IT Program	4000 ISR	router	pending_plan						rt.issue.licence	licence/software/planning PID	class non_product			
 SM-71XX-BLANK	Cisco 7160 Service Module Blank Face Plate	FirePOWER 7000 Appliances	accessory	layered	Legacy Service Routers	(none)	Cisco 7100 VPN routers (7120 / 7140 / 7160)	sku ^(MEM-71(00|20/40|XX)-|PWR-(2XAC|AC|BLANK)-71XX$|SM-71XX-BLANK$)							
-SO-TG-TRK	Cisco SO-TG-TRK	Secure Console	router	pending_plan						rt.issue.licence	licence/software/planning PID	class non_product			
-SOCRATES-4e	Cisco SOCRATES-4e	800	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-SOLUTIONOPTIOAPN9	Solution Options	Wireless Gateway for LoRaWAN	router	pending_plan						rt.issue.licence	licence/software/planning PID	class non_product			
 SPA-DSP	Cisco ASR 1000 Series Digital Signal Processor SPA	ASR 1000	module	layered	ASR (Aggregation Services Routers)	(none)	ASR 1000	sku ^SPA-(DSP|WMA-K9)							
 SPA-DSP=	Digital Signal Processor SPA	ASR 1000	module	layered	ASR (Aggregation Services Routers)	(none)	ASR 1000	sku ^SPA-(DSP|WMA-K9)							
 SPA-WMA-K9	Cisco WebEx Node SPA for ASR 1000 Series ( End-of-Sale )	ASR 1000	module	layered	ASR (Aggregation Services Routers)	(none)	ASR 1000	sku ^SPA-(DSP|WMA-K9)							
@@ -5193,32 +5096,7 @@ SSD-SATA-960G=	960GB SATA Solid disk drive for Cisco uCPE 8200	Catalyst 8200 Edg
 SSD-STAT-480GB	480GB SATA Solid disk drive for Cisco uCPE 8200	5000 Enterprise Network Compute	drive	layered	Catalyst 8000 Edge	(none)	Catalyst 8200 Edge uCPE	name uCPE 8200							
 SSD-STAT-4TB	4TB SATA Solid disk drive for Cisco uCPE 8200	5000 Enterprise Network Compute	drive	layered	Catalyst 8000 Edge	(none)	Catalyst 8200 Edge uCPE	name uCPE 8200							
 SSD-STAT-960GB	960 GB eMLC SSD for Cisco ENCS 5400	5000 Enterprise Network Compute	drive	layered	ENCS (Enterprise Network Compute)	(none)	ENCS 5000	label 5000 Enterprise Network Compute						name: 5000	
-T1/E1	Cisco T1/E1	2900 ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-T1/E1-DI	Cisco T1/E1-DI	2900 ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-V.35	Cisco V.35	1900 ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-V/ADSL2	Cisco V/ADSL2	800	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-V6-INLN	Cisco V6-INLN	ASR 9000	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-VDSL2	Cisco VDSL2	800	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-VIC2-	Cisco VIC2-	2900 ISR	module	pending_plan								class non_product			
-VIC3-	Cisco VIC3-	2900 ISR	module	pending_plan								class non_product			
-VSLN-PP-CORE	Cisco VSLN-PP-CORE	ASR 9000	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-VSLN-PP-EDGE	Cisco VSLN-PP-EDGE	ASR 9000	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-VSLN-PP-MO500	Cisco VSLN-PP-MO500	ASR 9000	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-VSLN-PP-U25	Cisco VSLN-PP-U25	ASR 9000	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-VTMS-PP-100G	Cisco VTMS-PP-100G	ASR 9000	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-VTMS-PP-100G-M	Cisco VTMS-PP-100G-M	ASR 9000	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-VTMS-PP-10G	Cisco VTMS-PP-10G	ASR 9000	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-VTMS-PP-10G-M	Cisco VTMS-PP-10G-M	ASR 9000	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-VTMS-PP-25G	Cisco VTMS-PP-25G	ASR 9000	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-VTMS-PP-25G-M	Cisco VTMS-PP-25G-M	ASR 9000	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-VTMS-PP-50G	Cisco VTMS-PP-50G	ASR 9000	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-VTMS-PP-50G-M	Cisco VTMS-PP-50G-M	ASR 9000	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
-VWIC-	Cisco VWIC-	2900 ISR	module	pending_plan								class non_product			
-VWIC-1MFT-	Cisco VWIC-1MFT-	2900 ISR	module	pending_plan								class non_product			
-VWIC-2MFT-	Cisco VWIC-2MFT-	2900 ISR	module	pending_plan								class non_product			
-VWIC2-2MFT-	Cisco VWIC2-2MFT-	2900 ISR	module	pending_plan								class non_product			
 W-ANTM2050D-RPSMA	Cisco W-ANTM2050D-RPSMA	Catalyst IR1800 Rugged	antenna	layered	Industrial and IoT Routers	(shared across the line)	Industrial and IoT Routers shared parts	label-unsupported (label Catalyst IR1800 Rugged; was IR 1800): no platform token (1800) in the SKU or name, no compatible part placed in the series						none: no platform token (1800) in the SKU or name, no compatible part placed in the series	
-X.21	Cisco X.21	1900 ISR	router	pending_plan						rt.issue.placeholder	datasheet cell / unidentifiable bundle (not a router PID)	class non_product			
 XRV-240GB-M2	Cisco XRV-240GB-M2	ASR 9000	drive	layered	ASR (Aggregation Services Routers)	(shared across the line)	ASR (Aggregation Services Routers) shared parts	label-unsupported (label ASR 9000; was ASR 9000): no platform token (9000) in the SKU or name, no compatible part placed in the series						none: no platform token (9000) in the SKU or name, no compatible part placed in the series	
 XRV-CPU-5120	Cisco XRV-CPU-5120	ASR 9000	processor	layered	ASR (Aggregation Services Routers)	(shared across the line)	ASR (Aggregation Services Routers) shared parts	label-unsupported (label ASR 9000; was ASR 9000): no platform token (9000) in the SKU or name, no compatible part placed in the series						none: no platform token (9000) in the SKU or name, no compatible part placed in the series	
 XRV-CPU-E52667E	3.20 GHz E5-2667 v4/135W 8C/25MB Cache/DDR4 2400MHz	ASR 9000	processor	layered	ASR (Aggregation Services Routers)	(shared across the line)	ASR (Aggregation Services Routers) shared parts	label-unsupported (label ASR 9000; was ASR 9000): no platform token (9000) in the SKU or name, no compatible part placed in the series						none: no platform token (9000) in the SKU or name, no compatible part placed in the series	

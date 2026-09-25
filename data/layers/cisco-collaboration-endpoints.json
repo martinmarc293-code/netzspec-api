@@ -1,17 +1,18 @@
 {
  "vendor": "cisco",
  "category": "collaboration-endpoints",
- "built_at": "2026-09-17T16:44:28.626Z",
- "commit": "9906ab560b795534340c0409e64087e41b8efab9",
+ "built_at": "2026-09-25T12:58:44.938Z",
+ "commit": "06652e47e025275564aae6503694ce0b8035dae3",
  "uncommitted_rule_files": [
   "data/reference/kind-layer-plans-2026-09-13.json",
-  "data/reference/product-lines/cisco-servers-unified-computing.json",
-  "data/reference/product-lines/cisco-wireless.json"
+  "data/reference/layers-cross-claims.json",
+  "data/reference/product-lines/cisco-hyperconverged-systems.json",
+  "scripts/build-layers.mts"
  ],
  "mapping_file": "data/reference/product-lines/cisco-collaboration-endpoints.json",
- "parts": 2871,
- "layered": 2870,
- "pending": 1,
+ "parts": 2938,
+ "layered": 2938,
+ "pending": 0,
  "lines": [
   {
    "line": "Headsets",
@@ -901,9 +902,7 @@
       "label": 3
      },
      "pending_in": {},
-     "pending_out": {
-      "class -> non_product": 1
-     }
+     "pending_out": {}
     },
     {
      "series": "TelePresence IX5000",
@@ -1690,21 +1689,30 @@
   },
   {
    "line": "Meeting Server and TelePresence Management",
-   "parts": 0,
+   "parts": 68,
    "series": [
     {
      "series": "Meeting Server 1000 / 2000",
      "family": "(none)",
      "role": null,
      "note": "arriving from conferencing (layers round 3, merge plan conferencing -> collaboration-endpoints, spec II.16 and decision record rule 5; not run): the Cisco Meeting Server 1000 (UCS C-Series) and 2000 (UCS 5108 with B200 media and control blades) appliances and bundles, CMS-M-M8-K9 / CMS-S-M7-K9 (Meeting Server data sheet c78-742168). The servers mapping's B200 / 5108 / 6324 rules and UC's none read these rows; record them decided-home when the move runs (the Business Edition precedent)",
-     "parts": 0,
-     "kinds": {},
-     "roles": {},
-     "samples": [],
-     "rules": {},
-     "pending_in": {
-      "conferencing": 24
+     "parts": 24,
+     "kinds": {
+      "server": 24
      },
+     "roles": {},
+     "samples": [
+      "CIT3-B200-M4 — UCS B200 M4 w/o CPU, mem, drive bays, HDD, mezz",
+      "CIT3-B200-M4-CON — UCS B200 M4 w/o CPU, mem, drive bays, HDD, mezz",
+      "CIT3-B200-M5 — Cisco Meeting Server 2000 M5 Media Blade",
+      "CIT3-B200-M5-CON — Cisco Meeting Server 2000 M5 Control Blade",
+      "CIT3-B200-M5V2 — Cisco Meeting Server 2000 M5v2 Media Blade",
+      "CIT3-B200-M5V2-CON — Cisco Meeting Server 2000 M5v2 Control Blade"
+     ],
+     "rules": {
+      "sku": 24
+     },
+     "pending_in": {},
      "pending_out": {}
     },
     {
@@ -1712,14 +1720,20 @@
      "family": "(none)",
      "role": null,
      "note": "arriving from conferencing (merge plan): CTI-TMS-APL-K9(=) 'Cisco TelePresence Management Server' and its ATP demo unit (Cisco's TelePresence Management Server end-of-sale notice)",
-     "parts": 0,
-     "kinds": {},
-     "roles": {},
-     "samples": [],
-     "rules": {},
-     "pending_in": {
-      "conferencing": 3
+     "parts": 3,
+     "kinds": {
+      "server": 3
      },
+     "roles": {},
+     "samples": [
+      "CTI-ATP-TMS-APL-K9 — ATP Demo -TMS Server Appliance Incl TMS and Scheduler-25 lic",
+      "CTI-TMS-APL-K9 — Cisco TelePresence Management Server",
+      "CTI-TMS-APL-K9= — Cisco TelePresence Management Server - Spare"
+     ],
+     "rules": {
+      "sku": 3
+     },
+     "pending_in": {},
      "pending_out": {}
     },
     {
@@ -1727,14 +1741,20 @@
      "family": "(none)",
      "role": null,
      "note": "arriving from conferencing (merge plan): AIPOD-COLLAB and the UCS C240 M8 'Rack Server for Collaboration AI' (with GPU) of Cisco's 'AI PODs for Collaboration' data sheet; the servers mapping's C240 rule reads the two UCSC rows — record it decided-home when the move runs",
-     "parts": 0,
-     "kinds": {},
-     "roles": {},
-     "samples": [],
-     "rules": {},
-     "pending_in": {
-      "conferencing": 3
+     "parts": 3,
+     "kinds": {
+      "server": 3
      },
+     "roles": {},
+     "samples": [
+      "AIPOD-COLLAB — Cisco AI PODs for Collaboration (Hardware)",
+      "UCSC-C240-M8-CL — UCS C240 M8 2U Rack Server for Collaboration AI",
+      "UCSC-C240-M8-CL-G — UCS C240 M8 2U Rack Server for Collaboration AI (GPU)"
+     ],
+     "rules": {
+      "sku": 3
+     },
+     "pending_in": {},
      "pending_out": {}
     },
     {
@@ -1742,30 +1762,39 @@
      "family": "(shared across the line)",
      "role": null,
      "note": "arriving from conferencing (merge plan): the CIT3- UCS components sold for the Meeting Server appliances (CPUs, memory, drives, supplies, RAID controllers, VIC mLOMs, TPMs, the 5108 fan / power module / packaging, the 6324 in-chassis fabric interconnect, a FlexStorage blank)",
-     "parts": 0,
-     "kinds": {},
-     "roles": {},
-     "samples": [],
-     "rules": {},
-     "pending_in": {
-      "conferencing": 38
+     "parts": 38,
+     "kinds": {
+      "mechanical": 2,
+      "cpu": 5,
+      "accessory": 1,
+      "unknown": 1,
+      "drive": 9,
+      "nic": 3,
+      "memory": 4,
+      "storage-controller": 5,
+      "power": 6,
+      "tpm": 2
      },
+     "roles": {},
+     "samples": [
+      "CIT3-5108-PKG-HW — UCS 5108 Packaging for chassis with half width blades.",
+      "CIT3-CPU-6140 — 2.3 GHz 6140/140W 18C/24.75MB Cache/DDR4 2666MHz",
+      "CIT3-CPU-E52695E — 2.10 GHz E5-2695 v4/120W 18C/45MB Cache/DDR4 2400MHz",
+      "CIT3-CPU-I6240 — Intel 6240 2.6GHz/150W 18C/24.75MB DCP DDR4 2933 MHz",
+      "CIT3-CPU-I6240= — ^Intel 6240 2.6GHz/150W 18C/24.75MB DCP DDR4 2933 MHz",
+      "CIT3-CPU-I6336Y — Intel 6336Y 2.4GHz/185W 24C/36MB DDR4 3200MHz"
+     ],
+     "rules": {
+      "sku": 38
+     },
+     "pending_in": {},
      "pending_out": {}
     }
    ]
   }
  ],
  "not_this_category": [],
- "pending_plans": [
-  {
-   "sku": "BRKT-SX20-MONITOR=",
-   "name": "PID not used",
-   "series_label": "TelePresence SX Series (QuickSet)",
-   "action": "class",
-   "to": "non_product",
-   "reason": "not orderable: the catalogue row itself says 'Not used' / 'Do not use' (the wireless precedent; re-audit decisions, operator, 15 Sep 2026, N-3)"
-  }
- ],
+ "pending_plans": [],
  "unplaced": [],
  "label_check": {
   "applied": true,
@@ -1996,5 +2025,5 @@
  },
  "pending_review": [],
  "inbound_unplaced": {},
- "done": false
+ "done": true
 }

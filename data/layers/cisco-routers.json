@@ -1,17 +1,18 @@
 {
  "vendor": "cisco",
  "category": "routers",
- "built_at": "2026-09-17T16:44:27.447Z",
- "commit": "9906ab560b795534340c0409e64087e41b8efab9",
+ "built_at": "2026-09-25T12:58:43.841Z",
+ "commit": "06652e47e025275564aae6503694ce0b8035dae3",
  "uncommitted_rule_files": [
   "data/reference/kind-layer-plans-2026-09-13.json",
-  "data/reference/product-lines/cisco-servers-unified-computing.json",
-  "data/reference/product-lines/cisco-wireless.json"
+  "data/reference/layers-cross-claims.json",
+  "data/reference/product-lines/cisco-hyperconverged-systems.json",
+  "scripts/build-layers.mts"
  ],
  "mapping_file": "data/reference/product-lines/cisco-routers.json",
- "parts": 5231,
- "layered": 5108,
- "pending": 123,
+ "parts": 5109,
+ "layered": 5109,
+ "pending": 0,
  "lines": [
   {
    "line": "Secure Routers",
@@ -41,9 +42,7 @@
       "sku": 15
      },
      "pending_in": {},
-     "pending_out": {
-      "class -> non_product": 5
-     }
+     "pending_out": {}
     },
     {
      "series": "8200 Secure Router",
@@ -188,9 +187,7 @@
       "name": 10
      },
      "pending_in": {},
-     "pending_out": {
-      "class -> non_product": 1
-     }
+     "pending_out": {}
     },
     {
      "series": "Catalyst 8300 Edge uCPE",
@@ -215,9 +212,7 @@
       "sku": 5
      },
      "pending_in": {},
-     "pending_out": {
-      "class -> non_product": 1
-     }
+     "pending_out": {}
     },
     {
      "series": "Catalyst 8200",
@@ -441,9 +436,7 @@
       "label": 62
      },
      "pending_in": {},
-     "pending_out": {
-      "class -> non_product": 2
-     }
+     "pending_out": {}
     },
     {
      "series": "ISR 900",
@@ -470,9 +463,7 @@
       "sku": 37
      },
      "pending_in": {},
-     "pending_out": {
-      "class -> non_product": 4
-     }
+     "pending_out": {}
     },
     {
      "series": "ISR 819 (M2M)",
@@ -531,9 +522,7 @@
       "sku": 268
      },
      "pending_in": {},
-     "pending_out": {
-      "class -> non_product": 26
-     }
+     "pending_out": {}
     },
     {
      "series": "ISR 1800",
@@ -590,9 +579,7 @@
       "sku": 78
      },
      "pending_in": {},
-     "pending_out": {
-      "class -> non_product": 3
-     }
+     "pending_out": {}
     },
     {
      "series": "ISR 2800",
@@ -652,9 +639,7 @@
       "label": 11
      },
      "pending_in": {},
-     "pending_out": {
-      "class -> non_product": 26
-     }
+     "pending_out": {}
     },
     {
      "series": "ISR 3800",
@@ -681,9 +666,7 @@
       "sku": 21
      },
      "pending_in": {},
-     "pending_out": {
-      "class -> non_product": 15
-     }
+     "pending_out": {}
     },
     {
      "series": "ISR 3900",
@@ -715,9 +698,7 @@
       "sku": 89
      },
      "pending_in": {},
-     "pending_out": {
-      "class -> non_product": 1
-     }
+     "pending_out": {}
     },
     {
      "series": "ISR (Integrated Services Routers) shared parts",
@@ -888,9 +869,7 @@
       "sku": 346
      },
      "pending_in": {},
-     "pending_out": {
-      "class -> non_product": 1
-     }
+     "pending_out": {}
     },
     {
      "series": "ASR 5000 and 5500",
@@ -963,9 +942,7 @@
       "label": 12
      },
      "pending_in": {},
-     "pending_out": {
-      "class -> non_product": 14
-     }
+     "pending_out": {}
     },
     {
      "series": "ASR (Aggregation Services Routers) shared parts",
@@ -1342,17 +1319,17 @@
   },
   {
    "line": "Cisco 8000",
-   "parts": 201,
+   "parts": 202,
    "series": [
     {
      "series": "Cisco 8000",
      "family": "(none)",
      "role": "sp-core",
      "note": null,
-     "parts": 142,
+     "parts": 143,
      "kinds": {
       "accessory": 20,
-      "mechanical": 19,
+      "mechanical": 20,
       "sp-router": 35,
       "module": 9,
       "power": 1,
@@ -1374,15 +1351,11 @@
       "8011-12G12X4Y-D — Cisco 8010 12x1G + 12x10G + 4x25G fixed DC system"
      ],
      "rules": {
-      "sku": 138,
+      "sku": 139,
       "label": 4
      },
-     "pending_in": {
-      "data-center-networking": 1
-     },
-     "pending_out": {
-      "class -> non_product": 4
-     }
+     "pending_in": {},
+     "pending_out": {}
     },
     {
      "series": "Cisco 8000 shared parts",
@@ -1459,9 +1432,7 @@
       "label": 67
      },
      "pending_in": {},
-     "pending_out": {
-      "class -> non_product": 7
-     }
+     "pending_out": {}
     },
     {
      "series": "CRS (Carrier Routing System) shared parts",
@@ -1719,9 +1690,7 @@
       "label": 5
      },
      "pending_in": {},
-     "pending_out": {
-      "class -> non_product": 2
-     }
+     "pending_out": {}
     },
     {
      "series": "Wireless Gateway for LoRaWAN",
@@ -1752,9 +1721,7 @@
       "sku": 2
      },
      "pending_in": {},
-     "pending_out": {
-      "class -> non_product": 3
-     }
+     "pending_out": {}
     },
     {
      "series": "Catalyst Wireless Gateway CG113",
@@ -1943,9 +1910,7 @@
       "sku": 2
      },
      "pending_in": {},
-     "pending_out": {
-      "class -> non_product": 4
-     }
+     "pending_out": {}
     }
    ]
   },
@@ -1981,9 +1946,7 @@
       "label": 18
      },
      "pending_in": {},
-     "pending_out": {
-      "class -> non_product": 1
-     }
+     "pending_out": {}
     }
    ]
   },
@@ -2010,9 +1973,7 @@
       "sku": 2
      },
      "pending_in": {},
-     "pending_out": {
-      "class -> non_product": 1
-     }
+     "pending_out": {}
     },
     {
      "series": "Terminal Services Gateways",
@@ -2060,992 +2021,7 @@
   }
  ],
  "not_this_category": [],
- "pending_plans": [
-  {
-   "sku": "14X10GBE-PK",
-   "name": "Phantom PID for 14x10GbE LAN/WAN-PHY Interface Module",
-   "series_label": "Carrier Routing System",
-   "action": "class",
-   "to": "non_product",
-   "reason": "Cisco 'Phantom PID' — an ordering construct, not a shipped part"
-  },
-  {
-   "sku": "1FXO",
-   "name": "Cisco 1FXO",
-   "series_label": "800",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "1ISDN",
-   "name": "Cisco 1ISDN",
-   "series_label": "800",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "1MFT-G703",
-   "name": "Cisco 1MFT-G703",
-   "series_label": "2900 ISR",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "1V/2V/2VE",
-   "name": "Cisco 1V/2V/2VE",
-   "series_label": "2900 ISR",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "1X100GBE-PK",
-   "name": "Phantom PID for Cisco CRS Series 1x100GbE Interface Module",
-   "series_label": "Carrier Routing System",
-   "action": "class",
-   "to": "non_product",
-   "reason": "Cisco 'Phantom PID' — an ordering construct, not a shipped part"
-  },
-  {
-   "sku": "20X10GBE-PK",
-   "name": "Phantom PID for 20x10GbE LAN/WAN-PHY Interface Module",
-   "series_label": "Carrier Routing System",
-   "action": "class",
-   "to": "non_product",
-   "reason": "Cisco 'Phantom PID' — an ordering construct, not a shipped part"
-  },
-  {
-   "sku": "2BRI",
-   "name": "Cisco 2BRI",
-   "series_label": "800",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "2BRI-NT/TE",
-   "name": "Cisco 2BRI-NT/TE",
-   "series_label": "2900 ISR",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "2FXS-E/DID",
-   "name": "Cisco 2FXS-E/DID",
-   "series_label": "2900 ISR",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "2MFT-T1/E1",
-   "name": "Cisco 2MFT-T1/E1",
-   "series_label": "2900 ISR",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "3FXS/4FXO",
-   "name": "Cisco 3FXS/4FXO",
-   "series_label": "2900 ISR",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "4-40GE-PK",
-   "name": "Phantom PID for 4x40GE LAN/OTN Interface Module",
-   "series_label": "Carrier Routing System",
-   "action": "class",
-   "to": "non_product",
-   "reason": "Cisco 'Phantom PID' — an ordering construct, not a shipped part"
-  },
-  {
-   "sku": "4FXO",
-   "name": "Cisco 4FXO",
-   "series_label": "2900 ISR",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "4FXS/DID",
-   "name": "Cisco 4FXS/DID",
-   "series_label": "2900 ISR",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "6-10GE-PK",
-   "name": "Phantom PID for 6X10GE WAN/LAN/OTN Flexible PLIM",
-   "series_label": "Carrier Routing System",
-   "action": "class",
-   "to": "non_product",
-   "reason": "Cisco 'Phantom PID' — an ordering construct, not a shipped part"
-  },
-  {
-   "sku": "6FXO",
-   "name": "Cisco 6FXO",
-   "series_label": "2900 ISR",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "8FXS",
-   "name": "Cisco 8FXS",
-   "series_label": "2900 ISR",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "9800-40",
-   "name": "Cisco 9800-40",
-   "series_label": "Catalyst Wireless Gateway CG113",
-   "action": "class",
-   "to": "non_product",
-   "reason": "bare model name, not an orderable PID (the controllers are C9800-40-K9 / C9800-80-K9 in wireless)"
-  },
-  {
-   "sku": "9800-80",
-   "name": "Cisco 9800-80",
-   "series_label": "Catalyst Wireless Gateway CG113",
-   "action": "class",
-   "to": "non_product",
-   "reason": "bare model name, not an orderable PID (the controllers are C9800-40-K9 / C9800-80-K9 in wireless)"
-  },
-  {
-   "sku": "A1C899G-LTE-GA-K9",
-   "name": "Austria Only - Bundle C899G LTE -GA for 18 months Migration",
-   "series_label": "800",
-   "action": "class",
-   "to": "non_product",
-   "reason": "promo-bundle: a region-restricted, time-limited migration ordering PID ('<region> Only - Bundle <model> for N months Migration'); the hardware is its base PID (C899G-LTE-GA-K9 / C881G-4G-GA-K9 / C887VA-K9), which stays a router"
-  },
-  {
-   "sku": "ABLT-D",
-   "name": "Cisco ABLT-D",
-   "series_label": "800",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "ABLT-F",
-   "name": "Cisco ABLT-F",
-   "series_label": "800",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "ADSL2",
-   "name": "Cisco ADSL2",
-   "series_label": "900 ISR",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "ADSL2+",
-   "name": "Cisco ADSL2+",
-   "series_label": "900 ISR",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "ADSL2+M",
-   "name": "Cisco ADSL2+M",
-   "series_label": "900 ISR",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "ADSL2/2+",
-   "name": "Cisco ADSL2/2+",
-   "series_label": "800",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "ATU-32C",
-   "name": "Cisco ATU-32C",
-   "series_label": "800",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "ATU-C",
-   "name": "Cisco ATU-C",
-   "series_label": "800",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "C1-ASR1K-ADD",
-   "name": "Cisco ONE for ASR 1000 Series",
-   "series_label": "ASR 1000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "configurator-selector"
-  },
-  {
-   "sku": "C1-ISR-ADD",
-   "name": "Cisco ONE for ISR - CHOOSE ONLY QTY 1 HERE",
-   "series_label": "3900 Series Integrated Services Routers ISR",
-   "action": "class",
-   "to": "non_product",
-   "reason": "configurator-selector"
-  },
-  {
-   "sku": "C8200-UCPE-PF",
-   "name": "Cisco C8200-UCPE-PF",
-   "series_label": "Catalyst 8300 Series Edge uCPE",
-   "action": "class",
-   "to": "non_product",
-   "reason": "planning, packaging, configuration-option or programme PID (ships nothing)"
-  },
-  {
-   "sku": "C8300-UCPE-PF",
-   "name": "Cisco C8300-UCPE-PF",
-   "series_label": "Catalyst 8300 Series Edge uCPE",
-   "action": "class",
-   "to": "non_product",
-   "reason": "planning, packaging, configuration-option or programme PID (ships nothing)"
-  },
-  {
-   "sku": "C881G-4G-GA-BUN-K9",
-   "name": "Austria Only - Bundle C881G 4G for 18 months Migration",
-   "series_label": "800",
-   "action": "class",
-   "to": "non_product",
-   "reason": "promo-bundle: a region-restricted, time-limited migration ordering PID ('<region> Only - Bundle <model> for N months Migration'); the hardware is its base PID (C899G-LTE-GA-K9 / C881G-4G-GA-K9 / C887VA-K9), which stays a router"
-  },
-  {
-   "sku": "CAT18",
-   "name": "Cisco CAT18",
-   "series_label": "8100 Series Secure",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "CAT3",
-   "name": "Cisco CAT3",
-   "series_label": "8100 Series Secure",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "CAT4",
-   "name": "Cisco CAT4",
-   "series_label": "8100 Series Secure",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "CAT6",
-   "name": "Cisco CAT6",
-   "series_label": "8100 Series Secure",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "CAT7",
-   "name": "Cisco CAT7",
-   "series_label": "8100 Series Secure",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "CGR2010/NFR",
-   "name": "CGR 2010 Channel Kit",
-   "series_label": "2000 Series Connected Grid",
-   "action": "class",
-   "to": "non_product",
-   "reason": "not-for-resale channel kit of the CGR 2010 (layers review C.5)"
-  },
-  {
-   "sku": "CISCOUTM1100",
-   "name": "Unified Threat Management 1100 Bundle",
-   "series_label": "800",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "CISCOUTM2100",
-   "name": "Unified Threat Management 2100 Bundle",
-   "series_label": "2900 ISR",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "CP-DQPSK",
-   "name": "Cisco CP-DQPSK",
-   "series_label": "ASR 9000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "CVO860VAE-CFG",
-   "name": "Cisco Virtual Office config for Cisco 860VAE Series",
-   "series_label": "800",
-   "action": "class",
-   "to": "non_product",
-   "reason": "planning, packaging, configuration-option or programme PID (ships nothing)"
-  },
-  {
-   "sku": "CVO860VAEW-CFG",
-   "name": "CVO Configuration for 860VAE-W Products",
-   "series_label": "800",
-   "action": "class",
-   "to": "non_product",
-   "reason": "planning, packaging, configuration-option or programme PID (ships nothing)"
-  },
-  {
-   "sku": "CVO890VA-CFG",
-   "name": "CVO Configuration for 890VA Products",
-   "series_label": "800",
-   "action": "class",
-   "to": "non_product",
-   "reason": "planning, packaging, configuration-option or programme PID (ships nothing)"
-  },
-  {
-   "sku": "DNP3",
-   "name": "Cisco DNP3",
-   "series_label": "2000 Series Connected Grid",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "EDN312xi",
-   "name": "Cisco EDN312xi",
-   "series_label": "800",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "EDN312xp",
-   "name": "Cisco EDN312xp",
-   "series_label": "800",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "EM-HDA-",
-   "name": "Cisco EM-HDA-",
-   "series_label": "2900 ISR",
-   "action": "class",
-   "to": "non_product",
-   "reason": "truncated PID ending in '-' (name is the SKU, no document)"
-  },
-  {
-   "sku": "EM3-HDA-",
-   "name": "Cisco EM3-HDA-",
-   "series_label": "2900 ISR",
-   "action": "class",
-   "to": "non_product",
-   "reason": "truncated PID ending in '-' (name is the SKU, no document)"
-  },
-  {
-   "sku": "ENCS5400-PF",
-   "name": "Cisco ENCS5400-PF",
-   "series_label": "Catalyst 8300 Series Edge uCPE",
-   "action": "class",
-   "to": "non_product",
-   "reason": "planning, packaging, configuration-option or programme PID (ships nothing)"
-  },
-  {
-   "sku": "FRC887VA-K9",
-   "name": "EMEA Only - Bundle C887VA-K9 for 12 months Migration",
-   "series_label": "800",
-   "action": "class",
-   "to": "non_product",
-   "reason": "promo-bundle: a region-restricted, time-limited migration ordering PID ('<region> Only - Bundle <model> for N months Migration'); the hardware is its base PID (C899G-LTE-GA-K9 / C881G-4G-GA-K9 / C887VA-K9), which stays a router"
-  },
-  {
-   "sku": "G703",
-   "name": "Cisco G703",
-   "series_label": "2900 ISR",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "H.323",
-   "name": "Cisco H.323",
-   "series_label": "2900 ISR",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "H561SHEA",
-   "name": "Cisco H561SHEA",
-   "series_label": "800",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "HD-1V/2V/2VE",
-   "name": "Cisco HD-1V/2V/2VE",
-   "series_label": "2900 ISR",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "HDV2",
-   "name": "Cisco HDV2",
-   "series_label": "2900 ISR",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "INDUSTRYOPTIOAPN7",
-   "name": "Industry Options",
-   "series_label": "Wireless Gateway for LoRaWAN",
-   "action": "class",
-   "to": "non_product",
-   "reason": "planning, packaging, configuration-option or programme PID (ships nothing)"
-  },
-  {
-   "sku": "IP20",
-   "name": "Cisco IP20",
-   "series_label": "800 ISR",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "MCS0",
-   "name": "Cisco MCS0",
-   "series_label": "3800 Series Integrated Services Routers ISR",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "MCS10",
-   "name": "Cisco MCS10",
-   "series_label": "3800 Series Integrated Services Routers ISR",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "MCS11",
-   "name": "Cisco MCS11",
-   "series_label": "3800 Series Integrated Services Routers ISR",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "MCS12",
-   "name": "Cisco MCS12",
-   "series_label": "3800 Series Integrated Services Routers ISR",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "MCS15",
-   "name": "Cisco MCS15",
-   "series_label": "3800 Series Integrated Services Routers ISR",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "MCS16",
-   "name": "Cisco MCS16",
-   "series_label": "3800 Series Integrated Services Routers ISR",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "MCS20",
-   "name": "Cisco MCS20",
-   "series_label": "3800 Series Integrated Services Routers ISR",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "MCS23",
-   "name": "Cisco MCS23",
-   "series_label": "3800 Series Integrated Services Routers ISR",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "MCS24",
-   "name": "Cisco MCS24",
-   "series_label": "3800 Series Integrated Services Routers ISR",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "MCS28",
-   "name": "Cisco MCS28",
-   "series_label": "3800 Series Integrated Services Routers ISR",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "MCS31",
-   "name": "Cisco MCS31",
-   "series_label": "3800 Series Integrated Services Routers ISR",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "MCS4",
-   "name": "Cisco MCS4",
-   "series_label": "3800 Series Integrated Services Routers ISR",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "MCS7",
-   "name": "Cisco MCS7",
-   "series_label": "3800 Series Integrated Services Routers ISR",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "MCS8",
-   "name": "Cisco MCS8",
-   "series_label": "3800 Series Integrated Services Routers ISR",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "MCS9",
-   "name": "Cisco MCS9",
-   "series_label": "3800 Series Integrated Services Routers ISR",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "NA/250M",
-   "name": "Cisco NA/250M",
-   "series_label": "ESR6300 Embedded",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "NA/50M",
-   "name": "Cisco NA/50M",
-   "series_label": "ESR6300 Embedded",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "NE/250M",
-   "name": "Cisco NE/250M",
-   "series_label": "ESR6300 Embedded",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "NE/50M",
-   "name": "Cisco NE/50M",
-   "series_label": "ESR6300 Embedded",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "NM-HD-",
-   "name": "Cisco NM-HD-",
-   "series_label": "2900 ISR",
-   "action": "class",
-   "to": "non_product",
-   "reason": "truncated PID ending in '-' (name is the SKU, no document)"
-  },
-  {
-   "sku": "P100",
-   "name": "Cisco P100",
-   "series_label": "8000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "P200",
-   "name": "Cisco P200",
-   "series_label": "8000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "PACK-800",
-   "name": "Packaging PIDs for 800 with no 3G and POE",
-   "series_label": "800",
-   "action": "class",
-   "to": "non_product",
-   "reason": "planning, packaging, configuration-option or programme PID (ships nothing)"
-  },
-  {
-   "sku": "PACK-800-3G-POE",
-   "name": "Packaging PIDs for 800 with 3G and POE",
-   "series_label": "800",
-   "action": "class",
-   "to": "non_product",
-   "reason": "planning, packaging, configuration-option or programme PID (ships nothing)"
-  },
-  {
-   "sku": "PNPOPTIONAZF8",
-   "name": "PNP Option",
-   "series_label": "Wireless Gateway for LoRaWAN",
-   "action": "class",
-   "to": "non_product",
-   "reason": "planning, packaging, configuration-option or programme PID (ships nothing)"
-  },
-  {
-   "sku": "PPN-CRS-16-FC140/M",
-   "name": "S13 Planning PID",
-   "series_label": "Carrier Routing System",
-   "action": "class",
-   "to": "non_product",
-   "reason": "planning, packaging, configuration-option or programme PID (ships nothing)"
-  },
-  {
-   "sku": "PPN-CRS-8/S",
-   "name": "material planning for product transition",
-   "series_label": "Carrier Routing System",
-   "action": "class",
-   "to": "non_product",
-   "reason": "planning, packaging, configuration-option or programme PID (ships nothing)"
-  },
-  {
-   "sku": "Q100",
-   "name": "Cisco Q100",
-   "series_label": "8000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "Q200",
-   "name": "Cisco Q200",
-   "series_label": "8000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "RE-ADSL2",
-   "name": "Cisco RE-ADSL2",
-   "series_label": "900 ISR",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "RS-232",
-   "name": "Cisco RS-232",
-   "series_label": "4000 ISR",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "RS-449",
-   "name": "Cisco RS-449",
-   "series_label": "1900 ISR",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "SDFE-2",
-   "name": "Cisco SDFE-2",
-   "series_label": "800",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "SDFE-4",
-   "name": "Cisco SDFE-4",
-   "series_label": "800",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "SI-ISR4K-IWAN/K9",
-   "name": "ISR 4K SEED IT Program",
-   "series_label": "4000 ISR",
-   "action": "class",
-   "to": "non_product",
-   "reason": "planning, packaging, configuration-option or programme PID (ships nothing)"
-  },
-  {
-   "sku": "SO-TG-TRK",
-   "name": "Cisco SO-TG-TRK",
-   "series_label": "Secure Console",
-   "action": "class",
-   "to": "non_product",
-   "reason": "planning, packaging, configuration-option or programme PID (ships nothing)"
-  },
-  {
-   "sku": "SOCRATES-4e",
-   "name": "Cisco SOCRATES-4e",
-   "series_label": "800",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "SOLUTIONOPTIOAPN9",
-   "name": "Solution Options",
-   "series_label": "Wireless Gateway for LoRaWAN",
-   "action": "class",
-   "to": "non_product",
-   "reason": "planning, packaging, configuration-option or programme PID (ships nothing)"
-  },
-  {
-   "sku": "T1/E1",
-   "name": "Cisco T1/E1",
-   "series_label": "2900 ISR",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "T1/E1-DI",
-   "name": "Cisco T1/E1-DI",
-   "series_label": "2900 ISR",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "V.35",
-   "name": "Cisco V.35",
-   "series_label": "1900 ISR",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "V/ADSL2",
-   "name": "Cisco V/ADSL2",
-   "series_label": "800",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "V6-INLN",
-   "name": "Cisco V6-INLN",
-   "series_label": "ASR 9000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "VDSL2",
-   "name": "Cisco VDSL2",
-   "series_label": "800",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "VIC2-",
-   "name": "Cisco VIC2-",
-   "series_label": "2900 ISR",
-   "action": "class",
-   "to": "non_product",
-   "reason": "truncated PID ending in '-' (name is the SKU, no document)"
-  },
-  {
-   "sku": "VIC3-",
-   "name": "Cisco VIC3-",
-   "series_label": "2900 ISR",
-   "action": "class",
-   "to": "non_product",
-   "reason": "truncated PID ending in '-' (name is the SKU, no document)"
-  },
-  {
-   "sku": "VSLN-PP-CORE",
-   "name": "Cisco VSLN-PP-CORE",
-   "series_label": "ASR 9000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "VSLN-PP-EDGE",
-   "name": "Cisco VSLN-PP-EDGE",
-   "series_label": "ASR 9000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "VSLN-PP-MO500",
-   "name": "Cisco VSLN-PP-MO500",
-   "series_label": "ASR 9000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "VSLN-PP-U25",
-   "name": "Cisco VSLN-PP-U25",
-   "series_label": "ASR 9000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "VTMS-PP-100G",
-   "name": "Cisco VTMS-PP-100G",
-   "series_label": "ASR 9000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "VTMS-PP-100G-M",
-   "name": "Cisco VTMS-PP-100G-M",
-   "series_label": "ASR 9000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "VTMS-PP-10G",
-   "name": "Cisco VTMS-PP-10G",
-   "series_label": "ASR 9000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "VTMS-PP-10G-M",
-   "name": "Cisco VTMS-PP-10G-M",
-   "series_label": "ASR 9000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "VTMS-PP-25G",
-   "name": "Cisco VTMS-PP-25G",
-   "series_label": "ASR 9000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "VTMS-PP-25G-M",
-   "name": "Cisco VTMS-PP-25G-M",
-   "series_label": "ASR 9000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "VTMS-PP-50G",
-   "name": "Cisco VTMS-PP-50G",
-   "series_label": "ASR 9000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "VTMS-PP-50G-M",
-   "name": "Cisco VTMS-PP-50G-M",
-   "series_label": "ASR 9000",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  },
-  {
-   "sku": "VWIC-",
-   "name": "Cisco VWIC-",
-   "series_label": "2900 ISR",
-   "action": "class",
-   "to": "non_product",
-   "reason": "truncated PID ending in '-' (name is the SKU, no document)"
-  },
-  {
-   "sku": "VWIC-1MFT-",
-   "name": "Cisco VWIC-1MFT-",
-   "series_label": "2900 ISR",
-   "action": "class",
-   "to": "non_product",
-   "reason": "truncated PID ending in '-' (name is the SKU, no document)"
-  },
-  {
-   "sku": "VWIC-2MFT-",
-   "name": "Cisco VWIC-2MFT-",
-   "series_label": "2900 ISR",
-   "action": "class",
-   "to": "non_product",
-   "reason": "truncated PID ending in '-' (name is the SKU, no document)"
-  },
-  {
-   "sku": "VWIC2-2MFT-",
-   "name": "Cisco VWIC2-2MFT-",
-   "series_label": "2900 ISR",
-   "action": "class",
-   "to": "non_product",
-   "reason": "truncated PID ending in '-' (name is the SKU, no document)"
-  },
-  {
-   "sku": "X.21",
-   "name": "Cisco X.21",
-   "series_label": "1900 ISR",
-   "action": "class",
-   "to": "non_product",
-   "reason": "datasheet cell / unidentifiable bundle enumerated as a part"
-  }
- ],
+ "pending_plans": [],
  "unplaced": [],
  "label_check": {
   "applied": true,
@@ -4533,5 +3509,5 @@
  },
  "pending_review": [],
  "inbound_unplaced": {},
- "done": false
+ "done": true
 }
