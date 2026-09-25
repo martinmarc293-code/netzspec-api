@@ -205,3 +205,106 @@ stored value and moves no denominator, exactly like the not-applicable ruling.
 URLs, no SEO titles, no indexability, no shop prices."* A German rendering of `front-to-back` is none of those, and
 the dictionary already carries German names; but whether the value layer belongs here or in the shop-side importer
 is a scope call, not mine. A wrong German technical term is worse than an honest English slug.
+
+---
+
+# AUDIT 3 — THE LINKING LENS: what is INHERITED into a cup, and would today's rules allow it?
+
+*Operator's list included "any missed linking of attributes". Audits 1 and 2 looked at which cups exist and what
+comes out of them. Neither asked where a cup's CONTENT came from.*
+
+It started from one rendered cell. Building the German rendering I printed a real part — `GLC-TE`, a copper SFP
+transceiver — and its Merkmale included **`WLAN-Authentifizierung und -Sicherheit: ● TACACS+ ● RADIUS ● Local,
+role-based access control`**. An optic does not have wireless security.
+
+## What GLC-TE actually holds
+
+Six current inherited facts, from **three unrelated series**, none of them a transceiver series:
+
+| cup | inherited from | written |
+|---|---|---|
+| `wireless_security` | `1000-series-integrated-services-routers-isr` | 3 Sep |
+| `shock` | `catalyst-ie3200-rugged-series` | 3 Sep |
+| `safety_standards` | `nexus-7000-series-switches` | 3 Sep |
+| `humidity_operating`, `humidity_storage`, `altitude_storage` | `catalyst-ir8300-rugged-series-router` | 3–4 Sep |
+
+A datasheet that LISTS an optic in its compatibility table is not a datasheet that DESCRIBES the optic. The
+arrangement already knows this: `describesPart` in `src/core/specMerge.ts` is the guard, and its own comment says
+*"A family value inherited into a transceiver the datasheet merely LISTS is refused every single time."*
+
+**Put back through that guard today, all six are REFUSED — `component:GLC-`.** The guard is right; it simply
+post-dates the facts, and a guard fix does not un-write what is already stored.
+
+## The population, and the number I am NOT reporting
+
+**32.5% of every fact a consumer renders is inherited** — 33,367 of 102,748, all vendors. Re-judging all of them
+with today's guard returns **32,475 refused**, and quoting that would be wrong.
+
+`describesPart` checks four rules in order — `class` → `component` → `category` → `family` — and the FAMILY rule
+reads `parts.family`, a column a migration **redefined on 8 Sep** from the datasheet-title family to the MODEL
+(the SKU minus its orderable suffix). That over-refusal is already recorded; anything the family rule refuses is
+unusable as evidence here. **23,574 of the 32,475 reach the family rule and are excluded from every number below.**
+
+The first three rules never read family. Re-judged with family deliberately withheld from both sides:
+
+> **9,793 live inherited facts are refused on a signal the migration did not touch** — cisco and arista, written
+> 3–13 September 2026, still current and still rendering.
+>
+> *Control:* re-judged again with the real family present, the same rows are refused by the same rule — **9,793
+> agree, 0 differ** — so withholding it changed no verdict.
+
+## Split by the part's own class, because that decides who is affected
+
+| facts | parts | `product_class` | refusing rule | the commonest cups |
+|---:|---:|---|---|---|
+| **4,673** | 1,551 | **hardware** | component 3,813 · category 860 | emc_emissions 627, temp_storage 521, temp_operating 506, humidity_operating 448, certifications 403 |
+| 4,274 | 1,065 | licence | class | temp_storage 521, temp_operating 489, certifications 457 |
+| 711 | 188 | software | class | emc_emissions 86, programming_interfaces 68 |
+| 129 | 41 | non_product | class | temp_storage 15, regions_supported 14 |
+| 6 | 3 | service | class | call_control 2 |
+
+Two readings, and they need different judgements:
+
+- **The 4,673 hardware ones are the environmental block on COMPONENTS** — optics, cables and accessories taking a
+  chassis's operating temperature, humidity, EMC and certifications from the switch datasheet that lists them.
+  That is the same shape as the 16 Sep finding that environmental specs *"belong to the enclosure and are wrong
+  only on components"*; here the predicate that knows which a part is — `componentShape(sku)` — says component,
+  and is what refuses them. Examples: `SFP-10G-ER`, `QSFP-40G-LR4`, `CFP-100G-LR4`, `QDD-400G-LR8`.
+- **The 4,274 licence ones give a licence an operating temperature.** `15454-M-LIC-100G=` is a licence.
+
+## What I did NOT do, and why
+
+**Nothing was written.** The retraction machinery already exists and is good — `scripts/retract-inherited.mts`,
+proven by `tests/db/retract-inherited.test.ts` (dry run writes nothing, a gate whose precision re-reads every
+selected fact, sabotage on nine refusal paths, feed-back protection). It does not fit this population as it
+stands, and that is the actionable part:
+
+- its **selector** is a committed class plan, by exact SKU — not "every fact today's guard refuses";
+- its **gate** requires the refusing rule to be `class:<to>` specifically, and scores 0 otherwise. The 3,813
+  `component:` and 860 `category:` refusals would score 0 and be refused, correctly, as an invention.
+
+So retracting this needs a plan with its own selector and a gate that accepts `component:` and `category:` as
+refusing rules. That is a decision with a blast radius, not a tidy-up — and the 16 Sep lesson applies directly:
+when a mechanism that was failing silently gets repaired, re-audit the scope it was failing to apply, row by row,
+against the thing that knows, and hold anything it cannot positively rule out.
+
+## Two suspicions from this lens that were WRONG
+
+Recorded because the reason they were wrong is the useful part.
+
+- **"`wireless_security` on `transceiver` is a wrong cup."** It is not. It is `opt` in 12 categories, which is the
+  25 Sep zero-`na` ruling working exactly as designed: `opt` accepts what a source provides and is never a gap.
+  The defect is the inherited VALUE, not the compartment.
+- **"Wireless cups are being filled on non-wireless parts."** Measured: 80 such facts across all vendors, and
+  every one is correct — `C1111-4PLTEEA` is an ISR with integrated Wi-Fi, `WP-WIFI6-A` is a Wi-Fi 6 module.
+  Control: the same keys on wireless/meraki parts, 689.
+
+## A smaller finding: a few keys are typed `s` but hold lists
+
+37 facts over 11 `s`-typed keys hold values that are plainly lists, out of 7,946 live `s` facts on 67 keys.
+**My net manufactured at least one of those hits** — `cpu` 1/1642, *"AMD 9355P 3.55GHz, 280W, 32 cores, 256MB
+Cache, DDR5 6000MT/s"*, which is one CPU with commas in it — and several others are prose whose bullets are the
+extractor's, not the quantity's nature. Reading all eleven, the defensible ones are small and specific:
+`lte_bands` 6/8 (`"B1, B3, B5, B8, B18, B19, B39, B41, B42, B43"`), `wwan_3g_bands` 1/4, `carrier_certifications`
+2/3, `box_contents` 9/9. A retype refuses every current value under the key, so it is a dictionary decision
+measured across all vendors — recorded here, not made.

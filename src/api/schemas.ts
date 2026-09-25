@@ -129,6 +129,11 @@ export const FactSource = Nullable(Type.Object({
 }));
 export const FactItem = Type.Object({
   key: Type.String(), label_en: Type.String(), label_de: Type.String(), type: Type.String(), value: AnyJson, unit: Nullable(Type.String()),
+  /** `label_de` is the Merkmal's NAME; this is its VALUE, rendered as one German cell — "1,5 kg", "Ja",
+   *  "-5 bis 45 °C", "24 × RJ45 1G | 4 × SFP+ 10G". null when the rendering contract refuses, and then
+   *  `text_de_why` says why: a refusal is an answer, and a silent null is indistinguishable from a bug. */
+  text_de: Nullable(Type.String({ description: "the value as one German cell, or null with text_de_why" })),
+  text_de_why: Nullable(Type.String({ description: "why text_de is null — an uncovered enum value, a malformed payload, a struct with no renderer" })),
   raw: Type.String(), state: Type.String(), tier: Type.Integer(), method: Type.String(), inherited: Type.Boolean(),
   inherited_from: Nullable(Type.String()), source: FactSource, evidence_count: Type.Integer(),
 });

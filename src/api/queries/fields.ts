@@ -8,6 +8,7 @@
 //
 // The dictionary is also what filter.ts validates keys against; it is cached for a minute
 // because a filter on /v1/parts would otherwise re-read ~400 rows per request.
+import { bandFor, domainFor } from "../../core/fieldSchema.js";
 import { query } from "../../store/db.js";
 import { badRequest } from "../errors.js";
 import type { FilterDictionary, FilterFieldType } from "../filter.js";
@@ -21,6 +22,8 @@ export type Requirement = { kind: "req" | "opt" | "na" | "cond"; when?: unknown 
 export type FieldItem = {
   key: string; type: string; unit: string | null; label_en: string; label_de: string;
   domain: unknown; band: unknown; shape: string | null; superseded_by: string | null; requirement?: Requirement;
+  /** ["domain"] / ["band"] when this CATEGORY narrows the shared dictionary value; absent when it does not. */
+  overridden?: string[];
   /** round-7 ask F (12 Sep 2026): current facts under this key per vendor, over LIVE parts. */
   facts_current_by_vendor: Record<string, number>;
 };
@@ -64,7 +67,35 @@ export async function listFields(category?: string): Promise<FieldItem[]> {
   // A key the profile does not mention is not applicable to the category (fieldSchema.ts
   // requirementFor returns "na" for the same case).
   const byVendor = await factsCurrentByVendor();
-  return rows.map((r) => ({ ...r, requirement: r.requirement ?? { kind: "na" }, facts_current_by_vendor: byVendor.get(r.key) ?? {} }));
+  // THE DOMAIN AND THE BAND ARE PER CATEGORY, AND THE TABLE CANNOT SAY SO (25 Sep 2026).
+  //
+  // This module reads the TABLE and not the code, because the FK from `facts` points at the table — but
+  // `category_profiles` carries ONE column, `requirement`. There is no column anywhere for a per-category domain
+  // or band, so `DOMAIN_OVERRIDES` / `BAND_OVERRIDES` exist only in src/core/fieldSchema.ts and the table has no
+  // opinion here to drift from. Serving `d.domain` unresolved was therefore not "exposing the table faithfully",
+  // it was answering a question about `transceiver` with `switches`' answer:
+  //   * 1,742 live facts hold a form_factor (sfp-plus, qsfp28, …) that is correct under the transceiver domain
+  //     and absent from the global one — a consumer validating against what this route served refused every one
+  //   * 17 (category, key) pairs holding 2,883 live facts have a plausibility band in the arrangement and NONE
+  //     in the dictionary, so the route reported "no band" for tdp on a UCS server, which has [5, 1000]
+  // Asked WITH a category, you get the category's own answer; asked without one, /v1/fields is unchanged and
+  // still serves the shared dictionary. `overridden` names any key where the two differ, so a narrowed value is
+  // visible rather than silent — the reader can always tell which of the two they are holding.
+  return rows.map((r) => {
+    const domain = domainFor(category, r.key) ?? r.domain;
+    const band = bandFor(category, r.key) ?? r.band;
+    // BY VALUE, NEVER BY REFERENCE. `r.domain` is an array pg parsed out of jsonb and `domainFor` returns the one
+    // declared in code: two distinct objects that are usually EQUAL, so `!==` is true for every key that has a
+    // domain at all. The first version of this line marked 135 of transceiver's keys as overridden, including
+    // `form_factor` in `switches`, which overrides nothing — caught by a control asserting the unchanged case.
+    const same = (a: unknown, b: unknown) => JSON.stringify(a ?? null) === JSON.stringify(b ?? null);
+    const overridden = [same(domain, r.domain) ? null : "domain", same(band, r.band) ? null : "band"].filter((x): x is string => x !== null);
+    return {
+      ...r, domain, band,
+      ...(overridden.length ? { overridden } : {}),
+      requirement: r.requirement ?? { kind: "na" }, facts_current_by_vendor: byVendor.get(r.key) ?? {},
+    };
+  });
 }
 
 const DICTIONARY_TTL_MS = 60_000;

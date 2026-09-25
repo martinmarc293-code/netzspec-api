@@ -20,7 +20,12 @@ const Query = Type.Object({
 });
 const FieldItem = Type.Object({
   key: Type.String(), type: Type.String(), unit: Nullable(Type.String()), label_en: Type.String(), label_de: Type.String(),
+  /** WITH a category these are that CATEGORY's effective domain/band, which the table cannot express:
+   *  `category_profiles` has only `requirement`, so the per-category values live in fieldSchema.ts alone.
+   *  Without a category, /v1/fields serves the shared dictionary value, unchanged. */
   domain: AnyJson, band: AnyJson, shape: Nullable(Type.String()),
+  /** names which of the two this category narrowed — absent when it narrows neither. */
+  overridden: Type.Optional(Type.Array(Type.String())),
   /** a retired key names the key that holds its quantity now; null = not retired (migration 0015) */
   superseded_by: Nullable(Type.String()),
   requirement: Type.Optional(Type.Object({ kind: Type.String(), when: Type.Optional(AnyJson) })),

@@ -14,6 +14,7 @@
 //     with a single id. GET /v1/parts/{vendor}/{sku} and GET /v1/export therefore cannot drift:
 //     the shape equality the export contract promises holds by construction (and is tested).
 import { SPEC_BEARING, type DocClass } from "../../core/docClass.js";
+import { renderValue } from "../../core/renderContract.js";
 import { query } from "../../store/db.js";
 import { badRequest } from "../errors.js";
 import { ALL_STATES, RENDERED_STATES, factRunSucceeded, isoOf, kindAndRole, type FactState, type PartIdentity } from "./shared.js";
@@ -34,6 +35,8 @@ export type FactSource = { doc_id: string; url: string | null; locator: string |
 
 export type FactItem = {
   key: string; label_en: string; label_de: string; type: string; value: unknown; unit: string | null;
+  /** The German rendering of `value` (src/core/renderContract.ts), null when the contract refuses. See toFact. */
+  text_de: string | null; text_de_why: string | null;
   raw: string; state: string; tier: number; method: string; inherited: boolean; inherited_from: string | null;
   source: FactSource | null; evidence_count: number;
 };
@@ -60,9 +63,20 @@ async function factRows(partIds: number[], states: FactState[]): Promise<FactRow
   return rows;
 }
 
+// THE GERMAN CELL, BESIDE THE GERMAN NAME (operator, 25 Sep 2026: "yes add the german values and rendering
+// contract"). `label_de` has always been the Merkmal's name; `text_de` is its value, so a consumer building a
+// JTL-Shop import writes two columns straight out of this object instead of inventing a rendering per type.
+// Measured before it existed: 20,444 of 48,063 live Cisco facts (42.5%) were in a type — enum, list, struct,
+// boolean — whose German form the consumer had to invent, and two consumers would have invented it differently.
+//
+// `text_de_why` IS THE OTHER HALF. A refusal is an answer: null with no reason is indistinguishable from a bug,
+// and the reasons are what turned "the contract covers 96.31%" into a list of 2,561 specific legacy rows. It
+// renders against the row's OWN type, from field_dictionary, not against this repo's copy of it.
 function toFact(r: FactRow): FactItem {
+  const rendered = renderValue(r.field_key, r.value, r.unit, r.type);
   return {
     key: r.field_key, label_en: r.label_en, label_de: r.label_de, type: r.type, value: r.value, unit: r.unit,
+    text_de: rendered.ok ? rendered.text : null, text_de_why: rendered.ok ? null : rendered.why,
     raw: r.raw, state: r.state, tier: r.tier, method: r.method, inherited: r.inherited, inherited_from: r.inherited_from,
     source: r.doc_id ? { doc_id: r.doc_id, url: r.doc_url, locator: r.locator, extracted_at: r.extracted_at } : null,
     evidence_count: r.evidence_count,

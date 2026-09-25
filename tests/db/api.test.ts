@@ -169,7 +169,10 @@ async function main(): Promise<void> {
   check("the documented key list and the published PartRecord schema name the same keys",
     JSON.stringify(Object.keys((PartRecord as { properties: Record<string, unknown> }).properties).sort()) === JSON.stringify(DOCUMENTED_KEYS),
     Object.keys((PartRecord as { properties: Record<string, unknown> }).properties).sort());
-  const FACT_KEYS = ["key", "label_en", "label_de", "type", "value", "unit", "raw", "state", "tier", "method", "inherited", "inherited_from", "source", "evidence_count"].sort();
+  // text_de / text_de_why added 25 Sep 2026 with the German rendering contract: `label_de` is the Merkmal's NAME,
+  // `text_de` its VALUE as one German cell, so a JTL-Shop import is two columns off this object. This exact list
+  // is load-bearing and it earned its keep the hour it was written — it is what caught the two new keys.
+  const FACT_KEYS = ["key", "label_en", "label_de", "type", "value", "unit", "text_de", "text_de_why", "raw", "state", "tier", "method", "inherited", "inherited_from", "source", "evidence_count"].sort();
   let etag = "";
   {
     const r = await get("/v1/parts/cisco/c9200l-24p-4g");
@@ -182,6 +185,10 @@ async function main(): Promise<void> {
     const f = r.body?.facts?.[0] ?? {};
     check("fact has exactly the documented keys", JSON.stringify(Object.keys(f).sort()) === JSON.stringify(FACT_KEYS), Object.keys(f).sort());
     check("fact carries value, unit, labels and source", f.value === 370 && f.unit === "W" && f.label_de === "PoE-Budget" && f.source?.doc_id === DOC && f.source?.locator === "t3:r4:c2" && f.source?.extracted_at === "2026-09-02" && f.evidence_count === 1, f);
+    // The two CSV columns: label_de is the Merkmal, text_de the Merkmalwert. A number renders with its unit and a
+    // German decimal comma; a rendering that succeeded carries NO reason, because a reason beside a value would
+    // read as a caveat on it.
+    check("fact carries text_de — the value as one German cell — with no why", f.text_de === "370 W" && f.text_de_why === null, { text_de: f.text_de, why: f.text_de_why });
     check("lifecycle dates are YYYY-MM-DD strings", r.body?.lifecycle?.end_of_sale_date === "2027-03-31" && r.body?.lifecycle?.status === "eol_announced" && r.body?.lifecycle?.successor_sku === "C9300-24P", r.body?.lifecycle);
     const rel = r.body?.relations ?? [];
     check("relations: successor not in catalogue, compatible in catalogue", rel.length === 2 && rel.some((x: Json) => x.kind === "successor" && x.in_catalog === false) && rel.some((x: Json) => x.kind === "compatible" && x.in_catalog === true && x.sku === "C9200L-48P-4G"), rel);
@@ -370,6 +377,27 @@ async function main(): Promise<void> {
     check("fields with category carries a requirement", poeC?.requirement?.kind !== undefined, poeC);
     const fBad = await get("/v1/fields?category=nope");
     check("SABOTAGE unknown category on fields is 400", fBad.status === 400 && /nope/.test(fBad.body?.error?.message), fBad.body);
+
+    // A DOMAIN AND A BAND ARE PER CATEGORY, AND THE TABLE CANNOT SAY SO (25 Sep 2026). `category_profiles` holds one
+    // column, `requirement`, so DOMAIN_OVERRIDES / BAND_OVERRIDES live only in src/core/fieldSchema.ts and nothing in
+    // src/api/ used to read them: /v1/fields/:category answered a question about `transceiver` with `switches`'
+    // answer, and a consumer validating against it refused 1,742 live facts whose form_factor is a correct optic
+    // cage. All three cases matter — the narrowed one, the UNCHANGED one, and the shared dictionary.
+    const ffOf = (b: Json) => b?.items?.find((x: Json) => x.key === "form_factor");
+    const ffGlobal = ffOf((await get("/v1/fields")).body);
+    const ffTrx = ffOf((await get("/v1/fields?category=transceiver")).body);
+    const ffSw = ffOf((await get("/v1/fields?category=switches")).body);
+    check("fields WITH a category serves that category's own domain", ffTrx?.domain?.includes("sfp-plus") === true && ffTrx?.domain?.includes("qsfp28") === true, ffTrx?.domain);
+    check("…and names it as overridden, so a narrowed value is never silent", JSON.stringify(ffTrx?.overridden) === JSON.stringify(["domain"]), ffTrx?.overridden);
+    // CONTROL a category that overrides NOTHING must be unmarked and equal to the shared value. The first version of
+    // the marker compared a code array against one pg parsed out of jsonb with !==, so it could never report false
+    // and marked 135 of transceiver's keys; only a control on the unchanged case could catch that.
+    check("CONTROL a category that narrows nothing is unmarked", ffSw?.overridden === undefined && ffSw?.domain?.includes("sfp-plus") !== true, { overridden: ffSw?.overridden, domain: ffSw?.domain });
+    check("CONTROL /v1/fields with NO category still serves the shared dictionary domain", JSON.stringify(ffGlobal?.domain) === JSON.stringify(ffSw?.domain) && ffGlobal?.overridden === undefined, ffGlobal?.domain);
+    // The band travels the same path and had the larger hole: 17 (category, key) pairs holding 2,883 live facts have
+    // a band in the arrangement and NONE in the dictionary, so the route reported "no band" for a UCS server's tdp.
+    const tdpUcs = (await get("/v1/fields?category=servers-unified-computing")).body?.items?.find((x: Json) => x.key === "tdp");
+    check("a band the arrangement sets but the dictionary does not is served", JSON.stringify(tdpUcs?.band) === JSON.stringify([5, 1000]) && JSON.stringify(tdpUcs?.overridden) === JSON.stringify(["band"]), { band: tdpUcs?.band, overridden: tdpUcs?.overridden });
 
     const d = await get(`/v1/docs/${DOC}`);
     check("doc record lists its parts", d.status === 200 && d.body?.parts_count === 2 && JSON.stringify(d.body?.parts) === JSON.stringify(["C9200L-24P-4G", "C9200L-48P-4G"]) && d.body?.fetched_at === "2026-09-01", d.body);
