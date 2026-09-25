@@ -3,7 +3,7 @@
  "vendor": "cisco",
  "category": "routers",
  "profile_hash": "3b7b2f061827d15c",
- "built_on_commit": "98aac02",
+ "built_on_commit": "5954adc",
  "norm_version": "1.8.0",
  "declared_fields": 431,
  "gap_states": {
@@ -527,11 +527,7 @@
      ]
     }
    ],
-   "not_applicable_by_kind": [
-    "bundle_contents",
-    "product_compatibility",
-    "radio_bands"
-   ],
+   "not_applicable_by_kind": [],
    "optional": [
     "ac_current",
     "ac_through_current",
@@ -568,6 +564,7 @@
     "boot_drive",
     "boot_drive_options",
     "boot_storage",
+    "bundle_contents",
     "cable_length",
     "cache_drive_options",
     "cache_l3",
@@ -816,6 +813,7 @@
     "power_max_dc",
     "power_typical",
     "presenter_tracking",
+    "product_compatibility",
     "product_line",
     "programming_interfaces",
     "psu_config",
@@ -832,6 +830,7 @@
     "qsfp28_ports",
     "queues_per_port",
     "rack_units",
+    "radio_bands",
     "radio_count",
     "raid_controller",
     "raid_level",
@@ -1371,11 +1370,7 @@
        ]
       }
      ],
-     "not_applicable_by_kind": [
-      "bundle_contents",
-      "product_compatibility",
-      "radio_bands"
-     ],
+     "not_applicable_by_kind": [],
      "optional": [
       "ac_current",
       "ac_through_current",
@@ -1412,6 +1407,7 @@
       "boot_drive",
       "boot_drive_options",
       "boot_storage",
+      "bundle_contents",
       "cable_length",
       "cache_drive_options",
       "cache_l3",
@@ -1660,6 +1656,7 @@
       "power_max_dc",
       "power_typical",
       "presenter_tracking",
+      "product_compatibility",
       "product_line",
       "programming_interfaces",
       "psu_config",
@@ -1676,6 +1673,7 @@
       "qsfp28_ports",
       "queues_per_port",
       "rack_units",
+      "radio_bands",
       "radio_count",
       "raid_controller",
       "raid_level",
@@ -2266,11 +2264,7 @@
        ]
       }
      ],
-     "not_applicable_by_kind": [
-      "bundle_contents",
-      "product_compatibility",
-      "radio_bands"
-     ],
+     "not_applicable_by_kind": [],
      "optional": [
       "ac_current",
       "ac_through_current",
@@ -2307,6 +2301,7 @@
       "boot_drive",
       "boot_drive_options",
       "boot_storage",
+      "bundle_contents",
       "cable_length",
       "cache_drive_options",
       "cache_l3",
@@ -2556,6 +2551,7 @@
       "power_max_dc",
       "power_typical",
       "presenter_tracking",
+      "product_compatibility",
       "product_line",
       "programming_interfaces",
       "psu_config",
@@ -2572,6 +2568,7 @@
       "qsfp28_ports",
       "queues_per_port",
       "rack_units",
+      "radio_bands",
       "radio_count",
       "raid_controller",
       "raid_level",
@@ -3109,11 +3106,7 @@
        ]
       }
      ],
-     "not_applicable_by_kind": [
-      "bundle_contents",
-      "product_compatibility",
-      "radio_bands"
-     ],
+     "not_applicable_by_kind": [],
      "optional": [
       "ac_current",
       "ac_through_current",
@@ -3150,6 +3143,7 @@
       "boot_drive",
       "boot_drive_options",
       "boot_storage",
+      "bundle_contents",
       "cable_length",
       "cache_drive_options",
       "cache_l3",
@@ -3398,6 +3392,7 @@
       "power_max_dc",
       "power_typical",
       "presenter_tracking",
+      "product_compatibility",
       "product_line",
       "programming_interfaces",
       "psu_config",
@@ -3414,6 +3409,7 @@
       "qsfp28_ports",
       "queues_per_port",
       "rack_units",
+      "radio_bands",
       "radio_count",
       "raid_controller",
       "raid_level",
@@ -4264,11 +4260,7 @@
        ]
       }
      ],
-     "not_applicable_by_kind": [
-      "bundle_contents",
-      "product_compatibility",
-      "radio_bands"
-     ],
+     "not_applicable_by_kind": [],
      "optional": [
       "ac_current",
       "ac_through_current",
@@ -4304,6 +4296,7 @@
       "boot_drive",
       "boot_drive_options",
       "boot_storage",
+      "bundle_contents",
       "cable_length",
       "cache_drive_options",
       "cache_l3",
@@ -4550,6 +4543,7 @@
       "power_max_dc",
       "power_typical",
       "presenter_tracking",
+      "product_compatibility",
       "product_line",
       "programming_interfaces",
       "psu_config",
@@ -4566,6 +4560,7 @@
       "qsfp28_ports",
       "queues_per_port",
       "rack_units",
+      "radio_bands",
       "radio_count",
       "raid_controller",
       "raid_level",
@@ -5117,11 +5112,7 @@
        ]
       }
      ],
-     "not_applicable_by_kind": [
-      "bundle_contents",
-      "product_compatibility",
-      "radio_bands"
-     ],
+     "not_applicable_by_kind": [],
      "optional": [
       "ac_current",
       "ac_through_current",
@@ -5158,6 +5149,7 @@
       "boot_drive",
       "boot_drive_options",
       "boot_storage",
+      "bundle_contents",
       "cable_length",
       "cache_drive_options",
       "cache_l3",
@@ -5406,6 +5398,7 @@
       "power_max_dc",
       "power_typical",
       "presenter_tracking",
+      "product_compatibility",
       "product_line",
       "programming_interfaces",
       "psu_config",
@@ -5422,6 +5415,7 @@
       "qsfp28_ports",
       "queues_per_port",
       "rack_units",
+      "radio_bands",
       "radio_count",
       "raid_controller",
       "raid_level",
@@ -6069,11 +6063,7 @@
     }
    ],
    "pending_until_gate_answered": [],
-   "not_applicable_by_kind": [
-    "bundle_contents",
-    "product_compatibility",
-    "radio_bands"
-   ],
+   "not_applicable_by_kind": [],
    "optional": [
     "ac_current",
     "ac_through_current",
@@ -6109,6 +6099,7 @@
     "boot_drive",
     "boot_drive_options",
     "boot_storage",
+    "bundle_contents",
     "cable_length",
     "cache_drive_options",
     "cache_l3",
@@ -6357,6 +6348,7 @@
     "power_max_dc",
     "power_typical",
     "presenter_tracking",
+    "product_compatibility",
     "product_line",
     "programming_interfaces",
     "psu_config",
@@ -6373,6 +6365,7 @@
     "qsfp28_ports",
     "queues_per_port",
     "rack_units",
+    "radio_bands",
     "radio_count",
     "raid_controller",
     "raid_level",
@@ -6996,11 +6989,7 @@
       }
      ],
      "pending_until_gate_answered": [],
-     "not_applicable_by_kind": [
-      "bundle_contents",
-      "product_compatibility",
-      "radio_bands"
-     ],
+     "not_applicable_by_kind": [],
      "optional": [
       "ac_current",
       "ac_through_current",
@@ -7036,6 +7025,7 @@
       "boot_drive",
       "boot_drive_options",
       "boot_storage",
+      "bundle_contents",
       "cable_length",
       "cache_drive_options",
       "cache_l3",
@@ -7284,6 +7274,7 @@
       "power_max_dc",
       "power_typical",
       "presenter_tracking",
+      "product_compatibility",
       "product_line",
       "programming_interfaces",
       "psu_config",
@@ -7300,6 +7291,7 @@
       "qsfp28_ports",
       "queues_per_port",
       "rack_units",
+      "radio_bands",
       "radio_count",
       "raid_controller",
       "raid_level",
@@ -7923,11 +7915,7 @@
       }
      ],
      "pending_until_gate_answered": [],
-     "not_applicable_by_kind": [
-      "bundle_contents",
-      "product_compatibility",
-      "radio_bands"
-     ],
+     "not_applicable_by_kind": [],
      "optional": [
       "ac_current",
       "ac_through_current",
@@ -7963,6 +7951,7 @@
       "boot_drive",
       "boot_drive_options",
       "boot_storage",
+      "bundle_contents",
       "cable_length",
       "cache_drive_options",
       "cache_l3",
@@ -8211,6 +8200,7 @@
       "power_max_dc",
       "power_typical",
       "presenter_tracking",
+      "product_compatibility",
       "product_line",
       "programming_interfaces",
       "psu_config",
@@ -8227,6 +8217,7 @@
       "qsfp28_ports",
       "queues_per_port",
       "rack_units",
+      "radio_bands",
       "radio_count",
       "raid_controller",
       "raid_level",
@@ -8850,11 +8841,7 @@
       }
      ],
      "pending_until_gate_answered": [],
-     "not_applicable_by_kind": [
-      "bundle_contents",
-      "product_compatibility",
-      "radio_bands"
-     ],
+     "not_applicable_by_kind": [],
      "optional": [
       "ac_current",
       "ac_through_current",
@@ -8890,6 +8877,7 @@
       "boot_drive",
       "boot_drive_options",
       "boot_storage",
+      "bundle_contents",
       "cable_length",
       "cache_drive_options",
       "cache_l3",
@@ -9138,6 +9126,7 @@
       "power_max_dc",
       "power_typical",
       "presenter_tracking",
+      "product_compatibility",
       "product_line",
       "programming_interfaces",
       "psu_config",
@@ -9154,6 +9143,7 @@
       "qsfp28_ports",
       "queues_per_port",
       "rack_units",
+      "radio_bands",
       "radio_count",
       "raid_controller",
       "raid_level",
@@ -9791,11 +9781,7 @@
       }
      ],
      "pending_until_gate_answered": [],
-     "not_applicable_by_kind": [
-      "bundle_contents",
-      "product_compatibility",
-      "radio_bands"
-     ],
+     "not_applicable_by_kind": [],
      "optional": [
       "ac_current",
       "ac_through_current",
@@ -9831,6 +9817,7 @@
       "boot_drive",
       "boot_drive_options",
       "boot_storage",
+      "bundle_contents",
       "cable_length",
       "cache_drive_options",
       "cache_l3",
@@ -10079,6 +10066,7 @@
       "power_max_dc",
       "power_typical",
       "presenter_tracking",
+      "product_compatibility",
       "product_line",
       "programming_interfaces",
       "psu_config",
@@ -10095,6 +10083,7 @@
       "qsfp28_ports",
       "queues_per_port",
       "rack_units",
+      "radio_bands",
       "radio_count",
       "raid_controller",
       "raid_level",
@@ -10494,11 +10483,7 @@
     }
    ],
    "pending_until_gate_answered": [],
-   "not_applicable_by_kind": [
-    "bundle_contents",
-    "product_compatibility",
-    "radio_bands"
-   ],
+   "not_applicable_by_kind": [],
    "optional": [
     "ac_current",
     "ac_through_current",
@@ -10534,6 +10519,7 @@
     "boot_drive",
     "boot_drive_options",
     "boot_storage",
+    "bundle_contents",
     "cable_length",
     "cache_drive_options",
     "cache_l3",
@@ -10785,6 +10771,7 @@
     "power_max_dc",
     "power_typical",
     "presenter_tracking",
+    "product_compatibility",
     "product_line",
     "programming_interfaces",
     "psu_config",
@@ -10801,6 +10788,7 @@
     "qsfp28_ports",
     "queues_per_port",
     "rack_units",
+    "radio_bands",
     "radio_count",
     "raid_controller",
     "raid_level",
@@ -11504,11 +11492,7 @@
      ]
     }
    ],
-   "not_applicable_by_kind": [
-    "bundle_contents",
-    "product_compatibility",
-    "radio_bands"
-   ],
+   "not_applicable_by_kind": [],
    "optional": [
     "ac_current",
     "ac_through_current",
@@ -11545,6 +11529,7 @@
     "boot_drive",
     "boot_drive_options",
     "boot_storage",
+    "bundle_contents",
     "cable_length",
     "cache_drive_options",
     "cache_l3",
@@ -11792,6 +11777,7 @@
     "power_max_dc",
     "power_typical",
     "presenter_tracking",
+    "product_compatibility",
     "product_line",
     "programming_interfaces",
     "psu_config",
@@ -11807,6 +11793,7 @@
     "qos_queues",
     "qsfp28_ports",
     "queues_per_port",
+    "radio_bands",
     "radio_count",
     "raid_controller",
     "raid_level",
@@ -12045,10 +12032,7 @@
     }
    ],
    "pending_until_gate_answered": [],
-   "not_applicable_by_kind": [
-    "certifications",
-    "radio_bands"
-   ],
+   "not_applicable_by_kind": [],
    "optional": [
     "ac_current",
     "ac_through_current",
@@ -12098,6 +12082,7 @@
     "cellular_max_speed",
     "cellular_slots",
     "cellular_throughput",
+    "certifications",
     "channel_spacing",
     "chassis_config",
     "chipset",
@@ -12353,6 +12338,7 @@
     "qsfp28_ports",
     "queues_per_port",
     "rack_units",
+    "radio_bands",
     "radio_count",
     "raid_controller",
     "raid_level",
@@ -12639,11 +12625,7 @@
     }
    ],
    "pending_until_gate_answered": [],
-   "not_applicable_by_kind": [
-    "bundle_contents",
-    "certifications",
-    "radio_bands"
-   ],
+   "not_applicable_by_kind": [],
    "optional": [
     "ac_current",
     "ac_through_current",
@@ -12680,6 +12662,7 @@
     "boot_drive",
     "boot_drive_options",
     "boot_storage",
+    "bundle_contents",
     "cable_length",
     "cache_drive_options",
     "cache_l3",
@@ -12693,6 +12676,7 @@
     "cellular_max_speed",
     "cellular_slots",
     "cellular_throughput",
+    "certifications",
     "channel_spacing",
     "chassis_config",
     "chipset",
@@ -12947,6 +12931,7 @@
     "qsfp28_ports",
     "queues_per_port",
     "rack_units",
+    "radio_bands",
     "radio_count",
     "raid_controller",
     "raid_level",
@@ -13233,11 +13218,7 @@
     }
    ],
    "pending_until_gate_answered": [],
-   "not_applicable_by_kind": [
-    "bundle_contents",
-    "certifications",
-    "radio_bands"
-   ],
+   "not_applicable_by_kind": [],
    "optional": [
     "ac_current",
     "ac_through_current",
@@ -13274,6 +13255,7 @@
     "boot_drive",
     "boot_drive_options",
     "boot_storage",
+    "bundle_contents",
     "cable_length",
     "cache_drive_options",
     "cache_l3",
@@ -13287,6 +13269,7 @@
     "cellular_max_speed",
     "cellular_slots",
     "cellular_throughput",
+    "certifications",
     "channel_spacing",
     "chassis_config",
     "chipset",
@@ -13541,6 +13524,7 @@
     "qsfp28_ports",
     "queues_per_port",
     "rack_units",
+    "radio_bands",
     "radio_count",
     "raid_controller",
     "raid_level",
@@ -13827,11 +13811,7 @@
     }
    ],
    "pending_until_gate_answered": [],
-   "not_applicable_by_kind": [
-    "bundle_contents",
-    "certifications",
-    "radio_bands"
-   ],
+   "not_applicable_by_kind": [],
    "optional": [
     "ac_current",
     "ac_through_current",
@@ -13868,6 +13848,7 @@
     "boot_drive",
     "boot_drive_options",
     "boot_storage",
+    "bundle_contents",
     "cable_length",
     "cache_drive_options",
     "cache_l3",
@@ -13881,6 +13862,7 @@
     "cellular_max_speed",
     "cellular_slots",
     "cellular_throughput",
+    "certifications",
     "channel_spacing",
     "chassis_config",
     "chipset",
@@ -14135,6 +14117,7 @@
     "qsfp28_ports",
     "queues_per_port",
     "rack_units",
+    "radio_bands",
     "radio_count",
     "raid_controller",
     "raid_level",
@@ -14378,11 +14361,7 @@
     }
    ],
    "pending_until_gate_answered": [],
-   "not_applicable_by_kind": [
-    "bundle_contents",
-    "certifications",
-    "radio_bands"
-   ],
+   "not_applicable_by_kind": [],
    "optional": [
     "ac_current",
     "ac_through_current",
@@ -14419,6 +14398,7 @@
     "boot_drive",
     "boot_drive_options",
     "boot_storage",
+    "bundle_contents",
     "cable_length",
     "cache_drive_options",
     "cache_l3",
@@ -14432,6 +14412,7 @@
     "cellular_max_speed",
     "cellular_slots",
     "cellular_throughput",
+    "certifications",
     "channel_spacing",
     "chassis_config",
     "chipset",
@@ -14686,6 +14667,7 @@
     "qsfp28_ports",
     "queues_per_port",
     "rack_units",
+    "radio_bands",
     "radio_count",
     "raid_controller",
     "raid_level",
@@ -14964,11 +14946,7 @@
     }
    ],
    "pending_until_gate_answered": [],
-   "not_applicable_by_kind": [
-    "bundle_contents",
-    "certifications",
-    "radio_bands"
-   ],
+   "not_applicable_by_kind": [],
    "optional": [
     "ac_current",
     "ac_through_current",
@@ -15005,6 +14983,7 @@
     "boot_drive",
     "boot_drive_options",
     "boot_storage",
+    "bundle_contents",
     "cable_length",
     "cache_drive_options",
     "cache_l3",
@@ -15018,6 +14997,7 @@
     "cellular_max_speed",
     "cellular_slots",
     "cellular_throughput",
+    "certifications",
     "channel_spacing",
     "chassis_config",
     "chipset",
@@ -15272,6 +15252,7 @@
     "qsfp28_ports",
     "queues_per_port",
     "rack_units",
+    "radio_bands",
     "radio_count",
     "raid_controller",
     "raid_level",
@@ -15537,11 +15518,7 @@
     }
    ],
    "pending_until_gate_answered": [],
-   "not_applicable_by_kind": [
-    "bundle_contents",
-    "certifications",
-    "radio_bands"
-   ],
+   "not_applicable_by_kind": [],
    "optional": [
     "ac_current",
     "ac_through_current",
@@ -15577,6 +15554,7 @@
     "boot_drive",
     "boot_drive_options",
     "boot_storage",
+    "bundle_contents",
     "cable_length",
     "cache_drive_options",
     "cache_l3",
@@ -15590,6 +15568,7 @@
     "cellular_max_speed",
     "cellular_slots",
     "cellular_throughput",
+    "certifications",
     "channel_spacing",
     "chassis_config",
     "chipset",
@@ -15845,6 +15824,7 @@
     "qsfp28_ports",
     "queues_per_port",
     "rack_units",
+    "radio_bands",
     "radio_count",
     "raid_controller",
     "raid_level",
@@ -16125,11 +16105,7 @@
     }
    ],
    "pending_until_gate_answered": [],
-   "not_applicable_by_kind": [
-    "bundle_contents",
-    "certifications",
-    "radio_bands"
-   ],
+   "not_applicable_by_kind": [],
    "optional": [
     "ac_current",
     "ac_through_current",
@@ -16166,6 +16142,7 @@
     "boot_drive",
     "boot_drive_options",
     "boot_storage",
+    "bundle_contents",
     "cable_length",
     "cache_drive_options",
     "cache_l3",
@@ -16179,6 +16156,7 @@
     "cellular_max_speed",
     "cellular_slots",
     "cellular_throughput",
+    "certifications",
     "channel_spacing",
     "chassis_config",
     "chipset",
@@ -16433,6 +16411,7 @@
     "qsfp28_ports",
     "queues_per_port",
     "rack_units",
+    "radio_bands",
     "radio_count",
     "raid_controller",
     "raid_level",
@@ -16706,11 +16685,7 @@
     }
    ],
    "pending_until_gate_answered": [],
-   "not_applicable_by_kind": [
-    "bundle_contents",
-    "certifications",
-    "radio_bands"
-   ],
+   "not_applicable_by_kind": [],
    "optional": [
     "ac_current",
     "ac_through_current",
@@ -16747,6 +16722,7 @@
     "boot_drive",
     "boot_drive_options",
     "boot_storage",
+    "bundle_contents",
     "cable_length",
     "cache_drive_options",
     "cache_l3",
@@ -16760,6 +16736,7 @@
     "cellular_max_speed",
     "cellular_slots",
     "cellular_throughput",
+    "certifications",
     "channel_spacing",
     "chassis_config",
     "chipset",
@@ -17014,6 +16991,7 @@
     "qsfp28_ports",
     "queues_per_port",
     "rack_units",
+    "radio_bands",
     "radio_count",
     "raid_controller",
     "raid_level",
@@ -17286,11 +17264,7 @@
     }
    ],
    "pending_until_gate_answered": [],
-   "not_applicable_by_kind": [
-    "bundle_contents",
-    "certifications",
-    "radio_bands"
-   ],
+   "not_applicable_by_kind": [],
    "optional": [
     "ac_current",
     "ac_through_current",
@@ -17327,6 +17301,7 @@
     "boot_drive",
     "boot_drive_options",
     "boot_storage",
+    "bundle_contents",
     "cable_length",
     "cache_drive_options",
     "cache_l3",
@@ -17340,6 +17315,7 @@
     "cellular_max_speed",
     "cellular_slots",
     "cellular_throughput",
+    "certifications",
     "channel_spacing",
     "chassis_config",
     "chipset",
@@ -17595,6 +17571,7 @@
     "qsfp28_ports",
     "queues_per_port",
     "rack_units",
+    "radio_bands",
     "radio_count",
     "raid_controller",
     "raid_level",
@@ -17853,11 +17830,7 @@
     }
    ],
    "pending_until_gate_answered": [],
-   "not_applicable_by_kind": [
-    "bundle_contents",
-    "certifications",
-    "radio_bands"
-   ],
+   "not_applicable_by_kind": [],
    "optional": [
     "ac_current",
     "ac_through_current",
@@ -17894,6 +17867,7 @@
     "boot_drive",
     "boot_drive_options",
     "boot_storage",
+    "bundle_contents",
     "cache_drive_options",
     "cache_l3",
     "call_bandwidth",
@@ -17906,6 +17880,7 @@
     "cellular_max_speed",
     "cellular_slots",
     "cellular_throughput",
+    "certifications",
     "channel_spacing",
     "chassis_config",
     "chipset",
@@ -18161,6 +18136,7 @@
     "qsfp28_ports",
     "queues_per_port",
     "rack_units",
+    "radio_bands",
     "radio_count",
     "raid_controller",
     "raid_level",
@@ -18380,11 +18356,7 @@
     }
    ],
    "pending_until_gate_answered": [],
-   "not_applicable_by_kind": [
-    "bundle_contents",
-    "certifications",
-    "radio_bands"
-   ],
+   "not_applicable_by_kind": [],
    "optional": [
     "ac_current",
     "ac_through_current",
@@ -18421,6 +18393,7 @@
     "boot_drive",
     "boot_drive_options",
     "boot_storage",
+    "bundle_contents",
     "cable_length",
     "cache_drive_options",
     "cache_l3",
@@ -18434,6 +18407,7 @@
     "cellular_max_speed",
     "cellular_slots",
     "cellular_throughput",
+    "certifications",
     "channel_spacing",
     "chassis_config",
     "chipset",
@@ -18689,6 +18663,7 @@
     "qsfp28_ports",
     "queues_per_port",
     "rack_units",
+    "radio_bands",
     "radio_count",
     "raid_controller",
     "raid_level",
@@ -18962,10 +18937,7 @@
     }
    ],
    "pending_until_gate_answered": [],
-   "not_applicable_by_kind": [
-    "bundle_contents",
-    "certifications"
-   ],
+   "not_applicable_by_kind": [],
    "optional": [
     "ac_current",
     "ac_through_current",
@@ -19002,6 +18974,7 @@
     "boot_drive",
     "boot_drive_options",
     "boot_storage",
+    "bundle_contents",
     "cable_length",
     "cache_drive_options",
     "cache_l3",
@@ -19015,6 +18988,7 @@
     "cellular_max_speed",
     "cellular_slots",
     "cellular_throughput",
+    "certifications",
     "channel_spacing",
     "chassis_config",
     "chipset",
@@ -19483,11 +19457,7 @@
     }
    ],
    "pending_until_gate_answered": [],
-   "not_applicable_by_kind": [
-    "bundle_contents",
-    "certifications",
-    "radio_bands"
-   ],
+   "not_applicable_by_kind": [],
    "optional": [
     "ac_current",
     "ac_through_current",
@@ -19524,6 +19494,7 @@
     "boot_drive",
     "boot_drive_options",
     "boot_storage",
+    "bundle_contents",
     "cable_length",
     "cache_drive_options",
     "cache_l3",
@@ -19537,6 +19508,7 @@
     "cellular_max_speed",
     "cellular_slots",
     "cellular_throughput",
+    "certifications",
     "channel_spacing",
     "chassis_config",
     "chipset",
@@ -19792,6 +19764,7 @@
     "qsfp28_ports",
     "queues_per_port",
     "rack_units",
+    "radio_bands",
     "radio_count",
     "raid_controller",
     "raid_level",
@@ -20078,11 +20051,7 @@
     }
    ],
    "pending_until_gate_answered": [],
-   "not_applicable_by_kind": [
-    "bundle_contents",
-    "certifications",
-    "radio_bands"
-   ],
+   "not_applicable_by_kind": [],
    "optional": [
     "ac_current",
     "ac_through_current",
@@ -20119,6 +20088,7 @@
     "boot_drive",
     "boot_drive_options",
     "boot_storage",
+    "bundle_contents",
     "cable_length",
     "cache_drive_options",
     "cache_l3",
@@ -20132,6 +20102,7 @@
     "cellular_max_speed",
     "cellular_slots",
     "cellular_throughput",
+    "certifications",
     "channel_spacing",
     "chassis_config",
     "chipset",
@@ -20386,6 +20357,7 @@
     "qsfp28_ports",
     "queues_per_port",
     "rack_units",
+    "radio_bands",
     "radio_count",
     "raid_controller",
     "raid_level",

@@ -181,7 +181,16 @@ export function run(): { passed: number; failed: number; lines: string[] } {
     const values: Record<string, unknown> = { kind: c.kind };
     if (c.series !== undefined) values.series = c.series;
     const got = requirementFor("security", c.field, values);
-    check(`${c.kind} / ${c.series ?? "(no series)"} / ${c.field} -> ${c.want}`, got === c.want,
+    // A CASE WRITTEN `na` ASSERTS "THIS SHAPE IS NOT ASKED THIS CUP", AND `opt` SAYS THAT TOO (25 Sep 2026).
+    // An unmet conditional no longer closes a cup — it leaves it optional (operator: "there should be zero
+    // non-applicable cups", and 6,310 held values were sitting in cups the profiles had closed). Every case
+    // below was written when `na` was the ONLY way to say "not asked", so the property each one is really
+    // defending is that the cup is NOT REQUIRED of that shape: a management appliance is not asked a firewall
+    // figure, a security module is not asked a weight. That property is unchanged and still asserted here.
+    // What `opt` additionally allows is ACCEPTING such a value if a vendor publishes one, which is the whole
+    // point of the change — refusing it is what was wrong. `req` and `pending` are still distinguished exactly.
+    const ok = c.want === "na" ? got !== "req" && got !== "pending" : got === c.want;
+    check(`${c.kind} / ${c.series ?? "(no series)"} / ${c.field} -> ${c.want === "na" ? "not asked" : c.want}`, ok,
       `got "${got}" (${c.why})`);
   }
 
@@ -194,8 +203,12 @@ export function run(): { passed: number; failed: number; lines: string[] } {
     requirementFor("security", "rack_units", { kind: "firewall", series: "Firepower NGFW" }) === "pending");
   check("rack_units is REQ for a rack-mounted box",
     requirementFor("security", "rack_units", { kind: "firewall", series: "Firepower NGFW", form_factor: "rack-19" }) === "req");
-  check("rack_units is NA for a component, not pending",
-    requirementFor("security", "rack_units", { kind: "power", series: "4100 Firepower" }) === "na");
+  // 25 Sep 2026: the component side now reads `opt` rather than `na`, because an unmet conditional no longer
+  // closes a cup. The PROPERTY this check defends is untouched and is what it now asserts: a component must not
+  // get an OPEN GAP for rack units. `na` on both sides was the failure the comment above names; so is `pending`
+  // on the component side. Measured: component `opt`, box-without-form-factor `pending`, box-with `req`.
+  check("rack_units is not an open gap for a component (opt, never pending or req)",
+    !["pending", "req"].includes(requirementFor("security", "rack_units", { kind: "power", series: "4100 Firepower" })));
 
   // --- THE SABOTAGE: a missing `kind` must not silently close every question -------------------
   // This is the defect src/core/partKind.ts exists for, asserted on this category's own profile.
@@ -258,8 +271,23 @@ export function run(): { passed: number; failed: number; lines: string[] } {
     ["FPR3105-NGFW-K9", "firewall_throughput", "req"], ["FPR3105-NGFW-K9", "weight", "req"],
   ] as [string, string, string][]) {
     const kind = partKind("security", sku);
-    check(`end to end: ${sku} (kind=${kind}) / ${field} -> ${want}`,
-      requirementFor("security", field, { kind, series: "4100 Firepower" }) === want);
+    // `na` here means "a PSU blank is not asked a firewall throughput or a weight", and it still is not:
+    // an unmet conditional leaves the cup optional instead of closing it (25 Sep 2026), so the assertion is
+    // that the cup is NOT REQUIRED of it. `req` is still matched exactly, which is the half that matters for
+    // FPR3105-NGFW-K9 — the box must still owe both.
+    const got = requirementFor("security", field, { kind, series: "4100 Firepower" });
+    check(`end to end: ${sku} (kind=${kind}) / ${field} -> ${want === "na" ? "not asked" : want}`,
+      want === "na" ? got !== "req" && got !== "pending" : got === want);
+  }
+
+  // CONTROL FOR THE RELAXED PREDICATE (25 Sep 2026). The `na` cases above now assert "not required" rather than
+  // the literal `na`, and a predicate that was widened has to be shown to still refuse. These two run the SAME
+  // relaxed test against pairs that ARE required, and it must reject both — if it accepted them, every refusal
+  // case above would be decoration.
+  for (const [kind, field] of [["firewall", "firewall_throughput"], ["firewall", "weight"]] as [string, string][]) {
+    const got = requirementFor("security", field, { kind, series: "Firepower NGFW", form_factor: "rack-19" });
+    check(`CONTROL the relaxed "not asked" test still REFUSES a required cup (${kind}/${field} is ${got})`,
+      !(got !== "req" && got !== "pending"), `got "${got}" — a required cup must not pass the refusal predicate`);
   }
 
   const refusals = CASES.filter((c) => c.want === "na").length;

@@ -10,11 +10,29 @@
 //
 //   gate present and matches      -> req      ask for it
 //   gate ABSENT and gate is req   -> pending  cannot say yet; keep the gap open
-//   gate present and does not match, OR gate is only `opt`  -> na   genuinely does not apply
+//   gate present and does not match, OR gate is only `opt`  -> SETTLED  it is not asked
 //
 // The last clause matters as much as the new one: if nobody is obliged to answer the gate, its
 // absence is not evidence of anything, and treating it as pending would open gaps at scale for no
 // reason. Both directions are asserted.
+//
+// 25 SEP 2026: THE SETTLED-FALSE OUTCOME IS NOW `opt`, NOT `na`, AND THE THREE-WAY IS UNTOUCHED.
+// The operator's ruling — "there should be zero non-applicable cups, all the cups are always
+// applicable somewhere" — took the closing branch out of `requirementFor`: an unmet conditional
+// leaves the cup optional. Measured at the time: 7,846 (category, kind, key) triples were closed,
+// NONE of them chosen by hand, and 6,310 rendered values were sitting in cups the profiles had
+// closed (see docs/decisions/2026-09-25-zero-not-applicable-cups.md).
+//
+// What this file exists to defend is the distinction between "settled false" and "nobody has
+// answered the gate", and that is exactly as sharp as it was — only the name of the first one
+// changed. Every case below that read `na` now reads `SETTLED`, and the titles saying "na, not
+// pending" mean what they always meant: the cup must not be an OPEN GAP.
+//
+// The two cases at the bottom that still expect a literal "na" are the OTHER branch and must not
+// move: a key the profile never mentions, and a category with no profile. `requirementFor` still
+// returns `na` there, and it is a different statement — not "this kind cannot have it" but "this
+// category does not carry this cup at all".
+const SETTLED = "opt";
 import { requirementFor, gateFields, completenessV2, PROFILES, COLUMN_BACKED } from "../src/core/fieldSchema.js";
 import { requiredFieldsFor } from "../src/pipeline/recompute-completeness.js";
 
@@ -47,7 +65,7 @@ const unknownFF = { kind: "firewall", series: "Firepower NGFW" };
 eq("form_factor known and rack -> rack_units req",
    requirementFor("security", "rack_units", rack), "req");
 eq("form_factor known and desktop -> rack_units na (genuinely does not apply)",
-   requirementFor("security", "rack_units", desktop), "na");
+   requirementFor("security", "rack_units", desktop), SETTLED);
 eq("form_factor ABSENT and it is req -> rack_units PENDING, not na",
    requirementFor("security", "rack_units", unknownFF), "pending");
 
@@ -83,7 +101,7 @@ for (const k of ["firewall_throughput", "threat_throughput", "concurrent_session
      requirementFor("security", k, { kind: "appliance", series: member!, form_factor: "rack-19" }), "req");
   // A series present but in no list: `na`, NOT pending — the gate was answered and said no.
   eq(`${k} with a series in no shape -> na`,
-     requirementFor("security", k, { kind: "appliance", series: "No Such Series", form_factor: "rack-19" }), "na");
+     requirementFor("security", k, { kind: "appliance", series: "No Such Series", form_factor: "rack-19" }), SETTLED);
 }
 
 // --- a gate field that is only `opt` must NOT produce pending ----------------------------------
@@ -178,14 +196,14 @@ ok("both are still DECLARED required in the profile — this is a scoring rule, 
   const notStacking = { ...bareSwitch, stackable: false, poe_standard: "none", layer: "l2" };
   // (ipv4_routes dropped for the reason above: it is optional, so "answered NO closes it" no longer applies.)
   for (const key of ["stacking_bandwidth", "poe_ports", "poe_budget"]) {
-    eq(`answered NO closes "${key}"`, requirementFor("switches", key, notStacking), "na");
+    eq(`answered NO closes "${key}"`, requirementFor("switches", key, notStacking), SETTLED);
   }
   // And a gate that resolves to `na` for this part must NOT make its dependents pending: a CABLE
   // is asked nothing, so nothing about it is pending either.
   const cable = { kind: "cable", vendor: "cisco" };
   eq("a cable's stacking_bandwidth is na, not pending",
-     requirementFor("switches", "stacking_bandwidth", cable), "na");
-  eq("a cable is asked for no ports at all", requirementFor("switches", "ports", cable), "na");
+     requirementFor("switches", "stacking_bandwidth", cable), SETTLED);
+  eq("a cable is asked for no ports at all", requirementFor("switches", "ports", cable), SETTLED);
 }
 
 // --- `all`: settled by ONE answered false clause (11 Sep 2026) ----------------------------------
@@ -197,7 +215,7 @@ ok("both are still DECLARED required in the profile — this is a scoring rule, 
   const card = { kind: "module" };
   const sw = { kind: "switch" };
   eq("a line card with poe_standard unanswered owes NO poe_budget (na, not pending)",
-     requirementFor("switches", "poe_budget", card), "na");
+     requirementFor("switches", "poe_budget", card), SETTLED);
   eq("...but still owes poe_standard itself",
      requirementFor("switches", "poe_standard", card), "req");
   eq("...and its poe_ports stay pending until poe_standard is answered",
@@ -205,16 +223,16 @@ ok("both are still DECLARED required in the profile — this is a scoring rule, 
   eq("a PoE line card owes its PoE port count",
      requirementFor("switches", "poe_ports", { kind: "module", poe_standard: "802.3at" }), "req");
   eq("a PoE line card still owes no PoE budget — the chassis PSU's",
-     requirementFor("switches", "poe_budget", { kind: "module", poe_standard: "802.3at" }), "na");
+     requirementFor("switches", "poe_budget", { kind: "module", poe_standard: "802.3at" }), SETTLED);
   eq("a switch with poe_standard unanswered: poe_budget pending", requirementFor("switches", "poe_budget", sw), "pending");
   eq("a PoE switch: poe_budget req", requirementFor("switches", "poe_budget", { kind: "switch", poe_standard: "802.3at" }), "req");
-  eq("a non-PoE switch: poe_budget na", requirementFor("switches", "poe_budget", { kind: "switch", poe_standard: "none" }), "na");
+  eq("a non-PoE switch: poe_budget is not asked", requirementFor("switches", "poe_budget", { kind: "switch", poe_standard: "none" }), SETTLED);
   // A single-field condition behaves exactly as before: gate absent and required -> pending.
   eq("control: a single-field cond with its required gate absent is still pending",
      requirementFor("security", "rack_units", unknownFF), "pending");
 }
 
 lines.unshift(`    pending requirement: ${passed} passed, ${failed} missed ` +
-              `(3-way na/pending/req, ${optGated.length} conds in security)`);
+              `(3-way settled/pending/req, ${optGated.length} conds in security)`);
 console.log(lines.join("\n"));
 if (failed) process.exit(1);

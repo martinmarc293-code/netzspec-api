@@ -1737,6 +1737,13 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // while 987 drive capacities sat in `storage_capacity`; the cup with the data was not on the table.)
     // STRUCTURE 8 Sep 2026: dictionary key(s) that NO category declared — defined, labelled, and unreachable by any product until now
     automation_features: opt, bmc_management: opt, cluster_size_max: opt, color: opt, color_options: opt, connectivity_options: opt, country_of_origin: opt, drive_options: opt, expansion_slot_type: opt, manageable: opt, management_interfaces: opt, media_type_supported: opt, onboard_nics: opt, oversubscription_ratio: opt, packaging_dimensions: opt, power_load_range: opt, product_line: opt, psu_count: opt, random_read_iops_4k: opt, random_write_iops_4k: opt, read_latency: opt, rear_clearance: opt, rear_panel_ports: opt, riser_options: opt, security_features: opt, sequential_write_throughput: opt, series_release_date: opt, system_memory: opt, temp_operating_extended: opt, thermal_shock: opt, write_latency: opt,
+    // A VALUE THE CATALOGUE HOLDS MUST HAVE A SLOT — AND `cpu_base_clock` IS NOT ONE (25 Sep 2026). 35 UCS CPUs
+    // hold a rendered fact under it and the profile does not declare it, which is the shape of a missing cup. It
+    // is not: `UCS_R2_DUPLICATES` retires it into `clock_speed` in these three categories, deliberately, because
+    // they are the same quantity under two labels ("CPU Base Clock Frequency" GHz vs "Base Clock Frequency" GHz,
+    // 63 facts against 298). So the slot exists and the VALUE is under the wrong key — a re-key, not a profile
+    // change, and adding the cup here would undo the de-duplication. The same holds for `cache_l3` -> `cpu_cache`
+    // in hyperconverged-systems (31 facts). Recorded here because the absence looks like a defect from outside.
   },
 
   // --- video (12 Sep 2026) ---------------------------------------------------------------------------------
@@ -2446,6 +2453,15 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     psu_efficiency: opt, power_cord_rating: opt, box_contents: opt, qos_queues: opt,
     // STRUCTURE 8 Sep 2026: dictionary key(s) that NO category declared — defined, labelled, and unreachable by any product until now
     automation_features: opt, cluster_size_max: opt, color: opt, color_options: opt, connectivity_options: opt, country_of_origin: opt, ethernet_technology: opt, layer2_features: opt, layer3_features: opt, manageable: opt, management_interfaces: opt, max_ports_100g: opt, max_ports_10g: opt, max_ports_1g: opt, max_ports_25g: opt, max_ports_40g: opt, max_ports_50g: opt, media_type_supported: opt, module_width_slots: opt, multicast_features: opt, network_technology: opt, oversubscription_ratio: opt, packaging_dimensions: opt, poe_budget_redundant_psu: opt, power_load_range: opt, product_line: opt, qsfp28_ports: opt, rear_clearance: opt, rear_panel_ports: opt, security_features: opt, series_release_date: opt, temp_operating_extended: opt, thermal_shock: opt, voq_buffer: opt,
+    // A VALUE THE CATALOGUE HOLDS MUST HAVE A SLOT (operator, 25 Sep 2026: "all the cups are always applicable
+    // somewhere"). These keys are in the dictionary and parts of THIS category hold rendered facts under them,
+    // while the category's profile did not declare them at all — so `requirementFor` returned `na` through its
+    // `if (!r)` branch and the value counted for nothing, anywhere. Declared `opt`: accepted where a source
+    // provides it, never a gap where none does. The count beside each is the parts holding it on 25 Sep 2026.
+    // All six arrived with the Meraki MS switches that moved into `switches` in the kind-layer plans: the MS
+    // sheets state them and the Catalyst-shaped profile had no cup for any of them.
+    // dedicated_mgmt_interface 46 · sfp_plus_ports 32 · fan_hot_swap 13 · mgig_rj45_ports 9 · upoe_support 7 · qsfp_plus_ports 7
+    dedicated_mgmt_interface: opt, sfp_plus_ports: opt, fan_hot_swap: opt, mgig_rj45_ports: opt, upoe_support: opt, qsfp_plus_ports: opt,
   },
   transceiver: {
     itu_channel: opt, jacket_material: opt, jacket_color: opt, optical_pm: opt, input_power_range: opt, // deep-spec fields 2026-09-02
@@ -3374,6 +3390,14 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     temp_class: opt, segment_routing_features: opt, qos_features: opt, modulation_format: opt, safety_standards: opt, queues_per_port: opt, status_leds: opt,
     // STRUCTURE 8 Sep 2026: dictionary key(s) that NO category declared — defined, labelled, and unreachable by any product until now
     automation_features: opt, color: opt, color_options: opt, connectivity_options: opt, country_of_origin: opt, drive_options: opt, manageable: opt, management_interfaces: opt, media_type_supported: opt, packaging_dimensions: opt, product_line: opt, random_read_iops_4k: opt, random_write_iops_4k: opt, read_latency: opt, rear_clearance: opt, security_features: opt, sequential_write_throughput: opt, series_release_date: opt, temp_operating_extended: opt, thermal_shock: opt, write_latency: opt,
+    // A VALUE THE CATALOGUE HOLDS MUST HAVE A SLOT (operator, 25 Sep 2026: "all the cups are always applicable
+    // somewhere"). These keys are in the dictionary and parts of THIS category hold rendered facts under them,
+    // while the category's profile did not declare them at all — so `requirementFor` returned `na` through its
+    // `if (!r)` branch and the value counted for nothing, anywhere. Declared `opt`: accepted where a source
+    // provides it, never a gap where none does. The count beside each is the parts holding it on 25 Sep 2026.
+    // MDS 9100/9300 fabric switches with PoE management ports; declared in 18 other categories, not this one.
+    // poe_standard 10
+    poe_standard: opt,
   },
   // SHAPED BY KIND (src/core/opticalKind.ts). This profile was "transponders / muxponders / DWDM systems — reuse
   // the transceiver optical fields", and it asked those fields of all 2,094 parts: a 40-channel passive mux owed
@@ -3701,6 +3725,14 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // STRUCTURE 8 Sep 2026: dictionary key(s) that NO category declared — defined, labelled, and unreachable by any product until now
     // cd_tolerance -> chromatic_dispersion_tolerance, 11 Sep 2026: one key per quantity (see `transceiver`).
     breakout_point_length: opt, chromatic_dispersion_tolerance: opt, channel_bandwidth: opt, color: opt, color_options: opt, country_of_origin: opt, input_wavelength: opt, modulation_type: opt, module_width_slots: opt, noise_equivalent_power: opt, optical_agc_range: opt, output_power_stability: opt, packaging_dimensions: opt, product_line: opt, series_release_date: opt,
+    // A VALUE THE CATALOGUE HOLDS MUST HAVE A SLOT (operator, 25 Sep 2026: "all the cups are always applicable
+    // somewhere"). These keys are in the dictionary and parts of THIS category hold rendered facts under them,
+    // while the category's profile did not declare them at all — so `requirementFor` returned `na` through its
+    // `if (!r)` branch and the value counted for nothing, anywhere. Declared `opt`: accepted where a source
+    // provides it, never a gap where none does. The count beside each is the parts holding it on 25 Sep 2026.
+    // All three are cellular P-LTEA7 modules; the category declared no cellular cup at all.
+    // lte_bands 3 · wwan_3g_bands 3 · carrier_certifications 1
+    lte_bands: opt, wwan_3g_bands: opt, carrier_certifications: opt,
   },
 };
 
@@ -3999,9 +4031,35 @@ export function requirementFor(
   const r = profile?.[key];
   if (!r) return "na";
   if (r.kind !== "cond") return r.kind;
-  // fallback-kinds (12 Sep 2026): what an unmet conditional MEANS — see the `elseOpt` note on
-  // Requirement. Default `na`, so every conditional written before today behaves exactly as it did.
-  const unmet = r.elseOpt ? "opt" : "na";
+  // AN UNMET CONDITIONAL LEAVES THE CUP OPTIONAL. IT NEVER CLOSES IT (operator, 25 Sep 2026:
+  // "there should be zero non-applicable cups — all the cups are always applicable somewhere").
+  //
+  // This line used to read `r.elseOpt ? "opt" : "na"`, and the comment beside it said why the
+  // default was `na`: "so every conditional written before today behaves exactly as it did" —
+  // backward compatibility, not a judgement that closing was right. Measured before the change:
+  //   * profile entries: req 45, opt 5,522, cond 607, and `na` chosen outright ZERO times
+  //   * 469 of the 607 conds left `elseOpt` unset, closing 7,846 (category, kind, key) cups by
+  //     INHERITING that default — `dimensions` closed in 222 places, `weight` 208, `certifications`
+  //     242, on parts that are physical objects
+  //   * and the catalogue already contradicted it: 149 (category, kind, key) triples hold 6,310
+  //     rendered values in a cup the profile had closed — 1,277 CPUs with a `power_max` on a kind
+  //     said to have no power draw, 169 WDM muxes with a `wavelength` on a kind said to have none
+  //
+  // `na` is a claim about the WORLD that the catalogue cannot verify; `opt` is a claim about
+  // nothing — accepted if a source provides it, never a gap if none does. The only thing closing
+  // ever bought over optional was the power to refuse a value, and that power was being used
+  // wrongly 6,310 times. It was also self-sealing: `promote-required` refuses to promote an `na`
+  // key, so the flag that hid the values blocked the one mechanism that would have surfaced them.
+  //
+  // SAFE BY CONSTRUCTION, and this is why it is one line rather than 469 edits: `completenessV2`
+  // and `requiredFieldsFor` count `req` and `pending` only, so no denominator, percentage or
+  // stored row moves in any vendor — `completeness` does not even have a column for `na`. What
+  // changes is that a cup the world can fill stops being described as one it cannot.
+  //
+  // `elseOpt` is now vestigial: it says `opt` and `opt` is the only outcome. It is left on the 138
+  // rules that carry it because it records their author's intent, and `tests/cupLedger.test.ts`
+  // asserts no kind closes any cup, so a reintroduced `na` cannot pass unnoticed.
+  const unmet = "opt";
   if (evalCondition(r.when, values)) return "req";
   // Settled false by what IS answered: nothing left unanswered can make it true (see settledFalse).
   if (settledFalse(r.when, values)) return unmet;

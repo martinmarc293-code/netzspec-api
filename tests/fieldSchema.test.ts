@@ -40,10 +40,15 @@ check("any/all compose",
 // tests/partKind.test.ts, which pins that failure.
 const rackPoe: PartValues = { kind: "switch", form_factor: "rack-19", poe_standard: "802.3at", stackable: true, layer: "l3" };
 const dinNoPoe: PartValues = { kind: "switch", form_factor: "din-rail", poe_standard: "none", stackable: false, layer: "l2" };
+// 25 Sep 2026: an unmet conditional leaves a cup OPTIONAL instead of closing it (operator: "there should be zero
+// non-applicable cups"; docs/decisions/2026-09-25-zero-not-applicable-cups.md). These four are a matched pair each:
+// the `req` side is asserted exactly, and the other side asserts what it always meant — the cup is NOT AN OPEN GAP
+// for a switch that has no PoE or is not rack-mounted. Measured: req / opt, so the gate still discriminates.
+const notAGap = (r: string) => r !== "req" && r !== "pending";
 check("poe_budget required when PoE present", requirementFor("switches", "poe_budget", rackPoe) === "req");
-check("poe_budget N/A when PoE none", requirementFor("switches", "poe_budget", dinNoPoe) === "na");
+check("poe_budget is not asked when PoE is none (opt, never req or pending)", notAGap(requirementFor("switches", "poe_budget", dinNoPoe)));
 check("rack_units required for rack", requirementFor("switches", "rack_units", rackPoe) === "req");
-check("rack_units N/A for DIN-rail", requirementFor("switches", "rack_units", dinNoPoe) === "na");
+check("rack_units is not asked for DIN-rail (opt, never req or pending)", notAGap(requirementFor("switches", "rack_units", dinNoPoe)));
 // CHANGED 12 Sep 2026 (round-6 B2). These two asserted `req` for an L3 part and `na` for an L2 one,
 // which was the honest reading of `ipv4_routes: cond(layer != l2)`. `layer` had no fill path and
 // could not be derived (measured twice against the 1,054 seeds), so it went optional — and an
@@ -128,8 +133,13 @@ const OPTIC_CORE = ["form_factor", "data_rate", "reach_max", "connector", "media
 // by outcome, for a cable whose medium nobody has answered yet (the case a media gate alone would leave pending).
 {
   const cab = { vendor: "cisco", kind: "cable" };
+  // 25 Sep 2026: read `=== "na"` until an unmet conditional stopped closing cups. The outcome this case pins is in
+  // its own title — a DAC/AOC must not be asked the optic rows — and the failure it guards against is named in the
+  // comment above: "the case a media gate alone would leave PENDING". `pending` is the open gap; `opt` is not one.
   check("kind-layer: a `cable` is not asked wavelength, tx_power, rx_sensitivity or reach_max, even with its medium unanswered",
-    ["wavelength", "tx_power", "rx_sensitivity", "reach_max"].every((k) => requirementFor("transceiver", k, cab) === "na"));
+    ["wavelength", "tx_power", "rx_sensitivity", "reach_max"].every((k) => {
+      const r = requirementFor("transceiver", k, cab); return r !== "req" && r !== "pending";
+    }));
   check("kind-layer: a `cable` IS asked its length and what it fits",
     requirementFor("transceiver", "cable_length", cab) === "req" && requirementFor("transceiver", "product_compatibility", cab) === "req");
   check("kind-layer: a pluggable is asked temp_operating (OPTIC library, proposed required)",
