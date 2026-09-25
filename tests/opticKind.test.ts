@@ -226,7 +226,11 @@ eq(`kind "cable" is not an optic module (it is asked a length, not a transmit po
   const MEDIA_PENDING = "cable_length,fiber_type,reach_max,rx_sensitivity,tx_power,wavelength,wire_gauge";
   eq("question set: pluggable (+ temp_operating)", qs("pluggable"), `connector,data_rate,ddm,form_factor,media,power_max,standard,temp_class,temp_operating | ${MEDIA_PENDING}`);
   eq("question set: bidi (+ temp_operating)", qs("bidi"), `connector,data_rate,ddm,form_factor,media,power_max,rx_wavelength,standard,temp_class,temp_operating | ${MEDIA_PENDING}`);
-  eq("question set: tunable (+ temp_operating, tuning_range; no wavelength)", qs("tunable"), "connector,data_rate,ddm,form_factor,media,power_max,standard,temp_class,temp_operating,tuning_range | cable_length,fiber_type,reach_max,rx_sensitivity,tx_power,wire_gauge");
+  // tuning_range DEMOTED to `opt` on 25 Sep 2026: 88 tunable optics were asked a cup with zero facts in any vendor and
+  // no enabled source publishing it. It is the one of the seven with a visible way back — the 16 Sep label sweep found
+  // seven labels that say tunable (`Frequency tuning range (GHz)`, `ITU Channel` ×6) — so this is a demotion pending an
+  // alias, not a judgement that the question is wrong. docs/decisions/2026-09-25-required-cups-no-source-can-fill.md
+  eq("question set: tunable (+ temp_operating; no wavelength, no tuning_range until an alias exists)", qs("tunable"), "connector,data_rate,ddm,form_factor,media,power_max,standard,temp_class,temp_operating | cable_length,fiber_type,reach_max,rx_sensitivity,tx_power,wire_gauge");
   eq("question set: cable (no optic rows; + cable_length, product_compatibility)", qs("cable"), "cable_length,connector,data_rate,ddm,form_factor,media,power_max,product_compatibility,standard,temp_class | wire_gauge");
   eq("question set: breakout-cable (+ product_compatibility)", qs("breakout-cable"), "breakout_count,cable_length,data_rate,form_factor_a,form_factor_b,media,product_compatibility | fiber_type,reach_max,rx_sensitivity,tx_power,wire_gauge");
   eq("question set: adapter (+ both ends, product_compatibility)", qs("adapter"), "data_rate,form_factor,form_factor_a,form_factor_b,product_compatibility | ");

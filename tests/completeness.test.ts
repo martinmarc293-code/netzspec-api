@@ -12,7 +12,7 @@ import path from "node:path";
 import Fastify from "fastify";
 import os from "node:os";
 import {
-  CHECKS, checkReport, pctOf, completenessVendors, readCompleteness, readCompletenessSince, UNRESOLVED_ROLE,
+  CHECKS, checkReport, cupDemand, pctOf, completenessVendors, readCompleteness, readCompletenessSince, UNRESOLVED_ROLE,
   type Block, type CheckContext, type CheckName, type CompletenessReport, type KindBlock, type LedgerLike, type RoleBlock,
 } from "../src/api/queries/completeness.js";
 import { ROLE_DOMAINS, roleAxisOf } from "../src/core/deployRole.js";
@@ -142,14 +142,44 @@ for (const vendor of vendors) {
   sabotage("cup_asked_matches_ledger", "a ledger kind storing one more slot than its cups ask", (rr, cc) => {
     const { c, k } = catWith(rr, (x) => x.cups.length > 0); cc.ledgers![c.category].kinds[k.kind].required_slots_stored++;
   }, true);
+  // LAYER 3: a kind with a role axis states its cups per role and keeps the core as its `(unresolved)` block, so a
+  // sabotage that edits the core ALONE is a different break (the core/unresolved disagreement, below) and would have
+  // these two caught for the wrong reason — which counts as a miss. `everyBlock` edits the file the builder writes.
+  const everyBlock = (lk: LedgerLike["kinds"][string]) => [lk, ...Object.values(lk.roles ?? {})];
   sabotage("cup_asked_matches_ledger", "a ledger that requires a cup the report never asks", (rr, cc) => {
-    const { c, k } = catWith(rr, (x) => x.parts > 0 && x.cups.length > 0); cc.ledgers![c.category].kinds[k.kind].required.push({ key: "__sabotage_cup__" });
+    const { c, k } = catWith(rr, (x) => x.parts > 0 && x.cups.length > 0);
+    for (const b of everyBlock(cc.ledgers![c.category].kinds[k.kind])) b.required.push({ key: "__sabotage_cup__" });
   }, true);
+  // Not `clean`: a key in the core that no role asks IS both faults at once, and saying so is the honest report.
+  sabotage("cup_asked_matches_ledger", "a ledger core that disagrees with its own (unresolved) role", (rr, cc) => {
+    const hit = rr.categories.flatMap((c) => c.kinds.map((k) => ({ c, k })))
+      .find(({ c, k }) => Boolean(cc.ledgers![c.category]?.kinds[k.kind]?.roles));
+    if (!hit) throw new Error("no kind with a role axis to sabotage");
+    cc.ledgers![hit.c.category].kinds[hit.k.kind].required.push({ key: "__core_only__" });
+  });
   sabotage("no_optional_cup_in_denominator", "a pending cup the ledger no longer lists (optional now)", (rr, cc) => {
     const { c, k } = catWith(rr, (x) => x.cups.some((cup) => cup.requirement === "pending" && cup.asked > 0));
     const cup = k.cups.find((x) => x.requirement === "pending" && x.asked > 0)!;
-    const lk = cc.ledgers![c.category].kinds[k.kind];
-    lk.pending_until_gate_answered = lk.pending_until_gate_answered.filter((x) => x.key !== cup.key);
+    for (const b of everyBlock(cc.ledgers![c.category].kinds[k.kind])) {
+      b.pending_until_gate_answered = b.pending_until_gate_answered.filter((x) => x.key !== cup.key);
+      b.required = b.required.filter((x) => x.key !== cup.key);
+    }
+  }, true);
+  // The band itself: one slot moved from a cup its roles require to a cup they only pend, so Σ cups.asked and the
+  // ledger's stored slots both stay exactly as they were and nothing but the per-cup band can see it.
+  sabotage("cup_asked_matches_ledger", "a cup asked of one part fewer than its kind's roles require", (rr, cc) => {
+    const hit = rr.categories.flatMap((c) => c.kinds.map((k) => ({ c, k })))
+      .flatMap(({ c, k }) => {
+        const lk = cc.ledgers![c.category]?.kinds[k.kind];
+        if (!lk) return [];
+        const from = k.cups.find((x) => x.asked > 0 && x.not_held > 0 && cupDemand(lk, x.key).min === x.asked);
+        const to = k.cups.find((x) => { const d = cupDemand(lk, x.key); return x !== from && d.asked_by_any && x.asked < d.max; });
+        return from && to ? [{ from, to }] : [];
+      })[0];
+    if (!hit) throw new Error("no cup pair with room to move a slot");
+    // `not_held` moves with it: a cup partitions as held_asked + not_held = asked, so moving `asked` alone is ALSO a
+    // broken partition and filled_partition catches it first — the band would never be the thing that found it.
+    hit.from.asked--; hit.from.not_held--; hit.to.asked++; hit.to.not_held++;
   }, true);
   sabotage("no_optional_cup_in_denominator", "a cup marked `other` inside a denominator", (rr) => {
     const { k } = catWith(rr, (x) => x.cups.length > 0); k.cups[0].requirement = "other";

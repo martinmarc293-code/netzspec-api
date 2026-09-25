@@ -668,11 +668,6 @@
    "status": "proposed by agent 6-infra, 13 Sep 2026 — the parent confirms or replaces",
    "reason": "only 1 of its series groups holds readable held evidence (Prisma II Products, 89 readable of 497): the Jaccard has no pair and cannot fail or pass"
   },
-  "servers-unified-computing.unknown": {
-   "basis": "unresolved-kind",
-   "status": "proposed by agent 6-infra, 13 Sep 2026 — the parent confirms or replaces",
-   "reason": "a fallback kind is not a population; the fallback census (totals.fallback) governs it"
-  },
   "servers-unified-computing.accessory": {
    "basis": "unresolved-kind",
    "status": "proposed by agent 6-infra, 13 Sep 2026 — the parent confirms or replaces",
@@ -689,14 +684,14 @@
    "reason": "a fallback kind is not a population; the fallback census (totals.fallback) governs it"
   },
   "hyperconverged-systems.cpu": {
-   "basis": "single-series",
-   "status": "proposed by agent 6-infra, 13 Sep 2026 — the parent confirms or replaces",
-   "reason": "one series group: rule 2's test has no second group to compare"
+   "basis": "unmeasured",
+   "status": "re-based by the cisco lane, 25 Sep 2026, after the kind-layer plans ran (7,533 of 7,533) — the parent confirms or replaces",
+   "reason": "trips term 13 on parts alone (398 parts, 2 series groups, 6 cups on 25 Sep 2026) and has more than the 3 cups rule 6 bounds a component kind at, so no checked basis applies. It crossed the threshold when the kind-layer plans moved parts into it; nothing about the kind itself changed. What would settle it is a label-Jaccard across its series groups, which this repo has for nine pairs and no script to reproduce — and `servers-unified-computing.cpu` HAS one (0.394, measured-empty-groups). Extending it here by `also_names` is the obvious next step and is not done, because a measurement taken over one category's parts is not evidence about another's. Replaces a `single-series` basis that no longer holds."
   },
   "hyperconverged-systems.drive": {
-   "basis": "single-series",
-   "status": "proposed by agent 6-infra, 13 Sep 2026 — the parent confirms or replaces",
-   "reason": "one series group: rule 2's test has no second group to compare"
+   "basis": "asks-at-most-3-cups",
+   "status": "re-based by the cisco lane, 25 Sep 2026, after the kind-layer plans ran (7,533 of 7,533) — the parent confirms or replaces",
+   "reason": "asks 3 cup(s) at nothing known; rule 6 bounds a component kind at 3, and a role axis only moves cups to optional, so no split can change what this kind is asked materially (494 parts, 3 series groups on 25 Sep 2026) — replaces a `single-series` basis that no longer holds"
   },
   "routers.module": {
    "basis": "asks-at-most-3-cups",
@@ -828,20 +823,65 @@
    "status": "OPEN — the parent measures (III.0 item-2 method) or records a checkable basis",
    "reason": "trips term 13 on parts alone (288 parts, 5 series groups, 14 cups at 0e22f85); III.0 item 2 did not run its label-Jaccard"
   },
-  "routers.sp-core": {
-   "basis": "unmeasured",
-   "status": "OPEN — the parent measures (III.0 item-2 method) or records a checkable basis",
-   "reason": "trips term 13 on parts alone (264 parts, 16 series groups, 19 cups at 0e22f85); III.0 item 2 did not run its label-Jaccard"
-  },
-  "optical-networking.linecard": {
-   "basis": "unmeasured",
-   "status": "OPEN — the parent measures (III.0 item-2 method) or records a checkable basis",
-   "reason": "trips term 13 on parts alone (256 parts, 7 series groups, 4 cups at 0e22f85); III.0 item 2 did not run its label-Jaccard"
-  },
   "collaboration-endpoints.video-codec": {
    "basis": "unmeasured",
    "status": "OPEN — the parent measures (III.0 item-2 method) or records a checkable basis",
    "reason": "trips term 13 on parts alone (242 parts, 8 series groups, 13 cups at 0e22f85); III.0 item 2 did not run its label-Jaccard"
+  },
+  "routers.processor": {
+   "basis": "asks-at-most-3-cups",
+   "status": "re-based by the cisco lane, 25 Sep 2026, after the kind-layer plans ran (7,533 of 7,533) — the parent confirms or replaces",
+   "reason": "asks 2 cup(s) at nothing known; rule 6 bounds a component kind at 3, and a role axis only moves cups to optional, so no split can change what this kind is asked materially (215 parts, 13 series groups on 25 Sep 2026)"
+  },
+  "switches.power-cord": {
+   "basis": "asks-at-most-3-cups",
+   "status": "re-based by the cisco lane, 25 Sep 2026, after the kind-layer plans ran (7,533 of 7,533) — the parent confirms or replaces",
+   "reason": "asks 2 cup(s) at nothing known; rule 6 bounds a component kind at 3, and a role axis only moves cups to optional, so no split can change what this kind is asked materially (202 parts, 23 series groups on 25 Sep 2026)"
+  },
+  "switches.bundle": {
+   "basis": "asks-at-most-3-cups",
+   "status": "re-based by the cisco lane, 25 Sep 2026, after the kind-layer plans ran (7,533 of 7,533) — the parent confirms or replaces",
+   "reason": "asks 2 cup(s) at nothing known; rule 6 bounds a component kind at 3, and a role axis only moves cups to optional, so no split can change what this kind is asked materially (223 parts, 11 series groups on 25 Sep 2026)"
+  },
+  "video.passive": {
+   "basis": "asks-at-most-3-cups",
+   "status": "re-based by the cisco lane, 25 Sep 2026, after the kind-layer plans ran (7,533 of 7,533) — the parent confirms or replaces",
+   "reason": "asks 2 cup(s) at nothing known; rule 6 bounds a component kind at 3, and a role axis only moves cups to optional, so no split can change what this kind is asked materially (208 parts, 4 series groups on 25 Sep 2026)"
+  },
+  "collaboration-endpoints.power": {
+   "basis": "unmeasured",
+   "status": "re-based by the cisco lane, 25 Sep 2026, after the kind-layer plans ran (7,533 of 7,533) — the parent confirms or replaces",
+   "reason": "trips term 13 on parts alone (203 parts, 21 series groups, 4 cups on 25 Sep 2026) and has more than the 3 cups rule 6 bounds a component kind at, so no checked basis applies. It crossed the threshold when the kind-layer plans moved parts into it; nothing about the kind itself changed. What would settle it is a label-Jaccard across its series groups, which this repo has for nine pairs and no script to reproduce."
+  },
+  "hyperconverged-infrastructure.cpu": {
+   "basis": "unmeasured",
+   "status": "re-based by the cisco lane, 25 Sep 2026, after the kind-layer plans ran (7,533 of 7,533) — the parent confirms or replaces",
+   "reason": "trips term 13 on parts AND share (46.4% >= 40%) (564 parts, 2 series groups, 6 cups on 25 Sep 2026) and has more than the 3 cups rule 6 bounds a component kind at, so no checked basis applies. It crossed the threshold when the kind-layer plans moved parts into it; nothing about the kind itself changed. What would settle it is a label-Jaccard across its series groups, which this repo has for nine pairs and no script to reproduce — and `servers-unified-computing.cpu` HAS one (0.394, measured-empty-groups). Extending it here by `also_names` is the obvious next step and is not done, because a measurement taken over one category's parts is not evidence about another's."
+  },
+  "hyperconverged-systems.server": {
+   "basis": "unmeasured",
+   "status": "re-based by the cisco lane, 25 Sep 2026, after the kind-layer plans ran (7,533 of 7,533) — the parent confirms or replaces",
+   "reason": "trips term 13 on parts alone (208 parts, 2 series groups, 17 cups on 25 Sep 2026) and has more than the 3 cups rule 6 bounds a component kind at, so no checked basis applies. It crossed the threshold when the kind-layer plans moved parts into it; nothing about the kind itself changed. What would settle it is a label-Jaccard across its series groups, which this repo has for nine pairs and no script to reproduce."
+  },
+  "security.analytics": {
+   "basis": "unmeasured",
+   "status": "re-based by the cisco lane, 25 Sep 2026, after the kind-layer plans ran (7,533 of 7,533) — the parent confirms or replaces",
+   "reason": "trips term 13 on parts alone (214 parts, 6 series groups, 10 cups on 25 Sep 2026) and has more than the 3 cups rule 6 bounds a component kind at, so no checked basis applies. It crossed the threshold when the kind-layer plans moved parts into it; nothing about the kind itself changed. What would settle it is a label-Jaccard across its series groups, which this repo has for nine pairs and no script to reproduce."
+  },
+  "servers-unified-computing.cable": {
+   "basis": "unmeasured",
+   "status": "re-based by the cisco lane, 25 Sep 2026, after the kind-layer plans ran (7,533 of 7,533) — the parent confirms or replaces",
+   "reason": "trips term 13 on parts alone (236 parts, 7 series groups, 4 cups on 25 Sep 2026) and has more than the 3 cups rule 6 bounds a component kind at, so no checked basis applies. It crossed the threshold when the kind-layer plans moved parts into it; nothing about the kind itself changed. What would settle it is a label-Jaccard across its series groups, which this repo has for nine pairs and no script to reproduce."
+  },
+  "switches.module": {
+   "basis": "unmeasured",
+   "status": "re-based by the cisco lane, 25 Sep 2026, after the kind-layer plans ran (7,533 of 7,533) — the parent confirms or replaces",
+   "reason": "trips term 13 on parts alone (274 parts, 22 series groups, 5 cups on 25 Sep 2026) and has more than the 3 cups rule 6 bounds a component kind at, so no checked basis applies. It crossed the threshold when the kind-layer plans moved parts into it; nothing about the kind itself changed. What would settle it is a label-Jaccard across its series groups, which this repo has for nine pairs and no script to reproduce."
+  },
+  "wireless.antenna": {
+   "basis": "unmeasured",
+   "status": "re-based by the cisco lane, 25 Sep 2026, after the kind-layer plans ran (7,533 of 7,533) — the parent confirms or replaces",
+   "reason": "trips term 13 on parts alone (216 parts, 11 series groups, 4 cups on 25 Sep 2026) and has more than the 3 cups rule 6 bounds a component kind at, so no checked basis applies. It crossed the threshold when the kind-layer plans moved parts into it; nothing about the kind itself changed. What would settle it is a label-Jaccard across its series groups, which this repo has for nine pairs and no script to reproduce."
   }
  }
 }

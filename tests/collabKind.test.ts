@@ -258,7 +258,9 @@ check("the collaboration axis does not reach routers", partKind("routers", "CP-8
     display: "certifications,dimensions,display,humidity_operating,max_resolution,mounting,power_max,temp_operating,temp_storage,weight",
     "touch-panel": "certifications,dimensions,display,humidity_operating,max_resolution,poe_standard,power_max,product_compatibility,temp_operating,temp_storage,weight",
     "dect-base": "certifications,dimensions,humidity_operating,poe_standard,ports,power_max,product_compatibility,supported_protocols,temp_operating,temp_storage,weight",
-    server: "certifications,cpu_sockets_max,dimensions,dimm_slots,drive_bays,form_factor,humidity_operating,memory_max,memory_speed_max,pcie_slots,power_max,temp_operating,temp_storage,weight",
+    // dimm_slots / pcie_slots demoted 25 Sep 2026 with the UCS pair (zero facts in any vendor, no enabled source;
+    // 30 collaboration parts). `drive_bays` stays required — it was not in the source-fields finding.
+    server: "certifications,cpu_sockets_max,dimensions,drive_bays,form_factor,humidity_operating,memory_max,memory_speed_max,power_max,temp_operating,temp_storage,weight",
   };
   for (const [k, want] of Object.entries(WANT)) check(`collab \`${k}\` asks the spec archetype set`, req(CE, k) === want, req(CE, k));
   for (const k of ["cpu", "memory", "drive", "nic"]) {

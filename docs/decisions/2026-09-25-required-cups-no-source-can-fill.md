@@ -58,3 +58,33 @@ is a check people learn to ignore — which is how this one survived.
 A third path exists for `tuning_range` alone and is worth naming: the 16 Sep label sweep found seven labels that say
 *tunable* — `Frequency tuning range (GHz)` and `ITU Channel` ×6 — so an alias could make that one genuinely fillable
 rather than demoted. It needs the cross-vendor alias measurement this repo requires before any dictionary change.
+
+---
+
+## Decided: A, and applied on this commit (25 Sep 2026)
+
+The operator's answer was *"go with your recommendation"*, so **A**. The seven keys are `opt` in
+`src/core/fieldSchema.ts` at six sites, each carrying the measurement that licensed it (zero facts stored under the key
+across **all** vendors, and what the 16 Sep label sweep found for it).
+
+What it moved, measured rather than predicted:
+
+- `recompute-completeness --vendor cisco` (**run 1220**) wrote **3,197** rows of 86,934 — the exact part count this
+  record predicted, which is the useful confirmation: the demotion reached the population it was measured over and no
+  other.
+- Re-read from a new connection, over **every vendor**, hardware, live: **no part anywhere stores one of the seven as
+  a required field.** So the change left no other lane's completeness rows stale, and hpe and juniper need no
+  recompute for it — checked rather than assumed, because the profiles are shared and a worktree's census measures one
+  vendor.
+- `tests/source-fields.test.ts` **31 passed / 0 missed** and `tests/securityShapes.test.ts` **111 / 0**. Both had been
+  red since the security round, for this reason and nothing else.
+
+`tests/securityShapes.test.ts` moved with it: four archetype proposals and `drive_form_factor` go to `opt` with the
+counts, the firewall shape's `new_conn_per_sec` goes to `opt`, and `BOXLIKE_COMPONENT = ["security-module"]` came back
+with its original reason — the leanest box shape, `identity`, drops 10 slots to 9 and now ties the blade's 9, which is
+exactly the tie that constant exists to break and which that file's own comment predicted.
+
+**Still open, and deliberately not folded in here:** `tuning_range` has seven labels that say *tunable*
+(`Frequency tuning range (GHz)`, `ITU Channel` ×6). An alias would make it genuinely fillable rather than demoted.
+That is a dictionary change and needs the cross-vendor alias measurement first, so it is a separate decision with its
+own record — not a line slipped into a demotion.

@@ -3,7 +3,7 @@
  "vendor": "cisco",
  "category": "video",
  "profile_hash": "90190e9a9db0583e",
- "built_on_commit": "5059637",
+ "built_on_commit": "98aac02",
  "norm_version": "1.8.0",
  "declared_fields": 398,
  "gap_states": {
@@ -5709,15 +5709,19 @@
    },
    "role_axis": "none",
    "label_jaccard": null,
-   "granularity_exception": null,
+   "granularity_exception": {
+    "basis": "asks-at-most-3-cups",
+    "reason": "asks 2 cup(s) at nothing known; rule 6 bounds a component kind at 3, and a role axis only moves cups to optional, so no split can change what this kind is asked materially (208 parts, 4 series groups on 25 Sep 2026)",
+    "status": "re-based by the cisco lane, 25 Sep 2026, after the kind-layer plans ran (7,533 of 7,533) — the parent confirms or replaces"
+   },
    "term13": {
     "trips": [
      "parts 208 >= 200"
     ],
-    "verdict": "FAIL",
+    "verdict": "exception",
     "label_jaccard": null,
-    "basis": null,
-    "detail": "trips term 13 (parts 208 >= 200) with no role axis, no measured Jaccard and no recorded granularity_exception"
+    "basis": "asks-at-most-3-cups",
+    "detail": "asks 2 cup(s) at nothing known; rule 6 bounds a component kind at 3, and a role axis only moves cups to optional, so no split can change what this kind is asked materially (208 parts, 4 series groups on 25 Sep 2026)"
    },
    "document_evidence": {
     "spec_bearing": 4,

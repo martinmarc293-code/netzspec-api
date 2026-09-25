@@ -220,7 +220,10 @@ for (const key of ["ip_rating", "antenna_connector", "input_voltage"]) {
   eq(`ap indoor: the role-gated ${key} is OPTIONAL, never n/a (rule 7)`, kindQuestionSet("wireless", "ap", "indoor").optional.includes(key), true);
 }
 eq("sensor keeps what it was asked as an AP until today (no radio_count: not in the spec library for a sensor)", req("sensor"), "antenna_type,ap_max_clients,certifications,dimensions,poe_standard,ports,power_max,radio_bands,spatial_streams,temp_operating,weight,wifi_generation");
-eq("backhaul = AP + link_budget (max_roaming_speed is a free string: proposed, kept optional)", req("backhaul"), "antenna_type,certifications,dimensions,link_budget,poe_standard,ports,power_max,radio_bands,radio_count,spatial_streams,temp_operating,weight,wifi_generation");
+// link_budget DEMOTED to `opt` on 25 Sep 2026: 41 backhaul radios were asked it, and the ONE fact on that key in the
+// whole store came from `hexcat_seed` — a seed is not a source, and no enabled source publishes the label. So a backhaul
+// now asks exactly what an AP asks. docs/decisions/2026-09-25-required-cups-no-source-can-fill.md
+eq("backhaul = the AP set (link_budget and max_roaming_speed both optional: no enabled source publishes either)", req("backhaul"), "antenna_type,certifications,dimensions,poe_standard,ports,power_max,radio_bands,radio_count,spatial_streams,temp_operating,weight,wifi_generation");
 eq("wlc = WLC + ENV (humidity, form factor; rack units pending on it)", req("wlc"), "certifications,dimensions,form_factor,humidity_operating,ports,power_max,temp_operating,weight,wlc_ap_capacity,wlc_client_capacity");
 eq("appliance = ENV + ports", req("appliance"), "certifications,dimensions,form_factor,humidity_operating,ports,power_max,temp_operating,weight");
 eq("module = MODULE (ports, data_rate, what it fits)", req("module"), "data_rate,ports,product_compatibility");

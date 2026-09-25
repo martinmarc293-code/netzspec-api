@@ -3,7 +3,7 @@
  "vendor": "cisco",
  "category": "switches",
  "profile_hash": "43a7c09ebfc541c2",
- "built_on_commit": "5059637",
+ "built_on_commit": "98aac02",
  "norm_version": "1.8.0",
  "declared_fields": 447,
  "gap_states": {
@@ -10698,6 +10698,13 @@
          "facts_current": 23006
         },
         {
+         "source": "cisco-datasheet-pdf",
+         "class": "datasheet-pdf",
+         "basis": "profile-required-only",
+         "enabled": false,
+         "facts_current": 0
+        },
+        {
          "source": "arista",
          "class": "vendor-page",
          "basis": "seen-but-inactive",
@@ -20768,15 +20775,19 @@
    },
    "role_axis": "none",
    "label_jaccard": null,
-   "granularity_exception": null,
+   "granularity_exception": {
+    "basis": "unmeasured",
+    "reason": "trips term 13 on parts alone (274 parts, 22 series groups, 5 cups on 25 Sep 2026) and has more than the 3 cups rule 6 bounds a component kind at, so no checked basis applies. It crossed the threshold when the kind-layer plans moved parts into it; nothing about the kind itself changed. What would settle it is a label-Jaccard across its series groups, which this repo has for nine pairs and no script to reproduce.",
+    "status": "re-based by the cisco lane, 25 Sep 2026, after the kind-layer plans ran (7,533 of 7,533) — the parent confirms or replaces"
+   },
    "term13": {
     "trips": [
      "parts 274 >= 200"
     ],
-    "verdict": "FAIL",
+    "verdict": "unmeasured",
     "label_jaccard": null,
-    "basis": null,
-    "detail": "trips term 13 (parts 274 >= 200) with no role axis, no measured Jaccard and no recorded granularity_exception"
+    "basis": "unmeasured",
+    "detail": "trips term 13 on parts alone (274 parts, 22 series groups, 5 cups on 25 Sep 2026) and has more than the 3 cups rule 6 bounds a component kind at, so no checked basis applies. It crossed the threshold when the kind-layer plans moved parts into it; nothing about the kind itself changed. What would settle it is a label-Jaccard across its series groups, which this repo has for nine pairs and no script to reproduce."
    },
    "document_evidence": {
     "spec_bearing": 27,
@@ -26123,15 +26134,19 @@
    },
    "role_axis": "none",
    "label_jaccard": null,
-   "granularity_exception": null,
+   "granularity_exception": {
+    "basis": "asks-at-most-3-cups",
+    "reason": "asks 2 cup(s) at nothing known; rule 6 bounds a component kind at 3, and a role axis only moves cups to optional, so no split can change what this kind is asked materially (202 parts, 23 series groups on 25 Sep 2026)",
+    "status": "re-based by the cisco lane, 25 Sep 2026, after the kind-layer plans ran (7,533 of 7,533) — the parent confirms or replaces"
+   },
    "term13": {
     "trips": [
      "parts 202 >= 200"
     ],
-    "verdict": "FAIL",
+    "verdict": "exception",
     "label_jaccard": null,
-    "basis": null,
-    "detail": "trips term 13 (parts 202 >= 200) with no role axis, no measured Jaccard and no recorded granularity_exception"
+    "basis": "asks-at-most-3-cups",
+    "detail": "asks 2 cup(s) at nothing known; rule 6 bounds a component kind at 3, and a role axis only moves cups to optional, so no split can change what this kind is asked materially (202 parts, 23 series groups on 25 Sep 2026)"
    },
    "document_evidence": {
     "spec_bearing": 72,
@@ -29703,15 +29718,19 @@
    },
    "role_axis": "none",
    "label_jaccard": null,
-   "granularity_exception": null,
+   "granularity_exception": {
+    "basis": "asks-at-most-3-cups",
+    "reason": "asks 2 cup(s) at nothing known; rule 6 bounds a component kind at 3, and a role axis only moves cups to optional, so no split can change what this kind is asked materially (223 parts, 11 series groups on 25 Sep 2026)",
+    "status": "re-based by the cisco lane, 25 Sep 2026, after the kind-layer plans ran (7,533 of 7,533) — the parent confirms or replaces"
+   },
    "term13": {
     "trips": [
      "parts 223 >= 200"
     ],
-    "verdict": "FAIL",
+    "verdict": "exception",
     "label_jaccard": null,
-    "basis": null,
-    "detail": "trips term 13 (parts 223 >= 200) with no role axis, no measured Jaccard and no recorded granularity_exception"
+    "basis": "asks-at-most-3-cups",
+    "detail": "asks 2 cup(s) at nothing known; rule 6 bounds a component kind at 3, and a role axis only moves cups to optional, so no split can change what this kind is asked materially (223 parts, 11 series groups on 25 Sep 2026)"
    },
    "document_evidence": {
     "spec_bearing": 7,

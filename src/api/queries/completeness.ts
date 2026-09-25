@@ -77,8 +77,10 @@ export type Block = {
 
 export type CupRow = {
   key: string;
-  /** how the kind's ledger lists the cup at nothing-known: required, or pending behind a gate */
-  requirement: "required" | "pending" | "other";
+  /** how the kind's ledger lists the cup at nothing-known, read across its roles (`cupRequirement`):
+   *  required = every role asks it outright · pending = every role asks it, at least one behind a gate ·
+   *  by_role  = some roles of this kind ask it and some do not (layer 3) · other = no role asks it, a defect */
+  requirement: "required" | "pending" | "by_role" | "other";
   gate: string[];
   asked: number; held_asked: number;
   filled: number; not_published: number; not_parsed: number; mapper_gap: number; would_refuse: number;
@@ -157,8 +159,62 @@ export type LedgerLike = {
     parts: number; required_slots_stored: number;
     document_evidence: { spec_bearing: number; spec_linked_not_held?: number; eol_only: number; no_document: number };
     required: { key: string }[]; pending_until_gate_answered: { key: string }[];
+    /** LAYER 3 (13 Sep 2026): present exactly when the kind has a role axis. The kind's OWN lists above are its CORE —
+     *  what a part whose role is unresolved is asked — so a cup only one role asks for is NOT in them. Read the band
+     *  through `cupDemand`, never the core lists alone. */
+    roles?: Record<string, { parts: number; required: { key: string }[]; pending_until_gate_answered: { key: string }[] }>;
   }>;
 };
+
+/**
+ * WHAT THE LEDGER ASKS FOR ONE CUP ACROSS THE ROLES OF A KIND (25 Sep 2026).
+ *
+ * "Required of the kind" stopped meaning "asked of every part of the kind" the day layer 3 landed: a `branch` router
+ * is asked `flash`, an `smb` router is asked `temp_operating`, and the kind's own lists are only the CORE — the set a
+ * part whose role is unresolved is asked. Two cross-checks below read the core as if it covered every part, so every
+ * role-gated cup looked like a defect and the report would not rebuild. Neither check was wrong about its arithmetic;
+ * both were asking a question the file had stopped answering.
+ *
+ * The honest statement is a BAND over the role blocks, and it is exact where it matters:
+ *   min   Σ parts of the roles that require the key OUTRIGHT   — it is asked at least this often
+ *   max   Σ parts of the roles that require OR pend it         — it is asked at most this often
+ *   of    Σ parts of every role block = the kind's parts        — what the band is taken over
+ * A key every role requires has min = max = of, which is the pre-layer-3 check unchanged. A pending key's band opens
+ * by the parts of the roles whose gate may already be answered — exactly what the file cannot know and must not claim.
+ * A kind with no role axis has one block (its core), so nothing is widened for it.
+ */
+export function cupDemand(lk: LedgerLike["kinds"][string], key: string): { min: number; max: number; of: number; asked_by_any: boolean; roles: number } {
+  const blocks = lk.roles
+    ? Object.values(lk.roles)
+    : [{ parts: lk.parts, required: lk.required, pending_until_gate_answered: lk.pending_until_gate_answered }];
+  let min = 0, max = 0, of = 0, any = false;
+  for (const b of blocks) {
+    of += b.parts;
+    if (b.required.some((x) => x.key === key)) { min += b.parts; max += b.parts; any = true; }
+    else if (b.pending_until_gate_answered.some((x) => x.key === key)) { max += b.parts; any = true; }
+  }
+  return { min, max, of, asked_by_any: any, roles: lk.roles ? Object.keys(lk.roles).length : 0 };
+}
+
+/** The label the report prints for a cup, taken from the same band — so the label and the count cannot disagree.
+ *  `by_role` is layer 3's own state: some roles of this kind ask the cup and some do not. `other` is a defect: a cup
+ *  in a denominator that no role of the kind asks for at all. */
+export function cupRequirement(lk: LedgerLike["kinds"][string], key: string): CupRow["requirement"] {
+  const d = cupDemand(lk, key);
+  if (!d.asked_by_any) return "other";
+  if (d.max < d.of) return "by_role";
+  return d.min === d.of ? "required" : "pending";
+}
+
+/** Every cup the ledger asks for anywhere in the kind: the core lists plus every role's. */
+export function ledgerCupKeys(lk: LedgerLike["kinds"][string]): string[] {
+  const out = new Set<string>();
+  for (const b of [lk, ...Object.values(lk.roles ?? {})]) {
+    for (const x of b.required) out.add(x.key);
+    for (const x of b.pending_until_gate_answered) out.add(x.key);
+  }
+  return [...out];
+}
 export type CheckContext = {
   ledgers?: Record<string, LedgerLike>;
   live?: { hardware_parts: number; parts_nothing_required: number; required_total_held: number };
@@ -330,8 +386,8 @@ export function checkReport(r: CompletenessReport, ctx: CheckContext = {}): Cros
     fail("required_slots_held_live", `brand required_slots_held ${r.brand.filled.required_slots_held} != Σ required_total over held parts ${ctx.live.required_total_held}`);
   }
 
-  // cup_asked_matches_ledger: Σ cups.asked per kind == ledger required_slots_stored; an unconditional required cup is
-  // asked of every part of the kind
+  // cup_asked_matches_ledger: Σ cups.asked per kind == ledger required_slots_stored, and every cup's `asked` inside the
+  // band its kind's ROLES open for it (`cupDemand`) — a cup every role requires still has to be asked of every part.
   run("cup_asked_matches_ledger");
   run("no_optional_cup_in_denominator");
   for (const c of cats) {
@@ -342,16 +398,26 @@ export function checkReport(r: CompletenessReport, ctx: CheckContext = {}): Cros
       if (led && !lk) { fail("cup_asked_matches_ledger", `${c.category}.${k.kind}: kind not in the ledger`); continue; }
       if (lk) {
         if (lk.required_slots_stored !== asked) fail("cup_asked_matches_ledger", `${c.category}.${k.kind}: Σ cups.asked ${asked} != ledger required_slots_stored ${lk.required_slots_stored}`);
-        const req = new Set(lk.required.map((x) => x.key));
-        const pend = new Set(lk.pending_until_gate_answered.map((x) => x.key));
-        for (const key of req) {
-          const cup = k.cups.find((x) => x.key === key);
-          const n = cup?.asked ?? 0;
-          if (n !== k.parts) fail("cup_asked_matches_ledger", `${c.category}.${k.kind}.${key}: required of every part, asked of ${n} of ${k.parts}`);
+        // A kind with roles carries its CORE lists and an `(unresolved)` block built from the same call with the same
+        // argument (no role), so they are the same lists or the file is not internally readable: every pre-layer-3
+        // reader still reads the core, and a core that has drifted describes a population it no longer covers.
+        const un = lk.roles?.[UNRESOLVED_ROLE];
+        if (un) {
+          const same = (a: { key: string }[], b: { key: string }[]) => a.map((x) => x.key).sort().join(",") === b.map((x) => x.key).sort().join(",");
+          if (!same(lk.required, un.required) || !same(lk.pending_until_gate_answered, un.pending_until_gate_answered)) {
+            fail("cup_asked_matches_ledger", `${c.category}.${k.kind}: the kind's core cup lists differ from its ${UNRESOLVED_ROLE} role block`);
+          }
         }
-        for (const cup of k.cups) {
-          if (!req.has(cup.key) && !pend.has(cup.key)) {
-            fail("no_optional_cup_in_denominator", `${c.category}.${k.kind}.${cup.key}: asked of ${cup.asked} parts but the ledger lists it as neither required nor pending`);
+        // The union, so a cup the ledger asks for and the report never asked fails as loudly as one the report invented.
+        for (const key of new Set([...ledgerCupKeys(lk), ...k.cups.map((x) => x.key)])) {
+          const d = cupDemand(lk, key);
+          const n = k.cups.find((x) => x.key === key)?.asked ?? 0;
+          if (!d.asked_by_any) {
+            fail("no_optional_cup_in_denominator", `${c.category}.${k.kind}.${key}: asked of ${n} parts but no role of the ledger lists it as required or pending`);
+          } else if (n < d.min || n > d.max) {
+            fail("cup_asked_matches_ledger", d.min === d.max
+              ? `${c.category}.${k.kind}.${key}: required of every part, asked of ${n} of ${d.min}`
+              : `${c.category}.${k.kind}.${key}: asked of ${n}, outside the ${d.min}..${d.max} its ${d.roles} role(s) open over ${d.of} parts`);
           }
         }
       }

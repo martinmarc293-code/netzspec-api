@@ -160,6 +160,19 @@ async function main(): Promise<void> {
       LEFT JOIN completeness cp ON cp.part_id = p.id
      WHERE v.slug = $1 AND ct.slug = $2 AND p.retired_at IS NULL AND p.product_class = 'hardware'`,
     [vendor, category, SPEC_BEARING_DOC_TYPES])).rows;
+  // A MERGED-AWAY CATEGORY HAS NOTHING TO STATE, AND ITS LEDGER IS A LIE THE NEXT READER CANNOT SEE (25 Sep 2026).
+  // `conferencing` -> collaboration-endpoints and `data-center-networking` -> switches ran on 25 Sep (runs 1204/1207/
+  // 1212); their layer pages hold no row and the store holds no hardware there. The completeness build emits a block
+  // only for a category that HAS parts, so a ledger left behind for one of these has no block to be checked against —
+  // which is exactly how the two stale files sat here for a fortnight and made `hardware_parts` refuse the rebuild.
+  // Refuse at the producer instead: rebuilding all of LEDGER_KINDS is the obvious thing to do, so it has to say why
+  // two of them are not part of the arrangement any more rather than silently writing them back.
+  if (parts.length === 0) {
+    throw new Error(`REFUSED: ${vendor}/${category} holds no live hardware part, so a cup ledger for it would state nothing and the `
+      + `completeness report would have no category block to check it against. A merged-away category is recorded in `
+      + `data/reference/layers-cross-claims.json and tests/layersStanding.test.ts MERGE_CANDIDATES — if this category is `
+      + `NOT merged away, the parts are missing and that is the bug.`);
+  }
   // kind-layer infra (13 Sep 2026): per role, the same three document states and the stored slots, so a role block
   // carries exactly what its kind block carries and the kind's numbers are the SUM of its roles (checked below).
   // 6b: `spec` counts HELD by the relevance rule; `specNotHeld` the parts a spec-bearing document is linked to only as a

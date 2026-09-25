@@ -3,7 +3,7 @@
  "vendor": "cisco",
  "category": "meraki",
  "profile_hash": "86e6bd97f817a469",
- "built_on_commit": "5059637",
+ "built_on_commit": "98aac02",
  "norm_version": "1.8.0",
  "declared_fields": 155,
  "gap_states": {
@@ -13424,6 +13424,13 @@
        "basis": "seen",
        "enabled": true,
        "facts_current": 23006
+      },
+      {
+       "source": "cisco-datasheet-pdf",
+       "class": "datasheet-pdf",
+       "basis": "profile-required-only",
+       "enabled": false,
+       "facts_current": 0
       }
      ],
      "label_occurrences": 4,
@@ -14389,6 +14396,13 @@
          "basis": "seen",
          "enabled": true,
          "facts_current": 23006
+        },
+        {
+         "source": "cisco-datasheet-pdf",
+         "class": "datasheet-pdf",
+         "basis": "profile-required-only",
+         "enabled": false,
+         "facts_current": 0
         }
        ],
        "label_occurrences": 4,
@@ -15388,6 +15402,13 @@
          "basis": "seen",
          "enabled": true,
          "facts_current": 23006
+        },
+        {
+         "source": "cisco-datasheet-pdf",
+         "class": "datasheet-pdf",
+         "basis": "profile-required-only",
+         "enabled": false,
+         "facts_current": 0
         }
        ],
        "label_occurrences": 4,
@@ -16386,6 +16407,13 @@
          "basis": "seen",
          "enabled": true,
          "facts_current": 23006
+        },
+        {
+         "source": "cisco-datasheet-pdf",
+         "class": "datasheet-pdf",
+         "basis": "profile-required-only",
+         "enabled": false,
+         "facts_current": 0
         }
        ],
        "label_occurrences": 4,
@@ -17350,6 +17378,13 @@
          "basis": "seen",
          "enabled": true,
          "facts_current": 23006
+        },
+        {
+         "source": "cisco-datasheet-pdf",
+         "class": "datasheet-pdf",
+         "basis": "profile-required-only",
+         "enabled": false,
+         "facts_current": 0
         }
        ],
        "label_occurrences": 4,
@@ -18315,6 +18350,13 @@
          "basis": "seen",
          "enabled": true,
          "facts_current": 23006
+        },
+        {
+         "source": "cisco-datasheet-pdf",
+         "class": "datasheet-pdf",
+         "basis": "profile-required-only",
+         "enabled": false,
+         "facts_current": 0
         }
        ],
        "label_occurrences": 4,
@@ -19294,6 +19336,13 @@
          "basis": "seen",
          "enabled": true,
          "facts_current": 23006
+        },
+        {
+         "source": "cisco-datasheet-pdf",
+         "class": "datasheet-pdf",
+         "basis": "profile-required-only",
+         "enabled": false,
+         "facts_current": 0
         }
        ],
        "label_occurrences": 4,

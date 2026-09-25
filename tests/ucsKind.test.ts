@@ -335,7 +335,11 @@ eq("UCS_KINDS names power, cable, fan, tpm and pdu, and no longer psu",
 {
   const req = (cat: string, kind: string) => [...kindQuestionSet(cat, kind).required].sort().join(",");
   const WANT: Record<string, string[]> = {
-    server: ["altitude_max", "certifications", "cpu", "cpu_sockets_max", "dimensions", "dimm_slots", "drive_bays", "form_factor", "humidity_operating", "memory_max", "memory_speed_max", "pcie_slots", "power_max", "temp_operating", "temp_storage", "weight"],
+    // dimm_slots and pcie_slots DEMOTED to `opt` on 25 Sep 2026 (operator: "go with your recommendation"), measured
+    // across all vendors: zero facts under either key anywhere, ever, and no enabled source publishes the label —
+    // 1,982 servers + 208 HX + 57 HCI parts were carrying a cup nothing could fill, so they could never read complete.
+    // docs/decisions/2026-09-25-required-cups-no-source-can-fill.md. Same shape as the `drive` line below.
+    server: ["altitude_max", "certifications", "cpu", "cpu_sockets_max", "dimensions", "drive_bays", "form_factor", "humidity_operating", "memory_max", "memory_speed_max", "power_max", "temp_operating", "temp_storage", "weight"],
     power: ["airflow", "input_voltage", "product_compatibility", "psu_rated_output"],
     fan: ["airflow", "product_compatibility"],
     cable: ["cable_length", "connector", "media", "product_compatibility"],

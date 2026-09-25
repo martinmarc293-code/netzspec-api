@@ -1293,7 +1293,14 @@ const ucsCups = (): Record<string, Requirement> => ({
   // 1,555 required gaps.
   memory_max: ucsK("server"), cpu_sockets_max: ucsK("server"),
   // kind-layer (13 Sep 2026): SERVER library cups, proposed required (the printed measurement decides).
-  dimm_slots: ucsK("server"), pcie_slots: ucsK("server"),
+  // DEMOTED TO `opt` (operator, 25 Sep 2026: "go with your recommendation"). Measured across ALL vendors first: these two
+  // keys hold ZERO facts anywhere, ever, and no enabled source publishes either — `tests/source-fields.test.ts` had been
+  // red on exactly that for days. Required, they were 1,982 servers + 208 HX + 57 HCI parts carrying a cup nothing could
+  // ever fill, so those parts could never read complete however much real work was done on them. The dictionary comment
+  // above these keys argued this from the start ("4 label occurrences … Declared `opt` with the count") and the 13 Sep
+  // archetype pass made them required as a proposal whose measurement never came back. Promotion is one line the day a
+  // source publishes the label. Record: docs/decisions/2026-09-25-required-cups-no-source-can-fill.md
+  dimm_slots: opt, pcie_slots: opt,
   memory_speed_max: ucsK("server", "cpu", "memory"),
   // kind-layer (13 Sep 2026): FABRIC-INTERCONNECT = ETH-SWITCHING minus PoE/stacking + ENV. Proposed required: the
   // forwarding, table and management rows; uplink ports while the form factor is a fixed box, module slots while it is
@@ -1424,7 +1431,10 @@ const collabBlock = (): Record<string, Requirement> => ({
   // kind-layer (13 Sep 2026): the rest of the SERVER archetype (dimm_slots, drive_bays, pcie_slots, memory_speed_max), the
   // CPU archetype (cores, clock, cache, tdp, memory speed) and the MEMORY archetype (dram, speed) — the server parts split
   // out of `server-component` ask the UCS component sets (rule 3).
-  dimm_slots: cK(["server"], true), drive_bays: cK(["server"], true), pcie_slots: cK(["server"], true),
+  // dimm_slots / pcie_slots demoted with the UCS pair above (25 Sep 2026): zero facts in any vendor, no enabled source,
+  // 77 UC + 30 collaboration parts were carrying an unfillable cup. `drive_bays` KEEPS its requirement — it was not in
+  // the source-fields finding, so a source does publish it, which is the whole distinction being drawn here.
+  dimm_slots: opt, drive_bays: cK(["server"], true), pcie_slots: opt,
   memory_speed_max: cK(["server", "cpu", "memory"], true),
   tdp: cK(["cpu"], true), clock_speed: cK(["cpu"], true), cpu_cores: cK(["cpu"], true), cpu_cache: cK(["cpu"], true),
   dram: cK(["memory"], true),
@@ -2486,7 +2496,11 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // from transceiver datasheets, so fillability for this kind is unmeasured — and a required field
     // nothing can fill is a permanent gap. Promote it when a transceiver source is seen to publish it.
     // kind-layer (13 Sep 2026): the TUNABLE library proposes it REQUIRED — set, for the printed measurement to decide.
-    tuning_range: cond({ field: "kind", inList: ["tunable"] }, { elseOpt: true }),
+    // DEMOTED (operator, 25 Sep 2026): 88 tunable optics were asked a cup with zero facts in any vendor and no enabled
+    // source. It is the ONE of the seven with a visible path back — the 16 Sep label sweep found seven labels that say
+    // tunable, `Frequency tuning range (GHz)` and `ITU Channel` ×6 — so this is a demotion pending an alias, not a
+    // judgement that the question is wrong. The alias needs the cross-vendor measurement this repo requires.
+    tuning_range: opt,
     // SHAPED 11 Sep 2026 (reviewer §2.2, measured). A DAC or AOC is a fixed-length CABLE: its reach
     // IS its cable_length (135 of 143 hold one; 0 hold a reach_max), so asking both asked one
     // question twice. Transmission mode (duplex vs BiDi) is a property of a fibre optic: 0 of 143
@@ -2603,10 +2617,13 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // NOT added, each a recorded decision: the blades (`security-module`, `ips-module`) are kept named kinds rather than
     // folded into MODULE, so they are not given MODULE's ports / data_rate — FPR9K-SM-36 has no front ports at all
     // (the refusal tests/securityShapes pins); the residual `compute` (risers, carriers) is not a SERVER (0 of 131 rows).
-    new_conn_per_sec: secShape(["firewall"], SEC_FIREWALL, { elseOpt: true }),
+    // THE SECURITY THREE, DEMOTED (operator, 25 Sep 2026). The security round of 8 Sep had already declared exactly
+    // these `opt` with their label counts ("flows_per_second has ZERO labels …"); the archetype pass promoted them back
+    // and nothing re-checked the sources. Zero facts in any vendor, no enabled source, 714 security parts carrying them.
+    new_conn_per_sec: opt,
     managed_devices_max: opt, // reviewer C.3 (13 Sep 2026): 0 label occurrences over held parts -> OPTIONAL, promote when measured (spec rule 8)
-    flows_per_second: secShape(["analytics"], SEC_ANALYTICS, { elseOpt: true }),
-    max_endpoints: secShape(["identity"], SEC_IDENTITY, { elseOpt: true }),
+    flows_per_second: opt,
+    max_endpoints: opt,
     data_rate: cond({ field: "kind", inList: ["module", "nic"] satisfies SecurityKind[] }, { elseOpt: true }),
     // pcie_card_size (NIC) and raid_level (STORAGE-CONTROLLER) are PROPOSED required and ENTERED OPTIONAL: both are type `s`
     // with no domain, and tests/freeStringCups refuses a required free-string cup without a recorded decision
@@ -2941,7 +2958,9 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     poe_standard: cond({ field: "kind", inList: [...WL_AP, "sensor", "backhaul", "power-injector"] }),
     ports: cond({ field: "kind", inList: [...WL_PORTED] }),
     // kind-layer (13 Sep 2026): the backhaul radio's own additions (spec II.4: AP + link_budget, max_roaming_speed).
-    link_budget: cond({ field: "kind", inList: ["backhaul"] }, { elseOpt: true }),
+    // DEMOTED (operator, 25 Sep 2026): 41 backhaul radios. One fact exists on this key in the whole store and it came
+    // from `hexcat_seed` — a seed is not a source, and no enabled source publishes the label.
+    link_budget: opt,
     // max_roaming_speed is a FREE STRING (type s, no recorded decision) — tests/freeStringCups refuses it as required, so it
     // stays optional (generated half) and is listed for the parent as a proposed required cup.
     // kind-layer (13 Sep 2026): the AP ROLE additions. `deploy_role` is column-backed and derived (src/core/deployRole.ts);

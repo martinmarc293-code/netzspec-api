@@ -129,20 +129,28 @@ const CASES: Case[] = [
   { kind: "identity", series: "Identity Services Engine", field: "concurrent_sessions", want: "na", why: "ISE's sessions are authenticated ENDPOINTS, a different quantity; max_endpoints keeps it" },
 
   // === the fields that are DECLARED for their shape and required of none =======================
-  // kind-layer (13 Sep 2026): managed_devices_max, flows_per_second and max_endpoints are the MANAGEMENT / ANALYTICS /
-  // IDENTITY archetype cups of spec v2 I.4, now PROPOSED required (operator instruction: every archetype cup a target kind
-  // is not asked today is added required, and the parent's central printed-per-part measurement keeps or demotes it). The
-  // reasons these cases used to give — no enabled source, zero labels, ambiguous labels — travel to that measurement in
-  // the report. The shape refusal still holds: none of them is asked of a firewall.
-  { kind: "management", series: "Security Manager", field: "managed_devices_max", want: "req", why: "kind-layer: MANAGEMENT archetype proposal (was opt: no enabled source publishes a label)" },
+  // THE MEASUREMENT CAME BACK (operator, 25 Sep 2026: "go with your recommendation"). These were PROPOSED required by the
+  // kind-layer pass of 13 Sep, explicitly pending "the parent's central printed-per-part measurement", which is what these
+  // cases have been asserting ever since — a proposal, not a decision, which is why two of them sat red for days.
+  //
+  // Measured over the live store, all vendors: `managed_devices_max`, `flows_per_second` and `max_endpoints` hold ZERO
+  // facts anywhere and no enabled source publishes any of them (`data/schema/source-fields.json`, regenerated today).
+  // Required, they were 714 security parts carrying a cup nothing could ever fill — the "required field nothing can ever
+  // fill" shape this repo has paid for before, and the security round of 8 Sep had already declared exactly these three
+  // `opt` with their label counts before the archetype pass promoted them back.
+  //
+  // So the decision is `opt`, with the counts, and the promotion is one line the day a source publishes the label. The
+  // shape refusal is unchanged and still asserted below: none of them is ever asked of a firewall.
+  // Record: docs/decisions/2026-09-25-required-cups-no-source-can-fill.md
+  { kind: "management", series: "Security Manager", field: "managed_devices_max", want: "opt", why: "no enabled source publishes a label, and zero facts exist in any vendor (measured 25 Sep 2026)" },
   { kind: "management", series: "Firesight Management Center", field: "events_per_second", want: "opt", why: "the only eps label in the inventory is a FIREWALL row" },
-  { kind: "analytics", series: "Secure Network Analytics", field: "flows_per_second", want: "req", why: "kind-layer: ANALYTICS archetype proposal (was opt: zero labels in the inventory)" },
-  { kind: "identity", series: "Identity Services Engine", field: "max_endpoints", want: "req", why: "kind-layer: IDENTITY archetype proposal (was opt: labels exist but are ambiguous)" },
+  { kind: "analytics", series: "Secure Network Analytics", field: "flows_per_second", want: "opt", why: "zero labels in the inventory, zero facts in any vendor (measured 25 Sep 2026)" },
+  { kind: "identity", series: "Identity Services Engine", field: "max_endpoints", want: "opt", why: "labels exist but are prose, and zero facts in any vendor (measured 25 Sep 2026)" },
   { kind: "firewall", series: "Firepower NGFW", field: "max_endpoints", want: "opt", why: "kind-layer: not asked of a firewall (declared for the category)" },
   { kind: "appliance", series: "Secure DDoS Protection", field: "ddos_mitigation_throughput", want: "opt", why: "its label is shared with a firewall figure" },
 
   // === kind-layer (13 Sep 2026): the other archetype proposals, one case each, and the refusals kept ================
-  { kind: "firewall", series: "Firepower NGFW", field: "new_conn_per_sec", want: "req", why: "FIREWALL archetype proposal (its `1/s` COUNT_LIKE blocker is in the report)" },
+  { kind: "firewall", series: "Firepower NGFW", field: "new_conn_per_sec", want: "opt", why: "FIREWALL archetype proposal NOT adopted: no enabled source publishes it and zero facts exist in any vendor (25 Sep 2026); its `1/s` COUNT_LIKE blocker stands too" },
   { kind: "ips", series: "FirePOWER 8000 Appliances", field: "ports", want: "req", why: "APPLIANCE archetype proposal — every box shape" },
   { kind: "email-gateway", series: "Email Security Appliance", field: "ports", want: "req", why: "the same" },
   { kind: "security-module", series: "ASA", field: "data_rate", want: "opt", why: "the blade is kept a named kind, not folded into MODULE — no MODULE ports / data_rate (FPR9K-SM-36 has no front ports)" },
@@ -154,7 +162,9 @@ const CASES: Case[] = [
   { kind: "cpu", series: "Identity Services Engine", field: "weight", want: "na", why: "a CPU is not a box" },
   { kind: "storage-controller", series: "Defense Center", field: "raid_level", want: "opt", why: "STORAGE-CONTROLLER archetype proposal ENTERED OPTIONAL: a free string (tests/freeStringCups)" },
   { kind: "storage-controller", series: "Defense Center", field: "drive_interface", want: "req", why: "STORAGE-CONTROLLER archetype proposal" },
-  { kind: "drive", series: "Defense Center", field: "drive_form_factor", want: "req", why: "DRIVE archetype proposal (the NEW key the foundation created)" },
+  // the fourth proposal the 25 Sep measurement settles: no enabled source publishes drive_form_factor either, so it stays
+  // declared and optional rather than becoming a gap every Defense Center drive carries for ever
+  { kind: "drive", series: "Defense Center", field: "drive_form_factor", want: "opt", why: "DRIVE archetype proposal NOT adopted: no enabled source publishes the key (measured 25 Sep 2026)" },
   { kind: "cable", series: "FirePOWER 8000 Appliances", field: "connector", want: "req", why: "CABLE archetype proposal" },
   { kind: "tpm", series: "Identity Services Engine", field: "product_compatibility", want: "req", why: "a TPM is bought for the server generation it fits" },
   { kind: "tpm", series: "Identity Services Engine", field: "firewall_throughput", want: "na", why: "the refusal the named `tpm` kind exists for — as a fallback kind the name marker could file it security-module" },
@@ -223,7 +233,14 @@ export function run(): { passed: number; failed: number; lines: string[] } {
   // proposal added `ports` to every box shape, so the leanest box went from 8 to 10 slots and the blade's 9 is inside the
   // bound again. If the parent's printed measurement demotes box cups, the blade may break the bound again — put it back
   // here with this same reason then; the "exemption is exactly the kinds that break the bound" check below will say so.
-  const BOXLIKE_COMPONENT: string[] = [];
+  // 25 Sep 2026: the measurement came back and DID demote box cups — `new_conn_per_sec`, `flows_per_second` and
+  // `max_endpoints` are optional now, because no enabled source publishes any of them (see the block at the top of this
+  // file). The leanest box, `identity`, went 10 -> 9 and the blade's 9 is no longer inside the bound, exactly as the
+  // paragraph above said it would. So `security-module` goes back, for its original reason and not for a new one: it is
+  // a component by form and a box by what it is bought on (SM-40/48/56 hold firewall_throughput, threat_throughput,
+  // ips_throughput, ipsec_throughput, vpn_peers and concurrent_sessions, 15 facts each). The bound itself is untouched,
+  // and the check below proves this exemption is still NEEDED rather than merely tolerated.
+  const BOXLIKE_COMPONENT: string[] = ["security-module"];
   const strictComp = compTotals.filter((c) => !BOXLIKE_COMPONENT.includes(c.k));
   check("every COMPONENT kind except the blade is asked FEWER slots than the leanest box",
     Math.max(...strictComp.map((c) => c.n)) < Math.min(...boxTotals.map((b) => b.n)),

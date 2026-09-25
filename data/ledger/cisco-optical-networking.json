@@ -3,7 +3,7 @@
  "vendor": "cisco",
  "category": "optical-networking",
  "profile_hash": "405107c16d9d0313",
- "built_on_commit": "5059637",
+ "built_on_commit": "98aac02",
  "norm_version": "1.8.0",
  "declared_fields": 403,
  "gap_states": {
@@ -1110,11 +1110,7 @@
    },
    "role_axis": "none",
    "label_jaccard": null,
-   "granularity_exception": {
-    "basis": "unmeasured",
-    "reason": "trips term 13 on parts alone (256 parts, 7 series groups, 4 cups at 0e22f85); III.0 item 2 did not run its label-Jaccard",
-    "status": "OPEN — the parent measures (III.0 item-2 method) or records a checkable basis"
-   },
+   "granularity_exception": null,
    "term13": {
     "trips": [],
     "verdict": "not-tripped",

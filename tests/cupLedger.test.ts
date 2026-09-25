@@ -242,7 +242,11 @@ lines.unshift(`    cup ledger: ${passed} passed, ${failed} missed (${files.lengt
     // exemption is asserted to be NECESSARY below, so it cannot quietly grow into the whole list.
     // kind-layer (13 Sep 2026): EMPTY — the APPLIANCE archetype proposal gave every box shape `ports`, so the leanest box is
     // 10 slots and the blade's 9 is inside the bound (tests/securityShapes carries the same change and the same note).
-    const BOXLIKE_COMPONENT: string[] = [];
+    // 25 Sep 2026: RESTORED, exactly as that note predicted it might be. `max_endpoints` was demoted to `opt` (zero facts
+    // in any vendor, no enabled source), so the leanest box `identity` fell 10 -> 9 and ties the blade's 9 again. The
+    // reason above is unchanged and so is the bound: the blade is named OUT of it, not the bound loosened, and the
+    // necessity assertion below still holds it to one member. tests/securityShapes.test.ts carries the identical change.
+    const BOXLIKE_COMPONENT: string[] = ["security-module"];
     const strict = comp.filter((k) => !BOXLIKE_COMPONENT.includes(k));
     check("security: every component kind except the blade is asked fewer slots than the leanest box",
       Math.max(...strict.map(n)) < Math.min(...box.map(n)),
@@ -270,9 +274,14 @@ lines.unshift(`    cup ledger: ${passed} passed, ${failed} missed (${files.lengt
   const good: LedgerKind = { required: q.required.map((key) => ({ key })), pending_until_gate_answered: q.pending,
     not_applicable_by_kind: q.not_applicable_by_kind, optional: q.optional };
   check("control: interfaces-modules/power shows no drift", drift("power", good, q).length === 0, drift("power", good, q).join("; "));
-  const lost = { ...good, required: good.required.filter((r) => r.key !== "psu_rated_output") };
-  check("SABOTAGE a ledger that stops counting a PSU's rated output is caught",
-    drift("power", lost, q).some((m) => m.includes("psu_rated_output") && m.includes("does not count")));
+  // 25 Sep 2026: this case used to remove `psu_rated_output` and had been RED since 13 Sep, when that cup was demoted
+  // to optional HERE on a measurement (0% of the 48 readable supplies state it; they are branch-router bricks and PoE
+  // injectors, not data-centre supplies — fieldSchema.ts carries the numbers). A sabotage that removes a cup the kind
+  // no longer asks cannot fire: it was not testing the drift detector, it was asserting an old profile. It now removes
+  // the cup this kind DOES require — what the supply fits — so the same detector is exercised against the live shape.
+  const lost = { ...good, required: good.required.filter((r) => r.key !== "product_compatibility") };
+  check("SABOTAGE a ledger that stops counting what a PSU FITS is caught",
+    drift("power", lost, q).some((m) => m.includes("product_compatibility") && m.includes("does not count")));
   // A PSU asked what it DRAWS instead of what it delivers is the split switches made on 11 Sep 2026.
   const wrong = { ...good, required: [...good.required, { key: "power_max" }] };
   check("SABOTAGE a ledger asking a PSU for power_max is caught",
@@ -284,8 +293,12 @@ lines.unshift(`    cup ledger: ${passed} passed, ${failed} missed (${files.lengt
   const q = kindQuestionSet("interfaces-modules", "cable");
   const good: LedgerKind = { required: q.required.map((key) => ({ key })), pending_until_gate_answered: q.pending,
     not_applicable_by_kind: q.not_applicable_by_kind, optional: q.optional };
-  check("interfaces-modules/cable is asked exactly cable_length and product_compatibility",
-    [...q.required].sort().join(",") === "cable_length,product_compatibility", q.required.join(","));
+  // 25 Sep 2026: was `cable_length,product_compatibility`, red since 13 Sep. The cup moved on a measurement — 7.1% of
+  // the 70 readable cables here state a length and 88.6% state their connector — so `connector` is what a cable in this
+  // category is asked, and `cable_length` is optional. The assertion is still "exactly two cups, and nothing about a
+  // port"; only which two changed.
+  check("interfaces-modules/cable is asked exactly connector and product_compatibility",
+    [...q.required].sort().join(",") === "connector,product_compatibility", q.required.join(","));
   const wrong = { ...good, required: [...good.required, { key: "ports" }, { key: "temp_operating" }] };
   const d = drift("cable", wrong, q);
   check("SABOTAGE a ledger asking a cable for ports and an operating temperature is caught",
@@ -375,19 +388,26 @@ for (const f of files) {
 // really is different; each such pair is listed here with its reason, so the list can only shrink.
 {
   const EXCEPTIONS: Record<string, string> = {
+    // FIVE ENTRIES LEFT ON 25 SEP 2026, each because the thing it excused was FIXED rather than because it stopped
+    // mattering — which is the shape this table was meant to have ("the list can only shrink"). Measured 13 Sep -> now:
+    //   switch:storage-networking (185 -> kind absent)  the MDS kind was RENAMED `fc-switch` (now 195). The exception
+    //                                                   said an MDS switch is bought on Fibre Channel rate, not Ethernet
+    //                                                   switching capacity; giving it its own name is that, done properly.
+    //   accessory:transceiver     (14 -> 0)             the dust caps and brackets now carry real kinds (`cable` 176 is new)
+    //   switch:meraki             (109 -> 0)            a Meraki MS is a switch: moved to `switches` with the 172 rows
+    //                                                   that left meraki in the kind-layer plans
+    //   pluggable:storage-networking (1 -> 0)           the one row moved to `transceiver`
+    //   server:conferencing       (22 -> 0)             the category merged into collaboration-endpoints
+    // The stale-exception check below is what named them; before it, a dead entry read as a rule still in force.
     "cable:optical-networking": "an optical patch cord's length is its whole specification; it fits no one platform",
     "cable:storage-networking": "the same, for SAN patch cords",
-    "accessory:transceiver": "the 18 here are dust caps and brackets; `product_compatibility` is asked, nothing else is",
     // THE SAME WORD, A DIFFERENT PRODUCT. Each of these was read before being written down, and each is a case
     // where the kind NAME is shared but the thing is not — so one cup set would be wrong for one of them. The
     // four that were real defects (power's airflow and input_voltage, drive's interface, memory's dram/flash
     // instead of a drive's capacity, the routers antenna set) are fixed in fieldSchema.ts rather than listed here.
     "switch:switches": "a Catalyst switch is the category's whole product and owes ~30 cups; the `switch` kind elsewhere is a small appliance",
-    "switch:storage-networking": "an MDS fabric switch is bought on Fibre Channel rate and slots, not on Ethernet switching capacity",
-    "switch:meraki": "an MS is sold on PoE budget and its mounting, and its cloud licence carries what a Catalyst datasheet prints",
     "camera:meraki": "an MV is a storage-carrying sensor (image_sensor, storage_capacity, video_quality_max); a Webex camera is bought on zoom and field of view",
     "server:unified-communications": "a UC application server is ordered as a bundle; whether it should owe the UCS cups (cpu, drive_bays, memory_speed_max) is an open question in the round-3 reply",
-    "server:conferencing": "the same, for Meeting Server appliances",
     // round-7 ruling B (12 Sep 2026). The promote bar measured emc_emissions (91%) and humidity_storage (86%)
     // on hyperconverged-systems servers and on neither other UCS category; requiring them of all three would
     // create gaps with no evidence in two. Removed when the other two reach the bar after filling.
@@ -419,8 +439,42 @@ for (const f of files) {
     "optic:video": "an analog cable-plant optic is bought on wavelength and output power; a pluggable on form factor and rate",
     "amplifier:video": "an RF amplifier states input level and output; an optical EDFA states gain",
     "pluggable:transceiver": "the transceiver category IS the optic profile; the pluggables elsewhere are proposals to move here",
-    "pluggable:storage-networking": "the same, other side",
     "memory:interfaces-modules": "an SD/USB/CF card answers `flash` as well as `dram`; the memory kind elsewhere is DIMMs only",
+
+    // ---- 25 SEP 2026: THE SEVENTEEN REBELS THE COMPLETED LAYERING LEFT, EACH MEASURED --------------------------------
+    // Every share below has ONE denominator, stated once so the numbers can be re-checked: parts of that (category,
+    // kind) carrying AT LEAST ONE RENDERED fact of any key (verified/corroborated, run succeeded, not inherited, not
+    // retracted). It is NOT "held parts" and NOT "all parts" — two thirds of the corpus has never been extracted from,
+    // and dividing by those measures the crawl. Where that denominator is tiny the entry SAYS SO rather than quoting a
+    // percentage nobody could act on.
+    //
+    // WHAT THE MEASUREMENT SETTLED, and it is the opposite of what it looked like: not one of the cups a rebel is
+    // "missing" clears the 60% promote bar in the category that lacks it — the best is airflow on a router supply at
+    // 4.6% — so raising the thin sets would print a gap on nine parts in ten. And the cups a rebel asks EXTRA are
+    // earned (a DAC cable's rate 69.5%, its DDM 77.9%; an MX's mounting 94.1%). The disagreements are real product
+    // differences, so they are NAMED here, which is what this table is for.
+    //
+    // ONE THING THIS IS NOT: the low FILL on several of those extra cups is not evidence against them. antenna_gain,
+    // ports, power_max and temp_class all read `not_parsed` in the completeness report with real label counts (52,
+    // 1213, 864, 72) and a `seen` fill path — the document is held and the value was not extracted. That is phase-2
+    // work, not an arrangement error, and demoting them would hide a closable gap.
+    "server:collaboration-endpoints": "Meeting Server and Webex appliances ordered as a bundle — the same products and the same reason the `server:conferencing` entry carried until that category merged here on 25 Sep; whether they owe the UCS cups (cpu, altitude_max) is the round-3 open question. NOT ONE of the 30 parts holds a rendered fact, so the promote bar cannot be evaluated at all: this is could-not-measure, not a measured zero",
+    "memory:routers": "a router's memory is a DRAM or flash upgrade sold on capacity and what it fits; 0 of 63 readable parts state a speed",
+    "memory:switches": "the same kind of part; 0 of 3 readable state a speed — too few to conclude on their own, and the routers figure above is what carries this",
+    "drive:routers": "a router's drive is a flash or SSD module sold on capacity; 0 of 3 readable state an interface — too few to conclude, and the cup stays off pending evidence rather than being required on none",
+    "drive:switches": "the same; NO readable part at all, so could-not-measure",
+    "power:interfaces-modules": "branch-router bricks and PoE injectors, not data-centre supplies: measured 13 Sep over 48 readable supplies, psu_rated_output 0%, input_voltage 4.2%, airflow 4.2% — all three demoted then, and this records that the difference is intended",
+    "power:routers": "the same family one category over: 130 readable supplies, airflow 4.6% and psu_rated_output 0%. A router supply's wattage is stated in its NAME rather than a table, which is a description-mining derivation and not a reason to require the cup",
+    "cable:collaboration-endpoints": "handset and headset cords and display leads, bought by length and what they fit; 9 readable parts, connector 0 and media 0 — a small sample, and nothing in it argues for the cups",
+    "cable:interfaces-modules": "console and serial leads and DB-9 adapters; `connector` is what this category asks a cable (88.6% of its readable cables state one on the 13 Sep measurement) and length is optional. 6 readable under tonight's denominator, so the 13 Sep figure is the one to read",
+    "cable:routers": "170 readable router cables: cable_length 88.2% — EARNED, and recorded here as the next write rather than taken tonight, because promoting a cup rebuilds every artifact — connector 0% and media 0%, which is why the majority set is not the answer here",
+    "cable:transceiver": "a DAC or breakout cable IS an optic and is bought as one: 131 readable, data_rate 69.5%, ddm 77.9%, form_factor 75.6%, standard 77.9%. The transceiver profile's extra cups are earned, not spill",
+    "cable:wireless": "antenna and mounting leads; 28 readable, connector 0% and media 0%",
+    "chassis:switches": "a Catalyst chassis is bought on its slots, its supply configuration and what it occupies in a rack; the envelope and the certifications are stated on the supervisor's sheet, not the chassis's — 64 readable, temp_operating 17.2% and the other six cups 0%",
+    "module:wireless": "a wireless module is a radio or an uplink: 17 readable, data_rate 58.8% and power_max 41.2%. `ports` is asked and 0 of 17 state one — it reads not_parsed against 1,213 labels, so it is fill work",
+    "appliance:meraki": "an MX is a security appliance and is sold like one: 17 readable, mounting 94.1%, psu_options 76.5%, firewall_throughput 47.1%. The `appliance` kind elsewhere is a CMX/location server or a small branch box",
+    "sensor:wireless": "an 802.11 air-quality sensor is an access point in everything but name (radios, spatial streams, PoE); a Meraki MT is a battery IoT sensor. Same word, two products — and NO readable part here, so could-not-measure",
+    "antenna:wireless": "an antenna is bought on its gain, its connector and its bands: 133 readable, antenna_connector 52.6%. antenna_gain reads 0% AND not_parsed against 52 labels, so it is fill work, not a cup that should come off. A router antenna is an accessory whip with no published pattern",
   };
   const sets = new Map<string, { cat: string; req: string; parts: number }[]>();
   for (const f of files) {
@@ -457,6 +511,18 @@ for (const f of files) {
         `${extra.length ? ` — extra: ${extra.join(", ")}` : ""}${missing.length ? ` — missing: ${missing.join(", ")}` : ""}`);
     }
   }
+  // AND THE LIST CAN ONLY SHRINK IF SOMETHING MAKES IT (25 Sep 2026). Every entry above is consulted by LOOKUP, so an
+  // exception for a pair that no longer exists is simply never read — it reads as a rule still in force and is a hole
+  // of exactly the kind this file's own `stale` residue check exists for. It found one the day it was written:
+  // `server:conferencing`, whose category was merged into collaboration-endpoints and whose ledger went with it.
+  const live = new Set([...sets].flatMap(([kind, list]) => list.map((l) => `${kind}:${l.cat}`)));
+  const staleOf = (ex: Record<string, string>) => Object.keys(ex).filter((k) => !live.has(k));
+  const staleEx = staleOf(EXCEPTIONS);
+  if (staleEx.length === 0) passed++;
+  else { failed++; lines.push(`    MISS ${staleEx.length} named exception(s) name a kind/category pair no ledger holds — remove them: ${staleEx.join(", ")}`); }
+  // SABOTAGE: run the same function over a table carrying one pair no ledger can hold, and require it named.
+  if (staleOf({ ...EXCEPTIONS, "__sabotage_kind__:switches": "a pair no ledger holds" }).includes("__sabotage_kind__:switches")) passed++;
+  else { failed++; lines.push("    MISS the stale-exception check does not report a pair no ledger holds"); }
 }
 
 // A MEMORY KIND MUST NOT BE ASKED `storage_capacity` (reviewer round 4 §6; modules-r8, 12 Sep 2026).
@@ -549,8 +615,29 @@ for (const f of files) {
     // round-7 bundle plan (12 Sep 2026): hyperconverged-systems 16.3 -> 16.5. Its 82 `unknown` parts did not
     // change; 22 of its rows LEFT hardware (19 software subscriptions, 3 programme labels), so the denominator
     // shrank and the same count reads as a larger share. Re-based rather than read as a regression.
-    "hyperconverged-systems": 16.5, "hyperconverged-infrastructure": 16.0, video: 13.2,
-    "servers-unified-computing": 11.1, "collaboration-endpoints": 10.6, "unified-communications": 7.7,
+    // RE-BASED AFTER THE LAYERING COMPLETED (25 Sep 2026), and which way it moved is the part worth writing down,
+    // because a ratchet cannot tell repair from attrition on its own. Measured against the 13 Sep freeze-time ledgers
+    // (dfa4852) — numerator/denominator, so both are visible:
+    //   servers-unified-computing  1004/9579 = 10.5%  ->  290/8263 = 3.5%     11.1 -> 3.6
+    //   video                       436/3319 = 13.1%  ->  287/3261 = 8.8%     13.2 -> 8.9
+    //   wireless                    223/4010 =  5.6%  ->   90/3907 = 2.3%      5.9 -> 2.4
+    //   meraki                          6/263 = 2.3%  ->      0/91 = 0.0%      2.3 -> 0
+    // The NUMERATOR is what moved: 1,004 -> 290 on servers is 714 rows that stopped being an unresolved kind, against
+    // a denominator that fell by 1,316. Held at the old denominator the new numerator reads 3.0%, so this is repair
+    // (the 7,533 kind-layer plans: 905 rows reclassified out of hardware, 4,821 moved to the category that owns them),
+    // not a denominator shrinking under a stationary count. meraki reaching 0 is the whole category resolved.
+    //   hyperconverged-systems      189/1204 = 15.7%  ->   85/1643 = 5.2%     16.5 -> 5.2
+    //   hyperconverged-infrastructure 119/786 = 15.1%  ->  39/1216 = 3.2%     16.0 -> 3.3
+    //   collaboration-endpoints     287/2835 = 10.1%  ->  229/2938 = 7.8%     10.6 -> 7.8
+    //   interfaces-modules            63/1006 = 6.3%  ->   17/1079 = 1.6%      6.4 -> 1.6
+    // ROUTERS IS THE ONE THAT MOVED THE WRONG WAY and it is re-recorded, not widened away: 142/5470 = 2.6% ->
+    // 159/5109 = 3.1%, a numerator that ROSE by 17 while the denominator fell by 361. The 159 rows were read: rail
+    // kits, line-card and RP blanks, cable-management brackets, install kits, ASR 900 optical guides and wire-wrap
+    // adapters — `accessory` is the right kind for every one, and the arrivals came with the moves that emptied
+    // data-center-networking. Still far under the 5% target. (The 13 Sep layer page cannot be diffed for this: the
+    // rows.tsv did not exist at dfa4852, so a SKU-level comparison returns a meaningless zero.)
+    "hyperconverged-systems": 5.2, "hyperconverged-infrastructure": 3.3, video: 8.9,
+    "servers-unified-computing": 3.6, "collaboration-endpoints": 7.8, "unified-communications": 7.7,
     // RE-BASELINED AFTER THE CATEGORY-MOVE RUN (12 Sep 2026), and the reason matters more than the
     // numbers. The move run took 651 CORRECTLY-KINDED parts out of these four categories — 449
     // optical pluggables to `transceiver`, 94 misfiled optics and 92 whole devices out of
@@ -558,9 +645,11 @@ for (const f of files) {
     // move and the DENOMINATOR shrank. The ratchet fired, which is the test working: a share that
     // rises for a legitimate population change still has to be looked at and re-recorded, never
     // widened quietly. The target is unchanged at under 5%.
-    "optical-networking": 8.3, wireless: 5.9, "interfaces-modules": 6.4, "storage-networking": 4.8,
-    routers: 3.0, conferencing: 2.9, meraki: 2.3, switches: 1.9, security: 1.0, transceiver: 1.0,
-    "data-center-networking": 0.0,
+    "optical-networking": 8.3, wireless: 2.4, "interfaces-modules": 1.6, "storage-networking": 4.8,
+    routers: 3.2, meraki: 0, switches: 1.9, security: 1.0, transceiver: 1.0,
+    // `conferencing` (2.9) and `data-center-networking` (0.0) left with their ledgers on 25 Sep 2026: both merged away
+    // (runs 1204/1207/1212) and hold no live hardware, so a ceiling for them is an allowlist entry nothing can ever
+    // measure. docs/decisions/2026-09-25-merged-away-categories-have-no-ledger.md
   };
   const CATALOGUE_CEILING = 7.0;   // measured 6.90%; the target is under 5%
   // TWO AXES (round-6 reviewer §8.2, 12 Sep 2026). `parts`/`facts3`/`device_noun` at the top level
@@ -637,7 +726,12 @@ for (const f of files) {
   // other. The ceiling records today's measurement; the target is the same under-5%.
   // round-7 bundle plan (12 Sep 2026): 3,071 -> 1,503, EXACTLY the fallback-kind-only figure the operator set as
   // the acceptance condition. Ceiling lowered to hold the win.
-  const ASKED_NOTHING_CEILING = 1550;
+  // THE LAYERING COMPLETED (25 Sep 2026): 1,503 -> 462, and this is the number the phase is judged on. It is the same
+  // 462 `tests/trayHoles.test.ts` pins per category and the same `arranged.asked_nothing_fallback` in the completeness
+  // report — three artifacts, three independent paths to the store, one number. 905 rows left hardware as
+  // `non_product` and 4,821 moved to the category that owns them, so what remains is the residue that genuinely has
+  // no compartment: 361 rows whose name is only their SKU, and 101 that are actionable.
+  const ASKED_NOTHING_CEILING = 500;
   check(`parts asked NOTHING are at or under ${ASKED_NOTHING_CEILING} (measured ${askedNothing}; the unresolved-kind count is ${parts}, and neither contains the other)`,
     askedNothing <= ASKED_NOTHING_CEILING, `${askedNothing} of ${hardware}`);
   check(`the ceiling is still close to the measurement (${askedNothing} vs ${ASKED_NOTHING_CEILING})`,
@@ -690,6 +784,18 @@ for (const f of files) {
     // EMPTY since 13 Sep 2026: the five writes this list carried have run — C9800-CL-K9 hardware -> software
     // (reclassify run #1023, sku-exact rule) and the Room Panorama / CTS 5000 Catalyst switches moved to
     // switches (run #1024, CS-PANO-SWITCH+ with them). The hard zero is exact with no allowance.
+    // THREE ROWS ARRIVED WITH THE COMPLETED LAYERING (25 Sep 2026). Each is real hardware whose category axis
+    // returns `unknown`, each is already recorded in the 101 actionable rows of
+    // docs/decisions/2026-09-25-the-layering-is-complete.md, and each waits on a KIND RULE — which moves
+    // partKind, a unit the freeze pins, so it lands with a layers rebuild and a republish, not beside a
+    // ledger fix. They are named here so the zero stays exact and the list can only shrink.
+    "wireless|AIR-BR1310G": "an Aironet 1310 outdoor access point/bridge, 'Supported in access point mode only' — `ap`. "
+      + "The wireless axis reads AIR-AP / AIR-CAP and not AIR-BR, so the rule is one token wide; it waits on a partKind change.",
+    "optical-networking|EWDM-OA=": "'EWDM Optical Amplifier' — the name states the kind outright. optical-networking has no "
+      + "`amplifier` kind (video does), so this waits on a kind being ADDED to the optical axis, not on a rule matching.",
+    "collaboration-endpoints|CIT3-FI-M-6324": "'UCS 6324 In-Chassis FI' — a UCS Mini fabric interconnect sold inside a "
+      + "Collaboration Infrastructure bundle. It is in the wrong CATEGORY rather than the wrong kind, so it waits on a "
+      + "move/class decision (servers-unified-computing, or `bundle` by class), which is a parent write.",
   };
   const judgeNoun = (counted: string[], residue: Record<string, string>): { unexplained: string[]; stale: string[] } => ({
     unexplained: counted.filter((s) => !(s in residue)),

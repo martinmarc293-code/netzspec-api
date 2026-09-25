@@ -41,7 +41,7 @@ import { FIELD_DICTIONARY } from "../src/core/fieldSchema.js";
 import { normalizeField, NORM_VERSION } from "../src/core/specNormalize.js";
 import { SPEC_BEARING } from "../src/core/docClass.js";
 import {
-  checkReport, pctOf, UNRESOLVED_ROLE, type Block, type CategoryBlock, type CheckContext, type CompletenessReport, type CrossCheck,
+  checkReport, cupRequirement, ledgerCupKeys, pctOf, UNRESOLVED_ROLE, type Block, type CategoryBlock, type CheckContext, type CompletenessReport, type CrossCheck,
   type CupRow, type KindBlock, type LedgerLike, type RoleBlock,
 } from "../src/api/queries/completeness.js";
 // kind-layer infra (13 Sep 2026): layer 3. The role of a part is the one call recompute-completeness, the ledger builder
@@ -106,8 +106,10 @@ type LedgerCup = {
   key: string; gate?: string[]; sources?: { source: string; basis: string; enabled: boolean; facts_current: number }[];
   label_occurrences?: number; observed_fill_path?: boolean; observed_filled?: boolean; seed_only?: boolean; derived_by?: string;
 };
-type LedgerKind = Omit<LedgerLike["kinds"][string], "required" | "pending_until_gate_answered">
-  & { required: LedgerCup[]; pending_until_gate_answered: LedgerCup[] };
+/** A block of cups with their evidence: the kind's core, or one of its roles — the ledger builds both with `evidence()`. */
+type LedgerBlock = { required: LedgerCup[]; pending_until_gate_answered: LedgerCup[] };
+type LedgerKind = Omit<LedgerLike["kinds"][string], "required" | "pending_until_gate_answered" | "roles">
+  & LedgerBlock & { roles?: Record<string, LedgerBlock & { parts: number }> };
 type Ledger = Omit<LedgerLike, "kinds" | "totals"> & {
   profile_hash: string; built_on_commit: string;
   totals: LedgerLike["totals"] & { fallback: LedgerLike["totals"]["fallback"] & {
@@ -427,14 +429,18 @@ async function main(): Promise<void> {
       const [cat, kind] = ck.split("|");
       if (cat !== category) continue;
       const lk = led?.kinds[kind];
-      const reqCups = lk?.required ?? [];
-      const pendCups = lk?.pending_until_gate_answered ?? [];
-      const keys = new Set<string>([...reqCups.map((c) => c.key), ...pendCups.map((c) => c.key)]);
+      // LAYER 3 (25 Sep 2026): a kind with a role axis states its cups PER ROLE, and its own lists are only the core —
+      // what a part of unresolved role is asked. Read the label and the evidence across every block, or a cup only
+      // `branch` routers are asked reads as `other` (an optional cup in a denominator) and carries no gate, no source
+      // and no fill path. `cupRequirement` and the cross-check share one band, so the label cannot contradict the count.
+      const blocks: LedgerBlock[] = lk ? [lk, ...Object.values(lk.roles ?? {})] : [];
+      const keys = new Set<string>(lk ? ledgerCupKeys(lk) : []);
       for (const k of cupAcc.keys()) { const [c2, k2, key] = k.split("|"); if (c2 === category && k2 === kind) keys.add(key); }
       const cups: CupRow[] = [...keys].map((key) => {
         const a = cupAcc.get(`${category}|${kind}|${key}`) ?? newCup();
-        const lc = reqCups.find((c) => c.key === key) ?? pendCups.find((c) => c.key === key);
-        const requirement: CupRow["requirement"] = reqCups.some((c) => c.key === key) ? "required" : pendCups.some((c) => c.key === key) ? "pending" : "other";
+        let lc: LedgerCup | undefined;
+        for (const b of blocks) { lc = b.required.find((c) => c.key === key) ?? b.pending_until_gate_answered.find((c) => c.key === key); if (lc) break; }
+        const requirement: CupRow["requirement"] = lk ? cupRequirement(lk, key) : "other";
         return {
           key, requirement, gate: lc?.gate ?? [],
           asked: a.asked, held_asked: a.heldAsked,
