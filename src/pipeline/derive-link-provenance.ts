@@ -153,13 +153,15 @@ export function cupsAsked(p: { sku: string; name: string | null; category: strin
 }
 
 function parseArgs(argv: string[]) {
-  const a = { vendor: null as string | null, dump: null as string | null, evidence: null as string | null, commit: false, batch: 5000, linksOut: null as string | null };
+  const a = { vendor: null as string | null, dump: null as string | null, evidence: null as string | null, commit: false, batch: 5000, linksOut: null as string | null, allowUnreadable: false };
   for (let i = 0; i < argv.length; i++) {
     const t = argv[i];
     if (t === "--vendor") a.vendor = argv[++i];
     else if (t === "--dump") a.dump = argv[++i];
     else if (t === "--evidence") a.evidence = argv[++i];
     else if (t === "--commit") a.commit = true;
+    // the deliberate override for the day a document really has gone; recorded in the run's inputs so the choice is readable later
+    else if (t === "--allow-unreadable") a.allowUnreadable = true;
     else if (t === "--batch") a.batch = Number(argv[++i]);
     else if (t === "--links-out") a.linksOut = argv[++i];
     else throw new Error(`unknown argument ${t}`);
@@ -288,10 +290,36 @@ export async function main(argv: string[]): Promise<void> {
     held: { ...total, before_pct: pct(total.before, total.parts), after_pct: pct(total.after, total.parts) },
   };
 
+  // THE GUARD THIS RUN DID NOT HAVE, AND IT COST THE CATALOGUE'S "HELD" (25 Sep 2026).
+  //
+  // `decideLink` answers null when it cannot read the document, and the write turns null into the recorded value
+  // `could_not_check` — which is right, because could-not-check must be its own state and never pass as checked. What
+  // was missing is the other half: nothing stopped a could-not-check from OVERWRITING a value that had been checked.
+  //
+  // On 25 Sep 2026 this command was run on the box without `--cache`, so the extractor read its default
+  // `<repo>/scraper/cache` — a stale partial copy holding 763 files while the real cache at /var/lib/netzspec-api/cache
+  // holds 12,231. 987 datasheets came back `no_cache`, and the commit rewrote 8,228 parts' links as could-not-check:
+  // held fell from 9,706 live hardware parts (23.6%) to 650 (1.6%). Nothing was wrong with the store, the documents or
+  // the rule — only with what the run could SEE — and every number it printed was true of that blindness.
+  //
+  // So: a commit that would un-hold parts BECAUSE IT COULD NOT READ refuses, and says how many and how to proceed. A
+  // loss from real evidence (a document that is genuinely a mention, or genuinely inferred) is not covered here: that is
+  // the rule doing its job. Only absence of evidence is. `--allow-unreadable` is the deliberate override, recorded in
+  // the run's inputs, for the day a document really has gone.
+  const refusedUnreadable = a.commit && total.lost_could_not_check > 0 && !a.allowUnreadable;
+  if (refusedUnreadable) {
+    console.error(`REFUSED: this run would un-hold ${total.lost_could_not_check} live hardware part(s) because it could not READ their documents, not because the evidence says so.`);
+    console.error(`  held would go ${total.before} -> ${total.after} of ${total.parts} parts. Text files read: ${textFiles.length} of ${docs.length} documents.`);
+    console.error(`  Almost always the cache: scripts/extract-doc-evidence.py defaults --cache to <repo>/scraper/cache. On the box the cache is /var/lib/netzspec-api/cache — pass it explicitly and re-extract.`);
+    console.error(`  If the documents really are gone, re-run with --allow-unreadable (it is recorded in the run).`);
+    process.exitCode = 2;
+  }
+
   let runId: number | null = null;
-  if (a.commit) {
+  if (a.commit && !refusedUnreadable) {
     let written = 0;
-    const out = await withRun("derive-link-provenance", { vendor: a.vendor, evidence_dir: dir.replace(/\\/g, "/"), files: inputFiles, text_digest: textDigest.digest("hex"), text_files: textFiles.length },
+    const out = await withRun("derive-link-provenance", { vendor: a.vendor, evidence_dir: dir.replace(/\\/g, "/"), files: inputFiles, text_digest: textDigest.digest("hex"), text_files: textFiles.length,
+        allow_unreadable: a.allowUnreadable, un_held_by_could_not_check: total.lost_could_not_check },
       async (rid) => {
         await withTx(async (client) => {
           for (let i = 0; i < decided.length; i += a.batch) {
@@ -327,7 +355,7 @@ export async function main(argv: string[]): Promise<void> {
   const day = new Date().toISOString().slice(0, 10);
   const report = path.join(REPO_ROOT, "runs", "reports", `derive-link-provenance-${a.vendor}-${day}.json`);
   fs.mkdirSync(path.dirname(report), { recursive: true });
-  fs.writeFileSync(report, JSON.stringify({ generated_at: new Date().toISOString(), commit: a.commit, run_id: runId, stats, held_by_category: heldTable, linking_defects: linkingDefects }, null, 1) + "\n");
+  fs.writeFileSync(report, JSON.stringify({ generated_at: new Date().toISOString(), commit: a.commit && !refusedUnreadable, refused: refusedUnreadable ? "would_un_hold_by_could_not_check" : null, run_id: runId, stats, held_by_category: heldTable, linking_defects: linkingDefects }, null, 1) + "\n");
 
   console.log(`${a.commit ? `COMMITTED run ${runId}` : "DRY RUN"} — derive-link-provenance ${a.vendor}: ${decided.length} links over ${docs.length} documents`);
   console.log("basis:", counts.basis);
