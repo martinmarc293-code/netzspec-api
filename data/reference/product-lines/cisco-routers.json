@@ -406,13 +406,14 @@
     },
     {
      "series": "ASR 5000 and 5500",
-     "note": "PENDING ARRIVAL: 115 hardware rows sit in wireless today (113 carry a move plan to routers); this series is empty until the move runs. Mobile packet core: no SP router role assigned. ^ASR55 (layers round 3, wireless round): the ASR 5500 cards and systems (ASR55-UDPC-K9, ASR55-CHS-SYS-U6B …) matched no rule, so the arrivals check named the 14 ASR55 rows planned in from wireless as unplaced.",
+     "note": "PENDING ARRIVAL: 115 hardware rows sit in wireless today (113 carry a move plan to routers); this series is empty until the move runs. Mobile packet core: no SP router role assigned. ^ASR55 (layers round 3, wireless round): the ASR 5500 cards and systems (ASR55-UDPC-K9, ASR55-CHS-SYS-U6B …) matched no rule, so the arrivals check named the 14 ASR55 rows planned in from wireless as unplaced. · role sp-core (operator, 25 Sep 2026, \"fix all the gaps and holes\"): the ASR 5000 / 5500 is the mobile PACKET CORE platform - 10 chassis rows (ASR5000-CHS-SYS-K9, the ASR55-CHS-SYS-U* systems and the two partner-lab bundles) carried kind sp-router with NO role, the one series of this axis whose table said nothing. sp-access / sp-edge / sp-core is the whole domain and a packet core is not an access or an edge device; the layering reviews of 14-17 Sep listed this role as held, and this is the decision.",
      "sku": [
       "^ASR5K",
       "^ASR55",
       "^ASR-?5[05]00",
       "^MIXS"
-     ]
+     ],
+     "role": "sp-core"
     },
     {
      "series": "ASR 9000",

@@ -1432,16 +1432,16 @@ ASR1KX-DC-950W-R=	Cisco ASR1000-X 950W DC Power Supply, Reverse Air	ASR 1000	pow
 ASR1KX-PWR-BLANK	Blank Cover for ASR1000 X Chassis Power Supply	ASR 1000	mechanical	layered	ASR (Aggregation Services Routers)	(none)	ASR 1000	sku ^(M-)?ASR1K							
 ASR1KX-PWR-BLANK=	Blank Cover for ASR1000 X Chassis Power Supply, Spare	ASR 1000	mechanical	layered	ASR (Aggregation Services Routers)	(none)	ASR 1000	sku ^(M-)?ASR1K							
 ASR5000-CHS-SP-K9=	ASR-5000 Spare Chassis	ASR 5000 Series	chassis	layered	ASR (Aggregation Services Routers)	(none)	ASR 5000 and 5500	sku ^ASR-?5[05]00							
-ASR5000-CHS-SYS-K9	ASR-5000 Multimedia Core Platform Complete Chassis	ASR 5000 Series	sp-router	layered	ASR (Aggregation Services Routers)	(none)	ASR 5000 and 5500	sku ^ASR-?5[05]00							
-ASR5000-CHSSYS-K9=	ASR-5000 Multimedia Core Platform Complete Chassis	ASR 5000 Series	sp-router	layered	ASR (Aggregation Services Routers)	(none)	ASR 5000 and 5500	sku ^ASR-?5[05]00							
+ASR5000-CHS-SYS-K9	ASR-5000 Multimedia Core Platform Complete Chassis	ASR 5000 Series	sp-router	layered	ASR (Aggregation Services Routers)	(none)	ASR 5000 and 5500	sku ^ASR-?5[05]00	sp-core	series:ASR 5000 and 5500					
+ASR5000-CHSSYS-K9=	ASR-5000 Multimedia Core Platform Complete Chassis	ASR 5000 Series	sp-router	layered	ASR (Aggregation Services Routers)	(none)	ASR 5000 and 5500	sku ^ASR-?5[05]00	sp-core	series:ASR 5000 and 5500					
 ASR55-04-UDPCRX	ASR5500 UDPC Card and Initial System SW, KDDI Only	ASR 5000 Series	processor	layered	ASR (Aggregation Services Routers)	(none)	ASR 5000 and 5500	sku ^ASR55							
 ASR55-04-UDPCRX=	ASR5500 UDPC Card and Initial System SW, KDDI Only	ASR 5000 Series	processor	layered	ASR (Aggregation Services Routers)	(none)	ASR 5000 and 5500	sku ^ASR55							
-ASR55-CHS-SYS-U-B	ASR5500-U System w/chassis, 4 UDPC, 2 UMIO-SR, 4 FSC, 2 SSC	ASR 5000 Series	sp-router	layered	ASR (Aggregation Services Routers)	(none)	ASR 5000 and 5500	sku ^ASR55							
-ASR55-CHS-SYS-U-BL	ASR5500-U System w/chassis, 4 UDPC, 2 UMIO-LR, 4 FSC, 2 SSC	ASR 5000 Series	sp-router	layered	ASR (Aggregation Services Routers)	(none)	ASR 5000 and 5500	sku ^ASR55							
-ASR55-CHS-SYS-U6B	ASR5500-U System w/chassis, 6 UDPC, 2 UMIO-SR, 4 FSC, 2 SSC	ASR 5000 Series	sp-router	layered	ASR (Aggregation Services Routers)	(none)	ASR 5000 and 5500	sku ^ASR55							
-ASR55-CHS-SYS-U6BL	ASR5500-U System w/chassis, 6 UDPC, 2 UMIO-LR, 4 FSC, 2 SSC	ASR 5000 Series	sp-router	layered	ASR (Aggregation Services Routers)	(none)	ASR 5000 and 5500	sku ^ASR55							
-ASR55-CHS-SYS-U8B	ASR5500-U System w/chassis, 8 UDPC, 2 UMIO-SR, 4 FSC, 2 SSC	ASR 5000 Series	sp-router	layered	ASR (Aggregation Services Routers)	(none)	ASR 5000 and 5500	sku ^ASR55							
-ASR55-CHS-SYS-U8BL	ASR5500-U System w/chassis, 8 UDPC, 2 UMIO-LR, 4 FSC, 2 SSC	ASR 5000 Series	sp-router	layered	ASR (Aggregation Services Routers)	(none)	ASR 5000 and 5500	sku ^ASR55							
+ASR55-CHS-SYS-U-B	ASR5500-U System w/chassis, 4 UDPC, 2 UMIO-SR, 4 FSC, 2 SSC	ASR 5000 Series	sp-router	layered	ASR (Aggregation Services Routers)	(none)	ASR 5000 and 5500	sku ^ASR55	sp-core	series:ASR 5000 and 5500					
+ASR55-CHS-SYS-U-BL	ASR5500-U System w/chassis, 4 UDPC, 2 UMIO-LR, 4 FSC, 2 SSC	ASR 5000 Series	sp-router	layered	ASR (Aggregation Services Routers)	(none)	ASR 5000 and 5500	sku ^ASR55	sp-core	series:ASR 5000 and 5500					
+ASR55-CHS-SYS-U6B	ASR5500-U System w/chassis, 6 UDPC, 2 UMIO-SR, 4 FSC, 2 SSC	ASR 5000 Series	sp-router	layered	ASR (Aggregation Services Routers)	(none)	ASR 5000 and 5500	sku ^ASR55	sp-core	series:ASR 5000 and 5500					
+ASR55-CHS-SYS-U6BL	ASR5500-U System w/chassis, 6 UDPC, 2 UMIO-LR, 4 FSC, 2 SSC	ASR 5000 Series	sp-router	layered	ASR (Aggregation Services Routers)	(none)	ASR 5000 and 5500	sku ^ASR55	sp-core	series:ASR 5000 and 5500					
+ASR55-CHS-SYS-U8B	ASR5500-U System w/chassis, 8 UDPC, 2 UMIO-SR, 4 FSC, 2 SSC	ASR 5000 Series	sp-router	layered	ASR (Aggregation Services Routers)	(none)	ASR 5000 and 5500	sku ^ASR55	sp-core	series:ASR 5000 and 5500					
+ASR55-CHS-SYS-U8BL	ASR5500-U System w/chassis, 8 UDPC, 2 UMIO-LR, 4 FSC, 2 SSC	ASR 5000 Series	sp-router	layered	ASR (Aggregation Services Routers)	(none)	ASR 5000 and 5500	sku ^ASR55	sp-core	series:ASR 5000 and 5500					
 ASR55-DPC	ASR5500 Data Processing Card (DPC)	ASR 5000 Series	processor	layered	ASR (Aggregation Services Routers)	(none)	ASR 5000 and 5500	sku ^ASR55							
 ASR55-DPC-K9	ASR5500 Data Processing Card (DPC)	ASR 5000 Series	processor	layered	ASR (Aggregation Services Routers)	(none)	ASR 5000 and 5500	sku ^ASR55							
 ASR55-DPC-K9=	ASR5500 Data Processing Card (DPC)	ASR 5000 Series	processor	layered	ASR (Aggregation Services Routers)	(none)	ASR 5000 and 5500	sku ^ASR55							
@@ -1473,8 +1473,8 @@ ASR5K-042GE-T-K9=	QGLC Rev2 4-Port Ethernet 1000 Line Card w/Copper SFP	ASR 5000
 ASR5K-08100E-K9	FLC2 8-Port Ethernet 10/100, 2nd Generation	ASR 5000 Series	linecard	layered	ASR (Aggregation Services Routers)	(none)	ASR 5000 and 5500	sku ^ASR5K							
 ASR5K-08100E-K9=	FLC2 8-Port Ethernet 10/100, 2nd Generation	ASR 5000 Series	linecard	layered	ASR (Aggregation Services Routers)	(none)	ASR 5000 and 5500	sku ^ASR5K							
 ASR5K-0F-B00-2069=	Motorola PSC2 LTE Hardware and Software bundle	ASR 5000 Series	processor	layered	ASR (Aggregation Services Routers)	(none)	ASR 5000 and 5500	sku ^ASR5K							
-ASR5K-12-LABADV-K9	ASR-5000 Platform Partner Lab Bundle, Advanced Chassis	ASR 5000 Series	sp-router	layered	ASR (Aggregation Services Routers)	(none)	ASR 5000 and 5500	sku ^ASR5K							
-ASR5K-12-LABBSE-K9	ASR-5000 Platform Partner Lab Bundle, Base Chassis	ASR 5000 Series	sp-router	layered	ASR (Aggregation Services Routers)	(none)	ASR 5000 and 5500	sku ^ASR5K							
+ASR5K-12-LABADV-K9	ASR-5000 Platform Partner Lab Bundle, Advanced Chassis	ASR 5000 Series	sp-router	layered	ASR (Aggregation Services Routers)	(none)	ASR 5000 and 5500	sku ^ASR5K	sp-core	series:ASR 5000 and 5500					
+ASR5K-12-LABBSE-K9	ASR-5000 Platform Partner Lab Bundle, Base Chassis	ASR 5000 Series	sp-router	layered	ASR (Aggregation Services Routers)	(none)	ASR 5000 and 5500	sku ^ASR5K	sp-core	series:ASR 5000 and 5500					
 ASR5K-12-PSC32GK9=	Packet Services Card (PSC2) 32GB, ATT Femto only	ASR 5000 Series	processor	layered	ASR (Aggregation Services Routers)	(none)	ASR 5000 and 5500	sku ^ASR5K							
 ASR5K-20-LAB-PPC	ASR 5000 Platform Partner Lab Bundle, 3x PPC	ASR 5000 Series	processor	layered	ASR (Aggregation Services Routers)	(none)	ASR 5000 and 5500	sku ^ASR5K							
 ASR5K-20-LAB-PSC2	ASR 5000 Platform Partner Lab Bundle, 3x PSC2	ASR 5000 Series	processor	layered	ASR (Aggregation Services Routers)	(none)	ASR 5000 and 5500	sku ^ASR5K							

@@ -1,13 +1,10 @@
 {
  "vendor": "cisco",
  "category": "routers",
- "built_at": "2026-09-25T12:58:43.841Z",
- "commit": "06652e47e025275564aae6503694ce0b8035dae3",
+ "built_at": "2026-09-25T13:25:56.559Z",
+ "commit": "72a241ddcf31e0b5cb17ce09266d81b1426fc7d0",
  "uncommitted_rule_files": [
-  "data/reference/kind-layer-plans-2026-09-13.json",
-  "data/reference/layers-cross-claims.json",
-  "data/reference/product-lines/cisco-hyperconverged-systems.json",
-  "scripts/build-layers.mts"
+  "data/reference/product-lines/cisco-routers.json"
  ],
  "mapping_file": "data/reference/product-lines/cisco-routers.json",
  "parts": 5109,
@@ -874,8 +871,8 @@
     {
      "series": "ASR 5000 and 5500",
      "family": "(none)",
-     "role": null,
-     "note": "PENDING ARRIVAL: 115 hardware rows sit in wireless today (113 carry a move plan to routers); this series is empty until the move runs. Mobile packet core: no SP router role assigned. ^ASR55 (layers round 3, wireless round): the ASR 5500 cards and systems (ASR55-UDPC-K9, ASR55-CHS-SYS-U6B …) matched no rule, so the arrivals check named the 14 ASR55 rows planned in from wireless as unplaced.",
+     "role": "sp-core",
+     "note": "PENDING ARRIVAL: 115 hardware rows sit in wireless today (113 carry a move plan to routers); this series is empty until the move runs. Mobile packet core: no SP router role assigned. ^ASR55 (layers round 3, wireless round): the ASR 5500 cards and systems (ASR55-UDPC-K9, ASR55-CHS-SYS-U6B …) matched no rule, so the arrivals check named the 14 ASR55 rows planned in from wireless as unplaced. · role sp-core (operator, 25 Sep 2026, \"fix all the gaps and holes\"): the ASR 5000 / 5500 is the mobile PACKET CORE platform - 10 chassis rows (ASR5000-CHS-SYS-K9, the ASR55-CHS-SYS-U* systems and the two partner-lab bundles) carried kind sp-router with NO role, the one series of this axis whose table said nothing. sp-access / sp-edge / sp-core is the whole domain and a packet core is not an access or an edge device; the layering reviews of 14-17 Sep listed this role as held, and this is the decision.",
      "parts": 113,
      "kinds": {
       "chassis": 1,
@@ -892,7 +889,9 @@
       "module": 2,
       "accessory": 3
      },
-     "roles": {},
+     "roles": {
+      "sp-core": 10
+     },
      "samples": [
       "ASR5000-CHS-SP-K9= — ASR-5000 Spare Chassis",
       "ASR5000-CHS-SYS-K9 — ASR-5000 Multimedia Core Platform Complete Chassis",

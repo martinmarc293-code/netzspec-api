@@ -1,13 +1,10 @@
 {
  "vendor": "cisco",
  "category": "transceiver",
- "built_at": "2026-09-25T12:58:45.167Z",
- "commit": "06652e47e025275564aae6503694ce0b8035dae3",
+ "built_at": "2026-09-25T13:25:58.477Z",
+ "commit": "72a241ddcf31e0b5cb17ce09266d81b1426fc7d0",
  "uncommitted_rule_files": [
-  "data/reference/kind-layer-plans-2026-09-13.json",
-  "data/reference/layers-cross-claims.json",
-  "data/reference/product-lines/cisco-hyperconverged-systems.json",
-  "scripts/build-layers.mts"
+  "data/reference/product-lines/cisco-routers.json"
  ],
  "mapping_file": "data/reference/product-lines/cisco-transceiver.json",
  "parts": 2109,
