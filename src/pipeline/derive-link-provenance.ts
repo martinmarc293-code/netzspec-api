@@ -31,6 +31,7 @@ import { partKind } from "../core/partKind.js";
 import { cupsPrinted } from "../core/printedCups.js";
 import { closePool, query, withTx } from "../store/db.js";
 import { hashFile, withRun } from "../store/runs.js";
+import { COULD_NOT_CHECK } from "../core/heldEvidence.js";
 
 /** The ledger builder's spec-bearing list (scripts/build-cup-ledger.mts SPEC_BEARING_DOC_TYPES), restated as the
  * completeness report restates it. Not docClass.SPEC_BEARING, which omits vendor_page. */
@@ -330,7 +331,12 @@ export async function main(argv: string[]): Promise<void> {
                  FROM (SELECT unnest($1::text[]) AS doc_id, unnest($2::bigint[]) AS part_id, unnest($3::text[]) AS b,
                               unnest($4::text[]) AS r, unnest($5::text[]) AS e) u
                 WHERE dp.doc_id = u.doc_id AND dp.part_id = u.part_id`,
-              [s.map((x) => x.doc_id), s.map((x) => x.part_id), s.map((x) => x.out.basis), s.map((x) => x.out.relevance), s.map((x) => x.out.evidence), rid]);
+              // COULD-NOT-CHECK IS WRITTEN AS ITSELF (25 Sep 2026, migration 0023). A null decision used to be stored as
+              // NULL, which the builders read as "nothing has looked at this row yet" and refused on — a refusal this run
+              // could never clear, because it HAD looked and the document could not be read. NULL now means only the
+              // former, and this value the latter; neither can ever be held.
+              [s.map((x) => x.doc_id), s.map((x) => x.part_id), s.map((x) => x.out.basis ?? COULD_NOT_CHECK),
+                s.map((x) => x.out.relevance ?? COULD_NOT_CHECK), s.map((x) => x.out.evidence), rid]);
             if (r.rowCount !== s.length) throw new Error(`batch at ${i}: updated ${r.rowCount} of ${s.length} links — the store moved since the dump; re-dump`);
             written += r.rowCount;
           }

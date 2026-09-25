@@ -22,8 +22,19 @@
  *  docClass.SPEC_BEARING, measured: Meraki's only source). Shared by both builders since 13 Sep 2026 (6b). */
 export const SPEC_BEARING_DOC_TYPES: readonly string[] = ["vendor_datasheet_html", "vendor_datasheet_pdf", "vendor_page", "vendor_tool"];
 
-export const LINK_BASES = ["explicit", "family", "inferred"] as const;
-export const DOC_RELEVANCES = ["spec_for_kind", "mention"] as const;
+export const LINK_BASES = ["explicit", "family", "inferred", "could_not_check"] as const;
+export const DOC_RELEVANCES = ["spec_for_kind", "mention", "could_not_check"] as const;
+/**
+ * COULD-NOT-CHECK IS A VALUE, NOT A NULL (25 Sep 2026, migration 0023). A run that reached a link and could not read its
+ * document writes this; NULL keeps meaning NOTHING HAS LOOKED YET, and `underivedRowSql` still refuses on that.
+ *
+ * Before this the two shared NULL, so the refusal below became unsatisfiable: `derive-link-provenance` had reached the
+ * rows, decided "cannot read", written NULL — and re-running it could never clear them, because 45 of the datasheets are
+ * genuinely absent from the cache. A guard nobody can clear is a guard people learn to ignore, which is the worse
+ * outcome for a guard whose reasoning is right. A could-not-check row is never held, and it is COUNTED as its own
+ * number rather than folded into "not held".
+ */
+export const COULD_NOT_CHECK = "could_not_check";
 /** The link bases that may make a part held. `inferred` never does: it is a linking defect. */
 export const HELD_LINK_BASES: readonly string[] = ["explicit", "family"];
 export const HELD_RELEVANCE = "spec_for_kind";
@@ -34,8 +45,12 @@ const lit = (s: string) => `'${s.replace(/'/g, "''")}'`;
 export const heldRowSql = (dp = "dp"): string =>
   `(${dp}.doc_relevance = ${lit(HELD_RELEVANCE)} AND ${dp}.link_basis IN (${HELD_LINK_BASES.map(lit).join(", ")}))`;
 
-/** A row that has not been derived yet (either column NULL). */
+/** A row NOTHING has looked at yet (either column NULL) — not the same as one a run looked at and could not judge. */
 export const underivedRowSql = (dp = "dp"): string => `(${dp}.link_basis IS NULL OR ${dp}.doc_relevance IS NULL)`;
+
+/** A row a run REACHED and could not judge: the document could not be read. Never held; counted and printed apart. */
+export const couldNotCheckRowSql = (dp = "dp"): string =>
+  `(${dp}.link_basis = ${lit(COULD_NOT_CHECK)} OR ${dp}.doc_relevance = ${lit(COULD_NOT_CHECK)})`;
 
 /** The held rule for ONE row, as JS — the predicate the tests drive; generated from the same constants as the SQL. */
 export function rowCountsAsHeld(linkBasis: string | null | undefined, docRelevance: string | null | undefined): boolean {
