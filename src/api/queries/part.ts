@@ -15,6 +15,7 @@
 //     the shape equality the export contract promises holds by construction (and is tested).
 import { SPEC_BEARING, type DocClass } from "../../core/docClass.js";
 import { renderValue } from "../../core/renderContract.js";
+import { layerOf } from "./layerIndex.js";
 import { query } from "../../store/db.js";
 import { badRequest } from "../errors.js";
 import { ALL_STATES, RENDERED_STATES, factRunSucceeded, isoOf, kindAndRole, type FactState, type PartIdentity } from "./shared.js";
@@ -107,6 +108,8 @@ export type PartRecord = {
   vendor: string; sku: string; slug: string;
   category: { slug: string; name_en: string; name_de: string };
   series: string | null; family: string | null; product_class: string; name: string | null; description: string | null; datasheet_url: string | null;
+  /** Layers 2 and 3 (audit 6). `family` above is the MODEL, below series — these are the hierarchy a tree is built from. */
+  product_line: string | null; product_family: string | null;
   /** Q-10 vs Q-23 (operator, 15 Sep 2026): true = the family's MODEL row, which carries the family's facts or document and is not
    *  orderable. A shop feed must not list it. The reason names the decision that set it. */
   family_carrier: boolean; family_carrier_reason: string | null;
@@ -232,6 +235,12 @@ export async function partRecords(ids: number[], states: FactState[], publicBase
       category: { slug: h.cat_slug, name_en: h.name_en, name_de: h.name_de },
       series: h.series, family: h.family, product_class: h.product_class, name: h.name, description: h.description, datasheet_url: h.datasheet_url,
       family_carrier: h.family_carrier === true, family_carrier_reason: h.family_carrier_reason,
+      // LAYERS 2 AND 3 (audit 6, 26 Sep 2026). The record carried layer 1 (category) and layer 4 (series) and
+      // nothing between them, while `family` above holds the MODEL — below layer 4, and the SKU verbatim on 65% of
+      // parts. A consumer building a shop's category tree needs line -> family -> series; all three now travel with
+      // the part. Read from the committed layer artifact, so this and the layer pages cannot disagree.
+      ...(() => { const p = layerOf(h.vendor, h.cat_slug, h.sku);
+        return { product_line: p?.product_line ?? null, product_family: p?.product_family ?? null }; })(),
       // The same call /v1/parts items and the ledger builder make, WITH the name: a UCS programme SKU's kind is read
       // from its name (bundleFamily.ts), so a caller that dropped it would report a different kind here.
       // kind-layer infra (13 Sep 2026): kind and deploy_role by the one helper /v1/parts items use (shared.kindAndRole).

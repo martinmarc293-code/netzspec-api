@@ -588,3 +588,46 @@ and both paths in one commit) and is the useful thing to add rather than changin
 
 *(One of my own counts also needs its scope stated: I measured 715 `ASR5*`/`MIXS` rows in wireless against the
 note's 115. The note counts HARDWARE; my pattern counted every product class. Not a discrepancy.)*
+
+## AUDIT 6, ACTED ON: layers 2 and 3 now travel with every part
+
+`src/api/queries/layerIndex.ts` + two fields on `PartRecord`. A consumer reading `/v1/parts/{vendor}/{sku}` or
+`/v1/export` now gets the hierarchy the layer model states, in order:
+
+```
+C9404R    category=switches  product_line=Catalyst             product_family=Catalyst 9000   series=Catalyst 9400   family(model)=C9404R
+GLC-TE    category=transceiver  product_line=Ethernet transceivers  product_family=(none)     series=1G SFP Modules  family(model)=GLC-TE
+```
+
+**Coverage: 41,067 of 41,067 live Cisco hardware parts carry layers 2 and 3.** Verified by running the real
+`partRecords`, not by reading the code.
+
+**It reads the BUILT ARTIFACT, not the rules.** `data/layers/<vendor>-<category>.rows.tsv` is what
+`scripts/build-layers.mts` already commits, one row per part with `product_line` / `product_family` / `series` /
+`bucket`. Resolving placement from the line FILES in the API would have been a second implementation of
+`placeWithSpareRule` — the mistake this repo has paid for twice — and the copies would drift the first time a rule
+changed. Reading the artifact makes the API and the layer pages agree by construction.
+
+**The markers pass through unchanged.** `product_family` is `"(none)"` where the line names no family and
+`"(shared across the line)"` for a line's shared accessories. Converting either to null would re-create the exact
+misreading of 17 Sep 2026, when `product_family: null` was read as *undecided* — so each has its own case, and
+sabotaging the `(none)` passthrough turns one red.
+
+**null means one narrow thing and the schema says so:** the part is not a row in the layer artifact — either no line
+file exists for its vendor (only cisco has them) or it is not a hardware row. Note the asymmetry a consumer will
+meet: a licence keeps its `series` (from `parts.series`, which covers every product class) while `product_line` and
+`product_family` are null, because the layer tree is hardware. Both controls are in the suite: cisco/switches
+resolves with an index of 7,224, hpe/switches returns null and reports no index and no line file.
+
+**Proof.** `tests/layerIndex.test.ts` — 17 cases, 6 sabotage and 3 controls, over the real committed artifact plus a
+pure parser so refusals can be broken without planting a fixture. Counting which cases fired per sabotage:
+converting `(none)` to empty turns **1** red; reading columns by POSITION instead of refusing an unknown header
+turns **3** red (both refusal cases and the one asserting that an empty index and a refusal are different answers).
+Removing the wiring in `part.ts` turns the API suite's new case red, naming what it got. Every restore verified
+byte-identical with `md5sum -c`, zero residue. **75/75** non-db suites, `tests/db/api.test.ts` **190 passed, 0
+missed** — and its exact `DOCUMENTED_KEYS` list caught the two new fields immediately, which is what that list is
+for.
+
+Nothing stored moved: no profile, dictionary, domain, band, fact or artifact was written. `parts.family` keeps its
+meaning and its name; what changed is that the two levels above `series` are now reachable and the schema states,
+on the field itself, that `family` is the model and not layer 3.

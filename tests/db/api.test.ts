@@ -163,7 +163,11 @@ async function main(): Promise<void> {
   // the record in earlier rounds and never added here, so both checks below had been failing for reasons nobody was reading, and the two
   // new keys of 16 Sep (family_carrier, family_carrier_reason) arrived into an already-red check. The line after it is the guard against
   // the same drift: the list and the published schema must name the same keys, so a key added to one without the other fails HERE.
-  const DOCUMENTED_KEYS = ["vendor", "sku", "slug", "category", "series", "family", "product_class", "name", "description", "datasheet_url",
+  // product_line / product_family added 26 Sep 2026 (audit 6): the record carried layer 1 and layer 4 of the
+  // hierarchy and nothing between, while `family` holds the MODEL — below layer 4. A shop's category tree is
+  // line → family → series. This exact list is what makes an added or renamed field a decision rather than a drift.
+  const DOCUMENTED_KEYS = ["vendor", "sku", "slug", "category", "series", "product_line", "product_family", "family",
+    "product_class", "name", "description", "datasheet_url",
     "kind", "deploy_role", "family_carrier", "family_carrier_reason",
     "lifecycle", "facts", "relations", "images", "completeness", "sources", "updated_at"].sort();
   check("the documented key list and the published PartRecord schema name the same keys",
@@ -180,6 +184,13 @@ async function main(): Promise<void> {
     check("part GET carries the vendor's exact sku", r.body?.sku === "C9200L-24P-4G", r.body?.sku);
     check("part record has exactly the documented top-level keys", JSON.stringify(Object.keys(r.body ?? {}).sort()) === JSON.stringify(DOCUMENTED_KEYS), Object.keys(r.body ?? {}).sort());
     check("category is an object with both labels", r.body?.category?.slug === "switches" && r.body?.category?.name_en === "Switches" && r.body?.category?.name_de === "Switches", r.body?.category);
+    // LAYERS 2 AND 3 TRAVEL WITH THE PART (audit 6). The fixture's SKU is a real Catalyst 9200, so the committed
+    // layer artifact places it: a consumer gets the whole hierarchy 1→2→3→4 off one object. The `family` field
+    // beside them is the MODEL and must NOT equal product_family — that confusion is the reason these exist.
+    check("product_line and product_family are served, and family is not mistaken for layer 3",
+      r.body?.product_line === "Catalyst" && typeof r.body?.product_family === "string"
+        && r.body?.product_family !== r.body?.family,
+      { product_line: r.body?.product_line, product_family: r.body?.product_family, family: r.body?.family, series: r.body?.series });
     const keys = (r.body?.facts ?? []).map((f: Json) => f.key);
     check("facts default to verified/corroborated: poe_budget present, conflict layer absent", JSON.stringify(keys) === JSON.stringify(["poe_budget"]), keys);
     const f = r.body?.facts?.[0] ?? {};

@@ -143,7 +143,15 @@ export const ImageVariant = Type.Object({
 export const PartRecord = Type.Object({
   vendor: Type.String(), sku: Type.String(), slug: Type.String(),
   category: Type.Object({ slug: Type.String(), name_en: Type.String(), name_de: Type.String() }),
-  series: Nullable(Type.String()), family: Nullable(Type.String()), product_class: Type.String(), name: Nullable(Type.String()), description: Nullable(Type.String()),
+  /** THE HIERARCHY, in the order the layer model states it (src/core/productLine.ts layerModel):
+   *  1 `category.slug` → 2 `product_line` → 3 `product_family` → 4 `series`. `family` is NOT layer 3: since the
+   *  8 Sep migration it is the MODEL — the SKU minus its orderable suffix — which sits BELOW series and equals the
+   *  SKU on about two thirds of parts. A shop's category tree is built from product_line / product_family / series. */
+  series: Nullable(Type.String()),
+  product_line: Nullable(Type.String({ description: "layer 2, e.g. \"Catalyst\". null = the layering does not place this part (no line file for its vendor, or not a hardware row)" })),
+  product_family: Nullable(Type.String({ description: "layer 3. \"(none)\" where the line names no family and \"(shared across the line)\" for a line's shared accessories — explicit markers, never null for a placed part; null only when product_line is null" })),
+  family: Nullable(Type.String({ description: "the MODEL (SKU minus its orderable suffix), below series — NOT the product family" })),
+  product_class: Type.String(), name: Nullable(Type.String()), description: Nullable(Type.String()),
   datasheet_url: Nullable(Type.String()),
   /** Q-10 vs Q-23 (operator, 15 Sep 2026): true = the family's model row, which carries the family's facts or document and is NOT
    *  orderable — a shop feed must filter it out. `family_carrier_reason` names the decision that set it. */
