@@ -1238,3 +1238,44 @@ this one). The measurement-error tally for audits 9–15 is now **nine**, all mi
 operator: two name-sharing fields, a spelling my scanner did not know, a wrong nesting level, a predicate flagging
 76.7% of healthy values, a rule-total coverage check, a term added to a five-way partition, a vacuous subject, and a
 guessed call shape.
+
+---
+
+# AUDIT 16 — IDENTITY: A SKU RESOLVES TO ONE LIVE PART ON EVERY PATH — CLEAN
+
+*The shared concept with a known history. `relations.ts` carried a SECOND copy of the store's identity rule whose
+header claimed it resolved "like findPart", and it ordered EXACT SPELLING FIRST — so it actively preferred the RETIRED
+twin whenever a document quoted the retired spelling, the one lookup that gets worse the more faithful the source is.
+The copy was deleted; nothing had followed identity through the API since.*
+
+**The adversarial populations, measured in the store rather than invented:**
+
+| | |
+|---|---:|
+| SKU strings live under more than one vendor — legal, since identity is per vendor, and must not collapse | **159** |
+| case-folded groups within one vendor (any retirement state) | **127** |
+| of those, groups with more than one LIVE row — the unique index forbids it | **0** |
+| retired rows whose live twin exists — a lookup must never return these | **127** |
+| `=` spare rows whose base part is also live — two different products that must not fold | **11,819** |
+
+## Through the real `resolvePart`, over the whole population where the population is small enough
+
+| | |
+|---|---|
+| retired twins, **all 127**, each asked by its RETIRED spelling | **127 resolved to the LIVE row. 0 to the retired row. 0 unresolved.** |
+| `=` spare vs base, **150 of the 11,819** pairs — a stated sample, not the population | **150 resolved to different parts. 0 folded.** |
+
+Worked examples, because the shape matters: asked `cisco/40x10GE-WLO` where the rows are `40X10GE-WLO` (live) and
+`40x10GE-WLO` (retired), it returns the live one. Same for `4x100GE-LO` and `A9k-DDoS-10U20G=`. And
+`WSA-AMS-LIC=` → id 90185 against `WSA-AMS-LIC` → id 90302 — different parts, as they must be.
+
+**Controls, so the three zeros above mean something:** a known SKU resolves; an unknown SKU returns null; the same SKU
+in the other case resolves, which is the documented case-insensitive behaviour and therefore the thing that makes the
+retired-twin question non-trivial in the first place.
+
+## Verdict: CLEAN — the fourth of the five
+
+Sixteen lenses, twelve with findings, **four clean** (AUDIT 9 the buyer's lens, 14 the temporal lens, 15 retraction
+honesty, 16 this one). No measurement error of mine this time, which is the first lens in eight where that is true —
+the difference being that the adversarial cases were taken from the store instead of constructed, so there was nothing
+for me to guess about.
