@@ -1279,3 +1279,71 @@ Sixteen lenses, twelve with findings, **four clean** (AUDIT 9 the buyer's lens, 
 honesty, 16 this one). No measurement error of mine this time, which is the first lens in eight where that is true —
 the difference being that the adversarial cases were taken from the store instead of constructed, so there was nothing
 for me to guess about.
+
+---
+
+# AUDIT 17 — CAN A CONSUMER READ THE CATALOGUE EXACTLY ONCE? — CLEAN, AND THE FIFTH
+
+*The last untested consumer-critical path, and the one whose failure is silent in the worst direction: a JTL import
+with fewer products than the catalogue holds, or the same product twice, with nothing in the file to say so.*
+
+**The test is the opposite of vacuous, and that is measured first.** `/v1/export` pages by an opaque
+`(updated_at, id)` cursor, and cisco holds **86,934 live parts over only 4,378 distinct timestamps — the largest tie
+group is 38,626 rows**. A cursor that did not break ties by id would skip or repeat at almost every page boundary.
+
+Paged the real `exportParts` over `meraki` with `limit 7` — 143 parts, **4 tie groups covering 109 of the 143 rows**,
+biggest 32, so most boundaries fall inside a tie:
+
+| | |
+|---|---|
+| pages / rows / distinct SKUs | **21 / 143 / 143** |
+| in the store and not returned (a gap) | **0** |
+| returned more than once (a repeat) | **0** |
+| returned and not in the store | **0** |
+| CONTROL pages > 1 | yes, 21 — so boundaries were actually tested |
+| CONTROL the last page ended | `next_cursor: null`, rather than looping |
+
+## The sabotage, because a check that has never failed is not a check
+
+Paged the same category and limit with a cursor comparing **only `updated_at`** — the exact defect the row-wise
+comparison exists to prevent:
+
+```
+real cursor:        21 pages, 143 rows, 143 distinct
+tie-blind cursor:    8 pages,  56 rows,  56 distinct
+parts SKIPPED: 87 of 143  (MV84X-HW, MV63X, MV13, MV63-HW, …)
+```
+
+**A tie-blind cursor delivers 61% of the catalogue and reports nothing.** So `(p.updated_at, p.id) > ($k, $id)` is
+load-bearing, and the clean result above is a measurement rather than a decoration.
+
+## Verdict: CLEAN — the fifth of the five the operator asked for
+
+---
+
+# THE RUN: 17 LENSES, 5 CLEAN
+
+**Twelve lenses found something; five found nothing.** The five clean ones, each a different question:
+
+| | lens | what it established |
+|---|---|---|
+| 9 | the buyer's | 11 of the 13 most-published cups are asked for; the 2 that are not, correctly so |
+| 14 | temporal | all four of the report's dated figures re-derive **first attempt** from its own recorded predicates |
+| 15 | retraction honesty | a withdrawn fact carries no value and no German cell on any of three consumer paths |
+| 16 | identity | **127 of 127** retired twins resolve to the live row; spares never fold into their base |
+| 17 | exactly-once read | 21 pages, 143 of 143, no gap or repeat — and a tie-blind cursor loses 87 of them |
+
+**The twelve findings are in the decision sheet**, each with the predicate beside its number. Four were fixed and
+committed during the run: the German rendering contract with `text_de` on every fact; `product_line` and
+`product_family` on every part record; `/v1/fields/:category` serving the category's own domain and band; and
+`scripts/check-profile-sync.mts`. The rest are held as decisions because they write to shared structures, retract
+stored facts, or ask a question only the operator can answer.
+
+**The pattern worth keeping from the second half.** Across audits 9–17 the structure was right almost every time and
+**my measurements of it were wrong nine times** — two fields sharing a name and not a population, a spelling my
+scanner did not know, a wrong nesting level, a predicate that flagged 76.7% of healthy values, a coverage check made
+vacuous by a total function, a term added to someone else's five-way partition, a vacuous subject, and a zero from a
+call shape I guessed. Every one was caught by a control, by printing the object, or by reading the artifact — and
+none reached the operator as a finding. **The mould is in better condition than the tools I brought to inspect it**,
+and the reason the last five lenses came back clean is not that they were gentle: audit 17's sabotage loses 61% of a
+catalogue, audit 16 tested an entire population, and audit 15's first pass had to be thrown away for being vacuous.
