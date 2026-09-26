@@ -308,3 +308,108 @@ extractor's, not the quantity's nature. Reading all eleven, the defensible ones 
 `lte_bands` 6/8 (`"B1, B3, B5, B8, B18, B19, B39, B41, B42, B43"`), `wwan_3g_bands` 1/4, `carrier_certifications`
 2/3, `box_contents` 9/9. A retype refuses every current value under the key, so it is a dictionary decision
 measured across all vendors — recorded here, not made.
+
+---
+
+# AUDIT 4 — THE CROSS-VENDOR LENS, WHICH TURNED INTO: IS THE MOULD A CONSUMER IS SERVED THE MOULD WE BUILT?
+
+*The dictionary, the profiles, `DOMAIN_OVERRIDES` and `BAND_OVERRIDES` are ONE structure shared by every lane, and
+every decision this month was measured on Cisco. `CLAUDE.md`'s hard rule is to measure a dictionary change across
+ALL vendors first, and on 12 Sep a supersession documented as "ZERO facts anywhere" held 231 Juniper ones.*
+
+## The cross-vendor fit itself is sound
+
+13 vendors, live parts, own rendered facts. Three ways a Cisco-shaped mould could misfit somebody else — a value
+with no slot, an enum value its category's domain refuses, a number outside its band:
+
+| vendor | facts | no-slot | enum-refused | band-refused |
+|---|---:|---:|---:|---:|
+| cisco | 48,063 | 99 (0.21%) | 479 (1.00%) | 0 |
+| juniper | 6,119 | 0 | 0 | 0 |
+| hpe | 4,455 | 5 (0.11%) | 0 | 0 |
+| aruba | 3,938 | 0 | 0 | 0 |
+| arista, dell-emc, extreme, lenovo, mikrotik, fortinet, nvidia, ubiquiti, supermicro | 6,806 | 0 | 0 | 0 |
+
+**Eleven vendors at exactly 0.00% on all three is the shape a broken comparison makes**, so each zero was given a
+control. The no-slot and enum checks fired for Cisco (99 and 479), so they are not structurally blind. `band-refused`
+returned 0 for **every** vendor including Cisco, which no control had covered: measured, **20,661 numeric facts sit
+under a key that HAS a band** so the check could fire, and the closest any stored value comes to its ceiling is
+`optical-networking/cable_length` at exactly 100% of it. That zero is real — the normaliser refuses out-of-band
+values at write time — and the 479 enum refusals are the legacy rows AUDIT 2 already censused.
+
+**No vendor's parts are misfitted by a Cisco-tuned domain or band.** That is the answer to the lens as posed.
+
+## But the two readings of "is this cup declared" disagreed, and that was the finding
+
+The same population measured 104 facts-in-undeclared-cups against the **code** and 154 against the **database**.
+The arrangement is declared twice and only one of them is what a consumer reads:
+
+| | read by |
+|---|---|
+| **CODE** `src/core/fieldSchema.ts PROFILES` | `requirementFor`, `recompute-completeness`, the cup ledger, `fieldApplies` in the merge path — every artifact |
+| **TABLE** `category_profiles` | `/v1/fields[?category=]`, served as each key's `requirement` — **the JTL consumer** |
+
+`sync-dictionary` exists to make the second equal the first. Measured:
+
+```
+code declares 6,184 (category, key) entries; the table holds 6,116
+  74 in CODE ONLY      a consumer of /v1/fields cannot see these cups at all — 144 live facts sit in them
+ 165 REQUIREMENT DIFFERS   code=cond table=opt ×149,  code=opt table=cond ×16
+   6 in TABLE ONLY      orphans; the sync reports and KEEPS these by design, so not a failure
+```
+
+`cond` and `opt` are not near-synonyms to a consumer: `cond` means *required for any part that trips the gate*,
+`opt` means *never required*. 4.0% of the mould's consumer-facing labels are the 13 Sep version.
+
+## And nobody forgot to sync — THE SYNC HAS BEEN REFUSING FOR THIRTEEN DAYS
+
+`sync-dictionary` last succeeded as **run 1038 on 13 Sep 00:53**. Running the real `syncDictionaryOn` inside a
+transaction and rolling it back (nothing written; proven by identical row counts before and after) gives the reason:
+
+```
+REFUSED — 1 reshaped key(s) would refuse values other lanes already store:
+  deploy_role (domain): would refuse cisco 2 of 5 current facts
+  — e.g. cisco "Data center and server farm": ENUM_VIOLATION
+```
+
+**The guard is correct and nothing consumed its refusal.** This is the repo's own rule — *a check that honestly
+reports it cannot run is still a check that is not running* — and the blocking population is two rows:
+
+| part | category | stored | raw | written |
+|---|---|---|---|---|
+| `WS-X6748-GE-TX` | switches | `"datacenter-tor"` | *"Data center and server farm"* | run 6, 3 Sep, `html_table` |
+| `WS-X6516-GE-TX` | switches | `"datacenter-tor"` | *"Data center and server farm"* | run 6, 3 Sep, `html_table` |
+
+`datacenter-tor` is absent from the 18-value domain (`datacenter` is the slug). Two facts on two Catalyst 6500 line
+cards have held the entire consumer-facing declaration still for thirteen days. The other three `deploy_role` facts
+are in-domain. Worth noting separately: `deploy_role` is the derived role AXIS (layer 3, computed by `kindAndRole`)
+and nothing reads these five facts — a key being both an axis and a fact is its own small confusion.
+
+## What was built, and what was deliberately NOT done
+
+**`scripts/check-profile-sync.mts`** — reports the two failing directions, names the orphans as *not* a failure,
+prints how old the last successful sync is, and runs the real sync in a rolled-back transaction so a refusal is
+reported as a refusal. Exit 1 on drift, **exit 2 for could-not-check** (never folded into clean). `--selftest` runs
+the pure comparison against planted disagreements with a control, 6 cases, no database.
+
+It is **not** in `tests/db/`, on purpose: `npm run test:db` runs against the test database, which holds its own
+vintage of these tables (production 6,116 / 604 against `netzspec_test4` 6,192 / 613). A check there would compare
+the code with a fixture and never once look at what a consumer is served — the identical mistake already recorded
+for `inheritedFrom`, a production ratchet under `tests/db` that always read `0 of 0`.
+
+**Nothing was written.** Clearing the drift needs one of two remedies, and both are decisions rather than tidying:
+re-normalise or retract the two `deploy_role` facts (a gated run) and sync; or sync with
+`--allow-refusing deploy_role`, which records the reshape and refuses those two values deliberately. The sync itself
+is safe by construction — it UPSERTS, deletes only superseded keys, and keeps orphans — so the risk is entirely in
+what happens to those two rows.
+
+## Two things this lens found that are worth their own line
+
+- **The arrangement exists on ONE branch.** `src/core/fieldSchema.ts` is 4,660 lines on `cisco` and 614–675 on
+  `main`, `hpe` and `juniper`, with **318** `req(`/`opt(`/`cond(` markers against **20**. The generated half is
+  nearly common (identical on those three, +27 lines on cisco). My first reading of this was too crude — I compared
+  one file and nearly reported that the other lanes had lost the dictionary, when `fieldSchema.generated.ts` is
+  where most of it lives and is shared. The real statement is narrower: the hand-written profile work is cisco's
+  alone, which is by design, and the shared table is the only place it becomes visible to anyone else.
+- **`data/freeze/` holds `cisco.json` and nothing else, on the cisco branch only.** `main`, `hpe` and `juniper` have
+  no freeze file at all, so the structure all three share has a change-detector for one vendor.
