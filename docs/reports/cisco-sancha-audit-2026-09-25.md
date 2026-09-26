@@ -1130,3 +1130,58 @@ and the decision sheet's item 1 is updated rather than joined by a new one.
 **Clean count: still 1 of 5.** Thirteen lenses, twelve with findings — though the last five have found one small
 thing, one mechanism, one wrong field type, and now no new cause at all, which is a different shape from the first
 eight.
+
+---
+
+# AUDIT 14 — THE TEMPORAL LENS: THE REPORT IS RE-DERIVABLE BY A THIRD PARTY, FIRST ATTEMPT — CLEAN
+
+*Every number the completeness report carries was true when written. `CLAUDE.md`'s rule is that a recorded number
+nobody re-derives is a rumour with a timestamp, and the 16 Sep lesson cost four attempts and twenty minutes because a
+re-measure used a near-identical definition over a different population. So: take the predicates from the report and
+re-derive its own headline.*
+
+Report generated **2026-09-25T21:16:21Z** on `5954adc`; re-derived at 02:11Z on 26 Sep, ~5 hours later.
+
+| figure | the report | re-derived now | |
+|---|---:|---:|---|
+| `hardware_parts` | 41,067 | **41,067** | unchanged |
+| `parts_nothing_required` | 462 | **462** | unchanged |
+| `required_total_held` | 88,513 | **88,513** | unchanged |
+| held parts (`spec_bearing`) | 6,650 | **6,650** | unchanged |
+
+The `held` predicate was quoted verbatim from `inputs.held_rule` — *"a part is held when ≥ 1 doc_parts row satisfies
+(dp.doc_relevance = 'spec_for_kind' AND dp.link_basis IN ('explicit','family'))"* — rather than reconstructed.
+
+**Writes since generation: 0 facts, 0 parts, 0 runs.** So the temporal question is answered trivially, and the lens
+has little power on that axis. What it does establish is worth more:
+
+## THE PROPERTY WORTH RECORDING: all four matched on the FIRST attempt
+
+The 16 Sep sheet took four internally-correct SQL attempts to reproduce one of its own figures, because its six
+numbers used three definitions and two denominators and it did not say which. **This report records enough to be
+re-derived by someone who did not build it, and every figure landed first try.** That is the difference between a
+claim and a rumour, and it is a property of the artifact rather than of my query.
+
+## Its own arithmetic, checked independently of any write
+
+| | |
+|---|---|
+| all four percentages recomputed from the report's own `num`/`den` | **agree** — 40,605/41,067 = 98.9, 6,650/41,067 = 16.2, 9,706/41,067 = 23.6, 23,327/88,513 = 26.4 |
+| `arranged.asked + asked_nothing_fallback = hardware_parts` | **40,605 + 462 = 41,067** exactly |
+| `spec_bearing + spec_linked_not_held + eol_only + no_document = hardware_parts` | **6,650 + 3,056 + 26,673 + 4,688 = 41,067** exactly |
+| the held-slot partition | **23,327 + 0 + 65,099 + 0 + 87 = 88,513** exactly |
+| `cross_checks` recorded in the report | **22, all passing** |
+
+**And the one identity that appeared to fail was my net again.** I summed six fields and got 89,801 against 88,513 — a
+difference of **exactly 1,288**, which is `filled_not_rendered`. That field is an annotation, not a sixth bucket: the
+partition is five-way and holds exactly. Adding a term to someone else's partition and reporting the difference is the
+same shape as comparing `census.parts` with `layers.parts` in AUDIT 12 — a field that looks like a sibling and is not.
+
+## Verdict: CLEAN — the second of the five the operator asked for
+
+Nothing wrong found. Fourteen lenses, twelve with findings, **two clean** (AUDIT 9 the buyer's lens, AUDIT 14 this
+one). Worth noting for whoever reads this next: across audits 9–14 the structure has been right every time and **my
+measurements of it have been wrong seven times** — a name-sharing field twice, a spelling my scanner did not know, a
+wrong nesting level, a predicate that flagged 76.7% of healthy values, a rule-total coverage check, and a term added
+to a five-way partition. Every one was caught by a control or by reading the artifact, and none reached the operator
+as a finding.
