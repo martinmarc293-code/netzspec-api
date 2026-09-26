@@ -631,3 +631,94 @@ for.
 Nothing stored moved: no profile, dictionary, domain, band, fact or artifact was written. `parts.family` keeps its
 meaning and its name; what changed is that the two levels above `series` are now reachable and the schema states,
 on the field itself, that `family` is the model and not layer 3.
+
+---
+
+# AUDIT 7 — BE THE CONSUMER: BUILD THE JTL IMPORT AND READ THE FILE
+
+*Six lenses examined the mould from the inside. This one uses it, which is the only test of the stated purpose:
+Claude reads a category out of this API and emits a CSV JTL can import.*
+
+Built from the API alone — `listFields` for the Merkmal names, `partRecords` for the values — over 400 orderable
+`transceiver` hardware parts, in the shape the 2026-07 HexCat campaign established: an Attributes file
+(`Artikelnummer,Merkmalname,Merkmalwert,Sortiernummer`, comma-delimited, UTF-8 BOM + CRLF) and a SEMICOLON-delimited
+Main, with Artikelnummer the key JTL matches on to update in place. **1,416 Merkmal rows and 400 product rows came
+out, and the category tree came out with them** (`Catalyst > Catalyst 9000 > Catalyst 9400`), which it could not have
+done before this session.
+
+## THE FINDING: 7,417 served values are truncated at exactly 160 characters
+
+Two cells in the output ended mid-word — `ieee_standards = "… IEEE 802.1D Sp"` and
+`status_leds = "… blinking orange (fau"` — and both facts had a `raw` of **exactly 160 characters**.
+
+`facts.raw` is `text` with no schema limit, and the length distribution is a cliff:
+
+```
+length(raw)   158: 145 facts      159: 8      160: 8,788      161: 12
+next-commonest length over 120:  384 → 96 facts,  121 → 94 facts
+```
+
+Nothing but a cap produces 8,788 at one length with 8 and 12 either side. The code is
+`scraper/adapters/cisco_specs_pdf.py`, and **it already records this defect in its own docstring** — *"`val[:160]`
+cut 50 values of the 4 Sep 2026 corpus mid-word and said nothing about it"* — and fixes it properly: `cap_value()`
+backs off to a word boundary, returns `was_truncated`, the caller records a `VALUE_TRUNCATED` defect and the gate
+samples those facts first. Exemplary handling.
+
+**So this is not a live bug. It is the residue the fix could not reach**, and the dates say so:
+
+| created | raw = 160 | raw > 160 |
+|---|---:|---:|
+| 2026-09-03 | 4,538 | 0 |
+| 2026-09-04 | 3,828 | 2,747 |
+| 2026-09-06 / 08 | 0 | 398 |
+| 2026-09-13 | 379 | 0 |
+
+The hard slice ran on 3–4 Sep, was replaced mid-04 (the day both counts are non-zero), and 09-13's 379 are the
+`apply-renormalize` pass carrying the old truncated raw forward — it re-derives from `raw`, so it cannot restore
+what the raw no longer holds. This is *"a parser fix does not un-write what is already stored"*, exactly.
+
+**What the truncation costs depends on the TYPE, and that is the useful half:**
+
+| | served facts | |
+|---|---:|---|
+| text-valued (`s`, `ls`) — the value IS the text, so it is cut | **7,417** | certifications, emc_emissions, ieee_standards, qos_features, supported_protocols, diagnostics, emc_immunity, etsi_standards, crypto_algorithms, cellular_bands, status_leds, call_control, encryption, management_mode … |
+| parsed (`nr`, `n`, `struct`) — the parser took a short value from the front | 953 | `temp_operating` 822, `altitude_max`/`flash`/`tdp` 123, `dimensions` 8 |
+
+The 7,417 go straight into a Merkmalwert. The 953 are unharmed — `temp_operating = "-5 bis 45 °C"` is correct even
+though its raw was cut, because the range was parsed out of the front of a long prose cell.
+
+The remedy is a re-extraction of those facts from their cached documents (the cache holds them and the adapter now
+caps honestly), not a retraction — the values are right up to the cut. Scoped, dated, and not run here.
+
+## AND THE CONTROL STOPPED ME PUBLISHING A NUMBER THREE TIMES TOO BIG
+
+My first pass counted "the rendered cell ends mid-word" and got **7,971 of 8,642**. The control — the same test over
+facts whose raw is 100–159 characters, where no cap applies — returned **76.7%**, because the predicate calls
+`temp_operating = "-40 bis 75 °C"` a mid-word cut for ending on a letter. The figure was inflated by my own net and
+is withdrawn; the cliff is what proves the cap, and the type split above is what scopes the damage.
+
+For the mid-word share I read a spread of **24** (every 348th, not the head — the list is ordered by category and a
+head sample would be one family): **15 clearly cut** (`"● EN 300 386 Telec"`, `"CAN | CSA-C22.2 No. 609"`,
+`"(type of servic"`, `"73/23/"`), **7 complete** — five of them parsed types — **1 ambiguous, 1 refused**. A rate
+from 24 is worth what 24 is worth, which is why the sample size is in the sentence.
+
+## What else the build could not do cleanly, with counts
+
+- **109 cells could not be written at all** in this one category — all `standard` holding a scalar where a list
+  belongs, which is the population AUDIT 2 censused at 2,075 catalogue-wide. The consumer skips them and
+  `text_de_why` says why, which is the contract working.
+- **157 values contain a delimiter or a quote** and need CSV quoting — correct behaviour, but it is the reason the
+  rendering contract's list separator is `" | "` and not `;`: Main is semicolon-delimited, and a value like
+  `"Modular, redundant"` already carries the comma the Attributes file uses.
+- **57 of 400 products (14%) would import with ZERO Merkmale** — a shop page with nothing on it. Median Merkmale
+  per product is **3**, max 17, in one of the better-filled categories. That is a filling number rather than a
+  mould number, and it is the one a shop owner would notice first.
+
+## Clean, and worth stating because each was a real risk
+
+- **0 parts with no Artikelname.** Every row can be named.
+- **0 collisions of two different values under one Merkmal name** on the same product — two dictionary keys sharing
+  a `label_de` would have produced two rows for one Merkmal and JTL would have imported both.
+- **0 Merkmal names containing a delimiter.**
+- Artikelnummer is the vendor's SKU verbatim throughout, which is what JTL matches on to update rather than
+  duplicate.
