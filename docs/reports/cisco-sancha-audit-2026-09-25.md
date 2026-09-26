@@ -413,3 +413,88 @@ what happens to those two rows.
   alone, which is by design, and the shared table is the only place it becomes visible to anyone else.
 - **`data/freeze/` holds `cisco.json` and nothing else, on the cisco branch only.** `main`, `hpe` and `juniper` have
   no freeze file at all, so the structure all three share has a change-detector for one vendor.
+
+---
+
+# AUDIT 5 — THE NEGATIVE-SPACE LENS: WHICH SPECIFICATION HAS NO CUP, AND WHICH CUP HAS NO FUNNEL?
+
+*Every audit so far asked whether the cups that exist are right. This asks the inverse — the "any missing attribute"
+and "any missed linking of attributes" half of the operator's list.*
+
+Audit 1 looked at the unmapped labels and sorted them by FREQUENCY, which surfaces table HEADERS (`"Media"` 180
+occurrences over values like `"8 Streams"`) and concluded most were correctly unmapped. Frequency is the wrong sort:
+a header repeats in every document, while a genuinely missing link may appear once per product line.
+
+**The net's limits, stated first.** The corpus is `runs/provenance/cisco/doc-labels.json`: **1,014 of its 5,174
+documents carry labels at all, so 4,160 are invisible to this lens**, and it is dated 13 Sep. It holds labels and
+**no values**, so the value-shape discriminator I wanted was not available.
+
+## THE FINDING: four cups declared by 9–14 categories each, holding ZERO own facts
+
+A mechanical test needing no corpus and no judgement: for each of the 579 live dictionary keys, does its own name
+reach it through `mapLabel`? 174 do, and **22 map to a DIFFERENT key**. Four of those 22 are live — the phrasing
+occurs in real documents while the key of that name is an offered cup:
+
+| document label | docs | maps to | the key of that name | its own live facts |
+|---|---:|---|---|---:|
+| `"Safety standards"` / `"Safety Standards"` | 23 | `certifications` | `safety_standards`, declared by **14** categories | **0** |
+| `"Management interfaces"` / `"Management Interfaces"` | 19 | `programming_interfaces` | `management_interfaces`, declared by **9** | **0** |
+| `"Wireless security"` | 6 | `__backlog` (parked) | `wireless_security`, declared by **12** | **0** |
+| `"License Type"` | 2 | `__not_a_spec` (sunk) | `license_type`, declared by **10** | **0** |
+
+Own = not inherited. The control is inside the measurement: the same predicate returns 354 live facts for
+`certifications` and 5 for `programming_interfaces`, so a zero is a zero and not a broken query.
+
+**And AUDIT 3 explains why two of them looked filled.** `GLC-TE` carries `safety_standards` and `wireless_security`
+values — both INHERITED, from a Nexus 7000 and an ISR datasheet. So every value those two cups hold anywhere in the
+catalogue arrived by inheritance; **not one was ever read from a document about the part.** The compartment exists,
+9–14 categories offer it, and the funnel points somewhere else.
+
+**Two of the four routings are DELIBERATE, with a written reason, which moves the defect rather than removing it.**
+`attribute-aliases.en.json` bundles `^safety standards` with NEBS/EMC/EMI/emissions/immunity into `certifications`,
+and routes `management interfaces$` to `programming_interfaces` because *"Values are the management/automation
+interfaces exposed (HTTP/HTTPS, XML, SNMP) — the same concept programming_interfaces hold"*. Both are reasonable.
+What is not reasonable is leaving `safety_standards` and `management_interfaces` declared as offerable cups in 14
+and 9 categories with no funnel: that is this file's *"a required field that nothing can ever fill is a permanent
+gap"* in its `opt` form, where it costs no percentage and so nothing reports it. Retire the key or scope the rule —
+a decision, not a tidy-up. `wireless_security` (parked in `__backlog`) and `license_type` (sunk as not-a-spec) are
+the sharper pair, because there the routing carries no reason at all while the cup is live in 12 and 10 categories.
+
+## A structural observation about the rules, with its caveat
+
+`attribute-aliases.en.json` **can** scope a rule to categories — a 4th element `{"only": [...]}`, and the file's own
+first rule uses it, noting that a bare `"Zoom"` is a camera's zoom factor in a collaboration category and could be
+Zoom Meetings interop elsewhere. Measured: **1,303 rules, 47 carry a scope, 884 carry a note that begins by naming
+a category.**
+
+**That 884 is not a defect count and must not be read as one.** A note naming a category usually records where the
+evidence was found — provenance, not a claim about applicability — and most labels mean the same thing everywhere.
+The narrow question worth a later pass, with its predicate written down so it can be re-measured: *of the unscoped
+rules whose note names one category, which match a label that occurs in documents of more than one category?* That
+needs SKU→category resolution the label inventory does not carry, so it is recorded rather than answered.
+`management_interfaces` is one worked instance: its reason is written for `unified-communications` and it applies to
+all 19 documents.
+
+## Four things my own nets got wrong, which is most of what this audit taught
+
+1. **I invented the key names and then reported them missing.** The first pass printed `max_clients`,
+   `radio_chains`, `mimo_config`, `wifi_standards`, `data_rates`, `transmit_power`, `mesh_extenders_max`,
+   `access_points_max` as `dictionary=NO`. The real keys are `ap_max_clients`, `max_mesh_extenders`, `tx_power`,
+   `data_rate`, and the mapper places their labels correctly (`"Maximum clients"` → `ap_max_clients`,
+   `"Max # of Mesh Extenders"` → `max_mesh_extenders`, `"Available transmit power settings"` → `tx_power`). That
+   table measured **my guesses**, not the mould — a scanner that only knows one spelling.
+2. **`reachable by its own label_en: 0` was meaningless.** `label_en` and `label_de` are EMPTY on all 607 keys in
+   the CODE dictionary; the labels are merged from `fieldLabels.generated.ts` at sync. The TABLE has **0** empty of
+   604, so AUDIT 2's claim that every key carries a German name stands — and now for a reason I understand, since
+   the API serves the table.
+3. **"405 keys reachable by neither spelling" is not a defect count.** A mapper maps the phrasings VENDORS write,
+   not the names we chose for our keys; `ssd_capacity` has no need for `"ssd capacity"` to map.
+4. **The 576 word-overlap candidates over-report by construction, and reading the head showed how.** Roughly 14 are
+   `"Slot 0".."Slot 13"` — chassis table ROWS, matching `slot_compatibility` on the word "slot" — and about ten more
+   are single-word section headers (`"Optical"`, `"Laser"`, `"System"`, `"Quality"`, `"Interface"`,
+   `"Connectivity"`, `"Accessories"`, `"Efficiency"`, `"Controller"`, `"Scale"`), the same shape audit 1 found
+   behind `"Media"`. My first pass also failed to consult `attribute-ignore.en.json` at all, which accounts for 62
+   labels by itself.
+
+**One candidate from that list is still unexplained and worth a look:** `"Maximum power"`, **70 documents**, maps to
+nothing while `"Power draw"` maps to `power_max`.
