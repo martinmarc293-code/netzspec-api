@@ -498,3 +498,93 @@ all 19 documents.
 
 **One candidate from that list is still unexplained and worth a look:** `"Maximum power"`, **70 documents**, maps to
 nothing while `"Power draw"` maps to `power_max`.
+
+---
+
+# AUDIT 6 — THE LAYER LENS: IS THE HIERARCHY A TREE, AND CAN A CONSUMER SEE IT?
+
+*"any wrong layer" was the one item on the operator's list no audit had gone after. Audit 1 checked a single
+property — no series spans two product lines — and stopped there.*
+
+The model is stated in one line in the code (`productLine.ts layerModel`, operator 14 Sep):
+
+> **Layers: 1 category → 2 product line → 3 family (only where Cisco names one) → 4 series**
+
+## THE FINDING: a consumer is served layers 1 and 4, and the field called `family` is below layer 4
+
+| layer | field | on `PartRecord` (`/v1/parts`, `/v1/export`) |
+|---|---|---|
+| 1 category | `category` | **exposed** |
+| 2 product line | `product_line` | **absent** |
+| 3 family | `product_family` | **absent** |
+| 4 series | `series` | **exposed** |
+| below 4 — the model | `family` | **exposed, under the name of layer 3** |
+
+Since the 8 Sep migration `parts.family` is the MODEL — the SKU minus its orderable suffix — so four real switches
+read like this to a consumer:
+
+```
+C9200L-24P-4G   category=switches  series=Catalyst 9200  family="C9200L-24P-4G"
+C9200-24T       category=switches  series=Catalyst 9200  family="C9200-24T"
+```
+
+while the layer artifact for the same parts holds `line=Catalyst`, `family(layer 3)=Catalyst 9000`. Measured over
+86,934 live Cisco parts: **`family` is the SKU verbatim on 56,887 of them (65.4%)**, and differs only on the 30,047
+(34.6%) that have a spare or tier suffix. So the exposed field duplicates `sku` for two parts in three, occupies the
+name of layer 3, and the two middle layers of the hierarchy are unreachable through the API at all.
+
+This is the JTL lens's sharpest gap so far. A shop's Merkmal set is per-product; a shop's category TREE is
+line → family → series, and that tree exists, is committed (`data/reference/product-lines/*.json`,
+`data/layers/*.json`) and is complete — it is simply not served. **Recommendation:** add `product_line` and
+`product_family` to `PartRecord`, resolved from the committed line files by `(category, series)`. That is additive,
+moves no stored value, and needs no new table; the alternative — a `lines`/`series` table — is a larger decision
+and buys nothing a consumer can see. Held for the operator because it changes the published response shape.
+
+## CLEAN — the hierarchy IS a tree, and every part is placed
+
+| check | population | result |
+|---|---|---|
+| a series under more than one product line | 117 lines, 568 distinct series, 17 line files | **0** |
+| a layer-3 family under more than one line | 17 families named at all | **0** |
+| a series declared in more than one category | 568 | **1** (below) |
+| parts layered | 41,067 live hardware | **41,067**, pending 0, unplaced 0 |
+| `parts.series` null / `parts.family` null | 86,934 live | **0 / 0** |
+
+The family layer is sparse — 17 families over 568 series — and that is by design: the model says *only where Cisco
+names one*, and a family must group at least two series of one line without restating either level.
+
+## The one tree violation, and it is a finished migration nobody recorded
+
+`"AI PODs for Collaboration"` is declared in **both** `cisco-collaboration-endpoints.json` and
+`cisco-conferencing.json`, under the same line (`Meeting Server and TelePresence Management`) in each. All **4** live
+parts sit in `collaboration-endpoints` (`AIPOD-COLLAB`, `A-COLLAB-AIPOD-SAL`, `UCSC-C240-M8-CL`,
+`UCSC-C240-M8-CL-G`) and **conferencing holds none**. The collaboration side's note explains why and names the step
+that is missing:
+
+> *"arriving from conferencing (merge plan) … record it decided-home when the move runs"*
+
+The move ran; the record was not made, and the conferencing declaration is the residue. One entry to delete, once
+somebody confirms the home is decided — the note is an instruction to a person, which is why it is still open.
+
+## AND A FINDING OF MINE THAT DISSOLVED ON CHECKING, WHICH IS THE INSTRUCTIVE PART
+
+Every one of the 17 `data/layers/*.json` carries `uncommitted_rule_files:
+["data/reference/product-lines/cisco-routers.json"]`, and that file *did* change afterwards — commit `7e46e75`,
+*"the ASR 5000 / 5500 gets its deploy role (sp-core)"*. I had that written up as **seventeen artifacts describing
+rules that no longer exist**, which would have been a real defect given that the role axis is what the profiles gate
+on.
+
+It is not one. `7e46e75` committed the rule change **and all seventeen rebuilt artifacts together**; no commit has
+touched the rule file since, and the tree is clean. The field records the unavoidable order — an artifact must be
+built before it can be committed, so the build always sees its own rule file as dirty. **That is the identical
+semantics I had written into `scripts/build-render-contract.mts` two hours earlier** as `built_from_uncommitted`,
+with a comment saying so, and I still misread it in an artifact I had not written.
+
+Two things worth keeping. The blast radius would have been **zero parts** either way: the note says the ASR 5000 /
+5500 series in routers *"is empty until the move runs"*, and no live part carries that series — the rows are still
+in wireless. And the field cannot be judged on its own: what a reader needs is whether the dirty file landed in the
+**same commit** as the artifact, which is mechanically checkable (`git log <artifact-commit>..HEAD -- <file>` empty,
+and both paths in one commit) and is the useful thing to add rather than changing the field.
+
+*(One of my own counts also needs its scope stated: I measured 715 `ASR5*`/`MIXS` rows in wireless against the
+note's 115. The note counts HARDWARE; my pattern counted every product class. Not a discrepancy.)*
