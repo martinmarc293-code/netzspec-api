@@ -928,3 +928,83 @@ an `opt` key exists to be flagged had one appeared (`contact-center/license_type
 are `req` in no category anywhere**, which independently confirms the verification recorded that day.
 
 **Clean count: still 1 of 5.** Ten lenses, nine with findings.
+
+---
+
+# AUDIT 11 — A SECOND VENDOR END TO END: JUNIPER PRODUCES A BETTER FILE THAN CISCO, WITH NO CATEGORY TREE
+
+*Every consumer-level check so far ran on Cisco. AUDIT 4 showed the shared structure FITS other vendors; nothing had
+tried to PRODUCE anything for one. Juniper has the best density — 6,119 own rendered facts over 974 hardware parts —
+and its facts arrive by a different path (`vendor_page:juniper`, JSON read as HTML, `locator` a coordinate not a
+label), so it exercises code Cisco never reaches.*
+
+Built the same JTL Attributes file for `juniper/transceiver`, 400 orderable hardware parts:
+
+```
+CFP-100GBASE-ER4,Anschlusstyp,LC-Duplex,1
+CFP-100GBASE-ER4,Datenrate,100 Gbit/s,2
+CFP-100GBASE-ER4,DDM/DOM,Ja,3
+CFP-100GBASE-ER4,Bauform,CFP,4
+CFP-100GBASE-ER4,IEEE-Standards,IEEE 802.3ba-2010,5
+CFP-100GBASE-ER4,Übertragungsmedium,Singlemode-Faser (SMF),6
+CFP-100GBASE-ER4,Leistungsaufnahme (max.),9 W,7
+CFP-100GBASE-ER4,Max. Reichweite,40000 m,8
+```
+
+**The German contract works on a vendor it was never tested against**, including the `LC-Duplex` hyphenation fixed
+hours earlier in AUDIT 8, now visible in a real cell.
+
+| | juniper/transceiver | cisco/transceiver |
+|---|---|---|
+| Merkmal rows from 400 parts | **4,025** | 1,416 |
+| Merkmale per product | min 3, **median 8**, max 19 | min 1, median 3, max 17 |
+| products with ZERO Merkmale | **0 of 400** | 57 of 400 |
+| parts with no Artikelname | 0 | 0 |
+| cells the contract refuses | 139, all `standard` holding a scalar | 109, the same key |
+
+**Juniper produces a materially better shop file than Cisco does** — more than twice the Merkmale per product and not
+one empty page. The refusals are the same defect at the same key in both, which is the shared-contract behaving
+consistently across two different extraction paths.
+
+## FINDING: 400 of 400 juniper parts have no category tree
+
+`product_line` and `product_family` are null for every one, because `data/reference/product-lines/` holds
+`cisco-*.json` and nothing else — and `data/layers/` likewise. So the layer exposure landed in `eae7b09` serves
+Cisco and returns null for the other twelve vendors by construction. Measured per juniper category: `transceiver`
+553 parts, `interfaces-modules` 119, `power-cables` 185, `power-supplies` 117 — **line file: false, layer index:
+none** for all four.
+
+The API states this honestly (the schema says null means the layering does not place the part), and AUDIT 6 recorded
+it as the reason for null. What is new here is the size: **for a non-Cisco vendor it is not an edge case, it is
+everything** — a juniper shop feed has no line → family → series tree at all, only its category. Whether other
+vendors get line files is a scope decision, not a defect.
+
+*Also visible: juniper's `interfaces-modules`, `power-cables` and `power-supplies` hold **421 hardware parts and 0
+own rendered facts between them**, so three of its four categories would import as products with no Merkmale at all.*
+
+## The consumer requirement worth writing down: ~10% of cells need CSV quoting
+
+Measured over all **66,818** rendered cells: **6,599 (9.9%) contain a comma**, and 6,605 (9.9%) contain any of
+`,` `;` `"`. The cause is the German decimal separator — `1,5 kg`, `2,5 Zoll`, `12,2 kg` — so in a comma-delimited
+Attributes file **roughly one cell in ten must be quoted**, and a consumer that does not quote corrupts exactly the
+numeric cells. This is a property of writing correct German, not a defect, and it is the second reason the contract's
+list separator is `" | "`: the values already carry the comma, and Main is semicolon-delimited.
+
+## AND MY OWN NET OVER-REPORTED BY 64%, WHICH IS MOST OF WHAT THIS LENS TAUGHT
+
+`Max. Reichweite,40000 m` is correct (40 km for an ER4) and not how a shop would write it, so I scanned for numeric
+cells a human would scale — ≥ 1000 in a unit with a common larger one — and got **630 of 66,818 (0.94%)**. Reading
+them, **403 are my net flagging correct values**:
+
+| flagged | verdict |
+|---:|---|
+| `power_max` 174, `psu_rated_output` 109, `poe_budget` 28, `poe_budget_redundant` 6, `tdp` 2 | **correct as they stand.** A switch PSU is `1140 W` in every datasheet and every shop; nobody writes `1,14 kW` |
+| `altitude_max` 84 | **correct.** An altitude is `3000 m`; nobody writes `3 km` |
+| `reach_max` 227 | the only defensible ones — `40000 m` where the trade writes `40 km` |
+
+So the honest residue is **227 cells of one key**, and even those are a presentation preference for a German reseller
+to rule on rather than an error. I am not changing them: the contract renders the stored value in its stored unit,
+which is the behaviour that cannot silently mislead, and a scaling rule would be my judgement about how a shop reads.
+Flagged beside the two German values already waiting in the decision sheet.
+
+**Clean count: still 1 of 5.** Eleven lenses, ten with findings.
