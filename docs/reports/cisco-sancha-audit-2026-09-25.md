@@ -803,3 +803,65 @@ Every value is now either an explicit map entry or produced by a rule that refus
 shape, so the next value added to any domain arrives as a named failure rather than as uppercased English. 75/75
 non-db suites, 37 cases in `tests/renderContract.test.ts` (6 sabotage, restored byte-identical), artifact
 regenerated.
+
+---
+
+# AUDIT 9 — THE BUYER'S LENS: DOES THE MOULD ASK THE RIGHT QUESTIONS? — NOTHING ACTIONABLE FOUND
+
+*Eight lenses asked whether the mould is internally consistent. A perfectly self-consistent mould can still ask the
+wrong questions, and no count inside it can see that. This is the first lens to come back clean, and the reason it
+counts as clean is below along with the reason it is a weak lens.*
+
+**The proxy, because "what a buyer filters on" is judgement:** what the VENDOR publishes. A cup the vendor states for
+most parts of a category while the profile marks it `opt` is a question the mould is choosing not to ask about the
+thing the datasheet always gives — and a shop's filter set would not carry it.
+
+| | |
+|---|---|
+| population | 481 (category, key) pairs, in the 14 of 15 categories with ≥ 40 described hardware parts |
+| fill rate | distinct live hardware parts with an own rendered fact for that key ÷ distinct parts of the category with **any** own rendered fact |
+| pairs at ≥ 50% fill | **13** — and 1 at ≥ 75%, **0 at ≥ 90%**; median fill rate **1.2%**, highest 76.6% |
+| what the profile says about those 13 | **`cond` 10, `req` 1, `opt` 2** |
+
+**Eleven of the thirteen most-published cups are asked for.** The two that are not, read individually:
+
+- `wireless/standard` — 63% (768 of 1,224), `opt`. A real specification, but it overlaps `wifi_generation`, which
+  the wireless profile marks `cond`, and it is the same key carrying 2,075 scalar-in-a-list defects (AUDIT 7). Asking
+  for it as well would duplicate a cup rather than add one.
+- `collaboration-endpoints/compliance_model` — 62% (28 of 45), `opt`. A regulatory model identifier, not something a
+  buyer chooses on. Correctly optional.
+
+So: **no cup found that the vendor publishes widely and the mould fails to ask for.** That is the answer to the lens
+as posed.
+
+## Why this is a WEAK lens, stated rather than buried
+
+**The median fill rate is 1.2% and not one of 481 pairs reaches 90%.** "What the vendor publishes" is being measured
+over a thin corpus, so the lens has little power to find a cup the mould should ask for: the evidence that would
+distinguish "the vendor always states this" from "we have not read it yet" mostly does not exist yet. A repeat of this
+lens is worth more after the filling advances than another variant of it is now.
+
+## Two corrections to my own net, one of which was 12 of its 17 control hits
+
+The control direction — a REQUIRED cup published for under 5% of parts — returned **17**, and its top twelve were
+`vendor` and `series` at **0.0%** across six categories. Both are satisfied by a PART COLUMN (`parts.vendor_id`,
+`parts.series`, which AUDIT 6 measured as 100% populated), so any fact-based fill rate reads them as unfilled. A
+required cup answered by the part row rather than by a fact is invisible to that measure, and reporting those as unmet
+demands would have been a fiction.
+
+**The store already handles this, deliberately and with the measurement that forced it.** `completenessV2` skips a
+named `COLUMN_BACKED` set before scoring, and its comment records why: *"Measured 9 Sep 2026: a security hardware part
+with ZERO facts scored 2/13 = 15.4% rather than 0/11 = 0%, and the category's mean of 18.4% was mostly that floor …
+They stay REQUIRED in the profile, because requiring them is what makes a part without a series a validation failure;
+they are simply not a coverage question."* So there is no miscount, and the code anticipated exactly the confusion I
+arrived with — worth recording, because I went looking for a defect and found a decision.
+
+*(The second correction is smaller: my first run imported `DERIVED_FILL_PATHS` from `fieldSchema.ts`, where it is not
+exported — it lives in `derivedFillPaths.ts`. The run failed loudly, which is the harmless kind.)*
+
+## Clean count: 1 of the 5 the operator asked for
+
+Nine lenses, eight with findings, **one clean**. The four remaining candidates, none of them a variant of a lens
+already used: the completeness report's own arithmetic; a second vendor taken end-to-end through the JTL build;
+whether the committed artifacts agree with each other and with the freeze; and this lens again once the corpus is
+thick enough for it to have power.
