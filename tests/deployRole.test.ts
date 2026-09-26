@@ -7,6 +7,9 @@
 // filed under "High-Speed WAN Interface Cards" is a branch router. Every sabotaged rule list must fail on the witness
 // that the removed or reordered rule protects, FOR THAT REASON, or the witness list is a check that has never failed.
 import { RULES, ROLE_DOMAINS, deployRole, deployRoleResult, deployRoleRule, roleAxisOf, type Rule } from "../src/core/deployRole.js";
+import { normalizeField } from "../src/core/specNormalize.js";
+import { FIELD_DICTIONARY } from "../src/core/fieldSchema.js";
+import { mapLabel } from "../src/core/deepSpecMap.js";
 
 let pass = 0;
 const misses: string[] = [];
@@ -157,6 +160,49 @@ check("a kind issue gets null, not a role", deployRole("switches", "switch", "DS
 check("an unplaced part gets null, not the biggest role", deployRole("routers", "router", "ZZ-NOSUCH-1", "no such router") === null);
 check("the operator's C8455-G2 is branch by its own rule", deployRoleRule("router", "C8455-G2", "Cisco 8400 Secure Router").rule === "rt.branch.c8400");
 check("a missing kind gets null", deployRole("switches", undefined, "C9300-48P-A", "Catalyst 9300") === null);
+
+// ---- THE PAGE PATH IS CLOSED (26 Sep 2026) ------------------------------------------------------------------------
+// deploy_role is DERIVED and fieldSchema says "never read from a page", but nothing enforced that: two header aliases
+// pointed at it and a synonym table in specNormalize mapped datasheet prose onto it. Between them they wrote five
+// facts, every one on a part this derivation gives NO ROLE AXIS (linecard, wlc, pluggable, unknown), and three by
+// matching `access` MID-WORD inside "SD-Access" in a list of a controller's deployment modes — one onto a transceiver.
+// The synonym table was also pre-fold (13 Sep: aggregation+core -> core-agg, datacenter-tor -> datacenter), so it
+// could not round-trip this key's own domain. Case 2 is the one that matters: it goes red the moment a synonym table
+// comes back, because any table that maps prose to a role also maps `datacenter` to something that is not `datacenter`.
+// SABOTAGE COVERAGE, measured rather than assumed — the two sabotages are not equivalent and one case is inert:
+//   revert the table verbatim (pre-fold slugs)  -> 2 red: the SD-Access raw, and the round-trip control.
+//     The other raws pass for a SECOND reason there (they map to `datacenter-tor`, which the domain refuses anyway).
+//   re-add it with the FOLDED slugs — the tempting fix -> 4 red: three raws and the control.
+//   "Premier wiring closet" fires under NEITHER: no rule in any version matches it, so it is a CONTROL, not a case.
+// The round-trip control is the load-bearing one, because it fires under both: this domain holds slugs that are
+// substrings of each other (`industrial-iot` starts with `industrial`, `sp-access` ends with `access`), so NO prose
+// synonym table can round-trip it — which is the general reason this key must not have one.
+const pageRaws: [string, string][] = [
+  ["switches", "Data center and server farm"],            // wrote facts 42779 + 128192 onto Catalyst 6500 line cards
+  ["switches", "Premier wiring closet"],                  // CONTROL: the alias's other documented value, matched by no rule
+  ["transceiver", "Centralized, Cisco FlexConnect, and Fabric Wireless (SD-Access)"], // wrote 80304/80310/116320
+  ["switches", "Top of rack"],                            // the retired slug's own words
+];
+for (const [cat, raw] of pageRaws) {
+  const r = normalizeField(cat, "deploy_role", raw, {});
+  check(`a page cell cannot fill deploy_role: ${JSON.stringify(raw.slice(0, 34))}`, !r.ok);
+}
+const roleDomain = (FIELD_DICTIONARY.deploy_role as { domain?: string[] }).domain ?? [];
+const roundTrip = roleDomain.filter((s) => {
+  const r = normalizeField("switches", "deploy_role", s, {});
+  return r.ok && (r as { value: unknown }).value === s;
+});
+check(`CONTROL all ${roleDomain.length} deploy_role domain slugs round-trip (was 16 of 18: `
+  + `"datacenter"->"datacenter-tor" and "core-agg"->"core" were both REFUSED)`, roundTrip.length === roleDomain.length && roleDomain.length === 18);
+// THE TWO ALIASES ARE STILL OPEN, deliberately, and this is a tripwire rather than a silence. Retargeting
+// `^primary application$` (switches) and `^deployment modes$` (transceiver) to __not_a_spec moves
+// data/freeze/cisco.json's mapper.alias_file_sha, which makes it an ARRANGEMENT CHANGE: it must ship with a
+// docs/decisions record and the rebuilt ledgers, censuses, traces, completeness report and freeze on ONE
+// commit. Until then the door stays open and the normaliser refuses at the threshold instead — which is why
+// the cases above, not these, are what protect the key. Flip this to __not_a_spec when the retarget lands.
+check("the two headers still alias to deploy_role (retarget is a pending arrangement change, decision-sheet item 13)",
+  mapLabel("Primary application", "switches") === "deploy_role" && mapLabel("Deployment modes", "transceiver") === "deploy_role");
+check("CONTROL mapLabel reaches real keys at all", mapLabel("Rack Height", "switches") === "rack_units" && mapLabel("Form factor", "transceiver") === "form_factor");
 
 console.log(`    deploy role: ${pass} passed, ${misses.length} missed (${CASES.length} witnesses, ${sabotage.length} sabotaged rule lists)`);
 for (const m of misses) console.log(`    MISS ${m}`);

@@ -1153,8 +1153,23 @@ const ENUM_RULES: Record<string, [RegExp, string][]> = {
   poe_standard: [[/nein|none|kein|ohne poe/i, "none"], [/upoe\+|upoe-plus/i, "upoe-plus"], [/upoe/i, "upoe"],
     [/802\.3bt.*(type\s*4|t4|90\s*w)/i, "802.3bt-t4"], [/802\.3bt/i, "802.3bt-t3"],
     [/802\.3at|poe\+/i, "802.3at"], [/802\.3af|poe/i, "802.3af"]],
-  deploy_role: [[/industrial|industrie/i, "industrial"], [/tor|top.of.rack|rechenzentrum|data.?cent/i, "datacenter-tor"],
-    [/core|kern/i, "core"], [/aggregat/i, "aggregation"], [/access|zugang/i, "access"]],
+  // deploy_role HAS NO SYNONYM TABLE, deliberately (26 Sep 2026). It is layer 3 of the kind model, DERIVED by
+  // src/core/deployRole.ts and registered in DERIVED_FILL_PATHS; fieldSchema's own entry says "never read from a
+  // page". The table that stood here was written before the 13 Sep fold (`aggregation`+`core` -> `core-agg`,
+  // `datacenter-tor` -> `datacenter`), and the fold was applied to the DOMAIN and never to it — so three of its
+  // five rules emitted slugs the 18-value domain refuses, and it could not round-trip the domain's own slugs:
+  // measured through the real normaliser, "datacenter" mapped to "datacenter-tor" and "core-agg" mapped to "core",
+  // both REFUSED. 6 of 8 inputs refused. A synonym table that can only refuse is not a mapping, and re-folding it
+  // would be worse than deleting it: it would restore a page path for a derived key, which is how the 5 facts it
+  // produced came to exist (all Cisco, all method=html_table run 6, measured across ALL vendors). Every one is on
+  // a part the derivation gives NO ROLE AXIS — linecard, wlc, pluggable, unknown — and three came from `access`
+  // matching mid-word inside "SD-Access" in a list of a controller's deployment MODES, one of them onto a
+  // transceiver. The two header aliases that opened the path (`^primary application$` on switches,
+  // `^deployment modes$` on transceiver) are STILL POINTED HERE: retargeting them to __not_a_spec moves
+  // data/freeze/cisco.json's mapper.alias_file_sha, so it is an arrangement change owing a decision record and a
+  // rebuilt artifact set on one commit, and it is held as decision-sheet item 13. Deleting this table is what
+  // closes the harm meanwhile: a page cell reaching this key now REFUSES on the domain instead of manufacturing
+  // a value, which is the visible outcome. The derivation keeps filling the key at read time, untouched.
   // PORT-SIDE FIRST (11 Sep 2026). Cisco's unambiguous terms name the PORT side, and the last rule
   // below matched the word "side" inside them: 239 facts saying "port-side intake/exhaust" were
   // stored as SIDE-TO-SIDE airflow. They precede front/back too, because a cell giving both
