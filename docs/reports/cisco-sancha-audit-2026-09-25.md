@@ -1067,3 +1067,66 @@ better instrumented than my checks of them: the report's `inputs` block already 
 `census_replay_parity` — which is why every one of my errors was correctable from the artifact itself in one read.
 
 **Clean count: still 1 of 5** — this lens found one real thing, small as it is. Twelve lenses, eleven with findings.
+
+---
+
+# AUDIT 13 — THE CODE AGAINST THE DATABASE SCHEMA: NO NEW ROOT CAUSE, AND THE FULL EXTENT OF THE OLD ONE
+
+*Every lens so far compared the code with itself or with artifacts built from it. This one consults the authority none
+of them asked: the schema, where `pg_enum`, the dictionary table and the FK decide what a stored fact can reference.*
+
+**The enum direction is already covered, and well.** `tests/db/store.test.ts` compares three registered code lists to
+`pg_enum`, checks that `VALUE_STATES` and `GAP_STATES` partition `fact_state` exactly, sabotages both directions, and
+**names the three unregistered enums** with the reason each cannot be compared (two hand-written Sets with no
+canonical value; a TYPE that cannot be iterated; no list at all) rather than shrinking its denominator. It passes. I
+did not rebuild it.
+
+## What no lens had compared: the dictionary table against the code
+
+| | |
+|---|---|
+| code declares | **607** keys |
+| the table holds | **604** |
+| in code only — **no fact can reference these**, since `facts.field_key` FKs to the table | **3**: `modular` (b), `drive_form_factor` (e), `gpu_memory` (n, GB) |
+| in table only — a key the code dropped while facts still reference it | **0** |
+| keys both sides have, with any field differing | **1 of 604** — `deploy_role`, its domain |
+| facts under the 3 code-only keys | **0**, exactly as the FK requires |
+
+**And all four of those are the same two rows from AUDIT 4.** `sync-dictionary` writes the dictionary AND the
+profiles, and it has refused for thirteen days because narrowing `deploy_role`'s domain would refuse two stored facts
+holding `datacenter-tor`. So the full extent of that refusal is now measured:
+
+```
+deploy_role domain:  code 18 values,  table 5
+  the table still has   aggregation, core, datacenter-tor      <- the code narrowed these away
+  the code has, absent  smb, core-agg, datacenter, indoor, outdoor, mesh-extender, branch, edge,
+  from the table (16)   industrial-iot, sp-access, sp-edge, sp-core, desk, wireless, dect, conference
+```
+
+**`datacenter-tor` is in the table's domain, which is why those two facts were writable on 3 Sep at all** — the
+narrowing came later, and the guard has held the line ever since. Two rows therefore block, in one dependency chain:
+
+1. the **domain narrowing** itself (table 5 values, code 18),
+2. **3 dictionary keys** — and because the profile FK needs the dictionary row first, they can carry no profile rows
+   either, which is part of AUDIT 4's 74,
+3. the remaining **74 profile entries** and **165 requirement corrections**.
+
+*One consequence worth its own line: the rendering contract covers `drive_form_factor` (`2,5 Zoll`, `M.2`, `E1.S`) for
+a key `/v1/fields` cannot serve at all. The contract is ahead of the table, like everything else behind this sync.*
+
+**The consumer cost of the stale domain is small and worth stating precisely rather than dramatically.** A consumer
+validating `deploy_role` against `/v1/fields` would refuse 16 legitimate values — but `deploy_role` is the DERIVED
+role axis, only 5 facts exist under it catalogue-wide, and both of the values they hold (`access` ×3,
+`datacenter-tor` ×2) are in the table's 5-value domain. So nothing is refused today. The exposure is latent with a
+named trigger, not live.
+
+## Verdict, and it is not a clean audit
+
+**No new root cause.** Everything this lens found traces to the two `deploy_role` facts already in the decision sheet
+as item 1 — but the three missing dictionary keys and the 13-of-18 domain gap are consequences AUDIT 4 did not
+measure, and they are real things wrong with the structure as served. So this counts as a finding, not a clean pass,
+and the decision sheet's item 1 is updated rather than joined by a new one.
+
+**Clean count: still 1 of 5.** Thirteen lenses, twelve with findings — though the last five have found one small
+thing, one mechanism, one wrong field type, and now no new cause at all, which is a different shape from the first
+eight.

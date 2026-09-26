@@ -30,6 +30,20 @@ Those two are `WS-X6748-GE-TX` and `WS-X6516-GE-TX`, both `switches`, both holdi
 from the raw *"Data center and server farm"*, written by run 6 on 3 Sep via `html_table`. `datacenter-tor` is absent
 from the 18-value domain; `datacenter` is the slug.
 
+**FULL EXTENT, measured in AUDIT 13 (26 Sep).** `sync-dictionary` writes the dictionary AND the profiles, so those two
+rows block one dependency chain, not just the profiles:
+
+| blocked | measured |
+|---|---|
+| the `deploy_role` domain narrowing | table **5** values, code **18**; the table still holds `aggregation`, `core`, `datacenter-tor` |
+| dictionary keys absent from the table | **3** — `modular`, `drive_form_factor`, `gpu_memory`. `facts.field_key` FKs to the table, so no fact can reference them; 0 do |
+| profile rows for those 3 | **0**, and they cannot exist — the profile FK needs the dictionary row first, so they are part of the 74 above |
+| profile entries and requirement corrections | the **74** and **165** above |
+
+`datacenter-tor` is IN the table's domain, which is why those two facts were writable on 3 Sep; the narrowing came
+afterwards and the guard has held since. Latent rather than live on the domain: only 5 `deploy_role` facts exist and
+both values they hold are in the table's 5-value list, so nothing is refused today.
+
 **THE DECISION.** Either (a) a gated run re-normalises or retracts those two facts and then the sync runs, or (b) the
 sync runs with `--allow-refusing deploy_role`, recording the reshape deliberately and refusing those two values. The
 sync itself is safe by construction; the whole risk is what happens to the two rows. `scripts/check-profile-sync.mts`
