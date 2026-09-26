@@ -73,7 +73,24 @@ eq("n  a number takes its unit", text("weight", 1.5, "kg"), "1,5 kg");
 eq("nr a range comes from the {min,max} the store holds", text("temp_operating", { min: -5, max: 45 }, "°C"), "-5 bis 45 °C");
 eq("b  a boolean is Ja", text("ddm", true), "Ja");
 eq("e  an enum is the German word", text("airflow", "front-to-back"), "Vorne nach hinten");
-eq("e  a technical token is its PRESENTED form", text("connector", "lc-duplex"), "LC Duplex");
+eq("e  a technical token is its PRESENTED form, hyphenated as the dictionary's own German is", text("connector", "lc-duplex"), "LC-Duplex");
+// THE UCS SERVER FORM FACTORS, and why they are here. `form_factor`'s domain is per category: optic cages in
+// `transceiver`, and blade-half / blade-full / compute-node / router-module in the three UCS categories. Those four
+// fell through `presentFormFactor` — a rule written for cages — and rendered as "BLADE-HALF", "COMPUTE-NODE",
+// "ROUTER-MODULE": shouting English in a German shop cell, past a coverage check that reported 0 uncovered.
+eq("e  a UCS server form factor is GERMAN, not the slug uppercased", text("form_factor", "blade-half"), "Blade, halbe Breite");
+eq("e  …and the other three", [text("form_factor", "blade-full"), text("form_factor", "compute-node"), text("form_factor", "router-module")],
+  ["Blade, volle Breite", "Compute-Node", "Router-Modul"]);
+eq("e  an optic cage still presents as its token", [text("form_factor", "qsfp-dd"), text("form_factor", "sfp-plus")], ["QSFP-DD", "SFP+"]);
+// A RULE MUST REFUSE WHAT IT WAS NOT WRITTEN FOR, or the coverage check is vacuous for everything it covers
+// (measured: 159 values have a map entry, 149 are rule-only). This is what makes the gap visible at all.
+check("a rule REFUSES a value outside its shape, so the coverage check can see the gap",
+  enumValueDe("form_factor", "__not_a_cage__") === null && enumValueDe("spatial_streams", "not-a-stream") === null
+    && enumValueDe("ip_rating", "nonsense") === null,
+  JSON.stringify({ ff: enumValueDe("form_factor", "__not_a_cage__"), ss: enumValueDe("spatial_streams", "not-a-stream"), ip: enumValueDe("ip_rating", "nonsense") }));
+check("CONTROL each of those rules still covers its OWN shape",
+  enumValueDe("form_factor", "cfp2") === "CFP2" && enumValueDe("spatial_streams", "4x4:4") === "4×4:4"
+    && enumValueDe("ip_rating", "ip67") === "IP67" && enumValueDe("ip_rating", "ip69k") === "IP69K");
 eq("ls a list joins on the stated separator", text("certifications", ["CE", "RoHS"]), `CE${LIST_SEPARATOR}RoHS`);
 eq("struct dimensions", text("dimensions", { h: 44.5, w: 442, d: 300 }, "mm"), "H 44,5 × B 442 × T 300 mm");
 eq("struct ports", text("ports", [{ speed: ["1G"], anzahl: 24, port_typ: "rj45" }]), "24 × RJ45 1G");

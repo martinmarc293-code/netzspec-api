@@ -722,3 +722,84 @@ from 24 is worth what 24 is worth, which is why the sample size is in the senten
 - **0 Merkmal names containing a delimiter.**
 - Artikelnummer is the vendor's SKU verbatim throughout, which is what JTL matches on to update rather than
   duplicate.
+
+---
+
+# AUDIT 8 — MY OWN GERMAN: THE 308 VALUES NOTHING HAD CHECKED
+
+*The rendering contract was written last night and its 308 German enum values go straight into a shop cell. The
+contract's own comment says a wrong German technical term is invisible where an English slug is not — and nothing
+had read them. This is the one thing this session introduced that no lens had examined.*
+
+First, the standard to measure against. The 604 `label_de` field names are operator-reviewed, and their conventions
+are legible: **142 of 604 are hyphen-joined compounds** (`AC-Stromaufnahme`, `IPv4-Routen`, `Slot-Kompatibilität`,
+`Vor-Rück-Verhältnis`), real German where German exists (`Anrufsteuerung`, `Arbeitsspeicher`, `Herkunftsland`),
+English kept where it is the trade term (`Management-Schnittstellen`, `Port-Channels`, `Ingress-NetFlow-Einträge`),
+and `Max.` abbreviated. That is the house style my values should match.
+
+## THE DEFECT: four values rendered as shouting English, past a check that said 0 uncovered
+
+`form_factor`'s domain is per category — the optic cages in `transceiver`, and in the three UCS categories
+`blade-half`, `blade-full`, `compute-node`, `router-module`. Those four fell through to `presentFormFactor`, a rule
+written for cages, which uppercases:
+
+```
+blade-half     ->  "BLADE-HALF"          blade-full     ->  "BLADE-FULL"
+compute-node   ->  "COMPUTE-NODE"        router-module  ->  "ROUTER-MODULE"
+```
+
+Now mapped: **"Blade, halbe Breite"**, **"Blade, volle Breite"**, **"Compute-Node"**, **"Router-Modul"**.
+
+**And the reason my coverage check could not see it is the finding worth keeping.** `uncoveredEnumValues()` asks only
+whether `enumValueDe` returns something. A `rule` always returned something — its type was `(v: string) => string` —
+so **the check was structurally vacuous for every value a rule covers.** Measured: **159 values have an explicit map
+entry and 149 are rule-only**, and the check reported 0 uncovered while four of those 149 were wrong. This is the
+repo's own *"a check that depends on a signal must assert the signal is PRESENT"*, arriving inside the check written
+to keep the contract honest.
+
+The fix is not a better check, it is that **a rule now states the shape it accepts and returns null outside it** —
+`presentFormFactor` matches only cage tokens, `spatial_streams` only `NxM`/`NxM:S`, `ip_rating` only `ip[0-9x]{2}k?`.
+That turns a value a rule was not written for into a gap the coverage check CAN report. Proven: removing the four map
+entries now turns **5** cases red *and the coverage check names all four by value*, which it could not do before.
+
+**It cost two renderings out of 69,381 and both were junk.** 66,820 → 66,818; the two now-refused facts are:
+
+```
+cisco/MR46   wireless/spatial_streams = "4 x 4 multiple input, multiple output (MIMO) with four spatial streams"
+cisco/MR46E  wireless/spatial_streams = "8 (4x4 + 4x4)"
+```
+
+The first was being uppercased into a shop cell as a whole sentence. Both are values outside their own declared
+domain, so they join the 477-fact census AUDIT 7 and AUDIT 2 recorded rather than disappearing into a plausible cell.
+
+## Three German corrections for consistency with the house style
+
+| | was | now | why |
+|---|---|---|---|
+| `psu_config: modular-single` | *Modular, einfach* | **Modular, ein Netzteil** | "einfach" reads as *simple*, not *one PSU* |
+| `media: dac-copper`, `rj45-copper` | *DAC Kupfer*, *RJ45 Kupfer* | **DAC-Kupfer**, **RJ45-Kupfer** | the dictionary hyphenates its compounds, 142 of 604 |
+| `connector: lc-duplex`, `lc-simplex` | *LC Duplex*, *LC Simplex* | **LC-Duplex**, **LC-Simplex** | the same, and it is how the trade writes them |
+
+The exact assertion in the suite caught the hyphenation change the moment it landed, which is what an exact
+assertion is for.
+
+## Read and judged sound — the rest of the 308
+
+`KMU` for smb, `Rechenzentrum`, `Filiale`, `Tischgerät`, `Innenbereich`/`Außenbereich`, `Drahtlos`,
+`Industrielles IoT`, `Multimode-Faser (MMF)`, `AOC (aktives optisches Kabel)`, `Kein PoE`,
+`IEEE 802.3bt Typ 3` (German *Typ*), `Host-abhängig`, `Keine`, `Layer 2`, `2,5 Zoll` (German decimal comma),
+`Lüfterlos`, `Unbefristet`/`Abonnement`/`Laufzeit`/`Testversion`, `Omnidirektional`, `4×4:4` with the multiplication
+sign the dictionary itself uses for dimensions.
+
+**Two I am flagging rather than changing**, because they are judgement calls a German reseller should make and I
+would be guessing:
+
+- `airflow: front-to-back` → **"Vorne nach hinten"**. Understandable and slightly clipped; the German trade writes
+  either *"Von vorne nach hinten"* or keeps *"Front-to-Back"*. Same for `back-to-front`.
+- `deploy_role: industrial` → **"Industrie"** while `temp_class: industrial` → **"Industriell"**. Two German words
+  for one English token in two keys. Defensible — one names a deployment, the other a class — and worth one look.
+
+Every value is now either an explicit map entry or produced by a rule that refuses anything outside its stated
+shape, so the next value added to any domain arrives as a named failure rather than as uppercased English. 75/75
+non-db suites, 37 cases in `tests/renderContract.test.ts` (6 sabotage, restored byte-identical), artifact
+regenerated.

@@ -78,7 +78,11 @@ export function formatRangeDe(min: number, max: number, unit?: string | null): s
 // version of this contract read only the dictionary's global domain, reported "0 uncovered", and then refused
 // 1,742 live facts as having "no German rendering" — values that are entirely correct under their category's
 // own domain. So a cover may carry a map for the words and a rule for the tokens, and the map is tried first.
-type ValueCover = { map?: Readonly<Record<string, string>>; rule?: (v: string) => string; why?: string };
+// A RULE MAY REFUSE, and must. Until 26 Sep the signature was `(v: string) => string`, so every rule was total over
+// every value it was ever handed — which made `uncoveredEnumValues()` structurally unable to report a rule-covered
+// value however wrong its output, and four UCS form factors rendered as "BLADE-HALF" and friends while the check
+// said 0 uncovered. Returning null is how a rule says "not my shape" and hands the value back to the coverage check.
+type ValueCover = { map?: Readonly<Record<string, string>>; rule?: (v: string) => string | null; why?: string };
 
 export const ENUM_DE: Readonly<Record<string, ValueCover>> = {
   // --- genuinely English words a German buyer would notice ------------------------------------------------
@@ -87,7 +91,7 @@ export const ENUM_DE: Readonly<Record<string, ValueCover>> = {
     reversible: "Umkehrbar", "port-side-intake": "Ansaugung auf der Portseite", "port-side-exhaust": "Abluft auf der Portseite" } },
   cooling: { map: { fanless: "Lüfterlos", "fixed-fans": "Feste Lüfter", "redundant-replaceable": "Redundant, wechselbar" } },
   psu_config: { map: {
-    "fixed-internal": "Fest eingebaut", "modular-single": "Modular, einfach",
+    "fixed-internal": "Fest eingebaut", "modular-single": "Modular, ein Netzteil",
     "modular-redundant": "Modular, redundant", external: "Extern" } },
   temp_class: { map: { commercial: "Kommerziell", extended: "Erweitert", industrial: "Industriell" } },
   license_type: { map: {
@@ -99,8 +103,13 @@ export const ENUM_DE: Readonly<Record<string, ValueCover>> = {
     omnidirectional: "Omnidirektional", unidirectional: "Unidirektional", array: "Mikrofon-Array", beamforming: "Beamforming" } },
   // BOTH, because its domain differs by category: the chassis words in `switches` and every optic form factor in
   // `transceiver` (DOMAIN_OVERRIDES). 1,742 live facts hold the optic side.
+  // The chassis words, the four UCS server shapes (DOMAIN_OVERRIDES on the three UCS categories), and a rule for the
+  // optic cages the transceiver override adds. The UCS four are MAPPED because `presentFormFactor` now refuses them:
+  // until 26 Sep they fell through it and rendered as "BLADE-HALF" / "COMPUTE-NODE" / "ROUTER-MODULE".
   form_factor: { map: {
-    "rack-19": "19-Zoll-Rack", desktop: "Desktop", "din-rail": "Hutschiene", "modular-chassis": "Modulares Chassis" },
+    "rack-19": "19-Zoll-Rack", desktop: "Desktop", "din-rail": "Hutschiene", "modular-chassis": "Modulares Chassis",
+    "blade-half": "Blade, halbe Breite", "blade-full": "Blade, volle Breite",
+    "compute-node": "Compute-Node", "router-module": "Router-Modul" },
     rule: presentFormFactor, why: "the transceiver override domain carries the optic form factors" },
   // The German networking trade sells these under the English words; translating them would be less clear, not
   // more. Written down as a decision rather than left to a pass-through.
@@ -113,10 +122,10 @@ export const ENUM_DE: Readonly<Record<string, ValueCover>> = {
 
   // --- technical tokens: the German is the PRESENTED form of the same token ---------------------------------
   media: { map: {
-    mmf: "Multimode-Faser (MMF)", smf: "Singlemode-Faser (SMF)", "dac-copper": "DAC Kupfer",
-    "rj45-copper": "RJ45 Kupfer", aoc: "AOC (aktives optisches Kabel)" } },
+    mmf: "Multimode-Faser (MMF)", smf: "Singlemode-Faser (SMF)", "dac-copper": "DAC-Kupfer",
+    "rj45-copper": "RJ45-Kupfer", aoc: "AOC (aktives optisches Kabel)" } },
   connector: { map: {
-    "lc-duplex": "LC Duplex", "lc-simplex": "LC Simplex", sc: "SC", "mpo-12": "MPO-12", "mpo-16": "MPO-16",
+    "lc-duplex": "LC-Duplex", "lc-simplex": "LC-Simplex", sc: "SC", "mpo-12": "MPO-12", "mpo-16": "MPO-16",
     "mpo-24": "MPO-24", rj45: "RJ45", integrated: "Fest angeschlossen" } },
   antenna_connector: { map: { "rp-tnc": "RP-TNC", "n-type": "N-Type", qma: "QMA", sma: "SMA", mmcx: "MMCX" } },
   layer: { map: { l2: "Layer 2", l2plus: "Layer 2+", l3: "Layer 3" } },
@@ -133,7 +142,9 @@ export const ENUM_DE: Readonly<Record<string, ValueCover>> = {
   fiber_type: { map: { om1: "OM1", om2: "OM2", om3: "OM3", om4: "OM4", om5: "OM5", os1: "OS1", os2: "OS2" } },
   wifi_generation: { map: {
     "wi-fi 4": "Wi-Fi 4", "wi-fi 5": "Wi-Fi 5", "wi-fi 6": "Wi-Fi 6", "wi-fi 6e": "Wi-Fi 6E", "wi-fi 7": "Wi-Fi 7" } },
-  spatial_streams: { rule: (v) => v.toUpperCase().replace("X", "×"),
+  // Shape-checked like presentFormFactor: NxM or NxM:S and nothing else, so a value this rule was not written
+  // for is reported as uncovered instead of being uppercased into nonsense.
+  spatial_streams: { rule: (v) => (/^[0-9]+x[0-9]+(:[0-9]+)?$/.test(v) ? v.toUpperCase().replace("X", "×") : null),
     why: "an antenna configuration: 4x4:4 presents as 4×4:4 in any language" },
   vendor: { map: {
     cisco: "Cisco", hpe: "HPE", aruba: "Aruba", juniper: "Juniper", arista: "Arista", "dell-emc": "Dell EMC",
@@ -141,7 +152,7 @@ export const ENUM_DE: Readonly<Record<string, ValueCover>> = {
     ubiquiti: "Ubiquiti", supermicro: "Supermicro" } },
   form_factor_a: { rule: presentFormFactor, why: "an optic form factor is one token in every language; see presentFormFactor" },
   form_factor_b: { rule: presentFormFactor, why: "the same, for the far side of a breakout" },
-  ip_rating: { rule: (v) => (v === "ip69k" ? "IP69K" : v.toUpperCase()),
+  ip_rating: { rule: (v) => (/^ip[0-9x]{2}k?$/.test(v) ? v.toUpperCase() : null),
     why: "80 values of the form ipNN; eighty map entries would be eighty chances to mistype one" },
   regulatory_domain: { map: {
     a: "A", b: "B", c: "C", d: "D", e: "E", f: "F", g: "G", h: "H", i: "I", j: "J", k: "K", l: "L", m: "M",
@@ -149,10 +160,25 @@ export const ENUM_DE: Readonly<Record<string, ValueCover>> = {
     row: "Übrige Welt", universal: "Universal" } },
 };
 
-/** `sfp-plus` is not what a datasheet prints. SFP+ is. */
-function presentFormFactor(v: string): string {
+/**
+ * `sfp-plus` is not what a datasheet prints. SFP+ is.
+ *
+ * AND IT REFUSES WHAT IT WAS NOT WRITTEN FOR, which it did not until 26 Sep 2026. `form_factor`'s domain is per
+ * category: the optic cages in `transceiver`, and in the three UCS categories `blade-half`, `blade-full`,
+ * `compute-node`, `router-module`. Those four fell through to this rule and rendered as **"BLADE-HALF"**,
+ * "BLADE-FULL", "COMPUTE-NODE", "ROUTER-MODULE" — shouting English in a German shop cell.
+ *
+ * `uncoveredEnumValues()` could not catch it, and that is the general lesson: **a rule always returns something, so
+ * the coverage check is vacuous for every value a rule covers** (measured: 159 values have an explicit map entry,
+ * 149 are rule-only). The check reported 0 uncovered while four values were wrong. So a rule now states the shape it
+ * accepts and returns null outside it — which turns those four into a gap the check CAN see, and they are mapped
+ * below. This is "write the guard against the CONDITION": the rule's job is optic cages, so it says so.
+ */
+const CAGE = /^(gbic|x2|xenpak|xfp|sfp|sfp-plus|sfp28|sfp56|sfp-dd|dsfp|qsfp-plus|qsfp28|qsfp56|qsfp112|qsfp-dd|cfp|cfp2|cpak|osfp|osfp-xd|sfp112|rj45)$/;
+function presentFormFactor(v: string): string | null {
+  if (!CAGE.test(v)) return null;
   const base = v.replace(/-plus$/, "+").replace(/-dd$/, "-DD");
-  return base.toUpperCase().replace("+", "+");
+  return base.toUpperCase();
 }
 
 /** The German for one enum value, or null when the contract does not cover it. */
