@@ -29,6 +29,7 @@
 // nearly the whole table is an orphan and must not be a failure. Only the two directions that make a consumer
 // wrong are failures: a cup the code declares and the table lacks, and a requirement the two disagree on.
 import { PROFILES } from "../src/core/fieldSchema.js";
+import { profileRows } from "../src/store/dictionary.js";
 
 export type Declared = Map<string, string>;                       // "category/key" -> requirement kind
 export type Diff = { codeOnly: string[]; tableOnly: string[]; differs: { id: string; code: string; table: string }[] };
@@ -45,11 +46,23 @@ export function compare(code: Declared, table: Declared): Diff {
   return { codeOnly: codeOnly.sort(), tableOnly: tableOnly.sort(), differs: differs.sort((a, b) => a.id.localeCompare(b.id)) };
 }
 
+/**
+ * WHAT THE CODE DECLARES IS `profileRows()`, NOT THE `PROFILES` LITERAL (corrected 26 Sep 2026).
+ *
+ * This read the literal until the sync's own output disagreed with it: run #1222 printed `profiles: 6190
+ * rows in code` where this check printed `code declares 6184`, both about the code, 6 apart — and the
+ * check's "orphans, kept by design" line also read 6, which is the shape of a mistake rather than a
+ * coincidence. `profileRows()` unions `PROFILES` with `GENERATED_PROFILES` (minus SUPERSEDED_KEYS) and is
+ * the population the sync actually writes, so the six `cache_l3` / `cpu_base_clock` rows on the three
+ * server categories ARE declared by the code — and this check was calling them table-only orphans.
+ *
+ * The sync's label was right and this check was wrong, because it reconstructed the producer's population
+ * instead of asking the producer. A real orphan appearing tomorrow would have been mixed in with those six
+ * and dismissed as by-design, which is the whole value of the line.
+ */
 export function codeDeclared(): Declared {
   const m: Declared = new Map();
-  for (const [cat, p] of Object.entries(PROFILES)) {
-    for (const [key, rule] of Object.entries(p)) m.set(`${cat}/${key}`, (rule as { kind: string }).kind);
-  }
+  for (const r of profileRows()) m.set(`${r.category}/${r.field_key}`, (r.requirement as { kind: string }).kind);
   return m;
 }
 
@@ -84,8 +97,25 @@ if (process.argv.includes("--selftest")) {
       d.codeOnly.length === 0 && d.differs.length === 0 && d.tableOnly.length === 2, JSON.stringify(d)); }
 
   ck(`the real code declares a non-trivial number of entries (${codeDeclared().size})`, codeDeclared().size > 1000, String(codeDeclared().size));
+
+  // THE POPULATION MUST BE THE SYNC'S, NOT THE `PROFILES` LITERAL. Reverting codeDeclared() to the literal
+  // takes this check back to declaring 6184 against a table of 6190 and calling six declared rows "orphans,
+  // kept by design". `GENERATED_PROFILES` is the only source of these two keys on the server categories, so
+  // they are exactly the rows a literal-only reading loses — and the control beside it proves the map is not
+  // simply everything, which is what a `size > 1000` assertion alone would let through.
+  const gen = ["servers-unified-computing/cache_l3", "servers-unified-computing/cpu_base_clock"];
+  ck(`codeDeclared() includes the rows only GENERATED_PROFILES declares (${gen.join(", ")})`,
+    gen.every((id) => codeDeclared().has(id)),
+    `missing: ${gen.filter((id) => !codeDeclared().has(id)).join(", ")}`);
+  ck(`CONTROL a literal-declared row is there too, and a fabricated one is not`,
+    codeDeclared().has("switches/rack_units") && !codeDeclared().has("switches/zz_no_such_cup"));
+  const litOnly = new Set<string>();
+  for (const [c, p] of Object.entries(PROFILES)) for (const k of Object.keys(p)) litOnly.add(`${c}/${k}`);
+  ck(`CONTROL the sync's population is a strict SUPERSET of the literal (${codeDeclared().size} vs ${litOnly.size})`,
+    codeDeclared().size > litOnly.size && [...litOnly].every((id) => codeDeclared().has(id)));
+
   console.log(miss.join("\n"));
-  console.log(`    profile-sync selftest: ${pass} passed, ${miss.length} missed (4 sabotage/direction cases, 1 control)`);
+  console.log(`    profile-sync selftest: ${pass} passed, ${miss.length} missed (4 sabotage/direction cases, 4 controls)`);
   process.exit(miss.length ? 1 : 0);
 }
 

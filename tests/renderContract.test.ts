@@ -15,6 +15,7 @@
 import {
   renderValue, enumValueDe, uncoveredEnumValues, formatNumberDe, formatRangeDe,
   LIST_SEPARATOR, BOOLEAN_DE, ENUM_DE, STRUCT_DE,
+  enumDomainUnion,
 } from "../src/core/renderContract.js";
 import { FIELD_DICTIONARY, DOMAIN_OVERRIDES } from "../src/core/fieldSchema.js";
 
@@ -102,8 +103,12 @@ eq("struct reach_max is rendered from the STORED shape, not the declared one", t
 const refused = (k: string, v: unknown, u?: string | null) => { const r = renderValue(k, v, u); return r.ok ? null : r.why; };
 check("an unshaped struct is REFUSED by name (expansion_io declares no shape at all)",
   /no renderer/.test(refused("expansion_io", { anything: 1 }) ?? ""), String(refused("expansion_io", { anything: 1 })));
+// This asserted `/no German rendering/` until 26 Sep, when the refusal gained three causes. That wording was the
+// CONTRACT-GAP sentence, and "sideways" is not one — it is not in airflow's domain at all. Assert the intent (a
+// refusal, and the English slug never reaching a German cell) plus the cause, not one sentence.
 check("an enum value outside every domain is REFUSED, never passed through as English",
-  /no German rendering/.test(refused("airflow", "sideways") ?? ""), String(refused("airflow", "sideways")));
+  renderValue("airflow", "sideways").ok === false && !("text" in renderValue("airflow", "sideways"))
+  && /not a value of this key's domain at all/.test(refused("airflow", "sideways") ?? ""), String(refused("airflow", "sideways")));
 check("a struct payload that does not match the stored shape is refused",
   /did not match/.test(refused("dimensions", { h: 1 }, "mm") ?? ""));
 check("a number that is not a number is refused", refused("weight", "heavy", "kg") !== null);
@@ -128,6 +133,35 @@ check(`every struct key has a renderer EXCEPT the ones that declare no shape (${
   `no renderer and yet a declared shape: ${structNoRenderer.filter((k) => (FIELD_DICTIONARY as Record<string, { shape?: unknown }>)[k].shape).join(", ")}`);
 check(`…and the ones with no renderer are named here rather than left to be discovered: ${structNoRenderer.join(", ") || "(none)"}`, true);
 
+// ---- AN UNRENDERABLE ENUM HAS THREE CAUSES AND THREE REPAIRS (26 Sep 2026) ----------------------------------------
+// The single old message said "add it to ENUM_DE" for all of them. The JTL consumer lens found 99
+// `antenna_connector` facts holding "RP-TNC" against a domain of `rp-tnc`, so the message was sending a reader to
+// add a case variant to the German contract — legitimising an out-of-domain value and putting two spellings of one
+// connector on a shop page. These cases pin which sentence each cause gets; the domain values come from the real
+// dictionary, so a fixture cannot encode a relationship the schema does not have.
+{
+  const dom = [...(enumDomainUnion().get("antenna_connector") ?? [])];
+  check(`CONTROL antenna_connector's domain is lowercase, which is what makes "RP-TNC" a variant (${dom.join(", ")})`,
+    dom.includes("rp-tnc") && !dom.includes("RP-TNC"));
+  const variant = renderValue("antenna_connector", "RP-TNC", null, "e");
+  check(`an UNNORMALISED variant is named as one and sent to renormalize, not to ENUM_DE`,
+    !variant.ok && /UNNORMALISED variant of the domain value "rp-tnc"/.test(variant.why ?? "") && /Do NOT add it to ENUM_DE/.test(variant.why ?? ""),
+    JSON.stringify(variant));
+  const junk = renderValue("antenna_connector", "E: External antennas", null, "e");
+  check(`a value nowhere near the domain is called a DATA defect, not a contract gap`,
+    !junk.ok && /not a value of this key's domain at all/.test(junk.why ?? "") && !/ENUM_DE/.test(junk.why ?? ""),
+    JSON.stringify(junk));
+  // A GENUINE contract gap must still say ENUM_DE. Built by proving the key is uncovered rather than assuming:
+  // every dictionary domain value is covered today, so the gap case needs a key whose covering is missing, and
+  // there is none — so this asserts the branch on a synthetic dictionary instead of pretending to find one live.
+  const synthetic = { zz_fake_enum: { key: "zz_fake_enum", de: "X", en: "X", type: "e", domain: ["alpha"], etim: [], icecat: null } } as unknown as typeof FIELD_DICTIONARY;
+  const uncovered = uncoveredEnumValues(synthetic);
+  check(`CONTROL a key with no covering at all is reported by uncoveredEnumValues, so the gap branch is reachable`,
+    uncovered.length === 1 && uncovered[0].key === "zz_fake_enum", JSON.stringify(uncovered));
+  check(`CONTROL the live dictionary has no uncovered domain value, which is why the gap case above is synthetic`,
+    uncoveredEnumValues().length === 0, JSON.stringify(uncoveredEnumValues().slice(0, 5)));
+}
+
 console.log(misses.join("\n"));
-console.log(`    render contract: ${pass} passed, ${misses.length} missed (${enumKeys.length} enum keys, ${structKeys.length} structs, 6 sabotage/control cases)`);
+console.log(`    render contract: ${pass} passed, ${misses.length} missed (${enumKeys.length} enum keys, ${structKeys.length} structs, 6 sabotage/control cases, 5 enum-refusal-cause cases)`);
 if (misses.length) process.exit(1);

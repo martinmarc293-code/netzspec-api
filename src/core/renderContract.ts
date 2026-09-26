@@ -195,10 +195,16 @@ export function enumValueDe(key: string, value: string): string | null {
  * enum value added tomorrow is named rather than shipped as an English slug. Returns every (key, value) the
  * contract does not cover, and every enum key with no covering at all.
  */
-export function uncoveredEnumValues(dict: typeof FIELD_DICTIONARY = FIELD_DICTIONARY): { key: string; value: string }[] {
-  const out: { key: string; value: string }[] = [];
-  // THE UNION, because a domain is per category. Reading only `dict[key].domain` is what made the first version
-  // of this check answer 0 while 23 values of `form_factor` were uncovered and 1,742 live facts were refused.
+/**
+ * EVERY value an enum key may hold in ANY category, unioned. A domain is per category — reading only
+ * `dict[key].domain` is what made the first version of the coverage check answer 0 while 23 values of
+ * `form_factor` were uncovered and 1,742 live facts were refused. The union is the right population for
+ * BOTH callers, because ENUM_DE is keyed by KEY and not by category: a value legal in any one category
+ * must be covered once. Extracted 26 Sep 2026 so `renderValue` and `uncoveredEnumValues` cannot drift.
+ */
+export function enumDomainUnion(dict: typeof FIELD_DICTIONARY = FIELD_DICTIONARY): ReadonlyMap<string, ReadonlySet<string>> {
+  const hit = UNION_CACHE.get(dict);
+  if (hit) return hit;
   const domains = new Map<string, Set<string>>();
   for (const [key, def] of Object.entries(dict)) {
     const d = def as { type?: string; domain?: unknown };
@@ -211,7 +217,14 @@ export function uncoveredEnumValues(dict: typeof FIELD_DICTIONARY = FIELD_DICTIO
       for (const v of dom) domains.get(key)!.add(String(v));
     }
   }
-  for (const [key, dom] of domains) {
+  UNION_CACHE.set(dict, domains);
+  return domains;
+}
+const UNION_CACHE = new WeakMap<object, Map<string, Set<string>>>();
+
+export function uncoveredEnumValues(dict: typeof FIELD_DICTIONARY = FIELD_DICTIONARY): { key: string; value: string }[] {
+  const out: { key: string; value: string }[] = [];
+  for (const [key, dom] of enumDomainUnion(dict)) {
     if (!ENUM_DE[key]) { out.push({ key, value: "(no covering for this key at all)" }); continue; }
     for (const v of dom) if (!enumValueDe(key, v)) out.push({ key, value: v });
   }
@@ -333,7 +346,21 @@ export function renderValue(key: string, value: unknown, unit?: string | null, t
       const de = enumValueDe(key, value);
       // NOT a pass-through: a value the contract does not cover is a REFUSAL, so a domain that grew without the
       // contract growing with it is visible instead of shipping the English slug into a German shop.
-      return de ? { ok: true, text: de } : { ok: false, why: `no German rendering for "${key}" = "${value}" — add it to ENUM_DE` };
+      if (de) return { ok: true, text: de };
+      // THREE STATES, BECAUSE THE REPAIR IS DIFFERENT AND THE OLD MESSAGE NAMED THE WRONG ONE (26 Sep 2026).
+      // Until today every uncovered value read "add it to ENUM_DE". The JTL consumer lens then found 99
+      // `antenna_connector` facts holding "RP-TNC"/"N-type" against a domain of `rp-tnc`/`n-type` — so the message
+      // was telling a reader to add a CASE VARIANT to the German contract, which would have legitimised an
+      // out-of-domain value and put two spellings of one connector on a shop page. Measured across all vendors:
+      // 596 of 22,431 current enum facts are out of their domain, 422 of them by case alone, and today's
+      // normaliser already returns the lowercase slug for the same raw — so they are a residue a re-derivation
+      // clears, never a contract gap. A value the contract genuinely does not cover still says ENUM_DE.
+      const dom = enumDomainUnion().get(key);
+      if (!dom || dom.has(value)) return { ok: false, why: `no German rendering for "${key}" = "${value}" — a CONTRACT GAP: add it to ENUM_DE` };
+      const variant = [...dom].find((d) => d.toLowerCase() === value.toLowerCase());
+      return variant
+        ? { ok: false, why: `"${key}" = "${value}" is an UNNORMALISED variant of the domain value "${variant}" — re-derive the fact (renormalize). Do NOT add it to ENUM_DE.` }
+        : { ok: false, why: `"${key}" = "${value}" is not a value of this key's domain at all — a DATA defect (the fact needs re-reading or withdrawing), not a contract gap` };
     }
     case "ls": {
       if (!Array.isArray(value)) return { ok: false, why: `a list value must be an array` };
