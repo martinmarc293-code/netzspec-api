@@ -1008,3 +1008,62 @@ which is the behaviour that cannot silently mislead, and a scaling rule would be
 Flagged beside the two German values already waiting in the decision sheet.
 
 **Clean count: still 1 of 5.** Eleven lenses, ten with findings.
+
+---
+
+# AUDIT 12 — DO THE ARTIFACTS AGREE WITH EACH OTHER? YES, AND MY NET DISAGREED THREE TIMES
+
+*Every artifact has been checked internally. `CLAUDE.md` requires them to ship as ONE unit — "never a ledger from one
+build and a dictionary from another", and "two reports with different freeze hashes are not compared without saying
+so". So: what commit does each name, and where the same denominator appears twice, is it the same number?*
+
+79 JSON artifacts across `data/{freeze,ledger,census,completeness,mapper,layers}`.
+
+## Everything that can be cross-checked agrees
+
+| check | result |
+|---|---|
+| `freeze.freeze_hash` vs `report.inputs.freeze_hash` | **identical** (`567e586b559d7726…`) |
+| distinct commits across the freeze, the report, the ledgers and the censuses | **1** — `5954adc` (`freeze.built_on_parent_commit`, `report.built_on_commit`, `inputs.ledgers_built_on`, `inputs.censuses_built_on` all name it) |
+| `census.parts_hardware` = `layers.parts` = `layers.layered` | **15 of 15 categories** |
+| the hardware total, computed two independent ways | **41,067 both** (sum of 15 censuses' `parts_hardware`; sum of 17 layer artifacts' `parts`) |
+| artifacts naming a commit | **79 of 79** |
+| `census_replay_parity` per category | `facts` = `census_facts`, `would_refuse: 0` |
+| the report's own `live_at_build` | `hardware_parts 41067, parts_nothing_required 462, required_total_held 88513` — the same three figures four independent artifacts carry |
+
+The layer family sits at a different commit (`72a241dd`, 17 artifacts) from the other 61 (`5954adc`), and that is
+correct rather than a violation: the layering was rebuilt later in `7e46e75`, and the set the rule names — ledgers,
+censuses, report, freeze — is at one commit. AUDIT 6 established that the one rule change between them (the ASR 5000
+/ 5500 role) reaches **zero parts**, so nothing downstream is stale because of it.
+
+## THE ONE FINDING: `worktree_dirty_paths` is a count, not a list
+
+The report records `worktree_dirty_paths: 65` — sixty-five paths were uncommitted when it was built. Recording that
+at all is the right instinct and it is the `DEPLOYED-FROM.json` discipline. But **it is a number, so the one check
+that would make it actionable is impossible after the fact**: *did those 65 paths land in the commit the report
+names?* That question is answerable from a list and unanswerable from a count, and AUDIT 6 identified it as exactly
+the fact a reader needs when an artifact admits it was built from a dirty tree. `CLAUDE.md`'s own rule says to record
+"head, branch, **and the list of dirty files**". One field, `number` → `string[]`, and the provenance becomes
+checkable instead of merely honest.
+
+## AND MY NET DISAGREED WITH THE ARTIFACTS THREE TIMES, WHICH IS THE REST OF THE LESSON
+
+Each is a defect this repo has recorded before, and each would have gone out as a finding:
+
+1. **15 categories "disagreeing" on their parts count** — census 10,031 against layers 7,224 for `switches`, and
+   similarly for fourteen more. The census carries **both** `parts` (every product class) and `parts_hardware`
+   (7,224); the layer artifact's `parts` is hardware. I compared two fields that share a name and not a population,
+   which is *"two near-identical numbers over different populations"* except they are not even near-identical.
+   Corrected: 15 of 15 agree.
+2. **"1 artifact naming no commit"** — the freeze. It names `built_on_parent_commit`, a spelling my scanner did not
+   know; it looked for `commit`, `built_on_commit`, `built_at_commit` and `built_from_commit`. *A scanner that only
+   knows one spelling.* The real answer is 0 of 79.
+3. **"report freeze hash: null"** — I read it at the top level. It is `inputs.freeze_hash`, and it matches the freeze
+   exactly. The same wrong-level read as `data.pagination` returning `totalPages: 1`.
+
+Three wrong readings in one lens, all from my side, against artifacts that were right every time. The artifacts are
+better instrumented than my checks of them: the report's `inputs` block already carries `ledgers_built_on`,
+`censuses_built_on`, `census_norm_versions`, `norm_version_now`, `freeze_hash`, `live_at_build` and
+`census_replay_parity` — which is why every one of my errors was correctable from the artifact itself in one read.
+
+**Clean count: still 1 of 5** — this lens found one real thing, small as it is. Twelve lenses, eleven with findings.
