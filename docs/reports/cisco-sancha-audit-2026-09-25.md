@@ -1185,3 +1185,56 @@ measurements of it have been wrong seven times** — a name-sharing field twice,
 wrong nesting level, a predicate that flagged 76.7% of healthy values, a rule-total coverage check, and a term added
 to a five-way partition. Every one was caught by a control or by reading the artifact, and none reached the operator
 as a finding.
+
+---
+
+# AUDIT 15 — IS A WITHDRAWN FACT WITHDRAWN EVERYWHERE A CONSUMER CAN REACH IT? — CLEAN
+
+*This repo has been bitten twice. 3,186 withdrawn facts were served while THREE checks agreed they were gone, because
+all three asked the returned object for `field_key` where the API returns `key` — "agreement between checks that share
+an assumption is not corroboration, it is the assumption counted three times". The fix was one line: print the object
+the consumer gets, and only then match on a field. So this audit prints first, and asks every path.*
+
+Subject: `cisco/GLC-TE` (transceiver) — **24 retracted rows and 13 rendered facts**, chosen because a part with only
+one or the other makes the question vacuous. Every retraction row carries `value NULL` in the store, in states
+`gap_unattempted` and `not_applicable`.
+
+**The fact object's fields, printed before any match:**
+
+```
+["key","label_en","label_de","type","value","unit","text_de","text_de_why","raw","state","tier",
+ "method","inherited","inherited_from","source","evidence_count"]
+```
+
+The cup name is `key`. Not `field_key` — which is the whole of the 16 Sep defect, and the reason this list is printed
+rather than assumed.
+
+| path | its control | retracted leakage |
+|---|---|---|
+| `/v1/parts` and `/v1/export`, default states | **13 facts served** — non-zero, so every "NONE" below means something | **0** retracted cups; **0** facts with a `retracted:*` method; **0** with a null value and a non-null `text_de` |
+| `partFacts` with EVERY state | **37 rows > 13**, so the states argument demonstrably does something | 24 of 24 withdrawals returned — **correctly**, a caller asking for every state should see the withdrawal — with **0** carrying a value and **0** carrying a German cell |
+| `completeness` | `temp_operating` is both retracted and required of this part | listed in `missing`, **1 of 1** — counted as a gap, never as present |
+
+**A retraction row's `text_de_why` reads `"no value"`**, so the rendering contract refuses to give a withdrawn fact a
+German cell. That is my own code from earlier tonight, confirmed on a path it was not written for: a withdrawn value
+cannot reach a shop cell even if a consumer asks for every state.
+
+## My first pass had two defects and both would have produced a meaningless "clean"
+
+1. **I picked the part with the MOST retracted rows**, which selected `cisco/IPv6` — a SKU that IS a datasheet cell
+   (one of audit 1's 114 value-shaped rows), holding **zero** rendered facts. PATH 1 reported "NONE" over an empty
+   set. A vacuous pass reads exactly like a real one.
+2. **PATH 2 returned 0 rows** because I passed `{vendor, sku}` cast to `never` and `partFacts` reads `part.id`, so
+   `factRows([undefined])` returned nothing. **A zero from a call whose shape I guessed is could-not-check**, and I
+   nearly reported it as "no withdrawn fact is served with any state".
+
+Both were caught by requiring each path to state a control that must be non-zero. That is the only reason this audit
+is worth anything, and it is the same discipline that broke the original 3,186-fact defect.
+
+## Verdict: CLEAN — the third of the five
+
+Fifteen lenses, twelve with findings, **three clean** (AUDIT 9 the buyer's lens, AUDIT 14 the temporal lens, AUDIT 15
+this one). The measurement-error tally for audits 9–15 is now **nine**, all mine, all caught before they reached the
+operator: two name-sharing fields, a spelling my scanner did not know, a wrong nesting level, a predicate flagging
+76.7% of healthy values, a rule-total coverage check, a term added to a five-way partition, a vacuous subject, and a
+guessed call shape.
