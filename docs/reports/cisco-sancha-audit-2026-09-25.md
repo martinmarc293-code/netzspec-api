@@ -865,3 +865,66 @@ Nine lenses, eight with findings, **one clean**. The four remaining candidates, 
 already used: the completeness report's own arithmetic; a second vendor taken end-to-end through the JTL build;
 whether the committed artifacts agree with each other and with the freeze; and this lens again once the corpus is
 thick enough for it to have power.
+
+---
+
+# AUDIT 10 — THE INSTRUMENT: THE RECOMPUTE IS VENDOR-SCOPED AND THE PROFILE IS NOT
+
+*`CLAUDE.md` names `/v1/completeness/<vendor>` "the progress surface and nothing else", and every figure on it comes
+from stored `completeness` rows. This lens audits the instrument rather than the thing measured.*
+
+**Not by re-implementing the value assembly.** `recompute-completeness` builds its `values` from facts plus the part
+row plus a DERIVED kind, `deploy_role` and `modular`, each with a comment about the defect that forced it; a clean-room
+copy would test the logic I was thinking about rather than the code that runs. **The proof instead:** a key reaches
+`required_fields` only if `requirementFor` returned `req` or `pending`, and `pending` is a `cond` whose gate is
+unanswered — so a stored entry the current profile marks `opt`, or does not declare, is **proof** of staleness. No
+timestamp needed, and `computed_at` could not answer it anyway (it moves only when a row's tuple changes, so an old
+stamp cannot distinguish "recomputed and identical" from "never recomputed").
+
+| | |
+|---|---|
+| stored rows on live parts | **91,533** |
+| `required_fields` entries examined | **446,828** |
+| **provably stale entries** | **488** — 8 keys × 61 parts |
+| the 8 keys, all `opt` in today's `routers` profile | `acl_entries`, `ipsec_throughput`, `ipsec_tunnels`, `ipv4_routes`, `ipv6_routes`, `nat_sessions`, `power_typical`, `vlan_max` |
+| whose rows | **all 61 are `hpe`**, `computed_at` 2026-09-12 19:50 |
+
+## The mechanism, and it is the finding
+
+**The profile is shared by every vendor; the recompute takes `--vendor`.** The last six `recompute-completeness` runs
+are every one `{"vendor":"cisco"}` — runs 1214, 1215, 1219, 1220 on 25 Sep and 1187, 1188 on 15 Sep. Measured
+`computed_at` ranges: cisco 09-03 .. **09-25**; every other vendor ends **09-11 or 09-12**.
+
+So **4,600 non-cisco completeness rows carrying ~52,000 required slots were last computed against a profile that has
+changed since** — juniper 974 rows, hpe 2,255, aruba 358, arista 344, dell-emc 151, lenovo 104, extreme 102,
+fortinet 87, nvidia 85, mikrotik 63, ubiquiti 49, supermicro 27. This is the repo's own *"measure a dictionary change
+across ALL vendors before making it"* one step later in the pipeline: **recompute across all vendors too**, or the
+progress surface of every lane except the one you are working in is scored against the arrangement of a fortnight ago.
+
+## What it costs today: nothing measurable, and that is worth saying plainly
+
+Those 61 hpe router parts have `required_present = 0` — they hold no facts at all — so correcting the denominator
+from 1,586 to 1,098 moves the mean from **0.0% to 0.0%**. The 488 entries are a real staleness with **no effect on any
+published percentage**. The exposure is the mechanism, not this instance.
+
+## THE LIMIT OF MY OWN PROOF, stated beside its count
+
+**It is one-directional.** It catches *stored says required, profile says not*. It cannot catch the reverse — a
+profile change that ADDED a requirement, or moved a `cond`'s gate, leaves `required_total` too LOW and no argument
+from `required_fields` alone can see it, because the absent entry is exactly what is missing. Detecting that needs the
+value assembly this audit deliberately did not re-implement, so **488 is a floor on the staleness, not a measurement
+of it**, and the honest upper bound is "any of the 4,600 rows last computed on 11–12 Sep".
+
+## Clean — the arithmetic itself, over all 91,533 rows
+
+| check | violations |
+|---|---|
+| `required_total` = length(`required_fields`) for a profiled row, and `required_present` ≤ `required_total` | **0** |
+| `required_total` − `required_present` = length(`missing`) | **0** |
+| a `no_profile` row carries total 0 and present 0 | **0** |
+
+Controls, so those zeros mean something: the predicate returns null (and would flag) for a key no profile declares;
+an `opt` key exists to be flagged had one appeared (`contact-center/license_type`); and the **7 keys demoted on 25 Sep
+are `req` in no category anywhere**, which independently confirms the verification recorded that day.
+
+**Clean count: still 1 of 5.** Ten lenses, nine with findings.
