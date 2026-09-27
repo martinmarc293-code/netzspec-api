@@ -1328,13 +1328,47 @@ const TESTS: Test[] = [
         `network from here, NOT about the routes (producer: run again with reachability, or set NETZSPEC_API)`);
       const ROUTES = [
         "/openapi.json", "/v1/fields?category=switches", "/v1/parts?vendor=cisco&limit=1",
-        "/v1/report", "/v1/search?q=C9200-24P", "/v1/gaps?vendor=cisco&limit=1",
+        // /v1/stats/gaps, NOT /v1/gaps. The first run of this test reported the latter as a dead
+        // route on the deployment; the route was never called that. A path I typed from memory is
+        // a fact about my memory, and it reads EXACTLY like an outage -- the second time today
+        // this test manufactured a finding about the API out of its own input.
+        "/v1/report", "/v1/search?q=C9200-24P", "/v1/stats/gaps?vendor=cisco&limit=1",
         "/v1/completeness/cisco", "/v1/compare?skus=C9200-24P,C9200-48P",
       ];
       // THREE OUTCOMES, AND 401 IS NOT ONE OF THE BAD ONES. A 401 proves the route EXISTS and is
       // protected -- strictly more than a 404 tells you. Counting it as dead would have reported
       // "7 of 8 routes do not answer" about an API that was working perfectly, which is this repo's
       // most expensive recurring mistake in a new place.
+      // EVERY PATH IS CHECKED AGAINST THE SOURCE BEFORE IT IS ASKED. A 404 from a path nobody ever
+      // registered is a typo wearing an outage's clothes, and this test produced exactly that on
+      // its first run. A path with no matching app.get in src/api/routes is reported as MY defect,
+      // separately, and never counted as a dead route.
+      const fsm = await import("node:fs"), pathm = await import("node:path");
+      const { REPO_ROOT: RR } = await import("../src/config.js");
+      const routeSrc = fsm.readdirSync(pathm.join(RR, "src", "api", "routes"))
+        .filter((f) => f.endsWith(".ts"))
+        .map((f) => fsm.readFileSync(pathm.join(RR, "src", "api", "routes", f), "utf8")).join(String.fromCharCode(10));
+      // PARAMETERISED ROUTES, which the first version of this guard could not see: it matched the
+      // asked path as a literal string, so `/v1/completeness/cisco` was reported unregistered while
+      // `/completeness/:vendor` sat in the source. A guard that only knows one spelling cries wolf on
+      // correct code -- so every declared path is turned into a pattern and the asked path matched
+      // against it, `:param` standing for one segment.
+      // EVERY PATH-SHAPED STRING LITERAL in the routes directory, not `app.get(...)` specifically.
+      // The first version anchored on `app.get<?[^>]*>?\(` and silently missed every GENERIC route --
+      // `app.get<{ Querystring: Static<typeof Query> }>("/stats/gaps", …)` contains a `>` inside the
+      // type argument, so the character class stopped early and the path was never collected. It then
+      // reported six correctly-registered routes as unregistered, which is a guard crying wolf on
+      // clean code. Over-collecting is the safe direction here: a path nobody ever wrote still appears
+      // nowhere, which is the only case this guard exists to catch.
+      const declared = [...routeSrc.matchAll(/["'`](\/[A-Za-z0-9/:._-]*)["'`]/g)].map((m) => m[1]);
+      const matches = (asked: string) => declared.some((d) => {
+        const rx = new RegExp("^" + d.split("/").map((seg) => (seg.startsWith(":") ? "[^/]+" : seg.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))).join("/") + "$");
+        return rx.test(asked);
+      });
+      const unregistered = ROUTES.filter((r) => {
+        const bare = r.split("?")[0].replace(/^\/v1/, "");
+        return bare !== "/openapi.json" && !matches(bare);
+      });
       const dead: string[] = [];        // 404 / 5xx: the route's fault
       const locked: string[] = [];      // 401 / 403: alive, and I have no key — could-not-check
       const unreachable: string[] = []; // no answer at all: mine, not theirs
@@ -1347,6 +1381,7 @@ const TESTS: Test[] = [
       const hasKey = Boolean(process.env.NETZSPEC_API_KEY);
       const scope = `${ROUTES.length} routes asked of ${BASE} (control /health ${control.status}); ` +
         `${dead.length} dead, ${locked.length} alive-but-authenticated, ${unreachable.length} unreachable`;
+      if (unregistered.length) return none(`${unregistered.length} of the paths this test asks for are registered nowhere in src/api/routes — that is MY defect, not the deployment's, and a 404 from such a path would read exactly like an outage: ${unregistered.join(", ")}`);
       if (dead.length) return bad(`${dead.length} routes are genuinely DEAD on the deployment — ${scope}: ${dead.join(", ")}`);
       if (unreachable.length) return none(`${unreachable.length} routes could not be reached while the control answered — ${scope}`);
       if (locked.length) {
