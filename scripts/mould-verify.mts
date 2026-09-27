@@ -76,6 +76,26 @@ function resolveFourSets(category: string, kind: string): Record<string, string[
   return out;
 }
 
+/** The kinds a category's own profile mentions in a `kind` condition. Derived from the profile rather
+ *  than from a hand-kept list, because a hand-kept list of what exists is this repo's oldest named
+ *  defect -- it drifts the day a kind is added and nothing compares the two. */
+function kindsDeclaredBy(category: string): string[] {
+  const profile = PROFILES[category];
+  if (!profile) return [];
+  const found = new Set<string>();
+  const walk = (c: unknown): void => {
+    if (!c || typeof c !== "object") return;
+    const o = c as Record<string, unknown>;
+    if (o.field === "kind" && Array.isArray(o.inList)) for (const k of o.inList) if (typeof k === "string") found.add(k);
+    for (const v of Object.values(o)) {
+      if (Array.isArray(v)) v.forEach(walk);
+      else if (v && typeof v === "object") walk(v);
+    }
+  };
+  for (const rule of Object.values(profile as Record<string, unknown>)) walk(rule);
+  return [...found].sort();
+}
+
 /** Every (category, kind) pair that actually holds a LIVE part. Asked of the database rather than of
  *  the profiles, because a kind nobody has is a kind whose parity nobody is paying for -- and the
  *  denominator of this test has to be the shape of the catalogue, not the shape of the config. */
@@ -529,7 +549,61 @@ const TESTS: Test[] = [
       return { negative, positive, note: `routers vs switches on power-supply agrees=${negative}; switches vs itself agrees=${positive}` };
     },
   },
-  { name: "four_sets_sum", findings: "B4" },
+  {
+    name: "four_sets_sum",
+    findings: "B4",
+    // EVERY CUP MUST HAVE AN ANSWER FOR EVERY KIND. req + pending + opt + na has to account for the
+    // whole profile, or some cup is in none of the four and nobody can say what the mould asks of that
+    // kind. The sum is the easy half; `na > 0` is the half that matters.
+    //
+    // WHY `na > 0` IS THE REAL ASSERTION. `na` says a cup is NEVER applicable to this kind, which
+    // closes a gap permanently instead of leaving a crawler hunting for it for ever. A kind with
+    // na = 0 is claiming every cup in its category could one day apply to it -- which is false for
+    // every kind in this catalogue: a power supply has no uplink ports, a transceiver has no rack
+    // units. So na = 0 is not a tidy default, it is an unbounded search, and the count of kinds
+    // sitting at zero is the size of that debt.
+    //
+    // This resolves from the PROFILES rather than the database, so unlike A1 it does not need the
+    // sku_kind column and can judge today.
+    run: async () => {
+      const rows: { cat: string; kind: string; sum: number; size: number; na: number }[] = [];
+      for (const [cat, profile] of Object.entries(PROFILES)) {
+        const size = Object.keys(profile as Record<string, unknown>).length;
+        for (const kind of kindsDeclaredBy(cat)) {
+          const s = resolveFourSets(cat, kind);
+          rows.push({ cat, kind, size, na: s.na.length,
+                      sum: s.req.length + s.pending.length + s.opt.length + s.na.length });
+        }
+      }
+      if (!rows.length) return none("no (category, kind) pair could be resolved from the profiles");
+      const notSummed = rows.filter((r) => r.sum !== r.size);
+      const noNa = rows.filter((r) => r.na === 0);
+      const scope = `${rows.length} (category, kind) pairs resolved from PROFILES across ${Object.keys(PROFILES).length} categories`;
+      if (notSummed.length) {
+        return bad(`${notSummed.length} of ${rows.length} pairs do not account for every cup — ${scope}: ` +
+          notSummed.slice(0, 5).map((r) => `${r.cat}/${r.kind} ${r.sum} of ${r.size}`).join("; "));
+      }
+      return noNa.length === 0
+        ? ok(`every pair sums to its profile and marks at least one cup not-applicable — ${scope}`)
+        : bad(`the four sets account for every cup, but ${noNa.length} of ${rows.length} pairs mark NOTHING ` +
+              `not-applicable (na = 0), so each claims every cup in its category could one day apply — ${scope}: ` +
+              noNa.slice(0, 6).map((r) => `${r.cat}/${r.kind}`).join(", ") +
+              (noNa.length > 6 ? ` … +${noNa.length - 6}` : ""));
+    },
+    // Negative: a kind resolved against a real category must today mark nothing `na` — the defect this
+    // test exists to name. Positive twin: the sum itself, which must hold for the same pair, so the
+    // fixture cannot pass by the resolver returning nothing at all. A shape where both came from the
+    // same assertion would prove only that the resolver ran.
+    selfTest: async () => {
+      const cat = PROFILES.switches ? "switches" : Object.keys(PROFILES)[0];
+      const kind = kindsDeclaredBy(cat)[0] ?? "unknown";
+      const s = resolveFourSets(cat, kind);
+      const size = Object.keys(PROFILES[cat] as Record<string, unknown>).length;
+      const negative = s.na.length > 0;                                        // want FALSE today
+      const positive = s.req.length + s.pending.length + s.opt.length + s.na.length === size;
+      return { negative, positive, note: `${cat}/${kind}: na=${s.na.length} (want 0 today), sum=${s.req.length + s.pending.length + s.opt.length + s.na.length} of ${size}` };
+    },
+  },
   { name: "no_family_reason_present", findings: "B2, B3" },
   { name: "bucket_not_series", findings: "B3" },
   { name: "twin_parity", findings: "N7" },
