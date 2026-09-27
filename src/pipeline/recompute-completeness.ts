@@ -21,6 +21,7 @@ import { modularPlatform } from "../core/modularPlatform.js";
 import { partKind } from "../core/partKind.js";
 import { deployRole } from "../core/deployRole.js";
 import { mouldStatuses, isArrangedFor } from "../core/brandMould.js";
+import { noProfileVerdict, type NoProfileReason } from "../core/noProfileReason.js";
 
 type Args = { vendor: string | null; category: string | null; since: string | null; batch: number };
 
@@ -101,7 +102,9 @@ async function run(a: Args): Promise<Record<string, number>> {
   const parts = (await pool.query<{ id: number; sku: string; name: string | null; category_id: number; product_class: string; family: string | null; series: string | null; vendor_slug: string }>(sql, params)).rows;
   console.log(`recompute-completeness: ${parts.length} parts${a.vendor ? " vendor=" + a.vendor : ""}${a.category ? " category=" + a.category : ""}${a.since ? " since=" + a.since : ""}`);
 
-  let written = 0, unchanged = 0, noProfile = 0, nonHardware = 0, notArranged = 0;
+  let written = 0, unchanged = 0, noProfile = 0, nonHardware = 0, notArranged = 0, roleRefused = 0, refusedSlots = 0;
+  const byReason = new Map<string, number>();
+  const refusedExamples: string[] = [];
   // Derived once per run from the product-line reference files, so a brand arranged tomorrow is admitted
   // without anybody editing a list — a hand-kept list of which brands have a mould is the drift this repo
   // pays for everywhere else, and it fails silently in BOTH directions.
@@ -120,20 +123,27 @@ async function run(a: Args): Promise<Record<string, number>> {
       m[f.field_key] = f.value;
       byPart.set(f.part_id, m);
     }
-    const existing = new Map((await pool.query<{ part_id: number; required_total: number; required_present: number; missing: string[]; required_fields: string[]; no_profile: boolean }>(
-      "SELECT part_id, required_total, required_present, missing, required_fields, no_profile FROM completeness WHERE part_id = ANY($1::bigint[])", [ids])).rows.map((r) => [r.part_id, r]));
+    // THE NEW COLUMNS MUST BE READ HERE OR THE BACKFILL IS A SILENT NO-OP. The unchanged-comparison
+    // below decides whether a row is written at all; leaving no_profile_reason out of it would make
+    // every already-correct row compare equal and skip, so the first run after migration 0024 would
+    // report "unchanged" for 41,067 parts and write no reason anywhere — a recompute that looks like
+    // a success and leaves the column NULL, which is exactly the defect the column exists to end.
+    const existing = new Map((await pool.query<{ part_id: number; required_total: number; required_present: number; missing: string[]; required_fields: string[]; no_profile: boolean; no_profile_reason: string | null; no_profile_rule: string | null }>(
+      "SELECT part_id, required_total, required_present, missing, required_fields, no_profile, no_profile_reason, no_profile_rule FROM completeness WHERE part_id = ANY($1::bigint[])", [ids])).rows.map((r) => [r.part_id, r]));
 
     // ONE STATEMENT PER BATCH, NOT ONE PER ROW. The loop below used to await an INSERT for every
     // part it changed. Over the SSH tunnel that is a round trip each — ~300 ms — so a full cisco
     // pass (87,083 parts) was a SEVEN-HOUR job, and a step that takes seven hours is a step people
     // skip. That is the mechanical cause of the ordering trap this file's run row now records:
     // edit the profile, sync, and quietly never recompute. Collected here and sent as one unnest.
-    const pending: { id: number; rt: number; rp: number; pct: number; missing: string; req: string; np: boolean }[] = [];
+    const pending: { id: number; rt: number; rp: number; pct: number; missing: string; req: string; np: boolean;
+                     reason: string | null; rule: string | null }[] = [];
     await withTx(async (client) => {
       for (const p of slice) {
         const category = cats.get(p.category_id) ?? "";
         const vendorSlug = p.vendor_slug;
-        let row: { required_total: number; required_present: number; pct: number; missing: string[]; required_fields: string[]; no_profile: boolean };
+        let row: { required_total: number; required_present: number; pct: number; missing: string[]; required_fields: string[]; no_profile: boolean;
+                   no_profile_reason: NoProfileReason | null; no_profile_rule: string | null };
         // BRAND ISOLATION (operator, 27 Sep 2026). Profiles are keyed by CATEGORY and never by vendor, so
         // this loop was asking an HPE switch for exactly the cups designed by reading CISCO switches.
         // Measured before the guard: 3,476 live hardware parts across 12 unarranged brands carried 51,769
@@ -146,12 +156,37 @@ async function run(a: Args): Promise<Record<string, number>> {
         // line file, so a partially arranged brand would have its unarranged categories scored against
         // cisco's — the same defect one brand later. Identical on every live row today (cisco covers all 15
         // of its scored categories); the difference appears with the first partially arranged brand.
-        if (p.product_class === "hardware" && !isArrangedFor(vendorSlug, category)) {
-          notArranged++;
-          row = { required_total: 0, required_present: 0, pct: 0, missing: [], required_fields: [], no_profile: true };
-        } else if (p.product_class !== "hardware") {
-          nonHardware++;
-          row = { required_total: 0, required_present: 0, pct: 0, missing: [], required_fields: [], no_profile: true };
+        // ONE DECISION, THREE NAMED REASONS (migration 0024, reviewer 27 Sep). `no_profile` was a single
+        // boolean carrying three unrelated facts; noProfileVerdict decides between them in one place so a
+        // second caller cannot invent a fourth spelling of the same idea. The branch ORDER there
+        // reproduces the two branches this replaced exactly — non-hardware first, so a licence is still
+        // counted as non-hardware whatever its brand — and the third reason is new.
+        //
+        // THE THIRD REASON: the role table already refuses 18 rows and nothing read the refusal. All 18
+        // are GPON/XGS-PON OLT and ONT (CGP-OLT, CGP-ONT*, ENC-10G-ONT-*) sitting in `switches`, each
+        // answered by rule sw.issue.ont — "PON equipment, not an Ethernet switch" — and each scored
+        // against the full switch profile anyway: 36 required slots apiece, 648 in total, every one at
+        // pct 0, asked for stacking, PoE, fabric bandwidth and layer that a PON ONT cannot have. The
+        // refusal was computed correctly on every run since the rule landed and consumed by nothing.
+        // Note this is NOT the same as a role that could not be derived: that is zero parts today, and it
+        // must stay scored and go `pending`, because "we could not work it out" and "it is not this
+        // thing" are opposite facts. See src/core/noProfileReason.ts.
+        const kindForVerdict = partKind(category, p.sku, p.name ?? undefined);
+        const verdict = noProfileVerdict({
+          arranged: isArrangedFor(vendorSlug, category), isHardware: p.product_class === "hardware",
+          category, kind: kindForVerdict, sku: p.sku, name: p.name,
+        });
+        if (!verdict.scored) {
+          if (verdict.reason === "brand_not_arranged") notArranged++;
+          else if (verdict.reason === "non_hardware") nonHardware++;
+          else roleRefused++;
+          byReason.set(verdict.reason, (byReason.get(verdict.reason) ?? 0) + 1);
+          if (verdict.reason === "kind_refused_by_role_table") {
+            refusedSlots += existing.get(p.id)?.required_total ?? 0;
+            if (refusedExamples.length < 4) refusedExamples.push(`${p.sku} (${category}, ${verdict.rule})`);
+          }
+          row = { required_total: 0, required_present: 0, pct: 0, missing: [], required_fields: [], no_profile: true,
+                  no_profile_reason: verdict.reason, no_profile_rule: verdict.rule };
         } else {
           const values = byPart.get(p.id) ?? {};
           // identity lives on the part row, not in facts: a required "vendor"/"series" is present
@@ -170,7 +205,7 @@ async function run(a: Args): Promise<Record<string, number>> {
           // fallback-kinds (12 Sep 2026): the NAME is passed, and it is consulted only where the
           // axis returned a fallback kind — see src/core/nameMarker.ts for why that ordering is the
           // whole of the safety, and for the catalogue-wide control that measured its error rate.
-          const derivedKind = partKind(category, p.sku, p.name ?? undefined);
+          const derivedKind = kindForVerdict; // same call, already made above for the verdict
           if (derivedKind !== undefined) values.kind = derivedKind;
           // kind-layer (13 Sep 2026): layer 3 is DERIVED like the kind and always wins over a stored fact (5 legacy
           // html_table facts hold a deploy_role). A part with no role axis, or one no rule places, carries none, and is
@@ -185,28 +220,38 @@ async function run(a: Args): Promise<Record<string, number>> {
           const c = completenessV2(category, values);
           if (c.no_profile) noProfile++;
           row = { required_total: c.required_total, required_present: c.required_present, pct: c.pct, missing: c.missing,
-            required_fields: requiredFieldsFor(category, values), no_profile: c.no_profile };
+            required_fields: requiredFieldsFor(category, values), no_profile: c.no_profile,
+            // `c.no_profile` here means the CATEGORY carries no cup profile — the part is arranged
+            // hardware the role table accepts, and there is simply nothing to score it against. It
+            // needs its own name or it becomes a not-scored row with a NULL reason, which is the
+            // defect this column exists to end reappearing one branch below it.
+            no_profile_reason: c.no_profile ? "category_has_no_profile" : null, no_profile_rule: null };
+          if (c.no_profile) byReason.set("category_has_no_profile", (byReason.get("category_has_no_profile") ?? 0) + 1);
         }
         const prev = existing.get(p.id);
         if (prev && prev.required_total === row.required_total && prev.required_present === row.required_present && prev.no_profile === row.no_profile
+          && prev.no_profile_reason === row.no_profile_reason && prev.no_profile_rule === row.no_profile_rule
           && JSON.stringify(prev.missing) === JSON.stringify(row.missing) && JSON.stringify(prev.required_fields) === JSON.stringify(row.required_fields)) {
           unchanged++;
           continue;
         }
         pending.push({ id: p.id, rt: row.required_total, rp: row.required_present, pct: row.pct,
-          missing: JSON.stringify(row.missing), req: JSON.stringify(row.required_fields), np: row.no_profile });
+          missing: JSON.stringify(row.missing), req: JSON.stringify(row.required_fields), np: row.no_profile,
+          reason: row.no_profile_reason, rule: row.no_profile_rule });
         written++;
       }
       if (pending.length === 0) return;
       const res = await client.query(
-        `INSERT INTO completeness (part_id, required_total, required_present, pct, missing, required_fields, no_profile, computed_at)
-         SELECT u.id, u.rt, u.rp, u.pct, u.missing::jsonb, u.req::jsonb, u.np, now()
-           FROM unnest($1::bigint[], $2::int[], $3::int[], $4::numeric[], $5::text[], $6::text[], $7::boolean[])
-                AS u(id, rt, rp, pct, missing, req, np)
+        `INSERT INTO completeness (part_id, required_total, required_present, pct, missing, required_fields, no_profile, no_profile_reason, no_profile_rule, computed_at)
+         SELECT u.id, u.rt, u.rp, u.pct, u.missing::jsonb, u.req::jsonb, u.np, u.reason, u.rule, now()
+           FROM unnest($1::bigint[], $2::int[], $3::int[], $4::numeric[], $5::text[], $6::text[], $7::boolean[], $8::text[], $9::text[])
+                AS u(id, rt, rp, pct, missing, req, np, reason, rule)
          ON CONFLICT (part_id) DO UPDATE SET required_total = EXCLUDED.required_total, required_present = EXCLUDED.required_present,
-           pct = EXCLUDED.pct, missing = EXCLUDED.missing, required_fields = EXCLUDED.required_fields, no_profile = EXCLUDED.no_profile, computed_at = now()`,
+           pct = EXCLUDED.pct, missing = EXCLUDED.missing, required_fields = EXCLUDED.required_fields, no_profile = EXCLUDED.no_profile,
+           no_profile_reason = EXCLUDED.no_profile_reason, no_profile_rule = EXCLUDED.no_profile_rule, computed_at = now()`,
         [pending.map((x) => x.id), pending.map((x) => x.rt), pending.map((x) => x.rp), pending.map((x) => x.pct),
-         pending.map((x) => x.missing), pending.map((x) => x.req), pending.map((x) => x.np)]);
+         pending.map((x) => x.missing), pending.map((x) => x.req), pending.map((x) => x.np),
+         pending.map((x) => x.reason), pending.map((x) => x.rule)]);
       // The batch write must land every row it was given. A partial write and a complete one both
       // return a plausible number, so assert the count rather than reading it.
       if (res.rowCount !== pending.length) {
@@ -216,6 +261,17 @@ async function run(a: Args): Promise<Record<string, number>> {
     if ((i / a.batch) % 20 === 19) console.log(`  ${Math.min(i + a.batch, parts.length)}/${parts.length} written=${written} unchanged=${unchanged}`);
   }
   console.log(`done: written ${written}, unchanged ${unchanged}, hardware without a profile ${noProfile}, non-hardware ${nonHardware}`);
+  // WHY EACH UNSCORED PART IS UNSCORED, PRINTED AND NOT ABSORBED (reviewer's condition, 27 Sep). A
+  // denominator that moves without a line saying by how much and for what reason is indistinguishable
+  // from a denominator that moved for a bug; the control the operator actually needs is that Cisco's
+  // count moved by EXACTLY the refused parts and nothing else. Each reason is named, so "not scored"
+  // can never again mean four different things behind one number.
+  const reasonLine = [...byReason].sort((a, b) => b[1] - a[1]).map(([r, n]) => `${r} ${n.toLocaleString()}`).join(", ");
+  console.log(`  not scored, by reason: ${reasonLine || "(none)"}`);
+  if (roleRefused > 0) {
+    console.log(`  role-table refusals: ${roleRefused} part(s), ${refusedSlots.toLocaleString()} required slot(s) removed from their category's denominator`);
+    console.log(`     ${refusedExamples.join("  ")}`);
+  }
   // THE STANDING CHECK (round-7 ask F, 12 Sep 2026): after ANY recompute, no retired part holds a completeness
   // row. The filter above is the fix; this is what notices it coming back — a later edit that drops the filter,
   // or a writer elsewhere that scores tombstones. It fails THE RUN (withRun records it failed with the count),
@@ -227,7 +283,8 @@ async function run(a: Args): Promise<Record<string, number>> {
     throw new Error(`recompute-completeness: ${retired} completeness row(s) belong to RETIRED parts — a tombstone is being scored. `
       + "Recompute must select live parts only (p.retired_at IS NULL); delete those rows in a run once the writer is fixed.");
   }
-  return { parts: parts.length, written, unchanged, no_profile: noProfile, non_hardware: nonHardware, not_arranged: notArranged, retired_completeness_rows: retired };
+  return { parts: parts.length, written, unchanged, no_profile: noProfile, non_hardware: nonHardware, not_arranged: notArranged,
+           role_refused: roleRefused, role_refused_slots: refusedSlots, retired_completeness_rows: retired };
 }
 
 if (process.argv[1] && /recompute-completeness\.(ts|js)$/.test(process.argv[1])) {

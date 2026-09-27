@@ -19,6 +19,7 @@
 import { FIELD_DICTIONARY, PROFILES, COLUMN_BACKED, domainFor, type Requirement } from "../src/core/fieldSchema.js";
 import { uncoveredEnumValues } from "../src/core/renderContract.js";
 import { mouldStatuses } from "../src/core/brandMould.js";
+import { NO_PROFILE_REASONS } from "../src/core/noProfileReason.js";
 import { query, closePool } from "../src/store/db.js";
 
 type Result = { state: "pass" | "fail" | "unavailable"; detail: string };
@@ -443,6 +444,58 @@ const TESTS: Test[] = [
       return bad(`${parts} parts of ${rows.length} UNARRANGED brands are scored against a mould built for `
         + `${[...arranged].join(", ")} — ${slots.toLocaleString()} required slots demanded of them: `
         + rows.slice(0, 5).map((r) => `${r.vendor} ${r.parts}p/${Number(r.req).toLocaleString()}s`).join(", "));
+    },
+  },
+  {
+    name: "no_profile_reason_recorded",
+    findings: "reviewer 27 Sep — NO_MOULD_REASON exported and never written",
+    needsDb: true,
+    // `completeness.no_profile` was ONE boolean carrying FOUR unrelated facts: this brand has no mould, this
+    // is a licence, the role table says this row is not the kind its category scores it as, and this category
+    // has no profile at all. Each needs different work — arrange a brand, nothing, reclassify a part, build a
+    // profile — so a single flag made the question unaskable, which is how 3,476 parts of twelve unarranged
+    // brands sat inside Cisco's denominators unnoticed. Migration 0024 gives the row a reason and a rule id.
+    //
+    // TWO THINGS ARE CHECKED AND THEY FAIL FOR DIFFERENT REASONS.
+    //
+    // 1. The code's list against the SCHEMA's, in both directions. Nothing in this repo had ever compared a
+    //    TypeScript list to the constraint that governs it, so every agreement check was comparing one
+    //    hand-written list with another hand-written list. That is not a check; a value added to the code and
+    //    not to the constraint fails on the first write, and one added to the constraint and not the code is a
+    //    value no writer can ever produce.
+    // 2. The pairing invariant over LIVE rows, in both directions: an unscored row must say why, and a scored
+    //    row must not claim a reason. The first direction is the one that matters — a row marked not-scored
+    //    with a NULL reason is precisely the state this column exists to end — and it is also the state every
+    //    row was in before the backfill, so this check is what proves the backfill actually ran.
+    run: async () => {
+      const def = (await query<{ def: string }>(
+        `SELECT pg_get_constraintdef(oid) def FROM pg_constraint WHERE conname = 'completeness_no_profile_reason_ck'`)).rows;
+      if (!def.length) return bad("the CHECK constraint completeness_no_profile_reason_ck is missing — migration 0024 has not run here");
+      const inSchema = new Set([...def[0].def.matchAll(/'([a-z_]+)'::text/g)].map((m) => m[1]));
+      const inCode = new Set<string>(NO_PROFILE_REASONS);
+      const codeOnly = [...inCode].filter((r) => !inSchema.has(r));
+      const schemaOnly = [...inSchema].filter((r) => !inCode.has(r));
+      if (codeOnly.length || schemaOnly.length) {
+        return bad(`the reason list disagrees with the schema: ${codeOnly.length ? "in code only " + codeOnly.join(", ") : ""}`
+          + `${codeOnly.length && schemaOnly.length ? "; " : ""}${schemaOnly.length ? "in the constraint only " + schemaOnly.join(", ") : ""}`);
+      }
+      const inv = (await query<{ missing: string; spurious: string; rule_wrong: string }>(`
+        SELECT count(*) FILTER (WHERE no_profile = true  AND no_profile_reason IS NULL)     missing,
+               count(*) FILTER (WHERE no_profile = false AND no_profile_reason IS NOT NULL) spurious,
+               count(*) FILTER (WHERE no_profile_rule IS NOT NULL
+                                  AND no_profile_reason IS DISTINCT FROM 'kind_refused_by_role_table') rule_wrong
+          FROM completeness cm JOIN parts p ON p.id = cm.part_id WHERE p.retired_at IS NULL`)).rows[0];
+      const missing = Number(inv.missing), spurious = Number(inv.spurious), ruleWrong = Number(inv.rule_wrong);
+      const by = (await query<{ r: string; n: string }>(`
+        SELECT coalesce(no_profile_reason, '(null)') r, count(*) n
+          FROM completeness cm JOIN parts p ON p.id = cm.part_id
+         WHERE p.retired_at IS NULL AND cm.no_profile = true GROUP BY 1 ORDER BY count(*) DESC`)).rows;
+      const breakdown = by.map((x) => `${x.r} ${Number(x.n).toLocaleString()}`).join(", ");
+      if (missing || spurious || ruleWrong) {
+        return bad(`${missing.toLocaleString()} unscored row(s) do not say WHY, ${spurious} scored row(s) claim a reason, `
+          + `${ruleWrong} rule id(s) on a non-refusal — recompute has not backfilled every category. Breakdown: ${breakdown}`);
+      }
+      return ok(`${inCode.size} reasons, code and constraint agree both ways; every unscored row names one: ${breakdown}`);
     },
   },
   {
