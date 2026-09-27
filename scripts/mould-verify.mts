@@ -26,7 +26,21 @@ import { deployRoleResult, roleAxisOf, roleAxisKinds } from "../src/core/deployR
 import { query, closePool } from "../src/store/db.js";
 
 type Result = { state: "pass" | "fail" | "unavailable" | "not_exercised"; detail: string };
-type Test = { name: string; findings: string; needsDb?: boolean; run?: () => Promise<Result> };
+/**
+ * A DECLARED TEST, and what `--self-test` demands of one (reviewer's plan R2, 27 Sep 2026).
+ *
+ * `selfTest` is how a check proves it can FAIL. It runs the check's own predicate over a deliberately
+ * broken input and over a good twin, and returns both verdicts; the harness requires the first to be
+ * false and the second true. A check that only ever sees the real corpus is a check nobody has watched
+ * go red -- and this repo has shipped several of those, including four in one session that were
+ * "checking nothing" because their population was empty by construction.
+ *
+ * It is NOT the same as the check returning `bad` today. A check can be red because the corpus is
+ * broken while its predicate is still incapable of distinguishing anything; `--self-test` separates
+ * "this found a defect" from "this can find a defect".
+ */
+type SelfTest = () => Promise<{ negative: boolean; positive: boolean; note: string }>;
+type Test = { name: string; findings: string; needsDb?: boolean; run?: () => Promise<Result>; selfTest?: SelfTest };
 
 const ok = (detail: string): Result => ({ state: "pass", detail });
 const bad = (detail: string): Result => ({ state: "fail", detail });
@@ -671,6 +685,47 @@ const TESTS: Test[] = [
 
 // ---- run ----------------------------------------------------------------------------------------------------------
 const noDb = process.argv.includes("--no-db");
+
+// ---- `--self-test`: prove each check CAN fail, before believing what it says about the corpus ----
+//
+// R2 of the plan to all green: "a test is written when ... `--self-test` proves the negative fixture
+// fails it". A check that is red today is not thereby a check that WORKS -- it can be red because the
+// corpus is broken while its predicate cannot actually distinguish anything, which is how four checks
+// in one session came to be "checking nothing" with their populations empty by construction.
+//
+// A test WITHOUT a selfTest is reported as UNPROVEN and counted separately. That is deliberate: an
+// unproven check must not read as a proven one, and folding the two together is the same defect as
+// could-not-check passing as checked.
+if (process.argv.includes("--self-test")) {
+  let proven = 0, broken = 0, unproven = 0;
+  const bad: string[] = [];
+  console.log(`mould:verify --self-test — can each of the ${TESTS.length} declared tests actually fail?\n`);
+  for (const t of TESTS) {
+    if (!t.selfTest) {
+      unproven++;
+      console.log(`  ....  ${t.name.padEnd(30)} UNPROVEN          no negative fixture declared`);
+      continue;
+    }
+    try {
+      const r = await t.selfTest();
+      if (r.negative === false && r.positive === true) {
+        proven++;
+        console.log(`  PASS  ${t.name.padEnd(30)} refuses the broken input, accepts the twin — ${r.note}`);
+      } else {
+        broken++; bad.push(t.name);
+        console.log(`  FAIL  ${t.name.padEnd(30)} negative=${r.negative} positive=${r.positive} (want false/true) — ${r.note}`);
+      }
+    } catch (e) {
+      broken++; bad.push(t.name);
+      console.log(`  FAIL  ${t.name.padEnd(30)} self-test threw: ${e instanceof Error ? e.message : String(e)}`);
+    }
+  }
+  console.log(`\n  proven ${proven}   BROKEN ${broken}   unproven ${unproven}   (of ${TESTS.length} declared)`);
+  if (bad.length) console.log(`  broken: ${bad.join(", ")}`);
+  console.log(`  A check with no negative fixture has never been watched go red. UNPROVEN is not a pass.`);
+  process.exit(broken ? 1 : 0);
+}
+
 let pass = 0, fail = 0, notImpl = 0, unavail = 0, notExercised = 0;
 const failed: string[] = [];
 
