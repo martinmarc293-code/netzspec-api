@@ -15,7 +15,8 @@
     "test": "tsx scripts/run-tests.ts",
     "test:db": "tsx scripts/run-tests.ts --db",
     "migrate": "tsx db/migrate.ts",
-    "ingest": "tsx src/pipeline/cli.ts"
+    "ingest": "tsx src/pipeline/cli.ts",
+    "mould:verify": "tsx scripts/mould-verify.mts"
   },
   "dependencies": {
     "@fastify/cors": "^10.0.0",
