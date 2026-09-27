@@ -208,7 +208,14 @@ export function enumDomainUnion(dict: typeof FIELD_DICTIONARY = FIELD_DICTIONARY
   const domains = new Map<string, Set<string>>();
   for (const [key, def] of Object.entries(dict)) {
     const d = def as { type?: string; domain?: unknown };
-    if (d.type !== "e" || !Array.isArray(d.domain)) continue;
+    // `ls` (LIST of enum) as well as `e`, corrected 27 Sep 2026. This read `d.type !== "e"`, so every
+    // list-of-enum key was invisible to the coverage check that gates the contract build — and those are
+    // the BIG domains: cellular_bands 236 values, standard 157, ui_languages 34, radio_bands 4. The check
+    // reported 0 uncovered while 458 of 766 domain values had no German rendering, i.e. it could not see
+    // 60% of the population it certifies. The reviewer predicted the two largest before seeing the number.
+    // Same blind spot as an ad-hoc scan of mine the same night that filtered `type === "e"` and therefore
+    // undercounted out-of-domain facts: one wrong predicate, two instruments, both reporting clean.
+    if (!["e", "ls"].includes(d.type ?? "") || !Array.isArray(d.domain)) continue;
     domains.set(key, new Set((d.domain as string[]).map(String)));
   }
   for (const keys of Object.values(DOMAIN_OVERRIDES)) {
@@ -225,7 +232,10 @@ const UNION_CACHE = new WeakMap<object, Map<string, Set<string>>>();
 export function uncoveredEnumValues(dict: typeof FIELD_DICTIONARY = FIELD_DICTIONARY): { key: string; value: string }[] {
   const out: { key: string; value: string }[] = [];
   for (const [key, dom] of enumDomainUnion(dict)) {
-    if (!ENUM_DE[key]) { out.push({ key, value: "(no covering for this key at all)" }); continue; }
+    // NAME THE SIZE. This pushed one placeholder per uncovered KEY, so the check printed "7" for a state in
+    // which 458 of 766 domain values had no German — a reader acts on 7 and 7 looks like a tidy-up. The 7
+    // keys are the big domains precisely because nobody wrote 236 map entries by hand. Report the count.
+    if (!ENUM_DE[key]) { out.push({ key, value: `(no covering for this key at all — ${dom.size} domain values)` }); continue; }
     for (const v of dom) if (!enumValueDe(key, v)) out.push({ key, value: v });
   }
   return out;

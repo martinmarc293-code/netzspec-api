@@ -25,9 +25,20 @@ const eq = (name: string, got: unknown, want: unknown) =>
   check(name, JSON.stringify(got) === JSON.stringify(want), `got ${JSON.stringify(got)}, wanted ${JSON.stringify(want)}`);
 
 // ---- COVERAGE: every enum value the schema can produce has a German rendering ---------------------------------
+// AN EXACT RATCHET, NOT A ZERO (27 Sep 2026). This asserted `gaps.length === 0` and passed for a fortnight
+// because `enumDomainUnion` filtered `type !== "e"`, so every list-of-enum key was invisible: 458 of 766
+// domain values had no German and the check said none. Corrected, the honest state is 7 uncovered KEYS
+// carrying 458 values. The number is exact and fails in BOTH directions on purpose — cover `radio_bands`
+// and this goes red telling you to lower it, which is the only way the figure stays true.
 const gaps = uncoveredEnumValues();
-check(`every enum value in every domain (global AND per-category) has a German rendering`, gaps.length === 0,
-  gaps.slice(0, 8).map((g) => `${g.key}=${g.value}`).join(", "));
+const UNCOVERED_KEYS = 7, UNCOVERED_VALUES = 458;
+const gapValues = gaps.reduce((n, g) => n + (Number(/— (\d+) domain values/.exec(g.value)?.[1]) || 1), 0);
+check(`exactly ${UNCOVERED_KEYS} enum keys have no German rendering, carrying ${UNCOVERED_VALUES} domain values`,
+  gaps.length === UNCOVERED_KEYS && gapValues === UNCOVERED_VALUES,
+  `${gaps.length} keys / ${gapValues} values: ${gaps.map((g) => g.key).join(", ")}`);
+check(`CONTROL the coverage check can SEE list-of-enum keys, which it could not before`,
+  gaps.some((g) => g.key === "cellular_bands") && gaps.some((g) => g.key === "standard"),
+  gaps.map((g) => g.key).join(", "));
 
 // The check must actually be able to SEE the override domains — proven by counting what only they carry.
 const overrideOnly = Object.values(DOMAIN_OVERRIDES).flatMap((keys) => Object.entries(keys)
@@ -43,7 +54,7 @@ check(`the coverage check reaches values that ONLY a category override declares 
   const found = uncoveredEnumValues(tampered);
   check("SABOTAGE a value added to a domain is reported uncovered",
     found.some((g) => g.key === "airflow" && g.value === "__new_direction__"), JSON.stringify(found.slice(0, 4)));
-  check("SABOTAGE …and the untampered dictionary still reports none", uncoveredEnumValues().length === 0);
+  check("SABOTAGE …and the untampered dictionary still reports its own known count, not zero", uncoveredEnumValues().length === UNCOVERED_KEYS);
 }
 // SABOTAGE: an enum key with no covering at all is named as such.
 {
@@ -158,8 +169,8 @@ check(`…and the ones with no renderer are named here rather than left to be di
   const uncovered = uncoveredEnumValues(synthetic);
   check(`CONTROL a key with no covering at all is reported by uncoveredEnumValues, so the gap branch is reachable`,
     uncovered.length === 1 && uncovered[0].key === "zz_fake_enum", JSON.stringify(uncovered));
-  check(`CONTROL the live dictionary has no uncovered domain value, which is why the gap case above is synthetic`,
-    uncoveredEnumValues().length === 0, JSON.stringify(uncoveredEnumValues().slice(0, 5)));
+  check(`CONTROL the live dictionary's uncovered set is the known 7, so the synthetic key above is the one being tested`,
+    uncoveredEnumValues().length === UNCOVERED_KEYS, uncoveredEnumValues().map((g) => g.key).join(", "));
 }
 
 console.log(misses.join("\n"));
