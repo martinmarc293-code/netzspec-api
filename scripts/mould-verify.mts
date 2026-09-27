@@ -76,6 +76,35 @@ function resolveFourSets(category: string, kind: string): Record<string, string[
   return out;
 }
 
+/** Which of the named columns `parts` actually has. The layer columns (sku_kind, product_line,
+ *  product_family, product_family_state, product_series, bucket, no_family_reason) are B2 work: today
+ *  the layers live in built artefacts and NOT in the database, so five of the Phase A tests cannot
+ *  judge anything yet.
+ *
+ *  That is reported as NOT EXERCISED with the missing columns NAMED, never as a pass. A test that
+ *  cannot reach its population must not read like one that looked and found nothing -- which is this
+ *  repo's most-repeated defect and the reason the fourth state exists at all. */
+async function partsColumns(): Promise<{ have: Set<string>; error?: string }> {
+  try {
+    const r = await query<{ c: string }>(
+      "SELECT column_name AS c FROM information_schema.columns WHERE table_name = 'parts'");
+    return { have: new Set(r.rows.map((x) => x.c)) };
+  } catch (e) {
+    return { have: new Set(), error: e instanceof Error ? e.message : String(e) };
+  }
+}
+
+/** NOT EXERCISED for a layer test, with its producer named and the same sentence every time, so the
+ *  five read as one blocked family rather than five unrelated silences. */
+function needsLayerColumns(cols: { have: Set<string>; error?: string }, wanted: string[]): Result | null {
+  if (cols.error) return none(`could not read the parts columns: ${cols.error}`);
+  const missing = wanted.filter((c) => !cols.have.has(c));
+  if (!missing.length) return null;
+  return none(`the layers are not in the database yet — parts is missing ${missing.join(", ")} ` +
+    `(producer: B2 "Layers into the DB"; they exist today only in the built artefacts, so this test ` +
+    `has no population to judge and is NOT a pass)`);
+}
+
 /** The kinds a category's own profile mentions in a `kind` condition. Derived from the profile rather
  *  than from a hand-kept list, because a hand-kept list of what exists is this repo's oldest named
  *  defect -- it drifts the day a kind is added and nothing compares the two. */
@@ -604,10 +633,148 @@ const TESTS: Test[] = [
       return { negative, positive, note: `${cat}/${kind}: na=${s.na.length} (want 0 today), sum=${s.req.length + s.pending.length + s.opt.length + s.na.length} of ${size}` };
     },
   },
-  { name: "no_family_reason_present", findings: "B2, B3" },
-  { name: "bucket_not_series", findings: "B3" },
-  { name: "twin_parity", findings: "N7" },
-  { name: "unknown_zero", findings: "B7" },
+  {
+    name: "no_family_reason_present",
+    findings: "B2, B3",
+    needsDb: true,
+    // A SENTINEL IS NOT A VALUE. The build writes "(none)" where a line names no family, deliberately,
+    // because a review once read `null` as "undecided". Serving that marker to a consumer puts the
+    // string "(none)" in a shop tree as a family NAME -- which is what happened to 3,993 switches and
+    // 3,975 routers on 27 Sep. So: a state, always; a REASON whenever the state says no family; and
+    // the sentinels never reaching the API record at all.
+    run: async () => {
+      const cols = await partsColumns();
+      const blocked = needsLayerColumns(cols, ["product_family", "product_family_state", "no_family_reason"]);
+      if (blocked) return blocked;
+      const r = await query<{ n: string; nostate: string; noreason: string; sentinel: string }>(
+        "SELECT count(*)::text AS n," +
+        " count(*) FILTER (WHERE product_family_state IS NULL)::text AS nostate," +
+        " count(*) FILTER (WHERE product_family_state = 'no_family_named' AND no_family_reason IS NULL)::text AS noreason," +
+        " count(*) FILTER (WHERE product_family LIKE '(%')::text AS sentinel" +
+        " FROM parts WHERE retired_at IS NULL AND product_line IS NOT NULL");
+      const x = r.rows[0];
+      const bad_ = Number(x.nostate) + Number(x.noreason) + Number(x.sentinel);
+      const scope = `${Number(x.n).toLocaleString()} layered live parts`;
+      return bad_ === 0
+        ? ok(`every layered row carries a family state, a reason where it names no family, and no sentinel reaches the record — ${scope}`)
+        : bad(`${x.nostate} rows have no family state, ${x.noreason} say no_family_named with no reason, ` +
+              `${x.sentinel} serve a SENTINEL as the family value — ${scope}`);
+    },
+    // The predicate, exercised on synthetic rows so it is proven TODAY even though the columns it
+    // reads are B2. Negative: a row claiming no_family_named with a null reason. Twin: the same row
+    // with a reason. Both go through one function, so the fixture cannot pass by testing something
+    // adjacent to the rule.
+    selfTest: async () => {
+      const okRow = (state: string | null, reason: string | null, family: string | null) =>
+        state !== null && !(state === "no_family_named" && reason === null) && !(family ?? "").startsWith("(");
+      return { negative: okRow("no_family_named", null, null), positive: okRow("no_family_named", "single-series", "Catalyst 9300"),
+               note: "no_family_named with a null reason must fail; with a recorded reason must pass" };
+    },
+  },
+  {
+    name: "bucket_not_series",
+    findings: "B3",
+    needsDb: true,
+    // "Catalyst 9300 shared parts" IS NOT A SERIES. It is a navigation bucket the layering build
+    // invents to hold components whose host series cannot be decided, and it must never enter a
+    // product column: a shop tree would print it as a product line, and a JTL Merkmalwert would carry
+    // it as a value. A bucket row is legitimate only when it says which hosts it is shared BETWEEN,
+    // or records why no single host can be named.
+    run: async () => {
+      const cols = await partsColumns();
+      const blocked = needsLayerColumns(cols, ["product_series", "bucket"]);
+      if (blocked) return blocked;
+      const r = await query<{ n: string; shared: string; nohost: string }>(
+        "SELECT count(*)::text AS n," +
+        " count(*) FILTER (WHERE product_series ILIKE '%shared parts')::text AS shared," +
+        " count(*) FILTER (WHERE bucket IS NOT NULL AND bucket = '{}')::text AS nohost" +
+        " FROM parts WHERE retired_at IS NULL AND product_series IS NOT NULL");
+      const x = r.rows[0];
+      const scope = `${Number(x.n).toLocaleString()} live parts carrying a series`;
+      return Number(x.shared) === 0 && Number(x.nohost) === 0
+        ? ok(`no navigation bucket is serving as a series, and every bucket row names its hosts — ${scope}`)
+        : bad(`${x.shared} rows serve a "… shared parts" BUCKET as their product_series and ${x.nohost} ` +
+              `bucket rows name no host — ${scope}`);
+    },
+    selfTest: async () => {
+      const isSeries = (s: string) => !/shared parts$/i.test(s.trim());
+      return { negative: isSeries("Catalyst 9300 shared parts"), positive: isSeries("Catalyst 9300"),
+               note: "a '… shared parts' bucket must be refused as a series; a real series must pass" };
+    },
+  },
+  {
+    name: "twin_parity",
+    findings: "N7",
+    needsDb: true,
+    // `X=` IS THE SPARE ORDERABLE OF `X` -- the same hardware, so the same category, the same kind and
+    // the same series. Where they disagree, one of the two was enumerated from a document that was
+    // about something else: A99-12X100GE-FC sat in `ios-nx-os-software` because it was read off an IOS
+    // XR datasheet that merely LISTS supported cards, while its spare sat correctly in `routers`.
+    //
+    // A missing base is NOT a failure. A spare whose base was never enumerated is a gap in the
+    // catalogue, not a disagreement, and folding the two together would make this test unable to say
+    // which it had found.
+    run: async () => {
+      const cols = await partsColumns();
+      const blocked = needsLayerColumns(cols, ["sku_kind", "product_series"]);
+      if (blocked) return blocked;
+      const r = await query<{ pairs: string; differ: string; nobase: string }>(
+        "WITH s AS (SELECT p.*, left(p.sku, length(p.sku) - 1) AS base_sku FROM parts p" +
+        " WHERE p.retired_at IS NULL AND p.sku LIKE '%=')" +
+        " SELECT count(*)::text AS pairs," +
+        " count(*) FILTER (WHERE b.id IS NOT NULL AND (b.category_id IS DISTINCT FROM s.category_id" +
+        "   OR b.sku_kind IS DISTINCT FROM s.sku_kind OR b.product_series IS DISTINCT FROM s.product_series))::text AS differ," +
+        " count(*) FILTER (WHERE b.id IS NULL)::text AS nobase" +
+        " FROM s LEFT JOIN parts b ON b.sku = s.base_sku AND b.vendor_id = s.vendor_id AND b.retired_at IS NULL");
+      const x = r.rows[0];
+      const scope = `${Number(x.pairs).toLocaleString()} live spare SKUs ending "="; ${x.nobase} have no base row (a catalogue gap, counted separately and NOT a failure)`;
+      return Number(x.differ) === 0
+        ? ok(`every spare agrees with its base on category, kind and series — ${scope}`)
+        : bad(`${x.differ} spares disagree with their base on category, kind or series — ${scope}`);
+    },
+    selfTest: async () => {
+      const agrees = (a: [string, string, string], b: [string, string, string]) => a.every((v, i) => v === b[i]);
+      return { negative: agrees(["routers", "line-card", "ASR 9900"], ["ios-nx-os-software", "line-card", "ASR 9900"]),
+               positive: agrees(["routers", "line-card", "ASR 9900"], ["routers", "line-card", "ASR 9900"]),
+               note: "a spare in a different category from its base must fail; an identical pair must pass" };
+    },
+  },
+  {
+    name: "unknown_zero",
+    findings: "B7",
+    needsDb: true,
+    // A PART IN KIND `unknown` IS ASKED NOTHING, AND THEREFORE SCORES PERFECTLY. That is the whole
+    // hazard: an unclassified part does not appear as a gap, it disappears from the denominator, and
+    // the completeness figure improves every time the classifier gives up. So `unknown` must be zero,
+    // and a kind that is asked no cups at all is the same defect wearing a name.
+    run: async () => {
+      const cols = await partsColumns();
+      const blocked = needsLayerColumns(cols, ["sku_kind"]);
+      if (blocked) return blocked;
+      const r = await query<{ category: string; n: string }>(
+        "SELECT c.slug AS category, count(*)::text AS n FROM parts p JOIN categories c ON c.id = p.category_id" +
+        " WHERE p.retired_at IS NULL AND (p.sku_kind IS NULL OR p.sku_kind = 'unknown')" +
+        " GROUP BY 1 ORDER BY count(*) DESC");
+      const total = r.rows.reduce((n, x) => n + Number(x.n), 0);
+      // A kind asked nothing is the same hazard by another route, so it is counted here too.
+      const askedNothing = Object.entries(PROFILES).flatMap(([cat]) =>
+        kindsDeclaredBy(cat).filter((k) => {
+          const s = resolveFourSets(cat, k);
+          return s.req.length + s.pending.length === 0;
+        }).map((k) => `${cat}/${k}`));
+      const scope = `${r.rows.length} categories hold an unclassified part; ${askedNothing.length} (category, kind) pairs are asked no required or pending cup at all`;
+      return total === 0 && askedNothing.length === 0
+        ? ok(`no live part is unclassified and every kind is asked something — ${scope}`)
+        : bad(`${total.toLocaleString()} live parts are in kind unknown, so they are asked nothing and ` +
+              `score perfectly while leaving the denominator — ${scope}: ` +
+              r.rows.slice(0, 6).map((x) => `${x.category} ${x.n}`).join(", "));
+    },
+    selfTest: async () => {
+      const classified = (kind: string | null) => kind !== null && kind !== "unknown";
+      return { negative: classified("unknown"), positive: classified("power-supply"),
+               note: "a part in kind unknown must fail; a classified part must pass" };
+    },
+  },
   { name: "plans_agree_with_rows", findings: "N6" },
   {
     name: "runs_have_approval",
