@@ -790,16 +790,38 @@ const TESTS: Test[] = [
       const cols = await partsColumns();
       const blocked = needsLayerColumns(cols, ["sku_kind", "product_series"]);
       if (blocked) return blocked;
-      const r = await query<{ pairs: string; differ: string; nobase: string }>(
+      const r = await query<{ pairs: string; differ: string; nonhw: string; onesided: string; nobase: string }>(
         "WITH s AS (SELECT p.*, left(p.sku, length(p.sku) - 1) AS base_sku FROM parts p" +
         " WHERE p.retired_at IS NULL AND p.sku LIKE '%=')" +
         " SELECT count(*)::text AS pairs," +
-        " count(*) FILTER (WHERE b.id IS NOT NULL AND (b.category_id IS DISTINCT FROM s.category_id" +
-        "   OR b.sku_kind IS DISTINCT FROM s.sku_kind OR b.product_series IS DISTINCT FROM s.product_series))::text AS differ," +
+        // A NULL IS NOT A DISAGREEMENT, and the class decides whose disagreement this is. Measured
+        // 27 Sep: the unrefined predicate flagged 160 pairs -- of which 20 were a one-sided GAP (one
+        // side never layered, so it has no opinion) and 103 were LICENCES, 15 software, 15
+        // non-product. Only 27 were HARDWARE, which is the defect this test was written for: an
+        // ASR 9900 line card filed under ios-nx-os-software because it was read off a datasheet that
+        // merely LISTS supported cards, while its spare sat correctly in routers.
+        //
+        // So the judgement is over hardware twins where BOTH sides hold a value, and the other three
+        // populations are counted and named rather than folded in -- a licence pair disagreeing
+        // about its category is a real question, but it is not this test's and it would drown the 27.
+        " count(*) FILTER (WHERE b.id IS NOT NULL AND s.product_class = 'hardware' AND (" +
+        "   b.category_id IS DISTINCT FROM s.category_id" +
+        "   OR (b.sku_kind IS NOT NULL AND s.sku_kind IS NOT NULL AND b.sku_kind <> s.sku_kind)" +
+        "   OR (b.product_series IS NOT NULL AND s.product_series IS NOT NULL AND b.product_series <> s.product_series)))::text AS differ," +
+        " count(*) FILTER (WHERE b.id IS NOT NULL AND s.product_class IS DISTINCT FROM 'hardware' AND (" +
+        "   b.category_id IS DISTINCT FROM s.category_id OR b.sku_kind IS DISTINCT FROM s.sku_kind" +
+        "   OR b.product_series IS DISTINCT FROM s.product_series))::text AS nonhw," +
+        " count(*) FILTER (WHERE b.id IS NOT NULL AND s.product_class = 'hardware' AND" +
+        "   b.category_id IS NOT DISTINCT FROM s.category_id AND (" +
+        "   (b.sku_kind IS NULL) <> (s.sku_kind IS NULL) OR (b.product_series IS NULL) <> (s.product_series IS NULL)))::text AS onesided," +
         " count(*) FILTER (WHERE b.id IS NULL)::text AS nobase" +
         " FROM s LEFT JOIN parts b ON b.sku = s.base_sku AND b.vendor_id = s.vendor_id AND b.retired_at IS NULL");
       const x = r.rows[0];
-      const scope = `${Number(x.pairs).toLocaleString()} live spare SKUs ending "="; ${x.nobase} have no base row (a catalogue gap, counted separately and NOT a failure)`;
+      const scope = `${Number(x.pairs).toLocaleString()} live spare SKUs ending "="; ` +
+        `${x.nobase} have no base row (a catalogue gap, counted separately and NOT a failure); ` +
+        `${x.nonhw} NON-HARDWARE pairs disagree (licences, software, non-product — a real question about ` +
+        `category assignment, but not this test's, and they would drown the hardware count); ` +
+        `${x.onesided} hardware pairs where one side is simply unlayered (a null has no opinion, so it is a GAP not a conflict)`;
       return Number(x.differ) === 0
         ? ok(`every spare agrees with its base on category, kind and series — ${scope}`)
         : bad(`${x.differ} spares disagree with their base on category, kind or series — ${scope}`);
