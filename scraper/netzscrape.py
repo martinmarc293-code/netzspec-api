@@ -80,9 +80,10 @@ def cap_value(s, cap: int) -> tuple:
 
     A single token longer than half the cap has no boundary to back off to -- it is cut hard and
     still flagged, which is the honest answer rather than a value that overruns the cap. So the
-    shortest a capped value can be is cap // 2, which is what `MIN_CAPPED_LEN` in gate-extract.ts
-    is derived from: a stored value shorter than that was never capped, so the gate may not
-    accept it as a prefix of a longer cell.
+    shortest a capped value can be is cap // 2, and `couldBeCapped` in gate-extract.ts is derived
+    from exactly that: it accepts a stored value as the PREFIX of a longer cell only at a length
+    in [cap/2, cap] for some cap in ADAPTER_CAPS. A value shorter than that was never capped, so
+    the gate refuses it -- otherwise a wrong pour would grade as correct.
 
     `cap` is REQUIRED. It was a default in the PDF adapter, where it read as one number for the
     whole pipeline; the caps are per cell TYPE (a scalar cell fits in 160, the median LIST cell
