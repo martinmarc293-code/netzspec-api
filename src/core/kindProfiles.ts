@@ -93,6 +93,26 @@ export const KIND_PARITY_EXCEPTIONS: readonly KindParityException[] = [
 ];
 
 /**
+ * WHY THE CABLE ENTRY IS STILL AN EXCEPTION AND NOT A GATE. The reviewer's ruling was that it belongs as
+ * `data_rate`/`ddm`/`form_factor` pending on `cable_construction` in {active-dac, aoc, aec}, so a
+ * MA-CBL-100G-1M filed under `switches` tomorrow is treated the same without a second exception. That
+ * reasoning is better than an exception scoped to one category -- and a gate depends on a SIGNAL.
+ *
+ * Measured over the 176 live cisco transceiver/cable parts this covers: `cable_construction` is not a
+ * dictionary key at all, and `dac_type` -- the nearest existing cup -- is filled on ZERO of them. A gate on
+ * it would be vacuous for every row it was written for, exempting the whole population and turning
+ * kind_profile_parity green because the guard could not fire. The name carries the signal on 115 of 176
+ * (AOC 64, passive/DAC 46, active 5), so the gate is reachable in two steps -- the dictionary key with its
+ * all-vendor measurement, then a registered derivation with its validation counts -- and not before.
+ *
+ * docs/decisions/2026-09-27-a-kinds-cup-set-follows-the-physical-object.md carries the table.
+ */
+export const GATE_NOT_YET_POSSIBLE = {
+  kind: "cable", proposedGate: "cable_construction in {active-dac, aoc, aec}",
+  blockedBy: "cable_construction is not a dictionary key; dac_type is filled on 0 of 176 rows",
+} as const;
+
+/**
  * THE OPEN REGISTER. Sixteen divergences that are NOT rulings, each with the cause the full read found
  * and therefore with the work it actually needs. The test counts these as failures — they are here so
  * the failure names its cause instead of repeating a list, not so it can be waved through.
