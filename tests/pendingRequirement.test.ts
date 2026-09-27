@@ -232,6 +232,58 @@ ok("both are still DECLARED required in the profile — this is a scoring rule, 
      requirementFor("security", "rack_units", unknownFF), "pending");
 }
 
+// UNANSWERED IS NOT "NOT IN THE LIST" (reviewer, 27 Sep 2026).
+//
+// `evalCondition`'s notInList branch read `!c.notInList.includes(values[c.field])`, so an
+// UNANSWERED gate satisfied it: `undefined` is not in any list. Its two siblings both demand an
+// answer — `inList` needs the value to be one of the list, `ne` needs a value to differ — so this
+// one clause alone treated could-not-check as a positive match, which is this repo's oldest defect
+// in the one function that decides what a part owes.
+//
+// MEASURED REACH ON THE LIVE CATALOGUE: ZERO, and the reason is worth keeping. There are 6
+// notInList clauses (4 in transceiver on `kind`, 2 in routers on `deploy_role`), and both gates are
+// DERIVED, not extracted — `partKind` answers for all 2,109 transceivers and `deployRole` for all
+// 1,288 kind=router parts. The defect is latent only because two derivations are total over today's
+// population, which is exactly the shape that made a rendering rule's coverage check vacuous two
+// days ago: a total function hides the branch that depends on it. The trigger is the first router
+// SKU no rule places, and the registry records three such SKUs on 13 Sep (C8455-G2, C8475-G2,
+// WS-C4928-10GE), so the trigger has fired before and was closed by hand.
+//
+// HOW THE ZERO WAS EARNED, because a zero from a harness is a fact about the harness until proven
+// otherwise: HEAD's `requirementFor` and the working tree's were run side by side over all 41,067
+// live cisco hardware parts with the values built exactly as recompute-completeness builds them
+// (facts + derived kind/role/modular), and the run carries a CONTROL of two hand-made cases that
+// must flip. The first control I wrote was `{}` — every gate unanswered — and it flipped nothing,
+// because the sibling clause `kind inList ["router"]` fails first and the branch is never reached.
+// A control has to reach the branch it is a control for.
+{
+  const R = (cup: string, v: Record<string, unknown>) => requirementFor("routers", cup, v as never);
+  // THE SABOTAGE CASE. Under the old semantics this was `req`: the condition
+  // `all[kind inList [router], deploy_role notInList [smb]]` was satisfied by an ABSENT role.
+  ok("a router with NO derived role does not owe flash on the strength of the absence",
+     R("flash", { kind: "router" }) !== "req");
+  ok("...nor dimensions", R("dimensions", { kind: "router" }) !== "req");
+  // CONTROLS THAT MUST NOT MOVE. The first is the case that defeated my own first measurement: the
+  // `when` is an `any`, and its SECOND branch fires on its own, so a flash module owes a flash spec
+  // for a reason that has nothing to do with the gate. Counting it as a hit gave a false 63.
+  eq("control: a flash module owes flash through the any's other branch", R("flash", { kind: "flash" }), "req");
+  eq("control: a router WITH a role still owes flash", R("flash", { kind: "router", deploy_role: "branch" }), "req");
+  eq("control: a router WITH a role still owes dimensions", R("dimensions", { kind: "router", deploy_role: "branch" }), "req");
+  // The clause must still do its actual job: smb is genuinely excluded.
+  ok("an smb router is genuinely excluded by the notInList", R("flash", { kind: "router", deploy_role: "smb" }) !== "req");
+  // The reviewer asked for `pending` rather than a silent drop, and it is NOT what this returns —
+  // recorded here as a case so the gap is visible rather than assumed. The outcome is `opt` because
+  // `routers/deploy_role` is declared a plain `opt` cup, so an absent role resolves to "nobody owes
+  // it" and its dependents settle. Its sibling derived gate `modular` is declared
+  // `cond({field:"kind", inList:["router"]})`, resolves `req`, and therefore DOES leave
+  // `module_slots` pending — the two derived gates are declared differently, and that asymmetry,
+  // not `requirementFor`, is what decides whether a missing derivation holds a gap open.
+  eq("TODAY: an absent role settles rather than pends (deploy_role is an `opt` cup, unlike `modular`)",
+     R("flash", { kind: "router" }), SETTLED);
+  eq("control: modular, the OTHER derived gate, does hold its dependent open",
+     requirementFor("routers", "module_slots", { kind: "router" }), "pending");
+}
+
 lines.unshift(`    pending requirement: ${passed} passed, ${failed} missed ` +
               `(3-way settled/pending/req, ${optGated.length} conds in security)`);
 console.log(lines.join("\n"));

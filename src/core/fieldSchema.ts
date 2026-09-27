@@ -3972,7 +3972,17 @@ export function evalCondition(c: Condition, v: PartValues): boolean {
   if ("eq" in c) return actual === c.eq;
   if ("ne" in c) return actual !== undefined && actual !== c.ne;
   if ("inList" in c) return actual !== undefined && c.inList.includes(actual as string | number);
-  if ("notInList" in c) return actual === undefined || !c.notInList.includes(actual as string | number);
+  // `undefined` is UNKNOWN, not "not in the list" (reviewer, 27 Sep 2026). This read
+  // `actual === undefined || …`, so an UNANSWERED gate SATISFIED a notInList and the rule fired — the part
+  // was handed the maximum required set on the strength of a field nobody had answered. Note the two lines
+  // above: `inList` and `ne` both demand an answer, and this one did not, which is the tell that it was a
+  // slip rather than a choice. Requiring an answer also routes it correctly: `settledFalse` only settles a
+  // condition whose field IS answered, so an unanswered gate now falls through to `pending` — which is the
+  // honest state, "we cannot say yet", rather than a demand or a silent exemption.
+  // Measured over the population the rule REACHES (not every part with a null role — that is 32,075 and is
+  // the wrong denominator, since a part failing the sibling `kind` clause is settled-false already): 63 live
+  // parts, among them MEM-CF-256U512MB, a flash module made to owe a spec because its role was unanswered.
+  if ("notInList" in c) return actual !== undefined && !c.notInList.includes(actual as string | number);
   if ("gte" in c) return typeof actual === "number" && actual >= c.gte;
   if ("truthy" in c) return Boolean(actual);
   return false;
