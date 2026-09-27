@@ -16,7 +16,7 @@
  * pass), 0 only when every implemented test passed. Unimplemented tests do not fail the run — they are a
  * known, printed debt — but the count is in the output of every single run so it cannot be forgotten.
  */
-import { FIELD_DICTIONARY, PROFILES, COLUMN_BACKED, domainFor, type Requirement } from "../src/core/fieldSchema.js";
+import { FIELD_DICTIONARY, PROFILES, COLUMN_BACKED, domainFor, bandFor, type Requirement } from "../src/core/fieldSchema.js";
 import { uncoveredEnumValues } from "../src/core/renderContract.js";
 import { mouldStatuses } from "../src/core/brandMould.js";
 import { NO_PROFILE_REASONS } from "../src/core/noProfileReason.js";
@@ -92,7 +92,14 @@ const TESTS: Test[] = [
           // inventing a noun to satisfy a checklist made the mould worse at reading its own sources.
           // So a numeric is defined when it has a band; a unit is required only alongside one, never
           // instead of one. The 29 unit-only pairs were never undefined -- the check was.
-          else if (t === "n") { if (!Array.isArray(d.band)) badCups.push(`${cat}/${key} numeric with no band`); }
+          // PER CATEGORY, like the enum branch one line up. This read only the GLOBAL d.band while
+          // enums have always been asked category-aware via domainFor(cat, key) -- so a key whose band
+          // is deliberately per-category was reported undefined while its band sat measured and
+          // commented in CATEGORY_BANDS. rf_gain and insertion_loss_max are exactly that: both carry a
+          // band for `video` with the stored figures written beside them, and both were being counted
+          // as gaps. A definition the check cannot reach is indistinguishable from one that is missing,
+          // and the asymmetry between the two branches is what hid it.
+          else if (t === "n") { if (!Array.isArray(bandFor(cat, key) ?? d.band)) badCups.push(`${cat}/${key} numeric with no band`); }
           else if (t === "struct") { if (!d.shape) badCups.push(`${cat}/${key} struct with no shape`); }
           else if (t === "s") badCups.push(`${cat}/${key} REQUIRED free string`);
         }
