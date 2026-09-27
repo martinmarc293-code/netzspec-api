@@ -51,11 +51,19 @@ const TESTS: Test[] = [
     // needs a shape. A required FREE STRING can hold anything, so nothing can ever refuse a wrong value.
     run: async () => {
       const badCups: string[] = [];
+      let seen = 0;
       for (const [cat, prof] of Object.entries(PROFILES)) {
         for (const [key, rule] of Object.entries(prof as Record<string, Requirement>)) {
-          if ((rule as { kind?: string }).kind !== "req") continue;
+          // `cond` TOO. This read `!== "req"` and therefore evaluated ZERO cups of the 652 that can be
+          // required: only 45 cups are unconditional `req` and every one of them is `vendor` or `series`,
+          // both COLUMN_BACKED and skipped below — so the population was empty by construction while the
+          // test printed PASS. The 607 `cond` cups ARE required whenever their gate trips, and they are
+          // the ones a wrong value actually reaches. Found by the reviewer reading the code, not by any run.
+          const kind = (rule as { kind?: string }).kind;
+          if (kind !== "req" && kind !== "cond") continue;
           const d = FIELD_DICTIONARY[key] as { type?: string; unit?: string | null; band?: unknown; shape?: unknown } | undefined;
           if (!d || COLUMN_BACKED.has(key)) continue;
+          seen++;
           const t = d.type;
           if (t === "e" || t === "ls") { if (!(domainFor(cat, key) ?? []).length) badCups.push(`${cat}/${key} enum with no domain`); }
           else if (t === "n") { if (!d.unit) badCups.push(`${cat}/${key} numeric with no unit`); if (!Array.isArray(d.band)) badCups.push(`${cat}/${key} numeric with no band`); }
@@ -63,9 +71,11 @@ const TESTS: Test[] = [
           else if (t === "s") badCups.push(`${cat}/${key} REQUIRED free string`);
         }
       }
+      // The denominator is in the message either way: a test that cannot say how much it looked at is one
+      // nobody can tell apart from a test that looked at nothing.
       return badCups.length === 0
-        ? ok("every required cup carries a domain, a unit+band, or a shape")
-        : bad(`${badCups.length} required cups cannot be checked: ${badCups.slice(0, 10).join("; ")}${badCups.length > 10 ? ` … +${badCups.length - 10}` : ""}`);
+        ? ok(`all ${seen} required/conditional cups carry a domain, a unit+band, or a shape`)
+        : bad(`${badCups.length} of ${seen} required/conditional cups cannot be checked: ${badCups.slice(0, 10).join("; ")}${badCups.length > 10 ? ` … +${badCups.length - 10}` : ""}`);
     },
   },
   {
@@ -89,12 +99,17 @@ const TESTS: Test[] = [
           fields(rule, read);
           for (const g of read) {
             if (COLUMN_BACKED.has(g) || g === "kind" || g === "deploy_role" || g === "modular") continue;
-            if ((p[g] as { kind?: string } | undefined)?.kind === "opt") offenders.push(`${cat}/${key} gated on optional ${g}`);
+            // An UNDECLARED gate is as unanswerable as an optional one and used to pass in silence: p[g]
+            // is undefined, the === "opt" test is false, and the cup sits pending for ever with nothing
+            // saying why. Both are now reported, and named apart because the fix differs.
+            const gk = (p[g] as { kind?: string } | undefined)?.kind;
+            if (gk === "opt") offenders.push(`${cat}/${key} gated on OPTIONAL ${g}`);
+            else if (gk === undefined) offenders.push(`${cat}/${key} gated on ${g}, undeclared in this profile`);
           }
         }
       }
       return offenders.length === 0
-        ? ok("no conditional cup is gated on an optional field")
+        ? ok(`no conditional cup is gated on an optional or undeclared field (${Object.keys(PROFILES).length} profiles)`)
         : bad(`${offenders.length}: ${offenders.slice(0, 8).join("; ")}${offenders.length > 8 ? ` … +${offenders.length - 8}` : ""}`);
     },
   },
@@ -176,8 +191,11 @@ const TESTS: Test[] = [
       }
       if (!rows) return na(`${files} layer files read and 0 parts matched — a broken join, not a finding`);
       if (diff === rows) return bad(`ALL ${rows} rows differ, which is the shape of a broken comparison rather than of data`);
-      return ok(`${diff} of ${rows} placed parts disagree (${(100 * diff / rows).toFixed(1)}%) across ${files} categories `
-        + `— N59 confirmed and OPEN; the repair is disputed (scripts/dryrun-series-vs-layer4.mts)`);
+      // NOT ok(). It printed PASS at 91.1% because the disagreement is expected and the repair disputed -
+      // but a green line against a known-broken number is how a reader learns to stop reading the colour.
+      return na(`${diff} of ${rows} placed parts disagree (${(100 * diff / rows).toFixed(1)}%) across ${files} `
+        + `categories - N59 RECLASSIFIED: the series column is the platform axis, product_series is layer 4. `
+        + `Not judgeable green or red until the ledger and pages read product_series`);
     },
   },
 
@@ -297,10 +315,15 @@ const TESTS: Test[] = [
     run: async () => {
       const fs = await import("node:fs"), path = await import("node:path");
       const { REPO_ROOT } = await import("../src/config.js");
-      const route = path.join(REPO_ROOT, "src", "api", "routes", "ledger.ts");
-      return fs.existsSync(route)
-        ? na("a /v1/ledger route exists but comparing it needs the DEPLOYED service, which this run cannot reach")
-        : na("there is no src/api/routes/ledger.ts at HEAD, so /v1/ledger cannot be byte-compared to the published ledger");
+      // It tested for src/api/routes/ledger.ts, which has NEVER existed, and reported UNAVAILABLE for the
+      // wrong reason - "no route" when the route is registered in start.ts and /v1/ledger answers 200. An
+      // unavailable verdict with a false cause is worse than none: it sent the reviewer hunting a deleted
+      // endpoint. Look for the REGISTRATION, not for a filename I assumed.
+      const start = path.join(REPO_ROOT, "src", "api", "routes", "start.ts");
+      const registered = fs.existsSync(start) && fs.readFileSync(start, "utf8").includes("/ledger/");
+      return registered
+        ? na("the /v1/ledger route IS registered in src/api/routes/start.ts; byte-comparing it needs the deployed service, which this run does not call")
+        : na("no /v1/ledger registration found in src/api/routes/start.ts");
     },
   },
   { name: "kind_profile_parity", findings: "B1" },
@@ -324,14 +347,29 @@ const TESTS: Test[] = [
          WHERE table_schema='public' AND table_name='runs'`)).rows.map((r) => r.c);
       const hasCol = cols.some((c) => /approv|consent|authoris|authoriz/.test(c));
       const total = Number((await query<{ n: string }>(`SELECT count(*)::text n FROM runs`)).rows[0].n);
-      const inInputs = Number((await query<{ n: string }>(`SELECT count(*)::text n FROM runs WHERE inputs ? 'approval'`)).rows[0].n);
+      // Scan for ANY approval-shaped key instead of guessing one. The first version tested a single
+      // spelling and would have reported "none" just as confidently had the key been approved,
+      // approval_quote or sign_off. A zero from a guessed field name is not a measurement.
+      const keys = (await query<{ k: string }>(
+        "SELECT DISTINCT k FROM runs, LATERAL jsonb_object_keys(inputs) k")).rows.map((r) => r.k);
+      const apprKeys = keys.filter((k) => /approv|consent|authoris|authoriz|sign_?off/i.test(k));
+      const inInputs = apprKeys.length === 0 ? 0 : Number((await query<{ n: string }>(
+        "SELECT count(*)::text n FROM runs WHERE inputs ?| $1::text[]", [apprKeys])).rows[0].n);
       const writers = Number((await query<{ n: string }>(
         `SELECT count(*)::text n FROM runs WHERE status='succeeded' AND stats IS NOT NULL`)).rows[0].n);
+      // EVERY NUMBER HERE IS COMPUTED. The first version guessed the key name `approval`, found none, and
+      // reported "NO approval is recorded anywhere" — which was FALSE and which I passed on to both the
+      // operator and the reviewer. The key is spelled `approved` and 134 runs carry one, several with the
+      // operator's own words in them. The reviewer caught it by reading the code rather than the output.
+      // The second version then hard-coded "NONE is approval-shaped" beside a count that said 134: prose
+      // next to a computed value, contradicting it, for the third time in one session. Nothing is written
+      // in words here that the query has not just answered.
+      const found = apprKeys.length ? apprKeys.join(", ") : "none";
       return hasCol || inInputs === total
-        ? ok(`every one of ${total} runs records an approval`)
-        : bad(`NO approval is recorded anywhere: runs has no approval column and ${inInputs} of ${total} runs `
-          + `carry inputs->approval (${writers} succeeded runs wrote stats). The brief cites 7,533 runs; this table holds ${total} `
-          + `— reconcile that count before approving anything per group`);
+        ? ok(`all ${total} runs record an approval (key: ${found})`)
+        : bad(`${total - inInputs} of ${total} runs record NO approval — ${inInputs} do, under ${found}; `
+          + `runs has no approval column, so it lives in inputs by convention. ${writers} succeeded runs wrote `
+          + `stats. The brief cites 7,533 runs; this table holds ${total} — reconcile before approving per group`);
     },
   },
   { name: "gaps_fresh", findings: "N2, N3, N46, N47" },
