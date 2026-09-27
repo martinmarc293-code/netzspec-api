@@ -16,6 +16,7 @@
  * pass), 0 only when every implemented test passed. Unimplemented tests do not fail the run — they are a
  * known, printed debt — but the count is in the output of every single run so it cannot be forgotten.
  */
+import { shapeIsDefinition } from "../src/core/listShapes.js";
 import { FIELD_DICTIONARY, PROFILES, COLUMN_BACKED, domainFor, bandFor, FREE_TEXT_BY_DECISION, type Requirement } from "../src/core/fieldSchema.js";
 import { uncoveredEnumValues } from "../src/core/renderContract.js";
 import { mouldStatuses } from "../src/core/brandMould.js";
@@ -68,6 +69,7 @@ const TESTS: Test[] = [
     run: async () => {
       const badCups: string[] = [];
       const byDecision: string[] = [];
+      const byShape: string[] = [];
       let seen = 0;
       for (const [cat, prof] of Object.entries(PROFILES)) {
         for (const [key, rule] of Object.entries(prof as Record<string, Requirement>)) {
@@ -82,7 +84,22 @@ const TESTS: Test[] = [
           if (!d || COLUMN_BACKED.has(key)) continue;
           seen++;
           const t = d.type;
-          if (t === "e" || t === "ls") { if (!(domainFor(cat, key) ?? []).length) badCups.push(`${cat}/${key} enum with no domain`); }
+          // A DOMAIN **OR** A SHAPE. A list cup is checkable when something can refuse a wrong value,
+          // and for the four truncated vocabularies an enumerated domain is the wrong instrument: 37-69%
+          // of their stored facts were cut at 160 characters, so a vocabulary derived from them is too
+          // NARROW and would refuse real values the moment the re-extraction recovers them. A shape is
+          // immune to that -- truncation changes which tokens survive, not the FORM of the survivors.
+          //
+          // shapeIsDefinition is not a declaration check: it refuses any shape with an empty refuse set
+          // and re-runs the shape's own fixtures, so `.*` cannot register. Its reason is printed rather
+          // than swallowed, because "no shape" and "a shape that does not work" are different findings.
+          if (t === "e" || t === "ls") {
+            if (!(domainFor(cat, key) ?? []).length) {
+              const sh = shapeIsDefinition(key);
+              if (!sh.ok) badCups.push(`${cat}/${key} list with no domain and ${sh.why}`);
+              else byShape.push(`${cat}/${key}`);
+            }
+          }
           // A COUNT'S DEFINITION IS ITS BAND, AND DEMANDING A UNIT WAS THE WRONG DEMAND (27 Sep 2026).
           // This asked every numeric for a unit AND a band. Tried on the five counts that had a band and
           // no unit -- module_slots, vlan_max, poe_ports, radio_count, breakout_count -- and the
@@ -121,8 +138,8 @@ const TESTS: Test[] = [
       // The denominator is in the message either way: a test that cannot say how much it looked at is one
       // nobody can tell apart from a test that looked at nothing.
       return badCups.length === 0
-        ? ok(`all ${seen} required/conditional cups carry a domain, a band, or a shape` + (byDecision.length ? `; ${byDecision.length} are free text by recorded decision (${[...new Set(byDecision.map((c) => c.split("/")[1]))].join(", ")})` : ""))
-        : bad(`${badCups.length} of ${seen} required/conditional cups cannot be checked` + (byDecision.length ? `; a further ${byDecision.length} are free text by recorded decision (${[...new Set(byDecision.map((c) => c.split("/")[1]))].join(", ")}) and are NOT counted as gaps` : "") + `: ${badCups.slice(0, 10).join("; ")}${badCups.length > 10 ? ` … +${badCups.length - 10}` : ""}`);
+        ? ok(`all ${seen} required/conditional cups carry a domain, a band, or a shape` + (byShape.length ? `; ${byShape.length} defined by a registered shape (${[...new Set(byShape.map((c) => c.split("/")[1]))].join(", ")})` : "") + (byDecision.length ? `; ${byDecision.length} are free text by recorded decision (${[...new Set(byDecision.map((c) => c.split("/")[1]))].join(", ")})` : ""))
+        : bad(`${badCups.length} of ${seen} required/conditional cups cannot be checked` + (byShape.length ? `; ${byShape.length} are defined by a registered SHAPE (${[...new Set(byShape.map((c) => c.split("/")[1]))].join(", ")})` : "") + (byDecision.length ? `; a further ${byDecision.length} are free text by recorded decision (${[...new Set(byDecision.map((c) => c.split("/")[1]))].join(", ")}) and are NOT counted as gaps` : "") + `: ${badCups.slice(0, 10).join("; ")}${badCups.length > 10 ? ` … +${badCups.length - 10}` : ""}`);
     },
   },
   {
