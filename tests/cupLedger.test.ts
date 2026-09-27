@@ -1062,6 +1062,10 @@ for (const f of files) {
     const req: Requirement = { kind: "req" };
     (PROFILES as Record<string, Record<string, Requirement>>)[SYN] = {
       weight: req, form_factor: req, series: req,
+      // The synthetic must mirror production or it tests a shape that no longer exists: every real category
+      // with a role axis now declares `deploy_role` as a conditional on its axis kinds (27 Sep 2026), which is
+      // what makes an unanswered role PEND its dependents instead of settling them.
+      deploy_role: { kind: "cond", when: { field: "kind", inList: ["switch"] }, elseOpt: true },
       altitude_max: { kind: "cond", when: { all: [{ field: "kind", inList: ["switch"] }, { field: "deploy_role", notInList: ["smb"] }] }, elseOpt: true },
       latency: { kind: "cond", when: { all: [{ field: "kind", inList: ["switch"] }, { field: "deploy_role", inList: ["datacenter"] }] }, elseOpt: true },
       rack_units: { kind: "cond", when: { field: "form_factor", eq: "rack-19" } },
@@ -1072,8 +1076,20 @@ for (const f of files) {
         required: q.required.map((key) => ({ key })), pending_until_gate_answered: q.pending, not_applicable_by_kind: q.not_applicable_by_kind,
         optional: q.optional, column_backed: q.column_backed });
       const core = kindQuestionSet(SYN, "switch");
-      check("CONTROL the synthetic core (unresolved role) is asked altitude_max and not latency",
-        core.required.includes("altitude_max") && !core.required.includes("latency"), core.required.join(","));
+      // CHANGED 27 Sep 2026, and the change is the finding. This read "the core (unresolved role) is asked
+      // altitude_max and not latency" and that asymmetry was an artefact of the notInList defect: an
+      // UNANSWERED `deploy_role` satisfied `notInList ["smb"]`, so the demotable cup was REQUIRED of a part
+      // whose role nobody had derived, while the role-addition cup correctly was not. With `undefined` no
+      // longer counting as "not in the list", and `deploy_role` declared a conditional like its twin derived
+      // gate, BOTH role-gated cups are now PENDING at nothing-known — which is the honest reading: with no
+      // role we cannot say either way, so the gap stays open and names the field that would settle it. The
+      // discrimination has not been lost, it has moved to where it belongs — the role blocks, asserted by the
+      // control immediately below, which passed throughout.
+      const corePending = core.pending.map((x) => x.key);
+      check("CONTROL at an unresolved role BOTH role-gated cups are pending, neither is required",
+        corePending.includes("altitude_max") && corePending.includes("latency")
+        && !core.required.includes("altitude_max") && !core.required.includes("latency"),
+        `required ${core.required.join(",")} | pending ${corePending.join(",")}`);
       check("CONTROL the role reaches the question set: smb is NOT asked altitude_max, datacenter IS asked latency",
         !kindQuestionSet(SYN, "switch", "smb").required.includes("altitude_max") && kindQuestionSet(SYN, "switch", "datacenter").required.includes("latency"));
       const partsBy: Record<string, number> = { smb: 2, access: 1, "core-agg": 0, datacenter: 3, industrial: 0, [UNRESOLVED]: 1 };

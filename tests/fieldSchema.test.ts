@@ -38,8 +38,15 @@ check("any/all compose",
 // `kind` is derived by the caller (src/core/partKind.ts) and every device requirement in this
 // profile gates on it. A fixture without one silently marks them all `na` — see
 // tests/partKind.test.ts, which pins that failure.
-const rackPoe: PartValues = { kind: "switch", form_factor: "rack-19", poe_standard: "802.3at", stackable: true, layer: "l3" };
-const dinNoPoe: PartValues = { kind: "switch", form_factor: "din-rail", poe_standard: "none", stackable: false, layer: "l2" };
+// THE ROLES ARE NOT DECORATION AND THEY ARE NOT INVENTED (27 Sep 2026). `deploy_role` is DERIVED from the
+// SKU and every one of the 4,242 live cisco `switch` parts carries one, so a fixture without a role is a
+// state production never produces — and since `deploy_role` is now declared `cond(kind inList [switch])`
+// like its twin derived gate `modular`, an absent role leaves every role-gated cup `pending` rather than
+// settled. These two values are read off the real derivation rather than chosen: deployRole gives
+// C9200L-24P-4G and C9300-24P `access`, and IE-4000-4TC4G-E — a DIN-rail industrial switch, which is what
+// `dinNoPoe` is — `industrial`.
+const rackPoe: PartValues = { kind: "switch", form_factor: "rack-19", poe_standard: "802.3at", stackable: true, layer: "l3", deploy_role: "access" };
+const dinNoPoe: PartValues = { kind: "switch", form_factor: "din-rail", poe_standard: "none", stackable: false, layer: "l2", deploy_role: "industrial" };
 // 25 Sep 2026: an unmet conditional leaves a cup OPTIONAL instead of closing it (operator: "there should be zero
 // non-applicable cups"; docs/decisions/2026-09-25-zero-not-applicable-cups.md). These four are a matched pair each:
 // the `req` side is asserted exactly, and the other side asserts what it always meant — the cup is NOT AN OPEN GAP
@@ -63,9 +70,13 @@ check("ipv4_routes is OPTIONAL whatever `layer` says — an L2 part, no longer c
 check("ip_rating required for DIN-rail", requirementFor("switches", "ip_rating", dinNoPoe) === "req");
 // CHANGED 12 Sep 2026 FROM `na` TO `opt`, deliberately (R1, tests/gateR1.test.ts). This line used to
 // assert `na` and that was the honest reading of the old two-branch condition
-// `form_factor = din-rail OR deploy_role = industrial` — but `deploy_role` is `opt`, holds 2 facts
-// and no label maps to it, so the second branch could never fire and `na` was a permanent closure
-// reached by accident rather than by decision. The cup has 9 facts and 21 label occurrences, so a
+// `form_factor = din-rail OR deploy_role = industrial`. THE SECOND HALF OF THAT REASONING HAS EXPIRED
+// (27 Sep 2026): it said `deploy_role` is `opt`, holds 2 facts and no label maps to it, so the second
+// branch could never fire — true when written, and the kind layer made `deploy_role` DERIVED the next
+// day. It now resolves for all 4,242 live switch parts, so that branch fires on every industrial one
+// and `dinNoPoe` below carries the role the derivation actually gives such a part. The conclusion is
+// unchanged and the reason for it is not, which is worth the four lines: a comment's premise can go
+// stale without a single line of it changing. The cup has 9 facts and 21 label occurrences, so a
 // rack switch that states an IP rating should be able to. `opt` accepts the value and still keeps it
 // out of the denominator, which is what the assertion below checks and what `na` was here for.
 check("ip_rating OPTIONAL for rack — not `na`, which closed the cup for every non-DIN switch",
@@ -84,6 +95,8 @@ const partial: PartValues = {
   vendor: "cisco", series: "Catalyst 9200L", mgmt_class: "managed", layer: "l3",
   form_factor: "rack-19", rack_units: 1, stackable: true, ports: [{}], uplink_ports: [{}],
   poe_standard: "802.3at", poe_budget: 370, switching_capacity: 56, forwarding_rate: 41.67,
+  // deployRole("switches", "switch", "C9200L-24P-4G") is `access` — taken from the derivation, not chosen.
+  deploy_role: "access",
   cooling: "fixed-fans", psu_config: "modular-single", temp_operating: { min: -5, max: 45 },
 };
 const c = completenessV2("switches", partial);
