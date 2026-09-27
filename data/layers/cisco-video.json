@@ -1,720 +1,726 @@
 {
- "vendor": "cisco",
- "category": "video",
- "built_at": "2026-09-25T13:25:57.954Z",
- "commit": "72a241ddcf31e0b5cb17ce09266d81b1426fc7d0",
- "uncommitted_rule_files": [
-  "data/reference/product-lines/cisco-routers.json"
- ],
- "mapping_file": "data/reference/product-lines/cisco-video.json",
- "parts": 3261,
- "layered": 3261,
- "pending": 0,
- "lines": [
-  {
-   "line": "GS7000 Nodes and Optical Hubs",
-   "parts": 1619,
-   "series": [
+  "vendor": "cisco",
+  "category": "video",
+  "built_at": "2026-09-25T13:25:57.954Z",
+  "commit": "72a241ddcf31e0b5cb17ce09266d81b1426fc7d0",
+  "uncommitted_rule_files": [
+    "data/reference/product-lines/cisco-routers.json"
+  ],
+  "mapping_file": "data/reference/product-lines/cisco-video.json",
+  "parts": 3261,
+  "layered": 3261,
+  "pending": 0,
+  "lines": [
     {
-     "series": "GS7000 configured nodes",
-     "family": "(none)",
-     "role": null,
-     "note": null,
-     "parts": 438,
-     "kinds": {
-      "node": 438
-     },
-     "roles": {},
-     "samples": [
-      "G2A2AA101A1AXXXA2X — GS7000,2x,Fb/Tr,42/54,8p,SA,Rx,1310FP,PS,Xpdr",
-      "G2A2AA101A1BXXXAXX — GS7000,2x,Fb/Tr,42/54,8p,SA,Rx,1310DFB,PS",
-      "G2A2AA101A1BXXXBXX — GS7000,2x,Fb/Tr,42/54,8p,SA,Rx,1310DFB,2PS",
-      "G2A2AA101A1PXXXBXX — GS7000,2x,Fb/Tr,42/54,8p,SA,Rx,CWDM1550,2PS",
-      "G2A2AA101A2BXBXBXX — GS7000,2x,Fb/Tr,42/54,8p,SA,Rx,x2/1310DFB,2PS",
-      "G2A2AA111A3AAXXB1X — GS7000,2x,Fb/Tr,42/54,8p,SA,R-Rx,Red,2/1310FP,2PS,RCM"
-     ],
-     "rules": {
-      "sku": 438
-     },
-     "pending_in": {},
-     "pending_out": {}
+      "line": "GS7000 Nodes and Optical Hubs",
+      "parts": 1619,
+      "series": [
+        {
+          "series": "GS7000 configured nodes",
+          "family": "(none)",
+          "role": null,
+          "note": null,
+          "parts": 438,
+          "kinds": {
+            "node": 438
+          },
+          "roles": {},
+          "samples": [
+            "G2A2AA101A1AXXXA2X — GS7000,2x,Fb/Tr,42/54,8p,SA,Rx,1310FP,PS,Xpdr",
+            "G2A2AA101A1BXXXAXX — GS7000,2x,Fb/Tr,42/54,8p,SA,Rx,1310DFB,PS",
+            "G2A2AA101A1BXXXBXX — GS7000,2x,Fb/Tr,42/54,8p,SA,Rx,1310DFB,2PS",
+            "G2A2AA101A1PXXXBXX — GS7000,2x,Fb/Tr,42/54,8p,SA,Rx,CWDM1550,2PS",
+            "G2A2AA101A2BXBXBXX — GS7000,2x,Fb/Tr,42/54,8p,SA,Rx,x2/1310DFB,2PS",
+            "G2A2AA111A3AAXXB1X — GS7000,2x,Fb/Tr,42/54,8p,SA,R-Rx,Red,2/1310FP,2PS,RCM"
+          ],
+          "rules": {
+            "sku": 438
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "GS7000 Optical Hub",
+          "family": "(none)",
+          "role": null,
+          "note": null,
+          "parts": 19,
+          "kinds": {
+            "accessory": 1,
+            "plug-in": 1,
+            "mechanical": 2,
+            "amplifier": 1,
+            "node": 14
+          },
+          "roles": {},
+          "samples": [
+            "4025879 — GS7000 Optical Hub Hsg Assy, Fiber Mgt, 2PS",
+            "4027114 — GS7000 Local Cntrl Module(LCM), No Xpdr, Optical Hub Complia",
+            "4030473 — Assy,Kit,GS7K Opt Hub-1PS Std Tray",
+            "4034760 — GS7000 Optical Hub, 1x17EDFA, OPSW, LCM, OADM, BWDM, TXRX",
+            "4040222 — Assy, Kit, GS7K Opt Hub-2PS Exp Tray",
+            "HA1XXX1XXXXXXXXXBA — GS7000 Optical Hub, 1X17 BC, 1X17 NC, HG, EDFA, No OPSW, LCM"
+          ],
+          "rules": {
+            "name": 5,
+            "sku": 14
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "GS7000 iNode",
+          "family": "(none)",
+          "role": null,
+          "note": null,
+          "parts": 28,
+          "kinds": {
+            "plug-in": 12,
+            "mechanical": 3,
+            "rf-amplifier": 7,
+            "node": 3,
+            "system": 3
+          },
+          "roles": {},
+          "samples": [
+            "GS7KI-HPF-102 — GS7000 1.2 GHZ I Node High Pass Filter 102 MHz",
+            "GS7KI-HPF-258 — GS7000 1.2 GHZ I Node High Pass Filter 258 MHz",
+            "GS7KI-HPF-54 — GS7000 1.2 GHZ I Node High Pass Filter 54 MHz",
+            "GS7KI-HSG-1.2G — GS7000 1.2 GHz Intelligent Node Housing with OIB",
+            "GS7KI-HSG-1.2G= — GS7000 1.2 GHz Intelligent Node Housing with OIB",
+            "GS7KI-LA-1.2-0458 — GS7K iNode Launch Amp 1.2 GHz 204/258 MHz"
+          ],
+          "rules": {
+            "sku": 28
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "GS7000 optical transmitters and receivers (numeric PIDs)",
+          "family": "(none)",
+          "role": null,
+          "note": "bare Scientific-Atlanta part numbers (base.channel) of GS7000 EDR / DWDM / CWDM optical transmitters and receivers",
+          "parts": 387,
+          "kinds": {
+            "transmitter": 387
+          },
+          "roles": {},
+          "samples": [
+            "4013900.1310 — Cisco 4013900.1310",
+            "4013900.1470 — Cisco 4013900.1470",
+            "4013900.1490 — Cisco 4013900.1490",
+            "4013900.1510 — Cisco 4013900.1510",
+            "4013900.1530 — Cisco 4013900.1530",
+            "4013900.1550 — Cisco 4013900.1550"
+          ],
+          "rules": {
+            "sku": 387
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "GS7000 node modules and housings",
+          "family": "(none)",
+          "role": null,
+          "note": null,
+          "parts": 571,
+          "kinds": {
+            "mechanical": 31,
+            "power": 7,
+            "rf-amplifier": 42,
+            "plug-in": 159,
+            "transmitter": 205,
+            "receiver": 19,
+            "amplifier": 8,
+            "passive": 11,
+            "node": 81,
+            "cable": 6,
+            "accessory": 2
+          },
+          "roles": {},
+          "samples": [
+            "4009045 — GS7000 Node Housing Assembly",
+            "4009074 — ASSY,PCB,GS7000 POWER SUPPLY",
+            "4009078 — ASSY,PCB,GS7000 POWER SUPPLY",
+            "4011887 — GS7000 Node Fwd Launch Amp,2way Fwd Seg,40/52MHz",
+            "4011900 — GS7000 Fwd Config Module,1x2",
+            "4011901 — GS7000 Fwd Config Module,1x2 Red"
+          ],
+          "rules": {
+            "name": 129,
+            "sku": 442
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "GainMaker plug-ins (pads, equalizers)",
+          "family": "(none)",
+          "role": null,
+          "note": null,
+          "parts": 43,
+          "kinds": {
+            "mechanical": 1,
+            "unknown": 1,
+            "plug-in": 41
+          },
+          "roles": {},
+          "samples": [
+            "4007682 — GM Crowbar (Pkg/10)",
+            "4029111 — Kit, 110V Powered, Gainmaker Node",
+            "GM-EQC-1.2G-0= — Cisco GM-EQC-1.2G-0=",
+            "GM-EQL-1.2G-1.5= — Cisco GM-EQL-1.2G-1.5=",
+            "GM-EQL-1.2G-10.5 — GainMaker 1.2 GHz Forward Linear Equalizer, 10.5 dB",
+            "GM-EQL-1.2G-10.5= — Cisco GM-EQL-1.2G-10.5="
+          ],
+          "rules": {
+            "name": 2,
+            "sku": 41
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "GS7000 Nodes and Optical Hubs shared parts",
+          "family": "(shared across the line)",
+          "role": null,
+          "note": null,
+          "parts": 133,
+          "kinds": {
+            "optic": 32,
+            "unknown": 91,
+            "accessory": 2,
+            "power": 1,
+            "amplifier": 3,
+            "plug-in": 1,
+            "cable": 3
+          },
+          "roles": {},
+          "samples": [
+            "10-1022010-01 — Cisco 10-1022010-01",
+            "10-1022013-01 — Cisco 10-1022013-01",
+            "10-1022015-01 — Cisco 10-1022015-01",
+            "10-1022016-01 — Cisco 10-1022016-01",
+            "10-1022017-01 — Cisco 10-1022017-01",
+            "10-1022018-01 — Cisco 10-1022018-01"
+          ],
+          "rules": {
+            "label": 130,
+            "accessory": 3
+          },
+          "pending_in": {},
+          "pending_out": {}
+        }
+      ]
     },
     {
-     "series": "GS7000 Optical Hub",
-     "family": "(none)",
-     "role": null,
-     "note": null,
-     "parts": 19,
-     "kinds": {
-      "accessory": 1,
-      "plug-in": 1,
-      "mechanical": 2,
-      "amplifier": 1,
-      "node": 14
-     },
-     "roles": {},
-     "samples": [
-      "4025879 — GS7000 Optical Hub Hsg Assy, Fiber Mgt, 2PS",
-      "4027114 — GS7000 Local Cntrl Module(LCM), No Xpdr, Optical Hub Complia",
-      "4030473 — Assy,Kit,GS7K Opt Hub-1PS Std Tray",
-      "4034760 — GS7000 Optical Hub, 1x17EDFA, OPSW, LCM, OADM, BWDM, TXRX",
-      "4040222 — Assy, Kit, GS7K Opt Hub-2PS Exp Tray",
-      "HA1XXX1XXXXXXXXXBA — GS7000 Optical Hub, 1X17 BC, 1X17 NC, HG, EDFA, No OPSW, LCM"
-     ],
-     "rules": {
-      "name": 5,
-      "sku": 14
-     },
-     "pending_in": {},
-     "pending_out": {}
+      "line": "Prisma II Optical Transport",
+      "parts": 774,
+      "series": [
+        {
+          "series": "Prisma II HD",
+          "family": "(none)",
+          "role": null,
+          "note": null,
+          "parts": 399,
+          "kinds": {
+            "transmitter": 363,
+            "receiver": 14,
+            "amplifier": 17,
+            "plug-in": 2,
+            "chassis": 1,
+            "unknown": 1,
+            "fan": 1
+          },
+          "roles": {},
+          "samples": [
+            "4008424 — (P2-HD-13TXF-04-SA) 1310HD Fwd Tx, 1GHz, 4dBm, Prem, SA",
+            "4008425 — (P2-HD-13TXF-06-SA) 1310HD Fwd Tx, 1GHz, 6dBm, Prem, SA",
+            "4008426 — (P2-HD-13TXF-08-SA) 1310HD Fwd Tx, 1GHz, 8dBm, Prem, SA",
+            "4008427 — (P2-HD-13TXF-10-SA) 1310HD Fwd Tx, 1GHz, 10dBm, Prem, SA",
+            "4008428 — (P2-HD-13TXF-12-SA) 1310HD Fwd Tx, 1GHz, 12dBm, Prem, SA",
+            "4008429 — (P2-HD-13TXF-14-SA) 1310HD Fwd Tx, 1GHz, 14dBm, Prem, SA"
+          ],
+          "rules": {
+            "name": 259,
+            "sku": 140
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Prisma II XD",
+          "family": "(none)",
+          "role": null,
+          "note": null,
+          "parts": 7,
+          "kinds": {
+            "power": 1,
+            "chassis": 5,
+            "mechanical": 1
+          },
+          "roles": {},
+          "samples": [
+            "1005444 — Power Supply Module, Prisma II XD, 90-264 V AC",
+            "4011730 — Prisma II XD Chassis, DC Power Extension Cable",
+            "4022058 — Prisma II XD Chassis, F connector",
+            "4023066 — Prisma II XD Chassis, Blank Module",
+            "4023718 — Prisma II XD Chassis, DC Interconnect Cable",
+            "4023768 — Prisma II XD Chassis, F connector, with ICIM"
+          ],
+          "rules": {
+            "name": 7
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Prisma D-PON",
+          "family": "(none)",
+          "role": null,
+          "note": "^4035899$ (layers round 3, video round): named only 'Cisco 4035899', so the label check found no evidence and moved it to shared parts; Cisco's 'Prisma D-PON Optical Network Terminal and Accessories' end-of-sale notice lists it as CYL-BWDM-DPON-13101490/15501610-900-SA, a D-PON BWDM filter",
+          "parts": 11,
+          "kinds": {
+            "power": 6,
+            "mechanical": 3,
+            "unknown": 2
+          },
+          "roles": {},
+          "samples": [
+            "4028842 — DPON ONT PS, F-Conn, 12VDC/1A, 100-120VAC/50-60HZ",
+            "4029691 — Assy, Kit, Prisma DPON, Fiber Handling (Mult=10)",
+            "4035079 — DPON PS, 220VAC/50-60Hz, 12VDC/1A, Wall-mt LS, KOR",
+            "4035080 — DPON PS, 230VAC/50-60Hz, 12VDC/1A, Wall-mt LS, AUS",
+            "4035081 — DPON PS, 230VAC/50-60Hz, 12VDC/1A, Wall-mt LS, EUR",
+            "4035082 — DPON PS, 230-240VAC/50-60Hz, 12VDC/1A, Wall-mt LS, w/BS-1363"
+          ],
+          "rules": {
+            "name": 10,
+            "sku": 1
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Prisma II",
+          "family": "(none)",
+          "role": null,
+          "note": "layers round 3, video round: three chassis rows sat in the line's shared parts by the label 'Prisma II Products' — 4011176 'Chassis, Frt Acc, No RF, 2/DC Pwr' (the base number of the 4011176.xxx '(P2-CH-F-…) Chassis' rows this series holds; Cisco's 'Prisma II Full Height Chassis and modules' end-of-sale notice), 4008670 'Faceplate, Chassis' (the same notice; a faceplate the kind axis reads as a chassis — listed for the kind layer) and 1RU-DRF-XFP= '1RU Chassis for 12 XFP Tx' (the Prisma II XFP QAM transmitters' end-of-sale notice)",
+          "parts": 270,
+          "kinds": {
+            "chassis": 41,
+            "amplifier": 59,
+            "plug-in": 13,
+            "rf-amplifier": 2,
+            "power": 5,
+            "accessory": 1,
+            "mechanical": 5,
+            "transmitter": 132,
+            "receiver": 6,
+            "fan": 5,
+            "cable": 1
+          },
+          "roles": {},
+          "samples": [
+            "1RU-DRF-XFP= — 1RU Chassis for 12 XFP Tx; NC and BC port;CCB3 Control",
+            "4000770 — (P2-EDFA-FPST-4X17-SA) Opt Post Amp, 4/17dBm, Cnstnt Unfrmty",
+            "4002241 — (P2-OPSW-SA-LOINPUT) Opt Sw, LO In, 1310/1550nm, SA",
+            "4002630 — (P2-EDFA-FPST-4X18.5-SA) FTTH Post Amp, 25.5dBm, 4/18.5dBm, ",
+            "4002676 — (P2-EDFA-MOD-2x21-SA) Opt Amp, Dual Pumped, 2/21dBm, SA",
+            "4002787 — (P2-EDFA-MOD-9X17-SA) Con Opt Amp, 9/17dBm, SA"
+          ],
+          "rules": {
+            "sku": 75,
+            "name": 195
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Prisma II Optical Transport shared parts",
+          "family": "(shared across the line)",
+          "role": null,
+          "note": null,
+          "parts": 87,
+          "kinds": {
+            "cable": 8,
+            "unknown": 55,
+            "transmitter": 2,
+            "fan": 2,
+            "mechanical": 14,
+            "plug-in": 2,
+            "receiver": 2,
+            "accessory": 1,
+            "power": 1
+          },
+          "roles": {},
+          "samples": [
+            "1000897 — Pwr Cord (Australia)",
+            "1545-1548 — Cisco 1545-1548",
+            "207340 — Pwr Cord (Argentina)",
+            "3750136 — 64607E Opt Tx, 1310nm, 870MHz, 13dBm, 20mW, FA",
+            "3989835 — Cisco 3989835",
+            "3989836 — Pwr Cord (UK)"
+          ],
+          "rules": {
+            "label": 86,
+            "accessory": 1
+          },
+          "pending_in": {},
+          "pending_out": {}
+        }
+      ]
     },
     {
-     "series": "GS7000 iNode",
-     "family": "(none)",
-     "role": null,
-     "note": null,
-     "parts": 28,
-     "kinds": {
-      "plug-in": 12,
-      "mechanical": 3,
-      "rf-amplifier": 7,
-      "node": 3,
-      "system": 3
-     },
-     "roles": {},
-     "samples": [
-      "GS7KI-HPF-102 — GS7000 1.2 GHZ I Node High Pass Filter 102 MHz",
-      "GS7KI-HPF-258 — GS7000 1.2 GHZ I Node High Pass Filter 258 MHz",
-      "GS7KI-HPF-54 — GS7000 1.2 GHZ I Node High Pass Filter 54 MHz",
-      "GS7KI-HSG-1.2G — GS7000 1.2 GHz Intelligent Node Housing with OIB",
-      "GS7KI-HSG-1.2G= — GS7000 1.2 GHz Intelligent Node Housing with OIB",
-      "GS7KI-LA-1.2-0458 — GS7K iNode Launch Amp 1.2 GHz 204/258 MHz"
-     ],
-     "rules": {
-      "sku": 28
-     },
-     "pending_in": {},
-     "pending_out": {}
+      "line": "cBR-8 Converged Broadband Router",
+      "parts": 123,
+      "series": [
+        {
+          "series": "cBR-8",
+          "family": "(none)",
+          "role": null,
+          "note": null,
+          "parts": 122,
+          "kinds": {
+            "linecard": 68,
+            "system": 3,
+            "chassis": 3,
+            "power": 13,
+            "accessory": 7,
+            "mechanical": 21,
+            "cable": 5,
+            "fan": 2
+          },
+          "roles": {},
+          "samples": [
+            "CBR-2X100G-PIC — The Supervisory 250G PIC includes WAN backhaul connectivity ",
+            "CBR-2X100G-PIC-BUN — CBR-SUP-2X100G-PIC equivalent, orderable only in a bundle",
+            "CBR-2X100G-PIC= — Supervisor 250 PIC, 2x100GE, 8x10GE with 2 breakout cables, ",
+            "CBR-4D31-16U30-SP= — CBR CCAP Line Card - 1 D3.1 DS Modules and 1 D3.0 US Module",
+            "CBR-4D31-16U31-SP= — CBR CCAP Line Card - 1 D3.1 DS Modules and 1 D3.1 US Module",
+            "CBR-4LC-BUN — CBR System Bundle, 4 Line Cards, 2 Supervisors, Fan Assembly"
+          ],
+          "rules": {
+            "sku": 122
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "cBR-8 Converged Broadband Router shared parts",
+          "family": "(shared across the line)",
+          "role": null,
+          "note": null,
+          "parts": 1,
+          "kinds": {
+            "cable": 1
+          },
+          "roles": {},
+          "samples": [
+            "PWR-CAB-AC-BLK — Power Cord, 20A, C20-C21, BLK"
+          ],
+          "rules": {
+            "label-unsupported": 1
+          },
+          "pending_in": {},
+          "pending_out": {}
+        }
+      ]
     },
     {
-     "series": "GS7000 optical transmitters and receivers (numeric PIDs)",
-     "family": "(none)",
-     "role": null,
-     "note": "bare Scientific-Atlanta part numbers (base.channel) of GS7000 EDR / DWDM / CWDM optical transmitters and receivers",
-     "parts": 387,
-     "kinds": {
-      "transmitter": 387
-     },
-     "roles": {},
-     "samples": [
-      "4013900.1310 — Cisco 4013900.1310",
-      "4013900.1470 — Cisco 4013900.1470",
-      "4013900.1490 — Cisco 4013900.1490",
-      "4013900.1510 — Cisco 4013900.1510",
-      "4013900.1530 — Cisco 4013900.1530",
-      "4013900.1550 — Cisco 4013900.1550"
-     ],
-     "rules": {
-      "sku": 387
-     },
-     "pending_in": {},
-     "pending_out": {}
+      "line": "Remote PHY",
+      "parts": 52,
+      "series": [
+        {
+          "series": "Remote PHY devices (RPD / Smart PHY)",
+          "family": "(none)",
+          "role": null,
+          "note": null,
+          "parts": 4,
+          "kinds": {
+            "system": 4
+          },
+          "roles": {},
+          "samples": [
+            "RPD-1X2-PKEY= — Remote Phy Device 1X2, 55-1 and 55-2 Support",
+            "RPD-1X2-PKY= — Smart PHY 120 RPD with SCTE 55-2 OOB",
+            "RPD-1X2= — Smart PHY 120 RPD with SCTE 55-1 OOB",
+            "RPD-2X2= — Remote PHY 220 RPD with SCTE 55-1 and 55-2 OOB"
+          ],
+          "rules": {
+            "sku": 4
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Remote PHY Shelf 7200",
+          "family": "(none)",
+          "role": null,
+          "note": null,
+          "parts": 28,
+          "kinds": {
+            "linecard": 4,
+            "power": 4,
+            "mechanical": 10,
+            "cable": 2,
+            "chassis": 2,
+            "fan": 4,
+            "accessory": 2
+          },
+          "roles": {},
+          "samples": [
+            "HA-RPHY-6X12-LC — RPD Line Card for Remote PHY Shelf 7200",
+            "HA-RPHY-6X12-LC= — RPD Line Card for Remote PHY Shelf 7200, spare",
+            "HA-RPHY-AC-SHLF — AC Power Shelf for Remote PHY Shelf 7200",
+            "HA-RPHY-AC-SHLF= — AC Power Shelf for Remote PHY Shelf 7200,spare",
+            "HA-RPHY-ACC-KIT — Accessory kit for Remote PHY Shelf 7200",
+            "HA-RPHY-ACC-KIT= — Accessory kit for Remote PHY Shelf 7200,spare"
+          ],
+          "rules": {
+            "sku": 28
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Remote PHY shelves and cabling",
+          "family": "(none)",
+          "role": null,
+          "note": "^RPHY(?!-S10G-) (operator decision, layers round 3): the RPHY-S10G-<reach>-<channel> rows are the Remote PHY SFPs Cisco's end-of-sale bulletin names — transceivers; the rule claimed 63 of them in transceiver and the 57 filed here carry plans to it",
+          "parts": 20,
+          "kinds": {
+            "system": 12,
+            "cable": 8
+          },
+          "roles": {},
+          "samples": [
+            "RPHYSHELF_3X6 — Remote PHY Compact Shelf 3x6 Configured PID",
+            "RPHYSHELF_6X12 — Remote PHY Compact Shelf 6x12 Configured PID",
+            "RPHYSHLF_3X6= — RPHY Shelf Spare, 3 1x2 RPD, NO power supplies",
+            "RPHYSHLF_3X6AC= — Smart PHY 300 Shelf pre-Configured System, 3 1x2 RPD, 2AC Su",
+            "RPHYSHLF_3X6DC= — Smart PHY 300 Shelf pre-Configured System, 3 1x2 RPD, 2DC Su",
+            "RPHYSHLF_6X12= — RPHY Shelf Spare, 6 1x2 RPD, No power Supplies"
+          ],
+          "rules": {
+            "sku": 20
+          },
+          "pending_in": {},
+          "pending_out": {}
+        }
+      ]
     },
     {
-     "series": "GS7000 node modules and housings",
-     "family": "(none)",
-     "role": null,
-     "note": null,
-     "parts": 571,
-     "kinds": {
-      "mechanical": 31,
-      "power": 7,
-      "rf-amplifier": 42,
-      "plug-in": 159,
-      "transmitter": 205,
-      "receiver": 19,
-      "amplifier": 8,
-      "passive": 11,
-      "node": 81,
-      "cable": 6,
-      "accessory": 2
-     },
-     "roles": {},
-     "samples": [
-      "4009045 — GS7000 Node Housing Assembly",
-      "4009074 — ASSY,PCB,GS7000 POWER SUPPLY",
-      "4009078 — ASSY,PCB,GS7000 POWER SUPPLY",
-      "4011887 — GS7000 Node Fwd Launch Amp,2way Fwd Seg,40/52MHz",
-      "4011900 — GS7000 Fwd Config Module,1x2",
-      "4011901 — GS7000 Fwd Config Module,1x2 Red"
-     ],
-     "rules": {
-      "name": 129,
-      "sku": 442
-     },
-     "pending_in": {},
-     "pending_out": {}
+      "line": "RF Gateway",
+      "parts": 382,
+      "series": [
+        {
+          "series": "RFGW-10",
+          "family": "(none)",
+          "role": null,
+          "note": null,
+          "parts": 33,
+          "kinds": {
+            "unknown": 2,
+            "chassis": 9,
+            "system": 12,
+            "fan": 1,
+            "mechanical": 3,
+            "accessory": 2,
+            "power": 2,
+            "linecard": 2
+          },
+          "roles": {},
+          "samples": [
+            "BUNDLE1-3G60-DS384 — Bundle: qty6 3G60(2G24) and qty7 DS384 7x64 QAM plus Commons",
+            "CHAS-RFGW-10= — RFGW-10 Chassis inc Fan Tray Spare",
+            "DS384-10X32UPGRADE — RFGW-10 DS384 Upgrade Bundle: 2SUP,10DS384,10x32 QAM License",
+            "DS384-10X64UPGRADE — RFGW-10 DS384 Upgrade Bundle: 2SUP, 10DS384, 10x64 QAM Licen",
+            "DS384-4X32UPGRADE — RFGW-10 DS384 Upgrade Bundle: 2SUP,4DS384,4x32 QAM License",
+            "DS384-4X64UPGRADE — RFGW-10 DS384 Upgrade Bundle: 2SUP, 4DS384, 4x64 QAM License"
+          ],
+          "rules": {
+            "sku": 33
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "RFGW-1",
+          "family": "(none)",
+          "role": null,
+          "note": null,
+          "parts": 306,
+          "kinds": {
+            "plug-in": 4,
+            "chassis": 8,
+            "cable": 23,
+            "fan": 2,
+            "mechanical": 5,
+            "linecard": 3,
+            "power": 4,
+            "system": 257
+          },
+          "roles": {},
+          "samples": [
+            "4014236-001 — ASSY, QAM BOARD RFGW-1-D",
+            "4019009 — I/O BOARD RFGW-1-D",
+            "4019010 — RFGW-1-D QAM Module (2x4QAM)",
+            "4029764 — RFGW-1 Front Panel Replacement Kit",
+            "4029765 — RFGW-1-D Spare I/O Module",
+            "4033289 — RFGW-1 Angle Bracket Kit"
+          ],
+          "rules": {
+            "name": 9,
+            "sku": 297
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "RF Gateway shared parts",
+          "family": "(shared across the line)",
+          "role": null,
+          "note": null,
+          "parts": 43,
+          "kinds": {
+            "cable": 11,
+            "plug-in": 1,
+            "unknown": 1,
+            "accessory": 2,
+            "linecard": 18,
+            "mechanical": 10
+          },
+          "roles": {},
+          "samples": [
+            "3993131 — Pwr Cord, 10A, 250V (UK)",
+            "3993138C — Power Cord (NA)",
+            "4031541 — Octal Upgrade",
+            "700788C — Power Cord (EU)",
+            "745415 — Pwr Cord (China)",
+            "9270F-DIFL — Cisco 9270F-DIFL"
+          ],
+          "rules": {
+            "label": 6,
+            "accessory": 3,
+            "sku": 34
+          },
+          "pending_in": {},
+          "pending_out": {}
+        }
+      ]
     },
     {
-     "series": "GainMaker plug-ins (pads, equalizers)",
-     "family": "(none)",
-     "role": null,
-     "note": null,
-     "parts": 43,
-     "kinds": {
-      "mechanical": 1,
-      "unknown": 1,
-      "plug-in": 41
-     },
-     "roles": {},
-     "samples": [
-      "4007682 — GM Crowbar (Pkg/10)",
-      "4029111 — Kit, 110V Powered, Gainmaker Node",
-      "GM-EQC-1.2G-0= — Cisco GM-EQC-1.2G-0=",
-      "GM-EQL-1.2G-1.5= — Cisco GM-EQL-1.2G-1.5=",
-      "GM-EQL-1.2G-10.5 — GainMaker 1.2 GHz Forward Linear Equalizer, 10.5 dB",
-      "GM-EQL-1.2G-10.5= — Cisco GM-EQL-1.2G-10.5="
-     ],
-     "rules": {
-      "name": 2,
-      "sku": 41
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "GS7000 Nodes and Optical Hubs shared parts",
-     "family": "(shared across the line)",
-     "role": null,
-     "note": null,
-     "parts": 133,
-     "kinds": {
-      "optic": 32,
-      "unknown": 91,
-      "accessory": 2,
-      "power": 1,
-      "amplifier": 3,
-      "plug-in": 1,
-      "cable": 3
-     },
-     "roles": {},
-     "samples": [
-      "10-1022010-01 — Cisco 10-1022010-01",
-      "10-1022013-01 — Cisco 10-1022013-01",
-      "10-1022015-01 — Cisco 10-1022015-01",
-      "10-1022016-01 — Cisco 10-1022016-01",
-      "10-1022017-01 — Cisco 10-1022017-01",
-      "10-1022018-01 — Cisco 10-1022018-01"
-     ],
-     "rules": {
-      "label": 130,
-      "accessory": 3
-     },
-     "pending_in": {},
-     "pending_out": {}
+      "line": "Optical Passive Components",
+      "parts": 311,
+      "series": [
+        {
+          "series": "Dispersion compensation modules",
+          "family": "(none)",
+          "role": null,
+          "note": null,
+          "parts": 16,
+          "kinds": {
+            "passive": 16
+          },
+          "roles": {},
+          "samples": [
+            "4004496 — (DCM-10-LL-SA) Low Insertion Loss DCF, 10km, SA",
+            "4004497 — (DCM-20-LL-SA)Low Insertion Loss DCF,20km,SA",
+            "4004498 — (DCM-30-LL-SA)Low Insertion Loss DCF,30km,SA",
+            "4004499 — (DCM-40-LL-SA)Low Insertion Loss DCF,40km,SA",
+            "4004500 — (DCM-50-LL-SA)Low Insertion Loss DCF,50km,SA",
+            "4004668 — (DCM-05-LL-SA) Low Insertion Loss DCF, 5km, SA"
+          ],
+          "rules": {
+            "name": 9,
+            "sku": 7
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Mux / demux, OADM and WDM filters",
+          "family": "(none)",
+          "role": null,
+          "note": null,
+          "parts": 101,
+          "kinds": {
+            "passive": 101
+          },
+          "roles": {},
+          "samples": [
+            "1030007 — LGX-MXDX-4CH-iWDM ITU 21, 22, 24, 26 EXP-DTP-SC/APC",
+            "1030008 — LGX-MXDX-4CH-iWDM ITU 28, 33, 36, 39 EXP-DTP-SC/APC",
+            "1030009 — LGX-MXDX-4CH-iWDM ITU 44, 48, 52, 54 EXP-DTP-SC/APC",
+            "1030010 — LGX-MXDX-4CHiWDM ITU 57, 60, 61, 62 EXP-DTP-SC/APC",
+            "1030011 — CAS-MXDX-4CH-iWDM ITU 21, 22, 24, 26 EXP-DTP-SC/APC",
+            "1030012 — CAS-MXDX-4CH-iWDM ITU 28, 33, 36, 39 EXP-DTP-SC/APC"
+          ],
+          "rules": {
+            "name": 78,
+            "sku": 23
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Optical Passive Components shared parts",
+          "family": "(shared across the line)",
+          "role": null,
+          "note": null,
+          "parts": 194,
+          "kinds": {
+            "passive": 80,
+            "unknown": 114
+          },
+          "roles": {},
+          "samples": [
+            "1030016 — 20 CH-ITU 20—39 DTP-UG-EXP-LC/APC",
+            "1030017 — 16 CH-ITU 25—40 DTP-UG-EXP-LC/APC",
+            "1030031 — 20 CH-ITU 40—59 DTP-UG-EXP-LC/APC",
+            "1030032 — Cisco 1030032",
+            "1030033 — Cisco 1030033",
+            "1030034 — 8 CH-ITU 20—27 DTP-UG-EXP-LC/APC"
+          ],
+          "rules": {
+            "label": 194
+          },
+          "pending_in": {},
+          "pending_out": {}
+        }
+      ]
     }
-   ]
+  ],
+  "not_this_category": [],
+  "pending_plans": [],
+  "unplaced": [],
+  "label_check": {
+    "applied": true,
+    "label_placed": 1,
+    "by_kind": {
+      "none": 1
+    },
+    "moved": [
+      {
+        "sku": "PWR-CAB-AC-BLK",
+        "name": "Power Cord, 20A, C20-C21, BLK",
+        "series_label": "CBR Series Converged Broadband",
+        "from_series": "cBR-8",
+        "to_series": "cBR-8 Converged Broadband Router shared parts",
+        "why": "no series token in the SKU or name, no compatible part placed in the series"
+      }
+    ]
   },
-  {
-   "line": "Prisma II Optical Transport",
-   "parts": 774,
-   "series": [
-    {
-     "series": "Prisma II HD",
-     "family": "(none)",
-     "role": null,
-     "note": null,
-     "parts": 399,
-     "kinds": {
-      "transmitter": 363,
-      "receiver": 14,
-      "amplifier": 17,
-      "plug-in": 2,
-      "chassis": 1,
-      "unknown": 1,
-      "fan": 1
-     },
-     "roles": {},
-     "samples": [
-      "4008424 — (P2-HD-13TXF-04-SA) 1310HD Fwd Tx, 1GHz, 4dBm, Prem, SA",
-      "4008425 — (P2-HD-13TXF-06-SA) 1310HD Fwd Tx, 1GHz, 6dBm, Prem, SA",
-      "4008426 — (P2-HD-13TXF-08-SA) 1310HD Fwd Tx, 1GHz, 8dBm, Prem, SA",
-      "4008427 — (P2-HD-13TXF-10-SA) 1310HD Fwd Tx, 1GHz, 10dBm, Prem, SA",
-      "4008428 — (P2-HD-13TXF-12-SA) 1310HD Fwd Tx, 1GHz, 12dBm, Prem, SA",
-      "4008429 — (P2-HD-13TXF-14-SA) 1310HD Fwd Tx, 1GHz, 14dBm, Prem, SA"
-     ],
-     "rules": {
-      "name": 259,
-      "sku": 140
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Prisma II XD",
-     "family": "(none)",
-     "role": null,
-     "note": null,
-     "parts": 7,
-     "kinds": {
-      "power": 1,
-      "chassis": 5,
-      "mechanical": 1
-     },
-     "roles": {},
-     "samples": [
-      "1005444 — Power Supply Module, Prisma II XD, 90-264 V AC",
-      "4011730 — Prisma II XD Chassis, DC Power Extension Cable",
-      "4022058 — Prisma II XD Chassis, F connector",
-      "4023066 — Prisma II XD Chassis, Blank Module",
-      "4023718 — Prisma II XD Chassis, DC Interconnect Cable",
-      "4023768 — Prisma II XD Chassis, F connector, with ICIM"
-     ],
-     "rules": {
-      "name": 7
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Prisma D-PON",
-     "family": "(none)",
-     "role": null,
-     "note": "^4035899$ (layers round 3, video round): named only 'Cisco 4035899', so the label check found no evidence and moved it to shared parts; Cisco's 'Prisma D-PON Optical Network Terminal and Accessories' end-of-sale notice lists it as CYL-BWDM-DPON-13101490/15501610-900-SA, a D-PON BWDM filter",
-     "parts": 11,
-     "kinds": {
-      "power": 6,
-      "mechanical": 3,
-      "unknown": 2
-     },
-     "roles": {},
-     "samples": [
-      "4028842 — DPON ONT PS, F-Conn, 12VDC/1A, 100-120VAC/50-60HZ",
-      "4029691 — Assy, Kit, Prisma DPON, Fiber Handling (Mult=10)",
-      "4035079 — DPON PS, 220VAC/50-60Hz, 12VDC/1A, Wall-mt LS, KOR",
-      "4035080 — DPON PS, 230VAC/50-60Hz, 12VDC/1A, Wall-mt LS, AUS",
-      "4035081 — DPON PS, 230VAC/50-60Hz, 12VDC/1A, Wall-mt LS, EUR",
-      "4035082 — DPON PS, 230-240VAC/50-60Hz, 12VDC/1A, Wall-mt LS, w/BS-1363"
-     ],
-     "rules": {
-      "name": 10,
-      "sku": 1
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Prisma II",
-     "family": "(none)",
-     "role": null,
-     "note": "layers round 3, video round: three chassis rows sat in the line's shared parts by the label 'Prisma II Products' — 4011176 'Chassis, Frt Acc, No RF, 2/DC Pwr' (the base number of the 4011176.xxx '(P2-CH-F-…) Chassis' rows this series holds; Cisco's 'Prisma II Full Height Chassis and modules' end-of-sale notice), 4008670 'Faceplate, Chassis' (the same notice; a faceplate the kind axis reads as a chassis — listed for the kind layer) and 1RU-DRF-XFP= '1RU Chassis for 12 XFP Tx' (the Prisma II XFP QAM transmitters' end-of-sale notice)",
-     "parts": 270,
-     "kinds": {
-      "chassis": 41,
-      "amplifier": 59,
-      "plug-in": 13,
-      "rf-amplifier": 2,
-      "power": 5,
-      "accessory": 1,
-      "mechanical": 5,
-      "transmitter": 132,
-      "receiver": 6,
-      "fan": 5,
-      "cable": 1
-     },
-     "roles": {},
-     "samples": [
-      "1RU-DRF-XFP= — 1RU Chassis for 12 XFP Tx; NC and BC port;CCB3 Control",
-      "4000770 — (P2-EDFA-FPST-4X17-SA) Opt Post Amp, 4/17dBm, Cnstnt Unfrmty",
-      "4002241 — (P2-OPSW-SA-LOINPUT) Opt Sw, LO In, 1310/1550nm, SA",
-      "4002630 — (P2-EDFA-FPST-4X18.5-SA) FTTH Post Amp, 25.5dBm, 4/18.5dBm, ",
-      "4002676 — (P2-EDFA-MOD-2x21-SA) Opt Amp, Dual Pumped, 2/21dBm, SA",
-      "4002787 — (P2-EDFA-MOD-9X17-SA) Con Opt Amp, 9/17dBm, SA"
-     ],
-     "rules": {
-      "sku": 75,
-      "name": 195
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Prisma II Optical Transport shared parts",
-     "family": "(shared across the line)",
-     "role": null,
-     "note": null,
-     "parts": 87,
-     "kinds": {
-      "cable": 8,
-      "unknown": 55,
-      "transmitter": 2,
-      "fan": 2,
-      "mechanical": 14,
-      "plug-in": 2,
-      "receiver": 2,
-      "accessory": 1,
-      "power": 1
-     },
-     "roles": {},
-     "samples": [
-      "1000897 — Pwr Cord (Australia)",
-      "1545-1548 — Cisco 1545-1548",
-      "207340 — Pwr Cord (Argentina)",
-      "3750136 — 64607E Opt Tx, 1310nm, 870MHz, 13dBm, 20mW, FA",
-      "3989835 — Cisco 3989835",
-      "3989836 — Pwr Cord (UK)"
-     ],
-     "rules": {
-      "label": 86,
-      "accessory": 1
-     },
-     "pending_in": {},
-     "pending_out": {}
-    }
-   ]
-  },
-  {
-   "line": "cBR-8 Converged Broadband Router",
-   "parts": 123,
-   "series": [
-    {
-     "series": "cBR-8",
-     "family": "(none)",
-     "role": null,
-     "note": null,
-     "parts": 122,
-     "kinds": {
-      "linecard": 68,
-      "system": 3,
-      "chassis": 3,
-      "power": 13,
-      "accessory": 7,
-      "mechanical": 21,
-      "cable": 5,
-      "fan": 2
-     },
-     "roles": {},
-     "samples": [
-      "CBR-2X100G-PIC — The Supervisory 250G PIC includes WAN backhaul connectivity ",
-      "CBR-2X100G-PIC-BUN — CBR-SUP-2X100G-PIC equivalent, orderable only in a bundle",
-      "CBR-2X100G-PIC= — Supervisor 250 PIC, 2x100GE, 8x10GE with 2 breakout cables, ",
-      "CBR-4D31-16U30-SP= — CBR CCAP Line Card - 1 D3.1 DS Modules and 1 D3.0 US Module",
-      "CBR-4D31-16U31-SP= — CBR CCAP Line Card - 1 D3.1 DS Modules and 1 D3.1 US Module",
-      "CBR-4LC-BUN — CBR System Bundle, 4 Line Cards, 2 Supervisors, Fan Assembly"
-     ],
-     "rules": {
-      "sku": 122
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "cBR-8 Converged Broadband Router shared parts",
-     "family": "(shared across the line)",
-     "role": null,
-     "note": null,
-     "parts": 1,
-     "kinds": {
-      "cable": 1
-     },
-     "roles": {},
-     "samples": [
-      "PWR-CAB-AC-BLK — Power Cord, 20A, C20-C21, BLK"
-     ],
-     "rules": {
-      "label-unsupported": 1
-     },
-     "pending_in": {},
-     "pending_out": {}
-    }
-   ]
-  },
-  {
-   "line": "Remote PHY",
-   "parts": 52,
-   "series": [
-    {
-     "series": "Remote PHY devices (RPD / Smart PHY)",
-     "family": "(none)",
-     "role": null,
-     "note": null,
-     "parts": 4,
-     "kinds": {
-      "system": 4
-     },
-     "roles": {},
-     "samples": [
-      "RPD-1X2-PKEY= — Remote Phy Device 1X2, 55-1 and 55-2 Support",
-      "RPD-1X2-PKY= — Smart PHY 120 RPD with SCTE 55-2 OOB",
-      "RPD-1X2= — Smart PHY 120 RPD with SCTE 55-1 OOB",
-      "RPD-2X2= — Remote PHY 220 RPD with SCTE 55-1 and 55-2 OOB"
-     ],
-     "rules": {
-      "sku": 4
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Remote PHY Shelf 7200",
-     "family": "(none)",
-     "role": null,
-     "note": null,
-     "parts": 28,
-     "kinds": {
-      "linecard": 4,
-      "power": 4,
-      "mechanical": 10,
-      "cable": 2,
-      "chassis": 2,
-      "fan": 4,
-      "accessory": 2
-     },
-     "roles": {},
-     "samples": [
-      "HA-RPHY-6X12-LC — RPD Line Card for Remote PHY Shelf 7200",
-      "HA-RPHY-6X12-LC= — RPD Line Card for Remote PHY Shelf 7200, spare",
-      "HA-RPHY-AC-SHLF — AC Power Shelf for Remote PHY Shelf 7200",
-      "HA-RPHY-AC-SHLF= — AC Power Shelf for Remote PHY Shelf 7200,spare",
-      "HA-RPHY-ACC-KIT — Accessory kit for Remote PHY Shelf 7200",
-      "HA-RPHY-ACC-KIT= — Accessory kit for Remote PHY Shelf 7200,spare"
-     ],
-     "rules": {
-      "sku": 28
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Remote PHY shelves and cabling",
-     "family": "(none)",
-     "role": null,
-     "note": "^RPHY(?!-S10G-) (operator decision, layers round 3): the RPHY-S10G-<reach>-<channel> rows are the Remote PHY SFPs Cisco's end-of-sale bulletin names — transceivers; the rule claimed 63 of them in transceiver and the 57 filed here carry plans to it",
-     "parts": 20,
-     "kinds": {
-      "system": 12,
-      "cable": 8
-     },
-     "roles": {},
-     "samples": [
-      "RPHYSHELF_3X6 — Remote PHY Compact Shelf 3x6 Configured PID",
-      "RPHYSHELF_6X12 — Remote PHY Compact Shelf 6x12 Configured PID",
-      "RPHYSHLF_3X6= — RPHY Shelf Spare, 3 1x2 RPD, NO power supplies",
-      "RPHYSHLF_3X6AC= — Smart PHY 300 Shelf pre-Configured System, 3 1x2 RPD, 2AC Su",
-      "RPHYSHLF_3X6DC= — Smart PHY 300 Shelf pre-Configured System, 3 1x2 RPD, 2DC Su",
-      "RPHYSHLF_6X12= — RPHY Shelf Spare, 6 1x2 RPD, No power Supplies"
-     ],
-     "rules": {
-      "sku": 20
-     },
-     "pending_in": {},
-     "pending_out": {}
-    }
-   ]
-  },
-  {
-   "line": "RF Gateway",
-   "parts": 382,
-   "series": [
-    {
-     "series": "RFGW-10",
-     "family": "(none)",
-     "role": null,
-     "note": null,
-     "parts": 33,
-     "kinds": {
-      "unknown": 2,
-      "chassis": 9,
-      "system": 12,
-      "fan": 1,
-      "mechanical": 3,
-      "accessory": 2,
-      "power": 2,
-      "linecard": 2
-     },
-     "roles": {},
-     "samples": [
-      "BUNDLE1-3G60-DS384 — Bundle: qty6 3G60(2G24) and qty7 DS384 7x64 QAM plus Commons",
-      "CHAS-RFGW-10= — RFGW-10 Chassis inc Fan Tray Spare",
-      "DS384-10X32UPGRADE — RFGW-10 DS384 Upgrade Bundle: 2SUP,10DS384,10x32 QAM License",
-      "DS384-10X64UPGRADE — RFGW-10 DS384 Upgrade Bundle: 2SUP, 10DS384, 10x64 QAM Licen",
-      "DS384-4X32UPGRADE — RFGW-10 DS384 Upgrade Bundle: 2SUP,4DS384,4x32 QAM License",
-      "DS384-4X64UPGRADE — RFGW-10 DS384 Upgrade Bundle: 2SUP, 4DS384, 4x64 QAM License"
-     ],
-     "rules": {
-      "sku": 33
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "RFGW-1",
-     "family": "(none)",
-     "role": null,
-     "note": null,
-     "parts": 306,
-     "kinds": {
-      "plug-in": 4,
-      "chassis": 8,
-      "cable": 23,
-      "fan": 2,
-      "mechanical": 5,
-      "linecard": 3,
-      "power": 4,
-      "system": 257
-     },
-     "roles": {},
-     "samples": [
-      "4014236-001 — ASSY, QAM BOARD RFGW-1-D",
-      "4019009 — I/O BOARD RFGW-1-D",
-      "4019010 — RFGW-1-D QAM Module (2x4QAM)",
-      "4029764 — RFGW-1 Front Panel Replacement Kit",
-      "4029765 — RFGW-1-D Spare I/O Module",
-      "4033289 — RFGW-1 Angle Bracket Kit"
-     ],
-     "rules": {
-      "name": 9,
-      "sku": 297
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "RF Gateway shared parts",
-     "family": "(shared across the line)",
-     "role": null,
-     "note": null,
-     "parts": 43,
-     "kinds": {
-      "cable": 11,
-      "plug-in": 1,
-      "unknown": 1,
-      "accessory": 2,
-      "linecard": 18,
-      "mechanical": 10
-     },
-     "roles": {},
-     "samples": [
-      "3993131 — Pwr Cord, 10A, 250V (UK)",
-      "3993138C — Power Cord (NA)",
-      "4031541 — Octal Upgrade",
-      "700788C — Power Cord (EU)",
-      "745415 — Pwr Cord (China)",
-      "9270F-DIFL — Cisco 9270F-DIFL"
-     ],
-     "rules": {
-      "label": 6,
-      "accessory": 3,
-      "sku": 34
-     },
-     "pending_in": {},
-     "pending_out": {}
-    }
-   ]
-  },
-  {
-   "line": "Optical Passive Components",
-   "parts": 311,
-   "series": [
-    {
-     "series": "Dispersion compensation modules",
-     "family": "(none)",
-     "role": null,
-     "note": null,
-     "parts": 16,
-     "kinds": {
-      "passive": 16
-     },
-     "roles": {},
-     "samples": [
-      "4004496 — (DCM-10-LL-SA) Low Insertion Loss DCF, 10km, SA",
-      "4004497 — (DCM-20-LL-SA)Low Insertion Loss DCF,20km,SA",
-      "4004498 — (DCM-30-LL-SA)Low Insertion Loss DCF,30km,SA",
-      "4004499 — (DCM-40-LL-SA)Low Insertion Loss DCF,40km,SA",
-      "4004500 — (DCM-50-LL-SA)Low Insertion Loss DCF,50km,SA",
-      "4004668 — (DCM-05-LL-SA) Low Insertion Loss DCF, 5km, SA"
-     ],
-     "rules": {
-      "name": 9,
-      "sku": 7
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Mux / demux, OADM and WDM filters",
-     "family": "(none)",
-     "role": null,
-     "note": null,
-     "parts": 101,
-     "kinds": {
-      "passive": 101
-     },
-     "roles": {},
-     "samples": [
-      "1030007 — LGX-MXDX-4CH-iWDM ITU 21, 22, 24, 26 EXP-DTP-SC/APC",
-      "1030008 — LGX-MXDX-4CH-iWDM ITU 28, 33, 36, 39 EXP-DTP-SC/APC",
-      "1030009 — LGX-MXDX-4CH-iWDM ITU 44, 48, 52, 54 EXP-DTP-SC/APC",
-      "1030010 — LGX-MXDX-4CHiWDM ITU 57, 60, 61, 62 EXP-DTP-SC/APC",
-      "1030011 — CAS-MXDX-4CH-iWDM ITU 21, 22, 24, 26 EXP-DTP-SC/APC",
-      "1030012 — CAS-MXDX-4CH-iWDM ITU 28, 33, 36, 39 EXP-DTP-SC/APC"
-     ],
-     "rules": {
-      "name": 78,
-      "sku": 23
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Optical Passive Components shared parts",
-     "family": "(shared across the line)",
-     "role": null,
-     "note": null,
-     "parts": 194,
-     "kinds": {
-      "passive": 80,
-      "unknown": 114
-     },
-     "roles": {},
-     "samples": [
-      "1030016 — 20 CH-ITU 20—39 DTP-UG-EXP-LC/APC",
-      "1030017 — 16 CH-ITU 25—40 DTP-UG-EXP-LC/APC",
-      "1030031 — 20 CH-ITU 40—59 DTP-UG-EXP-LC/APC",
-      "1030032 — Cisco 1030032",
-      "1030033 — Cisco 1030033",
-      "1030034 — 8 CH-ITU 20—27 DTP-UG-EXP-LC/APC"
-     ],
-     "rules": {
-      "label": 194
-     },
-     "pending_in": {},
-     "pending_out": {}
-    }
-   ]
+  "pending_review": [],
+  "inbound_unplaced": {},
+  "done": true,
+  "build": {
+    "data_commit": "a388ea2da885",
+    "code_commit": "cb269cf2f0d7",
+    "contract_hash": "839db4a13086c4e2",
+    "generated_at": "2026-09-27T16:46:45.299Z"
   }
- ],
- "not_this_category": [],
- "pending_plans": [],
- "unplaced": [],
- "label_check": {
-  "applied": true,
-  "label_placed": 1,
-  "by_kind": {
-   "none": 1
-  },
-  "moved": [
-   {
-    "sku": "PWR-CAB-AC-BLK",
-    "name": "Power Cord, 20A, C20-C21, BLK",
-    "series_label": "CBR Series Converged Broadband",
-    "from_series": "cBR-8",
-    "to_series": "cBR-8 Converged Broadband Router shared parts",
-    "why": "no series token in the SKU or name, no compatible part placed in the series"
-   }
-  ]
- },
- "pending_review": [],
- "inbound_unplaced": {},
- "done": true
 }

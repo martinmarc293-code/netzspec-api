@@ -587,5 +587,11 @@
     "enum_values": 308,
     "struct_keys": 10,
     "struct_keys_without_renderer": 1
+  },
+  "build": {
+    "data_commit": "a388ea2da885",
+    "code_commit": "cb269cf2f0d7",
+    "contract_hash": "839db4a13086c4e2",
+    "generated_at": "2026-09-27T16:46:45.299Z"
   }
 }

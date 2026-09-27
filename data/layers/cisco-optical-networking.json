@@ -1,484 +1,490 @@
 {
- "vendor": "cisco",
- "category": "optical-networking",
- "built_at": "2026-09-25T13:25:59.202Z",
- "commit": "72a241ddcf31e0b5cb17ce09266d81b1426fc7d0",
- "uncommitted_rule_files": [
-  "data/reference/product-lines/cisco-routers.json"
- ],
- "mapping_file": "data/reference/product-lines/cisco-optical-networking.json",
- "parts": 1158,
- "layered": 1158,
- "pending": 0,
- "lines": [
-  {
-   "line": "NCS 1000",
-   "parts": 134,
-   "series": [
+  "vendor": "cisco",
+  "category": "optical-networking",
+  "built_at": "2026-09-25T13:25:59.202Z",
+  "commit": "72a241ddcf31e0b5cb17ce09266d81b1426fc7d0",
+  "uncommitted_rule_files": [
+    "data/reference/product-lines/cisco-routers.json"
+  ],
+  "mapping_file": "data/reference/product-lines/cisco-optical-networking.json",
+  "parts": 1158,
+  "layered": 1158,
+  "pending": 0,
+  "lines": [
     {
-     "series": "NCS 1001 / 1002 / 1004 / 1010 / 1014",
-     "family": "(none)",
-     "role": null,
-     "note": null,
-     "parts": 130,
-     "kinds": {
-      "transponder": 18,
-      "chassis": 16,
-      "mechanical": 15,
-      "power": 11,
-      "controller": 9,
-      "cable": 10,
-      "fan": 7,
-      "mux": 11,
-      "amplifier": 25,
-      "accessory": 7,
-      "linecard": 1
-     },
-     "roles": {},
-     "samples": [
-      "CIM8-C-K9= — Coherent Interface Module 8 C-Band",
-      "CIM8-CE-K9= — Coherent Interface Module 8 enhanced C-Band",
-      "CIM8-LE-K9 — Coherent Interface Module 8 enhanced L-Band",
-      "NCS1001-K9= — Network Convergence System 1001 line system 3 slots",
-      "NCS1002++= — Network Convergence System 1002 20 QSFP28/QSFP+ slots, TAA",
-      "NCS1002-K9 — Network Convergence System 1002 20 QSFP28/QSFP+ slots"
-     ],
-     "rules": {
-      "sku": 130
-     },
-     "pending_in": {},
-     "pending_out": {}
+      "line": "NCS 1000",
+      "parts": 134,
+      "series": [
+        {
+          "series": "NCS 1001 / 1002 / 1004 / 1010 / 1014",
+          "family": "(none)",
+          "role": null,
+          "note": null,
+          "parts": 130,
+          "kinds": {
+            "transponder": 18,
+            "chassis": 16,
+            "mechanical": 15,
+            "power": 11,
+            "controller": 9,
+            "cable": 10,
+            "fan": 7,
+            "mux": 11,
+            "amplifier": 25,
+            "accessory": 7,
+            "linecard": 1
+          },
+          "roles": {},
+          "samples": [
+            "CIM8-C-K9= — Coherent Interface Module 8 C-Band",
+            "CIM8-CE-K9= — Coherent Interface Module 8 enhanced C-Band",
+            "CIM8-LE-K9 — Coherent Interface Module 8 enhanced L-Band",
+            "NCS1001-K9= — Network Convergence System 1001 line system 3 slots",
+            "NCS1002++= — Network Convergence System 1002 20 QSFP28/QSFP+ slots, TAA",
+            "NCS1002-K9 — Network Convergence System 1002 20 QSFP28/QSFP+ slots"
+          ],
+          "rules": {
+            "sku": 130
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "NCS 1000 shared parts",
+          "family": "(shared across the line)",
+          "role": null,
+          "note": null,
+          "parts": 4,
+          "kinds": {
+            "unknown": 1,
+            "cable": 3
+          },
+          "roles": {},
+          "samples": [
+            "4X100G-LR-S — Cisco 4X100G-LR-S",
+            "ONS-4X10-MMCBL-10= — 4x10G Foldable MPO to LC cable - Multimode - 10 meter",
+            "ONS-4X10-MMCBL-20= — 4x10G Foldable MPO to LC cable - Multimode - 20 meter",
+            "ONS-4X10-MMCBL-5= — 4x 10G Foldable MPO to LC cable - Multimode - 5 meter"
+          ],
+          "rules": {
+            "label-unsupported": 1,
+            "accessory": 3
+          },
+          "pending_in": {},
+          "pending_out": {}
+        }
+      ]
     },
     {
-     "series": "NCS 1000 shared parts",
-     "family": "(shared across the line)",
-     "role": null,
-     "note": null,
-     "parts": 4,
-     "kinds": {
-      "unknown": 1,
-      "cable": 3
-     },
-     "roles": {},
-     "samples": [
-      "4X100G-LR-S — Cisco 4X100G-LR-S",
-      "ONS-4X10-MMCBL-10= — 4x10G Foldable MPO to LC cable - Multimode - 10 meter",
-      "ONS-4X10-MMCBL-20= — 4x10G Foldable MPO to LC cable - Multimode - 20 meter",
-      "ONS-4X10-MMCBL-5= — 4x 10G Foldable MPO to LC cable - Multimode - 5 meter"
-     ],
-     "rules": {
-      "label-unsupported": 1,
-      "accessory": 3
-     },
-     "pending_in": {},
-     "pending_out": {}
-    }
-   ]
-  },
-  {
-   "line": "ONS 15454 MSTP and NCS 2000",
-   "parts": 437,
-   "series": [
-    {
-     "series": "NCS 2000 (NCS 2002 / 2006 / 2015)",
-     "family": "(none)",
-     "role": null,
-     "note": null,
-     "parts": 142,
-     "kinds": {
-      "power": 7,
-      "mechanical": 16,
-      "fan": 3,
-      "chassis": 8,
-      "accessory": 8,
-      "cable": 6,
-      "unknown": 6,
-      "transponder": 21,
-      "mux": 23,
-      "roadm": 20,
-      "amplifier": 13,
-      "controller": 11
-     },
-     "roles": {},
-     "samples": [
-      "NCS2002-AC= — AC Power Supply Module, Cisco NCS2002",
-      "NCS2002-DC-E= — DC ETSI Power Supply Module, Cisco NCS2002",
-      "NCS2002-DC= — DC Power Supply Module, Cisco NCS2002",
-      "NCS2002-DDR= — Chassis Deep Door, Cisco NCS2002",
-      "NCS2002-DR= — Chassis Door, Cisco NCS2002",
-      "NCS2002-FTA= — Fran Tray assembly, Cisco NCS2002"
-     ],
-     "rules": {
-      "sku": 142
-     },
-     "pending_in": {},
-     "pending_out": {}
+      "line": "ONS 15454 MSTP and NCS 2000",
+      "parts": 437,
+      "series": [
+        {
+          "series": "NCS 2000 (NCS 2002 / 2006 / 2015)",
+          "family": "(none)",
+          "role": null,
+          "note": null,
+          "parts": 142,
+          "kinds": {
+            "power": 7,
+            "mechanical": 16,
+            "fan": 3,
+            "chassis": 8,
+            "accessory": 8,
+            "cable": 6,
+            "unknown": 6,
+            "transponder": 21,
+            "mux": 23,
+            "roadm": 20,
+            "amplifier": 13,
+            "controller": 11
+          },
+          "roles": {},
+          "samples": [
+            "NCS2002-AC= — AC Power Supply Module, Cisco NCS2002",
+            "NCS2002-DC-E= — DC ETSI Power Supply Module, Cisco NCS2002",
+            "NCS2002-DC= — DC Power Supply Module, Cisco NCS2002",
+            "NCS2002-DDR= — Chassis Deep Door, Cisco NCS2002",
+            "NCS2002-DR= — Chassis Door, Cisco NCS2002",
+            "NCS2002-FTA= — Fran Tray assembly, Cisco NCS2002"
+          ],
+          "rules": {
+            "sku": 142
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "ONS 15454 MSTP (M2 / M6 / M12 shelves and cards)",
+          "family": "(none)",
+          "role": null,
+          "note": null,
+          "parts": 285,
+          "kinds": {
+            "transponder": 39,
+            "unknown": 23,
+            "cable": 49,
+            "mux": 13,
+            "roadm": 18,
+            "chassis": 8,
+            "linecard": 17,
+            "mechanical": 28,
+            "amplifier": 26,
+            "accessory": 12,
+            "controller": 10,
+            "power": 16,
+            "fan": 8,
+            "pluggable": 16,
+            "dcu": 2
+          },
+          "roles": {},
+          "samples": [
+            "15454-10DME-C= — 8-port EFEC data muxponder card, 8 SFP-based client interfac",
+            "15454-10DME-L= — 8-port EFEC data muxponder card, 8 SFP-based client interfac",
+            "15454-10DMEX-C++= — 15454 Extd Perf 10Gbps DataMxp EFEC Full C-Band Tunable, TAA",
+            "15454-10DMEX-C= — 15454 Extd Perf 10Gbps Data Mxp EFEC Full C-Band Tunable",
+            "15454-10E-L1-C++= — 15454 10G Multi-Rate Transpondr-EFEC-Full C-Band Tunable, TA",
+            "15454-10E-L1-C= — 15454 10G Multi-Rate Transponder- EFEC- Full C-Band Tunable"
+          ],
+          "rules": {
+            "sku": 284,
+            "label": 1
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "ONS 15454 MSTP and NCS 2000 shared parts",
+          "family": "(shared across the line)",
+          "role": null,
+          "note": null,
+          "parts": 10,
+          "kinds": {
+            "unknown": 3,
+            "transponder": 5,
+            "cable": 2
+          },
+          "roles": {},
+          "samples": [
+            "800-103176-01 — Cisco 800-103176-01",
+            "800-39910-07 — Cisco 800-39910-07",
+            "800-41495-01 — Cisco 800-41495-01",
+            "CO-10TDL50-X1001= — 10G DWDM dispersion tolerant TRP (chirped)",
+            "CO-10TDL51-X1001= — 10G DWDM dispersion tolerant TRP (PIN)",
+            "CO-40TDL40-X1001= — 40G DWDM CP-QPSK Transponder (customer variant B)"
+          ],
+          "rules": {
+            "label-unsupported": 10
+          },
+          "pending_in": {},
+          "pending_out": {}
+        }
+      ]
     },
     {
-     "series": "ONS 15454 MSTP (M2 / M6 / M12 shelves and cards)",
-     "family": "(none)",
-     "role": null,
-     "note": null,
-     "parts": 285,
-     "kinds": {
-      "transponder": 39,
-      "unknown": 23,
-      "cable": 49,
-      "mux": 13,
-      "roadm": 18,
-      "chassis": 8,
-      "linecard": 17,
-      "mechanical": 28,
-      "amplifier": 26,
-      "accessory": 12,
-      "controller": 10,
-      "power": 16,
-      "fan": 8,
-      "pluggable": 16,
-      "dcu": 2
-     },
-     "roles": {},
-     "samples": [
-      "15454-10DME-C= — 8-port EFEC data muxponder card, 8 SFP-based client interfac",
-      "15454-10DME-L= — 8-port EFEC data muxponder card, 8 SFP-based client interfac",
-      "15454-10DMEX-C++= — 15454 Extd Perf 10Gbps DataMxp EFEC Full C-Band Tunable, TAA",
-      "15454-10DMEX-C= — 15454 Extd Perf 10Gbps Data Mxp EFEC Full C-Band Tunable",
-      "15454-10E-L1-C++= — 15454 10G Multi-Rate Transpondr-EFEC-Full C-Band Tunable, TA",
-      "15454-10E-L1-C= — 15454 10G Multi-Rate Transponder- EFEC- Full C-Band Tunable"
-     ],
-     "rules": {
-      "sku": 284,
-      "label": 1
-     },
-     "pending_in": {},
-     "pending_out": {}
+      "line": "ONS 15216 / 15200 DWDM passives",
+      "parts": 437,
+      "series": [
+        {
+          "series": "ONS 15200 (15201 / 15252) CLIP and NAM modules",
+          "family": "(none)",
+          "role": null,
+          "note": null,
+          "parts": 121,
+          "kinds": {
+            "mechanical": 4,
+            "transponder": 104,
+            "chassis": 2,
+            "accessory": 1,
+            "mux": 10
+          },
+          "roles": {},
+          "samples": [
+            "15252-N3/UPGRADE= — Upgrade kit from MCU with Plenum to MCU FAN",
+            "AK/15201= — Accessory Kit, 15201 Single-Channel Unit (SCU)",
+            "AK/15252= — Accessory Kit, 15252 Multi-Channel Unit (MCU)",
+            "CH23/L/U/SC/15200 — CLIP Chan 23, Long Range, Unprotected, SC Connector,15200",
+            "CH23/L/U/SC/15200= — CLIP Chan 23, Long Range, Unprotected, SC Connector,15200",
+            "CH23/M/P/SC/15200 — CLIP Chan 23, Med Range, Protected, SC Connector,15200"
+          ],
+          "rules": {
+            "sku": 121
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "ONS 15216 filters, OADM, mux/demux and DCU",
+          "family": "(none)",
+          "role": null,
+          "note": "^15216(?!-GBIC) (layers round 3, optical round): 15216-GBIC-1510(=) is a GBIC the transceiver round filed in GBIC (legacy); the rule claimed it",
+          "parts": 316,
+          "kinds": {
+            "mux": 236,
+            "cable": 15,
+            "unknown": 5,
+            "dcu": 48,
+            "mechanical": 2,
+            "amplifier": 6,
+            "chassis": 1,
+            "controller": 1,
+            "linecard": 2
+          },
+          "roles": {},
+          "samples": [
+            "15216-AD1-2-1510 — 1510nm OADM Add Drop Multiplexer",
+            "15216-AD1-2-1510= — 1510 OADM Add Drop Multiplexer",
+            "15216-AD1-2-30.3 — ITU-200 GHz 1-channel, 2 path OADM ch. 1530.33nm",
+            "15216-AD1-2-30.3= — ITU-200 GHz 1-channel, 2 path OADM ch. 1530.33nm",
+            "15216-AD1-2-31.9 — ITU-200 GHz 1-channel, 2 path OADM ch. 1531.90nm",
+            "15216-AD1-2-31.9= — ITU-200 GHz 1-channel, 2 path OADM ch. 1531.90nm"
+          ],
+          "rules": {
+            "sku": 316
+          },
+          "pending_in": {},
+          "pending_out": {}
+        }
+      ]
     },
     {
-     "series": "ONS 15454 MSTP and NCS 2000 shared parts",
-     "family": "(shared across the line)",
-     "role": null,
-     "note": null,
-     "parts": 10,
-     "kinds": {
-      "unknown": 3,
-      "transponder": 5,
-      "cable": 2
-     },
-     "roles": {},
-     "samples": [
-      "800-103176-01 — Cisco 800-103176-01",
-      "800-39910-07 — Cisco 800-39910-07",
-      "800-41495-01 — Cisco 800-41495-01",
-      "CO-10TDL50-X1001= — 10G DWDM dispersion tolerant TRP (chirped)",
-      "CO-10TDL51-X1001= — 10G DWDM dispersion tolerant TRP (PIN)",
-      "CO-40TDL40-X1001= — 40G DWDM CP-QPSK Transponder (customer variant B)"
-     ],
-     "rules": {
-      "label-unsupported": 10
-     },
-     "pending_in": {},
-     "pending_out": {}
-    }
-   ]
-  },
-  {
-   "line": "ONS 15216 / 15200 DWDM passives",
-   "parts": 437,
-   "series": [
-    {
-     "series": "ONS 15200 (15201 / 15252) CLIP and NAM modules",
-     "family": "(none)",
-     "role": null,
-     "note": null,
-     "parts": 121,
-     "kinds": {
-      "mechanical": 4,
-      "transponder": 104,
-      "chassis": 2,
-      "accessory": 1,
-      "mux": 10
-     },
-     "roles": {},
-     "samples": [
-      "15252-N3/UPGRADE= — Upgrade kit from MCU with Plenum to MCU FAN",
-      "AK/15201= — Accessory Kit, 15201 Single-Channel Unit (SCU)",
-      "AK/15252= — Accessory Kit, 15252 Multi-Channel Unit (MCU)",
-      "CH23/L/U/SC/15200 — CLIP Chan 23, Long Range, Unprotected, SC Connector,15200",
-      "CH23/L/U/SC/15200= — CLIP Chan 23, Long Range, Unprotected, SC Connector,15200",
-      "CH23/M/P/SC/15200 — CLIP Chan 23, Med Range, Protected, SC Connector,15200"
-     ],
-     "rules": {
-      "sku": 121
-     },
-     "pending_in": {},
-     "pending_out": {}
+      "line": "CWDM passives (CWDM-CHASSIS-2 system)",
+      "parts": 31,
+      "series": [
+        {
+          "series": "CWDM mux/demux, OADM plug-ins and chassis (CWDM-MUX / CWDM-OADM / DS-CWDM)",
+          "family": "(none)",
+          "role": null,
+          "note": "the home of the 28 passive CWDM mux/demux, OADM plug-ins and the 2-slot chassis planned in from transceiver (18 in the kind layer, 10 CWDM-OADM1 / OADM4 in layers round 3, 14 Sep 2026). The MDS CWDM SFP optics (DS-CWDM-1470=, DS-CWDM8G1610=) are transceivers and are not matched. ^EWDM- (layers round 3, 15 Sep 2026): EWDM-OADM2= / EWDM-OADM4= and the EWDM-OA= amplifier, planned in from interfaces-modules (kind layer, 13 Sep) — Cisco's EoL notice sells the EWDM OADMs with the CWDM Mux/Demux ('End-of-Sale … Infiniband Cables, CWDM Mux/Demux, EWDM OADM'); their exact series is the optical round's",
+          "parts": 31,
+          "kinds": {
+            "mux": 29,
+            "chassis": 1,
+            "unknown": 1
+          },
+          "roles": {},
+          "samples": [
+            "CWDM-MUX-4-SF1= — Single Fiber 4-Channel Mux/Demux",
+            "CWDM-MUX-4-SF2= — Single Fiber 4-Channel Mux/Demux",
+            "CWDM-MUX-4= — 4-Wavelength Add/Drop Mux for CWDM-CHASSIS-2=",
+            "CWDM-MUX-8= — 8-Wavelength Mux/Demux Plug-in Module for CWDM-CHASSIS-2=",
+            "CWDM-MUX-AD-1470= — 1470 nm Add/Drop Mux Plug-in Module for CWDM-CHASSIS-2=",
+            "CWDM-MUX-AD-1490= — 1490 nm Add/Drop Mux Plug-in Module for CWDM-CHASSIS-2="
+          ],
+          "rules": {
+            "sku": 31
+          },
+          "pending_in": {},
+          "pending_out": {}
+        }
+      ]
     },
     {
-     "series": "ONS 15216 filters, OADM, mux/demux and DCU",
-     "family": "(none)",
-     "role": null,
-     "note": "^15216(?!-GBIC) (layers round 3, optical round): 15216-GBIC-1510(=) is a GBIC the transceiver round filed in GBIC (legacy); the rule claimed it",
-     "parts": 316,
-     "kinds": {
-      "mux": 236,
-      "cable": 15,
-      "unknown": 5,
-      "dcu": 48,
-      "mechanical": 2,
-      "amplifier": 6,
-      "chassis": 1,
-      "controller": 1,
-      "linecard": 2
-     },
-     "roles": {},
-     "samples": [
-      "15216-AD1-2-1510 — 1510nm OADM Add Drop Multiplexer",
-      "15216-AD1-2-1510= — 1510 OADM Add Drop Multiplexer",
-      "15216-AD1-2-30.3 — ITU-200 GHz 1-channel, 2 path OADM ch. 1530.33nm",
-      "15216-AD1-2-30.3= — ITU-200 GHz 1-channel, 2 path OADM ch. 1530.33nm",
-      "15216-AD1-2-31.9 — ITU-200 GHz 1-channel, 2 path OADM ch. 1531.90nm",
-      "15216-AD1-2-31.9= — ITU-200 GHz 1-channel, 2 path OADM ch. 1531.90nm"
-     ],
-     "rules": {
-      "sku": 316
-     },
-     "pending_in": {},
-     "pending_out": {}
-    }
-   ]
-  },
-  {
-   "line": "CWDM passives (CWDM-CHASSIS-2 system)",
-   "parts": 31,
-   "series": [
+      "line": "NCS 4000",
+      "parts": 84,
+      "series": [
+        {
+          "series": "NCS 4009 / 4016",
+          "family": "(none)",
+          "role": null,
+          "note": null,
+          "parts": 84,
+          "kinds": {
+            "accessory": 13,
+            "fabric": 10,
+            "chassis": 8,
+            "mechanical": 15,
+            "linecard": 11,
+            "transponder": 6,
+            "cable": 8,
+            "power": 6,
+            "fan": 4,
+            "controller": 3
+          },
+          "roles": {},
+          "samples": [
+            "NCS4009-DOOR= — NCS 4009 Door",
+            "NCS4009-FC-S — NCS 4009 Agnostic Cross connect - Single-chassis",
+            "NCS4009-FC-S= — NCS 4009 Agnostic Cross connect - Single-chassis",
+            "NCS4009-FC2-S — Cisco NCS4009-FC2-S",
+            "NCS4009-FC2-S-KIT — NCS 4009 Fabric – Single-chassis – V2 with Fan - kit",
+            "NCS4009-FC2-S= — NCS 4009 Agnostic Cross connect - Single-chassis - 400G"
+          ],
+          "rules": {
+            "sku": 84
+          },
+          "pending_in": {},
+          "pending_out": {}
+        }
+      ]
+    },
     {
-     "series": "CWDM mux/demux, OADM plug-ins and chassis (CWDM-MUX / CWDM-OADM / DS-CWDM)",
-     "family": "(none)",
-     "role": null,
-     "note": "the home of the 28 passive CWDM mux/demux, OADM plug-ins and the 2-slot chassis planned in from transceiver (18 in the kind layer, 10 CWDM-OADM1 / OADM4 in layers round 3, 14 Sep 2026). The MDS CWDM SFP optics (DS-CWDM-1470=, DS-CWDM8G1610=) are transceivers and are not matched. ^EWDM- (layers round 3, 15 Sep 2026): EWDM-OADM2= / EWDM-OADM4= and the EWDM-OA= amplifier, planned in from interfaces-modules (kind layer, 13 Sep) — Cisco's EoL notice sells the EWDM OADMs with the CWDM Mux/Demux ('End-of-Sale … Infiniband Cables, CWDM Mux/Demux, EWDM OADM'); their exact series is the optical round's",
-     "parts": 31,
-     "kinds": {
-      "mux": 29,
-      "chassis": 1,
-      "unknown": 1
-     },
-     "roles": {},
-     "samples": [
-      "CWDM-MUX-4-SF1= — Single Fiber 4-Channel Mux/Demux",
-      "CWDM-MUX-4-SF2= — Single Fiber 4-Channel Mux/Demux",
-      "CWDM-MUX-4= — 4-Wavelength Add/Drop Mux for CWDM-CHASSIS-2=",
-      "CWDM-MUX-8= — 8-Wavelength Mux/Demux Plug-in Module for CWDM-CHASSIS-2=",
-      "CWDM-MUX-AD-1470= — 1470 nm Add/Drop Mux Plug-in Module for CWDM-CHASSIS-2=",
-      "CWDM-MUX-AD-1490= — 1490 nm Add/Drop Mux Plug-in Module for CWDM-CHASSIS-2="
-     ],
-     "rules": {
-      "sku": 31
-     },
-     "pending_in": {},
-     "pending_out": {}
-    }
-   ]
-  },
-  {
-   "line": "NCS 4000",
-   "parts": 84,
-   "series": [
+      "line": "Routed Optical Networking",
+      "parts": 3,
+      "series": [
+        {
+          "series": "QSFP-DD Pluggable Open Line System (QDD OLS)",
+          "family": "(none)",
+          "role": null,
+          "note": "layers round 3 (15 Sep 2026): ONS-QDD-OLS= 'QSFP-DD Open Line System, Pre and Bst EDFA' and the colorless mux/dmx breakouts ONS-BRK-CS-8LC= / -16LC=, planned in from interfaces-modules (kind layer, 13 Sep) — the parts of Cisco's 'QSFP-DD Pluggable Open Line System (QDD OLS)' data sheet; the series is named for that product (reviewed in the optical round: kept). The series 'NCS 5500 OTN interface processors' (^NC55-OIP, label 'Routed Optical Networking') was removed in the optical round: its four NC55-OIP-02 MPAs carry plans to routers' NCS 5500 (A.3 rule 1)",
+          "parts": 3,
+          "kinds": {
+            "mux": 2,
+            "pluggable": 1
+          },
+          "roles": {},
+          "samples": [
+            "ONS-BRK-CS-16LC= — 16-chs Colorless Flex-spectrum Mux/Dmx - LCs to CS connector",
+            "ONS-BRK-CS-8LC= — 8-chs Colorless Flex-spectrum Mux/Dmx - LCs to CS connector",
+            "ONS-QDD-OLS= — QSFP-DD Open Line System, Pre and Bst EDFA, 2.4 THz C-Band"
+          ],
+          "rules": {
+            "sku": 3
+          },
+          "pending_in": {},
+          "pending_out": {}
+        }
+      ]
+    },
     {
-     "series": "NCS 4009 / 4016",
-     "family": "(none)",
-     "role": null,
-     "note": null,
-     "parts": 84,
-     "kinds": {
-      "accessory": 13,
-      "fabric": 10,
-      "chassis": 8,
-      "mechanical": 15,
-      "linecard": 11,
-      "transponder": 6,
-      "cable": 8,
-      "power": 6,
-      "fan": 4,
-      "controller": 3
-     },
-     "roles": {},
-     "samples": [
-      "NCS4009-DOOR= — NCS 4009 Door",
-      "NCS4009-FC-S — NCS 4009 Agnostic Cross connect - Single-chassis",
-      "NCS4009-FC-S= — NCS 4009 Agnostic Cross connect - Single-chassis",
-      "NCS4009-FC2-S — Cisco NCS4009-FC2-S",
-      "NCS4009-FC2-S-KIT — NCS 4009 Fabric – Single-chassis – V2 with Fan - kit",
-      "NCS4009-FC2-S= — NCS 4009 Agnostic Cross connect - Single-chassis - 400G"
-     ],
-     "rules": {
-      "sku": 84
-     },
-     "pending_in": {},
-     "pending_out": {}
+      "line": "Optical cabling and patch panels",
+      "parts": 32,
+      "series": [
+        {
+          "series": "MPO / LC patchcords, attenuators and patch panels",
+          "family": "(none)",
+          "role": null,
+          "note": "^ONS-CAB- places ONS-CAB-CS-LC-5= 'Duplex optical patchcord, LC to CS connectors, 5m', planned in from interfaces-modules (layers round 3, A-11). CXP2-MPO (layers round 3, optical round): the CXP2 alternative is for the ONS-CXP2-MPO patchcords; it claimed the CXP2 transceiver ONS-CXP2-SR25 in transceiver",
+          "parts": 32,
+          "kinds": {
+            "cable": 32
+          },
+          "roles": {},
+          "samples": [
+            "ONS-12MPO-MPO-2= — Multi-fiber patchcord - MPO to MPO 12 fibers - 2m",
+            "ONS-12MPO-MPO-4= — Multi-fiber patchcord - MPO to MPO 12 fibers - 4m",
+            "ONS-12MPO-MPO-6= — Multi-fiber patchcord - MPO to MPO 12 fibers - 6m",
+            "ONS-12MPO-MPO-8= — Multi-fiber patchcord - MPO to MPO 12 fibers - 8m",
+            "ONS-12MPO-XMPO-2= — Multi-fiber patchcord - MPO to MPO Xrossed - 2m",
+            "ONS-12MPO-XMPO-4= — Multi-fiber patchcord - MPO to MPO Xrossed - 4m"
+          ],
+          "rules": {
+            "sku": 32
+          },
+          "pending_in": {},
+          "pending_out": {}
+        }
+      ]
     }
-   ]
+  ],
+  "not_this_category": [],
+  "pending_plans": [],
+  "unplaced": [],
+  "label_check": {
+    "applied": true,
+    "label_placed": 12,
+    "by_kind": {
+      "none": 11,
+      "sku-token": 1
+    },
+    "moved": [
+      {
+        "sku": "4X100G-LR-S",
+        "name": "Cisco 4X100G-LR-S",
+        "series_label": "Network Convergence System 1000 Series",
+        "from_series": "NCS 1001 / 1002 / 1004 / 1010 / 1014",
+        "to_series": "NCS 1000 shared parts",
+        "why": "no platform token (1001, 1002, 1004, 1010, 1014) in the SKU or name, no compatible part placed in the series"
+      },
+      {
+        "sku": "800-103176-01",
+        "name": "Cisco 800-103176-01",
+        "series_label": "Network Convergence System 2000 Series",
+        "from_series": "NCS 2000 (NCS 2002 / 2006 / 2015)",
+        "to_series": "ONS 15454 MSTP and NCS 2000 shared parts",
+        "why": "no platform token (2000, 2002, 2006, 2015) in the SKU or name, no compatible part placed in the series"
+      },
+      {
+        "sku": "800-39910-07",
+        "name": "Cisco 800-39910-07",
+        "series_label": "Network Convergence System 2000 Series",
+        "from_series": "NCS 2000 (NCS 2002 / 2006 / 2015)",
+        "to_series": "ONS 15454 MSTP and NCS 2000 shared parts",
+        "why": "no platform token (2000, 2002, 2006, 2015) in the SKU or name, no compatible part placed in the series"
+      },
+      {
+        "sku": "800-41495-01",
+        "name": "Cisco 800-41495-01",
+        "series_label": "Network Convergence System 2000 Series",
+        "from_series": "NCS 2000 (NCS 2002 / 2006 / 2015)",
+        "to_series": "ONS 15454 MSTP and NCS 2000 shared parts",
+        "why": "no platform token (2000, 2002, 2006, 2015) in the SKU or name, no compatible part placed in the series"
+      },
+      {
+        "sku": "CO-10TDL50-X1001=",
+        "name": "10G DWDM dispersion tolerant TRP (chirped)",
+        "series_label": "ONS 15454 Series Multiservice Transport Platforms",
+        "from_series": "ONS 15454 MSTP (M2 / M6 / M12 shelves and cards)",
+        "to_series": "ONS 15454 MSTP and NCS 2000 shared parts",
+        "why": "no platform token (15454) in the SKU or name, no compatible part placed in the series"
+      },
+      {
+        "sku": "CO-10TDL51-X1001=",
+        "name": "10G DWDM dispersion tolerant TRP (PIN)",
+        "series_label": "ONS 15454 Series Multiservice Transport Platforms",
+        "from_series": "ONS 15454 MSTP (M2 / M6 / M12 shelves and cards)",
+        "to_series": "ONS 15454 MSTP and NCS 2000 shared parts",
+        "why": "no platform token (15454) in the SKU or name, no compatible part placed in the series"
+      },
+      {
+        "sku": "CO-40TDL40-X1001=",
+        "name": "40G DWDM CP-QPSK Transponder (customer variant B)",
+        "series_label": "ONS 15454 Series Multiservice Transport Platforms",
+        "from_series": "ONS 15454 MSTP (M2 / M6 / M12 shelves and cards)",
+        "to_series": "ONS 15454 MSTP and NCS 2000 shared parts",
+        "why": "no platform token (15454) in the SKU or name, no compatible part placed in the series"
+      },
+      {
+        "sku": "CO-40TDL40-X1010=",
+        "name": "40G DWDM CP-QPSK Transponder (customer variant C)",
+        "series_label": "ONS 15454 Series Multiservice Transport Platforms",
+        "from_series": "ONS 15454 MSTP (M2 / M6 / M12 shelves and cards)",
+        "to_series": "ONS 15454 MSTP and NCS 2000 shared parts",
+        "why": "no platform token (15454) in the SKU or name, no compatible part placed in the series"
+      },
+      {
+        "sku": "CO-40TDL40-X2110=",
+        "name": "40G module for NSN, variant X2110 (NeoPhotonics)",
+        "series_label": "ONS 15454 Series Multiservice Transport Platforms",
+        "from_series": "ONS 15454 MSTP (M2 / M6 / M12 shelves and cards)",
+        "to_series": "ONS 15454 MSTP and NCS 2000 shared parts",
+        "why": "no platform token (15454) in the SKU or name, no compatible part placed in the series"
+      },
+      {
+        "sku": "ONS-MPO-16LC-2=",
+        "name": "16-fiber MPO to 16xLC Fan-Out MPO cable - 2m",
+        "series_label": "Network Convergence System 2000 Series",
+        "from_series": "NCS 2000 (NCS 2002 / 2006 / 2015)",
+        "to_series": "ONS 15454 MSTP and NCS 2000 shared parts",
+        "why": "no platform token (2000, 2002, 2006, 2015) in the SKU or name, no compatible part placed in the series"
+      },
+      {
+        "sku": "ONS-MPO24-2MPO12=",
+        "name": "Two 40G SR4 to 100G SR10, 2x12MPO-24MPO 20m CPAK cable",
+        "series_label": "Network Convergence System 2000 Series",
+        "from_series": "NCS 2000 (NCS 2002 / 2006 / 2015)",
+        "to_series": "ONS 15454 MSTP and NCS 2000 shared parts",
+        "why": "no platform token (2000, 2002, 2006, 2015) in the SKU or name, no compatible part placed in the series"
+      }
+    ]
   },
-  {
-   "line": "Routed Optical Networking",
-   "parts": 3,
-   "series": [
-    {
-     "series": "QSFP-DD Pluggable Open Line System (QDD OLS)",
-     "family": "(none)",
-     "role": null,
-     "note": "layers round 3 (15 Sep 2026): ONS-QDD-OLS= 'QSFP-DD Open Line System, Pre and Bst EDFA' and the colorless mux/dmx breakouts ONS-BRK-CS-8LC= / -16LC=, planned in from interfaces-modules (kind layer, 13 Sep) — the parts of Cisco's 'QSFP-DD Pluggable Open Line System (QDD OLS)' data sheet; the series is named for that product (reviewed in the optical round: kept). The series 'NCS 5500 OTN interface processors' (^NC55-OIP, label 'Routed Optical Networking') was removed in the optical round: its four NC55-OIP-02 MPAs carry plans to routers' NCS 5500 (A.3 rule 1)",
-     "parts": 3,
-     "kinds": {
-      "mux": 2,
-      "pluggable": 1
-     },
-     "roles": {},
-     "samples": [
-      "ONS-BRK-CS-16LC= — 16-chs Colorless Flex-spectrum Mux/Dmx - LCs to CS connector",
-      "ONS-BRK-CS-8LC= — 8-chs Colorless Flex-spectrum Mux/Dmx - LCs to CS connector",
-      "ONS-QDD-OLS= — QSFP-DD Open Line System, Pre and Bst EDFA, 2.4 THz C-Band"
-     ],
-     "rules": {
-      "sku": 3
-     },
-     "pending_in": {},
-     "pending_out": {}
-    }
-   ]
-  },
-  {
-   "line": "Optical cabling and patch panels",
-   "parts": 32,
-   "series": [
-    {
-     "series": "MPO / LC patchcords, attenuators and patch panels",
-     "family": "(none)",
-     "role": null,
-     "note": "^ONS-CAB- places ONS-CAB-CS-LC-5= 'Duplex optical patchcord, LC to CS connectors, 5m', planned in from interfaces-modules (layers round 3, A-11). CXP2-MPO (layers round 3, optical round): the CXP2 alternative is for the ONS-CXP2-MPO patchcords; it claimed the CXP2 transceiver ONS-CXP2-SR25 in transceiver",
-     "parts": 32,
-     "kinds": {
-      "cable": 32
-     },
-     "roles": {},
-     "samples": [
-      "ONS-12MPO-MPO-2= — Multi-fiber patchcord - MPO to MPO 12 fibers - 2m",
-      "ONS-12MPO-MPO-4= — Multi-fiber patchcord - MPO to MPO 12 fibers - 4m",
-      "ONS-12MPO-MPO-6= — Multi-fiber patchcord - MPO to MPO 12 fibers - 6m",
-      "ONS-12MPO-MPO-8= — Multi-fiber patchcord - MPO to MPO 12 fibers - 8m",
-      "ONS-12MPO-XMPO-2= — Multi-fiber patchcord - MPO to MPO Xrossed - 2m",
-      "ONS-12MPO-XMPO-4= — Multi-fiber patchcord - MPO to MPO Xrossed - 4m"
-     ],
-     "rules": {
-      "sku": 32
-     },
-     "pending_in": {},
-     "pending_out": {}
-    }
-   ]
+  "pending_review": [],
+  "inbound_unplaced": {},
+  "done": true,
+  "build": {
+    "data_commit": "a388ea2da885",
+    "code_commit": "cb269cf2f0d7",
+    "contract_hash": "839db4a13086c4e2",
+    "generated_at": "2026-09-27T16:46:45.299Z"
   }
- ],
- "not_this_category": [],
- "pending_plans": [],
- "unplaced": [],
- "label_check": {
-  "applied": true,
-  "label_placed": 12,
-  "by_kind": {
-   "none": 11,
-   "sku-token": 1
-  },
-  "moved": [
-   {
-    "sku": "4X100G-LR-S",
-    "name": "Cisco 4X100G-LR-S",
-    "series_label": "Network Convergence System 1000 Series",
-    "from_series": "NCS 1001 / 1002 / 1004 / 1010 / 1014",
-    "to_series": "NCS 1000 shared parts",
-    "why": "no platform token (1001, 1002, 1004, 1010, 1014) in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "800-103176-01",
-    "name": "Cisco 800-103176-01",
-    "series_label": "Network Convergence System 2000 Series",
-    "from_series": "NCS 2000 (NCS 2002 / 2006 / 2015)",
-    "to_series": "ONS 15454 MSTP and NCS 2000 shared parts",
-    "why": "no platform token (2000, 2002, 2006, 2015) in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "800-39910-07",
-    "name": "Cisco 800-39910-07",
-    "series_label": "Network Convergence System 2000 Series",
-    "from_series": "NCS 2000 (NCS 2002 / 2006 / 2015)",
-    "to_series": "ONS 15454 MSTP and NCS 2000 shared parts",
-    "why": "no platform token (2000, 2002, 2006, 2015) in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "800-41495-01",
-    "name": "Cisco 800-41495-01",
-    "series_label": "Network Convergence System 2000 Series",
-    "from_series": "NCS 2000 (NCS 2002 / 2006 / 2015)",
-    "to_series": "ONS 15454 MSTP and NCS 2000 shared parts",
-    "why": "no platform token (2000, 2002, 2006, 2015) in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "CO-10TDL50-X1001=",
-    "name": "10G DWDM dispersion tolerant TRP (chirped)",
-    "series_label": "ONS 15454 Series Multiservice Transport Platforms",
-    "from_series": "ONS 15454 MSTP (M2 / M6 / M12 shelves and cards)",
-    "to_series": "ONS 15454 MSTP and NCS 2000 shared parts",
-    "why": "no platform token (15454) in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "CO-10TDL51-X1001=",
-    "name": "10G DWDM dispersion tolerant TRP (PIN)",
-    "series_label": "ONS 15454 Series Multiservice Transport Platforms",
-    "from_series": "ONS 15454 MSTP (M2 / M6 / M12 shelves and cards)",
-    "to_series": "ONS 15454 MSTP and NCS 2000 shared parts",
-    "why": "no platform token (15454) in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "CO-40TDL40-X1001=",
-    "name": "40G DWDM CP-QPSK Transponder (customer variant B)",
-    "series_label": "ONS 15454 Series Multiservice Transport Platforms",
-    "from_series": "ONS 15454 MSTP (M2 / M6 / M12 shelves and cards)",
-    "to_series": "ONS 15454 MSTP and NCS 2000 shared parts",
-    "why": "no platform token (15454) in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "CO-40TDL40-X1010=",
-    "name": "40G DWDM CP-QPSK Transponder (customer variant C)",
-    "series_label": "ONS 15454 Series Multiservice Transport Platforms",
-    "from_series": "ONS 15454 MSTP (M2 / M6 / M12 shelves and cards)",
-    "to_series": "ONS 15454 MSTP and NCS 2000 shared parts",
-    "why": "no platform token (15454) in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "CO-40TDL40-X2110=",
-    "name": "40G module for NSN, variant X2110 (NeoPhotonics)",
-    "series_label": "ONS 15454 Series Multiservice Transport Platforms",
-    "from_series": "ONS 15454 MSTP (M2 / M6 / M12 shelves and cards)",
-    "to_series": "ONS 15454 MSTP and NCS 2000 shared parts",
-    "why": "no platform token (15454) in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "ONS-MPO-16LC-2=",
-    "name": "16-fiber MPO to 16xLC Fan-Out MPO cable - 2m",
-    "series_label": "Network Convergence System 2000 Series",
-    "from_series": "NCS 2000 (NCS 2002 / 2006 / 2015)",
-    "to_series": "ONS 15454 MSTP and NCS 2000 shared parts",
-    "why": "no platform token (2000, 2002, 2006, 2015) in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "ONS-MPO24-2MPO12=",
-    "name": "Two 40G SR4 to 100G SR10, 2x12MPO-24MPO 20m CPAK cable",
-    "series_label": "Network Convergence System 2000 Series",
-    "from_series": "NCS 2000 (NCS 2002 / 2006 / 2015)",
-    "to_series": "ONS 15454 MSTP and NCS 2000 shared parts",
-    "why": "no platform token (2000, 2002, 2006, 2015) in the SKU or name, no compatible part placed in the series"
-   }
-  ]
- },
- "pending_review": [],
- "inbound_unplaced": {},
- "done": true
 }

@@ -1,2026 +1,2032 @@
 {
- "vendor": "cisco",
- "category": "collaboration-endpoints",
- "built_at": "2026-09-25T13:25:58.158Z",
- "commit": "72a241ddcf31e0b5cb17ce09266d81b1426fc7d0",
- "uncommitted_rule_files": [
-  "data/reference/product-lines/cisco-routers.json"
- ],
- "mapping_file": "data/reference/product-lines/cisco-collaboration-endpoints.json",
- "parts": 2938,
- "layered": 2938,
- "pending": 0,
- "lines": [
-  {
-   "line": "Headsets",
-   "parts": 96,
-   "series": [
+  "vendor": "cisco",
+  "category": "collaboration-endpoints",
+  "built_at": "2026-09-25T13:25:58.158Z",
+  "commit": "72a241ddcf31e0b5cb17ce09266d81b1426fc7d0",
+  "uncommitted_rule_files": [
+    "data/reference/product-lines/cisco-routers.json"
+  ],
+  "mapping_file": "data/reference/product-lines/cisco-collaboration-endpoints.json",
+  "parts": 2938,
+  "layered": 2938,
+  "pending": 0,
+  "lines": [
     {
-     "series": "Headset 320",
-     "family": "(none)",
-     "role": null,
-     "note": null,
-     "parts": 12,
-     "kinds": {
-      "headset": 12
-     },
-     "roles": {},
-     "samples": [
-      "HS-W-320 — Cisco HS-W-320",
-      "HS-W-320-EC8-C= — Foam ear cushion spare for Headset 320 series Carbon Black(8",
-      "HS-W-321-C-RJ9 — Headset 321 Wired Single On-Ear Carbon Black RJ9",
-      "HS-W-321-C-USB — Headset 321 Wired Single On-Ear Carbon Black USB-A",
-      "HS-W-321-C-USBC — Headset 321 Wired Single On-Ear Carbon Black USB-A and Heads",
-      "HS-W-321Q-C-USB — Headset 321 Wired Single Carbon Black USB-A Teams Qualified"
-     ],
-     "rules": {
-      "sku": 12
-     },
-     "pending_in": {},
-     "pending_out": {}
+      "line": "Headsets",
+      "parts": 96,
+      "series": [
+        {
+          "series": "Headset 320",
+          "family": "(none)",
+          "role": null,
+          "note": null,
+          "parts": 12,
+          "kinds": {
+            "headset": 12
+          },
+          "roles": {},
+          "samples": [
+            "HS-W-320 — Cisco HS-W-320",
+            "HS-W-320-EC8-C= — Foam ear cushion spare for Headset 320 series Carbon Black(8",
+            "HS-W-321-C-RJ9 — Headset 321 Wired Single On-Ear Carbon Black RJ9",
+            "HS-W-321-C-USB — Headset 321 Wired Single On-Ear Carbon Black USB-A",
+            "HS-W-321-C-USBC — Headset 321 Wired Single On-Ear Carbon Black USB-A and Heads",
+            "HS-W-321Q-C-USB — Headset 321 Wired Single Carbon Black USB-A Teams Qualified"
+          ],
+          "rules": {
+            "sku": 12
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Headset 500",
+          "family": "(none)",
+          "role": null,
+          "note": null,
+          "parts": 35,
+          "kinds": {
+            "headset": 32,
+            "mechanical": 3
+          },
+          "roles": {},
+          "samples": [
+            "CP-HS-W-521-USB= — Cisco Headset 521 (Wired Single with 3.5mm connector and USB",
+            "CP-HS-W-521-USBC — Cisco Headset 521 (Wired Single with 3.5mm connector and USB",
+            "CP-HS-W-522-USB= — Cisco Headset 522 (Wired Dual with 3.5mm connector and USB-A",
+            "CP-HS-W-522-USBC — Cisco Headset 522 (Wired Dual with 3.5mm connector and USB-C",
+            "CP-HS-W-531-RJ= — Cisco Headset 531 (Wired Single with Quick Disconnect coiled",
+            "CP-HS-W-531-USBA= — Cisco Headset 531 (Wired Single with USB-A Headset Adapter)"
+          ],
+          "rules": {
+            "sku": 35
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Headset 700",
+          "family": "(none)",
+          "role": null,
+          "note": null,
+          "parts": 22,
+          "kinds": {
+            "headset": 19,
+            "cable": 1,
+            "mechanical": 1,
+            "accessory": 1
+          },
+          "roles": {},
+          "samples": [
+            "HS-WL-700-BA-USBA — Cisco HS-WL-700-BA-USBA",
+            "HS-WL-700-BA-USBA= — Cisco HS-WL-700-BA-USBA=",
+            "HS-WL-700-CBLKITC= — USB C Accessory kit",
+            "HS-WL-720-DSKCH-A= — Charging stand for headset 720 series",
+            "HS-WL-720-EC4-C= — Ear cushion spare for Headset 720 series",
+            "HS-WL-721-BUNA-C — Single-Ear, Carbon Black headset bundle"
+          ],
+          "rules": {
+            "sku": 22
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Bang & Olufsen 900 (950 / 980)",
+          "family": "(none)",
+          "role": null,
+          "note": null,
+          "parts": 15,
+          "kinds": {
+            "headset": 15
+          },
+          "roles": {},
+          "samples": [
+            "HS-WL-950-BUN-C — Bang & Olufsen Cisco 950",
+            "HS-WL-950-BUN-DG — Bang & Olufsen Cisco 950",
+            "HS-WL-950-C= — Cisco HS-WL-950-C=",
+            "HS-WL-950-DG= — Cisco HS-WL-950-DG=",
+            "HS-WL-950-ET-C= — Ear tips spares – Black Anthracite",
+            "HS-WL-950-ET-DG= — Ear tips spares – Desert Gold"
+          ],
+          "rules": {
+            "sku": 15
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Headsets shared parts",
+          "family": "(shared across the line)",
+          "role": null,
+          "note": null,
+          "parts": 12,
+          "kinds": {
+            "accessory": 4,
+            "mechanical": 1,
+            "cable": 7
+          },
+          "roles": {},
+          "samples": [
+            "CP-HS-CORD-AW= — Cisco CP-HS-CORD-AW=",
+            "CP-HS-CORD-CG= — Cisco CP-HS-CORD-CG=",
+            "CP-HS-COVER= — 10 Pack of Silicone Covers for Desktop Phones",
+            "CP-HS-W-RJ= — Cisco QD RJ Headset Cable (optional accessory) for 530 Serie",
+            "CP-HS-W-USBA= — Cisco USB-A Headset Adapter (optional accessory) for 530 Ser",
+            "CP-HS-W-USBC — Cisco QD USB-C Headset Adapter (optional accessory) for 530 "
+          ],
+          "rules": {
+            "sku": 12
+          },
+          "pending_in": {},
+          "pending_out": {}
+        }
+      ]
     },
     {
-     "series": "Headset 500",
-     "family": "(none)",
-     "role": null,
-     "note": null,
-     "parts": 35,
-     "kinds": {
-      "headset": 32,
-      "mechanical": 3
-     },
-     "roles": {},
-     "samples": [
-      "CP-HS-W-521-USB= — Cisco Headset 521 (Wired Single with 3.5mm connector and USB",
-      "CP-HS-W-521-USBC — Cisco Headset 521 (Wired Single with 3.5mm connector and USB",
-      "CP-HS-W-522-USB= — Cisco Headset 522 (Wired Dual with 3.5mm connector and USB-A",
-      "CP-HS-W-522-USBC — Cisco Headset 522 (Wired Dual with 3.5mm connector and USB-C",
-      "CP-HS-W-531-RJ= — Cisco Headset 531 (Wired Single with Quick Disconnect coiled",
-      "CP-HS-W-531-USBA= — Cisco Headset 531 (Wired Single with USB-A Headset Adapter)"
-     ],
-     "rules": {
-      "sku": 35
-     },
-     "pending_in": {},
-     "pending_out": {}
+      "line": "Webex Desk Series",
+      "parts": 124,
+      "series": [
+        {
+          "series": "Desk Pro",
+          "family": "(none)",
+          "role": null,
+          "note": "^CS-DSKPRO (layers round 3, collaboration round): the customized-model Desk Pro PIDs CS-DSKPRO-MM-K9 / -MM-NR-K9 / -NR-K9--= sat in the line's shared parts by their label (video devices in shared parts)",
+          "parts": 39,
+          "kinds": {
+            "mechanical": 13,
+            "video-device": 26
+          },
+          "roles": {},
+          "samples": [
+            "CS-DESKP-C-FG- — Cisco CS-DESKP-C-FG-",
+            "CS-DESKP-C-FG= — Replacement Front Speaker Grille for DeskPro G2 (Carbon Blac",
+            "CS-DESKP-C-K9 — Cisco Desk Pro G2 – Carbon Black, Upfront GPL",
+            "CS-DESKP-C-K9++ — Cisco Desk Pro G2 – TAA (for U.S Government) Carbon Black",
+            "CS-DESKP-C-K9-- — Cisco Desk Pro G2, Customized Model, Carbon Black",
+            "CS-DESKP-C-K9--= — Cisco Desk Pro G2, Customizedp Model, Carbon Black- SPARE"
+          ],
+          "rules": {
+            "sku": 39
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Desk Mini",
+          "family": "(none)",
+          "role": null,
+          "note": null,
+          "parts": 11,
+          "kinds": {
+            "video-device": 11
+          },
+          "roles": {},
+          "samples": [
+            "CS-DESKMINI-B-K9 — Cisco Desk Mini - Nordic Blue",
+            "CS-DESKMINI-C-K9 — Cisco Desk Mini (Carbon Black) – Upfront GPL",
+            "CS-DESKMINI-C-K9= — Cisco Desk Mini - Carbon Black - SPARE (Service Unit Only)",
+            "CS-DESKMINI-G-K9 — Cisco Desk Mini - Woodland Green",
+            "CS-DESKMINI-K9 — Cisco Desk Mini (First Light gray) – Upfront GPL",
+            "CS-DESKMINI-K9= — Cisco Desk Mini (First Light gray) – Upfront GPL – SPARE 1"
+          ],
+          "rules": {
+            "sku": 11
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Desk",
+          "family": "(none)",
+          "role": null,
+          "note": null,
+          "parts": 28,
+          "kinds": {
+            "mechanical": 8,
+            "video-device": 20
+          },
+          "roles": {},
+          "samples": [
+            "CS-DESK-C-FG= — Fabric speaker grille for Cisco Desk – Carbon",
+            "CS-DESK-C-K9 — Cisco Desk (Carbon Black) – Upfront GPL",
+            "CS-DESK-C-K9= — Cisco Desk (Carbon Black) – Upfront GPL – SPARE 1",
+            "CS-DESK-C-STAND= — Desk Stand for Cisco Desk – Carbon - SPARE",
+            "CS-DESK-FG= — Fabric speaker grille for Cisco Desk – First Light",
+            "CS-DESK-K9 — Cisco Desk (First Light) – Upfront GPL"
+          ],
+          "rules": {
+            "sku": 28
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "DX70 / DX80",
+          "family": "(none)",
+          "role": null,
+          "note": "^CS-DX (layers round 3, collaboration round): CS-DX70-K9= / CS-DX80-K9=, the Webex-registration spares, sat in the line's shared parts by their label. ^CTS-NAL-CP-DX[78]0 (same round): the 'DX70 / DX80 NAL label for China' sat in TelePresence (legacy) shared parts by ^CTS-",
+          "parts": 31,
+          "kinds": {
+            "mechanical": 6,
+            "video-device": 23,
+            "accessory": 2
+          },
+          "roles": {},
+          "samples": [
+            "CP-DX650-ADA-WMK= — ADA Locking Wall Mount Kit for DX650",
+            "CP-DX650-K9 — Cisco DX650",
+            "CP-DX650-K9++ — Cisco DX650 – TAA",
+            "CP-DX650-K9++= — Cisco DX650 – TAA",
+            "CP-DX650-K9= — Cisco DX650",
+            "CP-DX650-NC-K9= — Cisco UC Phone DX-650, Non-China COO"
+          ],
+          "rules": {
+            "sku": 31
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Webex Desk Series shared parts",
+          "family": "(shared across the line)",
+          "role": null,
+          "note": null,
+          "parts": 15,
+          "kinds": {
+            "cable": 6,
+            "accessory": 2,
+            "power": 3,
+            "power-cord": 4
+          },
+          "roles": {},
+          "samples": [
+            "CAB-COMBO-2M — Combo cable USB & HDMI. Grey. 2 meters",
+            "CAB-COMBO-2M= — HDMI/USB grey cable for Cisco Webex DX80",
+            "CAB-DX-2HDMI-3M — HDMI-to-HDMI cable, 3m",
+            "CAB-GREY-2.9M — Cisco CAB-GREY-2.9M",
+            "CAB-GREY-2.9M= — Ethernet grey cable for Cisco Webex DX80",
+            "CAB-USBC-1.5M — USB-C 3.2 Gen 2X2 Passive Cable, 1.5M length"
+          ],
+          "rules": {
+            "accessory": 10,
+            "label": 5
+          },
+          "pending_in": {},
+          "pending_out": {}
+        }
+      ]
     },
     {
-     "series": "Headset 700",
-     "family": "(none)",
-     "role": null,
-     "note": null,
-     "parts": 22,
-     "kinds": {
-      "headset": 19,
-      "cable": 1,
-      "mechanical": 1,
-      "accessory": 1
-     },
-     "roles": {},
-     "samples": [
-      "HS-WL-700-BA-USBA — Cisco HS-WL-700-BA-USBA",
-      "HS-WL-700-BA-USBA= — Cisco HS-WL-700-BA-USBA=",
-      "HS-WL-700-CBLKITC= — USB C Accessory kit",
-      "HS-WL-720-DSKCH-A= — Charging stand for headset 720 series",
-      "HS-WL-720-EC4-C= — Ear cushion spare for Headset 720 series",
-      "HS-WL-721-BUNA-C — Single-Ear, Carbon Black headset bundle"
-     ],
-     "rules": {
-      "sku": 22
-     },
-     "pending_in": {},
-     "pending_out": {}
+      "line": "Webex Board Series",
+      "parts": 235,
+      "series": [
+        {
+          "series": "Board Pro G2 (55 / 75)",
+          "family": "(none)",
+          "role": null,
+          "note": null,
+          "parts": 52,
+          "kinds": {
+            "mechanical": 12,
+            "video-device": 40
+          },
+          "roles": {},
+          "samples": [
+            "CS-BRDP-ACTSTYL — Cisco Board Pro Active Stylus Kit (2x stylus pens with 2 ext",
+            "CS-BRDP-ACTSTYL+ — Cisco Board Pro Active Stylus Kit (2x stylus pens with 2 ext",
+            "CS-BRDP-ACTSTYL= — Cisco Board Pro Active Stylus Kit (2x stylus pens with 2 ext",
+            "CS-BRDP-CBLMGMT-L — Cisco Board Pro Cable Management Kit",
+            "CS-BRDP-CBLMGMT-L= — Cisco Board Pro Cable Management Kit - SPARE",
+            "CS-BRDP-FS-SCRW= — Cisco Board Pro Floor Stand Screws - Spare"
+          ],
+          "rules": {
+            "sku": 52
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Board Pro (55 / 75)",
+          "family": "(none)",
+          "role": null,
+          "note": null,
+          "parts": 43,
+          "kinds": {
+            "mechanical": 18,
+            "video-device": 25
+          },
+          "roles": {},
+          "samples": [
+            "CS-BRD55P-FS — Cisco Board Pro 55 Floor stand",
+            "CS-BRD55P-FS= — Cisco Board Pro 55 Floor stand - Spare",
+            "CS-BRD55P-K9 — Cisco Board Pro 55 (GPL)",
+            "CS-BRD55P-K9++ — Cisco Board Pro 55 - TAA",
+            "CS-BRD55P-K9= — Cisco Board Pro 55 - Spare",
+            "CS-BRD55P-MM-K9 — Cisco Board Pro 55 customized model"
+          ],
+          "rules": {
+            "sku": 43
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Webex Board 55 / 70 / 85 (Spark Board)",
+          "family": "(none)",
+          "role": null,
+          "note": "^CS-BRD-PENTIPS (layers round 3, collaboration round): 'Cisco Webex Board S Pen Tips - 30 tips for stylus', sold in the 'Webex Board S TAA and MM' end-of-sale notice; it sat in the line's shared parts with kind video-device (a kind-layer defect, listed). ^SPBOARD- (same round): SPBOARD-CBLMGMT(=) 'Cisco Spark Board, Cable Management Kit' sat in Webex Room Series shared parts by the label Room Series, and SPBOARD-WS-SCRW= 'Screw kit for Cisco Webex Board Wall Stand' in TelePresence (legacy) shared parts by the label TelePresence MX Series; the Spark Board is this series. ^CS-BRD85- and ^CS-BRD-PENKIT(?!SOFT) (same round): 'Spare transport frame for Webex Board 85' and 'Webex Board S Pen Kit' sat in Webex Board Series shared parts by their label; the soft-tip pen kit (CS-BRD-PENKITSOFT, 'Cisco Board Pen Kit') names no board and stays there",
+          "parts": 112,
+          "kinds": {
+            "video-device": 49,
+            "mechanical": 62,
+            "accessory": 1
+          },
+          "roles": {},
+          "samples": [
+            "CS-BOARD55 — ^Cisco Spark Board 55 - unit",
+            "CS-BOARD55-FS — Cisco Spark Board 55 Floor Stand (New Design)",
+            "CS-BOARD55-FS= — Cisco Webex Board 55 Floor Stand (New Design) - spare",
+            "CS-BOARD55-FSK — Cisco Spark Board 55 Floor Stand Kit",
+            "CS-BOARD55-FSK= — Cisco Spark Board 55 Floor Stand Kit - Spare",
+            "CS-BOARD55-G-FS — Cisco Webex Board 55 Floor Stand (GPL)"
+          ],
+          "rules": {
+            "sku": 112
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Webex Board Series shared parts",
+          "family": "(shared across the line)",
+          "role": null,
+          "note": null,
+          "parts": 28,
+          "kinds": {
+            "cable": 26,
+            "mechanical": 2
+          },
+          "roles": {},
+          "samples": [
+            "CAB-CAT5E-12M — 12 meter round gray Ethernet cable for Cisco Devices",
+            "CAB-CAT5E-12M= — Ethernet CAT5E Round Cable - 12 meter - Gray - SPARE (for Ro",
+            "CAB-CAT5E-4M — 4 meter round gray Ethernet cable for Cisco Devices",
+            "CAB-CAT5E-4M= — Ethernet CAT5E Round Cable - 4 meter - Gray - SPARE (for Roo",
+            "CAB-CAT5E-8M — 8 meter round gray Ethernet cable for Cisco Devices",
+            "CAB-CAT5E-8M- — Ethernet CAT5E Round Cable - 8 meter - Gray - SPARE (for Roo"
+          ],
+          "rules": {
+            "accessory": 26,
+            "label": 2
+          },
+          "pending_in": {},
+          "pending_out": {}
+        }
+      ]
     },
     {
-     "series": "Bang & Olufsen 900 (950 / 980)",
-     "family": "(none)",
-     "role": null,
-     "note": null,
-     "parts": 15,
-     "kinds": {
-      "headset": 15
-     },
-     "roles": {},
-     "samples": [
-      "HS-WL-950-BUN-C — Bang & Olufsen Cisco 950",
-      "HS-WL-950-BUN-DG — Bang & Olufsen Cisco 950",
-      "HS-WL-950-C= — Cisco HS-WL-950-C=",
-      "HS-WL-950-DG= — Cisco HS-WL-950-DG=",
-      "HS-WL-950-ET-C= — Ear tips spares – Black Anthracite",
-      "HS-WL-950-ET-DG= — Ear tips spares – Desert Gold"
-     ],
-     "rules": {
-      "sku": 15
-     },
-     "pending_in": {},
-     "pending_out": {}
+      "line": "Webex Room Series",
+      "parts": 702,
+      "series": [
+        {
+          "series": "Room Bar Pro",
+          "family": "(none)",
+          "role": null,
+          "note": null,
+          "parts": 14,
+          "kinds": {
+            "video-codec": 10,
+            "mechanical": 4
+          },
+          "roles": {},
+          "samples": [
+            "CS-BARPRO-C-K9 — Cisco Room Bar Pro - Carbon Black (with Room Navigator Table",
+            "CS-BARPRO-CAMCOV — Privacy Camera Cover for Room Bar Pro",
+            "CS-BARPRO-CAMCOV= — Privacy Camera Cover for Room Bar Pro - SPARE",
+            "CS-BARPRO-K9 — Cisco Room Bar Pro - First Light (with Room Navigator Table ",
+            "CS-BARPRO-K9++ — Cisco Room Bar Pro - First Light - TAA (with Room Navigator ",
+            "CS-BARPRO-K9-- — Cisco Room Bar Pro - First Light - Customized Model"
+          ],
+          "rules": {
+            "sku": 14
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Room Bar",
+          "family": "(none)",
+          "role": null,
+          "note": null,
+          "parts": 13,
+          "kinds": {
+            "video-codec": 10,
+            "mechanical": 3
+          },
+          "roles": {},
+          "samples": [
+            "CS-BAR — Cisco CS-BAR",
+            "CS-BAR-GRL-CSTM= — Room Bar Custom Non-Fabric Grille - SPARE",
+            "CS-BAR-K9++ — Cisco CS-BAR-K9++",
+            "CS-BAR-K9= — Cisco CS-BAR-K9=",
+            "CS-BAR-MM-K9 — Cisco CS-BAR-MM-K9",
+            "CS-BAR-MOUNT-KIT- — Mounting Kit for Cisco Room Bar"
+          ],
+          "rules": {
+            "sku": 13
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Room Kit (Kit / Mini / Plus / Pro / EQ)",
+          "family": "(none)",
+          "role": null,
+          "note": "layers round 3, collaboration round — rows that sat in the line's shared parts by their label: CS-KPRO-Q / -Z 'Cisco Room Kit Pro G2 / Room Kit Vision PTZ', CS-EQX-* 'Room Kit EQX' (no codec, centre and side modules), CS-ROOM-USB-K9(=) 'Room USB' (its spare 'Room Kit Mini/Room USB (unit)'; Cisco's Room USB end-of-sale notice, successor CS-BAR-T); CAB-EQX-SPKR= 'Room Kit EQX Complete set of Speaker Cables' (SKU token EQX), which sat in the line's shared parts",
+          "parts": 126,
+          "kinds": {
+            "cable": 1,
+            "accessory": 2,
+            "video-device": 5,
+            "mechanical": 29,
+            "video-codec": 89
+          },
+          "roles": {},
+          "samples": [
+            "CAB-EQX-SPKR= — Room Kit EQX Complete set of Speaker Cables",
+            "CS-EQX-ANT= — Room Kit EQX antenna kit (includes 3x antennae + cables)",
+            "CS-EQX-CENTER-MOD= — Room Kit EQX center module",
+            "CS-EQX-FAN= — Room Kit EQX 2 fan pack",
+            "CS-EQX-FRAME-C= — Room Kit EQX front frame module - Carbon Black",
+            "CS-EQX-FRAME= — Room Kit EQX front frame module - First Light"
+          ],
+          "rules": {
+            "sku": 126
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Codec Plus / Pro / EQ",
+          "family": "(none)",
+          "role": null,
+          "note": "^CS-RCOD(PLUS|PRO) (layers round 3, collaboration round): the 15 'Cisco Room CodecPLUS' / 'Room Codec PRO' PIDs sat in the line's shared parts by their label (video codecs in shared parts). ^CS-CODPL2- (same round): 'Antennas for Codec Plus 2' sat in the line's shared parts",
+          "parts": 84,
+          "kinds": {
+            "video-codec": 64,
+            "accessory": 9,
+            "mechanical": 11
+          },
+          "roles": {},
+          "samples": [
+            "CS-CODEC-EQ++ — Cisco CS-CODEC-EQ++",
+            "CS-CODEC-EQ-ANT+ — Cisco Codec EQ Antennas",
+            "CS-CODEC-EQ-ANT= — Codec EQ Antennas SPARE",
+            "CS-CODEC-EQ-K9 — Cisco CS-CODEC-EQ-K9",
+            "CS-CODEC-EQ-K9++ — Cisco CS-CODEC-EQ-K9++",
+            "CS-CODEC-EQ-NR++ — Cisco CS-CODEC-EQ-NR++"
+          ],
+          "rules": {
+            "sku": 84
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Room Panorama",
+          "family": "(none)",
+          "role": null,
+          "note": "layers round 3, collaboration round: CS-ROOM-P85-NR-K7 / -K9 'Webex Room Panorama 85' (placed in shared parts by ^CS-ROOM), CS-RPQUADCAM(+/=) 'Fully automatic quadcamera for Room Panorama' (by their label) and CAB-PANO-L / -R-SPKR 'Left / Right Speaker Cable for Room Panorama' (SKU token PANO). ^CS-PANO fenced (meraki round, the collaboration round's recorded claimant fix): CS-PANO-SWITCH+ / SWITCH2+ are whole Catalyst 3560-CX / C1000 switches that stay in switches (layers review round 2, A.6)",
+          "parts": 49,
+          "kinds": {
+            "cable": 4,
+            "mechanical": 17,
+            "accessory": 6,
+            "speaker": 3,
+            "display": 8,
+            "video-device": 8,
+            "camera": 3
+          },
+          "roles": {},
+          "samples": [
+            "CAB-PANO-L-SPKR- — Left Speaker Cable for Room Panorama - 6 speakers + 2 bass",
+            "CAB-PANO-L-SPKR= — Left Speaker Cable for Room Panorama - 6 speakers + 2 bass",
+            "CAB-PANO-R-SPKR- — Right Speaker Cable Room Panorama, 6 speaker + 2 bass",
+            "CAB-PANO-R-SPKR= — Right Speaker Cable Room Panorama, 6 speaker + 2 bass",
+            "CS-PANO-240-CSTM — Room Panorama Custom wall - low ceiling bracket",
+            "CS-PANO-82-CAV= — Room Panorama Display Cavity for 82\""
+          ],
+          "rules": {
+            "sku": 49
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Room 55 / 55D",
+          "family": "(none)",
+          "role": null,
+          "note": "^CS-R55- (layers round 3, collaboration round): the six 'Cisco Webex Room 55 Main Unit' PIDs sat in the line's shared parts by their label. ^CTS-NAL-ROOM55 (same round): 'CS Room 55 NAL label for China' sat in TelePresence (legacy) shared parts by ^CTS-",
+          "parts": 50,
+          "kinds": {
+            "video-device": 18,
+            "mechanical": 23,
+            "display": 8,
+            "accessory": 1
+          },
+          "roles": {},
+          "samples": [
+            "CS-R55-UNI2-K9+ — Cisco Webex Room 55 Main Unit",
+            "CS-R55-UNI2-K9= — Cisco Webex Room 55 Main Unit (Service purpose only)",
+            "CS-R55-UNI2-NR-K7+ — Cisco Webex Room 55 Main Unit, Non Encryprion and Non Radio",
+            "CS-R55-UNI2-NR-K7= — Cisco Webex Room 55 Main Unit, Non Encryption and Non Radio",
+            "CS-R55-UNI2-NR-K9+ — Cisco Webex Room 55 Main Unit Non Radio",
+            "CS-R55-UNI2-NR-K9= — Cisco Webex Room 55 Main Unit Non Radio"
+          ],
+          "rules": {
+            "sku": 50
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Room 70 / 70S / 70D",
+          "family": "(none)",
+          "role": null,
+          "note": "layers round 3 (wireless round): the Room 70 speaker, HDMI and DC cables and the Room 70 antenna kit (named 'for ROOM 70'), planned in from wireless where they sat under the 'Policy Suite for Mobile' label",
+          "parts": 120,
+          "kinds": {
+            "accessory": 2,
+            "power-cord": 8,
+            "cable": 45,
+            "mechanical": 33,
+            "speaker": 2,
+            "video-device": 24,
+            "display": 6
+          },
+          "roles": {},
+          "samples": [
+            "ANT-ROOM70-KIT- — Antenna kit for ROOM 70 with brackets.",
+            "ANT-ROOM70-KIT= — Antenna kit for ROOM 70 with brackets.",
+            "CAB-2DC-BRL-0.30M- — DC Power Cable w/Barrel Plug, 0.3 meters long",
+            "CAB-2DC-BRL-0.30M= — DC Power Cable w/Barrel Plug, 0.3 meters long",
+            "CAB-2DC-BRL-0.6M- — DC Power Cable w/Barrel Plug, 0.6 meters long for MXCAM-D",
+            "CAB-2DC-BRL-0.6M= — DC Power Cable w/Barrel Plus, 0.6 meters long for MXCAM-D"
+          ],
+          "rules": {
+            "sku": 120
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Room Navigator and Touch 10",
+          "family": "(none)",
+          "role": null,
+          "note": "^CAB-DV10- and ^CS-R-USB-T10 (layers round 3, collaboration-endpoints round): the flat grey Ethernet cables 'for Touch 10' / 'for Room Navigator' (4 / 8 / 12.5 m) and 'Touch 10 Kit for Room USB Upgrade' sat in Webex Room Series shared parts",
+          "parts": 74,
+          "kinds": {
+            "cable": 7,
+            "mechanical": 7,
+            "touch-panel": 60
+          },
+          "roles": {},
+          "samples": [
+            "CAB-DV10-12.5= — 12.5 meter flat grey Ethernet cable for Touch 10 - Spare",
+            "CAB-DV10-12.5M — 12.5 meter flat grey Ethernet cable for Touch 10",
+            "CAB-DV10-12.5M- — 12.5 meter flat grey Ethernet cable for Touch 10",
+            "CAB-DV10-4M — 4 meter flat grey Ethernet cable for Touch 10",
+            "CAB-DV10-4M- — 4 meter flat grey Ethernet cable for Touch 10",
+            "CAB-DV10-4M= — 4 meter flat grey Ethernet cable for Touch 10 - Spare"
+          ],
+          "rules": {
+            "sku": 74
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Webex Room Series shared parts",
+          "family": "(shared across the line)",
+          "role": null,
+          "note": "layers round 3 (wireless round): the USB A-B cables 'for ROOM 70 / MX800 Dual' and the grey right-angled C7 power cords, planned in from wireless — shared by several Room devices. ^CS-ROOM removed (collaboration-endpoints round): every CS-ROOM row it matched is now decided by a named Room series above it (Room Kit, Room Panorama, Room 70), so the rule decided nothing",
+          "parts": 172,
+          "kinds": {
+            "cable": 51,
+            "power-cord": 87,
+            "accessory": 8,
+            "mechanical": 10,
+            "power": 13,
+            "unknown": 3
+          },
+          "roles": {},
+          "samples": [
+            "CAB-2HDMI-1.26M- — HDMI to HDMI Cable, 1.26 meters long for ROOM 70",
+            "CAB-2HDMI-1.26M= — HDMI to HDMI Cable, 1.26 meters long for ROOM 70",
+            "CAB-2HDMI-1.5M-GR — Second screen 1.5 m HDMI 2.0 certified cable",
+            "CAB-2HDMI-1.5M-GR- — HDMI 2.0 Cable - 1.5 meter - Gray (for one monitor)",
+            "CAB-2HDMI-1.5M-GR= — HDMI 2.0 Cable - 1.5 meter - Gray - SPARE (for monitors)",
+            "CAB-2HDMI-1.71M- — HDMI to HDMI Cable, 1.71 meters long for ROOM 55D"
+          ],
+          "rules": {
+            "accessory": 98,
+            "sku": 37,
+            "label": 37
+          },
+          "pending_in": {},
+          "pending_out": {}
+        }
+      ]
     },
     {
-     "series": "Headsets shared parts",
-     "family": "(shared across the line)",
-     "role": null,
-     "note": null,
-     "parts": 12,
-     "kinds": {
-      "accessory": 4,
-      "mechanical": 1,
-      "cable": 7
-     },
-     "roles": {},
-     "samples": [
-      "CP-HS-CORD-AW= — Cisco CP-HS-CORD-AW=",
-      "CP-HS-CORD-CG= — Cisco CP-HS-CORD-CG=",
-      "CP-HS-COVER= — 10 Pack of Silicone Covers for Desktop Phones",
-      "CP-HS-W-RJ= — Cisco QD RJ Headset Cable (optional accessory) for 530 Serie",
-      "CP-HS-W-USBA= — Cisco USB-A Headset Adapter (optional accessory) for 530 Ser",
-      "CP-HS-W-USBC — Cisco QD USB-C Headset Adapter (optional accessory) for 530 "
-     ],
-     "rules": {
-      "sku": 12
-     },
-     "pending_in": {},
-     "pending_out": {}
+      "line": "Cameras",
+      "parts": 100,
+      "series": [
+        {
+          "series": "SpeakerTrack 60",
+          "family": "(none)",
+          "role": null,
+          "note": "layers round 3, collaboration round: CTS-SPKER-TRACK60 'Cisco TelePresence Speaker Track 60 Kit' and CTS-ST-ARRAY60(+/=) 'Speaker Track 60 Microphone Array' sat in TelePresence (legacy) shared parts by ^CTS- (their SKUs spell TRACK60 / ARRAY60, not ST60); CAB-ETH-ST-SHORT / CAB-PWR-ST-SHORT 'Two Ethernet / 12V power cables … for SpeakerTrack 60' sat in Cameras shared parts",
+          "parts": 8,
+          "kinds": {
+            "cable": 2,
+            "power-cord": 2,
+            "camera": 1,
+            "microphone": 2,
+            "video-codec": 1
+          },
+          "roles": {},
+          "samples": [
+            "CAB-ETH-ST-SHORT- — Two Ethernet cables (0.35m & 0.2m) for SpeakerTrack 60",
+            "CAB-ETH-ST-SHORT= — Two Ethernet cables (0.35m&0.2m) for SpeakerTrack 60 Spare",
+            "CAB-PWR-ST-SHORT- — Two 12V power cables (0.45m & 0.2m) for SpeakerTrack 60",
+            "CAB-PWR-ST-SHORT= — Two 12V power cables (0.45m&0.2m) for SpeakerTrack 60 spare",
+            "CTS-SPKER-TRACK60 — Cisco TelePresence Speaker Track 60 Kit",
+            "CTS-ST-ARRAY60+ — Speaker Track 60 Microphone Array"
+          ],
+          "rules": {
+            "sku": 8
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Precision 40 / 60 / PrecisionHD cameras",
+          "family": "(none)",
+          "role": null,
+          "note": "^CTS-CAM-P40 (layers round 3, collaboration round): 'Precision 40 Camera with 8x zoom' (label TelePresence Precision Cameras) sat in TelePresence (legacy) shared parts by ^CTS-; the series name gains Precision 40",
+          "parts": 27,
+          "kinds": {
+            "mechanical": 1,
+            "camera": 25,
+            "power": 1
+          },
+          "roles": {},
+          "samples": [
+            "ACC-PHD1080P= — Cable Accessories Kit for PrecisionHD Camera 1080p12x and 4x",
+            "CTS-CAM-P40 — Precision 40 Camera with 8x zoom",
+            "CTS-CAM-P40+ — Precision 40 Camera with 8x zoom",
+            "CTS-CAM-P40= — Precision 40 Camera with 8x zoom (spare)",
+            "CTS-CAM-P60 — Cisco TelePresence Precision 60 Camera",
+            "CTS-CAM-P60+ — Cisco TelePresence Precision 60 Camera - auto expand only"
+          ],
+          "rules": {
+            "label": 3,
+            "sku": 24
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Desk Camera",
+          "family": "(none)",
+          "role": null,
+          "note": "layers round 3, collaboration round: 'Cisco Desk Camera 4K' and 'Desk Camera 1080p' (carbon black / platinum, US / worldwide) sat in Webex Desk Series shared parts by their label (cameras in shared parts); Cisco sells the Desk Camera as a product of its own. Named 'Desk Camera' without its resolutions: a series name's digits are platform tokens to the label check, and '1080' contradicted ACC-PHD1080P= 'Cable Accessories Kit for PrecisionHD Camera 1080p12x' out of the Precision series. ^CD-CBL- (same round): the 'Spare USB 3.0 C-to-A / C-to-C cable for Desk Camera series' sat in Webex Desk Series shared parts",
+          "parts": 8,
+          "kinds": {
+            "cable": 2,
+            "camera": 6
+          },
+          "roles": {},
+          "samples": [
+            "CD-CBL-USBC-USBA= — Spare USB 3.0 C-to-A cable for Desk Camera series",
+            "CD-CBL-USBC-USBC= — Spare USB 3.0 C-to-C cable for Desk Camera series",
+            "CD-DSKCAM-C-US — Cisco Desk Camera 4K in carbon black for United States (incl",
+            "CD-DSKCAM-C-WW — Cisco Desk Camera 4K in carbon black for worldwide (includes",
+            "CD-DSKCAM-P-US — Cisco Desk Camera 4K in platinum for United States (includes",
+            "CD-DSKCAM-P-WW — Cisco Desk Camera 4K in platinum for worldwide (includes USB"
+          ],
+          "rules": {
+            "sku": 8
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Room Vision PTZ and Quad Camera",
+          "family": "(none)",
+          "role": null,
+          "note": "^CS-PTZ4K- and ^BRKT-QCAM (layers round 3, collaboration-endpoints round): the 'PTZ 4K Camera' wall and ceiling mounting brackets and the 'Wall-mount bracket for Cisco Quad Camera' sat in Webex Room Series shared parts",
+          "parts": 30,
+          "kinds": {
+            "mechanical": 13,
+            "camera": 17
+          },
+          "roles": {},
+          "samples": [
+            "BRKT-QCAM2-WMK- — Wall-mount bracket for Cisco Quad Camera (only in Quad Camer",
+            "CS-CAM-PTZ12+ — Pan-Tilt-Zoom 12x Camera",
+            "CS-CAM-PTZ12= — Pan-Tilt-Zoom 12x Camera with power supply",
+            "CS-CAM-PTZ4K — Cisco PTZ 4K Camera",
+            "CS-CAM-PTZ4K+ — Webex PTZ 4K Camera",
+            "CS-CAM-PTZ4K-IND — Cisco PTZ 4K Camera for India"
+          ],
+          "rules": {
+            "sku": 30
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Cameras shared parts",
+          "family": "(shared across the line)",
+          "role": null,
+          "note": null,
+          "parts": 27,
+          "kinds": {
+            "cable": 4,
+            "mechanical": 4,
+            "power-cord": 16,
+            "power": 3
+          },
+          "roles": {},
+          "samples": [
+            "ADPT-HDMI-DVID= — Adaptor HDMI to DVID cable",
+            "BRKT-12X-MONITR — Bracket mounting for 12x PHD camera to screen",
+            "BRKT-12X-MONITR= — Spare bracket mounting for 12x PHD camera to monitor",
+            "BRKT-P40-MONITR — Bracket mounting for P40 camera to screen",
+            "BRKT-P40-MONITR= — Bracket mounting for P40 camera to screen",
+            "CAB-2HDMI-5M= — HDMI to HDMI cable, 5 meters"
+          ],
+          "rules": {
+            "label-unsupported": 4,
+            "accessory": 23
+          },
+          "pending_in": {},
+          "pending_out": {}
+        }
+      ]
+    },
+    {
+      "line": "Microphones",
+      "parts": 76,
+      "series": [
+        {
+          "series": "Table, ceiling and wireless microphones",
+          "family": "(none)",
+          "role": null,
+          "note": "^CTS-QSC20-MIC (layers round 3, collaboration round): 'Performance Microphone 20' (and the auto-expand variants) of the QuickSet C20 sat in TelePresence (legacy) shared parts with kind video-codec (a kind-layer defect, listed)",
+          "parts": 70,
+          "kinds": {
+            "cable": 18,
+            "microphone": 40,
+            "mechanical": 8,
+            "video-codec": 4
+          },
+          "roles": {},
+          "samples": [
+            "CAB-MIC-EXT-E — Extension cable for Table Microphone",
+            "CAB-MIC-EXT-E= — Cisco Table Microphone extension cable for the 4-pin mini Eu",
+            "CAB-MIC-EXT-J — Cisco Table Microphone extension cable for the 4-pin mini ja",
+            "CAB-MIC-EXT-J= — Cisco Table Microphone extension cable for the 4-pin mini ja",
+            "CAB-MIC-RJ.5-0.5M- — RJ.5 Microphone Cable, 0.5 meters long, for MXCAM-D",
+            "CAB-MIC-RJ.5-0.5M= — RJ.5 Microphone Cable, 0.5 meters long, for MXCAM-D"
+          ],
+          "rules": {
+            "sku": 70
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Microphones shared parts",
+          "family": "(shared across the line)",
+          "role": null,
+          "note": null,
+          "parts": 6,
+          "kinds": {
+            "cable": 6
+          },
+          "roles": {},
+          "samples": [
+            "CAB-CAT5E-CMP-20M — Ethernet CAT5E Plenum Rated - 20 meter - Gray",
+            "CAB-CAT5E-CMP-20M= — Ethernet CAT5E Plenum Rated - 20 meter - Gray - SPARE",
+            "CAB-CAT5E-CMP-30M — Ethernet CAT5E Plenum Rated - 30 meter - Gray",
+            "CAB-CAT5E-CMP-30M= — Ethernet CAT5E Plenum Rated - 30 meter - Gray - SPARE",
+            "CAB-ETHRSHLD-10M — Cisco Ceiling Microphone optional cable(10 meter not plenum ",
+            "CAB-ETHRSHLD-10M= — Shielded Ethernet Cable, not plenum rated, 10m - SPARE"
+          ],
+          "rules": {
+            "accessory": 6
+          },
+          "pending_in": {},
+          "pending_out": {}
+        }
+      ]
+    },
+    {
+      "line": "TelePresence (legacy)",
+      "parts": 653,
+      "series": [
+        {
+          "series": "TelePresence MX (MX200 / MX300 / MX700 / MX800)",
+          "family": "(none)",
+          "role": null,
+          "note": "layers round 3, collaboration round: CTS-MXCAM-D / -S 'Dual / Single Camera option for MX700/MX800' and CTS-MXCODEC 'Codec for MX700/MX800' sat in the line's shared parts by ^CTS-; so did the 'MX200 / MX300 NAL label for China' and the 'ATP Demo' MX200 / MX300 units (^CTS-(NAL|ATP)-MX), and the 'Left / Right Speaker Cable for MX700 / MX800' (^CAB-MX)",
+          "parts": 162,
+          "kinds": {
+            "mechanical": 78,
+            "cable": 8,
+            "video-device": 35,
+            "unknown": 2,
+            "display": 24,
+            "speaker": 2,
+            "camera": 6,
+            "video-codec": 3,
+            "accessory": 4
+          },
+          "roles": {},
+          "samples": [
+            "ACC-MX200-42-KIT — Cisco TelePresence MX200 42 Accessory Kit",
+            "ACC-MX200-42-KIT= — Cisco TelePresence MX200 42 Accessory Kit",
+            "AVIZ-MXCART= — SolutionsPlus: Avizia MX Cart",
+            "CAB-MX700-L-SPKR- — Left Speaker Cable for MX700",
+            "CAB-MX700-L-SPKR= — Left Speaker Cable for MX700",
+            "CAB-MX700-R-SPKR- — Right Speaker Cable for MX700"
+          ],
+          "rules": {
+            "label": 10,
+            "sku": 152
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "TelePresence SX (SX10 / SX20 / SX80)",
+          "family": "(none)",
+          "role": null,
+          "note": "^CTS-CC-SX10 (layers round 3, collaboration round): 'SX10 HD w/ screen mount, int 5x cam and mic' sat in the line's shared parts by ^CTS-; so did the 'SX10 / SX20 / SX80 NAL label for China', the SX10 screen and wall mount kits, 'Bracket for SX20 and HD monitor' and 'Serial Cable for SX20'. CAB-SX80-IPQC 'Audio Cable Quad Camera to SX80' names the Quad Camera as well and stays in shared parts",
+          "parts": 61,
+          "kinds": {
+            "mechanical": 10,
+            "cable": 2,
+            "video-codec": 41,
+            "accessory": 3,
+            "power": 5
+          },
+          "roles": {},
+          "samples": [
+            "BRKT-SX10-SMK — Screen Mount Kit for SX10 Quick Set",
+            "BRKT-SX10-SMK+ — SX10 Screen Mount Kit",
+            "BRKT-SX10-SMK= — SX10 Screen Mount Kit",
+            "BRKT-SX10-WMK — Wall Mount Kit for SX10 Quick Set",
+            "BRKT-SX10-WMK= — SX10 Wall Mount",
+            "BRKT-SX20-MONITOR — Bracket for SX20 and HD monitor"
+          ],
+          "rules": {
+            "sku": 58,
+            "label": 3
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "TelePresence IX5000",
+          "family": "(none)",
+          "role": null,
+          "note": "^CTS-MON- (layers round 3, collaboration round): 'Cisco TelePresence 42 / 55 Inch Auxiliary Display', sold in the 'TelePresence IX5000 Series' end-of-sale notice, sat in the line's shared parts by ^CTS-. ^CTS-5K fenced (meraki round, the collaboration round's recorded claimant fix): CTS-5K-LC-SWITCH / CTS-5K-UI-SWITCH are whole Catalyst 2960-C switches that stay in switches (layers review round 2, A.6)",
+          "parts": 172,
+          "kinds": {
+            "mechanical": 59,
+            "display": 7,
+            "speaker": 8,
+            "camera": 2,
+            "cable": 40,
+            "touch-panel": 1,
+            "video-codec": 6,
+            "power": 4,
+            "accessory": 38,
+            "microphone": 4,
+            "video-device": 3
+          },
+          "roles": {},
+          "samples": [
+            "CTS-5K-18-SEAT-TBL — CTS-IX5000 18 Seat Table Option",
+            "CTS-5K-18-SEAT-UPG — CTS-IX5000 6 Seat Table to 18 Seat Table Upgrade Kit",
+            "CTS-5K-6-SEAT-TBL — CTS-IX5000 6 Seat Table Option",
+            "CTS-5K-70-G1 — CTS-IX5000 70 Display, 1 Qty",
+            "CTS-5K-70-G1= — CTS-IX5000 70 Display, 1 Qty",
+            "CTS-5K-AMP-PWR — CTS-IX5000 Audio Amplifer Power Brick"
+          ],
+          "rules": {
+            "sku": 172
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "TelePresence C-series codecs",
+          "family": "(none)",
+          "role": null,
+          "note": "layers round 3, collaboration round: CTS-ATP-C60 / C90-K9 'ATP Demo - Codec C60 / C90' and the QuickSet C20 packages CTS-QSC20-K9 / -W4 / -W12 / QSC20SD (a C20 codec with camera, microphone and remote) sat in the line's shared parts by ^CTS-",
+          "parts": 13,
+          "kinds": {
+            "video-codec": 11,
+            "mechanical": 2
+          },
+          "roles": {},
+          "samples": [
+            "CTS-ATP-C60-K9 — ATP Demo - Codec C60- NPP,Rackmt Kit,Rmt Cntrl, HDMI,Pwr Cbl",
+            "CTS-ATP-C90-K9 — ATP Demo - Codec C90- NPP,Rackmt Kit,Rmt Cntrl, HDMI,Pwr Cbl",
+            "CTS-C20CODEC-K9 — Cisco CTS-C20CODEC-K9",
+            "CTS-C20CODEC-K9= — C20 Codec - Spare",
+            "CTS-C20CODEC= — C20 CODEC Non Encrypted Version Spare",
+            "CTS-QSC20-K9 — QuickSet C20 with NPP, 1 mic, remote control"
+          ],
+          "rules": {
+            "sku": 13
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "TelePresence MXP (1700 MXP / Integrator Package 6000 MXP)",
+          "family": "(none)",
+          "role": null,
+          "note": "layers round 3, collaboration round: CTS-1700-PR-K9 'MXP 1700 Promotion' and CTS-INTP6000-WP-K9 'IntPkg 6000 MXP - PAL, Encrypted, BW, PrecisionHD Cam, Mic', the legacy TelePresence MXP systems named by their rows, sat in the line's shared parts (a video device and a codec in shared parts)",
+          "parts": 2,
+          "kinds": {
+            "video-device": 1,
+            "video-codec": 1
+          },
+          "roles": {},
+          "samples": [
+            "CTS-1700-PR-K9 — MXP 1700 Promotion",
+            "CTS-INTP6000-WP-K9 — IntPkg 6000 MXP - PAL, Encrypted, BW, PrecisionHD Cam, Mic"
+          ],
+          "rules": {
+            "sku": 2
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "TelePresence (legacy) shared parts",
+          "family": "(shared across the line)",
+          "role": null,
+          "note": "^AVIZ-CA(300|750) (layers round 3, collaboration-endpoints round): the Avizia CA300 / CA750 clinical carts and their cabinets, trays and cords (SolutionsPlus), labelled TelePresence MX Series by the generic collaboration end-of-sale notice. The label check kept them in TelePresence MX on the cart's own model number — CA300 read as the MX300 token, CA750 as a 7xx model of MX700 — which names no MX; with AVIZ-EDU=, AVIZ-SYN= and AVIZ-TAC-K9 they are Avizia products no document ties to one system. AVIZ-MXCART= 'Avizia MX Cart' names MX and stays there. — decision pending: CTS-LAPT-DISP / CTS-LAPT-DISP= 'TelePresence Laptop Display' and CTS-VX-EDUCATOR-K9 'VX Educator package' are whole products (kinds display / video-device) that no document ties to a TelePresence series — only the generic 'HW Collaboration PIDs' / 'Collaboration PIDs' end-of-sale notices name them, under the TelePresence MX Series label, and the catalogue holds no other VX row. Kept here (recommendation) until a series is named (layers round 3, collaboration-endpoints round)",
+          "parts": 243,
+          "kinds": {
+            "mechanical": 13,
+            "accessory": 18,
+            "cable": 71,
+            "power-cord": 122,
+            "unknown": 11,
+            "display": 2,
+            "power": 5,
+            "video-device": 1
+          },
+          "roles": {},
+          "samples": [
+            "AVIZ-CA300-A-K9 — SolutionsPlus: Avizia Clinical Cart CA300",
+            "AVIZ-CA300-ACC-PCC — Avizia CA300 PC cabinet",
+            "AVIZ-CA750-1-K9 — SolutionsPlus:Avizia ClinicalCart CA750 1 screen-drawer mod",
+            "AVIZ-CA750-2-K9 — SolutionsPlus:Avizia ClinicalCart CA750 1 screen-PC cabinet",
+            "AVIZ-CA750-3-K9 — SolutionsPlus:Avizia ClinicalCart CA750 2 screen- PC cabinet",
+            "AVIZ-CA750-ACC-KB — Avizia CA750 Keyboard / Mouse Tray"
+          ],
+          "rules": {
+            "sku": 48,
+            "label-unsupported": 6,
+            "accessory": 189
+          },
+          "pending_in": {},
+          "pending_out": {}
+        }
+      ]
+    },
+    {
+      "line": "IP Phones",
+      "parts": 856,
+      "series": [
+        {
+          "series": "IP Phone 3900",
+          "family": "(none)",
+          "role": "desk",
+          "note": null,
+          "parts": 14,
+          "kinds": {
+            "phone": 2,
+            "accessory": 2,
+            "power": 10
+          },
+          "roles": {
+            "desk": 2
+          },
+          "samples": [
+            "CP-3905 — Cisco Unified SIP Phone 3905, Charcoal, Standard Handset",
+            "CP-3905-HS-CORD= — Spare Handset Cord for Cisco Unified SIP Phone 3905, Charcoa",
+            "CP-3905-HS= — Spare Handset for Cisco Unified SIP Phone 3905, Charcoal",
+            "CP-3905-PWR-AR= — Power Adapter for Cisco Unified SIP Phone 3905, Argentina",
+            "CP-3905-PWR-AU= — Power Adapter for Cisco Unified SIP Phone 3905, Australia",
+            "CP-3905-PWR-BR= — Power Adapter for Cisco Unified SIP Phone 3905, Brazil"
+          ],
+          "rules": {
+            "sku": 14
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "IP DECT 6823 / 6825 handsets",
+          "family": "(none)",
+          "role": "dect",
+          "note": "^CP-682X-PWR- (layering review of 17 Sep 2026, fix list 2.4): CP-682X-PWR-AU= / -CE= / -NA= / -UK=, each named 'Cisco IP DECT 6825, Power adapter for …', sat in IP Phone 6800 through ^CP-68 — the X stands for the 6823 / 6825 handset, not a 68xx desk phone",
+          "parts": 33,
+          "kinds": {
+            "phone": 24,
+            "power": 9
+          },
+          "roles": {
+            "dect": 24
+          },
+          "samples": [
+            "CP-6823-3PC-AU-K9= — Cisco IP DECT 6823, Standard Handset, Battery, Cradle, Multi",
+            "CP-6823-3PC-BUN-AU — Cisco IP DECT Phone Bundle, Cisco IP DECT 6823 Handset and S",
+            "CP-6823-3PC-BUN-CE — Cisco IP DECT Phone Bundle, Cisco IP DECT 6823 Handset and S",
+            "CP-6823-3PC-BUN-NA — Cisco IP DECT Phone Bundle, Cisco IP DECT 6823 Handset and S",
+            "CP-6823-3PC-BUN-UK — Cisco IP DECT Phone Bundle, Cisco IP DECT 6823 Handset and S",
+            "CP-6823-3PC-CE-K9= — Cisco IP DECT 6823, Standard Handset, Battery, Cradle, Multi"
+          ],
+          "rules": {
+            "sku": 33
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "IP DECT base stations and repeaters",
+          "family": "(none)",
+          "role": null,
+          "note": "^CP-682X-WMK (layering review of 17 Sep 2026, fix list 2.4 — the same ^CP-68 fence; SKUs are matched upper-cased, so this is CP-682x-WMK=): 'Wall mount kit for Cisco IP Phone 6800 Series Base Stations and Repeater', the mount of the DECT base stations and repeater this series holds; it sat in IP Phone 6800, whose desk phones have no base station",
+          "parts": 13,
+          "kinds": {
+            "mechanical": 1,
+            "dect-base": 12
+          },
+          "roles": {},
+          "samples": [
+            "CP-682x-WMK= — Wall mount kit for Cisco IP Phone 6800 Series Base Stations ",
+            "DBS-110-3PC-AU-K9= — Cisco IP DECT Base Station 110 Series, MPP, Australia and Ne",
+            "DBS-110-3PC-CE-K9= — Cisco IP DECT Base Station 110 Series, MPP, European Union a",
+            "DBS-110-3PC-NA-K9= — Cisco IP DECT Base Station 110 Series, MPP, U.S. and Canada,",
+            "DBS-110-3PC-UK-K9= — Cisco IP DECT Base Station 110 Series, MPP, United Kingdom, ",
+            "DBS-210-3PC-AU-K9= — Cisco IP DECT Base Station 210 Series, MPP, Australia and Ne"
+          ],
+          "rules": {
+            "sku": 13
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "IP Phone 6800 (6821 / 6841 / 6851 / 6861 / 6871)",
+          "family": "(none)",
+          "role": "desk",
+          "note": "^CP-68 fenced to ^CP-68(?!2[35X]) (layering review of 17 Sep 2026, fix list 2.4): CP-6823 / CP-6825 / CP-682X are the IP DECT handsets and their parts. The DECT series come first in this file and already won those rows; the fence makes this series stop claiming them whatever the rule order",
+          "parts": 45,
+          "kinds": {
+            "power": 12,
+            "mechanical": 4,
+            "phone": 27,
+            "accessory": 1,
+            "expansion-module": 1
+          },
+          "roles": {
+            "desk": 27
+          },
+          "samples": [
+            "CP-68-PWR-S — Power switch for Cisco Phone 6821",
+            "CP-6800-FS= — Spare Foot Stand for 6841 and 6851 Series Phones",
+            "CP-6800-HS-HOOK= — Cisco IP Phone 6800 Series Handset Hook Spare, 20 pieces",
+            "CP-6800-PWR-AR= — CISCO 6800 ARGENTINA POWER ADAPTER",
+            "CP-6800-PWR-AU — CISCO 6800 AU POWER ADAPTER",
+            "CP-6800-PWR-AU= — Cisco IP Phone 6800 power adapter for Australia and New Zeal"
+          ],
+          "rules": {
+            "sku": 45
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Unified IP Phone 6900",
+          "family": "(none)",
+          "role": "desk",
+          "note": "^CP-WMK-[A-Z]+-6900 (layers round 3, collaboration-endpoints round): the 6900 wall-mount kits CP-WMK-AW-6900= / CP-WMK-C-6900= (named only by their PIDs) sat in IP Phones shared parts by ^CP-",
+          "parts": 45,
+          "kinds": {
+            "accessory": 5,
+            "phone": 35,
+            "mechanical": 3,
+            "power": 2
+          },
+          "roles": {
+            "desk": 35
+          },
+          "samples": [
+            "CP-6900-LHS-AW-WB= — Cisco CP-6900-LHS-AW-WB=",
+            "CP-6900-LHS-CG-WB= — Cisco CP-6900-LHS-CG-WB=",
+            "CP-6900-MHS-AW-WB= — Cisco CP-6900-MHS-AW-WB=",
+            "CP-6900-MHS-CG-WB= — Cisco CP-6900-MHS-CG-WB=",
+            "CP-6901-C-K9= — Cisco Unified IP Phone 6901, Charcoal, Standard Handset",
+            "CP-6901-CL-K9= — Cisco Unified IP Phone 6901, Charcoal, Slimline Handset"
+          ],
+          "rules": {
+            "sku": 45
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "IP Conference Phone 7832",
+          "family": "(none)",
+          "role": "conference",
+          "note": null,
+          "parts": 7,
+          "kinds": {
+            "phone": 6,
+            "power": 1
+          },
+          "roles": {
+            "conference": 6
+          },
+          "samples": [
+            "CP-7832-3PCC-K9++= — Cisco IP Conference Phone 7832 with Multiplatform Phone firm",
+            "CP-7832-3PCC-K9= — Cisco IP Conference Phone 7832 shipped with Multiplatform Ph",
+            "CP-7832-3PW-NA-K9= — Cisco IP Conference Phone 7832 shipped with Multiplatform Ph",
+            "CP-7832-K9++= — Cisco conference phone 7832 for TAA",
+            "CP-7832-K9= — ● Cisco IP Conference Phone 7832, Cisco Smoke",
+            "CP-7832-PWR-SPL= — ● POE power cable to work with Power Adapter 3 for POE incap"
+          ],
+          "rules": {
+            "sku": 7
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "IP Phone 7800 (7811 / 7821 / 7841 / 7861)",
+          "family": "(none)",
+          "role": "desk",
+          "note": null,
+          "parts": 52,
+          "kinds": {
+            "mechanical": 17,
+            "accessory": 1,
+            "phone": 34
+          },
+          "roles": {
+            "desk": 34
+          },
+          "samples": [
+            "CP-7800-FS= — ● Spare Foot stand for Cisco IP Phone 7800 Series",
+            "CP-7800-HS-CORD= — ● Spare Handset Cord for Cisco IP Phone 7800 Series",
+            "CP-7800-HS-HOOK= — ● Spare Handset Hook for Cisco IP Phone 7800 Series, 20 Piec",
+            "CP-7800-WMK= — ● Spare Wallmount Kit for Cisco IP Phone 7800 Series",
+            "CP-7811-3PC-RC-K9= — Cisco IP Phone 7811 with Multiplatform FW for RC Server",
+            "CP-7811-3PCC-K9++= — Cisco IP Phone 7811 with Multiplatform Phone firmware for Tr"
+          ],
+          "rules": {
+            "sku": 52
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Unified Wireless IP Phone 7920 / 7921 / 7925 / 7926",
+          "family": "(none)",
+          "role": "wireless",
+          "note": "^CP-.*792x (layers round 3, collaboration-endpoints round): the handsets' batteries, cases, holsters, clips, lock sets, USB cables, desktop and multi-chargers and their power supplies (CP-BATT-7921G-STD=, CP-PWR-DC7925G-NA=, CP-MCHGR-7925G-BUN …) carry the phone's model mid-SKU and sat in IP Phones shared parts by ^CP-. The CAB-AC2 cords 'for … 7920/7921G Multi-Charger' name the phone only in their names and stay in shared parts",
+          "parts": 138,
+          "kinds": {
+            "phone": 61,
+            "accessory": 15,
+            "power": 45,
+            "cable": 2,
+            "mechanical": 12,
+            "power-cord": 3
+          },
+          "roles": {
+            "wireless": 61
+          },
+          "samples": [
+            "CP-7920-AC-CH1-K9 — Cisco Unified Wireless IP Phone 7920 Phone/APAC with Cisco U",
+            "CP-7920-AE-CH1-K9 — Cisco Unified Wireless IP Phone 7920 Phone/APAC with Cisco U",
+            "CP-7920-AP-K9 — Cisco Unified Wireless IP Phone 7920/APAC Configurable with ",
+            "CP-7920-AP-K9= — Cisco Unified Wireless IP Phone 7920/APAC, spare",
+            "CP-7920-EC-CH1-K9 — Cisco Unified Wireless IP Phone 7920 Phone/ETSI with Cisco U",
+            "CP-7920-EE-CH1-K9 — Cisco Unified Wireless IP Phone 7920 Phone/ETSI with Cisco U"
+          ],
+          "rules": {
+            "sku": 138
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Unified IP Conference Station 7935 / 7936 / 7937",
+          "family": "(none)",
+          "role": "conference",
+          "note": null,
+          "parts": 6,
+          "kinds": {
+            "phone": 6
+          },
+          "roles": {
+            "conference": 6
+          },
+          "samples": [
+            "CP-7935 — Cisco IP Conference Station 7935",
+            "CP-7935-CCME — Cisco IP Conference Station 7935 with one Cisco CallManager ",
+            "CP-7935-CCME= — Cisco IP Conference Station 7935 with one Cisco CallManager ",
+            "CP-7935-CH1 — Cisco IP Conference Station 7935 with one station user licen",
+            "CP-7935-RF — Cisco IP Conference Station 7935, refurbished",
+            "CP-7935= — Cisco IP Conference Station 7935, spare"
+          ],
+          "rules": {
+            "sku": 6
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Unified IP Phone 7900",
+          "family": "(none)",
+          "role": "desk",
+          "note": null,
+          "parts": 74,
+          "kinds": {
+            "phone": 69,
+            "expansion-module": 5
+          },
+          "roles": {
+            "desk": 69
+          },
+          "samples": [
+            "CP-7902G — Cisco IP Phone 7902G, Global",
+            "CP-7902G-CCME — 7902G IP Phone With One CallManager Express Station User Lic",
+            "CP-7902G-CCME= — 7902G IP Phone With One CallManager Express Station User Lic",
+            "CP-7902G-CH1 — 7902G IP PHONE WITH ONE STATION USER LICENSE",
+            "CP-7902G= — Cisco IP Phone 7902G, Global, Spare",
+            "CP-7905G — Cisco IP Phone 7905G, Global"
+          ],
+          "rules": {
+            "sku": 74
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Wireless IP Phone 8821",
+          "family": "(none)",
+          "role": "wireless",
+          "note": "^CP-.*8821 (layers round 3, collaboration-endpoints round): the 8821 / 8821-EX battery, desktop and multi-chargers, wall-mount kit and regional power supplies (CP-BATT-8821=, CP-DSKCH-8821-EX=, CP-PWR-DC8821-UK …) carry the model mid-SKU and sat in IP Phones shared parts by ^CP-",
+          "parts": 47,
+          "kinds": {
+            "phone": 6,
+            "accessory": 6,
+            "power-cord": 4,
+            "mechanical": 1,
+            "power": 30
+          },
+          "roles": {
+            "wireless": 6
+          },
+          "samples": [
+            "CP-8821-EX-K9 — Cisco Unified Wireless IP Phone 8821-EX, World Mode",
+            "CP-8821-EX-K9-BUN — Cisco Unified Wireless IP Phone 8821 EX, World Mode Bundle",
+            "CP-8821-EX-K9= — Cisco Unified Wireless IP Phone 8821-EX, World Mode",
+            "CP-8821-K9 — Cisco Unified Wireless IP Phone 8821, World Mode",
+            "CP-8821-K9-BUN — Cisco Unified Wireless IP Phone 8821, World Mode Bundle",
+            "CP-8821-K9= — Cisco Unified Wireless IP Phone 8821, World Mode Spare only"
+          ],
+          "rules": {
+            "sku": 47
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "IP Conference Phone 8831 / 8832",
+          "family": "(none)",
+          "role": "conference",
+          "note": "^CP-MIC-(WIRED|WRLS)-S (layers round 3, collaboration round): 'Cisco 8831 Wired Microphone Kit' and the 'Spare 8831 Wireless Microphone' PIDs sat in IP Phones shared parts by ^CP- (microphones in shared parts); a microphone carries no phone role",
+          "parts": 105,
+          "kinds": {
+            "phone": 37,
+            "accessory": 33,
+            "mechanical": 11,
+            "cable": 3,
+            "power": 3,
+            "microphone": 18
+          },
+          "roles": {
+            "conference": 37
+          },
+          "samples": [
+            "CP-8831-3P-BR-K9= — Cisco 8831 Base/Control Panel for Brazil 3PCC",
+            "CP-8831-3P-EU-K9= — Cisco 8831 Base/Control Panel for APAC, EMEA, Australia 3PCC",
+            "CP-8831-3P-J-K9= — Cisco 8831 Base/Control Panel for Japan 3PCC",
+            "CP-8831-3P-LA-K9= — Cisco 8831 Base/Control Panel for Latin America 3PCC",
+            "CP-8831-3P-TW-K9= — Cisco 8831 Base/Control Panel for Taiwan 3PCC",
+            "CP-8831-3PB-S-BR — Spare Cisco 8831 Base for Brazil 3PCC"
+          ],
+          "rules": {
+            "sku": 105
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "IP Phone 8800 (8811 - 8875)",
+          "family": "(none)",
+          "role": "desk",
+          "note": "^CP-BEKEM (layers round 3, collaboration round): the 'Cisco IP Phone 8800 Key Expansion Module' PIDs sat in IP Phones shared parts by ^CP-; an expansion module carries no phone role",
+          "parts": 80,
+          "kinds": {
+            "expansion-module": 12,
+            "mechanical": 15,
+            "phone": 53
+          },
+          "roles": {
+            "desk": 53
+          },
+          "samples": [
+            "CP-8800-A-KEM-3PC= — Cisco IP Key Expansion Module for use with the 8851 and 8861",
+            "CP-8800-A-KEM-WMK= — ● Spare Wallmount Kit for Cisco IP Phone 8800 Series with si",
+            "CP-8800-A-KEM= — ● Key Expansion Module for Cisco IP Phone 8800 Series, Charc",
+            "CP-8800-B-BEZEL= — ● Spare Black Bezel for Cisco IP Phone 8800 Series",
+            "CP-8800-B-VID-BEZEL= — Spare Black Bezel for Cisco IP Phone 8800 Video Series",
+            "CP-8800-BEKEM-WMK= — Cisco IP Phone 8800 Wall Mount Kit for Single KEM *"
+          ],
+          "rules": {
+            "sku": 80
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Wireless Phone 840 / 860",
+          "family": "(none)",
+          "role": "wireless",
+          "note": "^CP-800- (layers round 3, collaboration-endpoints round): CP-800-USBCH= 'Cisco 800 USB Cable with Worldwide Wall Charger', the charger of the Wireless Phone 800 Series (840 / 860), sat in IP Phones shared parts by ^CP-",
+          "parts": 32,
+          "kinds": {
+            "cable": 1,
+            "accessory": 9,
+            "power": 6,
+            "phone": 9,
+            "mechanical": 7
+          },
+          "roles": {
+            "wireless": 9
+          },
+          "samples": [
+            "CP-800-USBCH= — Cisco 800 USB Cable with Worldwide Wall Charger",
+            "CP-840-BAT-MCHR= — Cisco 840 Multi-Charger for 6 Batteries with PSU",
+            "CP-840-BAT= — Cisco 840 Spare Battery",
+            "CP-840-BUN-K9 — Cisco 840 Worldwide Phone, Battery, Cable, Charger",
+            "CP-840-CLIP= — Cisco 840 Non-Scanner Rotating Belt Clip Holster",
+            "CP-840-DCHR-PS-AU= — Cisco 840 Desktop Charger AU Power Supply"
+          ],
+          "rules": {
+            "sku": 32
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Wireless Phone 9821",
+          "family": "(none)",
+          "role": "wireless",
+          "note": null,
+          "parts": 17,
+          "kinds": {
+            "accessory": 6,
+            "mechanical": 7,
+            "phone": 3,
+            "cable": 1
+          },
+          "roles": {
+            "wireless": 3
+          },
+          "samples": [
+            "WP-9821-BATT= — Cisco WP-9821-BATT=",
+            "WP-9821-BATTDOOR= — Cisco WP-9821-BATTDOOR=",
+            "WP-9821-BUN-CN-K9 — Cisco WP-9821-BUN-CN-K9",
+            "WP-9821-BUN-K9 — Cisco WP-9821-BUN-K9",
+            "WP-9821-CAB-DCHGR= — Cisco WP-9821-CAB-DCHGR=",
+            "WP-9821-CAB-MAG= — Cisco WP-9821-CAB-MAG="
+          ],
+          "rules": {
+            "sku": 17
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Spectralink 8744",
+          "family": "(none)",
+          "role": "wireless",
+          "note": null,
+          "parts": 3,
+          "kinds": {
+            "phone": 3
+          },
+          "roles": {
+            "wireless": 3
+          },
+          "samples": [
+            "SLINK-8744-AUS= — Cisco SLINK-8744-AUS=",
+            "SLINK-8744-EMEA= — Cisco SLINK-8744-EMEA=",
+            "SLINK-8744-NA= — Cisco SLINK-8744-NA="
+          ],
+          "rules": {
+            "sku": 3
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Desk Phone 9800 (9811 - 9871)",
+          "family": "(none)",
+          "role": "desk",
+          "note": null,
+          "parts": 43,
+          "kinds": {
+            "accessory": 4,
+            "mechanical": 7,
+            "expansion-module": 1,
+            "phone": 31
+          },
+          "roles": {
+            "desk": 31
+          },
+          "samples": [
+            "DP-9800-CORD-L= — Desk Phone 9800 Replacement Handset Cord, First Light - SPAR",
+            "DP-9800-CORD= — Desk Phone 9800 Replacement Handset Cord, Carbon Black - SPA",
+            "DP-9800-FS= — Desk Phone 9841 & 9851 Replacement Footstand, Carbon Black -",
+            "DP-9800-HS-L= — Desk Phone 9800 Replacement Handset, First Light - SPARE",
+            "DP-9800-HS= — Desk Phone 9800 Replacement Handset, Carbon Black - SPARE",
+            "DP-9800-KEM-WMK= — Cisco Desk Phone 9800 Wall Mount Kit for Key Expansion Modul"
+          ],
+          "rules": {
+            "sku": 43
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "SPA300 IP Phones",
+          "family": "(none)",
+          "role": "desk",
+          "note": "^SPA3 fenced (layers round 3, collaboration-endpoints round): SPA302D is the Multi-Line DECT handset, filed in unified-communications beside its SPA232D base. The empty 'SPA302D DECT handset' series that used to sit here only to give those rows a dect role is removed; with the fence, deployRole finds no role-bearing series for SPA302D here and its own ph.dect rule gives dect",
+          "parts": 9,
+          "kinds": {
+            "phone": 9
+          },
+          "roles": {
+            "desk": 9
+          },
+          "samples": [
+            "SPA301-G1 — Cisco SPA 301G, North America power adapter",
+            "SPA301-G2 — Cisco SPA 301G, Europe power adapter",
+            "SPA301-G3 — Cisco SPA 301G, UK power adapter",
+            "SPA301-G4 — Cisco SPA 301G, Australia power adapter",
+            "SPA303-G1 — 3 Line IP Phone w/Display, PC Port & NA Power Adapter",
+            "SPA303-G2 — 3 Line IP Phone w/ Display and PC Port, Europe Power Adapter"
+          ],
+          "rules": {
+            "sku": 9
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "SPA500 IP Phones",
+          "family": "(none)",
+          "role": "desk",
+          "note": "^PA100- (layers round 3, collaboration-endpoints round): the PA100 5V / 2A supply in five plug variants. Four names say 'Power supply for SPA500, CP500, and SPA 900 Series' and the label check kept them here; PA100-AS says only 'Linksys VoIP Products' and was moved to IP Phones shared parts, splitting one supply across two series by the wording of one plug variant",
+          "parts": 33,
+          "kinds": {
+            "power": 5,
+            "expansion-module": 2,
+            "phone": 26
+          },
+          "roles": {
+            "desk": 26
+          },
+          "samples": [
+            "PA100-AS — Power Supply for Linksys VoIP Products - 5V/2A (AS)",
+            "PA100-AU — Power supply for SPA500, CP500, and SPA9xx-5V/2A (AU style p",
+            "PA100-EU — Power supply for SPA500, CP500, and SPA 900 Series-5V/2A (EU",
+            "PA100-NA — Power supply for SPA500, CP500, and SPA 900 Series-5V/2A (No",
+            "PA100-UK — Power supply for SPA500, CP500, and SPA 900 Series-5V/2A (UK",
+            "SPA500DS — Digital Attendant Console for Cisco SPA500 Family Phones"
+          ],
+          "rules": {
+            "sku": 33
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Webex Room Phone",
+          "family": "(none)",
+          "role": "conference",
+          "note": null,
+          "parts": 2,
+          "kinds": {
+            "phone": 1,
+            "power": 1
+          },
+          "roles": {
+            "conference": 1
+          },
+          "samples": [
+            "CP-ROOM-C-K9= — Cisco Webex Room Phone in carbon black (includes 3m/8m HDMI ",
+            "CP-ROOM-INJ= — Power injector for Cisco Webex Room phone"
+          ],
+          "rules": {
+            "sku": 2
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "IP Phones shared parts",
+          "family": "(shared across the line)",
+          "role": null,
+          "note": "^CIUS-BATTERY (layers round 3, servers round): CIUS-BATTERY=, the Cius tablet endpoint's battery planned in from servers-unified-computing; the catalogue holds no Cius endpoint to give it a series. ^MB100$ (collaboration-endpoints round): 'Wall-mount brackets for SPA 300, SPA 500, CP 500, and SPA 900 Series' names two series of this line and two outside it; the label check kept it in SPA300 IP Phones because a sibling's three-digit token (500) is too weak to contradict a label, but a part named for several series is what the line's shared parts hold",
+          "parts": 58,
+          "kinds": {
+            "power-cord": 16,
+            "unknown": 2,
+            "accessory": 7,
+            "mechanical": 3,
+            "power": 30
+          },
+          "roles": {},
+          "samples": [
+            "CAB-AC2AUS= — AC Power Cord Australia for Cisco Unified Wireless IP Phone ",
+            "CAB-AC2CHI= — AC Power Cord China for Cisco Unified Wireless IP Phone 7920",
+            "CAB-AC2J= — AC Power Cord Japan for Cisco Unified Wireless IP Phone 7920",
+            "CIUS-BATTERY= — Cisco CIUS-BATTERY=",
+            "CP-DX-CORD= — ● Spare Handset Cord for Cisco IP Phone 8800, DX600 Series, ",
+            "CP-DX-HS-NB= — Replacement Narrowband Handset for Cisco 6800 and 7811-SPARE"
+          ],
+          "rules": {
+            "accessory": 3,
+            "sku": 54,
+            "label-unsupported": 1
+          },
+          "pending_in": {},
+          "pending_out": {}
+        }
+      ]
+    },
+    {
+      "line": "Webex Share and Media Engines",
+      "parts": 28,
+      "series": [
+        {
+          "series": "Webex Share",
+          "family": "(none)",
+          "role": null,
+          "note": null,
+          "parts": 3,
+          "kinds": {
+            "accessory": 2,
+            "power": 1
+          },
+          "roles": {},
+          "samples": [
+            "SPK-SHARE-K9 — Cisco Webex Share wireless screen-sharing adapter.",
+            "SPK-SHARE-K9= — Cisco Webex Share - SPARE",
+            "WXS-ETH-PWR-NA-OK9 — Cisco Webex Share with Ethernet adapter for North America"
+          ],
+          "rules": {
+            "label": 3
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Virtualization Experience Media Engine",
+          "family": "(none)",
+          "role": null,
+          "note": "^SPVAC-(C7416|H5610|UC725) (layers round 3, collaboration-endpoints round): the nine SolutionsPlus accessory PIDs listed by Cisco's 'Virtualization Experience Media Engine Accessories Data Sheet' (c78-702849, under collaboration-endpoints/virtualization-experience-media-engine); their names are bare placeholders ('Cisco <PID>'), so the label check could not read a series token and moved them to the line's shared parts, leaving the series empty. The other SPVAC- rows (SPVAC-H450, a Jabra handset for TelePresence MX) are not on that sheet and are not matched",
+          "parts": 9,
+          "kinds": {
+            "unknown": 9
+          },
+          "roles": {},
+          "samples": [
+            "SPVAC-C7416-S-JP= — Cisco SPVAC-C7416-S-JP=",
+            "SPVAC-C7416-S= — Cisco SPVAC-C7416-S=",
+            "SPVAC-H5610-S-CL= — Cisco SPVAC-H5610-S-CL=",
+            "SPVAC-H5610-S-EU= — Cisco SPVAC-H5610-S-EU=",
+            "SPVAC-H5610-S-JP= — Cisco SPVAC-H5610-S-JP=",
+            "SPVAC-H5610-S-TW= — Cisco SPVAC-H5610-S-TW="
+          ],
+          "rules": {
+            "sku": 9
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Webex Share and Media Engines shared parts",
+          "family": "(shared across the line)",
+          "role": null,
+          "note": null,
+          "parts": 16,
+          "kinds": {
+            "power": 8,
+            "accessory": 8
+          },
+          "roles": {},
+          "samples": [
+            "POE-WW — Device PoE Adapter (Worldwide - 12W)",
+            "POE-WW= — Device PoE Adapter (Worldwide - 12W)",
+            "PWR18W-ETH-NA — 18W Ethernet Power Adapter for North America.",
+            "PWR18W-ETH-NA= — 18W Ethernet Power Adapter for North America.",
+            "PWR18W-ETH-WW — 18W Ethernet Power Adapter (Worldwide)",
+            "PWR18W-ETH-WW= — 18W Ethernet Power Adapter (Worldwide). Spare"
+          ],
+          "rules": {
+            "label-unsupported": 16
+          },
+          "pending_in": {},
+          "pending_out": {}
+        }
+      ]
+    },
+    {
+      "line": "Meeting Server and TelePresence Management",
+      "parts": 68,
+      "series": [
+        {
+          "series": "Meeting Server 1000 / 2000",
+          "family": "(none)",
+          "role": null,
+          "note": "arriving from conferencing (layers round 3, merge plan conferencing -> collaboration-endpoints, spec II.16 and decision record rule 5; not run): the Cisco Meeting Server 1000 (UCS C-Series) and 2000 (UCS 5108 with B200 media and control blades) appliances and bundles, CMS-M-M8-K9 / CMS-S-M7-K9 (Meeting Server data sheet c78-742168). The servers mapping's B200 / 5108 / 6324 rules and UC's none read these rows; record them decided-home when the move runs (the Business Edition precedent)",
+          "parts": 24,
+          "kinds": {
+            "server": 24
+          },
+          "roles": {},
+          "samples": [
+            "CIT3-B200-M4 — UCS B200 M4 w/o CPU, mem, drive bays, HDD, mezz",
+            "CIT3-B200-M4-CON — UCS B200 M4 w/o CPU, mem, drive bays, HDD, mezz",
+            "CIT3-B200-M5 — Cisco Meeting Server 2000 M5 Media Blade",
+            "CIT3-B200-M5-CON — Cisco Meeting Server 2000 M5 Control Blade",
+            "CIT3-B200-M5V2 — Cisco Meeting Server 2000 M5v2 Media Blade",
+            "CIT3-B200-M5V2-CON — Cisco Meeting Server 2000 M5v2 Control Blade"
+          ],
+          "rules": {
+            "sku": 24
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "TelePresence Management Server (TMS) appliances",
+          "family": "(none)",
+          "role": null,
+          "note": "arriving from conferencing (merge plan): CTI-TMS-APL-K9(=) 'Cisco TelePresence Management Server' and its ATP demo unit (Cisco's TelePresence Management Server end-of-sale notice)",
+          "parts": 3,
+          "kinds": {
+            "server": 3
+          },
+          "roles": {},
+          "samples": [
+            "CTI-ATP-TMS-APL-K9 — ATP Demo -TMS Server Appliance Incl TMS and Scheduler-25 lic",
+            "CTI-TMS-APL-K9 — Cisco TelePresence Management Server",
+            "CTI-TMS-APL-K9= — Cisco TelePresence Management Server - Spare"
+          ],
+          "rules": {
+            "sku": 3
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "AI PODs for Collaboration",
+          "family": "(none)",
+          "role": null,
+          "note": "arriving from conferencing (merge plan): AIPOD-COLLAB and the UCS C240 M8 'Rack Server for Collaboration AI' (with GPU) of Cisco's 'AI PODs for Collaboration' data sheet; the servers mapping's C240 rule reads the two UCSC rows — record it decided-home when the move runs",
+          "parts": 3,
+          "kinds": {
+            "server": 3
+          },
+          "roles": {},
+          "samples": [
+            "AIPOD-COLLAB — Cisco AI PODs for Collaboration (Hardware)",
+            "UCSC-C240-M8-CL — UCS C240 M8 2U Rack Server for Collaboration AI",
+            "UCSC-C240-M8-CL-G — UCS C240 M8 2U Rack Server for Collaboration AI (GPU)"
+          ],
+          "rules": {
+            "sku": 3
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Meeting Server and TelePresence Management shared parts",
+          "family": "(shared across the line)",
+          "role": null,
+          "note": "arriving from conferencing (merge plan): the CIT3- UCS components sold for the Meeting Server appliances (CPUs, memory, drives, supplies, RAID controllers, VIC mLOMs, TPMs, the 5108 fan / power module / packaging, the 6324 in-chassis fabric interconnect, a FlexStorage blank)",
+          "parts": 38,
+          "kinds": {
+            "mechanical": 2,
+            "cpu": 5,
+            "accessory": 1,
+            "unknown": 1,
+            "drive": 9,
+            "nic": 3,
+            "memory": 4,
+            "storage-controller": 5,
+            "power": 6,
+            "tpm": 2
+          },
+          "roles": {},
+          "samples": [
+            "CIT3-5108-PKG-HW — UCS 5108 Packaging for chassis with half width blades.",
+            "CIT3-CPU-6140 — 2.3 GHz 6140/140W 18C/24.75MB Cache/DDR4 2666MHz",
+            "CIT3-CPU-E52695E — 2.10 GHz E5-2695 v4/120W 18C/45MB Cache/DDR4 2400MHz",
+            "CIT3-CPU-I6240 — Intel 6240 2.6GHz/150W 18C/24.75MB DCP DDR4 2933 MHz",
+            "CIT3-CPU-I6240= — ^Intel 6240 2.6GHz/150W 18C/24.75MB DCP DDR4 2933 MHz",
+            "CIT3-CPU-I6336Y — Intel 6336Y 2.4GHz/185W 24C/36MB DDR4 3200MHz"
+          ],
+          "rules": {
+            "sku": 38
+          },
+          "pending_in": {},
+          "pending_out": {}
+        }
+      ]
     }
-   ]
+  ],
+  "not_this_category": [],
+  "pending_plans": [],
+  "unplaced": [],
+  "label_check": {
+    "applied": true,
+    "label_placed": 46,
+    "by_kind": {
+      "sku-token": 12,
+      "name": 7,
+      "none": 27
+    },
+    "moved": [
+      {
+        "sku": "ADPT-HDMI-DVID=",
+        "name": "Adaptor HDMI to DVID cable",
+        "series_label": "TelePresence PrecisionHD Cameras",
+        "from_series": "Precision 40 / 60 / PrecisionHD cameras",
+        "to_series": "Cameras shared parts",
+        "why": "no series token in the SKU or name, no compatible part placed in the series"
+      },
+      {
+        "sku": "AVIZ-EDU=",
+        "name": "SolutionsPlus: Avizia Educator",
+        "series_label": "TelePresence MX Series",
+        "from_series": "TelePresence MX (MX200 / MX300 / MX700 / MX800)",
+        "to_series": "TelePresence (legacy) shared parts",
+        "why": "no platform token (200, 300, 700, 800) in the SKU or name, no compatible part placed in the series"
+      },
+      {
+        "sku": "AVIZ-SYN=",
+        "name": "Avizia Synch",
+        "series_label": "TelePresence MX Series",
+        "from_series": "TelePresence MX (MX200 / MX300 / MX700 / MX800)",
+        "to_series": "TelePresence (legacy) shared parts",
+        "why": "no platform token (200, 300, 700, 800) in the SKU or name, no compatible part placed in the series"
+      },
+      {
+        "sku": "AVIZ-TAC-K9",
+        "name": "SolutionsPlus: Avizia Tactical",
+        "series_label": "TelePresence MX Series",
+        "from_series": "TelePresence MX (MX200 / MX300 / MX700 / MX800)",
+        "to_series": "TelePresence (legacy) shared parts",
+        "why": "no platform token (200, 300, 700, 800) in the SKU or name, no compatible part placed in the series"
+      },
+      {
+        "sku": "POE-WW",
+        "name": "Device PoE Adapter (Worldwide - 12W)",
+        "series_label": "Webex Share",
+        "from_series": "Webex Share",
+        "to_series": "Webex Share and Media Engines shared parts",
+        "why": "no series token in the SKU or name, no compatible part placed in the series"
+      },
+      {
+        "sku": "POE-WW=",
+        "name": "Device PoE Adapter (Worldwide - 12W)",
+        "series_label": "Webex Share",
+        "from_series": "Webex Share",
+        "to_series": "Webex Share and Media Engines shared parts",
+        "why": "no series token in the SKU or name, no compatible part placed in the series"
+      },
+      {
+        "sku": "PWR-12VDC-84W-",
+        "name": "Power supply 12VDC 84W",
+        "series_label": "SpeakerTrack 60",
+        "from_series": "SpeakerTrack 60",
+        "to_series": "Cameras shared parts",
+        "why": "no series token in the SKU or name, no compatible part placed in the series"
+      },
+      {
+        "sku": "PWR-12VDC-84W-=",
+        "name": "^Power supply 12VDC 84W",
+        "series_label": "SpeakerTrack 60",
+        "from_series": "SpeakerTrack 60",
+        "to_series": "Cameras shared parts",
+        "why": "no series token in the SKU or name, no compatible part placed in the series"
+      },
+      {
+        "sku": "PWR-12VDC-84W=",
+        "name": "Power supply 12VDC 84W",
+        "series_label": "SpeakerTrack 60",
+        "from_series": "SpeakerTrack 60",
+        "to_series": "Cameras shared parts",
+        "why": "no series token in the SKU or name, no compatible part placed in the series"
+      },
+      {
+        "sku": "PWR18W-ETH-NA",
+        "name": "18W Ethernet Power Adapter for North America.",
+        "series_label": "Webex Share",
+        "from_series": "Webex Share",
+        "to_series": "Webex Share and Media Engines shared parts",
+        "why": "no series token in the SKU or name, no compatible part placed in the series"
+      },
+      {
+        "sku": "PWR18W-ETH-NA=",
+        "name": "18W Ethernet Power Adapter for North America.",
+        "series_label": "Webex Share",
+        "from_series": "Webex Share",
+        "to_series": "Webex Share and Media Engines shared parts",
+        "why": "no series token in the SKU or name, no compatible part placed in the series"
+      },
+      {
+        "sku": "PWR18W-ETH-WW",
+        "name": "18W Ethernet Power Adapter (Worldwide)",
+        "series_label": "Webex Share",
+        "from_series": "Webex Share",
+        "to_series": "Webex Share and Media Engines shared parts",
+        "why": "no series token in the SKU or name, no compatible part placed in the series"
+      },
+      {
+        "sku": "PWR18W-ETH-WW=",
+        "name": "18W Ethernet Power Adapter (Worldwide). Spare",
+        "series_label": "Webex Share",
+        "from_series": "Webex Share",
+        "to_series": "Webex Share and Media Engines shared parts",
+        "why": "no series token in the SKU or name, no compatible part placed in the series"
+      },
+      {
+        "sku": "PWR18W-NA",
+        "name": "18W Power Adapter for North America",
+        "series_label": "Webex Share",
+        "from_series": "Webex Share",
+        "to_series": "Webex Share and Media Engines shared parts",
+        "why": "no series token in the SKU or name, no compatible part placed in the series"
+      },
+      {
+        "sku": "PWR18W-NA=",
+        "name": "18W Power Adapter for North America",
+        "series_label": "Webex Share",
+        "from_series": "Webex Share",
+        "to_series": "Webex Share and Media Engines shared parts",
+        "why": "no series token in the SKU or name, no compatible part placed in the series"
+      },
+      {
+        "sku": "PWRCLIP-AR=",
+        "name": "Spare Power adapter clip for Argentina",
+        "series_label": "Webex Share",
+        "from_series": "Webex Share",
+        "to_series": "Webex Share and Media Engines shared parts",
+        "why": "no series token in the SKU or name, no compatible part placed in the series"
+      },
+      {
+        "sku": "PWRCLIP-AU=",
+        "name": "Spare Power adapter clip for Australia and New Zealand",
+        "series_label": "Webex Share",
+        "from_series": "Webex Share",
+        "to_series": "Webex Share and Media Engines shared parts",
+        "why": "no series token in the SKU or name, no compatible part placed in the series"
+      },
+      {
+        "sku": "PWRCLIP-BR=",
+        "name": "Spare Power adapter clip for Brazil.",
+        "series_label": "Webex Share",
+        "from_series": "Webex Share",
+        "to_series": "Webex Share and Media Engines shared parts",
+        "why": "no series token in the SKU or name, no compatible part placed in the series"
+      },
+      {
+        "sku": "PWRCLIP-CN=",
+        "name": "Spare Power adapter clip for China",
+        "series_label": "Webex Share",
+        "from_series": "Webex Share",
+        "to_series": "Webex Share and Media Engines shared parts",
+        "why": "no series token in the SKU or name, no compatible part placed in the series"
+      },
+      {
+        "sku": "PWRCLIP-EU=",
+        "name": "Spare Power adapter clip for Europe",
+        "series_label": "Webex Share",
+        "from_series": "Webex Share",
+        "to_series": "Webex Share and Media Engines shared parts",
+        "why": "no series token in the SKU or name, no compatible part placed in the series"
+      },
+      {
+        "sku": "PWRCLIP-IN=",
+        "name": "Spare Power adapter clip for India",
+        "series_label": "Webex Share",
+        "from_series": "Webex Share",
+        "to_series": "Webex Share and Media Engines shared parts",
+        "why": "no series token in the SKU or name, no compatible part placed in the series"
+      },
+      {
+        "sku": "PWRCLIP-KR=",
+        "name": "Spare Power adapter clip for Korea",
+        "series_label": "Webex Share",
+        "from_series": "Webex Share",
+        "to_series": "Webex Share and Media Engines shared parts",
+        "why": "no series token in the SKU or name, no compatible part placed in the series"
+      },
+      {
+        "sku": "PWRCLIP-UK=",
+        "name": "Spare Power adapter clip for United Kingdom.",
+        "series_label": "Webex Share",
+        "from_series": "Webex Share",
+        "to_series": "Webex Share and Media Engines shared parts",
+        "why": "no series token in the SKU or name, no compatible part placed in the series"
+      },
+      {
+        "sku": "SPVAC-H450-W-EU=",
+        "name": "SolutionsPlus: Jabra Handset 450 for Cisco -White-EU",
+        "series_label": "TelePresence MX Series",
+        "from_series": "TelePresence MX (MX200 / MX300 / MX700 / MX800)",
+        "to_series": "TelePresence (legacy) shared parts",
+        "why": "no platform token (200, 300, 700, 800) in the SKU or name, no compatible part placed in the series"
+      },
+      {
+        "sku": "SPVAC-H450-W-JP=",
+        "name": "SolutionsPlus: Jabra Handset 450 for Cisco -White-Japan",
+        "series_label": "TelePresence MX Series",
+        "from_series": "TelePresence MX (MX200 / MX300 / MX700 / MX800)",
+        "to_series": "TelePresence (legacy) shared parts",
+        "why": "no platform token (200, 300, 700, 800) in the SKU or name, no compatible part placed in the series"
+      },
+      {
+        "sku": "SPVAC-H450-W-US=",
+        "name": "SolutionsPlus: Jabra Handset 450 for Cisco -White-US",
+        "series_label": "TelePresence MX Series",
+        "from_series": "TelePresence MX (MX200 / MX300 / MX700 / MX800)",
+        "to_series": "TelePresence (legacy) shared parts",
+        "why": "no platform token (200, 300, 700, 800) in the SKU or name, no compatible part placed in the series"
+      },
+      {
+        "sku": "WBP54G",
+        "name": "802.11b/g wireless bridge",
+        "series_label": "SPA500 IP Phones",
+        "from_series": "SPA500 IP Phones",
+        "to_series": "IP Phones shared parts",
+        "why": "no platform token (500) in the SKU or name, no compatible part placed in the series"
+      }
+    ]
   },
-  {
-   "line": "Webex Desk Series",
-   "parts": 124,
-   "series": [
-    {
-     "series": "Desk Pro",
-     "family": "(none)",
-     "role": null,
-     "note": "^CS-DSKPRO (layers round 3, collaboration round): the customized-model Desk Pro PIDs CS-DSKPRO-MM-K9 / -MM-NR-K9 / -NR-K9--= sat in the line's shared parts by their label (video devices in shared parts)",
-     "parts": 39,
-     "kinds": {
-      "mechanical": 13,
-      "video-device": 26
-     },
-     "roles": {},
-     "samples": [
-      "CS-DESKP-C-FG- — Cisco CS-DESKP-C-FG-",
-      "CS-DESKP-C-FG= — Replacement Front Speaker Grille for DeskPro G2 (Carbon Blac",
-      "CS-DESKP-C-K9 — Cisco Desk Pro G2 – Carbon Black, Upfront GPL",
-      "CS-DESKP-C-K9++ — Cisco Desk Pro G2 – TAA (for U.S Government) Carbon Black",
-      "CS-DESKP-C-K9-- — Cisco Desk Pro G2, Customized Model, Carbon Black",
-      "CS-DESKP-C-K9--= — Cisco Desk Pro G2, Customizedp Model, Carbon Black- SPARE"
-     ],
-     "rules": {
-      "sku": 39
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Desk Mini",
-     "family": "(none)",
-     "role": null,
-     "note": null,
-     "parts": 11,
-     "kinds": {
-      "video-device": 11
-     },
-     "roles": {},
-     "samples": [
-      "CS-DESKMINI-B-K9 — Cisco Desk Mini - Nordic Blue",
-      "CS-DESKMINI-C-K9 — Cisco Desk Mini (Carbon Black) – Upfront GPL",
-      "CS-DESKMINI-C-K9= — Cisco Desk Mini - Carbon Black - SPARE (Service Unit Only)",
-      "CS-DESKMINI-G-K9 — Cisco Desk Mini - Woodland Green",
-      "CS-DESKMINI-K9 — Cisco Desk Mini (First Light gray) – Upfront GPL",
-      "CS-DESKMINI-K9= — Cisco Desk Mini (First Light gray) – Upfront GPL – SPARE 1"
-     ],
-     "rules": {
-      "sku": 11
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Desk",
-     "family": "(none)",
-     "role": null,
-     "note": null,
-     "parts": 28,
-     "kinds": {
-      "mechanical": 8,
-      "video-device": 20
-     },
-     "roles": {},
-     "samples": [
-      "CS-DESK-C-FG= — Fabric speaker grille for Cisco Desk – Carbon",
-      "CS-DESK-C-K9 — Cisco Desk (Carbon Black) – Upfront GPL",
-      "CS-DESK-C-K9= — Cisco Desk (Carbon Black) – Upfront GPL – SPARE 1",
-      "CS-DESK-C-STAND= — Desk Stand for Cisco Desk – Carbon - SPARE",
-      "CS-DESK-FG= — Fabric speaker grille for Cisco Desk – First Light",
-      "CS-DESK-K9 — Cisco Desk (First Light) – Upfront GPL"
-     ],
-     "rules": {
-      "sku": 28
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "DX70 / DX80",
-     "family": "(none)",
-     "role": null,
-     "note": "^CS-DX (layers round 3, collaboration round): CS-DX70-K9= / CS-DX80-K9=, the Webex-registration spares, sat in the line's shared parts by their label. ^CTS-NAL-CP-DX[78]0 (same round): the 'DX70 / DX80 NAL label for China' sat in TelePresence (legacy) shared parts by ^CTS-",
-     "parts": 31,
-     "kinds": {
-      "mechanical": 6,
-      "video-device": 23,
-      "accessory": 2
-     },
-     "roles": {},
-     "samples": [
-      "CP-DX650-ADA-WMK= — ADA Locking Wall Mount Kit for DX650",
-      "CP-DX650-K9 — Cisco DX650",
-      "CP-DX650-K9++ — Cisco DX650 – TAA",
-      "CP-DX650-K9++= — Cisco DX650 – TAA",
-      "CP-DX650-K9= — Cisco DX650",
-      "CP-DX650-NC-K9= — Cisco UC Phone DX-650, Non-China COO"
-     ],
-     "rules": {
-      "sku": 31
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Webex Desk Series shared parts",
-     "family": "(shared across the line)",
-     "role": null,
-     "note": null,
-     "parts": 15,
-     "kinds": {
-      "cable": 6,
-      "accessory": 2,
-      "power": 3,
-      "power-cord": 4
-     },
-     "roles": {},
-     "samples": [
-      "CAB-COMBO-2M — Combo cable USB & HDMI. Grey. 2 meters",
-      "CAB-COMBO-2M= — HDMI/USB grey cable for Cisco Webex DX80",
-      "CAB-DX-2HDMI-3M — HDMI-to-HDMI cable, 3m",
-      "CAB-GREY-2.9M — Cisco CAB-GREY-2.9M",
-      "CAB-GREY-2.9M= — Ethernet grey cable for Cisco Webex DX80",
-      "CAB-USBC-1.5M — USB-C 3.2 Gen 2X2 Passive Cable, 1.5M length"
-     ],
-     "rules": {
-      "accessory": 10,
-      "label": 5
-     },
-     "pending_in": {},
-     "pending_out": {}
-    }
-   ]
-  },
-  {
-   "line": "Webex Board Series",
-   "parts": 235,
-   "series": [
-    {
-     "series": "Board Pro G2 (55 / 75)",
-     "family": "(none)",
-     "role": null,
-     "note": null,
-     "parts": 52,
-     "kinds": {
-      "mechanical": 12,
-      "video-device": 40
-     },
-     "roles": {},
-     "samples": [
-      "CS-BRDP-ACTSTYL — Cisco Board Pro Active Stylus Kit (2x stylus pens with 2 ext",
-      "CS-BRDP-ACTSTYL+ — Cisco Board Pro Active Stylus Kit (2x stylus pens with 2 ext",
-      "CS-BRDP-ACTSTYL= — Cisco Board Pro Active Stylus Kit (2x stylus pens with 2 ext",
-      "CS-BRDP-CBLMGMT-L — Cisco Board Pro Cable Management Kit",
-      "CS-BRDP-CBLMGMT-L= — Cisco Board Pro Cable Management Kit - SPARE",
-      "CS-BRDP-FS-SCRW= — Cisco Board Pro Floor Stand Screws - Spare"
-     ],
-     "rules": {
-      "sku": 52
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Board Pro (55 / 75)",
-     "family": "(none)",
-     "role": null,
-     "note": null,
-     "parts": 43,
-     "kinds": {
-      "mechanical": 18,
-      "video-device": 25
-     },
-     "roles": {},
-     "samples": [
-      "CS-BRD55P-FS — Cisco Board Pro 55 Floor stand",
-      "CS-BRD55P-FS= — Cisco Board Pro 55 Floor stand - Spare",
-      "CS-BRD55P-K9 — Cisco Board Pro 55 (GPL)",
-      "CS-BRD55P-K9++ — Cisco Board Pro 55 - TAA",
-      "CS-BRD55P-K9= — Cisco Board Pro 55 - Spare",
-      "CS-BRD55P-MM-K9 — Cisco Board Pro 55 customized model"
-     ],
-     "rules": {
-      "sku": 43
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Webex Board 55 / 70 / 85 (Spark Board)",
-     "family": "(none)",
-     "role": null,
-     "note": "^CS-BRD-PENTIPS (layers round 3, collaboration round): 'Cisco Webex Board S Pen Tips - 30 tips for stylus', sold in the 'Webex Board S TAA and MM' end-of-sale notice; it sat in the line's shared parts with kind video-device (a kind-layer defect, listed). ^SPBOARD- (same round): SPBOARD-CBLMGMT(=) 'Cisco Spark Board, Cable Management Kit' sat in Webex Room Series shared parts by the label Room Series, and SPBOARD-WS-SCRW= 'Screw kit for Cisco Webex Board Wall Stand' in TelePresence (legacy) shared parts by the label TelePresence MX Series; the Spark Board is this series. ^CS-BRD85- and ^CS-BRD-PENKIT(?!SOFT) (same round): 'Spare transport frame for Webex Board 85' and 'Webex Board S Pen Kit' sat in Webex Board Series shared parts by their label; the soft-tip pen kit (CS-BRD-PENKITSOFT, 'Cisco Board Pen Kit') names no board and stays there",
-     "parts": 112,
-     "kinds": {
-      "video-device": 49,
-      "mechanical": 62,
-      "accessory": 1
-     },
-     "roles": {},
-     "samples": [
-      "CS-BOARD55 — ^Cisco Spark Board 55 - unit",
-      "CS-BOARD55-FS — Cisco Spark Board 55 Floor Stand (New Design)",
-      "CS-BOARD55-FS= — Cisco Webex Board 55 Floor Stand (New Design) - spare",
-      "CS-BOARD55-FSK — Cisco Spark Board 55 Floor Stand Kit",
-      "CS-BOARD55-FSK= — Cisco Spark Board 55 Floor Stand Kit - Spare",
-      "CS-BOARD55-G-FS — Cisco Webex Board 55 Floor Stand (GPL)"
-     ],
-     "rules": {
-      "sku": 112
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Webex Board Series shared parts",
-     "family": "(shared across the line)",
-     "role": null,
-     "note": null,
-     "parts": 28,
-     "kinds": {
-      "cable": 26,
-      "mechanical": 2
-     },
-     "roles": {},
-     "samples": [
-      "CAB-CAT5E-12M — 12 meter round gray Ethernet cable for Cisco Devices",
-      "CAB-CAT5E-12M= — Ethernet CAT5E Round Cable - 12 meter - Gray - SPARE (for Ro",
-      "CAB-CAT5E-4M — 4 meter round gray Ethernet cable for Cisco Devices",
-      "CAB-CAT5E-4M= — Ethernet CAT5E Round Cable - 4 meter - Gray - SPARE (for Roo",
-      "CAB-CAT5E-8M — 8 meter round gray Ethernet cable for Cisco Devices",
-      "CAB-CAT5E-8M- — Ethernet CAT5E Round Cable - 8 meter - Gray - SPARE (for Roo"
-     ],
-     "rules": {
-      "accessory": 26,
-      "label": 2
-     },
-     "pending_in": {},
-     "pending_out": {}
-    }
-   ]
-  },
-  {
-   "line": "Webex Room Series",
-   "parts": 702,
-   "series": [
-    {
-     "series": "Room Bar Pro",
-     "family": "(none)",
-     "role": null,
-     "note": null,
-     "parts": 14,
-     "kinds": {
-      "video-codec": 10,
-      "mechanical": 4
-     },
-     "roles": {},
-     "samples": [
-      "CS-BARPRO-C-K9 — Cisco Room Bar Pro - Carbon Black (with Room Navigator Table",
-      "CS-BARPRO-CAMCOV — Privacy Camera Cover for Room Bar Pro",
-      "CS-BARPRO-CAMCOV= — Privacy Camera Cover for Room Bar Pro - SPARE",
-      "CS-BARPRO-K9 — Cisco Room Bar Pro - First Light (with Room Navigator Table ",
-      "CS-BARPRO-K9++ — Cisco Room Bar Pro - First Light - TAA (with Room Navigator ",
-      "CS-BARPRO-K9-- — Cisco Room Bar Pro - First Light - Customized Model"
-     ],
-     "rules": {
-      "sku": 14
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Room Bar",
-     "family": "(none)",
-     "role": null,
-     "note": null,
-     "parts": 13,
-     "kinds": {
-      "video-codec": 10,
-      "mechanical": 3
-     },
-     "roles": {},
-     "samples": [
-      "CS-BAR — Cisco CS-BAR",
-      "CS-BAR-GRL-CSTM= — Room Bar Custom Non-Fabric Grille - SPARE",
-      "CS-BAR-K9++ — Cisco CS-BAR-K9++",
-      "CS-BAR-K9= — Cisco CS-BAR-K9=",
-      "CS-BAR-MM-K9 — Cisco CS-BAR-MM-K9",
-      "CS-BAR-MOUNT-KIT- — Mounting Kit for Cisco Room Bar"
-     ],
-     "rules": {
-      "sku": 13
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Room Kit (Kit / Mini / Plus / Pro / EQ)",
-     "family": "(none)",
-     "role": null,
-     "note": "layers round 3, collaboration round — rows that sat in the line's shared parts by their label: CS-KPRO-Q / -Z 'Cisco Room Kit Pro G2 / Room Kit Vision PTZ', CS-EQX-* 'Room Kit EQX' (no codec, centre and side modules), CS-ROOM-USB-K9(=) 'Room USB' (its spare 'Room Kit Mini/Room USB (unit)'; Cisco's Room USB end-of-sale notice, successor CS-BAR-T); CAB-EQX-SPKR= 'Room Kit EQX Complete set of Speaker Cables' (SKU token EQX), which sat in the line's shared parts",
-     "parts": 126,
-     "kinds": {
-      "cable": 1,
-      "accessory": 2,
-      "video-device": 5,
-      "mechanical": 29,
-      "video-codec": 89
-     },
-     "roles": {},
-     "samples": [
-      "CAB-EQX-SPKR= — Room Kit EQX Complete set of Speaker Cables",
-      "CS-EQX-ANT= — Room Kit EQX antenna kit (includes 3x antennae + cables)",
-      "CS-EQX-CENTER-MOD= — Room Kit EQX center module",
-      "CS-EQX-FAN= — Room Kit EQX 2 fan pack",
-      "CS-EQX-FRAME-C= — Room Kit EQX front frame module - Carbon Black",
-      "CS-EQX-FRAME= — Room Kit EQX front frame module - First Light"
-     ],
-     "rules": {
-      "sku": 126
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Codec Plus / Pro / EQ",
-     "family": "(none)",
-     "role": null,
-     "note": "^CS-RCOD(PLUS|PRO) (layers round 3, collaboration round): the 15 'Cisco Room CodecPLUS' / 'Room Codec PRO' PIDs sat in the line's shared parts by their label (video codecs in shared parts). ^CS-CODPL2- (same round): 'Antennas for Codec Plus 2' sat in the line's shared parts",
-     "parts": 84,
-     "kinds": {
-      "video-codec": 64,
-      "accessory": 9,
-      "mechanical": 11
-     },
-     "roles": {},
-     "samples": [
-      "CS-CODEC-EQ++ — Cisco CS-CODEC-EQ++",
-      "CS-CODEC-EQ-ANT+ — Cisco Codec EQ Antennas",
-      "CS-CODEC-EQ-ANT= — Codec EQ Antennas SPARE",
-      "CS-CODEC-EQ-K9 — Cisco CS-CODEC-EQ-K9",
-      "CS-CODEC-EQ-K9++ — Cisco CS-CODEC-EQ-K9++",
-      "CS-CODEC-EQ-NR++ — Cisco CS-CODEC-EQ-NR++"
-     ],
-     "rules": {
-      "sku": 84
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Room Panorama",
-     "family": "(none)",
-     "role": null,
-     "note": "layers round 3, collaboration round: CS-ROOM-P85-NR-K7 / -K9 'Webex Room Panorama 85' (placed in shared parts by ^CS-ROOM), CS-RPQUADCAM(+/=) 'Fully automatic quadcamera for Room Panorama' (by their label) and CAB-PANO-L / -R-SPKR 'Left / Right Speaker Cable for Room Panorama' (SKU token PANO). ^CS-PANO fenced (meraki round, the collaboration round's recorded claimant fix): CS-PANO-SWITCH+ / SWITCH2+ are whole Catalyst 3560-CX / C1000 switches that stay in switches (layers review round 2, A.6)",
-     "parts": 49,
-     "kinds": {
-      "cable": 4,
-      "mechanical": 17,
-      "accessory": 6,
-      "speaker": 3,
-      "display": 8,
-      "video-device": 8,
-      "camera": 3
-     },
-     "roles": {},
-     "samples": [
-      "CAB-PANO-L-SPKR- — Left Speaker Cable for Room Panorama - 6 speakers + 2 bass",
-      "CAB-PANO-L-SPKR= — Left Speaker Cable for Room Panorama - 6 speakers + 2 bass",
-      "CAB-PANO-R-SPKR- — Right Speaker Cable Room Panorama, 6 speaker + 2 bass",
-      "CAB-PANO-R-SPKR= — Right Speaker Cable Room Panorama, 6 speaker + 2 bass",
-      "CS-PANO-240-CSTM — Room Panorama Custom wall - low ceiling bracket",
-      "CS-PANO-82-CAV= — Room Panorama Display Cavity for 82\""
-     ],
-     "rules": {
-      "sku": 49
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Room 55 / 55D",
-     "family": "(none)",
-     "role": null,
-     "note": "^CS-R55- (layers round 3, collaboration round): the six 'Cisco Webex Room 55 Main Unit' PIDs sat in the line's shared parts by their label. ^CTS-NAL-ROOM55 (same round): 'CS Room 55 NAL label for China' sat in TelePresence (legacy) shared parts by ^CTS-",
-     "parts": 50,
-     "kinds": {
-      "video-device": 18,
-      "mechanical": 23,
-      "display": 8,
-      "accessory": 1
-     },
-     "roles": {},
-     "samples": [
-      "CS-R55-UNI2-K9+ — Cisco Webex Room 55 Main Unit",
-      "CS-R55-UNI2-K9= — Cisco Webex Room 55 Main Unit (Service purpose only)",
-      "CS-R55-UNI2-NR-K7+ — Cisco Webex Room 55 Main Unit, Non Encryprion and Non Radio",
-      "CS-R55-UNI2-NR-K7= — Cisco Webex Room 55 Main Unit, Non Encryption and Non Radio",
-      "CS-R55-UNI2-NR-K9+ — Cisco Webex Room 55 Main Unit Non Radio",
-      "CS-R55-UNI2-NR-K9= — Cisco Webex Room 55 Main Unit Non Radio"
-     ],
-     "rules": {
-      "sku": 50
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Room 70 / 70S / 70D",
-     "family": "(none)",
-     "role": null,
-     "note": "layers round 3 (wireless round): the Room 70 speaker, HDMI and DC cables and the Room 70 antenna kit (named 'for ROOM 70'), planned in from wireless where they sat under the 'Policy Suite for Mobile' label",
-     "parts": 120,
-     "kinds": {
-      "accessory": 2,
-      "power-cord": 8,
-      "cable": 45,
-      "mechanical": 33,
-      "speaker": 2,
-      "video-device": 24,
-      "display": 6
-     },
-     "roles": {},
-     "samples": [
-      "ANT-ROOM70-KIT- — Antenna kit for ROOM 70 with brackets.",
-      "ANT-ROOM70-KIT= — Antenna kit for ROOM 70 with brackets.",
-      "CAB-2DC-BRL-0.30M- — DC Power Cable w/Barrel Plug, 0.3 meters long",
-      "CAB-2DC-BRL-0.30M= — DC Power Cable w/Barrel Plug, 0.3 meters long",
-      "CAB-2DC-BRL-0.6M- — DC Power Cable w/Barrel Plug, 0.6 meters long for MXCAM-D",
-      "CAB-2DC-BRL-0.6M= — DC Power Cable w/Barrel Plus, 0.6 meters long for MXCAM-D"
-     ],
-     "rules": {
-      "sku": 120
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Room Navigator and Touch 10",
-     "family": "(none)",
-     "role": null,
-     "note": "^CAB-DV10- and ^CS-R-USB-T10 (layers round 3, collaboration-endpoints round): the flat grey Ethernet cables 'for Touch 10' / 'for Room Navigator' (4 / 8 / 12.5 m) and 'Touch 10 Kit for Room USB Upgrade' sat in Webex Room Series shared parts",
-     "parts": 74,
-     "kinds": {
-      "cable": 7,
-      "mechanical": 7,
-      "touch-panel": 60
-     },
-     "roles": {},
-     "samples": [
-      "CAB-DV10-12.5= — 12.5 meter flat grey Ethernet cable for Touch 10 - Spare",
-      "CAB-DV10-12.5M — 12.5 meter flat grey Ethernet cable for Touch 10",
-      "CAB-DV10-12.5M- — 12.5 meter flat grey Ethernet cable for Touch 10",
-      "CAB-DV10-4M — 4 meter flat grey Ethernet cable for Touch 10",
-      "CAB-DV10-4M- — 4 meter flat grey Ethernet cable for Touch 10",
-      "CAB-DV10-4M= — 4 meter flat grey Ethernet cable for Touch 10 - Spare"
-     ],
-     "rules": {
-      "sku": 74
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Webex Room Series shared parts",
-     "family": "(shared across the line)",
-     "role": null,
-     "note": "layers round 3 (wireless round): the USB A-B cables 'for ROOM 70 / MX800 Dual' and the grey right-angled C7 power cords, planned in from wireless — shared by several Room devices. ^CS-ROOM removed (collaboration-endpoints round): every CS-ROOM row it matched is now decided by a named Room series above it (Room Kit, Room Panorama, Room 70), so the rule decided nothing",
-     "parts": 172,
-     "kinds": {
-      "cable": 51,
-      "power-cord": 87,
-      "accessory": 8,
-      "mechanical": 10,
-      "power": 13,
-      "unknown": 3
-     },
-     "roles": {},
-     "samples": [
-      "CAB-2HDMI-1.26M- — HDMI to HDMI Cable, 1.26 meters long for ROOM 70",
-      "CAB-2HDMI-1.26M= — HDMI to HDMI Cable, 1.26 meters long for ROOM 70",
-      "CAB-2HDMI-1.5M-GR — Second screen 1.5 m HDMI 2.0 certified cable",
-      "CAB-2HDMI-1.5M-GR- — HDMI 2.0 Cable - 1.5 meter - Gray (for one monitor)",
-      "CAB-2HDMI-1.5M-GR= — HDMI 2.0 Cable - 1.5 meter - Gray - SPARE (for monitors)",
-      "CAB-2HDMI-1.71M- — HDMI to HDMI Cable, 1.71 meters long for ROOM 55D"
-     ],
-     "rules": {
-      "accessory": 98,
-      "sku": 37,
-      "label": 37
-     },
-     "pending_in": {},
-     "pending_out": {}
-    }
-   ]
-  },
-  {
-   "line": "Cameras",
-   "parts": 100,
-   "series": [
-    {
-     "series": "SpeakerTrack 60",
-     "family": "(none)",
-     "role": null,
-     "note": "layers round 3, collaboration round: CTS-SPKER-TRACK60 'Cisco TelePresence Speaker Track 60 Kit' and CTS-ST-ARRAY60(+/=) 'Speaker Track 60 Microphone Array' sat in TelePresence (legacy) shared parts by ^CTS- (their SKUs spell TRACK60 / ARRAY60, not ST60); CAB-ETH-ST-SHORT / CAB-PWR-ST-SHORT 'Two Ethernet / 12V power cables … for SpeakerTrack 60' sat in Cameras shared parts",
-     "parts": 8,
-     "kinds": {
-      "cable": 2,
-      "power-cord": 2,
-      "camera": 1,
-      "microphone": 2,
-      "video-codec": 1
-     },
-     "roles": {},
-     "samples": [
-      "CAB-ETH-ST-SHORT- — Two Ethernet cables (0.35m & 0.2m) for SpeakerTrack 60",
-      "CAB-ETH-ST-SHORT= — Two Ethernet cables (0.35m&0.2m) for SpeakerTrack 60 Spare",
-      "CAB-PWR-ST-SHORT- — Two 12V power cables (0.45m & 0.2m) for SpeakerTrack 60",
-      "CAB-PWR-ST-SHORT= — Two 12V power cables (0.45m&0.2m) for SpeakerTrack 60 spare",
-      "CTS-SPKER-TRACK60 — Cisco TelePresence Speaker Track 60 Kit",
-      "CTS-ST-ARRAY60+ — Speaker Track 60 Microphone Array"
-     ],
-     "rules": {
-      "sku": 8
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Precision 40 / 60 / PrecisionHD cameras",
-     "family": "(none)",
-     "role": null,
-     "note": "^CTS-CAM-P40 (layers round 3, collaboration round): 'Precision 40 Camera with 8x zoom' (label TelePresence Precision Cameras) sat in TelePresence (legacy) shared parts by ^CTS-; the series name gains Precision 40",
-     "parts": 27,
-     "kinds": {
-      "mechanical": 1,
-      "camera": 25,
-      "power": 1
-     },
-     "roles": {},
-     "samples": [
-      "ACC-PHD1080P= — Cable Accessories Kit for PrecisionHD Camera 1080p12x and 4x",
-      "CTS-CAM-P40 — Precision 40 Camera with 8x zoom",
-      "CTS-CAM-P40+ — Precision 40 Camera with 8x zoom",
-      "CTS-CAM-P40= — Precision 40 Camera with 8x zoom (spare)",
-      "CTS-CAM-P60 — Cisco TelePresence Precision 60 Camera",
-      "CTS-CAM-P60+ — Cisco TelePresence Precision 60 Camera - auto expand only"
-     ],
-     "rules": {
-      "label": 3,
-      "sku": 24
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Desk Camera",
-     "family": "(none)",
-     "role": null,
-     "note": "layers round 3, collaboration round: 'Cisco Desk Camera 4K' and 'Desk Camera 1080p' (carbon black / platinum, US / worldwide) sat in Webex Desk Series shared parts by their label (cameras in shared parts); Cisco sells the Desk Camera as a product of its own. Named 'Desk Camera' without its resolutions: a series name's digits are platform tokens to the label check, and '1080' contradicted ACC-PHD1080P= 'Cable Accessories Kit for PrecisionHD Camera 1080p12x' out of the Precision series. ^CD-CBL- (same round): the 'Spare USB 3.0 C-to-A / C-to-C cable for Desk Camera series' sat in Webex Desk Series shared parts",
-     "parts": 8,
-     "kinds": {
-      "cable": 2,
-      "camera": 6
-     },
-     "roles": {},
-     "samples": [
-      "CD-CBL-USBC-USBA= — Spare USB 3.0 C-to-A cable for Desk Camera series",
-      "CD-CBL-USBC-USBC= — Spare USB 3.0 C-to-C cable for Desk Camera series",
-      "CD-DSKCAM-C-US — Cisco Desk Camera 4K in carbon black for United States (incl",
-      "CD-DSKCAM-C-WW — Cisco Desk Camera 4K in carbon black for worldwide (includes",
-      "CD-DSKCAM-P-US — Cisco Desk Camera 4K in platinum for United States (includes",
-      "CD-DSKCAM-P-WW — Cisco Desk Camera 4K in platinum for worldwide (includes USB"
-     ],
-     "rules": {
-      "sku": 8
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Room Vision PTZ and Quad Camera",
-     "family": "(none)",
-     "role": null,
-     "note": "^CS-PTZ4K- and ^BRKT-QCAM (layers round 3, collaboration-endpoints round): the 'PTZ 4K Camera' wall and ceiling mounting brackets and the 'Wall-mount bracket for Cisco Quad Camera' sat in Webex Room Series shared parts",
-     "parts": 30,
-     "kinds": {
-      "mechanical": 13,
-      "camera": 17
-     },
-     "roles": {},
-     "samples": [
-      "BRKT-QCAM2-WMK- — Wall-mount bracket for Cisco Quad Camera (only in Quad Camer",
-      "CS-CAM-PTZ12+ — Pan-Tilt-Zoom 12x Camera",
-      "CS-CAM-PTZ12= — Pan-Tilt-Zoom 12x Camera with power supply",
-      "CS-CAM-PTZ4K — Cisco PTZ 4K Camera",
-      "CS-CAM-PTZ4K+ — Webex PTZ 4K Camera",
-      "CS-CAM-PTZ4K-IND — Cisco PTZ 4K Camera for India"
-     ],
-     "rules": {
-      "sku": 30
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Cameras shared parts",
-     "family": "(shared across the line)",
-     "role": null,
-     "note": null,
-     "parts": 27,
-     "kinds": {
-      "cable": 4,
-      "mechanical": 4,
-      "power-cord": 16,
-      "power": 3
-     },
-     "roles": {},
-     "samples": [
-      "ADPT-HDMI-DVID= — Adaptor HDMI to DVID cable",
-      "BRKT-12X-MONITR — Bracket mounting for 12x PHD camera to screen",
-      "BRKT-12X-MONITR= — Spare bracket mounting for 12x PHD camera to monitor",
-      "BRKT-P40-MONITR — Bracket mounting for P40 camera to screen",
-      "BRKT-P40-MONITR= — Bracket mounting for P40 camera to screen",
-      "CAB-2HDMI-5M= — HDMI to HDMI cable, 5 meters"
-     ],
-     "rules": {
-      "label-unsupported": 4,
-      "accessory": 23
-     },
-     "pending_in": {},
-     "pending_out": {}
-    }
-   ]
-  },
-  {
-   "line": "Microphones",
-   "parts": 76,
-   "series": [
-    {
-     "series": "Table, ceiling and wireless microphones",
-     "family": "(none)",
-     "role": null,
-     "note": "^CTS-QSC20-MIC (layers round 3, collaboration round): 'Performance Microphone 20' (and the auto-expand variants) of the QuickSet C20 sat in TelePresence (legacy) shared parts with kind video-codec (a kind-layer defect, listed)",
-     "parts": 70,
-     "kinds": {
-      "cable": 18,
-      "microphone": 40,
-      "mechanical": 8,
-      "video-codec": 4
-     },
-     "roles": {},
-     "samples": [
-      "CAB-MIC-EXT-E — Extension cable for Table Microphone",
-      "CAB-MIC-EXT-E= — Cisco Table Microphone extension cable for the 4-pin mini Eu",
-      "CAB-MIC-EXT-J — Cisco Table Microphone extension cable for the 4-pin mini ja",
-      "CAB-MIC-EXT-J= — Cisco Table Microphone extension cable for the 4-pin mini ja",
-      "CAB-MIC-RJ.5-0.5M- — RJ.5 Microphone Cable, 0.5 meters long, for MXCAM-D",
-      "CAB-MIC-RJ.5-0.5M= — RJ.5 Microphone Cable, 0.5 meters long, for MXCAM-D"
-     ],
-     "rules": {
-      "sku": 70
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Microphones shared parts",
-     "family": "(shared across the line)",
-     "role": null,
-     "note": null,
-     "parts": 6,
-     "kinds": {
-      "cable": 6
-     },
-     "roles": {},
-     "samples": [
-      "CAB-CAT5E-CMP-20M — Ethernet CAT5E Plenum Rated - 20 meter - Gray",
-      "CAB-CAT5E-CMP-20M= — Ethernet CAT5E Plenum Rated - 20 meter - Gray - SPARE",
-      "CAB-CAT5E-CMP-30M — Ethernet CAT5E Plenum Rated - 30 meter - Gray",
-      "CAB-CAT5E-CMP-30M= — Ethernet CAT5E Plenum Rated - 30 meter - Gray - SPARE",
-      "CAB-ETHRSHLD-10M — Cisco Ceiling Microphone optional cable(10 meter not plenum ",
-      "CAB-ETHRSHLD-10M= — Shielded Ethernet Cable, not plenum rated, 10m - SPARE"
-     ],
-     "rules": {
-      "accessory": 6
-     },
-     "pending_in": {},
-     "pending_out": {}
-    }
-   ]
-  },
-  {
-   "line": "TelePresence (legacy)",
-   "parts": 653,
-   "series": [
-    {
-     "series": "TelePresence MX (MX200 / MX300 / MX700 / MX800)",
-     "family": "(none)",
-     "role": null,
-     "note": "layers round 3, collaboration round: CTS-MXCAM-D / -S 'Dual / Single Camera option for MX700/MX800' and CTS-MXCODEC 'Codec for MX700/MX800' sat in the line's shared parts by ^CTS-; so did the 'MX200 / MX300 NAL label for China' and the 'ATP Demo' MX200 / MX300 units (^CTS-(NAL|ATP)-MX), and the 'Left / Right Speaker Cable for MX700 / MX800' (^CAB-MX)",
-     "parts": 162,
-     "kinds": {
-      "mechanical": 78,
-      "cable": 8,
-      "video-device": 35,
-      "unknown": 2,
-      "display": 24,
-      "speaker": 2,
-      "camera": 6,
-      "video-codec": 3,
-      "accessory": 4
-     },
-     "roles": {},
-     "samples": [
-      "ACC-MX200-42-KIT — Cisco TelePresence MX200 42 Accessory Kit",
-      "ACC-MX200-42-KIT= — Cisco TelePresence MX200 42 Accessory Kit",
-      "AVIZ-MXCART= — SolutionsPlus: Avizia MX Cart",
-      "CAB-MX700-L-SPKR- — Left Speaker Cable for MX700",
-      "CAB-MX700-L-SPKR= — Left Speaker Cable for MX700",
-      "CAB-MX700-R-SPKR- — Right Speaker Cable for MX700"
-     ],
-     "rules": {
-      "label": 10,
-      "sku": 152
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "TelePresence SX (SX10 / SX20 / SX80)",
-     "family": "(none)",
-     "role": null,
-     "note": "^CTS-CC-SX10 (layers round 3, collaboration round): 'SX10 HD w/ screen mount, int 5x cam and mic' sat in the line's shared parts by ^CTS-; so did the 'SX10 / SX20 / SX80 NAL label for China', the SX10 screen and wall mount kits, 'Bracket for SX20 and HD monitor' and 'Serial Cable for SX20'. CAB-SX80-IPQC 'Audio Cable Quad Camera to SX80' names the Quad Camera as well and stays in shared parts",
-     "parts": 61,
-     "kinds": {
-      "mechanical": 10,
-      "cable": 2,
-      "video-codec": 41,
-      "accessory": 3,
-      "power": 5
-     },
-     "roles": {},
-     "samples": [
-      "BRKT-SX10-SMK — Screen Mount Kit for SX10 Quick Set",
-      "BRKT-SX10-SMK+ — SX10 Screen Mount Kit",
-      "BRKT-SX10-SMK= — SX10 Screen Mount Kit",
-      "BRKT-SX10-WMK — Wall Mount Kit for SX10 Quick Set",
-      "BRKT-SX10-WMK= — SX10 Wall Mount",
-      "BRKT-SX20-MONITOR — Bracket for SX20 and HD monitor"
-     ],
-     "rules": {
-      "sku": 58,
-      "label": 3
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "TelePresence IX5000",
-     "family": "(none)",
-     "role": null,
-     "note": "^CTS-MON- (layers round 3, collaboration round): 'Cisco TelePresence 42 / 55 Inch Auxiliary Display', sold in the 'TelePresence IX5000 Series' end-of-sale notice, sat in the line's shared parts by ^CTS-. ^CTS-5K fenced (meraki round, the collaboration round's recorded claimant fix): CTS-5K-LC-SWITCH / CTS-5K-UI-SWITCH are whole Catalyst 2960-C switches that stay in switches (layers review round 2, A.6)",
-     "parts": 172,
-     "kinds": {
-      "mechanical": 59,
-      "display": 7,
-      "speaker": 8,
-      "camera": 2,
-      "cable": 40,
-      "touch-panel": 1,
-      "video-codec": 6,
-      "power": 4,
-      "accessory": 38,
-      "microphone": 4,
-      "video-device": 3
-     },
-     "roles": {},
-     "samples": [
-      "CTS-5K-18-SEAT-TBL — CTS-IX5000 18 Seat Table Option",
-      "CTS-5K-18-SEAT-UPG — CTS-IX5000 6 Seat Table to 18 Seat Table Upgrade Kit",
-      "CTS-5K-6-SEAT-TBL — CTS-IX5000 6 Seat Table Option",
-      "CTS-5K-70-G1 — CTS-IX5000 70 Display, 1 Qty",
-      "CTS-5K-70-G1= — CTS-IX5000 70 Display, 1 Qty",
-      "CTS-5K-AMP-PWR — CTS-IX5000 Audio Amplifer Power Brick"
-     ],
-     "rules": {
-      "sku": 172
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "TelePresence C-series codecs",
-     "family": "(none)",
-     "role": null,
-     "note": "layers round 3, collaboration round: CTS-ATP-C60 / C90-K9 'ATP Demo - Codec C60 / C90' and the QuickSet C20 packages CTS-QSC20-K9 / -W4 / -W12 / QSC20SD (a C20 codec with camera, microphone and remote) sat in the line's shared parts by ^CTS-",
-     "parts": 13,
-     "kinds": {
-      "video-codec": 11,
-      "mechanical": 2
-     },
-     "roles": {},
-     "samples": [
-      "CTS-ATP-C60-K9 — ATP Demo - Codec C60- NPP,Rackmt Kit,Rmt Cntrl, HDMI,Pwr Cbl",
-      "CTS-ATP-C90-K9 — ATP Demo - Codec C90- NPP,Rackmt Kit,Rmt Cntrl, HDMI,Pwr Cbl",
-      "CTS-C20CODEC-K9 — Cisco CTS-C20CODEC-K9",
-      "CTS-C20CODEC-K9= — C20 Codec - Spare",
-      "CTS-C20CODEC= — C20 CODEC Non Encrypted Version Spare",
-      "CTS-QSC20-K9 — QuickSet C20 with NPP, 1 mic, remote control"
-     ],
-     "rules": {
-      "sku": 13
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "TelePresence MXP (1700 MXP / Integrator Package 6000 MXP)",
-     "family": "(none)",
-     "role": null,
-     "note": "layers round 3, collaboration round: CTS-1700-PR-K9 'MXP 1700 Promotion' and CTS-INTP6000-WP-K9 'IntPkg 6000 MXP - PAL, Encrypted, BW, PrecisionHD Cam, Mic', the legacy TelePresence MXP systems named by their rows, sat in the line's shared parts (a video device and a codec in shared parts)",
-     "parts": 2,
-     "kinds": {
-      "video-device": 1,
-      "video-codec": 1
-     },
-     "roles": {},
-     "samples": [
-      "CTS-1700-PR-K9 — MXP 1700 Promotion",
-      "CTS-INTP6000-WP-K9 — IntPkg 6000 MXP - PAL, Encrypted, BW, PrecisionHD Cam, Mic"
-     ],
-     "rules": {
-      "sku": 2
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "TelePresence (legacy) shared parts",
-     "family": "(shared across the line)",
-     "role": null,
-     "note": "^AVIZ-CA(300|750) (layers round 3, collaboration-endpoints round): the Avizia CA300 / CA750 clinical carts and their cabinets, trays and cords (SolutionsPlus), labelled TelePresence MX Series by the generic collaboration end-of-sale notice. The label check kept them in TelePresence MX on the cart's own model number — CA300 read as the MX300 token, CA750 as a 7xx model of MX700 — which names no MX; with AVIZ-EDU=, AVIZ-SYN= and AVIZ-TAC-K9 they are Avizia products no document ties to one system. AVIZ-MXCART= 'Avizia MX Cart' names MX and stays there. — decision pending: CTS-LAPT-DISP / CTS-LAPT-DISP= 'TelePresence Laptop Display' and CTS-VX-EDUCATOR-K9 'VX Educator package' are whole products (kinds display / video-device) that no document ties to a TelePresence series — only the generic 'HW Collaboration PIDs' / 'Collaboration PIDs' end-of-sale notices name them, under the TelePresence MX Series label, and the catalogue holds no other VX row. Kept here (recommendation) until a series is named (layers round 3, collaboration-endpoints round)",
-     "parts": 243,
-     "kinds": {
-      "mechanical": 13,
-      "accessory": 18,
-      "cable": 71,
-      "power-cord": 122,
-      "unknown": 11,
-      "display": 2,
-      "power": 5,
-      "video-device": 1
-     },
-     "roles": {},
-     "samples": [
-      "AVIZ-CA300-A-K9 — SolutionsPlus: Avizia Clinical Cart CA300",
-      "AVIZ-CA300-ACC-PCC — Avizia CA300 PC cabinet",
-      "AVIZ-CA750-1-K9 — SolutionsPlus:Avizia ClinicalCart CA750 1 screen-drawer mod",
-      "AVIZ-CA750-2-K9 — SolutionsPlus:Avizia ClinicalCart CA750 1 screen-PC cabinet",
-      "AVIZ-CA750-3-K9 — SolutionsPlus:Avizia ClinicalCart CA750 2 screen- PC cabinet",
-      "AVIZ-CA750-ACC-KB — Avizia CA750 Keyboard / Mouse Tray"
-     ],
-     "rules": {
-      "sku": 48,
-      "label-unsupported": 6,
-      "accessory": 189
-     },
-     "pending_in": {},
-     "pending_out": {}
-    }
-   ]
-  },
-  {
-   "line": "IP Phones",
-   "parts": 856,
-   "series": [
-    {
-     "series": "IP Phone 3900",
-     "family": "(none)",
-     "role": "desk",
-     "note": null,
-     "parts": 14,
-     "kinds": {
-      "phone": 2,
-      "accessory": 2,
-      "power": 10
-     },
-     "roles": {
-      "desk": 2
-     },
-     "samples": [
-      "CP-3905 — Cisco Unified SIP Phone 3905, Charcoal, Standard Handset",
-      "CP-3905-HS-CORD= — Spare Handset Cord for Cisco Unified SIP Phone 3905, Charcoa",
-      "CP-3905-HS= — Spare Handset for Cisco Unified SIP Phone 3905, Charcoal",
-      "CP-3905-PWR-AR= — Power Adapter for Cisco Unified SIP Phone 3905, Argentina",
-      "CP-3905-PWR-AU= — Power Adapter for Cisco Unified SIP Phone 3905, Australia",
-      "CP-3905-PWR-BR= — Power Adapter for Cisco Unified SIP Phone 3905, Brazil"
-     ],
-     "rules": {
-      "sku": 14
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "IP DECT 6823 / 6825 handsets",
-     "family": "(none)",
-     "role": "dect",
-     "note": "^CP-682X-PWR- (layering review of 17 Sep 2026, fix list 2.4): CP-682X-PWR-AU= / -CE= / -NA= / -UK=, each named 'Cisco IP DECT 6825, Power adapter for …', sat in IP Phone 6800 through ^CP-68 — the X stands for the 6823 / 6825 handset, not a 68xx desk phone",
-     "parts": 33,
-     "kinds": {
-      "phone": 24,
-      "power": 9
-     },
-     "roles": {
-      "dect": 24
-     },
-     "samples": [
-      "CP-6823-3PC-AU-K9= — Cisco IP DECT 6823, Standard Handset, Battery, Cradle, Multi",
-      "CP-6823-3PC-BUN-AU — Cisco IP DECT Phone Bundle, Cisco IP DECT 6823 Handset and S",
-      "CP-6823-3PC-BUN-CE — Cisco IP DECT Phone Bundle, Cisco IP DECT 6823 Handset and S",
-      "CP-6823-3PC-BUN-NA — Cisco IP DECT Phone Bundle, Cisco IP DECT 6823 Handset and S",
-      "CP-6823-3PC-BUN-UK — Cisco IP DECT Phone Bundle, Cisco IP DECT 6823 Handset and S",
-      "CP-6823-3PC-CE-K9= — Cisco IP DECT 6823, Standard Handset, Battery, Cradle, Multi"
-     ],
-     "rules": {
-      "sku": 33
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "IP DECT base stations and repeaters",
-     "family": "(none)",
-     "role": null,
-     "note": "^CP-682X-WMK (layering review of 17 Sep 2026, fix list 2.4 — the same ^CP-68 fence; SKUs are matched upper-cased, so this is CP-682x-WMK=): 'Wall mount kit for Cisco IP Phone 6800 Series Base Stations and Repeater', the mount of the DECT base stations and repeater this series holds; it sat in IP Phone 6800, whose desk phones have no base station",
-     "parts": 13,
-     "kinds": {
-      "mechanical": 1,
-      "dect-base": 12
-     },
-     "roles": {},
-     "samples": [
-      "CP-682x-WMK= — Wall mount kit for Cisco IP Phone 6800 Series Base Stations ",
-      "DBS-110-3PC-AU-K9= — Cisco IP DECT Base Station 110 Series, MPP, Australia and Ne",
-      "DBS-110-3PC-CE-K9= — Cisco IP DECT Base Station 110 Series, MPP, European Union a",
-      "DBS-110-3PC-NA-K9= — Cisco IP DECT Base Station 110 Series, MPP, U.S. and Canada,",
-      "DBS-110-3PC-UK-K9= — Cisco IP DECT Base Station 110 Series, MPP, United Kingdom, ",
-      "DBS-210-3PC-AU-K9= — Cisco IP DECT Base Station 210 Series, MPP, Australia and Ne"
-     ],
-     "rules": {
-      "sku": 13
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "IP Phone 6800 (6821 / 6841 / 6851 / 6861 / 6871)",
-     "family": "(none)",
-     "role": "desk",
-     "note": "^CP-68 fenced to ^CP-68(?!2[35X]) (layering review of 17 Sep 2026, fix list 2.4): CP-6823 / CP-6825 / CP-682X are the IP DECT handsets and their parts. The DECT series come first in this file and already won those rows; the fence makes this series stop claiming them whatever the rule order",
-     "parts": 45,
-     "kinds": {
-      "power": 12,
-      "mechanical": 4,
-      "phone": 27,
-      "accessory": 1,
-      "expansion-module": 1
-     },
-     "roles": {
-      "desk": 27
-     },
-     "samples": [
-      "CP-68-PWR-S — Power switch for Cisco Phone 6821",
-      "CP-6800-FS= — Spare Foot Stand for 6841 and 6851 Series Phones",
-      "CP-6800-HS-HOOK= — Cisco IP Phone 6800 Series Handset Hook Spare, 20 pieces",
-      "CP-6800-PWR-AR= — CISCO 6800 ARGENTINA POWER ADAPTER",
-      "CP-6800-PWR-AU — CISCO 6800 AU POWER ADAPTER",
-      "CP-6800-PWR-AU= — Cisco IP Phone 6800 power adapter for Australia and New Zeal"
-     ],
-     "rules": {
-      "sku": 45
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Unified IP Phone 6900",
-     "family": "(none)",
-     "role": "desk",
-     "note": "^CP-WMK-[A-Z]+-6900 (layers round 3, collaboration-endpoints round): the 6900 wall-mount kits CP-WMK-AW-6900= / CP-WMK-C-6900= (named only by their PIDs) sat in IP Phones shared parts by ^CP-",
-     "parts": 45,
-     "kinds": {
-      "accessory": 5,
-      "phone": 35,
-      "mechanical": 3,
-      "power": 2
-     },
-     "roles": {
-      "desk": 35
-     },
-     "samples": [
-      "CP-6900-LHS-AW-WB= — Cisco CP-6900-LHS-AW-WB=",
-      "CP-6900-LHS-CG-WB= — Cisco CP-6900-LHS-CG-WB=",
-      "CP-6900-MHS-AW-WB= — Cisco CP-6900-MHS-AW-WB=",
-      "CP-6900-MHS-CG-WB= — Cisco CP-6900-MHS-CG-WB=",
-      "CP-6901-C-K9= — Cisco Unified IP Phone 6901, Charcoal, Standard Handset",
-      "CP-6901-CL-K9= — Cisco Unified IP Phone 6901, Charcoal, Slimline Handset"
-     ],
-     "rules": {
-      "sku": 45
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "IP Conference Phone 7832",
-     "family": "(none)",
-     "role": "conference",
-     "note": null,
-     "parts": 7,
-     "kinds": {
-      "phone": 6,
-      "power": 1
-     },
-     "roles": {
-      "conference": 6
-     },
-     "samples": [
-      "CP-7832-3PCC-K9++= — Cisco IP Conference Phone 7832 with Multiplatform Phone firm",
-      "CP-7832-3PCC-K9= — Cisco IP Conference Phone 7832 shipped with Multiplatform Ph",
-      "CP-7832-3PW-NA-K9= — Cisco IP Conference Phone 7832 shipped with Multiplatform Ph",
-      "CP-7832-K9++= — Cisco conference phone 7832 for TAA",
-      "CP-7832-K9= — ● Cisco IP Conference Phone 7832, Cisco Smoke",
-      "CP-7832-PWR-SPL= — ● POE power cable to work with Power Adapter 3 for POE incap"
-     ],
-     "rules": {
-      "sku": 7
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "IP Phone 7800 (7811 / 7821 / 7841 / 7861)",
-     "family": "(none)",
-     "role": "desk",
-     "note": null,
-     "parts": 52,
-     "kinds": {
-      "mechanical": 17,
-      "accessory": 1,
-      "phone": 34
-     },
-     "roles": {
-      "desk": 34
-     },
-     "samples": [
-      "CP-7800-FS= — ● Spare Foot stand for Cisco IP Phone 7800 Series",
-      "CP-7800-HS-CORD= — ● Spare Handset Cord for Cisco IP Phone 7800 Series",
-      "CP-7800-HS-HOOK= — ● Spare Handset Hook for Cisco IP Phone 7800 Series, 20 Piec",
-      "CP-7800-WMK= — ● Spare Wallmount Kit for Cisco IP Phone 7800 Series",
-      "CP-7811-3PC-RC-K9= — Cisco IP Phone 7811 with Multiplatform FW for RC Server",
-      "CP-7811-3PCC-K9++= — Cisco IP Phone 7811 with Multiplatform Phone firmware for Tr"
-     ],
-     "rules": {
-      "sku": 52
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Unified Wireless IP Phone 7920 / 7921 / 7925 / 7926",
-     "family": "(none)",
-     "role": "wireless",
-     "note": "^CP-.*792x (layers round 3, collaboration-endpoints round): the handsets' batteries, cases, holsters, clips, lock sets, USB cables, desktop and multi-chargers and their power supplies (CP-BATT-7921G-STD=, CP-PWR-DC7925G-NA=, CP-MCHGR-7925G-BUN …) carry the phone's model mid-SKU and sat in IP Phones shared parts by ^CP-. The CAB-AC2 cords 'for … 7920/7921G Multi-Charger' name the phone only in their names and stay in shared parts",
-     "parts": 138,
-     "kinds": {
-      "phone": 61,
-      "accessory": 15,
-      "power": 45,
-      "cable": 2,
-      "mechanical": 12,
-      "power-cord": 3
-     },
-     "roles": {
-      "wireless": 61
-     },
-     "samples": [
-      "CP-7920-AC-CH1-K9 — Cisco Unified Wireless IP Phone 7920 Phone/APAC with Cisco U",
-      "CP-7920-AE-CH1-K9 — Cisco Unified Wireless IP Phone 7920 Phone/APAC with Cisco U",
-      "CP-7920-AP-K9 — Cisco Unified Wireless IP Phone 7920/APAC Configurable with ",
-      "CP-7920-AP-K9= — Cisco Unified Wireless IP Phone 7920/APAC, spare",
-      "CP-7920-EC-CH1-K9 — Cisco Unified Wireless IP Phone 7920 Phone/ETSI with Cisco U",
-      "CP-7920-EE-CH1-K9 — Cisco Unified Wireless IP Phone 7920 Phone/ETSI with Cisco U"
-     ],
-     "rules": {
-      "sku": 138
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Unified IP Conference Station 7935 / 7936 / 7937",
-     "family": "(none)",
-     "role": "conference",
-     "note": null,
-     "parts": 6,
-     "kinds": {
-      "phone": 6
-     },
-     "roles": {
-      "conference": 6
-     },
-     "samples": [
-      "CP-7935 — Cisco IP Conference Station 7935",
-      "CP-7935-CCME — Cisco IP Conference Station 7935 with one Cisco CallManager ",
-      "CP-7935-CCME= — Cisco IP Conference Station 7935 with one Cisco CallManager ",
-      "CP-7935-CH1 — Cisco IP Conference Station 7935 with one station user licen",
-      "CP-7935-RF — Cisco IP Conference Station 7935, refurbished",
-      "CP-7935= — Cisco IP Conference Station 7935, spare"
-     ],
-     "rules": {
-      "sku": 6
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Unified IP Phone 7900",
-     "family": "(none)",
-     "role": "desk",
-     "note": null,
-     "parts": 74,
-     "kinds": {
-      "phone": 69,
-      "expansion-module": 5
-     },
-     "roles": {
-      "desk": 69
-     },
-     "samples": [
-      "CP-7902G — Cisco IP Phone 7902G, Global",
-      "CP-7902G-CCME — 7902G IP Phone With One CallManager Express Station User Lic",
-      "CP-7902G-CCME= — 7902G IP Phone With One CallManager Express Station User Lic",
-      "CP-7902G-CH1 — 7902G IP PHONE WITH ONE STATION USER LICENSE",
-      "CP-7902G= — Cisco IP Phone 7902G, Global, Spare",
-      "CP-7905G — Cisco IP Phone 7905G, Global"
-     ],
-     "rules": {
-      "sku": 74
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Wireless IP Phone 8821",
-     "family": "(none)",
-     "role": "wireless",
-     "note": "^CP-.*8821 (layers round 3, collaboration-endpoints round): the 8821 / 8821-EX battery, desktop and multi-chargers, wall-mount kit and regional power supplies (CP-BATT-8821=, CP-DSKCH-8821-EX=, CP-PWR-DC8821-UK …) carry the model mid-SKU and sat in IP Phones shared parts by ^CP-",
-     "parts": 47,
-     "kinds": {
-      "phone": 6,
-      "accessory": 6,
-      "power-cord": 4,
-      "mechanical": 1,
-      "power": 30
-     },
-     "roles": {
-      "wireless": 6
-     },
-     "samples": [
-      "CP-8821-EX-K9 — Cisco Unified Wireless IP Phone 8821-EX, World Mode",
-      "CP-8821-EX-K9-BUN — Cisco Unified Wireless IP Phone 8821 EX, World Mode Bundle",
-      "CP-8821-EX-K9= — Cisco Unified Wireless IP Phone 8821-EX, World Mode",
-      "CP-8821-K9 — Cisco Unified Wireless IP Phone 8821, World Mode",
-      "CP-8821-K9-BUN — Cisco Unified Wireless IP Phone 8821, World Mode Bundle",
-      "CP-8821-K9= — Cisco Unified Wireless IP Phone 8821, World Mode Spare only"
-     ],
-     "rules": {
-      "sku": 47
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "IP Conference Phone 8831 / 8832",
-     "family": "(none)",
-     "role": "conference",
-     "note": "^CP-MIC-(WIRED|WRLS)-S (layers round 3, collaboration round): 'Cisco 8831 Wired Microphone Kit' and the 'Spare 8831 Wireless Microphone' PIDs sat in IP Phones shared parts by ^CP- (microphones in shared parts); a microphone carries no phone role",
-     "parts": 105,
-     "kinds": {
-      "phone": 37,
-      "accessory": 33,
-      "mechanical": 11,
-      "cable": 3,
-      "power": 3,
-      "microphone": 18
-     },
-     "roles": {
-      "conference": 37
-     },
-     "samples": [
-      "CP-8831-3P-BR-K9= — Cisco 8831 Base/Control Panel for Brazil 3PCC",
-      "CP-8831-3P-EU-K9= — Cisco 8831 Base/Control Panel for APAC, EMEA, Australia 3PCC",
-      "CP-8831-3P-J-K9= — Cisco 8831 Base/Control Panel for Japan 3PCC",
-      "CP-8831-3P-LA-K9= — Cisco 8831 Base/Control Panel for Latin America 3PCC",
-      "CP-8831-3P-TW-K9= — Cisco 8831 Base/Control Panel for Taiwan 3PCC",
-      "CP-8831-3PB-S-BR — Spare Cisco 8831 Base for Brazil 3PCC"
-     ],
-     "rules": {
-      "sku": 105
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "IP Phone 8800 (8811 - 8875)",
-     "family": "(none)",
-     "role": "desk",
-     "note": "^CP-BEKEM (layers round 3, collaboration round): the 'Cisco IP Phone 8800 Key Expansion Module' PIDs sat in IP Phones shared parts by ^CP-; an expansion module carries no phone role",
-     "parts": 80,
-     "kinds": {
-      "expansion-module": 12,
-      "mechanical": 15,
-      "phone": 53
-     },
-     "roles": {
-      "desk": 53
-     },
-     "samples": [
-      "CP-8800-A-KEM-3PC= — Cisco IP Key Expansion Module for use with the 8851 and 8861",
-      "CP-8800-A-KEM-WMK= — ● Spare Wallmount Kit for Cisco IP Phone 8800 Series with si",
-      "CP-8800-A-KEM= — ● Key Expansion Module for Cisco IP Phone 8800 Series, Charc",
-      "CP-8800-B-BEZEL= — ● Spare Black Bezel for Cisco IP Phone 8800 Series",
-      "CP-8800-B-VID-BEZEL= — Spare Black Bezel for Cisco IP Phone 8800 Video Series",
-      "CP-8800-BEKEM-WMK= — Cisco IP Phone 8800 Wall Mount Kit for Single KEM *"
-     ],
-     "rules": {
-      "sku": 80
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Wireless Phone 840 / 860",
-     "family": "(none)",
-     "role": "wireless",
-     "note": "^CP-800- (layers round 3, collaboration-endpoints round): CP-800-USBCH= 'Cisco 800 USB Cable with Worldwide Wall Charger', the charger of the Wireless Phone 800 Series (840 / 860), sat in IP Phones shared parts by ^CP-",
-     "parts": 32,
-     "kinds": {
-      "cable": 1,
-      "accessory": 9,
-      "power": 6,
-      "phone": 9,
-      "mechanical": 7
-     },
-     "roles": {
-      "wireless": 9
-     },
-     "samples": [
-      "CP-800-USBCH= — Cisco 800 USB Cable with Worldwide Wall Charger",
-      "CP-840-BAT-MCHR= — Cisco 840 Multi-Charger for 6 Batteries with PSU",
-      "CP-840-BAT= — Cisco 840 Spare Battery",
-      "CP-840-BUN-K9 — Cisco 840 Worldwide Phone, Battery, Cable, Charger",
-      "CP-840-CLIP= — Cisco 840 Non-Scanner Rotating Belt Clip Holster",
-      "CP-840-DCHR-PS-AU= — Cisco 840 Desktop Charger AU Power Supply"
-     ],
-     "rules": {
-      "sku": 32
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Wireless Phone 9821",
-     "family": "(none)",
-     "role": "wireless",
-     "note": null,
-     "parts": 17,
-     "kinds": {
-      "accessory": 6,
-      "mechanical": 7,
-      "phone": 3,
-      "cable": 1
-     },
-     "roles": {
-      "wireless": 3
-     },
-     "samples": [
-      "WP-9821-BATT= — Cisco WP-9821-BATT=",
-      "WP-9821-BATTDOOR= — Cisco WP-9821-BATTDOOR=",
-      "WP-9821-BUN-CN-K9 — Cisco WP-9821-BUN-CN-K9",
-      "WP-9821-BUN-K9 — Cisco WP-9821-BUN-K9",
-      "WP-9821-CAB-DCHGR= — Cisco WP-9821-CAB-DCHGR=",
-      "WP-9821-CAB-MAG= — Cisco WP-9821-CAB-MAG="
-     ],
-     "rules": {
-      "sku": 17
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Spectralink 8744",
-     "family": "(none)",
-     "role": "wireless",
-     "note": null,
-     "parts": 3,
-     "kinds": {
-      "phone": 3
-     },
-     "roles": {
-      "wireless": 3
-     },
-     "samples": [
-      "SLINK-8744-AUS= — Cisco SLINK-8744-AUS=",
-      "SLINK-8744-EMEA= — Cisco SLINK-8744-EMEA=",
-      "SLINK-8744-NA= — Cisco SLINK-8744-NA="
-     ],
-     "rules": {
-      "sku": 3
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Desk Phone 9800 (9811 - 9871)",
-     "family": "(none)",
-     "role": "desk",
-     "note": null,
-     "parts": 43,
-     "kinds": {
-      "accessory": 4,
-      "mechanical": 7,
-      "expansion-module": 1,
-      "phone": 31
-     },
-     "roles": {
-      "desk": 31
-     },
-     "samples": [
-      "DP-9800-CORD-L= — Desk Phone 9800 Replacement Handset Cord, First Light - SPAR",
-      "DP-9800-CORD= — Desk Phone 9800 Replacement Handset Cord, Carbon Black - SPA",
-      "DP-9800-FS= — Desk Phone 9841 & 9851 Replacement Footstand, Carbon Black -",
-      "DP-9800-HS-L= — Desk Phone 9800 Replacement Handset, First Light - SPARE",
-      "DP-9800-HS= — Desk Phone 9800 Replacement Handset, Carbon Black - SPARE",
-      "DP-9800-KEM-WMK= — Cisco Desk Phone 9800 Wall Mount Kit for Key Expansion Modul"
-     ],
-     "rules": {
-      "sku": 43
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "SPA300 IP Phones",
-     "family": "(none)",
-     "role": "desk",
-     "note": "^SPA3 fenced (layers round 3, collaboration-endpoints round): SPA302D is the Multi-Line DECT handset, filed in unified-communications beside its SPA232D base. The empty 'SPA302D DECT handset' series that used to sit here only to give those rows a dect role is removed; with the fence, deployRole finds no role-bearing series for SPA302D here and its own ph.dect rule gives dect",
-     "parts": 9,
-     "kinds": {
-      "phone": 9
-     },
-     "roles": {
-      "desk": 9
-     },
-     "samples": [
-      "SPA301-G1 — Cisco SPA 301G, North America power adapter",
-      "SPA301-G2 — Cisco SPA 301G, Europe power adapter",
-      "SPA301-G3 — Cisco SPA 301G, UK power adapter",
-      "SPA301-G4 — Cisco SPA 301G, Australia power adapter",
-      "SPA303-G1 — 3 Line IP Phone w/Display, PC Port & NA Power Adapter",
-      "SPA303-G2 — 3 Line IP Phone w/ Display and PC Port, Europe Power Adapter"
-     ],
-     "rules": {
-      "sku": 9
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "SPA500 IP Phones",
-     "family": "(none)",
-     "role": "desk",
-     "note": "^PA100- (layers round 3, collaboration-endpoints round): the PA100 5V / 2A supply in five plug variants. Four names say 'Power supply for SPA500, CP500, and SPA 900 Series' and the label check kept them here; PA100-AS says only 'Linksys VoIP Products' and was moved to IP Phones shared parts, splitting one supply across two series by the wording of one plug variant",
-     "parts": 33,
-     "kinds": {
-      "power": 5,
-      "expansion-module": 2,
-      "phone": 26
-     },
-     "roles": {
-      "desk": 26
-     },
-     "samples": [
-      "PA100-AS — Power Supply for Linksys VoIP Products - 5V/2A (AS)",
-      "PA100-AU — Power supply for SPA500, CP500, and SPA9xx-5V/2A (AU style p",
-      "PA100-EU — Power supply for SPA500, CP500, and SPA 900 Series-5V/2A (EU",
-      "PA100-NA — Power supply for SPA500, CP500, and SPA 900 Series-5V/2A (No",
-      "PA100-UK — Power supply for SPA500, CP500, and SPA 900 Series-5V/2A (UK",
-      "SPA500DS — Digital Attendant Console for Cisco SPA500 Family Phones"
-     ],
-     "rules": {
-      "sku": 33
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Webex Room Phone",
-     "family": "(none)",
-     "role": "conference",
-     "note": null,
-     "parts": 2,
-     "kinds": {
-      "phone": 1,
-      "power": 1
-     },
-     "roles": {
-      "conference": 1
-     },
-     "samples": [
-      "CP-ROOM-C-K9= — Cisco Webex Room Phone in carbon black (includes 3m/8m HDMI ",
-      "CP-ROOM-INJ= — Power injector for Cisco Webex Room phone"
-     ],
-     "rules": {
-      "sku": 2
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "IP Phones shared parts",
-     "family": "(shared across the line)",
-     "role": null,
-     "note": "^CIUS-BATTERY (layers round 3, servers round): CIUS-BATTERY=, the Cius tablet endpoint's battery planned in from servers-unified-computing; the catalogue holds no Cius endpoint to give it a series. ^MB100$ (collaboration-endpoints round): 'Wall-mount brackets for SPA 300, SPA 500, CP 500, and SPA 900 Series' names two series of this line and two outside it; the label check kept it in SPA300 IP Phones because a sibling's three-digit token (500) is too weak to contradict a label, but a part named for several series is what the line's shared parts hold",
-     "parts": 58,
-     "kinds": {
-      "power-cord": 16,
-      "unknown": 2,
-      "accessory": 7,
-      "mechanical": 3,
-      "power": 30
-     },
-     "roles": {},
-     "samples": [
-      "CAB-AC2AUS= — AC Power Cord Australia for Cisco Unified Wireless IP Phone ",
-      "CAB-AC2CHI= — AC Power Cord China for Cisco Unified Wireless IP Phone 7920",
-      "CAB-AC2J= — AC Power Cord Japan for Cisco Unified Wireless IP Phone 7920",
-      "CIUS-BATTERY= — Cisco CIUS-BATTERY=",
-      "CP-DX-CORD= — ● Spare Handset Cord for Cisco IP Phone 8800, DX600 Series, ",
-      "CP-DX-HS-NB= — Replacement Narrowband Handset for Cisco 6800 and 7811-SPARE"
-     ],
-     "rules": {
-      "accessory": 3,
-      "sku": 54,
-      "label-unsupported": 1
-     },
-     "pending_in": {},
-     "pending_out": {}
-    }
-   ]
-  },
-  {
-   "line": "Webex Share and Media Engines",
-   "parts": 28,
-   "series": [
-    {
-     "series": "Webex Share",
-     "family": "(none)",
-     "role": null,
-     "note": null,
-     "parts": 3,
-     "kinds": {
-      "accessory": 2,
-      "power": 1
-     },
-     "roles": {},
-     "samples": [
-      "SPK-SHARE-K9 — Cisco Webex Share wireless screen-sharing adapter.",
-      "SPK-SHARE-K9= — Cisco Webex Share - SPARE",
-      "WXS-ETH-PWR-NA-OK9 — Cisco Webex Share with Ethernet adapter for North America"
-     ],
-     "rules": {
-      "label": 3
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Virtualization Experience Media Engine",
-     "family": "(none)",
-     "role": null,
-     "note": "^SPVAC-(C7416|H5610|UC725) (layers round 3, collaboration-endpoints round): the nine SolutionsPlus accessory PIDs listed by Cisco's 'Virtualization Experience Media Engine Accessories Data Sheet' (c78-702849, under collaboration-endpoints/virtualization-experience-media-engine); their names are bare placeholders ('Cisco <PID>'), so the label check could not read a series token and moved them to the line's shared parts, leaving the series empty. The other SPVAC- rows (SPVAC-H450, a Jabra handset for TelePresence MX) are not on that sheet and are not matched",
-     "parts": 9,
-     "kinds": {
-      "unknown": 9
-     },
-     "roles": {},
-     "samples": [
-      "SPVAC-C7416-S-JP= — Cisco SPVAC-C7416-S-JP=",
-      "SPVAC-C7416-S= — Cisco SPVAC-C7416-S=",
-      "SPVAC-H5610-S-CL= — Cisco SPVAC-H5610-S-CL=",
-      "SPVAC-H5610-S-EU= — Cisco SPVAC-H5610-S-EU=",
-      "SPVAC-H5610-S-JP= — Cisco SPVAC-H5610-S-JP=",
-      "SPVAC-H5610-S-TW= — Cisco SPVAC-H5610-S-TW="
-     ],
-     "rules": {
-      "sku": 9
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Webex Share and Media Engines shared parts",
-     "family": "(shared across the line)",
-     "role": null,
-     "note": null,
-     "parts": 16,
-     "kinds": {
-      "power": 8,
-      "accessory": 8
-     },
-     "roles": {},
-     "samples": [
-      "POE-WW — Device PoE Adapter (Worldwide - 12W)",
-      "POE-WW= — Device PoE Adapter (Worldwide - 12W)",
-      "PWR18W-ETH-NA — 18W Ethernet Power Adapter for North America.",
-      "PWR18W-ETH-NA= — 18W Ethernet Power Adapter for North America.",
-      "PWR18W-ETH-WW — 18W Ethernet Power Adapter (Worldwide)",
-      "PWR18W-ETH-WW= — 18W Ethernet Power Adapter (Worldwide). Spare"
-     ],
-     "rules": {
-      "label-unsupported": 16
-     },
-     "pending_in": {},
-     "pending_out": {}
-    }
-   ]
-  },
-  {
-   "line": "Meeting Server and TelePresence Management",
-   "parts": 68,
-   "series": [
-    {
-     "series": "Meeting Server 1000 / 2000",
-     "family": "(none)",
-     "role": null,
-     "note": "arriving from conferencing (layers round 3, merge plan conferencing -> collaboration-endpoints, spec II.16 and decision record rule 5; not run): the Cisco Meeting Server 1000 (UCS C-Series) and 2000 (UCS 5108 with B200 media and control blades) appliances and bundles, CMS-M-M8-K9 / CMS-S-M7-K9 (Meeting Server data sheet c78-742168). The servers mapping's B200 / 5108 / 6324 rules and UC's none read these rows; record them decided-home when the move runs (the Business Edition precedent)",
-     "parts": 24,
-     "kinds": {
-      "server": 24
-     },
-     "roles": {},
-     "samples": [
-      "CIT3-B200-M4 — UCS B200 M4 w/o CPU, mem, drive bays, HDD, mezz",
-      "CIT3-B200-M4-CON — UCS B200 M4 w/o CPU, mem, drive bays, HDD, mezz",
-      "CIT3-B200-M5 — Cisco Meeting Server 2000 M5 Media Blade",
-      "CIT3-B200-M5-CON — Cisco Meeting Server 2000 M5 Control Blade",
-      "CIT3-B200-M5V2 — Cisco Meeting Server 2000 M5v2 Media Blade",
-      "CIT3-B200-M5V2-CON — Cisco Meeting Server 2000 M5v2 Control Blade"
-     ],
-     "rules": {
-      "sku": 24
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "TelePresence Management Server (TMS) appliances",
-     "family": "(none)",
-     "role": null,
-     "note": "arriving from conferencing (merge plan): CTI-TMS-APL-K9(=) 'Cisco TelePresence Management Server' and its ATP demo unit (Cisco's TelePresence Management Server end-of-sale notice)",
-     "parts": 3,
-     "kinds": {
-      "server": 3
-     },
-     "roles": {},
-     "samples": [
-      "CTI-ATP-TMS-APL-K9 — ATP Demo -TMS Server Appliance Incl TMS and Scheduler-25 lic",
-      "CTI-TMS-APL-K9 — Cisco TelePresence Management Server",
-      "CTI-TMS-APL-K9= — Cisco TelePresence Management Server - Spare"
-     ],
-     "rules": {
-      "sku": 3
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "AI PODs for Collaboration",
-     "family": "(none)",
-     "role": null,
-     "note": "arriving from conferencing (merge plan): AIPOD-COLLAB and the UCS C240 M8 'Rack Server for Collaboration AI' (with GPU) of Cisco's 'AI PODs for Collaboration' data sheet; the servers mapping's C240 rule reads the two UCSC rows — record it decided-home when the move runs",
-     "parts": 3,
-     "kinds": {
-      "server": 3
-     },
-     "roles": {},
-     "samples": [
-      "AIPOD-COLLAB — Cisco AI PODs for Collaboration (Hardware)",
-      "UCSC-C240-M8-CL — UCS C240 M8 2U Rack Server for Collaboration AI",
-      "UCSC-C240-M8-CL-G — UCS C240 M8 2U Rack Server for Collaboration AI (GPU)"
-     ],
-     "rules": {
-      "sku": 3
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Meeting Server and TelePresence Management shared parts",
-     "family": "(shared across the line)",
-     "role": null,
-     "note": "arriving from conferencing (merge plan): the CIT3- UCS components sold for the Meeting Server appliances (CPUs, memory, drives, supplies, RAID controllers, VIC mLOMs, TPMs, the 5108 fan / power module / packaging, the 6324 in-chassis fabric interconnect, a FlexStorage blank)",
-     "parts": 38,
-     "kinds": {
-      "mechanical": 2,
-      "cpu": 5,
-      "accessory": 1,
-      "unknown": 1,
-      "drive": 9,
-      "nic": 3,
-      "memory": 4,
-      "storage-controller": 5,
-      "power": 6,
-      "tpm": 2
-     },
-     "roles": {},
-     "samples": [
-      "CIT3-5108-PKG-HW — UCS 5108 Packaging for chassis with half width blades.",
-      "CIT3-CPU-6140 — 2.3 GHz 6140/140W 18C/24.75MB Cache/DDR4 2666MHz",
-      "CIT3-CPU-E52695E — 2.10 GHz E5-2695 v4/120W 18C/45MB Cache/DDR4 2400MHz",
-      "CIT3-CPU-I6240 — Intel 6240 2.6GHz/150W 18C/24.75MB DCP DDR4 2933 MHz",
-      "CIT3-CPU-I6240= — ^Intel 6240 2.6GHz/150W 18C/24.75MB DCP DDR4 2933 MHz",
-      "CIT3-CPU-I6336Y — Intel 6336Y 2.4GHz/185W 24C/36MB DDR4 3200MHz"
-     ],
-     "rules": {
-      "sku": 38
-     },
-     "pending_in": {},
-     "pending_out": {}
-    }
-   ]
+  "pending_review": [],
+  "inbound_unplaced": {},
+  "done": true,
+  "build": {
+    "data_commit": "a388ea2da885",
+    "code_commit": "cb269cf2f0d7",
+    "contract_hash": "839db4a13086c4e2",
+    "generated_at": "2026-09-27T16:46:45.299Z"
   }
- ],
- "not_this_category": [],
- "pending_plans": [],
- "unplaced": [],
- "label_check": {
-  "applied": true,
-  "label_placed": 46,
-  "by_kind": {
-   "sku-token": 12,
-   "name": 7,
-   "none": 27
-  },
-  "moved": [
-   {
-    "sku": "ADPT-HDMI-DVID=",
-    "name": "Adaptor HDMI to DVID cable",
-    "series_label": "TelePresence PrecisionHD Cameras",
-    "from_series": "Precision 40 / 60 / PrecisionHD cameras",
-    "to_series": "Cameras shared parts",
-    "why": "no series token in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "AVIZ-EDU=",
-    "name": "SolutionsPlus: Avizia Educator",
-    "series_label": "TelePresence MX Series",
-    "from_series": "TelePresence MX (MX200 / MX300 / MX700 / MX800)",
-    "to_series": "TelePresence (legacy) shared parts",
-    "why": "no platform token (200, 300, 700, 800) in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "AVIZ-SYN=",
-    "name": "Avizia Synch",
-    "series_label": "TelePresence MX Series",
-    "from_series": "TelePresence MX (MX200 / MX300 / MX700 / MX800)",
-    "to_series": "TelePresence (legacy) shared parts",
-    "why": "no platform token (200, 300, 700, 800) in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "AVIZ-TAC-K9",
-    "name": "SolutionsPlus: Avizia Tactical",
-    "series_label": "TelePresence MX Series",
-    "from_series": "TelePresence MX (MX200 / MX300 / MX700 / MX800)",
-    "to_series": "TelePresence (legacy) shared parts",
-    "why": "no platform token (200, 300, 700, 800) in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "POE-WW",
-    "name": "Device PoE Adapter (Worldwide - 12W)",
-    "series_label": "Webex Share",
-    "from_series": "Webex Share",
-    "to_series": "Webex Share and Media Engines shared parts",
-    "why": "no series token in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "POE-WW=",
-    "name": "Device PoE Adapter (Worldwide - 12W)",
-    "series_label": "Webex Share",
-    "from_series": "Webex Share",
-    "to_series": "Webex Share and Media Engines shared parts",
-    "why": "no series token in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "PWR-12VDC-84W-",
-    "name": "Power supply 12VDC 84W",
-    "series_label": "SpeakerTrack 60",
-    "from_series": "SpeakerTrack 60",
-    "to_series": "Cameras shared parts",
-    "why": "no series token in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "PWR-12VDC-84W-=",
-    "name": "^Power supply 12VDC 84W",
-    "series_label": "SpeakerTrack 60",
-    "from_series": "SpeakerTrack 60",
-    "to_series": "Cameras shared parts",
-    "why": "no series token in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "PWR-12VDC-84W=",
-    "name": "Power supply 12VDC 84W",
-    "series_label": "SpeakerTrack 60",
-    "from_series": "SpeakerTrack 60",
-    "to_series": "Cameras shared parts",
-    "why": "no series token in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "PWR18W-ETH-NA",
-    "name": "18W Ethernet Power Adapter for North America.",
-    "series_label": "Webex Share",
-    "from_series": "Webex Share",
-    "to_series": "Webex Share and Media Engines shared parts",
-    "why": "no series token in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "PWR18W-ETH-NA=",
-    "name": "18W Ethernet Power Adapter for North America.",
-    "series_label": "Webex Share",
-    "from_series": "Webex Share",
-    "to_series": "Webex Share and Media Engines shared parts",
-    "why": "no series token in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "PWR18W-ETH-WW",
-    "name": "18W Ethernet Power Adapter (Worldwide)",
-    "series_label": "Webex Share",
-    "from_series": "Webex Share",
-    "to_series": "Webex Share and Media Engines shared parts",
-    "why": "no series token in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "PWR18W-ETH-WW=",
-    "name": "18W Ethernet Power Adapter (Worldwide). Spare",
-    "series_label": "Webex Share",
-    "from_series": "Webex Share",
-    "to_series": "Webex Share and Media Engines shared parts",
-    "why": "no series token in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "PWR18W-NA",
-    "name": "18W Power Adapter for North America",
-    "series_label": "Webex Share",
-    "from_series": "Webex Share",
-    "to_series": "Webex Share and Media Engines shared parts",
-    "why": "no series token in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "PWR18W-NA=",
-    "name": "18W Power Adapter for North America",
-    "series_label": "Webex Share",
-    "from_series": "Webex Share",
-    "to_series": "Webex Share and Media Engines shared parts",
-    "why": "no series token in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "PWRCLIP-AR=",
-    "name": "Spare Power adapter clip for Argentina",
-    "series_label": "Webex Share",
-    "from_series": "Webex Share",
-    "to_series": "Webex Share and Media Engines shared parts",
-    "why": "no series token in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "PWRCLIP-AU=",
-    "name": "Spare Power adapter clip for Australia and New Zealand",
-    "series_label": "Webex Share",
-    "from_series": "Webex Share",
-    "to_series": "Webex Share and Media Engines shared parts",
-    "why": "no series token in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "PWRCLIP-BR=",
-    "name": "Spare Power adapter clip for Brazil.",
-    "series_label": "Webex Share",
-    "from_series": "Webex Share",
-    "to_series": "Webex Share and Media Engines shared parts",
-    "why": "no series token in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "PWRCLIP-CN=",
-    "name": "Spare Power adapter clip for China",
-    "series_label": "Webex Share",
-    "from_series": "Webex Share",
-    "to_series": "Webex Share and Media Engines shared parts",
-    "why": "no series token in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "PWRCLIP-EU=",
-    "name": "Spare Power adapter clip for Europe",
-    "series_label": "Webex Share",
-    "from_series": "Webex Share",
-    "to_series": "Webex Share and Media Engines shared parts",
-    "why": "no series token in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "PWRCLIP-IN=",
-    "name": "Spare Power adapter clip for India",
-    "series_label": "Webex Share",
-    "from_series": "Webex Share",
-    "to_series": "Webex Share and Media Engines shared parts",
-    "why": "no series token in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "PWRCLIP-KR=",
-    "name": "Spare Power adapter clip for Korea",
-    "series_label": "Webex Share",
-    "from_series": "Webex Share",
-    "to_series": "Webex Share and Media Engines shared parts",
-    "why": "no series token in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "PWRCLIP-UK=",
-    "name": "Spare Power adapter clip for United Kingdom.",
-    "series_label": "Webex Share",
-    "from_series": "Webex Share",
-    "to_series": "Webex Share and Media Engines shared parts",
-    "why": "no series token in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "SPVAC-H450-W-EU=",
-    "name": "SolutionsPlus: Jabra Handset 450 for Cisco -White-EU",
-    "series_label": "TelePresence MX Series",
-    "from_series": "TelePresence MX (MX200 / MX300 / MX700 / MX800)",
-    "to_series": "TelePresence (legacy) shared parts",
-    "why": "no platform token (200, 300, 700, 800) in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "SPVAC-H450-W-JP=",
-    "name": "SolutionsPlus: Jabra Handset 450 for Cisco -White-Japan",
-    "series_label": "TelePresence MX Series",
-    "from_series": "TelePresence MX (MX200 / MX300 / MX700 / MX800)",
-    "to_series": "TelePresence (legacy) shared parts",
-    "why": "no platform token (200, 300, 700, 800) in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "SPVAC-H450-W-US=",
-    "name": "SolutionsPlus: Jabra Handset 450 for Cisco -White-US",
-    "series_label": "TelePresence MX Series",
-    "from_series": "TelePresence MX (MX200 / MX300 / MX700 / MX800)",
-    "to_series": "TelePresence (legacy) shared parts",
-    "why": "no platform token (200, 300, 700, 800) in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "WBP54G",
-    "name": "802.11b/g wireless bridge",
-    "series_label": "SPA500 IP Phones",
-    "from_series": "SPA500 IP Phones",
-    "to_series": "IP Phones shared parts",
-    "why": "no platform token (500) in the SKU or name, no compatible part placed in the series"
-   }
-  ]
- },
- "pending_review": [],
- "inbound_unplaced": {},
- "done": true
 }

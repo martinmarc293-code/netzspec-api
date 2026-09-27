@@ -1,2026 +1,2032 @@
 {
- "vendor": "cisco",
- "category": "wireless",
- "built_at": "2026-09-25T13:25:57.559Z",
- "commit": "72a241ddcf31e0b5cb17ce09266d81b1426fc7d0",
- "uncommitted_rule_files": [
-  "data/reference/product-lines/cisco-routers.json"
- ],
- "mapping_file": "data/reference/product-lines/cisco-wireless.json",
- "parts": 3907,
- "layered": 3907,
- "pending": 0,
- "lines": [
-  {
-   "line": "Catalyst Wireless Access Points",
-   "parts": 65,
-   "series": [
+  "vendor": "cisco",
+  "category": "wireless",
+  "built_at": "2026-09-25T13:25:57.559Z",
+  "commit": "72a241ddcf31e0b5cb17ce09266d81b1426fc7d0",
+  "uncommitted_rule_files": [
+    "data/reference/product-lines/cisco-routers.json"
+  ],
+  "mapping_file": "data/reference/product-lines/cisco-wireless.json",
+  "parts": 3907,
+  "layered": 3907,
+  "pending": 0,
+  "lines": [
     {
-     "series": "Catalyst CW9163E (outdoor, Wi-Fi 6E)",
-     "family": "(none)",
-     "role": "outdoor",
-     "note": null,
-     "parts": 3,
-     "kinds": {
-      "ap": 3
-     },
-     "roles": {
-      "outdoor": 3
-     },
-     "samples": [
-      "CW9163 — Cisco CW9163",
-      "CW9163E-MR — Cisco Catalyst 9163E Outdoor Access Point, N-type antenna co",
-      "CW9163E-x — Cisco Catalyst 9163E Outdoor Access Point, N-type antenna co"
-     ],
-     "rules": {
-      "sku": 3
-     },
-     "pending_in": {},
-     "pending_out": {}
+      "line": "Catalyst Wireless Access Points",
+      "parts": 65,
+      "series": [
+        {
+          "series": "Catalyst CW9163E (outdoor, Wi-Fi 6E)",
+          "family": "(none)",
+          "role": "outdoor",
+          "note": null,
+          "parts": 3,
+          "kinds": {
+            "ap": 3
+          },
+          "roles": {
+            "outdoor": 3
+          },
+          "samples": [
+            "CW9163 — Cisco CW9163",
+            "CW9163E-MR — Cisco Catalyst 9163E Outdoor Access Point, N-type antenna co",
+            "CW9163E-x — Cisco Catalyst 9163E Outdoor Access Point, N-type antenna co"
+          ],
+          "rules": {
+            "sku": 3
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Catalyst CW9177 (outdoor, Wi-Fi 7)",
+          "family": "(none)",
+          "role": "outdoor",
+          "note": "no CW9177 row in wireless today: the series carries the outdoor role for the CW9177 rows planned to move here from routers",
+          "parts": 3,
+          "kinds": {
+            "ap": 3
+          },
+          "roles": {
+            "outdoor": 3
+          },
+          "samples": [
+            "CW9177D — Cisco Wireless 9177 Outdoor Access Point, Wi-Fi 7, internal ",
+            "CW9177E — Cisco Wireless 9177 Outdoor Access Point, Wi-Fi 7, external ",
+            "CW9177I — Cisco Wireless 9177 Outdoor Access Point, internal omnicirec"
+          ],
+          "rules": {
+            "sku": 3
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Catalyst CW9162 / CW9164 / CW9166 (Wi-Fi 6E)",
+          "family": "(none)",
+          "role": "indoor",
+          "note": null,
+          "parts": 14,
+          "kinds": {
+            "ap": 14
+          },
+          "roles": {
+            "indoor": 14
+          },
+          "samples": [
+            "CW9162 — Cisco CW9162",
+            "CW9162I — Cisco CW9162I",
+            "CW9162I-MR — Cisco Catalyst 9162I Access Point, Wi-Fi 6E, internal antenn",
+            "CW9162I-x — Cisco Catalyst 9162I Access Point, Wi-Fi 6E, internal antenn",
+            "CW9164 — Cisco CW9164",
+            "CW9164I-MR — Cisco Catalyst 9164I Access Point, Wi-Fi 6E, internal antenn"
+          ],
+          "rules": {
+            "sku": 14
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Catalyst CW9171 / 9172 / 9174 / 9176 / 9178 / 9179 (Wi-Fi 7)",
+          "family": "(none)",
+          "role": "indoor",
+          "note": null,
+          "parts": 12,
+          "kinds": {
+            "ap": 12
+          },
+          "roles": {
+            "indoor": 12
+          },
+          "samples": [
+            "CW9171I — Cisco Wireless 9171I Access Point, Wi-Fi 7, internal omni di",
+            "CW9172 — Cisco CW9172",
+            "CW9172H — Cisco Wireless 9172H Access Point, Wi-Fi 7, internal omni-di",
+            "CW9172I — Cisco Wireless 9172I Access Point, Wi-Fi 7, internal omni-di",
+            "CW9174E — Cisco Wireless 9174E Access Point, Wi-Fi 7, DART8 antenna co",
+            "CW9174I — Cisco Wireless 9174I Access Point, Wi-Fi 7, internal omni di"
+          ],
+          "rules": {
+            "sku": 12
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Catalyst Wireless Access Points shared parts",
+          "family": "(shared across the line)",
+          "role": null,
+          "note": null,
+          "parts": 33,
+          "kinds": {
+            "mechanical": 16,
+            "accessory": 5,
+            "module": 1,
+            "cable": 1,
+            "antenna": 9,
+            "power-injector": 1
+          },
+          "roles": {},
+          "samples": [
+            "AIR-MNT-ART1= — Articulating mounting bracket for Cisco Catalyst 9124AXD acc",
+            "AIR-MNT-HORZ1= — Horizontal mounting bracket for Cisco Catalyst 9124AXI/AXD a",
+            "AIR-MNT-STRAND1= — Strand mounting bracket for Cisco Catalyst 9124AXI/AXD acces",
+            "AIR-MNT-VERT1 — Vertical mounting bracket for Cisco Catalyst 9124AXD/AXE acc",
+            "AIR-MNT-VERT1= — Vertical mounting bracket for Cisco Catalyst 9124AXD/AXE acc",
+            "AIR-MNT-VERT2= — Vertical mounting bracket for Cisco Catalyst 9124AXD/AXE acc"
+          ],
+          "rules": {
+            "accessory": 6,
+            "sku": 27
+          },
+          "pending_in": {},
+          "pending_out": {}
+        }
+      ]
     },
     {
-     "series": "Catalyst CW9177 (outdoor, Wi-Fi 7)",
-     "family": "(none)",
-     "role": "outdoor",
-     "note": "no CW9177 row in wireless today: the series carries the outdoor role for the CW9177 rows planned to move here from routers",
-     "parts": 3,
-     "kinds": {
-      "ap": 3
-     },
-     "roles": {
-      "outdoor": 3
-     },
-     "samples": [
-      "CW9177D — Cisco Wireless 9177 Outdoor Access Point, Wi-Fi 7, internal ",
-      "CW9177E — Cisco Wireless 9177 Outdoor Access Point, Wi-Fi 7, external ",
-      "CW9177I — Cisco Wireless 9177 Outdoor Access Point, internal omnicirec"
-     ],
-     "rules": {
-      "sku": 3
-     },
-     "pending_in": {},
-     "pending_out": {}
+      "line": "Catalyst 9100 Access Points",
+      "parts": 608,
+      "series": [
+        {
+          "series": "Catalyst 9124AX (outdoor)",
+          "family": "(none)",
+          "role": "outdoor",
+          "note": null,
+          "parts": 43,
+          "kinds": {
+            "mechanical": 1,
+            "ap": 42
+          },
+          "roles": {
+            "outdoor": 42
+          },
+          "samples": [
+            "C9124-CVR1= — Paintable cover for Catalyst 9124AX",
+            "C9124AXD-EWC-A — Wi-Fi 6 Outdoor AP w/EWC,Directional Ant,-A Regulatory Dom",
+            "C9124AXD-EWC-B — Wi-Fi 6 Outdoor AP w/EWC,Directional Ant,-B Regulatory Dom",
+            "C9124AXD-EWC-B-EDU — Cisco Catalyst 9124AX Series - EDU",
+            "C9124AXD-EWC-B1 — Cisco Embedded Wireless Controller on C9124AX Access Point",
+            "C9124AXD-EWC-E — Wi-Fi 6 Outdoor AP w/EWC,Directional Ant,-E Regulatory Dom"
+          ],
+          "rules": {
+            "sku": 43
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Catalyst 9105AX",
+          "family": "(none)",
+          "role": "indoor",
+          "note": null,
+          "parts": 113,
+          "kinds": {
+            "ap": 109,
+            "mechanical": 4
+          },
+          "roles": {
+            "indoor": 109
+          },
+          "samples": [
+            "C9105 — Cisco C9105",
+            "C9105AXI-A — Cisco Catalyst 9105AX Series",
+            "C9105AXI-B — Cisco Catalyst 9105AX Series",
+            "C9105AXI-B++ — Cisco Catalyst 9105AX Series",
+            "C9105AXI-B-EDU — Cisco Catalyst 9105AX Series - EDU",
+            "C9105AXI-B1 — Cisco Catalyst 9105AX Series"
+          ],
+          "rules": {
+            "sku": 113
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Catalyst 9115AX",
+          "family": "(none)",
+          "role": "indoor",
+          "note": null,
+          "parts": 114,
+          "kinds": {
+            "ap": 114
+          },
+          "roles": {
+            "indoor": 114
+          },
+          "samples": [
+            "C9115AXE-A — Cisco Catalyst 9115AX Series",
+            "C9115AXE-B — Cisco Catalyst 9115AX Series",
+            "C9115AXE-B++ — Cisco Catalyst 9115AX Series",
+            "C9115AXE-B-EDU — Cisco Catalyst 9115AX Series",
+            "C9115AXE-B1 — Cisco Catalyst 9115AX Series",
+            "C9115AXE-C — Cisco Catalyst 9115AX Series"
+          ],
+          "rules": {
+            "sku": 114
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Catalyst 9117AX",
+          "family": "(none)",
+          "role": "indoor",
+          "note": null,
+          "parts": 42,
+          "kinds": {
+            "ap": 42
+          },
+          "roles": {
+            "indoor": 42
+          },
+          "samples": [
+            "C9117AXI-A — Cisco Catalyst 9117AX Series",
+            "C9117AXI-B — Cisco Catalyst 9117AX Series",
+            "C9117AXI-B++ — Cisco Catalyst 9117AX Series",
+            "C9117AXI-B-EDU — Cisco Catalyst 9117AX Series",
+            "C9117AXI-B1 — Cisco Catalyst 9117AX Series",
+            "C9117AXI-C — Cisco Catalyst 9117AX Series"
+          ],
+          "rules": {
+            "sku": 42
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Catalyst 9120AX",
+          "family": "(none)",
+          "role": "indoor",
+          "note": null,
+          "parts": 175,
+          "kinds": {
+            "ap": 175
+          },
+          "roles": {
+            "indoor": 175
+          },
+          "samples": [
+            "C9120AXE-A — C9120AX External 802.11ax 4x4:4 MIMO;IOT;BT5;mGig;USB;RHL",
+            "C9120AXE-B — C9120AX External 802.11ax 4x4:4 MIMO;IOT;BT5;mGig;USB;RHL",
+            "C9120AXE-B++ — Cisco Catalyst 9120AX Series",
+            "C9120AXE-B-EDU — Cisco Catalyst 9120AX Series for EDU",
+            "C9120AXE-B1 — Cisco Catalyst 9120AX Series",
+            "C9120AXE-C — C9120AX External 802.11ax 4x4:4 MIMO;IOT;BT5;mGig;USB;RHL"
+          ],
+          "rules": {
+            "sku": 175
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Catalyst 9130AX",
+          "family": "(none)",
+          "role": "indoor",
+          "note": null,
+          "parts": 120,
+          "kinds": {
+            "ap": 120
+          },
+          "roles": {
+            "indoor": 120
+          },
+          "samples": [
+            "C9130AXE — Cisco C9130AXE",
+            "C9130AXE-A — Cisco Catalyst 9130AX Series",
+            "C9130AXE-B — Cisco Catalyst 9130AX Series",
+            "C9130AXE-B++ — Cisco Catalyst 9130AX Series",
+            "C9130AXE-B-EDU — Cisco Catalyst 9130AX Series - EDU",
+            "C9130AXE-B1 — Cisco Catalyst 9130AX Series"
+          ],
+          "rules": {
+            "sku": 120
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Catalyst 9136",
+          "family": "(none)",
+          "role": "indoor",
+          "note": "restored in the re-audit decisions (operator, 15 Sep 2026, Q-10 vs Q-23 — Q-23 governs): its one row, C9136I-x 'Cisco Catalyst 9136I Access Point, Wi-Fi 6E', carries the family's facts and document, so it keeps its row as the family carrier (flagged family_carrier); the layers round-3 wireless block had removed the series while that row carried a class plan",
+          "parts": 1,
+          "kinds": {
+            "ap": 1
+          },
+          "roles": {
+            "indoor": 1
+          },
+          "samples": [
+            "C9136I-x — Cisco Catalyst 9136I Access Point, Wi-Fi 6E, internal antenn"
+          ],
+          "rules": {
+            "sku": 1
+          },
+          "pending_in": {},
+          "pending_out": {}
+        }
+      ]
     },
     {
-     "series": "Catalyst CW9162 / CW9164 / CW9166 (Wi-Fi 6E)",
-     "family": "(none)",
-     "role": "indoor",
-     "note": null,
-     "parts": 14,
-     "kinds": {
-      "ap": 14
-     },
-     "roles": {
-      "indoor": 14
-     },
-     "samples": [
-      "CW9162 — Cisco CW9162",
-      "CW9162I — Cisco CW9162I",
-      "CW9162I-MR — Cisco Catalyst 9162I Access Point, Wi-Fi 6E, internal antenn",
-      "CW9162I-x — Cisco Catalyst 9162I Access Point, Wi-Fi 6E, internal antenn",
-      "CW9164 — Cisco CW9164",
-      "CW9164I-MR — Cisco Catalyst 9164I Access Point, Wi-Fi 6E, internal antenn"
-     ],
-     "rules": {
-      "sku": 14
-     },
-     "pending_in": {},
-     "pending_out": {}
+      "line": "Aironet Access Points",
+      "parts": 1815,
+      "series": [
+        {
+          "series": "Aironet 1800s Active Sensor",
+          "family": "(none)",
+          "role": null,
+          "note": null,
+          "parts": 15,
+          "kinds": {
+            "sensor": 15
+          },
+          "roles": {},
+          "samples": [
+            "AIR-AP1800S-A-K9 — Cisco Aironet 1800S Series Network Sensor",
+            "AIR-AP1800S-B-K9 — Cisco Aironet 1800S Series Network Sensor (USA Only)",
+            "AIR-AP1800S-D-K9 — Cisco Aironet 1800S Series Network Sensor",
+            "AIR-AP1800S-E-K9 — Cisco Aironet 1800S Series Network Sensor",
+            "AIR-AP1800S-F-K9 — Cisco Aironet 1800S Series Network Sensor",
+            "AIR-AP1800S-G-K9 — Cisco Aironet 1800S Series Network Sensor"
+          ],
+          "rules": {
+            "sku": 15
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Aironet 1800",
+          "family": "(none)",
+          "role": "indoor",
+          "note": null,
+          "parts": 32,
+          "kinds": {
+            "ap": 32
+          },
+          "roles": {
+            "indoor": 32
+          },
+          "samples": [
+            "AIR-AP1800I-A-K9 — Cisco Aironet 1800i Series (not for US)",
+            "AIR-AP1800I-A-K9C — Cisco Aironet Mobility Express 1800i Series",
+            "AIR-AP1800I-B-K9 — Cisco Aironet 1800i Series (USA Only)",
+            "AIR-AP1800I-B-K9C — Cisco Aironet Mobility Express 1800i Series",
+            "AIR-AP1800I-D-K9 — Cisco Aironet 1800i Series",
+            "AIR-AP1800I-D-K9C — Cisco Aironet Mobility Express 1800i Series"
+          ],
+          "rules": {
+            "sku": 32
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Aironet 1810 / 1810W",
+          "family": "(none)",
+          "role": "indoor",
+          "note": null,
+          "parts": 32,
+          "kinds": {
+            "ap": 32
+          },
+          "roles": {
+            "indoor": 32
+          },
+          "samples": [
+            "AIR-AP1810W-A-K9 — 802.11ac Wave 2 1810w, 2x2:2, 3 GbE; A Domain (not for US)",
+            "AIR-AP1810W-B-K9 — 802.11ac Wave 2 1810w, 2x2:2, 3 GbE; B Domain (for US)",
+            "AIR-AP1810W-C-K9 — 802.11ac Wave 2 1810w, 2x2:2, 3 GbE; C Domain",
+            "AIR-AP1810W-D-K9 — 802.11ac Wave 2 1810w, 2x2:2, 3 GbE; D Domain",
+            "AIR-AP1810W-E-K9 — 802.11ac Wave 2 1810w, 2x2:2, 3 GbE; E Domain",
+            "AIR-AP1810W-F-K9 — 802.11ac Wave 2 1810w, 2x2:2, 3 GbE; F Domain"
+          ],
+          "rules": {
+            "sku": 32
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Aironet 1815",
+          "family": "(none)",
+          "role": "indoor",
+          "note": null,
+          "parts": 130,
+          "kinds": {
+            "ap": 129,
+            "mechanical": 1
+          },
+          "roles": {
+            "indoor": 129
+          },
+          "samples": [
+            "AIR-AP1815I-A-K9 — Cisco Aironet 1815i Series (not for US)",
+            "AIR-AP1815I-A-K9C — Cisco Aironet Mobility Express 1815i Series",
+            "AIR-AP1815I-B-K9 — Cisco Aironet 1815i Series (for US)",
+            "AIR-AP1815I-B-K9C — Cisco Aironet Mobility Express 1815i Series",
+            "AIR-AP1815I-C-K9 — Cisco Aironet 1815i Series",
+            "AIR-AP1815I-C-K9C — Cisco Aironet Mobility Express 1815i Series"
+          ],
+          "rules": {
+            "sku": 130
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Aironet 1830",
+          "family": "(none)",
+          "role": "indoor",
+          "note": null,
+          "parts": 78,
+          "kinds": {
+            "bundle": 1,
+            "ap": 77
+          },
+          "roles": {
+            "indoor": 77
+          },
+          "samples": [
+            "AIR-AP1830I-E-WLC — Mobility Express Bundle AP1832i-E with Mobility Express",
+            "AIR-AP1830I-EZBLK — BOM Level AP1830i Bulk PID for E reg domain",
+            "AIR-AP1832I-A-K9 — 802.11ac Wave 2; 3x3:2SS; Int Ant; A Reg Domain",
+            "AIR-AP1832I-A-K9C — Cisco Aironet Mobility Express 1830 Series",
+            "AIR-AP1832I-B-K9 — 802.11ac Wave 2; 3x3:2SS; Int Ant; B Reg Domain (for US)",
+            "AIR-AP1832I-B-K9++ — 802.11ac Wave 2; 3x3:2SS; Int Ant; B Reg Domain (TAA)"
+          ],
+          "rules": {
+            "sku": 78
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Aironet 1840",
+          "family": "(none)",
+          "role": "indoor",
+          "note": null,
+          "parts": 33,
+          "kinds": {
+            "ap": 33
+          },
+          "roles": {
+            "indoor": 33
+          },
+          "samples": [
+            "AIR-AP1840I-A-K9 — Cisco Aironet AP1840I Series access point - A domain",
+            "AIR-AP1840I-A-K9C — Cisco Aironet ME AP1840I Series access point - A domain",
+            "AIR-AP1840I-B-K9 — Cisco Aironet AP1840I Series access point - B domain",
+            "AIR-AP1840I-B-K9C — Cisco Aironet ME AP1840I Series access point - B domain",
+            "AIR-AP1840I-C-K9 — Cisco Aironet AP1840I Series access point - C domain",
+            "AIR-AP1840I-C-K9C — Cisco Aironet ME AP1840I Series access point - C domain"
+          ],
+          "rules": {
+            "sku": 33
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Aironet 1850",
+          "family": "(none)",
+          "role": "indoor",
+          "note": null,
+          "parts": 124,
+          "kinds": {
+            "ap": 124
+          },
+          "roles": {
+            "indoor": 124
+          },
+          "samples": [
+            "AIR-AP1852E-A-K9 — 802.11ac Wave 2; 4x4:4SS; Ext Ant; A Reg Dom",
+            "AIR-AP1852E-A-K9C — Cisco Aironet Mobility Express 1850 Series",
+            "AIR-AP1852E-B-K9 — 802.11ac Wave 2; 4x4:4SS; Ext Ant; B Reg Dom",
+            "AIR-AP1852E-B-K9++ — 802.11ac Wave 2; 4x4:4SS; Ext Ant; B Reg Dom (TAA)",
+            "AIR-AP1852E-B-K9C — Cisco Aironet Mobility Express 1850 Series",
+            "AIR-AP1852E-BBULK — BOM Level AP1852e Bulk PID for B Domain (for United States)"
+          ],
+          "rules": {
+            "sku": 124
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Aironet 2800",
+          "family": "(none)",
+          "role": "indoor",
+          "note": null,
+          "parts": 361,
+          "kinds": {
+            "ap": 361
+          },
+          "roles": {
+            "indoor": 361
+          },
+          "samples": [
+            "AIR-AP2802E-A-K9 — 802.11ac W2 AP w/CA; 4x4:3; Ext Ant; 2xGbE, A Domain",
+            "AIR-AP2802E-A-K9C — Cisco Aironet Mobility Express 2800 Series",
+            "AIR-AP2802E-ABULK — BOM Level AP2800e Bulk PID for A Domain",
+            "AIR-AP2802E-ABULKC — BOM Level AP2800E Bulk PID for A Domain (CFG)",
+            "AIR-AP2802E-AK910 — 802.11ac W2 10 AP w/CleanAir; 4x4:3; Ext Ant; A",
+            "AIR-AP2802E-AK910C — Cisco Aironet Mobility Express 2800 Series"
+          ],
+          "rules": {
+            "sku": 361
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Aironet 3800",
+          "family": "(none)",
+          "role": "indoor",
+          "note": null,
+          "parts": 473,
+          "kinds": {
+            "ap": 473
+          },
+          "roles": {
+            "indoor": 473
+          },
+          "samples": [
+            "AIR-3802I-G-K9C — Cisco Aironet Mobility Express 3800 Series",
+            "AIR-AP3802E-A-K9 — 802.11ac W2 AP w/CA; 4x4:3; Mod; Ext Ant; mGig A Domain",
+            "AIR-AP3802E-A-K9C — Cisco Aironet Mobility Express 3800 Series",
+            "AIR-AP3802E-ABULK — BOM Level AP3800e Bulk PID for A Domain",
+            "AIR-AP3802E-ABULKC — BOM Level AP3800e Bulk PID for A Domain (CFG)",
+            "AIR-AP3802E-AK910 — 802.11ac W2 10 AP w/CleanAir; 4x4:3; Mod; Ext Ant; -A Domain"
+          ],
+          "rules": {
+            "sku": 473
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Aironet 4800",
+          "family": "(none)",
+          "role": "indoor",
+          "note": null,
+          "parts": 72,
+          "kinds": {
+            "ap": 72
+          },
+          "roles": {
+            "indoor": 72
+          },
+          "samples": [
+            "AIR-AP4800-A-K9 — .11ac W2 Analytics AP w/CA; 4x4:3; Location; mGig -A Domain",
+            "AIR-AP4800-A-K9C — Cisco Aironet Mobility Express 4800 Series",
+            "AIR-AP4800-B-K9 — .11ac W2 Analytics AP w/CA; 4x4:3; Location; mGig -B Domain",
+            "AIR-AP4800-B-K9++ — .11ac W2 Analytics AP w/CA; 4x4:3; Location; mGig -B Domain",
+            "AIR-AP4800-B-K9C — Cisco Aironet Mobility Express 4800 Series",
+            "AIR-AP4800-B-K9C++ — Cisco Aironet Mobility Express 4800 Series"
+          ],
+          "rules": {
+            "sku": 72
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Aironet 700 / 802 / 852 / 1100 / 1200 / 2700 / 3700 (legacy indoor)",
+          "family": "(none)",
+          "role": "indoor",
+          "note": "layers round 3: ^AIR-AP1[12][0-9]{2}[A-Z]{0,2}$ places the legacy 1100 / 1200 access points planned in from switches (AIR-AP1131AG, AIR-AP1210, AIR-AP1230A / B, AIR-AP1232AG, AIR-AP1242AG); the end anchor keeps the 1100 / 1140 / 1200 mounting kits (AIR-AP1100MNTGKIT=, AIR-AP1131-STAND=) in the line's shared parts",
+          "parts": 9,
+          "kinds": {
+            "ap": 9
+          },
+          "roles": {
+            "indoor": 9
+          },
+          "samples": [
+            "AIR-AP1131AG — Cisco Aironet 1130AG Series access point",
+            "AIR-AP1210 — Cisco AIR-AP1210",
+            "AIR-AP1230A — Cisco AIR-AP1230A",
+            "AIR-AP1230B — Cisco AIR-AP1230B",
+            "AIR-AP1232AG — Cisco Aironet 1230AG Series access point",
+            "AIR-AP1242AG — Cisco Aironet 1240AG Series access point"
+          ],
+          "rules": {
+            "sku": 9
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Aironet 1310 outdoor access point / bridge (legacy)",
+          "family": "(none)",
+          "role": "outdoor",
+          "note": "layers round 3: AIR-BR1310G, the Aironet 1310 outdoor access point / bridge planned in from switches (its arrival exception there is retired)",
+          "parts": 1,
+          "kinds": {
+            "unknown": 1
+          },
+          "roles": {},
+          "samples": [
+            "AIR-BR1310G — Cisco Aironet 1300 Series outdoor access point/bridge (Suppo"
+          ],
+          "rules": {
+            "sku": 1
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Aironet 1540",
+          "family": "(none)",
+          "role": "outdoor",
+          "note": null,
+          "parts": 40,
+          "kinds": {
+            "ap": 40
+          },
+          "roles": {
+            "outdoor": 40
+          },
+          "samples": [
+            "AIR-AP1542D-A-K9 — 802.11ac W2 Value Outdoor AP, Direct. Ant, A Reg Dom.",
+            "AIR-AP1542D-B-K9 — 802.11ac W2 Value Outdoor AP, Direct. Ant, B Reg Dom.",
+            "AIR-AP1542D-C-K9 — 802.11ac W2 Value Outdoor AP, Direct. Ant, C Reg Dom.",
+            "AIR-AP1542D-D-K9 — 802.11ac W2 Value Outdoor AP, Direct. Ant, D Reg Dom.",
+            "AIR-AP1542D-E-K9 — 802.11ac W2 low-profile outdoor AP, directional ant, E reg d",
+            "AIR-AP1542D-F-K9 — 802.11ac W2 Value Outdoor AP, Direct. Ant, F Reg Dom."
+          ],
+          "rules": {
+            "sku": 40
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Aironet 1560",
+          "family": "(none)",
+          "role": "outdoor",
+          "note": null,
+          "parts": 69,
+          "kinds": {
+            "ap": 69
+          },
+          "roles": {
+            "outdoor": 69
+          },
+          "samples": [
+            "AIR-AP1562D-A-K9 — 802.11ac W2 Low-Profile Outdoor AP, Direct. Ant, A Reg Dom.",
+            "AIR-AP1562D-B-K9 — 802.11ac W2 Low-Profile Outdoor AP, Direct. Ant, B Reg Dom.",
+            "AIR-AP1562D-B-K9++ — 802.11ac W2 Low-Profile Outdoor AP, Direct. Ant, (B - TAA)",
+            "AIR-AP1562D-C-K9 — 802.11ac W2 Low-Profile Outdoor AP, Direct. Ant, C Reg Dom.",
+            "AIR-AP1562D-D-K9 — 802.11ac W2 Low-Profile Outdoor AP, Direct. Ant, D Reg Dom.",
+            "AIR-AP1562D-E-K9 — 802.11ac W2 Low-Profile Outdoor AP, Direct. Ant, E Reg Dom."
+          ],
+          "rules": {
+            "sku": 69
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Aironet 1570",
+          "family": "(none)",
+          "role": "outdoor",
+          "note": "the bare 1570 rule claimed the CWDM 1570 nm optics (CWDM-SFP-1570 …); fenced to the AIR- mount kits in layers round 3 (operator: claimant-rule-too-broad, fixed in the wireless round)",
+          "parts": 94,
+          "kinds": {
+            "mechanical": 11,
+            "ap": 83
+          },
+          "roles": {
+            "outdoor": 83
+          },
+          "samples": [
+            "AIR-ACCPMK1570-1 — Vertical pole only (2 to 6 inches in diameter). Does not req",
+            "AIR-ACCPMK1570-1= — 1570 Series Pole-Mount Kit (Type-1)",
+            "AIR-ACCPMK1570-2= — Wall or pole (2 to 16 inches in diameter) with tilt adjustme",
+            "AIR-ACCPMK1570-3 — 1570 Series Pole-Mount Kit (Type-3)",
+            "AIR-ACCPMK1570-3= — Wall or pole (2 to16 inches in diameter) with tilt adjustmen",
+            "AIR-ACCSMK1570-1 — Default SMK. Does not offer any allowance for data cable und"
+          ],
+          "rules": {
+            "sku": 94
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Aironet 1550 hazardous-location (H / SA / SD / WU)",
+          "family": "(none)",
+          "role": "industrial",
+          "note": null,
+          "parts": 46,
+          "kinds": {
+            "ap": 46
+          },
+          "roles": {
+            "industrial": 46
+          },
+          "samples": [
+            "AIR-CAP1552H-A-K9 — 802.11N Outdoor Mesh Access Point, Haz. Loc., A Reg. Domain",
+            "AIR-CAP1552H-B-K9 — 802.11N Outdoor Mesh Access Point, Haz. Loc., B Reg. Domain",
+            "AIR-CAP1552H-C-K9 — 802.11N Outdoor Mesh Access Point, Haz. Loc., C Reg. Domain",
+            "AIR-CAP1552H-E-K9 — 802.11N Outdoor Mesh Access Point, Haz. Loc., E Reg. Domain",
+            "AIR-CAP1552H-M-K9 — 802.11N Outdoor Mesh Access Point, Haz. Loc., M Reg. Domain",
+            "AIR-CAP1552H-N-K9 — 802.11N Outdoor Mesh Access Point, Haz. Loc., N Reg. Domain"
+          ],
+          "rules": {
+            "sku": 46
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Aironet 1550",
+          "family": "(none)",
+          "role": "outdoor",
+          "note": "the bare 1550 rule claimed the CWDM 1550 nm optics; fenced to AIR- in layers round 3 (operator: fixed in the wireless round)",
+          "parts": 62,
+          "kinds": {
+            "power": 1,
+            "mechanical": 5,
+            "ap": 56
+          },
+          "roles": {
+            "outdoor": 56
+          },
+          "samples": [
+            "AIR-1550-HAZBBU — 1550 Series Hazardous Location Battery Backup Unit",
+            "AIR-1550S-FIB-KIT= — 1550S Fiber Cable Take-up Reel Kit",
+            "AIR-ACCPMK1550= — Cisco AIR-ACCPMK1550=",
+            "AIR-ACCPMK1550HZM= — 1550 Hazardous Location Marine Grade Pole-Mount Kit",
+            "AIR-ACCSMK1550 — 1550 Series Strand-Mount Kit",
+            "AIR-ACCSMK1550= — 1550 Series Strand-Mount Kit"
+          ],
+          "rules": {
+            "sku": 62
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Aironet 1520 / 1530",
+          "family": "(none)",
+          "role": null,
+          "note": "the bare 15[23]0 rule claimed the CWDM 1530 nm optics; fenced to AIR- in layers round 3 (operator: fixed in the wireless round). It also places AIR-1520-BATT-6AH= (planned in from servers-unified-computing). Fenced from AIR-ACC1530-KIT* / -PMK* (operator, 17 Sep 2026, layering review fix list 2.3 / 4.3: 'go with your recommendations'): AIR-ACC1530-KIT1=, -PMK1, -PMK1=, -PMK2= name 'AP1530/1560 Series' — two series of this line, and our store links KIT1= to the Aironet 1560 ordering guide and PMK1 to the 1540 and 1560 ordering guides — so they are line shared parts (the operator's rule of 14 Sep 2026) and fall to Aironet Access Points shared parts through ^AIR-(…|ACC|…). AIR-ACC1530-CVR= names AP1530 only and stays",
+          "parts": 11,
+          "kinds": {
+            "accessory": 1,
+            "power": 3,
+            "mechanical": 7
+          },
+          "roles": {},
+          "samples": [
+            "AIR-1520-BATT-6AH= — Cisco AIR-1520-BATT-6AH=",
+            "AIR-1520-BATT12AH — 1520 Series Battery, 12 Amp Hour",
+            "AIR-1520-FIB-REEL — 1520 Series Take-up Reel for Fiber Cable",
+            "AIR-1520-FIB-REEL= — 1520/1550 Series Fiber-Cable Take-up Reel KIT",
+            "AIR-ACC1530-CVR= — Cover and Solar Shield for AP1530 Series",
+            "AIR-ACCAMK1520-1 — 1520 Series Antenna Mount Kit, 3 Omni"
+          ],
+          "rules": {
+            "sku": 11
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Aironet Access Points shared parts",
+          "family": "(shared across the line)",
+          "role": null,
+          "note": "^AIR-RM30 (layers round 3): the AIR-RM3000M Wireless Security and Spectrum Intelligence modules and AIR-RM3010L Hyperlocation modules of the Aironet 3600 / 3700, planned in from interfaces-modules (operator: AIR-RM radio modules -> wireless, kind module). AP(?!-VBLE) leaves AIR-AP-VBLE-ADPTR= to the VBLE series below. VAP removed from the first rule (re-audit decisions, operator, 15 Sep 2026, Q-12): the AIR-VAP- access pods and mounting kits are MobileAccessVE rows, placed in their own series",
+          "parts": 133,
+          "kinds": {
+            "unknown": 5,
+            "mechanical": 61,
+            "accessory": 8,
+            "cable": 1,
+            "module": 37,
+            "power": 20,
+            "bundle": 1
+          },
+          "roles": {},
+          "samples": [
+            "2KI-FINAL-PKG-RU — Contains packing Kit For 2KI",
+            "ACCESSORY-KIT-RU — Contains Compliance and Auto test Blank Labels",
+            "AIR-ACC-CAT6= — CAT 6/6A Ethernet Cable Gland Assembly kit*",
+            "AIR-ACC-CLIP-20= — Converter Clips:Small grid ceilings. For 10 APs or Antennas",
+            "AIR-ACC-KIT1= — Accessory kit for Catalyst 9124AX (5x ethernet, 2 dust cap, ",
+            "AIR-ACC-PS-MNT1= — AC/DC adapter mount bracket for AIR-MNT-HORZ1="
+          ],
+          "rules": {
+            "label-unsupported": 8,
+            "sku": 125
+          },
+          "pending_in": {},
+          "pending_out": {}
+        }
+      ]
     },
     {
-     "series": "Catalyst CW9171 / 9172 / 9174 / 9176 / 9178 / 9179 (Wi-Fi 7)",
-     "family": "(none)",
-     "role": "indoor",
-     "note": null,
-     "parts": 12,
-     "kinds": {
-      "ap": 12
-     },
-     "roles": {
-      "indoor": 12
-     },
-     "samples": [
-      "CW9171I — Cisco Wireless 9171I Access Point, Wi-Fi 7, internal omni di",
-      "CW9172 — Cisco CW9172",
-      "CW9172H — Cisco Wireless 9172H Access Point, Wi-Fi 7, internal omni-di",
-      "CW9172I — Cisco Wireless 9172I Access Point, Wi-Fi 7, internal omni-di",
-      "CW9174E — Cisco Wireless 9174E Access Point, Wi-Fi 7, DART8 antenna co",
-      "CW9174I — Cisco Wireless 9174I Access Point, Wi-Fi 7, internal omni di"
-     ],
-     "rules": {
-      "sku": 12
-     },
-     "pending_in": {},
-     "pending_out": {}
+      "line": "Industrial Wireless",
+      "parts": 310,
+      "series": [
+        {
+          "series": "IW3700 (IW3702)",
+          "family": "(none)",
+          "role": "industrial",
+          "note": null,
+          "parts": 32,
+          "kinds": {
+            "ap": 32
+          },
+          "roles": {
+            "industrial": 32
+          },
+          "samples": [
+            "IW3702-2E-A-K9 — Industrial Wireless AP 3702, 4 RF ports on top/btm, A dom.",
+            "IW3702-2E-B-K9 — Industrial Wireless AP 3702, 4 RF ports on top/btm, B dom.",
+            "IW3702-2E-C-K9 — Industrial Wireless AP 3702, 4 RF ports on top/btm, R dom.",
+            "IW3702-2E-E-K9 — Industrial Wireless AP 3702, 4 RF ports on top/btm, E dom.",
+            "IW3702-2E-F-K9 — Industrial Wireless AP 3702, 4 RF ports on top/btm, F dom.",
+            "IW3702-2E-H-K9 — Industrial Wireless AP 3702, 4 RF ports on top/btm, H dom."
+          ],
+          "rules": {
+            "sku": 32
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "IW6300 / ESW6300",
+          "family": "(none)",
+          "role": "industrial",
+          "note": null,
+          "parts": 73,
+          "kinds": {
+            "ap": 67,
+            "mechanical": 6
+          },
+          "roles": {
+            "industrial": 67
+          },
+          "samples": [
+            "ESW-6300-CON-A-K9 — Embedded Wireless AP 6300, DC input, A Domain",
+            "ESW-6300-CON-B-K9 — Embedded Wireless AP 6300, DC input, B Domain",
+            "ESW-6300-CON-C-K9 — Embedded Wireless AP 6300, DC input, A Domain",
+            "ESW-6300-CON-D-K9 — Embedded Wireless AP 6300, DC input, D Domain",
+            "ESW-6300-CON-E-K9 — Embedded Wireless AP 6300, DC input, E Domain",
+            "ESW-6300-CON-F-K9 — Embedded Wireless AP 6300, DC input, A Domain"
+          ],
+          "rules": {
+            "sku": 67,
+            "label": 6
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Catalyst IW9165 / IW9167",
+          "family": "(none)",
+          "role": "industrial",
+          "note": null,
+          "parts": 13,
+          "kinds": {
+            "ap": 13
+          },
+          "roles": {
+            "industrial": 13
+          },
+          "samples": [
+            "IW9165D — Cisco IW9165D",
+            "IW9165DH-x-AP — Industrial Wireless 9165D, 11ax 6E, 2 RF ports, x domain, Wi",
+            "IW9165DH-x-URWB — Industrial Wireless 9165D, 11ax 6E, 2 RF ports, x domain, UR",
+            "IW9165E — Cisco IW9165E",
+            "IW9165E-x-AP — Industrial Wireless 9165E, 11ax 6E, 4 RF ports, x domain, Wi",
+            "IW9165E-x-URWB — Industrial Wireless 9165E, 11ax 6E, 4 RF ports, x domain, UR"
+          ],
+          "rules": {
+            "sku": 13
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Ultra-Reliable Wireless Backhaul (Fluidmesh)",
+          "family": "(none)",
+          "role": null,
+          "note": "^FM(?!C) (layers round 3, security round): the Fluidmesh rule claimed the 77 FMC- rows of security (Firepower Management Center appliances and their parts); no Fluidmesh PID starts FMC",
+          "parts": 184,
+          "kinds": {
+            "appliance": 6,
+            "backhaul": 41,
+            "unknown": 45,
+            "antenna": 42,
+            "mechanical": 8,
+            "power": 2,
+            "accessory": 5,
+            "cable": 32,
+            "power-injector": 3
+          },
+          "roles": {},
+          "samples": [
+            "FLMESH-HW-1000-1 — Cisco FLMESH-HW-1000-1",
+            "FLMESH-HW-10000-1 — Cisco FLMESH-HW-10000-1",
+            "FLMESH-HW-3200-1 — Cisco FLMESH-HW-3200-1",
+            "FLMESH-HW-3200-1NA — FM3200B-HW, NAM/LAM Version",
+            "FLMESH-HW-3200-1UK — FM3200B-HW, UK Version",
+            "FLMESH-HW-3200-3 — Cisco FLMESH-HW-3200-3"
+          ],
+          "rules": {
+            "sku": 184
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "IEC6400 edge compute (URWB)",
+          "family": "(none)",
+          "role": null,
+          "note": null,
+          "parts": 8,
+          "kinds": {
+            "module": 7,
+            "power": 1
+          },
+          "roles": {},
+          "samples": [
+            "IWA-CPU-I4310 — Intel 4310 2.1GHz/120W 12C/18MB DDR4 2667MHz",
+            "IWA-MR-X16G1RW — 16GB RDIMM SRx4 3200 (8Gb)",
+            "IWA-PCIE-C25Q-04 — Cisco UCS VIC 1455 Quad Port 10/25G SFP28 CNA PCIE (optional",
+            "IWA-PCIE-C25Q-04= — ^IEC6400 VIC 1455 Quad Port 10/25G SFP28 CNA PCIE",
+            "IWA-PSU1-1050W — Cisco UCS 1050W AC Power Supply for Rack Server",
+            "IWA-SATAIN-220M6 — C220M6 SATA Interposer board (1U)"
+          ],
+          "rules": {
+            "sku": 8
+          },
+          "pending_in": {},
+          "pending_out": {}
+        }
+      ]
     },
     {
-     "series": "Catalyst Wireless Access Points shared parts",
-     "family": "(shared across the line)",
-     "role": null,
-     "note": null,
-     "parts": 33,
-     "kinds": {
-      "mechanical": 16,
-      "accessory": 5,
-      "module": 1,
-      "cable": 1,
-      "antenna": 9,
-      "power-injector": 1
-     },
-     "roles": {},
-     "samples": [
-      "AIR-MNT-ART1= — Articulating mounting bracket for Cisco Catalyst 9124AXD acc",
-      "AIR-MNT-HORZ1= — Horizontal mounting bracket for Cisco Catalyst 9124AXI/AXD a",
-      "AIR-MNT-STRAND1= — Strand mounting bracket for Cisco Catalyst 9124AXI/AXD acces",
-      "AIR-MNT-VERT1 — Vertical mounting bracket for Cisco Catalyst 9124AXD/AXE acc",
-      "AIR-MNT-VERT1= — Vertical mounting bracket for Cisco Catalyst 9124AXD/AXE acc",
-      "AIR-MNT-VERT2= — Vertical mounting bracket for Cisco Catalyst 9124AXD/AXE acc"
-     ],
-     "rules": {
-      "accessory": 6,
-      "sku": 27
-     },
-     "pending_in": {},
-     "pending_out": {}
+      "line": "Cisco Business Wireless",
+      "parts": 295,
+      "series": [
+        {
+          "series": "Cisco Business 141 / 142 / 143 mesh extenders",
+          "family": "(none)",
+          "role": "mesh-extender",
+          "note": null,
+          "parts": 121,
+          "kinds": {
+            "ap": 121
+          },
+          "roles": {
+            "mesh-extender": 121
+          },
+          "samples": [
+            "3-CBW141ACM-A-AR — ^Cisco Business 141AC Wireless Extender-Desktop-3 Packs",
+            "3-CBW141ACM-A-NA — ^Cisco Business 141AC Wireless Extender-Desktop-3 Packs",
+            "3-CBW141ACM-B-NA — Cisco Business 141AC Wireless Extender-Desktop-3 Packs",
+            "3-CBW141ACM-E-EU — Cisco Business 141AC Wireless Extender-Desktop-3 Packs",
+            "3-CBW141ACM-E-IN — Cisco Business 141AC Wireless Extender-Desktop-3 Packs",
+            "3-CBW141ACM-E-UK — Cisco Business 141AC Wireless Extender-Desktop-3 Packs"
+          ],
+          "rules": {
+            "sku": 121
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Cisco Business 140AC / 145AC / 150AX",
+          "family": "(none)",
+          "role": "smb",
+          "note": null,
+          "parts": 91,
+          "kinds": {
+            "ap": 91
+          },
+          "roles": {
+            "smb": 91
+          },
+          "samples": [
+            "3-CBW140AC-A — Cisco Business 140AC Access Point, 802.11ac Wave-3 Packs",
+            "3-CBW140AC-A-CA — CBW140AC 802.11ac 2x2 Wave 2 Access Point Ceiling Mount - 3P",
+            "3-CBW140AC-B — CBW140AC 802.11ac 2x2 Wave 2 Access Point Ceiling Mount - 3P",
+            "3-CBW140AC-D — CBW140AC 802.11ac 2x2 Wave 2 Access Point Ceiling Mount - 3P",
+            "3-CBW140AC-E — CBW140AC 802.11ac 2x2 Wave 2 Access Point Ceiling Mount - 3P",
+            "3-CBW140AC-F — Cisco Business 140AC Access Point, 802.11ac Wave 2"
+          ],
+          "rules": {
+            "sku": 91
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Cisco Business 240AC",
+          "family": "(none)",
+          "role": "smb",
+          "note": null,
+          "parts": 59,
+          "kinds": {
+            "ap": 59
+          },
+          "roles": {
+            "smb": 59
+          },
+          "samples": [
+            "3-CBW240AC-A — Cisco Business 240AC Access Point, 802.11ac Wave 2-3 Packs",
+            "3-CBW240AC-A-CA — CBW240AC 802.11ac 4x4 Wave 2 Access Point Ceiling Mount - 3P",
+            "3-CBW240AC-B — CBW240AC 802.11ac 4x4 Wave 2 Access Point Ceiling Mount - 3P",
+            "3-CBW240AC-D — CBW240AC 802.11ac 4x4 Wave 2 Access Point Ceiling Mount - 3P",
+            "3-CBW240AC-E — CBW240AC 802.11ac 4x4 Wave 2 Access Point Ceiling Mount - 3P",
+            "3-CBW240AC-F — Cisco Business 240AC Access Point, 802.11ac Wave 2"
+          ],
+          "rules": {
+            "sku": 59
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Cisco Business Mesh starter kits",
+          "family": "(none)",
+          "role": null,
+          "note": null,
+          "parts": 14,
+          "kinds": {
+            "bundle": 14
+          },
+          "roles": {},
+          "samples": [
+            "CBW140MXS-A-CA — CBW140 Cisco Business Mesh Starter Kit",
+            "CBW140MXS-A-NA — CBW140 Cisco Business Mesh Starter Kit",
+            "CBW140MXS-B-NA — CBW140 Cisco Business Mesh Starter Kit",
+            "CBW140MXS-D-IN — CBW140 Cisco Business Mesh Starter Kit",
+            "CBW140MXS-E-EU — CBW140 Cisco Business Mesh Starter Kit",
+            "CBW140MXS-E-UK — CBW140 Cisco Business Mesh Starter Kit"
+          ],
+          "rules": {
+            "sku": 14
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Cisco Business Wireless shared parts",
+          "family": "(shared across the line)",
+          "role": null,
+          "note": null,
+          "parts": 10,
+          "kinds": {
+            "power-injector": 10
+          },
+          "roles": {},
+          "samples": [
+            "CB-PWRINJ-AR — Cisco Business Power Over Ethernet Injector",
+            "CB-PWRINJ-AU — Cisco Business Power Over Ethernet Injector",
+            "CB-PWRINJ-BR — Cisco Business Power Over Ethernet Injector",
+            "CB-PWRINJ-CN — Cisco Business Power Over Ethernet Injector",
+            "CB-PWRINJ-EU — Cisco Business Power Over Ethernet Injector",
+            "CB-PWRINJ-IN — Cisco Business Power Over Ethernet Injector"
+          ],
+          "rules": {
+            "sku": 10
+          },
+          "pending_in": {},
+          "pending_out": {}
+        }
+      ]
+    },
+    {
+      "line": "Small Business Wireless (WAP)",
+      "parts": 69,
+      "series": [
+        {
+          "series": "WAP571E (outdoor)",
+          "family": "(none)",
+          "role": "outdoor",
+          "note": null,
+          "parts": 8,
+          "kinds": {
+            "ap": 8
+          },
+          "roles": {
+            "outdoor": 8
+          },
+          "samples": [
+            "WAP571E-A-K9 — WAP571E Wireless-AC/N Dual Radio Outdoor Wireless Access Poi",
+            "WAP571E-B-K9 — WAP571E Wireless-AC/N Dual Radio Outdoor Wireless Access Poi",
+            "WAP571E-C-K9 — WAP571E Wireless-AC/N Dual Radio Outdoor Wireless Access Poi",
+            "WAP571E-E-K9 — WAP571E Wireless-AC/N Dual Radio Outdoor Wireless Access Poi",
+            "WAP571E-H-K9 — WAP571E Wireless-AC/N Dual Radio Outdoor Wireless Access Poi",
+            "WAP571E-K-K9 — WAP571E Wireless-AC/N Dual Radio Outdoor Wireless Access Poi"
+          ],
+          "rules": {
+            "sku": 8
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "WAP100 series (WAP121 / WAP125 / WAP150)",
+          "family": "(none)",
+          "role": "smb",
+          "note": null,
+          "parts": 33,
+          "kinds": {
+            "ap": 33
+          },
+          "roles": {
+            "smb": 33
+          },
+          "samples": [
+            "WAP121-A-K9-AR — Cisco WAP121 Wireless-N Access Point with Single Point Setup",
+            "WAP121-A-K9-AU — Cisco WAP121 Wireless-N Access Point with Single Point Setup",
+            "WAP121-A-K9-CA — Cisco WAP121 Wireless-N Access Point with Single Point Setup",
+            "WAP121-A-K9-NA — Cisco WAP121 Wireless-N Access Point with Single Point Setup",
+            "WAP121-E-K9-CN — Cisco WAP121 Wireless-N Access Point with Single Point Setup",
+            "WAP121-E-K9-G5 — Cisco WAP121 Wireless-N Access Point with Single Point Setup"
+          ],
+          "rules": {
+            "sku": 33
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "WAP300 series (WAP361 / WAP371)",
+          "family": "(none)",
+          "role": "smb",
+          "note": null,
+          "parts": 11,
+          "kinds": {
+            "ap": 11
+          },
+          "roles": {
+            "smb": 11
+          },
+          "samples": [
+            "WAP361 — WAP361 Wireless-AC/N Dual Radio Wall Plate Access Point with",
+            "WAP361-A-K9 — WAP361 Wireless-AC/N Dual Radio Wall Plate Access Point with",
+            "WAP361-C-K9 — WAP361 Wireless-AC/N Dual Radio Wall Plate Access Point with",
+            "WAP361-E-K9 — WAP361 Wireless-AC/N Dual Radio Wall Plate Access Point with",
+            "WAP361-J-K9 — WAP361 Wireless-AC/N Dual Radio Wall Plate Access Point with",
+            "WAP361-K-K9 — WAP361 Wireless-AC/N Dual Radio Wall Plate Access Point with"
+          ],
+          "rules": {
+            "sku": 11
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "WAP500 series (WAP571 / WAP581)",
+          "family": "(none)",
+          "role": "smb",
+          "note": null,
+          "parts": 17,
+          "kinds": {
+            "ap": 17
+          },
+          "roles": {
+            "smb": 17
+          },
+          "samples": [
+            "WAP571-A-K9 — WAP571 Wireless-AC/N Premium Dual Radio Access Points (Unite",
+            "WAP571-B-K9 — WAP571 Wireless-AC/N Premium Dual Radio Access Points (Canad",
+            "WAP571-C-K9 — WAP571 Wireless-AC/N Premium Dual Radio Access Points (China",
+            "WAP571-E-K9 — WAP571 Wireless-AC/N Premium Dual Radio Access Points (Europ",
+            "WAP571-I-K9 — WAP571 Wireless-AC/N Premium Dual Radio Access Points (India",
+            "WAP571-J-K9 — WAP571 Wireless-AC/N Premium Dual Radio Access Points (Japan"
+          ],
+          "rules": {
+            "sku": 17
+          },
+          "pending_in": {},
+          "pending_out": {}
+        }
+      ]
+    },
+    {
+      "line": "Meraki MR Access Points",
+      "parts": 74,
+      "series": [
+        {
+          "series": "Meraki MR outdoor (MR58 / 66 / 70 / 72 / 74 / 76 / 78 / 84 / 86)",
+          "family": "(none)",
+          "role": "outdoor",
+          "note": "MR58/66/70/72/74/84 extend the III.0 rule (MR76/78/86) to the older outdoor models held as bare family rows in meraki (14 Sep 2026)",
+          "parts": 11,
+          "kinds": {
+            "ap": 11
+          },
+          "roles": {
+            "outdoor": 11
+          },
+          "samples": [
+            "MR58 — Cisco MR58",
+            "MR66 — Cisco MR66",
+            "MR70 — Cisco MR70",
+            "MR74 — Cisco MR74",
+            "MR76 — Cisco MR76",
+            "MR76-HW — Cisco MR76-HW"
+          ],
+          "rules": {
+            "sku": 11
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Meraki MR indoor",
+          "family": "(none)",
+          "role": "indoor",
+          "note": "MR11-MR62 older indoor models extend the III.0 rule (MR36/44/46/56/57) (14 Sep 2026)",
+          "parts": 33,
+          "kinds": {
+            "ap": 33
+          },
+          "roles": {
+            "indoor": 33
+          },
+          "samples": [
+            "MR11 — Cisco MR11",
+            "MR12 — Cisco MR12",
+            "MR14 — Cisco MR14",
+            "MR16 — Cisco MR16",
+            "MR20 — Cisco MR20",
+            "MR24 — Cisco MR24"
+          ],
+          "rules": {
+            "sku": 33
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Meraki MR Access Points shared parts",
+          "family": "(shared across the line)",
+          "role": null,
+          "note": "^MA- fenced to the Meraki MR antennas, mounts and power adapters (layers round 3): the Meraki MA-SFP / MA-QSFP / MA-CBL optics are transceivers",
+          "parts": 30,
+          "kinds": {
+            "antenna": 14,
+            "mechanical": 14,
+            "power": 2
+          },
+          "roles": {},
+          "samples": [
+            "MA-ANT-3-A1 — Meraki Indoor Dual-band Dipole Antenna",
+            "MA-ANT-3-A5 — Meraki Indoor Dual-band Dipole Antennas, 5-pack for MR42E",
+            "MA-ANT-3-A6 — Meraki Indoor Dual-band Dipole Ant, 6-pack for MR46E/MR53E",
+            "MA-ANT-3-B1 — Meraki Indoor Bendable Dual-band Dipole Antenna",
+            "MA-ANT-3-B5 — Meraki Indoor Bendable Dual-band Dipole Ant 5pk for MR42E",
+            "MA-ANT-3-B6 — Meraki Indoor Bendable Dual-band Dipole Ant 6pk MR46E/MR53E"
+          ],
+          "rules": {
+            "sku": 30
+          },
+          "pending_in": {},
+          "pending_out": {}
+        }
+      ]
+    },
+    {
+      "line": "Catalyst 9800 Wireless Controllers",
+      "parts": 55,
+      "series": [
+        {
+          "series": "Catalyst 9800-80",
+          "family": "(none)",
+          "role": null,
+          "note": null,
+          "parts": 7,
+          "kinds": {
+            "wlc": 7
+          },
+          "roles": {},
+          "samples": [
+            "C9800-80-CA-K9 — Cisco Catalyst 9800-80 Wireless Controller (Service only)",
+            "C9800-80-CAP-K9 — Cisco Catalyst 9800-80 Wireless Controller -5YR-SNTC-8X5XNBD",
+            "C9800-80-K9 — Cisco Catalyst 9800-80 Wireless Controller",
+            "C9800-80-SLR-K9 — Cisco Catalyst 9800-80 Modular SLR Wireless Controller",
+            "C9800-80-SLRCA-K9 — Cisco Catalyst 9800-80 Modular SLR CA Wireless Controller",
+            "EDU-C9800-80-K9 — EDU SKU-Cisco Catalyst 9800-80 Wireless Controller"
+          ],
+          "rules": {
+            "sku": 7
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Catalyst 9800-40",
+          "family": "(none)",
+          "role": null,
+          "note": null,
+          "parts": 6,
+          "kinds": {
+            "wlc": 6
+          },
+          "roles": {},
+          "samples": [
+            "C9800-40-2K-SLR-K9 — Cisco Catalyst 9800-40 SLR Wireless Controller",
+            "C9800-40-CA-K9 — Cisco Catalyst 9800-40 Wireless Controller (Service Only)",
+            "C9800-40-K9 — Cisco Catalyst 9800-40 Wireless Controller",
+            "C9800-40-SLR-K9 — Cisco Catalyst 9800-40 SLR Wireless Controller",
+            "C9800-40-SLRCA-K9 — Cisco Catalyst 9800-40 SLR Controller (Service Only)",
+            "EDU-C9800-40-K9 — EDU SKU - Cisco Catalyst 9800-40 Wireless Controller"
+          ],
+          "rules": {
+            "sku": 6
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Catalyst 9800-L",
+          "family": "(none)",
+          "role": null,
+          "note": null,
+          "parts": 12,
+          "kinds": {
+            "wlc": 8,
+            "accessory": 1,
+            "mechanical": 2,
+            "power": 1
+          },
+          "roles": {},
+          "samples": [
+            "9800-L — Cisco 9800-L",
+            "C9800-L — Cisco C9800-L",
+            "C9800-L-C-CA-K9 — Cisco 9800-L Wireless Controller copper service",
+            "C9800-L-C-K9 — Cisco Catalyst 9800-L-C Wireless Controller Copper Uplink (s",
+            "C9800-L-F-CA-K9 — Cisco 9800-L Wireless Controller fiber service",
+            "C9800-L-F-K9 — Cisco Catalyst 9800-L-F Wireless Controller_Fiber Uplink (sh"
+          ],
+          "rules": {
+            "sku": 12
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Catalyst CW9800M",
+          "family": "(none)",
+          "role": null,
+          "note": null,
+          "parts": 2,
+          "kinds": {
+            "wlc": 2
+          },
+          "roles": {},
+          "samples": [
+            "CW9800M — Cisco Catalyst CW9800M Wireless Controller (ships with one A",
+            "EDU-CW9800M — Cisco EDU-CW9800M"
+          ],
+          "rules": {
+            "sku": 2
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Catalyst CW9800H1 / CW9800H2",
+          "family": "(none)",
+          "role": null,
+          "note": null,
+          "parts": 5,
+          "kinds": {
+            "wlc": 5
+          },
+          "roles": {},
+          "samples": [
+            "CW9800H1 — Cisco Catalyst CW9800H1 Wireless Controller",
+            "CW9800H1-MCG — Campus Gateway",
+            "CW9800H2 — Cisco Catalyst CW9800H2 Wireless Controller",
+            "EDU-CW9800H1 — Cisco EDU-CW9800H1",
+            "EDU-CW9800H2 — Cisco EDU-CW9800H2"
+          ],
+          "rules": {
+            "sku": 5
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Catalyst 9800 Wireless Controllers shared parts",
+          "family": "(shared across the line)",
+          "role": null,
+          "note": null,
+          "parts": 23,
+          "kinds": {
+            "module": 10,
+            "power": 9,
+            "mechanical": 4
+          },
+          "roles": {},
+          "samples": [
+            "C9800-10X10GE — Cisco Catalyst 9800-80 10GE Module",
+            "C9800-10X10GE= — Cisco Catalyst 9800-80 10GE Module",
+            "C9800-18X1GE — Cisco Catalyst 9800-80 1GE Module",
+            "C9800-18X1GE= — Cisco Catalyst 9800-80 1GE Module",
+            "C9800-1X100GE — Cisco Catalyst 9800-80 1 Port 100GE Module",
+            "C9800-1X100GE= — Cisco Catalyst 9800-80 1 Port 100GE Module"
+          ],
+          "rules": {
+            "sku": 23
+          },
+          "pending_in": {},
+          "pending_out": {}
+        }
+      ]
+    },
+    {
+      "line": "AireOS Wireless LAN Controllers",
+      "parts": 235,
+      "series": [
+        {
+          "series": "2500 (2504)",
+          "family": "(none)",
+          "role": null,
+          "note": "^AIRCT2504 removed in layers round 3: CT25[0-9]{2} already decides every AIRCT2504 bundle (the rule-shadowing check named it redundant)",
+          "parts": 78,
+          "kinds": {
+            "wlc": 22,
+            "cable": 1,
+            "mechanical": 2,
+            "bundle": 53
+          },
+          "roles": {},
+          "samples": [
+            "AIR-CT2504-15-K9 — 2500 Series Wireless Controller for up to 15 Cisco access po",
+            "AIR-CT2504-15-K9++ — 2504 Wireless Controller with 15 AP Licenses (TAA)",
+            "AIR-CT2504-15PROM — 2504 Wireless Controller w/ 15 AP Lic. and Promo 15 IOS Lic.",
+            "AIR-CT2504-25-K9 — 2500 Series Wireless Controller for up to 25 Cisco access po",
+            "AIR-CT2504-25-K9++ — 2504 Wireless Controller with 25 AP Licenses (TAA)",
+            "AIR-CT2504-25-K9Z — 2504 Wireless Controller in a bundle with 25 AP licenses"
+          ],
+          "rules": {
+            "sku": 78
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "3500 (3504)",
+          "family": "(none)",
+          "role": null,
+          "note": null,
+          "parts": 10,
+          "kinds": {
+            "mechanical": 3,
+            "wlc": 7
+          },
+          "roles": {},
+          "samples": [
+            "AIR-3504-RMNT= — Cisco 3504 Wireless Controller Rack Mount Bracket",
+            "AIR-CT3504-CA-K9 — Cisco 3504 Wireless Controller for Service Depot",
+            "AIR-CT3504-CA-K9++ — Cisco 3504 Wireless Controller for Service Depot TAA",
+            "AIR-CT3504-K9 — Cisco 3504 Wireless Controller",
+            "AIR-CT3504-K9++ — Cisco 3504 Wireless Controller (TAA)",
+            "AIR-CT3504-RMNT — 3504 Wireless Controller Rack Mount Tray"
+          ],
+          "rules": {
+            "sku": 10
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "5500 (5508 / 5520 / 5540)",
+          "family": "(none)",
+          "role": null,
+          "note": "^AIR-BZL-C220M4 and ^AIR-PSU-BLKP1U (layering review of 17 Sep 2026, fix list 2.1): 'Cisco 5520 Wireless Controller Security Bezel' and 'Power Supply Blanking Panel for C220 M4 servers', which the Cisco 5520 Wireless Controller end-of-sale notice lists in its French copy (eos-eol-notice-c51-744430-fr; the English copy as cached lists neither); both sat in CMX 3375 / MSE 3355 / 3365 through ^AIR-(MR|SD|PSU|BZL|RAID|MRAID|CPU|PCI|SVR|DC)- · ^AIR-PSU1-770W (layering re-check of 17 Sep 2026, fix list section 1): AIR-PSU1-770W(=) '770W AC Hot-Plug Power Supply for 5520 Controller' names this controller, the evidence AIR-PSU-930WDC carries for 8500; it sat in Wireless Antennas and Accessories shared parts by the label 'Antennas/Accessories'. Deviation a, read against the notices: AIR-PSU-BLKP1U stays here (the 5520 notice lists it); AIR-PSU-650W and AIR-PCI-1A-240M4 stay in Modules and power (unnamed platform) — neither the 5520 nor the 8540 notice (English and French copies) nor the 5520 / 8540 SSD notice lists them, and the two accessory notices that do (wireless-misc-accessories-sw-lic-eol, aironet-accessories-eol15454) name a controller for the 770 W and 1200 W supplies beside them and none for these two",
+          "parts": 67,
+          "kinds": {
+            "wlc": 54,
+            "power": 6,
+            "mechanical": 4,
+            "module": 3
+          },
+          "roles": {},
+          "samples": [
+            "AIR-5508H-500-2PK — 2x AIR-CT5508-500-K9, Hospitality",
+            "AIR-5508H-HA-K9 — Cisco 5508 Series Wireless Ctlr for HA, Hospitality",
+            "AIR-5540-AC-750W — Cisco 5540 750W AC Power Supply, Reverse Air",
+            "AIR-5540-AC-750W= — Cisco 5540 750W AC Power Supply, Reverse Air",
+            "AIR-BZL-C220M4 — Cisco 5520 Wireless Controller Security Bezel",
+            "AIR-BZL-C220M4= — Cisco 5520 Wireless Controller Security Bezel"
+          ],
+          "rules": {
+            "sku": 64,
+            "label": 3
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "8500 (8510 / 8540 / 8580)",
+          "family": "(none)",
+          "role": null,
+          "note": "CT85DC (layers round 3): AIR-CT85DC-K9 / AIR-CT85DC-SP-K9, the 8510 DC controllers, sat in the line's shared parts through ^AIR-(CT|WLC|VPN) — a controller in shared parts. ^AIR-BZL-C240M4, ^AIR-PSU-930WDC, ^AIR-SVR-PWR-DC (layering review of 17 Sep 2026, fix list 2.1): the parts named for an 8500 controller — 'Cisco 8540 Wireless Controller Security Bezel', '930W -48V DC Common Slot Power Supply for 8540 Controller', 'Field replaceable DC Power Supply for 8510DC (AIR-CT85DC-K9)', the last listed by the Cisco 8510 Wireless Controller end-of-sale notice (eos-eol-notice-c51-740222); with their spares they sat in CMX 3375 / MSE 3355 / 3365 · ^AIR-PSU2V2-1200W (layering re-check of 17 Sep 2026, fix list section 1): AIR-PSU2V2-1200W(=) '1200W V2 AC Power Supply for 8540 Controller' names this controller; it sat in Wireless Antennas and Accessories shared parts by the label 'Antennas/Accessories'",
+          "parts": 47,
+          "kinds": {
+            "power": 10,
+            "mechanical": 2,
+            "wlc": 34,
+            "module": 1
+          },
+          "roles": {},
+          "samples": [
+            "AIR-8580-AC-750W — Cisco 8580 750W AC Power Supply",
+            "AIR-8580-AC-750W= — Cisco 8580 750W AC Power Supply",
+            "AIR-8580-DC-950W — Cisco 8580 950W DC Power Supply",
+            "AIR-8580-DC-950W= — Cisco 8580 950W DC Power Supply",
+            "AIR-BZL-C240M4 — Cisco 8540 Wireless Controller Security Bezel",
+            "AIR-BZL-C240M4= — Cisco 8540 Wireless Controller Security Bezel"
+          ],
+          "rules": {
+            "sku": 46,
+            "label": 1
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "WLC + access point bundles",
+          "family": "(none)",
+          "role": null,
+          "note": "^AIR-AP[0-9]{4}[A-Z]-WLC (layers round 3): AIR-AP1702I-WLC / AIR-AP2702I-WLC / AIR-AP3702I-WLC 'Bundle 2 AP…I and WLC2504 with 25 licenses' sat in the Aironet shared parts",
+          "parts": 8,
+          "kinds": {
+            "bundle": 8
+          },
+          "roles": {},
+          "samples": [
+            "AIR-AP1702I-WLC — Bundle 2 AP1700I and WLC2504 with 25 licenses",
+            "AIR-AP2702I-WLC — Bundle 2 AP2700I and WLC2504 with 25 licenses",
+            "AIR-AP3702I-WLC — Bundle 2 AP3700I and WLC2504 with 25 licenses",
+            "KAISER-WLC-AP-BNDL — Kaiser Bundle of WLC3504 and 10-pack AP3802I",
+            "WL5520-28-ADV-100 — Cisco WL5520-28-ADV-100",
+            "WL5520-38-PLUS-100 — Cisco WL5520-38-PLUS-100"
+          ],
+          "rules": {
+            "sku": 8
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "MobileAccessVE",
+          "family": "(none)",
+          "role": null,
+          "note": "re-audit decisions (operator, 15 Sep 2026, Q-12 / F-12): Cisco MobileAccessVE, the in-building cellular units sold as AIR- PIDs — the main, remote and expansion building units (AIR-330-), the access pods for CELL / PCS bands (AIR-VAP-CELLPCS) with their mounting kits (AIR-VAPMNTG-H / -V-KIT=) and the 12-port control unit (AIR-VCU-CELLPCS12). They sat in the AireOS controllers' and the Aironet access points' shared parts with kind unknown. The series carries no vendor in its name (the rows name none). Kind: the operator decided `device` for the units; `device` is not a noun of the wireless kind axis and a new noun needs its cup set, so the kind change waits for the parked kind rebuild (Q-28) and the units stay `unknown` until then",
+          "parts": 14,
+          "kinds": {
+            "unknown": 12,
+            "mechanical": 2
+          },
+          "roles": {},
+          "samples": [
+            "AIR-330-EXP-BOX — MobileAccessVE Expansion Box",
+            "AIR-330-EXP-BOX= — MobileAccessVE Expansion Box",
+            "AIR-330-MB-1 — MobileAccessVE One-link Main Building Unit",
+            "AIR-330-MB-1= — MobileAccessVE One-link Main Building Unit",
+            "AIR-330-MB-2 — MobileAccessVE Two-link Main Building Unit",
+            "AIR-330-MB-2= — MobileAccessVE Two-link Main Building Unit"
+          ],
+          "rules": {
+            "sku": 14
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "AireOS Wireless LAN Controllers shared parts",
+          "family": "(shared across the line)",
+          "role": null,
+          "note": "^AIR-SD240G (layering re-check of 17 Sep 2026, fix list section 1): AIR-SD240GBKS2-EV= / AIR-SD240GBKS4-EV= 'Spare SSD for Cisco Wireless Controller 5520 and 8540' (with their base PIDs) name two controllers of this line, and AIR-SD240G0KS2-EV(=) has its own end-of-sale notice 'for Wireless Controllers 5520 and 8540' (eos-eol-notice-c51-737832); the first four sat in Wireless Antennas and Accessories shared parts by a label, the last two here by the label check",
+          "parts": 11,
+          "kinds": {
+            "module": 10,
+            "power": 1
+          },
+          "roles": {},
+          "samples": [
+            "AIR-CT6870-NIC-K9 — PCIe Network Interface 20G",
+            "AIR-CT6880-NIC-K9 — PCIe Network Interface 40G",
+            "AIR-SD240G0KS2-EV — 240GB 2.5 inch Enterprise Value 6G SATA SSD",
+            "AIR-SD240G0KS2-EV= — Spare SSD for Cisco Wireless Controller 5520 and 8540",
+            "AIR-SD240GBKS2-EV — 240GB 2.5 inch Enterprise Value 6G SATA SSD",
+            "AIR-SD240GBKS2-EV= — Spare SSD for Cisco Wireless Controller 5520 and 8540"
+          ],
+          "rules": {
+            "sku": 9,
+            "label-unsupported": 2
+          },
+          "pending_in": {},
+          "pending_out": {}
+        }
+      ]
+    },
+    {
+      "line": "Location and Spaces Appliances",
+      "parts": 59,
+      "series": [
+        {
+          "series": "CMX 3375 / MSE 3355 / 3365",
+          "family": "(none)",
+          "role": null,
+          "note": "^AIR-(MR|SD|PSU|BZL|RAID|MRAID|CPU|PCI|SVR|DC)- removed (layering review of 17 Sep 2026, fix list 2.1): it filed 26 AIR- server parts here that name no MSE or CMX appliance — 10 name a 5520 / 8540 / 8510DC / 9580 controller, 16 are generic UCS C-Series components. The 5520 and 8500 ones went to those series, the rest to Wireless Antennas and Accessories / Modules and power (unnamed platform). The appliances' own components carry MSE- and CMX- and stay here",
+          "parts": 45,
+          "kinds": {
+            "appliance": 6,
+            "bundle": 4,
+            "module": 24,
+            "power": 4,
+            "unknown": 1,
+            "mechanical": 6
+          },
+          "roles": {},
+          "samples": [
+            "AIR-CMX-3375-K9 — CMX 3375 Appliance",
+            "AIR-CMX-3375-K9= — CMX 3375 SFF 10 HD w/o CPU, mem, HD, PCIe, PSU",
+            "AIR-MSE-3350-K9 — MSE Hardware SKU",
+            "AIR-MSE-3355-K9 — MSE 3355 Hardware SKU (Please select L-MSE-PAK for MSE Lic)",
+            "AIR-MSE-3355-K9Z — MSE 3355 Bundle PID; EQUIVALENT TO AIR-MSE-3355-K9",
+            "AIR-MSE-3365-K9 — MSE 3365 Appliance"
+          ],
+          "rules": {
+            "sku": 44,
+            "label": 1
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Catalyst Center location appliance (DN3-LOC)",
+          "family": "(none)",
+          "role": null,
+          "note": null,
+          "parts": 9,
+          "kinds": {
+            "module": 5,
+            "mechanical": 2,
+            "appliance": 1,
+            "power": 1
+          },
+          "roles": {},
+          "samples": [
+            "DN3-L-MR-X16G1RS-H — 16GB DDR4-2666-MHz RDIMM/PC4-21300/single rank/x4/1.2v",
+            "DN3-L-SD960GM1X-EV — 960GB 2.5 inch Enterprise Value 6G SATA SSD",
+            "DN3-LOC-BZL-C220M5 — C220 M5 Security Bezel",
+            "DN3-LOC-CPU-5118 — 2.3 GHz 5118/105W 12C/16.50MB Cache/DDR4 2400MHz",
+            "DN3-LOC-K9 — DNAC Location Appliance",
+            "DN3-LOC-PSU1-770W — Cisco UCS 770W AC Power Supply for Rack Server"
+          ],
+          "rules": {
+            "sku": 9
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Exciters and BLE / VBLE radio modules",
+          "family": "(none)",
+          "role": null,
+          "note": null,
+          "parts": 4,
+          "kinds": {
+            "accessory": 1,
+            "module": 1,
+            "unknown": 2
+          },
+          "roles": {},
+          "samples": [
+            "AIR-AP-VBLE-ADPTR= — Adapter for beacon point / AP mounting",
+            "AIR-RM-VBLE2-K9= — Cisco AIR-RM-VBLE2-K9=",
+            "ASCT-EX2000 — Cisco ASCT-EX2000",
+            "ASCT-EX3200 — Compact exciter"
+          ],
+          "rules": {
+            "sku": 4
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Spectrum Expert",
+          "family": "(none)",
+          "role": null,
+          "note": null,
+          "parts": 1,
+          "kinds": {
+            "module": 1
+          },
+          "roles": {},
+          "samples": [
+            "COGNIO-SEWIFI-CB — Cognio Spectrum Expert cardbus adapter and software"
+          ],
+          "rules": {
+            "sku": 1
+          },
+          "pending_in": {},
+          "pending_out": {}
+        }
+      ]
+    },
+    {
+      "line": "Wireless LAN Solution Engine (legacy)",
+      "parts": 2,
+      "series": [
+        {
+          "series": "CiscoWorks Wireless LAN Solution Engine (WLSE 1130 / Express 1030)",
+          "family": "(none)",
+          "role": null,
+          "note": "layers round 3: CWWLSE-1130-19-K9, planned in from switches (its arrival exception there is retired), and RACK-QCN-SN5= 'Rack for CWWLSE Express 1030', which sat in Wireless Antennas and Accessories shared parts by label",
+          "parts": 2,
+          "kinds": {
+            "unknown": 1,
+            "mechanical": 1
+          },
+          "roles": {},
+          "samples": [
+            "CWWLSE-1130-19-K9 — CiscoWorks WLSE (optional)",
+            "RACK-QCN-SN5= — Rack for CWWLSE Express 1030"
+          ],
+          "rules": {
+            "sku": 2
+          },
+          "pending_in": {},
+          "pending_out": {}
+        }
+      ]
+    },
+    {
+      "line": "Wireless Antennas and Accessories",
+      "parts": 320,
+      "series": [
+        {
+          "series": "Antennas",
+          "family": "(none)",
+          "role": null,
+          "note": "^ANT- removed (layers round 3): it placed no wireless row (the two it matched, ANT-ROOM70-KIT, are Webex Room 70 parts excluded to collaboration-endpoints) and claimed 34 routers antennas. ^AIR-ANT also places the 7 Aironet antennas planned in from routers, beside their spares",
+          "parts": 149,
+          "kinds": {
+            "cable": 1,
+            "antenna": 147,
+            "mechanical": 1
+          },
+          "roles": {},
+          "samples": [
+            "AIR-420-1625-0500 — 5 in. (12.7 cm) MMCX to RP-TNC Antenna Converter Cable",
+            "AIR-ANT-GPS-1 — GPS Antenna for AP1570",
+            "AIR-ANT-GPS-1= — GPS Antenna for AP1570",
+            "AIR-ANT-LOC-01= — Hyperlocation Antenna, Model 1, Attached Omni",
+            "AIR-ANT-SE-WIFI-D= — 2.4-2.5 and 4.9-5.9 GHz Directional Antenna, Spare",
+            "AIR-ANT-SE-WIFI-O= — 2.4-2.5 and 4.9-5.9 GHz Omni Antenna, Spare"
+          ],
+          "rules": {
+            "sku": 149
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Power injectors, supplies and cords",
+          "family": "(none)",
+          "role": null,
+          "note": "^PWR- fenced to the wireless rows it holds (layers round 3; operator: claimant-rule-too-broad, fixed in the wireless round): the 3504 / 2504 controller supplies, the internal C13-C14 cords and PWR-RPS-DC1=. CH1-(750W?ACR|950WDCR) removed (re-audit decisions, operator, 15 Sep 2026, Q-11): the PWR-CH1 750 W / 950 W supplies are the Catalyst 8500's (their spares in routers are named 'Cisco C8500 750W AC Power'); the three wireless rows PWR-CH1-750ACR / 750WACR / 950WDCR carry move plans to routers Catalyst 8500. The INT cords are fenced to the 0.7 m length wireless holds (collaboration-endpoints round): the 0.2 / 0.22 / 0.6 / 1.3 / 1.4 / 1.45 / 1.85 / 3.0 m INT cords are Room and TelePresence parts (Room Panorama and Room Kit EQX amp-to-camera cables, TelePresence C13-C14 jumpers) and stay in collaboration-endpoints",
+          "parts": 97,
+          "kinds": {
+            "cable": 65,
+            "power": 18,
+            "power-injector": 14
+          },
+          "roles": {},
+          "samples": [
+            "AIR-CORD-R3P-40NA= — AC power cord, 40 ft (12m); North American plug; 1520/1550/1",
+            "AIR-CORD-R3P-40UE= — AC power cord, 40 ft (12m); EU unterminated end; 1520/1550/1",
+            "AIR-CORD1500-40UE= — Aironet 1500 AC Power Cord, 40 ft. unterm, EU",
+            "AIR-PWR-4400-AC — 4400 Series WLAN Controller AC Power Supply (redundant)",
+            "AIR-PWR-50= — PwrSpply:100-240VAC,48VDC 50w",
+            "AIR-PWR-5500-AC — Cisco 5500 Series Wireless Controller Redundant Power Supply"
+          ],
+          "rules": {
+            "sku": 97
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Cables",
+          "family": "(none)",
+          "role": null,
+          "note": "^CAB- fenced to the wireless rows it holds (layers round 3; operator: fixed in the wireless round): the type C5 power cords of the AP adapters, the LMR-400 RP-TNC cable and two controller power cables",
+          "parts": 40,
+          "kinds": {
+            "cable": 40
+          },
+          "roles": {},
+          "samples": [
+            "AIR-420-003346-020 — 20 ft. cable with RP-TNC connectors",
+            "AIR-420-003346-050 — 50 ft. cable with RP-TNC connectors",
+            "AIR-420-003346-075 — 75 ft. cable with RP-TNC connectors",
+            "AIR-420-003346-100 — 100 ft. cable with RP-TNC connectors",
+            "AIR-CAB-003-D8-D8= — 3-ft (36-in.) jumper cable with DART-8 connectors (one end s",
+            "AIR-CAB-003-D8-N= — 3-ft (36-in.) breakout cable with DART-8 connector and eight"
+          ],
+          "rules": {
+            "sku": 40
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Modules and power (unnamed platform)",
+          "family": "(none)",
+          "role": null,
+          "note": "layering review of 17 Sep 2026 (fix list 2.1 / 2.2): server components and supplies of the UCS C-Series-based wireless controllers and appliances that name no platform this mapping places — CPUs, RDIMMs, MegaRAID and embedded RAID, a 32 GB SD card, a C240 M4 PCIe riser, a 650 W C-Series supply, a 500 GB drive, a UCS TPM — and the supplies named for a '9540' / '9580' controller that no series of this category names (AIR-AC-750W-R, its blanking panel, AIR-DC-950W). Cisco's end-of-sale notices list them only as 'Wireless Miscellaneous Accessories' (wireless-misc-accessories-sw-lic-eol) and 'Aironet Accessories' (aironet-accessories-eol15454), with no platform, so the series sits in the accessories line and claims no controller or appliance: the review proposed one 'Wireless controllers and appliances shared parts' series, and the rows span the AireOS controllers, the location appliances and controllers this mapping does not name. They sat in CMX 3375 / MSE 3355 / 3365 (^AIR-(MR|SD|PSU|BZL|RAID|MRAID|CPU|PCI|SVR|DC)-) and, by a label the check did not support, in Aironet Access Points shared parts (AIR-AC-750W-R, AIR-AC-750W-R-BLK, AIR-A03-D500GC3, AIR-TPM1-001). THE NAME CLAIMS NOTHING ON PURPOSE: every word of it is a labelEvidence stop word or a short word. The first name tried, 'Controller and appliance components', made 'Controller' a claim word, so the reverse check proposed 7 other controller supplies in the accessories shared parts for this series and withdrew 4 correct cross-line proposals (AIR-PSU1-770W(=) to the 5500 by '5520', AIR-PSU2V2-1200W(=) to the 8500 by '8540'); with this name both queues are the recorded 59 / 25 · ^AIR-MRAID12G, ^AIR-TPM2- (layering re-check of 17 Sep 2026, fix list section 1): AIR-MRAID12G 'Cisco 12G SAS Modular Raid Controller', AIR-MRAID12G-1GB its cache module and AIR-TPM2-001 'Trusted Platform Module 1.2 for UCS' are the same class as the MegaRAID and TPM rows here, listed by aironet-accessories-eol15454 with no platform; they sat in Wireless Antennas and Accessories shared parts by the label 'Antennas/Accessories'",
+          "parts": 24,
+          "kinds": {
+            "module": 19,
+            "power": 5
+          },
+          "roles": {},
+          "samples": [
+            "AIR-A03-D500GC3 — 500GB 6Gb SATA 7.2K RPM SFF hot plug/drive sled mounted",
+            "AIR-AC-750W-R — Cisco 9540 750W AC Power Supply, Reverse Air",
+            "AIR-AC-750W-R-BLK — Power Supply Blanking Panel for 9540 Controller",
+            "AIR-CPU-E52609D — 1.90 GHz E5-2609 v3/85W 6C/15MB Cache/DDR4 1600MHz",
+            "AIR-CPU-E52680D — 2.50 GHz E5-2680 v3/120W 12C/30MB Cache/DDR4 2133MHz",
+            "AIR-DC-950W — Cisco 9580 Modular Wireless Controller 950W DC Power Supply"
+          ],
+          "rules": {
+            "sku": 24
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "OnPlus Network Agent (ON100)",
+          "family": "(none)",
+          "role": null,
+          "note": "operator, 17 Sep 2026 (layering review fix list 2.2 / 4.3: 'go with your recommendations'): ON100-M6-K9 'ON100 Network Agent Multipack', the Cisco OnPlus network agent, is not an access-point part; it sat in Aironet Access Points shared parts by a stored label 'Aironet 1550' the label check had rejected. Its own series in the accessories line, because Cisco's end-of-sale notice files it with the 'Wireless Miscellaneous Accessories' (wireless-misc-accessories-sw-lic-eol) — the only document our store links to it",
+          "parts": 1,
+          "kinds": {
+            "unknown": 1
+          },
+          "roles": {},
+          "samples": [
+            "ON100-M6-K9 — ON100 Network Agent Multipack"
+          ],
+          "rules": {
+            "sku": 1
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Wireless Antennas and Accessories shared parts",
+          "family": "(shared across the line)",
+          "role": null,
+          "note": null,
+          "parts": 9,
+          "kinds": {
+            "unknown": 1,
+            "mechanical": 2,
+            "antenna": 4,
+            "module": 2
+          },
+          "roles": {},
+          "samples": [
+            "AIR-N-3006-DTA-K9 — ^NECJ AS3504 DTA",
+            "AIRWLC4400FIPSKIT= — FIPS Kit WLC 4400 Spare",
+            "C-ANT9101= — Tri-band MIMO Ceiling mount omnidirectional antenna operates",
+            "C-ANT9102= — Tri-band MIMO Wall/Pole mount omnidirectional antenna operat",
+            "C-ANT9103= — Tri-band MIMO Wall/Pole mount directional antenna operates i",
+            "C-ANT9104= — Dual-band MIMO Wall/Pole mount directional antenna operates "
+          ],
+          "rules": {
+            "label": 9
+          },
+          "pending_in": {},
+          "pending_out": {}
+        }
+      ]
     }
-   ]
+  ],
+  "not_this_category": [],
+  "pending_plans": [],
+  "unplaced": [],
+  "label_check": {
+    "applied": true,
+    "label_placed": 21,
+    "by_kind": {
+      "none": 10,
+      "sku-token": 2,
+      "name": 9
+    },
+    "moved": [
+      {
+        "sku": "2KI-FINAL-PKG-RU",
+        "name": "Contains packing Kit For 2KI",
+        "series_label": "2800",
+        "from_series": "Aironet 2800",
+        "to_series": "Aironet Access Points shared parts",
+        "why": "no platform token (2800) in the SKU or name, no compatible part placed in the series"
+      },
+      {
+        "sku": "ACCESSORY-KIT-RU",
+        "name": "Contains Compliance and Auto test Blank Labels",
+        "series_label": "2800",
+        "from_series": "Aironet 2800",
+        "to_series": "Aironet Access Points shared parts",
+        "why": "no platform token (2800) in the SKU or name, no compatible part placed in the series"
+      },
+      {
+        "sku": "AIR-CONSADPT",
+        "name": "Serial RJ45 to 4-pin TTL console adapter",
+        "series_label": "Aironet 1550",
+        "from_series": "Aironet 1550",
+        "to_series": "Aironet Access Points shared parts",
+        "why": "no platform token (1550) in the SKU or name, no compatible part placed in the series"
+      },
+      {
+        "sku": "AIR-CONSADPT=",
+        "name": "Serial RJ45 to 4-pin TTL console adapter",
+        "series_label": "Aironet 1550",
+        "from_series": "Aironet 1550",
+        "to_series": "Aironet Access Points shared parts",
+        "why": "no platform token (1550) in the SKU or name, no compatible part placed in the series"
+      },
+      {
+        "sku": "AIR-SEC-50=",
+        "name": "Physical Security Kit for Wall Plate AP",
+        "series_label": "Aironet 1550",
+        "from_series": "Aironet 1550",
+        "to_series": "Aironet Access Points shared parts",
+        "why": "no platform token (1550) in the SKU or name, no compatible part placed in the series"
+      },
+      {
+        "sku": "AIR-SRVR-300GB-HD=",
+        "name": "Field replaceable 300GB HD for wireless/management servers",
+        "series_label": "8500",
+        "from_series": "8500 (8510 / 8540 / 8580)",
+        "to_series": "AireOS Wireless LAN Controllers shared parts",
+        "why": "no platform token (8500, 8510, 8540, 8580) in the SKU or name, no compatible part placed in the series"
+      },
+      {
+        "sku": "AIR-SRVR-PWR=",
+        "name": "Field replaceable AC power supply for wireless appliances",
+        "series_label": "8500",
+        "from_series": "8500 (8510 / 8540 / 8580)",
+        "to_series": "AireOS Wireless LAN Controllers shared parts",
+        "why": "no platform token (8500, 8510, 8540, 8580) in the SKU or name, no compatible part placed in the series"
+      },
+      {
+        "sku": "AP-MIGR-PRM",
+        "name": "10 AP Bundle for UK",
+        "series_label": "Aironet 1550",
+        "from_series": "Aironet 1550",
+        "to_series": "Aironet Access Points shared parts",
+        "why": "no platform token (1550) in the SKU or name, no compatible part placed in the series"
+      },
+      {
+        "sku": "BTIMGE-K9",
+        "name": "Cisco BTIMGE-K9",
+        "series_label": "Aironet 1550",
+        "from_series": "Aironet 1550",
+        "to_series": "Aironet Access Points shared parts",
+        "why": "no platform token (1550) in the SKU or name, no compatible part placed in the series"
+      },
+      {
+        "sku": "FINAL-PKG-RUSSIA",
+        "name": "Contains Packing Kit for 2KE/3KI/3KE",
+        "series_label": "3800",
+        "from_series": "Aironet 3800",
+        "to_series": "Aironet Access Points shared parts",
+        "why": "no platform token (3800) in the SKU or name, no compatible part placed in the series"
+      }
+    ]
   },
-  {
-   "line": "Catalyst 9100 Access Points",
-   "parts": 608,
-   "series": [
-    {
-     "series": "Catalyst 9124AX (outdoor)",
-     "family": "(none)",
-     "role": "outdoor",
-     "note": null,
-     "parts": 43,
-     "kinds": {
-      "mechanical": 1,
-      "ap": 42
-     },
-     "roles": {
-      "outdoor": 42
-     },
-     "samples": [
-      "C9124-CVR1= — Paintable cover for Catalyst 9124AX",
-      "C9124AXD-EWC-A — Wi-Fi 6 Outdoor AP w/EWC,Directional Ant,-A Regulatory Dom",
-      "C9124AXD-EWC-B — Wi-Fi 6 Outdoor AP w/EWC,Directional Ant,-B Regulatory Dom",
-      "C9124AXD-EWC-B-EDU — Cisco Catalyst 9124AX Series - EDU",
-      "C9124AXD-EWC-B1 — Cisco Embedded Wireless Controller on C9124AX Access Point",
-      "C9124AXD-EWC-E — Wi-Fi 6 Outdoor AP w/EWC,Directional Ant,-E Regulatory Dom"
-     ],
-     "rules": {
-      "sku": 43
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Catalyst 9105AX",
-     "family": "(none)",
-     "role": "indoor",
-     "note": null,
-     "parts": 113,
-     "kinds": {
-      "ap": 109,
-      "mechanical": 4
-     },
-     "roles": {
-      "indoor": 109
-     },
-     "samples": [
-      "C9105 — Cisco C9105",
-      "C9105AXI-A — Cisco Catalyst 9105AX Series",
-      "C9105AXI-B — Cisco Catalyst 9105AX Series",
-      "C9105AXI-B++ — Cisco Catalyst 9105AX Series",
-      "C9105AXI-B-EDU — Cisco Catalyst 9105AX Series - EDU",
-      "C9105AXI-B1 — Cisco Catalyst 9105AX Series"
-     ],
-     "rules": {
-      "sku": 113
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Catalyst 9115AX",
-     "family": "(none)",
-     "role": "indoor",
-     "note": null,
-     "parts": 114,
-     "kinds": {
-      "ap": 114
-     },
-     "roles": {
-      "indoor": 114
-     },
-     "samples": [
-      "C9115AXE-A — Cisco Catalyst 9115AX Series",
-      "C9115AXE-B — Cisco Catalyst 9115AX Series",
-      "C9115AXE-B++ — Cisco Catalyst 9115AX Series",
-      "C9115AXE-B-EDU — Cisco Catalyst 9115AX Series",
-      "C9115AXE-B1 — Cisco Catalyst 9115AX Series",
-      "C9115AXE-C — Cisco Catalyst 9115AX Series"
-     ],
-     "rules": {
-      "sku": 114
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Catalyst 9117AX",
-     "family": "(none)",
-     "role": "indoor",
-     "note": null,
-     "parts": 42,
-     "kinds": {
-      "ap": 42
-     },
-     "roles": {
-      "indoor": 42
-     },
-     "samples": [
-      "C9117AXI-A — Cisco Catalyst 9117AX Series",
-      "C9117AXI-B — Cisco Catalyst 9117AX Series",
-      "C9117AXI-B++ — Cisco Catalyst 9117AX Series",
-      "C9117AXI-B-EDU — Cisco Catalyst 9117AX Series",
-      "C9117AXI-B1 — Cisco Catalyst 9117AX Series",
-      "C9117AXI-C — Cisco Catalyst 9117AX Series"
-     ],
-     "rules": {
-      "sku": 42
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Catalyst 9120AX",
-     "family": "(none)",
-     "role": "indoor",
-     "note": null,
-     "parts": 175,
-     "kinds": {
-      "ap": 175
-     },
-     "roles": {
-      "indoor": 175
-     },
-     "samples": [
-      "C9120AXE-A — C9120AX External 802.11ax 4x4:4 MIMO;IOT;BT5;mGig;USB;RHL",
-      "C9120AXE-B — C9120AX External 802.11ax 4x4:4 MIMO;IOT;BT5;mGig;USB;RHL",
-      "C9120AXE-B++ — Cisco Catalyst 9120AX Series",
-      "C9120AXE-B-EDU — Cisco Catalyst 9120AX Series for EDU",
-      "C9120AXE-B1 — Cisco Catalyst 9120AX Series",
-      "C9120AXE-C — C9120AX External 802.11ax 4x4:4 MIMO;IOT;BT5;mGig;USB;RHL"
-     ],
-     "rules": {
-      "sku": 175
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Catalyst 9130AX",
-     "family": "(none)",
-     "role": "indoor",
-     "note": null,
-     "parts": 120,
-     "kinds": {
-      "ap": 120
-     },
-     "roles": {
-      "indoor": 120
-     },
-     "samples": [
-      "C9130AXE — Cisco C9130AXE",
-      "C9130AXE-A — Cisco Catalyst 9130AX Series",
-      "C9130AXE-B — Cisco Catalyst 9130AX Series",
-      "C9130AXE-B++ — Cisco Catalyst 9130AX Series",
-      "C9130AXE-B-EDU — Cisco Catalyst 9130AX Series - EDU",
-      "C9130AXE-B1 — Cisco Catalyst 9130AX Series"
-     ],
-     "rules": {
-      "sku": 120
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Catalyst 9136",
-     "family": "(none)",
-     "role": "indoor",
-     "note": "restored in the re-audit decisions (operator, 15 Sep 2026, Q-10 vs Q-23 — Q-23 governs): its one row, C9136I-x 'Cisco Catalyst 9136I Access Point, Wi-Fi 6E', carries the family's facts and document, so it keeps its row as the family carrier (flagged family_carrier); the layers round-3 wireless block had removed the series while that row carried a class plan",
-     "parts": 1,
-     "kinds": {
-      "ap": 1
-     },
-     "roles": {
-      "indoor": 1
-     },
-     "samples": [
-      "C9136I-x — Cisco Catalyst 9136I Access Point, Wi-Fi 6E, internal antenn"
-     ],
-     "rules": {
-      "sku": 1
-     },
-     "pending_in": {},
-     "pending_out": {}
-    }
-   ]
-  },
-  {
-   "line": "Aironet Access Points",
-   "parts": 1815,
-   "series": [
-    {
-     "series": "Aironet 1800s Active Sensor",
-     "family": "(none)",
-     "role": null,
-     "note": null,
-     "parts": 15,
-     "kinds": {
-      "sensor": 15
-     },
-     "roles": {},
-     "samples": [
-      "AIR-AP1800S-A-K9 — Cisco Aironet 1800S Series Network Sensor",
-      "AIR-AP1800S-B-K9 — Cisco Aironet 1800S Series Network Sensor (USA Only)",
-      "AIR-AP1800S-D-K9 — Cisco Aironet 1800S Series Network Sensor",
-      "AIR-AP1800S-E-K9 — Cisco Aironet 1800S Series Network Sensor",
-      "AIR-AP1800S-F-K9 — Cisco Aironet 1800S Series Network Sensor",
-      "AIR-AP1800S-G-K9 — Cisco Aironet 1800S Series Network Sensor"
-     ],
-     "rules": {
-      "sku": 15
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Aironet 1800",
-     "family": "(none)",
-     "role": "indoor",
-     "note": null,
-     "parts": 32,
-     "kinds": {
-      "ap": 32
-     },
-     "roles": {
-      "indoor": 32
-     },
-     "samples": [
-      "AIR-AP1800I-A-K9 — Cisco Aironet 1800i Series (not for US)",
-      "AIR-AP1800I-A-K9C — Cisco Aironet Mobility Express 1800i Series",
-      "AIR-AP1800I-B-K9 — Cisco Aironet 1800i Series (USA Only)",
-      "AIR-AP1800I-B-K9C — Cisco Aironet Mobility Express 1800i Series",
-      "AIR-AP1800I-D-K9 — Cisco Aironet 1800i Series",
-      "AIR-AP1800I-D-K9C — Cisco Aironet Mobility Express 1800i Series"
-     ],
-     "rules": {
-      "sku": 32
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Aironet 1810 / 1810W",
-     "family": "(none)",
-     "role": "indoor",
-     "note": null,
-     "parts": 32,
-     "kinds": {
-      "ap": 32
-     },
-     "roles": {
-      "indoor": 32
-     },
-     "samples": [
-      "AIR-AP1810W-A-K9 — 802.11ac Wave 2 1810w, 2x2:2, 3 GbE; A Domain (not for US)",
-      "AIR-AP1810W-B-K9 — 802.11ac Wave 2 1810w, 2x2:2, 3 GbE; B Domain (for US)",
-      "AIR-AP1810W-C-K9 — 802.11ac Wave 2 1810w, 2x2:2, 3 GbE; C Domain",
-      "AIR-AP1810W-D-K9 — 802.11ac Wave 2 1810w, 2x2:2, 3 GbE; D Domain",
-      "AIR-AP1810W-E-K9 — 802.11ac Wave 2 1810w, 2x2:2, 3 GbE; E Domain",
-      "AIR-AP1810W-F-K9 — 802.11ac Wave 2 1810w, 2x2:2, 3 GbE; F Domain"
-     ],
-     "rules": {
-      "sku": 32
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Aironet 1815",
-     "family": "(none)",
-     "role": "indoor",
-     "note": null,
-     "parts": 130,
-     "kinds": {
-      "ap": 129,
-      "mechanical": 1
-     },
-     "roles": {
-      "indoor": 129
-     },
-     "samples": [
-      "AIR-AP1815I-A-K9 — Cisco Aironet 1815i Series (not for US)",
-      "AIR-AP1815I-A-K9C — Cisco Aironet Mobility Express 1815i Series",
-      "AIR-AP1815I-B-K9 — Cisco Aironet 1815i Series (for US)",
-      "AIR-AP1815I-B-K9C — Cisco Aironet Mobility Express 1815i Series",
-      "AIR-AP1815I-C-K9 — Cisco Aironet 1815i Series",
-      "AIR-AP1815I-C-K9C — Cisco Aironet Mobility Express 1815i Series"
-     ],
-     "rules": {
-      "sku": 130
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Aironet 1830",
-     "family": "(none)",
-     "role": "indoor",
-     "note": null,
-     "parts": 78,
-     "kinds": {
-      "bundle": 1,
-      "ap": 77
-     },
-     "roles": {
-      "indoor": 77
-     },
-     "samples": [
-      "AIR-AP1830I-E-WLC — Mobility Express Bundle AP1832i-E with Mobility Express",
-      "AIR-AP1830I-EZBLK — BOM Level AP1830i Bulk PID for E reg domain",
-      "AIR-AP1832I-A-K9 — 802.11ac Wave 2; 3x3:2SS; Int Ant; A Reg Domain",
-      "AIR-AP1832I-A-K9C — Cisco Aironet Mobility Express 1830 Series",
-      "AIR-AP1832I-B-K9 — 802.11ac Wave 2; 3x3:2SS; Int Ant; B Reg Domain (for US)",
-      "AIR-AP1832I-B-K9++ — 802.11ac Wave 2; 3x3:2SS; Int Ant; B Reg Domain (TAA)"
-     ],
-     "rules": {
-      "sku": 78
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Aironet 1840",
-     "family": "(none)",
-     "role": "indoor",
-     "note": null,
-     "parts": 33,
-     "kinds": {
-      "ap": 33
-     },
-     "roles": {
-      "indoor": 33
-     },
-     "samples": [
-      "AIR-AP1840I-A-K9 — Cisco Aironet AP1840I Series access point - A domain",
-      "AIR-AP1840I-A-K9C — Cisco Aironet ME AP1840I Series access point - A domain",
-      "AIR-AP1840I-B-K9 — Cisco Aironet AP1840I Series access point - B domain",
-      "AIR-AP1840I-B-K9C — Cisco Aironet ME AP1840I Series access point - B domain",
-      "AIR-AP1840I-C-K9 — Cisco Aironet AP1840I Series access point - C domain",
-      "AIR-AP1840I-C-K9C — Cisco Aironet ME AP1840I Series access point - C domain"
-     ],
-     "rules": {
-      "sku": 33
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Aironet 1850",
-     "family": "(none)",
-     "role": "indoor",
-     "note": null,
-     "parts": 124,
-     "kinds": {
-      "ap": 124
-     },
-     "roles": {
-      "indoor": 124
-     },
-     "samples": [
-      "AIR-AP1852E-A-K9 — 802.11ac Wave 2; 4x4:4SS; Ext Ant; A Reg Dom",
-      "AIR-AP1852E-A-K9C — Cisco Aironet Mobility Express 1850 Series",
-      "AIR-AP1852E-B-K9 — 802.11ac Wave 2; 4x4:4SS; Ext Ant; B Reg Dom",
-      "AIR-AP1852E-B-K9++ — 802.11ac Wave 2; 4x4:4SS; Ext Ant; B Reg Dom (TAA)",
-      "AIR-AP1852E-B-K9C — Cisco Aironet Mobility Express 1850 Series",
-      "AIR-AP1852E-BBULK — BOM Level AP1852e Bulk PID for B Domain (for United States)"
-     ],
-     "rules": {
-      "sku": 124
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Aironet 2800",
-     "family": "(none)",
-     "role": "indoor",
-     "note": null,
-     "parts": 361,
-     "kinds": {
-      "ap": 361
-     },
-     "roles": {
-      "indoor": 361
-     },
-     "samples": [
-      "AIR-AP2802E-A-K9 — 802.11ac W2 AP w/CA; 4x4:3; Ext Ant; 2xGbE, A Domain",
-      "AIR-AP2802E-A-K9C — Cisco Aironet Mobility Express 2800 Series",
-      "AIR-AP2802E-ABULK — BOM Level AP2800e Bulk PID for A Domain",
-      "AIR-AP2802E-ABULKC — BOM Level AP2800E Bulk PID for A Domain (CFG)",
-      "AIR-AP2802E-AK910 — 802.11ac W2 10 AP w/CleanAir; 4x4:3; Ext Ant; A",
-      "AIR-AP2802E-AK910C — Cisco Aironet Mobility Express 2800 Series"
-     ],
-     "rules": {
-      "sku": 361
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Aironet 3800",
-     "family": "(none)",
-     "role": "indoor",
-     "note": null,
-     "parts": 473,
-     "kinds": {
-      "ap": 473
-     },
-     "roles": {
-      "indoor": 473
-     },
-     "samples": [
-      "AIR-3802I-G-K9C — Cisco Aironet Mobility Express 3800 Series",
-      "AIR-AP3802E-A-K9 — 802.11ac W2 AP w/CA; 4x4:3; Mod; Ext Ant; mGig A Domain",
-      "AIR-AP3802E-A-K9C — Cisco Aironet Mobility Express 3800 Series",
-      "AIR-AP3802E-ABULK — BOM Level AP3800e Bulk PID for A Domain",
-      "AIR-AP3802E-ABULKC — BOM Level AP3800e Bulk PID for A Domain (CFG)",
-      "AIR-AP3802E-AK910 — 802.11ac W2 10 AP w/CleanAir; 4x4:3; Mod; Ext Ant; -A Domain"
-     ],
-     "rules": {
-      "sku": 473
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Aironet 4800",
-     "family": "(none)",
-     "role": "indoor",
-     "note": null,
-     "parts": 72,
-     "kinds": {
-      "ap": 72
-     },
-     "roles": {
-      "indoor": 72
-     },
-     "samples": [
-      "AIR-AP4800-A-K9 — .11ac W2 Analytics AP w/CA; 4x4:3; Location; mGig -A Domain",
-      "AIR-AP4800-A-K9C — Cisco Aironet Mobility Express 4800 Series",
-      "AIR-AP4800-B-K9 — .11ac W2 Analytics AP w/CA; 4x4:3; Location; mGig -B Domain",
-      "AIR-AP4800-B-K9++ — .11ac W2 Analytics AP w/CA; 4x4:3; Location; mGig -B Domain",
-      "AIR-AP4800-B-K9C — Cisco Aironet Mobility Express 4800 Series",
-      "AIR-AP4800-B-K9C++ — Cisco Aironet Mobility Express 4800 Series"
-     ],
-     "rules": {
-      "sku": 72
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Aironet 700 / 802 / 852 / 1100 / 1200 / 2700 / 3700 (legacy indoor)",
-     "family": "(none)",
-     "role": "indoor",
-     "note": "layers round 3: ^AIR-AP1[12][0-9]{2}[A-Z]{0,2}$ places the legacy 1100 / 1200 access points planned in from switches (AIR-AP1131AG, AIR-AP1210, AIR-AP1230A / B, AIR-AP1232AG, AIR-AP1242AG); the end anchor keeps the 1100 / 1140 / 1200 mounting kits (AIR-AP1100MNTGKIT=, AIR-AP1131-STAND=) in the line's shared parts",
-     "parts": 9,
-     "kinds": {
-      "ap": 9
-     },
-     "roles": {
-      "indoor": 9
-     },
-     "samples": [
-      "AIR-AP1131AG — Cisco Aironet 1130AG Series access point",
-      "AIR-AP1210 — Cisco AIR-AP1210",
-      "AIR-AP1230A — Cisco AIR-AP1230A",
-      "AIR-AP1230B — Cisco AIR-AP1230B",
-      "AIR-AP1232AG — Cisco Aironet 1230AG Series access point",
-      "AIR-AP1242AG — Cisco Aironet 1240AG Series access point"
-     ],
-     "rules": {
-      "sku": 9
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Aironet 1310 outdoor access point / bridge (legacy)",
-     "family": "(none)",
-     "role": "outdoor",
-     "note": "layers round 3: AIR-BR1310G, the Aironet 1310 outdoor access point / bridge planned in from switches (its arrival exception there is retired)",
-     "parts": 1,
-     "kinds": {
-      "unknown": 1
-     },
-     "roles": {},
-     "samples": [
-      "AIR-BR1310G — Cisco Aironet 1300 Series outdoor access point/bridge (Suppo"
-     ],
-     "rules": {
-      "sku": 1
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Aironet 1540",
-     "family": "(none)",
-     "role": "outdoor",
-     "note": null,
-     "parts": 40,
-     "kinds": {
-      "ap": 40
-     },
-     "roles": {
-      "outdoor": 40
-     },
-     "samples": [
-      "AIR-AP1542D-A-K9 — 802.11ac W2 Value Outdoor AP, Direct. Ant, A Reg Dom.",
-      "AIR-AP1542D-B-K9 — 802.11ac W2 Value Outdoor AP, Direct. Ant, B Reg Dom.",
-      "AIR-AP1542D-C-K9 — 802.11ac W2 Value Outdoor AP, Direct. Ant, C Reg Dom.",
-      "AIR-AP1542D-D-K9 — 802.11ac W2 Value Outdoor AP, Direct. Ant, D Reg Dom.",
-      "AIR-AP1542D-E-K9 — 802.11ac W2 low-profile outdoor AP, directional ant, E reg d",
-      "AIR-AP1542D-F-K9 — 802.11ac W2 Value Outdoor AP, Direct. Ant, F Reg Dom."
-     ],
-     "rules": {
-      "sku": 40
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Aironet 1560",
-     "family": "(none)",
-     "role": "outdoor",
-     "note": null,
-     "parts": 69,
-     "kinds": {
-      "ap": 69
-     },
-     "roles": {
-      "outdoor": 69
-     },
-     "samples": [
-      "AIR-AP1562D-A-K9 — 802.11ac W2 Low-Profile Outdoor AP, Direct. Ant, A Reg Dom.",
-      "AIR-AP1562D-B-K9 — 802.11ac W2 Low-Profile Outdoor AP, Direct. Ant, B Reg Dom.",
-      "AIR-AP1562D-B-K9++ — 802.11ac W2 Low-Profile Outdoor AP, Direct. Ant, (B - TAA)",
-      "AIR-AP1562D-C-K9 — 802.11ac W2 Low-Profile Outdoor AP, Direct. Ant, C Reg Dom.",
-      "AIR-AP1562D-D-K9 — 802.11ac W2 Low-Profile Outdoor AP, Direct. Ant, D Reg Dom.",
-      "AIR-AP1562D-E-K9 — 802.11ac W2 Low-Profile Outdoor AP, Direct. Ant, E Reg Dom."
-     ],
-     "rules": {
-      "sku": 69
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Aironet 1570",
-     "family": "(none)",
-     "role": "outdoor",
-     "note": "the bare 1570 rule claimed the CWDM 1570 nm optics (CWDM-SFP-1570 …); fenced to the AIR- mount kits in layers round 3 (operator: claimant-rule-too-broad, fixed in the wireless round)",
-     "parts": 94,
-     "kinds": {
-      "mechanical": 11,
-      "ap": 83
-     },
-     "roles": {
-      "outdoor": 83
-     },
-     "samples": [
-      "AIR-ACCPMK1570-1 — Vertical pole only (2 to 6 inches in diameter). Does not req",
-      "AIR-ACCPMK1570-1= — 1570 Series Pole-Mount Kit (Type-1)",
-      "AIR-ACCPMK1570-2= — Wall or pole (2 to 16 inches in diameter) with tilt adjustme",
-      "AIR-ACCPMK1570-3 — 1570 Series Pole-Mount Kit (Type-3)",
-      "AIR-ACCPMK1570-3= — Wall or pole (2 to16 inches in diameter) with tilt adjustmen",
-      "AIR-ACCSMK1570-1 — Default SMK. Does not offer any allowance for data cable und"
-     ],
-     "rules": {
-      "sku": 94
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Aironet 1550 hazardous-location (H / SA / SD / WU)",
-     "family": "(none)",
-     "role": "industrial",
-     "note": null,
-     "parts": 46,
-     "kinds": {
-      "ap": 46
-     },
-     "roles": {
-      "industrial": 46
-     },
-     "samples": [
-      "AIR-CAP1552H-A-K9 — 802.11N Outdoor Mesh Access Point, Haz. Loc., A Reg. Domain",
-      "AIR-CAP1552H-B-K9 — 802.11N Outdoor Mesh Access Point, Haz. Loc., B Reg. Domain",
-      "AIR-CAP1552H-C-K9 — 802.11N Outdoor Mesh Access Point, Haz. Loc., C Reg. Domain",
-      "AIR-CAP1552H-E-K9 — 802.11N Outdoor Mesh Access Point, Haz. Loc., E Reg. Domain",
-      "AIR-CAP1552H-M-K9 — 802.11N Outdoor Mesh Access Point, Haz. Loc., M Reg. Domain",
-      "AIR-CAP1552H-N-K9 — 802.11N Outdoor Mesh Access Point, Haz. Loc., N Reg. Domain"
-     ],
-     "rules": {
-      "sku": 46
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Aironet 1550",
-     "family": "(none)",
-     "role": "outdoor",
-     "note": "the bare 1550 rule claimed the CWDM 1550 nm optics; fenced to AIR- in layers round 3 (operator: fixed in the wireless round)",
-     "parts": 62,
-     "kinds": {
-      "power": 1,
-      "mechanical": 5,
-      "ap": 56
-     },
-     "roles": {
-      "outdoor": 56
-     },
-     "samples": [
-      "AIR-1550-HAZBBU — 1550 Series Hazardous Location Battery Backup Unit",
-      "AIR-1550S-FIB-KIT= — 1550S Fiber Cable Take-up Reel Kit",
-      "AIR-ACCPMK1550= — Cisco AIR-ACCPMK1550=",
-      "AIR-ACCPMK1550HZM= — 1550 Hazardous Location Marine Grade Pole-Mount Kit",
-      "AIR-ACCSMK1550 — 1550 Series Strand-Mount Kit",
-      "AIR-ACCSMK1550= — 1550 Series Strand-Mount Kit"
-     ],
-     "rules": {
-      "sku": 62
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Aironet 1520 / 1530",
-     "family": "(none)",
-     "role": null,
-     "note": "the bare 15[23]0 rule claimed the CWDM 1530 nm optics; fenced to AIR- in layers round 3 (operator: fixed in the wireless round). It also places AIR-1520-BATT-6AH= (planned in from servers-unified-computing). Fenced from AIR-ACC1530-KIT* / -PMK* (operator, 17 Sep 2026, layering review fix list 2.3 / 4.3: 'go with your recommendations'): AIR-ACC1530-KIT1=, -PMK1, -PMK1=, -PMK2= name 'AP1530/1560 Series' — two series of this line, and our store links KIT1= to the Aironet 1560 ordering guide and PMK1 to the 1540 and 1560 ordering guides — so they are line shared parts (the operator's rule of 14 Sep 2026) and fall to Aironet Access Points shared parts through ^AIR-(…|ACC|…). AIR-ACC1530-CVR= names AP1530 only and stays",
-     "parts": 11,
-     "kinds": {
-      "accessory": 1,
-      "power": 3,
-      "mechanical": 7
-     },
-     "roles": {},
-     "samples": [
-      "AIR-1520-BATT-6AH= — Cisco AIR-1520-BATT-6AH=",
-      "AIR-1520-BATT12AH — 1520 Series Battery, 12 Amp Hour",
-      "AIR-1520-FIB-REEL — 1520 Series Take-up Reel for Fiber Cable",
-      "AIR-1520-FIB-REEL= — 1520/1550 Series Fiber-Cable Take-up Reel KIT",
-      "AIR-ACC1530-CVR= — Cover and Solar Shield for AP1530 Series",
-      "AIR-ACCAMK1520-1 — 1520 Series Antenna Mount Kit, 3 Omni"
-     ],
-     "rules": {
-      "sku": 11
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Aironet Access Points shared parts",
-     "family": "(shared across the line)",
-     "role": null,
-     "note": "^AIR-RM30 (layers round 3): the AIR-RM3000M Wireless Security and Spectrum Intelligence modules and AIR-RM3010L Hyperlocation modules of the Aironet 3600 / 3700, planned in from interfaces-modules (operator: AIR-RM radio modules -> wireless, kind module). AP(?!-VBLE) leaves AIR-AP-VBLE-ADPTR= to the VBLE series below. VAP removed from the first rule (re-audit decisions, operator, 15 Sep 2026, Q-12): the AIR-VAP- access pods and mounting kits are MobileAccessVE rows, placed in their own series",
-     "parts": 133,
-     "kinds": {
-      "unknown": 5,
-      "mechanical": 61,
-      "accessory": 8,
-      "cable": 1,
-      "module": 37,
-      "power": 20,
-      "bundle": 1
-     },
-     "roles": {},
-     "samples": [
-      "2KI-FINAL-PKG-RU — Contains packing Kit For 2KI",
-      "ACCESSORY-KIT-RU — Contains Compliance and Auto test Blank Labels",
-      "AIR-ACC-CAT6= — CAT 6/6A Ethernet Cable Gland Assembly kit*",
-      "AIR-ACC-CLIP-20= — Converter Clips:Small grid ceilings. For 10 APs or Antennas",
-      "AIR-ACC-KIT1= — Accessory kit for Catalyst 9124AX (5x ethernet, 2 dust cap, ",
-      "AIR-ACC-PS-MNT1= — AC/DC adapter mount bracket for AIR-MNT-HORZ1="
-     ],
-     "rules": {
-      "label-unsupported": 8,
-      "sku": 125
-     },
-     "pending_in": {},
-     "pending_out": {}
-    }
-   ]
-  },
-  {
-   "line": "Industrial Wireless",
-   "parts": 310,
-   "series": [
-    {
-     "series": "IW3700 (IW3702)",
-     "family": "(none)",
-     "role": "industrial",
-     "note": null,
-     "parts": 32,
-     "kinds": {
-      "ap": 32
-     },
-     "roles": {
-      "industrial": 32
-     },
-     "samples": [
-      "IW3702-2E-A-K9 — Industrial Wireless AP 3702, 4 RF ports on top/btm, A dom.",
-      "IW3702-2E-B-K9 — Industrial Wireless AP 3702, 4 RF ports on top/btm, B dom.",
-      "IW3702-2E-C-K9 — Industrial Wireless AP 3702, 4 RF ports on top/btm, R dom.",
-      "IW3702-2E-E-K9 — Industrial Wireless AP 3702, 4 RF ports on top/btm, E dom.",
-      "IW3702-2E-F-K9 — Industrial Wireless AP 3702, 4 RF ports on top/btm, F dom.",
-      "IW3702-2E-H-K9 — Industrial Wireless AP 3702, 4 RF ports on top/btm, H dom."
-     ],
-     "rules": {
-      "sku": 32
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "IW6300 / ESW6300",
-     "family": "(none)",
-     "role": "industrial",
-     "note": null,
-     "parts": 73,
-     "kinds": {
-      "ap": 67,
-      "mechanical": 6
-     },
-     "roles": {
-      "industrial": 67
-     },
-     "samples": [
-      "ESW-6300-CON-A-K9 — Embedded Wireless AP 6300, DC input, A Domain",
-      "ESW-6300-CON-B-K9 — Embedded Wireless AP 6300, DC input, B Domain",
-      "ESW-6300-CON-C-K9 — Embedded Wireless AP 6300, DC input, A Domain",
-      "ESW-6300-CON-D-K9 — Embedded Wireless AP 6300, DC input, D Domain",
-      "ESW-6300-CON-E-K9 — Embedded Wireless AP 6300, DC input, E Domain",
-      "ESW-6300-CON-F-K9 — Embedded Wireless AP 6300, DC input, A Domain"
-     ],
-     "rules": {
-      "sku": 67,
-      "label": 6
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Catalyst IW9165 / IW9167",
-     "family": "(none)",
-     "role": "industrial",
-     "note": null,
-     "parts": 13,
-     "kinds": {
-      "ap": 13
-     },
-     "roles": {
-      "industrial": 13
-     },
-     "samples": [
-      "IW9165D — Cisco IW9165D",
-      "IW9165DH-x-AP — Industrial Wireless 9165D, 11ax 6E, 2 RF ports, x domain, Wi",
-      "IW9165DH-x-URWB — Industrial Wireless 9165D, 11ax 6E, 2 RF ports, x domain, UR",
-      "IW9165E — Cisco IW9165E",
-      "IW9165E-x-AP — Industrial Wireless 9165E, 11ax 6E, 4 RF ports, x domain, Wi",
-      "IW9165E-x-URWB — Industrial Wireless 9165E, 11ax 6E, 4 RF ports, x domain, UR"
-     ],
-     "rules": {
-      "sku": 13
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Ultra-Reliable Wireless Backhaul (Fluidmesh)",
-     "family": "(none)",
-     "role": null,
-     "note": "^FM(?!C) (layers round 3, security round): the Fluidmesh rule claimed the 77 FMC- rows of security (Firepower Management Center appliances and their parts); no Fluidmesh PID starts FMC",
-     "parts": 184,
-     "kinds": {
-      "appliance": 6,
-      "backhaul": 41,
-      "unknown": 45,
-      "antenna": 42,
-      "mechanical": 8,
-      "power": 2,
-      "accessory": 5,
-      "cable": 32,
-      "power-injector": 3
-     },
-     "roles": {},
-     "samples": [
-      "FLMESH-HW-1000-1 — Cisco FLMESH-HW-1000-1",
-      "FLMESH-HW-10000-1 — Cisco FLMESH-HW-10000-1",
-      "FLMESH-HW-3200-1 — Cisco FLMESH-HW-3200-1",
-      "FLMESH-HW-3200-1NA — FM3200B-HW, NAM/LAM Version",
-      "FLMESH-HW-3200-1UK — FM3200B-HW, UK Version",
-      "FLMESH-HW-3200-3 — Cisco FLMESH-HW-3200-3"
-     ],
-     "rules": {
-      "sku": 184
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "IEC6400 edge compute (URWB)",
-     "family": "(none)",
-     "role": null,
-     "note": null,
-     "parts": 8,
-     "kinds": {
-      "module": 7,
-      "power": 1
-     },
-     "roles": {},
-     "samples": [
-      "IWA-CPU-I4310 — Intel 4310 2.1GHz/120W 12C/18MB DDR4 2667MHz",
-      "IWA-MR-X16G1RW — 16GB RDIMM SRx4 3200 (8Gb)",
-      "IWA-PCIE-C25Q-04 — Cisco UCS VIC 1455 Quad Port 10/25G SFP28 CNA PCIE (optional",
-      "IWA-PCIE-C25Q-04= — ^IEC6400 VIC 1455 Quad Port 10/25G SFP28 CNA PCIE",
-      "IWA-PSU1-1050W — Cisco UCS 1050W AC Power Supply for Rack Server",
-      "IWA-SATAIN-220M6 — C220M6 SATA Interposer board (1U)"
-     ],
-     "rules": {
-      "sku": 8
-     },
-     "pending_in": {},
-     "pending_out": {}
-    }
-   ]
-  },
-  {
-   "line": "Cisco Business Wireless",
-   "parts": 295,
-   "series": [
-    {
-     "series": "Cisco Business 141 / 142 / 143 mesh extenders",
-     "family": "(none)",
-     "role": "mesh-extender",
-     "note": null,
-     "parts": 121,
-     "kinds": {
-      "ap": 121
-     },
-     "roles": {
-      "mesh-extender": 121
-     },
-     "samples": [
-      "3-CBW141ACM-A-AR — ^Cisco Business 141AC Wireless Extender-Desktop-3 Packs",
-      "3-CBW141ACM-A-NA — ^Cisco Business 141AC Wireless Extender-Desktop-3 Packs",
-      "3-CBW141ACM-B-NA — Cisco Business 141AC Wireless Extender-Desktop-3 Packs",
-      "3-CBW141ACM-E-EU — Cisco Business 141AC Wireless Extender-Desktop-3 Packs",
-      "3-CBW141ACM-E-IN — Cisco Business 141AC Wireless Extender-Desktop-3 Packs",
-      "3-CBW141ACM-E-UK — Cisco Business 141AC Wireless Extender-Desktop-3 Packs"
-     ],
-     "rules": {
-      "sku": 121
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Cisco Business 140AC / 145AC / 150AX",
-     "family": "(none)",
-     "role": "smb",
-     "note": null,
-     "parts": 91,
-     "kinds": {
-      "ap": 91
-     },
-     "roles": {
-      "smb": 91
-     },
-     "samples": [
-      "3-CBW140AC-A — Cisco Business 140AC Access Point, 802.11ac Wave-3 Packs",
-      "3-CBW140AC-A-CA — CBW140AC 802.11ac 2x2 Wave 2 Access Point Ceiling Mount - 3P",
-      "3-CBW140AC-B — CBW140AC 802.11ac 2x2 Wave 2 Access Point Ceiling Mount - 3P",
-      "3-CBW140AC-D — CBW140AC 802.11ac 2x2 Wave 2 Access Point Ceiling Mount - 3P",
-      "3-CBW140AC-E — CBW140AC 802.11ac 2x2 Wave 2 Access Point Ceiling Mount - 3P",
-      "3-CBW140AC-F — Cisco Business 140AC Access Point, 802.11ac Wave 2"
-     ],
-     "rules": {
-      "sku": 91
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Cisco Business 240AC",
-     "family": "(none)",
-     "role": "smb",
-     "note": null,
-     "parts": 59,
-     "kinds": {
-      "ap": 59
-     },
-     "roles": {
-      "smb": 59
-     },
-     "samples": [
-      "3-CBW240AC-A — Cisco Business 240AC Access Point, 802.11ac Wave 2-3 Packs",
-      "3-CBW240AC-A-CA — CBW240AC 802.11ac 4x4 Wave 2 Access Point Ceiling Mount - 3P",
-      "3-CBW240AC-B — CBW240AC 802.11ac 4x4 Wave 2 Access Point Ceiling Mount - 3P",
-      "3-CBW240AC-D — CBW240AC 802.11ac 4x4 Wave 2 Access Point Ceiling Mount - 3P",
-      "3-CBW240AC-E — CBW240AC 802.11ac 4x4 Wave 2 Access Point Ceiling Mount - 3P",
-      "3-CBW240AC-F — Cisco Business 240AC Access Point, 802.11ac Wave 2"
-     ],
-     "rules": {
-      "sku": 59
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Cisco Business Mesh starter kits",
-     "family": "(none)",
-     "role": null,
-     "note": null,
-     "parts": 14,
-     "kinds": {
-      "bundle": 14
-     },
-     "roles": {},
-     "samples": [
-      "CBW140MXS-A-CA — CBW140 Cisco Business Mesh Starter Kit",
-      "CBW140MXS-A-NA — CBW140 Cisco Business Mesh Starter Kit",
-      "CBW140MXS-B-NA — CBW140 Cisco Business Mesh Starter Kit",
-      "CBW140MXS-D-IN — CBW140 Cisco Business Mesh Starter Kit",
-      "CBW140MXS-E-EU — CBW140 Cisco Business Mesh Starter Kit",
-      "CBW140MXS-E-UK — CBW140 Cisco Business Mesh Starter Kit"
-     ],
-     "rules": {
-      "sku": 14
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Cisco Business Wireless shared parts",
-     "family": "(shared across the line)",
-     "role": null,
-     "note": null,
-     "parts": 10,
-     "kinds": {
-      "power-injector": 10
-     },
-     "roles": {},
-     "samples": [
-      "CB-PWRINJ-AR — Cisco Business Power Over Ethernet Injector",
-      "CB-PWRINJ-AU — Cisco Business Power Over Ethernet Injector",
-      "CB-PWRINJ-BR — Cisco Business Power Over Ethernet Injector",
-      "CB-PWRINJ-CN — Cisco Business Power Over Ethernet Injector",
-      "CB-PWRINJ-EU — Cisco Business Power Over Ethernet Injector",
-      "CB-PWRINJ-IN — Cisco Business Power Over Ethernet Injector"
-     ],
-     "rules": {
-      "sku": 10
-     },
-     "pending_in": {},
-     "pending_out": {}
-    }
-   ]
-  },
-  {
-   "line": "Small Business Wireless (WAP)",
-   "parts": 69,
-   "series": [
-    {
-     "series": "WAP571E (outdoor)",
-     "family": "(none)",
-     "role": "outdoor",
-     "note": null,
-     "parts": 8,
-     "kinds": {
-      "ap": 8
-     },
-     "roles": {
-      "outdoor": 8
-     },
-     "samples": [
-      "WAP571E-A-K9 — WAP571E Wireless-AC/N Dual Radio Outdoor Wireless Access Poi",
-      "WAP571E-B-K9 — WAP571E Wireless-AC/N Dual Radio Outdoor Wireless Access Poi",
-      "WAP571E-C-K9 — WAP571E Wireless-AC/N Dual Radio Outdoor Wireless Access Poi",
-      "WAP571E-E-K9 — WAP571E Wireless-AC/N Dual Radio Outdoor Wireless Access Poi",
-      "WAP571E-H-K9 — WAP571E Wireless-AC/N Dual Radio Outdoor Wireless Access Poi",
-      "WAP571E-K-K9 — WAP571E Wireless-AC/N Dual Radio Outdoor Wireless Access Poi"
-     ],
-     "rules": {
-      "sku": 8
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "WAP100 series (WAP121 / WAP125 / WAP150)",
-     "family": "(none)",
-     "role": "smb",
-     "note": null,
-     "parts": 33,
-     "kinds": {
-      "ap": 33
-     },
-     "roles": {
-      "smb": 33
-     },
-     "samples": [
-      "WAP121-A-K9-AR — Cisco WAP121 Wireless-N Access Point with Single Point Setup",
-      "WAP121-A-K9-AU — Cisco WAP121 Wireless-N Access Point with Single Point Setup",
-      "WAP121-A-K9-CA — Cisco WAP121 Wireless-N Access Point with Single Point Setup",
-      "WAP121-A-K9-NA — Cisco WAP121 Wireless-N Access Point with Single Point Setup",
-      "WAP121-E-K9-CN — Cisco WAP121 Wireless-N Access Point with Single Point Setup",
-      "WAP121-E-K9-G5 — Cisco WAP121 Wireless-N Access Point with Single Point Setup"
-     ],
-     "rules": {
-      "sku": 33
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "WAP300 series (WAP361 / WAP371)",
-     "family": "(none)",
-     "role": "smb",
-     "note": null,
-     "parts": 11,
-     "kinds": {
-      "ap": 11
-     },
-     "roles": {
-      "smb": 11
-     },
-     "samples": [
-      "WAP361 — WAP361 Wireless-AC/N Dual Radio Wall Plate Access Point with",
-      "WAP361-A-K9 — WAP361 Wireless-AC/N Dual Radio Wall Plate Access Point with",
-      "WAP361-C-K9 — WAP361 Wireless-AC/N Dual Radio Wall Plate Access Point with",
-      "WAP361-E-K9 — WAP361 Wireless-AC/N Dual Radio Wall Plate Access Point with",
-      "WAP361-J-K9 — WAP361 Wireless-AC/N Dual Radio Wall Plate Access Point with",
-      "WAP361-K-K9 — WAP361 Wireless-AC/N Dual Radio Wall Plate Access Point with"
-     ],
-     "rules": {
-      "sku": 11
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "WAP500 series (WAP571 / WAP581)",
-     "family": "(none)",
-     "role": "smb",
-     "note": null,
-     "parts": 17,
-     "kinds": {
-      "ap": 17
-     },
-     "roles": {
-      "smb": 17
-     },
-     "samples": [
-      "WAP571-A-K9 — WAP571 Wireless-AC/N Premium Dual Radio Access Points (Unite",
-      "WAP571-B-K9 — WAP571 Wireless-AC/N Premium Dual Radio Access Points (Canad",
-      "WAP571-C-K9 — WAP571 Wireless-AC/N Premium Dual Radio Access Points (China",
-      "WAP571-E-K9 — WAP571 Wireless-AC/N Premium Dual Radio Access Points (Europ",
-      "WAP571-I-K9 — WAP571 Wireless-AC/N Premium Dual Radio Access Points (India",
-      "WAP571-J-K9 — WAP571 Wireless-AC/N Premium Dual Radio Access Points (Japan"
-     ],
-     "rules": {
-      "sku": 17
-     },
-     "pending_in": {},
-     "pending_out": {}
-    }
-   ]
-  },
-  {
-   "line": "Meraki MR Access Points",
-   "parts": 74,
-   "series": [
-    {
-     "series": "Meraki MR outdoor (MR58 / 66 / 70 / 72 / 74 / 76 / 78 / 84 / 86)",
-     "family": "(none)",
-     "role": "outdoor",
-     "note": "MR58/66/70/72/74/84 extend the III.0 rule (MR76/78/86) to the older outdoor models held as bare family rows in meraki (14 Sep 2026)",
-     "parts": 11,
-     "kinds": {
-      "ap": 11
-     },
-     "roles": {
-      "outdoor": 11
-     },
-     "samples": [
-      "MR58 — Cisco MR58",
-      "MR66 — Cisco MR66",
-      "MR70 — Cisco MR70",
-      "MR74 — Cisco MR74",
-      "MR76 — Cisco MR76",
-      "MR76-HW — Cisco MR76-HW"
-     ],
-     "rules": {
-      "sku": 11
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Meraki MR indoor",
-     "family": "(none)",
-     "role": "indoor",
-     "note": "MR11-MR62 older indoor models extend the III.0 rule (MR36/44/46/56/57) (14 Sep 2026)",
-     "parts": 33,
-     "kinds": {
-      "ap": 33
-     },
-     "roles": {
-      "indoor": 33
-     },
-     "samples": [
-      "MR11 — Cisco MR11",
-      "MR12 — Cisco MR12",
-      "MR14 — Cisco MR14",
-      "MR16 — Cisco MR16",
-      "MR20 — Cisco MR20",
-      "MR24 — Cisco MR24"
-     ],
-     "rules": {
-      "sku": 33
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Meraki MR Access Points shared parts",
-     "family": "(shared across the line)",
-     "role": null,
-     "note": "^MA- fenced to the Meraki MR antennas, mounts and power adapters (layers round 3): the Meraki MA-SFP / MA-QSFP / MA-CBL optics are transceivers",
-     "parts": 30,
-     "kinds": {
-      "antenna": 14,
-      "mechanical": 14,
-      "power": 2
-     },
-     "roles": {},
-     "samples": [
-      "MA-ANT-3-A1 — Meraki Indoor Dual-band Dipole Antenna",
-      "MA-ANT-3-A5 — Meraki Indoor Dual-band Dipole Antennas, 5-pack for MR42E",
-      "MA-ANT-3-A6 — Meraki Indoor Dual-band Dipole Ant, 6-pack for MR46E/MR53E",
-      "MA-ANT-3-B1 — Meraki Indoor Bendable Dual-band Dipole Antenna",
-      "MA-ANT-3-B5 — Meraki Indoor Bendable Dual-band Dipole Ant 5pk for MR42E",
-      "MA-ANT-3-B6 — Meraki Indoor Bendable Dual-band Dipole Ant 6pk MR46E/MR53E"
-     ],
-     "rules": {
-      "sku": 30
-     },
-     "pending_in": {},
-     "pending_out": {}
-    }
-   ]
-  },
-  {
-   "line": "Catalyst 9800 Wireless Controllers",
-   "parts": 55,
-   "series": [
-    {
-     "series": "Catalyst 9800-80",
-     "family": "(none)",
-     "role": null,
-     "note": null,
-     "parts": 7,
-     "kinds": {
-      "wlc": 7
-     },
-     "roles": {},
-     "samples": [
-      "C9800-80-CA-K9 — Cisco Catalyst 9800-80 Wireless Controller (Service only)",
-      "C9800-80-CAP-K9 — Cisco Catalyst 9800-80 Wireless Controller -5YR-SNTC-8X5XNBD",
-      "C9800-80-K9 — Cisco Catalyst 9800-80 Wireless Controller",
-      "C9800-80-SLR-K9 — Cisco Catalyst 9800-80 Modular SLR Wireless Controller",
-      "C9800-80-SLRCA-K9 — Cisco Catalyst 9800-80 Modular SLR CA Wireless Controller",
-      "EDU-C9800-80-K9 — EDU SKU-Cisco Catalyst 9800-80 Wireless Controller"
-     ],
-     "rules": {
-      "sku": 7
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Catalyst 9800-40",
-     "family": "(none)",
-     "role": null,
-     "note": null,
-     "parts": 6,
-     "kinds": {
-      "wlc": 6
-     },
-     "roles": {},
-     "samples": [
-      "C9800-40-2K-SLR-K9 — Cisco Catalyst 9800-40 SLR Wireless Controller",
-      "C9800-40-CA-K9 — Cisco Catalyst 9800-40 Wireless Controller (Service Only)",
-      "C9800-40-K9 — Cisco Catalyst 9800-40 Wireless Controller",
-      "C9800-40-SLR-K9 — Cisco Catalyst 9800-40 SLR Wireless Controller",
-      "C9800-40-SLRCA-K9 — Cisco Catalyst 9800-40 SLR Controller (Service Only)",
-      "EDU-C9800-40-K9 — EDU SKU - Cisco Catalyst 9800-40 Wireless Controller"
-     ],
-     "rules": {
-      "sku": 6
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Catalyst 9800-L",
-     "family": "(none)",
-     "role": null,
-     "note": null,
-     "parts": 12,
-     "kinds": {
-      "wlc": 8,
-      "accessory": 1,
-      "mechanical": 2,
-      "power": 1
-     },
-     "roles": {},
-     "samples": [
-      "9800-L — Cisco 9800-L",
-      "C9800-L — Cisco C9800-L",
-      "C9800-L-C-CA-K9 — Cisco 9800-L Wireless Controller copper service",
-      "C9800-L-C-K9 — Cisco Catalyst 9800-L-C Wireless Controller Copper Uplink (s",
-      "C9800-L-F-CA-K9 — Cisco 9800-L Wireless Controller fiber service",
-      "C9800-L-F-K9 — Cisco Catalyst 9800-L-F Wireless Controller_Fiber Uplink (sh"
-     ],
-     "rules": {
-      "sku": 12
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Catalyst CW9800M",
-     "family": "(none)",
-     "role": null,
-     "note": null,
-     "parts": 2,
-     "kinds": {
-      "wlc": 2
-     },
-     "roles": {},
-     "samples": [
-      "CW9800M — Cisco Catalyst CW9800M Wireless Controller (ships with one A",
-      "EDU-CW9800M — Cisco EDU-CW9800M"
-     ],
-     "rules": {
-      "sku": 2
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Catalyst CW9800H1 / CW9800H2",
-     "family": "(none)",
-     "role": null,
-     "note": null,
-     "parts": 5,
-     "kinds": {
-      "wlc": 5
-     },
-     "roles": {},
-     "samples": [
-      "CW9800H1 — Cisco Catalyst CW9800H1 Wireless Controller",
-      "CW9800H1-MCG — Campus Gateway",
-      "CW9800H2 — Cisco Catalyst CW9800H2 Wireless Controller",
-      "EDU-CW9800H1 — Cisco EDU-CW9800H1",
-      "EDU-CW9800H2 — Cisco EDU-CW9800H2"
-     ],
-     "rules": {
-      "sku": 5
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Catalyst 9800 Wireless Controllers shared parts",
-     "family": "(shared across the line)",
-     "role": null,
-     "note": null,
-     "parts": 23,
-     "kinds": {
-      "module": 10,
-      "power": 9,
-      "mechanical": 4
-     },
-     "roles": {},
-     "samples": [
-      "C9800-10X10GE — Cisco Catalyst 9800-80 10GE Module",
-      "C9800-10X10GE= — Cisco Catalyst 9800-80 10GE Module",
-      "C9800-18X1GE — Cisco Catalyst 9800-80 1GE Module",
-      "C9800-18X1GE= — Cisco Catalyst 9800-80 1GE Module",
-      "C9800-1X100GE — Cisco Catalyst 9800-80 1 Port 100GE Module",
-      "C9800-1X100GE= — Cisco Catalyst 9800-80 1 Port 100GE Module"
-     ],
-     "rules": {
-      "sku": 23
-     },
-     "pending_in": {},
-     "pending_out": {}
-    }
-   ]
-  },
-  {
-   "line": "AireOS Wireless LAN Controllers",
-   "parts": 235,
-   "series": [
-    {
-     "series": "2500 (2504)",
-     "family": "(none)",
-     "role": null,
-     "note": "^AIRCT2504 removed in layers round 3: CT25[0-9]{2} already decides every AIRCT2504 bundle (the rule-shadowing check named it redundant)",
-     "parts": 78,
-     "kinds": {
-      "wlc": 22,
-      "cable": 1,
-      "mechanical": 2,
-      "bundle": 53
-     },
-     "roles": {},
-     "samples": [
-      "AIR-CT2504-15-K9 — 2500 Series Wireless Controller for up to 15 Cisco access po",
-      "AIR-CT2504-15-K9++ — 2504 Wireless Controller with 15 AP Licenses (TAA)",
-      "AIR-CT2504-15PROM — 2504 Wireless Controller w/ 15 AP Lic. and Promo 15 IOS Lic.",
-      "AIR-CT2504-25-K9 — 2500 Series Wireless Controller for up to 25 Cisco access po",
-      "AIR-CT2504-25-K9++ — 2504 Wireless Controller with 25 AP Licenses (TAA)",
-      "AIR-CT2504-25-K9Z — 2504 Wireless Controller in a bundle with 25 AP licenses"
-     ],
-     "rules": {
-      "sku": 78
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "3500 (3504)",
-     "family": "(none)",
-     "role": null,
-     "note": null,
-     "parts": 10,
-     "kinds": {
-      "mechanical": 3,
-      "wlc": 7
-     },
-     "roles": {},
-     "samples": [
-      "AIR-3504-RMNT= — Cisco 3504 Wireless Controller Rack Mount Bracket",
-      "AIR-CT3504-CA-K9 — Cisco 3504 Wireless Controller for Service Depot",
-      "AIR-CT3504-CA-K9++ — Cisco 3504 Wireless Controller for Service Depot TAA",
-      "AIR-CT3504-K9 — Cisco 3504 Wireless Controller",
-      "AIR-CT3504-K9++ — Cisco 3504 Wireless Controller (TAA)",
-      "AIR-CT3504-RMNT — 3504 Wireless Controller Rack Mount Tray"
-     ],
-     "rules": {
-      "sku": 10
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "5500 (5508 / 5520 / 5540)",
-     "family": "(none)",
-     "role": null,
-     "note": "^AIR-BZL-C220M4 and ^AIR-PSU-BLKP1U (layering review of 17 Sep 2026, fix list 2.1): 'Cisco 5520 Wireless Controller Security Bezel' and 'Power Supply Blanking Panel for C220 M4 servers', which the Cisco 5520 Wireless Controller end-of-sale notice lists in its French copy (eos-eol-notice-c51-744430-fr; the English copy as cached lists neither); both sat in CMX 3375 / MSE 3355 / 3365 through ^AIR-(MR|SD|PSU|BZL|RAID|MRAID|CPU|PCI|SVR|DC)- · ^AIR-PSU1-770W (layering re-check of 17 Sep 2026, fix list section 1): AIR-PSU1-770W(=) '770W AC Hot-Plug Power Supply for 5520 Controller' names this controller, the evidence AIR-PSU-930WDC carries for 8500; it sat in Wireless Antennas and Accessories shared parts by the label 'Antennas/Accessories'. Deviation a, read against the notices: AIR-PSU-BLKP1U stays here (the 5520 notice lists it); AIR-PSU-650W and AIR-PCI-1A-240M4 stay in Modules and power (unnamed platform) — neither the 5520 nor the 8540 notice (English and French copies) nor the 5520 / 8540 SSD notice lists them, and the two accessory notices that do (wireless-misc-accessories-sw-lic-eol, aironet-accessories-eol15454) name a controller for the 770 W and 1200 W supplies beside them and none for these two",
-     "parts": 67,
-     "kinds": {
-      "wlc": 54,
-      "power": 6,
-      "mechanical": 4,
-      "module": 3
-     },
-     "roles": {},
-     "samples": [
-      "AIR-5508H-500-2PK — 2x AIR-CT5508-500-K9, Hospitality",
-      "AIR-5508H-HA-K9 — Cisco 5508 Series Wireless Ctlr for HA, Hospitality",
-      "AIR-5540-AC-750W — Cisco 5540 750W AC Power Supply, Reverse Air",
-      "AIR-5540-AC-750W= — Cisco 5540 750W AC Power Supply, Reverse Air",
-      "AIR-BZL-C220M4 — Cisco 5520 Wireless Controller Security Bezel",
-      "AIR-BZL-C220M4= — Cisco 5520 Wireless Controller Security Bezel"
-     ],
-     "rules": {
-      "sku": 64,
-      "label": 3
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "8500 (8510 / 8540 / 8580)",
-     "family": "(none)",
-     "role": null,
-     "note": "CT85DC (layers round 3): AIR-CT85DC-K9 / AIR-CT85DC-SP-K9, the 8510 DC controllers, sat in the line's shared parts through ^AIR-(CT|WLC|VPN) — a controller in shared parts. ^AIR-BZL-C240M4, ^AIR-PSU-930WDC, ^AIR-SVR-PWR-DC (layering review of 17 Sep 2026, fix list 2.1): the parts named for an 8500 controller — 'Cisco 8540 Wireless Controller Security Bezel', '930W -48V DC Common Slot Power Supply for 8540 Controller', 'Field replaceable DC Power Supply for 8510DC (AIR-CT85DC-K9)', the last listed by the Cisco 8510 Wireless Controller end-of-sale notice (eos-eol-notice-c51-740222); with their spares they sat in CMX 3375 / MSE 3355 / 3365 · ^AIR-PSU2V2-1200W (layering re-check of 17 Sep 2026, fix list section 1): AIR-PSU2V2-1200W(=) '1200W V2 AC Power Supply for 8540 Controller' names this controller; it sat in Wireless Antennas and Accessories shared parts by the label 'Antennas/Accessories'",
-     "parts": 47,
-     "kinds": {
-      "power": 10,
-      "mechanical": 2,
-      "wlc": 34,
-      "module": 1
-     },
-     "roles": {},
-     "samples": [
-      "AIR-8580-AC-750W — Cisco 8580 750W AC Power Supply",
-      "AIR-8580-AC-750W= — Cisco 8580 750W AC Power Supply",
-      "AIR-8580-DC-950W — Cisco 8580 950W DC Power Supply",
-      "AIR-8580-DC-950W= — Cisco 8580 950W DC Power Supply",
-      "AIR-BZL-C240M4 — Cisco 8540 Wireless Controller Security Bezel",
-      "AIR-BZL-C240M4= — Cisco 8540 Wireless Controller Security Bezel"
-     ],
-     "rules": {
-      "sku": 46,
-      "label": 1
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "WLC + access point bundles",
-     "family": "(none)",
-     "role": null,
-     "note": "^AIR-AP[0-9]{4}[A-Z]-WLC (layers round 3): AIR-AP1702I-WLC / AIR-AP2702I-WLC / AIR-AP3702I-WLC 'Bundle 2 AP…I and WLC2504 with 25 licenses' sat in the Aironet shared parts",
-     "parts": 8,
-     "kinds": {
-      "bundle": 8
-     },
-     "roles": {},
-     "samples": [
-      "AIR-AP1702I-WLC — Bundle 2 AP1700I and WLC2504 with 25 licenses",
-      "AIR-AP2702I-WLC — Bundle 2 AP2700I and WLC2504 with 25 licenses",
-      "AIR-AP3702I-WLC — Bundle 2 AP3700I and WLC2504 with 25 licenses",
-      "KAISER-WLC-AP-BNDL — Kaiser Bundle of WLC3504 and 10-pack AP3802I",
-      "WL5520-28-ADV-100 — Cisco WL5520-28-ADV-100",
-      "WL5520-38-PLUS-100 — Cisco WL5520-38-PLUS-100"
-     ],
-     "rules": {
-      "sku": 8
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "MobileAccessVE",
-     "family": "(none)",
-     "role": null,
-     "note": "re-audit decisions (operator, 15 Sep 2026, Q-12 / F-12): Cisco MobileAccessVE, the in-building cellular units sold as AIR- PIDs — the main, remote and expansion building units (AIR-330-), the access pods for CELL / PCS bands (AIR-VAP-CELLPCS) with their mounting kits (AIR-VAPMNTG-H / -V-KIT=) and the 12-port control unit (AIR-VCU-CELLPCS12). They sat in the AireOS controllers' and the Aironet access points' shared parts with kind unknown. The series carries no vendor in its name (the rows name none). Kind: the operator decided `device` for the units; `device` is not a noun of the wireless kind axis and a new noun needs its cup set, so the kind change waits for the parked kind rebuild (Q-28) and the units stay `unknown` until then",
-     "parts": 14,
-     "kinds": {
-      "unknown": 12,
-      "mechanical": 2
-     },
-     "roles": {},
-     "samples": [
-      "AIR-330-EXP-BOX — MobileAccessVE Expansion Box",
-      "AIR-330-EXP-BOX= — MobileAccessVE Expansion Box",
-      "AIR-330-MB-1 — MobileAccessVE One-link Main Building Unit",
-      "AIR-330-MB-1= — MobileAccessVE One-link Main Building Unit",
-      "AIR-330-MB-2 — MobileAccessVE Two-link Main Building Unit",
-      "AIR-330-MB-2= — MobileAccessVE Two-link Main Building Unit"
-     ],
-     "rules": {
-      "sku": 14
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "AireOS Wireless LAN Controllers shared parts",
-     "family": "(shared across the line)",
-     "role": null,
-     "note": "^AIR-SD240G (layering re-check of 17 Sep 2026, fix list section 1): AIR-SD240GBKS2-EV= / AIR-SD240GBKS4-EV= 'Spare SSD for Cisco Wireless Controller 5520 and 8540' (with their base PIDs) name two controllers of this line, and AIR-SD240G0KS2-EV(=) has its own end-of-sale notice 'for Wireless Controllers 5520 and 8540' (eos-eol-notice-c51-737832); the first four sat in Wireless Antennas and Accessories shared parts by a label, the last two here by the label check",
-     "parts": 11,
-     "kinds": {
-      "module": 10,
-      "power": 1
-     },
-     "roles": {},
-     "samples": [
-      "AIR-CT6870-NIC-K9 — PCIe Network Interface 20G",
-      "AIR-CT6880-NIC-K9 — PCIe Network Interface 40G",
-      "AIR-SD240G0KS2-EV — 240GB 2.5 inch Enterprise Value 6G SATA SSD",
-      "AIR-SD240G0KS2-EV= — Spare SSD for Cisco Wireless Controller 5520 and 8540",
-      "AIR-SD240GBKS2-EV — 240GB 2.5 inch Enterprise Value 6G SATA SSD",
-      "AIR-SD240GBKS2-EV= — Spare SSD for Cisco Wireless Controller 5520 and 8540"
-     ],
-     "rules": {
-      "sku": 9,
-      "label-unsupported": 2
-     },
-     "pending_in": {},
-     "pending_out": {}
-    }
-   ]
-  },
-  {
-   "line": "Location and Spaces Appliances",
-   "parts": 59,
-   "series": [
-    {
-     "series": "CMX 3375 / MSE 3355 / 3365",
-     "family": "(none)",
-     "role": null,
-     "note": "^AIR-(MR|SD|PSU|BZL|RAID|MRAID|CPU|PCI|SVR|DC)- removed (layering review of 17 Sep 2026, fix list 2.1): it filed 26 AIR- server parts here that name no MSE or CMX appliance — 10 name a 5520 / 8540 / 8510DC / 9580 controller, 16 are generic UCS C-Series components. The 5520 and 8500 ones went to those series, the rest to Wireless Antennas and Accessories / Modules and power (unnamed platform). The appliances' own components carry MSE- and CMX- and stay here",
-     "parts": 45,
-     "kinds": {
-      "appliance": 6,
-      "bundle": 4,
-      "module": 24,
-      "power": 4,
-      "unknown": 1,
-      "mechanical": 6
-     },
-     "roles": {},
-     "samples": [
-      "AIR-CMX-3375-K9 — CMX 3375 Appliance",
-      "AIR-CMX-3375-K9= — CMX 3375 SFF 10 HD w/o CPU, mem, HD, PCIe, PSU",
-      "AIR-MSE-3350-K9 — MSE Hardware SKU",
-      "AIR-MSE-3355-K9 — MSE 3355 Hardware SKU (Please select L-MSE-PAK for MSE Lic)",
-      "AIR-MSE-3355-K9Z — MSE 3355 Bundle PID; EQUIVALENT TO AIR-MSE-3355-K9",
-      "AIR-MSE-3365-K9 — MSE 3365 Appliance"
-     ],
-     "rules": {
-      "sku": 44,
-      "label": 1
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Catalyst Center location appliance (DN3-LOC)",
-     "family": "(none)",
-     "role": null,
-     "note": null,
-     "parts": 9,
-     "kinds": {
-      "module": 5,
-      "mechanical": 2,
-      "appliance": 1,
-      "power": 1
-     },
-     "roles": {},
-     "samples": [
-      "DN3-L-MR-X16G1RS-H — 16GB DDR4-2666-MHz RDIMM/PC4-21300/single rank/x4/1.2v",
-      "DN3-L-SD960GM1X-EV — 960GB 2.5 inch Enterprise Value 6G SATA SSD",
-      "DN3-LOC-BZL-C220M5 — C220 M5 Security Bezel",
-      "DN3-LOC-CPU-5118 — 2.3 GHz 5118/105W 12C/16.50MB Cache/DDR4 2400MHz",
-      "DN3-LOC-K9 — DNAC Location Appliance",
-      "DN3-LOC-PSU1-770W — Cisco UCS 770W AC Power Supply for Rack Server"
-     ],
-     "rules": {
-      "sku": 9
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Exciters and BLE / VBLE radio modules",
-     "family": "(none)",
-     "role": null,
-     "note": null,
-     "parts": 4,
-     "kinds": {
-      "accessory": 1,
-      "module": 1,
-      "unknown": 2
-     },
-     "roles": {},
-     "samples": [
-      "AIR-AP-VBLE-ADPTR= — Adapter for beacon point / AP mounting",
-      "AIR-RM-VBLE2-K9= — Cisco AIR-RM-VBLE2-K9=",
-      "ASCT-EX2000 — Cisco ASCT-EX2000",
-      "ASCT-EX3200 — Compact exciter"
-     ],
-     "rules": {
-      "sku": 4
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Spectrum Expert",
-     "family": "(none)",
-     "role": null,
-     "note": null,
-     "parts": 1,
-     "kinds": {
-      "module": 1
-     },
-     "roles": {},
-     "samples": [
-      "COGNIO-SEWIFI-CB — Cognio Spectrum Expert cardbus adapter and software"
-     ],
-     "rules": {
-      "sku": 1
-     },
-     "pending_in": {},
-     "pending_out": {}
-    }
-   ]
-  },
-  {
-   "line": "Wireless LAN Solution Engine (legacy)",
-   "parts": 2,
-   "series": [
-    {
-     "series": "CiscoWorks Wireless LAN Solution Engine (WLSE 1130 / Express 1030)",
-     "family": "(none)",
-     "role": null,
-     "note": "layers round 3: CWWLSE-1130-19-K9, planned in from switches (its arrival exception there is retired), and RACK-QCN-SN5= 'Rack for CWWLSE Express 1030', which sat in Wireless Antennas and Accessories shared parts by label",
-     "parts": 2,
-     "kinds": {
-      "unknown": 1,
-      "mechanical": 1
-     },
-     "roles": {},
-     "samples": [
-      "CWWLSE-1130-19-K9 — CiscoWorks WLSE (optional)",
-      "RACK-QCN-SN5= — Rack for CWWLSE Express 1030"
-     ],
-     "rules": {
-      "sku": 2
-     },
-     "pending_in": {},
-     "pending_out": {}
-    }
-   ]
-  },
-  {
-   "line": "Wireless Antennas and Accessories",
-   "parts": 320,
-   "series": [
-    {
-     "series": "Antennas",
-     "family": "(none)",
-     "role": null,
-     "note": "^ANT- removed (layers round 3): it placed no wireless row (the two it matched, ANT-ROOM70-KIT, are Webex Room 70 parts excluded to collaboration-endpoints) and claimed 34 routers antennas. ^AIR-ANT also places the 7 Aironet antennas planned in from routers, beside their spares",
-     "parts": 149,
-     "kinds": {
-      "cable": 1,
-      "antenna": 147,
-      "mechanical": 1
-     },
-     "roles": {},
-     "samples": [
-      "AIR-420-1625-0500 — 5 in. (12.7 cm) MMCX to RP-TNC Antenna Converter Cable",
-      "AIR-ANT-GPS-1 — GPS Antenna for AP1570",
-      "AIR-ANT-GPS-1= — GPS Antenna for AP1570",
-      "AIR-ANT-LOC-01= — Hyperlocation Antenna, Model 1, Attached Omni",
-      "AIR-ANT-SE-WIFI-D= — 2.4-2.5 and 4.9-5.9 GHz Directional Antenna, Spare",
-      "AIR-ANT-SE-WIFI-O= — 2.4-2.5 and 4.9-5.9 GHz Omni Antenna, Spare"
-     ],
-     "rules": {
-      "sku": 149
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Power injectors, supplies and cords",
-     "family": "(none)",
-     "role": null,
-     "note": "^PWR- fenced to the wireless rows it holds (layers round 3; operator: claimant-rule-too-broad, fixed in the wireless round): the 3504 / 2504 controller supplies, the internal C13-C14 cords and PWR-RPS-DC1=. CH1-(750W?ACR|950WDCR) removed (re-audit decisions, operator, 15 Sep 2026, Q-11): the PWR-CH1 750 W / 950 W supplies are the Catalyst 8500's (their spares in routers are named 'Cisco C8500 750W AC Power'); the three wireless rows PWR-CH1-750ACR / 750WACR / 950WDCR carry move plans to routers Catalyst 8500. The INT cords are fenced to the 0.7 m length wireless holds (collaboration-endpoints round): the 0.2 / 0.22 / 0.6 / 1.3 / 1.4 / 1.45 / 1.85 / 3.0 m INT cords are Room and TelePresence parts (Room Panorama and Room Kit EQX amp-to-camera cables, TelePresence C13-C14 jumpers) and stay in collaboration-endpoints",
-     "parts": 97,
-     "kinds": {
-      "cable": 65,
-      "power": 18,
-      "power-injector": 14
-     },
-     "roles": {},
-     "samples": [
-      "AIR-CORD-R3P-40NA= — AC power cord, 40 ft (12m); North American plug; 1520/1550/1",
-      "AIR-CORD-R3P-40UE= — AC power cord, 40 ft (12m); EU unterminated end; 1520/1550/1",
-      "AIR-CORD1500-40UE= — Aironet 1500 AC Power Cord, 40 ft. unterm, EU",
-      "AIR-PWR-4400-AC — 4400 Series WLAN Controller AC Power Supply (redundant)",
-      "AIR-PWR-50= — PwrSpply:100-240VAC,48VDC 50w",
-      "AIR-PWR-5500-AC — Cisco 5500 Series Wireless Controller Redundant Power Supply"
-     ],
-     "rules": {
-      "sku": 97
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Cables",
-     "family": "(none)",
-     "role": null,
-     "note": "^CAB- fenced to the wireless rows it holds (layers round 3; operator: fixed in the wireless round): the type C5 power cords of the AP adapters, the LMR-400 RP-TNC cable and two controller power cables",
-     "parts": 40,
-     "kinds": {
-      "cable": 40
-     },
-     "roles": {},
-     "samples": [
-      "AIR-420-003346-020 — 20 ft. cable with RP-TNC connectors",
-      "AIR-420-003346-050 — 50 ft. cable with RP-TNC connectors",
-      "AIR-420-003346-075 — 75 ft. cable with RP-TNC connectors",
-      "AIR-420-003346-100 — 100 ft. cable with RP-TNC connectors",
-      "AIR-CAB-003-D8-D8= — 3-ft (36-in.) jumper cable with DART-8 connectors (one end s",
-      "AIR-CAB-003-D8-N= — 3-ft (36-in.) breakout cable with DART-8 connector and eight"
-     ],
-     "rules": {
-      "sku": 40
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Modules and power (unnamed platform)",
-     "family": "(none)",
-     "role": null,
-     "note": "layering review of 17 Sep 2026 (fix list 2.1 / 2.2): server components and supplies of the UCS C-Series-based wireless controllers and appliances that name no platform this mapping places — CPUs, RDIMMs, MegaRAID and embedded RAID, a 32 GB SD card, a C240 M4 PCIe riser, a 650 W C-Series supply, a 500 GB drive, a UCS TPM — and the supplies named for a '9540' / '9580' controller that no series of this category names (AIR-AC-750W-R, its blanking panel, AIR-DC-950W). Cisco's end-of-sale notices list them only as 'Wireless Miscellaneous Accessories' (wireless-misc-accessories-sw-lic-eol) and 'Aironet Accessories' (aironet-accessories-eol15454), with no platform, so the series sits in the accessories line and claims no controller or appliance: the review proposed one 'Wireless controllers and appliances shared parts' series, and the rows span the AireOS controllers, the location appliances and controllers this mapping does not name. They sat in CMX 3375 / MSE 3355 / 3365 (^AIR-(MR|SD|PSU|BZL|RAID|MRAID|CPU|PCI|SVR|DC)-) and, by a label the check did not support, in Aironet Access Points shared parts (AIR-AC-750W-R, AIR-AC-750W-R-BLK, AIR-A03-D500GC3, AIR-TPM1-001). THE NAME CLAIMS NOTHING ON PURPOSE: every word of it is a labelEvidence stop word or a short word. The first name tried, 'Controller and appliance components', made 'Controller' a claim word, so the reverse check proposed 7 other controller supplies in the accessories shared parts for this series and withdrew 4 correct cross-line proposals (AIR-PSU1-770W(=) to the 5500 by '5520', AIR-PSU2V2-1200W(=) to the 8500 by '8540'); with this name both queues are the recorded 59 / 25 · ^AIR-MRAID12G, ^AIR-TPM2- (layering re-check of 17 Sep 2026, fix list section 1): AIR-MRAID12G 'Cisco 12G SAS Modular Raid Controller', AIR-MRAID12G-1GB its cache module and AIR-TPM2-001 'Trusted Platform Module 1.2 for UCS' are the same class as the MegaRAID and TPM rows here, listed by aironet-accessories-eol15454 with no platform; they sat in Wireless Antennas and Accessories shared parts by the label 'Antennas/Accessories'",
-     "parts": 24,
-     "kinds": {
-      "module": 19,
-      "power": 5
-     },
-     "roles": {},
-     "samples": [
-      "AIR-A03-D500GC3 — 500GB 6Gb SATA 7.2K RPM SFF hot plug/drive sled mounted",
-      "AIR-AC-750W-R — Cisco 9540 750W AC Power Supply, Reverse Air",
-      "AIR-AC-750W-R-BLK — Power Supply Blanking Panel for 9540 Controller",
-      "AIR-CPU-E52609D — 1.90 GHz E5-2609 v3/85W 6C/15MB Cache/DDR4 1600MHz",
-      "AIR-CPU-E52680D — 2.50 GHz E5-2680 v3/120W 12C/30MB Cache/DDR4 2133MHz",
-      "AIR-DC-950W — Cisco 9580 Modular Wireless Controller 950W DC Power Supply"
-     ],
-     "rules": {
-      "sku": 24
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "OnPlus Network Agent (ON100)",
-     "family": "(none)",
-     "role": null,
-     "note": "operator, 17 Sep 2026 (layering review fix list 2.2 / 4.3: 'go with your recommendations'): ON100-M6-K9 'ON100 Network Agent Multipack', the Cisco OnPlus network agent, is not an access-point part; it sat in Aironet Access Points shared parts by a stored label 'Aironet 1550' the label check had rejected. Its own series in the accessories line, because Cisco's end-of-sale notice files it with the 'Wireless Miscellaneous Accessories' (wireless-misc-accessories-sw-lic-eol) — the only document our store links to it",
-     "parts": 1,
-     "kinds": {
-      "unknown": 1
-     },
-     "roles": {},
-     "samples": [
-      "ON100-M6-K9 — ON100 Network Agent Multipack"
-     ],
-     "rules": {
-      "sku": 1
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Wireless Antennas and Accessories shared parts",
-     "family": "(shared across the line)",
-     "role": null,
-     "note": null,
-     "parts": 9,
-     "kinds": {
-      "unknown": 1,
-      "mechanical": 2,
-      "antenna": 4,
-      "module": 2
-     },
-     "roles": {},
-     "samples": [
-      "AIR-N-3006-DTA-K9 — ^NECJ AS3504 DTA",
-      "AIRWLC4400FIPSKIT= — FIPS Kit WLC 4400 Spare",
-      "C-ANT9101= — Tri-band MIMO Ceiling mount omnidirectional antenna operates",
-      "C-ANT9102= — Tri-band MIMO Wall/Pole mount omnidirectional antenna operat",
-      "C-ANT9103= — Tri-band MIMO Wall/Pole mount directional antenna operates i",
-      "C-ANT9104= — Dual-band MIMO Wall/Pole mount directional antenna operates "
-     ],
-     "rules": {
-      "label": 9
-     },
-     "pending_in": {},
-     "pending_out": {}
-    }
-   ]
+  "pending_review": [],
+  "inbound_unplaced": {},
+  "done": true,
+  "build": {
+    "data_commit": "a388ea2da885",
+    "code_commit": "cb269cf2f0d7",
+    "contract_hash": "839db4a13086c4e2",
+    "generated_at": "2026-09-27T16:46:45.299Z"
   }
- ],
- "not_this_category": [],
- "pending_plans": [],
- "unplaced": [],
- "label_check": {
-  "applied": true,
-  "label_placed": 21,
-  "by_kind": {
-   "none": 10,
-   "sku-token": 2,
-   "name": 9
-  },
-  "moved": [
-   {
-    "sku": "2KI-FINAL-PKG-RU",
-    "name": "Contains packing Kit For 2KI",
-    "series_label": "2800",
-    "from_series": "Aironet 2800",
-    "to_series": "Aironet Access Points shared parts",
-    "why": "no platform token (2800) in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "ACCESSORY-KIT-RU",
-    "name": "Contains Compliance and Auto test Blank Labels",
-    "series_label": "2800",
-    "from_series": "Aironet 2800",
-    "to_series": "Aironet Access Points shared parts",
-    "why": "no platform token (2800) in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "AIR-CONSADPT",
-    "name": "Serial RJ45 to 4-pin TTL console adapter",
-    "series_label": "Aironet 1550",
-    "from_series": "Aironet 1550",
-    "to_series": "Aironet Access Points shared parts",
-    "why": "no platform token (1550) in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "AIR-CONSADPT=",
-    "name": "Serial RJ45 to 4-pin TTL console adapter",
-    "series_label": "Aironet 1550",
-    "from_series": "Aironet 1550",
-    "to_series": "Aironet Access Points shared parts",
-    "why": "no platform token (1550) in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "AIR-SEC-50=",
-    "name": "Physical Security Kit for Wall Plate AP",
-    "series_label": "Aironet 1550",
-    "from_series": "Aironet 1550",
-    "to_series": "Aironet Access Points shared parts",
-    "why": "no platform token (1550) in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "AIR-SRVR-300GB-HD=",
-    "name": "Field replaceable 300GB HD for wireless/management servers",
-    "series_label": "8500",
-    "from_series": "8500 (8510 / 8540 / 8580)",
-    "to_series": "AireOS Wireless LAN Controllers shared parts",
-    "why": "no platform token (8500, 8510, 8540, 8580) in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "AIR-SRVR-PWR=",
-    "name": "Field replaceable AC power supply for wireless appliances",
-    "series_label": "8500",
-    "from_series": "8500 (8510 / 8540 / 8580)",
-    "to_series": "AireOS Wireless LAN Controllers shared parts",
-    "why": "no platform token (8500, 8510, 8540, 8580) in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "AP-MIGR-PRM",
-    "name": "10 AP Bundle for UK",
-    "series_label": "Aironet 1550",
-    "from_series": "Aironet 1550",
-    "to_series": "Aironet Access Points shared parts",
-    "why": "no platform token (1550) in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "BTIMGE-K9",
-    "name": "Cisco BTIMGE-K9",
-    "series_label": "Aironet 1550",
-    "from_series": "Aironet 1550",
-    "to_series": "Aironet Access Points shared parts",
-    "why": "no platform token (1550) in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "FINAL-PKG-RUSSIA",
-    "name": "Contains Packing Kit for 2KE/3KI/3KE",
-    "series_label": "3800",
-    "from_series": "Aironet 3800",
-    "to_series": "Aironet Access Points shared parts",
-    "why": "no platform token (3800) in the SKU or name, no compatible part placed in the series"
-   }
-  ]
- },
- "pending_review": [],
- "inbound_unplaced": {},
- "done": true
 }

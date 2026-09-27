@@ -1,272 +1,278 @@
 {
- "vendor": "cisco",
- "category": "storage-networking",
- "built_at": "2026-09-25T13:25:59.386Z",
- "commit": "72a241ddcf31e0b5cb17ce09266d81b1426fc7d0",
- "uncommitted_rule_files": [
-  "data/reference/product-lines/cisco-routers.json"
- ],
- "mapping_file": "data/reference/product-lines/cisco-storage-networking.json",
- "parts": 661,
- "layered": 661,
- "pending": 0,
- "lines": [
-  {
-   "line": "MDS 9000 Multilayer SAN Switches",
-   "parts": 661,
-   "series": [
+  "vendor": "cisco",
+  "category": "storage-networking",
+  "built_at": "2026-09-25T13:25:59.386Z",
+  "commit": "72a241ddcf31e0b5cb17ce09266d81b1426fc7d0",
+  "uncommitted_rule_files": [
+    "data/reference/product-lines/cisco-routers.json"
+  ],
+  "mapping_file": "data/reference/product-lines/cisco-storage-networking.json",
+  "parts": 661,
+  "layered": 661,
+  "pending": 0,
+  "lines": [
     {
-     "series": "MDS 9700 directors (9706 / 9710 / 9718) and modules",
-     "family": "(none)",
-     "role": null,
-     "note": "^DS-X9(706|710|718) removed in layers round 3 (storage round): ^DS-X97 decides every row it matched (the rule-shadowing check named it)",
-     "parts": 111,
-     "kinds": {
-      "accessory": 13,
-      "director": 21,
-      "mechanical": 13,
-      "fan": 4,
-      "linecard": 31,
-      "supervisor": 6,
-      "fabric": 23
-     },
-     "roles": {},
-     "samples": [
-      "DS-9706-KIT-CCO — Cisco DS-9706-KIT-CCO",
-      "DS-9706-KIT-CCO= — Cisco DS-9706-KIT-CCO=",
-      "DS-9706-KIT-EMC — Cisco DS-9706-KIT-EMC",
-      "DS-9706-KIT-HDS — Cisco DS-9706-KIT-HDS",
-      "DS-9706-KIT-HP — Cisco DS-9706-KIT-HP",
-      "DS-9706-KIT-IBM — Cisco DS-9706-KIT-IBM"
-     ],
-     "rules": {
-      "sku": 111
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "MDS 9500 / 9200 switching modules",
-     "family": "(none)",
-     "role": null,
-     "note": null,
-     "parts": 55,
-     "kinds": {
-      "linecard": 55
-     },
-     "roles": {},
-     "samples": [
-      "DS-X9032-SSM — Cisco MDS 9000 Family 32-port Storage Services Module",
-      "DS-X9032-SSM= — Cisco MDS 9000 Family 32-port Storage Services Module, Spare",
-      "DS-X9112 — 12-port 1/2/4-Gbps Fibre Channel Switching Module",
-      "DS-X9112-H= — 12-port 1/2/4-Gbps FC Module for HP with Service, Spare",
-      "DS-X9112-HV — 12-port 1/2/4-Gbps Fibre Channel Switching Module, 12 SFPs",
-      "DS-X9112-HV= — 12-port 1/2/4-Gbps Fibre Channel Switching Module, 12 SFPs"
-     ],
-     "rules": {
-      "sku": 55
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "MDS 9500 directors (9506 / 9509 / 9513)",
-     "family": "(none)",
-     "role": null,
-     "note": "^DS-6SL[0O]T- and ^DS-9SL0T- (re-audit decisions, operator, 15 Sep 2026, F-1): DS-6SLOT-FAN= / DS-6SL0T-FAN= 'MDS 9506 Fan Tray', DS-6SLOT-CAB= 'MDS 9506 Rack Mount and Cable Mgmt Brackets' and DS-9SL0T-FAN= 'MDS 9509 Fan Tray' (Cisco's SKUs print a zero for the O) name one director each; they sat in MDS shared parts by ^DS-, while DS-9SLOT-FAN= and DS-9SLOT-CAB= already sat here",
-     "parts": 91,
-     "kinds": {
-      "fabric": 9,
-      "fan": 8,
-      "mechanical": 26,
-      "supervisor": 10,
-      "director": 34,
-      "linecard": 2,
-      "accessory": 2
-     },
-     "roles": {},
-     "samples": [
-      "DS-13SLT-FAB1 — MDS 9513 Crossbar Switching Fabric Module",
-      "DS-13SLT-FAB1= — MDS 9513 crossbar switching fabric module, Spare",
-      "DS-13SLT-FAB2 — MDS 9513 Crossbar Switching Fabric Module 2",
-      "DS-13SLT-FAB2= — Cisco MDS 9513 Crossbar Switching Fabric2 Module, Spare (req",
-      "DS-13SLT-FAB2HP= — MDS 9513 Crossbar Switching Fabric Module 2 for HP, Promo",
-      "DS-13SLT-FAB2P= — MDS 9513 Crossbar Switching Fabric Module 2, Promo Spare"
-     ],
-     "rules": {
-      "sku": 91
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "MDS 9300 fabric switches (9396S / 9396T / 9396V)",
-     "family": "(none)",
-     "role": null,
-     "note": "^(?=DS-) (layers round 3, storage round): the 48 rows the rule decides are DS- PIDs; unfenced it claimed 20 Nexus 9396PX rows in switches",
-     "parts": 48,
-     "kinds": {
-      "mechanical": 9,
-      "fc-switch": 39
-     },
-     "roles": {},
-     "samples": [
-      "DS-9396S-KIT-CSCO — Cisco MDS 9396S Accessory Kit for Cisco",
-      "DS-9396S-KIT-CSCO= — Cisco MDS 9396S Accessory Kit for Cisco, spare",
-      "DS-9396S-KIT-EM — Cisco MDS 9396S Accessory Kit for EMC",
-      "DS-9396S-KIT-HDS — Cisco MDS 9396S Accessory Kit for HDS",
-      "DS-9396S-KIT-IBM — Cisco DS 9396S Accessory Kit for IBM",
-      "DS-9396T-KIT-CSCO — MDS 9396T Accessory Kit for Cisco"
-     ],
-     "rules": {
-      "sku": 48
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)",
-     "family": "(none)",
-     "role": null,
-     "note": "^(?=DS-|MDS-) (layers round 3, storage round): the 35 rows the rule decides are DS- PIDs and MDS-9222I-75-PPT; unfenced it claimed the Nexus 92160 rows in switches, the UCSC-RAID-9220 controllers in servers and the Prisma II 9220F-DIFL option in video. ^SAN50C-R$ (same round): 'IBM SAN50C-R', the IBM-branded MDS 9250i that Cisco's 'MDS 9250i Multiservice Fabric Switch' end-of-sale notice lists; the label check found no platform token and held it for review (a whole switch). ^DS-2SLOT- (re-audit decisions, operator, 15 Sep 2026, F-1): DS-2SLOT-FAN= 'MDS 9216 Fan Tray' names the 9216 alone; it sat in MDS shared parts by ^DS-",
-     "parts": 41,
-     "kinds": {
-      "fan": 3,
-      "mechanical": 6,
-      "power": 3,
-      "fc-switch": 28,
-      "unknown": 1
-     },
-     "roles": {},
-     "samples": [
-      "DS-2SLOT-FAN= — MDS 9216 Fan Tray, Spare",
-      "DS-9250I-KITCCO — MDS 9250i Accessory Kit for Cisco",
-      "DS-9250I-KITCCO= — MDS 9200 Accessory Kit for Cisco, spare",
-      "DS-9250I-KITEMC — MDS 9250i Accessory Kit for EMC",
-      "DS-9250I-KITHDS — MDS 9250i Accessory Kit for HDS",
-      "DS-9250I-KITHP — MDS 9250i Accessory Kit for HP"
-     ],
-     "rules": {
-      "sku": 41
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)",
-     "family": "(none)",
-     "role": null,
-     "note": "^(?=DS-) (layers round 3, storage round): the 169 rows the rule decides are DS- PIDs; unfenced it claimed 212 Catalyst 9120 / 9124 access points in wireless and 6 AMD EPYC 9124 processors in servers. ^DS-1RU-FAN and ^DS-C24-300AC (re-audit decisions, operator, 15 Sep 2026, F-1): DS-1RU-FAN(=) 'Cisco MDS 9100 Series Fan Tray' and DS-C24-300AC(=, -IBM=) 'MDS 9124 Power Supply' / 'Cisco MDS 91x4 300W AC power supply' name this series alone; they sat in MDS shared parts by ^DS-",
-     "parts": 174,
-     "kinds": {
-      "fan": 2,
-      "mechanical": 44,
-      "fc-switch": 124,
-      "power": 3,
-      "accessory": 1
-     },
-     "roles": {},
-     "samples": [
-      "DS-1RU-FAN — MDS 1RU Fan Tray",
-      "DS-1RU-FAN= — Cisco MDS 9100 Series Fan Tray (spare)",
-      "DS-9124-KIT-CSCO — MDS 9124 Accessory kit for Cisco",
-      "DS-9124-KIT-CSCO= — Accessory Kit for MDS 9124 Cisco, spare",
-      "DS-9124-KIT-EMC — MDS 9124 Accessory kit for EMC",
-      "DS-9124-KIT-HDS — MDS 9124 Accessory Kit for HDS"
-     ],
-     "rules": {
-      "sku": 174
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "MDS blade-server FC switches (HP / IBM / Dell)",
-     "family": "(none)",
-     "role": null,
-     "note": null,
-     "parts": 4,
-     "kinds": {
-      "fc-switch": 4
-     },
-     "roles": {},
-     "samples": [
-      "DS-HP-8GFC-K9 — 8Gbps FC Switch for HP Blade System",
-      "DS-HP-8GFC-K9= — 8Gbps FC Switch for HP Blade System",
-      "DS-HP-8GFC-L-K9 — 8Gbps FC Switch for HP Blade System with Port Licensing",
-      "DS-HP-8GFC-L-K9= — 8Gbps FC Switch for HP Blade System with Port Licensing"
-     ],
-     "rules": {
-      "sku": 4
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "MDS 9000 Multilayer SAN Switches shared parts",
-     "family": "(shared across the line)",
-     "role": null,
-     "note": null,
-     "parts": 137,
-     "kinds": {
-      "cable": 66,
-      "mechanical": 9,
-      "fan": 9,
-      "power": 43,
-      "accessory": 7,
-      "supervisor": 1,
-      "linecard": 2
-     },
-     "roles": {},
-     "samples": [
-      "CAB-1900W-CH — Power Cord, 250VAC, 16A GB1002 Plug, China",
-      "CAB-1900W-CH= — Power Cord, 250VAC, 16A GB1002 Plug, China, Spare",
-      "CAB-1900W-EU — Power Cord 250VAC 16A, Europe, Src Plug CEE 7/7",
-      "CAB-1900W-EU= — Power Cord 250VAC 16A, Europe, Src Plug CEE 7/7, Spare",
-      "CAB-1900W-INT — Power Cord 250VAC 16A, International, Src Plug IEC 309",
-      "CAB-1900W-INT= — Power Cord 250VAC 16A, International, Src Plug IEC 309, Spar"
-     ],
-     "rules": {
-      "accessory": 64,
-      "sku": 69,
-      "label-unsupported": 2,
-      "label": 2
-     },
-     "pending_in": {},
-     "pending_out": {}
+      "line": "MDS 9000 Multilayer SAN Switches",
+      "parts": 661,
+      "series": [
+        {
+          "series": "MDS 9700 directors (9706 / 9710 / 9718) and modules",
+          "family": "(none)",
+          "role": null,
+          "note": "^DS-X9(706|710|718) removed in layers round 3 (storage round): ^DS-X97 decides every row it matched (the rule-shadowing check named it)",
+          "parts": 111,
+          "kinds": {
+            "accessory": 13,
+            "director": 21,
+            "mechanical": 13,
+            "fan": 4,
+            "linecard": 31,
+            "supervisor": 6,
+            "fabric": 23
+          },
+          "roles": {},
+          "samples": [
+            "DS-9706-KIT-CCO — Cisco DS-9706-KIT-CCO",
+            "DS-9706-KIT-CCO= — Cisco DS-9706-KIT-CCO=",
+            "DS-9706-KIT-EMC — Cisco DS-9706-KIT-EMC",
+            "DS-9706-KIT-HDS — Cisco DS-9706-KIT-HDS",
+            "DS-9706-KIT-HP — Cisco DS-9706-KIT-HP",
+            "DS-9706-KIT-IBM — Cisco DS-9706-KIT-IBM"
+          ],
+          "rules": {
+            "sku": 111
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "MDS 9500 / 9200 switching modules",
+          "family": "(none)",
+          "role": null,
+          "note": null,
+          "parts": 55,
+          "kinds": {
+            "linecard": 55
+          },
+          "roles": {},
+          "samples": [
+            "DS-X9032-SSM — Cisco MDS 9000 Family 32-port Storage Services Module",
+            "DS-X9032-SSM= — Cisco MDS 9000 Family 32-port Storage Services Module, Spare",
+            "DS-X9112 — 12-port 1/2/4-Gbps Fibre Channel Switching Module",
+            "DS-X9112-H= — 12-port 1/2/4-Gbps FC Module for HP with Service, Spare",
+            "DS-X9112-HV — 12-port 1/2/4-Gbps Fibre Channel Switching Module, 12 SFPs",
+            "DS-X9112-HV= — 12-port 1/2/4-Gbps Fibre Channel Switching Module, 12 SFPs"
+          ],
+          "rules": {
+            "sku": 55
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "MDS 9500 directors (9506 / 9509 / 9513)",
+          "family": "(none)",
+          "role": null,
+          "note": "^DS-6SL[0O]T- and ^DS-9SL0T- (re-audit decisions, operator, 15 Sep 2026, F-1): DS-6SLOT-FAN= / DS-6SL0T-FAN= 'MDS 9506 Fan Tray', DS-6SLOT-CAB= 'MDS 9506 Rack Mount and Cable Mgmt Brackets' and DS-9SL0T-FAN= 'MDS 9509 Fan Tray' (Cisco's SKUs print a zero for the O) name one director each; they sat in MDS shared parts by ^DS-, while DS-9SLOT-FAN= and DS-9SLOT-CAB= already sat here",
+          "parts": 91,
+          "kinds": {
+            "fabric": 9,
+            "fan": 8,
+            "mechanical": 26,
+            "supervisor": 10,
+            "director": 34,
+            "linecard": 2,
+            "accessory": 2
+          },
+          "roles": {},
+          "samples": [
+            "DS-13SLT-FAB1 — MDS 9513 Crossbar Switching Fabric Module",
+            "DS-13SLT-FAB1= — MDS 9513 crossbar switching fabric module, Spare",
+            "DS-13SLT-FAB2 — MDS 9513 Crossbar Switching Fabric Module 2",
+            "DS-13SLT-FAB2= — Cisco MDS 9513 Crossbar Switching Fabric2 Module, Spare (req",
+            "DS-13SLT-FAB2HP= — MDS 9513 Crossbar Switching Fabric Module 2 for HP, Promo",
+            "DS-13SLT-FAB2P= — MDS 9513 Crossbar Switching Fabric Module 2, Promo Spare"
+          ],
+          "rules": {
+            "sku": 91
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "MDS 9300 fabric switches (9396S / 9396T / 9396V)",
+          "family": "(none)",
+          "role": null,
+          "note": "^(?=DS-) (layers round 3, storage round): the 48 rows the rule decides are DS- PIDs; unfenced it claimed 20 Nexus 9396PX rows in switches",
+          "parts": 48,
+          "kinds": {
+            "mechanical": 9,
+            "fc-switch": 39
+          },
+          "roles": {},
+          "samples": [
+            "DS-9396S-KIT-CSCO — Cisco MDS 9396S Accessory Kit for Cisco",
+            "DS-9396S-KIT-CSCO= — Cisco MDS 9396S Accessory Kit for Cisco, spare",
+            "DS-9396S-KIT-EM — Cisco MDS 9396S Accessory Kit for EMC",
+            "DS-9396S-KIT-HDS — Cisco MDS 9396S Accessory Kit for HDS",
+            "DS-9396S-KIT-IBM — Cisco DS 9396S Accessory Kit for IBM",
+            "DS-9396T-KIT-CSCO — MDS 9396T Accessory Kit for Cisco"
+          ],
+          "rules": {
+            "sku": 48
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)",
+          "family": "(none)",
+          "role": null,
+          "note": "^(?=DS-|MDS-) (layers round 3, storage round): the 35 rows the rule decides are DS- PIDs and MDS-9222I-75-PPT; unfenced it claimed the Nexus 92160 rows in switches, the UCSC-RAID-9220 controllers in servers and the Prisma II 9220F-DIFL option in video. ^SAN50C-R$ (same round): 'IBM SAN50C-R', the IBM-branded MDS 9250i that Cisco's 'MDS 9250i Multiservice Fabric Switch' end-of-sale notice lists; the label check found no platform token and held it for review (a whole switch). ^DS-2SLOT- (re-audit decisions, operator, 15 Sep 2026, F-1): DS-2SLOT-FAN= 'MDS 9216 Fan Tray' names the 9216 alone; it sat in MDS shared parts by ^DS-",
+          "parts": 41,
+          "kinds": {
+            "fan": 3,
+            "mechanical": 6,
+            "power": 3,
+            "fc-switch": 28,
+            "unknown": 1
+          },
+          "roles": {},
+          "samples": [
+            "DS-2SLOT-FAN= — MDS 9216 Fan Tray, Spare",
+            "DS-9250I-KITCCO — MDS 9250i Accessory Kit for Cisco",
+            "DS-9250I-KITCCO= — MDS 9200 Accessory Kit for Cisco, spare",
+            "DS-9250I-KITEMC — MDS 9250i Accessory Kit for EMC",
+            "DS-9250I-KITHDS — MDS 9250i Accessory Kit for HDS",
+            "DS-9250I-KITHP — MDS 9250i Accessory Kit for HP"
+          ],
+          "rules": {
+            "sku": 41
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)",
+          "family": "(none)",
+          "role": null,
+          "note": "^(?=DS-) (layers round 3, storage round): the 169 rows the rule decides are DS- PIDs; unfenced it claimed 212 Catalyst 9120 / 9124 access points in wireless and 6 AMD EPYC 9124 processors in servers. ^DS-1RU-FAN and ^DS-C24-300AC (re-audit decisions, operator, 15 Sep 2026, F-1): DS-1RU-FAN(=) 'Cisco MDS 9100 Series Fan Tray' and DS-C24-300AC(=, -IBM=) 'MDS 9124 Power Supply' / 'Cisco MDS 91x4 300W AC power supply' name this series alone; they sat in MDS shared parts by ^DS-",
+          "parts": 174,
+          "kinds": {
+            "fan": 2,
+            "mechanical": 44,
+            "fc-switch": 124,
+            "power": 3,
+            "accessory": 1
+          },
+          "roles": {},
+          "samples": [
+            "DS-1RU-FAN — MDS 1RU Fan Tray",
+            "DS-1RU-FAN= — Cisco MDS 9100 Series Fan Tray (spare)",
+            "DS-9124-KIT-CSCO — MDS 9124 Accessory kit for Cisco",
+            "DS-9124-KIT-CSCO= — Accessory Kit for MDS 9124 Cisco, spare",
+            "DS-9124-KIT-EMC — MDS 9124 Accessory kit for EMC",
+            "DS-9124-KIT-HDS — MDS 9124 Accessory Kit for HDS"
+          ],
+          "rules": {
+            "sku": 174
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "MDS blade-server FC switches (HP / IBM / Dell)",
+          "family": "(none)",
+          "role": null,
+          "note": null,
+          "parts": 4,
+          "kinds": {
+            "fc-switch": 4
+          },
+          "roles": {},
+          "samples": [
+            "DS-HP-8GFC-K9 — 8Gbps FC Switch for HP Blade System",
+            "DS-HP-8GFC-K9= — 8Gbps FC Switch for HP Blade System",
+            "DS-HP-8GFC-L-K9 — 8Gbps FC Switch for HP Blade System with Port Licensing",
+            "DS-HP-8GFC-L-K9= — 8Gbps FC Switch for HP Blade System with Port Licensing"
+          ],
+          "rules": {
+            "sku": 4
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "MDS 9000 Multilayer SAN Switches shared parts",
+          "family": "(shared across the line)",
+          "role": null,
+          "note": null,
+          "parts": 137,
+          "kinds": {
+            "cable": 66,
+            "mechanical": 9,
+            "fan": 9,
+            "power": 43,
+            "accessory": 7,
+            "supervisor": 1,
+            "linecard": 2
+          },
+          "roles": {},
+          "samples": [
+            "CAB-1900W-CH — Power Cord, 250VAC, 16A GB1002 Plug, China",
+            "CAB-1900W-CH= — Power Cord, 250VAC, 16A GB1002 Plug, China, Spare",
+            "CAB-1900W-EU — Power Cord 250VAC 16A, Europe, Src Plug CEE 7/7",
+            "CAB-1900W-EU= — Power Cord 250VAC 16A, Europe, Src Plug CEE 7/7, Spare",
+            "CAB-1900W-INT — Power Cord 250VAC 16A, International, Src Plug IEC 309",
+            "CAB-1900W-INT= — Power Cord 250VAC 16A, International, Src Plug IEC 309, Spar"
+          ],
+          "rules": {
+            "accessory": 64,
+            "sku": 69,
+            "label-unsupported": 2,
+            "label": 2
+          },
+          "pending_in": {},
+          "pending_out": {}
+        }
+      ]
     }
-   ]
-  }
- ],
- "not_this_category": [],
- "pending_plans": [],
- "unplaced": [],
- "label_check": {
-  "applied": true,
-  "label_placed": 2,
-  "by_kind": {
-   "none": 2
+  ],
+  "not_this_category": [],
+  "pending_plans": [],
+  "unplaced": [],
+  "label_check": {
+    "applied": true,
+    "label_placed": 2,
+    "by_kind": {
+      "none": 2
+    },
+    "moved": [
+      {
+        "sku": "M9XT-FC1632",
+        "name": "MDS 32G FC Port Expansion module, w/ 16 active ports for Base",
+        "series_label": "MDS 9100 Series Multilayer Fabric",
+        "from_series": "MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)",
+        "to_series": "MDS 9000 Multilayer SAN Switches shared parts",
+        "why": "no platform token (9100, 9124, 9132, 9134, 9148) in the SKU or name, no compatible part placed in the series"
+      },
+      {
+        "sku": "M9XT-FC1632=",
+        "name": "MDS 32G FC 16-Port expansion module, w/ 16 active ports, spare",
+        "series_label": "MDS 9100 Series Multilayer Fabric",
+        "from_series": "MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)",
+        "to_series": "MDS 9000 Multilayer SAN Switches shared parts",
+        "why": "no platform token (9100, 9124, 9132, 9134, 9148) in the SKU or name, no compatible part placed in the series"
+      }
+    ]
   },
-  "moved": [
-   {
-    "sku": "M9XT-FC1632",
-    "name": "MDS 32G FC Port Expansion module, w/ 16 active ports for Base",
-    "series_label": "MDS 9100 Series Multilayer Fabric",
-    "from_series": "MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)",
-    "to_series": "MDS 9000 Multilayer SAN Switches shared parts",
-    "why": "no platform token (9100, 9124, 9132, 9134, 9148) in the SKU or name, no compatible part placed in the series"
-   },
-   {
-    "sku": "M9XT-FC1632=",
-    "name": "MDS 32G FC 16-Port expansion module, w/ 16 active ports, spare",
-    "series_label": "MDS 9100 Series Multilayer Fabric",
-    "from_series": "MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)",
-    "to_series": "MDS 9000 Multilayer SAN Switches shared parts",
-    "why": "no platform token (9100, 9124, 9132, 9134, 9148) in the SKU or name, no compatible part placed in the series"
-   }
-  ]
- },
- "pending_review": [],
- "inbound_unplaced": {},
- "done": true
+  "pending_review": [],
+  "inbound_unplaced": {},
+  "done": true,
+  "build": {
+    "data_commit": "a388ea2da885",
+    "code_commit": "cb269cf2f0d7",
+    "contract_hash": "839db4a13086c4e2",
+    "generated_at": "2026-09-27T16:46:45.299Z"
+  }
 }

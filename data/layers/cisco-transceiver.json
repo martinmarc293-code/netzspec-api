@@ -1,655 +1,661 @@
 {
- "vendor": "cisco",
- "category": "transceiver",
- "built_at": "2026-09-25T13:25:58.477Z",
- "commit": "72a241ddcf31e0b5cb17ce09266d81b1426fc7d0",
- "uncommitted_rule_files": [
-  "data/reference/product-lines/cisco-routers.json"
- ],
- "mapping_file": "data/reference/product-lines/cisco-transceiver.json",
- "parts": 2109,
- "layered": 2109,
- "pending": 0,
- "lines": [
-  {
-   "line": "Direct-attach and active optical cables",
-   "parts": 162,
-   "series": [
+  "vendor": "cisco",
+  "category": "transceiver",
+  "built_at": "2026-09-25T13:25:58.477Z",
+  "commit": "72a241ddcf31e0b5cb17ce09266d81b1426fc7d0",
+  "uncommitted_rule_files": [
+    "data/reference/product-lines/cisco-routers.json"
+  ],
+  "mapping_file": "data/reference/product-lines/cisco-transceiver.json",
+  "parts": 2109,
+  "layered": 2109,
+  "pending": 0,
+  "lines": [
     {
-     "series": "DAC and AOC cables (SFP+ / SFP28 / SFP56 / QSFP / QSFP-DD)",
-     "family": "(none)",
-     "role": null,
-     "note": "^SFP-H10GB-CU$ (re-audit decisions, operator, 15 Sep 2026, N-2 / Q-23): the bare family row '10G SFP+ Twinax cable assembly, passive (Length - 1M to 5M)' carries 5 facts, so it stays a part (its class plan removed) and is placed beside its SFP-H10GB-CU1M / 3M / 5M orderables; the length-glued CU rule needs a digit. Same-cage cables only. A breakout (one QSFP / QSFP-DD host cage fanned out to 2 or 4 smaller cages: QSFP-4SFP25G-CU1M, QSFP-4X10G-AOC1M, QDD-4ZQ100-CU1M) is refused by the lookahead and placed in its host cage's speed series with kind breakout-cable (operator, layers round 3); the standing check asserts no breakout-cable row sits here. (?<!E)CU (layers round 3, optical round): the copper-DAC rule claimed the External Connection Units 15454-M6-ECU2, NCS2006-ECU60-S= and NCS4K-ECU2 in optical-networking",
-     "parts": 162,
-     "kinds": {
-      "cable": 162
-     },
-     "roles": {},
-     "samples": [
-      "ONS-SC+-10-CU1= — 10G BASE-CU SFP+ Cable 1 Meter",
-      "ONS-SC+-10-CU3= — 10G BASE-CU SFP+ Cable 3 Meter",
-      "ONS-SC+-10-CU5= — 10G BASE-CU SFP+ Cable 5 Meter",
-      "ONS-SC+-10-CU7= — 10G BASE-CU SFP+ Cable 7 Meter",
-      "ONS-SC+-10G-CU1= — 10GBASE-CU SFP+ Cable 1 Meter",
-      "ONS-SC+-10G-CU3= — 10GBASE-CU SFP+ Cable 3 Meter"
-     ],
-     "rules": {
-      "sku": 162
-     },
-     "pending_in": {},
-     "pending_out": {}
+      "line": "Direct-attach and active optical cables",
+      "parts": 162,
+      "series": [
+        {
+          "series": "DAC and AOC cables (SFP+ / SFP28 / SFP56 / QSFP / QSFP-DD)",
+          "family": "(none)",
+          "role": null,
+          "note": "^SFP-H10GB-CU$ (re-audit decisions, operator, 15 Sep 2026, N-2 / Q-23): the bare family row '10G SFP+ Twinax cable assembly, passive (Length - 1M to 5M)' carries 5 facts, so it stays a part (its class plan removed) and is placed beside its SFP-H10GB-CU1M / 3M / 5M orderables; the length-glued CU rule needs a digit. Same-cage cables only. A breakout (one QSFP / QSFP-DD host cage fanned out to 2 or 4 smaller cages: QSFP-4SFP25G-CU1M, QSFP-4X10G-AOC1M, QDD-4ZQ100-CU1M) is refused by the lookahead and placed in its host cage's speed series with kind breakout-cable (operator, layers round 3); the standing check asserts no breakout-cable row sits here. (?<!E)CU (layers round 3, optical round): the copper-DAC rule claimed the External Connection Units 15454-M6-ECU2, NCS2006-ECU60-S= and NCS4K-ECU2 in optical-networking",
+          "parts": 162,
+          "kinds": {
+            "cable": 162
+          },
+          "roles": {},
+          "samples": [
+            "ONS-SC+-10-CU1= — 10G BASE-CU SFP+ Cable 1 Meter",
+            "ONS-SC+-10-CU3= — 10G BASE-CU SFP+ Cable 3 Meter",
+            "ONS-SC+-10-CU5= — 10G BASE-CU SFP+ Cable 5 Meter",
+            "ONS-SC+-10-CU7= — 10G BASE-CU SFP+ Cable 7 Meter",
+            "ONS-SC+-10G-CU1= — 10GBASE-CU SFP+ Cable 1 Meter",
+            "ONS-SC+-10G-CU3= — 10GBASE-CU SFP+ Cable 3 Meter"
+          ],
+          "rules": {
+            "sku": 162
+          },
+          "pending_in": {},
+          "pending_out": {}
+        }
+      ]
+    },
+    {
+      "line": "Meraki transceivers and cables",
+      "parts": 25,
+      "series": [
+        {
+          "series": "Meraki MA-SFP / MA-QSFP / MA-CBL",
+          "family": "(none)",
+          "role": null,
+          "note": "^MA- fenced to the optics and cables it names (layers round 3, wireless round): the bare rule claimed wireless' Meraki MR antennas, mounts and power adapters (MA-ANT-3-A1 …, 30 rows)",
+          "parts": 25,
+          "kinds": {
+            "cable": 11,
+            "pluggable": 14
+          },
+          "roles": {},
+          "samples": [
+            "MA-CBL-100G-1M — Cisco Meraki MA-CBL-100G-1M 100 Gbit/s Direktanschlusskabel ",
+            "MA-CBL-100G-3M — Cisco Meraki MA-CBL-100G-3M 100 Gbit/s Direktanschlusskabel ",
+            "MA-CBL-100G-50CM — Cisco Meraki MA-CBL-100G-50CM 100 Gbit/s Direktanschlusskabe",
+            "MA-CBL-120G-1M — Cisco Meraki MA-CBL-120G-1M 120 Gbit/s (3×40G Stacking) Dire",
+            "MA-CBL-120G-3M — Cisco Meraki MA-CBL-120G-3M 120 Gbit/s (3×40G Stacking) Dire",
+            "MA-CBL-120G-50CM — Cisco Meraki MA-CBL-120G-50CM 120 Gbit/s (3×40G Stacking) Di"
+          ],
+          "rules": {
+            "sku": 25
+          },
+          "pending_in": {},
+          "pending_out": {}
+        }
+      ]
+    },
+    {
+      "line": "Cable access and PON optics",
+      "parts": 186,
+      "series": [
+        {
+          "series": "Remote PHY SFP+ optics",
+          "family": "(none)",
+          "role": null,
+          "note": "decided home (operator, layers round 3): the 120 RPHY-S10G-<reach>-<channel>= rows are transceivers — Cisco's own bulletin calls them 'Remote PHY SFPs'; the Remote PHY shelves, RPDs and cabling stay in video. The 57 video rows carry move plans in (run after the re-audit); video's ^RPHY rule is recorded as too broad and fenced in the video round",
+          "parts": 120,
+          "kinds": {
+            "pluggable": 120
+          },
+          "roles": {},
+          "samples": [
+            "RPHY-S10G-20K-200= — Cisco RPHY-S10G-20K-200=",
+            "RPHY-S10G-20K-210= — Cisco RPHY-S10G-20K-210=",
+            "RPHY-S10G-20K-220= — Cisco RPHY-S10G-20K-220=",
+            "RPHY-S10G-20K-230= — Cisco RPHY-S10G-20K-230=",
+            "RPHY-S10G-20K-240= — Cisco RPHY-S10G-20K-240=",
+            "RPHY-S10G-20K-250= — Cisco RPHY-S10G-20K-250="
+          ],
+          "rules": {
+            "sku": 120
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "XFP-RF QAM transmitters (Prisma)",
+          "family": "(none)",
+          "role": null,
+          "note": null,
+          "parts": 44,
+          "kinds": {
+            "pluggable": 43,
+            "tunable": 1
+          },
+          "roles": {},
+          "samples": [
+            "XFP-RF-ITU20= — XFP-RF QAM Transmitter APC ITU 20",
+            "XFP-RF-ITU23= — XFP-RF QAM Transmitter APC ITU 23",
+            "XFP-RF-ITU25= — XFP-RF QAM Transmitter APC ITU 25",
+            "XFP-RF-ITU27= — XFP-RF QAM Transmitter APC ITU 27",
+            "XFP-RF-ITU29= — XFP-RF QAM Transmitter APC ITU 29",
+            "XFP-RF-ITU30= — XFP-RF QAM Transmitter APC ITU 30"
+          ],
+          "rules": {
+            "sku": 44
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "GPON / XGS-PON OLT and RF Gateway SFPs",
+          "family": "(none)",
+          "role": null,
+          "note": "SFP-10G-OLT20-X (an XGS-PON OLT SFP+) was in 10G SFP+ by its speed prefix; a PON OLT optic is sold with the PON line (layers round 3)",
+          "parts": 22,
+          "kinds": {
+            "bidi": 19,
+            "pluggable": 3
+          },
+          "roles": {},
+          "samples": [
+            "CGP-SFP-OC — Cisco GPON OLT Transceiver C+",
+            "CGP-SFP-OC= — GPON SFP type C, Sensitivity -30dBm, average output power 3~",
+            "SFP-10G-OLT20-X — Cisco SFP-10G-OLT20-X XGS-PON OLT SFP+ — 10G symmetrisch, SC",
+            "SFP-GPON-B — Cisco SFP-GPON-B GPON OLT-Transceiver Klasse B+ — 1490Tx/131",
+            "SFP-GPON-B-16= — 16 units of SFP-GPON-B for ME4600-AMX-16GPON",
+            "SFP-GPON-B-8= — 8 units of SFP-GPON-B for ME4600-AMX-16GPON"
+          ],
+          "rules": {
+            "sku": 22
+          },
+          "pending_in": {},
+          "pending_out": {}
+        }
+      ]
+    },
+    {
+      "line": "Fibre Channel transceivers (MDS)",
+      "parts": 100,
+      "series": [
+        {
+          "series": "MDS Fibre Channel SFP / X2 / CWDM",
+          "family": "(none)",
+          "role": null,
+          "note": "^DS-FC-SW places DS-FC-SW-4PK= (a 4-pack of FC SFPs) planned in from storage-networking. The DS-CWDM rule refuses the MDS CWDM passives (DS-CWDM-MUX8A=, DS-CWDMOADM4A=, DS-CWDMCHASSIS=), which are planned to optical-networking and must not fall back to an optic series if a plan is withdrawn (reviewer A-11, layers round 3)",
+          "parts": 100,
+          "kinds": {
+            "pluggable": 100
+          },
+          "roles": {},
+          "samples": [
+            "DS-CWDM-1470= — Cisco CWDM 1470 NM Gigabit Ethernet and 1/2 Gbps Fibre Chann",
+            "DS-CWDM-1490= — Cisco CWDM 1490 NM Gigabit Ethernet and 1/2 Gbps Fibre Chann",
+            "DS-CWDM-1510= — Cisco CWDM 1510 NM Gigabit Ethernet and 1/2 Gbps Fibre Chann",
+            "DS-CWDM-1530= — Cisco CWDM 1530 NM Gigabit Ethernet and 1/2 Gbps Fibre Chann",
+            "DS-CWDM-1550= — Cisco CWDM 1550 NM Gigabit Ethernet and 1/2 Gbps Fibre Chann",
+            "DS-CWDM-1570= — Cisco CWDM 1570 NM Gigabit Ethernet and 1/2 Gbps Fibre Chann"
+          ],
+          "rules": {
+            "sku": 100
+          },
+          "pending_in": {},
+          "pending_out": {}
+        }
+      ]
+    },
+    {
+      "line": "Optical networking pluggables (ONS / NCS 2000)",
+      "parts": 670,
+      "series": [
+        {
+          "series": "ONS 15454 / NCS 2000 pluggables",
+          "family": "(none)",
+          "role": null,
+          "note": "the ONS rule names the optic and cable-assembly tokens opticalKind names, not every ONS- SKU: the bare prefix claimed the patch cord ONS-CAB-CS-LC-5= in interfaces-modules (reviewer A-11, layers round 3). The twelve 15454-SFP / 15454E-SFP rows are planned to optical-networking (operator: ^15454 goes with the ONS 15454 platform, and the asymmetry with the ONS-prefixed optics that stay here is intended); the 15216-GBIC rows sit in GBIC (legacy)",
+          "parts": 670,
+          "kinds": {
+            "pluggable": 633,
+            "tunable": 23,
+            "cable": 3,
+            "bidi": 11
+          },
+          "roles": {},
+          "samples": [
+            "15327-SFP-LC-LX= — Cisco 15327-SFP-LC-LX=",
+            "15327-SFP-LC-LX=EOS — 1000BASE-LX LC, SFP",
+            "15327-SFP-LC-SX= — Cisco 15327-SFP-LC-SX=",
+            "15327-SFP-LC-SX=EOS — 1000BASE-SX LC, SFP",
+            "ONS-C2-WDM-DE-1HL — 200G, 100G, WDM Digital CFP2 pluggable Licensed 100G only",
+            "ONS-C2-WDM-DE-1HL= — 200G, 100G, WDM Digital CFP2 pluggable Licensed 100G only"
+          ],
+          "rules": {
+            "sku": 670
+          },
+          "pending_in": {},
+          "pending_out": {}
+        }
+      ]
+    },
+    {
+      "line": "Coherent and digital-coherent pluggables",
+      "parts": 55,
+      "series": [
+        {
+          "series": "400G / 800G ZR, ZR+ and CFP2 DCO",
+          "family": "(none)",
+          "role": null,
+          "note": "QSFP100GMX1/MX2-2/-20-BUN are Routed Optical Networking bundles of the DP01QS28-MX1/MX2 100G DCO QSFP28 (were in 100G QSFP28 by prefix); Q100-ZR4-S-EA= is a fixed 80 km 100GBASE-ZR4 QSFP28, not coherent, and moved to 100G QSFP28 (layers round 3)",
+          "parts": 55,
+          "kinds": {
+            "tunable": 55
+          },
+          "roles": {},
+          "samples": [
+            "CFP2-WDM-BDL-1HL= — 200G, 100G, WDM Digital CFP2 pluggable - Licensed 100G only",
+            "CFP2-WDM-D-1HL — 200G,100G,WDM Digital CFP2 pluggable Licensed 100only-nonTOF",
+            "CFP2-WDM-D-1HL= — 200G,100G,WDM Digital CFP2 pluggable Licensed 100only-nonTOF",
+            "CFP2-WDM-D-SK — Cisco CFP2-WDM-D-SK 200G/100G Digital-Coherent CFP2 DWDM-Mod",
+            "CFP2-WDM-DE-1HL= — 200G, 100G, WDM Digital CFP2 pluggable Licensed 100G only",
+            "CFP2-WDM-DET-1HL — 200G, 100G, WDM Digital CFP2 pluggable Licensed 100G only"
+          ],
+          "rules": {
+            "sku": 55
+          },
+          "pending_in": {},
+          "pending_out": {}
+        }
+      ]
+    },
+    {
+      "line": "WDM transceivers",
+      "parts": 355,
+      "series": [
+        {
+          "series": "DWDM SFP / SFP+ / XFP / X2 / XENPAK",
+          "family": "(none)",
+          "role": null,
+          "note": "the unanchored DWDM token took CRS / ASR 9000 / NCS 5500 DWDM line cards in routers (review record: fix in the transceiver round) and is gone; the one transceiver row it named, X2-10G-DWDM, is a family placeholder with a class plan (operator, layers round 3). DWDM-GBIC rows sit in GBIC (legacy)",
+          "parts": 323,
+          "kinds": {
+            "pluggable": 314,
+            "tunable": 9
+          },
+          "roles": {},
+          "samples": [
+            "DWDM-SFP-3033 — Cisco 1530.33 NM DWDM Gigabit Ethernet and 1/2-Gbps Fibre Ch",
+            "DWDM-SFP-3033= — Cisco 1530.33 NM DWDM Gigabit Ethernet and 1/2-Gbps Fibre Ch",
+            "DWDM-SFP-3112 — Cisco 1531.12 NM DWDM Gigabit Ethernet and 1/2-Gbps Fibre Ch",
+            "DWDM-SFP-3112= — Cisco 1531.12 NM DWDM Gigabit Ethernet and 1/2-Gbps Fibre Ch",
+            "DWDM-SFP-3190 — Cisco 1531.90 NM DWDM Gigabit Ethernet and 1/2-Gbps Fibre Ch",
+            "DWDM-SFP-3190= — Cisco 1531.90 NM DWDM Gigabit Ethernet and 1/2-Gbps Fibre Ch"
+          ],
+          "rules": {
+            "sku": 323
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "CWDM SFP / SFP+",
+          "family": "(none)",
+          "role": null,
+          "note": "CWDM-GBIC rows sit in GBIC (legacy); the CWDM-OADM1 / OADM4 plug-ins are planned to optical-networking with the CWDM-MUX rows (layers round 3)",
+          "parts": 32,
+          "kinds": {
+            "pluggable": 32
+          },
+          "roles": {},
+          "samples": [
+            "CWDM-SFP-1470 — Cisco CWDM-SFP-1470 1000BASE-CWDM SFP — 1470 nm, Singlemode,",
+            "CWDM-SFP-1470= — Cisco Coarse-Wavelength Division Multiplexing (CWDM) 1470-nm",
+            "CWDM-SFP-1490 — Cisco CWDM-SFP-1490 1000BASE-CWDM SFP — 1490 nm, Singlemode,",
+            "CWDM-SFP-1490= — Cisco CWDM SFP, 1490 nm; Gigabit Ethernet and 1-/2-GB Fibre ",
+            "CWDM-SFP-1510 — Cisco CWDM-SFP-1510 1000BASE-CWDM SFP — 1510 nm, Singlemode,",
+            "CWDM-SFP-1510= — Cisco CWDM SFP, 1510 nm; Gigabit Ethernet and 1-/2-GB Fibre "
+          ],
+          "rules": {
+            "sku": 32
+          },
+          "pending_in": {},
+          "pending_out": {}
+        }
+      ]
+    },
+    {
+      "line": "SONET/SDH and TDM SFPs",
+      "parts": 27,
+      "series": [
+        {
+          "series": "OC-3 / OC-12 / OC-48 and T1/E1/T3 SFPs",
+          "family": "(none)",
+          "role": null,
+          "note": null,
+          "parts": 27,
+          "kinds": {
+            "pluggable": 27
+          },
+          "roles": {},
+          "samples": [
+            "SFP-CH-OC3STM1-I — Channelized OC-3/STM-1 Smart SFP",
+            "SFP-E1F-SATOP-I — E1F SAToP Smart SFP",
+            "SFP-OC12-IR1 — OC-12/STM-4, OC-12/STM-4 SFP, SM, IR-1",
+            "SFP-OC12-LR1 — OC-12/STM-4, OC-12/STM-4 SFP, SM, LR-1",
+            "SFP-OC12-LR1= — OC-12/ STM-4 SFP, Long Reach (40km)",
+            "SFP-OC12-LR2 — OC-12/STM-4, OC-12/STM-4 SFP, SM, LR-2"
+          ],
+          "rules": {
+            "sku": 27
+          },
+          "pending_in": {},
+          "pending_out": {}
+        }
+      ]
+    },
+    {
+      "line": "Ethernet transceivers",
+      "parts": 507,
+      "series": [
+        {
+          "series": "800G OSFP / QSFP-DD800",
+          "family": "(none)",
+          "role": null,
+          "note": "QDD-2X400G-FR4 and QDD-8X100G-FR are QSFP-DD800 modules by their own names (were in 200G / 400G by the QDD prefix); the bare 800G token took the ISR 880 PoE module 800G2-POE-2 (review record) and is gone (layers round 3)",
+          "parts": 8,
+          "kinds": {
+            "pluggable": 8
+          },
+          "roles": {},
+          "samples": [
+            "OSFP-2X400G-FR4 — Cisco OSFP-2X400G-FR4 2×400GBASE-FR4 OSFP — CWDM Singlemode,",
+            "OSFP-800G-DR8 — Cisco OSFP-800G-DR8 800GBASE-DR8 OSFP — 1310 nm Singlemode, ",
+            "OSFP-800G-DR8P — Cisco OSFP-800G-DR8P 800GBASE-DR8 OSFP — 1310 nm Singlemode,",
+            "OSFP-800G-VR8 — Cisco OSFP-800G-VR8 800GBASE-VR8 OSFP — 850 nm Multimode, 2×",
+            "OSFP-800G-VR8P — Cisco OSFP-800G-VR8P 800GBASE-VR8 OSFP — 850 nm Multimode, M",
+            "OSFPR-800G-DR8 — Cisco OSFPR-800G-DR8 800GBASE-DR8 OSFP — 8×100G, Singlemode "
+          ],
+          "rules": {
+            "sku": 8
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "200G / 400G QSFP-DD, QSFP112 and QSFP56",
+          "family": "(none)",
+          "role": null,
+          "note": "QSFP-4S50-CU1M / 2M / 3M (a 200G QSFP56 host fanned out to 4 x 50G SFP56) sit here by their host cage like every other breakout (reviewer A-2, layers round 3; they were in 50G SFP56 by the fan-out end)",
+          "parts": 43,
+          "kinds": {
+            "breakout-cable": 15,
+            "pluggable": 28
+          },
+          "roles": {},
+          "samples": [
+            "QDD-2Q200-CI2M — Cisco QDD-2Q200-CI2M",
+            "QDD-2Q200-CU1M — Cisco QDD-2Q200-CU1M 200G QSFP-DD auf 2×QSFP56 Breakout-Twin",
+            "QDD-2Q200-CU2.5M — Cisco QDD-2Q200-CU2.5M 2× 200 Gbit/s (Breakout) QSFP-DD Dire",
+            "QDD-2Q200-CU2M — Cisco QDD-2Q200-CU2M 200G QSFP-DD auf 2×QSFP56 Breakout-Twin",
+            "QDD-2Q200-CU3M — Cisco QDD-2Q200-CU3M QSFP-DD auf 2× QSFP56 200GBASE-CR4 Brea",
+            "QDD-2X100-CWDM4-S — QSFP-DD Transceiver, 2X 100G CWDM4, 2X Duplex CS, 2km SMF"
+          ],
+          "rules": {
+            "sku": 43
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "100G QSFP28",
+          "family": "(none)",
+          "role": null,
+          "note": "QSFP-40/100-SRBD (dual-rate 40/100G BiDi QSFP28) was in 40G QSFP+: the rule named only the QSFP-40/100G spelling (layers round 3)",
+          "parts": 55,
+          "kinds": {
+            "breakout-cable": 14,
+            "pluggable": 37,
+            "bidi": 4
+          },
+          "roles": {},
+          "samples": [
+            "Q-4SFP25G-CU1.5M — Cisco Q-4SFP25G-CU1.5M 100G QSFP28 zu 4× 25G SFP28 Breakout ",
+            "Q-4SFP25G-CU2.5M — Cisco Q-4SFP25G-CU2.5M 100G QSFP28 zu 4× 25G SFP28 Breakout ",
+            "Q100-ZR4-S-EA= — Cisco 100G ZR4 QSFP Transceiver, 80 km reach over SMF, Duple",
+            "QSFP-100-FR-s — Cisco QSFP-100-FR-s",
+            "QSFP-100G-4W10-I — Cisco QSFP-100G-4W10-I",
+            "QSFP-100G-4W40-I — Cisco QSFP-100G-4W40-I 100G WDM-40 QSFP28 Modul — 1295–1309 "
+          ],
+          "rules": {
+            "sku": 55
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "40G / 100G CFP, CFP2, CPAK and CXP",
+          "family": "(none)",
+          "role": null,
+          "note": "was '100G CFP / CFP2 / CPAK / CXP'; the series also holds the CFP-40G modules and the CPAK 10x10G. ^NCS-FAB-OPT (layers round 3, pre-ruling C4): NCS-FAB-OPT(=) \"Bundle of 96 CXP-100G-SR12\", planned in from interfaces-modules — kind pluggable at the unit, pack quantity 96 parked with the other packs (decision 6)",
+          "parts": 38,
+          "kinds": {
+            "pluggable": 38
+          },
+          "roles": {},
+          "samples": [
+            "CFP-100G-ER4 — 100GBASE-ER4 CFP Module",
+            "CFP-100G-ER4= — 100GBASE-ER4 CFP Module",
+            "CFP-100G-LR4 — 100GBASE-LR4 CFP Module",
+            "CFP-100G-LR4= — 100GBASE-LR4 CFP Module",
+            "CFP-100G-SR10 — 100GBASE-SR10 CFP transceiver, 100m OM3 MMF",
+            "CFP-100G-SR10= — 100GBASE-SR10 CFP transceiver, 100m OM3 MMF"
+          ],
+          "rules": {
+            "sku": 38
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "50G SFP56",
+          "family": "(none)",
+          "role": null,
+          "note": null,
+          "parts": 8,
+          "kinds": {
+            "bidi": 4,
+            "pluggable": 4
+          },
+          "roles": {},
+          "samples": [
+            "SFP-50G-BX40D-I — Cisco SFP-50G-BX40D-I 25/50GBASE-BR40 BiDi Industrie-SFP56 —",
+            "SFP-50G-BX40U-I — Cisco SFP-50G-BX40U-I 25/50GBASE-BR40 BiDi Industrie-SFP56 —",
+            "SFP-50G-BXD-I — Cisco SFP-50G-BXD-I 25/50GBASE-BR10 BiDi Industrie-SFP56 — T",
+            "SFP-50G-BXU-I — Cisco SFP-50G-BXU-I 25/50GBASE-BR10 BiDi Industrie-SFP56 — T",
+            "SFP-50G-ER-I — Cisco SFP-50G-ER-I 25/50GBASE-ER Industrie-SFP56 — 1310 nm S",
+            "SFP-50G-LR-S — Cisco SFP-50G-LR-S 25/50GBASE-LR SFP56 Modul — 1310 nm SMF, "
+          ],
+          "rules": {
+            "sku": 8
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "40G QSFP+",
+          "family": "(none)",
+          "role": null,
+          "note": null,
+          "parts": 58,
+          "kinds": {
+            "pluggable": 29,
+            "breakout-cable": 29
+          },
+          "roles": {},
+          "samples": [
+            "FET-40G — Cisco FET-40G Fabric Extender QSFP+ Modul — 850 nm MMF, MPO-",
+            "QSFP-40-SR-BD — Cisco QSFP-40-SR-BD 40GBASE-SR-BiDi QSFP+ — Multimode, Duple",
+            "QSFP-40G-BD-RX — Cisco QSFP-40G-BD-RX 40G BiDi Monitor QSFP+ — 832-918 nm MMF",
+            "QSFP-40G-CSR-S — Cisco QSFP-40G-CSR-S 40GBASE-CSR QSFP+ Modul — 850 nm MMF, D",
+            "QSFP-40G-CSR4 — QSFP 4x10GBASE-SR transceiver module, MPO, 300M",
+            "QSFP-40G-CSR4= — QSFP 4x10GBASE-SR transceiver module, MPO, 300M, Spare"
+          ],
+          "rules": {
+            "sku": 58
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "25G SFP28",
+          "family": "(none)",
+          "role": null,
+          "note": null,
+          "parts": 19,
+          "kinds": {
+            "pluggable": 13,
+            "bidi": 6
+          },
+          "roles": {},
+          "samples": [
+            "SFP-10/25-LR-I — Cisco SFP-10/25-LR-I",
+            "SFP-10/25G-BXD-I — Cisco SFP-10/25G-BXD-I 10/25GBASE-BR BiDi Industrie-SFP28 — ",
+            "SFP-10/25G-BXD-I= — Cisco SFP-10/25G-BXD-I=",
+            "SFP-10/25G-BXU-I — Cisco SFP-10/25G-BXU-I 10/25GBASE-BR BiDi Industrie-SFP28 — ",
+            "SFP-10/25G-BXU-I= — Cisco SFP-10/25G-BXU-I=",
+            "SFP-10/25G-CSR-S — Cisco SFP-10/25G-CSR-S 10/25GBASE-CSR SFP28 Modul — 850 nm M"
+          ],
+          "rules": {
+            "sku": 19
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "10G SFP+",
+          "family": "(none)",
+          "role": null,
+          "note": "CSP-SFP-1WSR / 1WLR are 10GE SFP+ for the CSP 2100's Intel NICs (were in 1G by prefix); EXP-10GSFP places the Expressway SFP+ planned in from unified-communications (layers round 3)",
+          "parts": 55,
+          "kinds": {
+            "pluggable": 43,
+            "bidi": 12
+          },
+          "roles": {},
+          "samples": [
+            "CE-10GSFP-SR — 10 Gigabit Ethernet SFP Module 10GBASE-SR SFP+ SR Optics",
+            "CE-10GSFP-SR= — 10 Gigabit Ethernet SFP Module 10GBASE-SR SFP+ SR Optics",
+            "CSP-SFP-1WLR — SFP+ for Intel X520, 10GE, LR Optical",
+            "CSP-SFP-1WSR — SFP+ for Intel X520 & XL710, 10GE, SR Optical",
+            "CSP-SFP-1WSR= — SFP+ for Intel X520 & XL710, 10GE, SR Optical",
+            "EXP-10GSFP-SR-MP — 10 Gigabit Ethernet SFP Module 10GBASE-SR SFP+ SR Optics"
+          ],
+          "rules": {
+            "sku": 55
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "10G X2 / XENPAK / XFP (legacy)",
+          "family": "(none)",
+          "role": null,
+          "note": null,
+          "parts": 59,
+          "kinds": {
+            "pluggable": 59
+          },
+          "roles": {},
+          "samples": [
+            "C3-XENPAK-10GB-LR= — 10GBASE-LR, up to 10 km single mode fiber",
+            "X2-10G-DWDM — 32 wavelengths over single strand of single-mode fiber; 80 k",
+            "X2-10GB-CX4 — 10GBASE-CX4 X2 Module",
+            "X2-10GB-CX4= — 10GBASE-CX4 X2 Module",
+            "X2-10GB-ER — 10GBASE-ER X2 Module",
+            "X2-10GB-ER= — 10GBASE-ER X2 Module"
+          ],
+          "rules": {
+            "sku": 59
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "1G and 100M SFP",
+          "family": "(none)",
+          "role": null,
+          "note": null,
+          "parts": 116,
+          "kinds": {
+            "pluggable": 87,
+            "bidi": 29
+          },
+          "roles": {},
+          "samples": [
+            "CE-1GSFP-T — 1 Gigabit Ethernet SFP Module 1000BASE-T",
+            "CE-1GSFP-T= — 1 Gigabit Ethernet SFP Module 1000BASE-T",
+            "EXP-1GSFP-T — 1 Gigabit Ethernet SFP Module 10/100/1000BASE-T",
+            "EXP-1GSFP-T= — Spare 1 Gigabit Ethernet SFP Module 10/100/1000BASE-T",
+            "GLC-2BX-D — Cisco GLC-2BX-D 2-Kanal 1000BASE-BX10-D Compact SFP — BiDi, ",
+            "GLC-2BX-D-I — Cisco GLC-2BX-D-I 2-Kanal 1000BASE-BX10-D Compact SFP — BiDi"
+          ],
+          "rules": {
+            "sku": 116
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "GBIC (legacy)",
+          "family": "(none)",
+          "role": null,
+          "note": "every GBIC form-factor optic outside a platform line: the 1000BASE GBICs WS-G548x and the WDM GBICs DWDM-GBIC (32), CWDM-GBIC (8) and 15216-GBIC (2) (operator, layers round 3). The bare GBIC token took Catalyst 6500 GBIC line cards (review record) and is gone. ONS-GC-GE-* GBICs stay with the ONS / NCS 2000 platform line",
+          "parts": 48,
+          "kinds": {
+            "pluggable": 48
+          },
+          "roles": {},
+          "samples": [
+            "15216-GBIC-1510 — 1000 BASE-T GBIC, one port modules, for Catalyst 2950 Switch",
+            "15216-GBIC-1510= — 1000 BASE-T GBIC, one port modules, for Catalyst 2950 Switch",
+            "CWDM-GBIC-1470 — 1000BASE-CWDM GBIC 1470 nm (gray)",
+            "CWDM-GBIC-1490 — 1000BASE-CWDM GBIC 1490 nm (violet)",
+            "CWDM-GBIC-1510 — 1000BASE-CWDM GBIC 1510 nm (blue)",
+            "CWDM-GBIC-1530 — 1000BASE-CWDM GBIC 1530 nm (green)"
+          ],
+          "rules": {
+            "sku": 48
+          },
+          "pending_in": {},
+          "pending_out": {}
+        }
+      ]
+    },
+    {
+      "line": "Converters and adapters",
+      "parts": 22,
+      "series": [
+        {
+          "series": "CVR converter modules, trays and brackets",
+          "family": "(none)",
+          "role": null,
+          "note": null,
+          "parts": 22,
+          "kinds": {
+            "adapter": 18,
+            "mechanical": 4
+          },
+          "roles": {},
+          "samples": [
+            "CVR-2QSFP28-8SFP — 100G/40G 2xQSFP to 8xSFP Converter",
+            "CVR-2QSFP28-8SFP= — 100G/40G 2xQSFP to 8xSFP Converter",
+            "CVR-4SFP10G-QSFP — 4 x SFP10G to QSFP reverse adapter",
+            "CVR-4SFP10G-QSFP= — 4 x SFP10G to QSFP reverse adapter",
+            "CVR-BRKT-1 — Mounting bracket for one CVR-4SFP10G-QSFP",
+            "CVR-BRKT-1= — Mounting bracket for one CVR-4SFP10G-QSFP"
+          ],
+          "rules": {
+            "sku": 22
+          },
+          "pending_in": {},
+          "pending_out": {}
+        }
+      ]
     }
-   ]
+  ],
+  "not_this_category": [],
+  "pending_plans": [],
+  "unplaced": [],
+  "label_check": {
+    "applied": true,
+    "label_placed": 0,
+    "by_kind": {},
+    "moved": []
   },
-  {
-   "line": "Meraki transceivers and cables",
-   "parts": 25,
-   "series": [
-    {
-     "series": "Meraki MA-SFP / MA-QSFP / MA-CBL",
-     "family": "(none)",
-     "role": null,
-     "note": "^MA- fenced to the optics and cables it names (layers round 3, wireless round): the bare rule claimed wireless' Meraki MR antennas, mounts and power adapters (MA-ANT-3-A1 …, 30 rows)",
-     "parts": 25,
-     "kinds": {
-      "cable": 11,
-      "pluggable": 14
-     },
-     "roles": {},
-     "samples": [
-      "MA-CBL-100G-1M — Cisco Meraki MA-CBL-100G-1M 100 Gbit/s Direktanschlusskabel ",
-      "MA-CBL-100G-3M — Cisco Meraki MA-CBL-100G-3M 100 Gbit/s Direktanschlusskabel ",
-      "MA-CBL-100G-50CM — Cisco Meraki MA-CBL-100G-50CM 100 Gbit/s Direktanschlusskabe",
-      "MA-CBL-120G-1M — Cisco Meraki MA-CBL-120G-1M 120 Gbit/s (3×40G Stacking) Dire",
-      "MA-CBL-120G-3M — Cisco Meraki MA-CBL-120G-3M 120 Gbit/s (3×40G Stacking) Dire",
-      "MA-CBL-120G-50CM — Cisco Meraki MA-CBL-120G-50CM 120 Gbit/s (3×40G Stacking) Di"
-     ],
-     "rules": {
-      "sku": 25
-     },
-     "pending_in": {},
-     "pending_out": {}
-    }
-   ]
-  },
-  {
-   "line": "Cable access and PON optics",
-   "parts": 186,
-   "series": [
-    {
-     "series": "Remote PHY SFP+ optics",
-     "family": "(none)",
-     "role": null,
-     "note": "decided home (operator, layers round 3): the 120 RPHY-S10G-<reach>-<channel>= rows are transceivers — Cisco's own bulletin calls them 'Remote PHY SFPs'; the Remote PHY shelves, RPDs and cabling stay in video. The 57 video rows carry move plans in (run after the re-audit); video's ^RPHY rule is recorded as too broad and fenced in the video round",
-     "parts": 120,
-     "kinds": {
-      "pluggable": 120
-     },
-     "roles": {},
-     "samples": [
-      "RPHY-S10G-20K-200= — Cisco RPHY-S10G-20K-200=",
-      "RPHY-S10G-20K-210= — Cisco RPHY-S10G-20K-210=",
-      "RPHY-S10G-20K-220= — Cisco RPHY-S10G-20K-220=",
-      "RPHY-S10G-20K-230= — Cisco RPHY-S10G-20K-230=",
-      "RPHY-S10G-20K-240= — Cisco RPHY-S10G-20K-240=",
-      "RPHY-S10G-20K-250= — Cisco RPHY-S10G-20K-250="
-     ],
-     "rules": {
-      "sku": 120
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "XFP-RF QAM transmitters (Prisma)",
-     "family": "(none)",
-     "role": null,
-     "note": null,
-     "parts": 44,
-     "kinds": {
-      "pluggable": 43,
-      "tunable": 1
-     },
-     "roles": {},
-     "samples": [
-      "XFP-RF-ITU20= — XFP-RF QAM Transmitter APC ITU 20",
-      "XFP-RF-ITU23= — XFP-RF QAM Transmitter APC ITU 23",
-      "XFP-RF-ITU25= — XFP-RF QAM Transmitter APC ITU 25",
-      "XFP-RF-ITU27= — XFP-RF QAM Transmitter APC ITU 27",
-      "XFP-RF-ITU29= — XFP-RF QAM Transmitter APC ITU 29",
-      "XFP-RF-ITU30= — XFP-RF QAM Transmitter APC ITU 30"
-     ],
-     "rules": {
-      "sku": 44
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "GPON / XGS-PON OLT and RF Gateway SFPs",
-     "family": "(none)",
-     "role": null,
-     "note": "SFP-10G-OLT20-X (an XGS-PON OLT SFP+) was in 10G SFP+ by its speed prefix; a PON OLT optic is sold with the PON line (layers round 3)",
-     "parts": 22,
-     "kinds": {
-      "bidi": 19,
-      "pluggable": 3
-     },
-     "roles": {},
-     "samples": [
-      "CGP-SFP-OC — Cisco GPON OLT Transceiver C+",
-      "CGP-SFP-OC= — GPON SFP type C, Sensitivity -30dBm, average output power 3~",
-      "SFP-10G-OLT20-X — Cisco SFP-10G-OLT20-X XGS-PON OLT SFP+ — 10G symmetrisch, SC",
-      "SFP-GPON-B — Cisco SFP-GPON-B GPON OLT-Transceiver Klasse B+ — 1490Tx/131",
-      "SFP-GPON-B-16= — 16 units of SFP-GPON-B for ME4600-AMX-16GPON",
-      "SFP-GPON-B-8= — 8 units of SFP-GPON-B for ME4600-AMX-16GPON"
-     ],
-     "rules": {
-      "sku": 22
-     },
-     "pending_in": {},
-     "pending_out": {}
-    }
-   ]
-  },
-  {
-   "line": "Fibre Channel transceivers (MDS)",
-   "parts": 100,
-   "series": [
-    {
-     "series": "MDS Fibre Channel SFP / X2 / CWDM",
-     "family": "(none)",
-     "role": null,
-     "note": "^DS-FC-SW places DS-FC-SW-4PK= (a 4-pack of FC SFPs) planned in from storage-networking. The DS-CWDM rule refuses the MDS CWDM passives (DS-CWDM-MUX8A=, DS-CWDMOADM4A=, DS-CWDMCHASSIS=), which are planned to optical-networking and must not fall back to an optic series if a plan is withdrawn (reviewer A-11, layers round 3)",
-     "parts": 100,
-     "kinds": {
-      "pluggable": 100
-     },
-     "roles": {},
-     "samples": [
-      "DS-CWDM-1470= — Cisco CWDM 1470 NM Gigabit Ethernet and 1/2 Gbps Fibre Chann",
-      "DS-CWDM-1490= — Cisco CWDM 1490 NM Gigabit Ethernet and 1/2 Gbps Fibre Chann",
-      "DS-CWDM-1510= — Cisco CWDM 1510 NM Gigabit Ethernet and 1/2 Gbps Fibre Chann",
-      "DS-CWDM-1530= — Cisco CWDM 1530 NM Gigabit Ethernet and 1/2 Gbps Fibre Chann",
-      "DS-CWDM-1550= — Cisco CWDM 1550 NM Gigabit Ethernet and 1/2 Gbps Fibre Chann",
-      "DS-CWDM-1570= — Cisco CWDM 1570 NM Gigabit Ethernet and 1/2 Gbps Fibre Chann"
-     ],
-     "rules": {
-      "sku": 100
-     },
-     "pending_in": {},
-     "pending_out": {}
-    }
-   ]
-  },
-  {
-   "line": "Optical networking pluggables (ONS / NCS 2000)",
-   "parts": 670,
-   "series": [
-    {
-     "series": "ONS 15454 / NCS 2000 pluggables",
-     "family": "(none)",
-     "role": null,
-     "note": "the ONS rule names the optic and cable-assembly tokens opticalKind names, not every ONS- SKU: the bare prefix claimed the patch cord ONS-CAB-CS-LC-5= in interfaces-modules (reviewer A-11, layers round 3). The twelve 15454-SFP / 15454E-SFP rows are planned to optical-networking (operator: ^15454 goes with the ONS 15454 platform, and the asymmetry with the ONS-prefixed optics that stay here is intended); the 15216-GBIC rows sit in GBIC (legacy)",
-     "parts": 670,
-     "kinds": {
-      "pluggable": 633,
-      "tunable": 23,
-      "cable": 3,
-      "bidi": 11
-     },
-     "roles": {},
-     "samples": [
-      "15327-SFP-LC-LX= — Cisco 15327-SFP-LC-LX=",
-      "15327-SFP-LC-LX=EOS — 1000BASE-LX LC, SFP",
-      "15327-SFP-LC-SX= — Cisco 15327-SFP-LC-SX=",
-      "15327-SFP-LC-SX=EOS — 1000BASE-SX LC, SFP",
-      "ONS-C2-WDM-DE-1HL — 200G, 100G, WDM Digital CFP2 pluggable Licensed 100G only",
-      "ONS-C2-WDM-DE-1HL= — 200G, 100G, WDM Digital CFP2 pluggable Licensed 100G only"
-     ],
-     "rules": {
-      "sku": 670
-     },
-     "pending_in": {},
-     "pending_out": {}
-    }
-   ]
-  },
-  {
-   "line": "Coherent and digital-coherent pluggables",
-   "parts": 55,
-   "series": [
-    {
-     "series": "400G / 800G ZR, ZR+ and CFP2 DCO",
-     "family": "(none)",
-     "role": null,
-     "note": "QSFP100GMX1/MX2-2/-20-BUN are Routed Optical Networking bundles of the DP01QS28-MX1/MX2 100G DCO QSFP28 (were in 100G QSFP28 by prefix); Q100-ZR4-S-EA= is a fixed 80 km 100GBASE-ZR4 QSFP28, not coherent, and moved to 100G QSFP28 (layers round 3)",
-     "parts": 55,
-     "kinds": {
-      "tunable": 55
-     },
-     "roles": {},
-     "samples": [
-      "CFP2-WDM-BDL-1HL= — 200G, 100G, WDM Digital CFP2 pluggable - Licensed 100G only",
-      "CFP2-WDM-D-1HL — 200G,100G,WDM Digital CFP2 pluggable Licensed 100only-nonTOF",
-      "CFP2-WDM-D-1HL= — 200G,100G,WDM Digital CFP2 pluggable Licensed 100only-nonTOF",
-      "CFP2-WDM-D-SK — Cisco CFP2-WDM-D-SK 200G/100G Digital-Coherent CFP2 DWDM-Mod",
-      "CFP2-WDM-DE-1HL= — 200G, 100G, WDM Digital CFP2 pluggable Licensed 100G only",
-      "CFP2-WDM-DET-1HL — 200G, 100G, WDM Digital CFP2 pluggable Licensed 100G only"
-     ],
-     "rules": {
-      "sku": 55
-     },
-     "pending_in": {},
-     "pending_out": {}
-    }
-   ]
-  },
-  {
-   "line": "WDM transceivers",
-   "parts": 355,
-   "series": [
-    {
-     "series": "DWDM SFP / SFP+ / XFP / X2 / XENPAK",
-     "family": "(none)",
-     "role": null,
-     "note": "the unanchored DWDM token took CRS / ASR 9000 / NCS 5500 DWDM line cards in routers (review record: fix in the transceiver round) and is gone; the one transceiver row it named, X2-10G-DWDM, is a family placeholder with a class plan (operator, layers round 3). DWDM-GBIC rows sit in GBIC (legacy)",
-     "parts": 323,
-     "kinds": {
-      "pluggable": 314,
-      "tunable": 9
-     },
-     "roles": {},
-     "samples": [
-      "DWDM-SFP-3033 — Cisco 1530.33 NM DWDM Gigabit Ethernet and 1/2-Gbps Fibre Ch",
-      "DWDM-SFP-3033= — Cisco 1530.33 NM DWDM Gigabit Ethernet and 1/2-Gbps Fibre Ch",
-      "DWDM-SFP-3112 — Cisco 1531.12 NM DWDM Gigabit Ethernet and 1/2-Gbps Fibre Ch",
-      "DWDM-SFP-3112= — Cisco 1531.12 NM DWDM Gigabit Ethernet and 1/2-Gbps Fibre Ch",
-      "DWDM-SFP-3190 — Cisco 1531.90 NM DWDM Gigabit Ethernet and 1/2-Gbps Fibre Ch",
-      "DWDM-SFP-3190= — Cisco 1531.90 NM DWDM Gigabit Ethernet and 1/2-Gbps Fibre Ch"
-     ],
-     "rules": {
-      "sku": 323
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "CWDM SFP / SFP+",
-     "family": "(none)",
-     "role": null,
-     "note": "CWDM-GBIC rows sit in GBIC (legacy); the CWDM-OADM1 / OADM4 plug-ins are planned to optical-networking with the CWDM-MUX rows (layers round 3)",
-     "parts": 32,
-     "kinds": {
-      "pluggable": 32
-     },
-     "roles": {},
-     "samples": [
-      "CWDM-SFP-1470 — Cisco CWDM-SFP-1470 1000BASE-CWDM SFP — 1470 nm, Singlemode,",
-      "CWDM-SFP-1470= — Cisco Coarse-Wavelength Division Multiplexing (CWDM) 1470-nm",
-      "CWDM-SFP-1490 — Cisco CWDM-SFP-1490 1000BASE-CWDM SFP — 1490 nm, Singlemode,",
-      "CWDM-SFP-1490= — Cisco CWDM SFP, 1490 nm; Gigabit Ethernet and 1-/2-GB Fibre ",
-      "CWDM-SFP-1510 — Cisco CWDM-SFP-1510 1000BASE-CWDM SFP — 1510 nm, Singlemode,",
-      "CWDM-SFP-1510= — Cisco CWDM SFP, 1510 nm; Gigabit Ethernet and 1-/2-GB Fibre "
-     ],
-     "rules": {
-      "sku": 32
-     },
-     "pending_in": {},
-     "pending_out": {}
-    }
-   ]
-  },
-  {
-   "line": "SONET/SDH and TDM SFPs",
-   "parts": 27,
-   "series": [
-    {
-     "series": "OC-3 / OC-12 / OC-48 and T1/E1/T3 SFPs",
-     "family": "(none)",
-     "role": null,
-     "note": null,
-     "parts": 27,
-     "kinds": {
-      "pluggable": 27
-     },
-     "roles": {},
-     "samples": [
-      "SFP-CH-OC3STM1-I — Channelized OC-3/STM-1 Smart SFP",
-      "SFP-E1F-SATOP-I — E1F SAToP Smart SFP",
-      "SFP-OC12-IR1 — OC-12/STM-4, OC-12/STM-4 SFP, SM, IR-1",
-      "SFP-OC12-LR1 — OC-12/STM-4, OC-12/STM-4 SFP, SM, LR-1",
-      "SFP-OC12-LR1= — OC-12/ STM-4 SFP, Long Reach (40km)",
-      "SFP-OC12-LR2 — OC-12/STM-4, OC-12/STM-4 SFP, SM, LR-2"
-     ],
-     "rules": {
-      "sku": 27
-     },
-     "pending_in": {},
-     "pending_out": {}
-    }
-   ]
-  },
-  {
-   "line": "Ethernet transceivers",
-   "parts": 507,
-   "series": [
-    {
-     "series": "800G OSFP / QSFP-DD800",
-     "family": "(none)",
-     "role": null,
-     "note": "QDD-2X400G-FR4 and QDD-8X100G-FR are QSFP-DD800 modules by their own names (were in 200G / 400G by the QDD prefix); the bare 800G token took the ISR 880 PoE module 800G2-POE-2 (review record) and is gone (layers round 3)",
-     "parts": 8,
-     "kinds": {
-      "pluggable": 8
-     },
-     "roles": {},
-     "samples": [
-      "OSFP-2X400G-FR4 — Cisco OSFP-2X400G-FR4 2×400GBASE-FR4 OSFP — CWDM Singlemode,",
-      "OSFP-800G-DR8 — Cisco OSFP-800G-DR8 800GBASE-DR8 OSFP — 1310 nm Singlemode, ",
-      "OSFP-800G-DR8P — Cisco OSFP-800G-DR8P 800GBASE-DR8 OSFP — 1310 nm Singlemode,",
-      "OSFP-800G-VR8 — Cisco OSFP-800G-VR8 800GBASE-VR8 OSFP — 850 nm Multimode, 2×",
-      "OSFP-800G-VR8P — Cisco OSFP-800G-VR8P 800GBASE-VR8 OSFP — 850 nm Multimode, M",
-      "OSFPR-800G-DR8 — Cisco OSFPR-800G-DR8 800GBASE-DR8 OSFP — 8×100G, Singlemode "
-     ],
-     "rules": {
-      "sku": 8
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "200G / 400G QSFP-DD, QSFP112 and QSFP56",
-     "family": "(none)",
-     "role": null,
-     "note": "QSFP-4S50-CU1M / 2M / 3M (a 200G QSFP56 host fanned out to 4 x 50G SFP56) sit here by their host cage like every other breakout (reviewer A-2, layers round 3; they were in 50G SFP56 by the fan-out end)",
-     "parts": 43,
-     "kinds": {
-      "breakout-cable": 15,
-      "pluggable": 28
-     },
-     "roles": {},
-     "samples": [
-      "QDD-2Q200-CI2M — Cisco QDD-2Q200-CI2M",
-      "QDD-2Q200-CU1M — Cisco QDD-2Q200-CU1M 200G QSFP-DD auf 2×QSFP56 Breakout-Twin",
-      "QDD-2Q200-CU2.5M — Cisco QDD-2Q200-CU2.5M 2× 200 Gbit/s (Breakout) QSFP-DD Dire",
-      "QDD-2Q200-CU2M — Cisco QDD-2Q200-CU2M 200G QSFP-DD auf 2×QSFP56 Breakout-Twin",
-      "QDD-2Q200-CU3M — Cisco QDD-2Q200-CU3M QSFP-DD auf 2× QSFP56 200GBASE-CR4 Brea",
-      "QDD-2X100-CWDM4-S — QSFP-DD Transceiver, 2X 100G CWDM4, 2X Duplex CS, 2km SMF"
-     ],
-     "rules": {
-      "sku": 43
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "100G QSFP28",
-     "family": "(none)",
-     "role": null,
-     "note": "QSFP-40/100-SRBD (dual-rate 40/100G BiDi QSFP28) was in 40G QSFP+: the rule named only the QSFP-40/100G spelling (layers round 3)",
-     "parts": 55,
-     "kinds": {
-      "breakout-cable": 14,
-      "pluggable": 37,
-      "bidi": 4
-     },
-     "roles": {},
-     "samples": [
-      "Q-4SFP25G-CU1.5M — Cisco Q-4SFP25G-CU1.5M 100G QSFP28 zu 4× 25G SFP28 Breakout ",
-      "Q-4SFP25G-CU2.5M — Cisco Q-4SFP25G-CU2.5M 100G QSFP28 zu 4× 25G SFP28 Breakout ",
-      "Q100-ZR4-S-EA= — Cisco 100G ZR4 QSFP Transceiver, 80 km reach over SMF, Duple",
-      "QSFP-100-FR-s — Cisco QSFP-100-FR-s",
-      "QSFP-100G-4W10-I — Cisco QSFP-100G-4W10-I",
-      "QSFP-100G-4W40-I — Cisco QSFP-100G-4W40-I 100G WDM-40 QSFP28 Modul — 1295–1309 "
-     ],
-     "rules": {
-      "sku": 55
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "40G / 100G CFP, CFP2, CPAK and CXP",
-     "family": "(none)",
-     "role": null,
-     "note": "was '100G CFP / CFP2 / CPAK / CXP'; the series also holds the CFP-40G modules and the CPAK 10x10G. ^NCS-FAB-OPT (layers round 3, pre-ruling C4): NCS-FAB-OPT(=) \"Bundle of 96 CXP-100G-SR12\", planned in from interfaces-modules — kind pluggable at the unit, pack quantity 96 parked with the other packs (decision 6)",
-     "parts": 38,
-     "kinds": {
-      "pluggable": 38
-     },
-     "roles": {},
-     "samples": [
-      "CFP-100G-ER4 — 100GBASE-ER4 CFP Module",
-      "CFP-100G-ER4= — 100GBASE-ER4 CFP Module",
-      "CFP-100G-LR4 — 100GBASE-LR4 CFP Module",
-      "CFP-100G-LR4= — 100GBASE-LR4 CFP Module",
-      "CFP-100G-SR10 — 100GBASE-SR10 CFP transceiver, 100m OM3 MMF",
-      "CFP-100G-SR10= — 100GBASE-SR10 CFP transceiver, 100m OM3 MMF"
-     ],
-     "rules": {
-      "sku": 38
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "50G SFP56",
-     "family": "(none)",
-     "role": null,
-     "note": null,
-     "parts": 8,
-     "kinds": {
-      "bidi": 4,
-      "pluggable": 4
-     },
-     "roles": {},
-     "samples": [
-      "SFP-50G-BX40D-I — Cisco SFP-50G-BX40D-I 25/50GBASE-BR40 BiDi Industrie-SFP56 —",
-      "SFP-50G-BX40U-I — Cisco SFP-50G-BX40U-I 25/50GBASE-BR40 BiDi Industrie-SFP56 —",
-      "SFP-50G-BXD-I — Cisco SFP-50G-BXD-I 25/50GBASE-BR10 BiDi Industrie-SFP56 — T",
-      "SFP-50G-BXU-I — Cisco SFP-50G-BXU-I 25/50GBASE-BR10 BiDi Industrie-SFP56 — T",
-      "SFP-50G-ER-I — Cisco SFP-50G-ER-I 25/50GBASE-ER Industrie-SFP56 — 1310 nm S",
-      "SFP-50G-LR-S — Cisco SFP-50G-LR-S 25/50GBASE-LR SFP56 Modul — 1310 nm SMF, "
-     ],
-     "rules": {
-      "sku": 8
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "40G QSFP+",
-     "family": "(none)",
-     "role": null,
-     "note": null,
-     "parts": 58,
-     "kinds": {
-      "pluggable": 29,
-      "breakout-cable": 29
-     },
-     "roles": {},
-     "samples": [
-      "FET-40G — Cisco FET-40G Fabric Extender QSFP+ Modul — 850 nm MMF, MPO-",
-      "QSFP-40-SR-BD — Cisco QSFP-40-SR-BD 40GBASE-SR-BiDi QSFP+ — Multimode, Duple",
-      "QSFP-40G-BD-RX — Cisco QSFP-40G-BD-RX 40G BiDi Monitor QSFP+ — 832-918 nm MMF",
-      "QSFP-40G-CSR-S — Cisco QSFP-40G-CSR-S 40GBASE-CSR QSFP+ Modul — 850 nm MMF, D",
-      "QSFP-40G-CSR4 — QSFP 4x10GBASE-SR transceiver module, MPO, 300M",
-      "QSFP-40G-CSR4= — QSFP 4x10GBASE-SR transceiver module, MPO, 300M, Spare"
-     ],
-     "rules": {
-      "sku": 58
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "25G SFP28",
-     "family": "(none)",
-     "role": null,
-     "note": null,
-     "parts": 19,
-     "kinds": {
-      "pluggable": 13,
-      "bidi": 6
-     },
-     "roles": {},
-     "samples": [
-      "SFP-10/25-LR-I — Cisco SFP-10/25-LR-I",
-      "SFP-10/25G-BXD-I — Cisco SFP-10/25G-BXD-I 10/25GBASE-BR BiDi Industrie-SFP28 — ",
-      "SFP-10/25G-BXD-I= — Cisco SFP-10/25G-BXD-I=",
-      "SFP-10/25G-BXU-I — Cisco SFP-10/25G-BXU-I 10/25GBASE-BR BiDi Industrie-SFP28 — ",
-      "SFP-10/25G-BXU-I= — Cisco SFP-10/25G-BXU-I=",
-      "SFP-10/25G-CSR-S — Cisco SFP-10/25G-CSR-S 10/25GBASE-CSR SFP28 Modul — 850 nm M"
-     ],
-     "rules": {
-      "sku": 19
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "10G SFP+",
-     "family": "(none)",
-     "role": null,
-     "note": "CSP-SFP-1WSR / 1WLR are 10GE SFP+ for the CSP 2100's Intel NICs (were in 1G by prefix); EXP-10GSFP places the Expressway SFP+ planned in from unified-communications (layers round 3)",
-     "parts": 55,
-     "kinds": {
-      "pluggable": 43,
-      "bidi": 12
-     },
-     "roles": {},
-     "samples": [
-      "CE-10GSFP-SR — 10 Gigabit Ethernet SFP Module 10GBASE-SR SFP+ SR Optics",
-      "CE-10GSFP-SR= — 10 Gigabit Ethernet SFP Module 10GBASE-SR SFP+ SR Optics",
-      "CSP-SFP-1WLR — SFP+ for Intel X520, 10GE, LR Optical",
-      "CSP-SFP-1WSR — SFP+ for Intel X520 & XL710, 10GE, SR Optical",
-      "CSP-SFP-1WSR= — SFP+ for Intel X520 & XL710, 10GE, SR Optical",
-      "EXP-10GSFP-SR-MP — 10 Gigabit Ethernet SFP Module 10GBASE-SR SFP+ SR Optics"
-     ],
-     "rules": {
-      "sku": 55
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "10G X2 / XENPAK / XFP (legacy)",
-     "family": "(none)",
-     "role": null,
-     "note": null,
-     "parts": 59,
-     "kinds": {
-      "pluggable": 59
-     },
-     "roles": {},
-     "samples": [
-      "C3-XENPAK-10GB-LR= — 10GBASE-LR, up to 10 km single mode fiber",
-      "X2-10G-DWDM — 32 wavelengths over single strand of single-mode fiber; 80 k",
-      "X2-10GB-CX4 — 10GBASE-CX4 X2 Module",
-      "X2-10GB-CX4= — 10GBASE-CX4 X2 Module",
-      "X2-10GB-ER — 10GBASE-ER X2 Module",
-      "X2-10GB-ER= — 10GBASE-ER X2 Module"
-     ],
-     "rules": {
-      "sku": 59
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "1G and 100M SFP",
-     "family": "(none)",
-     "role": null,
-     "note": null,
-     "parts": 116,
-     "kinds": {
-      "pluggable": 87,
-      "bidi": 29
-     },
-     "roles": {},
-     "samples": [
-      "CE-1GSFP-T — 1 Gigabit Ethernet SFP Module 1000BASE-T",
-      "CE-1GSFP-T= — 1 Gigabit Ethernet SFP Module 1000BASE-T",
-      "EXP-1GSFP-T — 1 Gigabit Ethernet SFP Module 10/100/1000BASE-T",
-      "EXP-1GSFP-T= — Spare 1 Gigabit Ethernet SFP Module 10/100/1000BASE-T",
-      "GLC-2BX-D — Cisco GLC-2BX-D 2-Kanal 1000BASE-BX10-D Compact SFP — BiDi, ",
-      "GLC-2BX-D-I — Cisco GLC-2BX-D-I 2-Kanal 1000BASE-BX10-D Compact SFP — BiDi"
-     ],
-     "rules": {
-      "sku": 116
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "GBIC (legacy)",
-     "family": "(none)",
-     "role": null,
-     "note": "every GBIC form-factor optic outside a platform line: the 1000BASE GBICs WS-G548x and the WDM GBICs DWDM-GBIC (32), CWDM-GBIC (8) and 15216-GBIC (2) (operator, layers round 3). The bare GBIC token took Catalyst 6500 GBIC line cards (review record) and is gone. ONS-GC-GE-* GBICs stay with the ONS / NCS 2000 platform line",
-     "parts": 48,
-     "kinds": {
-      "pluggable": 48
-     },
-     "roles": {},
-     "samples": [
-      "15216-GBIC-1510 — 1000 BASE-T GBIC, one port modules, for Catalyst 2950 Switch",
-      "15216-GBIC-1510= — 1000 BASE-T GBIC, one port modules, for Catalyst 2950 Switch",
-      "CWDM-GBIC-1470 — 1000BASE-CWDM GBIC 1470 nm (gray)",
-      "CWDM-GBIC-1490 — 1000BASE-CWDM GBIC 1490 nm (violet)",
-      "CWDM-GBIC-1510 — 1000BASE-CWDM GBIC 1510 nm (blue)",
-      "CWDM-GBIC-1530 — 1000BASE-CWDM GBIC 1530 nm (green)"
-     ],
-     "rules": {
-      "sku": 48
-     },
-     "pending_in": {},
-     "pending_out": {}
-    }
-   ]
-  },
-  {
-   "line": "Converters and adapters",
-   "parts": 22,
-   "series": [
-    {
-     "series": "CVR converter modules, trays and brackets",
-     "family": "(none)",
-     "role": null,
-     "note": null,
-     "parts": 22,
-     "kinds": {
-      "adapter": 18,
-      "mechanical": 4
-     },
-     "roles": {},
-     "samples": [
-      "CVR-2QSFP28-8SFP — 100G/40G 2xQSFP to 8xSFP Converter",
-      "CVR-2QSFP28-8SFP= — 100G/40G 2xQSFP to 8xSFP Converter",
-      "CVR-4SFP10G-QSFP — 4 x SFP10G to QSFP reverse adapter",
-      "CVR-4SFP10G-QSFP= — 4 x SFP10G to QSFP reverse adapter",
-      "CVR-BRKT-1 — Mounting bracket for one CVR-4SFP10G-QSFP",
-      "CVR-BRKT-1= — Mounting bracket for one CVR-4SFP10G-QSFP"
-     ],
-     "rules": {
-      "sku": 22
-     },
-     "pending_in": {},
-     "pending_out": {}
-    }
-   ]
+  "pending_review": [],
+  "inbound_unplaced": {},
+  "done": true,
+  "build": {
+    "data_commit": "a388ea2da885",
+    "code_commit": "cb269cf2f0d7",
+    "contract_hash": "839db4a13086c4e2",
+    "generated_at": "2026-09-27T16:46:45.299Z"
   }
- ],
- "not_this_category": [],
- "pending_plans": [],
- "unplaced": [],
- "label_check": {
-  "applied": true,
-  "label_placed": 0,
-  "by_kind": {},
-  "moved": []
- },
- "pending_review": [],
- "inbound_unplaced": {},
- "done": true
 }

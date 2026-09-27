@@ -26,27 +26,33 @@
     }
   ],
   "features": {
-    "3769": "mgmt_class",
-    "3241": "layer",
-    "13503": "ports",
-    "1802": "ieee_standards",
-    "1801": "switching_capacity",
-    "7675": "forwarding_rate",
     "566": "mac_table",
-    "21666": "jumbo_mtu",
+    "1801": "switching_capacity",
+    "1802": "ieee_standards",
+    "3241": "layer",
+    "3769": "mgmt_class",
+    "7675": "forwarding_rate",
+    "13503": "ports",
     "13509": "packet_buffer",
+    "21666": "jumbo_mtu",
     "35026": "acl_entries"
   },
   "feature_labels_at_observation": {
-    "3769": "Switch-Typ",
-    "3241": "Switch-Ebene",
-    "13503": "Anzahl der basisschaltenden Ports",
-    "1802": "Netzstandard",
-    "1801": "Routing-/Switching-Kapazität",
-    "7675": "Transferrate",
     "566": "MAC-Adressentabelle",
-    "21666": "Jumbo-Frames",
+    "1801": "Routing-/Switching-Kapazität",
+    "1802": "Netzstandard",
+    "3241": "Switch-Ebene",
+    "3769": "Switch-Typ",
+    "7675": "Transferrate",
+    "13503": "Anzahl der basisschaltenden Ports",
     "13509": "Datenpaket-Pufferspeicher",
+    "21666": "Jumbo-Frames",
     "35026": "Zugriffskontrollliste (ACL)"
+  },
+  "build": {
+    "data_commit": "a388ea2da885",
+    "code_commit": "cb269cf2f0d7",
+    "contract_hash": "839db4a13086c4e2",
+    "generated_at": "2026-09-27T16:46:45.299Z"
   }
 }

@@ -395,6 +395,9 @@ const TESTS: Test[] = [
       const DIRS = ["ledger", "census", "completeness", "freeze", "layers", "mapper", "schema"];
       const byCommit = new Map<string, string[]>();
       const noField: string[] = [];
+      const legacyOnly: string[] = [];      // carries a commit but no contract hash: the migration's remainder
+      const noHash: string[] = [];          // has a build object with no contract hash: a stamp that says less than it should
+      const hashes = new Set<string>();
       for (const d of DIRS) {
         const dir = path.join(REPO_ROOT, "data", d);
         if (!fs.existsSync(dir)) continue;
@@ -403,8 +406,22 @@ const TESTS: Test[] = [
           let j: Record<string, unknown>;
           try { j = JSON.parse(fs.readFileSync(path.join(dir, name), "utf8")); } catch { continue; }
           if (typeof j !== "object" || j === null || Array.isArray(j)) continue;
+          // THE `build` OBJECT WINS OVER EVERY LEGACY FIELD, and this is a STRENGTHENING rather than
+          // a loosening: it carries a contract hash the legacy names never had, so a set of artefacts
+          // that agree on a commit can now still fail for disagreeing about the MOULD. The legacy
+          // fields stay readable because deleting them would break whatever still reads them, and the
+          // migration is measured by scripts/mould-stamp.mts --check rather than assumed finished.
+          const b = j.build as { data_commit?: string; contract_hash?: string } | undefined;
+          if (b && typeof b.data_commit === "string") {
+            const c = b.data_commit.slice(0, 7);
+            byCommit.set(c, [...(byCommit.get(c) ?? []), rel]);
+            if (typeof b.contract_hash === "string") hashes.add(b.contract_hash);
+            else noHash.push(rel);
+            continue;
+          }
           const f = FIELDS.find((k) => typeof j[k] === "string");
           if (!f) { noField.push(rel); continue; }
+          legacyOnly.push(rel);
           const c = String(j[f]).slice(0, 7);
           byCommit.set(c, [...(byCommit.get(c) ?? []), rel]);
         }
@@ -420,9 +437,27 @@ const TESTS: Test[] = [
           + `; ${noField.length} artefacts record no build field at all`
           + `; contract hash ${contract ? "present" : "NOT POSSIBLE — no src/core/mould-contract.json exists"}`);
       }
-      return contract
-        ? ok(`one build commit ${commits[0]} across ${byCommit.get(commits[0])!.length} artefacts, contract hash present`)
-        : na(`all artefacts agree on ${commits[0]}, but there is no mould-contract.json, so the contract-hash half of this test cannot run`);
+      if (!contract) {
+        return na(`all artefacts agree on ${commits[0]}, but there is no mould-contract.json, so the ` +
+          `contract-hash half of this test cannot run`);
+      }
+      // THE CONTRACT-HASH HALF, which the legacy fields could never answer. Two artefacts built from
+      // one commit can still disagree about the MOULD -- edit a profile, rebuild one file, and the
+      // commit matches while the meaning has moved. Until 27 Sep this half reported NOT POSSIBLE.
+      if (hashes.size > 1) {
+        return bad(`one build commit ${commits[0]}, but ${hashes.size} DIFFERENT contract hashes across ` +
+          `the artefacts [${[...hashes].join(", ")}] — same code, different MOULD, which is the drift a ` +
+          `commit cannot see`);
+      }
+      const remainder = legacyOnly.length + noHash.length;
+      if (remainder > 0) {
+        return bad(`one build commit ${commits[0]} and one contract hash ${[...hashes][0] ?? "(none)"}, but ` +
+          `${legacyOnly.length} artefacts still carry only a LEGACY field and ${noHash.length} a build ` +
+          `object with no contract hash — so ${remainder} of ${byCommit.get(commits[0])!.length} cannot be ` +
+          `checked against the mould they were built from`);
+      }
+      return ok(`ONE build: commit ${commits[0]}, contract hash ${[...hashes][0]}, across ` +
+        `${byCommit.get(commits[0])!.length} artefacts, every one carrying both`);
     },
   },
   {

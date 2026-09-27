@@ -1,261 +1,267 @@
 {
- "vendor": "cisco",
- "category": "hyperconverged-infrastructure",
- "built_at": "2026-09-25T13:25:59.134Z",
- "commit": "72a241ddcf31e0b5cb17ce09266d81b1426fc7d0",
- "uncommitted_rule_files": [
-  "data/reference/product-lines/cisco-routers.json"
- ],
- "mapping_file": "data/reference/product-lines/cisco-hyperconverged-infrastructure.json",
- "parts": 1216,
- "layered": 1216,
- "pending": 0,
- "lines": [
-  {
-   "line": "Compute Hyperconverged with VMware vSAN",
-   "parts": 12,
-   "series": [
+  "vendor": "cisco",
+  "category": "hyperconverged-infrastructure",
+  "built_at": "2026-09-25T13:25:59.134Z",
+  "commit": "72a241ddcf31e0b5cb17ce09266d81b1426fc7d0",
+  "uncommitted_rule_files": [
+    "data/reference/product-lines/cisco-routers.json"
+  ],
+  "mapping_file": "data/reference/product-lines/cisco-hyperconverged-infrastructure.json",
+  "parts": 1216,
+  "layered": 1216,
+  "pending": 0,
+  "lines": [
     {
-     "series": "vSAN nodes (C220 / C225 / C240 / C245 / X210c / X215c)",
-     "family": "(none)",
-     "role": null,
-     "note": "^HC[IO].*VSAN (layers round 3): the bare VSAN rule decides HCI-M8-VSAN-MLB and HCIX-M8-VSAN-MLB and claimed seven UCS vSAN bundles in servers-unified-computing (UCS-SA-VSAN-EXP-DP, UCS-SPL-VSAN1 …)",
-     "parts": 12,
-     "kinds": {
-      "bundle": 2,
-      "server": 10
-     },
-     "roles": {},
-     "samples": [
-      "HCI-M8-VSAN-MLB — Cisco Compute Hyperconverged with VMware vSAN M8 Rack Server",
-      "HCIVS220C-M8E3S — Cisco Compute Hyperconverged C220 M8 1RU standard rack serve",
-      "HCIVS220C-M8SN — Cisco Compute Hyperconverged C220 M8 1RU standard rack serve",
-      "HCIVS225C-M8SN — Cisco Compute Hyperconverged C225 M8 1RU standard rack serve",
-      "HCIVS240C-M8E3S — Cisco Compute Hyperconverged C240 M8 2RU standard rack serve",
-      "HCIVS240C-M8SN — Cisco Compute Hyperconverged C240 M8 2RU standard rack serve"
-     ],
-     "rules": {
-      "sku": 12
-     },
-     "pending_in": {},
-     "pending_out": {}
+      "line": "Compute Hyperconverged with VMware vSAN",
+      "parts": 12,
+      "series": [
+        {
+          "series": "vSAN nodes (C220 / C225 / C240 / C245 / X210c / X215c)",
+          "family": "(none)",
+          "role": null,
+          "note": "^HC[IO].*VSAN (layers round 3): the bare VSAN rule decides HCI-M8-VSAN-MLB and HCIX-M8-VSAN-MLB and claimed seven UCS vSAN bundles in servers-unified-computing (UCS-SA-VSAN-EXP-DP, UCS-SPL-VSAN1 …)",
+          "parts": 12,
+          "kinds": {
+            "bundle": 2,
+            "server": 10
+          },
+          "roles": {},
+          "samples": [
+            "HCI-M8-VSAN-MLB — Cisco Compute Hyperconverged with VMware vSAN M8 Rack Server",
+            "HCIVS220C-M8E3S — Cisco Compute Hyperconverged C220 M8 1RU standard rack serve",
+            "HCIVS220C-M8SN — Cisco Compute Hyperconverged C220 M8 1RU standard rack serve",
+            "HCIVS225C-M8SN — Cisco Compute Hyperconverged C225 M8 1RU standard rack serve",
+            "HCIVS240C-M8E3S — Cisco Compute Hyperconverged C240 M8 2RU standard rack serve",
+            "HCIVS240C-M8SN — Cisco Compute Hyperconverged C240 M8 2RU standard rack serve"
+          ],
+          "rules": {
+            "sku": 12
+          },
+          "pending_in": {},
+          "pending_out": {}
+        }
+      ]
+    },
+    {
+      "line": "Compute Hyperconverged with Nutanix",
+      "parts": 1204,
+      "series": [
+        {
+          "series": "HCI XE-Series (XE130c / XE9305)",
+          "family": "(none)",
+          "role": null,
+          "note": null,
+          "parts": 10,
+          "kinds": {
+            "server": 5,
+            "memory": 4,
+            "chassis": 1
+          },
+          "roles": {},
+          "samples": [
+            "HCIXE-M8-NTNX-MLB — Cisco Compute Hyperconverged XE-Series M8 with Nutanix MLB",
+            "HCIXE-MRX48G1RF5 — 48GB DDR5-6400 RDIMM 1Rx4 (24Gb)",
+            "HCIXE-MRX48G1RF5= — 48GB DDR5-6400 RDIMM 1Rx4 (24Gb)",
+            "HCIXE-MRX64G2RE5 — Cisco HCIXE-MRX64G2RE5",
+            "HCIXE-MRX64G2RE5= — Cisco HCIXE-MRX64G2RE5=",
+            "HCIXENX-9305-U — Cisco HCI XE9305 3RU Nutanix Chassis (includes fans)"
+          ],
+          "rules": {
+            "sku": 10
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "HCIX X-Series (X210c / X215c / X440p / X9508)",
+          "family": "(none)",
+          "role": null,
+          "note": "^HCIX-(210|215) removed in layers round 3: ^HC[IO]X(NX|AF|F)?-?21[05]C decides both rows it matched. ^HC[IO]X-440P (layers round 3): HCIX-440P / -U, the X440p PCIe node of the X9508 (named only by their SKUs; kind server), sat in the line's shared parts — the device check names a server there",
+          "parts": 18,
+          "kinds": {
+            "server": 15,
+            "chassis": 3
+          },
+          "roles": {},
+          "samples": [
+            "HCIX-210C-M7 — Cisco Compute Hyperconverged X210c M7 Node w/o CPU, memory, ",
+            "HCIX-210C-M7-U — Cisco Compute Hyperconverged X210c M7 Node UPG w/o CPU, memo",
+            "HCIX-440P — Cisco HCIX-440P",
+            "HCIX-440P-U — Cisco HCIX-440P-U",
+            "HCIX-9508-CH — DISTI: Cisco UCS X9508 Chassis",
+            "HCIX-9508-U — Cisco Compute Hyperconverged X9508 Server Chassis configured"
+          ],
+          "rules": {
+            "sku": 18
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "HCI fabric interconnects and X-Fabric",
+          "family": "(none)",
+          "role": null,
+          "note": "^HC[IO]X-S9108 (layers round 3): HCIX-S9108-100G 'Cisco UCS Fabric Interconnect 9108 100G' and HCIX-S9108-SW sat in the line's shared parts with kind fabric-interconnect",
+          "parts": 29,
+          "kinds": {
+            "fabric-interconnect": 14,
+            "power": 12,
+            "io-module": 3
+          },
+          "roles": {},
+          "samples": [
+            "HCI-FI-64108 — Cisco Compute Hyperconverged Fabric Interconnect 64108",
+            "HCI-FI-64108-M6 — Cisco Compute Hyperconverged Fabric Interconnect 64108",
+            "HCI-FI-6454 — Cisco Compute Hyperconverged Fabric Interconnect 6454",
+            "HCI-FI-6454-M6 — Cisco Compute Hyperconverged Fabric Interconnect 6454",
+            "HCI-FI-6536-M6 — Cisco Compute Hyperconverged Fabric Interconnect 6536",
+            "HCI-FI-6652 — Cisco HCI-FI-6652"
+          ],
+          "rules": {
+            "sku": 29
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "HCI C220 nodes",
+          "family": "(none)",
+          "role": null,
+          "note": "layers round 3: the two model rules are fenced to the prefixes of the rows they decide (HCI- and the one UCSC-R2R3-C220M6 for 220M; HCI- for C220 — the other row it decided, 'C220/C240/B200', is a family placeholder with a class plan); unfenced they claimed the C220-based parts of the 5520 controller, CMX / MSE and IEC6400 in wireless, XRV-FAN-C220M4= in routers, and the UCS C220 rows of servers-unified-computing and hyperconverged-systems",
+          "parts": 19,
+          "kinds": {
+            "mechanical": 3,
+            "accessory": 1,
+            "gpu": 2,
+            "storage-controller": 1,
+            "server": 12
+          },
+          "roles": {},
+          "samples": [
+            "HCI-BZL-C220-M6 — C220 M6 Security Bezel",
+            "HCI-BZL-C220-M6= — C220 M6 Security Bezel",
+            "HCI-CMA-C220M6 — Reversible CMA for C220 M6 ball bearing rail kit",
+            "HCI-CMA-C220M7 — Cisco HCI-CMA-C220M7",
+            "HCI-GPURKIT-C220 — GPU Riser Bracket assy kit C220 / C225 1U",
+            "HCI-GPURKIT-C220= — GPU Riser Bracket assy kit C220 / C225 1U"
+          ],
+          "rules": {
+            "sku": 19
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "HCI C225 nodes",
+          "family": "(none)",
+          "role": null,
+          "note": "layers round 3: ^HC[IO]X? — HCOXNX225C-M8SN / -U 'Cisco Compute-Only C225 M8 Node' sat in the line's shared parts (servers in shared parts); the 225M rule is fenced to the HCI- rows it decides (unfenced it claimed UCS C225 rows of servers-unified-computing and hyperconverged-systems)",
+          "parts": 11,
+          "kinds": {
+            "accessory": 7,
+            "server": 4
+          },
+          "roles": {},
+          "samples": [
+            "HCI-RIS1A-225M8 — Cisco HCI-RIS1A-225M8",
+            "HCI-RIS1B-225M8 — Cisco HCI-RIS1B-225M8",
+            "HCI-RIS1C-225M8 — Cisco HCI-RIS1C-225M8",
+            "HCI-RIS2A-225M8 — Cisco HCI-RIS2A-225M8",
+            "HCI-RIS2B-225M8 — Cisco HCI-RIS2B-225M8",
+            "HCI-RIS3A-225M8 — Cisco HCI-RIS3A-225M8"
+          ],
+          "rules": {
+            "sku": 11
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "HCI C240 nodes",
+          "family": "(none)",
+          "role": null,
+          "note": "the C240 alternative was removed in layers round 3: it decided none of its 5 matches and claimed 301 servers, 29 hyperconverged-systems and 3 wireless rows. The 240M rule is fenced in the same round to the prefixes of the rows it decides (HCI- and UCSC-RIS2A-240M6)",
+          "parts": 28,
+          "kinds": {
+            "drive": 2,
+            "mechanical": 3,
+            "accessory": 10,
+            "storage-controller": 2,
+            "server": 11
+          },
+          "roles": {},
+          "samples": [
+            "HCI-ADGPU-240M6 — C240M6 GPU Air Duct 2USFF/NVMe (for DW/FL only)",
+            "HCI-ADGPU-240M6= — C240M6 GPU Air Duct 2USFF/NVMe (for DW/FL only)",
+            "HCI-BZL-C240-M6 — C240 M6 Security Bezel",
+            "HCI-BZL-C240-M6= — C240 M6 Security Bezel",
+            "HCI-CMA-C240M6 — Reversible CMA for C240 M6 ball bearing rail kit",
+            "HCI-CMA-C240M7 — Cisco HCI-CMA-C240M7"
+          ],
+          "rules": {
+            "sku": 28
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Compute Hyperconverged with Nutanix shared parts",
+          "family": "(shared across the line)",
+          "role": null,
+          "note": null,
+          "parts": 1089,
+          "kinds": {
+            "cable": 24,
+            "cpu": 564,
+            "gpu": 49,
+            "storage-controller": 8,
+            "drive": 242,
+            "accessory": 19,
+            "nic": 65,
+            "bundle": 5,
+            "memory": 71,
+            "power": 23,
+            "mechanical": 2,
+            "tpm": 11,
+            "io-module": 4,
+            "unknown": 2
+          },
+          "roles": {},
+          "samples": [
+            "CAB-48DC-40A-AS — Cisco CAB-48DC-40A-AS",
+            "CAB-48DC-40A-AS= — Cisco CAB-48DC-40A-AS=",
+            "CAB-48DC-40A-ASD — Cisco CAB-48DC-40A-ASD",
+            "CAB-48DC-40A-INT — Cisco CAB-48DC-40A-INT",
+            "CAB-48DC-40A-INT= — Cisco CAB-48DC-40A-INT=",
+            "CAB-48DC40A-INT — Cisco CAB-48DC40A-INT"
+          ],
+          "rules": {
+            "accessory": 22,
+            "sku": 975,
+            "label": 92
+          },
+          "pending_in": {},
+          "pending_out": {}
+        }
+      ]
     }
-   ]
+  ],
+  "not_this_category": [],
+  "pending_plans": [],
+  "unplaced": [],
+  "label_check": {
+    "applied": true,
+    "label_placed": 0,
+    "by_kind": {},
+    "moved": []
   },
-  {
-   "line": "Compute Hyperconverged with Nutanix",
-   "parts": 1204,
-   "series": [
-    {
-     "series": "HCI XE-Series (XE130c / XE9305)",
-     "family": "(none)",
-     "role": null,
-     "note": null,
-     "parts": 10,
-     "kinds": {
-      "server": 5,
-      "memory": 4,
-      "chassis": 1
-     },
-     "roles": {},
-     "samples": [
-      "HCIXE-M8-NTNX-MLB — Cisco Compute Hyperconverged XE-Series M8 with Nutanix MLB",
-      "HCIXE-MRX48G1RF5 — 48GB DDR5-6400 RDIMM 1Rx4 (24Gb)",
-      "HCIXE-MRX48G1RF5= — 48GB DDR5-6400 RDIMM 1Rx4 (24Gb)",
-      "HCIXE-MRX64G2RE5 — Cisco HCIXE-MRX64G2RE5",
-      "HCIXE-MRX64G2RE5= — Cisco HCIXE-MRX64G2RE5=",
-      "HCIXENX-9305-U — Cisco HCI XE9305 3RU Nutanix Chassis (includes fans)"
-     ],
-     "rules": {
-      "sku": 10
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "HCIX X-Series (X210c / X215c / X440p / X9508)",
-     "family": "(none)",
-     "role": null,
-     "note": "^HCIX-(210|215) removed in layers round 3: ^HC[IO]X(NX|AF|F)?-?21[05]C decides both rows it matched. ^HC[IO]X-440P (layers round 3): HCIX-440P / -U, the X440p PCIe node of the X9508 (named only by their SKUs; kind server), sat in the line's shared parts — the device check names a server there",
-     "parts": 18,
-     "kinds": {
-      "server": 15,
-      "chassis": 3
-     },
-     "roles": {},
-     "samples": [
-      "HCIX-210C-M7 — Cisco Compute Hyperconverged X210c M7 Node w/o CPU, memory, ",
-      "HCIX-210C-M7-U — Cisco Compute Hyperconverged X210c M7 Node UPG w/o CPU, memo",
-      "HCIX-440P — Cisco HCIX-440P",
-      "HCIX-440P-U — Cisco HCIX-440P-U",
-      "HCIX-9508-CH — DISTI: Cisco UCS X9508 Chassis",
-      "HCIX-9508-U — Cisco Compute Hyperconverged X9508 Server Chassis configured"
-     ],
-     "rules": {
-      "sku": 18
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "HCI fabric interconnects and X-Fabric",
-     "family": "(none)",
-     "role": null,
-     "note": "^HC[IO]X-S9108 (layers round 3): HCIX-S9108-100G 'Cisco UCS Fabric Interconnect 9108 100G' and HCIX-S9108-SW sat in the line's shared parts with kind fabric-interconnect",
-     "parts": 29,
-     "kinds": {
-      "fabric-interconnect": 14,
-      "power": 12,
-      "io-module": 3
-     },
-     "roles": {},
-     "samples": [
-      "HCI-FI-64108 — Cisco Compute Hyperconverged Fabric Interconnect 64108",
-      "HCI-FI-64108-M6 — Cisco Compute Hyperconverged Fabric Interconnect 64108",
-      "HCI-FI-6454 — Cisco Compute Hyperconverged Fabric Interconnect 6454",
-      "HCI-FI-6454-M6 — Cisco Compute Hyperconverged Fabric Interconnect 6454",
-      "HCI-FI-6536-M6 — Cisco Compute Hyperconverged Fabric Interconnect 6536",
-      "HCI-FI-6652 — Cisco HCI-FI-6652"
-     ],
-     "rules": {
-      "sku": 29
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "HCI C220 nodes",
-     "family": "(none)",
-     "role": null,
-     "note": "layers round 3: the two model rules are fenced to the prefixes of the rows they decide (HCI- and the one UCSC-R2R3-C220M6 for 220M; HCI- for C220 — the other row it decided, 'C220/C240/B200', is a family placeholder with a class plan); unfenced they claimed the C220-based parts of the 5520 controller, CMX / MSE and IEC6400 in wireless, XRV-FAN-C220M4= in routers, and the UCS C220 rows of servers-unified-computing and hyperconverged-systems",
-     "parts": 19,
-     "kinds": {
-      "mechanical": 3,
-      "accessory": 1,
-      "gpu": 2,
-      "storage-controller": 1,
-      "server": 12
-     },
-     "roles": {},
-     "samples": [
-      "HCI-BZL-C220-M6 — C220 M6 Security Bezel",
-      "HCI-BZL-C220-M6= — C220 M6 Security Bezel",
-      "HCI-CMA-C220M6 — Reversible CMA for C220 M6 ball bearing rail kit",
-      "HCI-CMA-C220M7 — Cisco HCI-CMA-C220M7",
-      "HCI-GPURKIT-C220 — GPU Riser Bracket assy kit C220 / C225 1U",
-      "HCI-GPURKIT-C220= — GPU Riser Bracket assy kit C220 / C225 1U"
-     ],
-     "rules": {
-      "sku": 19
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "HCI C225 nodes",
-     "family": "(none)",
-     "role": null,
-     "note": "layers round 3: ^HC[IO]X? — HCOXNX225C-M8SN / -U 'Cisco Compute-Only C225 M8 Node' sat in the line's shared parts (servers in shared parts); the 225M rule is fenced to the HCI- rows it decides (unfenced it claimed UCS C225 rows of servers-unified-computing and hyperconverged-systems)",
-     "parts": 11,
-     "kinds": {
-      "accessory": 7,
-      "server": 4
-     },
-     "roles": {},
-     "samples": [
-      "HCI-RIS1A-225M8 — Cisco HCI-RIS1A-225M8",
-      "HCI-RIS1B-225M8 — Cisco HCI-RIS1B-225M8",
-      "HCI-RIS1C-225M8 — Cisco HCI-RIS1C-225M8",
-      "HCI-RIS2A-225M8 — Cisco HCI-RIS2A-225M8",
-      "HCI-RIS2B-225M8 — Cisco HCI-RIS2B-225M8",
-      "HCI-RIS3A-225M8 — Cisco HCI-RIS3A-225M8"
-     ],
-     "rules": {
-      "sku": 11
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "HCI C240 nodes",
-     "family": "(none)",
-     "role": null,
-     "note": "the C240 alternative was removed in layers round 3: it decided none of its 5 matches and claimed 301 servers, 29 hyperconverged-systems and 3 wireless rows. The 240M rule is fenced in the same round to the prefixes of the rows it decides (HCI- and UCSC-RIS2A-240M6)",
-     "parts": 28,
-     "kinds": {
-      "drive": 2,
-      "mechanical": 3,
-      "accessory": 10,
-      "storage-controller": 2,
-      "server": 11
-     },
-     "roles": {},
-     "samples": [
-      "HCI-ADGPU-240M6 — C240M6 GPU Air Duct 2USFF/NVMe (for DW/FL only)",
-      "HCI-ADGPU-240M6= — C240M6 GPU Air Duct 2USFF/NVMe (for DW/FL only)",
-      "HCI-BZL-C240-M6 — C240 M6 Security Bezel",
-      "HCI-BZL-C240-M6= — C240 M6 Security Bezel",
-      "HCI-CMA-C240M6 — Reversible CMA for C240 M6 ball bearing rail kit",
-      "HCI-CMA-C240M7 — Cisco HCI-CMA-C240M7"
-     ],
-     "rules": {
-      "sku": 28
-     },
-     "pending_in": {},
-     "pending_out": {}
-    },
-    {
-     "series": "Compute Hyperconverged with Nutanix shared parts",
-     "family": "(shared across the line)",
-     "role": null,
-     "note": null,
-     "parts": 1089,
-     "kinds": {
-      "cable": 24,
-      "cpu": 564,
-      "gpu": 49,
-      "storage-controller": 8,
-      "drive": 242,
-      "accessory": 19,
-      "nic": 65,
-      "bundle": 5,
-      "memory": 71,
-      "power": 23,
-      "mechanical": 2,
-      "tpm": 11,
-      "io-module": 4,
-      "unknown": 2
-     },
-     "roles": {},
-     "samples": [
-      "CAB-48DC-40A-AS — Cisco CAB-48DC-40A-AS",
-      "CAB-48DC-40A-AS= — Cisco CAB-48DC-40A-AS=",
-      "CAB-48DC-40A-ASD — Cisco CAB-48DC-40A-ASD",
-      "CAB-48DC-40A-INT — Cisco CAB-48DC-40A-INT",
-      "CAB-48DC-40A-INT= — Cisco CAB-48DC-40A-INT=",
-      "CAB-48DC40A-INT — Cisco CAB-48DC40A-INT"
-     ],
-     "rules": {
-      "accessory": 22,
-      "sku": 975,
-      "label": 92
-     },
-     "pending_in": {},
-     "pending_out": {}
-    }
-   ]
+  "pending_review": [],
+  "inbound_unplaced": {},
+  "done": true,
+  "build": {
+    "data_commit": "a388ea2da885",
+    "code_commit": "cb269cf2f0d7",
+    "contract_hash": "839db4a13086c4e2",
+    "generated_at": "2026-09-27T16:46:45.299Z"
   }
- ],
- "not_this_category": [],
- "pending_plans": [],
- "unplaced": [],
- "label_check": {
-  "applied": true,
-  "label_placed": 0,
-  "by_kind": {},
-  "moved": []
- },
- "pending_review": [],
- "inbound_unplaced": {},
- "done": true
 }
