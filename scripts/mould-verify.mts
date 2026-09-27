@@ -234,6 +234,14 @@ const TESTS: Test[] = [
     // 500 SEEDED SKUs so two runs compare the same rows and a moved number means the DATA moved. The reviewer
     // asked for the per-category counts to be PRINTED by the test rather than estimated, because that number
     // is the dry-run count for the write plans — an estimate would become a plan nobody could check.
+    //
+    // WHAT THIS TEST CANNOT SEE, measured rather than assumed. The sample is drawn from the layer artifact's
+    // own key set, so it can only ever check parts the layering already places. Asking "how many live cisco
+    // hardware parts does the layering miss" returns 41,067 of 41,067 — EXACTLY zero, which is the shape of a
+    // population compared with itself, and it is: the layer build's population IS live cisco hardware, so the
+    // answer is a tautology and not a reassurance. The real blind spot is everything outside that class —
+    // 10,547 live cisco `software` parts, and 3,476 live hardware parts across the other vendors — none of
+    // which any layer test here can sample. `vendor_coverage` carries that half.
     run: async () => {
       const fs = await import("node:fs"), path = await import("node:path");
       const { REPO_ROOT } = await import("../src/config.js");
@@ -335,7 +343,25 @@ const TESTS: Test[] = [
   { name: "openapi_schemas", findings: "N63" },
   { name: "endpoints_alive", findings: "N43, N44" },
   { name: "link_integrity", findings: "H" },
-  { name: "vendor_coverage", findings: "N62" },
+  {
+    name: "vendor_coverage",
+    findings: "N62",
+    needsDb: true,
+    // The mould is Cisco-only and the shop imports every vendor. N62 named five; the query counts them. Its HPE
+    // figure and mine disagree, which is printed rather than reconciled silently — a coverage number nobody
+    // can reproduce is the thing this whole exercise exists to stop.
+    run: async () => {
+      const rows = (await query<{ vendor: string; n: string }>(`
+        SELECT v.slug vendor, count(*)::text n FROM parts p JOIN vendors v ON v.id=p.vendor_id
+         WHERE v.slug <> 'cisco' AND p.retired_at IS NULL AND p.product_class='hardware'
+         GROUP BY 1 ORDER BY 2 DESC`)).rows;
+      const total = rows.reduce((n, r) => n + Number(r.n), 0);
+      if (!rows.length) return ok("cisco is the only vendor with live hardware parts");
+      const list = rows.map((r) => `${r.vendor} ${r.n}`).join(", ");
+      return bad(`${rows.length} vendors hold ${total} live hardware parts with NO layering, ledger or kinds: ${list}`
+        + ` — N62 named five of these ${rows.length}`);
+    },
+  },
 ];
 
 // ---- run ----------------------------------------------------------------------------------------------------------
