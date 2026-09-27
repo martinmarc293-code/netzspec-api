@@ -20,6 +20,8 @@ import { FIELD_DICTIONARY, PROFILES, COLUMN_BACKED, domainFor, type Requirement 
 import { uncoveredEnumValues } from "../src/core/renderContract.js";
 import { mouldStatuses } from "../src/core/brandMould.js";
 import { NO_PROFILE_REASONS } from "../src/core/noProfileReason.js";
+import { partKind } from "../src/core/partKind.js";
+import { deployRoleResult, roleAxisOf } from "../src/core/deployRole.js";
 import { query, closePool } from "../src/store/db.js";
 
 type Result = { state: "pass" | "fail" | "unavailable"; detail: string };
@@ -496,6 +498,69 @@ const TESTS: Test[] = [
           + `${ruleWrong} rule id(s) on a non-refusal — recompute has not backfilled every category. Breakdown: ${breakdown}`);
       }
       return ok(`${inCode.size} reasons, code and constraint agree both ways; every unscored row names one: ${breakdown}`);
+    },
+  },
+  {
+    name: "derived_gate_nulls",
+    findings: "reviewer item 3 / D1 — a derived gate that derives to nothing",
+    needsDb: true,
+    // `deploy_role` is DERIVED from the SKU, not extracted, so "no value" cannot mean "nobody has scraped it
+    // yet" — it means the rule table could not place the part, and no amount of scraping will change that.
+    // This counts the nulls per (category, kind) and splits them by WHY, because the three reasons need
+    // opposite handling and only one of them is a defect:
+    //
+    //   an ISSUE rule refuses the row   the table says it is not this kind. 18 PON rows; they leave the
+    //                                   score entirely (completeness.no_profile_reason).
+    //   axis exists, no rule matches    COULD-NOT-DERIVE. This is the one that must be zero: the part is
+    //                                   scored, its role-gated cups go `pending`, and nothing can ever
+    //                                   answer them. A number here is work, not noise.
+    //   no role axis for the kind       not counted at all — a CPU has no deployment role.
+    //
+    // THE DENOMINATOR IS ASSERTED, NOT JUST THE NULLS (the reviewer's condition, and it is the sharp part).
+    // A check that only counts nulls gets GREENER when a kind loses its axis by accident: the parts stop
+    // being asked, the nulls go to zero, and nothing says the population vanished. So every pair AXIS
+    // declares must still hold parts, and the total is printed on every run.
+    //
+    // FLOORS, NOT EXACT EQUALITY, and the reason is stated rather than assumed: this catalogue grows, so an
+    // exact 9,010 would go red on the next import of real switches and teach everyone to ignore the colour.
+    // A floor still fails in the direction that matters — a pair emptying, or the population shrinking —
+    // which is the accident the reviewer named.
+    run: async () => {
+      const FLOOR: Record<string, number> = {  // measured 27 Sep 2026, cisco live hardware
+        "switches|switch": 4242, "routers|router": 1288, "routers|sp-router": 264,
+        "wireless|ap": 2767, "collaboration-endpoints|phone": 442, "unified-communications|phone": 7,
+      };
+      const rows = (await query<{ sku: string; name: string | null; cat: string }>(`
+        SELECT p.sku, p.name, c.slug cat FROM parts p
+          JOIN vendors v ON v.id = p.vendor_id JOIN categories c ON c.id = p.category_id
+         WHERE v.slug = 'cisco' AND p.retired_at IS NULL AND p.product_class = 'hardware'`)).rows;
+      const seen = new Map<string, number>();
+      let axisParts = 0, refused = 0, couldNotDerive = 0;
+      const cnd: string[] = [];
+      for (const r of rows) {
+        const kind = partKind(r.cat, r.sku, r.name ?? undefined);
+        if (!roleAxisOf(r.cat, kind)) continue;              // no axis: not this check's population
+        axisParts++;
+        seen.set(`${r.cat}|${kind}`, (seen.get(`${r.cat}|${kind}`) ?? 0) + 1);
+        const res = deployRoleResult(r.cat, kind, r.sku, r.name);
+        if (res.role !== null) continue;
+        if (res.issue) { refused++; continue; }
+        couldNotDerive++;
+        if (cnd.length < 6) cnd.push(`${r.sku} (${r.cat}/${kind})`);
+      }
+      const shrunk = Object.entries(FLOOR).filter(([k, n]) => (seen.get(k) ?? 0) < n)
+        .map(([k, n]) => `${k} ${seen.get(k) ?? 0} < ${n}`);
+      const total = axisParts.toLocaleString();
+      if (shrunk.length) {
+        return bad(`a role-bearing population SHRANK, so fewer parts are being asked for a role than when this was `
+          + `measured — a kind that loses its axis makes a null count greener, which is why this is here: ${shrunk.join(", ")}`);
+      }
+      if (couldNotDerive > 0) {
+        return bad(`${couldNotDerive} part(s) of a role-bearing kind have a role that CANNOT BE DERIVED — their role-gated `
+          + `cups are pending on a field nothing can ever answer: ${cnd.join(", ")}`);
+      }
+      return ok(`${total} parts of ${seen.size} role-bearing (category, kind) pairs, every floor held; `
+        + `roles derived on all but ${refused} the table REFUSES as the wrong kind (they leave the score with a reason)`);
     },
   },
   {

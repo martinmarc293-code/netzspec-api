@@ -271,17 +271,27 @@ ok("both are still DECLARED required in the profile — this is a scoring rule, 
   eq("control: a router WITH a role still owes dimensions", R("dimensions", { kind: "router", deploy_role: "branch" }), "req");
   // The clause must still do its actual job: smb is genuinely excluded.
   ok("an smb router is genuinely excluded by the notInList", R("flash", { kind: "router", deploy_role: "smb" }) !== "req");
-  // The reviewer asked for `pending` rather than a silent drop, and it is NOT what this returns —
-  // recorded here as a case so the gap is visible rather than assumed. The outcome is `opt` because
-  // `routers/deploy_role` is declared a plain `opt` cup, so an absent role resolves to "nobody owes
-  // it" and its dependents settle. Its sibling derived gate `modular` is declared
-  // `cond({field:"kind", inList:["router"]})`, resolves `req`, and therefore DOES leave
-  // `module_slots` pending — the two derived gates are declared differently, and that asymmetry,
-  // not `requirementFor`, is what decides whether a missing derivation holds a gap open.
-  eq("TODAY: an absent role settles rather than pends (deploy_role is an `opt` cup, unlike `modular`)",
-     R("flash", { kind: "router" }), SETTLED);
-  eq("control: modular, the OTHER derived gate, does hold its dependent open",
+  // THE TRANSITION, RECORDED. This case was landed asserting SETTLED and is now `pending`, and the
+  // flip is the point: the leaf fix alone sent an unanswered gate to `opt` — gap closed silently,
+  // the wrong direction — because `routers/deploy_role` was declared a plain `opt` cup, so an absent
+  // role resolved to "nobody owes it". Its twin derived gate `modular` was declared
+  // `cond({field:"kind", inList:["router"]})`, resolved `req`, and DID hold `module_slots` open. Two
+  // COLUMN_BACKED gates, both derived from the SKU, declared differently, opposite outcomes on a
+  // missing derivation. `deploy_role` is now declared the same way, on the kinds AXIS says have a
+  // role, so the pair agree and a role that cannot be derived points at itself instead of vanishing.
+  eq("an absent role now PENDS: the gap stays open and names the field that would settle it",
+     R("flash", { kind: "router" }), "pending");
+  eq("...and dimensions likewise", R("dimensions", { kind: "router" }), "pending");
+  eq("control: modular, the OTHER derived gate, still holds its dependent open",
      requirementFor("routers", "module_slots", { kind: "router" }), "pending");
+  // The two gates must now RESOLVE the same way, which is the whole content of the fix. Asserted on
+  // the resolution itself and not only on a dependent, so a future edit to either declaration that
+  // re-opens the asymmetry fails here rather than surfacing as a cup that quietly stopped being asked.
+  eq("the two derived gates resolve alike: modular", requirementFor("routers", "modular", { kind: "router" }), "req");
+  eq("the two derived gates resolve alike: deploy_role", requirementFor("routers", "deploy_role", { kind: "router" }), "req");
+  // ...and a kind with NO role axis must NOT be asked for one. A power supply in routers owes no
+  // deployment role, and declaring the cup category-wide would have asked it for one.
+  eq("a power supply in routers is not asked for a role", requirementFor("routers", "deploy_role", { kind: "power" }), "opt");
 }
 
 lines.unshift(`    pending requirement: ${passed} passed, ${failed} missed ` +

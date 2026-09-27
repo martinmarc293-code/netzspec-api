@@ -4219,12 +4219,47 @@ export function profileCounts(category: string) {
 // curated one, and a generated profile only adds fields to an existing category's profile.
 // eslint-disable-next-line import/first
 import { GENERATED_FIELDS, GENERATED_PROFILES } from "./fieldSchema.generated.js";
+import { roleAxisKinds } from "./deployRole.js";
 
 for (const [key, def] of Object.entries(GENERATED_FIELDS)) {
   if (!FIELD_DICTIONARY[key]) FIELD_DICTIONARY[key] = def;
 }
 for (const [cat, fields] of Object.entries(GENERATED_PROFILES)) {
   PROFILES[cat] = { ...fields, ...(PROFILES[cat] || {}) };
+}
+
+// `deploy_role` IS A DERIVED GATE AND IS NOW DECLARED LIKE ITS TWIN (reviewer, 27 Sep 2026).
+//
+// THE DEFECT. `modular` and `deploy_role` are both COLUMN_BACKED and both derived from the SKU, and they
+// were declared differently, which gave them opposite outcomes on a missing derivation:
+//
+//     modular      cond({field:"kind", inList:["router"]})  -> resolves `req`  -> module_slots stays PENDING
+//     deploy_role  opt                                      -> resolves `opt`  -> dependents SETTLE, silently
+//
+// An `opt` gate's absence is correctly read as "nobody is obliged to answer it" — right for a field a
+// datasheet supplies and wrong for one we DERIVE, because when the derivation returns nothing no amount of
+// scraping will fill it. So a router whose SKU no rule places quietly stopped owing its role-gated cups,
+// which is could-not-check passing as checked in the function that decides what a part owes.
+//
+// WHY HERE AND NOT IN SEVEN PROFILES. The kinds come from AXIS in deployRole.ts, the one table that knows
+// which (category, kind) pairs have a role. A hand-kept copy in each profile is a second list of what
+// exists — the drift this repo pays for everywhere — and it would have to be edited in seven places, three
+// of which (meraki, unified-communications) never declared the cup at all and therefore resolved `na`,
+// which is the same silent settlement one step worse. Written once here, a kind added to AXIS tomorrow is
+// admitted with nothing to remember.
+//
+// AFTER THE MERGE, DELIBERATELY: the generated profiles declare `deploy_role: {kind:"opt"}` in eleven
+// categories and are rewritten by sync-dictionary, so a hand-edit there is reverted on the next
+// regeneration. Curated entries win over generated ones (the merge above), and this wins over both.
+//
+// A CATEGORY WITH NO ROLE AXIS KEEPS ITS `opt`. `inList: []` would be a condition that matches nothing,
+// firing for nobody while reading exactly like a rule nothing satisfies — a dead gate dressed as a live
+// one. `conferencing` is that case and it is a finding, not something to paper over here: it gates
+// `wifi_generation` on a `deploy_role` no kind of its can ever carry.
+for (const cat of Object.keys(PROFILES)) {
+  const kinds = roleAxisKinds(cat);
+  if (kinds.length === 0) continue;
+  PROFILES[cat].deploy_role = cond({ field: "kind", inList: kinds }, { elseOpt: true });
 }
 
 // ONE CUP PER QUANTITY — 11 Sep 2026.

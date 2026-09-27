@@ -161,6 +161,26 @@ export function roleAxisOf(category: string, kind: string | null | undefined): R
   return kind ? AXIS[`${category}|${kind}`] ?? null : null;
 }
 
+/**
+ * The kinds that HAVE a role axis in this category, derived from AXIS rather than written again.
+ *
+ * `fieldSchema` needs this list to declare `deploy_role` as a conditional cup — required of the kinds
+ * that are sold by a deployment role, optional of everything else — the way `modular` is already
+ * declared. A hand-kept copy of it in the profile would be a second list of what exists, which is this
+ * repo's most expensive recurring defect: it drifts the day a kind gains or loses an axis, and it fails
+ * silently in both directions. Derived here, a kind added to AXIS tomorrow is admitted automatically.
+ *
+ * Returns [] for a category with no axis at all, and the caller must NOT turn that into
+ * `inList: []` — a condition matching nothing fires for nobody and reads exactly like a rule nothing
+ * satisfies. Such a category keeps a plain `opt`.
+ */
+export function roleAxisKinds(category: string): string[] {
+  return Object.keys(AXIS)
+    .filter((k) => k.slice(0, k.indexOf("|")) === category)
+    .map((k) => k.slice(k.indexOf("|") + 1))
+    .sort();
+}
+
 export type RoleResult = { role: string | null; rule: string | null; issue: string | null };
 
 /** First matching rule of the axis wins; an `issue` rule means the row is not this kind (role null, issue named). */
