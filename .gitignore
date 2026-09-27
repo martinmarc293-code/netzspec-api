@@ -26,3 +26,10 @@ __pycache__/
 
 # graphify knowledge graph (rebuilt locally; never committed)
 graphify-out/
+
+# Reviewer handovers carry a read-only token and an API key. Gitignored BEFORE the directory exists
+# (brief STEP A.1, 27 Sep 2026): a secret that reaches a commit is a secret in the history for ever.
+docs/reviewer/**/handover.md
+docs/reviewer/**/*.zip
+docs/reviewer/**/*.csv
+docs/reviewer/**/*.gz
