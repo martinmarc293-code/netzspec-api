@@ -537,10 +537,22 @@ const TESTS: Test[] = [
       const lDiff = [...byCat.values()].reduce((n, e) => n + e.lineMissing, 0);
       const legacy = [...byCat.values()].reduce((n, e) => n + e.legacyDiff, 0);
       const buckets = [...byCat.values()].reduce((n, e) => n + e.bucketByDesign, 0);
+      // A BOUNDED EXCLUSION WITH A NAMED EXPIRY, not a permanent "by design" (reviewer, 27 Sep).
+      // These rows differ because the arrangement site has not yet been rebuilt from `parts`; they
+      // must reach 0 on the commit that regenerates it (the same one that makes partRecords read the
+      // columns). Measured over the 500-row sample on 27 Sep. Only a NEW disagreement between the
+      // page and the database can push the count higher, so GROWTH is a failure even while the
+      // current count is tolerated — an exclusion nobody can see grow is where the next real break
+      // hides, which is this test's own argument one step further on.
+      const BUCKET_CEILING = 68;
+      if (buckets > BUCKET_CEILING) {
+        return bad(`${buckets} bucket rows differ between the DB and the page, above the recorded ceiling ` +
+          `of ${BUCKET_CEILING} — this exclusion is bounded and it GREW, which only a new disagreement can do`);
+      }
       const perCat = [...byCat].sort((a, b) => b[1].seriesDiff - a[1].seriesDiff)
         .map(([c, e]) => `${c} ${e.seriesDiff}/${e.n}`).join(", ");
       if (sDiff === 0 && lDiff === 0) return ok(`${checked} sampled SKUs: the LAYER column, the layer page and the API record agree on line and series` +
-        ` — ${buckets} bucket rows differ BY DESIGN (the DB refuses a navigation bucket as a series, the page still shows one) and are counted, not judged` +
+        ` — ${buckets} bucket rows differ because the PAGE is not yet rebuilt from the database (ceiling ${BUCKET_CEILING}; this is NOT by design and must reach 0 on the commit that regenerates the site from parts — a bounded exclusion with a named expiry, because one without an expiry is where the next real break hides)` +
         ` — separately, the legacy p.series platform column differs from the page on ${legacy} of ${checked}, which is a different question and not a defect (docs/decisions, 27 Sep: repairing it would be right for 21% and wrong for 79%)`);
       return bad(`${checked} sampled: series DB-vs-page differs on ${sDiff} (${(100 * sDiff / checked).toFixed(1)}%), `
         + `product_line API-vs-page differs on ${lDiff}. PER-CATEGORY (the dry-run count for any series write): ${perCat}`);
