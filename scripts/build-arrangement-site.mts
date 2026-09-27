@@ -63,6 +63,18 @@ const generatedAt = new Date().toISOString();
 const commit = report.built_on_commit ?? "unknown";
 const freezeFile = path.join("data", "freeze", `${vendor}.json`);
 const freezeHash = fs.existsSync(freezeFile) ? (JSON.parse(fs.readFileSync(freezeFile, "utf8")) as AnyObj).freeze_hash : null;
+// THE BUILD OBJECT, added 27 Sep 2026 because the reviewer read the published arrangement.json and found it
+// had none. scripts/mould-stamp.mts puts one on every artefact in the REPO; this file is generated on the box
+// and so was never stamped, which is exactly the gap a stamp is supposed to close — the published surface is
+// the one a consumer reads, and it was the only one that could not say which mould it was built against.
+//
+// `contract_hash` is the field that matters and it is why this is not just `commit`: the arrangement rules say
+// two reports with different contract hashes are not compared without saying so, and until now nothing on this
+// page carried one, so nobody comparing two published arrangements could tell.
+const contractFile = path.join("src", "core", "mould-contract.json");
+const contractHash = fs.existsSync(contractFile)
+  ? ((JSON.parse(fs.readFileSync(contractFile, "utf8")) as AnyObj).contract_hash ?? null) : null;
+const build = { code_commit: commit, contract_hash: contractHash, freeze_hash: freezeHash ?? null, generated_at: generatedAt };
 const failedChecks: AnyObj[] = (report.cross_checks ?? []).filter((c: AnyObj) => !c.passed);
 const categories: AnyObj[] = [...(report.categories ?? [])].sort((a, b) => (b.hardware_parts ?? 0) - (a.hardware_parts ?? 0));
 
@@ -277,7 +289,7 @@ ${questions ? `<div class="banner b-refused"><b>OPEN QUESTIONS FOR THE REVIEWER<
   const body = `<h1>Findings — what is wrong or missing</h1><p>Each finding is a stated rule applied to this build's artifacts, with its denominator. "not in this build" means the input was absent, never zero.</p>` +
     findings.map((x) => `<h2 id="${x.id}">${sevTag(x.severity)} ${esc(x.title)}</h2><p class=muted>rule: ${esc(x.rule)}<br>count: ${x.count === null ? "not in this build" : x.count.toLocaleString("en-US")} · over ${esc(x.denominator)}</p>${tableOf(x.rows)}`).join("\n");
   write("findings.html", page(`${vendor} findings`, "", body, "findings.json"));
-  write("findings.json", JSON.stringify({ vendor, commit, generated_at: generatedAt, findings }, null, 1));
+  write("findings.json", JSON.stringify({ vendor, commit, build, generated_at: generatedAt, findings }, null, 1));
 }
 
 // ------------------------------------------------------------------------------------------------------------- plans
@@ -308,7 +320,7 @@ const specSection = (cat: string): string | null => {
   if (end < 0) end = lines.length;
   return lines.slice(start, end).join("\n");
 };
-const arrangement: AnyObj = { vendor, commit, generated_at: generatedAt, state, refused, failed_checks: failedChecks.map((c) => c.name), brand: report.brand, categories: [] };
+const arrangement: AnyObj = { vendor, commit, build, generated_at: generatedAt, state, refused, failed_checks: failedChecks.map((c) => c.name), brand: report.brand, categories: [] };
 for (const c of categories) {
   const cat = c.category as string;
   const l = ledgers.get(cat) ?? { kinds: {} };
