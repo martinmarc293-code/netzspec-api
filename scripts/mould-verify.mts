@@ -301,7 +301,30 @@ const TESTS: Test[] = [
   { name: "twin_parity", findings: "N7" },
   { name: "unknown_zero", findings: "B7" },
   { name: "plans_agree_with_rows", findings: "N6" },
-  { name: "runs_have_approval", findings: "B8, N5" },
+  {
+    name: "runs_have_approval",
+    findings: "B8, N5",
+    needsDb: true,
+    // B8 reads as a paperwork gap ("the published run record shows no approval") and it is structural: there
+    // is no approval COLUMN and no run carries one in `inputs`, so the blanket sentence of 25 Sep is not
+    // recorded anywhere a check could read. The test also prints the run count, because the brief says 7,533
+    // runs and the table holds a different number — a figure the reviewer and I should reconcile before
+    // anyone approves "12 groups" of something neither of us has counted the same way.
+    run: async () => {
+      const cols = (await query<{ c: string }>(`SELECT column_name c FROM information_schema.columns
+         WHERE table_schema='public' AND table_name='runs'`)).rows.map((r) => r.c);
+      const hasCol = cols.some((c) => /approv|consent|authoris|authoriz/.test(c));
+      const total = Number((await query<{ n: string }>(`SELECT count(*)::text n FROM runs`)).rows[0].n);
+      const inInputs = Number((await query<{ n: string }>(`SELECT count(*)::text n FROM runs WHERE inputs ? 'approval'`)).rows[0].n);
+      const writers = Number((await query<{ n: string }>(
+        `SELECT count(*)::text n FROM runs WHERE status='succeeded' AND stats IS NOT NULL`)).rows[0].n);
+      return hasCol || inInputs === total
+        ? ok(`every one of ${total} runs records an approval`)
+        : bad(`NO approval is recorded anywhere: runs has no approval column and ${inInputs} of ${total} runs `
+          + `carry inputs->approval (${writers} succeeded runs wrote stats). The brief cites 7,533 runs; this table holds ${total} `
+          + `— reconcile that count before approving anything per group`);
+    },
+  },
   { name: "gaps_fresh", findings: "N2, N3, N46, N47" },
   { name: "fill_state_partition", findings: "N8–N11, N30, N31, N50" },
   { name: "conflicts_classified", findings: "N33, N51–N53" },
