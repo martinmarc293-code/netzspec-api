@@ -136,7 +136,26 @@ export function freezeUnits(vendor: string, repoRoot: string, kindRows: KindRow[
   const byCat: Record<string, number> = {};
   for (const r of kindRows) byCat[r.category] = (byCat[r.category] ?? 0) + 1;
 
-  const aliasText = fs.readFileSync(path.join(repoRoot, "data", "schema", "attribute-aliases.en.json"), "utf8").replace(/\r\n/g, "\n");
+  // THE PROVENANCE STAMP IS NOT PART OF THE RULE, and hashing the raw text made this freeze and
+  // scripts/mould-stamp.mts invalidate each other for ever: the stamp writes a {data_commit, code_commit,
+  // contract_hash, generated_at} object into this file, which moved `alias_file_sha`, which moved the freeze
+  // hash, which required a regenerated freeze — which the next stamp then moved again. Measured by diffing
+  // two freeze runs across a stamp: `mapper.alias_file_sha` was the ONLY unit that changed, so this is the
+  // whole of the loop and not a symptom of it.
+  //
+  // So the hash covers the CONTENT: the file parsed, its `build` object dropped, re-serialised stably. A
+  // reordered or reformatted file now hashes the same, which is a small loss of strictness and the right
+  // trade — the alternative is a freeze nobody can reproduce twice running, and a hash that changes when
+  // nothing about the arrangement has.
+  const aliasRaw = fs.readFileSync(path.join(repoRoot, "data", "schema", "attribute-aliases.en.json"), "utf8").replace(/\r\n/g, "\n");
+  const aliasText = (() => {
+    try {
+      const { build: _stamp, ...content } = JSON.parse(aliasRaw) as Record<string, unknown>;
+      return stable(content);
+    } catch {
+      return aliasRaw;   // not JSON after all: hash what is there rather than silently hashing nothing
+    }
+  })();
   const conflicts = conflictTableText(repoRoot);
 
   const denominators: FreezeUnits["denominators"] = {};
