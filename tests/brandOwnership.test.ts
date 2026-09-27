@@ -75,11 +75,23 @@ check("T10", "databaseName reads the database out of a URL, and says nothing for
 // ever running. Now the worktree half reports NOT EXERCISED (exit 2) and the drift half still runs.
 const couldNotRun: string[] = [];
 let env: ReturnType<typeof loadEnv> | null = null;
-try {
-  env = loadEnv();
-} catch (err) {
-  couldNotRun.push(`no .env in this tree, so the worktree half (T11, T13) proved NOTHING: `
-    + `${err instanceof Error ? err.message : String(err)}`);
+// THE DISCRIMINATOR IS THE FILE, NOT WHETHER loadEnv HAPPENS TO THROW. T11 and T13 ask what THIS
+// WORKTREE'S .env declares, so the only thing that makes them unjudgeable is that file being absent.
+// Catching the throw alone was not enough and the db job proved it within the hour: that job sets
+// DATABASE_URL in the environment, so loadEnv() succeeded with no .env at all, T11 and T13 ran anyway
+// and failed on an undefined NETZSPEC_BRAND -- an input PARTIALLY present read as an input present.
+const envFile = path.join(ROOT, ".env");
+if (!fs.existsSync(envFile)) {
+  couldNotRun.push("no .env in this tree, so the worktree half (T11, T13) proved NOTHING: which brand "
+    + "this tree declares and which database that brand owns are per-worktree facts with no answer here");
+} else {
+  try {
+    env = loadEnv();
+  } catch (err) {
+    // The file EXISTS and could not be read: that is unusable, not absent, so it is a failure.
+    check("T11", `this tree has a .env but loadEnv() could not read it: `
+      + `${err instanceof Error ? err.message : String(err)}`, false);
+  }
 }
 if (env) {
 check("T11", "the brand actually REACHES the guard: loadEnv() carries NETZSPEC_BRAND from this "

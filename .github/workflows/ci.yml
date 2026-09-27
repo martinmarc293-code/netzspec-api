@@ -27,6 +27,20 @@ jobs:
         with:
           node-version: 22
           cache: npm
+      # PYTHON IS AN INPUT THIS SUITE NEEDS, NOT AN EXCUSE (27 Sep 2026). Several suites compare the
+      # TypeScript implementation against the Python one URL for URL and case for case -- images.py,
+      # sources/base.py is_part_number, the sku verdicts. With no python3.11 on the runner they reported
+      # ENOENT as "the Python half disagrees", about a half that never ran. Those drift checks are worth
+      # MORE in CI than on a laptop, because CI is where the two halves are compared by something that
+      # cannot forget, so the answer is to install the interpreter rather than to route the check to
+      # not-exercised. `python3.11` is the exact name the suites spawn.
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: expose the interpreter under the name the suites spawn
+        run: |
+          ln -s "$(which python3)" /usr/local/bin/python3.11 || true
+          python3.11 --version
       - run: npm ci --no-audit --no-fund
       - run: npm run typecheck
       - run: npm test
@@ -63,6 +77,20 @@ jobs:
         with:
           node-version: 22
           cache: npm
+      # PYTHON IS AN INPUT THIS SUITE NEEDS, NOT AN EXCUSE (27 Sep 2026). Several suites compare the
+      # TypeScript implementation against the Python one URL for URL and case for case -- images.py,
+      # sources/base.py is_part_number, the sku verdicts. With no python3.11 on the runner they reported
+      # ENOENT as "the Python half disagrees", about a half that never ran. Those drift checks are worth
+      # MORE in CI than on a laptop, because CI is where the two halves are compared by something that
+      # cannot forget, so the answer is to install the interpreter rather than to route the check to
+      # not-exercised. `python3.11` is the exact name the suites spawn.
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: expose the interpreter under the name the suites spawn
+        run: |
+          ln -s "$(which python3)" /usr/local/bin/python3.11 || true
+          python3.11 --version
       - run: npm ci --no-audit --no-fund
       - run: mkdir -p /tmp/netzspec-api/images /tmp/netzspec-api/cache /tmp/netzspec-api/runs
       - name: migrate (schema into netzspec_test)
