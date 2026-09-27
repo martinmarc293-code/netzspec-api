@@ -962,7 +962,78 @@ const TESTS: Test[] = [
   { name: "name_image_lifecycle_state", findings: "N16, N56, N58" },
   { name: "export_profiles_roundtrip", findings: "S1–S9, STEP 9" },
   { name: "openapi_schemas", findings: "N63" },
-  { name: "endpoints_alive", findings: "N43, N44" },
+  {
+    name: "endpoints_alive",
+    findings: "N43, N44, N69",
+    // R3: GREEN IS CLAIMED ONLY AGAINST THE DEPLOYED API. This is the test that makes that literal --
+    // it asks the public URL, not a laptop, so a route that works locally and 404s in production
+    // cannot read as alive. Every route the reviewer re-checks from /v1 is here.
+    //
+    // A network failure is NOT a failing route. If the control cannot be reached the whole run is
+    // NOT EXERCISED, because "the API is broken" and "I could not get there" are different findings
+    // and this repo has paid for confusing them more than once.
+    run: async () => {
+      const BASE = process.env.NETZSPEC_API ?? "https://api.netzspec.com";
+      const get = async (path: string): Promise<{ status: number; body: string } | null> => {
+        try {
+          const res = await fetch(BASE + path, {
+            headers: { "user-agent": "netzspec-mould-verify/1.0" },
+            signal: AbortSignal.timeout(20_000),
+          });
+          return { status: res.status, body: (await res.text()).slice(0, 2000) };
+        } catch { return null; }
+      };
+      const control = await get("/health");
+      if (!control) return none(`the control /health could not be reached at ${BASE} — this is a fact about the ` +
+        `network from here, NOT about the routes (producer: run again with reachability, or set NETZSPEC_API)`);
+      const ROUTES = [
+        "/openapi.json", "/v1/fields?category=switches", "/v1/parts?vendor=cisco&limit=1",
+        "/v1/report", "/v1/search?q=C9200-24P", "/v1/gaps?vendor=cisco&limit=1",
+        "/v1/completeness/cisco", "/v1/compare?skus=C9200-24P,C9200-48P",
+      ];
+      // THREE OUTCOMES, AND 401 IS NOT ONE OF THE BAD ONES. A 401 proves the route EXISTS and is
+      // protected -- strictly more than a 404 tells you. Counting it as dead would have reported
+      // "7 of 8 routes do not answer" about an API that was working perfectly, which is this repo's
+      // most expensive recurring mistake in a new place.
+      const dead: string[] = [];        // 404 / 5xx: the route's fault
+      const locked: string[] = [];      // 401 / 403: alive, and I have no key — could-not-check
+      const unreachable: string[] = []; // no answer at all: mine, not theirs
+      for (const r of ROUTES) {
+        const res = await get(r);
+        if (!res) { unreachable.push(r); continue; }
+        if (res.status === 401 || res.status === 403) { locked.push(`${r} -> ${res.status}`); continue; }
+        if (res.status !== 200) dead.push(`${r} -> ${res.status}`);
+      }
+      const hasKey = Boolean(process.env.NETZSPEC_API_KEY);
+      const scope = `${ROUTES.length} routes asked of ${BASE} (control /health ${control.status}); ` +
+        `${dead.length} dead, ${locked.length} alive-but-authenticated, ${unreachable.length} unreachable`;
+      if (dead.length) return bad(`${dead.length} routes are genuinely DEAD on the deployment — ${scope}: ${dead.join(", ")}`);
+      if (unreachable.length) return none(`${unreachable.length} routes could not be reached while the control answered — ${scope}`);
+      if (locked.length) {
+        return none(`no route is dead, but ${locked.length} of ${ROUTES.length} need an API key this ` +
+          `environment does not hold${hasKey ? " (NETZSPEC_API_KEY is set but was refused)" : " (NETZSPEC_API_KEY is not set)"} — ` +
+          `a 401 proves the route EXISTS and is protected, which is more than a 404 would, so this is ` +
+          `COULD-NOT-CHECK and not a pass — ${scope}`);
+      }
+      return ok(`every declared route answers 200 on the deployment — ${scope}`);
+    },
+    // The predicate is "200 and reachable", and its two failure modes must stay apart: a 404 is the
+    // route's fault, an unreachable host is mine. The fixture proves the test can tell them apart
+    // without going near the network.
+    // The three verdicts must stay apart, so the fixture asserts the CLASSIFIER and not just "200".
+    // 404 is dead, 401 is alive-and-locked, no answer is mine — and the first live run proved why
+    // this matters: it called seven authenticated routes dead before this branch existed.
+    selfTest: async () => {
+      const verdict = (res: { status: number } | null) =>
+        res === null ? "unreachable" : res.status === 401 || res.status === 403 ? "locked"
+        : res.status === 200 ? "alive" : "dead";
+      const negative = verdict({ status: 404 }) !== "dead";        // want FALSE: a 404 IS dead
+      const positive = verdict({ status: 401 }) === "locked" && verdict({ status: 200 }) === "alive"
+        && verdict(null) === "unreachable";
+      return { negative, positive,
+               note: "404 must classify as dead; 401 as alive-but-locked, 200 as alive, no answer as unreachable — never folded together" };
+    },
+  },
   { name: "link_integrity", findings: "H" },
   {
     name: "keys_hygiene",
