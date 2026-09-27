@@ -70,6 +70,22 @@ async function fixture(): Promise<{ runId: number; partA: number; partB: number;
   const partB = await ins("C9200L-48P-4G", "c9200l-48p-4g", "hardware", "Catalyst 9200L 48-port PoE+, 4 x 1G uplinks");
   const partL = await ins("L-C9200-NE", "l-c9200-ne", "license", "Catalyst 9200 Network Essentials licence");
 
+  // THE LAYER COLUMNS ARE NOW FIXTURE DATA, and that is the whole point of the 27 Sep change. Until then the
+  // record read the committed layer artifact, so these assertions passed in a TRUNCATED test database purely
+  // because a file shipped with the code placed the fixture's real Catalyst SKU. The record now reads the
+  // columns, which is what makes the API agree with the database rather than with a file — and it means a
+  // layered part in a test must be layered IN THE TEST. All four misses this produced were this one fact.
+  //
+  // TWO SHAPES, deliberately: A sits in a series, B is shared across its line and belongs to NO series, which
+  // is the case that was being served as a series that does not exist. The database refuses the broken shape
+  // (parts_series_not_bucket_check), so an attempt to seed it here would fail at the insert — the constraint is
+  // upstream of the fixture as well as of the serialiser.
+  await query(`UPDATE parts SET product_line = 'Catalyst', product_family = 'Catalyst 9000',
+                 product_family_state = 'named', product_series = 'Catalyst 9200', bucket = NULL WHERE id = $1`, [partA]);
+  await query(`UPDATE parts SET product_line = 'Catalyst', product_family = NULL,
+                 product_family_state = 'shared_across_line', product_series = NULL,
+                 bucket = ARRAY['Catalyst shared parts'] WHERE id = $1`, [partB]);
+
   await query("INSERT INTO doc_parts (doc_id, part_id) VALUES ($1, $2), ($1, $3)", [DOC, partA, partB]);
 
   // A: poe_budget 370 verified (current) with a superseded 350 behind it; layer held in conflict.
@@ -166,7 +182,12 @@ async function main(): Promise<void> {
   // product_line / product_family added 26 Sep 2026 (audit 6): the record carried layer 1 and layer 4 of the
   // hierarchy and nothing between, while `family` holds the MODEL — below layer 4. A shop's category tree is
   // line → family → series. This exact list is what makes an added or renamed field a decision rather than a drift.
-  const DOCUMENTED_KEYS = ["vendor", "sku", "slug", "category", "series", "product_line", "product_family", "product_family_state", "product_series", "family",
+  // bucket / no_family_reason added 27 Sep 2026, when the record stopped reading the layer FILE and started
+  // reading the COLUMNS migration 0026 constrains. A part shared across a whole line belongs to no series, and
+  // the record was serving the navigation construct ("Catalyst shared parts") AS `product_series` on 5,806
+  // parts -- a series that does not exist, and the shape parts_series_not_bucket_check refuses. The two answers
+  // are different questions, so they are different fields.
+  const DOCUMENTED_KEYS = ["vendor", "sku", "slug", "category", "series", "product_line", "product_family", "product_family_state", "no_family_reason", "product_series", "bucket", "family",
     "product_class", "name", "description", "datasheet_url",
     "kind", "deploy_role", "family_carrier", "family_carrier_reason",
     "lifecycle", "facts", "relations", "images", "completeness", "sources", "updated_at"].sort();
@@ -184,9 +205,9 @@ async function main(): Promise<void> {
     check("part GET carries the vendor's exact sku", r.body?.sku === "C9200L-24P-4G", r.body?.sku);
     check("part record has exactly the documented top-level keys", JSON.stringify(Object.keys(r.body ?? {}).sort()) === JSON.stringify(DOCUMENTED_KEYS), Object.keys(r.body ?? {}).sort());
     check("category is an object with both labels", r.body?.category?.slug === "switches" && r.body?.category?.name_en === "Switches" && r.body?.category?.name_de === "Switches", r.body?.category);
-    // LAYERS 2 AND 3 TRAVEL WITH THE PART (audit 6). The fixture's SKU is a real Catalyst 9200, so the committed
-    // layer artifact places it: a consumer gets the whole hierarchy 1→2→3→4 off one object. The `family` field
-    // beside them is the MODEL and must NOT equal product_family — that confusion is the reason these exist.
+    // LAYERS 2 AND 3 TRAVEL WITH THE PART (audit 6), READ FROM THE COLUMNS (27 Sep 2026). A consumer gets the whole
+    // hierarchy 1→2→3→4 off one object. The `family` field beside them is the MODEL and must NOT equal
+    // product_family -- that confusion is the reason these exist.
     check("product_line and product_family are served, and family is not mistaken for layer 3",
       r.body?.product_line === "Catalyst" && typeof r.body?.product_family === "string"
         && r.body?.product_family !== r.body?.family,
@@ -199,9 +220,22 @@ async function main(): Promise<void> {
       !/^\(/.test(String(r.body?.product_family ?? ""))
       && ["named", "no_family_named", "shared_across_line", null].includes(r.body?.product_family_state ?? null),
       { product_family: r.body?.product_family, state: r.body?.product_family_state });
-    check("product_series carries the layer artifact's layer 4",
-      typeof r.body?.product_series === "string" && r.body.product_series.length > 0,
-      { product_series: r.body?.product_series, series_column: r.body?.series });
+    check("product_series carries the layer COLUMN's layer 4, not the layer file",
+      r.body?.product_series === "Catalyst 9200" && r.body?.bucket === null,
+      { product_series: r.body?.product_series, bucket: r.body?.bucket, series_column: r.body?.series });
+    // THE CASE THAT HAD NO ASSERTION AND WAS WRONG IN PRODUCTION FOR AS LONG AS THE FIELD EXISTED. A part shared
+    // across its line belongs to no series; the record served the navigation construct as `product_series` on
+    // 5,806 parts, so a consumer building a tree got a series Cisco does not publish. The reviewer found it by
+    // reading two SKUs off the DEPLOYED API while every test here was green -- there was no test, which is a
+    // different thing from a test that passed. Both halves are asserted, because serving the bucket while ALSO
+    // serving a bogus series would satisfy either half alone.
+    {
+      const b = await get("/v1/parts/cisco/c9200l-48p-4g");
+      check("a part shared across its line serves its BUCKET and no series, and says why layer 3 is null",
+        b.body?.product_series === null && JSON.stringify(b.body?.bucket) === JSON.stringify(["Catalyst shared parts"])
+          && b.body?.product_family === null && b.body?.product_family_state === "shared_across_line",
+        { product_series: b.body?.product_series, bucket: b.body?.bucket, state: b.body?.product_family_state });
+    }
     const keys = (r.body?.facts ?? []).map((f: Json) => f.key);
     check("facts default to verified/corroborated: poe_budget present, conflict layer absent", JSON.stringify(keys) === JSON.stringify(["poe_budget"]), keys);
     const f = r.body?.facts?.[0] ?? {};

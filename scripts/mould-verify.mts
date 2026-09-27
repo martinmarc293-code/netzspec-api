@@ -464,6 +464,36 @@ const TESTS: Test[] = [
     name: "db_site_api_parity",
     findings: "N1, N59, N60",
     needsDb: true,
+    // THE NEGATIVE FIXTURE FOR THE THIRD LEG. The other two legs compare files with the database and can be
+    // sabotaged by editing a file; this one compares the API RECORD with the columns, and the way it fails in
+    // real life is a field the record stops carrying — a serialiser dropping it, a schema not declaring it
+    // (Fastify strips an undeclared key, which is how two layer fields reached nothing on the very day they were
+    // "verified" by calling the builder), or a deployment behind the columns. So the break is staged AT THE
+    // RECORD: one part's bucket is taken away and the comparison must name that part.
+    //
+    // The positive twin runs the same comparison untouched and must find nothing, so a fixture that fails for
+    // its own reasons cannot pass as a caught sabotage.
+    selfTest: async () => {
+      const { partRecords } = await import("../src/api/queries/part.js");
+      const { RENDERED_STATES } = await import("../src/api/queries/shared.js");
+      const row = (await query<{ id: number; sku: string; product_line: string | null; product_series: string | null; bucket: string[] | null }>(`
+        SELECT p.id, p.sku, p.product_line, p.product_series, p.bucket FROM parts p JOIN vendors v ON v.id=p.vendor_id
+         WHERE v.slug='cisco' AND p.retired_at IS NULL AND p.bucket IS NOT NULL LIMIT 1`)).rows[0];
+      if (!row) return { negative: false, positive: false, note: "no part carries a bucket, so the break cannot be staged" };
+      const recs = await partRecords([row.id], [...RENDERED_STATES], "x") as unknown as
+        { sku: string; product_line: string | null; product_series: string | null; bucket: string[] | null }[];
+      const compare = (r: typeof recs[0]) =>
+        r.product_line !== row.product_line || r.product_series !== row.product_series ||
+        (r.bucket ?? []).join("|") !== (row.bucket ?? []).join("|");
+      // Both values answer ONE question in the harness's polarity: DID THIS INPUT AGREE? The broken one must not
+      // (negative false), the untouched one must (positive true). Written the other way round the first time --
+      // reporting "the break was caught" as `negative: true` -- and the harness correctly called it BROKEN, which
+      // is the run that proves the harness is not decorative.
+      const agrees = (r: typeof recs[0]) => !compare(r);
+      const positive = agrees(recs[0]);                                // untouched: the record and the column agree
+      const negative = agrees({ ...recs[0], bucket: null });           // the field taken away: must NOT agree
+      return { negative, positive, note: `${row.sku}: with its bucket dropped the record still agrees = ${negative} (must be false); untouched agrees = ${positive}` };
+    },
     // 500 SEEDED SKUs so two runs compare the same rows and a moved number means the DATA moved. The reviewer
     // asked for the per-category counts to be PRINTED by the test rather than estimated, because that number
     // is the dry-run count for the write plans — an estimate would become a plan nobody could check.
@@ -496,12 +526,35 @@ const TESTS: Test[] = [
       const pick = new Set<string>();
       while (pick.size < 500) pick.add(all[Math.floor(rnd() * all.length)]);
       const skus = [...pick];
-      const ids = (await query<{ id: number; sku: string; series: string | null; product_series: string | null }>(`
-        SELECT p.id, p.sku, p.series, p.product_series FROM parts p JOIN vendors v ON v.id=p.vendor_id
+      const ids = (await query<{ id: number; sku: string; series: string | null; product_series: string | null;
+                                 product_line: string | null; bucket: string[] | null }>(`
+        SELECT p.id, p.sku, p.series, p.product_series, p.product_line, p.bucket FROM parts p JOIN vendors v ON v.id=p.vendor_id
          WHERE v.slug='cisco' AND p.retired_at IS NULL AND p.sku = ANY($1::text[])`, [skus])).rows;
+      const dbBySku = new Map(ids.map((r) => [r.sku, r]));
       if (!ids.length) return na(`0 of 500 sampled SKUs resolved in the DB — a broken join, not a finding`);
       const recs = await partRecords(ids.map((r) => r.id), [...RENDERED_STATES], "https://api.netzspec.com/v1") as unknown as
-        { sku: string; product_line: string | null; product_series: string | null; series: string | null }[];
+        { sku: string; product_line: string | null; product_series: string | null; series: string | null; bucket: string[] | null }[];
+      // THE THIRD LEG, and until 27 Sep 2026 it was not measured at all. This test compared the DB column with the
+      // layer page and called itself parity, while the record hexwaren actually consumes was built from the page
+      // through layerOf() — so the API could disagree with the database and nothing here would notice. The reviewer
+      // found it by reading the DEPLOYED API: HCI-CPU-I6454S and CAB-TA-UK served `product_series: "… shared parts"`,
+      // the shape parts_series_not_bucket_check refuses, on a database that was right.
+      //
+      // This leg admits NO exclusion. The record now selects the columns, so any difference is a serialiser dropping
+      // a field, a schema that does not declare one (Fastify strips an undeclared key — that is how two layer fields
+      // reached nothing on the same day they were "verified" by calling the builder), or a stale deployment.
+      const apiVsDb: string[] = [];
+      for (const r of recs) {
+        const d = dbBySku.get(r.sku); if (!d) continue;
+        const b = (r.bucket ?? []).join("|"), db = (d.bucket ?? []).join("|");
+        if (r.product_line !== d.product_line) apiVsDb.push(`${r.sku} line api=${r.product_line} db=${d.product_line}`);
+        else if (r.product_series !== d.product_series) apiVsDb.push(`${r.sku} series api=${r.product_series} db=${d.product_series}`);
+        else if (b !== db) apiVsDb.push(`${r.sku} bucket api=[${b}] db=[${db}]`);
+      }
+      if (apiVsDb.length) {
+        return bad(`the API RECORD disagrees with the DB columns on ${apiVsDb.length} of ${recs.length} sampled parts — ` +
+          `this leg has no exclusion, because the record now selects the columns: ${apiVsDb.slice(0, 5).join("; ")}`);
+      }
       const byCat = new Map<string, { n: number; seriesDiff: number; legacyDiff: number; bucketByDesign: number; lineMissing: number }>();
       for (const r of recs) {
         const a = art.get(r.sku); if (!a) continue;
@@ -551,7 +604,7 @@ const TESTS: Test[] = [
       }
       const perCat = [...byCat].sort((a, b) => b[1].seriesDiff - a[1].seriesDiff)
         .map(([c, e]) => `${c} ${e.seriesDiff}/${e.n}`).join(", ");
-      if (sDiff === 0 && lDiff === 0) return ok(`${checked} sampled SKUs: the LAYER column, the layer page and the API record agree on line and series` +
+      if (sDiff === 0 && lDiff === 0) return ok(`${checked} sampled SKUs: the API RECORD matches the DB columns on line, series AND bucket for all ${recs.length} (the third leg, unmeasured until 27 Sep — the record read the layer FILE, so the API could disagree with the database and nothing here would see it); the LAYER column, the layer page and the API record agree on line and series` +
         ` — ${buckets} bucket rows differ because the PAGE is not yet rebuilt from the database (ceiling ${BUCKET_CEILING}; this is NOT by design and must reach 0 on the commit that regenerates the site from parts — a bounded exclusion with a named expiry, because one without an expiry is where the next real break hides)` +
         ` — separately, the legacy p.series platform column differs from the page on ${legacy} of ${checked}, which is a different question and not a defect (docs/decisions, 27 Sep: repairing it would be right for 21% and wrong for 79%)`);
       return bad(`${checked} sampled: series DB-vs-page differs on ${sDiff} (${(100 * sDiff / checked).toFixed(1)}%), `

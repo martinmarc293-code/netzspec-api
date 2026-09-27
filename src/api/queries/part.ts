@@ -15,7 +15,6 @@
 //     the shape equality the export contract promises holds by construction (and is tested).
 import { SPEC_BEARING, type DocClass } from "../../core/docClass.js";
 import { renderValue } from "../../core/renderContract.js";
-import { layerOf, familyLayer } from "./layerIndex.js";
 import { query } from "../../store/db.js";
 import { badRequest } from "../errors.js";
 import { ALL_STATES, RENDERED_STATES, factRunSucceeded, isoOf, kindAndRole, type FactState, type PartIdentity } from "./shared.js";
@@ -112,8 +111,19 @@ export type PartRecord = {
   product_line: string | null; product_family: string | null;
   /** why layer 3 is null: Cisco names no family for this line, or the part is a line-level shared part. */
   product_family_state: "named" | "no_family_named" | "shared_across_line" | null;
-  /** layer 4 from the layer artifact — the authoritative one. `series` above is the column `?series=` filters on. */
+  /** layer 4 from the `parts.product_series` COLUMN — the authoritative one. `series` above is the legacy platform
+   *  column `?series=` filters on. */
   product_series: string | null;
+  /** WHY layer 3 is null when the state is `no_family_named` — "the vendor names none" and "nobody has looked" are
+   *  different facts and one null cannot carry both. One of vendor-names-none | single-series | not-reviewed. */
+  no_family_reason: string | null;
+  /** NAVIGATION BUCKETS, and the reason this field had to exist. A part shared across a whole line belongs to no
+   *  series, and the layer build files it under a construct like "Catalyst shared parts". That construct is not a
+   *  series — the database refuses one in `product_series` (parts_series_not_bucket_check) — but it is not nothing
+   *  either: it is where a tree puts the part. Until 27 Sep 2026 the record served it AS `product_series`, so a
+   *  consumer building a hierarchy got a series that does not exist on 5,806 parts. Empty array is never served:
+   *  null = no bucket. */
+  bucket: string[] | null;
   /** Q-10 vs Q-23 (operator, 15 Sep 2026): true = the family's MODEL row, which carries the family's facts or document and is not
    *  orderable. A shop feed must not list it. The reason names the decision that set it. */
   family_carrier: boolean; family_carrier_reason: string | null;
@@ -172,6 +182,8 @@ type HeadRow = {
   id: number; vendor: string; sku: string; slug: string; cat_slug: string; name_en: string; name_de: string; series: string | null; family: string | null;
   product_class: string; name: string | null; description: string | null; datasheet_url: string | null; updated_at: Date;
   family_carrier: boolean; family_carrier_reason: string | null;
+  product_line: string | null; product_family: string | null; product_family_state: string | null;
+  no_family_reason: string | null; product_series: string | null; bucket: string[] | null;
 } & { [K in keyof LifecycleFull]: LifecycleFull[K] | null };
 type RelationRow = RelationItem & { part_id: number };
 type ImageRow = { id: number; part_id: number; role: string; storage_path: string; width: number | null; height: number | null; alt_en: string | null; alt_de: string | null };
@@ -192,7 +204,8 @@ export async function partRecords(ids: number[], states: FactState[], publicBase
   const [heads, facts, relations, images, variants, completeness, sources] = await Promise.all([
     query<HeadRow>(`
       SELECT p.id, v.slug AS vendor, p.sku, p.slug, c.slug AS cat_slug, c.name_en, c.name_de, p.series, p.family, p.product_class::text AS product_class,
-             p.name, p.description, p.datasheet_url, p.updated_at, p.family_carrier, p.family_carrier_reason, ${LIFECYCLE_COLUMNS}
+             p.name, p.description, p.datasheet_url, p.updated_at, p.family_carrier, p.family_carrier_reason,
+             p.product_line, p.product_family, p.product_family_state, p.no_family_reason, p.product_series, p.bucket, ${LIFECYCLE_COLUMNS}
         FROM parts p
         JOIN vendors v ON v.id = p.vendor_id
         JOIN categories c ON c.id = p.category_id
@@ -250,12 +263,22 @@ export async function partRecords(ids: number[], states: FactState[], publicBase
       // `parts.series` on the strength of a comment of mine claiming the column "is the same value" — it differs
       // on 78% of switches and 79% of routers. `product_series` is now the artifact's layer 4; `series` above
       // stays the column, because `?series=` filters on it (parts.ts) and the two must not silently diverge.
-      ...(() => {
-        const p = layerOf(h.vendor, h.cat_slug, h.sku);
-        return p === null
-          ? { product_line: null, product_family: null, product_family_state: null, product_series: null }
-          : { product_line: p.product_line, ...familyLayer(p), product_series: p.series };
-      })(),
+      //
+      // CORRECTED AGAIN 27 Sep 2026, by the reviewer reading the DEPLOYED API rather than the repo: this block was
+      // still reading the layer artifact through layerOf(), so HCI-CPU-I6454S and CAB-TA-UK served
+      // `product_series: "… shared parts", bucket: absent` — the exact shape the database refuses
+      // (parts_series_not_bucket_check). The database was right and the API was reading a file. It now reads the
+      // COLUMNS, which migration 0026 constrains, so the record cannot carry a sentinel or a bucket-as-series even
+      // if a future write tried: the constraint is upstream of the serialiser.
+      //
+      // Proven a no-op for every value except the buckets before it landed (scripts, 27 Sep): over the 41,067 rows
+      // the artifact places, the columns place 41,067, place nothing the artifact does not, and disagree on line for
+      // 0 and on series for 0. The only rows that change are the 5,806 buckets, which stop being served as a series
+      // they never were. Non-cisco parts carry no layer columns, which is the same null layerOf() returned for them.
+      product_line: h.product_line, product_family: h.product_family,
+      product_family_state: h.product_family_state as PartRecord["product_family_state"],
+      no_family_reason: h.no_family_reason, product_series: h.product_series,
+      bucket: h.bucket && h.bucket.length ? h.bucket : null,
       // The same call /v1/parts items and the ledger builder make, WITH the name: a UCS programme SKU's kind is read
       // from its name (bundleFamily.ts), so a caller that dropped it would report a different kind here.
       // kind-layer infra (13 Sep 2026): kind and deploy_role by the one helper /v1/parts items use (shared.kindAndRole).

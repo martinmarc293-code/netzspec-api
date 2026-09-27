@@ -161,7 +161,14 @@ export const PartRecord = Type.Object({
   // every part GET returned `{"error":{"code":"internal"}}` and 32 cases went red. The three values are enforced by
   // tests/db/api.test.ts instead, which is where the contract was already being checked.
   product_family_state: Nullable(Type.String({ description: "one of \"named\" | \"no_family_named\" | \"shared_across_line\" — WHY product_family is null, so null never has to mean \"undecided\": Cisco names no family for this line (docs/decisions/2026-09-14-family-layer.md lists them), or the part is shared across the line. null only when the part is not layered at all" })),
-  product_series: Nullable(Type.String({ description: "layer 4 as the layer artifact records it, e.g. \"Catalyst 9300\" — the authoritative one. null = not layered" })),
+  product_series: Nullable(Type.String({ description: "layer 4, read from the parts.product_series COLUMN, e.g. \"Catalyst 9300\" — the authoritative one. null = not layered, or the part is shared across its line and belongs to no series (then `bucket` names where a tree puts it)" })),
+  no_family_reason: Nullable(Type.String({ description: "one of \"vendor-names-none\" | \"single-series\" | \"not-reviewed\" — present when product_family_state is no_family_named, because \"the vendor names none\" and \"nobody has looked yet\" are different facts and one null cannot carry both" })),
+  // 5,806 parts are shared across a whole line and belong to NO series. Until 27 Sep 2026 the record served the
+  // navigation construct ("Catalyst shared parts") as `product_series`, so a consumer building a hierarchy got a
+  // series that does not exist; the database refuses that shape and the API was reading a file instead of the column.
+  // A separate field because the two answers are different: product_series says which series, bucket says where a
+  // tree puts a part that has none.
+  bucket: Nullable(Type.Array(Type.String(), { description: "navigation buckets for a part that belongs to no series, e.g. [\"Catalyst shared parts\"]. null (never []) when the part sits in a series or is not layered" })),
   family: Nullable(Type.String({ description: "the MODEL (SKU minus its orderable suffix), below series — NOT the product family" })),
   product_class: Type.String(), name: Nullable(Type.String()), description: Nullable(Type.String()),
   datasheet_url: Nullable(Type.String()),
