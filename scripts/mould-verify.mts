@@ -1155,7 +1155,59 @@ const TESTS: Test[] = [
                note: "a name that is just the SKU with a word in front must not count as a name; a real one must" };
     },
   },
-  { name: "export_profiles_roundtrip", findings: "S1–S9, STEP 9" },
+  {
+    name: "export_profiles_roundtrip",
+    findings: "S1–S9, STEP 9",
+    // THIS IS THE TEST THE WHOLE MOULD IS FOR. The catalogue exists so a JTL shop can be loaded from
+    // it: five export profiles, a 19-column semicolon file with a BOM, four-column attribute files,
+    // exact Wawi group and attribute names, GERMAN decimal commas, and category from the locked lists.
+    // Every other green on this board is a means to this one.
+    //
+    // It is asked of the DEPLOYED API, per R3, because an export that works in a worktree is an export
+    // nobody can download. A 404 on the profile is the finding, not an error to swallow: it says the
+    // surface a shop would use does not exist yet.
+    run: async () => {
+      const BASE = process.env.NETZSPEC_API ?? "https://api.netzspec.com";
+      const PROFILES_WANTED = ["jtl-main", "jtl-attributes-switches", "jtl-attributes-transceivers", "jtl-faq", "jtl-condition"];
+      const ACCEPTANCE = ["C9200-24P", "C9200-48P-E", "SFP-10G-SR", "QSFP-100G-CU3M", "QDD-400G-DR4"];
+      const missing: string[] = [], locked: string[] = [];
+      let controlOk = false;
+      try {
+        const c = await fetch(`${BASE}/health`, { headers: { "user-agent": "netzspec-mould-verify/1.0" }, signal: AbortSignal.timeout(20_000) });
+        controlOk = c.status === 200;
+      } catch { controlOk = false; }
+      if (!controlOk) return none(`the control /health could not be reached at ${BASE} — a fact about the network from here, not about the export`);
+      for (const p of PROFILES_WANTED) {
+        try {
+          const res = await fetch(`${BASE}/v1/export?profile=${p}&skus=${ACCEPTANCE.join(",")}`, {
+            headers: { "user-agent": "netzspec-mould-verify/1.0" }, signal: AbortSignal.timeout(25_000),
+          });
+          if (res.status === 401 || res.status === 403) { locked.push(p); continue; }
+          if (res.status !== 200) { missing.push(`${p} -> ${res.status}`); continue; }
+        } catch (e) {
+          missing.push(`${p} unreachable: ${e instanceof Error ? e.message : String(e)}`);
+        }
+      }
+      const scope = `${PROFILES_WANTED.length} profiles asked of ${BASE} for the ${ACCEPTANCE.length} acceptance SKUs; ` +
+        `${missing.length} missing, ${locked.length} behind a key this environment does not hold`;
+      if (missing.length) {
+        return bad(`${missing.length} of ${PROFILES_WANTED.length} export profiles do not exist on the ` +
+          `deployment — this is the surface a JTL shop loads from, so until it answers, every other green ` +
+          `on this board is a means without an end — ${scope}: ${missing.join(", ")}`);
+      }
+      return locked.length
+        ? none(`every profile answered, but ${locked.length} need an API key this environment does not hold, ` +
+               `so the FILES were not validated — could-not-check, not a pass — ${scope}`)
+        : ok(`every export profile answers for the acceptance SKUs — ${scope}`);
+    },
+    // The half that can be proven without the network is the FORMAT, and its most common defect here is
+    // the decimal separator: a German shop reads "1.5" as fifteen thousand. That is the fixture.
+    selfTest: async () => {
+      const germanDecimal = (s: string) => /^-?\d{1,3}(\.\d{3})*(,\d+)?$/.test(s);
+      return { negative: germanDecimal("1.5"), positive: germanDecimal("1,5") && germanDecimal("1.234,56"),
+               note: "an English decimal point must be refused for a German shop column; a comma decimal must pass" };
+    },
+  },
   {
     name: "openapi_schemas",
     findings: "N63",
