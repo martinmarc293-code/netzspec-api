@@ -132,7 +132,7 @@ async function kindPairsWithParts(): Promise<{ pairs: { category: string; kind: 
   const sql =
     "SELECT c.slug AS category, p.sku_kind AS kind, count(*)::text AS n" +
     " FROM parts p JOIN categories c ON c.id = p.category_id" +
-    " WHERE p.retired_at IS NULL AND p.sku_kind IS NOT NULL" +
+    " WHERE p.retired_at IS NULL AND p.sku_kind IS NOT NULL AND p.product_class = 'hardware'" +
     " GROUP BY 1, 2 ORDER BY 1, 2";
   try {
     const r = await query<{ category: string; kind: string; n: string }>(sql);
@@ -613,8 +613,19 @@ const TESTS: Test[] = [
         const first = rows[0];
         const diffs: string[] = [];
         for (const other of rows.slice(1)) {
-          for (const bucket of ["req", "pending", "opt", "na"]) {
-            const a = new Set(first.sets[bucket]), b = new Set(other.sets[bucket]);
+          // ONLY THE BUCKETS THAT CREATE WORK, AND NEVER A COLUMN. Measured 27 Sep: the unrefined
+          // comparison reported 34 divergent kinds; scoped to hardware it is 26, and excluding
+          // COLUMN_BACKED keys it is 19. A column-backed key is not a cup a crawler fills -- it is a
+          // column -- which is exactly why required_cup_defined skips them, and `fan` differing on
+          // `series` and `vendor` between two categories is not a parity defect, it is two columns.
+          //
+          // The 19 that survive are substantive: a meraki `appliance` is asked concurrent_sessions,
+          // firewall_throughput, ipsec_throughput, mounting, ports, psu_options and threat_throughput
+          // that a security `appliance` is not. That is the exceptions table B4 needs, and it is worth
+          // reading BECAUSE it is 19 and not 34.
+          for (const bucket of ["req", "pending"]) {
+            const a = new Set(first.sets[bucket].filter((k) => !COLUMN_BACKED.has(k)));
+            const b = new Set(other.sets[bucket].filter((k) => !COLUMN_BACKED.has(k)));
             const onlyA = [...a].filter((k) => !b.has(k)), onlyB = [...b].filter((k) => !a.has(k));
             if (onlyA.length || onlyB.length) {
               diffs.push(`${bucket}: ${first.cat} has ${onlyA.length ? onlyA.slice(0, 4).join("/") : "—"}` +
@@ -626,7 +637,10 @@ const TESTS: Test[] = [
       }
       // The denominator and what could not be compared, both in the line: a kind that exists in ONE
       // category has no parity to check and must not be counted as agreeing.
-      const scope = `${compared} kinds compared across ${pairs.length} (category, kind) pairs; ` +
+      const scope = `${compared} HARDWARE kinds compared across ${pairs.length} (category, kind) pairs ` +
+        `(non-hardware excluded — a licence has no kind to compare; column-backed keys excluded from the ` +
+        `diff because they are COLUMNS and not cups a crawler fills, the same reason required_cup_defined ` +
+        `skips them); ` +
         `${singleCategory} kinds live in a single category and have no parity to check; ` +
         `0 recorded exceptions (kindProfiles.ts is B4 and does not exist yet)`;
       return divergent.length === 0
