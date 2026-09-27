@@ -44,6 +44,7 @@ let skipped = 0;
  *  compared the two. */
 const DB_HALF_CHECKS = 7;
 const misses: string[] = [];
+const couldNotRun: string[] = [];  // inputs this tree does not have: exit 2, never exit 1
 function check(name: string, cond: boolean, detail?: unknown): void {
   if (cond) { pass++; console.log(`PASS  ${name}`); }
   else { misses.push(name); console.log(`MISS  ${name}${detail === undefined ? "" : " -> " + JSON.stringify(detail)}`); }
@@ -231,7 +232,11 @@ function inventoryPath(): string | null {
   // A missing generated artifact must cost exactly the proof it carries: say so and carry on.
   const invPath = inventoryPath();
   if (invPath === null) {
-    misses.push("no label inventory under runs/vocab/*/labels.json — keysFromInventory was NOT "
+    // ABSENT INPUT IS NOT A FAILED CHECK (27 Sep 2026). runs/ is gitignored, so in CI this is guaranteed
+    // and says nothing about the code -- it was one of four suites keeping CI's pure job permanently red,
+    // which kept the database job (needs: pure) from ever running. Routed to exit 2, which
+    // scripts/run-tests.ts reports as NOT EXERCISED. Still not a pass; a real miss below still exits 1.
+    couldNotRun.push("no label inventory under runs/vocab/*/labels.json — keysFromInventory was NOT "
       + "proved against a real inventory (the synthetic cases below still ran). Rebuild with: "
       + "python3.11 scraper/tools/label_inventory.py <slug> --acquired");
     console.log("MISS  keysFromInventory(real inventory): no runs/vocab/*/labels.json in this tree");
@@ -349,3 +354,9 @@ if (!DB_MODE) {
 
 console.log(`\n${pass} passed, ${misses.length} missed (${sabotages} sabotage cases${skipped ? `, ${skipped} database checks skipped` : ""})`);
 if (misses.length) { for (const m of misses) console.log(`  MISS ${m}`); process.exit(1); }
+// A real miss outranks an absent input, so could-not-run can never hide a defect.
+if (couldNotRun.length) {
+  console.log("NOT EXERCISED (input absent - this suite proved less than it claims to):");
+  for (const m of couldNotRun) console.log(`  ${m}`);
+  process.exit(2);
+}

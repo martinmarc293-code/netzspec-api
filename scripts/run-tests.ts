@@ -40,16 +40,37 @@ const files = everything.filter((f) => !notRun.includes(f)).filter((f) => only.l
 if (files.length === 0) { console.error("no test files found"); process.exit(1); }
 
 const tsx = path.join(root, "node_modules", ".bin", process.platform === "win32" ? "tsx.cmd" : "tsx");
+// EXIT 2 MEANS "I COULD NOT RUN", AND UNTIL NOW NOTHING READ IT (27 Sep 2026).
+//
+// Several suites already exit 2 to say their INPUT is absent -- a label inventory under runs/vocab, a
+// runs/ tree, a .env -- rather than that anything is wrong with the code. This runner tested status === 0,
+// so exit 1 and exit 2 were identical to it, and those suites were reported FAILED on every run. The cost
+// was not hypothetical: CI pure has been red on EVERY push, 4 suites of 77, none naming a code defect --
+// and because the database job declares needs: pure, the 21 DB suites have never executed in CI once. A
+// permanently red gate gates nothing, and a real red inside it is invisible.
+//
+// Could-not-run is now its own count, printed and never folded into either side. What stops it becoming
+// the new silent pass: it is LOUD (its own line, each suite named), and a suite may exit 2 ONLY when its
+// input is genuinely ABSENT -- an input that exists and is unusable is a failure, decided in the suite,
+// next to the file it reads.
 let failed = 0;
+const notExercised: string[] = [];
 for (const f of files) {
   const rel = path.relative(root, f);
   const r = spawnSync(tsx, [f], { cwd: root, stdio: "pipe", encoding: "utf8", shell: process.platform === "win32" });
   const ok = r.status === 0;
-  if (!ok) failed++;
+  const could = r.status === 2;
+  if (!ok && !could) failed++;
+  if (could) notExercised.push(rel);
   const tail = (r.stdout + r.stderr).trim().split("\n").slice(ok ? -1 : -25).join("\n    ");
-  console.log(`${ok ? "PASS" : "FAIL"}  ${rel}\n    ${tail}`);
+  console.log(`${ok ? "PASS" : could ? "----" : "FAIL"}  ${rel}\n    ${tail}`);
 }
-console.log(`\n${files.length - failed}/${files.length} suites passed`);
+console.log(`\n${files.length - failed - notExercised.length}/${files.length} suites passed`
+  + (notExercised.length ? `, ${notExercised.length} NOT EXERCISED (input absent, not a defect)` : "")
+  + (failed ? `, ${failed} FAILED` : ""));
+if (notExercised.length)
+  console.log(`NOT EXERCISED - these could not reach an input and proved NOTHING; they are not passes:\n    `
+    + notExercised.join("\n    "));
 // the omission gets its own line, always, and names the command that closes it — a total that hides a whole category of
 // suites is the shape that let five of them rot unnoticed
 if (notRun.length)

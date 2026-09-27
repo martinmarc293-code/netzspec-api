@@ -30,6 +30,7 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 let pass = 0;
 let sabotages = 0;
 const misses: string[] = [];
+const couldNotRun: string[] = [];  // inputs this tree does not have: exit 2, never exit 1
 function check(name: string, cond: boolean, detail?: unknown): void {
   if (cond) { pass++; console.log(`PASS  ${name}`); }
   else { misses.push(name); console.log(`MISS  ${name}${detail === undefined ? "" : " -> " + JSON.stringify(detail)}`); }
@@ -168,7 +169,16 @@ for (const c of corpus) {
   // check would fail for a reason that has nothing to do with drift.
   const r = spawnSync("python3.11", ["scraper/images.py", "keys", ...corpus.map((c) => c.url)],
     { cwd: ROOT, encoding: "utf8" });
-  if (r.status !== 0) {
+  // A MISSING INTERPRETER IS NOT A DRIFT (27 Sep 2026). CI has no python3.11 -- on this laptop it is an
+  // App Execution Alias, on ubuntu-latest it does not exist at all -- so spawnSync returns ENOENT and this
+  // reported "the Python half disagrees" about a Python half that never ran. It was one of four suites
+  // keeping CI's pure job permanently red, which kept the database job (needs: pure) from ever running.
+  // ENOENT is routed to exit 2 (NOT EXERCISED); a python3.11 that EXISTS and exits non-zero is still a
+  // failure, because then something really is wrong with the script or the corpus.
+  if ((r.error as NodeJS.ErrnoException | undefined)?.code === "ENOENT") {
+    couldNotRun.push("python3.11 is not on PATH, so scraper/images.py never ran - the TypeScript half was "
+      + "NOT compared against the Python half. Install python3.11 to close this.");
+  } else if (r.status !== 0) {
     check("DRIFT scraper/images.py keys runs", false, (r.stderr || r.stdout || "").slice(-400));
   } else {
     type PyRow = { url: string; key: string | null; placeholder: string | null; width_hint: number | null; height_hint: number | null };
@@ -192,7 +202,11 @@ for (const c of corpus) {
 {
   const r = spawnSync("python3.11", ["tests/scraper/test_image_rules.py", "--emit-sku-verdicts"],
     { cwd: ROOT, encoding: "utf8" });
-  if (r.status !== 0) {
+  // Same distinction as the block above: no interpreter is could-not-run, a failing script is a failure.
+  if ((r.error as NodeJS.ErrnoException | undefined)?.code === "ENOENT") {
+    couldNotRun.push("python3.11 is not on PATH, so tests/scraper/test_image_rules.py never ran - the sku "
+      + "verdicts were NOT compared across the two implementations. Install python3.11 to close this.");
+  } else if (r.status !== 0) {
     check("DRIFT the Python sku verdicts run", false, (r.stderr || r.stdout || "").slice(-400));
   } else {
     type PyRow = { sku: string; url: string; verdict: string | null; relations: Record<string, string> };
@@ -250,3 +264,9 @@ for (const c of corpus) {
 
 console.log(`\n${pass} passed, ${misses.length} missed (${sabotages} sabotage cases)`);
 if (misses.length) { for (const m of misses) console.log(`  MISS ${m}`); process.exit(1); }
+// A real miss outranks an absent input, so could-not-run can never hide a defect.
+if (couldNotRun.length) {
+  console.log("NOT EXERCISED (input absent - this suite proved less than it claims to):");
+  for (const m of couldNotRun) console.log(`  ${m}`);
+  process.exit(2);
+}

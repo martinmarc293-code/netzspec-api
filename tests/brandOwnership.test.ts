@@ -67,18 +67,36 @@ check("T10", "databaseName reads the database out of a URL, and says nothing for
 // environment, so process.env.NETZSPEC_BRAND is undefined in every process this repo starts. The
 // first version of the guard read it from there and would have been permanently inert — in the very
 // code whose job is to make a guard real.
-const env = loadEnv();
+// NO .env IS COULD-NOT-RUN, NOT A FAILURE (27 Sep 2026). T11 and T13 are about THIS WORKTREE's .env --
+// which brand it declares and which database that brand owns -- so they are per-machine by construction.
+// CI has no .env, loadEnv() threw at src/config.ts, and the WHOLE FILE died on an uncaught error: D1-D5,
+// which parse a Python file that IS in git and would have run fine, never executed either. That made this
+// one of four suites keeping CI's pure job permanently red, which kept the database job (needs: pure) from
+// ever running. Now the worktree half reports NOT EXERCISED (exit 2) and the drift half still runs.
+const couldNotRun: string[] = [];
+let env: ReturnType<typeof loadEnv> | null = null;
+try {
+  env = loadEnv();
+} catch (err) {
+  couldNotRun.push(`no .env in this tree, so the worktree half (T11, T13) proved NOTHING: `
+    + `${err instanceof Error ? err.message : String(err)}`);
+}
+if (env) {
 check("T11", "the brand actually REACHES the guard: loadEnv() carries NETZSPEC_BRAND from this "
            + "worktree's .env, which process.env does not",
   typeof env.NETZSPEC_BRAND === "string" && env.NETZSPEC_BRAND.length > 0,
   `loadEnv=${JSON.stringify(env.NETZSPEC_BRAND)} process.env=${JSON.stringify(process.env.NETZSPEC_BRAND)}`);
+}
 check("T12", "SABOTAGE currentBrand() reads an explicit environment when given one, and returns "
            + "null rather than a plausible default when nothing declares a brand",
   currentBrand({ NETZSPEC_BRAND: "hpe" }) === "hpe" && currentBrand({}) === null);
+if (env) {
+const e = env;
 check("T13", "this worktree's .env points at the database this worktree's brand OWNS — the state "
            + "that was NOT true on 5 Sep 2026, when all four trees shared netzspec_test5",
-  !!env.NETZSPEC_BRAND && databaseName(env.DATABASE_URL_TEST ?? "") === BRAND_TEST_DB[env.NETZSPEC_BRAND],
-  `${env.NETZSPEC_BRAND} -> ${databaseName(env.DATABASE_URL_TEST ?? "")}, owns ${BRAND_TEST_DB[env.NETZSPEC_BRAND ?? ""]}`);
+  !!e.NETZSPEC_BRAND && databaseName(e.DATABASE_URL_TEST ?? "") === BRAND_TEST_DB[e.NETZSPEC_BRAND],
+  `${e.NETZSPEC_BRAND} -> ${databaseName(e.DATABASE_URL_TEST ?? "")}, owns ${BRAND_TEST_DB[e.NETZSPEC_BRAND ?? ""]}`);
+}
 
 // ---- DRIFT: the two language copies must agree ----------------------------------------------
 // Adding a brand in one language and not the other must be a RED SUITE, not a silent hole. Parsed
@@ -111,5 +129,7 @@ check("D5", "SABOTAGE the drift check can FAIL: an invented brand present in onl
   JSON.stringify(Object.keys({ ...pyBrands, nz_only_in_python: "x" }).sort())
     !== JSON.stringify(Object.keys(BRAND_TEST_DB).sort()));
 
-console.log(`\n${pass} passed, ${miss} missed`);
-process.exit(miss ? 1 : 0);
+console.log(`\n${pass} passed, ${miss} missed` + (couldNotRun.length ? `, ${couldNotRun.length} NOT EXERCISED` : ""));
+for (const m of couldNotRun) console.log(`  NOT EXERCISED  ${m}`);
+// A real miss outranks an absent input, so could-not-run can never hide a defect.
+process.exit(miss ? 1 : couldNotRun.length ? 2 : 0);

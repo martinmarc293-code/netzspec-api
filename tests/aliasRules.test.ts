@@ -37,6 +37,7 @@ import { FIELD_DICTIONARY, SUPERSEDED_KEYS } from "../src/core/fieldSchema.js";
 
 let pass = 0;
 const misses: string[] = [];
+const couldNotRun: string[] = [];  // inputs this tree does not have: exit 2, never exit 1
 const check = (name: string, got: unknown, want: unknown) => {
   if (got === want) pass++;
   else misses.push(`${name}\n     want ${JSON.stringify(want)}\n     got  ${JSON.stringify(got)}`);
@@ -402,7 +403,12 @@ for (const slug of ["cisco-datasheets", "provantage", "meraki", "router-switch",
 }
 // An inventory that is absent must not read as "nothing is shadowed": say which happened.
 if (inventoried === 0) {
-  misses.push("no label inventory found under runs/vocab/*/labels.json — this check proved NOTHING. "
+  // ABSENT INPUT IS NOT A FAILED CHECK (27 Sep 2026). This pushed a miss and the suite exited 1, so it was
+  // red on every CI run -- runs/ is not in git and never will be -- and the pure job being red meant the
+  // database job (needs: pure) had never executed once. Could-not-run gets its own list and exit 2, which
+  // scripts/run-tests.ts reports as NOT EXERCISED. Still not a pass; the sentence is unchanged, only the
+  // channel. A real miss still exits 1 first, so this can never hide a defect.
+  couldNotRun.push("no label inventory found under runs/vocab/*/labels.json — this check proved NOTHING. "
     + "Rebuild with: python3.11 scraper/tools/label_inventory.py <slug> --acquired");
 } else {
   check(`no ignore rule shadows a mapped label (${inventoried} labels checked)`, shadowed.slice(0, 3).join(" | "), "");
@@ -461,7 +467,13 @@ const TOTAL = RULES.length * 3 + 6 + LABEL_CASES.length + ACCEPTS.length + BANDS
 // against it here, the scoped block adds its own arithmetic total below, and the one exit is at
 // the end of the file.
 const subtotal = pass;
-check("the rule-table subtotal accounts for every case it claims", subtotal + misses.length, TOTAL);
+// A CHECK THAT COULD NOT RUN IS ACCOUNTED FOR, NOT EXCUSED. This exact-count assertion is what notices a
+// silently dropped case, so it must stay exact -- loosening it to a floor would be the very hole it
+// exists to close. couldNotRun entries are cases whose INPUT is absent, so they are named in the sum
+// rather than subtracted from the demand: pass + misses + could-not-run must still equal TOTAL, and a
+// case that vanishes for any OTHER reason still fails here.
+check("the rule-table subtotal accounts for every case it claims (passed + missed + not exercised)",
+  subtotal + misses.length + couldNotRun.length, TOTAL);
 // ---- CATEGORY-SCOPED RULES -------------------------------------------------------------------
 // Rule "^spee *d$" -> drive_interface exists for Cisco's SERVER spec sheets, where a PDF column
 // split inserts a space inside "Speed" and the column is a SAS/SATA link rate. Unscoped it also
@@ -658,8 +670,19 @@ check('CONTROL: an RF "Pass band" still reaches passband (MHz)', mapLabel("Pass 
       if (k && FREQ_UNIT.test(unit)) wrong.push(`${JSON.stringify(l)} in ${c ?? "(unscoped)"} -> ${k} (${unit})`);
     }
   }
-  check(`the label inventory is present (${labels.size} labels, ${named.length} name a wavelength, ${pairs} label x category pairs)`,
-    labels.size > 1000 && named.length > 0 ? "present" : "absent", "present");
+  // PRESENT-OR-NOT-EXERCISED, not present-or-failed. This asserted the inventory exists, which can only
+  // ever be true off-CI: runs/ is gitignored, so in CI the assertion is guaranteed to fail and says nothing
+  // about the code. An empty inventory still costs the proof it carries -- it is routed to couldNotRun, so
+  // the runner prints it as NOT EXERCISED with the rebuild command, which is the notice a work machine
+  // needs. A NON-empty inventory that then fails a rule is a real miss and still exits 1.
+  if (labels.size > 1000 && named.length > 0) {
+    check(`the label inventory is present (${labels.size} labels, ${named.length} name a wavelength, ${pairs} label x category pairs)`,
+      "present", "present");
+  } else {
+    couldNotRun.push(`the label inventory is absent or too small to prove anything `
+      + `(${labels.size} labels, ${named.length} naming a wavelength) - the wavelength-cup check proved NOTHING. `
+      + `Rebuild with: python3.11 scraper/tools/label_inventory.py <slug> --acquired`);
+  }
   check(`no label naming a wavelength reaches a frequency-unit cup${wrong.length ? `: ${wrong.slice(0, 5).join("; ")}` : ""}`,
     wrong.length, 0);
 }
@@ -771,6 +794,11 @@ if (misses.length) {
   console.log("\nMISSES:");
   for (const m of misses) console.log(`  ${m}`);
   process.exit(1);
+}
+if (couldNotRun.length) {
+  console.log("\nNOT EXERCISED (input absent - this suite proved less than it claims to):");
+  for (const m of couldNotRun) console.log(`  ${m}`);
+  process.exit(2);
 }
 console.log(`every rule maps its own label and refuses its near-miss (${RULES.length} rules); `
   + `${stated} state a value their field refuses, with the reason; `
