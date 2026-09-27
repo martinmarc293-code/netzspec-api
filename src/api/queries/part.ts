@@ -15,7 +15,7 @@
 //     the shape equality the export contract promises holds by construction (and is tested).
 import { SPEC_BEARING, type DocClass } from "../../core/docClass.js";
 import { renderValue } from "../../core/renderContract.js";
-import { layerOf } from "./layerIndex.js";
+import { layerOf, familyLayer } from "./layerIndex.js";
 import { query } from "../../store/db.js";
 import { badRequest } from "../errors.js";
 import { ALL_STATES, RENDERED_STATES, factRunSucceeded, isoOf, kindAndRole, type FactState, type PartIdentity } from "./shared.js";
@@ -110,6 +110,10 @@ export type PartRecord = {
   series: string | null; family: string | null; product_class: string; name: string | null; description: string | null; datasheet_url: string | null;
   /** Layers 2 and 3 (audit 6). `family` above is the MODEL, below series — these are the hierarchy a tree is built from. */
   product_line: string | null; product_family: string | null;
+  /** why layer 3 is null: Cisco names no family for this line, or the part is a line-level shared part. */
+  product_family_state: "named" | "no_family_named" | "shared_across_line" | null;
+  /** layer 4 from the layer artifact — the authoritative one. `series` above is the column `?series=` filters on. */
+  product_series: string | null;
   /** Q-10 vs Q-23 (operator, 15 Sep 2026): true = the family's MODEL row, which carries the family's facts or document and is not
    *  orderable. A shop feed must not list it. The reason names the decision that set it. */
   family_carrier: boolean; family_carrier_reason: string | null;
@@ -239,8 +243,19 @@ export async function partRecords(ids: number[], states: FactState[], publicBase
       // nothing between them, while `family` above holds the MODEL — below layer 4, and the SKU verbatim on 65% of
       // parts. A consumer building a shop's category tree needs line -> family -> series; all three now travel with
       // the part. Read from the committed layer artifact, so this and the layer pages cannot disagree.
-      ...(() => { const p = layerOf(h.vendor, h.cat_slug, h.sku);
-        return { product_line: p?.product_line ?? null, product_family: p?.product_family ?? null }; })(),
+      // CORRECTED 27 Sep 2026, after the operator read a record and said layer 2 was wrong and layer 3 was not
+      // there. Layer 2 was right (7,224/7,224 switches match the artifact); the record around it was not. Two
+      // defects, both from this block as first written: `product_family` served the artifact's MARKER "(none)"
+      // as though it were a family name on 3,993 switches and 3,975 routers, and layer 4 was left coming from
+      // `parts.series` on the strength of a comment of mine claiming the column "is the same value" — it differs
+      // on 78% of switches and 79% of routers. `product_series` is now the artifact's layer 4; `series` above
+      // stays the column, because `?series=` filters on it (parts.ts) and the two must not silently diverge.
+      ...(() => {
+        const p = layerOf(h.vendor, h.cat_slug, h.sku);
+        return p === null
+          ? { product_line: null, product_family: null, product_family_state: null, product_series: null }
+          : { product_line: p.product_line, ...familyLayer(p), product_series: p.series };
+      })(),
       // The same call /v1/parts items and the ledger builder make, WITH the name: a UCS programme SKU's kind is read
       // from its name (bundleFamily.ts), so a caller that dropped it would report a different kind here.
       // kind-layer infra (13 Sep 2026): kind and deploy_role by the one helper /v1/parts items use (shared.kindAndRole).

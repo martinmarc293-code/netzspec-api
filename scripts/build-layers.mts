@@ -15,13 +15,12 @@ import path from "node:path";
 import { REPO_ROOT } from "../src/config.js";
 import { partKind } from "../src/core/partKind.js";
 import { deployRoleResult } from "../src/core/deployRole.js";
-import { LINE_DIR, lineFilePath, loadLineFile, placeWithSpareRule, familyOf, twinKey, SHARED_PARTS, NO_FAMILY, layerModel, type Placement } from "../src/core/productLine.js";
+import { LINE_DIR, lineFilePath, loadLineFile, placeWithSpareRule, familyOf, twinKey, SHARED_PARTS, NO_FAMILY, SHARED_ACROSS_LINE, layerModel, type Placement } from "../src/core/productLine.js";
 import { labelEvidence, type LabelEvidence } from "../src/core/labelEvidence.js";
 
 // layer 3 of a line-level shared-parts row (operator, 14 Sep 2026): explicit, never blank — the part fits several families of the
 // line or none of them. A family-scoped shared series ("Catalyst 9000 shared parts") carries its family instead. A series the vendor
 // names no family for carries NO_FAMILY, "(none)" — explicit too (review of 17 Sep 2026).
-const SHARED_ACROSS_LINE = "(shared across the line)";
 const isFamily = (f: string | null): f is string => !!f && f !== SHARED_ACROSS_LINE && f !== NO_FAMILY;
 /** page order inside a line: the Cisco families first (alphabetical, series in mapping order within), then series with no family, then shared parts */
 const famRank = (f: string | null): number => (f === SHARED_ACROSS_LINE ? 2 : isFamily(f) ? 0 : 1);

@@ -54,8 +54,14 @@ export const SHARED_PARTS = (line: string) => `${line} shared parts`;
 
 /** Layer 3 of a layered row or a series whose line names no family there: explicit in the built JSON and TSV, never null — the
  * review of 17 Sep 2026 read `product_family: null` as undecided. null stays for a row that is not layered at all (its product
- * line and series are null too). The line-level shared-parts marker is "(shared across the line)" (scripts/build-layers.mts). */
+ * line and series are null too). */
 export const NO_FAMILY = "(none)";
+
+/** The other layer-3 marker, for a line-level shared-parts row: the part fits several families of the line or none, and the
+ *  operator's 14 Sep decision says that is stated EXPLICITLY rather than left blank. It lived as a script-local const in
+ *  scripts/build-layers.mts while src/api/queries/layerIndex.ts kept a second copy of the same literal — two hand-kept copies
+ *  of one string, which is this repo's oldest named defect. Moved here 27 Sep 2026 so the writer and every reader share one. */
+export const SHARED_ACROSS_LINE = "(shared across the line)";
 
 /** THE ONE STATEMENT OF THE LAYER MODEL (operator, 14 Sep 2026, docs/decisions/2026-09-14-family-layer.md), printed by the layer
  * pages AND the arrangement site. The review of 17 Sep 2026 found three numberings in print: the index said "layer 3 = series", the

@@ -166,7 +166,7 @@ async function main(): Promise<void> {
   // product_line / product_family added 26 Sep 2026 (audit 6): the record carried layer 1 and layer 4 of the
   // hierarchy and nothing between, while `family` holds the MODEL — below layer 4. A shop's category tree is
   // line → family → series. This exact list is what makes an added or renamed field a decision rather than a drift.
-  const DOCUMENTED_KEYS = ["vendor", "sku", "slug", "category", "series", "product_line", "product_family", "family",
+  const DOCUMENTED_KEYS = ["vendor", "sku", "slug", "category", "series", "product_line", "product_family", "product_family_state", "product_series", "family",
     "product_class", "name", "description", "datasheet_url",
     "kind", "deploy_role", "family_carrier", "family_carrier_reason",
     "lifecycle", "facts", "relations", "images", "completeness", "sources", "updated_at"].sort();
@@ -191,6 +191,17 @@ async function main(): Promise<void> {
       r.body?.product_line === "Catalyst" && typeof r.body?.product_family === "string"
         && r.body?.product_family !== r.body?.family,
       { product_line: r.body?.product_line, product_family: r.body?.product_family, family: r.body?.family, series: r.body?.series });
+    // LAYER 3 IS NEVER A MARKER, AND LAYER 4 COMES FROM THE ARTIFACT (27 Sep 2026). The operator read a record and
+    // said layer 2 was wrong and layer 3 was missing: layer 2 was right, `product_family` was serving the artifact's
+    // "(none)" sentinel as a family name, and layer 4 was `parts.series` on the strength of a comment of mine
+    // claiming the column was the same value (it differs on 78% of switches).
+    check("product_family is never a marker string, and its state says why it is null",
+      !/^\(/.test(String(r.body?.product_family ?? ""))
+      && ["named", "no_family_named", "shared_across_line", null].includes(r.body?.product_family_state ?? null),
+      { product_family: r.body?.product_family, state: r.body?.product_family_state });
+    check("product_series carries the layer artifact's layer 4",
+      typeof r.body?.product_series === "string" && r.body.product_series.length > 0,
+      { product_series: r.body?.product_series, series_column: r.body?.series });
     const keys = (r.body?.facts ?? []).map((f: Json) => f.key);
     check("facts default to verified/corroborated: poe_budget present, conflict layer absent", JSON.stringify(keys) === JSON.stringify(["poe_budget"]), keys);
     const f = r.body?.facts?.[0] ?? {};

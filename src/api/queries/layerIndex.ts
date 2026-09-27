@@ -19,7 +19,7 @@
 // because the review of 17 Sep 2026 read `product_family: null` as *undecided* (src/core/productLine.ts NO_FAMILY).
 // null here means something different and narrower: THIS PART IS NOT IN THE LAYER ARTIFACT AT ALL.
 import fs from "node:fs";
-import { lineFilePath } from "../../core/productLine.js";
+import { lineFilePath, NO_FAMILY, SHARED_ACROSS_LINE } from "../../core/productLine.js";
 import path from "node:path";
 import { REPO_ROOT } from "../../config.js";
 
@@ -28,9 +28,36 @@ export type LayerPlacement = {
   product_line: string;
   /** layer 3 — "(none)" where the line names no family, "(shared across the line)" for a line's shared parts. */
   product_family: string;
-  /** layer 4 as the ARTIFACT recorded it; `parts.series` is the same value and is what the record already serves. */
+  /**
+   * layer 4 as the ARTIFACT recorded it — the authoritative one, per docs/decisions/2026-09-14-family-layer.md.
+   *
+   * This comment used to read "`parts.series` is the same value and is what the record already serves." That was an
+   * assertion of equivalence that nothing checked, and it is FALSE: measured 27 Sep 2026 over every live part the
+   * artifact places, the column disagrees with this value on 5,644 of 7,224 switches (78%) and 4,017 of 5,109
+   * routers (79%). It disagrees in three ways — the column holds a LINE where the series belongs ("Meraki" for
+   * MS390, "Carrier Routing System" for CRS), a mangled form ("Nexus9300 EX FX" for "Nexus 9300", "IE4000" for
+   * "IE 4000"), or a truncation ("Business 350" for "Business 350 Managed (CBS350)"). The record therefore serves
+   * BOTH, under names that say which is which, until the column is repaired from this artifact as its own decision:
+   * `product_series` is this value, `series` is the column that `?series=` filters on.
+   */
   series: string;
 };
+
+/** Layer 3 resolved for a CONSUMER, which must never be handed a marker string as though it were a family name. */
+export type FamilyLayer = { product_family: string | null; product_family_state: "named" | "no_family_named" | "shared_across_line" };
+
+/**
+ * The artifact's markers are deliberately explicit strings, because a 17 Sep review read `product_family: null` as
+ * *undecided* rather than as *Cisco names no family here* — a real distinction worth keeping. Passing them through
+ * to the API was the wrong way to keep it: `product_family: "(none)"` put the marker itself on 3,993 switches and
+ * 3,975 routers, where a shop tree or a JTL attribute would print "(none)" as the family. The state field keeps the
+ * distinction without a consumer ever having to recognise a sentinel, so null can only mean "no placement at all".
+ */
+export function familyLayer(p: LayerPlacement): FamilyLayer {
+  if (p.product_family === NO_FAMILY) return { product_family: null, product_family_state: "no_family_named" };
+  if (p.product_family === SHARED_ACROSS_LINE) return { product_family: null, product_family_state: "shared_across_line" };
+  return { product_family: p.product_family, product_family_state: "named" };
+}
 
 const LAYER_DIR = path.join(REPO_ROOT, "data", "layers");
 export const layerRowsPath = (vendor: string, category: string) => path.join(LAYER_DIR, `${vendor}-${category}.rows.tsv`);

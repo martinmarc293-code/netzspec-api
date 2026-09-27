@@ -14,8 +14,8 @@
 //   * null has two causes a consumer cannot tell apart (no line file for that vendor; not a row in the artifact) and
 //     the CONTROL is what stops that null being read as "the index is broken" — cisco resolves, hpe does not.
 import fs from "node:fs";
-import { parseLayerRows, layerOf, layerIndexSize, hasLineFile, layerRowsPath, resetLayerIndexCache } from "../src/api/queries/layerIndex.js";
-import { NO_FAMILY, SHARED_PARTS } from "../src/core/productLine.js";
+import { parseLayerRows, layerOf, layerIndexSize, hasLineFile, layerRowsPath, resetLayerIndexCache, familyLayer } from "../src/api/queries/layerIndex.js";
+import { NO_FAMILY, SHARED_PARTS, SHARED_ACROSS_LINE } from "../src/core/productLine.js";
 
 let pass = 0; const misses: string[] = [];
 const check = (name: string, ok: boolean, detail: unknown = "") => {
@@ -79,6 +79,31 @@ check("an EMPTY index and a REFUSAL are different answers (size 0 vs null)",
   parseLayerRows("sku\tbucket\tproduct_line\tproduct_family\tseries")?.size === 0
   && parseLayerRows("nothing\tuseful") === null);
 
+// ---- LAYER 3 MUST NEVER REACH A CONSUMER AS A MARKER (27 Sep 2026) -----------------------------------------------
+// The operator read a part record and said layer 2 was wrong and layer 3 was not there. Layer 2 was right; the
+// record served `product_family: "(none)"` — the artifact's own sentinel — on 3,993 switches and 3,975 routers, so a
+// shop tree or a JTL attribute would have printed "(none)" as the family name. null plus a STATE keeps the
+// distinction the 17 Sep review asked for (null must not read as *undecided*) without exporting a sentinel.
+const fl = (product_family: string) => familyLayer({ product_line: "Catalyst", product_family, series: "Catalyst 9300" });
+check(`"${NO_FAMILY}" resolves to null with a state saying Cisco names no family`,
+  fl(NO_FAMILY).product_family === null && fl(NO_FAMILY).product_family_state === "no_family_named", JSON.stringify(fl(NO_FAMILY)));
+check(`"${SHARED_ACROSS_LINE}" resolves to null with its own state, NOT the same state as no-family`,
+  fl(SHARED_ACROSS_LINE).product_family === null && fl(SHARED_ACROSS_LINE).product_family_state === "shared_across_line"
+  && fl(SHARED_ACROSS_LINE).product_family_state !== fl(NO_FAMILY).product_family_state, JSON.stringify(fl(SHARED_ACROSS_LINE)));
+check(`a real family passes through with state "named"`,
+  fl("Catalyst 9000").product_family === "Catalyst 9000" && fl("Catalyst 9000").product_family_state === "named");
+check(`no state ever returns a string starting with "(" — the shape that leaked`,
+  [NO_FAMILY, SHARED_ACROSS_LINE, "Catalyst 9000"].every((v) => !/^\(/.test(fl(v).product_family ?? "")));
+// CONTROL: the markers are the ARTIFACT'S, taken from productLine.ts and asserted against the real file, so these
+// cases cannot pass by testing strings the build never writes.
+{
+  const txt = fs.readFileSync(layerRowsPath("cisco", "switches"), "utf8");
+  check(`CONTROL the live switches artifact really does contain both markers`,
+    txt.includes(`\t${NO_FAMILY}\t`) && txt.includes(`\t${SHARED_ACROSS_LINE}\t`));
+  check(`CONTROL the exported markers equal productLine.ts's, not a second copy`,
+    SHARED_PARTS("Catalyst") === "Catalyst shared parts" && SHARED_ACROSS_LINE !== SHARED_PARTS("Catalyst"));
+}
+
 console.log(misses.join("\n"));
-console.log(`    layer index: ${pass} passed, ${misses.length} missed (6 sabotage cases, 3 controls)`);
+console.log(`    layer index: ${pass} passed, ${misses.length} missed (6 sabotage cases, 3 controls, 6 layer-3 marker cases)`);
 if (misses.length) process.exit(1);
