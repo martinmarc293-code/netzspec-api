@@ -261,6 +261,47 @@ export const FIELD_DICTIONARY: Record<string, FieldDef> = {
   // and its "48U" rows are still refused RANGE_VIOLATION.
   // 0 stays refused: a 0U PDU is mounted beside the rails and has no rack height.
   rack_units: { key: "rack_units", de: "Höheneinheiten", en: "Rack units", type: "n", unit: "HE", band: [1, 44], etim: [], icecat: null },
+
+  // ---- CURATED OVERRIDES: required cups that carried no definition (step 3, 27 Sep 2026) ----------
+  //
+  // A cup marked required or conditional whose dictionary entry has no unit, no band, no domain and no
+  // shape cannot refuse anything: every value is admissible, so the "check" over it is a place a wrong
+  // value passes. 149 of 606 required/conditional (category, key) pairs were in that state -- but only 36
+  // DISTINCT KEYS, because one undefined key repeats across every category that asks for it, so the work
+  // is per key and `tdp` alone closes seven pairs.
+  //
+  // EVERY BAND BELOW IS READ OFF THE LIVE CATALOGUE, not chosen. tmp measurement over all vendors, current
+  // verified/corroborated numeric facts, min / 5th / 95th / max:
+  //
+  //     tdp               1,841 facts     15 .. 3080 W      (p95 350)
+  //     memory_speed_max    364         2400 .. 6400 MT/s
+  //     cpu_cache           333           12 .. 1152 MB
+  //     clock_speed         301          1.8 .. 4 GHz
+  //     cpu_sockets_max     246            1 .. 2
+  //     drive_bays           33            4 .. 56
+  //     fxs_ports            14            2 .. 144          fxo_ports 6 facts, 0 .. 6
+  //     voice_lines           6            1 .. 12
+  //
+  // AND THE tdp BAND DELIBERATELY REFUSES THREE STORED VALUES, which is the point of measuring first. The
+  // only facts above 500 W are CRS-4/S at 3080, ST-DN6300 at 1050 and ST-DS6200 at 770 -- a CRS-1 4-slot
+  // chassis and two security appliances. Those are WHOLE-SYSTEM power figures filed under a key that means
+  // CPU thermal design power: `power_max` wearing `tdp`'s name. A band wide enough to admit them would be
+  // a band that can never refuse anything, so it is set to what a processor actually dissipates and those
+  // three are named here as the defect they are. (Retracting them is a separate, deliberate step -- a
+  // parser or band fix does not un-write what is already stored.)
+  tdp: { key: "tdp", de: "Thermal Design Power (TDP)", en: "Thermal Design Power (TDP)", type: "n", unit: "W", band: [5, 400], etim: [], icecat: null },
+  memory_speed_max: { key: "memory_speed_max", de: "Maximale DIMM-Taktrate", en: "Maximum DIMM Speed", type: "n", unit: "MT/s", band: [400, 12800], etim: [], icecat: null },
+  clock_speed: { key: "clock_speed", de: "Basis-Taktfrequenz", en: "Base Clock Frequency", type: "n", unit: "GHz", band: [0.5, 6], etim: [], icecat: null },
+  cpu_cache: { key: "cpu_cache", de: "CPU-Cache", en: "CPU cache", type: "n", unit: "MB", band: [0.1, 2048], etim: [], icecat: null },
+  cpu_sockets_max: { key: "cpu_sockets_max", de: "Maximale CPU-Sockel", en: "Maximum CPU Sockets", type: "n", unit: "sockets", band: [1, 8], etim: [], icecat: null },
+  drive_bays: { key: "drive_bays", de: "Anzahl Laufwerkschächte", en: "Number of Drive Bays", type: "n", unit: "bays", band: [1, 100], etim: [], icecat: null },
+  voice_lines: { key: "voice_lines", de: "Sprachleitungen", en: "Voice lines", type: "n", unit: "lines", band: [1, 64], etim: [], icecat: null },
+  // A COUNT STILL NEEDS ITS NOUN. These five carried a band and no unit, which reads as a bare number in
+  // every rendered cell and leaves convert() with nothing to check against; the nouns follow the
+  // convention already set by `sockets`, `bays` and `lines` above. fxs/fxo carried NEITHER, so they take
+  // a measured band as well -- 144 is a real FXS density on a high-port voice gateway.
+  fxs_ports: { key: "fxs_ports", de: "FXS-Ports", en: "FXS ports", type: "n", band: [0, 256], etim: [], icecat: null },
+  fxo_ports: { key: "fxo_ports", de: "FXO-Ports", en: "FXO ports", type: "n", band: [0, 256], etim: [], icecat: null },
   stackable: { key: "stackable", de: "Stapelbar", en: "Stackable", type: "b", etim: [], icecat: null },
   // layers review (14 Sep 2026, item 6; docs/decisions/2026-09-14-sp-router-roles.md): sp-access / sp-edge / sp-core join
   // the union for the `sp-router` axis. A widening of a DERIVED, column-backed key: measured across all vendors, 5

@@ -82,7 +82,17 @@ const TESTS: Test[] = [
           seen++;
           const t = d.type;
           if (t === "e" || t === "ls") { if (!(domainFor(cat, key) ?? []).length) badCups.push(`${cat}/${key} enum with no domain`); }
-          else if (t === "n") { if (!d.unit) badCups.push(`${cat}/${key} numeric with no unit`); if (!Array.isArray(d.band)) badCups.push(`${cat}/${key} numeric with no band`); }
+          // A COUNT'S DEFINITION IS ITS BAND, AND DEMANDING A UNIT WAS THE WRONG DEMAND (27 Sep 2026).
+          // This asked every numeric for a unit AND a band. Tried on the five counts that had a band and
+          // no unit -- module_slots, vlan_max, poe_ports, radio_count, breakout_count -- and the
+          // normaliser suites went red immediately: a DECLARED unit is a token convert() then requires in
+          // the cell, so "8 PoE+", "6 zl2-Modul-Steckplätze" and "2x 2.4 GHz and 2x 5 GHz" stopped
+          // parsing. They are real datasheet strings that parsed correctly before. A count has no
+          // dimension: the unit would be a label, the BAND is what can refuse a wrong value, and
+          // inventing a noun to satisfy a checklist made the mould worse at reading its own sources.
+          // So a numeric is defined when it has a band; a unit is required only alongside one, never
+          // instead of one. The 29 unit-only pairs were never undefined -- the check was.
+          else if (t === "n") { if (!Array.isArray(d.band)) badCups.push(`${cat}/${key} numeric with no band`); }
           else if (t === "struct") { if (!d.shape) badCups.push(`${cat}/${key} struct with no shape`); }
           else if (t === "s") badCups.push(`${cat}/${key} REQUIRED free string`);
         }
