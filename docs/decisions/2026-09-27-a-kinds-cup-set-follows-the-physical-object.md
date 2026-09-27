@@ -147,3 +147,32 @@ this measurement recorded beside it so nobody replaces it with a guard that cann
 
 The PoE exception on `linecard` / `module` stays as ruled, with the switch witness `2D-X6816-10G-2T=`:
 PoE is a property of the switching fabric, and an optical line card has none to state.
+
+## Can each cup be filled where it would be required? One of the 40 cannot, anywhere
+
+The ruling is a principle about the object; this repo has a rule about the consequence — *"a required
+field that nothing can ever fill is a permanent gap, not a recorded one"* — and the `source-fields`
+check refused six conditionals on `security` earlier today for exactly that. So each of the 39 cup
+additions was measured: how many parts of that kind in that category already hold a fact for it, and
+how many hold it anywhere in the catalogue.
+
+| | cups | meaning |
+|---|---|---|
+| **fillable in the category** | 8 | facts already exist there, so the source plainly publishes it |
+| **facts elsewhere only** | 31 | the cup is real and filled for other kinds; unproven here, and a gap is the honest record |
+| **NOWHERE** | **1** | `antenna_gain`, **0 facts in the entire catalogue, across every vendor** |
+
+`antenna_gain` is **excluded from this decision.** Adding it to `antenna` in routers would create 88
+gaps nothing can close, which is the defect the rule names.
+
+**And its exclusion surfaces a live one.** `antenna_gain` is *already required* on `antenna` in
+`wireless` — 216 parts — and it has never been filled once, anywhere, by anything. That is a
+permanently unfillable required cup sitting in the arrangement today, and it is a finding for the
+wireless profile rather than part of this decision: either a source publishes it and nothing maps it,
+or nothing publishes it and the requirement should go. Not resolved here, but no longer invisible.
+
+The other 39 go in, and the applier reports that number so it cannot quietly become 37: `widened 39,
+refused (na) 0, already req 0, unknown key 0`. The 31 "elsewhere only" are a deliberate call and worth stating plainly: a router
+chassis has dimensions whether or not anyone has read them yet, so the gap those create is **work
+recorded**, not a false demand — which is the distinction between the two halves of the rule. The 8
+already-fillable ones are proof the same sources reach these categories.

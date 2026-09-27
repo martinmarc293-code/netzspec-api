@@ -68,6 +68,7 @@ import { SAN_BOX, SAN_MODULE, SAN_FITS } from "./sanKind.js";
 // asked of `device` only; the constant stays exported for the axis's own test.
 import { MOD_COMPONENT } from "./moduleKind.js";
 import { MK_BOX, MK_PORTED, MK_POWERED } from "./merakiKind.js";
+import { applyPhysicalObjectCups } from "./physicalObjectCups.js";
 
 export type Requirement =
   | { kind: "req" }
@@ -3782,6 +3783,16 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     lte_bands: opt, wwan_3g_bands: opt, carrier_certifications: opt,
   },
 };
+
+// ---- "a kind's cup set follows the PHYSICAL OBJECT" (27 Sep 2026) --------------------------------------------
+// ONE DECISION, 22 rows, applied HERE rather than as 38 scattered edits inside the object above -- because an
+// object spread or a hand-edit would SILENTLY DESTROY what was there. `form_factor` in `routers` is
+// cond(kind in [appliance]); writing cond(kind in [chassis]) over it does not add chassis, it removes appliance.
+// src/core/physicalObjectCups.ts carries the table, the widening (which preserves every kind a cup already had)
+// and the report of what it declined to do, and tests/physicalObjectCups.test.ts pins the exact counts.
+export const PHYSICAL_OBJECT_CUP_REPORT = applyPhysicalObjectCups(
+  PROFILES, (key) => Object.prototype.hasOwnProperty.call(FIELD_DICTIONARY, key));
+
 
 // The transceiver profile overrides two dictionary entries whose canonical unit differs from the
 // switch context. Weight on an optic is grams, not kilograms; a shared dictionary entry with a
