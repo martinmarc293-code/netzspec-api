@@ -16,7 +16,7 @@
  * pass), 0 only when every implemented test passed. Unimplemented tests do not fail the run — they are a
  * known, printed debt — but the count is in the output of every single run so it cannot be forgotten.
  */
-import { FIELD_DICTIONARY, PROFILES, COLUMN_BACKED, domainFor, bandFor, type Requirement } from "../src/core/fieldSchema.js";
+import { FIELD_DICTIONARY, PROFILES, COLUMN_BACKED, domainFor, bandFor, FREE_TEXT_BY_DECISION, type Requirement } from "../src/core/fieldSchema.js";
 import { uncoveredEnumValues } from "../src/core/renderContract.js";
 import { mouldStatuses } from "../src/core/brandMould.js";
 import { NO_PROFILE_REASONS } from "../src/core/noProfileReason.js";
@@ -67,6 +67,7 @@ const TESTS: Test[] = [
     // needs a shape. A required FREE STRING can hold anything, so nothing can ever refuse a wrong value.
     run: async () => {
       const badCups: string[] = [];
+      const byDecision: string[] = [];
       let seen = 0;
       for (const [cat, prof] of Object.entries(PROFILES)) {
         for (const [key, rule] of Object.entries(prof as Record<string, Requirement>)) {
@@ -101,14 +102,27 @@ const TESTS: Test[] = [
           // and the asymmetry between the two branches is what hid it.
           else if (t === "n") { if (!Array.isArray(bandFor(cat, key) ?? d.band)) badCups.push(`${cat}/${key} numeric with no band`); }
           else if (t === "struct") { if (!d.shape) badCups.push(`${cat}/${key} struct with no shape`); }
-          else if (t === "s") badCups.push(`${cat}/${key} REQUIRED free string`);
+          // A REQUIRED FREE STRING IS A FINDING UNLESS IT IS A RECORDED DECISION -- and the repo already
+          // has that third state, with a decision file behind it and a sabotage test holding it.
+          // tests/freeStringCups.test.ts refuses any required free string whose key is not in
+          // FREE_TEXT_BY_DECISION *and* named in docs/decisions/2026-09-13-free-string-cups.md. This
+          // check never consulted it, so it counted cpu, display and image_sensor as gaps while the
+          // decision file explains, with measurements, why each stays open -- display was amended by
+          // the parent on exactly this point ("required, they would be two required cups with no tap,
+          // and the phase-1 invariant no-required-cup-without-a-fill-path would fail").
+          // Counted as its OWN number and named in the output, never folded into "defined": an
+          // allowlist that disappears into a pass is the hole it was meant to close.
+          else if (t === "s") {
+            if (FREE_TEXT_BY_DECISION[key]) byDecision.push(`${cat}/${key}`);
+            else badCups.push(`${cat}/${key} REQUIRED free string`);
+          }
         }
       }
       // The denominator is in the message either way: a test that cannot say how much it looked at is one
       // nobody can tell apart from a test that looked at nothing.
       return badCups.length === 0
-        ? ok(`all ${seen} required/conditional cups carry a domain, a unit+band, or a shape`)
-        : bad(`${badCups.length} of ${seen} required/conditional cups cannot be checked: ${badCups.slice(0, 10).join("; ")}${badCups.length > 10 ? ` … +${badCups.length - 10}` : ""}`);
+        ? ok(`all ${seen} required/conditional cups carry a domain, a band, or a shape` + (byDecision.length ? `; ${byDecision.length} are free text by recorded decision (${[...new Set(byDecision.map((c) => c.split("/")[1]))].join(", ")})` : ""))
+        : bad(`${badCups.length} of ${seen} required/conditional cups cannot be checked` + (byDecision.length ? `; a further ${byDecision.length} are free text by recorded decision (${[...new Set(byDecision.map((c) => c.split("/")[1]))].join(", ")}) and are NOT counted as gaps` : "") + `: ${badCups.slice(0, 10).join("; ")}${badCups.length > 10 ? ` … +${badCups.length - 10}` : ""}`);
     },
   },
   {
