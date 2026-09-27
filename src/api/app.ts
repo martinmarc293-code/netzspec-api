@@ -10,6 +10,7 @@ import swagger from "@fastify/swagger";
 import swaggerUi from "@fastify/swagger-ui";
 import { loadEnv, type Config } from "../config.js";
 import { closePool } from "../store/db.js";
+import { PartRecord, PartSummary, FactItem, LifecycleRecord, ErrorEnvelope } from "./schemas.js";
 import { registerErrorHandling } from "./errors.js";
 import { healthRoutes } from "./routes/health.js";
 import { PATH_KEY_HEADER, QUERY_KEY_HEADER, TOKEN_RE } from "./auth.js";
@@ -146,6 +147,31 @@ export async function buildApp(opts: AppOptions = {}): Promise<FastifyInstance> 
           bearerAuth: { type: "http", scheme: "bearer" },
           apiKeyHeader: { type: "apiKey", in: "header", name: "X-Api-Key" },
           apiKeyQuery: { type: "apiKey", in: "query", name: "api_key" },
+        },
+        // NAMED SHAPES, so a consumer can know what it will be sent without reading our routes.
+        //
+        // This repo paid for the distinction on 27 Sep: two new fields were verified by calling the
+        // record builder directly, were present, and were absent from EVERY HTTP response, because
+        // Fastify strips any key the response schema does not declare. A published schema IS a
+        // consumer; "I called the function and saw the field" is a producer-level check.
+        //
+        // DERIVED FROM THE SAME TypeBox OBJECTS THE ROUTES USE, never re-typed by hand. A second
+        // description of one shape is a second thing to drift, and this file already carries the
+        // reasoning for refusing exactly that one line below, where the security scheme is described
+        // in prose rather than duplicated across 31 paths.
+        //
+        // Only the shapes that genuinely exist are registered. The rest -- Conflict, Relation,
+        // Ledger, Completeness, Line, Family, Model, ExportRow -- have no named TypeBox object
+        // today; they are built inline in their routes. Declaring them here would mean hand-writing
+        // a second description of each, which is the drift this comment refuses. openapi_schemas
+        // names the ones still missing, and that list is the work rather than a reason to invent
+        // placeholders that agree with nothing.
+        schemas: {
+          Part: PartRecord,
+          PartSummary,
+          Fact: FactItem,
+          Lifecycle: LifecycleRecord,
+          Error: ErrorEnvelope,
         },
       },
       // Any ONE of these satisfies a request. The path form cannot be expressed in OpenAPI 3.0
