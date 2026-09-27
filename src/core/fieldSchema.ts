@@ -4325,7 +4325,27 @@ for (const [cat, fields] of Object.entries(GENERATED_PROFILES)) {
 // `wifi_generation` on a `deploy_role` no kind of its can ever carry.
 for (const cat of Object.keys(PROFILES)) {
   const kinds = roleAxisKinds(cat);
-  if (kinds.length === 0) continue;
+  if (kinds.length === 0) {
+    // NO ROLE AXIS MEANS NO CUP MAY BE GATED ON A ROLE HERE. `deploy_role` resolves `opt` in such a
+    // category, so any cond that asks for one can never be positively answered — it is a gate on a
+    // question nobody will be asked, and it reads in the profile as a real condition.
+    //
+    // The live instance is `conferencing/wifi_generation`, gated on
+    // `{kind: phone} AND {deploy_role: wireless}` in a category whose role axis is EMPTY and which
+    // holds exactly one live part, that part carrying no kind at all. The cup already resolves `opt`
+    // for every input; what was wrong was the DECLARATION claiming a condition that cannot fire.
+    //
+    // So it is rewritten to the thing it already resolves to. Behaviour is unchanged by construction
+    // — `opt` in, `opt` out — and the profile stops describing a gate nobody can pass. A declared
+    // condition that can never be met is the same defect as a guard that cannot fire: it reads as
+    // enforcement and enforces nothing.
+    for (const [key, rule] of Object.entries(PROFILES[cat])) {
+      if ((rule as { kind?: string }).kind !== "cond") continue;
+      if (!JSON.stringify((rule as { when?: unknown }).when ?? {}).includes('"deploy_role"')) continue;
+      PROFILES[cat][key] = opt;
+    }
+    continue;
+  }
   PROFILES[cat].deploy_role = cond({ field: "kind", inList: kinds }, { elseOpt: true });
 }
 
