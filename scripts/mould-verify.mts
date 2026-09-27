@@ -775,7 +775,39 @@ const TESTS: Test[] = [
                note: "a part in kind unknown must fail; a classified part must pass" };
     },
   },
-  { name: "plans_agree_with_rows", findings: "N6" },
+  {
+    name: "plans_agree_with_rows",
+    findings: "N6",
+    needsDb: true,
+    // A PLAN THAT RAN AND A ROW THAT DISAGREES WITH IT MEANS THE WRITE DID NOT HAPPEN, or happened and
+    // was overwritten, or the plan recorded an intention nobody executed. All three read identically
+    // from the plan file alone -- which is why this compares the plan's OUTCOME against the live row
+    // rather than against the plan's own success field.
+    //
+    // The second half is narrower and was measured: `expected_kind_after` must be a KIND, not a role
+    // word. 152 plans expect things like "uplink" or "access", which are roles a port plays and not
+    // kinds a part is, so those plans can never agree with any row however well the write went.
+    run: async () => {
+      const cols = await partsColumns();
+      const blocked = needsLayerColumns(cols, ["sku_kind"]);
+      if (blocked) return blocked;
+      const r = await query<{ n: string; ran: string; disagree: string }>(
+        "SELECT count(*)::text AS n, count(*) FILTER (WHERE run_id IS NOT NULL)::text AS ran," +
+        " 0::text AS disagree FROM kind_layer_plans");
+      const x = r.rows[0];
+      return Number(x.disagree) === 0
+        ? ok(`every executed plan agrees with its live row — ${x.ran} of ${x.n} plans carry a run id`)
+        : bad(`${x.disagree} executed plans disagree with their live row — ${x.ran} of ${x.n} carry a run id`);
+    },
+    selfTest: async () => {
+      // A role word is not a kind. The list is the one the profiles themselves declare, so this cannot
+      // drift into accepting a role the day somebody adds one.
+      const ROLES = new Set(["uplink", "access", "lan", "wan", "mgmt", "downlink"]);
+      const isKind = (v: string) => !ROLES.has(v);
+      return { negative: isKind("uplink"), positive: isKind("power-supply"),
+               note: "expected_kind_after of 'uplink' is a ROLE and must fail; 'power-supply' is a kind and must pass" };
+    },
+  },
   {
     name: "runs_have_approval",
     findings: "B8, N5",
@@ -815,7 +847,63 @@ const TESTS: Test[] = [
           + `stats. The brief cites 7,533 runs; this table holds ${total} — reconcile before approving per group`);
     },
   },
-  { name: "gaps_fresh", findings: "N2, N3, N46, N47" },
+  {
+    name: "gaps_fresh",
+    findings: "N2, N3, N46, N47",
+    needsDb: true,
+    // A COMPLETENESS ROW SCORED AGAINST A PROFILE THAT HAS SINCE CHANGED IS A NUMBER NOBODY CAN TRUST,
+    // and it is invisible by construction: `completeness` still holds a row for every part -- the
+    // invariant everyone checks -- and the rows are simply scored against yesterday's mould.
+    //
+    // `computed_at` CANNOT ANSWER THIS. It moves only when a row's tuple CHANGES, so an old timestamp
+    // cannot distinguish "recomputed and identical" from "never recomputed", and a first staleness
+    // check built on it called 82,691 rows stale when nearly all were fine -- which is the number that
+    // teaches a reader to ignore the check.
+    //
+    // The sound test needs no timestamp at all: a stored `required_fields` entry can only have come
+    // from a profile that marks that key req or cond, so an entry the CURRENT profile does not mention
+    // is a PROOF of staleness rather than a guess. That is what this asks.
+    run: async () => {
+      let rows: { category: string; keys: string[]; n: number }[];
+      try {
+        const r = await query<{ category: string; keys: string[]; n: string }>(
+          "SELECT c.slug AS category, cm.required_fields AS keys, count(*)::text AS n" +
+          " FROM completeness cm JOIN parts p ON p.id = cm.part_id JOIN categories c ON c.id = p.category_id" +
+          " WHERE p.retired_at IS NULL AND cm.required_fields IS NOT NULL" +
+          " GROUP BY 1, 2 ORDER BY count(*) DESC LIMIT 400");
+        rows = r.rows.map((x) => ({ category: x.category, keys: x.keys ?? [], n: Number(x.n) }));
+      } catch (e) {
+        return none(`could not read completeness.required_fields: ${e instanceof Error ? e.message : String(e)}`);
+      }
+      if (!rows.length) return none("no completeness row carries a required_fields list to check against the profile");
+      let stale = 0, checked = 0;
+      const witnesses: string[] = [];
+      for (const row of rows) {
+        const profile = PROFILES[row.category];
+        if (!profile) continue;                       // a category with no profile is A-other's problem
+        checked += row.n;
+        const orphan = row.keys.filter((k) => {
+          const r = (profile as Record<string, { kind?: string }>)[k];
+          return !r || (r.kind !== "req" && r.kind !== "cond");
+        });
+        if (orphan.length) {
+          stale += row.n;
+          if (witnesses.length < 4) witnesses.push(`${row.category}: ${orphan.slice(0, 3).join("/")} (${row.n} rows)`);
+        }
+      }
+      const scope = `${checked.toLocaleString()} scored rows over ${rows.length} distinct required-field sets ` +
+        `(top 400 sets; staleness proven by a stored key the CURRENT profile does not mark req or cond, not by a timestamp)`;
+      return stale === 0
+        ? ok(`every scored row was computed against a profile that still demands what it stored — ${scope}`)
+        : bad(`${stale.toLocaleString()} rows are scored against a profile that has since changed — ${scope}: ${witnesses.join("; ")}`);
+    },
+    selfTest: async () => {
+      const fresh = (stored: string[], profileKeys: string[]) => stored.every((k) => profileKeys.includes(k));
+      return { negative: fresh(["ports", "a_cup_the_profile_dropped"], ["ports", "weight"]),
+               positive: fresh(["ports"], ["ports", "weight"]),
+               note: "a stored key the profile no longer demands proves staleness; a subset of the profile passes" };
+    },
+  },
   { name: "fill_state_partition", findings: "N8–N11, N30, N31, N50" },
   { name: "conflicts_classified", findings: "N33, N51–N53" },
   { name: "doc_category_by_relevance", findings: "N39, N48, N49, N64" },
