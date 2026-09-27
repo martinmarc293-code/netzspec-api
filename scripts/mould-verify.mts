@@ -786,10 +786,25 @@ const TESTS: Test[] = [
       const cols = await partsColumns();
       const blocked = needsLayerColumns(cols, ["sku_kind"]);
       if (blocked) return blocked;
+      // THE DENOMINATOR HAD TO BE FIXED BEFORE THIS NUMBER MEANT ANYTHING, and the first live run is
+      // what showed it. Counting every part with no kind gave 50,934 -- "more than half the catalogue
+      // is unclassified" -- and the split says otherwise: 32,329 LICENCES, 11,093 software, 1,966
+      // non-product and 565 service, none of which can ever hold a hardware kind. A licence with no
+      // sku_kind is not an unclassified part, it is a part that correctly has no kind.
+      //
+      // So the judgement is over HARDWARE, and the excluded population is counted and named in the
+      // line rather than folded away -- this repo's own rule, and the reason it exists is that a
+      // coverage number is only as honest as its denominator.
       const r = await query<{ category: string; n: string }>(
         "SELECT c.slug AS category, count(*)::text AS n FROM parts p JOIN categories c ON c.id = p.category_id" +
         " WHERE p.retired_at IS NULL AND (p.sku_kind IS NULL OR p.sku_kind = 'unknown')" +
+        " AND p.product_class = 'hardware'" +
         " GROUP BY 1 ORDER BY count(*) DESC");
+      const excluded = await query<{ cls: string; n: string }>(
+        "SELECT coalesce(p.product_class::text, '(none)') AS cls, count(*)::text AS n FROM parts p" +
+        " WHERE p.retired_at IS NULL AND (p.sku_kind IS NULL OR p.sku_kind = 'unknown')" +
+        " AND (p.product_class IS DISTINCT FROM 'hardware') GROUP BY 1 ORDER BY count(*) DESC");
+      const notHardware = excluded.rows.reduce((n, x) => n + Number(x.n), 0);
       const total = r.rows.reduce((n, x) => n + Number(x.n), 0);
       // A kind asked nothing is the same hazard by another route, so it is counted here too.
       const askedNothing = Object.entries(PROFILES).flatMap(([cat]) =>
@@ -797,10 +812,14 @@ const TESTS: Test[] = [
           const s = resolveFourSets(cat, k);
           return s.req.length + s.pending.length === 0;
         }).map((k) => `${cat}/${k}`));
-      const scope = `${r.rows.length} categories hold an unclassified part; ${askedNothing.length} (category, kind) pairs are asked no required or pending cup at all`;
+      const scope = `${r.rows.length} categories hold an unclassified HARDWARE part; ` +
+        `${notHardware.toLocaleString()} further parts have no kind and correctly never will ` +
+        `(${excluded.rows.slice(0, 4).map((x) => `${x.cls} ${Number(x.n).toLocaleString()}`).join(", ")}) — ` +
+        `excluded from the judgement and counted here, never folded into it; ` +
+        `${askedNothing.length} (category, kind) pairs are asked no required or pending cup at all`;
       return total === 0 && askedNothing.length === 0
         ? ok(`no live part is unclassified and every kind is asked something — ${scope}`)
-        : bad(`${total.toLocaleString()} live parts are in kind unknown, so they are asked nothing and ` +
+        : bad(`${total.toLocaleString()} live HARDWARE parts are in kind unknown, so they are asked nothing and ` +
               `score perfectly while leaving the denominator — ${scope}: ` +
               r.rows.slice(0, 6).map((x) => `${x.category} ${x.n}`).join(", "));
     },
