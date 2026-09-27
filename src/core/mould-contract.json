@@ -1,9 +1,9 @@
 {
-  "contract_hash": "13063f213aea0517",
-  "generated_at": "2026-09-27T22:38:36.736Z",
-  "code_commit": "9dfade3ba183c58718d7e6cde257897a7c9fffcd",
+  "contract_hash": "14fcc8449dda617a",
+  "generated_at": "2026-09-27T23:01:17.017Z",
+  "code_commit": "a47ebdb20dcf0b98846f07110da63bfefdb5fca8",
   "code_branch": "cisco",
-  "dirty_files": 20,
+  "dirty_files": 19,
   "counts": {
     "dictionary_keys": 607,
     "categories": 26,
@@ -8112,13 +8112,23 @@
           "elseOpt": true,
           "kind": "cond",
           "when": {
-            "field": "kind",
-            "inList": [
-              "node",
-              "chassis",
-              "system",
-              "rf-amplifier",
-              "linecard"
+            "any": [
+              {
+                "field": "kind",
+                "inList": [
+                  "node",
+                  "chassis",
+                  "system",
+                  "rf-amplifier",
+                  "linecard"
+                ]
+              },
+              {
+                "field": "kind",
+                "inList": [
+                  "amplifier"
+                ]
+              }
             ]
           }
         },
@@ -8131,17 +8141,36 @@
         "product_compatibility": {
           "kind": "cond",
           "when": {
-            "field": "kind",
-            "inList": [
-              "linecard",
-              "plug-in",
-              "fan",
-              "cable",
-              "accessory",
-              "power",
-              "transmitter",
-              "receiver",
-              "mechanical"
+            "any": [
+              {
+                "any": [
+                  {
+                    "field": "kind",
+                    "inList": [
+                      "linecard",
+                      "plug-in",
+                      "fan",
+                      "cable",
+                      "accessory",
+                      "power",
+                      "transmitter",
+                      "receiver"
+                    ]
+                  },
+                  {
+                    "field": "kind",
+                    "inList": [
+                      "amplifier"
+                    ]
+                  }
+                ]
+              },
+              {
+                "field": "kind",
+                "inList": [
+                  "mechanical"
+                ]
+              }
             ]
           }
         },
@@ -28783,7 +28812,14 @@
           "kind": "opt"
         },
         "tx_power": {
-          "kind": "opt"
+          "elseOpt": true,
+          "kind": "cond",
+          "when": {
+            "field": "kind",
+            "inList": [
+              "amplifier"
+            ]
+          }
         },
         "tx_wavelength": {
           "kind": "opt"

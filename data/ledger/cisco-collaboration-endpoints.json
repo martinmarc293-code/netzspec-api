@@ -3,7 +3,7 @@
   "vendor": "cisco",
   "category": "collaboration-endpoints",
   "profile_hash": "2137ba17235b80b0",
-  "built_on_commit": "9dfade3",
+  "built_on_commit": "a47ebdb",
   "norm_version": "1.8.0",
   "declared_fields": 404,
   "gap_states": {
@@ -29272,9 +29272,9 @@
     }
   },
   "build": {
-    "data_commit": "9dfade3ba183+89dirty",
-    "code_commit": "9dfade3ba183",
-    "contract_hash": "13063f213aea0517",
-    "generated_at": "2026-09-27T22:47:35.084Z"
+    "data_commit": "a47ebdb20dcf+89dirty",
+    "code_commit": "a47ebdb20dcf",
+    "contract_hash": "14fcc8449dda617a",
+    "generated_at": "2026-09-27T23:05:40.008Z"
   }
 }

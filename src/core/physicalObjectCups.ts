@@ -63,7 +63,17 @@ export const PHYSICAL_OBJECT_CUPS: Record<string, Record<string, readonly string
   // than keeping a thinner copy of it.
   "optical-networking": {
     pluggable: ["ddm", "form_factor", "media", "standard", "temp_class", "temp_operating"],
+    // AMPLIFIER JOINED THIS TABLE ON 27 Sep 2026, and it was ruled a kind SPLIT until the rows were read.
+    // The premise was that video's `amplifier` rows are RF amplifiers; 88 of 88 of their names read OPTICAL
+    // and 0 read RF -- EDFAs and optical post-amps, every one stating its output in dBm -- and video ALREADY
+    // carries a separate `rf-amplifier` kind with 51 real RF rows. So it is one physical object in two
+    // categories, which is this table's principle rather than a split.
+    // docs/reports/2026-09-27-amplifier-is-not-a-split-video-already-has-the-rf-kind.md
+    amplifier: ["tx_power"],
   },
+  // The other half of the same row. An optical amplifier has an output power, a power draw and a
+  // compatibility list whichever category it is filed under; the applier widens each side independently.
+  video: { amplifier: ["power_max", "product_compatibility"] },
 };
 
 /** Every (category, kind, cup) the table names, flattened — the denominator for any count over it. */
