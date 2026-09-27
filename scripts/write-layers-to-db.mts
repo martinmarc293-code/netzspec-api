@@ -113,32 +113,46 @@ if (!COMMIT) {
 }
 
 console.log(`\n--commit: writing under a recorded run…`);
-const { openRun, closeRun } = await import("../src/store/runs.js");
-const runId = await openRun("write-layers-to-db", { files: files.length, rows: all.length });
-let updated = 0;
-try {
-  const CHUNK = 500;
-  for (let i = 0; i < translated.length; i += CHUNK) {
-    const batch = translated.slice(i, i + CHUNK);
-    const r = await query<{ n: string }>(
-      "WITH u AS (SELECT * FROM unnest($1::text[], $2::text[], $3::text[], $4::text[], $5::text[], $6::text[], $7::text[])" +
-      "   AS t(sku, line, family, family_state, no_family_reason, series, kind))" +
-      " UPDATE parts p SET product_line = u.line, product_family = u.family," +
-      "   product_family_state = u.family_state, no_family_reason = u.no_family_reason," +
-      "   product_series = u.series, sku_kind = u.kind" +
-      " FROM u WHERE p.sku = u.sku AND p.retired_at IS NULL" +
-      " RETURNING 1",
-      [batch.map((b) => b.sku), batch.map((b) => b.line), batch.map((b) => b.family),
-       batch.map((b) => b.family_state), batch.map((b) => b.no_family_reason),
-       batch.map((b) => b.series), batch.map((b) => b.kind)]);
-    updated += r.rowCount ?? r.rows.length;
-  }
-  await closeRun(runId, "succeeded", { updated });
-  console.log(`run ${runId}: ${updated.toLocaleString()} parts updated`);
-} catch (e) {
-  const { rollbackRun } = await import("../src/store/runs.js");
-  await rollbackRun(runId, e instanceof Error ? e.message : String(e));
-  console.error(`run ${runId} ROLLED BACK: ${e instanceof Error ? e.message : String(e)}`);
-  process.exitCode = 1;
-}
+// withRun is the repo's OWN wrapper and the reason to use it rather than a hand-rolled
+// open/close is written into this project's rules: a write run whose process dies must be
+// ROLLED BACK, never closed with its counts, and withRun is the path that has been tested.
+// Six tunnel-killed runs were once closed "failed" with their stats, leaving 1,387 facts
+// current under runs that never succeeded -- invisible, because completeness still held a
+// row for every part.
+const { withRun } = await import("../src/store/runs.js");
+const out = await withRun("write-layers-to-db",
+  { files: files.length, rows: all.length, contract: "layers .rows.tsv -> parts columns" },
+  async () => {
+    let updated = 0;
+    const CHUNK = 500;
+    for (let i = 0; i < translated.length; i += CHUNK) {
+      const batch = translated.slice(i, i + CHUNK);
+      const r = await query(
+        "WITH u AS (SELECT * FROM unnest($1::text[], $2::text[], $3::text[], $4::text[], $5::text[], $6::text[], $7::text[])" +
+        "   AS t(sku, line, family, family_state, no_family_reason, series, kind))" +
+        " UPDATE parts p SET product_line = u.line, product_family = u.family," +
+        "   product_family_state = u.family_state, no_family_reason = u.no_family_reason," +
+        "   product_series = u.series, sku_kind = u.kind" +
+        " FROM u WHERE p.sku = u.sku AND p.retired_at IS NULL" +
+        " RETURNING 1",
+        [batch.map((b) => b.sku), batch.map((b) => b.line), batch.map((b) => b.family),
+         batch.map((b) => b.family_state), batch.map((b) => b.no_family_reason),
+         batch.map((b) => b.series), batch.map((b) => b.kind)]);
+      updated += r.rowCount ?? r.rows.length;
+    }
+    return { stats: { updated, rows_offered: translated.length } };
+  });
+console.log(`run ${out.runId}: ${(out.stats?.updated as number ?? 0).toLocaleString()} parts updated of ${translated.length.toLocaleString()} offered`);
+
+// THE CONTROL, printed rather than assumed: what did NOT move. A row offered and not updated is a
+// SKU the layers name and the catalogue does not hold, which is a real finding about the artefacts
+// and must not read as a successful write.
+const check = await query<{ n: string; sentinel: string; bucket: string }>(
+  "SELECT count(*)::text AS n," +
+  " count(*) FILTER (WHERE product_family LIKE '(%')::text AS sentinel," +
+  " count(*) FILTER (WHERE product_series ILIKE '%shared parts')::text AS bucket" +
+  " FROM parts WHERE retired_at IS NULL AND product_line IS NOT NULL");
+const c = check.rows[0];
+console.log(`control: ${Number(c.n).toLocaleString()} live parts now carry a product_line; ` +
+  `${c.sentinel} carry a sentinel family (must be 0); ${c.bucket} carry a bucket as a series (must be 0)`);
 await closePool();
