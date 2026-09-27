@@ -25,6 +25,13 @@ import { REPO_ROOT } from "../src/config.js";
 import { query, closePool } from "../src/store/db.js";
 
 const COMMIT = process.argv.includes("--commit");
+// IDENTITY HERE IS PER VENDOR, and the first --commit proved why that must be in the JOIN rather
+// than assumed from the artefacts being cisco-only: the update matched on sku alone and wrote
+// cisco layer values onto 20 parts of other brands (juniper 11, arista 9), because 159 SKUs in
+// this catalogue sit on more than one row. The tell was in the control the reviewer insisted on --
+// "41,087 updated of 41,067 OFFERED", more updated than offered, which is impossible without a
+// multi-match and which I would have read as success without that number beside it.
+const VENDOR = process.env.NETZSPEC_BRAND ?? "cisco";
 const DIR = path.join(REPO_ROOT, "data", "layers");
 
 type Row = { sku: string; line: string | null; family: string | null; series: string | null; kind: string | null; bucket: string | null };
@@ -80,13 +87,35 @@ for (const f of files) {
 // The sentinel translation, in ONE place so the dry run and the write cannot disagree about it.
 const translate = (r: Row) => {
   const isSentinel = (r.family ?? "").startsWith("(");
+  const isBucket = /shared parts$/i.test((r.series ?? "").trim());
   return {
     sku: r.sku,
     line: r.line,
     family: isSentinel ? null : r.family,
     family_state: r.family ? (isSentinel ? (r.family.includes("shared") ? "shared_across_line" : "no_family_named") : "named") : null,
-    no_family_reason: isSentinel && !r.family!.includes("shared") ? "vendor-names-none" : null,
-    series: r.series,
+    // `not-reviewed`, NOT `vendor-names-none`, unless the layer artefact actually records a reason
+    // (reviewer, 27 Sep). The distinction is the whole point of having a reason column:
+    // "the vendor names no family here" is a finding about the VENDOR, and claiming it for 31,049
+    // rows on the strength of a sentinel would be asserting something nobody checked. "not-reviewed"
+    // is the true statement — a marker was written and no one has since decided which it is — and it
+    // leaves the work visible instead of closing it with a confident wrong label.
+    no_family_reason: isSentinel && !r.family!.includes("shared") ? "not-reviewed" : null,
+    // A NAVIGATION BUCKET IS NOT A SERIES, and 5,806 of the 41,067 rows carry one in the series
+    // column: "HyperFlex shared parts" 1,189, "Compute Hyperconverged with Nutanix shared parts"
+    // 1,089, "Catalyst shared parts" 399. The database refused the first --commit outright on
+    // parts_series_not_bucket_check, which is the constraint doing exactly its job -- a shop tree
+    // would have printed "Catalyst shared parts" as a product line.
+    //
+    // The artefact's own `bucket` column does NOT hold them: it carries the placement STATUS
+    // ("layered") rather than the bucket name, so the information exists only in the series column
+    // and would be lost by dropping it. So the bucket moves to `bucket` where it belongs and
+    // product_series becomes null -- the part is genuinely in no series, which is the true statement.
+    //
+    // NOT fixed by relaxing the constraint. The constraint names a real defect in the layer build
+    // (A4 bucket_not_series was written for it), and widening a predicate to admit the thing it was
+    // written to refuse is how a guard becomes decoration.
+    series: isBucket ? null : r.series,
+    bucket: isBucket ? [r.series!] : null,
     kind: r.kind,
   };
 };
@@ -128,16 +157,19 @@ const out = await withRun("write-layers-to-db",
     for (let i = 0; i < translated.length; i += CHUNK) {
       const batch = translated.slice(i, i + CHUNK);
       const r = await query(
-        "WITH u AS (SELECT * FROM unnest($1::text[], $2::text[], $3::text[], $4::text[], $5::text[], $6::text[], $7::text[])" +
-        "   AS t(sku, line, family, family_state, no_family_reason, series, kind))" +
+        "WITH u AS (SELECT * FROM unnest($1::text[], $2::text[], $3::text[], $4::text[], $5::text[], $6::text[], $7::text[], $8::text[])" +
+        "   AS t(sku, line, family, family_state, no_family_reason, series, kind, bucket))" +
         " UPDATE parts p SET product_line = u.line, product_family = u.family," +
         "   product_family_state = u.family_state, no_family_reason = u.no_family_reason," +
-        "   product_series = u.series, sku_kind = u.kind" +
-        " FROM u WHERE p.sku = u.sku AND p.retired_at IS NULL" +
+        "   product_series = u.series, sku_kind = u.kind," +
+        "   bucket = CASE WHEN u.bucket IS NULL THEN NULL ELSE ARRAY[u.bucket] END" +
+        " FROM u JOIN vendors v ON v.slug = $9 WHERE p.sku = u.sku AND p.vendor_id = v.id" +
+        " AND p.retired_at IS NULL" +
         " RETURNING 1",
         [batch.map((b) => b.sku), batch.map((b) => b.line), batch.map((b) => b.family),
          batch.map((b) => b.family_state), batch.map((b) => b.no_family_reason),
-         batch.map((b) => b.series), batch.map((b) => b.kind)]);
+         batch.map((b) => b.series), batch.map((b) => b.kind),
+         batch.map((b) => (b.bucket ? b.bucket[0] : null)), VENDOR]);
       updated += r.rowCount ?? r.rows.length;
     }
     return { stats: { updated, rows_offered: translated.length } };
