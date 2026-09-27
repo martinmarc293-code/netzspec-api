@@ -302,9 +302,20 @@ if (!DB_MODE) {
   // determinism check below would be comparing against a file built with different inputs.
   const built = await build({ previous: committed });
   const vocabSlugs = Object.entries(committed.evidence.sources).filter(([, ev]) => ev.method === "label-inventory").map(([s]) => s);
-  check(`build (test db): the inventory-derived lists reproduce the committed file exactly for ${vocabSlugs.join(", ")} (deterministic)`,
-    vocabSlugs.length >= 3 && vocabSlugs.every((s) => JSON.stringify(built.sources[s] ?? null) === JSON.stringify(committed.sources[s] ?? null)),
-    vocabSlugs.map((s) => [s, built.sources[s], committed.sources[s]]));
+  // THE SAME ABSENT INPUT AS THE PURE HALF, IN THE WRONG CHANNEL (27 Sep 2026). This rebuilds the
+  // inventory-derived lists and compares them to the committed file; with no runs/vocab/*/labels.json the
+  // rebuild has nothing to derive FROM, so the comparison is guaranteed to differ and says nothing about
+  // determinism. The pure half already routes that to could-not-run; this one did not, so source-fields
+  // failed in the database job while reporting NOT EXERCISED in the pure job on the same commit.
+  if (inventoryPath() === null) {
+    couldNotRun.push("no label inventory under runs/vocab/*/labels.json, so the DETERMINISM check rebuilt "
+      + "the inventory-derived lists from nothing - it proved NOTHING. Rebuild with: "
+      + "python3.11 scraper/tools/label_inventory.py <slug> --acquired");
+  } else {
+    check(`build (test db): the inventory-derived lists reproduce the committed file exactly for ${vocabSlugs.join(", ")} (deterministic)`,
+      vocabSlugs.length >= 3 && vocabSlugs.every((s) => JSON.stringify(built.sources[s] ?? null) === JSON.stringify(committed.sources[s] ?? null)),
+      vocabSlugs.map((s) => [s, built.sources[s], committed.sources[s]]));
+  }
   check(`build (test db): with ${htmlFacts} html_table facts the Cisco sources fall back to the golden files (${htmlFacts === 0 ? "golden" : "facts"})`,
     built.evidence.sources["cisco-datasheets"].method === (htmlFacts === 0 ? "golden" : "facts") && built.evidence.sources["cisco-datasheet-pdf"].method === "golden"
       && built.sources["cisco-datasheet-pdf"]["servers-unified-computing"]?.includes("cpu_cores"), built.evidence.sources["cisco-datasheets"]);

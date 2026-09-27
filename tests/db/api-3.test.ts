@@ -349,7 +349,13 @@ async function main(): Promise<void> {
   }
 
   // ---- gaps -----------------------------------------------------------------------------------
-  const GAPS_KEYS = ["no_profile", "computed_at", "required_fields", "present", "missing", "checks"];
+  // The four added 27 Sep 2026 are part of the documented shape now, so they belong in the EXACT key
+  // list rather than beside it: this assertion is what notices a field appearing or vanishing from the
+  // response, and it caught the addition, which is it working. no_profile_reason and no_profile_rule say
+  // WHY an unscored part is unscored; pending and pending_gates split the third requirement outcome out
+  // of required_fields, naming which cup waits on which gate.
+  const GAPS_KEYS = ["no_profile", "computed_at", "required_fields", "present", "missing", "checks",
+    "no_profile_reason", "no_profile_rule", "pending", "pending_gates"];
   {
     const r = await get("/v1/parts/cisco/C9200L-24P-4G/gaps");
     check("gaps is 200 with exactly the documented keys", r.status === 200 && sameKeys(r.body, GAPS_KEYS) && r.body?.no_profile === false && typeof r.body?.computed_at === "string", Object.keys(r.body ?? {}));
@@ -358,6 +364,10 @@ async function main(): Promise<void> {
     check("missing carries the ledger state and source counts: mtbf gap_confirmed 2 of 3, stackable gap_unattempted 2 of 2", JSON.stringify(missing) === JSON.stringify(["mtbf:gap_confirmed:2/3", "stackable:gap_unattempted:2/2"]), missing);
     check("missing field has exactly the documented keys", sameKeys(r.body?.missing?.[0], ["key", "label_en", "state", "sources_checked", "sources_capable"]) && r.body?.missing?.[0]?.label_en === "MTBF", r.body?.missing?.[0]);
     const checks = (r.body?.checks ?? []).map((c: Json) => `${c.source}:${c.outcome}:${c.facts_found}`);
+    // A SCORED part says so explicitly: null reason means "it IS scored", never "nobody wrote one".
+    check("a scored part carries a null reason and its pending count",
+      r.body?.no_profile_reason === null && r.body?.no_profile_rule === null && typeof r.body?.pending === "number"
+      && Array.isArray(r.body?.pending_gates), { reason: r.body?.no_profile_reason, pending: r.body?.pending });
     check("checks list every consultation newest first, including the failed one", JSON.stringify(checks) === JSON.stringify(["router-switch:fetch_failed:0", "provantage:no_facts:0", "cisco-datasheets:facts_found:3"]), checks);
     check("check has exactly the documented keys with an ISO timestamp", sameKeys(r.body?.checks?.[0], ["source", "outcome", "checked_at", "facts_found"]) && r.body?.checks?.[0]?.checked_at === "2026-09-03T10:00:00.000Z", r.body?.checks?.[0]);
     check("SABOTAGE a fetch_failed consultation does not count as a source checked (mtbf stays 2 of 3)", r.body?.missing?.find((m: Json) => m.key === "mtbf")?.sources_checked === 2, r.body?.missing);
