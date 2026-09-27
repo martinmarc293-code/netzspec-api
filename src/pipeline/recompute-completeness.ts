@@ -20,6 +20,7 @@ import { completenessV2, requirementFor, PROFILES, COLUMN_BACKED } from "../core
 import { modularPlatform } from "../core/modularPlatform.js";
 import { partKind } from "../core/partKind.js";
 import { deployRole } from "../core/deployRole.js";
+import { mouldStatuses } from "../core/brandMould.js";
 
 type Args = { vendor: string | null; category: string | null; since: string | null; batch: number };
 
@@ -100,7 +101,13 @@ async function run(a: Args): Promise<Record<string, number>> {
   const parts = (await pool.query<{ id: number; sku: string; name: string | null; category_id: number; product_class: string; family: string | null; series: string | null; vendor_slug: string }>(sql, params)).rows;
   console.log(`recompute-completeness: ${parts.length} parts${a.vendor ? " vendor=" + a.vendor : ""}${a.category ? " category=" + a.category : ""}${a.since ? " since=" + a.since : ""}`);
 
-  let written = 0, unchanged = 0, noProfile = 0, nonHardware = 0;
+  let written = 0, unchanged = 0, noProfile = 0, nonHardware = 0, notArranged = 0;
+  // Derived once per run from the product-line reference files, so a brand arranged tomorrow is admitted
+  // without anybody editing a list — a hand-kept list of which brands have a mould is the drift this repo
+  // pays for everywhere else, and it fails silently in BOTH directions.
+  const vendorSlugs = (await pool.query<{ slug: string }>("SELECT slug FROM vendors")).rows.map((r) => r.slug);
+  const arrangedVendors = new Set(mouldStatuses(vendorSlugs).filter((m) => m.arranged).map((m) => m.vendor));
+  console.log(`brands with a mould: ${[...arrangedVendors].join(", ") || "(none)"} — parts of any other brand are NOT scored`);
   for (let i = 0; i < parts.length; i += a.batch) {
     const slice = parts.slice(i, i + a.batch);
     const ids = slice.map((p) => p.id);
@@ -127,7 +134,18 @@ async function run(a: Args): Promise<Record<string, number>> {
         const category = cats.get(p.category_id) ?? "";
         const vendorSlug = p.vendor_slug;
         let row: { required_total: number; required_present: number; pct: number; missing: string[]; required_fields: string[]; no_profile: boolean };
-        if (p.product_class !== "hardware") {
+        // BRAND ISOLATION (operator, 27 Sep 2026). Profiles are keyed by CATEGORY and never by vendor, so
+        // this loop was asking an HPE switch for exactly the cups designed by reading CISCO switches.
+        // Measured before the guard: 3,476 live hardware parts across 12 unarranged brands carried 51,769
+        // required slots from a mould nobody built for them — hpe 1,142 parts / 21,258 slots, aruba 358 /
+        // 11,633, juniper 974 / 7,123. Nothing was wrong with any profile; the population reaching it was.
+        // The operator arranges ONE BRAND AT A TIME and cannot call cisco's mould complete while cisco's
+        // denominators contain other brands' parts. `isArranged` is derived from the product-line reference
+        // files a brand's layer build reads, so a newly arranged brand is admitted with no list to update.
+        if (p.product_class === "hardware" && !arrangedVendors.has(vendorSlug)) {
+          notArranged++;
+          row = { required_total: 0, required_present: 0, pct: 0, missing: [], required_fields: [], no_profile: true };
+        } else if (p.product_class !== "hardware") {
           nonHardware++;
           row = { required_total: 0, required_present: 0, pct: 0, missing: [], required_fields: [], no_profile: true };
         } else {
@@ -205,7 +223,7 @@ async function run(a: Args): Promise<Record<string, number>> {
     throw new Error(`recompute-completeness: ${retired} completeness row(s) belong to RETIRED parts — a tombstone is being scored. `
       + "Recompute must select live parts only (p.retired_at IS NULL); delete those rows in a run once the writer is fixed.");
   }
-  return { parts: parts.length, written, unchanged, no_profile: noProfile, non_hardware: nonHardware, retired_completeness_rows: retired };
+  return { parts: parts.length, written, unchanged, no_profile: noProfile, non_hardware: nonHardware, not_arranged: notArranged, retired_completeness_rows: retired };
 }
 
 if (process.argv[1] && /recompute-completeness\.(ts|js)$/.test(process.argv[1])) {

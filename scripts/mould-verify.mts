@@ -18,6 +18,7 @@
  */
 import { FIELD_DICTIONARY, PROFILES, COLUMN_BACKED, domainFor, type Requirement } from "../src/core/fieldSchema.js";
 import { uncoveredEnumValues } from "../src/core/renderContract.js";
+import { mouldStatuses } from "../src/core/brandMould.js";
 import { query, closePool } from "../src/store/db.js";
 
 type Result = { state: "pass" | "fail" | "unavailable"; detail: string };
@@ -343,6 +344,32 @@ const TESTS: Test[] = [
   { name: "openapi_schemas", findings: "N63" },
   { name: "endpoints_alive", findings: "N43, N44" },
   { name: "link_integrity", findings: "H" },
+  {
+    name: "brand_isolation",
+    findings: "operator 27 Sep — NOT one of the brief's 27, added because the brief has no test for it",
+    needsDb: true,
+    // vendor_coverage asks "which brands have no mould". This asks the sharper question the operator put:
+    // is a brand WITHOUT a mould being measured by another brand's? Profiles are keyed by category, never by
+    // vendor, so the answer was yes and silently: every non-cisco part in `switches` is asked for the cups
+    // that were designed by reading cisco switches. Until this is zero, no statement about "cisco's mould is
+    // complete" can be trusted, because cisco's denominators contain other brands' parts.
+    run: async () => {
+      const vendors = (await query<{ slug: string }>(`SELECT slug FROM vendors`)).rows.map((r) => r.slug);
+      const arranged = new Set(mouldStatuses(vendors).filter((s) => s.arranged).map((s) => s.vendor));
+      if (!arranged.size) return na("no brand has a mould at all — nothing to isolate");
+      const rows = (await query<{ vendor: string; parts: string; req: string }>(`
+        SELECT v.slug vendor, count(*)::text parts, coalesce(sum(cp.required_total),0)::text req
+          FROM completeness cp JOIN parts p ON p.id=cp.part_id JOIN vendors v ON v.id=p.vendor_id
+         WHERE p.retired_at IS NULL AND cp.no_profile = false AND NOT (v.slug = ANY($1::text[]))
+         GROUP BY 1 ORDER BY 3 DESC`, [[...arranged]])).rows;
+      if (!rows.length) return ok(`only arranged brands (${[...arranged].join(", ")}) carry a score`);
+      const parts = rows.reduce((n, r) => n + Number(r.parts), 0);
+      const slots = rows.reduce((n, r) => n + Number(r.req), 0);
+      return bad(`${parts} parts of ${rows.length} UNARRANGED brands are scored against a mould built for `
+        + `${[...arranged].join(", ")} — ${slots.toLocaleString()} required slots demanded of them: `
+        + rows.slice(0, 5).map((r) => `${r.vendor} ${r.parts}p/${Number(r.req).toLocaleString()}s`).join(", "));
+    },
+  },
   {
     name: "vendor_coverage",
     findings: "N62",
