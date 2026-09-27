@@ -41,6 +41,12 @@ jobs:
         run: |
           ln -s "$(which python3)" /usr/local/bin/python3.11 || true
           python3.11 --version
+      # AND ITS DEPENDENCIES. With the interpreter alone the failures changed shape rather than going away:
+      # ModuleNotFoundError: No module named 'bs4'. That is the right kind of failure -- an interpreter that
+      # EXISTS and a script that raises is a real failure by the rule we just wrote, not could-not-run -- and
+      # the cause was simply that nothing installed scraper/requirements.txt.
+      - name: python dependencies the drift checks import
+        run: python3.11 -m pip install --quiet -r scraper/requirements.txt
       - run: npm ci --no-audit --no-fund
       - run: npm run typecheck
       - run: npm test
@@ -91,6 +97,12 @@ jobs:
         run: |
           ln -s "$(which python3)" /usr/local/bin/python3.11 || true
           python3.11 --version
+      # AND ITS DEPENDENCIES. With the interpreter alone the failures changed shape rather than going away:
+      # ModuleNotFoundError: No module named 'bs4'. That is the right kind of failure -- an interpreter that
+      # EXISTS and a script that raises is a real failure by the rule we just wrote, not could-not-run -- and
+      # the cause was simply that nothing installed scraper/requirements.txt.
+      - name: python dependencies the drift checks import
+        run: python3.11 -m pip install --quiet -r scraper/requirements.txt
       - run: npm ci --no-audit --no-fund
       - run: mkdir -p /tmp/netzspec-api/images /tmp/netzspec-api/cache /tmp/netzspec-api/runs
       - name: migrate (schema into netzspec_test)
