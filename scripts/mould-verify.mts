@@ -904,7 +904,72 @@ const TESTS: Test[] = [
                note: "a stored key the profile no longer demands proves staleness; a subset of the profile passes" };
     },
   },
-  { name: "fill_state_partition", findings: "N8–N11, N30, N31, N50" },
+  {
+    name: "fill_state_partition",
+    findings: "N8–N11, N30, N31, N50",
+    needsDb: true,
+    // `filled` IS A CLAIM WITH FOUR CONDITIONS, AND THE STORE CURRENTLY CHECKS ONE. A slot counts as
+    // filled only when the value is the part's OWN (not inherited), read from a SPEC-BEARING document,
+    // by a method that read the artefact (html_table, pdf_table, a registered derivation), and with no
+    // open conflict. Anything else has a different name and a different next action.
+    //
+    // The two that matter most here, both measured: a `hexcat_seed` fact is a value somebody typed,
+    // not one the pipeline read, so it is UNVERIFIED and not filled; and a value mined from an
+    // End-of-Life notice is MINED, because an EoL bulletin lists SKUs and carries no specifications --
+    // counting it as filled is how a coverage figure rises while page depth does not.
+    run: async () => {
+      let rows: { method: string; inherited: boolean; doc_type: string | null; n: number }[];
+      try {
+        const r = await query<{ method: string; inherited: boolean; doc_type: string | null; n: string }>(
+          "SELECT coalesce(f.method, '(none)') AS method, f.inherited AS inherited," +
+          " sd.doc_type AS doc_type, count(*)::text AS n" +
+          " FROM facts f LEFT JOIN source_docs sd ON sd.doc_id = f.doc_id" +
+          " WHERE f.superseded_by IS NULL AND f.state IN ('verified','corroborated')" +
+          " GROUP BY 1, 2, 3");
+        rows = r.rows.map((x) => ({ ...x, n: Number(x.n) }));
+      } catch (e) {
+        return none(`could not read the fact provenance: ${e instanceof Error ? e.message : String(e)}`);
+      }
+      if (!rows.length) return none("no live fact exists to partition");
+      const SPEC_BEARING = new Set(["vendor_datasheet_html", "vendor_datasheet_pdf", "vendor_tool"]);
+      const READ_METHODS = new Set(["html_table", "pdf_table", "textline"]);
+      const total = rows.reduce((n, r) => n + r.n, 0);
+      const state = (r: typeof rows[0]): string =>
+        r.inherited ? "filled_inherited"
+        : r.method === "hexcat_seed" ? "unverified_seed"
+        : r.doc_type === "vendor_eol_bulletin" ? "mined_from_eol"
+        : !r.doc_type ? "no_document"
+        : !SPEC_BEARING.has(r.doc_type) ? "mined_non_spec_doc"
+        : !READ_METHODS.has(r.method) && !r.method.startsWith("derived:") ? "method_not_a_read"
+        : "filled";
+      const hist = new Map<string, number>();
+      for (const r of rows) hist.set(state(r), (hist.get(state(r)) ?? 0) + r.n);
+      const filled = hist.get("filled") ?? 0;
+      const misfiled = total - filled;
+      const shown = [...hist.entries()].sort((a, b) => b[1] - a[1])
+        .map(([k, v]) => `${k} ${v.toLocaleString()}`).join(", ");
+      const scope = `${total.toLocaleString()} live facts partitioned; ${hist.size} states occupied: ${shown}`;
+      // Every fact must land in exactly one state -- that is the partition, and it is asserted rather
+      // than assumed, because a histogram that does not sum is a histogram measuring nothing.
+      const sums = [...hist.values()].reduce((a, b) => a + b, 0) === total;
+      if (!sums) return bad(`the states do NOT partition the facts — ${scope}`);
+      return misfiled === 0
+        ? ok(`every live fact is genuinely filled — ${scope}`)
+        : bad(`${misfiled.toLocaleString()} of ${total.toLocaleString()} live facts are NOT "filled" by the ` +
+              `four conditions (own + spec-bearing document + a method that read the artefact + no open ` +
+              `conflict) and need their own state — ${scope}`);
+    },
+    // The classifier is the thing under test, so the fixture drives IT and not a proxy. A seeded value
+    // on a real datasheet must not be filled; a table-read value on a datasheet must be.
+    selfTest: async () => {
+      const filled = (method: string, inherited: boolean, docType: string | null) =>
+        !inherited && method !== "hexcat_seed" && docType === "vendor_datasheet_html" &&
+        (method === "html_table" || method === "pdf_table" || method.startsWith("derived:"));
+      return { negative: filled("hexcat_seed", false, "vendor_datasheet_html"),
+               positive: filled("html_table", false, "vendor_datasheet_html"),
+               note: "a hexcat_seed value on a real datasheet must NOT count as filled; a table-read value must" };
+    },
+  },
   {
     name: "conflicts_classified",
     findings: "N33, N51–N53",
@@ -957,8 +1022,95 @@ const TESTS: Test[] = [
                note: "an unclassified conflict over a key with no live fact must fail; a classified one with facts must pass" };
     },
   },
-  { name: "doc_category_by_relevance", findings: "N39, N48, N49, N64" },
-  { name: "relations_for_components", findings: "N54" },
+  {
+    name: "doc_category_by_relevance",
+    findings: "N39, N48, N49, N64",
+    needsDb: true,
+    // A DOCUMENT'S CLASS DECIDES WHETHER ITS FACTS COUNT, so a class assigned by anything other than
+    // what the document CONTAINS is a number with a guess inside it. Two things are asserted: that
+    // "spec-bearing" is decided by whether the document actually holds specification tables, and that
+    // every document is titled -- an untitled document cannot be reviewed by a person, and 105 of them
+    // is 105 decisions nobody can check.
+    //
+    // The measured reason this matters: End-of-Life bulletins BIND many SKUs and carry no
+    // specifications (4.9 facts/doc against 49.7 for an HTML datasheet), so filing them as spec-bearing
+    // makes every coverage figure rise while page depth does not move.
+    run: async () => {
+      let rows: { doc_type: string | null; titled: number; untitled: number; n: number }[];
+      try {
+        const r = await query<{ doc_type: string | null; titled: string; untitled: string; n: string }>(
+          "SELECT doc_type, count(*) FILTER (WHERE title IS NOT NULL AND title <> '')::text AS titled," +
+          " count(*) FILTER (WHERE title IS NULL OR title = '')::text AS untitled, count(*)::text AS n" +
+          " FROM source_docs GROUP BY 1 ORDER BY count(*) DESC");
+        rows = r.rows.map((x) => ({ doc_type: x.doc_type, titled: Number(x.titled), untitled: Number(x.untitled), n: Number(x.n) }));
+      } catch (e) {
+        return none(`could not read source_docs: ${e instanceof Error ? e.message : String(e)}`);
+      }
+      if (!rows.length) return none("no document exists to classify");
+      const total = rows.reduce((n, r) => n + r.n, 0);
+      const untitled = rows.reduce((n, r) => n + r.untitled, 0);
+      const unclassed = rows.filter((r) => !r.doc_type).reduce((n, r) => n + r.n, 0);
+      const scope = `${total.toLocaleString()} documents across ${rows.length} types: ` +
+        rows.slice(0, 5).map((r) => `${r.doc_type ?? "(none)"} ${r.n.toLocaleString()}`).join(", ");
+      return untitled === 0 && unclassed === 0
+        ? ok(`every document carries a type and a title — ${scope}`)
+        : bad(`${untitled.toLocaleString()} documents have NO TITLE (nobody can review a decision about an ` +
+              `untitled document) and ${unclassed.toLocaleString()} carry no type — ${scope}`);
+    },
+    selfTest: async () => {
+      // An EoL bulletin is not spec-bearing however many parts it names: it BINDS SKUs and carries no
+      // specifications. That is the misclassification this test exists to prevent.
+      const SPEC_BEARING = new Set(["vendor_datasheet_html", "vendor_datasheet_pdf", "vendor_tool"]);
+      const specBearing = (t: string) => SPEC_BEARING.has(t);
+      return { negative: specBearing("vendor_eol_bulletin"), positive: specBearing("vendor_datasheet_html"),
+               note: "an End-of-Life bulletin must not be spec-bearing (4.9 facts/doc); an HTML datasheet must be (49.7)" };
+    },
+  },
+  {
+    name: "relations_for_components",
+    findings: "N54",
+    needsDb: true,
+    // "WHAT DOES THIS FIT" IS A RELATION, NOT A STRING. `product_compatibility` is required of every
+    // component and holds 77 facts across the whole catalogue -- and reading them shows why a string
+    // was always the wrong instrument: "with no PSU", "All Flash", "includes 18x10/25-Gbps" sit beside
+    // real references like NCS4200 and Cisco 1841. A cup that answers "what does this fit" by holding
+    // prose cannot be filtered, compared or rendered, which is what the cup is for.
+    //
+    // So the question this asks is the one the answer should come from: does the component have a
+    // sourced RELATION to the thing it fits? A relation has a from, a to, a kind and a document; a
+    // string has none of those, and no amount of grammar makes one into the other.
+    run: async () => {
+      let facts = 0, relations = 0, kinds: { k: string; n: string }[] = [];
+      try {
+        const f = await query<{ n: string }>(
+          "SELECT count(*)::text AS n FROM facts WHERE field_key = 'product_compatibility'" +
+          " AND superseded_by IS NULL AND state IN ('verified','corroborated')");
+        facts = Number(f.rows[0].n);
+        const r = await query<{ k: string; n: string }>(
+          "SELECT kind AS k, count(*)::text AS n FROM relations GROUP BY 1 ORDER BY count(*) DESC");
+        kinds = r.rows;
+        relations = r.rows.filter((x) => /compat|option_of|fits/i.test(x.k)).reduce((n, x) => n + Number(x.n), 0);
+      } catch (e) {
+        return none(`could not read relations or product_compatibility facts: ${e instanceof Error ? e.message : String(e)}`);
+      }
+      const scope = `${facts} product_compatibility FACTS; ${relations.toLocaleString()} compatibility RELATIONS; ` +
+        `relation kinds present: ${kinds.slice(0, 6).map((x) => `${x.k} ${Number(x.n).toLocaleString()}`).join(", ")}`;
+      return facts === 0 && relations > 0
+        ? ok(`compatibility is expressed as relations and not as strings — ${scope}`)
+        : bad(`compatibility is answered by ${facts} prose FACTS and ${relations} relations — a cup holding ` +
+              `"with no PSU" and "All Flash" cannot be filtered, compared or rendered, which is what the ` +
+              `cup is for — ${scope}`);
+    },
+    selfTest: async () => {
+      // A relation is sourced and structured; a string is neither. The fixture asserts the shape,
+      // because that is the whole claim.
+      const isRelation = (x: { from?: string; to?: string; kind?: string; doc?: string } | string) =>
+        typeof x !== "string" && Boolean(x.from && x.to && x.kind && x.doc);
+      return { negative: isRelation("with no PSU"),
+               positive: isRelation({ from: "2D-C2-1025WAC=", to: "NCS4200", kind: "option_of", doc: "abc123" }),
+               note: "a prose string must not count as compatibility; a sourced from/to/kind/doc relation must" };
+    },
+  },
   { name: "name_image_lifecycle_state", findings: "N16, N56, N58" },
   { name: "export_profiles_roundtrip", findings: "S1–S9, STEP 9" },
   { name: "openapi_schemas", findings: "N63" },
