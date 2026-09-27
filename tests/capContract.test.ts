@@ -65,8 +65,15 @@ check("the old comparison still accepts what the old cap produced, so nothing al
 // ---- a list past the new ceiling: capped, at a word boundary, and RECORDED ----------------------
 const lo = C.list_over_ceiling;
 check("a list past the ceiling is still capped", lo.cut === true && lo.stored.length <= out.caps.list);
-check("and it records VALUE_TRUNCATED, so no new truncation is silent",
-  lo.defects.length === 1 && lo.defects[0].code === "VALUE_TRUNCATED");
+// A LIST CELL THAT REACHES THE CEILING IS NOT A TRUNCATED LIST, IT IS THE WRONG TABLE. The ceiling
+// sits above every real specification list in the 14,808-document cache; past it a bulleted cell is
+// a page's own table of contents. So it is a DOCUMENT-level extraction defect with its own code,
+// and the two must never share a count -- "the value was longer than we keep" and "we read the wrong
+// element on this page" send a reader to different places.
+check("a list past the ceiling records NOT_A_LIST, not VALUE_TRUNCATED",
+  lo.defects.length === 1 && lo.defects[0].code === "NOT_A_LIST");
+check("  and it says why, so the reader is sent to the extractor rather than to the fill",
+  /navigation chrome, not a specification list/.test(lo.defects[0]?.detail ?? ""));
 check("the defect says how much was lost, not just that something was",
   /is \d+ chars against a cap of \d+: stored \d+, lost \d+/.test(lo.defects[0]?.detail ?? ""));
 check("the gate accepts a capped list as the head of its cell", cellMatches(lo.cell, lo.stored));
@@ -76,8 +83,9 @@ const so = C.scalar_over_cap;
 check("a scalar over 160 is capped to 160", so.cut === true && so.stored.length <= out.caps.scalar);
 check("the cap lands on a WORD boundary, not mid-word", so.cell.startsWith(so.stored) &&
   (so.cell[so.stored.length] === " " || so.stored.length === out.caps.scalar));
-check("a capped scalar records VALUE_TRUNCATED too",
+check("a capped SCALAR still records VALUE_TRUNCATED — the two codes stay apart",
   so.defects.length === 1 && so.defects[0].code === "VALUE_TRUNCATED");
+check("  so the two cases never share a count", lo.defects[0]?.code !== so.defects[0]?.code);
 check("the gate accepts a capped scalar", cellMatches(so.cell, so.stored));
 
 const sf = C.scalar_fits;

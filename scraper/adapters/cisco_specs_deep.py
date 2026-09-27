@@ -57,6 +57,18 @@ MODEL_HDR = re.compile(r"^(model|sku|part number|product number|product id)$", r
 # value at all, it was the first 160 characters of one -- which is most of the "dirty tail" the
 # grammars were being written to refuse. Scalars keep 160 (p95 sits just under it); lists get a
 # ceiling above the longest that occurs, so capping a list is an event rather than the norm.
+#
+# RE-MEASURED OVER THE WHOLE CACHE, 14,808 documents against the 380 above [M 2026-09-27]:
+#
+#     SCALAR cells  1,347,561   over 160:  2.2%   p50 16    p99   253   MAX 34,574
+#     LIST   cells     26,837   over 160: 64.3%   p50 224   p99 2,175   MAX 26,919
+#
+# 64.3% reproduced to the decimal on a corpus forty times larger, which is the strongest
+# corroboration the sample could have had. The ceiling is NOT set from that maximum: past roughly
+# 6,000 a bulleted cell stops being a specification list and becomes a page's own table of contents
+# ("Viewing Options PDF (3.5 MB) Feedback Contents 1. Introduction ..."), so a ceiling chasing
+# 26,919 would store navigation chrome as a compliance list. Those cells are a document-level
+# extraction defect and get their own code, NOT_A_LIST -- see cap_cell.
 MAX_CELL = 160
 LIST_CELL_CAP = 6000
 # A JOINED list (see join_list_fragments) is several cells of one list, so it gets the list ceiling.
@@ -166,13 +178,25 @@ def cap_cell(val: str, locator: str, defects: list[dict], what: str = "") -> tup
     second. That is the structural version of the rule; a comment saying "remember to flag it" is
     the version that four sites ignored.
     """
-    cap = LIST_CELL_CAP if _is_list_cell(val) else MAX_CELL
+    is_list = _is_list_cell(val)
+    cap = LIST_CELL_CAP if is_list else MAX_CELL
     v, cut = cap_value(val, cap)
     if cut:
-        kind = "list" if cap == LIST_CELL_CAP else "scalar"
-        defects.append({"code": "VALUE_TRUNCATED", "locator": locator,
-                        "detail": f"{what}{kind} cell is {len(val)} chars against a cap of {cap}: "
-                                  f"stored {len(v)}, lost {len(val) - len(v)}"})
+        kind = "list" if is_list else "scalar"
+        # A LIST CELL THAT REACHES 6,000 IS NOT A TRUNCATED LIST, IT IS THE WRONG TABLE. The ceiling
+        # sits above every real specification list in the cache; the cells past it are navigation
+        # chrome -- the longest in the corpus opens "Viewing Options PDF (3.5 MB) Feedback Contents
+        # 1. Introduction 2. Cisco Prime Components", which is a page's own table of contents wearing
+        # enough bullets to look like a list. So this is a DOCUMENT-level extraction defect (the
+        # extractor picked the wrong element) and not a fill job, and it gets its own code so the two
+        # never share a count. A VALUE_TRUNCATED on a scalar means "the value was longer than we keep";
+        # a NOT_A_LIST means "we read the wrong thing on this page".
+        code = "NOT_A_LIST" if is_list else "VALUE_TRUNCATED"
+        detail = (f"{what}{kind} cell is {len(val)} chars against a cap of {cap}: "
+                  f"stored {len(v)}, lost {len(val) - len(v)}")
+        if is_list:
+            detail += " -- past the ceiling a bulleted cell is navigation chrome, not a specification list"
+        defects.append({"code": code, "locator": locator, "detail": detail})
     return v, cut
 
 
