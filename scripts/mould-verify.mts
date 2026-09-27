@@ -383,6 +383,43 @@ const TESTS: Test[] = [
   { name: "endpoints_alive", findings: "N43, N44" },
   { name: "link_integrity", findings: "H" },
   {
+    name: "keys_hygiene",
+    findings: "N70 (reclassified) — the reviewer's control, added 27 Sep",
+    needsDb: true,
+    // WHY THIS EXISTS. I rotated the reviewer's API key by revoking the id I remembered — 15,
+    // "claude-web-url". The reviewer never had it. The token it had been using all day hashed to a row
+    // called "owner" (id 2), minted 9 Sep, which had appeared VERBATIM in an audit prompt on 12 Sep and was
+    // therefore in chat transcripts for three weeks. So the rotation revoked a key nobody held and left the
+    // exposed one live, and both of us believed it was done: I said "the old one is revoked", the reviewer
+    // said "revocation is not enforced", and neither was true — we were talking about different rows.
+    //
+    // The missing control is not "enforce revocation" (auth.ts:133 already does). It is that a key must
+    // name its HOLDER and its CHANNEL, and a rotation must revoke by the hash of the token being replaced
+    // rather than by an id from memory. Two active keys here are both called "netzspec"; one was last used
+    // three weeks ago and one is in use today, and nothing on the row says which belongs to what.
+    run: async () => {
+      // Hand-written, and deliberately so: a list of what is EXCLUDED stays short, every line needs a
+      // reason, and a key minted tomorrow is NOT admitted silently — which is the whole point here.
+      const KNOWN: Record<number, string> = {
+        3: "in daily use — presumed the netzspec.com site; holder unconfirmed, see below",
+        16: "the reviewer, minted 27 Sep 2026, read scope",
+      };
+      const rows = (await query<{ id: number; name: string; last: string | null; scopes: string[] }>(`
+        SELECT id, name, last_used_at::text last, scopes FROM api_keys WHERE revoked_at IS NULL ORDER BY id`)).rows;
+      const problems: string[] = [];
+      const unknown = rows.filter((r) => !(r.id in KNOWN));
+      for (const r of unknown) problems.push(`id ${r.id} "${r.name}" active with no recorded holder (last used ${r.last ?? "never"})`);
+      const byName = new Map<string, number[]>();
+      for (const r of rows) byName.set(r.name, [...(byName.get(r.name) ?? []), r.id]);
+      for (const [n, ids] of byName) if (ids.length > 1) problems.push(`${ids.length} active keys share the name "${n}" (ids ${ids.join(", ")}) — a rotation cannot tell them apart`);
+      const write = rows.filter((r) => !r.scopes.every((sc) => sc === "read"));
+      for (const r of write) problems.push(`id ${r.id} "${r.name}" is not read-only (${r.scopes.join(",")})`);
+      return problems.length === 0
+        ? ok(`${rows.length} active keys, each with a recorded holder and a unique name`)
+        : bad(`${problems.length} of ${rows.length} active keys: ${problems.join("; ")}`);
+    },
+  },
+  {
     name: "brand_isolation",
     findings: "operator 27 Sep — NOT one of the brief's 27, added because the brief has no test for it",
     needsDb: true,

@@ -121,6 +121,12 @@ A second Claude ("the reviewer") audits this work and sets its order. Two rules 
    The operator: "i always go with your recommendation so even asking for a permission is just you waiting
    for me uselessly".
 
+3. **ALWAYS read the reviewer's reply — non-negotiable (operator, 27 Sep 2026).** Never send it something
+   and then turn to the operator without waiting for the answer. Its replies are where the findings are: in
+   one exchange it proved four of this session's verifier tests were checking nothing, and in the next it
+   showed that a key rotation had revoked a row nobody held while the exposed key stayed live. A message
+   sent and not read is the audit not happening.
+
 **The most productive thing to do while waiting is to ask the reviewer for a deeper audit** — the operator's
 observation, and it has held every time so far: it has corrected a factual claim of mine about which
 endpoints serve live data, and its challenge to a coverage figure exposed a live defect in the check that
