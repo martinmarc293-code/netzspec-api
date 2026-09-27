@@ -68,6 +68,26 @@ export function isArranged(vendor: string, vendorSlugs: readonly string[], dir: 
 }
 
 /**
+ * Arranged for ONE CATEGORY, which is the unit that actually matters — the reviewer's correction, and it is
+ * right. A vendor-level answer admits a brand wholesale the moment it gets its first line file: the day HPE
+ * is arranged for `switches`, `isArranged("hpe")` becomes true and HPE's ROUTERS start being scored against
+ * Cisco's router profile, which is the very defect this module was written to end, returning through the
+ * front door one brand later.
+ *
+ * Measured today it changes nothing: cisco has 17 per-category line files and all 15 of its categories with
+ * scored parts are covered, so the vendor-level and per-category answers agree on every live row. That makes
+ * this LATENT WITH A NAMED TRIGGER rather than a live defect — the trigger being the first partially
+ * arranged brand — and it is cheaper to fix now than to meet it during HPE.
+ *
+ * A bare `<vendor>.json` does not arrange anything: it carries vendor-level shared data, not a category's
+ * lines. Only `<vendor>-<category>.json` does.
+ */
+export function isArrangedFor(vendor: string, category: string, dir: string = LINE_DIR): boolean {
+  if (MOULD_EXCEPTIONS[vendor]) return MOULD_EXCEPTIONS[vendor].arranged;
+  return fs.existsSync(path.join(dir, `${vendor}-${category}.json`));
+}
+
+/**
  * The reason recorded on a part that is NOT scored because its brand has no mould.
  *
  * It is deliberately distinct from every other reason a part goes unscored. "Not scored because this brand

@@ -20,7 +20,7 @@ import { completenessV2, requirementFor, PROFILES, COLUMN_BACKED } from "../core
 import { modularPlatform } from "../core/modularPlatform.js";
 import { partKind } from "../core/partKind.js";
 import { deployRole } from "../core/deployRole.js";
-import { mouldStatuses } from "../core/brandMould.js";
+import { mouldStatuses, isArrangedFor } from "../core/brandMould.js";
 
 type Args = { vendor: string | null; category: string | null; since: string | null; batch: number };
 
@@ -142,7 +142,11 @@ async function run(a: Args): Promise<Record<string, number>> {
         // The operator arranges ONE BRAND AT A TIME and cannot call cisco's mould complete while cisco's
         // denominators contain other brands' parts. `isArranged` is derived from the product-line reference
         // files a brand's layer build reads, so a newly arranged brand is admitted with no list to update.
-        if (p.product_class === "hardware" && !arrangedVendors.has(vendorSlug)) {
+        // Per (vendor, CATEGORY), not per vendor: a vendor-level test admits a brand wholesale on its first
+        // line file, so a partially arranged brand would have its unarranged categories scored against
+        // cisco's — the same defect one brand later. Identical on every live row today (cisco covers all 15
+        // of its scored categories); the difference appears with the first partially arranged brand.
+        if (p.product_class === "hardware" && !isArrangedFor(vendorSlug, category)) {
           notArranged++;
           row = { required_total: 0, required_present: 0, pct: 0, missing: [], required_fields: [], no_profile: true };
         } else if (p.product_class !== "hardware") {

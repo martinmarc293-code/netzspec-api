@@ -9,7 +9,7 @@
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import { mouldStatuses, isArranged, NO_MOULD_REASON } from "../src/core/brandMould.js";
+import { mouldStatuses, isArranged, isArrangedFor, NO_MOULD_REASON } from "../src/core/brandMould.js";
 
 let pass = 0; const misses: string[] = [];
 const check = (name: string, ok: boolean, detail?: unknown): void => {
@@ -49,7 +49,21 @@ check("an empty directory arranges nobody, rather than throwing",
 check("the not-arranged reason is its own constant, distinct from every other unscored reason",
   NO_MOULD_REASON === "brand_not_arranged");
 
+// PER (VENDOR, CATEGORY). A vendor-level answer admits a brand wholesale on its FIRST line file, so a
+// partially arranged brand has its unarranged categories scored against another brand's mould — the same
+// defect one brand later. cisco is fully covered today, so these cases are built on a partial fixture,
+// which is the only way to exercise a state the live data has not reached yet.
+write("hpe-switches.json");                       // hpe arranged for switches ONLY
+check("a brand arranged for one category is arranged THERE", isArrangedFor("hpe", "switches", dir));
+check("…and NOT for a category it has no line file for", !isArrangedFor("hpe", "routers", dir),
+  "hpe/routers must stay unarranged while only hpe-switches.json exists");
+check("SABOTAGE the vendor-level answer would admit hpe wholesale, which is the bug",
+  isArranged("hpe", VENDORS, dir) && !isArrangedFor("hpe", "routers", dir));
+check("a bare <vendor>.json arranges no category on its own",
+  !isArrangedFor("cisco", "routers", dir) && isArrangedFor("cisco", "switches", dir),
+  "cisco.json exists and cisco-switches.json exists; cisco-routers.json does not");
+
 fs.rmSync(dir, { recursive: true, force: true });
 console.log(misses.join("\n"));
-console.log(`    brand mould: ${pass} passed, ${misses.length} missed (1 sabotage, 2 hyphen cases)`);
+console.log(`    brand mould: ${pass} passed, ${misses.length} missed (2 sabotage, 2 hyphen, 4 per-category cases)`);
 if (misses.length) process.exit(1);
