@@ -34,7 +34,7 @@ const COMMIT = process.argv.includes("--commit");
 const VENDOR = process.env.NETZSPEC_BRAND ?? "cisco";
 const DIR = path.join(REPO_ROOT, "data", "layers");
 
-type Row = { sku: string; line: string | null; family: string | null; series: string | null; kind: string | null; bucket: string | null };
+type Row = { sku: string; line: string | null; family: string | null; series: string | null; kind: string | null; bucket: string | null; placement: string | null };
 
 /** THE ROWS LIVE IN THE .rows.tsv, NOT IN THE .json. The first reader walked the JSON tree guessing at
  *  key names and produced 461 rows with ZERO layer values against 555 it could not read — which is what
@@ -58,8 +58,17 @@ function readLayerRows(file: string): { rows: Row[]; unreadable: number } {
   const header = lines[0].split(TAB);
   const at = (name: string) => header.indexOf(name);
   const iSku = at("sku"), iKind = at("kind"), iLine = at("product_line"),
-        iFamily = at("product_family"), iSeries = at("series"), iBucket = at("bucket");
+        iFamily = at("product_family"), iSeries = at("series"), iNav = at("nav_bucket"),
+        iPlacement = at("placement");
   if (iSku < 0) return { rows: [], unreadable: lines.length - 1 };
+  // THE ARTEFACT FORMAT CHANGED ON 27 Sep 2026 and this reader must not guess: `bucket` became
+  // `placement` (a status) and `nav_bucket` split out of `series`. Reading a pre-change file here would
+  // put a navigation construct straight back into product_series, which the database refuses -- so the
+  // whole write would fail on a constraint and look like a data defect instead of a stale input.
+  if (iNav < 0 || iPlacement < 0) {
+    throw new Error(`${file}: header names no "nav_bucket"/"placement" column - a pre-27-Sep artefact. ` +
+      `Rebuild with scripts/build-layers.mts before writing to the database.`);
+  }
   const rows: Row[] = [];
   let unreadable = 0;
   for (const line of lines.slice(1)) {
@@ -68,7 +77,7 @@ function readLayerRows(file: string): { rows: Row[]; unreadable: number } {
     if (!sku) { unreadable++; continue; }
     const cell = (i: number) => (i >= 0 && (c[i] ?? "").trim() ? c[i].trim() : null);
     rows.push({ sku, line: cell(iLine), family: cell(iFamily), series: cell(iSeries),
-                kind: cell(iKind), bucket: cell(iBucket) });
+                kind: cell(iKind), bucket: cell(iNav), placement: cell(iPlacement) });
   }
   return { rows, unreadable };
 }
@@ -106,10 +115,13 @@ const translate = (r: Row) => {
     // parts_series_not_bucket_check, which is the constraint doing exactly its job -- a shop tree
     // would have printed "Catalyst shared parts" as a product line.
     //
-    // The artefact's own `bucket` column does NOT hold them: it carries the placement STATUS
-    // ("layered") rather than the bucket name, so the information exists only in the series column
-    // and would be lost by dropping it. So the bucket moves to `bucket` where it belongs and
-    // product_series becomes null -- the part is genuinely in no series, which is the true statement.
+    // AS OF 27 Sep 2026 THE ARTEFACT CARRIES THE SPLIT ITSELF. It used to write the construct into its
+    // `series` column and call the placement status `bucket`, so this translation had to move the value
+    // across and the artefact and the database disagreed on 5,806 rows BY CONSTRUCTION -- a 68-row parity
+    // exclusion no republish could retire, because the build is upstream of this write. The build now
+    // emits `nav_bucket` and leaves `series` empty on those rows, and its status column is `placement`.
+    // The isBucket branch is kept as a BELT: a construct reaching `series` from any future source is
+    // still moved rather than written, and the control below counts what arrived that way.
     //
     // NOT fixed by relaxing the constraint. The constraint names a real defect in the layer build
     // (A4 bucket_not_series was written for it), and widening a predicate to admit the thing it was

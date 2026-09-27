@@ -139,8 +139,20 @@ type Tree = {
 };
 type LayerRow = {
   sku: string; name: string | null; series_label: string | null; kind: string;
-  bucket: "layered" | "not_this_category" | "pending_plan" | "pending_review" | "unplaced";
+  /** RENAMED FROM `bucket` 27 Sep 2026 (reviewer's ruling). Which TABLE this row sits in -- a placement
+   *  STATUS. `parts.bucket` is a different thing entirely: a NAVIGATION bucket ("Catalyst shared parts"),
+   *  which is the published, schema-declared, consumer-facing name, so the artefact's column is the one
+   *  that gives way. One name, one meaning; they were two directories apart and every reader was
+   *  internally consistent, which is exactly how that survives review. */
+  placement: "layered" | "not_this_category" | "pending_plan" | "pending_review" | "unplaced";
   product_line: string | null; product_family: string | null; series: string | null; placed_by: string | null;
+  /** WHERE A TREE PUTS A PART THAT BELONGS TO NO SERIES. The build files a line-level shared part under a
+   *  construct like "Catalyst shared parts"; that construct is not a series, and until today it was written
+   *  into the `series` column, from which the API served it AS layer 4 on 5,806 parts. The database refuses
+   *  that shape (parts_series_not_bucket_check), so it held null and the artefact held the construct --
+   *  a 68-row parity exclusion that no republish could retire, because the TSV is UPSTREAM of the columns.
+   *  Splitting it here deletes the exclusion instead of bounding it. */
+  nav_bucket: string | null;
   deploy_role: string | null; role_rule: string | null; role_issue: string | null;
   plan: { action: string; to: string; reason: string | null } | null;
   belongs: string | null;
@@ -217,14 +229,14 @@ function build(cat: string): Tree {
     const base = { sku: r.sku, name: r.name, series_label: r.series, kind, deploy_role: rr.role, role_rule: rr.rule, role_issue: rr.issue, label_evidence: ev ? `${ev.kind}: ${ev.detail}` : null, family_carrier: CARRIERS.has(r.sku.trim().toUpperCase()) };
     if (plan) {
       tree.pending_plans.push({ sku: r.sku, name: r.name, series_label: r.series, action: plan.action, to: plan.to, reason: plan.reason ?? null });
-      tree.rows.push({ ...base, bucket: "pending_plan", product_line: null, product_family: null, series: null, placed_by: null, plan: { action: plan.action, to: plan.to, reason: plan.reason ?? null }, belongs: null });
+      tree.rows.push({ ...base, placement: "pending_plan", product_line: null, product_family: null, series: null, nav_bucket: null, placed_by: null, plan: { action: plan.action, to: plan.to, reason: plan.reason ?? null }, belongs: null });
       continue;
     }
     let p = placed.get(r.sku) ?? null;
     if (p && p.line !== "(not this category)" && ev?.kind === "none" && DEVICE_KINDS.has(kind)) {
       // a device is never a shared part: held for review with the reason, not placed
       tree.pending_review.push({ sku: r.sku, name: r.name, series_label: r.series, kind, from_series: p.series, why: ev.detail });
-      tree.rows.push({ ...base, bucket: "pending_review", product_line: null, product_family: null, series: null, placed_by: `label-unsupported device (${p.rule}; was ${p.series}): ${ev.detail}`, plan: null, belongs: null });
+      tree.rows.push({ ...base, placement: "pending_review", product_line: null, product_family: null, series: null, nav_bucket: null, placed_by: `label-unsupported device (${p.rule}; was ${p.series}): ${ev.detail}`, plan: null, belongs: null });
       continue;
     }
     if (p && p.line !== "(not this category)" && ev?.kind === "none") {
@@ -232,14 +244,22 @@ function build(cat: string): Tree {
       tree.label_check.moved.push({ sku: r.sku, name: r.name, series_label: r.series, from_series: p.series, to_series: SHARED_PARTS(p.line), why: ev.detail });
       p = { line: p.line, series: SHARED_PARTS(p.line), rule: `label-unsupported (${p.rule}; was ${p.series}): ${ev.detail}`, role: null };
     }
-    if (!p) { tree.unplaced.push({ sku: r.sku, name: r.name, series_label: r.series, kind }); tree.rows.push({ ...base, bucket: "unplaced", product_line: null, product_family: null, series: null, placed_by: null, plan: null, belongs: null }); continue; }
+    if (!p) { tree.unplaced.push({ sku: r.sku, name: r.name, series_label: r.series, kind }); tree.rows.push({ ...base, placement: "unplaced", product_line: null, product_family: null, series: null, nav_bucket: null, placed_by: null, plan: null, belongs: null }); continue; }
     if (p.line === "(not this category)") {
       const why = (p as { why: string }).why, belongs = (p as { belongs: string | null }).belongs;
       tree.not_this_category.push({ sku: r.sku, name: r.name, series_label: r.series, why, belongs });
-      tree.rows.push({ ...base, bucket: "not_this_category", product_line: null, product_family: null, series: null, placed_by: p.rule, plan: null, belongs });
+      tree.rows.push({ ...base, placement: "not_this_category", product_line: null, product_family: null, series: null, nav_bucket: null, placed_by: p.rule, plan: null, belongs });
       continue;
     }
-    tree.rows.push({ ...base, bucket: "layered", product_line: p.line, product_family: p.series === SHARED_PARTS(p.line) ? SHARED_ACROSS_LINE : familyOf(loaded, p.series) ?? NO_FAMILY, series: p.series, placed_by: p.rule, plan: null, belongs: null });
+    // A NAVIGATION BUCKET IS NOT A SERIES, and this is where the two used to be conflated. `p.series`
+    // carries "<line> shared parts" for a part shared across its whole line; that construct goes to
+    // nav_bucket and `series` stays null, which is what `parts` has held all along. Before this split the
+    // artefact and the database disagreed on 5,806 rows by construction and no republish could close it,
+    // because build-layers is upstream of write-layers-to-db.
+    const isNav = p.series === SHARED_PARTS(p.line) || /shared parts$/i.test(p.series);
+    tree.rows.push({ ...base, placement: "layered", product_line: p.line,
+      product_family: p.series === SHARED_PARTS(p.line) ? SHARED_ACROSS_LINE : familyOf(loaded, p.series) ?? NO_FAMILY,
+      series: isNav ? null : p.series, nav_bucket: isNav ? p.series : null, placed_by: p.rule, plan: null, belongs: null });
     const node = nodeOf(p.line, p.series);
     node.parts++;
     const role = rr.role;
@@ -280,7 +300,7 @@ function build(cat: string): Tree {
     const series = [...m.values()];
     tree.lines.push({ line, parts: series.reduce((a, s) => a + s.parts, 0), series });
   }
-  tree.layered = tree.rows.filter((x) => x.bucket === "layered").length;
+  tree.layered = tree.rows.filter((x) => x.placement === "layered").length;
   tree.pending = tree.pending_plans.length + tree.unplaced.length + tree.pending_review.length + tree.not_this_category.length;
   if (tree.layered + tree.pending !== tree.parts) throw new Error(`${cat}: ${tree.layered} layered + ${tree.pending} pending != ${tree.parts} parts — a row is in no bucket or in two`);
   tree.done = loaded !== null && tree.pending === 0;
@@ -349,8 +369,12 @@ for (const cat of targets) {
     const { rows: tRows, ...summary } = t;
     fs.writeFileSync(path.join(REPO_ROOT, "data", "layers", `${vendor}-${cat}.json`), JSON.stringify(summary, null, 1) + "\n");
     const cell = (x: unknown) => String(x ?? "").replace(/[\t\r\n]+/g, " ");
-    const head = ["sku", "name", "series_label", "kind", "bucket", "product_line", "product_family", "series", "placed_by", "deploy_role", "role_rule", "role_issue", "plan", "belongs", "label_evidence", "family_carrier"];
-    const lines = tRows.map((r) => [r.sku, r.name, r.series_label, r.kind, r.bucket, r.product_line, r.product_family, r.series, r.placed_by, r.deploy_role, r.role_rule, r.role_issue,
+    // FORMAT CHANGE, 27 Sep 2026: `bucket` -> `placement` (a status, and the name belonged to the
+    // published parts.bucket), and `nav_bucket` added so a shared-parts construct stops being written into
+    // `series`. The freeze is regenerated on this same commit -- a ledger from one build and a dictionary
+    // from another is the thing the arrangement rules forbid.
+    const head = ["sku", "name", "series_label", "kind", "placement", "product_line", "product_family", "series", "nav_bucket", "placed_by", "deploy_role", "role_rule", "role_issue", "plan", "belongs", "label_evidence", "family_carrier"];
+    const lines = tRows.map((r) => [r.sku, r.name, r.series_label, r.kind, r.placement, r.product_line, r.product_family, r.series, r.nav_bucket, r.placed_by, r.deploy_role, r.role_rule, r.role_issue,
       r.plan ? `${r.plan.action} ${r.plan.to}` : "", r.belongs, r.label_evidence, r.family_carrier ? "true" : ""].map(cell).join("\t"));
     fs.writeFileSync(path.join(REPO_ROOT, "data", "layers", `${vendor}-${cat}.rows.tsv`), [head.join("\t"), ...lines].join("\n") + "\n");
   }

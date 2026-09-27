@@ -1,1 +1,1 @@
-sku	name	series_label	kind	bucket	product_line	product_family	series	placed_by	deploy_role	role_rule	role_issue	plan	belongs	label_evidence	family_carrier
+sku	name	series_label	kind	placement	product_line	product_family	series	nav_bucket	placed_by	deploy_role	role_rule	role_issue	plan	belongs	label_evidence	family_carrier

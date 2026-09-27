@@ -52,31 +52,31 @@ check("CONTROL cisco/switches HAS a line file (so the two nulls above are about 
 }
 
 // ---- SABOTAGE: the refusals, each for its stated reason ---------------------------------------------------------
-const GOOD = ["sku\tbucket\tproduct_line\tproduct_family\tseries",
+const GOOD = ["sku\tplacement\tproduct_line\tproduct_family\tseries",
   "C1\tlayered\tCatalyst\tCatalyst 9000\tCatalyst 9400"].join("\n");
 check("CONTROL the fixture parses and places its one row", (() => {
   const i = parseLayerRows(GOOD); return i !== null && i.size === 1 && i.get("C1")?.product_line === "Catalyst"; })());
 
 check("SABOTAGE a header missing product_family makes the whole file REFUSE (null), never read by position",
-  parseLayerRows(["sku\tbucket\tproduct_line\tseries", "C1\tlayered\tCatalyst\tCatalyst 9400"].join("\n")) === null);
+  parseLayerRows(["sku\tplacement\tproduct_line\tseries", "C1\tlayered\tCatalyst\tCatalyst 9400"].join("\n")) === null);
 check("SABOTAGE a header missing product_line refuses too",
-  parseLayerRows(["sku\tbucket\tproduct_family\tseries", "C1\tlayered\tCatalyst 9000\tCatalyst 9400"].join("\n")) === null);
+  parseLayerRows(["sku\tplacement\tproduct_family\tseries", "C1\tlayered\tCatalyst 9000\tCatalyst 9400"].join("\n")) === null);
 check("SABOTAGE columns REORDERED are still read by NAME, not by offset", (() => {
-  const i = parseLayerRows(["series\tproduct_family\tproduct_line\tbucket\tsku",
+  const i = parseLayerRows(["series\tproduct_family\tproduct_line\tplacement\tsku",
     "Catalyst 9400\tCatalyst 9000\tCatalyst\tlayered\tC1"].join("\n"));
   return i?.get("C1")?.product_line === "Catalyst" && i?.get("C1")?.series === "Catalyst 9400"; })());
-check("SABOTAGE a row whose bucket is not `layered` is NOT placed", (() => {
-  const i = parseLayerRows(["sku\tbucket\tproduct_line\tproduct_family\tseries",
+check("SABOTAGE a row whose placement is not `layered` is NOT placed", (() => {
+  const i = parseLayerRows(["sku\tplacement\tproduct_line\tproduct_family\tseries",
     "C1\tunplaced\tCatalyst\tCatalyst 9000\tCatalyst 9400"].join("\n"));
   return i !== null && i.size === 0; })());
 check("SABOTAGE a layered row with an EMPTY product_line is not placed (a blank is not a line)", (() => {
-  const i = parseLayerRows(["sku\tbucket\tproduct_line\tproduct_family\tseries", "C1\tlayered\t\t(none)\tX"].join("\n"));
+  const i = parseLayerRows(["sku\tplacement\tproduct_line\tproduct_family\tseries", "C1\tlayered\t\t(none)\tX"].join("\n"));
   return i !== null && i.size === 0; })());
 check("a CRLF file does not put a stray carriage return in the last column", (() => {
   const i = parseLayerRows(GOOD.replace(/\n/g, "\r\n"));
   return i?.get("C1")?.series === "Catalyst 9400"; })());
 check("an EMPTY index and a REFUSAL are different answers (size 0 vs null)",
-  parseLayerRows("sku\tbucket\tproduct_line\tproduct_family\tseries")?.size === 0
+  parseLayerRows("sku\tplacement\tproduct_line\tproduct_family\tseries")?.size === 0
   && parseLayerRows("nothing\tuseful") === null);
 
 // ---- LAYER 3 MUST NEVER REACH A CONSUMER AS A MARKER (27 Sep 2026) -----------------------------------------------
@@ -84,7 +84,7 @@ check("an EMPTY index and a REFUSAL are different answers (size 0 vs null)",
 // record served `product_family: "(none)"` — the artifact's own sentinel — on 3,993 switches and 3,975 routers, so a
 // shop tree or a JTL attribute would have printed "(none)" as the family name. null plus a STATE keeps the
 // distinction the 17 Sep review asked for (null must not read as *undecided*) without exporting a sentinel.
-const fl = (product_family: string) => familyLayer({ product_line: "Catalyst", product_family, series: "Catalyst 9300" });
+const fl = (product_family: string) => familyLayer({ product_line: "Catalyst", product_family, series: "Catalyst 9300", nav_bucket: null });
 check(`"${NO_FAMILY}" resolves to null with a state saying Cisco names no family`,
   fl(NO_FAMILY).product_family === null && fl(NO_FAMILY).product_family_state === "no_family_named", JSON.stringify(fl(NO_FAMILY)));
 check(`"${SHARED_ACROSS_LINE}" resolves to null with its own state, NOT the same state as no-family`,

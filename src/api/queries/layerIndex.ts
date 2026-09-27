@@ -41,6 +41,11 @@ export type LayerPlacement = {
    * `product_series` is this value, `series` is the column that `?series=` filters on.
    */
   series: string;
+  /** WHERE A TREE PUTS A PART THAT BELONGS TO NO SERIES. From 27 Sep 2026 the artefact keeps this apart
+   *  from layer 4 in its own column, so `series` above is empty exactly when this one is set. Before the
+   *  split the construct WAS the series here, which is how the API came to serve "Catalyst shared parts"
+   *  as layer 4 on 5,806 parts while `parts.product_series` correctly held null. */
+  nav_bucket: string | null;
 };
 
 /** Layer 3 resolved for a CONSUMER, which must never be handed a marker string as though it were a family name. */
@@ -79,7 +84,7 @@ export function parseLayerRows(text: string): Map<string, LayerPlacement> | null
   // inside the last column of every row (and this file's last column is one a consumer would see).
   const lines = text.replace(/\r\n/g, "\n").split("\n");
   const head = (lines[0] ?? "").split("\t");
-  const ci = { sku: head.indexOf("sku"), line: head.indexOf("product_line"), fam: head.indexOf("product_family"), ser: head.indexOf("series"), bucket: head.indexOf("bucket") };
+  const ci = { sku: head.indexOf("sku"), line: head.indexOf("product_line"), fam: head.indexOf("product_family"), ser: head.indexOf("series"), placement: head.indexOf("placement"), nav: head.indexOf("nav_bucket") };
   // A COLUMN THAT MOVED MUST NOT BE READ BY POSITION. If the header does not carry these names the artifact's
   // shape has changed, and answering from guessed offsets would serve a plausible wrong line for every part.
   if (ci.sku < 0 || ci.line < 0 || ci.fam < 0 || ci.ser < 0) return null;
@@ -91,10 +96,11 @@ export function parseLayerRows(text: string): Map<string, LayerPlacement> | null
     if (!sku) continue;
     // Only a LAYERED row states a line. Any other bucket is a row the layering did not place, and this module
     // must not invent one for it.
-    if (ci.bucket >= 0 && f[ci.bucket] !== "layered") continue;
+    if (ci.placement >= 0 && f[ci.placement] !== "layered") continue;
     const product_line = f[ci.line] ?? "", product_family = f[ci.fam] ?? "", series = f[ci.ser] ?? "";
+    const nav_bucket = ci.nav >= 0 ? (f[ci.nav] ?? "") : "";
     if (!product_line) continue;
-    idx.set(sku.toUpperCase(), { product_line, product_family, series });
+    idx.set(sku.toUpperCase(), { product_line, product_family, series, nav_bucket: nav_bucket || null });
   }
   return idx;
 }

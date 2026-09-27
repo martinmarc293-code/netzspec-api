@@ -513,15 +513,25 @@ const TESTS: Test[] = [
       const { RENDERED_STATES } = await import("../src/api/queries/shared.js");
       let seed = 20260927;                                    // seeded, not Math.random: comparable across runs
       const rnd = () => (seed = (seed * 1103515245 + 12345) & 0x7fffffff) / 0x7fffffff;
-      const art = new Map<string, { cat: string; series: string; line: string }>();
+      const art = new Map<string, { cat: string; series: string; nav: string; line: string }>();
       const dir = path.join(REPO_ROOT, "data", "layers");
+      let noNav = 0;
       for (const f of fs.readdirSync(dir).filter((x) => x.startsWith("cisco-") && x.endsWith(".rows.tsv"))) {
         const cat = f.slice("cisco-".length, -".rows.tsv".length);
         const L = fs.readFileSync(path.join(dir, f), "utf8").split(/\r?\n/).filter(Boolean);
         const h = L[0].split("\t"), ci = (n: string) => h.indexOf(n);
         if (ci("sku") < 0 || ci("series") < 0 || ci("product_line") < 0) continue;
-        for (const l of L.slice(1)) { const c = l.split("\t"); art.set(c[ci("sku")], { cat, series: c[ci("series")], line: c[ci("product_line")] }); }
+        // A PRE-27-SEP ARTEFACT IS COUNTED, NOT SKIPPED. Before the format change the navigation construct
+        // lived in the `series` column, so a file without `nav_bucket` cannot be compared against the
+        // database's split at all — and a silent skip would shrink the denominator, which is the defect this
+        // whole board was built to catch.
+        if (ci("nav_bucket") < 0) { noNav++; continue; }
+        for (const l of L.slice(1)) {
+          const c = l.split("\t");
+          art.set(c[ci("sku")], { cat, series: c[ci("series")], nav: c[ci("nav_bucket")] ?? "", line: c[ci("product_line")] });
+        }
       }
+      if (noNav) return bad(`${noNav} layer artefact(s) have no nav_bucket column — a pre-27-Sep format that cannot be compared with the split columns; rebuild with scripts/build-layers.mts`);
       const all = [...art.keys()];
       if (all.length < 500) return na(`only ${all.length} placed parts — cannot draw a 500 sample`);
       const pick = new Set<string>();
@@ -556,10 +566,10 @@ const TESTS: Test[] = [
         return bad(`the API RECORD disagrees with the DB columns on ${apiVsDb.length} of ${recs.length} sampled parts — ` +
           `this leg has no exclusion, because the record now selects the columns: ${apiVsDb.slice(0, 5).join("; ")}`);
       }
-      const byCat = new Map<string, { n: number; seriesDiff: number; legacyDiff: number; bucketByDesign: number; lineMissing: number }>();
+      const byCat = new Map<string, { n: number; seriesDiff: number; legacyDiff: number; bucketDiff: number; navRows: number; lineMissing: number }>();
       for (const r of recs) {
         const a = art.get(r.sku); if (!a) continue;
-        const e = byCat.get(a.cat) ?? { n: 0, seriesDiff: 0, legacyDiff: 0, bucketByDesign: 0, lineMissing: 0 };
+        const e = byCat.get(a.cat) ?? { n: 0, seriesDiff: 0, legacyDiff: 0, bucketDiff: 0, navRows: 0, lineMissing: 0 };
         e.n++;
         // TWO COLUMNS, TWO QUESTIONS, AND ONLY ONE OF THEM IS THE LAYER. `product_series` is the
         // layer, written from these very artefacts, so a difference here means the WRITE did not
@@ -572,17 +582,21 @@ const TESTS: Test[] = [
         // right for 21% of rows and wrong for 79%. So its divergence is counted and REPORTED, never
         // judged -- folding it into the parity verdict would make this test permanently red for a
         // reason that is not a defect.
-        const dbRow = ids.find((i) => i.sku === r.sku);
-        // A BUCKET ROW DIFFERS BY DESIGN and must not be counted as parity failure. The artefact puts
-        // a navigation bucket ("HyperFlex shared parts") in its series column for 5,806 rows; the
-        // database REFUSES one (parts_series_not_bucket_check) so the layer column is null there.
-        // Measured over every layered part: 5,806 rows differ and ALL 5,806 are buckets — zero are
-        // anything else. Counting them here would make this test permanently red for the database
-        // being right, and would hide the day a real parity break appears among them.
-        const isBucketRow = /shared parts$/i.test(a.series ?? "");
-        if (isBucketRow) e.bucketByDesign++;
-        else if ((dbRow?.product_series ?? "") !== a.series) e.seriesDiff++;   // the LAYER column vs the page
-        if ((dbRow?.series ?? "") !== a.series) e.legacyDiff++;           // the legacy platform column: reported only
+        const dbRow = dbBySku.get(r.sku);
+        // THE EXCLUSION IS GONE, DELETED RATHER THAN BOUNDED (reviewer's ruling, 27 Sep 2026). It used to
+        // sit here as a ceiling of 68: the artefact wrote a navigation construct ("HyperFlex shared parts")
+        // into its `series` column for 5,806 rows while the database refused that shape and held null, so
+        // the two disagreed BY CONSTRUCTION. No republish could ever have closed it — the artefact is
+        // UPSTREAM of the columns, so a rebuild re-derived the same construct into the same column — which
+        // is why the fix had to be a format change: the build now emits `nav_bucket` and leaves `series`
+        // empty on those rows, exactly as `parts` has held them all along.
+        //
+        // So both are compared, strictly, with no exclusion anywhere: layer 4 against layer 4, and the
+        // bucket against the bucket. A bounded exclusion is a debt; this is the commit that paid it.
+        if ((dbRow?.product_series ?? "") !== (a.series ?? "")) e.seriesDiff++;         // layer 4 vs layer 4
+        if ((dbRow?.bucket ?? []).join("|") !== (a.nav ?? "")) e.bucketDiff++;          // bucket vs bucket
+        if (a.nav) e.navRows++;                                                         // reported, not excluded
+        if ((dbRow?.series ?? "") !== (a.series ?? "")) e.legacyDiff++;   // the legacy platform column: reported only
         if (r.product_line !== a.line) e.lineMissing++;                                       // API record vs layer page
         byCat.set(a.cat, e);
       }
@@ -590,25 +604,14 @@ const TESTS: Test[] = [
       const sDiff = [...byCat.values()].reduce((n, e) => n + e.seriesDiff, 0);
       const lDiff = [...byCat.values()].reduce((n, e) => n + e.lineMissing, 0);
       const legacy = [...byCat.values()].reduce((n, e) => n + e.legacyDiff, 0);
-      const buckets = [...byCat.values()].reduce((n, e) => n + e.bucketByDesign, 0);
-      // A BOUNDED EXCLUSION WITH A NAMED EXPIRY, not a permanent "by design" (reviewer, 27 Sep).
-      // These rows differ because the arrangement site has not yet been rebuilt from `parts`; they
-      // must reach 0 on the commit that regenerates it (the same one that makes partRecords read the
-      // columns). Measured over the 500-row sample on 27 Sep. Only a NEW disagreement between the
-      // page and the database can push the count higher, so GROWTH is a failure even while the
-      // current count is tolerated — an exclusion nobody can see grow is where the next real break
-      // hides, which is this test's own argument one step further on.
-      const BUCKET_CEILING = 68;
-      if (buckets > BUCKET_CEILING) {
-        return bad(`${buckets} bucket rows differ between the DB and the page, above the recorded ceiling ` +
-          `of ${BUCKET_CEILING} — this exclusion is bounded and it GREW, which only a new disagreement can do`);
-      }
+      const bDiff = [...byCat.values()].reduce((n, e) => n + e.bucketDiff, 0);
+      const navRows = [...byCat.values()].reduce((n, e) => n + e.navRows, 0);
       const perCat = [...byCat].sort((a, b) => b[1].seriesDiff - a[1].seriesDiff)
         .map(([c, e]) => `${c} ${e.seriesDiff}/${e.n}`).join(", ");
-      if (sDiff === 0 && lDiff === 0) return ok(`${checked} sampled SKUs: the API RECORD matches the DB columns on line, series AND bucket for all ${recs.length} (the third leg, unmeasured until 27 Sep — the record read the layer FILE, so the API could disagree with the database and nothing here would see it); the LAYER column, the layer page and the API record agree on line and series` +
-        ` — ${buckets} bucket rows differ because the PAGE is not yet rebuilt from the database (ceiling ${BUCKET_CEILING}; this is NOT by design and must reach 0 on the commit that regenerates the site from parts — a bounded exclusion with a named expiry, because one without an expiry is where the next real break hides)` +
+      if (sDiff === 0 && lDiff === 0 && bDiff === 0) return ok(`${checked} sampled SKUs, THREE LEGS AND NO EXCLUSION ANYWHERE: the API RECORD matches the DB columns on line, series and bucket for all ${recs.length} (that leg was unmeasured until 27 Sep — the record read the layer FILE, so the API could disagree with the database and nothing here would see it); and the layer PAGE matches the DB on layer 4 and on the bucket, including all ${navRows} sampled rows that sit in a navigation bucket rather than a series` +
+        ` — the 68-row exclusion is DELETED, not bounded: the artefact used to write the construct into its series column and no republish could close that, because the build is upstream of the columns, so the fix was a format change (nav_bucket split out, bucket renamed placement) with the freeze regenerated on the same commit` +
         ` — separately, the legacy p.series platform column differs from the page on ${legacy} of ${checked}, which is a different question and not a defect (docs/decisions, 27 Sep: repairing it would be right for 21% and wrong for 79%)`);
-      return bad(`${checked} sampled: series DB-vs-page differs on ${sDiff} (${(100 * sDiff / checked).toFixed(1)}%), `
+      return bad(`${checked} sampled: series DB-vs-page differs on ${sDiff} (${(100 * sDiff / checked).toFixed(1)}%), bucket DB-vs-page on ${bDiff}, `
         + `product_line API-vs-page differs on ${lDiff}. PER-CATEGORY (the dry-run count for any series write): ${perCat}`);
     },
   },

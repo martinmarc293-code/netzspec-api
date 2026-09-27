@@ -106,6 +106,6 @@ else {
 }
 
 // counted from the ROWS, not the pages' own fields: a site being refused is exactly one whose fields cannot be trusted
-const saysDone = pages.filter((t) => t.done === true).length, notLayered = pages.reduce((a, t) => a + t.rows.filter((r) => r.bucket !== "layered").length, 0);
+const saysDone = pages.filter((t) => t.done === true).length, notLayered = pages.reduce((a, t) => a + t.rows.filter((r) => r.placement !== "layered").length, 0);
 console.log(`layer site ${dir}: ${pages.length} categories, ${saysDone} marked done, ${n(notLayered)} rows not layered (counted from the rows)${requireClean ? `, clean build at ${head?.slice(0, 10)} required` : ""} — ${problems.length} problem(s)`);
 if (problems.length) { for (const p of problems) console.log(`  REFUSED ${p}`); process.exit(1); }

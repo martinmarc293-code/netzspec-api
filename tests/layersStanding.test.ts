@@ -8,7 +8,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { REPO_ROOT } from "../src/config.js";
-import { readLayerRows, pairDisagreements, twinGroups, crossClaims, ruleUse, classifyRules, incomingRows, labelViolations, labelEvidenceDrift, movedRowsStillRefused, seriesEntryDisagreements, statusDisagreements, componentKindsInFamilySharedParts, deviceInSharedParts, unplacedArrivals, sharedLabelNotExplicit, crossCategoryTwins, nonHardwarePlansOnPage, gluedDigitKeeps, sharedPartsNamedBySeries, crossLineNamedBySeries, DEVICE_KINDS, type LayerRow } from "../src/core/layerChecks.js";
+import { readLayerRows, pairDisagreements, twinGroups, crossClaims, ruleUse, classifyRules, incomingRows, labelViolations, labelEvidenceDrift, movedRowsStillRefused, seriesEntryDisagreements, statusDisagreements, componentKindsInFamilySharedParts, deviceInSharedParts, unplacedArrivals, sharedLabelNotExplicit, crossCategoryTwins, nonHardwarePlansOnPage, gluedDigitKeeps, sharedPartsNamedBySeries, crossLineNamedBySeries, DEVICE_KINDS, nodeOf, type LayerRow } from "../src/core/layerChecks.js";
 import { labelEvidence, digitPattern, ALIAS_REQUIRES, NUMBER_KEYED_ALIASES } from "../src/core/labelEvidence.js";
 
 export const REVIEWED = ["switches", "routers", "transceiver", "interfaces-modules", "wireless", "servers-unified-computing", "hyperconverged-infrastructure", "hyperconverged-systems", "security", "video", "optical-networking", "storage-networking", "unified-communications", "collaboration-endpoints", "meraki"];
@@ -242,8 +242,8 @@ const ARRIVAL_EXCEPTIONS: Record<string, string> = {};
 // speed series, never in the DAC series
 const TX_DAC_SERIES = "DAC and AOC cables (SFP+ / SFP28 / SFP56 / QSFP / QSFP-DD)";
 const cableContract = (rows: LayerRow[]) => ({
-  notCableInDac: rows.filter((r) => r.bucket === "layered" && r.series === TX_DAC_SERIES && r.kind !== "cable"),
-  breakoutOutsideSpeed: rows.filter((r) => r.bucket === "layered" && r.kind === "breakout-cable" && (r.series === TX_DAC_SERIES || r.product_line !== "Ethernet transceivers")),
+  notCableInDac: rows.filter((r) => r.placement === "layered" && nodeOf(r) === TX_DAC_SERIES && r.kind !== "cable"),
+  breakoutOutsideSpeed: rows.filter((r) => r.placement === "layered" && r.kind === "breakout-cable" && (nodeOf(r) === TX_DAC_SERIES || r.product_line !== "Ethernet transceivers")),
 });
 const labelExpectMiss = (cat: string, labelPlaced: number): string | null => {
   const e = LABEL_EXPECT[cat];
@@ -253,7 +253,7 @@ const labelExpectMiss = (cat: string, labelPlaced: number): string | null => {
   return null;
 };
 /** a family found on a layered row (the shared-across marker and "" are not families) */
-const familiesInUse = (rows: LayerRow[]) => rows.filter((r) => r.bucket === "layered" && r.product_family && !r.product_family.startsWith("("));
+const familiesInUse = (rows: LayerRow[]) => rows.filter((r) => r.placement === "layered" && r.product_family && !r.product_family.startsWith("("));
 
 /** series with 0 parts that say nothing about what they wait for: neither rows planned INTO them (pending_in) nor, on a category whose
  *  rows all wait on a merge, the rows planned OUT of them (pending_out — review of 17 Sep 2026: conferencing's 3 and data-center-networking's
@@ -278,7 +278,7 @@ const STATUS_EXPECT: Record<string, number> = {
   wireless: 0, video: 0, "collaboration-endpoints": 0, security: 0, "optical-networking": 0, "storage-networking": 0, "unified-communications": 0, meraki: 0,
 };
 /** rows layered in a series whose every row must carry a move plan */
-const moveOutStrays = (rows: LayerRow[], moveOut: ReadonlySet<string>) => rows.filter((r) => r.bucket === "layered" && moveOut.has(r.series));
+const moveOutStrays = (rows: LayerRow[], moveOut: ReadonlySet<string>) => rows.filter((r) => r.placement === "layered" && moveOut.has(nodeOf(r)));
 
 let passed = 0; const misses: string[] = [];
 const check = (name: string, ok: boolean, detail = "") => { if (ok) passed++; else misses.push(`    MISS ${name}${detail ? " — " + detail : ""}`); };
@@ -297,14 +297,14 @@ const pageRow = (cat: string, sku: string) => {
 const ranMove = (from: string, sku: string, to: string) => check(`${from} page: ${sku} moved to ${to} — off this page, a row there, run id recorded`,
   !pageRow(from, sku) && !!pageRow(to, sku)
   && (PLANS as { sku: string; category: string; action: string; to: string; run_id: unknown }[]).some((p) => p.sku === sku && p.category === from && p.action === "move" && p.to === to && typeof p.run_id === "number"),
-  `${from}: ${pageRow(from, sku)?.bucket ?? "(gone)"}, ${to}: ${pageRow(to, sku)?.bucket ?? "(not a row)"}`);
+  `${from}: ${pageRow(from, sku)?.placement ?? "(gone)"}, ${to}: ${pageRow(to, sku)?.placement ?? "(not a row)"}`);
 /** THE CLASS HALF OF THE SAME WITNESS (25 Sep 2026, when the eight class groups ran). A class change has no target page, so the
  *  witness is: the row has LEFT its hardware page AND its plan carries the run id that took it off. Asserting only "not on the page"
  *  would pass for a row deleted, retired or never built — the run id is what makes it a witness rather than an absence. */
 const ranClass = (cat: string, sku: string, to = "non_product") => check(`${cat} page: ${sku} left the hardware page as ${to} — off the page, run id recorded`,
   !pageRow(cat, sku)
   && (PLANS as { sku: string; category: string; action: string; to: string; run_id: unknown }[]).some((p) => p.sku === sku && p.category === cat && p.action === "class" && p.to === to && typeof p.run_id === "number"),
-  `${cat}: ${pageRow(cat, sku)?.bucket ?? "(gone)"}`);
+  `${cat}: ${pageRow(cat, sku)?.placement ?? "(gone)"}`);
 type Allowed = { category: string; claimed_by: string; series: string; rule: string; rows: number; status: string; reason: string };
 const ALLOW = (JSON.parse(fs.readFileSync(path.join(REPO_ROOT, "data", "reference", "layers-cross-claims.json"), "utf8")) as { entries: Allowed[] }).entries;
 const STATUSES = new Set(["claimant-rule-too-broad", "decided-home", "pending-round"]);
@@ -324,7 +324,7 @@ for (const cat of REVIEWED) {
   for (const k of Object.keys(PAIR_EXCEPTIONS).filter((x) => x.startsWith(`${cat}|`)))
     check(`spare=base ${cat}: the recorded exception ${k.split("|")[1]} still disagrees (a stale exception is a hole)`, pairDisagreements(rows).some((d) => d.sku === k.split("|")[1]));
 
-  const ntc = rows.filter((r) => r.bucket === "not_this_category"), unplaced = rows.filter((r) => r.bucket === "unplaced");
+  const ntc = rows.filter((r) => r.placement === "not_this_category"), unplaced = rows.filter((r) => r.placement === "unplaced");
   check(`plan coverage ${cat}: every not-this-category row carries a plan (0 left in the bucket)`, ntc.length === 0, ntc.slice(0, 8).map((r) => r.sku).join(", "));
   check(`plan coverage ${cat}: 0 unplaced rows`, unplaced.length === 0, unplaced.slice(0, 8).map((r) => r.sku).join(", "));
 
@@ -334,7 +334,7 @@ for (const cat of REVIEWED) {
     const { loadLineFile } = await import("../src/core/productLine.js");
     const moveOut = new Set(loadLineFile("cisco", cat)!.file.lines.flatMap((l) => l.series.filter((s) => /every row carries a move plan/.test(s.note ?? "")).map((s) => s.series)));
     const stray = moveOutStrays(rows, moveOut);
-    check(`move-out series ${cat}: 0 layered rows in the ${moveOut.size} series whose every row must carry a move plan`, stray.length === 0, stray.slice(0, 6).map((r) => `${r.sku} ${r.series}`).join("; "));
+    check(`move-out series ${cat}: 0 layered rows in the ${moveOut.size} series whose every row must carry a move plan`, stray.length === 0, stray.slice(0, 6).map((r) => `${r.sku} ${nodeOf(r)}`).join("; "));
   }
 
   const twins = twinGroups(rows);
@@ -369,11 +369,11 @@ for (const cat of REVIEWED) {
   check(`series entries ${cat}: every series entry of the JSON agrees with its rows on parts, kinds, roles and family`, sed.length === 0, sed.slice(0, 5).map((d) => `${d.series} [${d.fields.join(",")}] ${d.detail}`).join("; "));
   // (the 0-part series check moved to the status loop below, which covers all 17 categories — 17 Sep 2026)
   const dev = deviceInSharedParts(rows).filter((r) => !DEVICE_EXCEPTIONS[`${cat}|${r.sku}`]);
-  check(`devices ${cat}: 0 whole-device rows (${[...DEVICE_KINDS].join(" / ")}) in any shared parts series`, dev.length === 0, dev.slice(0, 6).map((r) => `${r.sku} (${r.kind}) ${r.series}`).join("; "));
+  check(`devices ${cat}: 0 whole-device rows (${[...DEVICE_KINDS].join(" / ")}) in any shared parts series`, dev.length === 0, dev.slice(0, 6).map((r) => `${r.sku} (${r.kind}) ${nodeOf(r)}`).join("; "));
   for (const k of Object.keys(DEVICE_EXCEPTIONS).filter((x) => x.startsWith(`${cat}|`)))
     check(`devices ${cat}: the recorded exception ${k.split("|")[1]} is still a device in shared parts (a stale exception is a hole)`, deviceInSharedParts(rows).some((r) => r.sku === k.split("|")[1]));
-  check(`devices ${cat}: 0 rows pending review, and the page lists exactly the rows in that bucket`, rows.filter((r) => r.bucket === "pending_review").length === (summary.pending_review?.length ?? -1) && (summary.pending_review?.length ?? -1) === 0, `rows ${rows.filter((r) => r.bucket === "pending_review").length}, page ${summary.pending_review?.length}`);
-  const withEv = rows.filter((r) => r.label_evidence).length, moved = rows.filter((r) => r.bucket === "layered" && (r.placed_by ?? "").startsWith("label-unsupported")).length;
+  check(`devices ${cat}: 0 rows pending review, and the page lists exactly the rows in that bucket`, rows.filter((r) => r.placement === "pending_review").length === (summary.pending_review?.length ?? -1) && (summary.pending_review?.length ?? -1) === 0, `rows ${rows.filter((r) => r.placement === "pending_review").length}, page ${summary.pending_review?.length}`);
+  const withEv = rows.filter((r) => r.label_evidence).length, moved = rows.filter((r) => r.placement === "layered" && (r.placed_by ?? "").startsWith("label-unsupported")).length;
   check(`label check ${cat}: applied, and the page's counts are the rows' (label-placed ${withEv}, moved ${moved})`,
     summary.label_check?.applied === true && summary.label_check.label_placed === withEv && summary.label_check.moved.length === moved,
     JSON.stringify({ applied: summary.label_check?.applied, label_placed: summary.label_check?.label_placed, moved: summary.label_check?.moved?.length }));
@@ -414,13 +414,13 @@ for (const cat of REVIEWED) {
     fenceSeen.add(sku);
     const row = rows.find((r) => r.sku === sku)!;
     check(`fence cost ${cat}: ${sku} is still parked in shared parts, unproposed (the model-letter fence refuses its C240/C220 on the L of CBL)`,
-      / shared parts$/.test(row.series ?? "") && !reverse.some((x) => x.sku === sku),
-      `series "${row.series}", proposed ${reverse.some((x) => x.sku === sku)}`);
+      nodeOf(row).endsWith(" shared parts") && !reverse.some((x) => x.sku === sku),
+      `node "${nodeOf(row)}", proposed ${reverse.some((x) => x.sku === sku)}`);
   }
   // every row placed through a label carries the evidence it was judged on (a label placement without evidence is the check not running)
   // — except a label the mapping sends DIRECTLY to its line's shared parts, which claims no series (pre-ruling C1, layers round 3)
-  const direct = (r: LayerRow) => /^label /.test(r.placed_by ?? "") && r.series === `${r.product_line} shared parts`;
-  const unjudged = rows.filter((r) => r.bucket === "layered" && /^label[ -]/.test(r.placed_by ?? "") && !r.label_evidence && !direct(r));
+  const direct = (r: LayerRow) => /^label /.test(r.placed_by ?? "") && nodeOf(r) === `${r.product_line} shared parts`;
+  const unjudged = rows.filter((r) => r.placement === "layered" && /^label[ -]/.test(r.placed_by ?? "") && !r.label_evidence && !direct(r));
   check(`label check ${cat}: 0 label-placed rows without recorded evidence`, unjudged.length === 0, unjudged.slice(0, 5).map((r) => r.sku).join(", "));
   // …and the other direction: a row the check MOVED must still be refused by the series it was moved out of, or the built page
   // is stale and a rebuild would move it back. `checked` and `seriesGone` are separate numbers because could-not-check is not
@@ -433,7 +433,7 @@ for (const cat of REVIEWED) {
   check(`label check ${cat}: every moved row's placed_by parses (an unreadable row is an unchecked row, not a clean one)`,
     back.unparsed.length === 0, back.unparsed.slice(0, 5).join(", "));
   const notExplicit = sharedLabelNotExplicit(cat, rows);
-  check(`label check ${cat}: every label placed directly in a line's shared parts (${rows.filter((r) => r.bucket === "layered" && direct(r)).length} rows) is listed on that series in the mapping (C1)`, notExplicit.length === 0, notExplicit.slice(0, 5).map((x) => `${x.sku}: ${x.why}`).join("; "));
+  check(`label check ${cat}: every label placed directly in a line's shared parts (${rows.filter((r) => r.placement === "layered" && direct(r)).length} rows) is listed on that series in the mapping (C1)`, notExplicit.length === 0, notExplicit.slice(0, 5).map((x) => `${x.sku}: ${x.why}`).join("; "));
 
   // arrivals: every not-run move plan out of this category lands placed in its target's mapping (layers round 3)
   {
@@ -499,7 +499,7 @@ const CARRIERS = (JSON.parse(fs.readFileSync(path.join(REPO_ROOT, "data", "refer
 const CARRIER_SKUS: ReadonlySet<string> = new Set(CARRIERS.map((c) => c.sku));
 {
   for (const cat of [...REVIEWED, "conferencing", "data-center-networking"]) {
-    const left = readLayerRows(cat).filter((r) => r.bucket === "layered" && regionPlaceholder(r.sku) && !CARRIER_SKUS.has(r.sku));
+    const left = readLayerRows(cat).filter((r) => r.placement === "layered" && regionPlaceholder(r.sku) && !CARRIER_SKUS.has(r.sku));
     check(`region placeholders ${cat}: 0 layered regulatory-domain / plug-region stand-ins that are not listed family carriers (Q-10, Q-23 governs)`, left.length === 0, left.slice(0, 6).map((r) => r.sku).join(", "));
   }
   // counted whether or not the plan has RUN: the decision was 175 plans, and CP-PWR-CORD-xx= ran in batch 3a (run #1112, 16 Sep 2026), so a
@@ -528,11 +528,11 @@ const CARRIER_SKUS: ReadonlySet<string> = new Set(CARRIERS.map((c) => c.sku));
     // not layered, so the check that finds them only fires once they land
     && CARRIERS.filter((c) => c.decision === "Q-10 vs Q-23 (arrived by move)").length === 10);
   check(`family carriers: CG113-4GW6x is a layered, flagged routers row with no plan (not the licence its stored name reads as)`,
-    rowsBySku.get("CG113-4GW6x")?.page === "routers" && rowsBySku.get("CG113-4GW6x")?.bucket === "layered" && rowsBySku.get("CG113-4GW6x")?.family_carrier === "true" && rowsBySku.get("CG113-4GW6x")?.plan === "",
+    rowsBySku.get("CG113-4GW6x")?.page === "routers" && rowsBySku.get("CG113-4GW6x")?.placement === "layered" && rowsBySku.get("CG113-4GW6x")?.family_carrier === "true" && rowsBySku.get("CG113-4GW6x")?.plan === "",
     JSON.stringify(rowsBySku.get("CG113-4GW6x")));
-  const bad = CARRIERS.filter((c) => { const r = rowsBySku.get(c.sku); return !r || r.family_carrier !== "true" || r.plan.startsWith("class ") || (r.bucket !== "layered" && !r.plan.startsWith("move ")) || c.facts + c.docs === 0; });
+  const bad = CARRIERS.filter((c) => { const r = rowsBySku.get(c.sku); return !r || r.family_carrier !== "true" || r.plan.startsWith("class ") || (r.placement !== "layered" && !r.plan.startsWith("move ")) || c.facts + c.docs === 0; });
   check(`family carriers: every listed carrier is a row, flagged, carrying a fact or a document, layered or planned to move (never classed)`, bad.length === 0,
-    bad.slice(0, 6).map((c) => { const r = rowsBySku.get(c.sku); return `${c.sku}: ${r ? `${r.bucket} "${r.plan}" flag=${r.family_carrier}` : "not a row"}`; }).join("; "));
+    bad.slice(0, 6).map((c) => { const r = rowsBySku.get(c.sku); return `${c.sku}: ${r ? `${r.placement} "${r.plan}" flag=${r.family_carrier}` : "not a row"}`; }).join("; "));
   const flagged = [...rowsBySku.values()].filter((r) => r.family_carrier === "true" && !CARRIER_SKUS.has(r.sku));
   check(`family carriers: no row outside the list carries the flag`, flagged.length === 0, flagged.slice(0, 6).map((r) => r.sku).join(", "));
   // counted whether or not they have RUN (the 3 SB-PWR in run #1145, the 10 IW in run #1164): a carrier may carry no plan but a MOVE to its family's category — never a
@@ -559,7 +559,7 @@ const MERGE_MOVE_EXCEPTIONS: Record<string, string> = {
 // needed them (the same reason the ranMove witnesses exist).
 for (const [cat, target] of Object.entries(MERGE_CANDIDATES)) {
   const rows = readLayerRows(cat);
-  check(`merge ${cat} -> ${target}: the merge RAN — the source page holds no row at all`, rows.length === 0, `${rows.length} rows still here: ${rows.slice(0, 6).map((r) => `${r.sku} ${r.bucket}`).join("; ")}`);
+  check(`merge ${cat} -> ${target}: the merge RAN — the source page holds no row at all`, rows.length === 0, `${rows.length} rows still here: ${rows.slice(0, 6).map((r) => `${r.sku} ${r.placement}`).join("; ")}`);
   const all = (PLANS as { sku: string; category: string; action: string; to: string; run_id: unknown; product_class?: string }[]).filter((p) => p.category === cat);
   const moves = all.filter((p) => p.action === "move");
   check(`merge ${cat} -> ${target}: every one of its ${moves.length} move plans carries a run id`, moves.length > 0 && moves.every((p) => typeof p.run_id === "number"),
@@ -576,7 +576,7 @@ for (const [cat, target] of Object.entries(MERGE_CANDIDATES)) {
   const lying = nonHardwarePlansOnPage(cat, rows, PLANS);
   check(`merge ${cat}: no non-hardware plan names a row of the hardware page`, lying.length === 0, lying.slice(0, 6).join(", "));
 }
-check("SABOTAGE merge: a plan that calls a hardware row non-hardware is refused", nonHardwarePlansOnPage("zz", [{ sku: "ZZ-HW-1", bucket: "pending_plan" } as LayerRow], [{ sku: "ZZ-HW-1", category: "zz", product_class: "license", run_id: null }, { sku: "ZZ-LIC-1", category: "zz", product_class: "license", run_id: null }]).join() === "ZZ-HW-1");
+check("SABOTAGE merge: a plan that calls a hardware row non-hardware is refused", nonHardwarePlansOnPage("zz", [{ sku: "ZZ-HW-1", placement: "pending_plan" } as LayerRow], [{ sku: "ZZ-HW-1", category: "zz", product_class: "license", run_id: null }, { sku: "ZZ-LIC-1", category: "zz", product_class: "license", run_id: null }]).join() === "ZZ-HW-1");
 
 // THE FAMILY LAYER (operator, 14 Sep 2026): layer 3 where Cisco names a family, the explicit shared-across marker for line shared
 // parts, "(none)" otherwise (NO_FAMILY — it was "" / null until the review of 17 Sep 2026 read null as undecided) — and the file says
@@ -588,9 +588,9 @@ check("SABOTAGE merge: a plan that calls a hardware row non-hardware is refused"
     const loaded = loadLineFile("cisco", cat)!;
     check(`family layer ${cat}: the mapping file declares family_layer "assigned"`, loaded.file.family_layer === "assigned");
     const famOf = new Map(loaded.file.lines.flatMap((l) => l.series.map((s) => [s.series, s.family?.trim() || NO_FAMILY] as const)));
-    const wrong = readLayerRows(cat).filter((r) => r.bucket === "layered").filter((r) =>
-      r.product_family !== (r.series === SHARED_PARTS(r.product_line) ? "(shared across the line)" : famOf.get(r.series) ?? NO_FAMILY));
-    check(`family layer ${cat}: every layered row carries its series' family (or the shared-across marker)`, wrong.length === 0, wrong.slice(0, 5).map((r) => `${r.sku} ${r.series} [${r.product_family}]`).join("; "));
+    const wrong = readLayerRows(cat).filter((r) => r.placement === "layered").filter((r) =>
+      r.product_family !== (nodeOf(r) === SHARED_PARTS(r.product_line) ? "(shared across the line)" : famOf.get(nodeOf(r)) ?? NO_FAMILY));
+    check(`family layer ${cat}: every layered row carries its series' family (or the shared-across marker)`, wrong.length === 0, wrong.slice(0, 5).map((r) => `${r.sku} ${nodeOf(r)} [${r.product_family}]`).join("; "));
     const expect = FAMILY_EXPECT[cat];
     check(`family layer ${cat}: an expectation is recorded ("in-use" or "none")`, expect === "in-use" || expect === "none", `${expect}`);
     const used = familiesInUse(readLayerRows(cat));
@@ -603,8 +603,8 @@ check("SABOTAGE merge: a plan that calls a hardware row non-hardware is refused"
     }
   }
   // sabotage: the per-category expectations refuse for their stated reasons
-  check("SABOTAGE family expectation: a family on a layered row of a 'none' category is found", familiesInUse([{ sku: "ZZ", bucket: "layered", product_family: "Cisco Optics" } as LayerRow]).length === 1);
-  check("SABOTAGE family expectation: the shared-across marker is not a family", familiesInUse([{ sku: "ZZ", bucket: "layered", product_family: "(shared across the line)" } as LayerRow]).length === 0);
+  check("SABOTAGE family expectation: a family on a layered row of a 'none' category is found", familiesInUse([{ sku: "ZZ", placement: "layered", product_family: "Cisco Optics" } as LayerRow]).length === 1);
+  check("SABOTAGE family expectation: the shared-across marker is not a family", familiesInUse([{ sku: "ZZ", placement: "layered", product_family: "(shared across the line)" } as LayerRow]).length === 0);
   const base = (): Parameters<typeof validateLineFile>[0] => ({ vendor: "cisco", category: "zz", family_layer: "assigned", lines: [{ line: "Nexus", series: [
     { series: "Nexus 7004 / 7009", sku: ["^N7K"], family: "Nexus 7000" }, { series: "Nexus 7700", sku: ["^N77"], family: "Nexus 7000" }, { series: "Nexus 6000", sku: ["^N6K"] }] }] });
   const errsOf = (mut: (f: ReturnType<typeof base>) => void) => { const f = base(); mut(f); return validateLineFile(f).join(" | "); };
@@ -629,15 +629,15 @@ check("SABOTAGE merge: a plan that calls a hardware row non-hardware is refused"
   const tx = readLayerRows("transceiver");
   const { notCableInDac, breakoutOutsideSpeed } = cableContract(tx);
   check("transceiver: the DAC and AOC series holds only kind cable", notCableInDac.length === 0, notCableInDac.slice(0, 6).map((r) => `${r.sku} (${r.kind})`).join("; "));
-  check("transceiver: every breakout cable sits in an Ethernet speed series", breakoutOutsideSpeed.length === 0, breakoutOutsideSpeed.slice(0, 6).map((r) => `${r.sku} ${r.series}`).join("; "));
-  const breakouts = tx.filter((r) => r.bucket === "layered" && r.kind === "breakout-cable").length;
+  check("transceiver: every breakout cable sits in an Ethernet speed series", breakoutOutsideSpeed.length === 0, breakoutOutsideSpeed.slice(0, 6).map((r) => `${r.sku} ${nodeOf(r)}`).join("; "));
+  const breakouts = tx.filter((r) => r.placement === "layered" && r.kind === "breakout-cable").length;
   check(`transceiver: the contract has rows to judge (${breakouts} breakout cables on the page)`, breakouts >= 50, `${breakouts}`);
   const t = new Map(tx.map((r) => [r.sku, r]));
   for (const sku of ["SFP-H25GCU1M", "SFP-25GAOC10M", "SFP-H10GBACU10M"]) check(`transceiver page: glued ${sku} is a cable in the DAC series`, t.get(sku)?.kind === "cable" && t.get(sku)?.series === TX_DAC_SERIES, `got ${t.get(sku)?.kind} / ${t.get(sku)?.series}`);
   for (const [sku, series] of [["QSFP-4SFP25G-CU1M", "100G QSFP28"], ["QSFP-4X10G-AOC1M", "40G QSFP+"], ["QDD-4ZQ100-CU1M", "200G / 400G QSFP-DD, QSFP112 and QSFP56"]])
     check(`transceiver page: breakout ${sku} is in ${series}`, t.get(sku)?.series === series && t.get(sku)?.kind === "breakout-cable", `got ${t.get(sku)?.kind} / ${t.get(sku)?.series}`);
   for (const sku of ["DWDM-GBIC-30.33", "CWDM-GBIC-1530", "15216-GBIC-1510", "WS-G5484"]) check(`transceiver page: ${sku} is in GBIC (legacy)`, t.get(sku)?.series === "GBIC (legacy)", `got ${t.get(sku)?.series}`);
-  const gbic = tx.filter((r) => r.bucket === "layered" && /^(DWDM|CWDM|15216)-GBIC-/.test(r.sku)).length;
+  const gbic = tx.filter((r) => r.placement === "layered" && /^(DWDM|CWDM|15216)-GBIC-/.test(r.sku)).length;
   check(`transceiver page: the 42 WDM GBICs are layered (operator: a GBIC rule that matches its 42 rows)`, gbic === 42, `${gbic}`);
 }
 
@@ -647,7 +647,7 @@ check("SABOTAGE merge: a plan that calls a hardware row non-hardware is refused"
   const CARDS = "Interface cards (NIM / SM-X / HWIC / SPA / PVDM / VIC / cellular)";
   const at = (sku: string, series: string, kind?: string) => {
     const r = im.get(sku);
-    check(`interfaces-modules page: ${sku} is layered in ${series}${kind ? `, kind ${kind}` : ""}`, r?.bucket === "layered" && r.series === series && (!kind || r.kind === kind), `got ${r?.bucket} / ${r?.series} / ${r?.kind}`);
+    check(`interfaces-modules page: ${sku} is layered in ${series}${kind ? `, kind ${kind}` : ""}`, r?.placement === "layered" && nodeOf(r) === series && (!kind || r.kind === kind), `got ${r?.placement} / ${r?.series} / ${r?.kind}`);
   };
   at("C-NIM-1X", "NIM (Network Interface Modules)", "interface");
   at("C-SM-NIM-ADPT", "SM-X and SM Service Modules", "mechanical");
@@ -667,7 +667,7 @@ check("SABOTAGE merge: a plan that calls a hardware row non-hardware is refused"
   at("RPS1000", "Small Business Network Accessories (SB-PWR / RPS1000)");
   at("PP1-72X100G-SMF", "Fiber patch panels and MPO / breakout cables (CB- / PP)");
   check(`interfaces-modules page: the card line is renamed (C9) and holds the NIMs`, im.get("NIM-2T")?.product_line === CARDS, `${im.get("NIM-2T")?.product_line}`);
-  const planned = (sku: string, plan: string) => check(`interfaces-modules page: ${sku} carries the plan "${plan}"`, im.get(sku)?.bucket === "pending_plan" && im.get(sku)?.plan === plan, `got ${im.get(sku)?.bucket} "${im.get(sku)?.plan}"`);
+  const planned = (sku: string, plan: string) => check(`interfaces-modules page: ${sku} carries the plan "${plan}"`, im.get(sku)?.placement === "pending_plan" && im.get(sku)?.plan === plan, `got ${im.get(sku)?.placement} "${im.get(sku)?.plan}"`);
   // these move plans RAN on 16 Sep: each row is now on its target page (ranMove asserts both ends and the run id)
   ranMove("interfaces-modules", "ENC-10G-ONT-10=", "switches");
   ranMove("interfaces-modules", "DS-X9148-HV", "storage-networking");
@@ -684,7 +684,7 @@ check("SABOTAGE merge: a plan that calls a hardware row non-hardware is refused"
   at("HWIC-AP-AG-x", "EHWIC / HWIC / VWIC / WIC", "radio");   // a family carrier (1 fact) since Q-10 vs Q-23, not a class plan
   check(`interfaces-modules page: HWIC-AP-AG-x is flagged a family carrier`, im.get("HWIC-AP-AG-x")?.family_carrier === "true", `${im.get("HWIC-AP-AG-x")?.family_carrier}`);
   ranMove("interfaces-modules", "CGR-N-CONN-WPAN", "routers");
-  const ntc = readLayerRows("interfaces-modules").filter((r) => r.bucket === "not_this_category").length;
+  const ntc = readLayerRows("interfaces-modules").filter((r) => r.placement === "not_this_category").length;
   check(`interfaces-modules page: the 190 not-this-category rows of the round's start are all planned or placed (0 left)`, ntc === 0, `${ntc}`);
   const sw = new Map(readLayerRows("switches").map((r) => [r.sku, r]));
   ranMove("switches", "NM-BLANK-T1=", "interfaces-modules");   // C7
@@ -695,7 +695,7 @@ check("SABOTAGE merge: a plan that calls a hardware row non-hardware is refused"
   const wl = new Map(readLayerRows("wireless").map((r) => [r.sku, r]));
   const at = (sku: string, series: string, kind?: string) => {
     const r = wl.get(sku);
-    check(`wireless page: ${sku} is layered in ${series}${kind ? `, kind ${kind}` : ""}`, r?.bucket === "layered" && r.series === series && (!kind || r.kind === kind), `got ${r?.bucket} / ${r?.series} / ${r?.kind}`);
+    check(`wireless page: ${sku} is layered in ${series}${kind ? `, kind ${kind}` : ""}`, r?.placement === "layered" && nodeOf(r) === series && (!kind || r.kind === kind), `got ${r?.placement} / ${r?.series} / ${r?.kind}`);
   };
   at("AIR-CT85DC-K9", "8500 (8510 / 8540 / 8580)", "wlc");  // was a controller in AireOS shared parts
   at("AIR-AP1702I-WLC", "WLC + access point bundles");
@@ -703,7 +703,7 @@ check("SABOTAGE merge: a plan that calls a hardware row non-hardware is refused"
   at("AIR-1520-FIB-REEL=", "Aironet 1520 / 1530", "mechanical");
   at("AIR-FAN-C220M4=", "5500 (5508 / 5520 / 5540)");  // kept by the name token 5520 once "Wireless" is not a watt
   at("RACK-QCN-SN5=", "CiscoWorks Wireless LAN Solution Engine (WLSE 1130 / Express 1030)");
-  const planned = (sku: string, plan: string) => check(`wireless page: ${sku} carries the plan "${plan}"`, wl.get(sku)?.bucket === "pending_plan" && wl.get(sku)?.plan === plan, `got ${wl.get(sku)?.bucket} "${wl.get(sku)?.plan}"`);
+  const planned = (sku: string, plan: string) => check(`wireless page: ${sku} carries the plan "${plan}"`, wl.get(sku)?.placement === "pending_plan" && wl.get(sku)?.plan === plan, `got ${wl.get(sku)?.placement} "${wl.get(sku)?.plan}"`);
   // re-audit decisions (15 Sep 2026, Q-10 vs Q-23): C9120AXI-x carries its family's facts — a carrier row now, not a class plan
   at("C9120AXI-x", "Catalyst 9120AX", "ap");
   check(`wireless page: C9120AXI-x is flagged a family carrier`, wl.get("C9120AXI-x")?.family_carrier === "true", `${wl.get("C9120AXI-x")?.family_carrier}`);
@@ -712,12 +712,12 @@ check("SABOTAGE merge: a plan that calls a hardware row non-hardware is refused"
   for (const sku of ["AIR-AP1572EAC-UXK9", "C9105AXI"])
     check(`wireless page: ${sku} left the hardware page by its class-non_product plan (run id recorded)`, !wl.get(sku)
       && (PLANS as { sku: string; category: string; action: string; to: string; run_id: unknown }[]).some((p) => p.sku === sku && p.category === "wireless" && p.action === "class" && p.to === "non_product" && typeof p.run_id === "number"),
-      `${wl.get(sku)?.bucket ?? "(not a row)"}`);
+      `${wl.get(sku)?.placement ?? "(not a row)"}`);
   ranMove("wireless", "SB-PWR-48V", "interfaces-modules");
   ranMove("wireless", "CS-ROOM70P-WMK=", "collaboration-endpoints");
-  const ntc = [...wl.values()].filter((r) => r.bucket === "not_this_category").length;
+  const ntc = [...wl.values()].filter((r) => r.placement === "not_this_category").length;
   check(`wireless page: 0 not-this-category rows left (the 44 of the round's start are planned)`, ntc === 0, `${ntc}`);
-  const regionLeft = [...wl.values()].filter((r) => r.bucket === "layered" && /(^|-)x(-|$)|-xx$/.test(r.sku) && r.family_carrier !== "true");
+  const regionLeft = [...wl.values()].filter((r) => r.placement === "layered" && /(^|-)x(-|$)|-xx$/.test(r.sku) && r.family_carrier !== "true");
   check(`wireless page: 0 layered regulatory-domain / plug-region placeholders (lowercase -x / -xx SKUs) that are not family carriers`, regionLeft.length === 0, regionLeft.slice(0, 6).map((r) => r.sku).join(", "));
   const rt = new Map(readLayerRows("routers").map((r) => [r.sku, r]));
   for (const s of ["AIR-ANT2524DB-R", "AIR-ACC1530-PMK1"]) ranMove("routers", s, "wireless");   // the Aironet antennas and the 1530 mount kit
@@ -729,13 +729,13 @@ check("SABOTAGE merge: a plan that calls a hardware row non-hardware is refused"
   const get = (cat: string, sku: string) => { if (!pageOf.has(cat)) pageOf.set(cat, new Map(readLayerRows(cat).map((r) => [r.sku, r]))); return pageOf.get(cat)!.get(sku); };
   const at = (cat: string, sku: string, series: string, kind?: string, by?: RegExp) => {
     const r = get(cat, sku);
-    check(`re-audit ${cat}: ${sku} is layered in ${series}${kind ? `, kind ${kind}` : ""}${by ? `, placed by ${by.source}` : ""}`, r?.bucket === "layered" && r.series === series && (!kind || r.kind === kind) && (!by || by.test(r.placed_by ?? "")), `got ${r?.bucket} / ${r?.series} / ${r?.kind} / ${r?.placed_by}`);
+    check(`re-audit ${cat}: ${sku} is layered in ${series}${kind ? `, kind ${kind}` : ""}${by ? `, placed by ${by.source}` : ""}`, r?.placement === "layered" && nodeOf(r) === series && (!kind || r.kind === kind) && (!by || by.test(r.placed_by ?? "")), `got ${r?.placement} / ${r?.series} / ${r?.kind} / ${r?.placed_by}`);
   };
-  const planned = (cat: string, sku: string, plan: string) => { const r = get(cat, sku); check(`re-audit ${cat}: ${sku} carries the plan "${plan}"`, r?.bucket === "pending_plan" && r.plan === plan, `got ${r?.bucket} "${r?.plan}"`); };
+  const planned = (cat: string, sku: string, plan: string) => { const r = get(cat, sku); check(`re-audit ${cat}: ${sku} carries the plan "${plan}"`, r?.placement === "pending_plan" && r.plan === plan, `got ${r?.placement} "${r?.plan}"`); };
   // a witness whose class plan HAS RUN: the row left the hardware page and its plan carries the run id (batch 2 / 3a, 16 Sep 2026)
   const ranClass = (cat: string, sku: string, to: string) => check(`re-audit ${cat}: ${sku} left the hardware page by its class-${to} plan (run id recorded)`, !get(cat, sku)
     && (PLANS as { sku: string; category: string; action: string; to: string; run_id: unknown }[]).some((p) => p.sku === sku && p.category === cat && p.action === "class" && p.to === to && typeof p.run_id === "number"),
-    `${get(cat, sku)?.bucket ?? "(not a row)"}`);
+    `${get(cat, sku)?.placement ?? "(not a row)"}`);
   // F-1: platform-bound modules, cards, fans and supplies in their series (A.3 rule 1)
   at("security", "ASA-CX40-INC-K8", "ASA 5585-X", undefined, /^sku /);
   at("security", "ASA-IC-6GE-SFP-B=", "ASA 5500-X (5506 / 5508 / 5512 / 5515 / 5516 / 5525 / 5545 / 5555)", undefined, /^sku /);
@@ -802,13 +802,13 @@ check("SABOTAGE merge: a plan that calls a hardware row non-hardware is refused"
 
 // SABOTAGE: each check sees a planted defect, for the stated reason.
 {
-  const row = (sku: string, o: Partial<LayerRow> = {}): LayerRow => ({ sku, name: "x", series_label: "", kind: "switch", bucket: "layered", series: "A", plan: "", ...o });
+  const row = (sku: string, o: Partial<LayerRow> = {}): LayerRow => ({ sku, name: "x", series_label: "", kind: "switch", placement: "layered", series: "A", plan: "", ...o });
   const pairs = pairDisagreements([row("ZZ-TEST-1"), row("ZZ-TEST-1=", { kind: "mechanical" })]);
   check("SABOTAGE a planted base/spare kind split is reported, naming the field", pairs.length === 1 && pairs[0].fields.join() === "kind", JSON.stringify(pairs));
   // N-1 (re-audit decisions, 15 Sep 2026): the component PID X- and the customized model X-- are twins too, reported under the base
   const tw1 = pairDisagreements([row("ZZ-TEST-2"), row("ZZ-TEST-2-", { series: "B" }), row("ZZ-TEST-2--"), row("ZZ-TEST-2=")]);
   check("SABOTAGE twin rule: an X- in another series is reported under its base, and the agreeing X-- and X= are not", tw1.length === 1 && tw1[0].sku === "ZZ-TEST-2" && tw1[0].member === "ZZ-TEST-2-" && tw1[0].fields.join() === "series", JSON.stringify(tw1));
-  const tw2 = pairDisagreements([row("ZZ-TEST-3=", { plan: "class non_product", bucket: "pending_plan", series: "" }), row("ZZ-TEST-3-")]);
+  const tw2 = pairDisagreements([row("ZZ-TEST-3=", { plan: "class non_product", placement: "pending_plan", series: "" }), row("ZZ-TEST-3-")]);
   check("SABOTAGE twin rule: with no base row, the spare is the group's reference", tw2.length === 1 && tw2[0].sku === "ZZ-TEST-3=" && tw2[0].member === "ZZ-TEST-3-", JSON.stringify(tw2));
   {
     const { placeWithSpareRule } = await import("../src/core/productLine.js");
@@ -830,7 +830,7 @@ check("SABOTAGE merge: a plan that calls a hardware row non-hardware is refused"
   const noRow = classifyRules(ruleUse("switches", [], []));
   check("SABOTAGE with no rows every SKU rule is dead (the dead-rule count is live)", noRow.dead.length > 100, `${noRow.dead.length}`);
 
-  const strays = moveOutStrays([row("NIM-2T", { series: "NIM (Network Interface Modules)" }), row("NIM-4T", { series: "NIM (Network Interface Modules)", bucket: "pending_plan" })], new Set(["NIM (Network Interface Modules)"]));
+  const strays = moveOutStrays([row("NIM-2T", { series: "NIM (Network Interface Modules)" }), row("NIM-4T", { series: "NIM (Network Interface Modules)", placement: "pending_plan" })], new Set(["NIM (Network Interface Modules)"]));
   check("SABOTAGE move-out: a layered row in a move-out series is a stray, a pending-plan row there is not", strays.length === 1 && strays[0].sku === "NIM-2T", JSON.stringify(strays));
 
   // series entries against their rows: a family that disagrees (the Catalyst 8000 Edge shared parts defect), and a parts count
@@ -848,7 +848,7 @@ check("SABOTAGE merge: a plan that calls a hardware row non-hardware is refused"
   check("SABOTAGE placeholders: an empty series whose rows are all planned out is not dead, one with empty pending_in AND pending_out is", dpOut.join() === "Nexus Hyperfabric / Empty", JSON.stringify(dpOut));
 
   // the status is the rows' (review of 17 Sep 2026): the summary conferencing was published with at 274feac said done with 68 rows waiting
-  const stRows = [row("CMS-1000-M5-K9", { bucket: "pending_plan", series: "" }), row("CMS-2000-K9", { bucket: "pending_plan", series: "" })];
+  const stRows = [row("CMS-1000-M5-K9", { placement: "pending_plan", series: "" }), row("CMS-2000-K9", { placement: "pending_plan", series: "" })];
   const stBase = (): Parameters<typeof statusDisagreements>[0] => ({ mapping_file: "data/reference/product-lines/cisco-zz.json", parts: 2, layered: 0, pending: 2, done: false,
     pending_plans: [{}, {}], unplaced: [], pending_review: [], not_this_category: [], lines: [{ line: "Meeting Server", series: [{ series: "Meeting Server appliances", family: "(none)" }] }] });
   check("SABOTAGE status: the truthful pending summary disagrees with nothing", statusDisagreements(stBase(), stRows).length === 0, statusDisagreements(stBase(), stRows).join("; "));
@@ -859,7 +859,7 @@ check("SABOTAGE merge: a plan that calls a hardware row non-hardware is refused"
   const stNoMap = statusDisagreements({ ...stBase(), mapping_file: null, parts: 0, pending: 0, pending_plans: [], done: true, lines: [] }, []);
   check("SABOTAGE status: no mapping file is never done, even with no rows", stNoMap.length === 1 && /^done true with 0 row.*no mapping file/.test(stNoMap[0]), stNoMap.join("; "));
   const stBlank = statusDisagreements({ ...stBase(), layered: 1, pending: 1, pending_plans: [{}], lines: [{ line: "L", series: [{ series: "S", family: null }] }] },
-    [row("ZZ-1", { bucket: "pending_plan" }), row("ZZ-2", { product_line: "L", series: "S", product_family: "" })]);
+    [row("ZZ-1", { placement: "pending_plan" }), row("ZZ-2", { product_line: "L", series: "S", product_family: "" })]);
   check("SABOTAGE status: a layered row with a blank family and a series with a null family are both refused", stBlank.length === 2 && /^1 layered row\(s\) with a blank family, e.g. ZZ-2/.test(stBlank[0]) && /^1 series with a blank family, e.g. L \/ S/.test(stBlank[1]), stBlank.join("; "));
   const dv = deviceInSharedParts([row("CVR328W-K9-CN", { kind: "router", product_line: "Small Business Routers", series: "Small Business Routers shared parts" }), row("PWR-60W-AC", { kind: "power", series: "ISR shared parts" })]);
   check("SABOTAGE devices: a router in shared parts is caught, a power supply there is not", dv.length === 1 && dv[0].sku === "CVR328W-K9-CN", JSON.stringify(dv));
@@ -1130,14 +1130,14 @@ const COMPONENT_KIND_LEFT_IN_FAMILY_SHARED: Record<string, string> = Object.from
   const left = componentKindsInFamilySharedParts(readLayerRows("servers-unified-computing"));
   const unexpected = left.filter((r) => !(r.sku in COMPONENT_KIND_LEFT_IN_FAMILY_SHARED));
   check(`components decision: 0 rows of a component kind in the UCS X / B / C / XE shared parts beyond the ${Object.keys(COMPONENT_KIND_LEFT_IN_FAMILY_SHARED).length} recorded`, unexpected.length === 0,
-    `${unexpected.length}: ${unexpected.slice(0, 8).map((r) => `${r.sku} (${r.kind}) ${r.series}`).join("; ")}`);
+    `${unexpected.length}: ${unexpected.slice(0, 8).map((r) => `${r.sku} (${r.kind}) ${nodeOf(r)}`).join("; ")}`);
   for (const sku of Object.keys(COMPONENT_KIND_LEFT_IN_FAMILY_SHARED))
     check(`components decision: the recorded ${sku} is still a component-kind row in a family's shared parts (a stale entry is a hole)`, left.some((r) => r.sku === sku));
   const planted = componentKindsInFamilySharedParts([
-    { sku: "UCSX-CPU-ZZ1", bucket: "layered", series: "UCS X-Series Modular System shared parts", kind: "cpu" },
-    { sku: "UCSX-CPU-ZZ2", bucket: "layered", series: "Processors", kind: "cpu" },
-    { sku: "UCSX-RAIL-ZZ", bucket: "layered", series: "UCS X-Series Modular System shared parts", kind: "mechanical" },
-    { sku: "UCSX-CPU-ZZ3", bucket: "pending_plan", series: "UCS X-Series Modular System shared parts", kind: "cpu" },
+    { sku: "UCSX-CPU-ZZ1", placement: "layered", series: "UCS X-Series Modular System shared parts", kind: "cpu" },
+    { sku: "UCSX-CPU-ZZ2", placement: "layered", series: "Processors", kind: "cpu" },
+    { sku: "UCSX-RAIL-ZZ", placement: "layered", series: "UCS X-Series Modular System shared parts", kind: "mechanical" },
+    { sku: "UCSX-CPU-ZZ3", placement: "pending_plan", series: "UCS X-Series Modular System shared parts", kind: "cpu" },
   ] as LayerRow[]);
   check("SABOTAGE components decision: a layered CPU in X-Series shared parts is found; one in Processors, a rail, and a pending row are not", planted.length === 1 && planted[0].sku === "UCSX-CPU-ZZ1", JSON.stringify(planted.map((r) => r.sku)));
 }

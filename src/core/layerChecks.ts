@@ -18,6 +18,20 @@ import { labelEvidence, digitTokens, digitPattern } from "./labelEvidence.js";
 
 export type LayerRow = Record<string, string>;
 
+/**
+ * WHICH NODE OF THE PAGE a row sits under: its series, or its navigation bucket when it sits under no
+ * series. Every check in this file groups by that, and holding it in ONE function is what let the two
+ * real columns be split on 27 Sep 2026 without re-conflating them — `series` is now strictly layer 4 and
+ * `nav_bucket` strictly a bucket, exactly as `parts` has held them all along.
+ *
+ * A FUNCTION AND NOT A FIELD, and the suite is why. `readLayerRows` first derived it onto each row, which
+ * worked for every real artefact and silently returned undefined for the dozens of SYNTHETIC rows the
+ * sabotage cases build inline — so 22 sabotage cases went quiet rather than red, which is the worst
+ * possible direction: a deliberately broken input that no longer breaks reads exactly like a passing test.
+ * Computed here, a hand-built fixture needs to carry nothing at all.
+ */
+export const nodeOf = (r: LayerRow): string => r.series || r.nav_bucket || r.node || "";
+
 /** closing items at aa1143f, item 1: a device is never a shared part. Layers round 3 (operator, 14 Sep 2026): every whole-device
  * kind joins — `device` (interfaces-modules' marker for a whole device filed among cards), `ont` and `olt`. One set, read by
  * scripts/build-layers.mts (the pending_review hold) and by the standing check. */
@@ -47,7 +61,7 @@ export const DEVICE_KINDS: ReadonlySet<string> = new Set(["router", "sp-router",
   // gateway, sensor and switch nouns are already here.
   "access-point"]);
 export function deviceInSharedParts(rows: LayerRow[]): LayerRow[] {
-  return rows.filter((r) => /shared parts$/.test(r.series ?? "") && DEVICE_KINDS.has(r.kind ?? ""));
+  return rows.filter((r) => /shared parts$/.test(nodeOf(r) ?? "") && DEVICE_KINDS.has(r.kind ?? ""));
 }
 
 /**
@@ -63,7 +77,7 @@ export function unplacedArrivals(category: string, rows: LayerRow[], plans: read
   // generic cord whose label means nothing to the target mapping — lands in its twin's series when the pages are rebuilt
   const twinsOf = new Map<string, Set<string>>();
   const twinLayered = (to: string, sku: string) => {
-    if (!twinsOf.has(to)) { try { twinsOf.set(to, new Set(targetRows(to).filter((r) => r.bucket === "layered" && !r.plan).map((r) => twinKey(r.sku)))); } catch { twinsOf.set(to, new Set()); } }
+    if (!twinsOf.has(to)) { try { twinsOf.set(to, new Set(targetRows(to).filter((r) => r.placement === "layered" && !r.plan).map((r) => twinKey(r.sku)))); } catch { twinsOf.set(to, new Set()); } }
     return twinsOf.get(to)!.has(twinKey(sku));
   };
   for (const p of plans) {
@@ -100,7 +114,7 @@ export const UCS_FAMILY_SHARED_PARTS: ReadonlySet<string> = new Set(["UCS X-Seri
   "UCS B-Series Blade Servers shared parts", "UCS Unified Edge (XE) shared parts"]);
 export const COMPONENT_KINDS: ReadonlySet<string> = new Set(["cpu", "memory", "drive", "gpu", "storage-controller", "nic", "tpm"]);
 export function componentKindsInFamilySharedParts(rows: LayerRow[]): LayerRow[] {
-  return rows.filter((r) => r.bucket === "layered" && UCS_FAMILY_SHARED_PARTS.has(r.series ?? "") && COMPONENT_KINDS.has(r.kind ?? ""));
+  return rows.filter((r) => r.placement === "layered" && UCS_FAMILY_SHARED_PARTS.has(nodeOf(r) ?? "") && COMPONENT_KINDS.has(r.kind ?? ""));
 }
 
 /** The status fields of a built category summary (data/layers/<vendor>-<category>.json). */
@@ -116,16 +130,16 @@ export type StatusSummary = {
  * and layer 3 is never blank — a layered row or a series carries a family, "(shared across the line)" or "(none)". */
 export function statusDisagreements(summary: StatusSummary, rows: LayerRow[]): string[] {
   const out: string[] = [];
-  const inBucket = (b: string) => rows.filter((r) => r.bucket === b).length;
+  const inBucket = (b: string) => rows.filter((r) => r.placement === b).length;
   const lists = [["pending_plans", "pending_plan"], ["unplaced", "unplaced"], ["pending_review", "pending_review"], ["not_this_category", "not_this_category"]] as const;
   for (const [field, bucket] of lists) if ((summary[field]?.length ?? -1) !== inBucket(bucket)) out.push(`${field} lists ${summary[field]?.length}, rows in bucket ${bucket} ${inBucket(bucket)}`);
-  const notLayered = rows.filter((r) => r.bucket !== "layered").length;
+  const notLayered = rows.filter((r) => r.placement !== "layered").length;
   if (summary.parts !== rows.length) out.push(`parts ${summary.parts}, rows ${rows.length}`);
   if (summary.layered !== inBucket("layered")) out.push(`layered ${summary.layered}, layered rows ${inBucket("layered")}`);
   if (summary.pending !== notLayered) out.push(`pending ${summary.pending}, rows not layered ${notLayered}`);
   const expectDone = !!summary.mapping_file && notLayered === 0;
   if (summary.done !== expectDone) out.push(`done ${summary.done} with ${notLayered} row(s) not layered${summary.mapping_file ? "" : " and no mapping file"}`);
-  const blankRows = rows.filter((r) => r.bucket === "layered" && !(r.product_family ?? "").trim());
+  const blankRows = rows.filter((r) => r.placement === "layered" && !(r.product_family ?? "").trim());
   if (blankRows.length) out.push(`${blankRows.length} layered row(s) with a blank family, e.g. ${blankRows[0].sku}`);
   const blankSeries = summary.lines.flatMap((l) => l.series.filter((s) => !(s.family ?? "").trim()).map((s) => `${l.line} / ${s.series}`));
   if (blankSeries.length) out.push(`${blankSeries.length} series with a blank family, e.g. ${blankSeries[0]}`);
@@ -139,7 +153,7 @@ export function seriesEntryDisagreements(summary: { lines: { line: string; serie
   const out: { line: string; series: string; fields: string[]; detail: string }[] = [];
   const tally = (xs: string[]) => { const m: Record<string, number> = {}; for (const x of xs) m[x] = (m[x] ?? 0) + 1; return JSON.stringify(Object.entries(m).sort()); };
   for (const l of summary.lines) for (const s of l.series) {
-    const mine = rows.filter((r) => r.bucket === "layered" && r.product_line === l.line && r.series === s.series);
+    const mine = rows.filter((r) => r.placement === "layered" && r.product_line === l.line && nodeOf(r) === s.series);
     const fields: string[] = [], detail: string[] = [];
     if (mine.length !== s.parts) { fields.push("parts"); detail.push(`entry ${s.parts}, rows ${mine.length}`); }
     if (tally(mine.map((r) => r.kind)) !== JSON.stringify(Object.entries(s.kinds).sort())) { fields.push("kinds"); detail.push(`entry ${JSON.stringify(s.kinds)}`); }
@@ -156,19 +170,19 @@ export function seriesEntryDisagreements(summary: { lines: { line: string; serie
 export function labelViolations(rows: LayerRow[]): { sku: string; why: string }[] {
   const out: { sku: string; why: string }[] = [];
   for (const r of rows) {
-    if (r.bucket !== "layered") continue;
+    if (r.placement !== "layered") continue;
     const pb = r.placed_by ?? "", ev = r.label_evidence ?? "";
     // pre-ruling C1 (layers round 3): a label mapped directly to the line's shared parts claims no series and is not judged —
     // sharedLabelNotExplicit() checks that the mapping file lists that label on the shared-parts series
-    if (pb.startsWith("label ") && r.series === `${r.product_line} shared parts`) {
-      if (ev) out.push({ sku: r.sku, why: `a label placed it directly in ${r.series}, yet evidence "${ev}" was recorded (C1: such a row is not judged)` });
+    if (pb.startsWith("label ") && nodeOf(r) === `${r.product_line} shared parts`) {
+      if (ev) out.push({ sku: r.sku, why: `a label placed it directly in ${nodeOf(r)}, yet evidence "${ev}" was recorded (C1: such a row is not judged)` });
       continue;
     }
     if (pb.startsWith("label ")) {
       if (!ev) out.push({ sku: r.sku, why: "placed by a label, no label_evidence recorded" });
-      else if (ev.startsWith("none")) out.push({ sku: r.sku, why: `placed in ${r.series} by a label the evidence does not support (${ev})` });
+      else if (ev.startsWith("none")) out.push({ sku: r.sku, why: `placed in ${nodeOf(r)} by a label the evidence does not support (${ev})` });
     } else if (pb.startsWith("label-unsupported")) {
-      if (r.series !== `${r.product_line} shared parts`) out.push({ sku: r.sku, why: `moved by the label check but sits in ${r.series}` });
+      if (nodeOf(r) !== `${r.product_line} shared parts`) out.push({ sku: r.sku, why: `moved by the label check but sits in ${nodeOf(r)}` });
       if (!ev.startsWith("none")) out.push({ sku: r.sku, why: `moved by the label check with evidence "${ev}"` });
     }
   }
@@ -181,11 +195,11 @@ export function sharedLabelNotExplicit(category: string, rows: LayerRow[], vendo
   const loaded = loadLineFile(vendor, category);
   const out: { sku: string; why: string }[] = [];
   for (const r of rows) {
-    if (r.bucket !== "layered" || !(r.placed_by ?? "").startsWith("label ") || r.series !== `${r.product_line} shared parts`) continue;
+    if (r.placement !== "layered" || !(r.placed_by ?? "").startsWith("label ") || nodeOf(r) !== `${r.product_line} shared parts`) continue;
     const label = (r.placed_by ?? "").slice("label ".length).trim().toLowerCase();
-    const s = loaded?.file.lines.find((l) => l.line === r.product_line)?.series.find((x) => x.series === r.series);
-    if (!s) out.push({ sku: r.sku, why: `${r.series} is not a series of the mapping file` });
-    else if (!(s.labels ?? []).some((x) => x.trim().toLowerCase() === label)) out.push({ sku: r.sku, why: `label "${label}" is not listed on ${r.series}` });
+    const s = loaded?.file.lines.find((l) => l.line === r.product_line)?.series.find((x) => x.series === nodeOf(r));
+    if (!s) out.push({ sku: r.sku, why: `${nodeOf(r)} is not a series of the mapping file` });
+    else if (!(s.labels ?? []).some((x) => x.trim().toLowerCase() === label)) out.push({ sku: r.sku, why: `label "${label}" is not listed on ${nodeOf(r)}` });
   }
   return out;
 }
@@ -198,11 +212,11 @@ export function labelEvidenceDrift(category: string, rows: LayerRow[], vendor = 
   let compatible = 0;
   if (!loaded) return { drift, compatible };
   for (const r of rows) {
-    if (r.bucket !== "layered" || !(r.placed_by ?? "").startsWith("label ") || !r.label_evidence) continue;
+    if (r.placement !== "layered" || !(r.placed_by ?? "").startsWith("label ") || !r.label_evidence) continue;
     if (r.label_evidence.startsWith("compatible") || r.label_evidence.includes("twin ")) { if (r.label_evidence.startsWith("compatible")) compatible++; continue; }
     const ln = loaded.file.lines.find((l) => l.line === r.product_line);
     if (!ln) { drift.push({ sku: r.sku, recorded: r.label_evidence, now: `line ${r.product_line} is not in the mapping` }); continue; }
-    const ev = labelEvidence({ sku: r.sku ?? "", name: r.name ?? null }, r.series, { family: familyOf(loaded, r.series), siblings: ln.series.map((s) => ({ series: s.series, family: s.family?.trim() || null })) });
+    const ev = labelEvidence({ sku: r.sku ?? "", name: r.name ?? null }, nodeOf(r), { family: familyOf(loaded, nodeOf(r)), siblings: ln.series.map((s) => ({ series: s.series, family: s.family?.trim() || null })) });
     const now = `${ev.kind}: ${ev.detail}`;
     if (now !== r.label_evidence) drift.push({ sku: r.sku, recorded: r.label_evidence, now });
   }
@@ -291,23 +305,23 @@ export function gluedDigitKeeps(rows: LayerRow[]): { sku: string; series: string
   // rescue 3's index, from SKU-rule-placed rows only
   const attested: { series: string; token: string; prefix: string; by: string }[] = [];
   for (const r of rows) {
-    if (!/^sku /.test(r.placed_by ?? "") || !r.series) continue;
-    for (const tok of digitTokens(r.series)) for (const h of hits(r.sku ?? "", tok)) if (h.prefix) attested.push({ series: r.series, token: tok, prefix: h.prefix, by: r.sku });
+    if (!/^sku /.test(r.placed_by ?? "") || !nodeOf(r)) continue;
+    for (const tok of digitTokens(nodeOf(r))) for (const h of hits(r.sku ?? "", tok)) if (h.prefix) attested.push({ series: nodeOf(r), token: tok, prefix: h.prefix, by: r.sku });
   }
   const out: { sku: string; series: string; token: string; prefix: string; why: string }[] = [];
   for (const r of rows) {
-    if (r.bucket !== "layered" || !/^label /.test(r.placed_by ?? "") || !r.label_evidence) continue;
+    if (r.placement !== "layered" || !/^label /.test(r.placed_by ?? "") || !r.label_evidence) continue;
     const m = /^(?:sku-token|name): ([0-9]{3,5})$/.exec(r.label_evidence);
-    if (!m || !digitTokens(r.series ?? "").includes(m[1])) continue;
+    if (!m || !digitTokens(nodeOf(r) ?? "").includes(m[1])) continue;
     const token = m[1];
     const all = [...hits(r.sku ?? "", token), ...hits(r.name ?? "", token)];
     if (!all.length || all.some((h) => !h.prefix)) continue;                                   // 1
-    const words = seriesWords(r.series);
+    const words = seriesWords(nodeOf(r));
     if (all.some((h) => words.has(h.prefix) || words.has(`${h.prefix}${token}`))) continue;     // 2
-    if (attested.some((a) => a.series === r.series && a.token === token                        // 3
+    if (attested.some((a) => a.series === nodeOf(r) && a.token === token                        // 3
         && all.some((h) => h.prefix.endsWith(a.prefix) || a.prefix.endsWith(h.prefix)))) continue;
-    out.push({ sku: r.sku, series: r.series, token, prefix: all[0].prefix,
-      why: `kept on "${all[0].prefix}${token}", a spelling of ${token} this page does not attest for ${r.series}` });
+    out.push({ sku: r.sku, series: nodeOf(r), token, prefix: all[0].prefix,
+      why: `kept on "${all[0].prefix}${token}", a spelling of ${token} this page does not attest for ${nodeOf(r)}` });
   }
   return out;
 }
@@ -339,7 +353,7 @@ export function sharedPartsNamedBySeries(rows: LayerRow[], category: string, ven
   if (!loaded) return [];
   const out: { sku: string; from: string; to: string; kind: string; detail: string; placed_by: string }[] = [];
   for (const r of rows) {
-    if (r.bucket !== "layered" || !/ shared parts$/.test(r.series ?? "")) continue;
+    if (r.placement !== "layered" || !/ shared parts$/.test(nodeOf(r) ?? "")) continue;
     const ln = loaded.file.lines.find((l) => l.line === r.product_line);
     if (!ln) continue;
     const siblings = ln.series.map((s) => ({ series: s.series, family: s.family?.trim() || null }));
@@ -350,7 +364,7 @@ export function sharedPartsNamedBySeries(rows: LayerRow[], category: string, ven
       if (ev.kind === "sku-token" || ev.kind === "name") won.push({ series: s.series, kind: ev.kind, detail: ev.detail });
     }
     if (won.length !== 1) continue;
-    out.push({ sku: r.sku, from: r.series, to: won[0].series, kind: won[0].kind, detail: won[0].detail, placed_by: r.placed_by ?? "" });
+    out.push({ sku: r.sku, from: nodeOf(r), to: won[0].series, kind: won[0].kind, detail: won[0].detail, placed_by: r.placed_by ?? "" });
   }
   return out;
 }
@@ -391,7 +405,7 @@ export function crossLineNamedBySeries(rows: LayerRow[], category: string, vendo
   if (!loaded) return [];
   const out: { sku: string; from: string; fromLine: string; to: string; toLine: string; kind: string; detail: string }[] = [];
   for (const r of rows) {
-    if (r.bucket !== "layered" || !/ shared parts$/.test(r.series ?? "")) continue;
+    if (r.placement !== "layered" || !/ shared parts$/.test(nodeOf(r) ?? "")) continue;
     let ownClaims = 0;
     const other: { series: string; line: string; kind: string; detail: string }[] = [];
     for (const ln of loaded.file.lines) {
@@ -408,7 +422,7 @@ export function crossLineNamedBySeries(rows: LayerRow[], category: string, vendo
     }
     // a row its own line can place is the forward check's business, not this one
     if (ownClaims > 0 || other.length !== 1) continue;
-    out.push({ sku: r.sku, from: r.series, fromLine: r.product_line ?? "", to: other[0].series, toLine: other[0].line, kind: other[0].kind, detail: other[0].detail });
+    out.push({ sku: r.sku, from: nodeOf(r), fromLine: r.product_line ?? "", to: other[0].series, toLine: other[0].line, kind: other[0].kind, detail: other[0].detail });
   }
   return out;
 }
@@ -417,7 +431,22 @@ export function readLayerRows(category: string, vendor = "cisco"): LayerRow[] {
   const p = path.join(REPO_ROOT, "data", "layers", `${vendor}-${category}.rows.tsv`);
   const lines = fs.readFileSync(p, "utf8").replace(/\r/g, "").split("\n").filter(Boolean);
   const head = lines[0].split("\t");
-  return lines.slice(1).map((l) => Object.fromEntries(l.split("\t").map((v, i) => [head[i], v])));
+  // THE FORMAT CHANGED ON 27 Sep 2026, and a reader that guesses is worse than one that refuses: `bucket`
+  // became `placement` (a placement STATUS — the name went to the published `parts.bucket`, which is a
+  // NAVIGATION bucket), and `nav_bucket` split out of `series` so a shared-parts construct is no longer
+  // written into layer 4. A pre-change artefact read by this code would yield rows with an undefined
+  // `placement`, so every "is this layered" test would quietly answer no and every count would be zero.
+  if (!head.includes("placement") || !head.includes("nav_bucket")) {
+    throw new Error(`${p}: header names no "placement"/"nav_bucket" column — a pre-27-Sep artefact. `
+      + `Rebuild it with scripts/build-layers.mts rather than reading it with this code.`);
+  }
+  const rows = lines.slice(1).map((l) => Object.fromEntries(l.split("\t").map((v, i) => [head[i], v])));
+  // `node` = WHICH NODE OF THE PAGE a row sits under: its series, or its navigation bucket when it sits
+  // under no series. Every check in this file groups by that, and holding it as one derived field is what
+  // let the two real columns be split without re-conflating them — `series` is now strictly layer 4 and
+  // `nav_bucket` strictly a bucket, exactly as `parts` has held them all along.
+  for (const r of rows) r.node = nodeOf(r);   // kept on the row too, for a caller that reads the field
+  return rows;
 }
 
 /**
@@ -479,7 +508,7 @@ export function crossClaims(category: string, rows: LayerRow[], categories: stri
   const groups = new Map<string, CrossClaim>();
   const files = Object.fromEntries(categories.filter((c) => c !== category).map((c) => [c, loadLineFile(vendor, c)]));
   for (const r of rows) {
-    if (r.bucket !== "layered") continue;
+    if (r.placement !== "layered") continue;
     for (const [T, loaded] of Object.entries(files)) {
       if (!loaded) continue;
       const p = placePart(vendor, T, { sku: r.sku, name: r.name, series: r.series_label }, loaded) as Placement | null;
@@ -503,7 +532,7 @@ export type RuleUse = { series: string; rule: string; matched: number; decided: 
 export function ruleUse(category: string, ownRows: LayerRow[], incoming: LayerRow[], vendor = "cisco"): RuleUse[] {
   const loaded = loadLineFile(vendor, category);
   if (!loaded) return [];
-  const pop = [...ownRows.filter((r) => r.bucket !== "pending_plan"), ...incoming];
+  const pop = [...ownRows.filter((r) => r.placement !== "pending_plan"), ...incoming];
   const out: RuleUse[] = [];
   for (const l of loaded.file.lines) for (const s of l.series) {
     if (/every row carries a move plan/.test(s.note ?? "")) continue;

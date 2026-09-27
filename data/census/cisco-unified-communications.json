@@ -540,9 +540,9 @@
     }
   ],
   "build": {
-    "data_commit": "a388ea2da885",
-    "code_commit": "cb269cf2f0d7",
-    "contract_hash": "839db4a13086c4e2",
-    "generated_at": "2026-09-27T16:46:45.299Z"
+    "data_commit": "b51ef5df1b83+35dirty",
+    "code_commit": "a56713e61706",
+    "contract_hash": "45a487bfab12cd39",
+    "generated_at": "2026-09-27T21:01:01.498Z"
   }
 }
