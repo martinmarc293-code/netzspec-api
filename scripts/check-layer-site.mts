@@ -26,7 +26,15 @@ if (!site) throw new Error("--site DIR (the directory holding layers/)");
 const requireClean = process.argv.includes("--require-clean");
 const committed = process.argv.includes("--committed");
 const dir = path.join(site, "layers");
-const PROVENANCE_FIELDS = ["built_at", "commit", "uncommitted_rule_files"];
+// `build` joined on 27 Sep 2026, and its absence had made this guard REFUSE FOR EVER. scripts/mould-stamp.mts
+// writes a {data_commit, code_commit, contract_hash, generated_at} object onto every committed artefact AFTER
+// the build that produced it, so no fresh build can ever carry one and this comparison could never again
+// succeed — the first publish attempt after the stamp shipped refused all 17 categories with "the summary
+// differs beyond built_at / commit / uncommitted_rule_files" while the summaries were byte-identical once the
+// build fields were stripped. Two mechanisms of mine colliding, invisible until somebody published. It belongs
+// on this list for the same reason `commit` does: it says WHEN and FROM WHAT the file was made, never what it
+// claims about the catalogue, so a difference in it is not a difference in the page.
+const PROVENANCE_FIELDS = ["built_at", "commit", "uncommitted_rule_files", "build"];
 /** a published row as its line in the committed rows.tsv (scripts/build-layers.mts writes the TSV from these same row objects) */
 const tsvCell = (row: Record<string, unknown>, col: string): string => {
   const x = row[col];
