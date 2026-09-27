@@ -181,9 +181,119 @@ const TESTS: Test[] = [
   },
 
   // ---- declared, NOT YET WRITTEN. Named so the output can never imply coverage it does not have. ------------------
-  { name: "one_build", findings: "N19, N38, N45, N61" },
-  { name: "db_site_api_parity", findings: "N1, N59, N60 (500 random SKUs)" },
-  { name: "ledger_parity", findings: "N45" },
+  {
+    name: "one_build",
+    findings: "N19, N38, N45, N61",
+    // THE ROOT CAUSE the reviewer names: the site is built from reference JSON, the API from the DB and
+    // completeness from a third snapshot, and nothing fails when they diverge. A build commit is recorded
+    // under THREE different field names across the artefact set, which is itself part of why nobody noticed:
+    // a reader checking `built_on_commit` sees agreement and never looks at the file that says `commit`.
+    // The contract hash half cannot pass yet — there is no mould-contract.json — and that is reported as
+    // UNAVAILABLE rather than quietly scored on the commit half alone.
+    run: async () => {
+      const fs = await import("node:fs"), path = await import("node:path");
+      const { REPO_ROOT } = await import("../src/config.js");
+      const FIELDS = ["built_on_commit", "built_on_parent_commit", "commit"];
+      const DIRS = ["ledger", "census", "completeness", "freeze", "layers", "mapper", "schema"];
+      const byCommit = new Map<string, string[]>();
+      const noField: string[] = [];
+      for (const d of DIRS) {
+        const dir = path.join(REPO_ROOT, "data", d);
+        if (!fs.existsSync(dir)) continue;
+        for (const name of fs.readdirSync(dir).filter((f) => f.endsWith(".json"))) {
+          const rel = `data/${d}/${name}`;
+          let j: Record<string, unknown>;
+          try { j = JSON.parse(fs.readFileSync(path.join(dir, name), "utf8")); } catch { continue; }
+          if (typeof j !== "object" || j === null || Array.isArray(j)) continue;
+          const f = FIELDS.find((k) => typeof j[k] === "string");
+          if (!f) { noField.push(rel); continue; }
+          const c = String(j[f]).slice(0, 7);
+          byCommit.set(c, [...(byCommit.get(c) ?? []), rel]);
+        }
+      }
+      const commits = [...byCommit.keys()];
+      const contract = fs.existsSync(path.join(REPO_ROOT, "src", "core", "mould-contract.json"));
+      if (!commits.length) return na("no artefact records a build commit at all");
+      const spread = commits.map((c) => `${c} (${byCommit.get(c)!.length} files)`).join(", ");
+      if (commits.length > 1) {
+        const odd = commits.sort((a, b) => byCommit.get(a)!.length - byCommit.get(b)!.length)[0];
+        return bad(`${commits.length} DIFFERENT build commits across the artefacts: ${spread}`
+          + ` — the smallest is ${odd}: ${byCommit.get(odd)!.slice(0, 4).join(", ")}`
+          + `; ${noField.length} artefacts record no build field at all`
+          + `; contract hash ${contract ? "present" : "NOT POSSIBLE — no src/core/mould-contract.json exists"}`);
+      }
+      return contract
+        ? ok(`one build commit ${commits[0]} across ${byCommit.get(commits[0])!.length} artefacts, contract hash present`)
+        : na(`all artefacts agree on ${commits[0]}, but there is no mould-contract.json, so the contract-hash half of this test cannot run`);
+    },
+  },
+  {
+    name: "db_site_api_parity",
+    findings: "N1, N59, N60",
+    needsDb: true,
+    // 500 SEEDED SKUs so two runs compare the same rows and a moved number means the DATA moved. The reviewer
+    // asked for the per-category counts to be PRINTED by the test rather than estimated, because that number
+    // is the dry-run count for the write plans — an estimate would become a plan nobody could check.
+    run: async () => {
+      const fs = await import("node:fs"), path = await import("node:path");
+      const { REPO_ROOT } = await import("../src/config.js");
+      const { partRecords } = await import("../src/api/queries/part.js");
+      const { RENDERED_STATES } = await import("../src/api/queries/shared.js");
+      let seed = 20260927;                                    // seeded, not Math.random: comparable across runs
+      const rnd = () => (seed = (seed * 1103515245 + 12345) & 0x7fffffff) / 0x7fffffff;
+      const art = new Map<string, { cat: string; series: string; line: string }>();
+      const dir = path.join(REPO_ROOT, "data", "layers");
+      for (const f of fs.readdirSync(dir).filter((x) => x.startsWith("cisco-") && x.endsWith(".rows.tsv"))) {
+        const cat = f.slice("cisco-".length, -".rows.tsv".length);
+        const L = fs.readFileSync(path.join(dir, f), "utf8").split(/\r?\n/).filter(Boolean);
+        const h = L[0].split("\t"), ci = (n: string) => h.indexOf(n);
+        if (ci("sku") < 0 || ci("series") < 0 || ci("product_line") < 0) continue;
+        for (const l of L.slice(1)) { const c = l.split("\t"); art.set(c[ci("sku")], { cat, series: c[ci("series")], line: c[ci("product_line")] }); }
+      }
+      const all = [...art.keys()];
+      if (all.length < 500) return na(`only ${all.length} placed parts — cannot draw a 500 sample`);
+      const pick = new Set<string>();
+      while (pick.size < 500) pick.add(all[Math.floor(rnd() * all.length)]);
+      const skus = [...pick];
+      const ids = (await query<{ id: number; sku: string; series: string | null }>(`
+        SELECT p.id, p.sku, p.series FROM parts p JOIN vendors v ON v.id=p.vendor_id
+         WHERE v.slug='cisco' AND p.retired_at IS NULL AND p.sku = ANY($1::text[])`, [skus])).rows;
+      if (!ids.length) return na(`0 of 500 sampled SKUs resolved in the DB — a broken join, not a finding`);
+      const recs = await partRecords(ids.map((r) => r.id), [...RENDERED_STATES], "https://api.netzspec.com/v1") as unknown as
+        { sku: string; product_line: string | null; product_series: string | null; series: string | null }[];
+      const byCat = new Map<string, { n: number; seriesDiff: number; lineMissing: number }>();
+      for (const r of recs) {
+        const a = art.get(r.sku); if (!a) continue;
+        const e = byCat.get(a.cat) ?? { n: 0, seriesDiff: 0, lineMissing: 0 };
+        e.n++;
+        if ((ids.find((i) => i.sku === r.sku)?.series ?? "") !== a.series) e.seriesDiff++;   // DB column vs layer page
+        if (r.product_line !== a.line) e.lineMissing++;                                       // API record vs layer page
+        byCat.set(a.cat, e);
+      }
+      const checked = [...byCat.values()].reduce((n, e) => n + e.n, 0);
+      const sDiff = [...byCat.values()].reduce((n, e) => n + e.seriesDiff, 0);
+      const lDiff = [...byCat.values()].reduce((n, e) => n + e.lineMissing, 0);
+      const perCat = [...byCat].sort((a, b) => b[1].seriesDiff - a[1].seriesDiff)
+        .map(([c, e]) => `${c} ${e.seriesDiff}/${e.n}`).join(", ");
+      if (sDiff === 0 && lDiff === 0) return ok(`${checked} sampled SKUs: DB, layer page and API record agree on line and series`);
+      return bad(`${checked} sampled: series DB-vs-page differs on ${sDiff} (${(100 * sDiff / checked).toFixed(1)}%), `
+        + `product_line API-vs-page differs on ${lDiff}. PER-CATEGORY (the dry-run count for any series write): ${perCat}`);
+    },
+  },
+  {
+    name: "ledger_parity",
+    findings: "N45",
+    // Honestly unavailable rather than quietly absent: there is no /v1/ledger route at HEAD to compare against,
+    // so this cannot be run here at all — and saying so is the point of the UNAVAILABLE state.
+    run: async () => {
+      const fs = await import("node:fs"), path = await import("node:path");
+      const { REPO_ROOT } = await import("../src/config.js");
+      const route = path.join(REPO_ROOT, "src", "api", "routes", "ledger.ts");
+      return fs.existsSync(route)
+        ? na("a /v1/ledger route exists but comparing it needs the DEPLOYED service, which this run cannot reach")
+        : na("there is no src/api/routes/ledger.ts at HEAD, so /v1/ledger cannot be byte-compared to the published ledger");
+    },
+  },
   { name: "kind_profile_parity", findings: "B1" },
   { name: "four_sets_sum", findings: "B4" },
   { name: "no_family_reason_present", findings: "B2, B3" },
