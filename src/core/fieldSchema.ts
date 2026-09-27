@@ -3972,16 +3972,41 @@ export function evalCondition(c: Condition, v: PartValues): boolean {
   if ("eq" in c) return actual === c.eq;
   if ("ne" in c) return actual !== undefined && actual !== c.ne;
   if ("inList" in c) return actual !== undefined && c.inList.includes(actual as string | number);
-  // `undefined` is UNKNOWN, not "not in the list" (reviewer, 27 Sep 2026). This read
-  // `actual === undefined || …`, so an UNANSWERED gate SATISFIED a notInList and the rule fired — the part
-  // was handed the maximum required set on the strength of a field nobody had answered. Note the two lines
-  // above: `inList` and `ne` both demand an answer, and this one did not, which is the tell that it was a
-  // slip rather than a choice. Requiring an answer also routes it correctly: `settledFalse` only settles a
-  // condition whose field IS answered, so an unanswered gate now falls through to `pending` — which is the
-  // honest state, "we cannot say yet", rather than a demand or a silent exemption.
-  // Measured over the population the rule REACHES (not every part with a null role — that is 32,075 and is
-  // the wrong denominator, since a part failing the sibling `kind` clause is settled-false already): 63 live
-  // parts, among them MEM-CF-256U512MB, a flash module made to owe a spec because its role was unanswered.
+  // `undefined` is UNKNOWN, not "not in the list" (reviewer, 27 Sep 2026).
+  //
+  // THIS IS HALF OF A TWO-PART CHANGE AND THE OTHER HALF IS WHAT MAKES IT RIGHT. Read this before
+  // touching the line. The clause read `actual === undefined || !c.notInList.includes(…)`, and the
+  // `undefined ||` was DELIBERATE: 0e22f85 added it with the notInList condition itself, for "role
+  // demotions", meaning ASK BY DEFAULT and demote only where we positively know the role is smb. So
+  // the three readings are:
+  //
+  //     role unknown, before   -> req      gap OPEN, but nothing names the role as the blocker
+  //     role unknown, now      -> opt      gap CLOSED, silently — the wrong direction
+  //     what it should be      -> pending  gap open AND pointing at the field that would settle it
+  //
+  // `undefined` satisfying a notInList is still wrong — its siblings `inList` and `ne` both demand an
+  // answer — and requiring an answer is the correct leaf semantics, because `settledFalse` only settles
+  // a condition whose field IS answered, so an unanswered gate can then fall through to `pending`. It
+  // does NOT do so today, and the reason is not in this function: `routers/deploy_role` is declared a
+  // plain `opt` cup, so an absent role resolves to "nobody owes it" and dependents settle. Its sibling
+  // derived gate `modular` is declared `cond({field:"kind", inList:["router"]})`, resolves `req`, and
+  // therefore DOES hold `module_slots` open. Declaring `deploy_role` the same way is the second half,
+  // and it is a mould decision (it moves required slots), so it is with the reviewer rather than taken
+  // here. Until it lands, the outcome is pinned by a named case in tests/pendingRequirement.test.ts so
+  // the gap is asserted rather than assumed.
+  //
+  // MEASURED REACH TODAY: ZERO, on all 41,067 live cisco hardware parts, HEAD's `requirementFor`
+  // against this one with the values recompute-completeness builds. Latent because both gates that
+  // carry a notInList are DERIVED and both derivations are total over the current population
+  // (`partKind` answers all 2,109 transceivers, `deployRole` all 1,288 kind=router parts). The trigger
+  // is the first router SKU no rule places; three existed on 13 Sep and were closed by hand.
+  //
+  // CORRECTION, since an earlier version of this comment shipped in 63a95c5 and is wrong: it claimed
+  // "63 live parts, among them MEM-CF-256U512MB". Both are artefacts of my own measurement. The
+  // `routers/flash` `when` is an ANY whose second branch (`kind inList ["flash"]`) fires on its own, so
+  // a flash module owes a flash spec for a reason that has nothing to do with the gate; a predicate
+  // that counted it produced 63, and a wrong denominator before that produced 32,075. The real number
+  // is 0 and the case that fooled me is now a control in the suite.
   if ("notInList" in c) return actual !== undefined && !c.notInList.includes(actual as string | number);
   if ("gte" in c) return typeof actual === "number" && actual >= c.gte;
   if ("truthy" in c) return Boolean(actual);
