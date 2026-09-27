@@ -905,7 +905,58 @@ const TESTS: Test[] = [
     },
   },
   { name: "fill_state_partition", findings: "N8–N11, N30, N31, N50" },
-  { name: "conflicts_classified", findings: "N33, N51–N53" },
+  {
+    name: "conflicts_classified",
+    findings: "N33, N51–N53",
+    needsDb: true,
+    // A CONFLICT WITH NO CLASS IS A ROW NOBODY CAN ACT ON. "These two disagree" is not a job; "the
+    // splitter produced two halves of one list" is. The four classes send a reader to four different
+    // places -- two sources genuinely disagree, one document's multi-column reader mis-paired cells,
+    // the normaliser split one value in two, or a later revision changed the figure -- and only the
+    // first is a question about the world.
+    //
+    // ORPHANS ARE THE SHARPER HALF: a conflict whose part holds no live fact for that key is a
+    // disagreement about nothing. ATA191-PWR carries 11 of them. Those inflate the conflict count and
+    // can never be resolved, because there is no value to choose between.
+    run: async () => {
+      let total = 0, unclassed = 0, orphan = 0, classes: { c: string; n: string }[] = [];
+      try {
+        const t = await query<{ n: string }>("SELECT count(*)::text AS n FROM conflicts WHERE resolved_at IS NULL");
+        total = Number(t.rows[0].n);
+        const o = await query<{ n: string }>(
+          "SELECT count(*)::text AS n FROM conflicts k WHERE k.resolved_at IS NULL AND NOT EXISTS (" +
+          " SELECT 1 FROM facts f WHERE f.part_id = k.part_id AND f.field_key = k.field_key" +
+          " AND f.superseded_by IS NULL AND f.state IN ('verified','corroborated'))");
+        orphan = Number(o.rows[0].n);
+      } catch (e) {
+        return none(`could not read conflicts: ${e instanceof Error ? e.message : String(e)}`);
+      }
+      if (total === 0) return none("no open conflict exists, so there is nothing to classify (producer: the merge)");
+      try {
+        const c = await query<{ c: string; n: string }>(
+          "SELECT coalesce(class, '(none)') AS c, count(*)::text AS n FROM conflicts" +
+          " WHERE resolved_at IS NULL GROUP BY 1 ORDER BY count(*) DESC");
+        classes = c.rows;
+        unclassed = Number(c.rows.find((x) => x.c === "(none)")?.n ?? 0);
+      } catch {
+        // No `class` column at all is the strongest form of the finding, not a reason to go quiet.
+        unclassed = total;
+        classes = [{ c: "(no class column exists)", n: String(total) }];
+      }
+      const scope = `${total.toLocaleString()} open conflicts; classes: ${classes.map((x) => `${x.c} ${x.n}`).join(", ")}`;
+      return unclassed === 0 && orphan === 0
+        ? ok(`every open conflict carries a class and disagrees about a value that exists — ${scope}`)
+        : bad(`${unclassed.toLocaleString()} open conflicts carry no class, and ${orphan.toLocaleString()} ` +
+              `are ORPHANS — the part holds no live fact for that key, so they disagree about nothing and ` +
+              `can never be resolved — ${scope}`);
+    },
+    selfTest: async () => {
+      const CLASSES = new Set(["source-disagreement", "same-doc-multicolumn", "normaliser-split", "revision-drift"]);
+      const actionable = (cls: string | null, liveFacts: number) => cls !== null && CLASSES.has(cls) && liveFacts > 0;
+      return { negative: actionable(null, 0), positive: actionable("source-disagreement", 2),
+               note: "an unclassified conflict over a key with no live fact must fail; a classified one with facts must pass" };
+    },
+  },
   { name: "doc_category_by_relevance", findings: "N39, N48, N49, N64" },
   { name: "relations_for_components", findings: "N54" },
   { name: "name_image_lifecycle_state", findings: "N16, N56, N58" },
