@@ -21,6 +21,7 @@ import { FIELD_DICTIONARY, PROFILES, COLUMN_BACKED, domainFor, bandFor, FREE_TEX
 import { uncoveredEnumValues } from "../src/core/renderContract.js";
 import { mouldStatuses } from "../src/core/brandMould.js";
 import { NO_PROFILE_REASONS } from "../src/core/noProfileReason.js";
+import { NOT_A_KIND, parityRuled, parityCause, KIND_PARITY_EXCEPTIONS, KIND_PARITY_OPEN } from "../src/core/kindProfiles.js";
 import { partKind } from "../src/core/partKind.js";
 import { deployRoleResult, roleAxisOf, roleAxisKinds } from "../src/core/deployRole.js";
 import { query, closePool } from "../src/store/db.js";
@@ -659,12 +660,23 @@ const TESTS: Test[] = [
         byKind.set(kind, list);
       }
       const divergent: string[] = [];
-      let compared = 0, singleCategory = 0;
+      const ruledOut: string[] = [];
+      const byCause = new Map<string, string[]>();
+      let compared = 0, singleCategory = 0, notAKind = 0, unclassified = 0;
       for (const [kind, rows] of byKind) {
         if (rows.length < 2) { singleCategory++; continue; }   // nothing to compare: not a pass either
+        // NOT A KIND. `unknown` is what partKind returns when it cannot classify, so comparing its cup
+        // sets across ten categories asks whether two UNCLASSIFIED populations are asked the same
+        // things. `unknown_zero` owns that population and its fix is classification. Excluded IN THE
+        // OUTPUT rather than silently filtered -- an exclusion nobody can see grow is where the next
+        // real break hides, which is this file's own argument two tests over.
+        if (NOT_A_KIND.has(kind)) { notAKind++; continue; }
         compared++;
         const first = rows[0];
         const diffs: string[] = [];
+        /** EVERY cup that differs anywhere in this kind, not just the first pair's -- a ruling has to be
+         *  checked against all of them, or a divergence that grew a cup keeps an old approval. */
+        const diffCups = new Set<string>();
         for (const other of rows.slice(1)) {
           // ONLY THE BUCKETS THAT CREATE WORK, AND NEVER A COLUMN. Measured 27 Sep: the unrefined
           // comparison reported 34 divergent kinds; scoped to hardware it is 26, and excluding
@@ -680,13 +692,29 @@ const TESTS: Test[] = [
             const a = new Set(first.sets[bucket].filter((k) => !COLUMN_BACKED.has(k)));
             const b = new Set(other.sets[bucket].filter((k) => !COLUMN_BACKED.has(k)));
             const onlyA = [...a].filter((k) => !b.has(k)), onlyB = [...b].filter((k) => !a.has(k));
+            for (const k of [...onlyA, ...onlyB]) diffCups.add(k);
             if (onlyA.length || onlyB.length) {
               diffs.push(`${bucket}: ${first.cat} has ${onlyA.length ? onlyA.slice(0, 4).join("/") : "—"}` +
                          `, ${other.cat} has ${onlyB.length ? onlyB.slice(0, 4).join("/") : "—"}`);
             }
           }
         }
-        if (diffs.length) divergent.push(`${kind} [${rows.map((r) => r.cat).join(" vs ")}] ${diffs[0]}`);
+        if (diffs.length) {
+          // A SETTLED RULING DROPS OUT; AN UNRULED DIVERGENCE DOES NOT, AND NEITHER DOES ONE THAT HAS
+          // GROWN A NEW CUP SINCE ITS RULING. kindProfiles.parityRuled requires EVERY differing cup to
+          // be covered and the ruling's categories to be among the ones that differ, so an approval
+          // written for `transceiver` cannot excuse a divergence between two other categories.
+          const r = parityRuled(kind, [...diffCups], rows.map((x) => x.cat));
+          if (r.ruled) { ruledOut.push(`${kind} (${r.by?.witness})`); continue; }
+          // The CAUSE, from the register, so the failure says what work it needs instead of repeating a
+          // list. A divergence in neither half is its own finding: nobody has classified it.
+          const causes = parityCause(kind);
+          const cause = causes.length ? causes.map((c) => c.cause).join("+") : "UNCLASSIFIED";
+          if (!causes.length) unclassified++;
+          byCause.set(cause, [...(byCause.get(cause) ?? []), kind]);
+          divergent.push(`${kind} [${cause}] ${diffs[0]}` +
+            (r.uncovered.length && r.by ? ` (ruled for ${r.by.cups.join("/")}, NOT for ${r.uncovered.join("/")})` : ""));
+        }
       }
       // The denominator and what could not be compared, both in the line: a kind that exists in ONE
       // category has no parity to check and must not be counted as agreeing.
@@ -695,7 +723,10 @@ const TESTS: Test[] = [
         `diff because they are COLUMNS and not cups a crawler fills, the same reason required_cup_defined ` +
         `skips them); ` +
         `${singleCategory} kinds live in a single category and have no parity to check; ` +
-        `0 recorded exceptions (kindProfiles.ts is B4 and does not exist yet)`;
+        `${notAKind} kind excluded as NOT A KIND (unknown — the classifier's "cannot say"; unknown_zero owns it); ` +
+        `${ruledOut.length} settled by a ruling in kindProfiles.ts (${ruledOut.join(", ") || "none"}); ` +
+        `BY CAUSE: ${[...byCause].map(([c, ks]) => `${c} ${ks.length} (${ks.join(",")})`).join("; ")}` +
+        (unclassified ? ` — ${unclassified} in NEITHER half of kindProfiles.ts, which is its own finding` : "");
       return divergent.length === 0
         ? ok(`every kind is asked the same cups in every category it appears in — ${scope}`)
         : bad(`${divergent.length} kinds are asked DIFFERENT cups depending on the category — ${scope}: ` +
