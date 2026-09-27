@@ -144,3 +144,89 @@ therefore not the routing but the key: retire `safety_standards` and `management
 consumer reading the live API today gets neither `text_de`, nor `product_line` / `product_family`, nor the
 per-category domain and band. Everything in AUDITS 2–8 is in the repo and in the static arrangement site; the service
 is not. Carried from AUDIT 2 and unchanged.
+
+
+---
+
+# Added 27 Sep 2026 (audits 18 and 19)
+
+**Item 1 is CLOSED.** `sync-dictionary` ran as run #1222 after the two `deploy_role` facts blocking it were
+withdrawn (run #1221, 5 facts — see below). Dictionary +3 keys, profiles +74 inserted / 322 updated, and
+`reshaped deploy_role (domain): 0 current facts re-read, would refuse {}` — no `--allow-refusing` needed.
+Verified from a new connection: `check-profile-sync.mts` exits 0, code 6,190 = table 6,190, orphans 0, and a
+second run writes +0/~0. The API had been serving a 13 Sep arrangement for thirteen days; it no longer is.
+
+## 12. Retarget the two header aliases that opened a page path into a DERIVED key
+
+**Predicate:** `^primary application$` (switches) and `^deployment modes$` (transceiver) map to `deploy_role`
+in `data/schema/attribute-aliases.en.json`; `deploy_role` is registered in `DERIVED_FILL_PATHS`, listed in
+`COLUMN_BACKED`, and its dictionary entry says "never read from a page". Between them they wrote 5 facts, all
+Cisco, all `html_table` run 6, every one on a part the derivation gives NO ROLE AXIS.
+
+**THE DECISION** is only about timing, not direction. Retargeting them to `__not_a_spec` moves
+`data/freeze/cisco.json`'s `mapper.alias_file_sha` — measured: the frozen sha matches HEAD exactly, so the
+edit is what moves it — which makes it an ARRANGEMENT CHANGE owing a decision record and rebuilt ledgers,
+censuses, traces, completeness report and freeze on ONE commit. Deleting the synonym table (commit `550e58d`)
+closed the harm meanwhile: a page cell now refuses on the domain instead of manufacturing a value.
+`tests/deployRole.test.ts` carries a tripwire on the current mapping so the retarget cannot land silently.
+
+## 13. `/v1` supplies no display order, and JTL's Attributes file requires one
+
+**Predicate:** the JTL Attributes file is `Artikelnummer,Merkmalname,Merkmalwert,Sortiernummer`. Measured over
+switches/transceiver/routers/wireless: **0 order-bearing fields** on a fact object and 0 on `/v1/fields/:category`
+(searched for sort/order/rank/position/seq). Two parts sharing 18 cups do receive them in the same relative
+order, so the array order is stable *today*, but nothing contracts it.
+
+**THE DECISION:** publish a display order (a dictionary column, or the profile's declaration order), or record
+that the consumer owns the order and accept that two imports of one catalogue can disagree.
+Layer 2/3/4 are fine — `product_line`, `product_family` + `product_family_state`, `product_series` all travel
+on the record, fixed in `1f2813f` (audit 19) and not an open decision, so item 13 is only about cup ORDER within a part.
+
+## 14. 596 current enum facts hold a value outside their own key's domain, 422 by case alone
+
+**Predicate:** over every current, non-retracted enum fact on a live part, all vendors, comparing the value to
+`domainFor(category, key) ?? FIELD_DICTIONARY[key].domain`: **596 of 22,431 (2.66%)**, five keys —
+`drive_interface` 299 (245 case-only), `wifi_generation` 188 (78), `antenna_connector` 99 (99),
+`antenna_type` 5 (0), `spatial_streams` 5 (0). Today's `normalizeField` returns the correct lowercase slug for
+the same raw, so it is a residue of a fix that never un-wrote what was stored. **0 of the 596 render**, so none
+reaches a German cell; but `/v1` serves them as `value`, so a consumer reading `value` gets "SAS" and "sas".
+
+**THE DECISION:** a `renormalize` pass over those five keys — noting that 10 rows are prose blobs needing
+withdrawal, not re-normalisation, and that `wifi_generation` holds `"NA"` x14 (a placeholder, which the halting
+rules forbid) and `"2X2 MIMO"` x18 (a MIMO spec in a generation cup).
+
+## 15. `parts.series` disagrees with the layer artifact's layer 4 on 78% of switches
+
+**Predicate:** over every live part the layer artifact places, comparing `parts.series` to the artifact's
+`series` column: **5,644 of 7,224 switches (78.1%)** and **4,017 of 5,109 routers (78.6%)** differ, in three
+shapes — the column holds a LINE (`Meraki` for MS390, `Carrier Routing System` for CRS), a mangled form
+(`Nexus9300 EX FX` for `Nexus 9300`, `IE4000` for `IE 4000`), or a truncation (`Business 350` for
+`Business 350 Managed (CBS350)`).
+
+**THE DECISION IS NARROWER THAN "REPAIR THE COLUMN", AND THE DRY RUN OVERTURNED MY FIRST ANSWER.** Run over
+all 26 categories rather than switches alone: **37,429 of 41,067 placed parts (91.1%) disagree**. Split by what
+the part IS, the disagreement is three populations needing three different answers, not one defect:
+
+| population | rows | what the two hold |
+|---|---|---|
+| WHOLE PRODUCTS (switch, router, AP, firewall, phone, server, camera…) | **7,850** | the artifact is genuinely better: column `"800"` vs artifact `"ISR 810 / 840 / 860 / 870 / 880 / 890"`; `"Business 350"` vs `"Business 350 Managed (CBS350)"`; `"S-Series Storage"` vs `"UCS C3160 / S3260"` |
+| COMPONENTS (drive, cable, power, adapter, module, optic…) | **23,773** | they answer DIFFERENT questions. The column names the PLATFORM the part belongs to (`"UCS C-Series"` for a drive, `"Nexus 5000"` for a CVR adapter); the artifact names a layering BUCKET (`"Drives and storage"`, `"CVR converter modules, trays and brackets"`). Neither is "the series of this drive" |
+| rows whose artifact series is a `"… shared parts"` bucket | **5,806** | the artifact value is a NAVIGATION construct (`"Nexus 9000 shared parts"`, `"HyperFlex shared parts"`). Writing it into a product column would be wrong |
+
+So a blanket repair is **right for 7,850 rows and wrong for 29,579 (79%)** — it would overwrite a platform label
+with a navigation bucket. My earlier entry here said repairing the column was "the obvious fix"; reading the rows
+says it is not, and the two named fields already on the record (`series` = the column, `product_series` = layer 4)
+are the correct interim rather than a stopgap.
+
+**And the repair has a second cost the count hides.** `series` is a `cond` field in 2 categories naming 28 series
+(security 27, wireless 1), and **1,747 parts would have their condition membership FLIP — every example in one
+direction, `matched` → `no match`**: `security/5515-X` goes from `"ASA 5500 Series Next Generation"` (matched) to
+`"ASA 5500-X (5506 / 5508 / 5512 / 5515 / 5516 / 5525 / 5545 / 5555)"` (no match). Those condition lists were
+authored against the COLUMN's spellings, so repairing the column silently switches off 27 security requirements.
+Any repair of the whole-product subset must rewrite those lists in the same commit.
+
+Dry run, nothing written: **`npx tsx scripts/dryrun-series-vs-layer4.mts`** — the three populations with a spread
+through each, and the condition flips with their direction. It prints a control (3,638 rows where the two already
+agree), so a 100% disagreement would show as a broken join rather than a finding, and it names any layer file whose
+header it could not read instead of silently shrinking its own denominator. Committed rather than left in `tmp/`,
+which is gitignored: a decision that cites a script a reader cannot run is a decision nobody can check.

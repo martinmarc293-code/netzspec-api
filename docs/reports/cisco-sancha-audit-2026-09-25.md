@@ -1347,3 +1347,142 @@ call shape I guessed. Every one was caught by a control, by printing the object,
 none reached the operator as a finding. **The mould is in better condition than the tools I brought to inspect it**,
 and the reason the last five lenses came back clean is not that they were gentle: audit 17's sabotage loses 61% of a
 catalogue, audit 16 tested an entire population, and audit 15's first pass had to be thrown away for being vacuous.
+
+## AUDIT 18 — THE CONSUMER LENS THE SANCHA EXISTS FOR (26 Sep 2026)
+
+Seventeen lenses asked whether the mould is right. This one asks whether what comes out of it can be
+CARRIED: can Claude build a JTL-Shop import from `/v1` alone? The JTL Attributes file is
+`Artikelnummer,Merkmalname,Merkmalwert,Sortiernummer`, so a consumer needs four things per fact and
+only one of them is the value. Every earlier lens measured the value.
+
+Measured through the real `partRecords` and the real `listFields`, 400 hardware parts per category,
+after run #1222 (so against the freshly synced projection). The fact object a consumer gets is printed
+before anything is matched on it:
+
+    ["key","label_en","label_de","type","value","unit","text_de","text_de_why","raw","state","tier",
+     "method","inherited","inherited_from","source","evidence_count"]
+
+| column | verdict |
+|---|---|
+| Artikelnummer | clean — 0 empty, 0 duplicate over the switches sample |
+| Merkmalname | **carried ON THE FACT** (`label_de`), so no join to `/v1/fields` is needed. 43/43 switches, 45/45 transceiver, 43/43 routers, 18/18 wireless served cups have a German name |
+| Merkmalwert | switches 6,529/6,529 (100%), routers 1,275/1,275 (100%), transceiver 3,262/3,675 (88.76%), **wireless 447/629 (71.07%)** |
+| Sortiernummer | **NOTHING IN `/v1` SUPPLIES ONE** |
+
+**FINDING 18.1 — the 96.31% render headline conceals a category at 71%.** The catalogue figure is true
+and it is an average over 13 vendors and 26 categories. Per category the spread is 100% to 71%, and the
+weak ones are the ones a German buyer chooses on: wireless's 182 refusals are 100 "a list value must be
+an array" and 82 `antenna_connector` values. **A single percentage over a heterogeneous population tells
+a reader nothing about the page they are about to build.**
+
+**FINDING 18.2 — there is no display order anywhere in the API.** No order-bearing field on a fact, none
+on `/v1/fields`. Two parts sharing 18 cups happen to receive them in the same relative order, so the
+array order is *currently* stable — but nothing contracts it, and `Sortiernummer` is a required column of
+the file. A consumer must invent the order, which means two imports of the same catalogue can disagree
+and the shop's attribute order churns for reasons no one can trace. **The one column of the four that the
+arrangement does not answer at all.**
+
+**FINDING 18.3 — the German decimal comma IS the Attributes file's delimiter.** 745 of 6,529 switches
+cells (11.4%) contain a comma, and they are correct German: `"41,67 Mpps"`, `"0,5 GB"`, `"22,86 m"`,
+plus enum text like `"Modular, ein Netzteil"`. **0** contain a quote or a newline, so RFC-4180 quoting is
+sufficient and safe — but nothing in the API, the contract artifact or the docs tells the consumer that
+quoting is mandatory rather than optional. `LIST_SEPARATOR` was chosen as `" | "` precisely to dodge the
+German-Excel `;`, and that reasoning was never extended to the comma in a numeric cell.
+
+### AUDIT 18b — 596 CURRENT ENUM FACTS HOLD A VALUE OUTSIDE THEIR OWN KEY'S DOMAIN
+
+Reached from 18.1. Measured across ALL vendors: **596 of 22,431 current enum facts (2.66%)**, five keys,
+**422 differing from a domain value by CASE ALONE**:
+
+    drive_interface     299   case-only 245   "SAS"x79 "SATA"x71 "NVMe"x68 "U.3"x20
+    wifi_generation     188   case-only  78   "Wi-Fi 6"x57 "WiFI6"x35 "2X2 MIMO"x18 "NA"x14
+    antenna_connector    99   case-only  99   "RP-TNC"x85 "N-type"x14
+    antenna_type          5   case-only   0   "E: External antennas", prose blobs
+    spatial_streams       5   case-only   0   "8 (4x4 + 4x4)", prose blobs
+
+The control decides what this is: **today's `normalizeField` returns `ok "rp-tnc"` for the same raw.** So
+these are a residue of a normaliser or domain fix that never un-wrote what was already stored — this
+file's own *"a parser fix does not un-write what is already stored"* — and not a live door. The German
+contract refuses all 596, so nothing wrong ships as a German cell; but `/v1` serves them as `value`, so a
+consumer reading `value` instead of `text_de` gets `"SAS"` and `"sas"` as two different attributes.
+
+Two rows are worth separating from the case variants: `wifi_generation` holds `"NA"`x14 — a PLACEHOLDER,
+which the halting rules forbid outright — and `"2X2 MIMO"`x18, which is a MIMO specification standing in
+a generation cup. Those are not spelling.
+
+**FIXED IN THIS PASS (`ac2e6b2`): the refusal named the wrong repair.** Every uncovered enum value said
+`add it to ENUM_DE`. For 422 of these rows that is the one thing a reader must NOT do — adding `"RP-TNC"`
+to the German contract would legitimise an out-of-domain value and put two spellings of one connector on
+a shop page. `renderValue` now separates three causes with three sentences: a genuine CONTRACT GAP (in
+the domain, uncovered) still says ENUM_DE; an UNNORMALISED VARIANT names the domain value it is a variant
+of and says re-derive the fact; anything else is named a DATA defect. Proven by reverting the branch —
+3 cases go red, restore verified by hash. The gap case is asserted on a synthetic dictionary because the
+live dictionary has no uncovered domain value, and that is stated in the test rather than left as a
+vacuous pass.
+
+### TWO DEFECTS IN MY OWN INSTRUMENTS, BOTH FOUND BY RECONCILING TWO COUNTERS
+
+**18c — `check-profile-sync.mts` mislabels 6 rows as orphans.** The sync printed `profiles: 6190 rows in
+code`; my drift check printed `code declares 6184`. Both about the code, 6 apart, and the check's
+"orphans, kept by design" line also read 6 — the shape of a mistake. `profileRows()`, the function the
+sync actually writes from, unions `PROFILES` with `GENERATED_PROFILES` and yields 6190; my check
+reconstructed the population from the `PROFILES` literal alone, so the six `cache_l3` /
+`cpu_base_clock` rows on the three server categories are declared by the code's own projection and my
+check calls them table-only orphans. **The sync's label was right and my check was wrong** — and it is
+this repo's named defect: I re-implemented the producer instead of asking it. A genuine orphan appearing
+tomorrow would be mixed in with these six and dismissed as by-design.
+
+**18d — the render-contract artifact recorded a path that does not exist.** `built_from_uncommitted` read
+`rc/core/renderContract.ts`. `git status --porcelain` emits `XY<space>PATH`, and an UNSTAGED change is
+` M path` with a leading space; the builder called `.trim()` on the whole output **before** `.split("\n")`,
+which strips that space from the FIRST line only, so `slice(3)` ate the path's first character. Wrong for
+the first entry only, and only when the change is unstaged — which is why it read as correct. Fixed; it
+now records both real paths.
+
+### WHAT THIS LENS DID NOT LOOK AT
+
+It measured four categories of 26 (switches, transceiver, routers, wireless) at 400 parts each, one
+vendor, and it did not write an actual six-file bundle — so the claim is about what `/v1` SUPPLIES, not
+that an import has been performed end to end. The Artikelnummer-set-identical-across-six-files contract
+and the UTF-8 BOM + CRLF requirements are the writer's obligations and remain untested here.
+
+## AUDIT 19 — THE OPERATOR READ A RECORD, WHICH IS THE ONLY LENS THAT COUNTS (27 Sep 2026)
+
+Eighteen lenses were mine. This one was the operator's, and it found more than any of them: *"i checked the
+layer 2 of switches and routers and they are wrong and also i can not be a layer 3 here ... the switches
+layering were correct before, the catalyst, ethernet industrial etc"*.
+
+**Layer 2 was not wrong.** `product_line` matched the artifact on 7,224/7,224 switches and 5,109/5,109
+routers; the artifact holds Catalyst 3231, Nexus 1871, Small Business 869, Cisco Business 705, Industrial
+Ethernet 297, Meraki MS 180, Metro Ethernet 25, Embedded Services 19 — exactly the operator's own list. A
+rebuild of `switches` produced byte-identical placements, so no rule and no artifact had moved.
+
+**Everything the operator saw AROUND layer 2 was wrong, and both defects were mine from `eae7b09`.**
+
+**19.1 — the artifact's sentinel served as a value.** `product_family: "(none)"` on 3,993 switches and
+3,975 routers. The markers are explicit strings on purpose (a 17 Sep review read `product_family: null` as
+*undecided*), but handing them to a consumer meant a shop tree or a JTL Merkmalwert would print "(none)" as
+the family name. Fixed: `familyLayer()` returns null plus `product_family_state` — `named` /
+`no_family_named` / `shared_across_line` — so the distinction survives and no consumer meets a sentinel.
+The operator's "I cannot see a layer 3 here" was CORRECT AND EXPECTED: `docs/decisions/
+2026-09-14-family-layer.md` adds a family only where Cisco names one and lists Industrial Ethernet, Meraki
+MS, Cisco Business, Small Business and Metro Ethernet as having none.
+
+**19.2 — a comment of mine asserted an equivalence and the record was built on it.** `layerIndex.ts` said
+of layer 4: *"`parts.series` is the same value and is what the record already serves."* Nothing checked it.
+Measured over every live part the artifact places, the column differs on **5,644 of 7,224 switches (78%)**
+and **4,017 of 5,109 routers (79%)**, in three shapes — a LINE where the series belongs (`Meraki` for
+MS390, `Carrier Routing System` for CRS), a mangled form (`Nexus9300 EX FX` for `Nexus 9300`, `IE4000` for
+`IE 4000`), and a truncation (`Business 350` for `Business 350 Managed (CBS350)`). So a consumer got layers
+2 and 3 from the layering and layer 4 from a column that disagrees three times in four — internally
+inconsistent, which is what reads as "the layering is wrong".
+
+The fix was NOT to redefine `series`: `parts.ts:89` filters `?series=` on that column, so swapping the
+served value would desync the field from the filter — the same defect in the other direction. `product_series`
+now carries the artifact's layer 4 and `series` remains the column. Repairing the column is decision-sheet
+item 15 because it also changes what 13 profile `cond` conditions evaluate.
+
+**What generalises.** Two of my three lenses on the layer model this week measured the layering and found it
+correct, because the layering IS correct — and neither asked what a record looks like read end to end. A
+per-field check cannot see an inconsistency BETWEEN fields, and an operator reading one record found it in a
+minute. **When three levels of one hierarchy come from two sources, the bug is not in either source.**
