@@ -12,7 +12,7 @@
 import { routerKind, routerKindRule, RULES, DEVICE_RULES, RT_KINDS, RT_FALLBACK, type RouterKind } from "../src/core/routerKind.js";
 import { partKind, KIND_CATEGORIES } from "../src/core/partKind.js";
 import { LEDGER_KINDS, kindQuestionSet } from "../src/core/cupLedger.js";
-import { requirementFor, evalCondition } from "../src/core/fieldSchema.js";
+import { requirementFor, pendingGatesFor, evalCondition } from "../src/core/fieldSchema.js";
 import { deployRole } from "../src/core/deployRole.js";
 
 let passed = 0, failed = 0;
@@ -394,7 +394,10 @@ check("partKind: NC55-SFP-DCAP 'SFP/ZSFP Dust Cap' is mechanical", partKind("rou
   const pend = (kind: string, role?: string) => kindQuestionSet("routers", kind, role).pending.map((p) => p.key).sort().join(",");
   const EXPECT: [string, string | undefined, string][] = [
     // reviewer C.1 (13 Sep 2026): router_throughput, wan_interfaces, lan_interfaces REQUIRED of router in every role
-    ["router", undefined, "certifications,dimensions,flash,lan_interfaces,router_throughput,wan_interfaces"],
+    // 27 Sep 2026: dimensions and flash left the unresolved-role REQUIRED list for the PENDING one -- still
+    // counted in required_total, now naming deploy_role as what would settle them. The role blocks are
+    // asserted below and are unchanged: branch still owes both, smb still owes neither.
+    ["router", undefined, "certifications,lan_interfaces,router_throughput,wan_interfaces"],
     ["router", "branch", "certifications,dimensions,flash,lan_interfaces,router_throughput,wan_interfaces"],
     ["router", "edge", "certifications,dimensions,flash,lan_interfaces,router_throughput,wan_interfaces"],
     ["router", "smb", "certifications,humidity_operating,lan_interfaces,router_throughput,temp_operating,temp_storage,wan_interfaces"],
@@ -423,7 +426,11 @@ check("partKind: NC55-SFP-DCAP 'SFP/ZSFP Dust Cap' is mechanical", partKind("rou
   for (const [kind, role, want] of EXPECT) check(`cup set routers.${kind}${role ? "·" + role : ""} = ${want}`, req(kind, role) === want, `got ${req(kind, role)}`);
   check("the appliance's rack_units waits on its form factor (pending), nothing else is pending", pend("appliance") === "rack_units" && pend("chassis") === "");
   // reviewer C.1 / ruling 4: a router's module_slots waits on the derived `modular` boolean (pending), and only that
-  check("a router's module_slots is pending on `modular`, nothing else is pending", pend("router") === "module_slots");
+  // CHANGED 27 Sep 2026 (see the block at the foot of this file). At an unresolved role every role-gated
+  // cup is pending too, each naming `deploy_role`, so this is no longer "only module_slots" -- it is
+  // "module_slots on modular, and everything the role would decide on deploy_role".
+  check("a router's module_slots is pending on `modular`, and the role-gated cups on `deploy_role`",
+    pend("router") === "altitude_max,dimensions,dram,flash,humidity_operating,module_slots,power_max,temp_operating,temp_storage,weight");
   // ROLE WITNESSES: a real SKU per role, placed by the live deployRole on the live kind.
   check("witness: RV340-K9 is a router in role smb", routerKind("RV340-K9") === "router" && deployRole("routers", "router", "RV340-K9") === "smb");
   check("witness: IR1821-K9 is a router in role industrial-iot", routerKind("IR1821-K9") === "router" && deployRole("routers", "router", "IR1821-K9") === "industrial-iot");
@@ -432,20 +439,46 @@ check("partKind: NC55-SFP-DCAP 'SFP/ZSFP Dust Cap' is mechanical", partKind("rou
   // operator ruling (13 Sep 2026): C8455-G2 is branch now; the unresolved shape is asserted on the kind core directly.
   check("witness: C8455-G2 is a router in role branch (operator ruling) and is asked the core",
     deployRole("routers", "router", "C8455-G2") === "branch" && req("router", "branch") === "certifications,dimensions,flash,lan_interfaces,router_throughput,wan_interfaces");
-  check("a router with no role is asked the core", req("router") === "certifications,dimensions,flash,lan_interfaces,router_throughput,wan_interfaces");
+  // An unplaced router is asked only what EVERY router is bought on, whatever its role; the rest is held
+  // open against the role rather than demanded or waived. It was previously asked the core INCLUDING the
+  // demotion cups (dimensions, flash) because an absent role satisfied their notInList.
+  check("a router with no role is asked only the role-independent core",
+    req("router") === "certifications,lan_interfaces,router_throughput,wan_interfaces");
   check("cup set routers.bundle = bundle_contents,product_compatibility (operator ruling)", req("bundle") === "bundle_contents,product_compatibility");
   // THE TWO ROLE SHAPES, read through requirementFor so the semantics (not just the lists) are pinned.
   const rf = (key: string, v: Record<string, string>) => requirementFor("routers", key, v as never);
-  check("role DEMOTION: flash is required of the core and of branch, optional (never na) for smb",
-    rf("flash", { kind: "router" }) === "req" && rf("flash", { kind: "router", deploy_role: "branch" }) === "req" && rf("flash", { kind: "router", deploy_role: "smb" }) === "opt");
-  check("role ADDITION: dram is required of industrial-iot only; the unresolved role gets OPTIONAL, not pending",
-    rf("dram", { kind: "router", deploy_role: "industrial-iot" }) === "req" && rf("dram", { kind: "router", deploy_role: "branch" }) === "opt" && rf("dram", { kind: "router" }) === "opt");
-  // SABOTAGE: the demotion must key on notInList. A copy written with `ne` (absent reads false) would drop flash from
-  // the unresolved core — the defect notInList exists to prevent. Evaluated on the same condition shape.
-  const sabotaged = { all: [{ field: "kind", inList: ["router"] }, { field: "deploy_role", ne: "smb" }] } as const;
-  check("SABOTAGE a demotion written with `ne` would wrongly close flash for an unresolved router (notInList keeps it)",
-    evalCondition(sabotaged as never, { kind: "router" } as never) === false
-    && evalCondition({ all: [{ field: "kind", inList: ["router"] }, { field: "deploy_role", notInList: ["smb"] }] } as never, { kind: "router" } as never) === true);
+  check("role DEMOTION: flash is required of branch, optional (never na) for smb",
+    rf("flash", { kind: "router", deploy_role: "branch" }) === "req" && rf("flash", { kind: "router", deploy_role: "smb" }) === "opt");
+  check("role ADDITION: dram is required of industrial-iot only, optional for branch",
+    rf("dram", { kind: "router", deploy_role: "industrial-iot" }) === "req" && rf("dram", { kind: "router", deploy_role: "branch" }) === "opt");
+  // (1) THE NEW DISTINGUISHING CASE. Both halves behave the same way at an unresolved role, and the gate
+  // they name is the thing to fix. This is what the retired sabotage was reaching for and could not say.
+  check("at an unresolved role a DEMOTION cup and an ADDITION cup are both pending, naming deploy_role",
+    rf("flash", { kind: "router" }) === "pending" && rf("dram", { kind: "router" }) === "pending"
+    && pendingGatesFor("routers", "flash", { kind: "router" } as never).join() === "deploy_role"
+    && pendingGatesFor("routers", "dram", { kind: "router" } as never).join() === "deploy_role");
+  // RETIRED 27 Sep 2026, WITH ITS REASON — it cannot fire any more, and a case that cannot fire is worse
+  // than no case because it reads as protection. Its text, verbatim, so the next reader finds this:
+  //
+  //     "SABOTAGE a demotion written with `ne` would wrongly close flash for an unresolved router
+  //      (notInList keeps it)"
+  //
+  // It asserted evalCondition(... ne "smb" ...) === false AND evalCondition(... notInList ["smb"] ...)
+  // === TRUE at {kind:"router"} with no role — i.e. that an ABSENT deploy_role satisfies a notInList.
+  // That is exactly the behaviour identified as a defect on 27 Sep: `undefined` is unknown, not "not in
+  // the list", and its two siblings `inList` and `ne` both demand an answer. With the leaf fixed, `ne`
+  // and `notInList` are now IDENTICAL at undefined (both false, both unsettled, both -> pending), so the
+  // sabotage has no distinguishing case left; it would pass whatever anyone wrote.
+  //
+  // WHAT IT WAS PROTECTING IS REAL AND IS KEPT: an unplaced router must not be quietly let off flash.
+  // It no longer is — flash is `pending`, which still counts in required_total, so the demand survives
+  // and now names the field that would settle it. See docs/decisions/2026-09-27-unresolved-role-pending.md.
+  //
+  // (2) THE SABOTAGE THAT REPLACES IT, and it can fire: a resolver that returns `opt` for the addition
+  // half — the pre-27-Sep design — must fail. That is the decision, stated as a test rather than a
+  // comment, so reverting it silently is not possible.
+  check("SABOTAGE a resolver returning `opt` for an addition cup at an unresolved role is caught",
+    rf("dram", { kind: "router" }) !== "opt");
   check("the ESPs now ask a processor's set, not a line card's ports",
     req("processor") === "dram,product_compatibility" && !kindQuestionSet("routers", "processor").required.includes("ports"));
 }

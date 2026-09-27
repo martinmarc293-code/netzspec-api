@@ -458,7 +458,11 @@ eq(`kind-layer: refusals (${KL_REFUSAL.length}) are at least half the witnesses 
     "ip_rating?", "module_slots?", "poe_budget?", "poe_ports?", "psu_redundant?", "rack_units?", "stacking_bandwidth?", "uplink_ports?"];
   const swap = (base: string[], from: string, to: string) => base.map((x) => (x === from ? to : x));
   const WANT: [string, string | undefined, string][] = [
-    ["switch", undefined, list(...CORE)],
+    // 27 Sep 2026: at an UNRESOLVED role the three role-gated cups are pending rather than absent, each
+    // naming deploy_role -- the same decision as routerKind (docs/decisions/2026-09-27-unresolved-role-pending.md).
+    // The three rows below are unchanged, which is the point: a role that IS derived still decides them,
+    // so the discrimination lives in the role blocks and only the unplaced case is held open.
+    ["switch", undefined, list(...CORE, "fabric_bandwidth?", "latency?", "mounting?")],
     ["switch", "smb", list(...CORE)],       // spec's smb demotions NOT applied: a demotion is the measurement's call
     ["switch", "access", list(...CORE)],    // ENV+ already asked
     ["switch", "core-agg", list(...swap(CORE, "psu_redundant?", "psu_redundant"), "fabric_bandwidth")],
