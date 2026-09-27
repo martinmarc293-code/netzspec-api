@@ -68,6 +68,35 @@ def is_attributable_pid(token: str) -> bool:
         return False
     return not (_QUANTITY_TOKEN.match(t) or _PROTOCOL_TOKEN.match(t))
 
+
+def cap_value(s, cap: int) -> tuple:
+    """(text, was_truncated). A cell longer than the cap ends at a WORD boundary.
+
+    `val[:160]` cut 50 values of the 4 Sep 2026 corpus mid-word and said nothing about it:
+    "... KS C 9832 Cla", "... for the Cisco Compute Hyperco", "... minimum config with 1x T4 GPU
+    = 12.9 lb; Fully loaded ". A half word reaches the normaliser looking exactly like a whole
+    one. Truncating a 400-character compliance list is fine; truncating it SILENTLY is not, so
+    every caller records a VALUE_TRUNCATED defect and the gate samples those facts first.
+
+    A single token longer than half the cap has no boundary to back off to -- it is cut hard and
+    still flagged, which is the honest answer rather than a value that overruns the cap. So the
+    shortest a capped value can be is cap // 2, which is what `MIN_CAPPED_LEN` in gate-extract.ts
+    is derived from: a stored value shorter than that was never capped, so the gate may not
+    accept it as a prefix of a longer cell.
+
+    `cap` is REQUIRED. It was a default in the PDF adapter, where it read as one number for the
+    whole pipeline; the caps are per cell TYPE (a scalar cell fits in 160, the median LIST cell
+    does not), and a default is how the wrong one gets applied on the second call site.
+    """
+    s = str(s or "")
+    if len(s) <= cap:
+        return s, False
+    cut = s.rfind(" ", 0, cap + 1)
+    if cut < cap // 2:
+        return s[:cap], True
+    return s[:cut].rstrip(), True
+
+
 def _ledger(rec: dict) -> None:
     with LEDGER.open("a", encoding="utf-8") as f:
         f.write(json.dumps(rec) + "\n")

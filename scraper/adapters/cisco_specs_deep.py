@@ -32,7 +32,7 @@ from __future__ import annotations
 import sys as _sys
 from pathlib import Path as _P0
 _sys.path.insert(0, str(_P0(__file__).resolve().parent.parent))
-from netzscrape import is_attributable_pid
+from netzscrape import is_attributable_pid, cap_value
 import re, sys, json as _json
 from pathlib import Path as _Path
 
@@ -44,11 +44,23 @@ ACCESSORY = re.compile(r"^(PWR-|FAN-|STACK-|C9300X?-NM-|C9300L?-STACK|MA-)", re.
 
 MODEL_HDR = re.compile(r"^(model|sku|part number|product number|product id)$", re.I)
 
-# One cell's value. Unchanged at 160: the gate re-reads the cached cell and compares it the way
-# the adapter stored it (gate-extract.ts cellMatches slices to 160), so this number is a contract.
+# One SCALAR cell's value. The gate re-reads the cached cell and compares it the way the adapter
+# stored it, so this number is a contract with gate-extract.ts cellMatches -- move one, move both.
+#
+# 160 is right for a scalar and wrong for a list, measured over the 380 cached documents that
+# actually produced a fact cut at exactly 160 [M 2026-09-27, the adapter's own _rows/_is_list_cell]:
+#
+#     SCALAR cells  147,408   over 160:  4.5%   p50 15   p95 150   p99   357
+#     LIST   cells    6,454   over 160: 64.3%   p50 201  p95 913   p99 1,830   MAX 5,311
+#
+# The MEDIAN list cell is already over the cap. So a list cup's stored value was usually not a
+# value at all, it was the first 160 characters of one -- which is most of the "dirty tail" the
+# grammars were being written to refuse. Scalars keep 160 (p95 sits just under it); lists get a
+# ceiling above the longest that occurs, so capping a list is an event rather than the norm.
 MAX_CELL = 160
-# A JOINED list (see join_list_fragments) is several cells, so it is allowed several cells' worth.
-MAX_JOINED = 800
+LIST_CELL_CAP = 6000
+# A JOINED list (see join_list_fragments) is several cells of one list, so it gets the list ceiling.
+MAX_JOINED = LIST_CELL_CAP
 FRAGMENT_SEP = "; "
 
 # The bullet marks Cisco uses inside a cell that holds a LIST. Two or more of them is the
@@ -141,6 +153,29 @@ def _is_list_cell(v: str) -> bool:
     return len(BULLETS.findall(v)) >= 2
 
 
+def cap_cell(val: str, locator: str, defects: list[dict], what: str = "") -> tuple:
+    """(value, was_cut) with the cap chosen by the cell's TYPE and the cut RECORDED as a defect.
+
+    Four call sites used to write `val[:MAX_CELL]` and set `_cut`, and `_cut` never leaves this
+    module: it is read by `_drop_cut_tail` when fragments are joined and then popped. So a
+    truncation was legible to the joiner and invisible to everything downstream -- the gate, the
+    completeness report, the operator. A fact cut at 160 looked exactly like a fact that ended
+    there, which is how 3 list cups came to be ~100% truncated without one alarm.
+
+    Capping and recording live in ONE function so that no call site can do the first without the
+    second. That is the structural version of the rule; a comment saying "remember to flag it" is
+    the version that four sites ignored.
+    """
+    cap = LIST_CELL_CAP if _is_list_cell(val) else MAX_CELL
+    v, cut = cap_value(val, cap)
+    if cut:
+        kind = "list" if cap == LIST_CELL_CAP else "scalar"
+        defects.append({"code": "VALUE_TRUNCATED", "locator": locator,
+                        "detail": f"{what}{kind} cell is {len(val)} chars against a cap of {cap}: "
+                                  f"stored {len(v)}, lost {len(val) - len(v)}"})
+    return v, cut
+
+
 def _drop_cut_tail(v: str, cut: bool) -> str:
     """A fragment the MAX_CELL cap truncated was cut mid-item ("... ● IEEE 802.1ab (LLDP) ● IEEE").
     Alone that reads as a list that is obviously truncated; joined to the next fragment the stub
@@ -204,7 +239,17 @@ def join_list_fragments(recs: list[dict], defects: list[dict] | None = None) -> 
             seen.add(key)
             vals.append(v)
         first = dict(g[0])
-        first["value"] = FRAGMENT_SEP.join(vals)[:MAX_JOINED]
+        # The fifth cap, and the only one that never flagged: a bare slice, so a joined list
+        # longer than the ceiling lost its tail with no defect and no `_cut`. cap_value is
+        # used directly (not cap_cell) because the joined string is a list BY CONSTRUCTION --
+        # it is several bulleted fragments -- and need not be re-tested for bullets.
+        joined = FRAGMENT_SEP.join(vals)
+        first["value"], jcut = cap_value(joined, MAX_JOINED)
+        if jcut and defects is not None:
+            defects.append({"code": "VALUE_TRUNCATED", "locator": g[0]["locator"],
+                            "detail": f"{first.get('label', '')!r}: {len(g)} joined fragments "
+                                      f"are {len(joined)} chars against a cap of {MAX_JOINED}: "
+                                      f"stored {len(first['value'])}"})
         first["locator"] = g[0]["locator"]
         # the cells AS THE DOCUMENT HOLDS THEM (before the cut-tail trim), so the gate can re-read
         # every one of them at its own locator instead of grading a string no cell contains
@@ -380,9 +425,11 @@ def parse_shape_a(rows, ti, url, defects=None):
         for ci in range(1, min(len(cells), ncols)):
             label, val = labels[ci], cells[ci].strip()
             if label and not _blank(val):
-                rec = {"sku": pid, "label": label, "value": val[:MAX_CELL],
-                       "shape": "A", "locator": f"t{ti}:r{ri}:c{ci}", "source_url": url}
-                if len(val) > MAX_CELL:
+                loc = f"t{ti}:r{ri}:c{ci}"
+                v, cut = cap_cell(val, loc, defects, f"{pid} {label!r}: ")
+                rec = {"sku": pid, "label": label, "value": v,
+                       "shape": "A", "locator": loc, "source_url": url}
+                if cut:
                     rec["_cut"] = True
                 if seen_pids.get(pid, 0) > 1:
                     rec["_repeated_model"] = True
@@ -390,11 +437,12 @@ def parse_shape_a(rows, ti, url, defects=None):
     return recs
 
 
-def parse_shape_b(rows, ti, url):
+def parse_shape_b(rows, ti, url, defects=None):
     """attribute-per-row x variant-per-column. Header row names variants/families; col0 is the
     attribute. Emitted as FAMILY-scoped facts (no PID), because the columns are model FAMILIES
     ('Catalyst 9300X modular uplink') not part numbers. The scope check in the merge step decides
     whether a given SKU may inherit them - never this adapter."""
+    defects = defects if defects is not None else []
     recs = []
     if len(rows) < 2:
         return recs
@@ -427,9 +475,11 @@ def parse_shape_b(rows, ti, url):
             variant, val = header[ci].strip(), cells[ci].strip()
             if not val or val in ("-", "--", "N/A", "n/a"):
                 continue
-            rec = {"label": label, "value": val[:MAX_CELL], "shape": "B",
-                   "locator": f"t{ti}:r{ri}:c{ci}", "source_url": url}
-            if len(val) > MAX_CELL:
+            loc = f"t{ti}:r{ri}:c{ci}"
+            v, cut = cap_cell(val, loc, defects, f"{label!r} [{variant}]: ")
+            rec = {"label": label, "value": v, "shape": "B",
+                   "locator": loc, "source_url": url}
+            if cut:
                 rec["_cut"] = True
             # A column header can be a FAMILY ("Catalyst 9300L/LM fixed uplink models") or an
             # actual PID ("C1000-24T-4G-L"). Treating both as family scope threw away every
@@ -460,12 +510,13 @@ def parse_shape_b(rows, ti, url):
     return recs
 
 
-def parse_shape_c(rows, ti, url):
+def parse_shape_c(rows, ti, url, defects=None):
     """SECTIONED stateful table. Carries down:
          current_label   - from a row whose cells collapse to ONE non-empty value
          sub_headers     - from a following 'Model | a | b | c' row
        then attributes each PID row against label + sub-header.
     This is where dimensions, weight, MTBF, acoustics and environmental ranges live."""
+    defects = defects if defects is not None else []
     recs = []
     current_label = None
     sub_headers: list[str] = []
@@ -499,19 +550,23 @@ def parse_shape_c(rows, ti, url):
                     continue
                 qualifier = sub_headers[ci] if ci < len(sub_headers) and sub_headers[ci] else ""
                 label = f"{current_label} [{qualifier}]" if qualifier else current_label
-                rec = {"sku": pid, "label": label, "value": val[:MAX_CELL],
-                       "shape": "C", "locator": f"t{ti}:r{ri}:c{ci}", "source_url": url}
-                if len(val) > MAX_CELL:
+                loc = f"t{ti}:r{ri}:c{ci}"
+                v, cut = cap_cell(val, loc, defects, f"{pid} {label!r}: ")
+                rec = {"sku": pid, "label": label, "value": v,
+                       "shape": "C", "locator": loc, "source_url": url}
+                if cut:
                     rec["_cut"] = True
                 recs.append(rec)
         elif len(cells) == 2 and _looks_like_label(pid):
             # "Acoustic noise ... | With AC power supply ..." - an attribute/value pair scoped to
             # the whole family, not to a PID
             pair = cells[1].strip()
+            loc = f"t{ti}:r{ri}:c1"
+            v, cut = cap_cell(pair, loc, defects, f"{current_label!r}: {pid}: ")
             rec = {"family_scope": "__document__", "label": f"{current_label}: {pid}"[:120],
-                   "value": pair[:MAX_CELL], "shape": "C",
-                   "locator": f"t{ti}:r{ri}:c1", "source_url": url}
-            if len(pair) > MAX_CELL:
+                   "value": v, "shape": "C",
+                   "locator": loc, "source_url": url}
+            if cut:
                 rec["_cut"] = True
             recs.append(rec)
     return recs
@@ -588,7 +643,7 @@ def extract_document(html: str, url: str) -> dict:
         if len(rows) < 2:
             continue
         for fn, shape in ((parse_shape_a, "A"), (parse_shape_b, "B"), (parse_shape_c, "C")):
-            recs = fn(rows, ti, url, defects) if fn is parse_shape_a else fn(rows, ti, url)
+            recs = fn(rows, ti, url, defects)
             # a list spread over several cells of THIS table is one fact, before the
             # triple-dedup sees it (the dedup would otherwise keep both halves apart)
             recs = join_list_fragments(recs, defects)

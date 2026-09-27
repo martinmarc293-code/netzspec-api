@@ -264,9 +264,31 @@ export function reReadSource(items: ReadItem[], opts: { cacheDir?: string; pytho
 }
 
 export const norm = (s: unknown) => String(s ?? "").replace(/\s+/g, " ").trim();
-/** The adapters store a value truncated to 160 characters; compare the way they stored it. */
+/** Every value cap an adapter has EVER applied, because the gate re-reads facts written months ago:
+ *  160 for a scalar cell (both adapters), 800 for a joined list until 27 Sep 2026, 6000 for a list
+ *  after it. The list ceiling was measured, not chosen -- the longest list cell in the cached corpus
+ *  is 5,311 characters and the MEDIAN one is 201, so a cap of 160 truncated 64.3% of them while
+ *  costing scalars 4.5%. `cap_value` backs off to a word boundary and gives up at cap/2, so a capped
+ *  value's length is in [cap/2, cap] and nowhere else. */
+export const ADAPTER_CAPS = [160, 800, 6000] as const;
+const couldBeCapped = (len: number) => ADAPTER_CAPS.some((c) => len >= Math.floor(c / 2) && len <= c);
+
+/** Does the re-read cell hold the value the pipeline stored?
+ *
+ *  It used to be `norm(cell).slice(0, 160) === norm(expect)` -- an equality against the first 160
+ *  characters, which is right only while nothing stores more than 160. The moment a list cup holds
+ *  its whole 900-character value that comparison fails for EVERY such fact, so the adapter's new
+ *  ceiling and this function have to move in one commit.
+ *
+ *  A prefix is accepted only at a length some cap could have produced. Without that clause a stored
+ *  value of any length would match any cell beginning with it, so a wrong pour that took the first
+ *  sentence of a paragraph would grade as correct -- the gate would be confirming the truncation
+ *  rather than the value. */
 export function cellMatches(cell: unknown, expect: string): boolean {
-  return norm(String(cell ?? "").slice(0, 160)) === norm(expect) || norm(cell).slice(0, 160) === norm(expect);
+  const c = norm(cell), e = norm(expect);
+  if (c === e) return true;              // the cell exactly as stored: the only test an uncapped value gets
+  if (!couldBeCapped(e.length)) return false;
+  return c.startsWith(e);                // capped: what was stored is the head of the cell it came from
 }
 
 export type Defect = { code: string; locator: string; detail: string };

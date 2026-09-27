@@ -34,7 +34,7 @@ from __future__ import annotations
 import sys as _sys
 from pathlib import Path as _P0
 _sys.path.insert(0, str(_P0(__file__).resolve().parent.parent))
-from netzscrape import is_attributable_pid
+from netzscrape import is_attributable_pid, cap_value
 
 import json as _json
 import re
@@ -492,27 +492,6 @@ VALUE_CAP = 160
 LABEL_CAP = 120
 
 
-def cap_value(s, cap: int = VALUE_CAP) -> tuple:
-    """(text, was_truncated). A cell longer than the cap ends at a WORD boundary.
-
-    `val[:160]` cut 50 values of the 4 Sep 2026 corpus mid-word and said nothing about it:
-    "... KS C 9832 Cla", "... for the Cisco Compute Hyperco", "... minimum config with 1x T4 GPU
-    = 12.9 lb; Fully loaded ". A half word reaches the normaliser looking exactly like a whole
-    one. Truncating a 400-character compliance list is fine; truncating it SILENTLY is not, so
-    the caller records a VALUE_TRUNCATED defect and the gate samples those facts first.
-
-    A single token longer than half the cap has no boundary to back off to -- it is cut hard and
-    still flagged, which is the honest answer rather than a value that overruns the cap.
-    """
-    s = str(s or "")
-    if len(s) <= cap:
-        return s, False
-    cut = s.rfind(" ", 0, cap + 1)
-    if cut < cap // 2:
-        return s[:cap], True
-    return s[:cut].rstrip(), True
-
-
 # ---- shape "TEXTLINE": the specification line itself ----------------------------------------------
 #
 # WHY A THIRD SHAPE EXISTS. Cisco rules its spec tables around the HEADER ONLY. On the page of a
@@ -875,7 +854,7 @@ def run(browser, urls: list[str]) -> list[dict]:
                             if (val or "").lower() in EMPTY_VAL:
                                 continue
                             loc = f"p{pi}:t{ti}:r{ri + roff}"
-                            v, cut = cap_value(val)
+                            v, cut = cap_value(val, VALUE_CAP)
                             rec = {"family_scope": "__document__", "label": label[:LABEL_CAP],
                                    "value": v, "shape": "PARAM", "locator": loc, "source_url": url}
                             if cut:
@@ -913,7 +892,7 @@ def run(browser, urls: list[str]) -> list[dict]:
                                 if (val or "").lower() in EMPTY_VAL:
                                     continue
                                 loc = f"p{pi}:t{ti}:r{ri + roff}:c{ci}"
-                                v, cut = cap_value(val)
+                                v, cut = cap_value(val, VALUE_CAP)
                                 rec = {"sku": pid, "label": label[:LABEL_CAP], "value": v,
                                        "shape": "GRID", "locator": loc, "source_url": url}
                                 if cut:
@@ -959,7 +938,7 @@ def run(browser, urls: list[str]) -> list[dict]:
                         if val.lower() in EMPTY_VAL:
                             continue
                         loc = f"p{pi}:L{li}"
-                        v, cut = cap_value(val)
+                        v, cut = cap_value(val, VALUE_CAP)
                         rec = {"family_scope": "__document__", "label": label[:LABEL_CAP],
                                "value": v, "shape": "TEXTLINE", "locator": loc, "source_url": url}
                         if cut:
