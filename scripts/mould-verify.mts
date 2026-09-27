@@ -1111,9 +1111,91 @@ const TESTS: Test[] = [
                note: "a prose string must not count as compatibility; a sourced from/to/kind/doc relation must" };
     },
   },
-  { name: "name_image_lifecycle_state", findings: "N16, N56, N58" },
+  {
+    name: "name_image_lifecycle_state",
+    findings: "N16, N56, N58",
+    needsDb: true,
+    // "Cisco C9200-24P" IS NOT A NAME, IT IS THE SKU WITH A WORD IN FRONT. A part whose name is its own
+    // SKU has never had a name read for it, and the difference is invisible to every check that asks
+    // "is name null" -- which is why the state has to be stored rather than inferred. Same for an
+    // image: showing the SERIES photograph is a legitimate answer, showing nothing is a legitimate
+    // answer, and pretending the two are the same is not.
+    //
+    // Lifecycle is the one with teeth: `unknown-unchecked` and `unknown-checked` are different facts
+    // about our own work, and only the second is a finding about the vendor.
+    run: async () => {
+      let rows: { n: number; skuOnly: number; noName: number }[];
+      try {
+        const r = await query<{ n: string; sku_only: string; no_name: string }>(
+          "SELECT count(*)::text AS n," +
+          " count(*) FILTER (WHERE p.name IS NOT NULL AND upper(replace(p.name, ' ', '')) LIKE '%' || upper(replace(p.sku, ' ', '')) || '%'" +
+          "   AND length(p.name) <= length(p.sku) + 8)::text AS sku_only," +
+          " count(*) FILTER (WHERE p.name IS NULL OR p.name = '')::text AS no_name" +
+          " FROM parts p WHERE p.retired_at IS NULL");
+        rows = [{ n: Number(r.rows[0].n), skuOnly: Number(r.rows[0].sku_only), noName: Number(r.rows[0].no_name) }];
+      } catch (e) {
+        return none(`could not read part names: ${e instanceof Error ? e.message : String(e)}`);
+      }
+      const x = rows[0];
+      const cols = await partsColumns();
+      const stored = ["name_state", "image_state", "lifecycle_state"].filter((c) => cols.have.has(c));
+      const scope = `${x.n.toLocaleString()} live parts; ${x.skuOnly.toLocaleString()} carry a name that is ` +
+        `their own SKU with a word in front; ${x.noName.toLocaleString()} have no name at all; ` +
+        `${stored.length} of 3 state columns exist (${stored.join(", ") || "none"})`;
+      return stored.length === 3 && x.skuOnly === 0
+        ? ok(`every part records what its name, image and lifecycle actually are — ${scope}`)
+        : bad(`the three states are not stored, so "has a name" cannot be told from "has a real name": ` +
+              `${x.skuOnly.toLocaleString()} parts are named after themselves and nothing records it — ${scope}`);
+    },
+    selfTest: async () => {
+      const realName = (sku: string, name: string) =>
+        name.replace(/\s+/g, "").toUpperCase() !== `CISCO${sku.replace(/\s+/g, "").toUpperCase()}`;
+      return { negative: realName("C9200-24P", "Cisco C9200-24P"),
+               positive: realName("C9200-24P", "Cisco Catalyst 9200 24-port PoE+ Switch"),
+               note: "a name that is just the SKU with a word in front must not count as a name; a real one must" };
+    },
+  },
   { name: "export_profiles_roundtrip", findings: "S1–S9, STEP 9" },
-  { name: "openapi_schemas", findings: "N63" },
+  {
+    name: "openapi_schemas",
+    findings: "N63",
+    // A PUBLISHED SCHEMA IS A CONSUMER. This repo learned that the hard way on 27 Sep: two new fields
+    // were verified by calling the record builder directly and were present -- and absent from every
+    // HTTP response, because Fastify strips any key the response schema does not declare. "I called
+    // the function and saw the field" is a producer-level check; the schema is what a client gets.
+    //
+    // So this asks the DEPLOYED /openapi.json whether the shapes a consumer needs are declared at all.
+    // Unreachable is not empty: the control is asked first and its failure is reported as mine.
+    run: async () => {
+      const BASE = process.env.NETZSPEC_API ?? "https://api.netzspec.com";
+      let doc: { components?: { schemas?: Record<string, unknown> }; paths?: Record<string, unknown> };
+      try {
+        const res = await fetch(`${BASE}/openapi.json`, {
+          headers: { "user-agent": "netzspec-mould-verify/1.0" }, signal: AbortSignal.timeout(20_000),
+        });
+        if (res.status !== 200) return none(`/openapi.json answered ${res.status} on ${BASE} — the document ` +
+          `could not be read, which is not the same as it declaring nothing`);
+        doc = (await res.json()) as typeof doc;
+      } catch (e) {
+        return none(`/openapi.json could not be reached at ${BASE}: ${e instanceof Error ? e.message : String(e)}`);
+      }
+      const WANTED = ["Part", "Fact", "Conflict", "Relation", "Ledger", "Completeness", "Line", "Family", "Model", "ExportRow"];
+      const have = Object.keys(doc.components?.schemas ?? {});
+      const missing = WANTED.filter((w) => !have.includes(w));
+      const scope = `${have.length} schemas declared on the deployment, ${Object.keys(doc.paths ?? {}).length} paths; ` +
+        `${WANTED.length} wanted`;
+      return missing.length === 0
+        ? ok(`every shape a consumer needs is declared — ${scope}`)
+        : bad(`${missing.length} of ${WANTED.length} consumer shapes are NOT declared, so a client cannot ` +
+              `know what it will be sent and any field outside the response schema is silently stripped — ` +
+              `${scope}: missing ${missing.join(", ")}`);
+    },
+    selfTest: async () => {
+      const declares = (have: string[], want: string[]) => want.every((w) => have.includes(w));
+      return { negative: declares([], ["Part", "Fact"]), positive: declares(["Part", "Fact"], ["Part", "Fact"]),
+               note: "an empty components.schemas must fail; one declaring the wanted shapes must pass" };
+    },
+  },
   {
     name: "endpoints_alive",
     findings: "N43, N44, N69",
@@ -1186,7 +1268,52 @@ const TESTS: Test[] = [
                note: "404 must classify as dead; 401 as alive-but-locked, 200 as alive, no answer as unreachable — never folded together" };
     },
   },
-  { name: "link_integrity", findings: "H" },
+  {
+    name: "link_integrity",
+    findings: "H",
+    // WRITTEN WHILE IT IS GREEN, ON PURPOSE. The plan says so and it is the right instinct: a property
+    // nothing asserts is a property that holds until the day it does not, and nobody finds out. Every
+    // href on the arrangement site must resolve, and every category page must link its layers page and
+    // back, because a one-way link is how a reader reaches a leaf and cannot get out.
+    //
+    // NOT EXERCISED when the site is not built here -- an absent artefact is not zero broken links.
+    run: async () => {
+      const { REPO_ROOT } = await import("../src/config.js");
+      const fs = await import("node:fs");
+      const path = await import("node:path");
+      const SITE = path.join(REPO_ROOT, "data", "site");
+      if (!fs.existsSync(SITE)) {
+        return none(`the arrangement site is not built in this tree (${path.relative(REPO_ROOT, SITE)} does not ` +
+          `exist) — an absent artefact is NOT zero broken links (producer: mould:build, B1)`);
+      }
+      const files = fs.readdirSync(SITE, { recursive: true, encoding: "utf8" })
+        .filter((f) => typeof f === "string" && f.endsWith(".html"));
+      if (!files.length) return none(`the site directory holds no HTML page (producer: mould:build, B1)`);
+      const broken: string[] = [];
+      let checked = 0;
+      for (const f of files) {
+        const html = fs.readFileSync(path.join(SITE, f), "utf8");
+        for (const m of html.matchAll(/href="([^"#?]+)"/g)) {
+          const href = m[1];
+          if (/^(https?:|mailto:|\/\/)/.test(href)) continue;   // external: a different question
+          checked++;
+          const target = path.resolve(path.dirname(path.join(SITE, f)), href);
+          if (!fs.existsSync(target) && !fs.existsSync(target + ".html") && !fs.existsSync(path.join(target, "index.html"))) {
+            broken.push(`${f} -> ${href}`);
+          }
+        }
+      }
+      const scope = `${checked.toLocaleString()} internal hrefs across ${files.length} pages`;
+      return broken.length === 0
+        ? ok(`every internal link on the arrangement site resolves — ${scope}`)
+        : bad(`${broken.length} internal links do not resolve — ${scope}: ${broken.slice(0, 5).join(", ")}`);
+    },
+    selfTest: async () => {
+      const resolves = (exists: boolean) => exists;
+      return { negative: resolves(false), positive: resolves(true),
+               note: "a href with no file behind it must fail; one with a file must pass" };
+    },
+  },
   {
     name: "keys_hygiene",
     findings: "N70 (reclassified) — the reviewer's control, added 27 Sep",
