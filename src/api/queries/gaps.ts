@@ -24,9 +24,24 @@ export type GapField = { key: string; label_en: string; state: string; sources_c
 export type GapCheck = { source: string; outcome: string; checked_at: string; facts_found: number };
 export type PartGaps = {
   no_profile: boolean; computed_at: string | null; required_fields: string[]; present: string[]; missing: GapField[]; checks: GapCheck[];
+  /**
+   * WHY this part is not scored, when it is not. `no_profile` alone carried four unrelated facts and a
+   * consumer could not tell "this brand has no mould yet" from "this is a licence" from "the role table
+   * says this row is not the kind its category scores it as". Each needs different work, so each has a
+   * name (src/core/noProfileReason.ts), and a refusal carries the id of the rule that refused it.
+   */
+  no_profile_reason: string | null; no_profile_rule: string | null;
+  /**
+   * The THIRD outcome, which `missing` cannot express. `required_total` counts req AND pending, so a
+   * pending cup is already inside the number a consumer sees; what was missing is that it is waiting on
+   * a GATE rather than on somebody reading a datasheet. Those are different jobs, and `pending_gates`
+   * names the field that would settle each one.
+   */
+  pending: number; pending_gates: { cup: string; gate: string[] }[];
 };
 
-type HeadRow = { product_class: string; required_fields: string[] | null; missing: string[] | null; no_profile: boolean | null; computed_at: Date | null };
+type HeadRow = { product_class: string; required_fields: string[] | null; missing: string[] | null; no_profile: boolean | null; computed_at: Date | null;
+  no_profile_reason: string | null; no_profile_rule: string | null; pending: number | null; pending_gates: { cup: string; gate: string[] }[] | null };
 type CheckRow = { source: string; outcome: string; checked_at: Date; facts_found: number };
 
 export async function partGaps(part: PartIdentity): Promise<PartGaps> {
@@ -35,7 +50,8 @@ export async function partGaps(part: PartIdentity): Promise<PartGaps> {
   // result. (Measured through the tunnel: every sequential statement cost a full round trip.)
   const [head, checks, ledger] = await Promise.all([
     query<HeadRow>(`
-      SELECT p.product_class::text AS product_class, c.required_fields, c.missing, c.no_profile, c.computed_at
+      SELECT p.product_class::text AS product_class, c.required_fields, c.missing, c.no_profile, c.computed_at,
+             c.no_profile_reason, c.no_profile_rule, c.pending, c.pending_gates
         FROM parts p LEFT JOIN completeness c ON c.part_id = p.id WHERE p.id = $1`, [part.id]),
     query<CheckRow>(`
       SELECT s.slug AS source, psc.outcome, psc.checked_at, psc.facts_found
@@ -47,8 +63,15 @@ export async function partGaps(part: PartIdentity): Promise<PartGaps> {
        WHERE g.part_id = $1 ORDER BY g.field_key`, [part.id]),
   ]);
   const checkItems: GapCheck[] = checks.rows.map((c) => ({ source: c.source, outcome: c.outcome, checked_at: c.checked_at.toISOString(), facts_found: c.facts_found }));
+  // THE REASON TRAVELS WITH THE EMPTY ANSWER, which is the whole point of having one. Every early
+  // return here produces a part with no field lists, and those are exactly the rows a consumer most
+  // needs a reason for -- returning `no_profile: true` with a null reason would reproduce the defect
+  // the column was added to end, on the one path where it is most visible.
+  const h0 = head.rows[0];
   const empty = (noProfile: boolean, computedAt: string | null): PartGaps =>
-    ({ no_profile: noProfile, computed_at: computedAt, required_fields: [], present: [], missing: [], checks: checkItems });
+    ({ no_profile: noProfile, computed_at: computedAt, required_fields: [], present: [], missing: [], checks: checkItems,
+       no_profile_reason: h0?.no_profile_reason ?? null, no_profile_rule: h0?.no_profile_rule ?? null,
+       pending: h0?.pending ?? 0, pending_gates: h0?.pending_gates ?? [] });
 
   const h = head.rows[0];
   if (!h || h.product_class !== "hardware") return empty(true, null);
@@ -63,6 +86,10 @@ export async function partGaps(part: PartIdentity): Promise<PartGaps> {
     present: h.required_fields.filter((k) => !missingSet.has(k)),
     missing: ledger.rows,
     checks: checkItems,
+    // A SCORED part is scored: the reason is null by construction, and saying so explicitly is what
+    // makes `no_profile_reason` readable as "null means scored" rather than "null means nobody wrote one".
+    no_profile_reason: null, no_profile_rule: null,
+    pending: h.pending ?? 0, pending_gates: h.pending_gates ?? [],
   };
 }
 

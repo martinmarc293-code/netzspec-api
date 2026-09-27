@@ -54,6 +54,23 @@ const Gaps = Type.Object({
   present: Type.Array(Type.String()),
   missing: Type.Array(GapField),
   checks: Type.Array(GapCheck, { description: "every source consultation on record, newest first" }),
+  // DECLARED HERE OR NOT SERVED AT ALL. Fastify strips any key this object does not name, so a field
+  // added to the query and not to the schema is invisible over HTTP while every producer-level check
+  // shows it present -- which is exactly how the layer 2/3 markers were verified and still absent on
+  // 27 Sep. Plain strings, never a union of literals: Nullable(Type.Union([...Literal])) serialises to
+  // {anyOf, nullable} and the response serialiser refuses it, turning every part GET into a 500.
+  no_profile_reason: Nullable(Type.String({
+    description: "WHY this part is not scored, when it is not: brand_not_arranged | non_hardware | kind_refused_by_role_table | category_has_no_profile. null means it IS scored.",
+  })),
+  no_profile_rule: Nullable(Type.String({
+    description: "the id of the rule that refused this row, for kind_refused_by_role_table only (e.g. sw.issue.ont), so a refusal can be traced without re-deriving it",
+  })),
+  pending: Type.Integer({
+    description: "cups counted in required_fields that are open because their GATE is unanswered, not because nobody has read a datasheet. Already inside required_fields; this says how many of them are waiting on something else.",
+  }),
+  pending_gates: Type.Array(Type.Object({ cup: Type.String(), gate: Type.Array(Type.String()) }), {
+    description: "which cup waits on which field. Answering the gate is a different job from extracting the value, and this is what says which one is in front of you.",
+  }),
 });
 
 async function loadPart(params: Static<typeof Params>): Promise<PartIdentity> {
