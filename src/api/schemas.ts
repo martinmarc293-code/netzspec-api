@@ -144,12 +144,24 @@ export const PartRecord = Type.Object({
   vendor: Type.String(), sku: Type.String(), slug: Type.String(),
   category: Type.Object({ slug: Type.String(), name_en: Type.String(), name_de: Type.String() }),
   /** THE HIERARCHY, in the order the layer model states it (src/core/productLine.ts layerModel):
-   *  1 `category.slug` → 2 `product_line` → 3 `product_family` → 4 `series`. `family` is NOT layer 3: since the
-   *  8 Sep migration it is the MODEL — the SKU minus its orderable suffix — which sits BELOW series and equals the
-   *  SKU on about two thirds of parts. A shop's category tree is built from product_line / product_family / series. */
-  series: Nullable(Type.String()),
+   *  1 `category.slug` → 2 `product_line` → 3 `product_family` → 4 `product_series`. `family` is NOT layer 3: since
+   *  the 8 Sep migration it is the MODEL — the SKU minus its orderable suffix — which sits BELOW series and equals
+   *  the SKU on about two thirds of parts. A shop's category tree is built from the first four.
+   *
+   *  CORRECTED 27 Sep 2026. This block said layer 4 was `series`, and `series` is the `parts.series` COLUMN, which
+   *  disagrees with the layering on 5,644 of 7,224 switches (78%) and 4,017 of 5,109 routers (79%) — holding a LINE
+   *  where a series belongs ("Meraki" for MS390), a mangled form ("Nexus9300 EX FX" for "Nexus 9300") or a
+   *  truncation. `product_series` is layer 4 as the layer artifact records it; `series` stays documented as the
+   *  column because `?series=` filters on it and the served field must not diverge from the filterable one. */
+  series: Nullable(Type.String({ description: "the parts.series COLUMN, which `?series=` filters on. NOT layer 4 — it disagrees with the layering on ~78% of switches (decision-sheet item 15). Use product_series for the hierarchy" })),
   product_line: Nullable(Type.String({ description: "layer 2, e.g. \"Catalyst\". null = the layering does not place this part (no line file for its vendor, or not a hardware row)" })),
-  product_family: Nullable(Type.String({ description: "layer 3. \"(none)\" where the line names no family and \"(shared across the line)\" for a line's shared accessories — explicit markers, never null for a placed part; null only when product_line is null" })),
+  product_family: Nullable(Type.String({ description: "layer 3, the Cisco family, e.g. \"Catalyst 9000\". null where the line names no family or the part is a line-level shared part — read product_family_state to tell those apart. Until 27 Sep 2026 this served the artifact's markers \"(none)\" and \"(shared across the line)\" verbatim, so a consumer printed \"(none)\" as a family name on 3,993 switches" })),
+  // A plain nullable string, NOT Nullable(Type.Union([...Literal])): `Nullable` spreads the schema and adds
+  // `nullable: true`, so a union becomes `{anyOf: [...], nullable: true}` and the response serialiser fails on it —
+  // every part GET returned `{"error":{"code":"internal"}}` and 32 cases went red. The three values are enforced by
+  // tests/db/api.test.ts instead, which is where the contract was already being checked.
+  product_family_state: Nullable(Type.String({ description: "one of \"named\" | \"no_family_named\" | \"shared_across_line\" — WHY product_family is null, so null never has to mean \"undecided\": Cisco names no family for this line (docs/decisions/2026-09-14-family-layer.md lists them), or the part is shared across the line. null only when the part is not layered at all" })),
+  product_series: Nullable(Type.String({ description: "layer 4 as the layer artifact records it, e.g. \"Catalyst 9300\" — the authoritative one. null = not layered" })),
   family: Nullable(Type.String({ description: "the MODEL (SKU minus its orderable suffix), below series — NOT the product family" })),
   product_class: Type.String(), name: Nullable(Type.String()), description: Nullable(Type.String()),
   datasheet_url: Nullable(Type.String()),
