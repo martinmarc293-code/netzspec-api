@@ -32,7 +32,15 @@ async function main(): Promise<void> {
     rows = (await client.query<{ category: string; sku: string; name: string }>(`
       SELECT c.slug AS category, p.sku, coalesce(p.name, '') AS name
         FROM parts p JOIN vendors v ON v.id = p.vendor_id JOIN categories c ON c.id = p.category_id
+        LEFT JOIN completeness cm ON cm.part_id = p.id
        WHERE v.slug = $1 AND p.retired_at IS NULL AND p.product_class = 'hardware' AND c.slug = ANY($2::text[])
+         -- THE FREEZE PINS THE SCORED POPULATION, WHICH IS WHAT THE LEDGERS DESCRIBE (27 Sep 2026).
+         -- Parts the role table refuses as the wrong kind are not scored (no_profile_reason =
+         -- kind_refused_by_role_table) and are excluded from the cup ledgers' kind populations, so
+         -- including them here would freeze a snapshot that contradicts the very ledgers this builder
+         -- cross-checks itself against -- which is exactly what it refused on: store 7224, ledger 7206.
+         -- Read from the stored reason, never re-derived, so one rule decides it in one place.
+         AND coalesce(cm.no_profile_reason, '') <> 'kind_refused_by_role_table'
        ORDER BY c.slug, p.sku`, [vendor, Object.keys(LEDGER_KINDS)])).rows;
   } finally {
     client.release();

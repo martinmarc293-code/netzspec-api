@@ -220,7 +220,18 @@ async function main(): Promise<void> {
            cp.required_total, cp.required_fields, cp.required_present
       FROM parts p JOIN vendors v ON v.id = p.vendor_id JOIN categories ct ON ct.id = p.category_id
       LEFT JOIN completeness cp ON cp.part_id = p.id
-     WHERE v.slug = $1 AND p.retired_at IS NULL AND p.product_class = 'hardware'`, [vendor]);
+     WHERE v.slug = $1 AND p.retired_at IS NULL AND p.product_class = 'hardware'
+       -- A PART THE ROLE TABLE REFUSES IS NOT IN THE POPULATION THIS REPORT DESCRIBES (27 Sep 2026).
+       -- recompute-completeness stopped scoring these (no_profile_reason = kind_refused_by_role_table:
+       -- 18 GPON/XGS-PON rows in switches that rule sw.issue.ont says are not Ethernet switches), and
+       -- the cup ledger excludes them from its kind populations for the same reason. If this query did
+       -- not, the report would describe 7,224 switches parts against the ledger's 7,206 and every
+       -- cross-check between the two artifacts would be measuring that gap instead of the mould --
+       -- which is exactly what cup_asked_matches_ledger and hardware_parts caught.
+       --
+       -- READ FROM THE STORED ROW, NOT RE-DERIVED. recompute wrote the reason; re-deriving the refusal
+       -- here would be a second implementation of the rule that can drift from the one that scored.
+       AND coalesce(cp.no_profile_reason, '') <> 'kind_refused_by_role_table'`, [vendor]);
 
   // `held` = a row passing the operator's rule (heldRowSql); `spec` = any spec-bearing doc type (the LEGACY held).
   const docRows = await q<{ part_id: string; held: boolean; spec: boolean; spec_docclass: boolean; types: string[] }>("documents per part", `
@@ -244,9 +255,15 @@ async function main(): Promise<void> {
      WHERE v.slug = $1 AND p.retired_at IS NULL AND f.superseded_by IS NULL AND f.method NOT LIKE 'retracted:%'`, [vendor]);
 
   // Independent aggregates for the cross-checks — computed in SQL, not from the arrays above.
-  const live = (await q<{ hardware_parts: number; parts_nothing_required: number; required_total_held: number; required_present_held: number }>("live aggregates", `
+  const live = (await q<{ hardware_parts: number; refused_by_role_table: number; parts_nothing_required: number; required_total_held: number; required_present_held: number }>("live aggregates", `
     WITH held AS (SELECT DISTINCT dp.part_id FROM doc_parts dp WHERE ${heldRowSql("dp")})
     SELECT count(*) FILTER (WHERE p.product_class = 'hardware')::int AS hardware_parts,
+           -- COUNTED, NOT FILTERED OUT (27 Sep 2026). The report describes the SCORED population and so
+           -- excludes parts the role table refuses, but the live catalogue count must stay the live
+           -- catalogue count or the difference becomes invisible. Carried here so hardware_parts can
+           -- assert the IDENTITY -- live = scored + refused -- instead of one number quietly shrinking.
+           count(*) FILTER (WHERE p.product_class = 'hardware'
+                              AND cp.no_profile_reason = 'kind_refused_by_role_table')::int AS refused_by_role_table,
            -- exactly /v1/stats/gaps parts_nothing_required (src/api/queries/gaps.ts), summed over the vendor
            count(*) FILTER (WHERE NOT cp.no_profile AND cp.required_total = 0)::int AS parts_nothing_required,
            COALESCE(sum(cp.required_total) FILTER (WHERE p.product_class = 'hardware' AND h.part_id IS NOT NULL), 0)::int AS required_total_held,
@@ -697,7 +714,7 @@ async function main(): Promise<void> {
       // over, and tests/completeness.test.ts fails when the two files name different hashes. A missing file is said.
       ...readFreezeHash(vendor),
       worktree_dirty_paths: dirty,
-      live_at_build: { hardware_parts: live.hardware_parts, parts_nothing_required: live.parts_nothing_required, required_total_held: live.required_total_held },
+      live_at_build: { hardware_parts: live.hardware_parts, refused_by_role_table: live.refused_by_role_table, parts_nothing_required: live.parts_nothing_required, required_total_held: live.required_total_held },
       census_replay_parity: parityRows,
       pending_reclassification: Object.fromEntries(pendingReclass),
       defects_basis: "would_refuse and could_not_replay are computed PER PART by the census replay copied verbatim (not taken from the census's per-category totals, which carry no part), after `census_replay_parity` proved the copy reproduces every committed census total",
@@ -709,7 +726,7 @@ async function main(): Promise<void> {
     model_disagreements,
     cross_checks: [],
   };
-  const ctx: CheckContext = { ledgers, live: { hardware_parts: live.hardware_parts, parts_nothing_required: live.parts_nothing_required, required_total_held: live.required_total_held } };
+  const ctx: CheckContext = { ledgers, live: { hardware_parts: live.hardware_parts, refused_by_role_table: live.refused_by_role_table, parts_nothing_required: live.parts_nothing_required, required_total_held: live.required_total_held } };
   const checks: CrossCheck[] = [
     ...checkReport(report, ctx),
     { name: "census_replay_parity", passed: parity.length === 0, detail: parity.length ? parity.join("; ") : `ok over ${parityRows.length} censuses` },

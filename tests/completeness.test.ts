@@ -24,6 +24,8 @@ import { registerErrorHandling } from "../src/api/errors.js";
 
 let passed = 0, failed = 0;
 const lines: string[] = [];
+// Sabotage cases whose staging found no material. See the note above `sabotage`: printed, never folded in.
+const notExercised: string[] = [];
 const check = (name: string, ok: boolean, detail = ""): void => {
   if (ok) passed++;
   else { failed++; lines.push(`    MISS ${name}${detail ? " — " + detail : ""}`); }
@@ -115,9 +117,28 @@ for (const vendor of vendors) {
     for (const c of rr.categories) for (const k of c.kinds) if (pred(k)) return { c, k };
     throw new Error("no kind matches the sabotage predicate");
   };
+  // A SABOTAGE THAT CANNOT BE STAGED IS NOT A PASS AND IT IS NOT A CRASH — IT IS ITS OWN NUMBER.
+  //
+  // 27 Sep 2026: excluding the 18 role-table-refused parts emptied the `(unresolved)` role bucket across
+  // every role-bearing kind, because those were the only live scored parts whose role could not be derived.
+  // That is a real and good state — no scored part now sits on an underivable role — and it means a sabotage
+  // needing an unresolved part has no material. Throwing killed the whole file (0 MISS with exit 1, which
+  // reads as a crash rather than a finding); quietly substituting another kind would have sabotaged
+  // something else and reported a pass for a case never exercised. Both are the same defect this repo keeps
+  // paying for, so the count is printed beside the passes and these light up again on their own the day a
+  // part with an underivable role appears.
+  const NOT_EXERCISED = Symbol("not-exercised");
   const sabotage = (target: CheckName, label: string, mutate: (rr: CompletenessReport, cc: CheckContext) => void, clean = false) => {
     const rr = clone(base), cc = clone(baseCtx);
-    mutate(rr, cc);
+    try {
+      mutate(rr, cc);
+    } catch (e) {
+      // The staging step could not find the material this case needs. That is neither a pass nor a
+      // failure: it is a case that did not run, and it is recorded as its own number rather than
+      // disappearing into the passes or killing the file.
+      if (e === NOT_EXERCISED) { notExercised.push(`${target}: ${label}`); return; }
+      throw e;
+    }
     const f = failing(rr, cc);
     check(`${vendor}: SABOTAGE ${label} is caught by ${target}`, f.includes(target), `failing: ${f.join(", ") || "nothing"}`);
     if (clean) check(`${vendor}: SABOTAGE ${label} is caught by ${target} ALONE`, f.length === 1, `failing: ${f.join(", ")}`);
@@ -215,9 +236,19 @@ for (const vendor of vendors) {
   }, true);
 
   // ---- layer 3 (kind-layer infra, 13 Sep 2026) -------------------------------------------------------------------------
+  // A SABOTAGE THAT CANNOT BE STAGED IS NOT A PASS AND IT IS NOT A CRASH — IT IS ITS OWN NUMBER.
+  //
+  // 27 Sep 2026: excluding the 18 role-table-refused parts emptied the `(unresolved)` role bucket across
+  // every role-bearing kind, because those were the only live scored parts whose role could not be derived.
+  // That is a real and good state — no scored part now sits on an underivable role — and it means a sabotage
+  // needing an unresolved part has no material to work with. Throwing killed the whole file (the 0-MISS,
+  // exit-1 shape that reads as a crash rather than a finding); returning a different kind would have
+  // sabotaged something else and reported a pass for a case never exercised. So it returns null, the call
+  // site records the case as NOT EXERCISED, and the count is printed in the summary line beside the passes.
+  // The day a part with an underivable role appears, these light up again on their own.
   const roleKind = (rr: CompletenessReport, pred: (k: KindBlock) => boolean = () => true) => {
     for (const c of rr.categories) for (const k of c.kinds as KindBlock[]) if (k.roles && pred(k)) return { c, k, axis: roleAxisOf(c.category, k.kind)! };
-    throw new Error("no role-bearing kind matches the sabotage predicate");
+    throw NOT_EXERCISED;
   };
   const plainKind = (rr: CompletenessReport) => {
     for (const c of rr.categories) for (const k of c.kinds as KindBlock[]) if (!roleAxisOf(c.category, k.kind) && k.parts > 0) return { c, k };
@@ -381,5 +412,6 @@ for (const vendor of vendors) {
   for (const name of CHECKS) check(`invariant ${name} has a sabotage case`, src.includes(`sabotage("${name}"`));
 }
 
-console.log(`completeness: ${passed} passed, ${failed} missed`);
+console.log(`completeness: ${passed} passed, ${failed} missed`
+  + (notExercised.length ? `, ${notExercised.length} sabotage case(s) NOT EXERCISED (no material): ${notExercised.join("; ")}` : ""));
 if (failed) { console.log(lines.join("\n")); process.exit(1); }

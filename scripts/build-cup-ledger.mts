@@ -24,6 +24,7 @@ import path from "node:path";
 import { execSync } from "node:child_process";
 import { getPool, closePool } from "../src/store/index.js";
 import { partKind, FALLBACK_KINDS } from "../src/core/partKind.js";
+import { roleTableRefusal } from "../src/core/noProfileReason.js";
 import { kindQuestionSet, slotsAtNothingKnown, profileHash, LEDGER_KINDS } from "../src/core/cupLedger.js";
 import { PROFILES } from "../src/core/fieldSchema.js";
 import { NORM_VERSION } from "../src/core/specNormalize.js";
@@ -188,8 +189,29 @@ async function main(): Promise<void> {
   const kindIssueRows: { category: string; kind: string; sku: string; status: PlanStatus; plan: KindLayerPlan | null }[] = [];
   const byKind = new Map<string, DocAcc & { n: number; stored: number;
     facts3: number; noun: number; nounExempt: number; nounSkus: string[]; groups: Set<string>; roles: Map<string, RoleAcc> }>();
+  const refusedByRule = new Map<string, number>();
+  const refusedSkus: string[] = [];
   for (const p of parts) {
     const k = partKind(category, p.sku, p.name ?? undefined) ?? "(none)";
+    // A PART THE ROLE TABLE REFUSES IS NOT IN THIS KIND'S POPULATION (27 Sep 2026).
+    //
+    // `deployRoleResult` returns an ISSUE for a row the table says is not the kind its category scores it
+    // as — today `sw.issue.ont`, the 18 GPON/XGS-PON OLT and ONT rows sitting in `switches`.
+    // recompute-completeness stopped scoring them (completeness.no_profile_reason), so the report asks
+    // their cups of 4,224 parts while this ledger was still describing 4,242, and the two artifacts
+    // disagreed by exactly 18 — which is what `cup_asked_matches_ledger` caught. The ledger and the report
+    // must describe the SAME population or every cross-check between them is measuring the gap instead of
+    // the mould. Excluded here with the same predicate recompute uses, never a second copy of the rule.
+    //
+    // COUNTED AND PRINTED, never silently dropped: a denominator that moves without a line saying by how
+    // much and why is indistinguishable from one that moved for a bug.
+    const refusal = roleTableRefusal(category, k, p.sku, p.name);
+    if (refusal.refused) {
+      const id = refusal.rule ?? "(unnamed rule)";
+      refusedByRule.set(id, (refusedByRule.get(id) ?? 0) + 1);
+      if (refusedSkus.length < 40) refusedSkus.push(p.sku);
+      continue;
+    }
     const b = byKind.get(k) ?? { n: 0, stored: 0, spec: 0, specNotHeld: 0, legacy: 0, eolOnly: 0, noDoc: 0, facts3: 0, noun: 0, nounExempt: 0, nounSkus: [] as string[],
       groups: new Set<string>(), roles: new Map<string, RoleAcc>() };
     b.n++; b.stored += p.rt ?? 0;
@@ -303,6 +325,15 @@ async function main(): Promise<void> {
     _about: "TWO AXES. `asked_nothing` = the kind's question set is empty (a profile property, and the phase-1 number). `unresolved_kind` = the kind name means the axis could not say (a classifier property). They are independent: a named kind can be asked nothing, and an unresolved kind can be asked a cup. `facts3` and `device_noun` are the two detectors for a real product swallowed by either: a part holding three or more facts of its own, and a part whose NAME names a whole box. tests/cupLedger.test.ts asserts both axes. " + DEVICE_NOUN_RULE_ABOUT,
     device_noun_exempt_kinds: [...DEVICE_NOUN_EXEMPT_KINDS],
     hardware_parts: parts.length,
+    // Parts the role table REFUSES as the wrong kind. They are not scored (completeness.no_profile_reason
+    // = kind_refused_by_role_table) and so are not in any kind's population here either. Recorded with the
+    // rule that refused them so the number can be traced without re-deriving, and so the day their
+    // reclassification plan runs this goes to 0 and the tests notice.
+    refused_by_role_table: {
+      total: [...refusedByRule.values()].reduce((a, b) => a + b, 0),
+      by_rule: Object.fromEntries([...refusedByRule].sort((a, b) => b[1] - a[1])),
+      skus: refusedSkus.sort(),
+    },
     asked_nothing: census(askedNothing),
     unresolved_kind: {
       ...census(isUnresolved),

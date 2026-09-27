@@ -26511,18 +26511,6 @@ switches	CF-ADAPTER-SP	SP adapter for SUP720 and SUP720-10G	accessory
 switches	CF-ADAPTER=	Compact Flash Adapter for Sup720/3B/3BXL	accessory	
 switches	CF-IE3000-E=	IE 3000 Compact Flash Spare for Layer 3 SKU	flash	
 switches	CF-IE3000=	IE 3000 Compact Flash Spare	flash	
-switches	CGP-OLT	Cisco CGP-OLT	switch	
-switches	CGP-OLT-16T	Catalyst PON 16-port GPON OLT, 4 GE Combo ports (Copper RJ45 + SFP optical), 2 10GE SFP+	switch	
-switches	CGP-OLT-8T	Catalyst PON 8-port GPON OLT,4 GE Combo ports (Copper RJ45 + SFP optical), 2 10GE SFP+	switch	
-switches	CGP-ONT	Cisco CGP-ONT	switch	
-switches	CGP-ONT-1P	Cisco GPON ONT 1X1G PoE, 2.5G uplink	switch	
-switches	CGP-ONT-4P	Cisco GPON ONT 4X1G PoE+, 2.5G uplink	switch	
-switches	CGP-ONT-4PV	Cisco GPON ONT 4X1G PoE+, 2 voice ports, 2.5G uplink	switch	
-switches	CGP-ONT-4PVC	Catalyst PON 4-port GPON ONT, PoE+, 2 POTS RJ11, 1 CATV Coax	switch	
-switches	CGP-ONT-4TVCW-EU	Cisco GPON ONT Wireless-AC - EMEAR (EU plug)	switch	
-switches	CGP-ONT-4TVCW-IN	Cisco GPON ONT Wireless-AC - India	switch	
-switches	CGP-ONT-4TVCW-NA	Cisco GPON ONT Wireless-AC-Americas (US, CAN, Mex, Columbia)	switch	
-switches	CGP-ONT-4TVCW-x	Catalyst PON 4-port GPON ONT, 2 POTS RJ11, 1 CATV Coax, 1 Wi-Fi 2.4G/5GHz. x=Region Prefix. Currently -EU, -NA and -IN available. Please reach out for other regions. EU – EU power adapter, -E Wireless LNA regulatory domain NA – NA power adapter, -A Wireless LNA regulatory domain IN – IN power adapter, -H Wireless LNA regulatory domain	switch	
 switches	CGS-2520-16S-8PC	CGS2520 16FE SFP, 8FE Copper PoE+ & 2GE combo uplinks	switch	industrial
 switches	CGS-2520-16S-8PC=	CGS2520 16FE SFP, 8FE Copper PoE+ & 2GE combo uplinks	switch	industrial
 switches	CGS-2520-24TC	CGS2520 with 24FE Copper and 2 GE combo uplinks	switch	industrial
@@ -26615,12 +26603,6 @@ switches	EDU-C3850-48P-S	Cisco Catalyst 3850 48 Port Full PoE IP Base for K12	sw
 switches	EDU-C3850-48PW-S	Cisco Catalyst 3850 48 Port Full PoE w/ 5 AP license IPB K12	switch	access
 switches	EDU-C3850-48U-L	Cisco Catalyst 3850 48 Port UPOE LAN Base for K12	switch	access
 switches	EDU-C3850-48U-S	Cisco Catalyst 3850 48 Port UPOE IP Base for K12	switch	access
-switches	ENC-10G-ONT-01PR	Cisco ENC-10G-ONT-01PR	switch	
-switches	ENC-10G-ONT-01PR=	Ruggedized XGS-PON ONT, powered by PoE	switch	
-switches	ENC-10G-ONT-10	Cisco ENC-10G-ONT-10	switch	
-switches	ENC-10G-ONT-10=	XGS-PON ONT	switch	
-switches	ENC-10G-ONT-14A	Cisco ENC-10G-ONT-14A	switch	
-switches	ENC-10G-ONT-14A=	Multiport and ATA XGS-PON ONT	switch	
 switches	ESS-2020-16TC-CON	Embedded Service 2020 Switch, Expansion board, Conduction cooled	switch	industrial
 switches	ESS-2020-16TC-NCP	Embedded Service 2020 Switch, Expansion board, No cooling plate	switch	industrial
 switches	ESS-2020-24TC-CON	Embedded Service 2020 Switch, Main/Expansion board bundle, Conduction cooled, LAN Lite software	switch	industrial

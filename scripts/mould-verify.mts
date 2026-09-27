@@ -21,7 +21,7 @@ import { uncoveredEnumValues } from "../src/core/renderContract.js";
 import { mouldStatuses } from "../src/core/brandMould.js";
 import { NO_PROFILE_REASONS } from "../src/core/noProfileReason.js";
 import { partKind } from "../src/core/partKind.js";
-import { deployRoleResult, roleAxisOf } from "../src/core/deployRole.js";
+import { deployRoleResult, roleAxisOf, roleAxisKinds } from "../src/core/deployRole.js";
 import { query, closePool } from "../src/store/db.js";
 
 type Result = { state: "pass" | "fail" | "unavailable"; detail: string };
@@ -101,7 +101,23 @@ const TESTS: Test[] = [
           const read = new Set<string>();
           fields(rule, read);
           for (const g of read) {
-            if (COLUMN_BACKED.has(g) || g === "kind" || g === "deploy_role" || g === "modular") continue;
+            // A DERIVED GATE IS EXEMPT ONLY WHERE THE DERIVATION CAN SPEAK (27 Sep 2026). This line used to
+            // read `COLUMN_BACKED.has(g) || g === "kind" || g === "deploy_role" || g === "modular"`, which
+            // exempted `deploy_role` unconditionally — so the check could not see a cup gated on it, which is
+            // exactly the case it exists to catch. meraki gated NINE cups on a `deploy_role` its profile did
+            // not declare, plus unified-communications and data-center-networking, and all of them resolved
+            // `na` in silence while this test reported "no conditional cup is gated on an optional or
+            // undeclared field". The reviewer read the miss as source-map-versus-merged; it is not — PROFILES
+            // here IS the merged object, built at module load. The check was simply told to look away.
+            //
+            // `kind` is genuinely universal (partKind answers for every category that gates on it).
+            // `deploy_role` is answerable only where AXIS gives the category a role-bearing kind, and
+            // `modular` only in routers — so those exemptions are now conditional on the derivation having a
+            // population at all. A gate nothing can ever answer is a dead gate wherever it lives.
+            if (g === "kind") continue;
+            if (g === "deploy_role" && roleAxisKinds(cat).length > 0) continue;
+            if (g === "modular" && cat === "routers") continue;
+            if (COLUMN_BACKED.has(g) && g !== "deploy_role" && g !== "modular") continue;
             // An UNDECLARED gate is as unanswerable as an optional one and used to pass in silence: p[g]
             // is undefined, the === "opt" test is false, and the cup sits pending for ever with nothing
             // saying why. Both are now reported, and named apart because the fix differs.

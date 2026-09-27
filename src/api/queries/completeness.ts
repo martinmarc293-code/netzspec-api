@@ -217,7 +217,7 @@ export function ledgerCupKeys(lk: LedgerLike["kinds"][string]): string[] {
 }
 export type CheckContext = {
   ledgers?: Record<string, LedgerLike>;
-  live?: { hardware_parts: number; parts_nothing_required: number; required_total_held: number };
+  live?: { hardware_parts: number; refused_by_role_table?: number; parts_nothing_required: number; required_total_held: number };
 };
 
 /** The invariant names. Stable: the test's sabotage cases assert on them. */
@@ -278,8 +278,17 @@ export function checkReport(r: CompletenessReport, ctx: CheckContext = {}): Cros
     const missing = Object.keys(ctx.ledgers).filter((k) => !cats.some((c) => c.category === k));
     if (missing.length) fail("hardware_parts", `ledgers with no category block: ${missing.join(", ")}`);
   }
-  if (ctx.live && ctx.live.hardware_parts !== r.brand.hardware_parts) {
-    fail("hardware_parts", `brand ${r.brand.hardware_parts} != live count ${ctx.live.hardware_parts}`);
+  // THE IDENTITY, NOT AN EQUALITY (27 Sep 2026): live = scored + refused. The report describes the SCORED
+  // population, so parts the role table refuses as the wrong kind are not in it, and the live catalogue count
+  // is larger by exactly those. Asserting the identity keeps BOTH numbers on screen and makes the difference
+  // provable; asserting plain equality would have forced one of them to quietly become the other, which is how
+  // a denominator moves without anybody being able to say by how much or why.
+  if (ctx.live) {
+    const refused = ctx.live.refused_by_role_table ?? 0;
+    if (ctx.live.hardware_parts !== r.brand.hardware_parts + refused) {
+      fail("hardware_parts", `live ${ctx.live.hardware_parts} != scored ${r.brand.hardware_parts} + refused ${refused} `
+        + `(off by ${ctx.live.hardware_parts - r.brand.hardware_parts - refused})`);
+    }
   }
 
   // arranged_partition: asked + asked_nothing_fallback == hardware_parts at every level
