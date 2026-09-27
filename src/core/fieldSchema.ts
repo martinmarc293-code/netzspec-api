@@ -1006,7 +1006,13 @@ export const FIELD_DICTIONARY: Record<string, FieldDef> = {
   cellular_bands: { key: "cellular_bands", de: "Unterstützte Mobilfunkbänder", en: "Supported cellular bands", type: "ls", domain: CELLULAR_BAND_DOMAIN, etim: [], icecat: null },
   // RETYPED to open lists: each cell is already a list held as one string ("● OPUS, G.722, G.722.2, iSAC …";
   // "● H.264, H.265, AV1"; "1 port GE and 1 VADSL (Annex B/J)"). 80 / 0 / 14 / 14 current facts, all cisco.
-  audio_codecs: { key: "audio_codecs", de: "Audio-Codecs", en: "Audio codecs", type: "ls", etim: [], icecat: null },
+  // THE ONE GENUINELY CLOSED ENUM AMONG THE 149 UNDEFINED REQUIRED CUPS (step 3, 27 Sep 2026), and
+  // measuring is what established that: 490 stored values, 13 distinct spellings, SEVEN codecs. The
+  // spellings-to-canonical rules live beside it in specNormalize's ENUM_RULES and the two are ONE change —
+  // the domain without them drops four codecs from a seven-codec cell in silence, which is why the first
+  // attempt at this was reverted rather than landed in halves.
+  audio_codecs: { key: "audio_codecs", de: "Audio-Codecs", en: "Audio codecs", type: "ls",
+    domain: ["g711", "g722", "g722-2", "g729", "opus", "ilbc", "isac"], etim: [], icecat: null },
   video_codecs: { key: "video_codecs", de: "Video-Codecs", en: "Video codecs", type: "ls", etim: [], icecat: null },
   lan_interfaces: { key: "lan_interfaces", de: "LAN-Schnittstellen", en: "LAN interfaces", type: "ls", etim: [], icecat: null },
   wan_interfaces: { key: "wan_interfaces", de: "WAN-Schnittstellen", en: "WAN interfaces", type: "ls", etim: [], icecat: null },

@@ -98,6 +98,14 @@ export const ENUM_DE: Readonly<Record<string, ValueCover>> = {
     perpetual: "Unbefristet", subscription: "Abonnement", term: "Laufzeit", trial: "Testversion", embedded: "Integriert" } },
   delivery_method: { map: { electronic: "Elektronisch", physical: "Physisch" } },
   antenna_type: { map: { internal: "Intern", external: "Extern" } },
+  // AUDIO CODECS ARE PROPER NOUNS AND RENDER AS THEMSELVES, which is a rendering and not an omission —
+  // "G.711" is G.711 in a German shop cell. Written as an explicit map rather than left to a rule,
+  // because the canonical slugs (g722-2) are not what a buyer should read (G.722.2): a rule that
+  // uppercased them would print "G722-2", and a rule total over every value is the shape that made the
+  // coverage check vacuous on 26 Sep. Seven entries, one per codec the domain admits.
+  audio_codecs: { map: {
+    g711: "G.711", g722: "G.722", "g722-2": "G.722.2", g729: "G.729",
+    opus: "Opus", ilbc: "iLBC", isac: "iSAC" } },
   dac_type: { map: { passive: "Passiv", active: "Aktiv" } },
   mic_type: { map: {
     omnidirectional: "Omnidirektional", unidirectional: "Unidirektional", array: "Mikrofon-Array", beamforming: "Beamforming" } },

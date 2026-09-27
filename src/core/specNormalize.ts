@@ -969,6 +969,32 @@ function inBand(category: string, key: string, v: number): NormResult | null {
 /** Ordered synonym rules per enum field. First matching pattern wins, so put the specific
  *  patterns before the general ones ("SFP+" must beat "SFP", "802.3bt" must beat "802.3at"). */
 const ENUM_RULES: Record<string, [RegExp, string][]> = {
+  // AUDIO CODECS, 27 Sep 2026. `audio_codecs` was a required cup with no domain, so nothing could refuse
+  // anything written into it. Measured before writing one: 490 stored values, THIRTEEN distinct spellings,
+  // SEVEN actual codecs — G.711 three ways, G.729 three ways, iSAC and iLBC bare and spelled out, and
+  // G.722 / G.722.2 / OPUS once each.
+  //
+  // TWO OF THE THIRTEEN DIFFER ONLY BY AN INVISIBLE CHARACTER: "G.711(a-law/μ-law)" uses GREEK SMALL
+  // LETTER MU and "G.711 (a-law/µ-law)" uses the MICRO SIGN. No reader could ever tell them apart, and a
+  // domain built by collecting the raw values would carry both as separate members. That is the whole
+  // argument for a canonical vocabulary plus rules, rather than a list of what happens to be stored.
+  //
+  // THE DOMAIN AND THESE RULES ARE ONE CHANGE, NOT TWO. Landing the domain alone was tried and reverted:
+  // tests/freeStringCups.test.ts showed the cost immediately — "G.711 (A-law and µ-law), G.722, G.722.2,
+  // G.729ab, iLBC, iSAC, OPUS" normalised to ["ilbc","isac","opus"], FOUR CODECS SILENTLY DROPPED, and the
+  // next case refused outright. A vocabulary without its spellings is a data-loss machine.
+  //
+  // ORDER MATTERS ONCE: G.722.2 is a different codec from G.722 (AMR-WB against wideband), so it must be
+  // matched first or every G.722.2 becomes a G.722. No `\b` anywhere, for the reasons given below.
+  audio_codecs: [
+    [/g\.?\s?722\.2/i, "g722-2"],
+    [/g\.?\s?722/i, "g722"],
+    [/g\.?\s?711/i, "g711"],
+    [/g\.?\s?729/i, "g729"],
+    [/ilbc|internet\s+low\s+bitrate/i, "ilbc"],
+    [/isac|internet\s+speech\s+audio/i, "isac"],
+    [/opus/i, "opus"],
+  ],
   // DRIVE INTERFACE, 12 Sep 2026 (round-6 B4b). The cup was closed to an enum because a free string
   // was carrying three quantities: the interface, a bare lane count ("3X" 12, "1X" 11) and a drive
   // endurance ("1DWPD" 4). These rules exist for the interfaces that arrive spelled more than one

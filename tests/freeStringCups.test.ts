@@ -110,7 +110,13 @@ const decision = fs.existsSync(DECISION_FILE) ? fs.readFileSync(DECISION_FILE, "
   pin("mounting", { type: "ls", domain: ["rack-19", "rack-23", "rack-etsi", "desktop", "under-desk", "wall", "ceiling", "pole", "din-rail", "panel"] });
   pin("standard", { type: "ls" }); check("standard domain admits all four families and no medium", ["10gbase-sr", "802.11ac", "dwdm", "oc-3"].every((m) => d.standard.domain?.includes(m)) && !["dac", "aoc", "sr", "cpak"].some((m) => d.standard.domain?.includes(m)));
   pin("ip_rating", { type: "e" }); check("ip_rating domain is the IEC 60529 grid (80 codes, ip69k, no ipxx, no ip7x)", d.ip_rating.domain?.length === 80 && d.ip_rating.domain.includes("ip69k") && d.ip_rating.domain.includes("ipx4") && !d.ip_rating.domain.includes("ipxx") && !d.ip_rating.domain.includes("ip70"));
-  for (const k of ["audio_codecs", "video_codecs", "lan_interfaces", "wan_interfaces"]) pin(k, { type: "ls", domain: undefined });
+  // audio_codecs LEFT THIS LIST ON 27 SEP 2026. It was a required cup with no domain, so nothing could
+  // refuse anything written into it; measured, the catalogue held 490 values in 13 spellings of SEVEN
+  // codecs, which is a closed set and therefore writable. The other three stay open on evidence, not on
+  // habit: video_codecs has ZERO stored facts (a domain would be invention), and lan/wan_interfaces hold
+  // whole phrases like "4-port 10/100-Mbps managed", which are descriptions rather than enum members.
+  for (const k of ["video_codecs", "lan_interfaces", "wan_interfaces"]) pin(k, { type: "ls", domain: undefined });
+  pin("audio_codecs", { type: "ls", domain: ["g711", "g722", "g722-2", "g729", "opus", "ilbc", "isac"] });
   pin("ui_languages", { type: "ls" }); check("ui_languages domain is languages, not locales", d.ui_languages.domain?.includes("english") === true && !d.ui_languages.domain.some((l) => /[()]/.test(l)));
   for (const k of ["max_resolution", "video_quality_max", "display_resolution"]) pin(k, { type: "struct", shape: "{ w: n, h: n }" });
   pin("camera_zoom", { type: "n", unit: "x", band: [1, 100] });
@@ -200,10 +206,15 @@ const CASES: Case[] = [
   ["routers", "ip_rating", "IP70", R("ENUM_VIOLATION", "not in domain")],                              // sabotage: no such first digit
   ["routers", "ip_rating", "IPXX", R("ENUM_VIOLATION", "not in domain")],
   // ---- the retyped open lists -------------------------------------------------------------------------------
+  // audio_codecs NOW NORMALISES INSTEAD OF PASSING THROUGH, and these two rows are the reason the domain
+  // and its alias rules had to land together. Seven spellings in, seven canonical codecs out; the second
+  // row carries the spelled-out forms and the "mu-law" wording and still loses nothing. Landing the domain
+  // alone made the first row come back as ["ilbc","isac","opus"] — four codecs gone in silence — and the
+  // second refuse outright, which is how the two-part change was caught before it shipped.
   ["collaboration-endpoints", "audio_codecs", "● G.711 (A-law and µ-law), G.722, G.722.2, G.729ab, iLBC, iSAC, OPUS",
-    ["G.711 (a-law/µ-law)", "G.722", "G.722.2", "G.729ab", "iLBC", "iSAC", "OPUS"]],
+    ["g711", "g722", "g722-2", "g729", "opus", "ilbc", "isac"]],
   ["collaboration-endpoints", "audio_codecs", "● G.711 a-law and mu-law, G.722, G.729a, Internet Low Bitrate Codec (iLBC), and Internet Speech Audio Codec (iSAC)",
-    ["G.711 a-law/µ-law", "G.722", "G.729a", "Internet Low Bitrate Codec (iLBC)", "Internet Speech Audio Codec (iSAC)"]],
+    ["g711", "g722", "g729", "ilbc", "isac"]],
   ["collaboration-endpoints", "video_codecs", "● H.264, H.265, AV1 and H.263 (Presentation channel)", ["H.264", "H.265", "AV1", "H.263 (Presentation channel)"]],
   ["routers", "wan_interfaces", "1 port GE and 1 VADSL (Annex B/J)", ["1 port GE", "1 VADSL (Annex B/J)"]],
   ["routers", "lan_interfaces", "4-port GE managed switch", ["4-port GE managed switch"]],
