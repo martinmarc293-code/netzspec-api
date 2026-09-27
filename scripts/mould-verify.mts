@@ -1269,10 +1269,30 @@ const TESTS: Test[] = [
       const scope = `${x.n.toLocaleString()} live parts; ${x.skuOnly.toLocaleString()} carry a name that is ` +
         `their own SKU with a word in front; ${x.noName.toLocaleString()} have no name at all; ` +
         `${stored.length} of 3 state columns exist (${stored.join(", ") || "none"})`;
-      return stored.length === 3 && x.skuOnly === 0
-        ? ok(`every part records what its name, image and lifecycle actually are — ${scope}`)
-        : bad(`the three states are not stored, so "has a name" cannot be told from "has a real name": ` +
-              `${x.skuOnly.toLocaleString()} parts are named after themselves and nothing records it — ${scope}`);
+      // THE TEST IS THAT THE DISTINCTION IS RECORDABLE, NOT THAT IT IS ZERO. The first version also
+      // demanded skuOnly === 0, which no amount of work can satisfy: a part whose vendor never
+      // published a name will be sku-only for ever, so the test could only be red for a reason
+      // nobody can act on. That is the same defect as counting licences in unknown_zero's
+      // denominator, and it was mine twice in one day.
+      //
+      // What IS checkable: the three columns exist, every live part carries all three, and no value
+      // outside the closed sets can exist because the database refuses one. The COUNTS are then a
+      // finding for the acquisition lane rather than a failure of the mould.
+      const unset = await query<{ n: string }>(
+        "SELECT count(*)::text AS n FROM parts WHERE retired_at IS NULL AND" +
+        " (name_state IS NULL OR image_state IS NULL OR lifecycle_state IS NULL)").catch(() => ({ rows: [{ n: "-1" }] }));
+      const missing = Number(unset.rows[0].n);
+      if (stored.length !== 3) {
+        return bad(`${3 - stored.length} of the three state columns do not exist, so "has a name" cannot ` +
+          `be told from "has a REAL name" at all — ${scope}`);
+      }
+      if (missing !== 0) {
+        return bad(`${missing.toLocaleString()} live parts carry no state, so the distinction exists in the ` +
+          `schema and not in the data — ${scope}`);
+      }
+      return ok(`every live part records what its name, image and lifecycle actually are — ${scope}; ` +
+        `${x.skuOnly.toLocaleString()} are sku-only, which is now RECORDED rather than invisible and is ` +
+        `work for the name lane, not a defect in the mould`);
     },
     selfTest: async () => {
       const realName = (sku: string, name: string) =>
