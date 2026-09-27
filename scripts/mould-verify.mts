@@ -17,7 +17,7 @@
  * known, printed debt — but the count is in the output of every single run so it cannot be forgotten.
  */
 import { shapeIsDefinition } from "../src/core/listShapes.js";
-import { FIELD_DICTIONARY, PROFILES, COLUMN_BACKED, domainFor, bandFor, FREE_TEXT_BY_DECISION, type Requirement } from "../src/core/fieldSchema.js";
+import { FIELD_DICTIONARY, PROFILES, COLUMN_BACKED, domainFor, bandFor, FREE_TEXT_BY_DECISION, requirementFor, type Requirement } from "../src/core/fieldSchema.js";
 import { uncoveredEnumValues } from "../src/core/renderContract.js";
 import { mouldStatuses } from "../src/core/brandMould.js";
 import { NO_PROFILE_REASONS } from "../src/core/noProfileReason.js";
@@ -58,6 +58,42 @@ const na = (detail: string): Result => ({ state: "unavailable", detail });
  * than turning green and being quietly retired by accident.
  */
 const none = (detail: string): Result => ({ state: "not_exercised", detail });
+
+// ---- helpers for kind_profile_parity (A1) -----------------------------------------------------
+
+/** The four sets a KIND alone is asked in a category, resolved through the REAL requirementFor on a
+ *  synthetic part carrying only that kind -- the same resolution the API performs for a part whose
+ *  other values are unknown. Sorted, so a diff is about membership and never about iteration order. */
+function resolveFourSets(category: string, kind: string): Record<string, string[]> {
+  const out: Record<string, string[]> = { req: [], pending: [], opt: [], na: [] };
+  const profile = PROFILES[category];
+  if (!profile) return out;
+  for (const key of Object.keys(profile)) {
+    const r = requirementFor(category, key, { kind });
+    (out[r] ??= []).push(key);
+  }
+  for (const k of Object.keys(out)) out[k].sort();
+  return out;
+}
+
+/** Every (category, kind) pair that actually holds a LIVE part. Asked of the database rather than of
+ *  the profiles, because a kind nobody has is a kind whose parity nobody is paying for -- and the
+ *  denominator of this test has to be the shape of the catalogue, not the shape of the config. */
+async function kindPairsWithParts(): Promise<{ pairs: { category: string; kind: string }[]; note: string }> {
+  const sql =
+    "SELECT c.slug AS category, p.sku_kind AS kind, count(*)::text AS n" +
+    " FROM parts p JOIN categories c ON c.id = p.category_id" +
+    " WHERE p.retired_at IS NULL AND p.sku_kind IS NOT NULL" +
+    " GROUP BY 1, 2 ORDER BY 1, 2";
+  try {
+    const r = await query<{ category: string; kind: string; n: string }>(sql);
+    return { pairs: r.rows.map((x) => ({ category: x.category, kind: x.kind })), note: `query: ${sql}` };
+  } catch (e) {
+    // A column that does not exist yet is a fact about the schema, not about parity. Reported rather
+    // than swallowed, and it lands as NOT EXERCISED with its producer named.
+    return { pairs: [], note: `could not read (category, kind) pairs: ${e instanceof Error ? e.message : String(e)}` };
+  }
+}
 
 // ---- the 27, declared whether or not they are written ------------------------------------------------------------
 const TESTS: Test[] = [
@@ -420,7 +456,79 @@ const TESTS: Test[] = [
         : na("no /v1/ledger registration found in src/api/routes/start.ts");
     },
   },
-  { name: "kind_profile_parity", findings: "B1" },
+  {
+    name: "kind_profile_parity",
+    findings: "B1",
+    needsDb: true,
+    // A KIND IS ONE THING. `power-supply` asks the same questions whether it sits under `routers` or
+    // `switches`; a cup that differs between two categories for the SAME kind is either a real
+    // distinction somebody decided, or -- far more often -- a profile that was edited in one place
+    // and not the other. Today nothing can tell those apart, because there is nowhere to record the
+    // decision: `kindProfiles.ts` with its {cup, reason, witness} exceptions is B4 and does not exist.
+    //
+    // So this test is EXPECTED to be red, and its value is the list: it names every divergent kind
+    // with the cups that differ, which is the input B4 needs. A red that names a real defect stays
+    // red (R4) -- this one must not be made green by widening it.
+    //
+    // Resolution goes through requirementFor on a synthetic part carrying ONLY the kind, which is how
+    // the API resolves a cup for a part whose other values are unknown. Anything a category adds on
+    // top of kind (a series gate, a deploy role) is deliberately out of frame: the question is whether
+    // the KIND alone is asked the same things.
+    run: async () => {
+      const { pairs, note } = await kindPairsWithParts();
+      if (!pairs.length) return none(`no (category, kind) pair holds a live part — ${note}`);
+      const byKind = new Map<string, { cat: string; sets: Record<string, string[]> }[]>();
+      for (const { category, kind } of pairs) {
+        const sets = resolveFourSets(category, kind);
+        const list = byKind.get(kind) ?? [];
+        list.push({ cat: category, sets });
+        byKind.set(kind, list);
+      }
+      const divergent: string[] = [];
+      let compared = 0, singleCategory = 0;
+      for (const [kind, rows] of byKind) {
+        if (rows.length < 2) { singleCategory++; continue; }   // nothing to compare: not a pass either
+        compared++;
+        const first = rows[0];
+        const diffs: string[] = [];
+        for (const other of rows.slice(1)) {
+          for (const bucket of ["req", "pending", "opt", "na"]) {
+            const a = new Set(first.sets[bucket]), b = new Set(other.sets[bucket]);
+            const onlyA = [...a].filter((k) => !b.has(k)), onlyB = [...b].filter((k) => !a.has(k));
+            if (onlyA.length || onlyB.length) {
+              diffs.push(`${bucket}: ${first.cat} has ${onlyA.length ? onlyA.slice(0, 4).join("/") : "—"}` +
+                         `, ${other.cat} has ${onlyB.length ? onlyB.slice(0, 4).join("/") : "—"}`);
+            }
+          }
+        }
+        if (diffs.length) divergent.push(`${kind} [${rows.map((r) => r.cat).join(" vs ")}] ${diffs[0]}`);
+      }
+      // The denominator and what could not be compared, both in the line: a kind that exists in ONE
+      // category has no parity to check and must not be counted as agreeing.
+      const scope = `${compared} kinds compared across ${pairs.length} (category, kind) pairs; ` +
+        `${singleCategory} kinds live in a single category and have no parity to check; ` +
+        `0 recorded exceptions (kindProfiles.ts is B4 and does not exist yet)`;
+      return divergent.length === 0
+        ? ok(`every kind is asked the same cups in every category it appears in — ${scope}`)
+        : bad(`${divergent.length} kinds are asked DIFFERENT cups depending on the category — ${scope}: ` +
+              divergent.slice(0, 6).join(" | ") + (divergent.length > 6 ? ` … +${divergent.length - 6}` : ""));
+    },
+    // NEGATIVE FIXTURE AND POSITIVE TWIN, both resolved through the REAL requirementFor rather than a
+    // stand-in, because a stand-in tests the logic I was thinking about and not the code that runs.
+    // Negative: routers vs switches for `power-supply` -- the pair the plan names as divergent today.
+    // Positive: a category compared against ITSELF, which must always agree; if that ever differs the
+    // resolver is non-deterministic and every verdict this test gives is worthless.
+    selfTest: async () => {
+      const diff = (aCat: string, bCat: string, kind: string) => {
+        const a = resolveFourSets(aCat, kind), b = resolveFourSets(bCat, kind);
+        return (["req", "pending", "opt", "na"] as const).every(
+          (k) => a[k].length === b[k].length && a[k].every((x, i) => x === b[k][i]));
+      };
+      const negative = diff("routers", "switches", "power-supply");   // must be FALSE: they diverge
+      const positive = diff("switches", "switches", "power-supply");  // must be TRUE: self-comparison
+      return { negative, positive, note: `routers vs switches on power-supply agrees=${negative}; switches vs itself agrees=${positive}` };
+    },
+  },
   { name: "four_sets_sum", findings: "B4" },
   { name: "no_family_reason_present", findings: "B2, B3" },
   { name: "bucket_not_series", findings: "B3" },
