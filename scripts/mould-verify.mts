@@ -1836,8 +1836,17 @@ const TESTS: Test[] = [
       const total = rows.reduce((n, r) => n + Number(r.n), 0);
       if (!rows.length) return ok("cisco is the only vendor with live hardware parts");
       const list = rows.map((r) => `${r.vendor} ${r.n}`).join(", ");
+      // WHAT CLOSING THIS WILL DO, said now so it is not read as a regression then (reviewer, 27 Sep 2026).
+      // The 22-row cup decision of 2026-09-27-a-kinds-cup-set-follows-the-physical-object.md measured ZERO
+      // non-cisco parts reached — and that zero is STRUCTURAL, not safety: a query on `sku_kind` cannot reach a
+      // part that has none. Across the eight categories that decision touches these vendors hold 1,369 live
+      // hardware parts (hpe 857, aruba 354, juniper 119, mikrotik 39) and not one carries a kind. The day this
+      // test goes green, all 22 rows land on those parts at once, as gaps. That is correct — a kind's cup set
+      // follows the physical object, and an HPE power supply has an input voltage for the same reason a Cisco
+      // one does — and someone reading the completeness report that morning should expect the drop.
       return bad(`${rows.length} vendors hold ${total} live hardware parts with NO layering, ledger or kinds: ${list}`
-        + ` — N62 named five of these ${rows.length}`);
+        + ` — N62 named five of these ${rows.length}. WHEN THIS CLOSES: 1,369 of them sit in the eight categories`
+        + ` the 22-row cup decision touches, so those rows land on them in one step, as gaps. Expected, not a regression`);
     },
   },
 ];

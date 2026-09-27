@@ -14,6 +14,7 @@
 // (data/freeze/<vendor>-kinds.tsv), and the test re-derives every kind from it with the live classifier.
 import crypto from "node:crypto";
 import fs from "node:fs";
+import { contentOf } from "./provenance.js";
 import path from "node:path";
 import { profileHash, LEDGER_KINDS } from "./cupLedger.js";
 import { FIELD_DICTIONARY, SUPERSEDED_KEYS } from "./fieldSchema.js";
@@ -147,15 +148,11 @@ export function freezeUnits(vendor: string, repoRoot: string, kindRows: KindRow[
   // reordered or reformatted file now hashes the same, which is a small loss of strictness and the right
   // trade — the alternative is a freeze nobody can reproduce twice running, and a hash that changes when
   // nothing about the arrangement has.
-  const aliasRaw = fs.readFileSync(path.join(repoRoot, "data", "schema", "attribute-aliases.en.json"), "utf8").replace(/\r\n/g, "\n");
-  const aliasText = (() => {
-    try {
-      const { build: _stamp, ...content } = JSON.parse(aliasRaw) as Record<string, unknown>;
-      return stable(content);
-    } catch {
-      return aliasRaw;   // not JSON after all: hash what is there rather than silently hashing nothing
-    }
-  })();
+  // A PROVENANCE STAMP IS NOT CONTENT -- the rule, and the three consumers it bit, live in one place now
+  // (src/core/provenance.ts). Hashing the raw text here made this freeze and scripts/mould-stamp.mts
+  // invalidate each other for ever: the stamp writes `build` into this file, which moved alias_file_sha,
+  // which moved the freeze hash, which required a regenerated freeze -- which the next stamp moved again.
+  const aliasText = contentOf(fs.readFileSync(path.join(repoRoot, "data", "schema", "attribute-aliases.en.json"), "utf8"));
   const conflicts = conflictTableText(repoRoot);
 
   const denominators: FreezeUnits["denominators"] = {};
