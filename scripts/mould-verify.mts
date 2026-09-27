@@ -496,27 +496,52 @@ const TESTS: Test[] = [
       const pick = new Set<string>();
       while (pick.size < 500) pick.add(all[Math.floor(rnd() * all.length)]);
       const skus = [...pick];
-      const ids = (await query<{ id: number; sku: string; series: string | null }>(`
-        SELECT p.id, p.sku, p.series FROM parts p JOIN vendors v ON v.id=p.vendor_id
+      const ids = (await query<{ id: number; sku: string; series: string | null; product_series: string | null }>(`
+        SELECT p.id, p.sku, p.series, p.product_series FROM parts p JOIN vendors v ON v.id=p.vendor_id
          WHERE v.slug='cisco' AND p.retired_at IS NULL AND p.sku = ANY($1::text[])`, [skus])).rows;
       if (!ids.length) return na(`0 of 500 sampled SKUs resolved in the DB — a broken join, not a finding`);
       const recs = await partRecords(ids.map((r) => r.id), [...RENDERED_STATES], "https://api.netzspec.com/v1") as unknown as
         { sku: string; product_line: string | null; product_series: string | null; series: string | null }[];
-      const byCat = new Map<string, { n: number; seriesDiff: number; lineMissing: number }>();
+      const byCat = new Map<string, { n: number; seriesDiff: number; legacyDiff: number; bucketByDesign: number; lineMissing: number }>();
       for (const r of recs) {
         const a = art.get(r.sku); if (!a) continue;
-        const e = byCat.get(a.cat) ?? { n: 0, seriesDiff: 0, lineMissing: 0 };
+        const e = byCat.get(a.cat) ?? { n: 0, seriesDiff: 0, legacyDiff: 0, bucketByDesign: 0, lineMissing: 0 };
         e.n++;
-        if ((ids.find((i) => i.sku === r.sku)?.series ?? "") !== a.series) e.seriesDiff++;   // DB column vs layer page
+        // TWO COLUMNS, TWO QUESTIONS, AND ONLY ONE OF THEM IS THE LAYER. `product_series` is the
+        // layer, written from these very artefacts, so a difference here means the WRITE did not
+        // land -- a missed row, a bad join (the first run mis-joined 20 parts across vendors), or a
+        // page built from a different artefact version. That is what this test is for.
+        //
+        // `p.series` is the legacy PLATFORM column and answers a different question: on a component
+        // it names the platform the part belongs to while the artefact names a layering bucket. It
+        // disagrees on ~78% and a dry run measured that repairing it from the artefact would be
+        // right for 21% of rows and wrong for 79%. So its divergence is counted and REPORTED, never
+        // judged -- folding it into the parity verdict would make this test permanently red for a
+        // reason that is not a defect.
+        const dbRow = ids.find((i) => i.sku === r.sku);
+        // A BUCKET ROW DIFFERS BY DESIGN and must not be counted as parity failure. The artefact puts
+        // a navigation bucket ("HyperFlex shared parts") in its series column for 5,806 rows; the
+        // database REFUSES one (parts_series_not_bucket_check) so the layer column is null there.
+        // Measured over every layered part: 5,806 rows differ and ALL 5,806 are buckets — zero are
+        // anything else. Counting them here would make this test permanently red for the database
+        // being right, and would hide the day a real parity break appears among them.
+        const isBucketRow = /shared parts$/i.test(a.series ?? "");
+        if (isBucketRow) e.bucketByDesign++;
+        else if ((dbRow?.product_series ?? "") !== a.series) e.seriesDiff++;   // the LAYER column vs the page
+        if ((dbRow?.series ?? "") !== a.series) e.legacyDiff++;           // the legacy platform column: reported only
         if (r.product_line !== a.line) e.lineMissing++;                                       // API record vs layer page
         byCat.set(a.cat, e);
       }
       const checked = [...byCat.values()].reduce((n, e) => n + e.n, 0);
       const sDiff = [...byCat.values()].reduce((n, e) => n + e.seriesDiff, 0);
       const lDiff = [...byCat.values()].reduce((n, e) => n + e.lineMissing, 0);
+      const legacy = [...byCat.values()].reduce((n, e) => n + e.legacyDiff, 0);
+      const buckets = [...byCat.values()].reduce((n, e) => n + e.bucketByDesign, 0);
       const perCat = [...byCat].sort((a, b) => b[1].seriesDiff - a[1].seriesDiff)
         .map(([c, e]) => `${c} ${e.seriesDiff}/${e.n}`).join(", ");
-      if (sDiff === 0 && lDiff === 0) return ok(`${checked} sampled SKUs: DB, layer page and API record agree on line and series`);
+      if (sDiff === 0 && lDiff === 0) return ok(`${checked} sampled SKUs: the LAYER column, the layer page and the API record agree on line and series` +
+        ` — ${buckets} bucket rows differ BY DESIGN (the DB refuses a navigation bucket as a series, the page still shows one) and are counted, not judged` +
+        ` — separately, the legacy p.series platform column differs from the page on ${legacy} of ${checked}, which is a different question and not a defect (docs/decisions, 27 Sep: repairing it would be right for 21% and wrong for 79%)`);
       return bad(`${checked} sampled: series DB-vs-page differs on ${sDiff} (${(100 * sDiff / checked).toFixed(1)}%), `
         + `product_line API-vs-page differs on ${lDiff}. PER-CATEGORY (the dry-run count for any series write): ${perCat}`);
     },
