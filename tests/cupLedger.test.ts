@@ -306,7 +306,7 @@ lines.unshift(`    cup ledger: ${passed} passed, ${failed} missed (${files.lengt
 }
 {
   // An MT sensor asked a PoE standard and a port count was the meraki defect. It runs on batteries.
-  const q = kindQuestionSet("meraki", "sensor");
+  const q = kindQuestionSet("meraki", "environment-sensor");
   check("meraki/sensor is asked a battery life", q.required.includes("battery_life"), q.required.join(","));
   check("meraki/sensor is asked no ports, no PoE, no power draw",
     !["ports", "poe_standard", "power_max"].some((k) => q.required.includes(k) || q.pending.some((p) => p.key === k)),
@@ -315,7 +315,7 @@ lines.unshift(`    cup ledger: ${passed} passed, ${failed} missed (${files.lengt
     not_applicable_by_kind: q.not_applicable_by_kind, optional: q.optional };
   const wrong = { ...good, required: [...good.required, { key: "poe_standard" }] };
   check("SABOTAGE a ledger asking a sensor for a PoE standard is caught",
-    drift("sensor", wrong, q).some((m) => m.includes("poe_standard") && m.includes("no longer asks")));
+    drift("environment-sensor", wrong, q).some((m) => m.includes("poe_standard") && m.includes("no longer asks")));
 }
 // NO KIND THAT HOLDS PARTS MAY BE ASKED NOTHING. A part with required_total = 0 scores as complete,
 // so a kind list that closes every question of a real population reports it as finished — the

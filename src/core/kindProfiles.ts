@@ -119,7 +119,16 @@ export const GATE_NOT_YET_POSSIBLE = {
  */
 export const KIND_PARITY_OPEN: readonly KindParityOpen[] = [
   { kind: "amplifier", cause: "kind-split", note: "optical-networking 15216-EDFA1= is an erbium-doped FIBRE amplifier (power_max); video 4000770 is an RF amplifier (tx_power). Two devices, one kind name." },
-  { kind: "sensor", cause: "kind-split", note: "meraki MT10 is an environmental sensor (battery_life, humidity_operating); wireless AIR-AP1800S-A-K9 is an access point with sensing radios (radio_bands, spatial_streams, wifi_generation, ap_max_clients). battery_life and ap_max_clients cannot belong to one kind." },
+  // RESOLVED 28 Sep 2026 and kept here as a record rather than deleted, because a register that only ever
+  // grows tells you nothing about what was done. `sensor` was SPLIT into `wireless-sensor` (the Aironet 1800S
+  // Wi-Fi monitoring sensor, 15 parts in wireless) and `environment-sensor` (the Meraki MT, 16 in meraki), on
+  // the test the reviewer set: battery_life and ap_max_clients cannot belong to one kind. wireless-sensor is
+  // the AP question set MINUS ap_max_clients, because a monitoring sensor serves no clients.
+  //
+  // The ruling first said "AIR-AP1800S is an access point filed as a sensor by a rule that matched the wrong
+  // token; fix partKind so it lands in ap" and BOTH halves of that were checkable and false: the rule is an
+  // explicit line written 13 Sep on purpose, and all 15 rows carry Cisco's own name "Aironet 1800S Series
+  // Network Sensor". Holding it and putting the evidence back is what turned it into the split above.
   { kind: "gateway", cause: "kind-split", note: "meraki MG21 is a CELLULAR gateway (cellular_bands); unified-communications SPA8000-BR is an ANALOGUE VOICE gateway (fxo_ports, fxs_ports, audio_codecs). The sharpest of the five." },
   { kind: "camera", cause: "kind-split", note: "collaboration-endpoints CD-DSKCAM-C-US is a conferencing camera (camera_zoom); meraki MV12 is a surveillance camera (image_sensor, storage_capacity, video_quality_max)." },
   { kind: "pluggable", cause: "kind-split", note: "optical-networking 15454-ML1000-2 is asked reach_max/wavelength; transceiver 15216-GBIC-1510 is asked ddm/form_factor/media/standard/temp_class. A DWDM line-card pluggable against a datacom optic — needs the operator, because unlike the other four the two cup sets are both plausible for one kind." },

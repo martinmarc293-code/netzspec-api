@@ -126,8 +126,15 @@ const translate = (r: Row) => {
     // NOT fixed by relaxing the constraint. The constraint names a real defect in the layer build
     // (A4 bucket_not_series was written for it), and widening a predicate to admit the thing it was
     // written to refuse is how a guard becomes decoration.
+    // THE ARTEFACT'S OWN COLUMN IS THE SOURCE NOW, and getting this wrong wrote NULL over 5,806 buckets.
+    // When the build started emitting `nav_bucket` and leaving `series` empty on those rows, `isBucket` — which
+    // reads `r.series` — became false for every bucket row, so the expression kept below as a "belt" turned
+    // into the ONLY thing setting the column and it set null. db_site_api_parity caught it on 68 of 500 sampled
+    // rows within the hour. A fallback that silently becomes the primary is worse than no fallback: it was
+    // written for a construct arriving through `series` from some future source, and that is exactly what it
+    // still does — second, after the real column.
     series: isBucket ? null : r.series,
-    bucket: isBucket ? [r.series!] : null,
+    bucket: r.bucket ? [r.bucket] : isBucket ? [r.series!] : null,
     kind: r.kind,
   };
 };

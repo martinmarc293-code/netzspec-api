@@ -42,20 +42,20 @@
 //                          (spec I.4). `accessory` keeps connectors, adapters, caps, batteries, tools and tags.
 //   The 115 ASR 5000/5500 packet-core rows keep their rules here only until the move plan runs (moves.json, routers).
 export type WirelessKind =
-  | "ap" | "sensor" | "wlc" | "antenna" | "backhaul" | "appliance" | "module"
+  | "ap" | "wireless-sensor" | "wlc" | "antenna" | "backhaul" | "appliance" | "module"
   | "power" | "power-injector" | "cable" | "mechanical" | "accessory" | "bundle" | "software" | "unknown";
 
 /** Radio devices that serve clients: asked the radio questions. */
 export const WL_AP: readonly WirelessKind[] = ["ap"];
 /** Whole boxes you mount, rack or power — they carry a physical envelope. */
-export const WL_BOX: readonly WirelessKind[] = ["ap", "sensor", "wlc", "backhaul", "appliance"];
+export const WL_BOX: readonly WirelessKind[] = ["ap", "wireless-sensor", "wlc", "backhaul", "appliance"];
 /** Kinds with an Ethernet port count a buyer compares. kind-layer (13 Sep 2026): + appliance (spec I.4 APPLIANCE = ENV +
  *  ports) and module (MODULE: ports, data_rate, product_compatibility). */
-export const WL_PORTED: readonly WirelessKind[] = ["ap", "sensor", "wlc", "backhaul", "appliance", "module"];
+export const WL_PORTED: readonly WirelessKind[] = ["ap", "wireless-sensor", "wlc", "backhaul", "appliance", "module"];
 /** Every kind the axis can name, in a stable order (the ledger and the test iterate it). `mechanical` is listed
  *  once, by LEDGER_KINDS (nameMarker.NAME_ONLY_KINDS), which de-duplicates it. */
 export const WL_KINDS: readonly WirelessKind[] =
-  ["ap", "sensor", "wlc", "antenna", "backhaul", "appliance", "module", "power", "power-injector",
+  ["ap", "wireless-sensor", "wlc", "antenna", "backhaul", "appliance", "module", "power", "power-injector",
    "cable", "mechanical", "accessory", "bundle", "software", "unknown"];
 
 const RULES: { kind: WirelessKind; re: RegExp }[] = [
@@ -90,7 +90,7 @@ const RULES: { kind: WirelessKind; re: RegExp }[] = [
   // Ctlr for HA, Hospitality" (above, wlc) was an AP by the AIR-<4 digits><letter> rule (item 3 issue).
   { kind: "ap", re: /^C91\d\dAX[A-Z]*-[A-Z]{1,2}-CAP$/ },
   // kind-layer (13 Sep 2026): the Aironet 1800S Network Sensor (item 3 issue: "network sensor (not an AP)").
-  { kind: "sensor", re: /^AIR-AP1800S-/ },
+  { kind: "wireless-sensor", re: /^AIR-AP1800S-/ },
   // kind-layer (13 Sep 2026): CW-ACC-MEM-32G "Additional 32GB Storage for Application Hosting" is a module, not a
   // CW-ACC- accessory.
   { kind: "module", re: /^CW-ACC-MEM-/ },

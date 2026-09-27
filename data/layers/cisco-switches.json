@@ -1,14 +1,15 @@
 {
   "vendor": "cisco",
   "category": "switches",
-  "built_at": "2026-09-27T20:35:06.436Z",
-  "commit": "a56713e617060046d646f99dd53cbf4e0b4fa999",
+  "built_at": "2026-09-27T23:24:20.710Z",
+  "commit": "83feaebcf224cd87dd094bf9d352e869f820d537",
   "uncommitted_rule_files": [
-    "scripts/build-layers.mts",
-    "scripts/check-layer-site.mts",
-    "scripts/write-layers-to-db.mts",
-    "src/api/queries/layerIndex.ts",
-    "src/core/layerChecks.ts"
+    "src/core/cupLedger.ts",
+    "src/core/fieldSchema.ts",
+    "src/core/layerChecks.ts",
+    "src/core/merakiKind.ts",
+    "src/core/physicalObjectCups.ts",
+    "src/core/wirelessKind.ts"
   ],
   "mapping_file": "data/reference/product-lines/cisco-switches.json",
   "parts": 7224,
@@ -4812,9 +4813,9 @@
   "inbound_unplaced": {},
   "done": true,
   "build": {
-    "data_commit": "a47ebdb20dcf+89dirty",
-    "code_commit": "a47ebdb20dcf",
-    "contract_hash": "14fcc8449dda617a",
-    "generated_at": "2026-09-27T23:05:40.008Z"
+    "data_commit": "1c1c5e8984af+92dirty",
+    "code_commit": "83feaebcf224",
+    "contract_hash": "8afedbb94693dda0",
+    "generated_at": "2026-09-27T23:49:14.008Z"
   }
 }

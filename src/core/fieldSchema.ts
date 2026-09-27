@@ -1186,7 +1186,7 @@ export const AXIS_GATED_CATEGORIES: Readonly<Record<string, readonly string[]>> 
   // switch-or-router field would describe, and its real profile is `optical-networking`'s.
   // kind-layer (13 Sep 2026): `voice` folded into `interface` (+ DSP banks into `module`), `service` renamed `module`.
   "interfaces-modules": ["interface", "fabric", "cellular", "radio", "module", "device"],
-  meraki: ["unknown", "switch", "access-point", "appliance", "camera", "sensor", "gateway"],
+  meraki: ["unknown", "switch", "access-point", "appliance", "camera", "environment-sensor", "gateway"],
   "data-center-networking": ["switch", "fex"],
 };
 
@@ -2095,7 +2095,7 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     wifi_generation: cond({ field: "kind", inList: ["access-point"] }),
     // An MT sensor runs on batteries: all 16 hold battery_count, battery_life and external_power,
     // and none holds a power draw. 6 hold a life figure.
-    battery_life: cond({ field: "kind", inList: ["sensor"] }),
+    battery_life: cond({ field: "kind", inList: ["environment-sensor"] }),
     battery_count: opt,
     // A cellular gateway is bought on its bands. 0 of 38 hold one — a coverage gap, not a wrong
     // cup: "Bands supported" / "Bands" occur 56 times in the Cisco datasheet vocabulary.
@@ -3011,15 +3011,15 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     //   mesh-extender deltas are demotions (regulatory_domain, ap_max_clients; ports) and are listed for the parent's
     //   measurement, not applied. wind_rating, max_mesh_extenders stay optional (generated half).
     // The (kind, role, cup, proposed status) list is in D:/tmp/kindlayer-impl/3-wireless-collab/REPORT.md.
-    wifi_generation: cond({ field: "kind", inList: [...WL_AP, "sensor", "backhaul"] }),
-    spatial_streams: cond({ field: "kind", inList: [...WL_AP, "sensor", "backhaul"] }),
-    ap_max_clients: cond({ field: "kind", inList: [...WL_AP, "sensor"] }),
+    wifi_generation: cond({ field: "kind", inList: [...WL_AP, "wireless-sensor", "backhaul"] }),
+    spatial_streams: cond({ field: "kind", inList: [...WL_AP, "wireless-sensor", "backhaul"] }),
+    ap_max_clients: cond({ field: "kind", inList: [...WL_AP] }),
     // Band coverage is what an AP, a backhaul radio AND an antenna are matched on ("2.4 GHz 4dBi/5 GHz 7dBi").
-    radio_bands: cond({ field: "kind", inList: [...WL_AP, "sensor", "antenna", "backhaul"] }),
+    radio_bands: cond({ field: "kind", inList: [...WL_AP, "wireless-sensor", "antenna", "backhaul"] }),
     radio_count: cond({ field: "kind", inList: [...WL_AP, "backhaul"] }, { elseOpt: true }),
     max_data_rate: opt, tx_power: opt, rx_sensitivity: opt, max_ssids: opt,
     // The PoE class an AP DRAWS. Required of APs, and of an injector (the class it SUPPLIES).
-    poe_standard: cond({ field: "kind", inList: [...WL_AP, "sensor", "backhaul", "power-injector"] }),
+    poe_standard: cond({ field: "kind", inList: [...WL_AP, "wireless-sensor", "backhaul", "power-injector"] }),
     ports: cond({ field: "kind", inList: [...WL_PORTED] }),
     // kind-layer (13 Sep 2026): the backhaul radio's own additions (spec II.4: AP + link_budget, max_roaming_speed).
     // DEMOTED (operator, 25 Sep 2026): 41 backhaul radios. One fact exists on this key in the whole store and it came
@@ -3084,7 +3084,7 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // kind-layer (13 Sep 2026): the spec's ANTENNA archetype lists `antenna_type` — NOT applied to kind `antenna`: this key's
     // domain is internal/external, which cannot hold an antenna's pattern (omni / directional / patch). Listed for the parent
     // as a one-cup-one-meaning conflict. The backhaul radio (AP + ...) and the sensor take it as the AP does.
-    antenna_type: cond({ field: "kind", inList: [...WL_AP, "sensor", "backhaul"] }),
+    antenna_type: cond({ field: "kind", inList: [...WL_AP, "wireless-sensor", "backhaul"] }),
     // DECLARED, NOT YET ASKED. The cup, its domain and its fill path are settled above; it stays
     // `opt` for one measurable reason: `requiredKeysByCategory` in build-source-fields counts `cond`
     // as required, and data/schema/source-fields.json — a GENERATED file — has no entry for a key

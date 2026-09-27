@@ -27,7 +27,17 @@ export const PHYSICAL_OBJECT_CUPS: Record<string, Record<string, readonly string
     power: ["airflow", "psu_rated_output"],
     drive: ["drive_interface"],
     memory: ["memory_speed_max"],
-    cable: ["cable_length", "connector"],
+    // `connector` REMOVED 28 Sep 2026, and a test had the decision written down before I made it.
+    // tests/wirelessKind.test.ts asserts "cable keeps today's two (connector / media NOT added: optical and
+    // RJ45 domains, RF coax cables)" -- and it is right: connector's domain is
+    // [lc-duplex, lc-simplex, sc, mpo-12, mpo-16, mpo-24, rj45, integrated]. A router cable is
+    // "25-ft Low Loss LMR-240 Cable with TNC Connector" or "20-ft LMR 400 with N Connectors"; neither TNC nor
+    // N-type is a domain value, so the cup would be required and unsatisfiable -- the antenna_gain defect,
+    // in my own change. MY FILLABILITY CHECK ASKED THE WRONG QUESTION: "does this cup hold facts ANYWHERE"
+    // (2,328, yes) instead of "can a value for THESE parts be IN THE DOMAIN". Widening the domain is a
+    // dictionary change with its own all-vendor measurement, and note `antenna_connector` already carries the
+    // RF domain (rp-tnc, n-type), so an RF cable's connector may belong there rather than here.
+    cable: ["cable_length"],
     chassis: ["dimensions", "form_factor", "module_slots", "psu_config", "weight"],
     linecard: ["data_rate", "power_max"],
     fabric: ["power_max"],
@@ -51,10 +61,14 @@ export const PHYSICAL_OBJECT_CUPS: Record<string, Record<string, readonly string
     module: ["ports"],
   },
   "collaboration-endpoints": {
-    cable: ["connector"],
+    // `connector` out for the same reason: these are "Adaptor HDMI to DVID cable", "RJ.5 Microphone Cable",
+    // "USB-C 3.2 Gen 2X2 Active Cable". HDMI, DVI-D, RJ.5 and USB-C are none of them domain values.
     server: ["altitude_max", "cpu"],
   },
-  wireless: { cable: ["connector"] },
+  // wireless/cable is RF coax and power cords -- "20 ft. cable with RP-TNC connectors" -- so `connector` is
+  // out for the reason above. Nothing remains for this category, and the row is kept as a comment rather than
+  // deleted so the next reader sees it was considered and why.
+  // wireless: { cable: ["connector"] },
   "unified-communications": { server: ["altitude_max", "cpu"] },
   "hyperconverged-infrastructure": { bundle: ["product_compatibility"] },
   // pluggable joined the list on the reviewer's ruling rather than being a kind split: an ONS/NCS DWDM optic

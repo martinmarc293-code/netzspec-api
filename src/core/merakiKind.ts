@@ -57,13 +57,13 @@ export type MerakiKind =
   | "access-point"  // MR, CW
   | "appliance"     // MX, Z — security and SD-WAN
   | "camera"        // MV
-  | "sensor"        // MT
+  | "environment-sensor"        // MT
   | "gateway"       // MG — cellular
   | "accessory";    // mounting kits, cords, brackets
 
 /** Every kind that is a Meraki BOX: it is racked or mounted, powered, and has an envelope. */
 export const MK_BOX: readonly MerakiKind[] =
-  ["unknown", "switch", "access-point", "appliance", "camera", "sensor", "gateway"];
+  ["unknown", "switch", "access-point", "appliance", "camera", "environment-sensor", "gateway"];
 
 /** Kinds that carry Ethernet PORTS. An MT sensor has none — 0 of 16 hold a port key. */
 export const MK_PORTED: readonly MerakiKind[] = ["switch", "access-point", "appliance", "gateway"];
@@ -94,7 +94,7 @@ const RULES: { kind: MerakiKind; re: RegExp }[] = [
   { kind: "access-point", re: /^MR\d|^CW\d/ },
   // Z is the teleworker gateway (Z3, Z4) — an MX appliance in a small box, and it holds the same keys.
   { kind: "appliance", re: /^MX\d|^Z\d/ },
-  { kind: "sensor", re: /^MT\d/ },
+  { kind: "environment-sensor", re: /^MT\d/ },
 ];
 
 export function merakiKind(sku: string): MerakiKind {

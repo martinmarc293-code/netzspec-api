@@ -863,8 +863,8 @@ check("SABOTAGE merge: a plan that calls a hardware row non-hardware is refused"
   check("SABOTAGE status: a layered row with a blank family and a series with a null family are both refused", stBlank.length === 2 && /^1 layered row\(s\) with a blank family, e.g. ZZ-2/.test(stBlank[0]) && /^1 series with a blank family, e.g. L \/ S/.test(stBlank[1]), stBlank.join("; "));
   const dv = deviceInSharedParts([row("CVR328W-K9-CN", { kind: "router", product_line: "Small Business Routers", series: "Small Business Routers shared parts" }), row("PWR-60W-AC", { kind: "power", series: "ISR shared parts" })]);
   check("SABOTAGE devices: a router in shared parts is caught, a power supply there is not", dv.length === 1 && dv[0].sku === "CVR328W-K9-CN", JSON.stringify(dv));
-  const dv3 = deviceInSharedParts(["device", "ont", "olt", "ap", "wlc", "backhaul", "sensor"].map((k, i) => row(`ZZ-DEV-${i}`, { kind: k, series: "Cables and accessories shared parts" })));
-  check("SABOTAGE devices (round 3): a whole device of kind device / ont / olt / ap / wlc / backhaul / sensor in shared parts is caught", dv3.length === 7 && ["device", "ont", "olt", "ap", "wlc", "backhaul", "sensor"].every((k) => DEVICE_KINDS.has(k)), JSON.stringify(dv3.map((r) => r.kind)));
+  const dv3 = deviceInSharedParts(["device", "ont", "olt", "ap", "wlc", "backhaul", "wireless-sensor"].map((k, i) => row(`ZZ-DEV-${i}`, { kind: k, series: "Cables and accessories shared parts" })));
+  check("SABOTAGE devices (round 3): a whole device of kind device / ont / olt / ap / wlc / backhaul / sensor in shared parts is caught", dv3.length === 7 && ["device", "ont", "olt", "ap", "wlc", "backhaul", "wireless-sensor"].every((k) => DEVICE_KINDS.has(k)), JSON.stringify(dv3.map((r) => r.kind)));
   check("SABOTAGE devices (wireless round): an antenna or a bundle in shared parts is not a device", deviceInSharedParts([row("ZZ-ANT", { kind: "antenna", series: "X shared parts" }), row("ZZ-BUN", { kind: "bundle", series: "X shared parts" })]).length === 0);
   const dvs = deviceInSharedParts([row("UCSC-C420-M3", { kind: "server", series: "UCS C-Series Rack Servers shared parts" }), row("UCS-FI-6652=", { kind: "fabric-interconnect", series: "UCS Fabric Interconnects shared parts" }),
     row("UCS-S3348-RAIDM5", { kind: "storage-controller", series: "UCS Server Components shared parts" }), row("UCS-M6-MLB", { kind: "bundle", series: "UCS Server Components shared parts" })]);
@@ -895,7 +895,7 @@ check("SABOTAGE merge: a plan that calls a hardware row non-hardware is refused"
   check("SABOTAGE devices (collaboration round): a video device / codec, DECT base, camera, microphone, speaker, headset, touch panel, display and key expansion module in shared parts are caught, a mount, a cable, a supply and an accessory are not",
     dvcol.length === 10 && dvcol.every((r) => collabBox.includes(r.kind)), JSON.stringify(dvcol.map((r) => r.kind)));
   // meraki round: merakiKind's device nouns, the access point among them
-  const merakiBox = ["access-point", "camera", "appliance", "gateway", "sensor", "switch"];
+  const merakiBox = ["access-point", "camera", "appliance", "gateway", "environment-sensor", "switch"];
   const dvmk = deviceInSharedParts([...merakiBox.map((k, i) => row(`ZZ-MK-${i}`, { kind: k, series: "Meraki MV Smart Cameras shared parts" })),
     row("ZZ-MK-ACC", { kind: "accessory", series: "Meraki MG Cellular Gateways shared parts" }), row("ZZ-MK-UNK", { kind: "unknown", series: "Meraki MT Sensors shared parts" })]);
   check("SABOTAGE devices (meraki round): an access point, camera, appliance, gateway, sensor and switch in shared parts are caught, an accessory and an unknown are not",

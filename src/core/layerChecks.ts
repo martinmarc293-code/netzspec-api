@@ -44,7 +44,7 @@ export const nodeOf = (r: LayerRow): string => r.series || r.nav_bucket || r.nod
 // placeholders, and a few parts the kind axis reads as machines.
 // Layers round 3, security round: securityKind's SEC_BOX joins — `firewall`, `ips`, `email-gateway`, `web-gateway`, `management`,
 // `analytics`, `identity` (`appliance` was already here). Only the security axis returns these words.
-export const DEVICE_KINDS: ReadonlySet<string> = new Set(["router", "sp-router", "switch", "fex", "chassis", "appliance", "device", "ont", "olt", "ap", "wlc", "backhaul", "sensor", "server", "fabric-interconnect",
+export const DEVICE_KINDS: ReadonlySet<string> = new Set(["router", "sp-router", "switch", "fex", "chassis", "appliance", "device", "ont", "olt", "ap", "wlc", "backhaul", "wireless-sensor", "server", "fabric-interconnect",
   "firewall", "ips", "email-gateway", "web-gateway", "management", "analytics", "identity",
   // Layers round 3, video round: videoKind's VIDEO_BOX joins — `node` (GS7000 / fibre nodes) and `system` (configured systems); `chassis` was in.
   "node", "system",
@@ -59,7 +59,12 @@ export const DEVICE_KINDS: ReadonlySet<string> = new Set(["router", "sp-router",
   "video-device", "video-codec", "dect-base", "camera", "microphone", "speaker", "headset", "touch-panel", "display", "expansion-module",
   // Layers round 3, meraki round: merakiKind names an access point `access-point` (wireless's kind is `ap`); its camera, appliance,
   // gateway, sensor and switch nouns are already here.
-  "access-point"]);
+  "access-point",
+  // THE SENSOR SPLIT, 28 Sep 2026: `sensor` became `wireless-sensor` (the Aironet 1800S Wi-Fi monitoring
+  // sensor, above) and `environment-sensor` (the Meraki MT). BOTH are whole devices, and leaving the second
+  // out made the meraki sabotage case go red -- correctly: a Meraki MT in a line's shared parts is a device
+  // filed as a part, and this set is what says so.
+  "environment-sensor"]);
 export function deviceInSharedParts(rows: LayerRow[]): LayerRow[] {
   return rows.filter((r) => /shared parts$/.test(nodeOf(r) ?? "") && DEVICE_KINDS.has(r.kind ?? ""));
 }

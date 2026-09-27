@@ -588,21 +588,21 @@ AIR-AP1800I-T-K9	Cisco Aironet 1800i Series	Aironet 1800	ap	layered	Aironet Acce
 AIR-AP1800I-T-K9C	Cisco Aironet Mobility Express 1800i Series	Aironet 1800	ap	layered	Aironet Access Points	(none)	Aironet 1800		sku ^(AIR-|PROMO-|PPN-|PULS-)?AP180[02](?![0-9S])	indoor	series:Aironet 1800					
 AIR-AP1800I-Z-K9	Cisco Aironet 1800i Series (not for US)	Aironet 1800	ap	layered	Aironet Access Points	(none)	Aironet 1800		sku ^(AIR-|PROMO-|PPN-|PULS-)?AP180[02](?![0-9S])	indoor	series:Aironet 1800					
 AIR-AP1800I-Z-K9C	Cisco Aironet Mobility Express 1800i Series	Aironet 1800	ap	layered	Aironet Access Points	(none)	Aironet 1800		sku ^(AIR-|PROMO-|PPN-|PULS-)?AP180[02](?![0-9S])	indoor	series:Aironet 1800					
-AIR-AP1800S-A-K9	Cisco Aironet 1800S Series Network Sensor	Aironet 1800s Active Sensor	sensor	layered	Aironet Access Points	(none)	Aironet 1800s Active Sensor		sku ^(AIR-)?AP1800S							
-AIR-AP1800S-B-K9	Cisco Aironet 1800S Series Network Sensor (USA Only)	Aironet 1800s Active Sensor	sensor	layered	Aironet Access Points	(none)	Aironet 1800s Active Sensor		sku ^(AIR-)?AP1800S							
-AIR-AP1800S-D-K9	Cisco Aironet 1800S Series Network Sensor	Aironet 1800s Active Sensor	sensor	layered	Aironet Access Points	(none)	Aironet 1800s Active Sensor		sku ^(AIR-)?AP1800S							
-AIR-AP1800S-E-K9	Cisco Aironet 1800S Series Network Sensor	Aironet 1800s Active Sensor	sensor	layered	Aironet Access Points	(none)	Aironet 1800s Active Sensor		sku ^(AIR-)?AP1800S							
-AIR-AP1800S-F-K9	Cisco Aironet 1800S Series Network Sensor	Aironet 1800s Active Sensor	sensor	layered	Aironet Access Points	(none)	Aironet 1800s Active Sensor		sku ^(AIR-)?AP1800S							
-AIR-AP1800S-G-K9	Cisco Aironet 1800S Series Network Sensor	Aironet 1800s Active Sensor	sensor	layered	Aironet Access Points	(none)	Aironet 1800s Active Sensor		sku ^(AIR-)?AP1800S							
-AIR-AP1800S-H-K9	Cisco Aironet 1800S Series Network Sensor	Aironet 1800s Active Sensor	sensor	layered	Aironet Access Points	(none)	Aironet 1800s Active Sensor		sku ^(AIR-)?AP1800S							
-AIR-AP1800S-I-K9	Cisco Aironet 1800S Series Network Sensor	Aironet 1800s Active Sensor	sensor	layered	Aironet Access Points	(none)	Aironet 1800s Active Sensor		sku ^(AIR-)?AP1800S							
-AIR-AP1800S-K-K9	Cisco Aironet 1800S Series Network Sensor	Aironet 1800s Active Sensor	sensor	layered	Aironet Access Points	(none)	Aironet 1800s Active Sensor		sku ^(AIR-)?AP1800S							
-AIR-AP1800S-N-K9	Cisco Aironet 1800S Series Network Sensor	Aironet 1800s Active Sensor	sensor	layered	Aironet Access Points	(none)	Aironet 1800s Active Sensor		sku ^(AIR-)?AP1800S							
-AIR-AP1800S-Q-K9	Cisco Aironet 1800S Series Network Sensor	Aironet 1800s Active Sensor	sensor	layered	Aironet Access Points	(none)	Aironet 1800s Active Sensor		sku ^(AIR-)?AP1800S							
-AIR-AP1800S-R-K9	Cisco Aironet 1800S Series Network Sensor	Aironet 1800s Active Sensor	sensor	layered	Aironet Access Points	(none)	Aironet 1800s Active Sensor		sku ^(AIR-)?AP1800S							
-AIR-AP1800S-S-K9	Cisco Aironet 1800S Series Network Sensor	Aironet 1800s Active Sensor	sensor	layered	Aironet Access Points	(none)	Aironet 1800s Active Sensor		sku ^(AIR-)?AP1800S							
-AIR-AP1800S-T-K9	Cisco Aironet 1800S Series Network Sensor	Aironet 1800s Active Sensor	sensor	layered	Aironet Access Points	(none)	Aironet 1800s Active Sensor		sku ^(AIR-)?AP1800S							
-AIR-AP1800S-Z-K9	Cisco Aironet 1800S Series Network Sensor	Aironet 1800s Active Sensor	sensor	layered	Aironet Access Points	(none)	Aironet 1800s Active Sensor		sku ^(AIR-)?AP1800S							
+AIR-AP1800S-A-K9	Cisco Aironet 1800S Series Network Sensor	Aironet 1800s Active Sensor	wireless-sensor	layered	Aironet Access Points	(none)	Aironet 1800s Active Sensor		sku ^(AIR-)?AP1800S							
+AIR-AP1800S-B-K9	Cisco Aironet 1800S Series Network Sensor (USA Only)	Aironet 1800s Active Sensor	wireless-sensor	layered	Aironet Access Points	(none)	Aironet 1800s Active Sensor		sku ^(AIR-)?AP1800S							
+AIR-AP1800S-D-K9	Cisco Aironet 1800S Series Network Sensor	Aironet 1800s Active Sensor	wireless-sensor	layered	Aironet Access Points	(none)	Aironet 1800s Active Sensor		sku ^(AIR-)?AP1800S							
+AIR-AP1800S-E-K9	Cisco Aironet 1800S Series Network Sensor	Aironet 1800s Active Sensor	wireless-sensor	layered	Aironet Access Points	(none)	Aironet 1800s Active Sensor		sku ^(AIR-)?AP1800S							
+AIR-AP1800S-F-K9	Cisco Aironet 1800S Series Network Sensor	Aironet 1800s Active Sensor	wireless-sensor	layered	Aironet Access Points	(none)	Aironet 1800s Active Sensor		sku ^(AIR-)?AP1800S							
+AIR-AP1800S-G-K9	Cisco Aironet 1800S Series Network Sensor	Aironet 1800s Active Sensor	wireless-sensor	layered	Aironet Access Points	(none)	Aironet 1800s Active Sensor		sku ^(AIR-)?AP1800S							
+AIR-AP1800S-H-K9	Cisco Aironet 1800S Series Network Sensor	Aironet 1800s Active Sensor	wireless-sensor	layered	Aironet Access Points	(none)	Aironet 1800s Active Sensor		sku ^(AIR-)?AP1800S							
+AIR-AP1800S-I-K9	Cisco Aironet 1800S Series Network Sensor	Aironet 1800s Active Sensor	wireless-sensor	layered	Aironet Access Points	(none)	Aironet 1800s Active Sensor		sku ^(AIR-)?AP1800S							
+AIR-AP1800S-K-K9	Cisco Aironet 1800S Series Network Sensor	Aironet 1800s Active Sensor	wireless-sensor	layered	Aironet Access Points	(none)	Aironet 1800s Active Sensor		sku ^(AIR-)?AP1800S							
+AIR-AP1800S-N-K9	Cisco Aironet 1800S Series Network Sensor	Aironet 1800s Active Sensor	wireless-sensor	layered	Aironet Access Points	(none)	Aironet 1800s Active Sensor		sku ^(AIR-)?AP1800S							
+AIR-AP1800S-Q-K9	Cisco Aironet 1800S Series Network Sensor	Aironet 1800s Active Sensor	wireless-sensor	layered	Aironet Access Points	(none)	Aironet 1800s Active Sensor		sku ^(AIR-)?AP1800S							
+AIR-AP1800S-R-K9	Cisco Aironet 1800S Series Network Sensor	Aironet 1800s Active Sensor	wireless-sensor	layered	Aironet Access Points	(none)	Aironet 1800s Active Sensor		sku ^(AIR-)?AP1800S							
+AIR-AP1800S-S-K9	Cisco Aironet 1800S Series Network Sensor	Aironet 1800s Active Sensor	wireless-sensor	layered	Aironet Access Points	(none)	Aironet 1800s Active Sensor		sku ^(AIR-)?AP1800S							
+AIR-AP1800S-T-K9	Cisco Aironet 1800S Series Network Sensor	Aironet 1800s Active Sensor	wireless-sensor	layered	Aironet Access Points	(none)	Aironet 1800s Active Sensor		sku ^(AIR-)?AP1800S							
+AIR-AP1800S-Z-K9	Cisco Aironet 1800S Series Network Sensor	Aironet 1800s Active Sensor	wireless-sensor	layered	Aironet Access Points	(none)	Aironet 1800s Active Sensor		sku ^(AIR-)?AP1800S							
 AIR-AP1802E-BULK	BOM Level AP1802e Bulk PID for Universal Domain	Antennas/Accessories	ap	layered	Aironet Access Points	(none)	Aironet 1800		sku ^(AIR-|PROMO-|PPN-|PULS-)?AP180[02](?![0-9S])	indoor	series:Aironet 1800					
 AIR-AP1802I-BULK	BOM Level AP1802i Bulk PID for Universal Domain	Antennas/Accessories	ap	layered	Aironet Access Points	(none)	Aironet 1800		sku ^(AIR-|PROMO-|PPN-|PULS-)?AP180[02](?![0-9S])	indoor	series:Aironet 1800					
 AIR-AP1810W-A-K9	802.11ac Wave 2 1810w, 2x2:2, 3 GbE; A Domain (not for US)	Aironet 1810w	ap	layered	Aironet Access Points	(none)	Aironet 1810 / 1810W		sku ^(AIR-|PROMO-|PPN-|PULS-)?(AP|OEAP)1810	indoor	series:Aironet 1810 / 1810W					

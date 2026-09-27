@@ -1,9 +1,9 @@
 {
-  "contract_hash": "14fcc8449dda617a",
-  "generated_at": "2026-09-27T23:01:17.017Z",
-  "code_commit": "a47ebdb20dcf0b98846f07110da63bfefdb5fca8",
+  "contract_hash": "8afedbb94693dda0",
+  "generated_at": "2026-09-27T23:33:02.423Z",
+  "code_commit": "83feaebcf224cd87dd094bf9d352e869f820d537",
   "code_branch": "cisco",
-  "dirty_files": 19,
+  "dirty_files": 49,
   "counts": {
     "dictionary_keys": 607,
     "categories": 26,
@@ -11829,14 +11829,7 @@
           "kind": "opt"
         },
         "connector": {
-          "elseOpt": true,
-          "kind": "cond",
-          "when": {
-            "field": "kind",
-            "inList": [
-              "cable"
-            ]
-          }
+          "kind": "opt"
         },
         "console_port": {
           "kind": "opt"
@@ -14800,7 +14793,7 @@
               "access-point",
               "appliance",
               "camera",
-              "sensor",
+              "environment-sensor",
               "gateway"
             ]
           }
@@ -14887,7 +14880,7 @@
               "access-point",
               "appliance",
               "camera",
-              "sensor",
+              "environment-sensor",
               "gateway"
             ]
           }
@@ -15000,7 +14993,7 @@
               "access-point",
               "appliance",
               "camera",
-              "sensor",
+              "environment-sensor",
               "gateway",
               "mechanical"
             ]
@@ -15150,7 +15143,7 @@
               "access-point",
               "appliance",
               "camera",
-              "sensor",
+              "environment-sensor",
               "gateway"
             ]
           }
@@ -15318,7 +15311,7 @@
               "access-point",
               "appliance",
               "camera",
-              "sensor",
+              "environment-sensor",
               "gateway"
             ]
           }
@@ -15400,7 +15393,7 @@
               "access-point",
               "appliance",
               "camera",
-              "sensor",
+              "environment-sensor",
               "gateway"
             ]
           }
@@ -15471,7 +15464,7 @@
           "when": {
             "field": "kind",
             "inList": [
-              "sensor"
+              "environment-sensor"
             ]
           }
         },
@@ -23450,7 +23443,7 @@
             "field": "kind",
             "inList": [
               "ap",
-              "sensor",
+              "wireless-sensor",
               "backhaul"
             ]
           }
@@ -23466,8 +23459,7 @@
           "when": {
             "field": "kind",
             "inList": [
-              "ap",
-              "sensor"
+              "ap"
             ]
           }
         },
@@ -23558,7 +23550,7 @@
             "field": "kind",
             "inList": [
               "ap",
-              "sensor",
+              "wireless-sensor",
               "wlc",
               "backhaul",
               "appliance"
@@ -23611,14 +23603,7 @@
           "kind": "opt"
         },
         "connector": {
-          "elseOpt": true,
-          "kind": "cond",
-          "when": {
-            "field": "kind",
-            "inList": [
-              "cable"
-            ]
-          }
+          "kind": "opt"
         },
         "console_port": {
           "kind": "opt"
@@ -23751,7 +23736,7 @@
             "field": "kind",
             "inList": [
               "ap",
-              "sensor",
+              "wireless-sensor",
               "wlc",
               "backhaul",
               "appliance"
@@ -24291,7 +24276,7 @@
             "field": "kind",
             "inList": [
               "ap",
-              "sensor",
+              "wireless-sensor",
               "backhaul",
               "power-injector"
             ]
@@ -24306,7 +24291,7 @@
             "field": "kind",
             "inList": [
               "ap",
-              "sensor",
+              "wireless-sensor",
               "wlc",
               "backhaul",
               "appliance",
@@ -24332,7 +24317,7 @@
             "field": "kind",
             "inList": [
               "ap",
-              "sensor",
+              "wireless-sensor",
               "wlc",
               "backhaul",
               "appliance"
@@ -24419,7 +24404,7 @@
             "field": "kind",
             "inList": [
               "ap",
-              "sensor",
+              "wireless-sensor",
               "antenna",
               "backhaul"
             ]
@@ -24566,7 +24551,7 @@
             "field": "kind",
             "inList": [
               "ap",
-              "sensor",
+              "wireless-sensor",
               "backhaul"
             ]
           }
@@ -24640,7 +24625,7 @@
             "field": "kind",
             "inList": [
               "ap",
-              "sensor",
+              "wireless-sensor",
               "wlc",
               "backhaul",
               "appliance"
@@ -24755,7 +24740,7 @@
             "field": "kind",
             "inList": [
               "ap",
-              "sensor",
+              "wireless-sensor",
               "wlc",
               "backhaul",
               "appliance"
@@ -24774,7 +24759,7 @@
             "field": "kind",
             "inList": [
               "ap",
-              "sensor",
+              "wireless-sensor",
               "backhaul"
             ]
           }
@@ -25160,14 +25145,7 @@
           "kind": "opt"
         },
         "connector": {
-          "elseOpt": true,
-          "kind": "cond",
-          "when": {
-            "field": "kind",
-            "inList": [
-              "cable"
-            ]
-          }
+          "kind": "opt"
         },
         "console_port": {
           "kind": "opt"

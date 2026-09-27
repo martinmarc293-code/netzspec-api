@@ -6892,22 +6892,22 @@ meraki	MG52	Cisco MG52	gateway
 meraki	MG52-HW	Cisco MG52-HW	gateway	
 meraki	MG52E	Cisco MG52E	gateway	
 meraki	MG52E-HW	Cisco MG52E-HW	gateway	
-meraki	MT10	Cisco MT10	sensor	
-meraki	MT10-HW	Cisco MT10-HW	sensor	
-meraki	MT11	Cisco MT11	sensor	
-meraki	MT11-HW	Cisco MT11-HW	sensor	
-meraki	MT12	Cisco MT12	sensor	
-meraki	MT12-HW	Cisco MT12-HW	sensor	
-meraki	MT14	Cisco MT14	sensor	
-meraki	MT14-HW	Cisco MT14-HW	sensor	
-meraki	MT15	Cisco MT15	sensor	
-meraki	MT15-HW	Cisco MT15-HW	sensor	
-meraki	MT20	Cisco MT20	sensor	
-meraki	MT20-HW	Cisco MT20-HW	sensor	
-meraki	MT30	Cisco MT30	sensor	
-meraki	MT30-HW	Cisco MT30-HW	sensor	
-meraki	MT40	Cisco MT40	sensor	
-meraki	MT40-HW	Cisco MT40-HW	sensor	
+meraki	MT10	Cisco MT10	environment-sensor	
+meraki	MT10-HW	Cisco MT10-HW	environment-sensor	
+meraki	MT11	Cisco MT11	environment-sensor	
+meraki	MT11-HW	Cisco MT11-HW	environment-sensor	
+meraki	MT12	Cisco MT12	environment-sensor	
+meraki	MT12-HW	Cisco MT12-HW	environment-sensor	
+meraki	MT14	Cisco MT14	environment-sensor	
+meraki	MT14-HW	Cisco MT14-HW	environment-sensor	
+meraki	MT15	Cisco MT15	environment-sensor	
+meraki	MT15-HW	Cisco MT15-HW	environment-sensor	
+meraki	MT20	Cisco MT20	environment-sensor	
+meraki	MT20-HW	Cisco MT20-HW	environment-sensor	
+meraki	MT30	Cisco MT30	environment-sensor	
+meraki	MT30-HW	Cisco MT30-HW	environment-sensor	
+meraki	MT40	Cisco MT40	environment-sensor	
+meraki	MT40-HW	Cisco MT40-HW	environment-sensor	
 meraki	MV12	Cisco MV12	camera	
 meraki	MV12N	Cisco MV12N	camera	
 meraki	MV12W	Cisco MV12W	camera	
@@ -37729,21 +37729,21 @@ wireless	AIR-AP1800I-T-K9	Cisco Aironet 1800i Series	ap	indoor
 wireless	AIR-AP1800I-T-K9C	Cisco Aironet Mobility Express 1800i Series	ap	indoor
 wireless	AIR-AP1800I-Z-K9	Cisco Aironet 1800i Series (not for US)	ap	indoor
 wireless	AIR-AP1800I-Z-K9C	Cisco Aironet Mobility Express 1800i Series	ap	indoor
-wireless	AIR-AP1800S-A-K9	Cisco Aironet 1800S Series Network Sensor	sensor	
-wireless	AIR-AP1800S-B-K9	Cisco Aironet 1800S Series Network Sensor (USA Only)	sensor	
-wireless	AIR-AP1800S-D-K9	Cisco Aironet 1800S Series Network Sensor	sensor	
-wireless	AIR-AP1800S-E-K9	Cisco Aironet 1800S Series Network Sensor	sensor	
-wireless	AIR-AP1800S-F-K9	Cisco Aironet 1800S Series Network Sensor	sensor	
-wireless	AIR-AP1800S-G-K9	Cisco Aironet 1800S Series Network Sensor	sensor	
-wireless	AIR-AP1800S-H-K9	Cisco Aironet 1800S Series Network Sensor	sensor	
-wireless	AIR-AP1800S-I-K9	Cisco Aironet 1800S Series Network Sensor	sensor	
-wireless	AIR-AP1800S-K-K9	Cisco Aironet 1800S Series Network Sensor	sensor	
-wireless	AIR-AP1800S-N-K9	Cisco Aironet 1800S Series Network Sensor	sensor	
-wireless	AIR-AP1800S-Q-K9	Cisco Aironet 1800S Series Network Sensor	sensor	
-wireless	AIR-AP1800S-R-K9	Cisco Aironet 1800S Series Network Sensor	sensor	
-wireless	AIR-AP1800S-S-K9	Cisco Aironet 1800S Series Network Sensor	sensor	
-wireless	AIR-AP1800S-T-K9	Cisco Aironet 1800S Series Network Sensor	sensor	
-wireless	AIR-AP1800S-Z-K9	Cisco Aironet 1800S Series Network Sensor	sensor	
+wireless	AIR-AP1800S-A-K9	Cisco Aironet 1800S Series Network Sensor	wireless-sensor	
+wireless	AIR-AP1800S-B-K9	Cisco Aironet 1800S Series Network Sensor (USA Only)	wireless-sensor	
+wireless	AIR-AP1800S-D-K9	Cisco Aironet 1800S Series Network Sensor	wireless-sensor	
+wireless	AIR-AP1800S-E-K9	Cisco Aironet 1800S Series Network Sensor	wireless-sensor	
+wireless	AIR-AP1800S-F-K9	Cisco Aironet 1800S Series Network Sensor	wireless-sensor	
+wireless	AIR-AP1800S-G-K9	Cisco Aironet 1800S Series Network Sensor	wireless-sensor	
+wireless	AIR-AP1800S-H-K9	Cisco Aironet 1800S Series Network Sensor	wireless-sensor	
+wireless	AIR-AP1800S-I-K9	Cisco Aironet 1800S Series Network Sensor	wireless-sensor	
+wireless	AIR-AP1800S-K-K9	Cisco Aironet 1800S Series Network Sensor	wireless-sensor	
+wireless	AIR-AP1800S-N-K9	Cisco Aironet 1800S Series Network Sensor	wireless-sensor	
+wireless	AIR-AP1800S-Q-K9	Cisco Aironet 1800S Series Network Sensor	wireless-sensor	
+wireless	AIR-AP1800S-R-K9	Cisco Aironet 1800S Series Network Sensor	wireless-sensor	
+wireless	AIR-AP1800S-S-K9	Cisco Aironet 1800S Series Network Sensor	wireless-sensor	
+wireless	AIR-AP1800S-T-K9	Cisco Aironet 1800S Series Network Sensor	wireless-sensor	
+wireless	AIR-AP1800S-Z-K9	Cisco Aironet 1800S Series Network Sensor	wireless-sensor	
 wireless	AIR-AP1802E-BULK	BOM Level AP1802e Bulk PID for Universal Domain	ap	indoor
 wireless	AIR-AP1802I-BULK	BOM Level AP1802i Bulk PID for Universal Domain	ap	indoor
 wireless	AIR-AP1810W-A-K9	802.11ac Wave 2 1810w, 2x2:2, 3 GbE; A Domain (not for US)	ap	indoor

@@ -124,7 +124,7 @@ const REFUSALS: [string, string, string][] = [
   ["EDU-C9800-40-K9", "wlc", "an EDU ordering form of the 9800-40"],
   ["AIR-CT5508-CA-K9", "wlc", "a zero-AP RMA controller is still a controller"],
   // kind-layer (13 Sep 2026) — III.0 item 3: rows filed as access points that are NOT access points
-  ["AIR-AP1800S-R-K9", "sensor", "'Aironet 1800S Series Network Sensor' — item 3 issue, not an AP"],
+  ["AIR-AP1800S-R-K9", "wireless-sensor", "'Aironet 1800S Series Network Sensor' — item 3 issue, not an AP"],
   ["AIR-5508H-HA-K9", "wlc", "'5508 Series Wireless Ctlr for HA, Hospitality' — was an AP by the AIR-<4 digits><letter> rule"],
   ["CBW140MXS-A-NA", "bundle", "'CBW140 Cisco Business Mesh Starter Kit' — an AP plus mesh extenders, mixed roles"],
   ["C9105AXWT_COVER", "mechanical", "'Back cover' — not the C9105AXW teleworker AP"],
@@ -165,7 +165,7 @@ const REFUSALS: [string, string, string][] = [
   ["AIR-ACC1622", "accessory", "'RP-TNC Male Connector' — ACC without a mount-kit letter stays an accessory"],
   // kind-layer (13 Sep 2026): the neighbours of the new rules
   ["AIR-AP1800I-B-K9", "ap", "an Aironet 1800i ACCESS POINT: the sensor rule needs the S of 1800S"],
-  ["AIR-AP1800S-B-K9", "sensor", "'Aironet 1800S Series Network Sensor' — serves no clients (item 3), not an AP"],
+  ["AIR-AP1800S-B-K9", "wireless-sensor", "'Aironet 1800S Series Network Sensor' — serves no clients (item 3), not an AP"],
   ["AIR-CT5508-500-K9", "wlc", "the 5508 itself, beside the AIR-5508H- hospitality forms"],
   ["CBW140AC-B", "ap", "the CBW140AC access point: only the MXS starter kit is a bundle"],
   ["C9120AXI-B", "ap", "the 9120 AP without the -CAP support tail, unchanged"],
@@ -219,7 +219,11 @@ eq("ap industrial: + input_voltage (DC), + ip_rating", req("ap", "industrial"), 
 for (const key of ["ip_rating", "antenna_connector", "input_voltage"]) {
   eq(`ap indoor: the role-gated ${key} is OPTIONAL, never n/a (rule 7)`, kindQuestionSet("wireless", "ap", "indoor").optional.includes(key), true);
 }
-eq("sensor keeps what it was asked as an AP until today (no radio_count: not in the spec library for a sensor)", req("sensor"), "antenna_type,ap_max_clients,certifications,dimensions,poe_standard,ports,power_max,radio_bands,spatial_streams,temp_operating,weight,wifi_generation");
+// RENAMED AND NARROWED 28 Sep 2026 with the sensor split. `sensor` covered two different physical objects --
+// the Aironet 1800S Wi-Fi monitoring sensor here and the Meraki MT environmental sensor -- and battery_life
+// cannot belong to the same kind as ap_max_clients. `ap_max_clients` is GONE from this set on the ruling's own
+// reason: a monitoring sensor serves no clients, so a maximum client count is not a fact about it.
+eq("wireless-sensor = the AP set MINUS ap_max_clients (it serves no clients)", req("wireless-sensor"), "antenna_type,certifications,dimensions,poe_standard,ports,power_max,radio_bands,spatial_streams,temp_operating,weight,wifi_generation");
 // link_budget DEMOTED to `opt` on 25 Sep 2026: 41 backhaul radios were asked it, and the ONE fact on that key in the
 // whole store came from `hexcat_seed` — a seed is not a source, and no enabled source publishes the label. So a backhaul
 // now asks exactly what an AP asks. docs/decisions/2026-09-25-required-cups-no-source-can-fill.md
