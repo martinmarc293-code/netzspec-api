@@ -16,7 +16,7 @@
 // Idempotent and cheap: rows are written only when the computed tuple differs.
 import { getPool, closePool, withTx } from "../store/index.js";
 import { withRun } from "../store/runs.js";
-import { completenessV2, requirementFor, PROFILES, COLUMN_BACKED } from "../core/fieldSchema.js";
+import { completenessV2, requirementFor, pendingGatesFor, PROFILES, COLUMN_BACKED } from "../core/fieldSchema.js";
 import { modularPlatform } from "../core/modularPlatform.js";
 import { partKind } from "../core/partKind.js";
 import { deployRole } from "../core/deployRole.js";
@@ -104,6 +104,8 @@ async function run(a: Args): Promise<Record<string, number>> {
 
   let written = 0, unchanged = 0, noProfile = 0, nonHardware = 0, notArranged = 0, roleRefused = 0, refusedSlots = 0;
   const byReason = new Map<string, number>();
+  const byGate = new Map<string, number>();
+  let pendingTotal = 0;
   const refusedExamples: string[] = [];
   // Derived once per run from the product-line reference files, so a brand arranged tomorrow is admitted
   // without anybody editing a list — a hand-kept list of which brands have a mould is the drift this repo
@@ -128,8 +130,8 @@ async function run(a: Args): Promise<Record<string, number>> {
     // every already-correct row compare equal and skip, so the first run after migration 0024 would
     // report "unchanged" for 41,067 parts and write no reason anywhere — a recompute that looks like
     // a success and leaves the column NULL, which is exactly the defect the column exists to end.
-    const existing = new Map((await pool.query<{ part_id: number; required_total: number; required_present: number; missing: string[]; required_fields: string[]; no_profile: boolean; no_profile_reason: string | null; no_profile_rule: string | null }>(
-      "SELECT part_id, required_total, required_present, missing, required_fields, no_profile, no_profile_reason, no_profile_rule FROM completeness WHERE part_id = ANY($1::bigint[])", [ids])).rows.map((r) => [r.part_id, r]));
+    const existing = new Map((await pool.query<{ part_id: number; required_total: number; required_present: number; missing: string[]; required_fields: string[]; no_profile: boolean; no_profile_reason: string | null; no_profile_rule: string | null; pending: number; pending_gates: unknown }>(
+      "SELECT part_id, required_total, required_present, missing, required_fields, no_profile, no_profile_reason, no_profile_rule, pending, pending_gates FROM completeness WHERE part_id = ANY($1::bigint[])", [ids])).rows.map((r) => [r.part_id, r]));
 
     // ONE STATEMENT PER BATCH, NOT ONE PER ROW. The loop below used to await an INSERT for every
     // part it changed. Over the SSH tunnel that is a round trip each — ~300 ms — so a full cisco
@@ -137,13 +139,14 @@ async function run(a: Args): Promise<Record<string, number>> {
     // skip. That is the mechanical cause of the ordering trap this file's run row now records:
     // edit the profile, sync, and quietly never recompute. Collected here and sent as one unnest.
     const pending: { id: number; rt: number; rp: number; pct: number; missing: string; req: string; np: boolean;
-                     reason: string | null; rule: string | null }[] = [];
+                     reason: string | null; rule: string | null; pending: number; gates: string | null }[] = [];
     await withTx(async (client) => {
       for (const p of slice) {
         const category = cats.get(p.category_id) ?? "";
         const vendorSlug = p.vendor_slug;
         let row: { required_total: number; required_present: number; pct: number; missing: string[]; required_fields: string[]; no_profile: boolean;
-                   no_profile_reason: NoProfileReason | null; no_profile_rule: string | null };
+                   no_profile_reason: NoProfileReason | null; no_profile_rule: string | null;
+                   pending: number; pending_gates: { cup: string; gate: string[] }[] | null };
         // BRAND ISOLATION (operator, 27 Sep 2026). Profiles are keyed by CATEGORY and never by vendor, so
         // this loop was asking an HPE switch for exactly the cups designed by reading CISCO switches.
         // Measured before the guard: 3,476 live hardware parts across 12 unarranged brands carried 51,769
@@ -186,7 +189,7 @@ async function run(a: Args): Promise<Record<string, number>> {
             if (refusedExamples.length < 4) refusedExamples.push(`${p.sku} (${category}, ${verdict.rule})`);
           }
           row = { required_total: 0, required_present: 0, pct: 0, missing: [], required_fields: [], no_profile: true,
-                  no_profile_reason: verdict.reason, no_profile_rule: verdict.rule };
+                  no_profile_reason: verdict.reason, no_profile_rule: verdict.rule, pending: 0, pending_gates: null };
         } else {
           const values = byPart.get(p.id) ?? {};
           // identity lives on the part row, not in facts: a required "vendor"/"series" is present
@@ -219,8 +222,23 @@ async function run(a: Args): Promise<Record<string, number>> {
           if (category === "routers") { const m = modularPlatform(p.sku); if (m !== null) values.modular = m; }
           const c = completenessV2(category, values);
           if (c.no_profile) noProfile++;
+          const reqFields = requiredFieldsFor(category, values);
+          const pendingCups: { cup: string; gate: string[] }[] = [];
+          for (const k of reqFields) {
+            const gate = pendingGatesFor(category, k, values);
+            if (gate.length) pendingCups.push({ cup: k, gate });
+          }
+          pendingTotal += pendingCups.length;
+          for (const g of pendingCups) for (const f of g.gate) byGate.set(f, (byGate.get(f) ?? 0) + 1);
           row = { required_total: c.required_total, required_present: c.required_present, pct: c.pct, missing: c.missing,
-            required_fields: requiredFieldsFor(category, values), no_profile: c.no_profile,
+            required_fields: reqFields, no_profile: c.no_profile,
+            // THE THIRD OUTCOME, MADE VISIBLE (migration 0025). required_total counts req AND pending, and
+            // keeps doing so -- no denominator moves here. What was missing is the COMPOSITION: "34 required"
+            // could not say that six of them are waiting on form_factor, so a person filling the mould could
+            // not tell "nobody has read this off a datasheet yet" from "nobody can even be asked for it until
+            // another field is known". Those are different jobs. Derived from the SAME list as
+            // required_fields, so the count beside it can never disagree with it.
+            pending: pendingCups.length, pending_gates: pendingCups.length ? pendingCups : null,
             // `c.no_profile` here means the CATEGORY carries no cup profile — the part is arranged
             // hardware the role table accepts, and there is simply nothing to score it against. It
             // needs its own name or it becomes a not-scored row with a NULL reason, which is the
@@ -231,27 +249,31 @@ async function run(a: Args): Promise<Record<string, number>> {
         const prev = existing.get(p.id);
         if (prev && prev.required_total === row.required_total && prev.required_present === row.required_present && prev.no_profile === row.no_profile
           && prev.no_profile_reason === row.no_profile_reason && prev.no_profile_rule === row.no_profile_rule
+          && prev.pending === row.pending && JSON.stringify(prev.pending_gates) === JSON.stringify(row.pending_gates)
           && JSON.stringify(prev.missing) === JSON.stringify(row.missing) && JSON.stringify(prev.required_fields) === JSON.stringify(row.required_fields)) {
           unchanged++;
           continue;
         }
         pending.push({ id: p.id, rt: row.required_total, rp: row.required_present, pct: row.pct,
           missing: JSON.stringify(row.missing), req: JSON.stringify(row.required_fields), np: row.no_profile,
-          reason: row.no_profile_reason, rule: row.no_profile_rule });
+          reason: row.no_profile_reason, rule: row.no_profile_rule,
+          pending: row.pending, gates: row.pending_gates === null ? null : JSON.stringify(row.pending_gates) });
         written++;
       }
       if (pending.length === 0) return;
       const res = await client.query(
-        `INSERT INTO completeness (part_id, required_total, required_present, pct, missing, required_fields, no_profile, no_profile_reason, no_profile_rule, computed_at)
-         SELECT u.id, u.rt, u.rp, u.pct, u.missing::jsonb, u.req::jsonb, u.np, u.reason, u.rule, now()
-           FROM unnest($1::bigint[], $2::int[], $3::int[], $4::numeric[], $5::text[], $6::text[], $7::boolean[], $8::text[], $9::text[])
-                AS u(id, rt, rp, pct, missing, req, np, reason, rule)
+        `INSERT INTO completeness (part_id, required_total, required_present, pct, missing, required_fields, no_profile, no_profile_reason, no_profile_rule, pending, pending_gates, computed_at)
+         SELECT u.id, u.rt, u.rp, u.pct, u.missing::jsonb, u.req::jsonb, u.np, u.reason, u.rule, u.pending, u.gates::jsonb, now()
+           FROM unnest($1::bigint[], $2::int[], $3::int[], $4::numeric[], $5::text[], $6::text[], $7::boolean[], $8::text[], $9::text[], $10::int[], $11::text[])
+                AS u(id, rt, rp, pct, missing, req, np, reason, rule, pending, gates)
          ON CONFLICT (part_id) DO UPDATE SET required_total = EXCLUDED.required_total, required_present = EXCLUDED.required_present,
            pct = EXCLUDED.pct, missing = EXCLUDED.missing, required_fields = EXCLUDED.required_fields, no_profile = EXCLUDED.no_profile,
-           no_profile_reason = EXCLUDED.no_profile_reason, no_profile_rule = EXCLUDED.no_profile_rule, computed_at = now()`,
+           no_profile_reason = EXCLUDED.no_profile_reason, no_profile_rule = EXCLUDED.no_profile_rule,
+           pending = EXCLUDED.pending, pending_gates = EXCLUDED.pending_gates, computed_at = now()`,
         [pending.map((x) => x.id), pending.map((x) => x.rt), pending.map((x) => x.rp), pending.map((x) => x.pct),
          pending.map((x) => x.missing), pending.map((x) => x.req), pending.map((x) => x.np),
-         pending.map((x) => x.reason), pending.map((x) => x.rule)]);
+         pending.map((x) => x.reason), pending.map((x) => x.rule),
+         pending.map((x) => x.pending), pending.map((x) => x.gates)]);
       // The batch write must land every row it was given. A partial write and a complete one both
       // return a plausible number, so assert the count rather than reading it.
       if (res.rowCount !== pending.length) {
@@ -266,6 +288,15 @@ async function run(a: Args): Promise<Record<string, number>> {
   // from a denominator that moved for a bug; the control the operator actually needs is that Cisco's
   // count moved by EXACTLY the refused parts and nothing else. Each reason is named, so "not scored"
   // can never again mean four different things behind one number.
+  // WAITING ON WHAT, not just how many. The operator's question is "which data do we still have to add",
+  // and a pending cup is a different job from an unfilled one: nobody can even be ASKED for it until its
+  // gate is answered. Naming the gates turns a count into the field somebody should go and settle first,
+  // and the top gates are where the most cups unlock at once.
+  if (pendingTotal > 0) {
+    const gateLine = [...byGate].sort((a, b) => b[1] - a[1]).slice(0, 6)
+      .map(([g, n]) => `${g} ${n.toLocaleString()}`).join(", ");
+    console.log(`  pending cups: ${pendingTotal.toLocaleString()} (counted in required_total, as before) — waiting on: ${gateLine}`);
+  }
   const reasonLine = [...byReason].sort((a, b) => b[1] - a[1]).map(([r, n]) => `${r} ${n.toLocaleString()}`).join(", ");
   console.log(`  not scored, by reason: ${reasonLine || "(none)"}`);
   if (roleRefused > 0) {

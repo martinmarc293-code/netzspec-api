@@ -67,6 +67,7 @@ import {
   type FieldType, type Requirement, type PartValues,
 } from "../core/fieldSchema.js";
 import { REPO_ROOT } from "../config.js";
+import { roleAxisKinds } from "../core/deployRole.js";
 
 export const GENERATED_FILE = path.join(REPO_ROOT, "src", "core", "fieldSchema.generated.ts");
 export const SCHEMA_FILE = path.join(REPO_ROOT, "src", "core", "fieldSchema.ts");
@@ -390,6 +391,18 @@ export function handWritten(source: string, generated: Record<string, Record<str
       // arriving from a generated `opt` would still be reported, because that one would silently
       // tell every unclaimed kind "not applicable".
       if (r.kind === "cond" && r.elseOpt === true && generated[cat]?.[k]?.kind === "opt") continue;
+      // AND THE THIRD POST-MERGE TRANSFORM (27 Sep 2026): `deploy_role` is declared after the merge for
+      // every category AXIS gives a role-bearing kind, so that a role which cannot be derived leaves its
+      // dependents `pending` instead of settling them silently. For the eleven categories whose generated
+      // half declares it `opt` the exemption above already covers it; `meraki` and `unified-communications`
+      // declared it in NEITHER half -- they gated nine cups and one on a key no profile carried, which is
+      // the defect that change fixed -- so they arrive here as pure post-merge additions.
+      //
+      // This reconciler is the COST of writing that declaration in one place instead of seven: a rule
+      // applied after the merge is invisible to anything reading the two source halves, and one reader
+      // existed and caught it. The condition is derived from the same `roleAxisKinds` the transform uses,
+      // never a restated list, so the exemption cannot outlive the rule it describes.
+      if (r.kind === "cond" && r.elseOpt === true && k === "deploy_role" && roleAxisKinds(cat).length > 0) continue;
       problems.push(`merged ${cat}.${k} is "${r.kind}" but appears in neither half — the PROFILES parser has drifted`);
     }
   }

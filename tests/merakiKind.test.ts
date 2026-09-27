@@ -176,13 +176,21 @@ const ask = (sku: string) => completenessV2("meraki", { kind: partKind("meraki",
     "stackable", "switching_capacity", "temp_operating", "vlan_max", "weight",
     "module_slots?", "poe_budget?", "poe_ports?", "psu_redundant?", "rack_units?", "stacking_bandwidth?", "uplink_ports?"];
   const ENVP = ["altitude_max", "heat_dissipation", "input_voltage", "mtbf", "power_typical", "temp_storage"];
-  eq("kind-layer: meraki/switch (no role) = ETH-SWITCHING + ENV + today's mounting / psu_options", mkSet("switch"), L(...MS_CORE));
+  // AT NO ROLE THE ROLE-GATED CUPS ARE NOW PENDING, NOT ABSENT (27 Sep 2026). `deploy_role` is declared
+  // `cond(kind inList AXIS)` for every category with a role-bearing kind, so it resolves `req` here and an
+  // unanswered role leaves its dependents open, naming the field that would settle them, instead of
+  // settling them silently. The role blocks below are unchanged and still discriminate — that is where the
+  // ENV cups become genuinely required — and no live row moves: meraki has NO part of a role-bearing kind
+  // at all today, so this whole expectation is a statement about the shape, not about any scored part.
+  eq("kind-layer: meraki/switch (no role) = ETH-SWITCHING + today's, with every role-gated cup PENDING",
+     mkSet("switch"), L(...MS_CORE, ...ENVP.map((k) => `${k}?`), "fabric_bandwidth?"));
   eq("kind-layer: meraki/switch/access = + ENV+", mkSet("switch", "access"), L(...MS_CORE, ...ENVP));
   eq("kind-layer: meraki/switch/core-agg = + ENV+, fabric_bandwidth, psu_redundant ungated", mkSet("switch", "core-agg"),
      L(...MS_CORE.filter((k) => k !== "psu_redundant?"), ...ENVP, "fabric_bandwidth", "psu_redundant"));
-  eq("kind-layer: meraki/access-point = AP library + today's envelope", mkSet("access-point"),
+  eq("kind-layer: meraki/access-point = AP library + today's envelope, ip_rating pending on the unanswered role",
+     mkSet("access-point"),
      L("antenna_type", "certifications", "dimensions", "humidity_operating", "mounting", "poe_standard", "ports", "power_max", "psu_options",
-       "radio_bands", "radio_count", "spatial_streams", "temp_operating", "weight", "wifi_generation"));
+       "radio_bands", "radio_count", "spatial_streams", "temp_operating", "weight", "wifi_generation", "ip_rating?"));
   eq("kind-layer: an OUTDOOR meraki access point is also asked its IP rating", mkSet("access-point", "outdoor").split(",").includes("ip_rating"), true);
   eq("kind-layer: meraki/appliance = FIREWALL (new_conn_per_sec held optional, as in security) + today's", mkSet("appliance"),
      L("certifications", "concurrent_sessions", "dimensions", "firewall_throughput", "form_factor", "humidity_operating", "ipsec_throughput",

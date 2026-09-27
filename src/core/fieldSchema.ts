@@ -4122,6 +4122,26 @@ export function requirementFor(
   return unanswered ? "pending" : unmet;
 }
 
+/**
+ * The gate field(s) that are keeping this cup PENDING — the answer to "waiting on what?".
+ *
+ * `requirementFor` already computes this set to decide between `pending` and settled; it just does not
+ * report it. Returning it is what turns "34 required" into "34 required, 6 of them waiting on
+ * form_factor", which is the difference between a number and a piece of work someone can pick up.
+ *
+ * Empty for anything that is not pending, so the caller can use a non-empty result as the test.
+ */
+export function pendingGatesFor(category: string, key: string, values: PartValues): string[] {
+  const r = PROFILES[category]?.[key];
+  if (!r || r.kind !== "cond") return [];
+  if (requirementFor(category, key, values) !== "pending") return [];
+  return gateFields(r.when).filter((f) => {
+    if (values[f] !== undefined) return false;
+    const gate = requirementFor(category, f, values, new Set([key]));
+    return gate === "req" || gate === "pending";
+  });
+}
+
 export type CompletenessV2 = {
   category: string;
   required_total: number;
