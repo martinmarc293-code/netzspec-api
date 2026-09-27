@@ -12,7 +12,7 @@
 import type { FastifyInstance } from "fastify";
 import { Type } from "@sinclair/typebox";
 import { notFound } from "../errors.js";
-import { AnyJson, ERROR_RESPONSES } from "../schemas.js";
+import { AnyJson, CompletenessReport, ERROR_RESPONSES } from "../schemas.js";
 import {
   COMPLETENESS_DIR, completenessVendors, readCompleteness, readCompletenessSince, sameInstant,
 } from "../queries/completeness.js";
@@ -36,7 +36,10 @@ export async function completenessRoutes(app: FastifyInstance, opts: Completenes
         + "`?since=<ISO>` returns the three day-one numbers for the window that was built.",
       params: Type.Object({ vendor: Type.String() }),
       querystring: Type.Object({ since: Type.Optional(Type.String({ description: "ISO timestamp: the start of the day-one window (arrivals, refusal-at-arrival, held delta)" })) }),
-      response: { 200: AnyJson, ...ERROR_RESPONSES },
+      // `CompletenessReport` names the top-level keys and stays OPEN (additionalProperties): a closed schema
+      // over a generated document would strip every key it had not anticipated. AnyJson before this said nothing
+      // at all, so a consumer could not even learn the entry points.
+      response: { 200: CompletenessReport, ...ERROR_RESPONSES },
     },
   }, async (req) => {
     const { vendor } = req.params;

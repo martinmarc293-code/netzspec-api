@@ -21,7 +21,7 @@ import { listCategories } from "../queries/categories.js";
 import { listVendors } from "../queries/vendors.js";
 import { completenessVendors } from "../queries/completeness.js";
 import { notFound } from "../errors.js";
-import { AnyJson, ERROR_RESPONSES, Nullable } from "../schemas.js";
+import { AnyJson, ERROR_RESPONSES, LedgerRecord, Nullable } from "../schemas.js";
 
 const LEDGER_DIR = path.join(REPO_ROOT, "data", "ledger");
 /**
@@ -247,7 +247,10 @@ export async function startRoutes(app: FastifyInstance, opts: StartRouteOptions)
       summary: "The frozen cup ledger for one category: parts per kind, the questions each kind is asked, the "
              + "gate of every conditional field, and for each field the sources and labels that can fill it.",
       querystring: LedgerQuery,
-      response: { 200: AnyJson, ...ERROR_RESPONSES },
+      // `LedgerRecord` names the top-level keys and stays OPEN (additionalProperties): a closed schema over a
+      // generated document would strip every key it had not anticipated, which is this defect at scale. AnyJson
+      // before this said nothing at all, so a consumer could not learn the entry points either.
+      response: { 200: LedgerRecord, ...ERROR_RESPONSES },
     },
   }, async (req) => {
     const vendor = req.query.vendor ?? "cisco";

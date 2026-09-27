@@ -10,7 +10,8 @@ import swagger from "@fastify/swagger";
 import swaggerUi from "@fastify/swagger-ui";
 import { loadEnv, type Config } from "../config.js";
 import { closePool } from "../store/db.js";
-import { PartRecord, PartSummary, FactItem, LifecycleRecord, ErrorEnvelope } from "./schemas.js";
+import { PartRecord, PartSummary, FactItem, LifecycleRecord, ErrorEnvelope, ConflictItem, RelationItem, LedgerRecord, CompletenessReport } from "./schemas.js";
+import { FamilyRecord } from "./routes/families.js";
 import { registerErrorHandling } from "./errors.js";
 import { healthRoutes } from "./routes/health.js";
 import { PATH_KEY_HEADER, QUERY_KEY_HEADER, TOKEN_RE } from "./auth.js";
@@ -160,18 +161,35 @@ export async function buildApp(opts: AppOptions = {}): Promise<FastifyInstance> 
         // reasoning for refusing exactly that one line below, where the security scheme is described
         // in prose rather than duplicated across 31 paths.
         //
-        // Only the shapes that genuinely exist are registered. The rest -- Conflict, Relation,
-        // Ledger, Completeness, Line, Family, Model, ExportRow -- have no named TypeBox object
-        // today; they are built inline in their routes. Declaring them here would mean hand-writing
-        // a second description of each, which is the drift this comment refuses. openapi_schemas
-        // names the ones still missing, and that list is the work rather than a reason to invent
-        // placeholders that agree with nothing.
+        // SIX MORE REGISTERED 27 Sep 2026, and the comment that used to stand here was right about the
+        // hazard and wrong about the remedy. It said these shapes "have no named TypeBox object today;
+        // they are built inline in their routes. Declaring them here would mean hand-writing a second
+        // description of each, which is the drift this comment refuses." True -- so each shape is now
+        // named ONCE in schemas.ts and the route and this document both use that one definition. The
+        // inline object was itself the problem: it was the only description of what a client is sent,
+        // and nothing outside its own file could see it.
+        //
+        // TWO ARE STILL MISSING ON PURPOSE. `Line` and `Model` are on openapi_schemas' wanted list and
+        // THERE IS NO ENDPOINT FOR EITHER -- no /v1/lines, no /v1/models; the layers travel on the part
+        // record. A schema for a route that does not exist is exactly the placeholder that agrees with
+        // nothing, so the work is either those two routes (a decision) or striking them from the list
+        // with the reason. Declaring them to make a check green would be the worse of the three.
+        //
+        // ExportRow IS PartRecord, by the export contract: /v1/export serves whole records and
+        // routes/part.ts states the shape equality as a promise the suite tests. One object, two names,
+        // and they cannot drift because there is only one of them.
         schemas: {
           Part: PartRecord,
           PartSummary,
           Fact: FactItem,
           Lifecycle: LifecycleRecord,
           Error: ErrorEnvelope,
+          Conflict: ConflictItem,
+          Relation: RelationItem,
+          Family: FamilyRecord,
+          Ledger: LedgerRecord,
+          Completeness: CompletenessReport,
+          ExportRow: PartRecord,
         },
       },
       // Any ONE of these satisfies a request. The path form cannot be expressed in OpenAPI 3.0

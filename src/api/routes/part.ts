@@ -10,7 +10,7 @@ import { Type, type Static } from "@sinclair/typebox";
 import { notFound } from "../errors.js";
 import { parseStates, partConflicts, partFacts, partHistory, partRecord } from "../queries/part.js";
 import { resolvePart, type PartIdentity } from "../queries/shared.js";
-import { AnyJson, ERROR_RESPONSES, FactItem, Nullable, PartRecord } from "../schemas.js";
+import { AnyJson, ConflictItem, ERROR_RESPONSES, FactItem, Nullable, PartRecord } from "../schemas.js";
 
 export type PartRouteOptions = { publicBaseUrl: string };
 
@@ -97,10 +97,9 @@ export async function partRoutes(app: FastifyInstance, opts: PartRouteOptions): 
     schema: {
       tags: ["parts"], summary: "Open conflicts: both values, both provenances, the reason the field is held.",
       params: Params,
-      response: { 200: Type.Object({ items: Type.Array(Type.Object({
-        key: Type.String(), kept: AnyJson, rejected: AnyJson, reason: Type.String(), kept_evidence: AnyJson, rejected_evidence: AnyJson,
-        logged_at: Type.String({ format: "date-time" }),
-      })) }), ...ERROR_RESPONSES },
+      // ONE definition (schemas.ts ConflictItem), also published as `Conflict` in /openapi.json. It was
+      // built inline here, so nothing outside this file could see the shape a client is sent.
+      response: { 200: Type.Object({ items: Type.Array(ConflictItem) }), ...ERROR_RESPONSES },
     },
   }, async (req, reply) => {
     const part = await loadPart(req.params);

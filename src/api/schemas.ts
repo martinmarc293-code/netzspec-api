@@ -140,6 +140,16 @@ export const FactItem = Type.Object({
 export const ImageVariant = Type.Object({
   variant: Type.String(), url: Type.String(), width: Type.Integer(), height: Type.Integer(), bytes: Type.Integer(), format: Type.String(),
 });
+/**
+ * One relation of a part. the ONE definition. PartRecord's `relations` array is built from this object
+ * and /openapi.json publishes it as `Relation`, so the served shape and the declared shape cannot drift — a second copy is the defect this whole
+ * block exists to remove.
+ */
+export const RelationItem = Type.Object({
+  kind: Type.String(), sku: Type.String(), in_catalog: Type.Boolean(), tier: Type.Integer(),
+  source_url: Nullable(Type.String()), note: Nullable(Type.String()),
+});
+
 export const PartRecord = Type.Object({
   vendor: Type.String(), sku: Type.String(), slug: Type.String(),
   category: Type.Object({ slug: Type.String(), name_en: Type.String(), name_de: Type.String() }),
@@ -181,9 +191,12 @@ export const PartRecord = Type.Object({
   deploy_role: Nullable(Type.String()),
   lifecycle: Nullable(LifecycleRecord),
   facts: Type.Array(FactItem),
-  relations: Type.Array(Type.Object({
-    kind: Type.String(), sku: Type.String(), in_catalog: Type.Boolean(), tier: Type.Integer(), source_url: Nullable(Type.String()), note: Nullable(Type.String()),
-  })),
+  // ONE definition, by IDENTIFIER and not by $ref: a `$ref` into #/components would have to be resolved by
+  // fast-json-stringify, which needs the schema registered with app.addSchema, and an unresolvable ref does not
+  // fail loudly — it breaks serialisation for every part GET, which is exactly how `Nullable(Type.Union([...]))`
+  // turned 32 cases red earlier today. RelationItem is declared above and is also what /openapi.json publishes
+  // as `Relation`, so the two cannot drift.
+  relations: Type.Array(RelationItem),
   images: Type.Array(Type.Object({
     role: Type.String(), url: Type.String(), width: Nullable(Type.Integer()), height: Nullable(Type.Integer()),
     alt_en: Nullable(Type.String()), alt_de: Nullable(Type.String()), variants: Type.Array(ImageVariant),
@@ -262,3 +275,49 @@ export const ToolColumnCell = Type.Object({
   key: Type.String(), label_en: Type.String(), label_de: Type.String(), type: Type.String(),
   value: AnyJson, unit: Nullable(Type.String()),
 });
+
+// ---- the shapes a consumer needs NAMED, so /openapi.json can declare them (N63, 27 Sep 2026) --------------
+//
+// app.ts declared 5 schemas and its comment gave the honest reason: the rest "have no named TypeBox object
+// today; they are built inline in their routes. Declaring them here would mean hand-writing a second
+// description of each, which is the drift this comment refuses."
+//
+// That is right, and the way out is not a second description: it is ONE definition here that the route and the
+// document both use. Today the route's inline object is the only description and nothing else can see it, so a
+// client cannot know what it will be sent — and any field outside the response schema is silently stripped,
+// which this repo shipped on 27 Sep when two layer fields reached nothing on the day they were "verified".
+
+/** The conflict layer of one part — moved out of routes/part.ts, which built it inline. */
+export const ConflictItem = Type.Object({
+  key: Type.String(), kept: AnyJson, rejected: AnyJson, reason: Type.String(),
+  kept_evidence: AnyJson, rejected_evidence: AnyJson,
+  logged_at: Type.String({ format: "date-time" }),
+});
+
+/**
+ * THE TWO BIG DOCUMENTS ARE DECLARED OPEN, DELIBERATELY. A cup ledger and a completeness report are large,
+ * nested, generated files whose inner shape changes with the arrangement. Hand-writing a closed TypeBox for
+ * either would make fast-json-stringify STRIP every key the schema had not anticipated — the exact failure
+ * this block is fixing, inflicted at a hundred times the scale.
+ *
+ * So each names its top-level keys (which a client can rely on) and sets additionalProperties, which tells the
+ * serialiser to pass everything through. A consumer learns the entry points without the document being able to
+ * lose anything. The keys below were read off the committed artefacts, not guessed.
+ */
+export const LedgerRecord = Type.Object({
+  vendor: Type.String(), category: Type.String(), profile_hash: Type.String(),
+  built_on_commit: Nullable(Type.String()), norm_version: Type.Optional(Type.String()),
+  declared_fields: Type.Optional(AnyJson), gap_states: Type.Optional(AnyJson), held_rule: Type.Optional(AnyJson),
+  kind_layer_plans: Type.Optional(AnyJson), totals: AnyJson, kinds: AnyJson,
+  build: Type.Optional(AnyJson),
+}, { additionalProperties: true, description: "the frozen cup ledger for one category. Open by design: the inner shape follows the arrangement, and a closed schema would strip what it had not anticipated" });
+
+export const CompletenessReport = Type.Object({
+  vendor: Type.String(), built_on_commit: Nullable(Type.String()),
+  generated_at: Type.String({ format: "date-time" }),
+  definitions: Type.Optional(AnyJson), inputs: Type.Optional(AnyJson),
+  brand: AnyJson, categories: AnyJson,
+  acquisition_queue: Type.Optional(AnyJson), residue: Type.Optional(AnyJson),
+  model_disagreements: Type.Optional(AnyJson), cross_checks: AnyJson,
+  build: Type.Optional(AnyJson),
+}, { additionalProperties: true, description: "the completeness report: the source of truth for filling progress. Open by design, for the same reason as the ledger" });

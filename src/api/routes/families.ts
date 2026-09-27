@@ -22,7 +22,9 @@ const SharedFact = Type.Object({
   members: Type.Integer({ description: "members carrying exactly this value" }),
   of: Type.Integer({ description: "members with at least one rendered fact (the denominator)" }),
 });
-const FamilyRecord = Type.Intersect([FamilyCounts, Type.Object({
+/** Exported 27 Sep 2026 so /openapi.json can publish it as `Family`: one definition, used by the route and
+ *  declared in the document, rather than a client having no description of what it is sent. */
+export const FamilyRecord = Type.Intersect([FamilyCounts, Type.Object({
   shared_facts: Type.Array(SharedFact),
   members: Type.Array(PartSummary),
   next_cursor: Nullable(Type.String()),
