@@ -147,6 +147,14 @@ for (const vendor of vendors) {
   sabotage("hardware_parts", "a brand count one higher than its categories", (rr) => { rr.brand.hardware_parts++; });
   sabotage("hardware_parts", "a ledger whose category holds one more part", (_rr, cc) => { Object.values(cc.ledgers!)[0].totals.parts++; }, true);
   sabotage("hardware_parts", "a live count one lower than the file", (_rr, cc) => { cc.live!.hardware_parts--; }, true);
+  // The partition is the owner's top-of-tree line, so it needs to fail in BOTH directions: a term that
+  // shrinks (an exclusion quietly absorbed into the scored set) and a term that grows (double counting).
+  sabotage("live_partition", "an exclusion term quietly dropped from the partition", (_rr, cc) => {
+    (cc.live!.partition as Record<string, number>).kind_refused_by_role_table -= 1;
+  }, true);
+  sabotage("live_partition", "a part counted in two terms of the partition", (_rr, cc) => {
+    (cc.live!.partition as Record<string, number>).non_hardware += 1;
+  }, true);
   sabotage("arranged_partition", "a kind whose asked + asked_nothing overshoots its parts", (rr) => { rr.categories[0].kinds[0].arranged.asked_nothing_fallback++; });
   sabotage("asked_nothing_matches", "a parts_nothing_required that disagrees", (_rr, cc) => { cc.live!.parts_nothing_required++; }, true);
   sabotage("asked_nothing_matches", "a ledger asked_nothing that disagrees", (rr, cc) => { cc.ledgers![rr.categories[0].category].totals.fallback.asked_nothing.parts++; }, true);

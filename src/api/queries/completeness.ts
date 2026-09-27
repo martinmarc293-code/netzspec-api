@@ -217,12 +217,14 @@ export function ledgerCupKeys(lk: LedgerLike["kinds"][string]): string[] {
 }
 export type CheckContext = {
   ledgers?: Record<string, LedgerLike>;
-  live?: { hardware_parts: number; refused_by_role_table?: number; parts_nothing_required: number; required_total_held: number };
+  live?: { hardware_parts: number; refused_by_role_table?: number; live_parts?: number;
+    partition?: Readonly<Record<string, number>>; parts_nothing_required: number; required_total_held: number };
 };
 
 /** The invariant names. Stable: the test's sabotage cases assert on them. */
 export const CHECKS = [
   "hardware_parts",
+  "live_partition",
   "arranged_partition",
   "asked_nothing_matches",
   "held_partition",
@@ -278,6 +280,27 @@ export function checkReport(r: CompletenessReport, ctx: CheckContext = {}): Cros
     const missing = Object.keys(ctx.ledgers).filter((k) => !cats.some((c) => c.category === k));
     if (missing.length) fail("hardware_parts", `ledgers with no category block: ${missing.join(", ")}`);
   }
+  // THE WHOLE PARTITION OF THE LIVE CATALOGUE, every exclusion a named term (reviewer, 27 Sep 2026).
+  //
+  // The hardware identity below proves ONE exclusion is accounted for. This proves there are no others:
+  // every live part of the vendor is either scored or excluded for exactly one written reason, and the
+  // terms sum to the catalogue. That is what stops the next exclusion — whatever it turns out to be —
+  // from shrinking a denominator without appearing as a number somebody has to explain, which is how
+  // 3,476 parts of twelve brands sat inside Cisco's figures for a fortnight.
+  //
+  // `no_completeness_row` is in the sum on purpose. A live part with no row is in NEITHER the scored set
+  // nor any excluded one, and without a term of its own the partition either fails for a reason nobody can
+  // name or gets balanced by folding it into a neighbour. It is 0 today and it is asserted anyway.
+  run("live_partition");
+  if (ctx.live?.partition && ctx.live.live_parts !== undefined) {
+    const terms = Object.entries(ctx.live.partition);
+    const total = terms.reduce((a, [, n]) => a + n, 0);
+    if (total !== ctx.live.live_parts) {
+      fail("live_partition", `live catalogue ${ctx.live.live_parts} != ${terms.map(([k, n]) => `${k} ${n}`).join(" + ")} `
+        + `= ${total} (off by ${ctx.live.live_parts - total})`);
+    }
+  }
+
   // THE IDENTITY, NOT AN EQUALITY (27 Sep 2026): live = scored + refused. The report describes the SCORED
   // population, so parts the role table refuses as the wrong kind are not in it, and the live catalogue count
   // is larger by exactly those. Asserting the identity keeps BOTH numbers on screen and makes the difference

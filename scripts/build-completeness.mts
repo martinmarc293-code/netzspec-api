@@ -255,7 +255,9 @@ async function main(): Promise<void> {
      WHERE v.slug = $1 AND p.retired_at IS NULL AND f.superseded_by IS NULL AND f.method NOT LIKE 'retracted:%'`, [vendor]);
 
   // Independent aggregates for the cross-checks — computed in SQL, not from the arrays above.
-  const live = (await q<{ hardware_parts: number; refused_by_role_table: number; parts_nothing_required: number; required_total_held: number; required_present_held: number }>("live aggregates", `
+  const live = (await q<{ hardware_parts: number; refused_by_role_table: number; live_parts: number; scored_parts: number;
+    r_brand_not_arranged: number; r_non_hardware: number; r_refused: number; r_no_category_profile: number; r_no_completeness_row: number;
+    parts_nothing_required: number; required_total_held: number; required_present_held: number }>("live aggregates", `
     WITH held AS (SELECT DISTINCT dp.part_id FROM doc_parts dp WHERE ${heldRowSql("dp")})
     SELECT count(*) FILTER (WHERE p.product_class = 'hardware')::int AS hardware_parts,
            -- COUNTED, NOT FILTERED OUT (27 Sep 2026). The report describes the SCORED population and so
@@ -264,6 +266,21 @@ async function main(): Promise<void> {
            -- assert the IDENTITY -- live = scored + refused -- instead of one number quietly shrinking.
            count(*) FILTER (WHERE p.product_class = 'hardware'
                               AND cp.no_profile_reason = 'kind_refused_by_role_table')::int AS refused_by_role_table,
+           -- THE WHOLE PARTITION OF THE LIVE CATALOGUE, every term named (reviewer, 27 Sep 2026). The
+           -- hardware identity above proved one exclusion; this proves there are no OTHERS. Printed on the
+           -- brand page with every term, so no exclusion added later can shrink a denominator without
+           -- appearing here as a number somebody has to explain.
+           count(*)::int AS live_parts,
+           count(*) FILTER (WHERE cp.no_profile = false)::int AS scored_parts,
+           count(*) FILTER (WHERE cp.no_profile_reason = 'brand_not_arranged')::int AS r_brand_not_arranged,
+           count(*) FILTER (WHERE cp.no_profile_reason = 'non_hardware')::int AS r_non_hardware,
+           count(*) FILTER (WHERE cp.no_profile_reason = 'kind_refused_by_role_table')::int AS r_refused,
+           count(*) FILTER (WHERE cp.no_profile_reason = 'category_has_no_profile')::int AS r_no_category_profile,
+           -- THE TERM NOBODY ASKS FOR AND THE ONE THAT MAKES THE SUM HONEST: a live part with NO completeness
+           -- row is in neither the scored set nor any excluded set. Without a term of its own the partition
+           -- either fails to sum for a reason nobody can name, or gets quietly balanced by folding it into
+           -- one of the others. It is 0 today and it is printed anyway.
+           count(*) FILTER (WHERE cp.part_id IS NULL)::int AS r_no_completeness_row,
            -- exactly /v1/stats/gaps parts_nothing_required (src/api/queries/gaps.ts), summed over the vendor
            count(*) FILTER (WHERE NOT cp.no_profile AND cp.required_total = 0)::int AS parts_nothing_required,
            COALESCE(sum(cp.required_total) FILTER (WHERE p.product_class = 'hardware' AND h.part_id IS NOT NULL), 0)::int AS required_total_held,
@@ -272,6 +289,16 @@ async function main(): Promise<void> {
       LEFT JOIN completeness cp ON cp.part_id = p.id
       LEFT JOIN held h ON h.part_id = p.id
      WHERE v.slug = $1 AND p.retired_at IS NULL`, [vendor]))[0];
+
+  // THE LINE THE OWNER READS FIRST. Every exclusion named, and the sum asserted by `live_partition`, so
+  // "how much of this brand is even being measured" is answerable without trusting any single number.
+  const partition = { scored: live.scored_parts, non_hardware: live.r_non_hardware, brand_not_arranged: live.r_brand_not_arranged,
+    kind_refused_by_role_table: live.r_refused, category_has_no_profile: live.r_no_category_profile,
+    no_completeness_row: live.r_no_completeness_row };
+  const partSum = Object.values(partition).reduce((a, b) => a + b, 0);
+  console.log(`  live catalogue ${live.live_parts.toLocaleString()} = `
+    + Object.entries(partition).map(([k, n]) => `${k} ${n.toLocaleString()}`).join(" + ")
+    + (partSum === live.live_parts ? "" : `   <<< DOES NOT SUM (${partSum.toLocaleString()})`));
   const classRows = await q<{ product_class: string; n: number }>("product classes", `
     SELECT p.product_class::text, count(*)::int AS n FROM parts p JOIN vendors v ON v.id = p.vendor_id
      WHERE v.slug = $1 AND p.retired_at IS NULL GROUP BY 1 ORDER BY 2 DESC`, [vendor]);
@@ -714,7 +741,8 @@ async function main(): Promise<void> {
       // over, and tests/completeness.test.ts fails when the two files name different hashes. A missing file is said.
       ...readFreezeHash(vendor),
       worktree_dirty_paths: dirty,
-      live_at_build: { hardware_parts: live.hardware_parts, refused_by_role_table: live.refused_by_role_table, parts_nothing_required: live.parts_nothing_required, required_total_held: live.required_total_held },
+      live_at_build: { hardware_parts: live.hardware_parts, refused_by_role_table: live.refused_by_role_table,
+        live_parts: live.live_parts, partition, parts_nothing_required: live.parts_nothing_required, required_total_held: live.required_total_held },
       census_replay_parity: parityRows,
       pending_reclassification: Object.fromEntries(pendingReclass),
       defects_basis: "would_refuse and could_not_replay are computed PER PART by the census replay copied verbatim (not taken from the census's per-category totals, which carry no part), after `census_replay_parity` proved the copy reproduces every committed census total",
@@ -726,7 +754,8 @@ async function main(): Promise<void> {
     model_disagreements,
     cross_checks: [],
   };
-  const ctx: CheckContext = { ledgers, live: { hardware_parts: live.hardware_parts, refused_by_role_table: live.refused_by_role_table, parts_nothing_required: live.parts_nothing_required, required_total_held: live.required_total_held } };
+  const ctx: CheckContext = { ledgers, live: { hardware_parts: live.hardware_parts, refused_by_role_table: live.refused_by_role_table,
+    live_parts: live.live_parts, partition, parts_nothing_required: live.parts_nothing_required, required_total_held: live.required_total_held } };
   const checks: CrossCheck[] = [
     ...checkReport(report, ctx),
     { name: "census_replay_parity", passed: parity.length === 0, detail: parity.length ? parity.join("; ") : `ok over ${parityRows.length} censuses` },

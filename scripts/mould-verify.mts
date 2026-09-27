@@ -10,7 +10,7 @@
  * check that passed. Every one of the 27 is DECLARED here with its finding numbers. An unimplemented test
  * reports NOT IMPLEMENTED and is counted in its own number, never folded into passes. A test that needs the
  * database and cannot reach it reports UNAVAILABLE, also its own number. The summary line prints all four
- * counts — passed / FAILED / not implemented / unavailable — so "green" can never mean "I only ran six".
+ * counts — passed / FAILED / not implemented / unavailable / not exercised — so "green" can never mean "I only ran six".
  *
  * Exit: 1 if anything FAILED, 2 if nothing failed but something was UNAVAILABLE (could-not-check is not a
  * pass), 0 only when every implemented test passed. Unimplemented tests do not fail the run — they are a
@@ -24,12 +24,25 @@ import { partKind } from "../src/core/partKind.js";
 import { deployRoleResult, roleAxisOf, roleAxisKinds } from "../src/core/deployRole.js";
 import { query, closePool } from "../src/store/db.js";
 
-type Result = { state: "pass" | "fail" | "unavailable"; detail: string };
+type Result = { state: "pass" | "fail" | "unavailable" | "not_exercised"; detail: string };
 type Test = { name: string; findings: string; needsDb?: boolean; run?: () => Promise<Result> };
 
 const ok = (detail: string): Result => ({ state: "pass", detail });
 const bad = (detail: string): Result => ({ state: "fail", detail });
 const na = (detail: string): Result => ({ state: "unavailable", detail });
+/**
+ * THE FOURTH STATE: the check ran, and the condition it exists to detect HAS NO POPULATION to test
+ * against (reviewer, 27 Sep 2026). Not a pass, not a failure, and not "could not reach the database" --
+ * it is "there was nothing here to judge", and it needs its own word for the same reason could-not-check
+ * does: a check with no material reports exactly like a check that found nothing wrong.
+ *
+ * The case that forced it: three sabotages in completeness.test could no longer be staged once the 18
+ * refused rows left the score, because they were the only live parts with an underivable role. The same
+ * happens to refusals_consumed the day the reclassification plan runs and the 18 leave for good -- at
+ * which point a check watching for unconsumed refusals has nothing to consume and must SAY so rather
+ * than turning green and being quietly retired by accident.
+ */
+const none = (detail: string): Result => ({ state: "not_exercised", detail });
 
 // ---- the 27, declared whether or not they are written ------------------------------------------------------------
 const TESTS: Test[] = [
@@ -564,6 +577,14 @@ const TESTS: Test[] = [
         couldNotDerive++;
         if (cnd.length < 6) cnd.push(`${r.sku} (${r.cat}/${kind})`);
       }
+      // NO POPULATION IS ITS OWN VERDICT, not a pass. Run this against a brand with no role-bearing kind
+      // and every count below is 0 and every floor comparison is vacuous -- which reads exactly like
+      // "all roles derived cleanly". It says so instead. This is also what makes `none()` a state with a
+      // producer rather than a word in the vocabulary that nothing ever emits.
+      if (axisParts === 0) {
+        return none(`no part of any role-bearing (category, kind) pair exists here, so there is no role `
+          + `derivation to judge -- this is not "all roles derived", it is nothing to derive`);
+      }
       const shrunk = Object.entries(FLOOR).filter(([k, n]) => (seen.get(k) ?? 0) < n)
         .map(([k, n]) => `${k} ${seen.get(k) ?? 0} < ${n}`);
       const total = axisParts.toLocaleString();
@@ -602,7 +623,7 @@ const TESTS: Test[] = [
 
 // ---- run ----------------------------------------------------------------------------------------------------------
 const noDb = process.argv.includes("--no-db");
-let pass = 0, fail = 0, notImpl = 0, unavail = 0;
+let pass = 0, fail = 0, notImpl = 0, unavail = 0, notExercised = 0;
 const failed: string[] = [];
 
 console.log(`mould:verify — ${TESTS.length} tests declared\n`);
@@ -614,12 +635,14 @@ for (const t of TESTS) {
   catch (e) { r = na(`threw: ${e instanceof Error ? e.message : String(e)}`); }
   if (r.state === "pass") { pass++; console.log(`  PASS  ${t.name.padEnd(30)} ${r.detail}`); }
   else if (r.state === "fail") { fail++; failed.push(t.name); console.log(`  FAIL  ${t.name.padEnd(30)} ${r.detail}   (${t.findings})`); }
+  else if (r.state === "not_exercised") { notExercised++; console.log(`  ----  ${t.name.padEnd(30)} NOT EXERCISED  ${r.detail}`); }
   else { unavail++; console.log(`  ????  ${t.name.padEnd(30)} UNAVAILABLE  ${r.detail}`); }
 }
 
-console.log(`\n  passed ${pass}   FAILED ${fail}   not implemented ${notImpl}   unavailable ${unavail}`
+console.log(`\n  passed ${pass}   FAILED ${fail}   not implemented ${notImpl}   unavailable ${unavail}   not exercised ${notExercised}`
   + `   (of ${TESTS.length} declared)`);
 if (fail) console.log(`  failing: ${failed.join(", ")}`);
+if (notExercised) console.log(`  ${notExercised} test(s) had NO POPULATION to judge - they neither passed nor failed; what they watch for has no members today.`);
 if (notImpl) console.log(`  ${notImpl} declared tests are not written yet — this run does NOT certify their findings.`);
 await closePool().catch(() => {});
 process.exit(fail ? 1 : unavail ? 2 : 0);
