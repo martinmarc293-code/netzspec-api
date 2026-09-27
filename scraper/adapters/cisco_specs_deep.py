@@ -257,7 +257,13 @@ def join_list_fragments(recs: list[dict], defects: list[dict] | None = None) -> 
         out.append(first)
     for r in out:
         r.pop("_repeated_model", None)
-        r.pop("_cut", None)
+        # `_cut` used to be popped here, which is how a truncation became legible to the
+        # JOINER and invisible to everything downstream. The gate needs it: a stored value
+        # may be accepted as the PREFIX of a longer cell only when it really was capped.
+        # Written on EVERY record, true or false, because its ABSENCE is what marks a file
+        # produced before this contract -- and those are the only ones the gate may judge
+        # by length alone.
+        r["truncated"] = bool(r.pop("_cut", False))
     return out
 
 

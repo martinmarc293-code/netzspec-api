@@ -284,11 +284,22 @@ const couldBeCapped = (len: number) => ADAPTER_CAPS.some((c) => len >= Math.floo
  *  value of any length would match any cell beginning with it, so a wrong pour that took the first
  *  sentence of a paragraph would grade as correct -- the gate would be confirming the truncation
  *  rather than the value. */
-export function cellMatches(cell: unknown, expect: string): boolean {
+export function cellMatches(cell: unknown, expect: string, opts: { truncated?: boolean } = {}): boolean {
   const c = norm(cell), e = norm(expect);
   if (c === e) return true;              // the cell exactly as stored: the only test an uncapped value gets
+
+  // PROVENANCE, not length. The [80,160] band is wide enough to certify a wrong pour: a sentence
+  // poured into a scalar cup is 80-160 characters and IS the opening of the cell it came from, so
+  // length alone would grade it correct. The adapter knows which values it capped and now says so
+  // on every record, so:
+  //   truncated === true       the adapter capped it -> the stored value is the head of its cell
+  //   truncated === false      the adapter did NOT cap it -> it must match the cell WHOLE
+  //   truncated === undefined  a record written before 67a4f95, which carries no flag at all. Those
+  //                            are the only facts judged by length, and only so that every joined
+  //                            value already in the store stays readable.
+  if (opts.truncated === false) return false;
   if (!couldBeCapped(e.length)) return false;
-  return c.startsWith(e);                // capped: what was stored is the head of the cell it came from
+  return c.startsWith(e);
 }
 
 export type Defect = { code: string; locator: string; detail: string };
@@ -555,7 +566,7 @@ export function gateExtract(input: GateInput): GateOutcome {
     if (r.status !== "ok") {
       unchecked++;
       misses.push(`UNCHECKED doc=${p.got.doc_id} ${p.g.sku} ${p.g.field}: locator ${p.got.locator} could not be re-read (${r.status}${r.detail ? ": " + r.detail : ""})`);
-    } else if (cellMatches(r.cell, p.got.raw)) correct++;
+    } else if (cellMatches(r.cell, p.got.raw, { truncated: (p.got as { truncated?: boolean }).truncated })) correct++;
     else {
       wrong++;
       misses.push(`LOCATOR_MISMATCH doc=${p.got.doc_id} ${p.g.sku} ${p.g.field}: ${p.got.locator} holds ${JSON.stringify(norm(r.cell).slice(0, 60))}, the fact recorded ${JSON.stringify(norm(p.got.raw).slice(0, 60))}`);
@@ -575,7 +586,7 @@ export function gateExtract(input: GateInput): GateOutcome {
       misses.push(`PROVENANCE_MISS ${f.sku ?? f.family_scope ?? "?"} "${f.label}" = ${JSON.stringify(norm(f.value).slice(0, 60))}: locator ${JSON.stringify(String(f.locator ?? ""))} does not name a cell (t<n>:r<n>[:c<n>], PDFs p<n>:t<n>:r<n>[:c<n>])`);
       return;
     }
-    const cellOk = r.status === "ok" && cellMatches(r.cell, f.value);
+    const cellOk = r.status === "ok" && cellMatches(r.cell, f.value, { truncated: (f as { truncated?: boolean }).truncated });
     if (r.label_in_text && r.value_in_text && cellOk) { provOk++; return; }
     provBad++;
     const what = !r.value_in_text ? "value not in page text" : !r.label_in_text ? "label not in page text"

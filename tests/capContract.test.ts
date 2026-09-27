@@ -101,6 +101,21 @@ check("the 1,500-char prefix fixture really is 1,500 characters of a longer cell
   fifteenHundred.length === 1500 && long.length > 1500 && long.startsWith(fifteenHundred));
 check("SABOTAGE a 1,500-char prefix is refused: above the scalar cap, below half the list cap",
   !cellMatches(long, fifteenHundred));
+// THE REVIEWER'S CONDITION (27 Sep 2026). Length alone cannot license a prefix: the historical
+// band [80,160] is exactly the size of a sentence poured into a scalar cup, and such a value IS
+// the opening of the cell it came from, so it would grade CORRECT against its own gate. The
+// adapter knows what it capped; the gate now asks.
+const sentence = norm(so.cell).slice(0, 120);   // 120 is inside [80,160] -- a cap COULD produce it
+check("the wrong-pour fixture is inside the historical band", sentence.length === 120);
+check("SABOTAGE a post-cutover 120-char value with NO defect is refused, though its length fits a cap",
+  !cellMatches(so.cell, sentence, { truncated: false }));
+check("a value the adapter really DID cap is still accepted as a prefix",
+  cellMatches(so.cell, so.stored, { truncated: true }));
+check("a pre-cutover record (no flag at all) keeps the old length rule, so nothing in the store breaks",
+  cellMatches(so.cell, sentence) && cellMatches(l7.cell, norm(l7.cell).slice(0, 160)));
+check("SABOTAGE even a truncated flag cannot rescue a value that is not the head of the cell",
+  !cellMatches(l7.cell, "z".repeat(160), { truncated: true }));
+
 check("the refusals are the rule's own arithmetic, not a coincidence",
   ADAPTER_CAPS.every((c) => 200 < Math.floor(c / 2) || 200 > c));
 
