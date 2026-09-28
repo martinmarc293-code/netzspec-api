@@ -22,7 +22,7 @@
 // AND IT REFUSES RATHER THAN GUESSES. `renderValue` returns a refusal with a reason for anything it cannot
 // render — an unshaped struct, an unknown enum value, a malformed payload. A wrong German technical term is
 // worse than an honest refusal, because a refusal is visible and a wrong term is not.
-import { FIELD_DICTIONARY, DOMAIN_OVERRIDES } from "./fieldSchema.js";
+import { FIELD_DICTIONARY, DOMAIN_OVERRIDES, ENUM_LABELS } from "./fieldSchema.js";
 
 /**
  * THE LIST SEPARATOR, AND WHY IT IS NOT A SEMICOLON. German Excel writes CSV with `;` as the FIELD delimiter, so
@@ -94,16 +94,29 @@ type ValueCover = { map?: Readonly<Record<string, string>>; rule?: (v: string) =
  */
 const RF_CONNECTOR_DE = { "rp-tnc": "RP-TNC", "n-type": "N-Type", qma: "QMA", sma: "SMA", mmcx: "MMCX" } as const;
 
+/**
+ * ONE GERMAN SPELLING PER VALUE (reviewer's ruling, 28 Sep 2026): the DICTIONARY wins and this table becomes
+ * a derivation of it.
+ *
+ * Nothing had ever compared the two, and 32 of the 115 values spelled in both DISAGREED -- `integrated` was
+ * "Fest angeschlossen" here and "Fest konfektioniert" there, `mode.duplex` "Duplex" against
+ * "Duplex (Zweifaser)". Two spellings of one value on two surfaces is the same defect as two spellings of one
+ * connector, one layer up, and a ratchet could only stop it GROWING.
+ *
+ * So `fromLabels` takes a key's German straight from ENUM_LABELS, and a key that uses it cannot drift by
+ * construction -- there is no second copy to disagree with. Keys with NO dictionary counterpart keep their own
+ * map and are named by the coverage check as not compared, because a value spelled in one place only has
+ * nothing to disagree with either.
+ */
+const fromLabels = (key: string): Record<string, string> =>
+  Object.fromEntries(Object.entries(ENUM_LABELS[key] ?? {}).map(([v, p]) => [v, p.de]));
+
 export const ENUM_DE: Readonly<Record<string, ValueCover>> = {
   // --- genuinely English words a German buyer would notice ------------------------------------------------
-  airflow: { map: {
-    "front-to-back": "Vorne nach hinten", "back-to-front": "Hinten nach vorne", side: "Seitlich",
-    reversible: "Umkehrbar", "port-side-intake": "Ansaugung auf der Portseite", "port-side-exhaust": "Abluft auf der Portseite" } },
-  cooling: { map: { fanless: "Lüfterlos", "fixed-fans": "Feste Lüfter", "redundant-replaceable": "Redundant, wechselbar" } },
-  psu_config: { map: {
-    "fixed-internal": "Fest eingebaut", "modular-single": "Modular, ein Netzteil",
-    "modular-redundant": "Modular, redundant", external: "Extern" } },
-  temp_class: { map: { commercial: "Kommerziell", extended: "Erweitert", industrial: "Industriell" } },
+  airflow: { map: fromLabels("airflow") },
+  cooling: { map: fromLabels("cooling") },
+  psu_config: { map: fromLabels("psu_config") },
+  temp_class: { map: fromLabels("temp_class") },
   license_type: { map: {
     perpetual: "Unbefristet", subscription: "Abonnement", term: "Laufzeit", trial: "Testversion", embedded: "Integriert" } },
   delivery_method: { map: { electronic: "Elektronisch", physical: "Physisch" } },
@@ -116,7 +129,7 @@ export const ENUM_DE: Readonly<Record<string, ValueCover>> = {
   audio_codecs: { map: {
     g711: "G.711", g722: "G.722", "g722-2": "G.722.2", g729: "G.729",
     opus: "Opus", ilbc: "iLBC", isac: "iSAC" } },
-  dac_type: { map: { passive: "Passiv", active: "Aktiv" } },
+  dac_type: { map: fromLabels("dac_type") },
   mic_type: { map: {
     omnidirectional: "Omnidirektional", unidirectional: "Unidirektional", array: "Mikrofon-Array", beamforming: "Beamforming" } },
   // BOTH, because its domain differs by category: the chassis words in `switches` and every optic form factor in
@@ -124,24 +137,14 @@ export const ENUM_DE: Readonly<Record<string, ValueCover>> = {
   // The chassis words, the four UCS server shapes (DOMAIN_OVERRIDES on the three UCS categories), and a rule for the
   // optic cages the transceiver override adds. The UCS four are MAPPED because `presentFormFactor` now refuses them:
   // until 26 Sep they fell through it and rendered as "BLADE-HALF" / "COMPUTE-NODE" / "ROUTER-MODULE".
-  form_factor: { map: {
-    "rack-19": "19-Zoll-Rack", desktop: "Desktop", "din-rail": "Hutschiene", "modular-chassis": "Modulares Chassis",
-    "blade-half": "Blade, halbe Breite", "blade-full": "Blade, volle Breite",
-    "compute-node": "Compute-Node", "router-module": "Router-Modul" },
-    rule: presentFormFactor, why: "the transceiver override domain carries the optic form factors" },
+  form_factor: { map: fromLabels("form_factor") },
   // The German networking trade sells these under the English words; translating them would be less clear, not
   // more. Written down as a decision rather than left to a pass-through.
-  mgmt_class: { map: { managed: "Managed", "smart-managed": "Smart Managed", unmanaged: "Unmanaged" } },
-  deploy_role: { map: {
-    smb: "KMU", access: "Access", "core-agg": "Core/Aggregation", datacenter: "Rechenzentrum", industrial: "Industrie",
-    indoor: "Innenbereich", outdoor: "Außenbereich", "mesh-extender": "Mesh-Extender", branch: "Filiale", edge: "Edge",
-    "industrial-iot": "Industrielles IoT", "sp-access": "SP-Access", "sp-edge": "SP-Edge", "sp-core": "SP-Core",
-    desk: "Tischgerät", wireless: "Drahtlos", dect: "DECT", conference: "Konferenz" } },
+  mgmt_class: { map: fromLabels("mgmt_class") },
+  deploy_role: { map: fromLabels("deploy_role") },
 
   // --- technical tokens: the German is the PRESENTED form of the same token ---------------------------------
-  media: { map: {
-    mmf: "Multimode-Faser (MMF)", smf: "Singlemode-Faser (SMF)", "dac-copper": "DAC-Kupfer",
-    "rj45-copper": "RJ45-Kupfer", aoc: "AOC (aktives optisches Kabel)" } },
+  media: { map: fromLabels("media") },
   // THE 21 VALUES THE PER-CATEGORY CONNECTOR DOMAINS ADDED (28 Sep 2026). `german_domain_coverage` went
   // PASS -> FAIL on the deploy that widened them, 458 uncovered values -> 479, naming `connector` in every
   // category that holds one: a domain widened without a rendering is a German shop cell printing a slug, and
@@ -153,37 +156,25 @@ export const ENUM_DE: Readonly<Record<string, ValueCover>> = {
   // and a second copy is how one connector ends up with two German spellings on two pages — which this file
   // already records happening to `antenna_connector` itself ("RP-TNC"/"N-type" facts against an `rp-tnc`
   // domain). One table, two keys.
-  connector: { map: {
-    "lc-duplex": "LC-Duplex", "lc-simplex": "LC-Simplex", sc: "SC", "mpo-12": "MPO-12", "mpo-16": "MPO-16",
-    "mpo-24": "MPO-24", rj45: "RJ45", integrated: "Fest angeschlossen",
-    ...RF_CONNECTOR_DE, tnc: "TNC", d8: "D8 (DART)", m12: "M12 (Rundsteckverbinder)",
-    rj11: "RJ11", rj9: "RJ9 (Headset)", db9: "DB9 (seriell)", din: "DIN",
-    hdmi: "HDMI", dvi: "DVI", "dvi-d": "DVI-D", displayport: "DisplayPort",
-    "usb-a": "USB-A", "usb-b": "USB-B", "usb-c": "USB-C", "micro-usb": "Micro-USB",
-    "3.5mm": "3,5-mm-Klinke" } },
+  connector: { map: fromLabels("connector") },
   antenna_connector: { map: { ...RF_CONNECTOR_DE } },
-  layer: { map: { l2: "Layer 2", l2plus: "Layer 2+", l3: "Layer 3" } },
-  mode: { map: { duplex: "Duplex", "simplex-bidi": "Simplex BiDi", "duplex-bidi": "Duplex BiDi" } },
-  fec: { map: { none: "Keine", "rs-fec": "RS-FEC", "fc-fec": "FC-FEC", "host-dependent": "Host-abhängig" } },
-  laser_type: { map: { vcsel: "VCSEL", fp: "FP", dfb: "DFB", eml: "EML" } },
-  poe_standard: { map: {
-    none: "Kein PoE", "802.3af": "IEEE 802.3af (PoE)", "802.3at": "IEEE 802.3at (PoE+)",
-    "802.3bt-t3": "IEEE 802.3bt Typ 3", "802.3bt-t4": "IEEE 802.3bt Typ 4", upoe: "Cisco UPOE", "upoe-plus": "Cisco UPOE+" } },
+  layer: { map: fromLabels("layer") },
+  mode: { map: fromLabels("mode") },
+  fec: { map: fromLabels("fec") },
+  laser_type: { map: fromLabels("laser_type") },
+  poe_standard: { map: fromLabels("poe_standard") },
   drive_interface: { map: {
     sas: "SAS", "sas-3": "SAS-3", sata: "SATA", nvme: "NVMe", pcie: "PCIe", "u.2": "U.2", "u.3": "U.3", "m.2": "M.2" } },
   drive_form_factor: { map: {
     "2.5": "2,5 Zoll", "3.5": "3,5 Zoll", "m.2": "M.2", "e1.s": "E1.S", "e3.s": "E3.S", "u.2": "U.2", "u.3": "U.3" } },
-  fiber_type: { map: { om1: "OM1", om2: "OM2", om3: "OM3", om4: "OM4", om5: "OM5", os1: "OS1", os2: "OS2" } },
+  fiber_type: { map: fromLabels("fiber_type") },
   wifi_generation: { map: {
     "wi-fi 4": "Wi-Fi 4", "wi-fi 5": "Wi-Fi 5", "wi-fi 6": "Wi-Fi 6", "wi-fi 6e": "Wi-Fi 6E", "wi-fi 7": "Wi-Fi 7" } },
   // Shape-checked like presentFormFactor: NxM or NxM:S and nothing else, so a value this rule was not written
   // for is reported as uncovered instead of being uppercased into nonsense.
   spatial_streams: { rule: (v) => (/^[0-9]+x[0-9]+(:[0-9]+)?$/.test(v) ? v.toUpperCase().replace("X", "×") : null),
     why: "an antenna configuration: 4x4:4 presents as 4×4:4 in any language" },
-  vendor: { map: {
-    cisco: "Cisco", hpe: "HPE", aruba: "Aruba", juniper: "Juniper", arista: "Arista", "dell-emc": "Dell EMC",
-    lenovo: "Lenovo", extreme: "Extreme Networks", fortinet: "Fortinet", nvidia: "NVIDIA", mikrotik: "MikroTik",
-    ubiquiti: "Ubiquiti", supermicro: "Supermicro" } },
+  vendor: { map: fromLabels("vendor") },
   form_factor_a: { rule: presentFormFactor, why: "an optic form factor is one token in every language; see presentFormFactor" },
   form_factor_b: { rule: presentFormFactor, why: "the same, for the far side of a breakout" },
   ip_rating: { rule: (v) => (/^ip[0-9x]{2}k?$/.test(v) ? v.toUpperCase() : null),

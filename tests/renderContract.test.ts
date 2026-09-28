@@ -196,7 +196,7 @@ check(`…and the ones with no renderer are named here rather than left to be di
 // put a second spelling into `antenna_connector` and the suite stayed GREEN — not a dead check, a check
 // structurally unable to reach that key, which is exactly the thing worth printing beside the number.
 {
-  const RECORDED_DRIFT = 32;
+  const RECORDED_DRIFT = 0;   // 32 until ENUM_DE was derived from the dictionary (28 Sep 2026); a second copy no longer exists to disagree
   let sharedValues = 0;
   const disagree: string[] = [];
   for (const [key, vals] of Object.entries(ENUM_LABELS)) {

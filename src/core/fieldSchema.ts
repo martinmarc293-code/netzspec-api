@@ -4840,6 +4840,15 @@ export const ENUM_LABELS: Record<string, Record<string, { de: string; en: string
     l3: { de: "Layer 3", en: "Layer 3" },
   },
   form_factor: {
+    // THE FOUR UCS SHAPES arrive here 28 Sep 2026 from renderContract's ENUM_DE, under the ruling that the
+    // DICTIONARY is the one German spelling and ENUM_DE derives from it. They are the per-category domain
+    // the three UCS categories carry (DOMAIN_OVERRIDES), they were spelled in ENUM_DE and nowhere else, and
+    // `presentFormFactor` — the rule that used to answer for them — returned SHOUTED English ("BLADE-HALF")
+    // until 26 Sep, which is how they came to be rendered in one table only.
+    "blade-half": { de: "Blade, halbe Breite", en: "Half-width blade" },
+    "blade-full": { de: "Blade, volle Breite", en: "Full-width blade" },
+    "compute-node": { de: "Compute-Node", en: "Compute node" },
+    "router-module": { de: "Router-Modul", en: "Router module" },
     "rack-19": { de: "19-Zoll-Rackmontage", en: "19-inch rack" },
     desktop: { de: "Desktop", en: "Desktop" },
     "din-rail": { de: "DIN-Schienenmontage", en: "DIN rail" },
@@ -4855,6 +4864,12 @@ export const ENUM_LABELS: Record<string, Record<string, { de: string; en: string
     cpak: { de: "CPAK", en: "CPAK" }, osfp: { de: "OSFP", en: "OSFP" }, "sfp-dd": { de: "SFP-DD", en: "SFP-DD" },
   },
   deploy_role: {
+    // THE THREE SERVICE-PROVIDER ROLES arrive here 28 Sep 2026 from renderContract's ENUM_DE, under the
+    // ruling that the DICTIONARY is the one German spelling and ENUM_DE derives from it. They were spelled
+    // there and nowhere else, so deriving without first moving them would have deleted three renderings —
+    // which is why the derivation was checked value by value before it was wired, not after.
+    "sp-access": { de: "SP-Access", en: "SP access" }, "sp-edge": { de: "SP-Edge", en: "SP edge" },
+    "sp-core": { de: "SP-Core", en: "SP core" },
     smb: { de: "Kleinunternehmen (SMB)", en: "Small business" }, access: { de: "Access", en: "Access" },
     "core-agg": { de: "Core / Aggregation", en: "Core / aggregation" }, datacenter: { de: "Rechenzentrum", en: "Data centre" },
     industrial: { de: "Industrie", en: "Industrial" }, indoor: { de: "Innenbereich", en: "Indoor" },
@@ -4910,7 +4925,12 @@ export const ENUM_LABELS: Record<string, Record<string, { de: string; en: string
     os1: { de: "OS1", en: "OS1" }, os2: { de: "OS2", en: "OS2" },
   },
   connector: {
-    "lc-duplex": { de: "LC Duplex", en: "LC duplex" }, "lc-simplex": { de: "LC Simplex", en: "LC simplex" },
+    // HYPHENATED 28 Sep 2026, and not on my taste: renderContract has its own rule that "a technical token
+    // is its PRESENTED form, hyphenated as the dictionary's own German is", and it went red on "LC Duplex"
+    // the moment ENUM_DE was derived from here. The dictionary winning means the dictionary has to be right
+    // by the rules the repo already enforces; the second table had been quietly carrying the correct
+    // spelling, which is what two copies hide.
+    "lc-duplex": { de: "LC-Duplex", en: "LC duplex" }, "lc-simplex": { de: "LC-Simplex", en: "LC simplex" },
     sc: { de: "SC", en: "SC" }, "mpo-12": { de: "MPO-12", en: "MPO-12" },
     "mpo-16": { de: "MPO-16", en: "MPO-16" }, "mpo-24": { de: "MPO-24", en: "MPO-24" }, rj45: { de: "RJ45", en: "RJ45" },
     integrated: { de: "Fest konfektioniert", en: "Integrated" },
