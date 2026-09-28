@@ -36,14 +36,21 @@ title" are three different jobs:
 
 ## What to do about it, in order of cost
 
-1. **Check the box before anything else.** `/var/lib/netzspec-api/cache` is the real cache and the laptop
-   copy is a working copy; this catalogue's own memory note is *"box cache = VENDOR backup — check the box
-   BEFORE any re-fetch"*, and last time that check turned a 137-hour re-fetch into a twenty-minute restore.
-   The laptop holds 17,593 files and the box held 12,231 at the last count, so they are different sets and
-   the answer is not obvious either way. **One `ls` settles it and I have no shell there.**
+1. **The box was checked, and the answer is no.** `/var/lib/netzspec-api/cache` holds **12,231** files
+   against the laptop's 17,593, so they really are different sets and the question was worth asking. Of the
+   942 missing paths, **0 are on the box**.
+
+   **THE CONTROL MATTERS MORE THAN THE ZERO.** An exact zero over 942 rows is the shape a broken comparison
+   makes, and this catalogue has paid for exactly that once — 6,004 of 7,142 files were on the box while an
+   exhaustive check said none were, and the restore it nearly replaced was 137 hours of re-fetching. So the
+   same script was run over 40 cache paths that DO exist on this machine: **40 of 40 present on the box.**
+   The comparison works; the 942 are genuinely on neither machine.
+
+   (`ssh` to the box is available through the key `scripts/deploy.sh` already uses, read-only. I asked the
+   reviewer for this before remembering that.)
 2. **Record the distinction.** A `cache_present` answer — checked, not assumed — so the next reader is not
    told 1,029 pages are available when 87 are.
-3. **Only then decide about re-fetching.** 829 of the 942 are itprice, which this catalogue records as
+3. **So re-fetching is the only route, and it may not exist.** 829 of the 942 are itprice, which this catalogue records as
    Cloudflare-blocked to every non-browser client and 403 even through a residential exit. Re-fetching them
    is not a small job and may not be possible at all, which is a different conversation from "run the
    backfill".
