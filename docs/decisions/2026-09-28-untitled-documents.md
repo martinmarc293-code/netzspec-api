@@ -66,3 +66,27 @@ Next: the 83 readable carry no `<title>`; take a PDF's own /Title metadata where
 PDF title = the Info dictionary's /Title via pdfplumber. The first (raw-byte) version was killed by reading its rows: 58 of its 68 "recovered" were an embedded image's XMP, a bookmark or compressed bytes ("Print" x34). Rows: data/dryrun/doc-titles-2026-09-28.tsv.
 Remaining readable-untitled 15 = 14 files whose Info dictionary carries no /Title (13 PDF, 1 HTML) + 1 refused template name ("MS Word Template_102504").
 Question: record these 15 as a named no-title-in-document state, or title them from their first-page heading (a read of visible text, not metadata)?
+
+## 28 Sep — reviewer: "which PDF title source?" Run 1289 wrote the Info dictionary /Title (pdfplumber), not first-page headings
+The heading ruling was not in state.md or this file when the run was built. 20 of the 68, spread by doc_id, sent for acceptance:
+1. Cisco C9350 Series Smart Switches
+2. Cisco Compute Hyperconverged and Compute-Only with Nutanix-220 M7 All-NVMe/All-Flash Server
+3. Cisco 8100 Series Secure Routers
+4. Cisco HyperFlex HX220 M6 Edge All Flash and Hybrid Server Nodes Spec Sheet
+5. Webex Workforce Optimization Data Sheet
+6. Cisco HyperFlex HX-E-220M5SX Edge Spec Sheet
+7. Cisco UCS E-Series Compatibility and Ordering Guide
+8. Cisco UCS B480 M5 Blade Server Spec Sheet
+9. Cisco UCS XE130c M8 Compute Node Spec Sheet
+10. Cisco HyperFlex HX240 M6 Edge All Flash and Hybrid Server Nodes Spec Sheet
+11. Cisco Compute Hyperconverged and Compute-Only with Nutanix-220 M6 All-NVMe/All-Flash Server
+12. Cisco Compute Hyperconverged and Compute-Only with Nutanix-225C M8 All-NVMe Server
+13. Cisco UCS 6536 Fabric Interconnect Spec Sheet
+14. Prisma Band Wave Division Multiplexer (BWDM) Filters Data Sheet
+15. Cisco UCS C240 M7 SFF Rack Server Spec Sheet
+16. Cisco Compute Hyperconverged HCINX240C M8 LFF Server
+17. Cisco UCS X410c M7 Compute Node Spec Sheet
+18. Cisco 8400 Series Secure Routers
+19. Cisco UCS 6300 Series Fabric Interconnect Spec Sheet
+20. Data Sheet - Prisma II 1 GHz 1550 nm Transmitters
+If any fails the read: one run nulls the 68 (doc_ids in data/dryrun/doc-titles-2026-09-28.tsv) and they are titled from first-page headings instead.
