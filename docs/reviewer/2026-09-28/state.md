@@ -9,16 +9,16 @@
 - Reports are 5 lines (Rule 2). Reasoning goes in `docs/decisions/2026-09-28-<item>.md`.
 - Verify a chat send: composer must read 0 chars afterwards.
 
-## Board: passed 11 | FAILED 15 | unavailable 3 | not exercised 3 (of 32) · self-test proven 19 | BROKEN 0 | unproven 13
-HEAD 27b7e7f, deployed 86e01ee.
+## Board: passed 12 | FAILED 14 | unavailable 3 | not exercised 3 (of 32) · self-test proven 20 | BROKEN 0 | unproven 12
+HEAD a29aefa, deployed a29aefa (box run 28 Sep 17:22).
 
 ## Flip order
 | # | item | status | what to do (from its decision file) |
 | --- | --- | --- | --- |
-| 1 | fill_state_partition | TODO code | it is a PROGRESS BAR; report the six states per build, green condition unchanged |
-| 2 | runs_have_approval | TODO code | three-class rule: membership→approval (132/132), apply-*→gate (578/579), derived→neither. run 69 named |
-| 3 | openapi_schemas | TODO code | `Line` done. `Model` rename/strike — no `model` COLUMN exists |
-| 4 | doc_category_by_relevance | TODO code | scope to documents whose page is READABLE: 942 of 1,029 cache files are on NEITHER machine (40/40 control) |
+| 1 | fill_state_partition | DONE code (still red by design) | baseline recorded in data/completeness/fill-state-history.jsonl; seed 26,619 (was 32,503 in the decision file) |
+| 2 | runs_have_approval | CODED, RED: 102 approval + 6 gate | the 132/132 held for 3 kinds only; honest exhaustive table finds promote-unknown-skus 49, reclassify 21, retract-* 11 … 85 of 108 predate 09-11. NEEDS RULING: cutoff at first approval, or per-kind |
+| 3 | openapi_schemas | GREEN | Model struck by rename: parts.family IS the model (0013); C9500-12Q-A/-E/-A= → C9500-12Q |
+| 4 | doc_category_by_relevance | CODED, RED: 83 readable untitled | 1,275 = 83 readable + 946 gone + 246 never cached (box control 37/40). The 83 have no <title> (PDFs?) — next: PDF metadata title |
 | 5 | column_backed_never_facts | 1,258 left | 95 prefix-duplicates, 569 software/licence (fact = the platform it licenses → relation), 398 hardware layer-4, 196 lic/sw residue |
 | 6 | enum_values_in_domain | AWAITING seed retraction | 2,011: standard 1,806 (1,775 hexcat_seed), mounting 115, audio_codecs 80 (all INHERITED), 10 wireless |
 | 7 | required_cup_defined | AWAITING-RULING | 30 cups = 3 keys. bundle_contents 0 facts, video_codecs 0 facts, product_compatibility 79 |
