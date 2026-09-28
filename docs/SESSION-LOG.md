@@ -4,6 +4,38 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-28 (23) - ELEVEN COMMITS AGAINST THE REVIEWER'S ORDER, AND EVERY CLAIM COST A MEASUREMENT.** The board
+  moved 11/15 -> 11/15 with two regressions caught and undone inside one deploy each. Eight of the fifteen reds now
+  have a decision file sizing them rather than a number nobody can act on.
+  - **DONE AND VERIFIED.** `required_cup_defined`'s enum half (six unsatisfiable triples, `-40 bis 85 °C` stored in
+    the `standard` cup); the four connector domains as ruled, plus `d8`/`m12`/`din` which my own token count had
+    missed; two D rows back (routers, collaboration-endpoints) and WIRELESS WITHDRAWN on evidence; 21 German
+    renderings and `ENUM_DE` made a DERIVATION of the dictionary so the 32 disagreements cannot recur; the MX move
+    (18 to security/firewall, 4 Z to routers/router role smb, `appliance` gone from merakiKind entirely);
+    `sub_brand` as migration 0028, column only; `/v1/lines`; the conflicts orphan predicate.
+  - **RUNNING WHEN THIS WAS WRITTEN:** run 1275, the authorised retraction of 5,156 column-backed duplicates. Its
+    predecessor, run 1274, was KILLED at 1,680 by the harness WHICH REPORTED EXIT 0 - the wrapper's status, and the
+    artifact (`status=running`, `stats={}`, 5,462 live against a target of 1,986) is what said otherwise. Rolled
+    back whole with the new `scripts/rollback-killed-run.mts`; relaunched under PowerShell `Start-Process`.
+  - **THE TRAP THAT RECURRED FOUR TIMES AND WAS CAUGHT EVERY TIME BY GOING TO THE REAL CODE.** Reconstructing a
+    check's predicate gave 0 orphans against its 12,874, and 13 then 27 twins against its 19. A retraction's first
+    dry run said `RETRACT 0` because the SQL aliased the value as `val` and the classifier reads `value`. Each was
+    a plausible number from correct SQL asking a different question. What settled every one was running the real
+    function - and the `RETRACT 0` was only harmless because the gate scores an EMPTY sample as precision 0.
+  - **SIX REDS ARE SMALLER OR LARGER THAN THEY READ**, each with a decision file: `unknown_zero` 3,944 is 468 (3,476
+    are `vendor_coverage` counted twice, and 362 of the 468 are a NAME gap); `four_sets_sum`'s `na = 0` is 77,098
+    cells and wants one derived rule, not 303 judgements; `conflicts_classified`'s 12,874 orphans are 599;
+    `twin_parity`'s 19 are a name asymmetry, not the `=` suffix (1 of 14); `relations_for_components` would delete
+    56 usable model lists; `doc_category_by_relevance`'s remedy already exists and its inputs are GONE - 942 cache
+    files on neither machine, proven with a 40-of-40 control on the box.
+  - **NEXT:** finish run 1275 and print its two controls; wire `cellular` (rule + suite are committed, column and
+    populate held); the `sub_brand` populate on the corrected rule; `datasheet_cell` as a reason; `/v1/models`
+    blocked on there being no `model` column.
+  - **TRAPS.** `ssh -i ~/.ssh/dubaifix_hetzner root@77.42.72.81` is available read-only and I asked the reviewer to
+    run an `ls` before remembering it. The artefact order is recompute BEFORE ledgers and censuses, not after -
+    following the documented order refused the completeness build on three cross-checks. `cupLedger` prints
+    "331 passed, 0 missed" and EXITS 1; the totals line is a section, not the verdict.
+
 - **2026-09-28 (22b) - THE REVIEWER'S RULINGS THAT ARRIVED AFTER THE HANDOFF. Nothing started; the weekly limit was at 96% against the operator's 95% stop. Each item carries the ruling verbatim so the next session does not re-ask.**
   - **D2, then C.** Targets for the four: `ASA-SSC-AIP-5-K9=` -> `module` (an SSC card, filed with the ASA it plugs into, product_compatibility by relation); `NAM2420-K9` / `NAM2440-K9` -> `management` (standalone 1RU Network Analysis Module appliances - ports, rack_units, storage asked, throughput NOT); `TG5500-C220M3S-K9` -> `analytics` (a ThreatGrid appliance on a C220 - samples/day, storage, cpu). **All three kinds exist in the security axis** (module 175, management 81, analytics 214) - I nearly told the reviewer `module` did not, off a `LIMIT 14` whose tail I read as the end of the set. There is NO "rest of security's appliances": that sweep has already run, `appliance` holds exactly 4 live rows, so D2 is four PUTs and C is free afterwards because the kind then holds zero parts.
   - **`conferencing` is RETIRED, which is how the collab red resolves** (already ruled #4): 0 live rows, one software row reclassified, profile retired with the category, removed from COLLAB_CATEGORIES. The parity invariant then has two siblings and no exception, and the role-axis rewrite has no instance to fire on - neither decision is weakened, one loses its subject. If the freeze cannot carry it in the same commit, the invariant states the exception **with the retirement as its expiry**, never as a standing exemption.
