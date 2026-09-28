@@ -32,7 +32,7 @@
  *        Wireless (CW9166I), which has no cellular radio at all — the same two letters, the opposite answer.
  * `C`    likewise: a trailing C on an MX or Z model (MX67C, Z4C) is the cellular variant. Nowhere else.
  */
-const MARKERS: readonly { re: RegExp; why: string }[] = [
+const MARKERS: readonly { re: RegExp; why: string; whole?: true }[] = [
   // LTE, PER HYPHEN-DELIMITED TOKEN: the token is exactly "LTE", or a DIGIT appears before it inside the
   // same token. That is what separates C1111-4PLTEEA and C1117-4PMLTEEAWE (accepted) from FILTER, FILTERING
   // and DRILLTEMP (refused), and both halves were paid for. Requiring LTE not to be followed by a letter
@@ -46,6 +46,20 @@ const MARKERS: readonly { re: RegExp; why: string }[] = [
   // Meraki's own naming, and ONLY Meraki's: MX67C, MX68CW, Z4C, Z4C-HW. Elsewhere CW is Catalyst Wireless
   // (CW9166I), which has no cellular radio at all — the same two letters, the opposite answer.
   { re: /^(?:MX[0-9]{2,3}|Z[0-9])C(?:W)?$/i, why: "Meraki C / CW model" },
+  // MG IS MERAKI'S CELLULAR GATEWAY LINE, and it was found by checking the gate this rule was written for
+  // rather than by adding a marker that looked plausible. `meraki` asks `cellular_bands` of kind
+  // `cellular-gateway`, so the question "would switching that gate to `cellular = true` lose anything" had
+  // an answer: MG21, MG21E and MG41 -- the BARE MODEL rows -- came back FALSE, while their `-HW` siblings
+  // came back true only because their NAME happens to contain the word cellular. A gate keyed on the rule
+  // would have stopped asking three model rows for the one specification a cellular gateway exists for.
+  //
+  // Scoped to the model shape exactly as the MX/Z rule is, because `MG` alone is not enough: `MGKIT-1` is a
+  // MOUNTING KIT and `MG21-ENT-5Y` is a licence. A digit must follow.
+  // TESTED AGAINST THE WHOLE SKU, not a token, and the suite is what said so. Per token, `MG21-ENT-5Y`
+  // splits into MG21 / ENT / 5Y and the first matches -- so a term LICENCE was being called cellular. The
+  // MX and Z rules are safe per token only by accident: their licence forms (`L-MX450-P=`) lose the trailing
+  // C that those patterns require. MG has no such letter, so it needs the anchor made explicit.
+  { re: /^MG[0-9]{2}[A-Z]?(?:-HW)?(?:-NA|-WW)?$/i, why: "Meraki MG cellular gateway", whole: true },
 ];
 
 /** a SKU or a name as the alphanumeric tokens a marker is tested against, never as one string */
@@ -60,8 +74,8 @@ export type CellularVerdict = { cellular: boolean; why: string };
  * name is free text and the SKU is the identifier, so a SKU marker is what the reason names when both fire.
  */
 export function cellularOf(sku: string, name?: string | null): CellularVerdict {
-  const st = tokens(sku);
-  for (const m of MARKERS) if (st.some((t) => m.re.test(t))) return { cellular: true, why: `SKU: ${m.why}` };
+  const st = tokens(sku), whole = String(sku ?? "").trim();
+  for (const m of MARKERS) if (m.whole ? m.re.test(whole) : st.some((t) => m.re.test(t))) return { cellular: true, why: `SKU: ${m.why}` };
   const nt = tokens(name ?? "");
   // The name is only consulted for the standards, never for the Meraki model shape — "C" in a sentence is
   // a letter, and a name reading "Cisco MX67C" would otherwise be a second, weaker copy of the SKU rule.

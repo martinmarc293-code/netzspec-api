@@ -1107,7 +1107,7 @@ const cond = (when: Condition, opts?: { elseOpt?: boolean }): Requirement =>
 // kind-layer (13 Sep 2026): `deploy_role` joins them. It is derived per part (src/core/deployRole.ts) exactly like `kind`,
 // so it is a discriminator of the question set, not a question: a null role is reported as `role: unresolved` in the
 // ledger and the completeness report, never counted as a gap a source could fill.
-export const COLUMN_BACKED: ReadonlySet<string> = new Set(["vendor", "series", "deploy_role", "modular"]);
+export const COLUMN_BACKED: ReadonlySet<string> = new Set(["vendor", "series", "deploy_role", "modular", "cellular"]);
 
 /**
  * Ask a flat block of requirements only of a DEVICE — never of a power supply, fan, cable, rack
@@ -3386,6 +3386,22 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     antenna_gain: opt,
     antenna_connector: opt,
     radio_bands: cond({ field: "kind", inList: ["antenna"] }),
+    // THE CELLULAR GATE (reviewer's ruling, 28 Sep 2026), and it is scoped to the kinds that are a cellular
+    // DEVICE rather than to `cellular = true` alone. Measured over the 274 routers parts the derivation calls
+    // cellular, by kind, against the facts they already hold:
+    //
+    //     router     204   41 already hold a cellular_bands fact        <- asked
+    //     module      40    6                                          <- asked
+    //     antenna     11    0                                          <- NOT asked, and the 13 Sep round
+    //                                                                     measured antennas at 37.1% and left
+    //                                                                     the cup optional on that evidence
+    //     cable 2, mechanical 2, accessory 1, processor 1, sp-router 3, unkinded 10, all 0
+    //
+    // So `cellular = true` says the part carries a radio and the kind says it is a thing that publishes its
+    // bands; an LMR antenna cable and a mounting bracket can be the first without being the second. Asking on
+    // the column alone would have reversed a measured decision about antennas as a side effect, which is not
+    // what the ruling asked for.
+    cellular_bands: cond({ all: [{ field: "cellular", eq: true }, { field: "kind", inList: ["router", "module"] }] }, { elseOpt: true }),
     // kind-layer: power-cord keeps cable_length (19 readable, low-n: as today); cable 24.1% of 54 readable — demoted.
     cable_length: rtKinds(["power-cord"]),
     // THE D ROW, BACK (reviewer, 28 Sep 2026). routers holds 259 cables and 37 of them name a connector in the
@@ -3718,7 +3734,10 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // MAINS FREQUENCY on 19 `switches` parts and 7 HPE parts in this category ("50Hz/60Hz",
     // "47 to 63 Hz"), which is `input_frequency` wearing the wrong cup. Both of those are proposals
     // in the report for the categories that own them.
-    cellular_bands: cond({ field: "kind", inList: ["cellular"] }),
+    // THE KIND GATE KEPT AND THE DERIVED COLUMN ADDED, not swapped (28 Sep 2026). `kind = cellular` names 99
+    // parts here and `cellular = true` names 107 — the extra 8 carry a radio and no kind, so either clause
+    // alone leaves someone out. A union asks both and the two disagree about nobody.
+    cellular_bands: cond({ any: [{ field: "kind", inList: ["cellular"] }, { field: "cellular", eq: true }] }, { elseOpt: true }),
     // `cellular_category` STAYS OPTIONAL, WITH THE COUNTS, and round 8 asked for it to be required of
     // the cellular kinds. Measured before writing it: of the 51 cellular rows, TWO state a category
     // (NIM-LTEA-EA= and NIM-LTEA-LA=, "CAT6 LTE Advanced NIM …") and 49 do not — an EHWIC-3G-EVDO has

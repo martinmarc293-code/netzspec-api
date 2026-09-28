@@ -385,5 +385,51 @@ check("the spelling rule has real dimensions to check",
       .every((c) => requirementFor(c, "connector", { kind: "power-cord" }) !== "req"));
 }
 
+// ---------------------------------------------------------------------------------------------------
+// THE CELLULAR GATE (reviewer's ruling, 28 Sep 2026), with the witness they named and the controls that
+// say it is scoped rather than a blanket.
+//
+// `cellular_bands` was OPTIONAL on every routers role — smb, branch, industrial-iot, sp-core alike — which
+// is why the Z-series move had no gate to verify. It is now conditional on the derived `cellular` column
+// AND on being a kind that publishes bands, because the two are different claims: measured over the 274
+// routers parts the derivation calls cellular, `router` 204 (41 already hold the fact) and `module` 40 (6)
+// do; `antenna` 11 holds ZERO and the 13 Sep round measured antennas at 37.1% and left the cup optional on
+// that evidence. An LMR antenna cable carries a radio's signal without being a thing that states bands.
+{
+  const req = (cat: string, part: Record<string, unknown>) => String(requirementFor(cat, "cellular_bands", part as never));
+
+  check("a cellular routers ROUTER is asked its bands", req("routers", { kind: "router", cellular: true }) === "req");
+  check("a cellular routers MODULE is asked its bands", req("routers", { kind: "module", cellular: true }) === "req");
+  // THE WITNESS THE RULING NAMED. Z4C-HW is a Meraki teleworker gateway, moved to routers as kind `router`,
+  // and the C is the cellular model — the whole reason the Z did not follow the MX into security.
+  check("Z4C-HW's shape — a cellular routers router — is asked its bands", req("routers", { kind: "router", cellular: true }) === "req");
+
+  // THE REFUSALS, each for the reason it was nearly asked.
+  check("a cellular ANTENNA is NOT asked (11 of them, 0 hold the fact, and 13 Sep measured this)",
+    req("routers", { kind: "antenna", cellular: true }) === "opt");
+  check("a cellular CABLE is not asked either", req("routers", { kind: "cable", cellular: true }) === "opt");
+  check("a NON-cellular router is not asked", req("routers", { kind: "router", cellular: false }) === "opt");
+
+  // Both clauses of the interfaces-modules union fire on their own: `kind = cellular` names 99 parts and
+  // `cellular = true` names 107, and the extra 8 carry a radio and no kind.
+  check("interfaces-modules asks on the KIND clause alone", req("interfaces-modules", { kind: "cellular", cellular: false }) === "req");
+  check("interfaces-modules asks on the COLUMN clause alone", req("interfaces-modules", { cellular: true }) === "req");
+
+  // MERAKI KEEPS ITS KIND GATE, and this case is why. Switching it to `cellular = true` would have stopped
+  // asking MG21, MG21E and MG41 — the bare model rows — because only their `-HW` siblings' NAMES contain the
+  // word cellular. The derivation gained an MG marker for that reason; the gate stayed as it was.
+  check("meraki still asks a cellular-gateway on its KIND", req("meraki", { kind: "cellular-gateway" }) === "req");
+
+  // NOT VACUOUS, and the one honest caveat: an UNKNOWN `cellular` resolves `opt`, not `pending`, because
+  // `elseOpt` is what keeps the other kinds optional. No live part is in that state — `derive-cellular`'s
+  // control asserts NULL = 0 across the catalogue on every run — and that control is the whole of what makes
+  // this safe, so it is named here rather than left to be rediscovered.
+  check("an UNKNOWN cellular resolves opt (and derive-cellular's NULL = 0 control is what keeps that safe)",
+    req("routers", { kind: "router" }) === "opt");
+  check("the gate distinguishes: two req and four not, over the same category",
+    [["router", true], ["module", true]].every(([k, c]) => req("routers", { kind: k, cellular: c }) === "req")
+    && [["antenna", true], ["cable", true], ["router", false]].every(([k, c]) => req("routers", { kind: k, cellular: c }) === "opt"));
+}
+
 console.log(`\nfieldSchema tests: ${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);

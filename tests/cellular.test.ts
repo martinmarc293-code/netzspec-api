@@ -39,6 +39,16 @@ for (const [sku, why] of [
     const v = cellularOf(sku, null);
     check(`${sku} is cellular (the Meraki C / CW model)`, v.cellular && v.why === "SKU: Meraki C / CW model", v);
   }
+  // MG, ADDED AFTER CHECKING THE GATE THIS RULE FEEDS. `meraki` asks cellular_bands of kind
+  // `cellular-gateway`; switching that gate to `cellular = true` would have stopped asking MG21, MG21E and
+  // MG41 -- the bare model rows -- because only their `-HW` siblings' NAMES contain the word cellular.
+  for (const sku of ["MG21", "MG21E", "MG41", "MG52"]) {
+    const v = cellularOf(sku, null);
+    check(`${sku} is cellular (the Meraki MG gateway line)`, v.cellular && v.why === "SKU: Meraki MG cellular gateway", v);
+  }
+  // And the two MG-shaped things that are NOT gateways, which is why the rule needs the digits.
+  check("MGKIT-1 is NOT cellular (a mounting kit)", !cellularOf("MGKIT-1", "Meraki mounting kit").cellular);
+  check("MG21-ENT-5Y is NOT cellular by SKU (a term licence)", cellularOf("MG21-ENT-5Y", null).why !== "SKU: Meraki MG cellular gateway");
 }
 
 // --- REFUSED, each for the reason it was nearly accepted for ---------------------------------------
