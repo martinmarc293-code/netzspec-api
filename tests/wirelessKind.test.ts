@@ -134,6 +134,10 @@ const REFUSALS: [string, string, string][] = [
   ["C9120AXI-B-CAP", "ap", "'9120AX Series - 5YR- SNTC' — the AP with support, not a cover-cap"],
   ["CW-ACC-MEM-32G", "module", "'Additional 32GB Storage for Application Hosting' — not a CW-ACC accessory"],
   ["FLMESH-HW-1000-1", "appliance", "the FM1000 GATEWAY, not a radio"],
+  // q28 + reviewer correction (28 Sep 2026): the MobileAccessVE units are a device; their mounting kits are not.
+  ["AIR-330-MB-1=", "device", "'One-link Main Building Unit' — a MobileAccessVE unit (q28)"],
+  ["AIR-VCU-CELLPCS12", "device", "'Control Unit' — a MobileAccessVE unit (q28)"],
+  ["AIR-VAPMNTG-H-KIT=", "mechanical", "a VAP mounting kit stays mechanical (q28), never a device"],
   ["FM-PONTE-50", "backhaul", "the PONTE bridge radio pair, not `unknown`"],
   ["FM1200-VGBE", "backhaul", "an FM1200 Volo radio, not `unknown`"],
   ["WL5520-28-ADV-100", "bundle", "a 5520 controller + 100 AP bundle, not `unknown`"],

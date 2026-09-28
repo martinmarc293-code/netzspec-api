@@ -335,6 +335,10 @@ export const FIELD_DICTIONARY: Record<string, FieldDef> = {
   uplink_ports: { key: "uplink_ports", de: "Uplink-Ports", en: "Uplink ports", type: "struct", shape: PORT_SHAPE, etim: [], icecat: null },
   uplink_modular: { key: "uplink_modular", de: "Modulare Uplinks", en: "Modular uplinks", type: "b", etim: [], icecat: null },
   module_slots: { key: "module_slots", de: "Modulslots", en: "Module slots", type: "n", band: [1, 32], etim: ["EF003597"], icecat: null },
+  // ruling 12b (28 Sep 2026): the PON cups. An ONT has 1-4 PON uplinks and an OLT 4-64 PON ports; 128 leaves room for a
+  // high-density chassis without admitting a port count read from a split ratio (1:64, 1:128 are ratios, never ports).
+  pon_ports: { key: "pon_ports", de: "PON-Ports", en: "PON ports", type: "n", band: [1, 128], etim: [], icecat: null },
+  pon_standard: { key: "pon_standard", de: "PON-Standard", en: "PON standard", type: "e", domain: ["gpon", "xg-pon", "xgs-pon", "epon", "10g-epon", "ng-pon2"], etim: [], icecat: null },
   mgmt_ports: { key: "mgmt_ports", de: "Management-Ports", en: "Management ports", type: "ls", domain: ["console-rj45", "console-usb", "oob-ethernet", "usb-a", "usb-c", "bluetooth"], etim: [], icecat: null },
 
   // --- PoE ------------------------------------------------------------------------------------
@@ -2326,7 +2330,10 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // kind-layer (13 Sep 2026), spec v2 I.4: "ports becomes required unconditionally". The bare chassis is kind `chassis` now
     // (switchKind.ts, 83 rows), so the modular-chassis clause has nothing left to protect and the most important row of a
     // switch no longer waits on a less important one.
-    ports: cond({ field: "kind", inList: ["switch", "module", "linecard", "fex"] }),
+    ports: cond({ field: "kind", inList: ["switch", "module", "linecard", "fex", "ont", "olt"] }),
+    // ruling 12b (28 Sep 2026): the PON archetype -- ont = ports + pon_ports (q28); olt adds pon_standard + module_slots.
+    pon_ports: cond({ field: "kind", inList: ["ont", "olt"] }),
+    pon_standard: cond({ field: "kind", inList: ["olt"] }),
     uplink_ports: cond({ any: [
       { field: "kind", inList: ["fex", "supervisor"] },
       { all: [{ field: "kind", inList: ["switch"] }, { field: "form_factor", ne: "modular-chassis" }] },
@@ -2340,7 +2347,7 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // kind-layer: + chassis, whose defining cup this is (63 of the 75 bare chassis PIDs already hold one — III.0 item 4).
     // kind-layer B (reviewer, 13 Sep 2026): a fex is NOT ETH-SWITCHING and is never a modular chassis — it was left pending
     // module_slots on an unanswered form_factor. The form_factor branch is scoped to `switch`; fex resolves optional.
-    module_slots: cond({ any: [{ field: "kind", inList: ["chassis"] }, { all: [{ field: "kind", inList: ["switch"] }, { field: "form_factor", eq: "modular-chassis" }] }] }, { elseOpt: true }),
+    module_slots: cond({ any: [{ field: "kind", inList: ["chassis", "olt"] }, { all: [{ field: "kind", inList: ["switch"] }, { field: "form_factor", eq: "modular-chassis" }] }] }, { elseOpt: true }),
     // mgmt_ports holds ZERO facts across every Cisco category, not merely across this one —
     // measured 10 Sep 2026, and the four mentions in data/schema/source-fields.json are
     // added_by_profile entries (a field a profile CAN require), never evidence that anything
@@ -3062,8 +3069,8 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // spelled that way, and asserts the anchor is unique)
     ip_rating: apRole(["outdoor", "industrial"]),
     // --- the controller and appliance envelope (spec I.4 WLC = WLC + ENV, APPLIANCE = ENV + ports) ------------------
-    humidity_operating: cond({ field: "kind", inList: ["wlc", "appliance"] }, { elseOpt: true }),
-    form_factor: cond({ field: "kind", inList: ["wlc", "appliance"] }),
+    humidity_operating: cond({ field: "kind", inList: ["wlc", "appliance", "device"] }, { elseOpt: true }),
+    form_factor: cond({ field: "kind", inList: ["wlc", "appliance", "device"] }),
     rack_units: cond({ field: "form_factor", inList: ["rack-19", "modular-chassis"] }),
     // --- a module's rate (spec I.4 MODULE: ports, data_rate, product_compatibility) ---------------------------------
     data_rate: cond({ field: "kind", inList: ["module"] }, { elseOpt: true }),
@@ -3172,7 +3179,7 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // derived FROM; R3 forbids asking for a partner PID as a SPEC, not storing the compatibility row. Without it
     // the module (144), accessory (180) and power (70) kinds were asked NOTHING, which scores every one of them
     // complete — the asked-nothing census in tests/cupLedger.test.ts is what found it.
-    product_compatibility: cond({ field: "kind", inList: ["module", "accessory", "power", "power-injector", "cable", "antenna"] }),
+    product_compatibility: cond({ field: "kind", inList: ["module", "accessory", "power", "power-injector", "cable", "antenna", "device"] }),
     mtbf: opt,
     // ONE CUP PER QUANTITY: the generated profile made `standard` REQUIRED here on 8 Sep (775 mined values);
     // those values are the 802.11 generation, which `wifi_generation` asks. Optional, so it is not a second
@@ -4939,6 +4946,11 @@ export const ENUM_LABELS: Record<string, Record<string, { de: string; en: string
     "industrial-iot": { de: "Industrie / IoT", en: "Industrial / IoT" }, desk: { de: "Tischtelefon", en: "Desk phone" },
     wireless: { de: "WLAN-Telefon", en: "Wireless phone" }, dect: { de: "DECT", en: "DECT" },
     conference: { de: "Konferenztelefon", en: "Conference phone" },
+  },
+  // ruling 12b (28 Sep 2026): the PON standard an OLT speaks. Standard names, the same in German.
+  pon_standard: {
+    gpon: { de: "GPON", en: "GPON" }, "xg-pon": { de: "XG-PON", en: "XG-PON" }, "xgs-pon": { de: "XGS-PON", en: "XGS-PON" },
+    epon: { de: "EPON", en: "EPON" }, "10g-epon": { de: "10G-EPON", en: "10G-EPON" }, "ng-pon2": { de: "NG-PON2", en: "NG-PON2" },
   },
   poe_standard: {
     none: { de: "Kein PoE", en: "No PoE" },

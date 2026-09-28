@@ -43,12 +43,13 @@
 //   The 115 ASR 5000/5500 packet-core rows keep their rules here only until the move plan runs (moves.json, routers).
 export type WirelessKind =
   | "ap" | "wireless-sensor" | "wlc" | "antenna" | "backhaul" | "appliance" | "module"
-  | "power" | "power-injector" | "cable" | "mechanical" | "accessory" | "bundle" | "software" | "unknown";
+  | "power" | "power-injector" | "cable" | "mechanical" | "accessory" | "bundle" | "software" | "unknown"
+  | "device";   // q28 decision (2026-09-15) + reviewer correction 28 Sep: the MobileAccessVE units, envelope + compatibility
 
 /** Radio devices that serve clients: asked the radio questions. */
 export const WL_AP: readonly WirelessKind[] = ["ap"];
 /** Whole boxes you mount, rack or power — they carry a physical envelope. */
-export const WL_BOX: readonly WirelessKind[] = ["ap", "wireless-sensor", "wlc", "backhaul", "appliance"];
+export const WL_BOX: readonly WirelessKind[] = ["ap", "wireless-sensor", "wlc", "backhaul", "appliance", "device"];
 /** Kinds with an Ethernet port count a buyer compares. kind-layer (13 Sep 2026): + appliance (spec I.4 APPLIANCE = ENV +
  *  ports) and module (MODULE: ports, data_rate, product_compatibility). */
 export const WL_PORTED: readonly WirelessKind[] = ["ap", "wireless-sensor", "wlc", "backhaul", "appliance", "module"];
@@ -56,11 +57,14 @@ export const WL_PORTED: readonly WirelessKind[] = ["ap", "wireless-sensor", "wlc
  *  once, by LEDGER_KINDS (nameMarker.NAME_ONLY_KINDS), which de-duplicates it. */
 export const WL_KINDS: readonly WirelessKind[] =
   ["ap", "wireless-sensor", "wlc", "antenna", "backhaul", "appliance", "module", "power", "power-injector",
-   "cable", "mechanical", "accessory", "bundle", "software", "unknown"];
+   "cable", "mechanical", "accessory", "bundle", "software", "unknown", "device"];
 
 const RULES: { kind: WirelessKind; re: RegExp }[] = [
   // Packs of ONE access point model, before the bundle rule: KAISER-12PACK-BNDL is "12 Pack of AP3802I".
   { kind: "ap", re: /^KAISER-\d+PACK/ },
+  // q28 (2026-09-15) + reviewer correction (28 Sep 2026): the MobileAccessVE units are a `device` (envelope + compatibility).
+  // Anchored to the twelve PIDs, so the two VAP mounting kits (AIR-VAPMNTG-H-KIT=, -V-KIT=) stay `mechanical`.
+  { kind: "device", re: /^AIR-(?:330-(?:EXP-BOX|MB-[12]|RB-1)|VAP-CELLPCS|VCU-CELLPCS12)=?$/ },
   // kind-layer (13 Sep 2026): FLMESH-HW-1000-1 / FLMESH-HW-10000-1 are the FM1000 / FM10000 GATEWAYS, not radios. The
   // family's own convention names the model in the PID (FLMESH-HW-3200-1 is "FM3200B-HW", FLMESH-HW-VOLO-1 "FM1200V-HW"),
   // and FM1000 / FM10000 exist only as gateways (FM1000-GWY "Gateway for Fluidity up to 1 Gbps"). Before backhaul.

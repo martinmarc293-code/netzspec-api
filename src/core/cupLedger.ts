@@ -9,7 +9,7 @@
 // longer matches its profile, because a frozen copy of a changing thing drifts silently in both directions.
 import { createHash } from "node:crypto";
 import { PROFILES, requirementFor, gateFields, COLUMN_BACKED, type Requirement } from "./fieldSchema.js";
-import { SW_BOX, SW_PART, SW_SET } from "./switchKind.js";
+import { SW_BOX, SW_PART, SW_SET, SW_PON } from "./switchKind.js";
 import type { OpticKind } from "./opticKind.js";
 // wireless (12 Sep 2026)
 import { WL_KINDS } from "./wirelessKind.js";
@@ -37,7 +37,7 @@ import { NAME_ONLY_KINDS as MECH, UCS_NAME_ONLY_KINDS as UCS_EXTRA } from "./nam
 export const LEDGER_KINDS: Readonly<Record<string, readonly string[]>> = {
   // kind-layer (13 Sep 2026): switchKind now RETURNS `mechanical` (and `chassis`), so the list is de-duplicated.
   // layers review A.4 (14 Sep 2026): `bundle` — packs and heterogeneous sets, switchKind.ts's head rules.
-  switches: [...new Set([...SW_BOX, ...SW_PART, ...SW_SET, ...MECH])],
+  switches: [...new Set([...SW_BOX, ...SW_PART, ...SW_SET, ...SW_PON, ...MECH])],
   // kind-layer (13 Sep 2026): `cable` — same-cage DAC / AOC / passive MPO cables, out of `pluggable` (spec II.2).
   transceiver: [...new Set([...(["pluggable", "bidi", "tunable", "adapter", "accessory", "breakout-cable", "cable"] satisfies OpticKind[]), ...MECH])],
   // wireless (12 Sep 2026). kind-layer (13 Sep 2026): wirelessKind now returns `mechanical` from the SKU too, so the

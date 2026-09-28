@@ -163,6 +163,7 @@ export const ENUM_DE: Readonly<Record<string, ValueCover>> = {
   fec: { map: fromLabels("fec") },
   laser_type: { map: fromLabels("laser_type") },
   poe_standard: { map: fromLabels("poe_standard") },
+  pon_standard: { map: fromLabels("pon_standard") },   // ruling 12b
   drive_interface: { map: {
     sas: "SAS", "sas-3": "SAS-3", sata: "SATA", nvme: "NVMe", pcie: "PCIe", "u.2": "U.2", "u.3": "U.3", "m.2": "M.2" } },
   drive_form_factor: { map: {

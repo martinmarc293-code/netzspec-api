@@ -57,7 +57,11 @@
 export type SwitchKind =
   | "switch" | "fex" | "chassis" | "linecard" | "module" | "supervisor" | "fabric"
   | "power" | "fan" | "power-cord" | "stack-cable" | "cable" | "accessory" | "software"
-  | "mechanical" | "bundle" | "memory" | "flash" | "drive";
+  | "mechanical" | "bundle" | "memory" | "flash" | "drive"
+  | "ont" | "olt";   // ruling 12b (28 Sep 2026): PON equipment in switches, with its own cups (ports + pon_ports [+ OLT's])
+
+/** PON equipment (ruling 12b): an ONT and an OLT are asked PON cups, never the Ethernet-switch set. */
+export const SW_PON: readonly SwitchKind[] = ["ont", "olt"];
 
 /** Kinds that are a whole networking device — the only ones a switching specification belongs to. */
 export const SW_DEVICE: readonly SwitchKind[] = ["switch"];
@@ -197,6 +201,12 @@ const RULES: { kind: SwitchKind; re: RegExp }[] = [
   // (NOT the N9K-C95xx-B1/-B2 "Chassis Bundle with 1 Sup, 3 PS, 2 SC, 3 FM, 3 FT" systems, and NOT N2K-C2348TQ4F "Fabric Extender,
   // 2PS, 3 Fan Module": the 4F FEX names no optics, its 8F/12F siblings name "8 Bidi or (4 FET-40G & 16 FET-10G)".)
   { kind: "bundle", re: /^ACI-C9336-|^C6807-3850-10G-BUN$|^N7[07]\d{2}RISENAM-BUNP\d$|^N7(?:K-C7009|7-C7710)-N5672-P1$/ },
+  // PON, right after the six bundle rules (ruling 12b, 28 Sep 2026; q28 decision 2026-09-15): Catalyst PON OLTs and ONTs, the 10G Routed PON ONTs, and
+  // the Prisma D-PON ONT that moves in from video. Before these, deployRole's sw.issue.ont refused the rows as "not an
+  // Ethernet switch"; that rule stays as the backstop should these ever fall back to `switch`.
+  { kind: "olt", re: /^CGP-OLT/ },
+  { kind: "ont", re: /^(CGP-ONT|ENC-10G-ONT)/ },
+  { kind: "ont", re: /^4036797\.1610$/ },
   // MEMORY, FLASH, DRIVE (layers review 14 Sep 2026, B.1): the routers component kinds. These rows were `accessory`, asked
   // only what they fit; a DIMM is bought on its DRAM, a CompactFlash / SD / USB stick on its flash size, an SSD on its capacity.
   // Explicit families, each read from its names (D:\tmp\b1 listing over data/layers/cisco-switches.rows.tsv):

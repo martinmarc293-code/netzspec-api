@@ -64,6 +64,8 @@ export const RULES: Rule[] = [
   { id: "sw.issue.compute", kind: "switch", raw: /^IC3000/, issue: "industrial compute", evidence: "IC3000-2C2F-K9++ 'Industrial Compute appliance'" },
   // ^ENC-10G-ONT (layers round 3, 15 Sep 2026, operator: an ONT device filed in interfaces-modules goes to switches Catalyst PON
   // "with the same kind and flag as CGP-ONT"): the six Cisco 10G Routed PON ONT rows, planned in; they carry the flag on arrival.
+  // BACKSTOP since ruling 12b (28 Sep 2026): switchKind now names these rows ont / olt with their own PON cups, so this rule
+  // (keyed on kind `switch`) fires only if the axis ever falls back to `switch` -- then they are refused, never scored as switches.
   { id: "sw.issue.ont", kind: "switch", raw: /^CGP-(ONT|OLT)|^ENC-10G-ONT/, issue: "PON ONT/OLT (PON equipment, not an Ethernet switch)", evidence: "CGP-ONT-4TVCW-x 'Catalyst PON 4-port GPON ONT, 2 POTS RJ11, 1 CATV Coax, 1 Wi-Fi', ENC-10G-ONT-10= 'XGS-PON ONT'" },
   { id: "sw.issue.fc", kind: "switch", raw: /^DS-C9/, issue: "Fibre Channel switch/director (storage-networking)", evidence: "DS-C9148V-24EK9 'MDS 9148V 64G Fibre-Channel-Switch', DS-C9710 'MDS 9710 Multilayer-Director'" },
   { id: "sw.issue.placeholder", kind: "switch", raw: /^(IPV6|SNMPV1|G\.652\/-|LAN-PHY|OTN\/G\.709|VBR-RT|0\.6-1\.2A|0\.75K|0\.375K|0\.875K|10RU|E100|E104|K100|B3220L?|B3240|B3140H|LS6400GX|LS1800FX3?|S6400|ASE2|9300-GX2A\/B|2960-S\/SF|2960-XR?|974[0-9]{2}|CBS110|CBS220|CBS250|CBS350|IE9300|IE3400|IE3100|C9350)$/, issue: "datasheet cell / bare family name (not a PID)", evidence: "'Cisco IPv6', 'Cisco 0.75K', 'Cisco 97436', 'Cisco CBS220', 'Cisco LS1800FX'" },

@@ -324,7 +324,10 @@ const KL_REFUSAL: [string, string, string][] = [
   ["N6004EF-8FEX-10G", "bundle", "N6004 Chassis with 8 x 10G FEXes — a switch + FEX set is a bundle (layers review A.4; was switch)"],
   ["N5K-C5596UP-FA", "switch", "a fixed Nexus 5596UP whose name says 'Chassis includes 48 fixed unified ports'"],
   ["WS-C3560V2-24TS-SD", "switch", "no power rule reads a trailing -SD or wattage-like digits in a switch PID"],
-  ["CGP-OLT-8T", "switch", "Catalyst PON OLT — left on the kind core, an open decision (REPORT §6)"],
+  ["CGP-OLT-8T", "olt", "Catalyst PON OLT — the open decision is ruled (12b, 28 Sep 2026): its own kind and PON cups"],
+  ["CGP-ONT-4PV", "ont", "Catalyst PON ONT (ruling 12b)"],
+  ["4036797.1610", "ont", "the Prisma D-PON ONT that moves in from video (ruling 12b)"],
+  ["CGP-OLTX", "olt", "the OLT rule is a prefix: a longer CGP-OLT PID is still an OLT"],
   ["DS-C9148T-24EK9", "switch", "an MDS switch filed in switches is a category MOVE, not a kind rule"],
   ["7606S-S32-8G-B-P", "switch", "a Cisco 7600 router bundle filed in switches is a category MOVE"],
 ];

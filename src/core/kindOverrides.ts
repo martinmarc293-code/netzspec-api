@@ -1,8 +1,9 @@
 // src/core/kindOverrides.ts — kinds for SKUs no axis can classify, one entry per SKU, ruled 28 Sep 2026
 // (docs/decisions/2026-09-28-unknown-kind-106.md; reviewer ruling 12). Consulted by partKind ONLY where the category's axis
 // answers unknown, so an axis that learns a SKU wins; tests/kindOverrides.test.ts fails on such a stale entry and on any
-// kind the category does not declare. Parked, not here: 4036797.1610 (ont
-// is declared nowhere), CIT3-FI-M-6324 (a category move). The 13 collab bundles joined with ruling 12a.
+// kind the category does not declare. 4036797.1610 (the D-PON ONT) is the switch axis's ont rule (12b). The 13 collab
+// bundles joined with 12a. The 12 MobileAccessVE units are `device` per the q28 decision, named by the wireless AXIS
+// (wirelessKind), not here. CIT3-FI-M-6324 applies once it has moved to servers-unified-computing.
 export type KindOverride = { category: string; kind: string };
 export const KIND_OVERRIDES: Readonly<Record<string, KindOverride>> = {
   // collaboration-endpoints
@@ -22,6 +23,8 @@ export const KIND_OVERRIDES: Readonly<Record<string, KindOverride>> = {
   "CTS-TPEB-PRM-K9": { category: "collaboration-endpoints", kind: "bundle" },
   "CTS-TPSB-PRM-K9": { category: "collaboration-endpoints", kind: "bundle" },
   "CTS-VNDCNCT-PR-K9": { category: "collaboration-endpoints", kind: "bundle" },
+  // servers-unified-computing: the FI that sat in collab moves here (ruling 12, 28 Sep 2026)
+  "CIT3-FI-M-6324": { category: "servers-unified-computing", kind: "fabric-interconnect" },
   // interfaces-modules
   "AIM-DES/BP": { category: "interfaces-modules", kind: "module" },
   "SM-EC-3DES": { category: "interfaces-modules", kind: "module" },
@@ -95,18 +98,6 @@ export const KIND_OVERRIDES: Readonly<Record<string, KindOverride>> = {
   "BUNDLE1-3G60-DS384": { category: "video", kind: "system" },
   "DS38410X64UPGRADRF": { category: "video", kind: "system" },
   // wireless
-  "AIR-330-EXP-BOX": { category: "wireless", kind: "accessory" },
-  "AIR-330-EXP-BOX=": { category: "wireless", kind: "accessory" },
-  "AIR-330-MB-1": { category: "wireless", kind: "accessory" },
-  "AIR-330-MB-1=": { category: "wireless", kind: "accessory" },
-  "AIR-330-MB-2": { category: "wireless", kind: "accessory" },
-  "AIR-330-MB-2=": { category: "wireless", kind: "accessory" },
-  "AIR-330-RB-1": { category: "wireless", kind: "accessory" },
-  "AIR-330-RB-1=": { category: "wireless", kind: "accessory" },
-  "AIR-VAP-CELLPCS": { category: "wireless", kind: "accessory" },
-  "AIR-VAP-CELLPCS=": { category: "wireless", kind: "accessory" },
-  "AIR-VCU-CELLPCS12": { category: "wireless", kind: "accessory" },
-  "AIR-VCU-CELLPCS12=": { category: "wireless", kind: "accessory" },
   "AIR-BR1310G": { category: "wireless", kind: "ap" },
   "ASCT-EX3200": { category: "wireless", kind: "appliance" },
   "CWWLSE-1130-19-K9": { category: "wireless", kind: "appliance" },
