@@ -11,8 +11,8 @@
 - Decision files short and append-only; no sabotage narration beyond the commit line. Verifier log committed with each report.
 - Verify a chat send: composer must read 0 chars afterwards.
 
-## Board: passed 14 | FAILED 12 (one_build RED since the storage-networking layers were rebuilt alone: CLEARS with the block-end full rebuild; column_backed GREEN) | unavailable 3 | not exercised 3 (of 32) · self-test proven 20 | BROKEN 0 | unproven 12
-HEAD 0b4b83e+, deployed 0b4b83e. NEXT: item 12 kinds (106), then ONE full artefact rebuild: recompute -> ledgers -> censuses -> report -> layers --all -> freeze -> mould-stamp. Never stamp a mixed set. Verifier log: docs/reviewer/2026-09-28/verifier.txt (committed with every report).
+## Board: passed 15 | FAILED 11 | unavailable 3 | not exercised 3 (of 32) · self-test proven 20 | BROKEN 0 | unproven 12
+HEAD ba15294+, deployed ba15294. Full rebuild = scripts/mould-build.sh on the box (GIT_SHA=<sha>; copy runs/vocab/cisco-datasheets/labels.json in first; freeze BEFORE report), then scripts/mould-stamp.mts in the repo. build-layers refuses a single-category write.
 
 ## Flip order
 | # | item | status | what to do (from its decision file) |
@@ -28,7 +28,7 @@ HEAD 0b4b83e+, deployed 0b4b83e. NEXT: item 12 kinds (106), then ONE full artefa
 | 9 | conflicts_classified | TODO | orphans are 599 not 12,874 (corrected). Needs a `class` column + classifier |
 | 10 | twin_parity | AWAITING-RULING | 19 are a NAME asymmetry; the `=` moves 1 of 14. Three options costed |
 | 11 | kind_profile_parity | AWAITING acquisition | 5 of 6 pairs: NOBODY on either side holds the cup; hcs/server 0 of 208 spec-bearing |
-| 12 | unknown_zero | TODO (106 ruled) | 3,476 counted apart (done). 106 proposal: docs/decisions/2026-09-28-unknown-kind-106.md. 362 = name gap (acquisition) |
+| 12 | unknown_zero | 377 (91 of the 106 landed, src/core/kindOverrides.ts) | parked: 13 collab bundles (no bundle kind in collab), 1 ONT (no ont kind anywhere); ruled, not yet run: CIT3-FI-M-6324 move, AIM-DES/BP series fix; 362 = name gap | 3,476 counted apart (done). 106 proposal: docs/decisions/2026-09-28-unknown-kind-106.md. 362 = name gap (acquisition) |
 | 13 | four_sets_sum | AWAITING-RULING | na=0 is 77,098 cells = ONE derived rule (complement of the kind's cup set), not 303 judgements |
 | 14 | keys_hygiene | AWAITING OPERATOR | holder+channel landed (0029, run 1276). Operator revokes ids 1 and 6 |
 | 15 | vendor_coverage | OUT OF SCOPE | 3,476 parts, 12 vendors with no axis |
