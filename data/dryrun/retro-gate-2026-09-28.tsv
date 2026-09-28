@@ -1,0 +1,88 @@
+run	fact_id	part_id	field_key	raw
+942	176897	3333	fabric_bandwidth	80 Gbit/s Backplane
+942	176899	3334	fabric_bandwidth	80 Gbit/s Backplane
+942	176901	3331	fabric_bandwidth	160 Gbit/s Backplane (6807-XL) bzw. 80 Gbit/s (6500-E)
+942	176903	3332	fabric_bandwidth	160 Gbit/s Backplane (6807-XL) bzw. 80 Gbit/s (6500-E)
+942	176905	3335	fabric_bandwidth	80 Gbit/s Backplane
+942	176907	3336	fabric_bandwidth	80 Gbit/s Backplane
+942	176909	3341	fabric_bandwidth	220 Gbit/s je Steckplatz (80 Gbit/s Forwarding)
+942	176911	4095	fabric_bandwidth	220 Gbit/s je Steckplatz je Fabric-2-Modul
+942	176913	4098	fabric_bandwidth	464 Gbit/s je Steckplatz je Fabric-3-Modul
+942	176915	4096	fabric_bandwidth	220 Gbit/s je Steckplatz je Fabric-2-Modul
+942	176917	4099	fabric_bandwidth	464 Gbit/s je Steckplatz je Fabric-3-Modul
+942	176919	4097	fabric_bandwidth	220 Gbit/s je Steckplatz je Fabric-2-Modul
+942	176921	4092	fabric_bandwidth	110 Gbit/s je Steckplatz je Fabric-2-Modul
+942	176923	4090	fabric_bandwidth	46 Gbit/s je Steckplatz je Fabric-1-Modul
+942	176925	4093	fabric_bandwidth	110 Gbit/s je Steckplatz je Fabric-2-Modul
+942	176927	4091	fabric_bandwidth	46 Gbit/s je Steckplatz je Fabric-1-Modul
+942	176929	4094	fabric_bandwidth	110 Gbit/s je Steckplatz je Fabric-2-Modul
+942	176930	3314	fabric_bandwidth	80 Gbit/s je Steckplatz
+942	176931	3315	fabric_bandwidth	80 Gbit/s je Steckplatz
+942	176932	3312	fabric_bandwidth	40 Gbit/s je Steckplatz
+942	176933	3313	fabric_bandwidth	40 Gbit/s je Steckplatz
+942	176935	3290	fabric_bandwidth	24 Gbit/s je Steckplatz
+942	176937	3291	fabric_bandwidth	24 Gbit/s je Steckplatz
+942	176938	3292	switching_capacity	848 Gbit/s System
+942	176939	3292	fabric_bandwidth	48 Gbit/s je Steckplatz
+942	176940	3293	switching_capacity	520 Gbit/s System
+942	176941	3293	fabric_bandwidth	48 Gbit/s je Steckplatz
+942	176942	3294	switching_capacity	928 Gbit/s System
+942	176943	3294	fabric_bandwidth	48 Gbit/s je Steckplatz
+942	176944	3295	switching_capacity	560 Gbit/s System
+942	176945	3295	fabric_bandwidth	48 Gbit/s je Steckplatz
+942	176946	3296	switching_capacity	928 Gbit/s System
+942	176947	3296	fabric_bandwidth	48 Gbit/s je Steckplatz
+942	176949	3311	fabric_bandwidth	24 Gbit/s je Steckplatz
+942	176951	3306	fabric_bandwidth	12 Gbit/s je Steckplatz
+942	176953	3305	fabric_bandwidth	24 Gbit/s je Steckplatz
+942	176955	3307	fabric_bandwidth	24 Gbit/s je Steckplatz
+942	176957	3308	fabric_bandwidth	24 Gbit/s je Steckplatz
+942	176959	3310	fabric_bandwidth	24 Gbit/s je Steckplatz
+942	176961	3309	fabric_bandwidth	24 Gbit/s je Steckplatz
+942	176963	3302	fabric_bandwidth	48 Gbit/s je Steckplatz
+942	176965	3304	fabric_bandwidth	12 Gbit/s je Steckplatz
+942	176967	3303	fabric_bandwidth	24 Gbit/s je Steckplatz
+942	176969	3297	fabric_bandwidth	48 Gbit/s je Steckplatz
+942	176971	3300	fabric_bandwidth	48 Gbit/s je Steckplatz
+942	176973	3299	fabric_bandwidth	48 Gbit/s je Steckplatz
+942	176975	3301	fabric_bandwidth	48 Gbit/s je Steckplatz
+942	176977	3298	fabric_bandwidth	48 Gbit/s je Steckplatz
+942	176979	3318	fabric_bandwidth	40 Gbit/s zur Fabric (dual 20 Gbit/s)
+942	176981	3319	fabric_bandwidth	40 Gbit/s zur Fabric (dual 20 Gbit/s)
+942	176983	3324	fabric_bandwidth	40 Gbit/s zur Fabric (dual 20 Gbit/s)
+942	176985	3325	fabric_bandwidth	40 Gbit/s zur Fabric (dual 20 Gbit/s)
+942	176987	3330	fabric_bandwidth	20 Gbit/s zur Fabric (single 20 Gbit/s)
+942	176989	3322	fabric_bandwidth	40 Gbit/s zur Fabric (dual 20 Gbit/s)
+942	176991	3323	fabric_bandwidth	40 Gbit/s zur Fabric (dual 20 Gbit/s)
+942	176993	3320	fabric_bandwidth	40 Gbit/s zur Fabric (dual 20 Gbit/s)
+942	176995	3321	fabric_bandwidth	40 Gbit/s zur Fabric (dual 20 Gbit/s)
+959	177808	3480	rx_wavelength	Tx 1490 nm / Rx 1310 nm
+959	177809	3481	rx_wavelength	Tx 1490 nm / Rx 1310 nm
+959	177810	3477	rx_wavelength	Tx 1490 nm / Rx 1310 nm
+959	177811	3479	rx_wavelength	Tx 1490 nm / Rx 1310 nm
+959	177812	3476	rx_wavelength	Tx 1310 nm / Rx 1490 nm
+959	177813	3478	rx_wavelength	Tx 1310 nm / Rx 1490 nm
+959	177814	3482	rx_wavelength	Tx 1550 nm / Rx 1310 nm
+959	177815	3483	rx_wavelength	Tx 1490 nm / Rx 1310 nm
+959	177816	3484	rx_wavelength	Tx 1310 nm / Rx 1490 nm
+959	177817	3485	rx_wavelength	Tx 1570 nm / Rx 1490 nm
+959	177818	3486	rx_wavelength	Tx 1490 nm / Rx 1570 nm
+959	177819	3561	rx_wavelength	Tx 1550 nm / Rx 1310 nm
+959	177820	3560	rx_wavelength	Tx 1310 nm / Rx 1550 nm
+959	177821	3508	rx_wavelength	Tx 1330 nm / Rx 1270 nm
+959	177822	3509	rx_wavelength	Tx 1270 nm / Rx 1330 nm
+959	177823	3448	rx_wavelength	Tx 1330 nm / Rx 1270 nm
+959	177824	3449	rx_wavelength	Tx 1270 nm / Rx 1330 nm
+959	177825	3444	rx_wavelength	Tx 1330 nm / Rx 1270 nm
+959	177826	3445	rx_wavelength	Tx 1270 nm / Rx 1330 nm
+959	177827	3615	rx_wavelength	Tx 1577 nm / Rx 1270 nm
+959	177828	3511	rx_wavelength	Tx 1314 nm / Rx 1289 nm
+959	177829	3512	rx_wavelength	Tx 1289 nm / Rx 1314 nm
+959	177830	3526	rx_wavelength	Tx 1314 nm / Rx 1289 nm
+959	177831	3527	rx_wavelength	Tx 1289 nm / Rx 1314 nm
+959	177832	3524	rx_wavelength	Tx 1330 nm / Rx 1270 nm
+959	177833	3525	rx_wavelength	Tx 1270 nm / Rx 1330 nm
+959	177834	3590	rx_wavelength	Tx 1490 nm / Rx 1310 nm
+959	177835	3591	rx_wavelength	Tx 1490 nm / Rx 1310 nm
+959	177836	3592	rx_wavelength	Tx 1490 nm / Rx 1310 nm
+959	177837	3593	rx_wavelength	Tx 1490 nm / Rx 1310 nm

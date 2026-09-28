@@ -87,3 +87,5 @@ The 23 for retroactive lines, by group:
 - retract-page-read-deploy-role 1221 — approved: reviewer_retroactive · evidence: plans_agree_with_rows
 Recorded in runs.inputs by scripts/record-retroactive-approvals.mts (its own run carries the ruling); the check counts them apart.
 Gate misses 942 952 959: NOT exceptions. scripts/retro-gate.mts re-runs the gate's value half (labels are not stored) with a gated apply run as control; pass -> named exception like 69, fail -> their facts retract.
+
+## Closed 28 Sep, run 1293: 952 retro-gate PASS (283/283) -> named exception; 942 FAIL (57 retracted), 959 FAIL (30 retracted). Control run 307, 176/176. Plan: data/dryrun/retro-gate-2026-09-28.tsv

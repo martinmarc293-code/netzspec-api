@@ -6,19 +6,21 @@
 - One script per run: dry-run → gate (precision/recall; EMPTY sample scores 0) → commit → controls printed.
 - Artefact order: recompute → ledgers → censuses → report. Building ledgers first refuses the build.
 - A killed run is closed with `scripts/rollback-killed-run.mts`, never by hand. The harness's "exit 0" is the WRAPPER's.
-- Reports are 5 lines (Rule 2). Reasoning goes in `docs/decisions/2026-09-28-<item>.md`.
+- Report ONLY on: a batch of 3–4 items done, a claimed green, or a ruling needed. 5 lines: commit · flipped · blocked/ruling · verifier · self-test. No prose; dry-run rows in a repo file, give the path.
+- A ruling needed mid-batch: park the item, continue the batch, question goes in the batch report. Nothing waits on the reviewer.
+- Decision files short and append-only; no sabotage narration beyond the commit line. Verifier log committed with each report.
 - Verify a chat send: composer must read 0 chars afterwards.
 
-## Board: passed 12 | FAILED 14 | unavailable 3 | not exercised 3 (of 32) · self-test proven 20 | BROKEN 0 | unproven 12
-HEAD 8785996+, deployed 8785996 (box run 28 Sep; titles run 1289).
+## Board: passed 14 | FAILED 12 | unavailable 3 | not exercised 3 (of 32) · self-test proven 20 | BROKEN 0 | unproven 12
+HEAD cdf0b01+, deployed cdf0b01. Verifier log: docs/reviewer/2026-09-28/verifier.txt (committed with every report).
 
 ## Flip order
 | # | item | status | what to do (from its decision file) |
 | --- | --- | --- | --- |
 | 1 | fill_state_partition | DONE code (still red by design) | baseline recorded in data/completeness/fill-state-history.jsonl; seed 26,619 (was 32,503 in the decision file) |
-| 2 | runs_have_approval | AWAITING reviewer lines: 23 | judged from 09-11 (ruled); 85 pre-convention named. 20 need approval lines, 3 are GATE misses (942 952 959) → exception or re-run |
+| 2 | runs_have_approval | GREEN | run 1292: reviewer_retroactive on 20; run 1293 retro-gate: 952 pass → exception, 942/959 fail → 87 facts retracted (plan data/dryrun/retro-gate-2026-09-28.tsv) |
 | 3 | openapi_schemas | GREEN | /v1/models/{vendor}/{model} routes Model (families = alias); the check now requires a route per level shape |
-| 4 | doc_category_by_relevance | AWAITING-RULING: 15 | run 1289 wrote 68 PDF Info titles; 15 left = 14 no /Title in the file + 1 template name |
+| 4 | doc_category_by_relevance | GREEN | runs 1289/1290: 68 titles, title_source pdf-info-trailer; run 1291: 15 title_state none |
 | 5 | column_backed_never_facts | 1,258 left | 95 prefix-duplicates, 569 software/licence (fact = the platform it licenses → relation), 398 hardware layer-4, 196 lic/sw residue |
 | 6 | enum_values_in_domain | AWAITING seed retraction | 2,011: standard 1,806 (1,775 hexcat_seed), mounting 115, audio_codecs 80 (all INHERITED), 10 wireless |
 | 7 | required_cup_defined | AWAITING-RULING | 30 cups = 3 keys. bundle_contents 0 facts, video_codecs 0 facts, product_compatibility 79 |
