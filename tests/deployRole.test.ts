@@ -78,6 +78,12 @@ const CASES: Case[] = [
   ["router", "S-XR-BNG-1M", "Billing PID for SBP XRV9K", "issue:licence"],                      // "ASR 9000" series
   ["router", "ENCS5412/K9", "Cisco ENCS 5412", "issue:appliance"],
   ["router", "RV340-K9", "Cisco RV340 Dual WAN Gigabit VPN Router", "smb"],
+  // MERAKI Z, moved here from `meraki` 28 Sep 2026. Without a rule all four derive NULL, and
+  // `derived_gate_nulls` fails naming them: a role-bearing kind whose role cannot be derived leaves every
+  // role-gated cup pending on a field nothing can ever answer. A desktop gateway for one worker is smb, next
+  // to the RV line above — not a branch or edge router.
+  ["router", "Z4-HW", "Meraki Z4 Cloud Managed Teleworker Gateway", "smb"],
+  ["router", "Z4C-HW", "Meraki Z4C Cloud Managed Teleworker Gateway (cellular)", "smb"],
   ["router", "CG113-4GW6E", "Cisco Catalyst Wireless Gateway, WiFi6, 4G LTE", "branch"],
   ["router", "CG113-4GW6x", "Cisco DNA On-Prem Lic for Remote-worker gateway", "branch"],       // a region stand-in and family carrier (16 Sep 2026), whatever its stored name says
   ["router", "MCS0", "Cisco MCS0", "issue:datasheet cell"],

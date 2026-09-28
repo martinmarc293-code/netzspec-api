@@ -13210,10 +13210,10 @@ routers	XRV-SD240GBKS4-EV	240 GB 2.5 inch Enterprise Value 6G SATA SSD	drive
 routers	XRV-SD240GM1X-EV	240 GB 2.5 inch Enterprise Value 6G SATA SSD	drive	
 routers	XRV9000-APLN-ROUT	XRV 9000 Appliance with UCS-C220 M5 server, Qty 2 -8X10G NIC	appliance	
 routers	XRV9000-APLN-ROUT=	XRV 9000 Appliance with UCS-C220 M5 server, Qty 2 -8X10G NIC	appliance	
-routers	Z4	Cisco Z4	router	
-routers	Z4-HW	Meraki Z4 Cloud Managed Teleworker Gateway	router	
-routers	Z4C	Cisco Z4C	router	
-routers	Z4C-HW	Meraki Z4C Cloud Managed Teleworker Gateway	router	
+routers	Z4	Cisco Z4	router	smb
+routers	Z4-HW	Meraki Z4 Cloud Managed Teleworker Gateway	router	smb
+routers	Z4C	Cisco Z4C	router	smb
+routers	Z4C-HW	Meraki Z4C Cloud Managed Teleworker Gateway	router	smb
 security	1210CE	Cisco 1210CE	firewall	
 security	1210CP	Cisco 1210CP	firewall	
 security	1220CX	Cisco 1220CX	firewall	

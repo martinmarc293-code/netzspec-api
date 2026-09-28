@@ -3,7 +3,7 @@
   "vendor": "cisco",
   "category": "routers",
   "profile_hash": "31cf022ab300b8d9",
-  "built_on_commit": "91e7898",
+  "built_on_commit": "af75cf2",
   "norm_version": "1.8.0",
   "declared_fields": 431,
   "gap_states": {
@@ -21,8 +21,8 @@
   },
   "totals": {
     "parts": 5113,
-    "required_slots_at_nothing_known": 22743,
-    "required_slots_stored": 22192,
+    "required_slots_at_nothing_known": 22719,
+    "required_slots_stored": 22168,
     "_slots_note": "at_nothing_known = parts × (required + pending) with only the kind known — and, for a kind with a role axis (role_axis: deploy_role), the SUM over its `roles` blocks of role parts × that role's (required + pending), because a role that asks fewer cups opens fewer slots; the kind's own `slots_per_part_at_nothing_known` and cup lists are its CORE (the `(unresolved)` role). stored = the live denominator (completeness.required_total), smaller wherever an answered gate has closed a pending question; per role it is the same sum split by role",
     "by_kind": {
       "router": 1292,
@@ -103,8 +103,8 @@
       "parts_with_a_device_noun_in_name": 453,
       "parts_with_a_device_noun_exempt_by_kind": 0,
       "slots_per_part_at_nothing_known": 14,
-      "required_slots_at_nothing_known": 9852,
-      "required_slots_stored": 9301,
+      "required_slots_at_nothing_known": 9828,
+      "required_slots_stored": 9277,
       "series_count": 37,
       "share_of_category": {
         "num": 1292,
@@ -2238,16 +2238,16 @@
           ]
         },
         "smb": {
-          "parts": 155,
+          "parts": 159,
           "slots_per_part_at_nothing_known": 8,
-          "required_slots_at_nothing_known": 1240,
-          "required_slots_stored": 1085,
+          "required_slots_at_nothing_known": 1272,
+          "required_slots_stored": 1117,
           "document_evidence": {
-            "spec_bearing": 52,
+            "spec_bearing": 56,
             "spec_linked_not_held": 6,
             "eol_only": 93,
             "no_document": 4,
-            "spec_bearing_by_doc_type_legacy": 58,
+            "spec_bearing_by_doc_type_legacy": 62,
             "blocked_by": "not-held (acquisition)"
           },
           "required": [
@@ -5126,7 +5126,7 @@
           ]
         },
         "(unresolved)": {
-          "parts": 4,
+          "parts": 0,
           "kind_issue_parts": 0,
           "kind_issue": {
             "pending_plan": 0,
@@ -5134,23 +5134,23 @@
             "unplanned": 0
           },
           "null_share_excluding_kind_issue": {
-            "num": 4,
+            "num": 0,
             "den": 1292,
-            "pct": 0.3,
+            "pct": 0,
             "over_3pct": false
           },
-          "display": "(unresolved) 4 — 0 pending move/class",
+          "display": "(unresolved) 0 — 0 pending move/class",
           "_unresolved_note": "no rule of deployRole.ts places these parts (null role): asked the kind's core. `kind_issue_parts` of them hit an ISSUE rule — the row is not this kind at all and waits on a move/class plan (data/reference/kind-layer-plans-2026-09-13.json). The III.4 3% bar is applied to (unresolved - kind_issue_parts) / (kind parts - kind_issue_parts).",
           "slots_per_part_at_nothing_known": 14,
-          "required_slots_at_nothing_known": 56,
-          "required_slots_stored": 56,
+          "required_slots_at_nothing_known": 0,
+          "required_slots_stored": 0,
           "document_evidence": {
-            "spec_bearing": 4,
+            "spec_bearing": 0,
             "spec_linked_not_held": 0,
             "eol_only": 0,
             "no_document": 0,
-            "spec_bearing_by_doc_type_legacy": 4,
-            "blocked_by": "schema-or-parsing"
+            "spec_bearing_by_doc_type_legacy": 0,
+            "blocked_by": "no parts"
           },
           "required": [
             {
@@ -22071,9 +22071,9 @@
     }
   },
   "build": {
-    "data_commit": "91e7898e2534+18dirty",
-    "code_commit": "91e7898e2534",
+    "data_commit": "af75cf2fdd52+7dirty",
+    "code_commit": "af75cf2fdd52",
     "contract_hash": "1a62b6dedddf519c",
-    "generated_at": "2026-09-28T14:42:25.345Z"
+    "generated_at": "2026-09-28T14:50:21.161Z"
   }
 }

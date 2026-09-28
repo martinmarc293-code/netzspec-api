@@ -589,9 +589,9 @@
     "struct_keys_without_renderer": 1
   },
   "build": {
-    "data_commit": "91e7898e2534+18dirty",
-    "code_commit": "91e7898e2534",
+    "data_commit": "af75cf2fdd52+7dirty",
+    "code_commit": "af75cf2fdd52",
     "contract_hash": "1a62b6dedddf519c",
-    "generated_at": "2026-09-28T14:42:25.345Z"
+    "generated_at": "2026-09-28T14:50:21.161Z"
   }
 }
