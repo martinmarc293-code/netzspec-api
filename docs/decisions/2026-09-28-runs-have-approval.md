@@ -68,3 +68,11 @@ Exhaustive `RUN_KIND_CLASS` in mould-verify (approval / gate / derived by what t
 Box: 1,287 runs = 1,033 judged + 253 failed/aborted + 1 exception. 102 owe an approval and carry none (promote-unknown-skus 49, reclassify 21, five retract-* kinds 11, reclassify-docs 5, hygiene-* 6, ten single runs); 6 owe a gate (migrate-atlas 2, remap / reroute / rekey / split-bidi 1 each). 85 of the 108 predate 2026-09-11, the first recorded approval.
 Correction to myself: "132 of 132" was over three kinds, not over the membership class.
 Question: judge only from 2026-09-11 on (23 remain), or rule the pre-convention kinds one by one?
+
+## Ruling applied, d956173: judged from 2026-09-11; 85 pre-convention named in the output, never folded
+The 23 for retroactive lines, by group:
+- reclassify (approval): 933 935 939 951 956 969 973 999 1023
+- retract-licence-mined (approval): 937 954 957 958 970
+- retired-residue (approval): 988 993
+- hygiene-whitespace-duplicates 1064 · revert-cross-vendor-layer-write 1243 · drop-orphan-keys 991 · retract-page-read-deploy-role 1221 (approval)
+- GATE, not approval: reroute-per-slot-capacity 942 · rekey-psu-and-compat 952 · split-bidi-rx 959. A line cannot supply a gate; like run 69 they can only be named exceptions or re-run.

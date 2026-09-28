@@ -61,3 +61,8 @@ run, and nothing said so.
 ## 28 Sep, a29aefa — scoped to readable pages; still red
 Box, CACHE_DIR=/var/lib/netzspec-api/cache, control 37/40 titled files present: 1,275 untitled = 83 readable + 946 cache file on no machine + 246 never cached.
 Next: the 83 readable carry no `<title>`; take a PDF's own /Title metadata where it has one (read, not inferred), name the rest.
+
+## 28 Sep, 8785996 — run 1289 wrote 68 titles; 15 remain
+PDF title = the Info dictionary's /Title via pdfplumber. The first (raw-byte) version was killed by reading its rows: 58 of its 68 "recovered" were an embedded image's XMP, a bookmark or compressed bytes ("Print" x34). Rows: data/dryrun/doc-titles-2026-09-28.tsv.
+Remaining readable-untitled 15 = 14 files whose Info dictionary carries no /Title (13 PDF, 1 HTML) + 1 refused template name ("MS Word Template_102504").
+Question: record these 15 as a named no-title-in-document state, or title them from their first-page heading (a read of visible text, not metadata)?

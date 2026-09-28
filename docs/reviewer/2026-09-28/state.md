@@ -10,15 +10,15 @@
 - Verify a chat send: composer must read 0 chars afterwards.
 
 ## Board: passed 12 | FAILED 14 | unavailable 3 | not exercised 3 (of 32) · self-test proven 20 | BROKEN 0 | unproven 12
-HEAD a29aefa, deployed a29aefa (box run 28 Sep 17:22).
+HEAD 8785996+, deployed 8785996 (box run 28 Sep; titles run 1289).
 
 ## Flip order
 | # | item | status | what to do (from its decision file) |
 | --- | --- | --- | --- |
 | 1 | fill_state_partition | DONE code (still red by design) | baseline recorded in data/completeness/fill-state-history.jsonl; seed 26,619 (was 32,503 in the decision file) |
-| 2 | runs_have_approval | CODED, RED: 102 approval + 6 gate | the 132/132 held for 3 kinds only; honest exhaustive table finds promote-unknown-skus 49, reclassify 21, retract-* 11 … 85 of 108 predate 09-11. NEEDS RULING: cutoff at first approval, or per-kind |
-| 3 | openapi_schemas | GREEN | Model struck by rename: parts.family IS the model (0013); C9500-12Q-A/-E/-A= → C9500-12Q |
-| 4 | doc_category_by_relevance | CODED, RED: 83 readable untitled | 1,275 = 83 readable + 946 gone + 246 never cached (box control 37/40). The 83 have no <title> (PDFs?) — next: PDF metadata title |
+| 2 | runs_have_approval | AWAITING reviewer lines: 23 | judged from 09-11 (ruled); 85 pre-convention named. 20 need approval lines, 3 are GATE misses (942 952 959) → exception or re-run |
+| 3 | openapi_schemas | GREEN | /v1/models/{vendor}/{model} routes Model (families = alias); the check now requires a route per level shape |
+| 4 | doc_category_by_relevance | AWAITING-RULING: 15 | run 1289 wrote 68 PDF Info titles; 15 left = 14 no /Title in the file + 1 template name |
 | 5 | column_backed_never_facts | 1,258 left | 95 prefix-duplicates, 569 software/licence (fact = the platform it licenses → relation), 398 hardware layer-4, 196 lic/sw residue |
 | 6 | enum_values_in_domain | AWAITING seed retraction | 2,011: standard 1,806 (1,775 hexcat_seed), mounting 115, audio_codecs 80 (all INHERITED), 10 wireless |
 | 7 | required_cup_defined | AWAITING-RULING | 30 cups = 3 keys. bundle_contents 0 facts, video_codecs 0 facts, product_compatibility 79 |
@@ -41,6 +41,8 @@ HEAD a29aefa, deployed a29aefa (box run 28 Sep 17:22).
 - column-backed: 5,156 duplicates retracted (run 1280); 728 only-source moved then retracted (run 1288); 1,258 remain.
 - sub_brand: column landed (0028). Populate rule = vendor cisco AND (name/series says Meraki OR SKU ^M[SRXVGT]\d | ^Z\d | ^MA- | ^CW\d | -M(=)?$). ^GR/^GS OUT (505 false, 0 true). TODO.
 - runs_have_approval: the brief's 7,533 is the reviewer's error; the table's 1,272 is right.
+- runs_have_approval: judged from 2026-09-11 (first recorded approval); earlier misses named, never folded; the reviewer writes lines for the 23.
+- Model: route /v1/models/{vendor}/{model}, field `model`, /v1/families is the alias. DONE d956173.
 
 ## Pinned predictions
 - seed retraction lands → `enum_values_in_domain` 2,011 → 236 AND `required_cup_defined` unsatisfiable 6 → 2. If one moves without the other, that is a finding.
