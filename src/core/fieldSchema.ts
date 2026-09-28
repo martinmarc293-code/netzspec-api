@@ -314,6 +314,11 @@ export const FIELD_DICTIONARY: Record<string, FieldDef> = {
   // REVIEWER C.1 (13 Sep 2026): whether a router PLATFORM takes modules — derived from the SKU by src/core/modularPlatform.ts
   // (registered in DERIVED_FILL_PATHS), column-backed like deploy_role: never a slot, the gate of module_slots.
   modular: { key: "modular", de: "Modulare Plattform", en: "Modular platform", type: "b", etim: [], icecat: null },
+  // COLUMN-BACKED, like `modular` beside it: the value lives in `parts.cellular` (migration 0030, derived by
+  // scripts/derive-cellular.mts from the SKU) and never as a fact. It is in the dictionary because a profile
+  // may only declare keys the dictionary holds, and `cellular_bands` needs it DECLARED so an unanswered gate
+  // pends instead of falling to `elseOpt` — which is the whole reason `modular` is here too.
+  cellular: { key: "cellular", de: "Mobilfunkmodem", en: "Cellular radio", type: "b", etim: [], icecat: null },
   deploy_role: { key: "deploy_role", de: "Einsatzbereich", en: "Deployment role", type: "e", domain: ["smb", "access", "core-agg", "datacenter", "industrial", "indoor", "outdoor", "mesh-extender", "branch", "edge", "industrial-iot", "sp-access", "sp-edge", "sp-core", "desk", "wireless", "dect", "conference"], etim: [], icecat: null },
   // kind-layer (13 Sep 2026), spec v2 §I.4 DRIVE / GPU: created OPTIONAL (rule 8), promoted only when a label share on
   // held parts crosses the bar. `form_factor`'s domain is optical cages, so a drive's 2.5"/3.5"/M.2 needs its own key.
@@ -3261,6 +3266,14 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // the numbers, not in the label. Other kinds keep the optional above.
     module_slots: cond({ all: [{ field: "kind", inList: ["router"] }, { field: "modular", eq: true }] }, { elseOpt: true }),
     modular: cond({ field: "kind", inList: ["router"] }, { elseOpt: true }),
+    // `cellular` IS DECLARED FOR THE SAME REASON `modular` IS, and the build refused until it was. A cup
+    // pends on an unanswered gate only when the GATE FIELD ITSELF is required here; a gate nobody declares
+    // falls to `elseOpt` instead, so `cellular_bands` resolved `opt` in the LEDGER (which asks by kind and
+    // role, with no column values) while the SCORER — which reads parts.cellular — said `req` for 204 parts.
+    // `no_optional_cup_in_denominator` caught exactly that: "asked of 204 parts but no role of the ledger
+    // lists it as required or pending". Declaring the gate makes the unanswered case PEND, which is what the
+    // ledger can see and what `module_slots` has always done.
+    cellular: cond({ field: "kind", inList: ["router", "module"] }, { elseOpt: true }),
     // A processor carries the memory of a modular system (ASR1000-RP2 "8 GB DRAM", 8800-RP2 "64 GB DRAM").
     // A CHASSIS DOES NOT: it is sold empty and its RP holds the memory, which is why `chassis` is
     // absent from both lists (0 of 153 chassis parts hold either fact). Nor does a `forwarding`

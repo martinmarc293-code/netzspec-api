@@ -424,8 +424,15 @@ check("the spelling rule has real dimensions to check",
   // `elseOpt` is what keeps the other kinds optional. No live part is in that state — `derive-cellular`'s
   // control asserts NULL = 0 across the catalogue on every run — and that control is the whole of what makes
   // this safe, so it is named here rather than left to be rediscovered.
-  check("an UNKNOWN cellular resolves opt (and derive-cellular's NULL = 0 control is what keeps that safe)",
-    req("routers", { kind: "router" }) === "opt");
+  // AN UNKNOWN `cellular` PENDS, and it took a refused build to get there. A cup pends on an unanswered gate
+  // only when the GATE FIELD ITSELF is required in the profile; `cellular` was declared nowhere, so it fell
+  // to `elseOpt` and resolved `opt`. That is invisible to the scorer, which reads parts.cellular and said
+  // `req` for 204 parts — but the LEDGER asks by kind and role with no column values, so it said `opt`, and
+  // `no_optional_cup_in_denominator` refused the build: "asked of 204 parts but no role of the ledger lists
+  // it as required or pending". Declaring the gate is what `modular` has always done.
+  check("an UNKNOWN cellular PENDS rather than falling to opt", req("routers", { kind: "router" }) === "pending");
+  check("and it pends the same way `modular` does, which is the shape that was copied",
+    String(requirementFor("routers", "module_slots", { kind: "router" } as never)) === "pending");
   check("the gate distinguishes: two req and four not, over the same category",
     [["router", true], ["module", true]].every(([k, c]) => req("routers", { kind: k, cellular: c }) === "req")
     && [["antenna", true], ["cable", true], ["router", false]].every(([k, c]) => req("routers", { kind: k, cellular: c }) === "opt"));
