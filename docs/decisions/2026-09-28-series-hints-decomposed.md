@@ -41,3 +41,7 @@ placing them is one mapping-file edit against
 
 The remaining 196 licence and software rows in the residue need the same question asked of them as the 569:
 is the named series this part's, or the platform it licenses?
+
+## 28 Sep, run 1294: 102 word-prefix duplicates retracted (95 as decided + 7 "Directors/Fabric Switches (...)"); 1,156 left
+Rows: data/dryrun/column-backed-prefix-2026-09-28.tsv. Controls: 1,156 asserted; 0 parts left without a series.
+The hardware residue names a CHASSIS the product_series already enumerates ("MDS 9134" under "MDS 9100 fabric switches (9124 / 9132T / 9134 / ...)"): split product_series per chassis, or, for modules and PSUs, a compatibility relation? Parked with the licence/software question.

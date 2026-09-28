@@ -1,0 +1,103 @@
+sku	key	value	series	product_series	bucket
+DCNM-S-M91XK9=	series	MDS 9100	MDS 9100 Series Multilayer Fabric		series-prefix-duplicate
+DCNM-SAN-M93-K9=	series	MDS 9300	MDS 9300 Series Multilayer Fabric		series-prefix-duplicate
+DCNM-SAN-M91-K9=	series	MDS 9100	MDS 9100 Series Multilayer Fabric		series-prefix-duplicate
+DCNM-SAN-M93X-K9=	series	MDS 9300	MDS 9300 Series Multilayer Fabric		series-prefix-duplicate
+DS-9200-KIT-CCO=	series	MDS 9200	MDS 9200 Series Multiservice		series-prefix-duplicate
+DS-9200-KIT-HP	series	MDS 9200	MDS 9200 Series Multiservice		series-prefix-duplicate
+DCNM-SAN-M93X-K9	series	MDS 9300	MDS 9300 Series Multilayer Fabric		series-prefix-duplicate
+DCNM-SAN-M92-K9=	series	MDS 9200	MDS 9200 Series Multiservice		series-prefix-duplicate
+DCNM-SAN-M92-K9	series	MDS 9200	MDS 9200 Series Multiservice		series-prefix-duplicate
+DCNM-SAN-M93-K9	series	MDS 9300	MDS 9300 Series Multilayer Fabric		series-prefix-duplicate
+DCNM-S-M93XK9=	series	MDS 9300	MDS 9300 Series Multilayer Fabric		series-prefix-duplicate
+DCNM-SAN-M91-K9	series	MDS 9100	MDS 9100 Series Multilayer Fabric		series-prefix-duplicate
+DS-9200-KIT-DM	series	MDS 9200	MDS 9200 Series Multiservice		series-prefix-duplicate
+DS-9200-KIT-HDS	series	MDS 9200	MDS 9200 Series Multiservice		series-prefix-duplicate
+DS-9200-KIT-IBM	series	MDS 9200	MDS 9200 Series Multiservice		series-prefix-duplicate
+DS-9200-KIT-CCO	series	MDS 9200	MDS 9200 Series Multiservice		series-prefix-duplicate
+DS-9200-KIT-SUN	series	MDS 9200	MDS 9200 Series Multiservice		series-prefix-duplicate
+DS-C50I-FAN=	series	MDS 9200	MDS 9200 Series Multiservice	MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)	series-prefix-duplicate
+DS-X9224-96K9=	series	MDS 9000	MDS 9000 Series Multilayer	MDS 9500 / 9200 switching modules	series-prefix-duplicate
+DS-X9232-256K9=	series	MDS 9000	MDS 9000 Series Multilayer	MDS 9500 / 9200 switching modules	series-prefix-duplicate
+DS-X97-SF4-K9	series	MDS 9700	MDS 9700 Series Multilayer Directors	MDS 9700 directors (9706 / 9710 / 9718) and modules	series-prefix-duplicate
+DS-SFP-FC-2G-LW=	series	MDS 9000	MDS 9000 Series Multilayer	MDS Fibre Channel SFP / X2 / CWDM	series-prefix-duplicate
+DS-X9530-SF2AK9=	series	MDS 9500	MDS 9000 Series Multilayer	MDS 9500 directors (9506 / 9509 / 9513)	series-prefix-duplicate
+DS-9250I-KITCCO=	series	MDS 9200	MDS 9200 Series Multiservice	MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)	series-prefix-duplicate
+DS-9200-KIT-EMC	series	MDS 9200	MDS 9200 Series Multiservice		series-prefix-duplicate
+DS-1RU-FAN=	series	MDS 9100	MDS 9000 Series Multilayer	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	series-prefix-duplicate
+DS-CAC97-3KW=	series	MDS 9700	MDS 9700 Series Multilayer Directors		series-prefix-duplicate
+DS-CDC97-3KW	series	MDS 9700	MDS 9700 Series Multilayer Directors		series-prefix-duplicate
+DS-SFP-FC-2G-SW=	series	MDS 9000	MDS 9000 Series Multilayer	MDS Fibre Channel SFP / X2 / CWDM	series-prefix-duplicate
+DS-SFP-FC4G-SW=	series	MDS 9000	MDS 9000 Series Multilayer	MDS Fibre Channel SFP / X2 / CWDM	series-prefix-duplicate
+DS-X2-FC10G-CX4=	series	MDS 9000	MDS 9000 Series Multilayer	MDS Fibre Channel SFP / X2 / CWDM	series-prefix-duplicate
+DS-SFP-FC4G-MR	series	MDS 9000	MDS 9000 Series Multilayer	MDS Fibre Channel SFP / X2 / CWDM	series-prefix-duplicate
+DS-CAC97-3KW	series	MDS 9700	MDS 9700 Series Multilayer Directors		series-prefix-duplicate
+DS-X9248-48K9	series	MDS 9000	MDS 9000 Series Multilayer	MDS 9500 / 9200 switching modules	series-prefix-duplicate
+DS-X9530-SF2-K9=	series	MDS 9500	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	series-prefix-duplicate
+DS-SFP-FC4G-LW=	series	MDS 9000	MDS 9000 Series Multilayer	MDS Fibre Channel SFP / X2 / CWDM	series-prefix-duplicate
+DS-SC-K9=	series	MDS 9000	MDS 9000 Series Multilayer		series-prefix-duplicate
+DS-CAC-500W-I=	series	MDS 9100	MDS 9100 Series Multilayer Fabric		series-prefix-duplicate
+DS-X9316-SSNK9=	series	MDS 9000	MDS 9000 Series Multilayer	MDS 9500 / 9200 switching modules	series-prefix-duplicate
+DS-SFP-FC4G-MR=	series	MDS 9000	MDS 9000 Series Multilayer	MDS Fibre Channel SFP / X2 / CWDM	series-prefix-duplicate
+DS-CAC-1400W-E=	series	MDS 9300	MDS 9300 Series Multilayer Fabric		series-prefix-duplicate
+DS-SCR-K9=	series	MDS 9000	MDS 9000 Series Multilayer		series-prefix-duplicate
+DS-SFP-FC-2G-LW	series	MDS 9000	MDS 9000 Series Multilayer	MDS Fibre Channel SFP / X2 / CWDM	series-prefix-duplicate
+DS-X9224-96K9	series	MDS 9000	MDS 9000 Series Multilayer	MDS 9500 / 9200 switching modules	series-prefix-duplicate
+DS-X9248-48K9=	series	MDS 9000	MDS 9000 Series Multilayer	MDS 9500 / 9200 switching modules	series-prefix-duplicate
+DS-CAC-1400W-I=	series	MDS 9300	MDS 9300 Series Multilayer Fabric		series-prefix-duplicate
+DS-SFP-FCGE-SW=	series	MDS 9000	MDS 9000 Series Multilayer	MDS Fibre Channel SFP / X2 / CWDM	series-prefix-duplicate
+DS-X9530-SF1-K9=	series	MDS 9500	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	series-prefix-duplicate
+DS-CAC-500W-E=	series	MDS 9100	MDS 9100 Series Multilayer Fabric		series-prefix-duplicate
+DS-X2-FC10G-CX4	series	MDS 9000	MDS 9000 Series Multilayer	MDS Fibre Channel SFP / X2 / CWDM	series-prefix-duplicate
+DS-X9530-SF2-K9	series	MDS 9500	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	series-prefix-duplicate
+DS-CDC97-3KW=	series	MDS 9700	MDS 9700 Series Multilayer Directors		series-prefix-duplicate
+DS-X9248-96K9=	series	MDS 9000	MDS 9000 Series Multilayer	MDS 9500 / 9200 switching modules	series-prefix-duplicate
+DS-X9530-SF1-K9	series	MDS 9500	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	series-prefix-duplicate
+DS-X9248-96K9	series	MDS 9000	MDS 9000 Series Multilayer	MDS 9500 / 9200 switching modules	series-prefix-duplicate
+DS-X97-SF1E-K9=	series	MDS 9700	MDS 9700 Series Multilayer Directors	MDS 9700 directors (9706 / 9710 / 9718) and modules	series-prefix-duplicate
+DS-SFP-FCGE-LW=	series	MDS 9000	MDS 9000 Series Multilayer	MDS Fibre Channel SFP / X2 / CWDM	series-prefix-duplicate
+DS-X9248-256K9=	series	MDS 9000	MDS 9000 Series Multilayer	MDS 9500 / 9200 switching modules	series-prefix-duplicate
+DS-X97-SF1-K9=	series	MDS 9700	MDS 9000 Series Multilayer	MDS 9700 directors (9706 / 9710 / 9718) and modules	series-prefix-duplicate
+DS-SFP-FC-2G-SW	series	MDS 9000	MDS 9000 Series Multilayer	MDS Fibre Channel SFP / X2 / CWDM	series-prefix-duplicate
+DS-X9530-SF2AK9	series	MDS 9500	MDS 9000 Series Multilayer	MDS 9500 directors (9506 / 9509 / 9513)	series-prefix-duplicate
+DS-X9704=	series	MDS 9000	MDS 9000 Series Multilayer	MDS 9700 directors (9706 / 9710 / 9718) and modules	series-prefix-duplicate
+DS-X9304-18K9=	series	MDS 9000	MDS 9000 Series Multilayer	MDS 9500 / 9200 switching modules	series-prefix-duplicate
+DS-X97-SF1-K9	series	MDS 9700	MDS 9000 Series Multilayer	MDS 9700 directors (9706 / 9710 / 9718) and modules	series-prefix-duplicate
+DS-X97-SF1E-K9	series	MDS 9700	MDS 9700 Series Multilayer Directors	MDS 9700 directors (9706 / 9710 / 9718) and modules	series-prefix-duplicate
+DS-X97-SF4-K9=	series	MDS 9700	MDS 9700 Series Multilayer Directors	MDS 9700 directors (9706 / 9710 / 9718) and modules	series-prefix-duplicate
+DS-X9824-960K9=	series	MDS 9700	MDS 9700 Series Multilayer Directors	MDS 9700 directors (9706 / 9710 / 9718) and modules	series-prefix-duplicate
+DS-X9824960BDK9=	series	MDS 9700	MDS 9000 Series Multilayer	MDS 9700 directors (9706 / 9710 / 9718) and modules	series-prefix-duplicate
+DS-X9848-480K9	series	MDS 9700	MDS 9700 Series Multilayer Directors	MDS 9700 directors (9706 / 9710 / 9718) and modules	series-prefix-duplicate
+DS-X9824960SRK9=	series	MDS 9700	MDS 9000 Series Multilayer	MDS 9700 directors (9706 / 9710 / 9718) and modules	series-prefix-duplicate
+DS-X9824-960K9	series	MDS 9700	MDS 9700 Series Multilayer Directors	MDS 9700 directors (9706 / 9710 / 9718) and modules	series-prefix-duplicate
+DS-X9848-480K9=	series	MDS 9700	MDS 9700 Series Multilayer Directors	MDS 9700 directors (9706 / 9710 / 9718) and modules	series-prefix-duplicate
+L-DCNM-S-M91-K9=	series	MDS 9100	MDS 9100 Series Multilayer Fabric		series-prefix-duplicate
+L-DCNM-S-M93X-K9=	series	MDS 9300	MDS 9300 Series Multilayer Fabric		series-prefix-duplicate
+L-DCNM-S-M91XK9=	series	MDS 9100	MDS 9100 Series Multilayer Fabric		series-prefix-duplicate
+L-DCNM-S-M93XK9=	series	MDS 9300	MDS 9300 Series Multilayer Fabric		series-prefix-duplicate
+L-DCNM-S-M93-K9=	series	MDS 9300	MDS 9300 Series Multilayer Fabric		series-prefix-duplicate
+L-M93ENTDCNMX-K9=	series	MDS 9300	MDS 9300 Series Multilayer Fabric		series-prefix-duplicate
+L-M97FIC1K9=	series	MDS 9700	MDS 9700 Series Multilayer Directors		series-prefix-duplicate
+L-M9300ENT1K9=	series	MDS 9300	MDS 9300 Series Multilayer Fabric		series-prefix-duplicate
+L-M93ENTDCNM-K9=	series	MDS 9300	MDS 9300 Series Multilayer Fabric		series-prefix-duplicate
+L-M9100ENT1K9=	series	MDS 9100	MDS 9100 Series Multilayer Fabric		series-prefix-duplicate
+M9200XRC=	series	MDS 9200	MDS 9200 Series Multiservice		series-prefix-duplicate
+M9200FIC1K9=	series	MDS 9200	MDS 9200 Series Multiservice		series-prefix-duplicate
+M9200XRC	series	MDS 9200	MDS 9200 Series Multiservice		series-prefix-duplicate
+M9200FIC1K9	series	MDS 9200	MDS 9200 Series Multiservice		series-prefix-duplicate
+M93S5K9-6.2.13	series	MDS 9300	MDS 9300 Series Multilayer Fabric		series-prefix-duplicate
+M9100ENT1K9=	series	MDS 9100	MDS 9100 Series Multilayer Fabric		series-prefix-duplicate
+M9500EXT14K9=	series	MDS 9500	MDS 9500 Series Multilayer Directors		series-prefix-duplicate
+M93ENTDCNMX-K9=	series	MDS 9300	MDS 9300 Series Multilayer Fabric		series-prefix-duplicate
+M9500EXT1K9	series	MDS 9500	MDS 9500 Series Multilayer Directors		series-prefix-duplicate
+M97FIC1K9=	series	MDS 9700	MDS 9700 Series Multilayer Directors		series-prefix-duplicate
+M93ENTDCNMX-K9	series	MDS 9300	MDS 9300 Series Multilayer Fabric		series-prefix-duplicate
+M9300ENT1K9=	series	MDS 9300	MDS 9300 Series Multilayer Fabric		series-prefix-duplicate
+M9500EXT1K9=	series	MDS 9500	MDS 9500 Series Multilayer Directors		series-prefix-duplicate
+M9500FMS1K9=	series	MDS 9500	MDS 9500 Series Multilayer Directors		series-prefix-duplicate
+M9300ENT1K9	series	MDS 9300	MDS 9300 Series Multilayer Fabric		series-prefix-duplicate
+M93ENTDCNM-K9	series	MDS 9300	MDS 9300 Series Multilayer Fabric		series-prefix-duplicate
+M93ENTDCNM-K9=	series	MDS 9300	MDS 9300 Series Multilayer Fabric		series-prefix-duplicate
+M93S5K9-NPE-6.2.13	series	MDS 9300	MDS 9300 Series Multilayer Fabric		series-prefix-duplicate
+M97FIC1K9	series	MDS 9700	MDS 9700 Series Multilayer Directors		series-prefix-duplicate
+M9500EXT14K9	series	MDS 9500	MDS 9500 Series Multilayer Directors		series-prefix-duplicate
