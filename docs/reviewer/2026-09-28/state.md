@@ -21,14 +21,14 @@ HEAD aa986ad+, deployed aa986ad. Verifier log: docs/reviewer/2026-09-28/verifier
 | 2 | runs_have_approval | GREEN | run 1292: reviewer_retroactive on 20; run 1293 retro-gate: 952 pass → exception, 942/959 fail → 87 facts retracted (plan data/dryrun/retro-gate-2026-09-28.tsv) |
 | 3 | openapi_schemas | GREEN | /v1/models/{vendor}/{model} routes Model (families = alias); the check now requires a route per level shape |
 | 4 | doc_category_by_relevance | GREEN | runs 1289/1290: 68 titles, title_source pdf-info-trailer; run 1291: 15 title_state none |
-| 5 | column_backed_never_facts | AWAITING-RULING: 1,156 | run 1294 retracted 102 prefix dups. Left: lic/sw naming the platform they license (relation kind or retract?) + hardware naming a chassis the product_series lists (split per chassis, or relation?) |
+| 5 | column_backed_never_facts | TODO (ruled 5a/5b): 1,156 | run 1294 retracted 102 prefix dups. Left: lic/sw naming the platform they license (relation kind or retract?) + hardware naming a chassis the product_series lists (split per chassis, or relation?) |
 | 6 | enum_values_in_domain | AWAITING seed retraction | 2,011: standard 1,806 (1,775 hexcat_seed), mounting 115, audio_codecs 80 (all INHERITED), 10 wireless |
 | 7 | required_cup_defined | AWAITING-RULING | 30 cups = 3 keys. bundle_contents 0 facts, video_codecs 0 facts, product_compatibility 79 |
 | 8 | relations_for_components | AWAITING-RULING | 56 of 79 are model lists → promote to relations; 20 prose → retract; 3 mixed → parser |
 | 9 | conflicts_classified | TODO | orphans are 599 not 12,874 (corrected). Needs a `class` column + classifier |
 | 10 | twin_parity | AWAITING-RULING | 19 are a NAME asymmetry; the `=` moves 1 of 14. Three options costed |
 | 11 | kind_profile_parity | AWAITING acquisition | 5 of 6 pairs: NOBODY on either side holds the cup; hcs/server 0 of 208 spec-bearing |
-| 12 | unknown_zero | AWAITING-RULING | 3,476 = vendor_coverage's parts: report apart instead of counting? 362 name gap (acquisition); 106 need the FROZEN kind mapping → decision process |
+| 12 | unknown_zero | TODO (ruled) | 3,476 = vendor_coverage's parts: report apart instead of counting? 362 name gap (acquisition); 106 need the FROZEN kind mapping → decision process |
 | 13 | four_sets_sum | AWAITING-RULING | na=0 is 77,098 cells = ONE derived rule (complement of the kind's cup set), not 303 judgements |
 | 14 | keys_hygiene | AWAITING OPERATOR | holder+channel landed (0029, run 1276). Operator revokes ids 1 and 6 |
 | 15 | vendor_coverage | OUT OF SCOPE | 3,476 parts, 12 vendors with no axis |
@@ -48,6 +48,10 @@ HEAD aa986ad+, deployed aa986ad. Verifier log: docs/reviewer/2026-09-28/verifier
 - PDF titles: Info-trailer /Title accepted (20-of-68 sample passed); recorded as title_source = pdf-info-trailer. First-page heading only for the 15 if more than none is ever wanted.
 - The 15 with no title anywhere: title_state = none, nothing invented.
 - The 23 runs: approved = reviewer_retroactive, evidence = plans_agree_with_rows (20). Gate misses 942/952/959: retro-gate; pass -> exception like 69, fail -> retract.
+- 5a: licence/software fact naming its platform -> relation `licenses` (licence -> hardware SKU/series), then retract. Never a series on a licence.
+- 5b: a chassis its series already lists -> retract as duplicate-by-membership (no information lost). Module/PSU naming a host chassis -> `compatible_with` relation (the 6.9 pass), then retract.
+- 12: unknown_zero reports vendor_coverage's 3,476 counted apart; its own number is the 468. The 106 named parts -> kind decision process: ONE decision file, by series, passive-optical first.
+- Check and commit are separate commands (ec3fb28 shipped a type error by joining them).
 
 ## Pinned predictions
 - seed retraction lands → `enum_values_in_domain` 2,011 → 236 AND `required_cup_defined` unsatisfiable 6 → 2. If one moves without the other, that is a finding.
