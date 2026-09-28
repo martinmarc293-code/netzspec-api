@@ -2,7 +2,7 @@
 # scripts/mould-build.sh — the ONE ordered rebuild of the artefact set (reviewer, 28 Sep 2026: "rebuild once per block, at the
 # end"; a single-category rebuild is what turned one_build red). Run ON THE BOX from a deployed commit:
 #     nohup bash scripts/mould-build.sh cisco > /tmp/mould-build.log 2>&1 &
-# Order is fixed: layers -> write-layers-to-db -> recompute -> ledgers -> censuses -> traces -> report -> freeze.
+# Order is fixed: layers -> write-layers-to-db -> recompute -> ledgers -> censuses -> traces -> freeze -> report.
 # The stamp (scripts/mould-stamp.mts) needs .git, so it runs in the repo after the artefacts are copied back.
 # Stops at the first failing step, reading that step's OWN exit code (no pipes), and says which step it was.
 set -u
@@ -28,6 +28,8 @@ step npx tsx src/pipeline/cli.ts recompute-completeness --vendor "$VENDOR"
 for c in $cats; do step npx tsx scripts/build-cup-ledger.mts --category "$c" --vendor "$VENDOR"; done
 for c in $cats; do step npx tsx scripts/build-value-census.mts --category "$c" --vendor "$VENDOR"; done
 for c in $cats; do step npx tsx scripts/build-mapper-trace.mts --category "$c" --vendor "$VENDOR"; done
-step npx tsx scripts/build-completeness.mts --vendor "$VENDOR"
+# The freeze BEFORE the report: the report names the committed freeze hash (tests/completeness.test.ts), and the first
+# full run (28 Sep) built them the other way round, so the report named the previous freeze.
 step npx tsx scripts/build-freeze.mts --vendor "$VENDOR"
+step npx tsx scripts/build-completeness.mts --vendor "$VENDOR"
 echo "== $(date -u +%H:%M:%S) mould-build done: copy data/ back, run mould-stamp in the repo, commit, deploy"
