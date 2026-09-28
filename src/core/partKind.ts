@@ -44,6 +44,12 @@ import { LEDGER_KINDS } from "./cupLedger.js";
 import { strayDevice } from "./strayDevice.js";
 // end fallback-kinds
 import { ucsBundleKind } from "./bundleFamily.js"; // round-7 ruling C (12 Sep 2026)
+import { KIND_OVERRIDES } from "./kindOverrides.js";
+
+/** The category axis alone, without the per-SKU overrides: what tests/kindOverrides.test.ts checks an override against. */
+export function axisOnlyKind(categorySlug: string, sku: string): string | undefined {
+  return axisKind(categorySlug, sku, undefined);
+}
 
 /**
  * Categories whose profile gates requirements on a derived `kind`. Checked against PROFILES by
@@ -81,6 +87,9 @@ export const KIND_CATEGORIES: readonly string[] = [
  */
 export function partKind(categorySlug: string, sku: string, name?: string): string | undefined {
   const axis = axisKind(categorySlug, sku, name);
+  // Ruled per-SKU kinds (src/core/kindOverrides.ts) apply only where the axis gave up; an axis that knows the SKU wins.
+  const ov = KIND_OVERRIDES[sku];
+  if (ov && ov.category === categorySlug && (axis === undefined || axis === "unknown")) return ov.kind;
   // fallback-kinds (12 Sep 2026): the NAME is consulted only where the axis gave up. See nameMarker.ts
   // for why that ordering is the whole of the safety, and reachThroughName below for the mapping.
   if (axis !== undefined && name && FALLBACK_KINDS.has(axis) && !nameIsJustTheSku(sku, name)) {
