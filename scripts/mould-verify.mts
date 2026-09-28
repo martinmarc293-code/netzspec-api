@@ -2107,7 +2107,9 @@ const TESTS: Test[] = [
     // which is the accident the reviewer named.
     run: async () => {
       const FLOOR: Record<string, number> = {  // measured 27 Sep 2026, cisco live hardware
-        "switches|switch": 4242, "routers|router": 1288, "routers|sp-router": 264,
+        // switches|switch 4242 -> 4224 (28 Sep 2026): ruling 12b re-kinded the 18 PON rows ont / olt with their own cups -- an
+        // explained shrink, re-recorded here rather than widened; the 18 are no longer asked for a switch role at all.
+        "switches|switch": 4224, "routers|router": 1288, "routers|sp-router": 264,
         "wireless|ap": 2767, "collaboration-endpoints|phone": 442, "unified-communications|phone": 7,
       };
       const rows = (await query<{ sku: string; name: string | null; cat: string }>(`
