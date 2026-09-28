@@ -21,14 +21,14 @@ HEAD 9bad9f9+, deployed 9bad9f9. Verifier log: docs/reviewer/2026-09-28/verifier
 | 2 | runs_have_approval | GREEN | run 1292: reviewer_retroactive on 20; run 1293 retro-gate: 952 pass → exception, 942/959 fail → 87 facts retracted (plan data/dryrun/retro-gate-2026-09-28.tsv) |
 | 3 | openapi_schemas | GREEN | /v1/models/{vendor}/{model} routes Model (families = alias); the check now requires a route per level shape |
 | 4 | doc_category_by_relevance | GREEN | runs 1289/1290: 68 titles, title_source pdf-info-trailer; run 1291: 15 title_state none |
-| 5 | column_backed_never_facts | AWAITING-RULING: 45 | run 1294: 102 prefix dups; run 1295: 933 relations + 1,111 retracted. 45 parked: unlisted chassis 24, MDS 9000 umbrella 20, 1 router series |
+| 5 | column_backed_never_facts | TODO (ruled 5c): 45 | run 1294: 102 prefix dups; run 1295: 933 relations + 1,111 retracted. 45 parked: unlisted chassis 24, MDS 9000 umbrella 20, 1 router series |
 | 6 | enum_values_in_domain | AWAITING seed retraction | 2,011: standard 1,806 (1,775 hexcat_seed), mounting 115, audio_codecs 80 (all INHERITED), 10 wireless |
 | 7 | required_cup_defined | AWAITING-RULING | 30 cups = 3 keys. bundle_contents 0 facts, video_codecs 0 facts, product_compatibility 79 |
 | 8 | relations_for_components | AWAITING-RULING | 56 of 79 are model lists → promote to relations; 20 prose → retract; 3 mixed → parser |
 | 9 | conflicts_classified | TODO | orphans are 599 not 12,874 (corrected). Needs a `class` column + classifier |
 | 10 | twin_parity | AWAITING-RULING | 19 are a NAME asymmetry; the `=` moves 1 of 14. Three options costed |
 | 11 | kind_profile_parity | AWAITING acquisition | 5 of 6 pairs: NOBODY on either side holds the cup; hcs/server 0 of 208 spec-bearing |
-| 12 | unknown_zero | AWAITING-RULING: 468 | 3,476 counted apart (done). 106 proposal: docs/decisions/2026-09-28-unknown-kind-106.md. 362 = name gap (acquisition) |
+| 12 | unknown_zero | TODO (106 ruled) | 3,476 counted apart (done). 106 proposal: docs/decisions/2026-09-28-unknown-kind-106.md. 362 = name gap (acquisition) |
 | 13 | four_sets_sum | AWAITING-RULING | na=0 is 77,098 cells = ONE derived rule (complement of the kind's cup set), not 303 judgements |
 | 14 | keys_hygiene | AWAITING OPERATOR | holder+channel landed (0029, run 1276). Operator revokes ids 1 and 6 |
 | 15 | vendor_coverage | OUT OF SCOPE | 3,476 parts, 12 vendors with no axis |
@@ -52,6 +52,8 @@ HEAD 9bad9f9+, deployed 9bad9f9. Verifier log: docs/reviewer/2026-09-28/verifier
 - 5b: a chassis its series already lists -> retract as duplicate-by-membership (no information lost). Module/PSU naming a host chassis -> `compatible_with` relation (the 6.9 pass), then retract.
 - 12: unknown_zero reports vendor_coverage's 3,476 counted apart; its own number is the 468. The 106 named parts -> kind decision process: ONE decision file, by series, passive-optical first.
 - Check and commit are separate commands (ec3fb28 shipped a type error by joining them).
+- 5c: the 19 chassis their series list omits (9124V, 9132, 9216i, 9120) -> ADD them to the series string in data/reference/product-lines/cisco-storage-networking.json ("the list is the layer, the facts are its witnesses"), then retract. The 25 MDS 9000 umbrella facts -> retract as coarser-than-column. The 1 router series on an interface -> compatible relation, then retract. Target 0.
+- 12: the 106 approved as proposed (docs/decisions/2026-09-28-unknown-kind-106.md) with: 15216-FLAMP* amplifier; CMXDMX/MD40 kits mux; WDM-SFP-2CH-CONV= mux; AVIZ-EDU= carts, CTS-ATP demo kits, ATP-QSC20 -> bundle (bundle_of relations later); ASCT-EX3200 appliance; CIT3-FI-M-6324 -> MOVE to servers-unified-computing, kind fabric-interconnect; 4036797.1610 D-PON ONT -> ont (the PON kind from G1); AIM-DES/BP series corrected to "2600 Series". ONE commit, freeze regenerated, unknown_zero -> 0 Cisco.
 
 ## Pinned predictions
 - seed retraction lands → `enum_values_in_domain` 2,011 → 236 AND `required_cup_defined` unsatisfiable 6 → 2. If one moves without the other, that is a finding.
