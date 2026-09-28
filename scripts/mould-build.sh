@@ -15,6 +15,10 @@ step() {
 }
 cats=$(ls data/ledger | sed -n "s/^${VENDOR}-\(.*\)\.json$/\1/p")
 [ -n "$cats" ] || { echo "!! no ledger categories found for ${VENDOR}"; exit 2; }
+# Inputs are checked BEFORE the first write: runs/ is gitignored, so a deploy never ships the label vocabulary the ledger
+# build reads, and the first attempt (28 Sep) wrote layers and recompute before dying on it.
+VOCAB="runs/vocab/${VENDOR}-datasheets/labels.json"
+[ -s "$VOCAB" ] || { echo "!! missing input $VOCAB (gitignored; copy it in, e.g. from /root/netzspec-arrangement-build/$VOCAB) - nothing written"; exit 2; }
 step npx tsx scripts/build-layers.mts --vendor "$VENDOR" --all
 step npx tsx scripts/write-layers-to-db.mts --commit
 step npx tsx src/pipeline/cli.ts recompute-completeness --vendor "$VENDOR"
