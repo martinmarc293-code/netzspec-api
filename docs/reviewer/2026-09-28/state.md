@@ -12,7 +12,7 @@
 - Verify a chat send: composer must read 0 chars afterwards.
 
 ## Board: passed 16 | FAILED 10 | unavailable 3 | not exercised 3 (of 32) · self-test proven 20 | BROKEN 0 | unproven 12
-HEAD 3f2762b+, deployed 3f2762b. Full rebuild = scripts/mould-build.sh on the box (GIT_SHA=<sha>; copy runs/vocab/cisco-datasheets/labels.json in first; freeze BEFORE report), then scripts/mould-stamp.mts in the repo. build-layers refuses a single-category write.
+HEAD 01ec60e+, deployed 01ec60e (artefacts a6f8b65). Full rebuild = scripts/mould-build.sh on the box (GIT_SHA=<sha>; copy runs/vocab/cisco-datasheets/labels.json in first; freeze BEFORE report), then scripts/mould-stamp.mts in the repo. build-layers refuses a single-category write.
 
 ## Flip order
 | # | item | status | what to do (from its decision file) |
@@ -28,7 +28,7 @@ HEAD 3f2762b+, deployed 3f2762b. Full rebuild = scripts/mould-build.sh on the bo
 | 9 | conflicts_classified | TODO | orphans are 599 not 12,874 (corrected). Needs a `class` column + classifier |
 | 10 | twin_parity | AWAITING-RULING | 19 are a NAME asymmetry; the `=` moves 1 of 14. Three options costed |
 | 11 | kind_profile_parity | AWAITING acquisition | 5 of 6 pairs: NOBODY on either side holds the cup; hcs/server 0 of 208 spec-bearing |
-| 12 | unknown_zero | 364 (104 of the 106 landed: +13 collab bundles, 12a) | parked: 1 ONT (12b); ruled, not yet run: CIT3-FI-M-6324 move, AIM-DES/BP series fix; 362 = name gap | 3,476 counted apart (done). 106 proposal: docs/decisions/2026-09-28-unknown-kind-106.md. 362 = name gap (acquisition) |
+| 12 | unknown_zero | 363 | 12b block landed: ont/olt (18 PON rows + the D-PON ONT, moved), device (12 MobileAccessVE, wireless axis), CIT3-FI moved + fabric-interconnect, AIM-DES/BP series fixed (run 1313); AIR-N-3006-DTA-K9 back to unknown (a group-level guess); 362 = name gap. OPEN: pon_ports / pon_standard have no enabled source (source-fields) |
 | 13 | four_sets_sum | AWAITING-RULING | na=0 is 77,098 cells = ONE derived rule (complement of the kind's cup set), not 303 judgements |
 | 14 | keys_hygiene | AWAITING OPERATOR | holder+channel landed (0029, run 1276). Operator revokes ids 1 and 6 |
 | 15 | vendor_coverage | OUT OF SCOPE | 3,476 parts, 12 vendors with no axis |
@@ -52,6 +52,7 @@ HEAD 3f2762b+, deployed 3f2762b. Full rebuild = scripts/mould-build.sh on the bo
 - 5b: a chassis its series already lists -> retract as duplicate-by-membership (no information lost). Module/PSU naming a host chassis -> `compatible_with` relation (the 6.9 pass), then retract.
 - 12: unknown_zero reports vendor_coverage's 3,476 counted apart; its own number is the 468. The 106 named parts -> kind decision process: ONE decision file, by series, passive-optical first.
 - Check and commit are separate commands (ec3fb28 shipped a type error by joining them).
+- Judge a block by a MISS-LEVEL diff of every suite against the session baseline, never by suite pass/fail: layersStanding went 1 -> 36 and cupLedger 3 -> 6 behind a clean suite-level diff (fixed 28 Sep).
 - 12a: declare `bundle` in collaboration-endpoints, same profile as every other bundle; its requirement is relation-backed (`bundle_of`, "item 7's ruling" per the reviewer - not recorded here before 28 Sep evening), so no open string cup is created.
 - 12b: declare `ont` and `olt` in the SWITCHES profile with the PON archetype ("already ruled for the 18 PON rows in switches" per the reviewer - verify those 18 rows exist before building on it); 4036797.1610 (D-PON ONT) moves video -> switches with them.
 - 12a (FINAL, supersedes the line above): build the RELATION-BACKED REQUIREMENT first, once (item 7's mechanism; product_compatibility needs it too): a cup satisfied by >=1 sourced relation of a named kind (bundle_of ~ existing `bundle_contains`, compatible_with ~ existing `compatible`), not-held otherwise. Then `bundle` in collab and every category uses it; bundle_contents retires as a string cup.

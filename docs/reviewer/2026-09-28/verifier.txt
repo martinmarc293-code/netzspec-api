@@ -30,10 +30,10 @@ mould:verify — 32 tests declared
   FAIL  keys_hygiene                   3 of 4 active keys: id 1 "netzspec" active with no recorded holder (last used 2026-09-03 16:52:49.396577+00); id 6 "claude-web" active with no recorded holder (last used 2026-09-08 21:43:53.543266+00); 2 active keys share the name "netzspec" (ids 1, 3) — a rotation cannot tell them apart   (N70 (reclassified) — the reviewer's control, added 27 Sep)
   PASS  brand_isolation                only arranged brands (cisco) carry a score
   PASS  no_profile_reason_recorded     4 reasons, code and constraint agree both ways; every unscored row names one: non_hardware 46,990, brand_not_arranged 3,476
-  FAIL  derived_gate_nulls             a role-bearing population SHRANK, so fewer parts are being asked for a role than when this was measured — a kind that loses its axis makes a null count greener, which is why this is here: switches|switch 4224 < 4242   (reviewer item 3 / D1 — a derived gate that derives to nothing)
+  PASS  derived_gate_nulls             8,997 parts of 6 role-bearing (category, kind) pairs, every floor held; roles derived on all but 0 the table REFUSES as the wrong kind (they leave the score with a reason)
   FAIL  vendor_coverage                12 vendors hold 3476 live hardware parts with NO layering, ledger or kinds: juniper 974, extreme 96, fortinet 87, nvidia 85, mikrotik 63, ubiquiti 49, aruba 358, arista 344, supermicro 27, dell-emc 151, hpe 1142, lenovo 100 — N62 named five of these 12. WHEN THIS CLOSES: 1,369 of them sit in the eight categories the 22-row cup decision touches, so those rows land on them in one step, as gaps. Expected, not a regression   (N62)
 
-  passed 15   FAILED 11   not implemented 0   unavailable 3   not exercised 3   (of 32 declared)
-  failing: required_cup_defined, enum_values_in_domain, kind_profile_parity, four_sets_sum, twin_parity, unknown_zero, fill_state_partition, conflicts_classified, keys_hygiene, derived_gate_nulls, vendor_coverage
+  passed 16   FAILED 10   not implemented 0   unavailable 3   not exercised 3   (of 32 declared)
+  failing: required_cup_defined, enum_values_in_domain, kind_profile_parity, four_sets_sum, twin_parity, unknown_zero, fill_state_partition, conflicts_classified, keys_hygiene, vendor_coverage
   3 test(s) had NO POPULATION to judge - they neither passed nor failed; what they watch for has no members today.
 verify exit 1
