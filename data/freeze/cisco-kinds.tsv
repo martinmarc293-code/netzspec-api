@@ -388,7 +388,6 @@ collaboration-endpoints	CIT3-CPU-I6240	Intel 6240 2.6GHz/150W 18C/24.75MB DCP DD
 collaboration-endpoints	CIT3-CPU-I6240=	^Intel 6240 2.6GHz/150W 18C/24.75MB DCP DDR4 2933 MHz	cpu	
 collaboration-endpoints	CIT3-CPU-I6336Y	Intel 6336Y 2.4GHz/185W 24C/36MB DDR4 3200MHz	cpu	
 collaboration-endpoints	CIT3-FAN5	Fan module for UCS 5108	accessory	
-collaboration-endpoints	CIT3-FI-M-6324	UCS 6324 In-Chassis FI with 4 UP, 1x40G Exp Port, 16 10Gb	unknown	
 collaboration-endpoints	CIT3-HD300G10K12G	300GB 12G SAS 10K RPM SFF HDD	drive	
 collaboration-endpoints	CIT3-HD300G10K12N	300GB 12G SAS 10K RPM SFF HDD	drive	
 collaboration-endpoints	CIT3-LSTOR-BK	FlexStorage blanking panels w/o controller, w/o drive bays	mechanical	
@@ -15751,6 +15750,7 @@ servers-unified-computing	CBL-SDSAS-245M6	C245M6 2U24SFF MB CPU1(NVMe-D) to PB P
 servers-unified-computing	CBL-SDSAS-245M6=	C245M6 2U24SFF MB CPU1(NVMe-D) to PB PLUS	cable	
 servers-unified-computing	CBL-SDSAS-C240M7=	Cisco CBL-SDSAS-C240M7=	cable	
 servers-unified-computing	CBL-X580P-GPU-N=	Cisco CBL-X580P-GPU-N=	cable	
+servers-unified-computing	CIT3-FI-M-6324	UCS 6324 In-Chassis FI with 4 UP, 1x40G Exp Port, 16 10Gb	fabric-interconnect	
 servers-unified-computing	CIVS-ENC-KIT-OPT	CIVS-ENC Video Card Manufacturing Kit Option	mechanical	
 servers-unified-computing	CIVS-FAN-2RU=	Fan Assembly for CIVS-MSP-2RU	fan	
 servers-unified-computing	CIVS-MSP-MEMUP6G	MultiService Platform memory upgrade to 6GB	memory	
@@ -24201,6 +24201,7 @@ switches	3750X-48P	Cisco 3750X-48P	switch	access
 switches	3750X-48PF	Cisco 3750X-48PF	switch	access
 switches	3750X-48T	Cisco 3750X-48T	switch	access
 switches	3750X-48U	Cisco 3750X-48U	switch	access
+switches	4036797.1610	ASSY, MOD, DPON EU ONT, 1610, 20, 60C	ont	
 switches	4900M-BLK-CVR	Blank for port card slots	mechanical	
 switches	4900M-BLK-CVR=	Spare blank for port card slots	mechanical	
 switches	4900M-PWR-CVR	Cat4900M Blank for Power Supply Slot	mechanical	
@@ -26511,6 +26512,18 @@ switches	CF-ADAPTER-SP	SP adapter for SUP720 and SUP720-10G	accessory
 switches	CF-ADAPTER=	Compact Flash Adapter for Sup720/3B/3BXL	accessory	
 switches	CF-IE3000-E=	IE 3000 Compact Flash Spare for Layer 3 SKU	flash	
 switches	CF-IE3000=	IE 3000 Compact Flash Spare	flash	
+switches	CGP-OLT	Cisco CGP-OLT	olt	
+switches	CGP-OLT-16T	Catalyst PON 16-port GPON OLT, 4 GE Combo ports (Copper RJ45 + SFP optical), 2 10GE SFP+	olt	
+switches	CGP-OLT-8T	Catalyst PON 8-port GPON OLT,4 GE Combo ports (Copper RJ45 + SFP optical), 2 10GE SFP+	olt	
+switches	CGP-ONT	Cisco CGP-ONT	ont	
+switches	CGP-ONT-1P	Cisco GPON ONT 1X1G PoE, 2.5G uplink	ont	
+switches	CGP-ONT-4P	Cisco GPON ONT 4X1G PoE+, 2.5G uplink	ont	
+switches	CGP-ONT-4PV	Cisco GPON ONT 4X1G PoE+, 2 voice ports, 2.5G uplink	ont	
+switches	CGP-ONT-4PVC	Catalyst PON 4-port GPON ONT, PoE+, 2 POTS RJ11, 1 CATV Coax	ont	
+switches	CGP-ONT-4TVCW-EU	Cisco GPON ONT Wireless-AC - EMEAR (EU plug)	ont	
+switches	CGP-ONT-4TVCW-IN	Cisco GPON ONT Wireless-AC - India	ont	
+switches	CGP-ONT-4TVCW-NA	Cisco GPON ONT Wireless-AC-Americas (US, CAN, Mex, Columbia)	ont	
+switches	CGP-ONT-4TVCW-x	Catalyst PON 4-port GPON ONT, 2 POTS RJ11, 1 CATV Coax, 1 Wi-Fi 2.4G/5GHz. x=Region Prefix. Currently -EU, -NA and -IN available. Please reach out for other regions. EU – EU power adapter, -E Wireless LNA regulatory domain NA – NA power adapter, -A Wireless LNA regulatory domain IN – IN power adapter, -H Wireless LNA regulatory domain	ont	
 switches	CGS-2520-16S-8PC	CGS2520 16FE SFP, 8FE Copper PoE+ & 2GE combo uplinks	switch	industrial
 switches	CGS-2520-16S-8PC=	CGS2520 16FE SFP, 8FE Copper PoE+ & 2GE combo uplinks	switch	industrial
 switches	CGS-2520-24TC	CGS2520 with 24FE Copper and 2 GE combo uplinks	switch	industrial
@@ -26603,6 +26616,12 @@ switches	EDU-C3850-48P-S	Cisco Catalyst 3850 48 Port Full PoE IP Base for K12	sw
 switches	EDU-C3850-48PW-S	Cisco Catalyst 3850 48 Port Full PoE w/ 5 AP license IPB K12	switch	access
 switches	EDU-C3850-48U-L	Cisco Catalyst 3850 48 Port UPOE LAN Base for K12	switch	access
 switches	EDU-C3850-48U-S	Cisco Catalyst 3850 48 Port UPOE IP Base for K12	switch	access
+switches	ENC-10G-ONT-01PR	Cisco ENC-10G-ONT-01PR	ont	
+switches	ENC-10G-ONT-01PR=	Ruggedized XGS-PON ONT, powered by PoE	ont	
+switches	ENC-10G-ONT-10	Cisco ENC-10G-ONT-10	ont	
+switches	ENC-10G-ONT-10=	XGS-PON ONT	ont	
+switches	ENC-10G-ONT-14A	Cisco ENC-10G-ONT-14A	ont	
+switches	ENC-10G-ONT-14A=	Multiport and ATA XGS-PON ONT	ont	
 switches	ESS-2020-16TC-CON	Embedded Service 2020 Switch, Expansion board, Conduction cooled	switch	industrial
 switches	ESS-2020-16TC-NCP	Embedded Service 2020 Switch, Expansion board, No cooling plate	switch	industrial
 switches	ESS-2020-24TC-CON	Embedded Service 2020 Switch, Main/Expansion board bundle, Conduction cooled, LAN Lite software	switch	industrial
@@ -34680,7 +34699,6 @@ video	4036786	Cisco 4036786	unknown
 video	4036787	Cisco 4036787	unknown	
 video	4036793	GS7000,Assy,Mod,4X DOCSIS Status Monitor	plug-in	
 video	4036796.1610	Assy, Kit, DPON EU ONT, 1610 V2 (-20+60)	mechanical	
-video	4036797.1610	ASSY, MOD, DPON EU ONT, 1610, 20, 60C	unknown	
 video	4036862	Assy,Kit-GS7K 4X 85105 LA 1XRFCM/X1RCM	mechanical	
 video	4036864	GS7K OS 1xR Rx,x1,CWDM N Tx	transmitter	
 video	4036865	GS7K OS 1xR Rx,x1,CWDM O Tx	transmitter	
@@ -37251,14 +37269,14 @@ wireless	AIR-1520-FIB-REEL	1520 Series Take-up Reel for Fiber Cable	mechanical
 wireless	AIR-1520-FIB-REEL=	1520/1550 Series Fiber-Cable Take-up Reel KIT	mechanical	
 wireless	AIR-1550-HAZBBU	1550 Series Hazardous Location Battery Backup Unit	power	
 wireless	AIR-1550S-FIB-KIT=	1550S Fiber Cable Take-up Reel Kit	mechanical	
-wireless	AIR-330-EXP-BOX	MobileAccessVE Expansion Box	accessory	
-wireless	AIR-330-EXP-BOX=	MobileAccessVE Expansion Box	accessory	
-wireless	AIR-330-MB-1	MobileAccessVE One-link Main Building Unit	accessory	
-wireless	AIR-330-MB-1=	MobileAccessVE One-link Main Building Unit	accessory	
-wireless	AIR-330-MB-2	MobileAccessVE Two-link Main Building Unit	accessory	
-wireless	AIR-330-MB-2=	MobileAccessVE Two-link Main Building Unit	accessory	
-wireless	AIR-330-RB-1	MobileAccessVE Remote Building Unit	accessory	
-wireless	AIR-330-RB-1=	MobileAccessVE Remote Building Unit	accessory	
+wireless	AIR-330-EXP-BOX	MobileAccessVE Expansion Box	device	
+wireless	AIR-330-EXP-BOX=	MobileAccessVE Expansion Box	device	
+wireless	AIR-330-MB-1	MobileAccessVE One-link Main Building Unit	device	
+wireless	AIR-330-MB-1=	MobileAccessVE One-link Main Building Unit	device	
+wireless	AIR-330-MB-2	MobileAccessVE Two-link Main Building Unit	device	
+wireless	AIR-330-MB-2=	MobileAccessVE Two-link Main Building Unit	device	
+wireless	AIR-330-RB-1	MobileAccessVE Remote Building Unit	device	
+wireless	AIR-330-RB-1=	MobileAccessVE Remote Building Unit	device	
 wireless	AIR-3504-RMNT=	Cisco 3504 Wireless Controller Rack Mount Bracket	mechanical	
 wireless	AIR-3802I-G-K9C	Cisco Aironet Mobility Express 3800 Series	ap	indoor
 wireless	AIR-420-003346-020	20 ft. cable with RP-TNC connectors	cable	
@@ -39125,7 +39143,7 @@ wireless	AIR-MSE-B4-C3-W25	Cisco AIR-MSE-B4-C3-W25	bundle
 wireless	AIR-MSE-B5-C3-W25	Cisco AIR-MSE-B5-C3-W25	bundle	
 wireless	AIR-MSE3350-HD=	Field Replaceable Hard Disk For The MSE 3350	module	
 wireless	AIR-MSE3350-PWR=	Field Replaceable Power Supply For The MSE 3350	power	
-wireless	AIR-N-3006-DTA-K9	^NECJ AS3504 DTA	wireless-sensor	
+wireless	AIR-N-3006-DTA-K9	^NECJ AS3504 DTA	unknown	
 wireless	AIR-OEAP1810-A-K9	802.11ac OfficeExtend AP, A Reg Domain (not for US)	ap	indoor
 wireless	AIR-OEAP1810-B-K9	802.11ac Wave 2 OfficeExtend AP, B Reg Domain (for US)	ap	indoor
 wireless	AIR-OEAP1810-D-K9	802.11ac Wave 2 OfficeExtend AP, D Reg Domain	ap	indoor
@@ -39299,13 +39317,13 @@ wireless	AIR-SVR-PWR-DC	Field replaceable DC Power Supply for 8510DC (AIR-CT85DC
 wireless	AIR-SVR-PWR-DC=	Field replaceable DC Power Supply for 8510DC (AIR-CT85DC-K9)	power	
 wireless	AIR-TPM1-001	TPM Module For UCS	module	
 wireless	AIR-TPM2-001	Trusted Platform Module 1.2 for UCS (SPI-based)	module	
-wireless	AIR-VAP-CELLPCS	MobileAccessVE Access Pod for CELL/PCS bands	accessory	
-wireless	AIR-VAP-CELLPCS=	MobileAccessVE Access Pod for CELL/PCS bands	accessory	
+wireless	AIR-VAP-CELLPCS	MobileAccessVE Access Pod for CELL/PCS bands	device	
+wireless	AIR-VAP-CELLPCS=	MobileAccessVE Access Pod for CELL/PCS bands	device	
 wireless	AIR-VAPMNTG-H-KIT=	MobileAccessVE VAP Mounting Kit	mechanical	
 wireless	AIR-VAPMNTG-V-KIT=	MobileAccessVE VAP Mounting Kit	mechanical	
 wireless	AIR-VBLE1-K9	Cisco CMX Beacon Point	wireless-sensor	
-wireless	AIR-VCU-CELLPCS12	MobileAccessVE Control Unit for CELL/PCS bands, 12 ports	accessory	
-wireless	AIR-VCU-CELLPCS12=	MobileAccessVE Control Unit for CELL/PCS bands, 12 ports	accessory	
+wireless	AIR-VCU-CELLPCS12	MobileAccessVE Control Unit for CELL/PCS bands, 12 ports	device	
+wireless	AIR-VCU-CELLPCS12=	MobileAccessVE Control Unit for CELL/PCS bands, 12 ports	device	
 wireless	AIR-VPN-WLC	VPN/enhanced security module for 4100 Series WLAN controller	module	
 wireless	AIRAP1832I-ABULKC	BOM Level AP1832i Bulk PID for A Domain	ap	indoor
 wireless	AIRAP1832I-AK910C	Cisco Aironet Mobility Express 1830 Series	ap	indoor

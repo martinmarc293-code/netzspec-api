@@ -1,9 +1,9 @@
 {
   "vendor": "cisco",
   "category": "wireless",
-  "built_at": "2026-09-28T22:11:30.560Z",
-  "commit": null,
-  "uncommitted_rule_files": null,
+  "built_at": "2026-09-28T23:07:59.896Z",
+  "commit": "d58605c2d59b2ec65dc4a62b6b35b53156290d44",
+  "uncommitted_rule_files": [],
   "mapping_file": "data/reference/product-lines/cisco-wireless.json",
   "parts": 3907,
   "layered": 3907,
@@ -332,6 +332,31 @@
       "line": "Aironet Access Points",
       "parts": 1815,
       "series": [
+        {
+          "series": "Aironet BLE beacons and tags",
+          "family": "(none)",
+          "role": null,
+          "note": "ruling 12 (reviewer, 28 Sep 2026): the whole AIR-BLE- family - the bulk beacon and tag PIDs (wireless-sensor, a whole-device kind that may not sit in shared parts) and the USB beacons (module). One series, or the series name alone names the USB rows left in shared parts and the reverse-label queue grows (59 -> 64, measured).",
+          "parts": 7,
+          "kinds": {
+            "wireless-sensor": 2,
+            "module": 5
+          },
+          "roles": {},
+          "samples": [
+            "AIR-BLE-BEACON-BLK — BOM Level AIR-BLE-BEACON Bulk PID",
+            "AIR-BLE-TAG-BULK — BOM Level BLE TAG Bulk PID",
+            "AIR-BLE-USB — Spare USB BLE Beacon for Access Points",
+            "AIR-BLE-USB-10 — USB BLE Beacon for Access Points; Pack of 10 units",
+            "AIR-BLE-USB-50 — USB BLE Beacon for Access Points; Pack of 50 units",
+            "AIR-BLE-USB-BULK — BOM Level USN BLE Bulk PID"
+          ],
+          "rules": {
+            "sku": 7
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
         {
           "series": "Aironet 1800s Active Sensor",
           "family": "(none)",
@@ -803,14 +828,13 @@
           "family": "(shared across the line)",
           "role": null,
           "note": "^AIR-RM30 (layers round 3): the AIR-RM3000M Wireless Security and Spectrum Intelligence modules and AIR-RM3010L Hyperlocation modules of the Aironet 3600 / 3700, planned in from interfaces-modules (operator: AIR-RM radio modules -> wireless, kind module). AP(?!-VBLE) leaves AIR-AP-VBLE-ADPTR= to the VBLE series below. VAP removed from the first rule (re-audit decisions, operator, 15 Sep 2026, Q-12): the AIR-VAP- access pods and mounting kits are MobileAccessVE rows, placed in their own series",
-          "parts": 133,
+          "parts": 126,
           "kinds": {
             "mechanical": 63,
             "accessory": 8,
             "cable": 1,
-            "wireless-sensor": 2,
-            "module": 37,
             "power": 20,
+            "module": 32,
             "bundle": 1,
             "unknown": 1
           },
@@ -825,7 +849,7 @@
           ],
           "rules": {
             "label-unsupported": 8,
-            "sku": 125
+            "sku": 118
           },
           "pending_in": {},
           "pending_out": {}
@@ -1594,7 +1618,7 @@
           "note": "re-audit decisions (operator, 15 Sep 2026, Q-12 / F-12): Cisco MobileAccessVE, the in-building cellular units sold as AIR- PIDs — the main, remote and expansion building units (AIR-330-), the access pods for CELL / PCS bands (AIR-VAP-CELLPCS) with their mounting kits (AIR-VAPMNTG-H / -V-KIT=) and the 12-port control unit (AIR-VCU-CELLPCS12). They sat in the AireOS controllers' and the Aironet access points' shared parts with kind unknown. The series carries no vendor in its name (the rows name none). Kind: the operator decided `device` for the units; `device` is not a noun of the wireless kind axis and a new noun needs its cup set, so the kind change waits for the parked kind rebuild (Q-28) and the units stay `unknown` until then",
           "parts": 14,
           "kinds": {
-            "accessory": 12,
+            "device": 12,
             "mechanical": 2
           },
           "roles": {},
@@ -1905,7 +1929,7 @@
           "note": null,
           "parts": 9,
           "kinds": {
-            "wireless-sensor": 1,
+            "unknown": 1,
             "mechanical": 2,
             "antenna": 4,
             "module": 2
@@ -2026,9 +2050,9 @@
   "inbound_unplaced": {},
   "done": true,
   "build": {
-    "data_commit": "5b1bcd49b22f+81dirty",
-    "code_commit": "342dc179b527",
+    "data_commit": "d58605c2d59b+86dirty",
+    "code_commit": "d58605c2d59b",
     "contract_hash": "bcfc4c1ee314d3c2",
-    "generated_at": "2026-09-28T22:17:29.054Z"
+    "generated_at": "2026-09-28T23:19:25.017Z"
   }
 }

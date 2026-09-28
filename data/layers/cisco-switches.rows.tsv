@@ -62,6 +62,7 @@ sku	name	series_label	kind	placement	product_line	product_family	series	nav_buck
 3750X-48PF	Cisco 3750X-48PF	3750-X	switch	layered	Catalyst	Catalyst 3750	Catalyst 3750-X		sku ^(C1-|NAL-)?(WS-)?C?3750X	access	series:Catalyst 3750-X					
 3750X-48T	Cisco 3750X-48T	3750-X	switch	layered	Catalyst	Catalyst 3750	Catalyst 3750-X		sku ^(C1-|NAL-)?(WS-)?C?3750X	access	series:Catalyst 3750-X					
 3750X-48U	Cisco 3750X-48U	3750-X	switch	layered	Catalyst	Catalyst 3750	Catalyst 3750-X		sku ^(C1-|NAL-)?(WS-)?C?3750X	access	series:Catalyst 3750-X					
+4036797.1610	ASSY, MOD, DPON EU ONT, 1610, 20, 60C	Prisma D-PON	ont	layered	Prisma D-PON	(none)	Prisma D-PON ONT		sku ^4036797\.1610$							
 4900M-BLK-CVR	Blank for port card slots	4900	mechanical	layered	Catalyst	(none)	Catalyst 4900		sku ^4900M							
 4900M-BLK-CVR=	Spare blank for port card slots	4900	mechanical	layered	Catalyst	(none)	Catalyst 4900		sku ^4900M							
 4900M-PWR-CVR	Cat4900M Blank for Power Supply Slot	4900	mechanical	layered	Catalyst	(none)	Catalyst 4900		sku ^4900M							
@@ -2372,18 +2373,18 @@ CF-ADAPTER-SP	SP adapter for SUP720 and SUP720-10G	Catalyst 6500	accessory	layer
 CF-ADAPTER=	Compact Flash Adapter for Sup720/3B/3BXL	Catalyst 6500	accessory	layered	Catalyst	(none)	Catalyst 6500		label Catalyst 6500						name: SUP720	
 CF-IE3000-E=	IE 3000 Compact Flash Spare for Layer 3 SKU	IE 3000	flash	layered	Industrial Ethernet	(none)	IE 3000		label IE 3000						name: IE 3000	
 CF-IE3000=	IE 3000 Compact Flash Spare	IE 3000	flash	layered	Industrial Ethernet	(none)	IE 3000		label IE 3000						name: IE 3000	
-CGP-OLT	Cisco CGP-OLT	PON Series	switch	layered	Catalyst	(none)	Catalyst PON		sku ^CGP-(OLT|ONT)		sw.issue.ont	PON ONT/OLT (PON equipment, not an Ethernet switch)				
-CGP-OLT-16T	Catalyst PON 16-port GPON OLT, 4 GE Combo ports (Copper RJ45 + SFP optical), 2 10GE SFP+	PON Series	switch	layered	Catalyst	(none)	Catalyst PON		sku ^CGP-(OLT|ONT)		sw.issue.ont	PON ONT/OLT (PON equipment, not an Ethernet switch)				
-CGP-OLT-8T	Catalyst PON 8-port GPON OLT,4 GE Combo ports (Copper RJ45 + SFP optical), 2 10GE SFP+	PON Series	switch	layered	Catalyst	(none)	Catalyst PON		sku ^CGP-(OLT|ONT)		sw.issue.ont	PON ONT/OLT (PON equipment, not an Ethernet switch)				
-CGP-ONT	Cisco CGP-ONT	PON Series	switch	layered	Catalyst	(none)	Catalyst PON		sku ^CGP-(OLT|ONT)		sw.issue.ont	PON ONT/OLT (PON equipment, not an Ethernet switch)				
-CGP-ONT-1P	Cisco GPON ONT 1X1G PoE, 2.5G uplink	PON Series	switch	layered	Catalyst	(none)	Catalyst PON		sku ^CGP-(OLT|ONT)		sw.issue.ont	PON ONT/OLT (PON equipment, not an Ethernet switch)				
-CGP-ONT-4P	Cisco GPON ONT 4X1G PoE+, 2.5G uplink	PON Series	switch	layered	Catalyst	(none)	Catalyst PON		sku ^CGP-(OLT|ONT)		sw.issue.ont	PON ONT/OLT (PON equipment, not an Ethernet switch)				
-CGP-ONT-4PV	Cisco GPON ONT 4X1G PoE+, 2 voice ports, 2.5G uplink	PON Series	switch	layered	Catalyst	(none)	Catalyst PON		sku ^CGP-(OLT|ONT)		sw.issue.ont	PON ONT/OLT (PON equipment, not an Ethernet switch)				
-CGP-ONT-4PVC	Catalyst PON 4-port GPON ONT, PoE+, 2 POTS RJ11, 1 CATV Coax	PON Series	switch	layered	Catalyst	(none)	Catalyst PON		sku ^CGP-(OLT|ONT)		sw.issue.ont	PON ONT/OLT (PON equipment, not an Ethernet switch)				
-CGP-ONT-4TVCW-EU	Cisco GPON ONT Wireless-AC - EMEAR (EU plug)	PON Series	switch	layered	Catalyst	(none)	Catalyst PON		sku ^CGP-(OLT|ONT)		sw.issue.ont	PON ONT/OLT (PON equipment, not an Ethernet switch)				
-CGP-ONT-4TVCW-IN	Cisco GPON ONT Wireless-AC - India	PON Series	switch	layered	Catalyst	(none)	Catalyst PON		sku ^CGP-(OLT|ONT)		sw.issue.ont	PON ONT/OLT (PON equipment, not an Ethernet switch)				
-CGP-ONT-4TVCW-NA	Cisco GPON ONT Wireless-AC-Americas (US, CAN, Mex, Columbia)	PON Series	switch	layered	Catalyst	(none)	Catalyst PON		sku ^CGP-(OLT|ONT)		sw.issue.ont	PON ONT/OLT (PON equipment, not an Ethernet switch)				
-CGP-ONT-4TVCW-x	Catalyst PON 4-port GPON ONT, 2 POTS RJ11, 1 CATV Coax, 1 Wi-Fi 2.4G/5GHz. x=Region Prefix. Currently -EU, -NA and -IN available. Please reach out for other regions. EU – EU power adapter, -E Wireless LNA regulatory domain NA – NA power adapter, -A Wireless LNA regulatory domain IN – IN power adapter, -H Wireless LNA regulatory domain	PON Series	switch	layered	Catalyst	(none)	Catalyst PON		sku ^CGP-(OLT|ONT)		sw.issue.ont	PON ONT/OLT (PON equipment, not an Ethernet switch)				true
+CGP-OLT	Cisco CGP-OLT	PON Series	olt	layered	Catalyst	(none)	Catalyst PON		sku ^CGP-(OLT|ONT)							
+CGP-OLT-16T	Catalyst PON 16-port GPON OLT, 4 GE Combo ports (Copper RJ45 + SFP optical), 2 10GE SFP+	PON Series	olt	layered	Catalyst	(none)	Catalyst PON		sku ^CGP-(OLT|ONT)							
+CGP-OLT-8T	Catalyst PON 8-port GPON OLT,4 GE Combo ports (Copper RJ45 + SFP optical), 2 10GE SFP+	PON Series	olt	layered	Catalyst	(none)	Catalyst PON		sku ^CGP-(OLT|ONT)							
+CGP-ONT	Cisco CGP-ONT	PON Series	ont	layered	Catalyst	(none)	Catalyst PON		sku ^CGP-(OLT|ONT)							
+CGP-ONT-1P	Cisco GPON ONT 1X1G PoE, 2.5G uplink	PON Series	ont	layered	Catalyst	(none)	Catalyst PON		sku ^CGP-(OLT|ONT)							
+CGP-ONT-4P	Cisco GPON ONT 4X1G PoE+, 2.5G uplink	PON Series	ont	layered	Catalyst	(none)	Catalyst PON		sku ^CGP-(OLT|ONT)							
+CGP-ONT-4PV	Cisco GPON ONT 4X1G PoE+, 2 voice ports, 2.5G uplink	PON Series	ont	layered	Catalyst	(none)	Catalyst PON		sku ^CGP-(OLT|ONT)							
+CGP-ONT-4PVC	Catalyst PON 4-port GPON ONT, PoE+, 2 POTS RJ11, 1 CATV Coax	PON Series	ont	layered	Catalyst	(none)	Catalyst PON		sku ^CGP-(OLT|ONT)							
+CGP-ONT-4TVCW-EU	Cisco GPON ONT Wireless-AC - EMEAR (EU plug)	PON Series	ont	layered	Catalyst	(none)	Catalyst PON		sku ^CGP-(OLT|ONT)							
+CGP-ONT-4TVCW-IN	Cisco GPON ONT Wireless-AC - India	PON Series	ont	layered	Catalyst	(none)	Catalyst PON		sku ^CGP-(OLT|ONT)							
+CGP-ONT-4TVCW-NA	Cisco GPON ONT Wireless-AC-Americas (US, CAN, Mex, Columbia)	PON Series	ont	layered	Catalyst	(none)	Catalyst PON		sku ^CGP-(OLT|ONT)							
+CGP-ONT-4TVCW-x	Catalyst PON 4-port GPON ONT, 2 POTS RJ11, 1 CATV Coax, 1 Wi-Fi 2.4G/5GHz. x=Region Prefix. Currently -EU, -NA and -IN available. Please reach out for other regions. EU – EU power adapter, -E Wireless LNA regulatory domain NA – NA power adapter, -A Wireless LNA regulatory domain IN – IN power adapter, -H Wireless LNA regulatory domain	PON Series	ont	layered	Catalyst	(none)	Catalyst PON		sku ^CGP-(OLT|ONT)							true
 CGS-2520-16S-8PC	CGS2520 16FE SFP, 8FE Copper PoE+ & 2GE combo uplinks	CGS 2500 Connected Grid	switch	layered	Industrial Ethernet	(none)	CGS 2500 Connected Grid		sku ^CGS-?25	industrial	series:CGS 2500 Connected Grid					
 CGS-2520-16S-8PC=	CGS2520 16FE SFP, 8FE Copper PoE+ & 2GE combo uplinks	CGS 2500 Connected Grid	switch	layered	Industrial Ethernet	(none)	CGS 2500 Connected Grid		sku ^CGS-?25	industrial	series:CGS 2500 Connected Grid					
 CGS-2520-24TC	CGS2520 with 24FE Copper and 2 GE combo uplinks	CGS 2500 Connected Grid	switch	layered	Industrial Ethernet	(none)	CGS 2500 Connected Grid		sku ^CGS-?25	industrial	series:CGS 2500 Connected Grid					
@@ -2476,12 +2477,12 @@ EDU-C3850-48P-S	Cisco Catalyst 3850 48 Port Full PoE IP Base for K12	Catalyst 38
 EDU-C3850-48PW-S	Cisco Catalyst 3850 48 Port Full PoE w/ 5 AP license IPB K12	Catalyst 3850	switch	layered	Catalyst	(none)	Catalyst 3850		sku ^(C1-|NAL-|EDU-)?(WS-)?C?3850	access	series:Catalyst 3850					
 EDU-C3850-48U-L	Cisco Catalyst 3850 48 Port UPOE LAN Base for K12	Catalyst 3850	switch	layered	Catalyst	(none)	Catalyst 3850		sku ^(C1-|NAL-|EDU-)?(WS-)?C?3850	access	series:Catalyst 3850					
 EDU-C3850-48U-S	Cisco Catalyst 3850 48 Port UPOE IP Base for K12	Catalyst 3850	switch	layered	Catalyst	(none)	Catalyst 3850		sku ^(C1-|NAL-|EDU-)?(WS-)?C?3850	access	series:Catalyst 3850					
-ENC-10G-ONT-01PR	Cisco ENC-10G-ONT-01PR	Transceiver Modules	switch	layered	Routed PON	(none)	10G Routed PON ONT		sku ^ENC-10G-ONT		sw.issue.ont	PON ONT/OLT (PON equipment, not an Ethernet switch)				
-ENC-10G-ONT-01PR=	Ruggedized XGS-PON ONT, powered by PoE	Transceiver Modules	switch	layered	Routed PON	(none)	10G Routed PON ONT		sku ^ENC-10G-ONT		sw.issue.ont	PON ONT/OLT (PON equipment, not an Ethernet switch)				
-ENC-10G-ONT-10	Cisco ENC-10G-ONT-10	Transceiver Modules	switch	layered	Routed PON	(none)	10G Routed PON ONT		sku ^ENC-10G-ONT		sw.issue.ont	PON ONT/OLT (PON equipment, not an Ethernet switch)				
-ENC-10G-ONT-10=	XGS-PON ONT	Transceiver Modules	switch	layered	Routed PON	(none)	10G Routed PON ONT		sku ^ENC-10G-ONT		sw.issue.ont	PON ONT/OLT (PON equipment, not an Ethernet switch)				
-ENC-10G-ONT-14A	Cisco ENC-10G-ONT-14A	Transceiver Modules	switch	layered	Routed PON	(none)	10G Routed PON ONT		sku ^ENC-10G-ONT		sw.issue.ont	PON ONT/OLT (PON equipment, not an Ethernet switch)				
-ENC-10G-ONT-14A=	Multiport and ATA XGS-PON ONT	Transceiver Modules	switch	layered	Routed PON	(none)	10G Routed PON ONT		sku ^ENC-10G-ONT		sw.issue.ont	PON ONT/OLT (PON equipment, not an Ethernet switch)				
+ENC-10G-ONT-01PR	Cisco ENC-10G-ONT-01PR	Transceiver Modules	ont	layered	Routed PON	(none)	10G Routed PON ONT		sku ^ENC-10G-ONT							
+ENC-10G-ONT-01PR=	Ruggedized XGS-PON ONT, powered by PoE	Transceiver Modules	ont	layered	Routed PON	(none)	10G Routed PON ONT		sku ^ENC-10G-ONT							
+ENC-10G-ONT-10	Cisco ENC-10G-ONT-10	Transceiver Modules	ont	layered	Routed PON	(none)	10G Routed PON ONT		sku ^ENC-10G-ONT							
+ENC-10G-ONT-10=	XGS-PON ONT	Transceiver Modules	ont	layered	Routed PON	(none)	10G Routed PON ONT		sku ^ENC-10G-ONT							
+ENC-10G-ONT-14A	Cisco ENC-10G-ONT-14A	Transceiver Modules	ont	layered	Routed PON	(none)	10G Routed PON ONT		sku ^ENC-10G-ONT							
+ENC-10G-ONT-14A=	Multiport and ATA XGS-PON ONT	Transceiver Modules	ont	layered	Routed PON	(none)	10G Routed PON ONT		sku ^ENC-10G-ONT							
 ESS-2020-16TC-CON	Embedded Service 2020 Switch, Expansion board, Conduction cooled	Embedded Services 2020	switch	layered	Embedded Services	(none)	ESS 2020		sku ^ESS-?2020	industrial	series:ESS 2020					
 ESS-2020-16TC-NCP	Embedded Service 2020 Switch, Expansion board, No cooling plate	Embedded Services 2020	switch	layered	Embedded Services	(none)	ESS 2020		sku ^ESS-?2020	industrial	series:ESS 2020					
 ESS-2020-24TC-CON	Embedded Service 2020 Switch, Main/Expansion board bundle, Conduction cooled, LAN Lite software	Embedded Services 2020	switch	layered	Embedded Services	(none)	ESS 2020		sku ^ESS-?2020	industrial	series:ESS 2020					

@@ -1,12 +1,12 @@
 {
   "vendor": "cisco",
   "category": "servers-unified-computing",
-  "built_at": "2026-09-28T22:11:29.389Z",
-  "commit": null,
-  "uncommitted_rule_files": null,
+  "built_at": "2026-09-28T23:07:58.733Z",
+  "commit": "d58605c2d59b2ec65dc4a62b6b35b53156290d44",
+  "uncommitted_rule_files": [],
   "mapping_file": "data/reference/product-lines/cisco-servers-unified-computing.json",
-  "parts": 8263,
-  "layered": 8263,
+  "parts": 8264,
+  "layered": 8264,
   "pending": 0,
   "lines": [
     {
@@ -502,29 +502,29 @@
     },
     {
       "line": "UCS Fabric Interconnects",
-      "parts": 164,
+      "parts": 165,
       "series": [
         {
           "series": "UCS Mini (6324)",
           "family": "(none)",
           "role": null,
           "note": "(?<!…|WS-X) (layers round 3): the rule claimed WS-X6324-100FX-MM / -SM, Catalyst 6500 line cards that switches holds (its round recorded the claim for this round)",
-          "parts": 7,
+          "parts": 8,
           "kinds": {
-            "fabric-interconnect": 6,
+            "fabric-interconnect": 7,
             "chassis": 1
           },
           "roles": {},
           "samples": [
+            "CIT3-FI-M-6324 — UCS 6324 In-Chassis FI with 4 UP, 1x40G Exp Port, 16 10Gb",
             "UCS-FI-M-6324 — UCS 6324 In-Chassis FI with 4 UP, 1x40G Exp Port, 16 10Gb",
             "UCS-FI-M-6324++= — TAA UCS 6324 In-Chassis FI with 4UP, 1x40G Exp Port, 16 10Gb",
             "UCS-FI-M-6324-BR — UCS 6324 In-Chassis FI with 4 UP, 1x40G Exp Port, 16 10Gb",
             "UCS-FI-M-6324-U-BR — UCS 6324 In-Chassis FI with 4 UP, 1x40G Exp Port, 16 10Gb",
-            "UCS-FI-M-6324-UPG — UCS 6324 In-Chassis FI with 4 UP, 1x40G Exp Port, 16 10Gb",
-            "UCS-FI-M-6324= — UCS 6324 In-Chassis FI with 4 UP, 1x40G Exp Port, 16 10Gb"
+            "UCS-FI-M-6324-UPG — UCS 6324 In-Chassis FI with 4 UP, 1x40G Exp Port, 16 10Gb"
           ],
           "rules": {
-            "sku": 7
+            "sku": 8
           },
           "pending_in": {},
           "pending_out": {}
@@ -1871,9 +1871,9 @@
   "inbound_unplaced": {},
   "done": true,
   "build": {
-    "data_commit": "5b1bcd49b22f+81dirty",
-    "code_commit": "342dc179b527",
+    "data_commit": "d58605c2d59b+86dirty",
+    "code_commit": "d58605c2d59b",
     "contract_hash": "bcfc4c1ee314d3c2",
-    "generated_at": "2026-09-28T22:17:29.054Z"
+    "generated_at": "2026-09-28T23:19:25.017Z"
   }
 }

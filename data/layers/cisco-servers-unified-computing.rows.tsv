@@ -536,6 +536,7 @@ CBL-SDSAS-245M6	C245M6 2U24SFF MB CPU1(NVMe-D) to PB PLUS	UCS C-Series	cable	lay
 CBL-SDSAS-245M6=	C245M6 2U24SFF MB CPU1(NVMe-D) to PB PLUS	UCS C-Series	cable	layered	UCS C-Series Rack Servers	(none)	UCS C245		sku ^(?=UCSC-|CBL-).*(?<![0-9])245-?M[1-8]							
 CBL-SDSAS-C240M7=	Cisco CBL-SDSAS-C240M7=	UCS C-Series	cable	layered	UCS C-Series Rack Servers	(none)	UCS C240		sku ^(?=UCSC?-|CBL-).*(?<![A-Z0-9])C240(?![0-9])							
 CBL-X580P-GPU-N=	Cisco CBL-X580P-GPU-N=	UCS X-Series	cable	layered	UCS X-Series Modular System	(none)	UCS X580p PCIe node		sku X580P?(?![0-9])							
+CIT3-FI-M-6324	UCS 6324 In-Chassis FI with 4 UP, 1x40G Exp Port, 16 10Gb	Meeting Server	fabric-interconnect	layered	UCS Fabric Interconnects	(none)	UCS Mini (6324)		sku (?<!CPU-[A-Z]{0,2}|WS-X)6324(?![0-9])							
 CIVS-ENC-KIT-OPT	CIVS-ENC Video Card Manufacturing Kit Option	UCS C-Series	mechanical	layered	Video Surveillance appliances	(none)	Video Surveillance Multiservices Platform / Storage System (CIVS)		sku ^CIVS-							
 CIVS-FAN-2RU=	Fan Assembly for CIVS-MSP-2RU	UCS C-Series	fan	layered	Video Surveillance appliances	(none)	Video Surveillance Multiservices Platform / Storage System (CIVS)		sku ^CIVS-							
 CIVS-MSP-MEMUP6G	MultiService Platform memory upgrade to 6GB	UCS C-Series	memory	layered	Video Surveillance appliances	(none)	Video Surveillance Multiservices Platform / Storage System (CIVS)		sku ^CIVS-							

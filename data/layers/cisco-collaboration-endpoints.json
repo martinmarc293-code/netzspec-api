@@ -1,12 +1,12 @@
 {
   "vendor": "cisco",
   "category": "collaboration-endpoints",
-  "built_at": "2026-09-28T22:11:30.760Z",
-  "commit": null,
-  "uncommitted_rule_files": null,
+  "built_at": "2026-09-28T23:08:00.103Z",
+  "commit": "d58605c2d59b2ec65dc4a62b6b35b53156290d44",
+  "uncommitted_rule_files": [],
   "mapping_file": "data/reference/product-lines/cisco-collaboration-endpoints.json",
-  "parts": 2938,
-  "layered": 2938,
+  "parts": 2937,
+  "layered": 2937,
   "pending": 0,
   "lines": [
     {
@@ -1684,7 +1684,7 @@
     },
     {
       "line": "Meeting Server and TelePresence Management",
-      "parts": 68,
+      "parts": 67,
       "series": [
         {
           "series": "Meeting Server 1000 / 2000",
@@ -1757,12 +1757,11 @@
           "family": "(shared across the line)",
           "role": null,
           "note": "arriving from conferencing (merge plan): the CIT3- UCS components sold for the Meeting Server appliances (CPUs, memory, drives, supplies, RAID controllers, VIC mLOMs, TPMs, the 5108 fan / power module / packaging, the 6324 in-chassis fabric interconnect, a FlexStorage blank)",
-          "parts": 38,
+          "parts": 37,
           "kinds": {
             "mechanical": 2,
             "cpu": 5,
             "accessory": 1,
-            "unknown": 1,
             "drive": 9,
             "nic": 3,
             "memory": 4,
@@ -1780,7 +1779,7 @@
             "CIT3-CPU-I6336Y — Intel 6336Y 2.4GHz/185W 24C/36MB DDR4 3200MHz"
           ],
           "rules": {
-            "sku": 38
+            "sku": 37
           },
           "pending_in": {},
           "pending_out": {}
@@ -2022,9 +2021,9 @@
   "inbound_unplaced": {},
   "done": true,
   "build": {
-    "data_commit": "5b1bcd49b22f+81dirty",
-    "code_commit": "342dc179b527",
+    "data_commit": "d58605c2d59b+86dirty",
+    "code_commit": "d58605c2d59b",
     "contract_hash": "bcfc4c1ee314d3c2",
-    "generated_at": "2026-09-28T22:17:29.054Z"
+    "generated_at": "2026-09-28T23:19:25.017Z"
   }
 }

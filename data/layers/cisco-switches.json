@@ -1,12 +1,12 @@
 {
   "vendor": "cisco",
   "category": "switches",
-  "built_at": "2026-09-28T22:11:29.763Z",
-  "commit": null,
-  "uncommitted_rule_files": null,
+  "built_at": "2026-09-28T23:07:59.079Z",
+  "commit": "d58605c2d59b2ec65dc4a62b6b35b53156290d44",
+  "uncommitted_rule_files": [],
   "mapping_file": "data/reference/product-lines/cisco-switches.json",
-  "parts": 7224,
-  "layered": 7224,
+  "parts": 7225,
+  "layered": 7225,
   "pending": 0,
   "lines": [
     {
@@ -1027,12 +1027,11 @@
           "note": "the rule names the OLT and ONT devices: the bare ^CGP- also claimed the Catalyst PON OLT optic CGP-SFP-OC(=), which is a transceiver (reviewer A-8, layers round 3). ^ENC-10G-ONT removed (re-audit decisions, operator, 15 Sep 2026, Q-2): the six XGS-PON ONTs are Cisco's '10G Routed PON ONT' (their OLT is the SFP-10G-OLT pluggable), not Catalyst PON — they land in the Routed PON line",
           "parts": 20,
           "kinds": {
-            "switch": 12,
+            "olt": 3,
+            "ont": 9,
             "power": 8
           },
-          "roles": {
-            "(kind issue)": 12
-          },
+          "roles": {},
           "samples": [
             "CGP-OLT — Cisco CGP-OLT",
             "CGP-OLT-16T — Catalyst PON 16-port GPON OLT, 4 GE Combo ports (Copper RJ45",
@@ -1121,11 +1120,9 @@
           "note": "re-audit decisions (operator, 15 Sep 2026, Q-2): ENC-10G-ONT-01PR / -10 / -14A (with spares), Cisco's '10G Routed PON ONT' — XGS-PON ONTs of the Routed PON solution, whose OLT is the SFP-10G-OLT20-X pluggable in transceiver; a different product from Catalyst PON (CGP-), so a line of its own and no deploy role. They are planned in from interfaces-modules. Kind: the decision is `ont`; the switches kind axis has no `ont` noun and a new noun needs its cup set, so the change waits for the parked kind rebuild (Q-28) — until then they read switch with CGP-ONT's flag",
           "parts": 6,
           "kinds": {
-            "switch": 6
+            "ont": 6
           },
-          "roles": {
-            "(kind issue)": 6
-          },
+          "roles": {},
           "samples": [
             "ENC-10G-ONT-01PR — Cisco ENC-10G-ONT-01PR",
             "ENC-10G-ONT-01PR= — Ruggedized XGS-PON ONT, powered by PoE",
@@ -1136,6 +1133,31 @@
           ],
           "rules": {
             "sku": 6
+          },
+          "pending_in": {},
+          "pending_out": {}
+        }
+      ]
+    },
+    {
+      "line": "Prisma D-PON",
+      "parts": 1,
+      "series": [
+        {
+          "series": "Prisma D-PON ONT",
+          "family": "(none)",
+          "role": null,
+          "note": "ruling 12b (reviewer, 28 Sep 2026): the Prisma D-PON ONT moved from video to switches with ont / olt; a cable-video PON product, not Routed PON or Catalyst PON, so a line of its own. One PID today.",
+          "parts": 1,
+          "kinds": {
+            "ont": 1
+          },
+          "roles": {},
+          "samples": [
+            "4036797.1610 — ASSY, MOD, DPON EU ONT, 1610, 20, 60C"
+          ],
+          "rules": {
+            "sku": 1
           },
           "pending_in": {},
           "pending_out": {}
@@ -4806,9 +4828,9 @@
   "inbound_unplaced": {},
   "done": true,
   "build": {
-    "data_commit": "5b1bcd49b22f+81dirty",
-    "code_commit": "342dc179b527",
+    "data_commit": "d58605c2d59b+86dirty",
+    "code_commit": "d58605c2d59b",
     "contract_hash": "bcfc4c1ee314d3c2",
-    "generated_at": "2026-09-28T22:17:29.054Z"
+    "generated_at": "2026-09-28T23:19:25.017Z"
   }
 }

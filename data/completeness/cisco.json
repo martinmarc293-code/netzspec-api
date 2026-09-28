@@ -3,13 +3,13 @@
   "definitions": "docs/completeness-model.md",
   "vendor": "cisco",
   "built_on_commit": "unknown",
-  "generated_at": "2026-09-28T22:15:54.372Z",
+  "generated_at": "2026-09-28T23:12:24.075Z",
   "inputs": {
     "ledgers_built_on": [
       "unknown"
     ],
     "censuses_built_on": [
-      "342dc17"
+      "d58605c"
     ],
     "census_norm_versions": [
       "1.8.0"
@@ -39,22 +39,22 @@
       "run": 7533,
       "pending": 0
     },
-    "freeze_hash": "66a6dd13cc89e4fe46887bf864dfe77d6ca45a4ea43010524d1daf697c91d43a",
+    "freeze_hash": "8b464c32a15dc3b5953203beb50905d2abe712084bceb2d9f2fa20c52ce638ef",
     "worktree_dirty_paths": 0,
     "live_at_build": {
       "hardware_parts": 41067,
-      "refused_by_role_table": 18,
+      "refused_by_role_table": 0,
       "live_parts": 86934,
       "partition": {
-        "scored": 41049,
+        "scored": 41067,
         "non_hardware": 45867,
         "brand_not_arranged": 0,
-        "kind_refused_by_role_table": 18,
+        "kind_refused_by_role_table": 0,
         "category_has_no_profile": 0,
         "no_completeness_row": 0
       },
-      "parts_nothing_required": 363,
-      "required_total_held": 86375
+      "parts_nothing_required": 362,
+      "required_total_held": 86405
     },
     "census_replay_parity": [
       {
@@ -197,41 +197,41 @@
     "defects_basis": "would_refuse and could_not_replay are computed PER PART by the census replay copied verbatim (not taken from the census's per-category totals, which carry no part), after `census_replay_parity` proved the copy reproduces every committed census total"
   },
   "brand": {
-    "hardware_parts": 41049,
+    "hardware_parts": 41067,
     "arranged": {
-      "asked": 40686,
-      "asked_nothing_fallback": 363,
-      "num": 40686,
-      "den": 41049,
+      "asked": 40705,
+      "asked_nothing_fallback": 362,
+      "num": 40705,
+      "den": 41067,
       "pct": 99.1
     },
     "held": {
-      "spec_bearing": 6637,
+      "spec_bearing": 6650,
       "spec_linked_not_held": 3056,
-      "eol_only": 26670,
-      "no_document": 4686,
+      "eol_only": 26673,
+      "no_document": 4688,
       "held_by_doc_type_legacy": {
-        "num": 9693,
-        "den": 41049,
+        "num": 9706,
+        "den": 41067,
         "pct": 23.6
       },
-      "num": 6637,
-      "den": 41049,
+      "num": 6650,
+      "den": 41067,
       "pct": 16.2
     },
     "filled": {
-      "required_slots_held": 86375,
-      "filled": 23236,
+      "required_slots_held": 86405,
+      "filled": 23239,
       "not_published": 0,
-      "not_parsed": 63062,
+      "not_parsed": 63089,
       "mapper_gap": 0,
       "would_refuse": 77,
       "filled_not_rendered": 1302,
-      "not_held_parts": 34412,
-      "not_held_slots": 290479,
+      "not_held_parts": 34417,
+      "not_held_slots": 290602,
       "not_held_filled": 13310,
-      "num": 23236,
-      "den": 86375,
+      "num": 23239,
+      "den": 86405,
       "pct": 26.9
     },
     "defects": {
@@ -242,14 +242,14 @@
     },
     "inherited_share": {
       "inherited": 7355,
-      "filled": 23236,
+      "filled": 23239,
       "num": 7355,
-      "den": 23236,
-      "pct": 31.7
+      "den": 23239,
+      "pct": 31.6
     },
     "weakest_category": "interfaces-modules",
     "unresolved_kind": {
-      "parts": 1285,
+      "parts": 1272,
       "kinds": [
         "interfaces-modules.accessory",
         "interfaces-modules.unknown",
@@ -274,8 +274,8 @@
         "hyperconverged-systems.accessory",
         "hyperconverged-systems.unknown"
       ],
-      "device_noun_union": 1,
-      "device_noun_unresolved": 1
+      "device_noun_union": 0,
+      "device_noun_unresolved": 0
     }
   },
   "categories": [
@@ -4922,14 +4922,14 @@
     },
     {
       "category": "wireless",
-      "profile_hash": "2b9f0acdb7734c96",
+      "profile_hash": "0ceaac425fcf4611",
       "ledger_built_on_commit": "unknown",
-      "unresolved_kind_parts": 80,
+      "unresolved_kind_parts": 69,
       "hardware_parts": 3907,
       "arranged": {
-        "asked": 3860,
-        "asked_nothing_fallback": 47,
-        "num": 3860,
+        "asked": 3859,
+        "asked_nothing_fallback": 48,
+        "num": 3859,
         "den": 3907,
         "pct": 98.8
       },
@@ -4956,7 +4956,7 @@
         "would_refuse": 5,
         "filled_not_rendered": 3,
         "not_held_parts": 3752,
-        "not_held_slots": 39268,
+        "not_held_slots": 39353,
         "not_held_filled": 852,
         "num": 168,
         "den": 1664,
@@ -7286,29 +7286,29 @@
         },
         {
           "kind": "unknown",
-          "parts": 47,
+          "parts": 48,
           "resolved": false,
           "asked_nothing": true,
-          "hardware_parts": 47,
+          "hardware_parts": 48,
           "arranged": {
             "asked": 0,
-            "asked_nothing_fallback": 47,
+            "asked_nothing_fallback": 48,
             "num": 0,
-            "den": 47,
+            "den": 48,
             "pct": 0
           },
           "held": {
             "spec_bearing": 0,
             "spec_linked_not_held": 0,
-            "eol_only": 45,
+            "eol_only": 46,
             "no_document": 2,
             "held_by_doc_type_legacy": {
               "num": 0,
-              "den": 47,
+              "den": 48,
               "pct": 0
             },
             "num": 0,
-            "den": 47,
+            "den": 48,
             "pct": 0
           },
           "filled": {
@@ -7319,7 +7319,7 @@
             "mapper_gap": 0,
             "would_refuse": 0,
             "filled_not_rendered": 0,
-            "not_held_parts": 47,
+            "not_held_parts": 48,
             "not_held_slots": 0,
             "not_held_filled": 0,
             "num": 0,
@@ -7806,104 +7806,6 @@
           "role_axis": null
         },
         {
-          "kind": "accessory",
-          "parts": 33,
-          "resolved": false,
-          "asked_nothing": false,
-          "hardware_parts": 33,
-          "arranged": {
-            "asked": 33,
-            "asked_nothing_fallback": 0,
-            "num": 33,
-            "den": 33,
-            "pct": 100
-          },
-          "held": {
-            "spec_bearing": 3,
-            "spec_linked_not_held": 0,
-            "eol_only": 25,
-            "no_document": 5,
-            "held_by_doc_type_legacy": {
-              "num": 3,
-              "den": 33,
-              "pct": 9.1
-            },
-            "num": 3,
-            "den": 33,
-            "pct": 9.1
-          },
-          "filled": {
-            "required_slots_held": 0,
-            "filled": 0,
-            "not_published": 0,
-            "not_parsed": 0,
-            "mapper_gap": 0,
-            "would_refuse": 0,
-            "filled_not_rendered": 0,
-            "not_held_parts": 30,
-            "not_held_slots": 0,
-            "not_held_filled": 0,
-            "num": 0,
-            "den": 0,
-            "pct": null
-          },
-          "defects": {
-            "would_refuse": 0,
-            "would_refuse_not_held": 0,
-            "could_not_replay": 0,
-            "placeholders_stored": 0
-          },
-          "inherited_share": {
-            "inherited": 0,
-            "filled": 0,
-            "num": 0,
-            "den": 0,
-            "pct": null
-          },
-          "cups": [
-            {
-              "key": "product_compatibility",
-              "requirement": "required",
-              "gate": [],
-              "asked": 0,
-              "held_asked": 0,
-              "filled": 0,
-              "not_published": 0,
-              "not_parsed": 0,
-              "mapper_gap": 0,
-              "would_refuse": 0,
-              "not_held": 0,
-              "not_held_filled": 0,
-              "not_held_would_refuse": 0,
-              "could_not_replay": 0,
-              "inherited": 0,
-              "filled_not_rendered": 0,
-              "placeholders_stored": 0,
-              "filled_pct": {
-                "num": 0,
-                "den": 0,
-                "pct": null
-              },
-              "fill_path": "seen",
-              "observed_filled": false,
-              "label_occurrences": 385,
-              "sources_enabled": [
-                "cisco-datasheets=seen"
-              ],
-              "taps": [
-                "cisco-datasheets"
-              ]
-            }
-          ],
-          "role_axis": null,
-          "relation_backed": {
-            "product_compatibility": {
-              "filled": 0,
-              "not_held": 33
-            }
-          }
-        },
-        {
           "kind": "power-injector",
           "parts": 28,
           "resolved": true,
@@ -8101,30 +8003,128 @@
           }
         },
         {
+          "kind": "accessory",
+          "parts": 21,
+          "resolved": false,
+          "asked_nothing": false,
+          "hardware_parts": 21,
+          "arranged": {
+            "asked": 21,
+            "asked_nothing_fallback": 0,
+            "num": 21,
+            "den": 21,
+            "pct": 100
+          },
+          "held": {
+            "spec_bearing": 3,
+            "spec_linked_not_held": 0,
+            "eol_only": 13,
+            "no_document": 5,
+            "held_by_doc_type_legacy": {
+              "num": 3,
+              "den": 21,
+              "pct": 14.3
+            },
+            "num": 3,
+            "den": 21,
+            "pct": 14.3
+          },
+          "filled": {
+            "required_slots_held": 0,
+            "filled": 0,
+            "not_published": 0,
+            "not_parsed": 0,
+            "mapper_gap": 0,
+            "would_refuse": 0,
+            "filled_not_rendered": 0,
+            "not_held_parts": 18,
+            "not_held_slots": 0,
+            "not_held_filled": 0,
+            "num": 0,
+            "den": 0,
+            "pct": null
+          },
+          "defects": {
+            "would_refuse": 0,
+            "would_refuse_not_held": 0,
+            "could_not_replay": 0,
+            "placeholders_stored": 0
+          },
+          "inherited_share": {
+            "inherited": 0,
+            "filled": 0,
+            "num": 0,
+            "den": 0,
+            "pct": null
+          },
+          "cups": [
+            {
+              "key": "product_compatibility",
+              "requirement": "required",
+              "gate": [],
+              "asked": 0,
+              "held_asked": 0,
+              "filled": 0,
+              "not_published": 0,
+              "not_parsed": 0,
+              "mapper_gap": 0,
+              "would_refuse": 0,
+              "not_held": 0,
+              "not_held_filled": 0,
+              "not_held_would_refuse": 0,
+              "could_not_replay": 0,
+              "inherited": 0,
+              "filled_not_rendered": 0,
+              "placeholders_stored": 0,
+              "filled_pct": {
+                "num": 0,
+                "den": 0,
+                "pct": null
+              },
+              "fill_path": "seen",
+              "observed_filled": false,
+              "label_occurrences": 385,
+              "sources_enabled": [
+                "cisco-datasheets=seen"
+              ],
+              "taps": [
+                "cisco-datasheets"
+              ]
+            }
+          ],
+          "role_axis": null,
+          "relation_backed": {
+            "product_compatibility": {
+              "filled": 0,
+              "not_held": 21
+            }
+          }
+        },
+        {
           "kind": "wireless-sensor",
-          "parts": 19,
+          "parts": 18,
           "resolved": true,
           "asked_nothing": false,
-          "hardware_parts": 19,
+          "hardware_parts": 18,
           "arranged": {
-            "asked": 19,
+            "asked": 18,
             "asked_nothing_fallback": 0,
-            "num": 19,
-            "den": 19,
+            "num": 18,
+            "den": 18,
             "pct": 100
           },
           "held": {
             "spec_bearing": 0,
             "spec_linked_not_held": 0,
-            "eol_only": 19,
+            "eol_only": 18,
             "no_document": 0,
             "held_by_doc_type_legacy": {
               "num": 0,
-              "den": 19,
+              "den": 18,
               "pct": 0
             },
             "num": 0,
-            "den": 19,
+            "den": 18,
             "pct": 0
           },
           "filled": {
@@ -8135,8 +8135,8 @@
             "mapper_gap": 0,
             "would_refuse": 0,
             "filled_not_rendered": 0,
-            "not_held_parts": 19,
-            "not_held_slots": 209,
+            "not_held_parts": 18,
+            "not_held_slots": 198,
             "not_held_filled": 0,
             "num": 0,
             "den": 0,
@@ -8160,14 +8160,14 @@
               "key": "antenna_type",
               "requirement": "required",
               "gate": [],
-              "asked": 19,
+              "asked": 18,
               "held_asked": 0,
               "filled": 0,
               "not_published": 0,
               "not_parsed": 0,
               "mapper_gap": 0,
               "would_refuse": 0,
-              "not_held": 19,
+              "not_held": 18,
               "not_held_filled": 0,
               "not_held_would_refuse": 0,
               "could_not_replay": 0,
@@ -8193,14 +8193,14 @@
               "key": "certifications",
               "requirement": "required",
               "gate": [],
-              "asked": 19,
+              "asked": 18,
               "held_asked": 0,
               "filled": 0,
               "not_published": 0,
               "not_parsed": 0,
               "mapper_gap": 0,
               "would_refuse": 0,
-              "not_held": 19,
+              "not_held": 18,
               "not_held_filled": 0,
               "not_held_would_refuse": 0,
               "could_not_replay": 0,
@@ -8226,14 +8226,14 @@
               "key": "dimensions",
               "requirement": "required",
               "gate": [],
-              "asked": 19,
+              "asked": 18,
               "held_asked": 0,
               "filled": 0,
               "not_published": 0,
               "not_parsed": 0,
               "mapper_gap": 0,
               "would_refuse": 0,
-              "not_held": 19,
+              "not_held": 18,
               "not_held_filled": 0,
               "not_held_would_refuse": 0,
               "could_not_replay": 0,
@@ -8261,14 +8261,14 @@
               "key": "poe_standard",
               "requirement": "required",
               "gate": [],
-              "asked": 19,
+              "asked": 18,
               "held_asked": 0,
               "filled": 0,
               "not_published": 0,
               "not_parsed": 0,
               "mapper_gap": 0,
               "would_refuse": 0,
-              "not_held": 19,
+              "not_held": 18,
               "not_held_filled": 0,
               "not_held_would_refuse": 0,
               "could_not_replay": 0,
@@ -8294,14 +8294,14 @@
               "key": "ports",
               "requirement": "required",
               "gate": [],
-              "asked": 19,
+              "asked": 18,
               "held_asked": 0,
               "filled": 0,
               "not_published": 0,
               "not_parsed": 0,
               "mapper_gap": 0,
               "would_refuse": 0,
-              "not_held": 19,
+              "not_held": 18,
               "not_held_filled": 0,
               "not_held_would_refuse": 0,
               "could_not_replay": 0,
@@ -8327,14 +8327,14 @@
               "key": "power_max",
               "requirement": "required",
               "gate": [],
-              "asked": 19,
+              "asked": 18,
               "held_asked": 0,
               "filled": 0,
               "not_published": 0,
               "not_parsed": 0,
               "mapper_gap": 0,
               "would_refuse": 0,
-              "not_held": 19,
+              "not_held": 18,
               "not_held_filled": 0,
               "not_held_would_refuse": 0,
               "could_not_replay": 0,
@@ -8360,14 +8360,14 @@
               "key": "radio_bands",
               "requirement": "required",
               "gate": [],
-              "asked": 19,
+              "asked": 18,
               "held_asked": 0,
               "filled": 0,
               "not_published": 0,
               "not_parsed": 0,
               "mapper_gap": 0,
               "would_refuse": 0,
-              "not_held": 19,
+              "not_held": 18,
               "not_held_filled": 0,
               "not_held_would_refuse": 0,
               "could_not_replay": 0,
@@ -8393,14 +8393,14 @@
               "key": "spatial_streams",
               "requirement": "required",
               "gate": [],
-              "asked": 19,
+              "asked": 18,
               "held_asked": 0,
               "filled": 0,
               "not_published": 0,
               "not_parsed": 0,
               "mapper_gap": 0,
               "would_refuse": 0,
-              "not_held": 19,
+              "not_held": 18,
               "not_held_filled": 0,
               "not_held_would_refuse": 0,
               "could_not_replay": 0,
@@ -8426,14 +8426,14 @@
               "key": "temp_operating",
               "requirement": "required",
               "gate": [],
-              "asked": 19,
+              "asked": 18,
               "held_asked": 0,
               "filled": 0,
               "not_published": 0,
               "not_parsed": 0,
               "mapper_gap": 0,
               "would_refuse": 0,
-              "not_held": 19,
+              "not_held": 18,
               "not_held_filled": 0,
               "not_held_would_refuse": 0,
               "could_not_replay": 0,
@@ -8461,14 +8461,14 @@
               "key": "weight",
               "requirement": "required",
               "gate": [],
-              "asked": 19,
+              "asked": 18,
               "held_asked": 0,
               "filled": 0,
               "not_published": 0,
               "not_parsed": 0,
               "mapper_gap": 0,
               "would_refuse": 0,
-              "not_held": 19,
+              "not_held": 18,
               "not_held_filled": 0,
               "not_held_would_refuse": 0,
               "could_not_replay": 0,
@@ -8496,14 +8496,14 @@
               "key": "wifi_generation",
               "requirement": "required",
               "gate": [],
-              "asked": 19,
+              "asked": 18,
               "held_asked": 0,
               "filled": 0,
               "not_published": 0,
               "not_parsed": 0,
               "mapper_gap": 0,
               "would_refuse": 0,
-              "not_held": 19,
+              "not_held": 18,
               "not_held_filled": 0,
               "not_held_would_refuse": 0,
               "could_not_replay": 0,
@@ -8895,6 +8895,378 @@
             }
           ],
           "role_axis": null
+        },
+        {
+          "kind": "device",
+          "parts": 12,
+          "resolved": true,
+          "asked_nothing": false,
+          "hardware_parts": 12,
+          "arranged": {
+            "asked": 12,
+            "asked_nothing_fallback": 0,
+            "num": 12,
+            "den": 12,
+            "pct": 100
+          },
+          "held": {
+            "spec_bearing": 0,
+            "spec_linked_not_held": 0,
+            "eol_only": 12,
+            "no_document": 0,
+            "held_by_doc_type_legacy": {
+              "num": 0,
+              "den": 12,
+              "pct": 0
+            },
+            "num": 0,
+            "den": 12,
+            "pct": 0
+          },
+          "filled": {
+            "required_slots_held": 0,
+            "filled": 0,
+            "not_published": 0,
+            "not_parsed": 0,
+            "mapper_gap": 0,
+            "would_refuse": 0,
+            "filled_not_rendered": 0,
+            "not_held_parts": 12,
+            "not_held_slots": 96,
+            "not_held_filled": 0,
+            "num": 0,
+            "den": 0,
+            "pct": null
+          },
+          "defects": {
+            "would_refuse": 0,
+            "would_refuse_not_held": 0,
+            "could_not_replay": 0,
+            "placeholders_stored": 0
+          },
+          "inherited_share": {
+            "inherited": 0,
+            "filled": 0,
+            "num": 0,
+            "den": 0,
+            "pct": null
+          },
+          "cups": [
+            {
+              "key": "certifications",
+              "requirement": "required",
+              "gate": [],
+              "asked": 12,
+              "held_asked": 0,
+              "filled": 0,
+              "not_published": 0,
+              "not_parsed": 0,
+              "mapper_gap": 0,
+              "would_refuse": 0,
+              "not_held": 12,
+              "not_held_filled": 0,
+              "not_held_would_refuse": 0,
+              "could_not_replay": 0,
+              "inherited": 0,
+              "filled_not_rendered": 0,
+              "placeholders_stored": 0,
+              "filled_pct": {
+                "num": 0,
+                "den": 0,
+                "pct": null
+              },
+              "fill_path": "seen",
+              "observed_filled": true,
+              "label_occurrences": 760,
+              "sources_enabled": [
+                "cisco-datasheets=seen"
+              ],
+              "taps": [
+                "cisco-datasheets"
+              ]
+            },
+            {
+              "key": "dimensions",
+              "requirement": "required",
+              "gate": [],
+              "asked": 12,
+              "held_asked": 0,
+              "filled": 0,
+              "not_published": 0,
+              "not_parsed": 0,
+              "mapper_gap": 0,
+              "would_refuse": 0,
+              "not_held": 12,
+              "not_held_filled": 0,
+              "not_held_would_refuse": 0,
+              "could_not_replay": 0,
+              "inherited": 0,
+              "filled_not_rendered": 0,
+              "placeholders_stored": 0,
+              "filled_pct": {
+                "num": 0,
+                "den": 0,
+                "pct": null
+              },
+              "fill_path": "seen",
+              "observed_filled": true,
+              "label_occurrences": 1313,
+              "sources_enabled": [
+                "cisco-datasheets=seen",
+                "hpe-quickspecs=seen"
+              ],
+              "taps": [
+                "cisco-datasheets",
+                "hpe-quickspecs"
+              ]
+            },
+            {
+              "key": "form_factor",
+              "requirement": "required",
+              "gate": [],
+              "asked": 12,
+              "held_asked": 0,
+              "filled": 0,
+              "not_published": 0,
+              "not_parsed": 0,
+              "mapper_gap": 0,
+              "would_refuse": 0,
+              "not_held": 12,
+              "not_held_filled": 0,
+              "not_held_would_refuse": 0,
+              "could_not_replay": 0,
+              "inherited": 0,
+              "filled_not_rendered": 0,
+              "placeholders_stored": 0,
+              "filled_pct": {
+                "num": 0,
+                "den": 0,
+                "pct": null
+              },
+              "fill_path": "seen",
+              "observed_filled": true,
+              "label_occurrences": 145,
+              "sources_enabled": [
+                "cisco-datasheets=seen"
+              ],
+              "taps": [
+                "cisco-datasheets"
+              ]
+            },
+            {
+              "key": "humidity_operating",
+              "requirement": "required",
+              "gate": [],
+              "asked": 12,
+              "held_asked": 0,
+              "filled": 0,
+              "not_published": 0,
+              "not_parsed": 0,
+              "mapper_gap": 0,
+              "would_refuse": 0,
+              "not_held": 12,
+              "not_held_filled": 0,
+              "not_held_would_refuse": 0,
+              "could_not_replay": 0,
+              "inherited": 0,
+              "filled_not_rendered": 0,
+              "placeholders_stored": 0,
+              "filled_pct": {
+                "num": 0,
+                "den": 0,
+                "pct": null
+              },
+              "fill_path": "seen",
+              "observed_filled": true,
+              "label_occurrences": 547,
+              "sources_enabled": [
+                "cisco-datasheets=seen",
+                "hpe-quickspecs=seen"
+              ],
+              "taps": [
+                "cisco-datasheets",
+                "hpe-quickspecs"
+              ]
+            },
+            {
+              "key": "power_max",
+              "requirement": "required",
+              "gate": [],
+              "asked": 12,
+              "held_asked": 0,
+              "filled": 0,
+              "not_published": 0,
+              "not_parsed": 0,
+              "mapper_gap": 0,
+              "would_refuse": 0,
+              "not_held": 12,
+              "not_held_filled": 0,
+              "not_held_would_refuse": 0,
+              "could_not_replay": 0,
+              "inherited": 0,
+              "filled_not_rendered": 0,
+              "placeholders_stored": 0,
+              "filled_pct": {
+                "num": 0,
+                "den": 0,
+                "pct": null
+              },
+              "fill_path": "seen",
+              "observed_filled": true,
+              "label_occurrences": 864,
+              "sources_enabled": [
+                "cisco-datasheets=seen"
+              ],
+              "taps": [
+                "cisco-datasheets"
+              ]
+            },
+            {
+              "key": "rack_units",
+              "requirement": "pending",
+              "gate": [
+                "form_factor"
+              ],
+              "asked": 12,
+              "held_asked": 0,
+              "filled": 0,
+              "not_published": 0,
+              "not_parsed": 0,
+              "mapper_gap": 0,
+              "would_refuse": 0,
+              "not_held": 12,
+              "not_held_filled": 0,
+              "not_held_would_refuse": 0,
+              "could_not_replay": 0,
+              "inherited": 0,
+              "filled_not_rendered": 0,
+              "placeholders_stored": 0,
+              "filled_pct": {
+                "num": 0,
+                "den": 0,
+                "pct": null
+              },
+              "fill_path": "seen",
+              "observed_filled": true,
+              "label_occurrences": 82,
+              "sources_enabled": [
+                "cisco-datasheets=seen"
+              ],
+              "taps": [
+                "cisco-datasheets"
+              ]
+            },
+            {
+              "key": "temp_operating",
+              "requirement": "required",
+              "gate": [],
+              "asked": 12,
+              "held_asked": 0,
+              "filled": 0,
+              "not_published": 0,
+              "not_parsed": 0,
+              "mapper_gap": 0,
+              "would_refuse": 0,
+              "not_held": 12,
+              "not_held_filled": 0,
+              "not_held_would_refuse": 0,
+              "could_not_replay": 0,
+              "inherited": 0,
+              "filled_not_rendered": 0,
+              "placeholders_stored": 0,
+              "filled_pct": {
+                "num": 0,
+                "den": 0,
+                "pct": null
+              },
+              "fill_path": "seen",
+              "observed_filled": true,
+              "label_occurrences": 861,
+              "sources_enabled": [
+                "cisco-datasheets=seen",
+                "hpe-quickspecs=seen"
+              ],
+              "taps": [
+                "cisco-datasheets",
+                "hpe-quickspecs"
+              ]
+            },
+            {
+              "key": "weight",
+              "requirement": "required",
+              "gate": [],
+              "asked": 12,
+              "held_asked": 0,
+              "filled": 0,
+              "not_published": 0,
+              "not_parsed": 0,
+              "mapper_gap": 0,
+              "would_refuse": 0,
+              "not_held": 12,
+              "not_held_filled": 0,
+              "not_held_would_refuse": 0,
+              "could_not_replay": 0,
+              "inherited": 0,
+              "filled_not_rendered": 0,
+              "placeholders_stored": 0,
+              "filled_pct": {
+                "num": 0,
+                "den": 0,
+                "pct": null
+              },
+              "fill_path": "seen",
+              "observed_filled": true,
+              "label_occurrences": 1061,
+              "sources_enabled": [
+                "cisco-datasheets=seen",
+                "hpe-quickspecs=seen"
+              ],
+              "taps": [
+                "cisco-datasheets",
+                "hpe-quickspecs"
+              ]
+            },
+            {
+              "key": "product_compatibility",
+              "requirement": "required",
+              "gate": [],
+              "asked": 0,
+              "held_asked": 0,
+              "filled": 0,
+              "not_published": 0,
+              "not_parsed": 0,
+              "mapper_gap": 0,
+              "would_refuse": 0,
+              "not_held": 0,
+              "not_held_filled": 0,
+              "not_held_would_refuse": 0,
+              "could_not_replay": 0,
+              "inherited": 0,
+              "filled_not_rendered": 0,
+              "placeholders_stored": 0,
+              "filled_pct": {
+                "num": 0,
+                "den": 0,
+                "pct": null
+              },
+              "fill_path": "seen",
+              "observed_filled": false,
+              "label_occurrences": 385,
+              "sources_enabled": [
+                "cisco-datasheets=seen"
+              ],
+              "taps": [
+                "cisco-datasheets"
+              ]
+            }
+          ],
+          "role_axis": null,
+          "relation_backed": {
+            "product_compatibility": {
+              "filled": 0,
+              "not_held": 12
+            }
+          }
         }
       ]
     },
@@ -8902,27 +9274,27 @@
       "category": "video",
       "profile_hash": "cbb468dd81136cec",
       "ledger_built_on_commit": "unknown",
-      "unresolved_kind_parts": 282,
-      "hardware_parts": 3261,
+      "unresolved_kind_parts": 281,
+      "hardware_parts": 3260,
       "arranged": {
         "asked": 2999,
-        "asked_nothing_fallback": 262,
+        "asked_nothing_fallback": 261,
         "num": 2999,
-        "den": 3261,
+        "den": 3260,
         "pct": 92
       },
       "held": {
         "spec_bearing": 36,
         "spec_linked_not_held": 139,
-        "eol_only": 2306,
+        "eol_only": 2305,
         "no_document": 780,
         "held_by_doc_type_legacy": {
           "num": 175,
-          "den": 3261,
+          "den": 3260,
           "pct": 5.4
         },
         "num": 36,
-        "den": 3261,
+        "den": 3260,
         "pct": 1.1
       },
       "filled": {
@@ -8933,7 +9305,7 @@
         "mapper_gap": 0,
         "would_refuse": 0,
         "filled_not_rendered": 0,
-        "not_held_parts": 3225,
+        "not_held_parts": 3224,
         "not_held_slots": 11219,
         "not_held_filled": 685,
         "num": 20,
@@ -9811,29 +10183,29 @@
         },
         {
           "kind": "unknown",
-          "parts": 262,
+          "parts": 261,
           "resolved": false,
           "asked_nothing": true,
-          "hardware_parts": 262,
+          "hardware_parts": 261,
           "arranged": {
             "asked": 0,
-            "asked_nothing_fallback": 262,
+            "asked_nothing_fallback": 261,
             "num": 0,
-            "den": 262,
+            "den": 261,
             "pct": 0
           },
           "held": {
             "spec_bearing": 0,
             "spec_linked_not_held": 0,
-            "eol_only": 53,
+            "eol_only": 52,
             "no_document": 209,
             "held_by_doc_type_legacy": {
               "num": 0,
-              "den": 262,
+              "den": 261,
               "pct": 0
             },
             "num": 0,
-            "den": 262,
+            "den": 261,
             "pct": 0
           },
           "filled": {
@@ -9844,7 +10216,7 @@
             "mapper_gap": 0,
             "would_refuse": 0,
             "filled_not_rendered": 0,
-            "not_held_parts": 262,
+            "not_held_parts": 261,
             "not_held_slots": 0,
             "not_held_filled": 0,
             "num": 0,
@@ -33694,27 +34066,27 @@
       "category": "collaboration-endpoints",
       "profile_hash": "57bd622eee348bb8",
       "ledger_built_on_commit": "unknown",
-      "unresolved_kind_parts": 216,
-      "hardware_parts": 2938,
+      "unresolved_kind_parts": 215,
+      "hardware_parts": 2937,
       "arranged": {
         "asked": 2925,
-        "asked_nothing_fallback": 13,
+        "asked_nothing_fallback": 12,
         "num": 2925,
-        "den": 2938,
+        "den": 2937,
         "pct": 99.6
       },
       "held": {
         "spec_bearing": 405,
         "spec_linked_not_held": 131,
-        "eol_only": 1919,
+        "eol_only": 1918,
         "no_document": 483,
         "held_by_doc_type_legacy": {
           "num": 536,
-          "den": 2938,
+          "den": 2937,
           "pct": 18.2
         },
         "num": 405,
-        "den": 2938,
+        "den": 2937,
         "pct": 13.8
       },
       "filled": {
@@ -33725,7 +34097,7 @@
         "mapper_gap": 0,
         "would_refuse": 0,
         "filled_not_rendered": 16,
-        "not_held_parts": 2533,
+        "not_held_parts": 2532,
         "not_held_slots": 16197,
         "not_held_filled": 11,
         "num": 1128,
@@ -39651,64 +40023,6 @@
           }
         },
         {
-          "kind": "unknown",
-          "parts": 13,
-          "resolved": false,
-          "asked_nothing": true,
-          "hardware_parts": 13,
-          "arranged": {
-            "asked": 0,
-            "asked_nothing_fallback": 13,
-            "num": 0,
-            "den": 13,
-            "pct": 0
-          },
-          "held": {
-            "spec_bearing": 0,
-            "spec_linked_not_held": 9,
-            "eol_only": 2,
-            "no_document": 2,
-            "held_by_doc_type_legacy": {
-              "num": 9,
-              "den": 13,
-              "pct": 69.2
-            },
-            "num": 0,
-            "den": 13,
-            "pct": 0
-          },
-          "filled": {
-            "required_slots_held": 0,
-            "filled": 0,
-            "not_published": 0,
-            "not_parsed": 0,
-            "mapper_gap": 0,
-            "would_refuse": 0,
-            "filled_not_rendered": 0,
-            "not_held_parts": 13,
-            "not_held_slots": 0,
-            "not_held_filled": 0,
-            "num": 0,
-            "den": 0,
-            "pct": null
-          },
-          "defects": {
-            "would_refuse": 0,
-            "would_refuse_not_held": 0,
-            "could_not_replay": 0,
-            "placeholders_stored": 0
-          },
-          "inherited_share": {
-            "inherited": 0,
-            "filled": 0,
-            "num": 0,
-            "den": 0,
-            "pct": null
-          },
-          "cups": [],
-          "role_axis": null
-        },
-        {
           "kind": "dect-base",
           "parts": 12,
           "resolved": true,
@@ -40143,6 +40457,64 @@
               "not_held": 12
             }
           }
+        },
+        {
+          "kind": "unknown",
+          "parts": 12,
+          "resolved": false,
+          "asked_nothing": true,
+          "hardware_parts": 12,
+          "arranged": {
+            "asked": 0,
+            "asked_nothing_fallback": 12,
+            "num": 0,
+            "den": 12,
+            "pct": 0
+          },
+          "held": {
+            "spec_bearing": 0,
+            "spec_linked_not_held": 9,
+            "eol_only": 1,
+            "no_document": 2,
+            "held_by_doc_type_legacy": {
+              "num": 9,
+              "den": 12,
+              "pct": 75
+            },
+            "num": 0,
+            "den": 12,
+            "pct": 0
+          },
+          "filled": {
+            "required_slots_held": 0,
+            "filled": 0,
+            "not_published": 0,
+            "not_parsed": 0,
+            "mapper_gap": 0,
+            "would_refuse": 0,
+            "filled_not_rendered": 0,
+            "not_held_parts": 12,
+            "not_held_slots": 0,
+            "not_held_filled": 0,
+            "num": 0,
+            "den": 0,
+            "pct": null
+          },
+          "defects": {
+            "would_refuse": 0,
+            "would_refuse_not_held": 0,
+            "could_not_replay": 0,
+            "placeholders_stored": 0
+          },
+          "inherited_share": {
+            "inherited": 0,
+            "filled": 0,
+            "num": 0,
+            "den": 0,
+            "pct": null
+          },
+          "cups": [],
+          "role_axis": null
         },
         {
           "kind": "drive",
@@ -41130,44 +41502,44 @@
     },
     {
       "category": "switches",
-      "profile_hash": "b4f844fdb8087ec6",
+      "profile_hash": "a53e8ce9568bdb19",
       "ledger_built_on_commit": "unknown",
       "unresolved_kind_parts": 32,
-      "hardware_parts": 7206,
+      "hardware_parts": 7225,
       "arranged": {
-        "asked": 7206,
+        "asked": 7225,
         "asked_nothing_fallback": 0,
-        "num": 7206,
-        "den": 7206,
+        "num": 7225,
+        "den": 7225,
         "pct": 100
       },
       "held": {
-        "spec_bearing": 2136,
+        "spec_bearing": 2149,
         "spec_linked_not_held": 574,
-        "eol_only": 4179,
-        "no_document": 317,
+        "eol_only": 4183,
+        "no_document": 319,
         "held_by_doc_type_legacy": {
-          "num": 2710,
-          "den": 7206,
-          "pct": 37.6
+          "num": 2723,
+          "den": 7225,
+          "pct": 37.7
         },
-        "num": 2136,
-        "den": 7206,
-        "pct": 29.6
+        "num": 2149,
+        "den": 7225,
+        "pct": 29.7
       },
       "filled": {
-        "required_slots_held": 50462,
-        "filled": 15441,
+        "required_slots_held": 50492,
+        "filled": 15444,
         "not_published": 0,
-        "not_parsed": 35021,
+        "not_parsed": 35048,
         "mapper_gap": 0,
         "would_refuse": 0,
         "filled_not_rendered": 1166,
-        "not_held_parts": 5070,
-        "not_held_slots": 111495,
+        "not_held_parts": 5076,
+        "not_held_slots": 111509,
         "not_held_filled": 4812,
-        "num": 15441,
-        "den": 50462,
+        "num": 15444,
+        "den": 50492,
         "pct": 30.6
       },
       "defects": {
@@ -41178,9 +41550,9 @@
       },
       "inherited_share": {
         "inherited": 4726,
-        "filled": 15441,
+        "filled": 15444,
         "num": 4726,
-        "den": 15441,
+        "den": 15444,
         "pct": 30.6
       },
       "kinds": [
@@ -46786,6 +47158,310 @@
               "not_held": 23
             }
           }
+        },
+        {
+          "kind": "ont",
+          "parts": 16,
+          "resolved": true,
+          "asked_nothing": false,
+          "hardware_parts": 16,
+          "arranged": {
+            "asked": 16,
+            "asked_nothing_fallback": 0,
+            "num": 16,
+            "den": 16,
+            "pct": 100
+          },
+          "held": {
+            "spec_bearing": 11,
+            "spec_linked_not_held": 0,
+            "eol_only": 4,
+            "no_document": 1,
+            "held_by_doc_type_legacy": {
+              "num": 11,
+              "den": 16,
+              "pct": 68.8
+            },
+            "num": 11,
+            "den": 16,
+            "pct": 68.8
+          },
+          "filled": {
+            "required_slots_held": 22,
+            "filled": 3,
+            "not_published": 0,
+            "not_parsed": 19,
+            "mapper_gap": 0,
+            "would_refuse": 0,
+            "filled_not_rendered": 0,
+            "not_held_parts": 5,
+            "not_held_slots": 10,
+            "not_held_filled": 0,
+            "num": 3,
+            "den": 22,
+            "pct": 13.6
+          },
+          "defects": {
+            "would_refuse": 0,
+            "would_refuse_not_held": 0,
+            "could_not_replay": 0,
+            "placeholders_stored": 0
+          },
+          "inherited_share": {
+            "inherited": 0,
+            "filled": 3,
+            "num": 0,
+            "den": 3,
+            "pct": 0
+          },
+          "cups": [
+            {
+              "key": "pon_ports",
+              "requirement": "required",
+              "gate": [],
+              "asked": 16,
+              "held_asked": 11,
+              "filled": 0,
+              "not_published": 0,
+              "not_parsed": 11,
+              "mapper_gap": 0,
+              "would_refuse": 0,
+              "not_held": 5,
+              "not_held_filled": 0,
+              "not_held_would_refuse": 0,
+              "could_not_replay": 0,
+              "inherited": 0,
+              "filled_not_rendered": 0,
+              "placeholders_stored": 0,
+              "filled_pct": {
+                "num": 0,
+                "den": 11,
+                "pct": 0
+              },
+              "fill_path": "none",
+              "observed_filled": false,
+              "label_occurrences": 0,
+              "sources_enabled": [],
+              "taps": []
+            },
+            {
+              "key": "ports",
+              "requirement": "required",
+              "gate": [],
+              "asked": 16,
+              "held_asked": 11,
+              "filled": 3,
+              "not_published": 0,
+              "not_parsed": 8,
+              "mapper_gap": 0,
+              "would_refuse": 0,
+              "not_held": 5,
+              "not_held_filled": 0,
+              "not_held_would_refuse": 0,
+              "could_not_replay": 0,
+              "inherited": 0,
+              "filled_not_rendered": 0,
+              "placeholders_stored": 0,
+              "filled_pct": {
+                "num": 3,
+                "den": 11,
+                "pct": 27.3
+              },
+              "fill_path": "seen",
+              "observed_filled": true,
+              "label_occurrences": 1213,
+              "sources_enabled": [
+                "cisco-datasheets=seen"
+              ],
+              "taps": [
+                "cisco-datasheets"
+              ]
+            }
+          ],
+          "role_axis": null
+        },
+        {
+          "kind": "olt",
+          "parts": 3,
+          "resolved": true,
+          "asked_nothing": false,
+          "hardware_parts": 3,
+          "arranged": {
+            "asked": 3,
+            "asked_nothing_fallback": 0,
+            "num": 3,
+            "den": 3,
+            "pct": 100
+          },
+          "held": {
+            "spec_bearing": 2,
+            "spec_linked_not_held": 0,
+            "eol_only": 0,
+            "no_document": 1,
+            "held_by_doc_type_legacy": {
+              "num": 2,
+              "den": 3,
+              "pct": 66.7
+            },
+            "num": 2,
+            "den": 3,
+            "pct": 66.7
+          },
+          "filled": {
+            "required_slots_held": 8,
+            "filled": 0,
+            "not_published": 0,
+            "not_parsed": 8,
+            "mapper_gap": 0,
+            "would_refuse": 0,
+            "filled_not_rendered": 0,
+            "not_held_parts": 1,
+            "not_held_slots": 4,
+            "not_held_filled": 0,
+            "num": 0,
+            "den": 8,
+            "pct": 0
+          },
+          "defects": {
+            "would_refuse": 0,
+            "would_refuse_not_held": 0,
+            "could_not_replay": 0,
+            "placeholders_stored": 0
+          },
+          "inherited_share": {
+            "inherited": 0,
+            "filled": 0,
+            "num": 0,
+            "den": 0,
+            "pct": null
+          },
+          "cups": [
+            {
+              "key": "module_slots",
+              "requirement": "required",
+              "gate": [],
+              "asked": 3,
+              "held_asked": 2,
+              "filled": 0,
+              "not_published": 0,
+              "not_parsed": 2,
+              "mapper_gap": 0,
+              "would_refuse": 0,
+              "not_held": 1,
+              "not_held_filled": 0,
+              "not_held_would_refuse": 0,
+              "could_not_replay": 0,
+              "inherited": 0,
+              "filled_not_rendered": 0,
+              "placeholders_stored": 0,
+              "filled_pct": {
+                "num": 0,
+                "den": 2,
+                "pct": 0
+              },
+              "fill_path": "seen",
+              "observed_filled": true,
+              "label_occurrences": 18,
+              "sources_enabled": [
+                "cisco-datasheets=seen"
+              ],
+              "taps": [
+                "cisco-datasheets"
+              ]
+            },
+            {
+              "key": "pon_ports",
+              "requirement": "required",
+              "gate": [],
+              "asked": 3,
+              "held_asked": 2,
+              "filled": 0,
+              "not_published": 0,
+              "not_parsed": 2,
+              "mapper_gap": 0,
+              "would_refuse": 0,
+              "not_held": 1,
+              "not_held_filled": 0,
+              "not_held_would_refuse": 0,
+              "could_not_replay": 0,
+              "inherited": 0,
+              "filled_not_rendered": 0,
+              "placeholders_stored": 0,
+              "filled_pct": {
+                "num": 0,
+                "den": 2,
+                "pct": 0
+              },
+              "fill_path": "none",
+              "observed_filled": false,
+              "label_occurrences": 0,
+              "sources_enabled": [],
+              "taps": []
+            },
+            {
+              "key": "pon_standard",
+              "requirement": "required",
+              "gate": [],
+              "asked": 3,
+              "held_asked": 2,
+              "filled": 0,
+              "not_published": 0,
+              "not_parsed": 2,
+              "mapper_gap": 0,
+              "would_refuse": 0,
+              "not_held": 1,
+              "not_held_filled": 0,
+              "not_held_would_refuse": 0,
+              "could_not_replay": 0,
+              "inherited": 0,
+              "filled_not_rendered": 0,
+              "placeholders_stored": 0,
+              "filled_pct": {
+                "num": 0,
+                "den": 2,
+                "pct": 0
+              },
+              "fill_path": "none",
+              "observed_filled": false,
+              "label_occurrences": 0,
+              "sources_enabled": [],
+              "taps": []
+            },
+            {
+              "key": "ports",
+              "requirement": "required",
+              "gate": [],
+              "asked": 3,
+              "held_asked": 2,
+              "filled": 0,
+              "not_published": 0,
+              "not_parsed": 2,
+              "mapper_gap": 0,
+              "would_refuse": 0,
+              "not_held": 1,
+              "not_held_filled": 0,
+              "not_held_would_refuse": 0,
+              "could_not_replay": 0,
+              "inherited": 0,
+              "filled_not_rendered": 0,
+              "placeholders_stored": 0,
+              "filled_pct": {
+                "num": 0,
+                "den": 2,
+                "pct": 0
+              },
+              "fill_path": "seen",
+              "observed_filled": true,
+              "label_occurrences": 1213,
+              "sources_enabled": [
+                "cisco-datasheets=seen"
+              ],
+              "taps": [
+                "cisco-datasheets"
+              ]
+            }
+          ],
+          "role_axis": null
         }
       ]
     },
@@ -46794,26 +47470,26 @@
       "profile_hash": "3e2ef7f9b7d4edcb",
       "ledger_built_on_commit": "unknown",
       "unresolved_kind_parts": 281,
-      "hardware_parts": 8263,
+      "hardware_parts": 8264,
       "arranged": {
-        "asked": 8243,
+        "asked": 8244,
         "asked_nothing_fallback": 20,
-        "num": 8243,
-        "den": 8263,
+        "num": 8244,
+        "den": 8264,
         "pct": 99.8
       },
       "held": {
         "spec_bearing": 418,
         "spec_linked_not_held": 545,
-        "eol_only": 6042,
+        "eol_only": 6043,
         "no_document": 1258,
         "held_by_doc_type_legacy": {
           "num": 963,
-          "den": 8263,
+          "den": 8264,
           "pct": 11.7
         },
         "num": 418,
-        "den": 8263,
+        "den": 8264,
         "pct": 5.1
       },
       "filled": {
@@ -46824,8 +47500,8 @@
         "mapper_gap": 0,
         "would_refuse": 1,
         "filled_not_rendered": 13,
-        "not_held_parts": 7845,
-        "not_held_slots": 47762,
+        "not_held_parts": 7846,
+        "not_held_slots": 47786,
         "not_held_filled": 2555,
         "num": 1103,
         "den": 3017,
@@ -49681,30 +50357,30 @@
         },
         {
           "kind": "fabric-interconnect",
-          "parts": 129,
+          "parts": 130,
           "resolved": true,
           "asked_nothing": false,
-          "hardware_parts": 129,
+          "hardware_parts": 130,
           "arranged": {
-            "asked": 129,
+            "asked": 130,
             "asked_nothing_fallback": 0,
-            "num": 129,
-            "den": 129,
+            "num": 130,
+            "den": 130,
             "pct": 100
           },
           "held": {
             "spec_bearing": 16,
             "spec_linked_not_held": 0,
-            "eol_only": 102,
+            "eol_only": 103,
             "no_document": 11,
             "held_by_doc_type_legacy": {
               "num": 16,
-              "den": 129,
-              "pct": 12.4
+              "den": 130,
+              "pct": 12.3
             },
             "num": 16,
-            "den": 129,
-            "pct": 12.4
+            "den": 130,
+            "pct": 12.3
           },
           "filled": {
             "required_slots_held": 384,
@@ -49714,8 +50390,8 @@
             "mapper_gap": 0,
             "would_refuse": 0,
             "filled_not_rendered": 0,
-            "not_held_parts": 113,
-            "not_held_slots": 2712,
+            "not_held_parts": 114,
+            "not_held_slots": 2736,
             "not_held_filled": 0,
             "num": 3,
             "den": 384,
@@ -49739,14 +50415,14 @@
               "key": "altitude_max",
               "requirement": "required",
               "gate": [],
-              "asked": 129,
+              "asked": 130,
               "held_asked": 16,
               "filled": 0,
               "not_published": 0,
               "not_parsed": 16,
               "mapper_gap": 0,
               "would_refuse": 0,
-              "not_held": 113,
+              "not_held": 114,
               "not_held_filled": 0,
               "not_held_would_refuse": 0,
               "could_not_replay": 0,
@@ -49772,14 +50448,14 @@
               "key": "certifications",
               "requirement": "required",
               "gate": [],
-              "asked": 129,
+              "asked": 130,
               "held_asked": 16,
               "filled": 0,
               "not_published": 0,
               "not_parsed": 16,
               "mapper_gap": 0,
               "would_refuse": 0,
-              "not_held": 113,
+              "not_held": 114,
               "not_held_filled": 0,
               "not_held_would_refuse": 0,
               "could_not_replay": 0,
@@ -49805,14 +50481,14 @@
               "key": "cooling",
               "requirement": "required",
               "gate": [],
-              "asked": 129,
+              "asked": 130,
               "held_asked": 16,
               "filled": 0,
               "not_published": 0,
               "not_parsed": 16,
               "mapper_gap": 0,
               "would_refuse": 0,
-              "not_held": 113,
+              "not_held": 114,
               "not_held_filled": 0,
               "not_held_would_refuse": 0,
               "could_not_replay": 0,
@@ -49840,14 +50516,14 @@
               "key": "dimensions",
               "requirement": "required",
               "gate": [],
-              "asked": 129,
+              "asked": 130,
               "held_asked": 16,
               "filled": 0,
               "not_published": 0,
               "not_parsed": 16,
               "mapper_gap": 0,
               "would_refuse": 0,
-              "not_held": 113,
+              "not_held": 114,
               "not_held_filled": 0,
               "not_held_would_refuse": 0,
               "could_not_replay": 0,
@@ -49875,14 +50551,14 @@
               "key": "form_factor",
               "requirement": "required",
               "gate": [],
-              "asked": 129,
+              "asked": 130,
               "held_asked": 16,
               "filled": 0,
               "not_published": 0,
               "not_parsed": 16,
               "mapper_gap": 0,
               "would_refuse": 0,
-              "not_held": 113,
+              "not_held": 114,
               "not_held_filled": 0,
               "not_held_would_refuse": 0,
               "could_not_replay": 0,
@@ -49908,14 +50584,14 @@
               "key": "forwarding_rate",
               "requirement": "required",
               "gate": [],
-              "asked": 129,
+              "asked": 130,
               "held_asked": 16,
               "filled": 0,
               "not_published": 0,
               "not_parsed": 16,
               "mapper_gap": 0,
               "would_refuse": 0,
-              "not_held": 113,
+              "not_held": 114,
               "not_held_filled": 0,
               "not_held_would_refuse": 0,
               "could_not_replay": 0,
@@ -49941,14 +50617,14 @@
               "key": "ieee_standards",
               "requirement": "required",
               "gate": [],
-              "asked": 129,
+              "asked": 130,
               "held_asked": 16,
               "filled": 0,
               "not_published": 0,
               "not_parsed": 16,
               "mapper_gap": 0,
               "would_refuse": 0,
-              "not_held": 113,
+              "not_held": 114,
               "not_held_filled": 0,
               "not_held_would_refuse": 0,
               "could_not_replay": 0,
@@ -49974,14 +50650,14 @@
               "key": "jumbo_mtu",
               "requirement": "required",
               "gate": [],
-              "asked": 129,
+              "asked": 130,
               "held_asked": 16,
               "filled": 0,
               "not_published": 0,
               "not_parsed": 16,
               "mapper_gap": 0,
               "would_refuse": 0,
-              "not_held": 113,
+              "not_held": 114,
               "not_held_filled": 0,
               "not_held_would_refuse": 0,
               "could_not_replay": 0,
@@ -50007,14 +50683,14 @@
               "key": "mac_table",
               "requirement": "required",
               "gate": [],
-              "asked": 129,
+              "asked": 130,
               "held_asked": 16,
               "filled": 0,
               "not_published": 0,
               "not_parsed": 16,
               "mapper_gap": 0,
               "would_refuse": 0,
-              "not_held": 113,
+              "not_held": 114,
               "not_held_filled": 0,
               "not_held_would_refuse": 0,
               "could_not_replay": 0,
@@ -50040,14 +50716,14 @@
               "key": "mgmt_class",
               "requirement": "required",
               "gate": [],
-              "asked": 129,
+              "asked": 130,
               "held_asked": 16,
               "filled": 0,
               "not_published": 0,
               "not_parsed": 16,
               "mapper_gap": 0,
               "would_refuse": 0,
-              "not_held": 113,
+              "not_held": 114,
               "not_held_filled": 0,
               "not_held_would_refuse": 0,
               "could_not_replay": 0,
@@ -50073,14 +50749,14 @@
               "gate": [
                 "form_factor"
               ],
-              "asked": 129,
+              "asked": 130,
               "held_asked": 16,
               "filled": 0,
               "not_published": 0,
               "not_parsed": 16,
               "mapper_gap": 0,
               "would_refuse": 0,
-              "not_held": 113,
+              "not_held": 114,
               "not_held_filled": 0,
               "not_held_would_refuse": 0,
               "could_not_replay": 0,
@@ -50106,14 +50782,14 @@
               "key": "packet_buffer",
               "requirement": "required",
               "gate": [],
-              "asked": 129,
+              "asked": 130,
               "held_asked": 16,
               "filled": 0,
               "not_published": 0,
               "not_parsed": 16,
               "mapper_gap": 0,
               "would_refuse": 0,
-              "not_held": 113,
+              "not_held": 114,
               "not_held_filled": 0,
               "not_held_would_refuse": 0,
               "could_not_replay": 0,
@@ -50141,14 +50817,14 @@
               "key": "ports",
               "requirement": "required",
               "gate": [],
-              "asked": 129,
+              "asked": 130,
               "held_asked": 16,
               "filled": 0,
               "not_published": 0,
               "not_parsed": 16,
               "mapper_gap": 0,
               "would_refuse": 0,
-              "not_held": 113,
+              "not_held": 114,
               "not_held_filled": 0,
               "not_held_would_refuse": 0,
               "could_not_replay": 0,
@@ -50174,14 +50850,14 @@
               "key": "power_max",
               "requirement": "required",
               "gate": [],
-              "asked": 129,
+              "asked": 130,
               "held_asked": 16,
               "filled": 0,
               "not_published": 0,
               "not_parsed": 16,
               "mapper_gap": 0,
               "would_refuse": 0,
-              "not_held": 113,
+              "not_held": 114,
               "not_held_filled": 0,
               "not_held_would_refuse": 0,
               "could_not_replay": 0,
@@ -50207,14 +50883,14 @@
               "key": "psu_config",
               "requirement": "required",
               "gate": [],
-              "asked": 129,
+              "asked": 130,
               "held_asked": 16,
               "filled": 0,
               "not_published": 0,
               "not_parsed": 16,
               "mapper_gap": 0,
               "would_refuse": 0,
-              "not_held": 113,
+              "not_held": 114,
               "not_held_filled": 0,
               "not_held_would_refuse": 0,
               "could_not_replay": 0,
@@ -50240,14 +50916,14 @@
               "gate": [
                 "psu_config"
               ],
-              "asked": 129,
+              "asked": 130,
               "held_asked": 16,
               "filled": 0,
               "not_published": 0,
               "not_parsed": 16,
               "mapper_gap": 0,
               "would_refuse": 0,
-              "not_held": 113,
+              "not_held": 114,
               "not_held_filled": 0,
               "not_held_would_refuse": 0,
               "could_not_replay": 0,
@@ -50275,14 +50951,14 @@
               "gate": [
                 "form_factor"
               ],
-              "asked": 129,
+              "asked": 130,
               "held_asked": 16,
               "filled": 0,
               "not_published": 0,
               "not_parsed": 16,
               "mapper_gap": 0,
               "would_refuse": 0,
-              "not_held": 113,
+              "not_held": 114,
               "not_held_filled": 0,
               "not_held_would_refuse": 0,
               "could_not_replay": 0,
@@ -50308,14 +50984,14 @@
               "key": "switching_capacity",
               "requirement": "required",
               "gate": [],
-              "asked": 129,
+              "asked": 130,
               "held_asked": 16,
               "filled": 0,
               "not_published": 0,
               "not_parsed": 16,
               "mapper_gap": 0,
               "would_refuse": 0,
-              "not_held": 113,
+              "not_held": 114,
               "not_held_filled": 0,
               "not_held_would_refuse": 0,
               "could_not_replay": 0,
@@ -50343,14 +51019,14 @@
               "gate": [
                 "form_factor"
               ],
-              "asked": 129,
+              "asked": 130,
               "held_asked": 16,
               "filled": 0,
               "not_published": 0,
               "not_parsed": 16,
               "mapper_gap": 0,
               "would_refuse": 0,
-              "not_held": 113,
+              "not_held": 114,
               "not_held_filled": 0,
               "not_held_would_refuse": 0,
               "could_not_replay": 0,
@@ -50376,14 +51052,14 @@
               "key": "vlan_max",
               "requirement": "required",
               "gate": [],
-              "asked": 129,
+              "asked": 130,
               "held_asked": 16,
               "filled": 0,
               "not_published": 0,
               "not_parsed": 16,
               "mapper_gap": 0,
               "would_refuse": 0,
-              "not_held": 113,
+              "not_held": 114,
               "not_held_filled": 0,
               "not_held_would_refuse": 0,
               "could_not_replay": 0,
@@ -50409,14 +51085,14 @@
               "key": "weight",
               "requirement": "required",
               "gate": [],
-              "asked": 129,
+              "asked": 130,
               "held_asked": 16,
               "filled": 0,
               "not_published": 0,
               "not_parsed": 16,
               "mapper_gap": 0,
               "would_refuse": 0,
-              "not_held": 113,
+              "not_held": 114,
               "not_held_filled": 0,
               "not_held_would_refuse": 0,
               "could_not_replay": 0,
@@ -50444,14 +51120,14 @@
               "key": "humidity_operating",
               "requirement": "required",
               "gate": [],
-              "asked": 129,
+              "asked": 130,
               "held_asked": 16,
               "filled": 1,
               "not_published": 0,
               "not_parsed": 15,
               "mapper_gap": 0,
               "would_refuse": 0,
-              "not_held": 113,
+              "not_held": 114,
               "not_held_filled": 0,
               "not_held_would_refuse": 0,
               "could_not_replay": 0,
@@ -50479,14 +51155,14 @@
               "key": "temp_operating",
               "requirement": "required",
               "gate": [],
-              "asked": 129,
+              "asked": 130,
               "held_asked": 16,
               "filled": 1,
               "not_published": 0,
               "not_parsed": 15,
               "mapper_gap": 0,
               "would_refuse": 0,
-              "not_held": 113,
+              "not_held": 114,
               "not_held_filled": 0,
               "not_held_would_refuse": 0,
               "could_not_replay": 0,
@@ -50514,14 +51190,14 @@
               "key": "temp_storage",
               "requirement": "required",
               "gate": [],
-              "asked": 129,
+              "asked": 130,
               "held_asked": 16,
               "filled": 1,
               "not_published": 0,
               "not_parsed": 15,
               "mapper_gap": 0,
               "would_refuse": 0,
-              "not_held": 113,
+              "not_held": 114,
               "not_held_filled": 0,
               "not_held_would_refuse": 0,
               "could_not_replay": 0,
@@ -59291,40 +59967,40 @@
     "by_category": [
       {
         "category": "servers-unified-computing",
-        "not_held_parts": 7845,
+        "not_held_parts": 7846,
         "spec_linked_not_held": 545,
-        "eol_only": 6042,
+        "eol_only": 6043,
         "no_document": 1258,
-        "not_held_slots": 47762,
+        "not_held_slots": 47786,
         "not_held_filled": 2555,
         "held": {
           "num": 418,
-          "den": 8263,
+          "den": 8264,
           "pct": 5.1
         },
         "held_by_doc_type_legacy": {
           "num": 963,
-          "den": 8263,
+          "den": 8264,
           "pct": 11.7
         }
       },
       {
         "category": "switches",
-        "not_held_parts": 5070,
+        "not_held_parts": 5076,
         "spec_linked_not_held": 574,
-        "eol_only": 4179,
-        "no_document": 317,
-        "not_held_slots": 111495,
+        "eol_only": 4183,
+        "no_document": 319,
+        "not_held_slots": 111509,
         "not_held_filled": 4812,
         "held": {
-          "num": 2136,
-          "den": 7206,
-          "pct": 29.6
+          "num": 2149,
+          "den": 7225,
+          "pct": 29.7
         },
         "held_by_doc_type_legacy": {
-          "num": 2710,
-          "den": 7206,
-          "pct": 37.6
+          "num": 2723,
+          "den": 7225,
+          "pct": 37.7
         }
       },
       {
@@ -59333,7 +60009,7 @@
         "spec_linked_not_held": 74,
         "eol_only": 3504,
         "no_document": 174,
-        "not_held_slots": 39268,
+        "not_held_slots": 39353,
         "not_held_filled": 852,
         "held": {
           "num": 155,
@@ -59367,39 +60043,39 @@
       },
       {
         "category": "video",
-        "not_held_parts": 3225,
+        "not_held_parts": 3224,
         "spec_linked_not_held": 139,
-        "eol_only": 2306,
+        "eol_only": 2305,
         "no_document": 780,
         "not_held_slots": 11219,
         "not_held_filled": 685,
         "held": {
           "num": 36,
-          "den": 3261,
+          "den": 3260,
           "pct": 1.1
         },
         "held_by_doc_type_legacy": {
           "num": 175,
-          "den": 3261,
+          "den": 3260,
           "pct": 5.4
         }
       },
       {
         "category": "collaboration-endpoints",
-        "not_held_parts": 2533,
+        "not_held_parts": 2532,
         "spec_linked_not_held": 131,
-        "eol_only": 1919,
+        "eol_only": 1918,
         "no_document": 483,
         "not_held_slots": 16197,
         "not_held_filled": 11,
         "held": {
           "num": 405,
-          "den": 2938,
+          "den": 2937,
           "pct": 13.8
         },
         "held_by_doc_type_legacy": {
           "num": 536,
-          "den": 2938,
+          "den": 2937,
           "pct": 18.2
         }
       },
@@ -59578,11 +60254,11 @@
     "by_document_class_missing": [
       {
         "holds_instead": "vendor_eol_bulletin",
-        "parts": 26954
+        "parts": 26957
       },
       {
         "holds_instead": "(no document linked)",
-        "parts": 4686
+        "parts": 4688
       },
       {
         "holds_instead": "vendor_datasheet_html",
@@ -64478,7 +65154,7 @@
     },
     {
       "item": "unresolved kinds",
-      "count": 1285,
+      "count": 1272,
       "count_basis": "live hardware parts whose partKind is a fallback kind",
       "why_parked": "a classifier property; printed separately",
       "trigger": "after the device-noun rows are at zero: servers.unknown and video.unknown by family"
@@ -64560,7 +65236,7 @@
       "guide": "§2.2: required + pending-resolved-to-required per live part is completeness.required_total",
       "code": "recompute-completeness requiredFieldsFor / completenessV2 count `pending` (gate unanswered) AS required, so required_total = required + pending-resolved-to-required + pending-still-unanswered",
       "measured": {
-        "pending_slots_gate_unanswered": 48000,
+        "pending_slots_gate_unanswered": 48016,
         "pending_slots_gate_answered": 7578,
         "basis": "slots of a cup the kind's ledger lists as pending; answered = a verified/corroborated fact under a gate key, or a column (vendor, series/family) or the derived kind, which is how recompute builds `values`"
       }
@@ -64579,10 +65255,10 @@
       "guide": "§2.3: a current fact (superseded_by IS NULL, not retracted) that the normaliser accepts",
       "code": "recompute-completeness counts only verified/corroborated facts as present (required_present); the ledger's gap_states.filled has no normaliser clause; this report counts any current non-gap state with a value and excludes would_refuse, per the build brief",
       "measured": {
-        "report_filled_held": 23236,
+        "report_filled_held": 23239,
         "of_which_conflict_or_unverified": 1302,
         "report_would_refuse_held": 77,
-        "completeness_required_present_held": 22009
+        "completeness_required_present_held": 22012
       }
     },
     {
@@ -64639,10 +65315,10 @@
       "measured": {
         "report": {
           "inherited": 7355,
-          "filled": 23236,
+          "filled": 23239,
           "num": 7355,
-          "den": 23236,
-          "pct": 31.7
+          "den": 23239,
+          "pct": 31.6
         },
         "stock": {
           "num": 36690,
@@ -64770,9 +65446,9 @@
     }
   ],
   "build": {
-    "data_commit": "5b1bcd49b22f+81dirty",
-    "code_commit": "342dc179b527",
+    "data_commit": "d58605c2d59b+86dirty",
+    "code_commit": "d58605c2d59b",
     "contract_hash": "bcfc4c1ee314d3c2",
-    "generated_at": "2026-09-28T22:17:29.054Z"
+    "generated_at": "2026-09-28T23:19:25.017Z"
   }
 }

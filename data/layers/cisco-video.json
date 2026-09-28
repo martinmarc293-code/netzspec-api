@@ -1,12 +1,12 @@
 {
   "vendor": "cisco",
   "category": "video",
-  "built_at": "2026-09-28T22:11:30.675Z",
-  "commit": null,
-  "uncommitted_rule_files": null,
+  "built_at": "2026-09-28T23:08:00.021Z",
+  "commit": "d58605c2d59b2ec65dc4a62b6b35b53156290d44",
+  "uncommitted_rule_files": [],
   "mapping_file": "data/reference/product-lines/cisco-video.json",
-  "parts": 3261,
-  "layered": 3261,
+  "parts": 3260,
+  "layered": 3260,
   "pending": 0,
   "lines": [
     {
@@ -215,7 +215,7 @@
     },
     {
       "line": "Prisma II Optical Transport",
-      "parts": 774,
+      "parts": 773,
       "series": [
         {
           "series": "Prisma II HD",
@@ -279,11 +279,11 @@
           "family": "(none)",
           "role": null,
           "note": "^4035899$ (layers round 3, video round): named only 'Cisco 4035899', so the label check found no evidence and moved it to shared parts; Cisco's 'Prisma D-PON Optical Network Terminal and Accessories' end-of-sale notice lists it as CYL-BWDM-DPON-13101490/15501610-900-SA, a D-PON BWDM filter",
-          "parts": 11,
+          "parts": 10,
           "kinds": {
             "power": 6,
             "mechanical": 3,
-            "unknown": 2
+            "unknown": 1
           },
           "roles": {},
           "samples": [
@@ -295,7 +295,7 @@
             "4035082 — DPON PS, 230-240VAC/50-60Hz, 12VDC/1A, Wall-mt LS, w/BS-1363"
           ],
           "rules": {
-            "name": 10,
+            "name": 9,
             "sku": 1
           },
           "pending_in": {},
@@ -716,9 +716,9 @@
   "inbound_unplaced": {},
   "done": true,
   "build": {
-    "data_commit": "5b1bcd49b22f+81dirty",
-    "code_commit": "342dc179b527",
+    "data_commit": "d58605c2d59b+86dirty",
+    "code_commit": "d58605c2d59b",
     "contract_hash": "bcfc4c1ee314d3c2",
-    "generated_at": "2026-09-28T22:17:29.054Z"
+    "generated_at": "2026-09-28T23:19:25.017Z"
   }
 }

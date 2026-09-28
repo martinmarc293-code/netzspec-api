@@ -800,7 +800,6 @@ sku	name	series_label	kind	placement	product_line	product_family	series	nav_buck
 4036787	Cisco 4036787	Optical Passive Components	unknown	layered	Optical Passive Components	(shared across the line)		Optical Passive Components shared parts	label Optical Passive Components							
 4036793	GS7000,Assy,Mod,4X DOCSIS Status Monitor	GS7000 Nodes	plug-in	layered	GS7000 Nodes and Optical Hubs	(none)	GS7000 node modules and housings		name GS7000							
 4036796.1610	Assy, Kit, DPON EU ONT, 1610 V2 (-20+60)	Prisma D-PON	mechanical	layered	Prisma II Optical Transport	(none)	Prisma D-PON		name DPON							
-4036797.1610	ASSY, MOD, DPON EU ONT, 1610, 20, 60C	Prisma D-PON	unknown	layered	Prisma II Optical Transport	(none)	Prisma D-PON		name DPON							
 4036862	Assy,Kit-GS7K 4X 85105 LA 1XRFCM/X1RCM	GS7000 Optical Hub and Hub-Node	mechanical	layered	GS7000 Nodes and Optical Hubs	(none)	GS7000 node modules and housings		name GS7K							
 4036864	GS7K OS 1xR Rx,x1,CWDM N Tx	GS7000 Optical Hub and Hub-Node	transmitter	layered	GS7000 Nodes and Optical Hubs	(none)	GS7000 node modules and housings		name GS7K							
 4036865	GS7K OS 1xR Rx,x1,CWDM O Tx	GS7000 Optical Hub and Hub-Node	transmitter	layered	GS7000 Nodes and Optical Hubs	(none)	GS7000 node modules and housings		name GS7K							

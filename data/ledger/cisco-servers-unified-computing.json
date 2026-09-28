@@ -20,14 +20,14 @@
     "run": 7533
   },
   "totals": {
-    "parts": 8263,
-    "required_slots_at_nothing_known": 56905,
-    "required_slots_stored": 50779,
+    "parts": 8264,
+    "required_slots_at_nothing_known": 56929,
+    "required_slots_stored": 50803,
     "_slots_note": "at_nothing_known = parts × (required + pending) with only the kind known — and, for a kind with a role axis (role_axis: deploy_role), the SUM over its `roles` blocks of role parts × that role's (required + pending), because a role that asks fewer cups opens fewer slots; the kind's own `slots_per_part_at_nothing_known` and cup lists are its CORE (the `(unresolved)` role). stored = the live denominator (completeness.required_total), smaller wherever an answered gate has closed a pending question; per role it is the same sum split by role",
     "by_kind": {
       "server": 1985,
       "chassis": 183,
-      "fabric-interconnect": 129,
+      "fabric-interconnect": 130,
       "cpu": 1691,
       "memory": 410,
       "drive": 1840,
@@ -58,7 +58,7 @@
         "power-cord",
         "stack-cable"
       ],
-      "hardware_parts": 8263,
+      "hardware_parts": 8264,
       "refused_by_role_table": {
         "total": 0,
         "by_rule": {},
@@ -116,7 +116,7 @@
       "series_count": 17,
       "share_of_category": {
         "num": 1985,
-        "den": 8263,
+        "den": 8264,
         "pct": 24
       },
       "role_axis": "none",
@@ -1343,7 +1343,7 @@
       "series_count": 10,
       "share_of_category": {
         "num": 183,
-        "den": 8263,
+        "den": 8264,
         "pct": 2.2
       },
       "role_axis": "none",
@@ -2494,17 +2494,17 @@
       "column_backed": []
     },
     "fabric-interconnect": {
-      "parts": 129,
+      "parts": 130,
       "parts_with_3plus_own_facts": 0,
-      "parts_with_a_device_noun_in_name": 8,
+      "parts_with_a_device_noun_in_name": 9,
       "parts_with_a_device_noun_exempt_by_kind": 0,
       "slots_per_part_at_nothing_known": 24,
-      "required_slots_at_nothing_known": 3096,
-      "required_slots_stored": 3096,
-      "series_count": 9,
+      "required_slots_at_nothing_known": 3120,
+      "required_slots_stored": 3120,
+      "series_count": 10,
       "share_of_category": {
-        "num": 129,
-        "den": 8263,
+        "num": 130,
+        "den": 8264,
         "pct": 1.6
       },
       "role_axis": "none",
@@ -2520,7 +2520,7 @@
       "document_evidence": {
         "spec_bearing": 16,
         "spec_linked_not_held": 0,
-        "eol_only": 102,
+        "eol_only": 103,
         "no_document": 11,
         "spec_bearing_by_doc_type_legacy": 16,
         "blocked_by": "not-held (acquisition)"
@@ -4254,7 +4254,7 @@
       "series_count": 6,
       "share_of_category": {
         "num": 1691,
-        "den": 8263,
+        "den": 8264,
         "pct": 20.5
       },
       "role_axis": "none",
@@ -4950,7 +4950,7 @@
       "series_count": 12,
       "share_of_category": {
         "num": 410,
-        "den": 8263,
+        "den": 8264,
         "pct": 5
       },
       "role_axis": "none",
@@ -5555,7 +5555,7 @@
       "series_count": 13,
       "share_of_category": {
         "num": 1840,
-        "den": 8263,
+        "den": 8264,
         "pct": 22.3
       },
       "role_axis": "none",
@@ -6157,7 +6157,7 @@
       "series_count": 15,
       "share_of_category": {
         "num": 133,
-        "den": 8263,
+        "den": 8264,
         "pct": 1.6
       },
       "role_axis": "none",
@@ -6792,7 +6792,7 @@
       "series_count": 12,
       "share_of_category": {
         "num": 324,
-        "den": 8263,
+        "den": 8264,
         "pct": 3.9
       },
       "role_axis": "none",
@@ -7419,7 +7419,7 @@
       "series_count": 5,
       "share_of_category": {
         "num": 148,
-        "den": 8263,
+        "den": 8264,
         "pct": 1.8
       },
       "role_axis": "none",
@@ -8022,7 +8022,7 @@
       "series_count": 6,
       "share_of_category": {
         "num": 158,
-        "den": 8263,
+        "den": 8264,
         "pct": 1.9
       },
       "role_axis": "none",
@@ -8563,7 +8563,7 @@
       "series_count": 4,
       "share_of_category": {
         "num": 43,
-        "den": 8263,
+        "den": 8264,
         "pct": 0.5
       },
       "role_axis": "none",
@@ -9184,7 +9184,7 @@
       "series_count": 7,
       "share_of_category": {
         "num": 236,
-        "den": 8263,
+        "den": 8264,
         "pct": 2.9
       },
       "role_axis": "none",
@@ -9825,7 +9825,7 @@
       "series_count": 6,
       "share_of_category": {
         "num": 41,
-        "den": 8263,
+        "den": 8264,
         "pct": 0.5
       },
       "role_axis": "none",
@@ -10371,7 +10371,7 @@
       "series_count": 5,
       "share_of_category": {
         "num": 25,
-        "den": 8263,
+        "den": 8264,
         "pct": 0.3
       },
       "role_axis": "none",
@@ -10869,7 +10869,7 @@
       "series_count": 2,
       "share_of_category": {
         "num": 25,
-        "den": 8263,
+        "den": 8264,
         "pct": 0.3
       },
       "role_axis": "none",
@@ -11521,7 +11521,7 @@
       "series_count": 12,
       "share_of_category": {
         "num": 261,
-        "den": 8263,
+        "den": 8264,
         "pct": 3.2
       },
       "role_axis": "none",
@@ -12025,7 +12025,7 @@
       "series_count": 4,
       "share_of_category": {
         "num": 268,
-        "den": 8263,
+        "den": 8264,
         "pct": 3.2
       },
       "role_axis": "none",
@@ -12506,7 +12506,7 @@
       "series_count": 0,
       "share_of_category": {
         "num": 0,
-        "den": 8263,
+        "den": 8264,
         "pct": 0
       },
       "role_axis": "none",
@@ -12954,7 +12954,7 @@
       "series_count": 0,
       "share_of_category": {
         "num": 0,
-        "den": 8263,
+        "den": 8264,
         "pct": 0
       },
       "role_axis": "none",
@@ -13402,7 +13402,7 @@
       "series_count": 0,
       "share_of_category": {
         "num": 0,
-        "den": 8263,
+        "den": 8264,
         "pct": 0
       },
       "role_axis": "none",
@@ -13850,7 +13850,7 @@
       "series_count": 5,
       "share_of_category": {
         "num": 20,
-        "den": 8263,
+        "den": 8264,
         "pct": 0.2
       },
       "role_axis": "none",
@@ -14298,7 +14298,7 @@
       "series_count": 13,
       "share_of_category": {
         "num": 343,
-        "den": 8263,
+        "den": 8264,
         "pct": 4.2
       },
       "role_axis": "none",
@@ -14858,9 +14858,9 @@
     }
   },
   "build": {
-    "data_commit": "5b1bcd49b22f+81dirty",
-    "code_commit": "342dc179b527",
+    "data_commit": "d58605c2d59b+86dirty",
+    "code_commit": "d58605c2d59b",
     "contract_hash": "bcfc4c1ee314d3c2",
-    "generated_at": "2026-09-28T22:17:29.054Z"
+    "generated_at": "2026-09-28T23:19:25.017Z"
   }
 }

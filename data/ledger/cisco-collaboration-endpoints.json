@@ -20,7 +20,7 @@
     "run": 7533
   },
   "totals": {
-    "parts": 2938,
+    "parts": 2937,
     "required_slots_at_nothing_known": 21799,
     "required_slots_stored": 20008,
     "_slots_note": "at_nothing_known = parts × (required + pending) with only the kind known — and, for a kind with a role axis (role_axis: deploy_role), the SUM over its `roles` blocks of role parts × that role's (required + pending), because a role that asks fewer cups opens fewer slots; the kind's own `slots_per_part_at_nothing_known` and cup lists are its CORE (the `(unresolved)` role). stored = the live denominator (completeness.required_total), smaller wherever an answered gate has closed a pending question; per role it is the same sum split by role",
@@ -55,7 +55,7 @@
       "transceiver": 0,
       "software": 0,
       "bundle": 13,
-      "unknown": 13
+      "unknown": 12
     },
     "pending_reclassification": 0,
     "pending_reclassification_stored_slots": 0,
@@ -67,7 +67,7 @@
         "power-cord",
         "stack-cable"
       ],
-      "hardware_parts": 2938,
+      "hardware_parts": 2937,
       "refused_by_role_table": {
         "total": 0,
         "by_rule": {},
@@ -77,9 +77,9 @@
         "kinds": [
           "unknown"
         ],
-        "parts": 13,
+        "parts": 12,
         "facts3": 0,
-        "device_noun": 1,
+        "device_noun": 0,
         "device_noun_exempt": 0
       },
       "unresolved_kind": {
@@ -87,9 +87,9 @@
           "accessory",
           "unknown"
         ],
-        "parts": 216,
+        "parts": 215,
         "facts3": 0,
-        "device_noun": 1,
+        "device_noun": 0,
         "device_noun_exempt": 0,
         "asked_at_least_one_cup": 203
       },
@@ -98,21 +98,19 @@
           "accessory",
           "unknown"
         ],
-        "parts": 216,
+        "parts": 215,
         "facts3": 0,
-        "device_noun": 1,
+        "device_noun": 0,
         "device_noun_exempt": 0,
-        "device_noun_skus": [
-          "CIT3-FI-M-6324"
-        ]
+        "device_noun_skus": []
       },
       "kinds": [
         "accessory",
         "unknown"
       ],
-      "parts": 216,
+      "parts": 215,
       "facts3": 0,
-      "device_noun": 1
+      "device_noun": 0
     }
   },
   "kinds": {
@@ -127,7 +125,7 @@
       "series_count": 15,
       "share_of_category": {
         "num": 442,
-        "den": 2938,
+        "den": 2937,
         "pct": 15
       },
       "role_axis": "deploy_role",
@@ -7131,7 +7129,7 @@
       "series_count": 1,
       "share_of_category": {
         "num": 12,
-        "den": 2938,
+        "den": 2937,
         "pct": 0.4
       },
       "role_axis": "none",
@@ -8193,7 +8191,7 @@
       "series_count": 6,
       "share_of_category": {
         "num": 289,
-        "den": 2938,
+        "den": 2937,
         "pct": 9.8
       },
       "role_axis": "none",
@@ -9492,7 +9490,7 @@
       "series_count": 9,
       "share_of_category": {
         "num": 240,
-        "den": 2938,
+        "den": 2937,
         "pct": 8.2
       },
       "role_axis": "none",
@@ -10626,7 +10624,7 @@
       "series_count": 10,
       "share_of_category": {
         "num": 60,
-        "den": 2938,
+        "den": 2937,
         "pct": 2
       },
       "role_axis": "none",
@@ -11691,7 +11689,7 @@
       "series_count": 7,
       "share_of_category": {
         "num": 64,
-        "den": 2938,
+        "den": 2937,
         "pct": 2.2
       },
       "role_axis": "none",
@@ -12572,7 +12570,7 @@
       "series_count": 3,
       "share_of_category": {
         "num": 15,
-        "den": 2938,
+        "den": 2937,
         "pct": 0.5
       },
       "role_axis": "none",
@@ -13480,7 +13478,7 @@
       "series_count": 4,
       "share_of_category": {
         "num": 78,
-        "den": 2938,
+        "den": 2937,
         "pct": 2.7
       },
       "role_axis": "none",
@@ -14312,7 +14310,7 @@
       "series_count": 7,
       "share_of_category": {
         "num": 61,
-        "den": 2938,
+        "den": 2937,
         "pct": 2.1
       },
       "role_axis": "none",
@@ -15327,7 +15325,7 @@
       "series_count": 4,
       "share_of_category": {
         "num": 55,
-        "den": 2938,
+        "den": 2937,
         "pct": 1.9
       },
       "role_axis": "none",
@@ -16326,7 +16324,7 @@
       "series_count": 6,
       "share_of_category": {
         "num": 21,
-        "den": 2938,
+        "den": 2937,
         "pct": 0.7
       },
       "role_axis": "none",
@@ -17178,7 +17176,7 @@
       "series_count": 0,
       "share_of_category": {
         "num": 0,
-        "den": 2938,
+        "den": 2937,
         "pct": 0
       },
       "role_axis": "none",
@@ -18349,7 +18347,7 @@
       "series_count": 0,
       "share_of_category": {
         "num": 0,
-        "den": 2938,
+        "den": 2937,
         "pct": 0
       },
       "role_axis": "none",
@@ -19396,7 +19394,7 @@
       "series_count": 0,
       "share_of_category": {
         "num": 0,
-        "den": 2938,
+        "den": 2937,
         "pct": 0
       },
       "role_axis": "none",
@@ -19890,7 +19888,7 @@
       "series_count": 3,
       "share_of_category": {
         "num": 30,
-        "den": 2938,
+        "den": 2937,
         "pct": 1
       },
       "role_axis": "none",
@@ -21078,7 +21076,7 @@
       "series_count": 1,
       "share_of_category": {
         "num": 5,
-        "den": 2938,
+        "den": 2937,
         "pct": 0.2
       },
       "role_axis": "none",
@@ -21740,7 +21738,7 @@
       "series_count": 1,
       "share_of_category": {
         "num": 4,
-        "den": 2938,
+        "den": 2937,
         "pct": 0.1
       },
       "role_axis": "none",
@@ -22326,7 +22324,7 @@
       "series_count": 1,
       "share_of_category": {
         "num": 9,
-        "den": 2938,
+        "den": 2937,
         "pct": 0.3
       },
       "role_axis": "none",
@@ -22912,7 +22910,7 @@
       "series_count": 1,
       "share_of_category": {
         "num": 3,
-        "den": 2938,
+        "den": 2937,
         "pct": 0.1
       },
       "role_axis": "none",
@@ -23525,7 +23523,7 @@
       "series_count": 1,
       "share_of_category": {
         "num": 5,
-        "den": 2938,
+        "den": 2937,
         "pct": 0.2
       },
       "role_axis": "none",
@@ -24055,7 +24053,7 @@
       "series_count": 1,
       "share_of_category": {
         "num": 2,
-        "den": 2938,
+        "den": 2937,
         "pct": 0.1
       },
       "role_axis": "none",
@@ -24549,7 +24547,7 @@
       "series_count": 0,
       "share_of_category": {
         "num": 0,
-        "den": 2938,
+        "den": 2937,
         "pct": 0
       },
       "role_axis": "none",
@@ -25099,7 +25097,7 @@
       "series_count": 21,
       "share_of_category": {
         "num": 203,
-        "den": 2938,
+        "den": 2937,
         "pct": 6.9
       },
       "role_axis": "none",
@@ -25732,7 +25730,7 @@
       "series_count": 11,
       "share_of_category": {
         "num": 262,
-        "den": 2938,
+        "den": 2937,
         "pct": 8.9
       },
       "role_axis": "none",
@@ -26276,7 +26274,7 @@
       "series_count": 18,
       "share_of_category": {
         "num": 308,
-        "den": 2938,
+        "den": 2937,
         "pct": 10.5
       },
       "role_axis": "none",
@@ -26869,7 +26867,7 @@
       "series_count": 23,
       "share_of_category": {
         "num": 541,
-        "den": 2938,
+        "den": 2937,
         "pct": 18.4
       },
       "role_axis": "none",
@@ -27435,7 +27433,7 @@
       "series_count": 20,
       "share_of_category": {
         "num": 203,
-        "den": 2938,
+        "den": 2937,
         "pct": 6.9
       },
       "role_axis": "none",
@@ -27935,7 +27933,7 @@
       "series_count": 0,
       "share_of_category": {
         "num": 0,
-        "den": 2938,
+        "den": 2937,
         "pct": 0
       },
       "role_axis": "none",
@@ -28429,7 +28427,7 @@
       "series_count": 0,
       "share_of_category": {
         "num": 0,
-        "den": 2938,
+        "den": 2937,
         "pct": 0
       },
       "role_axis": "none",
@@ -28873,7 +28871,7 @@
       "series_count": 3,
       "share_of_category": {
         "num": 13,
-        "den": 2938,
+        "den": 2937,
         "pct": 0.4
       },
       "role_axis": "none",
@@ -29334,17 +29332,17 @@
       ]
     },
     "unknown": {
-      "parts": 13,
+      "parts": 12,
       "parts_with_3plus_own_facts": 0,
-      "parts_with_a_device_noun_in_name": 1,
+      "parts_with_a_device_noun_in_name": 0,
       "parts_with_a_device_noun_exempt_by_kind": 0,
       "slots_per_part_at_nothing_known": 0,
       "required_slots_at_nothing_known": 0,
       "required_slots_stored": 0,
-      "series_count": 4,
+      "series_count": 3,
       "share_of_category": {
-        "num": 13,
-        "den": 2938,
+        "num": 12,
+        "den": 2937,
         "pct": 0.4
       },
       "role_axis": "none",
@@ -29360,7 +29358,7 @@
       "document_evidence": {
         "spec_bearing": 0,
         "spec_linked_not_held": 9,
-        "eol_only": 2,
+        "eol_only": 1,
         "no_document": 2,
         "spec_bearing_by_doc_type_legacy": 9,
         "blocked_by": "not-held (acquisition)"
@@ -29779,9 +29777,9 @@
     }
   },
   "build": {
-    "data_commit": "5b1bcd49b22f+81dirty",
-    "code_commit": "342dc179b527",
+    "data_commit": "d58605c2d59b+86dirty",
+    "code_commit": "d58605c2d59b",
     "contract_hash": "bcfc4c1ee314d3c2",
-    "generated_at": "2026-09-28T22:17:29.054Z"
+    "generated_at": "2026-09-28T23:19:25.017Z"
   }
 }
