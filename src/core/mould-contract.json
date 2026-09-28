@@ -1,11 +1,11 @@
 {
-  "contract_hash": "1a62b6dedddf519c",
-  "generated_at": "2026-09-28T14:36:58.080Z",
-  "code_commit": "91e7898e2534b4c5121de3cb5667d5702abd2f33",
+  "contract_hash": "bcfc4c1ee314d3c2",
+  "generated_at": "2026-09-28T16:44:05.977Z",
+  "code_commit": "2c2d8916466317349a60e45def70829a931708b8",
   "code_branch": "cisco",
-  "dirty_files": 23,
+  "dirty_files": 4,
   "counts": {
-    "dictionary_keys": 607,
+    "dictionary_keys": 608,
     "categories": 26,
     "list_shapes": 4,
     "free_text_by_decision": 3
@@ -182,6 +182,13 @@
         "shape": null
       },
       "modular": {
+        "type": "b",
+        "unit": null,
+        "band": null,
+        "domain": null,
+        "shape": null
+      },
+      "cellular": {
         "type": "b",
         "unit": null,
         "band": null,
@@ -25073,7 +25080,23 @@
           "kind": "opt"
         },
         "cellular_bands": {
-          "kind": "opt"
+          "elseOpt": true,
+          "kind": "cond",
+          "when": {
+            "all": [
+              {
+                "eq": true,
+                "field": "cellular"
+              },
+              {
+                "field": "kind",
+                "inList": [
+                  "router",
+                  "module"
+                ]
+              }
+            ]
+          }
         },
         "cellular_category": {
           "kind": "opt"
@@ -26579,6 +26602,17 @@
             "field": "kind",
             "inList": [
               "router"
+            ]
+          }
+        },
+        "cellular": {
+          "elseOpt": true,
+          "kind": "cond",
+          "when": {
+            "field": "kind",
+            "inList": [
+              "router",
+              "module"
             ]
           }
         },
@@ -29168,11 +29202,20 @@
           "kind": "opt"
         },
         "cellular_bands": {
+          "elseOpt": true,
           "kind": "cond",
           "when": {
-            "field": "kind",
-            "inList": [
-              "cellular"
+            "any": [
+              {
+                "field": "kind",
+                "inList": [
+                  "cellular"
+                ]
+              },
+              {
+                "eq": true,
+                "field": "cellular"
+              }
             ]
           }
         },
@@ -30433,6 +30476,7 @@
       }
     },
     "column_backed": [
+      "cellular",
       "deploy_role",
       "modular",
       "series",
