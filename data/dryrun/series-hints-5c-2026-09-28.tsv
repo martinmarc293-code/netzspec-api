@@ -1,0 +1,46 @@
+sku	fact	class	kind	series	product_series	bucket	relation
+10000-SIP-600	Cisco 10000 Series Routers	hardware	interface	Shared Port Adapters/SPA Interface Processors		host-chassis	compatible -> Cisco 10000 Series Routers
+DS-C9124V-24PETK9	MDS 9124V	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9120 / 9124 / 9124V / 9132 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9124V-8PEVK9	MDS 9124V	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9120 / 9124 / 9124V / 9132 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9124V-24PITK9	MDS 9124V	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9120 / 9124 / 9124V / 9132 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9132T-MEK9=	MDS 9132	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9120 / 9124 / 9124V / 9132 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9132T-MIK9	MDS 9132	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9120 / 9124 / 9124V / 9132 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9124V-24PEVK9	MDS 9124V	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9120 / 9124 / 9124V / 9132 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9124V-24PIVK9	MDS 9124V	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9120 / 9124 / 9124V / 9132 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9140-K9	MDS 9120	hardware	fc-switch	MDS 9000 Series Multilayer	MDS 9100 fabric switches (9120 / 9124 / 9124V / 9132 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-X9704	MDS 9000	hardware	linecard	MDS 9500 Series Multilayer Directors	MDS 9700 directors (9706 / 9710 / 9718) and modules	umbrella	
+DS-SFP-FC16G-LW=	MDS 9000	hardware	pluggable	MDS 9300 Series Multilayer Fabric	MDS Fibre Channel SFP / X2 / CWDM	umbrella	
+DS-C9216I-HV-K9	MDS 9216i	hardware	fc-switch	MDS 9200 Series Multiservice	MDS 9200 multiservice (9216 / 9216i / 9222i / 9220i / 9250i)	chassis-member	
+DS-X9248-256K9	MDS 9000	hardware	linecard	MDS 9500 Series Multilayer Directors	MDS 9500 / 9200 switching modules	umbrella	
+DS-X9232256NHK9=	MDS 9000	hardware	linecard	MDS 9500 Series Multilayer Directors	MDS 9500 / 9200 switching modules	umbrella	
+DS-X9248256NHK9=	MDS 9000	hardware	linecard	MDS 9500 Series Multilayer Directors	MDS 9500 / 9200 switching modules	umbrella	
+DS-C9216I-NK9	MDS 9216i	hardware	fc-switch	MDS 9200 Series Multiservice	MDS 9200 multiservice (9216 / 9216i / 9222i / 9220i / 9250i)	chassis-member	
+DS-X9708-K9	MDS 9000	hardware	linecard	MDS 9500 Series Multilayer Directors	MDS 9700 directors (9706 / 9710 / 9718) and modules	umbrella	
+DS-SFP-FC16G-SW=	MDS 9000	hardware	pluggable	MDS 9300 Series Multilayer Fabric	MDS Fibre Channel SFP / X2 / CWDM	umbrella	
+DS-C9216I-K9	MDS 9216i	hardware	fc-switch	MDS 9200 Series Multiservice	MDS 9200 multiservice (9216 / 9216i / 9222i / 9220i / 9250i)	chassis-member	
+DS-C9220I-4PEK9=	Cisco MDS 9000	hardware	fc-switch	MDS 9200 Series Multiservice	MDS 9200 multiservice (9216 / 9216i / 9222i / 9220i / 9250i)	umbrella	
+DS-C9220I-4PIK9=	Cisco MDS 9000	hardware	fc-switch	MDS 9200 Series Multiservice	MDS 9200 multiservice (9216 / 9216i / 9222i / 9220i / 9250i)	umbrella	
+QSFP-40G-LR4-S=	Cisco MDS 9000	hardware	pluggable	MDS 9200 Series Multiservice	40G QSFP+	umbrella	
+DS-C32S-FAN-I=	Cisco MDS 9000	hardware	fan	MDS 9100 Series Multilayer Fabric		umbrella	
+DS-C9220I-12PEK9	Cisco MDS 9000	hardware	fc-switch	MDS 9200 Series Multiservice	MDS 9200 multiservice (9216 / 9216i / 9222i / 9220i / 9250i)	umbrella	
+DS-C9124V-8PIVK9	MDS 9124V	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9120 / 9124 / 9124V / 9132 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9124V-8EK9=	MDS 9124V	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9120 / 9124 / 9124V / 9132 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9124V-8PETK9	MDS 9124V	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9120 / 9124 / 9124V / 9132 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9132T-MIK9=	MDS 9132	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9120 / 9124 / 9124V / 9132 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9120-K9	MDS 9120	hardware	fc-switch	MDS 9000 Series Multilayer	MDS 9100 fabric switches (9120 / 9124 / 9124V / 9132 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9124V-8IK9=	MDS 9124V	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9120 / 9124 / 9124V / 9132 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9124V-8IK9	MDS 9124V	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9120 / 9124 / 9124V / 9132 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9124V-8PITK9	MDS 9124V	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9120 / 9124 / 9124V / 9132 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-X9708-K9=	MDS 9000	hardware	linecard	MDS 9500 Series Multilayer Directors	MDS 9700 directors (9706 / 9710 / 9718) and modules	umbrella	
+DS-SFP-8G-SW-4=	MDS 9000	hardware	pluggable	MDS 9500 Series Multilayer Directors	MDS Fibre Channel SFP / X2 / CWDM	umbrella	
+DS-X9304-18K9	MDS 9000	hardware	linecard	MDS 9500 Series Multilayer Directors	MDS 9500 / 9200 switching modules	umbrella	
+DS-SFP-FC4G-SW-4=	MDS 9000	hardware	pluggable	MDS 9500 Series Multilayer Directors	MDS Fibre Channel SFP / X2 / CWDM	umbrella	
+DS-PAA	MDS 9000	hardware	accessory	MDS 9500 Series Multilayer Directors		umbrella	
+DS-X9316-SSNK9	MDS 9000	hardware	linecard	MDS 9500 Series Multilayer Directors	MDS 9500 / 9200 switching modules	umbrella	
+DS-SFP-FC16GELW=	MDS 9000	hardware	pluggable	MDS 9300 Series Multilayer Fabric	MDS Fibre Channel SFP / X2 / CWDM	umbrella	
+DS-SFP-FC8G-SW-4=	MDS 9000	hardware	pluggable	MDS 9500 Series Multilayer Directors	MDS Fibre Channel SFP / X2 / CWDM	umbrella	
+DS-X9232-256K9	MDS 9000	hardware	linecard	MDS 9500 Series Multilayer Directors	MDS 9500 / 9200 switching modules	umbrella	
+DS-DIMM1=	MDS 9000	hardware	accessory	MDS 9500 Series Multilayer Directors		umbrella	
+DS-C9220I-12PIK9	Cisco MDS 9000	hardware	fc-switch	MDS 9200 Series Multiservice	MDS 9200 multiservice (9216 / 9216i / 9222i / 9220i / 9250i)	umbrella	
+QSFP-40G-SR4	Cisco MDS 9000	hardware	pluggable	40G QSFP+ Modules	40G QSFP+	park	
+DS-C9220I-4PIK9	Cisco MDS 9000	hardware	fc-switch	MDS 9200 Series Multiservice	MDS 9200 multiservice (9216 / 9216i / 9222i / 9220i / 9250i)	umbrella	

@@ -11,8 +11,8 @@
 - Decision files short and append-only; no sabotage narration beyond the commit line. Verifier log committed with each report.
 - Verify a chat send: composer must read 0 chars afterwards.
 
-## Board: passed 14 | FAILED 12 | unavailable 3 | not exercised 3 (of 32) · self-test proven 20 | BROKEN 0 | unproven 12
-HEAD 9bad9f9+, deployed 9bad9f9. Verifier log: docs/reviewer/2026-09-28/verifier.txt (committed with every report).
+## Board: passed 14 | FAILED 12 (one_build RED since the storage-networking layers were rebuilt alone: CLEARS with the block-end full rebuild; column_backed GREEN) | unavailable 3 | not exercised 3 (of 32) · self-test proven 20 | BROKEN 0 | unproven 12
+HEAD 0b4b83e+, deployed 0b4b83e. NEXT: item 12 kinds (106), then ONE full artefact rebuild: recompute -> ledgers -> censuses -> report -> layers --all -> freeze -> mould-stamp. Never stamp a mixed set. Verifier log: docs/reviewer/2026-09-28/verifier.txt (committed with every report).
 
 ## Flip order
 | # | item | status | what to do (from its decision file) |
@@ -21,7 +21,7 @@ HEAD 9bad9f9+, deployed 9bad9f9. Verifier log: docs/reviewer/2026-09-28/verifier
 | 2 | runs_have_approval | GREEN | run 1292: reviewer_retroactive on 20; run 1293 retro-gate: 952 pass → exception, 942/959 fail → 87 facts retracted (plan data/dryrun/retro-gate-2026-09-28.tsv) |
 | 3 | openapi_schemas | GREEN | /v1/models/{vendor}/{model} routes Model (families = alias); the check now requires a route per level shape |
 | 4 | doc_category_by_relevance | GREEN | runs 1289/1290: 68 titles, title_source pdf-info-trailer; run 1291: 15 title_state none |
-| 5 | column_backed_never_facts | TODO (ruled 5c): 45 | run 1294: 102 prefix dups; run 1295: 933 relations + 1,111 retracted. 45 parked: unlisted chassis 24, MDS 9000 umbrella 20, 1 router series |
+| 5 | column_backed_never_facts | GREEN (on 0b4b83e) | run 1296 layers (MDS 9100/9200 lists renamed), run 1297: 45 -> 0 (19 chassis-member, 24 umbrella, 2 relations incl. 1 QSFP -> MDS 9000). Earlier: | run 1294: 102 prefix dups; run 1295: 933 relations + 1,111 retracted. 45 parked: unlisted chassis 24, MDS 9000 umbrella 20, 1 router series |
 | 6 | enum_values_in_domain | AWAITING seed retraction | 2,011: standard 1,806 (1,775 hexcat_seed), mounting 115, audio_codecs 80 (all INHERITED), 10 wireless |
 | 7 | required_cup_defined | AWAITING-RULING | 30 cups = 3 keys. bundle_contents 0 facts, video_codecs 0 facts, product_compatibility 79 |
 | 8 | relations_for_components | AWAITING-RULING | 56 of 79 are model lists → promote to relations; 20 prose → retract; 3 mixed → parser |
