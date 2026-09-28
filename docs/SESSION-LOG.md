@@ -4,6 +4,35 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-28 (23b) - THE RETRACTION LANDS, AND THE SAME PASS WAS 4 HOURS ON THE LAPTOP AND 13 SECONDS ON THE BOX.**
+  `column_backed_never_facts` 7,142 -> **1,258**. Runs 1280 (5,156 duplicates retracted), 1288 (728 only-source
+  moved into `parts.series` then retracted in the same transaction). What remains is one layer-4 placement:
+  1,237 of the 1,258 are storage-networking, exported to `data/reference/series-hints-2026-09-28.json`.
+  - **THREE RUNS DIED BEFORE ONE SUCCEEDED, and each death taught something different.** 1274 was killed by the
+    harness, which reported **exit 0** - the wrapper's status; the artifact (`status=running`, `stats={}`) is what
+    said otherwise. 1275 DEADLOCKED against my own `derive-cellular`, because `touch_parts_by_part_id()` makes a
+    write to `facts` a write to `parts` - "different tables" was a claim about the statements I wrote, not the
+    ones that ran. 1279 I killed deliberately once the arithmetic was clear. All three rolled back whole with the
+    new `scripts/rollback-killed-run.mts`, verified each time by the dry run afterwards producing byte-identical
+    buckets.
+  - **THE CELLULAR GATE TOOK THREE LAYERS TO BECOME REAL**, none visible from the profile line that declares the
+    cup: it could not be READ (`recompute`'s SELECT lacked the column - caught by `written 0` where 244 was due),
+    it could not be SEEN by the ledger (which asks by kind and role with no column values - caught by a refused
+    build), and it was not DECLARED (a cup pends on an unanswered gate only when the GATE FIELD is required in
+    that profile - caught by the dictionary check). Now live: routers written 244 = the 204 cellular routers plus
+    40 modules measured before wiring it.
+  - **EVERY ARTEFACT REBUILD WAS DRIVEN BY A REFUSAL.** `build-completeness` refused four times and named exactly
+    what was stale each time. The ordering it taught, twice: **recompute BEFORE ledgers and censuses**, never
+    after.
+  - **NINE DECISION FILES** in `docs/decisions/`, one per red, each carrying its measurement: the reds are no
+    longer fifteen unknowns even though the count has not moved.
+  - **NEXT:** the storage-networking layer-4 placement (closes the 1,258); the `sub_brand` populate on the
+    corrected rule; `datasheet_cell` as a reason; `/v1/models` blocked on there being no `model` column.
+  - **TRAPS.** Heavy passes go on the box: `ssh -i ~/.ssh/dubaifix_hetzner root@77.42.72.81`, deploy first so it
+    has the script. A long tunnel write CONGESTS the link - two `git push`es failed while it ran, with
+    `example.com` at 7.3 s against its usual 0.2 s. And verify a chat send: one report sat unsent in the composer
+    because I clicked a stale button reference and assumed.
+
 - **2026-09-28 (23) - ELEVEN COMMITS AGAINST THE REVIEWER'S ORDER, AND EVERY CLAIM COST A MEASUREMENT.** The board
   moved 11/15 -> 11/15 with two regressions caught and undone inside one deploy each. Eight of the fifteen reds now
   have a decision file sizing them rather than a number nobody can act on.
