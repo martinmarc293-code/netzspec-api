@@ -1,0 +1,434 @@
+{
+ "at": "2026-09-28T23:51:44.869Z",
+ "commit": "045326298794736ed3082c94a0a49493d1f528ff",
+ "suites": {
+  "tests/adapterSuites.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/aliasProposal.test.mjs": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/aliasRules.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/apiLiveParts.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/applyCompat.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/arrangementFreeze.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/brandMould.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/brandOwnership.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/breakoutEnds.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/buildLayersGuard.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/bundleContents.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/bundleFamily.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/cableLength.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/capContract.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/cellular.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/collabKind.test.ts": {
+   "status": "fail",
+   "misses": [
+    "conferencing asks every kind (and phone role) exactly what collaboration-endpoints asks"
+   ]
+  },
+  "tests/columnBackedFacts.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/completeness.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/componentKind.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/cupLedger.test.ts": {
+   "status": "fail",
+   "misses": [
+    "4 named exception(s) name a kind/category pair no ledger holds",
+    "cisco-meraki.json: security-camera passes term 13 (granularity)",
+    "interfaces-modules/cable is asked exactly connector and product_compatibility"
+   ]
+  },
+  "tests/deployRole.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/deriveFamily.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/descPattern.test.mjs": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/descriptionQuality.test.mjs": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/diskGuard.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/docClass.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/docTitles.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/fieldSchema.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/freeStringCups.test.ts": {
+   "status": "fail",
+   "misses": [
+    "SABOTAGE: dropping cpu from the allow-list names cpu in all three UCS categories -> [\"collaboration-endpoints/cpu\",\"conferencing/cpu\",\"hyperconverged-infrastructure/cpu\",\"hyperconverged-systems/cpu\",\"servers-unified-computing/cpu\",\"unified-communications/cpu\"]"
+   ]
+  },
+  "tests/gatePdfProvenance.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/gateR1.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/gateRegression.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/germanName.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/heldProvenance.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/hygieneWhitespace.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/imageCandidate.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/kindOverrides.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/layerFromSku.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/layerIndex.test.ts": {
+   "status": "fail",
+   "misses": [
+    "…and such a row's series is its line's shared-parts series"
+   ]
+  },
+  "tests/layersStanding.test.ts": {
+   "status": "fail",
+   "misses": [
+    "devices security: the recorded exception ASA-SSC-AIP-5-K9= is still a device in shared parts (a stale exception is a hole)"
+   ]
+  },
+  "tests/linkProvenance.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/links.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/listShapes.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/mapperTrace.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/merakiKind.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/missDiff.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/moduleKind.test.ts": {
+   "status": "fail",
+   "misses": [
+    "a PoE injector is asked what it fits",
+    "a cable is asked its connector and what it fits (cable_length 7.1%",
+    "and its length is OPTIONAL, not na: got \"req\", wanted \"opt\"",
+    "cup set interfaces-modules.cable: got \"cable_length,connector,product_compatibility\", wanted \"connector,product_compatibility\"",
+    "cup set interfaces-modules.module: got \"ports,power_max,product_compatibility\", wanted \"power_max,product_compatibility\"",
+    "cup set interfaces-modules.power: got \"airflow,input_voltage,product_compatibility,psu_rated_output\", wanted \"product_compatibility\""
+   ]
+  },
+  "tests/nameLicenceRule.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/nameMarker.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/natThroughput.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/noProfileReason.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/oneCupPerQuantity.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/openapiShapes.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/opticKind.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/opticalKind.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/partKind.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/pendingRequirement.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/physicalObjectCups.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/portParse.test.mjs": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/productClass.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/productCompat.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/productLine.test.ts": {
+   "status": "fail",
+   "misses": [
+    "meraki: MX105 [Meraki] -> Meraki MX Security and SD-WAN Appliances / MX105",
+    "meraki: MX67C [Meraki] -> Meraki MX Security and SD-WAN Appliances / MX67",
+    "meraki: MX95 [Meraki] -> Meraki MX Security and SD-WAN Appliances / MX95",
+    "meraki: Z4-HW [Meraki] -> Meraki Z Teleworker Gateways / Z4",
+    "meraki: Z4C-HW [Meraki] -> Meraki Z Teleworker Gateways / Z4C"
+   ]
+  },
+  "tests/profileMerge.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/promote-required.test.ts": {
+   "status": "fail",
+   "misses": [
+    "(suite failed without printing a MISS line)"
+   ]
+  },
+  "tests/provenance.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/relationBacked.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/renderContract.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/routerKind.test.ts": {
+   "status": "fail",
+   "misses": [
+    "a router's module_slots is pending on `modular`, and the role-gated cups on `deploy_role`",
+    "cup set routers.antenna = product_compatibility,radio_bands",
+    "cup set routers.cable = product_compatibility",
+    "cup set routers.chassis = altitude_max,certifications,humidity_operating,temp_storage",
+    "cup set routers.drive = product_compatibility,storage_capacity",
+    "cup set routers.fabric = fabric_bandwidth,product_compatibility",
+    "cup set routers.linecard = ports,product_compatibility",
+    "cup set routers.memory = dram,product_compatibility",
+    "cup set routers.power = input_voltage,product_compatibility"
+   ]
+  },
+  "tests/runStale.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/sanKind.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/securityKind.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/securityShapes.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/seriesHints.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/source-fields.test.ts": {
+   "status": "fail",
+   "misses": [
+    "committed file: EVERY required field of every hardware category has at least one ENABLED capable source (678 fields, 5 enabled sources)",
+    "committed file: EVERY required field of every hardware category has at least one ENABLED capable source (678 fields, 5 enabled sources) -> [\"switches/pon_ports: required by the profile and no enabled source publishes it\",\"switches/pon_standard: required by the profile and no enabled source publishes it\",\"routers/cellular: required by the profile and no enabled source publishes it\"]",
+    "committed file: cisco-datasheet-pdf '*' (131) is a superset of every per-category list (31 keys) and of every profile-required key",
+    "committed file: cisco-datasheet-pdf '*' (131) is a superset of every per-category list (31 keys) and of every profile-required key -> {\"missing_from_star\":[],\"required_missing\":[\"cellular\",\"pon_ports\",\"pon_standard\"]}",
+    "committed file: cisco-datasheets '*' (247) is a superset of every per-category list (218 keys) and of every profile-required key",
+    "committed file: cisco-datasheets '*' (247) is a superset of every per-category list (218 keys) and of every profile-required key -> {\"missing_from_star\":[],\"required_missing\":[\"cellular\",\"pon_ports\",\"pon_standard\"]}",
+    "committed file: only dictionary keys, no empty list, every enabled lookup source has a key or a recorded reason",
+    "committed file: only dictionary keys, no empty list, every enabled lookup source has a key or a recorded reason -> [\"switches/pon_ports: required by the profile and no enabled source publishes it\",\"switches/pon_standard: required by the profile and no enabled source publishes it\",\"routers/cellular: required by the profile and no enabled source publishes it\"]"
+   ]
+  },
+  "tests/source-scan.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/specMerge.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/specNormalize.lists.test.mjs": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/specNormalize.phase1.test.mjs": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/specNormalize.preprocess.test.mjs": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/specNormalize.refusals.test.mjs": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/specNormalize.units.test.mjs": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/structShape.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/switchKind.test.ts": {
+   "status": "fail",
+   "misses": [
+    "kind-layer cup set switches/chassis (no role = the kind core): got \"certifications,dimensions,form_factor,humidity_operating,module_slots,psu_config,rack_units,weight\", wanted \"dimensions,form_factor,module_slots,psu_config,rack_units,weight\"",
+    "kind-layer cup set switches/fabric (no role = the kind core): got \"fabric_bandwidth,power_max,product_compatibility\", wanted \"fabric_bandwidth,product_compatibility\"",
+    "kind-layer cup set switches/supervisor (no role = the kind core): got \"dram,fabric_bandwidth,flash,forwarding_rate,mac_table,power_max,product_compatibility,switching_capacity,uplink_ports\", wanted \"dram,fabric_bandwidth,flash,forwarding_rate,mac_table,product_compatibility,switching_capacity,uplink_ports\""
+   ]
+  },
+  "tests/test-spec-gate.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/tools.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/trayHoles.test.ts": {
+   "status": "fail",
+   "misses": [
+    "tray collaboration-endpoints: 28 row(s) whose kind asks for nothing (exact, both ways)",
+    "tray hyperconverged-infrastructure: 2 row(s) whose kind asks for nothing (exact, both ways)",
+    "tray hyperconverged-systems: 13 row(s) whose kind asks for nothing (exact, both ways)",
+    "tray optical-networking: 39 row(s) whose kind asks for nothing (exact, both ways)",
+    "tray servers-unified-computing: 29 row(s) whose kind asks for nothing (exact, both ways)",
+    "tray storage-networking: 1 row(s) whose kind asks for nothing (exact, both ways)",
+    "tray unified-communications: 14 row(s) whose kind asks for nothing (exact, both ways)",
+    "tray video: 267 row(s) whose kind asks for nothing (exact, both ways)",
+    "tray wireless: 69 row(s) whose kind asks for nothing (exact, both ways)",
+    "tray: 101 carry a real name and are the actionable half",
+    "tray: 361 of the 0 carry no evidence"
+   ]
+  },
+  "tests/ucsKind.test.ts": {
+   "status": "fail",
+   "misses": [
+    "kind-layer question set: hyperconverged-infrastructure bundle is the same set: got \"bundle_contents,product_compatibility\", wanted \"bundle_contents\""
+   ]
+  },
+  "tests/urlAuth.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/valuePid.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/videoKind.test.ts": {
+   "status": "pass",
+   "misses": []
+  },
+  "tests/wirelessKind.test.ts": {
+   "status": "pass",
+   "misses": []
+  }
+ }
+}

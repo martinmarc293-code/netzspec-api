@@ -5,14 +5,23 @@
 //
 //   npm test           pure suites only (no database)
 //   npm run test:db    also the suites in tests/db/, which need DATABASE_URL
+//   --miss-out <file>  write every suite's MISS lines (scripts/miss-diff.ts) — the baseline for a later diff
+//   --miss-diff <file> (repeatable) compare this run's MISS lines with a baseline; the exit code is then the DIFF's verdict
+//                      (1 on a MISS the baseline did not have), not the absolute pass/fail of an already-red board
 import { spawnSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { missesOf, diffMisses, formatDiff, type MissSnapshot } from "./miss-diff.js";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const withDb = process.argv.includes("--db");
-const only = process.argv.filter((a) => !a.startsWith("--")).slice(2);
+const VALUED = new Set(["--miss-out", "--miss-diff"]);
+const args = process.argv.slice(2);
+const valuesOf = (k: string): string[] => args.flatMap((a, i) => (a === k && args[i + 1] ? [args[i + 1]] : []));
+const missOut = valuesOf("--miss-out")[0] ?? null;
+const missDiffs = valuesOf("--miss-diff");
+const only = args.filter((a, i) => !a.startsWith("--") && !VALUED.has(args[i - 1] ?? ""));
 
 function collect(dir: string): string[] {
   if (!fs.existsSync(dir)) return [];
@@ -55,13 +64,21 @@ const tsx = path.join(root, "node_modules", ".bin", process.platform === "win32"
 // next to the file it reads.
 let failed = 0;
 const notExercised: string[] = [];
+const commitOf = (): string | null => {
+  if (process.env.GIT_SHA) return process.env.GIT_SHA;
+  const g = spawnSync("git", ["rev-parse", "HEAD"], { cwd: root, encoding: "utf8" });
+  return g.status === 0 ? g.stdout.trim() : null;
+};
+const snapshot: MissSnapshot = { at: new Date().toISOString(), commit: commitOf(), suites: {} };
 for (const f of files) {
-  const rel = path.relative(root, f);
+  const rel = path.relative(root, f).split(path.sep).join("/");
   const r = spawnSync(tsx, [f], { cwd: root, stdio: "pipe", encoding: "utf8", shell: process.platform === "win32" });
   const ok = r.status === 0;
   const could = r.status === 2;
   if (!ok && !could) failed++;
   if (could) notExercised.push(rel);
+  const status = ok ? "pass" : could ? "not_exercised" : "fail";
+  snapshot.suites[rel] = { status, misses: missesOf(`${r.stdout ?? ""}\n${r.stderr ?? ""}`, status) };
   const tail = (r.stdout + r.stderr).trim().split("\n").slice(ok ? -1 : -25).join("\n    ");
   console.log(`${ok ? "PASS" : could ? "----" : "FAIL"}  ${rel}\n    ${tail}`);
 }
@@ -76,4 +93,20 @@ if (notExercised.length)
 if (notRun.length)
   console.log(`${notRun.length} DATABASE suites were NOT RUN by this command (they need DATABASE_URL): ${notRun.map((f) => path.basename(f)).join(", ")}\n` +
     `  run them with:  npm run test:db`);
+if (missOut) {
+  fs.mkdirSync(path.dirname(path.resolve(missOut)), { recursive: true });
+  fs.writeFileSync(missOut, JSON.stringify(snapshot, null, 1));
+  const n = Object.values(snapshot.suites).reduce((a, s) => a + s.misses.length, 0);
+  console.log(`MISS snapshot -> ${missOut}: ${Object.keys(snapshot.suites).length} suites, ${n} MISS lines`);
+}
+if (missDiffs.length) {
+  let regressed = false;
+  for (const file of missDiffs) {
+    const base = JSON.parse(fs.readFileSync(file, "utf8")) as MissSnapshot;
+    const d = diffMisses(base, snapshot, only.length > 0);
+    console.log(formatDiff(d, `${file} (${base.commit?.slice(0, 7) ?? "no commit"}, ${base.at})`));
+    if (!d.ok) regressed = true;
+  }
+  process.exit(regressed ? 1 : 0);
+}
 if (failed) process.exit(1);
