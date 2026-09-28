@@ -27,6 +27,11 @@ import { NOT_A_KIND, parityRuled, parityCause, KIND_PARITY_EXCEPTIONS, KIND_PARI
 import { partKind } from "../src/core/partKind.js";
 import { deployRoleResult, roleAxisOf, roleAxisKinds } from "../src/core/deployRole.js";
 import { query, closePool } from "../src/store/db.js";
+import { existsSync, readFileSync, appendFileSync, mkdirSync } from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+const REPO = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
 type Result = { state: "pass" | "fail" | "unavailable" | "not_exercised"; detail: string };
 /**
@@ -160,6 +165,39 @@ async function kindPairsWithParts(): Promise<{ pairs: { category: string; kind: 
     // than swallowed, and it lands as NOT EXERCISED with its producer named.
     return { pairs: [], note: `could not read (category, kind) pairs: ${e instanceof Error ? e.message : String(e)}` };
   }
+}
+
+// What each run kind OWES under the three-class rule (runs_have_approval). Every kind present in `runs`
+// on 28 Sep 2026 is here; a new kind fails the check until it is placed. Placed by what the command DOES,
+// not by what its runs happen to carry -- a table built from the carriers would pass by construction.
+const A = { approval: true, gate: false }, G = { approval: false, gate: true },
+      AG = { approval: true, gate: true }, D = { approval: false, gate: false };
+const RUN_KIND_CLASS: Record<string, { approval: boolean; gate: boolean }> = {
+  // membership (category / class / part creation or retirement) or withdrawal of facts -> approval
+  "move-category": A, "class-change": A, "reclassify": A, "reclassify-docs": A, "promote-unknown-skus": A,
+  "create-categories": A, "hygiene-case-duplicates": A, "hygiene-foreign-pids": A, "hygiene-hw-variants": A,
+  "hygiene-whitespace-duplicates": A, "retired-residue": A, "retract-group-inherited": A,
+  "retract-licence-mined": A, "retract-page-read-deploy-role": A, "retract-refused-value": A,
+  "retract-withdrawn-mapping": A, "revert-cross-vendor-layer-write": A, "drop-orphan-keys": A,
+  "correct-tier0": A, "bundle-plan-facts": A,
+  // apply-* that also change membership or withdraw -> both
+  "apply-retract-inherited": AG, "apply-retract-column-backed": AG, "apply-retract-port-misparse": AG,
+  "apply-promote-only-source-series": AG, "apply-reclassify-hardware-evidence": AG,
+  "apply-reclassify-nonhardware": AG, "apply-enumeration": AG,
+  // writes facts -> gate
+  "apply-acquired": G, "apply-specs": G, "apply-renormalize": G, "apply-remerge": G, "apply-derive-cellular": G,
+  "apply-key-holders": G, "remap-cpu-power-to-tdp": G, "reroute-per-slot-capacity": G, "rekey-psu-and-compat": G,
+  "split-bidi-rx": G, "migrate-atlas": G,
+  // derives from what is stored -> neither
+  "recompute-completeness": D, "write-layers-to-db": D, "build-spare-of": D, "derive-link-provenance": D,
+  "derive-part-states": D, "fill-family-from-hct-category": D, "sync-dictionary": D, "name-language": D,
+  "name-spare-packaging": D, "name-spare-wording": D, "images": D, "probe-failure-reason": D,
+};
+/** What one succeeded run is missing under the three-class rule; the check and its self-test both call THIS. */
+function runOwes(kind: string, appr: boolean, gate: boolean): "unclassified" | { approval: boolean; gate: boolean } {
+  const o = RUN_KIND_CLASS[kind];
+  if (!o) return "unclassified";
+  return { approval: o.approval && !appr, gate: o.gate && !gate };
 }
 
 // ---- the 27, declared whether or not they are written ------------------------------------------------------------
@@ -1161,34 +1199,64 @@ const TESTS: Test[] = [
     // recorded anywhere a check could read. The test also prints the run count, because the brief says 7,533
     // runs and the table holds a different number — a figure the reviewer and I should reconcile before
     // anyone approves "12 groups" of something neither of us has counted the same way.
+    // THE THREE-CLASS RULE (reviewer ruling, 28 Sep 2026; docs/decisions/2026-09-28-runs-have-approval.md).
+    // A blanket "every run carries an approval" demanded a sentence nobody gave from 1,136 pipeline steps.
+    // What each run owes depends on what it DOES:
+    //   approval  changes row membership (category, class, part creation/retirement) or withdraws facts
+    //   gate      writes facts (every apply-*, plus the non-apply kinds that rewrite facts)
+    //   derived   recomputes from what is already stored -> owes neither
+    // A kind can owe both (apply-retract-*). Only SUCCEEDED runs are judged: a failed or aborted run was
+    // rolled back and changed nothing -- they are counted as their own number, never folded into a pass.
+    //
+    // THE TABLE IS EXHAUSTIVE ON PURPOSE and an unclassified kind FAILS, named. A default of "derived"
+    // would let the next retraction script owe nothing by being new, which is the drift this repo keeps
+    // paying for. Run 69 is the one named historical exception: the hand-run conflict reopen of 4 Sep,
+    // which cannot be given a gate retrospectively.
     run: async () => {
-      const cols = (await query<{ c: string }>(`SELECT column_name c FROM information_schema.columns
-         WHERE table_schema='public' AND table_name='runs'`)).rows.map((r) => r.c);
-      const hasCol = cols.some((c) => /approv|consent|authoris|authoriz/.test(c));
-      const total = Number((await query<{ n: string }>(`SELECT count(*)::text n FROM runs`)).rows[0].n);
-      // Scan for ANY approval-shaped key instead of guessing one. The first version tested a single
-      // spelling and would have reported "none" just as confidently had the key been approved,
-      // approval_quote or sign_off. A zero from a guessed field name is not a measurement.
-      const keys = (await query<{ k: string }>(
-        "SELECT DISTINCT k FROM runs, LATERAL jsonb_object_keys(inputs) k")).rows.map((r) => r.k);
-      const apprKeys = keys.filter((k) => /approv|consent|authoris|authoriz|sign_?off/i.test(k));
-      const inInputs = apprKeys.length === 0 ? 0 : Number((await query<{ n: string }>(
-        "SELECT count(*)::text n FROM runs WHERE inputs ?| $1::text[]", [apprKeys])).rows[0].n);
-      const writers = Number((await query<{ n: string }>(
-        `SELECT count(*)::text n FROM runs WHERE status='succeeded' AND stats IS NOT NULL`)).rows[0].n);
-      // EVERY NUMBER HERE IS COMPUTED. The first version guessed the key name `approval`, found none, and
-      // reported "NO approval is recorded anywhere" — which was FALSE and which I passed on to both the
-      // operator and the reviewer. The key is spelled `approved` and 134 runs carry one, several with the
-      // operator's own words in them. The reviewer caught it by reading the code rather than the output.
-      // The second version then hard-coded "NONE is approval-shaped" beside a count that said 134: prose
-      // next to a computed value, contradicting it, for the third time in one session. Nothing is written
-      // in words here that the query has not just answered.
-      const found = apprKeys.length ? apprKeys.join(", ") : "none";
-      return hasCol || inInputs === total
-        ? ok(`all ${total} runs record an approval (key: ${found})`)
-        : bad(`${total - inInputs} of ${total} runs record NO approval — ${inInputs} do, under ${found}; `
-          + `runs has no approval column, so it lives in inputs by convention. ${writers} succeeded runs wrote `
-          + `stats. The brief cites 7,533 runs; this table holds ${total} — reconcile before approving per group`);
+      const rows = (await query<{ id: string; kind: string; status: string; appr: boolean; gate: boolean; started: string }>(
+        "SELECT id::text, kind, status::text, inputs ? 'approved' AS appr, gate IS NOT NULL AS gate," +
+        " to_char(started_at, 'YYYY-MM-DD') AS started FROM runs")).rows;
+      if (!rows.length) return none("the runs table is empty");
+      const EXCEPTIONS = new Set(["69"]);
+      const unclassified = new Set<string>();
+      const missAppr = new Map<string, number>(), missGate = new Map<string, number>();
+      let judged = 0, notSucceeded = 0, excepted = 0, preConvention = 0;
+      // The first approval ever recorded -- computed, so "before the convention existed" is a fact about the
+      // table and not a date typed here.
+      const firstAppr = rows.filter((r) => r.appr).map((r) => r.started).sort()[0] ?? "9999";
+      for (const r of rows) {
+        const o = runOwes(r.kind, r.appr, r.gate);
+        if (o === "unclassified") { unclassified.add(r.kind); continue; }
+        if (r.status !== "succeeded") { notSucceeded++; continue; }
+        if (EXCEPTIONS.has(r.id)) { excepted++; continue; }
+        judged++;
+        if (o.approval) missAppr.set(r.kind, (missAppr.get(r.kind) ?? 0) + 1);
+        if (o.gate) missGate.set(r.kind, (missGate.get(r.kind) ?? 0) + 1);
+        if ((o.approval || o.gate) && r.started < firstAppr) preConvention++;
+      }
+      const sum = (m: Map<string, number>) => [...m.values()].reduce((a, b) => a + b, 0);
+      const list = (m: Map<string, number>) => [...m.entries()].sort((a, b) => b[1] - a[1]).map(([k, n]) => `${k} ${n}`).join(", ");
+      const a = sum(missAppr), g = sum(missGate);
+      const scope = `${rows.length} runs: ${judged} succeeded judged, ${notSucceeded} failed/aborted not judged, ` +
+        `${excepted} named exception (run 69)`;
+      if (unclassified.size) return bad(`${unclassified.size} run kinds are in no class, so nobody has said what they owe: ` +
+        `${[...unclassified].join(", ")} — ${scope}`);
+      return a === 0 && g === 0
+        ? ok(`every succeeded run carries what its class owes — ${scope}`)
+        : bad(`${a} runs owe an APPROVAL and carry none (${list(missAppr) || "-"}); ${g} owe a GATE and carry none ` +
+              `(${list(missGate) || "-"}); ${preConvention} of those predate the first recorded approval (${firstAppr}) — ${scope}`);
+    },
+    selfTest: async () => {
+      const owes = (kind: string, appr: boolean, gate: boolean) => {
+        const o = runOwes(kind, appr, gate);
+        return o !== "unclassified" && !o.approval && !o.gate;
+      };
+      return { negative: owes("move-category", false, false) || owes("a-kind-nobody-classified", true, true)
+                 || owes("apply-acquired", false, false),
+               positive: owes("move-category", true, false) && owes("apply-acquired", false, true)
+                 && owes("recompute-completeness", false, false),
+               note: "a membership run without approval, an apply-* without gate and an unclassified kind must fail; " +
+                 "each class carrying what it owes (and a derived run carrying nothing) must pass" };
     },
   },
   {
@@ -1297,11 +1365,37 @@ const TESTS: Test[] = [
       // than assumed, because a histogram that does not sum is a histogram measuring nothing.
       const sums = [...hist.values()].reduce((a, b) => a + b, 0) === total;
       if (!sums) return bad(`the states do NOT partition the facts — ${scope}`);
+      // A PROGRESS BAR, NOT A DEFECT (decision 2026-09-28-fill-state-is-a-progress-bar). The green condition
+      // is unchanged -- every live fact filled -- but a level with no previous level cannot say whether the
+      // work is MOVING. So each build's states are recorded (`--record-fill-state`, appended to a committed
+      // history) and every run prints the change since the last record: `filled` should rise, the seed and
+      // EoL states fall, and the day one moves the wrong way is now visible.
+      const HIST = path.join(REPO, "data", "completeness", "fill-state-history.jsonl");
+      const now = Object.fromEntries([...hist.entries()].sort());
+      let prev: { at: string; git_sha: string; states: Record<string, number> } | null = null;
+      try {
+        const lines = existsSync(HIST) ? readFileSync(HIST, "utf8").split("\n").filter((l) => l.trim()) : [];
+        if (lines.length) prev = JSON.parse(lines[lines.length - 1]);
+      } catch (e) {
+        prev = null;   // an unreadable history is reported, never read as "no change"
+        console.log(`  !! fill-state history unreadable at ${HIST}: ${e instanceof Error ? e.message : String(e)}`);
+      }
+      const delta = prev
+        ? "since " + prev.at.slice(0, 16) + " (" + prev.git_sha.slice(0, 7) + "): " +
+          [...new Set([...Object.keys(prev.states), ...Object.keys(now)])].sort().map((k) => {
+            const d = (now[k] ?? 0) - (prev!.states[k] ?? 0);
+            return `${k} ${d >= 0 ? "+" : ""}${d.toLocaleString()}`;
+          }).join(", ")
+        : "no previous record — this is the baseline";
+      if (process.argv.includes("--record-fill-state")) {
+        mkdirSync(path.dirname(HIST), { recursive: true });
+        appendFileSync(HIST, JSON.stringify({ at: new Date().toISOString(),
+          git_sha: process.env.GIT_SHA ?? "unknown", total, states: now }) + "\n");
+      }
       return misfiled === 0
-        ? ok(`every live fact is genuinely filled — ${scope}`)
-        : bad(`${misfiled.toLocaleString()} of ${total.toLocaleString()} live facts are NOT "filled" by the ` +
-              `four conditions (own + spec-bearing document + a method that read the artefact + no open ` +
-              `conflict) and need their own state — ${scope}`);
+        ? ok(`every live fact is genuinely filled — ${scope}; ${delta}`)
+        : bad(`${misfiled.toLocaleString()} of ${total.toLocaleString()} live facts are not yet "filled" by the ` +
+              `four conditions — a progress bar, not a regression — ${scope}; ${delta}`);
     },
     // The classifier is the thing under test, so the fixture drives IT and not a proxy. A seeded value
     // on a real datasheet must not be filled; a table-read value on a datasheet must be.
@@ -1411,14 +1505,35 @@ const TESTS: Test[] = [
       }
       if (!rows.length) return none("no document exists to classify");
       const total = rows.reduce((n, r) => n + r.n, 0);
-      const untitled = rows.reduce((n, r) => n + r.untitled, 0);
       const unclassed = rows.filter((r) => !r.doc_type).reduce((n, r) => n + r.n, 0);
-      const scope = `${total.toLocaleString()} documents across ${rows.length} types: ` +
-        rows.slice(0, 5).map((r) => `${r.doc_type ?? "(none)"} ${r.n.toLocaleString()}`).join(", ");
-      return untitled === 0 && unclassed === 0
-        ? ok(`every document carries a type and a title — ${scope}`)
-        : bad(`${untitled.toLocaleString()} documents have NO TITLE (nobody can review a decision about an ` +
-              `untitled document) and ${unclassed.toLocaleString()} carry no type — ${scope}`);
+      // SCOPED TO READABLE PAGES (reviewer ruling 28 Sep; decision 2026-09-28-untitled-documents). A title
+      // can only come from a page someone can read: 942 of 1,029 cache_paths name a file on NEITHER machine
+      // (40/40 control), so demanding a title of them demands the impossible. `cache_path IS NOT NULL` is an
+      // INTENTION recorded at fetch time, so readability is checked on disk here, never assumed from the
+      // column -- and the unreadable are printed as their own numbers, never dropped from the output.
+      const CACHE = process.env.CACHE_DIR ?? path.join(REPO, "scraper", "cache");
+      const unt = (await query<{ cache_path: string | null }>(
+        "SELECT cache_path FROM source_docs WHERE title IS NULL OR title = ''")).rows;
+      let readable = 0, gone = 0, never = 0;
+      for (const u of unt) {
+        if (!u.cache_path) never++;
+        else if (existsSync(path.join(CACHE, u.cache_path))) readable++;
+        else gone++;
+      }
+      // A cache dir that holds NONE of the titled documents' files is the wrong directory, not a wiped
+      // corpus: the control is asked before any zero is believed.
+      const ctl = (await query<{ cache_path: string }>(
+        "SELECT cache_path FROM source_docs WHERE title <> '' AND cache_path IS NOT NULL ORDER BY doc_id LIMIT 40")).rows;
+      const ctlHit = ctl.filter((c) => existsSync(path.join(CACHE, c.cache_path))).length;
+      if (ctl.length && ctlHit === 0) return na(`cache control: 0 of ${ctl.length} titled documents' files are in ` +
+        `${CACHE} — wrong CACHE_DIR, so readability cannot be judged`);
+      const scope = `${total.toLocaleString()} documents across ${rows.length} types; ${unt.length.toLocaleString()} ` +
+        `untitled = ${readable} readable + ${gone} cache file on no machine + ${never} never cached; ` +
+        `cache ${CACHE} (control ${ctlHit}/${ctl.length})`;
+      return readable === 0 && unclassed === 0
+        ? ok(`every readable document carries a title and every document a type — ${scope}`)
+        : bad(`${readable.toLocaleString()} READABLE documents have no title and ${unclassed.toLocaleString()} ` +
+              `carry no type — ${scope}`);
     },
     selfTest: async () => {
       // An EoL bulletin is not spec-bearing however many parts it names: it BINDS SKUs and carries no
@@ -1614,7 +1729,11 @@ const TESTS: Test[] = [
       } catch (e) {
         return none(`/openapi.json could not be reached at ${BASE}: ${e instanceof Error ? e.message : String(e)}`);
       }
-      const WANTED = ["Part", "Fact", "Conflict", "Relation", "Ledger", "Completeness", "Line", "Family", "Model", "ExportRow"];
+      // `Model` IS STRUCK BY RENAME, not by omission: the model level IS `Family`. Migration 0013 made
+      // parts.family the MODEL (the SKU minus its orderable suffix) and kept the old datasheet-title value in
+      // family_raw; /v1/families groups by parts.family. So "no model column" was wrong -- the column is
+      // called family -- and wanting both names would demand one shape twice.
+      const WANTED = ["Part", "Fact", "Conflict", "Relation", "Ledger", "Completeness", "Line", "Family", "ExportRow"];
       const have = Object.keys(doc.components?.schemas ?? {});
       const missing = WANTED.filter((w) => !have.includes(w));
       const scope = `${have.length} schemas declared on the deployment, ${Object.keys(doc.paths ?? {}).length} paths; ` +

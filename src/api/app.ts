@@ -177,12 +177,10 @@ export async function buildApp(opts: AppOptions = {}): Promise<FastifyInstance> 
         // back as: build them. /v1/lines and /v1/lines/{vendor}/{line} serve layer 2, which had no route at
         // all -- the layers travelled on the part record and nothing could ask what lines exist.
         //
-        // `Model` IS STILL ABSENT, and for a reason one level deeper than a missing route: there is no
-        // `model` COLUMN. parts carries product_line, product_family, product_series and bucket. The 8 Sep
-        // decision recorded in D:/Project/CLAUDE.md says the model -- the SKU minus its ordering suffix --
-        // is derivable for 100% of parts and is the right level below series, and it was never built. So
-        // /v1/models is not a route over an existing column, it is layer 5, and that is a decision about
-        // the model rather than about the API.
+        // `Model` IS NOT A SEPARATE SCHEMA BECAUSE IT IS `Family`. An earlier comment here said there was no
+        // `model` column; there is -- it is called `family`. Migration 0013 made parts.family the MODEL (the
+        // SKU minus its orderable suffix) and kept the old datasheet-title value in family_raw, and
+        // /v1/families groups by parts.family. mould:verify's openapi_schemas strikes `Model` for that reason.
         //
         // ExportRow IS PartRecord, by the export contract: /v1/export serves whole records and
         // routes/part.ts states the shape equality as a promise the suite tests. One object, two names,
