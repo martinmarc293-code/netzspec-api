@@ -16,7 +16,13 @@
 // Idempotent and cheap: rows are written only when the computed tuple differs.
 import { getPool, closePool, withTx } from "../store/index.js";
 import { withRun } from "../store/runs.js";
-import { completenessV2, requirementFor, pendingGatesFor, PROFILES, COLUMN_BACKED } from "../core/fieldSchema.js";
+import { completenessV2, requirementFor, pendingGatesFor, PROFILES, COLUMN_BACKED, RELATION_BACKED, relationSatisfies } from "../core/fieldSchema.js";
+
+/** The relation kinds any RELATION_BACKED cup accepts (ruling 12a); only these are loaded per batch. */
+const RELATION_KINDS_NEEDED = [...new Set(Object.values(RELATION_BACKED).flat())];
+/** Key order is not meaning: jsonb reorders keys, so the unchanged-comparison compares a canonical form. */
+const canonCups = (o: Record<string, string> | null | undefined): string =>
+  o ? JSON.stringify(Object.fromEntries(Object.entries(o).sort(([a], [b]) => a.localeCompare(b)))) : "null";
 import { modularPlatform } from "../core/modularPlatform.js";
 import { partKind } from "../core/partKind.js";
 import { deployRole } from "../core/deployRole.js";
@@ -45,7 +51,7 @@ export function parseArgs(argv: string[]): Args {
  * that would settle it. See requirementFor: on `security` this is `rack_units` behind
  * `form_factor`, 6,540 parts that were being told they have no rack units for ever.
  */
-export function requiredFieldsFor(category: string, values: Record<string, unknown>): string[] {
+export function requiredFieldsFor(category: string, values: Record<string, unknown>, relations?: ReadonlySet<string>): string[] {
   const profile = PROFILES[category];
   if (!profile) return [];
   return Object.keys(profile).filter((k) => {
@@ -53,6 +59,8 @@ export function requiredFieldsFor(category: string, values: Record<string, unkno
     // list disagrees with the `required_total` beside it. COLUMN_BACKED keys are required for
     // validation and not a coverage question; see fieldSchema.COLUMN_BACKED.
     if (COLUMN_BACKED.has(k)) return false;
+    // A RELATION_BACKED cup with no sourced relation is not_held: out of the denominator, so out of this list too.
+    if (relations && relationSatisfies(k, relations) === false) return false;
     const r = requirementFor(category, k, values);
     return r === "req" || r === "pending";
   });
@@ -131,13 +139,23 @@ async function run(a: Args): Promise<Record<string, number>> {
       m[f.field_key] = f.value;
       byPart.set(f.part_id, m);
     }
+    // Ruling 12a: each part's SOURCED relation kinds (doc_id or source_url), the only evidence a RELATION_BACKED cup takes.
+    const relKinds = new Map<number, Set<string>>();
+    for (const r of (await pool.query<{ part_id: number; kind: string }>(
+      `SELECT DISTINCT from_part_id AS part_id, kind::text AS kind FROM relations
+        WHERE from_part_id = ANY($1::bigint[]) AND (doc_id IS NOT NULL OR source_url IS NOT NULL)
+          AND kind::text = ANY($2::text[])`, [ids, RELATION_KINDS_NEEDED])).rows) {
+      const k = relKinds.get(Number(r.part_id)) ?? new Set<string>();
+      k.add(r.kind);
+      relKinds.set(Number(r.part_id), k);
+    }
     // THE NEW COLUMNS MUST BE READ HERE OR THE BACKFILL IS A SILENT NO-OP. The unchanged-comparison
     // below decides whether a row is written at all; leaving no_profile_reason out of it would make
     // every already-correct row compare equal and skip, so the first run after migration 0024 would
     // report "unchanged" for 41,067 parts and write no reason anywhere — a recompute that looks like
     // a success and leaves the column NULL, which is exactly the defect the column exists to end.
-    const existing = new Map((await pool.query<{ part_id: number; required_total: number; required_present: number; missing: string[]; required_fields: string[]; no_profile: boolean; no_profile_reason: string | null; no_profile_rule: string | null; pending: number; pending_gates: unknown }>(
-      "SELECT part_id, required_total, required_present, missing, required_fields, no_profile, no_profile_reason, no_profile_rule, pending, pending_gates FROM completeness WHERE part_id = ANY($1::bigint[])", [ids])).rows.map((r) => [r.part_id, r]));
+    const existing = new Map((await pool.query<{ part_id: number; required_total: number; required_present: number; missing: string[]; required_fields: string[]; no_profile: boolean; no_profile_reason: string | null; no_profile_rule: string | null; pending: number; pending_gates: unknown; relation_cups: Record<string, string> | null }>(
+      "SELECT part_id, required_total, required_present, missing, required_fields, no_profile, no_profile_reason, no_profile_rule, pending, pending_gates, relation_cups FROM completeness WHERE part_id = ANY($1::bigint[])", [ids])).rows.map((r) => [r.part_id, r]));
 
     // ONE STATEMENT PER BATCH, NOT ONE PER ROW. The loop below used to await an INSERT for every
     // part it changed. Over the SSH tunnel that is a round trip each — ~300 ms — so a full cisco
@@ -145,14 +163,15 @@ async function run(a: Args): Promise<Record<string, number>> {
     // skip. That is the mechanical cause of the ordering trap this file's run row now records:
     // edit the profile, sync, and quietly never recompute. Collected here and sent as one unnest.
     const pending: { id: number; rt: number; rp: number; pct: number; missing: string; req: string; np: boolean;
-                     reason: string | null; rule: string | null; pending: number; gates: string | null }[] = [];
+                     reason: string | null; rule: string | null; pending: number; gates: string | null; cups: string | null }[] = [];
     await withTx(async (client) => {
       for (const p of slice) {
         const category = cats.get(p.category_id) ?? "";
         const vendorSlug = p.vendor_slug;
         let row: { required_total: number; required_present: number; pct: number; missing: string[]; required_fields: string[]; no_profile: boolean;
                    no_profile_reason: NoProfileReason | null; no_profile_rule: string | null;
-                   pending: number; pending_gates: { cup: string; gate: string[] }[] | null };
+                   pending: number; pending_gates: { cup: string; gate: string[] }[] | null;
+                   relation_cups?: Record<string, string> | null };
         // BRAND ISOLATION (operator, 27 Sep 2026). Profiles are keyed by CATEGORY and never by vendor, so
         // this loop was asking an HPE switch for exactly the cups designed by reading CISCO switches.
         // Measured before the guard: 3,476 live hardware parts across 12 unarranged brands carried 51,769
@@ -232,9 +251,13 @@ async function run(a: Args): Promise<Record<string, number>> {
           // "not derived", and derive-cellular's own control asserts NULL is 0 across the catalogue.
           delete values.cellular;
           if (p.cellular !== null && p.cellular !== undefined) values.cellular = p.cellular;
-          const c = completenessV2(category, values);
+          const rels = relKinds.get(Number(p.id)) ?? new Set<string>();
+          const c = completenessV2(category, values, rels);
           if (c.no_profile) noProfile++;
-          const reqFields = requiredFieldsFor(category, values);
+          const reqFields = requiredFieldsFor(category, values, rels);
+          const cups: Record<string, string> = {};
+          for (const k of c.relation_filled ?? []) cups[k] = "filled";
+          for (const k of c.relation_not_held ?? []) cups[k] = "not_held";
           const pendingCups: { cup: string; gate: string[] }[] = [];
           for (const k of reqFields) {
             const gate = pendingGatesFor(category, k, values);
@@ -255,37 +278,40 @@ async function run(a: Args): Promise<Record<string, number>> {
             // hardware the role table accepts, and there is simply nothing to score it against. It
             // needs its own name or it becomes a not-scored row with a NULL reason, which is the
             // defect this column exists to end reappearing one branch below it.
-            no_profile_reason: c.no_profile ? "category_has_no_profile" : null, no_profile_rule: null };
+            no_profile_reason: c.no_profile ? "category_has_no_profile" : null, no_profile_rule: null,
+            relation_cups: Object.keys(cups).length ? cups : null };
           if (c.no_profile) byReason.set("category_has_no_profile", (byReason.get("category_has_no_profile") ?? 0) + 1);
         }
         const prev = existing.get(p.id);
         if (prev && prev.required_total === row.required_total && prev.required_present === row.required_present && prev.no_profile === row.no_profile
           && prev.no_profile_reason === row.no_profile_reason && prev.no_profile_rule === row.no_profile_rule
           && prev.pending === row.pending && JSON.stringify(prev.pending_gates) === JSON.stringify(row.pending_gates)
-          && JSON.stringify(prev.missing) === JSON.stringify(row.missing) && JSON.stringify(prev.required_fields) === JSON.stringify(row.required_fields)) {
+          && JSON.stringify(prev.missing) === JSON.stringify(row.missing) && JSON.stringify(prev.required_fields) === JSON.stringify(row.required_fields)
+          && canonCups(prev.relation_cups) === canonCups(row.relation_cups)) {
           unchanged++;
           continue;
         }
         pending.push({ id: p.id, rt: row.required_total, rp: row.required_present, pct: row.pct,
           missing: JSON.stringify(row.missing), req: JSON.stringify(row.required_fields), np: row.no_profile,
           reason: row.no_profile_reason, rule: row.no_profile_rule,
-          pending: row.pending, gates: row.pending_gates === null ? null : JSON.stringify(row.pending_gates) });
+          pending: row.pending, gates: row.pending_gates === null ? null : JSON.stringify(row.pending_gates),
+          cups: row.relation_cups ? JSON.stringify(row.relation_cups) : null });
         written++;
       }
       if (pending.length === 0) return;
       const res = await client.query(
-        `INSERT INTO completeness (part_id, required_total, required_present, pct, missing, required_fields, no_profile, no_profile_reason, no_profile_rule, pending, pending_gates, computed_at)
-         SELECT u.id, u.rt, u.rp, u.pct, u.missing::jsonb, u.req::jsonb, u.np, u.reason, u.rule, u.pending, u.gates::jsonb, now()
-           FROM unnest($1::bigint[], $2::int[], $3::int[], $4::numeric[], $5::text[], $6::text[], $7::boolean[], $8::text[], $9::text[], $10::int[], $11::text[])
-                AS u(id, rt, rp, pct, missing, req, np, reason, rule, pending, gates)
+        `INSERT INTO completeness (part_id, required_total, required_present, pct, missing, required_fields, no_profile, no_profile_reason, no_profile_rule, pending, pending_gates, relation_cups, computed_at)
+         SELECT u.id, u.rt, u.rp, u.pct, u.missing::jsonb, u.req::jsonb, u.np, u.reason, u.rule, u.pending, u.gates::jsonb, u.cups::jsonb, now()
+           FROM unnest($1::bigint[], $2::int[], $3::int[], $4::numeric[], $5::text[], $6::text[], $7::boolean[], $8::text[], $9::text[], $10::int[], $11::text[], $12::text[])
+                AS u(id, rt, rp, pct, missing, req, np, reason, rule, pending, gates, cups)
          ON CONFLICT (part_id) DO UPDATE SET required_total = EXCLUDED.required_total, required_present = EXCLUDED.required_present,
            pct = EXCLUDED.pct, missing = EXCLUDED.missing, required_fields = EXCLUDED.required_fields, no_profile = EXCLUDED.no_profile,
            no_profile_reason = EXCLUDED.no_profile_reason, no_profile_rule = EXCLUDED.no_profile_rule,
-           pending = EXCLUDED.pending, pending_gates = EXCLUDED.pending_gates, computed_at = now()`,
+           pending = EXCLUDED.pending, pending_gates = EXCLUDED.pending_gates, relation_cups = EXCLUDED.relation_cups, computed_at = now()`,
         [pending.map((x) => x.id), pending.map((x) => x.rt), pending.map((x) => x.rp), pending.map((x) => x.pct),
          pending.map((x) => x.missing), pending.map((x) => x.req), pending.map((x) => x.np),
          pending.map((x) => x.reason), pending.map((x) => x.rule),
-         pending.map((x) => x.pending), pending.map((x) => x.gates)]);
+         pending.map((x) => x.pending), pending.map((x) => x.gates), pending.map((x) => x.cups)]);
       // The batch write must land every row it was given. A partial write and a complete one both
       // return a plausible number, so assert the count rather than reading it.
       if (res.rowCount !== pending.length) {

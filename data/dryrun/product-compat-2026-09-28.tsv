@@ -1,0 +1,80 @@
+sku	action	value	relations
+8800-RP	promote	["8804","8808","8812","8818"]	8804 | 8808 | 8812 | 8818
+8800-RP2	promote	["8804","8808","8818"]	8804 | 8808 | 8818
+8804-FC0	promote	["8804"]	8804
+8808-FC	promote	["8808"]	8808
+8808-FC0	promote	["8808"]	8808
+8812-FC	promote	["8812"]	8812
+8818-FC	promote	["8818"]	8818
+8818-FC0	promote	["8818"]	8818
+8818-FC1	promote	["8818"]	8818
+CAB-CONSOLE-RJ45	retract prose	["All models"]	
+CRS-4/S	retract prose	["Compatible with all current Cisco CRS Family modular services cards (MSCs)","forwarding processor (FP)","Interface Modules (PLIMs)","route processors","fabric c"]	
+E-N1K-QXP-TRK-L=	promote	["NCS 1004"]	NCS 1004
+E-N1K-QXP-TRKE-L=	promote	["NCS 1004"]	NCS 1004
+HCI-CPU-I4509Y2	retract prose	["All Flash","All NVMe"]	
+HCI-CPU-I4510	retract prose	["All Flash/All NVMe"]	
+HCI-CPU-I45102	retract prose	["All Flash","All NVMe"]	
+HCI-CPU-I4510T	retract prose	["All Flash/All NVMe"]	
+HCI-CPU-I4510T2	retract prose	["All Flash","All NVMe"]	
+HCI-CPU-I4514Y	retract prose	["All Flash/All NVMe"]	
+HCI-CPU-I5512U1	retract prose	["All Flash"]	
+HCI-CPU-I6538Y+	retract prose	["All Flash/All NVMe"]	
+HCI-CPU-I6548N	retract prose	["All Flash/All NVMe"]	
+HCI-CPU-I6554S	retract prose	["All Flash/All NVMe"]	
+HCI-CPU-I8558U1	retract prose	["All Flash"]	
+HCI-CPU-I8571N	retract prose	["All Flash"]	
+HCI-CPU-I8571N1	retract prose	["All Flash"]	
+HCI-CPU-I8581V1	retract prose	["All Flash"]	
+HWIC-2SHDSL	promote	["Cisco 1841","2801","2811","2821","2851","3825","3845"]	Cisco 1841 | 2801 | 2811 | 2821 | 2851 | 3825 | 3845
+HWIC-4SHDSL	promote	["Cisco 1841","2801","2811","2821","2851","3825","3845"]	Cisco 1841 | 2801 | 2811 | 2821 | 2851 | 3825 | 3845
+HWIC-4SHDSL-E	promote	["Cisco 1841","1861","2801","2821","2851","3845","1921","1941","2901","2911","2921","2951","3925","3925E","3945","3945E"]	Cisco 1841 | 1861 | 2801 | 2821 | 2851 | 3845 | 1921 | 1941 | 2901 | 2911 | 2921 | 2951 | 3925 | 3925E | 3945 | 3945E
+MV32	retract prose	["Telescoping Pendant Mount","Wall Mount Arm (but not recommended)"]	
+MV52	retract prose	["Pole Mount"]	
+MV53X	retract prose	["Pole mount","Conduit back box","Corner Mount"]	
+NCS1K14-BLANK-2=	promote	["NCS 1014"]	NCS 1014
+NCS1K4-FLTR-ASL=	promote	["NCS1004"]	NCS1004
+NCS2K-TNCS-K9	promote	["NCS2002"]	NCS2002
+NCS2K-TNCS-K9=	promote	["NCS 2002"]	NCS 2002
+RCKMNT-19-CMPCT=	retract prose	["All 8/16 port models"]	
+RCKMNT-1RU-1K=	retract prose	["All 24/48 port models *"]	
+RCKMNT-23-CMPCT=	retract prose	["All 8/16 port models"]	
+RCKMNT-CMPCT-1K=	retract prose	["All 8/16/16P port models"]	
+S-N1K-QXP-TRK-L=	promote	["NCS 1004"]	NCS 1004
+S-N1K-QXP-TRKE-L=	promote	["NCS 1004"]	NCS 1004
+S-NCS4K-POTS=	promote	["NCS 4000"]	NCS 4000
+SNCS42R2NK91710	promote	["NCS4200"]	NCS4200
+SNCS42R2NK9176	promote	["NCS4200"]	NCS4200
+SNCS42R2NK9177	promote	["NCS4200"]	NCS4200
+SNCS42R2NK9178	promote	["NCS4200"]	NCS4200
+SNCS42R2NK9179	promote	["NCS4200"]	NCS4200
+SNCS42R3K91710	promote	["NCS4200"]	NCS4200
+SNCS42R3K9176	promote	["NCS4200"]	NCS4200
+SNCS42R3K9177	promote	["NCS4200"]	NCS4200
+SNCS42R3K9178	promote	["NCS4200"]	NCS4200
+SNCS42R3K9179	promote	["NCS4200"]	NCS4200
+SNCS42R3NK91710	promote	["NCS4200"]	NCS4200
+SNCS42R3NK9176	promote	["NCS4200"]	NCS4200
+SNCS42R3NK9177	promote	["NCS4200"]	NCS4200
+SNCS42R3NK9178	promote	["NCS4200"]	NCS4200
+SNCS42R3NK9179	promote	["NCS4200"]	NCS4200
+ST-M5-HDD-1.2TB=	promote	["SMC2210","FC4210","FC5210-D","DS6200"]	SMC2210 | FC4210 | FC5210-D | DS6200
+ST-M5-HDD-600GB=	promote	["FS1210","FS3210","FS4210","FS4240","UDP2210","FC5210-E"]	FS1210 | FS3210 | FS4210 | FS4240 | UDP2210 | FC5210-E
+ST-M5-PWR-AC-1050=	promote	["FS1210","FS3210","FS4210","FS4240","SMC2210","FC4210","FC5210-E","FC5210-D","DS6200","UDP2210"]	FS1210 | FS3210 | FS4210 | FS4240 | SMC2210 | FC4210 | FC5210-E | FC5210-D | DS6200 | UDP2210
+ST-M5-PWR-AC-770W=	promote	["FS1210","FS3210","FS4210","FS4240","SMC2210","FC4210","FC5210-E","FC5210-D","DS6200","UDP2210"]	FS1210 | FS3210 | FS4210 | FS4240 | SMC2210 | FC4210 | FC5210-E | FC5210-D | DS6200 | UDP2210
+UCS-FI-64108	retract mixed	["Configured model: UCS 64108 2RU FI","with no PSU","with 108 ports","includes 36x10/25-Gbps","4x40/100-Gbps port licenses"]	
+UCS-FI-64108-U	retract mixed	["Standalone model: UCS 64108 2RU FI","with no PSU","with 108 ports","includes 36x10/25-Gbps","4x40/100-Gbps port licenses"]	
+UCS-FI-6454	retract mixed	["Configured model: UCS 6454 1RU FI","with no PSU","with 54 ports","includes 18x10/25-Gbps","2x40/100-Gbps port licenses"]	
+UCS-FI-6454++	retract mixed	["Standalone model: TAA-UCS 6454 1RU FI","with no PSU","with 54 ports","includes 18x10/25-Gbps","2x40/100-Gbps port licenses"]	
+UCS-FI-6454-U	retract mixed	["Standalone model: 1RU FI","with no PSU","with 54 ports","includes 18x10/25-Gbps","2x40/100-Gbps port licenses"]	
+UCS-FI-6536-U	retract prose	["1RU FI for UCS Manager","with no PSU","with 36 ports"]	
+UCS-FI-6652-SW	retract prose	["Auto included mandatory perpetual software license"]	
+UCS-FI-6652-U	retract prose	["1RU FI","with no PSU","with 52 ports"]	
+UCS-FI-6664-SW	retract prose	["Auto included mandatory perpetual software license"]	
+UCS-FI-6664-U	retract prose	["2RU FI","with no PSU","with 64 ports"]	
+UCS-HD12TB10K12N=	promote	["SMC2300","FC4300"]	SMC2300 | FC4300
+UCS-HD18TB10K4KN=	promote	["DN6300"]	DN6300
+UCS-HD600G10K12N=	promote	["FS3300","FS4300"]	FS3300 | FS4300
+UCSC-PSU1-1050W=	promote	["FS3300","FS4300","SMC2300","FC4300","DN6300"]	FS3300 | FS4300 | SMC2300 | FC4300 | DN6300
+UCSC-RAILB-M4=	promote	["FS1210","FS3210","FS4210","FS4240","SMC2210","FC4210","FC5210-E","FC5210-D","DS6200","UDP2210"]	FS1210 | FS3210 | FS4210 | FS4240 | SMC2210 | FC4210 | FC5210-E | FC5210-D | DS6200 | UDP2210
+UCSX-FI-6536-U	retract prose	["1RU FI for Intersight (IMM)","with no PSU","with 36 ports"]	

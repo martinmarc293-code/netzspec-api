@@ -53,6 +53,7 @@ export type CollabKind =
   | "touch-panel" | "display" | "expansion-module" | "voice-gateway" | "ata" | "voice-module" | "server"
   | "cpu" | "memory" | "drive" | "nic" | "storage-controller" | "tpm" | "flash"
   | "power" | "power-cord" | "cable" | "mechanical" | "accessory" | "transceiver" | "software"
+  | "bundle"   // ruling 12a (28 Sep 2026): solution carts, promo bundles and demo kits; bundle_contents is relation-backed
   | "unknown";
 
 /** Every kind the axis can name — the ledger lists all of them, including kinds no part holds today. */
@@ -72,7 +73,7 @@ export const COLLAB_KINDS: readonly CollabKind[] = [
   "phone", "dect-base", "video-device", "video-codec", "conference-camera", "microphone", "speaker", "headset",
   "touch-panel", "display", "expansion-module", "voice-gateway", "ata", "voice-module", "server",
   "cpu", "memory", "drive", "nic", "storage-controller", "tpm", "flash",
-  "power", "power-cord", "cable", "mechanical", "accessory", "transceiver", "software", "unknown",
+  "power", "power-cord", "cable", "mechanical", "accessory", "transceiver", "software", "bundle", "unknown",
 ];
 
 /** The server parts inside a collaboration appliance, named with the UCS component kinds (one cup set per name, rule 3). */

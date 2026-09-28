@@ -19,7 +19,7 @@
 import { shapeIsDefinition } from "../src/core/listShapes.js";
 import { STRUCT_EXAMPLES } from "../src/core/structExamples.js";
 import { normalizeField } from "../src/core/specNormalize.js";
-import { FIELD_DICTIONARY, PROFILES, COLUMN_BACKED, domainFor, bandFor, FREE_TEXT_BY_DECISION, requirementFor, type Requirement } from "../src/core/fieldSchema.js";
+import { FIELD_DICTIONARY, PROFILES, COLUMN_BACKED, RELATION_BACKED, domainFor, bandFor, FREE_TEXT_BY_DECISION, requirementFor, type Requirement } from "../src/core/fieldSchema.js";
 import { uncoveredEnumValues } from "../src/core/renderContract.js";
 import { mouldStatuses } from "../src/core/brandMould.js";
 import { NO_PROFILE_REASONS } from "../src/core/noProfileReason.js";
@@ -192,7 +192,7 @@ const RUN_KIND_CLASS: Record<string, { approval: boolean; gate: boolean }> = {
   "recompute-completeness": D, "write-layers-to-db": D, "build-spare-of": D, "derive-link-provenance": D,
   "derive-part-states": D, "fill-family-from-hct-category": D, "sync-dictionary": D, "name-language": D,
   "name-spare-packaging": D, "name-spare-wording": D, "images": D, "probe-failure-reason": D,
-  "backfill-doc-titles": D, "record-title-provenance": D, "record-retroactive-approval": A, "retro-gate": A, "apply-series-hints": AG,
+  "backfill-doc-titles": D, "record-title-provenance": D, "record-retroactive-approval": A, "retro-gate": A, "apply-series-hints": AG, "apply-product-compat": AG,
 };
 // The vendor this lane has axes for; vendor_coverage owns every other vendor's hardware (unknown_zero counts them apart).
 const OWN_VENDOR = "cisco";
@@ -328,6 +328,7 @@ const TESTS: Test[] = [
       for (const r of enumRows) if (r.kind) kindsIn.set(r.cat, (kindsIn.get(r.cat) ?? new Set()).add(r.kind));
       const byDecision: string[] = [];
       const byShape: string[] = [];
+      const byRelation = new Set<string>();
       let seen = 0;
       for (const [cat, prof] of Object.entries(PROFILES)) {
         for (const [key, rule] of Object.entries(prof as Record<string, Requirement>)) {
@@ -340,6 +341,9 @@ const TESTS: Test[] = [
           if (kind !== "req" && kind !== "cond") continue;
           const d = FIELD_DICTIONARY[key] as { type?: string; unit?: string | null; band?: unknown; shape?: unknown } | undefined;
           if (!d || COLUMN_BACKED.has(key)) continue;
+          // A RELATION_BACKED cup is defined by the relation kinds that answer it (ruling 12a), not by a domain or shape:
+          // counted as its own number, never skipped silently.
+          if (RELATION_BACKED[key]) { byRelation.add(`${cat}/${key}`); continue; }
           seen++;
           const t = d.type;
           // A DOMAIN **OR** A SHAPE. A list cup is checkable when something can refuse a wrong value,
@@ -440,7 +444,7 @@ const TESTS: Test[] = [
         ? `; ${unsatisfiable.length} required enum/list cup(s) are UNSATISFIABLE for the kind that must fill them -- the domain exists and their OWN stored values are outside it: ${unsatisfiable.slice(0, 6).join("; ")}${unsatisfiable.length > 6 ? ` +${unsatisfiable.length - 6} more` : ""}`
         : `; every required enum/list cup is SATISFIABLE by the kinds required to fill it (${enumAsked} category/kind/cup triples read against ${enumRows.length} stored value groups)`;
       return badCups.length === 0 && unsatisfiable.length === 0
-        ? ok(`all ${seen} required/conditional cups carry a domain, a band, or a shape WHOSE PARSER ACCEPTS ITS OWN CANONICAL EXAMPLE` + (byShape.length ? `; ${byShape.length} defined by a registered shape (${[...new Set(byShape.map((c) => c.split("/")[1]))].join(", ")})` : "") + (byDecision.length ? `; ${byDecision.length} are free text by recorded decision (${[...new Set(byDecision.map((c) => c.split("/")[1]))].join(", ")})` : "") + satLine)
+        ? ok(`all ${seen} required/conditional cups carry a domain, a band, or a shape WHOSE PARSER ACCEPTS ITS OWN CANONICAL EXAMPLE` + (byRelation.size ? `; ${byRelation.size} relation-backed (defined by their relation kinds, ruling 12a)` : "") + (byShape.length ? `; ${byShape.length} defined by a registered shape (${[...new Set(byShape.map((c) => c.split("/")[1]))].join(", ")})` : "") + (byDecision.length ? `; ${byDecision.length} are free text by recorded decision (${[...new Set(byDecision.map((c) => c.split("/")[1]))].join(", ")})` : "") + satLine)
         : bad(`${badCups.length} of ${seen} required/conditional cups cannot be checked` + (structUntested.length ? `; ${structUntested.length} struct cup(s) have NO canonical example so their parser was NOT TESTED (${[...new Set(structUntested)].join(", ")}) — not counted defined and not counted broken` : ``) + (byShape.length ? `; ${byShape.length} are defined by a registered SHAPE (${[...new Set(byShape.map((c) => c.split("/")[1]))].join(", ")})` : "") + (byDecision.length ? `; a further ${byDecision.length} are free text by recorded decision (${[...new Set(byDecision.map((c) => c.split("/")[1]))].join(", ")}) and are NOT counted as gaps` : "") + `: ${badCups.slice(0, 10).join("; ")}${badCups.length > 10 ? ` … +${badCups.length - 10}` : ""}` + satLine);
     },
   },

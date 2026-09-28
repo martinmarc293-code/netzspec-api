@@ -1,13 +1,27 @@
 // src/core/kindOverrides.ts — kinds for SKUs no axis can classify, one entry per SKU, ruled 28 Sep 2026
 // (docs/decisions/2026-09-28-unknown-kind-106.md; reviewer ruling 12). Consulted by partKind ONLY where the category's axis
 // answers unknown, so an axis that learns a SKU wins; tests/kindOverrides.test.ts fails on such a stale entry and on any
-// kind the category does not declare. Parked, not here: 13 collab bundles (no bundle kind in collab), 4036797.1610 (ont
-// is declared nowhere), CIT3-FI-M-6324 (a category move).
+// kind the category does not declare. Parked, not here: 4036797.1610 (ont
+// is declared nowhere), CIT3-FI-M-6324 (a category move). The 13 collab bundles joined with ruling 12a.
 export type KindOverride = { category: string; kind: string };
 export const KIND_OVERRIDES: Readonly<Record<string, KindOverride>> = {
   // collaboration-endpoints
   "CS-R-USB-UPG-BUN": { category: "collaboration-endpoints", kind: "accessory" },
   "WBP54G": { category: "collaboration-endpoints", kind: "accessory" },
+  // collaboration-endpoints: carts, promo bundles and demo kits -> bundle (ruling 12a, 28 Sep 2026)
+  "AVIZ-EDU=": { category: "collaboration-endpoints", kind: "bundle" },
+  "AVIZ-SYN=": { category: "collaboration-endpoints", kind: "bundle" },
+  "AVIZ-TAC-K9": { category: "collaboration-endpoints", kind: "bundle" },
+  "CTS-ATP-MX200-K9": { category: "collaboration-endpoints", kind: "bundle" },
+  "CTS-ATP-MX300-K9": { category: "collaboration-endpoints", kind: "bundle" },
+  "CTS-ATP-PHD-USB": { category: "collaboration-endpoints", kind: "bundle" },
+  "CTS-ATP-PHD4XS1": { category: "collaboration-endpoints", kind: "bundle" },
+  "CTS-ATP-QSC20-K9": { category: "collaboration-endpoints", kind: "bundle" },
+  "CTS-ATP-QSC20-MIC": { category: "collaboration-endpoints", kind: "bundle" },
+  "CTS-MXNMTCH-PRM-K9": { category: "collaboration-endpoints", kind: "bundle" },
+  "CTS-TPEB-PRM-K9": { category: "collaboration-endpoints", kind: "bundle" },
+  "CTS-TPSB-PRM-K9": { category: "collaboration-endpoints", kind: "bundle" },
+  "CTS-VNDCNCT-PR-K9": { category: "collaboration-endpoints", kind: "bundle" },
   // interfaces-modules
   "AIM-DES/BP": { category: "interfaces-modules", kind: "module" },
   "SM-EC-3DES": { category: "interfaces-modules", kind: "module" },

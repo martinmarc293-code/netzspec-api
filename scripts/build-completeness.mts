@@ -215,9 +215,10 @@ async function main(): Promise<void> {
   if (refusal) throw new Error(refusal);
 
   const partRows = await q<{ id: string; sku: string; name: string | null; category: string; series: string | null; family: string | null;
-    required_total: number | null; required_fields: string[] | null; required_present: number | null }>("parts", `
+    required_total: number | null; required_fields: string[] | null; required_present: number | null;
+    relation_cups: Record<string, string> | null }>("parts", `
     SELECT p.id::text, p.sku, p.name, ct.slug AS category, p.series, p.family,
-           cp.required_total, cp.required_fields, cp.required_present
+           cp.required_total, cp.required_fields, cp.required_present, cp.relation_cups
       FROM parts p JOIN vendors v ON v.id = p.vendor_id JOIN categories ct ON ct.id = p.category_id
       LEFT JOIN completeness cp ON cp.part_id = p.id
      WHERE v.slug = $1 AND p.retired_at IS NULL AND p.product_class = 'hardware'
@@ -339,6 +340,7 @@ async function main(): Promise<void> {
   // same key: parts whose rule says the row is not this kind, split by the state of their move/class plan (6b)
   const roleIssue = new Map<string, KindIssueBreakdown>();
   const kindIssueRows: { category: string; kind: string; sku: string; status: PlanStatus; plan: KindLayerPlan | null }[] = [];
+  const relAcc = new Map<string, { filled: number; not_held: number }>();   // `${category}|${kind}|${key}` (ruling 12a)
   const cupAcc = new Map<string, CupAcc>();             // `${category}|${kind}|${key}`
   const pendingReclass = new Map<string, number>();
   const notHeldByClass = new Map<string, number>();
@@ -412,6 +414,15 @@ async function main(): Promise<void> {
       else notHeldByClass.set("(no document linked)", (notHeldByClass.get("(no document linked)") ?? 0) + 1);
     }
     const pf = factsByPart.get(p.id);
+    // RELATION-BACKED CUPS (ruling 12a): counted per kind as filled / not_held, so the owner sees how many components
+    // still owe their host. A not_held one is not in required_fields (out of the denominator), so it appears only here.
+    const rc = p.relation_cups ?? {};
+    for (const [key, st] of Object.entries(rc)) {
+      const rk = `${p.category}|${kind}|${key}`;
+      const e = relAcc.get(rk) ?? { filled: 0, not_held: 0 };
+      if (st === "filled") e.filled++; else e.not_held++;
+      relAcc.set(rk, e);
+    }
     // THE GATE, AS RECOMPUTE SEES IT: a gate is answered by a verified or corroborated fact, or by a column
     // (vendor, series/family) or by the derived kind (recompute-completeness.ts builds `values` exactly so).
     const gateAnswered = (g: string): boolean => g === "vendor" || g === "kind" || (g === "series" && Boolean(p.series || p.family))
@@ -428,7 +439,8 @@ async function main(): Promise<void> {
       const f = pf?.get(key);
       let state: SlotState = "not_parsed";
       let cnr = false, inh = false, notRendered = false, placeholder = false;
-      if (f && f.state === "gap_confirmed") state = "not_published";
+      if (rc[key] === "filled") state = "filled";   // answered by a sourced relation, not by a fact (ruling 12a)
+      else if (f && f.state === "gap_confirmed") state = "not_published";
       else if (f && !f.vnull && !GAP_STATES.has(f.state)) {
         placeholder = isPlaceholder(f.raw);
         if (FIELD_DICTIONARY[key] && couldNotReplay(key, f)) { cnr = true; state = "filled"; }
@@ -512,8 +524,11 @@ async function main(): Promise<void> {
           null_share_excluding_kind_issue: nullShareExcludingKindIssue(ka.parts, ra.parts, ki.kind_issue_parts),
           display: unresolvedDisplay(ra.parts, ki), ...block(ra) }];
       })) : undefined;
+      const relationBacked: Record<string, { filled: number; not_held: number }> = {};
+      for (const [rk, e] of relAcc) { const [c3, k3, key] = rk.split("|"); if (c3 === category && k3 === kind) relationBacked[key] = e; }
       kinds.push({ kind, parts: ka.parts, resolved: !isUnresolved(kind), asked_nothing: nothing, ...block(ka), cups,
-        role_axis: axis, ...(roles ? { roles } : {}) });
+        role_axis: axis, ...(roles ? { roles } : {}),
+        ...(Object.keys(relationBacked).length ? { relation_backed: relationBacked } : {}) });
     }
     kinds.sort((x, y) => y.parts - x.parts || x.kind.localeCompare(y.kind));
     categories.push({

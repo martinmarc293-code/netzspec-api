@@ -1114,6 +1114,14 @@ const cond = (when: Condition, opts?: { elseOpt?: boolean }): Requirement =>
 // ledger and the completeness report, never counted as a gap a source could fill.
 export const COLUMN_BACKED: ReadonlySet<string> = new Set(["vendor", "series", "deploy_role", "modular", "cellular"]);
 
+/** Keys whose requirement is answered by RELATIONS, not facts (reviewer ruling 12a, 28 Sep 2026; state.md). Declared once
+ *  here, so every profile naming the key inherits it: filled when the part has >= 1 SOURCED relation (doc_id or
+ *  source_url) of one of these kinds FROM it, otherwise not_held — an acquisition gap, out of the denominator. */
+export const RELATION_BACKED: Readonly<Record<string, readonly string[]>> = {
+  bundle_contents: ["bundle_contains"],
+  product_compatibility: ["compatible"],
+};
+
 /**
  * Ask a flat block of requirements only of a DEVICE — never of a power supply, fan, cable, rack
  * kit or software image. Applied to a whole profile object: every UNCONDITIONAL `req` becomes
@@ -1458,6 +1466,9 @@ const apRole = (roles: string[]): Requirement =>
 // nobody has ruled on. The escalation is therefore half-open, and says so rather than disappearing.
 const collabBlock = (): Record<string, Requirement> => ({
   vendor: req, series: req,
+  // Ruling 12a (28 Sep 2026): a collab bundle is asked what it contains, like every other category's bundle; the cup is
+  // RELATION_BACKED (bundle_contains), so it is filled by a sourced relation and never by a string.
+  bundle_contents: cK(["bundle"]),
   // THE D ROW, BACK. 308 collaboration-endpoints cables, 159 naming a connector in the part name (hdmi 94,
   // rj45 31, usb-c 18, usb-a 16, usb-b 11, dvi 10, 3.5mm 8 …), every token counted now in the domain. It was
   // withdrawn a day earlier on the strength of `connector` holding 2,328 facts SOMEWHERE — the wrong question.
@@ -4355,6 +4366,9 @@ export type CompletenessV2 = {
   /** true when the category has no profile — such a part is EXCLUDED from reporting rather
    *  than scored 0/0 = 100%. Sabotage case S16. */
   no_profile: boolean;
+  /** RELATION_BACKED keys this part owes, split by whether a sourced relation answers them (only when relations were given). */
+  relation_filled?: string[];
+  relation_not_held?: string[];
 };
 
 /**
@@ -4369,13 +4383,14 @@ export type CompletenessV2 = {
  * into a required field nobody scores and nobody notices is missing.
  */
 
-export function completenessV2(category: string, values: PartValues): CompletenessV2 {
+export function completenessV2(category: string, values: PartValues, relations?: ReadonlySet<string>): CompletenessV2 {
   const profile = PROFILES[category];
   if (!profile) {
     return { category, required_total: 0, required_present: 0, missing: [], optional_present: 0,
       na: 0, pct: 0, no_profile: true };
   }
   const missing: string[] = [];
+  const relationFilled: string[] = [], relationNotHeld: string[] = [];
   let requiredTotal = 0, requiredPresent = 0, optionalPresent = 0, na = 0;
   for (const key of Object.keys(profile)) {
     // A KEY BACKED BY A COLUMN IS NOT A SPECIFICATION AND IS NOT SCORED. `vendor` and `series` sit
@@ -4393,6 +4408,12 @@ export function completenessV2(category: string, values: PartValues): Completene
     // while the required_fields list treated it as required — the two disagreed on any part whose
     // gate field was unanswered, which is 6,540 of security's 5,782 hardware parts for rack_units.
     if (kind === "req" || kind === "pending") {
+      // A RELATION_BACKED cup is answered by a sourced relation, never by a fact; with none it is not_held and leaves
+      // the denominator (ruling 12a). Only when the caller supplies the part's relation kinds — without them the old
+      // fact-based reading stands, so a caller that never loads relations is not silently rescored.
+      const via = relations ? relationSatisfies(key, relations) : null;
+      if (via === true) { requiredTotal++; requiredPresent++; relationFilled.push(key); continue; }
+      if (via === false) { relationNotHeld.push(key); continue; }
       requiredTotal++;
       if (present) requiredPresent++;
       else missing.push(key);
@@ -4407,7 +4428,15 @@ export function completenessV2(category: string, values: PartValues): Completene
     optional_present: optionalPresent, na,
     pct: requiredTotal === 0 ? 0 : Math.round((requiredPresent / requiredTotal) * 1000) / 10,
     no_profile: false,
+    ...(relations ? { relation_filled: relationFilled, relation_not_held: relationNotHeld } : {}),
   };
+}
+
+/** For a RELATION_BACKED key: true when one of its kinds is among the part's sourced relation kinds, false when none is;
+ *  null for a key that is not relation-backed. The one predicate completenessV2 and requiredFieldsFor both use. */
+export function relationSatisfies(key: string, relations: ReadonlySet<string>): boolean | null {
+  const kinds = RELATION_BACKED[key];
+  return kinds ? kinds.some((k) => relations.has(k)) : null;
 }
 
 /** Static counts per category — reported by validate-schema.ts. `base_req` counts only the

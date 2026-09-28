@@ -120,6 +120,8 @@ export type KindBlock = Block & {
   role_axis?: string | null;
   /** present exactly when role_axis is non-null: every role of the domain, then `(unresolved)` */
   roles?: Record<string, RoleBlock>;
+  /** RELATION_BACKED cups this kind owes (ruling 12a): parts answered by a sourced relation / parts with none (not_held). */
+  relation_backed?: Record<string, { filled: number; not_held: number }>;
 };
 export type CategoryBlock = Block & {
   category: string; profile_hash: string | null; ledger_built_on_commit: string | null;
