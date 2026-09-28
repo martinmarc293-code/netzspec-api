@@ -472,7 +472,11 @@ for (const f of files) {
     "cable:wireless": "antenna and mounting leads; 28 readable, connector 0% and media 0%",
     "chassis:switches": "a Catalyst chassis is bought on its slots, its supply configuration and what it occupies in a rack; the envelope and the certifications are stated on the supervisor's sheet, not the chassis's — 64 readable, temp_operating 17.2% and the other six cups 0%",
     "module:wireless": "a wireless module is a radio or an uplink: 17 readable, data_rate 58.8% and power_max 41.2%. `ports` is asked and 0 of 17 state one — it reads not_parsed against 1,213 labels, so it is fill work",
-    "appliance:meraki": "an MX is a security appliance and is sold like one: 17 readable, mounting 94.1%, psu_options 76.5%, firewall_throughput 47.1%. The `appliance` kind elsewhere is a CMX/location server or a small branch box",
+    // "appliance:meraki" STOOD HERE and is gone with the kind (28 Sep 2026). Its reason was "an MX is a
+    // security appliance and is sold like one: 17 readable, mounting 94.1%, psu_options 76.5%,
+    // firewall_throughput 47.1%" -- all true, and all now facts about `security`/`firewall`, where the 18
+    // MX live. merakiKind has no `appliance` rule any more, so the pair this exception names cannot exist,
+    // and the check that reports a stale exception is the one that found it.
     "sensor:wireless": "an 802.11 air-quality sensor is an access point in everything but name (radios, spatial streams, PoE); a Meraki MT is a battery IoT sensor. Same word, two products — and NO readable part here, so could-not-measure",
     "antenna:wireless": "an antenna is bought on its gain, its connector and its bands: 133 readable, antenna_connector 52.6%. antenna_gain reads 0% AND not_parsed against 52 labels, so it is fill work, not a cup that should come off. A router antenna is an accessory whip with no published pattern",
   };

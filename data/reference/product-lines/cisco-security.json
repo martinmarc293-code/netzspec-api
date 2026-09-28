@@ -432,6 +432,84 @@
     }
    ],
    "no_family_reason": "Security Manager, Prime Security Manager and Secure Workload are separate Cisco security products, with no family between them and their appliances"
+  },
+  {
+   "line": "Meraki MX Security and SD-WAN Appliances",
+   "series": [
+    {
+     "series": "MX64",
+     "sku": [
+      "^MX64(?![0-9])"
+     ]
+    },
+    {
+     "series": "MX65",
+     "sku": [
+      "^MX65(?![0-9])"
+     ]
+    },
+    {
+     "series": "MX67",
+     "sku": [
+      "^MX67(?![0-9])"
+     ]
+    },
+    {
+     "series": "MX68",
+     "sku": [
+      "^MX68(?![0-9])"
+     ]
+    },
+    {
+     "series": "MX75",
+     "sku": [
+      "^MX75(?![0-9])"
+     ]
+    },
+    {
+     "series": "MX84",
+     "sku": [
+      "^MX84(?![0-9])"
+     ]
+    },
+    {
+     "series": "MX85",
+     "sku": [
+      "^MX85(?![0-9])"
+     ]
+    },
+    {
+     "series": "MX95",
+     "sku": [
+      "^MX95(?![0-9])"
+     ]
+    },
+    {
+     "series": "MX100",
+     "sku": [
+      "^MX100(?![0-9])"
+     ]
+    },
+    {
+     "series": "MX105",
+     "sku": [
+      "^MX105(?![0-9])"
+     ]
+    },
+    {
+     "series": "MX250",
+     "sku": [
+      "^MX250(?![0-9])"
+     ]
+    },
+    {
+     "series": "MX450",
+     "sku": [
+      "^MX450(?![0-9])"
+     ]
+    }
+   ],
+   "no_family_reason": "Cisco names each MX model directly under MX; its datasheets pair models ('MX64 and MX65', 'MX67 and MX68') without a family name. MX16 / MX18 / MX26 are firmware versions and MX650 a page tag, each with a class plan"
   }
  ],
  "shared_accessories": [

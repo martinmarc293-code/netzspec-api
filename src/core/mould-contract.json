@@ -1,9 +1,9 @@
 {
-  "contract_hash": "6c140f9084304e5f",
-  "generated_at": "2026-09-28T14:06:05.329Z",
-  "code_commit": "b8e208098ff842a3f129e9611a192a429cbe328c",
+  "contract_hash": "1a62b6dedddf519c",
+  "generated_at": "2026-09-28T14:36:58.080Z",
+  "code_commit": "91e7898e2534b4c5121de3cb5667d5702abd2f33",
   "code_branch": "cisco",
-  "dirty_files": 3,
+  "dirty_files": 23,
   "counts": {
     "dictionary_keys": 607,
     "categories": 26,
@@ -14758,8 +14758,7 @@
             "field": "kind",
             "inList": [
               "switch",
-              "access-point",
-              "appliance"
+              "access-point"
             ]
           }
         },
@@ -14767,13 +14766,7 @@
           "kind": "opt"
         },
         "concurrent_sessions": {
-          "kind": "cond",
-          "when": {
-            "field": "kind",
-            "inList": [
-              "appliance"
-            ]
-          }
+          "kind": "opt"
         },
         "connector": {
           "kind": "opt"
@@ -14803,7 +14796,6 @@
             "inList": [
               "switch",
               "access-point",
-              "appliance",
               "security-camera",
               "environment-sensor",
               "cellular-gateway"
@@ -14832,13 +14824,7 @@
           "kind": "opt"
         },
         "firewall_throughput": {
-          "kind": "cond",
-          "when": {
-            "field": "kind",
-            "inList": [
-              "appliance"
-            ]
-          }
+          "kind": "opt"
         },
         "flash": {
           "kind": "opt"
@@ -14848,8 +14834,7 @@
           "when": {
             "field": "kind",
             "inList": [
-              "switch",
-              "appliance"
+              "switch"
             ]
           }
         },
@@ -14890,7 +14875,6 @@
             "inList": [
               "switch",
               "access-point",
-              "appliance",
               "security-camera",
               "environment-sensor",
               "cellular-gateway"
@@ -14937,13 +14921,7 @@
           "kind": "opt"
         },
         "ipsec_throughput": {
-          "kind": "cond",
-          "when": {
-            "field": "kind",
-            "inList": [
-              "appliance"
-            ]
-          }
+          "kind": "opt"
         },
         "ipsec_tunnels": {
           "kind": "opt"
@@ -15003,7 +14981,6 @@
             "inList": [
               "switch",
               "access-point",
-              "appliance",
               "security-camera",
               "environment-sensor",
               "cellular-gateway",
@@ -15080,7 +15057,6 @@
             "inList": [
               "switch",
               "access-point",
-              "appliance",
               "cellular-gateway"
             ]
           }
@@ -15095,7 +15071,6 @@
             "inList": [
               "switch",
               "access-point",
-              "appliance",
               "security-camera",
               "cellular-gateway"
             ]
@@ -15153,7 +15128,6 @@
             "inList": [
               "switch",
               "access-point",
-              "appliance",
               "security-camera",
               "environment-sensor",
               "cellular-gateway"
@@ -15321,7 +15295,6 @@
             "inList": [
               "switch",
               "access-point",
-              "appliance",
               "security-camera",
               "environment-sensor",
               "cellular-gateway"
@@ -15350,13 +15323,7 @@
           }
         },
         "threat_throughput": {
-          "kind": "cond",
-          "when": {
-            "field": "kind",
-            "inList": [
-              "appliance"
-            ]
-          }
+          "kind": "opt"
         },
         "tx_power": {
           "kind": "opt"
@@ -15403,7 +15370,6 @@
             "inList": [
               "switch",
               "access-point",
-              "appliance",
               "security-camera",
               "environment-sensor",
               "cellular-gateway"
@@ -15638,8 +15604,7 @@
               {
                 "field": "kind",
                 "inList": [
-                  "switch",
-                  "appliance"
+                  "switch"
                 ]
               },
               {

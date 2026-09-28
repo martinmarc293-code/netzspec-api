@@ -38,10 +38,11 @@ const CASES: [string, MerakiKind][] = [
   ["MR28", "access-point"], ["MR28-HW", "access-point"], ["MR36H-HW", "access-point"],
   ["MR46E-HW", "access-point"], ["MR57-HW", "access-point"], ["CW9162I", "access-point"],
   ["CW9166D1", "access-point"], ["CW9166I-MR", "access-point"],
-  // MX / Z — security and SD-WAN appliances (26)
-  ["MX67-HW", "appliance"], ["MX68CW-HW-WW", "appliance"], ["MX75-HW", "appliance"],
-  ["MX95", "appliance"], ["MX105-HW", "appliance"], ["MX250-HW", "appliance"],
-  ["Z3-HW", "appliance"], ["Z4", "appliance"], ["Z4-HW", "appliance"],
+  // MX / Z ARE NO LONGER MERAKI'S (reviewer's ruling, 28 Sep 2026). The nine cases that stood here asserted
+  // `appliance` for MX67-HW, MX68CW-HW-WW, MX75-HW, MX95, MX105-HW, MX250-HW, Z3-HW, Z4 and Z4-HW. An MX is a
+  // FIREWALL and moved to `security`; a Z is a teleworker GATEWAY and moved to `routers` as kind `router`. They
+  // are now REFUSALS below — `unknown`, asserted for the stated reason — because deleting them would leave the
+  // axis free to claim an MX again with nobody noticing, which is the whole point of a refusal case.
   // MV — cameras (52)
   ["MV12N", "security-camera"], ["MV12WE", "security-camera"], ["MV13", "security-camera"], ["MV13-HW", "security-camera"],
   ["MV32", "security-camera"], ["MV52X-HW", "security-camera"], ["MV63X-HW", "security-camera"], ["MV93X-HW", "security-camera"],
@@ -66,10 +67,21 @@ const REFUSALS: [string, MerakiKind, string][] = [
   ["MS130-12X", "switch", "likewise, \"300 W power adapter\", 18 switch facts"],
   ["MS130R-8P", "switch", "likewise, its name reads as a licence, 13 switch facts"],
   ["MS130-CMPT", "switch", "\"CMPT\" is COMPACT, a model variant — not a component"],
-  ["MX67C-HW-WW", "appliance", "a CELLULAR MX is still an appliance, not a gateway"],
-  ["MX68CW-HW-WW", "appliance", "an MX with Wi-Fi is still an appliance, not an access point"],
+  // THE NINE MX / Z CASES, MOVED HERE FROM THE POSITIVES. `unknown` is the right answer for all of them now:
+  // this axis has no rule producing `appliance` any more, and an MX or a Z still filed under meraki is a row
+  // nobody has identified. The two that used to guard against a cellular MX becoming a `cellular-gateway` and a
+  // Wi-Fi MX becoming an `access-point` are kept, because those rules are still here and must still not claim
+  // them — the refusal has simply changed which wrong answer it is refusing.
+  ["MX67-HW", "unknown", "an MX is a FIREWALL and lives in security; meraki must not claim it back"],
+  ["MX75-HW", "unknown", "likewise"], ["MX95", "unknown", "likewise, the bare model row"],
+  ["MX105-HW", "unknown", "likewise"], ["MX250-HW", "unknown", "likewise, the campus models"],
+  ["MX67C-HW-WW", "unknown", "a CELLULAR MX must not be taken by the MG cellular-gateway rule either"],
+  ["MX68CW-HW-WW", "unknown", "an MX with Wi-Fi must not be taken by the MR/CW access-point rule either"],
+  ["Z3-HW", "unknown", "a teleworker gateway is a ROUTER and lives in routers"],
+  ["Z4", "unknown", "likewise, the model row"],
   ["MT10-HW", "environment-sensor", "the -HW orderable row of a sensor is a sensor (the facts sit on MT10; model_of is a RELATION)"],
-  ["MV13-HW", "security-camera", "the -HW orderable row of a camera"], ["Z4-HW", "appliance", "and of a teleworker gateway"],
+  ["MV13-HW", "security-camera", "the -HW orderable row of a camera"],
+  ["Z4-HW", "unknown", "and the -HW row of a teleworker gateway follows its model out of this category"],
   ["MG21-ENT-5Y", "cellular-gateway", "a term LICENCE by product_class, so it is scored against no profile; its kind is its line"],
   ["CAB-9K16A-AUS", "accessory", "a power cord must not reach the fallback, which asks the physical envelope"],
   ["MA-PWR-30WAC", "accessory", "nor a power adapter"],
@@ -90,7 +102,7 @@ const SABOTAGE: Sab[] = [
   { family: "security-camera", sku: "MV32", live: "security-camera", ifDisabled: "unknown" },
   { family: "cellular-gateway", sku: "MG41", live: "cellular-gateway", ifDisabled: "unknown" },
   { family: "access-point", sku: "CW9166I", live: "access-point", ifDisabled: "unknown" },
-  { family: "appliance", sku: "Z4", live: "appliance", ifDisabled: "unknown" },
+  // the `appliance` family left with its rule (28 Sep 2026): there is no rule to sabotage any more.
   { family: "environment-sensor", sku: "MT11", live: "environment-sensor", ifDisabled: "unknown" },
 ];
 for (const s of SABOTAGE) {
@@ -109,7 +121,10 @@ eq("empty SKU falls to the fallback", merakiKind(""), "unknown");
 for (const sku of ["QQQ", "ZZ-NOSUCH-1"]) eq(`unrecognisable falls to the fallback: ${sku}`, merakiKind(sku), "unknown");
 
 const REACHED = new Set(CASES.map(([, k]) => k));
-for (const k of ["unknown", "switch", "access-point", "appliance", "security-camera", "environment-sensor", "cellular-gateway",
+// `appliance` LEFT THIS LIST 28 Sep 2026 with its rule and its parts. This check is the reason the kind had to
+// go from the union rather than merely empty of parts: it asserts every DECLARED kind is produced by a real
+// SKU, and a kind nothing can produce carries ten profile gates nothing can ever satisfy.
+for (const k of ["unknown", "switch", "access-point", "security-camera", "environment-sensor", "cellular-gateway",
                  "accessory"] as MerakiKind[]) {
   eq(`kind "${k}" is reached by a catalogue SKU`, REACHED.has(k), true);
 }
@@ -132,8 +147,12 @@ const ask = (sku: string) => completenessV2("meraki", { kind: partKind("meraki",
      ["field_of_view", "image_sensor", "video_quality_max"].every((k) => mv.missing.includes(k)), true);
   eq("and no PoE standard — it CONSUMES PoE, it does not supply it", mv.missing.includes("poe_standard"), false);
   eq("and no port count", mv.missing.includes("ports"), false);
-  const mx = ask("MX95");
-  eq("an MX appliance is asked a firewall throughput", mx.missing.includes("firewall_throughput"), true);
+  // THE MX CASE IS NOW A REFUSAL. It asserted "an MX appliance is asked a firewall throughput"; the MX moved to
+  // `security`, where that question is asked of kind `firewall` and securityKind.test.ts holds it. What matters
+  // here is the other direction -- meraki must no longer ask a firewall question of anything at all.
+  eq("meraki asks NO kind a firewall throughput any more (the cup left with the parts)",
+     ["switch", "access-point", "security-camera", "environment-sensor", "cellular-gateway", "unknown"]
+       .some((k) => completenessV2("meraki", { kind: k, vendor: "cisco" } as never).missing.includes("firewall_throughput")), false);
   const mr = ask("MR36H-HW");
   eq("an MR access point is asked its Wi-Fi generation", mr.missing.includes("wifi_generation"), true);
   eq("and not a firewall throughput", mr.missing.includes("firewall_throughput"), false);
@@ -150,7 +169,7 @@ const ask = (sku: string) => completenessV2("meraki", { kind: partKind("meraki",
   eq("kind-layer: certifications is asked of a switch, not of a camera or the fallback",
      sw.missing.includes("certifications") && ![...mv.missing, ...un.missing].includes("certifications"), true);
   // The control: every NAMED kind must still be asked something.
-  for (const sku of ["MS125-48FP", "MR28", "MX95", "MV32", "MT11", "MG41", "MGKIT-1"]) {
+  for (const sku of ["MS125-48FP", "MR28", "MV32", "MT11", "MG41", "MGKIT-1"]) {   // MX95 left with the MX move
     eq(`${sku} (kind=${partKind("meraki", sku)}) is still asked something`, ask(sku).required_total > 0, true);
   }
   // SABOTAGE of the unknown cap: an `unknown` given back the envelope must be seen — a profile copy where dimensions is
@@ -192,9 +211,11 @@ const ask = (sku: string) => completenessV2("meraki", { kind: partKind("meraki",
      L("antenna_type", "certifications", "dimensions", "humidity_operating", "mounting", "poe_standard", "ports", "power_max", "psu_options",
        "radio_bands", "radio_count", "spatial_streams", "temp_operating", "weight", "wifi_generation", "ip_rating?"));
   eq("kind-layer: an OUTDOOR meraki access point is also asked its IP rating", mkSet("access-point", "outdoor").split(",").includes("ip_rating"), true);
-  eq("kind-layer: meraki/appliance = FIREWALL (new_conn_per_sec held optional, as in security) + today's", mkSet("appliance"),
-     L("certifications", "concurrent_sessions", "dimensions", "firewall_throughput", "form_factor", "humidity_operating", "ipsec_throughput",
-       "mounting", "ports", "power_max", "psu_options", "temp_operating", "threat_throughput", "weight", "rack_units?"));
+  // The meraki/appliance cup set stood here (certifications, concurrent_sessions, dimensions, firewall_throughput,
+  // form_factor, humidity_operating, ipsec_throughput, mounting, ports, power_max, psu_options, temp_operating,
+  // threat_throughput, weight, rack_units?). It is `security`/`firewall` now. Asserted as EMPTY rather than
+  // deleted, so a gate quietly reintroduced on the dead kind is a failure and not a silence.
+  eq("kind-layer: meraki/appliance asks NOTHING — the kind has no rule, no part and no gate", mkSet("appliance"), "");
   eq("kind-layer: meraki/camera = CAMERA + MV deltas + today's", mkSet("security-camera"),
      L(/* reviewer C.3: camera_zoom optional (0 labels) */ "dimensions", "field_of_view", "humidity_operating", "image_sensor", "max_resolution", "mounting", "power_max",
        "product_compatibility", "psu_options", "storage_capacity", "temp_operating", "video_quality_max", "weight"));

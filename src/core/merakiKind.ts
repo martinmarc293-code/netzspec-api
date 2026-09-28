@@ -55,7 +55,6 @@ export type MerakiKind =
   | "unknown"       // the deliberate fallback: the physical envelope, nothing else
   | "switch"        // MS
   | "access-point"  // MR, CW
-  | "appliance"     // MX, Z — security and SD-WAN
   | "security-camera"        // MV
   | "environment-sensor"        // MT
   | "cellular-gateway"       // MG — cellular
@@ -63,10 +62,10 @@ export type MerakiKind =
 
 /** Every kind that is a Meraki BOX: it is racked or mounted, powered, and has an envelope. */
 export const MK_BOX: readonly MerakiKind[] =
-  ["unknown", "switch", "access-point", "appliance", "security-camera", "environment-sensor", "cellular-gateway"];
+  ["unknown", "switch", "access-point", "security-camera", "environment-sensor", "cellular-gateway"];
 
 /** Kinds that carry Ethernet PORTS. An MT sensor has none — 0 of 16 hold a port key. */
-export const MK_PORTED: readonly MerakiKind[] = ["switch", "access-point", "appliance", "cellular-gateway"];
+export const MK_PORTED: readonly MerakiKind[] = ["switch", "access-point", "cellular-gateway"];
 
 /**
  * Kinds that draw mains or PoE power and for which a wattage is stated. An MT sensor is
@@ -74,7 +73,7 @@ export const MK_PORTED: readonly MerakiKind[] = ["switch", "access-point", "appl
  * holds a power figure — so it is asked a battery life instead of a power draw.
  */
 export const MK_POWERED: readonly MerakiKind[] =
-  ["unknown", "switch", "access-point", "appliance", "security-camera", "cellular-gateway"];
+  ["unknown", "switch", "access-point", "security-camera", "cellular-gateway"];
 
 // Ordered; the FIRST rule that matches wins. accessory FIRST — see the MGKIT-1 refusal above.
 const RULES: { kind: MerakiKind; re: RegExp }[] = [
@@ -92,8 +91,22 @@ const RULES: { kind: MerakiKind; re: RegExp }[] = [
   { kind: "cellular-gateway", re: /^MG\d/ },
   // CW is the Catalyst Wireless naming Meraki access points moved to (CW9162I, CW9166D1, CW9166I).
   { kind: "access-point", re: /^MR\d|^CW\d/ },
-  // Z is the teleworker gateway (Z3, Z4) — an MX appliance in a small box, and it holds the same keys.
-  { kind: "appliance", re: /^MX\d|^Z\d/ },
+  // THE MX AND Z RULE IS GONE (reviewer's ruling, 28 Sep 2026). It used to read
+  // `{ kind: "appliance", re: /^MX\d|^Z\d/ }` with the note "Z is the teleworker gateway (Z3, Z4) — an MX
+  // appliance in a small box, and it holds the same keys". Both halves of that were true and neither is a
+  // reason to keep the parts here: an MX is a FIREWALL, so the 18 shipping models moved to `security` where
+  // firewalls are asked ips_throughput, tls_throughput and vpn_peers; and a Z is a teleworker GATEWAY, so the
+  // four (Z4, Z4-HW, Z4C, Z4C-HW — no Z3 exists in this catalogue) moved to `routers` as kind `router`.
+  //
+  // WITH THE RULE GONE, `appliance` HAS NO PRODUCER HERE and the kind empties, which is the point: it is the
+  // last (category, kind) pair that `kind_profile_parity` had to compare between meraki and security, and the
+  // pair disappearing is what resolves it without reversing security's series-gated "ask less" default. The
+  // kind stays in the union and in MK_PORTED, as `appliance` did in securityKind after D2 — a kind that can
+  // be REFERRED to is not the same as a kind something produces, and deleting it would rewrite the artefacts.
+  //
+  // Anything MX-shaped still filed here now resolves `unknown`, deliberately: the four that would (MX16,
+  // MX18, MX26, MX650) hold no fact, no document and no real model between them, and `unknown` is where a row
+  // nobody can identify belongs.
   { kind: "environment-sensor", re: /^MT\d/ },
 ];
 

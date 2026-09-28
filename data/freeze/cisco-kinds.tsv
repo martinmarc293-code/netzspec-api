@@ -6943,28 +6943,6 @@ meraki	MV84X-HW	Cisco MV84X-HW	security-camera
 meraki	MV93-HW	Cisco MV93-HW	security-camera	
 meraki	MV93M-HW	Cisco MV93M-HW	security-camera	
 meraki	MV93X-HW	Cisco MV93X-HW	security-camera	
-meraki	MX100	Cisco MX100	appliance	
-meraki	MX105	Cisco MX105	appliance	
-meraki	MX250	Cisco MX250	appliance	
-meraki	MX450	Cisco MX450	appliance	
-meraki	MX64	Cisco MX64	appliance	
-meraki	MX64W	Cisco MX64W	appliance	
-meraki	MX65	Cisco MX65	appliance	
-meraki	MX65W	Cisco MX65W	appliance	
-meraki	MX67	Cisco MX67	appliance	
-meraki	MX67C	Cisco MX67C	appliance	
-meraki	MX67W	Cisco MX67W	appliance	
-meraki	MX68	Cisco MX68	appliance	
-meraki	MX68CW	Cisco MX68CW	appliance	
-meraki	MX68W	Cisco MX68W	appliance	
-meraki	MX75	Cisco MX75	appliance	
-meraki	MX84	Cisco MX84	appliance	
-meraki	MX85	Cisco MX85	appliance	
-meraki	MX95	Cisco MX95	appliance	
-meraki	Z4	Cisco Z4	appliance	
-meraki	Z4-HW	Meraki Z4 Cloud Managed Teleworker Gateway	appliance	
-meraki	Z4C	Cisco Z4C	appliance	
-meraki	Z4C-HW	Meraki Z4C Cloud Managed Teleworker Gateway	appliance	
 optical-networking	15216-AD1-2-1510	1510nm OADM Add Drop Multiplexer	mux	
 optical-networking	15216-AD1-2-1510=	1510 OADM Add Drop Multiplexer	mux	
 optical-networking	15216-AD1-2-30.3	ITU-200 GHz 1-channel, 2 path OADM ch. 1530.33nm	mux	
@@ -13232,6 +13210,10 @@ routers	XRV-SD240GBKS4-EV	240 GB 2.5 inch Enterprise Value 6G SATA SSD	drive
 routers	XRV-SD240GM1X-EV	240 GB 2.5 inch Enterprise Value 6G SATA SSD	drive	
 routers	XRV9000-APLN-ROUT	XRV 9000 Appliance with UCS-C220 M5 server, Qty 2 -8X10G NIC	appliance	
 routers	XRV9000-APLN-ROUT=	XRV 9000 Appliance with UCS-C220 M5 server, Qty 2 -8X10G NIC	appliance	
+routers	Z4	Cisco Z4	router	
+routers	Z4-HW	Meraki Z4 Cloud Managed Teleworker Gateway	router	
+routers	Z4C	Cisco Z4C	router	
+routers	Z4C-HW	Meraki Z4C Cloud Managed Teleworker Gateway	router	
 security	1210CE	Cisco 1210CE	firewall	
 security	1210CP	Cisco 1210CP	firewall	
 security	1220CX	Cisco 1220CX	firewall	
@@ -14810,6 +14792,24 @@ security	LC-UDP-2010-F-K9	StealthWatch FlowReplicator Director 2010 Fiber	analyt
 security	LC-UDP-2010-FU-K9	StealthWatch FlowReplicator Dir Upg from 1010 to 2010 fiber	analytics	
 security	LC-UDP-2010-FU1-K9	StealthWatch FlowReplicator 20XX-F Hardware Refresh Program	analytics	
 security	LC-UDP-2010-R-K9	StealthWatch FlowReplicator 20XX HW Refresh to UDP Dir. 2010	analytics	
+security	MX100	Cisco MX100	firewall	
+security	MX105	Cisco MX105	firewall	
+security	MX250	Cisco MX250	firewall	
+security	MX450	Cisco MX450	firewall	
+security	MX64	Cisco MX64	firewall	
+security	MX64W	Cisco MX64W	firewall	
+security	MX65	Cisco MX65	firewall	
+security	MX65W	Cisco MX65W	firewall	
+security	MX67	Cisco MX67	firewall	
+security	MX67C	Cisco MX67C	firewall	
+security	MX67W	Cisco MX67W	firewall	
+security	MX68	Cisco MX68	firewall	
+security	MX68CW	Cisco MX68CW	firewall	
+security	MX68W	Cisco MX68W	firewall	
+security	MX75	Cisco MX75	firewall	
+security	MX84	Cisco MX84	firewall	
+security	MX85	Cisco MX85	firewall	
+security	MX95	Cisco MX95	firewall	
 security	NAM2420-K9	Cisco NAM2420-K9	management	
 security	NAM2440-K9	Cisco NAM2440-K9	management	
 security	PRIME-ACC-REG	^Cisco Prime Access Registrar 7.X - Physical	accessory	

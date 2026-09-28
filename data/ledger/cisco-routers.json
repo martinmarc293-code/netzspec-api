@@ -3,7 +3,7 @@
   "vendor": "cisco",
   "category": "routers",
   "profile_hash": "31cf022ab300b8d9",
-  "built_on_commit": "8214cc2",
+  "built_on_commit": "91e7898",
   "norm_version": "1.8.0",
   "declared_fields": 431,
   "gap_states": {
@@ -20,12 +20,12 @@
     "run": 7533
   },
   "totals": {
-    "parts": 5109,
-    "required_slots_at_nothing_known": 22687,
-    "required_slots_stored": 22136,
+    "parts": 5113,
+    "required_slots_at_nothing_known": 22743,
+    "required_slots_stored": 22192,
     "_slots_note": "at_nothing_known = parts × (required + pending) with only the kind known — and, for a kind with a role axis (role_axis: deploy_role), the SUM over its `roles` blocks of role parts × that role's (required + pending), because a role that asks fewer cups opens fewer slots; the kind's own `slots_per_part_at_nothing_known` and cup lists are its CORE (the `(unresolved)` role). stored = the live denominator (completeness.required_total), smaller wherever an answered gate has closed a pending question; per role it is the same sum split by role",
     "by_kind": {
-      "router": 1288,
+      "router": 1292,
       "sp-router": 264,
       "chassis": 161,
       "appliance": 25,
@@ -55,7 +55,7 @@
         "power-cord",
         "stack-cable"
       ],
-      "hardware_parts": 5109,
+      "hardware_parts": 5113,
       "refused_by_role_table": {
         "total": 0,
         "by_rule": {},
@@ -98,25 +98,25 @@
   },
   "kinds": {
     "router": {
-      "parts": 1288,
-      "parts_with_3plus_own_facts": 67,
-      "parts_with_a_device_noun_in_name": 451,
+      "parts": 1292,
+      "parts_with_3plus_own_facts": 69,
+      "parts_with_a_device_noun_in_name": 453,
       "parts_with_a_device_noun_exempt_by_kind": 0,
       "slots_per_part_at_nothing_known": 14,
-      "required_slots_at_nothing_known": 9796,
-      "required_slots_stored": 9245,
-      "series_count": 36,
+      "required_slots_at_nothing_known": 9852,
+      "required_slots_stored": 9301,
+      "series_count": 37,
       "share_of_category": {
-        "num": 1288,
-        "den": 5109,
-        "pct": 25.2
+        "num": 1292,
+        "den": 5113,
+        "pct": 25.3
       },
       "role_axis": "deploy_role",
       "label_jaccard": 0.5,
       "granularity_exception": null,
       "term13": {
         "trips": [
-          "parts 1288 >= 200"
+          "parts 1292 >= 200"
         ],
         "verdict": "role-axis",
         "label_jaccard": 0.5,
@@ -124,11 +124,11 @@
         "detail": "carries deploy_role"
       },
       "document_evidence": {
-        "spec_bearing": 381,
+        "spec_bearing": 385,
         "spec_linked_not_held": 111,
         "eol_only": 668,
         "no_document": 128,
-        "spec_bearing_by_doc_type_legacy": 492,
+        "spec_bearing_by_doc_type_legacy": 496,
         "blocked_by": "not-held (acquisition)"
       },
       "required": [
@@ -474,7 +474,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 35
+            "html_table": 37
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -663,7 +663,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 496
+            "html_table": 498
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -835,7 +835,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 436
+            "html_table": 438
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -895,7 +895,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 438
+            "html_table": 439
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -962,7 +962,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 46
+            "html_table": 48
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -1528,7 +1528,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 35
+                "html_table": 37
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -2365,7 +2365,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 496
+                "html_table": 498
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -2535,7 +2535,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 436
+                "html_table": 438
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -2594,7 +2594,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 438
+                "html_table": 439
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -3266,7 +3266,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 35
+                "html_table": 37
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -4169,7 +4169,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 35
+                "html_table": 37
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -4526,7 +4526,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 436
+                "html_table": 438
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -4640,7 +4640,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 46
+                "html_table": 48
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -5126,7 +5126,7 @@
           ]
         },
         "(unresolved)": {
-          "parts": 0,
+          "parts": 4,
           "kind_issue_parts": 0,
           "kind_issue": {
             "pending_plan": 0,
@@ -5134,23 +5134,23 @@
             "unplanned": 0
           },
           "null_share_excluding_kind_issue": {
-            "num": 0,
-            "den": 1288,
-            "pct": 0,
+            "num": 4,
+            "den": 1292,
+            "pct": 0.3,
             "over_3pct": false
           },
-          "display": "(unresolved) 0 — 0 pending move/class",
+          "display": "(unresolved) 4 — 0 pending move/class",
           "_unresolved_note": "no rule of deployRole.ts places these parts (null role): asked the kind's core. `kind_issue_parts` of them hit an ISSUE rule — the row is not this kind at all and waits on a move/class plan (data/reference/kind-layer-plans-2026-09-13.json). The III.4 3% bar is applied to (unresolved - kind_issue_parts) / (kind parts - kind_issue_parts).",
           "slots_per_part_at_nothing_known": 14,
-          "required_slots_at_nothing_known": 0,
-          "required_slots_stored": 0,
+          "required_slots_at_nothing_known": 56,
+          "required_slots_stored": 56,
           "document_evidence": {
-            "spec_bearing": 0,
+            "spec_bearing": 4,
             "spec_linked_not_held": 0,
             "eol_only": 0,
             "no_document": 0,
-            "spec_bearing_by_doc_type_legacy": 0,
-            "blocked_by": "no parts"
+            "spec_bearing_by_doc_type_legacy": 4,
+            "blocked_by": "schema-or-parsing"
           },
           "required": [
             {
@@ -5495,7 +5495,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 35
+                "html_table": 37
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -5684,7 +5684,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 496
+                "html_table": 498
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -5856,7 +5856,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 436
+                "html_table": 438
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -5916,7 +5916,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 438
+                "html_table": 439
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -5983,7 +5983,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 46
+                "html_table": 48
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -6427,7 +6427,7 @@
       "series_count": 17,
       "share_of_category": {
         "num": 264,
-        "den": 5109,
+        "den": 5113,
         "pct": 5.2
       },
       "role_axis": "deploy_role",
@@ -6624,7 +6624,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 496
+            "html_table": 498
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -6869,7 +6869,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 436
+            "html_table": 438
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -6928,7 +6928,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 438
+            "html_table": 439
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -7551,7 +7551,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 496
+                "html_table": 498
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -7796,7 +7796,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 436
+                "html_table": 438
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -7855,7 +7855,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 438
+                "html_table": 439
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -8478,7 +8478,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 496
+                "html_table": 498
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -8723,7 +8723,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 436
+                "html_table": 438
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -8782,7 +8782,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 438
+                "html_table": 439
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -9405,7 +9405,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 496
+                "html_table": 498
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -9650,7 +9650,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 436
+                "html_table": 438
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -9709,7 +9709,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 438
+                "html_table": 439
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -10346,7 +10346,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 496
+                "html_table": 498
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -10591,7 +10591,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 436
+                "html_table": 438
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -10650,7 +10650,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 438
+                "html_table": 439
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -11099,8 +11099,8 @@
       "series_count": 13,
       "share_of_category": {
         "num": 161,
-        "den": 5109,
-        "pct": 3.2
+        "den": 5113,
+        "pct": 3.1
       },
       "role_axis": "none",
       "label_jaccard": null,
@@ -11301,7 +11301,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 35
+            "html_table": 37
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -11401,7 +11401,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 496
+            "html_table": 498
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -11546,7 +11546,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 438
+            "html_table": 439
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -11612,7 +11612,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 46
+            "html_table": 48
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -12057,7 +12057,7 @@
       "series_count": 7,
       "share_of_category": {
         "num": 25,
-        "den": 5109,
+        "den": 5113,
         "pct": 0.5
       },
       "role_axis": "none",
@@ -12200,7 +12200,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 35
+            "html_table": 37
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -12300,7 +12300,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 496
+            "html_table": 498
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -12486,7 +12486,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 436
+            "html_table": 438
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -12552,7 +12552,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 46
+            "html_table": 48
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -13061,7 +13061,7 @@
       "series_count": 6,
       "share_of_category": {
         "num": 90,
-        "den": 5109,
+        "den": 5113,
         "pct": 1.8
       },
       "role_axis": "none",
@@ -13608,7 +13608,7 @@
       "series_count": 11,
       "share_of_category": {
         "num": 541,
-        "den": 5109,
+        "den": 5113,
         "pct": 10.6
       },
       "role_axis": "none",
@@ -14318,7 +14318,7 @@
       "series_count": 25,
       "share_of_category": {
         "num": 351,
-        "den": 5109,
+        "den": 5113,
         "pct": 6.9
       },
       "role_axis": "none",
@@ -14911,7 +14911,7 @@
       "series_count": 13,
       "share_of_category": {
         "num": 215,
-        "den": 5109,
+        "den": 5113,
         "pct": 4.2
       },
       "role_axis": "none",
@@ -15504,7 +15504,7 @@
       "series_count": 6,
       "share_of_category": {
         "num": 81,
-        "den": 5109,
+        "den": 5113,
         "pct": 1.6
       },
       "role_axis": "none",
@@ -16113,7 +16113,7 @@
       "series_count": 31,
       "share_of_category": {
         "num": 385,
-        "den": 5109,
+        "den": 5113,
         "pct": 7.5
       },
       "role_axis": "none",
@@ -16782,7 +16782,7 @@
       "series_count": 22,
       "share_of_category": {
         "num": 183,
-        "den": 5109,
+        "den": 5113,
         "pct": 3.6
       },
       "role_axis": "none",
@@ -17354,7 +17354,7 @@
       "series_count": 18,
       "share_of_category": {
         "num": 154,
-        "den": 5109,
+        "den": 5113,
         "pct": 3
       },
       "role_axis": "none",
@@ -17970,7 +17970,7 @@
       "series_count": 6,
       "share_of_category": {
         "num": 38,
-        "den": 5109,
+        "den": 5113,
         "pct": 0.7
       },
       "role_axis": "none",
@@ -18550,7 +18550,7 @@
       "series_count": 13,
       "share_of_category": {
         "num": 88,
-        "den": 5109,
+        "den": 5113,
         "pct": 1.7
       },
       "role_axis": "none",
@@ -19165,7 +19165,7 @@
       "series_count": 13,
       "share_of_category": {
         "num": 76,
-        "den": 5109,
+        "den": 5113,
         "pct": 1.5
       },
       "role_axis": "none",
@@ -19731,7 +19731,7 @@
       "series_count": 21,
       "share_of_category": {
         "num": 259,
-        "den": 5109,
+        "den": 5113,
         "pct": 5.1
       },
       "role_axis": "none",
@@ -20352,7 +20352,7 @@
       "series_count": 12,
       "share_of_category": {
         "num": 88,
-        "den": 5109,
+        "den": 5113,
         "pct": 1.7
       },
       "role_axis": "none",
@@ -20966,7 +20966,7 @@
       "series_count": 25,
       "share_of_category": {
         "num": 159,
-        "den": 5109,
+        "den": 5113,
         "pct": 3.1
       },
       "role_axis": "none",
@@ -21487,7 +21487,7 @@
       "series_count": 34,
       "share_of_category": {
         "num": 663,
-        "den": 5109,
+        "den": 5113,
         "pct": 13
       },
       "role_axis": "none",
@@ -21576,7 +21576,7 @@
           ],
           "parts_holding_by_method": {
             "description_mining": 157,
-            "html_table": 67
+            "html_table": 69
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -22071,9 +22071,9 @@
     }
   },
   "build": {
-    "data_commit": "b8e208098ff8",
-    "code_commit": "b8e208098ff8",
-    "contract_hash": "6c140f9084304e5f",
-    "generated_at": "2026-09-28T14:06:42.276Z"
+    "data_commit": "91e7898e2534+18dirty",
+    "code_commit": "91e7898e2534",
+    "contract_hash": "1a62b6dedddf519c",
+    "generated_at": "2026-09-28T14:42:25.345Z"
   }
 }

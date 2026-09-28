@@ -1,14 +1,22 @@
 {
   "vendor": "cisco",
   "category": "meraki",
-  "built_at": "2026-09-28T12:03:55.108Z",
-  "commit": "fd4980199111364133d8b488e48f40c4373802ec",
+  "built_at": "2026-09-28T14:31:46.504Z",
+  "commit": "91e7898e2534b4c5121de3cb5667d5702abd2f33",
   "uncommitted_rule_files": [
+    "data/reference/product-lines/cisco-meraki.json",
+    "data/reference/product-lines/cisco-routers.json",
+    "data/reference/product-lines/cisco-security.json",
+    "scripts/tmp-mx4.mts",
+    "src/core/cupLedger.ts",
+    "src/core/fieldSchema.ts",
+    "src/core/merakiKind.ts",
+    "src/core/routerKind.ts",
     "src/core/securityKind.ts"
   ],
   "mapping_file": "data/reference/product-lines/cisco-meraki.json",
-  "parts": 91,
-  "layered": 91,
+  "parts": 69,
+  "layered": 69,
   "pending": 0,
   "lines": [
     {
@@ -359,292 +367,6 @@
       ]
     },
     {
-      "line": "Meraki MX Security and SD-WAN Appliances",
-      "parts": 18,
-      "series": [
-        {
-          "series": "MX64",
-          "family": "(none)",
-          "role": null,
-          "note": null,
-          "parts": 2,
-          "kinds": {
-            "appliance": 2
-          },
-          "roles": {},
-          "samples": [
-            "MX64 — Cisco MX64",
-            "MX64W — Cisco MX64W"
-          ],
-          "rules": {
-            "sku": 2
-          },
-          "pending_in": {},
-          "pending_out": {}
-        },
-        {
-          "series": "MX65",
-          "family": "(none)",
-          "role": null,
-          "note": null,
-          "parts": 2,
-          "kinds": {
-            "appliance": 2
-          },
-          "roles": {},
-          "samples": [
-            "MX65 — Cisco MX65",
-            "MX65W — Cisco MX65W"
-          ],
-          "rules": {
-            "sku": 2
-          },
-          "pending_in": {},
-          "pending_out": {}
-        },
-        {
-          "series": "MX67",
-          "family": "(none)",
-          "role": null,
-          "note": null,
-          "parts": 3,
-          "kinds": {
-            "appliance": 3
-          },
-          "roles": {},
-          "samples": [
-            "MX67 — Cisco MX67",
-            "MX67C — Cisco MX67C",
-            "MX67W — Cisco MX67W"
-          ],
-          "rules": {
-            "sku": 3
-          },
-          "pending_in": {},
-          "pending_out": {}
-        },
-        {
-          "series": "MX68",
-          "family": "(none)",
-          "role": null,
-          "note": null,
-          "parts": 3,
-          "kinds": {
-            "appliance": 3
-          },
-          "roles": {},
-          "samples": [
-            "MX68 — Cisco MX68",
-            "MX68CW — Cisco MX68CW",
-            "MX68W — Cisco MX68W"
-          ],
-          "rules": {
-            "sku": 3
-          },
-          "pending_in": {},
-          "pending_out": {}
-        },
-        {
-          "series": "MX75",
-          "family": "(none)",
-          "role": null,
-          "note": null,
-          "parts": 1,
-          "kinds": {
-            "appliance": 1
-          },
-          "roles": {},
-          "samples": [
-            "MX75 — Cisco MX75"
-          ],
-          "rules": {
-            "sku": 1
-          },
-          "pending_in": {},
-          "pending_out": {}
-        },
-        {
-          "series": "MX84",
-          "family": "(none)",
-          "role": null,
-          "note": null,
-          "parts": 1,
-          "kinds": {
-            "appliance": 1
-          },
-          "roles": {},
-          "samples": [
-            "MX84 — Cisco MX84"
-          ],
-          "rules": {
-            "sku": 1
-          },
-          "pending_in": {},
-          "pending_out": {}
-        },
-        {
-          "series": "MX85",
-          "family": "(none)",
-          "role": null,
-          "note": null,
-          "parts": 1,
-          "kinds": {
-            "appliance": 1
-          },
-          "roles": {},
-          "samples": [
-            "MX85 — Cisco MX85"
-          ],
-          "rules": {
-            "sku": 1
-          },
-          "pending_in": {},
-          "pending_out": {}
-        },
-        {
-          "series": "MX95",
-          "family": "(none)",
-          "role": null,
-          "note": null,
-          "parts": 1,
-          "kinds": {
-            "appliance": 1
-          },
-          "roles": {},
-          "samples": [
-            "MX95 — Cisco MX95"
-          ],
-          "rules": {
-            "sku": 1
-          },
-          "pending_in": {},
-          "pending_out": {}
-        },
-        {
-          "series": "MX100",
-          "family": "(none)",
-          "role": null,
-          "note": null,
-          "parts": 1,
-          "kinds": {
-            "appliance": 1
-          },
-          "roles": {},
-          "samples": [
-            "MX100 — Cisco MX100"
-          ],
-          "rules": {
-            "sku": 1
-          },
-          "pending_in": {},
-          "pending_out": {}
-        },
-        {
-          "series": "MX105",
-          "family": "(none)",
-          "role": null,
-          "note": null,
-          "parts": 1,
-          "kinds": {
-            "appliance": 1
-          },
-          "roles": {},
-          "samples": [
-            "MX105 — Cisco MX105"
-          ],
-          "rules": {
-            "sku": 1
-          },
-          "pending_in": {},
-          "pending_out": {}
-        },
-        {
-          "series": "MX250",
-          "family": "(none)",
-          "role": null,
-          "note": null,
-          "parts": 1,
-          "kinds": {
-            "appliance": 1
-          },
-          "roles": {},
-          "samples": [
-            "MX250 — Cisco MX250"
-          ],
-          "rules": {
-            "sku": 1
-          },
-          "pending_in": {},
-          "pending_out": {}
-        },
-        {
-          "series": "MX450",
-          "family": "(none)",
-          "role": null,
-          "note": null,
-          "parts": 1,
-          "kinds": {
-            "appliance": 1
-          },
-          "roles": {},
-          "samples": [
-            "MX450 — Cisco MX450"
-          ],
-          "rules": {
-            "sku": 1
-          },
-          "pending_in": {},
-          "pending_out": {}
-        }
-      ]
-    },
-    {
-      "line": "Meraki Z Teleworker Gateways",
-      "parts": 4,
-      "series": [
-        {
-          "series": "Z4",
-          "family": "(none)",
-          "role": null,
-          "note": null,
-          "parts": 2,
-          "kinds": {
-            "appliance": 2
-          },
-          "roles": {},
-          "samples": [
-            "Z4 — Cisco Z4",
-            "Z4-HW — Meraki Z4 Cloud Managed Teleworker Gateway"
-          ],
-          "rules": {
-            "sku": 2
-          },
-          "pending_in": {},
-          "pending_out": {}
-        },
-        {
-          "series": "Z4C",
-          "family": "(none)",
-          "role": null,
-          "note": null,
-          "parts": 2,
-          "kinds": {
-            "appliance": 2
-          },
-          "roles": {},
-          "samples": [
-            "Z4C — Cisco Z4C",
-            "Z4C-HW — Meraki Z4C Cloud Managed Teleworker Gateway"
-          ],
-          "rules": {
-            "sku": 2
-          },
-          "pending_in": {},
-          "pending_out": {}
-        }
-      ]
-    },
-    {
       "line": "Meraki MG Cellular Gateways",
       "parts": 18,
       "series": [
@@ -920,9 +642,9 @@
   "inbound_unplaced": {},
   "done": true,
   "build": {
-    "data_commit": "b8e208098ff8",
-    "code_commit": "b8e208098ff8",
-    "contract_hash": "6c140f9084304e5f",
-    "generated_at": "2026-09-28T14:06:42.276Z"
+    "data_commit": "91e7898e2534+18dirty",
+    "code_commit": "91e7898e2534",
+    "contract_hash": "1a62b6dedddf519c",
+    "generated_at": "2026-09-28T14:42:25.345Z"
   }
 }

@@ -227,6 +227,22 @@ const RULES: { kind: SecurityKind; id: string; re: RegExp }[] = [
   // ips_throughput among them — and ASA-VPN-15K-BUN "Cisco Recommended ASA VPN Bundle for 15K users", an ASA
   // VPN-edition hardware bundle like the 18 "Secure Client" rows the firewall rule already takes (§7c).
   { kind: "firewall", id: "firewall-1200-model-and-asa-vpn-bundle", re: /^12[1-5]0C[EPX]$|^ASA-VPN-\d+K?-BUN$/ },
+  // MERAKI MX (reviewer's ruling, 28 Sep 2026): an MX is a firewall, so it is filed where firewalls are asked
+  // their firewall questions — 18 parts moved out of `meraki`, and the category's `appliance` kind empties the
+  // way security's did under D2, which is what leaves kind_profile_parity nothing to compare.
+  //
+  // THE MODELS ARE ENUMERATED, NOT MATCHED ON `^MX`. `^MX\d` matches 22 parts in meraki and four of them --
+  // MX16, MX18, MX26, MX650 -- carry NO kind, NO fact and NO document between them, names that are literally
+  // "Cisco <SKU>", and correspond to no Meraki model that exists. They are the shape of a datasheet cell read
+  // as a part, and a prefix rule would have filed four ghosts as firewalls. `MX` is also TelePresence's line,
+  // so the prefix is not even unambiguous within Cisco. Each alternative below is a shipping MX:
+  //   64/64W/65/65W/67/67C/67W/68/68CW/68W  small branch   75/84/85/95/100/105  mid   250/450  campus
+  // The `-HW` (hardware-only) and `-WW` (worldwide) ordering suffixes are accepted: no part in the catalogue
+  // carries one today, but `merakiKind.test.ts` has asserted those shapes since the meraki axis was written,
+  // and security's FALLBACK is `appliance` — so an MX68CW-HW-WW arriving uncovered would be filed as a generic
+  // appliance and asked the wrong questions, silently. The Z rule in routerKind has no such exposure, because
+  // its fallback is already `router`.
+  { kind: "firewall", id: "meraki-mx", re: /^MX(?:64W?|65W?|67[CW]?|68(?:CW|W)?|75|84|85|95|100|105|250|450)(?:-HW)?(?:-WW)?$/ },
   // Dedicated IPS: FirePOWER 7000/8000 (FP7010-K9, FP8250-BASE-K9), IPS 4300/4500 (IPS-4345-K9), AMP 7150/8150.
   { kind: "ips", id: "ips", re: /^FP[78]\d{3}(?:-|$)|^IPS-4\d{3}(?:-|$)|^AMP[78]\d{3}(?:-|$)/ },
   // Secure Email (ESA-C390-K9, ESA-X1070-K9) and Secure Web (WSA-S390-K9) appliances. The licences in the

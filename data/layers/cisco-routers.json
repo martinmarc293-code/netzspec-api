@@ -1,14 +1,22 @@
 {
   "vendor": "cisco",
   "category": "routers",
-  "built_at": "2026-09-28T12:03:49.179Z",
-  "commit": "fd4980199111364133d8b488e48f40c4373802ec",
+  "built_at": "2026-09-28T14:31:59.651Z",
+  "commit": "91e7898e2534b4c5121de3cb5667d5702abd2f33",
   "uncommitted_rule_files": [
+    "data/reference/product-lines/cisco-meraki.json",
+    "data/reference/product-lines/cisco-routers.json",
+    "data/reference/product-lines/cisco-security.json",
+    "scripts/tmp-mx4.mts",
+    "src/core/cupLedger.ts",
+    "src/core/fieldSchema.ts",
+    "src/core/merakiKind.ts",
+    "src/core/routerKind.ts",
     "src/core/securityKind.ts"
   ],
   "mapping_file": "data/reference/product-lines/cisco-routers.json",
-  "parts": 5109,
-  "layered": 5109,
+  "parts": 5113,
+  "layered": 5113,
   "pending": 0,
   "lines": [
     {
@@ -2017,6 +2025,52 @@
           "pending_out": {}
         }
       ]
+    },
+    {
+      "line": "Meraki Z Teleworker Gateways",
+      "parts": 4,
+      "series": [
+        {
+          "series": "Z4",
+          "family": "(none)",
+          "role": null,
+          "note": null,
+          "parts": 2,
+          "kinds": {
+            "router": 2
+          },
+          "roles": {},
+          "samples": [
+            "Z4 — Cisco Z4",
+            "Z4-HW — Meraki Z4 Cloud Managed Teleworker Gateway"
+          ],
+          "rules": {
+            "sku": 2
+          },
+          "pending_in": {},
+          "pending_out": {}
+        },
+        {
+          "series": "Z4C",
+          "family": "(none)",
+          "role": null,
+          "note": null,
+          "parts": 2,
+          "kinds": {
+            "router": 2
+          },
+          "roles": {},
+          "samples": [
+            "Z4C — Cisco Z4C",
+            "Z4C-HW — Meraki Z4C Cloud Managed Teleworker Gateway"
+          ],
+          "rules": {
+            "sku": 2
+          },
+          "pending_in": {},
+          "pending_out": {}
+        }
+      ]
     }
   ],
   "not_this_category": [],
@@ -3510,9 +3564,9 @@
   "inbound_unplaced": {},
   "done": true,
   "build": {
-    "data_commit": "b8e208098ff8",
-    "code_commit": "b8e208098ff8",
-    "contract_hash": "6c140f9084304e5f",
-    "generated_at": "2026-09-28T14:06:42.276Z"
+    "data_commit": "91e7898e2534+18dirty",
+    "code_commit": "91e7898e2534",
+    "contract_hash": "1a62b6dedddf519c",
+    "generated_at": "2026-09-28T14:42:25.345Z"
   }
 }

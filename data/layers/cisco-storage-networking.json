@@ -270,9 +270,9 @@
   "inbound_unplaced": {},
   "done": true,
   "build": {
-    "data_commit": "b8e208098ff8",
-    "code_commit": "b8e208098ff8",
-    "contract_hash": "6c140f9084304e5f",
-    "generated_at": "2026-09-28T14:06:42.276Z"
+    "data_commit": "91e7898e2534+18dirty",
+    "code_commit": "91e7898e2534",
+    "contract_hash": "1a62b6dedddf519c",
+    "generated_at": "2026-09-28T14:42:25.345Z"
   }
 }

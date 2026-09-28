@@ -2078,11 +2078,13 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     mounting: cond({ field: "kind", inList: MK_BOX.filter((k) => k !== "unknown") }),
     // "External RPS (optional)" / "External" — how the box is powered. 71 facts across every line.
     psu_options: cond({ field: "kind", inList: MK_BOX.filter((k) => k !== "unknown") }),
-    // kind-layer: + appliance (APPLIANCE = ENV + ports; an MX is desktop or rack-19, both in the domain).
-    form_factor: cond({ field: "kind", inList: ["switch", "appliance"] }),
+    // kind-layer: this read "+ appliance (APPLIANCE = ENV + ports; an MX is desktop or rack-19, both in the
+    // domain)" until the MX and Z left on 28 Sep 2026. The switch keeps it; no other meraki kind is racked.
+    form_factor: cond({ field: "kind", inList: ["switch"] }),
     // DEMOTED 12 Sep 2026 (0 of 283; the Meraki source publishes safety_standards). kind-layer: proposed REQUIRED again of
-    // the switch (ENV), access point (AP) and appliance (ENV) — the parent's printed measurement decides.
-    certifications: cond({ field: "kind", inList: ["switch", "access-point", "appliance"] }), safety_standards: opt, emc_emissions: opt,
+    // the switch (ENV) and access point (AP) — the parent's printed measurement decides. (The appliance was
+    // the third and left with the MX and Z on 28 Sep 2026.)
+    certifications: cond({ field: "kind", inList: ["switch", "access-point"] }), safety_standards: opt, emc_emissions: opt,
     power_max: cond({ field: "kind", inList: MK_POWERED.filter((k) => k !== "unknown") }),
     ports: cond({ field: "kind", inList: [...MK_PORTED] }),
     // A PoE STANDARD and a PoE BUDGET are the SUPPLIER's questions. An MR access point and an MV
@@ -2098,8 +2100,12 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     video_quality_max: cond({ field: "kind", inList: ["security-camera"] }),
     image_sensor: cond({ field: "kind", inList: ["security-camera"] }),
     storage_capacity: cond({ field: "kind", inList: ["security-camera"] }),
-    // An MX/Z appliance is a firewall: 8 of 26 hold a throughput figure and it is what one is bought on.
-    firewall_throughput: cond({ field: "kind", inList: ["appliance"] }),
+    // THE FIREWALL SET LEFT WITH THE PARTS (28 Sep 2026). `firewall_throughput` stood here gated on
+    // `appliance`, with the note "An MX/Z appliance is a firewall: 8 of 26 hold a throughput figure and it is
+    // what one is bought on" -- which was the argument for the MOVE. The 18 MX are firewalls in `security`
+    // now and the 4 Z are routers, no rule in merakiKind produces `appliance`, and a cup gated on a kind
+    // nothing can be is a rule nothing satisfies. `threat_throughput`, `ipsec_throughput` and
+    // `concurrent_sessions` went with it, below.
     // An MR/CW access point is bought on its Wi-Fi generation. 3 facts, and `wifi_generation` is
     // one of the seven keys the Meraki inventory publishes.
     wifi_generation: cond({ field: "kind", inList: ["access-point"] }),
@@ -2138,7 +2144,7 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     poe_ports: cond({ all: [{ field: "kind", inList: ["switch"] }, { field: "poe_standard", ne: "none" }] }),
     stacking_bandwidth: cond({ all: [{ field: "kind", inList: ["switch"] }, { field: "stackable", eq: true }] }),
     module_slots: cond({ all: [{ field: "kind", inList: ["switch"] }, { field: "form_factor", eq: "modular-chassis" }] }),
-    rack_units: cond({ all: [{ field: "kind", inList: ["switch", "appliance"] }, { field: "form_factor", inList: ["rack-19", "modular-chassis"] }] }),
+    rack_units: cond({ all: [{ field: "kind", inList: ["switch"] }, { field: "form_factor", inList: ["rack-19", "modular-chassis"] }] }),
     // ENV+ for the access and core-agg roles; + fabric_bandwidth and an ungated psu_redundant for core-agg (as in II.1).
     altitude_max: swOnly(["access", "core-agg"]), temp_storage: swOnly(["access", "core-agg"]), mtbf: swOnly(["access", "core-agg"]),
     heat_dissipation: swOnly(["access", "core-agg"]), power_typical: swOnly(["access", "core-agg"]), input_voltage: swOnly(["access", "core-agg"]),
@@ -2155,10 +2161,7 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // An MV camera's spec gate (deploy_role = outdoor) is NOT written: a camera has no role axis (deployRole.ts), so that
     // clause could never fire and would read as a rule nothing satisfies.
     ip_rating: cond({ all: [{ field: "kind", inList: ["access-point"] }, { field: "deploy_role", inList: ["outdoor", "industrial"] }] }, { elseOpt: true }),
-    // security appliance (FIREWALL) — kept under the kind name `appliance` (no III.1 rename).
-    threat_throughput: cond({ field: "kind", inList: ["appliance"] }),
-    ipsec_throughput: cond({ field: "kind", inList: ["appliance"] }),
-    concurrent_sessions: cond({ field: "kind", inList: ["appliance"] }),
+    // the other three of the firewall set, gone with `firewall_throughput` above and for the same reason.
     // new_conn_per_sec is FIREWALL-archetype required but HELD OPTIONAL, as in `security`: its unit `1/s` is not count-like,
     // so every real value ("2700", "380K") is refused at normalise, zero facts exist in any category, and
     // tests/source-fields.test.ts names it a required field no enabled source publishes.

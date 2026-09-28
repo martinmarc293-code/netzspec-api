@@ -75,7 +75,12 @@ export const LEDGER_KINDS: Readonly<Record<string, readonly string[]>> = {
   // kind-layer (13 Sep 2026): read from moduleKind's own MOD_KINDS (default `module` -> `unknown`, `service` -> `module`,
   // `voice` folded into `interface` + `module`), so a kind added or renamed there is listed here without a second copy.
   "interfaces-modules": [...MOD_KINDS, ...MECH],
-  meraki: [...(["unknown", "switch", "access-point", "appliance", "security-camera", "environment-sensor", "cellular-gateway",
+  // `appliance` LEFT THIS LIST 28 Sep 2026 with the MX and Z parts: an MX is a firewall (security) and a Z a
+  // teleworker gateway (routers), so merakiKind has no rule producing `appliance` and the kind is gone from
+  // its union. The list is `satisfies MerakiKind[]`, so the typecheck named this line the moment it went --
+  // which is worth recording because the ten meraki PROFILE gates that read `inList: ["appliance"]` are plain
+  // strings and it could not see any of them. A type catches its own shape and nothing else.
+  meraki: [...(["unknown", "switch", "access-point", "security-camera", "environment-sensor", "cellular-gateway",
     "accessory"] satisfies MerakiKind[]), ...MECH],
   // data-center-networking reuses switchKind, so it reuses its kind list — every one gets a
   // question set even though only four of the fifteen have a part today (partKind.ts says which).

@@ -3,7 +3,7 @@
   "vendor": "cisco",
   "category": "security",
   "profile_hash": "f85f5451e4033971",
-  "built_on_commit": "fd49801",
+  "built_on_commit": "91e7898",
   "norm_version": "1.8.0",
   "declared_fields": 402,
   "gap_states": {
@@ -20,12 +20,12 @@
     "run": 7533
   },
   "totals": {
-    "parts": 1982,
-    "required_slots_at_nothing_known": 16020,
-    "required_slots_stored": 16017,
+    "parts": 2000,
+    "required_slots_at_nothing_known": 16308,
+    "required_slots_stored": 16305,
     "_slots_note": "at_nothing_known = parts × (required + pending) with only the kind known — and, for a kind with a role axis (role_axis: deploy_role), the SUM over its `roles` blocks of role parts × that role's (required + pending), because a role that asks fewer cups opens fewer slots; the kind's own `slots_per_part_at_nothing_known` and cup lists are its CORE (the `(unresolved)` role). stored = the live denominator (completeness.required_total), smaller wherever an answered gate has closed a pending question; per role it is the same sum split by role",
     "by_kind": {
-      "firewall": 468,
+      "firewall": 486,
       "ips": 60,
       "email-gateway": 35,
       "web-gateway": 37,
@@ -59,7 +59,7 @@
         "power-cord",
         "stack-cable"
       ],
-      "hardware_parts": 1982,
+      "hardware_parts": 2000,
       "refused_by_role_table": {
         "total": 0,
         "by_rule": {},
@@ -102,18 +102,18 @@
   },
   "kinds": {
     "firewall": {
-      "parts": 468,
-      "parts_with_3plus_own_facts": 25,
+      "parts": 486,
+      "parts_with_3plus_own_facts": 40,
       "parts_with_a_device_noun_in_name": 264,
       "parts_with_a_device_noun_exempt_by_kind": 0,
       "slots_per_part_at_nothing_known": 16,
-      "required_slots_at_nothing_known": 7488,
-      "required_slots_stored": 7485,
-      "series_count": 13,
+      "required_slots_at_nothing_known": 7776,
+      "required_slots_stored": 7773,
+      "series_count": 14,
       "share_of_category": {
-        "num": 468,
-        "den": 1982,
-        "pct": 23.6
+        "num": 486,
+        "den": 2000,
+        "pct": 24.3
       },
       "role_axis": "none",
       "label_jaccard": null,
@@ -124,7 +124,7 @@
       },
       "term13": {
         "trips": [
-          "parts 468 >= 200"
+          "parts 486 >= 200"
         ],
         "verdict": "unmeasured",
         "label_jaccard": null,
@@ -132,11 +132,11 @@
         "detail": "trips term 13 on parts alone (450 parts, 12 series groups, 16 cups at 0e22f85); III.0 item 2 did not run its label-Jaccard"
       },
       "document_evidence": {
-        "spec_bearing": 49,
+        "spec_bearing": 66,
         "spec_linked_not_held": 6,
         "eol_only": 409,
-        "no_document": 4,
-        "spec_bearing_by_doc_type_legacy": 55,
+        "no_document": 5,
+        "spec_bearing_by_doc_type_legacy": 72,
         "blocked_by": "not-held (acquisition)"
       },
       "required": [
@@ -309,7 +309,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 3
+            "html_table": 16
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -368,7 +368,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 20
+            "html_table": 26
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -470,7 +470,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 6
+            "html_table": 21
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -749,7 +749,8 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 10
+            "html_table": 15,
+            "vendor_page:meraki": 10
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -932,7 +933,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 3
+            "html_table": 18
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -1403,7 +1404,7 @@
       "series_count": 3,
       "share_of_category": {
         "num": 60,
-        "den": 1982,
+        "den": 2000,
         "pct": 3
       },
       "role_axis": "none",
@@ -1542,7 +1543,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 3
+            "html_table": 16
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -1644,7 +1645,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 6
+            "html_table": 21
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -1873,7 +1874,8 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 10
+            "html_table": 15,
+            "vendor_page:meraki": 10
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -1975,7 +1977,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 3
+            "html_table": 18
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -2451,7 +2453,7 @@
       "series_count": 3,
       "share_of_category": {
         "num": 35,
-        "den": 1982,
+        "den": 2000,
         "pct": 1.8
       },
       "role_axis": "none",
@@ -2590,7 +2592,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 3
+            "html_table": 16
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -2692,7 +2694,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 6
+            "html_table": 21
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -2978,7 +2980,8 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 10
+            "html_table": 15,
+            "vendor_page:meraki": 10
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -3044,7 +3047,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 3
+            "html_table": 18
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -3520,7 +3523,7 @@
       "series_count": 3,
       "share_of_category": {
         "num": 37,
-        "den": 1982,
+        "den": 2000,
         "pct": 1.9
       },
       "role_axis": "none",
@@ -3659,7 +3662,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 3
+            "html_table": 16
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -3761,7 +3764,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 6
+            "html_table": 21
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -4047,7 +4050,8 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 10
+            "html_table": 15,
+            "vendor_page:meraki": 10
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -4113,7 +4117,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 3
+            "html_table": 18
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -4589,7 +4593,7 @@
       "series_count": 11,
       "share_of_category": {
         "num": 83,
-        "den": 1982,
+        "den": 2000,
         "pct": 4.2
       },
       "role_axis": "none",
@@ -4728,7 +4732,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 3
+            "html_table": 16
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -4830,7 +4834,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 6
+            "html_table": 21
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -5074,7 +5078,8 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 10
+            "html_table": 15,
+            "vendor_page:meraki": 10
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -5140,7 +5145,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 3
+            "html_table": 18
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -5617,7 +5622,7 @@
       "series_count": 7,
       "share_of_category": {
         "num": 215,
-        "den": 1982,
+        "den": 2000,
         "pct": 10.8
       },
       "role_axis": "none",
@@ -5762,7 +5767,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 3
+            "html_table": 16
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -5864,7 +5869,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 6
+            "html_table": 21
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -6108,7 +6113,8 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 10
+            "html_table": 15,
+            "vendor_page:meraki": 10
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -6174,7 +6180,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 3
+            "html_table": 18
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -6651,7 +6657,7 @@
       "series_count": 1,
       "share_of_category": {
         "num": 32,
-        "den": 1982,
+        "den": 2000,
         "pct": 1.6
       },
       "role_axis": "none",
@@ -6790,7 +6796,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 3
+            "html_table": 16
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -6892,7 +6898,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 6
+            "html_table": 21
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -7077,7 +7083,8 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 10
+            "html_table": 15,
+            "vendor_page:meraki": 10
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -7143,7 +7150,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 3
+            "html_table": 18
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -7621,7 +7628,7 @@
       "series_count": 0,
       "share_of_category": {
         "num": 0,
-        "den": 1982,
+        "den": 2000,
         "pct": 0
       },
       "role_axis": "none",
@@ -7760,7 +7767,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 3
+            "html_table": 16
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -7862,7 +7869,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 6
+            "html_table": 21
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -7980,7 +7987,8 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 10
+            "html_table": 15,
+            "vendor_page:meraki": 10
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -8046,7 +8054,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 3
+            "html_table": 18
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -8162,7 +8170,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 20
+            "html_table": 26
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -9035,7 +9043,7 @@
       "series_count": 6,
       "share_of_category": {
         "num": 88,
-        "den": 1982,
+        "den": 2000,
         "pct": 4.4
       },
       "role_axis": "none",
@@ -9162,7 +9170,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 20
+            "html_table": 26
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -9901,7 +9909,7 @@
       "series_count": 1,
       "share_of_category": {
         "num": 14,
-        "den": 1982,
+        "den": 2000,
         "pct": 0.7
       },
       "role_axis": "none",
@@ -10495,8 +10503,8 @@
       "series_count": 7,
       "share_of_category": {
         "num": 176,
-        "den": 1982,
-        "pct": 8.9
+        "den": 2000,
+        "pct": 8.8
       },
       "role_axis": "none",
       "label_jaccard": null,
@@ -11168,8 +11176,8 @@
       "series_count": 19,
       "share_of_category": {
         "num": 144,
-        "den": 1982,
-        "pct": 7.3
+        "den": 2000,
+        "pct": 7.2
       },
       "role_axis": "none",
       "label_jaccard": null,
@@ -11292,7 +11300,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 3
+            "html_table": 7
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -11796,7 +11804,7 @@
       "series_count": 4,
       "share_of_category": {
         "num": 16,
-        "den": 1982,
+        "den": 2000,
         "pct": 0.8
       },
       "role_axis": "none",
@@ -12337,7 +12345,7 @@
       "series_count": 17,
       "share_of_category": {
         "num": 169,
-        "den": 1982,
+        "den": 2000,
         "pct": 8.5
       },
       "role_axis": "none",
@@ -12924,7 +12932,7 @@
       "series_count": 7,
       "share_of_category": {
         "num": 17,
-        "den": 1982,
+        "den": 2000,
         "pct": 0.9
       },
       "role_axis": "none",
@@ -13417,7 +13425,7 @@
       "series_count": 14,
       "share_of_category": {
         "num": 60,
-        "den": 1982,
+        "den": 2000,
         "pct": 3
       },
       "role_axis": "none",
@@ -14004,7 +14012,7 @@
       "series_count": 10,
       "share_of_category": {
         "num": 39,
-        "den": 1982,
+        "den": 2000,
         "pct": 2
       },
       "role_axis": "none",
@@ -14619,7 +14627,7 @@
       "series_count": 2,
       "share_of_category": {
         "num": 3,
-        "den": 1982,
+        "den": 2000,
         "pct": 0.2
       },
       "role_axis": "none",
@@ -15247,7 +15255,7 @@
       "series_count": 14,
       "share_of_category": {
         "num": 18,
-        "den": 1982,
+        "den": 2000,
         "pct": 0.9
       },
       "role_axis": "none",
@@ -15740,7 +15748,7 @@
       "series_count": 11,
       "share_of_category": {
         "num": 53,
-        "den": 1982,
+        "den": 2000,
         "pct": 2.7
       },
       "role_axis": "none",
@@ -16403,7 +16411,7 @@
       "series_count": 12,
       "share_of_category": {
         "num": 39,
-        "den": 1982,
+        "den": 2000,
         "pct": 2
       },
       "role_axis": "none",
@@ -16932,7 +16940,7 @@
       "series_count": 7,
       "share_of_category": {
         "num": 13,
-        "den": 1982,
+        "den": 2000,
         "pct": 0.7
       },
       "role_axis": "none",
@@ -17425,7 +17433,7 @@
       "series_count": 14,
       "share_of_category": {
         "num": 203,
-        "den": 1982,
+        "den": 2000,
         "pct": 10.2
       },
       "role_axis": "none",
@@ -17513,7 +17521,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 4
+            "html_table": 19
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -17980,9 +17988,9 @@
     }
   },
   "build": {
-    "data_commit": "b8e208098ff8",
-    "code_commit": "b8e208098ff8",
-    "contract_hash": "6c140f9084304e5f",
-    "generated_at": "2026-09-28T14:06:42.276Z"
+    "data_commit": "91e7898e2534+18dirty",
+    "code_commit": "91e7898e2534",
+    "contract_hash": "1a62b6dedddf519c",
+    "generated_at": "2026-09-28T14:42:25.345Z"
   }
 }

@@ -7,74 +7,206 @@
   {
    "line": "Meraki MV Smart Cameras",
    "series": [
-    { "series": "MV2", "family": "Second Generation MV Cameras", "sku": ["^MV2(?![0-9])"],
-      "note": "family from Cisco's documents: the MV Smart Camera FAQ lists 'All second-generation MV cameras (MV12, MV2, MV22(x), MV32, MV52, MV72(x))' and the MT FAQ 'Gen2: MV2, MV12(W/WE/N), MV22(X), MV32, MV72(X)'; the datasheet is titled 'Second Generation MV Cameras: Datasheet' (decision pending: generations as families)" },
-    { "series": "MV12", "family": "Second Generation MV Cameras", "sku": ["^MV12(?![0-9])"] },
-    { "series": "MV22", "family": "Second Generation MV Cameras", "sku": ["^MV22(?![0-9])"] },
-    { "series": "MV32", "family": "Second Generation MV Cameras", "sku": ["^MV32(?![0-9])"] },
-    { "series": "MV52", "family": "Second Generation MV Cameras", "sku": ["^MV52(?![0-9])"] },
-    { "series": "MV72", "family": "Second Generation MV Cameras", "sku": ["^MV72(?![0-9])"] },
-    { "series": "MV13", "family": "Third Generation MV Cameras", "sku": ["^MV13(?![0-9])"],
-      "note": "family from Cisco's documents: the MV Smart Camera FAQ names 'Third-generation MV cameras (MV13, MV33, MV63(x), MV93(x)', the MT FAQ 'Gen3: MV13/M, MV23M/X, MV33/M, MV63/M/X, MV73M/X, MV93/M/X', and the accessories page mounts 'for Third-Gen MV'; the bare MV13 / MV13M rows carry class plans (family placeholders of MV13-HW / MV13M-HW)" },
-    { "series": "MV23", "family": "Third Generation MV Cameras", "sku": ["^MV23(?![0-9])"] },
-    { "series": "MV33", "family": "Third Generation MV Cameras", "sku": ["^MV33(?![0-9])"] },
-    { "series": "MV63", "family": "Third Generation MV Cameras", "sku": ["^MV63(?![0-9])"] },
-    { "series": "MV73", "family": "Third Generation MV Cameras", "sku": ["^MV73(?![0-9])"] },
-    { "series": "MV93", "family": "Third Generation MV Cameras", "sku": ["^MV93(?![0-9])"] },
-    { "series": "MV21", "sku": ["^MV21(?![0-9])"] },
-    { "series": "MV71", "sku": ["^MV71(?![0-9])"] },
-    { "series": "MV44X", "sku": ["^MV44X"] },
-    { "series": "MV53X", "sku": ["^MV53X"] },
-    { "series": "MV84X", "sku": ["^MV84X"] }
+    {
+     "series": "MV2",
+     "family": "Second Generation MV Cameras",
+     "sku": [
+      "^MV2(?![0-9])"
+     ],
+     "note": "family from Cisco's documents: the MV Smart Camera FAQ lists 'All second-generation MV cameras (MV12, MV2, MV22(x), MV32, MV52, MV72(x))' and the MT FAQ 'Gen2: MV2, MV12(W/WE/N), MV22(X), MV32, MV72(X)'; the datasheet is titled 'Second Generation MV Cameras: Datasheet' (decision pending: generations as families)"
+    },
+    {
+     "series": "MV12",
+     "family": "Second Generation MV Cameras",
+     "sku": [
+      "^MV12(?![0-9])"
+     ]
+    },
+    {
+     "series": "MV22",
+     "family": "Second Generation MV Cameras",
+     "sku": [
+      "^MV22(?![0-9])"
+     ]
+    },
+    {
+     "series": "MV32",
+     "family": "Second Generation MV Cameras",
+     "sku": [
+      "^MV32(?![0-9])"
+     ]
+    },
+    {
+     "series": "MV52",
+     "family": "Second Generation MV Cameras",
+     "sku": [
+      "^MV52(?![0-9])"
+     ]
+    },
+    {
+     "series": "MV72",
+     "family": "Second Generation MV Cameras",
+     "sku": [
+      "^MV72(?![0-9])"
+     ]
+    },
+    {
+     "series": "MV13",
+     "family": "Third Generation MV Cameras",
+     "sku": [
+      "^MV13(?![0-9])"
+     ],
+     "note": "family from Cisco's documents: the MV Smart Camera FAQ names 'Third-generation MV cameras (MV13, MV33, MV63(x), MV93(x)', the MT FAQ 'Gen3: MV13/M, MV23M/X, MV33/M, MV63/M/X, MV73M/X, MV93/M/X', and the accessories page mounts 'for Third-Gen MV'; the bare MV13 / MV13M rows carry class plans (family placeholders of MV13-HW / MV13M-HW)"
+    },
+    {
+     "series": "MV23",
+     "family": "Third Generation MV Cameras",
+     "sku": [
+      "^MV23(?![0-9])"
+     ]
+    },
+    {
+     "series": "MV33",
+     "family": "Third Generation MV Cameras",
+     "sku": [
+      "^MV33(?![0-9])"
+     ]
+    },
+    {
+     "series": "MV63",
+     "family": "Third Generation MV Cameras",
+     "sku": [
+      "^MV63(?![0-9])"
+     ]
+    },
+    {
+     "series": "MV73",
+     "family": "Third Generation MV Cameras",
+     "sku": [
+      "^MV73(?![0-9])"
+     ]
+    },
+    {
+     "series": "MV93",
+     "family": "Third Generation MV Cameras",
+     "sku": [
+      "^MV93(?![0-9])"
+     ]
+    },
+    {
+     "series": "MV21",
+     "sku": [
+      "^MV21(?![0-9])"
+     ]
+    },
+    {
+     "series": "MV71",
+     "sku": [
+      "^MV71(?![0-9])"
+     ]
+    },
+    {
+     "series": "MV44X",
+     "sku": [
+      "^MV44X"
+     ]
+    },
+    {
+     "series": "MV53X",
+     "sku": [
+      "^MV53X"
+     ]
+    },
+    {
+     "series": "MV84X",
+     "sku": [
+      "^MV84X"
+     ]
+    }
    ],
    "no_family_reason": "MV21 and MV71 (the FAQ says 'Gen 1 cameras' without listing them on the documents held) and the MV44X, MV53X and MV84X are named in Cisco's documents without a generation"
   },
   {
-   "line": "Meraki MX Security and SD-WAN Appliances",
-   "series": [
-    { "series": "MX64", "sku": ["^MX64(?![0-9])"] },
-    { "series": "MX65", "sku": ["^MX65(?![0-9])"] },
-    { "series": "MX67", "sku": ["^MX67(?![0-9])"] },
-    { "series": "MX68", "sku": ["^MX68(?![0-9])"] },
-    { "series": "MX75", "sku": ["^MX75(?![0-9])"] },
-    { "series": "MX84", "sku": ["^MX84(?![0-9])"] },
-    { "series": "MX85", "sku": ["^MX85(?![0-9])"] },
-    { "series": "MX95", "sku": ["^MX95(?![0-9])"] },
-    { "series": "MX100", "sku": ["^MX100(?![0-9])"] },
-    { "series": "MX105", "sku": ["^MX105(?![0-9])"] },
-    { "series": "MX250", "sku": ["^MX250(?![0-9])"] },
-    { "series": "MX450", "sku": ["^MX450(?![0-9])"] }
-   ],
-   "no_family_reason": "Cisco names each MX model directly under MX; its datasheets pair models ('MX64 and MX65', 'MX67 and MX68') without a family name. MX16 / MX18 / MX26 are firmware versions and MX650 a page tag, each with a class plan"
-  },
-  {
-   "line": "Meraki Z Teleworker Gateways",
-   "series": [
-    { "series": "Z4", "sku": ["^Z4(?![0-9C])"] },
-    { "series": "Z4C", "sku": ["^Z4C"] }
-   ]
-  },
-  {
    "line": "Meraki MG Cellular Gateways",
    "series": [
-    { "series": "MG21 / MG21E", "sku": ["^MG21E?(?![0-9])"] },
-    { "series": "MG41 / MG41E", "sku": ["^MG41E?(?![0-9])"] },
-    { "series": "MG51 / MG51E", "sku": ["^MG51E?(?![0-9])"] },
-    { "series": "MG52 / MG52E", "sku": ["^MG52E?(?![0-9])"] }
+    {
+     "series": "MG21 / MG21E",
+     "sku": [
+      "^MG21E?(?![0-9])"
+     ]
+    },
+    {
+     "series": "MG41 / MG41E",
+     "sku": [
+      "^MG41E?(?![0-9])"
+     ]
+    },
+    {
+     "series": "MG51 / MG51E",
+     "sku": [
+      "^MG51E?(?![0-9])"
+     ]
+    },
+    {
+     "series": "MG52 / MG52E",
+     "sku": [
+      "^MG52E?(?![0-9])"
+     ]
+    }
    ],
    "no_family_reason": "Cisco names each MG model with its external-antenna E variant ('MG21/21E Datasheet', 'MG41/41E Datasheet', 'MG51/51E', 'MG52/52E Technical Specifications') directly under MG, with no family between"
   },
   {
    "line": "Meraki MT Sensors",
    "series": [
-    { "series": "MT10", "sku": ["^MT10(?![0-9])"] },
-    { "series": "MT11", "sku": ["^MT11(?![0-9])"] },
-    { "series": "MT12", "sku": ["^MT12(?![0-9])"] },
-    { "series": "MT14", "sku": ["^MT14(?![0-9])"] },
-    { "series": "MT15", "sku": ["^MT15(?![0-9])"] },
-    { "series": "MT20", "sku": ["^MT20(?![0-9])"] },
-    { "series": "MT30", "sku": ["^MT30(?![0-9])"] },
-    { "series": "MT40", "sku": ["^MT40(?![0-9])"] }
+    {
+     "series": "MT10",
+     "sku": [
+      "^MT10(?![0-9])"
+     ]
+    },
+    {
+     "series": "MT11",
+     "sku": [
+      "^MT11(?![0-9])"
+     ]
+    },
+    {
+     "series": "MT12",
+     "sku": [
+      "^MT12(?![0-9])"
+     ]
+    },
+    {
+     "series": "MT14",
+     "sku": [
+      "^MT14(?![0-9])"
+     ]
+    },
+    {
+     "series": "MT15",
+     "sku": [
+      "^MT15(?![0-9])"
+     ]
+    },
+    {
+     "series": "MT20",
+     "sku": [
+      "^MT20(?![0-9])"
+     ]
+    },
+    {
+     "series": "MT30",
+     "sku": [
+      "^MT30(?![0-9])"
+     ]
+    },
+    {
+     "series": "MT40",
+     "sku": [
+      "^MT40(?![0-9])"
+     ]
+    }
    ],
    "no_family_reason": "Cisco names each MT sensor by model and function ('MT10 Datasheet - Temperature and Humidity', 'MT40 Datasheet - Smart Power Controller') directly under MT, with no family between"
   }

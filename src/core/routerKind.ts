@@ -413,7 +413,13 @@ export const DEVICE_RULES: { id: string; kind: RouterKind; re: RegExp }[] = [
 ];
 
 /** The kind the axis falls back to. Named rather than repeated, because which kind is the fallback
- *  is the load-bearing decision above and it must be greppable. */
+ *  is the load-bearing decision above and it must be greppable.
+ *
+ *  THE MERAKI Z TELEWORKER GATEWAYS RELY ON IT (28 Sep 2026): Z4, Z4-HW, Z4C and Z4C-HW moved here from
+ *  `meraki` under the reviewer's ruling, and no rule names them -- this fallback is what makes them routers,
+ *  correctly. I wrote the rule anyway, for greppability, and the suite refused it: its sabotage reported
+ *  `0/4 change kind`, which is this repo's own standard saying a rule whose removal changes nothing is
+ *  decorative. So the dependency is recorded here, where the decision actually lives, instead. */
 export const RT_FALLBACK: RouterKind = "router";
 
 export function routerKind(sku: string): RouterKind {

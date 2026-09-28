@@ -805,6 +805,23 @@
      ]
     }
    ]
+  },
+  {
+   "line": "Meraki Z Teleworker Gateways",
+   "series": [
+    {
+     "series": "Z4",
+     "sku": [
+      "^Z4(?![0-9C])"
+     ]
+    },
+    {
+     "series": "Z4C",
+     "sku": [
+      "^Z4C"
+     ]
+    }
+   ]
   }
  ],
  "shared_accessories": [

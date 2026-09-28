@@ -163,6 +163,14 @@ for (const [sku, want, why] of POSITIVES) kindIs(sku, want, why);
 // REFUSALS — the real product each slightly wider rule would have mis-shaped
 // =================================================================================================
 const REFUSALS: [string, SecurityKind, string][] = [
+  // THE FOUR GHOSTS THE MERAKI-MX RULE MUST NOT REACH (28 Sep 2026). `^MX\d` matched 22 parts in meraki and
+  // four of them — MX16, MX18, MX26, MX650 — carry no kind, no fact and no document between them, names that
+  // are literally "Cisco <SKU>", and correspond to no Meraki model that exists. `MX` is also TelePresence's
+  // line and Juniper's router family (MX960, MX2000). So the rule enumerates the 18 shipping models, and these
+  // cases are what stops the next reader "simplifying" it back to a prefix: they must stay on the fallback.
+  ["MX16", "appliance", "no such Meraki model — a datasheet cell read as a part, 0 facts and 0 documents"],
+  ["MX650", "appliance", "likewise, and the shape that would break a lazy ^MX\\d{2,3} too"],
+  ["MX960-PSM-5K-A", "appliance", "a JUNIPER MX960 power supply — the prefix is not even Cisco's alone"],
   // D2, 28 Sep 2026 — the three real neighbours the widened patterns must NOT reach. Every one is a live PID
   // from the catalogue, found by listing what shares each prefix rather than by imagining what might.
   ["ASA-SSC-BLANK=", "accessory", "'ASA 5505 SSC Blank Slot Cover' — `SS[MC]-` now reaches SSC, and a slot COVER is not a card: the blank rule runs first and must keep winning"],
@@ -336,6 +344,16 @@ const ORDER: [string, SecurityKind, string, string][] = [
   ["1210CP", "firewall", "firewall-1200-model-and-asa-vpn-bundle", "the (default) appliance fallback"],
   ["TA-CL-39U-M6-K9", "analytics", "analytics-sandbox-and-workload", "the (default) appliance fallback"],
   ["AMPPC-3000-K9", "management", "management-endpoint-private-cloud", "the (default) appliance fallback"],
+  // MERAKI MX (reviewer's ruling, 28 Sep 2026) — 18 models moved here from `meraki`. What each of these beats
+  // is the APPLIANCE FALLBACK, and that is the whole point: without the rule an MX lands as a generic
+  // appliance and is asked a security appliance's questions instead of a firewall's ips_throughput,
+  // tls_throughput and vpn_peers. One per shape the rule has to read, not one per model.
+  ["MX64", "firewall", "meraki-mx", "the (default) appliance fallback — the bare small-branch model"],
+  ["MX64W", "firewall", "meraki-mx", "the same, with the Wi-Fi suffix"],
+  ["MX67C", "firewall", "meraki-mx", "the CELLULAR model — a C does not make it a gateway"],
+  ["MX68CW", "firewall", "meraki-mx", "cellular AND Wi-Fi together"],
+  ["MX450", "firewall", "meraki-mx", "the three-digit campus model, where MX450 must not read as MX45 + 0"],
+  ["MX68CW-HW-WW", "firewall", "meraki-mx", "the -HW -WW ordering suffixes, which no part carries today"],
 ];
 for (const [sku, want, ruleId, beats] of ORDER) {
   seen.add(securityKindRule(sku));
