@@ -42,6 +42,9 @@ export function classifySeriesHint(r: SeriesHintRow): SeriesHintVerdict {
   // 5c: the MDS 9000 umbrella is coarser than a column that already names an MDS series -> retract.
   if (model === "9000" && [r.series, r.productSeries].some((c) => /^mds 9/i.test(c ?? "")))
     return { bucket: "umbrella", action: "retract" };
+  // 5b/5c: a pluggable naming the umbrella under a non-MDS column states its host platform -> relation, then retract.
+  if (model === "9000" && r.kind === "pluggable")
+    return { bucket: "host-chassis", action: "relate+retract", relation: { kind: "compatible", to: "MDS 9000" } };
   // 5c: a non-chassis part naming a router series it plugs into -> relation compatible, verbatim target.
   if (!platform && !CHASSIS_KINDS.has(r.kind) && /series routers$/i.test(r.value.trim()))
     return { bucket: "host-chassis", action: "relate+retract", relation: { kind: "compatible", to: r.value.trim() } };

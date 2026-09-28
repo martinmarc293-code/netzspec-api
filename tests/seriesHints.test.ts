@@ -31,6 +31,9 @@ const umb2 = classifySeriesHint(row({ value: "MDS 9000", kind: "linecard", serie
 check("5c the MDS 9000 umbrella under an MDS series column retracts", umb2.bucket === "umbrella" && umb2.action === "retract", umb2);
 check("5c the umbrella on a chassis retracts too",
   classifySeriesHint(row({ value: "Cisco MDS 9000", kind: "fc-switch", series: "MDS 9200 Series Multiservice" })).bucket === "umbrella");
+const plug = classifySeriesHint(row({ value: "Cisco MDS 9000", kind: "pluggable", series: "40G QSFP+ Modules", productSeries: "40G QSFP+" }));
+check("5c a pluggable naming the umbrella under its optic column relates compatible to MDS 9000",
+  plug.action === "relate+retract" && plug.relation.to === "MDS 9000", plug);
 check("NEGATIVE 5c the umbrella under a non-MDS column parks",
   classifySeriesHint(row({ value: "MDS 9000", kind: "linecard", series: "Nexus 9000" })).action === "park");
 const rtr = classifySeriesHint(row({ value: "Cisco 10000 Series Routers", kind: "interface", series: "Shared Port Adapters/SPA Interface Processors" }));
