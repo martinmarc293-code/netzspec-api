@@ -13317,7 +13317,7 @@ security	ASA-PWR-DC	Cisco ASA 5545-X/5555-X DC power supply	power
 security	ASA-PWR-DC=	^^ASA 5545-X/5555-X DC Power Supply	power	
 security	ASA-RAILS	^ASA 5512-X - ASA 5555-X Rail Kit	mechanical	
 security	ASA-RAILS=	Cisco ASA 5512-X, 5515-X, 5525-X, 5545-X, 5555-X rail kit for rack mounting	mechanical	
-security	ASA-SSC-AIP-5-K9=	Cisco ASA 5500 Series Advanced Inspection and Prevention Security Services Card 5 (AIP-SSC-5)	appliance	
+security	ASA-SSC-AIP-5-K9=	Cisco ASA 5500 Series Advanced Inspection and Prevention Security Services Card 5 (AIP-SSC-5)	module	
 security	ASA-SSC-BLANK=	ASA 5505 SSC Blank Slot Cover	mechanical	
 security	ASA-SSE-AIP-65	ASA 5500 Security Services Engine-65 w 8GE,2SFP+	security-module	
 security	ASA-SSM-AIP-10-K9	ASA 5500 AIP Security Services Module-10	module	
@@ -14810,8 +14810,8 @@ security	LC-UDP-2010-F-K9	StealthWatch FlowReplicator Director 2010 Fiber	analyt
 security	LC-UDP-2010-FU-K9	StealthWatch FlowReplicator Dir Upg from 1010 to 2010 fiber	analytics	
 security	LC-UDP-2010-FU1-K9	StealthWatch FlowReplicator 20XX-F Hardware Refresh Program	analytics	
 security	LC-UDP-2010-R-K9	StealthWatch FlowReplicator 20XX HW Refresh to UDP Dir. 2010	analytics	
-security	NAM2420-K9	Cisco NAM2420-K9	appliance	
-security	NAM2440-K9	Cisco NAM2440-K9	appliance	
+security	NAM2420-K9	Cisco NAM2420-K9	management	
+security	NAM2440-K9	Cisco NAM2440-K9	management	
 security	PRIME-ACC-REG	^Cisco Prime Access Registrar 7.X - Physical	accessory	
 security	PRSM-APPLSW2-25-K9	PRSM Software Bundled With Physical Appliance	management	
 security	PRSM-APPLSW2-50-K9	PRSM Software Bundled With Physical Appliance	management	
@@ -15168,7 +15168,7 @@ security	TG5000-K9	Cisco Threat Grid 5000 Model with software	analytics
 security	TG5004-CHAS	Cisco Threat Grid 5004/5504 Chasis	analytics	
 security	TG5004-K9	Cisco Threat Grid 5004 Model Hardware	analytics	
 security	TG5500-BUN	Cisco Threat Grid 5500 Model and Subscription Bundle	analytics	
-security	TG5500-C220M3S-K9	Cisco TG5500-C220M3S-K9	appliance	
+security	TG5500-C220M3S-K9	Cisco TG5500-C220M3S-K9	analytics	
 security	TG5500-CHAS	Cisco Threat Grid 5000/5500 Chasis	analytics	
 security	TG5500-K9	Cisco Threat Grid 5500 Model with software	analytics	
 security	TG5504-K9	Cisco Threat Grid 5504 Model Hardware	analytics	

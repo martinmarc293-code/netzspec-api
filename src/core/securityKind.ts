@@ -210,7 +210,10 @@ const RULES: { kind: SecurityKind; id: string; re: RegExp }[] = [
   // ASA5585-NM-4-10GE, FP-NMSB-10G, SSM-4GE (a 4-port ASA module — ports, not a service).
   // + FPR9K-SUP= "Firepower 9000 Series Supervisor Spare": the 9300's supervisor is a slot-in module, and
   // FPR9K-SUP-BLANK (its slot cover) is taken by the blank rule above, which runs first (12 Sep 2026).
-  { kind: "module", id: "netmod", re: /(?:^|-)X?NM(?:-|=|$)|DNM|^FPNM-|^FP-NMSB-|(?:^|-)SSM-|^ASA-IC-|-IC-\d|^ASA5585-NM-|^SM-EC-|^FPR\dK-SUP|^AIM-/ },
+  // + SSC joins SSM (D2, 28 Sep 2026): ASA-SSC-AIP-5-K9= is the "ASA 5500 Series Advanced Inspection and
+  // Prevention Security Services CARD" — a slot-in card like the SSM beside it, and it had fallen through to
+  // `appliance`, where the default correctly fails safe but asks a card for firewall and IPsec throughput.
+  { kind: "module", id: "netmod", re: /(?:^|-)X?NM(?:-|=|$)|DNM|^FPNM-|^FP-NMSB-|(?:^|-)SS[MC]-|^ASA-IC-|-IC-\d|^ASA5585-NM-|^SM-EC-|^FPR\dK-SUP|^AIM-/ },
   // ---- appliance shapes named by the SKU -----------------------------------------------------------
   // Firewalls: Firepower 1000-9300, Secure Firewall 200-6100 (CSF), ASA 5500/5500-X, ISA 3000 industrial.
   // + the 9300 chassis (FPR-CH-9300-AC "Firepower 9300 Chassis for AC Power Supply, 2 PSU/4 fans") and the
@@ -240,7 +243,10 @@ const RULES: { kind: SecurityKind; id: string; re: RegExp }[] = [
   // licences, see productClass) and PRSM-APPLSW2-25-K9 "PRSM Software Bundled With Physical Appliance".
   // + FMC-M6-BUN ("Secure Firewall Management Center M6 Bundle") and PRSM-APPSW2-100-K9, the second
   // spelling of "PRSM Software Bundled With Physical Appliance" — `^PRSM-APPL` reached only the first.
-  { kind: "management", id: "management", re: /^SMA-?M\d{3}|^FMC-?\d{3,4}(?:-|$)|^FMC-M\d-BUN|^FS\d{3,4}-|^PRSM-HW|^PRSM-APP|^CSM4-UCS2-\d+-(?:HW|K9)/ },
+  // + the NAM 2400s (D2, 28 Sep 2026): NAM2420-K9 / NAM2440-K9 are standalone 1RU Network Analysis Module
+  // APPLIANCES — they monitor and report, so ports, rack_units and storage are asked and no throughput cup is.
+  // Anchored `^NAM\d{4}-K9$` rather than `^NAM`, because NAM- accessories and licences share the prefix.
+  { kind: "management", id: "management", re: /^SMA-?M\d{3}|^FMC-?\d{3,4}(?:-|$)|^FMC-M\d-BUN|^FS\d{3,4}-|^PRSM-HW|^PRSM-APP|^CSM4-UCS2-\d+-(?:HW|K9)|^NAM\d{4}-K9$/ },
   // Secure Network Analytics (Stealthwatch) Flow Collector, Flow Sensor, UDP Director, Management Console — the
   // ST- generation and the Lancope LC- generation before it (LC-SMC-2K-K9 "StealthWatch Management Console 2000
   // appliance", LC-FCNF4010, LC-SENS-3000-F "FlowSensor 3000 appliance", LC-REP-1000 "FlowReplicator 1000") —
@@ -260,7 +266,12 @@ const RULES: { kind: SecurityKind; id: string; re: RegExp }[] = [
   // ANALYTICS = APPLIANCE + flows_per_second (optional: zero labels anywhere), so filing a sandbox here asks it
   // exactly the appliance envelope and nothing it cannot have. Their components (TG-PWR-*, TG-M5-HDD-*,
   // TG-RAID-*, TG-M6-TPM-2.0) are taken by the component rules above, which run first.
-  { kind: "analytics", id: "analytics-sandbox-and-workload", re: /^TG\d{4}-(?:K9|BUN|CHAS)|^TG-(?:M\d|AFA)-K9$|^TA-CL-\d+U-|^C1-TETRATION(?:-M)?$/ },
+  // + the PLATFORM-NAMED ThreatGrids (D2, 28 Sep 2026): TG5500-C220M3S-K9 names the UCS server it is built on
+  // between the model and the -K9, so `^TG\d{4}-(?:K9|BUN|CHAS)` could not reach it and it sat in `appliance`.
+  // `C\d{3}M\d` matches that segment and nothing else in the catalogue — measured over all 13,275 security
+  // SKUs through the real securityKind, this widening and the two above move EXACTLY four rows, all four out
+  // of `appliance` and each to its named target.
+  { kind: "analytics", id: "analytics-sandbox-and-workload", re: /^TG\d{4}-(?:K9|BUN|CHAS|C\d{3}M\d)|^TG-(?:M\d|AFA)-K9$|^TA-CL-\d+U-|^C1-TETRATION(?:-M)?$/ },
   // Secure Endpoint (AMP) Private Cloud appliances — SEPC4000-K9, AMPPC3000-K9, AMPPC-3000-K9 "AMP Private Cloud
   // Appliance - 3000 Model" — the on-premises console and store that MANAGES endpoint connectors: `management`.
   { kind: "management", id: "management-endpoint-private-cloud", re: /^SEPC\d{4}-K9$|^AMPPC-?\d{4}-K9$/ },

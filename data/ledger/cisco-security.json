@@ -3,7 +3,7 @@
   "vendor": "cisco",
   "category": "security",
   "profile_hash": "f85f5451e4033971",
-  "built_on_commit": "cdfcd7c",
+  "built_on_commit": "fd49801",
   "norm_version": "1.8.0",
   "declared_fields": 402,
   "gap_states": {
@@ -21,21 +21,21 @@
   },
   "totals": {
     "parts": 1982,
-    "required_slots_at_nothing_known": 16058,
-    "required_slots_stored": 16015,
+    "required_slots_at_nothing_known": 16020,
+    "required_slots_stored": 16017,
     "_slots_note": "at_nothing_known = parts × (required + pending) with only the kind known — and, for a kind with a role axis (role_axis: deploy_role), the SUM over its `roles` blocks of role parts × that role's (required + pending), because a role that asks fewer cups opens fewer slots; the kind's own `slots_per_part_at_nothing_known` and cup lists are its CORE (the `(unresolved)` role). stored = the live denominator (completeness.required_total), smaller wherever an answered gate has closed a pending question; per role it is the same sum split by role",
     "by_kind": {
       "firewall": 468,
       "ips": 60,
       "email-gateway": 35,
       "web-gateway": 37,
-      "management": 81,
-      "analytics": 214,
+      "management": 83,
+      "analytics": 215,
       "identity": 32,
-      "appliance": 4,
+      "appliance": 0,
       "security-module": 88,
       "ips-module": 14,
-      "module": 175,
+      "module": 176,
       "power": 144,
       "fan": 16,
       "drive": 169,
@@ -4579,18 +4579,18 @@
       ]
     },
     "management": {
-      "parts": 81,
+      "parts": 83,
       "parts_with_3plus_own_facts": 0,
       "parts_with_a_device_noun_in_name": 55,
       "parts_with_a_device_noun_exempt_by_kind": 0,
       "slots_per_part_at_nothing_known": 10,
-      "required_slots_at_nothing_known": 810,
-      "required_slots_stored": 810,
-      "series_count": 10,
+      "required_slots_at_nothing_known": 830,
+      "required_slots_stored": 830,
+      "series_count": 11,
       "share_of_category": {
-        "num": 81,
+        "num": 83,
         "den": 1982,
-        "pct": 4.1
+        "pct": 4.2
       },
       "role_axis": "none",
       "label_jaccard": null,
@@ -4606,7 +4606,7 @@
         "spec_bearing": 3,
         "spec_linked_not_held": 10,
         "eol_only": 68,
-        "no_document": 0,
+        "no_document": 2,
         "spec_bearing_by_doc_type_legacy": 13,
         "blocked_by": "not-held (acquisition)"
       },
@@ -5607,16 +5607,16 @@
       ]
     },
     "analytics": {
-      "parts": 214,
+      "parts": 215,
       "parts_with_3plus_own_facts": 1,
       "parts_with_a_device_noun_in_name": 36,
       "parts_with_a_device_noun_exempt_by_kind": 0,
       "slots_per_part_at_nothing_known": 10,
-      "required_slots_at_nothing_known": 2140,
-      "required_slots_stored": 2140,
-      "series_count": 6,
+      "required_slots_at_nothing_known": 2150,
+      "required_slots_stored": 2150,
+      "series_count": 7,
       "share_of_category": {
-        "num": 214,
+        "num": 215,
         "den": 1982,
         "pct": 10.8
       },
@@ -5629,7 +5629,7 @@
       },
       "term13": {
         "trips": [
-          "parts 214 >= 200"
+          "parts 215 >= 200"
         ],
         "verdict": "unmeasured",
         "label_jaccard": null,
@@ -5639,7 +5639,7 @@
       "document_evidence": {
         "spec_bearing": 3,
         "spec_linked_not_held": 3,
-        "eol_only": 191,
+        "eol_only": 192,
         "no_document": 17,
         "spec_bearing_by_doc_type_legacy": 6,
         "blocked_by": "not-held (acquisition)"
@@ -7611,18 +7611,18 @@
       ]
     },
     "appliance": {
-      "parts": 4,
+      "parts": 0,
       "parts_with_3plus_own_facts": 0,
       "parts_with_a_device_noun_in_name": 0,
       "parts_with_a_device_noun_exempt_by_kind": 0,
       "slots_per_part_at_nothing_known": 18,
-      "required_slots_at_nothing_known": 72,
-      "required_slots_stored": 32,
-      "series_count": 3,
+      "required_slots_at_nothing_known": 0,
+      "required_slots_stored": 0,
+      "series_count": 0,
       "share_of_category": {
-        "num": 4,
+        "num": 0,
         "den": 1982,
-        "pct": 0.2
+        "pct": 0
       },
       "role_axis": "none",
       "label_jaccard": null,
@@ -7637,10 +7637,10 @@
       "document_evidence": {
         "spec_bearing": 0,
         "spec_linked_not_held": 0,
-        "eol_only": 1,
-        "no_document": 3,
+        "eol_only": 0,
+        "no_document": 0,
         "spec_bearing_by_doc_type_legacy": 0,
-        "blocked_by": "not-held (acquisition)"
+        "blocked_by": "no parts"
       },
       "required": [
         {
@@ -10485,18 +10485,18 @@
       ]
     },
     "module": {
-      "parts": 175,
+      "parts": 176,
       "parts_with_3plus_own_facts": 0,
       "parts_with_a_device_noun_in_name": 40,
       "parts_with_a_device_noun_exempt_by_kind": 0,
       "slots_per_part_at_nothing_known": 4,
-      "required_slots_at_nothing_known": 700,
-      "required_slots_stored": 700,
+      "required_slots_at_nothing_known": 704,
+      "required_slots_stored": 704,
       "series_count": 7,
       "share_of_category": {
-        "num": 175,
+        "num": 176,
         "den": 1982,
-        "pct": 8.8
+        "pct": 8.9
       },
       "role_axis": "none",
       "label_jaccard": null,
@@ -10512,7 +10512,7 @@
         "spec_bearing": 0,
         "spec_linked_not_held": 46,
         "eol_only": 124,
-        "no_document": 5,
+        "no_document": 6,
         "spec_bearing_by_doc_type_legacy": 46,
         "blocked_by": "not-held (acquisition)"
       },
@@ -17980,9 +17980,9 @@
     }
   },
   "build": {
-    "data_commit": "cdfcd7cf6568+38dirty",
-    "code_commit": "cdfcd7cf6568",
+    "data_commit": "56c5fb562ab7+91dirty",
+    "code_commit": "fd4980199111",
     "contract_hash": "d24c7710659592bc",
-    "generated_at": "2026-09-28T00:09:52.557Z"
+    "generated_at": "2026-09-28T12:31:37.091Z"
   }
 }

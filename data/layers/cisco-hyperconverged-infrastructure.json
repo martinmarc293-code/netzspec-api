@@ -1,16 +1,10 @@
 {
   "vendor": "cisco",
   "category": "hyperconverged-infrastructure",
-  "built_at": "2026-09-27T23:59:19.475Z",
-  "commit": "cdfcd7cf6568ba3e2dec571e579695fa0ae53b42",
+  "built_at": "2026-09-28T12:03:53.561Z",
+  "commit": "fd4980199111364133d8b488e48f40c4373802ec",
   "uncommitted_rule_files": [
-    "src/core/collabKind.ts",
-    "src/core/cupLedger.ts",
-    "src/core/fieldSchema.ts",
-    "src/core/kindProfiles.ts",
-    "src/core/layerChecks.ts",
-    "src/core/merakiKind.ts",
-    "src/core/physicalObjectCups.ts"
+    "src/core/securityKind.ts"
   ],
   "mapping_file": "data/reference/product-lines/cisco-hyperconverged-infrastructure.json",
   "parts": 1216,
@@ -265,9 +259,9 @@
   "inbound_unplaced": {},
   "done": true,
   "build": {
-    "data_commit": "cdfcd7cf6568+38dirty",
-    "code_commit": "cdfcd7cf6568",
+    "data_commit": "56c5fb562ab7+91dirty",
+    "code_commit": "fd4980199111",
     "contract_hash": "d24c7710659592bc",
-    "generated_at": "2026-09-28T00:09:52.557Z"
+    "generated_at": "2026-09-28T12:31:37.091Z"
   }
 }

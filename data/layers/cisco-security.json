@@ -1,16 +1,10 @@
 {
   "vendor": "cisco",
   "category": "security",
-  "built_at": "2026-09-27T23:59:19.093Z",
-  "commit": "cdfcd7cf6568ba3e2dec571e579695fa0ae53b42",
+  "built_at": "2026-09-28T12:03:52.371Z",
+  "commit": "fd4980199111364133d8b488e48f40c4373802ec",
   "uncommitted_rule_files": [
-    "src/core/collabKind.ts",
-    "src/core/cupLedger.ts",
-    "src/core/fieldSchema.ts",
-    "src/core/kindProfiles.ts",
-    "src/core/layerChecks.ts",
-    "src/core/merakiKind.ts",
-    "src/core/physicalObjectCups.ts"
+    "src/core/securityKind.ts"
   ],
   "mapping_file": "data/reference/product-lines/cisco-security.json",
   "parts": 1982,
@@ -490,9 +484,8 @@
           "kinds": {
             "power": 5,
             "mechanical": 14,
-            "appliance": 1,
+            "module": 12,
             "security-module": 5,
-            "module": 11,
             "drive": 5
           },
           "roles": {},
@@ -524,7 +517,7 @@
           "note": "decision pending: NAM 2400 home — NAM2420-K9 / NAM2440-K9 are planned in from interfaces-modules under pre-ruling C5 (security, kind analytics; the reviewer's confidence: medium). Security had no NAM line, so this one is opened with Cisco's product name until the security round reviews it",
           "parts": 2,
           "kinds": {
-            "appliance": 2
+            "management": 2
           },
           "roles": {},
           "samples": [
@@ -995,15 +988,14 @@
           "parts": 71,
           "kinds": {
             "nic": 4,
-            "analytics": 13,
+            "analytics": 14,
             "cpu": 5,
             "drive": 20,
             "memory": 6,
             "power": 12,
             "storage-controller": 5,
             "tpm": 3,
-            "mechanical": 2,
-            "appliance": 1
+            "mechanical": 2
           },
           "roles": {},
           "samples": [
@@ -1312,9 +1304,9 @@
   "inbound_unplaced": {},
   "done": true,
   "build": {
-    "data_commit": "cdfcd7cf6568+38dirty",
-    "code_commit": "cdfcd7cf6568",
+    "data_commit": "56c5fb562ab7+91dirty",
+    "code_commit": "fd4980199111",
     "contract_hash": "d24c7710659592bc",
-    "generated_at": "2026-09-28T00:09:52.557Z"
+    "generated_at": "2026-09-28T12:31:37.091Z"
   }
 }

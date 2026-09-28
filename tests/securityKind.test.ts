@@ -137,6 +137,13 @@ const POSITIVES: [string, SecurityKind, string][] = [
   ["TG-M6-K9", "analytics", "'Cisco Secure Malware Analytics M6 Model Hardware'"],
   ["TG5000-CHAS-AC", "analytics", "'Cisco Threat Grid 5000/5500 Chasis with AC' — the appliance body, not a power part"],
   ["TG5500-BUN", "analytics", "'Cisco Threat Grid 5500 Model and Subscription Bundle'"],
+  // D2, 28 Sep 2026 — the four rows that had fallen through to `appliance`, where the default fails safe and
+  // still asks a card for firewall throughput. Each carries its REFUSAL beside it, because the pattern that
+  // reaches it must not reach the prefix's licences and accessories.
+  ["TG5500-C220M3S-K9", "analytics", "the ThreatGrid 5500 NAMING THE UCS SERVER it is built on between the model and -K9, which `^TG\d{4}-(?:K9|BUN|CHAS)` could not reach"],
+  ["NAM2420-K9", "management", "a standalone 1RU Network Analysis Module APPLIANCE — it monitors and reports, so no throughput cup is asked"],
+  ["NAM2440-K9", "management", "its larger sibling"],
+  ["ASA-SSC-AIP-5-K9=", "module", "the ASA 5500 'Advanced Inspection and Prevention Security Services CARD' — a slot-in card, filed with the SSMs"],
   ["TA-CL-8U-M6-K9", "analytics", "'Cisco Secure Workload Gen3 8RU Cluster'"],
   ["AMPPC3000-K9", "management", "'Cisco Secure Endpoint Private Cloud Appliance - 3000 Model' (decision: management)"],
   ["SEPC4000-K9", "management", "'Cisco Secure Endpoint Private Cloud Appliance - 4000 Model'"],
@@ -156,6 +163,11 @@ for (const [sku, want, why] of POSITIVES) kindIs(sku, want, why);
 // REFUSALS — the real product each slightly wider rule would have mis-shaped
 // =================================================================================================
 const REFUSALS: [string, SecurityKind, string][] = [
+  // D2, 28 Sep 2026 — the three real neighbours the widened patterns must NOT reach. Every one is a live PID
+  // from the catalogue, found by listing what shares each prefix rather than by imagining what might.
+  ["ASA-SSC-BLANK=", "accessory", "'ASA 5505 SSC Blank Slot Cover' — `SS[MC]-` now reaches SSC, and a slot COVER is not a card: the blank rule runs first and must keep winning"],
+  ["NAM-VX10-6.0-K9", "non-hardware", "'Cisco Prime Virtual NAM VX10 Software 6.0' — the NAM prefix is shared with software, which is why the rule is anchored `^NAM\d{4}-K9$` and not `^NAM`"],
+  ["TG5500-SW-K9", "non-hardware", "'Threat Grid Software for 5500 Model' — `C\d{3}M\d` must reach the platform segment of an appliance and nothing else under the same model number"],
   // kind-layer operator ruling (13 Sep 2026): the duo-hardware-token rule is the whole token, not the DUO- family
   ["DUO-TOKEN-10PACKX", "appliance", "duo-hardware-token unanchored at the end — a shape, not a live PID: the rule must stop at the pack count"],
   // --- the drive marker against the APPLIANCE ORDERED WITH ITS SSD (survey §e, the pinned refusal)

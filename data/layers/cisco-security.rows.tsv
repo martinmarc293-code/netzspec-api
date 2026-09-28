@@ -84,7 +84,7 @@ ASA-PWR-DC	Cisco ASA 5545-X/5555-X DC power supply	ASA 5500 Series Next Generati
 ASA-PWR-DC=	^^ASA 5545-X/5555-X DC Power Supply	5500-X ASA with Firepower	power	layered	ASA and ISA	(shared across the line)		ASA and ISA shared parts	sku ^ASA							
 ASA-RAILS	^ASA 5512-X - ASA 5555-X Rail Kit	5500-X ASA with Firepower	mechanical	layered	ASA and ISA	(shared across the line)		ASA and ISA shared parts	sku ^ASA							
 ASA-RAILS=	Cisco ASA 5512-X, 5515-X, 5525-X, 5545-X, 5555-X rail kit for rack mounting	ASA 5500 Series Next Generation	mechanical	layered	ASA and ISA	(shared across the line)		ASA and ISA shared parts	sku ^ASA							
-ASA-SSC-AIP-5-K9=	Cisco ASA 5500 Series Advanced Inspection and Prevention Security Services Card 5 (AIP-SSC-5)	Security Modules for Security Appliances	appliance	layered	ASA and ISA	(shared across the line)		ASA and ISA shared parts	sku ^ASA							
+ASA-SSC-AIP-5-K9=	Cisco ASA 5500 Series Advanced Inspection and Prevention Security Services Card 5 (AIP-SSC-5)	Security Modules for Security Appliances	module	layered	ASA and ISA	(shared across the line)		ASA and ISA shared parts	sku ^ASA							
 ASA-SSC-BLANK=	ASA 5505 SSC Blank Slot Cover	5500-X ASA with Firepower	mechanical	layered	ASA and ISA	(shared across the line)		ASA and ISA shared parts	sku ^ASA							
 ASA-SSE-AIP-65	ASA 5500 Security Services Engine-65 w 8GE,2SFP+	ASA 5500 Series Next Generation	security-module	layered	ASA and ISA	(shared across the line)		ASA and ISA shared parts	sku ^ASA							
 ASA-SSM-AIP-10-K9	ASA 5500 AIP Security Services Module-10	5500-X ASA with Firepower	module	layered	ASA and ISA	(shared across the line)		ASA and ISA shared parts	sku ^ASA							
@@ -1577,8 +1577,8 @@ LC-UDP-2010-F-K9	StealthWatch FlowReplicator Director 2010 Fiber	Secure Network 
 LC-UDP-2010-FU-K9	StealthWatch FlowReplicator Dir Upg from 1010 to 2010 fiber	Secure Network Analytics	analytics	layered	Secure Network Analytics (Stealthwatch)	(none)	UDP Director / Flow Replicator		sku ^LC-(UDP|UD[0-9]|FR|REP|ID)							
 LC-UDP-2010-FU1-K9	StealthWatch FlowReplicator 20XX-F Hardware Refresh Program	Secure Network Analytics	analytics	layered	Secure Network Analytics (Stealthwatch)	(none)	UDP Director / Flow Replicator		sku ^LC-(UDP|UD[0-9]|FR|REP|ID)							
 LC-UDP-2010-R-K9	StealthWatch FlowReplicator 20XX HW Refresh to UDP Dir. 2010	Secure Network Analytics	analytics	layered	Secure Network Analytics (Stealthwatch)	(none)	UDP Director / Flow Replicator		sku ^LC-(UDP|UD[0-9]|FR|REP|ID)							
-NAM2420-K9	Cisco NAM2420-K9	Services Modules	appliance	layered	Network Analysis Module (NAM) appliances	(none)	NAM 2400 Series		sku ^NAM24[0-9]{2}							
-NAM2440-K9	Cisco NAM2440-K9	Services Modules	appliance	layered	Network Analysis Module (NAM) appliances	(none)	NAM 2400 Series		sku ^NAM24[0-9]{2}							
+NAM2420-K9	Cisco NAM2420-K9	Services Modules	management	layered	Network Analysis Module (NAM) appliances	(none)	NAM 2400 Series		sku ^NAM24[0-9]{2}							
+NAM2440-K9	Cisco NAM2440-K9	Services Modules	management	layered	Network Analysis Module (NAM) appliances	(none)	NAM 2400 Series		sku ^NAM24[0-9]{2}							
 PRIME-ACC-REG	^Cisco Prime Access Registrar 7.X - Physical	Security Manager	accessory	layered	Security Manager and Secure Workload	(shared across the line)		Security Manager and Secure Workload shared parts	label-unsupported (label Security Manager; was Security Manager (CSM) appliances): no series token in the SKU or name, no compatible part placed in the series						none: no series token in the SKU or name, no compatible part placed in the series	
 PRSM-APPLSW2-25-K9	PRSM Software Bundled With Physical Appliance	ASA 5500 Series Next Generation	management	layered	Security Manager and Secure Workload	(none)	Prime Security Manager (PRSM) appliances		sku ^PRSM-							
 PRSM-APPLSW2-50-K9	PRSM Software Bundled With Physical Appliance	ASA 5500 Series Next Generation	management	layered	Security Manager and Secure Workload	(none)	Prime Security Manager (PRSM) appliances		sku ^PRSM-							
@@ -1935,7 +1935,7 @@ TG5000-K9	Cisco Threat Grid 5000 Model with software	Secure Malware Analytics	an
 TG5004-CHAS	Cisco Threat Grid 5004/5504 Chasis	Secure Malware Analytics	analytics	layered	Secure Malware Analytics	(none)	Malware Analytics (Threat Grid) appliances		sku ^TG							
 TG5004-K9	Cisco Threat Grid 5004 Model Hardware	Secure Malware Analytics	analytics	layered	Secure Malware Analytics	(none)	Malware Analytics (Threat Grid) appliances		sku ^TG							
 TG5500-BUN	Cisco Threat Grid 5500 Model and Subscription Bundle	Secure Malware Analytics	analytics	layered	Secure Malware Analytics	(none)	Malware Analytics (Threat Grid) appliances		sku ^TG							
-TG5500-C220M3S-K9	Cisco TG5500-C220M3S-K9	UCS C-Series	appliance	layered	Secure Malware Analytics	(none)	Malware Analytics (Threat Grid) appliances		sku ^TG							
+TG5500-C220M3S-K9	Cisco TG5500-C220M3S-K9	UCS C-Series	analytics	layered	Secure Malware Analytics	(none)	Malware Analytics (Threat Grid) appliances		sku ^TG							
 TG5500-CHAS	Cisco Threat Grid 5000/5500 Chasis	Secure Malware Analytics	analytics	layered	Secure Malware Analytics	(none)	Malware Analytics (Threat Grid) appliances		sku ^TG							
 TG5500-K9	Cisco Threat Grid 5500 Model with software	Secure Malware Analytics	analytics	layered	Secure Malware Analytics	(none)	Malware Analytics (Threat Grid) appliances		sku ^TG							
 TG5504-K9	Cisco Threat Grid 5504 Model Hardware	Secure Malware Analytics	analytics	layered	Secure Malware Analytics	(none)	Malware Analytics (Threat Grid) appliances		sku ^TG							
