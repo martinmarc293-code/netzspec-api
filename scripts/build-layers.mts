@@ -54,6 +54,14 @@ const all = process.argv.includes("--all");
 const dump = process.argv.includes("--dump");
 const siteDir = arg("--site");
 if (!one && !all) throw new Error("--category <slug> or --all");
+// THE PARTIAL-REBUILD TRAP (reviewer, 28 Sep 2026): rebuilding ONE category's artefact stamps it with a different build
+// than the other 88 and turns one_build red. Writing a single category is refused outside the ordered full rebuild;
+// --dump stays read-only and allowed. --inside-full-rebuild is for the orchestrator that rebuilds the whole set.
+if (one && !dump && !process.argv.includes("--inside-full-rebuild")) {
+  console.error(`refused: writing only ${one} would leave the artefact set on two builds (one_build). Use --dump to read, ` +
+    `or --all as part of the full rebuild (recompute -> ledgers -> censuses -> report -> layers -> freeze -> stamp).`);
+  process.exit(2);
+}
 
 type Row = { id: number; sku: string; name: string | null; series: string | null; category: string };
 const rows = (await query<Row>(`SELECT p.id, p.sku, p.name, p.series, c.slug AS category FROM parts p JOIN vendors v ON v.id = p.vendor_id
