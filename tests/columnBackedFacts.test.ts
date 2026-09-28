@@ -51,6 +51,14 @@ const row = (o: Partial<ColumnBackedRow>): ColumnBackedRow =>
 
   const other = classifyColumnBacked(row({ value: "Cisco 10000 Series Routers", series: "Shared Port Adapters/SPA" }));
   check("a different series entirely is not a duplicate", other.bucket === "series-finer" && !other.retract, other);
+
+  // A word-prefix of the column is the same series, terser (decision 2026-09-28-series-hints-decomposed).
+  const pre = classifyColumnBacked(row({ value: "MDS 9100", series: "MDS 9100 Series Multilayer Fabric" }));
+  check("a word-prefix of the column is a duplicate", pre.bucket === "series-prefix-duplicate" && pre.retract, pre);
+  const coarse = classifyColumnBacked(row({ value: "Catalyst", series: "Catalyst 9300" }));
+  check("NEGATIVE a coarser fact (column adds a model number) is not a duplicate", !coarse.retract, coarse);
+  const partial = classifyColumnBacked(row({ value: "MDS 91", series: "MDS 9100 Series Multilayer Fabric" }));
+  check("NEGATIVE a prefix that is not a whole word is not a duplicate", !partial.retract, partial);
 }
 
 // --- SABOTAGE: the normaliser is what decides what gets deleted, so it must not over-reach ---------

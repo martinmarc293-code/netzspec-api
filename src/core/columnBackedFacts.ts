@@ -83,6 +83,15 @@ export function classifyColumnBacked(r: ColumnBackedRow): ColumnBackedVerdict {
   const v = normaliseSeries(r.value);
   if (v.length > 0 && (v === normaliseSeries(r.series) || v === normaliseSeries(r.productSeries)))
     return { bucket: "series-duplicate", retract: true, why: "equal to parts.series or parts.product_series once normalised" };
+  // The column is the same series with words appended ("MDS 9100" / "MDS 9100 Series Multilayer Fabric"): the fact adds
+  // nothing the column lacks. A remainder starting with a digit is a FINER column ("Catalyst" / "Catalyst 9300"), not
+  // the same series, and stays. Decision 2026-09-28-series-hints-decomposed: 95 + 7 of this shape.
+  const prefixOf = (col: string | null | undefined) => {
+    const c = normaliseSeries(col);
+    return v.length > 0 && c.startsWith(v + " ") && !/^[0-9]/.test(c.slice(v.length + 1));
+  };
+  if (prefixOf(r.series) || prefixOf(r.productSeries))
+    return { bucket: "series-prefix-duplicate", retract: true, why: "a word-prefix of parts.series or parts.product_series" };
   if (!r.series && !r.productSeries)
     return { bucket: "series-only-source", retract: false, why: "both series columns are null — this fact is the only copy" };
   return { bucket: "series-finer", retract: false, why: "differs from both columns — a product_series hint for the layer build" };

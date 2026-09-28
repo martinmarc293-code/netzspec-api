@@ -33,6 +33,8 @@
  *   parts.series or parts.product_series. This is the control that would have caught a blanket run.
  */
 import { spawnSync } from "node:child_process";
+import fsRows from "node:fs";
+import pathRows from "node:path";
 import { getPool, closePool, withTx } from "../src/store/index.js";
 import { withRun } from "../src/store/runs.js";
 import { retractFact } from "../src/store/facts.js";
@@ -66,6 +68,13 @@ const by = (list: typeof verdicts): Record<string, number> => {
   for (const x of list) o[x.v.bucket] = (o[x.v.bucket] ?? 0) + 1;
   return o;
 };
+if (argv.includes("--rows")) {   // every row about to be retracted, for the reviewer to open
+  const file = argv[argv.indexOf("--rows") + 1];
+  fsRows.mkdirSync(pathRows.dirname(file), { recursive: true });
+  fsRows.writeFileSync(file, ["sku\tkey\tvalue\tseries\tproduct_series\tbucket",
+    ...doomed.map((x) => [x.r.sku, x.r.key, x.r.value, x.r.series ?? "", x.r.productSeries ?? "", x.v.bucket].join("\t"))].join("\n") + "\n");
+  console.log(`rows: ${file} (${doomed.length})`);
+}
 console.log(`live facts under column-backed keys : ${rows.length}`);
 console.log(`  RETRACT : ${doomed.length}  ${JSON.stringify(by(doomed))}`);
 console.log(`  KEEP    : ${kept.length}  ${JSON.stringify(by(kept))}`);
@@ -101,7 +110,7 @@ const touched = [...new Set(doomed.filter((x) => x.r.key === "series").map((x) =
 const out = await withRun("apply-retract-column-backed",
   { predicate: "classifyColumnBacked says the fact duplicates its column", candidates: doomed.length,
     buckets: by(doomed), kept: by(kept),
-    approved: "reviewer ruling 28 Sep 2026: go on the 5,156 duplicates; the other 1,986 are MOVED, not deleted" },
+    approved: "reviewer ruling 28 Sep 2026: go on the duplicates (5,156 in run 1280); word-prefix duplicates per decision 2026-09-28-series-hints-decomposed" },
   async (runId) => {
     let done = 0;
     for (let i = 0; i < doomed.length; i += CHUNK) {
