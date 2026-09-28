@@ -1,7 +1,7 @@
 {
   "vendor": "cisco",
   "category": "collaboration-endpoints",
-  "built_at": "2026-09-28T19:39:22.393Z",
+  "built_at": "2026-09-28T22:11:30.760Z",
   "commit": null,
   "uncommitted_rule_files": null,
   "mapping_file": "data/reference/product-lines/cisco-collaboration-endpoints.json",
@@ -847,7 +847,7 @@
             "mechanical": 78,
             "cable": 8,
             "video-device": 35,
-            "unknown": 2,
+            "bundle": 2,
             "display": 24,
             "speaker": 2,
             "conference-camera": 6,
@@ -990,7 +990,7 @@
             "accessory": 18,
             "cable": 71,
             "power-cord": 122,
-            "unknown": 11,
+            "bundle": 11,
             "display": 2,
             "power": 5,
             "video-device": 1
@@ -2022,9 +2022,9 @@
   "inbound_unplaced": {},
   "done": true,
   "build": {
-    "data_commit": "090300f9fe51+87dirty",
-    "code_commit": "5608fd289411",
+    "data_commit": "5b1bcd49b22f+81dirty",
+    "code_commit": "342dc179b527",
     "contract_hash": "bcfc4c1ee314d3c2",
-    "generated_at": "2026-09-28T19:51:30.857Z"
+    "generated_at": "2026-09-28T22:17:29.054Z"
   }
 }

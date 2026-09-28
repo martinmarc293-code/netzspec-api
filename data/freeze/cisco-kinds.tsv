@@ -13,10 +13,10 @@ collaboration-endpoints	AVIZ-CA750-3-K9	SolutionsPlus:Avizia ClinicalCart CA750 
 collaboration-endpoints	AVIZ-CA750-ACC-KB	Avizia CA750 Keyboard / Mouse Tray	mechanical	
 collaboration-endpoints	AVIZ-CA750-ACC-RNC	Avizia CA750 Retractable Network Cord	cable	
 collaboration-endpoints	AVIZ-CA750-ACC-RPC	Avizia CA750 Retractable Power Cord	power-cord	
-collaboration-endpoints	AVIZ-EDU=	SolutionsPlus: Avizia Educator	unknown	
+collaboration-endpoints	AVIZ-EDU=	SolutionsPlus: Avizia Educator	bundle	
 collaboration-endpoints	AVIZ-MXCART=	SolutionsPlus: Avizia MX Cart	mechanical	
-collaboration-endpoints	AVIZ-SYN=	Avizia Synch	unknown	
-collaboration-endpoints	AVIZ-TAC-K9	SolutionsPlus: Avizia Tactical	unknown	
+collaboration-endpoints	AVIZ-SYN=	Avizia Synch	bundle	
+collaboration-endpoints	AVIZ-TAC-K9	SolutionsPlus: Avizia Tactical	bundle	
 collaboration-endpoints	BRKT-12X-MONITR	Bracket mounting for 12x PHD camera to screen	mechanical	
 collaboration-endpoints	BRKT-12X-MONITR=	Spare bracket mounting for 12x PHD camera to monitor	mechanical	
 collaboration-endpoints	BRKT-P40-MONITR	Bracket mounting for P40 camera to screen	mechanical	
@@ -2198,12 +2198,12 @@ collaboration-endpoints	CTS-5K-WHTBD-TOOL	CTS-IX5000 Whiteboard Alignment Tool, 
 collaboration-endpoints	CTS-5K-WHTBD-TOOL=	CTS-IX5000 Whiteboard Alignment Tool, QTY 4	mechanical	
 collaboration-endpoints	CTS-ATP-C60-K9	ATP Demo - Codec C60- NPP,Rackmt Kit,Rmt Cntrl, HDMI,Pwr Cbl	video-codec	
 collaboration-endpoints	CTS-ATP-C90-K9	ATP Demo - Codec C90- NPP,Rackmt Kit,Rmt Cntrl, HDMI,Pwr Cbl	video-codec	
-collaboration-endpoints	CTS-ATP-MX200-K9	ATP Demo Cisco TelePresence MX200 42	unknown	
-collaboration-endpoints	CTS-ATP-MX300-K9	ATP Demo - Cisco TelePresence MX300 55	unknown	
-collaboration-endpoints	CTS-ATP-PHD-USB	ATP Demo - PrecisionHD USB - 10 unit Pack	unknown	
-collaboration-endpoints	CTS-ATP-PHD4XS1	ATP Demo -PrecisionHD 1080p Camera w 4x-not sold stand alone	unknown	
-collaboration-endpoints	CTS-ATP-QSC20-K9	ATP Demo - Quick Set w/C20	unknown	
-collaboration-endpoints	CTS-ATP-QSC20-MIC	ATP Demo - Precision Microphone 20	unknown	
+collaboration-endpoints	CTS-ATP-MX200-K9	ATP Demo Cisco TelePresence MX200 42	bundle	
+collaboration-endpoints	CTS-ATP-MX300-K9	ATP Demo - Cisco TelePresence MX300 55	bundle	
+collaboration-endpoints	CTS-ATP-PHD-USB	ATP Demo - PrecisionHD USB - 10 unit Pack	bundle	
+collaboration-endpoints	CTS-ATP-PHD4XS1	ATP Demo -PrecisionHD 1080p Camera w 4x-not sold stand alone	bundle	
+collaboration-endpoints	CTS-ATP-QSC20-K9	ATP Demo - Quick Set w/C20	bundle	
+collaboration-endpoints	CTS-ATP-QSC20-MIC	ATP Demo - Precision Microphone 20	bundle	
 collaboration-endpoints	CTS-ATP-QSC20-WMK	ATP Demo - Wall Mount Kit for Quick Set	mechanical	
 collaboration-endpoints	CTS-C20CODEC-K9	Cisco CTS-C20CODEC-K9	video-codec	
 collaboration-endpoints	CTS-C20CODEC-K9=	C20 Codec - Spare	video-codec	
@@ -2420,7 +2420,7 @@ collaboration-endpoints	CTS-MXCAM-S=	Single Camera option for MX700/MX800 Spare	
 collaboration-endpoints	CTS-MXCODEC	Codec for MX700/MX800	video-codec	
 collaboration-endpoints	CTS-MXCODEC-	Codec for MX700/MX800	video-codec	
 collaboration-endpoints	CTS-MXCODEC=	Codec for MX700/MX800	video-codec	
-collaboration-endpoints	CTS-MXNMTCH-PRM-K9	MixNMatch Promo Bundle	unknown	
+collaboration-endpoints	CTS-MXNMTCH-PRM-K9	MixNMatch Promo Bundle	bundle	
 collaboration-endpoints	CTS-NAL-CP-DX70	DX70 NAL label for China	accessory	
 collaboration-endpoints	CTS-NAL-CP-DX80	DX80 NAL label for China	accessory	
 collaboration-endpoints	CTS-NAL-MX200	MX200 NAL label for China - for auto expand only	accessory	
@@ -2531,9 +2531,9 @@ collaboration-endpoints	CTS-SX80-RACKEARS-	SX80 rack ears - for auto expand only
 collaboration-endpoints	CTS-SX80-RACKEARS=	SX80 rack ears - Spare	mechanical	
 collaboration-endpoints	CTS-SX80CODEC	Cisco SX80 Codec	video-codec	
 collaboration-endpoints	CTS-SX80CODEC=	SX80 CODEC Spare	video-codec	
-collaboration-endpoints	CTS-TPEB-PRM-K9	Cisco TelePresence Solution Enterprise Bundle Promo	unknown	
-collaboration-endpoints	CTS-TPSB-PRM-K9	Cisco TelePresence Solution Starter Bundle Promotion	unknown	
-collaboration-endpoints	CTS-VNDCNCT-PR-K9	Cisco TelePresence Vendor Connect Hardware Bundle	unknown	
+collaboration-endpoints	CTS-TPEB-PRM-K9	Cisco TelePresence Solution Enterprise Bundle Promo	bundle	
+collaboration-endpoints	CTS-TPSB-PRM-K9	Cisco TelePresence Solution Starter Bundle Promotion	bundle	
+collaboration-endpoints	CTS-VNDCNCT-PR-K9	Cisco TelePresence Vendor Connect Hardware Bundle	bundle	
 collaboration-endpoints	CTS-VX-EDUCATOR-K9	VX Educator package	video-device	
 collaboration-endpoints	DBS-110-3PC-AU-K9=	Cisco IP DECT Base Station 110 Series, MPP, Australia and New Zealand, 1880 - 1900 MHz - Reduced power 22dBm, Australia Power Adapter	dect-base	
 collaboration-endpoints	DBS-110-3PC-CE-K9=	Cisco IP DECT Base Station 110 Series, MPP, European Union and APAC, 1880 - 1900 MHz, Continental Europe Power Adapter	dect-base	
