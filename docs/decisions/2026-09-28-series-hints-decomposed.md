@@ -45,3 +45,8 @@ is the named series this part's, or the platform it licenses?
 ## 28 Sep, run 1294: 102 word-prefix duplicates retracted (95 as decided + 7 "Directors/Fabric Switches (...)"); 1,156 left
 Rows: data/dryrun/column-backed-prefix-2026-09-28.tsv. Controls: 1,156 asserted; 0 parts left without a series.
 The hardware residue names a CHASSIS the product_series already enumerates ("MDS 9134" under "MDS 9100 fabric switches (9124 / 9132T / 9134 / ...)"): split product_series per chassis, or, for modules and PSUs, a compatibility relation? Parked with the licence/software question.
+
+## 28 Sep, run 1295 (rulings 5a/5b): 933 relations (765 license_for + 168 compatible), 1,111 facts retracted; 45 parked
+Rows: data/dryrun/series-hints-apply-2026-09-28.tsv. Controls: 933 of 933 relations present; 45 live series facts.
+Relation kinds: "licenses" = existing `license_for`, "compatible_with" = existing `compatible` (no enum change).
+Parked 45: chassis the column list omits (MDS 9124V 11, 9132 3, 9216i 3, 9120 2, +5 "Cisco MDS 9000" on switches); MDS 9000 umbrella on linecard 9 / pluggable 8 / accessory 2 / fan 1; 1 router series on an interface.

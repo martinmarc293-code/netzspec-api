@@ -1,0 +1,1157 @@
+sku	fact	class	kind	series	product_series	bucket	relation
+10000-SIP-600	Cisco 10000 Series Routers	hardware	interface	Shared Port Adapters/SPA Interface Processors		park	
+C1-ENT-M9100K9	MDS9100	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+C1-DCS-M9200K9	MDS 9200	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9200
+C1-ENT-M9200K9	MDS9200	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9200
+C1-DCS-M9100K9	MDS 9100	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+C1-DCS-M9700K9	MDS 9700	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+C1-DCS-M9300K9	MDS 9300	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9300
+C1-ENT-M9300K9	MDS9300	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9300
+C1-ENT-M9700K9	MDS9700	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+C1F1AMDS9700K9	MDS 9700	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+C1F1VMDS9100-03	MDS9100	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+C1F1AMDS9300K9	MDS 9300	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9300
+C1F1VMDS9200-02	MDS9200	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9200
+C1F1VMDS9200-03	MDS9200	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9200
+C1F1AMDS9100K9	MDS 9100	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+C1F1VMDS9100-01	MDS9100	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+C1F1AMDS9200K9	MDS 9200	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9200
+C1F1VMDS9700-01	MDS9700	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+C1F1VMDS9200-01	MDS9200	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9200
+C1F1VMDS9300-01	MDS9300	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9300
+C1F1VMDS9700-03	MDS9700	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+C1F1VMDS9300-03	MDS9300	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9300
+C1F1VMDS9300-02	MDS9300	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9300
+DCNM-S-PAK-M95-K9	MDS 9500	software		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9500
+DCNM-SAN-M95-K9	MDS 9500	software		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9500
+DCNM-S-M91HK9=	MDS 9100	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+DCNM-S-M92XEK9=	MDS 9200	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9200
+DCNM-S-M91BXK9=	MDS 9100	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+DCNM-S-M91XEK9=	MDS 9100	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+DCNM-SAN-M92EK9=	MDS 9200	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9200
+DCNM-S-M97XEK9=	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+DCNM-S-M97XK9=	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+DCNM-S-PAK-M91-K9	MDS 9100	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+DCNM-S-M93IK9=	MDS 9300	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9300
+DCNM-SAN-M91EK9=	MDS 9100	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+DCNM-S-PAK-M92-K9	MDS 9200	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9200
+DCNM-S-M93XEK9=	MDS 9300	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9300
+DCNM-SAN-M93EK9=	MDS 9300	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9300
+DCNM-S-M93XIK9=	MDS 9300	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9300
+DCNM-SAN-M91EK9	MDS 9100	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+DCNM-SAN-M93EXK9=	MDS 9300	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9300
+DCNM-SAN-M97EK9=	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+DCNM-1YR-M91XK9	MDS 9100	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+DCNM-S-M93HK9=	MDS 9300	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9300
+DCNM-S-M93XHK9=	MDS 9300	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9300
+DCNM-SAN-M93EK9	MDS 9300	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9300
+DCNM-SAN-M95-K9=	MDS 9500	software		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9500
+DS-9SLOT-CAB=	MDS 9509	hardware	mechanical	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	host-chassis	compatible -> MDS 9509
+DCNM-S-M92HK9=	MDS 9200	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9200
+DCNM-S-M97HK9=	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+DS-13SLT-FAN-R=	MDS 9513	hardware	fan	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	host-chassis	compatible -> MDS 9513
+DS-6SLOT-FAN=	MDS 9506	hardware	fan	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	host-chassis	compatible -> MDS 9506
+DS-9134-KIT-NPE	MDS 9134	hardware	mechanical	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	host-chassis	compatible -> MDS 9134
+DS-9134G-H1K9	MDS 9134	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-9148-KIT-HDS	MDS 9148	hardware	mechanical	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	host-chassis	compatible -> MDS 9148
+DS-9148-KIT-HP	MDS 9148	hardware	mechanical	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	host-chassis	compatible -> MDS 9148
+DS-9396S-KIT-HDS	MDS 9396S	hardware	mechanical	MDS 9300 Series Multilayer Fabric	MDS 9300 fabric switches (9396S / 9396T / 9396V)	host-chassis	compatible -> MDS 9396S
+DS-9509-KIT-SUN	MDS 9509	hardware	mechanical	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	host-chassis	compatible -> MDS 9509
+DS-9513-KIT-HP	MDS 9513	hardware	mechanical	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	host-chassis	compatible -> MDS 9513
+DS-C9124V-24PETK9	MDS 9124V	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	park	
+DS-C9124V-8PEVK9	MDS 9124V	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	park	
+DS-C9134-H1K9	MDS 9134	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9134DC-K9	MDS 9134	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9134US-1K9	MDS 9134	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-9124-KIT-SUN	MDS 9124	hardware	mechanical	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	host-chassis	compatible -> MDS 9124
+DS-9134-KIT-SUN	MDS 9134	hardware	mechanical	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	host-chassis	compatible -> MDS 9134
+DS-9250I-KITEMC	MDS 9250i	hardware	mechanical	MDS 9200 Series Multiservice	MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)	host-chassis	compatible -> MDS 9250i
+DS-9509-KIT-HP	MDS 9509	hardware	mechanical	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	host-chassis	compatible -> MDS 9509
+DS-9513-KIT-SUN	MDS 9513	hardware	mechanical	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	host-chassis	compatible -> MDS 9513
+DS-C9124DC-K9	MDS 9124	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9134-0K9=	MDS 9134	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9148-K9=	MDS 9148	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-9132T-KIT-IBM	MDS 9132T	hardware	mechanical	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	host-chassis	compatible -> MDS 9132T
+DS-9134G-K9	MDS 9134	hardware	fc-switch	MDS 9000 Series Multilayer	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-9148S-KIT-HDS	MDS 9148S	hardware	mechanical	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	host-chassis	compatible -> MDS 9148S
+DS-9148T-KIT-HDS	MDS 9148T	hardware	mechanical	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	host-chassis	compatible -> MDS 9148T
+DS-9506-KIT-HDS	MDS 9506	hardware	mechanical	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	host-chassis	compatible -> MDS 9506
+DS-C50I-300AC	MDS 9250i	hardware	power	MDS 9200 Series Multiservice	MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)	host-chassis	compatible -> MDS 9250i
+DS-C9124BDL-K9	MDS 9124	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9124EVBDL-K9	MDS 9124	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C32S-FAN-E=	MDS 9148V	hardware	fan	MDS 9100 Series Multilayer Fabric		host-chassis	compatible -> MDS 9148V
+DS-9132T-KIT-HP	MDS 9132T	hardware	mechanical	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	host-chassis	compatible -> MDS 9132T
+DS-9134-KIT-HP=	MDS 9134	hardware	mechanical	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	host-chassis	compatible -> MDS 9134
+DS-9148-KIT-IBM	MDS 9148	hardware	mechanical	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	host-chassis	compatible -> MDS 9148
+DS-9148S-KIT-HP	MDS 9148S	hardware	mechanical	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	host-chassis	compatible -> MDS 9148S
+DS-9506-KIT-IBM	MDS 9506	hardware	mechanical	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	host-chassis	compatible -> MDS 9506
+DS-C48-300AC=	MDS 9148	hardware	power	MDS 9100 Series Multilayer Fabric		host-chassis	compatible -> MDS 9148
+DS-C48S-300AC=	MDS 9148S	hardware	power	MDS 9100 Series Multilayer Fabric		host-chassis	compatible -> MDS 9148S
+DS-C9124-0-K9	MDS 9124	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9124-HDS-K9	MDS 9124	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9134-0K9	MDS 9134	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9148-NA16P-K9	MDS 9148	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-13SLT-FAB2=	MDS 9513	hardware	fabric	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	host-chassis	compatible -> MDS 9513
+DS-13SLT-FAN-F=	MDS 9513	hardware	fan	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	host-chassis	compatible -> MDS 9513
+DS-6SLOT-CAB=	MDS 9506	hardware	mechanical	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	host-chassis	compatible -> MDS 9506
+DS-9134G-1K9	MDS 9134	hardware	fc-switch	MDS 9000 Series Multilayer	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-9134G-HK9	MDS 9134	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-9396T-KIT-HDS	MDS 9396T	hardware	mechanical	MDS 9300 Series Multilayer Fabric	MDS 9300 fabric switches (9396S / 9396T / 9396V)	host-chassis	compatible -> MDS 9396T
+DS-9506-KIT-NPE	MDS 9506	hardware	mechanical	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	host-chassis	compatible -> MDS 9506
+DS-9509-KIT-HDS	MDS 9509	hardware	mechanical	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	host-chassis	compatible -> MDS 9509
+DS-9513-KIT-EMC	MDS 9513	hardware	mechanical	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	host-chassis	compatible -> MDS 9513
+DS-C48-FAN	MDS 9148	hardware	fan	MDS 9100 Series Multilayer Fabric		host-chassis	compatible -> MDS 9148
+DS-C9124AP-K9	MDS 9124	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C50I-FAN	MDS 9250i	hardware	fan	MDS 9200 Series Multiservice	MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)	host-chassis	compatible -> MDS 9250i
+DS-C9124US-K9	MDS 9124	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9124V-8PIVK9	MDS 9124V	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	park	
+DS-C9132T-8MESTK9	MDS 9132T	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-9148T-KIT-CSCO	MDS 9148T	hardware	mechanical	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	host-chassis	compatible -> MDS 9148T
+DS-C9132T-8PMETK9	MDS 9132T	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9132T-8PMISK9	MDS 9132T	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-9124-KIT-CSCO=	MDS 9124	hardware	mechanical	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	host-chassis	compatible -> MDS 9124
+DS-9132T-KIT-EM	MDS 9132T	hardware	mechanical	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	host-chassis	compatible -> MDS 9132T
+DS-9134-KIT-HDS	MDS 9134	hardware	mechanical	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	host-chassis	compatible -> MDS 9134
+DS-9134-KIT-IBM=	MDS 9134	hardware	mechanical	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	host-chassis	compatible -> MDS 9134
+DS-9134G-1K9=	MDS 9134	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-9396S-KIT-CSCO=	MDS 9396S	hardware	mechanical	MDS 9300 Series Multilayer Fabric	MDS 9300 fabric switches (9396S / 9396T / 9396V)	host-chassis	compatible -> MDS 9396S
+DS-9509-KIT-EMC	MDS 9509	hardware	mechanical	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	host-chassis	compatible -> MDS 9509
+DS-9513-KIT-CCO=	MDS 9513	hardware	mechanical	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	host-chassis	compatible -> MDS 9513
+DS-C34-FAN=	MDS 9134	hardware	fan	MDS 9000 Series Multilayer		host-chassis	compatible -> MDS 9134
+DS-9SL0T-FAN=	MDS 9509	hardware	fan	MDS 9000 Series Multilayer	MDS 9500 directors (9506 / 9509 / 9513)	host-chassis	compatible -> MDS 9509
+DS-C48S-300AC	MDS 9148S	hardware	power	MDS 9100 Series Multilayer Fabric		host-chassis	compatible -> MDS 9148S
+DS-C9124-IBM-K9	MDS 9124	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9132T-24PISK9	MDS 9132T	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-9132T-KIT-HDS	MDS 9132T	hardware	mechanical	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	host-chassis	compatible -> MDS 9132T
+DS-9250I-KITCCO	MDS 9250i	hardware	mechanical	MDS 9200 Series Multiservice	MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)	host-chassis	compatible -> MDS 9250i
+DS-9250I-KITHDS	MDS 9250i	hardware	mechanical	MDS 9200 Series Multiservice	MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)	host-chassis	compatible -> MDS 9250i
+DS-9396S-KIT-CSCO	MDS 9396S	hardware	mechanical	MDS 9300 Series Multilayer Fabric	MDS 9300 fabric switches (9396S / 9396T / 9396V)	host-chassis	compatible -> MDS 9396S
+DS-C50I-300AC=	MDS 9250i	hardware	power	MDS 9200 Series Multiservice	MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)	host-chassis	compatible -> MDS 9250i
+DS-C9124V-24PITK9	MDS 9124V	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	park	
+DS-C9132T-MEK9=	MDS 9132	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	park	
+DS-C9132T-MIK9	MDS 9132	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	park	
+DS-9396T-KIT-CSCO	MDS 9396T	hardware	mechanical	MDS 9300 Series Multilayer Fabric	MDS 9300 fabric switches (9396S / 9396T / 9396V)	host-chassis	compatible -> MDS 9396T
+DS-9513-KIT-DM	MDS 9513	hardware	mechanical	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	host-chassis	compatible -> MDS 9513
+DS-C48-300AC	MDS 9148	hardware	power	MDS 9100 Series Multilayer Fabric		host-chassis	compatible -> MDS 9148
+DS-C48-FAN=	MDS 9148	hardware	fan	MDS 9100 Series Multilayer Fabric		host-chassis	compatible -> MDS 9148
+DS-C9124-2-K9	MDS 9124	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9124-K9	MDS 9124	hardware	fc-switch	MDS 9500 Series Multilayer Directors	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9124V-8EK9=	MDS 9124V	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	park	
+DS-C9124V-8PETK9	MDS 9124V	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	park	
+DS-C9132T-24PESK9	MDS 9132T	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9132T-MIK9=	MDS 9132	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	park	
+DS-C9134-8-K9	MDS 9134	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9134-K9	MDS 9134	hardware	fc-switch	MDS 9000 Series Multilayer	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9148-48P-K9	MDS 9148	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9148-IBM16P-K9	MDS 9148	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9148D-4G16P-K9	MDS 9148	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-9124-KIT-HP	MDS 9124	hardware	mechanical	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	host-chassis	compatible -> MDS 9124
+DS-9124-KIT-IBM	MDS 9124	hardware	mechanical	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	host-chassis	compatible -> MDS 9124
+DS-9134-KIT-DELL	MDS 9134	hardware	mechanical	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	host-chassis	compatible -> MDS 9134
+DS-9134-KIT-IBM	MDS 9134	hardware	mechanical	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	host-chassis	compatible -> MDS 9134
+DS-9134G-K9=	MDS 9134	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-9148S-KIT-EM	MDS 9148S	hardware	mechanical	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	host-chassis	compatible -> MDS 9148S
+DS-9148T-KIT-EM	MDS 9148T	hardware	mechanical	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	host-chassis	compatible -> MDS 9148T
+DS-9250I-KITHP	MDS 9250i	hardware	mechanical	MDS 9200 Series Multiservice	MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)	host-chassis	compatible -> MDS 9250i
+DS-9506-KIT-CCO=	MDS 9506	hardware	mechanical	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	host-chassis	compatible -> MDS 9506
+DS-9509-KIT-IBM	MDS 9509	hardware	mechanical	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	host-chassis	compatible -> MDS 9509
+DS-C48S-FAN	MDS 9148S	hardware	fan	MDS 9100 Series Multilayer Fabric		host-chassis	compatible -> MDS 9148S
+DS-C9120-K9	MDS 9120	hardware	fc-switch	MDS 9000 Series Multilayer	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	park	
+DS-C9124-IBM-K9=	MDS 9124	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9124V-24PEVK9	MDS 9124V	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	park	
+DS-C9134-1K9	MDS 9134	hardware	fc-switch	MDS 9000 Series Multilayer	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-9134-KIT-CSCO=	MDS 9134	hardware	mechanical	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	host-chassis	compatible -> MDS 9134
+DS-9148S-KIT-CSCO	MDS 9148S	hardware	mechanical	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	host-chassis	compatible -> MDS 9148S
+DS-9148S-KIT-IBM	MDS 9148S	hardware	mechanical	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	host-chassis	compatible -> MDS 9148S
+DS-9148T-KIT-CSCO=	MDS 9148T	hardware	mechanical	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	host-chassis	compatible -> MDS 9148T
+DS-9509-KIT-CCO	MDS 9509	hardware	mechanical	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	host-chassis	compatible -> MDS 9509
+DS-C24-300AC	MDS 9124	hardware	power	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	host-chassis	compatible -> MDS 9124
+DS-C9148-16P-HK9	MDS 9148	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-13SLT-FAB3	MDS 9513	hardware	fabric	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	host-chassis	compatible -> MDS 9513
+DS-13SLT-FAN-R	MDS 9513	hardware	fan	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	host-chassis	compatible -> MDS 9513
+DS-9148-KIT-CSCO=	MDS 9148	hardware	mechanical	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	host-chassis	compatible -> MDS 9148
+DS-9200-KIT-NPE	MDS 9222i	hardware	mechanical	MDS 9200 Series Multiservice		host-chassis	compatible -> MDS 9222i
+DS-9396T-KIT-CSCO=	MDS 9396T	hardware	mechanical	MDS 9300 Series Multilayer Fabric	MDS 9300 fabric switches (9396S / 9396T / 9396V)	host-chassis	compatible -> MDS 9396T
+DS-9513-KIT-HDS	MDS 9513	hardware	mechanical	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	host-chassis	compatible -> MDS 9513
+DS-C9124V-8IK9=	MDS 9124V	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	park	
+DS-C9132T-24PISK9P	MDS 9132T	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9132T-24PITK9	MDS 9132T	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9134EVBDL-K9	MDS 9134	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9148D-4G32P-K9	MDS 9148	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-6SL0T-FAN=	MDS 9506	hardware	fan	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	host-chassis	compatible -> MDS 9506
+DS-9124-KIT-EMC	MDS 9124	hardware	mechanical	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	host-chassis	compatible -> MDS 9124
+DS-9124-KIT-HDS	MDS 9124	hardware	mechanical	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	host-chassis	compatible -> MDS 9124
+DS-9134-KIT-CSCO	MDS 9134	hardware	mechanical	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	host-chassis	compatible -> MDS 9134
+DS-9250I-KITIBM	MDS 9250i	hardware	mechanical	MDS 9200 Series Multiservice	MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)	host-chassis	compatible -> MDS 9250i
+DS-9396S-KIT-EM	MDS 9396S	hardware	mechanical	MDS 9300 Series Multilayer Fabric	MDS 9300 fabric switches (9396S / 9396T / 9396V)	host-chassis	compatible -> MDS 9396S
+DS-9396T-KIT-EM	MDS 9396T	hardware	mechanical	MDS 9300 Series Multilayer Fabric	MDS 9300 fabric switches (9396S / 9396T / 9396V)	host-chassis	compatible -> MDS 9396T
+DS-9513-KIT-CCO	MDS 9513	hardware	mechanical	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	host-chassis	compatible -> MDS 9513
+DS-9513-KIT-NPE	MDS 9513	hardware	mechanical	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	host-chassis	compatible -> MDS 9513
+DS-C9124-1-K9	MDS 9124	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9124-IBM-2-K9=	MDS 9124	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9124V-24PIVK9	MDS 9124V	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	park	
+DS-C9132T-24PETK9	MDS 9132T	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9132T-8PMITK9	MDS 9132T	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9140-K9	MDS 9120	hardware	fc-switch	MDS 9000 Series Multilayer	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	park	
+DS-2SLOT-FAN=	MDS 9216	hardware	fan	MDS 9200 Series Multiservice	MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)	host-chassis	compatible -> MDS 9216
+DS-9134-KIT-EMC	MDS 9134	hardware	mechanical	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	host-chassis	compatible -> MDS 9134
+DS-9148S-KIT-CSCO=	MDS 9148S	hardware	mechanical	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	host-chassis	compatible -> MDS 9148S
+DS-9513-KIT-IBM	MDS 9513	hardware	mechanical	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	host-chassis	compatible -> MDS 9513
+DS-C48S-FAN=	MDS 9148S	hardware	fan	MDS 9100 Series Multilayer Fabric		host-chassis	compatible -> MDS 9148S
+DS-C9124-0-K9=	MDS 9124	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9134-1K9=	MDS 9134	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9134BDL-K9	MDS 9134	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9148-K9	MDS 9148	hardware	fc-switch	MDS 9500 Series Multilayer Directors	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9148D-8G16P-K9	MDS 9148	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-13SLT-FAB3=	MDS 9513	hardware	fabric	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	host-chassis	compatible -> MDS 9513
+DS-13SLT-FAN-F	MDS 9513	hardware	fan	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	host-chassis	compatible -> MDS 9513
+DS-9132T-KIT-CSCO	MDS 9132T	hardware	mechanical	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	host-chassis	compatible -> MDS 9132T
+DS-9132T-KIT-CSCO=	MDS 9132T	hardware	mechanical	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	host-chassis	compatible -> MDS 9132T
+DS-9134-KIT-EMC=	MDS 9134	hardware	mechanical	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	host-chassis	compatible -> MDS 9134
+DS-9134-KIT-HDS=	MDS 9134	hardware	mechanical	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	host-chassis	compatible -> MDS 9134
+DS-9148-KIT-EMC	MDS 9148	hardware	mechanical	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	host-chassis	compatible -> MDS 9148
+DS-9509-KIT-NPE	MDS 9509	hardware	mechanical	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	host-chassis	compatible -> MDS 9509
+DS-9SLOT-FAN=	MDS 9509	hardware	fan	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	host-chassis	compatible -> MDS 9509
+DS-C9132T-8PMESK9	MDS 9132T	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9134AP-K9	MDS 9134	hardware	fc-switch	MDS 9000 Series Multilayer	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9148-16P-K9	MDS 9148	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-13SLT-FAB2	MDS 9513	hardware	fabric	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	host-chassis	compatible -> MDS 9513
+DS-9124-KIT-CSCO	MDS 9124	hardware	mechanical	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	host-chassis	compatible -> MDS 9124
+DS-9134-KIT-DELL=	MDS 9134	hardware	mechanical	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	host-chassis	compatible -> MDS 9134
+DS-9134-KIT-HP	MDS 9134	hardware	mechanical	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	host-chassis	compatible -> MDS 9134
+DS-9134-KIT-SUN=	MDS 9134	hardware	mechanical	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	host-chassis	compatible -> MDS 9134
+DS-9148-KIT-CSCO	MDS 9148	hardware	mechanical	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	host-chassis	compatible -> MDS 9148
+DS-9506-KIT-CCO	MDS 9506	hardware	mechanical	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	host-chassis	compatible -> MDS 9506
+DS-9506-KIT-EMC	MDS 9506	hardware	mechanical	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	host-chassis	compatible -> MDS 9506
+DS-9506-KIT-HP	MDS 9506	hardware	mechanical	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	host-chassis	compatible -> MDS 9506
+DS-9509-KIT-CCO=	MDS 9509	hardware	mechanical	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	host-chassis	compatible -> MDS 9509
+DS-C9124V-8IK9	MDS 9124V	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	park	
+DS-C9124V-8PITK9	MDS 9124V	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	park	
+DS-C9134-K9=	MDS 9134	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9134US-K9	MDS 9134	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9148-32P-K9	MDS 9148	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9148D-4G48P-K9	MDS 9148	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9148S-CD12P8K9	MDS 9148S	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9148S-D48PSK9	MDS 9148S	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9148S-SP-EK9	MDS 9148S	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9396S-48ISK9	MDS 9396S	hardware	fc-switch	MDS 9000 Series Multilayer	MDS 9300 fabric switches (9396S / 9396T / 9396V)	chassis-member	
+DS-C9396V-48EK9=	MDS 9396V	hardware	fc-switch	MDS 9300 Series Multilayer Fabric	MDS 9300 fabric switches (9396S / 9396T / 9396V)	chassis-member	
+DS-C9506	MDS 9506	hardware	director	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	chassis-member	
+DS-C9506-CL=	MDS 9506	hardware	linecard	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	host-chassis	compatible -> MDS 9506
+DS-C9706-2B8K9	MDS 9706	hardware	director	MDS 9000 Series Multilayer	MDS 9700 directors (9706 / 9710 / 9718) and modules	chassis-member	
+DS-C9706-FAN=	MDS 9706	hardware	fan	MDS 9700 Series Multilayer Directors	MDS 9700 directors (9706 / 9710 / 9718) and modules	host-chassis	compatible -> MDS 9706
+DS-C9706-FD-MB	MDS 9706	hardware	mechanical	MDS 9700 Series Multilayer Directors	MDS 9700 directors (9706 / 9710 / 9718) and modules	host-chassis	compatible -> MDS 9706
+DS-C9509-CBN	MDS 9509	hardware	director	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	chassis-member	
+DS-X9708-K9=	MDS 9000	hardware	linecard	MDS 9500 Series Multilayer Directors	MDS 9700 directors (9706 / 9710 / 9718) and modules	park	
+DS-C9148T-48PITK9	MDS 9148T	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9396S-48I8K9	MDS 9396S	hardware	fc-switch	MDS 9000 Series Multilayer	MDS 9300 fabric switches (9396S / 9396T / 9396V)	chassis-member	
+DS-C9396V-48IVK9	MDS 9396V	hardware	fc-switch	MDS 9300 Series Multilayer Fabric	MDS 9300 fabric switches (9396S / 9396T / 9396V)	chassis-member	
+DS-C9509-IBM	MDS 9509	hardware	director	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	chassis-member	
+DS-C9513-4AK9	MDS 9513	hardware	director	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	chassis-member	
+DS-C96S-FAN-E=	MDS 9396S	hardware	fan	MDS 9300 Series Multilayer Fabric		host-chassis	compatible -> MDS 9396S
+DS-C9710-4B8K9	MDS 9710	hardware	director	MDS 9000 Series Multilayer	MDS 9700 directors (9706 / 9710 / 9718) and modules	chassis-member	
+DS-C9718-BSK=	MDS 9718	hardware	mechanical	MDS 9700 Series Multilayer Directors	MDS 9700 directors (9706 / 9710 / 9718) and modules	host-chassis	compatible -> MDS 9718
+DS-C9718-FD-MB	MDS 9718	hardware	mechanical	MDS 9700 Series Multilayer Directors	MDS 9700 directors (9706 / 9710 / 9718) and modules	host-chassis	compatible -> MDS 9718
+DS-C9718-RMK=	MDS 9718	hardware	mechanical	MDS 9700 Series Multilayer Directors	MDS 9700 directors (9706 / 9710 / 9718) and modules	host-chassis	compatible -> MDS 9718
+DS-SFP-8G-SW-4=	MDS 9000	hardware	pluggable	MDS 9500 Series Multilayer Directors	MDS Fibre Channel SFP / X2 / CWDM	park	
+DS-C9148V-24PIVK9	MDS 9148V	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-X9304-18K9	MDS 9000	hardware	linecard	MDS 9500 Series Multilayer Directors	MDS 9500 / 9200 switching modules	park	
+DS-C9250I-K9++=	MDS 9250i	hardware	fc-switch	MDS 9200 Series Multiservice	MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)	chassis-member	
+DS-X9704	MDS 9000	hardware	linecard	MDS 9500 Series Multilayer Directors	MDS 9700 directors (9706 / 9710 / 9718) and modules	park	
+DS-X9706-FAB1=	MDS 9706	hardware	fabric	MDS 9000 Series Multilayer	MDS 9700 directors (9706 / 9710 / 9718) and modules	host-chassis	compatible -> MDS 9706
+DS-C9148S-D8P8K9	MDS 9148S	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9250I8GSFPK9++	MDS 9250i	hardware	fc-switch	MDS 9200 Series Multiservice	MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)	chassis-member	
+DS-C9396V-96ETK9P	MDS 9396V	hardware	fc-switch	MDS 9300 Series Multilayer Fabric	MDS 9300 fabric switches (9396S / 9396T / 9396V)	chassis-member	
+DS-C9506-CBT	MDS 9506	hardware	director	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	chassis-member	
+DS-C9509-2ANHK9	MDS 9509	hardware	director	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	chassis-member	
+DS-C9509-HV-K9	MDS 9509	hardware	director	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	chassis-member	
+DS-C9718-FAN=	MDS 9718	hardware	fan	MDS 9700 Series Multilayer Directors	MDS 9700 directors (9706 / 9710 / 9718) and modules	host-chassis	compatible -> MDS 9718
+DS-C9396S-48E8K9	MDS 9396S	hardware	fc-switch	MDS 9300 Series Multilayer Fabric	MDS 9300 fabric switches (9396S / 9396T / 9396V)	chassis-member	
+DS-SFP-FC16G-LW=	MDS 9000	hardware	pluggable	MDS 9300 Series Multilayer Fabric	MDS Fibre Channel SFP / X2 / CWDM	park	
+DS-X9706-FAB3=	MDS 9706	hardware	fabric	MDS 9700 Series Multilayer Directors	MDS 9700 directors (9706 / 9710 / 9718) and modules	host-chassis	compatible -> MDS 9706
+DS-X9710H-FAB1=	MDS 9710	hardware	fabric	MDS 9000 Series Multilayer	MDS 9700 directors (9706 / 9710 / 9718) and modules	host-chassis	compatible -> MDS 9710
+DS-C9396V-48IK9	MDS 9396V	hardware	fc-switch	MDS 9300 Series Multilayer Fabric	MDS 9300 fabric switches (9396S / 9396T / 9396V)	chassis-member	
+DS-PEM-20A-AC=	MDS 9506	hardware	power	MDS 9500 Series Multilayer Directors		host-chassis	compatible -> MDS 9506
+DS-C9396T-48ITK9	MDS 9396T	hardware	fc-switch	MDS 9300 Series Multilayer Fabric	MDS 9300 fabric switches (9396S / 9396T / 9396V)	chassis-member	
+DS-SFP-FC4G-SW-4=	MDS 9000	hardware	pluggable	MDS 9500 Series Multilayer Directors	MDS Fibre Channel SFP / X2 / CWDM	park	
+DS-X9706H-FAB1=	MDS 9706	hardware	fabric	MDS 9000 Series Multilayer	MDS 9700 directors (9706 / 9710 / 9718) and modules	host-chassis	compatible -> MDS 9706
+DS-C9148S-48PK9	MDS 9148S	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9148S-K9=	MDS 9148S	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9148T-48PETK9	MDS 9148T	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9148V-24EK9=	MDS 9148V	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9396S-48IK9	MDS 9396S	hardware	fc-switch	MDS 9300 Series Multilayer Fabric	MDS 9300 fabric switches (9396S / 9396T / 9396V)	chassis-member	
+DS-C9396V-96ITK9P	MDS 9396V	hardware	fc-switch	MDS 9300 Series Multilayer Fabric	MDS 9300 fabric switches (9396S / 9396T / 9396V)	chassis-member	
+DS-C9513-3AK9	MDS 9513	hardware	director	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	chassis-member	
+DS-C9513-IBM	MDS 9513	hardware	director	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	chassis-member	
+DS-C9513=	MDS 9513	hardware	director	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	chassis-member	
+DS-C9216I-HV-K9	MDS 9216i	hardware	fc-switch	MDS 9200 Series Multiservice	MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)	park	
+DS-C9222I-NAK9	MDS 9222i	hardware	fc-switch	MDS 9200 Series Multiservice	MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)	chassis-member	
+DS-C9396S-96I8K9	MDS 9396S	hardware	fc-switch	MDS 9000 Series Multilayer	MDS 9300 fabric switches (9396S / 9396T / 9396V)	chassis-member	
+DS-X9706-FAB1-D=	MDS 9706	hardware	fabric	MDS 9000 Series Multilayer	MDS 9700 directors (9706 / 9710 / 9718) and modules	host-chassis	compatible -> MDS 9706
+DS-X9718-FAB1=	MDS 9718	hardware	fabric	MDS 9000 Series Multilayer	MDS 9700 directors (9706 / 9710 / 9718) and modules	host-chassis	compatible -> MDS 9718
+DS-C9148V-48PETK9	MDS 9148V	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9396S-K9=	MDS 9396S	hardware	fc-switch	MDS 9300 Series Multilayer Fabric	MDS 9300 fabric switches (9396S / 9396T / 9396V)	chassis-member	
+DS-CAC-3000W	MDS 9509	hardware	power	MDS 9000 Series Multilayer		host-chassis	compatible -> MDS 9509
+DS-CAC-300W=	MDS 9100	hardware	power	MDS 9000 Series Multilayer		host-chassis	compatible -> MDS 9100
+DS-CAC-6000W=	MDS 9513	hardware	power	MDS 9500 Series Multilayer Directors		host-chassis	compatible -> MDS 9513
+DS-X9248-256K9	MDS 9000	hardware	linecard	MDS 9500 Series Multilayer Directors	MDS 9500 / 9200 switching modules	park	
+DS-C9148T-24IK9	MDS 9148T	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9148T-24PETK9	MDS 9148T	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9396V-96IVK9	MDS 9396V	hardware	fc-switch	MDS 9300 Series Multilayer Fabric	MDS 9300 fabric switches (9396S / 9396T / 9396V)	chassis-member	
+DS-C9506=	MDS 9506	hardware	director	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	chassis-member	
+DS-C9706-CBTOP=	MDS 9706	hardware	mechanical	MDS 9700 Series Multilayer Directors	MDS 9700 directors (9706 / 9710 / 9718) and modules	host-chassis	compatible -> MDS 9706
+DS-C9718-FD-MB=	MDS 9718	hardware	mechanical	MDS 9700 Series Multilayer Directors	MDS 9700 directors (9706 / 9710 / 9718) and modules	host-chassis	compatible -> MDS 9718
+DS-X9232256NHK9=	MDS 9000	hardware	linecard	MDS 9500 Series Multilayer Directors	MDS 9500 / 9200 switching modules	park	
+DS-X9248256NHK9=	MDS 9000	hardware	linecard	MDS 9500 Series Multilayer Directors	MDS 9500 / 9200 switching modules	park	
+DS-C9148S-D12P8K9	MDS 9148S	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9216I-NK9	MDS 9216i	hardware	fc-switch	MDS 9200 Series Multiservice	MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)	park	
+DS-C9396S-96E8K9	MDS 9396S	hardware	fc-switch	MDS 9300 Series Multilayer Fabric	MDS 9300 fabric switches (9396S / 9396T / 9396V)	chassis-member	
+DS-C9396T-48IK9=	MDS 9396T	hardware	fc-switch	MDS 9300 Series Multilayer Fabric	MDS 9300 fabric switches (9396S / 9396T / 9396V)	chassis-member	
+DS-C9396T-96ETK9	MDS 9396T	hardware	fc-switch	MDS 9300 Series Multilayer Fabric	MDS 9300 fabric switches (9396S / 9396T / 9396V)	chassis-member	
+DS-C9513-CL	MDS 9513	hardware	accessory	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	host-chassis	compatible -> MDS 9513
+DS-C9706H-1K9	MDS 9710	hardware	director	MDS 9000 Series Multilayer	MDS 9700 directors (9706 / 9710 / 9718) and modules	chassis-member	
+DS-C9718-1K9	MDS 9718	hardware	director	MDS 9000 Series Multilayer	MDS 9700 directors (9706 / 9710 / 9718) and modules	chassis-member	
+DS-X9706-FAB1-D	MDS 9706	hardware	fabric	MDS 9000 Series Multilayer	MDS 9700 directors (9706 / 9710 / 9718) and modules	host-chassis	compatible -> MDS 9706
+DS-C9148V-48PITK9	MDS 9148V	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9216A-HV-K9	MDS 9216	hardware	fc-switch	MDS 9200 Series Multiservice	MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)	chassis-member	
+DS-C9216A-K9	MDS 9216	hardware	fc-switch	MDS 9200 Series Multiservice	MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)	chassis-member	
+DS-C9148T-24IK9=	MDS 9148T	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9250I-K9=	MDS 9250i	hardware	fc-switch	MDS 9200 Series Multiservice	MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)	chassis-member	
+DS-C9396S-96EK9	MDS 9396S	hardware	fc-switch	MDS 9300 Series Multilayer Fabric	MDS 9300 fabric switches (9396S / 9396T / 9396V)	chassis-member	
+DS-C9396V-48EVK9P	MDS 9396V	hardware	fc-switch	MDS 9300 Series Multilayer Fabric	MDS 9300 fabric switches (9396S / 9396T / 9396V)	chassis-member	
+DS-C9396V-96EVK9	MDS 9396V	hardware	fc-switch	MDS 9300 Series Multilayer Fabric	MDS 9300 fabric switches (9396S / 9396T / 9396V)	chassis-member	
+DS-C9509	MDS 9509	hardware	director	MDS 9000 Series Multilayer	MDS 9500 directors (9506 / 9509 / 9513)	chassis-member	
+DS-C9710H-1K9	MDS 9710	hardware	director	MDS 9000 Series Multilayer	MDS 9700 directors (9706 / 9710 / 9718) and modules	chassis-member	
+DS-C9718-CBTOP=	MDS 9718	hardware	mechanical	MDS 9700 Series Multilayer Directors	MDS 9700 directors (9706 / 9710 / 9718) and modules	host-chassis	compatible -> MDS 9718
+DS-CAC-6000W	MDS 9513	hardware	power	MDS 9500 Series Multilayer Directors		host-chassis	compatible -> MDS 9513
+DS-CAC-845W=	MDS 9216	hardware	power	MDS 9200 Series Multiservice		host-chassis	compatible -> MDS 9216
+DS-PAA	MDS 9000	hardware	accessory	MDS 9500 Series Multilayer Directors		park	
+DS-C9148T-24PITK9	MDS 9148T	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9222I-HK9	MDS 9222i	hardware	fc-switch	MDS 9200 Series Multiservice	MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)	chassis-member	
+DS-C9222IEVBDL-K9	MDS 9222i	hardware	fc-switch	MDS 9200 Series Multiservice	MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)	chassis-member	
+DS-X9706-FAB1	MDS 9706	hardware	fabric	MDS 9000 Series Multilayer	MDS 9700 directors (9706 / 9710 / 9718) and modules	host-chassis	compatible -> MDS 9706
+DS-X9706-FAB1B	MDS 9706	hardware	fabric	MDS 9000 Series Multilayer	MDS 9700 directors (9706 / 9710 / 9718) and modules	host-chassis	compatible -> MDS 9706
+DS-C9148D-8G48P-K9	MDS 9148	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9148S-CD12PSK9	MDS 9148S	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9148S-D12S-ENT	MDS 9148S	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9148V-24PEVK9	MDS 9148V	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9216-K9	MDS 9216	hardware	fc-switch	MDS 9200 Series Multiservice	MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)	chassis-member	
+DS-C9396S-48ESK9	MDS 9396S	hardware	fc-switch	MDS 9300 Series Multilayer Fabric	MDS 9300 fabric switches (9396S / 9396T / 9396V)	chassis-member	
+DS-C9706-1EK9	MDS 9706	hardware	director	MDS 9000 Series Multilayer	MDS 9700 directors (9706 / 9710 / 9718) and modules	chassis-member	
+DS-C9706-RMK=	MDS 9706	hardware	mechanical	MDS 9700 Series Multilayer Directors	MDS 9700 directors (9706 / 9710 / 9718) and modules	host-chassis	compatible -> MDS 9706
+DS-C9706=	MDS 9706	hardware	director	MDS 9700 Series Multilayer Directors	MDS 9700 directors (9706 / 9710 / 9718) and modules	chassis-member	
+DS-C9718-FDAFLT=	MDS 9718	hardware	mechanical	MDS 9700 Series Multilayer Directors	MDS 9700 directors (9706 / 9710 / 9718) and modules	host-chassis	compatible -> MDS 9718
+DS-CAC-1900W	MDS 9506	hardware	power	MDS 9500 Series Multilayer Directors		host-chassis	compatible -> MDS 9506
+DS-CAC-1900W=	MDS 9506	hardware	power	MDS 9500 Series Multilayer Directors		host-chassis	compatible -> MDS 9506
+DS-CAC-845W	MDS 9216	hardware	power	MDS 9200 Series Multiservice		host-chassis	compatible -> MDS 9216
+DS-X9316-SSNK9	MDS 9000	hardware	linecard	MDS 9500 Series Multilayer Directors	MDS 9500 / 9200 switching modules	park	
+DS-X9710-FAB1B	MDS 9710	hardware	fabric	MDS 9000 Series Multilayer	MDS 9700 directors (9706 / 9710 / 9718) and modules	host-chassis	compatible -> MDS 9710
+DS-X9718-FAB1B=	MDS 9718	hardware	fabric	MDS 9000 Series Multilayer	MDS 9700 directors (9706 / 9710 / 9718) and modules	host-chassis	compatible -> MDS 9718
+DS-C9148D-8G32P-K9	MDS 9148	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9148S-24PK9	MDS 9148S	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9148S-48PK9=	MDS 9148S	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9148S-D24P8K9	MDS 9148S	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9148S-D24PSK9	MDS 9148S	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9148UCSBNDL-K9	MDS 9148	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9148V-24PITK9	MDS 9148V	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9148V-48PIVK9	MDS 9148V	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C925016GSFPK9++	MDS 9250i	hardware	fc-switch	MDS 9200 Series Multiservice	MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)	chassis-member	
+DS-C9509-HDS	MDS 9509	hardware	director	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	chassis-member	
+DS-C9148V-24PETK9	MDS 9148V	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-CAC-3000W=	MDS 9509	hardware	power	MDS 9000 Series Multilayer		host-chassis	compatible -> MDS 9509
+DS-PEM-20A-AC	MDS 9506	hardware	power	MDS 9500 Series Multilayer Directors		host-chassis	compatible -> MDS 9506
+DS-X9222I-K9	MDS 9222i	hardware	linecard	MDS 9200 Series Multiservice	MDS 9500 / 9200 switching modules	host-chassis	compatible -> MDS 9222i
+DS-X9718-FAB3=	MDS 9718	hardware	fabric	MDS 9700 Series Multilayer Directors	MDS 9700 directors (9706 / 9710 / 9718) and modules	host-chassis	compatible -> MDS 9718
+DS-C9148S-D48P8K9	MDS 9148S	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9148T-24EK9=	MDS 9148T	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9250ID8GSFPK9	MDS 9250i	hardware	fc-switch	MDS 9200 Series Multiservice	MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)	chassis-member	
+DS-C9250IH-K9	MDS 9250i	hardware	fc-switch	MDS 9200 Series Multiservice	MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)	chassis-member	
+DS-C9396T-96ITK9	MDS 9396T	hardware	fc-switch	MDS 9300 Series Multilayer Fabric	MDS 9300 fabric switches (9396S / 9396T / 9396V)	chassis-member	
+DS-C9506-K9	MDS 9506	hardware	director	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	chassis-member	
+DS-C96S-FAN-I=	MDS 9396S	hardware	fan	MDS 9300 Series Multilayer Fabric		host-chassis	compatible -> MDS 9396S
+DS-C9706-2BSK9	MDS 9706	hardware	director	MDS 9000 Series Multilayer	MDS 9700 directors (9706 / 9710 / 9718) and modules	chassis-member	
+DS-C9710-4BSK9	MDS 9710	hardware	director	MDS 9000 Series Multilayer	MDS 9700 directors (9706 / 9710 / 9718) and modules	chassis-member	
+DS-X9708-K9	MDS 9000	hardware	linecard	MDS 9500 Series Multilayer Directors	MDS 9700 directors (9706 / 9710 / 9718) and modules	park	
+DS-X9710-FAB1=	MDS 9710	hardware	fabric	MDS 9000 Series Multilayer	MDS 9700 directors (9706 / 9710 / 9718) and modules	host-chassis	compatible -> MDS 9710
+DS-C9148S-12PK9=	MDS 9148S	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9216-PS=	MDS 9216	hardware	power	MDS 9200 Series Multiservice	MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)	host-chassis	compatible -> MDS 9216
+DS-C9250I-D12S-ENT	MDS 9250i	hardware	fc-switch	MDS 9200 Series Multiservice	MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)	chassis-member	
+DS-C9396S-96ESK9	MDS 9396S	hardware	fc-switch	MDS 9300 Series Multilayer Fabric	MDS 9300 fabric switches (9396S / 9396T / 9396V)	chassis-member	
+DS-C9396S-96IK9	MDS 9396S	hardware	fc-switch	MDS 9300 Series Multilayer Fabric	MDS 9300 fabric switches (9396S / 9396T / 9396V)	chassis-member	
+DS-C9250I-K9++	MDS 9250i	hardware	fc-switch	MDS 9200 Series Multiservice	MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)	chassis-member	
+DS-C9250ID16GSFPK9	MDS 9250i	hardware	fc-switch	MDS 9200 Series Multiservice	MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)	chassis-member	
+DS-C9396T-48EK9=	MDS 9396T	hardware	fc-switch	MDS 9300 Series Multilayer Fabric	MDS 9300 fabric switches (9396S / 9396T / 9396V)	chassis-member	
+DS-C9396V-48ETK9P	MDS 9396V	hardware	fc-switch	MDS 9300 Series Multilayer Fabric	MDS 9300 fabric switches (9396S / 9396T / 9396V)	chassis-member	
+DS-C9396V-48EVK9	MDS 9396V	hardware	fc-switch	MDS 9300 Series Multilayer Fabric	MDS 9300 fabric switches (9396S / 9396T / 9396V)	chassis-member	
+DS-C9396V-96EVK9P	MDS 9396V	hardware	fc-switch	MDS 9300 Series Multilayer Fabric	MDS 9300 fabric switches (9396S / 9396T / 9396V)	chassis-member	
+DS-C9506-CBN	MDS 9506	hardware	director	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	chassis-member	
+DS-C9509-CL=	MDS 9509	hardware	linecard	MDS 9000 Series Multilayer	MDS 9500 directors (9506 / 9509 / 9513)	host-chassis	compatible -> MDS 9509
+DS-C9509-DM-K9	MDS 9509	hardware	director	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	chassis-member	
+DS-C9509=	MDS 9509	hardware	director	MDS 9000 Series Multilayer	MDS 9500 directors (9506 / 9509 / 9513)	chassis-member	
+DS-C9513	MDS 9513	hardware	director	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	chassis-member	
+DS-SFP-FC16G-SW=	MDS 9000	hardware	pluggable	MDS 9300 Series Multilayer Fabric	MDS Fibre Channel SFP / X2 / CWDM	park	
+DS-X9710-FAB1	MDS 9710	hardware	fabric	MDS 9000 Series Multilayer	MDS 9700 directors (9706 / 9710 / 9718) and modules	host-chassis	compatible -> MDS 9710
+DS-X9718-FAB1	MDS 9718	hardware	fabric	MDS 9000 Series Multilayer	MDS 9700 directors (9706 / 9710 / 9718) and modules	host-chassis	compatible -> MDS 9718
+DS-C9148S-K9	MDS 9148S	hardware	fc-switch	MDS 9500 Series Multilayer Directors	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9148V-24IK9=	MDS 9148V	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9216I-K9	MDS 9216i	hardware	fc-switch	MDS 9200 Series Multiservice	MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)	park	
+DS-DIMM1=	MDS 9000	hardware	accessory	MDS 9500 Series Multilayer Directors		park	
+DS-C9148S-24PK9=	MDS 9148S	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9148S-D12PSK9	MDS 9148S	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9148V-24IK9	MDS 9148V	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9396V-48IK9=	MDS 9396V	hardware	fc-switch	MDS 9300 Series Multilayer Fabric	MDS 9300 fabric switches (9396S / 9396T / 9396V)	chassis-member	
+DS-C9396V-96IVK9P	MDS 9396V	hardware	fc-switch	MDS 9300 Series Multilayer Fabric	MDS 9300 fabric switches (9396S / 9396T / 9396V)	chassis-member	
+DS-C9710-1K9	MDS 9710	hardware	director	MDS 9000 Series Multilayer	MDS 9700 directors (9706 / 9710 / 9718) and modules	chassis-member	
+DS-CAC-845W/2	MDS 9216	hardware	power	MDS 9200 Series Multiservice		host-chassis	compatible -> MDS 9216
+DS-X9824960BDC10=	MDS 9710	hardware	linecard	MDS 9700 Series Multilayer Directors	MDS 9700 directors (9706 / 9710 / 9718) and modules	host-chassis	compatible -> MDS 9710
+DS-X9824960BDC18=	MDS 9718	hardware	linecard	MDS 9700 Series Multilayer Directors	MDS 9700 directors (9706 / 9710 / 9718) and modules	host-chassis	compatible -> MDS 9718
+DS-X9824960SRC10=	MDS 9710	hardware	linecard	MDS 9700 Series Multilayer Directors	MDS 9700 directors (9706 / 9710 / 9718) and modules	host-chassis	compatible -> MDS 9710
+L-DCNM-S-M93-K9	MDS 9300	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9300
+L-D-M93S-AXK9	MDS9300	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9300
+L-DCNM-S-M91-K9	MDS 9100	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+L-DCNM-S-M95-K9=	MDS 9500	license		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9500
+L-DCNMS-M91BXK9=	MDS 9100	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+L-DCNM-S-M92XK9=	MDS 9200	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9200
+L-DCNM-S-M97XK9	MDS 9700	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+L-DCNM-S-M93XK9	MDS 9300	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9300
+L-DCNM-S-M91XK9	MDS 9100	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+L-M9250IDMMT6M=	MDS 9250i	license		MDS 9200 Series Multiservice		licence-platform	license_for -> MDS 9250i
+L-M92FIC1K9=	MDS 9200	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9200
+L-M9148S-DPL12=	MDS 9148S	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9148S
+L-M9250IBLKIOA	MDS 9250i	license		MDS 9200 Series Multiservice		licence-platform	license_for -> MDS 9250i
+L-M92BLKFMSK9	MDS 9200	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9200
+L-M95EXTSSNK9=	MDS 9500	license		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9500
+L-M97BLKFMSK9	MDS 9700	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+L-M95IOA184=	MDS 9500	license		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9500
+L-M9148S-PL12=	MDS 9148S	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9148S
+L-M91FIC1K9=	MDS 9100	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+L-M95SMESSNK9=	MDS 9500	license		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9500
+L1-D-M97S-AXK9=	MDS9700	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+L1-D-M91S-AXK9=	MDS9100	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+L1-D-M97S-AXK9	MDS9700	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+L5-D-M93S-AXK9=	MDS9300	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9300
+M9148V-PL8=	MDS 9148V	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9148V
+M91S2K9-3.2.3	MDS 9100	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M91S2K9-3.3.1C	MDS 9100	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M91S2K9-5.0.1A	MDS 9100	software		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9100
+M91S3K9-5.0.1B	MDS 9100	software		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9100
+M91S5K9-6.2.13	MDS 9100	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M91S5K9-6.2.17	MDS 9100	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M91S5K9-NPE-6.2.15	MDS 9100	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M91S6K9-9.2.1A	MDS 9132T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9132T
+M91S6K9-NPE-9.2.1A	MDS 9132T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9132T
+M92S5K9-8.4.2E	MDS 9250i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250i
+M92S5K9-NPE-6.2.17	MDS 9250i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250i
+M91XK9-P-5Y	MDS9100	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9100
+M9200FMS1K9=	MDS 9200	license		MDS 9500 Series Multilayer Directors		licence-platform	license_for -> MDS 9200
+M9100FIC1K9=	MDS 9100	license		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9100
+M9124VS8K9-9.3.1	MDS 9128V	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9128V
+M9148S6K9NPE8.4.2F	MDS 9148T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148T
+M91S2K9-5.2.1A	MDS 9100	software		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9100
+M91S2K9-5.2.6	MDS 9100	software		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9100
+M91S3K9-5.0.4	MDS 9100	software		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9100
+M91S3K9-5.2.1	MDS 9100	software		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9100
+M91S5K9-8.1.1B	MDS 9100	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M91S5K9-9.3.2	MDS 9148S	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148S
+M91S5K9-NPE-8.4.1A	MDS 9148S	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148S
+M91S6K9-8.4.2F	MDS 9132T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9132T
+M91XK9-P-1Y	MDS9100	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9100
+M91XK9-P-7Y	MDS9100	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9100
+M92DMMS1K9	MDS 9200	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9200
+M92DMMTS1K9	MDS 9200	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9200
+M92S1K9-1.3.1	MDS 9216	software		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9216
+M92S2K9-3.2.3	MDS 9200	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9200
+M92S5K9-8.1.1	MDS 9250i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250i
+M92S5K9-8.1.1B	MDS 9250	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250
+M92S5K9-8.4.2	MDS 9250i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250i
+M9100ENT1HK9=	MDS 9100	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M9148VS8K9-N9.3.1	MDS 9148V	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148V
+M91S2K9-6.2.1	MDS 9100	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M91S5K9-8.4.2	MDS 9148S	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148S
+M91S5K9-NPE-8.2.1	MDS 9100	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M91S5K9-NPE-9.2.1A	MDS 9148S	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148S
+M9250IIOA	MDS 9250i	license		MDS 9200 Series Multiservice		licence-platform	license_for -> MDS 9250i
+M92S1K9-1.3.2	MDS 9216	software		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9216
+M92S1K9-1.3.3	MDS 9216	software		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9216
+M92S2K9-3.3.1C	MDS 9200	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9200
+M92S5K9-8.3.2	MDS 9250	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250
+M9124V-PL8=	MDS 9124V	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9124V
+M9148S-DPL12PSG	MDS 9148S	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9148S
+M91S2K9-5.0.4	MDS 9100	software		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9100
+M91S5K9-6.2.11C	MDS 9100	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M91S5K9-NPE-8.4.1	MDS 9148S	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148S
+M92S1K9-1.3.4	MDS 9216	software		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9216
+M9200FIC1EK9=	MDS 9200	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9200
+M9222ISSE1K9	MDS 9222i	license		MDS 9200 Series Multiservice		licence-platform	license_for -> MDS 9222i
+M9250IPD20-8GSFP=	MDS 9250i	license		MDS 9200 Series Multiservice		licence-platform	license_for -> MDS 9250i
+M92IOA184=	MDS 9200	license		MDS 9500 Series Multilayer Directors		licence-platform	license_for -> MDS 9200
+M92S2K9-5.2.2	MDS 9200	software		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9200
+M92S3K9-6.2.1	MDS 9250	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250
+M92S3K9-6.2.5	MDS 9250	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250
+M92S5K9-6.2.13A	MDS 9250i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250i
+M92S5K9-6.2.17	MDS 9250i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250i
+M92S5K9-9.3.1	MDS 9250i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250i
+M92S5K9-NPE-9.2.2	MDS 9250i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250i
+M9100FIC1K9	MDS 9100	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M9124VS8K9-9.3.2A	MDS 9124V	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9124V
+M9148S-PL12U	MDS 9148S	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9148S
+M9148S-SP-12P8G	MDS 9148S	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9148S
+M9148S6K9-9.2.1A	MDS 9148T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148T
+M9148S6K9-9.3.2	MDS 9148T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148T
+M9148VS8K9-N9.3.2A	MDS 9148V	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148V
+M91S1K9-3.2.2	MDS 9100	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M91S2K9-5.2.1	MDS 9100	software		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9100
+M91S5K9-6.2.13A	MDS 9100	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M91S5K9-8.4.1A	MDS 9148S	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148S
+M91S5K9-NPE-8.4.2D	MDS 9148S	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148S
+M91S6K9-8.4.2C	MDS 9132T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9132T
+M91S6K9-8.5.1	MDS 9132T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9132T
+M91S6K9-NPE-8.4.2	MDS 9132T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9132T
+M92S5K9-NPE-6.2.13	MDS 9250i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250i
+M92S5K9-NPE-6.2.9A	MDS 9250i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250i
+M9200SSE1EK9=	MDS9200	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9200
+M9250IIOA=	MDS 9250i	license		MDS 9200 Series Multiservice		licence-platform	license_for -> MDS 9250i
+M9250IP20-16GH=	MDS 9250i	license		MDS 9200 Series Multiservice		licence-platform	license_for -> MDS 9250i
+M92S3K9-8.3.1	MDS 9200	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9200
+M92S5K9-6.2.19	MDS 9250i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250i
+M92S5K9-8.4.2D	MDS 9250i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250i
+M92S5K9-N9.3.2	MDS 9250i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250i
+M9148S-DPL12=	MDS 9148S	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9148S
+M9148S-PL12H=	MDS 9148S	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9148S
+M9148S-PL12P8G=	MDS 9148S	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9148S
+M91S5K9-8.1.1A	MDS 9100	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M91S5K9-9.2.2	MDS 9148S	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148S
+M91S5K9-N9.3.1	MDS 9148S	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148S
+M91S5K9-NPE-8.4.2E	MDS 9148S	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148S
+M91S6K9-8.4.2A	MDS 9132T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9132T
+M91S6K9-8.4.2E	MDS 9132T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9132T
+M91S6K9-9.2.2	MDS 9132T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9132T
+M91S6K9-NPE-8.4.1A	MDS 9132T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9132T
+M91S5K9-6.2.9A	MDS 9100	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M91S5K9-8.4.2E	MDS 9148S	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148S
+M9200ENT1K9	MDS9200	license		MDS 9200 Series Multiservice		licence-platform	license_for -> MDS 9200
+M91S5K9-NPE-8.4.2B	MDS 9148S	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148S
+M9222IDMMTSK9	MDS 9222i	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9222i
+M9250IDMMK9=	MDS 9250i	license		MDS 9200 Series Multiservice		licence-platform	license_for -> MDS 9250i
+M92S1K9-1.3.5	MDS 9216	software		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9216
+M92S1K9-3.2.2	MDS 9200	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9200
+M92S1K9-3.3.1C	MDS 9200	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9200
+M92S2K9-5.0.1A	MDS 9200	software		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9200
+M92S5K9-6.2.13	MDS 9250i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250i
+M92S5K9-6.2.9	MDS 9250i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250i
+M92S5K9-8.1.1A	MDS 9250	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250
+M92S5K9-8.4.1A	MDS 9250i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250i
+M92S5K9-9.2.1	MDS 9250i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250i
+M92S5K9-9.2.1A	MDS 9250i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250i
+M92S5K9-NPE-8.4.2	MDS 9250i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250i
+M92S7K9-8.5.1	MDS 9220i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9220i
+M9132T-PL8=	MDS 9132T	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9132T
+M9134PL2-10G	MDS 9134	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9134
+M9148S-DPL12PSG=	MDS 9148S	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9148S
+M9148S5K9-8.2.1	MDS 9100	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M9148S6K9-8.4.2D	MDS 9148T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148T
+M9148VS8K9-9.3.2A	MDS 9148V	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148V
+M91S2K9-3.2.2	MDS 9100	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M91S2K9-3.3.1A	MDS 9100	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M91S3K9-NPE-6.2.13	MDS 9100	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M91S3K9-NPE-6.2.5A	MDS 9100	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M91S3K9-NPE-6.2.9A	MDS 9100	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M91S5K9-NPE-8.5.1	MDS 9148S	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148S
+M91S6K9-8.4.1	MDS 9132T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9132T
+M91S6K9-NPE-8.4.2E	MDS 9132T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9132T
+M91XK9-A-3Y	MDS9100	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9100
+M9200ENT1HK9=	MDS 9200	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9200
+M9250IP20-16G=	MDS 9250i	license		MDS 9200 Series Multiservice		licence-platform	license_for -> MDS 9250i
+M9250IP20-16GE=	MDS 9250i	license		MDS 9200 Series Multiservice		licence-platform	license_for -> MDS 9250i
+M9250IPD20-16GSFP=	MDS 9250i	license		MDS 9200 Series Multiservice		licence-platform	license_for -> MDS 9250i
+M92S1K9-3.3.1A	MDS 9200	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9200
+M92S2K9-5.0.4	MDS 9200	software		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9200
+M92S5K9-7.3.0	MDS 9250i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250i
+M92S5K9-9.2.2	MDS 9250i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250i
+M92S5K9-NPE-6.2.19	MDS 9250i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250i
+M92S5K9-NPE-6.2.7	MDS 9250i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250i
+M92S5K9-NPE-8.4.2D	MDS 9250i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250i
+M9100ENT1EK9	MDS 9100	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M9124V-PL8	MDS 9124V	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9124V
+M9148S-DPL12P8G	MDS 9148S	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9148S
+M9148S-DPL12P8G=	MDS 9148S	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9148S
+M9148V-PL8	MDS 9148V	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9148V
+M91ENTDCNMEX-K9=	MDS 9100	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M91S2K9-5.2.8	MDS 9100	software		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9100
+M91S3K9-NPE-6.2.1	MDS 9100	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M91S5K9-6.2.19	MDS 9100	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M91S5K9-8.4.2B	MDS 9148S	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148S
+M91S5K9-9.2.1	MDS 9148S	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148S
+M91S5K9-9.2.1A	MDS 9148S	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148S
+M91S5K9-NPE-6.2.17	MDS 9100	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M91S6K9-8.3.2	MDS 9132T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9132T
+M91S6K9-NPE-8.4.2F	MDS 9132T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9132T
+M91S6K9-NPE-8.4.2C	MDS 9132T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9132T
+M91XK9-A-1Y	MDS9100	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9100
+M91XK9-P-3Y	MDS9100	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9100
+M9222IDMMTSK9=	MDS 9222i	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9222i
+M92DMMTS1K9=	MDS 9200	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9200
+M92S5K9-7.3.1	MDS 9250i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250i
+M92S5K9-NPE-6.2.5	MDS 9250i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250i
+M92S5K9-NPE-6.2.5A	MDS 9250i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250i
+M92S5K9-NPE-8.2.1	MDS 9250i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250i
+M92S5K9-NPE-8.4.2E	MDS 9250i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250i
+M9100ENT1IBMK9=	MDS 9100	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M9100ENT1K9	MDS 9100	license		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9100
+M9134PL8-4G	MDS 9134	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9134
+M9134PL8-4G=	MDS 9134	license		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9134
+M9148S6K9-8.4.2A	MDS 9148T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148T
+M9148S6K9-9.2.1	MDS 9148T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148T
+M9148S6K9-9.3.2A	MDS 9148T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148T
+M9148S6K9-N9.3.1	MDS 9148T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148T
+M9148T-PL8=	MDS 9148T	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9148T
+M91ENTDCNM-K9	MDS 9100	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M91S1K9-1.3.2	MDS 9100	software		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9100
+M91S2K9-NPE-6.2.1	MDS 9100	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M91S5K9-8.5.1	MDS 9148S	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148S
+M91S5K9-N9.3.2	MDS 9148S	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148S
+M91S5K9-NPE-6.2.9A	MDS 9100	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M91S5K9-NPE-8.4.2A	MDS 9148S	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148S
+M91S6K9-8.4.2B	MDS 9132T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9132T
+M91S6K9-N9.3.2	MDS 9132T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9132T
+M91S6K9-NPE-8.2.1	MDS 9100	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M9222ISSE1K9=	MDS 9222i	license		MDS 9200 Series Multiservice		licence-platform	license_for -> MDS 9222i
+M92DMM184K9	MDS 9200	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9200
+M92DMM184K9=	MDS 9200	license		MDS 9500 Series Multilayer Directors		licence-platform	license_for -> MDS 9200
+M92DMM184TSK9=	MDS 9200	license		MDS 9500 Series Multilayer Directors		licence-platform	license_for -> MDS 9200
+M92S1K9-3.2.3	MDS 9200	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9200
+M92S5K9-8.4.2B	MDS 9250i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250i
+M92S5K9-N9.3.1	MDS 9250i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250i
+M92S5K9-NPE-6.211D	MDS 9250i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250i
+M92S5K9-NPE-8.1.1	MDS 9250i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250i
+M92S5K9-NPE-9.2.1	MDS 9250i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250i
+M92S5K9-NPE-9.2.1A	MDS 9250i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250i
+M92S7K9-8.4.2E	MDS 9220i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9220i
+M9100FMS1K9	MDS 9100	license		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9100
+M9100FMS1K9=	MDS 9100	license		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9100
+M9124VS8K9-N9.3.1	MDS 9124V	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9124V
+M9124VS8K9-N9.3.2	MDS 9124V	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9124V
+M9134PL2-10G=	MDS 9134	license		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9134
+M9148S-PL12PSG=	MDS 9148S	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9148S
+M9148S6K9-8.4.2E	MDS 9148T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148T
+M9148S6K9-8.4.2F	MDS 9148T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148T
+M9148T-PL8	MDS 9148T	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9148T
+M9148T-PL8TE	MDS 9148T	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9148T
+M9148VS8K9-N9.3.2	MDS 9148V	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148V
+M91S1K9-3.2.3	MDS 9100	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M91S3K9-5.2.8	MDS 9100	software		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9100
+M91S3K9-8.3.1	MDS 9100	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M91S5K9-8.2.1	MDS 9100	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M91S5K9-9.3.1	MDS 9148S	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148S
+M91S5K9-NPE-8.1.1	MDS 9100	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M91S6K9-9.3.2	MDS 9132T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9132T
+M91S6K9-NPE-8.4.2A	MDS 9132T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9132T
+M91XK9-A-7Y	MDS9100	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9100
+M9200FIC1HK9=	MDS 9200	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9200
+M9250IP20-16G-SL=	MDS 9250i	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9250i
+M92S2K9-3.2.2	MDS 9200	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9200
+M92S2K9-5.2.1A	MDS 9200	software		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9200
+M92S5K9-8.5.1	MDS 9250i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250i
+M9100ENT1K9-PI	MDS 9100	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M9134PL8-4G-AP=	MDS 9134	license		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9134
+M9148S6K9-8.4.2C	MDS 9148T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148T
+M9148S6K9-9.2.2	MDS 9148T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148T
+M9148S6K9-N9.3.2	MDS 9148T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148T
+M9148VS8K9-9.3.2	MDS 9148V	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148V
+M91S1K9-1.3.1	MDS 9100	software		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9100
+M91S1K9-1.3.4	MDS 9100	software		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9100
+M91S2K9-3.3.2	MDS 9100	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M91S2K9-6.2.3	MDS 9100	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M91S5K9-6.2.9	MDS 9100	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M91S5K9-NPE-6.2.13	MDS 9100	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M91S6K9-8.4.2D	MDS 9132T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9132T
+M91S6K9-9.3.1	MDS 9132T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9132T
+M91S6K9-N9.3.2A	MDS 9132T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9132T
+M91S6K9-NPE-9.2.2	MDS 9132T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9132T
+M9250IDMMT6M	MDS 9250i	license		MDS 9200 Series Multiservice		licence-platform	license_for -> MDS 9250i
+M92S2K9-5.2.6	MDS 9200	software		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9200
+M92S3K9-6.2.3	MDS 9250	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250
+M92S3K9-NPE-6.2.5	MDS 9250i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250i
+M92S5K9-6.2.11D	MDS 9250i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250i
+M92S5K9-6.2.5A	MDS 9250i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250i
+M92S5K9-6.2.9A	MDS 9250i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250i
+M92S5K9-8.4.1	MDS 9250i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250i
+M92S5K9-NPE-8.4.1A	MDS 9250i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250i
+M92S7K9-8.4.2F	MDS 9220i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9220i
+M9132T-PL8	MDS 9132T	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9132T
+M9148S-PL12	MDS 9148S	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9148S
+M9148S6K9-8.5.1	MDS 9148T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148T
+M9148S6K9-9.3.1	MDS 9148T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148T
+M9148S6K9NPE8.5.1	MDS 9148S	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148S
+M91S1K9-3.3.1C	MDS 9100	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M91S5K9-8.1.1	MDS 9100	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M91S5K9-8.4.2C	MDS 9148S	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148S
+M91S5K9-NPE-8.4.2	MDS 9148S	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148S
+M91S6K9-9.2.1	MDS 9132T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9132T
+M91S6K9-9.3.2A	MDS 9132T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9132T
+M92S2K9-5.2.8	MDS 9200	software		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9200
+M92S5K9-6.2.11C	MDS 9250i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250i
+M92S5K9-8.4.2A	MDS 9250i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250i
+M92S5K9-NPE-6.2.15	MDS 9250i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250i
+M92S5K9-NPE-8.5.1	MDS 9250i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250i
+M93S2K9-NPE-9.2.1A	MDS 9396T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396T
+M9148S6K9-8.3.1	MDS 9148T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148T
+M9148S6K9-8.4.1A	MDS 9148T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148T
+M91ENTDCNME-K9=	MDS 9100	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M91S2K9-5.2.2	MDS 9100	software		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9100
+M91S3K9-5.2.2	MDS 9100	software		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9100
+M91S3K9-NPE-6.2.5	MDS 9100	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M91S5K9-6.2.15	MDS 9100	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M91S5K9-NPE-9.2.2	MDS 9148S	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148S
+M91S6K9-N9.3.1	MDS 9132T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9132T
+M92S1K9-1.3.3C	MDS 9216	software		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9216
+M92S2K9-3.3.2	MDS 9200	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9200
+M92S2K9-5.2.1	MDS 9200	software		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9200
+M92S5K9-6.2.15	MDS 9250i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250i
+M92S5K9-8.2.1	MDS 9250i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250i
+M92S5K9-NPE-8.4.2B	MDS 9250i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250i
+M9124VS8K9-9.3.2	MDS 9124V	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9124V
+M9124VS8K9-N9.3.2A	MDS 9124V	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9124V
+M9148S6K9-NPE8.3.1	MDS 9148T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148T
+M9148S6K9-NPE8.4.2	MDS 9148S	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148S
+M9148T-PL8-SL=	MDS 9148T	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9148T
+M9148VS8K9-9.3.1	MDS 9148V	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148V
+M91S1K9-1.3.5	MDS 9100	software		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9100
+M91S5K9-7.3.1	MDS 9100	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M91S5K9-8.3.2	MDS 9100	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M91S5K9-8.4.2A	MDS 9148S	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148S
+M91S5K9-8.4.2D	MDS 9148S	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148S
+M91S5K9-NPE-6.2.19	MDS 9100	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M91S6K9-NPE-8.4.2B	MDS 9132T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9132T
+M91S6K9-NPE-8.5.1	MDS 9132T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9132T
+M9200ENT1K9=	MDS9200	license		MDS 9200 Series Multiservice		licence-platform	license_for -> MDS 9200
+M9200SSE184K9=	MDS 9200	license		MDS 9500 Series Multilayer Directors		licence-platform	license_for -> MDS 9200
+M9222IDMMK9	MDS 9222i	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9222i
+M92S5K9-8.4.2C	MDS 9250i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250i
+M92S5K9-9.3.2	MDS 9250i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250i
+M92S5K9-NPE-8.4.2A	MDS 9250i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250i
+M9396S-PL12	MDS 9396S	license		MDS 9300 Series Multilayer Fabric		licence-platform	license_for -> MDS 9396S
+M93S1K9-9.2.1A	MDS 9396S	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396S
+M93S1K9-NPE-9.2.1	MDS 9396S	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396S
+M93S2K9-8.5.1	MDS 9396T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396T
+M93S2K9-NPE-9.2.2	MDS 9396T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396T
+DS-C9396V-48IVK9P	MDS 9396V	hardware	fc-switch	MDS 9300 Series Multilayer Fabric	MDS 9300 fabric switches (9396S / 9396T / 9396V)	chassis-member	
+DS-C9509-CBT	MDS 9509	hardware	director	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	chassis-member	
+DS-C9706-BSK=	MDS 9706	hardware	mechanical	MDS 9700 Series Multilayer Directors	MDS 9700 directors (9706 / 9710 / 9718) and modules	host-chassis	compatible -> MDS 9706
+DS-C9706-FD-MB=	MDS 9706	hardware	mechanical	MDS 9700 Series Multilayer Directors	MDS 9700 directors (9706 / 9710 / 9718) and modules	host-chassis	compatible -> MDS 9706
+DS-C9706-V3K9	MDS 9706	hardware	director	MDS 9700 Series Multilayer Directors	MDS 9700 directors (9706 / 9710 / 9718) and modules	chassis-member	
+DS-C9718-V3K9	MDS 9718	hardware	director	MDS 9700 Series Multilayer Directors	MDS 9700 directors (9706 / 9710 / 9718) and modules	chassis-member	
+DS-C9513-CL=	MDS 9513	hardware	accessory	MDS 9500 Series Multilayer Directors	MDS 9500 directors (9506 / 9509 / 9513)	host-chassis	compatible -> MDS 9513
+DS-SFP-FC16GELW=	MDS 9000	hardware	pluggable	MDS 9300 Series Multilayer Fabric	MDS Fibre Channel SFP / X2 / CWDM	park	
+DS-SFP-FC8G-SW-4=	MDS 9000	hardware	pluggable	MDS 9500 Series Multilayer Directors	MDS Fibre Channel SFP / X2 / CWDM	park	
+DS-X9232-256K9	MDS 9000	hardware	linecard	MDS 9500 Series Multilayer Directors	MDS 9500 / 9200 switching modules	park	
+DS-C9396V-48ITK9P	MDS 9396V	hardware	fc-switch	MDS 9300 Series Multilayer Fabric	MDS 9300 fabric switches (9396S / 9396T / 9396V)	chassis-member	
+DS-C9706-1K9	MDS 9706	hardware	director	MDS 9000 Series Multilayer	MDS 9700 directors (9706 / 9710 / 9718) and modules	chassis-member	
+DS-C9706-V2K9	MDS 9706	hardware	director	MDS 9700 Series Multilayer Directors	MDS 9700 directors (9706 / 9710 / 9718) and modules	chassis-member	
+DS-C9718=	MDS 9718	hardware	director	MDS 9700 Series Multilayer Directors	MDS 9700 directors (9706 / 9710 / 9718) and modules	chassis-member	
+DS-C9148V-48PEVK9	MDS 9148V	hardware	fc-switch	MDS 9100 Series Multilayer Fabric	MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)	chassis-member	
+DS-C9396S-K9	MDS 9396S	hardware	fc-switch	MDS 9500 Series Multilayer Directors	MDS 9300 fabric switches (9396S / 9396T / 9396V)	chassis-member	
+DS-C9396T-48ETK9	MDS 9396T	hardware	fc-switch	MDS 9300 Series Multilayer Fabric	MDS 9300 fabric switches (9396S / 9396T / 9396V)	chassis-member	
+DS-C9396T-48IK9	MDS 9396T	hardware	fc-switch	MDS 9300 Series Multilayer Fabric	MDS 9300 fabric switches (9396S / 9396T / 9396V)	chassis-member	
+DS-X9706-FAB3	MDS 9706	hardware	fabric	MDS 9700 Series Multilayer Directors	MDS 9700 directors (9706 / 9710 / 9718) and modules	host-chassis	compatible -> MDS 9706
+DS-X9824960SRC06=	MDS 9706	hardware	linecard	MDS 9700 Series Multilayer Directors	MDS 9700 directors (9706 / 9710 / 9718) and modules	host-chassis	compatible -> MDS 9706
+DS-X9824960BDC06=	MDS 9706	hardware	linecard	MDS 9700 Series Multilayer Directors	MDS 9700 directors (9706 / 9710 / 9718) and modules	host-chassis	compatible -> MDS 9706
+DS-X9824960SRC18=	MDS 9718	hardware	linecard	MDS 9700 Series Multilayer Directors	MDS 9700 directors (9706 / 9710 / 9718) and modules	host-chassis	compatible -> MDS 9718
+ELA2-C1-MDS9300F	MDS 9300	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9300
+ELA2-C1-MDS9100F	MDS 9100	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+ELA2-C1-MDS9700F	MDS 9700	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+ELA2-C1-MDS9200F	MDS 9200	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9200
+L-DCNM-S-M91BXK9=	MDS 9100	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+L-DCNM-S-M92-K9	MDS 9200	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9200
+L-DCNM-S-M92XK9	MDS 9200	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9200
+L-DCNM-S-M97-K9	MDS 9700	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+L-DCNM-S-M95-K9	MDS 9500	license		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9500
+L-D-M91S-AXK9	MDS9100	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+L-M9250IIOA=	MDS 9250i	license		MDS 9200 Series Multiservice		licence-platform	license_for -> MDS 9250i
+L-M91ENTDCNMX-K9=	MDS 9100	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+L-M92BLKENTK9=	MDS 9200	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9200
+L-M92ENT1K9=	MDS 9200	license		Software Licensing		licence-platform	license_for -> MDS 9200
+L-M97BLKENTK9	MDS 9700	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+L-M91BLKENTK9	MDS 9100	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+L-M9250IP20-16G=	MDS 9250i	license		MDS 9200 Series Multiservice		licence-platform	license_for -> MDS 9250i
+L-M91BLKFMSK9	MDS 9100	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+L-M9222ISSE1K9=	MDS 9222i	license		MDS 9200 Series Multiservice		licence-platform	license_for -> MDS 9222i
+L-M92BLKENTK9	MDS 9200	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9200
+L-M95ENT1K9=	MDS 9500	license		Software Licensing		licence-platform	license_for -> MDS 9500
+L-M9200XRC=	MDS 9200	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9200
+L-M9250IDMMK9=	MDS 9250i	license		MDS 9200 Series Multiservice		licence-platform	license_for -> MDS 9250i
+L-M9396S-PL12=	MDS 9396S	license		MDS 9300 Series Multilayer Fabric		licence-platform	license_for -> MDS 9396S
+L-M93BLKFMSK9	MDS 9300	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9300
+L-M95DMM184TSK9=	MDS 9500	license		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9500
+L-M95DMM184K9=	MDS 9500	license		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9500
+L-M95IOASSN=	MDS 9500	license		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9500
+L1-D-M93S-AXK9	MDS9300	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9300
+L1-D-M91S-AXK9	MDS9100	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+L5-D-M91S-AXK9=	MDS9100	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+L1-D-M93S-AXK9=	MDS9300	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9300
+L5-D-M91S-AXK9	MDS9100	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+L5-D-M93S-AXK9	MDS9300	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9300
+M9148S-PL12-SL=	MDS 9148S	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9148S
+M9148S-PL12=	MDS 9148S	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9148S
+M9148S5K9-NPE8.2.1	MDS 9100	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M91S2K9-6.2.5	MDS 9100	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M91S3K9-5.0.1A	MDS 9100	software		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9100
+M91S3K9-5.2.1A	MDS 9100	software		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9100
+M91S3K9-NPE-6.2.9	MDS 9100	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M91S5K9-7.3.0	MDS 9100	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M91S5K9-8.4.1	MDS 9148S	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148S
+M91S5K9-NPE-8.4.2C	MDS 9148S	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148S
+M91S6K9-8.2.1	MDS 9100	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M91S6K9-NPE-9.2.1	MDS 9132T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9132T
+M91XK9-A-5Y	MDS9100	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9100
+M9200SSE1HK9=	MDS9200	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9200
+M92S5K9-NPE-6.2.9	MDS 9250i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250i
+M92S5K9-NPE-8.4.1	MDS 9250i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250i
+M92S5K9-NPE-8.4.2C	MDS 9250i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250i
+M9100ENT1EK9=	MDS 9100	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M9148S-PL12E=	MDS 9148S	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9148S
+M9148S6K9-8.4.2B	MDS 9148T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148T
+M9250IDMMT6M=	MDS 9250i	license		MDS 9200 Series Multiservice		licence-platform	license_for -> MDS 9250i
+M9250IP20-16G	MDS 9250i	license		MDS 9200 Series Multiservice		licence-platform	license_for -> MDS 9250i
+M92S1K9-3.3.2	MDS 9200	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9200
+M92S3K9-6.2.21	MDS 9200	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9200
+M92S3K9-NPE-6.2.1	MDS 9250	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250
+M92S5K9-6.2.7	MDS 9250i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250i
+M92S7K9-9.2.1	MDS 9220i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9220i
+M9100FIC1EK9=	MDS 9100	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M9132T-PL8-SL=	MDS 9132T	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9132T
+M9148S6K9-8.4.2	MDS 9148T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148T
+M9148T-PL8T	MDS 9148T	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9148T
+M91S1K9-1.3.3	MDS 9100	software		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9100
+M91S1K9-1.3.3C	MDS 9100	software		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9100
+M91S1K9-3.3.1A	MDS 9100	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M91S3K9-5.2.6	MDS 9100	software		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9100
+M91S3K9-NPE-6.2.7	MDS 9100	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M91S5K9-NPE-6.2.9	MDS 9100	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M91S5K9-NPE-9.2.1	MDS 9148S	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148S
+M91S6K9-8.4.1A	MDS 9132T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9132T
+M91S6K9-8.4.2	MDS 9132T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9132T
+M91S6K9-NPE-8.4.1	MDS 9132T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9132T
+M91S6K9-NPE-8.4.2D	MDS 9132T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9132T
+M92DMMS1K9=	MDS 9200	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9200
+M92S2K9-3.3.1A	MDS 9200	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9200
+M92S5K9-6.2.5	MDS 9250i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9250i
+M9200ENT1EK9=	MDS 9200	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9200
+M9222ISSE1HK9=	MDS 9222i	license		MDS 9200 Series Multiservice		licence-platform	license_for -> MDS 9222i
+M9250IDMMK9	MDS 9250i	license		MDS 9200 Series Multiservice		licence-platform	license_for -> MDS 9250i
+M9148S6K9-8.4.1	MDS 9148T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148T
+M9148S6K9-N9.3.2A	MDS 9148T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9148T
+M91S1K9-3.3.2	MDS 9100	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M95DMMS1K9	MDS 9500	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9500
+M95S2K9-6.2.17	MDS 9500	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9500
+M95S2K9-NPE-6.2.13	MDS 9500	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9500
+M95S2K9-NPE-6.2.19	MDS 9500	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9500
+M97S3K9-7.3.0	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M93S5K9-8.3.2	MDS 9300	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9300
+M93S5K9-NPE-6.2.19	MDS 9300	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9300
+M93S3K9-6.2.21	MDS 9300	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9300
+M93S5K9-NPE-6.2.15	MDS 9300	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9300
+M97XK9-A-3Y	MDS 9700	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9700
+M97XK9-A-7Y	MDS 9700	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9700
+M9396T-PL16T	MDS 9396T	license		MDS 9300 Series Multilayer Fabric		licence-platform	license_for -> MDS 9396T
+M9396T-PL16TE	MDS 9396T	license		MDS 9300 Series Multilayer Fabric		licence-platform	license_for -> MDS 9396T
+M93S1K9-9.2.2	MDS 9396S	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396S
+M93S1K9-NPE-8.4.2D	MDS 9396S	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396S
+M93S2K9-8.4.1	MDS 9396T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396T
+M93S2K9-9.2.2	MDS 9396T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396T
+M93S2K9-NPE-8.4.2B	MDS 9396T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396T
+M93S5K9-7.3.1	MDS 9300	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9300
+M93S5K9-8.1.1B	MDS 9300	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9300
+M93XK9-P-5Y	MDS9300	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9300
+M95S2K9-3.3.2	MDS 9500	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9500
+M95S2K9-NPE-6.2.7	MDS 9500	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9500
+M97S3K9-9.2.1A	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M92S7K9-9.2.2	MDS 9220i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9220i
+M92S7K9-NPE-9.2.1A	MDS 9220i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9220i
+M9396S-PL12-S=	MDS 9396S	license		MDS 9300 Series Multilayer Fabric		licence-platform	license_for -> MDS 9396S
+M93S1K9-8.4.2C	MDS 9396S	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396S
+M93S1K9-NPE-8.4.2B	MDS 9396S	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396S
+M93S5K9-8.1.1A	MDS 9300	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9300
+M95DMM184TSK9=	MDS 9500	license		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9500
+M95IOASSN	MDS 9500	license		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9500
+M95S2K9-3.3.1A	MDS 9500	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9500
+M95S2K9-6.2.13	MDS 9500	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9500
+M97S3K9-6.2.11C	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S3K9-8.3.2	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S4K9-8.4.2A	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S4K9-NPE-8.4.1A	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M92S7K9-NPE-8.5.1	MDS 9220i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9220i
+M92XK9-A-3Y	MDS9200	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9200
+M93ENTDCNME-K9=	MDS 9300	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9300
+M93S2K9-8.4.2B	MDS 9396T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396T
+M93S2K9-8.4.2E	MDS 9396T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396T
+M93S5K9-6.2.13A	MDS 9300	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9300
+M95IOASSN=	MDS 9500	license		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9500
+M95S2K9-3.3.1C	MDS 9500	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9500
+M95S2K9-6.2.15	MDS 9500	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9500
+M95S2K9-7.3.1	MDS 9500	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9500
+M97S4K9-8.4.2C	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S4K9-8.4.2D	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S4K9-NPE-8.4.1	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S4K9-NPE-8.4.2F	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M92S7K9-9.3.2A	MDS 9220i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9220i
+M92S7K9-N9.3.2	MDS 9220i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9220i
+M92S7K9-NPE-8.4.2F	MDS 9220i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9220i
+M92S7K9-NPE-9.2.2	MDS 9220i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9220i
+M9396S-PL12-SL=	MDS 9396S	license		MDS 9300 Series Multilayer Fabric		licence-platform	license_for -> MDS 9396S
+M93S1K9-8.4.2	MDS 9396S	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396S
+M93S1K9-8.4.2A	MDS 9396S	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396S
+M93S1K9-8.4.2D	MDS 9396S	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396S
+M93S1K9-N9.3.1	MDS 9396S	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396S
+M93S1K9-NPE-8.4.2C	MDS 9396S	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396S
+M93S1K9-NPE-9.2.2	MDS 9396S	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396S
+M95S2K9-3.2.2	MDS 9500	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9500
+M95S2K9-6.2.5	MDS 9500	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9500
+M95S2K9-NPE-6.2.15	MDS 9500	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9500
+M95S2K9-NPE-6.2.9	MDS 9500	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9500
+M95S2K9-NPE-7.3.0	MDS 9500	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9500
+M97ENT-PIK9	MDS9700	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S3K9-6.2.7	MDS 9710	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9710
+M97S3K9-8.4.2E	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S3K9-NPE-6.2.17	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S3K9-NPE-8.4.1	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S4K9-NPE-8.4.2D	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M92S7K9-9.3.2	MDS 9220i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9220i
+M93S1K9-8.4.2B	MDS 9396S	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396S
+M93S2K9-NPE-8.4.1	MDS 9396T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396T
+M93S2K9-NPE-8.4.2D	MDS 9396T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396T
+M93S5K9-6.2.15	MDS 9300	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9300
+M93S5K9-NPE-6.2.17	MDS 9300	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9300
+M95DMMS1K9=	MDS 9500	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9500
+M95S1K9-1.3.1	MDS 9500	software		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9500
+M95S1K9-1.3.4	MDS 9500	software		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9500
+M95S2K9-5.2.2	MDS 9500	software		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9500
+M95S2K9-5.2.6	MDS 9500	software		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9500
+M95S2K9-6.2.13A	MDS 9500	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9500
+M95S2K9-6.2.5A	MDS 9500	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9500
+M9500SSE184K9=	MDS 9500	license		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9500
+M93XK9-P-1Y	MDS9300	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9300
+M9500XRC=	MDS 9500	license		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9500
+M95S1K9-1.3.3C	MDS 9500	software		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9500
+M97S3K9-8.4.2A	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S3K9-8.4.2B	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S3K9-NPE-9.2.1A	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S4K9-8.4.1A	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S4K9-9.3.1	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M9300ENT1EK9	MDS 9100	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9100
+M9396S-PL12-S	MDS 9396S	license		MDS 9300 Series Multilayer Fabric		licence-platform	license_for -> MDS 9396S
+M93S1K9-NPE-8.4.2	MDS 9396S	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396S
+M93S2K9-NPE-8.4.2C	MDS 9396T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396T
+M93S5K9-8.2.1	MDS 9300	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9300
+M95S1K9-3.3.2	MDS 9500	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9500
+M95S2K9-5.0.4	MDS 9500	software		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9500
+M95S2K9-NPE-6.2.5A	MDS 9500	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9500
+M97S3K9-8.1.1	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S3K9-8.1.1A	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S3K9-8.2.1	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S3K9-NPE-6.2.1	MDS 9710	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9710
+M97S3K9-NPE-8.2.1	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S4K9-9.2.1A	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97XK9-A-5Y	MDS 9700	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9700
+M97XK9-P-1Y	MDS 9700	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9700
+M92S7K9-NPE-8.4.2E	MDS 9220i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9220i
+M9396S-PL12-8	MDS 9396S	license		MDS 9300 Series Multilayer Fabric		licence-platform	license_for -> MDS 9396S
+M9396S-PL12-8=	MDS 9396S	license		MDS 9300 Series Multilayer Fabric		licence-platform	license_for -> MDS 9396S
+M9396V-PL16=	MDS 9396V	license		MDS 9300 Series Multilayer Fabric		licence-platform	license_for -> MDS 9396V
+M93S1K9-8.4.2E	MDS 9396S	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396S
+M93S1K9-N9.3.2	MDS 9396S	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396S
+M93S2K9-8.4.2F	MDS 9396T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396T
+M93S2K9-NPE-8.4.2F	MDS 9396T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396T
+M9500ENT1K9	MDS 9500	license		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9500
+M95S1K9-3.2.3	MDS 9500	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9500
+M95S2K9-3.2.3	MDS 9500	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9500
+M95S2K9-NPE-6.2.1	MDS 9500	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9500
+M95SMESSNK9=	MDS 9500	license		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9500
+M97FIC1K9E=	MDS 9700	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S3K9-8.3.1	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S3K9-NPE-6.2.7	MDS 9710	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9710
+M97S3K9-NPE-6.2.9A	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97XK9-P-7Y	MDS 9700	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9700
+M92XK9-A-7Y	MDS 9200	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9200
+M9396T-PL16	MDS 9396T	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9396T
+M93S1K9-9.3.1	MDS 9396S	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396S
+M93S2K9-9.3.2	MDS 9396T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396T
+M93S2K9-N9.3.2A	MDS 9396T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396T
+M93S2K9-NPE-8.4.2A	MDS 9396T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396T
+M93S2K9-NPE-8.4.2E	MDS 9396T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396T
+M93S2K9-NPE-8.5.1	MDS 9396T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396T
+M9500EXT1AK9	MDS 9500	license		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9500
+M9500EXT1AK9=	MDS 9500	license		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9500
+M95S1K9-1.3.3	MDS 9500	software		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9500
+M95S1K9-3.3.1A	MDS 9500	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9500
+M95S2K9-6.2.19	MDS 9500	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9500
+M95S2K9-6.2.3	MDS 9500	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9500
+M95S2K9-6.2.7	MDS 9500	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9500
+M97ENTK9E=	MDS9700	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S3K9-NPE-6.2.5A	MDS 9710	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9710
+M97S3K9-NPE-8.4.2	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S3K9-NPE-9.2.2	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M92S7K9-NPE-9.2.1	MDS 9220i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9220i
+M9396V-PL16	MDS 9396V	license		MDS 9300 Series Multilayer Fabric		licence-platform	license_for -> MDS 9396V
+M93S1K9-NPE-8.4.1A	MDS 9396S	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396S
+M93S2K9-8.4.2A	MDS 9396T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396T
+M93S2K9-NPE-8.4.1A	MDS 9396T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396T
+M93S5K9-6.2.17	MDS 9300	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9300
+M93S5K9-6.2.19	MDS 9300	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9300
+M95S2K9-NPE-6.2.17	MDS 9500	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9500
+M97ENTHPK9=	MDS9700	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97FIC1K9H=	MDS 9700	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S3K9-7.3.1	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S3K9-8.1.1B	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S3K9-NPE-6.2.19	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S4K9-8.4.2F	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S4K9-9.3.2	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S4K9-N9.3.2	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97XK9-A-1Y	MDS 9700	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9700
+M97XK9-P-5Y	MDS 9700	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9700
+M93S1K9-8.5.1	MDS 9396S	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396S
+M93S2K9-N9.3.1	MDS 9396T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396T
+M93S5K9-8.1.1	MDS 9300	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9300
+M93XK9-A-7Y	MDS9300	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9300
+M9500ENT1K9=	MDS 9500	license		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9500
+M95DMMTS1K9	MDS 9500	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9500
+M95IOA184=	MDS 9500	license		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9500
+M95S2K9-5.0.1A	MDS 9500	software		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9500
+M97S3K9-6.2.5	MDS 9710	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9710
+M97S3K9-7.3.0DY	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S3K9-7.3.1DY	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S3K9-NPE-8.4.2C	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S3K9-NPE-8.5.1	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S4K9-8.4.1	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S4K9-8.4.2B	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S4K9-8.5.1	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S4K9-NPE-8.4.2A	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97XK9-P-3Y	MDS 9700	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9700
+MEM-MDS-FLD512M	MDS 9509	hardware	accessory	MDS 9000 Series Multilayer		host-chassis	compatible -> MDS 9509
+MEM-MDS-FLD512M=	MDS 9509	hardware	accessory	MDS 9000 Series Multilayer		host-chassis	compatible -> MDS 9509
+UCS-EP-MDS9148S-16	MDS 9148S	license		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9148S
+UCS-EP-MDS9148S-L1	MDS 9148S	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9148S
+UCS-EP-MDS9148SL2	MDS 9148S	license		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9148S
+UCS-EP-MDS9396S-16	MDS 9396S	license		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9396S
+UCS-EP-MDS9396SL2	MDS 9396S	license		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9396S
+UCS-EP-MDS9148S-1	MDS 9148S	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9148S
+DS-C9220I-12PIK9	Cisco MDS 9000	hardware	fc-switch	MDS 9200 Series Multiservice	MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)	park	
+DS-C9220I-4PIK9=	Cisco MDS 9000	hardware	fc-switch	MDS 9200 Series Multiservice	MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)	park	
+QSFP-40G-LR4-S=	Cisco MDS 9000	hardware	pluggable	MDS 9200 Series Multiservice	40G QSFP+	park	
+DS-C32S-FAN-I=	Cisco MDS 9000	hardware	fan	MDS 9100 Series Multilayer Fabric		park	
+DS-C9220I-12PEK9	Cisco MDS 9000	hardware	fc-switch	MDS 9200 Series Multiservice	MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)	park	
+M97S3K9-8.4.1A	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S3K9-9.2.2	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S3K9-NPE-8.4.2E	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S4K9-9.2.2	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S4K9-NPE-8.4.2	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S4K9-NPE-8.4.2E	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M92S7K9-9.3.1	MDS 9220i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9220i
+M92S7K9-N9.3.2A	MDS 9220i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9220i
+M92XK9-A-1Y	MDS9200	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9200
+M93S1K9-9.3.2	MDS 9396S	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396S
+M93S1K9-NPE-8.5.1	MDS 9396S	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396S
+M93S2K9-8.4.2	MDS 9396T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396T
+M93XK9-A-3Y	MDS9300	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9300
+M95DMM184K9=	MDS 9500	license		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9500
+M95S1K9-1.3.5	MDS 9500	software		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9500
+M95S2K9-5.2.8	MDS 9500	software		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9500
+M95S2K9-NPE-6.2.9A	MDS 9500	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9500
+M97S3K9-6.2.13A	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S3K9-6.2.21	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S3K9-6.2.9	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S3K9-8.4.2C	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S3K9-NPE-8.4.2B	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S3K9-NPE-9.2.1	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S4K9-NPE-8.5.1	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S4K9-NPE-9.2.1	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M95EXTSSNK9	MDS 9500	license		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9500
+M95S1K9-3.2.2	MDS 9500	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9500
+M95S2K9-5.2.1	MDS 9500	software		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9500
+M95S2K9-6.2.11C	MDS 9500	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9500
+M95SMESSNK9	MDS 9500	license		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9500
+M97S3K9-6.2.15	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S3K9-6.2.17	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S3K9-8.4.1	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S3K9-8.4.2	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S3K9-NPE-6.2.15	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S3K9-NPE-6.2.5	MDS 9710	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9710
+M97S3K9-NPE-8.4.1A	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M92S7K9-9.2.1A	MDS 9220i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9220i
+M9396T-PL16-SL=	MDS 9396T	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9396T
+M93S1K9-NPE-8.4.1	MDS 9396S	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396S
+M93S2K9-8.4.1A	MDS 9396T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396T
+M93S2K9-9.3.1	MDS 9396T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396T
+M93S3K9-8.3.1	MDS 9300	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9300
+M93XK9-A-5Y	MDS9300	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9300
+M9500FIC1K9=	MDS 9500	license		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9500
+M93XK9-A-1Y	MDS9300	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9300
+M95DMMTS1K9=	MDS 9500	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9500
+M95S1K9-1.3.2	MDS 9500	software		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9500
+M95S2K9-6.2.1	MDS 9500	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9500
+M95S2K9-6.2.9A	MDS 9500	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9500
+M95S2K9-7.3.0	MDS 9500	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9500
+M97S3K9-6.2.1	MDS 9710	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9710
+M97S3K9-6.2.13	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S3K9-6.2.19	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S3K9-6.2.5A	MDS 9710	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9710
+M97S3K9-8.4.2D	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S3K9-NPE-6.2.13	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S3K9-NPE-6.2.9	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S4K9-8.4.2	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S4K9-8.4.2E	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S4K9-9.2.1	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S4K9-9.3.2A	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S4K9-NPE-9.2.2	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M93ENTDCNMEX-K9=	MDS 9300	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9300
+M93S1K9-NPE-8.4.2A	MDS 9396S	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396S
+M93S1K9-NPE-8.4.2E	MDS 9396S	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396S
+M93S2K9-NPE-8.3.1	MDS 9396T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396T
+M93S2K9-NPE-9.2.1	MDS 9396T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396T
+M9500FIC1K9	MDS 9500	license		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9500
+M93S2K9-8.4.2C	MDS 9396T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396T
+M95DMM184K9	MDS 9500	license		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9500
+M95EXTSSNK9=	MDS 9500	license		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9500
+M95IOA184	MDS 9500	license		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9500
+M95S1K9-3.3.1C	MDS 9500	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9500
+M95S2K9-5.2.1A	MDS 9500	software		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9500
+M95S2K9-6.2.9	MDS 9500	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9500
+M95S2K9-NPE-6.2.5	MDS 9500	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9500
+M97S3K9-8.5.1	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S3K9-NPE-8.1.1	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S3K9-NPE-8.4.2A	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S4K9-N9.3.1	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S4K9-NPE-8.4.2B	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S4K9-NPE-9.2.1A	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M92S7K9-N9.3.1	MDS 9220i	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9220i
+M9300ENT1EK9=	MDS 9300	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9300
+M9300ENT1K9-PI	MDS 9300	license		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9300
+M93S1K9-8.4.1	MDS 9396S	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396S
+M93S2K9-9.2.1	MDS 9396T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396T
+M93S2K9-9.3.2A	MDS 9396T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396T
+M93S2K9-N9.3.2	MDS 9396T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396T
+M93S2K9-NPE-8.4.2	MDS 9396T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396T
+M93S5K9-NPE-8.1.1	MDS 9300	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9300
+M93XK9-P-3Y	MDS9300	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9300
+M97S3K9-6.2.9A	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S3K9-9.2.1	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S3K9-NPE-8.4.2D	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S4K9-N9.3.2A	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M97S4K9-NPE-8.4.2C	MDS 9700	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9700
+M92XK9-A-5Y	MDS 9200	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9200
+M9396S-PL12=	MDS 9396S	license		MDS 9300 Series Multilayer Fabric		licence-platform	license_for -> MDS 9396S
+M9396S-PL12E=	MDS 9396S	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9396S
+M9396S-PL12U	MDS 9396S	license		MDS 9000 Series Multilayer		licence-platform	license_for -> MDS 9396S
+M93S1K9-8.4.1A	MDS 9396S	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396S
+M93S1K9-NPE-9.2.1A	MDS 9396S	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396S
+M93S2K9-8.3.1	MDS 9396T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396T
+M93S2K9-8.4.2D	MDS 9396T	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9396T
+M93S5K9-7.3.0	MDS 9300	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9300
+M93S5K9-NPE-8.2.1	MDS 9300	software		MDS 9000 NX-OS and SAN-OS Software		licence-platform	license_for -> MDS 9300
+M93XK9-P-7Y	MDS9300	license		MDS 9100 Series Multilayer Fabric		licence-platform	license_for -> MDS 9300
+DS-C9220I-4PEK9=	Cisco MDS 9000	hardware	fc-switch	MDS 9200 Series Multiservice	MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)	park	
+M9220I-UPGK9-SL=	Cisco MDS 9000	license		MDS 9200 Series Multiservice		licence-platform	license_for -> MDS 9000
+QSFP-40G-SR4	Cisco MDS 9000	hardware	pluggable	40G QSFP+ Modules	40G QSFP+	park	
+M9220I-UPGK9=	Cisco MDS 9000	license		MDS 9200 Series Multiservice		licence-platform	license_for -> MDS 9000
+DS-C9220I-4PIK9	Cisco MDS 9000	hardware	fc-switch	MDS 9200 Series Multiservice	MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)	park	
+M9220I-UPGK9	Cisco MDS 9000	license		MDS 9200 Series Multiservice		licence-platform	license_for -> MDS 9000
