@@ -11,8 +11,8 @@
 - Decision files short and append-only; no sabotage narration beyond the commit line. Verifier log committed with each report.
 - Verify a chat send: composer must read 0 chars afterwards.
 
-## Board: passed 15 | FAILED 11 | unavailable 3 | not exercised 3 (of 32) · self-test proven 20 | BROKEN 0 | unproven 12
-HEAD ba15294+, deployed ba15294. Full rebuild = scripts/mould-build.sh on the box (GIT_SHA=<sha>; copy runs/vocab/cisco-datasheets/labels.json in first; freeze BEFORE report), then scripts/mould-stamp.mts in the repo. build-layers refuses a single-category write.
+## Board: passed 16 | FAILED 10 | unavailable 3 | not exercised 3 (of 32) · self-test proven 20 | BROKEN 0 | unproven 12
+HEAD 3f2762b+, deployed 3f2762b. Full rebuild = scripts/mould-build.sh on the box (GIT_SHA=<sha>; copy runs/vocab/cisco-datasheets/labels.json in first; freeze BEFORE report), then scripts/mould-stamp.mts in the repo. build-layers refuses a single-category write.
 
 ## Flip order
 | # | item | status | what to do (from its decision file) |
@@ -24,11 +24,11 @@ HEAD ba15294+, deployed ba15294. Full rebuild = scripts/mould-build.sh on the bo
 | 5 | column_backed_never_facts | GREEN (on 0b4b83e) | run 1296 layers (MDS 9100/9200 lists renamed), run 1297: 45 -> 0 (19 chassis-member, 24 umbrella, 2 relations incl. 1 QSFP -> MDS 9000). Earlier: | run 1294: 102 prefix dups; run 1295: 933 relations + 1,111 retracted. 45 parked: unlisted chassis 24, MDS 9000 umbrella 20, 1 router series |
 | 6 | enum_values_in_domain | AWAITING seed retraction | 2,011: standard 1,806 (1,775 hexcat_seed), mounting 115, audio_codecs 80 (all INHERITED), 10 wireless |
 | 7 | required_cup_defined | AWAITING-RULING | 30 cups = 3 keys. bundle_contents 0 facts, video_codecs 0 facts, product_compatibility 79 |
-| 8 | relations_for_components | AWAITING-RULING | 56 of 79 are model lists → promote to relations; 20 prose → retract; 3 mixed → parser |
+| 8 | relations_for_components | GREEN (3f2762b) | run 1306: 79 facts -> 45 model lists = 118 compatible relations, 29 prose + 5 mixed retracted; product_compatibility + bundle_contents now RELATION_BACKED (per-kind filled/not_held in the report) |
 | 9 | conflicts_classified | TODO | orphans are 599 not 12,874 (corrected). Needs a `class` column + classifier |
 | 10 | twin_parity | AWAITING-RULING | 19 are a NAME asymmetry; the `=` moves 1 of 14. Three options costed |
 | 11 | kind_profile_parity | AWAITING acquisition | 5 of 6 pairs: NOBODY on either side holds the cup; hcs/server 0 of 208 spec-bearing |
-| 12 | unknown_zero | 377 (91 of the 106 landed, src/core/kindOverrides.ts) | parked: 13 collab bundles (no bundle kind in collab), 1 ONT (no ont kind anywhere); ruled, not yet run: CIT3-FI-M-6324 move, AIM-DES/BP series fix; 362 = name gap | 3,476 counted apart (done). 106 proposal: docs/decisions/2026-09-28-unknown-kind-106.md. 362 = name gap (acquisition) |
+| 12 | unknown_zero | 364 (104 of the 106 landed: +13 collab bundles, 12a) | parked: 1 ONT (12b); ruled, not yet run: CIT3-FI-M-6324 move, AIM-DES/BP series fix; 362 = name gap | 3,476 counted apart (done). 106 proposal: docs/decisions/2026-09-28-unknown-kind-106.md. 362 = name gap (acquisition) |
 | 13 | four_sets_sum | AWAITING-RULING | na=0 is 77,098 cells = ONE derived rule (complement of the kind's cup set), not 303 judgements |
 | 14 | keys_hygiene | AWAITING OPERATOR | holder+channel landed (0029, run 1276). Operator revokes ids 1 and 6 |
 | 15 | vendor_coverage | OUT OF SCOPE | 3,476 parts, 12 vendors with no axis |
