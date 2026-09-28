@@ -24,6 +24,12 @@ full; the ones that bite hardest here are restated.
   over the tunnel, so the window is hours wide and a window that wide will eventually overlap something. One
   statement per chunk (`unnest`) did 91,533 parts in 46 statements in the same session. **A slow write is a
   wide window, and a wide window is a concurrency bug waiting for a neighbour.**
+  AND THE REMEDY WAS ALREADY THE RULE THREE LINES ABOVE: *heavy passes run faster and safer on the box*.
+  `retractFact` is a SELECT plus `supersedeFact`'s three-step park/insert/restore, so ~4 round trips per
+  fact — 20,600 for 5,156 facts, which is 1.7 hours across the tunnel and seconds over the box's localhost.
+  A set-based rewrite is NOT the cheap fix: `rollbackRun`'s own comment records that the first attempt at
+  doing that dance set-wise "turned a failed run into a failed rollback" against the partial unique index.
+  **When a pass is measured in thousands of round trips, move the pass, not the SQL.**
 - **Never resolve a disagreement by write order.** Hold it as a conflict.
 - **Never inherit a family value into a SKU the document does not list.**
 - **Never guess a value.** A normaliser or parser that cannot parse returns a reason; the
