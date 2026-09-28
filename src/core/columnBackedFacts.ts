@@ -59,6 +59,7 @@ export type ColumnBackedBucket =
   | "vendor-duplicate"      // retract: the column says the same thing
   | "vendor-differs"        // NOT retracted: a fact disagreeing with parts.vendor is a brand question
   | "series-duplicate"      // retract: a column says the same thing once normalised
+  | "series-prefix-duplicate" // retract: a column is the same series with words appended
   | "series-finer"          // NOT retracted: export to the layer build as a product_series hint
   | "series-only-source";   // NOT retracted: both columns are null, so this is the only copy
 
