@@ -192,8 +192,11 @@ const RUN_KIND_CLASS: Record<string, { approval: boolean; gate: boolean }> = {
   "recompute-completeness": D, "write-layers-to-db": D, "build-spare-of": D, "derive-link-provenance": D,
   "derive-part-states": D, "fill-family-from-hct-category": D, "sync-dictionary": D, "name-language": D,
   "name-spare-packaging": D, "name-spare-wording": D, "images": D, "probe-failure-reason": D,
-  "backfill-doc-titles": D, "record-title-provenance": D, "record-retroactive-approval": A, "retro-gate": A,
+  "backfill-doc-titles": D, "record-title-provenance": D, "record-retroactive-approval": A, "retro-gate": A, "apply-series-hints": AG,
 };
+// The vendor this lane has axes for; vendor_coverage owns every other vendor's hardware (unknown_zero counts them apart).
+const OWN_VENDOR = "cisco";
+
 // doc_category_by_relevance: a readable untitled document counts against the check unless its title_state records that
 // the file carries no title (reviewer ruling 28 Sep 2026: title_state = none, nothing invented).
 function untitledCounts(titleState: string | null): boolean {
@@ -1154,11 +1157,18 @@ const TESTS: Test[] = [
       // So the judgement is over HARDWARE, and the excluded population is counted and named in the
       // line rather than folded away -- this repo's own rule, and the reason it exists is that a
       // coverage number is only as honest as its denominator.
+      // Reviewer ruling 28 Sep 2026: the other vendors' unkinded hardware is vendor_coverage's population, counted
+      // APART and never in this check's number (one population, one red). This check's own number is OWN_VENDOR's.
       const r = await query<{ category: string; n: string }>(
         "SELECT c.slug AS category, count(*)::text AS n FROM parts p JOIN categories c ON c.id = p.category_id" +
+        " JOIN vendors v ON v.id = p.vendor_id" +
         " WHERE p.retired_at IS NULL AND (p.sku_kind IS NULL OR p.sku_kind = 'unknown')" +
-        " AND p.product_class = 'hardware'" +
-        " GROUP BY 1 ORDER BY count(*) DESC");
+        " AND p.product_class = 'hardware' AND v.slug = $1" +
+        " GROUP BY 1 ORDER BY count(*) DESC", [OWN_VENDOR]);
+      const apart = Number((await query<{ n: string }>(
+        "SELECT count(*)::text AS n FROM parts p JOIN vendors v ON v.id = p.vendor_id" +
+        " WHERE p.retired_at IS NULL AND (p.sku_kind IS NULL OR p.sku_kind = 'unknown')" +
+        " AND p.product_class = 'hardware' AND v.slug <> $1", [OWN_VENDOR])).rows[0].n);
       const excluded = await query<{ cls: string; n: string }>(
         "SELECT coalesce(p.product_class::text, '(none)') AS cls, count(*)::text AS n FROM parts p" +
         " WHERE p.retired_at IS NULL AND (p.sku_kind IS NULL OR p.sku_kind = 'unknown')" +
@@ -1171,7 +1181,8 @@ const TESTS: Test[] = [
           const s = resolveFourSets(cat, k);
           return s.req.length + s.pending.length === 0;
         }).map((k) => `${cat}/${k}`));
-      const scope = `${r.rows.length} categories hold an unclassified HARDWARE part; ` +
+      const scope = `${r.rows.length} ${OWN_VENDOR} categories hold an unclassified HARDWARE part; ` +
+        `${apart.toLocaleString()} other-vendor hardware parts are vendor_coverage's, counted apart; ` +
         `${notHardware.toLocaleString()} further parts have no kind and correctly never will ` +
         `(${excluded.rows.slice(0, 4).map((x) => `${x.cls} ${Number(x.n).toLocaleString()}`).join(", ")}) — ` +
         `excluded from the judgement and counted here, never folded into it; ` +
@@ -2146,8 +2157,8 @@ const TESTS: Test[] = [
     run: async () => {
       const rows = (await query<{ vendor: string; n: string }>(`
         SELECT v.slug vendor, count(*)::text n FROM parts p JOIN vendors v ON v.id=p.vendor_id
-         WHERE v.slug <> 'cisco' AND p.retired_at IS NULL AND p.product_class='hardware'
-         GROUP BY 1 ORDER BY 2 DESC`)).rows;
+         WHERE v.slug <> $1 AND p.retired_at IS NULL AND p.product_class='hardware'
+         GROUP BY 1 ORDER BY 2 DESC`, [OWN_VENDOR])).rows;
       const total = rows.reduce((n, r) => n + Number(r.n), 0);
       if (!rows.length) return ok("cisco is the only vendor with live hardware parts");
       const list = rows.map((r) => `${r.vendor} ${r.n}`).join(", ");
