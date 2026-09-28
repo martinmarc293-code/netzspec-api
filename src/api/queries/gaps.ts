@@ -131,7 +131,8 @@ const BY_CATEGORY_SQL = `
          -- 1,325 parts at zero coverage that no extraction could ever move.
          -- (No backticks in here: this block sits inside a JS template literal.)
          round(avg(cp.pct) FILTER (WHERE NOT cp.no_profile AND cp.required_total > 0), 1)::float8 AS mean_pct,
-         count(*) FILTER (WHERE NOT cp.no_profile AND cp.required_total = 0)::int AS parts_nothing_required
+         -- a part owing a RELATION_BACKED cup it cannot yet answer (not_held, ruling 12a) is asked something
+         count(*) FILTER (WHERE NOT cp.no_profile AND cp.required_total = 0 AND cp.relation_cups IS NULL)::int AS parts_nothing_required
     FROM parts p
     JOIN categories c ON c.id = p.category_id
     JOIN vendors v ON v.id = p.vendor_id

@@ -445,12 +445,15 @@ export function checkReport(r: CompletenessReport, ctx: CheckContext = {}): Cros
         // The union, so a cup the ledger asks for and the report never asked fails as loudly as one the report invented.
         for (const key of new Set([...ledgerCupKeys(lk), ...k.cups.map((x) => x.key)])) {
           const d = cupDemand(lk, key);
-          const n = k.cups.find((x) => x.key === key)?.asked ?? 0;
+          // A RELATION_BACKED cup a part cannot yet answer is not_held and leaves required_fields (ruling 12a), so the
+          // demand band is met by asked + not_held; the not_held count is the kind's own relation_backed figure.
+          const nh = k.relation_backed?.[key]?.not_held ?? 0;
+          const n = (k.cups.find((x) => x.key === key)?.asked ?? 0) + nh;
           if (!d.asked_by_any) {
             fail("no_optional_cup_in_denominator", `${c.category}.${k.kind}.${key}: asked of ${n} parts but no role of the ledger lists it as required or pending`);
           } else if (n < d.min || n > d.max) {
             fail("cup_asked_matches_ledger", d.min === d.max
-              ? `${c.category}.${k.kind}.${key}: required of every part, asked of ${n} of ${d.min}`
+              ? `${c.category}.${k.kind}.${key}: required of every part, asked of ${n}${nh ? ` (incl. ${nh} relation not_held)` : ""} of ${d.min}`
               : `${c.category}.${k.kind}.${key}: asked of ${n}, outside the ${d.min}..${d.max} its ${d.roles} role(s) open over ${d.of} parts`);
           }
         }

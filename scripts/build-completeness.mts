@@ -283,7 +283,8 @@ async function main(): Promise<void> {
            -- one of the others. It is 0 today and it is printed anyway.
            count(*) FILTER (WHERE cp.part_id IS NULL)::int AS r_no_completeness_row,
            -- exactly /v1/stats/gaps parts_nothing_required (src/api/queries/gaps.ts), summed over the vendor
-           count(*) FILTER (WHERE NOT cp.no_profile AND cp.required_total = 0)::int AS parts_nothing_required,
+           -- a part owing a RELATION_BACKED cup it cannot yet answer (not_held, ruling 12a) is asked something
+           count(*) FILTER (WHERE NOT cp.no_profile AND cp.required_total = 0 AND cp.relation_cups IS NULL)::int AS parts_nothing_required,
            COALESCE(sum(cp.required_total) FILTER (WHERE p.product_class = 'hardware' AND h.part_id IS NOT NULL), 0)::int AS required_total_held,
            COALESCE(sum(cp.required_present) FILTER (WHERE p.product_class = 'hardware' AND h.part_id IS NOT NULL), 0)::int AS required_present_held
       FROM parts p JOIN vendors v ON v.id = p.vendor_id
