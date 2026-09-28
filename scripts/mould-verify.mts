@@ -17,6 +17,8 @@
  * known, printed debt — but the count is in the output of every single run so it cannot be forgotten.
  */
 import { shapeIsDefinition } from "../src/core/listShapes.js";
+import { STRUCT_EXAMPLES } from "../src/core/structExamples.js";
+import { normalizeField } from "../src/core/specNormalize.js";
 import { FIELD_DICTIONARY, PROFILES, COLUMN_BACKED, domainFor, bandFor, FREE_TEXT_BY_DECISION, requirementFor, type Requirement } from "../src/core/fieldSchema.js";
 import { uncoveredEnumValues } from "../src/core/renderContract.js";
 import { mouldStatuses } from "../src/core/brandMould.js";
@@ -163,11 +165,30 @@ const TESTS: Test[] = [
   },
   {
     name: "required_cup_defined",
+    // THE NEGATIVE FIXTURE FOR THE STRUCT CONDITION, added with it 28 Sep 2026. The condition's whole point
+    // is that a shape STRING is not a definition, so the fixture has to be a real shape whose parser refuses a
+    // real printed value — not a made-up key, which would test the lookup rather than the rule.
+    //
+    // `antenna_gain` is that pair: it declares `{ band24: n, band5: n }`, is required of 216 wireless antennas,
+    // and the normaliser returns STRUCT_UNPARSED for the exact two-band form its own shape describes.
+    // `dimensions` is the positive twin and is the one that proves the condition is not simply always-false —
+    // it went red on its first run because I had pasted a DISPLAY-TRUNCATED raw into the example table, and the
+    // full string parses. Both run through the REAL normalizeField, never a stand-in.
+    selfTest: async () => {
+      const bad = STRUCT_EXAMPLES.antenna_gain, good = STRUCT_EXAMPLES.dimensions;
+      const parses = (cat: string, key: string, raw: string) =>
+        (normalizeField(cat, key, raw, { locale: "en" }) as { ok: boolean }).ok;
+      const negative = parses("wireless", "antenna_gain", bad.raw);      // must be FALSE: no parser behind the shape
+      const positive = parses("switches", "dimensions", good.raw);       // must be TRUE: a shape with a parser
+      return { negative, positive,
+        note: `antenna_gain accepts its own canonical example = ${negative} (must be false); dimensions accepts its own = ${positive}` };
+    },
     findings: "C1–C4, N13",
     // A required cup must be checkable: an enum needs a domain, a number needs a unit AND a band, a struct
     // needs a shape. A required FREE STRING can hold anything, so nothing can ever refuse a wrong value.
     run: async () => {
       const badCups: string[] = [];
+      const structUntested: string[] = [];   // a struct with no canonical example: its own number, never folded into either
       const byDecision: string[] = [];
       const byShape: string[] = [];
       let seen = 0;
@@ -218,7 +239,29 @@ const TESTS: Test[] = [
           // as gaps. A definition the check cannot reach is indistinguishable from one that is missing,
           // and the asymmetry between the two branches is what hid it.
           else if (t === "n") { if (!Array.isArray(bandFor(cat, key) ?? d.band)) badCups.push(`${cat}/${key} numeric with no band`); }
-          else if (t === "struct") { if (!d.shape) badCups.push(`${cat}/${key} struct with no shape`); }
+          // A STRUCT'S SHAPE IS NOT ITS DEFINITION — A PARSER BEHIND IT IS (reviewer, 28 Sep 2026).
+          // This asked one thing: does a `shape` STRING exist. A shape string is documentation, and
+          // `antenna_gain` declares `{ band24: n, band5: n }`, is required of 216 wireless antennas, and
+          // normalizeField returns STRUCT_UNPARSED for every value the vendor prints — including the exact
+          // two-band form its own shape describes. It refuses everything it is handed, which is `.*` in
+          // reverse, and the old condition could not see it because the string was there.
+          //
+          // So the shape's own canonical example must PARSE, through the real normaliser. Every example is
+          // a real printed string (src/core/structExamples.ts names where each came from). A key with no
+          // example is NOT counted defined and NOT counted broken: it is its own number, because "no parser"
+          // and "nothing to test the parser with" are different findings.
+          else if (t === "struct") {
+            if (!d.shape) badCups.push(`${cat}/${key} struct with no shape`);
+            else {
+              const ex = STRUCT_EXAMPLES[key];
+              if (!ex) structUntested.push(`${cat}/${key}`);
+              else {
+                const r = normalizeField(cat, key, ex.raw, { locale: "en" }) as { ok: boolean; reason?: string };
+                if (!r.ok) badCups.push(`${cat}/${key} struct whose shape "${d.shape}" REFUSES its own canonical example ` +
+                  `"${ex.raw.slice(0, 40)}" (${ex.from}): ${r.reason} — a shape with no parser behind it`);
+              }
+            }
+          }
           // A REQUIRED FREE STRING IS A FINDING UNLESS IT IS A RECORDED DECISION -- and the repo already
           // has that third state, with a decision file behind it and a sabotage test holding it.
           // tests/freeStringCups.test.ts refuses any required free string whose key is not in
@@ -238,8 +281,8 @@ const TESTS: Test[] = [
       // The denominator is in the message either way: a test that cannot say how much it looked at is one
       // nobody can tell apart from a test that looked at nothing.
       return badCups.length === 0
-        ? ok(`all ${seen} required/conditional cups carry a domain, a band, or a shape` + (byShape.length ? `; ${byShape.length} defined by a registered shape (${[...new Set(byShape.map((c) => c.split("/")[1]))].join(", ")})` : "") + (byDecision.length ? `; ${byDecision.length} are free text by recorded decision (${[...new Set(byDecision.map((c) => c.split("/")[1]))].join(", ")})` : ""))
-        : bad(`${badCups.length} of ${seen} required/conditional cups cannot be checked` + (byShape.length ? `; ${byShape.length} are defined by a registered SHAPE (${[...new Set(byShape.map((c) => c.split("/")[1]))].join(", ")})` : "") + (byDecision.length ? `; a further ${byDecision.length} are free text by recorded decision (${[...new Set(byDecision.map((c) => c.split("/")[1]))].join(", ")}) and are NOT counted as gaps` : "") + `: ${badCups.slice(0, 10).join("; ")}${badCups.length > 10 ? ` … +${badCups.length - 10}` : ""}`);
+        ? ok(`all ${seen} required/conditional cups carry a domain, a band, or a shape WHOSE PARSER ACCEPTS ITS OWN CANONICAL EXAMPLE` + (byShape.length ? `; ${byShape.length} defined by a registered shape (${[...new Set(byShape.map((c) => c.split("/")[1]))].join(", ")})` : "") + (byDecision.length ? `; ${byDecision.length} are free text by recorded decision (${[...new Set(byDecision.map((c) => c.split("/")[1]))].join(", ")})` : ""))
+        : bad(`${badCups.length} of ${seen} required/conditional cups cannot be checked` + (structUntested.length ? `; ${structUntested.length} struct cup(s) have NO canonical example so their parser was NOT TESTED (${[...new Set(structUntested)].join(", ")}) — not counted defined and not counted broken` : ``) + (byShape.length ? `; ${byShape.length} are defined by a registered SHAPE (${[...new Set(byShape.map((c) => c.split("/")[1]))].join(", ")})` : "") + (byDecision.length ? `; a further ${byDecision.length} are free text by recorded decision (${[...new Set(byDecision.map((c) => c.split("/")[1]))].join(", ")}) and are NOT counted as gaps` : "") + `: ${badCups.slice(0, 10).join("; ")}${badCups.length > 10 ? ` … +${badCups.length - 10}` : ""}`);
     },
   },
   {
