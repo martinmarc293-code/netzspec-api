@@ -12,7 +12,8 @@
 // this file the only thing standing between a closed schema and a silently truncated ledger was nobody having
 // written one.
 import fjs from "fast-json-stringify";
-import { LedgerRecord, CompletenessReport, RelationItem, ConflictItem, PartRecord } from "../src/api/schemas.js";
+import { LedgerRecord, CompletenessReport, RelationItem, ConflictItem, PartRecord, LineCounts } from "../src/api/schemas.js";
+import { LineRecord } from "../src/api/routes/lines.js";
 
 let pass = 0, miss = 0;
 const check = (what: string, ok: boolean, detail?: unknown): void => {
@@ -66,5 +67,36 @@ for (const [name, schema, probe] of [
     keys);
 }
 
-console.log(`\n    openapi shapes: ${pass} passed, ${miss} missed (1 sabotage case)`);
+// ---- Line: a schema is only worth declaring if it describes a route -----------------------------------------
+// app.ts refused to declare `Line` and `Model` for as long as neither had an endpoint, on the ground that a
+// schema for a route that does not exist is a placeholder agreeing with nothing. /v1/lines exists now, so the
+// declaration has something to be true of — and what makes it DANGEROUS is the same as everywhere else here:
+// fast-json-stringify strips any key the response schema does not declare, so a LineRecord missing
+// `series_breakdown` would serve a line with no contents and no error.
+{
+  const parts = (LineRecord as unknown as { allOf: { properties?: Record<string, unknown> }[] }).allOf ?? [];
+  const props = Object.assign({}, ...parts.map((p) => p.properties ?? {})) as Record<string, unknown>;
+  const keys = Object.keys(props).sort();
+  check("Line declares the head counts AND the series breakdown AND the paged members",
+    ["vendor", "line", "category", "parts", "hardware_parts", "with_facts", "series", "lifecycle",
+     "series_breakdown", "members", "next_cursor"].every((k) => keys.includes(k)), keys);
+  // Identity, not equality — the same assertion `Relation` gets above, for the same reason.
+  check("Line's head is built from LineCounts ITSELF, so the list and the detail cannot drift",
+    parts[0] === (LineCounts as unknown), typeof parts[0]);
+  // And the serialiser must PASS a real breakdown row through rather than strip it. `series` is the field
+  // that separates a line from a family: without it /v1/lines answers "Catalyst, 3,231 parts" and never says
+  // whether that is one product or a range.
+  const ser = fjs(LineRecord as never);
+  const out = JSON.parse(ser({ vendor: "cisco", line: "Catalyst", category: "switches", parts: 3231,
+    hardware_parts: 3000, with_facts: 900, series: 27,
+    lifecycle: { active: 1, eol_announced: 2, unknown: 3 },
+    series_breakdown: [{ series: "Catalyst 9300", parts: 400, hardware_parts: 380 },
+                       { series: "(no series)", parts: 12, hardware_parts: 12 }],
+    members: [], next_cursor: null } as never));
+  check("a Line response carries its series breakdown through the serialiser, including the (no series) row",
+    Array.isArray(out.series_breakdown) && out.series_breakdown.length === 2
+      && out.series_breakdown[1].series === "(no series)" && out.series === 27, out);
+}
+
+console.log(`\n    openapi shapes: ${pass} passed, ${miss} missed (1 sabotage case, 3 Line cases)`);
 if (miss) process.exit(1);

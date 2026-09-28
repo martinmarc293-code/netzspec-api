@@ -12,6 +12,7 @@ import { loadEnv, type Config } from "../config.js";
 import { closePool } from "../store/db.js";
 import { PartRecord, PartSummary, FactItem, LifecycleRecord, ErrorEnvelope, ConflictItem, RelationItem, LedgerRecord, CompletenessReport } from "./schemas.js";
 import { FamilyRecord } from "./routes/families.js";
+import { LineRecord } from "./routes/lines.js";
 import { registerErrorHandling } from "./errors.js";
 import { healthRoutes } from "./routes/health.js";
 import { PATH_KEY_HEADER, QUERY_KEY_HEADER, TOKEN_RE } from "./auth.js";
@@ -169,11 +170,19 @@ export async function buildApp(opts: AppOptions = {}): Promise<FastifyInstance> 
         // inline object was itself the problem: it was the only description of what a client is sent,
         // and nothing outside its own file could see it.
         //
-        // TWO ARE STILL MISSING ON PURPOSE. `Line` and `Model` are on openapi_schemas' wanted list and
-        // THERE IS NO ENDPOINT FOR EITHER -- no /v1/lines, no /v1/models; the layers travel on the part
-        // record. A schema for a route that does not exist is exactly the placeholder that agrees with
-        // nothing, so the work is either those two routes (a decision) or striking them from the list
-        // with the reason. Declaring them to make a check green would be the worse of the three.
+        // `Line` IS DECLARED 28 Sep 2026 BECAUSE THE ROUTE NOW EXISTS. The comment that stood here said
+        // `Line` and `Model` were "missing on purpose ... a schema for a route that does not exist is
+        // exactly the placeholder that agrees with nothing, so the work is either those two routes (a
+        // decision) or striking them from the list with the reason". That was right, and the decision came
+        // back as: build them. /v1/lines and /v1/lines/{vendor}/{line} serve layer 2, which had no route at
+        // all -- the layers travelled on the part record and nothing could ask what lines exist.
+        //
+        // `Model` IS STILL ABSENT, and for a reason one level deeper than a missing route: there is no
+        // `model` COLUMN. parts carries product_line, product_family, product_series and bucket. The 8 Sep
+        // decision recorded in D:/Project/CLAUDE.md says the model -- the SKU minus its ordering suffix --
+        // is derivable for 100% of parts and is the right level below series, and it was never built. So
+        // /v1/models is not a route over an existing column, it is layer 5, and that is a decision about
+        // the model rather than about the API.
         //
         // ExportRow IS PartRecord, by the export contract: /v1/export serves whole records and
         // routes/part.ts states the shape equality as a promise the suite tests. One object, two names,
@@ -187,6 +196,7 @@ export async function buildApp(opts: AppOptions = {}): Promise<FastifyInstance> 
           Conflict: ConflictItem,
           Relation: RelationItem,
           Family: FamilyRecord,
+          Line: LineRecord,
           Ledger: LedgerRecord,
           Completeness: CompletenessReport,
           ExportRow: PartRecord,

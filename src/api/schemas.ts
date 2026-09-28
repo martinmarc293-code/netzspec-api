@@ -234,6 +234,28 @@ export const FamilyCounts = Type.Object({
 });
 export type FamilyCountsT = Static<typeof FamilyCounts>;
 
+/**
+ * The PRODUCT LINE head, layer 2. Published as part of `Line` in /openapi.json.
+ *
+ * `series` is the count of DISTINCT series under the line, and it is the field that separates a line from a
+ * family: it says whether "Catalyst" is one product or a range of them. NULL series are not counted, so a
+ * line with 900 unplaced parts reports 4 series and not 5 — the gap stays visible, and the detail's
+ * breakdown names those parts as `(no series)` rather than dropping them.
+ */
+export const LineCounts = Type.Object({
+  vendor: Type.String(),
+  line: Type.String(),
+  category: Type.String({ description: "the dominant category of the members" }),
+  parts: Type.Integer(),
+  hardware_parts: Type.Integer(),
+  with_facts: Type.Integer({ description: "members with at least one rendered fact" }),
+  series: Type.Integer({ description: "distinct series under this line; parts with no series are NOT counted here" }),
+  lifecycle: LifecycleBuckets,
+  /** …/lines/{vendor}/{line}, fully expanded, in the request's own auth form. */
+  url: Type.Optional(Type.String()),
+});
+export type LineCountsT = Static<typeof LineCounts>;
+
 /** A field label triple, reused by compare rows, shared facts and gap fields. */
 export const FieldHead = {
   key: Type.String(), label_en: Type.String(), label_de: Type.String(),

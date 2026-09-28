@@ -20,6 +20,7 @@ import { docsRoutes } from "./docs.js";
 import { exportRoutes } from "./export.js";
 import { facetsRoutes } from "./facets.js";
 import { familiesRoutes } from "./families.js";
+import { linesRoutes } from "./lines.js";
 import { fieldsRoutes } from "./fields.js";
 import { gapStatsRoutes } from "./gaps.js";
 import { linkIndexRoutes } from "./linkIndex.js";
@@ -75,6 +76,7 @@ export async function v1Routes(app: FastifyInstance, opts: V1Options): Promise<v
   await app.register(statsRoutes);
   // API-3: families, compare, the outward-looking part sub-resources, the source registry, gap stats.
   await app.register(familiesRoutes, { publicBaseUrl: opts.config.PUBLIC_BASE_URL });
+  await app.register(linesRoutes, { publicBaseUrl: opts.config.PUBLIC_BASE_URL });
   await app.register(compareRoutes);
   await app.register(relatedRoutes);
   await app.register(sourcesRoutes);
