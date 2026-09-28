@@ -1,0 +1,826 @@
+{
+ "_about": "DRY RUN for column_backed_never_facts (N34). Nothing written.",
+ "total": 7142,
+ "buckets": {
+  "vendor-duplicate": {
+   "count": 3866,
+   "sample": [
+    {
+     "sku": "C9200L-24P-4G",
+     "cat": "switches",
+     "fact": "cisco",
+     "series": "Catalyst 9200",
+     "product_series": "Catalyst 9200",
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "AOC-D-D-400G-10M",
+     "cat": "transceiver",
+     "fact": "arista",
+     "series": null,
+     "product_series": null,
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "CAB-S-S-25G-1M",
+     "cat": "transceiver",
+     "fact": "arista",
+     "series": null,
+     "product_series": null,
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "JL817A",
+     "cat": "switches",
+     "fact": "aruba",
+     "series": null,
+     "product_series": null,
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "S4B20A",
+     "cat": "switches",
+     "fact": "aruba",
+     "series": null,
+     "product_series": null,
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "WS-C2960+24LC-S",
+     "cat": "switches",
+     "fact": "cisco",
+     "series": "2960Plus",
+     "product_series": "Catalyst 2960-Plus",
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "S1D09A",
+     "cat": "switches",
+     "fact": "aruba",
+     "series": null,
+     "product_series": null,
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "C9200L-48T-4X",
+     "cat": "switches",
+     "fact": "cisco",
+     "series": "Catalyst 9200",
+     "product_series": "Catalyst 9200",
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "WS-C3850-24S-S",
+     "cat": "switches",
+     "fact": "cisco",
+     "series": "Catalyst 3850",
+     "product_series": "Catalyst 3850",
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "QSFP-100G-ZR4-S",
+     "cat": "transceiver",
+     "fact": "cisco",
+     "series": "Cisco",
+     "product_series": "100G QSFP28",
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "QDD-400G-SR8-S",
+     "cat": "transceiver",
+     "fact": "cisco",
+     "series": "Cisco",
+     "product_series": "200G / 400G QSFP-DD, QSFP112 and QSFP56",
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "QSFP-40-SR-BD",
+     "cat": "transceiver",
+     "fact": "cisco",
+     "series": "Cisco",
+     "product_series": "40G QSFP+",
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "IE-3505H-16T-A",
+     "cat": "switches",
+     "fact": "cisco",
+     "series": "IE3500H",
+     "product_series": "IE 3500",
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "MS130-8P-HW",
+     "cat": "switches",
+     "fact": "cisco",
+     "series": "MS130 Desktop",
+     "product_series": "MS130",
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "N3K-C3164Q-40GE",
+     "cat": "switches",
+     "fact": "cisco",
+     "series": "Nexus 3164Q",
+     "product_series": "Nexus 3016 / 3048 / 3064 / 3100 / 3200 / 3400",
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "N9K-C93216TC-FX2",
+     "cat": "switches",
+     "fact": "cisco",
+     "series": "Nexus9300 FX2",
+     "product_series": "Nexus 9300",
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "J9153A",
+     "cat": "transceiver",
+     "fact": "hpe",
+     "series": null,
+     "product_series": null,
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "JH236A",
+     "cat": "transceiver",
+     "fact": "hpe",
+     "series": null,
+     "product_series": null,
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "AEC-O112-800G-4M*",
+     "cat": "transceiver",
+     "fact": "dell-emc",
+     "series": null,
+     "product_series": null,
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "J9623A",
+     "cat": "switches",
+     "fact": "hpe",
+     "series": null,
+     "product_series": null,
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "JG856A",
+     "cat": "switches",
+     "fact": "hpe",
+     "series": null,
+     "product_series": null,
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "UACC-OM-SFP10-1270",
+     "cat": "transceiver",
+     "fact": "ubiquiti",
+     "series": null,
+     "product_series": null,
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "C9300-48UN-E",
+     "cat": "switches",
+     "fact": "cisco",
+     "series": "Catalyst 9300",
+     "product_series": "Catalyst 9300",
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "QSFP-100G-4WDM40",
+     "cat": "transceiver",
+     "fact": "juniper",
+     "series": null,
+     "product_series": null,
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "WS-C3650-48TQ",
+     "cat": "switches",
+     "fact": "cisco",
+     "series": "Catalyst 3650",
+     "product_series": "Catalyst 3650",
+     "method": "hexcat_seed"
+    }
+   ]
+  },
+  "series-duplicate": {
+   "count": 1290,
+   "sample": [
+    {
+     "sku": "C9200L-24P-4G",
+     "cat": "switches",
+     "fact": "Cisco Catalyst 9200",
+     "series": "Catalyst 9200",
+     "product_series": "Catalyst 9200",
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "C1000-8P-2G-L",
+     "cat": "switches",
+     "fact": "Cisco Catalyst 1000",
+     "series": "Catalyst 1000",
+     "product_series": "Catalyst 1000",
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "WS-C2960L-SM-48PS",
+     "cat": "switches",
+     "fact": "Cisco Catalyst 2960-L",
+     "series": "Catalyst 2960-L",
+     "product_series": "Catalyst 2960-L",
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "WS-C2960S-24TS-L",
+     "cat": "switches",
+     "fact": "Cisco 2960S Switches",
+     "series": "2960S",
+     "product_series": "Catalyst 2960-S",
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "WS-C3560C-12PC-S",
+     "cat": "switches",
+     "fact": "Cisco 3560C Switches",
+     "series": "3560C",
+     "product_series": "Catalyst 3560-C and 3560-CX",
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "WS-C3560-24PS-E",
+     "cat": "switches",
+     "fact": "Cisco 3560 Switches",
+     "series": "3560",
+     "product_series": "Catalyst 3560 / 3560G / 3560v2",
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "C9200-24PXG",
+     "cat": "switches",
+     "fact": "Cisco Catalyst 9200",
+     "series": "Catalyst 9200",
+     "product_series": "Catalyst 9200",
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "WS-C6509-E",
+     "cat": "switches",
+     "fact": "Cisco 6500E Switches",
+     "series": "6500E",
+     "product_series": "Catalyst 6500",
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "C9350-24U",
+     "cat": "switches",
+     "fact": "Cisco 9350 Switches",
+     "series": "9350",
+     "product_series": "Catalyst 9350",
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "WS-C3650-8X24PD-L",
+     "cat": "switches",
+     "fact": "Cisco Catalyst 3650",
+     "series": "Catalyst 3650",
+     "product_series": "Catalyst 3650",
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "WS-C3650-24PD-L",
+     "cat": "switches",
+     "fact": "Cisco Catalyst 3650",
+     "series": "Catalyst 3650",
+     "product_series": "Catalyst 3650",
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "WS-C3850-48U-E",
+     "cat": "switches",
+     "fact": "Cisco Catalyst 3850",
+     "series": "Catalyst 3850",
+     "product_series": "Catalyst 3850",
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "C6800-48P-TX-XL",
+     "cat": "switches",
+     "fact": "Cisco Cat6500 Modules",
+     "series": "Cat6500 Modules",
+     "product_series": "Catalyst 6807-XL / 6880-X / 6840-X",
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "IE-3300-8U2X-E",
+     "cat": "switches",
+     "fact": "Cisco IE3300 Switches",
+     "series": "IE3300",
+     "product_series": "IE 3300",
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "IE-3105-8T2C-E",
+     "cat": "switches",
+     "fact": "Cisco IE3100 Switches",
+     "series": "IE3100",
+     "product_series": "IE 3100",
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "MS120-24P-HW",
+     "cat": "switches",
+     "fact": "Cisco MS120 Switches",
+     "series": "MS120",
+     "product_series": "MS120",
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "MS130-12X-HW",
+     "cat": "switches",
+     "fact": "Cisco MS130 Desktop Switches",
+     "series": "MS130 Desktop",
+     "product_series": "MS130",
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "N7K-F248XP-25",
+     "cat": "switches",
+     "fact": "Cisco Nexus7000 Modules",
+     "series": "Nexus7000 Modules",
+     "product_series": "Nexus 7004 / 7009 / 7010 / 7018",
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "N3K-C3172PQ-10GE",
+     "cat": "switches",
+     "fact": "Cisco Nexus 3172 Switches",
+     "series": "Nexus 3172",
+     "product_series": "Nexus 3016 / 3048 / 3064 / 3100 / 3200 / 3400",
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "N9K-C92348GC-FX3",
+     "cat": "switches",
+     "fact": "Cisco Nexus9200 Switches",
+     "series": "Nexus9200",
+     "product_series": "Nexus 9200",
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "C9300X-48TX-A",
+     "cat": "switches",
+     "fact": "Cisco Catalyst 9300",
+     "series": "Catalyst 9300",
+     "product_series": "Catalyst 9300",
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "C9300-48UN-A",
+     "cat": "switches",
+     "fact": "Cisco Catalyst 9300",
+     "series": "Catalyst 9300",
+     "product_series": "Catalyst 9300",
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "WS-C3650-48FQM",
+     "cat": "switches",
+     "fact": "Cisco Catalyst 3650",
+     "series": "Catalyst 3650",
+     "product_series": "Catalyst 3650",
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "C9200-24PB-A",
+     "cat": "switches",
+     "fact": "Cisco Catalyst 9200",
+     "series": "Catalyst 9200",
+     "product_series": "Catalyst 9200",
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "C9200CX-12P-2XGH-E",
+     "cat": "switches",
+     "fact": "Cisco Catalyst 9200",
+     "series": "Catalyst 9200",
+     "product_series": "Catalyst 9200",
+     "method": "hexcat_seed"
+    }
+   ]
+  },
+  "series-DIFFERENT": {
+   "count": 1258,
+   "sample": [
+    {
+     "sku": "10000-SIP-600",
+     "cat": "interfaces-modules",
+     "fact": "Cisco 10000 Series Routers",
+     "series": "Shared Port Adapters/SPA Interface Processors",
+     "product_series": null,
+     "method": "aggregator_page:router-switch"
+    },
+    {
+     "sku": "DCNM-S-M97XEK9=",
+     "cat": "storage-networking",
+     "fact": "MDS 9700",
+     "series": "MDS 9000 NX-OS and SAN-OS Software",
+     "product_series": null,
+     "method": "description_mining"
+    },
+    {
+     "sku": "DS-C9148-NA16P-K9",
+     "cat": "storage-networking",
+     "fact": "MDS 9148",
+     "series": "MDS 9100 Series Multilayer Fabric",
+     "product_series": "MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)",
+     "method": "description_mining"
+    },
+    {
+     "sku": "DS-C9124-K9",
+     "cat": "storage-networking",
+     "fact": "MDS 9124",
+     "series": "MDS 9500 Series Multilayer Directors",
+     "product_series": "MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)",
+     "method": "description_mining"
+    },
+    {
+     "sku": "DS-2SLOT-FAN=",
+     "cat": "storage-networking",
+     "fact": "MDS 9216",
+     "series": "MDS 9200 Series Multiservice",
+     "product_series": "MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)",
+     "method": "description_mining"
+    },
+    {
+     "sku": "DS-CAC97-3KW=",
+     "cat": "storage-networking",
+     "fact": "MDS 9700",
+     "series": "MDS 9700 Series Multilayer Directors",
+     "product_series": null,
+     "method": "description_mining"
+    },
+    {
+     "sku": "DS-X97-SF1E-K9=",
+     "cat": "storage-networking",
+     "fact": "MDS 9700",
+     "series": "MDS 9700 Series Multilayer Directors",
+     "product_series": "MDS 9700 directors (9706 / 9710 / 9718) and modules",
+     "method": "description_mining"
+    },
+    {
+     "sku": "DS-C9216A-HV-K9",
+     "cat": "storage-networking",
+     "fact": "MDS 9216",
+     "series": "MDS 9200 Series Multiservice",
+     "product_series": "MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)",
+     "method": "description_mining"
+    },
+    {
+     "sku": "DS-C9148UCSBNDL-K9",
+     "cat": "storage-networking",
+     "fact": "MDS 9148",
+     "series": "MDS 9100 Series Multilayer Fabric",
+     "product_series": "MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)",
+     "method": "description_mining"
+    },
+    {
+     "sku": "M9148V-PL8=",
+     "cat": "storage-networking",
+     "fact": "MDS 9148V",
+     "series": "MDS 9100 Series Multilayer Fabric",
+     "product_series": null,
+     "method": "description_mining"
+    },
+    {
+     "sku": "DS-C9710-1K9",
+     "cat": "storage-networking",
+     "fact": "MDS 9710",
+     "series": "MDS 9000 Series Multilayer",
+     "product_series": "MDS 9700 directors (9706 / 9710 / 9718) and modules",
+     "method": "description_mining"
+    },
+    {
+     "sku": "M9148S-PL12=",
+     "cat": "storage-networking",
+     "fact": "MDS 9148S",
+     "series": "MDS 9100 Series Multilayer Fabric",
+     "product_series": null,
+     "method": "description_mining"
+    },
+    {
+     "sku": "M9250IP20-16GH=",
+     "cat": "storage-networking",
+     "fact": "MDS 9250i",
+     "series": "MDS 9200 Series Multiservice",
+     "product_series": null,
+     "method": "description_mining"
+    },
+    {
+     "sku": "DS-9124-KIT-IBM",
+     "cat": "storage-networking",
+     "fact": "MDS 9124",
+     "series": "MDS 9100 Series Multilayer Fabric",
+     "product_series": "MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)",
+     "method": "description_mining"
+    },
+    {
+     "sku": "M92DMM184K9=",
+     "cat": "storage-networking",
+     "fact": "MDS 9200",
+     "series": "MDS 9500 Series Multilayer Directors",
+     "product_series": null,
+     "method": "description_mining"
+    },
+    {
+     "sku": "M91S6K9-N9.3.2A",
+     "cat": "storage-networking",
+     "fact": "MDS 9132T",
+     "series": "MDS 9000 NX-OS and SAN-OS Software",
+     "product_series": null,
+     "method": "description_mining"
+    },
+    {
+     "sku": "M9148S6K9-NPE8.4.2",
+     "cat": "storage-networking",
+     "fact": "MDS 9148S",
+     "series": "MDS 9000 NX-OS and SAN-OS Software",
+     "product_series": null,
+     "method": "description_mining"
+    },
+    {
+     "sku": "M97S3K9-6.2.21",
+     "cat": "storage-networking",
+     "fact": "MDS 9700",
+     "series": "MDS 9000 NX-OS and SAN-OS Software",
+     "product_series": null,
+     "method": "description_mining"
+    },
+    {
+     "sku": "M93S3K9-8.3.1",
+     "cat": "storage-networking",
+     "fact": "MDS 9300",
+     "series": "MDS 9000 NX-OS and SAN-OS Software",
+     "product_series": null,
+     "method": "description_mining"
+    },
+    {
+     "sku": "M97S4K9-8.4.2C",
+     "cat": "storage-networking",
+     "fact": "MDS 9700",
+     "series": "MDS 9000 NX-OS and SAN-OS Software",
+     "product_series": null,
+     "method": "description_mining"
+    },
+    {
+     "sku": "M97XK9-A-1Y",
+     "cat": "storage-networking",
+     "fact": "MDS 9700",
+     "series": "MDS 9100 Series Multilayer Fabric",
+     "product_series": null,
+     "method": "description_mining"
+    },
+    {
+     "sku": "M93XK9-P-1Y",
+     "cat": "storage-networking",
+     "fact": "MDS9300",
+     "series": "MDS 9100 Series Multilayer Fabric",
+     "product_series": null,
+     "method": "description_mining"
+    },
+    {
+     "sku": "M93S2K9-NPE-8.5.1",
+     "cat": "storage-networking",
+     "fact": "MDS 9396T",
+     "series": "MDS 9000 NX-OS and SAN-OS Software",
+     "product_series": null,
+     "method": "description_mining"
+    },
+    {
+     "sku": "M9148T-PL8T",
+     "cat": "storage-networking",
+     "fact": "MDS 9148T",
+     "series": "MDS 9100 Series Multilayer Fabric",
+     "product_series": null,
+     "method": "description_mining"
+    },
+    {
+     "sku": "M92S5K9-NPE-6.2.13",
+     "cat": "storage-networking",
+     "fact": "MDS 9250i",
+     "series": "MDS 9000 NX-OS and SAN-OS Software",
+     "product_series": null,
+     "method": "description_mining"
+    }
+   ]
+  },
+  "series-ONLY-SOURCE": {
+   "count": 728,
+   "sample": [
+    {
+     "sku": "JL256A",
+     "cat": "switches",
+     "fact": "HPE Aruba 2930F",
+     "series": null,
+     "product_series": null,
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "JL354A",
+     "cat": "switches",
+     "fact": "Aruba 2540 Switches",
+     "series": null,
+     "product_series": null,
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "JL324A",
+     "cat": "switches",
+     "fact": "Aruba 2930M Switches",
+     "series": null,
+     "product_series": null,
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "J9868A",
+     "cat": "switches",
+     "fact": "Aruba 5400R zl2 Switches",
+     "series": null,
+     "product_series": null,
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "S4R20A",
+     "cat": "switches",
+     "fact": "Aruba CX 6000 Switches",
+     "series": null,
+     "product_series": null,
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "S0M90A",
+     "cat": "switches",
+     "fact": "HPE Aruba CX 6200F",
+     "series": null,
+     "product_series": null,
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "S0G97A",
+     "cat": "switches",
+     "fact": "Aruba CX 6300F Switches",
+     "series": null,
+     "product_series": null,
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "S0G02A",
+     "cat": "switches",
+     "fact": "HPE Aruba CX 6300M",
+     "series": null,
+     "product_series": null,
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "R0X24C",
+     "cat": "switches",
+     "fact": "Aruba CX 6400 Switches",
+     "series": null,
+     "product_series": null,
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "S4B23A",
+     "cat": "switches",
+     "fact": "Aruba CX 8325H Switches",
+     "series": null,
+     "product_series": null,
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "JL683A",
+     "cat": "switches",
+     "fact": "Aruba Instant On 1930 Switches",
+     "series": null,
+     "product_series": null,
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "JL700C",
+     "cat": "switches",
+     "fact": "Aruba CX 8360 Switches",
+     "series": null,
+     "product_series": null,
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "JL680A",
+     "cat": "switches",
+     "fact": "Aruba Instant On 1930 Switches",
+     "series": null,
+     "product_series": null,
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "JH360A",
+     "cat": "switches",
+     "fact": "HPE FlexFabric 12900E Modules",
+     "series": null,
+     "product_series": null,
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "JL827A",
+     "cat": "switches",
+     "fact": "HPE FlexNetwork 5140 EI Switches",
+     "series": null,
+     "product_series": null,
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "JH192A",
+     "cat": "switches",
+     "fact": "HPE FlexNetwork 10500 Modules",
+     "series": null,
+     "product_series": null,
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "JH146A",
+     "cat": "switches",
+     "fact": "HPE FlexNetwork 5510 HI Switches",
+     "series": null,
+     "product_series": null,
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "J9535A",
+     "cat": "switches",
+     "fact": "HP ProCurve zl Modules",
+     "series": null,
+     "product_series": null,
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "JD252A",
+     "cat": "switches",
+     "fact": "HPE FlexNetwork 7500 Modules",
+     "series": null,
+     "product_series": null,
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "J9089A",
+     "cat": "switches",
+     "fact": "HP ProCurve 2610 Switches",
+     "series": null,
+     "product_series": null,
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "J9264A",
+     "cat": "switches",
+     "fact": "HP ProCurve 6600 Switches",
+     "series": null,
+     "product_series": null,
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "JH361A",
+     "cat": "switches",
+     "fact": "HPE FlexFabric 12900E Modules",
+     "series": null,
+     "product_series": null,
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "JG898A",
+     "cat": "switches",
+     "fact": "HPE FlexFabric 5700 Switches",
+     "series": null,
+     "product_series": null,
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "R9Y12A",
+     "cat": "switches",
+     "fact": "HPE FlexFabric 5960 Switches",
+     "series": null,
+     "product_series": null,
+     "method": "hexcat_seed"
+    },
+    {
+     "sku": "CSS106-1G-4P-1S",
+     "cat": "switches",
+     "fact": "MikroTik Switches",
+     "series": null,
+     "product_series": null,
+     "method": "hexcat_seed"
+    }
+   ]
+  }
+ }
+}
