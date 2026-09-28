@@ -1,5 +1,5 @@
 /**
- * Fill source_docs.title from the cached HTML we already hold. Offline, no network.
+ * Fill source_docs.title from the cached documents we already hold. Offline, no network.
  *
  *     npx tsx scripts/backfill-doc-titles.ts [--rows <file.tsv>]    measure, print, write nothing
  *     npx tsx scripts/backfill-doc-titles.ts --commit                 write, inside a run
@@ -10,22 +10,23 @@
  * was tried and measured: 55,322 families for 56,631 parts, 1.7% of them containing more than one
  * part. Deriving it from titles groups 18.1 parts per family with 78% of families holding several.
  *
- * The blocker is simply that the column is empty: 30 of 1,958 datasheets carry a title while 1,758
- * are cached on disk. The information has been here all along, unread.
- *
  * TITLE ONLY, and nothing inferred. Whatever the <title> tag says is what goes in, whitespace
  * collapsed and HTML entities decoded. Canonicalising it into a family name is a separate step
  * with its own rules, because a bad canonicalisation should be re-runnable without re-reading
- * 1,758 files, and because the raw title is the evidence for whatever the family ends up being.
+ * every file, and because the raw title is the evidence for whatever the family ends up being.
  *
- * PDFs (28 Sep 2026, decision 2026-09-28-untitled-documents): a PDF has no <title>; its own title is
- * the XMP dc:title or the Info dictionary's /Title. Both are the document's statement, not an inference.
- * A generic authoring-tool title ("Microsoft Word - x.docx", "untitled") is REFUSED and counted.
+ * PDFs (28 Sep 2026, decision 2026-09-28-untitled-documents): the title is the Info dictionary's /Title, read by
+ * pdfplumber. A raw-byte parser was tried first and reading its 68 "recovered" rows killed it: it took the first
+ * /Title or XMP packet in the file, which belonged to an embedded image, a bookmark or a compressed stream
+ * ("Print" x34, "Cisco_Logo_2PMS_TM_10in", binary). Titles that name the authoring process rather than the
+ * document are REFUSED with a reason and counted, never written.
  */
 import fs from "node:fs";
 import path from "node:path";
+import { spawnSync } from "node:child_process";
 import { getPool, closePool } from "../src/store/index.js";
 import { withRun } from "../src/store/runs.js";
+import { resolvePython } from "../src/pipeline/apply-acquired.js";
 import { REPO_ROOT } from "../src/config.js";
 
 // Same default as config.CACHE_DIR; on the box CACHE_DIR is /var/lib/netzspec-api/cache.
@@ -52,69 +53,38 @@ export function titleOf(html: string): string | null {
   return m ? clean(decodeEntities(m[1])) : null;
 }
 
-/** Bytes of a PDF string object starting at `i` (at "(" or "<"), per PDF 32000 7.3.4. */
-function pdfStringBytes(raw: string, i: number): number[] | null {
-  const out: number[] = [];
-  if (raw[i] === "<") {
-    const end = raw.indexOf(">", i);
-    if (end < 0) return null;
-    let hex = raw.slice(i + 1, end).replace(/\s+/g, "");
-    if (!/^[0-9a-fA-F]*$/.test(hex)) return null;
-    if (hex.length % 2) hex += "0";
-    for (let k = 0; k < hex.length; k += 2) out.push(parseInt(hex.slice(k, k + 2), 16));
-    return out;
+type PdfTitle = { title: string | null; error: string | null };
+/** The Info dictionary /Title of each PDF, from ONE python process. Could-not-read is thrown, never returned as "no title". */
+export function pdfInfoTitles(paths: string[]): Map<string, PdfTitle> {
+  const out = new Map<string, PdfTitle>();
+  if (!paths.length) return out;
+  const py = resolvePython();
+  if (!py) throw new Error("no python found: PDF titles could not be read, which is not the same as none");
+  const r = spawnSync(py, [path.join(REPO_ROOT, "scripts", "pdf-info-titles.py")], {
+    input: JSON.stringify(paths), encoding: "utf8", maxBuffer: 64 * 1024 * 1024,
+    env: { ...process.env, PYTHONIOENCODING: "utf-8" },
+  });
+  if (r.error || r.status !== 0) throw new Error(`pdf-info-titles.py failed (${r.error?.message ?? `exit ${r.status}`}): ${(r.stderr ?? "").slice(0, 300)}`);
+  for (const line of r.stdout.split("\n")) {
+    if (!line.trim()) continue;
+    const o = JSON.parse(line) as { path: string; title: string | null; error: string | null };
+    out.set(o.path, { title: o.title === null ? null : clean(o.title), error: o.error });
   }
-  let depth = 0;
-  for (let k = i; k < raw.length && k < i + 2000; k++) {
-    const c = raw[k];
-    if (c === "\\") {
-      const n = raw[++k];
-      if (n === undefined) return null;
-      const ESC: Record<string, number> = { n: 10, r: 13, t: 9, b: 8, f: 12, "(": 40, ")": 41, "\\": 92 };
-      if (n in ESC) out.push(ESC[n]);
-      else if (/[0-7]/.test(n)) {
-        let oct = n;
-        while (oct.length < 3 && /[0-7]/.test(raw[k + 1] ?? "")) oct += raw[++k];
-        out.push(parseInt(oct, 8) & 0xff);
-      } else if (n === "\r" || n === "\n") {
-        if (n === "\r" && raw[k + 1] === "\n") k++;          // line continuation
-      } else out.push(n.charCodeAt(0));
-      continue;
-    }
-    if (c === "(") { if (depth++ > 0) out.push(40); continue; }
-    if (c === ")") { if (--depth === 0) return out; out.push(41); continue; }
-    out.push(c.charCodeAt(0) & 0xff);
-  }
+  if (out.size !== paths.length) throw new Error(`pdf-info-titles.py answered ${out.size} of ${paths.length} paths`);
+  return out;
+}
+
+/** Why a title names nothing a reviewer could use, or null when it is a title. Every reason came from a real row. */
+export function titleRefusal(t: string): string | null {
+  const codes = [...t].map((ch) => ch.charCodeAt(0));
+  if (codes.some((c) => c < 32 || (c >= 127 && c < 160) || c === 0xfffd)) return "not_text";
+  if (codes.filter((c) => c >= 0xa0 && c <= 0xff).length / codes.length > 0.2) return "not_text";
+  if (t.includes(String.fromCharCode(92)) || /^[a-z]:|^\//i.test(t)) return "file_path";
+  if (/\.(docx?|pptx?|indd|pdf|xlsx?|ai|eps)$/i.test(t)) return "file_name";
+  if (/^(untitled|document\s*\d*|slide\s*\d+|title|presentation\s*\d*|microsoft (word|powerpoint).*)$/i.test(t)) return "placeholder";
+  if (/template/i.test(t)) return "placeholder";
+  if (!/\s/.test(t)) return "single_token";
   return null;
-}
-function pdfText(bytes: number[]): string {
-  const b = Buffer.from(bytes);
-  // A dangling odd byte in a malformed UTF-16 string is dropped; swap16 would throw and kill the whole run.
-  if (b[0] === 0xfe && b[1] === 0xff) return Buffer.from(b.subarray(2, b.length - (b.length % 2))).swap16().toString("utf16le");
-  if (b[0] === 0xef && b[1] === 0xbb && b[2] === 0xbf) return b.subarray(3).toString("utf8");
-  return b.toString("latin1");
-}
-
-/** A PDF's own title: XMP dc:title first, else the Info dictionary's /Title where it sits in plain bytes.
- *  An Info dictionary inside a compressed object stream is not decompressed here: that is no title, never a guess. */
-export function pdfTitleOf(buf: Buffer): string | null {
-  const raw = buf.toString("latin1");
-  if (!raw.startsWith("%PDF")) return null;
-  const x = /<dc:title>[\s\S]{0,400}?<rdf:li[^>]*>([\s\S]{0,400}?)<\/rdf:li>/.exec(raw);
-  if (x) {
-    const t = clean(decodeEntities(Buffer.from(x[1], "latin1").toString("utf8")));
-    if (t) return t;
-  }
-  const m = /\/Title\s*([(<])/.exec(raw);
-  if (!m) return null;
-  const bytes = pdfStringBytes(raw, m.index + m[0].length - 1);
-  return bytes ? clean(pdfText(bytes)) : null;
-}
-
-/** An authoring tool's placeholder is not the document's title. */
-export function genericTitle(t: string): boolean {
-  return /^(untitled|document\s*\d*|slide\s*\d+|title|presentation\d*|microsoft (word|powerpoint)\b.*)$/i.test(t)
-    || /\.(docx?|pptx?|indd|pdf|xlsx?)$/i.test(t);
 }
 
 async function main(): Promise<void> {
@@ -126,25 +96,44 @@ async function main(): Promise<void> {
       WHERE (title IS NULL OR title = '') AND cache_path IS NOT NULL ORDER BY doc_id`);
   console.log(`  ${rows.length.toLocaleString()} cached documents have no title; cache ${CACHE}`);
 
+  // Pass 1: what is on disk, and what kind of file it is.
+  type Cand = { doc_id: string; doc_type: string | null; file: string; kind: "pdf" | "html"; html?: string };
+  const cands: Cand[] = [];
+  let missing = 0;
+  for (const r of rows) {
+    const file = path.join(CACHE, r.cache_path);
+    let buf: Buffer;
+    try { buf = fs.readFileSync(file); } catch { missing++; continue; }
+    const kind = buf.subarray(0, 4).toString("latin1") === "%PDF" ? "pdf" : "html";
+    cands.push({ doc_id: r.doc_id, doc_type: r.doc_type, file, kind, html: kind === "html" ? buf.toString("utf8") : undefined });
+  }
+  const pdfTitles = pdfInfoTitles(cands.filter((c) => c.kind === "pdf").map((c) => c.file));
+
+  // Pass 2: one outcome per readable document, every one written to the rows file.
   const found: Array<[string, string]> = [];
   const lines: string[] = ["doc_id\tdoc_type\tkind\toutcome\ttitle"];
-  let missing = 0, noTitle = 0, generic = 0, pdf = 0;
-  for (const r of rows) {
-    const f = path.join(CACHE, r.cache_path);
-    if (!fs.existsSync(f)) { missing++; continue; }
-    let buf: Buffer;
-    try { buf = fs.readFileSync(f); } catch { missing++; continue; }
-    const isPdf = buf.subarray(0, 4).toString("latin1") === "%PDF";
-    if (isPdf) pdf++;
-    const t = isPdf ? pdfTitleOf(buf) : titleOf(buf.toString("utf8"));
-    const kind = isPdf ? "pdf" : "html";
-    if (!t) { noTitle++; lines.push(`${r.doc_id}\t${r.doc_type}\t${kind}\tno_title\t`); continue; }
-    if (genericTitle(t)) { generic++; lines.push(`${r.doc_id}\t${r.doc_type}\t${kind}\trefused_generic\t${t}`); continue; }
-    found.push([r.doc_id, t]);
-    lines.push(`${r.doc_id}\t${r.doc_type}\t${kind}\trecovered\t${t}`);
+  const tally: Record<string, number> = {};
+  for (const c of cands) {
+    let t: string | null, outcome: string;
+    if (c.kind === "pdf") {
+      const p = pdfTitles.get(c.file)!;
+      t = p.title;
+      outcome = p.error ? `pdf_unreadable: ${p.error}` : t ? "" : "no_title";
+    } else {
+      t = titleOf(c.html!);
+      outcome = t ? "" : "no_title";
+    }
+    if (!outcome && t) {
+      const why = titleRefusal(t);
+      outcome = why ? `refused_${why}` : "recovered";
+      if (!why) found.push([c.doc_id, t]);
+    }
+    const key = outcome.split(":")[0];
+    tally[key] = (tally[key] ?? 0) + 1;
+    lines.push(`${c.doc_id}\t${c.doc_type}\t${c.kind}\t${outcome}\t${t ?? ""}`);
   }
-  console.log(`  ${found.length.toLocaleString()} titles recovered · ${missing.toLocaleString()} not on disk · `
-    + `${noTitle.toLocaleString()} readable with no title · ${generic.toLocaleString()} refused as generic · ${pdf} were PDFs`);
+  console.log(`  ${cands.length} readable (${pdfTitles.size} PDFs) · ${missing.toLocaleString()} not on disk · `
+    + Object.entries(tally).sort((a, b) => b[1] - a[1]).map(([k, n]) => `${k} ${n}`).join(" · "));
   if (rowsAt > 0 && process.argv[rowsAt + 1]) {
     fs.mkdirSync(path.dirname(process.argv[rowsAt + 1]), { recursive: true });
     fs.writeFileSync(process.argv[rowsAt + 1], lines.join("\n") + "\n");
@@ -154,8 +143,6 @@ async function main(): Promise<void> {
   if (!commit) { console.log("\n  NOTHING WRITTEN. Re-run with --commit."); await closePool(); return; }
   const out = await withRun("backfill-doc-titles", { cache: CACHE, candidates: rows.length, recovered: found.length },
     async () => {
-      // One statement over unnested arrays: a dropped connection leaves the column as it was rather
-      // than half-filled, which on this link is the difference between re-runnable and unknowable.
       // Its own transaction: rollbackRun undoes facts, not titles, so a count mismatch must be undone here.
       const c = await db.connect();
       try {
@@ -167,7 +154,7 @@ async function main(): Promise<void> {
           [found.map((x) => x[0]), found.map((x) => x[1])]);
         if (res.rowCount !== found.length) throw new Error(`would write ${res.rowCount} of ${found.length} titles; rolled back`);
         await c.query("COMMIT");
-        return { stats: { written: res.rowCount, missing, no_title: noTitle, refused_generic: generic, pdf } };
+        return { stats: { written: res.rowCount, missing, ...tally } };
       } catch (e) { await c.query("ROLLBACK").catch(() => {}); throw e; }
       finally { c.release(); }
     });
