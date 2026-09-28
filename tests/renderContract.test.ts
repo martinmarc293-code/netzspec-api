@@ -17,7 +17,7 @@ import {
   LIST_SEPARATOR, BOOLEAN_DE, ENUM_DE, STRUCT_DE,
   enumDomainUnion,
 } from "../src/core/renderContract.js";
-import { FIELD_DICTIONARY, DOMAIN_OVERRIDES } from "../src/core/fieldSchema.js";
+import { FIELD_DICTIONARY, DOMAIN_OVERRIDES, ENUM_LABELS } from "../src/core/fieldSchema.js";
 
 let pass = 0; const misses: string[] = [];
 const check = (name: string, ok: boolean, detail = "") => { if (ok) pass++; else misses.push(`    MISS ${name}${detail ? " — " + detail : ""}`); };
@@ -171,6 +171,51 @@ check(`…and the ones with no renderer are named here rather than left to be di
     uncovered.length === 1 && uncovered[0].key === "zz_fake_enum", JSON.stringify(uncovered));
   check(`CONTROL the live dictionary's uncovered set is the known 7, so the synthetic key above is the one being tested`,
     uncoveredEnumValues().length === UNCOVERED_KEYS, uncoveredEnumValues().map((g) => g.key).join(", "));
+}
+
+// ---------------------------------------------------------------------------------------------------
+// TWO GERMAN TABLES FOR ONE VALUE, RATCHETED (28 Sep 2026)
+//
+// `ENUM_DE` here and `ENUM_LABELS` in fieldSchema.ts both spell domain values in German, for different
+// consumers, and nothing has ever compared them. Measured the day the connector domains landed: 115 values
+// are spelled in both and **32 disagree** — `integrated` is "Fest angeschlossen" in one and "Fest
+// konfektioniert" in the other, `fec.none` is "Keine" and "Nicht erforderlich", `mode.duplex` is "Duplex"
+// and "Duplex (Zweifaser)". Whether that is a defect is a decision about 32 strings and it is not this
+// check's to make: a buyer meeting two spellings of one connector on two surfaces is the same shape as the
+// `rp-tnc` drift recorded above, and picking the survivor is the owner's call.
+//
+// So it is a RATCHET, exactly like `uncoveredEnumValues`'s recorded debt: the number may not GROW, and when
+// it falls the number here changes with a line saying which value was settled. A new value spelled in both
+// tables two different ways now fails on the commit that adds it, which is the one moment its author knows
+// which spelling they meant. Without this, the 21 connector values added today could have drifted the same
+// way in silence — two of them did, and only aligning them by hand stopped it reaching the page.
+// WHAT IT CANNOT SEE IS ITS OWN NUMBER, and it is large: the comparison only reaches keys present in BOTH
+// tables — 17 of ENUM_DE's 31. The other 14 (antenna_connector, license_type, audio_codecs, drive_interface…)
+// are spelled here and nowhere else, so no second spelling of them can exist to disagree with, and the
+// ratchet says nothing about them rather than counting them clean. The first sabotage I wrote for this check
+// put a second spelling into `antenna_connector` and the suite stayed GREEN — not a dead check, a check
+// structurally unable to reach that key, which is exactly the thing worth printing beside the number.
+{
+  const RECORDED_DRIFT = 32;
+  let sharedValues = 0;
+  const disagree: string[] = [];
+  for (const [key, vals] of Object.entries(ENUM_LABELS)) {
+    const m = (ENUM_DE[key] as { map?: Record<string, string> } | undefined)?.map;
+    if (!m) continue;
+    for (const [v, pair] of Object.entries(vals)) {
+      if (!(v in m)) continue;
+      sharedValues++;
+      if (m[v] !== pair.de) disagree.push(`${key}.${v}: "${m[v]}" vs "${pair.de}"`);
+    }
+  }
+  const unseen = Object.keys(ENUM_DE).filter((k) => !(k in ENUM_LABELS));
+  check(`the two German tables disagree on exactly the ${RECORDED_DRIFT} values recorded, over ${sharedValues} spelled in both ` +
+    `(${unseen.length} ENUM_DE keys are spelled in ONE table only and are NOT compared: ${unseen.slice(0, 4).join(", ")}…)` +
+    (disagree.length === RECORDED_DRIFT ? "" : ` — got ${disagree.length}: ${disagree.slice(0, 4).join("; ")}`),
+    disagree.length === RECORDED_DRIFT);
+  // NOT VACUOUS: if the overlap ever emptied — a rename, a table moved — the count would be 0 and the
+  // ratchet would read as clean while comparing nothing. The denominator is asserted too.
+  check(`the German-table comparison has values to compare (${sharedValues} spelled in both)`, sharedValues >= 100);
 }
 
 console.log(misses.join("\n"));

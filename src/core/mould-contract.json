@@ -1,9 +1,9 @@
 {
   "contract_hash": "6c140f9084304e5f",
-  "generated_at": "2026-09-28T13:51:10.467Z",
-  "code_commit": "8214cc22e5666bcb40ef7c30a72351389ecb0329",
+  "generated_at": "2026-09-28T14:06:05.329Z",
+  "code_commit": "b8e208098ff842a3f129e9611a192a429cbe328c",
   "code_branch": "cisco",
-  "dirty_files": 12,
+  "dirty_files": 3,
   "counts": {
     "dictionary_keys": 607,
     "categories": 26,

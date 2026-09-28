@@ -4911,6 +4911,25 @@ export const ENUM_LABELS: Record<string, Record<string, { de: string; en: string
     sc: { de: "SC", en: "SC" }, "mpo-12": { de: "MPO-12", en: "MPO-12" },
     "mpo-16": { de: "MPO-16", en: "MPO-16" }, "mpo-24": { de: "MPO-24", en: "MPO-24" }, rj45: { de: "RJ45", en: "RJ45" },
     integrated: { de: "Fest konfektioniert", en: "Integrated" },
+    // THE 21 VALUES THE CATEGORY DOMAINS ADDED (28 Sep 2026), and `german_domain_coverage` is the check that
+    // demanded them: it went PASS -> FAIL on the deploy of the connector widening, 458 uncovered values -> 479,
+    // naming `connector` in every category that holds one. That is the ratchet working — widening a domain
+    // without a rendering leaves a German shop cell printing a slug — and it caught this within one deploy.
+    //
+    // MOST STAY AS THEY ARE PRINTED, because they are proper nouns in both languages and inventing a German
+    // word for HDMI would be worse than not translating it. The four that differ are the four where German
+    // really differs: `n-type` takes the German "Typ", `3.5mm` takes the decimal COMMA and "Klinke" (a 3.5 mm
+    // jack is not a "Buchse" in a spec sheet), and `rp-tnc` and `m12` carry the disambiguation a buyer needs,
+    // since RP-TNC is mechanically incompatible with TNC and an M12 is a circular connector, not a plug shape.
+    tnc: { de: "TNC", en: "TNC" }, "rp-tnc": { de: "RP-TNC", en: "RP-TNC (reverse polarity)" },
+    "n-type": { de: "N-Type", en: "N-type" }, sma: { de: "SMA", en: "SMA" }, qma: { de: "QMA", en: "QMA" },
+    mmcx: { de: "MMCX", en: "MMCX" }, rj11: { de: "RJ11", en: "RJ11" }, rj9: { de: "RJ9 (Headset)", en: "RJ9 (headset)" },
+    db9: { de: "DB9 (seriell)", en: "DB9 (serial)" }, d8: { de: "D8 (DART)", en: "D8 (DART)" },
+    m12: { de: "M12 (Rundsteckverbinder)", en: "M12 (circular)" }, din: { de: "DIN", en: "DIN" },
+    hdmi: { de: "HDMI", en: "HDMI" }, dvi: { de: "DVI", en: "DVI" }, "dvi-d": { de: "DVI-D", en: "DVI-D" },
+    displayport: { de: "DisplayPort", en: "DisplayPort" },
+    "usb-a": { de: "USB-A", en: "USB-A" }, "usb-b": { de: "USB-B", en: "USB-B" }, "usb-c": { de: "USB-C", en: "USB-C" },
+    "micro-usb": { de: "Micro-USB", en: "Micro-USB" }, "3.5mm": { de: "3,5-mm-Klinke", en: "3.5 mm jack" },
   },
   laser_type: {
     vcsel: { de: "VCSEL", en: "VCSEL" }, fp: { de: "Fabry-Pérot (FP)", en: "Fabry-Pérot (FP)" },

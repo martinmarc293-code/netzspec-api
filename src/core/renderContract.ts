@@ -84,6 +84,16 @@ export function formatRangeDe(min: number, max: number, unit?: string | null): s
 // said 0 uncovered. Returning null is how a rule says "not my shape" and hands the value back to the coverage check.
 type ValueCover = { map?: Readonly<Record<string, string>>; rule?: (v: string) => string | null; why?: string };
 
+/**
+ * The five RF connector spellings, held once and spread into both keys that use them.
+ *
+ * `connector` and `antenna_connector` are two cups asking about the same physical thing, and a second copy of
+ * these five strings is how one connector acquires two German spellings on two pages. That is not
+ * hypothetical here: the drift note below records `antenna_connector` facts stored as "RP-TNC"/"N-type"
+ * against an `rp-tnc`/`n-type` domain, which is the same defect one layer down.
+ */
+const RF_CONNECTOR_DE = { "rp-tnc": "RP-TNC", "n-type": "N-Type", qma: "QMA", sma: "SMA", mmcx: "MMCX" } as const;
+
 export const ENUM_DE: Readonly<Record<string, ValueCover>> = {
   // --- genuinely English words a German buyer would notice ------------------------------------------------
   airflow: { map: {
@@ -132,10 +142,26 @@ export const ENUM_DE: Readonly<Record<string, ValueCover>> = {
   media: { map: {
     mmf: "Multimode-Faser (MMF)", smf: "Singlemode-Faser (SMF)", "dac-copper": "DAC-Kupfer",
     "rj45-copper": "RJ45-Kupfer", aoc: "AOC (aktives optisches Kabel)" } },
+  // THE 21 VALUES THE PER-CATEGORY CONNECTOR DOMAINS ADDED (28 Sep 2026). `german_domain_coverage` went
+  // PASS -> FAIL on the deploy that widened them, 458 uncovered values -> 479, naming `connector` in every
+  // category that holds one: a domain widened without a rendering is a German shop cell printing a slug, and
+  // the ratchet caught it inside one deploy. Most values are proper nouns in both languages and inventing a
+  // German word for HDMI would be worse than leaving it; the few that differ carry the disambiguation a buyer
+  // needs, because RP-TNC is mechanically incompatible with TNC and an M12 is a circular connector.
+  //
+  // THE FIVE RF VALUES ARE REFERENCED, NOT RETYPED. They were already spelled in `antenna_connector` below,
+  // and a second copy is how one connector ends up with two German spellings on two pages — which this file
+  // already records happening to `antenna_connector` itself ("RP-TNC"/"N-type" facts against an `rp-tnc`
+  // domain). One table, two keys.
   connector: { map: {
     "lc-duplex": "LC-Duplex", "lc-simplex": "LC-Simplex", sc: "SC", "mpo-12": "MPO-12", "mpo-16": "MPO-16",
-    "mpo-24": "MPO-24", rj45: "RJ45", integrated: "Fest angeschlossen" } },
-  antenna_connector: { map: { "rp-tnc": "RP-TNC", "n-type": "N-Type", qma: "QMA", sma: "SMA", mmcx: "MMCX" } },
+    "mpo-24": "MPO-24", rj45: "RJ45", integrated: "Fest angeschlossen",
+    ...RF_CONNECTOR_DE, tnc: "TNC", d8: "D8 (DART)", m12: "M12 (Rundsteckverbinder)",
+    rj11: "RJ11", rj9: "RJ9 (Headset)", db9: "DB9 (seriell)", din: "DIN",
+    hdmi: "HDMI", dvi: "DVI", "dvi-d": "DVI-D", displayport: "DisplayPort",
+    "usb-a": "USB-A", "usb-b": "USB-B", "usb-c": "USB-C", "micro-usb": "Micro-USB",
+    "3.5mm": "3,5-mm-Klinke" } },
+  antenna_connector: { map: { ...RF_CONNECTOR_DE } },
   layer: { map: { l2: "Layer 2", l2plus: "Layer 2+", l3: "Layer 3" } },
   mode: { map: { duplex: "Duplex", "simplex-bidi": "Simplex BiDi", "duplex-bidi": "Duplex BiDi" } },
   fec: { map: { none: "Keine", "rs-fec": "RS-FEC", "fc-fec": "FC-FEC", "host-dependent": "Host-abhängig" } },
