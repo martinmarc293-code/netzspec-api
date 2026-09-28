@@ -20,7 +20,7 @@
  * `LTE`  matched ANYWHERE in the string, with no anchoring at all, because it has no other meaning in a
  *        Cisco SKU and every real case buries it mid-token: C1111-4PLTEEA, C1117-4PMLTEEAWE, EHWIC-4G-LTE-V.
  *        My first version required it not to be followed by a letter and MISSED SIX of the 62 parts that
- *        hold a cellular_bands fact — anchoring away from `` is right and anchoring for its own sake is not.
+ *        hold a cellular_bands fact — anchoring away from `\b` is right and anchoring for its own sake is not.
  *
  * `4G` / `5G` ARE NOT HERE, and that is the finding. In a Cisco SKU those read GIGABIT far more often than
  *        cellular: CBS220-48T-4G is four 1G uplinks, C9300L-48PF-4G likewise, and SG350X-48PV-K9-BR's own

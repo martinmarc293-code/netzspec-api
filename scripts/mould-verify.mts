@@ -192,12 +192,31 @@ const RUN_KIND_CLASS: Record<string, { approval: boolean; gate: boolean }> = {
   "recompute-completeness": D, "write-layers-to-db": D, "build-spare-of": D, "derive-link-provenance": D,
   "derive-part-states": D, "fill-family-from-hct-category": D, "sync-dictionary": D, "name-language": D,
   "name-spare-packaging": D, "name-spare-wording": D, "images": D, "probe-failure-reason": D,
+  "backfill-doc-titles": D,
 };
+// openapi_schemas: the shapes a consumer needs, and the route each LEVEL shape must be served at. A schema with no
+// route is a name that routes nowhere (reviewer, 28 Sep 2026: `Model` was declared green while /v1/models 404'd).
+const OPENAPI_WANTED = ["Part", "Fact", "Conflict", "Relation", "Ledger", "Completeness", "Line", "Family", "Model", "ExportRow"];
+const OPENAPI_ROUTE_FOR: Record<string, string> = {
+  Line: "/v1/lines/{vendor}/{line}", Family: "/v1/families/{vendor}/{family}", Model: "/v1/models/{vendor}/{model}",
+};
+function openapiMissing(schemas: string[], paths: string[]): string[] {
+  const out: string[] = [];
+  for (const w of OPENAPI_WANTED) {
+    if (!schemas.includes(w)) out.push(`${w} (no schema)`);
+    else if (OPENAPI_ROUTE_FOR[w] && !paths.includes(OPENAPI_ROUTE_FOR[w])) out.push(`${w} (no route ${OPENAPI_ROUTE_FOR[w]})`);
+  }
+  return out;
+}
+// Reviewer ruling 28 Sep 2026: the requirement starts at the first recorded approval. Earlier misses are NAMED as
+// pre-convention in the output and never judged or folded into a pass.
+const RUN_CONVENTION_START = "2026-09-11";
 /** What one succeeded run is missing under the three-class rule; the check and its self-test both call THIS. */
-function runOwes(kind: string, appr: boolean, gate: boolean): "unclassified" | { approval: boolean; gate: boolean } {
+function runOwes(kind: string, appr: boolean, gate: boolean, started: string):
+    "unclassified" | { approval: boolean; gate: boolean; pre: boolean } {
   const o = RUN_KIND_CLASS[kind];
   if (!o) return "unclassified";
-  return { approval: o.approval && !appr, gate: o.gate && !gate };
+  return { approval: o.approval && !appr, gate: o.gate && !gate, pre: started < RUN_CONVENTION_START };
 }
 
 // ---- the 27, declared whether or not they are written ------------------------------------------------------------
@@ -1219,44 +1238,48 @@ const TESTS: Test[] = [
       if (!rows.length) return none("the runs table is empty");
       const EXCEPTIONS = new Set(["69"]);
       const unclassified = new Set<string>();
-      const missAppr = new Map<string, number>(), missGate = new Map<string, number>();
-      let judged = 0, notSucceeded = 0, excepted = 0, preConvention = 0;
+      const pre = new Map<string, number>();       // misses before the convention: named, not judged
+      const post = new Map<string, string[]>();    // misses the rule judges: "kind (owes)" -> run ids
+      let judged = 0, notSucceeded = 0, excepted = 0, preRuns = 0;
       // The first approval ever recorded -- computed, so "before the convention existed" is a fact about the
       // table and not a date typed here.
       const firstAppr = rows.filter((r) => r.appr).map((r) => r.started).sort()[0] ?? "9999";
       for (const r of rows) {
-        const o = runOwes(r.kind, r.appr, r.gate);
+        const o = runOwes(r.kind, r.appr, r.gate, r.started);
         if (o === "unclassified") { unclassified.add(r.kind); continue; }
         if (r.status !== "succeeded") { notSucceeded++; continue; }
         if (EXCEPTIONS.has(r.id)) { excepted++; continue; }
-        judged++;
-        if (o.approval) missAppr.set(r.kind, (missAppr.get(r.kind) ?? 0) + 1);
-        if (o.gate) missGate.set(r.kind, (missGate.get(r.kind) ?? 0) + 1);
-        if ((o.approval || o.gate) && r.started < firstAppr) preConvention++;
+        if (o.pre) preRuns++; else judged++;
+        if (!o.approval && !o.gate) continue;
+        const key = `${r.kind} (${o.approval && o.gate ? "approval+gate" : o.approval ? "approval" : "gate"})`;
+        if (o.pre) pre.set(key, (pre.get(key) ?? 0) + 1);
+        else post.set(key, [...(post.get(key) ?? []), r.id]);
       }
-      const sum = (m: Map<string, number>) => [...m.values()].reduce((a, b) => a + b, 0);
-      const list = (m: Map<string, number>) => [...m.entries()].sort((a, b) => b[1] - a[1]).map(([k, n]) => `${k} ${n}`).join(", ");
-      const a = sum(missAppr), g = sum(missGate);
-      const scope = `${rows.length} runs: ${judged} succeeded judged, ${notSucceeded} failed/aborted not judged, ` +
-        `${excepted} named exception (run 69)`;
+      const preN = [...pre.values()].reduce((a, b) => a + b, 0);
+      const postN = [...post.values()].reduce((a, b) => a + b.length, 0);
+      const preList = [...pre.entries()].sort((a, b) => b[1] - a[1]).map(([k, n]) => `${k} ${n}`).join(", ");
+      const postList = [...post.entries()].sort((a, b) => b[1].length - a[1].length)
+        .map(([k, ids]) => `${k}: runs ${ids.join(" ")}`).join("; ");
+      const scope = `${rows.length} runs: ${judged} succeeded since ${RUN_CONVENTION_START} judged, ${preRuns} before it ` +
+        `NOT judged, ${notSucceeded} failed/aborted not judged, ${excepted} named exception (run 69); first recorded ` +
+        `approval ${firstAppr}; pre-convention misses named: ${preN} (${preList || "-"})`;
       if (unclassified.size) return bad(`${unclassified.size} run kinds are in no class, so nobody has said what they owe: ` +
         `${[...unclassified].join(", ")} — ${scope}`);
-      return a === 0 && g === 0
-        ? ok(`every succeeded run carries what its class owes — ${scope}`)
-        : bad(`${a} runs owe an APPROVAL and carry none (${list(missAppr) || "-"}); ${g} owe a GATE and carry none ` +
-              `(${list(missGate) || "-"}); ${preConvention} of those predate the first recorded approval (${firstAppr}) — ${scope}`);
+      return postN === 0
+        ? ok(`every judged run carries what its class owes — ${scope}`)
+        : bad(`${postN} runs since ${RUN_CONVENTION_START} carry less than their class owes — ${postList} — ${scope}`);
     },
     selfTest: async () => {
-      const owes = (kind: string, appr: boolean, gate: boolean) => {
-        const o = runOwes(kind, appr, gate);
-        return o !== "unclassified" && !o.approval && !o.gate;
+      const owes = (kind: string, appr: boolean, gate: boolean, started = "2026-09-20") => {
+        const o = runOwes(kind, appr, gate, started);
+        return o !== "unclassified" && (o.pre || (!o.approval && !o.gate));
       };
       return { negative: owes("move-category", false, false) || owes("a-kind-nobody-classified", true, true)
-                 || owes("apply-acquired", false, false),
+                 || owes("apply-acquired", false, false) || owes("reclassify", false, false, "2026-09-11"),
                positive: owes("move-category", true, false) && owes("apply-acquired", false, true)
-                 && owes("recompute-completeness", false, false),
-               note: "a membership run without approval, an apply-* without gate and an unclassified kind must fail; " +
-                 "each class carrying what it owes (and a derived run carrying nothing) must pass" };
+                 && owes("recompute-completeness", false, false) && owes("reclassify", false, false, "2026-09-10"),
+               note: "a membership run without approval (on/after 09-11), an apply-* without gate and an unclassified kind " +
+                 "must fail; each class carrying what it owes, a derived run, and the same miss on 09-10 must pass" };
     },
   },
   {
@@ -1729,25 +1752,22 @@ const TESTS: Test[] = [
       } catch (e) {
         return none(`/openapi.json could not be reached at ${BASE}: ${e instanceof Error ? e.message : String(e)}`);
       }
-      // `Model` IS STRUCK BY RENAME, not by omission: the model level IS `Family`. Migration 0013 made
-      // parts.family the MODEL (the SKU minus its orderable suffix) and kept the old datasheet-title value in
-      // family_raw; /v1/families groups by parts.family. So "no model column" was wrong -- the column is
-      // called family -- and wanting both names would demand one shape twice.
-      const WANTED = ["Part", "Fact", "Conflict", "Relation", "Ledger", "Completeness", "Line", "Family", "ExportRow"];
+      // `Model` routes at /v1/models/{vendor}/{model} (reviewer ruling 28 Sep; a schema with no route is not green).
       const have = Object.keys(doc.components?.schemas ?? {});
-      const missing = WANTED.filter((w) => !have.includes(w));
-      const scope = `${have.length} schemas declared on the deployment, ${Object.keys(doc.paths ?? {}).length} paths; ` +
-        `${WANTED.length} wanted`;
+      const paths = Object.keys(doc.paths ?? {});
+      const missing = openapiMissing(have, paths);
+      const scope = `${have.length} schemas declared on the deployment, ${paths.length} paths; ` +
+        `${OPENAPI_WANTED.length} wanted, ${Object.keys(OPENAPI_ROUTE_FOR).length} of them held to a route`;
       return missing.length === 0
-        ? ok(`every shape a consumer needs is declared — ${scope}`)
-        : bad(`${missing.length} of ${WANTED.length} consumer shapes are NOT declared, so a client cannot ` +
-              `know what it will be sent and any field outside the response schema is silently stripped — ` +
-              `${scope}: missing ${missing.join(", ")}`);
+        ? ok(`every shape a consumer needs is declared, and every level shape routes — ${scope}`)
+        : bad(`${missing.length} consumer shapes are NOT served — ${scope}: ${missing.join(", ")}`);
     },
     selfTest: async () => {
-      const declares = (have: string[], want: string[]) => want.every((w) => have.includes(w));
-      return { negative: declares([], ["Part", "Fact"]), positive: declares(["Part", "Fact"], ["Part", "Fact"]),
-               note: "an empty components.schemas must fail; one declaring the wanted shapes must pass" };
+      const all = OPENAPI_WANTED;
+      const routes = Object.values(OPENAPI_ROUTE_FOR);
+      return { negative: openapiMissing(all, routes.filter((r) => !r.startsWith("/v1/models"))).length === 0,
+               positive: openapiMissing(all, routes).length === 0,
+               note: "Model declared with no /v1/models route must fail (reviewer, 28 Sep); every shape declared and routed must pass" };
     },
   },
   {

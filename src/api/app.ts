@@ -13,6 +13,7 @@ import { closePool } from "../store/db.js";
 import { PartRecord, PartSummary, FactItem, LifecycleRecord, ErrorEnvelope, ConflictItem, RelationItem, LedgerRecord, CompletenessReport } from "./schemas.js";
 import { FamilyRecord } from "./routes/families.js";
 import { LineRecord } from "./routes/lines.js";
+import { ModelRecord } from "./routes/models.js";
 import { registerErrorHandling } from "./errors.js";
 import { healthRoutes } from "./routes/health.js";
 import { PATH_KEY_HEADER, QUERY_KEY_HEADER, TOKEN_RE } from "./auth.js";
@@ -177,10 +178,8 @@ export async function buildApp(opts: AppOptions = {}): Promise<FastifyInstance> 
         // back as: build them. /v1/lines and /v1/lines/{vendor}/{line} serve layer 2, which had no route at
         // all -- the layers travelled on the part record and nothing could ask what lines exist.
         //
-        // `Model` IS NOT A SEPARATE SCHEMA BECAUSE IT IS `Family`. An earlier comment here said there was no
-        // `model` column; there is -- it is called `family`. Migration 0013 made parts.family the MODEL (the
-        // SKU minus its orderable suffix) and kept the old datasheet-title value in family_raw, and
-        // /v1/families groups by parts.family. mould:verify's openapi_schemas strikes `Model` for that reason.
+        // `Model` is the level parts.family holds since migration 0013; /v1/models serves it (routes/models.ts),
+        // /v1/families is its alias (reviewer ruling 28 Sep 2026).
         //
         // ExportRow IS PartRecord, by the export contract: /v1/export serves whole records and
         // routes/part.ts states the shape equality as a promise the suite tests. One object, two names,
@@ -195,6 +194,7 @@ export async function buildApp(opts: AppOptions = {}): Promise<FastifyInstance> 
           Relation: RelationItem,
           Family: FamilyRecord,
           Line: LineRecord,
+          Model: ModelRecord,
           Ledger: LedgerRecord,
           Completeness: CompletenessReport,
           ExportRow: PartRecord,
