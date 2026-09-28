@@ -1834,7 +1834,7 @@ collaboration-endpoints	CS-QUADCAM2-C=	Cisco Quad Camera (Carbon Black) SPARE	co
 collaboration-endpoints	CS-QUADCAM2=	Cisco Quad Camera (First Light) SPARE	conference-camera	
 collaboration-endpoints	CS-QUADCAM=	Cisco Quad Camera (spare)	conference-camera	
 collaboration-endpoints	CS-R-USB-T10-KIT	Touch 10 Kit for Room USB Upgrade	mechanical	
-collaboration-endpoints	CS-R-USB-UPG-BUN	Upgrade Kit for Webex Room USB to Webex Room Kit Mini (upgrade license, Webex Room Navigator, 8-meter flat Ethernet cable)	unknown	
+collaboration-endpoints	CS-R-USB-UPG-BUN	Upgrade Kit for Webex Room USB to Webex Room Kit Mini (upgrade license, Webex Room Navigator, 8-meter flat Ethernet cable)	accessory	
 collaboration-endpoints	CS-R55-UNI2-K9+	Cisco Webex Room 55 Main Unit	video-device	
 collaboration-endpoints	CS-R55-UNI2-K9=	Cisco Webex Room 55 Main Unit (Service purpose only)	video-device	
 collaboration-endpoints	CS-R55-UNI2-NR-K7+	Cisco Webex Room 55 Main Unit, Non Encryprion and Non Radio	video-device	
@@ -2917,7 +2917,7 @@ collaboration-endpoints	TTC5-15	Cisco TTC5-15	unknown
 collaboration-endpoints	TTC5-17	Cisco TTC5-17	unknown	
 collaboration-endpoints	UCSC-C240-M8-CL	UCS C240 M8 2U Rack Server for Collaboration AI	server	
 collaboration-endpoints	UCSC-C240-M8-CL-G	UCS C240 M8 2U Rack Server for Collaboration AI (GPU)	server	
-collaboration-endpoints	WBP54G	802.11b/g wireless bridge	unknown	
+collaboration-endpoints	WBP54G	802.11b/g wireless bridge	accessory	
 collaboration-endpoints	WP-9821-BATT=	Cisco WP-9821-BATT=	accessory	
 collaboration-endpoints	WP-9821-BATTDOOR=	Cisco WP-9821-BATTDOOR=	mechanical	
 collaboration-endpoints	WP-9821-BUN-CN-K9	Cisco WP-9821-BUN-CN-K9	phone	wireless
@@ -5840,7 +5840,7 @@ interfaces-modules	8OC3X/POS-MM-MJ-B	Cisco 8OC3X/POS-MM-MJ-B	interface
 interfaces-modules	8OC3X/POS-MM-MJ-B=	Cisco 8OC3X/POS-MM-MJ-B=	interface	
 interfaces-modules	AIC-DBL-PNL	Patch panel for terminating up to two AIC or 128 alarm points	mechanical	
 interfaces-modules	AIC-SGL-PNL	Patch panel with power monitoring terminals, for terminating one AIC with eight lugs and fuses for power monitoring	mechanical	
-interfaces-modules	AIM-DES/BP	DES Crypto AIM for Cisco 2600 - Base Performance	unknown	
+interfaces-modules	AIM-DES/BP	DES Crypto AIM for Cisco 2600 - Base Performance	module	
 interfaces-modules	AIM-VOICE-30	Cisco AIM-VOICE-30	unknown	
 interfaces-modules	C-NIM-1M	1-port 2.5/1Gbps RJ-45 WAN, 90W Poe 802.3 af/at/bt NIM	interface	
 interfaces-modules	C-NIM-1X	1-port 10Gbps SFP/SFP+ NIM with WAN MACSec	interface	
@@ -6580,9 +6580,9 @@ interfaces-modules	SM-D-ES3G-48-P	Enhcd EtherSwitch, L2/L3, SM, 48 GE, 2 SFP, PO
 interfaces-modules	SM-D-ES3G-48-P=	Enhcd EtherSwitch, L2/L3, SM, 48 GE, 2 SFP, POE	interface	
 interfaces-modules	SM-DW-BLANK	Double Wide Service Module Blank Cover	accessory	
 interfaces-modules	SM-DW-BLANK=	Double Wide Service Module Blank Cover	accessory	
-interfaces-modules	SM-EC-3DES	Service Module for 168-bit DES Encryption	unknown	
-interfaces-modules	SM-EC-3DES=	^Service Module for 168-bit DES Encryption, Spare	unknown	
-interfaces-modules	SM-EC-DES	Service Module for 56-bit DES Encryption	unknown	
+interfaces-modules	SM-EC-3DES	Service Module for 168-bit DES Encryption	module	
+interfaces-modules	SM-EC-3DES=	^Service Module for 168-bit DES Encryption, Spare	module	
+interfaces-modules	SM-EC-DES	Service Module for 56-bit DES Encryption	module	
 interfaces-modules	SM-ES2-16-P	Enhanced EtherSwitch, L2, SM, 15 FE, 1 GE, POE	interface	
 interfaces-modules	SM-ES2-16-P=	Enhanced EtherSwitch, L2, SM, 15 FE, 1 GE, POE	interface	
 interfaces-modules	SM-ES2-24	Enhanced EtherSwitch, L2, SM, 23 FE, 1 GE	interface	
@@ -6814,7 +6814,7 @@ interfaces-modules	VWIC3-2MFT-T1/E1	2-Port 3rd Gen Multiflex Trunk Voice/WAN Int
 interfaces-modules	VWIC3-2MFT-T1/E1=	2-Port 3rd Gen Multiflex Trunk Voice/WAN Int. Card - T1/E1	interface	
 interfaces-modules	VWIC3-4MFT-T1/E1	4-Port 3rd Gen Multiflex Trunk Voice/WAN Int. Card - T1/E1	interface	
 interfaces-modules	VWIC3-4MFT-T1/E1=	4-Port 3rd Gen Multiflex Trunk Voice/WAN Int. Card - T1/E1	interface	
-interfaces-modules	WDM-SFP-2CH-CONV=	Cisco 2-Channel SFP WDM Transponder	unknown	
+interfaces-modules	WDM-SFP-2CH-CONV=	Cisco 2-Channel SFP WDM Transponder	mux	
 interfaces-modules	WIC-1AM-V2	one-port Analog Modem Interface card	interface	
 interfaces-modules	WIC-1AM-V2=	one-port Analog Modem Interface card	interface	
 interfaces-modules	WIC-1SHDSL-V3	Cisco WIC-1SHDSL-V3	interface	
@@ -7063,7 +7063,7 @@ optical-networking	15216-ATT-LC-5=	Bulk Attenuator - LC Connector - 5dB	mux
 optical-networking	15216-ATT-LC-7=	Bulk Attenuator - LC Connector - 7dB	mux	
 optical-networking	15216-CAB-MULC01=	1m MU to LC 8-10/125 micron SM jumper cable	cable	
 optical-networking	15216-CAB-MULC03=	3m MU to LC 8-10/125 micron SM jumper cable	cable	
-optical-networking	15216-CMXDMX-SK	KIT -Contains MD40ODD and Lic for 10 WL	unknown	
+optical-networking	15216-CMXDMX-SK	KIT -Contains MD40ODD and Lic for 10 WL	mux	
 optical-networking	15216-CS-2=	2 Channel Optical Splitter or Combiner FlexMod	mux	
 optical-networking	15216-CS-3=	3 Channel Optical Splitter or Combiner FlexMod	mux	
 optical-networking	15216-CS-4=	4 Channel Optical Splitter or Combiner FlexMod	mux	
@@ -7120,10 +7120,10 @@ optical-networking	15216-FLA-8-52.5	ITU-100 GHz 8-Ch, FlexMod-1556.55 to 1546.12
 optical-networking	15216-FLA-8-52.5=	ITU-100 GHz 8-Ch, FlexMod-1552.52 to 1546.12	mux	
 optical-networking	15216-FLA-8-60.6	ITU-100 GHz 8-Ch, FlexMod-1560.61to 1554.13	mux	
 optical-networking	15216-FLA-8-60.6=	ITU-100 GHz 8-Ch, FlexMod-1560.61 to 1554.13	mux	
-optical-networking	15216-FLAMP36.6-SK	1ea 15216-FLA-8-36.6 and 15216-EDFA2-A	unknown	
-optical-networking	15216-FLAMP44.5-SK	1ea 15216-FLA-8-44.5 and 15216-EDFA2-A	unknown	
-optical-networking	15216-FLAMP52.5-SK	1ea 15216-FLA-8-52.5 and 15216-EDFA2-A	unknown	
-optical-networking	15216-FLAMP60.6-SK	1ea 15216-FLA-8-60.6 and 15216-EDFA2-A	unknown	
+optical-networking	15216-FLAMP36.6-SK	1ea 15216-FLA-8-36.6 and 15216-EDFA2-A	amplifier	
+optical-networking	15216-FLAMP44.5-SK	1ea 15216-FLA-8-44.5 and 15216-EDFA2-A	amplifier	
+optical-networking	15216-FLAMP52.5-SK	1ea 15216-FLA-8-52.5 and 15216-EDFA2-A	amplifier	
+optical-networking	15216-FLAMP60.6-SK	1ea 15216-FLA-8-60.6 and 15216-EDFA2-A	amplifier	
 optical-networking	15216-FLB-2-31.1=	ITU-100 GHz 2-Ch, FlexMod-1531.12, 1530.33	mux	
 optical-networking	15216-FLB-2-32.6=	ITU-100 GHz 2-Ch, FlexMod-1532.68, 1531.90	mux	
 optical-networking	15216-FLB-2-35.0=	ITU-100 GHz 2-Ch, FlexMod-1535.04, 1534.25	mux	
@@ -7253,8 +7253,8 @@ optical-networking	15454-10GE-XP++=	Ethernet 4-10GE Crossponder, TAA	transponder
 optical-networking	15454-10GE-XP=	Ethernet 4-10 Gigabit Ethernet XPonder	transponder	
 optical-networking	15454-10GE-XPE++=	4x10GE Enhanced Crossponder, TAA	transponder	
 optical-networking	15454-10GE-XPE=	4x10GE Enhanced Crossponder	transponder	
-optical-networking	15454-10GEXPE-LLP3	BUNDLE 15454 10GE XPE AND 3YRSNTNBD IF SKU BOUGHT	unknown	
-optical-networking	15454-10GEXPE-LLP5	BUNDLE 15454 10GE XPE AND 5YRSNTNBD IF SKU BOUGHT	unknown	
+optical-networking	15454-10GEXPE-LLP3	BUNDLE 15454 10GE XPE AND 3YRSNTNBD IF SKU BOUGHT	linecard	
+optical-networking	15454-10GEXPE-LLP5	BUNDLE 15454 10GE XPE AND 5YRSNTNBD IF SKU BOUGHT	linecard	
 optical-networking	15454-10ME-L1-C=	15454 4x2.5Gbps-10Gbps MuxPonder- EFEC- Full C-Band Tunable	transponder	
 optical-networking	15454-10MEX-L1-C=	15454 Extd Perf 4x2.5Gbps-10Gbps Mxp EFEC C-Band Tunable	transponder	
 optical-networking	15454-24MPO-MPO-2=	24-Fiber patchcord - MPO to MPO - 2m	cable	
@@ -7290,12 +7290,12 @@ optical-networking	15454-40EX-MXP-C=	4x10GE/OC192/STM64/OTU2Muxponder CP-DQPSK E
 optical-networking	15454-40EX-TXP-C=	OC-768/STM-256/40 GE Transponder CP-DQPSK Extended Performance	transponder	
 optical-networking	15454-40ME-MXP-C=	4x10GE/OC192/STM64/OTU2Muxponder CP-DQPSK Metro Edge Perf	transponder	
 optical-networking	15454-40ME-TXP-C=	OC-768/STM-256/40 GE Transponder CP-DQPSK Metro Edge Performance	transponder	
-optical-networking	15454-40SMR2-LLP3	BUNDLE 15454 40 SMR2 C AND 3YRSNTNBD IF SKU BOUGHT	unknown	
-optical-networking	15454-40SMR2-LLP5	BUNDLE 15454 40 SMR2 C AND 5YRSNTNBD IF SKU BOUGHT	unknown	
+optical-networking	15454-40SMR2-LLP3	BUNDLE 15454 40 SMR2 C AND 3YRSNTNBD IF SKU BOUGHT	roadm	
+optical-networking	15454-40SMR2-LLP5	BUNDLE 15454 40 SMR2 C AND 5YRSNTNBD IF SKU BOUGHT	roadm	
 optical-networking	15454-80-WXC-C++=	80ch Colorless Wavelength Cross Connect C band , TAA	roadm	
 optical-networking	15454-80-WXC-C=	80ch Colorless Wavelength Cross Connect C band	roadm	
-optical-networking	15454-80ROADM-LLP3	BUNDLE 15454 80WXCC,15216MD40ODD AND 3YRSNTNBD IF SKU BOUGHT	unknown	
-optical-networking	15454-80ROADM-LLP5	BUNDLE 15454 80WXCC,15216MD40ODD AND 5YRSNTNBD IF SKU BOUGHT	unknown	
+optical-networking	15454-80ROADM-LLP3	BUNDLE 15454 80WXCC,15216MD40ODD AND 3YRSNTNBD IF SKU BOUGHT	linecard	
+optical-networking	15454-80ROADM-LLP5	BUNDLE 15454 80WXCC,15216MD40ODD AND 5YRSNTNBD IF SKU BOUGHT	linecard	
 optical-networking	15454-ADM-10G=	ADM on a Blade OC192 3/12/48/GE 16-Client	linecard	
 optical-networking	15454-AR-MXP-LIC	ONS15454 Any-Rate Muxponder - SW License Upgradeable	transponder	
 optical-networking	15454-AR-MXP-LIC=	ONS15454 Any-Rate Muxponder - License Upgradeable	transponder	
@@ -7304,8 +7304,8 @@ optical-networking	15454-AR-XP-LIC	ONS15454 Any-Rate Xponder - SW License Upgrad
 optical-networking	15454-AR-XP-LIC=	ONS15454 Any-Rate Xponder - SW License Upgradeable	transponder	
 optical-networking	15454-AR-XP=	ONS 15454 Any-Rate Xponder	transponder	
 optical-networking	15454-AR-XPE=	Cisco ONS 15454 Any Rate Enhanced Xponder Card	transponder	
-optical-networking	15454-ARE-K9-SK	Kit - Contains WSE, SFP+ SR, XFP SR & AR-XP - LIC	unknown	
-optical-networking	15454-ARE-L-K9-SK	Kit - Contains WSE-L, SFP+ SR, XFP SR & AR-MXP-LIC	unknown	
+optical-networking	15454-ARE-K9-SK	Kit - Contains WSE, SFP+ SR, XFP SR & AR-XP - LIC	linecard	
+optical-networking	15454-ARE-L-K9-SK	Kit - Contains WSE-L, SFP+ SR, XFP SR & AR-MXP-LIC	linecard	
 optical-networking	15454-BLANK=	Shelf slot-filler panel, fits any slot in Cisco ONS 15454 ANSI shelf assembly	mechanical	
 optical-networking	15454-CONSOLE-02	Cable, console, Cisco ML-Series, RJ-11 plug to RJ-45 jack, 22 in. (55.9 cm) long, SONET (ANSI) system	cable	
 optical-networking	15454-DS3XM-12	DS3, Transmux, 12 Ckt, I-Temp	linecard	
@@ -7439,7 +7439,7 @@ optical-networking	15454-M6-PWRFLR=	6 service slot MSTP power filter filler card
 optical-networking	15454-M6-SA	6 service slot MSTP shelf, includes M-SHIPKIT, M6-FTF, BRKTS	chassis	
 optical-networking	15454-M6-SA=	6 service slot MSTP shelf, includes M-SHIPKIT, M6-FTF, BRKTS	chassis	
 optical-networking	15454-ML1000-2	1000-Mbps Ethernet card, 2 SFP slots, Layer 2 and Layer 3 switching, SONET (ANSI) system	pluggable	
-optical-networking	15454-ML100T-12	10/100-Mbps Ethernet card, 12 ports, RJ-45, Layer 2 and Layer 3 switching, SONET (ANSI) system, includes console cable	unknown	
+optical-networking	15454-ML100T-12	10/100-Mbps Ethernet card, 12 ports, RJ-45, Layer 2 and Layer 3 switching, SONET (ANSI) system, includes console cable	linecard	
 optical-networking	15454-ML100X-8	100 Mbps BASE-FX/LX Ethernet card, eight SFP connections, Layer 2 and Layer 3 switching, SONET (ANSI) system	pluggable	
 optical-networking	15454-MMU=	Mesh/Multiring upgrade unit, C band and L band, for use with ONS 15454 MSTP Reconfigurable Optical Addr/Drop Multiplexer (ROADM) nodes (32-WSS/32-DMX or 32-WSS-L/32-DMX-L), LC connectors, includes one 2-meter LC/LC fiber-optic cable	mux	
 optical-networking	15454-MPO-8LC-2=	Multi-fiber patchcord - MPO to 8xLC - 2m	cable	
@@ -7452,8 +7452,8 @@ optical-networking	15454-MPO-MPO-6=	Multi-fiber patchcord - MPO to MPO - 6m	cabl
 optical-networking	15454-MPO-MPO-8=	Multi-fiber patchcord - MPO to MPO - 8m	cable	
 optical-networking	15454-MPO-XMPO-2=	Multi-fiber patchcord - MPO to MPO Xrossed - 2m	cable	
 optical-networking	15454-MS-EXT-24=	ONS 15454- EXTERNAL MSM SOLUTION- 24 PORTS-DC POWER	linecard	
-optical-networking	15454-MSEXT24-LLP3	BUNDLE 15454 MS EXT 24 AND 3YRSNTNBD IF SKU BOUGHT	unknown	
-optical-networking	15454-MSEXT24-LLP5	BUNDLE 15454 MS EXT 24 AND 5YRSNTNBD IF SKU BOUGHT	unknown	
+optical-networking	15454-MSEXT24-LLP3	BUNDLE 15454 MS EXT 24 AND 3YRSNTNBD IF SKU BOUGHT	linecard	
+optical-networking	15454-MSEXT24-LLP5	BUNDLE 15454 MS EXT 24 AND 5YRSNTNBD IF SKU BOUGHT	linecard	
 optical-networking	15454-OPT-AMP-17C=	17dB Gain, Amp, includes two 2m LC/LC fiber-optic cable and one LC/LC LOOPBACK	amplifier	
 optical-networking	15454-OPT-AMP-C	ONS 15454 Enhanced Optical Amplifier	amplifier	
 optical-networking	15454-OPT-AMP-C++=	ONS 15454 Enhanced Optical Amplifier , TAA	amplifier	
@@ -7471,23 +7471,23 @@ optical-networking	15454-OPT-RAMP-C=	Optical Raman amplifier with embedded EDFA,
 optical-networking	15454-OPT-RAMP-CE=	15454 Extended Performance RAMAN Amplifier	amplifier	
 optical-networking	15454-OPT-RAMPC++=	ONS 15454 RAMAN AMPLIFIER , TAA	amplifier	
 optical-networking	15454-OPTAMP17C++=	17dB Gain, Amp, TAA	amplifier	
-optical-networking	15454-OPTAMPC-LLP3	BUNDLE 15454 OPT AMP C AND 3YRSNTNBD IF SKU BOUGHT	unknown	
-optical-networking	15454-OPTAMPC-LLP5	BUNDLE 15454 OPT AMP C AND 5YRSNTNBD IF SKU BOUGHT	unknown	
+optical-networking	15454-OPTAMPC-LLP3	BUNDLE 15454 OPT AMP C AND 3YRSNTNBD IF SKU BOUGHT	roadm	
+optical-networking	15454-OPTAMPC-LLP5	BUNDLE 15454 OPT AMP C AND 5YRSNTNBD IF SKU BOUGHT	roadm	
 optical-networking	15454-OPTEDFA24++=	15454 MSTP - Optical Amplifier - C-band - 24dB Gain	amplifier	
 optical-networking	15454-OTU2-XP	4 X OTN 10G MR TRANSPONDER	transponder	
 optical-networking	15454-OTU2-XP++=	4 X OTN 10G MR TRANSPONDER, TAA	transponder	
 optical-networking	15454-OTU2-XP=	Ethernet 4-10 Gigabit Ethernet Xponder	transponder	
-optical-networking	15454-OTU2XP-LLP3	BUNDLE 15454 OTU2 XP AND 3YRSNTNBD IF SKU BOUGHT	unknown	
-optical-networking	15454-OTU2XP-LLP5	BUNDLE 15454 OTU2 XP AND 5YRSNTNBD IF SKU BOUGHT	unknown	
+optical-networking	15454-OTU2XP-LLP3	BUNDLE 15454 OTU2 XP AND 3YRSNTNBD IF SKU BOUGHT	linecard	
+optical-networking	15454-OTU2XP-LLP5	BUNDLE 15454 OTU2 XP AND 5YRSNTNBD IF SKU BOUGHT	linecard	
 optical-networking	15454-PP-4-SMR=	1 RU 4-Degree SM ROADM Mesh Patch Panel	mechanical	
 optical-networking	15454-PP-80-LC	2RU 80 Ports LC Patch Panel	mechanical	
 optical-networking	15454-PP-80-LC=	2RU 80 Ports LC Patch Panel	mechanical	
 optical-networking	15454-PP-MESH-4=	2RU 4-Degree Mesh Patch Panel	mechanical	
 optical-networking	15454-PP-MESH-8=	2RU 8-Degree Mesh Patch Panel	mechanical	
-optical-networking	15454-PP4SMR-LLP3	BUNDLE 15454 PP 4 SMR AND 3YRSNTNBD IF SKU BOUGHT	unknown	
-optical-networking	15454-PP4SMR-LLP5	BUNDLE 15454 PP 4 SMR AND 5YRSNTNBD IF SKU BOUGHT	unknown	
-optical-networking	15454-PPMESH8-LLP3	BUNDLE 15454 PP MESH 8 AND 3YRSNTNBD IF SKU BOUGHT	unknown	
-optical-networking	15454-PPMESH8-LLP5	BUNDLE 15454 PP MESH 8 AND 5YRSNTNBD IF SKU BOUGHT	unknown	
+optical-networking	15454-PP4SMR-LLP3	BUNDLE 15454 PP 4 SMR AND 3YRSNTNBD IF SKU BOUGHT	roadm	
+optical-networking	15454-PP4SMR-LLP5	BUNDLE 15454 PP 4 SMR AND 5YRSNTNBD IF SKU BOUGHT	roadm	
+optical-networking	15454-PPMESH8-LLP3	BUNDLE 15454 PP MESH 8 AND 3YRSNTNBD IF SKU BOUGHT	linecard	
+optical-networking	15454-PPMESH8-LLP5	BUNDLE 15454 PP MESH 8 AND 5YRSNTNBD IF SKU BOUGHT	linecard	
 optical-networking	15454-PSM=	Includes two 2m LC/LC fiber-optic cable and one LC/LC LOOPBACK	mux	
 optical-networking	15454-SC-SC-2=	SC to SC fiber patchcord-2m(duplex)	cable	
 optical-networking	15454-SFP-200=	SFP-ESCON - 1310 nm - MM - LC	pluggable	
@@ -7515,7 +7515,7 @@ optical-networking	15454-YCM-SM-LC=	15454 - Y-Cable Module - SM - LC (1 channel)
 optical-networking	15454E-BLANK=	15454 ETSI Blank Module (Slot Filler)	mechanical	
 optical-networking	15454E-CONSOLE-02	Cable, console, Cisco ML-Series, RJ-11 plug to RJ-45 jack, 22 in. (55.9 cm) long, SDH (ETSI) system	cable	
 optical-networking	15454E-ML1000-2	1000-Mbps Ethernet card, 2 SFP slots, Layer 2 and Layer 3 switching, SDH (ETSI) system	pluggable	
-optical-networking	15454E-ML100T-12	10/100-Mbps Ethernet card, 12 ports, RJ-45, Layer 2 and Layer 3 switching, SDH (ETSI) system, includes console cable	unknown	
+optical-networking	15454E-ML100T-12	10/100-Mbps Ethernet card, 12 ports, RJ-45, Layer 2 and Layer 3 switching, SDH (ETSI) system, includes console cable	linecard	
 optical-networking	15454E-ML100X-8	100 Mbps BASE-FX/LX Ethernet card, eight SFP connections, Layer 2 and Layer 3 switching, SDH (ETSI) system	pluggable	
 optical-networking	15454E-OPT-BST	^Optical Booster Amplifier Module, EOS 09-05(2800)	amplifier	
 optical-networking	15454E-OPT-BST=	^Optical Booster Amplifier Module, EOS 09-05(2800)	amplifier	
@@ -7523,9 +7523,9 @@ optical-networking	15454E-OPT-PRE	^Optical Pre-Amplifier Module, EOS 09-05(2800)
 optical-networking	15454E-OPT-PRE=	^Optical Pre-Amplifier Module, EOS 09-05(2800)	amplifier	
 optical-networking	15454E-SFP-L.16.1=	SFP - OC-48/STM-16 - 1310nm SH - SM - LC	pluggable	
 optical-networking	15454W-100X10G-SK	10x 100G MXP LH - Starter Kit	mechanical	
-optical-networking	15454W-2X100G-SK	2x 100G LR4 LH Transponder - Starter Kit	unknown	
-optical-networking	15454W-5X40GMXP-SK	5x 4x10G Coherent Muxponder w/SR XFPs Starter Kit	unknown	
-optical-networking	15454W-5XOTU2XP-SK	5x 2x10G OTN MR Transponder w/SR & Tunable XFPs Starter Kit	unknown	
+optical-networking	15454W-2X100G-SK	2x 100G LR4 LH Transponder - Starter Kit	linecard	
+optical-networking	15454W-5X40GMXP-SK	5x 4x10G Coherent Muxponder w/SR XFPs Starter Kit	linecard	
+optical-networking	15454W-5XOTU2XP-SK	5x 2x10G OTN MR Transponder w/SR & Tunable XFPs Starter Kit	linecard	
 optical-networking	4X100G-LR-S	Cisco 4X100G-LR-S	unknown	
 optical-networking	800-103176-01	Cisco 800-103176-01	unknown	
 optical-networking	800-39910-07	Cisco 800-39910-07	unknown	
@@ -7692,7 +7692,7 @@ optical-networking	DS-CWDMCHASSIS=	2-slot chassis for Cisco OADM and multiplexer
 optical-networking	DS-CWDMOADM4A=	4-channel (1470, 1490, 1510, and 1530 nm) optical add/drop multiplexer OADM	mux	
 optical-networking	DS-CWDMOADM4B=	4-channel (1550, 1570, 1590, and 1610 nm) optical add/drop multiplexer OADM	mux	
 optical-networking	DS-CWDMOADM4x=	Cisco DS-CWDMOADM4x=	mux	
-optical-networking	EWDM-OA=	EWDM Optical Amplifier	unknown	
+optical-networking	EWDM-OA=	EWDM Optical Amplifier	amplifier	
 optical-networking	EWDM-OADM2=	2-channels EWDM OADM Module	mux	
 optical-networking	EWDM-OADM4=	4-channels EWDM OADM Module	mux	
 optical-networking	MEC15201/SC/R=	Mechanics, SC Rear Connector, 15201 Single-Channel Unit	accessory	
@@ -7844,7 +7844,7 @@ optical-networking	NCS2006-DR=	Chassis Door, Cisco NCS 2006	mechanical
 optical-networking	NCS2006-ECU-S=	NCS 2006 External Connections Unit - w/ 2x USB 3.0 Ports	accessory	
 optical-networking	NCS2006-ECU60-S=	NCS 2006 External Connections Unit -w/ 2x USB 3.0 Ports -60V	accessory	
 optical-networking	NCS2006-ECU=	External Connection Unit, Cisco NCS 2006	accessory	
-optical-networking	NCS2006-FS-RDR-SK	NCS 2006 - FlexSpectrum ROADM Degree w/EDRA - Starter Kit	unknown	
+optical-networking	NCS2006-FS-RDR-SK	NCS 2006 - FlexSpectrum ROADM Degree w/EDRA - Starter Kit	roadm	
 optical-networking	NCS2006-FTA=	Fran Tray assembly, Cisco NCS 2006	fan	
 optical-networking	NCS2006-LCD=	LCD and Memory, Cisco NCS 2006	accessory	
 optical-networking	NCS2006-PWRFLR=	Power Module blank filler, Cisco NCS 2006	mechanical	
@@ -7872,8 +7872,8 @@ optical-networking	NCS2K-100GS-CK-C=	100G - CPAK Multi-Rate Line Card -SD FEC - 
 optical-networking	NCS2K-100GS-CKC++=	100G - CPAK Multi-Rate Line Card -SD FEC - C-Band	transponder	
 optical-networking	NCS2K-100ME-CKC	100G CPAK Multi-Rate Line Card - CP-DQPSK - Metro - C-Band	transponder	
 optical-networking	NCS2K-100ME-CKC=	100G CPAK Multi-Rate Line Card - CP-DQPSK - Metro - C-Band	transponder	
-optical-networking	NCS2K-10X200XP-SK	10X100G or 100X10G over 200G ring w/400G-XP	unknown	
-optical-networking	NCS2K-10XMXP-SK	10X100G or 100X10G over 200G lambda w/400G-XP	unknown	
+optical-networking	NCS2K-10X200XP-SK	10X100G or 100X10G over 200G ring w/400G-XP	linecard	
+optical-networking	NCS2K-10XMXP-SK	10X100G or 100X10G over 200G lambda w/400G-XP	linecard	
 optical-networking	NCS2K-12-AD-CCOFS	12-port - 4-degree - Contentionless Add/Drop Unit.	mux	
 optical-networking	NCS2K-12-AD-CCOFS=	12-port - 4-degree - Contentionless Add/Drop Unit.	mux	
 optical-networking	NCS2K-12CCOFS-OF	NCS 2000 12-port 4-degree CCOFS - Out of Franchise Kit	mux	
@@ -7892,12 +7892,12 @@ optical-networking	NCS2K-200G-CK-C=	50G/100G/200G CPAK Multi-Rate Line Card - SD
 optical-networking	NCS2K-200G-CK-LIC	200G - CPAK MR Line Card - C-Band - Licensed	transponder	
 optical-networking	NCS2K-200G-CK-LIC=	200G - CPAK MR Line Card - C-Band - Licensed	transponder	
 optical-networking	NCS2K-2RU-COVER=	2RU Cover for the EF-40, MD-48 and PPMESH8 Units	mechanical	
-optical-networking	NCS2K-400G-BUN-SK	400G XPonder + 1X CFP2-WDM - 1X LIC	unknown	
+optical-networking	NCS2K-400G-BUN-SK	400G XPonder + 1X CFP2-WDM - 1X LIC	linecard	
 optical-networking	NCS2K-400G-BUN2-SK	Cisco NCS2K-400G-BUN2-SK	unknown	
 optical-networking	NCS2K-400G-XP++=	400G CFP2 MR Xponder - TAA	transponder	
 optical-networking	NCS2K-400G-XP=	400G CFP2 MR xponder	transponder	
 optical-networking	NCS2K-400GXP-L-K9=	400G CFP2 MR XP licensed 100G client bandwidth + 1 port WDM	transponder	
-optical-networking	NCS2K-400GXP-SK	400G XPonder + 2x CFP2-WDM - No Capacity Bundle	unknown	
+optical-networking	NCS2K-400GXP-SK	400G XPonder + 2x CFP2-WDM - No Capacity Bundle	linecard	
 optical-networking	NCS2K-6AD-DD-CFS=	NCS 2000 - 6 port Colorless Flex Spectrum Add/Drop Line Card	mux	
 optical-networking	NCS2K-9-SMR17FS	9-port Single Module ROADM - 0-17dB Gain - Flex Spectrum	roadm	
 optical-networking	NCS2K-9-SMR17FS-L	9-port Single Module ROADM - 0-17dB Gain - FS - Licensed	roadm	
@@ -16283,9 +16283,9 @@ servers-unified-computing	SP-A03-D300GA2	300GB 6Gb SAS 10K RPM SFF HDD/hot plug/
 servers-unified-computing	SP-SSD100GI1F105	100GB Low Height 7mm SATA SSD hot plug/drive sled mounted	drive	
 servers-unified-computing	SSD-SATA-800G	800 GB, SATA Solid State Disk	drive	
 servers-unified-computing	SSD-SATA-800G=	800 GB, SATA Solid State Disk	drive	
-servers-unified-computing	SVC-E1120D-M3	Cisco Internal. E1120D-M3 Service Spare	unknown	
-servers-unified-computing	SVC-E160S-M3	UCS-E, SingleWide, 6 Core CPU, 8 GB Flash	unknown	
-servers-unified-computing	SVC-E180D-M3	Cisco Internal. E180D-M3 Service Spare	unknown	
+servers-unified-computing	SVC-E1120D-M3	Cisco Internal. E1120D-M3 Service Spare	server	
+servers-unified-computing	SVC-E160S-M3	UCS-E, SingleWide, 6 Core CPU, 8 GB Flash	server	
+servers-unified-computing	SVC-E180D-M3	Cisco Internal. E180D-M3 Service Spare	server	
 servers-unified-computing	UCS-220CBLMR4	C220 M4 RAID controller cable (1) for 4HDD bckpln chassis	cable	
 servers-unified-computing	UCS-220CBLMR4=	C220 M4 RAID controller cable (1) for 4HDD bckpln chassis	cable	
 servers-unified-computing	UCS-220CBLMR8	C220 M4 set of 2 RAID cntrlr cables for 8HDD bckpln chassis	cable	
@@ -16330,7 +16330,7 @@ servers-unified-computing	UCS-ASR57-5108-DC	UCS 5108 DC Chassis, 8x B200M4 blade
 servers-unified-computing	UCS-ASR57-6248-AC	UCS 6248UP 1RU Fabric Int AC Power	fabric-interconnect	
 servers-unified-computing	UCS-ASR57-6248-DC	UCS 6248UP 1RU Fabric Int DC Power	fabric-interconnect	
 servers-unified-computing	UCS-ASR57-B200M4	UCS B200 M4 w/ 2x E52680D, 256GB, 2x 300GB HDD, VIC1240	server	
-servers-unified-computing	UCS-ASR5700-01	Cisco ASR5700 System Bundle	unknown	
+servers-unified-computing	UCS-ASR5700-01	Cisco ASR5700 System Bundle	bundle	
 servers-unified-computing	UCS-B200M4-2680D	UCS B200 M4 w/ 2x E52680D, 256GB, 2x 300GB HDD, VIC1240	server	
 servers-unified-computing	UCS-B230M2-VCDL1	UCS B230 M2 Blade Server w/ 2-E72870, 12-8GB DDR, 1-VIC, no	server	
 servers-unified-computing	UCS-B440M2-VCDL1	UCS B440 M2 Blade Server w/ 4-E74870, 16-16GB DDR, 1-VIC, no	server	
@@ -21582,10 +21582,10 @@ servers-unified-computing	UCSC-O-N6CD25GFD	Cisco UCSC-O-N6CD25GFD	nic
 servers-unified-computing	UCSC-O-N6CD25GFD=	Cisco UCSC-O-N6CD25GFD=	nic	
 servers-unified-computing	UCSC-O-N6CD25GFO	Cisco UCSC-O-N6CD25GFO	nic	
 servers-unified-computing	UCSC-O-N6CD25GFO=	Cisco UCSC-O-N6CD25GFO=	nic	
-servers-unified-computing	UCSC-OCP-100G	UCS C125 OCP 100G QSFP 28 adapter panel	unknown	
-servers-unified-computing	UCSC-OCP-100G=	UCS C125 OCP 100G QSFP 28 adapter panel	unknown	
-servers-unified-computing	UCSC-OCP-1025G	UCS C125 OCP 10G/25G SFP 28 adapter panel	unknown	
-servers-unified-computing	UCSC-OCP-1025G=	UCS C125 OCP 10G/25G SFP 28 adapter panel	unknown	
+servers-unified-computing	UCSC-OCP-100G	UCS C125 OCP 100G QSFP 28 adapter panel	nic	
+servers-unified-computing	UCSC-OCP-100G=	UCS C125 OCP 100G QSFP 28 adapter panel	nic	
+servers-unified-computing	UCSC-OCP-1025G	UCS C125 OCP 10G/25G SFP 28 adapter panel	nic	
+servers-unified-computing	UCSC-OCP-1025G=	UCS C125 OCP 10G/25G SFP 28 adapter panel	nic	
 servers-unified-computing	UCSC-OCP-10BTG	UCS C125 OCP 10GbaseT RJ-45 adapter panel	mechanical	
 servers-unified-computing	UCSC-OCP-10BTG=	UCS C125 OCP 10GbaseT RJ-45 adapter panel	mechanical	
 servers-unified-computing	UCSC-OCP3-KIT	C2XX OCP 3.0 Interposer W/Mech Assy	accessory	
@@ -23475,7 +23475,7 @@ servers-unified-computing	WMS-EZ-C460-800I	UCS C460 w/64GB DIMM,4x2.4GB CPU,2x60
 servers-unified-computing	WMS-EZ-C460-800P	UCS C460 w/128GB DIMM,4x2.4GB CPU,4x600GB SAS,PCIe	server	
 servers-unified-computing	X9108-IFM-100G	Cisco X9108-IFM-100G	io-module	
 servers-unified-computing	X9108-IFM-25G	Cisco X9108-IFM-25G	io-module	
-servers-unified-computing	XRV-PCIE-C40Q-03	Cisco VIC 1385 Dual Port 40Gb QSFP+ CNA w/RDMA	unknown	
+servers-unified-computing	XRV-PCIE-C40Q-03	Cisco VIC 1385 Dual Port 40Gb QSFP+ CNA w/RDMA	nic	
 servers-unified-computing	XRV-PCIE-IQ10GF	Cisco XRV-PCIE-IQ10GF	unknown	
 storage-networking	CAB-1900W-CH	Power Cord, 250VAC, 16A GB1002 Plug, China	cable	
 storage-networking	CAB-1900W-CH=	Power Cord, 250VAC, 16A GB1002 Plug, China, Spare	cable	
@@ -33545,7 +33545,7 @@ unified-communications	CIT-8-16-MEM-UPG	Upgrades E140/160 First memory dimm from
 unified-communications	CIT-A03-D300GA2	Cisco CIT-A03-D300GA2	drive	
 unified-communications	CIT-CPU-E5-2665	2.40 GHz E5-2665/115W 8C/20MB Cache/DDR3 1600MHz	cpu	
 unified-communications	CIT-CPU-E52630D	Cisco CIT-CPU-E52630D	cpu	
-unified-communications	CIT-E160D-M2BUN/K9	UCS-E160D-M2/K9 bundled with ISR-G2	unknown	
+unified-communications	CIT-E160D-M2BUN/K9	UCS-E160D-M2/K9 bundled with ISR-G2	server	
 unified-communications	CIT-HD300G10K12G	Cisco CIT-HD300G10K12G	drive	
 unified-communications	CIT-HDD300GI2F105	Cisco CIT-HDD300GI2F105	drive	
 unified-communications	CIT-HDSAS900G	Cisco CIT-HDSAS900G	drive	
@@ -33585,21 +33585,21 @@ unified-communications	CIT2-PSU2-1200	1200W 2u Power Supply For UCS	power
 unified-communications	CIT2-PSU2-1400W	1400W AC Power Supply for 2U & 4U C Series Servers	power	
 unified-communications	CIT2-PSU2V2-1200W	1200W V2 AC Power Supply for 2U C-Series Servers	power	
 unified-communications	CIT2-RAID-9271CV	MegaRAID 9271CV Raid card with 8 internal SAS/SATA parts, S	storage-controller	
-unified-communications	CTI-ATP-VCS-CTRLK9	ATP Demo - VCS Control	unknown	
-unified-communications	CTI-ATP-VCS-EXPWK9	ATP Demo - VCS Expressway	unknown	
-unified-communications	CTI-ATP-VCS-SPAKK9	ATP Demo-VCS Starter Pack Exp, 50 regs, 5 trav, Movi, 5 PHD USB	unknown	
+unified-communications	CTI-ATP-VCS-CTRLK9	ATP Demo - VCS Control	server	
+unified-communications	CTI-ATP-VCS-EXPWK9	ATP Demo - VCS Expressway	server	
+unified-communications	CTI-ATP-VCS-SPAKK9	ATP Demo-VCS Starter Pack Exp, 50 regs, 5 trav, Movi, 5 PHD USB	server	
 unified-communications	CTI-CE1K-BDL-K9	VCS Control And Expressway Platform UCS C220 M3 Bundle	server	
 unified-communications	CTI-CE1K-BDL-K9=	Spare VCS Control And Expressway Platform UCS C220 M3 Bundle	server	
 unified-communications	CTI-CE500-BDL-K9	VCS Control And Expressway Platform UCS C220 M3 Bundle	server	
 unified-communications	CTI-CE500-BDL-K9=	Spare VCS Control And Expressway Platform UCS C220 M3 Bundle	server	
-unified-communications	CTI-VCS-BASE-K9=	SPARE - VCS Control And Expressway	unknown	
-unified-communications	CTI-VCS-BASE=	VCS Control And Expressway Non Encrypted Version Spare	unknown	
+unified-communications	CTI-VCS-BASE-K9=	SPARE - VCS Control And Expressway	server	
+unified-communications	CTI-VCS-BASE=	VCS Control And Expressway Non Encrypted Version Spare	server	
 unified-communications	CTI-VCS-BRAGEEARS=	116269 Brage Rack Ears Kit	mechanical	
-unified-communications	CTI-VCS-CNTRL-K9	Cisco VCS Control	unknown	
-unified-communications	CTI-VCS-CONTRL-K9	VCS Control	unknown	
-unified-communications	CTI-VCS-EXPRESS-K9	VCS Expressway	unknown	
-unified-communications	CTI-VCS-EXPWY-K9	Cisco VCS Expressway	unknown	
-unified-communications	CTI-VCS-STPAK-K9	VCS Starter Pack Express 50 regs 5 trav calls Movi 5 PHD USB	unknown	
+unified-communications	CTI-VCS-CNTRL-K9	Cisco VCS Control	server	
+unified-communications	CTI-VCS-CONTRL-K9	VCS Control	server	
+unified-communications	CTI-VCS-EXPRESS-K9	VCS Expressway	server	
+unified-communications	CTI-VCS-EXPWY-K9	Cisco VCS Expressway	server	
+unified-communications	CTI-VCS-STPAK-K9	VCS Starter Pack Express 50 regs 5 trav calls Movi 5 PHD USB	server	
 unified-communications	EXP-BZL-C220M5	C220 M5 Security Bezel	mechanical	
 unified-communications	EXP-CPU-6134	3.2 GHz 6134/130W 8C/24.75MB Cache/DDR4 2666MHz	cpu	
 unified-communications	EXP-CPU-E5-2643	3.30 GHz E5-2643/130W 4C/10MB Cache/DDR3 1600MHz	cpu	
@@ -33637,14 +33637,14 @@ unified-communications	EXPWY-1300-K9	Cisco Expressway Series Multi-purpose 1300 
 unified-communications	EXPWY-1300-K9=	Cisco Expressway Series Multi-purpose 1300 Appliance	server	
 unified-communications	EXPWY-C-BDL-K9	Cisco Expressway-C CE1100 Appliance	server	
 unified-communications	EXPWY-C-BDL-K9=	Expressway-C and Expressway-E Appliance Bundle Spare	server	
-unified-communications	EXPWY-C-K9	Cisco Expressway Series, Expressway-C	unknown	
+unified-communications	EXPWY-C-K9	Cisco Expressway Series, Expressway-C	server	
 unified-communications	EXPWY-CE1K-BDL-K9	Expressway Platform UCS C220 M3 Bundle	server	
 unified-communications	EXPWY-CE1K-BDL-K9=	Spare Expressway Platform UCS C220 M3 Bundle	server	
 unified-communications	EXPWY-CE500-BDL-K9	Expressway Platform UCS C220 M3 Bundle	server	
 unified-communications	EXPWY-CE500BDL-K9=	Spare Expressway Platform UCS C220 M3 Bundle	server	
 unified-communications	EXPWY-E-BDL-K9	Cisco Expressway-E CE1100 Appliance	server	
 unified-communications	EXPWY-E-BDL-K9=	Expressway-E Appliance Bundle Spare	server	
-unified-communications	EXPWY-E-K9	Cisco Expressway Series, Expressway-E	unknown	
+unified-communications	EXPWY-E-K9	Cisco Expressway Series, Expressway-E	server	
 unified-communications	KEY-CCM-ADMIN-K9=	CUCM Admin Security Token, 4.3, 6.0, or Newer, CoO USA	accessory	
 unified-communications	KEY-UCM-ADMIN2-K9=	CUCM Admin Security Token, 7.1 or Newer	accessory	
 unified-communications	MCS-7825-I5-IPC1	Cisco MCS-7825-I5-IPC1	server	
@@ -33812,7 +33812,7 @@ unified-communications	UNITY-PIMG-ROLM	PBX IP MEDIA GATEWAY-ROLM	voice-gateway
 unified-communications	UNITY-PIMG-ROLM=	PBX IP MEDIA GATEWAY-ROLM	voice-gateway	
 unified-communications	UNITY-TIMG-1	T1 IP-Media Gateway	voice-gateway	
 unified-communications	UNITY-TIMG-1=	T1 IP-Media Gateway	voice-gateway	
-unified-communications	UNITYCN7-BUNDLE	Unity Connection 7.x SW plus HW Bundle	unknown	
+unified-communications	UNITYCN7-BUNDLE	Unity Connection 7.x SW plus HW Bundle	server	
 unified-communications	VCS-C-BDL-K9	VCS-C Appliance Bundle	server	
 unified-communications	VCS-C-BDL-K9=	VCS-C or VCS-E Appliance Bundle Spare	server	
 unified-communications	VCS-E-BDL-K9	VCS-E Appliance Bundle	server	
@@ -34597,7 +34597,7 @@ video	4028913	(P2-HD-13TXM-06-SA-F-ST) HD M-W Fwd Tx, Std, 1GHz, 6dBm, SA, CH F	
 video	4028914	(P2-HD-13TXM-08-SA-F-ST) HD M-W Fwd Tx, Std, 1GHz, 8dBm, SA, CH F	transmitter	
 video	4028915	(P2-HD-13TXM-10-SA-F-ST) HD M-W Fwd Tx, Std, 1GHz, 10dBm, SA, CH F	transmitter	
 video	4028916	(P2-HD-13TXM-12-SA-F-ST) HD M-W Fwd Tx, Std, 1GHz, 12dBm, SA, CH F	transmitter	
-video	4029111	Kit, 110V Powered, Gainmaker Node	unknown	
+video	4029111	Kit, 110V Powered, Gainmaker Node	node	
 video	4029115	Cisco 4029115	unknown	
 video	4029426	Cisco 4029426	unknown	
 video	4029654	P2-EDFA-MOD-8X21.5-LA, SA INPUT 2WD	amplifier	
@@ -35369,7 +35369,7 @@ video	745415	Pwr Cord (China)	cable
 video	750180	Cisco 750180	unknown	
 video	750181	Cisco 750181	unknown	
 video	750182	Cisco 750182	unknown	
-video	750185	Patch Enclosures, 72pos, SA, 20m Stub	unknown	
+video	750185	Patch Enclosures, 72pos, SA, 20m Stub	passive	
 video	750189	Cisco 750189	unknown	
 video	750882	Prisma II Redundancy Intfc Pnl (RIP)	mechanical	
 video	754201	(P2-EDFA-MOD-GF-1x20-SA)GF Opt Amp, 20dBm, SA	amplifier	
@@ -35379,9 +35379,9 @@ video	800-4073801-01	Cisco 800-4073801-01	unknown
 video	800-4073802-01	Cisco 800-4073802-01	unknown	
 video	912101-00-00	Cisco 912101-00-00	unknown	
 video	912262-00-00	Cisco 912262-00-00	unknown	
-video	9220F-DIFL	9220 W/DIFL OPTIONS	unknown	
+video	9220F-DIFL	9220 W/DIFL OPTIONS	passive	
 video	9270F-DIFL	Cisco 9270F-DIFL	unknown	
-video	BUNDLE1-3G60-DS384	Bundle: qty6 3G60(2G24) and qty7 DS384 7x64 QAM plus Commons	unknown	
+video	BUNDLE1-3G60-DS384	Bundle: qty6 3G60(2G24) and qty7 DS384 7x64 QAM plus Commons	system	
 video	CAB-520-UCH2=	Cisco CAB-520-UCH2=	cable	
 video	CAB-RFGW-SURGE	Ten quad-shield RF cables in UCH-2, RFGW to HFC, Surge, 3m	cable	
 video	CAB-RFGW-SURGE=	Ten quad-shield RF cables in UCH-2, RFGW to HFC, Surge, 3m	cable	
@@ -35529,7 +35529,7 @@ video	DS384-4X32UPGRADE	RFGW-10 DS384 Upgrade Bundle: 2SUP,4DS384,4x32 QAM Licen
 video	DS384-4X64UPGRADE	RFGW-10 DS384 Upgrade Bundle: 2SUP, 4DS384, 4x64 QAM License	chassis	
 video	DS384-7X32UPGRADE	RFGW-10 DS384 Upgrade Bundle: 2SUP,7DS384,7x32 QAM License	chassis	
 video	DS384-7X64UPGRADE	RFGW-10 DS384 Upgrade Bundle: 2SUP, 7DS384, 7x64 QAM License	chassis	
-video	DS38410X64UPGRADRF	RFGW-10DS384UpgrdeBun2SUP, 10DS384, 10x64QAMLic REMANUFACTURED	unknown	
+video	DS38410X64UPGRADRF	RFGW-10DS384UpgrdeBun2SUP, 10DS384, 10x64QAMLic REMANUFACTURED	system	
 video	G2A2AA101A1AXXXA2X	GS7000,2x,Fb/Tr,42/54,8p,SA,Rx,1310FP,PS,Xpdr	node	
 video	G2A2AA101A1BXXXAXX	GS7000,2x,Fb/Tr,42/54,8p,SA,Rx,1310DFB,PS	node	
 video	G2A2AA101A1BXXXBXX	GS7000,2x,Fb/Tr,42/54,8p,SA,Rx,1310DFB,2PS	node	
@@ -37140,7 +37140,7 @@ video	RPHY_SHELF_3X6	RPHY Shelf 3DSx6US, includes Shelf, 3xRPDs, Fan Controller	
 video	RPHY_SHELF_3X6=	RPHY Shelf 3DSx6US, includes Shelf, 3xRPDs, FCC, Spare	system	
 video	RPHY_SHELF_6X12	RPHY Shelf 6DSx12US, includes Shelf, 6xRPDs, Fan Controller	system	
 video	RPHY_SHELF_6X12=	RPHY Shelf 6DSx12US, includes Shelf, 6xRPDs, FCC, Spare	system	
-wireless	2KI-FINAL-PKG-RU	Contains packing Kit For 2KI	unknown	
+wireless	2KI-FINAL-PKG-RU	Contains packing Kit For 2KI	mechanical	
 wireless	3-CBW140AC-A	Cisco Business 140AC Access Point, 802.11ac Wave-3 Packs	ap	smb
 wireless	3-CBW140AC-A-CA	CBW140AC 802.11ac 2x2 Wave 2 Access Point Ceiling Mount - 3P	ap	smb
 wireless	3-CBW140AC-B	CBW140AC 802.11ac 2x2 Wave 2 Access Point Ceiling Mount - 3P	ap	smb
@@ -37251,14 +37251,14 @@ wireless	AIR-1520-FIB-REEL	1520 Series Take-up Reel for Fiber Cable	mechanical
 wireless	AIR-1520-FIB-REEL=	1520/1550 Series Fiber-Cable Take-up Reel KIT	mechanical	
 wireless	AIR-1550-HAZBBU	1550 Series Hazardous Location Battery Backup Unit	power	
 wireless	AIR-1550S-FIB-KIT=	1550S Fiber Cable Take-up Reel Kit	mechanical	
-wireless	AIR-330-EXP-BOX	MobileAccessVE Expansion Box	unknown	
-wireless	AIR-330-EXP-BOX=	MobileAccessVE Expansion Box	unknown	
-wireless	AIR-330-MB-1	MobileAccessVE One-link Main Building Unit	unknown	
-wireless	AIR-330-MB-1=	MobileAccessVE One-link Main Building Unit	unknown	
-wireless	AIR-330-MB-2	MobileAccessVE Two-link Main Building Unit	unknown	
-wireless	AIR-330-MB-2=	MobileAccessVE Two-link Main Building Unit	unknown	
-wireless	AIR-330-RB-1	MobileAccessVE Remote Building Unit	unknown	
-wireless	AIR-330-RB-1=	MobileAccessVE Remote Building Unit	unknown	
+wireless	AIR-330-EXP-BOX	MobileAccessVE Expansion Box	accessory	
+wireless	AIR-330-EXP-BOX=	MobileAccessVE Expansion Box	accessory	
+wireless	AIR-330-MB-1	MobileAccessVE One-link Main Building Unit	accessory	
+wireless	AIR-330-MB-1=	MobileAccessVE One-link Main Building Unit	accessory	
+wireless	AIR-330-MB-2	MobileAccessVE Two-link Main Building Unit	accessory	
+wireless	AIR-330-MB-2=	MobileAccessVE Two-link Main Building Unit	accessory	
+wireless	AIR-330-RB-1	MobileAccessVE Remote Building Unit	accessory	
+wireless	AIR-330-RB-1=	MobileAccessVE Remote Building Unit	accessory	
 wireless	AIR-3504-RMNT=	Cisco 3504 Wireless Controller Rack Mount Bracket	mechanical	
 wireless	AIR-3802I-G-K9C	Cisco Aironet Mobility Express 3800 Series	ap	indoor
 wireless	AIR-420-003346-020	20 ft. cable with RP-TNC connectors	cable	
@@ -38820,14 +38820,14 @@ wireless	AIR-AP700MNTGKIT	Mounting Bracket Kit for AP-700 Series APs	mechanical
 wireless	AIR-AP852I-BULK	BOM Level AP852i Bulk PID for Universal Domain	ap	indoor
 wireless	AIR-BAND-INST-TL=	Accessory, Band installation tool (used for PMK2 and PMK3. Need one per installation crew)	mechanical	
 wireless	AIR-BAND07503100=	Band Strap for Mounting Kit	mechanical	
-wireless	AIR-BLE-BEACON-BLK	BOM Level AIR-BLE-BEACON Bulk PID	unknown	
-wireless	AIR-BLE-TAG-BULK	BOM Level BLE TAG Bulk PID	unknown	
+wireless	AIR-BLE-BEACON-BLK	BOM Level AIR-BLE-BEACON Bulk PID	wireless-sensor	
+wireless	AIR-BLE-TAG-BULK	BOM Level BLE TAG Bulk PID	wireless-sensor	
 wireless	AIR-BLE-USB	Spare USB BLE Beacon for Access Points	module	
 wireless	AIR-BLE-USB-10	USB BLE Beacon for Access Points; Pack of 10 units	module	
 wireless	AIR-BLE-USB-50	USB BLE Beacon for Access Points; Pack of 50 units	module	
 wireless	AIR-BLE-USB-BULK	BOM Level USN BLE Bulk PID	module	
 wireless	AIR-BLE-USB=	Spare USB BLE Beacon for Access Points	module	
-wireless	AIR-BR1310G	Cisco Aironet 1300 Series outdoor access point/bridge (Supported in access point mode only)	unknown	
+wireless	AIR-BR1310G	Cisco Aironet 1300 Series outdoor access point/bridge (Supported in access point mode only)	ap	outdoor
 wireless	AIR-BZL-C220M4	Cisco 5520 Wireless Controller Security Bezel	mechanical	
 wireless	AIR-BZL-C220M4=	Cisco 5520 Wireless Controller Security Bezel	mechanical	
 wireless	AIR-BZL-C240M4	Cisco 8540 Wireless Controller Security Bezel	mechanical	
@@ -39125,7 +39125,7 @@ wireless	AIR-MSE-B4-C3-W25	Cisco AIR-MSE-B4-C3-W25	bundle
 wireless	AIR-MSE-B5-C3-W25	Cisco AIR-MSE-B5-C3-W25	bundle	
 wireless	AIR-MSE3350-HD=	Field Replaceable Hard Disk For The MSE 3350	module	
 wireless	AIR-MSE3350-PWR=	Field Replaceable Power Supply For The MSE 3350	power	
-wireless	AIR-N-3006-DTA-K9	^NECJ AS3504 DTA	unknown	
+wireless	AIR-N-3006-DTA-K9	^NECJ AS3504 DTA	wireless-sensor	
 wireless	AIR-OEAP1810-A-K9	802.11ac OfficeExtend AP, A Reg Domain (not for US)	ap	indoor
 wireless	AIR-OEAP1810-B-K9	802.11ac Wave 2 OfficeExtend AP, B Reg Domain (for US)	ap	indoor
 wireless	AIR-OEAP1810-D-K9	802.11ac Wave 2 OfficeExtend AP, D Reg Domain	ap	indoor
@@ -39299,13 +39299,13 @@ wireless	AIR-SVR-PWR-DC	Field replaceable DC Power Supply for 8510DC (AIR-CT85DC
 wireless	AIR-SVR-PWR-DC=	Field replaceable DC Power Supply for 8510DC (AIR-CT85DC-K9)	power	
 wireless	AIR-TPM1-001	TPM Module For UCS	module	
 wireless	AIR-TPM2-001	Trusted Platform Module 1.2 for UCS (SPI-based)	module	
-wireless	AIR-VAP-CELLPCS	MobileAccessVE Access Pod for CELL/PCS bands	unknown	
-wireless	AIR-VAP-CELLPCS=	MobileAccessVE Access Pod for CELL/PCS bands	unknown	
+wireless	AIR-VAP-CELLPCS	MobileAccessVE Access Pod for CELL/PCS bands	accessory	
+wireless	AIR-VAP-CELLPCS=	MobileAccessVE Access Pod for CELL/PCS bands	accessory	
 wireless	AIR-VAPMNTG-H-KIT=	MobileAccessVE VAP Mounting Kit	mechanical	
 wireless	AIR-VAPMNTG-V-KIT=	MobileAccessVE VAP Mounting Kit	mechanical	
-wireless	AIR-VBLE1-K9	Cisco CMX Beacon Point	unknown	
-wireless	AIR-VCU-CELLPCS12	MobileAccessVE Control Unit for CELL/PCS bands, 12 ports	unknown	
-wireless	AIR-VCU-CELLPCS12=	MobileAccessVE Control Unit for CELL/PCS bands, 12 ports	unknown	
+wireless	AIR-VBLE1-K9	Cisco CMX Beacon Point	wireless-sensor	
+wireless	AIR-VCU-CELLPCS12	MobileAccessVE Control Unit for CELL/PCS bands, 12 ports	accessory	
+wireless	AIR-VCU-CELLPCS12=	MobileAccessVE Control Unit for CELL/PCS bands, 12 ports	accessory	
 wireless	AIR-VPN-WLC	VPN/enhanced security module for 4100 Series WLAN controller	module	
 wireless	AIRAP1832I-ABULKC	BOM Level AP1832i Bulk PID for A Domain	ap	indoor
 wireless	AIRAP1832I-AK910C	Cisco Aironet Mobility Express 1830 Series	ap	indoor
@@ -39457,7 +39457,7 @@ wireless	AP1572EC	Cisco AP1572EC	ap	outdoor
 wireless	AP1572IC	Cisco AP1572IC	ap	outdoor
 wireless	AP18321-UXK9	Hydra 3X3 cost saving version for Corsica Lite AP1830	ap	indoor
 wireless	ASCT-EX2000	Cisco ASCT-EX2000	unknown	
-wireless	ASCT-EX3200	Compact exciter	unknown	
+wireless	ASCT-EX3200	Compact exciter	appliance	
 wireless	BTIMGE-K9	Cisco BTIMGE-K9	unknown	
 wireless	C-ANT9101=	Tri-band MIMO Ceiling mount omnidirectional antenna operates in the 2.4-, 5- and 6-GHz frequency ranges and supports IoT. This antenna is designed for indoor use with 9130AX Series access points	antenna	
 wireless	C-ANT9102=	Tri-band MIMO Wall/Pole mount omnidirectional antenna operates in the 2.4-, 5- and 6-GHz frequency ranges and supports IoT. This antenna is designed for indoor use with 9130AX Series access points	antenna	
@@ -40418,7 +40418,7 @@ wireless	CW9800L-RMNT	Rack mount tray for CW9800L	mechanical
 wireless	CW9800L-RMNT-R	Rear rack mount bracket for CW9800L-RMNT	mechanical	
 wireless	CW9800L-RPS=	Redundant Power Supply kit, which includes: ● Redundant Power Supply module ● 8-pin to 6-pin DC cable to connect RPS to CW9800L ● An additional power supply with power cord	power	
 wireless	CW9800M	Cisco Catalyst CW9800M Wireless Controller (ships with one AC power adapter)	wlc	
-wireless	CWWLSE-1130-19-K9	CiscoWorks WLSE (optional)	unknown	
+wireless	CWWLSE-1130-19-K9	CiscoWorks WLSE (optional)	appliance	
 wireless	DN3-L-MR-X16G1RS-H	16GB DDR4-2666-MHz RDIMM/PC4-21300/single rank/x4/1.2v	module	
 wireless	DN3-L-SD960GM1X-EV	960GB 2.5 inch Enterprise Value 6G SATA SSD	module	
 wireless	DN3-LOC-BZL-C220M5	C220 M5 Security Bezel	mechanical	
@@ -40460,7 +40460,7 @@ wireless	ESW-6300-CON-T-K9	Embedded Wireless AP 6300, DC input, A Domain	ap	indu
 wireless	ESW-6300-CON-Z-K9	Embedded Wireless AP 6300, DC input, Z Domain	ap	industrial
 wireless	FAN-ROOM70-2PK-	FAN kit for ROOM 70 2pack	module	
 wireless	FAN-ROOM70-2PK=	FAN kit for ROOM 70 2pack	module	
-wireless	FINAL-PKG-RUSSIA	Contains Packing Kit for 2KE/3KI/3KE	unknown	
+wireless	FINAL-PKG-RUSSIA	Contains Packing Kit for 2KE/3KI/3KE	mechanical	
 wireless	FLMESH-HW-1000-1	Cisco FLMESH-HW-1000-1	appliance	
 wireless	FLMESH-HW-10000-1	Cisco FLMESH-HW-10000-1	appliance	
 wireless	FLMESH-HW-3200-1	Cisco FLMESH-HW-3200-1	backhaul	
@@ -40853,7 +40853,7 @@ wireless	MSE-RAILB-M4	Ball Bearing Rail Kit for C220 M4 and C240 M4 rack servers
 wireless	MSE-SD480G0KS2-EV	480 GB 2.5 inch Enterprise Value 6G SATA SSD	module	
 wireless	MSE-SD960G0KS2-EV	960 GB 2.5 inch Enterprise Value 6G SATA SSD	module	
 wireless	MSE-TPM2-001	Trusted Platform Module 1.2 for UCS (SPI-based)	module	
-wireless	ON100-M6-K9	ON100 Network Agent Multipack	unknown	
+wireless	ON100-M6-K9	ON100 Network Agent Multipack	appliance	
 wireless	PPN-3802E-ATO	3K External ATO model	ap	indoor
 wireless	PPN-3802I-ATO	3K Internal ATO model	ap	indoor
 wireless	PPN-3802I-PIKPAK-B	Barbados 3K pik pak-B	ap	indoor

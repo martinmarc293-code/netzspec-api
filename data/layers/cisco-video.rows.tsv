@@ -717,7 +717,7 @@ sku	name	series_label	kind	placement	product_line	product_family	series	nav_buck
 4028914	(P2-HD-13TXM-08-SA-F-ST) HD M-W Fwd Tx, Std, 1GHz, 8dBm, SA, CH F	Prisma II Products	transmitter	layered	Prisma II Optical Transport	(none)	Prisma II HD		name [(]P2-HD							
 4028915	(P2-HD-13TXM-10-SA-F-ST) HD M-W Fwd Tx, Std, 1GHz, 10dBm, SA, CH F	Prisma II Products	transmitter	layered	Prisma II Optical Transport	(none)	Prisma II HD		name [(]P2-HD							
 4028916	(P2-HD-13TXM-12-SA-F-ST) HD M-W Fwd Tx, Std, 1GHz, 12dBm, SA, CH F	Prisma II Products	transmitter	layered	Prisma II Optical Transport	(none)	Prisma II HD		name [(]P2-HD							
-4029111	Kit, 110V Powered, Gainmaker Node	GS7000 Optical Hub and Hub-Node	unknown	layered	GS7000 Nodes and Optical Hubs	(none)	GainMaker plug-ins (pads, equalizers)		name GainMaker							
+4029111	Kit, 110V Powered, Gainmaker Node	GS7000 Optical Hub and Hub-Node	node	layered	GS7000 Nodes and Optical Hubs	(none)	GainMaker plug-ins (pads, equalizers)		name GainMaker							
 4029115	Cisco 4029115	GS7000 Nodes	unknown	layered	GS7000 Nodes and Optical Hubs	(shared across the line)		GS7000 Nodes and Optical Hubs shared parts	label GS7000 Nodes							
 4029426	Cisco 4029426	GS7000 Nodes	unknown	layered	GS7000 Nodes and Optical Hubs	(shared across the line)		GS7000 Nodes and Optical Hubs shared parts	label GS7000 Nodes							
 4029654	P2-EDFA-MOD-8X21.5-LA, SA INPUT 2WD	Prisma II Products	amplifier	layered	Prisma II Optical Transport	(none)	Prisma II		name ^P2-							
@@ -1489,7 +1489,7 @@ sku	name	series_label	kind	placement	product_line	product_family	series	nav_buck
 750180	Cisco 750180	Optical Passive Components	unknown	layered	Optical Passive Components	(shared across the line)		Optical Passive Components shared parts	label Optical Passive Components							
 750181	Cisco 750181	Optical Passive Components	unknown	layered	Optical Passive Components	(shared across the line)		Optical Passive Components shared parts	label Optical Passive Components							
 750182	Cisco 750182	Optical Passive Components	unknown	layered	Optical Passive Components	(shared across the line)		Optical Passive Components shared parts	label Optical Passive Components							
-750185	Patch Enclosures, 72pos, SA, 20m Stub	Prisma II Products	unknown	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
+750185	Patch Enclosures, 72pos, SA, 20m Stub	Prisma II Products	passive	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
 750189	Cisco 750189	Optical Passive Components	unknown	layered	Optical Passive Components	(shared across the line)		Optical Passive Components shared parts	label Optical Passive Components							
 750882	Prisma II Redundancy Intfc Pnl (RIP)	Prisma II Products	mechanical	layered	Prisma II Optical Transport	(none)	Prisma II		name Prisma II							
 754201	(P2-EDFA-MOD-GF-1x20-SA)GF Opt Amp, 20dBm, SA	Prisma II Products	amplifier	layered	Prisma II Optical Transport	(none)	Prisma II		name [(]P2-							
@@ -1499,9 +1499,9 @@ sku	name	series_label	kind	placement	product_line	product_family	series	nav_buck
 800-4073802-01	Cisco 800-4073802-01	Prisma II Products	unknown	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
 912101-00-00	Cisco 912101-00-00	Optical Passive Components	unknown	layered	Optical Passive Components	(shared across the line)		Optical Passive Components shared parts	label Optical Passive Components							
 912262-00-00	Cisco 912262-00-00	Optical Passive Components	unknown	layered	Optical Passive Components	(shared across the line)		Optical Passive Components shared parts	label Optical Passive Components							
-9220F-DIFL	9220 W/DIFL OPTIONS	Prisma II Products	unknown	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
+9220F-DIFL	9220 W/DIFL OPTIONS	Prisma II Products	passive	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
 9270F-DIFL	Cisco 9270F-DIFL	RF Gateway Series	unknown	layered	RF Gateway	(shared across the line)		RF Gateway shared parts	label RF Gateway Series							
-BUNDLE1-3G60-DS384	Bundle: qty6 3G60(2G24) and qty7 DS384 7x64 QAM plus Commons	RF Gateway Series	unknown	layered	RF Gateway	(none)	RFGW-10		sku ^BUNDLE1-3G60							
+BUNDLE1-3G60-DS384	Bundle: qty6 3G60(2G24) and qty7 DS384 7x64 QAM plus Commons	RF Gateway Series	system	layered	RF Gateway	(none)	RFGW-10		sku ^BUNDLE1-3G60							
 CAB-520-UCH2=	Cisco CAB-520-UCH2=	RF Gateway Series	cable	layered	RF Gateway	(shared across the line)		RF Gateway shared parts	accessory ^CAB- (label RF Gateway Series)							
 CAB-RFGW-SURGE	Ten quad-shield RF cables in UCH-2, RFGW to HFC, Surge, 3m	RF Gateway Series	cable	layered	RF Gateway	(shared across the line)		RF Gateway shared parts	sku ^CAB-RFGW							
 CAB-RFGW-SURGE=	Ten quad-shield RF cables in UCH-2, RFGW to HFC, Surge, 3m	RF Gateway Series	cable	layered	RF Gateway	(shared across the line)		RF Gateway shared parts	sku ^CAB-RFGW							
@@ -1649,7 +1649,7 @@ DS384-4X32UPGRADE	RFGW-10 DS384 Upgrade Bundle: 2SUP,4DS384,4x32 QAM License	RF 
 DS384-4X64UPGRADE	RFGW-10 DS384 Upgrade Bundle: 2SUP, 4DS384, 4x64 QAM License	RF Gateway Series	chassis	layered	RF Gateway	(none)	RFGW-10		sku ^DS384							
 DS384-7X32UPGRADE	RFGW-10 DS384 Upgrade Bundle: 2SUP,7DS384,7x32 QAM License	RF Gateway Series	chassis	layered	RF Gateway	(none)	RFGW-10		sku ^DS384							
 DS384-7X64UPGRADE	RFGW-10 DS384 Upgrade Bundle: 2SUP, 7DS384, 7x64 QAM License	RF Gateway Series	chassis	layered	RF Gateway	(none)	RFGW-10		sku ^DS384							
-DS38410X64UPGRADRF	RFGW-10DS384UpgrdeBun2SUP, 10DS384, 10x64QAMLic REMANUFACTURED	RF Gateway Series	unknown	layered	RF Gateway	(none)	RFGW-10		sku ^DS384							
+DS38410X64UPGRADRF	RFGW-10DS384UpgrdeBun2SUP, 10DS384, 10x64QAMLic REMANUFACTURED	RF Gateway Series	system	layered	RF Gateway	(none)	RFGW-10		sku ^DS384							
 G2A2AA101A1AXXXA2X	GS7000,2x,Fb/Tr,42/54,8p,SA,Rx,1310FP,PS,Xpdr	GS7000 Optical Hub and Hub-Node	node	layered	GS7000 Nodes and Optical Hubs	(none)	GS7000 configured nodes		sku ^G[0-9][A-Z0-9]{16}$							
 G2A2AA101A1BXXXAXX	GS7000,2x,Fb/Tr,42/54,8p,SA,Rx,1310DFB,PS	GS7000 Optical Hub and Hub-Node	node	layered	GS7000 Nodes and Optical Hubs	(none)	GS7000 configured nodes		sku ^G[0-9][A-Z0-9]{16}$							
 G2A2AA101A1BXXXBXX	GS7000,2x,Fb/Tr,42/54,8p,SA,Rx,1310DFB,2PS	GS7000 Optical Hub and Hub-Node	node	layered	GS7000 Nodes and Optical Hubs	(none)	GS7000 configured nodes		sku ^G[0-9][A-Z0-9]{16}$							

@@ -1,11 +1,9 @@
 {
   "vendor": "cisco",
   "category": "interfaces-modules",
-  "built_at": "2026-09-28T12:03:54.068Z",
-  "commit": "fd4980199111364133d8b488e48f40c4373802ec",
-  "uncommitted_rule_files": [
-    "src/core/securityKind.ts"
-  ],
+  "built_at": "2026-09-28T19:39:22.895Z",
+  "commit": null,
+  "uncommitted_rule_files": null,
   "mapping_file": "data/reference/product-lines/cisco-interfaces-modules.json",
   "parts": 1079,
   "layered": 1079,
@@ -50,7 +48,7 @@
             "interface": 63,
             "mechanical": 8,
             "accessory": 5,
-            "unknown": 3
+            "module": 3
           },
           "roles": {},
           "samples": [
@@ -99,7 +97,8 @@
           "note": "layers round 3, security round: Cisco's Advanced Integration Modules, the internal module slot of the 1800 / 2600 / 2800 / 3600 / 3700 / 3800 routers (the ISM's predecessor). AIM-DES/BP 'DES Crypto AIM for Cisco 2600' arrives from security and AIM-VOICE-30 from routers, both by plan (A.3 rule 1: multi-platform router cards live here)",
           "parts": 2,
           "kinds": {
-            "unknown": 2
+            "module": 1,
+            "unknown": 1
           },
           "roles": {},
           "samples": [
@@ -511,7 +510,7 @@
           "parts": 3,
           "kinds": {
             "cable": 2,
-            "unknown": 1
+            "mux": 1
           },
           "roles": {},
           "samples": [
@@ -570,9 +569,9 @@
   "inbound_unplaced": {},
   "done": true,
   "build": {
-    "data_commit": "9041665b56a7+1dirty",
-    "code_commit": "9041665b56a7",
+    "data_commit": "090300f9fe51+87dirty",
+    "code_commit": "5608fd289411",
     "contract_hash": "bcfc4c1ee314d3c2",
-    "generated_at": "2026-09-28T16:59:39.045Z"
+    "generated_at": "2026-09-28T19:51:30.857Z"
   }
 }

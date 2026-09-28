@@ -1,11 +1,9 @@
 {
   "vendor": "cisco",
   "category": "optical-networking",
-  "built_at": "2026-09-28T12:03:53.755Z",
-  "commit": "fd4980199111364133d8b488e48f40c4373802ec",
-  "uncommitted_rule_files": [
-    "src/core/securityKind.ts"
-  ],
+  "built_at": "2026-09-28T19:39:22.846Z",
+  "commit": null,
+  "uncommitted_rule_files": null,
   "mapping_file": "data/reference/product-lines/cisco-optical-networking.json",
   "parts": 1158,
   "layered": 1158,
@@ -92,10 +90,11 @@
             "chassis": 8,
             "accessory": 8,
             "cable": 6,
-            "unknown": 6,
+            "roadm": 21,
             "transponder": 21,
+            "linecard": 4,
             "mux": 23,
-            "roadm": 20,
+            "unknown": 1,
             "amplifier": 13,
             "controller": 11
           },
@@ -122,12 +121,11 @@
           "parts": 285,
           "kinds": {
             "transponder": 39,
-            "unknown": 23,
+            "linecard": 34,
             "cable": 49,
             "mux": 13,
-            "roadm": 18,
+            "roadm": 24,
             "chassis": 8,
-            "linecard": 17,
             "mechanical": 28,
             "amplifier": 26,
             "accessory": 12,
@@ -220,12 +218,11 @@
           "note": "^15216(?!-GBIC) (layers round 3, optical round): 15216-GBIC-1510(=) is a GBIC the transceiver round filed in GBIC (legacy); the rule claimed it",
           "parts": 316,
           "kinds": {
-            "mux": 236,
+            "mux": 237,
             "cable": 15,
-            "unknown": 5,
             "dcu": 48,
             "mechanical": 2,
-            "amplifier": 6,
+            "amplifier": 10,
             "chassis": 1,
             "controller": 1,
             "linecard": 2
@@ -260,7 +257,7 @@
           "kinds": {
             "mux": 29,
             "chassis": 1,
-            "unknown": 1
+            "amplifier": 1
           },
           "roles": {},
           "samples": [
@@ -482,9 +479,9 @@
   "inbound_unplaced": {},
   "done": true,
   "build": {
-    "data_commit": "9041665b56a7+1dirty",
-    "code_commit": "9041665b56a7",
+    "data_commit": "090300f9fe51+87dirty",
+    "code_commit": "5608fd289411",
     "contract_hash": "bcfc4c1ee314d3c2",
-    "generated_at": "2026-09-28T16:59:39.045Z"
+    "generated_at": "2026-09-28T19:51:30.857Z"
   }
 }

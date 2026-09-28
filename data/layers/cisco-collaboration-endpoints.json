@@ -1,11 +1,9 @@
 {
   "vendor": "cisco",
   "category": "collaboration-endpoints",
-  "built_at": "2026-09-28T12:03:51.468Z",
-  "commit": "fd4980199111364133d8b488e48f40c4373802ec",
-  "uncommitted_rule_files": [
-    "src/core/securityKind.ts"
-  ],
+  "built_at": "2026-09-28T19:39:22.393Z",
+  "commit": null,
+  "uncommitted_rule_files": null,
   "mapping_file": "data/reference/product-lines/cisco-collaboration-endpoints.json",
   "parts": 2938,
   "layered": 2938,
@@ -615,10 +613,10 @@
           "kinds": {
             "cable": 51,
             "power-cord": 87,
-            "accessory": 8,
+            "accessory": 9,
             "mechanical": 10,
             "power": 13,
-            "unknown": 3
+            "unknown": 2
           },
           "roles": {},
           "samples": [
@@ -1583,8 +1581,8 @@
           "parts": 58,
           "kinds": {
             "power-cord": 16,
-            "unknown": 2,
-            "accessory": 7,
+            "unknown": 1,
+            "accessory": 8,
             "mechanical": 3,
             "power": 30
           },
@@ -2024,9 +2022,9 @@
   "inbound_unplaced": {},
   "done": true,
   "build": {
-    "data_commit": "9041665b56a7+1dirty",
-    "code_commit": "9041665b56a7",
+    "data_commit": "090300f9fe51+87dirty",
+    "code_commit": "5608fd289411",
     "contract_hash": "bcfc4c1ee314d3c2",
-    "generated_at": "2026-09-28T16:59:39.045Z"
+    "generated_at": "2026-09-28T19:51:30.857Z"
   }
 }

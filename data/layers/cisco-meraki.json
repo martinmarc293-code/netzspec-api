@@ -1,19 +1,9 @@
 {
   "vendor": "cisco",
   "category": "meraki",
-  "built_at": "2026-09-28T14:31:46.504Z",
-  "commit": "91e7898e2534b4c5121de3cb5667d5702abd2f33",
-  "uncommitted_rule_files": [
-    "data/reference/product-lines/cisco-meraki.json",
-    "data/reference/product-lines/cisco-routers.json",
-    "data/reference/product-lines/cisco-security.json",
-    "scripts/tmp-mx4.mts",
-    "src/core/cupLedger.ts",
-    "src/core/fieldSchema.ts",
-    "src/core/merakiKind.ts",
-    "src/core/routerKind.ts",
-    "src/core/securityKind.ts"
-  ],
+  "built_at": "2026-09-28T19:39:23.004Z",
+  "commit": null,
+  "uncommitted_rule_files": null,
   "mapping_file": "data/reference/product-lines/cisco-meraki.json",
   "parts": 69,
   "layered": 69,
@@ -642,9 +632,9 @@
   "inbound_unplaced": {},
   "done": true,
   "build": {
-    "data_commit": "9041665b56a7+1dirty",
-    "code_commit": "9041665b56a7",
+    "data_commit": "090300f9fe51+87dirty",
+    "code_commit": "5608fd289411",
     "contract_hash": "bcfc4c1ee314d3c2",
-    "generated_at": "2026-09-28T16:59:39.045Z"
+    "generated_at": "2026-09-28T19:51:30.857Z"
   }
 }

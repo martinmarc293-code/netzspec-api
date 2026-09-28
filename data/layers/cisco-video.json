@@ -1,11 +1,9 @@
 {
   "vendor": "cisco",
   "category": "video",
-  "built_at": "2026-09-28T12:03:51.146Z",
-  "commit": "fd4980199111364133d8b488e48f40c4373802ec",
-  "uncommitted_rule_files": [
-    "src/core/securityKind.ts"
-  ],
+  "built_at": "2026-09-28T19:39:22.307Z",
+  "commit": null,
+  "uncommitted_rule_files": null,
   "mapping_file": "data/reference/product-lines/cisco-video.json",
   "parts": 3261,
   "layered": 3261,
@@ -163,7 +161,7 @@
           "parts": 43,
           "kinds": {
             "mechanical": 1,
-            "unknown": 1,
+            "node": 1,
             "plug-in": 41
           },
           "roles": {},
@@ -346,13 +344,14 @@
           "parts": 87,
           "kinds": {
             "cable": 8,
-            "unknown": 55,
+            "unknown": 53,
             "transmitter": 2,
             "fan": 2,
             "mechanical": 14,
             "plug-in": 2,
             "receiver": 2,
             "accessory": 1,
+            "passive": 2,
             "power": 1
           },
           "roles": {},
@@ -523,9 +522,8 @@
           "note": null,
           "parts": 33,
           "kinds": {
-            "unknown": 2,
+            "system": 14,
             "chassis": 9,
-            "system": 12,
             "fan": 1,
             "mechanical": 3,
             "accessory": 2,
@@ -718,9 +716,9 @@
   "inbound_unplaced": {},
   "done": true,
   "build": {
-    "data_commit": "9041665b56a7+1dirty",
-    "code_commit": "9041665b56a7",
+    "data_commit": "090300f9fe51+87dirty",
+    "code_commit": "5608fd289411",
     "contract_hash": "bcfc4c1ee314d3c2",
-    "generated_at": "2026-09-28T16:59:39.045Z"
+    "generated_at": "2026-09-28T19:51:30.857Z"
   }
 }

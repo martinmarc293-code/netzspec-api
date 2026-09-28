@@ -1,11 +1,9 @@
 {
   "vendor": "cisco",
   "category": "wireless",
-  "built_at": "2026-09-28T12:03:50.568Z",
-  "commit": "fd4980199111364133d8b488e48f40c4373802ec",
-  "uncommitted_rule_files": [
-    "src/core/securityKind.ts"
-  ],
+  "built_at": "2026-09-28T19:39:22.189Z",
+  "commit": null,
+  "uncommitted_rule_files": null,
   "mapping_file": "data/reference/product-lines/cisco-wireless.json",
   "parts": 3907,
   "layered": 3907,
@@ -627,9 +625,11 @@
           "note": "layers round 3: AIR-BR1310G, the Aironet 1310 outdoor access point / bridge planned in from switches (its arrival exception there is retired)",
           "parts": 1,
           "kinds": {
-            "unknown": 1
+            "ap": 1
           },
-          "roles": {},
+          "roles": {
+            "outdoor": 1
+          },
           "samples": [
             "AIR-BR1310G — Cisco Aironet 1300 Series outdoor access point/bridge (Suppo"
           ],
@@ -805,13 +805,14 @@
           "note": "^AIR-RM30 (layers round 3): the AIR-RM3000M Wireless Security and Spectrum Intelligence modules and AIR-RM3010L Hyperlocation modules of the Aironet 3600 / 3700, planned in from interfaces-modules (operator: AIR-RM radio modules -> wireless, kind module). AP(?!-VBLE) leaves AIR-AP-VBLE-ADPTR= to the VBLE series below. VAP removed from the first rule (re-audit decisions, operator, 15 Sep 2026, Q-12): the AIR-VAP- access pods and mounting kits are MobileAccessVE rows, placed in their own series",
           "parts": 133,
           "kinds": {
-            "unknown": 5,
-            "mechanical": 61,
+            "mechanical": 63,
             "accessory": 8,
             "cable": 1,
+            "wireless-sensor": 2,
             "module": 37,
             "power": 20,
-            "bundle": 1
+            "bundle": 1,
+            "unknown": 1
           },
           "roles": {},
           "samples": [
@@ -1593,7 +1594,7 @@
           "note": "re-audit decisions (operator, 15 Sep 2026, Q-12 / F-12): Cisco MobileAccessVE, the in-building cellular units sold as AIR- PIDs — the main, remote and expansion building units (AIR-330-), the access pods for CELL / PCS bands (AIR-VAP-CELLPCS) with their mounting kits (AIR-VAPMNTG-H / -V-KIT=) and the 12-port control unit (AIR-VCU-CELLPCS12). They sat in the AireOS controllers' and the Aironet access points' shared parts with kind unknown. The series carries no vendor in its name (the rows name none). Kind: the operator decided `device` for the units; `device` is not a noun of the wireless kind axis and a new noun needs its cup set, so the kind change waits for the parked kind rebuild (Q-28) and the units stay `unknown` until then",
           "parts": 14,
           "kinds": {
-            "unknown": 12,
+            "accessory": 12,
             "mechanical": 2
           },
           "roles": {},
@@ -1654,7 +1655,7 @@
             "bundle": 4,
             "module": 24,
             "power": 4,
-            "unknown": 1,
+            "wireless-sensor": 1,
             "mechanical": 6
           },
           "roles": {},
@@ -1709,7 +1710,8 @@
           "kinds": {
             "accessory": 1,
             "module": 1,
-            "unknown": 2
+            "unknown": 1,
+            "appliance": 1
           },
           "roles": {},
           "samples": [
@@ -1756,7 +1758,7 @@
           "note": "layers round 3: CWWLSE-1130-19-K9, planned in from switches (its arrival exception there is retired), and RACK-QCN-SN5= 'Rack for CWWLSE Express 1030', which sat in Wireless Antennas and Accessories shared parts by label",
           "parts": 2,
           "kinds": {
-            "unknown": 1,
+            "appliance": 1,
             "mechanical": 1
           },
           "roles": {},
@@ -1884,7 +1886,7 @@
           "note": "operator, 17 Sep 2026 (layering review fix list 2.2 / 4.3: 'go with your recommendations'): ON100-M6-K9 'ON100 Network Agent Multipack', the Cisco OnPlus network agent, is not an access-point part; it sat in Aironet Access Points shared parts by a stored label 'Aironet 1550' the label check had rejected. Its own series in the accessories line, because Cisco's end-of-sale notice files it with the 'Wireless Miscellaneous Accessories' (wireless-misc-accessories-sw-lic-eol) — the only document our store links to it",
           "parts": 1,
           "kinds": {
-            "unknown": 1
+            "appliance": 1
           },
           "roles": {},
           "samples": [
@@ -1903,7 +1905,7 @@
           "note": null,
           "parts": 9,
           "kinds": {
-            "unknown": 1,
+            "wireless-sensor": 1,
             "mechanical": 2,
             "antenna": 4,
             "module": 2
@@ -2024,9 +2026,9 @@
   "inbound_unplaced": {},
   "done": true,
   "build": {
-    "data_commit": "9041665b56a7+1dirty",
-    "code_commit": "9041665b56a7",
+    "data_commit": "090300f9fe51+87dirty",
+    "code_commit": "5608fd289411",
     "contract_hash": "bcfc4c1ee314d3c2",
-    "generated_at": "2026-09-28T16:59:39.045Z"
+    "generated_at": "2026-09-28T19:51:30.857Z"
   }
 }

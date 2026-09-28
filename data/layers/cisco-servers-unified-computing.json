@@ -1,11 +1,9 @@
 {
   "vendor": "cisco",
   "category": "servers-unified-computing",
-  "built_at": "2026-09-28T12:03:46.213Z",
-  "commit": "fd4980199111364133d8b488e48f40c4373802ec",
-  "uncommitted_rule_files": [
-    "src/core/securityKind.ts"
-  ],
+  "built_at": "2026-09-28T19:39:21.055Z",
+  "commit": null,
+  "uncommitted_rule_files": null,
   "mapping_file": "data/reference/product-lines/cisco-servers-unified-computing.json",
   "parts": 8263,
   "layered": 8263,
@@ -81,10 +79,9 @@
           "note": null,
           "parts": 219,
           "kinds": {
-            "bundle": 46,
+            "bundle": 47,
             "fabric-interconnect": 15,
             "server": 140,
-            "unknown": 1,
             "drive": 10,
             "chassis": 7
           },
@@ -454,11 +451,10 @@
           "parts": 181,
           "kinds": {
             "drive": 68,
-            "server": 96,
+            "server": 99,
             "mechanical": 2,
             "accessory": 2,
-            "memory": 10,
-            "unknown": 3
+            "memory": 10
           },
           "roles": {},
           "samples": [
@@ -1603,10 +1599,10 @@
             "accessory": 46,
             "cable": 94,
             "bundle": 6,
-            "unknown": 18,
+            "unknown": 14,
             "power": 62,
             "io-module": 5,
-            "nic": 15,
+            "nic": 19,
             "fan": 3,
             "drive": 3,
             "memory": 2
@@ -1775,10 +1771,10 @@
           "note": "layers round 3: ^UCS-PCI and ^UCS-SDHPCIE removed — every row they matched is a drive decided by 'Drives and storage' (UCS-PCI25…, UCS-SD…); ^XRV-PCIE- places the XRv appliance PCIe NICs planned in from routers (their arrival exceptions there are retired). Dead rules removed elsewhere in the file: ^C880(?![0-9A]), ^C260-, 2[1-4]0[48]XP, ^UCSB-B22-, 9416(?![0-9]), ^UCS-COPC-240, ^[0-9]{3}P[0-9]$, ^N01-M · ^UCSX-(ME-|P-|MLOM|ML-V|MLV|V[0-9]-(?!BRIDGE)|RAID|MRAID|X10C-(RAID|PT)), ^UCSB-(MLOM|ML-V|VIC|MEZ|RAID|MRAID), ^UCSC-(PCIE(?!-F|-R)|P-|O-|M-V|MLOM-(?!BLK)|RAID|MRAID|SAS|HBA|PSAS|NYTRO|9[45]00), ^UCS(AI|XE)-(P-|O-), ^N20-(AI|BRAID), ^R2X0-ML (operator, 17 Sep 2026, layering review fix list 4.2 ('go with your recommendations'): the component kinds of the UCS platform lines' shared parts by component type, the platform visible in the SKU prefix): VIC / mLOM (MLOM, ML-V, MLV, M-V) / mezz / PCIe and OCP NICs and modular RAID / SAS / HBA controllers of X, B, C, XE and AI — not the MLOM blanking panel, the VIC bridges, the PCIe fillers (PCIE-F…) or the PCIe riser boards (PCIE-R…) — plus N20-AI / N20-BRAID and the C200 R2X0-ML mezz. The stored kind reads memory for the MLOM, ML-V, MLV and MRAID parts (listed for the kind rebuild) · ^UCS-S3348-(HBA|RAID) (layering re-check of 17 Sep 2026, fix list section 1): UCS-S3348-HBAM5(=) 'UCS S3348 Pass through Controller (IT) based on LSI' and UCS-S3348-RAIDM5(=) 'UCS S3348 Raid Controller based on LSI' sat in UCS Server Components shared parts through ^UCS-",
           "parts": 382,
           "kinds": {
-            "nic": 233,
+            "nic": 234,
             "storage-controller": 92,
             "memory": 55,
-            "unknown": 2
+            "unknown": 1
           },
           "roles": {},
           "samples": [
@@ -1875,9 +1871,9 @@
   "inbound_unplaced": {},
   "done": true,
   "build": {
-    "data_commit": "9041665b56a7+1dirty",
-    "code_commit": "9041665b56a7",
+    "data_commit": "090300f9fe51+87dirty",
+    "code_commit": "5608fd289411",
     "contract_hash": "bcfc4c1ee314d3c2",
-    "generated_at": "2026-09-28T16:59:39.045Z"
+    "generated_at": "2026-09-28T19:51:30.857Z"
   }
 }

@@ -91,7 +91,7 @@ CIT-8-16-MEM-UPG	Upgrades E140/160 First memory dimm from 8 to 16GB	Business Edi
 CIT-A03-D300GA2	Cisco CIT-A03-D300GA2	Business Edition 6000	drive	layered	Business Edition	(none)	Business Edition 6000 (BE6K / BE6M / BE6H / BE6S)		sku ^CIT-							
 CIT-CPU-E5-2665	2.40 GHz E5-2665/115W 8C/20MB Cache/DDR3 1600MHz	Business Edition 6000	cpu	layered	Business Edition	(none)	Business Edition 6000 (BE6K / BE6M / BE6H / BE6S)		sku ^CIT-							
 CIT-CPU-E52630D	Cisco CIT-CPU-E52630D	Business Edition 6000	cpu	layered	Business Edition	(none)	Business Edition 6000 (BE6K / BE6M / BE6H / BE6S)		sku ^CIT-							
-CIT-E160D-M2BUN/K9	UCS-E160D-M2/K9 bundled with ISR-G2	Business Edition 6000	unknown	layered	Business Edition	(none)	Business Edition 6000 (BE6K / BE6M / BE6H / BE6S)		sku ^CIT-							
+CIT-E160D-M2BUN/K9	UCS-E160D-M2/K9 bundled with ISR-G2	Business Edition 6000	server	layered	Business Edition	(none)	Business Edition 6000 (BE6K / BE6M / BE6H / BE6S)		sku ^CIT-							
 CIT-HD300G10K12G	Cisco CIT-HD300G10K12G	Business Edition 6000	drive	layered	Business Edition	(none)	Business Edition 6000 (BE6K / BE6M / BE6H / BE6S)		sku ^CIT-							
 CIT-HDD300GI2F105	Cisco CIT-HDD300GI2F105	Business Edition 6000	drive	layered	Business Edition	(none)	Business Edition 6000 (BE6K / BE6M / BE6H / BE6S)		sku ^CIT-							
 CIT-HDSAS900G	Cisco CIT-HDSAS900G	Business Edition 6000	drive	layered	Business Edition	(none)	Business Edition 6000 (BE6K / BE6M / BE6H / BE6S)		sku ^CIT-							
@@ -131,21 +131,21 @@ CIT2-PSU2-1200	1200W 2u Power Supply For UCS	Business Edition 7000	power	layered
 CIT2-PSU2-1400W	1400W AC Power Supply for 2U & 4U C Series Servers	Business Edition 7000	power	layered	Business Edition	(none)	Business Edition 7000 (BE7K / BE7M / BE7H)		sku ^CIT2-							
 CIT2-PSU2V2-1200W	1200W V2 AC Power Supply for 2U C-Series Servers	Business Edition 7000	power	layered	Business Edition	(none)	Business Edition 7000 (BE7K / BE7M / BE7H)		sku ^CIT2-							
 CIT2-RAID-9271CV	MegaRAID 9271CV Raid card with 8 internal SAS/SATA parts, S	Business Edition 7000	storage-controller	layered	Business Edition	(none)	Business Edition 7000 (BE7K / BE7M / BE7H)		sku ^CIT2-							
-CTI-ATP-VCS-CTRLK9	ATP Demo - VCS Control	TelePresence Video Communication Server (VCS)	unknown	layered	Expressway and VCS	(none)	TelePresence VCS appliances		sku ^CTI-ATP(?!-TMS)							
-CTI-ATP-VCS-EXPWK9	ATP Demo - VCS Expressway	TelePresence Video Communication Server (VCS)	unknown	layered	Expressway and VCS	(none)	TelePresence VCS appliances		sku ^CTI-ATP(?!-TMS)							
-CTI-ATP-VCS-SPAKK9	ATP Demo-VCS Starter Pack Exp, 50 regs, 5 trav, Movi, 5 PHD USB	TelePresence Video Communication Server (VCS)	unknown	layered	Expressway and VCS	(none)	TelePresence VCS appliances		sku ^CTI-ATP(?!-TMS)							
+CTI-ATP-VCS-CTRLK9	ATP Demo - VCS Control	TelePresence Video Communication Server (VCS)	server	layered	Expressway and VCS	(none)	TelePresence VCS appliances		sku ^CTI-ATP(?!-TMS)							
+CTI-ATP-VCS-EXPWK9	ATP Demo - VCS Expressway	TelePresence Video Communication Server (VCS)	server	layered	Expressway and VCS	(none)	TelePresence VCS appliances		sku ^CTI-ATP(?!-TMS)							
+CTI-ATP-VCS-SPAKK9	ATP Demo-VCS Starter Pack Exp, 50 regs, 5 trav, Movi, 5 PHD USB	TelePresence Video Communication Server (VCS)	server	layered	Expressway and VCS	(none)	TelePresence VCS appliances		sku ^CTI-ATP(?!-TMS)							
 CTI-CE1K-BDL-K9	VCS Control And Expressway Platform UCS C220 M3 Bundle	TelePresence Video Communication Server (VCS)	server	layered	Expressway and VCS	(none)	TelePresence VCS appliances		label TelePresence Video Communication Server (VCS)						name: VCS	
 CTI-CE1K-BDL-K9=	Spare VCS Control And Expressway Platform UCS C220 M3 Bundle	TelePresence Video Communication Server (VCS)	server	layered	Expressway and VCS	(none)	TelePresence VCS appliances		label TelePresence Video Communication Server (VCS)						name: VCS	
 CTI-CE500-BDL-K9	VCS Control And Expressway Platform UCS C220 M3 Bundle	TelePresence Video Communication Server (VCS)	server	layered	Expressway and VCS	(none)	TelePresence VCS appliances		label TelePresence Video Communication Server (VCS)						name: VCS	
 CTI-CE500-BDL-K9=	Spare VCS Control And Expressway Platform UCS C220 M3 Bundle	TelePresence Video Communication Server (VCS)	server	layered	Expressway and VCS	(none)	TelePresence VCS appliances		label TelePresence Video Communication Server (VCS)						name: VCS	
-CTI-VCS-BASE-K9=	SPARE - VCS Control And Expressway	TelePresence Video Communication Server (VCS)	unknown	layered	Expressway and VCS	(none)	TelePresence VCS appliances		sku ^CTI-VCS							
-CTI-VCS-BASE=	VCS Control And Expressway Non Encrypted Version Spare	TelePresence Video Communication Server (VCS)	unknown	layered	Expressway and VCS	(none)	TelePresence VCS appliances		sku ^CTI-VCS							
+CTI-VCS-BASE-K9=	SPARE - VCS Control And Expressway	TelePresence Video Communication Server (VCS)	server	layered	Expressway and VCS	(none)	TelePresence VCS appliances		sku ^CTI-VCS							
+CTI-VCS-BASE=	VCS Control And Expressway Non Encrypted Version Spare	TelePresence Video Communication Server (VCS)	server	layered	Expressway and VCS	(none)	TelePresence VCS appliances		sku ^CTI-VCS							
 CTI-VCS-BRAGEEARS=	116269 Brage Rack Ears Kit	TelePresence Video Communication Server (VCS)	mechanical	layered	Expressway and VCS	(none)	TelePresence VCS appliances		sku ^CTI-VCS							
-CTI-VCS-CNTRL-K9	Cisco VCS Control	TelePresence Video Communication Server (VCS)	unknown	layered	Expressway and VCS	(none)	TelePresence VCS appliances		sku ^CTI-VCS							
-CTI-VCS-CONTRL-K9	VCS Control	TelePresence Video Communication Server (VCS)	unknown	layered	Expressway and VCS	(none)	TelePresence VCS appliances		sku ^CTI-VCS							
-CTI-VCS-EXPRESS-K9	VCS Expressway	TelePresence Video Communication Server (VCS)	unknown	layered	Expressway and VCS	(none)	TelePresence VCS appliances		sku ^CTI-VCS							
-CTI-VCS-EXPWY-K9	Cisco VCS Expressway	TelePresence Video Communication Server (VCS)	unknown	layered	Expressway and VCS	(none)	TelePresence VCS appliances		sku ^CTI-VCS							
-CTI-VCS-STPAK-K9	VCS Starter Pack Express 50 regs 5 trav calls Movi 5 PHD USB	TelePresence Video Communication Server (VCS)	unknown	layered	Expressway and VCS	(none)	TelePresence VCS appliances		sku ^CTI-VCS							
+CTI-VCS-CNTRL-K9	Cisco VCS Control	TelePresence Video Communication Server (VCS)	server	layered	Expressway and VCS	(none)	TelePresence VCS appliances		sku ^CTI-VCS							
+CTI-VCS-CONTRL-K9	VCS Control	TelePresence Video Communication Server (VCS)	server	layered	Expressway and VCS	(none)	TelePresence VCS appliances		sku ^CTI-VCS							
+CTI-VCS-EXPRESS-K9	VCS Expressway	TelePresence Video Communication Server (VCS)	server	layered	Expressway and VCS	(none)	TelePresence VCS appliances		sku ^CTI-VCS							
+CTI-VCS-EXPWY-K9	Cisco VCS Expressway	TelePresence Video Communication Server (VCS)	server	layered	Expressway and VCS	(none)	TelePresence VCS appliances		sku ^CTI-VCS							
+CTI-VCS-STPAK-K9	VCS Starter Pack Express 50 regs 5 trav calls Movi 5 PHD USB	TelePresence Video Communication Server (VCS)	server	layered	Expressway and VCS	(none)	TelePresence VCS appliances		sku ^CTI-VCS							
 EXP-BZL-C220M5	C220 M5 Security Bezel	Expressway Series	mechanical	layered	Expressway and VCS	(none)	Expressway appliances (CE1100 / CE1200)		sku ^EXP-(?![0-9]+GSFP)							
 EXP-CPU-6134	3.2 GHz 6134/130W 8C/24.75MB Cache/DDR4 2666MHz	Expressway Series	cpu	layered	Expressway and VCS	(none)	Expressway appliances (CE1100 / CE1200)		sku ^EXP-(?![0-9]+GSFP)							
 EXP-CPU-E5-2643	3.30 GHz E5-2643/130W 4C/10MB Cache/DDR3 1600MHz	Expressway Series	cpu	layered	Expressway and VCS	(none)	Expressway appliances (CE1100 / CE1200)		sku ^EXP-(?![0-9]+GSFP)							
@@ -183,14 +183,14 @@ EXPWY-1300-K9	Cisco Expressway Series Multi-purpose 1300 Appliance	Expressway Se
 EXPWY-1300-K9=	Cisco Expressway Series Multi-purpose 1300 Appliance	Expressway Series	server	layered	Expressway and VCS	(none)	Expressway appliances (CE1100 / CE1200)		sku ^EXPWY							
 EXPWY-C-BDL-K9	Cisco Expressway-C CE1100 Appliance	Expressway Series	server	layered	Expressway and VCS	(none)	Expressway appliances (CE1100 / CE1200)		sku ^EXPWY							
 EXPWY-C-BDL-K9=	Expressway-C and Expressway-E Appliance Bundle Spare	Expressway Series	server	layered	Expressway and VCS	(none)	Expressway appliances (CE1100 / CE1200)		sku ^EXPWY							
-EXPWY-C-K9	Cisco Expressway Series, Expressway-C	Expressway Series	unknown	layered	Expressway and VCS	(none)	Expressway appliances (CE1100 / CE1200)		sku ^EXPWY							
+EXPWY-C-K9	Cisco Expressway Series, Expressway-C	Expressway Series	server	layered	Expressway and VCS	(none)	Expressway appliances (CE1100 / CE1200)		sku ^EXPWY							
 EXPWY-CE1K-BDL-K9	Expressway Platform UCS C220 M3 Bundle	Expressway Series	server	layered	Expressway and VCS	(none)	Expressway appliances (CE1100 / CE1200)		sku ^EXPWY							
 EXPWY-CE1K-BDL-K9=	Spare Expressway Platform UCS C220 M3 Bundle	Expressway Series	server	layered	Expressway and VCS	(none)	Expressway appliances (CE1100 / CE1200)		sku ^EXPWY							
 EXPWY-CE500-BDL-K9	Expressway Platform UCS C220 M3 Bundle	Expressway Series	server	layered	Expressway and VCS	(none)	Expressway appliances (CE1100 / CE1200)		sku ^EXPWY							
 EXPWY-CE500BDL-K9=	Spare Expressway Platform UCS C220 M3 Bundle	Expressway Series	server	layered	Expressway and VCS	(none)	Expressway appliances (CE1100 / CE1200)		sku ^EXPWY							
 EXPWY-E-BDL-K9	Cisco Expressway-E CE1100 Appliance	Expressway Series	server	layered	Expressway and VCS	(none)	Expressway appliances (CE1100 / CE1200)		sku ^EXPWY							
 EXPWY-E-BDL-K9=	Expressway-E Appliance Bundle Spare	Expressway Series	server	layered	Expressway and VCS	(none)	Expressway appliances (CE1100 / CE1200)		sku ^EXPWY							
-EXPWY-E-K9	Cisco Expressway Series, Expressway-E	Expressway Series	unknown	layered	Expressway and VCS	(none)	Expressway appliances (CE1100 / CE1200)		sku ^EXPWY							
+EXPWY-E-K9	Cisco Expressway Series, Expressway-E	Expressway Series	server	layered	Expressway and VCS	(none)	Expressway appliances (CE1100 / CE1200)		sku ^EXPWY							
 KEY-CCM-ADMIN-K9=	CUCM Admin Security Token, 4.3, 6.0, or Newer, CoO USA	Unified Communications Manager (CallManager)	accessory	layered	Unity Connection and MCS servers	(shared across the line)		Unity Connection and MCS servers shared parts	label-unsupported (label Unified Communications Manager (CallManager); was Unity Connection PIMG gateways and MCS servers): no series token in the SKU or name, no compatible part placed in the series						none: no series token in the SKU or name, no compatible part placed in the series	
 KEY-UCM-ADMIN2-K9=	CUCM Admin Security Token, 7.1 or Newer	Unified Communications Manager Session Management Edition	accessory	layered	Unity Connection and MCS servers	(shared across the line)		Unity Connection and MCS servers shared parts	label-unsupported (label Unified Communications Manager Session Management Edition; was Unity Connection PIMG gateways and MCS servers): no series token in the SKU or name, no compatible part placed in the series						none: no series token in the SKU or name, no compatible part placed in the series	
 MCS-7825-I5-IPC1	Cisco MCS-7825-I5-IPC1	Unity Connection	server	layered	Unity Connection and MCS servers	(none)	Unity Connection PIMG gateways and MCS servers		sku ^MCS							
@@ -358,7 +358,7 @@ UNITY-PIMG-ROLM	PBX IP MEDIA GATEWAY-ROLM	Unity Connection	voice-gateway	layered
 UNITY-PIMG-ROLM=	PBX IP MEDIA GATEWAY-ROLM	Unity Connection	voice-gateway	layered	Unity Connection and MCS servers	(none)	Unity Connection PIMG gateways and MCS servers		sku ^UNITY							
 UNITY-TIMG-1	T1 IP-Media Gateway	Unity Connection	voice-gateway	layered	Unity Connection and MCS servers	(none)	Unity Connection PIMG gateways and MCS servers		sku ^UNITY							
 UNITY-TIMG-1=	T1 IP-Media Gateway	Unity Connection	voice-gateway	layered	Unity Connection and MCS servers	(none)	Unity Connection PIMG gateways and MCS servers		sku ^UNITY							
-UNITYCN7-BUNDLE	Unity Connection 7.x SW plus HW Bundle	Unity Connection	unknown	layered	Unity Connection and MCS servers	(none)	Unity Connection PIMG gateways and MCS servers		sku ^UNITY							
+UNITYCN7-BUNDLE	Unity Connection 7.x SW plus HW Bundle	Unity Connection	server	layered	Unity Connection and MCS servers	(none)	Unity Connection PIMG gateways and MCS servers		sku ^UNITY							
 VCS-C-BDL-K9	VCS-C Appliance Bundle	TelePresence Video Communication Server (VCS)	server	layered	Expressway and VCS	(none)	TelePresence VCS appliances		label TelePresence Video Communication Server (VCS)						sku-token: VCS	
 VCS-C-BDL-K9=	VCS-C or VCS-E Appliance Bundle Spare	TelePresence Video Communication Server (VCS)	server	layered	Expressway and VCS	(none)	TelePresence VCS appliances		label TelePresence Video Communication Server (VCS)						sku-token: VCS	
 VCS-E-BDL-K9	VCS-E Appliance Bundle	TelePresence Video Communication Server (VCS)	server	layered	Expressway and VCS	(none)	TelePresence VCS appliances		label TelePresence Video Communication Server (VCS)						sku-token: VCS	

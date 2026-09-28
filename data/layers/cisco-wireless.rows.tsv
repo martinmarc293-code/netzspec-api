@@ -1,5 +1,5 @@
 sku	name	series_label	kind	placement	product_line	product_family	series	nav_bucket	placed_by	deploy_role	role_rule	role_issue	plan	belongs	label_evidence	family_carrier
-2KI-FINAL-PKG-RU	Contains packing Kit For 2KI	2800	unknown	layered	Aironet Access Points	(shared across the line)		Aironet Access Points shared parts	label-unsupported (label 2800; was Aironet 2800): no platform token (2800) in the SKU or name, no compatible part placed in the series						none: no platform token (2800) in the SKU or name, no compatible part placed in the series	
+2KI-FINAL-PKG-RU	Contains packing Kit For 2KI	2800	mechanical	layered	Aironet Access Points	(shared across the line)		Aironet Access Points shared parts	label-unsupported (label 2800; was Aironet 2800): no platform token (2800) in the SKU or name, no compatible part placed in the series						none: no platform token (2800) in the SKU or name, no compatible part placed in the series	
 3-CBW140AC-A	Cisco Business 140AC Access Point, 802.11ac Wave-3 Packs	Business 100	ap	layered	Cisco Business Wireless	(none)	Cisco Business 140AC / 145AC / 150AX		sku ^([35]-)?CBW1(40|45|50)A	smb	series:Cisco Business 140AC / 145AC / 150AX					
 3-CBW140AC-A-CA	CBW140AC 802.11ac 2x2 Wave 2 Access Point Ceiling Mount - 3P	Business 100	ap	layered	Cisco Business Wireless	(none)	Cisco Business 140AC / 145AC / 150AX		sku ^([35]-)?CBW1(40|45|50)A	smb	series:Cisco Business 140AC / 145AC / 150AX					
 3-CBW140AC-B	CBW140AC 802.11ac 2x2 Wave 2 Access Point Ceiling Mount - 3P	Business 100	ap	layered	Cisco Business Wireless	(none)	Cisco Business 140AC / 145AC / 150AX		sku ^([35]-)?CBW1(40|45|50)A	smb	series:Cisco Business 140AC / 145AC / 150AX					
@@ -110,14 +110,14 @@ AIR-1520-FIB-REEL	1520 Series Take-up Reel for Fiber Cable	Aironet 1550	mechanic
 AIR-1520-FIB-REEL=	1520/1550 Series Fiber-Cable Take-up Reel KIT	Aironet 1550	mechanical	layered	Aironet Access Points	(none)	Aironet 1520 / 1530		sku ^AIR-(?!ACC1530-(KIT|PMK)).*15[23]0							
 AIR-1550-HAZBBU	1550 Series Hazardous Location Battery Backup Unit	Aironet 1550	power	layered	Aironet Access Points	(none)	Aironet 1550		sku ^AIR-.*1550							
 AIR-1550S-FIB-KIT=	1550S Fiber Cable Take-up Reel Kit	Antennas/Accessories	mechanical	layered	Aironet Access Points	(none)	Aironet 1550		sku ^AIR-.*1550							
-AIR-330-EXP-BOX	MobileAccessVE Expansion Box	5500	unknown	layered	AireOS Wireless LAN Controllers	(none)	MobileAccessVE		sku ^AIR-330-							
-AIR-330-EXP-BOX=	MobileAccessVE Expansion Box	5500	unknown	layered	AireOS Wireless LAN Controllers	(none)	MobileAccessVE		sku ^AIR-330-							
-AIR-330-MB-1	MobileAccessVE One-link Main Building Unit	5500	unknown	layered	AireOS Wireless LAN Controllers	(none)	MobileAccessVE		sku ^AIR-330-							
-AIR-330-MB-1=	MobileAccessVE One-link Main Building Unit	5500	unknown	layered	AireOS Wireless LAN Controllers	(none)	MobileAccessVE		sku ^AIR-330-							
-AIR-330-MB-2	MobileAccessVE Two-link Main Building Unit	5500	unknown	layered	AireOS Wireless LAN Controllers	(none)	MobileAccessVE		sku ^AIR-330-							
-AIR-330-MB-2=	MobileAccessVE Two-link Main Building Unit	5500	unknown	layered	AireOS Wireless LAN Controllers	(none)	MobileAccessVE		sku ^AIR-330-							
-AIR-330-RB-1	MobileAccessVE Remote Building Unit	5500	unknown	layered	AireOS Wireless LAN Controllers	(none)	MobileAccessVE		sku ^AIR-330-							
-AIR-330-RB-1=	MobileAccessVE Remote Building Unit	5500	unknown	layered	AireOS Wireless LAN Controllers	(none)	MobileAccessVE		sku ^AIR-330-							
+AIR-330-EXP-BOX	MobileAccessVE Expansion Box	5500	accessory	layered	AireOS Wireless LAN Controllers	(none)	MobileAccessVE		sku ^AIR-330-							
+AIR-330-EXP-BOX=	MobileAccessVE Expansion Box	5500	accessory	layered	AireOS Wireless LAN Controllers	(none)	MobileAccessVE		sku ^AIR-330-							
+AIR-330-MB-1	MobileAccessVE One-link Main Building Unit	5500	accessory	layered	AireOS Wireless LAN Controllers	(none)	MobileAccessVE		sku ^AIR-330-							
+AIR-330-MB-1=	MobileAccessVE One-link Main Building Unit	5500	accessory	layered	AireOS Wireless LAN Controllers	(none)	MobileAccessVE		sku ^AIR-330-							
+AIR-330-MB-2	MobileAccessVE Two-link Main Building Unit	5500	accessory	layered	AireOS Wireless LAN Controllers	(none)	MobileAccessVE		sku ^AIR-330-							
+AIR-330-MB-2=	MobileAccessVE Two-link Main Building Unit	5500	accessory	layered	AireOS Wireless LAN Controllers	(none)	MobileAccessVE		sku ^AIR-330-							
+AIR-330-RB-1	MobileAccessVE Remote Building Unit	5500	accessory	layered	AireOS Wireless LAN Controllers	(none)	MobileAccessVE		sku ^AIR-330-							
+AIR-330-RB-1=	MobileAccessVE Remote Building Unit	5500	accessory	layered	AireOS Wireless LAN Controllers	(none)	MobileAccessVE		sku ^AIR-330-							
 AIR-3504-RMNT=	Cisco 3504 Wireless Controller Rack Mount Bracket	3500	mechanical	layered	AireOS Wireless LAN Controllers	(none)	3500 (3504)		sku ^AIR-3504							
 AIR-3802I-G-K9C	Cisco Aironet Mobility Express 3800 Series	3800	ap	layered	Aironet Access Points	(none)	Aironet 3800		sku ^(AIR-?|PROMO-|PPN-|PULS-)?(AP)?380[02]	indoor	series:Aironet 3800					
 AIR-420-003346-020	20 ft. cable with RP-TNC connectors	Antennas/Accessories	cable	layered	Wireless Antennas and Accessories	(none)	Cables		sku ^AIR-420-							
@@ -1679,14 +1679,14 @@ AIR-AP700MNTGKIT	Mounting Bracket Kit for AP-700 Series APs	Aironet 1550	mechani
 AIR-AP852I-BULK	BOM Level AP852i Bulk PID for Universal Domain	Antennas/Accessories	ap	layered	Aironet Access Points	(none)	Aironet 700 / 802 / 852 / 1100 / 1200 / 2700 / 3700 (legacy indoor)		sku ^(AIR-)?AP852I	indoor	series:Aironet 700 / 802 / 852 / 1100 / 1200 / 2700 / 3700 (legacy indoor)					
 AIR-BAND-INST-TL=	Accessory, Band installation tool (used for PMK2 and PMK3. Need one per installation crew)	Aironet 1550	mechanical	layered	Aironet Access Points	(shared across the line)		Aironet Access Points shared parts	sku ^AIR-(AP(?!-VBLE|[0-9]{4}[A-Z]-WLC)|ACC|MOD|BLE|BAND|CHNL|SFP)							
 AIR-BAND07503100=	Band Strap for Mounting Kit	Antennas/Accessories	mechanical	layered	Aironet Access Points	(shared across the line)		Aironet Access Points shared parts	sku ^AIR-(AP(?!-VBLE|[0-9]{4}[A-Z]-WLC)|ACC|MOD|BLE|BAND|CHNL|SFP)							
-AIR-BLE-BEACON-BLK	BOM Level AIR-BLE-BEACON Bulk PID	Antennas/Accessories	unknown	layered	Aironet Access Points	(shared across the line)		Aironet Access Points shared parts	sku ^AIR-(AP(?!-VBLE|[0-9]{4}[A-Z]-WLC)|ACC|MOD|BLE|BAND|CHNL|SFP)							
-AIR-BLE-TAG-BULK	BOM Level BLE TAG Bulk PID	Antennas/Accessories	unknown	layered	Aironet Access Points	(shared across the line)		Aironet Access Points shared parts	sku ^AIR-(AP(?!-VBLE|[0-9]{4}[A-Z]-WLC)|ACC|MOD|BLE|BAND|CHNL|SFP)							
+AIR-BLE-BEACON-BLK	BOM Level AIR-BLE-BEACON Bulk PID	Antennas/Accessories	wireless-sensor	layered	Aironet Access Points	(shared across the line)		Aironet Access Points shared parts	sku ^AIR-(AP(?!-VBLE|[0-9]{4}[A-Z]-WLC)|ACC|MOD|BLE|BAND|CHNL|SFP)							
+AIR-BLE-TAG-BULK	BOM Level BLE TAG Bulk PID	Antennas/Accessories	wireless-sensor	layered	Aironet Access Points	(shared across the line)		Aironet Access Points shared parts	sku ^AIR-(AP(?!-VBLE|[0-9]{4}[A-Z]-WLC)|ACC|MOD|BLE|BAND|CHNL|SFP)							
 AIR-BLE-USB	Spare USB BLE Beacon for Access Points	3800	module	layered	Aironet Access Points	(shared across the line)		Aironet Access Points shared parts	sku ^AIR-(AP(?!-VBLE|[0-9]{4}[A-Z]-WLC)|ACC|MOD|BLE|BAND|CHNL|SFP)							
 AIR-BLE-USB-10	USB BLE Beacon for Access Points; Pack of 10 units	3800	module	layered	Aironet Access Points	(shared across the line)		Aironet Access Points shared parts	sku ^AIR-(AP(?!-VBLE|[0-9]{4}[A-Z]-WLC)|ACC|MOD|BLE|BAND|CHNL|SFP)							
 AIR-BLE-USB-50	USB BLE Beacon for Access Points; Pack of 50 units	3800	module	layered	Aironet Access Points	(shared across the line)		Aironet Access Points shared parts	sku ^AIR-(AP(?!-VBLE|[0-9]{4}[A-Z]-WLC)|ACC|MOD|BLE|BAND|CHNL|SFP)							
 AIR-BLE-USB-BULK	BOM Level USN BLE Bulk PID	3800	module	layered	Aironet Access Points	(shared across the line)		Aironet Access Points shared parts	sku ^AIR-(AP(?!-VBLE|[0-9]{4}[A-Z]-WLC)|ACC|MOD|BLE|BAND|CHNL|SFP)							
 AIR-BLE-USB=	Spare USB BLE Beacon for Access Points	3800	module	layered	Aironet Access Points	(shared across the line)		Aironet Access Points shared parts	sku ^AIR-(AP(?!-VBLE|[0-9]{4}[A-Z]-WLC)|ACC|MOD|BLE|BAND|CHNL|SFP)							
-AIR-BR1310G	Cisco Aironet 1300 Series outdoor access point/bridge (Supported in access point mode only)	Catalyst 6500	unknown	layered	Aironet Access Points	(none)	Aironet 1310 outdoor access point / bridge (legacy)		sku ^AIR-BR1310							
+AIR-BR1310G	Cisco Aironet 1300 Series outdoor access point/bridge (Supported in access point mode only)	Catalyst 6500	ap	layered	Aironet Access Points	(none)	Aironet 1310 outdoor access point / bridge (legacy)		sku ^AIR-BR1310	outdoor	series:Aironet 1310 outdoor access point / bridge (legacy)					
 AIR-BZL-C220M4	Cisco 5520 Wireless Controller Security Bezel	Antennas/Accessories	mechanical	layered	AireOS Wireless LAN Controllers	(none)	5500 (5508 / 5520 / 5540)		sku ^AIR-BZL-C220M4							
 AIR-BZL-C220M4=	Cisco 5520 Wireless Controller Security Bezel	Antennas/Accessories	mechanical	layered	AireOS Wireless LAN Controllers	(none)	5500 (5508 / 5520 / 5540)		sku ^AIR-BZL-C220M4							
 AIR-BZL-C240M4	Cisco 8540 Wireless Controller Security Bezel	Antennas/Accessories	mechanical	layered	AireOS Wireless LAN Controllers	(none)	8500 (8510 / 8540 / 8580)		sku ^AIR-BZL-C240M4							
@@ -1984,7 +1984,7 @@ AIR-MSE-B4-C3-W25	Cisco AIR-MSE-B4-C3-W25	Mobility Services Engine	bundle	layere
 AIR-MSE-B5-C3-W25	Cisco AIR-MSE-B5-C3-W25	Mobility Services Engine	bundle	layered	Location and Spaces Appliances	(none)	CMX 3375 / MSE 3355 / 3365		sku ^AIR-MSE							
 AIR-MSE3350-HD=	Field Replaceable Hard Disk For The MSE 3350	Mobility Services Engine	module	layered	Location and Spaces Appliances	(none)	CMX 3375 / MSE 3355 / 3365		sku ^AIR-MSE							
 AIR-MSE3350-PWR=	Field Replaceable Power Supply For The MSE 3350	Mobility Services Engine	power	layered	Location and Spaces Appliances	(none)	CMX 3375 / MSE 3355 / 3365		sku ^AIR-MSE							
-AIR-N-3006-DTA-K9	^NECJ AS3504 DTA	Antennas/Accessories	unknown	layered	Wireless Antennas and Accessories	(shared across the line)		Wireless Antennas and Accessories shared parts	label Antennas/Accessories							
+AIR-N-3006-DTA-K9	^NECJ AS3504 DTA	Antennas/Accessories	wireless-sensor	layered	Wireless Antennas and Accessories	(shared across the line)		Wireless Antennas and Accessories shared parts	label Antennas/Accessories							
 AIR-OEAP1810-A-K9	802.11ac OfficeExtend AP, A Reg Domain (not for US)	Aironet 1810w	ap	layered	Aironet Access Points	(none)	Aironet 1810 / 1810W		sku ^(AIR-|PROMO-|PPN-|PULS-)?(AP|OEAP)1810	indoor	series:Aironet 1810 / 1810W					
 AIR-OEAP1810-B-K9	802.11ac Wave 2 OfficeExtend AP, B Reg Domain (for US)	Aironet 1810w	ap	layered	Aironet Access Points	(none)	Aironet 1810 / 1810W		sku ^(AIR-|PROMO-|PPN-|PULS-)?(AP|OEAP)1810	indoor	series:Aironet 1810 / 1810W					
 AIR-OEAP1810-D-K9	802.11ac Wave 2 OfficeExtend AP, D Reg Domain	Aironet 1810w	ap	layered	Aironet Access Points	(none)	Aironet 1810 / 1810W		sku ^(AIR-|PROMO-|PPN-|PULS-)?(AP|OEAP)1810	indoor	series:Aironet 1810 / 1810W					
@@ -2158,13 +2158,13 @@ AIR-SVR-PWR-DC	Field replaceable DC Power Supply for 8510DC (AIR-CT85DC-K9)	8500
 AIR-SVR-PWR-DC=	Field replaceable DC Power Supply for 8510DC (AIR-CT85DC-K9)	8500	power	layered	AireOS Wireless LAN Controllers	(none)	8500 (8510 / 8540 / 8580)		sku ^AIR-SVR-PWR-DC							
 AIR-TPM1-001	TPM Module For UCS	Aironet 1550	module	layered	Wireless Antennas and Accessories	(none)	Modules and power (unnamed platform)		sku ^AIR-TPM1-							
 AIR-TPM2-001	Trusted Platform Module 1.2 for UCS (SPI-based)	Antennas/Accessories	module	layered	Wireless Antennas and Accessories	(none)	Modules and power (unnamed platform)		sku ^AIR-TPM2-							
-AIR-VAP-CELLPCS	MobileAccessVE Access Pod for CELL/PCS bands	5500	unknown	layered	AireOS Wireless LAN Controllers	(none)	MobileAccessVE		sku ^AIR-VAP							
-AIR-VAP-CELLPCS=	MobileAccessVE Access Pod for CELL/PCS bands	5500	unknown	layered	AireOS Wireless LAN Controllers	(none)	MobileAccessVE		sku ^AIR-VAP							
+AIR-VAP-CELLPCS	MobileAccessVE Access Pod for CELL/PCS bands	5500	accessory	layered	AireOS Wireless LAN Controllers	(none)	MobileAccessVE		sku ^AIR-VAP							
+AIR-VAP-CELLPCS=	MobileAccessVE Access Pod for CELL/PCS bands	5500	accessory	layered	AireOS Wireless LAN Controllers	(none)	MobileAccessVE		sku ^AIR-VAP							
 AIR-VAPMNTG-H-KIT=	MobileAccessVE VAP Mounting Kit	5500	mechanical	layered	AireOS Wireless LAN Controllers	(none)	MobileAccessVE		sku ^AIR-VAP							
 AIR-VAPMNTG-V-KIT=	MobileAccessVE VAP Mounting Kit	5500	mechanical	layered	AireOS Wireless LAN Controllers	(none)	MobileAccessVE		sku ^AIR-VAP							
-AIR-VBLE1-K9	Cisco CMX Beacon Point	Mobility Services Engine	unknown	layered	Location and Spaces Appliances	(none)	CMX 3375 / MSE 3355 / 3365		label Mobility Services Engine						name: CMX	
-AIR-VCU-CELLPCS12	MobileAccessVE Control Unit for CELL/PCS bands, 12 ports	5500	unknown	layered	AireOS Wireless LAN Controllers	(none)	MobileAccessVE		sku ^AIR-VCU-							
-AIR-VCU-CELLPCS12=	MobileAccessVE Control Unit for CELL/PCS bands, 12 ports	5500	unknown	layered	AireOS Wireless LAN Controllers	(none)	MobileAccessVE		sku ^AIR-VCU-							
+AIR-VBLE1-K9	Cisco CMX Beacon Point	Mobility Services Engine	wireless-sensor	layered	Location and Spaces Appliances	(none)	CMX 3375 / MSE 3355 / 3365		label Mobility Services Engine						name: CMX	
+AIR-VCU-CELLPCS12	MobileAccessVE Control Unit for CELL/PCS bands, 12 ports	5500	accessory	layered	AireOS Wireless LAN Controllers	(none)	MobileAccessVE		sku ^AIR-VCU-							
+AIR-VCU-CELLPCS12=	MobileAccessVE Control Unit for CELL/PCS bands, 12 ports	5500	accessory	layered	AireOS Wireless LAN Controllers	(none)	MobileAccessVE		sku ^AIR-VCU-							
 AIR-VPN-WLC	VPN/enhanced security module for 4100 Series WLAN controller	Aironet 1550	module	layered	AireOS Wireless LAN Controllers	(shared across the line)		AireOS Wireless LAN Controllers shared parts	sku ^AIR-(CT|WLC|VPN)							
 AIRAP1832I-ABULKC	BOM Level AP1832i Bulk PID for A Domain	Aironet 1830	ap	layered	Aironet Access Points	(none)	Aironet 1830		sku ^(AIR-?|PROMO-|PPN-|PULS-)?AP183[02]	indoor	series:Aironet 1830					
 AIRAP1832I-AK910C	Cisco Aironet Mobility Express 1830 Series	Aironet 1830	ap	layered	Aironet Access Points	(none)	Aironet 1830		sku ^(AIR-?|PROMO-|PPN-|PULS-)?AP183[02]	indoor	series:Aironet 1830					
@@ -2316,7 +2316,7 @@ AP1572EC	Cisco AP1572EC	Aironet 1570	ap	layered	Aironet Access Points	(none)	Air
 AP1572IC	Cisco AP1572IC	Aironet 1570	ap	layered	Aironet Access Points	(none)	Aironet 1570		sku ^(AIR-)?AP157[02]	outdoor	series:Aironet 1570					true
 AP18321-UXK9	Hydra 3X3 cost saving version for Corsica Lite AP1830	Aironet 1830	ap	layered	Aironet Access Points	(none)	Aironet 1830		sku ^(AIR-?|PROMO-|PPN-|PULS-)?AP183[02]	indoor	series:Aironet 1830					
 ASCT-EX2000	Cisco ASCT-EX2000	Mobility Services Engine	unknown	layered	Location and Spaces Appliances	(none)	Exciters and BLE / VBLE radio modules		sku ^ASCT-							
-ASCT-EX3200	Compact exciter	Mobility Services Engine	unknown	layered	Location and Spaces Appliances	(none)	Exciters and BLE / VBLE radio modules		sku ^ASCT-							
+ASCT-EX3200	Compact exciter	Mobility Services Engine	appliance	layered	Location and Spaces Appliances	(none)	Exciters and BLE / VBLE radio modules		sku ^ASCT-							
 BTIMGE-K9	Cisco BTIMGE-K9	Aironet 1550	unknown	layered	Aironet Access Points	(shared across the line)		Aironet Access Points shared parts	label-unsupported (label Aironet 1550; was Aironet 1550): no platform token (1550) in the SKU or name, no compatible part placed in the series						none: no platform token (1550) in the SKU or name, no compatible part placed in the series	
 C-ANT9101=	Tri-band MIMO Ceiling mount omnidirectional antenna operates in the 2.4-, 5- and 6-GHz frequency ranges and supports IoT. This antenna is designed for indoor use with 9130AX Series access points	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories	(shared across the line)		Wireless Antennas and Accessories shared parts	label Antennas/Accessories							
 C-ANT9102=	Tri-band MIMO Wall/Pole mount omnidirectional antenna operates in the 2.4-, 5- and 6-GHz frequency ranges and supports IoT. This antenna is designed for indoor use with 9130AX Series access points	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories	(shared across the line)		Wireless Antennas and Accessories shared parts	label Antennas/Accessories							
@@ -3277,7 +3277,7 @@ CW9800L-RMNT	Rack mount tray for CW9800L	Catalyst 9800 Series Wireless Controlle
 CW9800L-RMNT-R	Rear rack mount bracket for CW9800L-RMNT	Catalyst 9800 Series Wireless Controllers	mechanical	layered	Catalyst 9800 Wireless Controllers	(none)	Catalyst 9800-L		sku ^CW9800L							
 CW9800L-RPS=	Redundant Power Supply kit, which includes: ● Redundant Power Supply module ● 8-pin to 6-pin DC cable to connect RPS to CW9800L ● An additional power supply with power cord	Catalyst 9800 Series Wireless Controllers	power	layered	Catalyst 9800 Wireless Controllers	(none)	Catalyst 9800-L		sku ^CW9800L							
 CW9800M	Cisco Catalyst CW9800M Wireless Controller (ships with one AC power adapter)	Catalyst 9800 Series Wireless Controllers	wlc	layered	Catalyst 9800 Wireless Controllers	(none)	Catalyst CW9800M		sku ^CW9800M							
-CWWLSE-1130-19-K9	CiscoWorks WLSE (optional)	Catalyst 6500	unknown	layered	Wireless LAN Solution Engine (legacy)	(none)	CiscoWorks Wireless LAN Solution Engine (WLSE 1130 / Express 1030)		sku ^CWWLSE							
+CWWLSE-1130-19-K9	CiscoWorks WLSE (optional)	Catalyst 6500	appliance	layered	Wireless LAN Solution Engine (legacy)	(none)	CiscoWorks Wireless LAN Solution Engine (WLSE 1130 / Express 1030)		sku ^CWWLSE							
 DN3-L-MR-X16G1RS-H	16GB DDR4-2666-MHz RDIMM/PC4-21300/single rank/x4/1.2v	Mobility Services Engine	module	layered	Location and Spaces Appliances	(none)	Catalyst Center location appliance (DN3-LOC)		sku ^DN3-L							
 DN3-L-SD960GM1X-EV	960GB 2.5 inch Enterprise Value 6G SATA SSD	Mobility Services Engine	module	layered	Location and Spaces Appliances	(none)	Catalyst Center location appliance (DN3-LOC)		sku ^DN3-L							
 DN3-LOC-BZL-C220M5	C220 M5 Security Bezel	Mobility Services Engine	mechanical	layered	Location and Spaces Appliances	(none)	Catalyst Center location appliance (DN3-LOC)		sku ^DN3-L							
@@ -3319,7 +3319,7 @@ ESW-6300-CON-T-K9	Embedded Wireless AP 6300, DC input, A Domain	IW 6300 Catalyst
 ESW-6300-CON-Z-K9	Embedded Wireless AP 6300, DC input, Z Domain	IW 6300 Catalyst Heavy Duty	ap	layered	Industrial Wireless	(none)	IW6300 / ESW6300		sku ^ESW-6300	industrial	series:IW6300 / ESW6300					
 FAN-ROOM70-2PK-	FAN kit for ROOM 70 2pack	Policy Suite for Mobile	module	layered	Wireless Antennas and Accessories	(shared across the line)		Wireless Antennas and Accessories shared parts	label Policy Suite for Mobile							
 FAN-ROOM70-2PK=	FAN kit for ROOM 70 2pack	Policy Suite for Mobile	module	layered	Wireless Antennas and Accessories	(shared across the line)		Wireless Antennas and Accessories shared parts	label Policy Suite for Mobile							
-FINAL-PKG-RUSSIA	Contains Packing Kit for 2KE/3KI/3KE	3800	unknown	layered	Aironet Access Points	(shared across the line)		Aironet Access Points shared parts	label-unsupported (label 3800; was Aironet 3800): no platform token (3800) in the SKU or name, no compatible part placed in the series						none: no platform token (3800) in the SKU or name, no compatible part placed in the series	
+FINAL-PKG-RUSSIA	Contains Packing Kit for 2KE/3KI/3KE	3800	mechanical	layered	Aironet Access Points	(shared across the line)		Aironet Access Points shared parts	label-unsupported (label 3800; was Aironet 3800): no platform token (3800) in the SKU or name, no compatible part placed in the series						none: no platform token (3800) in the SKU or name, no compatible part placed in the series	
 FLMESH-HW-1000-1	Cisco FLMESH-HW-1000-1	Ultra-Reliable Wireless Backhaul	appliance	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
 FLMESH-HW-10000-1	Cisco FLMESH-HW-10000-1	Ultra-Reliable Wireless Backhaul	appliance	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
 FLMESH-HW-3200-1	Cisco FLMESH-HW-3200-1	Ultra-Reliable Wireless Backhaul	backhaul	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
@@ -3712,7 +3712,7 @@ MSE-RAILB-M4	Ball Bearing Rail Kit for C220 M4 and C240 M4 rack servers	Mobility
 MSE-SD480G0KS2-EV	480 GB 2.5 inch Enterprise Value 6G SATA SSD	Mobility Services Engine	module	layered	Location and Spaces Appliances	(none)	CMX 3375 / MSE 3355 / 3365		sku ^MSE-							
 MSE-SD960G0KS2-EV	960 GB 2.5 inch Enterprise Value 6G SATA SSD	Mobility Services Engine	module	layered	Location and Spaces Appliances	(none)	CMX 3375 / MSE 3355 / 3365		sku ^MSE-							
 MSE-TPM2-001	Trusted Platform Module 1.2 for UCS (SPI-based)	Mobility Services Engine	module	layered	Location and Spaces Appliances	(none)	CMX 3375 / MSE 3355 / 3365		sku ^MSE-							
-ON100-M6-K9	ON100 Network Agent Multipack	Aironet 1550	unknown	layered	Wireless Antennas and Accessories	(none)	OnPlus Network Agent (ON100)		sku ^ON100							
+ON100-M6-K9	ON100 Network Agent Multipack	Aironet 1550	appliance	layered	Wireless Antennas and Accessories	(none)	OnPlus Network Agent (ON100)		sku ^ON100							
 PPN-3802E-ATO	3K External ATO model	3800	ap	layered	Aironet Access Points	(none)	Aironet 3800		sku ^(AIR-?|PROMO-|PPN-|PULS-)?(AP)?380[02]	indoor	series:Aironet 3800					
 PPN-3802I-ATO	3K Internal ATO model	3800	ap	layered	Aironet Access Points	(none)	Aironet 3800		sku ^(AIR-?|PROMO-|PPN-|PULS-)?(AP)?380[02]	indoor	series:Aironet 3800					
 PPN-3802I-PIKPAK-B	Barbados 3K pik pak-B	3800	ap	layered	Aironet Access Points	(none)	Aironet 3800		sku ^(AIR-?|PROMO-|PPN-|PULS-)?(AP)?380[02]	indoor	series:Aironet 3800					

@@ -1835,7 +1835,7 @@ CS-QUADCAM2-C=	Cisco Quad Camera (Carbon Black) SPARE	Room Series	conference-cam
 CS-QUADCAM2=	Cisco Quad Camera (First Light) SPARE	Room Series	conference-camera	layered	Cameras	(none)	Room Vision PTZ and Quad Camera		sku ^CS-QUADCAM							
 CS-QUADCAM=	Cisco Quad Camera (spare)	Room Series	conference-camera	layered	Cameras	(none)	Room Vision PTZ and Quad Camera		sku ^CS-QUADCAM							
 CS-R-USB-T10-KIT	Touch 10 Kit for Room USB Upgrade	Room Series	mechanical	layered	Webex Room Series	(none)	Room Navigator and Touch 10		sku ^CS-R-USB-T10							
-CS-R-USB-UPG-BUN	Upgrade Kit for Webex Room USB to Webex Room Kit Mini (upgrade license, Webex Room Navigator, 8-meter flat Ethernet cable)	Room Series	unknown	layered	Webex Room Series	(shared across the line)		Webex Room Series shared parts	label Room Series							
+CS-R-USB-UPG-BUN	Upgrade Kit for Webex Room USB to Webex Room Kit Mini (upgrade license, Webex Room Navigator, 8-meter flat Ethernet cable)	Room Series	accessory	layered	Webex Room Series	(shared across the line)		Webex Room Series shared parts	label Room Series							
 CS-R55-UNI2-K9+	Cisco Webex Room 55 Main Unit	Room Series	video-device	layered	Webex Room Series	(none)	Room 55 / 55D		sku ^CS-R55-							
 CS-R55-UNI2-K9=	Cisco Webex Room 55 Main Unit (Service purpose only)	Room Series	video-device	layered	Webex Room Series	(none)	Room 55 / 55D		sku ^CS-R55-							
 CS-R55-UNI2-NR-K7+	Cisco Webex Room 55 Main Unit, Non Encryprion and Non Radio	Room Series	video-device	layered	Webex Room Series	(none)	Room 55 / 55D		sku ^CS-R55-							
@@ -2918,7 +2918,7 @@ TTC5-15	Cisco TTC5-15	Room Series	unknown	layered	Webex Room Series	(shared acro
 TTC5-17	Cisco TTC5-17	Room Series	unknown	layered	Webex Room Series	(shared across the line)		Webex Room Series shared parts	label Room Series							
 UCSC-C240-M8-CL	UCS C240 M8 2U Rack Server for Collaboration AI	AI PODs for Collaboration	server	layered	Meeting Server and TelePresence Management	(none)	AI PODs for Collaboration		sku ^UCSC-C240-M8-CL							
 UCSC-C240-M8-CL-G	UCS C240 M8 2U Rack Server for Collaboration AI (GPU)	AI PODs for Collaboration	server	layered	Meeting Server and TelePresence Management	(none)	AI PODs for Collaboration		sku ^UCSC-C240-M8-CL							
-WBP54G	802.11b/g wireless bridge	SPA500 IP Phones	unknown	layered	IP Phones	(shared across the line)		IP Phones shared parts	label-unsupported (label SPA500 IP Phones; was SPA500 IP Phones): no platform token (500) in the SKU or name, no compatible part placed in the series						none: no platform token (500) in the SKU or name, no compatible part placed in the series	
+WBP54G	802.11b/g wireless bridge	SPA500 IP Phones	accessory	layered	IP Phones	(shared across the line)		IP Phones shared parts	label-unsupported (label SPA500 IP Phones; was SPA500 IP Phones): no platform token (500) in the SKU or name, no compatible part placed in the series						none: no platform token (500) in the SKU or name, no compatible part placed in the series	
 WP-9821-BATT=	Cisco WP-9821-BATT=	Desk Phone 9800 Series	accessory	layered	IP Phones	(none)	Wireless Phone 9821		sku ^WP-9821							
 WP-9821-BATTDOOR=	Cisco WP-9821-BATTDOOR=	Desk Phone 9800 Series	mechanical	layered	IP Phones	(none)	Wireless Phone 9821		sku ^WP-9821							
 WP-9821-BUN-CN-K9	Cisco WP-9821-BUN-CN-K9	Desk Phone 9800 Series	phone	layered	IP Phones	(none)	Wireless Phone 9821		sku ^WP-9821	wireless	series:Wireless Phone 9821					

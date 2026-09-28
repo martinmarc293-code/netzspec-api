@@ -1,11 +1,9 @@
 {
   "vendor": "cisco",
   "category": "unified-communications",
-  "built_at": "2026-09-28T12:03:54.783Z",
-  "commit": "fd4980199111364133d8b488e48f40c4373802ec",
-  "uncommitted_rule_files": [
-    "src/core/securityKind.ts"
-  ],
+  "built_at": "2026-09-28T19:39:22.981Z",
+  "commit": null,
+  "uncommitted_rule_files": null,
   "mapping_file": "data/reference/product-lines/cisco-unified-communications.json",
   "parts": 426,
   "layered": 426,
@@ -341,7 +339,7 @@
           "note": "^UCSC-C220-M3SBE (layers round 3, UC round): 'UCS C220 M3 SFF TRC2 Server', the C220 M3S Tested Reference Configuration for Collaboration (its end-of-sale notice) whose successor is BE6M-M4-K9=; the label check found no 6000 in its name and held the server for review",
           "parts": 62,
           "kinds": {
-            "server": 24,
+            "server": 25,
             "nic": 2,
             "cpu": 4,
             "drive": 8,
@@ -349,7 +347,6 @@
             "storage-controller": 4,
             "memory": 9,
             "tpm": 1,
-            "unknown": 1,
             "mechanical": 1,
             "voice-module": 4
           },
@@ -417,8 +414,7 @@
             "nic": 1,
             "power": 4,
             "tpm": 4,
-            "server": 12,
-            "unknown": 2
+            "server": 14
           },
           "roles": {},
           "samples": [
@@ -449,8 +445,7 @@
             "storage-controller": 2,
             "power": 1,
             "tpm": 1,
-            "unknown": 10,
-            "server": 8,
+            "server": 18,
             "mechanical": 1
           },
           "roles": {},
@@ -482,11 +477,10 @@
           "note": null,
           "parts": 36,
           "kinds": {
-            "server": 15,
+            "server": 16,
             "drive": 4,
             "storage-controller": 2,
-            "voice-gateway": 14,
-            "unknown": 1
+            "voice-gateway": 14
           },
           "roles": {},
           "samples": [
@@ -639,9 +633,9 @@
   "inbound_unplaced": {},
   "done": true,
   "build": {
-    "data_commit": "9041665b56a7+1dirty",
-    "code_commit": "9041665b56a7",
+    "data_commit": "090300f9fe51+87dirty",
+    "code_commit": "5608fd289411",
     "contract_hash": "bcfc4c1ee314d3c2",
-    "generated_at": "2026-09-28T16:59:39.045Z"
+    "generated_at": "2026-09-28T19:51:30.857Z"
   }
 }
