@@ -868,10 +868,10 @@ check("SABOTAGE merge: a plan that calls a hardware row non-hardware is refused"
   check("SABOTAGE devices (wireless round): an antenna or a bundle in shared parts is not a device", deviceInSharedParts([row("ZZ-ANT", { kind: "antenna", series: "X shared parts" }), row("ZZ-BUN", { kind: "bundle", series: "X shared parts" })]).length === 0);
   const dvs = deviceInSharedParts([row("UCSC-C420-M3", { kind: "server", series: "UCS C-Series Rack Servers shared parts" }), row("UCS-FI-6652=", { kind: "fabric-interconnect", series: "UCS Fabric Interconnects shared parts" }),
     row("UCS-S3348-RAIDM5", { kind: "storage-controller", series: "UCS Server Components shared parts" }), row("UCS-M6-MLB", { kind: "bundle", series: "UCS Server Components shared parts" })]);
-  const dvuc = deviceInSharedParts([row("ZZ-PHONE", { kind: "phone", series: "IP Phones shared parts" }), row("ZZ-GW", { kind: "gateway", series: "Voice Gateways shared parts" }),
+  const dvuc = deviceInSharedParts([row("ZZ-PHONE", { kind: "phone", series: "IP Phones shared parts" }), row("ZZ-GW", { kind: "voice-gateway", series: "Voice Gateways shared parts" }),
     row("ZZ-ATA", { kind: "ata", series: "Analog Telephone Adapters and SPA shared parts" }), row("ZZ-VM", { kind: "voice-module", series: "Voice Gateways shared parts" })]);
   check("SABOTAGE devices (UC round): a phone, a gateway and an ATA in shared parts are caught, a voice module is not",
-    dvuc.map((r) => r.sku).join() === "ZZ-PHONE,ZZ-GW,ZZ-ATA" && ["phone", "gateway", "ata"].every((k) => DEVICE_KINDS.has(k)), JSON.stringify(dvuc.map((r) => r.sku)));
+    dvuc.map((r) => r.sku).join() === "ZZ-PHONE,ZZ-GW,ZZ-ATA" && ["phone", "voice-gateway", "ata"].every((k) => DEVICE_KINDS.has(k)), JSON.stringify(dvuc.map((r) => r.sku)));
   const dvsan = deviceInSharedParts([row("ZZ-FC", { kind: "fc-switch", series: "MDS 9000 Multilayer SAN Switches shared parts" }), row("ZZ-DIR", { kind: "director", series: "MDS 9000 Multilayer SAN Switches shared parts" }),
     row("ZZ-LC", { kind: "linecard", series: "MDS 9000 Multilayer SAN Switches shared parts" })]);
   check("SABOTAGE devices (storage round): an fc-switch and a director in shared parts are caught, a line card is not",
@@ -888,14 +888,14 @@ check("SABOTAGE merge: a plan that calls a hardware row non-hardware is refused"
   check("SABOTAGE devices (servers round): a server and a fabric interconnect in shared parts are caught, a storage controller and a bundle there are not",
     dvs.map((r) => r.sku).join() === "UCSC-C420-M3,UCS-FI-6652=" && DEVICE_KINDS.has("server") && DEVICE_KINDS.has("fabric-interconnect"), JSON.stringify(dvs.map((r) => r.sku)));
   // collaboration-endpoints round: the whole endpoints and room peripherals Cisco sells as products join; their mounts, cables and supplies do not
-  const collabBox = ["video-device", "video-codec", "dect-base", "camera", "microphone", "speaker", "headset", "touch-panel", "display", "expansion-module"];
+  const collabBox = ["video-device", "video-codec", "dect-base", "conference-camera", "microphone", "speaker", "headset", "touch-panel", "display", "expansion-module"];
   const dvcol = deviceInSharedParts([...collabBox.map((k, i) => row(`ZZ-COL-${i}`, { kind: k, series: "TelePresence (legacy) shared parts" })),
     row("ZZ-COL-MECH", { kind: "mechanical", series: "Webex Room Series shared parts" }), row("ZZ-COL-CAB", { kind: "cable", series: "Cameras shared parts" }),
     row("ZZ-COL-PWR", { kind: "power", series: "IP Phones shared parts" }), row("ZZ-COL-ACC", { kind: "accessory", series: "Headsets shared parts" })]);
   check("SABOTAGE devices (collaboration round): a video device / codec, DECT base, camera, microphone, speaker, headset, touch panel, display and key expansion module in shared parts are caught, a mount, a cable, a supply and an accessory are not",
     dvcol.length === 10 && dvcol.every((r) => collabBox.includes(r.kind)), JSON.stringify(dvcol.map((r) => r.kind)));
   // meraki round: merakiKind's device nouns, the access point among them
-  const merakiBox = ["access-point", "camera", "appliance", "gateway", "environment-sensor", "switch"];
+  const merakiBox = ["access-point", "security-camera", "appliance", "cellular-gateway", "environment-sensor", "switch"];
   const dvmk = deviceInSharedParts([...merakiBox.map((k, i) => row(`ZZ-MK-${i}`, { kind: k, series: "Meraki MV Smart Cameras shared parts" })),
     row("ZZ-MK-ACC", { kind: "accessory", series: "Meraki MG Cellular Gateways shared parts" }), row("ZZ-MK-UNK", { kind: "unknown", series: "Meraki MT Sensors shared parts" })]);
   check("SABOTAGE devices (meraki round): an access point, camera, appliance, gateway, sensor and switch in shared parts are caught, an accessory and an unknown are not",

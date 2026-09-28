@@ -367,12 +367,12 @@ collaboration-endpoints	CAB-XLR-EUROBLOCK	^Cable XLR to Euroblock/Phoenix connec
 collaboration-endpoints	CAB-XLR-EUROBLOCK=	Cable XLR to Euroblock/Phoenix connector, 20 cm	cable	
 collaboration-endpoints	CD-CBL-USBC-USBA=	Spare USB 3.0 C-to-A cable for Desk Camera series	cable	
 collaboration-endpoints	CD-CBL-USBC-USBC=	Spare USB 3.0 C-to-C cable for Desk Camera series	cable	
-collaboration-endpoints	CD-DSKCAM-C-US	Cisco Desk Camera 4K in carbon black for United States (includes USB 3.0 C-to-A and USB 3.0 C-to-C cables)	camera	
-collaboration-endpoints	CD-DSKCAM-C-WW	Cisco Desk Camera 4K in carbon black for worldwide (includes USB 3.0 C-to-A and USB 3.0 C-to-C cables)	camera	
-collaboration-endpoints	CD-DSKCAM-P-US	Cisco Desk Camera 4K in platinum for United States (includes USB 3.0 C-to-A and USB 3.0 C-to-C cables)	camera	
-collaboration-endpoints	CD-DSKCAM-P-WW	Cisco Desk Camera 4K in platinum for worldwide (includes USB 3.0 C-to-A and USB 3.0 C-to-C cables)	camera	
-collaboration-endpoints	CD-DSKCAMD-C-US	Cisco Desk Camera 1080p in carbon black for United States (includes USB 2.0 C-to-A cable)	camera	
-collaboration-endpoints	CD-DSKCAMD-C-WW	Cisco Desk Camera 1080p in carbon black for worldwide (includes USB 2.0 C-to-A cable)	camera	
+collaboration-endpoints	CD-DSKCAM-C-US	Cisco Desk Camera 4K in carbon black for United States (includes USB 3.0 C-to-A and USB 3.0 C-to-C cables)	conference-camera	
+collaboration-endpoints	CD-DSKCAM-C-WW	Cisco Desk Camera 4K in carbon black for worldwide (includes USB 3.0 C-to-A and USB 3.0 C-to-C cables)	conference-camera	
+collaboration-endpoints	CD-DSKCAM-P-US	Cisco Desk Camera 4K in platinum for United States (includes USB 3.0 C-to-A and USB 3.0 C-to-C cables)	conference-camera	
+collaboration-endpoints	CD-DSKCAM-P-WW	Cisco Desk Camera 4K in platinum for worldwide (includes USB 3.0 C-to-A and USB 3.0 C-to-C cables)	conference-camera	
+collaboration-endpoints	CD-DSKCAMD-C-US	Cisco Desk Camera 1080p in carbon black for United States (includes USB 2.0 C-to-A cable)	conference-camera	
+collaboration-endpoints	CD-DSKCAMD-C-WW	Cisco Desk Camera 1080p in carbon black for worldwide (includes USB 2.0 C-to-A cable)	conference-camera	
 collaboration-endpoints	CIT3-5108-PKG-HW	UCS 5108 Packaging for chassis with half width blades.	mechanical	
 collaboration-endpoints	CIT3-B200-M4	UCS B200 M4 w/o CPU, mem, drive bays, HDD, mezz	server	
 collaboration-endpoints	CIT3-B200-M4-CON	UCS B200 M4 w/o CPU, mem, drive bays, HDD, mezz	server	
@@ -1442,22 +1442,22 @@ collaboration-endpoints	CS-CAB-V-QPA85-	Samsung 85" QPA invisible cable	cable
 collaboration-endpoints	CS-CAB-V-QPA85=	Samsung 85" QPA invisible cable	cable	
 collaboration-endpoints	CS-CAB-V-QPR82-	Samsung 82" QPR invisible cable	cable	
 collaboration-endpoints	CS-CAB-V-QPR82=	Samsung 82" QPR invisible cable	cable	
-collaboration-endpoints	CS-CAM-PTZ12+	Pan-Tilt-Zoom 12x Camera	camera	
-collaboration-endpoints	CS-CAM-PTZ12=	Pan-Tilt-Zoom 12x Camera with power supply	camera	
-collaboration-endpoints	CS-CAM-PTZ4K	Cisco PTZ 4K Camera	camera	
-collaboration-endpoints	CS-CAM-PTZ4K+	Webex PTZ 4K Camera	camera	
-collaboration-endpoints	CS-CAM-PTZ4K-IND	Cisco PTZ 4K Camera for India	camera	
-collaboration-endpoints	CS-CAM-PTZ4K=	Cisco PTZ 4K Camera - SPARE	camera	
-collaboration-endpoints	CS-CAM-RVPTZ-C	Cisco Room Vision PTZ Camera, Carbon Black	camera	
-collaboration-endpoints	CS-CAM-RVPTZ-C=	Cisco Room Vision PTZ Camera, Carbon Black – SPARE	camera	
+collaboration-endpoints	CS-CAM-PTZ12+	Pan-Tilt-Zoom 12x Camera	conference-camera	
+collaboration-endpoints	CS-CAM-PTZ12=	Pan-Tilt-Zoom 12x Camera with power supply	conference-camera	
+collaboration-endpoints	CS-CAM-PTZ4K	Cisco PTZ 4K Camera	conference-camera	
+collaboration-endpoints	CS-CAM-PTZ4K+	Webex PTZ 4K Camera	conference-camera	
+collaboration-endpoints	CS-CAM-PTZ4K-IND	Cisco PTZ 4K Camera for India	conference-camera	
+collaboration-endpoints	CS-CAM-PTZ4K=	Cisco PTZ 4K Camera - SPARE	conference-camera	
+collaboration-endpoints	CS-CAM-RVPTZ-C	Cisco Room Vision PTZ Camera, Carbon Black	conference-camera	
+collaboration-endpoints	CS-CAM-RVPTZ-C=	Cisco Room Vision PTZ Camera, Carbon Black – SPARE	conference-camera	
 collaboration-endpoints	CS-CAM-RVPTZ-CBKC	Ceiling-Wall Mount for Room Vision PTZ Camera - Carbon Black	mechanical	
 collaboration-endpoints	CS-CAM-RVPTZ-CBKC=	Ceiling-Wall Mount for Room Vision PTZ Camera - Carbon Black - SPARE	mechanical	
 collaboration-endpoints	CS-CAM-RVPTZ-CBKL	Ceiling-Wall Mount for Room Vision PTZ Camera - Arctic * White	mechanical	
 collaboration-endpoints	CS-CAM-RVPTZ-CBKL=	Ceiling-Wall Mount for Room Vision PTZ Camera - Arctic White - SPARE *	mechanical	
-collaboration-endpoints	CS-CAM-RVPTZ-CBUN	Cisco Room Vision PTZ Camera, Carbon Black - Bundle	camera	
-collaboration-endpoints	CS-CAM-RVPTZ-L	Cisco Room Vision PTZ Camera, Arctic White *	camera	
-collaboration-endpoints	CS-CAM-RVPTZ-L=	Cisco Room Vision PTZ Camera, Arctic White - SPARE *	camera	
-collaboration-endpoints	CS-CAM-RVPTZ-LBUN	Cisco Room Vision PTZ Camera, Arctic White - Bundle *	camera	
+collaboration-endpoints	CS-CAM-RVPTZ-CBUN	Cisco Room Vision PTZ Camera, Carbon Black - Bundle	conference-camera	
+collaboration-endpoints	CS-CAM-RVPTZ-L	Cisco Room Vision PTZ Camera, Arctic White *	conference-camera	
+collaboration-endpoints	CS-CAM-RVPTZ-L=	Cisco Room Vision PTZ Camera, Arctic White - SPARE *	conference-camera	
+collaboration-endpoints	CS-CAM-RVPTZ-LBUN	Cisco Room Vision PTZ Camera, Arctic White - Bundle *	conference-camera	
 collaboration-endpoints	CS-CAM-RVPTZ-WBKC	Wall Only Mount for Room Vision PTZ Camera - Carbon Black	mechanical	
 collaboration-endpoints	CS-CAM-RVPTZ-WBKC=	Wall Only Mount for Room Vision PTZ Camera - Carbon Black - SPARE	mechanical	
 collaboration-endpoints	CS-CAM-RVPTZ-WBKL	Wall Only Mount for Room Vision PTZ Camera - Arctic White *	mechanical	
@@ -1828,11 +1828,11 @@ collaboration-endpoints	CS-PWR-CUBE-7=	Power adapter for Cisco Desk Pro and Desk
 collaboration-endpoints	CS-PWR-INJ-30W	Power Injector 802.3at PoE+ 30W	power	
 collaboration-endpoints	CS-PWR-INJ-30W=	Power Injector 802.3at PoE+ 30W – SPARE	power	
 collaboration-endpoints	CS-PWR-STRIP4=	Power strip 1x C14 Inlet, 4x Outlet F	accessory	
-collaboration-endpoints	CS-QUADCAM+	Cisco Quad Camera	camera	
-collaboration-endpoints	CS-QUADCAM2+	Cisco CS-QUADCAM2+	camera	
-collaboration-endpoints	CS-QUADCAM2-C=	Cisco Quad Camera (Carbon Black) SPARE	camera	
-collaboration-endpoints	CS-QUADCAM2=	Cisco Quad Camera (First Light) SPARE	camera	
-collaboration-endpoints	CS-QUADCAM=	Cisco Quad Camera (spare)	camera	
+collaboration-endpoints	CS-QUADCAM+	Cisco Quad Camera	conference-camera	
+collaboration-endpoints	CS-QUADCAM2+	Cisco CS-QUADCAM2+	conference-camera	
+collaboration-endpoints	CS-QUADCAM2-C=	Cisco Quad Camera (Carbon Black) SPARE	conference-camera	
+collaboration-endpoints	CS-QUADCAM2=	Cisco Quad Camera (First Light) SPARE	conference-camera	
+collaboration-endpoints	CS-QUADCAM=	Cisco Quad Camera (spare)	conference-camera	
 collaboration-endpoints	CS-R-USB-T10-KIT	Touch 10 Kit for Room USB Upgrade	mechanical	
 collaboration-endpoints	CS-R-USB-UPG-BUN	Upgrade Kit for Webex Room USB to Webex Room Kit Mini (upgrade license, Webex Room Navigator, 8-meter flat Ethernet cable)	unknown	
 collaboration-endpoints	CS-R55-UNI2-K9+	Cisco Webex Room 55 Main Unit	video-device	
@@ -1976,9 +1976,9 @@ collaboration-endpoints	CS-ROOM70SG2-K9	Cisco Webex Room 70 Single G2 with Codec
 collaboration-endpoints	CS-ROOM70SG2-M-K9	Cisco Webex Room 70 Single G2 with Touch10 for Spark Subs	video-device	
 collaboration-endpoints	CS-ROOM70SG2-NR-K7	Cisco Webex Room 70 Single, Non Encryption and Non Radio	video-device	
 collaboration-endpoints	CS-ROOM70SG2-NR-K9	Cisco Webex Room 70 Single w/Codec Pro and Touch10 Non Radio	video-device	
-collaboration-endpoints	CS-RPQUADCAM	Fully automatic quadcamera for Room Panorama	camera	
-collaboration-endpoints	CS-RPQUADCAM+	Fully automatic quadcamera for Room Panorama	camera	
-collaboration-endpoints	CS-RPQUADCAM=	Quadcamera for Room Panorama (Spare)	camera	
+collaboration-endpoints	CS-RPQUADCAM	Fully automatic quadcamera for Room Panorama	conference-camera	
+collaboration-endpoints	CS-RPQUADCAM+	Fully automatic quadcamera for Room Panorama	conference-camera	
+collaboration-endpoints	CS-RPQUADCAM=	Quadcamera for Room Panorama (Spare)	conference-camera	
 collaboration-endpoints	CS-SWCH-RACKEAR-	Rackears for Ethernet Switch	mechanical	
 collaboration-endpoints	CS-SWCH-RACKEAR=	Rackears for Ethernet Switch	mechanical	
 collaboration-endpoints	CS-SX10N-MSRP-K9	SX10 w/ 5x Cam, mic, PSU and wall mount - SUBSCRIPTION ONLY	video-codec	
@@ -2071,8 +2071,8 @@ collaboration-endpoints	CTS-5K-AMP-SUBWFR	CTS-IX5000 Audio Subwoofer Amplifier	s
 collaboration-endpoints	CTS-5K-AMP-SUBWFR=	CTS-IX5000 Audio Subwoofer Amplifier	speaker	
 collaboration-endpoints	CTS-5K-BZL-KIT	CTS-IX5000 Horizontal and Vertical Display Bezel	mechanical	
 collaboration-endpoints	CTS-5K-BZL-KIT=	CTS-IX5000 Horizontal and Vertical Display Bezel	mechanical	
-collaboration-endpoints	CTS-5K-CAM-CLSTR	CTS-IX5000 Camera Cluster	camera	
-collaboration-endpoints	CTS-5K-CAM-CLSTR=	CTS-IX5000 Camera Cluster	camera	
+collaboration-endpoints	CTS-5K-CAM-CLSTR	CTS-IX5000 Camera Cluster	conference-camera	
+collaboration-endpoints	CTS-5K-CAM-CLSTR=	CTS-IX5000 Camera Cluster	conference-camera	
 collaboration-endpoints	CTS-5K-CAM-HS	CTS-IX5000 Plastic Camera Housing	mechanical	
 collaboration-endpoints	CTS-5K-CAM-HS=	CTS-IX5000 Plastic Camera Housing	mechanical	
 collaboration-endpoints	CTS-5K-CAM-TOOL	CTS-IX5000 Camera Alignment Tool, QTY 2	mechanical	
@@ -2210,13 +2210,13 @@ collaboration-endpoints	CTS-C20CODEC-K9=	C20 Codec - Spare	video-codec
 collaboration-endpoints	CTS-C20CODEC=	C20 CODEC Non Encrypted Version Spare	video-codec	
 collaboration-endpoints	CTS-CABL-RJ45-6	TelePresence Cable Rj45 to RJ45 6M	cable	
 collaboration-endpoints	CTS-CABL-RJ45-6=	TelePresence Cable Rj45 to RJ45 6M	cable	
-collaboration-endpoints	CTS-CAM-P40	Precision 40 Camera with 8x zoom	camera	
-collaboration-endpoints	CTS-CAM-P40+	Precision 40 Camera with 8x zoom	camera	
-collaboration-endpoints	CTS-CAM-P40=	Precision 40 Camera with 8x zoom (spare)	camera	
-collaboration-endpoints	CTS-CAM-P60	Cisco TelePresence Precision 60 Camera	camera	
-collaboration-endpoints	CTS-CAM-P60+	Cisco TelePresence Precision 60 Camera - auto expand only	camera	
-collaboration-endpoints	CTS-CAM-P60-KIT	Cisco TelePresence Precision 60 Camera Kit	camera	
-collaboration-endpoints	CTS-CAM-P60=	Cisco TelePresence Precision 60 Camera Spare	camera	
+collaboration-endpoints	CTS-CAM-P40	Precision 40 Camera with 8x zoom	conference-camera	
+collaboration-endpoints	CTS-CAM-P40+	Precision 40 Camera with 8x zoom	conference-camera	
+collaboration-endpoints	CTS-CAM-P40=	Precision 40 Camera with 8x zoom (spare)	conference-camera	
+collaboration-endpoints	CTS-CAM-P60	Cisco TelePresence Precision 60 Camera	conference-camera	
+collaboration-endpoints	CTS-CAM-P60+	Cisco TelePresence Precision 60 Camera - auto expand only	conference-camera	
+collaboration-endpoints	CTS-CAM-P60-KIT	Cisco TelePresence Precision 60 Camera Kit	conference-camera	
+collaboration-endpoints	CTS-CAM-P60=	Cisco TelePresence Precision 60 Camera Spare	conference-camera	
 collaboration-endpoints	CTS-CC-SX10-K9	SX10 HD w/ screen mount, int 5x cam and mic	video-codec	
 collaboration-endpoints	CTS-CTRL-DV10	Cisco Touch 10 Control Unit	touch-panel	
 collaboration-endpoints	CTS-CTRL-DV10+	Cisco Touch 10 inch	touch-panel	
@@ -2411,12 +2411,12 @@ collaboration-endpoints	CTS-MX800-SWM-LGR=	MX800 Single Wallmount Lower Grill	me
 collaboration-endpoints	CTS-MX800D-2CAM-K9	Cisco MX800, Dual 70	video-device	
 collaboration-endpoints	CTS-MX800S-1CAM-K9	Cisco MX800 single 70”, single camera option (both options comes with Cisco Touch 10, 2 microphones, 2 presentation cables, HDMI and VGA, and power cable)	video-device	
 collaboration-endpoints	CTS-MX800S-2CAM-K9	Cisco MX800, Single 70, Dual Camera	video-device	
-collaboration-endpoints	CTS-MXCAM-D	^Dual Camera with speaker tracking option for MX700/MX800	camera	
-collaboration-endpoints	CTS-MXCAM-D-	Dual Camera with speaker tracking option for MX700/MX800	camera	
-collaboration-endpoints	CTS-MXCAM-D=	Dual Camera with speaker tracking option for MX700/MX800	camera	
-collaboration-endpoints	CTS-MXCAM-S	^Single Camera option for MX700/MX800	camera	
-collaboration-endpoints	CTS-MXCAM-S-	Single Camera option for MX700/MX800	camera	
-collaboration-endpoints	CTS-MXCAM-S=	Single Camera option for MX700/MX800 Spare	camera	
+collaboration-endpoints	CTS-MXCAM-D	^Dual Camera with speaker tracking option for MX700/MX800	conference-camera	
+collaboration-endpoints	CTS-MXCAM-D-	Dual Camera with speaker tracking option for MX700/MX800	conference-camera	
+collaboration-endpoints	CTS-MXCAM-D=	Dual Camera with speaker tracking option for MX700/MX800	conference-camera	
+collaboration-endpoints	CTS-MXCAM-S	^Single Camera option for MX700/MX800	conference-camera	
+collaboration-endpoints	CTS-MXCAM-S-	Single Camera option for MX700/MX800	conference-camera	
+collaboration-endpoints	CTS-MXCAM-S=	Single Camera option for MX700/MX800 Spare	conference-camera	
 collaboration-endpoints	CTS-MXCODEC	Codec for MX700/MX800	video-codec	
 collaboration-endpoints	CTS-MXCODEC-	Codec for MX700/MX800	video-codec	
 collaboration-endpoints	CTS-MXCODEC=	Codec for MX700/MX800	video-codec	
@@ -2440,23 +2440,23 @@ collaboration-endpoints	CTS-NAL-TTC7-25	CS Room Kit Plus NAL label for China	acc
 collaboration-endpoints	CTS-NAL-TTC7-26	CS Room Kit Mini NAL label for China	accessory	
 collaboration-endpoints	CTS-NAL-TTC7-27	CS Webex Desk Pro NAL label for China	accessory	
 collaboration-endpoints	CTS-NAL-TTC9-01	CS Webex Desk Mini NAL label for China	accessory	
-collaboration-endpoints	CTS-PHD-1080P-KIT=	PrecisionHD Camera - 1080p12x Camera and Kit	camera	
-collaboration-endpoints	CTS-PHD-1080P12XG=	PrecisionHD 1080p12X Unit - Gray	camera	
-collaboration-endpoints	CTS-PHD-1080P12XS	PrecisionHD 1080p Camera w 12x zoom - not sold stand alone	camera	
-collaboration-endpoints	CTS-PHD-1080P12XS+	PrecisionHD 1080p 12X Unit - Silver, + indicates auto expand	camera	
-collaboration-endpoints	CTS-PHD-1080P12XS=	PrecisionHD 1080p 12X Unit - Silver	camera	
-collaboration-endpoints	CTS-PHD-1080P4XS=	PrecisionHD 1080p4x Unit - Silver - use with Cisco Codec C40 based products	camera	
-collaboration-endpoints	CTS-PHD1080P12XS2	PrecisionHD Camera 1080p 12x Gen 2	camera	
-collaboration-endpoints	CTS-PHD1080P12XS2+	PrecisionHD Camera 1080p 12x Gen 2 for use in auto expand	camera	
-collaboration-endpoints	CTS-PHD1080P12XS2=	PrecisionHD Camera 1080p 12x Gen 2	camera	
-collaboration-endpoints	CTS-PHD1080P4XS+	PrecisionHD 1080p Camera w 4x zoom, autoexpand usage only	camera	
-collaboration-endpoints	CTS-PHD1080P4XS1	PrecisionHD 1080p Camera w 4x zoom - not sold stand alone	camera	
-collaboration-endpoints	CTS-PHD1080P4XS1+	PrecisionHD 1080p Camera w 4x zoom, autoexpand usage only	camera	
-collaboration-endpoints	CTS-PHD1080P4XS1=	PrecisionHD 1080p4x Unit - Silver - use with Cisco Codec C20 based products	camera	
-collaboration-endpoints	CTS-PHD1080P4XS2	PrecisionHD Camera 1080p 4x Gen 2	camera	
-collaboration-endpoints	CTS-PHD1080P4XS2+	PrecisionHD Camera 1080p 4x SX20 auto expand	camera	
-collaboration-endpoints	CTS-PHD1080P4XS2=	PrecisionHD Camera 1080p 4x Gen 2	camera	
-collaboration-endpoints	CTS-PHD=	PrecisionHD Camera, 720p	camera	
+collaboration-endpoints	CTS-PHD-1080P-KIT=	PrecisionHD Camera - 1080p12x Camera and Kit	conference-camera	
+collaboration-endpoints	CTS-PHD-1080P12XG=	PrecisionHD 1080p12X Unit - Gray	conference-camera	
+collaboration-endpoints	CTS-PHD-1080P12XS	PrecisionHD 1080p Camera w 12x zoom - not sold stand alone	conference-camera	
+collaboration-endpoints	CTS-PHD-1080P12XS+	PrecisionHD 1080p 12X Unit - Silver, + indicates auto expand	conference-camera	
+collaboration-endpoints	CTS-PHD-1080P12XS=	PrecisionHD 1080p 12X Unit - Silver	conference-camera	
+collaboration-endpoints	CTS-PHD-1080P4XS=	PrecisionHD 1080p4x Unit - Silver - use with Cisco Codec C40 based products	conference-camera	
+collaboration-endpoints	CTS-PHD1080P12XS2	PrecisionHD Camera 1080p 12x Gen 2	conference-camera	
+collaboration-endpoints	CTS-PHD1080P12XS2+	PrecisionHD Camera 1080p 12x Gen 2 for use in auto expand	conference-camera	
+collaboration-endpoints	CTS-PHD1080P12XS2=	PrecisionHD Camera 1080p 12x Gen 2	conference-camera	
+collaboration-endpoints	CTS-PHD1080P4XS+	PrecisionHD 1080p Camera w 4x zoom, autoexpand usage only	conference-camera	
+collaboration-endpoints	CTS-PHD1080P4XS1	PrecisionHD 1080p Camera w 4x zoom - not sold stand alone	conference-camera	
+collaboration-endpoints	CTS-PHD1080P4XS1+	PrecisionHD 1080p Camera w 4x zoom, autoexpand usage only	conference-camera	
+collaboration-endpoints	CTS-PHD1080P4XS1=	PrecisionHD 1080p4x Unit - Silver - use with Cisco Codec C20 based products	conference-camera	
+collaboration-endpoints	CTS-PHD1080P4XS2	PrecisionHD Camera 1080p 4x Gen 2	conference-camera	
+collaboration-endpoints	CTS-PHD1080P4XS2+	PrecisionHD Camera 1080p 4x SX20 auto expand	conference-camera	
+collaboration-endpoints	CTS-PHD1080P4XS2=	PrecisionHD Camera 1080p 4x Gen 2	conference-camera	
+collaboration-endpoints	CTS-PHD=	PrecisionHD Camera, 720p	conference-camera	
 collaboration-endpoints	CTS-POE-INJ	Touch10 PoE power injector	power	
 collaboration-endpoints	CTS-PWR-AIR-INJ5	Power Injector (802.3af)	power	
 collaboration-endpoints	CTS-PWR-AIR-INJ5+	Power Injector (802.3af)	power	
@@ -2479,7 +2479,7 @@ collaboration-endpoints	CTS-RMT-TRC5=	Remote Control TRC 5	accessory
 collaboration-endpoints	CTS-RMT-TRC6	Cisco TelePresence Remote Control 6	accessory	
 collaboration-endpoints	CTS-RMT-TRC6-	Remote Control TRC 6	accessory	
 collaboration-endpoints	CTS-RMT-TRC6=	Remote Control TRC 6 spare	accessory	
-collaboration-endpoints	CTS-SPKER-TRACK60	Cisco TelePresence Speaker Track 60 Kit	camera	
+collaboration-endpoints	CTS-SPKER-TRACK60	Cisco TelePresence Speaker Track 60 Kit	conference-camera	
 collaboration-endpoints	CTS-ST-ARR60-WMK-	Wall Mount Kit for Speaker Track 60 Microphone Array	mechanical	
 collaboration-endpoints	CTS-ST-ARR60-WMK=	SPARE Wall Mount Kit for Speaker Track 60 Microphone array	mechanical	
 collaboration-endpoints	CTS-ST-ARRAY60+	Speaker Track 60 Microphone Array	microphone	
@@ -2643,7 +2643,7 @@ collaboration-endpoints	PA100-AU	Power supply for SPA500, CP500, and SPA9xx-5V/2
 collaboration-endpoints	PA100-EU	Power supply for SPA500, CP500, and SPA 900 Series-5V/2A (EU style plug)	power	
 collaboration-endpoints	PA100-NA	Power supply for SPA500, CP500, and SPA 900 Series-5V/2A (North America style plug)	power	
 collaboration-endpoints	PA100-UK	Power supply for SPA500, CP500, and SPA 900 Series-5V/2A (UK style plug )	power	
-collaboration-endpoints	PHD-KIT=	Precision HD Camera Option Kit 720p	camera	
+collaboration-endpoints	PHD-KIT=	Precision HD Camera Option Kit 720p	conference-camera	
 collaboration-endpoints	POE-WW	Device PoE Adapter (Worldwide - 12W)	power	
 collaboration-endpoints	POE-WW=	Device PoE Adapter (Worldwide - 12W)	power	
 collaboration-endpoints	PSU-12VDC-120W=	Power supply - AC/DC, 12V, 120W	power	
@@ -6874,24 +6874,24 @@ interfaces-modules	WS-X5156	Cisco WS-X5156	interface
 interfaces-modules	WS-X5156=	Cisco WS-X5156=	interface	
 interfaces-modules	WS-X5157	Cisco WS-X5157	interface	
 interfaces-modules	WS-X5157=	Cisco WS-X5157=	interface	
-meraki	MG21	Cisco MG21	gateway	
-meraki	MG21-HW-NA	Meraki MG21 Cellular Gateway – North America	gateway	
-meraki	MG21-HW-WW	Meraki MG21 Cellular Gateway – Worldwide	gateway	
-meraki	MG21E	Cisco MG21E	gateway	
-meraki	MG21E-HW-NA	Meraki MG21E Cellular Gateway External Antennas – North America	gateway	
-meraki	MG21E-HW-WW	Meraki MG21E Cellular Gateway External Antennas – Worldwide	gateway	
-meraki	MG41	Cisco MG41	gateway	
-meraki	MG41-HW	Meraki MG41 Cellular Gateway	gateway	
-meraki	MG41E	Cisco MG41E	gateway	
-meraki	MG41E-HW	Meraki MG41 Cellular Gateway – External Antennas	gateway	
-meraki	MG51	Cisco MG51	gateway	
-meraki	MG51-HW	Cisco MG51-HW	gateway	
-meraki	MG51E	Cisco MG51E	gateway	
-meraki	MG51E-HW	Cisco MG51E-HW	gateway	
-meraki	MG52	Cisco MG52	gateway	
-meraki	MG52-HW	Cisco MG52-HW	gateway	
-meraki	MG52E	Cisco MG52E	gateway	
-meraki	MG52E-HW	Cisco MG52E-HW	gateway	
+meraki	MG21	Cisco MG21	cellular-gateway	
+meraki	MG21-HW-NA	Meraki MG21 Cellular Gateway – North America	cellular-gateway	
+meraki	MG21-HW-WW	Meraki MG21 Cellular Gateway – Worldwide	cellular-gateway	
+meraki	MG21E	Cisco MG21E	cellular-gateway	
+meraki	MG21E-HW-NA	Meraki MG21E Cellular Gateway External Antennas – North America	cellular-gateway	
+meraki	MG21E-HW-WW	Meraki MG21E Cellular Gateway External Antennas – Worldwide	cellular-gateway	
+meraki	MG41	Cisco MG41	cellular-gateway	
+meraki	MG41-HW	Meraki MG41 Cellular Gateway	cellular-gateway	
+meraki	MG41E	Cisco MG41E	cellular-gateway	
+meraki	MG41E-HW	Meraki MG41 Cellular Gateway – External Antennas	cellular-gateway	
+meraki	MG51	Cisco MG51	cellular-gateway	
+meraki	MG51-HW	Cisco MG51-HW	cellular-gateway	
+meraki	MG51E	Cisco MG51E	cellular-gateway	
+meraki	MG51E-HW	Cisco MG51E-HW	cellular-gateway	
+meraki	MG52	Cisco MG52	cellular-gateway	
+meraki	MG52-HW	Cisco MG52-HW	cellular-gateway	
+meraki	MG52E	Cisco MG52E	cellular-gateway	
+meraki	MG52E-HW	Cisco MG52E-HW	cellular-gateway	
 meraki	MT10	Cisco MT10	environment-sensor	
 meraki	MT10-HW	Cisco MT10-HW	environment-sensor	
 meraki	MT11	Cisco MT11	environment-sensor	
@@ -6908,41 +6908,41 @@ meraki	MT30	Cisco MT30	environment-sensor
 meraki	MT30-HW	Cisco MT30-HW	environment-sensor	
 meraki	MT40	Cisco MT40	environment-sensor	
 meraki	MT40-HW	Cisco MT40-HW	environment-sensor	
-meraki	MV12	Cisco MV12	camera	
-meraki	MV12N	Cisco MV12N	camera	
-meraki	MV12W	Cisco MV12W	camera	
-meraki	MV12WE	Cisco MV12WE	camera	
-meraki	MV13-HW	Cisco MV13-HW	camera	
-meraki	MV13M-HW	Cisco MV13M-HW	camera	
-meraki	MV2	Cisco MV2	camera	
-meraki	MV21	Cisco MV21	camera	
-meraki	MV22	Cisco MV22	camera	
-meraki	MV22X	Cisco MV22X	camera	
-meraki	MV23	Cisco MV23	camera	
-meraki	MV23M-HW	Cisco MV23M-HW	camera	
-meraki	MV23X-HW	Cisco MV23X-HW	camera	
-meraki	MV32	Cisco MV32	camera	
-meraki	MV33-HW	Cisco MV33-HW	camera	
-meraki	MV33M-HW	Cisco MV33M-HW	camera	
-meraki	MV44X	Cisco MV44X	camera	
-meraki	MV44X-HW	Cisco MV44X-HW	camera	
-meraki	MV52	Cisco MV52	camera	
-meraki	MV53X	Cisco MV53X	camera	
-meraki	MV53X-HW	Cisco MV53X-HW	camera	
-meraki	MV63-HW	Cisco MV63-HW	camera	
-meraki	MV63M-HW	Cisco MV63M-HW	camera	
-meraki	MV63X-HW	Cisco MV63X-HW	camera	
-meraki	MV71	Cisco MV71	camera	
-meraki	MV72	Cisco MV72	camera	
-meraki	MV72X	Cisco MV72X	camera	
-meraki	MV73	Cisco MV73	camera	
-meraki	MV73M-HW	Cisco MV73M-HW	camera	
-meraki	MV73X-HW	Cisco MV73X-HW	camera	
-meraki	MV84X	Cisco MV84X	camera	
-meraki	MV84X-HW	Cisco MV84X-HW	camera	
-meraki	MV93-HW	Cisco MV93-HW	camera	
-meraki	MV93M-HW	Cisco MV93M-HW	camera	
-meraki	MV93X-HW	Cisco MV93X-HW	camera	
+meraki	MV12	Cisco MV12	security-camera	
+meraki	MV12N	Cisco MV12N	security-camera	
+meraki	MV12W	Cisco MV12W	security-camera	
+meraki	MV12WE	Cisco MV12WE	security-camera	
+meraki	MV13-HW	Cisco MV13-HW	security-camera	
+meraki	MV13M-HW	Cisco MV13M-HW	security-camera	
+meraki	MV2	Cisco MV2	security-camera	
+meraki	MV21	Cisco MV21	security-camera	
+meraki	MV22	Cisco MV22	security-camera	
+meraki	MV22X	Cisco MV22X	security-camera	
+meraki	MV23	Cisco MV23	security-camera	
+meraki	MV23M-HW	Cisco MV23M-HW	security-camera	
+meraki	MV23X-HW	Cisco MV23X-HW	security-camera	
+meraki	MV32	Cisco MV32	security-camera	
+meraki	MV33-HW	Cisco MV33-HW	security-camera	
+meraki	MV33M-HW	Cisco MV33M-HW	security-camera	
+meraki	MV44X	Cisco MV44X	security-camera	
+meraki	MV44X-HW	Cisco MV44X-HW	security-camera	
+meraki	MV52	Cisco MV52	security-camera	
+meraki	MV53X	Cisco MV53X	security-camera	
+meraki	MV53X-HW	Cisco MV53X-HW	security-camera	
+meraki	MV63-HW	Cisco MV63-HW	security-camera	
+meraki	MV63M-HW	Cisco MV63M-HW	security-camera	
+meraki	MV63X-HW	Cisco MV63X-HW	security-camera	
+meraki	MV71	Cisco MV71	security-camera	
+meraki	MV72	Cisco MV72	security-camera	
+meraki	MV72X	Cisco MV72X	security-camera	
+meraki	MV73	Cisco MV73	security-camera	
+meraki	MV73M-HW	Cisco MV73M-HW	security-camera	
+meraki	MV73X-HW	Cisco MV73X-HW	security-camera	
+meraki	MV84X	Cisco MV84X	security-camera	
+meraki	MV84X-HW	Cisco MV84X-HW	security-camera	
+meraki	MV93-HW	Cisco MV93-HW	security-camera	
+meraki	MV93M-HW	Cisco MV93M-HW	security-camera	
+meraki	MV93X-HW	Cisco MV93X-HW	security-camera	
 meraki	MX100	Cisco MX100	appliance	
 meraki	MX105	Cisco MX105	appliance	
 meraki	MX250	Cisco MX250	appliance	
@@ -33784,13 +33784,13 @@ unified-communications	SPA302D-G7-1	Mobility Enhanced Cordless Handset	phone	dec
 unified-communications	SPA302DKIT-G1	Multi-Line DECT Handset with Base Station	phone	dect
 unified-communications	SPA302DKIT-G7	Multi-Line DECT Handset with Base Station	phone	dect
 unified-communications	SPA302DKIT-XU	Multi-Line DECT Handset with Base Station, SRTP Removed	phone	dect
-unified-communications	SPA8000-BR	8-Port IP Telephony Gateway	gateway	
-unified-communications	SPA8000-G1	8-Port IP Telephony Gateway	gateway	
-unified-communications	SPA8000-G4	8-Port IP Telephony Gateway	gateway	
-unified-communications	SPA8000-G5	8-Port IP Telephony Gateway	gateway	
-unified-communications	SPA8000-XU	8-Port IP Telephony Gateway, SRTP Removed	gateway	
-unified-communications	SPA8800	IP Telephony Gateway with 4 FXS and 4 FXO Ports	gateway	
-unified-communications	SPA8800-XU	IP Telephony Gateway with 4 FXS and 4 FXO Ports SRTP Removed	gateway	
+unified-communications	SPA8000-BR	8-Port IP Telephony Gateway	voice-gateway	
+unified-communications	SPA8000-G1	8-Port IP Telephony Gateway	voice-gateway	
+unified-communications	SPA8000-G4	8-Port IP Telephony Gateway	voice-gateway	
+unified-communications	SPA8000-G5	8-Port IP Telephony Gateway	voice-gateway	
+unified-communications	SPA8000-XU	8-Port IP Telephony Gateway, SRTP Removed	voice-gateway	
+unified-communications	SPA8800	IP Telephony Gateway with 4 FXS and 4 FXO Ports	voice-gateway	
+unified-communications	SPA8800-XU	IP Telephony Gateway with 4 FXS and 4 FXO Ports SRTP Removed	voice-gateway	
 unified-communications	UC-A03-D500GC3	500GB 6Gb SATA 7.2K RPM SFF Hot Plug/Drive Sled Mounted	drive	
 unified-communications	UC-CPU-E5-2609	2.4 GHz E5-2609/80W 4C/10MB Cache/DDR3 1066MHz	cpu	
 unified-communications	UC-MR-1X082RY-A	8GB DDR3-1600-MHz RDIMM/PC3-12800/Dual Rank/1.35v	memory	
@@ -33798,68 +33798,68 @@ unified-communications	UC-PSU-650W	650W Power Supply Unit For UCSC C220 Rack Ser
 unified-communications	UC-RAID-9266	MegaRAID 9266-8i + Battery Backup for C240 and C220	storage-controller	
 unified-communications	UC-RAID-9271	MegaRAID 9271-8i + Battery Backup for C240 and C220	storage-controller	
 unified-communications	UCSC-C220-M3SBE=	UCS C220 M3 SFF TRC2 Server	server	
-unified-communications	UNITY-PIMG-ANALOG	PBX-IP Media Gateway for analog integrations	gateway	
-unified-communications	UNITY-PIMG-ANALOG=	PBX-IP Media Gateway for analog integrations	gateway	
-unified-communications	UNITY-PIMG-DIG	PBX-IP Media Gateway-Digital	gateway	
-unified-communications	UNITY-PIMG-DIG=	PBX-IP Media Gateway-Digital	gateway	
-unified-communications	UNITY-PIMG-DIGITAL	PBX-IP Media Gateway for Nortel, Avaya, Siemens and NEC PBXs	gateway	
-unified-communications	UNITY-PIMG-LEGEND	PBX-IP Media Gateway for Avaya Merlin Legend systems	gateway	
-unified-communications	UNITY-PIMG-LGD	PBX-IP Media Gateway for Avaya Merlin Legend systems	gateway	
-unified-communications	UNITY-PIMG-MITEL	PBX-IP Media Gateway for Mitel SX200 and SX2000 PBXs	gateway	
-unified-communications	UNITY-PIMG-MITEL=	Cisco UNITY-PIMG-MITEL=	gateway	
-unified-communications	UNITY-PIMG-MTL	PBX-IP Media Gateway for Mitel SX200 and SX2000 PBXs	gateway	
-unified-communications	UNITY-PIMG-ROLM	PBX IP MEDIA GATEWAY-ROLM	gateway	
-unified-communications	UNITY-PIMG-ROLM=	PBX IP MEDIA GATEWAY-ROLM	gateway	
-unified-communications	UNITY-TIMG-1	T1 IP-Media Gateway	gateway	
-unified-communications	UNITY-TIMG-1=	T1 IP-Media Gateway	gateway	
+unified-communications	UNITY-PIMG-ANALOG	PBX-IP Media Gateway for analog integrations	voice-gateway	
+unified-communications	UNITY-PIMG-ANALOG=	PBX-IP Media Gateway for analog integrations	voice-gateway	
+unified-communications	UNITY-PIMG-DIG	PBX-IP Media Gateway-Digital	voice-gateway	
+unified-communications	UNITY-PIMG-DIG=	PBX-IP Media Gateway-Digital	voice-gateway	
+unified-communications	UNITY-PIMG-DIGITAL	PBX-IP Media Gateway for Nortel, Avaya, Siemens and NEC PBXs	voice-gateway	
+unified-communications	UNITY-PIMG-LEGEND	PBX-IP Media Gateway for Avaya Merlin Legend systems	voice-gateway	
+unified-communications	UNITY-PIMG-LGD	PBX-IP Media Gateway for Avaya Merlin Legend systems	voice-gateway	
+unified-communications	UNITY-PIMG-MITEL	PBX-IP Media Gateway for Mitel SX200 and SX2000 PBXs	voice-gateway	
+unified-communications	UNITY-PIMG-MITEL=	Cisco UNITY-PIMG-MITEL=	voice-gateway	
+unified-communications	UNITY-PIMG-MTL	PBX-IP Media Gateway for Mitel SX200 and SX2000 PBXs	voice-gateway	
+unified-communications	UNITY-PIMG-ROLM	PBX IP MEDIA GATEWAY-ROLM	voice-gateway	
+unified-communications	UNITY-PIMG-ROLM=	PBX IP MEDIA GATEWAY-ROLM	voice-gateway	
+unified-communications	UNITY-TIMG-1	T1 IP-Media Gateway	voice-gateway	
+unified-communications	UNITY-TIMG-1=	T1 IP-Media Gateway	voice-gateway	
 unified-communications	UNITYCN7-BUNDLE	Unity Connection 7.x SW plus HW Bundle	unknown	
 unified-communications	VCS-C-BDL-K9	VCS-C Appliance Bundle	server	
 unified-communications	VCS-C-BDL-K9=	VCS-C or VCS-E Appliance Bundle Spare	server	
 unified-communications	VCS-E-BDL-K9	VCS-E Appliance Bundle	server	
 unified-communications	VCS-E-BDL-K9=	VCS-E Appliance Bundle Spare	server	
-unified-communications	VG-2BRI	Euro-ISDN Media Gateway, 2 BRI	gateway	
-unified-communications	VG-2BRI-R	Euro-ISDN Media Gateway, 2 BRI - RMCS	gateway	
-unified-communications	VG202	Cisco VG202 Analog Voice Gateway	gateway	
-unified-communications	VG202XM	Cisco VG202XM Analog Voice Gateway	gateway	
-unified-communications	VG204	Cisco VG204 Analog Voice Gateway	gateway	
-unified-communications	VG204XM	Cisco VG204XM Analog Voice Gateway	gateway	
-unified-communications	VG224	24 Port Voice over IP analog phone gateway	gateway	
-unified-communications	VG224-4PACK	4 Pack of VG224 High Density Analog Gateway	gateway	
-unified-communications	VG224-LA	Latin America VG224	gateway	
-unified-communications	VG224-MP	VG224 for MultiPack	gateway	
-unified-communications	VG248	48 Port Voice over IP analog phone gateway	gateway	
-unified-communications	VG248-ASIA	VG248 Special forAsia	gateway	
-unified-communications	VG248-BZ1	Cisco VG248 Bundle for Brazil	gateway	
+unified-communications	VG-2BRI	Euro-ISDN Media Gateway, 2 BRI	voice-gateway	
+unified-communications	VG-2BRI-R	Euro-ISDN Media Gateway, 2 BRI - RMCS	voice-gateway	
+unified-communications	VG202	Cisco VG202 Analog Voice Gateway	voice-gateway	
+unified-communications	VG202XM	Cisco VG202XM Analog Voice Gateway	voice-gateway	
+unified-communications	VG204	Cisco VG204 Analog Voice Gateway	voice-gateway	
+unified-communications	VG204XM	Cisco VG204XM Analog Voice Gateway	voice-gateway	
+unified-communications	VG224	24 Port Voice over IP analog phone gateway	voice-gateway	
+unified-communications	VG224-4PACK	4 Pack of VG224 High Density Analog Gateway	voice-gateway	
+unified-communications	VG224-LA	Latin America VG224	voice-gateway	
+unified-communications	VG224-MP	VG224 for MultiPack	voice-gateway	
+unified-communications	VG248	48 Port Voice over IP analog phone gateway	voice-gateway	
+unified-communications	VG248-ASIA	VG248 Special forAsia	voice-gateway	
+unified-communications	VG248-BZ1	Cisco VG248 Bundle for Brazil	voice-gateway	
 unified-communications	VG248-RACK=	VG248 rack mount brackets	mechanical	
-unified-communications	VG310	Modular 24 FXS Port VoIP Gateway with PVDM3-64	gateway	
-unified-communications	VG310++	Modular 24 FXS Port VoIP Gateway with PVDM3-64-TAA(CX)	gateway	
-unified-communications	VG310-EM	24-port FXS VoIP Gateway w/PVDM3-64 for Emerging Markets	gateway	
-unified-communications	VG320	Modular 48 FXS Port VoIP Gateway with PVDM3-128	gateway	
-unified-communications	VG320++	Modular 48 FXS Port VoIP Gateway with PVDM3-128-TAA(CX)	gateway	
-unified-communications	VG320-EM	48-port FXS VoIP Gateway w/PVDM3-128 for Emerging Markets	gateway	
-unified-communications	VG350	^High Density Voice over IP Analog Gateway	gateway	
-unified-communications	VG350-144FXS-EM/K9	Cisco VG350 144 FXS Bundle	gateway	
-unified-communications	VG350-144FXS/K9	Cisco VG350 144 FXS Bundle	gateway	
-unified-communications	VG350-72F48E-EM/K9	Cisco VG350 72 FXS & 48 FXS OPX-Lite Bundle	gateway	
-unified-communications	VG350-72F48E/K9	Cisco VG350-72F48E/K9	gateway	
-unified-communications	VG350-96FXSE-EM/K9	Cisco VG350 96 FXS OPX-Lite Bundle	gateway	
-unified-communications	VG350-96FXSE/K9	Cisco VG350 96 FXS OPX-Lite Bundle	gateway	
+unified-communications	VG310	Modular 24 FXS Port VoIP Gateway with PVDM3-64	voice-gateway	
+unified-communications	VG310++	Modular 24 FXS Port VoIP Gateway with PVDM3-64-TAA(CX)	voice-gateway	
+unified-communications	VG310-EM	24-port FXS VoIP Gateway w/PVDM3-64 for Emerging Markets	voice-gateway	
+unified-communications	VG320	Modular 48 FXS Port VoIP Gateway with PVDM3-128	voice-gateway	
+unified-communications	VG320++	Modular 48 FXS Port VoIP Gateway with PVDM3-128-TAA(CX)	voice-gateway	
+unified-communications	VG320-EM	48-port FXS VoIP Gateway w/PVDM3-128 for Emerging Markets	voice-gateway	
+unified-communications	VG350	^High Density Voice over IP Analog Gateway	voice-gateway	
+unified-communications	VG350-144FXS-EM/K9	Cisco VG350 144 FXS Bundle	voice-gateway	
+unified-communications	VG350-144FXS/K9	Cisco VG350 144 FXS Bundle	voice-gateway	
+unified-communications	VG350-72F48E-EM/K9	Cisco VG350 72 FXS & 48 FXS OPX-Lite Bundle	voice-gateway	
+unified-communications	VG350-72F48E/K9	Cisco VG350-72F48E/K9	voice-gateway	
+unified-communications	VG350-96FXSE-EM/K9	Cisco VG350 96 FXS OPX-Lite Bundle	voice-gateway	
+unified-communications	VG350-96FXSE/K9	Cisco VG350 96 FXS OPX-Lite Bundle	voice-gateway	
 unified-communications	VG350-FANASSY	Cisco VG350 Fan Assembly	accessory	
 unified-communications	VG350-FANASSY=	Cisco VG350 Fan Assembly	accessory	
 unified-communications	VG350-SPE150/K9	Cisco VG350 Motherboard	accessory	
 unified-communications	VG350-SPE150/K9=	Cisco VG350 Motherboard	accessory	
-unified-communications	VG350/K9	Cisco VG350 High Density Voice over IP Analog Gateway	gateway	
-unified-communications	VG400-2FXS/2FXO	Cisco VG400 Analog Voice Gateway with 2 FXS and 2 FXO	gateway	
-unified-communications	VG400-4FXS/4FXO	Cisco VG400 Analog Voice Gateway with 4 FXS and 4 FXO	gateway	
-unified-communications	VG400-6FXS/6FXO	Cisco VG400 Analog Voice Gateway with 6 FXS and 6 FXO	gateway	
-unified-communications	VG400-8FXS	Cisco VG400 Analog Voice Gateway with 8 FXS	gateway	
-unified-communications	VG410-24FXS	Cisco Analog Voice Gateway VG410 - 24FXS	gateway	
-unified-communications	VG410-24FXS/4FXO	Cisco Analog Voice Gateway VG410 - 24FXS/4FXO	gateway	
-unified-communications	VG410-48FXS	Cisco Analog Voice Gateway VG410 - 48FXS	gateway	
+unified-communications	VG350/K9	Cisco VG350 High Density Voice over IP Analog Gateway	voice-gateway	
+unified-communications	VG400-2FXS/2FXO	Cisco VG400 Analog Voice Gateway with 2 FXS and 2 FXO	voice-gateway	
+unified-communications	VG400-4FXS/4FXO	Cisco VG400 Analog Voice Gateway with 4 FXS and 4 FXO	voice-gateway	
+unified-communications	VG400-6FXS/6FXO	Cisco VG400 Analog Voice Gateway with 6 FXS and 6 FXO	voice-gateway	
+unified-communications	VG400-8FXS	Cisco VG400 Analog Voice Gateway with 8 FXS	voice-gateway	
+unified-communications	VG410-24FXS	Cisco Analog Voice Gateway VG410 - 24FXS	voice-gateway	
+unified-communications	VG410-24FXS/4FXO	Cisco Analog Voice Gateway VG410 - 24FXS/4FXO	voice-gateway	
+unified-communications	VG410-48FXS	Cisco Analog Voice Gateway VG410 - 48FXS	voice-gateway	
 unified-communications	VG410-RM-19-1R	Cisco VG410 Rack mount kit - 19" 1R	mechanical	
-unified-communications	VG420-132FXS/6FXO	Cisco Analog Voice Gateway VG420 - 132FXS/6FXO	gateway	
-unified-communications	VG420-144FXS	Cisco Analog Voice Gateway VG420 - 144FXS	gateway	
-unified-communications	VG420-84FXS/6FXO	Cisco Analog Voice Gateway VG420 - 84FXS/6FXO	gateway	
+unified-communications	VG420-132FXS/6FXO	Cisco Analog Voice Gateway VG420 - 132FXS/6FXO	voice-gateway	
+unified-communications	VG420-144FXS	Cisco Analog Voice Gateway VG420 - 144FXS	voice-gateway	
+unified-communications	VG420-84FXS/6FXO	Cisco Analog Voice Gateway VG420 - 84FXS/6FXO	voice-gateway	
 unified-communications	VG420-FAN-2R	Cisco VG420 Fan Tray, 2RU	accessory	
 unified-communications	VG420-FAN-2R=	Cisco VG420 Fan Tray, 2RU SPARE	accessory	
 unified-communications	VG420-NIM-BLANK	Cisco VG420 NIM Blank	mechanical	
@@ -33868,9 +33868,9 @@ unified-communications	VG420-RM-19-2R	Cisco VG420 Rack mount kit - 19" 2R	mechan
 unified-communications	VG420-RM-19-2R=	Cisco VG420 Rack mount kit for 2RU - 19" Spare	mechanical	
 unified-communications	VG420-RM-23-2R	Cisco VG420 Rack mount kit - 23" 2R	mechanical	
 unified-communications	VG420-RM-23-2R=	Cisco VG420 Rack mount kit for 2RU - 23" Spare	mechanical	
-unified-communications	VG450-144FXS/K9	Cisco VG450 144 FXS Bundle. Leveraging two SM-X-72FXS	gateway	
-unified-communications	VG450-72FXS/K9	Cisco VG450 72 FXS with option to use two single wide analog voice and fax service module	gateway	
-unified-communications	VG450/K9	Cisco VG450 High Density Voice over IP Analog Gateway	gateway	
+unified-communications	VG450-144FXS/K9	Cisco VG450 144 FXS Bundle. Leveraging two SM-X-72FXS	voice-gateway	
+unified-communications	VG450-72FXS/K9	Cisco VG450 72 FXS with option to use two single wide analog voice and fax service module	voice-gateway	
+unified-communications	VG450/K9	Cisco VG450 High Density Voice over IP Analog Gateway	voice-gateway	
 unified-communications	WRP400-G1	Wireless-G Broadband Router with 2 Phone Ports	ata	
 unified-communications	WRP400-G2	Wireless-G Broadband Router with 2 Phone Ports	ata	
 unified-communications	WRP400-G3	WRP400-G3, V1.0, Wireless-G Broadband Router, 2 Phone Ports	ata	

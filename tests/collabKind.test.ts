@@ -26,7 +26,7 @@ const POSITIVE: [string, CollabKind][] = [
   ["JABBER-DESKTOP", "software"], ["BE7K-SW-9X10X", "software"],
   ["PWR-CORD-EUR-D", "power-cord"], ["CAB-PWR-C7-BRA-A", "power-cord"], ["CAB-AC2UK=", "power-cord"],
   ["CAB-2HDMI-8K-2M+", "cable"], ["CP-HS-W-USBA=", "cable"], ["CTS-5K-CBL-R1-MIC", "cable"], ["CP-8831-DC-CBL", "cable"],
-  ["CTS-5K-CAM-CLSTR", "camera"], ["CTS-5K-MIC=", "microphone"], ["CTS-5K-SUBWOOFER", "speaker"],
+  ["CTS-5K-CAM-CLSTR", "conference-camera"], ["CTS-5K-MIC=", "microphone"], ["CTS-5K-SUBWOOFER", "speaker"],
   ["CTS-5K-DISP42", "display"], ["CTS-5K-ENCODER", "video-codec"], ["CTS-5K-CTRL-DVX-10", "touch-panel"],
   ["CTS-5K-HOSTCPU", "accessory"], ["CTS-5K-LC-SWITCH", "unknown"], ["SP-ATLAS-IPDC=", "unknown"],
   // kind-layer (13 Sep 2026): the fixing / covering markers are MECHANICAL; the rest stay accessories
@@ -50,24 +50,24 @@ const POSITIVE: [string, CollabKind][] = [
   ["BE7H-M6-K9", "server"], ["CTI-CMS-1000-K9", "server"], ["EXPWY-1200-K9", "server"],
   ["CP-BEKEM", "expansion-module"], ["SPA500S", "expansion-module"],
   ["CS-ROOM55D-MON-R", "display"], ["CS-T10-TS-G-K9", "touch-panel"], ["CS-MIC-TABLE-E", "microphone"],
-  ["CS-CAM-PTZ4K-IND", "camera"], ["CTS-PHD1080P12XS2", "camera"], ["CTS-MX700800-SPKR-", "speaker"],
+  ["CS-CAM-PTZ4K-IND", "conference-camera"], ["CTS-PHD1080P12XS2", "conference-camera"], ["CTS-MX700800-SPKR-", "speaker"],
   ["HS-WL-730-P", "headset"], ["CP-HS-W-532-USBA=", "headset"],
   ["CS-BOARD70S-K9++", "video-device"], ["CTS-IX5200", "video-device"], ["CS-CODEC-PRO-NR--", "video-codec"],
   ["CTS-SX80-K9", "video-codec"], ["DBS-110-3PC-UK-K9=", "dect-base"], ["CP-8841-3PW-NA-K9", "phone"],
-  ["SPA525G2", "phone"], ["VG350-144FXS/K9", "gateway"], ["ATA191-K9", "ata"], ["PVDM3-64=", "voice-module"],
+  ["SPA525G2", "phone"], ["VG350-144FXS/K9", "voice-gateway"], ["ATA191-K9", "ata"], ["PVDM3-64=", "voice-module"],
   ["NIM-4FXSP=", "voice-module"],
   // collab-class (12 Sep 2026) — the one real hardware family the fallback residue held.
-  ["UNITY-PIMG-MITEL", "gateway"], ["UNITY-PIMG-ANALOG=", "gateway"], ["UNITY-TIMG-1=", "gateway"],
+  ["UNITY-PIMG-MITEL", "voice-gateway"], ["UNITY-PIMG-ANALOG=", "voice-gateway"], ["UNITY-TIMG-1=", "voice-gateway"],
   // end collab-class
 ];
 
 // [sku, the kind it must NOT take, the kind it must take, why]
 const REFUSAL: [string, CollabKind, CollabKind, string][] = [
-  ["SPA8000-BR", "accessory", "gateway", "-BR is the BRAZIL region, not a bracket"],
+  ["SPA8000-BR", "accessory", "voice-gateway", "-BR is the BRAZIL region, not a bracket"],
   ["SPA122-BR", "accessory", "ata", "-BR is the BRAZIL region, not a bracket"],
   ["SPA112-RC", "accessory", "ata", "-RC is Remote Configuration, not a rear cover"],
   ["CS-KIT-MINI-NR-K7", "accessory", "video-codec", "KIT is the Room Kit, not a kit of parts"],
-  ["CTS-CAM-P60-KIT", "accessory", "camera", "'Precision 60 Camera Kit' is a camera"],
+  ["CTS-CAM-P60-KIT", "accessory", "conference-camera", "'Precision 60 Camera Kit' is a camera"],
   ["CS-KIT-MINI-MG-K9", "accessory", "video-codec", "MG with no colour letter is the Metal Grille VARIANT of a Room Kit Mini"],
   ["CS-T10-TS-G-K9", "accessory", "touch-panel", "TS is the Room Navigator's table-stand VERSION"],
   ["CS-T10-WM-L-K9", "accessory", "touch-panel", "WM is the Room Navigator's wall-mount VERSION"],
@@ -78,7 +78,7 @@ const REFUSAL: [string, CollabKind, CollabKind, string][] = [
   ["CP-8861-3PW-NA-MK9", "phone", "software", "'MLB Subscription - Phone 8861': a device subscription, asked nothing"],
   ["CS-ROOM55-K9", "mechanical", "video-device", "'Room 55 with Navigator and Mount' — the name mentions a mount"],
   ["CS-MIC-CLGP-CBK=", "microphone", "mechanical", "the Ceiling Mic Pro BRACKET kit"],
-  ["CS-CAM-RVPTZ-WBKC", "camera", "mechanical", "a wall-only mount for the PTZ camera"],
+  ["CS-CAM-RVPTZ-WBKC", "conference-camera", "mechanical", "a wall-only mount for the PTZ camera"],
   ["CS-BARPRO-CAMCOV", "video-codec", "mechanical", "a privacy camera cover for the Room Bar Pro"],
   ["CTS-MX700-D-CAMCV=", "video-device", "mechanical", "a top rear cover for the MX700"],
   ["CS-BRD55P-WUK", "video-device", "mechanical", "a wheel upgrade kit for the Board Pro floor stand"],
@@ -98,9 +98,9 @@ const REFUSAL: [string, CollabKind, CollabKind, string][] = [
   ["DP-9800-KEM-WMK=", "expansion-module", "mechanical", "a wall-mount kit FOR a key expansion module"],
   ["CS-MON82-REMOTE=", "display", "accessory", "a Samsung remote control, not a monitor"],
   ["CTS-5K-CBL-DISP=", "display", "cable", "an HDMI-DVI display CABLE"],
-  ["VG420-RM-23-2R", "gateway", "accessory", "the VG420 rack-mount kit (RM stays an accessory token; the name path calls it mechanical)"],
-  ["VG350-FANASSY=", "gateway", "accessory", "the VG350 fan assembly"],
-  ["VG350-SPE150/K9", "gateway", "accessory", "the VG350 motherboard — no UCS component kind, a gateway spare"],
+  ["VG420-RM-23-2R", "voice-gateway", "accessory", "the VG420 rack-mount kit (RM stays an accessory token; the name path calls it mechanical)"],
+  ["VG350-FANASSY=", "voice-gateway", "accessory", "the VG350 fan assembly"],
+  ["VG350-SPE150/K9", "voice-gateway", "accessory", "the VG350 motherboard — no UCS component kind, a gateway spare"],
   ["SM-DW-BLANK", "voice-module", "mechanical", "a double-wide service-module blank cover"],
   ["PWR-COVER-4430", "power", "mechanical", "a cover for an empty PSU slot"],
   ["CS-PWR-STRIP4=", "power", "accessory", "a power strip"],
@@ -178,9 +178,9 @@ const REFUSAL: [string, CollabKind, CollabKind, string][] = [
   ["CIT3-B200-M6-CON", "unknown", "server", "'Meeting Server 2000 M6 Control Blade' — a server blade"],
   // collab-class (12 Sep 2026) — the PIMG rule must reach the media gateways and nothing else in
   // a family of 223 SKUs that is otherwise entirely Unity / Unity Connection licences.
-  ["UNITY-50-CPL", "gateway", "unknown", "'Unity 5.0 Single User License' — only the PIMG/TIMG media gateways are hardware"],
-  ["UNITY-D-70-UWLA", "gateway", "unknown", "'Unity 7.0 for Domino for CUWL Add-on only' — a licence, and PIMG is not a prefix rule"],
-  ["UNITYCN7-BUNDLE", "gateway", "unknown", "'Unity Connection 7.x SW plus HW Bundle' ships a server; PIMG needs the hyphen"],
+  ["UNITY-50-CPL", "voice-gateway", "unknown", "'Unity 5.0 Single User License' — only the PIMG/TIMG media gateways are hardware"],
+  ["UNITY-D-70-UWLA", "voice-gateway", "unknown", "'Unity 7.0 for Domino for CUWL Add-on only' — a licence, and PIMG is not a prefix rule"],
+  ["UNITYCN7-BUNDLE", "voice-gateway", "unknown", "'Unity Connection 7.x SW plus HW Bundle' ships a server; PIMG needs the hyphen"],
   // Two tokens that were BARE and matched the wrong thing, found by cross-checking product_class
   // against kind rather than by a test: `ST` matched the START of START, and `CUBE` matched the
   // Unified Border ELEMENT. Both anchored; these are the rows that prove the anchors.
@@ -260,7 +260,10 @@ check("the collaboration axis does not reach routers", partKind("routers", "CP-8
     "dect-base": "certifications,dimensions,humidity_operating,poe_standard,ports,power_max,product_compatibility,supported_protocols,temp_operating,temp_storage,weight",
     // dimm_slots / pcie_slots demoted 25 Sep 2026 with the UCS pair (zero facts in any vendor, no enabled source;
     // 30 collaboration parts). `drive_bays` stays required — it was not in the source-fields finding.
-    server: "certifications,cpu_sockets_max,dimensions,drive_bays,form_factor,humidity_operating,memory_max,memory_speed_max,power_max,temp_operating,temp_storage,weight",
+    // altitude_max and cpu ADDED 28 Sep 2026 by the cup decision: a kind's cup set follows the physical object,
+    // and a BE6H-M4-K9= is a server with a CPU whichever category it is filed under. Three collab categories,
+    // one row each, so this expectation holds for all of them.
+    server: "altitude_max,certifications,cpu,cpu_sockets_max,dimensions,drive_bays,form_factor,humidity_operating,memory_max,memory_speed_max,power_max,temp_operating,temp_storage,weight",
   };
   for (const [k, want] of Object.entries(WANT)) check(`collab \`${k}\` asks the spec archetype set`, req(CE, k) === want, req(CE, k));
   for (const k of ["cpu", "memory", "drive", "nic"]) {

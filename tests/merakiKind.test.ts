@@ -43,14 +43,14 @@ const CASES: [string, MerakiKind][] = [
   ["MX95", "appliance"], ["MX105-HW", "appliance"], ["MX250-HW", "appliance"],
   ["Z3-HW", "appliance"], ["Z4", "appliance"], ["Z4-HW", "appliance"],
   // MV — cameras (52)
-  ["MV12N", "camera"], ["MV12WE", "camera"], ["MV13", "camera"], ["MV13-HW", "camera"],
-  ["MV32", "camera"], ["MV52X-HW", "camera"], ["MV63X-HW", "camera"], ["MV93X-HW", "camera"],
+  ["MV12N", "security-camera"], ["MV12WE", "security-camera"], ["MV13", "security-camera"], ["MV13-HW", "security-camera"],
+  ["MV32", "security-camera"], ["MV52X-HW", "security-camera"], ["MV63X-HW", "security-camera"], ["MV93X-HW", "security-camera"],
   // MT — sensors (16)
   ["MT10", "environment-sensor"], ["MT10-HW", "environment-sensor"], ["MT11", "environment-sensor"], ["MT12", "environment-sensor"],
   ["MT14", "environment-sensor"], ["MT20", "environment-sensor"], ["MT30", "environment-sensor"], ["MT40", "environment-sensor"],
   // MG — cellular gateways (38)
-  ["MG21", "gateway"], ["MG21-HW-NA", "gateway"], ["MG21E", "gateway"], ["MG21E-HW-WW", "gateway"],
-  ["MG41", "gateway"], ["MG51", "gateway"], ["MG52", "gateway"], ["MG52E-HW-WW", "gateway"],
+  ["MG21", "cellular-gateway"], ["MG21-HW-NA", "cellular-gateway"], ["MG21E", "cellular-gateway"], ["MG21E-HW-WW", "cellular-gateway"],
+  ["MG41", "cellular-gateway"], ["MG51", "cellular-gateway"], ["MG52", "cellular-gateway"], ["MG52E-HW-WW", "cellular-gateway"],
   // accessories
   ["MGKIT-1", "accessory"], ["MA-PWR-30WAC", "accessory"], ["MA-CBL-40G-3M", "accessory"],
   ["MA-MNT-MR-H", "accessory"], ["MA-ANT-25", "accessory"], ["MA-SFP-10GB-SR", "accessory"],
@@ -69,8 +69,8 @@ const REFUSALS: [string, MerakiKind, string][] = [
   ["MX67C-HW-WW", "appliance", "a CELLULAR MX is still an appliance, not a gateway"],
   ["MX68CW-HW-WW", "appliance", "an MX with Wi-Fi is still an appliance, not an access point"],
   ["MT10-HW", "environment-sensor", "the -HW orderable row of a sensor is a sensor (the facts sit on MT10; model_of is a RELATION)"],
-  ["MV13-HW", "camera", "the -HW orderable row of a camera"], ["Z4-HW", "appliance", "and of a teleworker gateway"],
-  ["MG21-ENT-5Y", "gateway", "a term LICENCE by product_class, so it is scored against no profile; its kind is its line"],
+  ["MV13-HW", "security-camera", "the -HW orderable row of a camera"], ["Z4-HW", "appliance", "and of a teleworker gateway"],
+  ["MG21-ENT-5Y", "cellular-gateway", "a term LICENCE by product_class, so it is scored against no profile; its kind is its line"],
   ["CAB-9K16A-AUS", "accessory", "a power cord must not reach the fallback, which asks the physical envelope"],
   ["MA-PWR-30WAC", "accessory", "nor a power adapter"],
 ];
@@ -78,17 +78,17 @@ for (const [sku, want, why] of REFUSALS) eq(`${sku} stays ${want}${why ? ` (${wh
 
 // --- ORDER --------------------------------------------------------------------------------------
 eq("accessory runs before gateway (MGKIT-1 vs ^MG)", merakiKind("MGKIT-1"), "accessory");
-eq("and a real MG is untouched by it", merakiKind("MG21"), "gateway");
+eq("and a real MG is untouched by it", merakiKind("MG21"), "cellular-gateway");
 
 // --- SABOTAGE: one per rule family, disabled by asking what the weaker rule would give ----------
 type Sab = { family: string; sku: string; live: MerakiKind; ifDisabled: MerakiKind };
 const SABOTAGE: Sab[] = [
   // Without the accessory rule, MGKIT-1 is taken by ^MG and asked for cellular bands.
-  { family: "accessory-before-gateway", sku: "MGKIT-1", live: "accessory", ifDisabled: "gateway" },
+  { family: "accessory-before-gateway", sku: "MGKIT-1", live: "accessory", ifDisabled: "cellular-gateway" },
   // Without each line rule, the SKU falls to the fallback, which asks the envelope and nothing else.
   { family: "switch", sku: "MS125-48FP", live: "switch", ifDisabled: "unknown" },
-  { family: "camera", sku: "MV32", live: "camera", ifDisabled: "unknown" },
-  { family: "gateway", sku: "MG41", live: "gateway", ifDisabled: "unknown" },
+  { family: "security-camera", sku: "MV32", live: "security-camera", ifDisabled: "unknown" },
+  { family: "cellular-gateway", sku: "MG41", live: "cellular-gateway", ifDisabled: "unknown" },
   { family: "access-point", sku: "CW9166I", live: "access-point", ifDisabled: "unknown" },
   { family: "appliance", sku: "Z4", live: "appliance", ifDisabled: "unknown" },
   { family: "environment-sensor", sku: "MT11", live: "environment-sensor", ifDisabled: "unknown" },
@@ -102,14 +102,14 @@ for (const s of SABOTAGE) {
 eq("an accessory is not a box", (MK_BOX as readonly string[]).includes("accessory"), false);
 eq("the fallback IS a box (a Meraki row classed hardware has a body)", (MK_BOX as readonly string[]).includes("unknown"), true);
 eq("a sensor has no ports (0 of 16 hold a port key)", (MK_PORTED as readonly string[]).includes("environment-sensor"), false);
-eq("a camera has no ports either", (MK_PORTED as readonly string[]).includes("camera"), false);
+eq("a camera has no ports either", (MK_PORTED as readonly string[]).includes("security-camera"), false);
 eq("a sensor is battery-powered, so no power figure", (MK_POWERED as readonly string[]).includes("environment-sensor"), false);
 eq("a switch has one", (MK_POWERED as readonly string[]).includes("switch"), true);
 eq("empty SKU falls to the fallback", merakiKind(""), "unknown");
 for (const sku of ["QQQ", "ZZ-NOSUCH-1"]) eq(`unrecognisable falls to the fallback: ${sku}`, merakiKind(sku), "unknown");
 
 const REACHED = new Set(CASES.map(([, k]) => k));
-for (const k of ["unknown", "switch", "access-point", "appliance", "camera", "environment-sensor", "gateway",
+for (const k of ["unknown", "switch", "access-point", "appliance", "security-camera", "environment-sensor", "cellular-gateway",
                  "accessory"] as MerakiKind[]) {
   eq(`kind "${k}" is reached by a catalogue SKU`, REACHED.has(k), true);
 }
@@ -195,14 +195,14 @@ const ask = (sku: string) => completenessV2("meraki", { kind: partKind("meraki",
   eq("kind-layer: meraki/appliance = FIREWALL (new_conn_per_sec held optional, as in security) + today's", mkSet("appliance"),
      L("certifications", "concurrent_sessions", "dimensions", "firewall_throughput", "form_factor", "humidity_operating", "ipsec_throughput",
        "mounting", "ports", "power_max", "psu_options", "temp_operating", "threat_throughput", "weight", "rack_units?"));
-  eq("kind-layer: meraki/camera = CAMERA + MV deltas + today's", mkSet("camera"),
+  eq("kind-layer: meraki/camera = CAMERA + MV deltas + today's", mkSet("security-camera"),
      L(/* reviewer C.3: camera_zoom optional (0 labels) */ "dimensions", "field_of_view", "humidity_operating", "image_sensor", "max_resolution", "mounting", "power_max",
        "product_compatibility", "psu_options", "storage_capacity", "temp_operating", "video_quality_max", "weight"));
   // sensors / cellular_category / cloud_management are proposed required by II.15 but are free strings: the standing rule in
   // tests/freeStringCups.test.ts keeps them optional until a type decision is recorded.
   eq("kind-layer: meraki/sensor = today's (its library `sensors` cup is a free string, held optional)", mkSet("environment-sensor"),
      L("battery_life", "dimensions", "humidity_operating", "mounting", "psu_options", "temp_operating", "weight"));
-  eq("kind-layer: meraki/gateway = CELLULAR's product_compatibility + today's", mkSet("gateway"),
+  eq("kind-layer: meraki/gateway = CELLULAR's product_compatibility + today's", mkSet("cellular-gateway"),
      L("cellular_bands", "dimensions", "humidity_operating", "mounting", "ports", "power_max", "product_compatibility", "psu_options", "temp_operating", "weight"));
   eq("kind-layer: meraki/unknown asks <= 1", kindQuestionSet("meraki", "unknown").required.length + kindQuestionSet("meraki", "unknown").pending.length <= 1, true);
 }

@@ -1,9 +1,9 @@
 {
-  "contract_hash": "8afedbb94693dda0",
-  "generated_at": "2026-09-27T23:33:02.423Z",
-  "code_commit": "83feaebcf224cd87dd094bf9d352e869f820d537",
+  "contract_hash": "d24c7710659592bc",
+  "generated_at": "2026-09-28T00:08:26.572Z",
+  "code_commit": "cdfcd7cf6568ba3e2dec571e579695fa0ae53b42",
   "code_branch": "cisco",
-  "dirty_files": 49,
+  "dirty_files": 48,
   "counts": {
     "dictionary_keys": 607,
     "categories": 26,
@@ -8749,14 +8749,14 @@
               "dect-base",
               "video-device",
               "video-codec",
-              "camera",
+              "conference-camera",
               "microphone",
               "speaker",
               "headset",
               "touch-panel",
               "display",
               "expansion-module",
-              "gateway",
+              "voice-gateway",
               "ata",
               "server"
             ]
@@ -8806,14 +8806,14 @@
               "dect-base",
               "video-device",
               "video-codec",
-              "camera",
+              "conference-camera",
               "microphone",
               "speaker",
               "headset",
               "touch-panel",
               "display",
               "expansion-module",
-              "gateway",
+              "voice-gateway",
               "ata",
               "server"
             ]
@@ -8864,7 +8864,7 @@
           "when": {
             "field": "kind",
             "inList": [
-              "gateway",
+              "voice-gateway",
               "server"
             ]
           }
@@ -8884,14 +8884,14 @@
               "dect-base",
               "video-device",
               "video-codec",
-              "camera",
+              "conference-camera",
               "microphone",
               "speaker",
               "headset",
               "touch-panel",
               "display",
               "expansion-module",
-              "gateway",
+              "voice-gateway",
               "ata",
               "server"
             ]
@@ -8968,7 +8968,7 @@
             "field": "kind",
             "inList": [
               "video-device",
-              "camera",
+              "conference-camera",
               "display",
               "mechanical"
             ]
@@ -9004,7 +9004,7 @@
               "dect-base",
               "video-device",
               "video-codec",
-              "gateway",
+              "voice-gateway",
               "ata",
               "nic"
             ]
@@ -9022,11 +9022,11 @@
               "dect-base",
               "video-device",
               "video-codec",
-              "camera",
+              "conference-camera",
               "speaker",
               "touch-panel",
               "display",
-              "gateway",
+              "voice-gateway",
               "ata",
               "server"
             ]
@@ -9055,7 +9055,7 @@
               "transceiver",
               "power-cord",
               "cable",
-              "camera",
+              "conference-camera",
               "microphone",
               "speaker",
               "touch-panel",
@@ -9140,7 +9140,7 @@
               "video-device",
               "video-codec",
               "ata",
-              "gateway",
+              "voice-gateway",
               "dect-base"
             ]
           }
@@ -9160,14 +9160,14 @@
               "dect-base",
               "video-device",
               "video-codec",
-              "camera",
+              "conference-camera",
               "microphone",
               "speaker",
               "headset",
               "touch-panel",
               "display",
               "expansion-module",
-              "gateway",
+              "voice-gateway",
               "ata",
               "server"
             ]
@@ -9182,14 +9182,14 @@
               "dect-base",
               "video-device",
               "video-codec",
-              "camera",
+              "conference-camera",
               "microphone",
               "speaker",
               "headset",
               "touch-panel",
               "display",
               "expansion-module",
-              "gateway",
+              "voice-gateway",
               "ata",
               "server"
             ]
@@ -9225,14 +9225,14 @@
               "dect-base",
               "video-device",
               "video-codec",
-              "camera",
+              "conference-camera",
               "microphone",
               "speaker",
               "headset",
               "touch-panel",
               "display",
               "expansion-module",
-              "gateway",
+              "voice-gateway",
               "ata",
               "server"
             ]
@@ -9293,7 +9293,7 @@
           "when": {
             "field": "kind",
             "inList": [
-              "camera",
+              "conference-camera",
               "video-device"
             ]
           }
@@ -9515,7 +9515,7 @@
               "video-device",
               "video-codec",
               "ata",
-              "gateway"
+              "voice-gateway"
             ]
           }
         },
@@ -9566,7 +9566,7 @@
             "inList": [
               "video-device",
               "video-codec",
-              "camera",
+              "conference-camera",
               "touch-panel",
               "display"
             ]
@@ -9583,7 +9583,7 @@
           "when": {
             "field": "kind",
             "inList": [
-              "camera",
+              "conference-camera",
               "video-device"
             ]
           }
@@ -9602,7 +9602,7 @@
           "when": {
             "field": "kind",
             "inList": [
-              "gateway",
+              "voice-gateway",
               "ata"
             ]
           }
@@ -9613,7 +9613,7 @@
           "when": {
             "field": "kind",
             "inList": [
-              "gateway"
+              "voice-gateway"
             ]
           }
         },
@@ -11683,7 +11683,7 @@
               "video-device",
               "video-codec",
               "ata",
-              "gateway"
+              "voice-gateway"
             ]
           }
         },
@@ -11766,14 +11766,14 @@
               "dect-base",
               "video-device",
               "video-codec",
-              "camera",
+              "conference-camera",
               "microphone",
               "speaker",
               "headset",
               "touch-panel",
               "display",
               "expansion-module",
-              "gateway",
+              "voice-gateway",
               "ata",
               "server"
             ]
@@ -11989,14 +11989,14 @@
               "dect-base",
               "video-device",
               "video-codec",
-              "camera",
+              "conference-camera",
               "microphone",
               "speaker",
               "headset",
               "touch-panel",
               "display",
               "expansion-module",
-              "gateway",
+              "voice-gateway",
               "ata",
               "server"
             ]
@@ -12107,7 +12107,7 @@
           "when": {
             "field": "kind",
             "inList": [
-              "camera",
+              "conference-camera",
               "video-device"
             ]
           }
@@ -12138,7 +12138,7 @@
           "when": {
             "field": "kind",
             "inList": [
-              "gateway",
+              "voice-gateway",
               "server"
             ]
           }
@@ -12164,7 +12164,7 @@
           "when": {
             "field": "kind",
             "inList": [
-              "gateway"
+              "voice-gateway"
             ]
           }
         },
@@ -12173,7 +12173,7 @@
           "when": {
             "field": "kind",
             "inList": [
-              "gateway",
+              "voice-gateway",
               "ata"
             ]
           }
@@ -12229,14 +12229,14 @@
               "dect-base",
               "video-device",
               "video-codec",
-              "camera",
+              "conference-camera",
               "microphone",
               "speaker",
               "headset",
               "touch-panel",
               "display",
               "expansion-module",
-              "gateway",
+              "voice-gateway",
               "ata",
               "server"
             ]
@@ -12403,7 +12403,7 @@
             "inList": [
               "video-device",
               "video-codec",
-              "camera",
+              "conference-camera",
               "touch-panel",
               "display"
             ]
@@ -12461,7 +12461,7 @@
             "field": "kind",
             "inList": [
               "video-device",
-              "camera",
+              "conference-camera",
               "display",
               "mechanical"
             ]
@@ -12577,7 +12577,7 @@
               "dect-base",
               "video-device",
               "video-codec",
-              "gateway",
+              "voice-gateway",
               "ata",
               "nic"
             ]
@@ -12604,11 +12604,11 @@
               "dect-base",
               "video-device",
               "video-codec",
-              "camera",
+              "conference-camera",
               "speaker",
               "touch-panel",
               "display",
-              "gateway",
+              "voice-gateway",
               "ata",
               "server"
             ]
@@ -12640,7 +12640,7 @@
               "transceiver",
               "power-cord",
               "cable",
-              "camera",
+              "conference-camera",
               "microphone",
               "speaker",
               "touch-panel",
@@ -12873,7 +12873,7 @@
               "video-device",
               "video-codec",
               "ata",
-              "gateway",
+              "voice-gateway",
               "dect-base"
             ]
           }
@@ -12912,14 +12912,14 @@
               "dect-base",
               "video-device",
               "video-codec",
-              "camera",
+              "conference-camera",
               "microphone",
               "speaker",
               "headset",
               "touch-panel",
               "display",
               "expansion-module",
-              "gateway",
+              "voice-gateway",
               "ata",
               "server"
             ]
@@ -12934,14 +12934,14 @@
               "dect-base",
               "video-device",
               "video-codec",
-              "camera",
+              "conference-camera",
               "microphone",
               "speaker",
               "headset",
               "touch-panel",
               "display",
               "expansion-module",
-              "gateway",
+              "voice-gateway",
               "ata",
               "server"
             ]
@@ -13073,14 +13073,14 @@
               "dect-base",
               "video-device",
               "video-codec",
-              "camera",
+              "conference-camera",
               "microphone",
               "speaker",
               "headset",
               "touch-panel",
               "display",
               "expansion-module",
-              "gateway",
+              "voice-gateway",
               "ata",
               "server"
             ]
@@ -13153,7 +13153,7 @@
           "when": {
             "field": "kind",
             "inList": [
-              "camera",
+              "conference-camera",
               "video-device"
             ]
           }
@@ -14792,9 +14792,9 @@
               "switch",
               "access-point",
               "appliance",
-              "camera",
+              "security-camera",
               "environment-sensor",
-              "gateway"
+              "cellular-gateway"
             ]
           }
         },
@@ -14879,9 +14879,9 @@
               "switch",
               "access-point",
               "appliance",
-              "camera",
+              "security-camera",
               "environment-sensor",
-              "gateway"
+              "cellular-gateway"
             ]
           }
         },
@@ -14992,9 +14992,9 @@
               "switch",
               "access-point",
               "appliance",
-              "camera",
+              "security-camera",
               "environment-sensor",
-              "gateway",
+              "cellular-gateway",
               "mechanical"
             ]
           }
@@ -15069,7 +15069,7 @@
               "switch",
               "access-point",
               "appliance",
-              "gateway"
+              "cellular-gateway"
             ]
           }
         },
@@ -15084,8 +15084,8 @@
               "switch",
               "access-point",
               "appliance",
-              "camera",
-              "gateway"
+              "security-camera",
+              "cellular-gateway"
             ]
           }
         },
@@ -15116,8 +15116,8 @@
             "field": "kind",
             "inList": [
               "accessory",
-              "camera",
-              "gateway",
+              "security-camera",
+              "cellular-gateway",
               "mechanical"
             ]
           }
@@ -15142,9 +15142,9 @@
               "switch",
               "access-point",
               "appliance",
-              "camera",
+              "security-camera",
               "environment-sensor",
-              "gateway"
+              "cellular-gateway"
             ]
           }
         },
@@ -15280,7 +15280,7 @@
           "when": {
             "field": "kind",
             "inList": [
-              "camera"
+              "security-camera"
             ]
           }
         },
@@ -15310,9 +15310,9 @@
               "switch",
               "access-point",
               "appliance",
-              "camera",
+              "security-camera",
               "environment-sensor",
-              "gateway"
+              "cellular-gateway"
             ]
           }
         },
@@ -15392,9 +15392,9 @@
               "switch",
               "access-point",
               "appliance",
-              "camera",
+              "security-camera",
               "environment-sensor",
-              "gateway"
+              "cellular-gateway"
             ]
           }
         },
@@ -15437,7 +15437,7 @@
           "when": {
             "field": "kind",
             "inList": [
-              "camera"
+              "security-camera"
             ]
           }
         },
@@ -15446,7 +15446,7 @@
           "when": {
             "field": "kind",
             "inList": [
-              "camera"
+              "security-camera"
             ]
           }
         },
@@ -15455,7 +15455,7 @@
           "when": {
             "field": "kind",
             "inList": [
-              "camera"
+              "security-camera"
             ]
           }
         },
@@ -15476,7 +15476,7 @@
           "when": {
             "field": "kind",
             "inList": [
-              "gateway"
+              "cellular-gateway"
             ]
           }
         },
@@ -15695,7 +15695,7 @@
           "when": {
             "field": "kind",
             "inList": [
-              "camera"
+              "security-camera"
             ]
           }
         },
@@ -16100,7 +16100,14 @@
           }
         },
         "altitude_max": {
-          "kind": "opt"
+          "elseOpt": true,
+          "kind": "cond",
+          "when": {
+            "field": "kind",
+            "inList": [
+              "server"
+            ]
+          }
         },
         "altitude_storage": {
           "kind": "opt"
@@ -16153,7 +16160,7 @@
               "video-device",
               "video-codec",
               "ata",
-              "gateway"
+              "voice-gateway"
             ]
           }
         },
@@ -16236,14 +16243,14 @@
               "dect-base",
               "video-device",
               "video-codec",
-              "camera",
+              "conference-camera",
               "microphone",
               "speaker",
               "headset",
               "touch-panel",
               "display",
               "expansion-module",
-              "gateway",
+              "voice-gateway",
               "ata",
               "server"
             ]
@@ -16320,7 +16327,14 @@
           "kind": "opt"
         },
         "cpu": {
-          "kind": "opt"
+          "elseOpt": true,
+          "kind": "cond",
+          "when": {
+            "field": "kind",
+            "inList": [
+              "server"
+            ]
+          }
         },
         "cpu_base_clock": {
           "kind": "opt"
@@ -16445,14 +16459,14 @@
               "dect-base",
               "video-device",
               "video-codec",
-              "camera",
+              "conference-camera",
               "microphone",
               "speaker",
               "headset",
               "touch-panel",
               "display",
               "expansion-module",
-              "gateway",
+              "voice-gateway",
               "ata",
               "server"
             ]
@@ -16563,7 +16577,7 @@
           "when": {
             "field": "kind",
             "inList": [
-              "camera",
+              "conference-camera",
               "video-device"
             ]
           }
@@ -16594,7 +16608,7 @@
           "when": {
             "field": "kind",
             "inList": [
-              "gateway",
+              "voice-gateway",
               "server"
             ]
           }
@@ -16620,7 +16634,7 @@
           "when": {
             "field": "kind",
             "inList": [
-              "gateway"
+              "voice-gateway"
             ]
           }
         },
@@ -16629,7 +16643,7 @@
           "when": {
             "field": "kind",
             "inList": [
-              "gateway",
+              "voice-gateway",
               "ata"
             ]
           }
@@ -16685,14 +16699,14 @@
               "dect-base",
               "video-device",
               "video-codec",
-              "camera",
+              "conference-camera",
               "microphone",
               "speaker",
               "headset",
               "touch-panel",
               "display",
               "expansion-module",
-              "gateway",
+              "voice-gateway",
               "ata",
               "server"
             ]
@@ -16859,7 +16873,7 @@
             "inList": [
               "video-device",
               "video-codec",
-              "camera",
+              "conference-camera",
               "touch-panel",
               "display"
             ]
@@ -16917,7 +16931,7 @@
             "field": "kind",
             "inList": [
               "video-device",
-              "camera",
+              "conference-camera",
               "display",
               "mechanical"
             ]
@@ -17033,7 +17047,7 @@
               "dect-base",
               "video-device",
               "video-codec",
-              "gateway",
+              "voice-gateway",
               "ata",
               "nic"
             ]
@@ -17060,11 +17074,11 @@
               "dect-base",
               "video-device",
               "video-codec",
-              "camera",
+              "conference-camera",
               "speaker",
               "touch-panel",
               "display",
-              "gateway",
+              "voice-gateway",
               "ata",
               "server"
             ]
@@ -17096,7 +17110,7 @@
               "transceiver",
               "power-cord",
               "cable",
-              "camera",
+              "conference-camera",
               "microphone",
               "speaker",
               "touch-panel",
@@ -17329,7 +17343,7 @@
               "video-device",
               "video-codec",
               "ata",
-              "gateway",
+              "voice-gateway",
               "dect-base"
             ]
           }
@@ -17368,14 +17382,14 @@
               "dect-base",
               "video-device",
               "video-codec",
-              "camera",
+              "conference-camera",
               "microphone",
               "speaker",
               "headset",
               "touch-panel",
               "display",
               "expansion-module",
-              "gateway",
+              "voice-gateway",
               "ata",
               "server"
             ]
@@ -17390,14 +17404,14 @@
               "dect-base",
               "video-device",
               "video-codec",
-              "camera",
+              "conference-camera",
               "microphone",
               "speaker",
               "headset",
               "touch-panel",
               "display",
               "expansion-module",
-              "gateway",
+              "voice-gateway",
               "ata",
               "server"
             ]
@@ -17529,14 +17543,14 @@
               "dect-base",
               "video-device",
               "video-codec",
-              "camera",
+              "conference-camera",
               "microphone",
               "speaker",
               "headset",
               "touch-panel",
               "display",
               "expansion-module",
-              "gateway",
+              "voice-gateway",
               "ata",
               "server"
             ]
@@ -17592,7 +17606,7 @@
           "when": {
             "field": "kind",
             "inList": [
-              "camera",
+              "conference-camera",
               "video-device"
             ]
           }

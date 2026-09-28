@@ -1,15 +1,16 @@
 {
   "vendor": "cisco",
   "category": "transceiver",
-  "built_at": "2026-09-27T23:24:22.802Z",
-  "commit": "83feaebcf224cd87dd094bf9d352e869f820d537",
+  "built_at": "2026-09-27T23:59:18.950Z",
+  "commit": "cdfcd7cf6568ba3e2dec571e579695fa0ae53b42",
   "uncommitted_rule_files": [
+    "src/core/collabKind.ts",
     "src/core/cupLedger.ts",
     "src/core/fieldSchema.ts",
+    "src/core/kindProfiles.ts",
     "src/core/layerChecks.ts",
     "src/core/merakiKind.ts",
-    "src/core/physicalObjectCups.ts",
-    "src/core/wirelessKind.ts"
+    "src/core/physicalObjectCups.ts"
   ],
   "mapping_file": "data/reference/product-lines/cisco-transceiver.json",
   "parts": 2109,
@@ -658,9 +659,9 @@
   "inbound_unplaced": {},
   "done": true,
   "build": {
-    "data_commit": "1c1c5e8984af+92dirty",
-    "code_commit": "83feaebcf224",
-    "contract_hash": "8afedbb94693dda0",
-    "generated_at": "2026-09-27T23:49:14.008Z"
+    "data_commit": "cdfcd7cf6568+38dirty",
+    "code_commit": "cdfcd7cf6568",
+    "contract_hash": "d24c7710659592bc",
+    "generated_at": "2026-09-28T00:09:52.557Z"
   }
 }

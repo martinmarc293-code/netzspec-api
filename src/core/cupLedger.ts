@@ -75,7 +75,7 @@ export const LEDGER_KINDS: Readonly<Record<string, readonly string[]>> = {
   // kind-layer (13 Sep 2026): read from moduleKind's own MOD_KINDS (default `module` -> `unknown`, `service` -> `module`,
   // `voice` folded into `interface` + `module`), so a kind added or renamed there is listed here without a second copy.
   "interfaces-modules": [...MOD_KINDS, ...MECH],
-  meraki: [...(["unknown", "switch", "access-point", "appliance", "camera", "environment-sensor", "gateway",
+  meraki: [...(["unknown", "switch", "access-point", "appliance", "security-camera", "environment-sensor", "cellular-gateway",
     "accessory"] satisfies MerakiKind[]), ...MECH],
   // data-center-networking reuses switchKind, so it reuses its kind list — every one gets a
   // question set even though only four of the fifteen have a part today (partKind.ts says which).

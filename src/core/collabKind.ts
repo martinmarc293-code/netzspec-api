@@ -49,16 +49,16 @@
 //        chargers, batteries, handsets, pens and remotes (ACCESSORY). The name path already moved 403 of the first
 //        kind; the SKU split names the rest whose NAME says only the SKU or names the host device.
 export type CollabKind =
-  | "phone" | "dect-base" | "video-device" | "video-codec" | "camera" | "microphone" | "speaker" | "headset"
-  | "touch-panel" | "display" | "expansion-module" | "gateway" | "ata" | "voice-module" | "server"
+  | "phone" | "dect-base" | "video-device" | "video-codec" | "conference-camera" | "microphone" | "speaker" | "headset"
+  | "touch-panel" | "display" | "expansion-module" | "voice-gateway" | "ata" | "voice-module" | "server"
   | "cpu" | "memory" | "drive" | "nic" | "storage-controller" | "tpm" | "flash"
   | "power" | "power-cord" | "cable" | "mechanical" | "accessory" | "transceiver" | "software"
   | "unknown";
 
 /** Every kind the axis can name — the ledger lists all of them, including kinds no part holds today. */
 export const COLLAB_KINDS: readonly CollabKind[] = [
-  "phone", "dect-base", "video-device", "video-codec", "camera", "microphone", "speaker", "headset",
-  "touch-panel", "display", "expansion-module", "gateway", "ata", "voice-module", "server",
+  "phone", "dect-base", "video-device", "video-codec", "conference-camera", "microphone", "speaker", "headset",
+  "touch-panel", "display", "expansion-module", "voice-gateway", "ata", "voice-module", "server",
   "cpu", "memory", "drive", "nic", "storage-controller", "tpm", "flash",
   "power", "power-cord", "cable", "mechanical", "accessory", "transceiver", "software", "unknown",
 ];
@@ -68,11 +68,11 @@ export const COLLAB_SERVER_PART: readonly CollabKind[] = ["cpu", "memory", "driv
 
 /** A whole product with its own specification sheet: it has a body, an environment and certifications. */
 export const COLLAB_ENDPOINT: readonly CollabKind[] = [
-  "phone", "dect-base", "video-device", "video-codec", "camera", "microphone", "speaker", "headset",
-  "touch-panel", "display", "expansion-module", "gateway", "ata", "server",
+  "phone", "dect-base", "video-device", "video-codec", "conference-camera", "microphone", "speaker", "headset",
+  "touch-panel", "display", "expansion-module", "voice-gateway", "ata", "server",
 ];
 /** Endpoints that run call software and register to a call-control platform. */
-export const COLLAB_CALLING: readonly CollabKind[] = ["phone", "video-device", "video-codec", "ata", "gateway"];
+export const COLLAB_CALLING: readonly CollabKind[] = ["phone", "video-device", "video-codec", "ata", "voice-gateway"];
 /** Video endpoints: an integrated screen (video-device) or a codec, kit or bar that drives external ones. */
 export const COLLAB_VIDEO: readonly CollabKind[] = ["video-device", "video-codec"];
 /** Things with a screen of their own — asked `display`. A codec, a bar and a kit are not. */
@@ -117,7 +117,7 @@ const RULES: { kind: CollabKind; re: RegExp }[] = [
   // adapter", the one conference-phone part that is a cable (item 3 had it as a phone issue).
   { kind: "cable", re: /^CAB-|(?:^|-)CAB-MAG$|^CD-CBL-|^CTS-CABL|^CP-CAB-|^CS-CAB-|^CP-HS-WL?-(?:MUSB|USB|RJ|YQD)|-CBLKIT|-CBL$|(?:^|-)CAB\d+$|^CTS-5K-(?:CBL|EP-CBL|R\d-\d+M)|-USB-CAB$/ },
   // IX5000 and Panorama sub-assemblies: the named ones first, the rest of each family is furniture.
-  { kind: "camera", re: /-CAM-CLSTR/ },
+  { kind: "conference-camera", re: /-CAM-CLSTR/ },
   { kind: "microphone", re: /^CTS-5K-MIC/ },
   // kind-layer (13 Sep 2026): CTS-5K-SPKR "CTS-IX5000 Main Speakers, 1 Qty" — a speaker, was an accessory by family.
   { kind: "speaker", re: /^CTS-5K-(?:SUBWOOFER|AMP-|SPKR$)|^CS-PANO-(?:BASS|SPKR)/ },
@@ -222,7 +222,7 @@ const RULES: { kind: CollabKind; re: RegExp }[] = [
   { kind: "display", re: /-MON(?:\d|[LRS]|-|$)|^CTS-MON-|^CTS-LAPT-DISP/ },
   { kind: "touch-panel", re: /^CS-T10(?:-|$)|^CS-TOUCH\d|^CTS-CTRL-DV/ },
   { kind: "microphone", re: /^CS-MIC-|^CTS-MIC-|^CTS-ST-ARR|^CP-MIC-/ },
-  { kind: "camera", re: /^CS-CAM-|QUADCAM|^CTS-CAM-|^CTS-PHD|^PHD-KIT|^CD-DSKCAM|^CTS-MXCAM|^CTS-SPKER-TRACK/ },
+  { kind: "conference-camera", re: /^CS-CAM-|QUADCAM|^CTS-CAM-|^CTS-PHD|^PHD-KIT|^CD-DSKCAM|^CTS-MXCAM|^CTS-SPKER-TRACK/ },
   { kind: "speaker", re: /-SPKR$|^SP-ATLAS-/ },
   // Headsets: HS-W-321, HS-WL-730, CP-HS-W-532-USBA. A model number follows the family; an adapter does not.
   { kind: "headset", re: /^HS-WL?-\d|^HS-WL?-\d{3}|^CP-HS-WL?-\d{3}/ },
@@ -236,7 +236,7 @@ const RULES: { kind: CollabKind; re: RegExp }[] = [
   // (placeholder names; the model number is the evidence, 3 rows, no document).
   { kind: "phone", re: /^CP-\d{3,4}|^CP-ROOM-|^DP-98\d\d|^WP-98\d\d|^SPA\d{3}G|^SPA30\d|^SPA302D|^SLINK-\d{4}-/ },
   // Voice gateways: VG202..VG450, the SPA8000/8800 8-port gateways, the Euro-ISDN VG-2BRI, C3945-112FXS.
-  { kind: "gateway", re: /^VG\d|^VG-\d?BRI|^SPA8\d{3}|^C3945-\d+FXS/ },
+  { kind: "voice-gateway", re: /^VG\d|^VG-\d?BRI|^SPA8\d{3}|^C3945-\d+FXS/ },
   // collab-class (12 Sep 2026) — THE ONE REAL HARDWARE FAMILY IN THE FALLBACK RESIDUE.
   // The reverse NAME control over unified-communications' 1,456 `unknown` rows was run to find
   // licences wearing a hardware class; it found 1,430 of those and exactly one family going the
@@ -245,7 +245,7 @@ const RULES: { kind: CollabKind; re: RegExp }[] = [
   // Gateway": physical boxes that sit between a legacy PBX and Unity Connection. 14 parts.
   // They are ALSO the `except` list on productClass's UNITY licence prefix — a rule and a veto for
   // the same 14 parts, in the two files that each have to get them right.
-  { kind: "gateway", re: /^UNITY-[PT]IMG(?:-|\d|$)/ },
+  { kind: "voice-gateway", re: /^UNITY-[PT]IMG(?:-|\d|$)/ },
   // end collab-class
   // Analog telephone adapters, including the ATA-with-router SKUs (SPA122, SPA2102, WRP400, ATA192).
   { kind: "ata", re: /^ATA\d|^SPA1\d\d|^SPA2\d{3}|^SPA232D|^WRP\d/ },

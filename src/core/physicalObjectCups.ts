@@ -70,6 +70,12 @@ export const PHYSICAL_OBJECT_CUPS: Record<string, Record<string, readonly string
   // deleted so the next reader sees it was considered and why.
   // wireless: { cable: ["connector"] },
   "unified-communications": { server: ["altitude_max", "cpu"] },
+  // CONFERENCING JOINS FOR AN INVARIANT, not for parts: it holds 0 live rows today. All three COLLAB_CATEGORIES
+  // (unified-communications, collaboration-endpoints, conferencing) are served by one kind axis, and
+  // tests/collabKind.test.ts asserts the other two ask exactly what collaboration-endpoints asks. Adding the
+  // row to two of the three broke that invariant — a category diverging because a decision reached its
+  // siblings and not it, which is the very defect this whole table exists to remove.
+  conferencing: { server: ["altitude_max", "cpu"] },
   "hyperconverged-infrastructure": { bundle: ["product_compatibility"] },
   // pluggable joined the list on the reviewer's ruling rather than being a kind split: an ONS/NCS DWDM optic
   // and a Catalyst SFP are the same physical object, and the DWDM-specific cups (wavelength, reach_max,

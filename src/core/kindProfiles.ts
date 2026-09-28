@@ -129,8 +129,15 @@ export const KIND_PARITY_OPEN: readonly KindParityOpen[] = [
   // token; fix partKind so it lands in ap" and BOTH halves of that were checkable and false: the rule is an
   // explicit line written 13 Sep on purpose, and all 15 rows carry Cisco's own name "Aironet 1800S Series
   // Network Sensor". Holding it and putting the evidence back is what turned it into the split above.
-  { kind: "gateway", cause: "kind-split", note: "meraki MG21 is a CELLULAR gateway (cellular_bands); unified-communications SPA8000-BR is an ANALOGUE VOICE gateway (fxo_ports, fxs_ports, audio_codecs). The sharpest of the five." },
-  { kind: "camera", cause: "kind-split", note: "collaboration-endpoints CD-DSKCAM-C-US is a conferencing camera (camera_zoom); meraki MV12 is a surveillance camera (image_sensor, storage_capacity, video_quality_max)." },
+  // RESOLVED 28 Sep 2026: SPLIT into `cellular-gateway` (meraki MG, 18 parts -- cellular_bands) and
+  // `voice-gateway` (unified-communications VG / SPA8000 / UNITY-PIMG, 61 parts -- fxo_ports, fxs_ports,
+  // audio_codecs). The sharpest of the four: cellular_bands and fxo_ports cannot belong to one kind, and the
+  // names say so outright -- "Meraki MG41 Cellular Gateway" against "VG400 Analog Voice Gateway with 6 FXS
+  // and 6 FXO".
+  // RESOLVED 28 Sep 2026: SPLIT into `conference-camera` (collaboration-endpoints, 60 parts -- camera_zoom,
+  // field_of_view) and `security-camera` (meraki MV, 35 -- image_sensor, storage_capacity,
+  // video_quality_max). Spread-sampled names: "Cisco Desk Camera 4K", "PTZ 4K Camera", "Quad Camera",
+  // "Precision 40 Camera with 8x zoom" against MV12 / MV23 / MV53X-HW / MV72.
   { kind: "pluggable", cause: "kind-split", note: "optical-networking 15454-ML1000-2 is asked reach_max/wavelength; transceiver 15216-GBIC-1510 is asked ddm/form_factor/media/standard/temp_class. A DWDM line-card pluggable against a datacom optic — needs the operator, because unlike the other four the two cup sets are both plausible for one kind." },
   { kind: "appliance", cause: "strictness", note: "THE SAME CUPS on both sides: security holds concurrent_sessions, firewall_throughput, ipsec_throughput, threat_throughput and the rest as `pending` where meraki holds them as `req`. Seven apparent disagreements, ONE question about strictness, answered by one line in one profile. `ports` falls out with it." },
   { kind: "power", cause: "profile-gap", note: "input_voltage asked by 12 categories, not interfaces-modules; airflow and psu_rated_output asked by 11, not interfaces-modules or routers. A power supply has an input voltage wherever it is filed." },

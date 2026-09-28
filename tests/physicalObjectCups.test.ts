@@ -47,10 +47,10 @@ check("routers/form_factor is NOT required of a kind in neither list (`cable`)",
 
 // ---- the counts, so a row cannot quietly stop landing ------------------------------------------------------
 const declared = physicalObjectRows().reduce((n, r) => n + r.cups.length, 0);
-check(`the table declares 39 cup additions across 22 (category, kind) rows`,
-  declared === 39 && physicalObjectRows().length === 22, { declared, rows: physicalObjectRows().length });
-check("all 39 landed: nothing was refused as `na`, already req, or an unknown dictionary key",
-  PHYSICAL_OBJECT_CUP_REPORT.widened.length === 39 && PHYSICAL_OBJECT_CUP_REPORT.refusedNa.length === 0
+check(`the table declares 41 cup additions across 23 (category, kind) rows`,
+  declared === 41 && physicalObjectRows().length === 23, { declared, rows: physicalObjectRows().length });
+check("all 41 landed: nothing was refused as `na`, already req, or an unknown dictionary key",
+  PHYSICAL_OBJECT_CUP_REPORT.widened.length === 41 && PHYSICAL_OBJECT_CUP_REPORT.refusedNa.length === 0
   && PHYSICAL_OBJECT_CUP_REPORT.alreadyReq.length === 0 && PHYSICAL_OBJECT_CUP_REPORT.unknownKey.length === 0,
   { widened: PHYSICAL_OBJECT_CUP_REPORT.widened.length, refusedNa: PHYSICAL_OBJECT_CUP_REPORT.refusedNa,
     alreadyReq: PHYSICAL_OBJECT_CUP_REPORT.alreadyReq, unknownKey: PHYSICAL_OBJECT_CUP_REPORT.unknownKey });

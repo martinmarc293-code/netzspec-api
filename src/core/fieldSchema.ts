@@ -1186,7 +1186,7 @@ export const AXIS_GATED_CATEGORIES: Readonly<Record<string, readonly string[]>> 
   // switch-or-router field would describe, and its real profile is `optical-networking`'s.
   // kind-layer (13 Sep 2026): `voice` folded into `interface` (+ DSP banks into `module`), `service` renamed `module`.
   "interfaces-modules": ["interface", "fabric", "cellular", "radio", "module", "device"],
-  meraki: ["unknown", "switch", "access-point", "appliance", "camera", "environment-sensor", "gateway"],
+  meraki: ["unknown", "switch", "access-point", "appliance", "security-camera", "environment-sensor", "cellular-gateway"],
   "data-center-networking": ["switch", "fex"],
 };
 
@@ -1460,12 +1460,12 @@ const collabBlock = (): Record<string, Requirement> => ({
   // their PoE standard instead; a headset, a microphone and a camera draw from the device they plug into.
   // Every endpoint that draws its own power ("Power consumption" 170 mapped). NOT a headset, a microphone or a
   // key expansion module: they draw from the host they plug into, and their draw is part of the host's figure.
-  power_max: cK(["phone", "dect-base", "video-device", "video-codec", "camera", "speaker", "touch-panel", "display", "gateway", "ata", "server"]),
+  power_max: cK(["phone", "dect-base", "video-device", "video-codec", "conference-camera", "speaker", "touch-panel", "display", "voice-gateway", "ata", "server"]),
   // PoE-powered endpoints ("PoE Support" 13 aliased today; 9 mapped). A speaker is NOT gated in: the IX5000 and
   // MX speakers are amplifier-fed while the Atlas IP speakers are PoE+, so the kind cannot answer it (report).
   poe_standard: cK(["phone", "dect-base", "touch-panel"]),
   // Racked boxes only; a phone has no form factor in this domain (rack-19 / desktop / din-rail / chassis).
-  form_factor: cK(["gateway", "server"]),
+  form_factor: cK(["voice-gateway", "server"]),
   rack_units: cond({ field: "form_factor", inList: ["rack-19", "modular-chassis"] }),
   // round-6 B6, all five categories as the reviewer decided (12 Sep 2026). A UC or Meeting Server
   // application server is a UCS C-series box, and the two sizing cups it is bought on are the same
@@ -1504,7 +1504,7 @@ const collabBlock = (): Record<string, Requirement> => ({
   // audio codecs: 80 facts; "Audio codec support" 10 mapped, and "Codecs"/"Codec support" (13) aliased today.
   audio_codecs: cK([...COLLAB_CALLING]),
   // the network ports a phone, a room device or a gateway carries (LAN + PC port, codec Ethernet), and a NIC's
-  ports: cK(["phone", "dect-base", ...COLLAB_VIDEO, "gateway", "ata", "nic"]),
+  ports: cK(["phone", "dect-base", ...COLLAB_VIDEO, "voice-gateway", "ata", "nic"]),
   // kind-layer (13 Sep 2026): the PHONE role delta — a WIRELESS phone is asked its Wi-Fi generation (spec I.4 PHONE:
   // wifi_generation (g: deploy_role = wireless)). Optional for every other phone and kind, never n/a.
   wifi_generation: cond({ all: [{ field: "kind", inList: ["phone"] }, { field: "deploy_role", inList: ["wireless"] }] }, { elseOpt: true }),
@@ -1532,18 +1532,18 @@ const collabBlock = (): Record<string, Requirement> => ({
   video_codecs: cK(COLLAB_VIDEO),
   // "Resolution" 5 mapped (Room Navigator / Touch 10), "Video resolution" 12 aliased today (collab-scoped).
   // kind-layer (13 Sep 2026): + display (DISPLAY archetype: max_resolution).
-  max_resolution: cK([...COLLAB_VIDEO, "camera", "touch-panel", "display"]),
+  max_resolution: cK([...COLLAB_VIDEO, "conference-camera", "touch-panel", "display"]),
   // kind-layer (13 Sep 2026): a codec's video inputs and outputs (VIDEO-CODEC archetype).
   // (free strings with no recorded decision: proposed required by VIDEO-CODEC, kept optional, listed for the parent)
   video_inputs: opt, video_outputs: opt,
   // --- cameras --------------------------------------------------------------------------------------------
   // A camera is bought on resolution, zoom and field of view: "Field of view" 16 mapped, "Zoom" 8 aliased today.
   // kind-layer (13 Sep 2026): + video-device (VIDEO-DEVICE archetype: an integrated room system's camera).
-  camera_zoom: cK(["camera", "video-device"]), field_of_view: cK(["camera", "video-device"]),
+  camera_zoom: cK(["conference-camera", "video-device"]), field_of_view: cK(["conference-camera", "video-device"]),
   camera_pan_tilt_range: opt,            // 0 labels, 0 facts — a PTZ-only figure; declared, not required
   // kind-layer (13 Sep 2026): how a room device, a camera and a display are mounted (their archetypes). `mechanical` is
   // added by the fallback-kinds loop at the foot of this file.
-  mounting: cK(["video-device", "camera", "display"], true),
+  mounting: cK(["video-device", "conference-camera", "display"], true),
   // --- audio ----------------------------------------------------------------------------------------------
   // mic_type: "Microphone type" 6, aliased today; the samples are headset sheets (950 earbuds), so it is asked
   // of a headset. A table or ceiling microphone's type is not in the inventory at all:
@@ -1564,7 +1564,7 @@ const collabBlock = (): Record<string, Requirement> => ({
   // FXS-only; 6 facts, one stores 0) and a gate on it would be a gate on an optional fact — it stays optional.
   // kind-layer (13 Sep 2026): the GATEWAY archetype lists fxo_ports as required — proposed required of a gateway (a
   // gateway with no FXO port states 0; the parent's measurement decides).
-  fxs_ports: cK(["gateway", "ata"]), fxo_ports: cK(["gateway"], true),
+  fxs_ports: cK(["voice-gateway", "ata"]), fxo_ports: cK(["voice-gateway"], true),
   // --- what a part fits --------------------------------------------------------------------------------
   // A voice card, a server CPU, a PSU, a key expansion module: bought for its host. "Product compatibility" 92,
   // "Chassis compatibility" 36, "Chassis support" 23 map (switch and optical sheets — an upper bound here).
@@ -1572,7 +1572,7 @@ const collabBlock = (): Record<string, Requirement> => ({
   // nothing — 642 accessories in collaboration-endpoints, 42 in UC, 1 in conferencing, 8 optics — which scores
   // every one of them complete. What a mount, a bracket, a stand or a cable fits is the one thing it is bought on.
   // kind-layer (13 Sep 2026): + camera, microphone, speaker, touch-panel and dect-base (their archetypes list COMPAT).
-  product_compatibility: cK([...COLLAB_FITS, "accessory", "transceiver", ...COLLAB_CABLE, "camera", "microphone", "speaker", "touch-panel", "dect-base"], true),
+  product_compatibility: cK([...COLLAB_FITS, "accessory", "transceiver", ...COLLAB_CABLE, "conference-camera", "microphone", "speaker", "touch-panel", "dect-base"], true),
   // kind-layer (13 Sep 2026): `power-supply` -> `power` (III.1) — the PSU archetype, one set across categories: rated
   // output (today), input voltage and airflow (added; III.0 item 6 "psu -> power adds cups").
   psu_rated_output: cK(["power"]), input_voltage: cK(["power"], true), airflow: cK(["power"], true),
@@ -2084,10 +2084,10 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     poe_budget: cond({ all: [{ field: "kind", inList: ["switch"] }, { field: "poe_standard", ne: "none" }] }),
     switching_capacity: cond({ field: "kind", inList: ["switch"] }),
     // The camera questions: what it sees, at what quality, through what sensor. 11 / 9 / 9 of 52.
-    field_of_view: cond({ field: "kind", inList: ["camera"] }),
-    video_quality_max: cond({ field: "kind", inList: ["camera"] }),
-    image_sensor: cond({ field: "kind", inList: ["camera"] }),
-    storage_capacity: cond({ field: "kind", inList: ["camera"] }),
+    field_of_view: cond({ field: "kind", inList: ["security-camera"] }),
+    video_quality_max: cond({ field: "kind", inList: ["security-camera"] }),
+    image_sensor: cond({ field: "kind", inList: ["security-camera"] }),
+    storage_capacity: cond({ field: "kind", inList: ["security-camera"] }),
     // An MX/Z appliance is a firewall: 8 of 26 hold a throughput figure and it is what one is bought on.
     firewall_throughput: cond({ field: "kind", inList: ["appliance"] }),
     // An MR/CW access point is bought on its Wi-Fi generation. 3 facts, and `wifi_generation` is
@@ -2099,11 +2099,11 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     battery_count: opt,
     // A cellular gateway is bought on its bands. 0 of 38 hold one — a coverage gap, not a wrong
     // cup: "Bands supported" / "Bands" occur 56 times in the Cisco datasheet vocabulary.
-    cellular_bands: cond({ field: "kind", inList: ["gateway"] }),
+    cellular_bands: cond({ field: "kind", inList: ["cellular-gateway"] }),
     cellular_category: opt, cellular_max_speed: opt,
     // A mounting kit is bought for what it fits, and that is all it is asked.
     // kind-layer: + camera (CAMERA) and gateway (CELLULAR) — both library kinds ask what they attach to.
-    product_compatibility: cond({ field: "kind", inList: ["accessory", "camera", "gateway"] }),
+    product_compatibility: cond({ field: "kind", inList: ["accessory", "security-camera", "cellular-gateway"] }),
     // STRUCTURE 8 Sep 2026: 30 field(s) its documents already produce and no profile declared — invisible to completeness until now.
     // field_of_view, video_quality_max, image_sensor, battery_count and battery_life were REMOVED
     // from this line on 12 Sep 2026: they are declared conditional above, and a later `opt` in the
@@ -2154,7 +2154,7 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // tests/source-fields.test.ts names it a required field no enabled source publishes.
     new_conn_per_sec: opt,
     // camera (CAMERA).
-    max_resolution: cond({ field: "kind", inList: ["camera"] }),
+    max_resolution: cond({ field: "kind", inList: ["security-camera"] }),
     camera_zoom: opt, // reviewer C.3 (13 Sep 2026): 0 label occurrences over held parts -> OPTIONAL, promote when measured (spec rule 8)
   },
 

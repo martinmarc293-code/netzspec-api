@@ -52,11 +52,11 @@ export const DEVICE_KINDS: ReadonlySet<string> = new Set(["router", "sp-router",
   "fc-switch", "director",
   // Layers round 3, unified-communications round: collabKind's calling boxes join — `phone`, `gateway` (VG / SPA8000 voice gateways) and
   // `ata` (analog telephone adapters). The video endpoints and room peripherals are the collaboration-endpoints round's.
-  "phone", "gateway", "ata",
+  "phone", "voice-gateway", "ata",
   // Layers round 3, collaboration-endpoints round: the rest of collabKind's COLLAB_ENDPOINT ("a whole product with its own specification
   // sheet") joins — video devices and codecs, DECT bases, and the cameras, microphones, speakers, headsets, touch panels, displays and
   // key expansion modules Cisco sells as products of their own.
-  "video-device", "video-codec", "dect-base", "camera", "microphone", "speaker", "headset", "touch-panel", "display", "expansion-module",
+  "video-device", "video-codec", "dect-base", "conference-camera", "microphone", "speaker", "headset", "touch-panel", "display", "expansion-module",
   // Layers round 3, meraki round: merakiKind names an access point `access-point` (wireless's kind is `ap`); its camera, appliance,
   // gateway, sensor and switch nouns are already here.
   "access-point",
@@ -64,7 +64,9 @@ export const DEVICE_KINDS: ReadonlySet<string> = new Set(["router", "sp-router",
   // sensor, above) and `environment-sensor` (the Meraki MT). BOTH are whole devices, and leaving the second
   // out made the meraki sabotage case go red -- correctly: a Meraki MT in a line's shared parts is a device
   // filed as a part, and this set is what says so.
-  "environment-sensor"]);
+  // THE CAMERA AND GATEWAY SPLITS, 28 Sep 2026. Each of the four is a whole device and all four belong here.
+  // The collab names are above (`conference-camera`, `voice-gateway`); these are meraki's.
+  "environment-sensor", "security-camera", "cellular-gateway"]);
 export function deviceInSharedParts(rows: LayerRow[]): LayerRow[] {
   return rows.filter((r) => /shared parts$/.test(nodeOf(r) ?? "") && DEVICE_KINDS.has(r.kind ?? ""));
 }

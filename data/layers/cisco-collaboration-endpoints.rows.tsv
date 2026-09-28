@@ -368,12 +368,12 @@ CAB-XLR-EUROBLOCK	^Cable XLR to Euroblock/Phoenix connector, 20 cm	TelePresence 
 CAB-XLR-EUROBLOCK=	Cable XLR to Euroblock/Phoenix connector, 20 cm	TelePresence MX Series	cable	layered	TelePresence (legacy)	(shared across the line)		TelePresence (legacy) shared parts	accessory ^CAB- (label TelePresence MX Series)							
 CD-CBL-USBC-USBA=	Spare USB 3.0 C-to-A cable for Desk Camera series	Desk Series	cable	layered	Cameras	(none)	Desk Camera		sku ^CD-CBL-							
 CD-CBL-USBC-USBC=	Spare USB 3.0 C-to-C cable for Desk Camera series	Desk Series	cable	layered	Cameras	(none)	Desk Camera		sku ^CD-CBL-							
-CD-DSKCAM-C-US	Cisco Desk Camera 4K in carbon black for United States (includes USB 3.0 C-to-A and USB 3.0 C-to-C cables)	Desk Series	camera	layered	Cameras	(none)	Desk Camera		sku ^CD-DSKCAM							
-CD-DSKCAM-C-WW	Cisco Desk Camera 4K in carbon black for worldwide (includes USB 3.0 C-to-A and USB 3.0 C-to-C cables)	Desk Series	camera	layered	Cameras	(none)	Desk Camera		sku ^CD-DSKCAM							
-CD-DSKCAM-P-US	Cisco Desk Camera 4K in platinum for United States (includes USB 3.0 C-to-A and USB 3.0 C-to-C cables)	Desk Series	camera	layered	Cameras	(none)	Desk Camera		sku ^CD-DSKCAM							
-CD-DSKCAM-P-WW	Cisco Desk Camera 4K in platinum for worldwide (includes USB 3.0 C-to-A and USB 3.0 C-to-C cables)	Desk Series	camera	layered	Cameras	(none)	Desk Camera		sku ^CD-DSKCAM							
-CD-DSKCAMD-C-US	Cisco Desk Camera 1080p in carbon black for United States (includes USB 2.0 C-to-A cable)	Desk Series	camera	layered	Cameras	(none)	Desk Camera		sku ^CD-DSKCAM							
-CD-DSKCAMD-C-WW	Cisco Desk Camera 1080p in carbon black for worldwide (includes USB 2.0 C-to-A cable)	Desk Series	camera	layered	Cameras	(none)	Desk Camera		sku ^CD-DSKCAM							
+CD-DSKCAM-C-US	Cisco Desk Camera 4K in carbon black for United States (includes USB 3.0 C-to-A and USB 3.0 C-to-C cables)	Desk Series	conference-camera	layered	Cameras	(none)	Desk Camera		sku ^CD-DSKCAM							
+CD-DSKCAM-C-WW	Cisco Desk Camera 4K in carbon black for worldwide (includes USB 3.0 C-to-A and USB 3.0 C-to-C cables)	Desk Series	conference-camera	layered	Cameras	(none)	Desk Camera		sku ^CD-DSKCAM							
+CD-DSKCAM-P-US	Cisco Desk Camera 4K in platinum for United States (includes USB 3.0 C-to-A and USB 3.0 C-to-C cables)	Desk Series	conference-camera	layered	Cameras	(none)	Desk Camera		sku ^CD-DSKCAM							
+CD-DSKCAM-P-WW	Cisco Desk Camera 4K in platinum for worldwide (includes USB 3.0 C-to-A and USB 3.0 C-to-C cables)	Desk Series	conference-camera	layered	Cameras	(none)	Desk Camera		sku ^CD-DSKCAM							
+CD-DSKCAMD-C-US	Cisco Desk Camera 1080p in carbon black for United States (includes USB 2.0 C-to-A cable)	Desk Series	conference-camera	layered	Cameras	(none)	Desk Camera		sku ^CD-DSKCAM							
+CD-DSKCAMD-C-WW	Cisco Desk Camera 1080p in carbon black for worldwide (includes USB 2.0 C-to-A cable)	Desk Series	conference-camera	layered	Cameras	(none)	Desk Camera		sku ^CD-DSKCAM							
 CIT3-5108-PKG-HW	UCS 5108 Packaging for chassis with half width blades.	Meeting Server	mechanical	layered	Meeting Server and TelePresence Management	(shared across the line)		Meeting Server and TelePresence Management shared parts	sku ^CIT3-							
 CIT3-B200-M4	UCS B200 M4 w/o CPU, mem, drive bays, HDD, mezz	Meeting Server	server	layered	Meeting Server and TelePresence Management	(none)	Meeting Server 1000 / 2000		sku ^CIT3-B200-							
 CIT3-B200-M4-CON	UCS B200 M4 w/o CPU, mem, drive bays, HDD, mezz	Meeting Server	server	layered	Meeting Server and TelePresence Management	(none)	Meeting Server 1000 / 2000		sku ^CIT3-B200-							
@@ -1443,22 +1443,22 @@ CS-CAB-V-QPA85-	Samsung 85" QPA invisible cable	Room Series	cable	layered	Webex 
 CS-CAB-V-QPA85=	Samsung 85" QPA invisible cable	Room Series	cable	layered	Webex Room Series	(shared across the line)		Webex Room Series shared parts	label Room Series							
 CS-CAB-V-QPR82-	Samsung 82" QPR invisible cable	Room Series	cable	layered	Webex Room Series	(shared across the line)		Webex Room Series shared parts	label Room Series							
 CS-CAB-V-QPR82=	Samsung 82" QPR invisible cable	Room Series	cable	layered	Webex Room Series	(shared across the line)		Webex Room Series shared parts	label Room Series							
-CS-CAM-PTZ12+	Pan-Tilt-Zoom 12x Camera	Conferencing Cameras	camera	layered	Cameras	(none)	Room Vision PTZ and Quad Camera		sku ^CS-CAM							
-CS-CAM-PTZ12=	Pan-Tilt-Zoom 12x Camera with power supply	Conferencing Cameras	camera	layered	Cameras	(none)	Room Vision PTZ and Quad Camera		sku ^CS-CAM							
-CS-CAM-PTZ4K	Cisco PTZ 4K Camera	Room Series	camera	layered	Cameras	(none)	Room Vision PTZ and Quad Camera		sku ^CS-CAM							
-CS-CAM-PTZ4K+	Webex PTZ 4K Camera	Room Series	camera	layered	Cameras	(none)	Room Vision PTZ and Quad Camera		sku ^CS-CAM							
-CS-CAM-PTZ4K-IND	Cisco PTZ 4K Camera for India	Room Series	camera	layered	Cameras	(none)	Room Vision PTZ and Quad Camera		sku ^CS-CAM							
-CS-CAM-PTZ4K=	Cisco PTZ 4K Camera - SPARE	Spark Board	camera	layered	Cameras	(none)	Room Vision PTZ and Quad Camera		sku ^CS-CAM							
-CS-CAM-RVPTZ-C	Cisco Room Vision PTZ Camera, Carbon Black	Room Series	camera	layered	Cameras	(none)	Room Vision PTZ and Quad Camera		sku ^CS-CAM							
-CS-CAM-RVPTZ-C=	Cisco Room Vision PTZ Camera, Carbon Black – SPARE	Room Series	camera	layered	Cameras	(none)	Room Vision PTZ and Quad Camera		sku ^CS-CAM							
+CS-CAM-PTZ12+	Pan-Tilt-Zoom 12x Camera	Conferencing Cameras	conference-camera	layered	Cameras	(none)	Room Vision PTZ and Quad Camera		sku ^CS-CAM							
+CS-CAM-PTZ12=	Pan-Tilt-Zoom 12x Camera with power supply	Conferencing Cameras	conference-camera	layered	Cameras	(none)	Room Vision PTZ and Quad Camera		sku ^CS-CAM							
+CS-CAM-PTZ4K	Cisco PTZ 4K Camera	Room Series	conference-camera	layered	Cameras	(none)	Room Vision PTZ and Quad Camera		sku ^CS-CAM							
+CS-CAM-PTZ4K+	Webex PTZ 4K Camera	Room Series	conference-camera	layered	Cameras	(none)	Room Vision PTZ and Quad Camera		sku ^CS-CAM							
+CS-CAM-PTZ4K-IND	Cisco PTZ 4K Camera for India	Room Series	conference-camera	layered	Cameras	(none)	Room Vision PTZ and Quad Camera		sku ^CS-CAM							
+CS-CAM-PTZ4K=	Cisco PTZ 4K Camera - SPARE	Spark Board	conference-camera	layered	Cameras	(none)	Room Vision PTZ and Quad Camera		sku ^CS-CAM							
+CS-CAM-RVPTZ-C	Cisco Room Vision PTZ Camera, Carbon Black	Room Series	conference-camera	layered	Cameras	(none)	Room Vision PTZ and Quad Camera		sku ^CS-CAM							
+CS-CAM-RVPTZ-C=	Cisco Room Vision PTZ Camera, Carbon Black – SPARE	Room Series	conference-camera	layered	Cameras	(none)	Room Vision PTZ and Quad Camera		sku ^CS-CAM							
 CS-CAM-RVPTZ-CBKC	Ceiling-Wall Mount for Room Vision PTZ Camera - Carbon Black	Room Series	mechanical	layered	Cameras	(none)	Room Vision PTZ and Quad Camera		sku ^CS-CAM							
 CS-CAM-RVPTZ-CBKC=	Ceiling-Wall Mount for Room Vision PTZ Camera - Carbon Black - SPARE	Room Series	mechanical	layered	Cameras	(none)	Room Vision PTZ and Quad Camera		sku ^CS-CAM							
 CS-CAM-RVPTZ-CBKL	Ceiling-Wall Mount for Room Vision PTZ Camera - Arctic * White	Room Series	mechanical	layered	Cameras	(none)	Room Vision PTZ and Quad Camera		sku ^CS-CAM							
 CS-CAM-RVPTZ-CBKL=	Ceiling-Wall Mount for Room Vision PTZ Camera - Arctic White - SPARE *	Room Series	mechanical	layered	Cameras	(none)	Room Vision PTZ and Quad Camera		sku ^CS-CAM							
-CS-CAM-RVPTZ-CBUN	Cisco Room Vision PTZ Camera, Carbon Black - Bundle	Spark Board	camera	layered	Cameras	(none)	Room Vision PTZ and Quad Camera		sku ^CS-CAM							
-CS-CAM-RVPTZ-L	Cisco Room Vision PTZ Camera, Arctic White *	Room Series	camera	layered	Cameras	(none)	Room Vision PTZ and Quad Camera		sku ^CS-CAM							
-CS-CAM-RVPTZ-L=	Cisco Room Vision PTZ Camera, Arctic White - SPARE *	Room Series	camera	layered	Cameras	(none)	Room Vision PTZ and Quad Camera		sku ^CS-CAM							
-CS-CAM-RVPTZ-LBUN	Cisco Room Vision PTZ Camera, Arctic White - Bundle *	Spark Board	camera	layered	Cameras	(none)	Room Vision PTZ and Quad Camera		sku ^CS-CAM							
+CS-CAM-RVPTZ-CBUN	Cisco Room Vision PTZ Camera, Carbon Black - Bundle	Spark Board	conference-camera	layered	Cameras	(none)	Room Vision PTZ and Quad Camera		sku ^CS-CAM							
+CS-CAM-RVPTZ-L	Cisco Room Vision PTZ Camera, Arctic White *	Room Series	conference-camera	layered	Cameras	(none)	Room Vision PTZ and Quad Camera		sku ^CS-CAM							
+CS-CAM-RVPTZ-L=	Cisco Room Vision PTZ Camera, Arctic White - SPARE *	Room Series	conference-camera	layered	Cameras	(none)	Room Vision PTZ and Quad Camera		sku ^CS-CAM							
+CS-CAM-RVPTZ-LBUN	Cisco Room Vision PTZ Camera, Arctic White - Bundle *	Spark Board	conference-camera	layered	Cameras	(none)	Room Vision PTZ and Quad Camera		sku ^CS-CAM							
 CS-CAM-RVPTZ-WBKC	Wall Only Mount for Room Vision PTZ Camera - Carbon Black	Room Series	mechanical	layered	Cameras	(none)	Room Vision PTZ and Quad Camera		sku ^CS-CAM							
 CS-CAM-RVPTZ-WBKC=	Wall Only Mount for Room Vision PTZ Camera - Carbon Black - SPARE	Room Series	mechanical	layered	Cameras	(none)	Room Vision PTZ and Quad Camera		sku ^CS-CAM							
 CS-CAM-RVPTZ-WBKL	Wall Only Mount for Room Vision PTZ Camera - Arctic White *	Room Series	mechanical	layered	Cameras	(none)	Room Vision PTZ and Quad Camera		sku ^CS-CAM							
@@ -1829,11 +1829,11 @@ CS-PWR-CUBE-7=	Power adapter for Cisco Desk Pro and Desk Pro G2	Desk Series	powe
 CS-PWR-INJ-30W	Power Injector 802.3at PoE+ 30W	Desk Series	power	layered	Webex Desk Series	(shared across the line)		Webex Desk Series shared parts	label Desk Series							
 CS-PWR-INJ-30W=	Power Injector 802.3at PoE+ 30W – SPARE	Room Series	power	layered	Webex Desk Series	(shared across the line)		Webex Desk Series shared parts	label Desk Series							
 CS-PWR-STRIP4=	Power strip 1x C14 Inlet, 4x Outlet F	Room Series	accessory	layered	Webex Room Series	(shared across the line)		Webex Room Series shared parts	label Room Series							
-CS-QUADCAM+	Cisco Quad Camera	Conferencing Cameras	camera	layered	Cameras	(none)	Room Vision PTZ and Quad Camera		sku ^CS-QUADCAM							
-CS-QUADCAM2+	Cisco CS-QUADCAM2+	Conferencing Cameras	camera	layered	Cameras	(none)	Room Vision PTZ and Quad Camera		sku ^CS-QUADCAM							
-CS-QUADCAM2-C=	Cisco Quad Camera (Carbon Black) SPARE	Room Series	camera	layered	Cameras	(none)	Room Vision PTZ and Quad Camera		sku ^CS-QUADCAM							
-CS-QUADCAM2=	Cisco Quad Camera (First Light) SPARE	Room Series	camera	layered	Cameras	(none)	Room Vision PTZ and Quad Camera		sku ^CS-QUADCAM							
-CS-QUADCAM=	Cisco Quad Camera (spare)	Room Series	camera	layered	Cameras	(none)	Room Vision PTZ and Quad Camera		sku ^CS-QUADCAM							
+CS-QUADCAM+	Cisco Quad Camera	Conferencing Cameras	conference-camera	layered	Cameras	(none)	Room Vision PTZ and Quad Camera		sku ^CS-QUADCAM							
+CS-QUADCAM2+	Cisco CS-QUADCAM2+	Conferencing Cameras	conference-camera	layered	Cameras	(none)	Room Vision PTZ and Quad Camera		sku ^CS-QUADCAM							
+CS-QUADCAM2-C=	Cisco Quad Camera (Carbon Black) SPARE	Room Series	conference-camera	layered	Cameras	(none)	Room Vision PTZ and Quad Camera		sku ^CS-QUADCAM							
+CS-QUADCAM2=	Cisco Quad Camera (First Light) SPARE	Room Series	conference-camera	layered	Cameras	(none)	Room Vision PTZ and Quad Camera		sku ^CS-QUADCAM							
+CS-QUADCAM=	Cisco Quad Camera (spare)	Room Series	conference-camera	layered	Cameras	(none)	Room Vision PTZ and Quad Camera		sku ^CS-QUADCAM							
 CS-R-USB-T10-KIT	Touch 10 Kit for Room USB Upgrade	Room Series	mechanical	layered	Webex Room Series	(none)	Room Navigator and Touch 10		sku ^CS-R-USB-T10							
 CS-R-USB-UPG-BUN	Upgrade Kit for Webex Room USB to Webex Room Kit Mini (upgrade license, Webex Room Navigator, 8-meter flat Ethernet cable)	Room Series	unknown	layered	Webex Room Series	(shared across the line)		Webex Room Series shared parts	label Room Series							
 CS-R55-UNI2-K9+	Cisco Webex Room 55 Main Unit	Room Series	video-device	layered	Webex Room Series	(none)	Room 55 / 55D		sku ^CS-R55-							
@@ -1977,9 +1977,9 @@ CS-ROOM70SG2-K9	Cisco Webex Room 70 Single G2 with Codec Pro and Navigator	TeleP
 CS-ROOM70SG2-M-K9	Cisco Webex Room 70 Single G2 with Touch10 for Spark Subs	TelePresence MX Series	video-device	layered	Webex Room Series	(none)	Room 70 / 70S / 70D		sku ^CS-ROOM70							
 CS-ROOM70SG2-NR-K7	Cisco Webex Room 70 Single, Non Encryption and Non Radio	Room Series	video-device	layered	Webex Room Series	(none)	Room 70 / 70S / 70D		sku ^CS-ROOM70							
 CS-ROOM70SG2-NR-K9	Cisco Webex Room 70 Single w/Codec Pro and Touch10 Non Radio	Room Series	video-device	layered	Webex Room Series	(none)	Room 70 / 70S / 70D		sku ^CS-ROOM70							
-CS-RPQUADCAM	Fully automatic quadcamera for Room Panorama	Room Series	camera	layered	Webex Room Series	(none)	Room Panorama		sku ^CS-RPQUADCAM							
-CS-RPQUADCAM+	Fully automatic quadcamera for Room Panorama	Room Series	camera	layered	Webex Room Series	(none)	Room Panorama		sku ^CS-RPQUADCAM							
-CS-RPQUADCAM=	Quadcamera for Room Panorama (Spare)	Room Series	camera	layered	Webex Room Series	(none)	Room Panorama		sku ^CS-RPQUADCAM							
+CS-RPQUADCAM	Fully automatic quadcamera for Room Panorama	Room Series	conference-camera	layered	Webex Room Series	(none)	Room Panorama		sku ^CS-RPQUADCAM							
+CS-RPQUADCAM+	Fully automatic quadcamera for Room Panorama	Room Series	conference-camera	layered	Webex Room Series	(none)	Room Panorama		sku ^CS-RPQUADCAM							
+CS-RPQUADCAM=	Quadcamera for Room Panorama (Spare)	Room Series	conference-camera	layered	Webex Room Series	(none)	Room Panorama		sku ^CS-RPQUADCAM							
 CS-SWCH-RACKEAR-	Rackears for Ethernet Switch	Room Series	mechanical	layered	Webex Room Series	(shared across the line)		Webex Room Series shared parts	label Room Series							
 CS-SWCH-RACKEAR=	Rackears for Ethernet Switch	Room Series	mechanical	layered	Webex Room Series	(shared across the line)		Webex Room Series shared parts	label Room Series							
 CS-SX10N-MSRP-K9	SX10 w/ 5x Cam, mic, PSU and wall mount - SUBSCRIPTION ONLY	TelePresence SX Series (QuickSet)	video-codec	layered	TelePresence (legacy)	(none)	TelePresence SX (SX10 / SX20 / SX80)		label TelePresence SX Series (QuickSet)						sku-token: SX	
@@ -2072,8 +2072,8 @@ CTS-5K-AMP-SUBWFR	CTS-IX5000 Audio Subwoofer Amplifier	TelePresence IX5000 Serie
 CTS-5K-AMP-SUBWFR=	CTS-IX5000 Audio Subwoofer Amplifier	TelePresence IX5000 Series	speaker	layered	TelePresence (legacy)	(none)	TelePresence IX5000		sku ^CTS-5K(?!-(LC|UI)-SWITCH)							
 CTS-5K-BZL-KIT	CTS-IX5000 Horizontal and Vertical Display Bezel	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)	(none)	TelePresence IX5000		sku ^CTS-5K(?!-(LC|UI)-SWITCH)							
 CTS-5K-BZL-KIT=	CTS-IX5000 Horizontal and Vertical Display Bezel	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)	(none)	TelePresence IX5000		sku ^CTS-5K(?!-(LC|UI)-SWITCH)							
-CTS-5K-CAM-CLSTR	CTS-IX5000 Camera Cluster	TelePresence IX5000 Series	camera	layered	TelePresence (legacy)	(none)	TelePresence IX5000		sku ^CTS-5K(?!-(LC|UI)-SWITCH)							
-CTS-5K-CAM-CLSTR=	CTS-IX5000 Camera Cluster	TelePresence IX5000 Series	camera	layered	TelePresence (legacy)	(none)	TelePresence IX5000		sku ^CTS-5K(?!-(LC|UI)-SWITCH)							
+CTS-5K-CAM-CLSTR	CTS-IX5000 Camera Cluster	TelePresence IX5000 Series	conference-camera	layered	TelePresence (legacy)	(none)	TelePresence IX5000		sku ^CTS-5K(?!-(LC|UI)-SWITCH)							
+CTS-5K-CAM-CLSTR=	CTS-IX5000 Camera Cluster	TelePresence IX5000 Series	conference-camera	layered	TelePresence (legacy)	(none)	TelePresence IX5000		sku ^CTS-5K(?!-(LC|UI)-SWITCH)							
 CTS-5K-CAM-HS	CTS-IX5000 Plastic Camera Housing	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)	(none)	TelePresence IX5000		sku ^CTS-5K(?!-(LC|UI)-SWITCH)							
 CTS-5K-CAM-HS=	CTS-IX5000 Plastic Camera Housing	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)	(none)	TelePresence IX5000		sku ^CTS-5K(?!-(LC|UI)-SWITCH)							
 CTS-5K-CAM-TOOL	CTS-IX5000 Camera Alignment Tool, QTY 2	TelePresence IX5000 Series	mechanical	layered	TelePresence (legacy)	(none)	TelePresence IX5000		sku ^CTS-5K(?!-(LC|UI)-SWITCH)							
@@ -2211,13 +2211,13 @@ CTS-C20CODEC-K9=	C20 Codec - Spare	TelePresence SX Series (QuickSet)	video-codec
 CTS-C20CODEC=	C20 CODEC Non Encrypted Version Spare	TelePresence SX Series (QuickSet)	video-codec	layered	TelePresence (legacy)	(none)	TelePresence C-series codecs		sku ^CTS-C[0-9]{2}							
 CTS-CABL-RJ45-6	TelePresence Cable Rj45 to RJ45 6M	TelePresence MX Series	cable	layered	TelePresence (legacy)	(shared across the line)		TelePresence (legacy) shared parts	sku ^CTS-							
 CTS-CABL-RJ45-6=	TelePresence Cable Rj45 to RJ45 6M	TelePresence MX Series	cable	layered	TelePresence (legacy)	(shared across the line)		TelePresence (legacy) shared parts	sku ^CTS-							
-CTS-CAM-P40	Precision 40 Camera with 8x zoom	TelePresence Precision Cameras (P60)	camera	layered	Cameras	(none)	Precision 40 / 60 / PrecisionHD cameras		sku ^CTS-CAM-P40							
-CTS-CAM-P40+	Precision 40 Camera with 8x zoom	TelePresence Precision Cameras (P60)	camera	layered	Cameras	(none)	Precision 40 / 60 / PrecisionHD cameras		sku ^CTS-CAM-P40							
-CTS-CAM-P40=	Precision 40 Camera with 8x zoom (spare)	TelePresence Precision Cameras (P60)	camera	layered	Cameras	(none)	Precision 40 / 60 / PrecisionHD cameras		sku ^CTS-CAM-P40							
-CTS-CAM-P60	Cisco TelePresence Precision 60 Camera	TelePresence Precision Cameras (P60)	camera	layered	Cameras	(none)	Precision 40 / 60 / PrecisionHD cameras		sku ^CTS-CAM-P60							
-CTS-CAM-P60+	Cisco TelePresence Precision 60 Camera - auto expand only	TelePresence Precision Cameras (P60)	camera	layered	Cameras	(none)	Precision 40 / 60 / PrecisionHD cameras		sku ^CTS-CAM-P60							
-CTS-CAM-P60-KIT	Cisco TelePresence Precision 60 Camera Kit	TelePresence MX Series	camera	layered	Cameras	(none)	Precision 40 / 60 / PrecisionHD cameras		sku ^CTS-CAM-P60							
-CTS-CAM-P60=	Cisco TelePresence Precision 60 Camera Spare	Room Series	camera	layered	Cameras	(none)	Precision 40 / 60 / PrecisionHD cameras		sku ^CTS-CAM-P60							
+CTS-CAM-P40	Precision 40 Camera with 8x zoom	TelePresence Precision Cameras (P60)	conference-camera	layered	Cameras	(none)	Precision 40 / 60 / PrecisionHD cameras		sku ^CTS-CAM-P40							
+CTS-CAM-P40+	Precision 40 Camera with 8x zoom	TelePresence Precision Cameras (P60)	conference-camera	layered	Cameras	(none)	Precision 40 / 60 / PrecisionHD cameras		sku ^CTS-CAM-P40							
+CTS-CAM-P40=	Precision 40 Camera with 8x zoom (spare)	TelePresence Precision Cameras (P60)	conference-camera	layered	Cameras	(none)	Precision 40 / 60 / PrecisionHD cameras		sku ^CTS-CAM-P40							
+CTS-CAM-P60	Cisco TelePresence Precision 60 Camera	TelePresence Precision Cameras (P60)	conference-camera	layered	Cameras	(none)	Precision 40 / 60 / PrecisionHD cameras		sku ^CTS-CAM-P60							
+CTS-CAM-P60+	Cisco TelePresence Precision 60 Camera - auto expand only	TelePresence Precision Cameras (P60)	conference-camera	layered	Cameras	(none)	Precision 40 / 60 / PrecisionHD cameras		sku ^CTS-CAM-P60							
+CTS-CAM-P60-KIT	Cisco TelePresence Precision 60 Camera Kit	TelePresence MX Series	conference-camera	layered	Cameras	(none)	Precision 40 / 60 / PrecisionHD cameras		sku ^CTS-CAM-P60							
+CTS-CAM-P60=	Cisco TelePresence Precision 60 Camera Spare	Room Series	conference-camera	layered	Cameras	(none)	Precision 40 / 60 / PrecisionHD cameras		sku ^CTS-CAM-P60							
 CTS-CC-SX10-K9	SX10 HD w/ screen mount, int 5x cam and mic	TelePresence SX Series (QuickSet)	video-codec	layered	TelePresence (legacy)	(none)	TelePresence SX (SX10 / SX20 / SX80)		sku ^CTS-CC-SX10							
 CTS-CTRL-DV10	Cisco Touch 10 Control Unit	TelePresence SX Series (QuickSet)	touch-panel	layered	Webex Room Series	(none)	Room Navigator and Touch 10		sku ^CTS-CTRL							
 CTS-CTRL-DV10+	Cisco Touch 10 inch	Touch	touch-panel	layered	Webex Room Series	(none)	Room Navigator and Touch 10		sku ^CTS-CTRL							
@@ -2412,12 +2412,12 @@ CTS-MX800-SWM-LGR=	MX800 Single Wallmount Lower Grill	TelePresence MX Series	mec
 CTS-MX800D-2CAM-K9	Cisco MX800, Dual 70	TelePresence MX Series	video-device	layered	TelePresence (legacy)	(none)	TelePresence MX (MX200 / MX300 / MX700 / MX800)		sku ^CTS-MX[0-9]							
 CTS-MX800S-1CAM-K9	Cisco MX800 single 70”, single camera option (both options comes with Cisco Touch 10, 2 microphones, 2 presentation cables, HDMI and VGA, and power cable)	TelePresence MX Series	video-device	layered	TelePresence (legacy)	(none)	TelePresence MX (MX200 / MX300 / MX700 / MX800)		sku ^CTS-MX[0-9]							
 CTS-MX800S-2CAM-K9	Cisco MX800, Single 70, Dual Camera	TelePresence MX Series	video-device	layered	TelePresence (legacy)	(none)	TelePresence MX (MX200 / MX300 / MX700 / MX800)		sku ^CTS-MX[0-9]							
-CTS-MXCAM-D	^Dual Camera with speaker tracking option for MX700/MX800	TelePresence MX Series	camera	layered	TelePresence (legacy)	(none)	TelePresence MX (MX200 / MX300 / MX700 / MX800)		sku ^CTS-MXCAM							
-CTS-MXCAM-D-	Dual Camera with speaker tracking option for MX700/MX800	TelePresence MX Series	camera	layered	TelePresence (legacy)	(none)	TelePresence MX (MX200 / MX300 / MX700 / MX800)		sku ^CTS-MXCAM							
-CTS-MXCAM-D=	Dual Camera with speaker tracking option for MX700/MX800	TelePresence MX Series	camera	layered	TelePresence (legacy)	(none)	TelePresence MX (MX200 / MX300 / MX700 / MX800)		sku ^CTS-MXCAM							
-CTS-MXCAM-S	^Single Camera option for MX700/MX800	TelePresence MX Series	camera	layered	TelePresence (legacy)	(none)	TelePresence MX (MX200 / MX300 / MX700 / MX800)		sku ^CTS-MXCAM							
-CTS-MXCAM-S-	Single Camera option for MX700/MX800	TelePresence MX Series	camera	layered	TelePresence (legacy)	(none)	TelePresence MX (MX200 / MX300 / MX700 / MX800)		sku ^CTS-MXCAM							
-CTS-MXCAM-S=	Single Camera option for MX700/MX800 Spare	TelePresence MX Series	camera	layered	TelePresence (legacy)	(none)	TelePresence MX (MX200 / MX300 / MX700 / MX800)		sku ^CTS-MXCAM							
+CTS-MXCAM-D	^Dual Camera with speaker tracking option for MX700/MX800	TelePresence MX Series	conference-camera	layered	TelePresence (legacy)	(none)	TelePresence MX (MX200 / MX300 / MX700 / MX800)		sku ^CTS-MXCAM							
+CTS-MXCAM-D-	Dual Camera with speaker tracking option for MX700/MX800	TelePresence MX Series	conference-camera	layered	TelePresence (legacy)	(none)	TelePresence MX (MX200 / MX300 / MX700 / MX800)		sku ^CTS-MXCAM							
+CTS-MXCAM-D=	Dual Camera with speaker tracking option for MX700/MX800	TelePresence MX Series	conference-camera	layered	TelePresence (legacy)	(none)	TelePresence MX (MX200 / MX300 / MX700 / MX800)		sku ^CTS-MXCAM							
+CTS-MXCAM-S	^Single Camera option for MX700/MX800	TelePresence MX Series	conference-camera	layered	TelePresence (legacy)	(none)	TelePresence MX (MX200 / MX300 / MX700 / MX800)		sku ^CTS-MXCAM							
+CTS-MXCAM-S-	Single Camera option for MX700/MX800	TelePresence MX Series	conference-camera	layered	TelePresence (legacy)	(none)	TelePresence MX (MX200 / MX300 / MX700 / MX800)		sku ^CTS-MXCAM							
+CTS-MXCAM-S=	Single Camera option for MX700/MX800 Spare	TelePresence MX Series	conference-camera	layered	TelePresence (legacy)	(none)	TelePresence MX (MX200 / MX300 / MX700 / MX800)		sku ^CTS-MXCAM							
 CTS-MXCODEC	Codec for MX700/MX800	TelePresence MX Series	video-codec	layered	TelePresence (legacy)	(none)	TelePresence MX (MX200 / MX300 / MX700 / MX800)		sku ^CTS-MXCODEC							
 CTS-MXCODEC-	Codec for MX700/MX800	TelePresence MX Series	video-codec	layered	TelePresence (legacy)	(none)	TelePresence MX (MX200 / MX300 / MX700 / MX800)		sku ^CTS-MXCODEC							
 CTS-MXCODEC=	Codec for MX700/MX800	TelePresence MX Series	video-codec	layered	TelePresence (legacy)	(none)	TelePresence MX (MX200 / MX300 / MX700 / MX800)		sku ^CTS-MXCODEC							
@@ -2441,23 +2441,23 @@ CTS-NAL-TTC7-25	CS Room Kit Plus NAL label for China	Room Series	accessory	layer
 CTS-NAL-TTC7-26	CS Room Kit Mini NAL label for China	Room Series	accessory	layered	TelePresence (legacy)	(shared across the line)		TelePresence (legacy) shared parts	sku ^CTS-							
 CTS-NAL-TTC7-27	CS Webex Desk Pro NAL label for China	Desk Series	accessory	layered	TelePresence (legacy)	(shared across the line)		TelePresence (legacy) shared parts	sku ^CTS-							
 CTS-NAL-TTC9-01	CS Webex Desk Mini NAL label for China	Desk Series	accessory	layered	TelePresence (legacy)	(shared across the line)		TelePresence (legacy) shared parts	sku ^CTS-							
-CTS-PHD-1080P-KIT=	PrecisionHD Camera - 1080p12x Camera and Kit	TelePresence PrecisionHD Cameras	camera	layered	Cameras	(none)	Precision 40 / 60 / PrecisionHD cameras		sku ^CTS-PHD							
-CTS-PHD-1080P12XG=	PrecisionHD 1080p12X Unit - Gray	TelePresence PrecisionHD Cameras	camera	layered	Cameras	(none)	Precision 40 / 60 / PrecisionHD cameras		sku ^CTS-PHD							
-CTS-PHD-1080P12XS	PrecisionHD 1080p Camera w 12x zoom - not sold stand alone	TelePresence PrecisionHD Cameras	camera	layered	Cameras	(none)	Precision 40 / 60 / PrecisionHD cameras		sku ^CTS-PHD							
-CTS-PHD-1080P12XS+	PrecisionHD 1080p 12X Unit - Silver, + indicates auto expand	TelePresence PrecisionHD Cameras	camera	layered	Cameras	(none)	Precision 40 / 60 / PrecisionHD cameras		sku ^CTS-PHD							
-CTS-PHD-1080P12XS=	PrecisionHD 1080p 12X Unit - Silver	TelePresence Precision Cameras (P60)	camera	layered	Cameras	(none)	Precision 40 / 60 / PrecisionHD cameras		sku ^CTS-PHD							
-CTS-PHD-1080P4XS=	PrecisionHD 1080p4x Unit - Silver - use with Cisco Codec C40 based products	TelePresence PrecisionHD Cameras	camera	layered	Cameras	(none)	Precision 40 / 60 / PrecisionHD cameras		sku ^CTS-PHD							
-CTS-PHD1080P12XS2	PrecisionHD Camera 1080p 12x Gen 2	TelePresence MX Series	camera	layered	Cameras	(none)	Precision 40 / 60 / PrecisionHD cameras		sku ^CTS-PHD							
-CTS-PHD1080P12XS2+	PrecisionHD Camera 1080p 12x Gen 2 for use in auto expand	TelePresence Precision Cameras (P60)	camera	layered	Cameras	(none)	Precision 40 / 60 / PrecisionHD cameras		sku ^CTS-PHD							
-CTS-PHD1080P12XS2=	PrecisionHD Camera 1080p 12x Gen 2	TelePresence Precision Cameras (P60)	camera	layered	Cameras	(none)	Precision 40 / 60 / PrecisionHD cameras		sku ^CTS-PHD							
-CTS-PHD1080P4XS+	PrecisionHD 1080p Camera w 4x zoom, autoexpand usage only	TelePresence SX Series (QuickSet)	camera	layered	Cameras	(none)	Precision 40 / 60 / PrecisionHD cameras		sku ^CTS-PHD							
-CTS-PHD1080P4XS1	PrecisionHD 1080p Camera w 4x zoom - not sold stand alone	TelePresence SX Series (QuickSet)	camera	layered	Cameras	(none)	Precision 40 / 60 / PrecisionHD cameras		sku ^CTS-PHD							
-CTS-PHD1080P4XS1+	PrecisionHD 1080p Camera w 4x zoom, autoexpand usage only	TelePresence SX Series (QuickSet)	camera	layered	Cameras	(none)	Precision 40 / 60 / PrecisionHD cameras		sku ^CTS-PHD							
-CTS-PHD1080P4XS1=	PrecisionHD 1080p4x Unit - Silver - use with Cisco Codec C20 based products	TelePresence PrecisionHD Cameras	camera	layered	Cameras	(none)	Precision 40 / 60 / PrecisionHD cameras		sku ^CTS-PHD							
-CTS-PHD1080P4XS2	PrecisionHD Camera 1080p 4x Gen 2	TelePresence SX Series (QuickSet)	camera	layered	Cameras	(none)	Precision 40 / 60 / PrecisionHD cameras		sku ^CTS-PHD							
-CTS-PHD1080P4XS2+	PrecisionHD Camera 1080p 4x SX20 auto expand	TelePresence SX Series (QuickSet)	camera	layered	Cameras	(none)	Precision 40 / 60 / PrecisionHD cameras		sku ^CTS-PHD							
-CTS-PHD1080P4XS2=	PrecisionHD Camera 1080p 4x Gen 2	TelePresence SX Series (QuickSet)	camera	layered	Cameras	(none)	Precision 40 / 60 / PrecisionHD cameras		sku ^CTS-PHD							
-CTS-PHD=	PrecisionHD Camera, 720p	TelePresence PrecisionHD Cameras	camera	layered	Cameras	(none)	Precision 40 / 60 / PrecisionHD cameras		sku ^CTS-PHD							
+CTS-PHD-1080P-KIT=	PrecisionHD Camera - 1080p12x Camera and Kit	TelePresence PrecisionHD Cameras	conference-camera	layered	Cameras	(none)	Precision 40 / 60 / PrecisionHD cameras		sku ^CTS-PHD							
+CTS-PHD-1080P12XG=	PrecisionHD 1080p12X Unit - Gray	TelePresence PrecisionHD Cameras	conference-camera	layered	Cameras	(none)	Precision 40 / 60 / PrecisionHD cameras		sku ^CTS-PHD							
+CTS-PHD-1080P12XS	PrecisionHD 1080p Camera w 12x zoom - not sold stand alone	TelePresence PrecisionHD Cameras	conference-camera	layered	Cameras	(none)	Precision 40 / 60 / PrecisionHD cameras		sku ^CTS-PHD							
+CTS-PHD-1080P12XS+	PrecisionHD 1080p 12X Unit - Silver, + indicates auto expand	TelePresence PrecisionHD Cameras	conference-camera	layered	Cameras	(none)	Precision 40 / 60 / PrecisionHD cameras		sku ^CTS-PHD							
+CTS-PHD-1080P12XS=	PrecisionHD 1080p 12X Unit - Silver	TelePresence Precision Cameras (P60)	conference-camera	layered	Cameras	(none)	Precision 40 / 60 / PrecisionHD cameras		sku ^CTS-PHD							
+CTS-PHD-1080P4XS=	PrecisionHD 1080p4x Unit - Silver - use with Cisco Codec C40 based products	TelePresence PrecisionHD Cameras	conference-camera	layered	Cameras	(none)	Precision 40 / 60 / PrecisionHD cameras		sku ^CTS-PHD							
+CTS-PHD1080P12XS2	PrecisionHD Camera 1080p 12x Gen 2	TelePresence MX Series	conference-camera	layered	Cameras	(none)	Precision 40 / 60 / PrecisionHD cameras		sku ^CTS-PHD							
+CTS-PHD1080P12XS2+	PrecisionHD Camera 1080p 12x Gen 2 for use in auto expand	TelePresence Precision Cameras (P60)	conference-camera	layered	Cameras	(none)	Precision 40 / 60 / PrecisionHD cameras		sku ^CTS-PHD							
+CTS-PHD1080P12XS2=	PrecisionHD Camera 1080p 12x Gen 2	TelePresence Precision Cameras (P60)	conference-camera	layered	Cameras	(none)	Precision 40 / 60 / PrecisionHD cameras		sku ^CTS-PHD							
+CTS-PHD1080P4XS+	PrecisionHD 1080p Camera w 4x zoom, autoexpand usage only	TelePresence SX Series (QuickSet)	conference-camera	layered	Cameras	(none)	Precision 40 / 60 / PrecisionHD cameras		sku ^CTS-PHD							
+CTS-PHD1080P4XS1	PrecisionHD 1080p Camera w 4x zoom - not sold stand alone	TelePresence SX Series (QuickSet)	conference-camera	layered	Cameras	(none)	Precision 40 / 60 / PrecisionHD cameras		sku ^CTS-PHD							
+CTS-PHD1080P4XS1+	PrecisionHD 1080p Camera w 4x zoom, autoexpand usage only	TelePresence SX Series (QuickSet)	conference-camera	layered	Cameras	(none)	Precision 40 / 60 / PrecisionHD cameras		sku ^CTS-PHD							
+CTS-PHD1080P4XS1=	PrecisionHD 1080p4x Unit - Silver - use with Cisco Codec C20 based products	TelePresence PrecisionHD Cameras	conference-camera	layered	Cameras	(none)	Precision 40 / 60 / PrecisionHD cameras		sku ^CTS-PHD							
+CTS-PHD1080P4XS2	PrecisionHD Camera 1080p 4x Gen 2	TelePresence SX Series (QuickSet)	conference-camera	layered	Cameras	(none)	Precision 40 / 60 / PrecisionHD cameras		sku ^CTS-PHD							
+CTS-PHD1080P4XS2+	PrecisionHD Camera 1080p 4x SX20 auto expand	TelePresence SX Series (QuickSet)	conference-camera	layered	Cameras	(none)	Precision 40 / 60 / PrecisionHD cameras		sku ^CTS-PHD							
+CTS-PHD1080P4XS2=	PrecisionHD Camera 1080p 4x Gen 2	TelePresence SX Series (QuickSet)	conference-camera	layered	Cameras	(none)	Precision 40 / 60 / PrecisionHD cameras		sku ^CTS-PHD							
+CTS-PHD=	PrecisionHD Camera, 720p	TelePresence PrecisionHD Cameras	conference-camera	layered	Cameras	(none)	Precision 40 / 60 / PrecisionHD cameras		sku ^CTS-PHD							
 CTS-POE-INJ	Touch10 PoE power injector	Room Series	power	layered	TelePresence (legacy)	(shared across the line)		TelePresence (legacy) shared parts	sku ^CTS-							
 CTS-PWR-AIR-INJ5	Power Injector (802.3af)	TelePresence MX Series	power	layered	TelePresence (legacy)	(shared across the line)		TelePresence (legacy) shared parts	sku ^CTS-							
 CTS-PWR-AIR-INJ5+	Power Injector (802.3af)	Room Series	power	layered	TelePresence (legacy)	(shared across the line)		TelePresence (legacy) shared parts	sku ^CTS-							
@@ -2480,7 +2480,7 @@ CTS-RMT-TRC5=	Remote Control TRC 5	TelePresence SX Series (QuickSet)	accessory	l
 CTS-RMT-TRC6	Cisco TelePresence Remote Control 6	TelePresence SX Series (QuickSet)	accessory	layered	TelePresence (legacy)	(shared across the line)		TelePresence (legacy) shared parts	sku ^CTS-							
 CTS-RMT-TRC6-	Remote Control TRC 6	Room Series	accessory	layered	TelePresence (legacy)	(shared across the line)		TelePresence (legacy) shared parts	sku ^CTS-							
 CTS-RMT-TRC6=	Remote Control TRC 6 spare	Room Series	accessory	layered	TelePresence (legacy)	(shared across the line)		TelePresence (legacy) shared parts	sku ^CTS-							
-CTS-SPKER-TRACK60	Cisco TelePresence Speaker Track 60 Kit	SpeakerTrack 60	camera	layered	Cameras	(none)	SpeakerTrack 60		sku ^CTS-SPKER-TRACK60							
+CTS-SPKER-TRACK60	Cisco TelePresence Speaker Track 60 Kit	SpeakerTrack 60	conference-camera	layered	Cameras	(none)	SpeakerTrack 60		sku ^CTS-SPKER-TRACK60							
 CTS-ST-ARR60-WMK-	Wall Mount Kit for Speaker Track 60 Microphone Array	SpeakerTrack 60	mechanical	layered	TelePresence (legacy)	(shared across the line)		TelePresence (legacy) shared parts	sku ^CTS-							
 CTS-ST-ARR60-WMK=	SPARE Wall Mount Kit for Speaker Track 60 Microphone array	SpeakerTrack 60	mechanical	layered	TelePresence (legacy)	(shared across the line)		TelePresence (legacy) shared parts	sku ^CTS-							
 CTS-ST-ARRAY60+	Speaker Track 60 Microphone Array	SpeakerTrack 60	microphone	layered	Cameras	(none)	SpeakerTrack 60		sku ^CTS-ST-ARRAY60							
@@ -2644,7 +2644,7 @@ PA100-AU	Power supply for SPA500, CP500, and SPA9xx-5V/2A (AU style plug). Power
 PA100-EU	Power supply for SPA500, CP500, and SPA 900 Series-5V/2A (EU style plug)	SPA500 IP Phones	power	layered	IP Phones	(none)	SPA500 IP Phones		sku ^PA100-							
 PA100-NA	Power supply for SPA500, CP500, and SPA 900 Series-5V/2A (North America style plug)	SPA500 IP Phones	power	layered	IP Phones	(none)	SPA500 IP Phones		sku ^PA100-							
 PA100-UK	Power supply for SPA500, CP500, and SPA 900 Series-5V/2A (UK style plug )	SPA500 IP Phones	power	layered	IP Phones	(none)	SPA500 IP Phones		sku ^PA100-							
-PHD-KIT=	Precision HD Camera Option Kit 720p	TelePresence PrecisionHD Cameras	camera	layered	Cameras	(none)	Precision 40 / 60 / PrecisionHD cameras		label TelePresence PrecisionHD Cameras						name: Precision	
+PHD-KIT=	Precision HD Camera Option Kit 720p	TelePresence PrecisionHD Cameras	conference-camera	layered	Cameras	(none)	Precision 40 / 60 / PrecisionHD cameras		label TelePresence PrecisionHD Cameras						name: Precision	
 POE-WW	Device PoE Adapter (Worldwide - 12W)	Webex Share	power	layered	Webex Share and Media Engines	(shared across the line)		Webex Share and Media Engines shared parts	label-unsupported (label Webex Share; was Webex Share): no series token in the SKU or name, no compatible part placed in the series						none: no series token in the SKU or name, no compatible part placed in the series	
 POE-WW=	Device PoE Adapter (Worldwide - 12W)	Webex Share	power	layered	Webex Share and Media Engines	(shared across the line)		Webex Share and Media Engines shared parts	label-unsupported (label Webex Share; was Webex Share): no series token in the SKU or name, no compatible part placed in the series						none: no series token in the SKU or name, no compatible part placed in the series	
 PSU-12VDC-120W=	Power supply - AC/DC, 12V, 120W	Room Series	power	layered	Webex Room Series	(shared across the line)		Webex Room Series shared parts	label Room Series							

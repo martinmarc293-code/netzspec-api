@@ -56,17 +56,17 @@ export type MerakiKind =
   | "switch"        // MS
   | "access-point"  // MR, CW
   | "appliance"     // MX, Z — security and SD-WAN
-  | "camera"        // MV
+  | "security-camera"        // MV
   | "environment-sensor"        // MT
-  | "gateway"       // MG — cellular
+  | "cellular-gateway"       // MG — cellular
   | "accessory";    // mounting kits, cords, brackets
 
 /** Every kind that is a Meraki BOX: it is racked or mounted, powered, and has an envelope. */
 export const MK_BOX: readonly MerakiKind[] =
-  ["unknown", "switch", "access-point", "appliance", "camera", "environment-sensor", "gateway"];
+  ["unknown", "switch", "access-point", "appliance", "security-camera", "environment-sensor", "cellular-gateway"];
 
 /** Kinds that carry Ethernet PORTS. An MT sensor has none — 0 of 16 hold a port key. */
-export const MK_PORTED: readonly MerakiKind[] = ["switch", "access-point", "appliance", "gateway"];
+export const MK_PORTED: readonly MerakiKind[] = ["switch", "access-point", "appliance", "cellular-gateway"];
 
 /**
  * Kinds that draw mains or PoE power and for which a wattage is stated. An MT sensor is
@@ -74,7 +74,7 @@ export const MK_PORTED: readonly MerakiKind[] = ["switch", "access-point", "appl
  * holds a power figure — so it is asked a battery life instead of a power draw.
  */
 export const MK_POWERED: readonly MerakiKind[] =
-  ["unknown", "switch", "access-point", "appliance", "camera", "gateway"];
+  ["unknown", "switch", "access-point", "appliance", "security-camera", "cellular-gateway"];
 
 // Ordered; the FIRST rule that matches wins. accessory FIRST — see the MGKIT-1 refusal above.
 const RULES: { kind: MerakiKind; re: RegExp }[] = [
@@ -88,8 +88,8 @@ const RULES: { kind: MerakiKind; re: RegExp }[] = [
   // of these tokens (checked against all 283), so the rule costs nothing and closes the hole.
   { kind: "accessory", re: /^MGKIT|^MA-|(?:^|-)(?:KIT|MNT|BRKT|RPS|ANT|CAB|CBL|PWR|CORD|SFP|PSU|FAN)(?:-|=|\d|$)/ },
   { kind: "switch", re: /^MS\d/ },
-  { kind: "camera", re: /^MV\d/ },
-  { kind: "gateway", re: /^MG\d/ },
+  { kind: "security-camera", re: /^MV\d/ },
+  { kind: "cellular-gateway", re: /^MG\d/ },
   // CW is the Catalyst Wireless naming Meraki access points moved to (CW9162I, CW9166D1, CW9166I).
   { kind: "access-point", re: /^MR\d|^CW\d/ },
   // Z is the teleworker gateway (Z3, Z4) — an MX appliance in a small box, and it holds the same keys.

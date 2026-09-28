@@ -1,15 +1,16 @@
 {
   "vendor": "cisco",
   "category": "meraki",
-  "built_at": "2026-09-27T23:24:23.678Z",
-  "commit": "83feaebcf224cd87dd094bf9d352e869f820d537",
+  "built_at": "2026-09-27T23:59:19.835Z",
+  "commit": "cdfcd7cf6568ba3e2dec571e579695fa0ae53b42",
   "uncommitted_rule_files": [
+    "src/core/collabKind.ts",
     "src/core/cupLedger.ts",
     "src/core/fieldSchema.ts",
+    "src/core/kindProfiles.ts",
     "src/core/layerChecks.ts",
     "src/core/merakiKind.ts",
-    "src/core/physicalObjectCups.ts",
-    "src/core/wirelessKind.ts"
+    "src/core/physicalObjectCups.ts"
   ],
   "mapping_file": "data/reference/product-lines/cisco-meraki.json",
   "parts": 91,
@@ -27,7 +28,7 @@
           "note": "family from Cisco's documents: the MV Smart Camera FAQ lists 'All second-generation MV cameras (MV12, MV2, MV22(x), MV32, MV52, MV72(x))' and the MT FAQ 'Gen2: MV2, MV12(W/WE/N), MV22(X), MV32, MV72(X)'; the datasheet is titled 'Second Generation MV Cameras: Datasheet' (decision pending: generations as families)",
           "parts": 1,
           "kinds": {
-            "camera": 1
+            "security-camera": 1
           },
           "roles": {},
           "samples": [
@@ -46,7 +47,7 @@
           "note": null,
           "parts": 4,
           "kinds": {
-            "camera": 4
+            "security-camera": 4
           },
           "roles": {},
           "samples": [
@@ -68,7 +69,7 @@
           "note": null,
           "parts": 2,
           "kinds": {
-            "camera": 2
+            "security-camera": 2
           },
           "roles": {},
           "samples": [
@@ -88,7 +89,7 @@
           "note": null,
           "parts": 1,
           "kinds": {
-            "camera": 1
+            "security-camera": 1
           },
           "roles": {},
           "samples": [
@@ -107,7 +108,7 @@
           "note": null,
           "parts": 1,
           "kinds": {
-            "camera": 1
+            "security-camera": 1
           },
           "roles": {},
           "samples": [
@@ -126,7 +127,7 @@
           "note": null,
           "parts": 2,
           "kinds": {
-            "camera": 2
+            "security-camera": 2
           },
           "roles": {},
           "samples": [
@@ -146,7 +147,7 @@
           "note": "family from Cisco's documents: the MV Smart Camera FAQ names 'Third-generation MV cameras (MV13, MV33, MV63(x), MV93(x)', the MT FAQ 'Gen3: MV13/M, MV23M/X, MV33/M, MV63/M/X, MV73M/X, MV93/M/X', and the accessories page mounts 'for Third-Gen MV'; the bare MV13 / MV13M rows carry class plans (family placeholders of MV13-HW / MV13M-HW)",
           "parts": 2,
           "kinds": {
-            "camera": 2
+            "security-camera": 2
           },
           "roles": {},
           "samples": [
@@ -166,7 +167,7 @@
           "note": null,
           "parts": 3,
           "kinds": {
-            "camera": 3
+            "security-camera": 3
           },
           "roles": {},
           "samples": [
@@ -187,7 +188,7 @@
           "note": null,
           "parts": 2,
           "kinds": {
-            "camera": 2
+            "security-camera": 2
           },
           "roles": {},
           "samples": [
@@ -207,7 +208,7 @@
           "note": null,
           "parts": 3,
           "kinds": {
-            "camera": 3
+            "security-camera": 3
           },
           "roles": {},
           "samples": [
@@ -228,7 +229,7 @@
           "note": null,
           "parts": 3,
           "kinds": {
-            "camera": 3
+            "security-camera": 3
           },
           "roles": {},
           "samples": [
@@ -249,7 +250,7 @@
           "note": null,
           "parts": 3,
           "kinds": {
-            "camera": 3
+            "security-camera": 3
           },
           "roles": {},
           "samples": [
@@ -270,7 +271,7 @@
           "note": null,
           "parts": 1,
           "kinds": {
-            "camera": 1
+            "security-camera": 1
           },
           "roles": {},
           "samples": [
@@ -289,7 +290,7 @@
           "note": null,
           "parts": 1,
           "kinds": {
-            "camera": 1
+            "security-camera": 1
           },
           "roles": {},
           "samples": [
@@ -308,7 +309,7 @@
           "note": null,
           "parts": 2,
           "kinds": {
-            "camera": 2
+            "security-camera": 2
           },
           "roles": {},
           "samples": [
@@ -328,7 +329,7 @@
           "note": null,
           "parts": 2,
           "kinds": {
-            "camera": 2
+            "security-camera": 2
           },
           "roles": {},
           "samples": [
@@ -348,7 +349,7 @@
           "note": null,
           "parts": 2,
           "kinds": {
-            "camera": 2
+            "security-camera": 2
           },
           "roles": {},
           "samples": [
@@ -660,7 +661,7 @@
           "note": null,
           "parts": 6,
           "kinds": {
-            "gateway": 6
+            "cellular-gateway": 6
           },
           "roles": {},
           "samples": [
@@ -684,7 +685,7 @@
           "note": null,
           "parts": 4,
           "kinds": {
-            "gateway": 4
+            "cellular-gateway": 4
           },
           "roles": {},
           "samples": [
@@ -706,7 +707,7 @@
           "note": null,
           "parts": 4,
           "kinds": {
-            "gateway": 4
+            "cellular-gateway": 4
           },
           "roles": {},
           "samples": [
@@ -728,7 +729,7 @@
           "note": null,
           "parts": 4,
           "kinds": {
-            "gateway": 4
+            "cellular-gateway": 4
           },
           "roles": {},
           "samples": [
@@ -925,9 +926,9 @@
   "inbound_unplaced": {},
   "done": true,
   "build": {
-    "data_commit": "1c1c5e8984af+92dirty",
-    "code_commit": "83feaebcf224",
-    "contract_hash": "8afedbb94693dda0",
-    "generated_at": "2026-09-27T23:49:14.008Z"
+    "data_commit": "cdfcd7cf6568+38dirty",
+    "code_commit": "cdfcd7cf6568",
+    "contract_hash": "d24c7710659592bc",
+    "generated_at": "2026-09-28T00:09:52.557Z"
   }
 }

@@ -1,15 +1,16 @@
 {
   "vendor": "cisco",
   "category": "unified-communications",
-  "built_at": "2026-09-27T23:24:23.625Z",
-  "commit": "83feaebcf224cd87dd094bf9d352e869f820d537",
+  "built_at": "2026-09-27T23:59:19.779Z",
+  "commit": "cdfcd7cf6568ba3e2dec571e579695fa0ae53b42",
   "uncommitted_rule_files": [
+    "src/core/collabKind.ts",
     "src/core/cupLedger.ts",
     "src/core/fieldSchema.ts",
+    "src/core/kindProfiles.ts",
     "src/core/layerChecks.ts",
     "src/core/merakiKind.ts",
-    "src/core/physicalObjectCups.ts",
-    "src/core/wirelessKind.ts"
+    "src/core/physicalObjectCups.ts"
   ],
   "mapping_file": "data/reference/product-lines/cisco-unified-communications.json",
   "parts": 426,
@@ -29,7 +30,7 @@
           "kinds": {
             "memory": 1,
             "flash": 1,
-            "gateway": 11,
+            "voice-gateway": 11,
             "mechanical": 1
           },
           "roles": {},
@@ -54,7 +55,7 @@
           "note": null,
           "parts": 18,
           "kinds": {
-            "gateway": 14,
+            "voice-gateway": 14,
             "accessory": 4
           },
           "roles": {},
@@ -81,7 +82,7 @@
           "kinds": {
             "memory": 7,
             "power": 15,
-            "gateway": 13,
+            "voice-gateway": 13,
             "mechanical": 7,
             "accessory": 2
           },
@@ -107,7 +108,7 @@
           "note": "layers round 3, UC round: Cisco's 'Euro-ISDN Media Gateway VG-2BRI' end-of-sale notice names the product; VG-2BRI and VG-2BRI-R sat in the line's shared parts by their label (gateways in shared parts, which the device check names)",
           "parts": 2,
           "kinds": {
-            "gateway": 2
+            "voice-gateway": 2
           },
           "roles": {},
           "samples": [
@@ -260,7 +261,7 @@
           "note": "layers round 3, UC round: named by Cisco's 'IP Telephony Gateway SPA8000 and SPA8800' end-of-sale notice; the seven rows sat in the line's shared parts by their label (gateways in shared parts)",
           "parts": 7,
           "kinds": {
-            "gateway": 7
+            "voice-gateway": 7
           },
           "roles": {},
           "samples": [
@@ -490,7 +491,7 @@
             "server": 15,
             "drive": 4,
             "storage-controller": 2,
-            "gateway": 14,
+            "voice-gateway": 14,
             "unknown": 1
           },
           "roles": {},
@@ -644,9 +645,9 @@
   "inbound_unplaced": {},
   "done": true,
   "build": {
-    "data_commit": "1c1c5e8984af+92dirty",
-    "code_commit": "83feaebcf224",
-    "contract_hash": "8afedbb94693dda0",
-    "generated_at": "2026-09-27T23:49:14.008Z"
+    "data_commit": "cdfcd7cf6568+38dirty",
+    "code_commit": "cdfcd7cf6568",
+    "contract_hash": "d24c7710659592bc",
+    "generated_at": "2026-09-28T00:09:52.557Z"
   }
 }

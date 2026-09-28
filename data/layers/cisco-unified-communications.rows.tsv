@@ -330,13 +330,13 @@ SPA302D-G7-1	Mobility Enhanced Cordless Handset	Small Business Voice Gateways an
 SPA302DKIT-G1	Multi-Line DECT Handset with Base Station	Small Business Voice Gateways and ATAs	phone	layered	Analog Telephone Adapters and SPA	(none)	SPA302D DECT handset		sku ^SPA302D	dect	ph.dect					
 SPA302DKIT-G7	Multi-Line DECT Handset with Base Station	Small Business Voice Gateways and ATAs	phone	layered	Analog Telephone Adapters and SPA	(none)	SPA302D DECT handset		sku ^SPA302D	dect	ph.dect					
 SPA302DKIT-XU	Multi-Line DECT Handset with Base Station, SRTP Removed	Small Business Voice Gateways and ATAs	phone	layered	Analog Telephone Adapters and SPA	(none)	SPA302D DECT handset		sku ^SPA302D	dect	ph.dect					
-SPA8000-BR	8-Port IP Telephony Gateway	Small Business Voice Gateways and ATAs	gateway	layered	Analog Telephone Adapters and SPA	(none)	SPA8000 / SPA8800 IP Telephony Gateways		sku ^SPA8[08]00							
-SPA8000-G1	8-Port IP Telephony Gateway	Small Business Voice Gateways and ATAs	gateway	layered	Analog Telephone Adapters and SPA	(none)	SPA8000 / SPA8800 IP Telephony Gateways		sku ^SPA8[08]00							
-SPA8000-G4	8-Port IP Telephony Gateway	Small Business Voice Gateways and ATAs	gateway	layered	Analog Telephone Adapters and SPA	(none)	SPA8000 / SPA8800 IP Telephony Gateways		sku ^SPA8[08]00							
-SPA8000-G5	8-Port IP Telephony Gateway	Small Business Voice Gateways and ATAs	gateway	layered	Analog Telephone Adapters and SPA	(none)	SPA8000 / SPA8800 IP Telephony Gateways		sku ^SPA8[08]00							
-SPA8000-XU	8-Port IP Telephony Gateway, SRTP Removed	Small Business Voice Gateways and ATAs	gateway	layered	Analog Telephone Adapters and SPA	(none)	SPA8000 / SPA8800 IP Telephony Gateways		sku ^SPA8[08]00							
-SPA8800	IP Telephony Gateway with 4 FXS and 4 FXO Ports	Small Business Voice Gateways and ATAs	gateway	layered	Analog Telephone Adapters and SPA	(none)	SPA8000 / SPA8800 IP Telephony Gateways		sku ^SPA8[08]00							
-SPA8800-XU	IP Telephony Gateway with 4 FXS and 4 FXO Ports SRTP Removed	Small Business Voice Gateways and ATAs	gateway	layered	Analog Telephone Adapters and SPA	(none)	SPA8000 / SPA8800 IP Telephony Gateways		sku ^SPA8[08]00							
+SPA8000-BR	8-Port IP Telephony Gateway	Small Business Voice Gateways and ATAs	voice-gateway	layered	Analog Telephone Adapters and SPA	(none)	SPA8000 / SPA8800 IP Telephony Gateways		sku ^SPA8[08]00							
+SPA8000-G1	8-Port IP Telephony Gateway	Small Business Voice Gateways and ATAs	voice-gateway	layered	Analog Telephone Adapters and SPA	(none)	SPA8000 / SPA8800 IP Telephony Gateways		sku ^SPA8[08]00							
+SPA8000-G4	8-Port IP Telephony Gateway	Small Business Voice Gateways and ATAs	voice-gateway	layered	Analog Telephone Adapters and SPA	(none)	SPA8000 / SPA8800 IP Telephony Gateways		sku ^SPA8[08]00							
+SPA8000-G5	8-Port IP Telephony Gateway	Small Business Voice Gateways and ATAs	voice-gateway	layered	Analog Telephone Adapters and SPA	(none)	SPA8000 / SPA8800 IP Telephony Gateways		sku ^SPA8[08]00							
+SPA8000-XU	8-Port IP Telephony Gateway, SRTP Removed	Small Business Voice Gateways and ATAs	voice-gateway	layered	Analog Telephone Adapters and SPA	(none)	SPA8000 / SPA8800 IP Telephony Gateways		sku ^SPA8[08]00							
+SPA8800	IP Telephony Gateway with 4 FXS and 4 FXO Ports	Small Business Voice Gateways and ATAs	voice-gateway	layered	Analog Telephone Adapters and SPA	(none)	SPA8000 / SPA8800 IP Telephony Gateways		sku ^SPA8[08]00							
+SPA8800-XU	IP Telephony Gateway with 4 FXS and 4 FXO Ports SRTP Removed	Small Business Voice Gateways and ATAs	voice-gateway	layered	Analog Telephone Adapters and SPA	(none)	SPA8000 / SPA8800 IP Telephony Gateways		sku ^SPA8[08]00							
 UC-A03-D500GC3	500GB 6Gb SATA 7.2K RPM SFF Hot Plug/Drive Sled Mounted	Business Edition 6000	drive	layered	Business Edition	(shared across the line)		Business Edition shared parts	label-unsupported (label Business Edition 6000; was Business Edition 6000 (BE6K / BE6M / BE6H / BE6S)): no platform token (6000) in the SKU or name, no compatible part placed in the series						none: no platform token (6000) in the SKU or name, no compatible part placed in the series	
 UC-CPU-E5-2609	2.4 GHz E5-2609/80W 4C/10MB Cache/DDR3 1066MHz	Business Edition 6000	cpu	layered	Business Edition	(shared across the line)		Business Edition shared parts	label-unsupported (label Business Edition 6000; was Business Edition 6000 (BE6K / BE6M / BE6H / BE6S)): no platform token (6000) in the SKU or name, no compatible part placed in the series						none: no platform token (6000) in the SKU or name, no compatible part placed in the series	
 UC-MR-1X082RY-A	8GB DDR3-1600-MHz RDIMM/PC3-12800/Dual Rank/1.35v	Business Edition 6000	memory	layered	Business Edition	(shared across the line)		Business Edition shared parts	label-unsupported (label Business Edition 6000; was Business Edition 6000 (BE6K / BE6M / BE6H / BE6S)): no platform token (6000) in the SKU or name, no compatible part placed in the series						none: no platform token (6000) in the SKU or name, no compatible part placed in the series	
@@ -344,68 +344,68 @@ UC-PSU-650W	650W Power Supply Unit For UCSC C220 Rack Server	Business Edition 60
 UC-RAID-9266	MegaRAID 9266-8i + Battery Backup for C240 and C220	Business Edition 6000	storage-controller	layered	Business Edition	(shared across the line)		Business Edition shared parts	label-unsupported (label Business Edition 6000; was Business Edition 6000 (BE6K / BE6M / BE6H / BE6S)): no platform token (6000) in the SKU or name, no compatible part placed in the series						none: no platform token (6000) in the SKU or name, no compatible part placed in the series	
 UC-RAID-9271	MegaRAID 9271-8i + Battery Backup for C240 and C220	Business Edition 6000	storage-controller	layered	Business Edition	(shared across the line)		Business Edition shared parts	label-unsupported (label Business Edition 6000; was Business Edition 6000 (BE6K / BE6M / BE6H / BE6S)): no platform token (6000) in the SKU or name, no compatible part placed in the series						none: no platform token (6000) in the SKU or name, no compatible part placed in the series	
 UCSC-C220-M3SBE=	UCS C220 M3 SFF TRC2 Server	Business Edition 6000	server	layered	Business Edition	(none)	Business Edition 6000 (BE6K / BE6M / BE6H / BE6S)		sku ^UCSC-C220-M3SBE							
-UNITY-PIMG-ANALOG	PBX-IP Media Gateway for analog integrations	Unity Connection	gateway	layered	Unity Connection and MCS servers	(none)	Unity Connection PIMG gateways and MCS servers		sku ^UNITY							
-UNITY-PIMG-ANALOG=	PBX-IP Media Gateway for analog integrations	Unity Connection	gateway	layered	Unity Connection and MCS servers	(none)	Unity Connection PIMG gateways and MCS servers		sku ^UNITY							
-UNITY-PIMG-DIG	PBX-IP Media Gateway-Digital	Unity Connection	gateway	layered	Unity Connection and MCS servers	(none)	Unity Connection PIMG gateways and MCS servers		sku ^UNITY							
-UNITY-PIMG-DIG=	PBX-IP Media Gateway-Digital	Unity Connection	gateway	layered	Unity Connection and MCS servers	(none)	Unity Connection PIMG gateways and MCS servers		sku ^UNITY							
-UNITY-PIMG-DIGITAL	PBX-IP Media Gateway for Nortel, Avaya, Siemens and NEC PBXs	Unity Connection	gateway	layered	Unity Connection and MCS servers	(none)	Unity Connection PIMG gateways and MCS servers		sku ^UNITY							
-UNITY-PIMG-LEGEND	PBX-IP Media Gateway for Avaya Merlin Legend systems	Unity Connection	gateway	layered	Unity Connection and MCS servers	(none)	Unity Connection PIMG gateways and MCS servers		sku ^UNITY							
-UNITY-PIMG-LGD	PBX-IP Media Gateway for Avaya Merlin Legend systems	Unity Connection	gateway	layered	Unity Connection and MCS servers	(none)	Unity Connection PIMG gateways and MCS servers		sku ^UNITY							
-UNITY-PIMG-MITEL	PBX-IP Media Gateway for Mitel SX200 and SX2000 PBXs	Unity Connection	gateway	layered	Unity Connection and MCS servers	(none)	Unity Connection PIMG gateways and MCS servers		sku ^UNITY							
-UNITY-PIMG-MITEL=	Cisco UNITY-PIMG-MITEL=	Unity Connection	gateway	layered	Unity Connection and MCS servers	(none)	Unity Connection PIMG gateways and MCS servers		sku ^UNITY							
-UNITY-PIMG-MTL	PBX-IP Media Gateway for Mitel SX200 and SX2000 PBXs	Unity Connection	gateway	layered	Unity Connection and MCS servers	(none)	Unity Connection PIMG gateways and MCS servers		sku ^UNITY							
-UNITY-PIMG-ROLM	PBX IP MEDIA GATEWAY-ROLM	Unity Connection	gateway	layered	Unity Connection and MCS servers	(none)	Unity Connection PIMG gateways and MCS servers		sku ^UNITY							
-UNITY-PIMG-ROLM=	PBX IP MEDIA GATEWAY-ROLM	Unity Connection	gateway	layered	Unity Connection and MCS servers	(none)	Unity Connection PIMG gateways and MCS servers		sku ^UNITY							
-UNITY-TIMG-1	T1 IP-Media Gateway	Unity Connection	gateway	layered	Unity Connection and MCS servers	(none)	Unity Connection PIMG gateways and MCS servers		sku ^UNITY							
-UNITY-TIMG-1=	T1 IP-Media Gateway	Unity Connection	gateway	layered	Unity Connection and MCS servers	(none)	Unity Connection PIMG gateways and MCS servers		sku ^UNITY							
+UNITY-PIMG-ANALOG	PBX-IP Media Gateway for analog integrations	Unity Connection	voice-gateway	layered	Unity Connection and MCS servers	(none)	Unity Connection PIMG gateways and MCS servers		sku ^UNITY							
+UNITY-PIMG-ANALOG=	PBX-IP Media Gateway for analog integrations	Unity Connection	voice-gateway	layered	Unity Connection and MCS servers	(none)	Unity Connection PIMG gateways and MCS servers		sku ^UNITY							
+UNITY-PIMG-DIG	PBX-IP Media Gateway-Digital	Unity Connection	voice-gateway	layered	Unity Connection and MCS servers	(none)	Unity Connection PIMG gateways and MCS servers		sku ^UNITY							
+UNITY-PIMG-DIG=	PBX-IP Media Gateway-Digital	Unity Connection	voice-gateway	layered	Unity Connection and MCS servers	(none)	Unity Connection PIMG gateways and MCS servers		sku ^UNITY							
+UNITY-PIMG-DIGITAL	PBX-IP Media Gateway for Nortel, Avaya, Siemens and NEC PBXs	Unity Connection	voice-gateway	layered	Unity Connection and MCS servers	(none)	Unity Connection PIMG gateways and MCS servers		sku ^UNITY							
+UNITY-PIMG-LEGEND	PBX-IP Media Gateway for Avaya Merlin Legend systems	Unity Connection	voice-gateway	layered	Unity Connection and MCS servers	(none)	Unity Connection PIMG gateways and MCS servers		sku ^UNITY							
+UNITY-PIMG-LGD	PBX-IP Media Gateway for Avaya Merlin Legend systems	Unity Connection	voice-gateway	layered	Unity Connection and MCS servers	(none)	Unity Connection PIMG gateways and MCS servers		sku ^UNITY							
+UNITY-PIMG-MITEL	PBX-IP Media Gateway for Mitel SX200 and SX2000 PBXs	Unity Connection	voice-gateway	layered	Unity Connection and MCS servers	(none)	Unity Connection PIMG gateways and MCS servers		sku ^UNITY							
+UNITY-PIMG-MITEL=	Cisco UNITY-PIMG-MITEL=	Unity Connection	voice-gateway	layered	Unity Connection and MCS servers	(none)	Unity Connection PIMG gateways and MCS servers		sku ^UNITY							
+UNITY-PIMG-MTL	PBX-IP Media Gateway for Mitel SX200 and SX2000 PBXs	Unity Connection	voice-gateway	layered	Unity Connection and MCS servers	(none)	Unity Connection PIMG gateways and MCS servers		sku ^UNITY							
+UNITY-PIMG-ROLM	PBX IP MEDIA GATEWAY-ROLM	Unity Connection	voice-gateway	layered	Unity Connection and MCS servers	(none)	Unity Connection PIMG gateways and MCS servers		sku ^UNITY							
+UNITY-PIMG-ROLM=	PBX IP MEDIA GATEWAY-ROLM	Unity Connection	voice-gateway	layered	Unity Connection and MCS servers	(none)	Unity Connection PIMG gateways and MCS servers		sku ^UNITY							
+UNITY-TIMG-1	T1 IP-Media Gateway	Unity Connection	voice-gateway	layered	Unity Connection and MCS servers	(none)	Unity Connection PIMG gateways and MCS servers		sku ^UNITY							
+UNITY-TIMG-1=	T1 IP-Media Gateway	Unity Connection	voice-gateway	layered	Unity Connection and MCS servers	(none)	Unity Connection PIMG gateways and MCS servers		sku ^UNITY							
 UNITYCN7-BUNDLE	Unity Connection 7.x SW plus HW Bundle	Unity Connection	unknown	layered	Unity Connection and MCS servers	(none)	Unity Connection PIMG gateways and MCS servers		sku ^UNITY							
 VCS-C-BDL-K9	VCS-C Appliance Bundle	TelePresence Video Communication Server (VCS)	server	layered	Expressway and VCS	(none)	TelePresence VCS appliances		label TelePresence Video Communication Server (VCS)						sku-token: VCS	
 VCS-C-BDL-K9=	VCS-C or VCS-E Appliance Bundle Spare	TelePresence Video Communication Server (VCS)	server	layered	Expressway and VCS	(none)	TelePresence VCS appliances		label TelePresence Video Communication Server (VCS)						sku-token: VCS	
 VCS-E-BDL-K9	VCS-E Appliance Bundle	TelePresence Video Communication Server (VCS)	server	layered	Expressway and VCS	(none)	TelePresence VCS appliances		label TelePresence Video Communication Server (VCS)						sku-token: VCS	
 VCS-E-BDL-K9=	VCS-E Appliance Bundle Spare	TelePresence Video Communication Server (VCS)	server	layered	Expressway and VCS	(none)	TelePresence VCS appliances		label TelePresence Video Communication Server (VCS)						sku-token: VCS	
-VG-2BRI	Euro-ISDN Media Gateway, 2 BRI	VG Series Gateways	gateway	layered	Voice Gateways	(none)	VG-2BRI Euro-ISDN Media Gateway		sku ^VG-2BRI							
-VG-2BRI-R	Euro-ISDN Media Gateway, 2 BRI - RMCS	VG Series Gateways	gateway	layered	Voice Gateways	(none)	VG-2BRI Euro-ISDN Media Gateway		sku ^VG-2BRI							
-VG202	Cisco VG202 Analog Voice Gateway	VG Series Gateways	gateway	layered	Voice Gateways	(none)	VG200 / VG202 / VG204 / VG224		sku ^VG2[0-9]{2}							
-VG202XM	Cisco VG202XM Analog Voice Gateway	VG Series Gateways	gateway	layered	Voice Gateways	(none)	VG200 / VG202 / VG204 / VG224		sku ^VG2[0-9]{2}							
-VG204	Cisco VG204 Analog Voice Gateway	VG Series Gateways	gateway	layered	Voice Gateways	(none)	VG200 / VG202 / VG204 / VG224		sku ^VG2[0-9]{2}							
-VG204XM	Cisco VG204XM Analog Voice Gateway	VG Series Gateways	gateway	layered	Voice Gateways	(none)	VG200 / VG202 / VG204 / VG224		sku ^VG2[0-9]{2}							
-VG224	24 Port Voice over IP analog phone gateway	VG Series Gateways	gateway	layered	Voice Gateways	(none)	VG200 / VG202 / VG204 / VG224		sku ^VG2[0-9]{2}							
-VG224-4PACK	4 Pack of VG224 High Density Analog Gateway	VG Series Gateways	gateway	layered	Voice Gateways	(none)	VG200 / VG202 / VG204 / VG224		sku ^VG2[0-9]{2}							
-VG224-LA	Latin America VG224	VG Series Gateways	gateway	layered	Voice Gateways	(none)	VG200 / VG202 / VG204 / VG224		sku ^VG2[0-9]{2}							
-VG224-MP	VG224 for MultiPack	VG Series Gateways	gateway	layered	Voice Gateways	(none)	VG200 / VG202 / VG204 / VG224		sku ^VG2[0-9]{2}							
-VG248	48 Port Voice over IP analog phone gateway	VG Series Gateways	gateway	layered	Voice Gateways	(none)	VG200 / VG202 / VG204 / VG224		sku ^VG2[0-9]{2}							
-VG248-ASIA	VG248 Special forAsia	VG Series Gateways	gateway	layered	Voice Gateways	(none)	VG200 / VG202 / VG204 / VG224		sku ^VG2[0-9]{2}							
-VG248-BZ1	Cisco VG248 Bundle for Brazil	VG Series Gateways	gateway	layered	Voice Gateways	(none)	VG200 / VG202 / VG204 / VG224		sku ^VG2[0-9]{2}							
+VG-2BRI	Euro-ISDN Media Gateway, 2 BRI	VG Series Gateways	voice-gateway	layered	Voice Gateways	(none)	VG-2BRI Euro-ISDN Media Gateway		sku ^VG-2BRI							
+VG-2BRI-R	Euro-ISDN Media Gateway, 2 BRI - RMCS	VG Series Gateways	voice-gateway	layered	Voice Gateways	(none)	VG-2BRI Euro-ISDN Media Gateway		sku ^VG-2BRI							
+VG202	Cisco VG202 Analog Voice Gateway	VG Series Gateways	voice-gateway	layered	Voice Gateways	(none)	VG200 / VG202 / VG204 / VG224		sku ^VG2[0-9]{2}							
+VG202XM	Cisco VG202XM Analog Voice Gateway	VG Series Gateways	voice-gateway	layered	Voice Gateways	(none)	VG200 / VG202 / VG204 / VG224		sku ^VG2[0-9]{2}							
+VG204	Cisco VG204 Analog Voice Gateway	VG Series Gateways	voice-gateway	layered	Voice Gateways	(none)	VG200 / VG202 / VG204 / VG224		sku ^VG2[0-9]{2}							
+VG204XM	Cisco VG204XM Analog Voice Gateway	VG Series Gateways	voice-gateway	layered	Voice Gateways	(none)	VG200 / VG202 / VG204 / VG224		sku ^VG2[0-9]{2}							
+VG224	24 Port Voice over IP analog phone gateway	VG Series Gateways	voice-gateway	layered	Voice Gateways	(none)	VG200 / VG202 / VG204 / VG224		sku ^VG2[0-9]{2}							
+VG224-4PACK	4 Pack of VG224 High Density Analog Gateway	VG Series Gateways	voice-gateway	layered	Voice Gateways	(none)	VG200 / VG202 / VG204 / VG224		sku ^VG2[0-9]{2}							
+VG224-LA	Latin America VG224	VG Series Gateways	voice-gateway	layered	Voice Gateways	(none)	VG200 / VG202 / VG204 / VG224		sku ^VG2[0-9]{2}							
+VG224-MP	VG224 for MultiPack	VG Series Gateways	voice-gateway	layered	Voice Gateways	(none)	VG200 / VG202 / VG204 / VG224		sku ^VG2[0-9]{2}							
+VG248	48 Port Voice over IP analog phone gateway	VG Series Gateways	voice-gateway	layered	Voice Gateways	(none)	VG200 / VG202 / VG204 / VG224		sku ^VG2[0-9]{2}							
+VG248-ASIA	VG248 Special forAsia	VG Series Gateways	voice-gateway	layered	Voice Gateways	(none)	VG200 / VG202 / VG204 / VG224		sku ^VG2[0-9]{2}							
+VG248-BZ1	Cisco VG248 Bundle for Brazil	VG Series Gateways	voice-gateway	layered	Voice Gateways	(none)	VG200 / VG202 / VG204 / VG224		sku ^VG2[0-9]{2}							
 VG248-RACK=	VG248 rack mount brackets	VG Series Gateways	mechanical	layered	Voice Gateways	(none)	VG200 / VG202 / VG204 / VG224		sku ^VG2[0-9]{2}							
-VG310	Modular 24 FXS Port VoIP Gateway with PVDM3-64	VG Series Gateways	gateway	layered	Voice Gateways	(none)	VG300 / VG310 / VG320 / VG350		sku ^VG3[0-9]{2}							
-VG310++	Modular 24 FXS Port VoIP Gateway with PVDM3-64-TAA(CX)	VG Series Gateways	gateway	layered	Voice Gateways	(none)	VG300 / VG310 / VG320 / VG350		sku ^VG3[0-9]{2}							
-VG310-EM	24-port FXS VoIP Gateway w/PVDM3-64 for Emerging Markets	VG Series Gateways	gateway	layered	Voice Gateways	(none)	VG300 / VG310 / VG320 / VG350		sku ^VG3[0-9]{2}							
-VG320	Modular 48 FXS Port VoIP Gateway with PVDM3-128	VG Series Gateways	gateway	layered	Voice Gateways	(none)	VG300 / VG310 / VG320 / VG350		sku ^VG3[0-9]{2}							
-VG320++	Modular 48 FXS Port VoIP Gateway with PVDM3-128-TAA(CX)	VG Series Gateways	gateway	layered	Voice Gateways	(none)	VG300 / VG310 / VG320 / VG350		sku ^VG3[0-9]{2}							
-VG320-EM	48-port FXS VoIP Gateway w/PVDM3-128 for Emerging Markets	VG Series Gateways	gateway	layered	Voice Gateways	(none)	VG300 / VG310 / VG320 / VG350		sku ^VG3[0-9]{2}							
-VG350	^High Density Voice over IP Analog Gateway	VG Series Gateways	gateway	layered	Voice Gateways	(none)	VG300 / VG310 / VG320 / VG350		sku ^VG3[0-9]{2}							
-VG350-144FXS-EM/K9	Cisco VG350 144 FXS Bundle	VG Series Gateways	gateway	layered	Voice Gateways	(none)	VG300 / VG310 / VG320 / VG350		sku ^VG3[0-9]{2}							
-VG350-144FXS/K9	Cisco VG350 144 FXS Bundle	VG Series Gateways	gateway	layered	Voice Gateways	(none)	VG300 / VG310 / VG320 / VG350		sku ^VG3[0-9]{2}							
-VG350-72F48E-EM/K9	Cisco VG350 72 FXS & 48 FXS OPX-Lite Bundle	VG Series Gateways	gateway	layered	Voice Gateways	(none)	VG300 / VG310 / VG320 / VG350		sku ^VG3[0-9]{2}							
-VG350-72F48E/K9	Cisco VG350-72F48E/K9	VG Series Gateways	gateway	layered	Voice Gateways	(none)	VG300 / VG310 / VG320 / VG350		sku ^VG3[0-9]{2}							
-VG350-96FXSE-EM/K9	Cisco VG350 96 FXS OPX-Lite Bundle	VG Series Gateways	gateway	layered	Voice Gateways	(none)	VG300 / VG310 / VG320 / VG350		sku ^VG3[0-9]{2}							
-VG350-96FXSE/K9	Cisco VG350 96 FXS OPX-Lite Bundle	VG Series Gateways	gateway	layered	Voice Gateways	(none)	VG300 / VG310 / VG320 / VG350		sku ^VG3[0-9]{2}							
+VG310	Modular 24 FXS Port VoIP Gateway with PVDM3-64	VG Series Gateways	voice-gateway	layered	Voice Gateways	(none)	VG300 / VG310 / VG320 / VG350		sku ^VG3[0-9]{2}							
+VG310++	Modular 24 FXS Port VoIP Gateway with PVDM3-64-TAA(CX)	VG Series Gateways	voice-gateway	layered	Voice Gateways	(none)	VG300 / VG310 / VG320 / VG350		sku ^VG3[0-9]{2}							
+VG310-EM	24-port FXS VoIP Gateway w/PVDM3-64 for Emerging Markets	VG Series Gateways	voice-gateway	layered	Voice Gateways	(none)	VG300 / VG310 / VG320 / VG350		sku ^VG3[0-9]{2}							
+VG320	Modular 48 FXS Port VoIP Gateway with PVDM3-128	VG Series Gateways	voice-gateway	layered	Voice Gateways	(none)	VG300 / VG310 / VG320 / VG350		sku ^VG3[0-9]{2}							
+VG320++	Modular 48 FXS Port VoIP Gateway with PVDM3-128-TAA(CX)	VG Series Gateways	voice-gateway	layered	Voice Gateways	(none)	VG300 / VG310 / VG320 / VG350		sku ^VG3[0-9]{2}							
+VG320-EM	48-port FXS VoIP Gateway w/PVDM3-128 for Emerging Markets	VG Series Gateways	voice-gateway	layered	Voice Gateways	(none)	VG300 / VG310 / VG320 / VG350		sku ^VG3[0-9]{2}							
+VG350	^High Density Voice over IP Analog Gateway	VG Series Gateways	voice-gateway	layered	Voice Gateways	(none)	VG300 / VG310 / VG320 / VG350		sku ^VG3[0-9]{2}							
+VG350-144FXS-EM/K9	Cisco VG350 144 FXS Bundle	VG Series Gateways	voice-gateway	layered	Voice Gateways	(none)	VG300 / VG310 / VG320 / VG350		sku ^VG3[0-9]{2}							
+VG350-144FXS/K9	Cisco VG350 144 FXS Bundle	VG Series Gateways	voice-gateway	layered	Voice Gateways	(none)	VG300 / VG310 / VG320 / VG350		sku ^VG3[0-9]{2}							
+VG350-72F48E-EM/K9	Cisco VG350 72 FXS & 48 FXS OPX-Lite Bundle	VG Series Gateways	voice-gateway	layered	Voice Gateways	(none)	VG300 / VG310 / VG320 / VG350		sku ^VG3[0-9]{2}							
+VG350-72F48E/K9	Cisco VG350-72F48E/K9	VG Series Gateways	voice-gateway	layered	Voice Gateways	(none)	VG300 / VG310 / VG320 / VG350		sku ^VG3[0-9]{2}							
+VG350-96FXSE-EM/K9	Cisco VG350 96 FXS OPX-Lite Bundle	VG Series Gateways	voice-gateway	layered	Voice Gateways	(none)	VG300 / VG310 / VG320 / VG350		sku ^VG3[0-9]{2}							
+VG350-96FXSE/K9	Cisco VG350 96 FXS OPX-Lite Bundle	VG Series Gateways	voice-gateway	layered	Voice Gateways	(none)	VG300 / VG310 / VG320 / VG350		sku ^VG3[0-9]{2}							
 VG350-FANASSY	Cisco VG350 Fan Assembly	VG Series Gateways	accessory	layered	Voice Gateways	(none)	VG300 / VG310 / VG320 / VG350		sku ^VG3[0-9]{2}							
 VG350-FANASSY=	Cisco VG350 Fan Assembly	VG Series Gateways	accessory	layered	Voice Gateways	(none)	VG300 / VG310 / VG320 / VG350		sku ^VG3[0-9]{2}							
 VG350-SPE150/K9	Cisco VG350 Motherboard	VG Series Gateways	accessory	layered	Voice Gateways	(none)	VG300 / VG310 / VG320 / VG350		sku ^VG3[0-9]{2}							
 VG350-SPE150/K9=	Cisco VG350 Motherboard	VG Series Gateways	accessory	layered	Voice Gateways	(none)	VG300 / VG310 / VG320 / VG350		sku ^VG3[0-9]{2}							
-VG350/K9	Cisco VG350 High Density Voice over IP Analog Gateway	VG Series Gateways	gateway	layered	Voice Gateways	(none)	VG300 / VG310 / VG320 / VG350		sku ^VG3[0-9]{2}							
-VG400-2FXS/2FXO	Cisco VG400 Analog Voice Gateway with 2 FXS and 2 FXO	VG Series Gateways	gateway	layered	Voice Gateways	(none)	VG400 / VG410 / VG420 / VG450		sku ^VG4[0-9]{2}							
-VG400-4FXS/4FXO	Cisco VG400 Analog Voice Gateway with 4 FXS and 4 FXO	VG Series Gateways	gateway	layered	Voice Gateways	(none)	VG400 / VG410 / VG420 / VG450		sku ^VG4[0-9]{2}							
-VG400-6FXS/6FXO	Cisco VG400 Analog Voice Gateway with 6 FXS and 6 FXO	VG Series Gateways	gateway	layered	Voice Gateways	(none)	VG400 / VG410 / VG420 / VG450		sku ^VG4[0-9]{2}							
-VG400-8FXS	Cisco VG400 Analog Voice Gateway with 8 FXS	VG Series Gateways	gateway	layered	Voice Gateways	(none)	VG400 / VG410 / VG420 / VG450		sku ^VG4[0-9]{2}							
-VG410-24FXS	Cisco Analog Voice Gateway VG410 - 24FXS	VG Series Gateways	gateway	layered	Voice Gateways	(none)	VG400 / VG410 / VG420 / VG450		sku ^VG4[0-9]{2}							
-VG410-24FXS/4FXO	Cisco Analog Voice Gateway VG410 - 24FXS/4FXO	VG Series Gateways	gateway	layered	Voice Gateways	(none)	VG400 / VG410 / VG420 / VG450		sku ^VG4[0-9]{2}							
-VG410-48FXS	Cisco Analog Voice Gateway VG410 - 48FXS	VG Series Gateways	gateway	layered	Voice Gateways	(none)	VG400 / VG410 / VG420 / VG450		sku ^VG4[0-9]{2}							
+VG350/K9	Cisco VG350 High Density Voice over IP Analog Gateway	VG Series Gateways	voice-gateway	layered	Voice Gateways	(none)	VG300 / VG310 / VG320 / VG350		sku ^VG3[0-9]{2}							
+VG400-2FXS/2FXO	Cisco VG400 Analog Voice Gateway with 2 FXS and 2 FXO	VG Series Gateways	voice-gateway	layered	Voice Gateways	(none)	VG400 / VG410 / VG420 / VG450		sku ^VG4[0-9]{2}							
+VG400-4FXS/4FXO	Cisco VG400 Analog Voice Gateway with 4 FXS and 4 FXO	VG Series Gateways	voice-gateway	layered	Voice Gateways	(none)	VG400 / VG410 / VG420 / VG450		sku ^VG4[0-9]{2}							
+VG400-6FXS/6FXO	Cisco VG400 Analog Voice Gateway with 6 FXS and 6 FXO	VG Series Gateways	voice-gateway	layered	Voice Gateways	(none)	VG400 / VG410 / VG420 / VG450		sku ^VG4[0-9]{2}							
+VG400-8FXS	Cisco VG400 Analog Voice Gateway with 8 FXS	VG Series Gateways	voice-gateway	layered	Voice Gateways	(none)	VG400 / VG410 / VG420 / VG450		sku ^VG4[0-9]{2}							
+VG410-24FXS	Cisco Analog Voice Gateway VG410 - 24FXS	VG Series Gateways	voice-gateway	layered	Voice Gateways	(none)	VG400 / VG410 / VG420 / VG450		sku ^VG4[0-9]{2}							
+VG410-24FXS/4FXO	Cisco Analog Voice Gateway VG410 - 24FXS/4FXO	VG Series Gateways	voice-gateway	layered	Voice Gateways	(none)	VG400 / VG410 / VG420 / VG450		sku ^VG4[0-9]{2}							
+VG410-48FXS	Cisco Analog Voice Gateway VG410 - 48FXS	VG Series Gateways	voice-gateway	layered	Voice Gateways	(none)	VG400 / VG410 / VG420 / VG450		sku ^VG4[0-9]{2}							
 VG410-RM-19-1R	Cisco VG410 Rack mount kit - 19" 1R	VG Series Gateways	mechanical	layered	Voice Gateways	(none)	VG400 / VG410 / VG420 / VG450		sku ^VG4[0-9]{2}							
-VG420-132FXS/6FXO	Cisco Analog Voice Gateway VG420 - 132FXS/6FXO	VG Series Gateways	gateway	layered	Voice Gateways	(none)	VG400 / VG410 / VG420 / VG450		sku ^VG4[0-9]{2}							
-VG420-144FXS	Cisco Analog Voice Gateway VG420 - 144FXS	VG Series Gateways	gateway	layered	Voice Gateways	(none)	VG400 / VG410 / VG420 / VG450		sku ^VG4[0-9]{2}							
-VG420-84FXS/6FXO	Cisco Analog Voice Gateway VG420 - 84FXS/6FXO	VG Series Gateways	gateway	layered	Voice Gateways	(none)	VG400 / VG410 / VG420 / VG450		sku ^VG4[0-9]{2}							
+VG420-132FXS/6FXO	Cisco Analog Voice Gateway VG420 - 132FXS/6FXO	VG Series Gateways	voice-gateway	layered	Voice Gateways	(none)	VG400 / VG410 / VG420 / VG450		sku ^VG4[0-9]{2}							
+VG420-144FXS	Cisco Analog Voice Gateway VG420 - 144FXS	VG Series Gateways	voice-gateway	layered	Voice Gateways	(none)	VG400 / VG410 / VG420 / VG450		sku ^VG4[0-9]{2}							
+VG420-84FXS/6FXO	Cisco Analog Voice Gateway VG420 - 84FXS/6FXO	VG Series Gateways	voice-gateway	layered	Voice Gateways	(none)	VG400 / VG410 / VG420 / VG450		sku ^VG4[0-9]{2}							
 VG420-FAN-2R	Cisco VG420 Fan Tray, 2RU	VG Series Gateways	accessory	layered	Voice Gateways	(none)	VG400 / VG410 / VG420 / VG450		sku ^VG4[0-9]{2}							
 VG420-FAN-2R=	Cisco VG420 Fan Tray, 2RU SPARE	VG Series Gateways	accessory	layered	Voice Gateways	(none)	VG400 / VG410 / VG420 / VG450		sku ^VG4[0-9]{2}							
 VG420-NIM-BLANK	Cisco VG420 NIM Blank	VG Series Gateways	mechanical	layered	Voice Gateways	(none)	VG400 / VG410 / VG420 / VG450		sku ^VG4[0-9]{2}							
@@ -414,9 +414,9 @@ VG420-RM-19-2R	Cisco VG420 Rack mount kit - 19" 2R	VG Series Gateways	mechanical
 VG420-RM-19-2R=	Cisco VG420 Rack mount kit for 2RU - 19" Spare	VG Series Gateways	mechanical	layered	Voice Gateways	(none)	VG400 / VG410 / VG420 / VG450		sku ^VG4[0-9]{2}							
 VG420-RM-23-2R	Cisco VG420 Rack mount kit - 23" 2R	VG Series Gateways	mechanical	layered	Voice Gateways	(none)	VG400 / VG410 / VG420 / VG450		sku ^VG4[0-9]{2}							
 VG420-RM-23-2R=	Cisco VG420 Rack mount kit for 2RU - 23" Spare	VG Series Gateways	mechanical	layered	Voice Gateways	(none)	VG400 / VG410 / VG420 / VG450		sku ^VG4[0-9]{2}							
-VG450-144FXS/K9	Cisco VG450 144 FXS Bundle. Leveraging two SM-X-72FXS	VG Series Gateways	gateway	layered	Voice Gateways	(none)	VG400 / VG410 / VG420 / VG450		sku ^VG4[0-9]{2}							
-VG450-72FXS/K9	Cisco VG450 72 FXS with option to use two single wide analog voice and fax service module	VG Series Gateways	gateway	layered	Voice Gateways	(none)	VG400 / VG410 / VG420 / VG450		sku ^VG4[0-9]{2}							
-VG450/K9	Cisco VG450 High Density Voice over IP Analog Gateway	VG Series Gateways	gateway	layered	Voice Gateways	(none)	VG400 / VG410 / VG420 / VG450		sku ^VG4[0-9]{2}							
+VG450-144FXS/K9	Cisco VG450 144 FXS Bundle. Leveraging two SM-X-72FXS	VG Series Gateways	voice-gateway	layered	Voice Gateways	(none)	VG400 / VG410 / VG420 / VG450		sku ^VG4[0-9]{2}							
+VG450-72FXS/K9	Cisco VG450 72 FXS with option to use two single wide analog voice and fax service module	VG Series Gateways	voice-gateway	layered	Voice Gateways	(none)	VG400 / VG410 / VG420 / VG450		sku ^VG4[0-9]{2}							
+VG450/K9	Cisco VG450 High Density Voice over IP Analog Gateway	VG Series Gateways	voice-gateway	layered	Voice Gateways	(none)	VG400 / VG410 / VG420 / VG450		sku ^VG4[0-9]{2}							
 WRP400-G1	Wireless-G Broadband Router with 2 Phone Ports	Small Business Voice Gateways and ATAs	ata	layered	Analog Telephone Adapters and SPA	(none)	WRP400 / WRP500 Broadband Routers with 2 Phone Ports		sku ^WRP[45]00							
 WRP400-G2	Wireless-G Broadband Router with 2 Phone Ports	Small Business Voice Gateways and ATAs	ata	layered	Analog Telephone Adapters and SPA	(none)	WRP400 / WRP500 Broadband Routers with 2 Phone Ports		sku ^WRP[45]00							
 WRP400-G3	WRP400-G3, V1.0, Wireless-G Broadband Router, 2 Phone Ports	Small Business Voice Gateways and ATAs	ata	layered	Analog Telephone Adapters and SPA	(none)	WRP400 / WRP500 Broadband Routers with 2 Phone Ports		sku ^WRP[45]00							
