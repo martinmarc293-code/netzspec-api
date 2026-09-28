@@ -4,6 +4,20 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-28 (24) - BATCHES 1-12 WITH THE REVIEWER: 11 -> 15 GREEN, AND THE FULL REBUILD IS NOW ONE SCRIPT.**
+  Worked from `docs/reviewer/2026-09-28/state.md` only, reporting in five lines through the reviewer chat (Chrome;
+  paste the lines, never Shift+Enter). Greens: openapi_schemas (/v1/models, Model must route), runs_have_approval
+  (three-class rule from 09-11, 20 retroactive lines, retro-gate: 952 pass, 942/959 fail -> 87 facts retracted),
+  doc_category_by_relevance (68 PDF Info titles, 15 title_state none), column_backed_never_facts (7,142 -> 0: runs
+  1294, 1295 [933 relations], 1296, 1297), one_build (restored by `scripts/mould-build.sh` + `mould-stamp`).
+  unknown_zero 468 -> 377 (91 ruled kinds via `src/core/kindOverrides.ts`).
+  - **Closed:** every ruling is in state.md. **Next:** state.md "NEXT BLOCK" (relation-backed requirement first).
+  - **Traps:** the reviewer twice cited rulings not in state.md (PDF heading source; item 7 relation-backed; the PON
+    archetype) and once approved a table of mine that contradicted a recorded operator decision (q28, AIR-330 ->
+    device) - check premises in the repo before building on a ruling. A partial layer rebuild breaks one_build
+    (build-layers now refuses it). The box tree has no .git (builders read GIT_SHA) and no runs/vocab (copy it in;
+    mould-build checks). Freeze before report. `*.log` is gitignored (the verifier log is verifier.txt). I committed
+    a type error once by joining check and commit in one command (ec3fb28 -> aa986ad).
 - **2026-09-28 (23b) - THE RETRACTION LANDS, AND THE SAME PASS WAS 4 HOURS ON THE LAPTOP AND 13 SECONDS ON THE BOX.**
   `column_backed_never_facts` 7,142 -> **1,258**. Runs 1280 (5,156 duplicates retracted), 1288 (728 only-source
   moved into `parts.series` then retracted in the same transaction). What remains is one layer-4 placement:
