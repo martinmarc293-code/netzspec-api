@@ -14,6 +14,16 @@ full; the ones that bite hardest here are restated.
   `failed` with their counts, leaving 1,387 facts current under non-succeeded runs. Part pages hide those, their
   predecessors stayed superseded, and the re-run skipped them because they already carried the new stamp.
   Heavy passes run faster and safer on the box, from a `git archive` of a named commit.
+- **A WRITE TO `facts` IS A WRITE TO `parts`, because a TRIGGER says so.** `touch_parts_by_part_id()` updates
+  `parts.updated_at` for every part a `facts` statement changes, so "different tables, no contention" is a
+  claim about the statements you wrote and not about the statements that ran. On 28 Sep 2026 a 5,156-row
+  retraction and a `derive-cellular` populate deadlocked on `parts` two hours in — `withRun` rolled the whole
+  retraction back cleanly, which is the design working, and the two hours were still gone. Before running a
+  write alongside a long one, ask what the TRIGGERS touch, not what your SQL names.
+  The second half is the reason it had two hours to collide in: one `retractFact` per row is one round trip
+  over the tunnel, so the window is hours wide and a window that wide will eventually overlap something. One
+  statement per chunk (`unnest`) did 91,533 parts in 46 statements in the same session. **A slow write is a
+  wide window, and a wide window is a concurrency bug waiting for a neighbour.**
 - **Never resolve a disagreement by write order.** Hold it as a conflict.
 - **Never inherit a family value into a SKU the document does not list.**
 - **Never guess a value.** A normaliser or parser that cannot parse returns a reason; the
