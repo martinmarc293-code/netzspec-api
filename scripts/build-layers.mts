@@ -43,7 +43,13 @@ function buildProvenance(): { commit: string | null; uncommitted_rule_files: str
     const dirty = [...new Set([...git("diff", "HEAD", "--name-only", ...scope).split("\n"), ...git("ls-files", "--others", "--exclude-standard", ...scope).split("\n")]
       .map((l) => l.trim()).filter(Boolean))].sort();
     return { commit, uncommitted_rule_files: dirty };
-  } catch { return { commit: null, uncommitted_rule_files: null }; }
+  } catch {
+    // The box's tree is a `git archive` of the deployed commit (scripts/deploy.sh), named by GIT_SHA (scripts/mould-build.sh
+    // requires it): an archive holds committed content only, so its uncommitted list is empty BY CONSTRUCTION. Without GIT_SHA
+    // it stays could-not-read (null), never a clean tree. 28 Sep 2026: 15 pages built on the box named no commit.
+    const sha = process.env.GIT_SHA?.trim();
+    return sha ? { commit: sha, uncommitted_rule_files: [] } : { commit: null, uncommitted_rule_files: null };
+  }
 }
 const PROVENANCE = buildProvenance();
 

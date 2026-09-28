@@ -548,6 +548,18 @@
    ]
   },
   {
+   "line": "Prisma D-PON",
+   "series": [
+    {
+     "series": "Prisma D-PON ONT",
+     "sku": [
+      "^4036797\\.1610$"
+     ],
+     "note": "ruling 12b (reviewer, 28 Sep 2026): the Prisma D-PON ONT moved from video to switches with ont / olt; a cable-video PON product, not Routed PON or Catalyst PON, so a line of its own. One PID today."
+    }
+   ]
+  },
+  {
    "line": "Nexus",
    "series": [
     {

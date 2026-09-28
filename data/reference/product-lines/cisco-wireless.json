@@ -144,6 +144,13 @@
    "line": "Aironet Access Points",
    "series": [
     {
+     "series": "Aironet BLE beacons and tags",
+     "sku": [
+      "^AIR-BLE-(BEACON|TAG)-"
+     ],
+     "note": "ruling 12 (reviewer, 28 Sep 2026): AIR-BLE-BEACON-BLK and AIR-BLE-TAG-BULK are kind wireless-sensor (the 106 table), a whole-device kind, which may not sit in shared parts; the USB beacons (AIR-BLE-USB*) are modules and stay there."
+    },
+    {
      "series": "Aironet 1800s Active Sensor",
      "sku": [
       "^(AIR-)?AP1800S"

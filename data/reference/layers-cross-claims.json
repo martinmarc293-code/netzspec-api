@@ -67,18 +67,6 @@
    "status": "decided-home"
   },
   {
-   "category": "collaboration-endpoints",
-   "claimed_by": "servers-unified-computing",
-   "series": "UCS Mini (6324)",
-   "rule": "sku (?<!CPU-[A-Z]{0,2}|WS-X)6324(?![0-9])",
-   "rows": 1,
-   "examples": [
-    "CIT3-FI-M-6324"
-   ],
-   "reason": "CIT3-FI-M-6324 arrived in the same merge: the in-chassis 6324 fabric interconnect of that deployment, claimed by the servers mapping on the 6324 token. Same decision, same reason — the appliance is a collaboration row and the token is the platform underneath it.",
-   "status": "decided-home"
-  },
-  {
    "category": "hyperconverged-infrastructure",
    "claimed_by": "servers-unified-computing",
    "series": "Drives and storage",

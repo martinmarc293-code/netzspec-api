@@ -641,7 +641,7 @@ for (const f of files) {
     // data-center-networking. Still far under the 5% target. (The 13 Sep layer page cannot be diffed for this: the
     // rows.tsv did not exist at dfa4852, so a SKU-level comparison returns a meaningless zero.)
     "hyperconverged-systems": 5.2, "hyperconverged-infrastructure": 3.3, video: 8.9,
-    "servers-unified-computing": 3.6, "collaboration-endpoints": 7.8, "unified-communications": 7.7,
+    "servers-unified-computing": 3.6, "collaboration-endpoints": 7.8, "unified-communications": 2.6,   // UC 7.7 -> 2.6: ruling 12 kinded its named unknowns (28 Sep)
     // RE-BASELINED AFTER THE CATEGORY-MOVE RUN (12 Sep 2026), and the reason matters more than the
     // numbers. The move run took 651 CORRECTLY-KINDED parts out of these four categories — 449
     // optical pluggables to `transceiver`, 94 misfiled optics and 92 whole devices out of
@@ -649,7 +649,8 @@ for (const f of files) {
     // move and the DENOMINATOR shrank. The ratchet fired, which is the test working: a share that
     // rises for a legitimate population change still has to be looked at and re-recorded, never
     // widened quietly. The target is unchanged at under 5%.
-    "optical-networking": 8.3, wireless: 2.4, "interfaces-modules": 1.6, "storage-networking": 4.8,
+    "optical-networking": 4.0, wireless: 2.4,   // optical 8.3 -> 4.0: ruling 12 kinded its named unknowns (28 Sep); the ratchet only tightens
+    "interfaces-modules": 1.6, "storage-networking": 4.8,
     routers: 3.2, meraki: 0, switches: 1.9, security: 1.0, transceiver: 1.0,
     // `conferencing` (2.9) and `data-center-networking` (0.0) left with their ledgers on 25 Sep 2026: both merged away
     // (runs 1204/1207/1212) and hold no live hardware, so a ceiling for them is an allowlist entry nothing can ever
@@ -793,13 +794,8 @@ for (const f of files) {
     // docs/decisions/2026-09-25-the-layering-is-complete.md, and each waits on a KIND RULE — which moves
     // partKind, a unit the freeze pins, so it lands with a layers rebuild and a republish, not beside a
     // ledger fix. They are named here so the zero stays exact and the list can only shrink.
-    "wireless|AIR-BR1310G": "an Aironet 1310 outdoor access point/bridge, 'Supported in access point mode only' — `ap`. "
-      + "The wireless axis reads AIR-AP / AIR-CAP and not AIR-BR, so the rule is one token wide; it waits on a partKind change.",
-    "optical-networking|EWDM-OA=": "'EWDM Optical Amplifier' — the name states the kind outright. optical-networking has no "
-      + "`amplifier` kind (video does), so this waits on a kind being ADDED to the optical axis, not on a rule matching.",
-    "collaboration-endpoints|CIT3-FI-M-6324": "'UCS 6324 In-Chassis FI' — a UCS Mini fabric interconnect sold inside a "
-      + "Collaboration Infrastructure bundle. It is in the wrong CATEGORY rather than the wrong kind, so it waits on a "
-      + "move/class decision (servers-unified-computing, or `bundle` by class), which is a parent write.",
+    // EMPTY AGAIN since 28 Sep 2026: all three waited on kind rules and ruling 12 landed them -- AIR-BR1310G is `ap`,
+    // EWDM-OA= is `amplifier` (optical declares it), CIT3-FI-M-6324 moved to servers-unified-computing (fabric-interconnect).
   };
   const judgeNoun = (counted: string[], residue: Record<string, string>): { unexplained: string[]; stale: string[] } => ({
     unexplained: counted.filter((s) => !(s in residue)),

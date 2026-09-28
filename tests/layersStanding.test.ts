@@ -1113,6 +1113,7 @@ check("SABOTAGE merge: a plan that calls a hardware row non-hardware is refused"
 // Added: the four UCSX- CPU tools the CPU token no longer claims — back with their family, their stored kind (cpu) wrong.
 const COMPONENT_KIND_LEFT_IN_FAMILY_SHARED: Record<string, string> = Object.fromEntries([
   ["CS-EZ-3TB-HDD", "placed only by a label, named only 'Cisco CS-EZ-3TB-HDD': no UCS family prefix to route by"],
+  ...["UCSC-OCP-100G", "UCSC-OCP-100G=", "UCSC-OCP-1025G", "UCSC-OCP-1025G="].map((s) => [s, "an OCP adapter panel shared by the C-Series models, kinded `nic` by ruling 12 (28 Sep 2026); a component of the family, so its shared parts is its home"]),
   ...["PLHC-MLOM-40G-04", "PLHC-MRAID12G"].map((s) => [s, "a Cisco+ (PLHC-) variant placed by a label, not a UCS family prefix"]),
   ["UCSX-CPU-TIM=", "CPU thermal interface material — the stored kind (cpu) is wrong; the CPU token refuses -TIM (re-check, 17 Sep 2026)"],
   ...["UCSX-CPUAT=", "UCSX-CPUATI-3=", "UCSX-CPUATI-4="].map((s) => [s, "a CPU assembly tool (UCS-CPUAT= 'CPU Assembly Tool for M5 Servers') — the stored kind (cpu) is wrong; the CPU token refuses CPUAT (re-check, 17 Sep 2026)"]),
