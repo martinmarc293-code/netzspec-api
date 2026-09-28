@@ -96,10 +96,16 @@ async function run(a: Args): Promise<Record<string, number>> {
   // survivor already answers. Found by reading the part count this printed (91,682, which is the
   // catalogue INCLUDING tombstones) while the run it was about to undo was still fresh.
   where.unshift("p.retired_at IS NULL");
-  const sql = `SELECT p.id, p.sku, p.name, p.category_id, p.product_class::text AS product_class, p.family, p.series, v.slug AS vendor_slug
+  // `p.cellular` JOINS THIS SELECT 28 Sep 2026, and its absence made the gate that reads it DECORATIVE.
+  // `cellular_bands` became conditional on the derived `cellular` column, and the first recompute after that
+  // wrote ZERO rows in all three affected categories — because the column was never fetched, so
+  // `requirementFor` never saw it and every part fell to the `elseOpt` branch. A gate on a field the scorer
+  // does not hand it is the same defect as `derived_gate_nulls`, one layer earlier: there the field could not
+  // be derived, here it could not be READ. The tell was `written 0` where 244 parts should have gained a cup.
+  const sql = `SELECT p.id, p.sku, p.name, p.category_id, p.product_class::text AS product_class, p.family, p.series, p.cellular, v.slug AS vendor_slug
                  FROM parts p JOIN vendors v ON v.id = p.vendor_id JOIN categories c ON c.id = p.category_id
                 ${where.length ? "WHERE " + where.join(" AND ") : ""} ORDER BY p.id`;
-  const parts = (await pool.query<{ id: number; sku: string; name: string | null; category_id: number; product_class: string; family: string | null; series: string | null; vendor_slug: string }>(sql, params)).rows;
+  const parts = (await pool.query<{ id: number; sku: string; name: string | null; category_id: number; product_class: string; family: string | null; series: string | null; cellular: boolean | null; vendor_slug: string }>(sql, params)).rows;
   console.log(`recompute-completeness: ${parts.length} parts${a.vendor ? " vendor=" + a.vendor : ""}${a.category ? " category=" + a.category : ""}${a.since ? " since=" + a.since : ""}`);
 
   let written = 0, unchanged = 0, noProfile = 0, nonHardware = 0, notArranged = 0, roleRefused = 0, refusedSlots = 0;
@@ -220,6 +226,12 @@ async function run(a: Args): Promise<Record<string, number>> {
           // gates module_slots; null = the table cannot say, so the gate stays unanswered and the cup stays pending.
           delete values.modular;
           if (category === "routers") { const m = modularPlatform(p.sku); if (m !== null) values.modular = m; }
+          // `cellular` is a STORED column (migration 0030, derived by scripts/derive-cellular.mts), not a
+          // per-run derivation like `modular`, so it is read rather than recomputed — one rule, one place.
+          // NULL is deleted rather than passed as false: the gate must be able to tell "no radio" from
+          // "not derived", and derive-cellular's own control asserts NULL is 0 across the catalogue.
+          delete values.cellular;
+          if (p.cellular !== null && p.cellular !== undefined) values.cellular = p.cellular;
           const c = completenessV2(category, values);
           if (c.no_profile) noProfile++;
           const reqFields = requiredFieldsFor(category, values);
