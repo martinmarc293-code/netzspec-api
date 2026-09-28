@@ -192,8 +192,14 @@ const RUN_KIND_CLASS: Record<string, { approval: boolean; gate: boolean }> = {
   "recompute-completeness": D, "write-layers-to-db": D, "build-spare-of": D, "derive-link-provenance": D,
   "derive-part-states": D, "fill-family-from-hct-category": D, "sync-dictionary": D, "name-language": D,
   "name-spare-packaging": D, "name-spare-wording": D, "images": D, "probe-failure-reason": D,
-  "backfill-doc-titles": D,
+  "backfill-doc-titles": D, "record-title-provenance": D, "record-retroactive-approval": A,
 };
+// doc_category_by_relevance: a readable untitled document counts against the check unless its title_state records that
+// the file carries no title (reviewer ruling 28 Sep 2026: title_state = none, nothing invented).
+function untitledCounts(titleState: string | null): boolean {
+  return titleState !== "none";
+}
+
 // openapi_schemas: the shapes a consumer needs, and the route each LEVEL shape must be served at. A schema with no
 // route is a name that routes nowhere (reviewer, 28 Sep 2026: `Model` was declared green while /v1/models 404'd).
 const OPENAPI_WANTED = ["Part", "Fact", "Conflict", "Relation", "Ledger", "Completeness", "Line", "Family", "Model", "ExportRow"];
@@ -1232,15 +1238,16 @@ const TESTS: Test[] = [
     // paying for. Run 69 is the one named historical exception: the hand-run conflict reopen of 4 Sep,
     // which cannot be given a gate retrospectively.
     run: async () => {
-      const rows = (await query<{ id: string; kind: string; status: string; appr: boolean; gate: boolean; started: string }>(
+      const rows = (await query<{ id: string; kind: string; status: string; appr: boolean; gate: boolean; retro: boolean; started: string }>(
         "SELECT id::text, kind, status::text, inputs ? 'approved' AS appr, gate IS NOT NULL AS gate," +
+        " coalesce(inputs->>'approved' = 'reviewer_retroactive', false) AS retro," +
         " to_char(started_at, 'YYYY-MM-DD') AS started FROM runs")).rows;
       if (!rows.length) return none("the runs table is empty");
       const EXCEPTIONS = new Set(["69"]);
       const unclassified = new Set<string>();
       const pre = new Map<string, number>();       // misses before the convention: named, not judged
       const post = new Map<string, string[]>();    // misses the rule judges: "kind (owes)" -> run ids
-      let judged = 0, notSucceeded = 0, excepted = 0, preRuns = 0;
+      let judged = 0, notSucceeded = 0, excepted = 0, preRuns = 0, retro = 0;
       // The first approval ever recorded -- computed, so "before the convention existed" is a fact about the
       // table and not a date typed here.
       const firstAppr = rows.filter((r) => r.appr).map((r) => r.started).sort()[0] ?? "9999";
@@ -1249,7 +1256,7 @@ const TESTS: Test[] = [
         if (o === "unclassified") { unclassified.add(r.kind); continue; }
         if (r.status !== "succeeded") { notSucceeded++; continue; }
         if (EXCEPTIONS.has(r.id)) { excepted++; continue; }
-        if (o.pre) preRuns++; else judged++;
+        if (o.pre) preRuns++; else { judged++; if (r.retro) retro++; }
         if (!o.approval && !o.gate) continue;
         const key = `${r.kind} (${o.approval && o.gate ? "approval+gate" : o.approval ? "approval" : "gate"})`;
         if (o.pre) pre.set(key, (pre.get(key) ?? 0) + 1);
@@ -1261,7 +1268,8 @@ const TESTS: Test[] = [
       const postList = [...post.entries()].sort((a, b) => b[1].length - a[1].length)
         .map(([k, ids]) => `${k}: runs ${ids.join(" ")}`).join("; ");
       const scope = `${rows.length} runs: ${judged} succeeded since ${RUN_CONVENTION_START} judged, ${preRuns} before it ` +
-        `NOT judged, ${notSucceeded} failed/aborted not judged, ${excepted} named exception (run 69); first recorded ` +
+        `NOT judged, ${notSucceeded} failed/aborted not judged, ${excepted} named exception (run 69); ${retro} judged runs ` +
+        `carry the reviewer's retroactive line (counted apart, not as contemporaneous approvals); first recorded ` +
         `approval ${firstAppr}; pre-convention misses named: ${preN} (${preList || "-"})`;
       if (unclassified.size) return bad(`${unclassified.size} run kinds are in no class, so nobody has said what they owe: ` +
         `${[...unclassified].join(", ")} — ${scope}`);
@@ -1535,13 +1543,14 @@ const TESTS: Test[] = [
       // INTENTION recorded at fetch time, so readability is checked on disk here, never assumed from the
       // column -- and the unreadable are printed as their own numbers, never dropped from the output.
       const CACHE = process.env.CACHE_DIR ?? path.join(REPO, "scraper", "cache");
-      const unt = (await query<{ cache_path: string | null }>(
-        "SELECT cache_path FROM source_docs WHERE title IS NULL OR title = ''")).rows;
-      let readable = 0, gone = 0, never = 0;
+      const unt = (await query<{ cache_path: string | null; title_state: string | null }>(
+        "SELECT cache_path, title_state FROM source_docs WHERE title IS NULL OR title = ''")).rows;
+      let readable = 0, gone = 0, never = 0, namedNone = 0;
       for (const u of unt) {
         if (!u.cache_path) never++;
-        else if (existsSync(path.join(CACHE, u.cache_path))) readable++;
-        else gone++;
+        else if (!existsSync(path.join(CACHE, u.cache_path))) gone++;
+        else if (untitledCounts(u.title_state)) readable++;
+        else namedNone++;
       }
       // A cache dir that holds NONE of the titled documents' files is the wrong directory, not a wiped
       // corpus: the control is asked before any zero is believed.
@@ -1551,7 +1560,8 @@ const TESTS: Test[] = [
       if (ctl.length && ctlHit === 0) return na(`cache control: 0 of ${ctl.length} titled documents' files are in ` +
         `${CACHE} — wrong CACHE_DIR, so readability cannot be judged`);
       const scope = `${total.toLocaleString()} documents across ${rows.length} types; ${unt.length.toLocaleString()} ` +
-        `untitled = ${readable} readable + ${gone} cache file on no machine + ${never} never cached; ` +
+        `untitled = ${readable} readable + ${namedNone} readable with title_state none (the file carries no title; ruled) + ` +
+        `${gone} cache file on no machine + ${never} never cached; ` +
         `cache ${CACHE} (control ${ctlHit}/${ctl.length})`;
       return readable === 0 && unclassed === 0
         ? ok(`every readable document carries a title and every document a type — ${scope}`)
@@ -1563,8 +1573,10 @@ const TESTS: Test[] = [
       // specifications. That is the misclassification this test exists to prevent.
       const SPEC_BEARING = new Set(["vendor_datasheet_html", "vendor_datasheet_pdf", "vendor_tool"]);
       const specBearing = (t: string) => SPEC_BEARING.has(t);
-      return { negative: specBearing("vendor_eol_bulletin"), positive: specBearing("vendor_datasheet_html"),
-               note: "an End-of-Life bulletin must not be spec-bearing (4.9 facts/doc); an HTML datasheet must be (49.7)" };
+      return { negative: specBearing("vendor_eol_bulletin") || !untitledCounts(null),
+               positive: specBearing("vendor_datasheet_html") && !untitledCounts("none"),
+               note: "an EoL bulletin must not be spec-bearing, and a readable untitled document with no recorded state must " +
+                 "count; an HTML datasheet must be spec-bearing, and title_state none must not count" };
     },
   },
   {

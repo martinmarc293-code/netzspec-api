@@ -110,7 +110,8 @@ async function main(): Promise<void> {
   const pdfTitles = pdfInfoTitles(cands.filter((c) => c.kind === "pdf").map((c) => c.file));
 
   // Pass 2: one outcome per readable document, every one written to the rows file.
-  const found: Array<[string, string]> = [];
+  const found: Array<[string, string, string]> = [];
+  const none: string[] = [];   // readable, and the file carries no usable title: title_state 'none' (never on could-not-read)
   const lines: string[] = ["doc_id\tdoc_type\tkind\toutcome\ttitle"];
   const tally: Record<string, number> = {};
   for (const c of cands) {
@@ -126,8 +127,9 @@ async function main(): Promise<void> {
     if (!outcome && t) {
       const why = titleRefusal(t);
       outcome = why ? `refused_${why}` : "recovered";
-      if (!why) found.push([c.doc_id, t]);
+      if (!why) found.push([c.doc_id, t, c.kind === "pdf" ? "pdf-info-trailer" : "html-title"]);
     }
+    if (outcome === "no_title" || outcome.startsWith("refused_")) none.push(c.doc_id);
     const key = outcome.split(":")[0];
     tally[key] = (tally[key] ?? 0) + 1;
     lines.push(`${c.doc_id}\t${c.doc_type}\t${c.kind}\t${outcome}\t${t ?? ""}`);
@@ -148,13 +150,16 @@ async function main(): Promise<void> {
       try {
         await c.query("BEGIN");
         const res = await c.query(
-          `UPDATE source_docs sd SET title = m.t
-             FROM unnest($1::text[], $2::text[]) AS m(id, t)
+          `UPDATE source_docs sd SET title = m.t, title_source = m.s, title_state = NULL
+             FROM unnest($1::text[], $2::text[], $3::text[]) AS m(id, t, s)
             WHERE sd.doc_id = m.id AND (sd.title IS NULL OR sd.title = '')`,
-          [found.map((x) => x[0]), found.map((x) => x[1])]);
+          [found.map((x) => x[0]), found.map((x) => x[1]), found.map((x) => x[2])]);
         if (res.rowCount !== found.length) throw new Error(`would write ${res.rowCount} of ${found.length} titles; rolled back`);
+        const marked = await c.query(
+          `UPDATE source_docs SET title_state = 'none' WHERE doc_id = ANY($1::text[]) AND (title IS NULL OR title = '')`, [none]);
+        if (marked.rowCount !== none.length) throw new Error(`would mark ${marked.rowCount} of ${none.length} as title_state none; rolled back`);
         await c.query("COMMIT");
-        return { stats: { written: res.rowCount, missing, ...tally } };
+        return { stats: { written: res.rowCount, marked_none: marked.rowCount, missing, ...tally } };
       } catch (e) { await c.query("ROLLBACK").catch(() => {}); throw e; }
       finally { c.release(); }
     });

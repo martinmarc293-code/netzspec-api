@@ -76,3 +76,14 @@ The 23 for retroactive lines, by group:
 - retired-residue (approval): 988 993
 - hygiene-whitespace-duplicates 1064 · revert-cross-vendor-layer-write 1243 · drop-orphan-keys 991 · retract-page-read-deploy-role 1221 (approval)
 - GATE, not approval: reroute-per-slot-capacity 942 · rekey-psu-and-compat 952 · split-bidi-rx 959. A line cannot supply a gate; like run 69 they can only be named exceptions or re-run.
+
+## Reviewer's retroactive line, written into each group (ruling 28 Sep 2026)
+- reclassify 933 935 939 951 956 969 973 999 1023 — approved: reviewer_retroactive · evidence: plans_agree_with_rows
+- retract-licence-mined 937 954 957 958 970 — approved: reviewer_retroactive · evidence: plans_agree_with_rows
+- retired-residue 988 993 — approved: reviewer_retroactive · evidence: plans_agree_with_rows
+- hygiene-whitespace-duplicates 1064 — approved: reviewer_retroactive · evidence: plans_agree_with_rows
+- revert-cross-vendor-layer-write 1243 — approved: reviewer_retroactive · evidence: plans_agree_with_rows
+- drop-orphan-keys 991 — approved: reviewer_retroactive · evidence: plans_agree_with_rows
+- retract-page-read-deploy-role 1221 — approved: reviewer_retroactive · evidence: plans_agree_with_rows
+Recorded in runs.inputs by scripts/record-retroactive-approvals.mts (its own run carries the ruling); the check counts them apart.
+Gate misses 942 952 959: NOT exceptions. scripts/retro-gate.mts re-runs the gate's value half (labels are not stored) with a gated apply run as control; pass -> named exception like 69, fail -> their facts retract.

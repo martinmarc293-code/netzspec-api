@@ -43,6 +43,9 @@ HEAD 8785996+, deployed 8785996 (box run 28 Sep; titles run 1289).
 - runs_have_approval: the brief's 7,533 is the reviewer's error; the table's 1,272 is right.
 - runs_have_approval: judged from 2026-09-11 (first recorded approval); earlier misses named, never folded; the reviewer writes lines for the 23.
 - Model: route /v1/models/{vendor}/{model}, field `model`, /v1/families is the alias. DONE d956173.
+- PDF titles: Info-trailer /Title accepted (20-of-68 sample passed); recorded as title_source = pdf-info-trailer. First-page heading only for the 15 if more than none is ever wanted.
+- The 15 with no title anywhere: title_state = none, nothing invented.
+- The 23 runs: approved = reviewer_retroactive, evidence = plans_agree_with_rows (20). Gate misses 942/952/959: retro-gate; pass -> exception like 69, fail -> retract.
 
 ## Pinned predictions
 - seed retraction lands → `enum_values_in_domain` 2,011 → 236 AND `required_cup_defined` unsatisfiable 6 → 2. If one moves without the other, that is a finding.
