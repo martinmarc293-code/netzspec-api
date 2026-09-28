@@ -49,10 +49,17 @@ const line = (id: number, v: Verdict, tag = "") =>
   `precision ${v.precision}, checked ${v.checked} of ${v.sampled}, unreadable ${v.unreadable} -> ${v.passed ? "PASS" : `FAIL, retract ${v.retract.length}`}`;
 
 // CONTROL: the newest gated apply-acquired run that actually wrote >= 20 values must pass, or nothing here means anything.
-const ctl = (await db.query<{ id: string }>(
+// Chosen for READABLE evidence (the gate's own precondition, MIN_READABLE_SHARE), never for precision: a run whose pages
+// were wiped (run 439: 200 of 200 unreadable) cannot show whether this tool can pass anything.
+const cands = (await db.query<{ id: string }>(
   `SELECT r.id::text FROM runs r WHERE r.kind = 'apply-acquired' AND r.status = 'succeeded' AND (r.gate->>'passed')::boolean
-     AND (SELECT count(*) FROM facts f WHERE f.run_id = r.id AND f.raw <> '') >= 20 ORDER BY r.id DESC LIMIT 1`)).rows[0]?.id;
-if (!ctl) { console.log("  no gated apply-acquired run with values to use as the control: cannot judge"); await closePool(); process.exit(2); }
+     AND (SELECT count(*) FROM facts f WHERE f.run_id = r.id AND f.raw <> '') >= 20 ORDER BY r.id DESC LIMIT 40`)).rows.map((x) => x.id);
+let ctl: string | undefined;
+for (const id of cands) {
+  const probe = await judge(Number(id), 50);
+  if (probe.sampled && probe.checked / probe.sampled >= MIN_READABLE_SHARE) { ctl = id; break; }
+}
+if (!ctl) { console.log(`  none of ${cands.length} gated apply-acquired runs has readable evidence to use as the control: cannot judge`); await closePool(); process.exit(2); }
 const control = await judge(Number(ctl), 200);
 console.log(line(Number(ctl), control, "CONTROL "));
 const verdicts: Record<string, Omit<Verdict, "retract"> & { retract: number }> = {};
