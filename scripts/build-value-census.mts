@@ -219,7 +219,7 @@ async function main(): Promise<void> {
       + "through, because facts are append-only and a rule tightened after a value was stored leaves it serving.",
     vendor,
     category,
-    built_on_commit: execSync("git rev-parse --short HEAD", { cwd: ROOT }).toString().trim(),
+    built_on_commit: process.env.GIT_SHA?.slice(0, 7) ?? (() => { try { return execSync("git rev-parse --short HEAD", { cwd: ROOT }).toString().trim(); } catch { return "unknown"; } })(),
     norm_version: NORM_VERSION,
     parts: parts.length,
     parts_hardware: parts.filter((p) => p.product_class === "hardware").length,

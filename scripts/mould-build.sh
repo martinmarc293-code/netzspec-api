@@ -7,6 +7,9 @@
 # Stops at the first failing step, reading that step's OWN exit code (no pipes), and says which step it was.
 set -u
 VENDOR="${1:-cisco}"
+# The deployed tree is a git archive with no .git: builders read the commit from GIT_SHA (pass it: GIT_SHA=<sha> bash ...).
+[ -n "${GIT_SHA:-}" ] || { echo "!! GIT_SHA is not set (the tree has no .git) - nothing written"; exit 2; }
+export GIT_SHA
 step() {
   echo "== $(date -u +%H:%M:%S) $*"
   "$@"

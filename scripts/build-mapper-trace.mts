@@ -123,7 +123,7 @@ function main(): void {
       + "HERE is normal (a rule scoped elsewhere); unreachable in EVERY category is the finding, and "
       + "tests/mapperTrace.test.ts makes that claim.",
     vendor, category,
-    built_on_commit: execSync("git rev-parse --short HEAD", { cwd: ROOT }).toString().trim(),
+    built_on_commit: process.env.GIT_SHA?.slice(0, 7) ?? (() => { try { return execSync("git rev-parse --short HEAD", { cwd: ROOT }).toString().trim(); } catch { return "unknown"; } })(),
     inventory: path.relative(ROOT, INVENTORY).replace(/\\/g, "/"),
     contested_shown: Math.min(t.contested_total, TOP_CONTESTED),
     // The complete list, and where to get it. Stated in the artifact itself so a truncated response
