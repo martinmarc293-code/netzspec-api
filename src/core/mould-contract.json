@@ -1,9 +1,9 @@
 {
-  "contract_hash": "d24c7710659592bc",
-  "generated_at": "2026-09-28T12:30:47.206Z",
-  "code_commit": "fd4980199111364133d8b488e48f40c4373802ec",
+  "contract_hash": "6c140f9084304e5f",
+  "generated_at": "2026-09-28T13:51:10.467Z",
+  "code_commit": "8214cc22e5666bcb40ef7c30a72351389ecb0329",
   "code_branch": "cisco",
-  "dirty_files": 94,
+  "dirty_files": 12,
   "counts": {
     "dictionary_keys": 607,
     "categories": 26,
@@ -8769,7 +8769,13 @@
           "kind": "opt"
         },
         "connector": {
-          "kind": "opt"
+          "kind": "cond",
+          "when": {
+            "field": "kind",
+            "inList": [
+              "cable"
+            ]
+          }
         },
         "cpu": {
           "elseOpt": true,
@@ -11829,7 +11835,13 @@
           "kind": "opt"
         },
         "connector": {
-          "kind": "opt"
+          "kind": "cond",
+          "when": {
+            "field": "kind",
+            "inList": [
+              "cable"
+            ]
+          }
         },
         "console_port": {
           "kind": "opt"
@@ -16306,7 +16318,13 @@
           "kind": "opt"
         },
         "connector": {
-          "kind": "opt"
+          "kind": "cond",
+          "when": {
+            "field": "kind",
+            "inList": [
+              "cable"
+            ]
+          }
         },
         "console_port": {
           "kind": "opt"
@@ -25159,7 +25177,14 @@
           "kind": "opt"
         },
         "connector": {
-          "kind": "opt"
+          "elseOpt": true,
+          "kind": "cond",
+          "when": {
+            "field": "kind",
+            "inList": [
+              "cable"
+            ]
+          }
         },
         "console_port": {
           "kind": "opt"

@@ -334,5 +334,56 @@ check("the slash rule has real compound units to check",
 check("the spelling rule has real dimensions to check",
   [...declaredUnits].filter((u) => !!CANON[u]).length >= 30);
 
+// ---------------------------------------------------------------------------------------------------
+// CONNECTOR: SATISFIABLE HERE (reviewer's ruling, 28 Sep 2026)
+//
+// These live here because nothing else can hold them. `collabKind.test.ts` guards the collab row with an
+// exact cup-set string and goes red when it is removed — that one is load-bearing. The ROUTERS row has no
+// such guard: `routerKind.test.ts`'s `routers.cable` case has been red since before this change (it wants
+// `product_compatibility` and the profile produces `cable_length,...`), and a case that is red either way
+// cannot report anything. `partKind.test.ts`'s allow-list cannot either, in a way worth stating: it asserts
+// a component is asked NO MORE than a list, so adding a cup to the list can never make it fail. Both facts
+// came out of running the sabotage rather than from reading the tests.
+{
+  const cableReq = (cat: string) => requirementFor(cat, "connector", { kind: "cable" });
+  const dom = (cat: string) => domainFor(cat, "connector") ?? [];
+
+  check("routers asks its cables for a connector", cableReq("routers") === "req");
+  check("collaboration-endpoints asks its cables for a connector", cableReq("collaboration-endpoints") === "req");
+  // THE WITHDRAWAL IS AN ASSERTION, not an omission. wireless holds 141 kind=`cable` parts of which 82 are
+  // MAINS CORDS (AIR-PWR-CORD-CE, CAB-AC-C5-JAP, PWR-CAB-JPN-0.7M) because `wirelessKind` has no
+  // `power-cord` kind, where routers separates 76 and collaboration-endpoints 262. A cord is bought on its
+  // plug; requiring a connector of it is a gap nothing can ever close. If someone adds the row without
+  // splitting the kind, this case says so.
+  check("wireless does NOT, until its mains cords have a kind of their own", cableReq("wireless") !== "req");
+  // A cup required of a kind whose values the domain cannot express is the defect the whole ruling ends, so
+  // every token counted off the part names is asserted present. Four of them (d8, m12, din) were missing from
+  // the count that produced the ruling because I matched the SKUs against a list I had already written.
+  for (const [cat, tokens] of [
+    ["routers", ["rj45", "tnc", "qma", "rj11", "db9", "micro-usb", "n-type", "rp-tnc", "d8"]],
+    ["wireless", ["rp-tnc", "n-type", "tnc", "mmcx", "sma", "m12", "d8"]],
+    ["collaboration-endpoints", ["hdmi", "rj45", "usb-c", "usb-a", "usb-b", "dvi", "3.5mm", "dvi-d", "rj9", "rj11", "displayport", "micro-usb", "din"]],
+    ["interfaces-modules", ["rj45", "tnc", "n-type", "rj11", "m12"]],
+  ] as const) {
+    const missing = tokens.filter((t) => !dom(cat).includes(t));
+    check(`${cat}: every connector token counted off its part names is in the domain${missing.length ? ` — MISSING ${missing.join(", ")}` : ""}`,
+      missing.length === 0);
+  }
+  // The three collaboration categories spread ONE block, and `collabKind.test.ts` asserts they ask each kind
+  // identically. Declaring the cup for all three and the domain for one would ask two of them for a value
+  // their domain cannot hold — the defect, arriving through the fix. One table, three categories.
+  const collabDoms = ["unified-communications", "collaboration-endpoints", "conferencing"].map((c) => dom(c).join(","));
+  check("all three collaboration categories share one connector domain",
+    new Set(collabDoms).size === 1 && collabDoms[0].includes("hdmi"));
+  // NOT VACUOUS: a category with no override must still hold the shared optical domain, or every case above
+  // would pass against a `domainFor` that returned the same widened list for everything.
+  check("a category with no override keeps the shared optical domain",
+    !dom("switches").includes("hdmi") && !dom("switches").includes("tnc") && dom("switches").includes("lc-duplex"));
+  // `power-cord` is deliberately never asked: the cup that asks a mains cord is `plug_type`.
+  check("no category asks a power cord for a connector",
+    ["routers", "collaboration-endpoints", "wireless", "interfaces-modules"]
+      .every((c) => requirementFor(c, "connector", { kind: "power-cord" }) !== "req"));
+}
+
 console.log(`\nfieldSchema tests: ${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);

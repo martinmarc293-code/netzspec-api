@@ -170,11 +170,27 @@ check("and the collapse is severe enough to be worth a guard",
     // collab (12 Sep 2026): the collaboration axis asks a cable its length, a PSU its rated output and what it
     // fits, a server part what it fits (collabBlock in fieldSchema.ts) — and no device question.
     // kind-layer (13 Sep 2026): `power-supply` is `power` and asks the PSU archetype (rated output, input voltage, airflow).
-    "unified-communications": ["cable_length", "product_compatibility", "psu_rated_output", "input_voltage", "airflow"],
-    "collaboration-endpoints": ["cable_length", "product_compatibility", "psu_rated_output", "input_voltage", "airflow"],
-    conferencing: ["cable_length", "product_compatibility", "psu_rated_output", "input_voltage", "airflow"],
+    // `connector` ADDED 28 Sep 2026 — a collab cable IS bought on its connector, and the category's domain now
+    // holds the AV set (hdmi, dvi, displayport, usb-a/b/c, rj9, 3.5mm, din) rather than the optical one, which
+    // is what the 13 Sep escalation was waiting on. This is a component question, not a device question: the
+    // rule this list enforces is unchanged.
+    //
+    // WORTH KNOWING ABOUT THE FIXTURE ITSELF: `CAB-9K16A-AUS` is a 16 A Australian MAINS CORD, and collabKind
+    // calls it `cable`, not `power-cord`. It does not exist in any of these three categories (they hold 0, 308
+    // and 0 cables, and 0 mains cords among them — read row by row, not counted by a regex, because two
+    // regexes over these SKUs manufactured 22 hits between them). But it is the shape that stopped the same
+    // row landing in `wireless`, where 82 of 141 kind=`cable` parts are mains cords and no `power-cord` kind
+    // exists to hold them. A cord is bought on its plug; asking it for a connector is a gap nothing can close.
+    "unified-communications": ["cable_length", "connector", "product_compatibility", "psu_rated_output", "input_voltage", "airflow"],
+    "collaboration-endpoints": ["cable_length", "connector", "product_compatibility", "psu_rated_output", "input_voltage", "airflow"],
+    conferencing: ["cable_length", "connector", "product_compatibility", "psu_rated_output", "input_voltage", "airflow"],
     // routers (12 Sep 2026): the same allow-list — its own axis asks a cord its length and what it fits, nothing else.
-    routers: ["cable_length", "product_compatibility"],
+    // `connector` here is TRUE BUT NOT EXERCISED by this test, and saying so is the point: routers' cables are
+    // asked it (259 of them, 37 naming a token in the widened domain, 0 mains cords because routers has a
+    // separate `power-cord` kind holding 76), yet this category's representative component IS a power cord, so
+    // the gate never fires on the fixture. Left in because the list is read as the category's component
+    // question set; a list that silently omits a live requirement is the drift this repo keeps paying for.
+    routers: ["cable_length", "connector", "product_compatibility"],
     // optical-storage (12 Sep 2026): both now ask a component its own questions (a cable its length), exactly as
     // switches does since 11 Sep — so the guard is again the leak itself: no DEVICE question reaches a cable.
     // kind-layer (13 Sep 2026): a cable in optical-networking and storage-networking is proposed the CABLE archetype

@@ -24,9 +24,10 @@ import { opticKind } from "./opticKind.js";
 import { wirelessKind } from "./wirelessKind.js";
 import { videoKind } from "./videoKind.js"; // video (12 Sep 2026)
 // collab (12 Sep 2026)
-import { collabKind } from "./collabKind.js";
-/** The three collaboration categories share ONE axis (collabKind.ts): the same SKU, the same kind, wherever filed. */
-export const COLLAB_CATEGORIES: readonly string[] = ["unified-communications", "collaboration-endpoints", "conferencing"];
+import { collabKind, COLLAB_CATEGORIES } from "./collabKind.js";
+// The list moved to collabKind.ts (28 Sep 2026) so fieldSchema can read it without importing partKind, which is a
+// cycle. Re-exported here because every existing consumer imports it from this module.
+export { COLLAB_CATEGORIES };
 import { routerKind } from "./routerKind.js"; // routers (12 Sep 2026)
 // optical-storage (12 Sep 2026)
 import { opticalKind } from "./opticalKind.js";

@@ -50,9 +50,9 @@
     "35026": "Zugriffskontrollliste (ACL)"
   },
   "build": {
-    "data_commit": "56c5fb562ab7+91dirty",
-    "code_commit": "fd4980199111",
-    "contract_hash": "d24c7710659592bc",
-    "generated_at": "2026-09-28T12:31:37.091Z"
+    "data_commit": "74bb92157374+7dirty",
+    "code_commit": "8214cc22e566",
+    "contract_hash": "6c140f9084304e5f",
+    "generated_at": "2026-09-28T13:52:45.213Z"
   }
 }

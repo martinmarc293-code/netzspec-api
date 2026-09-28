@@ -56,6 +56,18 @@ export type CollabKind =
   | "unknown";
 
 /** Every kind the axis can name — the ledger lists all of them, including kinds no part holds today. */
+/**
+ * The three collaboration categories share ONE axis (this module): the same SKU, the same kind, wherever filed.
+ *
+ * IT LIVES HERE AND NOT IN partKind.ts, where it was until 28 Sep 2026, for a reason a typecheck cannot see:
+ * fieldSchema needs it to give all three the same `connector` domain, and importing partKind from fieldSchema is a
+ * CYCLE. `npx tsc --noEmit` passed on that import and the first suite to load it died with
+ * "Cannot access 'COLLAB_CATEGORIES' before initialization" — a temporal dead zone, at import time, in every
+ * consumer at once. This module imports nothing, so everyone can have it. partKind re-exports it, so there is
+ * still exactly one list and no consumer had to change.
+ */
+export const COLLAB_CATEGORIES: readonly string[] = ["unified-communications", "collaboration-endpoints", "conferencing"];
+
 export const COLLAB_KINDS: readonly CollabKind[] = [
   "phone", "dect-base", "video-device", "video-codec", "conference-camera", "microphone", "speaker", "headset",
   "touch-panel", "display", "expansion-module", "voice-gateway", "ata", "voice-module", "server",

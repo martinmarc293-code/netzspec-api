@@ -51,7 +51,7 @@ import { GENERIC_DEVICE } from "./componentKind.js";
 import { WL_AP, WL_BOX, WL_PORTED } from "./wirelessKind.js";
 import { VIDEO_BOX, VIDEO_EMITTER, type VideoKind } from "./videoKind.js"; // video (12 Sep 2026)
 // collab (12 Sep 2026)
-import { COLLAB_ENDPOINT, COLLAB_CALLING, COLLAB_VIDEO, COLLAB_SCREEN, COLLAB_FITS, COLLAB_CABLE } from "./collabKind.js";
+import { COLLAB_ENDPOINT, COLLAB_CALLING, COLLAB_VIDEO, COLLAB_SCREEN, COLLAB_FITS, COLLAB_CABLE, COLLAB_CATEGORIES } from "./collabKind.js";
 // kind-layer (13 Sep 2026): RT_DEVICE / RT_DEVICE_PORTED / RT_BRANCH / RT_CABLE came off this import — the routers block
 // now names each kind a measured cup is kept for (rtKinds / rtRoleAdd / rtCoreExcept), because after the cup bar no two
 // device cups are asked of the same kind list any more.
@@ -1447,8 +1447,18 @@ const apRole = (roles: string[]): Requirement =>
 // proposed status) list the parent measures is in D:/tmp/kindlayer-impl/3-wireless-collab/REPORT.md.
 // NOT APPLIED, domain conflicts listed for the parent: CABLE `connector` / `media` (optical and RJ45 domains; these are
 // HDMI, USB, DisplayPort and headset cables).
+// CONNECTOR IS ANSWERED (reviewer, 28 Sep 2026): an AV domain now sits on all three COLLAB_CATEGORIES, so the row is
+// applied below. `media` STAYS UNAPPLIED for the reason written above, unchanged — an HDMI cable's medium is not
+// mmf/smf/dac-copper/rj45-copper/aoc either, and closing both because one was ruled on would reverse half a decision
+// nobody has ruled on. The escalation is therefore half-open, and says so rather than disappearing.
 const collabBlock = (): Record<string, Requirement> => ({
   vendor: req, series: req,
+  // THE D ROW, BACK. 308 collaboration-endpoints cables, 159 naming a connector in the part name (hdmi 94,
+  // rj45 31, usb-c 18, usb-a 16, usb-b 11, dvi 10, 3.5mm 8 …), every token counted now in the domain. It was
+  // withdrawn a day earlier on the strength of `connector` holding 2,328 facts SOMEWHERE — the wrong question.
+  // Satisfiable HERE is the licence. `power-cord` is deliberately not included: a mains cord is bought on its
+  // plug, and `plug_type` is the cup that asks.
+  connector: cK(["cable"]),
   // --- the envelope of anything with its own specification sheet ----------------------------------------
   // dimensions / weight: 0 facts in the three categories, but Cisco prints both on every phone, headset, camera
   // and room-device sheet, and "Dimensions"/"Weight" map in the inventory (the ledger records the counts).
@@ -3114,6 +3124,22 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // kind-layer (13 Sep 2026): the CABLE archetype's `connector` and `media` are NOT applied here — their domains are the
     // optical and RJ45 ones (lc-duplex … rj45; mmf/smf/dac-copper/rj45-copper/aoc) and a wireless cable is RF coax
     // (RP-TNC, N-type, LMR-240). Listed for the parent as a domain conflict: required, they could never be filled.
+    //
+    // THE ESCALATION STAYS OPEN HERE, AND FOR A REASON NOBODY HAD WRITTEN DOWN (28 Sep 2026). The reviewer's
+    // ruling widened this category's `connector` domain to the RF set, which answers the objection above — and
+    // the row still cannot go back, because the domain was never the whole problem. Read row by row, 96 of
+    // wireless's 141 kind=`cable` parts could not hold any connector value:
+    //     82  MAINS CORDS (AIR-PWR-CORD-CE, CAB-AC-C5-JAP, PWR-CAB-JPN-0.7M) — bought on a PLUG, not a connector
+    //      9  M12 industrial (FM-CABLE-M12XM12-5M)      5  D8 / DART (AIR-CAB002-DART-R)
+    // m12 and d8 are now in the domain. The 82 are not a domain question at all: `wirelessKind` has no
+    // `power-cord` kind, so `cable` here means two different products, where `routers` (259 cable / 76
+    // power-cord) and `collaboration-endpoints` (308 / 262) both separate them and can therefore ask. That is
+    // a KIND decision and it is with the reviewer; requiring the cup first would put 82 permanently unfillable
+    // gaps on the very parts this ruling exists to protect.
+    //
+    // `media` is unapplied for the original reason, unchanged: an RF coax cable's medium is not
+    // mmf/smf/dac-copper/rj45-copper/aoc. Closing it because `connector` was ruled on would reverse half a
+    // decision nobody has ruled on.
     // --- the physical envelope of every box ----------------------------------------------------------
     power_max: cond({ field: "kind", inList: [...WL_BOX] }),
     dimensions: cond({ field: "kind", inList: [...WL_BOX] }),
@@ -3359,6 +3385,13 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     radio_bands: cond({ field: "kind", inList: ["antenna"] }),
     // kind-layer: power-cord keeps cable_length (19 readable, low-n: as today); cable 24.1% of 54 readable — demoted.
     cable_length: rtKinds(["power-cord"]),
+    // THE D ROW, BACK (reviewer, 28 Sep 2026). routers holds 259 cables and 37 of them name a connector in the
+    // part name — rj45 19, tnc 11, qma 2, rj11 2, db9 1, n-type 1, rp-tnc 1, micro-usb 1 — and every one of those
+    // tokens is now in this category's `connector` domain. It was withdrawn a day earlier because the shared
+    // optical/RJ45 domain could not hold TNC or DB9, which was the right call on a domain that has since been
+    // widened per category. The other 222 must come off the sheet, which is filling work and not a reason to
+    // stop asking: a cup is licensed by being SATISFIABLE here, not by being filled here.
+    connector: rtKinds(["cable"]),
     plug_type: opt,
     // STRUCTURE 8 Sep 2026: 3 field(s) its documents already produce and no profile declared — invisible to completeness until now
     // (compatible_platform retired into product_compatibility, 12 Sep 2026)
@@ -3805,7 +3838,83 @@ export const UNIT_OVERRIDES: Record<string, Record<string, string>> = {
 // "Formfaktor" on an optic means SFP/QSFP28/... Both are legitimately form_factor — one concept,
 // two domains. Without this override the alias map would either need a second key (drift) or
 // every optic would fail ENUM_VIOLATION against the switch domain.
+/**
+ * The dictionary's own domain for a key, REFUSING to fall back to nothing.
+ *
+ * A `?? []` here would build a category override out of the empty set, which does not read as a bug —
+ * it reads as a domain, and every stored value in that category would become an ENUM_VIOLATION at once.
+ * A rename of the key would do it silently. This is the one place a missing entry must stop the load.
+ */
+const baseDomain = (key: string): string[] => {
+  const d = (FIELD_DICTIONARY[key] as FieldDef | undefined)?.domain;
+  if (!d?.length) throw new Error(`fieldSchema: "${key}" has no dictionary domain to build a category override from`);
+  return d;
+};
+const union = (...lists: readonly string[][]): string[] => [...new Set(lists.flat())];
+
+/**
+ * The RF connector set, REFERENCED rather than copied: it is `antenna_connector`'s own domain plus
+ * `tnc`. A second hand-written list of the same six values is the drift this file pays for elsewhere,
+ * and the reviewer's ruling named that table on purpose ("one table referenced, already holding qma
+ * and mmcx"). `tnc` is the one value antenna_connector does not carry — its domain holds only the
+ * reverse-polarity `rp-tnc` — and plain TNC is named by 11 routers cables, 4 wireless and 2
+ * interfaces-modules, counted over the part NAMES because not one of these parts holds a connector fact.
+ */
+const RF_CONNECTORS = union(baseDomain("antenna_connector"), ["tnc"]);
+
 export const DOMAIN_OVERRIDES: Record<string, Record<string, string[]>> = {
+  // CONNECTOR, PER CATEGORY (reviewer's ruling, 28 Sep 2026). `connector`'s shared domain is optical
+  // plus RJ45, and three categories were given a REQUIRED connector cup on the strength of the key
+  // holding 2,328 facts SOMEWHERE — the wrong question. Satisfiable-here is the licence, and for
+  // "LMR-240 with TNC Connector" and "HDMI to DVID" the shared domain could express nothing, so the
+  // rows were deleted. Widening the domain per category is the better answer and the reviewer's: one
+  // cup with one meaning, and the requirement becomes answerable where it is asked.
+  //
+  // EVERY VALUE HERE WAS COUNTED OFF THE PART NAMES, not guessed. The measured tokens, live parts:
+  //   routers/cable    259 parts, 222 name no token: rj45 19, tnc 11, qma 2, rj11 2, db9 1, n-type 1,
+  //                    rp-tnc 1, micro-usb 1
+  //   wireless/cable   141 parts, 118 no token:      rp-tnc 16, n-type 7, tnc 4, mmcx 1, sma 1
+  //   collab/cable     308 parts, 149 no token:      hdmi 94, rj45 31, usb-c 18, usb-a 16, usb-b 11,
+  //                    dvi 10, 3.5mm 8, dvi-d 1, rj9 1, rj11 1, displayport 1, micro-usb 1
+  //   int-modules      126 parts,  91 no token:      lc 26, rj45 5, tnc 2, n-type 2, sc 1, rj11 1
+  // The reviewer's first RF set omitted qma and mmcx (both real, both already in antenna_connector's
+  // table) and rj45 (routers' LARGEST token, already in the base); the measured names outrank the list.
+  //
+  // `dvi` AND `dvi-d` ARE TWO VALUES ON PURPOSE. Ten collab cables are named "DVI-HDMI" with no
+  // sub-type against exactly one "DVI-D"; a name that says DVI does not license the narrower value,
+  // and collapsing them would be a guess wearing a domain's authority.
+  //
+  // The override is per (category, key), so it widens the cup for EVERY kind in the category and not
+  // only for cables. That is safe in the one direction that matters — a wider domain can never refuse
+  // a value it used to accept — and the cost is that a wrong value has more room, which is why nothing
+  // is in here that the names do not support.
+  // FOUR TOKENS THE COUNT THAT PRODUCED THE RULING DID NOT HOLD, added under the ruling's own stated
+  // principle ("every token you counted is in; nothing I guessed that the names don't support") because the
+  // count was mine and it was short. I matched the SKUs against a token list I had already written, so the
+  // scan could only find what I had thought of — the under-reporting net this repo names as the worse half
+  // of the scanner problem, since its residue ends the investigation instead of wasting an hour. Reading the
+  // residue row by row found them. Each is a real connector named by real parts, counted:
+  //   d8   routers 1 (CW-CAB-001-D8-R4), wireless 5 (AIR-CAB002-DART-R, AIR-CAB-003-D8-D8=) — Cisco's DART
+  //   m12  interfaces-modules 62 (CB-M12-M12-SMF30M …), wireless 9 (FM-CABLE-M12XM12-5M) — industrial IP67
+  //   din  collaboration-endpoints 4 (CAB-DIN-BRL-0.4M-)
+  // The 62 are the sharp one: `interfaces-modules` has required `connector` of its cables since before any of
+  // this, so half that category's cables have been carrying a permanently unfillable gap, with nothing able to
+  // see it — no part holds a connector fact, so the enum half has nothing out-of-domain to report either.
+  routers: { connector: union(baseDomain("connector"), RF_CONNECTORS, ["rj11", "db9", "micro-usb", "d8"]) },
+  wireless: { connector: union(baseDomain("connector"), RF_CONNECTORS, ["d8", "m12"]) },
+  "interfaces-modules": { connector: union(baseDomain("connector"), RF_CONNECTORS, ["rj11", "m12"]) },
+  // ALL THREE COLLAB CATEGORIES, not just the one that was measured. The cup is declared in the shared
+  // `collabBlock()` because `collabKind.test.ts` asserts the three ask each kind identically — a parity rule
+  // that already existed and that my first attempt broke, declaring the row on collaboration-endpoints alone
+  // and turning one red into three. Scoping the DOMAIN to the measured category and the CUP to all three
+  // would be worse than either: unified-communications and conferencing would be asked for a connector their
+  // domain cannot hold, which is the defect this whole ruling exists to end. They hold zero cable parts
+  // today, so the table costs nothing until one arrives — and then it is an AV cable, because that is what
+  // these categories are.
+  ...Object.fromEntries(COLLAB_CATEGORIES.map((c) => [c, {
+    connector: union(baseDomain("connector"),
+      ["hdmi", "dvi", "dvi-d", "displayport", "usb-a", "usb-b", "usb-c", "micro-usb", "rj9", "rj11", "3.5mm", "din"]),
+  }])),
   transceiver: {
     // cpak and osfp ADDED 11 Sep 2026: 21 CPAK and 7 OSFP transceivers in the catalogue had no value
     // their form factor could take.

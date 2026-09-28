@@ -249,7 +249,12 @@ check("the collaboration axis does not reach routers", partKind("routers", "CP-8
     "storage-controller": "drive_interface,product_compatibility",
     tpm: "product_compatibility",
     "power-cord": "cable_length,product_compatibility",
-    cable: "cable_length,product_compatibility",
+    // `connector` ADDED 28 Sep 2026 (reviewer's ruling). The 13 Sep escalation held this cup out because the
+    // shared domain was optical and RJ45 while these are HDMI, USB and DisplayPort cables; the domain is now
+    // per category and holds the AV set, so the cup is satisfiable and the row is back in collabBlock().
+    // 308 collaboration-endpoints cables, 164 naming a token that is IN the domain, 0 mains cords under this
+    // kind (262 sit under `power-cord`, which is deliberately not asked — a cord is bought on its plug).
+    cable: "cable_length,connector,product_compatibility",
     mechanical: "mounting,product_compatibility",
     headset: "certifications,dimensions,humidity_operating,mic_type,temp_operating,temp_storage,weight",
     "expansion-module": "certifications,dimensions,humidity_operating,product_compatibility,temp_operating,temp_storage,weight",
