@@ -192,7 +192,7 @@ const RUN_KIND_CLASS: Record<string, { approval: boolean; gate: boolean }> = {
   "recompute-completeness": D, "write-layers-to-db": D, "build-spare-of": D, "derive-link-provenance": D,
   "derive-part-states": D, "fill-family-from-hct-category": D, "sync-dictionary": D, "name-language": D,
   "name-spare-packaging": D, "name-spare-wording": D, "images": D, "probe-failure-reason": D,
-  "backfill-doc-titles": D, "record-title-provenance": D, "record-retroactive-approval": A,
+  "backfill-doc-titles": D, "record-title-provenance": D, "record-retroactive-approval": A, "retro-gate": A,
 };
 // doc_category_by_relevance: a readable untitled document counts against the check unless its title_state records that
 // the file carries no title (reviewer ruling 28 Sep 2026: title_state = none, nothing invented).
@@ -213,6 +213,12 @@ function openapiMissing(schemas: string[], paths: string[]): string[] {
     else if (OPENAPI_ROUTE_FOR[w] && !paths.includes(OPENAPI_ROUTE_FOR[w])) out.push(`${w} (no route ${OPENAPI_ROUTE_FOR[w]})`);
   }
   return out;
+}
+/** Why a run that owes something is a NAMED exception, or null. Run 69 cannot be gated retrospectively; any other run
+ *  is excepted only by a recorded retro-gate verdict (reviewer, 28 Sep: "an exception is earned by the gate, not by age"). */
+function runException(id: string, retro: Map<string, string>): string | null {
+  if (id === "69") return "hand-run conflict reopen of 4 Sep, no gate possible";
+  return retro.get(id) ?? null;
 }
 // Reviewer ruling 28 Sep 2026: the requirement starts at the first recorded approval. Earlier misses are NAMED as
 // pre-convention in the output and never judged or folded into a pass.
@@ -1243,11 +1249,16 @@ const TESTS: Test[] = [
         " coalesce(inputs->>'approved' = 'reviewer_retroactive', false) AS retro," +
         " to_char(started_at, 'YYYY-MM-DD') AS started FROM runs")).rows;
       if (!rows.length) return none("the runs table is empty");
-      const EXCEPTIONS = new Set(["69"]);
+      const retro = new Map<string, string>();
+      for (const x of (await query<{ v: Record<string, { passed: boolean; precision: number; retract: number }> | null }>(
+        "SELECT stats->'verdicts' AS v FROM runs WHERE kind = 'retro-gate' AND status = 'succeeded' ORDER BY id")).rows)
+        for (const [id, v] of Object.entries(x.v ?? {}))
+          retro.set(id, v.passed ? `retro-gate passed, precision ${v.precision}` : `retro-gate failed, ${v.retract} facts retracted`);
+      const named: string[] = [];
       const unclassified = new Set<string>();
       const pre = new Map<string, number>();       // misses before the convention: named, not judged
       const post = new Map<string, string[]>();    // misses the rule judges: "kind (owes)" -> run ids
-      let judged = 0, notSucceeded = 0, excepted = 0, preRuns = 0, retro = 0;
+      let judged = 0, notSucceeded = 0, excepted = 0, preRuns = 0, retroApproved = 0;
       // The first approval ever recorded -- computed, so "before the convention existed" is a fact about the
       // table and not a date typed here.
       const firstAppr = rows.filter((r) => r.appr).map((r) => r.started).sort()[0] ?? "9999";
@@ -1255,8 +1266,9 @@ const TESTS: Test[] = [
         const o = runOwes(r.kind, r.appr, r.gate, r.started);
         if (o === "unclassified") { unclassified.add(r.kind); continue; }
         if (r.status !== "succeeded") { notSucceeded++; continue; }
-        if (EXCEPTIONS.has(r.id)) { excepted++; continue; }
-        if (o.pre) preRuns++; else { judged++; if (r.retro) retro++; }
+        const why = runException(r.id, retro);
+        if (why) { excepted++; named.push(`${r.id} (${why})`); continue; }
+        if (o.pre) preRuns++; else { judged++; if (r.retro) retroApproved++; }
         if (!o.approval && !o.gate) continue;
         const key = `${r.kind} (${o.approval && o.gate ? "approval+gate" : o.approval ? "approval" : "gate"})`;
         if (o.pre) pre.set(key, (pre.get(key) ?? 0) + 1);
@@ -1268,7 +1280,7 @@ const TESTS: Test[] = [
       const postList = [...post.entries()].sort((a, b) => b[1].length - a[1].length)
         .map(([k, ids]) => `${k}: runs ${ids.join(" ")}`).join("; ");
       const scope = `${rows.length} runs: ${judged} succeeded since ${RUN_CONVENTION_START} judged, ${preRuns} before it ` +
-        `NOT judged, ${notSucceeded} failed/aborted not judged, ${excepted} named exception (run 69); ${retro} judged runs ` +
+        `NOT judged, ${notSucceeded} failed/aborted not judged, ${excepted} named exceptions [${named.join("; ")}]; ${retroApproved} judged runs ` +
         `carry the reviewer's retroactive line (counted apart, not as contemporaneous approvals); first recorded ` +
         `approval ${firstAppr}; pre-convention misses named: ${preN} (${preList || "-"})`;
       if (unclassified.size) return bad(`${unclassified.size} run kinds are in no class, so nobody has said what they owe: ` +
@@ -1282,10 +1294,13 @@ const TESTS: Test[] = [
         const o = runOwes(kind, appr, gate, started);
         return o !== "unclassified" && (o.pre || (!o.approval && !o.gate));
       };
+      const gated = new Map([["942", "retro-gate failed, 57 facts retracted"]]);
       return { negative: owes("move-category", false, false) || owes("a-kind-nobody-classified", true, true)
+                 || runException("942", new Map()) !== null
                  || owes("apply-acquired", false, false) || owes("reclassify", false, false, "2026-09-11"),
                positive: owes("move-category", true, false) && owes("apply-acquired", false, true)
-                 && owes("recompute-completeness", false, false) && owes("reclassify", false, false, "2026-09-10"),
+                 && owes("recompute-completeness", false, false) && owes("reclassify", false, false, "2026-09-10")
+                 && runException("942", gated) !== null && runException("69", new Map()) !== null,
                note: "a membership run without approval (on/after 09-11), an apply-* without gate and an unclassified kind " +
                  "must fail; each class carrying what it owes, a derived run, and the same miss on 09-10 must pass" };
     },
