@@ -1332,10 +1332,29 @@ const TESTS: Test[] = [
       try {
         const t = await query<{ n: string }>("SELECT count(*)::text AS n FROM conflicts WHERE resolved_at IS NULL");
         total = Number(t.rows[0].n);
+        // `conflict` IS A SERVED STATE FOR THIS QUESTION, and leaving it out was the defect (28 Sep 2026).
+        // This predicate read `state IN ('verified','corroborated')` and reported 12,874 orphans with the
+        // message "the part holds no live fact for that key, so they disagree about nothing and can never be
+        // resolved". Split by what the part ACTUALLY holds:
+        //
+        //     live fact, state conflict         12,275   <- the state a fact is SUPPOSED to be in while a
+        //                                                   conflict is open. rollbackRun recomputes exactly
+        //                                                   this ("an open conflicts row -> conflict"), and
+        //                                                   invariant 5 is its converse. Not orphans.
+        //     live fact, state gap_unattempted     589   <- REAL: the value was retracted and the conflict
+        //                                                   stayed open, so it disagrees about nothing
+        //     live fact, state not_applicable       10   <- REAL, same shape
+        //     no live fact at all                     0
+        //
+        // So the true orphan count is 599, and 12,275 healthy rows were being reported as unresolvable. The
+        // number was found by running the check's OWN query rather than a reconstruction of it: my first
+        // version dropped the state filter and returned ZERO orphans, which is how far apart the two
+        // definitions are. This is not a narrowing to make the test pass -- it stays red on `unclassed`,
+        // which is the finding it exists for.
         const o = await query<{ n: string }>(
           "SELECT count(*)::text AS n FROM conflicts k WHERE k.resolved_at IS NULL AND NOT EXISTS (" +
           " SELECT 1 FROM facts f WHERE f.part_id = k.part_id AND f.field_key = k.field_key" +
-          " AND f.superseded_by IS NULL AND f.state IN ('verified','corroborated'))");
+          " AND f.superseded_by IS NULL AND f.state IN ('verified','corroborated','conflict'))");
         orphan = Number(o.rows[0].n);
       } catch (e) {
         return none(`could not read conflicts: ${e instanceof Error ? e.message : String(e)}`);
@@ -1356,8 +1375,8 @@ const TESTS: Test[] = [
       return unclassed === 0 && orphan === 0
         ? ok(`every open conflict carries a class and disagrees about a value that exists — ${scope}`)
         : bad(`${unclassed.toLocaleString()} open conflicts carry no class, and ${orphan.toLocaleString()} ` +
-              `are ORPHANS — the part holds no live fact for that key, so they disagree about nothing and ` +
-              `can never be resolved — ${scope}`);
+              `are ORPHANS — the part holds no live fact for that key in any state a reader would serve or ` +
+              `dispute, so they disagree about nothing and can never be resolved — ${scope}`);
     },
     selfTest: async () => {
       const CLASSES = new Set(["source-disagreement", "same-doc-multicolumn", "normaliser-split", "revision-drift"]);
