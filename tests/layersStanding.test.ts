@@ -740,8 +740,8 @@ check("SABOTAGE merge: a plan that calls a hardware row non-hardware is refused"
   at("security", "ASA-CX40-INC-K8", "ASA 5585-X", undefined, /^sku /);
   at("security", "ASA-IC-6GE-SFP-B=", "ASA 5500-X (5506 / 5508 / 5512 / 5515 / 5516 / 5525 / 5545 / 5555)", undefined, /^sku /);
   at("storage-networking", "DS-6SL0T-FAN=", "MDS 9500 directors (9506 / 9509 / 9513)");
-  at("storage-networking", "DS-C24-300AC-IBM=", "MDS 9100 fabric switches (9124 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)");
-  at("storage-networking", "DS-2SLOT-FAN=", "MDS 9200 multiservice (9216 / 9222i / 9220i / 9250i)");
+  at("storage-networking", "DS-C24-300AC-IBM=", "MDS 9100 fabric switches (9120 / 9124 / 9124V / 9132 / 9132T / 9134 / 9148 / 9148S / 9148T / 9148V)");
+  at("storage-networking", "DS-2SLOT-FAN=", "MDS 9200 multiservice (9216 / 9216i / 9222i / 9220i / 9250i)");
   at("servers-unified-computing", "N01-UAC1=", "UCS 5108 blade chassis", "power");
   at("servers-unified-computing", "N20-BBFLA", "UCS B420 / B440 / B460 / B480");
   at("servers-unified-computing", "N20-BBFLA-230=", "UCS B230");

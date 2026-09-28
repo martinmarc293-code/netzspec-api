@@ -27,10 +27,19 @@ check("NEGATIVE 5b membership is by exact model: 9148 is not 9148S",
 const psu = classifySeriesHint(row({ value: "MDS 9506", kind: "power", series: "MDS 9500 Series Multilayer Directors" }));
 check("5b a PSU naming its host chassis relates compatible",
   psu.action === "relate+retract" && psu.relation.kind === "compatible" && psu.relation.to === "MDS 9506", psu);
-check("NEGATIVE 5b a linecard naming only the MDS 9000 umbrella parks",
-  classifySeriesHint(row({ value: "MDS 9000", kind: "linecard" })).action === "park");
+const umb2 = classifySeriesHint(row({ value: "MDS 9000", kind: "linecard", series: "MDS 9500 Series Multilayer Directors" }));
+check("5c the MDS 9000 umbrella under an MDS series column retracts", umb2.bucket === "umbrella" && umb2.action === "retract", umb2);
+check("5c the umbrella on a chassis retracts too",
+  classifySeriesHint(row({ value: "Cisco MDS 9000", kind: "fc-switch", series: "MDS 9200 Series Multiservice" })).bucket === "umbrella");
+check("NEGATIVE 5c the umbrella under a non-MDS column parks",
+  classifySeriesHint(row({ value: "MDS 9000", kind: "linecard", series: "Nexus 9000" })).action === "park");
+const rtr = classifySeriesHint(row({ value: "Cisco 10000 Series Routers", kind: "interface", series: "Shared Port Adapters/SPA Interface Processors" }));
+check("5c an interface naming its router series relates compatible, verbatim",
+  rtr.action === "relate+retract" && rtr.relation.kind === "compatible" && rtr.relation.to === "Cisco 10000 Series Routers", rtr);
+check("NEGATIVE 5c an interface naming a non-router series parks",
+  classifySeriesHint(row({ value: "Shared Port Adapters", kind: "interface" })).action === "park");
 check("NEGATIVE hardware with no kind parks (chassis or not is unknown)",
   classifySeriesHint(row({ value: "MDS 9148S", kind: null, productSeries: MDS9100 })).action === "park");
 
 if (misses.length) { console.log(`series hints: ${pass} passed, ${misses.length} missed`); for (const m of misses) console.log(`  MISS ${m}`); process.exit(1); }
-console.log(`series hints: ${pass} passed, 0 missed (5a licence->platform, 5b chassis-member / host-chassis, 6 refusals)`);
+console.log(`series hints: ${pass} passed, 0 missed (5a, 5b, 5c; refusals included)`);

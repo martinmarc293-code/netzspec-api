@@ -10,7 +10,7 @@ export type SeriesHintRow = {
 };
 export type SeriesHintVerdict =
   | { bucket: "licence-platform" | "host-chassis"; action: "relate+retract"; relation: { kind: "license_for" | "compatible"; to: string } }
-  | { bucket: "chassis-member"; action: "retract" }
+  | { bucket: "chassis-member" | "umbrella"; action: "retract" }
   | { bucket: "park"; action: "park"; why: string };
 
 /** The kinds that ARE a chassis; every other hardware kind is something that goes into or onto one. */
@@ -39,6 +39,12 @@ export function classifySeriesHint(r: SeriesHintRow): SeriesHintVerdict {
   if (r.productClass !== "hardware") return { bucket: "park", action: "park", why: `product_class ${r.productClass ?? "null"}` };
   if (!r.kind || r.kind === "unknown") return { bucket: "park", action: "park", why: "hardware with no kind: chassis or not is unknown" };
   const model = platform ? platform.slice(4).toLowerCase() : null;
+  // 5c: the MDS 9000 umbrella is coarser than a column that already names an MDS series -> retract.
+  if (model === "9000" && [r.series, r.productSeries].some((c) => /^mds 9/i.test(c ?? "")))
+    return { bucket: "umbrella", action: "retract" };
+  // 5c: a non-chassis part naming a router series it plugs into -> relation compatible, verbatim target.
+  if (!platform && !CHASSIS_KINDS.has(r.kind) && /series routers$/i.test(r.value.trim()))
+    return { bucket: "host-chassis", action: "relate+retract", relation: { kind: "compatible", to: r.value.trim() } };
   if (CHASSIS_KINDS.has(r.kind)) {
     const listed = [...listedModels(r.series), ...listedModels(r.productSeries)];
     return model && listed.includes(model)
