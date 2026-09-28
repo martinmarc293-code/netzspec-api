@@ -39,7 +39,7 @@ async function main(): Promise<void> {
   // The one DELETE this command makes must be visible in its own output, not only in the run row —
   // run #944 removed 13 rows and printed nothing about it.
   if (r.profiles_superseded_removed.length) console.log(`profile rows REMOVED for superseded keys (fieldSchema SUPERSEDED_KEYS): ${r.profiles_superseded_removed.length} — ${r.profiles_superseded_removed.slice(0, 20).join(", ")}`);
-  for (const x of r.reshaped) console.log(`reshaped ${x.key} (${x.changed.join(", ")}): ${x.facts} current facts re-read, would refuse ${JSON.stringify(x.would_refuse_by_vendor)}`);
+  for (const x of r.reshaped) console.log(`reshaped ${x.key} (${x.changed.join(", ")}): ${x.facts} current facts re-read (${x.replayed_from_value} from the stored value: raw lost its unit to the label), would refuse ${JSON.stringify(x.would_refuse_by_vendor)}`);
   if (r.label_drift.length) console.log(`label drift (FIELD_LABELS vs FieldDef, FieldDef wins): ${r.label_drift.join(", ")}`);
 }
 

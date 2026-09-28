@@ -67,6 +67,7 @@ import { FIELD_DICTIONARY } from "../core/fieldSchema.js";
 // imported at RUNTIME from the shipping normaliser: this command must replay whatever version is
 // installed, never a copy of its rules.
 import { normalizeField, NORM_VERSION, type Locale } from "../core/specNormalize.js";
+import { unitCameFromLabel } from "../core/replayContext.js";
 import { REPO_ROOT } from "../config.js";
 
 // ---- arguments -----------------------------------------------------------------------------
@@ -342,13 +343,8 @@ export function replayContextLost(
   row: { unit: string | null; value: unknown },
   n: { ok: true; value: unknown; unit?: string } | { ok: false; reason: string },
 ): string | null {
-  if (!n.ok) {
-    // the normaliser found no unit in `raw`, yet the stored fact has one: it came from the label
-    if ((n.reason === "UNIT_MISSING" || n.reason === "UNIT_UNKNOWN") && row.unit != null && row.unit !== "") {
-      return "UNIT_CAME_FROM_LABEL_NOT_IN_RAW";
-    }
-    return null;
-  }
+  // the normaliser found no unit in `raw`, yet the stored fact has one: it came from the label
+  if (!n.ok) return unitCameFromLabel(row, n) ? "UNIT_CAME_FROM_LABEL_NOT_IN_RAW" : null;
   return samePermutedNumbers(row.value, n.value) ? "AXIS_ORDER_NOT_IN_RAW" : null;
 }
 

@@ -230,6 +230,52 @@ await rolledBack(async (c) => {
   check("SABOTAGE the refusal happened before the first write", written.rowCount === 0);
 });
 
+// reshape guard (29 Sep 2026): a raw whose unit lived in the LABEL is re-read from its stored value, not refused.
+// Every sync from run 1250 on was refused over 2,063 tdp / clock_speed / cpu_cache facts whose raw is a bare "130".
+/** One tdp fact on a fresh live part as the ONLY live tdp fact, the table's tdp row drifted by `drift`, then sync. */
+async function reshapeProbe(raw: string, value: number, drift: string): Promise<{ msg: string; planted: number; x?: DictionarySyncResult["reshaped"][number] }> {
+  return rolledBack(async (c) => {
+    await c.query("UPDATE parts SET retired_at = now() WHERE retired_at IS NULL AND id IN (SELECT part_id FROM facts WHERE field_key = 'tdp')");
+    const part = await c.query<{ id: number }>(
+      `INSERT INTO parts (vendor_id, sku, slug, category_id, product_class)
+       SELECT v.id, 'DICT-RESHAPE-1', 'dict-reshape-1', cat.id, 'hardware' FROM vendors v, categories cat
+        WHERE v.slug = 'cisco' AND cat.slug = 'switches' RETURNING id`);
+    await c.query(`INSERT INTO facts (part_id, field_key, value, unit, raw, state, tier, method)
+                   VALUES ($1, 'tdp', $2::jsonb, 'W', $3, 'unverified', 3, 'probe')`, [part.rows[0].id, JSON.stringify(value), raw]);
+    await c.query(`UPDATE field_dictionary SET ${drift} WHERE key = 'tdp'`);
+    const planted = (await c.query<{ n: number }>(
+      "SELECT count(*)::int AS n FROM facts f JOIN parts p ON p.id = f.part_id WHERE f.field_key = 'tdp' AND p.retired_at IS NULL AND f.superseded_by IS NULL")).rows[0].n;
+    try {
+      const r = await syncDictionaryOn(c, { quiet: true });
+      return { msg: "NO THROW", planted, x: r.reshaped.find((e) => e.key === "tdp") };
+    } catch (e) { return { msg: e instanceof Error ? e.message : String(e), planted }; }
+  });
+}
+{
+  const p = await reshapeProbe("130", 130, "band = NULL");
+  check("reshape: a bare \"130\" whose unit lived in the label is re-read from its stored value and PASSES the new band",
+    p.planted === 1 && p.msg === "NO THROW" && p.x?.facts === 1 && p.x.replayed_from_value === 1 && Object.keys(p.x.would_refuse_by_vendor).length === 0,
+    `planted ${p.planted}, ${p.msg}, ${JSON.stringify(p.x)}`);
+}
+{
+  sabotages++;
+  const p = await reshapeProbe("3080", 3080, "band = NULL");
+  check("SABOTAGE reshape: a stored value OUTSIDE the new band is still refused, re-read from the stored value",
+    p.planted === 1 && /REFUSED/.test(p.msg) && p.msg.includes("tdp") && p.msg.includes("(re-read from the stored value): RANGE_VIOLATION"), `planted ${p.planted}, ${p.msg}`);
+}
+{
+  sabotages++;
+  const p = await reshapeProbe("130", 130, "band = NULL, unit = 'mW'");
+  check("SABOTAGE reshape: when the UNIT moved the stored value is not in the new unit, so it is refused, never re-read",
+    p.planted === 1 && /REFUSED/.test(p.msg) && p.msg.includes("UNIT_MISSING") && !p.msg.includes("re-read from the stored value"), `planted ${p.planted}, ${p.msg}`);
+}
+{
+  sabotages++;
+  const p = await reshapeProbe("3080 W", 3080, "band = NULL");
+  check("SABOTAGE reshape: a raw that carries its own unit and falls outside the band is refused from the raw, as before",
+    p.planted === 1 && /REFUSED/.test(p.msg) && p.msg.includes("RANGE_VIOLATION") && !p.msg.includes("re-read from the stored value"), `planted ${p.planted}, ${p.msg}`);
+}
+
 // ---- the shape of the suite itself ---------------------------------------------------------------
 check("the suite carries at least 5 sabotage cases", sabotages >= 5, `${sabotages}`);
 

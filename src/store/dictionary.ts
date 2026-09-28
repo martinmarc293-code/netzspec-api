@@ -28,6 +28,7 @@ import { GENERATED_FIELDS, GENERATED_PROFILES } from "../core/fieldSchema.genera
 import { FIELD_LABELS } from "../core/fieldLabels.generated.js";
 import { withTx } from "./db.js";
 import { normalizeField } from "../core/specNormalize.js";
+import { unitCameFromLabel } from "../core/replayContext.js";
 import type { Queryable } from "./runs.js";
 
 export type DictionaryRow = {
@@ -63,8 +64,9 @@ export type DictionarySyncResult = {
   /** "category/field" profile rows REMOVED because the key is superseded (fieldSchema SUPERSEDED_KEYS) */
   profiles_superseded_removed: string[];
   /** round-7 ask F: keys whose type, unit, domain or band changed in this sync, with the dry-run re-normalisation of
-   *  their current facts across ALL vendors. A key listed with would_refuse > 0 got here only by --allow-refusing. */
-  reshaped: { key: string; changed: string[]; facts: number; would_refuse_by_vendor: Record<string, number>; sample: string[] }[];
+   *  their current facts across ALL vendors. A key listed with would_refuse > 0 got here only by --allow-refusing.
+   *  replayed_from_value: facts whose raw lost its unit to the label, re-read from the stored value instead. */
+  reshaped: { key: string; changed: string[]; facts: number; replayed_from_value: number; would_refuse_by_vendor: Record<string, number>; sample: string[] }[];
   /** keys where FIELD_LABELS disagrees with the FieldDef */
   label_drift: string[];
 };
@@ -241,20 +243,34 @@ export async function syncDictionaryOn(db: Queryable, opts: { quiet?: boolean; a
         json(d.band) !== json(r.band) ? `band ${json(d.band)}->${json(r.band)}` : "",
       ].filter(Boolean);
       if (!changed.length) continue;
-      const facts = await db.query<{ vendor: string; category: string; raw: string; method: string }>(
-        `SELECT v.slug AS vendor, c.slug AS category, f.raw, f.method
+      const facts = await db.query<{ vendor: string; category: string; raw: string; method: string; value: unknown; unit: string | null }>(
+        `SELECT v.slug AS vendor, c.slug AS category, f.raw, f.method, f.value, f.unit
            FROM facts f JOIN parts p ON p.id = f.part_id JOIN vendors v ON v.id = p.vendor_id JOIN categories c ON c.id = p.category_id
           WHERE f.field_key = $1 AND f.superseded_by IS NULL AND f.method NOT LIKE 'retracted:%'
             AND p.retired_at IS NULL AND f.value IS NOT NULL AND coalesce(f.raw, '') <> ''`, [r.key]);
+      // A raw whose unit lived in the LABEL cannot be replayed from `raw` (unitCameFromLabel), and until 29 Sep 2026
+      // that UNIT_MISSING was counted as the reshape refusing the fact: every sync from run 1250 on was refused over
+      // 2,063 tdp / clock_speed / cpu_cache values the band change never touched. Such a fact is re-read from its
+      // STORED value plus the definition's unit, a fully informed raw, and only when neither the type nor the unit
+      // moved, so the stored number is still in the definition's own unit. Counted as its own number.
+      const valueReplayable = d.type === r.type && (d.unit ?? null) === r.unit && r.unit !== null;
       const byVendor: Record<string, number> = {};
       const sample: string[] = [];
+      let fromValue = 0;
       for (const f of facts.rows) {
-        const n = normalizeField(f.category, r.key, f.raw, { locale: f.method === "hexcat_seed" ? "de" : "en" });
+        let n = normalizeField(f.category, r.key, f.raw, { locale: f.method === "hexcat_seed" ? "de" : "en" });
+        let via = "";
+        if (valueReplayable && unitCameFromLabel(f, n) && f.unit === r.unit && typeof f.value === "number" && Number.isFinite(f.value)) {
+          // the stored value is a JS number, printed with a "." decimal, so it is always the English reader
+          n = normalizeField(f.category, r.key, `${f.value} ${f.unit}`, { locale: "en" });
+          fromValue++;
+          via = " (re-read from the stored value)";
+        }
         if (n.ok) continue;
         byVendor[f.vendor] = (byVendor[f.vendor] ?? 0) + 1;
-        if (sample.length < 5) sample.push(`${f.vendor} ${JSON.stringify(f.raw.slice(0, 40))}: ${n.reason}`);
+        if (sample.length < 5) sample.push(`${f.vendor} ${JSON.stringify(f.raw.slice(0, 40))}${via}: ${n.reason}`);
       }
-      reshaped.push({ key: r.key, changed, facts: facts.rows.length, would_refuse_by_vendor: byVendor, sample });
+      reshaped.push({ key: r.key, changed, facts: facts.rows.length, replayed_from_value: fromValue, would_refuse_by_vendor: byVendor, sample });
       if (Object.keys(byVendor).length && !allow.has(r.key)) {
         refused.push(`${r.key} (${changed.join(", ")}): would refuse ${Object.entries(byVendor).map(([v, n]) => `${v} ${n}`).join(", ")} of ${facts.rows.length} current facts — e.g. ${sample.join("; ")}`);
       }
