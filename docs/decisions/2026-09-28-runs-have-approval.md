@@ -62,3 +62,9 @@ Does the test keep its current blanket demand (and 1,136 runs need approving ret
 writing an approval nobody gave), or does it become the three-class rule above with run 69 named? **This is a
 narrowing of a predicate, which plan rule R4 forbids doing to make a test pass, so it is not being done
 here.** The measurement is the argument; the ruling is the reviewer's.
+
+## 28 Sep, a29aefa — the ruled rule, implemented; still red
+Exhaustive `RUN_KIND_CLASS` in mould-verify (approval / gate / derived by what the command DOES); an unclassified kind fails; succeeded runs only; run 69 excepted.
+Box: 1,287 runs = 1,033 judged + 253 failed/aborted + 1 exception. 102 owe an approval and carry none (promote-unknown-skus 49, reclassify 21, five retract-* kinds 11, reclassify-docs 5, hygiene-* 6, ten single runs); 6 owe a gate (migrate-atlas 2, remap / reroute / rekey / split-bidi 1 each). 85 of the 108 predate 2026-09-11, the first recorded approval.
+Correction to myself: "132 of 132" was over three kinds, not over the membership class.
+Question: judge only from 2026-09-11 on (23 remain), or rule the pre-convention kinds one by one?

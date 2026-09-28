@@ -27,3 +27,7 @@ falling is a finding nobody can currently see.
 
 That is a change to what the check REPORTS, not to what it demands, so it does not narrow anything: the
 green condition stays every-fact-filled.
+
+## 28 Sep, a29aefa — recorded per build
+Baseline in data/completeness/fill-state-history.jsonl: filled 7,943 · filled_inherited 33,364 · unverified_seed 26,619 · mined_from_eol 17,180 · method_not_a_read 6,316 · mined_non_spec_doc 5,267 (96,689). Every run prints the delta since the last record; green condition unchanged.
+Correction: unverified_seed was 32,503 when this file was written; the drop, 5,884, equals runs 1280 + 1288 (5,156 + 728) and so does the drop in the total.

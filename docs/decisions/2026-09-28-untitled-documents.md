@@ -57,3 +57,7 @@ title" are three different jobs:
 
 The check's own number is not wrong. What is missing is that its remedy has already been built and cannot
 run, and nothing said so.
+
+## 28 Sep, a29aefa — scoped to readable pages; still red
+Box, CACHE_DIR=/var/lib/netzspec-api/cache, control 37/40 titled files present: 1,275 untitled = 83 readable + 946 cache file on no machine + 246 never cached.
+Next: the 83 readable carry no `<title>`; take a PDF's own /Title metadata where it has one (read, not inferred), name the rest.
