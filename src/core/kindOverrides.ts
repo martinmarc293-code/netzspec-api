@@ -106,6 +106,5 @@ export const KIND_OVERRIDES: Readonly<Record<string, KindOverride>> = {
   "FINAL-PKG-RUSSIA": { category: "wireless", kind: "mechanical" },
   "AIR-BLE-BEACON-BLK": { category: "wireless", kind: "wireless-sensor" },
   "AIR-BLE-TAG-BULK": { category: "wireless", kind: "wireless-sensor" },
-  "AIR-N-3006-DTA-K9": { category: "wireless", kind: "wireless-sensor" },
   "AIR-VBLE1-K9": { category: "wireless", kind: "wireless-sensor" },
 };

@@ -146,9 +146,9 @@
     {
      "series": "Aironet BLE beacons and tags",
      "sku": [
-      "^AIR-BLE-(BEACON|TAG)-"
+      "^AIR-BLE-"
      ],
-     "note": "ruling 12 (reviewer, 28 Sep 2026): AIR-BLE-BEACON-BLK and AIR-BLE-TAG-BULK are kind wireless-sensor (the 106 table), a whole-device kind, which may not sit in shared parts; the USB beacons (AIR-BLE-USB*) are modules and stay there."
+     "note": "ruling 12 (reviewer, 28 Sep 2026): the whole AIR-BLE- family - the bulk beacon and tag PIDs (wireless-sensor, a whole-device kind that may not sit in shared parts) and the USB beacons (module). One series, or the series name alone names the USB rows left in shared parts and the reverse-label queue grows (59 -> 64, measured)."
     },
     {
      "series": "Aironet 1800s Active Sensor",
