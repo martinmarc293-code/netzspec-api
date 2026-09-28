@@ -45,6 +45,21 @@ type Result = { state: "pass" | "fail" | "unavailable" | "not_exercised"; detail
 type SelfTest = () => Promise<{ negative: boolean; positive: boolean; note: string }>;
 type Test = { name: string; findings: string; needsDb?: boolean; run?: () => Promise<Result>; selfTest?: SelfTest };
 
+/**
+ * The value-level predicate behind `required_cup_defined`'s enum half, at module scope FOR ONE REASON:
+ * the self-test has to call the code that runs, not a clean-room twin of it. A stand-in tests the logic
+ * you were thinking about; this repo has already shipped a patch proven against one (`ws(decode(strip()))`
+ * where the real function ends `+ scriptData(html)`) that would have taken a lane's gate to precision 0.06.
+ */
+const valueInDomain = (cat: string, key: string, value: string): boolean =>
+  new Set(domainFor(cat, key) ?? []).has(value);
+
+/** one stored `facts.value` as the list of scalars it holds — a list cup stores a JSON array, a scalar one a string. */
+const storedValues = (raw: string): string[] => {
+  try { const parsed: unknown = JSON.parse(raw); return Array.isArray(parsed) ? parsed.map(String) : [String(parsed)]; }
+  catch { return [raw]; }
+};
+
 const ok = (detail: string): Result => ({ state: "pass", detail });
 const bad = (detail: string): Result => ({ state: "fail", detail });
 const na = (detail: string): Result => ({ state: "unavailable", detail });
@@ -178,17 +193,67 @@ const TESTS: Test[] = [
       const bad = STRUCT_EXAMPLES.antenna_gain, good = STRUCT_EXAMPLES.dimensions;
       const parses = (cat: string, key: string, raw: string) =>
         (normalizeField(cat, key, raw, { locale: "en" }) as { ok: boolean }).ok;
-      const negative = parses("wireless", "antenna_gain", bad.raw);      // must be FALSE: no parser behind the shape
-      const positive = parses("switches", "dimensions", good.raw);       // must be TRUE: a shape with a parser
-      return { negative, positive,
-        note: `antenna_gain accepts its own canonical example = ${negative} (must be false); dimensions accepts its own = ${positive}` };
+      const structNeg = parses("wireless", "antenna_gain", bad.raw);     // must be FALSE: no parser behind the shape
+      const structPos = parses("switches", "dimensions", good.raw);      // must be TRUE: a shape with a parser
+      // THE ENUM HALF'S FIXTURE AND ITS TWIN ARE THE SAME CATEGORY AND THE SAME CUP, differing only in the
+      // VALUE — which is the whole claim being proven: the rule distinguishes what is stored, not which cup
+      // it is stored in. A fixture on a different key would have passed just as well against a rule that
+      // reads only the cup, and that is the shape this repo keeps paying for. Both strings are real stored
+      // values of transceiver/standard, counted over the live store: "-40 bis 85 °C" is an OPERATING
+      // TEMPERATURE sitting in the standard cup (x1), "10gbase-dwdm" is the cup's commonest value (x107).
+      const enumNeg = valueInDomain("transceiver", "standard", "-40 bis 85 °C");  // must be FALSE
+      const enumPos = valueInDomain("transceiver", "standard", "10gbase-dwdm");   // must be TRUE
+      return {
+        // ANDed and ORed so that neither half can carry the other: `negative` is false only when BOTH
+        // broken inputs are rejected, `positive` true only when BOTH good twins are accepted. All four are
+        // named in the note, because a single boolean cannot say which condition stopped distinguishing.
+        negative: structNeg || enumNeg,
+        positive: structPos && enumPos,
+        note: `struct: antenna_gain accepts its own canonical example = ${structNeg} (must be false), dimensions = ${structPos} (must be true); ` +
+              `enum: transceiver/standard admits "-40 bis 85 °C" = ${enumNeg} (must be false), admits "10gbase-dwdm" = ${enumPos} (must be true)`,
+      };
     },
     findings: "C1–C4, N13",
     // A required cup must be checkable: an enum needs a domain, a number needs a unit AND a band, a struct
     // needs a shape. A required FREE STRING can hold anything, so nothing can ever refuse a wrong value.
+    needsDb: true,
     run: async () => {
       const badCups: string[] = [];
       const structUntested: string[] = [];   // a struct with no canonical example: its own number, never folded into either
+      // SATISFIABLE HERE, NOT FACTS ANYWHERE (reviewer, 28 Sep 2026) — the rule that would have caught me a
+      // day earlier. I added `connector` as a required cup to three cable kinds on the strength of it holding
+      // 2,328 facts SOMEWHERE, when the question is whether a value for THESE parts can be in the domain:
+      // connector's domain is optical + RJ45 and the parts are "LMR-240 with TNC Connector" and "HDMI to
+      // DVID". Facts-anywhere and satisfiable-here are different questions and only the second licenses a
+      // requirement. So: for every (category, kind) that requires an enum or list cup, every OWN fact stored
+      // for that pair must be in that category's domain, or the pair is reported with the offending values.
+      const enumRows = (await query<{ cat: string; kind: string | null; key: string; value: string; n: string }>(`
+        SELECT c.slug AS cat, p.sku_kind AS kind, f.field_key AS key, f.value::text AS value, count(*)::text AS n
+          FROM facts f JOIN parts p ON p.id = f.part_id JOIN categories c ON c.id = p.category_id
+          JOIN vendors v ON v.id = p.vendor_id
+         WHERE f.superseded_by IS NULL AND f.value IS NOT NULL AND p.retired_at IS NULL
+           AND f.inherited IS NOT TRUE AND f.method NOT LIKE 'retracted:%'
+         GROUP BY 1, 2, 3, 4`)).rows;
+      const byPair = new Map<string, { value: string; n: number }[]>();
+      for (const r of enumRows) {
+        if (!r.kind) continue;
+        const k = `${r.cat}|${r.kind}|${r.key}`;
+        byPair.set(k, [...(byPair.get(k) ?? []), { value: r.value, n: Number(r.n) }]);
+      }
+      /** the offending stored values for one (category, kind, enum cup), or [] when every one is in domain */
+      const outOfDomain = (cat: string, kind: string, key: string): string[] => {
+        if (!(domainFor(cat, key) ?? []).length) return [];   // no domain is the OTHER branch's finding, not this one
+        const bad: string[] = [];
+        for (const { value, n } of byPair.get(`${cat}|${kind}|${key}`) ?? []) {
+          for (const v of storedValues(value)) if (!valueInDomain(cat, key, v)) bad.push(`${v} x${n}`);
+        }
+        return [...new Set(bad)];
+      };
+      const unsatisfiable: string[] = [];
+      let enumAsked = 0;
+      /** the kinds each category actually holds, from the store — never a list written by hand */
+      const kindsIn = new Map<string, Set<string>>();
+      for (const r of enumRows) if (r.kind) kindsIn.set(r.cat, (kindsIn.get(r.cat) ?? new Set()).add(r.kind));
       const byDecision: string[] = [];
       const byShape: string[] = [];
       let seen = 0;
@@ -219,6 +284,17 @@ const TESTS: Test[] = [
               const sh = shapeIsDefinition(key);
               if (!sh.ok) badCups.push(`${cat}/${key} list with no domain and ${sh.why}`);
               else byShape.push(`${cat}/${key}`);
+            } else {
+              // A DOMAIN EXISTING IS NOT A DOMAIN THAT FITS. Ask every kind in this category that the cup is
+              // actually REQUIRED of whether its own stored values are in that category's domain. A kind with
+              // no stored value yet is not judged — that is a gap, not an unsatisfiable requirement, and
+              // conflating them would make every unfilled cup read as a defect.
+              for (const kind of kindsIn.get(cat) ?? []) {
+                if (requirementFor(cat, key, { kind }) !== "req") continue;
+                enumAsked++;
+                const bad = outOfDomain(cat, kind, key);
+                if (bad.length) unsatisfiable.push(`${cat}/${kind}/${key}: ${bad.slice(0, 3).join(", ")}${bad.length > 3 ? ` +${bad.length - 3}` : ""}`);
+              }
             }
           }
           // A COUNT'S DEFINITION IS ITS BAND, AND DEMANDING A UNIT WAS THE WRONG DEMAND (27 Sep 2026).
@@ -280,9 +356,20 @@ const TESTS: Test[] = [
       }
       // The denominator is in the message either way: a test that cannot say how much it looked at is one
       // nobody can tell apart from a test that looked at nothing.
-      return badCups.length === 0
-        ? ok(`all ${seen} required/conditional cups carry a domain, a band, or a shape WHOSE PARSER ACCEPTS ITS OWN CANONICAL EXAMPLE` + (byShape.length ? `; ${byShape.length} defined by a registered shape (${[...new Set(byShape.map((c) => c.split("/")[1]))].join(", ")})` : "") + (byDecision.length ? `; ${byDecision.length} are free text by recorded decision (${[...new Set(byDecision.map((c) => c.split("/")[1]))].join(", ")})` : ""))
-        : bad(`${badCups.length} of ${seen} required/conditional cups cannot be checked` + (structUntested.length ? `; ${structUntested.length} struct cup(s) have NO canonical example so their parser was NOT TESTED (${[...new Set(structUntested)].join(", ")}) — not counted defined and not counted broken` : ``) + (byShape.length ? `; ${byShape.length} are defined by a registered SHAPE (${[...new Set(byShape.map((c) => c.split("/")[1]))].join(", ")})` : "") + (byDecision.length ? `; a further ${byDecision.length} are free text by recorded decision (${[...new Set(byDecision.map((c) => c.split("/")[1]))].join(", ")}) and are NOT counted as gaps` : "") + `: ${badCups.slice(0, 10).join("; ")}${badCups.length > 10 ? ` … +${badCups.length - 10}` : ""}`);
+      // THE FOURTH CONDITION, ENUM HALF. A domain existing is not a domain that FITS: `enum_values_in_domain`
+      // asks the whole store, this asks the narrower and stricter question the reviewer set -- for every
+      // (category, kind) the cup is REQUIRED of, are that pair's OWN stored values inside the domain the
+      // pair resolves. A requirement is licensed by SATISFIABLE HERE, never by facts-anywhere: three D rows
+      // added `connector` to kinds whose parts hold connectors the category domain cannot express, and the
+      // fillability check that let them through asked "does this cup hold facts ANYWHERE" (2,328: yes).
+      // Its own number, named with the offending values, because a pair with no stored value yet is a GAP
+      // and folding the two together would make every unfilled cup read as a defect.
+      const satLine = unsatisfiable.length
+        ? `; ${unsatisfiable.length} required enum/list cup(s) are UNSATISFIABLE for the kind that must fill them -- the domain exists and their OWN stored values are outside it: ${unsatisfiable.slice(0, 6).join("; ")}${unsatisfiable.length > 6 ? ` +${unsatisfiable.length - 6} more` : ""}`
+        : `; every required enum/list cup is SATISFIABLE by the kinds required to fill it (${enumAsked} category/kind/cup triples read against ${enumRows.length} stored value groups)`;
+      return badCups.length === 0 && unsatisfiable.length === 0
+        ? ok(`all ${seen} required/conditional cups carry a domain, a band, or a shape WHOSE PARSER ACCEPTS ITS OWN CANONICAL EXAMPLE` + (byShape.length ? `; ${byShape.length} defined by a registered shape (${[...new Set(byShape.map((c) => c.split("/")[1]))].join(", ")})` : "") + (byDecision.length ? `; ${byDecision.length} are free text by recorded decision (${[...new Set(byDecision.map((c) => c.split("/")[1]))].join(", ")})` : "") + satLine)
+        : bad(`${badCups.length} of ${seen} required/conditional cups cannot be checked` + (structUntested.length ? `; ${structUntested.length} struct cup(s) have NO canonical example so their parser was NOT TESTED (${[...new Set(structUntested)].join(", ")}) — not counted defined and not counted broken` : ``) + (byShape.length ? `; ${byShape.length} are defined by a registered SHAPE (${[...new Set(byShape.map((c) => c.split("/")[1]))].join(", ")})` : "") + (byDecision.length ? `; a further ${byDecision.length} are free text by recorded decision (${[...new Set(byDecision.map((c) => c.split("/")[1]))].join(", ")}) and are NOT counted as gaps` : "") + `: ${badCups.slice(0, 10).join("; ")}${badCups.length > 10 ? ` … +${badCups.length - 10}` : ""}` + satLine);
     },
   },
   {
