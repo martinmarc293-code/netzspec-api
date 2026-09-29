@@ -25,14 +25,20 @@ const VERDICT = `CASE
   WHEN (SELECT count(DISTINCT e.doc_id) FROM fact_evidence e WHERE e.fact_id = f.id) > 1 THEN 'corroborated'::fact_state
   ELSE 'verified'::fact_state END`;
 const db = getPool();
-const facts = (await db.query<{ id: string; was: string; now: string }>(
-  `SELECT f.id::text AS id, f.state::text AS was, (${VERDICT})::text AS now
+const facts = (await db.query<{ id: string; tier: number; was: string; now: string }>(
+  `SELECT f.id::text AS id, f.tier, f.state::text AS was, (${VERDICT})::text AS now
      FROM facts f JOIN parts p ON p.id = f.part_id JOIN vendors v ON v.id = p.vendor_id
     WHERE v.slug = $1 AND f.superseded_by IS NULL AND f.state IN ('conflict', 'verified', 'corroborated')`, [vendor])).rows
   .filter((r) => r.was !== r.now);
-const ruled = facts.filter((r) => (r.was === "conflict") !== (r.now === "conflict"));   // into or out of `conflict` only
+// Into or out of `conflict` only, and never on tier 0: an operator-reviewed value is PROTECTED by the merge, so an open
+// conflict against it is informational and flipping its state would change how the operator's own value is served.
+const ruledShape = (r: { was: string; now: string }) => (r.was === "conflict") !== (r.now === "conflict");
+const ruled = facts.filter((r) => ruledShape(r) && r.tier !== 0);
 const tally: Record<string, number> = {};
-for (const r of facts) tally[`${r.was} -> ${r.now}${ruled.includes(r) ? "" : "  (NOT RULED, not written)"}`] = (tally[`${r.was} -> ${r.now}${ruled.includes(r) ? "" : "  (NOT RULED, not written)"}`] ?? 0) + 1;
+for (const r of facts) {
+  const k = `${r.was} -> ${r.now}${!ruledShape(r) ? "  (NOT RULED, not written)" : r.tier === 0 ? "  (tier 0, protected: not written)" : ""}`;
+  tally[k] = (tally[k] ?? 0) + 1;
+}
 const orphans = (await db.query<{ id: string; by: string | null }>(
   `SELECT k.id::text AS id,
           (SELECT f.run_id::text FROM facts f WHERE f.part_id = k.part_id AND f.field_key = k.field_key AND f.superseded_by IS NULL LIMIT 1) AS by
