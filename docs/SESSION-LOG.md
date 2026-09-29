@@ -4,6 +4,17 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-29 (25) - SYNC-DICTIONARY UNBLOCKED, MISS DIFF IN THE REBUILD, PON MEASURED; RULINGS IN HAND.** Done and
+  verified: the reshape guard counted a raw whose unit lived in the LABEL ("130" under "TDP (W)") as refused; it now re-reads
+  those from the stored value when type+unit did not move (`core/replayContext.ts`, one predicate with renormalize; 6052ee4).
+  renormalize run 1320 retracted the 3 real refusals (PSU ratings stored as tdp); sync 1321 (10 reshaped, 0 refused) read
+  back from a new connection equal to code, 1322 idempotent - ACCEPTED by the reviewer. `scripts/miss-diff.ts` +
+  `run-tests --miss-out/--miss-diff`; `mould-build.sh` fails on a MISS its pre-build snapshot and the previous block's
+  (`/var/lib/netzspec-api/miss/<vendor>/`) did not have (0a4ca92, deployed; box board 16/10, self-test 20/0/12, cddd150).
+  NEXT = state.md "RULINGS 29 Sep" (A) PON extraction with the attributable-PID split, (B) pon_standard derivation, (C)
+  `dictionary_in_sync`, (D) machine-named doc_category. Traps: `extract_document` gave `pids: []` for CGP-* (a silent drop);
+  widening MODEL_HDR broadly admits EoL tables (217 pages) - measure with the scratch harness shape in
+  docs/decisions/2026-09-29-pon-cups.md; the verifier must run ON THE BOX (the laptop cache holds 4 extra untitled docs).
 - **2026-09-28 (24) - BATCHES 1-12 WITH THE REVIEWER: 11 -> 15 GREEN, AND THE FULL REBUILD IS NOW ONE SCRIPT.**
   Worked from `docs/reviewer/2026-09-28/state.md` only, reporting in five lines through the reviewer chat (Chrome;
   paste the lines, never Shift+Enter). Greens: openapi_schemas (/v1/models, Model must route), runs_have_approval
