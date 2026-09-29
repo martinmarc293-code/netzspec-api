@@ -20,9 +20,19 @@ export const UNKNOWN_HARDWARE_SQL = `
 
 export type UnknownRow = { sku: string; name: string | null; category: string; linked: boolean };
 
-/** No evidence = the name says nothing beyond the SKU AND no document links the part. Everything else is evidenced. */
+/** RULING Q15 (29 Sep 2026): parts whose every linked document was READ and says nothing about what they are -- a link that
+ *  carries no evidence is no evidence. Named one by one with what the document said, so the list cannot grow by a rule. */
+export const SILENT_DOCUMENTS: Readonly<Record<string, string>> = {
+  "UCWS-WT-SM-INN12": "both UCS Invicta end-of-life bulletins (EN, FR) carry the row 'UCWS-WT-SM-INN12 | VOID'",
+  "MDS-9222I-75-PPT": "the MDS 9222i end-of-life row repeats the SKU and names no product",
+  "9270F-DIFL": "the end-of-life row names only '9270-DIFLA/B/SI'",
+  "AIR-N-3006-DTA-K9": "the end-of-life row reads '^NECJ AS3504 DTA'; the 28 Sep kind call on it was a guess, withdrawn",
+};
+
+/** No evidence = the name says nothing beyond the SKU AND no document links the part (or every linked document was read and
+ *  says nothing: SILENT_DOCUMENTS). Everything else is evidenced. */
 export function hasNoEvidence(r: UnknownRow): boolean {
-  return !r.linked && nameIsJustTheSku(r.sku, r.name ?? "");
+  return (!r.linked || r.sku in SILENT_DOCUMENTS) && nameIsJustTheSku(r.sku, r.name ?? "");
 }
 
 export function splitUnknown(rows: readonly UnknownRow[]): { evidenced: UnknownRow[]; noEvidence: UnknownRow[] } {

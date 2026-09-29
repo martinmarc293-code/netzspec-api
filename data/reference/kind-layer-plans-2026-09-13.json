@@ -86552,5 +86552,159 @@
   "reason": "datasheet cell value or fragment enumerated as a part",
   "evidence": "name \"Cisco GPU3\" (the SKU restated); label \"HyperFlex HX Series\"; 0 facts, 0 documents (read 17 Sep 2026); layered in HyperFlex shared parts by the label alone; kind now gpu",
   "planned_by": "parent 17 Sep 2026 (layering re-check of 17 Sep 2026, fix list section 1 — the class plans the re-check asked for; not run)"
+ },
+ {
+  "sku": "N9K-AC04-A",
+  "category": "servers-unified-computing",
+  "action": "class",
+  "to": "non_product",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "a switch HOSTNAME in a white paper's configuration listing, not an orderable PID (reviewer ruling Q15, 29 Sep 2026)",
+  "evidence": "Deploying Qumulo Data Platform on Cisco UCS Rack Servers white paper: 'N9K-AC04-A | interface port-channel10 description Cluster-Node1-P1'",
+  "planned_by": "cisco session, ruling Q15"
+ },
+ {
+  "sku": "N9K-AC04-B",
+  "category": "servers-unified-computing",
+  "action": "class",
+  "to": "non_product",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "a switch HOSTNAME in a white paper's configuration listing, not an orderable PID (reviewer ruling Q15, 29 Sep 2026)",
+  "evidence": "Deploying Qumulo Data Platform on Cisco UCS Rack Servers white paper: 'N9K-AC04-B | interface port-channel10 description Cluster-Node1-P2'",
+  "planned_by": "cisco session, ruling Q15"
+ },
+ {
+  "sku": "HX-16-DC16C",
+  "category": "hyperconverged-systems",
+  "action": "class",
+  "to": "license",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "a Windows Server 2016 licence, not hardware however its spec sheet files it (reviewer ruling Q16, 29 Sep 2026)",
+  "evidence": "Cisco HyperFlex HX240c M5 LFF spec sheet line: 'HX-16-DC16C Windows Server 2016 Data Center (16 Cores...)'",
+  "planned_by": "cisco session, ruling Q16"
+ },
+ {
+  "sku": "HX-16-DC16C-NS",
+  "category": "hyperconverged-systems",
+  "action": "class",
+  "to": "license",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "a Windows Server 2016 licence, not hardware however its spec sheet files it (reviewer ruling Q16, 29 Sep 2026)",
+  "evidence": "Cisco HyperFlex HX240c M5 LFF spec sheet line: 'HX-16-DC16C-NS Windows Server 2016 Data Center (16 Cores...)'",
+  "planned_by": "cisco session, ruling Q16"
+ },
+ {
+  "sku": "HX-16-DC16C-RM",
+  "category": "hyperconverged-systems",
+  "action": "class",
+  "to": "license",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "a Windows Server 2016 licence, not hardware however its spec sheet files it (reviewer ruling Q16, 29 Sep 2026)",
+  "evidence": "Cisco HyperFlex HX240c M5 LFF spec sheet line: 'HX-16-DC16C-RM Windows Server 2016 Data Center (16 Cores...)'",
+  "planned_by": "cisco session, ruling Q16"
+ },
+ {
+  "sku": "HX-16-DC24C",
+  "category": "hyperconverged-systems",
+  "action": "class",
+  "to": "license",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "a Windows Server 2016 licence, not hardware however its spec sheet files it (reviewer ruling Q16, 29 Sep 2026)",
+  "evidence": "Cisco HyperFlex HX240c M5 LFF spec sheet line: 'HX-16-DC24C Windows Server 2016 Data Center (24 Cores...)'",
+  "planned_by": "cisco session, ruling Q16"
+ },
+ {
+  "sku": "HX-16-DC24C-NS",
+  "category": "hyperconverged-systems",
+  "action": "class",
+  "to": "license",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "a Windows Server 2016 licence, not hardware however its spec sheet files it (reviewer ruling Q16, 29 Sep 2026)",
+  "evidence": "Cisco HyperFlex HX240c M5 LFF spec sheet line: 'HX-16-DC24C-NS Windows Server 2016 Data Center (24 Cores...)'",
+  "planned_by": "cisco session, ruling Q16"
+ },
+ {
+  "sku": "HX-16-DC24C-RM",
+  "category": "hyperconverged-systems",
+  "action": "class",
+  "to": "license",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "a Windows Server 2016 licence, not hardware however its spec sheet files it (reviewer ruling Q16, 29 Sep 2026)",
+  "evidence": "Cisco HyperFlex HX240c M5 LFF spec sheet line: 'HX-16-DC24C-RM Windows Server 2016 Data Center (24 Cores...)'",
+  "planned_by": "cisco session, ruling Q16"
+ },
+ {
+  "sku": "HX-16-ST16C",
+  "category": "hyperconverged-systems",
+  "action": "class",
+  "to": "license",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "a Windows Server 2016 licence, not hardware however its spec sheet files it (reviewer ruling Q16, 29 Sep 2026)",
+  "evidence": "Cisco HyperFlex HX240c M5 LFF spec sheet line: 'HX-16-ST16C Windows Server 2016 Standard (16 Cores...)'",
+  "planned_by": "cisco session, ruling Q16"
+ },
+ {
+  "sku": "HX-16-ST16C-NS",
+  "category": "hyperconverged-systems",
+  "action": "class",
+  "to": "license",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "a Windows Server 2016 licence, not hardware however its spec sheet files it (reviewer ruling Q16, 29 Sep 2026)",
+  "evidence": "Cisco HyperFlex HX240c M5 LFF spec sheet line: 'HX-16-ST16C-NS Windows Server 2016 Standard (16 Cores...)'",
+  "planned_by": "cisco session, ruling Q16"
+ },
+ {
+  "sku": "HX-16-ST16C-RM",
+  "category": "hyperconverged-systems",
+  "action": "class",
+  "to": "license",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "a Windows Server 2016 licence, not hardware however its spec sheet files it (reviewer ruling Q16, 29 Sep 2026)",
+  "evidence": "Cisco HyperFlex HX240c M5 LFF spec sheet line: 'HX-16-ST16C-RM Windows Server 2016 Standard (16 Cores...)'",
+  "planned_by": "cisco session, ruling Q16"
+ },
+ {
+  "sku": "HX-16-ST24C",
+  "category": "hyperconverged-systems",
+  "action": "class",
+  "to": "license",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "a Windows Server 2016 licence, not hardware however its spec sheet files it (reviewer ruling Q16, 29 Sep 2026)",
+  "evidence": "Cisco HyperFlex HX240c M5 LFF spec sheet line: 'HX-16-ST24C Windows Server 2016 Standard (24 Cores...)'",
+  "planned_by": "cisco session, ruling Q16"
+ },
+ {
+  "sku": "HX-16-ST24C-NS",
+  "category": "hyperconverged-systems",
+  "action": "class",
+  "to": "license",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "a Windows Server 2016 licence, not hardware however its spec sheet files it (reviewer ruling Q16, 29 Sep 2026)",
+  "evidence": "Cisco HyperFlex HX240c M5 LFF spec sheet line: 'HX-16-ST24C-NS Windows Server 2016 Standard (24 Cores...)'",
+  "planned_by": "cisco session, ruling Q16"
+ },
+ {
+  "sku": "HX-16-ST24C-RM",
+  "category": "hyperconverged-systems",
+  "action": "class",
+  "to": "license",
+  "run_id": null,
+  "expected_kind_after": null,
+  "reason": "a Windows Server 2016 licence, not hardware however its spec sheet files it (reviewer ruling Q16, 29 Sep 2026)",
+  "evidence": "Cisco HyperFlex HX240c M5 LFF spec sheet line: 'HX-16-ST24C-RM Windows Server 2016 Standard (24 Cores...)'",
+  "planned_by": "cisco session, ruling Q16"
  }
 ]

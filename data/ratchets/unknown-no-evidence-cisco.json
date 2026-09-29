@@ -3,5 +3,13 @@
   "unit": "live cisco HARDWARE parts in kind unknown with a SKU-only name and no linked document",
   "recorded_at": "2026-09-29T20:15:58.486Z",
   "git_sha": "55bba2146fac732f5703e691188e4835404c55a4",
-  "ceiling": 230
+  "ceiling": 234,
+  "raises": [
+    {
+      "to": 234,
+      "by": 4,
+      "ruling": "reviewer ruling Q15, 29 Sep 2026: UCWS-WT-SM-INN12, MDS-9222I-75-PPT, 9270F-DIFL and AIR-N-3006-DTA-K9 join the no-evidence term (their documents were read and say nothing): src/core/unknownEvidence.ts SILENT_DOCUMENTS",
+      "at": "2026-09-29"
+    }
+  ]
 }

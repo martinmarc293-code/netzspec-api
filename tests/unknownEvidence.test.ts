@@ -15,6 +15,10 @@ check("a NULL name with no document has no evidence", hasNoEvidence(row("4014289
 check("NEGATIVE a document-linked SKU-only part is EVIDENCED (its row names the product: 4039503 = P2-15TXM ...)",
   !hasNoEvidence(row("4039503", "Cisco 4039503", true)));
 check("NEGATIVE a part whose name says more than its SKU is EVIDENCED", !hasNoEvidence(row("SPVAC-H5610-S-US=", "Jabra Handset 450 for Cisco", false)));
+// RULING Q15: a linked document that was read and says nothing is no evidence -- by name only, never by a rule
+check("a SILENT_DOCUMENTS part with a SKU-only name is no-evidence although a document links it", hasNoEvidence(row("UCWS-WT-SM-INN12", "Cisco UCWS-WT-SM-INN12", true)));
+check("NEGATIVE a silent-document part whose NAME says something stays evidenced (the name is evidence)", !hasNoEvidence(row("MDS-9222I-75-PPT", "MDS 9222i Port Pack Transition", true)));
+check("NEGATIVE a linked part NOT in the list stays evidenced", !hasNoEvidence(row("4039503", "Cisco 4039503", true)));
 const split = splitUnknown([row("A", "Cisco A", false), row("B", "Cisco B", true), row("C", "a real product name", false)]);
 check("the split is a partition: 3 rows -> 1 no-evidence + 2 evidenced, none dropped", split.noEvidence.length === 1 && split.evidenced.length === 2,
   JSON.stringify({ n: split.noEvidence.map((r) => r.sku), e: split.evidenced.map((r) => r.sku) }));
@@ -26,4 +30,4 @@ check("NEGATIVE red: no ceiling recorded (a ratchet nobody recorded is not a rat
 check("NEGATIVE red: a kind asked nothing", !unknownZeroVerdict({ evidenced: 0, noEvidence: 0, ceiling: 0, askedNothing: 1 }).pass);
 
 if (misses.length) { console.log(`unknown evidence: ${pass} passed, ${misses.length} missed`); for (const m of misses) console.log(`  MISS ${m}`); process.exit(1); }
-console.log(`unknown evidence: ${pass} passed, 0 missed (5 refusals)`);
+console.log(`unknown evidence: ${pass} passed, 0 missed (7 refusals)`);

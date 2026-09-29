@@ -317,6 +317,10 @@ const RUN_KIND_CLASS: Record<string, { approval: boolean; gate: boolean }> = {
   "retract-mis-keyed": A,
   // ruling Q11 (29 Sep 2026): a conflict's class is a derived LABEL (no fact moves); closing an orphan closes a disagreement -> approval
   "classify-conflicts": D, "resolve-orphan-conflicts": A,
+  // rulings Q13 / Q14: closing a conflict as a superseded reading or as a dispute between values no fact holds -> approval
+  "resolve-superseded-readings": A, "resolve-no-held-conflicts": A,
+  // ruling Q15: a fragment of a real PID read off a page is retired (membership) -> approval
+  "retire-fragments": A,
 };
 // The vendor this lane has axes for; vendor_coverage owns every other vendor's hardware (unknown_zero counts them apart).
 const OWN_VENDOR = "cisco";
@@ -1471,13 +1475,16 @@ const TESTS: Test[] = [
       const byCat = (rs: UnknownRow[]) => [...rs.reduce((m, x) => m.set(x.category, (m.get(x.category) ?? 0) + 1), new Map<string, number>())]
         .sort((a, b) => b[1] - a[1]).map(([c, n]) => `${c} ${n}`).join(", ");
       const UCEIL = path.join(REPO, "data", "ratchets", "unknown-no-evidence-cisco.json");
-      type UCeil = { vendor: string; unit: string; recorded_at: string; git_sha: string; ceiling: number };
+      // `raises`: the RULED raises only (ruling Q15 moved four silent-document parts into the term), append-only, carried by every
+      // record; recording itself can only lower the ceiling (min(ceiling, now)).
+      type UCeil = { vendor: string; unit: string; recorded_at: string; git_sha: string; ceiling: number; raises?: { to: number; by: number; ruling: string; at: string }[] };
       let uceil: UCeil | null = null;
       try { if (existsSync(UCEIL)) uceil = JSON.parse(readFileSync(UCEIL, "utf8")) as UCeil; } catch { uceil = null; }
       if (uceil && (uceil.vendor !== OWN_VENDOR || typeof uceil.ceiling !== "number")) uceil = null;
       if (process.argv.includes("--record-unknown-ceiling")) {
         uceil = { vendor: OWN_VENDOR, unit: "live cisco HARDWARE parts in kind unknown with a SKU-only name and no linked document",
-          recorded_at: new Date().toISOString(), git_sha: process.env.GIT_SHA ?? "unknown", ceiling: Math.min(noEvidence.length, uceil?.ceiling ?? Infinity) };
+          recorded_at: new Date().toISOString(), git_sha: process.env.GIT_SHA ?? "unknown", ceiling: Math.min(noEvidence.length, uceil?.ceiling ?? Infinity),
+          raises: uceil?.raises ?? [] };
         mkdirSync(path.dirname(UCEIL), { recursive: true });
         writeFileSync(UCEIL, JSON.stringify(uceil, null, 2) + "\n");
       }
@@ -1500,7 +1507,7 @@ const TESTS: Test[] = [
           return s.req.length + s.pending.length === 0;
         }).map((k) => `${cat}/${k}`));
       const partition = `${total.toLocaleString()} unknown = ${evidenced.length} EVIDENCED (judged: ${byCat(evidenced) || "none"}) + ` +
-        `${noEvidence.length} NO EVIDENCE (apart, on the acquisition queue; ceiling ${uceil ? `${uceil.ceiling} @${uceil.git_sha.slice(0, 7)}` : "MISSING"}: ${byCat(noEvidence) || "none"})`;
+        `${noEvidence.length} NO EVIDENCE (apart, on the acquisition queue; ceiling ${uceil ? `${uceil.ceiling} @${uceil.git_sha.slice(0, 7)}${uceil.raises?.length ? `, ${uceil.raises.length} ruled raise(s)` : ""}` : "MISSING"}: ${byCat(noEvidence) || "none"})`;
       const scope = `${partition}; ${r.rows.length} ${OWN_VENDOR} categories hold an unclassified HARDWARE part; ` +
         `${apart.toLocaleString()} other-vendor hardware parts are vendor_coverage's, counted apart; ` +
         `${notHardware.toLocaleString()} further parts have no kind and correctly never will ` +

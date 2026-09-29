@@ -21,6 +21,7 @@ import { conflictClass, CONFLICT_CLASSES, type ConflictClass, type ConflictEvide
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const arg = (n: string): string | undefined => { const i = process.argv.indexOf(n); return i >= 0 ? process.argv[i + 1] : undefined; };
 const commit = process.argv.includes("--commit"), approved = arg("--approved"), orphans = process.argv.includes("--resolve-orphans");
+const superseded = process.argv.includes("--resolve-superseded"), noHeld = process.argv.includes("--resolve-no-held");
 if (commit && !approved) { console.error("--commit needs --approved \"<the ruling>\""); process.exit(2); }
 const db = getPool();
 
@@ -50,7 +51,7 @@ function decide(r: Row): { cls: ConflictClass | null; basis: string } {
   return viaFacts ? { cls: viaFacts, basis: "the facts holding the two values (the row carries no evidence object)" } : { cls: null, basis: "HOLD: the facts carry no provenance" };
 }
 
-if (!orphans) {
+if (!orphans && !superseded && !noHeld) {
   const rows = (await db.query<Row>(CLASS_SQL)).rows;
   const verdicts = rows.map((r) => ({ r, ...decide(r) }));
   const by = new Map<string, string[]>();
@@ -77,24 +78,54 @@ if (!orphans) {
     }));
   console.log(`run ${res.runId}: classed ${rows.length - held.length}, held ${held.length}`);
 } else {
-  const rows = (await db.query<{ id: string; sku: string; key: string }>(ORPHAN_SQL)).rows;
-  const plan = planFile(ROOT, "resolve-orphan-conflicts");
+  // THREE RESOLUTIONS, one mechanism: a selection, a plan, the selection re-run at write time (refused if a planned row stopped
+  // qualifying), resolved_at + a resolution naming why, never a delete.
+  //   --resolve-orphans     (run kind resolve-orphan-conflicts)    no live fact for the key: no-live-value
+  //   --resolve-superseded  (run kind resolve-superseded-readings) RULING Q13: a normaliser-split whose current fact comes from
+  //                         the SAME URL -- two historical readings the current extraction replaced: superseded-reading #<fact>
+  //   --resolve-no-held     (run kind resolve-no-held-conflicts)   RULING Q14: an Atlas row with no evidence object whose two
+  //                         values NO fact holds: no-held-value
+  type Sel = { id: string; sku: string; key: string; fact_id: string | null };
+  const MODES = {
+    orphans: { kind: "resolve-orphan-conflicts", sql: ORPHAN_SQL.replace("SELECT k.id::text AS id, p.sku, k.field_key AS key", "SELECT k.id::text AS id, p.sku, k.field_key AS key, NULL::text AS fact_id"),
+      resolution: () => "no-live-value", what: "orphan conflicts (open, no live fact in verified/corroborated/conflict for the key)" },
+    superseded: { kind: "resolve-superseded-readings", sql: `
+      SELECT k.id::text AS id, p.sku, k.field_key AS key, f.id::text AS fact_id FROM conflicts k JOIN parts p ON p.id = k.part_id
+        JOIN LATERAL (SELECT id, doc_id FROM facts f WHERE f.part_id = k.part_id AND f.field_key = k.field_key AND f.superseded_by IS NULL
+                       ORDER BY f.id DESC LIMIT 1) f ON true
+       WHERE k.resolved_at IS NULL AND k.class = 'normaliser-split' AND f.doc_id = k.kept_evidence->>'doc_id' ORDER BY k.id`,
+      resolution: (r: Sel) => `superseded-reading #${r.fact_id}`, what: "open normaliser-split conflicts whose current fact comes from the same URL" },
+    noheld: { kind: "resolve-no-held-conflicts", sql: `
+      SELECT k.id::text AS id, p.sku, k.field_key AS key, NULL::text AS fact_id FROM conflicts k JOIN parts p ON p.id = k.part_id
+       WHERE k.resolved_at IS NULL AND k.class IS NULL
+         AND (jsonb_typeof(k.kept_evidence) IS DISTINCT FROM 'object' OR jsonb_typeof(k.rejected_evidence) IS DISTINCT FROM 'object')
+         AND NOT EXISTS (SELECT 1 FROM facts f WHERE f.part_id = k.part_id AND f.field_key = k.field_key AND (f.value = k.kept OR f.value = k.rejected))
+       ORDER BY k.id`,
+      resolution: () => "no-held-value", what: "open unclassed Atlas conflicts whose two values no fact holds" },
+  } as const;
+  const mode = superseded ? MODES.superseded : noHeld ? MODES.noheld : MODES.orphans;
+  const rows = (await db.query<Sel>(mode.sql)).rows;
+  const plan = planFile(ROOT, mode.kind);
   fs.mkdirSync(path.dirname(plan), { recursive: true });
-  fs.writeFileSync(plan, ["conflict_id\tsku\tfield\taction", ...rows.map((r) => `${r.id}\t${r.sku}\t${r.key}\tresolve no-live-value`)].join("\n") + "\n");
+  fs.writeFileSync(plan, ["conflict_id\tsku\tfield\tresolution", ...rows.map((r) => `${r.id}\t${r.sku}\t${r.key}\t${mode.resolution(r)}`)].join("\n") + "\n");
   const planSha = createHash("sha256").update(fs.readFileSync(plan)).digest("hex");
   const perKey = [...rows.reduce((m, r) => m.set(r.key, (m.get(r.key) ?? 0) + 1), new Map<string, number>())].sort((a, b) => b[1] - a[1]);
-  console.log(`orphan conflicts (open, no live fact in verified/corroborated/conflict for the key): ${rows.length} — ${perKey.slice(0, 10).map(([k, n]) => `${k} ${n}`).join(", ")}`);
+  console.log(`${mode.what}: ${rows.length} — ${perKey.slice(0, 10).map(([k, n]) => `${k} ${n}`).join(", ")}`);
   console.log(`  plan ${path.relative(ROOT, plan)} (sha256 ${planSha.slice(0, 12)})`);
   if (!commit) { console.log("DRY RUN: nothing written. Re-run with --commit --approved \"...\"."); await closePool(); process.exit(0); }
-  const res = await withRun("resolve-orphan-conflicts", { plan: path.relative(ROOT, plan), plan_sha256: planSha, approved, orphans: rows.length },
+  const res = await withRun(mode.kind, { plan: path.relative(ROOT, plan), plan_sha256: planSha, approved, rows: rows.length },
     async (runId) => withTx(async (client) => {
-      const again = new Set((await client.query<{ id: string }>(ORPHAN_SQL)).rows.map((r) => r.id));
-      if (rows.some((r) => !again.has(r.id))) throw new Error("a planned orphan is no longer an orphan at write time — refused, nothing written");
-      const u = await client.query(`UPDATE conflicts SET resolved_at = now(), resolution = 'no-live-value', resolved_by = $2
-        WHERE id = ANY($1::bigint[]) AND resolved_at IS NULL`, [rows.map((r) => r.id), `resolve-orphan-conflicts run ${runId}`]);
-      if (u.rowCount !== rows.length) throw new Error(`resolved ${u.rowCount} of ${rows.length} — refused`);
-      return { stats: { resolved: u.rowCount } };
+      const again = new Map((await client.query<Sel>(mode.sql)).rows.map((r) => [r.id, r]));
+      if (rows.some((r) => !again.has(r.id) || again.get(r.id)!.fact_id !== r.fact_id)) throw new Error("a planned row no longer qualifies (or its current fact moved) at write time — refused, nothing written");
+      let resolved = 0;
+      for (const [resolution, ids] of rows.reduce((m, r) => m.set(mode.resolution(r), [...(m.get(mode.resolution(r)) ?? []), r.id]), new Map<string, string[]>())) {
+        const u = await client.query(`UPDATE conflicts SET resolved_at = now(), resolution = $2, resolved_by = $3 WHERE id = ANY($1::bigint[]) AND resolved_at IS NULL`,
+          [ids, resolution, `${mode.kind} run ${runId}`]);
+        resolved += u.rowCount ?? 0;
+      }
+      if (resolved !== rows.length) throw new Error(`resolved ${resolved} of ${rows.length} — refused`);
+      return { stats: { resolved } };
     }));
-  console.log(`run ${res.runId}: resolved ${rows.length} orphans as no-live-value`);
+  console.log(`run ${res.runId}: resolved ${rows.length} (${mode.kind})`);
 }
 await closePool();
