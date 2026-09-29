@@ -142,5 +142,19 @@ HEAD/deployed 501b7ed (artefacts built on 0cbe5c5, contract 17b502e336ebefb6). R
   NEXT: board after the rebuild -> Batch E report; then R4 widenings + the 90 (re-measure the veto list first: R2 moved kinds);
      then Q12 export (recorded files read: Main ';' 19 cols, Attributes/Condition/FAQ ',' ; Switch 20 attrs, Transceivers 14;
      coverage of their source keys measured in /tmp only: weight 6% switches / 0% transceivers -> shop_ready will start near 0).
+  BATCH E REPORTED (a6d9f64, deployed baffbd0): board 30/3/0/0, self-test 24/0/9; docs/reviewer/2026-09-28/batch-e-report.md. Fixes in it:
+     retirePart drops the score (e3bbd1d, run 1412); run 1409 re-gated (1416) + rekey gate; AIR-N-3006 SILENT_NAMES; sync 1415; R4 116.
+  REVIEWER on batch-e-report.md (29 Sep ~21:50 UTC): TAA compliant -> RETRACT (not a certification); video passive 'Mux/Demux 100G' ->
+     REKEY to channel_spacing (not retract); AUDIT: R4 needs >= 1 html_table/pdf_table row (hexcat_seed = borrowed doc_id, N31) -> the
+     18 seed-only R4 widenings REVERT pending a table read (98 stand); retract-read-pours.mts was not pushed (it is now). 'Otherwise
+     Batch F as filed.'
+  BATCH F (60311ed deployed): run 1419 rekey 30 (6 tdp, 8 power_max, 1 storage_capacity, 1 flash, 14 channel_spacing; gate PASS 30/30;
+     2 refused: MEMUSB-128FT(=) 0.125 GB under storage_capacity's 1 GB band floor, held vetoed); run 1420 retract-read-pours 125 (0 held);
+     Q17_READ 61 widenings; 219 kind moves by family rule (C880/C3X60/C3K/PCI25/EM3-AF, ST-M6-D100GF, 15454 ML cards, NCS2K frames,
+     Y-cable drawer), replay read row by row; decision docs/decisions/2026-09-29-q17-read-triples.md. Rebuild on 60311ed RUNNING.
+  OPEN after F: the 18 seed-only triples (333 part-cups) need a TABLE READ (propose: raw on its cached datasheet page = witness);
+     the 2 MEMUSB band refusals; new vetoes the 219 kind moves may expose (re-run scripts/veto-triage.mts after the rebuild).
+  NEXT: rebuild -> board -> Batch F report; then Q12 export (design: profiles jtl-main ';' 18 / jtl-attributes ',' 4 / jtl-condition
+     ',' 3 / jtl-faq ',' 3 force-quoted; groups 'Switch' 20, 'Transceivers & SFP Modul' 14; shop_ready gate; BOM + CRLF).
 ## Pinned predictions
 - run 1350 lands -> the enum CISCO line drops standard to 0 (was 555 seed); what remains red there is non-seed audio_codecs/antenna_type/spatial_streams + refused shape members. required_cup_defined not moved by it (other vendors seed untouched).
