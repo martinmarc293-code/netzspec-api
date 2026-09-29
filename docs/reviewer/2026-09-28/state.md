@@ -11,8 +11,8 @@
 - Decision files short and append-only; no sabotage narration beyond the commit line. Verifier log committed with each report.
 - Verify a chat send: composer must read 0 chars afterwards.
 
-## Board: passed 18 | FAILED 9 | unavailable 3 | not exercised 3 (of 33) · self-test proven 21 | BROKEN 0 | unproven 12 (62ecef1, Batch A)
-HEAD fa0ac3e, deployed fa0ac3e (artefacts 62ecef1). Full rebuild = scripts/mould-build.sh on the box (GIT_SHA=<sha>; mkdir -p + copy runs/vocab/cisco-datasheets/labels.json first; freeze BEFORE report), then scripts/mould-stamp.mts in the repo. build-layers refuses a single-category write.
+## Board: passed 27 | FAILED 6 | unavailable 0 | not exercised 0 (of 33) · self-test proven 24 | BROKEN 0 | unproven 9 (501b7ed, Batch C part 2)
+HEAD/deployed 501b7ed (artefacts built on 0cbe5c5, contract 17b502e336ebefb6). Red: kind_profile_parity (Q8), unknown_zero (Q9), conflicts_classified (Q11), export (Q12), four_sets_sum (veto 247), vendor_coverage (ruled). Full rebuild = scripts/mould-build.sh on the box (GIT_SHA=<sha>; mkdir -p + copy runs/vocab/cisco-datasheets/labels.json first; freeze BEFORE report), then scripts/mould-stamp.mts in the repo. build-layers refuses a single-category write.
 
 ## Flip order
 | # | item | status | what to do (from its decision file) |
@@ -86,7 +86,11 @@ HEAD fa0ac3e, deployed fa0ac3e (artefacts 62ecef1). Full rebuild = scripts/mould
      unclassified 4,169 -> 3,912; all 16,846 members verbatim in their raw (the --allow's "all 764 read" was ~40: corrected
      in data/dryrun/certifications-186-replay-cisco-2026-09-29.txt). HELD for a ruling: 1.8.6 on ieee (24 facts, splits only)
      and supported_protocols (43 facts, unclassified +141 > ratchet ceiling: the other side of ' ; ' joins exposed).
-  NEXT: rebuild on d2bd620 -> board with key 17 -> copy data back, stamp, commit, deploy -> batch report.
+  DONE 29 Sep ~19:00 UTC: rebuild on 0cbe5c5 (site WITH layer pages + BUILD.json; the deploy carries data/site), contract
+     regenerated (had drifted since 28 Sep; one_build now compares with the code's hash), artefacts 501b7ed deployed, board
+     27/6/0/0, self-test 24/0/9. Flipped: one_build, runs_have_approval, endpoints_alive (probes were malformed), link_integrity,
+     keys_hygiene. Report + questions Q8-Q12: docs/reviewer/2026-09-28/batch-c2-report.md.
+  NEXT: send the report; while waiting: four_sets_sum veto plan (247 triples), Q11 dry run (classifier over the buckets), Step 9 design.
   (d) was: check fix, rows, exceptions, KIND_QUESTION_SET_FROM, GATED_CUPS,
      wireless kinds (149 SKUs move: 82 power-cord, 19 drive, 14 memory, 9 fan, 9 storage-controller, 6 cpu, 6 tpm, 4 nic),
      cellular registered in DERIVED_FILL_PATHS. New vetoes measured: 3 triples / 17 part-cups (wireless ap tdp = Meraki

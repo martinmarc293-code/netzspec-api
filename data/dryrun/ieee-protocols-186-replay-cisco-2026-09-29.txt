@@ -1,0 +1,129 @@
+######## ieee_standards
+ieee_standards: 2091 facts; changed 24, refused 0; change types {"split":24}
+members 41449 -> 41449; verdicts before {"unclassified":18886,"accept":22451,"flagged":112} after {"unclassified":18886,"accept":22451,"flagged":112}
+FUSED (2+ issuer-numbered starts outside brackets): before 47, after 47
+--- OTHER (read every one) ---
+--- SPREAD SAMPLE (every 125th change) ---
+######## supported_protocols
+supported_protocols: 2161 facts; changed 43, refused 0; change types {"other":39,"split":4}
+members 14487 -> 14688; verdicts before {"accept":8405,"unclassified":5671,"flagged":411} after {"accept":8461,"unclassified":5812,"flagged":415}
+FUSED (2+ issuer-numbered starts outside brackets): before 7, after 7
+--- OTHER (read every one) ---
+CP-8800-VIDEO-WMK= #205141
+    was ["SIP","Session Description Protocol (SDP)","IPv4 and IPv6","UDP","802.11r (FT)","Cisco Centralized Key Management (CKM)"]
+    now ["SIP","Session Description Protocol (SDP)","IPv4 and IPv6","UDP","IEEE 802.11a","802.11b","802.11g","802.11n","802.11ac","802.11r (FT)","Cisco Centralized Key Management (CKM)"]
+CP-8861-W-K9= #205213
+    was ["SIP","Session Description Protocol (SDP)","IPv4 and IPv6","UDP","802.11r (FT)","Cisco Centralized Key Management (Cisco CKM)"]
+    now ["SIP","Session Description Protocol (SDP)","IPv4 and IPv6","UDP","IEEE 802.11a","802.11b","802.11g","802.11n","802.11ac","802.11r (FT)","Cisco Centralized Key Management (Cisco CKM)"]
+N3K-C3064-T-BA-L3 #205170
+    was ["IEEE 802.1Q VLAN encapsulation","Support for up to 4096 VLANs","Rapid Per-VLAN Spanning Tree Plus (PVRST+) (IEEE 802.1w","64-way ECMP","MSDP"]
+    now ["IEEE 802.1Q VLAN encapsulation","Support for up to 4096 VLANs","Rapid Per-VLAN Spanning Tree Plus (PVRST+) (IEEE 802.1w","64-way ECMP","2000 ingress a","Multicast: PIMv2","PIM-SM","SSM Bootstrap Router (BSR)","Auto-RP","Static RP Multicast Source Discovery P
+N540-6Z14S-SYS-D #205136
+    was ["VPWS","VPLS","IRB/BVI v4/v6 Layer 2 forwarding","bridging Bridge Domains (BD) Ethernet Flow Point (EFP) IEEE 802.1Q VLANs","Q-in-Q Ethernet Link Aggregation G","IPv4","IPv6","subinterfaces Virtual Routing","OSPFv2","IGMPv3","MLDv2"]
+    now ["VPWS","VPLS","IRB/BVI v4/v6 Layer 2 forwarding","bridging Bridge Domains (BD) Ethernet Flow Point (EFP) IEEE 802.1Q VLANs","Q-in-Q Ethernet Link Aggregation G","IPv4","IPv6","subinterfaces Virtual Routing","Forwarding (VRF) Open Shortest Path First (OSPFv2, 
+N3K-C3064-ACC-KIT= #205143
+    was ["IEEE 802.1Q VLAN encapsulation","Support for up to 4096 VLANs","Rapid per-VLAN Spanning Tree Plus (PVRST+) (IEEE 802.1w","32-way ECMP","MSDP"]
+    now ["IEEE 802.1Q VLAN encapsulation","Support for up to 4096 VLANs","Rapid per-VLAN Spanning Tree Plus (PVRST+) (IEEE 802.1w","32-way ECMP","2000 ingress","Multicast: PIM-SM Version 2","SSM Bootstrap Router (BSR)","Automatic Rendezvous Point (Auto-RP)","Static RP
+N3K-C3048-BA-L3 #205147
+    was ["IEEE 802.1Q VLAN encapsulation","Support for up to 4096 VLANs","Rapid per-VLAN Spanning Tree Plus (PVRST+) (IEEE 802.1w","32-way ECMP","MSDP"]
+    now ["IEEE 802.1Q VLAN encapsulation","Support for up to 4096 VLANs","Rapid per-VLAN Spanning Tree Plus (PVRST+) (IEEE 802.1w","32-way ECMP","2000 ingress","Multicast: PIM-SM Version 2","SSM Bootstrap Router (BSR)","Automatic Rendezvous Point (Auto-RP)","Static RP
+N3K-C3048-BD-L3 #205149
+    was ["IEEE 802.1Q VLAN encapsulation","Support for up to 4096 VLANs","Rapid per-VLAN Spanning Tree Plus (PVRST+) (IEEE 802.1w","32-way ECMP","MSDP"]
+    now ["IEEE 802.1Q VLAN encapsulation","Support for up to 4096 VLANs","Rapid per-VLAN Spanning Tree Plus (PVRST+) (IEEE 802.1w","32-way ECMP","2000 ingress","Multicast: PIM-SM Version 2","SSM Bootstrap Router (BSR)","Automatic Rendezvous Point (Auto-RP)","Static RP
+N3K-C3048-FAN #205151
+    was ["IEEE 802.1Q VLAN encapsulation","Support for up to 4096 VLANs","Rapid per-VLAN Spanning Tree Plus (PVRST+) (IEEE 802.1w","32-way ECMP","MSDP"]
+    now ["IEEE 802.1Q VLAN encapsulation","Support for up to 4096 VLANs","Rapid per-VLAN Spanning Tree Plus (PVRST+) (IEEE 802.1w","32-way ECMP","2000 ingress","Multicast: PIM-SM Version 2","SSM Bootstrap Router (BSR)","Automatic Rendezvous Point (Auto-RP)","Static RP
+N3K-C3048-FAN= #205152
+    was ["IEEE 802.1Q VLAN encapsulation","Support for up to 4096 VLANs","Rapid per-VLAN Spanning Tree Plus (PVRST+) (IEEE 802.1w","32-way ECMP","MSDP"]
+    now ["IEEE 802.1Q VLAN encapsulation","Support for up to 4096 VLANs","Rapid per-VLAN Spanning Tree Plus (PVRST+) (IEEE 802.1w","32-way ECMP","2000 ingress","Multicast: PIM-SM Version 2","SSM Bootstrap Router (BSR)","Automatic Rendezvous Point (Auto-RP)","Static RP
+N3K-C3048-LAN1K9 #205154
+    was ["IEEE 802.1Q VLAN encapsulation","Support for up to 4096 VLANs","Rapid per-VLAN Spanning Tree Plus (PVRST+) (IEEE 802.1w","32-way ECMP","MSDP"]
+    now ["IEEE 802.1Q VLAN encapsulation","Support for up to 4096 VLANs","Rapid per-VLAN Spanning Tree Plus (PVRST+) (IEEE 802.1w","32-way ECMP","2000 ingress","Multicast: PIM-SM Version 2","SSM Bootstrap Router (BSR)","Automatic Rendezvous Point (Auto-RP)","Static RP
+N3K-C3064-X-BD-L3 #205173
+    was ["IEEE 802.1Q VLAN encapsulation","Support for up to 4096 VLANs","Rapid Per-VLAN Spanning Tree Plus (PVRST+) (IEEE 802.1w","64-way ECMP","MSDP"]
+    now ["IEEE 802.1Q VLAN encapsulation","Support for up to 4096 VLANs","Rapid Per-VLAN Spanning Tree Plus (PVRST+) (IEEE 802.1w","64-way ECMP","2000 ingress a","Multicast: PIMv2","PIM-SM","SSM Bootstrap Router (BSR)","Auto-RP","Static RP Multicast Source Discovery P
+N3K-C3064-X-FD-L3 #205175
+    was ["IEEE 802.1Q VLAN encapsulation","Support for up to 4096 VLANs","Rapid Per-VLAN Spanning Tree Plus (PVRST+) (IEEE 802.1w","64-way ECMP","MSDP"]
+    now ["IEEE 802.1Q VLAN encapsulation","Support for up to 4096 VLANs","Rapid Per-VLAN Spanning Tree Plus (PVRST+) (IEEE 802.1w","64-way ECMP","2000 ingress a","Multicast: PIMv2","PIM-SM","SSM Bootstrap Router (BSR)","Auto-RP","Static RP Multicast Source Discovery P
+CP-8861-K9= #205212
+    was ["SIP","Session Description Protocol (SDP)","IPv4 and IPv6","UDP","802.11r (FT)","Cisco Centralized Key Management (Cisco CKM)"]
+    now ["SIP","Session Description Protocol (SDP)","IPv4 and IPv6","UDP","IEEE 802.11a","802.11b","802.11g","802.11n","802.11ac","802.11r (FT)","Cisco Centralized Key Management (Cisco CKM)"]
+N3K-C3016-BA-L3 #205214
+    was ["IEEE 802.1Q VLAN encapsulation","Support for up to 4096 VLANs","Rapid Per-VLAN Spanning Tree Plus (PVRST+) (IEEE 802.1w","PIM"]
+    now ["IEEE 802.1Q VLAN encapsulation","Support for up to 4096 VLANs","Rapid Per-VLAN Spanning Tree Plus (PVRST+) (IEEE 802.1w","64-way Equal-Cost Multipath","Multicast: PIM Version 2 Sparse Mode (PIM-SM)","SSM Bootstrap router (BSR)","Automatic Rendezvous Point (A
+N3K-C3064-FAN #205168
+    was ["IEEE 802.1Q VLAN encapsulation","Support for up to 4096 VLANs","Rapid Per-VLAN Spanning Tree Plus (PVRST+) (IEEE 802.1w","64-way ECMP","MSDP"]
+    now ["IEEE 802.1Q VLAN encapsulation","Support for up to 4096 VLANs","Rapid Per-VLAN Spanning Tree Plus (PVRST+) (IEEE 802.1w","64-way ECMP","2000 ingress a","Multicast: PIMv2","PIM-SM","SSM Bootstrap Router (BSR)","Auto-RP","Static RP Multicast Source Discovery P
+N3K-C3016-BD-L3 #205215
+    was ["IEEE 802.1Q VLAN encapsulation","Support for up to 4096 VLANs","Rapid Per-VLAN Spanning Tree Plus (PVRST+) (IEEE 802.1w","PIM"]
+    now ["IEEE 802.1Q VLAN encapsulation","Support for up to 4096 VLANs","Rapid Per-VLAN Spanning Tree Plus (PVRST+) (IEEE 802.1w","64-way Equal-Cost Multipath","Multicast: PIM Version 2 Sparse Mode (PIM-SM)","SSM Bootstrap router (BSR)","Automatic Rendezvous Point (A
+N3K-C3016-FA-L3 #205216
+    was ["IEEE 802.1Q VLAN encapsulation","Support for up to 4096 VLANs","Rapid Per-VLAN Spanning Tree Plus (PVRST+) (IEEE 802.1w","PIM"]
+    now ["IEEE 802.1Q VLAN encapsulation","Support for up to 4096 VLANs","Rapid Per-VLAN Spanning Tree Plus (PVRST+) (IEEE 802.1w","64-way Equal-Cost Multipath","Multicast: PIM Version 2 Sparse Mode (PIM-SM)","SSM Bootstrap router (BSR)","Automatic Rendezvous Point (A
+N3K-C3048-FD-L3 #205153
+    was ["IEEE 802.1Q VLAN encapsulation","Support for up to 4096 VLANs","Rapid per-VLAN Spanning Tree Plus (PVRST+) (IEEE 802.1w","32-way ECMP","MSDP"]
+    now ["IEEE 802.1Q VLAN encapsulation","Support for up to 4096 VLANs","Rapid per-VLAN Spanning Tree Plus (PVRST+) (IEEE 802.1w","32-way ECMP","2000 ingress","Multicast: PIM-SM Version 2","SSM Bootstrap Router (BSR)","Automatic Rendezvous Point (Auto-RP)","Static RP
+N540-24Z8Q2C-SYS #205131
+    was ["Layer 2 forwarding","bridging Bridge Domains (BD) Ethernet Flow Point (EFP) IEEE 802.1Q VLANs","Q-in-Q Ethernet Link Aggregation Group (LAG) Link Aggregatio","IPv4","IPv6","OSPFv2","IGMPv3","MLDv2"]
+    now ["Layer 2 forwarding","bridging Bridge Domains (BD) Ethernet Flow Point (EFP) IEEE 802.1Q VLANs","Q-in-Q Ethernet Link Aggregation Group (LAG) Link Aggregatio","IPv4","IPv6","Forwarding (VRF) Open Shortest Path First (OSPFv2","IPv4","PIM-SSM IGMPv3","MLDv2 mLD
+IRM-NIM-2T1E1 #205210
+    was ["IPv6","IPv6 ACLs","DHCP","GRE","MPLS"]
+    now ["IPv6","IPv6 ACLs","DHCP","IPv6 routing (Static","GRE","Ethernet","802.1q VLAN","Serial over MPLS"]
+IRM-NIM-RS232 #205211
+    was ["IPv6","IPv6 ACLs","DHCP","GRE","MPLS"]
+    now ["IPv6","IPv6 ACLs","DHCP","IPv6 routing (Static","GRE","Ethernet","802.1q VLAN","Serial over MPLS"]
+CP-8865-K9= #205145
+    was ["SIP","Session Description Protocol (SDP)","IPv4 and IPv6","UDP","802.11r (FT)","Cisco Centralized Key Management (CKM)"]
+    now ["SIP","Session Description Protocol (SDP)","IPv4 and IPv6","UDP","IEEE 802.11a","802.11b","802.11g","802.11n","802.11ac","802.11r (FT)","Cisco Centralized Key Management (CKM)"]
+IR8340-K9 #205209
+    was ["IPv6","IPv6 ACLs","DHCP","GRE","MPLS"]
+    now ["IPv6","IPv6 ACLs","DHCP","IPv6 routing (Static","GRE","Ethernet","802.1q VLAN","Serial over MPLS"]
+N3K-C31128PQ-10GE #205142
+    was ["IEEE 802.1Q VLAN encapsulation","Support for up to 4096 VLANs","Rapid Per-VLAN Spanning Tree Plus (PVRST+) (IEEE 802.1w","64-way ECMP","MSDP"]
+    now ["IEEE 802.1Q VLAN encapsulation","Support for up to 4096 VLANs","Rapid Per-VLAN Spanning Tree Plus (PVRST+) (IEEE 802.1w","64-way ECMP","4000 ingress a","Multicast: PIMv2","PIM-SM","PIM-SSM Bootstrap Router (BSR)","Automatic Rendezvous Point (Auto-RP)","Stati
+N3K-C3048-BAS1K9 #205148
+    was ["IEEE 802.1Q VLAN encapsulation","Support for up to 4096 VLANs","Rapid per-VLAN Spanning Tree Plus (PVRST+) (IEEE 802.1w","32-way ECMP","MSDP"]
+    now ["IEEE 802.1Q VLAN encapsulation","Support for up to 4096 VLANs","Rapid per-VLAN Spanning Tree Plus (PVRST+) (IEEE 802.1w","32-way ECMP","2000 ingress","Multicast: PIM-SM Version 2","SSM Bootstrap Router (BSR)","Automatic Rendezvous Point (Auto-RP)","Static RP
+N3K-C3064-X-BA-L3 #205172
+    was ["IEEE 802.1Q VLAN encapsulation","Support for up to 4096 VLANs","Rapid Per-VLAN Spanning Tree Plus (PVRST+) (IEEE 802.1w","64-way ECMP","MSDP"]
+    now ["IEEE 802.1Q VLAN encapsulation","Support for up to 4096 VLANs","Rapid Per-VLAN Spanning Tree Plus (PVRST+) (IEEE 802.1w","64-way ECMP","2000 ingress a","Multicast: PIMv2","PIM-SM","SSM Bootstrap Router (BSR)","Auto-RP","Static RP Multicast Source Discovery P
+N3K-C3048-FA-L3 #205150
+    was ["IEEE 802.1Q VLAN encapsulation","Support for up to 4096 VLANs","Rapid per-VLAN Spanning Tree Plus (PVRST+) (IEEE 802.1w","32-way ECMP","MSDP"]
+    now ["IEEE 802.1Q VLAN encapsulation","Support for up to 4096 VLANs","Rapid per-VLAN Spanning Tree Plus (PVRST+) (IEEE 802.1w","32-way ECMP","2000 ingress","Multicast: PIM-SM Version 2","SSM Bootstrap Router (BSR)","Automatic Rendezvous Point (Auto-RP)","Static RP
+N3K-BAS1K9 #205167
+    was ["IEEE 802.1Q VLAN encapsulation","Support for up to 4096 VLANs","Rapid Per-VLAN Spanning Tree Plus (PVRST+) (IEEE 802.1w","PIM"]
+    now ["IEEE 802.1Q VLAN encapsulation","Support for up to 4096 VLANs","Rapid Per-VLAN Spanning Tree Plus (PVRST+) (IEEE 802.1w","64-way Equal-Cost Multipath","Multicast: PIM Version 2 Sparse Mode (PIM-SM)","SSM Bootstrap router (BSR)","Automatic Rendezvous Point (A
+N3K-C3064-T-FA-L3 #205171
+    was ["IEEE 802.1Q VLAN encapsulation","Support for up to 4096 VLANs","Rapid Per-VLAN Spanning Tree Plus (PVRST+) (IEEE 802.1w","64-way ECMP","MSDP"]
+    now ["IEEE 802.1Q VLAN encapsulation","Support for up to 4096 VLANs","Rapid Per-VLAN Spanning Tree Plus (PVRST+) (IEEE 802.1w","64-way ECMP","2000 ingress a","Multicast: PIMv2","PIM-SM","SSM Bootstrap Router (BSR)","Auto-RP","Static RP Multicast Source Discovery P
+CP-8865-W-K9= #205146
+    was ["SIP","Session Description Protocol (SDP)","IPv4 and IPv6","UDP","802.11r (FT)","Cisco Centralized Key Management (CKM)"]
+    now ["SIP","Session Description Protocol (SDP)","IPv4 and IPv6","UDP","IEEE 802.11a","802.11b","802.11g","802.11n","802.11ac","802.11r (FT)","Cisco Centralized Key Management (CKM)"]
+N3064T-32T-LIC #205166
+    was ["IEEE 802.1Q VLAN encapsulation","Support for up to 4096 VLANs","Rapid Per-VLAN Spanning Tree Plus (PVRST+) (IEEE 802.1w","64-way ECMP","MSDP"]
+    now ["IEEE 802.1Q VLAN encapsulation","Support for up to 4096 VLANs","Rapid Per-VLAN Spanning Tree Plus (PVRST+) (IEEE 802.1w","64-way ECMP","2000 ingress a","Multicast: PIMv2","PIM-SM","SSM Bootstrap Router (BSR)","Auto-RP","Static RP Multicast Source Discovery P
+N540X-ACC-SYS #205133
+    was ["Layer 2 forwarding","bridging Bridge Domains (BD) Ethernet Flow Point (EFP) IEEE 802.1Q VLANs","Q-in-Q Ethernet Link Aggregation Group (LAG) Link Aggregatio","IPv4","IPv6","OSPFv2","IGMPv3","MLDv2"]
+    now ["Layer 2 forwarding","bridging Bridge Domains (BD) Ethernet Flow Point (EFP) IEEE 802.1Q VLANs","Q-in-Q Ethernet Link Aggregation Group (LAG) Link Aggregatio","IPv4","IPv6","Forwarding (VRF) Open Shortest Path First (OSPFv2","IPv4","PIM-SSM IGMPv3","MLDv2 mLD
+N3K-C3016-FD-L3 #205217
+    was ["IEEE 802.1Q VLAN encapsulation","Support for up to 4096 VLANs","Rapid Per-VLAN Spanning Tree Plus (PVRST+) (IEEE 802.1w","PIM"]
+    now ["IEEE 802.1Q VLAN encapsulation","Support for up to 4096 VLANs","Rapid Per-VLAN Spanning Tree Plus (PVRST+) (IEEE 802.1w","64-way Equal-Cost Multipath","Multicast: PIM Version 2 Sparse Mode (PIM-SM)","SSM Bootstrap router (BSR)","Automatic Rendezvous Point (A
+A9K-IVRF-LIC #205144
+    was ["IPv4","IGMPv2","BGP"]
+    now ["IPv4","3 (IGMPv2 and v3)","Protocol Independent Multicast-Source Specific Mul","routing protocols","including Border Gateway Protocol (BGP)","Intermediate System"]
+N3K-C3064-FAN= #205169
+    was ["IEEE 802.1Q VLAN encapsulation","Support for up to 4096 VLANs","Rapid Per-VLAN Spanning Tree Plus (PVRST+) (IEEE 802.1w","64-way ECMP","MSDP"]
+    now ["IEEE 802.1Q VLAN encapsulation","Support for up to 4096 VLANs","Rapid Per-VLAN Spanning Tree Plus (PVRST+) (IEEE 802.1w","64-way ECMP","2000 ingress a","Multicast: PIMv2","PIM-SM","SSM Bootstrap Router (BSR)","Auto-RP","Static RP Multicast Source Discovery P
+N3K-C3064-X-FA-L3 #205174
+    was ["IEEE 802.1Q VLAN encapsulation","Support for up to 4096 VLANs","Rapid Per-VLAN Spanning Tree Plus (PVRST+) (IEEE 802.1w","64-way ECMP","MSDP"]
+    now ["IEEE 802.1Q VLAN encapsulation","Support for up to 4096 VLANs","Rapid Per-VLAN Spanning Tree Plus (PVRST+) (IEEE 802.1w","64-way ECMP","2000 ingress a","Multicast: PIMv2","PIM-SM","SSM Bootstrap Router (BSR)","Auto-RP","Static RP Multicast Source Discovery P
+N540-24Q2C2DD-SYS #205140
+    was ["Layer 2 forwarding","bridging Bridge Domains (BD) Ethernet Flow Point (EFP) IEEE 802.1Q VLANs","Q-in-Q Ethernet Link Aggregation Group (LAG) Link Aggregatio","IPv4","IPv6","OSPFv2","IGMPv3","MLDv2"]
+    now ["Layer 2 forwarding","bridging Bridge Domains (BD) Ethernet Flow Point (EFP) IEEE 802.1Q VLANs","Q-in-Q Ethernet Link Aggregation Group (LAG) Link Aggregatio","IPv4","IPv6","Forwarding (VRF) Open Shortest Path First (OSPFv2","IPv4","PIM-SSM IGMPv3","MLDv2 mLD
+N540-24Q8L2DD-SYS #205139
+    was ["Layer 2 forwarding","bridging Bridge Domains (BD) Ethernet Flow Point (EFP) IEEE 802.1Q VLANs","Q-in-Q Ethernet Link Aggregation Group (LAG) Link Aggregatio","IPv4","IPv6","OSPFv2","IGMPv3","MLDv2"]
+    now ["Layer 2 forwarding","bridging Bridge Domains (BD) Ethernet Flow Point (EFP) IEEE 802.1Q VLANs","Q-in-Q Ethernet Link Aggregation Group (LAG) Link Aggregatio","IPv4","IPv6","Forwarding (VRF) Open Shortest Path First (OSPFv2","IPv4","PIM-SSM IGMPv3","MLDv2 mLD
+N540-ACC-SYS #205132
+    was ["Layer 2 forwarding","bridging Bridge Domains (BD) Ethernet Flow Point (EFP) IEEE 802.1Q VLANs","Q-in-Q Ethernet Link Aggregation Group (LAG) Link Aggregatio","IPv4","IPv6","OSPFv2","IGMPv3","MLDv2"]
+    now ["Layer 2 forwarding","bridging Bridge Domains (BD) Ethernet Flow Point (EFP) IEEE 802.1Q VLANs","Q-in-Q Ethernet Link Aggregation Group (LAG) Link Aggregatio","IPv4","IPv6","Forwarding (VRF) Open Shortest Path First (OSPFv2","IPv4","PIM-SSM IGMPv3","MLDv2 mLD
+--- SPREAD SAMPLE (every 125th change) ---
