@@ -43,7 +43,10 @@ const SQL = `
    WHERE k.resolved_at IS NULL AND NOT EXISTS (SELECT 1 FROM facts f WHERE f.part_id = k.part_id AND f.field_key = k.field_key
      AND f.superseded_by IS NULL AND f.state IN ('verified','corroborated','conflict')) ORDER BY k.id`;
 
-const same = (a: unknown, b: unknown) => JSON.stringify(a) === JSON.stringify(b);
+/** CANONICAL JSON: jsonb hands back {"max":95,"min":5} (its own key order) where the normaliser builds {"min":5,"max":95}, so a
+ *  plain JSON.stringify called the same range two values and failed all 39 cells of the first dry run. Keys sorted, recursively. */
+const canon = (v: unknown): string => JSON.stringify(v, (_k, x) => (x && typeof x === "object" && !Array.isArray(x)
+  ? Object.fromEntries(Object.keys(x as Record<string, unknown>).sort().map((k) => [k, (x as Record<string, unknown>)[k]])) : x));
 const isRange = (v: unknown): v is { min: number; max: number } =>
   !!v && typeof v === "object" && typeof (v as { min?: unknown }).min === "number" && typeof (v as { max?: unknown }).max === "number";
 
@@ -61,7 +64,7 @@ const groups = new Map<string, Row[]>();
 for (const r of rows) groups.set(`${r.part_id}|${r.key}`, [...(groups.get(`${r.part_id}|${r.key}`) ?? []), r]);
 
 const cellOf = (e: Ev, url: string | null, recorded: unknown): Cell | null =>
-  e && e.doc_id && e.locator && url && parseLocator(e.locator) ? { doc_id: e.doc_id, locator: e.locator, url, tier: e.tier ?? 2, method: e.method ?? "html_table", recorded: new Set([JSON.stringify(recorded)]) } : null;
+  e && e.doc_id && e.locator && url && parseLocator(e.locator) ? { doc_id: e.doc_id, locator: e.locator, url, tier: e.tier ?? 2, method: e.method ?? "html_table", recorded: new Set([canon(recorded)]) } : null;
 /** Distinct cells, their recorded readings merged. */
 const distinct = (cs: readonly Cell[]): Cell[] => {
   const m = new Map<string, Cell>();
@@ -83,7 +86,7 @@ function planGroup(rs: Row[]): Plan {
   // PROMOTE: every rejected reading of the group, from any document, must be the same full value
   const rej = rs.map((r) => cellOf(r.re, r.url_r, r.rejected)).filter((c): c is Cell => c !== null);
   if (rej.length !== rs.length) return { kind: "hold", why: "a rejected reading carries no document / locator (-> no-live-value, Q11)" };
-  const vals = [...new Set(rs.map((r) => JSON.stringify(r.rejected)))];
+  const vals = [...new Set(rs.map((r) => canon(r.rejected)))];
   if (vals.length !== 1) return { kind: "hold", why: `the rejected readings disagree among themselves (${vals.join(" / ")})` };
   const v = rs[0].rejected;
   if (isRange(v) && v.min === v.max) return { kind: "hold", why: "the rejected reading is itself a single end" };
@@ -104,7 +107,7 @@ toRead.forEach(({ x, c }, i) => {
   if (rr.status !== "ok" || typeof rr.cell !== "string") { bad.push(`${x.rs[0].sku} ${key} ${c.locator}: ${rr.status}`); return; }
   const n = normalizeField(cat, key, rr.cell, { locale: "en" });
   // a cell counts only when today's normaliser re-derives one of the readings the conflicts RECORDED for it
-  if (!n.ok || !c.recorded.has(JSON.stringify(n.value))) { bad.push(`${x.rs[0].sku} ${key} ${c.locator}: cell "${rr.cell}" re-derives ${n.ok ? JSON.stringify(n.value) : n.reason}, the conflicts recorded ${[...c.recorded].join(" / ")}`); return; }
+  if (!n.ok || !c.recorded.has(canon(n.value))) { bad.push(`${x.rs[0].sku} ${key} ${c.locator}: cell "${rr.cell}" re-derives ${n.ok ? JSON.stringify(n.value) : n.reason}, the conflicts recorded ${[...c.recorded].join(" / ")}`); return; }
   ok++; c.now = n.value; cellText.set(`${x.g}|${c.doc_id}|${c.locator}`, rr.cell);
 });
 // the composed value comes from the RE-READ ends, never from the recorded ones
