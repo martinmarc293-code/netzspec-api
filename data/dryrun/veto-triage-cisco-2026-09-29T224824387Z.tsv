@@ -1,0 +1,7 @@
+remedy	category	kind	cup	sku	value	method	doc_type
+to read	optical-networking	mux	humidity_operating	15216-EF-40-EVEN=	{"max": 95, "min": 5}	html_table	vendor_datasheet_html
+to read	optical-networking	mux	humidity_operating	15216-EF-40-ODD=	{"max": 95, "min": 5}	html_table	vendor_datasheet_html
+to read	optical-networking	mux	temp_operating	15216-EF-40-EVEN=	{"max": 65, "min": -5}	html_table	vendor_datasheet_html
+to read	optical-networking	mux	temp_operating	15216-EF-40-ODD=	{"max": 65, "min": -5}	html_table	vendor_datasheet_html
+to read	optical-networking	mux	temp_storage	15216-EF-40-EVEN=	{"max": 85, "min": -40}	html_table	vendor_datasheet_html
+to read	optical-networking	mux	temp_storage	15216-EF-40-ODD=	{"max": 85, "min": -40}	html_table	vendor_datasheet_html

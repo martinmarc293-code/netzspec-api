@@ -50,3 +50,20 @@ A 12 Sep refusal in `tests/ucsKind.test.ts` said UCSC-C3X60-56HD8 "is the C3160 
 the SKU without its name, "UCS C3X60 4 rows of 8TB NL-SAS ... (56Total) 448TB": drive rows ordered into the chassis, whose
 own PID is UCSC-C3X60-BASE. Overturned with the name, and the refusals now pin BASE, a server node, the HANA systems, the
 FBU cable, the JBOD enclosure and an NVMe SSD. 18 new PRE_RULES, 18 probes, each sabotaged.
+
+## Batch G — the rulings on batch-f-report.md (29 Sep 2026)
+
+- **Q19** (the 18 seed-only triples): per triple, the evidence decides. `switches/fex forwarding_rate` widens on its page
+  (12 of 16 seed raws verbatim, witness N2K-C2148T "131 Mpps"); the other 17 triples' **317 seed facts** — German shop
+  renderings typed in as values — are retracted by exact list (run 1425, `retracted:q19-seed-rendering`,
+  `data/reference/q19-seed-retractions-cisco-2026-09-29.tsv`). The veto clears because the false evidence is gone.
+- **Q20** (51 orphans my retractions made): run 1427 `promote-orphan-readings` — the six IE PSUs' `{5,95}` promoted
+  (corroborated by 3–5 documents each), the two 15216-EF-40 muxes' ranges composed from their two cells
+  (`{-5,65}` °C, `{-40,85}` °C, `{5,95}` %), every one of the 39 source cells re-read and re-derived as the gate (an empty
+  cache fails it 0 / 39); 51 conflicts resolved `promoted-reading #<fact>`. The first attempt (run 1426) failed on
+  `facts_current_uq` — the current row was the pour's tombstone — and rolled back clean; the script now supersedes a gap row
+  and refuses a current value. The three mux triples then held real values and widen (witness 15216-EF-40-ODD=).
+- **Q21**: `storage_capacity` band floor 1 GB → 0.0625 GB (64 MB; only Cisco holds the key, 1,268 facts, none under 1 GB);
+  sync run 1423; rekey run 1424 moved the two MEMUSB-128FT flash values.
+
+**Veto after G: 0 triples.**

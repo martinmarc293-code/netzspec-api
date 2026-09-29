@@ -1,0 +1,13 @@
+sku	field	conflicts	action	value	sources	why
+PWR-IE50W-AC=	humidity_operating	999,1656,3102,3119,3127,17048,17060	promote	{"max":95,"min":5}	7b24beb93905621c@t13:r9:c1 37808a639001f3c5@t10:r9:c1 f290019c77b19140@t6:r10:c1 2ea8fc17200677fa@t13:r9:c1 b8622078cd3085fd@t14:r7:c1	
+PWR-IE65W-PC-AC=	humidity_operating	1002,1659,3149,3160,3168,17099,17111	promote	{"max":95,"min":5}	7b24beb93905621c@t13:r9:c1 37808a639001f3c5@t10:r9:c1 f290019c77b19140@t6:r10:c1 2ea8fc17200677fa@t13:r9:c1 b8622078cd3085fd@t14:r7:c1	
+PWR-IE65W-PC-DC=	humidity_operating	1005,1662,3190,3201,3209,17127,17139	promote	{"max":95,"min":5}	7b24beb93905621c@t13:r9:c1 37808a639001f3c5@t10:r9:c1 f290019c77b19140@t6:r10:c1 2ea8fc17200677fa@t13:r9:c1 b8622078cd3085fd@t14:r7:c1	
+PWR-IE170W-PC-AC=	humidity_operating	1060,1731,3337,3347,17154,17166	promote	{"max":95,"min":5}	7b24beb93905621c@t13:r9:c1 37808a639001f3c5@t10:r9:c1 2ea8fc17200677fa@t13:r9:c1 b8622078cd3085fd@t14:r7:c1	
+PWR-IE170W-PC-DC=	humidity_operating	1064,1744,3365,3375,17177	promote	{"max":95,"min":5}	7b24beb93905621c@t13:r9:c1 37808a639001f3c5@t10:r9:c1 2ea8fc17200677fa@t13:r9:c1	
+PWR-IE50W-AC-IEC=	humidity_operating	1069,1756,3300,3315,3324,17075,17087	promote	{"max":95,"min":5}	7b24beb93905621c@t13:r9:c1 37808a639001f3c5@t10:r9:c1 f290019c77b19140@t6:r10:c1 2ea8fc17200677fa@t13:r9:c1 b8622078cd3085fd@t14:r7:c1	
+15216-EF-40-ODD=	temp_operating	16462,37020	compose	{"min":-5,"max":65}	55b1c523dc7301b1@t2:r2:c1 55b1c523dc7301b1@t2:r2:c2	
+15216-EF-40-ODD=	temp_storage	16463,37022	compose	{"min":-40,"max":85}	55b1c523dc7301b1@t2:r3:c1 55b1c523dc7301b1@t2:r3:c2	
+15216-EF-40-ODD=	humidity_operating	16464,37023	compose	{"min":5,"max":95}	55b1c523dc7301b1@t2:r8:c1 55b1c523dc7301b1@t2:r8:c2	
+15216-EF-40-EVEN=	temp_operating	16465,37025	compose	{"min":-5,"max":65}	55b1c523dc7301b1@t2:r2:c3 55b1c523dc7301b1@t2:r2:c4	
+15216-EF-40-EVEN=	temp_storage	16466,37027	compose	{"min":-40,"max":85}	55b1c523dc7301b1@t2:r3:c3 55b1c523dc7301b1@t2:r3:c4	
+15216-EF-40-EVEN=	humidity_operating	16467,37028	compose	{"min":5,"max":95}	55b1c523dc7301b1@t2:r8:c3 55b1c523dc7301b1@t2:r8:c4	

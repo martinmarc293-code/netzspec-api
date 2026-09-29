@@ -246,9 +246,6 @@ export const Q17_R4_REFUSED: readonly { category: string; kind: string; cup: str
   { category: "interfaces-modules", kind: "interface", cup: "certifications", why: "all 3 read ['No']" },
   { category: "routers", kind: "router", cup: "compatible_platform", why: "a prose bullet ('Cisco IOS XE based platforms, including ...'), a relation candidate, not a value" },
   { category: "routers", kind: "chassis", cup: "dram", why: "CRS-4/S '4': a 4-slot system's number read as memory" },
-  { category: "optical-networking", kind: "mux", cup: "temp_operating", why: "{-5,-5}: only one end of the range was read" },
-  { category: "optical-networking", kind: "mux", cup: "temp_storage", why: "{-40,-40}: only one end of the range was read" },
-  { category: "optical-networking", kind: "mux", cup: "humidity_operating", why: "{95,95}: only the upper bound was read" },
   { category: "storage-networking", kind: "director", cup: "cooling", why: "SEED-ONLY: every row is a hexcat_seed whose datasheet doc_id is borrowed provenance (N31) -- reverted pending a table read (reviewer audit of R4, 29 Sep)" },
   { category: "storage-networking", kind: "director", cup: "mgmt_class", why: "SEED-ONLY: every row is a hexcat_seed whose datasheet doc_id is borrowed provenance (N31) -- reverted pending a table read (reviewer audit of R4, 29 Sep)" },
   { category: "storage-networking", kind: "director", cup: "switching_capacity", why: "SEED-ONLY: every row is a hexcat_seed whose datasheet doc_id is borrowed provenance (N31) -- reverted pending a table read (reviewer audit of R4, 29 Sep)" },
@@ -287,6 +284,12 @@ const Q17_READ: readonly (readonly [category: string, kind: string, cup: string,
   // their 317 seed facts (German shop renderings typed in as values) are retracted, so the veto clears because the false evidence
   // is gone, not because the kind set moved (data/reference/q19-seed-retractions-cisco-2026-09-29.tsv).
   ["switches", "fex", "forwarding_rate", "N2K-C2148T", 16],
+  // RULING Q20 (29 Sep 2026): the 15216-EF-40 muxes' one-end readings were retracted as pours (run 1420) and their ranges COMPOSED
+  // from the two cells of one row, each re-read under a gate (run 1427: {-5,65} °C, {-40,85} °C, {5,95} %) -- real values now, so
+  // the three triples leave Q17_R4_REFUSED and widen on them.
+  ["optical-networking", "mux", "temp_operating", "15216-EF-40-ODD=", 2],
+  ["optical-networking", "mux", "temp_storage", "15216-EF-40-ODD=", 2],
+  ["optical-networking", "mux", "humidity_operating", "15216-EF-40-ODD=", 2],
   // the frame reclassified out of `mux` (NCS2K-MF-1RU= "Mechanical Frame - 4 slots - 1 RU") keeps its slot count
   ["optical-networking", "accessory", "module_slots", "NCS2K-MF-1RU=", 1],
   ["optical-networking", "amplifier", "connector", "15454-OPT-BST-E=", 3],
