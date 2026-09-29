@@ -1,8 +1,8 @@
 {
   "vendor": "cisco",
   "category": "meraki",
-  "built_at": "2026-09-29T21:36:04.953Z",
-  "commit": "0921763551db50be769463be783609a8d65dcaf7",
+  "built_at": "2026-09-29T22:09:32.743Z",
+  "commit": "60311ed61231ff407632fc405a23fb98b028099e",
   "uncommitted_rule_files": [],
   "mapping_file": "data/reference/product-lines/cisco-meraki.json",
   "parts": 69,
@@ -632,9 +632,9 @@
   "inbound_unplaced": {},
   "done": true,
   "build": {
-    "data_commit": "0921763551db+84dirty",
-    "code_commit": "0921763551db",
+    "data_commit": "d80ae05d4c5a+88dirty",
+    "code_commit": "9c24544f63c0",
     "contract_hash": "e07214730262c698",
-    "generated_at": "2026-09-29T21:43:23.268Z"
+    "generated_at": "2026-09-29T22:16:29.244Z"
   }
 }

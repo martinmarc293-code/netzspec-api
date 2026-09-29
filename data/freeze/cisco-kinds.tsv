@@ -5052,7 +5052,7 @@ hyperconverged-systems	HX-PCI-2B-240M5	Riser 2B incl 3PCIeslots(x8,x16,x8)+2NVMe
 hyperconverged-systems	HX-PCI-2B-240M5=	Riser 2B incl 3PCIeslots(x8,x16,x8) supports GPU+rear NVMe	nic	
 hyperconverged-systems	HX-PCI-2C-240M5	Riser 2C incll 3 PCIe slots (3 x8) supports front+rear NVMe	nic	
 hyperconverged-systems	HX-PCI-2C-240M5=	Riser 2C incll 3 PCIe slots (3 x8) supports front+rear NVMe	nic	
-hyperconverged-systems	HX-PCI25-40010	400GB 2.5" SFF PCIe/NVMe Storage Intel P3700 High Endurance	nic	
+hyperconverged-systems	HX-PCI25-40010	400GB 2.5" SFF PCIe/NVMe Storage Intel P3700 High Endurance	drive	
 hyperconverged-systems	HX-PCIE-BD16GF	Emulex LPe31002 dual port 16G FC HBA	nic	
 hyperconverged-systems	HX-PCIE-BD16GF=	Emulex LPe31002 dual port 16G FC HBA	nic	
 hyperconverged-systems	HX-PCIE-BD32GF	Emulex LPe32002 Dual-Port 32G FC HBA	nic	
@@ -7425,9 +7425,9 @@ optical-networking	15454-M6-PWRFLR	6 service slot MSTP power filter filler card	
 optical-networking	15454-M6-PWRFLR=	6 service slot MSTP power filter filler card	mechanical	
 optical-networking	15454-M6-SA	6 service slot MSTP shelf, includes M-SHIPKIT, M6-FTF, BRKTS	chassis	
 optical-networking	15454-M6-SA=	6 service slot MSTP shelf, includes M-SHIPKIT, M6-FTF, BRKTS	chassis	
-optical-networking	15454-ML1000-2	1000-Mbps Ethernet card, 2 SFP slots, Layer 2 and Layer 3 switching, SONET (ANSI) system	pluggable	
+optical-networking	15454-ML1000-2	1000-Mbps Ethernet card, 2 SFP slots, Layer 2 and Layer 3 switching, SONET (ANSI) system	linecard	
 optical-networking	15454-ML100T-12	10/100-Mbps Ethernet card, 12 ports, RJ-45, Layer 2 and Layer 3 switching, SONET (ANSI) system, includes console cable	linecard	
-optical-networking	15454-ML100X-8	100 Mbps BASE-FX/LX Ethernet card, eight SFP connections, Layer 2 and Layer 3 switching, SONET (ANSI) system	pluggable	
+optical-networking	15454-ML100X-8	100 Mbps BASE-FX/LX Ethernet card, eight SFP connections, Layer 2 and Layer 3 switching, SONET (ANSI) system	linecard	
 optical-networking	15454-MMU=	Mesh/Multiring upgrade unit, C band and L band, for use with ONS 15454 MSTP Reconfigurable Optical Addr/Drop Multiplexer (ROADM) nodes (32-WSS/32-DMX or 32-WSS-L/32-DMX-L), LC connectors, includes one 2-meter LC/LC fiber-optic cable	mux	
 optical-networking	15454-MPO-8LC-2=	Multi-fiber patchcord - MPO to 8xLC - 2m	cable	
 optical-networking	15454-MPO-8LC-4=	Multi-fiber patchcord - MPO to 8xLC - 4m	cable	
@@ -7496,14 +7496,14 @@ optical-networking	15454-TDC-CC=	Tunable Dispersion Compensation Unit – C- Ban
 optical-networking	15454-TDC-FC=	Tunable Dispersion Compensation Unit – C- Band – Fine	dcu	
 optical-networking	15454-WXC-LIC	80-WXC - 80 chs - C-Band - 10ch Licensed Restricted	roadm	
 optical-networking	15454-WXC-LIC=	80-WXC -80 chs - C-Band - 10ch Licensed Restricted	roadm	
-optical-networking	15454-YCBL-LC=	15454 - 2RU Y-Cable Drawer (8 Modules positions)	cable	
+optical-networking	15454-YCBL-LC=	15454 - 2RU Y-Cable Drawer (8 Modules positions)	accessory	
 optical-networking	15454-YCM-MM-LC=	15454 - Y-Cable Module - MM - LC (1 channel)	mux	
 optical-networking	15454-YCM-SM-LC=	15454 - Y-Cable Module - SM - LC (1 channel)	mux	
 optical-networking	15454E-BLANK=	15454 ETSI Blank Module (Slot Filler)	mechanical	
 optical-networking	15454E-CONSOLE-02	Cable, console, Cisco ML-Series, RJ-11 plug to RJ-45 jack, 22 in. (55.9 cm) long, SDH (ETSI) system	cable	
-optical-networking	15454E-ML1000-2	1000-Mbps Ethernet card, 2 SFP slots, Layer 2 and Layer 3 switching, SDH (ETSI) system	pluggable	
+optical-networking	15454E-ML1000-2	1000-Mbps Ethernet card, 2 SFP slots, Layer 2 and Layer 3 switching, SDH (ETSI) system	linecard	
 optical-networking	15454E-ML100T-12	10/100-Mbps Ethernet card, 12 ports, RJ-45, Layer 2 and Layer 3 switching, SDH (ETSI) system, includes console cable	linecard	
-optical-networking	15454E-ML100X-8	100 Mbps BASE-FX/LX Ethernet card, eight SFP connections, Layer 2 and Layer 3 switching, SDH (ETSI) system	pluggable	
+optical-networking	15454E-ML100X-8	100 Mbps BASE-FX/LX Ethernet card, eight SFP connections, Layer 2 and Layer 3 switching, SDH (ETSI) system	linecard	
 optical-networking	15454E-OPT-BST	^Optical Booster Amplifier Module, EOS 09-05(2800)	amplifier	
 optical-networking	15454E-OPT-BST=	^Optical Booster Amplifier Module, EOS 09-05(2800)	amplifier	
 optical-networking	15454E-OPT-PRE	^Optical Pre-Amplifier Module, EOS 09-05(2800)	amplifier	
@@ -7914,7 +7914,7 @@ optical-networking	NCS2K-LC-LBK=	LC Loopback - Male connectors	cable
 optical-networking	NCS2K-MF-10AD-CFS=	10-Port Add/Drop MF Unit - Colorless Flex Spectrum	mux	
 optical-networking	NCS2K-MF-16AD-CFS=	16-Ports Add/Drop MF Unit - Colorless and FlexSpectrum	mux	
 optical-networking	NCS2K-MF-16AE-CFS=	16-Port Add/Drop + Express MF Unit - Colorless Flex Spectrum	mux	
-optical-networking	NCS2K-MF-1RU=	Mechanical Frame - 4 slots - 1 RU	mux	
+optical-networking	NCS2K-MF-1RU=	Mechanical Frame - 4 slots - 1 RU	accessory	
 optical-networking	NCS2K-MF-1SL-CVR=	Cisco NCS2K-MF-1SL-CVR=	accessory	
 optical-networking	NCS2K-MF-2LC-ADP=	Double LC-LC Adapter MF Unit	mux	
 optical-networking	NCS2K-MF-2MPO-ADP=	Double MPO-16 to 2xMPO-8 Adapter MF Unit - Monitoring	mux	
@@ -7922,7 +7922,7 @@ optical-networking	NCS2K-MF-2SL-CVR=	Cover for the Mechanical Frame w/ USB cable
 optical-networking	NCS2K-MF-4X4-COFS=	4-Degree and 4-Ports Add/Drop MF Unit - CO and FlexSpectrum	mux	
 optical-networking	NCS2K-MF-6AD-CFS=	6-Port Add/Drop MF Unit - Colorless Flex Spectrum	mux	
 optical-networking	NCS2K-MF-6RU-CVR=	Cover for the 6RU Mechanical Frame for Passive Units	mechanical	
-optical-networking	NCS2K-MF-6RU=	Mechanical Frame for Passive Units - 14slots w/ USB Hub - 6RU	mux	
+optical-networking	NCS2K-MF-6RU=	Mechanical Frame for Passive Units - 14slots w/ USB Hub - 6RU	accessory	
 optical-networking	NCS2K-MF-8X10G-FO=	2x4x10G QSFP+ to 10G Fan Out	mux	
 optical-networking	NCS2K-MF-COVER=	1RU cover for mechanical frame	mechanical	
 optical-networking	NCS2K-MF-DEG-5-CV=	5 Degrees Mesh Interconnect - w/ Connection Verification	mux	
@@ -15047,7 +15047,7 @@ security	ST-M6-CPU-A7252	Cisco SNA AMD 3.1GHz 7252 120W 8C/64MB Cache DDR4 3200M
 security	ST-M6-CPU-A7313	Cisco SNA AMD 3.0GHz 7313 155W 16C/128MB Cache DDR4 3200Mhz	cpu	
 security	ST-M6-CPU-A7443	Cisco SNA AMD 2.85GHz 7443 200W 24C/128MB Cache DDR4 3200Mhz	cpu	
 security	ST-M6-CPU-A7453	Cisco SNA CPU AMD 2.75GHz 7453 225W 28C/64MB Cache DDR4 3200	cpu	
-security	ST-M6-D100GF	Cisco SNA MELLANOX CX-5 MCX516A-CDAT 2x100GbE QSFP PCIe NIC	drive	
+security	ST-M6-D100GF	Cisco SNA MELLANOX CX-5 MCX516A-CDAT 2x100GbE QSFP PCIe NIC	nic	
 security	ST-M6-FBRS3-240	C240 / C245 M6 2U Riser3 Filler Blank	mechanical	
 security	ST-M6-HDD-1.2TB	Cisco SNA 1.2TB 12G SAS 10K RPM SFF HDD	drive	
 security	ST-M6-HDD-1.8TB	Cisco SNA 1.8TB 12G SAS 10K RPM SFF HDD (4K)	drive	
@@ -15272,39 +15272,39 @@ servers-unified-computing	C260-MRBD-004=	4 DIMM Memory Riser Board For C260	serv
 servers-unified-computing	C260-PCIE-RSR	PCIe Riser Board For C260	server	
 servers-unified-computing	C260-PCIE-RSR=	PCIe Riser Board For C260	server	
 servers-unified-computing	C6508-BUN1	^DISTIonly: UCS 5108 Chassis, 8fans, 2 FEX, 2PSUs, Rack kit	chassis	
-servers-unified-computing	C880-10G-SFPMOD=	10G LAN SFP+ module	server	
-servers-unified-computing	C880-10GBASE	Cisco C880 M4 Dual 10GBASE Card	server	
-servers-unified-computing	C880-10GBASE=	Cisco C880 M4 Dual 10GBASE Card Spare	server	
-servers-unified-computing	C880-128-2X64-BW	Cisco C880 M4 128GB Memory (2x 64GB LRDIMM DDR4) BW	server	
-servers-unified-computing	C880-128-2X64-BW=	Cisco C880 M4 128GB Memory (2x 64GB LRDIMM DDR4) BW	server	
-servers-unified-computing	C880-128GB-DDR4R	Cisco C880 M5 128GB DDR4 RDIMM v5	server	
-servers-unified-computing	C880-128GB-DDR4R=	Cisco C880 M5 128GB DDR4 RDIMM v5	server	
+servers-unified-computing	C880-10G-SFPMOD=	10G LAN SFP+ module	accessory	
+servers-unified-computing	C880-10GBASE	Cisco C880 M4 Dual 10GBASE Card	nic	
+servers-unified-computing	C880-10GBASE=	Cisco C880 M4 Dual 10GBASE Card Spare	nic	
+servers-unified-computing	C880-128-2X64-BW	Cisco C880 M4 128GB Memory (2x 64GB LRDIMM DDR4) BW	memory	
+servers-unified-computing	C880-128-2X64-BW=	Cisco C880 M4 128GB Memory (2x 64GB LRDIMM DDR4) BW	memory	
+servers-unified-computing	C880-128GB-DDR4R	Cisco C880 M5 128GB DDR4 RDIMM v5	memory	
+servers-unified-computing	C880-128GB-DDR4R=	Cisco C880 M5 128GB DDR4 RDIMM v5	memory	
 servers-unified-computing	C880-12G-RAID-HW	Cisco C880-12G-RAID-HW	storage-controller	
 servers-unified-computing	C880-12G-RAID-HW=	Cisco C880-12G-RAID-HW=	storage-controller	
-servers-unified-computing	C880-16GFC-L202	Cisco C880 M4 Dual Channel 16Gbps FC Card	server	
-servers-unified-computing	C880-16GFC-L202=	Cisco C880 M4 Dual Channel 16Gbps FC Card	server	
+servers-unified-computing	C880-16GFC-L202	Cisco C880 M4 Dual Channel 16Gbps FC Card	nic	
+servers-unified-computing	C880-16GFC-L202=	Cisco C880 M4 Dual Channel 16Gbps FC Card	nic	
 servers-unified-computing	C880-2T-HANA-J-M4	C880 2TB SAP-HANA with internal storage	server	
 servers-unified-computing	C880-2T-HANA-M4	C880 2TB SAP-HANA no storage	server	
 servers-unified-computing	C880-2T-M4	Cisco C880 M4 Server for SAP HANA 2T Scale out	server	
-servers-unified-computing	C880-32-2X16DDR4	Cisco C880 M4 32GB Memory (2x16GB RDIMM DDR4) HW	server	
-servers-unified-computing	C880-32-2X16DDR4=	Cisco C880 M4 32GB Memory (2x16GB RDIMM DDR4) HW	server	
-servers-unified-computing	C880-32GB-2X16	Cisco C880 M4 32 GB Memory Unit (2x16GB)	server	
-servers-unified-computing	C880-32GB-2X16=	Cisco C880 M4 32 GB Memory Unit (2x16GB) Spare	server	
+servers-unified-computing	C880-32-2X16DDR4	Cisco C880 M4 32GB Memory (2x16GB RDIMM DDR4) HW	memory	
+servers-unified-computing	C880-32-2X16DDR4=	Cisco C880 M4 32GB Memory (2x16GB RDIMM DDR4) HW	memory	
+servers-unified-computing	C880-32GB-2X16	Cisco C880 M4 32 GB Memory Unit (2x16GB)	memory	
+servers-unified-computing	C880-32GB-2X16=	Cisco C880 M4 32 GB Memory Unit (2x16GB) Spare	memory	
 servers-unified-computing	C880-3T-HANA-J-M5	C880 M5 v5 8S 3TB 64GB DIMMs and Platinum 8176	server	
-servers-unified-computing	C880-3TB-48X64	Cisco C880-3TB-48X64	server	
-servers-unified-computing	C880-3TBR-48X64	3T Memory Kit 48x64G RDIMM, C880 M5	server	
-servers-unified-computing	C880-40GCNA-BW	Cisco C880 M4 40G C.N.A. BW	server	
-servers-unified-computing	C880-40GCNA-BW=	Cisco C880 M4 40G C.N.A. BW	server	
-servers-unified-computing	C880-40GQSFP-BW	Cisco C880 M4 40G QSFP+ BW	server	
-servers-unified-computing	C880-40GQSFP-BW=	Cisco C880 M4 40G QSFP+ BW	server	
-servers-unified-computing	C880-64-2X32-BW	Cisco C880 M4 64GB Memory (2x32GB RDIMM DDR4) BW	server	
-servers-unified-computing	C880-64-2X32-BW=	Cisco C880 M4 64GB Memory (2x32GB RDIMM DDR4) BW	server	
-servers-unified-computing	C880-64-2X32DDR4	Cisco C880 M4 64GB Memory (2x32GB LRDIMM DDR4) HW	server	
-servers-unified-computing	C880-64-2X32DDR4=	Cisco C880 M4 64GB Memory (2x32GB LRDIMM DDR4) HW	server	
-servers-unified-computing	C880-64GB-2X32	Cisco C880 M4 64 GB Memory Unit (2x 32GB)	server	
-servers-unified-computing	C880-64GB-2X32=	Cisco C880 M4 64 GB Memory Unit (2x 32GB) Spare	server	
-servers-unified-computing	C880-64GB-DDR4R	OEM 64GB DDR4 RDIMM, C880 M5	server	
-servers-unified-computing	C880-64GB-DDR4R=	OEM 64GB DDR4 RDIMM, C880 M5	server	
+servers-unified-computing	C880-3TB-48X64	Cisco C880-3TB-48X64	memory	
+servers-unified-computing	C880-3TBR-48X64	3T Memory Kit 48x64G RDIMM, C880 M5	memory	
+servers-unified-computing	C880-40GCNA-BW	Cisco C880 M4 40G C.N.A. BW	nic	
+servers-unified-computing	C880-40GCNA-BW=	Cisco C880 M4 40G C.N.A. BW	nic	
+servers-unified-computing	C880-40GQSFP-BW	Cisco C880 M4 40G QSFP+ BW	nic	
+servers-unified-computing	C880-40GQSFP-BW=	Cisco C880 M4 40G QSFP+ BW	nic	
+servers-unified-computing	C880-64-2X32-BW	Cisco C880 M4 64GB Memory (2x32GB RDIMM DDR4) BW	memory	
+servers-unified-computing	C880-64-2X32-BW=	Cisco C880 M4 64GB Memory (2x32GB RDIMM DDR4) BW	memory	
+servers-unified-computing	C880-64-2X32DDR4	Cisco C880 M4 64GB Memory (2x32GB LRDIMM DDR4) HW	memory	
+servers-unified-computing	C880-64-2X32DDR4=	Cisco C880 M4 64GB Memory (2x32GB LRDIMM DDR4) HW	memory	
+servers-unified-computing	C880-64GB-2X32	Cisco C880 M4 64 GB Memory Unit (2x 32GB)	memory	
+servers-unified-computing	C880-64GB-2X32=	Cisco C880 M4 64 GB Memory Unit (2x 32GB) Spare	memory	
+servers-unified-computing	C880-64GB-DDR4R	OEM 64GB DDR4 RDIMM, C880 M5	memory	
+servers-unified-computing	C880-64GB-DDR4R=	OEM 64GB DDR4 RDIMM, C880 M5	memory	
 servers-unified-computing	C880-6G-RAID	Cisco C880 M4 Dual channel 6Gps SAS RAID Controller	storage-controller	
 servers-unified-computing	C880-6G-RAID=	Cisco C880 M4 Dual channel 6Gps SAS RAID Controller Spare	storage-controller	
 servers-unified-computing	C880-6T-HANA-J-M4	C880 6TB SAP-HANA with internal storage	server	
@@ -15312,63 +15312,63 @@ servers-unified-computing	C880-6T-HANA-J-M5	C880 M5 v5 8S 6TB 128GB DIMMs and Pl
 servers-unified-computing	C880-6T-HANA-J-M5=	C880 M5 v5 8S 6TB 128GB DIMMs and Platinum 8180M	server	
 servers-unified-computing	C880-6T-HANA-M4	C880 6TB SAP-HANA no storage	server	
 servers-unified-computing	C880-6T-M4	Cisco C880 M4 Server for SAP HANA 6T Scale out	server	
-servers-unified-computing	C880-6TB-48X128	Cisco C880-6TB-48X128	server	
+servers-unified-computing	C880-6TB-48X128	Cisco C880-6TB-48X128	memory	
 servers-unified-computing	C880-900G-HDD	Cisco C880 M4 900GB HDD BW	drive	
 servers-unified-computing	C880-900G-HDD=	Cisco C880 M4 900GB HDD BW	drive	
 servers-unified-computing	C880-BAT-CR2032	Cisco C880 M4 Battery CR2032	power	
 servers-unified-computing	C880-BAT-CR2032=	Cisco C880 M4 Battery CR2032 Spare	power	
 servers-unified-computing	C880-BAT-CR2450=	Cisco C880 M4 Battery CR2450 Spare	power	
-servers-unified-computing	C880-DISK-D061	Cisco C880 M4 Disk Unit	server	
-servers-unified-computing	C880-DISK-D061-HW	Cisco C880 M4 Disk Unit HW	server	
-servers-unified-computing	C880-DISK-D061-HW=	Cisco C880 M4 Disk Unit HW	server	
-servers-unified-computing	C880-DISK-D061=	Cisco C880 M4 Disk Unit Spare	server	
-servers-unified-computing	C880-E78880-4X-KIT	Cisco C880 M4 CPU E7-8880v3 18core/2.3GHz/45MB HW 4x kit	server	
-servers-unified-computing	C880-E78880C	Cisco C880 M4 CPU E7-8880v3 18core/2.3GHz/45MB HW	server	
-servers-unified-computing	C880-E78880C=	Cisco C880 M4 CPU E7-8880v3 18core/2.3GHz/45MB HW	server	
-servers-unified-computing	C880-E78880E	Cisco C880 M4 CPU E7-8880 v4 BW	server	
-servers-unified-computing	C880-E78880E=	Cisco C880 M4 CPU E7-8880 v4 BW	server	
-servers-unified-computing	C880-E78890B	Cisco C880 M4 CPU E7-8890 V2	server	
-servers-unified-computing	C880-E78890B=	Cisco C880 M4 CPU E7-8890 V2 Spare	server	
-servers-unified-computing	C880-E78890E	Cisco C880 M4 CPU E7-8890 v4 BW	server	
-servers-unified-computing	C880-E78890E=	Cisco C880 M4 CPU E7-8890 v4 BW	server	
-servers-unified-computing	C880-FAN-UNIT	Cisco C880 M4 Fan Unit	server	
-servers-unified-computing	C880-FAN-UNIT=	Cisco C880 M4 Fan Unit Spare	server	
-servers-unified-computing	C880-FAN02258	Cisco C880 M4 Fan Module A3C40102258	server	
-servers-unified-computing	C880-FAN02258=	Cisco C880 M4 Fan Module A3C40102258 Spare	server	
-servers-unified-computing	C880-FAN40618	Cisco C880 M4 Fan Module A3C40140618	server	
-servers-unified-computing	C880-FAN40618=	Cisco C880 M4 Fan Module A3C40140618 Spare	server	
-servers-unified-computing	C880-FBU	Cisco C880 M4 Flash Backup Unit	server	
-servers-unified-computing	C880-FBU-BW=	Cisco C880-FBU-BW=	server	
+servers-unified-computing	C880-DISK-D061	Cisco C880 M4 Disk Unit	drive	
+servers-unified-computing	C880-DISK-D061-HW	Cisco C880 M4 Disk Unit HW	drive	
+servers-unified-computing	C880-DISK-D061-HW=	Cisco C880 M4 Disk Unit HW	drive	
+servers-unified-computing	C880-DISK-D061=	Cisco C880 M4 Disk Unit Spare	drive	
+servers-unified-computing	C880-E78880-4X-KIT	Cisco C880 M4 CPU E7-8880v3 18core/2.3GHz/45MB HW 4x kit	cpu	
+servers-unified-computing	C880-E78880C	Cisco C880 M4 CPU E7-8880v3 18core/2.3GHz/45MB HW	cpu	
+servers-unified-computing	C880-E78880C=	Cisco C880 M4 CPU E7-8880v3 18core/2.3GHz/45MB HW	cpu	
+servers-unified-computing	C880-E78880E	Cisco C880 M4 CPU E7-8880 v4 BW	cpu	
+servers-unified-computing	C880-E78880E=	Cisco C880 M4 CPU E7-8880 v4 BW	cpu	
+servers-unified-computing	C880-E78890B	Cisco C880 M4 CPU E7-8890 V2	cpu	
+servers-unified-computing	C880-E78890B=	Cisco C880 M4 CPU E7-8890 V2 Spare	cpu	
+servers-unified-computing	C880-E78890E	Cisco C880 M4 CPU E7-8890 v4 BW	cpu	
+servers-unified-computing	C880-E78890E=	Cisco C880 M4 CPU E7-8890 v4 BW	cpu	
+servers-unified-computing	C880-FAN-UNIT	Cisco C880 M4 Fan Unit	fan	
+servers-unified-computing	C880-FAN-UNIT=	Cisco C880 M4 Fan Unit Spare	fan	
+servers-unified-computing	C880-FAN02258	Cisco C880 M4 Fan Module A3C40102258	fan	
+servers-unified-computing	C880-FAN02258=	Cisco C880 M4 Fan Module A3C40102258 Spare	fan	
+servers-unified-computing	C880-FAN40618	Cisco C880 M4 Fan Module A3C40140618	fan	
+servers-unified-computing	C880-FAN40618=	Cisco C880 M4 Fan Module A3C40140618 Spare	fan	
+servers-unified-computing	C880-FBU	Cisco C880 M4 Flash Backup Unit	mechanical	
+servers-unified-computing	C880-FBU-BW=	Cisco C880-FBU-BW=	mechanical	
 servers-unified-computing	C880-FBU-CBL	Cisco C880 M4 FBU Cable	cable	
 servers-unified-computing	C880-FBU-CBL-HW=	Cisco C880-FBU-CBL-HW=	cable	
 servers-unified-computing	C880-FBU-CBL=	Cisco C880 M4 FBU Cable Spare	cable	
-servers-unified-computing	C880-FBU=	Cisco C880 M4 Flash Backup Unit Spare	server	
-servers-unified-computing	C880-FBUMOUNT	FBU Mount kit	server	
-servers-unified-computing	C880-FBUMOUNT=	FBU Mount kit	server	
-servers-unified-computing	C880-FLASHBACKUP	Flash Backup unit	server	
-servers-unified-computing	C880-FLASHBACKUP=	Flash Backup unit	server	
-servers-unified-computing	C880-FRDKT-D703	Cisco C880 M4 Front Docking Kit	server	
-servers-unified-computing	C880-FRDKT-D703=	Cisco C880 M4 Front Docking Kit Spare	server	
-servers-unified-computing	C880-IO-1GBE	Cisco C880 M4 1GbE I/O Unit	server	
-servers-unified-computing	C880-IO-1GBE=	Cisco C880 M4 1GbE I/O Unit Spare	server	
-servers-unified-computing	C880-J-1.2TB	Cisco C880 M4 1.2TB Disk	server	
-servers-unified-computing	C880-J-1.2TB=	Cisco C880 M4 1.2TB Disk	server	
-servers-unified-computing	C880-J-17-M4	Cisco C880 M4 Attached JBOD for SAP HANA 2T Scale out	server	
-servers-unified-computing	C880-J-20-M5	Cisco C880-J-20-M5	server	
-servers-unified-computing	C880-J-21-M4	Cisco C880 M4 Attached JBOD for SAP HANA 6T Scale out	server	
-servers-unified-computing	C880-J-21-M4=	Cisco C880 M4 Attached JBOD for SAP HANA 6T Scale out	server	
-servers-unified-computing	C880-J-900G	Cisco C880 M4 900G SAS Disk	server	
-servers-unified-computing	C880-J-900G-12G	Cisco C880 M4 900GB 12GSAS Disk	server	
-servers-unified-computing	C880-J-900G-12G=	Cisco C880 M4 900GB 12GSAS Disk	server	
-servers-unified-computing	C880-J-900G=	Cisco C880 M4 900G SAS Disk Spare	server	
-servers-unified-computing	C880-J-BP	Cisco C880 M4 JBOD Backplane	server	
-servers-unified-computing	C880-J-BP=	Cisco C880 M4 JBOD Backplane Spare	server	
-servers-unified-computing	C880-J-EXP	Cisco C880 M4 JBOD Expansion Module	server	
-servers-unified-computing	C880-J-EXP=	Cisco C880 M4 JBOD Expansion Module Spare	server	
-servers-unified-computing	C880-J-PNL	Cisco C880 M4 JBOD Panel	server	
-servers-unified-computing	C880-J-PNL=	Cisco C880 M4 JBOD Panel Spare	server	
-servers-unified-computing	C880-J-PSU	Cisco C880 M4 JBOD Power Supply	server	
-servers-unified-computing	C880-J-PSU=	Cisco C880 M4 JBOD Power Supply Spare	server	
+servers-unified-computing	C880-FBU=	Cisco C880 M4 Flash Backup Unit Spare	mechanical	
+servers-unified-computing	C880-FBUMOUNT	FBU Mount kit	mechanical	
+servers-unified-computing	C880-FBUMOUNT=	FBU Mount kit	mechanical	
+servers-unified-computing	C880-FLASHBACKUP	Flash Backup unit	mechanical	
+servers-unified-computing	C880-FLASHBACKUP=	Flash Backup unit	mechanical	
+servers-unified-computing	C880-FRDKT-D703	Cisco C880 M4 Front Docking Kit	mechanical	
+servers-unified-computing	C880-FRDKT-D703=	Cisco C880 M4 Front Docking Kit Spare	mechanical	
+servers-unified-computing	C880-IO-1GBE	Cisco C880 M4 1GbE I/O Unit	nic	
+servers-unified-computing	C880-IO-1GBE=	Cisco C880 M4 1GbE I/O Unit Spare	nic	
+servers-unified-computing	C880-J-1.2TB	Cisco C880 M4 1.2TB Disk	drive	
+servers-unified-computing	C880-J-1.2TB=	Cisco C880 M4 1.2TB Disk	drive	
+servers-unified-computing	C880-J-17-M4	Cisco C880 M4 Attached JBOD for SAP HANA 2T Scale out	chassis	
+servers-unified-computing	C880-J-20-M5	Cisco C880-J-20-M5	chassis	
+servers-unified-computing	C880-J-21-M4	Cisco C880 M4 Attached JBOD for SAP HANA 6T Scale out	chassis	
+servers-unified-computing	C880-J-21-M4=	Cisco C880 M4 Attached JBOD for SAP HANA 6T Scale out	chassis	
+servers-unified-computing	C880-J-900G	Cisco C880 M4 900G SAS Disk	drive	
+servers-unified-computing	C880-J-900G-12G	Cisco C880 M4 900GB 12GSAS Disk	drive	
+servers-unified-computing	C880-J-900G-12G=	Cisco C880 M4 900GB 12GSAS Disk	drive	
+servers-unified-computing	C880-J-900G=	Cisco C880 M4 900G SAS Disk Spare	drive	
+servers-unified-computing	C880-J-BP	Cisco C880 M4 JBOD Backplane	mechanical	
+servers-unified-computing	C880-J-BP=	Cisco C880 M4 JBOD Backplane Spare	mechanical	
+servers-unified-computing	C880-J-EXP	Cisco C880 M4 JBOD Expansion Module	mechanical	
+servers-unified-computing	C880-J-EXP=	Cisco C880 M4 JBOD Expansion Module Spare	mechanical	
+servers-unified-computing	C880-J-PNL	Cisco C880 M4 JBOD Panel	mechanical	
+servers-unified-computing	C880-J-PNL=	Cisco C880 M4 JBOD Panel Spare	mechanical	
+servers-unified-computing	C880-J-PSU	Cisco C880 M4 JBOD Power Supply	power	
+servers-unified-computing	C880-J-PSU=	Cisco C880 M4 JBOD Power Supply Spare	power	
 servers-unified-computing	C880-J-SASCBL	Cisco C880 M4 JBOD SAS Cable	cable	
 servers-unified-computing	C880-J-SASCBL=	Cisco C880 M4 JBOD SAS Cable Spare	cable	
 servers-unified-computing	C880-JBOD-18TD-HW	Cisco C880 M4 JBOD 1.8TB Drive HW	server	
@@ -15381,67 +15381,67 @@ servers-unified-computing	C880-JBOD-PSU-HW	Cisco C880-JBOD-PSU-HW	server
 servers-unified-computing	C880-JBOD-PSU-HW=	Cisco C880-JBOD-PSU-HW=	server	
 servers-unified-computing	C880-JBOD-SASC-HW	Cisco C880-JBOD-SASC-HW	server	
 servers-unified-computing	C880-JBOD-SASC-HW=	Cisco C880-JBOD-SASC-HW=	server	
-servers-unified-computing	C880-M4-1TB-32GB	1TB DIMM kit 32 x 32GB DDR4	server	
-servers-unified-computing	C880-M4-1TB-KIT	1TB DIMM Kit 32 x 32GB for C880 with v4 CPUs	server	
-servers-unified-computing	C880-M4-2TB-KIT	2TB DIMM Kit 32 x 64GB for C880 with v4 CPUs	server	
-servers-unified-computing	C880-M4-4S-3TB-32G	C880 M4 v3 4S 3TB 32GB DIMMs	server	
-servers-unified-computing	C880-M4-4SBDS-HW	C880 4S system and memory expansion boards	server	
-servers-unified-computing	C880-M4-8S-2TB-32G	C880 M4 v3 8S 2TB 32GB DIMMs	server	
-servers-unified-computing	C880-M4-8S-3TB-16G	C880 M4 v3 8S 3TB 16GB DIMMs	server	
-servers-unified-computing	C880-M4-BOOT	Cisco C880 M4 Interal Boot Kit BW	server	
-servers-unified-computing	C880-M4-CHASSIS=	Spare Chassis for C880 M4	server	
-servers-unified-computing	C880-M4-J-22-1.2TB	Cisco C880 JBOD 22 x 1.2TB	server	
-servers-unified-computing	C880-M4-J-22-1.8TB	C880 JBOD 22 x 1.8TB	server	
-servers-unified-computing	C880-M4-J-22-900GB	C880 JBOD 22 x 900GB	server	
-servers-unified-computing	C880-M4-JBOD-2	C880 2x JBOD with 22 HDD each	server	
+servers-unified-computing	C880-M4-1TB-32GB	1TB DIMM kit 32 x 32GB DDR4	memory	
+servers-unified-computing	C880-M4-1TB-KIT	1TB DIMM Kit 32 x 32GB for C880 with v4 CPUs	memory	
+servers-unified-computing	C880-M4-2TB-KIT	2TB DIMM Kit 32 x 64GB for C880 with v4 CPUs	memory	
+servers-unified-computing	C880-M4-4S-3TB-32G	C880 M4 v3 4S 3TB 32GB DIMMs	memory	
+servers-unified-computing	C880-M4-4SBDS-HW	C880 4S system and memory expansion boards	mechanical	
+servers-unified-computing	C880-M4-8S-2TB-32G	C880 M4 v3 8S 2TB 32GB DIMMs	memory	
+servers-unified-computing	C880-M4-8S-3TB-16G	C880 M4 v3 8S 3TB 16GB DIMMs	memory	
+servers-unified-computing	C880-M4-BOOT	Cisco C880 M4 Interal Boot Kit BW	mechanical	
+servers-unified-computing	C880-M4-CHASSIS=	Spare Chassis for C880 M4	chassis	
+servers-unified-computing	C880-M4-J-22-1.2TB	Cisco C880 JBOD 22 x 1.2TB	chassis	
+servers-unified-computing	C880-M4-J-22-1.8TB	C880 JBOD 22 x 1.8TB	chassis	
+servers-unified-computing	C880-M4-J-22-900GB	C880 JBOD 22 x 900GB	chassis	
+servers-unified-computing	C880-M4-JBOD-2	C880 2x JBOD with 22 HDD each	chassis	
 servers-unified-computing	C880-M4-SER-CBL	Cisco C880 M4 Serial Cable	cable	
 servers-unified-computing	C880-M4-SER-CBL=	Cisco C880 M4 Serial Cable	cable	
-servers-unified-computing	C880-M4-V4-2TB-32G	C880 M4 v4 8S 2TB 32GB DIMM	server	
-servers-unified-computing	C880-M4-V4-2TB-64G	C880 M4 8S 2TB 64GB DIMM	server	
-servers-unified-computing	C880-M5-CHASSIS=	Spare Chassis for C880 M5	server	
-servers-unified-computing	C880-MEM-MEZZ2	Cisco C880 M4 Memory Expansion Board	server	
-servers-unified-computing	C880-MEM-MEZZ2-BW	Cisco C880 M4 Memory Expansion Board BW	server	
-servers-unified-computing	C880-MEM-MEZZ2-BW=	Cisco C880 M4 Memory Expansion Board BW	server	
-servers-unified-computing	C880-MEM-MEZZ2-HW	Cisco C880 M4 Memory Expansion Board HW	server	
-servers-unified-computing	C880-MEM-MEZZ2-HW=	Cisco C880 M4 Memory Expansion Board HW	server	
-servers-unified-computing	C880-MEM-MEZZ2=	Cisco C880 M4 Memory Expansion Board Spare	server	
-servers-unified-computing	C880-MIDPLN	Cisco C880 M4 Server Midplane	server	
-servers-unified-computing	C880-MIDPLN-HW	Cisco C880 M4 Server Midplane HW	server	
-servers-unified-computing	C880-MIDPLN-HW=	Cisco C880 M4 Server Midplane HW	server	
-servers-unified-computing	C880-MIDPLN=	Cisco C880 M4 Server Midplane Spare	server	
-servers-unified-computing	C880-MMB-2-HW	Cisco C880 M4 MMB Unit HW	server	
-servers-unified-computing	C880-MMB-2-HW=	Cisco C880 M4 MMB Unit HW	server	
-servers-unified-computing	C880-MMB-3-BDW	Cisco C880 M4 MMB Unit BW	server	
-servers-unified-computing	C880-MMB-3-BDW=	Cisco C880 M4 MMB Unit BW	server	
-servers-unified-computing	C880-MMB-D053-2	Cisco C880 M4 MMB Unit	server	
-servers-unified-computing	C880-MMB-D053-2=	Cisco C880 M4 MMB Unit Spare	server	
-servers-unified-computing	C880-OPL	Cisco C880 M4 Server OPL	server	
-servers-unified-computing	C880-OPL=	Cisco C880 M4 Server OPL Spare	server	
-servers-unified-computing	C880-PSU	Cisco C880 M4 Power Supply	server	
-servers-unified-computing	C880-PSU-HW	Cisco C880 M4 Power Supply HW	server	
-servers-unified-computing	C880-PSU=	Cisco C880 M4 Power Supply Spare	server	
-servers-unified-computing	C880-SAS-C200	Cisco C880 M4 SAS Internal RAID Controller	server	
-servers-unified-computing	C880-SAS-C200=	Cisco C880 M4 SAS Internal RAID Controller Spare	server	
-servers-unified-computing	C880-SAS-RC-HW	Cisco C880-SAS-RC-HW	server	
-servers-unified-computing	C880-SAS-RC-HW=	Cisco C880-SAS-RC-HW=	server	
-servers-unified-computing	C880-SASCONTR	Dual Channel 6Gbps SAS RAID controller	server	
-servers-unified-computing	C880-SASCONTR=	Dual Channel 6Gbps SAS RAID controller	server	
+servers-unified-computing	C880-M4-V4-2TB-32G	C880 M4 v4 8S 2TB 32GB DIMM	memory	
+servers-unified-computing	C880-M4-V4-2TB-64G	C880 M4 8S 2TB 64GB DIMM	memory	
+servers-unified-computing	C880-M5-CHASSIS=	Spare Chassis for C880 M5	chassis	
+servers-unified-computing	C880-MEM-MEZZ2	Cisco C880 M4 Memory Expansion Board	mechanical	
+servers-unified-computing	C880-MEM-MEZZ2-BW	Cisco C880 M4 Memory Expansion Board BW	mechanical	
+servers-unified-computing	C880-MEM-MEZZ2-BW=	Cisco C880 M4 Memory Expansion Board BW	mechanical	
+servers-unified-computing	C880-MEM-MEZZ2-HW	Cisco C880 M4 Memory Expansion Board HW	mechanical	
+servers-unified-computing	C880-MEM-MEZZ2-HW=	Cisco C880 M4 Memory Expansion Board HW	mechanical	
+servers-unified-computing	C880-MEM-MEZZ2=	Cisco C880 M4 Memory Expansion Board Spare	mechanical	
+servers-unified-computing	C880-MIDPLN	Cisco C880 M4 Server Midplane	mechanical	
+servers-unified-computing	C880-MIDPLN-HW	Cisco C880 M4 Server Midplane HW	mechanical	
+servers-unified-computing	C880-MIDPLN-HW=	Cisco C880 M4 Server Midplane HW	mechanical	
+servers-unified-computing	C880-MIDPLN=	Cisco C880 M4 Server Midplane Spare	mechanical	
+servers-unified-computing	C880-MMB-2-HW	Cisco C880 M4 MMB Unit HW	mechanical	
+servers-unified-computing	C880-MMB-2-HW=	Cisco C880 M4 MMB Unit HW	mechanical	
+servers-unified-computing	C880-MMB-3-BDW	Cisco C880 M4 MMB Unit BW	mechanical	
+servers-unified-computing	C880-MMB-3-BDW=	Cisco C880 M4 MMB Unit BW	mechanical	
+servers-unified-computing	C880-MMB-D053-2	Cisco C880 M4 MMB Unit	mechanical	
+servers-unified-computing	C880-MMB-D053-2=	Cisco C880 M4 MMB Unit Spare	mechanical	
+servers-unified-computing	C880-OPL	Cisco C880 M4 Server OPL	mechanical	
+servers-unified-computing	C880-OPL=	Cisco C880 M4 Server OPL Spare	mechanical	
+servers-unified-computing	C880-PSU	Cisco C880 M4 Power Supply	power	
+servers-unified-computing	C880-PSU-HW	Cisco C880 M4 Power Supply HW	power	
+servers-unified-computing	C880-PSU=	Cisco C880 M4 Power Supply Spare	power	
+servers-unified-computing	C880-SAS-C200	Cisco C880 M4 SAS Internal RAID Controller	storage-controller	
+servers-unified-computing	C880-SAS-C200=	Cisco C880 M4 SAS Internal RAID Controller Spare	storage-controller	
+servers-unified-computing	C880-SAS-RC-HW	Cisco C880-SAS-RC-HW	storage-controller	
+servers-unified-computing	C880-SAS-RC-HW=	Cisco C880-SAS-RC-HW=	storage-controller	
+servers-unified-computing	C880-SASCONTR	Dual Channel 6Gbps SAS RAID controller	storage-controller	
+servers-unified-computing	C880-SASCONTR=	Dual Channel 6Gbps SAS RAID controller	storage-controller	
 servers-unified-computing	C880-SASI-RC-HW	Cisco C880 M4 SAS Internal RAID Controller HW	storage-controller	
 servers-unified-computing	C880-SASI-RC-HW=	Cisco C880 M4 SAS Internal RAID Controller HW	storage-controller	
-servers-unified-computing	C880-SBU-D602	Cisco C880 M4 System Board Unit	server	
-servers-unified-computing	C880-SBU-D602-BW	Cisco C880 M4 System Unit Board BW	server	
-servers-unified-computing	C880-SBU-D602-BW=	Cisco C880 M4 System Unit Board BW	server	
-servers-unified-computing	C880-SBU-D602-HW	Cisco C880 M4 System Board Unit HW	server	
-servers-unified-computing	C880-SBU-D602-HW=	Cisco C880 M4 System Board Unit HW	server	
-servers-unified-computing	C880-SBU-D602=	Cisco C880 M4 System Board Unit Spare	server	
-servers-unified-computing	C880-SFPMOD	Cisco C880 M4 SFP+ Module	server	
-servers-unified-computing	C880-SFPMOD2	Cisco C880 M4 SFP+ Module Spare	server	
-servers-unified-computing	C880-SFPMOD2=	Cisco C880 M4 SFP+ Module Spare	server	
-servers-unified-computing	C880-SFPMOD=	Cisco C880 M4 SFP+ Module Spare	server	
-servers-unified-computing	C880-TFM	Cisco C880 M4 TFM Module	server	
-servers-unified-computing	C880-TFM-HW	Cisco C880-TFM-HW	server	
-servers-unified-computing	C880-TFM-HW=	Cisco C880-TFM-HW=	server	
-servers-unified-computing	C880-TFM=	Cisco C880 M4 TFM Module Spare	server	
+servers-unified-computing	C880-SBU-D602	Cisco C880 M4 System Board Unit	mechanical	
+servers-unified-computing	C880-SBU-D602-BW	Cisco C880 M4 System Unit Board BW	mechanical	
+servers-unified-computing	C880-SBU-D602-BW=	Cisco C880 M4 System Unit Board BW	mechanical	
+servers-unified-computing	C880-SBU-D602-HW	Cisco C880 M4 System Board Unit HW	mechanical	
+servers-unified-computing	C880-SBU-D602-HW=	Cisco C880 M4 System Board Unit HW	mechanical	
+servers-unified-computing	C880-SBU-D602=	Cisco C880 M4 System Board Unit Spare	mechanical	
+servers-unified-computing	C880-SFPMOD	Cisco C880 M4 SFP+ Module	accessory	
+servers-unified-computing	C880-SFPMOD2	Cisco C880 M4 SFP+ Module Spare	accessory	
+servers-unified-computing	C880-SFPMOD2=	Cisco C880 M4 SFP+ Module Spare	accessory	
+servers-unified-computing	C880-SFPMOD=	Cisco C880 M4 SFP+ Module Spare	accessory	
+servers-unified-computing	C880-TFM	Cisco C880 M4 TFM Module	mechanical	
+servers-unified-computing	C880-TFM-HW	Cisco C880-TFM-HW	mechanical	
+servers-unified-computing	C880-TFM-HW=	Cisco C880-TFM-HW=	mechanical	
+servers-unified-computing	C880-TFM=	Cisco C880 M4 TFM Module Spare	mechanical	
 servers-unified-computing	C885A-M8-CC-SLD01	UCS C885A M8 CPU SLED AMD 9554 96GB 5600 DDR5 CX-7 B3220	server	
 servers-unified-computing	C885A-M8-CC-SLD01=	UCS C885A M8 CPU SLED AMD 9554 96GB 5600 DDR5 CX-7 B3220	server	
 servers-unified-computing	C885A-M8-CC-SLD02	UCS C885A M8 CPU SLED AMD9575F 96GB 6400DDR5 B3140H B3220 NG	server	
@@ -15929,7 +15929,7 @@ servers-unified-computing	E160DM2-SVC	CANIS SERVICES ONLY SPARE	server
 servers-unified-computing	E160DPM1-10G-SVC	CANIS SERVICES ONLY SPARE	server	
 servers-unified-computing	E160DPM1-SVC	CANIS SERVICES ONLY SPARE	server	
 servers-unified-computing	E180DM2-SVC	CANIS SERVICES ONLY SPARE	server	
-servers-unified-computing	EM3-AF-480G-4T	480GB SSD + 4TB SSD Combo	memory	
+servers-unified-computing	EM3-AF-480G-4T	480GB SSD + 4TB SSD Combo	drive	
 servers-unified-computing	EM3-MEM-16G	16 GB 1200MHz VLP RDIMM/PC4-2400 2R for UCS-E M3	memory	
 servers-unified-computing	EM3-MEM-16G=	16 GB 1200MHz VLP RDIMM/PC4-2400 2R for UCS-E M3	memory	
 servers-unified-computing	EM3-MEM-32G	32 GB 1200MHz VLP RDIMM/PC4-2400 2R for UCS-E M3	memory	
@@ -16395,24 +16395,24 @@ servers-unified-computing	UCS-C3K-M4WIO-PKG=	UCS C3000 M4 Server Node and PCIe E
 servers-unified-computing	UCS-C3K-SSD10	Cisco UCS C3X60 SSD+HDD Row	drive	
 servers-unified-computing	UCS-C3K-TSSD4K9	Cisco UCS C3000 400G Self Encrypt SED Top Load	drive	
 servers-unified-computing	UCS-C3K-TSSD4K9=	Cisco UCS C3000 400G Self Encrypt SED Top Load	drive	
-servers-unified-computing	UCS-C3X60-12G016	UCSC Cisco C3X60 1.6TB SSD	chassis	
-servers-unified-computing	UCS-C3X60-12G016=	UCSC Cisco C3X60 1.6TB SSD	chassis	
-servers-unified-computing	UCS-C3X60-12G0400	UCS C3X60 400GB Enterprise Performance 12G SAS SSD	chassis	
-servers-unified-computing	UCS-C3X60-12G0400=	UCS C3X60 400GB Enterprise Performance 12G SAS SSD	chassis	
-servers-unified-computing	UCS-C3X60-12G2160	UCSC C3X60 1.6TB 12Gbps SSD (Gen 2)	chassis	
-servers-unified-computing	UCS-C3X60-12G2160=	UCSC C3X60 1.6TB 12Gbps SSD (Gen 2)	chassis	
-servers-unified-computing	UCS-C3X60-12G240	UCSC C3X60 400GB 12Gbps SSD (Gen 2)	chassis	
-servers-unified-computing	UCS-C3X60-12G240=	UCSC C3X60 400GB 12Gbps SSD (Gen 2)	chassis	
-servers-unified-computing	UCS-C3X60-12G280	UCSC C3X60 800GB 12Gbps SSD (Gen 2)	chassis	
-servers-unified-computing	UCS-C3X60-12G280=	UCSC C3X60 800GB 12Gbps SSD (Gen 2)	chassis	
-servers-unified-computing	UCS-C3X60-G1SD480	Cisco UCS C3X60 480GB SATA Boot SSD	chassis	
-servers-unified-computing	UCS-C3X60-G1SD480=	Cisco UCS C3X60 480GB SATA Boot SSD	chassis	
-servers-unified-computing	UCS-C3X60-G2SD12	UCSC C3X60 120GB Boot SSD (Gen 2)	chassis	
-servers-unified-computing	UCS-C3X60-G2SD12=	UCSC C3X60 120GB Boot SSD (Gen 2)	chassis	
-servers-unified-computing	UCS-C3X60-G2SD160	UCSC C3X60 1.6TB Boot SSD (Gen 2)	chassis	
-servers-unified-computing	UCS-C3X60-G2SD160=	UCSC C3X60 1.6TB Boot SSD (Gen 2)	chassis	
-servers-unified-computing	UCS-C3X60-G2SD48	UCSC C3X60 480GB Boot SSD (Gen 2)	chassis	
-servers-unified-computing	UCS-C3X60-G2SD48=	UCSC C3X60 480GB Boot SSD (Gen 2)	chassis	
+servers-unified-computing	UCS-C3X60-12G016	UCSC Cisco C3X60 1.6TB SSD	drive	
+servers-unified-computing	UCS-C3X60-12G016=	UCSC Cisco C3X60 1.6TB SSD	drive	
+servers-unified-computing	UCS-C3X60-12G0400	UCS C3X60 400GB Enterprise Performance 12G SAS SSD	drive	
+servers-unified-computing	UCS-C3X60-12G0400=	UCS C3X60 400GB Enterprise Performance 12G SAS SSD	drive	
+servers-unified-computing	UCS-C3X60-12G2160	UCSC C3X60 1.6TB 12Gbps SSD (Gen 2)	drive	
+servers-unified-computing	UCS-C3X60-12G2160=	UCSC C3X60 1.6TB 12Gbps SSD (Gen 2)	drive	
+servers-unified-computing	UCS-C3X60-12G240	UCSC C3X60 400GB 12Gbps SSD (Gen 2)	drive	
+servers-unified-computing	UCS-C3X60-12G240=	UCSC C3X60 400GB 12Gbps SSD (Gen 2)	drive	
+servers-unified-computing	UCS-C3X60-12G280	UCSC C3X60 800GB 12Gbps SSD (Gen 2)	drive	
+servers-unified-computing	UCS-C3X60-12G280=	UCSC C3X60 800GB 12Gbps SSD (Gen 2)	drive	
+servers-unified-computing	UCS-C3X60-G1SD480	Cisco UCS C3X60 480GB SATA Boot SSD	drive	
+servers-unified-computing	UCS-C3X60-G1SD480=	Cisco UCS C3X60 480GB SATA Boot SSD	drive	
+servers-unified-computing	UCS-C3X60-G2SD12	UCSC C3X60 120GB Boot SSD (Gen 2)	drive	
+servers-unified-computing	UCS-C3X60-G2SD12=	UCSC C3X60 120GB Boot SSD (Gen 2)	drive	
+servers-unified-computing	UCS-C3X60-G2SD160	UCSC C3X60 1.6TB Boot SSD (Gen 2)	drive	
+servers-unified-computing	UCS-C3X60-G2SD160=	UCSC C3X60 1.6TB Boot SSD (Gen 2)	drive	
+servers-unified-computing	UCS-C3X60-G2SD48	UCSC C3X60 480GB Boot SSD (Gen 2)	drive	
+servers-unified-computing	UCS-C3X60-G2SD48=	UCSC C3X60 480GB Boot SSD (Gen 2)	drive	
 servers-unified-computing	UCS-C4200-MLB	UCS 4200 MLB	chassis	
 servers-unified-computing	UCS-COPC-220A-SWHP	UCS C220 M4 SFF w/o CPU, mem, HD, PCIe, PSU, rail kit	server	
 servers-unified-computing	UCS-COPC-220P-SWHP	UCS C220 M4 SFF w/o CPU, mem, HD, PCIe, PSU, rail kit	server	
@@ -18595,16 +18595,16 @@ servers-unified-computing	UCS-OPS-C240M4S2	UCS C240M4S2 w/ 2xE52643 v3, 4x16GB m
 servers-unified-computing	UCS-P100CBL-240-D=	C240M7 NVIDIA P100 /A100 /A40 / A16 / A30 Cable	cable	
 servers-unified-computing	UCS-P100CBL-240M5	C240/C245 M5/M6 NVIDIA P100 /V100 /RTX /A100 /A40 /A16 Cable	cable	
 servers-unified-computing	UCS-P100CBL-240M5=	C240/C245 M5/M6 NVIDIA P100 /V100 /RTX /A100 /A40 /A16 Cable	cable	
-servers-unified-computing	UCS-PCI25-16003	1600GB 2.5" SFF PCIe/NVMe Storage Intel P3600 High Endurance	nic	
-servers-unified-computing	UCS-PCI25-16003=	1600GB 2.5" SFF PCIe/NVMe Storage Intel P3600 High Endurance	nic	
-servers-unified-computing	UCS-PCI25-38001	UCS PCIe/NVMe2.5"SFF Storage 3800GB HGST SN100 ReadIntensive	nic	
-servers-unified-computing	UCS-PCI25-38001=	UCS PCIe/NVMe2.5"SFF Storage 3800GB HGST SN100 ReadIntensive	nic	
-servers-unified-computing	UCS-PCI25-40010	400GB 2.5" SFF PCIe/NVMe Storage Intel P3700 High Endurance	nic	
-servers-unified-computing	UCS-PCI25-40010=	400GB 2.5" SFF PCIe/NVMe Storage Intel P3700 High Endurance	nic	
-servers-unified-computing	UCS-PCI25-80010	800GB 2.5" SFF PCIe/NVMe Storage Intel P3700 High Endurance	nic	
-servers-unified-computing	UCS-PCI25-80010=	800GB 2.5" SFF PCIe/NVMe Storage Intel P3700 High Endurance	nic	
-servers-unified-computing	UCS-PCI25-8003	800GB 2.5" SFF PCIe/NVMe Storage Intel P3600 High Endurance	nic	
-servers-unified-computing	UCS-PCI25-8003=	800GB 2.5" SFF PCIe/NVMe Storage Intel P3600 High Endurance	nic	
+servers-unified-computing	UCS-PCI25-16003	1600GB 2.5" SFF PCIe/NVMe Storage Intel P3600 High Endurance	drive	
+servers-unified-computing	UCS-PCI25-16003=	1600GB 2.5" SFF PCIe/NVMe Storage Intel P3600 High Endurance	drive	
+servers-unified-computing	UCS-PCI25-38001	UCS PCIe/NVMe2.5"SFF Storage 3800GB HGST SN100 ReadIntensive	drive	
+servers-unified-computing	UCS-PCI25-38001=	UCS PCIe/NVMe2.5"SFF Storage 3800GB HGST SN100 ReadIntensive	drive	
+servers-unified-computing	UCS-PCI25-40010	400GB 2.5" SFF PCIe/NVMe Storage Intel P3700 High Endurance	drive	
+servers-unified-computing	UCS-PCI25-40010=	400GB 2.5" SFF PCIe/NVMe Storage Intel P3700 High Endurance	drive	
+servers-unified-computing	UCS-PCI25-80010	800GB 2.5" SFF PCIe/NVMe Storage Intel P3700 High Endurance	drive	
+servers-unified-computing	UCS-PCI25-80010=	800GB 2.5" SFF PCIe/NVMe Storage Intel P3700 High Endurance	drive	
+servers-unified-computing	UCS-PCI25-8003	800GB 2.5" SFF PCIe/NVMe Storage Intel P3600 High Endurance	drive	
+servers-unified-computing	UCS-PCI25-8003=	800GB 2.5" SFF PCIe/NVMe Storage Intel P3600 High Endurance	drive	
 servers-unified-computing	UCS-PKG-300W-240M4	Packaging for 300W Kit for C240M4	mechanical	
 servers-unified-computing	UCS-PKG-300W-460M4	Packaging for 300W CBL for C460M4/C240M5/C480M5	mechanical	
 servers-unified-computing	UCS-PSU-6248-HVDC	UCS 750W 200V-380V DC Hot Plug Power Supply for 6428UP FI	power	
@@ -20977,71 +20977,71 @@ servers-unified-computing	UCSC-C3260-SIOC	Cisco UCS C3260 System IO Controller w
 servers-unified-computing	UCSC-C3260-SIOC=	Cisco UCS C3260 System IO Controller w VIC1300 incl (Spare)	io-module	
 servers-unified-computing	UCSC-C3K-HD4TB	Cisco UCSC-C3K-HD4TB	drive	
 servers-unified-computing	UCSC-C3K-HD4TB=	Cisco UCSC-C3K-HD4TB=	drive	
-servers-unified-computing	UCSC-C3K-M4IO	Cisco UCS S3260 I/O Expander for M4/M5 Server Node	drive	
-servers-unified-computing	UCSC-C3K-M4IO=	Cisco UCS S3260 I/O Expander for M4/M5 Server Node	drive	
-servers-unified-computing	UCSC-C3K-M4IOTOOL=	Cisco UCSC-C3K-M4IOTOOL=	drive	
-servers-unified-computing	UCSC-C3K-M4SRB	UCS C3000 M4 Server Node for Intel E5-2600 v4	drive	
-servers-unified-computing	UCSC-C3K-M4SRB-U	UCS S3260 M4 Svr Node w/o CPU, memory	drive	
-servers-unified-computing	UCSC-C3K-M4SRB=	UCS S3260 M4 Svr Node w/o CPU, memory (svc spare)	drive	
-servers-unified-computing	UCSC-C3K-M4SRI-U	UCS S3260 M4 Svr Node w/IOE Configurable	drive	
-servers-unified-computing	UCSC-C3K-M4SVR3	C3000 M4 ServerNode 2xE5-2680V4 CPU, Memory, RAID Controller	drive	
-servers-unified-computing	UCSC-C3K-M4SVR3=	C3000 M4 ServerNode 2xE5-2680V4 CPU, Memory, RAID Controller	drive	
+servers-unified-computing	UCSC-C3K-M4IO	Cisco UCS S3260 I/O Expander for M4/M5 Server Node	io-module	
+servers-unified-computing	UCSC-C3K-M4IO=	Cisco UCS S3260 I/O Expander for M4/M5 Server Node	io-module	
+servers-unified-computing	UCSC-C3K-M4IOTOOL=	Cisco UCSC-C3K-M4IOTOOL=	mechanical	
+servers-unified-computing	UCSC-C3K-M4SRB	UCS C3000 M4 Server Node for Intel E5-2600 v4	server	
+servers-unified-computing	UCSC-C3K-M4SRB-U	UCS S3260 M4 Svr Node w/o CPU, memory	server	
+servers-unified-computing	UCSC-C3K-M4SRB=	UCS S3260 M4 Svr Node w/o CPU, memory (svc spare)	server	
+servers-unified-computing	UCSC-C3K-M4SRI-U	UCS S3260 M4 Svr Node w/IOE Configurable	server	
+servers-unified-computing	UCSC-C3K-M4SVR3	C3000 M4 ServerNode 2xE5-2680V4 CPU, Memory, RAID Controller	server	
+servers-unified-computing	UCSC-C3K-M4SVR3=	C3000 M4 ServerNode 2xE5-2680V4 CPU, Memory, RAID Controller	server	
 servers-unified-computing	UCSC-C3K-NV16	Cisco UCS C3000 1.6TB NVMe SSD for M4 Server Node	drive	
 servers-unified-computing	UCSC-C3K-NV16=	Cisco UCS C3000 1.6TB NVMe SSD for M4 Server Node	drive	
 servers-unified-computing	UCSC-C3K-NV38	Cisco UCS C3000 3.8TB NVMe SSD for M4 Server Blade	drive	
 servers-unified-computing	UCSC-C3K-NV38=	Cisco UCS C3000 3.8TB NVMe SSD for M4 Server Blade	drive	
 servers-unified-computing	UCSC-C3K-NV8	Cisco UCS C3000 800G NVMe SSD for M4 Server Node	drive	
 servers-unified-computing	UCSC-C3K-NV8=	Cisco UCS C3000 800G NVMe SSD for M4 Server Node	drive	
-servers-unified-computing	UCSC-C3X60-10TB	Cisco UCSC-C3X60-10TB	chassis	
-servers-unified-computing	UCSC-C3X60-12SSD	UCS C3X60 SATA SSD 120GB Enterprise Value	chassis	
-servers-unified-computing	UCSC-C3X60-12SSD=	UCS C3X60 SATA SSD 120GB Enterprise Value	chassis	
-servers-unified-computing	UCSC-C3X60-14HD4	Cisco UCS C3X60 One row of 14x 4TB (Total:56TB) Drives	chassis	
-servers-unified-computing	UCSC-C3X60-14HD4=	Cisco UCS C3X60 One row of drives containing 14x4TB SPARE	chassis	
-servers-unified-computing	UCSC-C3X60-14HD6	Cisco UCS C3X60 One row of drives containing 14 x 6TB (Total	chassis	
-servers-unified-computing	UCSC-C3X60-14HD6=	Cisco UCS C3X60 One row of drives containing 14 x 6TB (Total	chassis	
-servers-unified-computing	UCSC-C3X60-14HD8	UCS C3X60 1 row of 8TB NL-SAS 7200 RPM SAS-3 (14Total) 112TB	chassis	
-servers-unified-computing	UCSC-C3X60-14HD8=	UCS C3X60 1 row of 8TB NL-SAS 7200 RPM SAS-3 (14Total) 112TB	chassis	
-servers-unified-computing	UCSC-C3X60-28HD4	Cisco UCS C3X60 two row of 28x 4TB(Total: 112TB) Drives	chassis	
-servers-unified-computing	UCSC-C3X60-28HD6	Cisco UCS C3X60 Two row of drives containing 28 x 6TB (Total	chassis	
-servers-unified-computing	UCSC-C3X60-28HD8	UCS C3X60 2 rows of 8TB NL-SAS7200 RPM SAS-3 (28Total) 224TB	chassis	
-servers-unified-computing	UCSC-C3X60-42HD4	Cisco UCS C3X60 Three rows of 42x 4TB (Total:168TB) Drives	chassis	
-servers-unified-computing	UCSC-C3X60-42HD6	Cisco UCS C3X60 Three row of drives containing 42 x 6TB (Tot	chassis	
-servers-unified-computing	UCSC-C3X60-42HD8	UCS C3X60 3 rows of 8TB NL-SAS7200 RPM SAS-3 (42Total) 336TB	chassis	
-servers-unified-computing	UCSC-C3X60-56HD4	Cisco UCS C3X60 Four rows56x 4TB (Total:224TB) Drives	chassis	
-servers-unified-computing	UCSC-C3X60-56HD6	Cisco UCS C3X60 Four row of drives containing 56 x 6TB (Tota	chassis	
-servers-unified-computing	UCSC-C3X60-56HD8	UCS C3X60 4 rows of 8TB NL-SAS7200 RPM SAS-3 (56Total) 448TB	chassis	
-servers-unified-computing	UCSC-C3X60-6TBRR	UCS C3X60 6TB 12Gbps NL-SAS 7200RPM HDD w carrier- Rear-load	chassis	
-servers-unified-computing	UCSC-C3X60-6TBRR=	UCS C3X60 6TB 12Gbps NL-SAS 7200RPM HDD w carrier- Rear-load	chassis	
-servers-unified-computing	UCSC-C3X60-8TBRR	UCSC 3X60 8TB NL-SAS 7.2K Helium HDD rear with HDD Carrier	chassis	
-servers-unified-computing	UCSC-C3X60-8TBRR=	UCSC 3X60 8TB NL-SAS 7.2K Helium HDD rear with HDD Carrier	chassis	
+servers-unified-computing	UCSC-C3X60-10TB	Cisco UCSC-C3X60-10TB	drive	
+servers-unified-computing	UCSC-C3X60-12SSD	UCS C3X60 SATA SSD 120GB Enterprise Value	drive	
+servers-unified-computing	UCSC-C3X60-12SSD=	UCS C3X60 SATA SSD 120GB Enterprise Value	drive	
+servers-unified-computing	UCSC-C3X60-14HD4	Cisco UCS C3X60 One row of 14x 4TB (Total:56TB) Drives	drive	
+servers-unified-computing	UCSC-C3X60-14HD4=	Cisco UCS C3X60 One row of drives containing 14x4TB SPARE	drive	
+servers-unified-computing	UCSC-C3X60-14HD6	Cisco UCS C3X60 One row of drives containing 14 x 6TB (Total	drive	
+servers-unified-computing	UCSC-C3X60-14HD6=	Cisco UCS C3X60 One row of drives containing 14 x 6TB (Total	drive	
+servers-unified-computing	UCSC-C3X60-14HD8	UCS C3X60 1 row of 8TB NL-SAS 7200 RPM SAS-3 (14Total) 112TB	drive	
+servers-unified-computing	UCSC-C3X60-14HD8=	UCS C3X60 1 row of 8TB NL-SAS 7200 RPM SAS-3 (14Total) 112TB	drive	
+servers-unified-computing	UCSC-C3X60-28HD4	Cisco UCS C3X60 two row of 28x 4TB(Total: 112TB) Drives	drive	
+servers-unified-computing	UCSC-C3X60-28HD6	Cisco UCS C3X60 Two row of drives containing 28 x 6TB (Total	drive	
+servers-unified-computing	UCSC-C3X60-28HD8	UCS C3X60 2 rows of 8TB NL-SAS7200 RPM SAS-3 (28Total) 224TB	drive	
+servers-unified-computing	UCSC-C3X60-42HD4	Cisco UCS C3X60 Three rows of 42x 4TB (Total:168TB) Drives	drive	
+servers-unified-computing	UCSC-C3X60-42HD6	Cisco UCS C3X60 Three row of drives containing 42 x 6TB (Tot	drive	
+servers-unified-computing	UCSC-C3X60-42HD8	UCS C3X60 3 rows of 8TB NL-SAS7200 RPM SAS-3 (42Total) 336TB	drive	
+servers-unified-computing	UCSC-C3X60-56HD4	Cisco UCS C3X60 Four rows56x 4TB (Total:224TB) Drives	drive	
+servers-unified-computing	UCSC-C3X60-56HD6	Cisco UCS C3X60 Four row of drives containing 56 x 6TB (Tota	drive	
+servers-unified-computing	UCSC-C3X60-56HD8	UCS C3X60 4 rows of 8TB NL-SAS7200 RPM SAS-3 (56Total) 448TB	drive	
+servers-unified-computing	UCSC-C3X60-6TBRR	UCS C3X60 6TB 12Gbps NL-SAS 7200RPM HDD w carrier- Rear-load	drive	
+servers-unified-computing	UCSC-C3X60-6TBRR=	UCS C3X60 6TB 12Gbps NL-SAS 7200RPM HDD w carrier- Rear-load	drive	
+servers-unified-computing	UCSC-C3X60-8TBRR	UCSC 3X60 8TB NL-SAS 7.2K Helium HDD rear with HDD Carrier	drive	
+servers-unified-computing	UCSC-C3X60-8TBRR=	UCSC 3X60 8TB NL-SAS 7.2K Helium HDD rear with HDD Carrier	drive	
 servers-unified-computing	UCSC-C3X60-BASE	Cisco UCS C3160 Base Chassis (Base PID for Colusa)	chassis	
 servers-unified-computing	UCSC-C3X60-BASE++=	Cisco UCS C3160 Base Chassis FRU Only - TAA	chassis	
 servers-unified-computing	UCSC-C3X60-BASE=	Cisco UCS C3160 Base Chassis FRU Only	chassis	
-servers-unified-computing	UCSC-C3X60-BLKP	Cisco UCS C3X60 Server Node blanking plate	chassis	
-servers-unified-computing	UCSC-C3X60-BLKP=	Cisco UCS C3X60 Server Node blanking plate (SPARE)	chassis	
-servers-unified-computing	UCSC-C3X60-EX16T	Cisco UCS C3X60 Disk Exp Tray w/ 4x 4TB Total:16TB Drives	chassis	
-servers-unified-computing	UCSC-C3X60-EX16T=	Cisco UCS C3160 Disk Exp Tray w/ 4x 4TB (Total:16TB) Drives	chassis	
-servers-unified-computing	UCSC-C3X60-EX24T	Cisco UCS C3160 Expander with 4x 6TB 7200RPM NL-SAS Drives	chassis	
-servers-unified-computing	UCSC-C3X60-EX24T=	Cisco UCS C3160 Expander with 4x 6TB 7200RPM NL-SAS Drives	chassis	
-servers-unified-computing	UCSC-C3X60-EX32T	UCS C3X60 Expander with 4x 8TB 7200RPM NL-SAS Drives	chassis	
-servers-unified-computing	UCSC-C3X60-EXPT=	Cisco UCS C3X60 Expansion Tray No Drives FRU Only	chassis	
-servers-unified-computing	UCSC-C3X60-FANM=	Cisco UCS C3X60 Fan module containing 2x80mm fans	chassis	
-servers-unified-computing	UCSC-C3X60-HBA	UCS CX260 12G SAS Pass through Controller	chassis	
-servers-unified-computing	UCSC-C3X60-HBA=	UCS CX260 12G SAS Pass through Controller	chassis	
+servers-unified-computing	UCSC-C3X60-BLKP	Cisco UCS C3X60 Server Node blanking plate	mechanical	
+servers-unified-computing	UCSC-C3X60-BLKP=	Cisco UCS C3X60 Server Node blanking plate (SPARE)	mechanical	
+servers-unified-computing	UCSC-C3X60-EX16T	Cisco UCS C3X60 Disk Exp Tray w/ 4x 4TB Total:16TB Drives	drive	
+servers-unified-computing	UCSC-C3X60-EX16T=	Cisco UCS C3160 Disk Exp Tray w/ 4x 4TB (Total:16TB) Drives	drive	
+servers-unified-computing	UCSC-C3X60-EX24T	Cisco UCS C3160 Expander with 4x 6TB 7200RPM NL-SAS Drives	drive	
+servers-unified-computing	UCSC-C3X60-EX24T=	Cisco UCS C3160 Expander with 4x 6TB 7200RPM NL-SAS Drives	drive	
+servers-unified-computing	UCSC-C3X60-EX32T	UCS C3X60 Expander with 4x 8TB 7200RPM NL-SAS Drives	drive	
+servers-unified-computing	UCSC-C3X60-EXPT=	Cisco UCS C3X60 Expansion Tray No Drives FRU Only	mechanical	
+servers-unified-computing	UCSC-C3X60-FANM=	Cisco UCS C3X60 Fan module containing 2x80mm fans	fan	
+servers-unified-computing	UCSC-C3X60-HBA	UCS CX260 12G SAS Pass through Controller	storage-controller	
+servers-unified-computing	UCSC-C3X60-HBA=	UCS CX260 12G SAS Pass through Controller	storage-controller	
 servers-unified-computing	UCSC-C3X60-HD4TB	UCS C3X60 4TB NL-SAS 7.2K HDD including C3X60 HDD carrier	drive	
 servers-unified-computing	UCSC-C3X60-HD4TB=	UCS C3X60 4TB SAS 7.2K HDD ncluding C3X60 HDD carrier (FRU)	drive	
 servers-unified-computing	UCSC-C3X60-HD6TB	UCS C3X60 6TB 12Gbps NL-SAS 7200RPM HDD w carrier- Top-load	drive	
 servers-unified-computing	UCSC-C3X60-HD6TB=	UCS C3X60 6TB 12Gbps NL-SAS 7200RPM HDD w carrier- Top-load	drive	
 servers-unified-computing	UCSC-C3X60-HD8TB	UCSC 3X60 8TB NL-SAS 7.2KHelium HDD with HDD Carrier	drive	
 servers-unified-computing	UCSC-C3X60-HD8TB=	UCSC 3X60 8TB NL-SAS 7.2KHelium HDD including HDD Carrier	drive	
-servers-unified-computing	UCSC-C3X60-R1GB	UCS C3X60 12G SAS RAID Controller with 1GB cache	chassis	
-servers-unified-computing	UCSC-C3X60-R1GB=	UCS C3X60 12G SAS RAID Controller with 1GB cache (SPARE)	chassis	
-servers-unified-computing	UCSC-C3X60-R4GB	UCS C3X60 12G SAS RAID Controller with 4GB cache	chassis	
-servers-unified-computing	UCSC-C3X60-R4GB=	UCS C3X60 12G SAS RAID Controller with 4GB cache (SPARE)	chassis	
+servers-unified-computing	UCSC-C3X60-R1GB	UCS C3X60 12G SAS RAID Controller with 1GB cache	storage-controller	
+servers-unified-computing	UCSC-C3X60-R1GB=	UCS C3X60 12G SAS RAID Controller with 1GB cache (SPARE)	storage-controller	
+servers-unified-computing	UCSC-C3X60-R4GB	UCS C3X60 12G SAS RAID Controller with 4GB cache	storage-controller	
+servers-unified-computing	UCSC-C3X60-R4GB=	UCS C3X60 12G SAS RAID Controller with 4GB cache (SPARE)	storage-controller	
 servers-unified-computing	UCSC-C3X60-RAIL	UCS C3X60 Rack Rails Kit	mechanical	
 servers-unified-computing	UCSC-C3X60-RAIL=	Cisco UCS C3X60 Rack Rails Kit (SPARE)	mechanical	
-servers-unified-computing	UCSC-C3X60-SBLKP	UCS C3x60 SIOC blanking plate	chassis	
-servers-unified-computing	UCSC-C3X60-SBLKP=	Cisco UCS C3X60 SIOC blanking plate(SPARE)	chassis	
+servers-unified-computing	UCSC-C3X60-SBLKP	UCS C3x60 SIOC blanking plate	mechanical	
+servers-unified-computing	UCSC-C3X60-SBLKP=	Cisco UCS C3X60 SIOC blanking plate(SPARE)	mechanical	
 servers-unified-computing	UCSC-C3X60-SSD4	Cisco UCS C3X60 one row - 14 drives: 400GB SSD and 4TB Driv	drive	
 servers-unified-computing	UCSC-C3X60-SSD4=	Cisco UCS C3X60 one row - 14 drives: 400GB SSD and 4TB Driv	drive	
 servers-unified-computing	UCSC-C3X60-SSD6	Cisco UCS C3X60 one row - 14 drives: 400GB SSD and 6TB Driv	drive	

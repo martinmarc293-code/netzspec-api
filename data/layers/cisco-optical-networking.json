@@ -1,8 +1,8 @@
 {
   "vendor": "cisco",
   "category": "optical-networking",
-  "built_at": "2026-09-29T21:36:04.794Z",
-  "commit": "0921763551db50be769463be783609a8d65dcaf7",
+  "built_at": "2026-09-29T22:09:32.571Z",
+  "commit": "60311ed61231ff407632fc405a23fb98b028099e",
   "uncommitted_rule_files": [],
   "mapping_file": "data/reference/product-lines/cisco-optical-networking.json",
   "parts": 1157,
@@ -85,12 +85,12 @@
             "mechanical": 16,
             "fan": 3,
             "chassis": 8,
-            "accessory": 8,
+            "accessory": 10,
             "cable": 6,
             "roadm": 21,
             "transponder": 21,
             "linecard": 4,
-            "mux": 23,
+            "mux": 21,
             "unknown": 1,
             "amplifier": 13,
             "controller": 11
@@ -118,18 +118,18 @@
           "parts": 285,
           "kinds": {
             "transponder": 39,
-            "linecard": 34,
-            "cable": 49,
+            "linecard": 38,
+            "cable": 48,
             "mux": 13,
             "roadm": 24,
             "chassis": 8,
             "mechanical": 30,
             "amplifier": 26,
-            "accessory": 10,
+            "accessory": 11,
             "controller": 10,
             "power": 16,
             "fan": 8,
-            "pluggable": 16,
+            "pluggable": 12,
             "dcu": 2
           },
           "roles": {},
@@ -468,9 +468,9 @@
   "inbound_unplaced": {},
   "done": true,
   "build": {
-    "data_commit": "0921763551db+84dirty",
-    "code_commit": "0921763551db",
+    "data_commit": "d80ae05d4c5a+88dirty",
+    "code_commit": "9c24544f63c0",
     "contract_hash": "e07214730262c698",
-    "generated_at": "2026-09-29T21:43:23.268Z"
+    "generated_at": "2026-09-29T22:16:29.244Z"
   }
 }

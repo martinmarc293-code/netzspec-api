@@ -900,7 +900,7 @@ HX-PCI-2B-240M5	Riser 2B incl 3PCIeslots(x8,x16,x8)+2NVMe(1cnctr)supportsGPU	Hyp
 HX-PCI-2B-240M5=	Riser 2B incl 3PCIeslots(x8,x16,x8) supports GPU+rear NVMe	HyperFlex HX Series	nic	layered	HyperFlex	(none)	HX240c		sku ^(?=HX|UCSC?-|CBL-).*(?<![0-9])240-?M[4-7]							
 HX-PCI-2C-240M5	Riser 2C incll 3 PCIe slots (3 x8) supports front+rear NVMe	HyperFlex HX Series	nic	layered	HyperFlex	(none)	HX240c		sku ^(?=HX|UCSC?-|CBL-).*(?<![0-9])240-?M[4-7]							
 HX-PCI-2C-240M5=	Riser 2C incll 3 PCIe slots (3 x8) supports front+rear NVMe	HyperFlex HX Series	nic	layered	HyperFlex	(none)	HX240c		sku ^(?=HX|UCSC?-|CBL-).*(?<![0-9])240-?M[4-7]							
-HX-PCI25-40010	400GB 2.5" SFF PCIe/NVMe Storage Intel P3700 High Endurance	UCS C-Series	nic	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
+HX-PCI25-40010	400GB 2.5" SFF PCIe/NVMe Storage Intel P3700 High Endurance	UCS C-Series	drive	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-PCIE-BD16GF	Emulex LPe31002 dual port 16G FC HBA	HyperFlex HX Series	nic	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-PCIE-BD16GF=	Emulex LPe31002 dual port 16G FC HBA	HyperFlex HX Series	nic	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-PCIE-BD32GF	Emulex LPe32002 Dual-Port 32G FC HBA	HyperFlex HX Series	nic	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
