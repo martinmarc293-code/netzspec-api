@@ -718,7 +718,9 @@ async function main(): Promise<void> {
   ];
 
   // ---- cross-checks ------------------------------------------------------------------------------------------------
-  let commit = "unknown", dirty = 0;
+  // GIT_SHA FIRST, as build-value-census and build-mapper-trace already do: the box builds from a git archive with no .git,
+  // where rev-parse fails, so every box-built report said built_on_commit "unknown" (62ecef1, 7944270, c2d05f7).
+  let commit = process.env.GIT_SHA?.slice(0, 7) ?? "unknown", dirty = 0;
   try {
     commit = execSync("git rev-parse --short HEAD", { cwd: ROOT }).toString().trim();
     dirty = execSync("git status --porcelain", { cwd: ROOT }).toString().split("\n").filter((l) => l.trim()).length;
