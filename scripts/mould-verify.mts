@@ -321,6 +321,8 @@ const RUN_KIND_CLASS: Record<string, { approval: boolean; gate: boolean }> = {
   "resolve-superseded-readings": A, "resolve-no-held-conflicts": A,
   // ruling Q15: a fragment of a real PID read off a page is retired (membership) -> approval
   "retire-fragments": A,
+  // ruling Q17, the read triples: pours retracted by EXACT row from a read list -> approval
+  "retract-read-pours": A,
 };
 // The vendor this lane has axes for; vendor_coverage owns every other vendor's hardware (unknown_zero counts them apart).
 const OWN_VENDOR = "cisco";

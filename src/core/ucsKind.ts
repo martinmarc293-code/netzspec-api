@@ -352,6 +352,37 @@ export const PRE_RULES: { kind: UcsKind; re: RegExp }[] = [
   // fallback kind, so partKind's name path reads "Supercap ... Raid controller" as `power` and asks a capacitor for a PSU's rated
   // output. `mechanical`, a part bought for what it fits, which the name path leaves alone.
   { kind: "mechanical", re: /^UCS[BCX]-MRAID-SC=?$/ },
+  // ---- RULING Q17, THE READ TRIPLES (29 Sep 2026): THREE PLATFORM FAMILIES FILED WHOLE UNDER ONE MACHINE KIND ------------------
+  // The veto named ten parts; reading their families found the same defect in every sibling. The machine token made every part of
+  // the platform the platform: C880 DIMM kits, E7 CPUs, FC / 10G cards, fan modules, disks and the midplane were `server`; C3X60
+  // SSDs, drive rows, the HBA and the fan module were `chassis`; the C3K server nodes were `drive`. Each rule is its family read in
+  // full (every live Cisco row with the prefix, data/dryrun/q17-read-decisions-cisco-2026-09-29.tsv), named by its own SKU token.
+  // What stays: the C880 SAP-HANA systems (C880-2T-M4, C880-6T-HANA-J-M4, C880-3T-HANA-J-M5) are servers, C3X60-BASE the chassis.
+  // C880 -- JBOD enclosures and spare chassis before the disk rule (C880-J-17-M4 "Attached JBOD" is not a disk).
+  { kind: "chassis", re: /^C880-(?:M\d-CHASSIS|J-\d{2}-M\d|M4-J-\d{2}-|M4-JBOD-)/ },
+  { kind: "memory", re: /^C880-(?:\d{2,3}(?:GB)?-\dX\d{2,3}|\d{2,3}GB-DDR\d|\dTBR?-\d{2}X\d{2,3}|M4-(?:V4-|\dS-)?\dTB-(?:\d{2}GB?|KIT))/ },
+  { kind: "cpu", re: /^C880-E7\d{4}/ },
+  { kind: "nic", re: /^C880-(?:10GBASE|16GFC-|40GCNA-|40GQSFP-|IO-1GBE)/ },
+  { kind: "storage-controller", re: /^C880-(?:SASCONTR|SAS-C200|SAS-RC-)/ },
+  { kind: "drive", re: /^C880-(?:J-\d+(?:\.\d+)?TB|J-900G|DISK-D\d)/ },
+  { kind: "fan", re: /^C880-FAN/ },
+  { kind: "power", re: /^C880-(?:J-)?PSU/ },
+  // "Cisco C880 M4 SFP+ Module", "10G LAN SFP+ module": a pluggable the UCS axis has no kind for; `accessory` asks it nothing a
+  // server is asked (it was `server`), and the name path may name it more closely
+  { kind: "accessory", re: /^C880-(?:10G-)?SFPMOD/ },
+  // boards, panels, mounts and the flash backup unit: parts bought for the machine they fit (the Q17 R2 supercap reasoning)
+  { kind: "mechanical", re: /^C880-(?:FBU(?!-CBL)|FLASHBACKUP|FRDKT-|J-(?:PNL|BP|EXP)|MIDPLN|OPL|SBU-|MMB-|TFM|M4-(?:BOOT|4SBDS)|MEM-MEZZ)/ },
+  // C3X60 -- drives, drive rows and expander trays WITH drives; the controllers; the fan module; blanking plates and the empty tray
+  { kind: "drive", re: /^UCSC?-C3X60-(?:12G\d|G\dSD\d|12SSD|\d+TBRR|\d{2}HD\d|10TB|EX\d{2}T)/ },
+  { kind: "storage-controller", re: /^UCSC-C3X60-(?:HBA|R\dGB)/ },
+  { kind: "fan", re: /^UCSC-C3X60-FANM/ },
+  { kind: "mechanical", re: /^UCSC-C3X60-(?:S?BLKP|EXPT)/ },
+  // C3K -- the S3260 M4 server nodes, the node's I/O expander, and the expander's tool
+  { kind: "server", re: /^UCSC-C3K-M\dS(?:RB|RI|VR)/ },
+  { kind: "io-module", re: /^UCSC-C3K-M\dIO$/ },
+  { kind: "mechanical", re: /^UCSC-C3K-M\dIOTOOL$/ },
+  // "2.5in SFF PCIe/NVMe Storage" was a NIC by its PCI token; EM3-AF-480G-4T "480GB SSD + 4TB SSD Combo" was memory
+  { kind: "drive", re: /^(?:UCS|HX)-PCI25-|^EM3-AF-/ },
   { kind: "software", re: /^N10-MGT\d|^(?:N20|UCSB)-FW\d|^CIMC-C\d|^UCSW-DDUP-|^UCSX-C-SW-LATEST$/ },
   // kind-layer (13 Sep 2026): `^(?:HX|UCS)-DCPMM-` — UCS-DCPMM-AD "Intel Optane DC Persistent Memory Operational Mode -
   // App Direct" and UCS-DCPMM-MM are the same operating-mode SETTING as HX-DCPMM-AD, and were `memory`.

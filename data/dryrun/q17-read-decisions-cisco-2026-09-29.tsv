@@ -9,12 +9,12 @@ optical-networking	mux	module_slots	1	reclassify	NCS2K-MF-1RU= is a 'Mechanical 
 security	drive	ports	1	reclassify	ST-M6-D100GF is a Mellanox CX-5 2x100GbE PCIe NIC, not a drive
 servers-unified-computing	drive	cpu	1	reclassify	UCSC-C3K-M4SRB is a 'C3000 M4 Server Node', not a drive; its CPU family stays
 servers-unified-computing	memory	storage_capacity	1	reclassify	EM3-AF-480G-4T is a '480GB SSD + 4TB SSD Combo' (drive); its 480 is half the combo and retracts
+video	passive	data_rate	14	rekey	REVIEWER OVERRULE -> rekey: 'Mux/Demux 100G' is the 100 / 200 GHz channel GRID, so the value belongs to channel_spacing ('100 GHz'), not nowhere
 wireless	ap	tdp	8	rekey	tdp -> power_max: Meraki's 'Power consumption' is what the AP draws
 wireless	cpu	power_max	6	rekey	power_max -> tdp: '/85W', '/120W' in a CPU name is its TDP (the cpu kind asks tdp)
 routers	drive	flash	3	rekey	flash -> storage_capacity: a USB token's / eUSB's size is its capacity (routers drive asks storage_capacity)
 switches	flash	dram	1	rekey	dram -> flash: a '2 GB SD Memory Card' is flash (switches flash asks flash)
 switches	bundle	module_slots	28	retract	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
-video	passive	data_rate	14	retract	'100G' / '200G' in 'DWDM 8 channel Mux/Demux 100G' is the 100 / 200 GHz channel GRID, not a data rate
 routers	bundle	module_slots	12	retract	12 CRS fabric-card packs, filters and upgrade bundles: '16 Slots' is the chassis they fit
 switches	power	humidity_operating	9	retract	6 of 9 read {95,95} (one end of '5 to 95%'): retract the 6, then the 3 real {5,95} widen (it leaves Q17_R4_REFUSED)
 meraki	security-camera	ieee_standards	8	retract	the 2 ['No'] retract; the 6 Wi-Fi standard lists are real and the triple widens (it leaves Q17_R4_REFUSED)
@@ -22,8 +22,11 @@ servers-unified-computing	bundle	data_rate	8	retract	8 UCS-SPM-MDS solution bund
 interfaces-modules	interface	compatible_platform	5	retract	aggregator prose ('Cisco 12000 Series Routers', 'n/a'): a relation candidate, never a value
 interfaces-modules	interface	installation_type	5	retract	aggregator prose ('Hot-swappable ...', 'n/a')
 switches	power-cord	input_voltage	5	retract	5 cord RATINGS (250 V / 125 V / 48 V) read off cord names that say 'Cable' (the cord-voltage-rating rule matched 'power cord' only)
+switches	supervisor	certifications	5	retract	REVIEWER OVERRULE: 'TAA compliant' is a country-of-origin procurement claim with no issuing body or standard number, not a certification
 optical-networking	amplifier	cable_length	4	retract	4 amplifiers with '2' and no cable in the name or row
 servers-unified-computing	memory	input_voltage	4	retract	4 DIMMs whose '1.2v' was read as 2 V
+switches	fabric	certifications	4	retract	REVIEWER OVERRULE: 'TAA compliant' is a procurement claim, not a certification
+switches	linecard	certifications	4	retract	REVIEWER OVERRULE: 'TAA compliant' is a procurement claim, not a certification
 interfaces-modules	interface	certifications	3	retract	all 3 read ['No']
 switches	mechanical	mgmt_class	3	retract	'Smart Switches' is the C9610 series name, read as smart-managed on 3 kits
 optical-networking	mux	humidity_operating	2	retract	{95,95}: one end of the range
@@ -74,12 +77,9 @@ routers	antenna	cable_length	5	widen	integrated cable of an antenna (5 / 10 / 15
 routers	antenna	mounting	5	widen	ceiling / wall mount of an antenna
 routers	bundle	flash	5	widen	flash of the bundled router
 routers	mechanical	rack_units	5	widen	rack units of shelves and kits
-switches	supervisor	certifications	5	widen	TAA compliance stated for the supervisor
 routers	appliance	module_slots	4	widen	NIM slots of an appliance
 routers	bundle	dram	4	widen	DRAM of the bundled router
 routers	bundle	ports	4	widen	20 x 100G of the bundled system
-switches	fabric	certifications	4	widen	TAA compliance
-switches	linecard	certifications	4	widen	TAA compliance
 switches	ont	cooling	4	widen	fanless ONT
 switches	power	poe_standard	4	widen	802.3at / UPOE a PoE PSU delivers
 optical-networking	amplifier	connector	3	widen	LC duplex of an amplifier

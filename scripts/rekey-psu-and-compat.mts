@@ -40,7 +40,11 @@ type Row = {
   extracted_at: string | null; new_exists: boolean; kind: string | null; cache: string | null;
 };
 
-type Move = { from: string; to: string; label: string; select: (r: Row) => boolean; categories: string[] | null };
+/** `reshape`: the ONE move that may not keep the value as stored, because the stored value is the wrong QUANTITY with the right
+ *  digits -- ruling Q17 on the read triples: "Mux/Demux 100G" was mined as data_rate 100 Gbit/s and is the 100 GHz channel GRID.
+ *  It returns the new key's value from the row, or a refusal; it never runs on a move that does not declare it. */
+type Reshape = (r: Row) => { ok: true; value: unknown; unit: string | null; how: string } | { ok: false; why: string };
+type Move = { from: string; to: string; label: string; select: (r: Row) => boolean; categories: string[] | null; reshape?: Reshape };
 
 const MOVES: Move[] = [
   { from: "power_max", to: "psu_rated_output", label: "PSU wattage is output, not draw", categories: ["switches"],
@@ -57,6 +61,26 @@ const MOVES: Move[] = [
     select: (r) => r.kind === "cable" },
   { from: "chassis_compatibility", to: "product_compatibility", label: "one key per quantity", categories: null,
     select: () => true },
+  // RULING Q17, THE READ TRIPLES (29 Sep 2026; data/dryrun/q17-read-decisions-cisco-2026-09-29.tsv). Four values under the wrong
+  // key, each read: a CPU's "/85W" is its TDP (the cpu kind asks tdp); Meraki's "Power consumption" on an AP is what it DRAWS;
+  // a USB flash token's / eUSB's size is a drive's capacity; a "2 GB SD Memory Card" is flash, not DRAM.
+  { from: "power_max", to: "tdp", label: "a CPU's TDP read off its name (Q17 read)", categories: ["wireless"],
+    select: (r) => r.kind === "cpu" },
+  { from: "tdp", to: "power_max", label: "an AP's power consumption is power drawn (Q17 read)", categories: ["wireless"],
+    select: (r) => r.kind === "ap" },
+  { from: "flash", to: "storage_capacity", label: "a flash drive's size is its capacity (Q17 read)", categories: ["routers"],
+    select: (r) => r.kind === "drive" },
+  { from: "dram", to: "flash", label: "an SD card's size is flash (Q17 read)", categories: ["switches"],
+    select: (r) => r.kind === "flash" },
+  // REVIEWER OVERRULE (29 Sep 2026): the video passives' "Mux/Demux 100G" data_rate is REKEYED, not retracted -- the reading was
+  // right (the 100 / 200 GHz DWDM channel grid), so the value belongs to channel_spacing, not nowhere. The raw is the bare digits
+  // the description miner kept ("100"); the new value is those digits in GHz, in the form channel_spacing already stores
+  // ("50 GHz"). Only a raw of bare 100 or 200 is reshaped -- the two grids these parts name -- anything else is refused.
+  { from: "data_rate", to: "channel_spacing", label: "a Mux/Demux 100G is the 100 GHz grid (Q17 read, reviewer)", categories: ["video"],
+    select: (r) => r.kind === "passive",
+    reshape: (r) => (/^(?:100|200)$/.test(r.raw.trim()) && r.unit === "Gbit/s"
+      ? { ok: true, value: `${r.raw.trim()} GHz`, unit: null, how: "the G of the name's grid, not a data rate" }
+      : { ok: false, why: `raw "${r.raw}" (${r.unit}) is not a bare 100 / 200 grid number` }) },
 ];
 
 const SELECT = `
@@ -77,6 +101,14 @@ const same = (a: unknown, b: unknown) => JSON.stringify(a) === JSON.stringify(b)
 type Plan = { ok: true; value: unknown; unit: string | null; how: string } | { ok: false; why: string };
 function plan(m: Move, r: Row): Plan {
   if (r.new_exists) return { ok: false, why: `already holds a current ${m.to}` };
+  if (m.reshape) {
+    const x = m.reshape(r);
+    if (!x.ok) return x;
+    // the reshaped value must still be one the new key's normaliser accepts as written
+    const back = normalizeField(r.cat, m.to, String(x.value), { locale: localeOf(r.method) });
+    if (!back.ok || !same(back.value, x.value)) return { ok: false, why: `reshaped ${JSON.stringify(x.value)} does not re-derive under ${m.to}` };
+    return x;
+  }
   const n = normalizeField(r.cat, m.to, r.raw, { locale: localeOf(r.method) });
   let value: unknown, how: string;
   if (n.ok) {

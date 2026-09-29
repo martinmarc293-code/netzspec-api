@@ -119,6 +119,10 @@ const RULES: { kind: SecurityKind; id: string; re: RegExp }[] = [
   { kind: "cable", id: "cable", re: /(?:^|-)(?:CAB|CBL|CABLE|BKVM)(?:-|=|$)/ },
   { kind: "power", id: "power", re: /(?:^|-)(?:PWR|PSU\d?|PS)(?:-|=|$)|-\d{3,4}W(?:-|=|$)|^[A-Z0-9]+-AC-\d{3,4}W?(?:-|=|$)|-PS-AC/ },
   { kind: "fan", id: "fan", re: /(?:^|-)S?FAN(?:TRAY)?\d*(?:-|=|$)/ },
+  // RULING Q17, the read triples (29 Sep 2026): ST-M6-D100GF "Cisco SNA MELLANOX CX-5 MCX516A-CDAT 2x100GbE QSFP PCIe NIC" is a NIC
+  // the drive rule's `-D\d{3}G[A-Z]` (the -D960G.. SSD shape) took: D100G is the card's dual 100G, not a capacity. The only ST-M*-D
+  // SKU in the catalogue.
+  { kind: "nic", id: "nic:sna-dual-100g", re: /^ST-M\d-D100G/ },
   // REFUSAL, pinned: the ASA 5500-X appliance ordered with its SSD (see the header).
   { kind: "firewall", id: "refuse:asa-with-ssd", re: /^ASA55\d\d-SSD\d+-K\d/ },
   // + NVME / NVB (CV-NVME4-1600 "1.6TB 2.5in U.2 ... P5620", CV-NVB1T6M2P), 12 Sep 2026.

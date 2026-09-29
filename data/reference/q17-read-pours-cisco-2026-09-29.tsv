@@ -27,20 +27,6 @@ switches	bundle	C4500E-S6-MGIG	module_slots	6	28 C4500E 'upgrade for N slot chas
 switches	bundle	C4500E-S7-4748RJV	module_slots	7	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
 switches	bundle	C4500RE-S7-MGIG	module_slots	7	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
 switches	bundle	C4510RE-S8-MGIG	module_slots	10	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
-video	passive	4021052	data_rate	100	'100G' / '200G' in 'DWDM 8 channel Mux/Demux 100G' is the 100 / 200 GHz channel GRID, not a data rate
-video	passive	4030093	data_rate	200	'100G' / '200G' in 'DWDM 8 channel Mux/Demux 100G' is the 100 / 200 GHz channel GRID, not a data rate
-video	passive	4030094	data_rate	200	'100G' / '200G' in 'DWDM 8 channel Mux/Demux 100G' is the 100 / 200 GHz channel GRID, not a data rate
-video	passive	4030096	data_rate	100	'100G' / '200G' in 'DWDM 8 channel Mux/Demux 100G' is the 100 / 200 GHz channel GRID, not a data rate
-video	passive	4030097	data_rate	100	'100G' / '200G' in 'DWDM 8 channel Mux/Demux 100G' is the 100 / 200 GHz channel GRID, not a data rate
-video	passive	4030098	data_rate	100	'100G' / '200G' in 'DWDM 8 channel Mux/Demux 100G' is the 100 / 200 GHz channel GRID, not a data rate
-video	passive	4030099	data_rate	100	'100G' / '200G' in 'DWDM 8 channel Mux/Demux 100G' is the 100 / 200 GHz channel GRID, not a data rate
-video	passive	4033329	data_rate	200	'100G' / '200G' in 'DWDM 8 channel Mux/Demux 100G' is the 100 / 200 GHz channel GRID, not a data rate
-video	passive	4040562	data_rate	100	'100G' / '200G' in 'DWDM 8 channel Mux/Demux 100G' is the 100 / 200 GHz channel GRID, not a data rate
-video	passive	4040589	data_rate	100	'100G' / '200G' in 'DWDM 8 channel Mux/Demux 100G' is the 100 / 200 GHz channel GRID, not a data rate
-video	passive	4040816	data_rate	100	'100G' / '200G' in 'DWDM 8 channel Mux/Demux 100G' is the 100 / 200 GHz channel GRID, not a data rate
-video	passive	4040817	data_rate	100	'100G' / '200G' in 'DWDM 8 channel Mux/Demux 100G' is the 100 / 200 GHz channel GRID, not a data rate
-video	passive	4040818	data_rate	100	'100G' / '200G' in 'DWDM 8 channel Mux/Demux 100G' is the 100 / 200 GHz channel GRID, not a data rate
-video	passive	4043574	data_rate	100	'100G' / '200G' in 'DWDM 8 channel Mux/Demux 100G' is the 100 / 200 GHz channel GRID, not a data rate
 routers	bundle	CRS-16-FC140/M-8P	module_slots	16	12 CRS fabric-card packs, filters and upgrade bundles: '16 Slots' is the chassis they fit
 routers	bundle	CRS-16-FC140/M-8P=	module_slots	16	12 CRS fabric-card packs, filters and upgrade bundles: '16 Slots' is the chassis they fit
 routers	bundle	CRS-16-FC140/M-BN	module_slots	16	12 CRS fabric-card packs, filters and upgrade bundles: '16 Slots' is the chassis they fit
@@ -84,6 +70,11 @@ switches	power-cord	CAB-TA-125V-JP=	input_voltage	{"max":125,"min":125}	5 cord R
 switches	power-cord	N7K-DC-CAB-CAN=	input_voltage	{"max":48,"min":48}	5 cord RATINGS (250 V / 125 V / 48 V) read off cord names that say 'Cable' (the cord-voltage-rating rule matched 'power cord' only)
 switches	power-cord	N7K-DC-CAB-CLO=	input_voltage	{"max":48,"min":48}	5 cord RATINGS (250 V / 125 V / 48 V) read off cord names that say 'Cable' (the cord-voltage-rating rule matched 'power cord' only)
 switches	power-cord	N7K-DC-CAB=	input_voltage	{"max":48,"min":48}	5 cord RATINGS (250 V / 125 V / 48 V) read off cord names that say 'Cable' (the cord-voltage-rating rule matched 'power cord' only)
+switches	supervisor	C9400-SUP-1++=	certifications	["TAA compliant"]	REVIEWER OVERRULE: 'TAA compliant' is a country-of-origin procurement claim with no issuing body or standard number, not a certification
+switches	supervisor	C9400-SUP-1XL++=	certifications	["TAA compliant"]	REVIEWER OVERRULE: 'TAA compliant' is a country-of-origin procurement claim with no issuing body or standard number, not a certification
+switches	supervisor	N9K-SUP-A++=	certifications	["TAA compliant"]	REVIEWER OVERRULE: 'TAA compliant' is a country-of-origin procurement claim with no issuing body or standard number, not a certification
+switches	supervisor	N9K-SUP-B++=	certifications	["TAA compliant"]	REVIEWER OVERRULE: 'TAA compliant' is a country-of-origin procurement claim with no issuing body or standard number, not a certification
+switches	supervisor	WS-X45-SUP9-E++=	certifications	["TAA compliant"]	REVIEWER OVERRULE: 'TAA compliant' is a country-of-origin procurement claim with no issuing body or standard number, not a certification
 optical-networking	amplifier	15454-OPT-AMP-C=	cable_length	2	4 amplifiers with '2' and no cable in the name or row
 optical-networking	amplifier	15454-OPT-AMP-L=	cable_length	2	4 amplifiers with '2' and no cable in the name or row
 optical-networking	amplifier	15454-OPT-BST-L=	cable_length	2	4 amplifiers with '2' and no cable in the name or row
@@ -92,6 +83,14 @@ servers-unified-computing	memory	CSP-MR-X16G1RS-H	input_voltage	{"max":2,"min":2
 servers-unified-computing	memory	CSP-MR-X16G1RT-H	input_voltage	{"max":2,"min":2}	4 DIMMs whose '1.2v' was read as 2 V
 servers-unified-computing	memory	CSP-MR-X32G2RS-H	input_voltage	{"max":2,"min":2}	4 DIMMs whose '1.2v' was read as 2 V
 servers-unified-computing	memory	CSP-MR-X32G2RT-H	input_voltage	{"max":2,"min":2}	4 DIMMs whose '1.2v' was read as 2 V
+switches	fabric	N77-C7706-FAB-2++=	certifications	["TAA compliant"]	REVIEWER OVERRULE: 'TAA compliant' is a procurement claim, not a certification
+switches	fabric	N77-C7710-FAB-2++=	certifications	["TAA compliant"]	REVIEWER OVERRULE: 'TAA compliant' is a procurement claim, not a certification
+switches	fabric	N7K-C7009-FAB-2++=	certifications	["TAA compliant"]	REVIEWER OVERRULE: 'TAA compliant' is a procurement claim, not a certification
+switches	fabric	N7K-C7010-FAB-2++=	certifications	["TAA compliant"]	REVIEWER OVERRULE: 'TAA compliant' is a procurement claim, not a certification
+switches	linecard	C9600-LC-48S++	certifications	["TAA compliant"]	REVIEWER OVERRULE: 'TAA compliant' is a procurement claim, not a certification
+switches	linecard	C9600-LC-48S++=	certifications	["TAA compliant"]	REVIEWER OVERRULE: 'TAA compliant' is a procurement claim, not a certification
+switches	linecard	N9K-X9464PX++=	certifications	["TAA compliant"]	REVIEWER OVERRULE: 'TAA compliant' is a procurement claim, not a certification
+switches	linecard	WS-X4748-UPOE+E++=	certifications	["TAA compliant"]	REVIEWER OVERRULE: 'TAA compliant' is a procurement claim, not a certification
 interfaces-modules	interface	HWIC-2SHDSL	certifications	["No"]	all 3 read ['No']
 interfaces-modules	interface	HWIC-4SHDSL	certifications	["No"]	all 3 read ['No']
 interfaces-modules	interface	HWIC-4SHDSL-E	certifications	["No"]	all 3 read ['No']

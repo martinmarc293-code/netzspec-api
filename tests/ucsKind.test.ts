@@ -28,7 +28,7 @@ const CASES: [string, string][] = [
   ["UCSC-C240-M5SX", "server"],
   ["UCSB-5108-DC", "chassis"],
   ["N20-C6508", "chassis"],
-  ["UCSC-C3X60-56HD8", "chassis"],
+  ["UCSC-C3X60-BASE", "chassis"],
   ["UCS-FI-6454++", "fabric-interconnect"],
   ["UCS-FI-6248UP", "fabric-interconnect"],
   // components
@@ -137,7 +137,16 @@ const REF12: [string, string, string][] = [
   ["UCSX-C-M6-HS-R", "software", "'CPU Heat Sink' — UCSX-C-SW-LATEST is exact"],
   ["UCSW-SD480G0KA4-C", "software", "'480GB 2.5 inch SATA SSD' — only UCSW-DDUP- is software"],
   ["C880-6T-M4", "drive", "'C880 M4 Server for SAP HANA 6T' — 6 TB of memory, not a drive"],
-  ["UCSC-C3X60-56HD8", "drive", "the C3160 chassis; 56HD8 is a drive COUNT in the model"],
+  // RULING Q17, the read triples (29 Sep 2026): the 12 Sep refusal here -- "UCSC-C3X60-56HD8 is the C3160 chassis; 56HD8 is a
+  // drive COUNT" -- read the SKU without its name. The name is "UCS C3X60 4 rows of 8TB NL-SAS 7200 RPM SAS-3 (56Total) 448TB": the
+  // drive rows ordered INTO the chassis, whose own PID is UCSC-C3X60-BASE ("Cisco UCS C3160 Base Chassis"). Refusals now:
+  ["UCSC-C3X60-BASE", "drive", "the C3160 base chassis stays the chassis"],
+  ["UCSC-C3X60-SVRN1", "drive", "a C3X60 server node stays a server (Q17 R2)"],
+  ["C880-2T-M4", "memory", "'C880 M4 Server for SAP HANA 2T Scale out' -- 2 TB of memory IN a server, not a DIMM kit"],
+  ["C880-3T-HANA-J-M5", "memory", "'C880 M5 v5 8S 3TB 64GB DIMMs and Platinum 8176' -- a HANA system"],
+  ["C880-FBU-CBL", "mechanical", "'C880 M4 FBU Cable' stays a cable"],
+  ["C880-J-17-M4", "drive", "'Attached JBOD for SAP HANA 2T' is the enclosure (chassis), not a disk"],
+  ["UCSC-C3K-NV16", "server", "'C3000 1.6TB NVMe SSD for M4 Server Node' stays a drive"],
   ["UCSC-C240-M5SX", "drive", "a server; M5SX is a model segment"],
   ["UCSB-B200-M6++=", "accessory", "a blade"],
   ["HCI-ADGPU-240M6", "server", "'C240M6 GPU Air Duct' — HCI- then a dash is not a node"],
@@ -231,7 +240,12 @@ for (let i = 0; i < PRE_RULES.length; i++) {
     // Batch B (29 Sep 2026): the power-cord rule -- off, the cord falls to the CAB token and reads `cable` again
     "CAB-C13-C14-AC=",
     // Q17 R2 (29 Sep 2026): the RAID supercap rule -- off, UCSC-MRAID-SC falls to the MRAID token and reads storage-controller
-    "UCSC-MRAID-SC"];
+    "UCSC-MRAID-SC",
+    // Q17, the read triples (29 Sep 2026): one probe per family rule -- off, each falls to its machine token (C880 server,
+    // C3X60 chassis, C3K drive) or to the PCI token (nic)
+    "C880-J-17-M4", "C880-128-2X64-BW", "C880-E78890B", "C880-16GFC-L202", "C880-SASCONTR", "C880-J-1.2TB", "C880-FAN-UNIT",
+    "C880-PSU", "C880-SFPMOD", "C880-MIDPLN", "UCSC-C3X60-56HD8", "UCSC-C3X60-HBA", "UCSC-C3X60-FANM=", "UCSC-C3X60-BLKP",
+    "UCSC-C3K-M4SRB", "UCSC-C3K-M4IO=", "UCSC-C3K-M4IOTOOL=", "UCS-PCI25-8003"];
   const probe = PROBES.find((p) => PRE_RULES[i].re.test(p.toUpperCase().replace(/=+$/, "")));
   if (!probe) { eq(`a sabotage probe exists for PRE_RULES[${i}]`, false, true); continue; }
   const before = ucsKind(probe);

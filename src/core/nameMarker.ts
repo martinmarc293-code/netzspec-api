@@ -328,7 +328,9 @@ const RULES: { marker: NameMarker; hit: (n: string) => boolean; despiteDeviceNou
   {
     marker: "cable",
     hit: (n) => w(n, "cable", "cables", "cbl", "cord", "cords", "jumper", "harness", "pigtail", "loopback")
-      && !w(n, "kit", "management", "mgmt", "holder", "tray", "guide", "clip", "duct", "hanger")
+      // + drawer (ruling Q17, the read triples, 29 Sep 2026): 15454-YCBL-LC= "15454 - 2RU Y-Cable Drawer" is a drawer the
+      //   Y-cable modules sit in, a tray by another name
+      && !w(n, "kit", "management", "mgmt", "holder", "tray", "drawer", "guide", "clip", "duct", "hanger")
       && !w(n, ...MECHANICAL_VETO),
   },
   // DRIVE. `sas`/`sata` name the INTERFACE, so they appear in the name of everything on the far end

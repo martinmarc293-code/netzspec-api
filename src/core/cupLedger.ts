@@ -133,7 +133,9 @@ const HAND_DECLARED_OPTIONAL: Readonly<Record<string, Readonly<Record<string, re
  * where EVERY own fact was read off a vendor datasheet table (html_table / pdf_table, or an operator hexcat_seed whose evidence
  * is the datasheet): the vendor states the cup for this kind, so the kind's set was wrong, never the facts. Built by
  * scripts/veto-triage.mts (plan data/dryrun/veto-triage-cisco-2026-09-29T211617750Z.tsv) and the VALUE DISTRIBUTION of every
- * triple was read, not sampled: 116 widen (1,162 part-cups); 9 were REFUSED on what their values say (Q17_R4_REFUSED, below).
+ * triple was read, not sampled: 116 widened, 9 REFUSED on what their values say. REVIEWER AUDIT (29 Sep): an R4 widening needs
+ * >= 1 html_table / pdf_table row -- 18 of the 116 were hexcat_seed only (N31: the seed's datasheet doc_id is borrowed) and are
+ * reverted into Q17_R4_REFUSED pending a table read, so 98 stand (829 part-cups).
  * witness = the SKU with the most such facts (ties by SKU); held = the part-cups the veto measured.
  */
 const Q17_R4: readonly (readonly [category: string, kind: string, cup: string, witness: string, held: number])[] = [
@@ -176,12 +178,6 @@ const Q17_R4: readonly (readonly [category: string, kind: string, cup: string, w
   ["security", "security-module", "vpn_throughput", "SM-40", 3],
   ["servers-unified-computing", "cpu", "cpu_base_clock", "UCS-CPU-A9015", 35],
   ["servers-unified-computing", "server", "drive_interface", "UCSC-240M8E3-16X4", 4],
-  ["storage-networking", "director", "cooling", "DS-C9706", 3],
-  ["storage-networking", "director", "mgmt_class", "DS-C9706", 3],
-  ["storage-networking", "director", "switching_capacity", "DS-C9706", 3],
-  ["switches", "chassis", "cooling", "C6807-XL", 30],
-  ["switches", "chassis", "psu_redundant", "C6807-XL", 29],
-  ["switches", "chassis", "switching_capacity", "C6807-XL", 28],
   ["switches", "chassis", "mounting", "C9404R", 7],
   ["switches", "chassis", "mtbf", "C9404R", 7],
   ["switches", "fabric", "mtbf", "N9K-C9504-FM", 14],
@@ -193,12 +189,7 @@ const Q17_R4: readonly (readonly [category: string, kind: string, cup: string, w
   ["switches", "fan", "mtbf", "C9500X-FAN-1U-F", 5],
   ["switches", "fan", "power_typical", "N9K-C9504-FAN", 5],
   ["switches", "fan", "dimensions", "N9K-C9400-FAN-PI", 1],
-  ["switches", "fex", "forwarding_rate", "N2K-B22DELL-P", 16],
-  ["switches", "fex", "poe_standard", "N2K-B22DELL-P", 16],
-  ["switches", "fex", "stackable", "N2K-B22DELL-P", 16],
-  ["switches", "fex", "switching_capacity", "N2K-B22DELL-P", 16],
   ["switches", "linecard", "mtbf", "C9400-LC-12QC", 60],
-  ["switches", "linecard", "switching_capacity", "C6800-48P-SFP", 37],
   ["switches", "linecard", "packet_buffer", "WS-6148-GE-TX", 26],
   ["switches", "linecard", "power_typical", "N9K-C9400-SW-GX2A", 25],
   ["switches", "linecard", "weight", "N9K-C9400-SW-GX2A", 25],
@@ -245,13 +236,6 @@ const Q17_R4: readonly (readonly [category: string, kind: string, cup: string, w
   ["switches", "supervisor", "storage_capacity", "C9600-SUP-1", 4],
   ["switches", "supervisor", "dimensions", "N9K-C9400-SUP-A", 1],
   ["switches", "switch", "storage_capacity", "IE-3100-8T4S-E", 5],
-  ["transceiver", "breakout-cable", "ddm", "Q-4SFP25G-CU1.5M", 37],
-  ["transceiver", "breakout-cable", "form_factor", "Q-4SFP25G-CU1.5M", 37],
-  ["transceiver", "breakout-cable", "connector", "Q-4SFP25G-CU1.5M", 27],
-  ["transceiver", "breakout-cable", "standard", "Q-4SFP25G-CU1.5M", 21],
-  ["transceiver", "breakout-cable", "power_max", "QDD-2Q200-CU3M", 2],
-  ["transceiver", "cable", "wavelength", "QDD-400-AOC10M", 11],
-  ["transceiver", "tunable", "wavelength", "DP04QSDD-HE0", 1],
   ["wireless", "ap", "humidity_operating", "MR45", 2],
 ];
 
@@ -259,22 +243,110 @@ const Q17_R4: readonly (readonly [category: string, kind: string, cup: string, w
  *  not a comment: tests/cupLedger.test.ts fails if any of these is ever declared optional. They go to the to-read queue. */
 export const Q17_R4_REFUSED: readonly { category: string; kind: string; cup: string; why: string }[] = [
   { category: "servers-unified-computing", kind: "power", cup: "modulation_format", why: "'AC' / 'DC' is the input type, mis-keyed as an optical modulation format" },
-  { category: "meraki", kind: "security-camera", cup: "ieee_standards", why: "2 of 8 read ['No'], a yes/no cell poured into a list" },
   { category: "interfaces-modules", kind: "interface", cup: "certifications", why: "all 3 read ['No']" },
   { category: "routers", kind: "router", cup: "compatible_platform", why: "a prose bullet ('Cisco IOS XE based platforms, including ...'), a relation candidate, not a value" },
   { category: "routers", kind: "chassis", cup: "dram", why: "CRS-4/S '4': a 4-slot system's number read as memory" },
   { category: "optical-networking", kind: "mux", cup: "temp_operating", why: "{-5,-5}: only one end of the range was read" },
   { category: "optical-networking", kind: "mux", cup: "temp_storage", why: "{-40,-40}: only one end of the range was read" },
   { category: "optical-networking", kind: "mux", cup: "humidity_operating", why: "{95,95}: only the upper bound was read" },
-  { category: "switches", kind: "power", cup: "humidity_operating", why: "6 of 9 read {95,95}: only the upper bound was read" },
+  { category: "storage-networking", kind: "director", cup: "cooling", why: "SEED-ONLY: every row is a hexcat_seed whose datasheet doc_id is borrowed provenance (N31) -- reverted pending a table read (reviewer audit of R4, 29 Sep)" },
+  { category: "storage-networking", kind: "director", cup: "mgmt_class", why: "SEED-ONLY: every row is a hexcat_seed whose datasheet doc_id is borrowed provenance (N31) -- reverted pending a table read (reviewer audit of R4, 29 Sep)" },
+  { category: "storage-networking", kind: "director", cup: "switching_capacity", why: "SEED-ONLY: every row is a hexcat_seed whose datasheet doc_id is borrowed provenance (N31) -- reverted pending a table read (reviewer audit of R4, 29 Sep)" },
+  { category: "switches", kind: "chassis", cup: "cooling", why: "SEED-ONLY: every row is a hexcat_seed whose datasheet doc_id is borrowed provenance (N31) -- reverted pending a table read (reviewer audit of R4, 29 Sep)" },
+  { category: "switches", kind: "chassis", cup: "psu_redundant", why: "SEED-ONLY: every row is a hexcat_seed whose datasheet doc_id is borrowed provenance (N31) -- reverted pending a table read (reviewer audit of R4, 29 Sep)" },
+  { category: "switches", kind: "chassis", cup: "switching_capacity", why: "SEED-ONLY: every row is a hexcat_seed whose datasheet doc_id is borrowed provenance (N31) -- reverted pending a table read (reviewer audit of R4, 29 Sep)" },
+  { category: "switches", kind: "fex", cup: "forwarding_rate", why: "SEED-ONLY: every row is a hexcat_seed whose datasheet doc_id is borrowed provenance (N31) -- reverted pending a table read (reviewer audit of R4, 29 Sep)" },
+  { category: "switches", kind: "fex", cup: "poe_standard", why: "SEED-ONLY: every row is a hexcat_seed whose datasheet doc_id is borrowed provenance (N31) -- reverted pending a table read (reviewer audit of R4, 29 Sep)" },
+  { category: "switches", kind: "fex", cup: "stackable", why: "SEED-ONLY: every row is a hexcat_seed whose datasheet doc_id is borrowed provenance (N31) -- reverted pending a table read (reviewer audit of R4, 29 Sep)" },
+  { category: "switches", kind: "fex", cup: "switching_capacity", why: "SEED-ONLY: every row is a hexcat_seed whose datasheet doc_id is borrowed provenance (N31) -- reverted pending a table read (reviewer audit of R4, 29 Sep)" },
+  { category: "switches", kind: "linecard", cup: "switching_capacity", why: "SEED-ONLY: every row is a hexcat_seed whose datasheet doc_id is borrowed provenance (N31) -- reverted pending a table read (reviewer audit of R4, 29 Sep)" },
+  { category: "transceiver", kind: "breakout-cable", cup: "connector", why: "SEED-ONLY: every row is a hexcat_seed whose datasheet doc_id is borrowed provenance (N31) -- reverted pending a table read (reviewer audit of R4, 29 Sep)" },
+  { category: "transceiver", kind: "breakout-cable", cup: "ddm", why: "SEED-ONLY: every row is a hexcat_seed whose datasheet doc_id is borrowed provenance (N31) -- reverted pending a table read (reviewer audit of R4, 29 Sep)" },
+  { category: "transceiver", kind: "breakout-cable", cup: "form_factor", why: "SEED-ONLY: every row is a hexcat_seed whose datasheet doc_id is borrowed provenance (N31) -- reverted pending a table read (reviewer audit of R4, 29 Sep)" },
+  { category: "transceiver", kind: "breakout-cable", cup: "power_max", why: "SEED-ONLY: every row is a hexcat_seed whose datasheet doc_id is borrowed provenance (N31) -- reverted pending a table read (reviewer audit of R4, 29 Sep)" },
+  { category: "transceiver", kind: "breakout-cable", cup: "standard", why: "SEED-ONLY: every row is a hexcat_seed whose datasheet doc_id is borrowed provenance (N31) -- reverted pending a table read (reviewer audit of R4, 29 Sep)" },
+  { category: "transceiver", kind: "cable", cup: "wavelength", why: "SEED-ONLY: every row is a hexcat_seed whose datasheet doc_id is borrowed provenance (N31) -- reverted pending a table read (reviewer audit of R4, 29 Sep)" },
+  { category: "transceiver", kind: "tunable", cup: "wavelength", why: "SEED-ONLY: every row is a hexcat_seed whose datasheet doc_id is borrowed provenance (N31) -- reverted pending a table read (reviewer audit of R4, 29 Sep)" },
 ];
 
+/**
+ * THE READ TRIPLES (ruling Q17, 29 Sep 2026: "... -> the 90 read triples"). Every veto triple that was NOT all-datasheet was
+ * read -- data/dryrun/q17-read-decisions-cisco-2026-09-29.tsv gives each its remedy and why -- and these are the ones whose
+ * values are the property of the kind: an AP's mounting, a transmitter's SC output, an interface card's ports. Two had pours
+ * inside them (6 `{95,95}` humidities, 2 `["No"]` standards lists): those rows are retracted by exact value
+ * (scripts/retract-read-pours.mts) and the triples widen on their real rows, which is why they left Q17_R4_REFUSED.
+ * witness = the SKU with the most real rows (ties by SKU); held = the real part-cups measured.
+ */
+const Q17_READ: readonly (readonly [category: string, kind: string, cup: string, witness: string, held: number])[] = [
+  ["interfaces-modules", "interface", "ports", "8FE-FX-SC-B", 46],
+  ["interfaces-modules", "interface", "connector", "16OC3/POS-SM", 8],
+  ["meraki", "security-camera", "ieee_standards", "MV12N", 6],
+  ["optical-networking", "accessory", "connector", "MEC15201/SC/R=", 1],
+  ["optical-networking", "accessory", "rack_units", "NCS2K-MF10-6RU=", 1],
+  // the frame reclassified out of `mux` (NCS2K-MF-1RU= "Mechanical Frame - 4 slots - 1 RU") keeps its slot count
+  ["optical-networking", "accessory", "module_slots", "NCS2K-MF-1RU=", 1],
+  ["optical-networking", "amplifier", "connector", "15454-OPT-BST-E=", 3],
+  ["optical-networking", "mechanical", "rack_units", "15454-PP-4-SMR=", 9],
+  ["optical-networking", "mux", "connector", "15216-ATT-LC-10=", 11],
+  ["optical-networking", "mux", "rack_units", "NCS2K-MF-1RU=", 2],
+  ["optical-networking", "mux", "ports", "NCS2K-MF-8X10G-FO=", 1],
+  ["optical-networking", "mux", "standard", "15216-FLC-CWDM-8=", 1],
+  ["optical-networking", "transponder", "standard", "15454-10DME-C=", 10],
+  ["routers", "antenna", "cable_length", "3G-AE010-R", 5],
+  ["routers", "antenna", "mounting", "3G-ANTM-OUT-OM=", 5],
+  ["routers", "appliance", "dram", "C8200-UCPE-1N8", 8],
+  ["routers", "appliance", "module_slots", "C1100TG-1N24P32A", 4],
+  ["routers", "bundle", "flash", "CRS-FD-16G-10PK=", 5],
+  ["routers", "bundle", "dram", "ISR4320U-MEM-MSATA", 4],
+  ["routers", "bundle", "ports", "NC6-20X100GE-L-C", 4],
+  ["routers", "mechanical", "airflow", "8K-4RU-F2B-AIR", 15],
+  ["routers", "mechanical", "rack_units", "8K-2RU-KIT-L", 5],
+  ["routers", "module", "data_rate", "NCS4200-1T8S-10CS", 2],
+  ["routers", "module", "cable_length", "IRM-NIM-RS232", 1],
+  ["routers", "power", "ports", "800-IL-PM-2", 9],
+  ["routers", "router", "ports", "C1111-8PLTEEAS", 26],
+  ["routers", "router", "mounting", "C8130-G2", 12],
+  ["routers", "router", "storage_capacity", "C8211-G2", 8],
+  ["routers", "router", "input_voltage", "C8211-G2", 6],
+  ["routers", "router", "rack_units", "C8355-G2", 3],
+  ["routers", "sp-router", "rack_units", "NCS4201-SA", 2],
+  ["servers-unified-computing", "server", "storage_capacity", "C885A-NVD15TK1V", 26],
+  ["servers-unified-computing", "storage-controller", "data_rate", "PLHC-MRAID12G", 22],
+  ["switches", "bundle", "ports", "C1-N5672UP4FEX10GT", 24],
+  ["switches", "bundle", "poe_standard", "C4500E-3NR-7E-UPOE", 13],
+  ["switches", "linecard", "connector", "WS-X4124-RJ45=", 15],
+  ["switches", "mechanical", "airflow", "C9606-FB-23-KIT=", 1],
+  ["switches", "mechanical", "input_voltage", "N9800-DC-TRAY", 1],
+  ["switches", "olt", "uplink_ports", "CGP-OLT-16T", 2],
+  ["switches", "ont", "cooling", "CGP-ONT-1P", 4],
+  ["switches", "ont", "poe_standard", "CGP-ONT-4P", 3],
+  ["switches", "power", "humidity_operating", "PWR-IE240W-PCAC-L=", 3],
+  ["switches", "power", "certifications", "PWR-C2-1600WAC-I/2", 8],
+  ["switches", "power", "poe_standard", "PWR-C2-1025WAC=", 4],
+  ["switches", "switch", "airflow", "C1-C4500X-16SFP+", 45],
+  ["video", "accessory", "input_voltage", "741982", 1],
+  ["video", "accessory", "tx_power", "4003219.00", 1],
+  ["video", "amplifier", "connector", "4005263", 3],
+  ["video", "chassis", "input_voltage", "4011176.012.000.AA", 10],
+  ["video", "node", "tx_power", "HAX1X1XXXXXXXXXXBA", 7],
+  ["video", "passive", "connector", "1030007", 53],
+  ["video", "passive", "wavelength", "4004874", 3],
+  ["video", "transmitter", "connector", "P2HD1.2G13TXP04=", 70],
+  ["video", "transmitter", "temp_operating", "4012980", 12],
+  ["wireless", "accessory", "antenna_connector", "AIR-ACC1622", 6],
+  ["wireless", "antenna", "mounting", "AIR-ANT2440NV-R=", 18],
+  ["wireless", "antenna", "cable_length", "AIR-ANT2544V4M-R8=", 1],
+  ["wireless", "ap", "mounting", "3-CBW140AC-A-CA", 101],
+  ["wireless", "mechanical", "antenna_connector", "AIR-ACC15-N-CAP=", 3],
+  ["wireless", "power", "cable_length", "AIR-PWR-ST-LT-R3P=", 1],
+  ["wireless", "power-injector", "mounting", "AIR-PWRINJ-60-PMK=", 1],
+];
 /** The kind's declared optional sets: the hand-worked entries above plus the Q17 R4 widenings. A triple declared twice is a
- *  load-time error, never a silent overwrite. */
+ *  load-time error, never a silent overwrite. The Q17 read widenings join them (Q17_READ). */
 export const KIND_DECLARED_OPTIONAL: Readonly<Record<string, Readonly<Record<string, readonly { cup: string; witness: string; held: number }[]>>>> = (() => {
   const out: Record<string, Record<string, { cup: string; witness: string; held: number }[]>> = {};
   for (const [cat, kinds] of Object.entries(HAND_DECLARED_OPTIONAL)) for (const [kind, es] of Object.entries(kinds)) ((out[cat] ??= {})[kind] ??= []).push(...es);
-  for (const [cat, kind, cup, witness, held] of Q17_R4) {
+  for (const [cat, kind, cup, witness, held] of [...Q17_R4, ...Q17_READ]) {
     const list = ((out[cat] ??= {})[kind] ??= []);
     if (list.some((e) => e.cup === cup)) throw new Error(`KIND_DECLARED_OPTIONAL: ${cat}/${kind} ${cup} declared twice`);
     list.push({ cup, witness, held });

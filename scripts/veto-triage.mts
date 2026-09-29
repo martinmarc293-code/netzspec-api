@@ -10,7 +10,9 @@
 //   R4 widen   every part-cup of the triple was read off a vendor DATASHEET table (html_table / pdf_table, or an operator
 //              hexcat_seed whose evidence is the datasheet): the vendor states the cup for this kind, so the kind's set is
 //              what is wrong. The widening is a KIND_DECLARED_OPTIONAL entry (cupLedger.ts) naming the witness -- the SKU
-//              with the most such facts -- never a required cup.
+//              with the most such facts -- never a required cup. AND at least one row must be a TABLE read (html_table /
+//              pdf_table): reviewer audit, 29 Sep 2026 -- a hexcat_seed carries the datasheet's doc_id as BORROWED provenance
+//              (N31), so a seed-only triple proves nobody read the value off that sheet; it goes to the read list.
 //   to read    anything else, including a triple that MIXES datasheet rows with description mining or a bulletin: a person
 //              reads the rows before either the fact or the set moves, because widening would also bless the pours.
 //
@@ -33,6 +35,8 @@ if (!vendor) { console.error("usage: veto-triage.mts --vendor <slug>"); process.
 export const DATASHEET_METHODS: ReadonlySet<string> = new Set(["html_table", "pdf_table", "hexcat_seed"]);
 export const DATASHEET_DOCS: ReadonlySet<string> = new Set(["vendor_datasheet_html", "vendor_datasheet_pdf"]);
 export const statesIt = (method: string, docType: string | null): boolean => DATASHEET_METHODS.has(method) && !!docType && DATASHEET_DOCS.has(docType);
+/** A row actually READ off the sheet's table -- at least one per R4 triple (a seed's doc_id is borrowed, N31). */
+export const TABLE_METHODS: ReadonlySet<string> = new Set(["html_table", "pdf_table"]);
 
 const na = new Map<string, ReadonlySet<string>>();
 for (const [cat, kinds] of Object.entries(LEDGER_KINDS)) {
@@ -57,7 +61,7 @@ type Verdict = { triple: string; remedy: "R4 widen" | "to read"; parts: number; 
 const refusedWhy = new Map(Q17_R4_REFUSED.map((r) => [`${r.category}|${r.kind}|${r.cup}`, r.why]));
 const verdicts: Verdict[] = [];
 for (const [triple, rs] of byTriple) {
-  const all = rs.every((r) => statesIt(r.method, r.doc_type));
+  const all = rs.every((r) => statesIt(r.method, r.doc_type)) && rs.some((r) => TABLE_METHODS.has(r.method));
   const tally = new Map<string, number>();
   for (const r of rs) if (statesIt(r.method, r.doc_type)) tally.set(r.sku, (tally.get(r.sku) ?? 0) + 1);
   const witness = [...tally].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))[0]?.[0] ?? "";

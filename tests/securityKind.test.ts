@@ -74,6 +74,7 @@ const POSITIVES: [string, SecurityKind, string][] = [
   ["FMC-M6-HWRAID", "storage-controller", "'Cisco FMC M6 Boot optimized M.2 Raid controller'"],
   ["CCS-BAT-RAID-710=", "storage-controller", "'Content Security Raid Battery for x70 Model'"],
   ["SNS-PCIE-IQ10GF", "nic", "'Intel X710 quad-port 10G SFP+ NIC' — kind-layer: was compute"],
+  ["ST-M6-D100GF", "nic", "'Cisco SNA MELLANOX CX-5 MCX516A-CDAT 2x100GbE QSFP PCIe NIC' — Q17 read: the drive rule's -D<3 digits>G shape took D100G for a capacity"],
   ["CCS-M6-PCIE-IRJ45", "nic", "'Cisco Content Security Intel i350 Quad Port 1Gb Adapter'"],
   ["SNS-N2XX-ABPCI01", "nic", "'Broadcom 5709 Dual Port 10/100/1Gb NIC w/TOE iSCSI'"],
   ["FMC-M5-MSTOR-SD", "compute", "'Cisco FMC Mini Storage Carrier Card for SD (holds up to 2)' — residual compute: a carrier, no library noun"],

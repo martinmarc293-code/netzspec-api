@@ -101,7 +101,9 @@ const RULES: { kind: OpticalKind; re: RegExp }[] = [
   { kind: "pluggable", re: /^ONS-(?:S[CEI]\+?-|XC-|XE-|GC-|GX-|QC-|CC-|CPAK-|CXP2?-(?!MPO)|QSFP|QSP28|CFP2)|^15454E?-SFP|^15216-GBIC-|^DP0\d|^CFP2-WDM-|^QDD-/ },
   // Cables: patch cords (LC-LC, MU-LC, MPO-MPO, foldable MPO, CXP-CFP), power / DC / alarm / sync / USB cables,
   // TDM cable kits. NCS2006-CAB-DEFL is an air deflector and is named by the accessory rule first.
-  { kind: "accessory", re: /-CAB-DEFL$/ },
+  // RULING Q17, the read triples (29 Sep 2026): 15454-YCBL-LC= "15454 - 2RU Y-Cable Drawer (8 Modules positions)" -- the accessory
+  // rule below names ^15454-YCBL, and the cable rule's glued CBL token took it first.
+  { kind: "accessory", re: /-CAB-DEFL$|^15454-YCBL/ },
   // 15216-LC-SC-5 "Fiber patchcord - LC to SC" must reach this rule before the mux rule reads its SC segment.
   // The CBL token may carry its purpose glued in front: 15454-M-ALMCBL "SCSI Alarm cable", -TMGCBL "BITS IN/OUT
   // cable", -USBCBL, -ACCBL2 "AC2 power cable", NCS2006-DCCBL, ONS-4X10-MMCBL.
@@ -116,7 +118,10 @@ const RULES: { kind: OpticalKind; re: RegExp }[] = [
     // DEF21 / DEF23 are air deflectors, WM a wall-mount bracket, FA the NCS 4000 power front-connection adapter.
     // kind-layer (13 Sep 2026): + SHIPKIT — 15454-M-SHIPKIT= "Shipkit, Cisco ONS 15454 M6 and Cisco ONS 15454 M2" was a
     // line card by the 15454-M- family rule below.
-    re: /(?:^|-)(?:BLNK|BLANK|BRKT|KIT|SHIPKIT|ACC|CVR|COVER|TRAY|RAIL|DOOR|DR|DDR|FTF|FLTR|FILTER|LBK|RMK|CRAFT|LCD|SSD|ECU\d*|AIR|GUIDE|FILLER|PWRFLR|INST|STRT|DEF\d*|WM|FA|UPGRADE)(?:-|=|\d|$)|-SA-D$|\/UPGRADE$|^AK\/|^MEC\d|^15216-HD-|^PANEL-|^15454-PP-|^NCS2K-PPMESH|^NCS2K-MF\d|^15216-DCU-SA|^15454-YCBL|^1\d{4}-ATT-/,
+    // RULING Q17, the read triples (29 Sep 2026): + ^NCS2K-MF-\d+RU$ -- NCS2K-MF-1RU= "Mechanical Frame - 4 slots - 1 RU" and
+    // NCS2K-MF-6RU= "Mechanical Frame for Passive Units - 14slots" are the FRAME, like NCS2K-MF10-6RU= here; the mux rule's
+    // ^NCS2K-MF- (the units that mount IN it) took them.
+    re: /(?:^|-)(?:BLNK|BLANK|BRKT|KIT|SHIPKIT|ACC|CVR|COVER|TRAY|RAIL|DOOR|DR|DDR|FTF|FLTR|FILTER|LBK|RMK|CRAFT|LCD|SSD|ECU\d*|AIR|GUIDE|FILLER|PWRFLR|INST|STRT|DEF\d*|WM|FA|UPGRADE)(?:-|=|\d|$)|-SA-D$|\/UPGRADE$|^AK\/|^MEC\d|^15216-HD-|^PANEL-|^15454-PP-|^NCS2K-PPMESH|^NCS2K-MF\d|^NCS2K-MF-\d+RU$|^15216-DCU-SA|^15454-YCBL|^1\d{4}-ATT-/,
   },
   // Fans: fan trays and single fans (FTA = Fan Tray Assembly). NCS4216-PWR-FAN is a fan.
   { kind: "fan", re: /(?:^|-)(?:FAN|FTA)\d*(?:-|=|$)/ },
@@ -186,7 +191,10 @@ const RULES: { kind: OpticalKind; re: RegExp }[] = [
   // optical service channel module, and two MDS switching modules filed here (a row move is proposed).
   {
     kind: "linecard",
-    re: /^15454-(?:M-|AR-|\d+[A-Z]*-|GE-|OTU|ADM|DS3|MS-EXT)|^NCS2K-(?:\d|MR-)|^NCS4K-\d|^NCS1K\d*-(?:\d|QXP|OTN|OXP)|^NCS4200-\d|^NC55-|^CIM\d|^CO-\d|^CH\d+\/|^15216-OSC|^DS-X/,
+    // RULING Q17, the read triples (29 Sep 2026): + ^15454E?-ML\d -- the ML-series Ethernet cards (15454-ML1000-2 "1000-Mbps
+    // Ethernet card, 2 SFP slots", -ML100X-8, -ML100T-12, and their 15454E ETSI twins) reached no rule and the NAME path read
+    // their SFP slots as a pluggable.
+    re: /^15454-(?:M-|AR-|\d+[A-Z]*-|GE-|OTU|ADM|DS3|MS-EXT)|^15454E?-ML\d|^NCS2K-(?:\d|MR-)|^NCS4K-\d|^NCS1K\d*-(?:\d|QXP|OTN|OXP)|^NCS4200-\d|^NC55-|^CIM\d|^CO-\d|^CH\d+\/|^15216-OSC|^DS-X/,
   },
 ];
 
