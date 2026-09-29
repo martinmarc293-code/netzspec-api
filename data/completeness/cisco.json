@@ -3,13 +3,13 @@
   "definitions": "docs/completeness-model.md",
   "vendor": "cisco",
   "built_on_commit": "unknown",
-  "generated_at": "2026-09-28T23:12:24.075Z",
+  "generated_at": "2026-09-29T04:21:27.441Z",
   "inputs": {
     "ledgers_built_on": [
       "unknown"
     ],
     "censuses_built_on": [
-      "d58605c"
+      "664d515"
     ],
     "census_norm_versions": [
       "1.8.0"
@@ -39,7 +39,7 @@
       "run": 7533,
       "pending": 0
     },
-    "freeze_hash": "8b464c32a15dc3b5953203beb50905d2abe712084bceb2d9f2fa20c52ce638ef",
+    "freeze_hash": "22601294f9003e5e6247f4d203ec4e62169658c41f3c6d84245cee41bda5b35f",
     "worktree_dirty_paths": 0,
     "live_at_build": {
       "hardware_parts": 41067,
@@ -113,19 +113,19 @@
       },
       {
         "category": "routers",
-        "facts": 10664,
-        "census_facts": 10664,
-        "would_refuse": 11,
-        "census_would_refuse": 11,
+        "facts": 10663,
+        "census_facts": 10663,
+        "would_refuse": 10,
+        "census_would_refuse": 10,
         "could_not_replay": 530,
         "census_could_not_replay": 530
       },
       {
         "category": "security",
-        "facts": 824,
-        "census_facts": 824,
-        "would_refuse": 2,
-        "census_would_refuse": 2,
+        "facts": 822,
+        "census_facts": 822,
+        "would_refuse": 0,
+        "census_would_refuse": 0,
         "could_not_replay": 190,
         "census_could_not_replay": 190
       },
@@ -149,8 +149,8 @@
       },
       {
         "category": "switches",
-        "facts": 31396,
-        "census_facts": 31396,
+        "facts": 31412,
+        "census_facts": 31412,
         "would_refuse": 33,
         "census_would_refuse": 33,
         "could_not_replay": 1337,
@@ -221,16 +221,16 @@
     },
     "filled": {
       "required_slots_held": 86405,
-      "filled": 23239,
+      "filled": 23245,
       "not_published": 0,
-      "not_parsed": 63089,
+      "not_parsed": 63083,
       "mapper_gap": 0,
       "would_refuse": 77,
       "filled_not_rendered": 1302,
       "not_held_parts": 34417,
       "not_held_slots": 290602,
       "not_held_filled": 13310,
-      "num": 23239,
+      "num": 23245,
       "den": 86405,
       "pct": 26.9
     },
@@ -242,9 +242,9 @@
     },
     "inherited_share": {
       "inherited": 7355,
-      "filled": 23239,
+      "filled": 23245,
       "num": 7355,
-      "den": 23239,
+      "den": 23245,
       "pct": 31.6
     },
     "weakest_category": "interfaces-modules",
@@ -41529,16 +41529,16 @@
       },
       "filled": {
         "required_slots_held": 50492,
-        "filled": 15444,
+        "filled": 15450,
         "not_published": 0,
-        "not_parsed": 35048,
+        "not_parsed": 35042,
         "mapper_gap": 0,
         "would_refuse": 0,
         "filled_not_rendered": 1166,
         "not_held_parts": 5076,
         "not_held_slots": 111509,
         "not_held_filled": 4812,
-        "num": 15444,
+        "num": 15450,
         "den": 50492,
         "pct": 30.6
       },
@@ -41550,9 +41550,9 @@
       },
       "inherited_share": {
         "inherited": 4726,
-        "filled": 15444,
+        "filled": 15450,
         "num": 4726,
-        "den": 15444,
+        "den": 15450,
         "pct": 30.6
       },
       "kinds": [
@@ -47188,18 +47188,18 @@
           },
           "filled": {
             "required_slots_held": 22,
-            "filled": 3,
+            "filled": 7,
             "not_published": 0,
-            "not_parsed": 19,
+            "not_parsed": 15,
             "mapper_gap": 0,
             "would_refuse": 0,
             "filled_not_rendered": 0,
             "not_held_parts": 5,
             "not_held_slots": 10,
             "not_held_filled": 0,
-            "num": 3,
+            "num": 7,
             "den": 22,
-            "pct": 13.6
+            "pct": 31.8
           },
           "defects": {
             "would_refuse": 0,
@@ -47209,41 +47209,12 @@
           },
           "inherited_share": {
             "inherited": 0,
-            "filled": 3,
+            "filled": 7,
             "num": 0,
-            "den": 3,
+            "den": 7,
             "pct": 0
           },
           "cups": [
-            {
-              "key": "pon_ports",
-              "requirement": "required",
-              "gate": [],
-              "asked": 16,
-              "held_asked": 11,
-              "filled": 0,
-              "not_published": 0,
-              "not_parsed": 11,
-              "mapper_gap": 0,
-              "would_refuse": 0,
-              "not_held": 5,
-              "not_held_filled": 0,
-              "not_held_would_refuse": 0,
-              "could_not_replay": 0,
-              "inherited": 0,
-              "filled_not_rendered": 0,
-              "placeholders_stored": 0,
-              "filled_pct": {
-                "num": 0,
-                "den": 11,
-                "pct": 0
-              },
-              "fill_path": "none",
-              "observed_filled": false,
-              "label_occurrences": 0,
-              "sources_enabled": [],
-              "taps": []
-            },
             {
               "key": "ports",
               "requirement": "required",
@@ -47276,6 +47247,35 @@
               "taps": [
                 "cisco-datasheets"
               ]
+            },
+            {
+              "key": "pon_ports",
+              "requirement": "required",
+              "gate": [],
+              "asked": 16,
+              "held_asked": 11,
+              "filled": 4,
+              "not_published": 0,
+              "not_parsed": 7,
+              "mapper_gap": 0,
+              "would_refuse": 0,
+              "not_held": 5,
+              "not_held_filled": 0,
+              "not_held_would_refuse": 0,
+              "could_not_replay": 0,
+              "inherited": 0,
+              "filled_not_rendered": 0,
+              "placeholders_stored": 0,
+              "filled_pct": {
+                "num": 4,
+                "den": 11,
+                "pct": 36.4
+              },
+              "fill_path": "none",
+              "observed_filled": true,
+              "label_occurrences": 0,
+              "sources_enabled": [],
+              "taps": []
             }
           ],
           "role_axis": null
@@ -47309,18 +47309,18 @@
           },
           "filled": {
             "required_slots_held": 8,
-            "filled": 0,
+            "filled": 2,
             "not_published": 0,
-            "not_parsed": 8,
+            "not_parsed": 6,
             "mapper_gap": 0,
             "would_refuse": 0,
             "filled_not_rendered": 0,
             "not_held_parts": 1,
             "not_held_slots": 4,
             "not_held_filled": 0,
-            "num": 0,
+            "num": 2,
             "den": 8,
-            "pct": 0
+            "pct": 25
           },
           "defects": {
             "would_refuse": 0,
@@ -47330,10 +47330,10 @@
           },
           "inherited_share": {
             "inherited": 0,
-            "filled": 0,
+            "filled": 2,
             "num": 0,
-            "den": 0,
-            "pct": null
+            "den": 2,
+            "pct": 0
           },
           "cups": [
             {
@@ -47370,35 +47370,6 @@
               ]
             },
             {
-              "key": "pon_ports",
-              "requirement": "required",
-              "gate": [],
-              "asked": 3,
-              "held_asked": 2,
-              "filled": 0,
-              "not_published": 0,
-              "not_parsed": 2,
-              "mapper_gap": 0,
-              "would_refuse": 0,
-              "not_held": 1,
-              "not_held_filled": 0,
-              "not_held_would_refuse": 0,
-              "could_not_replay": 0,
-              "inherited": 0,
-              "filled_not_rendered": 0,
-              "placeholders_stored": 0,
-              "filled_pct": {
-                "num": 0,
-                "den": 2,
-                "pct": 0
-              },
-              "fill_path": "none",
-              "observed_filled": false,
-              "label_occurrences": 0,
-              "sources_enabled": [],
-              "taps": []
-            },
-            {
               "key": "pon_standard",
               "requirement": "required",
               "gate": [],
@@ -47421,11 +47392,13 @@
                 "den": 2,
                 "pct": 0
               },
-              "fill_path": "none",
+              "fill_path": "derived",
               "observed_filled": false,
               "label_occurrences": 0,
               "sources_enabled": [],
-              "taps": []
+              "taps": [
+                "derived: src/core/ponStandard.ts ponStandardFromStandards (the ITU-T / IEEE recommendation NUMBER in the part's standards list)"
+              ]
             },
             {
               "key": "ports",
@@ -47459,6 +47432,35 @@
               "taps": [
                 "cisco-datasheets"
               ]
+            },
+            {
+              "key": "pon_ports",
+              "requirement": "required",
+              "gate": [],
+              "asked": 3,
+              "held_asked": 2,
+              "filled": 2,
+              "not_published": 0,
+              "not_parsed": 0,
+              "mapper_gap": 0,
+              "would_refuse": 0,
+              "not_held": 1,
+              "not_held_filled": 0,
+              "not_held_would_refuse": 0,
+              "could_not_replay": 0,
+              "inherited": 0,
+              "filled_not_rendered": 0,
+              "placeholders_stored": 0,
+              "filled_pct": {
+                "num": 2,
+                "den": 2,
+                "pct": 100
+              },
+              "fill_path": "none",
+              "observed_filled": true,
+              "label_occurrences": 0,
+              "sources_enabled": [],
+              "taps": []
             }
           ],
           "role_axis": null
@@ -65076,7 +65078,7 @@
     },
     {
       "item": "would-refuse dispositions (MOVE / RETRACT / KEEP-REFUSING / RESHAPE)",
-      "count": 231,
+      "count": 228,
       "count_basis": "Σ census would_refuse_total over the committed censuses (every live part and key, not only required cups); the guide quotes 352, the committed censuses sum to this. The per-group split lives in the round-8 dispositions, not in the store.",
       "why_parked": "cleanup; visible as `defects`; none changes which cups exist",
       "trigger": "day one of filling, on the pilot first; group by group as approved in round 8"
@@ -65215,7 +65217,7 @@
       "hexcat_seed_facts_current": 14358,
       "inherited_share_of_stock": {
         "num": 36690,
-        "den": 80838,
+        "den": 80851,
         "pct": 45.4
       },
       "why_parked": "not arrangement; but a PDF-linked held part cannot fill from the PDF until the tap opens",
@@ -65255,10 +65257,10 @@
       "guide": "§2.3: a current fact (superseded_by IS NULL, not retracted) that the normaliser accepts",
       "code": "recompute-completeness counts only verified/corroborated facts as present (required_present); the ledger's gap_states.filled has no normaliser clause; this report counts any current non-gap state with a value and excludes would_refuse, per the build brief",
       "measured": {
-        "report_filled_held": 23239,
+        "report_filled_held": 23245,
         "of_which_conflict_or_unverified": 1302,
         "report_would_refuse_held": 77,
-        "completeness_required_present_held": 22012
+        "completeness_required_present_held": 22018
       }
     },
     {
@@ -65301,7 +65303,7 @@
       "guide": "§3.2 brand.defects.would_refuse 352 (census)",
       "code": "the census replays EVERY live part (any class) and EVERY key in a category; the report's defects are required cups of hardware parts only",
       "measured": {
-        "census_would_refuse_total": 231,
+        "census_would_refuse_total": 228,
         "census_could_not_replay_total": 9798,
         "report_would_refuse_required_held": 77,
         "report_would_refuse_required_not_held": 39,
@@ -65315,14 +65317,14 @@
       "measured": {
         "report": {
           "inherited": 7355,
-          "filled": 23239,
+          "filled": 23245,
           "num": 7355,
-          "den": 23239,
+          "den": 23245,
           "pct": 31.6
         },
         "stock": {
           "num": 36690,
-          "den": 80838,
+          "den": 80851,
           "pct": 45.4
         }
       }
@@ -65446,9 +65448,9 @@
     }
   ],
   "build": {
-    "data_commit": "d58605c2d59b+86dirty",
-    "code_commit": "d58605c2d59b",
+    "data_commit": "664d5151514f+81dirty",
+    "code_commit": "664d5151514f",
     "contract_hash": "bcfc4c1ee314d3c2",
-    "generated_at": "2026-09-28T23:19:25.017Z"
+    "generated_at": "2026-09-29T04:24:04.048Z"
   }
 }

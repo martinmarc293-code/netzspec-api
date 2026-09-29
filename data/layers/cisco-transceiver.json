@@ -1,8 +1,8 @@
 {
   "vendor": "cisco",
   "category": "transceiver",
-  "built_at": "2026-09-28T23:08:00.238Z",
-  "commit": "d58605c2d59b2ec65dc4a62b6b35b53156290d44",
+  "built_at": "2026-09-29T04:17:05.125Z",
+  "commit": "664d5151514f2ac9466c635bd9622d38c966d0ac",
   "uncommitted_rule_files": [],
   "mapping_file": "data/reference/product-lines/cisco-transceiver.json",
   "parts": 2109,
@@ -651,9 +651,9 @@
   "inbound_unplaced": {},
   "done": true,
   "build": {
-    "data_commit": "d58605c2d59b+86dirty",
-    "code_commit": "d58605c2d59b",
+    "data_commit": "664d5151514f+81dirty",
+    "code_commit": "664d5151514f",
     "contract_hash": "bcfc4c1ee314d3c2",
-    "generated_at": "2026-09-28T23:19:25.017Z"
+    "generated_at": "2026-09-29T04:24:04.048Z"
   }
 }
