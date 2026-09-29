@@ -22,6 +22,9 @@ import { planFile } from "../src/core/planFile.js";
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const arg = (n: string): string | undefined => { const i = process.argv.indexOf(n); return i >= 0 ? process.argv[i + 1] : undefined; };
 const vendor = arg("--vendor"), list = arg("--list"), commit = process.argv.includes("--commit"), approved = arg("--approved");
+// the tombstone's method (`retracted:<rule>`): one rule per ruling, so a later reader can tell the Q17 pours from the Q19 seeds
+const rule = arg("--rule") ?? "q17-read-pour";
+if (!/^[a-z0-9-]+$/.test(rule)) { console.error(`--rule must be a slug, got ${JSON.stringify(rule)}`); process.exit(2); }
 if (!vendor || !list) { console.error("usage: retract-read-pours.mts --vendor <slug> --list <pours.tsv> [--commit --approved \"...\"]"); process.exit(2); }
 if (commit && !approved) { console.error("--commit needs --approved \"<the ruling>\""); process.exit(2); }
 
@@ -68,13 +71,13 @@ for (const f of found.filter((x) => x.held)) console.log(`  HOLD    ${f.p.catego
 console.log(`  plan ${path.relative(ROOT, plan)} (sha256 ${planSha.slice(0, 12)})`);
 if (!commit) { console.log("DRY RUN: nothing written. Re-run with --commit --approved \"...\"."); await closePool(); process.exit(0); }
 if (!todo.length) { console.log("nothing to do"); await closePool(); process.exit(0); }
-const res = await withRun("retract-read-pours", { vendor, list, list_sha256: listSha, plan: path.relative(ROOT, plan), plan_sha256: planSha,
+const res = await withRun("retract-read-pours", { vendor, list, rule, list_sha256: listSha, plan: path.relative(ROOT, plan), plan_sha256: planSha,
   approved, retract: todo.length, held: found.length - todo.length }, async (runId) => withTx(async (client) => {
     // re-derived at write time: a row that stopped matching since the plan is not touched, and the run refuses
     const again = new Set((await look()).filter((f) => f.factId !== null).map((f) => f.factId));
     let retracted = 0;
-    // the rule becomes the tombstone's method (`retracted:q17-read-pour`); the per-row reason lives in the plan and the list
-    for (const f of todo) if (again.has(f.factId)) { await retractFact(client, Number(f.factId), "q17-read-pour", runId); retracted++; }
+    // the rule becomes the tombstone's method (`retracted:<rule>`); the per-row reason lives in the plan and the list
+    for (const f of todo) if (again.has(f.factId)) { await retractFact(client, Number(f.factId), rule, runId); retracted++; }
     if (retracted !== todo.length) throw new Error(`the plan named ${todo.length} and ${retracted} still match at write time — refused, nothing written`);
     return { stats: { retracted, held: found.length - todo.length } };
   }));

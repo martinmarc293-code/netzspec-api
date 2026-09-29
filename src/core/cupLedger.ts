@@ -255,7 +255,6 @@ export const Q17_R4_REFUSED: readonly { category: string; kind: string; cup: str
   { category: "switches", kind: "chassis", cup: "cooling", why: "SEED-ONLY: every row is a hexcat_seed whose datasheet doc_id is borrowed provenance (N31) -- reverted pending a table read (reviewer audit of R4, 29 Sep)" },
   { category: "switches", kind: "chassis", cup: "psu_redundant", why: "SEED-ONLY: every row is a hexcat_seed whose datasheet doc_id is borrowed provenance (N31) -- reverted pending a table read (reviewer audit of R4, 29 Sep)" },
   { category: "switches", kind: "chassis", cup: "switching_capacity", why: "SEED-ONLY: every row is a hexcat_seed whose datasheet doc_id is borrowed provenance (N31) -- reverted pending a table read (reviewer audit of R4, 29 Sep)" },
-  { category: "switches", kind: "fex", cup: "forwarding_rate", why: "SEED-ONLY: every row is a hexcat_seed whose datasheet doc_id is borrowed provenance (N31) -- reverted pending a table read (reviewer audit of R4, 29 Sep)" },
   { category: "switches", kind: "fex", cup: "poe_standard", why: "SEED-ONLY: every row is a hexcat_seed whose datasheet doc_id is borrowed provenance (N31) -- reverted pending a table read (reviewer audit of R4, 29 Sep)" },
   { category: "switches", kind: "fex", cup: "stackable", why: "SEED-ONLY: every row is a hexcat_seed whose datasheet doc_id is borrowed provenance (N31) -- reverted pending a table read (reviewer audit of R4, 29 Sep)" },
   { category: "switches", kind: "fex", cup: "switching_capacity", why: "SEED-ONLY: every row is a hexcat_seed whose datasheet doc_id is borrowed provenance (N31) -- reverted pending a table read (reviewer audit of R4, 29 Sep)" },
@@ -283,6 +282,11 @@ const Q17_READ: readonly (readonly [category: string, kind: string, cup: string,
   ["meraki", "security-camera", "ieee_standards", "MV12N", 6],
   ["optical-networking", "accessory", "connector", "MEC15201/SC/R=", 1],
   ["optical-networking", "accessory", "rack_units", "NCS2K-MF10-6RU=", 1],
+  // RULING Q19 (29 Sep 2026): of the 18 seed-only triples, the one whose seeds ARE on their own pages widens with that page as the
+  // witness -- 12 of 16 FEX forwarding rates verbatim ("131 Mpps" on the Nexus 2000 sheet). The other 17 stay in Q17_R4_REFUSED and
+  // their 317 seed facts (German shop renderings typed in as values) are retracted, so the veto clears because the false evidence
+  // is gone, not because the kind set moved (data/reference/q19-seed-retractions-cisco-2026-09-29.tsv).
+  ["switches", "fex", "forwarding_rate", "N2K-C2148T", 16],
   // the frame reclassified out of `mux` (NCS2K-MF-1RU= "Mechanical Frame - 4 slots - 1 RU") keeps its slot count
   ["optical-networking", "accessory", "module_slots", "NCS2K-MF-1RU=", 1],
   ["optical-networking", "amplifier", "connector", "15454-OPT-BST-E=", 3],

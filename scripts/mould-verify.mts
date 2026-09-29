@@ -323,6 +323,8 @@ const RUN_KIND_CLASS: Record<string, { approval: boolean; gate: boolean }> = {
   "retire-fragments": A,
   // ruling Q17, the read triples: pours retracted by EXACT row from a read list -> approval
   "retract-read-pours": A,
+  // ruling Q20: an orphan's recorded reading promoted (or a split range composed) as a new fact -> approval + gate
+  "promote-orphan-readings": AG,
 };
 // The vendor this lane has axes for; vendor_coverage owns every other vendor's hardware (unknown_zero counts them apart).
 const OWN_VENDOR = "cisco";

@@ -1,0 +1,318 @@
+category	kind	sku	cup	value	why
+storage-networking	director	DS-C9706	cooling	"redundant-replaceable"	Q19: a hexcat shop rendering typed in as a value ("Aktiv (3 Hot-Swap-Lüftermodule, front-to-back)"); no seed of this triple is verbatim on its own page
+storage-networking	director	DS-C9710	cooling	"redundant-replaceable"	Q19: a hexcat shop rendering typed in as a value ("Aktiv (3 Hot-Swap-Lüftermodule, front-to-back)"); no seed of this triple is verbatim on its own page
+storage-networking	director	DS-C9718	cooling	"redundant-replaceable"	Q19: a hexcat shop rendering typed in as a value ("Aktiv (3 Hot-Swap-Lüftermodule, front-to-back)"); no seed of this triple is verbatim on its own page
+storage-networking	director	DS-C9706	mgmt_class	"managed"	Q19: a hexcat shop rendering typed in as a value ("Managed"); no seed of this triple is verbatim on its own page
+storage-networking	director	DS-C9710	mgmt_class	"managed"	Q19: a hexcat shop rendering typed in as a value ("Managed"); no seed of this triple is verbatim on its own page
+storage-networking	director	DS-C9718	mgmt_class	"managed"	Q19: a hexcat shop rendering typed in as a value ("Managed"); no seed of this triple is verbatim on its own page
+storage-networking	director	DS-C9706	switching_capacity	12000	Q19: a hexcat shop rendering typed in as a value ("12 Tbit/s"); no seed of this triple is verbatim on its own page
+storage-networking	director	DS-C9710	switching_capacity	24000	Q19: a hexcat shop rendering typed in as a value ("24 Tbit/s"); no seed of this triple is verbatim on its own page
+storage-networking	director	DS-C9718	switching_capacity	48000	Q19: a hexcat shop rendering typed in as a value ("48 Tbit/s"); no seed of this triple is verbatim on its own page
+switches	chassis	C6807-XL	cooling	"redundant-replaceable"	Q19: a hexcat shop rendering typed in as a value ("Side-to-Side; hot-swap-Lüftereinschub (variable Drehzahl, N); no seed of this triple is verbatim on its own page
+switches	chassis	C9404R	cooling	"redundant-replaceable"	Q19: a hexcat shop rendering typed in as a value ("Aktiv (dual-serviceable Lüfter-Tray, N+1-redundante Lüfter,); no seed of this triple is verbatim on its own page
+switches	chassis	C9407R	cooling	"redundant-replaceable"	Q19: a hexcat shop rendering typed in as a value ("Aktiv (dual-serviceable Lüfter-Tray, N+1-redundante Lüfter,); no seed of this triple is verbatim on its own page
+switches	chassis	C9410R	cooling	"redundant-replaceable"	Q19: a hexcat shop rendering typed in as a value ("Aktiv (dual-serviceable Lüfter-Tray, N+1-redundante Lüfter,); no seed of this triple is verbatim on its own page
+switches	chassis	C9606R	cooling	"redundant-replaceable"	Q19: a hexcat shop rendering typed in as a value ("Aktiv (Lüfter-Tray C9606-FAN, 9 redundante Lüfter, Airflow ); no seed of this triple is verbatim on its own page
+switches	chassis	C9610R	cooling	"fixed-fans"	Q19: a hexcat shop rendering typed in as a value ("Aktiv (4× Lüfter-Tray C9610-FAN, Airflow front-to-back)"); no seed of this triple is verbatim on its own page
+switches	chassis	N77-C7702	cooling	"fixed-fans"	Q19: a hexcat shop rendering typed in as a value ("Front-to-Back; 1 Lüftereinschub (3 drehzahlgeregelte Lüfter); no seed of this triple is verbatim on its own page
+switches	chassis	N77-C7706	cooling	"redundant-replaceable"	Q19: a hexcat shop rendering typed in as a value ("Front-to-Back; 3 redundante Lüftereinschübe (hot-swap)"); no seed of this triple is verbatim on its own page
+switches	chassis	N77-C7710	cooling	"redundant-replaceable"	Q19: a hexcat shop rendering typed in as a value ("Front-to-Back; 3 redundante Lüftereinschübe (hot-swap)"); no seed of this triple is verbatim on its own page
+switches	chassis	N77-C7718	cooling	"redundant-replaceable"	Q19: a hexcat shop rendering typed in as a value ("Front-to-Back; 3 redundante Lüftereinschübe (hot-swap)"); no seed of this triple is verbatim on its own page
+switches	chassis	N7K-C7004	cooling	"redundant-replaceable"	Q19: a hexcat shop rendering typed in as a value ("Side-to-Rear; 1 Lüftereinschub (Lüfter-/Controller-Redundan); no seed of this triple is verbatim on its own page
+switches	chassis	N7K-C7009	cooling	"redundant-replaceable"	Q19: a hexcat shop rendering typed in as a value ("Side-to-Side; System- und Fabric-Lüfter (redundant, hot-swa); no seed of this triple is verbatim on its own page
+switches	chassis	N7K-C7010	cooling	"redundant-replaceable"	Q19: a hexcat shop rendering typed in as a value ("Front-to-Back; duale System- und Fabric-Lüftereinschübe (re); no seed of this triple is verbatim on its own page
+switches	chassis	N7K-C7018	cooling	"redundant-replaceable"	Q19: a hexcat shop rendering typed in as a value ("Side-to-Side; System- und Fabric-Lüfter (redundant, hot-swa); no seed of this triple is verbatim on its own page
+switches	chassis	N9K-C9408	cooling	"redundant-replaceable"	Q19: a hexcat shop rendering typed in as a value ("Aktiv (5× Lüfter-Modul, 4+1-redundant, Airflow front-to-bac); no seed of this triple is verbatim on its own page
+switches	chassis	N9K-C9504	cooling	"fixed-fans"	Q19: a hexcat shop rendering typed in as a value ("Aktiv (bis zu 3× Lüfter-Tray, midplane-loses Design, Airflo); no seed of this triple is verbatim on its own page
+switches	chassis	N9K-C9508	cooling	"fixed-fans"	Q19: a hexcat shop rendering typed in as a value ("Aktiv (bis zu 3× Lüfter-Tray, midplane-loses Design, Airflo); no seed of this triple is verbatim on its own page
+switches	chassis	N9K-C9516	cooling	"fixed-fans"	Q19: a hexcat shop rendering typed in as a value ("Aktiv (bis zu 3× Lüfter-Tray, midplane-loses Design, Airflo); no seed of this triple is verbatim on its own page
+switches	chassis	N9K-C9804	cooling	"redundant-replaceable"	Q19: a hexcat shop rendering typed in as a value ("Aktiv (4 Lüfter-Module/Fan-Trays, N+1-redundant, Airflow fr); no seed of this triple is verbatim on its own page
+switches	chassis	N9K-C9808	cooling	"redundant-replaceable"	Q19: a hexcat shop rendering typed in as a value ("Aktiv (4 Lüfter-Module/Fan-Trays, N+1-redundant, Airflow fr); no seed of this triple is verbatim on its own page
+switches	chassis	WS-C4503-E	cooling	"redundant-replaceable"	Q19: a hexcat shop rendering typed in as a value ("Lüftereinschub (Fan Tray, Hot-Swap)"); no seed of this triple is verbatim on its own page
+switches	chassis	WS-C4506-E	cooling	"redundant-replaceable"	Q19: a hexcat shop rendering typed in as a value ("Lüftereinschub (Fan Tray, Hot-Swap)"); no seed of this triple is verbatim on its own page
+switches	chassis	WS-C4507R+E	cooling	"redundant-replaceable"	Q19: a hexcat shop rendering typed in as a value ("Lüftereinschub (Fan Tray, Hot-Swap)"); no seed of this triple is verbatim on its own page
+switches	chassis	WS-C4510R+E	cooling	"redundant-replaceable"	Q19: a hexcat shop rendering typed in as a value ("Lüftereinschub (Fan Tray, Hot-Swap)"); no seed of this triple is verbatim on its own page
+switches	chassis	WS-C6503-E	cooling	"redundant-replaceable"	Q19: a hexcat shop rendering typed in as a value ("Lüftereinschub (Fan Tray, Hot-Swap)"); no seed of this triple is verbatim on its own page
+switches	chassis	WS-C6504-E	cooling	"redundant-replaceable"	Q19: a hexcat shop rendering typed in as a value ("Lüftereinschub (Fan Tray, Hot-Swap)"); no seed of this triple is verbatim on its own page
+switches	chassis	WS-C6506-E	cooling	"redundant-replaceable"	Q19: a hexcat shop rendering typed in as a value ("Lüftereinschub (Fan Tray, Hot-Swap)"); no seed of this triple is verbatim on its own page
+switches	chassis	WS-C6509-E	cooling	"redundant-replaceable"	Q19: a hexcat shop rendering typed in as a value ("Lüftereinschub (Fan Tray, Hot-Swap)"); no seed of this triple is verbatim on its own page
+switches	chassis	WS-C6509-V-E	cooling	"redundant-replaceable"	Q19: a hexcat shop rendering typed in as a value ("Redundante Lüfter (Front-to-Back, Hot-Swap)"); no seed of this triple is verbatim on its own page
+switches	chassis	WS-C6513-E	cooling	"redundant-replaceable"	Q19: a hexcat shop rendering typed in as a value ("Lüftereinschub (Fan Tray, Hot-Swap)"); no seed of this triple is verbatim on its own page
+switches	chassis	C6807-XL	psu_redundant	true	Q19: a hexcat shop rendering typed in as a value ("Supervisor 1+1, Lüfter N+1, Netzteil N+1"); no seed of this triple is verbatim on its own page
+switches	chassis	C9404R	psu_redundant	true	Q19: a hexcat shop rendering typed in as a value ("Supervisor (1+1), Netzteil (N+1 und N+N) und Lüfter (N+1)"); no seed of this triple is verbatim on its own page
+switches	chassis	C9407R	psu_redundant	true	Q19: a hexcat shop rendering typed in as a value ("Supervisor (1+1), Netzteil (N+1 und N+N) und Lüfter (N+1)"); no seed of this triple is verbatim on its own page
+switches	chassis	C9410R	psu_redundant	true	Q19: a hexcat shop rendering typed in as a value ("Supervisor (1+1), Netzteil (N+1 und N+N) und Lüfter (N+1)"); no seed of this triple is verbatim on its own page
+switches	chassis	C9606R	psu_redundant	true	Q19: a hexcat shop rendering typed in as a value ("Supervisor (1+1, SSO), Netzteil (Combined / N+1, bis zu 4 S); no seed of this triple is verbatim on its own page
+switches	chassis	C9610R	psu_redundant	true	Q19: a hexcat shop rendering typed in as a value ("Supervisor (1+1, SSO), Netzteil (Combined / N+1, bis zu 4 S); no seed of this triple is verbatim on its own page
+switches	chassis	N77-C7706	psu_redundant	true	Q19: a hexcat shop rendering typed in as a value ("Supervisor 1+1, Fabric, Netzteil und Lüfter (alle hot-swap)); no seed of this triple is verbatim on its own page
+switches	chassis	N77-C7710	psu_redundant	true	Q19: a hexcat shop rendering typed in as a value ("Supervisor 1+1, Fabric, Netzteil und Lüfter (alle hot-swap)); no seed of this triple is verbatim on its own page
+switches	chassis	N77-C7718	psu_redundant	true	Q19: a hexcat shop rendering typed in as a value ("Supervisor 1+1, Fabric, Netzteil und Lüfter (alle hot-swap)); no seed of this triple is verbatim on its own page
+switches	chassis	N7K-C7004	psu_redundant	true	Q19: a hexcat shop rendering typed in as a value ("Supervisor 1+1, Netzteil und Lüfter (OIR); Fabric-Redundanz); no seed of this triple is verbatim on its own page
+switches	chassis	N7K-C7009	psu_redundant	true	Q19: a hexcat shop rendering typed in as a value ("Supervisor 1+1, Fabric, Netzteil und Lüfter (alle OIR/hot-s); no seed of this triple is verbatim on its own page
+switches	chassis	N7K-C7010	psu_redundant	true	Q19: a hexcat shop rendering typed in as a value ("Supervisor 1+1, Fabric, Netzteil und Lüfter (alle OIR/hot-s); no seed of this triple is verbatim on its own page
+switches	chassis	N7K-C7018	psu_redundant	true	Q19: a hexcat shop rendering typed in as a value ("Supervisor 1+1, Fabric, Netzteil und Lüfter (alle OIR/hot-s); no seed of this triple is verbatim on its own page
+switches	chassis	N9K-C9408	psu_redundant	true	Q19: a hexcat shop rendering typed in as a value ("Netzteil 2+2, Lüfter 4+1 (alle hot-swap); 1 Supervisor (kei); no seed of this triple is verbatim on its own page
+switches	chassis	N9K-C9504	psu_redundant	true	Q19: a hexcat shop rendering typed in as a value ("Supervisor 1+1 (active-standby), Fabric, Netzteil und Lüfte); no seed of this triple is verbatim on its own page
+switches	chassis	N9K-C9508	psu_redundant	true	Q19: a hexcat shop rendering typed in as a value ("Supervisor 1+1 (active-standby), Fabric, Netzteil und Lüfte); no seed of this triple is verbatim on its own page
+switches	chassis	N9K-C9516	psu_redundant	true	Q19: a hexcat shop rendering typed in as a value ("Supervisor 1+1 (active-standby), Fabric, Netzteil und Lüfte); no seed of this triple is verbatim on its own page
+switches	chassis	N9K-C9804	psu_redundant	true	Q19: a hexcat shop rendering typed in as a value ("Supervisor 1+1, Fabric-Module (n+1), Netzteil und Lüfter (a); no seed of this triple is verbatim on its own page
+switches	chassis	N9K-C9808	psu_redundant	true	Q19: a hexcat shop rendering typed in as a value ("Supervisor 1+1, Fabric-Module (n+1, bis zu 8), Netzteil und); no seed of this triple is verbatim on its own page
+switches	chassis	WS-C4503-E	psu_redundant	true	Q19: a hexcat shop rendering typed in as a value ("Netzteil (1+1) und Lüftereinschub"); no seed of this triple is verbatim on its own page
+switches	chassis	WS-C4506-E	psu_redundant	true	Q19: a hexcat shop rendering typed in as a value ("Netzteil (1+1) und Lüftereinschub"); no seed of this triple is verbatim on its own page
+switches	chassis	WS-C4507R+E	psu_redundant	true	Q19: a hexcat shop rendering typed in as a value ("Supervisor (1+1), Netzteil (1+1) und Lüftereinschub"); no seed of this triple is verbatim on its own page
+switches	chassis	WS-C4510R+E	psu_redundant	true	Q19: a hexcat shop rendering typed in as a value ("Supervisor (1+1), Netzteil (1+1) und Lüftereinschub"); no seed of this triple is verbatim on its own page
+switches	chassis	WS-C6503-E	psu_redundant	true	Q19: a hexcat shop rendering typed in as a value ("Supervisor (1+1), Netzteil (1+1) und Lüftereinschub"); no seed of this triple is verbatim on its own page
+switches	chassis	WS-C6504-E	psu_redundant	true	Q19: a hexcat shop rendering typed in as a value ("Supervisor (1+1), Netzteil (1+1) und Lüftereinschub"); no seed of this triple is verbatim on its own page
+switches	chassis	WS-C6506-E	psu_redundant	true	Q19: a hexcat shop rendering typed in as a value ("Supervisor (1+1), Netzteil (1+1) und Lüftereinschub"); no seed of this triple is verbatim on its own page
+switches	chassis	WS-C6509-E	psu_redundant	true	Q19: a hexcat shop rendering typed in as a value ("Supervisor (1+1), Netzteil (1+1) und Lüftereinschub"); no seed of this triple is verbatim on its own page
+switches	chassis	WS-C6509-V-E	psu_redundant	true	Q19: a hexcat shop rendering typed in as a value ("Supervisor (1+1), Netzteil (1+1) und Lüftereinschub"); no seed of this triple is verbatim on its own page
+switches	chassis	WS-C6513-E	psu_redundant	true	Q19: a hexcat shop rendering typed in as a value ("Supervisor (1+1), Netzteil (1+1) und Lüftereinschub"); no seed of this triple is verbatim on its own page
+switches	chassis	C6807-XL	switching_capacity	440	Q19: a hexcat shop rendering typed in as a value ("440 Gbit/s pro Steckplatz"); no seed of this triple is verbatim on its own page
+switches	chassis	C9404R	switching_capacity	9000	Q19: a hexcat shop rendering typed in as a value ("Bis zu 9 Tbit/s"); no seed of this triple is verbatim on its own page
+switches	chassis	C9407R	switching_capacity	9000	Q19: a hexcat shop rendering typed in as a value ("Bis zu 9 Tbit/s"); no seed of this triple is verbatim on its own page
+switches	chassis	C9410R	switching_capacity	9000	Q19: a hexcat shop rendering typed in as a value ("Bis zu 9 Tbit/s"); no seed of this triple is verbatim on its own page
+switches	chassis	C9606R	switching_capacity	25600	Q19: a hexcat shop rendering typed in as a value ("Bis zu 25,6 Tbit/s"); no seed of this triple is verbatim on its own page
+switches	chassis	C9610R	switching_capacity	51200	Q19: a hexcat shop rendering typed in as a value ("Bis zu 51,2 Tbit/s"); no seed of this triple is verbatim on its own page
+switches	chassis	N77-C7706	switching_capacity	1320	Q19: a hexcat shop rendering typed in as a value ("1320 Gbit/s pro Steckplatz (6 Fabric-Module)"); no seed of this triple is verbatim on its own page
+switches	chassis	N77-C7710	switching_capacity	1320	Q19: a hexcat shop rendering typed in as a value ("1320 Gbit/s pro Steckplatz (6 Fabric-Module)"); no seed of this triple is verbatim on its own page
+switches	chassis	N77-C7718	switching_capacity	1320	Q19: a hexcat shop rendering typed in as a value ("1320 Gbit/s pro Steckplatz (6 Fabric-Module)"); no seed of this triple is verbatim on its own page
+switches	chassis	N7K-C7004	switching_capacity	440	Q19: a hexcat shop rendering typed in as a value ("440 Gbit/s (Inter-Slot, keine Fabric-Module)"); no seed of this triple is verbatim on its own page
+switches	chassis	N7K-C7009	switching_capacity	550	Q19: a hexcat shop rendering typed in as a value ("550 Gbit/s pro Steckplatz (5 Fabric-Module)"); no seed of this triple is verbatim on its own page
+switches	chassis	N7K-C7010	switching_capacity	550	Q19: a hexcat shop rendering typed in as a value ("550 Gbit/s pro Steckplatz (5 Fabric-Module)"); no seed of this triple is verbatim on its own page
+switches	chassis	N7K-C7018	switching_capacity	550	Q19: a hexcat shop rendering typed in as a value ("550 Gbit/s pro Steckplatz (5 Fabric-Module)"); no seed of this triple is verbatim on its own page
+switches	chassis	N9K-C9408	switching_capacity	25600	Q19: a hexcat shop rendering typed in as a value ("Bis zu 25,6 Tbit/s"); no seed of this triple is verbatim on its own page
+switches	chassis	N9K-C9504	switching_capacity	43200	Q19: a hexcat shop rendering typed in as a value ("Bis zu 43,2 Tbit/s"); no seed of this triple is verbatim on its own page
+switches	chassis	N9K-C9508	switching_capacity	86400	Q19: a hexcat shop rendering typed in as a value ("Bis zu 86,4 Tbit/s"); no seed of this triple is verbatim on its own page
+switches	chassis	N9K-C9516	switching_capacity	172800	Q19: a hexcat shop rendering typed in as a value ("Bis zu 172,8 Tbit/s"); no seed of this triple is verbatim on its own page
+switches	chassis	N9K-C9804	switching_capacity	115200	Q19: a hexcat shop rendering typed in as a value ("Bis zu 115,2 Tbit/s"); no seed of this triple is verbatim on its own page
+switches	chassis	WS-C4503-E	switching_capacity	48	Q19: a hexcat shop rendering typed in as a value ("48 Gbit/s pro Linecard-Steckplatz (mit Supervisor Sup8-E)"); no seed of this triple is verbatim on its own page
+switches	chassis	WS-C4506-E	switching_capacity	48	Q19: a hexcat shop rendering typed in as a value ("48 Gbit/s pro Linecard-Steckplatz (mit Supervisor Sup8-E)"); no seed of this triple is verbatim on its own page
+switches	chassis	WS-C4507R+E	switching_capacity	48	Q19: a hexcat shop rendering typed in as a value ("48 Gbit/s pro Linecard-Steckplatz (mit Supervisor Sup8-E)"); no seed of this triple is verbatim on its own page
+switches	chassis	WS-C4510R+E	switching_capacity	48	Q19: a hexcat shop rendering typed in as a value ("48 Gbit/s pro Linecard-Steckplatz (mit Supervisor Sup8-E)"); no seed of this triple is verbatim on its own page
+switches	chassis	WS-C6503-E	switching_capacity	80	Q19: a hexcat shop rendering typed in as a value ("80 Gbit/s pro Steckplatz (mit Supervisor Sup2T)"); no seed of this triple is verbatim on its own page
+switches	chassis	WS-C6504-E	switching_capacity	80	Q19: a hexcat shop rendering typed in as a value ("80 Gbit/s pro Steckplatz (mit Supervisor Sup2T)"); no seed of this triple is verbatim on its own page
+switches	chassis	WS-C6506-E	switching_capacity	80	Q19: a hexcat shop rendering typed in as a value ("80 Gbit/s pro Steckplatz (mit Supervisor Sup2T)"); no seed of this triple is verbatim on its own page
+switches	chassis	WS-C6509-E	switching_capacity	80	Q19: a hexcat shop rendering typed in as a value ("80 Gbit/s pro Steckplatz (mit Supervisor Sup2T)"); no seed of this triple is verbatim on its own page
+switches	chassis	WS-C6509-V-E	switching_capacity	80	Q19: a hexcat shop rendering typed in as a value ("80 Gbit/s pro Steckplatz (mit Supervisor Sup2T)"); no seed of this triple is verbatim on its own page
+switches	chassis	WS-C6513-E	switching_capacity	80	Q19: a hexcat shop rendering typed in as a value ("80 Gbit/s pro Steckplatz (mit Supervisor Sup2T)"); no seed of this triple is verbatim on its own page
+switches	fex	N2K-B22DELL-P	poe_standard	"none"	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+switches	fex	N2K-B22FTS-P	poe_standard	"none"	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+switches	fex	N2K-B22HP-P	poe_standard	"none"	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+switches	fex	N2K-B22IBM-P	poe_standard	"none"	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+switches	fex	N2K-C2148T	poe_standard	"none"	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+switches	fex	N2K-C2224TP-1GE	poe_standard	"none"	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+switches	fex	N2K-C2232PP-10GE	poe_standard	"none"	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+switches	fex	N2K-C2232TM-10GE	poe_standard	"none"	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+switches	fex	N2K-C2232TM-E-10GE	poe_standard	"none"	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+switches	fex	N2K-C2248PQ-10GE	poe_standard	"none"	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+switches	fex	N2K-C2248TP-1GE	poe_standard	"none"	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+switches	fex	N2K-C2248TP-E-1GE	poe_standard	"none"	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+switches	fex	N2K-C2332TQ-10GE	poe_standard	"none"	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+switches	fex	N2K-C2348TQ-10GE	poe_standard	"none"	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+switches	fex	N2K-C2348TQ-E-10GE	poe_standard	"none"	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+switches	fex	N2K-C2348UPQ-10GE	poe_standard	"none"	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+switches	fex	N2K-B22DELL-P	stackable	false	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+switches	fex	N2K-B22FTS-P	stackable	false	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+switches	fex	N2K-B22HP-P	stackable	false	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+switches	fex	N2K-B22IBM-P	stackable	false	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+switches	fex	N2K-C2148T	stackable	false	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+switches	fex	N2K-C2224TP-1GE	stackable	false	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+switches	fex	N2K-C2232PP-10GE	stackable	false	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+switches	fex	N2K-C2232TM-10GE	stackable	false	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+switches	fex	N2K-C2232TM-E-10GE	stackable	false	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+switches	fex	N2K-C2248PQ-10GE	stackable	false	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+switches	fex	N2K-C2248TP-1GE	stackable	false	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+switches	fex	N2K-C2248TP-E-1GE	stackable	false	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+switches	fex	N2K-C2332TQ-10GE	stackable	false	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+switches	fex	N2K-C2348TQ-10GE	stackable	false	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+switches	fex	N2K-C2348TQ-E-10GE	stackable	false	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+switches	fex	N2K-C2348UPQ-10GE	stackable	false	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+switches	fex	N2K-B22DELL-P	switching_capacity	400	Q19: a hexcat shop rendering typed in as a value ("400 Gbit/s"); no seed of this triple is verbatim on its own page
+switches	fex	N2K-B22FTS-P	switching_capacity	400	Q19: a hexcat shop rendering typed in as a value ("400 Gbit/s"); no seed of this triple is verbatim on its own page
+switches	fex	N2K-B22HP-P	switching_capacity	400	Q19: a hexcat shop rendering typed in as a value ("400 Gbit/s"); no seed of this triple is verbatim on its own page
+switches	fex	N2K-B22IBM-P	switching_capacity	400	Q19: a hexcat shop rendering typed in as a value ("400 Gbit/s"); no seed of this triple is verbatim on its own page
+switches	fex	N2K-C2148T	switching_capacity	176	Q19: a hexcat shop rendering typed in as a value ("176 Gbit/s"); no seed of this triple is verbatim on its own page
+switches	fex	N2K-C2224TP-1GE	switching_capacity	88	Q19: a hexcat shop rendering typed in as a value ("88 Gbit/s"); no seed of this triple is verbatim on its own page
+switches	fex	N2K-C2232PP-10GE	switching_capacity	800	Q19: a hexcat shop rendering typed in as a value ("800 Gbit/s"); no seed of this triple is verbatim on its own page
+switches	fex	N2K-C2232TM-10GE	switching_capacity	800	Q19: a hexcat shop rendering typed in as a value ("800 Gbit/s"); no seed of this triple is verbatim on its own page
+switches	fex	N2K-C2232TM-E-10GE	switching_capacity	800	Q19: a hexcat shop rendering typed in as a value ("800 Gbit/s"); no seed of this triple is verbatim on its own page
+switches	fex	N2K-C2248PQ-10GE	switching_capacity	1280	Q19: a hexcat shop rendering typed in as a value ("1280 Gbit/s"); no seed of this triple is verbatim on its own page
+switches	fex	N2K-C2248TP-1GE	switching_capacity	176	Q19: a hexcat shop rendering typed in as a value ("176 Gbit/s"); no seed of this triple is verbatim on its own page
+switches	fex	N2K-C2248TP-E-1GE	switching_capacity	176	Q19: a hexcat shop rendering typed in as a value ("176 Gbit/s"); no seed of this triple is verbatim on its own page
+switches	fex	N2K-C2332TQ-10GE	switching_capacity	960	Q19: a hexcat shop rendering typed in as a value ("960 Gbit/s"); no seed of this triple is verbatim on its own page
+switches	fex	N2K-C2348TQ-10GE	switching_capacity	1440	Q19: a hexcat shop rendering typed in as a value ("1440 Gbit/s"); no seed of this triple is verbatim on its own page
+switches	fex	N2K-C2348TQ-E-10GE	switching_capacity	1440	Q19: a hexcat shop rendering typed in as a value ("1440 Gbit/s"); no seed of this triple is verbatim on its own page
+switches	fex	N2K-C2348UPQ-10GE	switching_capacity	1440	Q19: a hexcat shop rendering typed in as a value ("1440 Gbit/s"); no seed of this triple is verbatim on its own page
+switches	linecard	C6800-48P-SFP	switching_capacity	40	Q19: a hexcat shop rendering typed in as a value ("40 Gbit/s zur Fabric (dual 20 Gbit/s)"); no seed of this triple is verbatim on its own page
+switches	linecard	C6800-48P-SFP-XL	switching_capacity	40	Q19: a hexcat shop rendering typed in as a value ("40 Gbit/s zur Fabric (dual 20 Gbit/s)"); no seed of this triple is verbatim on its own page
+switches	linecard	C6800-48P-TX	switching_capacity	40	Q19: a hexcat shop rendering typed in as a value ("40 Gbit/s zur Fabric (dual 20 Gbit/s)"); no seed of this triple is verbatim on its own page
+switches	linecard	C6800-48P-TX-XL	switching_capacity	40	Q19: a hexcat shop rendering typed in as a value ("40 Gbit/s zur Fabric (dual 20 Gbit/s)"); no seed of this triple is verbatim on its own page
+switches	linecard	C6880-X-16P10G	switching_capacity	220	Q19: a hexcat shop rendering typed in as a value ("220 Gbit/s je Steckplatz (80 Gbit/s Forwarding)"); no seed of this triple is verbatim on its own page
+switches	linecard	N77-F248XP-23E	switching_capacity	480	Q19: a hexcat shop rendering typed in as a value ("480 Gbit/s"); no seed of this triple is verbatim on its own page
+switches	linecard	N77-F312CK-26	switching_capacity	1200	Q19: a hexcat shop rendering typed in as a value ("1200 Gbit/s"); no seed of this triple is verbatim on its own page
+switches	linecard	N77-F324FQ-25	switching_capacity	960	Q19: a hexcat shop rendering typed in as a value ("960 Gbit/s"); no seed of this triple is verbatim on its own page
+switches	linecard	N77-F348XP-23	switching_capacity	480	Q19: a hexcat shop rendering typed in as a value ("480 Gbit/s"); no seed of this triple is verbatim on its own page
+switches	linecard	N77-F430CQ-36	switching_capacity	3000	Q19: a hexcat shop rendering typed in as a value ("3 Tbit/s"); no seed of this triple is verbatim on its own page
+switches	linecard	N77-M312CQ-26L	switching_capacity	1200	Q19: a hexcat shop rendering typed in as a value ("1200 Gbit/s"); no seed of this triple is verbatim on its own page
+switches	linecard	N77-M324FQ-25L	switching_capacity	960	Q19: a hexcat shop rendering typed in as a value ("960 Gbit/s"); no seed of this triple is verbatim on its own page
+switches	linecard	N77-M348XP-23L	switching_capacity	480	Q19: a hexcat shop rendering typed in as a value ("480 Gbit/s"); no seed of this triple is verbatim on its own page
+switches	linecard	N7K-F132XP-15	switching_capacity	320	Q19: a hexcat shop rendering typed in as a value ("320 Gbit/s"); no seed of this triple is verbatim on its own page
+switches	linecard	N7K-F248XP-25	switching_capacity	480	Q19: a hexcat shop rendering typed in as a value ("480 Gbit/s"); no seed of this triple is verbatim on its own page
+switches	linecard	N7K-F248XP-25E	switching_capacity	480	Q19: a hexcat shop rendering typed in as a value ("480 Gbit/s"); no seed of this triple is verbatim on its own page
+switches	linecard	N7K-F248XT-25E	switching_capacity	480	Q19: a hexcat shop rendering typed in as a value ("480 Gbit/s"); no seed of this triple is verbatim on its own page
+switches	linecard	N7K-F306CK-25	switching_capacity	600	Q19: a hexcat shop rendering typed in as a value ("600 Gbit/s"); no seed of this triple is verbatim on its own page
+switches	linecard	N7K-F312FQ-25	switching_capacity	480	Q19: a hexcat shop rendering typed in as a value ("480 Gbit/s"); no seed of this triple is verbatim on its own page
+switches	linecard	N7K-F348XP-25	switching_capacity	480	Q19: a hexcat shop rendering typed in as a value ("480 Gbit/s"); no seed of this triple is verbatim on its own page
+switches	linecard	N7K-M108X2-12	switching_capacity	80	Q19: a hexcat shop rendering typed in as a value ("80 Gbit/s"); no seed of this triple is verbatim on its own page
+switches	linecard	N7K-M108X2-12L	switching_capacity	80	Q19: a hexcat shop rendering typed in as a value ("80 Gbit/s"); no seed of this triple is verbatim on its own page
+switches	linecard	N7K-M132XP-12	switching_capacity	80	Q19: a hexcat shop rendering typed in as a value ("80 Gbit/s"); no seed of this triple is verbatim on its own page
+switches	linecard	N7K-M132XP-12L	switching_capacity	80	Q19: a hexcat shop rendering typed in as a value ("80 Gbit/s"); no seed of this triple is verbatim on its own page
+switches	linecard	N7K-M148GS-11	switching_capacity	46	Q19: a hexcat shop rendering typed in as a value ("46 Gbit/s"); no seed of this triple is verbatim on its own page
+switches	linecard	N7K-M148GS-11L	switching_capacity	46	Q19: a hexcat shop rendering typed in as a value ("46 Gbit/s"); no seed of this triple is verbatim on its own page
+switches	linecard	N7K-M148GT-11	switching_capacity	46	Q19: a hexcat shop rendering typed in as a value ("46 Gbit/s"); no seed of this triple is verbatim on its own page
+switches	linecard	N7K-M148GT-11L	switching_capacity	46	Q19: a hexcat shop rendering typed in as a value ("46 Gbit/s"); no seed of this triple is verbatim on its own page
+switches	linecard	N7K-M202CF-22L	switching_capacity	200	Q19: a hexcat shop rendering typed in as a value ("200 Gbit/s"); no seed of this triple is verbatim on its own page
+switches	linecard	N7K-M206FQ-23L	switching_capacity	240	Q19: a hexcat shop rendering typed in as a value ("240 Gbit/s"); no seed of this triple is verbatim on its own page
+switches	linecard	N7K-M224XP-23L	switching_capacity	240	Q19: a hexcat shop rendering typed in as a value ("240 Gbit/s"); no seed of this triple is verbatim on its own page
+switches	linecard	N7K-M324FQ-25L	switching_capacity	550	Q19: a hexcat shop rendering typed in as a value ("550 Gbit/s"); no seed of this triple is verbatim on its own page
+switches	linecard	N7K-M348XP-25L	switching_capacity	480	Q19: a hexcat shop rendering typed in as a value ("480 Gbit/s"); no seed of this triple is verbatim on its own page
+switches	linecard	WS-X6904-40G-2T	switching_capacity	80	Q19: a hexcat shop rendering typed in as a value ("80 Gbit/s (Vollduplex)"); no seed of this triple is verbatim on its own page
+switches	linecard	WS-X6904-40G-2TXL	switching_capacity	80	Q19: a hexcat shop rendering typed in as a value ("80 Gbit/s (Vollduplex)"); no seed of this triple is verbatim on its own page
+switches	linecard	WS-X6908-10G-2T	switching_capacity	80	Q19: a hexcat shop rendering typed in as a value ("80 Gbit/s (Vollduplex, 1:1)"); no seed of this triple is verbatim on its own page
+switches	linecard	WS-X6908-10G-2TXL	switching_capacity	80	Q19: a hexcat shop rendering typed in as a value ("80 Gbit/s (Vollduplex, 1:1)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	Q-4SFP25G-CU1.5M	connector	"integrated"	Q19: a hexcat shop rendering typed in as a value ("1× QSFP28 + 4× SFP28 (fest konfektioniert)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	Q-4SFP25G-CU2.5M	connector	"integrated"	Q19: a hexcat shop rendering typed in as a value ("1× QSFP28 + 4× SFP28 (fest konfektioniert)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QDD-2Q200-CU3M	connector	"integrated"	Q19: a hexcat shop rendering typed in as a value ("1× QSFP-DD auf 2× QSFP56 (fest konfektioniert)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-2Q200-CU3M	connector	"integrated"	Q19: a hexcat shop rendering typed in as a value ("QSFP-DD auf 2× QSFP56"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP10-CU0-5	connector	"integrated"	Q19: a hexcat shop rendering typed in as a value ("1× QSFP+ + 4× SFP+ (fest konfektioniert)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP10G-CU1M	connector	"integrated"	Q19: a hexcat shop rendering typed in as a value ("1× QSFP+ + 4× SFP+ (fest konfektioniert)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP10G-CU2M	connector	"integrated"	Q19: a hexcat shop rendering typed in as a value ("1× QSFP+ + 4× SFP+ (fest konfektioniert)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP10G-CU3M	connector	"integrated"	Q19: a hexcat shop rendering typed in as a value ("1× QSFP+ + 4× SFP+ (fest konfektioniert)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP10G-CU4M	connector	"integrated"	Q19: a hexcat shop rendering typed in as a value ("1× QSFP+ + 4× SFP+ (fest konfektioniert)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP10G-CU5M	connector	"integrated"	Q19: a hexcat shop rendering typed in as a value ("1× QSFP+ + 4× SFP+ (fest konfektioniert)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP25-CU1M	connector	"integrated"	Q19: a hexcat shop rendering typed in as a value ("1× QSFP28 + 4× SFP28 (fest konfektioniert)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP25-CU2M	connector	"integrated"	Q19: a hexcat shop rendering typed in as a value ("1× QSFP28 + 4× SFP28 (fest konfektioniert)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP25-CU3M	connector	"integrated"	Q19: a hexcat shop rendering typed in as a value ("1× QSFP28 + 4× SFP28 (fest konfektioniert)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP25-CU4M	connector	"integrated"	Q19: a hexcat shop rendering typed in as a value ("1× QSFP28 + 4× SFP28 (fest konfektioniert)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP25-CU5M	connector	"integrated"	Q19: a hexcat shop rendering typed in as a value ("1× QSFP28 + 4× SFP28 (fest konfektioniert)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP25G-CU1M	connector	"integrated"	Q19: a hexcat shop rendering typed in as a value ("1× QSFP28 + 4× SFP28 (fest konfektioniert)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP25G-CU2M	connector	"integrated"	Q19: a hexcat shop rendering typed in as a value ("1× QSFP28 + 4× SFP28 (fest konfektioniert)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP25G-CU3M	connector	"integrated"	Q19: a hexcat shop rendering typed in as a value ("1× QSFP28 + 4× SFP28 (fest konfektioniert)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP25G-CU5M	connector	"integrated"	Q19: a hexcat shop rendering typed in as a value ("1× QSFP28 + 4× SFP28 (fest konfektioniert)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4X10G-AC10M	connector	"integrated"	Q19: a hexcat shop rendering typed in as a value ("1× QSFP+ + 4× SFP+ (fest konfektioniert)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4X10G-AC7M	connector	"integrated"	Q19: a hexcat shop rendering typed in as a value ("1× QSFP+ + 4× SFP+ (fest konfektioniert)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4X10G-AOC10M	connector	"integrated"	Q19: a hexcat shop rendering typed in as a value ("1× QSFP+ + 4× SFP+ (fest konfektioniert)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4X10G-AOC1M	connector	"integrated"	Q19: a hexcat shop rendering typed in as a value ("1× QSFP+ + 4× SFP+ (fest konfektioniert)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4X10G-AOC2M	connector	"integrated"	Q19: a hexcat shop rendering typed in as a value ("1× QSFP+ + 4× SFP+ (fest konfektioniert)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4X10G-AOC3M	connector	"integrated"	Q19: a hexcat shop rendering typed in as a value ("1× QSFP+ + 4× SFP+ (fest konfektioniert)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4X10G-AOC5M	connector	"integrated"	Q19: a hexcat shop rendering typed in as a value ("1× QSFP+ + 4× SFP+ (fest konfektioniert)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4X10G-AOC7M	connector	"integrated"	Q19: a hexcat shop rendering typed in as a value ("1× QSFP+ + 4× SFP+ (fest konfektioniert)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	Q-4SFP25G-CU1.5M	ddm	false	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	Q-4SFP25G-CU2.5M	ddm	false	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QDD-2Q200-CU1M	ddm	false	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QDD-2Q200-CU2.5M	ddm	false	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QDD-2Q200-CU2M	ddm	false	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QDD-2Q200-CU3M	ddm	false	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QDD-4ZQ100-CU1M	ddm	false	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QDD-4ZQ100-CU2.5M	ddm	false	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QDD-4ZQ100-CU2M	ddm	false	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QDD-4ZQ100-CU3M	ddm	false	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-2Q200-CU3M	ddm	false	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP10-CU0-5	ddm	false	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP10G-CU1M	ddm	false	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP10G-CU2M	ddm	false	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP10G-CU3M	ddm	false	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP10G-CU4M	ddm	false	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP10G-CU5M	ddm	false	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP25-CU1M	ddm	false	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP25-CU2M	ddm	false	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP25-CU3M	ddm	false	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP25-CU4M	ddm	false	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP25-CU5M	ddm	false	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP25G-CU1.5M	ddm	false	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP25G-CU1M	ddm	false	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP25G-CU2.5M	ddm	false	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP25G-CU2M	ddm	false	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP25G-CU3M	ddm	false	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP25G-CU4M	ddm	false	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP25G-CU5M	ddm	false	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4X10G-AC10M	ddm	false	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4X10G-AC7M	ddm	false	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4X10G-AOC10M	ddm	false	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4X10G-AOC1M	ddm	false	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4X10G-AOC2M	ddm	false	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4X10G-AOC3M	ddm	false	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4X10G-AOC5M	ddm	false	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4X10G-AOC7M	ddm	false	Q19: a hexcat shop rendering typed in as a value ("Nein"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	Q-4SFP25G-CU1.5M	form_factor	"qsfp28"	Q19: a hexcat shop rendering typed in as a value ("QSFP28 zu 4× SFP28 (fest konfektioniert)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	Q-4SFP25G-CU2.5M	form_factor	"qsfp28"	Q19: a hexcat shop rendering typed in as a value ("QSFP28 zu 4× SFP28 (fest konfektioniert)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QDD-2Q200-CU1M	form_factor	"qsfp-dd"	Q19: a hexcat shop rendering typed in as a value ("QSFP-DD ↔ 2× QSFP56"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QDD-2Q200-CU2.5M	form_factor	"qsfp-dd"	Q19: a hexcat shop rendering typed in as a value ("QSFP-DD ↔ 2× QSFP56"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QDD-2Q200-CU2M	form_factor	"qsfp-dd"	Q19: a hexcat shop rendering typed in as a value ("QSFP-DD ↔ 2× QSFP56"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QDD-2Q200-CU3M	form_factor	"qsfp-dd"	Q19: a hexcat shop rendering typed in as a value ("QSFP-DD auf 2× QSFP56 (fest konfektioniert)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QDD-4ZQ100-CU1M	form_factor	"qsfp-dd"	Q19: a hexcat shop rendering typed in as a value ("QSFP-DD ↔ 4× QSFP28"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QDD-4ZQ100-CU2.5M	form_factor	"qsfp-dd"	Q19: a hexcat shop rendering typed in as a value ("QSFP-DD ↔ 4× QSFP56"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QDD-4ZQ100-CU2M	form_factor	"qsfp-dd"	Q19: a hexcat shop rendering typed in as a value ("QSFP-DD ↔ 4× QSFP28"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QDD-4ZQ100-CU3M	form_factor	"qsfp-dd"	Q19: a hexcat shop rendering typed in as a value ("QSFP-DD ↔ 4× QSFP28"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-2Q200-CU3M	form_factor	"qsfp-dd"	Q19: a hexcat shop rendering typed in as a value ("QSFP-DD auf 2× QSFP56"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP10-CU0-5	form_factor	"qsfp-plus"	Q19: a hexcat shop rendering typed in as a value ("QSFP+ zu 4× SFP+ (fest konfektioniert)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP10G-CU1M	form_factor	"qsfp-plus"	Q19: a hexcat shop rendering typed in as a value ("QSFP+ zu 4× SFP+ (fest konfektioniert)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP10G-CU2M	form_factor	"qsfp-plus"	Q19: a hexcat shop rendering typed in as a value ("QSFP+ zu 4× SFP+ (fest konfektioniert)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP10G-CU3M	form_factor	"qsfp-plus"	Q19: a hexcat shop rendering typed in as a value ("QSFP+ zu 4× SFP+ (fest konfektioniert)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP10G-CU4M	form_factor	"qsfp-plus"	Q19: a hexcat shop rendering typed in as a value ("QSFP+ zu 4× SFP+ (fest konfektioniert)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP10G-CU5M	form_factor	"qsfp-plus"	Q19: a hexcat shop rendering typed in as a value ("QSFP+ zu 4× SFP+ (fest konfektioniert)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP25-CU1M	form_factor	"qsfp28"	Q19: a hexcat shop rendering typed in as a value ("QSFP28 zu 4× SFP28 (fest konfektioniert)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP25-CU2M	form_factor	"qsfp28"	Q19: a hexcat shop rendering typed in as a value ("QSFP28 zu 4× SFP28 (fest konfektioniert)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP25-CU3M	form_factor	"qsfp28"	Q19: a hexcat shop rendering typed in as a value ("QSFP28 zu 4× SFP28 (fest konfektioniert)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP25-CU4M	form_factor	"qsfp28"	Q19: a hexcat shop rendering typed in as a value ("QSFP28 zu 4× SFP28 (fest konfektioniert)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP25-CU5M	form_factor	"qsfp28"	Q19: a hexcat shop rendering typed in as a value ("QSFP28 zu 4× SFP28 (fest konfektioniert)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP25G-CU1.5M	form_factor	"qsfp28"	Q19: a hexcat shop rendering typed in as a value ("QSFP28 ↔ 4× SFP28"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP25G-CU1M	form_factor	"qsfp28"	Q19: a hexcat shop rendering typed in as a value ("QSFP28 zu 4× SFP28 (fest konfektioniert)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP25G-CU2.5M	form_factor	"qsfp28"	Q19: a hexcat shop rendering typed in as a value ("QSFP28 ↔ 4× SFP28"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP25G-CU2M	form_factor	"qsfp28"	Q19: a hexcat shop rendering typed in as a value ("QSFP28 zu 4× SFP28 (fest konfektioniert)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP25G-CU3M	form_factor	"qsfp28"	Q19: a hexcat shop rendering typed in as a value ("QSFP28 zu 4× SFP28 (fest konfektioniert)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP25G-CU4M	form_factor	"qsfp28"	Q19: a hexcat shop rendering typed in as a value ("QSFP28 ↔ 4× SFP28"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP25G-CU5M	form_factor	"qsfp28"	Q19: a hexcat shop rendering typed in as a value ("QSFP28 zu 4× SFP28 (fest konfektioniert)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4X10G-AC10M	form_factor	"qsfp-plus"	Q19: a hexcat shop rendering typed in as a value ("QSFP+ zu 4× SFP+ (fest konfektioniert)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4X10G-AC7M	form_factor	"qsfp-plus"	Q19: a hexcat shop rendering typed in as a value ("QSFP+ zu 4× SFP+ (fest konfektioniert)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4X10G-AOC10M	form_factor	"qsfp-plus"	Q19: a hexcat shop rendering typed in as a value ("QSFP+ zu 4× SFP+ (fest konfektioniert)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4X10G-AOC1M	form_factor	"qsfp-plus"	Q19: a hexcat shop rendering typed in as a value ("QSFP+ zu 4× SFP+ (fest konfektioniert)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4X10G-AOC2M	form_factor	"qsfp-plus"	Q19: a hexcat shop rendering typed in as a value ("QSFP+ zu 4× SFP+ (fest konfektioniert)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4X10G-AOC3M	form_factor	"qsfp-plus"	Q19: a hexcat shop rendering typed in as a value ("QSFP+ zu 4× SFP+ (fest konfektioniert)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4X10G-AOC5M	form_factor	"qsfp-plus"	Q19: a hexcat shop rendering typed in as a value ("QSFP+ zu 4× SFP+ (fest konfektioniert)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4X10G-AOC7M	form_factor	"qsfp-plus"	Q19: a hexcat shop rendering typed in as a value ("QSFP+ zu 4× SFP+ (fest konfektioniert)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QDD-2Q200-CU3M	power_max	1.5	Q19: a hexcat shop rendering typed in as a value ("1,5 W je Ende"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-2Q200-CU3M	power_max	1.5	Q19: a hexcat shop rendering typed in as a value ("ca. 1,5 W je Ende (passiv)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	Q-4SFP25G-CU1.5M	standard	["100gbase-cr4","25gbase-cr"]	Q19: a hexcat shop rendering typed in as a value ("100GBASE-CR4 zu 4× 25GBASE-CR Breakout (Twinax, passiv)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	Q-4SFP25G-CU2.5M	standard	["100gbase-cr4","25gbase-cr"]	Q19: a hexcat shop rendering typed in as a value ("100GBASE-CR4 zu 4× 25GBASE-CR Breakout (Twinax, passiv)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QDD-2Q200-CU3M	standard	["200gbase-cr4"]	Q19: a hexcat shop rendering typed in as a value ("2× 200GBASE-CR4 (Twinax, passiv)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-2Q200-CU3M	standard	["200gbase-cr4"]	Q19: a hexcat shop rendering typed in as a value ("2× 200GBASE-CR4 (OIF CEI-56G-VSR-PAM4)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP10-CU0-5	standard	["40gbase-cr4","10gbase-cr"]	Q19: a hexcat shop rendering typed in as a value ("40GBASE-CR4 zu 4× 10GBASE-CR Breakout (Twinax, passiv)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP10G-CU1M	standard	["40gbase-cr4","10gbase-cr"]	Q19: a hexcat shop rendering typed in as a value ("40GBASE-CR4 zu 4× 10GBASE-CR Breakout (Twinax, passiv)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP10G-CU2M	standard	["40gbase-cr4","10gbase-cr"]	Q19: a hexcat shop rendering typed in as a value ("40GBASE-CR4 zu 4× 10GBASE-CR Breakout (Twinax, passiv)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP10G-CU3M	standard	["40gbase-cr4","10gbase-cr"]	Q19: a hexcat shop rendering typed in as a value ("40GBASE-CR4 zu 4× 10GBASE-CR Breakout (Twinax, passiv)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP10G-CU4M	standard	["40gbase-cr4","10gbase-cr"]	Q19: a hexcat shop rendering typed in as a value ("40GBASE-CR4 zu 4× 10GBASE-CR Breakout (Twinax, passiv)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP10G-CU5M	standard	["40gbase-cr4","10gbase-cr"]	Q19: a hexcat shop rendering typed in as a value ("40GBASE-CR4 zu 4× 10GBASE-CR Breakout (Twinax, passiv)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP25-CU1M	standard	["100gbase-cr4","25gbase-cr"]	Q19: a hexcat shop rendering typed in as a value ("100GBASE-CR4 zu 4× 25GBASE-CR Breakout (Twinax, passiv)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP25-CU2M	standard	["100gbase-cr4","25gbase-cr"]	Q19: a hexcat shop rendering typed in as a value ("100GBASE-CR4 zu 4× 25GBASE-CR Breakout (Twinax, passiv)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP25-CU3M	standard	["100gbase-cr4","25gbase-cr"]	Q19: a hexcat shop rendering typed in as a value ("100GBASE-CR4 zu 4× 25GBASE-CR Breakout (Twinax, passiv)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP25-CU4M	standard	["100gbase-cr4","25gbase-cr"]	Q19: a hexcat shop rendering typed in as a value ("100GBASE-CR4 zu 4× 25GBASE-CR Breakout (Twinax, passiv)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP25-CU5M	standard	["100gbase-cr4","25gbase-cr"]	Q19: a hexcat shop rendering typed in as a value ("100GBASE-CR4 zu 4× 25GBASE-CR Breakout (Twinax, passiv)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP25G-CU1M	standard	["100gbase-cr4","25gbase-cr"]	Q19: a hexcat shop rendering typed in as a value ("100GBASE-CR4 zu 4× 25GBASE-CR Breakout (Twinax, passiv)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP25G-CU2M	standard	["100gbase-cr4","25gbase-cr"]	Q19: a hexcat shop rendering typed in as a value ("100GBASE-CR4 zu 4× 25GBASE-CR Breakout (Twinax, passiv)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP25G-CU3M	standard	["100gbase-cr4","25gbase-cr"]	Q19: a hexcat shop rendering typed in as a value ("100GBASE-CR4 zu 4× 25GBASE-CR Breakout (Twinax, passiv)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4SFP25G-CU5M	standard	["100gbase-cr4","25gbase-cr"]	Q19: a hexcat shop rendering typed in as a value ("100GBASE-CR4 zu 4× 25GBASE-CR Breakout (Twinax, passiv)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4X10G-AC10M	standard	["40gbase-cr4","10gbase-cr"]	Q19: a hexcat shop rendering typed in as a value ("40GBASE-CR4 zu 4× 10GBASE-CR Breakout (Twinax, aktiv)"); no seed of this triple is verbatim on its own page
+transceiver	breakout-cable	QSFP-4X10G-AC7M	standard	["40gbase-cr4","10gbase-cr"]	Q19: a hexcat shop rendering typed in as a value ("40GBASE-CR4 zu 4× 10GBASE-CR Breakout (Twinax, aktiv)"); no seed of this triple is verbatim on its own page
+transceiver	cable	QDD-400-AOC10M	wavelength	850	Q19: a hexcat shop rendering typed in as a value ("850 nm"); no seed of this triple is verbatim on its own page
+transceiver	cable	QDD-400-AOC15M	wavelength	850	Q19: a hexcat shop rendering typed in as a value ("850 nm"); no seed of this triple is verbatim on its own page
+transceiver	cable	QDD-400-AOC1M	wavelength	850	Q19: a hexcat shop rendering typed in as a value ("850 nm"); no seed of this triple is verbatim on its own page
+transceiver	cable	QDD-400-AOC20M	wavelength	850	Q19: a hexcat shop rendering typed in as a value ("850 nm"); no seed of this triple is verbatim on its own page
+transceiver	cable	QDD-400-AOC25M	wavelength	850	Q19: a hexcat shop rendering typed in as a value ("850 nm"); no seed of this triple is verbatim on its own page
+transceiver	cable	QDD-400-AOC2M	wavelength	850	Q19: a hexcat shop rendering typed in as a value ("850 nm"); no seed of this triple is verbatim on its own page
+transceiver	cable	QDD-400-AOC30M	wavelength	850	Q19: a hexcat shop rendering typed in as a value ("850 nm"); no seed of this triple is verbatim on its own page
+transceiver	cable	QDD-400-AOC3M	wavelength	850	Q19: a hexcat shop rendering typed in as a value ("850 nm"); no seed of this triple is verbatim on its own page
+transceiver	cable	QDD-400-AOC5M	wavelength	850	Q19: a hexcat shop rendering typed in as a value ("850 nm"); no seed of this triple is verbatim on its own page
+transceiver	cable	QDD-400-AOC7M	wavelength	850	Q19: a hexcat shop rendering typed in as a value ("850 nm"); no seed of this triple is verbatim on its own page
+transceiver	cable	QSFP-100G-AOC	wavelength	850	Q19: a hexcat shop rendering typed in as a value ("850 nm"); no seed of this triple is verbatim on its own page
+transceiver	tunable	DP04QSDD-HE0	wavelength	1550	Q19: a hexcat shop rendering typed in as a value ("C-Band (1550 nm, volltunbar)"); no seed of this triple is verbatim on its own page

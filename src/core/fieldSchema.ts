@@ -691,7 +691,12 @@ export const FIELD_DICTIONARY: Record<string, FieldDef> = {
   flows_per_second: { key: "flows_per_second", de: "Flows pro Sekunde", en: "Flows per second", type: "n", unit: "1/s", band: [100, 10000000], etim: [], icecat: null },
   vpn_peers: { key: "vpn_peers", de: "IPsec-VPN-Peers", en: "IPsec VPN peers", type: "n", unit: "Peers", band: [1, 200000], etim: [], icecat: null },
   max_interfaces: { key: "max_interfaces", de: "Max. Schnittstellen", en: "Maximum interfaces", type: "n", band: [1, 400], etim: [], icecat: null },
-  storage_capacity: { key: "storage_capacity", de: "Onboard-Speicher", en: "Onboard storage", type: "n", unit: "GB", band: [1, 200000], etim: [], icecat: null },
+  // RULING Q21 (29 Sep 2026): the floor was 1 GB and refused a real Cisco part's printed value -- MEMUSB-128FT "128MB USB Flash
+  // Token for Cisco 1800/2800/3800 series" (0.125 GB) -- so the rekey of its flash into this cup was held. "A band that refuses a
+  // real Cisco part's printed value was never measured against the corpus; the value stays": the floor covers USB / eUSB flash,
+  // 64 MB = 0.0625 GB, witness MEMUSB-128FT's own sheet. Lowering a floor refuses nothing already stored (measured: 0 current
+  // facts under 1 GB in any vendor, because the band refused them at arrival).
+  storage_capacity: { key: "storage_capacity", de: "Onboard-Speicher", en: "Onboard storage", type: "n", unit: "GB", band: [0.0625, 200000], etim: [], icecat: null },
 
   // --- wireless (access points / WLAN controllers) --------------------------------------------
   // TYPE "s" -> "e" WITH A CLOSED DOMAIN, 12 Sep 2026 (reviewer round 3, §4 item 3 and item 7).
