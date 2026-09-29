@@ -131,5 +131,16 @@ HEAD/deployed 501b7ed (artefacts built on 0cbe5c5, contract 17b502e336ebefb6). R
      wireless kinds (149 SKUs move: 82 power-cord, 19 drive, 14 memory, 9 fan, 9 storage-controller, 6 cpu, 6 tpm, 4 nic),
      cellular registered in DERIVED_FILL_PATHS. New vetoes measured: 3 triples / 17 part-cups (wireless ap tdp = Meraki
      "Power consumption" mis-keyed; antenna dram = retraction rows; optical cable wire_gauge -> KIND_DECLARED_OPTIONAL).
+  BATCH E ON THE BOX (29 Sep ~20:29-21:10 UTC, code dcfb692 -> e3bbd1d): Q13 run 1400 resolve-superseded-readings 826; Q14 run 1401
+     resolve-no-held-conflicts 53; Q15 run 1402 N9K-AC04-A/B non_product (+1403 retract-inherited), run 1405 4X100G-LR-S retired, the 4
+     silent-document SKUs in the no-evidence term (code); Q16 run 1404 HX-16-* (12) licence; Q17 R1 run 1406 platform-slot-count 316
+     retracted / 4 held (+40 bundles not selected: read with the 90), cords 1407 (81 input_voltage) + 1408 (1 power_max); R3 run 1409
+     rekey 134 power_max->psu_rated_output + 19 antenna_connector->connector; R2 197 kind moves in code (ucsKind/sanKind/wireless).
+     Rebuild on dcfb692 FAILED at recompute: 1 completeness row on a RETIRED part (run 1405 left 4X100G-LR-S's score; retirePart never
+     dropped it) -> e3bbd1d: retirePart drops the score in the retirement (hygiene.test 125/0, sabotage 1 red), run 1412 dropped the
+     stale score (computed 12 Sep < retired 20:36). Rebuild on e3bbd1d RUNNING (/tmp/mould-build-e3bbd1d....log).
+  NEXT: board after the rebuild -> Batch E report; then R4 widenings + the 90 (re-measure the veto list first: R2 moved kinds);
+     then Q12 export (recorded files read: Main ';' 19 cols, Attributes/Condition/FAQ ',' ; Switch 20 attrs, Transceivers 14;
+     coverage of their source keys measured in /tmp only: weight 6% switches / 0% transceivers -> shop_ready will start near 0).
 ## Pinned predictions
 - run 1350 lands -> the enum CISCO line drops standard to 0 (was 555 seed); what remains red there is non-seed audio_codecs/antenna_type/spatial_streams + refused shape members. required_cup_defined not moved by it (other vendors seed untouched).
