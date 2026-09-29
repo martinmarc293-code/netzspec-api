@@ -315,6 +315,8 @@ const RUN_KIND_CLASS: Record<string, { approval: boolean; gate: boolean }> = {
   "convert-lan-wan-ports": AG,
   // a named rule proves a fact sits under the wrong cup and withdraws it (ruling Q8 onward) -> approval
   "retract-mis-keyed": A,
+  // ruling Q11 (29 Sep 2026): a conflict's class is a derived LABEL (no fact moves); closing an orphan closes a disagreement -> approval
+  "classify-conflicts": D, "resolve-orphan-conflicts": A,
 };
 // The vendor this lane has axes for; vendor_coverage owns every other vendor's hardware (unknown_zero counts them apart).
 const OWN_VENDOR = "cisco";
@@ -1912,17 +1914,30 @@ const TESTS: Test[] = [
         classes = [{ c: "(no class column exists)", n: String(total) }];
       }
       const scope = `${total.toLocaleString()} open conflicts; classes: ${classes.map((x) => `${x.c} ${x.n}`).join(", ")}`;
-      return unclassed === 0 && orphan === 0
-        ? ok(`every open conflict carries a class and disagrees about a value that exists — ${scope}`)
-        : bad(`${unclassed.toLocaleString()} open conflicts carry no class, and ${orphan.toLocaleString()} ` +
-              `are ORPHANS — the part holds no live fact for that key in any state a reader would serve or ` +
-              `dispute, so they disagree about nothing and can never be resolved — ${scope}`);
+      // PLAN A10 IN FULL (ruling Q11, 29 Sep 2026): a class on every open row, no orphan, AND no open normaliser-split -- a split
+      // is the normaliser disagreeing with itself over one cell, which is a defect to reconcile, never a standing disagreement.
+      const split = Number(classes.find((x) => x.c === "normaliser-split")?.n ?? 0);
+      const fails = [unclassed ? `${unclassed.toLocaleString()} open conflicts carry no class` : "",
+        orphan ? `${orphan.toLocaleString()} are ORPHANS — the part holds no live fact for that key in any state a reader would serve or dispute, so they disagree about nothing and can never be resolved` : "",
+        split ? `${split.toLocaleString()} are NORMALISER-SPLIT — one cell read two ways, to be reconciled` : ""].filter(Boolean);
+      return fails.length === 0
+        ? ok(`every open conflict carries a class, disagrees about a value that exists, and none is the normaliser against itself — ${scope}`)
+        : bad(`${fails.join("; ")} — ${scope}`);
     },
+    // Through the REAL classifier (src/core/conflictClass.ts, the writer's and the backfill's): two cells of one URL must NOT read
+    // as a source disagreement, a cell whose raw text changed across fetches must be revision-drift and one text read twice a
+    // split; two URLs are the only source-disagreement.
     selfTest: async () => {
-      const CLASSES = new Set(["source-disagreement", "same-doc-multicolumn", "normaliser-split", "revision-drift"]);
-      const actionable = (cls: string | null, liveFacts: number) => cls !== null && CLASSES.has(cls) && liveFacts > 0;
-      return { negative: actionable(null, 0), positive: actionable("source-disagreement", 2),
-               note: "an unclassified conflict over a key with no live fact must fail; a classified one with facts must pass" };
+      const { conflictClass } = await import("../src/core/conflictClass.js");
+      const a = { doc_id: "d1", locator: "t1:r2:c3", extracted_at: "2026-09-03", norm_v: "1.5.0" };
+      const negative = conflictClass(a, { ...a, locator: "t1:r2:c4" }) === "source-disagreement"
+        || conflictClass(a, { ...a, extracted_at: "2026-09-20" }, { kept_raw: "0.28 lb", rejected_raw: "0.30 lb" }) !== "revision-drift"
+        || conflictClass(null, a) !== null;
+      const positive = conflictClass(a, { ...a, doc_id: "d2" }) === "source-disagreement"
+        && conflictClass(a, { ...a, locator: "t1:r2:c4" }) === "same-doc-multicolumn"
+        && conflictClass(a, { ...a, norm_v: "1.8.6" }, { kept_raw: "0.28 lb (0.13 kg)", rejected_raw: "0.28 lb (0.13 kg)" }) === "normaliser-split";
+      return { negative, positive,
+               note: "one URL two cells is multicolumn (never a source disagreement); a changed raw across fetches is revision-drift; no evidence object is null, never guessed; two URLs disagree; one text read twice is a split" };
     },
   },
   {

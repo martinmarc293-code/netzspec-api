@@ -26,6 +26,7 @@ import {
   type MergeAction, type Prov, type SpecEntry, type FieldState,
 } from "../core/specMerge.js";
 import type { Queryable } from "./runs.js";
+import { conflictClass } from "../core/conflictClass.js";
 
 export type FactRow = {
   id: number;
@@ -232,11 +233,15 @@ async function insertConflict(
   raws?: { kept_raw?: string | null; rejected_raw?: string | null },
 ): Promise<number> {
   try {
+    // The CLASS at birth (ruling Q11, 29 Sep 2026): every conflict written from now on names why it disagrees, by the one
+    // function the backfill used (src/core/conflictClass.ts). A null (a side with no evidence object) is stored as null and
+    // counted by conflicts_classified, never guessed here.
+    const cls = conflictClass(c.kept_prov, c.rejected_prov, raws);
     const r = await client.query<{ id: number }>(
-      `INSERT INTO conflicts (part_id, field_key, kept, rejected, reason, kept_evidence, rejected_evidence, run_id, resolved_at, resolution, resolved_by, kept_raw, rejected_raw)
-       VALUES ($1, $2, $3::jsonb, $4::jsonb, $5, $6::jsonb, $7::jsonb, $8, ${resolved ? "now()" : "NULL"}, $9, $10, $11, $12) RETURNING id`,
+      `INSERT INTO conflicts (part_id, field_key, kept, rejected, reason, kept_evidence, rejected_evidence, run_id, resolved_at, resolution, resolved_by, kept_raw, rejected_raw, class)
+       VALUES ($1, $2, $3::jsonb, $4::jsonb, $5, $6::jsonb, $7::jsonb, $8, ${resolved ? "now()" : "NULL"}, $9, $10, $11, $12, $13) RETURNING id`,
       [partId, c.k, jsonParam(c.kept), jsonParam(c.rejected), c.reason, JSON.stringify(c.kept_prov), JSON.stringify(c.rejected_prov), runId,
-        resolved?.resolution ?? null, resolved?.resolved_by ?? null, raws?.kept_raw ?? null, raws?.rejected_raw ?? null],
+        resolved?.resolution ?? null, resolved?.resolved_by ?? null, raws?.kept_raw ?? null, raws?.rejected_raw ?? null, cls],
     );
     return r.rows[0].id;
   } catch (err) {

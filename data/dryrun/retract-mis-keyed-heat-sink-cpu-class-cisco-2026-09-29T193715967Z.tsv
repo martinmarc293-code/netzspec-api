@@ -1,0 +1,2 @@
+fact_id	sku	category	kind	field	action	value	name	why
+85343	CMX-HS-C220M5	wireless	module	power_max	retract	150	Heat sink for UCS C220 M5 rack servers 150W CPUs & below	heat-sink-cpu-class
