@@ -66,6 +66,28 @@ function norm(name, category, key, input, want, opts = {}) {
 // 1. the split
 // =================================================================================================
 split("TWIN a comma still separates", "UL 60950-1, CSA 60950-1", ["UL 60950-1", "CSA 60950-1"]);
+// 1.8.6 (ruling Q5, 29 Sep 2026): " ; " is the extractor's cell join and ALWAYS splits -- even inside a bullet item, which
+// keeps its commas. Stored as one member on 66 certifications facts; a glued ";" is not the join and is left alone.
+split("1.8.6 a spaced semicolon splits inside a bullet item (the extractor's cell join)",
+  "● GR-63-CORE: NEBS Physical Pr ; Cisco ASR 9000 Series Routers are designed to meet: ● SR-3580: NEBS Criteria Levels (Level 3)",
+  ["GR-63-CORE: NEBS Physical Pr", "Cisco ASR 9000 Series Routers are designed to meet:", "SR-3580: NEBS Criteria Levels (Level 3)"]);
+split("1.8.6 CONTROL a bullet item still keeps its commas", "● 802.1q VLAN support, 1024 VLANs, and jumbo frames ● IEEE 802.3ad",
+  ["802.1q VLAN support, 1024 VLANs, and jumbo frames", "IEEE 802.3ad"]);
+// 1.8.6: a certifications member naming two or more issuer-numbered standards is cut at each start; the edition note stays.
+norm("1.8.6 a bullet item of standards with edition notes is four certifications, not one", "routers", "certifications",
+  "● UL 1950 ● IEC 60950-1, 2 nd Ed. EN 60950-1, 2 nd Ed. UL 60950-1, 2 nd Ed. CAN/CSA-C22.2 No. 60950-1 2 nd Ed. 11",
+  ["UL 1950", "IEC 60950-1, 2 nd Ed.", "EN 60950-1, 2 nd Ed.", "UL 60950-1, 2 nd Ed.", "CAN/CSA-C22.2 No. 60950-1 2 nd Ed. 11"]);
+norm("1.8.6 CONTROL one standard and its notes stays ONE member", "routers", "certifications",
+  "● IEC 60950-1:2005, Second Edition, with all country deviations ● UL 1950",
+  ["IEC 60950-1:2005, Second Edition, with all country deviations", "UL 1950"]);
+norm("1.8.6 CONTROL a standard's supplement list stays ONE member", "routers", "certifications",
+  "● AS/NZS3260 Supplement 1, 2, 3, 4, 1997 ● UL 1950", ["AS/NZS3260 Supplement 1, 2, 3, 4, 1997", "UL 1950"]);
+norm("1.8.6 CONTROL standards inside brackets define the member before them; not cut", "routers", "certifications",
+  "● SR-3580 NEBS level 3 (GR-63-CORE, issue 3, GR-1089 CORE, issue 4) ● UL 1950",
+  ["SR-3580 NEBS level 3 (GR-63-CORE, issue 3, GR-1089 CORE, issue 4)", "UL 1950"]);
+norm("1.8.6 the run is certifications' alone: ieee keeps its ruled descriptive member", "switches", "ieee_standards",
+  "● IEEE 802.3x full duplex on 10BASE-T, 100BASE-TX, and 1000BASE-T ports ● IEEE 802.1D",
+  ["IEEE 802.3x full duplex on 10BASE-T, 100BASE-TX, and 1000BASE-T ports", "IEEE 802.1D"]);
 split("a comma INSIDE brackets belongs to the member",
   "ETS 300-019-2-1 V2.1.2 (Storage, Class 1.1)", ["ETS 300-019-2-1 V2.1.2 (Storage, Class 1.1)"]);
 // The twin's old example ("ETS 300-019-2-1 V2.1.2, Class 1.1") became a CONTINUATION under 1.5.2:

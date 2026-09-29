@@ -362,6 +362,42 @@ export function reshapeList(key: string, members: readonly string[]): Reshaped {
   return out;
 }
 
+// ---- 1.8.6: A RUN OF NUMBERED STANDARDS IS A LIST (ruling Q5, 29 Sep 2026) ---------------------------------------------
+//
+// The certifications replay fused identifier lists into one member: a bullet ITEM keeps its commas (1.8.2, right for prose
+// bullets) and "IEC 60950-1, 2 nd Ed. EN 60950-1, 2 nd Ed. UL 60950-1, 2 nd Ed. CAN/CSA-C22.2 No. 60950-1" came out as ONE
+// certification. Commas are the wrong cut -- "IEC 60950-1:2005, Second Edition, with all country deviations" is one
+// standard and its notes -- so the cut is where an issuer-numbered identifier BEGINS: each standard keeps its edition note.
+// Scoped to the keys whose members are issuer-numbered standards; ieee_standards keeps its ruled descriptive members
+// ("IEEE 802.3x full duplex on 10BASE-T, 100BASE-TX, and 1000BASE-T ports", 1.8.3).
+export const IDENTIFIER_RUN_KEYS: ReadonlySet<string> = new Set(["certifications"]);
+// An issuer followed by its number, or by "Part <n>" ("FCC Part 15.247"). No issuer glued to the end of another token
+// ("NZS" in "AS/NZS", "CSA" in "CAN/CSA") and no letter before it.
+const IDENTIFIER_START = new RegExp("(?<![A-Za-z0-9/])(?:" + ISSUER + ")(?:[ \\-]?(?=[0-9])|\\s+Part\\s+(?=[0-9]))", "gi");
+
+/** Where issuer-numbered identifiers BEGIN in `member`, outside brackets. Two or more is a fused member. */
+export function identifierStarts(member: string): number[] {
+  const out: number[] = [];
+  for (const m of member.matchAll(new RegExp(IDENTIFIER_START.source, IDENTIFIER_START.flags))) {
+    const at = m.index ?? 0;
+    const depth = [...member.slice(0, at)].reduce((d, ch) => d + (ch === "(" || ch === "[" ? 1 : ch === ")" || ch === "]" ? -1 : 0), 0);
+    if (depth <= 0) out.push(at);
+  }
+  return out;
+}
+
+/** A member naming two or more issuer-numbered standards is cut at each one's start; a head that is only a label ("ETSI:",
+ *  "USA:") is dropped, a trailing ", and" / ", or" is trimmed. One start or none: the member is returned whole. */
+export function splitIdentifierRun(key: string, member: string): string[] {
+  if (!IDENTIFIER_RUN_KEYS.has(key)) return [member];
+  const at = identifierStarts(member);
+  if (at.length < 2) return [member];
+  const head = member.slice(0, at[0]).trim();
+  const pieces = at.map((start, i) => member.slice(start, at[i + 1] ?? member.length)
+    .replace(/[\s,;]*(?:\b(?:and|or)\b)?[\s,;]*$/i, "").trim());
+  return [...(head && !/^[^:]{1,40}:$/.test(head) ? [head.replace(/[\s,;]+$/, "")] : []), ...pieces].filter((p) => /[A-Za-z0-9]/.test(p));
+}
+
 /** THE `.*` GUARD. A shape is a definition only when it can REFUSE, and only when its own fixtures
  *  behave: every accept fixture accepted, every refuse fixture refused, every flagged fixture flagged.
  *  A shape with an empty refuse set is reported as no definition at all, however well-formed it looks.

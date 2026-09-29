@@ -15,7 +15,7 @@
 
 import { FIELD_DICTIONARY, domainFor, unitFor, bandFor, type FieldType } from "./fieldSchema.js";
 import { parsePorts } from "./portParse.js";
-import { LIST_SHAPES, reshapeList } from "./listShapes.js";
+import { LIST_SHAPES, reshapeList, splitIdentifierRun } from "./listShapes.js";
 // The transposed-table detector needs "is this string a Cisco PID?". That question already has
 // ONE answer in this repo (src/pipeline/partNumber.ts, the twin of scraper/sources/base.py, held
 // in step with it by tests/db/apply-enumeration.test.ts over a shared fixture list). A local
@@ -67,7 +67,7 @@ import { isPartNumber } from "../pipeline/partNumber.js";
 //        string to a list on 4 Sep 2026 and the comma splitter then read 396 citation cells for the
 //        first time, cutting "MIL-STD-810, Method 514.4" into two standards that do not exist. The
 //        rule and every bound in it are read off the stored raws — see isCitationContinuation.
-export const NORM_VERSION = "1.8.5"; // 1.8.5 (29 Sep 2026, ruling (a')): a list with a registered SHAPE drops refused prose members after salvaging the identifiers inside them (listShapes.reshapeList); all-prose cells are refused. 29 Sep 2026: splitter (below) — 1.8.2 the pre-bullet head, spaced middle-dot runs; 1.8.3 a run of standards prefixes delimits its ;-chunk, commas or not; 1.8.4 antenna_gain {band24, band5} strict parser (0 stored facts) + the anchored spatial_streams MIMO sentence (MR46: 4x4:4)
+export const NORM_VERSION = "1.8.6"; // 1.8.6 (29 Sep 2026, ruling Q5): " ; " always splits a list cell; a certifications member naming 2+ issuer-numbered standards is cut at each start. 1.8.5 (29 Sep 2026, ruling (a')): a list with a registered SHAPE drops refused prose members after salvaging the identifiers inside them (listShapes.reshapeList); all-prose cells are refused. 29 Sep 2026: splitter (below) — 1.8.2 the pre-bullet head, spaced middle-dot runs; 1.8.3 a run of standards prefixes delimits its ;-chunk, commas or not; 1.8.4 antenna_gain {band24, band5} strict parser (0 stored facts) + the anchored spatial_streams MIMO sentence (MR46: 4x4:4)
 // 1.8.1 — 29 Sep 2026, reviewer ruling: two splitter defects with witnesses. A run of standards-body prefixes with no
 //         other delimiter ("ITUT G.984.1 ITUT G.984.2 ... IEEE 802.3af") and "PID or PID" are lists. Bumped so renormalize
 //         selects the stored values the old splitter wrote.
@@ -797,7 +797,19 @@ function splitPidOr(member: string): string[] {
   return parts.length > 1 && parts.every((p) => PID_SHAPE.test(p)) ? parts : [member];
 }
 
+/**
+ * " ; " ALWAYS SPLITS (1.8.6, ruling Q5, 29 Sep 2026). The extractor joins two table cells with a spaced semicolon, and
+ * nothing a document states spans that join -- but a bullet ITEM keeps its separators, so "GR-63-CORE: NEBS Physical Pr ;
+ * Cisco ASR 9000 Series Routers are designed to meet:" was stored as one certification (66 facts) and "802.11i (WPA2
+ * secur ; Safety:" as one IEEE standard. The cell is cut at every spaced semicolon FIRST and each chunk takes the path it
+ * always took; a glued ";" ("IC; CS-03, Part II") is untouched.
+ */
 export function splitListValue(raw: string, slashRule: SlashRule = "pid-alternatives"): string[] {
+  const chunks = String(raw ?? "").split(/\s+;\s+/);
+  return chunks.length > 1 ? chunks.flatMap((c) => splitListChunk(c, slashRule)) : splitListChunk(String(raw ?? ""), slashRule);
+}
+
+function splitListChunk(raw: string, slashRule: SlashRule): string[] {
   const t = middotsAsBullets(String(raw ?? "").replace(/\r\n?/g, "\n"));
   const clean = (parts: string[]) => parts.map((p) => p.replace(TRIM_EDGES, "").trim()).filter((p) => /[A-Za-z0-9]/.test(p));
   const alternatives = (parts: string[]) => clean(clean(parts.length === 1 ? splitPrefixRun(parts[0]) : parts)
@@ -2414,7 +2426,9 @@ function normalizeTyped(category: string, key: string, s: string, type: FieldTyp
       // re-classified `accept` by the same shape. Accepted, flagged and unclassified members are kept exactly. A cell whose
       // EVERY member is refused prose with no identifier in it is refused, never stored as an empty list.
       if (LIST_SHAPES[key]) {
-        const r = reshapeList(key, parts);
+        // 1.8.6 (ruling Q5): a member naming two or more issuer-numbered standards is cut at each one's start
+        // (listShapes.splitIdentifierRun; certifications only), THEN reshaped
+        const r = reshapeList(key, parts.flatMap((p) => splitIdentifierRun(key, p)));
         if (!r.members.length) return bad("PARSE_FAIL", `${key}: every member of "${s}" is prose the list shape refuses, and none carries an identifier`);
         return ok(r.members);
       }

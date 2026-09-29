@@ -72,6 +72,14 @@ HEAD fa0ac3e, deployed fa0ac3e (artefacts 62ecef1). Full rebuild = scripts/mould
      -> renormalize dry runs (ieee_standards, certifications, supported_protocols, ports; --vendor cisco; --allow quoting
      data/dryrun/refused-members-cisco-2026-09-29.txt) -> commit runs -> mould-build.sh -> board with key 17 -> report.
      lan/wan -> ports needs a ruling: the ports struct has NO role field ("retiring into ports with a role").
+  DONE ON THE BOX (c249f73): sync-dictionary run 1379 (4 inserted, 48 updated); renormalize COMMITTED run 1380 ieee_standards
+     466 superseded / 1 retracted, run 1381 supported_protocols 1,005 / 18, run 1382 ports 105 / 33 (all optics counts). A box
+     probe proved ieee/protocols changes are the reshape alone (0 splitter-driven). portParse read row by row 4x -> 5 rules
+     (c249f73). A rebuild was started and STOPPED in its read-only MISS phase (no write) to fold in Q5/Q6 first.
+  RULINGS 18:1x UTC: Q5 NORM 1.8.6 then ONE certifications replay (fused members -> 0; bullet un-fusion stays; ' ; ' always
+     splits; one sabotage per rule; per-key before/after in the plan). Q6 ports struct gets OPTIONAL role (lan|wan|uplink|mgmt),
+     already ruled; measure across vendors first (expect 0 invalidated), then lan/wan convert into ports with their role;
+     NOT lan_ports/wan_ports (duplicate cup). The five parsePorts rules accepted; combo SFP+ double count = named residue.
   (d) was: check fix, rows, exceptions, KIND_QUESTION_SET_FROM, GATED_CUPS,
      wireless kinds (149 SKUs move: 82 power-cord, 19 drive, 14 memory, 9 fan, 9 storage-controller, 6 cpu, 6 tpm, 4 nic),
      cellular registered in DERIVED_FILL_PATHS. New vetoes measured: 3 triples / 17 part-cups (wireless ap tdp = Meraki

@@ -131,7 +131,11 @@ export type FieldDef = {
 const VENDORS = ["cisco", "hpe", "aruba", "juniper", "arista", "dell-emc", "lenovo", "extreme",
   "fortinet", "nvidia", "mikrotik", "ubiquiti", "supermicro"];
 
-const PORT_SHAPE = "list{ port_typ: e(rj45|sfp|sfp-plus|sfp28|sfp56|qsfp-plus|qsfp28|qsfp-dd|combo|other), speed: ls, anzahl: n }";
+// `role` JOINED 29 Sep 2026 (reviewer ruling Q6): OPTIONAL -- a group without one states no role ("not stated"), so every stored
+// value stays valid (structShapeProblem refuses only UNDECLARED keys). It is how lan_interfaces / wan_interfaces retire into
+// `ports`: one quantity, one cup, the role naming which side of the device a group is on. The grammar has no "?" marker (a
+// "role?:" would not even register as a key in parseShape), so the optionality is this comment and the check's own rule.
+const PORT_SHAPE = "list{ port_typ: e(rj45|sfp|sfp-plus|sfp28|sfp56|qsfp-plus|qsfp28|qsfp-dd|combo|other), speed: ls, anzahl: n, role: e(lan|wan|uplink|mgmt) }";
 
 // --- free-string cups, closed 13 Sep 2026 (phase-1 close guide §5.4) --------------------------------------
 // The decision per cup, its stored-value evidence across every vendor and its refusal counts live in
