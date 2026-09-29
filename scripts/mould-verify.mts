@@ -29,7 +29,7 @@ import { deployRoleResult, roleAxisOf, roleAxisKinds } from "../src/core/deployR
 import { query, closePool, getPool } from "../src/store/db.js";
 import { syncDictionaryOn, dictionaryRows, profileRows, type DictionarySyncResult } from "../src/store/dictionary.js";
 import os from "node:os";
-import { existsSync, readFileSync, appendFileSync, mkdirSync } from "node:fs";
+import { existsSync, readFileSync, appendFileSync, mkdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -539,48 +539,80 @@ const TESTS: Test[] = [
     needsDb: true,
     // Covers `ls` as well as `e`. The scan that first measured this filtered `type === "e"` and undercounted,
     // which is the same predicate that blinded the German coverage check — one wrong filter, two instruments.
+    // VENDOR SCOPE (reviewer ruling, 29 Sep 2026): the same two lines as vendor_coverage -- a CISCO line that judges and a
+    // BRAND-WIDE line that is printed. Another lane's out-of-domain facts are that lane's to fix, so they cannot turn this
+    // lane red, and they cannot vanish from the output either.
     run: async () => {
       const keys = Object.entries(FIELD_DICTIONARY)
         .filter(([, d]) => ["e", "ls"].includes((d as { type?: string }).type ?? "")).map(([k]) => k);
-      const rows = (await query<{ cat: string; key: string; value: string; n: string }>(`
-        SELECT c.slug cat, f.field_key key, f.value::text value, count(*)::text n
-          FROM facts f JOIN parts p ON p.id=f.part_id JOIN categories c ON c.id=p.category_id
+      const rows = (await query<{ vendor: string; cat: string; key: string; value: string; n: string }>(`
+        SELECT v.slug vendor, c.slug cat, f.field_key key, f.value::text value, count(*)::text n
+          FROM facts f JOIN parts p ON p.id=f.part_id JOIN categories c ON c.id=p.category_id JOIN vendors v ON v.id=p.vendor_id
          WHERE f.field_key = ANY($1::text[]) AND f.superseded_by IS NULL
            AND f.method NOT LIKE 'retracted:%' AND p.retired_at IS NULL AND f.value IS NOT NULL
-         GROUP BY 1,2,3`, [keys])).rows;
-      const byKey = new Map<string, number>();
-      let out = 0, total = 0;
+         GROUP BY 1,2,3,4`, [keys])).rows;
+      type Side = { out: number; total: number; byKey: Map<string, number> };
+      const own: Side = { out: 0, total: 0, byKey: new Map() }, all: Side = { out: 0, total: 0, byKey: new Map() };
       for (const r of rows) {
-        const n = Number(r.n); total += n;
+        const n = Number(r.n), sides = r.vendor === OWN_VENDOR ? [own, all] : [all];
+        for (const s of sides) s.total += n;
         let v: unknown; try { v = JSON.parse(r.value); } catch { v = r.value; }
         const vals = Array.isArray(v) ? v : [v];
         const dom = domainFor(r.cat, r.key) ?? (FIELD_DICTIONARY[r.key] as { domain?: string[] }).domain ?? [];
         if (!dom.length) continue;
         if (vals.every((x) => typeof x === "string" && dom.includes(x))) continue;
-        out += n; byKey.set(r.key, (byKey.get(r.key) ?? 0) + n);
+        for (const s of sides) { s.out += n; s.byKey.set(r.key, (s.byKey.get(r.key) ?? 0) + n); }
       }
-      const worst = [...byKey].sort((a, b) => b[1] - a[1]).slice(0, 6).map(([k, n]) => `${k} ${n}`).join(", ");
-      // THE SHAPE-DEFINED LIST CUPS (reviewer ruling, 29 Sep 2026). certifications, ieee_standards, supported_protocols
-      // and emc_emissions have no domain -- a registered SHAPE (src/core/listShapes.ts, e9aad23) is their definition --
-      // so the loop above skips them and they were invisible to the one check that should cover them. Their members are
-      // classified by the shape's own grammar and REPORTED per key beside the domain count; the pass condition is the
-      // domain count, unchanged (whether a refused member should fail it is a question put to the reviewer).
+      const worst = (s: Side) => [...s.byKey].sort((a, b) => b[1] - a[1]).slice(0, 6).map(([k, n]) => `${k} ${n}`).join(", ");
+      // THE SHAPE-DEFINED LIST CUPS. certifications, ieee_standards, supported_protocols and emc_emissions have no domain --
+      // a registered SHAPE (src/core/listShapes.ts) is their definition -- so the domain loop skips them. Their members are
+      // classified by the shape's own grammar. Ruled 29 Sep 2026: a REFUSED member fails the Cisco line (the grammar says it
+      // is junk); UNCLASSIFIED is a ratchet -- printed, may not grow past the committed ceiling, and the ceiling only ever
+      // falls (--record-shape-ceiling writes min(ceiling, now), so recording cannot launder growth); FLAGGED (truncation,
+      // bullet residue) is reported and never failed. A missing or unreadable ceiling file is red: could not check is not a pass.
       const shapeKeys = Object.keys(LIST_SHAPES);
-      const sh = new Map<string, Record<MemberVerdict, number>>();
-      for (const r of (await query<{ key: string; value: string; n: string }>(`
-          SELECT f.field_key key, f.value::text value, count(*)::text n FROM facts f JOIN parts p ON p.id=f.part_id
+      const blank = (): Record<MemberVerdict, number> => ({ accept: 0, refuse: 0, flagged: 0, unclassified: 0 });
+      const shOwn = new Map<string, Record<MemberVerdict, number>>(), shAll = new Map<string, Record<MemberVerdict, number>>();
+      for (const r of (await query<{ vendor: string; key: string; value: string; n: string }>(`
+          SELECT v.slug vendor, f.field_key key, f.value::text value, count(*)::text n
+            FROM facts f JOIN parts p ON p.id=f.part_id JOIN vendors v ON v.id=p.vendor_id
            WHERE f.field_key = ANY($1::text[]) AND f.superseded_by IS NULL AND f.method NOT LIKE 'retracted:%'
-             AND p.retired_at IS NULL AND f.value IS NOT NULL GROUP BY 1,2`, [shapeKeys])).rows) {
+             AND p.retired_at IS NULL AND f.value IS NOT NULL GROUP BY 1,2,3`, [shapeKeys])).rows) {
         let v: unknown; try { v = JSON.parse(r.value); } catch { v = r.value; }
-        const t = sh.get(r.key) ?? { accept: 0, refuse: 0, flagged: 0, unclassified: 0 };
-        for (const m of Array.isArray(v) ? v : [v]) t[classifyMember(r.key, String(m))] += Number(r.n);
-        sh.set(r.key, t);
+        const maps = r.vendor === OWN_VENDOR ? [shOwn, shAll] : [shAll];
+        for (const m of Array.isArray(v) ? v : [v]) {
+          const verdict = classifyMember(r.key, String(m));
+          for (const mp of maps) { const t = mp.get(r.key) ?? blank(); t[verdict] += Number(r.n); mp.set(r.key, t); }
+        }
       }
-      const shapes = "shape-defined list cups (members): " + shapeKeys.map((k) => { const t = sh.get(k);
+      const shapes = (mp: Map<string, Record<MemberVerdict, number>>) => shapeKeys.map((k) => { const t = mp.get(k);
         return t ? `${k} accept ${t.accept} / refuse ${t.refuse} / flagged ${t.flagged} / unclassified ${t.unclassified}` : `${k} holds no facts`; }).join("; ");
-      return out === 0
-        ? ok(`every one of ${total} enum/list facts is inside its category's domain; ${shapes}`)
-        : bad(`${out} of ${total} facts hold a value outside their domain — ${worst}; ${shapes}`);
+      const CEIL = path.join(REPO, "data", "completeness", "shape-unclassified-ceiling.json");
+      const nowUnc: Record<string, number> = Object.fromEntries(shapeKeys.map((k) => [k, shOwn.get(k)?.unclassified ?? 0]));
+      type Ceil = { vendor: string; unit: string; recorded_at: string; git_sha: string; ceiling: Record<string, number> };
+      let ceil: Ceil | null = null, ceilErr = "";
+      try { if (existsSync(CEIL)) ceil = JSON.parse(readFileSync(CEIL, "utf8")) as Ceil; else ceilErr = `no ceiling file at ${path.relative(REPO, CEIL)}`; }
+      catch (e) { ceilErr = `the ceiling file is unreadable: ${e instanceof Error ? e.message : String(e)}`; }
+      if (!ceilErr && (ceil?.vendor !== OWN_VENDOR || typeof ceil?.ceiling !== "object")) ceilErr = `the ceiling file is not a ${OWN_VENDOR} ceiling`;
+      if (process.argv.includes("--record-shape-ceiling")) {
+        const merged = Object.fromEntries(shapeKeys.map((k) => [k, Math.min(nowUnc[k], ceil?.ceiling?.[k] ?? Infinity)]));
+        ceil = { vendor: OWN_VENDOR, unit: "unclassified MEMBERS (fact-weighted) of live facts on live parts", recorded_at: new Date().toISOString(),
+          git_sha: process.env.GIT_SHA ?? "unknown", ceiling: merged };
+        mkdirSync(path.dirname(CEIL), { recursive: true });
+        writeFileSync(CEIL, JSON.stringify(ceil, null, 2) + "\n");
+        ceilErr = "";
+      }
+      const grown = ceilErr ? [] : shapeKeys.filter((k) => nowUnc[k] > (ceil!.ceiling[k] ?? 0))
+        .map((k) => `${k} ${nowUnc[k]} > ceiling ${ceil!.ceiling[k] ?? 0}`);
+      const refused = shapeKeys.map((k) => [k, shOwn.get(k)?.refuse ?? 0] as const).filter(([, n]) => n > 0);
+      const ratchet = ceilErr ? `unclassified ratchet: ${ceilErr}` : `unclassified ratchet (ceiling ${ceil!.git_sha.slice(0, 7)}): ` +
+        shapeKeys.map((k) => `${k} ${nowUnc[k]}/${ceil!.ceiling[k] ?? 0}`).join(", ");
+      const brand = `BRAND-WIDE (printed, not judged): ${all.out} of ${all.total} facts outside their domain${all.out ? ` — ${worst(all)}` : ""}; shape members: ${shapes(shAll)}`;
+      const line = `${OWN_VENDOR.toUpperCase()}: ${own.out} of ${own.total} facts outside their domain${own.out ? ` — ${worst(own)}` : ""}; ` +
+        `shape members: ${shapes(shOwn)}; ${ratchet} || ${brand}`;
+      const fails = [own.out ? `${own.out} out-of-domain facts` : "", refused.length ? `refused shape members ${refused.map(([k, n]) => `${k} ${n}`).join(", ")}` : "",
+        ceilErr ? "no readable unclassified ceiling" : "", grown.length ? `unclassified grew: ${grown.join(", ")}` : ""].filter(Boolean);
+      return fails.length ? bad(`${fails.join("; ")} — ${line}`) : ok(line);
     },
   },
   {
