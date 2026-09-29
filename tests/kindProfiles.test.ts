@@ -2,7 +2,7 @@
 //
 //   npx tsx tests/kindProfiles.test.ts
 import { FIELD_DICTIONARY, requirementFor } from "../src/core/fieldSchema.js";
-import { KIND_PARITY_EXCEPTIONS, parityRuled, leaseLapsed, type KindParityException } from "../src/core/kindProfiles.js";
+import { KIND_PARITY_EXCEPTIONS, parityRuled, leaseLapsed, formatParitySplit, type KindParityException } from "../src/core/kindProfiles.js";
 import { KIND_DECLARED_OPTIONAL, LEDGER_KINDS, kindQuestionSet } from "../src/core/cupLedger.js";
 
 let passed = 0; const misses: string[] = [];
@@ -33,6 +33,19 @@ check("SABOTAGE Q3: the routers ruling does not excuse wireless (interfaces-modu
   !hole.ruled && hole.uncovered.join() === "power_max", JSON.stringify(hole));
 const closed = parityRuled("module", ["power_max"], ["routers", "interfaces-modules", "wireless"], () => "req");
 check("CONTROL Q3: the same ruling covers the cup when every category it does not name agrees", closed.ruled, JSON.stringify(closed));
+
+// THE GROUPING, not a pair (29 Sep 2026): the board printed `diffs[0]` = interfaces-modules vs routers for module power_max,
+// the one pair already RULED, while the unruled split (wireless against the three that ask) was nowhere on the line.
+// Through the REAL resolver over the five categories holding a live module today.
+const five = ["interfaces-modules", "routers", "security", "switches", "wireless"];
+const grouped = parityRuled("module", ["power_max"], five, real("module"));
+const g = grouped.split.find((s) => s.cup === "power_max");
+check("GROUPING: routers is reported as RULED for power_max, never inside the split", !!g && g.ruled.join() === "routers" &&
+  !Object.values(g.answers).flat().includes("routers"), JSON.stringify(g));
+check("GROUPING: every unruled category appears in exactly one answer group (none dropped, none twice)",
+  !!g && Object.values(g.answers).flat().sort().join() === five.filter((c) => c !== "routers").sort().join(), JSON.stringify(g));
+check("GROUPING: the printed line names every category of the split", !!g &&
+  five.every((c) => formatParitySplit(g).includes(c)), g ? formatParitySplit(g) : "no split");
 
 // The cable/media lease: active while cable_construction is not a dictionary key.
 const cable = KIND_PARITY_EXCEPTIONS.find((e) => e.kind === "cable" && e.cups.includes("media"));

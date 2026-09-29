@@ -245,18 +245,30 @@ export function leaseLapsed(e: KindParityException, today: string = new Date().t
  */
 export function parityRuled(kind: string, cups: readonly string[], categories: readonly string[],
   asks: (category: string, cup: string) => string):
-  { ruled: boolean; by: KindParityException | null; uncovered: string[] } {
+  { ruled: boolean; by: KindParityException | null; uncovered: string[]; split: ParitySplit[] } {
   const rulings = KIND_PARITY_EXCEPTIONS.filter(
     (e) => e.kind === kind && e.categories.some((c) => categories.includes(c)) && !leaseLapsed(e));
-  if (!rulings.length) return { ruled: false, by: null, uncovered: [...cups] };
-  const uncovered: string[] = [];
+  const uncovered: string[] = [], split: ParitySplit[] = [];
   for (const cup of cups) {
     const named = new Set(rulings.filter((e) => e.cups.includes(cup)).flatMap((e) => e.categories));
-    if (!named.size) { uncovered.push(cup); continue; }
-    const rest = new Set(categories.filter((c) => !named.has(c)).map((c) => asks(c, cup)));
-    if (rest.size > 1) uncovered.push(cup);
+    const answers: Record<string, string[]> = {};
+    for (const c of categories) if (!named.has(c)) (answers[asks(c, cup)] ??= []).push(c);
+    if (named.size && Object.keys(answers).length <= 1) continue;
+    uncovered.push(cup);
+    split.push({ cup, ruled: categories.filter((c) => named.has(c)), answers });
   }
-  return { ruled: uncovered.length === 0, by: rulings[0], uncovered };
+  return { ruled: uncovered.length === 0, by: rulings[0] ?? null, uncovered, split };
+}
+
+/** One uncovered cup, as the FULL grouping of the categories no ruling names (answer -> categories) beside the ones a
+ *  ruling does. The board used to print `diffs[0]`, the first PAIR, and on 29 Sep that pair (interfaces-modules vs
+ *  routers, module power_max) was the one pair already ruled (rule 6) while the real split -- wireless against
+ *  interfaces-modules, security and switches -- was not on the line at all. A ruling is asked of a grouping, never a pair. */
+export type ParitySplit = { cup: string; ruled: string[]; answers: Record<string, string[]> };
+
+export function formatParitySplit(s: ParitySplit): string {
+  return `${s.cup}: ${Object.entries(s.answers).map(([a, cs]) => `${a} {${cs.join(", ")}}`).join(" vs ")}` +
+    (s.ruled.length ? ` (ruled: ${s.ruled.join(", ")})` : "");
 }
 
 /** The cause recorded for an unsettled divergence, or null when it is not in the register either —

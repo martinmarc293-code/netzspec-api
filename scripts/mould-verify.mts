@@ -23,7 +23,7 @@ import { FIELD_DICTIONARY, PROFILES, COLUMN_BACKED, RELATION_BACKED, domainFor, 
 import { uncoveredEnumValues } from "../src/core/renderContract.js";
 import { mouldStatuses } from "../src/core/brandMould.js";
 import { NO_PROFILE_REASONS } from "../src/core/noProfileReason.js";
-import { NOT_A_KIND, parityRuled, parityCause, KIND_PARITY_EXCEPTIONS, KIND_PARITY_OPEN } from "../src/core/kindProfiles.js";
+import { NOT_A_KIND, parityRuled, parityCause, formatParitySplit, KIND_PARITY_EXCEPTIONS, KIND_PARITY_OPEN } from "../src/core/kindProfiles.js";
 import { partKind } from "../src/core/partKind.js";
 import { deployRoleResult, roleAxisOf, roleAxisKinds } from "../src/core/deployRole.js";
 import { query, closePool, getPool } from "../src/store/db.js";
@@ -1160,8 +1160,10 @@ const TESTS: Test[] = [
           const cause = causes.length ? causes.map((c) => c.cause).join("+") : "UNCLASSIFIED";
           if (!causes.length) unclassified++;
           byCause.set(cause, [...(byCause.get(cause) ?? []), kind]);
-          const line = `${kind} [${cause}] ${diffs[0]}` +
-            (r.uncovered.length && r.by ? ` (ruled for ${r.by.cups.join("/")}, NOT for ${r.uncovered.join("/")})` : "") +
+          // THE FULL GROUPING per uncovered cup, never `diffs[0]`: on 29 Sep the first pair printed here was the one pair
+          // already ruled, and the unruled split was nowhere on the line (kindProfiles.formatParitySplit).
+          const line = `${kind} [${cause}] ${r.split.slice(0, 6).map(formatParitySplit).join("; ")}` +
+            (r.split.length > 6 ? ` … +${r.split.length - 6} cups` : "") +
             ` {evidence: ${evidence(kind, rows.map((x) => x.cat))}}`;
           divergent.push(line);
           (rows.some((x) => (held.get(`${x.cat}|${kind}`)?.spec ?? 0) > 0) ? wrong : cannotKnow).push(line);
