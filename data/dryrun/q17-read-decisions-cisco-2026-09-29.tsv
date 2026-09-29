@@ -1,0 +1,106 @@
+category	kind	cup	part_cups	remedy	why
+servers-unified-computing	chassis	data_rate	8	reclassify	8 C3X60 parts are not chassis: 12G0400 = a 12G SAS SSD (drive), HBA / R1GB / R4GB = SAS controllers (storage-controller); the 12 G stays
+servers-unified-computing	nic	storage_capacity	8	reclassify	8 UCS-PCI25-* are '2.5in SFF PCIe/NVMe Storage' drives, not NICs; the capacity stays
+servers-unified-computing	server	data_rate	4	reclassify	C880-16GFC-L202 is an FC card (nic), C880-SASCONTR a SAS controller (storage-controller), not servers
+optical-networking	pluggable	ports	2	reclassify	15454-ML1000-2 / 15454E-ML1000-2 are Ethernet LINE CARDS with 2 SFP slots, not pluggables
+hyperconverged-systems	nic	storage_capacity	1	reclassify	an NVMe storage card filed as a NIC (as the 8 UCS-PCI25-*)
+optical-networking	cable	rack_units	1	reclassify	15454-YCBL-LC= is a '2RU Y-Cable Drawer', mechanical, not a cable; the 2 RU stays
+optical-networking	mux	module_slots	1	reclassify	NCS2K-MF-1RU= is a 'Mechanical Frame - 4 slots - 1 RU' (chassis), not a mux; the 4 stays
+security	drive	ports	1	reclassify	ST-M6-D100GF is a Mellanox CX-5 2x100GbE PCIe NIC, not a drive
+servers-unified-computing	drive	cpu	1	reclassify	UCSC-C3K-M4SRB is a 'C3000 M4 Server Node', not a drive; its CPU family stays
+servers-unified-computing	memory	storage_capacity	1	reclassify	EM3-AF-480G-4T is a '480GB SSD + 4TB SSD Combo' (drive); its 480 is half the combo and retracts
+wireless	ap	tdp	8	rekey	tdp -> power_max: Meraki's 'Power consumption' is what the AP draws
+wireless	cpu	power_max	6	rekey	power_max -> tdp: '/85W', '/120W' in a CPU name is its TDP (the cpu kind asks tdp)
+routers	drive	flash	3	rekey	flash -> storage_capacity: a USB token's / eUSB's size is its capacity (routers drive asks storage_capacity)
+switches	flash	dram	1	rekey	dram -> flash: a '2 GB SD Memory Card' is flash (switches flash asks flash)
+switches	bundle	module_slots	28	retract	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
+video	passive	data_rate	14	retract	'100G' / '200G' in 'DWDM 8 channel Mux/Demux 100G' is the 100 / 200 GHz channel GRID, not a data rate
+routers	bundle	module_slots	12	retract	12 CRS fabric-card packs, filters and upgrade bundles: '16 Slots' is the chassis they fit
+switches	power	humidity_operating	9	retract	6 of 9 read {95,95} (one end of '5 to 95%'): retract the 6, then the 3 real {5,95} widen (it leaves Q17_R4_REFUSED)
+meraki	security-camera	ieee_standards	8	retract	the 2 ['No'] retract; the 6 Wi-Fi standard lists are real and the triple widens (it leaves Q17_R4_REFUSED)
+servers-unified-computing	bundle	data_rate	8	retract	8 UCS-SPM-MDS solution bundles: '16Gb FC' belongs to one bundled HBA
+interfaces-modules	interface	compatible_platform	5	retract	aggregator prose ('Cisco 12000 Series Routers', 'n/a'): a relation candidate, never a value
+interfaces-modules	interface	installation_type	5	retract	aggregator prose ('Hot-swappable ...', 'n/a')
+switches	power-cord	input_voltage	5	retract	5 cord RATINGS (250 V / 125 V / 48 V) read off cord names that say 'Cable' (the cord-voltage-rating rule matched 'power cord' only)
+optical-networking	amplifier	cable_length	4	retract	4 amplifiers with '2' and no cable in the name or row
+servers-unified-computing	memory	input_voltage	4	retract	4 DIMMs whose '1.2v' was read as 2 V
+interfaces-modules	interface	certifications	3	retract	all 3 read ['No']
+switches	mechanical	mgmt_class	3	retract	'Smart Switches' is the C9610 series name, read as smart-managed on 3 kits
+optical-networking	mux	humidity_operating	2	retract	{95,95}: one end of the range
+optical-networking	mux	temp_operating	2	retract	{-5,-5}: one end of the range
+optical-networking	mux	temp_storage	2	retract	{-40,-40}: one end of the range
+routers	mechanical	module_slots	2	retract	'CRS-1 16 slots LCC Cable management Cutout cover': the chassis it fits
+routers	router	compatible_platform	2	retract	a prose bullet ('Cisco IOS XE based platforms, including ...'): a relation candidate
+servers-unified-computing	power	modulation_format	2	retract	'AC' / 'DC' is the input type, mis-keyed as a modulation format
+switches	linecard	mgmt_class	2	retract	'Smart Switch combo line card': the series name read as smart-managed
+wireless	antenna	spatial_streams	2	retract	'2x2:2SS' is the CW9163E AP's, poured onto its antennas
+wireless	antenna	wifi_generation	2	retract	'Wi-Fi 6E' is the CW9163E AP's, poured onto its antennas
+optical-networking	mux	cable_length	1	retract	15454-MMU= mesh upgrade unit: '2' and no cable
+routers	chassis	dram	1	retract	CRS-4/S '4': the slot count read as memory
+routers	fan	module_slots	1	retract	'CRS-1 24-slot Fabric Chassis Fan Tray': the chassis it fits
+servers-unified-computing	mechanical	cpu	1	retract	100 E5-2600 v2 LABELS: the CPU they label
+servers-unified-computing	mechanical	data_rate	1	retract	supercap for a 12G SAS RAID controller: the controller's 12 G
+storage-networking	fan	data_rate	1	retract	'MDS 32G Switch FAN': the switch's 32G
+storage-networking	fan	rack_units	1	retract	'MDS 1RU Fan Tray': the switch's 1 RU
+wireless	mechanical	radio_bands	1	retract	'2.4 and 5 GHz lightning arrestor' read as ['5ghz'] only
+wireless	ap	mounting	101	widen	ceiling / wall / desktop mounting of an AP, mined from its own description
+video	transmitter	connector	70	widen	SC optical output of a cable-TV transmitter
+video	passive	connector	53	widen	SC / LC duplex ports of a passive mux or splitter
+interfaces-modules	interface	ports	46	widen	an interface card's own ports (EHWIC / NIM / HWIC)
+switches	switch	airflow	45	widen	port-side intake / front-to-back airflow of a switch
+routers	router	ports	26	widen	a router's own ports
+servers-unified-computing	server	storage_capacity	26	widen	a storage server's capacity (S3260 / C3160 nodes)
+switches	bundle	ports	24	widen	ports of the switch a bundle ships
+servers-unified-computing	storage-controller	data_rate	22	widen	12G SAS of a RAID controller
+wireless	antenna	mounting	18	widen	pole / wall / ceiling mount of an antenna
+routers	mechanical	airflow	15	widen	airflow kits and blanks state their direction
+switches	linecard	connector	15	widen	RJ45 ports of a copper line card
+switches	bundle	poe_standard	13	widen	UPOE of the bundled switch
+routers	router	mounting	12	widen	rack / desk / DIN / wall mounting from the router's own guide
+video	transmitter	temp_operating	12	widen	0-50 C operating range of a transmitter
+optical-networking	mux	connector	11	widen	LC duplex / MPO-12 of a mux
+optical-networking	transponder	standard	10	widen	DWDM grid of a transponder
+video	chassis	input_voltage	10	widen	-48 V DC telecom input of a video chassis
+optical-networking	mechanical	rack_units	9	widen	rack units of frames and drawers
+routers	power	ports	9	widen	2 / 4 PoE ports of an 800-series inline power module
+interfaces-modules	interface	connector	8	widen	SC / LC / RJ45 of an interface card
+routers	appliance	dram	8	widen	DRAM of an SD-WAN / edge appliance
+routers	router	storage_capacity	8	widen	flash / SSD of a router
+switches	power	certifications	8	widen	80 PLUS Platinum of a PSU
+video	node	tx_power	7	widen	17 / 20 dBm optical output of a node
+routers	router	input_voltage	6	widen	85-264 V input of a router
+wireless	accessory	antenna_connector	6	widen	RP-TNC of arrestors and adapters
+routers	antenna	cable_length	5	widen	integrated cable of an antenna (5 / 10 / 15 ft)
+routers	antenna	mounting	5	widen	ceiling / wall mount of an antenna
+routers	bundle	flash	5	widen	flash of the bundled router
+routers	mechanical	rack_units	5	widen	rack units of shelves and kits
+switches	supervisor	certifications	5	widen	TAA compliance stated for the supervisor
+routers	appliance	module_slots	4	widen	NIM slots of an appliance
+routers	bundle	dram	4	widen	DRAM of the bundled router
+routers	bundle	ports	4	widen	20 x 100G of the bundled system
+switches	fabric	certifications	4	widen	TAA compliance
+switches	linecard	certifications	4	widen	TAA compliance
+switches	ont	cooling	4	widen	fanless ONT
+switches	power	poe_standard	4	widen	802.3at / UPOE a PoE PSU delivers
+optical-networking	amplifier	connector	3	widen	LC duplex of an amplifier
+routers	router	rack_units	3	widen	1 RU router
+switches	ont	poe_standard	3	widen	802.3at of an ONT
+video	amplifier	connector	3	widen	LC / SC of an optical amplifier
+video	passive	wavelength	3	widen	1340 / 1360 nm of a passive
+wireless	mechanical	antenna_connector	3	widen	N-type / RP-TNC of arrestors and mounts
+optical-networking	mux	rack_units	2	widen	rack units of a mux
+routers	module	data_rate	2	widen	10 G of a router module (declared optional; rule 6 keeps it unasked)
+routers	sp-router	rack_units	2	widen	1 RU
+switches	olt	uplink_ports	2	widen	uplinks of an OLT
+optical-networking	accessory	connector	1	widen	SC of an optical accessory
+optical-networking	accessory	rack_units	1	widen	rack units of an accessory shelf
+optical-networking	mux	ports	1	widen	2 x QSFP+ of a fan-out module
+optical-networking	mux	standard	1	widen	CWDM grid of a mux
+routers	module	cable_length	1	widen	IRM-NIM-RS232 ships its 10 ft serial cable
+switches	mechanical	airflow	1	widen	airflow of a kit
+switches	mechanical	input_voltage	1	widen	N9800-DC-TRAY: a power tray for 48 V DC
+video	accessory	input_voltage	1	widen	-48 V DC of a video accessory
+video	accessory	tx_power	1	widen	0 dBm of a node transmitter upgrade kit
+wireless	antenna	cable_length	1	widen	integrated antenna cable
+wireless	power	cable_length	1	widen	cord length of a power supply
+wireless	power-injector	mounting	1	widen	pole mount of an outdoor injector

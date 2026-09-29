@@ -1,0 +1,127 @@
+category	kind	sku	cup	value	why
+switches	bundle	C4500-10R-S8E-MGIG	module_slots	10	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
+switches	bundle	C4500E-3NR-7E-MGIG	module_slots	3	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
+switches	bundle	C4500E-3NR-7E-UPOE	module_slots	3	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
+switches	bundle	C4500E-3NR-8E-MGIG	module_slots	3	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
+switches	bundle	C4500E-3NR-8E-UPOE	module_slots	3	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
+switches	bundle	C4500E-3NR-8L-4748	module_slots	3	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
+switches	bundle	C4500E-3NR-8L-MGIG	module_slots	3	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
+switches	bundle	C4500E-3NR-8L-UPOE	module_slots	3	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
+switches	bundle	C4500E-6NR-7E-MGIG	module_slots	6	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
+switches	bundle	C4500E-6NR-7E-UPOE	module_slots	6	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
+switches	bundle	C4500E-6NR-8E-MGIG	module_slots	6	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
+switches	bundle	C4500E-6NR-8E-UPOE	module_slots	6	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
+switches	bundle	C4500E-6NR-8L-4748	module_slots	6	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
+switches	bundle	C4500E-6NR-8L-MGIG	module_slots	6	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
+switches	bundle	C4500E-6NR-8L-UPOE	module_slots	6	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
+switches	bundle	C4500E-7R-S7E-MGIG	module_slots	7	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
+switches	bundle	C4500E-7R-S7E-UPOE	module_slots	7	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
+switches	bundle	C4500E-7R-S8E-MGIG	module_slots	7	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
+switches	bundle	C4500E-7R-S8E-UPOE	module_slots	7	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
+switches	bundle	C4500E-7R-S8L-4748	module_slots	7	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
+switches	bundle	C4500E-7R-S8L-MGIG	module_slots	7	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
+switches	bundle	C4500E-7R-S8L-UPOE	module_slots	7	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
+switches	bundle	C4500E-7R-S9E-MGIG	module_slots	7	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
+switches	bundle	C4500E-S6-4748RJV	module_slots	6	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
+switches	bundle	C4500E-S6-MGIG	module_slots	6	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
+switches	bundle	C4500E-S7-4748RJV	module_slots	7	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
+switches	bundle	C4500RE-S7-MGIG	module_slots	7	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
+switches	bundle	C4510RE-S8-MGIG	module_slots	10	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
+video	passive	4021052	data_rate	100	'100G' / '200G' in 'DWDM 8 channel Mux/Demux 100G' is the 100 / 200 GHz channel GRID, not a data rate
+video	passive	4030093	data_rate	200	'100G' / '200G' in 'DWDM 8 channel Mux/Demux 100G' is the 100 / 200 GHz channel GRID, not a data rate
+video	passive	4030094	data_rate	200	'100G' / '200G' in 'DWDM 8 channel Mux/Demux 100G' is the 100 / 200 GHz channel GRID, not a data rate
+video	passive	4030096	data_rate	100	'100G' / '200G' in 'DWDM 8 channel Mux/Demux 100G' is the 100 / 200 GHz channel GRID, not a data rate
+video	passive	4030097	data_rate	100	'100G' / '200G' in 'DWDM 8 channel Mux/Demux 100G' is the 100 / 200 GHz channel GRID, not a data rate
+video	passive	4030098	data_rate	100	'100G' / '200G' in 'DWDM 8 channel Mux/Demux 100G' is the 100 / 200 GHz channel GRID, not a data rate
+video	passive	4030099	data_rate	100	'100G' / '200G' in 'DWDM 8 channel Mux/Demux 100G' is the 100 / 200 GHz channel GRID, not a data rate
+video	passive	4033329	data_rate	200	'100G' / '200G' in 'DWDM 8 channel Mux/Demux 100G' is the 100 / 200 GHz channel GRID, not a data rate
+video	passive	4040562	data_rate	100	'100G' / '200G' in 'DWDM 8 channel Mux/Demux 100G' is the 100 / 200 GHz channel GRID, not a data rate
+video	passive	4040589	data_rate	100	'100G' / '200G' in 'DWDM 8 channel Mux/Demux 100G' is the 100 / 200 GHz channel GRID, not a data rate
+video	passive	4040816	data_rate	100	'100G' / '200G' in 'DWDM 8 channel Mux/Demux 100G' is the 100 / 200 GHz channel GRID, not a data rate
+video	passive	4040817	data_rate	100	'100G' / '200G' in 'DWDM 8 channel Mux/Demux 100G' is the 100 / 200 GHz channel GRID, not a data rate
+video	passive	4040818	data_rate	100	'100G' / '200G' in 'DWDM 8 channel Mux/Demux 100G' is the 100 / 200 GHz channel GRID, not a data rate
+video	passive	4043574	data_rate	100	'100G' / '200G' in 'DWDM 8 channel Mux/Demux 100G' is the 100 / 200 GHz channel GRID, not a data rate
+routers	bundle	CRS-16-FC140/M-8P	module_slots	16	12 CRS fabric-card packs, filters and upgrade bundles: '16 Slots' is the chassis they fit
+routers	bundle	CRS-16-FC140/M-8P=	module_slots	16	12 CRS fabric-card packs, filters and upgrade bundles: '16 Slots' is the chassis they fit
+routers	bundle	CRS-16-FC140/M-BN	module_slots	16	12 CRS fabric-card packs, filters and upgrade bundles: '16 Slots' is the chassis they fit
+routers	bundle	CRS-16-FC140/M-BN=	module_slots	16	12 CRS fabric-card packs, filters and upgrade bundles: '16 Slots' is the chassis they fit
+routers	bundle	CRS-16-FC400/M-8P=	module_slots	16	12 CRS fabric-card packs, filters and upgrade bundles: '16 Slots' is the chassis they fit
+routers	bundle	CRS-16-FC400/M-BN=	module_slots	16	12 CRS fabric-card packs, filters and upgrade bundles: '16 Slots' is the chassis they fit
+routers	bundle	CRS-16-LCC-FILTER=	module_slots	16	12 CRS fabric-card packs, filters and upgrade bundles: '16 Slots' is the chassis they fit
+routers	bundle	CRS-16/S-CNSK	module_slots	16	12 CRS fabric-card packs, filters and upgrade bundles: '16 Slots' is the chassis they fit
+routers	bundle	CRS-4-CH-UPG-BUN	module_slots	4	12 CRS fabric-card packs, filters and upgrade bundles: '16 Slots' is the chassis they fit
+routers	bundle	CRS-8-FC140/M-4P	module_slots	8	12 CRS fabric-card packs, filters and upgrade bundles: '16 Slots' is the chassis they fit
+routers	bundle	CRS-8-FC140/M-4P=	module_slots	8	12 CRS fabric-card packs, filters and upgrade bundles: '16 Slots' is the chassis they fit
+routers	bundle	CRS-8-FC400/M-4P=	module_slots	8	12 CRS fabric-card packs, filters and upgrade bundles: '16 Slots' is the chassis they fit
+switches	power	PWR-IE170W-PC-AC=	humidity_operating	{"max":95,"min":95}	6 of 9 read {95,95} (one end of '5 to 95%'): retract the 6, then the 3 real {5,95} widen (it leaves Q17_R4_REFUSED)
+switches	power	PWR-IE170W-PC-DC=	humidity_operating	{"max":95,"min":95}	6 of 9 read {95,95} (one end of '5 to 95%'): retract the 6, then the 3 real {5,95} widen (it leaves Q17_R4_REFUSED)
+switches	power	PWR-IE50W-AC-IEC=	humidity_operating	{"max":95,"min":95}	6 of 9 read {95,95} (one end of '5 to 95%'): retract the 6, then the 3 real {5,95} widen (it leaves Q17_R4_REFUSED)
+switches	power	PWR-IE50W-AC=	humidity_operating	{"max":95,"min":95}	6 of 9 read {95,95} (one end of '5 to 95%'): retract the 6, then the 3 real {5,95} widen (it leaves Q17_R4_REFUSED)
+switches	power	PWR-IE65W-PC-AC=	humidity_operating	{"max":95,"min":95}	6 of 9 read {95,95} (one end of '5 to 95%'): retract the 6, then the 3 real {5,95} widen (it leaves Q17_R4_REFUSED)
+switches	power	PWR-IE65W-PC-DC=	humidity_operating	{"max":95,"min":95}	6 of 9 read {95,95} (one end of '5 to 95%'): retract the 6, then the 3 real {5,95} widen (it leaves Q17_R4_REFUSED)
+meraki	security-camera	MV21	ieee_standards	["No"]	the 2 ['No'] retract; the 6 Wi-Fi standard lists are real and the triple widens (it leaves Q17_R4_REFUSED)
+meraki	security-camera	MV71	ieee_standards	["No"]	the 2 ['No'] retract; the 6 Wi-Fi standard lists are real and the triple widens (it leaves Q17_R4_REFUSED)
+servers-unified-computing	bundle	UCS-SPM-MDS-01E	data_rate	16	8 UCS-SPM-MDS solution bundles: '16Gb FC' belongs to one bundled HBA
+servers-unified-computing	bundle	UCS-SPM-MDS-02E	data_rate	16	8 UCS-SPM-MDS solution bundles: '16Gb FC' belongs to one bundled HBA
+servers-unified-computing	bundle	UCS-SPM-MDS-03E	data_rate	16	8 UCS-SPM-MDS solution bundles: '16Gb FC' belongs to one bundled HBA
+servers-unified-computing	bundle	UCS-SPM-MDS-04E	data_rate	16	8 UCS-SPM-MDS solution bundles: '16Gb FC' belongs to one bundled HBA
+servers-unified-computing	bundle	UCS-SPM-MDS-05E	data_rate	16	8 UCS-SPM-MDS solution bundles: '16Gb FC' belongs to one bundled HBA
+servers-unified-computing	bundle	UCS-SPM-MDS-06E	data_rate	16	8 UCS-SPM-MDS solution bundles: '16Gb FC' belongs to one bundled HBA
+servers-unified-computing	bundle	UCS-SPM-MDS-07E	data_rate	16	8 UCS-SPM-MDS solution bundles: '16Gb FC' belongs to one bundled HBA
+servers-unified-computing	bundle	UCS-SPM-MDS-08E	data_rate	16	8 UCS-SPM-MDS solution bundles: '16Gb FC' belongs to one bundled HBA
+interfaces-modules	interface	10000-SIP-600	compatible_platform	"Cisco 10008, Cisco 10012"	aggregator prose ('Cisco 12000 Series Routers', 'n/a'): a relation candidate, never a value
+interfaces-modules	interface	12000-SIP-401	compatible_platform	"Cisco 12000 Series Routers"	aggregator prose ('Cisco 12000 Series Routers', 'n/a'): a relation candidate, never a value
+interfaces-modules	interface	12000-SIP-501	compatible_platform	"Cisco 12000 Series Routers"	aggregator prose ('Cisco 12000 Series Routers', 'n/a'): a relation candidate, never a value
+interfaces-modules	interface	12000-SIP-601	compatible_platform	"Cisco 12000 Series Routers"	aggregator prose ('Cisco 12000 Series Routers', 'n/a'): a relation candidate, never a value
+interfaces-modules	interface	16OC3X/POS-I-LC-B	compatible_platform	"n/a"	aggregator prose ('Cisco 12000 Series Routers', 'n/a'): a relation candidate, never a value
+interfaces-modules	interface	10000-SIP-600	installation_type	"Hot-swappable, front-insertion line card for Cisco 10000 chassis"	aggregator prose ('Hot-swappable ...', 'n/a')
+interfaces-modules	interface	12000-SIP-401	installation_type	"Hot-swappable module for Cisco 12000 chassis"	aggregator prose ('Hot-swappable ...', 'n/a')
+interfaces-modules	interface	12000-SIP-501	installation_type	"Hot-swappable, modular slot-based"	aggregator prose ('Hot-swappable ...', 'n/a')
+interfaces-modules	interface	12000-SIP-601	installation_type	"n/a"	aggregator prose ('Hot-swappable ...', 'n/a')
+interfaces-modules	interface	16OC3X/POS-I-LC-B	installation_type	"n/a"	aggregator prose ('Hot-swappable ...', 'n/a')
+switches	power-cord	CAB-AC-250V/13A	input_voltage	{"max":250,"min":250}	5 cord RATINGS (250 V / 125 V / 48 V) read off cord names that say 'Cable' (the cord-voltage-rating rule matched 'power cord' only)
+switches	power-cord	CAB-TA-125V-JP=	input_voltage	{"max":125,"min":125}	5 cord RATINGS (250 V / 125 V / 48 V) read off cord names that say 'Cable' (the cord-voltage-rating rule matched 'power cord' only)
+switches	power-cord	N7K-DC-CAB-CAN=	input_voltage	{"max":48,"min":48}	5 cord RATINGS (250 V / 125 V / 48 V) read off cord names that say 'Cable' (the cord-voltage-rating rule matched 'power cord' only)
+switches	power-cord	N7K-DC-CAB-CLO=	input_voltage	{"max":48,"min":48}	5 cord RATINGS (250 V / 125 V / 48 V) read off cord names that say 'Cable' (the cord-voltage-rating rule matched 'power cord' only)
+switches	power-cord	N7K-DC-CAB=	input_voltage	{"max":48,"min":48}	5 cord RATINGS (250 V / 125 V / 48 V) read off cord names that say 'Cable' (the cord-voltage-rating rule matched 'power cord' only)
+optical-networking	amplifier	15454-OPT-AMP-C=	cable_length	2	4 amplifiers with '2' and no cable in the name or row
+optical-networking	amplifier	15454-OPT-AMP-L=	cable_length	2	4 amplifiers with '2' and no cable in the name or row
+optical-networking	amplifier	15454-OPT-BST-L=	cable_length	2	4 amplifiers with '2' and no cable in the name or row
+optical-networking	amplifier	15454-OPT-RAMP-C=	cable_length	2	4 amplifiers with '2' and no cable in the name or row
+servers-unified-computing	memory	CSP-MR-X16G1RS-H	input_voltage	{"max":2,"min":2}	4 DIMMs whose '1.2v' was read as 2 V
+servers-unified-computing	memory	CSP-MR-X16G1RT-H	input_voltage	{"max":2,"min":2}	4 DIMMs whose '1.2v' was read as 2 V
+servers-unified-computing	memory	CSP-MR-X32G2RS-H	input_voltage	{"max":2,"min":2}	4 DIMMs whose '1.2v' was read as 2 V
+servers-unified-computing	memory	CSP-MR-X32G2RT-H	input_voltage	{"max":2,"min":2}	4 DIMMs whose '1.2v' was read as 2 V
+interfaces-modules	interface	HWIC-2SHDSL	certifications	["No"]	all 3 read ['No']
+interfaces-modules	interface	HWIC-4SHDSL	certifications	["No"]	all 3 read ['No']
+interfaces-modules	interface	HWIC-4SHDSL-E	certifications	["No"]	all 3 read ['No']
+switches	mechanical	C9610-23-KIT-2=	mgmt_class	"smart-managed"	'Smart Switches' is the C9610 series name, read as smart-managed on 3 kits
+switches	mechanical	C9610-NEBS-KIT	mgmt_class	"smart-managed"	'Smart Switches' is the C9610 series name, read as smart-managed on 3 kits
+switches	mechanical	C9610-NEBSFILTER=	mgmt_class	"smart-managed"	'Smart Switches' is the C9610 series name, read as smart-managed on 3 kits
+optical-networking	mux	15216-EF-40-EVEN=	humidity_operating	{"max":95,"min":95}	{95,95}: one end of the range
+optical-networking	mux	15216-EF-40-ODD=	humidity_operating	{"max":95,"min":95}	{95,95}: one end of the range
+optical-networking	mux	15216-EF-40-EVEN=	temp_operating	{"max":-5,"min":-5}	{-5,-5}: one end of the range
+optical-networking	mux	15216-EF-40-ODD=	temp_operating	{"max":-5,"min":-5}	{-5,-5}: one end of the range
+optical-networking	mux	15216-EF-40-EVEN=	temp_storage	{"max":-40,"min":-40}	{-40,-40}: one end of the range
+optical-networking	mux	15216-EF-40-ODD=	temp_storage	{"max":-40,"min":-40}	{-40,-40}: one end of the range
+routers	mechanical	CRS-LCC-CM-COVER	module_slots	16	'CRS-1 16 slots LCC Cable management Cutout cover': the chassis it fits
+routers	mechanical	CRS-LCC-CM-COVER=	module_slots	16	'CRS-1 16 slots LCC Cable management Cutout cover': the chassis it fits
+routers	router	CG418-E	compatible_platform	"● Cisco IOS ® XE based platforms, including Cisco 1000 and 4000 Series Integrated Services Routers and Cisco Catalyst 8000 Series Edge Platforms"	a prose bullet ('Cisco IOS XE based platforms, including ...'): a relation candidate
+routers	router	CG522-E	compatible_platform	"● Cisco IOS ® XE based platforms, including Cisco 1000 and 4000 Series Integrated Services Routers and Cisco Catalyst 8000 Series Edge Platforms"	a prose bullet ('Cisco IOS XE based platforms, including ...'): a relation candidate
+servers-unified-computing	power	UCSXE-PSU-2400W	modulation_format	"AC"	'AC' / 'DC' is the input type, mis-keyed as a modulation format
+servers-unified-computing	power	UCSXE-PSU-2400WDC	modulation_format	"DC"	'AC' / 'DC' is the input type, mis-keyed as a modulation format
+switches	linecard	C9610-LC-32CD	mgmt_class	"smart-managed"	'Smart Switch combo line card': the series name read as smart-managed
+switches	linecard	C9610-LC-40YL4CD	mgmt_class	"smart-managed"	'Smart Switch combo line card': the series name read as smart-managed
+wireless	antenna	CW-ANT-GPS2-S-00	spatial_streams	"2x2:2"	'2x2:2SS' is the CW9163E AP's, poured onto its antennas
+wireless	antenna	CW-ANT-O1-NS-00	spatial_streams	"2x2:2"	'2x2:2SS' is the CW9163E AP's, poured onto its antennas
+wireless	antenna	CW-ANT-GPS2-S-00	wifi_generation	"wi-fi 6e"	'Wi-Fi 6E' is the CW9163E AP's, poured onto its antennas
+wireless	antenna	CW-ANT-O1-NS-00	wifi_generation	"wi-fi 6e"	'Wi-Fi 6E' is the CW9163E AP's, poured onto its antennas
+optical-networking	mux	15454-MMU=	cable_length	2	15454-MMU= mesh upgrade unit: '2' and no cable
+routers	chassis	CRS-4/S	dram	4	CRS-4/S '4': the slot count read as memory
+routers	fan	CRS-FCC-FAN-TR	module_slots	24	'CRS-1 24-slot Fabric Chassis Fan Tray': the chassis it fits
+servers-unified-computing	mechanical	UCS-M3-V2-LBL-100=	cpu	"E5-2600 v2"	100 E5-2600 v2 LABELS: the CPU they label
+servers-unified-computing	mechanical	UCSC-MRAID-SC	data_rate	12	supercap for a 12G SAS RAID controller: the controller's 12 G
+storage-networking	fan	DS-C32S-FAN-I=	data_rate	32	'MDS 32G Switch FAN': the switch's 32G
+storage-networking	fan	DS-1RU-FAN	rack_units	1	'MDS 1RU Fan Tray': the switch's 1 RU
+wireless	mechanical	AIR-ACC245LA-N=	radio_bands	["5ghz"]	'2.4 and 5 GHz lightning arrestor' read as ['5ghz'] only
+servers-unified-computing	memory	EM3-AF-480G-4T	storage_capacity	480	EM3-AF-480G-4T is a '480GB SSD + 4TB SSD Combo': 480 is half the combo (the part is reclassified drive)
