@@ -1,6 +1,6 @@
 // src/api/keys-cli.ts — create, list and revoke API keys.
 //
-//   npx tsx src/api/keys-cli.ts create --name netzspec [--scopes read]
+//   npx tsx src/api/keys-cli.ts create --name netzspec [--scopes read] [--holder "who"] [--channel "how it is used"]
 //   npx tsx src/api/keys-cli.ts list
 //   npx tsx src/api/keys-cli.ts revoke --id 3
 //
@@ -29,12 +29,15 @@ async function create(args: string[]): Promise<void> {
   const name = flag(args, "name");
   if (!name) throw new Error("create needs --name");
   const scopes = (flag(args, "scopes") ?? "read").split(",").map((s) => s.trim()).filter(Boolean);
+  // HOLDER AND CHANNEL AT BIRTH (29 Sep 2026): keys_hygiene reports an active key with no recorded holder, and until now a
+  // new key was born unattributable and needed a later run to name who held it. Optional, so an old invocation still works.
+  const holder = flag(args, "holder") ?? null, channel = flag(args, "channel") ?? null;
   const token = newToken();
   const { rows } = await query<{ id: number }>(
-    "INSERT INTO api_keys (name, key_hash, scopes) VALUES ($1, $2, $3) RETURNING id",
-    [name, hashToken(token), scopes],
+    "INSERT INTO api_keys (name, key_hash, scopes, holder, channel) VALUES ($1, $2, $3, $4, $5) RETURNING id",
+    [name, hashToken(token), scopes, holder, channel],
   );
-  console.log(`created api key id=${rows[0].id} name=${name} scopes=${scopes.join(",")}`);
+  console.log(`created api key id=${rows[0].id} name=${name} scopes=${scopes.join(",")} holder=${holder ?? "(none)"} channel=${channel ?? "(none)"}`);
   console.log("token (shown once, never stored):");
   console.log(token);
 }
