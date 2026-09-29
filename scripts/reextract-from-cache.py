@@ -100,6 +100,11 @@ def main() -> int:
     ap.add_argument("--limit", type=int, default=50)
     ap.add_argument("--all", action="store_true", help="every eligible document, not --limit")
     ap.add_argument("--out", help="where to write the acquired JSON (default: a scratch dir)")
+    ap.add_argument("--doc", action="append", default=[],
+                    help="re-extract exactly this doc_id (repeatable), EVEN IF it already has facts: an extractor "
+                         "change can make a document yield what it could not before (29 Sep 2026: the Catalyst PON "
+                         "sheet's OLT/ONT tables). Host, class and bytes are still checked, and a named document that "
+                         "fails one is reported, never silently skipped.")
     ap.add_argument("--into-today", action="store_true",
                     help="write into runs/acquired/<slug>/<today>/ where the supervisor's apply "
                          "will consume it. THIS LEADS TO A PRODUCTION WRITE.")
@@ -130,16 +135,28 @@ def main() -> int:
                 ORDER BY sd.doc_id""", (classes,)).fetchall()
 
     eligible = []
+    named = set(a.doc)
     for r in rows:
+        if named and r["doc_id"] not in named:
+            continue
         if urlsplit(r["url"]).hostname not in hosts:
             continue
-        if r["facts"]:                       # it has already produced something; leave it alone
+        if r["facts"] and not named:         # it has already produced something; leave it alone
             continue
         if not (CACHE / (r["cache_path"] or "x")).is_file():
             continue                          # bytes gone: that is RECOVER's job, not this one
         eligible.append(dict(r))
-    print(f"{len(rows)} documents in {a.source}'s classes; {len(eligible)} hold bytes and have "
-          f"NO facts in the store")
+    if named:
+        missing = sorted(named - {r["doc_id"] for r in eligible})
+        if missing:
+            print(f"REFUSED: named document(s) not eligible (not in {a.source}'s classes or host, or no bytes in "
+                  f"{CACHE}): {', '.join(missing)}", file=sys.stderr)
+            return 2
+        print(f"{len(eligible)} named document(s) hold bytes and are {a.source}'s own "
+              f"(existing facts: {', '.join(str(r['facts']) for r in eligible)})")
+    else:
+        print(f"{len(rows)} documents in {a.source}'s classes; {len(eligible)} hold bytes and have "
+              f"NO facts in the store")
 
     if a.into_today:
         out = ROOT / "runs" / "acquired" / a.source / datetime.now(timezone.utc).strftime("%Y-%m-%d")
@@ -147,7 +164,7 @@ def main() -> int:
         out = Path(a.out) if a.out else ROOT / "runs" / "reextract" / a.source
     out.mkdir(parents=True, exist_ok=True)
 
-    todo = eligible if a.all else eligible[: a.limit]
+    todo = eligible if (a.all or named) else eligible[: a.limit]
     wrote = withfacts = nothing = failed = 0
     facts_total = 0
     reasons: dict[str, int] = {}

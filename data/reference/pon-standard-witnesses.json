@@ -1,0 +1,147 @@
+{
+  "_readme": "pon_standard derivation witnesses (src/core/ponStandard.ts, registered in src/core/derivedFillPaths.ts). One row per live part fact, all vendors, whose raw carries a PON recommendation number; built from the store on the date below by the query in the decision docs/decisions/2026-09-29-pon-cups.md. `name_states` is the INDEPENDENT witness: the PON family the part's own name states. tests/ponStandard.test.ts re-runs the function on every `raw` and requires `derived` again.",
+  "built": "2026-09-29",
+  "rows": [
+    {
+      "vendor": "cisco",
+      "category": "switches",
+      "sku": "CGP-OLT-16T",
+      "source_field": "ieee_standards",
+      "raw": "ITUT G.984.1 ITUT G.984.2 ITUT G.984.3 ITUT G.984.4 ITUT G.988 IEEE 802.1w IEEE 802.1x Authentication IEEE 802.3af IEEE 802.3at IEEE 802.3ad IEEE 802.1D Spannin",
+      "derived": "gpon",
+      "refused": null,
+      "evidence": [
+        "G.984.1",
+        "G.984.2",
+        "G.984.3",
+        "G.984.4"
+      ],
+      "name": "Catalyst PON 16-port GPON OLT, 4 GE Combo ports (Copper RJ45 + SFP optical), 2 10GE SFP+",
+      "name_states": "gpon",
+      "agree": true
+    },
+    {
+      "vendor": "cisco",
+      "category": "switches",
+      "sku": "CGP-OLT-8T",
+      "source_field": "ieee_standards",
+      "raw": "ITUT G.984.1 ITUT G.984.2 ITUT G.984.3 ITUT G.984.4 ITUT G.988 IEEE 802.1w IEEE 802.1x Authentication IEEE 802.3af IEEE 802.3at IEEE 802.3ad IEEE 802.1D Spannin",
+      "derived": "gpon",
+      "refused": null,
+      "evidence": [
+        "G.984.1",
+        "G.984.2",
+        "G.984.3",
+        "G.984.4"
+      ],
+      "name": "Catalyst PON 8-port GPON OLT,4 GE Combo ports (Copper RJ45 + SFP optical), 2 10GE SFP+",
+      "name_states": "gpon",
+      "agree": true
+    },
+    {
+      "vendor": "cisco",
+      "category": "switches",
+      "sku": "CGP-ONT-1P",
+      "source_field": "ieee_standards",
+      "raw": "ITUT G.984.1 ITUT G.984.2 ITUT G.984.3 ITUT G.984.4 ITUT G.988 IEEE 802.1w IEEE 802.1x Authentication IEEE 802.3af IEEE 802.3at IEEE 802.3ad IEEE 802.1D Spannin",
+      "derived": "gpon",
+      "refused": null,
+      "evidence": [
+        "G.984.1",
+        "G.984.2",
+        "G.984.3",
+        "G.984.4"
+      ],
+      "name": "Cisco GPON ONT 1X1G PoE, 2.5G uplink",
+      "name_states": "gpon",
+      "agree": true
+    },
+    {
+      "vendor": "cisco",
+      "category": "switches",
+      "sku": "CGP-ONT-4P",
+      "source_field": "ieee_standards",
+      "raw": "ITUT G.984.1 ITUT G.984.2 ITUT G.984.3 ITUT G.984.4 ITUT G.988 IEEE 802.1w IEEE 802.1x Authentication IEEE 802.3af IEEE 802.3at IEEE 802.3ad IEEE 802.1D Spannin",
+      "derived": "gpon",
+      "refused": null,
+      "evidence": [
+        "G.984.1",
+        "G.984.2",
+        "G.984.3",
+        "G.984.4"
+      ],
+      "name": "Cisco GPON ONT 4X1G PoE+, 2.5G uplink",
+      "name_states": "gpon",
+      "agree": true
+    },
+    {
+      "vendor": "cisco",
+      "category": "switches",
+      "sku": "CGP-ONT-4PV",
+      "source_field": "ieee_standards",
+      "raw": "ITUT G.984.1 ITUT G.984.2 ITUT G.984.3 ITUT G.984.4 ITUT G.988 IEEE 802.1w IEEE 802.1x Authentication IEEE 802.3af IEEE 802.3at IEEE 802.3ad IEEE 802.1D Spannin",
+      "derived": "gpon",
+      "refused": null,
+      "evidence": [
+        "G.984.1",
+        "G.984.2",
+        "G.984.3",
+        "G.984.4"
+      ],
+      "name": "Cisco GPON ONT 4X1G PoE+, 2 voice ports, 2.5G uplink",
+      "name_states": "gpon",
+      "agree": true
+    },
+    {
+      "vendor": "cisco",
+      "category": "switches",
+      "sku": "CGP-ONT-4PVC",
+      "source_field": "ieee_standards",
+      "raw": "ITUT G.984.1 ITUT G.984.2 ITUT G.984.3 ITUT G.984.4 ITUT G.988 IEEE 802.1w IEEE 802.1x Authentication IEEE 802.3af IEEE 802.3at IEEE 802.3ad IEEE 802.1D Spannin",
+      "derived": "gpon",
+      "refused": null,
+      "evidence": [
+        "G.984.1",
+        "G.984.2",
+        "G.984.3",
+        "G.984.4"
+      ],
+      "name": "Catalyst PON 4-port GPON ONT, PoE+, 2 POTS RJ11, 1 CATV Coax",
+      "name_states": "gpon",
+      "agree": true
+    },
+    {
+      "vendor": "cisco",
+      "category": "switches",
+      "sku": "CGP-ONT-4TVCW-x",
+      "source_field": "ieee_standards",
+      "raw": "ITUT G.984.1 ITUT G.984.2 ITUT G.984.3 ITUT G.984.4 ITUT G.988 IEEE 802.1w IEEE 802.1x Authentication IEEE 802.3af IEEE 802.3at IEEE 802.3ad IEEE 802.1D Spannin",
+      "derived": "gpon",
+      "refused": null,
+      "evidence": [
+        "G.984.1",
+        "G.984.2",
+        "G.984.3",
+        "G.984.4"
+      ],
+      "name": "Catalyst PON 4-port GPON ONT, 2 POTS RJ11, 1 CATV Coax, 1 Wi-Fi 2.4G/5GHz. x=Region Prefix. Currently -EU, -NA and -IN available. Please reach out for other regions. EU – EU power adapter, -E Wireless LNA regulatory domain NA – NA power adapter, -A Wireless LNA regulatory domain IN – IN power adapter, -H Wireless LNA regulatory domain",
+      "name_states": "gpon",
+      "agree": true
+    },
+    {
+      "vendor": "cisco",
+      "category": "transceiver",
+      "sku": "SFP-10G-OLT20-X",
+      "source_field": "standard",
+      "raw": "ITU-T G.9807.1 / G.988 (XGS-PON)",
+      "derived": "xgs-pon",
+      "refused": null,
+      "evidence": [
+        "G.9807.1"
+      ],
+      "name": "Cisco SFP-10G-OLT20-X XGS-PON OLT SFP+ — 10G symmetrisch, SC/UPC, bis 20 km, Split 1:128",
+      "name_states": "xgs-pon",
+      "agree": true
+    }
+  ]
+}

@@ -180,6 +180,10 @@ const RULES: [string, string, string, string, Reason?][] = [
   // And the other way round: the bracket label must reach the compat sentinel, not the field.
   // `__compat` is not a spec key, so the shape half is the sentinel's own contract.
   ["Cisco smart serial cabling [Length]", "cable_length", "Cisco smart serial cabling [Cable type]", "V.35 DTE", "UNIT_UNKNOWN"],
+  // PON (29 Sep 2026, docs/decisions/2026-09-29-pon-cups.md): the Catalyst PON sheet's OLT and ONT tables. The near-misses
+  // are real labels from the SAME sheet that an unanchored "pon port" rule would swallow: per-port capacities, not counts.
+  ["Downlinks total PON ports", "pon_ports", "T-CONT of each PON port", "256 GPON ports", "RANGE_VIOLATION"],
+  ["Uplink configuration PON port", "pon_ports", "Gemport of each PON port", "GPON", "PARSE_FAIL"],
 ];
 
 /**

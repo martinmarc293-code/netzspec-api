@@ -328,6 +328,74 @@ check("LD10", "SABOTAGE a DATASHEET page still discovers nothing at all - the as
               "lane cost us is unchanged by the ladder",
       MOD.discover(LADDER_HTML, {"task": "datasheet", "key": LADDER_BASE, "url": LADDER_BASE}) == [])
 
+# ---- model-column headers (reviewer ruling, 29 Sep 2026; docs/decisions/2026-09-29-pon-cups.md) ----------------------
+# The fixtures keep the real pages' header text and first-cell shapes. The PON sheet's url is the REAL one: the known-SKU
+# map that makes CGP-* PIDs is keyed by url, and a harness that passed a placeholder url once measured only the HW_PID
+# fallback and reported CGP-* as unrecognised. That was the harness, not the extractor.
+import tempfile                                     # noqa: E402
+import adapters.cisco_specs_deep as DEEP            # noqa: E402
+
+PON_URL = "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-pon-series/nb-06-cat-pon-datasheet-cte-en.html"
+NO_MAP_URL = "https://www.cisco.com/c/en/us/products/collateral/switches/fixture-with-no-known-skus.html"
+
+
+def _table(header, rows):
+    head = "".join(f"<td><p>{h}</p></td>" for h in header)
+    body = "".join("<tr>" + "".join(f"<td><p>{c}</p></td>" for c in r) + "</tr>" for r in rows)
+    return f"<html><body><table><thead><tr>{head}</tr></thead><tbody>{body}</tbody></table></body></html>"
+
+
+def _deep(html, url):
+    r = DEEP.extract_document(html, url)
+    return r["facts"], r["defects"]
+
+
+_f, _d = _deep(_table(["Switch model", "Downlinks total PON ports", "Fans"],
+                      [["CGP-OLT-8T", "8 GPON ports", "modular"], ["CGP-OLT-16T", "16 GPON ports", "fixed"]]), PON_URL)
+_got = {(x.get("sku"), x["label"]): x["value"] for x in _f}
+check("M1", "a 'Switch model' table over PIDs this datasheet attributes is a MODEL table: the OLT's PON port count is read "
+            "per SKU (the Catalyst PON sheet states it nowhere else)",
+      _got.get(("CGP-OLT-8T", "Downlinks total PON ports")) == "8 GPON ports"
+      and _got.get(("CGP-OLT-16T", "Downlinks total PON ports")) == "16 GPON ports", sorted(_got.items())[:6])
+
+_f, _d = _deep(_table(["Switch Model", "Maximum Number of PoE (IEEE 802.3af) Ports", "Available PoE Power"],
+                      [["Cisco Catalyst 2960-Plus 48PST-L", "24 ports up to 15.4W 48 ports up to 7.7W", "370W"],
+                       ["Cisco Catalyst 2960-Plus 24PC-L", "24 ports up to 15.4W", "370W"],
+                       ["Cisco Catalyst 2960-Plus 24LC-L", "8 ports up to 15.4W", "123W"]]), NO_MAP_URL)
+check("M2", "SABOTAGE a 'Switch Model' table over model NAMES (the 2960 PoE tables) is NOT a model table: it keeps the "
+            "path it always had (shape B, family-scoped) and no row is recorded as an unattributable model row",
+      not any(x.get("sku") for x in _f) and any(x.get("family_scope") for x in _f)
+      and not any(y["code"] == "MODEL_ROW_UNATTRIBUTABLE" for y in _d), (len(_f), [y["code"] for y in _d]))
+
+_f, _d = _deep(_table(["Switch model", "Uplink configuration PON port"],
+                      [["CGP-ONT-1P", "1 GPON (SC/APC receptacle)"], ["CGP-ONT-4TVCW-x *", "1 GPON (SC/APC receptacle)"]]), PON_URL)
+_un = [y for y in _d if y["code"] == "MODEL_ROW_UNATTRIBUTABLE"]
+check("M3", "SABOTAGE a model table's row naming no attributable PID ('CGP-ONT-4TVCW-x *', footnote mark and all) is "
+            "RECORDED, never dropped in silence, and none of its values is attributed to anything",
+      len(_un) == 1 and _un[0]["locator"] == "t0:r2" and "CGP-ONT-4TVCW-x *" in _un[0]["detail"]
+      and any(x.get("sku") == "CGP-ONT-1P" for x in _f) and not any("4TVCW" in str(x.get("sku") or "") for x in _f),
+      (_un, [(x.get("sku"), x["label"]) for x in _f]))
+
+_f, _d = _deep(_table(["Router model", "Fans"], [["C8200-1N-4T", "fixed"], ["C8200L-1N-4T", "fixed"]]), NO_MAP_URL)
+check("M4", "SABOTAGE only the MEASURED qualifier is admitted: a 'Router model' table over real PIDs is not read as a model "
+            "table (the widening was measured on the corpus for 'switch model' alone)",
+      not any(x.get("shape") == "A" for x in _f), [(x.get("sku"), x.get("shape")) for x in _f])
+
+_f, _d = _deep(_table(["Model", "Fans"], [["WS-C2960X-24PD-L", "fixed"]]), NO_MAP_URL)
+check("M5", "an exact 'Model' header reads as it always has",
+      any(x.get("sku") == "WS-C2960X-24PD-L" and x.get("shape") == "A" for x in _f), [(x.get("sku"), x.get("shape")) for x in _f])
+
+_cwd = os.getcwd()
+try:
+    os.chdir(tempfile.gettempdir())
+    DEEP._SKU_MAP.clear()
+    _map = DEEP._load_sku_map()
+finally:
+    os.chdir(_cwd)
+check("M6", "SABOTAGE the known-SKU map loads from ANY working directory: resolved against the caller's cwd it went "
+            "silently missing and every map-only PID (CGP-*, FPR-, UCSC-...) fell to the HW_PID fallback",
+      len(_map) > 1000 and PON_URL in _map, len(_map))
+
 summary = f"\n{npass} passed, {nfail} missed"
 if nskip:
     # A suite that ran at PART STRENGTH says so in the line a human reads, or "46 passed, 1 missed"

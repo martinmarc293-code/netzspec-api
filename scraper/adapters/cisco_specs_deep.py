@@ -43,6 +43,21 @@ NOT_HW = re.compile(r"-\d+Y$|^CON-|^DNA-|LIC|^NW-|^SWSS|^E-", re.I)
 ACCESSORY = re.compile(r"^(PWR-|FAN-|STACK-|C9300X?-NM-|C9300L?-STACK|MA-)", re.I)
 
 MODEL_HDR = re.compile(r"^(model|sku|part number|product number|product id)$", re.I)
+# A QUALIFIED model header is a model column only where the table's rows carry PIDs this datasheet attributes
+# (reviewer ruling, 29 Sep 2026). "Switch model" heads the Catalyst PON sheet's OLT and ONT tables, whose rows are
+# CGP-* PIDs from the known-SKU map, and those tables are the only place the sheet states its PON port counts. It
+# also heads the 2960 PoE tables, whose rows are model NAMES ("Cisco Catalyst 2960-Plus 24LC-L"); those keep the
+# path they always had (shape B). Only the measured qualifier is admitted: docs/decisions/2026-09-29-pon-cups.md.
+QUALIFIED_MODEL_HDR = re.compile(r"^switch\s+model$", re.I)
+
+
+def _is_model_header(cell: str, data_rows) -> bool:
+    """Does this first header cell head a column of models? An exact name always does; a qualified one only when
+    at least one data row starts with a PID this datasheet attributes."""
+    c = (cell or "").strip()
+    if MODEL_HDR.match(c):
+        return True
+    return bool(QUALIFIED_MODEL_HDR.match(c)) and any(r and _is_pid(r[0].strip()) for r in data_rows)
 
 # One SCALAR cell's value. The gate re-reads the cached cell and compares it the way the adapter
 # stored it, so this number is a contract with gate-extract.ts cellMatches -- move one, move both.
@@ -109,7 +124,9 @@ _KNOWN_NORM: set[str] = set()   # normalised known PIDs for the datasheet being 
 def _load_sku_map() -> dict[str, list[str]]:
     global _SKU_MAP
     if not _SKU_MAP:
-        p = _Path("data/reference/datasheet-skus.json")
+        # anchored to this file, not the caller's working directory: run from anywhere else the map went silently
+        # missing and every model row whose PID only the map knows (CGP-*, FPR-, UCSC-...) fell to the HW_PID fallback
+        p = _Path(__file__).resolve().parents[2] / "data" / "reference" / "datasheet-skus.json"
         if p.exists():
             raw = _json.loads(p.read_text(encoding="utf-8"))
             # bare quantities and protocol names are in the map but cannot own a spec
@@ -422,7 +439,7 @@ def parse_shape_a(rows, ti, url, defects=None):
     if len(rows) < 2:
         return recs
     header = rows[0]
-    if not header or not MODEL_HDR.match(header[0].strip()):
+    if not header or not _is_model_header(header[0], rows[1:]):
         # S1. A shifted header row leaves a PID sitting where the column names belong. Every value
         # would then be attributed to the wrong column - silently, and for the whole table.
         if header and _is_pid(header[0].strip()):
@@ -442,6 +459,12 @@ def parse_shape_a(rows, ti, url, defects=None):
     for ri, cells in enumerate(rows[first_data:], start=first_data):
         pid = cells[0].strip()
         if not _is_pid(pid):
+            # A model table's row that names no PID this datasheet attributes cannot be read, and until 29 Sep
+            # 2026 it was dropped with a bare `continue`. It is recorded instead (reviewer ruling: never a silent
+            # drop); a wholly blank spacer row is not a model row and stays unrecorded.
+            if any(not _blank((c or "").strip()) for c in cells):
+                defects.append({"code": "MODEL_ROW_UNATTRIBUTABLE", "locator": f"t{ti}:r{ri}",
+                                "detail": f"{pid[:60]!r} is not a PID this datasheet attributes; row not read"})
             continue
         # S14/S2. A data row whose arity does not match the header means a colspan/rowspan merge
         # or a table split across a page break. Either way the cells no longer line up with the
@@ -477,7 +500,7 @@ def parse_shape_b(rows, ti, url, defects=None):
     if len(rows) < 2:
         return recs
     header = rows[0]
-    if MODEL_HDR.match((header[0] or "").strip()):
+    if _is_model_header(header[0] or "", rows[1:]):
         return recs                      # that is shape A
     # The header must name SOMETHING usable per column — either a variant label or an actual
     # part number.

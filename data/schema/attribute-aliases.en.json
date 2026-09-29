@@ -861,6 +861,26 @@
       "per-port PoE capability matrix"
     ],
     [
+      "^downlinks total pon ports?$",
+      "pon_ports",
+      "switches (29 Sep 2026): the Catalyst PON sheet's OLT table, 'Switch model | Downlinks total PON ports' = '8 GPON ports' / '16 GPON ports', the only place the sheet states an OLT's PON port count. Ahead of the generic ^downlink -> ports rule, which filed them as Ethernet ports. Anchored both ends: 'T-CONT of each PON port' and 'Gemport of each PON port' sit in the same sheet and are per-port capacities, not counts. docs/decisions/2026-09-29-pon-cups.md",
+      {
+        "only": [
+          "switches"
+        ]
+      }
+    ],
+    [
+      "^uplink configuration pon ports?$",
+      "pon_ports",
+      "switches (29 Sep 2026): the same sheet's ONT table, 'Uplink configuration PON port' = '1 GPON (SC/APC receptacle)'; an ONT's single PON port is its uplink, and the ruled ONT cups are ports + pon_ports. Ahead of ^uplink configuration -> uplink_ports. docs/decisions/2026-09-29-pon-cups.md",
+      {
+        "only": [
+          "switches"
+        ]
+      }
+    ],
+    [
       "^total 10/100/1000|^total ports|^total mgig|^downlink|^ethernet interfaces|^10/100/1000 ethernet|^gigabit ethernet|^10 gigabit ethernet|^ports$|^port configuration",
       "ports",
       ""

@@ -26,7 +26,9 @@ import { NO_PROFILE_REASONS } from "../src/core/noProfileReason.js";
 import { NOT_A_KIND, parityRuled, parityCause, KIND_PARITY_EXCEPTIONS, KIND_PARITY_OPEN } from "../src/core/kindProfiles.js";
 import { partKind } from "../src/core/partKind.js";
 import { deployRoleResult, roleAxisOf, roleAxisKinds } from "../src/core/deployRole.js";
-import { query, closePool } from "../src/store/db.js";
+import { query, closePool, getPool } from "../src/store/db.js";
+import { syncDictionaryOn, dictionaryRows, profileRows, type DictionarySyncResult } from "../src/store/dictionary.js";
+import os from "node:os";
 import { existsSync, readFileSync, appendFileSync, mkdirSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -201,6 +203,19 @@ const OWN_VENDOR = "cisco";
 // the file carries no title (reviewer ruling 28 Sep 2026: title_state = none, nothing invented).
 function untitledCounts(titleState: string | null): boolean {
   return titleState !== "none";
+}
+
+// dictionary_in_sync (reviewer, 29 Sep 2026): the verdict on a sync of the code's dictionary run into a transaction that is
+// always rolled back. A refusal fails, and so does any pending change; only "would change nothing" passes.
+type SyncOutcome = { refused: string }
+  | { result: Pick<DictionarySyncResult, "inserted" | "updated" | "profiles_inserted" | "profiles_updated" | "reshaped"> };
+function syncDriftVerdict(o: SyncOutcome): { inSync: boolean; detail: string } {
+  if ("refused" in o) return { inSync: false, detail: `a sync now would be REFUSED: ${o.refused.slice(0, 400)}` };
+  const r = o.result;
+  if (r.inserted + r.updated + r.profiles_inserted + r.profiles_updated === 0) return { inSync: true, detail: "a sync now would change nothing" };
+  return { inSync: false, detail: `the table is not the code's dictionary: a sync now would insert ${r.inserted} / update ${r.updated} keys ` +
+    `and insert ${r.profiles_inserted} / update ${r.profiles_updated} profile rows` +
+    (r.reshaped.length ? `; reshaped: ${r.reshaped.map((x) => x.key).join(", ")}` : "") };
 }
 
 // openapi_schemas: the shapes a consumer needs, and the route each LEVEL shape must be served at. A schema with no
@@ -1589,10 +1604,13 @@ const TESTS: Test[] = [
       const ctlHit = ctl.filter((c) => existsSync(path.join(CACHE, c.cache_path))).length;
       if (ctl.length && ctlHit === 0) return na(`cache control: 0 of ${ctl.length} titled documents' files are in ` +
         `${CACHE} — wrong CACHE_DIR, so readability cannot be judged`);
+      // READABILITY IS A FACT ABOUT ONE MACHINE (reviewer, 29 Sep 2026): the laptop cache held 4 untitled files the box's
+      // does not, so the laptop read red where the box read green. The line names the host it ran on, and a file absent
+      // here is "not in this machine's cache", never "on no machine" -- this check never looked at any other machine.
       const scope = `${total.toLocaleString()} documents across ${rows.length} types; ${unt.length.toLocaleString()} ` +
         `untitled = ${readable} readable + ${namedNone} readable with title_state none (the file carries no title; ruled) + ` +
-        `${gone} cache file on no machine + ${never} never cached; ` +
-        `cache ${CACHE} (control ${ctlHit}/${ctl.length})`;
+        `${gone} not in this machine's cache + ${never} never cached; ` +
+        `ran on ${os.hostname()}, cache ${CACHE} (control ${ctlHit}/${ctl.length})`;
       return readable === 0 && unclassed === 0
         ? ok(`every readable document carries a title and every document a type — ${scope}`)
         : bad(`${readable.toLocaleString()} READABLE documents have no title and ${unclassed.toLocaleString()} ` +
@@ -1607,6 +1625,51 @@ const TESTS: Test[] = [
                positive: specBearing("vendor_datasheet_html") && !untitledCounts("none"),
                note: "an EoL bulletin must not be spec-bearing, and a readable untitled document with no recorded state must " +
                  "count; an HTML datasheet must be spec-bearing, and title_state none must not count" };
+    },
+  },
+  {
+    name: "dictionary_in_sync",
+    findings: "reviewer 29 Sep (C)",
+    needsDb: true,
+    // THE TABLE /v1/fields SERVES MUST BE THE DICTIONARY THE CODE DECLARES. From run 1250 to run 1320 every sync was
+    // REFUSED by its own reshape guard -- correctly worded, and read by nobody -- so the API served a dictionary older than
+    // the profiles every artefact is built from. Asked by running the REAL syncDictionaryOn into a transaction that is
+    // always rolled back, never by re-comparing the tables here: a hand comparison of the same rows reported 19 false
+    // differences (jsonb reorders object keys). A lock it cannot take in 5 s is could-not-check, never a verdict.
+    run: async () => {
+      let outcome: SyncOutcome;
+      let c: import("pg").PoolClient;
+      try { c = await getPool().connect(); } catch (e) { return na(`could not connect: ${e instanceof Error ? e.message : String(e)}`); }
+      try {
+        await c.query("BEGIN");
+        await c.query("SET LOCAL lock_timeout = '5s'");
+        try {
+          outcome = { result: await syncDictionaryOn(c, { quiet: true }) };
+        } catch (e) {
+          const msg = e instanceof Error ? e.message : String(e);
+          if (/lock timeout/i.test(msg)) return na(`could not take the dictionary's row locks in 5 s: ${msg.slice(0, 160)}`);
+          outcome = { refused: msg };
+        }
+      } catch (e) {
+        return na(`could not open the rolled-back sync: ${e instanceof Error ? e.message : String(e)}`);
+      } finally {
+        try { await c.query("ROLLBACK"); } catch { /* the connection is already gone; nothing was committed */ }
+        c.release();
+      }
+      const v = syncDriftVerdict(outcome);
+      const scope = `${dictionaryRows().length} keys and ${profileRows().length} profile rows in code, asked by a rolled-back sync`;
+      return v.inSync ? ok(`${v.detail} — ${scope}`) : bad(`${v.detail} — ${scope}`);
+    },
+    selfTest: async () => {
+      const clean = { inserted: 0, updated: 0, profiles_inserted: 0, profiles_updated: 0, reshaped: [] };
+      const reshapedNotSynced = { ...clean, updated: 1, reshaped: [{ key: "tdp", changed: ["band null->[5,400]"], facts: 1841,
+        replayed_from_value: 1652, would_refuse_by_vendor: {}, sample: [] }] };
+      return {
+        negative: syncDriftVerdict({ result: reshapedNotSynced }).inSync
+          || syncDriftVerdict({ refused: "dictionary sync: REFUSED — 1 reshaped key(s) would refuse values" }).inSync,
+        positive: syncDriftVerdict({ result: clean }).inSync,
+        note: "a reshaped key not yet synced, and a sync that would refuse, must fail; a sync that would change nothing must pass",
+      };
     },
   },
   {
@@ -2185,6 +2248,15 @@ const TESTS: Test[] = [
 
 // ---- run ----------------------------------------------------------------------------------------------------------
 const noDb = process.argv.includes("--no-db");
+// `--only a,b` runs just the named checks while one is being worked on. Every summary line then says FILTERED, because a
+// filtered run is not the board and must never be read or recorded as one; an unknown name is refused, not skipped.
+const ONLY = (() => { const i = process.argv.indexOf("--only"); return i >= 0 ? String(process.argv[i + 1] ?? "").split(",").filter(Boolean) : null; })();
+if (ONLY) {
+  const unknown = ONLY.filter((n) => !TESTS.some((t) => t.name === n));
+  if (unknown.length || !ONLY.length) { console.error(`--only names no declared check: ${unknown.join(", ") || "(empty)"}`); process.exit(2); }
+}
+const RUN = ONLY ? TESTS.filter((t) => ONLY.includes(t.name)) : TESTS;
+const FILTERED = ONLY ? `   FILTERED by --only: ${RUN.length} of ${TESTS.length} declared, this is NOT the board` : "";
 
 // ---- `--self-test`: prove each check CAN fail, before believing what it says about the corpus ----
 //
@@ -2199,8 +2271,8 @@ const noDb = process.argv.includes("--no-db");
 if (process.argv.includes("--self-test")) {
   let proven = 0, broken = 0, unproven = 0;
   const bad: string[] = [];
-  console.log(`mould:verify --self-test — can each of the ${TESTS.length} declared tests actually fail?\n`);
-  for (const t of TESTS) {
+  console.log(`mould:verify --self-test — can each of the ${TESTS.length} declared tests actually fail?${FILTERED}\n`);
+  for (const t of RUN) {
     if (!t.selfTest) {
       unproven++;
       console.log(`  ....  ${t.name.padEnd(30)} UNPROVEN          no negative fixture declared`);
@@ -2220,7 +2292,7 @@ if (process.argv.includes("--self-test")) {
       console.log(`  FAIL  ${t.name.padEnd(30)} self-test threw: ${e instanceof Error ? e.message : String(e)}`);
     }
   }
-  console.log(`\n  proven ${proven}   BROKEN ${broken}   unproven ${unproven}   (of ${TESTS.length} declared)`);
+  console.log(`\n  proven ${proven}   BROKEN ${broken}   unproven ${unproven}   (of ${TESTS.length} declared)${FILTERED}`);
   if (bad.length) console.log(`  broken: ${bad.join(", ")}`);
   console.log(`  A check with no negative fixture has never been watched go red. UNPROVEN is not a pass.`);
   process.exit(broken ? 1 : 0);
@@ -2229,8 +2301,8 @@ if (process.argv.includes("--self-test")) {
 let pass = 0, fail = 0, notImpl = 0, unavail = 0, notExercised = 0;
 const failed: string[] = [];
 
-console.log(`mould:verify — ${TESTS.length} tests declared\n`);
-for (const t of TESTS) {
+console.log(`mould:verify — ${TESTS.length} tests declared${FILTERED}\n`);
+for (const t of RUN) {
   if (!t.run) { notImpl++; console.log(`  ....  ${t.name.padEnd(30)} NOT IMPLEMENTED   (${t.findings})`); continue; }
   if (t.needsDb && noDb) { unavail++; console.log(`  ????  ${t.name.padEnd(30)} UNAVAILABLE       --no-db`); continue; }
   let r: Result;
@@ -2243,7 +2315,7 @@ for (const t of TESTS) {
 }
 
 console.log(`\n  passed ${pass}   FAILED ${fail}   not implemented ${notImpl}   unavailable ${unavail}   not exercised ${notExercised}`
-  + `   (of ${TESTS.length} declared)`);
+  + `   (of ${TESTS.length} declared)${FILTERED}`);
 if (fail) console.log(`  failing: ${failed.join(", ")}`);
 if (notExercised) console.log(`  ${notExercised} test(s) had NO POPULATION to judge - they neither passed nor failed; what they watch for has no members today.`);
 if (notImpl) console.log(`  ${notImpl} declared tests are not written yet — this run does NOT certify their findings.`);
