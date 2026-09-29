@@ -66,7 +66,7 @@ import { isPartNumber } from "../pipeline/partNumber.js";
 //        string to a list on 4 Sep 2026 and the comma splitter then read 396 citation cells for the
 //        first time, cutting "MIL-STD-810, Method 514.4" into two standards that do not exist. The
 //        rule and every bound in it are read off the stored raws — see isCitationContinuation.
-export const NORM_VERSION = "1.8.4"; // 29 Sep 2026: splitter (below) — 1.8.2 the pre-bullet head, spaced middle-dot runs; 1.8.3 a run of standards prefixes delimits its ;-chunk, commas or not; 1.8.4 antenna_gain {band24, band5} strict parser (0 stored facts: nothing to renormalize)
+export const NORM_VERSION = "1.8.4"; // 29 Sep 2026: splitter (below) — 1.8.2 the pre-bullet head, spaced middle-dot runs; 1.8.3 a run of standards prefixes delimits its ;-chunk, commas or not; 1.8.4 antenna_gain {band24, band5} strict parser (0 stored facts) + the anchored spatial_streams MIMO sentence (MR46: 4x4:4)
 // 1.8.1 — 29 Sep 2026, reviewer ruling: two splitter defects with witnesses. A run of standards-body prefixes with no
 //         other delimiter ("ITUT G.984.1 ITUT G.984.2 ... IEEE 802.3af") and "PID or PID" are lists. Bumped so renormalize
 //         selects the stored values the old splitter wrote.
@@ -1177,6 +1177,13 @@ const ENUM_RULES: Record<string, [RegExp, string][]> = {
     // stream count is NOT in the cell and is not invented. A trailing "SS" count is a stream count
     // and would belong in the colon form, so it is not admitted here.
     [/^\s*4\s*x\s*4(?:\s*mimo)?\s*$/i, "4x4"], [/^\s*2\s*x\s*2(?:\s*mimo)?\s*$/i, "2x2"],
+    // THE MIMO SENTENCE (1.8.4, Batch C 29 Sep 2026): MR46's "4 x 4 multiple input, multiple output (MIMO) with four spatial
+    // streams" states the array AND the stream count, i.e. 4x4:4. Anchored end to end like every rule above, one rule per
+    // (array, count word) pair so a count word that disagrees with the array matches nothing -- which keeps MR44's two radios,
+    // MR56's two radios and CW9174E's "or" refused, exactly as before.
+    [/^\s*4\s*x\s*4\s+multiple\s+input,?\s+multiple\s+output\s*\(\s*mimo\s*\)\s+with\s+four\s+spatial\s+streams\.?\s*$/i, "4x4:4"],
+    [/^\s*8\s*x\s*8\s+multiple\s+input,?\s+multiple\s+output\s*\(\s*mimo\s*\)\s+with\s+eight\s+spatial\s+streams\.?\s*$/i, "8x8:8"],
+    [/^\s*2\s*x\s*2\s+multiple\s+input,?\s+multiple\s+output\s*\(\s*mimo\s*\)\s+with\s+two\s+spatial\s+streams\.?\s*$/i, "2x2:2"],
   ],
   // ANTENNA CONNECTOR. Order is the rule: the two-connector guard first (a cell naming a radio
   // connector AND a GPS connector must not be resolved by rule order — it maps to a value that is
