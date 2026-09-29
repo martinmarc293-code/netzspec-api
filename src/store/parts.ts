@@ -446,7 +446,7 @@ export async function linkSkuVariant(
  */
 export async function retirePart(
   partId: number, opts: { into: number | null; reason: string; runId: number }, db: Queryable = getPool(),
-): Promise<void> {
+): Promise<{ completenessDropped: number }> {
   if (!opts.reason.trim()) throw new Error(`retirePart: part ${partId} needs a reason`);
   if (opts.into === partId) throw new Error(`retirePart: part ${partId} cannot be retired into itself`);
   if (opts.into != null) {
@@ -458,4 +458,11 @@ export async function retirePart(
       WHERE id = $1 AND retired_at IS NULL`,
     [partId, opts.into, opts.reason, opts.runId]);
   if (!r.rowCount) throw new Error(`retirePart: part ${partId} does not exist or is already retired`);
+  // A RETIRED PART IS NOT SCORED (29 Sep 2026). Its completeness row is derived data about a catalogue row that
+  // has just left the catalogue, and recompute-completeness selects live parts only, so it never rewrites or
+  // removes that row: run 1405 retired 4X100G-LR-S and the next recompute failed its standing "no tombstone is
+  // scored" check on the score left behind. Only the merge path deleted it (hygiene.ts), so the other three
+  // callers each left one. Dropping it HERE, in the retirement's own transaction, covers every caller.
+  const c = await db.query("DELETE FROM completeness WHERE part_id = $1", [partId]);
+  return { completenessDropped: c.rowCount ?? 0 };
 }

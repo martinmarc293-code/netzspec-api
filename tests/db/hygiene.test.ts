@@ -780,6 +780,16 @@ await query("INSERT INTO lifecycle (part_id, status, end_of_sale_date) VALUES ($
   check("SABOTAGE retirePart: retiring into an ALREADY RETIRED part is refused — every follower would land on a dead end",
     /not a live part/.test(e3), e3);
   check("retirePart: the refusals wrote nothing", (await num("SELECT count(*)::int AS n FROM parts WHERE id = $1 AND retired_at IS NULL", [spare])) === 1);
+  // A retired part is not scored: its completeness row leaves with it, in the retirement itself (29 Sep 2026 — run
+  // 1405 left one behind and the next recompute failed its standing tombstone check).
+  const scored = await mkPart("ZZ-HYG-SCORED-1");
+  await getPool().query("INSERT INTO completeness (part_id, required_total, required_present, pct, missing) VALUES ($1, 3, 1, 33.3, '[]'::jsonb)", [scored]);
+  check("retirePart: the fixture's completeness row exists before the retirement (the sabotage below needs it to have landed)",
+    (await num("SELECT count(*)::int AS n FROM completeness WHERE part_id = $1", [scored])) === 1);
+  const dropped = await retirePart(scored, { into: null, reason: "a fixture leaving the catalogue", runId: seedRun });
+  check("retirePart: the retired part's completeness row is gone, and the count says so",
+    (await num("SELECT count(*)::int AS n FROM completeness WHERE part_id = $1", [scored])) === 0 && dropped.completenessDropped === 1,
+    JSON.stringify(dropped));
   sabotages++;
   let e4 = ""; try { await linkSkuVariant(spare, "case_variant", "   ", seedRun); } catch (e) { e4 = (e as Error).message; }
   check("SABOTAGE linkSkuVariant: an empty alias value is refused naming the kind", /empty case_variant value/.test(e4), e4);
