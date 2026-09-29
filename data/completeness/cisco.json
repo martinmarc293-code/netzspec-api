@@ -3,18 +3,18 @@
   "definitions": "docs/completeness-model.md",
   "vendor": "cisco",
   "built_on_commit": "unknown",
-  "generated_at": "2026-09-29T07:42:35.387Z",
+  "generated_at": "2026-09-29T09:03:32.240Z",
   "inputs": {
     "ledgers_built_on": [
       "unknown"
     ],
     "censuses_built_on": [
-      "e3f3f1d"
+      "9ad8a7f"
     ],
     "census_norm_versions": [
-      "1.8.1"
+      "1.8.3"
     ],
-    "norm_version_now": "1.8.1",
+    "norm_version_now": "1.8.3",
     "spec_bearing_doc_types": [
       "vendor_datasheet_html",
       "vendor_datasheet_pdf",
@@ -39,7 +39,7 @@
       "run": 7533,
       "pending": 0
     },
-    "freeze_hash": "22601294f9003e5e6247f4d203ec4e62169658c41f3c6d84245cee41bda5b35f",
+    "freeze_hash": "40b0055654d3874a22e54cfb260f6cdec4906192e98a20ce1f2d047cb21b1495",
     "worktree_dirty_paths": 0,
     "live_at_build": {
       "hardware_parts": 41067,
@@ -149,10 +149,10 @@
       },
       {
         "category": "switches",
-        "facts": 31419,
-        "census_facts": 31419,
-        "would_refuse": 33,
-        "census_would_refuse": 33,
+        "facts": 31417,
+        "census_facts": 31417,
+        "would_refuse": 31,
+        "census_would_refuse": 31,
         "could_not_replay": 1337,
         "census_could_not_replay": 1337
       },
@@ -241,9 +241,9 @@
       "placeholders_stored": 0
     },
     "inherited_share": {
-      "inherited": 7355,
+      "inherited": 7357,
       "filled": 23247,
-      "num": 7355,
+      "num": 7357,
       "den": 23247,
       "pct": 31.6
     },
@@ -41549,9 +41549,9 @@
         "placeholders_stored": 0
       },
       "inherited_share": {
-        "inherited": 4726,
+        "inherited": 4728,
         "filled": 15452,
-        "num": 4726,
+        "num": 4728,
         "den": 15452,
         "pct": 30.6
       },
@@ -47329,11 +47329,11 @@
             "placeholders_stored": 0
           },
           "inherited_share": {
-            "inherited": 0,
+            "inherited": 2,
             "filled": 4,
-            "num": 0,
+            "num": 2,
             "den": 4,
-            "pct": 0
+            "pct": 50
           },
           "cups": [
             {
@@ -47446,7 +47446,7 @@
               "not_held_filled": 0,
               "not_held_would_refuse": 0,
               "could_not_replay": 0,
-              "inherited": 0,
+              "inherited": 2,
               "filled_not_rendered": 0,
               "placeholders_stored": 0,
               "filled_pct": {
@@ -47455,7 +47455,7 @@
                 "pct": 100
               },
               "fill_path": "derived",
-              "observed_filled": true,
+              "observed_filled": false,
               "label_occurrences": 0,
               "sources_enabled": [],
               "taps": [
@@ -65078,7 +65078,7 @@
     },
     {
       "item": "would-refuse dispositions (MOVE / RETRACT / KEEP-REFUSING / RESHAPE)",
-      "count": 228,
+      "count": 226,
       "count_basis": "Σ census would_refuse_total over the committed censuses (every live part and key, not only required cups); the guide quotes 352, the committed censuses sum to this. The per-group split lives in the round-8 dispositions, not in the store.",
       "why_parked": "cleanup; visible as `defects`; none changes which cups exist",
       "trigger": "day one of filling, on the pilot first; group by group as approved in round 8"
@@ -65216,8 +65216,8 @@
       "held_parts_with_a_pdf_link": 510,
       "hexcat_seed_facts_current": 14358,
       "inherited_share_of_stock": {
-        "num": 36690,
-        "den": 80858,
+        "num": 36697,
+        "den": 80856,
         "pct": 45.4
       },
       "why_parked": "not arrangement; but a PDF-linked held part cannot fill from the PDF until the tap opens",
@@ -65303,7 +65303,7 @@
       "guide": "§3.2 brand.defects.would_refuse 352 (census)",
       "code": "the census replays EVERY live part (any class) and EVERY key in a category; the report's defects are required cups of hardware parts only",
       "measured": {
-        "census_would_refuse_total": 228,
+        "census_would_refuse_total": 226,
         "census_could_not_replay_total": 9798,
         "report_would_refuse_required_held": 77,
         "report_would_refuse_required_not_held": 39,
@@ -65316,15 +65316,15 @@
       "code": "the report's inherited_share is over FILLED REQUIRED slots of held parts in scope; the stock share is in residue",
       "measured": {
         "report": {
-          "inherited": 7355,
+          "inherited": 7357,
           "filled": 23247,
-          "num": 7355,
+          "num": 7357,
           "den": 23247,
           "pct": 31.6
         },
         "stock": {
-          "num": 36690,
-          "den": 80858,
+          "num": 36697,
+          "den": 80856,
           "pct": 45.4
         }
       }
@@ -65448,9 +65448,9 @@
     }
   ],
   "build": {
-    "data_commit": "0ea2ef5218c4+79dirty",
-    "code_commit": "e3f3f1d5346a",
+    "data_commit": "fff4686cd8ef+79dirty",
+    "code_commit": "9ad8a7f676e2",
     "contract_hash": "bcfc4c1ee314d3c2",
-    "generated_at": "2026-09-29T07:44:54.802Z"
+    "generated_at": "2026-09-29T09:05:25.475Z"
   }
 }

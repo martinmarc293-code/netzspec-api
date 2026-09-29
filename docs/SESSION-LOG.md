@@ -4,6 +4,19 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-29 (27) - BATCHES 3-5 (reviewer rulings), ALL WRITES ON THE BOX.** Done and verified: splitter 1.8.1 -> 1.8.3
+  (prefix runs; the pre-bullet head; spaced middle-dot runs; a prefix run delimits its ;-chunk), each measured with both
+  real normalisers side by side and sabotaged per rule; renormalize 1329 (44), 1337 rfc (286), ieee + protocols at 1.8.2,
+  ieee + rfc at 1.8.3, every --allow quoting the distinct raws read; derive-pon-standard 1327/1336 (inherits its input's
+  provenance); family gate = model OR layer 4 (226b6a2: refused->ok 10,172, ok->refused 0; partSeries required, and the type
+  found 4 callers in scripts/); the freeze pins inherit_classes + normaliser; repair-truncated run 1342 superseded 1,054 cut
+  ieee cells (strict-prefix proof; 4 ATA191/192 refused and named, never by hand). CLOSED: the batch-4 "classify
+  ieee_standards" ruling is WITHDRAWN - it was always hand-written class A (my error; docs/decisions/2026-09-29-splitter-
+  1.8.2-and-ieee-inherit-class.md section 2). NEXT: board + self-test from this rebuild; the comparator round (series inside
+  its family; glued prefixes - c9350 must not match a 9350 in another line) with its flip list read; remerge OFF until
+  then; UCS-DIMM-BLK for the component-shape round. TRAPS: shared-file commits need NETZSPEC_SHARED=1, and a refused commit
+  leaves "unpushed: 0" true and meaningless - check git log; the Bash tool turns backslash-u escapes in a command into raw
+  characters (build them with chr()); stored locators may carry "|rev=<stamp>".
 - **2026-09-29 (26) - BATCH 2 (A-D) BUILT, APPLIED, REBUILT, REPORTED; RULINGS FOR BATCH 3 IN HAND.** Done and verified:
   dictionary_in_sync (runs the REAL sync into a rolled-back transaction; red twice through the real path), host-named title
   check, `--only` on the verifier; "switch model" admitted only over attributable PIDs + MODEL_ROW_UNATTRIBUTABLE + known-SKU
