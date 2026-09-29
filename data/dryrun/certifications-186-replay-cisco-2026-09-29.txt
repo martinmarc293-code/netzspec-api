@@ -1,0 +1,191 @@
+# CORRECTION (written after run 1384 committed): the run's --allow says 'every one of the 764 read'. That overstates it:
+# about 40 of the 764 'other' changes were read by eye (the OTHER section below). What verifies all of them is a
+# mechanical check run afterwards on the box over EVERY fact run 1384 wrote: 2,499 facts, 16,846 members, 0 members
+# not verbatim in their own raw cell (whitespace collapsed, '/' spacing ignored) -- nothing was invented.
+# certifications under NORM 1.8.6 + (a') salvage, cisco, read on the box before the replay was committed (29 Sep 2026).
+# change types: pruned = subset of the old members; split = every new member is inside an old one; other = rebuilt from shredded
+# old values (read in full below, first 40). FUSED = 2+ issuer-numbered identifier starts outside brackets.
+
+certifications: 4059 facts; changed 2499, refused 0; change types {"other":764,"pruned":432,"split":1303}
+members 21696 -> 27131; verdicts before {"flagged":2140,"unclassified":4169,"accept":14306,"refuse":1081} after {"accept":22484,"unclassified":3912,"flagged":735}
+FUSED (2+ issuer-numbered starts outside brackets): before 2052, after 0
+--- OTHER (read every one) ---
+WS-X4640-CSFP-E #42695
+    was ["● UL 1950 ● EN 60950 ● CSA-C22.2 no 950 ● IEC 950 ● IEC 60950-1","2 nd Ed. EN 60950-1","2 nd Ed. UL 60950-1","2 nd Ed. CAN","CSA-C22.2 No. 60950-1 2 nd Ed. 11"]
+    now ["UL 1950","EN 60950","CSA-C22.2 no 950","IEC 950","IEC 60950-1, 2 nd Ed.","EN 60950-1, 2 nd Ed.","UL 60950-1, 2 nd Ed.","CAN/CSA-C22.2 No. 60950-1 2 nd Ed. 11"]
+WS-X4648-RJ45V+E #42723
+    was ["● UL 1950 ● EN 60950 ● CSA-C22.2 no 950 ● IEC 950 ● IEC 60950-1","2 nd Ed. EN 60950-1","2 nd Ed. UL 60950-1","2 nd Ed. CAN","CSA-C22.2 No. 60950-1 2 nd Ed. 11"]
+    now ["UL 1950","EN 60950","CSA-C22.2 no 950","IEC 950","IEC 60950-1, 2 nd Ed.","EN 60950-1, 2 nd Ed.","UL 60950-1, 2 nd Ed.","CAN/CSA-C22.2 No. 60950-1 2 nd Ed. 11"]
+RCKMNT-19-CMPCT= #114142
+    was ["● UL 60950-1 ● CAN","CSA 22.2 No. 60950-1 ● EN 60950-1 ● IEC 60950-1 ● CE Marking ● GB 4943 ● IEC 60825"]
+    now ["UL 60950-1","CAN/CSA 22.2 No. 60950-1","EN 60950-1","IEC 60950-1","CE Marking","GB 4943","IEC 60825"]
+C4KX-PWR-750DC-F #77848
+    was ["UL 60950-1 Second Edition CAN","CSA-C22.2 No. 60950-1 Second Edition EN 60950-1 Second Edition IEC 60950-1 Second Edition AS","NZS 60950-1"]
+    now ["UL 60950-1 Second Edition","CAN/CSA-C22.2 No. 60950-1 Second Edition","EN 60950-1 Second Edition","IEC 60950-1 Second Edition","AS/NZS 60950-1"]
+C4KX-PWR-750DC-R #77785
+    was ["UL 60950-1 Second Edition CAN","CSA-C22.2 No. 60950-1 Second Edition EN 60950-1 Second Edition IEC 60950-1 Second Edition AS","NZS 60950-1"]
+    now ["UL 60950-1 Second Edition","CAN/CSA-C22.2 No. 60950-1 Second Edition","EN 60950-1 Second Edition","IEC 60950-1 Second Edition","AS/NZS 60950-1"]
+DWDM-SFP-4294= #90394
+    was ["● UL to UL 60950","Third Edition ● C-UL to CAN","CSA C22.2 No. 60950-00","Third Edition ● TUV","GS to EN 60950:2000 ● CB to IEC 60950 with all country deviations ● NO"]
+    now ["UL to UL 60950, Third Edition","C-UL to CAN/CSA C22.2 No. 60950-00, Third Edition","TUV/GS to EN 60950:2000","IEC 60950","NO"]
+DWDM-SFP-3977= #90876
+    was ["● UL to UL 60950","Third Edition ● C-UL to CAN","CSA C22.2 No. 60950-00","Third Edition ● TUV","GS to EN 60950:2000 ● CB to IEC 60950 with all country deviations ● NO"]
+    now ["UL to UL 60950, Third Edition","C-UL to CAN/CSA C22.2 No. 60950-00, Third Edition","TUV/GS to EN 60950:2000","IEC 60950","NO"]
+1000BASE-SX #68418
+    was ["This product is designed to meet the following requirements: • SR-3580-NEBS criteria levels (Level 3-compliant) • GR-1089-Core-NEBS EMC","safety • GR-63-Core-"]
+    now ["SR-3580-NEBS criteria levels (Level 3-compliant)","GR-1089-Core-NEBS EMC and safety","GR-63-Core-"]
+1x10GE-LR-SC #69483
+    was ["This product is designed to meet the following requirements: • SR-3580-NEBS criteria levels (Level 3-compliant) • GR-1089-Core-NEBS EMC","safety • GR-63-Core-"]
+    now ["SR-3580-NEBS criteria levels (Level 3-compliant)","GR-1089-Core-NEBS EMC and safety","GR-63-Core-"]
+1x10GE-ER-SC #69542
+    was ["This product is designed to meet the following requirements: • SR-3580-NEBS criteria levels (Level 3-compliant) • GR-1089-Core-NEBS EMC","safety • GR-63-Core-"]
+    now ["SR-3580-NEBS criteria levels (Level 3-compliant)","GR-1089-Core-NEBS EMC and safety","GR-63-Core-"]
+BLNK-RPS2300= #75754
+    was ["● UL to UL 60950","Third Edition ● C-UL to CAN","CSA C22.2 No. 60950-00","Third Edition ● TUV","GS to EN 60950:2000 ● CB to IEC 60950 with all country deviations ● NO"]
+    now ["UL to UL 60950, Third Edition","C-UL to CAN/CSA C22.2 No. 60950-00, Third Edition","TUV/GS to EN 60950:2000","IEC 60950","NO"]
+NCS2K-SVO-K9= #144843
+    was ["ETS 300-019-2-1 V2.1.2 (Storage, Class 1.1) ETS 300-019-2-2 V2.1.2 (1999-09): Transportation","Class 2.3 ETS 300-019-2-3 V2.2.2 (2003-04): Operational","Class 3.1"]
+    now ["ETS 300-019-2-1 V2.1.2 (Storage, Class 1.1) ETS 300-019-2-2 V2.1.2 (1999-09): Transportation, Class 2.3 ETS 300-019-2-3 V2.2.2 (2003-04): Operational, Class 3.1"]
+FAN-T3-F= #91484
+    was ["UL 60950-1 Second Edition CAN","CSA-C22.2 No. 60950-1 Second Edition EN 60950-1 Second Edition IEC 60950-1 Second Edition NOM (obtained by partners","distributo"]
+    now ["UL 60950-1 Second Edition","CAN/CSA-C22.2 No. 60950-1 Second Edition","EN 60950-1 Second Edition","IEC 60950-1 Second Edition NOM (obtained by partners and distributo"]
+FAN-T3-R= #91491
+    was ["UL 60950-1 Second Edition CAN","CSA-C22.2 No. 60950-1 Second Edition EN 60950-1 Second Edition IEC 60950-1 Second Edition NOM (obtained by partners","distributo"]
+    now ["UL 60950-1 Second Edition","CAN/CSA-C22.2 No. 60950-1 Second Edition","EN 60950-1 Second Edition","IEC 60950-1 Second Edition NOM (obtained by partners and distributo"]
+A99-48X10GE-1G-FC #72114
+    was ["Cisco ASR 9000 Series Routers are designed to meet: ● FCC Class A ● ICES 003 Class A ● AS","NZS 3548 Class A ● CISPR 22 (EN55022) Class A ● VCCI Class A ● BSMI Cl"]
+    now ["FCC Class A","ICES 003 Class A","AS/NZS 3548 Class A","CISPR 22 (EN55022) Class A","VCCI Class A","BSMI Cl"]
+SPA-OC192POS-VSR #118961
+    was ["• This product is designed to meet the following requirements: • GR-1089-CORE EMC","Safety • GR-63-CORE Physical Protection • SR-3580 NEBS Criteria Levels (Le"]
+    now ["GR-1089-CORE EMC and Safety","GR-63-CORE Physical Protection","SR-3580 NEBS Criteria Levels (Le"]
+C921-4PLTEAU #79369
+    was ["Safety: ● IEC 60950-1 ● UL 60950-1 ● CAN","CSA C22.2 No. 60950-1 ● EN 60950-1 ● AS","NZS 60950.1 ● Class I Equipment (C921-4P","C931-4P only) ● Class III Equipmen"]
+    now ["IEC 60950-1","UL 60950-1","CAN/CSA C22.2 No. 60950-1","EN 60950-1","AS/NZS 60950.1","Class III Equipmen"]
+WS-X4148-RJ #128235
+    was ["● UL 1950 ● EN 60950 ● CSA-C22.2 no 950 ● IEC 950 ● IEC 60950-1","2 nd Ed. EN 60950-1","2 nd Ed. UL 60950-1","2 nd Ed. CAN","CSA-C22.2 No. 60950-1 2 nd Ed. 11"]
+    now ["UL 1950","EN 60950","CSA-C22.2 no 950","IEC 950","IEC 60950-1, 2 nd Ed.","EN 60950-1, 2 nd Ed.","UL 60950-1, 2 nd Ed.","CAN/CSA-C22.2 No. 60950-1 2 nd Ed. 11"]
+WS-X4248-FX-MT #128382
+    was ["● UL 1950 ● EN 60950 ● CSA-C22.2 no 950 ● IEC 950 ● IEC 60950-1","2 nd Ed. EN 60950-1","2 nd Ed. UL 60950-1","2 nd Ed. CAN","CSA-C22.2 No. 60950-1 2 nd Ed. 11"]
+    now ["UL 1950","EN 60950","CSA-C22.2 no 950","IEC 950","IEC 60950-1, 2 nd Ed.","EN 60950-1, 2 nd Ed.","UL 60950-1, 2 nd Ed.","CAN/CSA-C22.2 No. 60950-1 2 nd Ed. 11"]
+A9K-16X100GE-FC #72482
+    was ["Cisco ASR 9000 Series Routers are designed to meet: ● FCC Class A ● ICES 003 Class A ● AS","NZS 3548 Class A ● CISPR 22 (EN55022) Class A ● VCCI Class A ● BSMI Cl"]
+    now ["FCC Class A","ICES 003 Class A","AS/NZS 3548 Class A","CISPR 22 (EN55022) Class A","VCCI Class A","BSMI Cl"]
+CISCO887M-K9 #85372
+    was ["Emissions: ● 47 CFR Part 15: 2006 ● CISPR22: 2005 ● EN300386: V1.3.3: 2005 ● EN55022: 2006 ● EN61000-3-2: 2000 [Inc amd 1","2] ● EN61000-3-3: 1995 [+ amd 1: 2"]
+    now ["47 CFR Part 15: 2006","CISPR22: 2005","EN300386: V1.3.3: 2005","EN55022: 2006","EN61000-3-2: 2000 [Inc amd 1 and 2]","EN61000-3-3: 1995 [+ amd 1: 2"]
+PWR-C1-BLANK= #113222
+    was ["UL 60950-1 Second Edition CAN","CSA-C22.2 No. 60950-1 Second Edition EN 60950-1 Second Edition IEC 60950-1 Second Edition NOM (obtained by partners","distributo"]
+    now ["UL 60950-1 Second Edition","CAN/CSA-C22.2 No. 60950-1 Second Edition","EN 60950-1 Second Edition","IEC 60950-1 Second Edition NOM (obtained by partners and distributo"]
+PWR-C3-750WAC-F= #112510
+    was ["UL 60950-1 Second Edition CAN","CSA-C22.2 No. 60950-1 Second Edition EN 60950-1 Second Edition IEC 60950-1 Second Edition NOM (obtained by partners","distributo"]
+    now ["UL 60950-1 Second Edition","CAN/CSA-C22.2 No. 60950-1 Second Edition","EN 60950-1 Second Edition","IEC 60950-1 Second Edition NOM (obtained by partners and distributo"]
+PWR-C3-750WDC-R= #113269
+    was ["UL 60950-1 Second Edition CAN","CSA-C22.2 No. 60950-1 Second Edition EN 60950-1 Second Edition IEC 60950-1 Second Edition NOM (obtained by partners","distributo"]
+    now ["UL 60950-1 Second Edition","CAN/CSA-C22.2 No. 60950-1 Second Edition","EN 60950-1 Second Edition","IEC 60950-1 Second Edition NOM (obtained by partners and distributo"]
+CISCO887GW-GN-E-K9 #85280
+    was ["Emissions: ● 47 CFR Part 15: 2006 ● CISPR22: 2005 ● EN300386: V1.3.3: 2005 ● EN55022: 2006 ● EN61000-3-2: 2000 [Inc amd 1","2] ● EN61000-3-3: 1995 [+ amd 1: 2"]
+    now ["47 CFR Part 15: 2006","CISPR22: 2005","EN300386: V1.3.3: 2005","EN55022: 2006","EN61000-3-2: 2000 [Inc amd 1 and 2]","EN61000-3-3: 1995 [+ amd 1: 2"]
+A9K-4X100GE-FC #72965
+    was ["Cisco ASR 9000 Series Routers are designed to meet: ● FCC Class A ● ICES 003 Class A ● AS","NZS 3548 Class A ● CISPR 22 (EN55022) Class A ● VCCI Class A ● BSMI Cl"]
+    now ["FCC Class A","ICES 003 Class A","AS/NZS 3548 Class A","CISPR 22 (EN55022) Class A","VCCI Class A","BSMI Cl"]
+PWR-CC1-1000WAC #130156
+    was ["UL 60950-1 CAN","CSA-C22.2 No. 60950-1 EN 60950-1 IEC 60950-1 AS","NZS 60950-1 IEC","EN 60825 Laser Safety FDA: Code of Federal Regulations Laser Safety"]
+    now ["UL 60950-1","CAN/CSA-C22.2 No. 60950-1","EN 60950-1","IEC 60950-1","AS/NZS 60950-1 IEC/EN 60825 Laser Safety FDA: Code of Federal Regulations Laser Safety"]
+PWR-CC1-250WAC #130116
+    was ["UL 60950-1 CAN","CSA-C22.2 No. 60950-1 EN 60950-1 IEC 60950-1 AS","NZS 60950-1 IEC","EN 60825 Laser Safety FDA: Code of Federal Regulations Laser Safety"]
+    now ["UL 60950-1","CAN/CSA-C22.2 No. 60950-1","EN 60950-1","IEC 60950-1","AS/NZS 60950-1 IEC/EN 60825 Laser Safety FDA: Code of Federal Regulations Laser Safety"]
+GRWIC-ISDN-1B-U= #93145
+    was ["US: TIA-968-A CA: CS-03 EU: TBR1","2","4","12","13 RTTE Directive Australia: AS","ASIF S016","S038 Japan: JATE"]
+    now ["US: TIA-968-A CA: CS-03 EU: TBR1","2","4","12","13 RTTE Directive Australia: AS/ASIF S016","S038 Japan: JATE"]
+PWR-CC1-650WAC #130147
+    was ["UL 60950-1 CAN","CSA-C22.2 No. 60950-1 EN 60950-1 IEC 60950-1 AS","NZS 60950-1 IEC","EN 60825 Laser Safety FDA: Code of Federal Regulations Laser Safety"]
+    now ["UL 60950-1","CAN/CSA-C22.2 No. 60950-1","EN 60950-1","IEC 60950-1","AS/NZS 60950-1 IEC/EN 60825 Laser Safety FDA: Code of Federal Regulations Laser Safety"]
+PWR-CH1-1100WAC #112878
+    was ["UL 60950-1 CAN","CSA-C22.2 No. 60950-1 EN 60950-1 IEC 60950-1 AS","NZS 60950-1 GB4943"]
+    now ["UL 60950-1","CAN/CSA-C22.2 No. 60950-1","EN 60950-1","IEC 60950-1","AS/NZS 60950-1","GB4943"]
+PWR-CH1-400WAC #112637
+    was ["UL 60950-1 CAN","CSA-C22.2 No. 60950-1 EN 60950-1 IEC 60950-1 AS","NZS 60950-1 GB4943"]
+    now ["UL 60950-1","CAN/CSA-C22.2 No. 60950-1","EN 60950-1","IEC 60950-1","AS/NZS 60950-1","GB4943"]
+PWR-CH1-400WDC= #112590
+    was ["UL 60950-1 CAN","CSA-C22.2 No. 60950-1 EN 60950-1 IEC 60950-1 AS","NZS 60950-1 GB4943"]
+    now ["UL 60950-1","CAN/CSA-C22.2 No. 60950-1","EN 60950-1","IEC 60950-1","AS/NZS 60950-1","GB4943"]
+PWR-CH1-750WACR #113171
+    was ["UL 60950-1 CAN","CSA-C22.2 No. 60950-1 EN 60950-1 IEC 60950-1 AS","NZS 60950-1 GB4943"]
+    now ["UL 60950-1","CAN/CSA-C22.2 No. 60950-1","EN 60950-1","IEC 60950-1","AS/NZS 60950-1","GB4943"]
+MEM-C8500-32GB= #101288
+    was ["UL 60950-1 CAN","CSA-C22.2 No. 60950-1 EN 60950-1 IEC 60950-1 AS","NZS 60950-1 GB4943"]
+    now ["UL 60950-1","CAN/CSA-C22.2 No. 60950-1","EN 60950-1","IEC 60950-1","AS/NZS 60950-1","GB4943"]
+RFGW-10-PWR-DC1= #114350
+    was ["UL 60950CAN","CSA-C22.2 No. 60950","EN 60950","IEC 60950","TS 001","AS","NZS 3260"]
+    now ["UL 60950CAN/CSA-C22.2 No. 60950","EN 60950","IEC 60950","TS 001","AS/NZS 3260"]
+ONS-SI-100-LX10= #111420
+    was ["● UL","CSA 60950 –1 First edition (2003) ● IEC 60950-1 (2001","10) Amendment 11:2004 to EN 60950-1:2001","First edition (with all country deviations)"]
+    now ["UL/CSA 60950 –1 First edition (2003)","IEC 60950-1 (2001/10) Amendment 11:2004 to","EN 60950-1:2001, First edition (with all country deviations)"]
+A9K-400GE-LAN-FC #73089
+    was ["Cisco ASR 9000 Series Routers are designed to meet: ● FCC Class A ● ICES 003 Class A ● AS","NZS 3548 Class A ● CISPR 22 (EN55022) Class A ● CISPR 32 (EN55032) Cla"]
+    now ["FCC Class A","ICES 003 Class A","AS/NZS 3548 Class A","CISPR 22 (EN55022) Class A","CISPR 32 (EN55032) Cla"]
+A9K-8HG-FLEX-FC #72356
+    was ["Cisco ASR 9000 Series Routers are designed to meet: ● FCC Class A ● ICES 003 Class A ● AS","NZS CISPR 32 Class A ● CISPR 22","CISPR 32 Class A ● EN55022","EN55032 Cla"]
+    now ["FCC Class A","ICES 003 Class A","AS/NZS CISPR 32 Class A","CISPR 22/CISPR 32 Class A","EN55022/EN55032 Cla"]
+PWR-CH1-1100WAC= #112937
+    was ["UL 60950-1 CAN","CSA-C22.2 No. 60950-1 EN 60950-1 IEC 60950-1 AS","NZS 60950-1 GB4943"]
+    now ["UL 60950-1","CAN/CSA-C22.2 No. 60950-1","EN 60950-1","IEC 60950-1","AS/NZS 60950-1","GB4943"]
+--- SPREAD SAMPLE (every 125th change) ---
+[other] PWR-CC1-250WAC #130116
+    was ["UL 60950-1 CAN","CSA-C22.2 No. 60950-1 EN 60950-1 IEC 60950-1 AS","NZS 60950-1 IEC","EN 60825 Laser Safety FDA: Code of Federal Regulations Laser Safety"]
+    now ["UL 60950-1","CAN/CSA-C22.2 No. 60950-1","EN 60950-1","IEC 60950-1","AS/NZS 60950-1 IEC/EN 60825 Laser Safety FDA: Code of Federal Regulations Laser Safety"]
+[other] NM-8CE1T1-PRI #107936
+    was ["• GR-63","GR-78","GR-1089-CORE Type 1","3"]
+    now ["GR-63","GR-78","GR-1089-CORE Type 1/3"]
+[pruned] CISCO867VAE #146566
+    was ["Emissions:","47 CFR Part 15: 2006","CISPR22: 2005","EN300386: V1.3.3: 2005","EN55022: 2006","EN61000-3-2: 2000 [Inc amd 1 and 2]","EN61000-3-3: 1995 [+ amd 1: 2"]
+    now ["47 CFR Part 15: 2006","CISPR22: 2005","EN300386: V1.3.3: 2005","EN55022: 2006","EN61000-3-2: 2000 [Inc amd 1 and 2]","EN61000-3-3: 1995 [+ amd 1: 2"]
+[other] DWDM-XFP-31.12= #91119
+    was ["● FCC Part 15 Class A ● ICES-003 Class A ● VCCI Class A ● EN55022 Class A ● CISPR22 Class A ● AS","NZS3548 Class A ● EN61000-3-2 ● EN61000-3-3 ● EN61000-3-1 ● EN5"]
+    now ["FCC Part 15 Class A","ICES-003 Class A","VCCI Class A","EN55022 Class A","CISPR22 Class A","AS/NZS3548 Class A","EN61000-3-2","EN61000-3-3","EN61000-3-1","EN5"]
+[split] CP-7921G-W-K9= #152638
+    was ["CFR 47 Part 15 Class B","ICES-003 Class B","EN 55022 Class B","CISPR 22 Class B","VCCI Class B","CISPR22 Class B","EN 55024","EN 50082-1","EN 61000-6-1","EN 3","FCC Part 68 (CFR) (HAC)","CS-03 (HAC)","PTC 220/06/098 (2003, New Zealand)","AS/ACIF S004 and AS/
+    now ["CFR 47 Part 15 Class B","ICES-003 Class B","EN 55022 Class B","CISPR 22 Class B","VCCI Class B","CISPR22 Class B","EN 55024","EN 50082-1","EN 61000-6-1","EN 3","FCC Part 68 (CFR) (HAC)","CS-03 (HAC)","PTC 220/06/098 (2003, New Zealand)","AS/ACIF S004 and AS/
+[other] CISCO886W-GN-E-K9 #85184
+    was ["Emissions: ● 47 CFR Part 15: 2006 ● CISPR22: 2005 ● EN300386: V1.3.3: 2005 ● EN55022: 2006 ● EN61000-3-2: 2000 [Inc amd 1","2] ● EN61000-3-3: 1995 [+ amd 1: 2"]
+    now ["47 CFR Part 15: 2006","CISPR22: 2005","EN300386: V1.3.3: 2005","EN55022: 2006","EN61000-3-2: 2000 [Inc amd 1 and 2]","EN61000-3-3: 1995 [+ amd 1: 2"]
+[split] ONS-SI-155-L1= #148438
+    was ["UL/CSA 60950 –1 First edition (2003)","IEC 60950-1 (2001/10) Amendment 11:2004 to EN 60950-1:2001, First edition (with all country deviations)"]
+    now ["UL/CSA 60950 –1 First edition (2003)","IEC 60950-1 (2001/10) Amendment 11:2004 to","EN 60950-1:2001, First edition (with all country deviations)"]
+[split] IE-3400-8P2S-A #154260
+    was ["EN 61000-6-2 Industrial Immunity EN 61000-6-4 Industrial Emissions EN 61000-6-1 Light Industrial Immunity EN 61326-1 Measurement","Control","Laboratory Equipme","Information Technology Equipment: UL/CSA 60950-1","IEC 60950-1 CB with all country deviations UL
+    now ["EN 61000-6-2 Industrial Immunity","EN 61000-6-4 Industrial Emissions","EN 61000-6-1 Light Industrial Immunity","EN 61326-1 Measurement","Control","Laboratory Equipme","Information Technology Equipment: UL/CSA 60950-1","IEC 60950-1 CB with all country deviati
+[split] IE-3400H-24T #97277
+    was ["EN 61000-6-1 Immunity standards for light industrial ENV EN 61000-6-2 Immunity standards for industrial ENV EN 61000-6-4- Emission standard industrial ENV EN 61"]
+    now ["EN 61000-6-1 Immunity standards for light industrial ENV","EN 61000-6-2 Immunity standards for industrial ENV","EN 61000-6-4- Emission standard industrial ENV","EN 61"]
+[split] CP-860S-K9= #146484
+    was ["47 CFR Part 15 Class B ICES-003 Class B EN 55035:2017 AS/NZS CISPR 35:2016 CISPR 35:2016 VCCI Class B EN 61000-3-2:2006","EN 61000-3-2:2006/A1:2009","EN 61000-3-2","FCC Part 68 (CFR) (HAC) NZ PTC 220 DR AS/ACIF S004","AS/ACIF S040 (Australia) TIA 810-B","TIA
+    now ["47","CFR Part 15 Class B","ICES-003 Class B","EN 55035:2017 AS/NZS","CISPR 35:2016","CISPR 35:2016 VCCI Class B","EN 61000-3-2:2006","EN 61000-3-2:2006/A1:2009","EN 61000-3-2","FCC Part 68 (CFR) (HAC) NZ PTC 220 DR AS/ACIF S004","AS/ACIF S040 (Australia) TIA
+[split] C9200-DNX-A-24-7Y #79182
+    was ["● 47 CFR Part 15 ● CISPR 32 Class A ● CNS 13438 ● EN 300 386 * ● EN 55032 Class A ● EN61000-3-2 ● EN61000-3-3 ● ICES-003 Class A ● KN 32 ● TCVN 7189 Class A ● V"]
+    now ["47 CFR Part 15","CISPR 32 Class A","CNS 13438","EN 300 386 *","EN 55032 Class A","EN61000-3-2","EN61000-3-3","ICES-003 Class A","KN 32","TCVN 7189 Class A","V"]
+[split] N2K-C2224TF #151612
+    was ["The Cisco Nexus 2248TP","2248TP-E","2232PP meet NEBS level-3 standards (hardware revision 3).","IEEE 802.1p: CoS prioritization","IEEE 802.1Q: VLAN tagging","IEEE 802.3: Ethernet","IEEE 802.3ae: 10 Gigabit Ethernet","SFF 8431 SFP+ support","IEEE 802.3u 1"]
+    now ["2248TP-E","NEBS","IEEE 802.1p: CoS prioritization","IEEE 802.1Q: VLAN tagging","IEEE 802.3: Ethernet","IEEE 802.3ae: 10 Gigabit Ethernet","SFF 8431 SFP+ support","IEEE 802.3u 1"]
+[other] C9500-4PTH-KIT= #154283
+    was ["NEBS:","ETSI 300-019 Requirements are covered under GR-63-CORE with some deviations.","C9500-16X","UL 60950-1","CAN/CSA-C22.2 No. 60950-1","EN 60950-1","IEC 60950-1","AS/NZS 60950-1","GB4943 C9500-32C, C9500-32QC, C9500-24Y4C, C9500-48Y4C","IEC 60","NEBS: ● 
+    now ["NEBS:","ETSI 300-019 Requirements are covered under","GR-63-CORE with some deviations.","C9500-16X","UL 60950-1","CAN/CSA-C22.2 No. 60950-1","EN 60950-1","IEC 60950-1","AS/NZS 60950-1","GB4943 C9500-32C, C9500-32QC, C9500-24Y4C, C9500-48Y4C","IEC 60","NEBS:"
+[pruned] NCS4K-FTF= #150813
+    was ["UL/CSA/IEC/EN 60950-1","IEC/EN 60825 Laser Safety","FDA: Code of Federal Regulations Laser Safety","This product is designed to meet the following requirements (qualification in progress):","SR-3580: NEBS Criteria Levels (Level 3)","GR-1089-CORE: NEBS EMC an
+    now ["UL/CSA/IEC/EN 60950-1","IEC/EN 60825 Laser Safety","FDA: Code of Federal Regulations Laser Safety","SR-3580: NEBS Criteria Levels (Level 3)","GR-1089-CORE: NEBS EMC and"]
+[split] 8102-64H-O #71442
+    was ["Emissions: CISPR32 EN 55032 EN 61000-3-3 EN IEC 61000-3-2 EN 300 386 V2.1.23 47 CFR FCC Part 15 ICES-003 Issue 7 KS C 9832 KS C 9610-3-2 KS C 9610-3-3 VCCI-CISP"]
+    now ["CISPR32","EN 55032","EN 61000-3-3 EN","IEC 61000-3-2","EN 300 386 V2.1.23 47 CFR","FCC Part 15","ICES-003 Issue 7","KS C 9832","KS C 9610-3-2","KS C 9610-3-3 VCCI-CISP"]
+[other] ESS-OLT-32P-SIA3 #91400
+    was ["● IEC 60950-1 Information technology equipment Safety Part 1: General requirements - Edition 2","2005 + Amendment 1 2009 + Amendment 2 2013 ● EN 60950-1: Edition"]
+    now ["IEC 60950-1 Information technology equipment Safety Part 1: General requirements - Edition 2, 2005 + Amendment 1 2009 + Amendment 2 2013","EN 60950-1: Edition"]
+[pruned] A9K-MOD80-VID-LIC #153365
+    was ["Cisco ASR 9000 Series Routers are designed to meet:","SR-3580: NEBS Criteria Levels (Level 3)","GR-1089-CORE: NEBS EMC and Safety","GR-63-CORE: NEBS Physical Pr","FCC Class A","ICES 003 Class A","AS/NZS 3548 Class A","CISPR 22 (EN55022) Class A","VCCI Class 
+    now ["SR-3580: NEBS Criteria Levels (Level 3)","GR-1089-CORE: NEBS EMC and Safety","GR-63-CORE: NEBS Physical Pr","FCC Class A","ICES 003 Class A","AS/NZS 3548 Class A","CISPR 22 (EN55022) Class A","VCCI Class A","BSMI Cl"]
+[split] C9200-DNA-A-24-5Y #78723
+    was ["● 47 CFR Part 15 ● CISPR 32 Class A ● CNS 13438 ● EN 300 386 * ● EN 55032 Class A ● EN61000-3-2 ● EN61000-3-3 ● ICES-003 Class A ● KN 32 ● TCVN 7189 Class A ● V"]
+    now ["47 CFR Part 15","CISPR 32 Class A","CNS 13438","EN 300 386 *","EN 55032 Class A","EN61000-3-2","EN61000-3-3","ICES-003 Class A","KN 32","TCVN 7189 Class A","V"]
+[split] PSU1.2KW-DCPE #112368
+    was ["Emissions: CISPR32 EN 55032 EN 61000-3-3 EN IEC 61000-3-2 EN 300 386 V2.1.23 47 CFR FCC Part 15 ICES-003 Issue 7 KS C 9832 KS C 9610-3-2 KS C 9610-3-3 VCCI-CISP"]
+    now ["CISPR32","EN 55032","EN 61000-3-3 EN","IEC 61000-3-2","EN 300 386 V2.1.23 47 CFR","FCC Part 15","ICES-003 Issue 7","KS C 9832","KS C 9610-3-2","KS C 9610-3-3 VCCI-CISP"]
+
