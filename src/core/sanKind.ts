@@ -30,14 +30,16 @@
 // on Fibre Channel rate and ports, not on Ethernet switching (no PoE, no stacking, no MAC table or VLANs), and giving it
 // the Catalyst noun made tests/cupLedger carry a named exception (`switch:storage-networking`) that the rename makes
 // unnecessary — rule 3 now holds by NAME. `other` -> `unknown`, the one word every axis uses for "could not say".
+import { POWER_CORD_SKU } from "./ucsKind.js";
+
 export type SanKind =
   | "fc-switch" | "director" | "linecard" | "supervisor" | "fabric"
-  | "power" | "fan" | "cable" | "accessory" | "pluggable" | "software" | "unknown";
+  | "power" | "fan" | "cable" | "power-cord" | "accessory" | "pluggable" | "software" | "unknown";
 
 /** Every kind the axis can name, in ledger order. */
 export const SAN_KINDS: readonly SanKind[] = [
   "fc-switch", "director", "linecard", "supervisor", "fabric",
-  "power", "fan", "cable", "accessory", "pluggable", "software", "unknown",
+  "power", "fan", "cable", "power-cord", "accessory", "pluggable", "software", "unknown",
 ];
 /** Whole boxes you rack and power — the only kinds asked a physical envelope. */
 export const SAN_BOX: readonly SanKind[] = ["fc-switch", "director"];
@@ -60,7 +62,10 @@ const RULES: { kind: SanKind; re: RegExp }[] = [
     kind: "accessory",
     re: /-KIT(?:-|=|$)|-KIT[A-Z]|^DS-\d+SLOT-CAB|(?:^|-)(?:RMK|BSK|CBTOP|FD|FDAFLT|CL)(?:-|=|$)|^DS-SCR?-|^DS-DIMM|^MEM-|^DS-PAA|-EXPAND$/,
   },
-  // Cables: power cords (CAB-9K10A-SW, CAB-C15-CBN) and the X2 copper cables (DS-CAB-1M=).
+  // RULING Q17 R2 (29 Sep 2026): mains POWER CORDS are their own kind here too (CAB-1900W-US1 "Power Cord, 250VAC, 16A", CAB-9K10A-SW):
+  // `cable` asked them a connector and a MEDIA, which a cord has neither of. The rule is ucsKind's own (POWER_CORD_SKU), before cable.
+  { kind: "power-cord", re: POWER_CORD_SKU },
+  // Cables: the X2 copper cables (DS-CAB-1M=) and any CAB- data cable the cord rule leaves.
   { kind: "cable", re: /^CAB-|^DS-CAB-\d/ },
   // Fan trays: DS-C48-FAN, DS-13SLT-FAN-R, DS-C32S-FAN-E, DS-9SL0T-FAN (the zero is Cisco's).
   { kind: "fan", re: /(?:^|-)FAN(?:-|=|$)/ },

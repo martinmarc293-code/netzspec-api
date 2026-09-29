@@ -36,19 +36,29 @@ import type { SpecEntry } from "../src/core/specMerge.js";
 type Row = {
   id: string; part_id: string; sku: string; cat: string; field_key: string; value: unknown; unit: string | null;
   raw: string; state: string; tier: number; method: string; doc_id: string | null; locator: string | null;
-  extracted_at: string | null; new_exists: boolean;
+  extracted_at: string | null; new_exists: boolean; kind: string | null;
 };
 type Move = { from: string; to: string; label: string; select: (r: Row) => boolean; categories: string[] | null };
 
 const MOVES: Move[] = [
   { from: "power_max", to: "psu_rated_output", label: "PSU wattage is output, not draw", categories: ["switches"],
     select: (r) => switchKind(r.sku) === "power" },
+  // RULING Q17 R3 (29 Sep 2026): the same defect in every other category -- a PSU's (or PoE injector's) rated OUTPUT stored as the
+  // power it draws, mined from its own name ("A9K-2KW-DC", "MSE-PSU1-770W"): 130 part-cups the four_sets_sum veto found. Selected by
+  // the STORED kind (power, power-injector) -- both require psu_rated_output and mark power_max na; a power CORD's "2000" is not
+  // its output and is retracted instead (retract-mis-keyed). Switches keep the 11 Sep move above.
+  { from: "power_max", to: "psu_rated_output", label: "PSU / injector wattage is output, not draw (Q17 R3)", categories: ["routers", "storage-networking", "wireless", "optical-networking", "video", "interfaces-modules", "security", "servers-unified-computing", "hyperconverged-infrastructure", "hyperconverged-systems", "collaboration-endpoints", "unified-communications"],
+    select: (r) => r.kind === "power" || r.kind === "power-injector" },
+  // RULING Q17 R3: an RF cable's connector (AIR-420-003346-075 "rp-tnc") stored as antenna_connector -- the wireless cable kind asks
+  // `connector` (ruling Q4), in the same RF domain.
+  { from: "antenna_connector", to: "connector", label: "an RF cable's connector is its connector (Q17 R3)", categories: ["wireless"],
+    select: (r) => r.kind === "cable" },
   { from: "chassis_compatibility", to: "product_compatibility", label: "one key per quantity", categories: null,
     select: () => true },
 ];
 
 const SELECT = `
-  SELECT f.id::text, f.part_id::text, p.sku, ct.slug AS cat, f.field_key, f.value, f.unit, f.raw, f.state::text AS state,
+  SELECT f.id::text, f.part_id::text, p.sku, p.sku_kind AS kind, ct.slug AS cat, f.field_key, f.value, f.unit, f.raw, f.state::text AS state,
          f.tier, f.method, f.doc_id, f.locator, f.extracted_at::text AS extracted_at,
          EXISTS (SELECT 1 FROM facts g WHERE g.part_id = f.part_id AND g.field_key = $2 AND g.superseded_by IS NULL) AS new_exists
     FROM facts f JOIN parts p ON p.id = f.part_id JOIN vendors v ON v.id = p.vendor_id

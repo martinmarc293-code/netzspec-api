@@ -179,6 +179,8 @@ export const KIND_QUESTION_SET_FROM: readonly { category: string; kind: string; 
   { category: "optical-networking", kind: "pluggable", from: "transceiver", ruling: "(d) 29 Sep 2026" },
   ...(["memory", "drive", "cpu", "storage-controller", "tpm", "nic", "fan", "power-cord"] as const).map((kind) =>
     ({ category: "wireless", kind, from: "servers-unified-computing", ruling: "Q3/Q4 29 Sep 2026" })),
+  // Q17 R2: storage-networking's 62 mains cords left `cable` for their own kind, asked what a UCS cord is asked.
+  { category: "storage-networking", kind: "power-cord", from: "servers-unified-computing", ruling: "Q17 R2 29 Sep 2026" },
 ];
 
 /**

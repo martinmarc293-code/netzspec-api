@@ -220,6 +220,11 @@ export const RULES: { kind: UcsKind; exact?: Set<string>; prefix?: string[]; re?
   // for UCS-ML-2X648RY-E".
   // kind-layer (13 Sep 2026): MCX = the CXL memory module (UCS-MCX32G2RE11, UCS-MCX64G2RE11 — same capacity/rank/
   // speed grammar as MRX: 32G 2R E11), spec-held and `unknown` until today.
+  // RULING Q17 R2 (29 Sep 2026): MRAID and MLOM BEFORE memory. The memory rule's `MR` / `ML` prefixes read UCSB-MRAID12G "FlexStorage
+  // 12G SAS RAID controller" and UCSB-MLOM-40G-01 "VIC 1240 modular LOM" as memory -- the storage-controller and nic rules below
+  // already list MRAID and MLOM, and never saw them. 43 parts (the four_sets_sum veto found 18 of them: a RAID card asked no data rate).
+  { kind: "storage-controller", prefix: ["MRAID"] },
+  { kind: "nic", prefix: ["MLOM"] },
   { kind: "memory", exact: new Set(["MR", "ML", "MRX", "MLX", "MEM", "MP", "EM3", "MKIT"]), prefix: ["MR", "ML", "MEM", "MCX"] },
   // Drives are the most fragmented token family in the catalogue — NVMEG4, NVME4, NVMEHW,
   // NVB3T8O1V, SDB3T8OA1P, UCSXSD960GBKNK9. Prefixes, not a list, or every new capacity is an edit.
@@ -332,12 +337,21 @@ export const RULES: { kind: UcsKind; exact?: Set<string>; prefix?: string[]; re?
  *  for bundleFamily.ts, which must keep these rows `bundle` rather than re-reading their names. */
 export const MLB_GENERATION = /^(?:UCSX?E?|HCIX?|HX)-(?:M[678]|UCSCM\d|MGPUM\d)-(?:[A-Z]+-)?MLB(?:-BR)?$/;
 
+/** A mains POWER CORD by its SKU (switchKind's cord rule: a CAB- SKU that names no data-cable family, plus a C13/C14/C19/C20 inlet
+ *  token), ONE definition for ucsKind and sanKind (ruling Q17 R2, 29 Sep 2026: storage-networking filed its 62 CAB-1900W / CAB-9K10A
+ *  cords as `cable`, and asked them nothing a cord has). */
+export const POWER_CORD_SKU = /^CAB-(?!CON|USB|SFP|SM-|INF-|RPS|GUIDE|SPWR|XPS|MCP|04X|STK|STACK|CAT)|^PWR-CAB-|-DC-CAB(?:-|$)|(?:^|-)C(?:13|14|19|20)(?:-|$)/;
 export const PRE_RULES: { kind: UcsKind; re: RegExp }[] = [
   // POWER CORDS (reviewer ruling, Batch B 29 Sep 2026: "hci's cables that are C19/C20 cords are power-cord kind, not cable").
   // switchKind's cord rule -- a CAB- SKU that names no data-cable family -- plus a C13/C14/C19/C20 inlet token for the
   // cords filed under another prefix (UCSB-CABL-C19-BRZ "NBR 14136 to C19 AC 14ft Power Cord, Brazil"). Measured over the
   // three UCS categories' `cable` rows: 63 cords by the SKU rule (hci 22 of 24, hcs 8, UCS 33), none of them a data cable.
-  { kind: "power-cord", re: /^CAB-(?!CON|USB|SFP|SM-|INF-|RPS|GUIDE|SPWR|XPS|MCP|04X|STK|STACK|CAT)|^PWR-CAB-|-DC-CAB(?:-|$)|(?:^|-)C(?:13|14|19|20)(?:-|$)/ },
+  { kind: "power-cord", re: POWER_CORD_SKU },
+  // RULING Q17 R2 (29 Sep 2026): UCSC-MRAID-SC "Supercap for Cisco 12G SAS Modular Raid controller" (and the UCSB / UCSX spares named
+  // only by SKU) is the RAID cache's backup CAPACITOR, not the controller the MRAID rule now names. Not `accessory`: that is a
+  // fallback kind, so partKind's name path reads "Supercap ... Raid controller" as `power` and asks a capacitor for a PSU's rated
+  // output. `mechanical`, a part bought for what it fits, which the name path leaves alone.
+  { kind: "mechanical", re: /^UCS[BCX]-MRAID-SC=?$/ },
   { kind: "software", re: /^N10-MGT\d|^(?:N20|UCSB)-FW\d|^CIMC-C\d|^UCSW-DDUP-|^UCSX-C-SW-LATEST$/ },
   // kind-layer (13 Sep 2026): `^(?:HX|UCS)-DCPMM-` — UCS-DCPMM-AD "Intel Optane DC Persistent Memory Operational Mode -
   // App Direct" and UCS-DCPMM-MM are the same operating-mode SETTING as HX-DCPMM-AD, and were `memory`.
@@ -549,7 +563,14 @@ export function ucsKind(sku: string): UcsKind {
  */
 export const MACHINE_REFINE: { kind: UcsKind; re: RegExp }[] = [
   // NOT a bare `<n>T` segment: C880-6T-M4 is "C880 M4 Server for SAP HANA 6T Scale out" — 6 TB of MEMORY.
-  { kind: "drive", re: /^(?:\d*K?S?SD\d|HDD?(?:\d+TB?)?$|SSD|HDD)/ },
+  // RULING Q17 R2 (29 Sep 2026): the S3260 drive family's other spellings -- HD8TA / HD10TA / HD8TARR ("10TB 12G SAS 7.2K RPM LFF
+  // HDD (4K) w Carrier- Rear Load"), HDW18T / HDW14TR, and the bare-capacity 10TARR -- missed `HD<n>T$` and stayed SERVERS under
+  // the S3260 token (41 parts; HDS18T / HDT14T "UCS S3260 14TB Tosh NL-SAS ... HDD" too). A capacity with an S/T/W before it or a
+  // TA letter after it is a drive; a bare <n>T (C880-6T, memory) still is not.
+  { kind: "drive", re: /^(?:\d*K?S?SD\d|HDD?(?:\d+TB?)?$|SSD|HDD)|^HD[STW]?\d+T[A-Z]{0,3}$|^\d+TA[A-Z]{0,2}$/ },
+  // RULING Q17 R2: UCSC-C3X60-SVRN1..8 "UCS C3X60 Server Node E5-2620 v2 CPU 128GB 1GB RAID cache" -- a SERVER filed under the
+  // C3X60 chassis token (17 parts, a CPU and memory each; the veto found them holding `cpu` under a chassis).
+  { kind: "server", re: /^SVRN(?:\d+|[A-Z])$/ },   // SVRNB= "Cisco UCS C3160 Server Node FRU" too
   // kind-layer (13 Sep 2026): a CBL/CABLE segment is a `cable` now (C880-J-SASCBL "C880 M4 JBOD SAS Cable",
   // C890-M5-CABLE-A), and five whole segments are accessories of the platform they are filed under:
   //   HS     UCSAI-880A-HS (the C880A heat sink)          SLD    UCSAI-880A-B3-SLD / -CC-SLD (tray sleds)

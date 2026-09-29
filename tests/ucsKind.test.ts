@@ -169,6 +169,10 @@ const POS13: [string, string][] = [
   ["UCSX-FS-9516", "io-module"], ["UCSC-BASE-M2-C460", "server"], ["UCS-EPNM-C220M4S", "server"],
   ["PLHC-CI-5108-1A", "chassis"], ["PLHC-MLOM-40G-04", "nic"], ["PLHC-MRAID12G", "storage-controller"],
   ["UCSC-NYTRO-200GB=", "storage-controller"],
+  // ruling Q17 R2 (29 Sep 2026): MRAID / MLOM before memory; the S3260 drive spellings; the C3X60 server nodes; the RAID supercaps
+  ["UCSB-MRAID12G", "storage-controller"], ["HX-B-MRAID12G-HE", "storage-controller"], ["UCSB-MLOM-40G-01", "nic"], ["HCI-MLOM-M6", "nic"],
+  ["UCS-S3260-HD8TA", "drive"], ["UCS-S3260-10TARR", "drive"], ["UCS-S3260-HDT14TR", "drive"], ["UCS-S3260-HDW18T=", "drive"],
+  ["UCSC-C3X60-SVRN1", "server"], ["UCSC-C3X60-SVRNB=", "server"], ["UCSC-MRAID-SC", "mechanical"], ["UCSX-MRAID-SC=", "mechanical"],
 ];
 for (const [sku, kind] of POS13) eq(`13 Sep: ${sku}`, ucsKind(sku), kind);
 const REF13: [string, string, string][] = [
@@ -225,7 +229,9 @@ for (let i = 0; i < PRE_RULES.length; i++) {
     // the rows planned in (off, the E100 prefix reads `server` and the SRE spare disk falls to the token)
     "ISM-SRE-300-BUN-K9", "E100-FCPLT-BRKT=", "E100S-CON-DGL", "E100S-MEM-UDIMM8G=", "SM-DSK-SATA-500GB=",
     // Batch B (29 Sep 2026): the power-cord rule -- off, the cord falls to the CAB token and reads `cable` again
-    "CAB-C13-C14-AC="];
+    "CAB-C13-C14-AC=",
+    // Q17 R2 (29 Sep 2026): the RAID supercap rule -- off, UCSC-MRAID-SC falls to the MRAID token and reads storage-controller
+    "UCSC-MRAID-SC"];
   const probe = PROBES.find((p) => PRE_RULES[i].re.test(p.toUpperCase().replace(/=+$/, "")));
   if (!probe) { eq(`a sabotage probe exists for PRE_RULES[${i}]`, false, true); continue; }
   const before = ucsKind(probe);
@@ -245,12 +251,19 @@ for (let i = 0; i < PRE_RULES.length; i++) {
   drive.prefix!.splice(i, 0, "HY");
   eq("control: restored, UCS-HY16T61X-EV is a drive again", ucsKind("UCS-HY16T61X-EV"), "drive");
   // device-noun (13 Sep 2026): the NYTRO token is load-bearing
-  const sc = RULES.find((r) => r.kind === "storage-controller")!;
+  // the rule that CARRIES NYTRO, not the first storage-controller rule: Q17 R2 put an MRAID-only rule ahead of memory
+  const sc = RULES.find((r) => r.kind === "storage-controller" && (r.prefix ?? []).includes("NYTRO"))!;
   const j = sc.prefix!.indexOf("NYTRO");
   sc.prefix!.splice(j, 1);
   eq("SABOTAGE storage-controller prefix NYTRO off: UCSC-NYTRO-200GB is no longer a controller", ucsKind("UCSC-NYTRO-200GB") === "storage-controller", false);
   sc.prefix!.splice(j, 0, "NYTRO");
   eq("control: restored, UCSC-NYTRO-200GB is a storage-controller again", ucsKind("UCSC-NYTRO-200GB"), "storage-controller");
+  // Q17 R2: the MRAID / MLOM rules AHEAD of memory are load-bearing -- off, memory's MR / ML prefixes take the cards back
+  for (const [tok, sku] of [["MRAID", "UCSB-MRAID12G"], ["MLOM", "UCSB-MLOM-40G-01"]] as const) {
+    const k = RULES.findIndex((r) => r.prefix?.length === 1 && r.prefix[0] === tok);
+    const before = ucsKind(sku); const [rule] = RULES.splice(k, 1); const after = ucsKind(sku); RULES.splice(k, 0, rule);
+    eq(`SABOTAGE the ${tok}-before-memory rule off: ${sku} falls back to memory`, k >= 0 && before !== "memory" && after === "memory", true);
+  }
 }
 eq("UCS_KINDS lists every kind exactly once", new Set(UCS_KINDS).size === UCS_KINDS.length, true);
 

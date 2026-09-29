@@ -24,7 +24,8 @@ const CASES: [string, string][] = [
   ["DS-X9706-FAB1", "fabric"], ["DS-13SLT-FAB2", "fabric"],
   ["DS-CAC-3000W", "power"], ["DS-CDC97-3KW=", "power"],
   ["DS-C48-FAN", "fan"], ["DS-13SLT-FAN-R", "fan"],
-  ["CAB-9K10A-AR", "cable"], ["CAB-C15-CBN=", "cable"],
+  // ruling Q17 R2 (29 Sep 2026): mains cords are `power-cord` (ucsKind's POWER_CORD_SKU); DS-CAB-1M= (a refusal below) stays a cable
+  ["CAB-9K10A-AR", "power-cord"], ["CAB-C15-CBN=", "power-cord"], ["CAB-1900W-US1", "power-cord"],
   ["DS-9148-KIT-HP", "accessory"], ["DS-SC-K9=", "accessory"],
   ["DS-FC-SW-4PK=", "pluggable"],
   ["M92S2K9-5.2.1", "software"], ["M9148S-PL12", "software"],

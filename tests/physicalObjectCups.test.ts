@@ -109,8 +109,8 @@ check("cond -> any([existing, kind in kinds]), elseOpt preserved exactly",
   check("optical amplifier still req tx_power", requirementFor("optical-networking", "tx_power", { kind: "amplifier" } as never) === "req");
   check("optical transponder fiber_type still OPTIONAL, not na (target elseOpt kept)", requirementFor("optical-networking", "fiber_type", { kind: "transponder" } as never) === "opt");
   check("wireless ap is not asked dimm memory questions", requirementFor("wireless", "dram", { kind: "ap" } as never) !== "req");
-  check("the reference rewrote only what differs (35 cups), refused nothing, found every profile",
-    KIND_QUESTION_SET_REPORT.rewritten.length === 35 && KIND_QUESTION_SET_REPORT.naReversal.length === 0 && KIND_QUESTION_SET_REPORT.missingProfile.length === 0,
+  check("the reference rewrote only what differs (38 cups: + storage-networking power-cord, Q17 R2), refused nothing, found every profile",
+    KIND_QUESTION_SET_REPORT.rewritten.length === 38 && KIND_QUESTION_SET_REPORT.naReversal.length === 0 && KIND_QUESTION_SET_REPORT.missingProfile.length === 0,
     { rewritten: KIND_QUESTION_SET_REPORT.rewritten.length, naReversal: KIND_QUESTION_SET_REPORT.naReversal, missing: KIND_QUESTION_SET_REPORT.missingProfile });
   check("every row of the table names a real (category, from) pair", KIND_QUESTION_SET_FROM.every((r) => PROFILES[r.category] && PROFILES[r.from] && r.category !== r.from));
 }
