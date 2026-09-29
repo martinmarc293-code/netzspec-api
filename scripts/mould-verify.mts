@@ -109,6 +109,12 @@ function routeVerdict(res: { status: number } | null): RouteVerdict {
   return "dead";
 }
 
+/** one_build's contract half against the CODE: the artefacts' shared stamp must be the hash the code computes now. Null = same. */
+function contractDrift(stamped: string | undefined, now: string): string | null {
+  if (!stamped) return "the artefacts carry no contract hash to compare with the code's";
+  return stamped === now ? null : `the artefacts carry contract ${stamped} and the code computes ${now}: stamped against a mould that is no longer the code's`;
+}
+
 /** Every internal href on a built site that resolves to nothing (link_integrity, and its self-test over a real directory). */
 async function siteLinkReport(site: string): Promise<{ pages: number; checked: number; broken: string[] }> {
   const fs = await import("node:fs"), path = await import("node:path");
@@ -854,6 +860,13 @@ const TESTS: Test[] = [
           `the artefacts [${[...hashes].join(", ")}] — same code, different MOULD, which is the drift a ` +
           `commit cannot see`);
       }
+      // THE MOULD THE CODE STATES NOW. Agreement among the artefacts is not agreement with the mould: the contract had drifted
+      // since 28 Sep (608 -> 610 dictionary keys, the ports role, the Batch C profiles) while every artefact carried the stale
+      // hash in unison, so this reported ONE build over a mould that no longer existed. Found by `mould:contract --check` on
+      // 29 Sep, not by this board.
+      const { mouldContract } = await import("../src/core/mouldContract.js");
+      const drift = contractDrift([...hashes][0], mouldContract().contract_hash);
+      if (drift) return bad(`${drift} — across ${byCommit.get(commits[0])!.length} artefacts (npm run mould:contract, rebuild, restamp)`);
       const remainder = legacyOnly.length + noHash.length;
       if (remainder > 0) {
         return bad(`one build commit ${commits[0]} and one contract hash ${[...hashes][0] ?? "(none)"}, but ` +
@@ -861,8 +874,16 @@ const TESTS: Test[] = [
           `object with no contract hash — so ${remainder} of ${byCommit.get(commits[0])!.length} cannot be ` +
           `checked against the mould they were built from`);
       }
-      return ok(`ONE build: commit ${commits[0]}, contract hash ${[...hashes][0]}, across ` +
+      return ok(`ONE build: commit ${commits[0]}, contract hash ${[...hashes][0]} (the one the code computes now), across ` +
         `${byCommit.get(commits[0])!.length} artefacts, every one carrying both`);
+    },
+    // Through the REAL mouldContract: the stale hash every artefact carried until 29 Sep must be refused against the code's, and
+    // the code's hash computed twice must agree with itself (a nondeterministic hash would make every verdict here noise).
+    selfTest: async () => {
+      const { mouldContract } = await import("../src/core/mouldContract.js");
+      const a = mouldContract().contract_hash, b = mouldContract().contract_hash;
+      return { negative: contractDrift("bcfc4c1ee314d3c2", a) === null, positive: a === b && contractDrift(a, b) === null,
+               note: "the 28 Sep contract hash must be refused against the code's; the code's own hash must agree with itself" };
     },
   },
   {
