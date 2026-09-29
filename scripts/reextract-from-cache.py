@@ -100,6 +100,9 @@ def main() -> int:
     ap.add_argument("--limit", type=int, default=50)
     ap.add_argument("--all", action="store_true", help="every eligible document, not --limit")
     ap.add_argument("--out", help="where to write the acquired JSON (default: a scratch dir)")
+    ap.add_argument("--as-extract", action="store_true",
+                    help="write ONE apply-extract input ({source: cisco-specs-deep, records}) instead of acquired JSON: "
+                         "the family-inheritance path, which apply-acquired skips by rule")
     ap.add_argument("--doc", action="append", default=[],
                     help="re-extract exactly this doc_id (repeatable), EVEN IF it already has facts: an extractor "
                          "change can make a document yield what it could not before (29 Sep 2026: the Catalyst PON "
@@ -165,6 +168,26 @@ def main() -> int:
     out.mkdir(parents=True, exist_ok=True)
 
     todo = eligible if (a.all or named) else eligible[: a.limit]
+
+    if a.as_extract:
+        # The FAMILY path's input (reviewer ruling on batch 3): apply-acquired skips family scope by rule, so a family
+        # cell is replayed through `ingest apply-extract`. This is run.py's own loop for cisco-specs-deep -- extract_document
+        # over each page, its facts then its __doc__ record -- with the cache in place of the browser.
+        if a.source != "cisco-datasheets":
+            print("--as-extract serves cisco-datasheets (the cisco-specs-deep extractor) only", file=sys.stderr)
+            return 2
+        from adapters.cisco_specs_deep import extract_document                # noqa: E402
+        records: list = []
+        for r in todo:
+            res = extract_document((CACHE / r["cache_path"]).read_text(encoding="utf-8", errors="replace"), r["url"])
+            records.extend(res["facts"])
+            records.append(res["doc"])
+        f = out / "extract.json"
+        f.write_text(json.dumps({"source": "cisco-specs-deep", "generated_at": datetime.now(timezone.utc).isoformat(),
+                                 "records": records}, indent=1, ensure_ascii=False), encoding="utf-8", newline="\n")
+        print(f"wrote {len(records)} records from {len(todo)} cached document(s) -> {f}\n"
+              f"   npx tsx src/pipeline/cli.ts apply-extract {f}   (add --commit to write)")
+        return 0
     wrote = withfacts = nothing = failed = 0
     facts_total = 0
     reasons: dict[str, int] = {}
