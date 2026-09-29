@@ -1561,7 +1561,10 @@ const collabBlock = (): Record<string, Requirement> => ({
   voice_lines: cK(["phone"]),
   // --- video --------------------------------------------------------------------------------------------
   // "Video standards" 27 mapped (CE software sheets), "Video standards supported" 6 aliased today.
-  video_codecs: cK(COLLAB_VIDEO),
+  // DELIBERATELY OPEN (reviewer ruling, 28 Sep 2026; Batch C 29 Sep): 0 facts in any vendor, no domain, no shape and no
+  // derivation, so it fails fill-path and cannot be required today. Optional -- promote-required re-admits it on evidence,
+  // which is the fill-path rule applied, not a measurement demotion. One line for the three collab categories.
+  video_codecs: opt,
   // "Resolution" 5 mapped (Room Navigator / Touch 10), "Video resolution" 12 aliased today (collab-scoped).
   // kind-layer (13 Sep 2026): + display (DISPLAY archetype: max_resolution).
   max_resolution: cK([...COLLAB_VIDEO, "conference-camera", "touch-panel", "display"]),
@@ -2099,7 +2102,11 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // 80 facts, and published by the Meraki source's own inventory — the cup form_factor cannot be.
     mounting: cond({ field: "kind", inList: MK_BOX.filter((k) => k !== "unknown") }),
     // "External RPS (optional)" / "External" — how the box is powered. 71 facts across every line.
-    psu_options: cond({ field: "kind", inList: MK_BOX.filter((k) => k !== "unknown") }),
+    // NO LONGER REQUIRED (reviewer ruling, Batch C 29 Sep 2026): psu_options is mis-typed by construction -- a list with no
+    // domain holding power-input specs ("12V/1A", "48-57V DC/0.35A"), PSU SKUs and prose -- and is RETIRED in favour of
+    // psu_config + psu_count. Cisco converts what parses and retracts the rest; the dictionary supersession waits for the
+    // HPE (84) and Aruba (17) lanes' facts. Optional until then, so meraki stops being asked a cup nothing can define.
+    psu_options: opt,
     // kind-layer: this read "+ appliance (APPLIANCE = ENV + ports; an MX is desktop or rack-19, both in the
     // domain)" until the MX and Z left on 28 Sep 2026. The switch keeps it; no other meraki kind is racked.
     form_factor: cond({ field: "kind", inList: ["switch"] }),

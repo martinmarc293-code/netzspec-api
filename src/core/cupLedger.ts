@@ -104,6 +104,28 @@ export type KindQuestionSet = {
   column_backed: string[];
 };
 
+/**
+ * THE VETO QUEUE, RESOLVED THE "REAL VALUE" WAY (reviewer ruling, 29 Sep 2026): "a real value -> widen the kind set with that
+ * witness; a pour -> retract". Each entry is a cup this kind's OWN facts hold real values for, so it is in the kind's DECLARED
+ * OPTIONAL set -- never `na` -- with the SKU that proves it and the part count the veto measured. The pours of the same queue
+ * are retraction runs, not entries here. Worked by size, top down; four_sets_sum names what is left.
+ */
+export const KIND_DECLARED_OPTIONAL: Readonly<Record<string, Readonly<Record<string, readonly { cup: string; witness: string; held: number }[]>>>> = (() => {
+  const ucsCpu = [{ cup: "cpu", witness: "UCS-CPU-A9334", held: 1186 }, { cup: "cpu_sockets_max", witness: "UCS-CPU-A9684X", held: 142 }];
+  const ucsDrive = [{ cup: "data_rate", witness: "KIN-HD10T7KL4KN", held: 480 }];   // 12 / 6 Gb/s SAS/SATA; 3 rows read "100" (a capacity pour, left for the band)
+  return {
+    "servers-unified-computing": { cpu: ucsCpu, drive: ucsDrive },
+    "hyperconverged-infrastructure": { cpu: ucsCpu, drive: ucsDrive },
+    "hyperconverged-systems": { cpu: ucsCpu, drive: ucsDrive },
+    video: { transmitter: [{ cup: "standard", witness: "4022938.19", held: 382 }],
+             node: [{ cup: "standard", witness: "G2A2AA101A1PXXXBXX", held: 204 }, { cup: "wavelength", witness: "G2A2AA101A1PXXXBXX", held: 129 }] },
+    "optical-networking": { mux: [{ cup: "wavelength", witness: "15216-AD1-2-39.7", held: 169 }],
+                            transponder: [{ cup: "connector", witness: "CH23/L/U/SC/15200", held: 104 }] },
+  };
+})();
+const declaredOptional = (category: string, kind: string, key: string): boolean =>
+  !!KIND_DECLARED_OPTIONAL[category]?.[kind]?.some((e) => e.cup === key);
+
 export function kindQuestionSet(category: string, kind: string, role?: string | null): KindQuestionSet {
   // `na` IS DERIVED PER (CATEGORY, KIND) AND THIS REFUSES A CALL WITHOUT BOTH (reviewer ruling, 29 Sep 2026). The 8 Sep
   // licence marks landed on hardware because the caller handed a rule a CATEGORY; a kind-less call here would derive a
@@ -132,6 +154,8 @@ export function kindQuestionSet(category: string, kind: string, role?: string | 
     if (COLUMN_BACKED.has(key)) { if (q === "req") out.column_backed.push(key); continue; }
     if (q === "req") out.required.push(key);
     else if (q === "pending") out.pending.push({ key, gate: r?.kind === "cond" ? gateFields(r.when).filter((g) => g !== "kind" && g !== "deploy_role") : [] });
+    // the kind's own witnessed values put the cup in its declared optional set, whatever the profile would close
+    else if (declaredOptional(category, kind, key)) out.optional.push(key);
     else if (!r || q === "na") out.not_applicable_by_kind.push(key);
     // settled by the KIND ALONE: a role never closes a cup (rule 7 -- "a role addition is optional, never na, outside its
     // role"); a cond the role answers no to stays optional for the kind.

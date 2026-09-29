@@ -103,6 +103,12 @@ async function main(): Promise<void> {
   const ceiling = ci >= 0 ? Number(process.argv[ci + 1]) : 4000;
   const li = process.argv.indexOf("--limit");
   const limit = li >= 0 ? Number(process.argv[li + 1]) : Infinity;
+  // --field KEY (Batch C, 29 Sep 2026): retract only that field's rows this pass -- a ruling can cover one field (the 1,571
+  // CPU power_max rows, the TDP pour) while the rest of the retract set waits for its own. The guards still read everything.
+  const fi = process.argv.indexOf("--field");
+  const field = fi >= 0 ? process.argv[fi + 1] : undefined;
+  const ai = process.argv.indexOf("--approved");
+  const approved = ai >= 0 ? process.argv[ai + 1] : undefined;
   const pool = getPool();
 
   const all = (await pool.query<Row>(SELECT)).rows;
@@ -144,8 +150,10 @@ async function main(): Promise<void> {
   console.log(`     why:      ${count(held, (d) => d.why)}`);
   console.log(`     by kind:  ${count(held, (d) => d.kind)}`);
 
-  const batch = Number.isFinite(limit) ? retractAll.slice(0, limit) : retractAll;
-  if (Number.isFinite(limit)) console.log(`  --limit ${limit}: retracting ${batch.length} of ${retractAll.length} this pass`);
+  const scoped = field ? retractAll.filter((d) => d.field_key === field) : retractAll;
+  if (field) console.log(`  --field ${field}: ${scoped.length} of the ${retractAll.length} in the retract set`);
+  const batch = Number.isFinite(limit) ? scoped.slice(0, limit) : scoped;
+  if (Number.isFinite(limit)) console.log(`  --limit ${limit}: retracting ${batch.length} of ${scoped.length} this pass`);
 
   if (!commit) {
     const spread = (xs: Decided[], label: string) => {
@@ -164,7 +172,7 @@ async function main(): Promise<void> {
 
   const out = await withRun("restamp-orphan-withdrawals",
     { rule: "superseded_at-without-superseded_by, not-applicable-for-kind only", population: all.length,
-      retract: retractAll.length, held: held.length, this_pass: batch.length,
+      retract: retractAll.length, held: held.length, this_pass: batch.length, field: field ?? null, approved,
       cause: "remap-cpu-power-to-tdp.mts and retract-group-inherited.mts wrote superseded_at alone (fixed dc303a3, 6869730)" },
     async (runId) => {
       let retracted = 0;
@@ -177,7 +185,7 @@ async function main(): Promise<void> {
   const after = (await pool.query<Row>(SELECT)).rows.length;
   const expected = all.length - batch.length;
   console.log(`\n  retracted: ${out.stats?.retracted}`);
-  console.log(`  selector re-run: ${after}  (expected ${expected} = ${held.length} held + ${retractAll.length - batch.length} not yet retracted)`);
+  console.log(`  selector re-run: ${after}  (expected ${expected} = ${held.length} held + ${retractAll.length - batch.length} not yet retracted${field ? `, the other fields included` : ""})`);
   if (after !== expected) {
     console.error(`  *** the selector matches ${after}, expected ${expected}. Do not re-run this script until that is explained.`);
     process.exitCode = 1;

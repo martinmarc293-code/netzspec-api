@@ -66,7 +66,7 @@ import { isPartNumber } from "../pipeline/partNumber.js";
 //        string to a list on 4 Sep 2026 and the comma splitter then read 396 citation cells for the
 //        first time, cutting "MIL-STD-810, Method 514.4" into two standards that do not exist. The
 //        rule and every bound in it are read off the stored raws — see isCitationContinuation.
-export const NORM_VERSION = "1.8.3"; // 29 Sep 2026: splitter (below) — 1.8.2 the pre-bullet head, spaced middle-dot runs; 1.8.3 a run of standards prefixes delimits its ;-chunk, commas or not
+export const NORM_VERSION = "1.8.4"; // 29 Sep 2026: splitter (below) — 1.8.2 the pre-bullet head, spaced middle-dot runs; 1.8.3 a run of standards prefixes delimits its ;-chunk, commas or not; 1.8.4 antenna_gain {band24, band5} strict parser (0 stored facts: nothing to renormalize)
 // 1.8.1 — 29 Sep 2026, reviewer ruling: two splitter defects with witnesses. A run of standards-body prefixes with no
 //         other delimiter ("ITUT G.984.1 ITUT G.984.2 ... IEEE 802.3af") and "PID or PID" are lists. Bumped so renormalize
 //         selects the stored values the old splitter wrote.
@@ -1765,6 +1765,37 @@ const REACH_MEDIA: [RegExp, string][] = [
 // words a reach segment may carry besides its distance and medium
 const REACH_FILLER = /(?<![A-Za-z])(?:up\s+to|max(?:imum)?|reach|over|on|of|via|fib(?:er|re)|cable|link|distance|bis\s+zu)(?![A-Za-z])/gi;
 type Reach = { medium?: string; distanz: number };
+// antenna_gain (Batch C, 29 Sep 2026): the struct { band24: n, band5: n } in dBi, STRICT. Its canonical example
+// "● 2.4 GHz: 0.6 dBi ● 5 GHz: 0.8 dBi" (datasheet label inventory, 14 occurrences) was refused by its own cup for want of
+// any parser -- a required cup on 216 wireless antennas with a shape and nothing behind it. A gain is accepted only WITH
+// its band, in either order ("2.4 GHz: 4 dBi", "4 dBi @ 5 GHz"); a range, a gain with no band, one band stated with two
+// gains (several antennas in one cell), and anything but dBi are refused and named. A single-band antenna keeps one key.
+const GAIN_BAND_FIRST = /(?<![0-9.,])(2[.,]4|5)\s*GHz\s*[:=\-\u2013]?\s*(?:gain\s*[:=]?\s*)?([+\-\u2212]?[0-9]+(?:[.,][0-9]+)?)\s*dBi(?![a-z])/gi;
+const GAIN_FIRST = /(?<![0-9.,])([+\-\u2212]?[0-9]+(?:[.,][0-9]+)?)\s*dBi\s*(?:\(\s*)?(?:at|@|in|for)?\s*(2[.,]4|5)\s*GHz/gi;
+const GAIN_RANGE = /[0-9]\s*(?:-|\u2013|to)\s*[0-9]+(?:[.,][0-9]+)?\s*dBi/i;
+function parseAntennaGain(s: string): { ok: true; value: { band24?: number; band5?: number } } | { ok: false; detail: string } {
+  if (!/dBi/i.test(s)) return { ok: false, detail: `no dBi figure in "${s}"` };
+  if (GAIN_RANGE.test(s)) return { ok: false, detail: `a gain range is not a gain: "${s}"` };
+  const found = new Map<"band24" | "band5", Set<number>>();
+  const add = (band: string, v: string) => {
+    const b = band.replace(",", ".") === "2.4" ? "band24" : "band5";
+    const n = Number(v.replace("\u2212", "-").replace(",", "."));
+    if (!found.has(b)) found.set(b, new Set());
+    found.get(b)!.add(n);
+  };
+  for (const m of s.matchAll(GAIN_BAND_FIRST)) add(m[1], m[2]);
+  for (const m of s.matchAll(GAIN_FIRST)) add(m[2], m[1]);
+  if (!found.size) return { ok: false, detail: `a gain with no band cannot be placed in { band24, band5 }: "${s}"` };
+  const value: { band24?: number; band5?: number } = {};
+  for (const [b, vs] of found) {
+    if (vs.size > 1) return { ok: false, detail: `${b} stated with ${vs.size} gains (${[...vs].join(", ")}): several antennas in one cell` };
+    const n = [...vs][0];
+    if (!Number.isFinite(n) || n < -10 || n > 30) return { ok: false, detail: `${b} gain ${n} dBi is outside [-10, 30]` };
+    value[b] = n;
+  }
+  return { ok: true, value };
+}
+
 function parseReach(s: string, locale: Locale): { ok: true; value: Reach[] } | { ok: false; detail: string } {
   const segs = s.split(REACH_SPLIT).map((x) => x.trim()).filter(Boolean);
   if (!segs.length) return { ok: false, detail: `no reach in "${s}"` };
@@ -2438,6 +2469,11 @@ function normalizeTyped(category: string, key: string, s: string, type: FieldTyp
         const p = parsePorts(s);
         if (!p.ok) return bad("STRUCT_UNPARSED", `${key}: ${p.detail}`);
         return ok(p.value);
+      }
+      if (key === "antenna_gain") {
+        const g = parseAntennaGain(s);
+        if (!g.ok) return bad("STRUCT_UNPARSED", `${key}: ${g.detail}`);
+        return ok(g.value, "dBi");
       }
       return bad("STRUCT_UNPARSED", `${key}: struct field needs a dedicated parser`);
     }

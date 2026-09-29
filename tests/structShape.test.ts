@@ -11,6 +11,7 @@
 // ("port_typ: e(rj45|sfp|sfp-plus|...)"), so a naive split on ":" invents keys out of an enum's
 // members. Every real shape in the dictionary is pinned below, plus the sabotage cases.
 import { parseShape, structShapeProblem, FIELD_DICTIONARY } from "../src/core/fieldSchema.js";
+import { normalizeField } from "../src/core/specNormalize.js";
 
 let passed = 0, failed = 0;
 const lines: string[] = [];
@@ -78,6 +79,23 @@ ok("a list of scalars is refused", structShapeProblem("reach_max", [1, 2, 3]) !=
 eq("a non-struct field is not this check's business", structShapeProblem("weight", 3.4), null);
 eq("an unknown field is not this check's business", structShapeProblem("no_such_field", { a: 1 }), null);
 
-lines.unshift(`    struct shape: ${passed} passed, ${failed} missed (6 sabotage cases, 2 controls)`);
+// --- antenna_gain: a shape with a parser behind it now (Batch C, 29 Sep 2026) ---------------------------------------
+// The cup's own canonical example was STRUCT_UNPARSED ("a shape with no parser behind it"). The parser must return a value
+// the declared shape accepts, and refuse every ambiguous cell FOR ITS STATED REASON.
+{
+  const g = (raw: string) => normalizeField("wireless", "antenna_gain", raw, { locale: "en" });
+  const canon = g("● 2.4 GHz: 0.6 dBi ● 5 GHz: 0.8 dBi");
+  eq("antenna_gain: the canonical example parses to both bands", canon.ok ? canon.value : canon, { band24: 0.6, band5: 0.8 });
+  eq("antenna_gain: and the value satisfies the declared shape", canon.ok ? structShapeProblem("antenna_gain", canon.value) : "refused", null);
+  eq("antenna_gain: gain-first order with its band", (g("4 dBi @ 5 GHz") as { value?: unknown }).value, { band5: 4 });
+  const refuse = (raw: string, why: RegExp) => { const r = g(raw); ok(`SABOTAGE antenna_gain refuses "${raw}" (${why.source})`, !r.ok && why.test((r as { detail?: string }).detail ?? ""), JSON.stringify(r)); };
+  refuse("3-5 dBi", /range/);
+  refuse("5 dBi", /no band/);
+  refuse("2.4 GHz: 4 dBi, 2.4 GHz: 6 dBi", /several antennas/);
+  refuse("2.4 GHz: 4 dBd", /no dBi/);
+  refuse("5.8 GHz: 4 dBi", /no band/);   // 5.8 GHz is not the 5 GHz key: the lookbehind keeps "5" from reading inside "5.8"
+}
+
+lines.unshift(`    struct shape: ${passed} passed, ${failed} missed (6 sabotage cases + 5 antenna_gain refusals, 2 controls)`);
 console.log(lines.join("\n"));
 if (failed) process.exit(1);

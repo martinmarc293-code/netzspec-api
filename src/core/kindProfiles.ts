@@ -27,6 +27,8 @@
 // test — an unruled divergence must never read as an accepted one, which is the whole failure mode this
 // file exists to prevent.
 
+import { FIELD_DICTIONARY } from "./fieldSchema.js";
+
 /** A settled ruling: these categories are asked different things for this kind ON PURPOSE. */
 export type KindParityException = {
   kind: string;
@@ -37,6 +39,9 @@ export type KindParityException = {
   reason: string;
   /** a real SKU, so the next reader can go and look instead of taking the reason on trust. */
   witness: string;
+  /** A LEASE, NOT A STATE: the ruling lapses the moment this dictionary key exists, and the divergence comes back red.
+   *  For an exception granted only until a signal lands (reviewer, 29 Sep 2026: "park with an expiry"). */
+  until?: { dictionaryKey: string; note: string };
 };
 
 /** An unsettled divergence: named, with its cause and who has to decide. Still counted as a failure. */
@@ -89,6 +94,25 @@ export const KIND_PARITY_EXCEPTIONS: readonly KindParityException[] = [
     reason: "The same distinction one kind over: a PoE standard on a switch module is real, and on an " +
       "interface or router module there is no PoE to state.",
     witness: "ACE30-BASE-04-K9",
+  },
+  {
+    kind: "module",
+    cups: ["power_max"],
+    categories: ["routers"],
+    reason: "RULE 6 WINS (reviewer ruling, Batch B 29 Sep 2026): a component kind asks at most 3 cups at nothing known, the " +
+      "basis of routers.module's granularity exception. power_max made it 4 (ports, power_max, product_compatibility, + " +
+      "cellular_bands pending), so it stays optional in routers while interfaces-modules asks it.",
+    witness: "3810-VCM3",
+  },
+  {
+    kind: "cable",
+    cups: ["media"],
+    categories: ["collaboration-endpoints", "routers", "interfaces-modules", "wireless", "data-center-networking", "unified-communications"],
+    reason: "`media` (mmf/smf/dac-copper/rj45-copper/aoc) belongs to a DATA cable, and nothing tells a data cable from an HDMI, USB " +
+      "or power lead: 177 of collab's 308 cables are those. It is asked in 8 categories and not in these 6. Parked with an " +
+      "expiry (reviewer ruling, 29 Sep 2026) until the data-cable signal lands.",
+    witness: "CAB-GREY-2.9M",
+    until: { dictionaryKey: "cable_construction", note: "Step 9 (the transceiver pilot) adds cable_construction; media is then gated on it everywhere" },
   },
 ];
 
@@ -161,10 +185,15 @@ export const KIND_PARITY_OPEN: readonly KindParityOpen[] = [
  *  - the ruling's categories must be among the ones that actually differ, so a ruling about
  *    `transceiver` cannot silently excuse a divergence between two other categories.
  */
+/** An exception granted UNTIL a dictionary key exists has lapsed once it does: it no longer excuses anything. */
+export function leaseLapsed(e: KindParityException): boolean {
+  return !!e.until && Object.prototype.hasOwnProperty.call(FIELD_DICTIONARY, e.until.dictionaryKey);
+}
+
 export function parityRuled(kind: string, cups: readonly string[], categories: readonly string[]):
   { ruled: boolean; by: KindParityException | null; uncovered: string[] } {
   const rulings = KIND_PARITY_EXCEPTIONS.filter(
-    (e) => e.kind === kind && e.categories.some((c) => categories.includes(c)));
+    (e) => e.kind === kind && e.categories.some((c) => categories.includes(c)) && !leaseLapsed(e));
   if (!rulings.length) return { ruled: false, by: null, uncovered: [...cups] };
   const covered = new Set(rulings.flatMap((e) => e.cups));
   const uncovered = cups.filter((c) => !covered.has(c));

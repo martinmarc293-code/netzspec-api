@@ -211,6 +211,7 @@ const RUN_KIND_CLASS: Record<string, { approval: boolean; gate: boolean }> = {
   "recompute-completeness": D, "write-layers-to-db": D, "build-spare-of": D, "derive-link-provenance": D,
   "derive-part-states": D, "fill-family-from-hct-category": D, "sync-dictionary": D, "derive-pon-standard": D, "name-language": D,
   "name-spare-packaging": D, "name-spare-wording": D, "name-from-twin": D, "images": D, "probe-failure-reason": D,
+  "reclassify-by-twin-siblings": A,
   "backfill-doc-titles": D, "record-title-provenance": D, "record-retroactive-approval": A, "retro-gate": A, "apply-series-hints": AG, "apply-product-compat": AG, "set-series": A,
 };
 // The vendor this lane has axes for; vendor_coverage owns every other vendor's hardware (unknown_zero counts them apart).
@@ -1232,14 +1233,32 @@ const TESTS: Test[] = [
         " count(*) FILTER (WHERE b.id IS NULL)::text AS nobase" +
         " FROM s LEFT JOIN parts b ON b.sku = s.base_sku AND b.vendor_id = s.vendor_id AND b.retired_at IS NULL");
       const x = r.rows[0];
-      const scope = `${Number(x.pairs).toLocaleString()} live spare SKUs ending "="; ` +
+      // NAMED RESIDUE (reviewer ruling, Batch B 29 Sep 2026): a pair whose two REAL names say different things waits for a
+      // sheet; no rule may choose between two wordings. Listed by its spare, excluded from the verdict, printed in the line,
+      // and STALE -- red -- the day the pair stops disagreeing, so an exception can never outlive its reason.
+      const TWIN_EXCEPTIONS: Record<string, string> = {
+        "UCSW-MSX-PCBL=": "base 'UCS Invicta Scaling System Mellanox Switch Power Cable' vs spare '…Mellanox Jumper Cable': two real names that disagree",
+      };
+      const differing = (await query<{ sku: string }>(
+        "SELECT s.sku FROM parts s JOIN parts b ON b.sku = left(s.sku, length(s.sku) - 1) AND b.vendor_id = s.vendor_id AND b.retired_at IS NULL" +
+        " WHERE s.retired_at IS NULL AND s.sku LIKE '%=' AND s.product_class = 'hardware' AND (" +
+        "   b.category_id IS DISTINCT FROM s.category_id" +
+        "   OR (b.sku_kind IS NOT NULL AND s.sku_kind IS NOT NULL AND b.sku_kind <> s.sku_kind)" +
+        "   OR (b.product_series IS NOT NULL AND s.product_series IS NOT NULL AND b.product_series <> s.product_series))")).rows.map((d) => d.sku);
+      if (differing.length !== Number(x.differ)) return bad(`the pair list (${differing.length}) and the count (${x.differ}) disagree — one of the two predicates drifted`);
+      const excused = differing.filter((s) => TWIN_EXCEPTIONS[s]);
+      const staleEx = Object.keys(TWIN_EXCEPTIONS).filter((s) => !differing.includes(s));
+      const open = differing.filter((s) => !TWIN_EXCEPTIONS[s]);
+      const named = `${excused.length} named exception(s): ${excused.map((s) => `${s} (${TWIN_EXCEPTIONS[s]})`).join("; ") || "none"}`;
+      if (staleEx.length) return bad(`STALE twin exception(s) — the pair no longer disagrees, remove the entry: ${staleEx.join(", ")}`);
+      const scope = `${named}; ${Number(x.pairs).toLocaleString()} live spare SKUs ending "="; ` +
         `${x.nobase} have no base row (a catalogue gap, counted separately and NOT a failure); ` +
         `${x.nonhw} NON-HARDWARE pairs disagree (licences, software, non-product — a real question about ` +
         `category assignment, but not this test's, and they would drown the hardware count); ` +
         `${x.onesided} hardware pairs where one side is simply unlayered (a null has no opinion, so it is a GAP not a conflict)`;
-      return Number(x.differ) === 0
-        ? ok(`every spare agrees with its base on category, kind and series — ${scope}`)
-        : bad(`${x.differ} spares disagree with their base on category, kind or series — ${scope}`);
+      return open.length === 0
+        ? ok(`every spare agrees with its base on category, kind and series, bar the named — ${scope}`)
+        : bad(`${open.length} spares disagree with their base on category, kind or series: ${open.slice(0, 8).join(", ")} — ${scope}`);
     },
     selfTest: async () => {
       const agrees = (a: [string, string, string], b: [string, string, string]) => a.every((v, i) => v === b[i]);
