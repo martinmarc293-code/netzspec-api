@@ -80,6 +80,13 @@ HEAD fa0ac3e, deployed fa0ac3e (artefacts 62ecef1). Full rebuild = scripts/mould
      splits; one sabotage per rule; per-key before/after in the plan). Q6 ports struct gets OPTIONAL role (lan|wan|uplink|mgmt),
      already ruled; measure across vendors first (expect 0 invalidated), then lan/wan convert into ports with their role;
      NOT lan_ports/wan_ports (duplicate cup). The five parsePorts rules accepted; combo SFP+ double count = named residue.
+  Q7 RULED + DONE: run 1385 convert-lan-wan-ports: MX75/MX85 -> one ports fact each (roles), both documents as evidence,
+     4 lan/wan retracted; 12 HELD (7 lan-only, 5 refused 'GE'). Plan files in data/dryrun/convert-lan-wan-ports-cisco-*.
+  1.8.6 DONE (ea27527): sync run 1383 (2 shapes); run 1384 certifications 2,499 superseded, FUSED 2,052 -> 0, refused -> 0,
+     unclassified 4,169 -> 3,912; all 16,846 members verbatim in their raw (the --allow's "all 764 read" was ~40: corrected
+     in data/dryrun/certifications-186-replay-cisco-2026-09-29.txt). HELD for a ruling: 1.8.6 on ieee (24 facts, splits only)
+     and supported_protocols (43 facts, unclassified +141 > ratchet ceiling: the other side of ' ; ' joins exposed).
+  NEXT: rebuild on d2bd620 -> board with key 17 -> copy data back, stamp, commit, deploy -> batch report.
   (d) was: check fix, rows, exceptions, KIND_QUESTION_SET_FROM, GATED_CUPS,
      wireless kinds (149 SKUs move: 82 power-cord, 19 drive, 14 memory, 9 fan, 9 storage-controller, 6 cpu, 6 tpm, 4 nic),
      cellular registered in DERIVED_FILL_PATHS. New vetoes measured: 3 triples / 17 part-cups (wireless ap tdp = Meraki

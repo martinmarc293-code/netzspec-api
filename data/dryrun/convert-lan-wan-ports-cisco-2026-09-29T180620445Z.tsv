@@ -1,0 +1,15 @@
+sku	action	lan_fact	wan_fact	ports_value	reason
+C881G-4G	hold	183068	178798		wan refused: segment has a port token but no count: "10/100-Mbps Fast Ethernet"
+C896VAG-LTE	hold	183070	202035		wan is a gap row (retracted:capability-statement-or)
+C897VAG-LTE	hold	183065	202036		wan is a gap row (retracted:capability-statement-or)
+C897VAGW-LTE	hold	183069	202037		wan is a gap row (retracted:capability-statement-or)
+C898EAG-LTE	hold	183067	202038		wan is a gap row (retracted:capability-statement-or)
+C899G-LTE	hold	183066	202039		wan is a gap row (retracted:capability-statement-or)
+C921-4P	hold	183075	178805		lan refused: no connector stated in "4-port GE managed switch"; wan refused: no connector stated in "2 ports Gigabit Ethernet (GE)"
+C921J-4P	hold	183072	178802		wan refused: no connector stated in "2 ports Gigabit Ethernet (GE)"
+C926-4P	hold	183076	178806		lan refused: no connector stated in "4-port GE managed switch"; wan refused: no connector stated in "1 port GE"
+C927-4P	hold	183073	178803		already holds a current ports fact: never overwritten, never merged by write order
+C927-4PM	hold	183074	178804		lan refused: no connector stated in "4-port GE managed switch"; wan refused: no connector stated in "1 port GE"
+C931-4P	hold	183071	178801		lan refused: no connector stated in "4-port GE managed switch"; wan refused: no connector stated in "2 ports Gigabit Ethernet (GE)"
+MX75	convert	183077	178807	[{"port_typ":"rj45","speed":["1G"],"anzahl":10,"role":"lan"},{"port_typ":"sfp","speed":["1G"],"anzahl":1,"role":"wan"},{"port_typ":"rj45","speed":["1G"],"anzahl":2,"role":"wan"}]	every lan and wan fact parses; one ports fact, both documents as evidence
+MX85	convert	183078	178808	[{"port_typ":"rj45","speed":["1G"],"anzahl":8,"role":"lan"},{"port_typ":"sfp","speed":["1G"],"anzahl":2,"role":"lan"},{"port_typ":"sfp","speed":["1G"],"anzahl":2,"role":"wan"},{"port_typ":"rj45","speed":["1G"],"anzahl":2,"role":"wan"}]	every lan and wan fact parses; one ports fact, both documents as evidence
