@@ -1,0 +1,126 @@
+fact_id	category	kind	sku	cup	action	value	why
+76496	switches	bundle	C4500-10R-S8E-MGIG	module_slots	retract	10	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
+76986	switches	bundle	C4500E-3NR-7E-MGIG	module_slots	retract	3	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
+77031	switches	bundle	C4500E-3NR-7E-UPOE	module_slots	retract	3	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
+76674	switches	bundle	C4500E-3NR-8E-MGIG	module_slots	retract	3	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
+76872	switches	bundle	C4500E-3NR-8E-UPOE	module_slots	retract	3	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
+76946	switches	bundle	C4500E-3NR-8L-4748	module_slots	retract	3	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
+76647	switches	bundle	C4500E-3NR-8L-MGIG	module_slots	retract	3	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
+76584	switches	bundle	C4500E-3NR-8L-UPOE	module_slots	retract	3	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
+76765	switches	bundle	C4500E-6NR-7E-MGIG	module_slots	retract	6	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
+76874	switches	bundle	C4500E-6NR-7E-UPOE	module_slots	retract	6	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
+76529	switches	bundle	C4500E-6NR-8E-MGIG	module_slots	retract	6	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
+77033	switches	bundle	C4500E-6NR-8E-UPOE	module_slots	retract	6	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
+76846	switches	bundle	C4500E-6NR-8L-4748	module_slots	retract	6	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
+76702	switches	bundle	C4500E-6NR-8L-MGIG	module_slots	retract	6	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
+77035	switches	bundle	C4500E-6NR-8L-UPOE	module_slots	retract	6	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
+76710	switches	bundle	C4500E-7R-S7E-MGIG	module_slots	retract	7	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
+76848	switches	bundle	C4500E-7R-S7E-UPOE	module_slots	retract	7	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
+76947	switches	bundle	C4500E-7R-S8E-MGIG	module_slots	retract	7	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
+76988	switches	bundle	C4500E-7R-S8E-UPOE	module_slots	retract	7	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
+76849	switches	bundle	C4500E-7R-S8L-4748	module_slots	retract	7	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
+76798	switches	bundle	C4500E-7R-S8L-MGIG	module_slots	retract	7	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
+77118	switches	bundle	C4500E-7R-S8L-UPOE	module_slots	retract	7	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
+76585	switches	bundle	C4500E-7R-S9E-MGIG	module_slots	retract	7	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
+77654	switches	bundle	C4500E-S6-4748RJV	module_slots	retract	6	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
+77458	switches	bundle	C4500E-S6-MGIG	module_slots	retract	6	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
+77724	switches	bundle	C4500E-S7-4748RJV	module_slots	retract	7	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
+77977	switches	bundle	C4500RE-S7-MGIG	module_slots	retract	7	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
+77123	switches	bundle	C4510RE-S8-MGIG	module_slots	retract	10	28 C4500E 'upgrade for N slot chassis bundle' kits: N is the chassis they upgrade, not slots the kit has
+87457	routers	bundle	CRS-16-FC140/M-8P	module_slots	retract	16	12 CRS fabric-card packs, filters and upgrade bundles: '16 Slots' is the chassis they fit
+87458	routers	bundle	CRS-16-FC140/M-8P=	module_slots	retract	16	12 CRS fabric-card packs, filters and upgrade bundles: '16 Slots' is the chassis they fit
+87536	routers	bundle	CRS-16-FC140/M-BN	module_slots	retract	16	12 CRS fabric-card packs, filters and upgrade bundles: '16 Slots' is the chassis they fit
+87424	routers	bundle	CRS-16-FC140/M-BN=	module_slots	retract	16	12 CRS fabric-card packs, filters and upgrade bundles: '16 Slots' is the chassis they fit
+87439	routers	bundle	CRS-16-FC400/M-8P=	module_slots	retract	16	12 CRS fabric-card packs, filters and upgrade bundles: '16 Slots' is the chassis they fit
+87440	routers	bundle	CRS-16-FC400/M-BN=	module_slots	retract	16	12 CRS fabric-card packs, filters and upgrade bundles: '16 Slots' is the chassis they fit
+87407	routers	bundle	CRS-16-LCC-FILTER=	module_slots	retract	16	12 CRS fabric-card packs, filters and upgrade bundles: '16 Slots' is the chassis they fit
+87315	routers	bundle	CRS-16/S-CNSK	module_slots	retract	16	12 CRS fabric-card packs, filters and upgrade bundles: '16 Slots' is the chassis they fit
+87496	routers	bundle	CRS-4-CH-UPG-BUN	module_slots	retract	4	12 CRS fabric-card packs, filters and upgrade bundles: '16 Slots' is the chassis they fit
+87373	routers	bundle	CRS-8-FC140/M-4P	module_slots	retract	8	12 CRS fabric-card packs, filters and upgrade bundles: '16 Slots' is the chassis they fit
+87448	routers	bundle	CRS-8-FC140/M-4P=	module_slots	retract	8	12 CRS fabric-card packs, filters and upgrade bundles: '16 Slots' is the chassis they fit
+87390	routers	bundle	CRS-8-FC400/M-4P=	module_slots	retract	8	12 CRS fabric-card packs, filters and upgrade bundles: '16 Slots' is the chassis they fit
+113579	switches	power	PWR-IE170W-PC-AC=	humidity_operating	retract	{"max":95,"min":95}	6 of 9 read {95,95} (one end of '5 to 95%'): retract the 6, then the 3 real {5,95} widen (it leaves Q17_R4_REFUSED)
+113971	switches	power	PWR-IE170W-PC-DC=	humidity_operating	retract	{"max":95,"min":95}	6 of 9 read {95,95} (one end of '5 to 95%'): retract the 6, then the 3 real {5,95} widen (it leaves Q17_R4_REFUSED)
+113298	switches	power	PWR-IE50W-AC-IEC=	humidity_operating	retract	{"max":95,"min":95}	6 of 9 read {95,95} (one end of '5 to 95%'): retract the 6, then the 3 real {5,95} widen (it leaves Q17_R4_REFUSED)
+113721	switches	power	PWR-IE50W-AC=	humidity_operating	retract	{"max":95,"min":95}	6 of 9 read {95,95} (one end of '5 to 95%'): retract the 6, then the 3 real {5,95} widen (it leaves Q17_R4_REFUSED)
+113381	switches	power	PWR-IE65W-PC-AC=	humidity_operating	retract	{"max":95,"min":95}	6 of 9 read {95,95} (one end of '5 to 95%'): retract the 6, then the 3 real {5,95} widen (it leaves Q17_R4_REFUSED)
+113747	switches	power	PWR-IE65W-PC-DC=	humidity_operating	retract	{"max":95,"min":95}	6 of 9 read {95,95} (one end of '5 to 95%'): retract the 6, then the 3 real {5,95} widen (it leaves Q17_R4_REFUSED)
+102043	meraki	security-camera	MV21	ieee_standards	retract	["No"]	the 2 ['No'] retract; the 6 Wi-Fi standard lists are real and the triple widens (it leaves Q17_R4_REFUSED)
+101864	meraki	security-camera	MV71	ieee_standards	retract	["No"]	the 2 ['No'] retract; the 6 Wi-Fi standard lists are real and the triple widens (it leaves Q17_R4_REFUSED)
+124002	servers-unified-computing	bundle	UCS-SPM-MDS-01E	data_rate	retract	16	8 UCS-SPM-MDS solution bundles: '16Gb FC' belongs to one bundled HBA
+123988	servers-unified-computing	bundle	UCS-SPM-MDS-02E	data_rate	retract	16	8 UCS-SPM-MDS solution bundles: '16Gb FC' belongs to one bundled HBA
+123957	servers-unified-computing	bundle	UCS-SPM-MDS-03E	data_rate	retract	16	8 UCS-SPM-MDS solution bundles: '16Gb FC' belongs to one bundled HBA
+124010	servers-unified-computing	bundle	UCS-SPM-MDS-04E	data_rate	retract	16	8 UCS-SPM-MDS solution bundles: '16Gb FC' belongs to one bundled HBA
+123971	servers-unified-computing	bundle	UCS-SPM-MDS-05E	data_rate	retract	16	8 UCS-SPM-MDS solution bundles: '16Gb FC' belongs to one bundled HBA
+123999	servers-unified-computing	bundle	UCS-SPM-MDS-06E	data_rate	retract	16	8 UCS-SPM-MDS solution bundles: '16Gb FC' belongs to one bundled HBA
+124005	servers-unified-computing	bundle	UCS-SPM-MDS-07E	data_rate	retract	16	8 UCS-SPM-MDS solution bundles: '16Gb FC' belongs to one bundled HBA
+124007	servers-unified-computing	bundle	UCS-SPM-MDS-08E	data_rate	retract	16	8 UCS-SPM-MDS solution bundles: '16Gb FC' belongs to one bundled HBA
+131935	interfaces-modules	interface	10000-SIP-600	compatible_platform	retract	"Cisco 10008, Cisco 10012"	aggregator prose ('Cisco 12000 Series Routers', 'n/a'): a relation candidate, never a value
+131938	interfaces-modules	interface	12000-SIP-401	compatible_platform	retract	"Cisco 12000 Series Routers"	aggregator prose ('Cisco 12000 Series Routers', 'n/a'): a relation candidate, never a value
+131945	interfaces-modules	interface	12000-SIP-501	compatible_platform	retract	"Cisco 12000 Series Routers"	aggregator prose ('Cisco 12000 Series Routers', 'n/a'): a relation candidate, never a value
+131948	interfaces-modules	interface	12000-SIP-601	compatible_platform	retract	"Cisco 12000 Series Routers"	aggregator prose ('Cisco 12000 Series Routers', 'n/a'): a relation candidate, never a value
+130845	interfaces-modules	interface	16OC3X/POS-I-LC-B	compatible_platform	retract	"n/a"	aggregator prose ('Cisco 12000 Series Routers', 'n/a'): a relation candidate, never a value
+131936	interfaces-modules	interface	10000-SIP-600	installation_type	retract	"Hot-swappable, front-insertion line card for Cisco 10000 chassis"	aggregator prose ('Hot-swappable ...', 'n/a')
+131939	interfaces-modules	interface	12000-SIP-401	installation_type	retract	"Hot-swappable module for Cisco 12000 chassis"	aggregator prose ('Hot-swappable ...', 'n/a')
+131942	interfaces-modules	interface	12000-SIP-501	installation_type	retract	"Hot-swappable, modular slot-based"	aggregator prose ('Hot-swappable ...', 'n/a')
+131949	interfaces-modules	interface	12000-SIP-601	installation_type	retract	"n/a"	aggregator prose ('Hot-swappable ...', 'n/a')
+130846	interfaces-modules	interface	16OC3X/POS-I-LC-B	installation_type	retract	"n/a"	aggregator prose ('Hot-swappable ...', 'n/a')
+81601	switches	power-cord	CAB-AC-250V/13A	input_voltage	retract	{"max":250,"min":250}	5 cord RATINGS (250 V / 125 V / 48 V) read off cord names that say 'Cable' (the cord-voltage-rating rule matched 'power cord' only)
+82551	switches	power-cord	CAB-TA-125V-JP=	input_voltage	retract	{"max":125,"min":125}	5 cord RATINGS (250 V / 125 V / 48 V) read off cord names that say 'Cable' (the cord-voltage-rating rule matched 'power cord' only)
+103883	switches	power-cord	N7K-DC-CAB-CAN=	input_voltage	retract	{"max":48,"min":48}	5 cord RATINGS (250 V / 125 V / 48 V) read off cord names that say 'Cable' (the cord-voltage-rating rule matched 'power cord' only)
+103718	switches	power-cord	N7K-DC-CAB-CLO=	input_voltage	retract	{"max":48,"min":48}	5 cord RATINGS (250 V / 125 V / 48 V) read off cord names that say 'Cable' (the cord-voltage-rating rule matched 'power cord' only)
+103664	switches	power-cord	N7K-DC-CAB=	input_voltage	retract	{"max":48,"min":48}	5 cord RATINGS (250 V / 125 V / 48 V) read off cord names that say 'Cable' (the cord-voltage-rating rule matched 'power cord' only)
+80591	switches	supervisor	C9400-SUP-1++=	certifications	retract	["TAA compliant"]	REVIEWER OVERRULE: 'TAA compliant' is a country-of-origin procurement claim with no issuing body or standard number, not a certification
+80470	switches	supervisor	C9400-SUP-1XL++=	certifications	retract	["TAA compliant"]	REVIEWER OVERRULE: 'TAA compliant' is a country-of-origin procurement claim with no issuing body or standard number, not a certification
+104466	switches	supervisor	N9K-SUP-A++=	certifications	retract	["TAA compliant"]	REVIEWER OVERRULE: 'TAA compliant' is a country-of-origin procurement claim with no issuing body or standard number, not a certification
+104124	switches	supervisor	N9K-SUP-B++=	certifications	retract	["TAA compliant"]	REVIEWER OVERRULE: 'TAA compliant' is a country-of-origin procurement claim with no issuing body or standard number, not a certification
+128319	switches	supervisor	WS-X45-SUP9-E++=	certifications	retract	["TAA compliant"]	REVIEWER OVERRULE: 'TAA compliant' is a country-of-origin procurement claim with no issuing body or standard number, not a certification
+69696	optical-networking	amplifier	15454-OPT-AMP-C=	cable_length	retract	2	4 amplifiers with '2' and no cable in the name or row
+69729	optical-networking	amplifier	15454-OPT-AMP-L=	cable_length	retract	2	4 amplifiers with '2' and no cable in the name or row
+69550	optical-networking	amplifier	15454-OPT-BST-L=	cable_length	retract	2	4 amplifiers with '2' and no cable in the name or row
+69509	optical-networking	amplifier	15454-OPT-RAMP-C=	cable_length	retract	2	4 amplifiers with '2' and no cable in the name or row
+87669	servers-unified-computing	memory	CSP-MR-X16G1RS-H	input_voltage	retract	{"max":2,"min":2}	4 DIMMs whose '1.2v' was read as 2 V
+87673	servers-unified-computing	memory	CSP-MR-X16G1RT-H	input_voltage	retract	{"max":2,"min":2}	4 DIMMs whose '1.2v' was read as 2 V
+87684	servers-unified-computing	memory	CSP-MR-X32G2RS-H	input_voltage	retract	{"max":2,"min":2}	4 DIMMs whose '1.2v' was read as 2 V
+87664	servers-unified-computing	memory	CSP-MR-X32G2RT-H	input_voltage	retract	{"max":2,"min":2}	4 DIMMs whose '1.2v' was read as 2 V
+103564	switches	fabric	N77-C7706-FAB-2++=	certifications	retract	["TAA compliant"]	REVIEWER OVERRULE: 'TAA compliant' is a procurement claim, not a certification
+103572	switches	fabric	N77-C7710-FAB-2++=	certifications	retract	["TAA compliant"]	REVIEWER OVERRULE: 'TAA compliant' is a procurement claim, not a certification
+103663	switches	fabric	N7K-C7009-FAB-2++=	certifications	retract	["TAA compliant"]	REVIEWER OVERRULE: 'TAA compliant' is a procurement claim, not a certification
+103906	switches	fabric	N7K-C7010-FAB-2++=	certifications	retract	["TAA compliant"]	REVIEWER OVERRULE: 'TAA compliant' is a procurement claim, not a certification
+80739	switches	linecard	C9600-LC-48S++	certifications	retract	["TAA compliant"]	REVIEWER OVERRULE: 'TAA compliant' is a procurement claim, not a certification
+80243	switches	linecard	C9600-LC-48S++=	certifications	retract	["TAA compliant"]	REVIEWER OVERRULE: 'TAA compliant' is a procurement claim, not a certification
+104607	switches	linecard	N9K-X9464PX++=	certifications	retract	["TAA compliant"]	REVIEWER OVERRULE: 'TAA compliant' is a procurement claim, not a certification
+128091	switches	linecard	WS-X4748-UPOE+E++=	certifications	retract	["TAA compliant"]	REVIEWER OVERRULE: 'TAA compliant' is a procurement claim, not a certification
+95433	interfaces-modules	interface	HWIC-2SHDSL	certifications	retract	["No"]	all 3 read ['No']
+95216	interfaces-modules	interface	HWIC-4SHDSL	certifications	retract	["No"]	all 3 read ['No']
+95393	interfaces-modules	interface	HWIC-4SHDSL-E	certifications	retract	["No"]	all 3 read ['No']
+80839	switches	mechanical	C9610-23-KIT-2=	mgmt_class	retract	"smart-managed"	'Smart Switches' is the C9610 series name, read as smart-managed on 3 kits
+80630	switches	mechanical	C9610-NEBS-KIT	mgmt_class	retract	"smart-managed"	'Smart Switches' is the C9610 series name, read as smart-managed on 3 kits
+80634	switches	mechanical	C9610-NEBSFILTER=	mgmt_class	retract	"smart-managed"	'Smart Switches' is the C9610 series name, read as smart-managed on 3 kits
+148550	optical-networking	mux	15216-EF-40-EVEN=	humidity_operating	retract	{"max":95,"min":95}	{95,95}: one end of the range
+148547	optical-networking	mux	15216-EF-40-ODD=	humidity_operating	retract	{"max":95,"min":95}	{95,95}: one end of the range
+148548	optical-networking	mux	15216-EF-40-EVEN=	temp_operating	retract	{"max":-5,"min":-5}	{-5,-5}: one end of the range
+148545	optical-networking	mux	15216-EF-40-ODD=	temp_operating	retract	{"max":-5,"min":-5}	{-5,-5}: one end of the range
+148549	optical-networking	mux	15216-EF-40-EVEN=	temp_storage	retract	{"max":-40,"min":-40}	{-40,-40}: one end of the range
+148546	optical-networking	mux	15216-EF-40-ODD=	temp_storage	retract	{"max":-40,"min":-40}	{-40,-40}: one end of the range
+87576	routers	mechanical	CRS-LCC-CM-COVER	module_slots	retract	16	'CRS-1 16 slots LCC Cable management Cutout cover': the chassis it fits
+87420	routers	mechanical	CRS-LCC-CM-COVER=	module_slots	retract	16	'CRS-1 16 slots LCC Cable management Cutout cover': the chassis it fits
+130305	routers	router	CG418-E	compatible_platform	retract	"● Cisco IOS ® XE based platforms, including Cisco 1000 and 4000 Series Integrated Services Routers and Cisco Catalyst 8000 Series Edge Platforms"	a prose bullet ('Cisco IOS XE based platforms, including ...'): a relation candidate
+130304	routers	router	CG522-E	compatible_platform	retract	"● Cisco IOS ® XE based platforms, including Cisco 1000 and 4000 Series Integrated Services Routers and Cisco Catalyst 8000 Series Edge Platforms"	a prose bullet ('Cisco IOS XE based platforms, including ...'): a relation candidate
+156565	servers-unified-computing	power	UCSXE-PSU-2400W	modulation_format	retract	"AC"	'AC' / 'DC' is the input type, mis-keyed as a modulation format
+156566	servers-unified-computing	power	UCSXE-PSU-2400WDC	modulation_format	retract	"DC"	'AC' / 'DC' is the input type, mis-keyed as a modulation format
+81021	switches	linecard	C9610-LC-32CD	mgmt_class	retract	"smart-managed"	'Smart Switch combo line card': the series name read as smart-managed
+81026	switches	linecard	C9610-LC-40YL4CD	mgmt_class	retract	"smart-managed"	'Smart Switch combo line card': the series name read as smart-managed
+87858	wireless	antenna	CW-ANT-GPS2-S-00	spatial_streams	retract	"2x2:2"	'2x2:2SS' is the CW9163E AP's, poured onto its antennas
+87892	wireless	antenna	CW-ANT-O1-NS-00	spatial_streams	retract	"2x2:2"	'2x2:2SS' is the CW9163E AP's, poured onto its antennas
+184065	wireless	antenna	CW-ANT-GPS2-S-00	wifi_generation	retract	"wi-fi 6e"	'Wi-Fi 6E' is the CW9163E AP's, poured onto its antennas
+184067	wireless	antenna	CW-ANT-O1-NS-00	wifi_generation	retract	"wi-fi 6e"	'Wi-Fi 6E' is the CW9163E AP's, poured onto its antennas
+68874	optical-networking	mux	15454-MMU=	cable_length	retract	2	15454-MMU= mesh upgrade unit: '2' and no cable
+87554	routers	chassis	CRS-4/S	dram	retract	4	CRS-4/S '4': the slot count read as memory
+87547	routers	fan	CRS-FCC-FAN-TR	module_slots	retract	24	'CRS-1 24-slot Fabric Chassis Fan Tray': the chassis it fits
+122437	servers-unified-computing	mechanical	UCS-M3-V2-LBL-100=	cpu	retract	"E5-2600 v2"	100 E5-2600 v2 LABELS: the CPU they label
+124264	servers-unified-computing	mechanical	UCSC-MRAID-SC	data_rate	retract	12	supercap for a 12G SAS RAID controller: the controller's 12 G
+88826	storage-networking	fan	DS-C32S-FAN-I=	data_rate	retract	32	'MDS 32G Switch FAN': the switch's 32G
+88811	storage-networking	fan	DS-1RU-FAN	rack_units	retract	1	'MDS 1RU Fan Tray': the switch's 1 RU
+184258	wireless	mechanical	AIR-ACC245LA-N=	radio_bands	retract	["5ghz"]	'2.4 and 5 GHz lightning arrestor' read as ['5ghz'] only
+91261	servers-unified-computing	memory	EM3-AF-480G-4T	storage_capacity	retract	480	EM3-AF-480G-4T is a '480GB SSD + 4TB SSD Combo': 480 is half the combo (the part is reclassified drive)
