@@ -2213,7 +2213,10 @@ const TESTS: Test[] = [
           } catch (e) { fails.push(`${p} unreachable: ${e instanceof Error ? e.message : String(e)}`); break; }
           if (res.status === 401 || res.status === 403) { locked++; break; }
           if (res.status !== 200) { fails.push(`${p} -> ${res.status}`); break; }
-          const body = await res.text();
+          // RAW BYTES, then a decoder told to KEEP the BOM: fetch's res.text() decodes through a TextDecoder that strips it, so the
+          // first deployed run read every page as 'no UTF-8 BOM' about files that carry one (29 Sep 2026). The instrument hid the thing.
+          const bytes = new Uint8Array(await res.arrayBuffer());
+          const body = new TextDecoder("utf-8", { ignoreBOM: true }).decode(bytes);
           const r = jtlContractProblems(p, body, res.headers.get("content-type"));
           if (r.problems.length) fails.push(`${p} page ${n + 1}: ${r.problems.slice(0, 3).join("; ")}${r.problems.length > 3 ? ` … +${r.problems.length - 3}` : ""}`);
           rowsChecked += r.rows.length;
