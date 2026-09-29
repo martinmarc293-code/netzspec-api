@@ -11,7 +11,7 @@
 - Decision files short and append-only; no sabotage narration beyond the commit line. Verifier log committed with each report.
 - Verify a chat send: composer must read 0 chars afterwards.
 
-## Board: passed 27 | FAILED 6 | unavailable 0 | not exercised 0 (of 33) · self-test proven 24 | BROKEN 0 | unproven 9 (501b7ed, Batch C part 2)
+## Board: passed 28 | FAILED 5 | unavailable 0 | not exercised 0 (of 33) · self-test proven 24 | BROKEN 0 | unproven 9 (6175802, Batch D)
 HEAD/deployed 501b7ed (artefacts built on 0cbe5c5, contract 17b502e336ebefb6). Red: kind_profile_parity (Q8), unknown_zero (Q9), conflicts_classified (Q11), export (Q12), four_sets_sum (veto 247), vendor_coverage (ruled). Full rebuild = scripts/mould-build.sh on the box (GIT_SHA=<sha>; mkdir -p + copy runs/vocab/cisco-datasheets/labels.json first; freeze BEFORE report), then scripts/mould-stamp.mts in the repo. build-layers refuses a single-category write.
 
 ## Flip order
@@ -111,6 +111,9 @@ HEAD/deployed 501b7ed (artefacts built on 0cbe5c5, contract 17b502e336ebefb6). R
      Q11 doc_id is sha1(url) -> revision-drift 9, normaliser-split 826. Rebuild on 715fae2 running; then copy back, stamp, board,
      report docs/reviewer/2026-09-28/batch-d-report.md (Q13-Q18). Veto triage: data/dryrun/veto-triage-cisco-2026-09-29.tsv.
      Tunnel started 20:56 laptop time (D:/tmp/pg-tunnel.sh) for the store suite on netzspec_test4 (migrated to 0034).
+  DONE: rebuild 715fae2 REGRESSED (3 cupLedger misses, mine: HX-16 os-license = named kind asked nothing; module:interfaces-modules
+     exception missing; asked-nothing ceiling) -> fixed 55bba21 (HX-16 withdrawn to Q16) -> rebuild 55bba21 clean -> artefacts 6175802
+     (contract 279d2ece1fd627bf, unknown ratchet 230) deployed -> board 28/5/0/0, self-test 24/0/9. Report: batch-d-report.md (Q13-Q18).
      Veto triage (247) measured: four remedies (retract mis-mined module_slots, reclassify, rekey, widen) -> ask with counts.
   (d) was: check fix, rows, exceptions, KIND_QUESTION_SET_FROM, GATED_CUPS,
      wireless kinds (149 SKUs move: 82 power-cord, 19 drive, 14 memory, 9 fan, 9 storage-controller, 6 cpu, 6 tpm, 4 nic),
