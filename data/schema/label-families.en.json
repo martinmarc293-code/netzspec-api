@@ -844,9 +844,9 @@
     "exclude": []
   },
   "build": {
-    "data_commit": "7944270f1bdc+80dirty",
-    "code_commit": "a68529ad9ad2",
+    "data_commit": "62ecef167114+81dirty",
+    "code_commit": "1cce5baf24ab",
     "contract_hash": "bcfc4c1ee314d3c2",
-    "generated_at": "2026-09-29T09:41:43.354Z"
+    "generated_at": "2026-09-29T11:01:58.001Z"
   }
 }
