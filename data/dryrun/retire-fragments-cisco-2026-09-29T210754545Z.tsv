@@ -1,0 +1,2 @@
+sku	category	part_id	action	real_pid	retired_into	evidence
+4X100G-LR-S	optical-networking	9123	drop stale score (computed before the retirement)	QDD-4X100G-LR-S	3536	NCS 1014 2.4T Transponder Line Card data sheet: the bullet reads '● QDD-4X100G-LR-S'; this row is its tail
