@@ -101,6 +101,11 @@ rm -rf "$OLD"
 if [ -d "$APP" ]; then mv "$APP" "$OLD"; fi
 mv "$NEW" "$APP"
 cd "$APP"
+# RUN PLANS SURVIVE THE SWAP. Scripts write their plan (every row a run will touch, with its prior value -- the undo of a
+# state-only write) into data/dryrun of the LIVE tree, and the swap above used to leave it in $OLD, which the next deploy
+# deletes: on 29 Sep the plan of run 1350 was lost that way, two deploys after it ran. Carried over no-clobber, so a
+# committed file always wins, and fetched back with data/ like every other artefact.
+if [ -d "$OLD/data/dryrun" ]; then mkdir -p data/dryrun && cp --update=none "$OLD"/data/dryrun/* data/dryrun/ 2>/dev/null || true; fi
 
 # startOrRestart re-reads ops/pm2.config.cjs, which loads .env and picks up GIT_SHA from the
 # environment of this shell; --update-env makes the running process take the new values.

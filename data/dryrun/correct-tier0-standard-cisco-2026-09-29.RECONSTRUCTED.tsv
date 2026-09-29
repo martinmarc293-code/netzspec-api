@@ -1,0 +1,557 @@
+# RECONSTRUCTED 29 Sep from the append-only store (the plan file written at run time was lost to a redeploy): each row is a fact superseded by run 1350
+fact_id	sku	category	action	stored	normalised_or_retraction
+46296	CFP-100G-ER4	transceiver	normalise	"IEEE 802.3ba 100GBASE-ER4"	["100gbase-er4"]
+46250	CFP-100G-LR4	transceiver	normalise	"IEEE 802.3ba 100GBASE-LR4"	["100gbase-lr4"]
+46273	CFP-100G-SR10	transceiver	normalise	"IEEE 802.3ba 100GBASE-SR10"	["100gbase-sr10"]
+46237	CFP-40G-FR	transceiver	normalise	"IEEE 802.3 40GBASE-FR + OTU3 VSR2000-3R2 (Multirate)"	["40gbase-fr", "otu3"]
+46219	CFP-40G-LR4	transceiver	normalise	"IEEE 802.3ba 40GBASE-LR4 + OTU3 C4S1-2D1 (Multirate)"	["40gbase-lr4", "otu3"]
+46200	CFP-40G-SR4	transceiver	normalise	"IEEE 802.3ba 40GBASE-SR4"	["40gbase-sr4"]
+46403	CFP2-100G-ER4	transceiver	normalise	"IEEE 802.3ba 100GBASE-ER4 (+ OTU3-Raten)"	["100gbase-er4", "otu3"]
+46457	CFP2-WDM-D-1HL	transceiver	retract	"Digital Coherent Optics (DCO, integrierter DSP)"	retracted:seed-outside-domain-refused
+46464	CFP2-WDM-D-SK	transceiver	retract	"Digital Coherent Optics (DCO, integrierter DSP)"	retracted:seed-outside-domain-refused
+46471	CFP2-WDM-DET-1HL	transceiver	retract	"Digital Coherent Optics (DCO, integrierter DSP)"	retracted:seed-outside-domain-refused
+46478	CFP2-WDM-DET-SK	transceiver	retract	"Digital Coherent Optics (DCO, integrierter DSP)"	retracted:seed-outside-domain-refused
+46484	CFP2-WDM-DETS-1HL	transceiver	retract	"Digital Coherent Optics (DCO, integrierter DSP)"	retracted:seed-outside-domain-refused
+46490	CFP2-WDM-DS-1HL	transceiver	retract	"Digital Coherent Optics (DCO, integrierter DSP)"	retracted:seed-outside-domain-refused
+46497	CFP2-WDM-DS100-HL	transceiver	retract	"Digital Coherent Optics (DCO, integrierter DSP)"	retracted:seed-outside-domain-refused
+45575	CPAK-100G-CWDM4	transceiver	retract	"CPAK"	retracted:seed-outside-domain-refused
+45525	CPAK-100G-ER4F	transceiver	retract	"CPAK"	retracted:seed-outside-domain-refused
+45508	CPAK-100G-ER4L	transceiver	retract	"CPAK"	retracted:seed-outside-domain-refused
+45587	CPAK-100G-FR	transceiver	retract	"CPAK"	retracted:seed-outside-domain-refused
+45473	CPAK-100G-LR4	transceiver	retract	"CPAK"	retracted:seed-outside-domain-refused
+45496	CPAK-100G-LR4-2K	transceiver	retract	"CPAK"	retracted:seed-outside-domain-refused
+45581	CPAK-100G-PSM4	transceiver	retract	"CPAK"	retracted:seed-outside-domain-refused
+45537	CPAK-100G-SR10	transceiver	retract	"CPAK"	retracted:seed-outside-domain-refused
+45566	CPAK-100G-SR4	transceiver	retract	"CPAK"	retracted:seed-outside-domain-refused
+45502	CPAK-100GE-LR4	transceiver	retract	"CPAK"	retracted:seed-outside-domain-refused
+45560	CPAK-10X10G-ERL	transceiver	retract	"CPAK"	retracted:seed-outside-domain-refused
+45531	CPAK-10X10G-LR	transceiver	retract	"CPAK"	retracted:seed-outside-domain-refused
+48081	CWDM-SFP-1470	transceiver	normalise	"IEEE 802.3z 1000BASE-X (CWDM)"	["1000base-x", "cwdm"]
+48102	CWDM-SFP-1490	transceiver	normalise	"IEEE 802.3z 1000BASE-X (CWDM)"	["1000base-x", "cwdm"]
+48123	CWDM-SFP-1510	transceiver	normalise	"IEEE 802.3z 1000BASE-X (CWDM)"	["1000base-x", "cwdm"]
+48134	CWDM-SFP-1530	transceiver	normalise	"IEEE 802.3z 1000BASE-X (CWDM)"	["1000base-x", "cwdm"]
+48155	CWDM-SFP-1610	transceiver	normalise	"IEEE 802.3z 1000BASE-X (CWDM)"	["1000base-x", "cwdm"]
+48176	CWDM-SFP10G-1470	transceiver	normalise	"10G CWDM (10 Gigabit Ethernet)"	["10gbase-cwdm"]
+48196	CWDM-SFP10G-1490	transceiver	normalise	"10G CWDM (10 Gigabit Ethernet)"	["10gbase-cwdm"]
+48205	CWDM-SFP10G-1510	transceiver	normalise	"10G CWDM (10 Gigabit Ethernet)"	["10gbase-cwdm"]
+48214	CWDM-SFP10G-1530	transceiver	normalise	"10G CWDM (10 Gigabit Ethernet)"	["10gbase-cwdm"]
+48223	CWDM-SFP10G-1550	transceiver	normalise	"10G CWDM (10 Gigabit Ethernet)"	["10gbase-cwdm"]
+48232	CWDM-SFP10G-1570	transceiver	normalise	"10G CWDM (10 Gigabit Ethernet)"	["10gbase-cwdm"]
+48245	CWDM-SFP10G-1590	transceiver	normalise	"10G CWDM (10 Gigabit Ethernet)"	["10gbase-cwdm"]
+48254	CWDM-SFP10G-1610	transceiver	normalise	"10G CWDM (10 Gigabit Ethernet)"	["10gbase-cwdm"]
+46339	CXP-100G-SR10	transceiver	retract	"CXP"	retracted:seed-outside-domain-refused
+46348	CXP-100G-SR12	transceiver	retract	"CXP"	retracted:seed-outside-domain-refused
+46827	DP01QS28-E20	transceiver	retract	"Digital Coherent Optics (DCO), E20"	retracted:seed-outside-domain-refused
+46833	DP01QS28-E25	transceiver	retract	"Digital Coherent Optics (DCO), E25"	retracted:seed-outside-domain-refused
+48609	DP01QSDD-LK9	transceiver	normalise	"400G Coherent (OIF, ITU-T G.709)"	["itu-t-g.709"]
+46411	DP01QSDD-ZF1	transceiver	retract	"100G ZR (kohärent, oFEC)"	retracted:seed-outside-domain-refused
+46427	DP04CFP2-D15	transceiver	normalise	"kohärent (400ZR / OpenZR+ Line-Modes, oFEC)"	["400zr", "openzr+"]
+46504	DP04CFP2-M25-K9	transceiver	retract	"Digital Coherent Optics (DCO, integrierter DSP)"	retracted:seed-outside-domain-refused
+48616	DP04QSDD-ER1	transceiver	normalise	"400G Coherent (OIF, ITU-T G.709)"	["itu-t-g.709"]
+46418	DP04QSDD-HE0	transceiver	normalise	"OpenZR+ (High-Tx-Power-Variante)"	["openzr+"]
+48623	DP04QSDD-HE0-A1	transceiver	normalise	"400G Coherent (OIF, ITU-T G.709)"	["itu-t-g.709"]
+48630	DP04QSDD-HK9	transceiver	normalise	"400G Coherent (OIF, ITU-T G.709)"	["itu-t-g.709"]
+48637	DP04QSDD-ULH-A1	transceiver	normalise	"400G Coherent (OIF, ITU-T G.709)"	["itu-t-g.709"]
+46769	DP04SFP8-E20	transceiver	normalise	"400ZR (kohärent, DWDM)"	["400zr", "dwdm"]
+48323	DS-SFP-FCGE-LW	transceiver	normalise	"2GFC / 1000BASE-X"	["2gfc", "1000base-x"]
+48316	DS-SFP-FCGE-SW	transceiver	normalise	"2GFC / 1000BASE-X"	["2gfc", "1000base-x"]
+48331	DS-SFP-GE-T	transceiver	normalise	"1000BASE-T"	["1000base-t"]
+46839	DWDM-GBIC-30.33	transceiver	normalise	"1000BASE-DWDM (ITU 100-GHz-Raster)"	["1000base-dwdm"]
+46847	DWDM-GBIC-31.12	transceiver	normalise	"1000BASE-DWDM (ITU 100-GHz-Raster)"	["1000base-dwdm"]
+46855	DWDM-GBIC-31.90	transceiver	normalise	"1000BASE-DWDM (ITU 100-GHz-Raster)"	["1000base-dwdm"]
+46863	DWDM-GBIC-32.68	transceiver	normalise	"1000BASE-DWDM (ITU 100-GHz-Raster)"	["1000base-dwdm"]
+46871	DWDM-GBIC-34.25	transceiver	normalise	"1000BASE-DWDM (ITU 100-GHz-Raster)"	["1000base-dwdm"]
+46879	DWDM-GBIC-35.04	transceiver	normalise	"1000BASE-DWDM (ITU 100-GHz-Raster)"	["1000base-dwdm"]
+46887	DWDM-GBIC-35.82	transceiver	normalise	"1000BASE-DWDM (ITU 100-GHz-Raster)"	["1000base-dwdm"]
+46895	DWDM-GBIC-36.61	transceiver	normalise	"1000BASE-DWDM (ITU 100-GHz-Raster)"	["1000base-dwdm"]
+46903	DWDM-GBIC-38.19	transceiver	normalise	"1000BASE-DWDM (ITU 100-GHz-Raster)"	["1000base-dwdm"]
+46911	DWDM-GBIC-38.98	transceiver	normalise	"1000BASE-DWDM (ITU 100-GHz-Raster)"	["1000base-dwdm"]
+46919	DWDM-GBIC-39.77	transceiver	normalise	"1000BASE-DWDM (ITU 100-GHz-Raster)"	["1000base-dwdm"]
+46927	DWDM-GBIC-40.56	transceiver	normalise	"1000BASE-DWDM (ITU 100-GHz-Raster)"	["1000base-dwdm"]
+46935	DWDM-GBIC-42.14	transceiver	normalise	"1000BASE-DWDM (ITU 100-GHz-Raster)"	["1000base-dwdm"]
+46943	DWDM-GBIC-42.94	transceiver	normalise	"1000BASE-DWDM (ITU 100-GHz-Raster)"	["1000base-dwdm"]
+46951	DWDM-GBIC-43.73	transceiver	normalise	"1000BASE-DWDM (ITU 100-GHz-Raster)"	["1000base-dwdm"]
+46959	DWDM-GBIC-44.53	transceiver	normalise	"1000BASE-DWDM (ITU 100-GHz-Raster)"	["1000base-dwdm"]
+46967	DWDM-GBIC-46.12	transceiver	normalise	"1000BASE-DWDM (ITU 100-GHz-Raster)"	["1000base-dwdm"]
+46975	DWDM-GBIC-46.92	transceiver	normalise	"1000BASE-DWDM (ITU 100-GHz-Raster)"	["1000base-dwdm"]
+46983	DWDM-GBIC-47.72	transceiver	normalise	"1000BASE-DWDM (ITU 100-GHz-Raster)"	["1000base-dwdm"]
+46991	DWDM-GBIC-48.51	transceiver	normalise	"1000BASE-DWDM (ITU 100-GHz-Raster)"	["1000base-dwdm"]
+46999	DWDM-GBIC-50.12	transceiver	normalise	"1000BASE-DWDM (ITU 100-GHz-Raster)"	["1000base-dwdm"]
+47007	DWDM-GBIC-50.92	transceiver	normalise	"1000BASE-DWDM (ITU 100-GHz-Raster)"	["1000base-dwdm"]
+47015	DWDM-GBIC-51.72	transceiver	normalise	"1000BASE-DWDM (ITU 100-GHz-Raster)"	["1000base-dwdm"]
+47023	DWDM-GBIC-52.52	transceiver	normalise	"1000BASE-DWDM (ITU 100-GHz-Raster)"	["1000base-dwdm"]
+47031	DWDM-GBIC-54.13	transceiver	normalise	"1000BASE-DWDM (ITU 100-GHz-Raster)"	["1000base-dwdm"]
+47039	DWDM-GBIC-54.94	transceiver	normalise	"1000BASE-DWDM (ITU 100-GHz-Raster)"	["1000base-dwdm"]
+47047	DWDM-GBIC-55.75	transceiver	normalise	"1000BASE-DWDM (ITU 100-GHz-Raster)"	["1000base-dwdm"]
+47055	DWDM-GBIC-56.55	transceiver	normalise	"1000BASE-DWDM (ITU 100-GHz-Raster)"	["1000base-dwdm"]
+47063	DWDM-GBIC-58.17	transceiver	normalise	"1000BASE-DWDM (ITU 100-GHz-Raster)"	["1000base-dwdm"]
+47071	DWDM-GBIC-58.98	transceiver	normalise	"1000BASE-DWDM (ITU 100-GHz-Raster)"	["1000base-dwdm"]
+47079	DWDM-GBIC-59.79	transceiver	normalise	"1000BASE-DWDM (ITU 100-GHz-Raster)"	["1000base-dwdm"]
+47087	DWDM-GBIC-60.61	transceiver	normalise	"1000BASE-DWDM (ITU 100-GHz-Raster)"	["1000base-dwdm"]
+48017	DWDM-SFP-3033	transceiver	normalise	"IEEE 802.3z 1000BASE-X (DWDM, 100-GHz-Raster)"	["1000base-x", "dwdm"]
+48038	DWDM-SFP-3112	transceiver	normalise	"IEEE 802.3z 1000BASE-X (DWDM, 100-GHz-Raster)"	["1000base-x", "dwdm"]
+48059	DWDM-SFP-3190	transceiver	normalise	"IEEE 802.3z 1000BASE-X (DWDM, 100-GHz-Raster)"	["1000base-x", "dwdm"]
+48070	DWDM-SFP-3268	transceiver	normalise	"IEEE 802.3z 1000BASE-X (DWDM, 100-GHz-Raster)"	["1000base-x", "dwdm"]
+46436	DWDM-SFP-6141	transceiver	normalise	"IEEE 802.3z 1000BASE-X"	["1000base-x"]
+48263	DWDM-SFP10G-30.33	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+48271	DWDM-SFP10G-31.12	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+48279	DWDM-SFP10G-61.41	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+48287	DWDM-SFP10G-C	transceiver	normalise	"10GBASE-DWDM (ITU, C-Band durchstimmbar)"	["10gbase-dwdm"]
+48303	DWDM-SFP10G-C-I	transceiver	normalise	"10GBASE-DWDM (ITU, C-Band durchstimmbar)"	["10gbase-dwdm"]
+48296	DWDM-SFP10G-C-S	transceiver	normalise	"10GBASE-DWDM (ITU, C-Band durchstimmbar)"	["10gbase-dwdm"]
+48310	DWDM-SFP10G-E-I	transceiver	normalise	"10GBASE-DWDM (ITU, C-Band durchstimmbar)"	["10gbase-dwdm"]
+47126	DWDM-X2-30.33	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47134	DWDM-X2-31.12	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47142	DWDM-X2-31.90	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47150	DWDM-X2-32.68	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47158	DWDM-X2-34.25	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47166	DWDM-X2-35.04	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47174	DWDM-X2-35.82	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47182	DWDM-X2-36.61	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47190	DWDM-X2-38.19	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47198	DWDM-X2-38.98	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47206	DWDM-X2-39.77	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47214	DWDM-X2-40.56	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47222	DWDM-X2-42.14	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47230	DWDM-X2-42.94	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47238	DWDM-X2-43.73	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47246	DWDM-X2-44.53	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47254	DWDM-X2-46.12	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47262	DWDM-X2-46.92	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47270	DWDM-X2-47.72	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47278	DWDM-X2-48.51	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47286	DWDM-X2-50.12	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47294	DWDM-X2-50.92	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47302	DWDM-X2-51.72	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47310	DWDM-X2-52.52	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47318	DWDM-X2-54.13	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47326	DWDM-X2-54.94	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47334	DWDM-X2-55.75	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47342	DWDM-X2-56.55	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47350	DWDM-X2-58.17	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47358	DWDM-X2-58.98	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47366	DWDM-X2-59.79	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47374	DWDM-X2-60.61	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47678	DWDM-XENPAK-30.33	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47686	DWDM-XENPAK-31.12	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47694	DWDM-XENPAK-31.90	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47702	DWDM-XENPAK-32.68	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47710	DWDM-XENPAK-34.25	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47718	DWDM-XENPAK-35.04	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47726	DWDM-XENPAK-35.82	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47734	DWDM-XENPAK-36.61	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47742	DWDM-XENPAK-38.19	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47750	DWDM-XENPAK-38.98	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47758	DWDM-XENPAK-39.77	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47766	DWDM-XENPAK-40.56	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47774	DWDM-XENPAK-42.14	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47782	DWDM-XENPAK-42.94	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47790	DWDM-XENPAK-43.73	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47798	DWDM-XENPAK-44.53	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47806	DWDM-XENPAK-46.12	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47814	DWDM-XENPAK-46.92	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47822	DWDM-XENPAK-47.72	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47830	DWDM-XENPAK-48.51	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47838	DWDM-XENPAK-50.12	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47846	DWDM-XENPAK-50.92	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47854	DWDM-XENPAK-51.72	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47862	DWDM-XENPAK-52.52	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47870	DWDM-XENPAK-54.13	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47878	DWDM-XENPAK-54.94	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47886	DWDM-XENPAK-55.75	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47894	DWDM-XENPAK-56.55	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47902	DWDM-XENPAK-58.17	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47910	DWDM-XENPAK-58.98	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47918	DWDM-XENPAK-59.79	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47926	DWDM-XENPAK-60.61	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47406	DWDM-XFP-30.33	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47414	DWDM-XFP-31.12	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47422	DWDM-XFP-31.90	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47430	DWDM-XFP-32.68	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47438	DWDM-XFP-34.25	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47446	DWDM-XFP-35.04	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47454	DWDM-XFP-35.82	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47462	DWDM-XFP-36.61	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47470	DWDM-XFP-38.19	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47478	DWDM-XFP-38.98	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47486	DWDM-XFP-39.77	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47494	DWDM-XFP-40.56	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47502	DWDM-XFP-42.14	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47510	DWDM-XFP-42.94	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47518	DWDM-XFP-43.73	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47526	DWDM-XFP-44.53	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47534	DWDM-XFP-46.12	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47542	DWDM-XFP-46.92	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47550	DWDM-XFP-47.72	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47558	DWDM-XFP-48.51	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47566	DWDM-XFP-50.12	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47574	DWDM-XFP-50.92	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47582	DWDM-XFP-51.72	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47590	DWDM-XFP-52.52	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47598	DWDM-XFP-54.13	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47606	DWDM-XFP-54.94	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47614	DWDM-XFP-55.75	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47622	DWDM-XFP-56.55	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47630	DWDM-XFP-58.17	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47638	DWDM-XFP-58.98	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47646	DWDM-XFP-59.79	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+47654	DWDM-XFP-60.61	transceiver	normalise	"10GBASE-DWDM (ITU 100-GHz-Raster)"	["10gbase-dwdm"]
+46394	DWDM-XFP-C	transceiver	normalise	"IEEE 802.3 10GbE, ITU-T G.709/G.975/G.975.1/G.694.1"	["itu-t-g.709", "itu-t-g.975", "itu-t-g.975.1", "itu-t-g.694.1"]
+48588	FET-10G	transceiver	normalise	"10GBASE-SR (FET)"	["10gbase-sr"]
+43581	FET-40G	transceiver	retract	"Cisco Fabric Extender Transceiver (40G, 4 Lanes)"	retracted:seed-outside-domain-refused
+44873	GLC-2BX-D	transceiver	normalise	"2-Kanal 1000BASE-BX10-D"	["1000base-bx10-d"]
+44881	GLC-2BX-D-I	transceiver	normalise	"2-Kanal 1000BASE-BX10-D"	["1000base-bx10-d"]
+44849	GLC-BX-D	transceiver	normalise	"1000BASE-BX10-D"	["1000base-bx10-d"]
+44865	GLC-BX-D-I	transceiver	normalise	"1000BASE-BX10-D"	["1000base-bx10-d"]
+44841	GLC-BX-U	transceiver	normalise	"1000BASE-BX10-U"	["1000base-bx10-u"]
+44857	GLC-BX-U-I	transceiver	normalise	"1000BASE-BX10-U"	["1000base-bx10-u"]
+44889	GLC-BX40-D-I	transceiver	normalise	"1000BASE-BX40-D"	["1000base-bx40-d"]
+44902	GLC-BX40-DA-I	transceiver	normalise	"1000BASE-BX40-D (Alternative)"	["1000base-bx40-d"]
+44912	GLC-BX40-U-I	transceiver	normalise	"1000BASE-BX40-U"	["1000base-bx40-u"]
+44925	GLC-BX80-D-I	transceiver	normalise	"1000BASE-BX80-D"	["1000base-bx80-d"]
+44938	GLC-BX80-U-I	transceiver	normalise	"1000BASE-BX80-U"	["1000base-bx80-u"]
+44809	GLC-EX-SMD	transceiver	normalise	"1000BASE-EX"	["1000base-ex"]
+45757	GLC-FE-100BX-D	transceiver	normalise	"100BASE-BX10-D (BiDi)"	["100base-bx10-d"]
+45728	GLC-FE-100BX-U	transceiver	normalise	"100BASE-BX10-U (BiDi)"	["100base-bx10-u"]
+45786	GLC-FE-100EX	transceiver	normalise	"100BASE-EX"	["100base-ex"]
+45597	GLC-FE-100FX	transceiver	normalise	"IEEE 100BASE-FX"	["100base-fx"]
+45626	GLC-FE-100FX-RGD	transceiver	normalise	"IEEE 100BASE-FX"	["100base-fx"]
+45667	GLC-FE-100LX	transceiver	normalise	"IEEE 100BASE-LX10"	["100base-lx10"]
+45696	GLC-FE-100LX-RGD	transceiver	normalise	"IEEE 100BASE-LX10"	["100base-lx10"]
+45815	GLC-FE-100ZX	transceiver	normalise	"100BASE-ZX"	["100base-zx"]
+45844	GLC-FE-T-I	transceiver	normalise	"IEEE 100BASE-T"	["100base-t"]
+45655	GLC-GE-100FX	transceiver	normalise	"IEEE 100BASE-FX (für GigE-Ports)"	["100base-fx"]
+44833	GLC-GE-DR-LX	transceiver	normalise	"IEEE 100BASE-LX / 1000BASE-LX/LH (Dual-Rate)"	["100base-lx", "1000base-lx/lh"]
+48490	GLC-LH-LMM-TI	transceiver	normalise	"1000BASE-LX/LH"	["1000base-lx/lh"]
+48466	GLC-LH-SM	transceiver	normalise	"1000BASE-LX/LH"	["1000base-lx/lh"]
+44801	GLC-LX-SM-RGD	transceiver	normalise	"IEEE 802.3z 1000BASE-LX/LH"	["1000base-lx/lh"]
+48474	GLC-SX-MM	transceiver	normalise	"1000BASE-SX"	["1000base-sx"]
+44793	GLC-SX-MM-RGD	transceiver	normalise	"IEEE 802.3z 1000BASE-SX"	["1000base-sx"]
+25804	GLC-SX-MMD	transceiver	retract	"SX"	retracted:seed-outside-domain-refused
+44761	GLC-T	transceiver	normalise	"IEEE 802.3z / 802.3ab 1000BASE-T"	["1000base-t"]
+48506	GLC-T++	transceiver	normalise	"1000BASE-T"	["1000base-t"]
+44779	GLC-T-RGD	transceiver	normalise	"IEEE 802.3z / 802.3ab 1000BASE-T"	["1000base-t"]
+25632	GLC-TE	transceiver	normalise	"IEEE 802.3z / 802.3ab 1000BASE-T"	["1000base-t"]
+48512	GLC-TE++	transceiver	normalise	"1000BASE-T"	["1000base-t"]
+48498	GLC-ZX-LMM-TI	transceiver	normalise	"1000BASE-ZX"	["1000base-zx"]
+48482	GLC-ZX-SM	transceiver	normalise	"1000BASE-ZX"	["1000base-zx"]
+44825	GLC-ZX-SM-RGD	transceiver	normalise	"1000BASE-ZX"	["1000base-zx"]
+44817	GLC-ZX-SMD	transceiver	normalise	"1000BASE-ZX"	["1000base-zx"]
+62000	MA-CBL-100G-1M	transceiver	retract	"DAC Kabel"	retracted:seed-outside-domain-refused
+62007	MA-CBL-100G-3M	transceiver	retract	"DAC Kabel"	retracted:seed-outside-domain-refused
+61993	MA-CBL-100G-50CM	transceiver	retract	"DAC Kabel"	retracted:seed-outside-domain-refused
+62021	MA-CBL-120G-1M	transceiver	retract	"DAC Kabel"	retracted:seed-outside-domain-refused
+62028	MA-CBL-120G-3M	transceiver	retract	"DAC Kabel"	retracted:seed-outside-domain-refused
+62014	MA-CBL-120G-50CM	transceiver	retract	"DAC Kabel"	retracted:seed-outside-domain-refused
+61979	MA-CBL-40G-1M	transceiver	retract	"DAC Kabel"	retracted:seed-outside-domain-refused
+61986	MA-CBL-40G-3M	transceiver	retract	"DAC Kabel"	retracted:seed-outside-domain-refused
+61972	MA-CBL-40G-50CM	transceiver	retract	"DAC Kabel"	retracted:seed-outside-domain-refused
+61950	MA-CBL-TA-1M	transceiver	retract	"DAC Kabel"	retracted:seed-outside-domain-refused
+61961	MA-CBL-TA-3M	transceiver	retract	"DAC Kabel"	retracted:seed-outside-domain-refused
+61944	MA-QSFP-100G-LR4	transceiver	normalise	"100GBASE-LR4"	["100gbase-lr4"]
+61935	MA-QSFP-100G-SR4	transceiver	normalise	"100GBASE-SR4"	["100gbase-sr4"]
+61919	MA-QSFP-40G-CSR4	transceiver	normalise	"40GBASE-CSR4 (Extended SR)"	["40gbase-csr4"]
+61911	MA-QSFP-40G-LR4	transceiver	normalise	"40GBASE-LR4"	["40gbase-lr4"]
+61928	MA-QSFP-40G-SR-BD	transceiver	normalise	"40GBASE-SR-BiDi"	["40gbase-sr-bidi"]
+61902	MA-QSFP-40G-SR4	transceiver	normalise	"40GBASE-SR4"	["40gbase-sr4"]
+61882	MA-SFP-10GB-ER	transceiver	normalise	"10GBASE-ER"	["10gbase-er"]
+61857	MA-SFP-10GB-LR	transceiver	normalise	"10GBASE-LR"	["10gbase-lr"]
+61869	MA-SFP-10GB-LRM	transceiver	normalise	"10GBASE-LRM"	["10gbase-lrm"]
+61845	MA-SFP-10GB-SR	transceiver	normalise	"10GBASE-SR"	["10gbase-sr"]
+61894	MA-SFP-10GB-ZR	transceiver	normalise	"10GBASE-ZR"	["10gbase-zr"]
+61831	MA-SFP-1GB-LX10	transceiver	normalise	"1000BASE-LX10"	["1000base-lx10"]
+61823	MA-SFP-1GB-SX	transceiver	normalise	"1000BASE-SX"	["1000base-sx"]
+61839	MA-SFP-1GB-TX	transceiver	normalise	"1000BASE-T"	["1000base-t"]
+48725	MGBLH1	transceiver	normalise	"1000BASE-LH"	["1000base-lx/lh"]
+48709	MGBLX1	transceiver	normalise	"1000BASE-LX"	["1000base-lx"]
+48693	MGBSX1	transceiver	normalise	"1000BASE-SX"	["1000base-sx"]
+48741	MGBT1	transceiver	normalise	"1000BASE-T"	["1000base-t"]
+46511	ONS-CFP2-WDM	transceiver	retract	"Analog Coherent Optics (ACO, externer DSP)"	retracted:seed-outside-domain-refused
+46531	ONS-CFP2-WDM2	transceiver	retract	"Analog Coherent Optics (ACO, externer DSP)"	retracted:seed-outside-domain-refused
+46538	ONS-CFP2D-400G-C	transceiver	retract	"Digital Coherent Optics (DCO, integrierter DSP)"	retracted:seed-outside-domain-refused
+48367	ONS-CXP2-SR25	transceiver	retract	"CXP"	retracted:seed-outside-domain-refused
+46790	ONS-QC-16GFC-SW	transceiver	normalise	"Quad 16G FC, Short Wave"	["16gfc"]
+46798	ONS-QSFP28-LR4	transceiver	normalise	"100GBASE-LR4"	["100gbase-lr4"]
+48421	ONS-SC+-10G-C	transceiver	normalise	"10GBASE-DWDM (C-Band tunable)"	["10gbase-dwdm"]
+48401	ONS-SC+-10G-ER	transceiver	normalise	"10GBASE-ER"	["10gbase-er"]
+48391	ONS-SC+-10G-LR	transceiver	normalise	"10GBASE-LR"	["10gbase-lr"]
+48381	ONS-SC+-10G-SR	transceiver	normalise	"10GBASE-SR"	["10gbase-sr"]
+48411	ONS-SC+-10G-ZR	transceiver	normalise	"10GBASE-ZR"	["10gbase-zr"]
+48448	ONS-SI+-10G-ER	transceiver	normalise	"10GBASE-ER"	["10gbase-er"]
+48438	ONS-SI+-10G-LR	transceiver	normalise	"10GBASE-LR"	["10gbase-lr"]
+48428	ONS-SI+-10G-SR	transceiver	normalise	"10GBASE-SR"	["10gbase-sr"]
+48458	ONS-SI+-10G-ZR	transceiver	normalise	"10GBASE-ZR"	["10gbase-zr"]
+48337	ONS-SI-GE-EX	transceiver	normalise	"1000BASE-EX"	["1000base-ex"]
+48345	ONS-SI-GE-LX	transceiver	normalise	"1000BASE-LX"	["1000base-lx"]
+48353	ONS-SI-GE-SX	transceiver	normalise	"1000BASE-SX"	["1000base-sx"]
+48361	ONS-SI-GE-ZX	transceiver	normalise	"1000BASE-ZX"	["1000base-zx"]
+46114	OSFP-2X400G-FR4	transceiver	normalise	"IEEE 802.3 400GBASE-FR4 (2× / 800GE)"	["400gbase-fr4"]
+46095	OSFP-800G-DR8	transceiver	normalise	"IEEE 802.3 800GBASE-DR8"	["800gbase-dr8"]
+46105	OSFP-800G-DR8P	transceiver	normalise	"IEEE 802.3 800GBASE-DR8"	["800gbase-dr8"]
+46075	OSFP-800G-VR8	transceiver	normalise	"IEEE 802.3 800GBASE-VR8"	["800gbase-vr8"]
+46085	OSFP-800G-VR8P	transceiver	normalise	"IEEE 802.3 800GBASE-VR8"	["800gbase-vr8"]
+46761	OSFPR-800G-DR8	transceiver	normalise	"800GBASE-DR8"	["800gbase-dr8"]
+43339	Q-4SFP25G-CU1.5M	transceiver	normalise	"100GBASE-CR4 zu 4× 25GBASE-CR Breakout (Twinax, passiv)"	["100gbase-cr4", "25gbase-cr"]
+43361	Q-4SFP25G-CU2.5M	transceiver	normalise	"100GBASE-CR4 zu 4× 25GBASE-CR Breakout (Twinax, passiv)"	["100gbase-cr4", "25gbase-cr"]
+46543	QDD-2Q200-CU1M	transceiver	retract	"DAC Kabel"	retracted:seed-outside-domain-refused
+48642	QDD-2Q200-CU2.5M	transceiver	retract	"DAC Kabel"	retracted:seed-outside-domain-refused
+46552	QDD-2Q200-CU2M	transceiver	retract	"DAC Kabel"	retracted:seed-outside-domain-refused
+45337	QDD-2Q200-CU3M	transceiver	normalise	"2× 200GBASE-CR4 (Twinax, passiv)"	["200gbase-cr4"]
+45460	QDD-2X100-CWDM4-S	transceiver	normalise	"2× 100G-CWDM4"	["100gbase-cwdm4"]
+45467	QDD-2X100-LR4-S	transceiver	normalise	"2× 100GBASE-LR4"	["100gbase-lr4"]
+45451	QDD-2X100-SR4-S	transceiver	normalise	"2× 100GBASE-SR4"	["100gbase-sr4"]
+46386	QDD-2X400G-FR4	transceiver	normalise	"IEEE 802.3cu 2× 400GBASE-FR4 + 100G Lambda MSA"	["400gbase-fr4"]
+46677	QDD-400-AOC10M	transceiver	retract	"AOC Kabel"	retracted:seed-outside-domain-refused
+46687	QDD-400-AOC15M	transceiver	retract	"AOC Kabel"	retracted:seed-outside-domain-refused
+46628	QDD-400-AOC1M	transceiver	retract	"AOC Kabel"	retracted:seed-outside-domain-refused
+46697	QDD-400-AOC20M	transceiver	retract	"AOC Kabel"	retracted:seed-outside-domain-refused
+46707	QDD-400-AOC25M	transceiver	retract	"AOC Kabel"	retracted:seed-outside-domain-refused
+46638	QDD-400-AOC2M	transceiver	retract	"AOC Kabel"	retracted:seed-outside-domain-refused
+46717	QDD-400-AOC30M	transceiver	retract	"AOC Kabel"	retracted:seed-outside-domain-refused
+46647	QDD-400-AOC3M	transceiver	retract	"AOC Kabel"	retracted:seed-outside-domain-refused
+46657	QDD-400-AOC5M	transceiver	retract	"AOC Kabel"	retracted:seed-outside-domain-refused
+46667	QDD-400-AOC7M	transceiver	retract	"AOC Kabel"	retracted:seed-outside-domain-refused
+48650	QDD-400-CU0.5M	transceiver	retract	"DAC Kabel"	retracted:seed-outside-domain-refused
+46561	QDD-400-CU1M	transceiver	retract	"DAC Kabel"	retracted:seed-outside-domain-refused
+48658	QDD-400-CU2.5M	transceiver	retract	"DAC Kabel"	retracted:seed-outside-domain-refused
+46569	QDD-400-CU2M	transceiver	retract	"DAC Kabel"	retracted:seed-outside-domain-refused
+46577	QDD-400-CU3M	transceiver	retract	"DAC Kabel"	retracted:seed-outside-domain-refused
+45375	QDD-400G-BD	transceiver	normalise	"400G BiDi"	["400gbase-bidi"]
+45384	QDD-400G-DR4-S	transceiver	normalise	"400GBASE-DR4"	["400gbase-dr4"]
+45415	QDD-400G-FR4-S	transceiver	normalise	"400GBASE-FR4"	["400gbase-fr4"]
+45429	QDD-400G-LR4-S	transceiver	normalise	"400GBASE-LR4 (LR4-6, auf 10 km erweitert)"	["400gbase-lr4"]
+45438	QDD-400G-LR8-S	transceiver	normalise	"400GBASE-LR8"	["400gbase-lr8"]
+45366	QDD-400G-SR4.2-BD	transceiver	normalise	"400GBASE-SR4.2 (BiDi)"	["400gbase-sr4.2"]
+45356	QDD-400G-SR8-S	transceiver	normalise	"400GBASE-SR8"	["400gbase-sr8"]
+45347	QDD-400G-VR4	transceiver	normalise	"400GBASE-VR4"	["400gbase-vr4"]
+46360	QDD-400G-ZR-S	transceiver	normalise	"OIF 400ZR (MSA)"	["400zr"]
+46368	QDD-400G-ZRP-S	transceiver	normalise	"OpenZR+ (MSA)"	["openzr+"]
+45394	QDD-4X100G-FR-S	transceiver	normalise	"4× 100GBASE-FR1"	["100gbase-fr1"]
+45404	QDD-4X100G-LR-S	transceiver	normalise	"4× 100GBASE-LR1"	["100gbase-lr1"]
+46585	QDD-4ZQ100-CU1M	transceiver	retract	"DAC Kabel"	retracted:seed-outside-domain-refused
+48666	QDD-4ZQ100-CU2.5M	transceiver	retract	"DAC Kabel"	retracted:seed-outside-domain-refused
+46594	QDD-4ZQ100-CU2M	transceiver	retract	"DAC Kabel"	retracted:seed-outside-domain-refused
+46603	QDD-4ZQ100-CU3M	transceiver	retract	"DAC Kabel"	retracted:seed-outside-domain-refused
+46377	QDD-8X100G-FR	transceiver	normalise	"IEEE 802.3cu 8× 100GBASE-FR1"	["100gbase-fr1"]
+43242	QSFP-100G-4W40-I	transceiver	retract	"100G WDM-40 / ER4-Lite (IND, 40 km mit Host-FEC)"	retracted:seed-outside-domain-refused
+48683	QSFP-100G-AOC	transceiver	retract	"AOC Kabel"	retracted:seed-outside-domain-refused
+43456	QSFP-100G-AOC10M	transceiver	retract	"100G QSFP28 Active Optical Cable (AOC)"	retracted:seed-outside-domain-refused
+43468	QSFP-100G-AOC15M	transceiver	retract	"100G QSFP28 Active Optical Cable (AOC)"	retracted:seed-outside-domain-refused
+43396	QSFP-100G-AOC1M	transceiver	retract	"100G QSFP28 Active Optical Cable (AOC)"	retracted:seed-outside-domain-refused
+43480	QSFP-100G-AOC20M	transceiver	retract	"100G QSFP28 Active Optical Cable (AOC)"	retracted:seed-outside-domain-refused
+43492	QSFP-100G-AOC25M	transceiver	retract	"100G QSFP28 Active Optical Cable (AOC)"	retracted:seed-outside-domain-refused
+43408	QSFP-100G-AOC2M	transceiver	retract	"100G QSFP28 Active Optical Cable (AOC)"	retracted:seed-outside-domain-refused
+43504	QSFP-100G-AOC30M	transceiver	retract	"100G QSFP28 Active Optical Cable (AOC)"	retracted:seed-outside-domain-refused
+43420	QSFP-100G-AOC3M	transceiver	retract	"100G QSFP28 Active Optical Cable (AOC)"	retracted:seed-outside-domain-refused
+43432	QSFP-100G-AOC5M	transceiver	retract	"100G QSFP28 Active Optical Cable (AOC)"	retracted:seed-outside-domain-refused
+43444	QSFP-100G-AOC7M	transceiver	retract	"100G QSFP28 Active Optical Cable (AOC)"	retracted:seed-outside-domain-refused
+43224	QSFP-100G-B20D4-I	transceiver	normalise	"100G BiDi 20 km (4 Lanes, NRZ, Host-RS-FEC, IND)"	["100gbase-bidi"]
+43217	QSFP-100G-B20U4-I	transceiver	normalise	"100G BiDi 20 km (4 Lanes, NRZ, Host-RS-FEC, IND)"	["100gbase-bidi"]
+46813	QSFP-100G-B40D-I	transceiver	retract	"BiDi Downstream (LR, 1 Faser)"	retracted:seed-outside-domain-refused
+46820	QSFP-100G-B40U-I	transceiver	retract	"BiDi Upstream (LR, 1 Faser)"	retracted:seed-outside-domain-refused
+43276	QSFP-100G-CU1.5M	transceiver	normalise	"100GBASE-CR4 (Twinax, passiv)"	["100gbase-cr4"]
+43264	QSFP-100G-CU1M	transceiver	normalise	"100GBASE-CR4 (Twinax, passiv)"	["100gbase-cr4"]
+43296	QSFP-100G-CU2.5M	transceiver	normalise	"100GBASE-CR4 (Twinax, passiv)"	["100gbase-cr4"]
+43284	QSFP-100G-CU2M	transceiver	normalise	"100GBASE-CR4 (Twinax, passiv)"	["100gbase-cr4"]
+43304	QSFP-100G-CU3M	transceiver	normalise	"100GBASE-CR4 (Twinax, passiv)"	["100gbase-cr4"]
+43316	QSFP-100G-CU5M	transceiver	normalise	"100GBASE-CR4 (Twinax, passiv)"	["100gbase-cr4"]
+43140	QSFP-100G-CWDM4-S	transceiver	normalise	"100G CWDM4"	["100gbase-cwdm4"]
+43111	QSFP-100G-DR-S	transceiver	normalise	"IEEE 802.3 100GBASE-DR (PAM4, FEC)"	["100gbase-dr"]
+48676	QSFP-100G-ER4	transceiver	normalise	"100GBASE-ER4"	["100gbase-er4"]
+43231	QSFP-100G-ER4L-S	transceiver	normalise	"100G ER4-Lite (40 km mit Host-FEC / 30 km ohne)"	["100gbase-er4-lite"]
+43209	QSFP-100G-ERL-S	transceiver	normalise	"100G LR1-20 / ER-Lite (PAM4, FEC)"	["100gbase-lr1-20"]
+43122	QSFP-100G-FR-S	transceiver	normalise	"IEEE 802.3 100GBASE-FR1 (PAM4, FEC)"	["100gbase-fr1"]
+43172	QSFP-100G-LR-S	transceiver	normalise	"IEEE 802.3 100GBASE-LR1 (PAM4, FEC)"	["100gbase-lr1"]
+43202	QSFP-100G-LR4-I	transceiver	normalise	"IEEE 100GBASE-LR4 (ohne FEC, IND)"	["100gbase-lr4"]
+43181	QSFP-100G-LR4-S	transceiver	normalise	"IEEE 100GBASE-LR4 (ohne FEC)"	["100gbase-lr4"]
+43097	QSFP-100G-PSM4-S	transceiver	normalise	"100G PSM4 (parallele SMF)"	["100gbase-psm4"]
+43055	QSFP-100G-SL4	transceiver	normalise	"100GBASE-SL4 (Short Link, SR4-basiert)"	["100gbase-sl4"]
+43156	QSFP-100G-SM-SR	transceiver	normalise	"100G CWDM4-Lite"	["100gbase-cwdm4-lite"]
+43089	QSFP-100G-SR-S	transceiver	normalise	"IEEE 802.3 100GBASE-SR1 (PAM4, FEC)"	["100gbase-sr1"]
+43033	QSFP-100G-SR4-S	transceiver	normalise	"IEEE 802.3bm 100GBASE-SR4"	["100gbase-sr4"]
+46806	QSFP-100G-ZR4-I	transceiver	normalise	"100G ZR4"	["100gbase-zr4"]
+43249	QSFP-100G-ZR4-S	transceiver	normalise	"100G ZR4 (Engineered Link, Host-FEC)"	["100gbase-zr4"]
+46612	QSFP-200-CU3M	transceiver	retract	"DAC Kabel"	retracted:seed-outside-domain-refused
+46155	QSFP-200G-FR4-S	transceiver	normalise	"IEEE 802.3 200GBASE-FR4"	["200gbase-fr4"]
+46144	QSFP-200G-SL4	transceiver	normalise	"200GBASE-SR4 (Short Link / -SL4)"	["200gbase-sr4"]
+46133	QSFP-200G-SR4-S	transceiver	normalise	"IEEE 802.3 200GBASE-SR4"	["200gbase-sr4"]
+46122	QSFP-2Q200-CU3M	transceiver	normalise	"2× 200GBASE-CR4 (OIF CEI-56G-VSR-PAM4)"	["200gbase-cr4"]
+46753	QSFP-40-SR-BD	transceiver	normalise	"40GBASE-SR-BiDi"	["40gbase-sr-bidi"]
+43065	QSFP-40/100-SRBD	transceiver	retract	"40/100G Dual-Rate BiDi (SR-BiDi)"	retracted:seed-outside-domain-refused
+46312	QSFP-400G-DR4	transceiver	normalise	"IEEE 802.3 400GBASE-DR4 (400GAUI-4)"	["400gbase-dr4"]
+46332	QSFP-400G-FR4	transceiver	normalise	"IEEE 802.3 400GBASE-FR4 (400GAUI-4)"	["400gbase-fr4"]
+46322	QSFP-400G-VR4	transceiver	normalise	"IEEE 802.3 400GBASE-VR4 (400GAUI-4)"	["400gbase-vr4"]
+43574	QSFP-40G-BD-RX	transceiver	normalise	"40GBASE-SR-BiDi Monitor (nur Empfang)"	["40gbase-sr-bidi"]
+43601	QSFP-40G-CSR-S	transceiver	normalise	"40GBASE-CSR (Short Reach, Duplex)"	["40gbase-csr"]
+43611	QSFP-40G-CSR4	transceiver	normalise	"IEEE 40GBASE-CSR4 (4×10G-fähig)"	["40gbase-csr4"]
+43659	QSFP-40G-LR4-S	transceiver	normalise	"IEEE 40GBASE-LR4"	["40gbase-lr4"]
+43541	QSFP-40G-SR-BD	transceiver	normalise	"40GBASE-SR-BiDi (40G BiDi)"	["40gbase-sr-bidi"]
+25847	QSFP-40G-SR4	transceiver	retract	"SR4"	retracted:seed-outside-domain-refused
+43516	QSFP-40G-SR4-S	transceiver	normalise	"IEEE 40GBASE-SR4"	["40gbase-sr4"]
+46729	QSFP-40GE-LR4	transceiver	normalise	"40GBASE-LR4"	["40gbase-lr4"]
+43809	QSFP-4SFP10-CU0-5	transceiver	normalise	"40GBASE-CR4 zu 4× 10GBASE-CR Breakout (Twinax, passiv)"	["40gbase-cr4", "10gbase-cr"]
+43818	QSFP-4SFP10G-CU1M	transceiver	normalise	"40GBASE-CR4 zu 4× 10GBASE-CR Breakout (Twinax, passiv)"	["40gbase-cr4", "10gbase-cr"]
+43835	QSFP-4SFP10G-CU2M	transceiver	normalise	"40GBASE-CR4 zu 4× 10GBASE-CR Breakout (Twinax, passiv)"	["40gbase-cr4", "10gbase-cr"]
+43844	QSFP-4SFP10G-CU3M	transceiver	normalise	"40GBASE-CR4 zu 4× 10GBASE-CR Breakout (Twinax, passiv)"	["40gbase-cr4", "10gbase-cr"]
+43861	QSFP-4SFP10G-CU4M	transceiver	normalise	"40GBASE-CR4 zu 4× 10GBASE-CR Breakout (Twinax, passiv)"	["40gbase-cr4", "10gbase-cr"]
+43870	QSFP-4SFP10G-CU5M	transceiver	normalise	"40GBASE-CR4 zu 4× 10GBASE-CR Breakout (Twinax, passiv)"	["40gbase-cr4", "10gbase-cr"]
+42988	QSFP-4SFP25-CU1M	transceiver	normalise	"100GBASE-CR4 zu 4× 25GBASE-CR Breakout (Twinax, passiv)"	["100gbase-cr4", "25gbase-cr"]
+42997	QSFP-4SFP25-CU2M	transceiver	normalise	"100GBASE-CR4 zu 4× 25GBASE-CR Breakout (Twinax, passiv)"	["100gbase-cr4", "25gbase-cr"]
+43006	QSFP-4SFP25-CU3M	transceiver	normalise	"100GBASE-CR4 zu 4× 25GBASE-CR Breakout (Twinax, passiv)"	["100gbase-cr4", "25gbase-cr"]
+43015	QSFP-4SFP25-CU4M	transceiver	normalise	"100GBASE-CR4 zu 4× 25GBASE-CR Breakout (Twinax, passiv)"	["100gbase-cr4", "25gbase-cr"]
+43024	QSFP-4SFP25-CU5M	transceiver	normalise	"100GBASE-CR4 zu 4× 25GBASE-CR Breakout (Twinax, passiv)"	["100gbase-cr4", "25gbase-cr"]
+46773	QSFP-4SFP25G-CU1.5M	transceiver	retract	"DAC Kabel"	retracted:seed-outside-domain-refused
+43326	QSFP-4SFP25G-CU1M	transceiver	normalise	"100GBASE-CR4 zu 4× 25GBASE-CR Breakout (Twinax, passiv)"	["100gbase-cr4", "25gbase-cr"]
+46781	QSFP-4SFP25G-CU2.5M	transceiver	retract	"DAC Kabel"	retracted:seed-outside-domain-refused
+43348	QSFP-4SFP25G-CU2M	transceiver	normalise	"100GBASE-CR4 zu 4× 25GBASE-CR Breakout (Twinax, passiv)"	["100gbase-cr4", "25gbase-cr"]
+43370	QSFP-4SFP25G-CU3M	transceiver	normalise	"100GBASE-CR4 zu 4× 25GBASE-CR Breakout (Twinax, passiv)"	["100gbase-cr4", "25gbase-cr"]
+46620	QSFP-4SFP25G-CU4M	transceiver	retract	"DAC Kabel"	retracted:seed-outside-domain-refused
+43383	QSFP-4SFP25G-CU5M	transceiver	normalise	"100GBASE-CR4 zu 4× 25GBASE-CR Breakout (Twinax, passiv)"	["100gbase-cr4", "25gbase-cr"]
+43902	QSFP-4X10G-AC10M	transceiver	normalise	"40GBASE-CR4 zu 4× 10GBASE-CR Breakout (Twinax, aktiv)"	["40gbase-cr4", "10gbase-cr"]
+43887	QSFP-4X10G-AC7M	transceiver	normalise	"40GBASE-CR4 zu 4× 10GBASE-CR Breakout (Twinax, aktiv)"	["40gbase-cr4", "10gbase-cr"]
+44114	QSFP-4X10G-AOC10M	transceiver	retract	"40G QSFP+ zu 4× 10G SFP+ Active Optical Cable (AOC)"	retracted:seed-outside-domain-refused
+44039	QSFP-4X10G-AOC1M	transceiver	retract	"40G QSFP+ zu 4× 10G SFP+ Active Optical Cable (AOC)"	retracted:seed-outside-domain-refused
+44054	QSFP-4X10G-AOC2M	transceiver	retract	"40G QSFP+ zu 4× 10G SFP+ Active Optical Cable (AOC)"	retracted:seed-outside-domain-refused
+44069	QSFP-4X10G-AOC3M	transceiver	retract	"40G QSFP+ zu 4× 10G SFP+ Active Optical Cable (AOC)"	retracted:seed-outside-domain-refused
+44084	QSFP-4X10G-AOC5M	transceiver	retract	"40G QSFP+ zu 4× 10G SFP+ Active Optical Cable (AOC)"	retracted:seed-outside-domain-refused
+44099	QSFP-4X10G-AOC7M	transceiver	retract	"40G QSFP+ zu 4× 10G SFP+ Active Optical Cable (AOC)"	retracted:seed-outside-domain-refused
+43685	QSFP-4X10G-LR-S	transceiver	normalise	"4×10GBASE-LR"	["10gbase-lr"]
+43793	QSFP-H40G-ACU10M	transceiver	normalise	"40GBASE-CR4 (Twinax, aktiv)"	["40gbase-cr4"]
+43777	QSFP-H40G-ACU7M	transceiver	normalise	"40GBASE-CR4 (Twinax, aktiv)"	["40gbase-cr4"]
+43987	QSFP-H40G-AOC10M	transceiver	retract	"40G QSFP+ Active Optical Cable (AOC)"	retracted:seed-outside-domain-refused
+44001	QSFP-H40G-AOC15M	transceiver	retract	"40G QSFP+ Active Optical Cable (AOC)"	retracted:seed-outside-domain-refused
+43917	QSFP-H40G-AOC1M	transceiver	retract	"40G QSFP+ Active Optical Cable (AOC)"	retracted:seed-outside-domain-refused
+44015	QSFP-H40G-AOC20M	transceiver	retract	"40G QSFP+ Active Optical Cable (AOC)"	retracted:seed-outside-domain-refused
+44023	QSFP-H40G-AOC25M	transceiver	retract	"40G QSFP+ Active Optical Cable (AOC)"	retracted:seed-outside-domain-refused
+43931	QSFP-H40G-AOC2M	transceiver	retract	"40G QSFP+ Active Optical Cable (AOC)"	retracted:seed-outside-domain-refused
+44031	QSFP-H40G-AOC30M	transceiver	retract	"40G QSFP+ Active Optical Cable (AOC)"	retracted:seed-outside-domain-refused
+43945	QSFP-H40G-AOC3M	transceiver	retract	"40G QSFP+ Active Optical Cable (AOC)"	retracted:seed-outside-domain-refused
+43959	QSFP-H40G-AOC5M	transceiver	retract	"40G QSFP+ Active Optical Cable (AOC)"	retracted:seed-outside-domain-refused
+43973	QSFP-H40G-AOC7M	transceiver	retract	"40G QSFP+ Active Optical Cable (AOC)"	retracted:seed-outside-domain-refused
+43705	QSFP-H40G-CU0-5M	transceiver	normalise	"40GBASE-CR4 (Twinax, passiv)"	["40gbase-cr4"]
+43713	QSFP-H40G-CU1M	transceiver	normalise	"40GBASE-CR4 (Twinax, passiv)"	["40gbase-cr4"]
+43729	QSFP-H40G-CU2M	transceiver	normalise	"40GBASE-CR4 (Twinax, passiv)"	["40gbase-cr4"]
+43737	QSFP-H40G-CU3M	transceiver	normalise	"40GBASE-CR4 (Twinax, passiv)"	["40gbase-cr4"]
+43753	QSFP-H40G-CU4M	transceiver	normalise	"40GBASE-CR4 (Twinax, passiv)"	["40gbase-cr4"]
+43761	QSFP-H40G-CU5M	transceiver	normalise	"40GBASE-CR4 (Twinax, passiv)"	["40gbase-cr4"]
+48564	S10G-ER-PM-D-I	transceiver	normalise	"10GBASE-ER"	["10gbase-er"]
+48572	S10G-LR-PM-D-I	transceiver	normalise	"10GBASE-LR"	["10gbase-lr"]
+48580	S10G-SR-PM-D-I	transceiver	normalise	"10GBASE-SR"	["10gbase-sr"]
+48542	S1G-LH-PM-D-I	transceiver	normalise	"1000BASE-LX"	["1000base-lx"]
+48550	S1G-SX-PM-D-I	transceiver	normalise	"1000BASE-SX"	["1000base-sx"]
+48558	S1G-TE-PM-D-I	transceiver	normalise	"1000BASE-T"	["1000base-t"]
+45170	SFP-10/25G-BXD-I	transceiver	normalise	"10/25GBASE-BR BiDi (Downstream, Industrie)"	["10gbase-br", "25gbase-br"]
+45177	SFP-10/25G-BXU-I	transceiver	normalise	"10/25GBASE-BR BiDi (Upstream, Industrie)"	["10gbase-br", "25gbase-br"]
+45145	SFP-10/25G-CSR-S	transceiver	normalise	"10/25GBASE-CSR (dual-rate)"	["10gbase-csr", "25gbase-csr"]
+45163	SFP-10/25G-LR-I	transceiver	normalise	"10/25GBASE-LR (dual-rate, Industrie)"	["10gbase-lr", "25gbase-lr"]
+45154	SFP-10/25G-LR-S	transceiver	normalise	"10/25GBASE-LR (dual-rate)"	["10gbase-lr", "25gbase-lr"]
+44737	SFP-10G-AOC10M	transceiver	retract	"SFP+ Active Optical Cable (AOC)"	retracted:seed-outside-domain-refused
+44617	SFP-10G-AOC1M	transceiver	retract	"SFP+ Active Optical Cable (AOC)"	retracted:seed-outside-domain-refused
+44641	SFP-10G-AOC2M	transceiver	retract	"SFP+ Active Optical Cable (AOC)"	retracted:seed-outside-domain-refused
+44665	SFP-10G-AOC3M	transceiver	retract	"SFP+ Active Optical Cable (AOC)"	retracted:seed-outside-domain-refused
+44689	SFP-10G-AOC5M	transceiver	retract	"SFP+ Active Optical Cable (AOC)"	retracted:seed-outside-domain-refused
+44713	SFP-10G-AOC7M	transceiver	retract	"SFP+ Active Optical Cable (AOC)"	retracted:seed-outside-domain-refused
+44355	SFP-10G-BX40D-I	transceiver	retract	"10G SFP+ Bidirektional (BX40)"	retracted:seed-outside-domain-refused
+44375	SFP-10G-BX40U-I	transceiver	retract	"10G SFP+ Bidirektional (BX40)"	retracted:seed-outside-domain-refused
+44276	SFP-10G-BXD-I	transceiver	retract	"10G SFP+ Bidirektional (BX10)"	retracted:seed-outside-domain-refused
+44302	SFP-10G-BXU-I	transceiver	retract	"10G SFP+ Bidirektional (BX10)"	retracted:seed-outside-domain-refused
+44347	SFP-10G-ER-I	transceiver	normalise	"10GBASE-ER / 10GBASE-EW / OTU2/2e (Multirate, IND)"	["10gbase-er", "10gbase-ew", "otu2", "otu2e"]
+44328	SFP-10G-ER-S	transceiver	normalise	"IEEE 802.3ae 10GBASE-ER (S-Class, ohne FCoE)"	["10gbase-er"]
+25816	SFP-10G-LR	transceiver	retract	"LR"	retracted:seed-outside-domain-refused
+44220	SFP-10G-LR-S	transceiver	normalise	"IEEE 802.3ae 10GBASE-LR (S-Class, ohne FCoE)"	["10gbase-lr"]
+44244	SFP-10G-LR-X	transceiver	normalise	"10GBASE-LR / 10GBASE-LW / OTU2 / OTU2e (Multirate)"	["10gbase-lr", "10gbase-lw", "otu2", "otu2e"]
+44268	SFP-10G-LR10-I	transceiver	normalise	"10GBASE-LR / CPRI (IND)"	["10gbase-lr", "cpri"]
+44190	SFP-10G-LRM	transceiver	normalise	"IEEE 802.3aq 10GBASE-LRM"	["10gbase-lrm"]
+46447	SFP-10G-OLT20-X	transceiver	normalise	"ITU-T G.9807.1 / G.988 (XGS-PON)"	["itu-t-g.9807.1", "itu-t-g.988"]
+25666	SFP-10G-SR	transceiver	retract	"SR"	retracted:seed-outside-domain-refused
+44182	SFP-10G-SR-I	transceiver	normalise	"10GBASE-SR / 10GBASE-SW / OTU2/2e / CPRI (Multirate, IND)"	["10gbase-sr", "10gbase-sw", "otu2", "otu2e", "cpri"]
+44136	SFP-10G-SR-S	transceiver	normalise	"IEEE 802.3ae 10GBASE-SR (S-Class, ohne FCoE)"	["10gbase-sr"]
+44157	SFP-10G-SR-X	transceiver	normalise	"10GBASE-SR / 10GBASE-SW / OTU2 / OTU2e (Multirate)"	["10gbase-sr", "10gbase-sw", "otu2", "otu2e"]
+44129	SFP-10G-T-X	transceiver	normalise	"IEEE 802.3an 10GBASE-T (Multirate 100M/1G/10G)"	["10gbase-t"]
+44408	SFP-10G-ZR-I	transceiver	retract	"-40 bis 85 °C"	retracted:seed-outside-domain-refused
+44395	SFP-10G-ZR-S	transceiver	normalise	"10GBASE-ZR (Cisco-Spezifikation, S-Class, ohne FCoE)"	["10gbase-zr"]
+44951	SFP-1G-LH	transceiver	normalise	"IEEE 802.3z 1000BASE-LX/LH (für 10G-Ports)"	["1000base-lx/lh"]
+44959	SFP-1G-T-X	transceiver	normalise	"IEEE 802.3 1000BASE-T (für 10G-Ports)"	["1000base-t"]
+45114	SFP-25G-AOC10M	transceiver	retract	"25GBASE-AOC (Active Optical Cable)"	retracted:seed-outside-domain-refused
+45042	SFP-25G-AOC1M	transceiver	retract	"25GBASE-AOC (Active Optical Cable)"	retracted:seed-outside-domain-refused
+45054	SFP-25G-AOC2M	transceiver	retract	"25GBASE-AOC (Active Optical Cable)"	retracted:seed-outside-domain-refused
+45066	SFP-25G-AOC3M	transceiver	retract	"25GBASE-AOC (Active Optical Cable)"	retracted:seed-outside-domain-refused
+45078	SFP-25G-AOC4M	transceiver	retract	"25GBASE-AOC (Active Optical Cable)"	retracted:seed-outside-domain-refused
+45090	SFP-25G-AOC5M	transceiver	retract	"25GBASE-AOC (Active Optical Cable)"	retracted:seed-outside-domain-refused
+45102	SFP-25G-AOC7M	transceiver	retract	"25GBASE-AOC (Active Optical Cable)"	retracted:seed-outside-domain-refused
+45193	SFP-25G-BX40D-I	transceiver	normalise	"IEEE 802.3cp 25GBASE-BR40 BiDi (Downstream, Industrie)"	["25gbase-br40"]
+45201	SFP-25G-BX40U-I	transceiver	normalise	"IEEE 802.3cp 25GBASE-BR40 BiDi (Upstream, Industrie)"	["25gbase-br40"]
+45185	SFP-25G-ER-I	transceiver	normalise	"IEEE 802.3cc 25GBASE-ER (Industrie)"	["25gbase-er"]
+45136	SFP-25G-SL	transceiver	normalise	"25GBASE-SL (Short Link)"	["25gbase-sl"]
+45126	SFP-25G-SR-S	transceiver	normalise	"IEEE 802.3by 25GBASE-SR"	["25gbase-sr"]
+45315	SFP-50G-BX40D-I	transceiver	normalise	"25/50GBASE-BR40 BiDi (Downstream, Industrie)"	["25gbase-br40", "50gbase-br40"]
+45322	SFP-50G-BX40U-I	transceiver	normalise	"25/50GBASE-BR40 BiDi (Upstream, Industrie)"	["25gbase-br40", "50gbase-br40"]
+45301	SFP-50G-BXD-I	transceiver	normalise	"25/50GBASE-BR10 BiDi (Downstream, Industrie)"	["25gbase-br10", "50gbase-br10"]
+45308	SFP-50G-BXU-I	transceiver	normalise	"25/50GBASE-BR10 BiDi (Upstream, Industrie)"	["25gbase-br10", "50gbase-br10"]
+45208	SFP-50G-CU0.5M	transceiver	normalise	"25/50GBASE-CR1 (Twinax, passiv)"	["25gbase-cr1", "50gbase-cr1"]
+45224	SFP-50G-CU1.5M	transceiver	normalise	"25/50GBASE-CR1 (Twinax, passiv)"	["25gbase-cr1", "50gbase-cr1"]
+45215	SFP-50G-CU1M	transceiver	normalise	"25/50GBASE-CR1 (Twinax, passiv)"	["25gbase-cr1", "50gbase-cr1"]
+45242	SFP-50G-CU2.5M	transceiver	normalise	"25/50GBASE-CR1 (Twinax, passiv)"	["25gbase-cr1", "50gbase-cr1"]
+45233	SFP-50G-CU2M	transceiver	normalise	"25/50GBASE-CR1 (Twinax, passiv)"	["25gbase-cr1", "50gbase-cr1"]
+45251	SFP-50G-CU3M	transceiver	normalise	"25/50GBASE-CR1 (Twinax, passiv)"	["25gbase-cr1", "50gbase-cr1"]
+45260	SFP-50G-CU4M	transceiver	normalise	"25/50GBASE-CR1 (Twinax, passiv)"	["25gbase-cr1", "50gbase-cr1"]
+45269	SFP-50G-CU5M	transceiver	normalise	"25/50GBASE-CR1 (Twinax, passiv)"	["25gbase-cr1", "50gbase-cr1"]
+45329	SFP-50G-ER-I	transceiver	normalise	"IEEE 25/50GBASE-ER (Industrie)"	["25gbase-er", "50gbase-er"]
+45294	SFP-50G-LR-S	transceiver	normalise	"IEEE 25/50GBASE-LR"	["25gbase-lr", "50gbase-lr"]
+45278	SFP-50G-SL	transceiver	retract	"25/50G-SL (Short Link)"	retracted:seed-outside-domain-refused
+45286	SFP-50G-SR-S	transceiver	normalise	"IEEE 25/50GBASE-SR"	["25gbase-sr", "50gbase-sr"]
+48518	SFP-GE-L	transceiver	normalise	"1000BASE-LX/LH"	["1000base-lx/lh"]
+48526	SFP-GE-S	transceiver	normalise	"1000BASE-SX"	["1000base-sx"]
+44786	SFP-GE-T	transceiver	normalise	"IEEE 802.3z / 802.3ab 1000BASE-T (NEBS 3 ESD)"	["1000base-t"]
+48534	SFP-GE-Z	transceiver	normalise	"1000BASE-ZX"	["1000base-zx"]
+44591	SFP-H10GB-ACU10M	transceiver	normalise	"SFF-8431 Direct Attach (Twinax)"	["sff-8431"]
+44565	SFP-H10GB-ACU7M	transceiver	normalise	"SFF-8431 Direct Attach (Twinax)"	["sff-8431"]
+44442	SFP-H10GB-CU1-5M	transceiver	normalise	"SFF-8431 Direct Attach (Twinax)"	["sff-8431"]
+44416	SFP-H10GB-CU1M	transceiver	normalise	"SFF-8431 Direct Attach (Twinax)"	["sff-8431"]
+44484	SFP-H10GB-CU2-5M	transceiver	normalise	"SFF-8431 Direct Attach (Twinax)"	["sff-8431"]
+44463	SFP-H10GB-CU2M	transceiver	normalise	"SFF-8431 Direct Attach (Twinax)"	["sff-8431"]
+44505	SFP-H10GB-CU3M	transceiver	normalise	"SFF-8431 Direct Attach (Twinax)"	["sff-8431"]
+44531	SFP-H10GB-CU4M	transceiver	normalise	"SFF-8431 Direct Attach (Twinax)"	["sff-8431"]
+44539	SFP-H10GB-CU5M	transceiver	normalise	"SFF-8431 Direct Attach (Twinax)"	["sff-8431"]
+44979	SFP-H25G-CU1.5M	transceiver	normalise	"25GBASE-CR1 (Twinax, passiv)"	["25gbase-cr1"]
+44967	SFP-H25G-CU1M	transceiver	normalise	"25GBASE-CR1 (Twinax, passiv)"	["25gbase-cr1"]
+44999	SFP-H25G-CU2.5M	transceiver	normalise	"25GBASE-CR1 (Twinax, passiv)"	["25gbase-cr1"]
+44987	SFP-H25G-CU2M	transceiver	normalise	"25GBASE-CR1 (Twinax, passiv)"	["25gbase-cr1"]
+45007	SFP-H25G-CU3M	transceiver	normalise	"25GBASE-CR1 (Twinax, passiv)"	["25gbase-cr1"]
+45019	SFP-H25G-CU4M	transceiver	normalise	"25GBASE-CR1 (Twinax, passiv)"	["25gbase-cr1"]
+45031	SFP-H25G-CU5M	transceiver	normalise	"25GBASE-CR1 (Twinax, passiv)"	["25gbase-cr1"]
+48010	WDM-XENPAK-REC	transceiver	retract	"WDM (Receive-Only)"	retracted:seed-outside-domain-refused
+47095	WS-G5483	transceiver	normalise	"1000BASE-T (IEEE 802.3ab)"	["1000base-t"]
+47102	WS-G5484	transceiver	normalise	"1000BASE-SX (IEEE 802.3z)"	["1000base-sx"]
+47110	WS-G5486	transceiver	normalise	"1000BASE-LX/LH (IEEE 802.3z)"	["1000base-lx/lh"]
+47118	WS-G5487	transceiver	normalise	"1000BASE-ZX"	["1000base-zx"]
+43639	WSP-Q40GLR4L	transceiver	normalise	"40GBASE-LR4-Lite"	["40gbase-lr4-lite"]
+45959	X2-10GB-CX4	transceiver	normalise	"IEEE 802.3ak 10GBASE-CX4"	["10gbase-cx4"]
+46031	X2-10GB-ER	transceiver	normalise	"IEEE 802.3ae 10GBASE-ER"	["10gbase-er"]
+45939	X2-10GB-LR	transceiver	normalise	"IEEE 802.3ae 10GBASE-LR"	["10gbase-lr"]
+47390	X2-10GB-LR++	transceiver	normalise	"10GBASE-LR"	["10gbase-lr"]
+45995	X2-10GB-LRM	transceiver	normalise	"IEEE 802.3aq 10GBASE-LRM"	["10gbase-lrm"]
+47398	X2-10GB-LRM++	transceiver	normalise	"10GBASE-LRM"	["10gbase-lrm"]
+46013	X2-10GB-LX4	transceiver	normalise	"IEEE 802.3ae 10GBASE-LX4 (WWDM)"	["10gbase-lx4"]
+45975	X2-10GB-SR	transceiver	normalise	"IEEE 802.3ae 10GBASE-SR"	["10gbase-sr"]
+47382	X2-10GB-SR++	transceiver	normalise	"10GBASE-SR"	["10gbase-sr"]
+46066	X2-10GB-T	transceiver	normalise	"IEEE 802.3an 10GBASE-T"	["10gbase-t"]
+46049	X2-10GB-ZR	transceiver	normalise	"Cisco 10GBASE-ZR (Cisco-Optikspezifikation)"	["10gbase-zr"]
+47994	XENPAK-10GB-CX4	transceiver	normalise	"10GBASE-CX4"	["10gbase-cx4"]
+47954	XENPAK-10GB-ER+	transceiver	normalise	"10GBASE-ER"	["10gbase-er"]
+47944	XENPAK-10GB-LR+	transceiver	normalise	"10GBASE-LR"	["10gbase-lr"]
+47984	XENPAK-10GB-LRM	transceiver	normalise	"10GBASE-LRM"	["10gbase-lrm"]
+48002	XENPAK-10GB-LW	transceiver	normalise	"10GBASE-LW"	["10gbase-lw"]
+47974	XENPAK-10GB-LX4	transceiver	normalise	"10GBASE-LX4"	["10gbase-lx4"]
+47934	XENPAK-10GB-SR	transceiver	normalise	"10GBASE-SR"	["10gbase-sr"]
+47964	XENPAK-10GB-ZR	transceiver	normalise	"10GBASE-ZR"	["10gbase-zr"]
+45851	XFP-10G-MM-SR	transceiver	normalise	"IEEE 10GBASE-SR"	["10gbase-sr"]
+47662	XFP-10GER-192IR+	transceiver	normalise	"10GBASE-ER / OC-192-STM-64 IR"	["10gbase-er", "oc-192"]
+47670	XFP-10GER-OC192IR	transceiver	normalise	"10GBASE-ER / OC-192-STM-64 IR"	["10gbase-er", "oc-192"]
+45862	XFP-10GLR-OC192SR	transceiver	normalise	"10GBASE-LR/-LW, OC-192/STM-64 SR-1 (Multirate)"	["10gbase-lr", "10gbase-lw", "oc-192"]
+45917	XFP-10GZR-OC192LR	transceiver	normalise	"10GBASE-ZR/-ZW, OC-192/STM-64 LR-2 (Multirate)"	["10gbase-zr", "10gbase-zw", "oc-192"]
+45895	XFP10GER-192IR-L	transceiver	normalise	"10GBASE-ER/-EW, OC-192/STM-64 IR-2 (Multirate)"	["10gbase-er", "10gbase-ew", "oc-192"]
+45906	XFP10GER192IR-RGD	transceiver	normalise	"10GBASE-ER/-EW, OC-192/STM-64 IR-2 (Multirate)"	["10gbase-er", "10gbase-ew", "oc-192"]
+45873	XFP10GLR-192SR-L	transceiver	normalise	"10GBASE-LR/-LW, OC-192/STM-64 SR-1 (Multirate)"	["10gbase-lr", "10gbase-lw", "oc-192"]
+45884	XFP10GLR192SR-RGD	transceiver	normalise	"10GBASE-LR/-LW, OC-192/STM-64 SR-1 (Multirate)"	["10gbase-lr", "10gbase-lw", "oc-192"]
+45928	XFP10GZR192LR-RGD	transceiver	normalise	"10GBASE-ZR/-ZW, OC-192/STM-64 LR-2 (Multirate)"	["10gbase-zr", "10gbase-zw", "oc-192"]
