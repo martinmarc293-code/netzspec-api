@@ -42,11 +42,10 @@ const DEVICE_EXCEPTIONS: Record<string, string> = {
   "collaboration-endpoints|CTS-LAPT-DISP": "Cisco names no series; device kept out of shared-parts semantics by exception (Q-18) — 'TelePresence Laptop Display' (label TelePresence MX Series; only the generic 'HW Collaboration PIDs' end-of-sale notice names it), in TelePresence (legacy) shared parts",
   "collaboration-endpoints|CTS-LAPT-DISP=": "Cisco names no series; device kept out of shared-parts semantics by exception (Q-18) — the spare of CTS-LAPT-DISP 'TelePresence Laptop Display'",
   "collaboration-endpoints|CTS-VX-EDUCATOR-K9": "Cisco names no series; device kept out of shared-parts semantics by exception (Q-18) — 'VX Educator package' (label TelePresence MX Series; the generic 'Collaboration PIDs' end-of-sale notice), in TelePresence (legacy) shared parts",
-  // the interfaces-modules -> security move of 16 Sep (run #1159) brought this card to the page its platform sits on, and the kind axis
-  // reads it as a device — the security round predicted exactly this ("securityKind: ASA-SSC-AIP-5-K9= reads appliance … after that run it
-  // would be a device kind in ASA shared parts"). It is a CARD (the interfaces-modules plan records expected kind `module`), so the row is
-  // right and the KIND is wrong: listed for the Q-28 rebuild, kept as an exception until the kind axis is fixed
-  "security|ASA-SSC-AIP-5-K9=": "a kind-layer defect, not a device: securityKind reads the ASA 5500 AIP-SSC-5 CARD as `appliance`; it sits in ASA and ISA shared parts with the other ASA 5500 service modules (Q-28)",
+  // "security|ASA-SSC-AIP-5-K9=" WAS HERE ("a kind-layer defect, not a device: securityKind reads the ASA 5500 AIP-SSC-5 CARD as
+  // `appliance`", Q-28), kept "until the kind axis is fixed". It was fixed on 28 Sep (securityKind D2: SSC joins SSM, the card reads
+  // `module`), and from then on this file's own stale-exception check reported it every run -- which also held
+  // scripts/retract-inherited.mts's gate (layersStanding must run with zero misses) closed for every retraction. Removed 29 Sep 2026.
 };
 
 // Q-26 (operator, "after the runs"): the rows the label check keeps on a digit token whose GLUED SPELLING the page does not attest.
