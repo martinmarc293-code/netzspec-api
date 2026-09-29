@@ -343,7 +343,9 @@ eq("UCS_KINDS names power, cable, fan, tpm and pdu, and no longer psu",
     // across all vendors: zero facts under either key anywhere, ever, and no enabled source publishes the label —
     // 1,982 servers + 208 HX + 57 HCI parts were carrying a cup nothing could fill, so they could never read complete.
     // docs/decisions/2026-09-25-required-cups-no-source-can-fill.md. Same shape as the `drive` line below.
-    server: ["altitude_max", "certifications", "cpu", "cpu_sockets_max", "dimensions", "drive_bays", "form_factor", "humidity_operating", "memory_max", "memory_speed_max", "power_max", "temp_operating", "temp_storage", "weight"],
+    // emc_emissions + humidity_storage JOINED 29 Sep 2026 (kind parity, Batch B): the hyperconverged-systems exception became
+    // the rule once collab asked it too -- the server group is five categories (PARITY_WIDENINGS).
+    server: ["altitude_max", "certifications", "cpu", "cpu_sockets_max", "dimensions", "drive_bays", "emc_emissions", "form_factor", "humidity_operating", "humidity_storage", "memory_max", "memory_speed_max", "power_max", "temp_operating", "temp_storage", "weight"],
     power: ["airflow", "input_voltage", "product_compatibility", "psu_rated_output"],
     fan: ["airflow", "product_compatibility"],
     cable: ["cable_length", "connector", "media", "product_compatibility"],
@@ -360,8 +362,8 @@ eq("UCS_KINDS names power, cable, fan, tpm and pdu, and no longer psu",
     eq(`kind-layer question set: servers-unified-computing ${kind}`, req("servers-unified-computing", kind), want.join(","));
     eq(`kind-layer question set: hyperconverged-infrastructure ${kind} is the same set`, req("hyperconverged-infrastructure", kind), want.join(","));
   }
-  eq("kind-layer: the hyperconverged-systems server exception is exactly emc_emissions + humidity_storage",
-    req("hyperconverged-systems", "server"), [...WANT.server, "emc_emissions", "humidity_storage"].sort().join(","));
+  eq("kind-layer: hyperconverged-systems asks its server the SAME set now (the exception became the rule, Batch B 29 Sep 2026)",
+    req("hyperconverged-systems", "server"), WANT.server.join(","));
   eq("kind-layer: fabric-interconnect's switching rows are asked, uplink ports and PSU redundancy wait on their gates",
     kindQuestionSet("servers-unified-computing", "fabric-interconnect").pending.map((p) => p.key).sort().join(","),
     "module_slots,psu_redundant,rack_units,uplink_ports");
