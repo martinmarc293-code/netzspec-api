@@ -1,0 +1,321 @@
+fact_id	sku	category	kind	field	action	value	name	why
+68730	15454-M2-AC	optical-networking	power	module_slots	retract	2	2 service slot MSTP chassis AC power supply with memory	platform-slot-count
+69204	15454-M2-AC=	optical-networking	power	module_slots	retract	2	2 service slot MSTP chassis AC power supply with memory	platform-slot-count
+68680	15454-M2-DC	optical-networking	power	module_slots	retract	2	2 service slot MSTP chassis DC ANSI filter with memory	platform-slot-count
+69403	15454-M2-DC-E	optical-networking	power	module_slots	retract	2	2 service slot MSTP chassis DC ETSI filter with memory	platform-slot-count
+68632	15454-M2-DC-E=	optical-networking	power	module_slots	retract	2	2 service slot MSTP chassis DC ETSI filter with memory	platform-slot-count
+69404	15454-M2-DC=	optical-networking	power	module_slots	retract	2	2 service slot MSTP chassis DC ANSI filter with memory	platform-slot-count
+68800	15454-M2-DDR=	optical-networking	mechanical	module_slots	retract	2	2 service slot MSTP chassis deep door	platform-slot-count
+68801	15454-M2-DR	optical-networking	mechanical	module_slots	retract	2	2 service slot MSTP chassis door	platform-slot-count
+68802	15454-M2-DR=	optical-networking	mechanical	module_slots	retract	2	2 service slot MSTP chassis door	platform-slot-count
+69028	15454-M2-FTA	optical-networking	fan	module_slots	retract	2	2 service slot MSTP chassis fan tray	platform-slot-count
+68927	15454-M2-FTA2	optical-networking	fan	module_slots	retract	2	2 service slot MSTP chassis 2 nd gen fan tray	platform-slot-count
+68731	15454-M2-FTA2=	optical-networking	fan	module_slots	retract	2	2 service slot MSTP chassis 2 nd gen fan tray	platform-slot-count
+68633	15454-M2-FTA=	optical-networking	fan	module_slots	retract	2	2 service slot MSTP chassis fan tray	platform-slot-count
+68979	15454-M2-FTF=	optical-networking	mechanical	module_slots	retract	2	2-service-slot MSTP chassis fan tray filter	platform-slot-count
+68868	15454-M6-AC	optical-networking	power	module_slots	retract	6	6 service slot MSTP chassis AC power supply	platform-slot-count
+69029	15454-M6-AC=	optical-networking	power	module_slots	retract	6	6 service slot MSTP chassis AC power supply	platform-slot-count
+69284	15454-M6-DC	optical-networking	power	module_slots	retract	6	6 slot MSTP chassis 30A DC power filter	platform-slot-count
+68634	15454-M6-DC20	optical-networking	power	module_slots	retract	6	6 service slot MSTP chassis 20A DC power filter	platform-slot-count
+68681	15454-M6-DC20=	optical-networking	power	module_slots	retract	6	6 service slot MSTP chassis 20A DC power filter	platform-slot-count
+69212	15454-M6-DC40	optical-networking	power	module_slots	retract	6	6 service slot MSTP chassis 40A DC power filter	platform-slot-count
+69035	15454-M6-DC40=	optical-networking	power	module_slots	retract	6	6 service slot MSTP chassis 40A DC power filter	platform-slot-count
+68733	15454-M6-DC=	optical-networking	power	module_slots	retract	6	6 slot MSTP chassis 30A DC power filter	platform-slot-count
+69036	15454-M6-DDR	optical-networking	mechanical	module_slots	retract	6	6 service slot MSTP chassis deep door	platform-slot-count
+68682	15454-M6-DDR=	optical-networking	mechanical	module_slots	retract	6	6 service slot MSTP chassis deep door	platform-slot-count
+68928	15454-M6-DR	optical-networking	mechanical	module_slots	retract	6	6 service slot MSTP chassis door	platform-slot-count
+68635	15454-M6-DR=	optical-networking	mechanical	module_slots	retract	6	6 service slot MSTP chassis door	platform-slot-count
+68573	15454-M6-ECU-60=	optical-networking	accessory	module_slots	retract	6	6 slot MSTP external connection unit with TOD/PPS (60V)	platform-slot-count
+68980	15454-M6-ECU2	optical-networking	accessory	module_slots	retract	6	6 service slot MSTP external connection unit with TOD/PPS	platform-slot-count
+68838	15454-M6-FTA	optical-networking	fan	module_slots	retract	6	6 service slot MSTP chassis fan tray	platform-slot-count
+69102	15454-M6-FTA2	optical-networking	fan	module_slots	retract	6	6 service slot MSTP chassis 2nd gen fan tray	platform-slot-count
+68574	15454-M6-FTA2=	optical-networking	fan	module_slots	retract	6	6 service slot MSTP chassis 2nd gen fan tray	platform-slot-count
+68688	15454-M6-FTA=	optical-networking	fan	module_slots	retract	6	6 service slot MSTP chassis fan tray	platform-slot-count
+69108	15454-M6-FTF=	optical-networking	mechanical	module_slots	retract	6	6-service-slot MSTP chassis fan tray filter	platform-slot-count
+68740	15454-M6-LCD	optical-networking	accessory	module_slots	retract	6	6 service slot MSTP chassis LCD Display with backup Memory	platform-slot-count
+69218	15454-M6-LCD=	optical-networking	accessory	module_slots	retract	6	6 service slot MSTP chassis LCD Display with backup Memory	platform-slot-count
+68636	15454-M6-PWRFLR	optical-networking	mechanical	module_slots	retract	6	6 service slot MSTP power filter filler card	platform-slot-count
+68869	15454-M6-PWRFLR=	optical-networking	mechanical	module_slots	retract	6	6 service slot MSTP power filter filler card	platform-slot-count
+75057	AMPPC-DM-2X-R	security	accessory	module_slots	retract	2	Cisco Secure Endpoint Cloud Rear Drive Module - 2 Slot	platform-slot-count
+77575	C4500E-S3-4748RJV	switches	linecard	module_slots	retract	3	WS-4748-RJ45V+E upgrade for 3-slot bundle	platform-slot-count
+77780	C4500E-S3-MGIG	switches	linecard	module_slots	retract	3	MGIG Upgrade for 3 slot chassis bundle (48 UPOE + 12p mGig)	platform-slot-count
+80543	C9404-ACC-KIT=	switches	mechanical	module_slots	retract	4	Cisco Catalyst 9400 Series 4 slot chassis Accessory Kit	platform-slot-count
+80544	C9404-FAN=	switches	fan	module_slots	retract	4	Cisco Catalyst 9400 Series 4 slot chassis Fan Tray	platform-slot-count
+80338	C9404-RACK-19-KIT=	switches	mechanical	module_slots	retract	4	Cisco Catalyst 9400 Series 4 slot chassis Rack Mount	platform-slot-count
+80370	C9407-ACC-KIT=	switches	mechanical	module_slots	retract	7	Cisco Catalyst 9400 Series 7 slot chassis Accessory Kit	platform-slot-count
+80107	C9407-FAN=	switches	fan	module_slots	retract	7	Cisco Catalyst 9400 Series 7 slot chassis Fan Tray	platform-slot-count
+81016	C9407-RACK-19-KIT=	switches	mechanical	module_slots	retract	7	Cisco Catalyst 9400 Series 7 slot chassis Rack Mount	platform-slot-count
+80728	C9407-SHELF-KIST=	switches	mechanical	module_slots	retract	7	Cisco Catalyst 9400 Series 7-slot chassis Shelf Install Kit	platform-slot-count
+80275	C9407-SHELF-KIT=	switches	mechanical	module_slots	retract	7	Cisco Catalyst 9400 Series 7 slot chassis Shelf Install Kit	platform-slot-count
+80276	C9410-ACC-KIT=	switches	mechanical	module_slots	retract	10	Cisco Catalyst 9400 Series 10 slot chassis Accessory Kit	platform-slot-count
+80203	C9410-FAN=	switches	fan	module_slots	retract	10	Cisco Catalyst 9400 Series 10 slot chassis Fan Tray	platform-slot-count
+80942	C9410-RACK-19-KIT=	switches	mechanical	module_slots	retract	10	Cisco Catalyst 9400 Series 10 slot chassis Rack Mount	platform-slot-count
+80277	C9410-SHELF-KIT=	switches	mechanical	module_slots	retract	10	Cisco Catalyst 9400 Series 10 slot chassis Shelf Install Kit	platform-slot-count
+80835	C9606-ACC-KIT=	switches	mechanical	module_slots	retract	6	Cisco Catalyst 9600 Series 6-slot chassis Accessory Kit	platform-slot-count
+80698	C9606-FB-23-KIT=	switches	mechanical	module_slots	retract	6	Cisco Catalyst 9600 Series 6-slot chassis Front to Back Kit	platform-slot-count
+80743	C9606-RACK-KIT=	switches	mechanical	module_slots	retract	6	Cisco Catalyst 9600 Series 6-slot chassis Rack Mount	platform-slot-count
+81106	C9606-SHELF-KIT=	switches	mechanical	module_slots	retract	6	Cisco Catalyst 9600 Series 6-slot chassis Shelf Install Kit	platform-slot-count
+80702	C9610-19-KIT-4=	switches	mechanical	module_slots	retract	10	Cisco 9610 Series 10 slot chassis 4 post 19-inch Rack Mount	platform-slot-count
+80357	C9610-23-KIT-2	switches	mechanical	module_slots	retract	10	Cisco 9610 Series 10 slot chassis 2 post 23-inch Rack Mount	platform-slot-count
+86992	CRS-16-140G-UPG	routers	mechanical	module_slots	retract	16	Cisco CRS Series 16 Slot Upgrade Kit 140G	platform-slot-count
+86752	CRS-16-400G-UPG	routers	mechanical	module_slots	retract	16	Cisco CRS Series 16 Slot Upgrade Kit 400G	platform-slot-count
+87030	CRS-16-ACKIT-M	routers	power	module_slots	retract	16	CRS Modular AC Power Kit for 16 slots Chassis	platform-slot-count
+86873	CRS-16-ACKIT-M-B	routers	power	module_slots	retract	16	CRS 16 slots Modular power AC kit for CRS-16/S-B	platform-slot-count
+86626	CRS-16-ACKIT-M-B=	routers	power	module_slots	retract	16	CRS 16 slots Modular power AC kit for CRS-16/S-B	platform-slot-count
+87180	CRS-16-ACKIT-M=	routers	power	module_slots	retract	16	CRS-1 Modular AC Power Shelf for 16 slots LCC, Spare	platform-slot-count
+87181	CRS-16-ALARM-B	routers	accessory	module_slots	retract	16	CRS 16 Slots Alarm Board for CRS-16/S-B	platform-slot-count
+86753	CRS-16-ALARM-B=	routers	accessory	module_slots	retract	16	CRS 16 Slots Alarm Board for CRS-16/S-B	platform-slot-count
+86874	CRS-16-ALARM-C	routers	accessory	module_slots	retract	16	CRS Modular Power Alarm for 16 slots and FCC	platform-slot-count
+87107	CRS-16-ALARM-C=	routers	accessory	module_slots	retract	16	CRS Modular Power Alarm for 16 slots and FCC	platform-slot-count
+86521	CRS-16-B-UPG	routers	mechanical	module_slots	retract	16	CRS 16 slots chassis Enh. Upgrade Kit	platform-slot-count
+86572	CRS-16-BACK-GRILL	routers	mechanical	module_slots	retract	16	Cisco CRS-1 Series 16 slot Back Grill	platform-slot-count
+86754	CRS-16-BACK-GRILL=	routers	mechanical	module_slots	retract	16	Cisco CRS-1 Series 16 slot Back Grill	platform-slot-count
+87079	CRS-16-DCKIT-M	routers	power	module_slots	retract	16	CRS Modular DC Power Kit for 16 slots Chassis	platform-slot-count
+86457	CRS-16-DCKIT-M-B	routers	power	module_slots	retract	16	CRS 16 slots Modular power DC kit for CRS-16/S-B	platform-slot-count
+87292	CRS-16-DCKIT-M-B=	routers	power	module_slots	retract	16	CRS 16 slots Modular power DC kit for CRS-16/S-B	platform-slot-count
+86458	CRS-16-DCKIT-M=	routers	power	module_slots	retract	16	CRS-1 Modular DC Power Shelf for 16 slots LCC, Spare	platform-slot-count
+86829	CRS-16-DOORS-F	routers	mechanical	module_slots	retract	16	CRS 16 slots Front Doors for CRS-16/S-B	platform-slot-count
+86755	CRS-16-DOORS-F=	routers	mechanical	module_slots	retract	16	CRS 16 slots Front Doors for CRS-16/S-B	platform-slot-count
+87293	CRS-16-DOORS-R	routers	mechanical	module_slots	retract	16	CRS 16 slots Rear Doors for CRS-16/S-B	platform-slot-count
+87108	CRS-16-DOORS-R=	routers	mechanical	module_slots	retract	16	CRS 16 slots Rear Doors for CRS-16/S-B	platform-slot-count
+87294	CRS-16-DRILLTEMP	routers	mechanical	module_slots	retract	16	CRS 16 slots Drill Template for CRS-16/S-B	platform-slot-count
+86756	CRS-16-DRILLTEMP=	routers	mechanical	module_slots	retract	16	CRS 16 slots Drill Template for CRS-16/S-B	platform-slot-count
+86573	CRS-16-F-CT-B++=	routers	fan	module_slots	retract	16	Cisco CRS-1 Fan Controller for 16 Slots LC Chassis Ver B	platform-slot-count
+87456	CRS-16-FAN-CT	routers	fan	module_slots	retract	16	CRS 16 slots Fan Controller for CRS-16/S-B	platform-slot-count
+87472	CRS-16-FAN-CT++=	routers	fan	module_slots	retract	16	CRS 16 slots Fan Controller for CRS-16/S-B	platform-slot-count
+87518	CRS-16-FAN-CT=	routers	fan	module_slots	retract	16	CRS 16 slots Fan Controller for CRS-16/S-B	platform-slot-count
+87295	CRS-16-FANTRAY	routers	fan	module_slots	retract	16	CRS 16 Slot Fan Tray for CRS-16/S-B	platform-slot-count
+87403	CRS-16-FANTRAY=	routers	fan	module_slots	retract	16	CRS 16 Slot Fan Tray for CRS-16/S-B	platform-slot-count
+87438	CRS-16-FC-BLANK	routers	mechanical	module_slots	retract	16	Cisco CRS-1 Series 16 Slots Fabric Card Cover	platform-slot-count
+87342	CRS-16-FC-HANDLE	routers	mechanical	module_slots	retract	16	Cisco CRS-1 Series 16 Slot Switch Fabric Card Handle	platform-slot-count
+87535	CRS-16-FC140/M	routers	fabric	module_slots	retract	16	Cisco CRS-3 Series 16 Slots Fabric Card/Multi (140G)	platform-slot-count
+87459	CRS-16-FC140/M=	routers	fabric	module_slots	retract	16	Cisco CRS-3 Series 16 Slots Fabric Card/Multi (140G)	platform-slot-count
+87364	CRS-16-FC140/S	routers	fabric	module_slots	retract	16	Cisco CRS Series 16 Slots Fabric Card/Single (40G/140G)	platform-slot-count
+87537	CRS-16-FC140/S++=	routers	fabric	module_slots	retract	16	Cisco CRS Series 16 Slots Fabric Card / Single (140G)	platform-slot-count
+87404	CRS-16-FC140/S=	routers	fabric	module_slots	retract	16	Cisco CRS Series 16 Slots Fabric Card/Single (140G)	platform-slot-count
+87460	CRS-16-FC400/M	routers	fabric	module_slots	retract	16	Cisco CRS-X 16 Slots Fabric Card / Multi (400G)	platform-slot-count
+87333	CRS-16-FC400/M=	routers	fabric	module_slots	retract	16	Cisco CRS-X 16 Slots Fabric Card / Multi (400G)	platform-slot-count
+87405	CRS-16-FC400/S	routers	fabric	module_slots	retract	16	Cisco CRS Series 16 Slots Fabric Card / Single (400G)	platform-slot-count
+87492	CRS-16-FC400/S=	routers	fabric	module_slots	retract	16	Cisco CRS Series 16 Slots Fabric Card / Single (400G)	platform-slot-count
+87548	CRS-16-FILTER=	routers	mechanical	module_slots	retract	16	CRS 16 slots Air filter for CRS-16/S-B	platform-slot-count
+87441	CRS-16-FLOORTEMP	routers	mechanical	module_slots	retract	16	CRS 16 slots Floor Template for CRS-16/S-B	platform-slot-count
+87334	CRS-16-FLOORTEMP=	routers	mechanical	module_slots	retract	16	CRS 16 slots Floor Template for CRS-16/S-B	platform-slot-count
+87296	CRS-16-FRONT-CM	routers	mechanical	module_slots	retract	16	CRS 16 slots Front Cable Mgmt for CRS-16/S-B	platform-slot-count
+87365	CRS-16-FRONT-CM-W	routers	mechanical	module_slots	retract	16	CRS 16 slots Front Cable Mgmt for CRS-16/S-B - wide	platform-slot-count
+87406	CRS-16-FRONT-CM-W=	routers	mechanical	module_slots	retract	16	CRS 16 slots Front Cable Mgmt for CRS-16/S-B - wide	platform-slot-count
+87519	CRS-16-FRONT-CM=	routers	mechanical	module_slots	retract	16	CRS 16 slots Front Cable Mgmt for CRS-16/S-B	platform-slot-count
+87520	CRS-16-LCC-DC-KIT	routers	power	module_slots	retract	16	Cisco CRS-1 Series DC Power Kit for 16 Slots LCC	platform-slot-count
+87475	CRS-16-LCC-F-CT-B	routers	fan	module_slots	retract	16	Cisco CRS-1 Fan Controller for 16 Slots LC Chassis Ver B	platform-slot-count
+87297	CRS-16-LCC-F-CT-B=	routers	fan	module_slots	retract	16	Cisco CRS-1 Fan Controller for 16 Slots LC Chassis Ver B	platform-slot-count
+87549	CRS-16-PDU-DELTA	routers	power	module_slots	retract	16	Red 3 Ph to 1 Ph Delta PDU for 16 slots, 4 input/12 output	platform-slot-count
+87538	CRS-16-PDU-DELTA=	routers	power	module_slots	retract	16	Red 3 Ph to 1 Ph Delta PDU for 16 slots, 4 input/12 output	platform-slot-count
+87443	CRS-16-PDU-WYE	routers	power	module_slots	retract	16	Red 3 Ph to 1 Ph Wye PDU for 16 slots, 2 input/12 output	platform-slot-count
+87507	CRS-16-PDU-WYE=	routers	power	module_slots	retract	16	Red 3 Ph to 1 Ph Wye PDU for 16 slots, 2 input/12 output	platform-slot-count
+87493	CRS-16-PRP-12G	routers	processor	module_slots	retract	16	Cisco CRS Series 16-Slot Performance Route Processor (12 GB)	platform-slot-count
+87408	CRS-16-PRP-12G=	routers	processor	module_slots	retract	16	Cisco CRS Series 16-Slot Performance Route Processor (12 GB, spare)	platform-slot-count
+87494	CRS-16-PRP-6G	routers	processor	module_slots	retract	16	Cisco CRS Series 16-Slot Performance Route Processor (6 GB)	platform-slot-count
+87425	CRS-16-PRP-6G=	routers	processor	module_slots	retract	16	Cisco CRS Series 16-Slot Performance Route Processor (6 GB, spare)	platform-slot-count
+87366	CRS-16-PW-GRILL	routers	mechanical	module_slots	retract	16	CRS Modular Power Grill For 16 Slots and FCC	platform-slot-count
+87508	CRS-16-PW-GRILL-B	routers	mechanical	module_slots	retract	16	CRS 16 slots Modular Power Grill for CRS-16/S-B	platform-slot-count
+87299	CRS-16-PW-GRILL=	routers	mechanical	module_slots	retract	16	CRS Modular Power Grill For 16 Slots and FCC	platform-slot-count
+87367	CRS-16-PWRSH-AC	routers	power	module_slots	retract	16	CRS 16 slots AC Power Shelf for CRS-16/S-B	platform-slot-count
+87385	CRS-16-PWRSH-AC=	routers	power	module_slots	retract	16	CRS 16 slots AC Power Shelf for CRS-16/S-B	platform-slot-count
+87477	CRS-16-PWRSH-DC	routers	power	module_slots	retract	16	CRS 16 slots DC Power Shelf for CRS-16/S-B	platform-slot-count
+87368	CRS-16-PWRSH-DC=	routers	power	module_slots	retract	16	CRS 16 slots DC Power Shelf for CRS-16/S-B	platform-slot-count
+87300	CRS-16-REAR-CM	routers	mechanical	module_slots	retract	16	CRS 16 slots Rear Cable Mgmt for CRS-16/S-B	platform-slot-count
+87386	CRS-16-REAR-CM=	routers	mechanical	module_slots	retract	16	CRS 16 slots Rear Cable Mgmt for CRS-16/S-B	platform-slot-count
+87478	CRS-16-REAR-GRL	routers	mechanical	module_slots	retract	16	CRS 16 slot line card chassis rear grill for CRS-16/s-B	platform-slot-count
+87301	CRS-16-REAR-GRL=	routers	mechanical	module_slots	retract	16	CRS 16 slot line card chassis rear grill for CRS-16/s-B	platform-slot-count
+87426	CRS-16-RP-BLANK	routers	mechanical	module_slots	retract	16	Cisco CRS-1 Series 16 Slots Route Processor Cover	platform-slot-count
+87345	CRS-16-RP-HANDLE=	routers	mechanical	module_slots	retract	16	Cisco CRS-1 Series 16 Slot Route Processor Handle	platform-slot-count
+87462	CRS-16-SCREEN-KIT	routers	mechanical	module_slots	retract	16	^CRS-1 16 Slot System Inlet Screen Kit	platform-slot-count
+87302	CRS-16-SCREEN-KIT=	routers	mechanical	module_slots	retract	16	CRS-1 16 Slot System Inlet Screen Kit	platform-slot-count
+87445	CRS-16LCC-PSH-AC	routers	power	module_slots	retract	16	CRS Modular AC Power Shelf for 16 slots LCC	platform-slot-count
+87539	CRS-16LCC-PSH-AC=	routers	power	module_slots	retract	16	CRS Modular AC Power Shelf for 16 slots LCC	platform-slot-count
+87388	CRS-16LCC-PSH-DC	routers	power	module_slots	retract	16	CRS Modular DC Power Shelf for 16 slots LCC	platform-slot-count
+87346	CRS-16LCC-PSH-DC=	routers	power	module_slots	retract	16	CRS Modular DC Power Shelf for 16 slots LCC	platform-slot-count
+87347	CRS-4-140G-UPG	routers	mechanical	module_slots	retract	4	Cisco CRS Series 4 Slot Upgrade Kit 140G	platform-slot-count
+87550	CRS-4-DOOR-FUJI=	routers	mechanical	module_slots	retract	4	CRS-1 4 Slot System Fujitsu Door Kit	platform-slot-count
+87465	CRS-4-DOOR-KIT	routers	mechanical	module_slots	retract	4	CRS-1 4 Slot System Door Kit	platform-slot-count
+87479	CRS-4-DOOR-KIT=	routers	mechanical	module_slots	retract	4	CRS-1 4 Slot System Door Kit	platform-slot-count
+87497	CRS-4-FC140/S	routers	fabric	module_slots	retract	4	Cisco CRS 4 Slot Fabric Card/Single (140G)	platform-slot-count
+87317	CRS-4-FC140/S++=	routers	fabric	module_slots	retract	4	Cisco CRS 4 Slot Fabric Card / Single (140G)	platform-slot-count
+87466	CRS-4-FC140/S=	routers	fabric	module_slots	retract	4	Cisco CRS 4 Slot Fabric Card/Single (140G)	platform-slot-count
+87498	CRS-4-LABELS-FUJI=	routers	mechanical	module_slots	retract	4	CRS-1 4 Slot System Fujitsu Chassis Labels	platform-slot-count
+87348	CRS-4-PWR-FILTER=	routers	mechanical	module_slots	retract	4	CRS 4 slots Power Air Filter - 5 Pak	platform-slot-count
+87369	CRS-8-140G-UPG	routers	mechanical	module_slots	retract	8	Cisco CRS Series 8 Slots Upgrade Kit 140G	platform-slot-count
+87499	CRS-8-400G-UPG	routers	mechanical	module_slots	retract	8	Cisco CRS Series 8 Slot Upgrade Kit 400G	platform-slot-count
+87370	CRS-8-AC-DEL-CAB	routers	power-cord	module_slots	retract	8	^Cisco CRS-1 Series AC Power Delta Cable for 8 slot LCC	platform-slot-count
+87335	CRS-8-AC-DEL-CAB=	routers	power-cord	module_slots	retract	8	Cisco CRS-1 Series AC Power Delta Cable for 8 slot LCC	platform-slot-count
+87371	CRS-8-AC-WYE-CAB	routers	power-cord	module_slots	retract	8	Cisco CRS-1 Series AC Power Wye Cable for 8 slot LCC	platform-slot-count
+87523	CRS-8-AC-WYE-CAB=	routers	power-cord	module_slots	retract	8	Cisco CRS-1 Series AC Power Wye Cable for 8 slot LCC	platform-slot-count
+87319	CRS-8-ACKIT-M	routers	power	module_slots	retract	8	CRS Modular AC Power Kit for 8 slots Chassis	platform-slot-count
+87410	CRS-8-ACKIT-M=	routers	power	module_slots	retract	8	CRS-1 Modular power AC kit for 8 slots Chassis, Spare	platform-slot-count
+87336	CRS-8-B-UPG	routers	mechanical	module_slots	retract	8	CRS 8 slots chassis Enh. Upgrade Kit	platform-slot-count
+87349	CRS-8-BDG-PANEL	routers	mechanical	module_slots	retract	8	Cisco CRS-1 Series 8 Slot Front Badge Panel	platform-slot-count
+87350	CRS-8-BDG-PANEL=	routers	mechanical	module_slots	retract	8	Cisco CRS-1 Series 8 Slot Front Badge Panel	platform-slot-count
+87411	CRS-8-DCKIT-M	routers	power	module_slots	retract	8	CRS Modular DC Power Kit for 8 slots Chassis	platform-slot-count
+87427	CRS-8-DCKIT-M=	routers	power	module_slots	retract	8	CRS-1 Modular power DC kit for 8 slots Chassis, Spare	platform-slot-count
+87509	CRS-8-FANTRAY-B	routers	fan	module_slots	retract	8	CRS 8 slot Fan Tray for CRS-8/S-B	platform-slot-count
+87480	CRS-8-FANTRAY-B=	routers	fan	module_slots	retract	8	CRS 8 slot Fan Tray for CRS-8/S-B	platform-slot-count
+87372	CRS-8-FC-BLANK	routers	mechanical	module_slots	retract	8	Cisco CRS-1 Series 8 Slot Fabric Card Blank	platform-slot-count
+87510	CRS-8-FC-BLANK=	routers	mechanical	module_slots	retract	8	Cisco CRS-1 Series 8 Slot Fabric Card Blank	platform-slot-count
+87351	CRS-8-FC-HANDLE	routers	mechanical	module_slots	retract	8	Cisco CRS-1 Series 8 Slot Fabric Handle	platform-slot-count
+87428	CRS-8-FC-HANDLE=	routers	mechanical	module_slots	retract	8	Cisco CRS-1 Series 8 Slot Fabric Handle	platform-slot-count
+87352	CRS-8-FC/D	routers	fabric	module_slots	retract	8	Cisco CRS-1 Series 8 Slots Fabric Card / Dual	platform-slot-count
+87429	CRS-8-FC/D=	routers	fabric	module_slots	retract	8	Cisco CRS-1 Series 8 Slots Fabric Card / Dual	platform-slot-count
+87430	CRS-8-FC/M	routers	fabric	module_slots	retract	8	Cisco CRS-1 Series 8 Slots Fabric Card / Multi	platform-slot-count
+87320	CRS-8-FC/M=	routers	fabric	module_slots	retract	8	Cisco CRS-1 Series 8 Slots Fabric Card / Multi	platform-slot-count
+87500	CRS-8-FC140/M	routers	fabric	module_slots	retract	8	Cisco CRS-3 Series 8 Slots Fabric Card/Multi (140G)	platform-slot-count
+87374	CRS-8-FC140/M=	routers	fabric	module_slots	retract	8	Cisco CRS-3 Series 8 Slots Fabric Card/Multi (140G)	platform-slot-count
+87524	CRS-8-FC140/S	routers	fabric	module_slots	retract	8	Cisco CRS Series 8 Slot Fabric Card / Single (140G)	platform-slot-count
+87501	CRS-8-FC140/S++=	routers	fabric	module_slots	retract	8	Cisco CRS Series 8 Slot Fabric Card / Single (140G)	platform-slot-count
+87389	CRS-8-FC140/S=	routers	fabric	module_slots	retract	8	Cisco CRS Series 8 Slot Fabric Card/Single (140G)	platform-slot-count
+87561	CRS-8-FC400/M	routers	fabric	module_slots	retract	8	Cisco CRS-X Series 8 Slots Fabric Card / Multi (400G)	platform-slot-count
+87337	CRS-8-FC400/M=	routers	fabric	module_slots	retract	8	Cisco CRS-X Series 8 Slots Fabric Card / Multi (400G)	platform-slot-count
+87541	CRS-8-FC400/S	routers	fabric	module_slots	retract	8	Cisco CRS Series 8 Slots Fabric Card / Single (400G)	platform-slot-count
+87391	CRS-8-FC400/S=	routers	fabric	module_slots	retract	8	Cisco CRS Series 8 Slots Fabric Card / Single (400G)	platform-slot-count
+87375	CRS-8-FRNT-GRILL	routers	mechanical	module_slots	retract	8	Cisco CRS-1 Series 8 Slot Front Inlet Grill	platform-slot-count
+87321	CRS-8-FRNT-GRILL=	routers	mechanical	module_slots	retract	8	Cisco CRS-1 Series 8 Slot Front Inlet Grill	platform-slot-count
+87525	CRS-8-FRONT-COVER	routers	mechanical	module_slots	retract	8	CRS 8 slots Front Cover	platform-slot-count
+87376	CRS-8-FRONT-COVER=	routers	mechanical	module_slots	retract	8	CRS 8 slots Front Cover	platform-slot-count
+87338	CRS-8-FUJI-PANEL	routers	mechanical	module_slots	retract	8	CRS 8 slots Fujitsu Bezel Panel for CRS-8/S-B	platform-slot-count
+87526	CRS-8-FUJI-PANEL=	routers	mechanical	module_slots	retract	8	CRS 8 slots Fujitsu Bezel Panel for CRS-8/S-B	platform-slot-count
+87431	CRS-8-HRZ-RAILS	routers	mechanical	module_slots	retract	8	Cisco CRS-1 Series 8 Slot Horizontal Install Rails	platform-slot-count
+87502	CRS-8-HRZ-RAILS=	routers	mechanical	module_slots	retract	8	Cisco CRS-1 Series 8 Slot Horizontal Install Rails	platform-slot-count
+87503	CRS-8-INSTALL-KT	routers	mechanical	module_slots	retract	8	Cisco CRS-1 Series 8 Slot Install Kit	platform-slot-count
+87481	CRS-8-INSTALL-KT=	routers	mechanical	module_slots	retract	8	Cisco CRS-1 Series 8 Slot Install Kit	platform-slot-count
+87511	CRS-8-LCC-DR-FRNT	routers	mechanical	module_slots	retract	8	Cisco CRS-1 8 Slot Line Card Chassis Front Door Kit	platform-slot-count
+87527	CRS-8-LCC-DR-FRNT=	routers	mechanical	module_slots	retract	8	Cisco CRS-1 8 Slot Line Card Chassis Front Door Kit	platform-slot-count
+87432	CRS-8-LCC-DR-REAR	routers	mechanical	module_slots	retract	8	Cisco CRS-1 8 Slot Line Card Chassis Rear Door Kit	platform-slot-count
+87562	CRS-8-LCC-DR-REAR=	routers	mechanical	module_slots	retract	8	Cisco CRS-1 8 Slot Line Card Chassis Rear Door Kit	platform-slot-count
+87322	CRS-8-LCC-FAN-TR	routers	fan	module_slots	retract	8	Cisco CRS-1 Series Fan Tray for 8 slots Line Card Chassis	platform-slot-count
+87528	CRS-8-LCC-FAN-TR=	routers	fan	module_slots	retract	8	Cisco CRS-1 Series Fan Tray for 8 slots Line Card Chassis	platform-slot-count
+87392	CRS-8-LCC-FR-BKT=	routers	mechanical	module_slots	retract	8	Cisco CRS-1 Series 8 Slot Linecard Chassis Front Door Brkt	platform-slot-count
+87433	CRS-8-LIFT-TUBE	routers	mechanical	module_slots	retract	8	Cisco CRS-1 Series 8 Slot Fork Lift Tube	platform-slot-count
+87412	CRS-8-LIFT-TUBE=	routers	mechanical	module_slots	retract	8	Cisco CRS-1 Series 8 Slot Fork Lift Tube	platform-slot-count
+87393	CRS-8-PDU-DELTA	routers	power	module_slots	retract	8	Red 3 Ph to 1 Ph Delta PDU for 8 slots, 2 input/6 output	platform-slot-count
+87305	CRS-8-PDU-DELTA=	routers	power	module_slots	retract	8	Red 3 Ph to 1 Ph Delta PDU for 8 slots, 2 input/6 output	platform-slot-count
+87434	CRS-8-PDU-WYE	routers	power	module_slots	retract	8	Red 3 Ph to 1 Ph Wye PDU for 8 slots, 2 input/6 output	platform-slot-count
+87468	CRS-8-PDU-WYE=	routers	power	module_slots	retract	8	Red 3 Ph to 1 Ph Wye PDU for 8 slots, 2 input/6 output	platform-slot-count
+87353	CRS-8-PRP-12G	routers	processor	module_slots	retract	8	Cisco CRS Series 4/8-Slot Line Card Chassis Performance Route Processor (12 GB)	platform-slot-count
+87377	CRS-8-PRP-12G=	routers	processor	module_slots	retract	8	Cisco CRS Series 4/8-Slot Line Card Chassis Performance Route Processor (12 GB, spare)	platform-slot-count
+87563	CRS-8-PRP-6G	routers	processor	module_slots	retract	8	Cisco CRS Series 4/8-Slot Line Card Chassis Performance Route Processor (6 GB)	platform-slot-count
+87413	CRS-8-PRP-6G=	routers	processor	module_slots	retract	8	Cisco CRS Series 4/8-Slot Line Card Chassis Performance Route Processor (6 GB, spare)	platform-slot-count
+87482	CRS-8-PSH-AC	routers	power	module_slots	retract	8	CRS Modular AC Power Shelf for 8 slots Chassis	platform-slot-count
+87354	CRS-8-PSH-AC=	routers	power	module_slots	retract	8	CRS Modular AC Power Shelf for 8 slots Chassis	platform-slot-count
+87483	CRS-8-PSH-DC	routers	power	module_slots	retract	8	CRS Modular DC Power Shelf for 8 slots Chassis	platform-slot-count
+87306	CRS-8-PSH-DC=	routers	power	module_slots	retract	8	CRS Modular DC Power Shelf for 8 slots Chassis	platform-slot-count
+87484	CRS-8-PW-GRILL	routers	mechanical	module_slots	retract	8	CRS Modular Power Grill for 8 slots Chassis	platform-slot-count
+87307	CRS-8-PW-GRILL=	routers	mechanical	module_slots	retract	8	CRS Modular Power Grill for 8 slots Chassis	platform-slot-count
+87324	CRS-8-PWR-FILTER=	routers	mechanical	module_slots	retract	8	Cisco CRS-1 Series AC or DC Power Module Filter - 8 slot	platform-slot-count
+87504	CRS-8-RP-BLANK	routers	mechanical	module_slots	retract	8	Cisco CRS-1 Series 8 Slot Route Processor Blank	platform-slot-count
+87394	CRS-8-RP-BLANK=	routers	mechanical	module_slots	retract	8	Cisco CRS-1 Series 8 Slot Route Processor Blank	platform-slot-count
+87485	CRS-8-RP-COVER	routers	mechanical	module_slots	retract	8	CRS-1 8 Slot Line Card Chassis RP impedence cover	platform-slot-count
+87395	CRS-8-RP-COVER=	routers	mechanical	module_slots	retract	8	CRS-1 8 Slot Line Card Chassis RP impedence cover	platform-slot-count
+87355	CRS-8-RP-HANDLE	routers	mechanical	module_slots	retract	8	^Cisco CRS-1 Series 8 Slot Route Processor Handle	platform-slot-count
+87396	CRS-8-RP-HANDLE=	routers	mechanical	module_slots	retract	8	Cisco CRS-1 Series 8 Slot Route Processor Handle	platform-slot-count
+87569	CRS-8-RP/R	routers	processor	module_slots	retract	8	Cisco CRS-1 8 Slot Line Card Chassis Redundant Route Processor	platform-slot-count
+87486	CRS-8-SCREEN	routers	mechanical	module_slots	retract	8	CRS-1 8 slots Chassis Air Opening protection Screen	platform-slot-count
+87397	CRS-8-SCREEN=	routers	mechanical	module_slots	retract	8	CRS-1 8 slots Chassis Air Opening protection Screen	platform-slot-count
+87547	CRS-FCC-FAN-TR	routers	fan	module_slots	hold	24	CRS-1 24-slot Fabric Chassis Fan Tray	24 is not a platform number in the SKU (no digits)
+87576	CRS-LCC-CM-COVER	routers	mechanical	module_slots	hold	16	CRS-1 16 slots LCC Cable management Cutout cover Plate	16 is not a platform number in the SKU (no digits)
+87420	CRS-LCC-CM-COVER=	routers	mechanical	module_slots	hold	16	CRS-1 16 slots LCC Cable management Cutout cover Plate	16 is not a platform number in the SKU (no digits)
+102487	N3K-C3408-RMK	switches	mechanical	module_slots	retract	8	4 RU Rack Mount for the 8 slot 3408	platform-slot-count
+102454	N3K-C3408-RMK=	switches	mechanical	module_slots	retract	8	4 RU Rack Mount for the 8 slot 3408	platform-slot-count
+103546	N77-C7702-ACC-KIT=	switches	mechanical	module_slots	retract	2	Nexus 7700 - 2 Slot Chassis Accessory Kit	platform-slot-count
+103444	N77-C7702-AFLT	switches	mechanical	module_slots	retract	2	Nexus 7700 - 2 Slot Chassis Air Filter Kit	platform-slot-count
+103275	N77-C7702-CAB=	switches	mechanical	module_slots	retract	2	Nexus 7700 2 Slot Chassis Cable Management Kit	platform-slot-count
+103553	N77-C7702-FAN	switches	fan	module_slots	retract	2	Cisco Nexus 7700 Switches 2-Slot Fan Tray	platform-slot-count
+103315	N77-C7702-FAN=	switches	fan	module_slots	retract	2	Cisco Nexus 7700 Switches 2-Slot Fan Tray Spare	platform-slot-count
+103097	N77-C7702-FDK	switches	mechanical	module_slots	retract	2	Nexus 7700 - 2 Slot Chassis Front Door Kit	platform-slot-count
+103247	N77-C7702-FDK=	switches	mechanical	module_slots	retract	2	Nexus 7700 - 2 Slot Chassis Front Door Kit	platform-slot-count
+103248	N77-C7702-RMK=	switches	mechanical	module_slots	retract	2	Nexus 7700 - 2 Slot Chassis Rack Mount Kit	platform-slot-count
+103565	N77-C7702-SHPPKG=	switches	mechanical	module_slots	retract	2	Nexus 7700 - 2 slot chassis Shipping Packaging	platform-slot-count
+103316	N77-C7706-ACC-KIT=	switches	mechanical	module_slots	retract	6	Nexus 7700 - 6 Slot Chassis Accessory Kit	platform-slot-count
+103406	N77-C7706-AFLT	switches	mechanical	module_slots	retract	6	Nexus 7700 - 6 Slot Chassis Air Filter Kit (Front/Side)	platform-slot-count
+103098	N77-C7706-AFLT=	switches	mechanical	module_slots	retract	6	Nexus 7700 - 6 Slot Chassis Air Filter Kit (Front/Side)	platform-slot-count
+103558	N77-C7706-BSK=	switches	mechanical	module_slots	retract	6	Nexus 7700 - 6 Slot Chassis Bottom Support Kit	platform-slot-count
+103518	N77-C7706-CAB-TOP=	switches	mechanical	module_slots	retract	6	Nexus 7700 6 Slot Chassis Cable Management and Top LED Kit	platform-slot-count
+52340	N77-C7706-FAB-2	switches	fabric	module_slots	retract	6	Nexus 7700 - 6 Slot Chassis 220Gbps/Slot Fabric Module	platform-slot-count
+103563	N77-C7706-FAB-2++=	switches	fabric	module_slots	retract	6	Nexus 7700 - 6 Slot Chassis 220Gbps/Slot Fabric Module TAA	platform-slot-count
+103337	N77-C7706-FAB-2=	switches	fabric	module_slots	retract	6	Nexus 7700 - 6 Slot Chassis 220Gbps/Slot Fabric Module	platform-slot-count
+52352	N77-C7706-FAB-3	switches	fabric	module_slots	retract	6	Nexus 7700 - 6 Slot Chassis Fabric 3 Module	platform-slot-count
+103567	N77-C7706-FAB-3=	switches	fabric	module_slots	retract	6	Nexus 7700 - 6 Slot Chassis Fabric 3 Module	platform-slot-count
+103547	N77-C7706-FAN	switches	fan	module_slots	retract	6	Cisco Nexus 7700 Switches 6-Slot Fan Tray	platform-slot-count
+103407	N77-C7706-FAN-2	switches	fan	module_slots	retract	6	Cisco Nexus 7700 Switches 6-Slot Fan Tray (Generation 2)	platform-slot-count
+103576	N77-C7706-FAN-2=	switches	fan	module_slots	retract	6	Cisco Nexus 7700 Switches 6-Slot Fan Tray (Generation 2) Spare	platform-slot-count
+103568	N77-C7706-FAN=	switches	fan	module_slots	retract	6	Cisco Nexus 7700 Switches 6-Slot Fan Tray Spare	platform-slot-count
+103573	N77-C7706-FDK	switches	mechanical	module_slots	retract	6	Nexus 7700 - 6 Slot Chassis Front Door Kit	platform-slot-count
+103276	N77-C7706-FDK=	switches	mechanical	module_slots	retract	6	Nexus 7700 - 6 Slot Chassis Front Door Kit	platform-slot-count
+103560	N77-C7706-RMK=	switches	mechanical	module_slots	retract	6	Nexus 7700 - 6 Slot Chassis Rack Mount Kit	platform-slot-count
+103483	N77-C7706-SHPPKG	switches	mechanical	module_slots	retract	6	Nexus 7000 6 slot chassis Shipping Packaging	platform-slot-count
+103555	N77-C7706-SHPPKG=	switches	mechanical	module_slots	retract	6	Nexus 7000 6 slot chassis Shipping Packaging	platform-slot-count
+103338	N77-C7710-ACC-KIT=	switches	mechanical	module_slots	retract	10	Nexus 7700 - 10 Slot Chassis Accessory Kit	platform-slot-count
+103569	N77-C7710-AFLT	switches	mechanical	module_slots	retract	10	Nexus 7700 - 10 Slot Chassis Air Filter Kit (Front/Side)	platform-slot-count
+103570	N77-C7710-AFLT=	switches	mechanical	module_slots	retract	10	Nexus 7700 - 10 Slot Chassis Air Filter Kit (Front/Side)	platform-slot-count
+103382	N77-C7710-BSK=	switches	mechanical	module_slots	retract	10	Nexus 7700 - 10 Slot Chassis Bottom Support Kit	platform-slot-count
+103574	N77-C7710-CAB-TOP=	switches	mechanical	module_slots	retract	10	Nexus 7700 10 Slot Chassis Cable Management and Top LED Kit	platform-slot-count
+52344	N77-C7710-FAB-2	switches	fabric	module_slots	retract	10	Nexus 7700 - 10 Slot Chassis 220Gbps/Slot Fabric Module	platform-slot-count
+103571	N77-C7710-FAB-2++=	switches	fabric	module_slots	retract	10	Nexus 7700 - 10 Slot Chassis 220Gbps/Slot Fabric Module TAA	platform-slot-count
+103579	N77-C7710-FAB-2=	switches	fabric	module_slots	retract	10	Nexus 7700 - 10 Slot Chassis 220Gbps/Slot Fabric Module	platform-slot-count
+52356	N77-C7710-FAB-3	switches	fabric	module_slots	retract	10	Nexus 7700 - 10 Slot Chassis Fabric 3 Module	platform-slot-count
+103577	N77-C7710-FAB-3=	switches	fabric	module_slots	retract	10	Nexus 7700 - 10 Slot Chassis Fabric 3 Module	platform-slot-count
+103561	N77-C7710-FAN	switches	fan	module_slots	retract	10	Cisco Nexus 7700 Switches -10-Slot Fan Tray	platform-slot-count
+103383	N77-C7710-FAN-2	switches	fan	module_slots	retract	10	Cisco Nexus 7700 Switches -10-Slot Fan Tray (Generation 2)	platform-slot-count
+103556	N77-C7710-FAN-2=	switches	fan	module_slots	retract	10	Cisco Nexus 7700 Switches -10-Slot Fan Tray (Generation 2) Spare	platform-slot-count
+103278	N77-C7710-FAN=	switches	fan	module_slots	retract	10	Cisco Nexus 7700 Switches -10-Slot Fan Tray Spare	platform-slot-count
+103408	N77-C7710-FDK	switches	mechanical	module_slots	retract	10	Nexus 7700 - 10 Slot Chassis Front Door Kit	platform-slot-count
+103562	N77-C7710-FDK=	switches	mechanical	module_slots	retract	10	Nexus 7700 - 10 Slot Chassis Front Door Kit	platform-slot-count
+103575	N77-C7710-RMK=	switches	mechanical	module_slots	retract	10	Nexus 7700 - 10 Slot Chassis Rack Mount Kit	platform-slot-count
+103591	N77-C7710-SHPPKG=	switches	mechanical	module_slots	retract	10	Nexus 7700 - 10 Slot Chassis Shipping Packaging	platform-slot-count
+103960	N77-C7718-ACC-KIT=	switches	mechanical	module_slots	retract	18	Nexus 7700 - 18 Slot Chassis Accessory Kit	platform-slot-count
+103903	N77-C7718-AFLT	switches	mechanical	module_slots	retract	18	Nexus 7700 - 18 Slot Chassis Air Filter Kit (Front/Side)	platform-slot-count
+103751	N77-C7718-AFLT=	switches	mechanical	module_slots	retract	18	Nexus 7700 - 18 Slot Chassis Air Filter Kit (Front/Side)	platform-slot-count
+103592	N77-C7718-BSK=	switches	mechanical	module_slots	retract	18	Nexus 7700 - 18 Slot Chassis Bottom Support Kit	platform-slot-count
+103658	N77-C7718-CAB-TOP=	switches	mechanical	module_slots	retract	18	Nexus 7700 18 Slot Chassis Cable Management and Top LED Kit	platform-slot-count
+52348	N77-C7718-FAB-2	switches	fabric	module_slots	retract	18	Nexus 7700 - 18 Slot Chassis 220Gbps/Slot Fabric Module	platform-slot-count
+103593	N77-C7718-FAB-2=	switches	fabric	module_slots	retract	18	Nexus 7700 - 18 Slot Chassis 220Gbps/Slot Fabric Module	platform-slot-count
+103810	N77-C7718-FAB-3	switches	fabric	module_slots	retract	18	Nexus 7700 - 18 Slot Chassis Fabric 3 Module	platform-slot-count
+103752	N77-C7718-FAB-3=	switches	fabric	module_slots	retract	18	Nexus 7700 - 18 Slot Chassis Fabric 3 Module	platform-slot-count
+103594	N77-C7718-FAN	switches	fan	module_slots	retract	18	Cisco Nexus 7700 Switches -18-Slot Fan Tray	platform-slot-count
+103753	N77-C7718-FAN-2	switches	fan	module_slots	retract	18	Cisco Nexus 7700 Switches -18-Slot Fan Tray (Generation 2)	platform-slot-count
+103924	N77-C7718-FAN-2=	switches	fan	module_slots	retract	18	Cisco Nexus 7700 Switches -18-Slot Fan Tray (Generation 2) Spare	platform-slot-count
+103613	N77-C7718-FAN=	switches	fan	module_slots	retract	18	Cisco Nexus 7700 Switches -18-Slot Fan Tray Spare	platform-slot-count
+103595	N77-C7718-FDK	switches	mechanical	module_slots	retract	18	Nexus 7700 - 18 Slot Chassis Front Door Kit	platform-slot-count
+103714	N77-C7718-FDK=	switches	mechanical	module_slots	retract	18	Nexus 7700 - 18 Slot Chassis Front Door Kit	platform-slot-count
+103811	N77-C7718-PCM	switches	mechanical	module_slots	retract	18	Nexus 7700 - 18 Slot Chassis Power Cable Management	platform-slot-count
+103580	N77-C7718-PCM=	switches	mechanical	module_slots	retract	18	Nexus 7700 - 18 Slot Chassis Power Cable Management	platform-slot-count
+103765	N77-C7718-RMK=	switches	mechanical	module_slots	retract	18	Nexus 7700 - 18 Slot Chassis Rack Mount Kit	platform-slot-count
+103840	N77-C7718-SHPPKG=	switches	mechanical	module_slots	retract	18	Nexus 7700 - 18 Slot Chassis Shipping Packaging	platform-slot-count
+103875	N7K-C7004-FAN	switches	fan	module_slots	retract	4	Nexus 7000 - 4 Slot Fan	platform-slot-count
+103876	N7K-C7004-FAN=	switches	fan	module_slots	retract	4	Cisco Nexus 7000 Series 4-Slot Fan Tray Spare	platform-slot-count
+52328	N7K-C7009-FAB-2	switches	fabric	module_slots	retract	9	Nexus 7000 - 9 Slot Chassis - 110Gbps/Slot Fabric Module	platform-slot-count
+103662	N7K-C7009-FAB-2++=	switches	fabric	module_slots	retract	9	Nexus 7000 - 9 Slot Chassis - 110Gbps/Slot Fabric Module TAA	platform-slot-count
+103925	N7K-C7009-FAB-2=	switches	fabric	module_slots	retract	9	Nexus 7000 - 9 Slot Chassis - 110Gbps/Slot Fabric Module	platform-slot-count
+103961	N7K-C7009-FAN	switches	fan	module_slots	retract	9	Nexus 7000 - 9 Slot Fan	platform-slot-count
+103716	N7K-C7009-FAN=	switches	fan	module_slots	retract	9	Cisco Nexus 7000 Series-9-Slot Fan Tray Spare	platform-slot-count
+52332	N7K-C7010-FAB-2	switches	fabric	module_slots	retract	10	Nexus 7000 - 10 Slot Chassis - 110Gbps/Slot Fabric Module	platform-slot-count
+103905	N7K-C7010-FAB-2++=	switches	fabric	module_slots	retract	10	Nexus 7000 - 10 Slot Chassis, 110Gbps/Slot Fabric Module TAA	platform-slot-count
+103882	N7K-C7010-FAB-2=	switches	fabric	module_slots	retract	10	Nexus 7000 - 10 Slot Chassis - 110Gbps/Slot Fabric Module	platform-slot-count
+103717	N7K-C7010-FAN-F	switches	fan	module_slots	retract	10	Nexus 7000 - 10 Slot Fabric Fan	platform-slot-count
+103877	N7K-C7010-FAN-F=	switches	fan	module_slots	retract	10	Cisco Nexus 7000 Series-10-Slot Fabric Fan Tray Spare	platform-slot-count
+103841	N7K-C7010-FAN-S	switches	fan	module_slots	retract	10	Nexus 7000 - 10 Slot System Fan	platform-slot-count
+103755	N7K-C7010-FAN-S=	switches	fan	module_slots	retract	10	Cisco Nexus 7000 Series-10-Slot System Fan Tray Spare	platform-slot-count
+52336	N7K-C7018-FAB-2	switches	fabric	module_slots	retract	18	Nexus 7000 - 18 Slot Chassis - 110Gbps/Slot Fabric Module	platform-slot-count
+103766	N7K-C7018-FAB-2=	switches	fabric	module_slots	retract	18	Nexus 7000 - 18 Slot Chassis - 110Gbps/Slot Fabric Module	platform-slot-count
+103962	N7K-C7018-FAN	switches	fan	module_slots	retract	18	Nexus 7000 - 18 Slot Fan	platform-slot-count
+103775	N7K-C7018-FAN=	switches	fan	module_slots	retract	18	Cisco Nexus 7000 Series-18-Slot Fan Tray Spare	platform-slot-count
+104416	N9K-C9804-CM-KIT	switches	mechanical	module_slots	retract	4	Cisco N9800 4-slot chassis cable management kit	platform-slot-count
+104069	N9K-C9804-DF-KIT	switches	mechanical	module_slots	retract	4	Cisco N9800 4-slot chassis door kit	platform-slot-count
+104285	N9K-C9804-FAN-A	switches	fan	module_slots	retract	4	Cisco N9800 4-slot chassis fan tray (1 st Generation)	platform-slot-count
+104286	N9K-C9804-FM-A	switches	fabric	module_slots	retract	4	Cisco N9800 4-slot chassis fabric module (1 st Generation)	platform-slot-count
+104529	N9K-C9804-RMB	switches	mechanical	module_slots	retract	4	Cisco N9800 4-slot chassis rear-mounting brackets	platform-slot-count
+104070	N9K-C9808-CM-KIT	switches	mechanical	module_slots	retract	8	Cisco N9800 8-slot chassis cable management kit	platform-slot-count
+104646	N9K-C9808-DF-KIT	switches	mechanical	module_slots	retract	8	Cisco N9800 8-slot chassis door kit	platform-slot-count
+104168	N9K-C9808-FAN-A	switches	fan	module_slots	retract	8	Cisco N9800 8-slot chassis fan tray (1 st Generation)	platform-slot-count
+104287	N9K-C9808-FAN-B	switches	fan	module_slots	retract	8	Cisco N9800 8-slot chassis fan tray (2 nd Generation)	platform-slot-count
+104169	N9K-C9808-FM-A	switches	fabric	module_slots	retract	8	Cisco N9800 8-slot chassis fabric module (1 st Generation)	platform-slot-count
+104530	N9K-C9808-FM-B	switches	fabric	module_slots	retract	8	Cisco N9800 8-slot chassis fabric module (2 nd Generation)	platform-slot-count
+104417	N9K-C9808-FM-CV	switches	fabric	module_slots	retract	8	Cisco N9800 8-slot chassis fabric module slot cover	platform-slot-count
+107621	NCS2K-MF-1RU=	optical-networking	mux	module_slots	hold	4	Mechanical Frame - 4 slots - 1 RU	4 is not a platform number in the SKU (2, 1)

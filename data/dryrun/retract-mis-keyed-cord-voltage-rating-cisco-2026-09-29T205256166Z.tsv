@@ -1,0 +1,82 @@
+fact_id	sku	category	kind	field	action	value	name	why
+80767	CAB-1900W-CH	storage-networking	cable	input_voltage	retract	{"max":250,"min":250}	Power Cord, 250VAC, 16A GB1002 Plug, China	cord-voltage-rating
+80393	CAB-1900W-CH=	storage-networking	cable	input_voltage	retract	{"max":250,"min":250}	Power Cord, 250VAC, 16A GB1002 Plug, China, Spare	cord-voltage-rating
+80336	CAB-1900W-EU	storage-networking	cable	input_voltage	retract	{"max":250,"min":250}	Power Cord 250VAC 16A, Europe, Src Plug CEE 7/7	cord-voltage-rating
+80926	CAB-1900W-EU=	storage-networking	cable	input_voltage	retract	{"max":250,"min":250}	Power Cord 250VAC 16A, Europe, Src Plug CEE 7/7, Spare	cord-voltage-rating
+80469	CAB-1900W-INT	storage-networking	cable	input_voltage	retract	{"max":250,"min":250}	Power Cord 250VAC 16A, International, Src Plug IEC 309	cord-voltage-rating
+80530	CAB-1900W-INT=	storage-networking	cable	input_voltage	retract	{"max":250,"min":250}	Power Cord 250VAC 16A, International, Src Plug IEC 309, Spare	cord-voltage-rating
+80856	CAB-1900W-ISR	storage-networking	cable	input_voltage	retract	{"max":250,"min":250}	Power Cord 250VAC 16A, Israel, Src Plug SI16S3	cord-voltage-rating
+80585	CAB-1900W-ISR=	storage-networking	cable	input_voltage	retract	{"max":250,"min":250}	Power Cord 250VAC 16A, Israel, Src Plug SI16S3, Spare	cord-voltage-rating
+80394	CAB-1900W-KOR	storage-networking	cable	input_voltage	retract	{"max":250,"min":250}	Power Cord, 250VAC, Korea	cord-voltage-rating
+80531	CAB-1900W-KOR=	storage-networking	cable	input_voltage	retract	{"max":250,"min":250}	Power Cord, 250VAC, Korea, Spare	cord-voltage-rating
+80337	CAB-1900W-SA	storage-networking	cable	input_voltage	retract	{"max":250,"min":250}	Power Cord 250VAC 16A, South Africa, Src Plug EL 208, SABS 1661	cord-voltage-rating
+80715	CAB-1900W-SA=	storage-networking	cable	input_voltage	retract	{"max":250,"min":250}	Power Cord 250VAC 16A, South Africa, Src Plug EL 208, SABS 1661, Spare	cord-voltage-rating
+80262	CAB-1900W-SW	storage-networking	cable	input_voltage	retract	{"max":250,"min":250}	Power Cord 250VAC 16A, Switzerland, Src Plug SEV 1011	cord-voltage-rating
+81010	CAB-1900W-SW=	storage-networking	cable	input_voltage	retract	{"max":250,"min":250}	Power Cord 250VAC 16A, Switzerland, Src Plug SEV 1011, Spare	cord-voltage-rating
+80369	CAB-1900W-TWN	storage-networking	cable	input_voltage	retract	{"max":250,"min":250}	Power Cord, 250VAC, CNS10917-2, Taiwan	cord-voltage-rating
+81148	CAB-1900W-TWN=	storage-networking	cable	input_voltage	retract	{"max":250,"min":250}	Power Cord, 250VAC, CNS10917-2, Taiwan, Spare	cord-voltage-rating
+81948	CAB-1900W-UK	storage-networking	cable	input_voltage	retract	{"max":250,"min":250}	Power Cord 250VAC 13A, United Kingdom, Src Plug BS1363 (13A fuse)	cord-voltage-rating
+81267	CAB-1900W-UK=	storage-networking	cable	input_voltage	retract	{"max":250,"min":250}	Power Cord 250VAC 13A, United Kingdom, Src Plug BS1363 (13A fuse), Spare	cord-voltage-rating
+81414	CAB-1900W-US1	storage-networking	cable	input_voltage	retract	{"max":250,"min":250}	Power Cord 250VAC 20A, U.S./Japan, Src Plug NEMA 6-20	cord-voltage-rating
+81214	CAB-1900W-US1=	storage-networking	cable	input_voltage	retract	{"max":250,"min":250}	Power Cord 250VAC 20A, U.S./Japan, Src Plug NEMA 6-20, Spare	cord-voltage-rating
+81368	CAB-1900W-US2	storage-networking	cable	input_voltage	retract	{"max":250,"min":250}	Power Cord 250VAC 20A, U.S./Japan, Src Plug NEMA L6-20	cord-voltage-rating
+81541	CAB-1900W-US2=	storage-networking	cable	input_voltage	retract	{"max":250,"min":250}	Power Cord 250VAC 20A, U.S./Japan, Src Plug NEMA L6-20, Spare	cord-voltage-rating
+81415	CAB-250V-10A-BR=	storage-networking	cable	input_voltage	retract	{"max":250,"min":250}	Power Cord, 250VAC 10A, Brazil, spare	cord-voltage-rating
+81577	CAB-3KX-250VAC-JP	switches	power-cord	input_voltage	retract	{"max":250,"min":250}	Japan 250V AC Power Cord	cord-voltage-rating
+81390	CAB-3KX-250VAC-JP=	switches	power-cord	input_voltage	retract	{"max":250,"min":250}	Japan 250V AC Power Cord for Cisco Catalyst 3K-X (Japan)	cord-voltage-rating
+81592	CAB-9K10A-AR	storage-networking	cable	input_voltage	retract	{"max":250,"min":250}	Power Cord, 250VAC 10A IRAM 2073 Plug, Argentina	cord-voltage-rating
+81642	CAB-9K10A-AR=	storage-networking	cable	input_voltage	retract	{"max":250,"min":250}	Power Cord, 250VAC 10A IRAM 2073 Plug, Argentina, spare	cord-voltage-rating
+81904	CAB-9K10A-AU	storage-networking	cable	input_voltage	retract	{"max":250,"min":250}	Power Cord, 250VAC 10A 3112 Plug, Australia (2.5 meters)	cord-voltage-rating
+81558	CAB-9K10A-AU=	storage-networking	cable	input_voltage	retract	{"max":250,"min":250}	Power Cord, 250VAC 10A 3112 Plug, Australia, spare	cord-voltage-rating
+82023	CAB-9K10A-CH	storage-networking	cable	input_voltage	retract	{"max":250,"min":250}	Power Cord, 250VAC 10A GB1002 Plug, China, Spare	cord-voltage-rating
+81165	CAB-9K10A-CH=	storage-networking	cable	input_voltage	retract	{"max":250,"min":250}	Power Cord, 250VAC 10A GB1002 Plug, China, spare	cord-voltage-rating
+81179	CAB-9K10A-EU	storage-networking	cable	input_voltage	retract	{"max":250,"min":250}	Power Cord, 250VAC 10A CEE 7/7 Plug, EU (2.5 meters)	cord-voltage-rating
+81696	CAB-9K10A-EU=	storage-networking	cable	input_voltage	retract	{"max":250,"min":250}	Power Cord, 250VAC 10A CEE 7/7 Plug, EU, spare	cord-voltage-rating
+81399	CAB-9K10A-ISR	storage-networking	cable	input_voltage	retract	{"max":250,"min":250}	Power Cord, 250VAC 10A SI16S3 Plug, Israel	cord-voltage-rating
+81763	CAB-9K10A-ISR=	storage-networking	cable	input_voltage	retract	{"max":250,"min":250}	Power Cord, 250VAC 10A SI16S3 Plug, Israel, spare	cord-voltage-rating
+81232	CAB-9K10A-IT	storage-networking	cable	input_voltage	retract	{"max":250,"min":250}	Power Cord, 250VAC 10A CEI 23-16/VII Plug, Italy (2.5 meters)	cord-voltage-rating
+81288	CAB-9K10A-IT=	storage-networking	cable	input_voltage	retract	{"max":250,"min":250}	Power Cord, 250VAC 10A CEI 23-16/VII Plug, Italy, spare	cord-voltage-rating
+81820	CAB-9K10A-KOR	storage-networking	cable	input_voltage	retract	{"max":125,"min":125}	Power Cord, 125VAC 13A KSC8305 Plug, Korea, Spare	cord-voltage-rating
+81826	CAB-9K10A-KOR=	storage-networking	cable	input_voltage	retract	{"max":125,"min":125}	Power Cord, 125VAC 13A KSC8305 Plug, Korea, spare	cord-voltage-rating
+81770	CAB-9K10A-SA	storage-networking	cable	input_voltage	retract	{"max":250,"min":250}	Power Cord, 250VAC 10A SABS 164/1 Plug, South Africa, Spare	cord-voltage-rating
+81910	CAB-9K10A-SA=	storage-networking	cable	input_voltage	retract	{"max":250,"min":250}	Power Cord, 250VAC 10A SABS 164/1 Plug, South Africa, spare	cord-voltage-rating
+81431	CAB-9K10A-SW	storage-networking	cable	input_voltage	retract	{"max":250,"min":250}	Power Cord, 250VAC 10A, Straight C15, MP232 Plug, SWITZ, Spare	cord-voltage-rating
+81405	CAB-9K10A-SW=	storage-networking	cable	input_voltage	retract	{"max":250,"min":250}	AC Power Cord, 250VAC 10A, Straight C15, MP232 Plug, SWITZ, spare	cord-voltage-rating
+81295	CAB-9K10A-TWN	storage-networking	cable	input_voltage	retract	{"max":125,"min":125}	Power Cord, 125VAC 15A CNS10917-2, Taiwan, Spare	cord-voltage-rating
+81437	CAB-9K10A-TWN=	storage-networking	cable	input_voltage	retract	{"max":125,"min":125}	Power Cord, 125VAC 15A CNS10917-2, Taiwan, spare	cord-voltage-rating
+81193	CAB-9K10A-UK	storage-networking	cable	input_voltage	retract	{"max":250,"min":250}	Power Cord, 250VAC 10A BS1363 Plug (13 A fuse), UK (2.5 meters)	cord-voltage-rating
+81301	CAB-9K10A-UK=	storage-networking	cable	input_voltage	retract	{"max":250,"min":250}	Power Cord, 250VAC 10A BS1363 Plug (13 A fuse), UK, spare	cord-voltage-rating
+81451	CAB-9K12A-NA	storage-networking	cable	input_voltage	retract	{"max":125,"min":125}	Power Cord, 125VAC 13A NEMA 5-15 Plug, North America (2.5 meters)	cord-voltage-rating
+81307	CAB-9K12A-NA=	storage-networking	cable	input_voltage	retract	{"max":125,"min":125}	Power Cord, 125VAC 13A NEMA 5-15 Plug, North America, spare	cord-voltage-rating
+81312	CAB-9K16A-ARG	storage-networking	cable	input_voltage	retract	{"max":250,"min":250}	Power Cord 250VAC 16A, Argentina, Src Plug IR2073-C19	cord-voltage-rating
+81198	CAB-9K16A-ARG=	storage-networking	cable	input_voltage	retract	{"max":250,"min":250}	Power Cord 250VAC 16A, Argentina, Src Plug IR2073-C19 , Spare	cord-voltage-rating
+81518	CAB-9K16A-AUS=	switches	power-cord	input_voltage	retract	{"max":250,"min":250}	Power cord 250VAC 16A, Australia, source plug AU20S3 , Spare	cord-voltage-rating
+81237	CAB-9K16A-BRZ	storage-networking	cable	input_voltage	retract	{"max":250,"min":250}	Power Cord 250VAC 16A, Brazil, Src Plug EL224-C19	cord-voltage-rating
+81649	CAB-9K16A-BRZ=	storage-networking	cable	input_voltage	retract	{"max":250,"min":250}	Power Cord 250VAC 16A, Brazil, Src Plug EL224-C19 , Spare	cord-voltage-rating
+81832	CAB-9K16A-CH=	switches	power-cord	input_voltage	retract	{"max":250,"min":250}	Power cord 250VAC 16A, China, source plug GB16C , Spare	cord-voltage-rating
+81457	CAB-9K16A-EU=	switches	power-cord	input_voltage	retract	{"max":250,"min":250}	Power cord 250VAC 16A, Europe, source plug CEE 7/7 , Spare	cord-voltage-rating
+81564	CAB-9K16A-INT=	switches	power-cord	input_voltage	retract	{"max":250,"min":250}	Power cord 250VAC 16A, international, source plug IEC 309 , Spare	cord-voltage-rating
+81598	CAB-9K16A-ISR	storage-networking	cable	input_voltage	retract	{"max":250,"min":250}	Power cord 250VAC 16A, Israel, source plug SI16S3	cord-voltage-rating
+81781	CAB-9K16A-ISR=	storage-networking	cable	input_voltage	retract	{"max":250,"min":250}	Power cord 250VAC 16A, Israel, source plug SI16S3 , Spare	cord-voltage-rating
+81838	CAB-9K16A-KOR	storage-networking	cable	input_voltage	retract	{"max":250,"min":250}	Power Cord 250VAC 16A, Korea, Src Plug	cord-voltage-rating
+81524	CAB-9K16A-KOR=	storage-networking	cable	input_voltage	retract	{"max":250,"min":250}	Power Cord 250VAC 16A, Korea, Src Plug , Spare	cord-voltage-rating
+81248	CAB-9K16A-SA	storage-networking	cable	input_voltage	retract	{"max":250,"min":250}	Power cord 250VAC 16A, South Africa , source plug EL 208, SABS 164-1	cord-voltage-rating
+81655	CAB-9K16A-SA=	storage-networking	cable	input_voltage	retract	{"max":250,"min":250}	Power cord 250VAC 16A, South Africa, source plug EL 208, SABS 164-1 , Spare	cord-voltage-rating
+81411	CAB-9K16A-SW=	switches	power-cord	input_voltage	retract	{"max":250,"min":250}	Power cord 250VAC 16A, Switzerland, source plug SEV 5934-2 Type 23 , Spare	cord-voltage-rating
+81204	CAB-9K16A-US1	storage-networking	cable	input_voltage	retract	{"max":250,"min":250}	Power cord 250VAC 16A, United States/Japan, source plug NEMA 6-20	cord-voltage-rating
+81463	CAB-9K16A-US1=	storage-networking	cable	input_voltage	retract	{"max":250,"min":250}	Power cord 250VAC 16A, United States/Japan, source plug NEMA 6-20 , Spare	cord-voltage-rating
+81661	CAB-9K16A-US2=	switches	power-cord	input_voltage	retract	{"max":250,"min":250}	Power cord 250VAC 16A, United States/Japan, source plug NEMA L6-20 , Spare	cord-voltage-rating
+81351	CAB-9K20A-NA=	switches	power-cord	input_voltage	retract	{"max":125,"min":125}	Power Cord, 125VAC 20A NEMA 5-20 Plug, North America/Japan , Spare	cord-voltage-rating
+81205	CAB-AC-LA	switches	power-cord	input_voltage	retract	{"max":110,"min":110}	Power Cord,110V, Left Angle	cord-voltage-rating
+81856	CAB-ACBZ-10A=	switches	power-cord	input_voltage	retract	{"max":250,"min":250}	AC power cord for Cisco Catalyst 3850 (Brazil), 10A/250V BR-3-10 plug up to 10A	cord-voltage-rating
+81316	CAB-ACBZ-12A	switches	power-cord	input_voltage	retract	{"max":125,"min":125}	AC power cord (Brazil) 12A/125V BR-3-20 plug for less than 12A device	cord-voltage-rating
+82032	CAB-ACBZ-12A=	switches	power-cord	input_voltage	retract	{"max":125,"min":125}	AC power cord for Cisco Catalyst 3850 (Brazil), 12A/125V BR-3-20 plug up to 12A	cord-voltage-rating
+81867	CAB-C15-CBN-CK	storage-networking	cable	input_voltage	retract	{"max":250,"min":250}	Cabinet Jumper Power Cord, 250 VAC 13A, C14-C15 Connectors, China, Republic of Korea	cord-voltage-rating
+81715	CAB-C15-CBN-EURA	storage-networking	cable	input_voltage	retract	{"max":250,"min":250}	Cabinet Jumper Power Cord, 250 VAC 13A, C14-C15 Connectors, EU, Russian Federation, Belarus, Kazakhstan, and Australia	cord-voltage-rating
+81493	CAB-C15-CBN=	switches	power-cord	input_voltage	retract	{"max":250,"min":250}	Cabinet Jumper Power Cord, 250 VAC 13A, C14-C15 Connectors, spare	cord-voltage-rating
+81729	CAB-C19-CBN=	switches	power-cord	input_voltage	retract	{"max":250,"min":250}	Cabinet Jumper Power Cord, 250 VAC 16A, C20-C19 Connectors , Spare	cord-voltage-rating
+82113	CAB-IND-10B	switches	power-cord	input_voltage	retract	{"max":250,"min":250}	AC Power Cord (India), C15, 250V, 10A, 2.0m	cord-voltage-rating
+82139	CAB-IND-10B=	switches	power-cord	input_voltage	retract	{"max":250,"min":250}	Spare AC Power Cord (India), C15, 250V, 10A, 2.0m	cord-voltage-rating
+82576	CAB-KR-10B	switches	power-cord	input_voltage	retract	{"max":250,"min":250}	AC Power Cord (Korea), C15, 250V, 10A, 2.5m	cord-voltage-rating
+82383	CAB-KR-10B=	switches	power-cord	input_voltage	retract	{"max":250,"min":250}	Spare AC Power Cord (Korea), C15, 250V, 10A, 2.5m	cord-voltage-rating
+82511	CAB-US515-C15-US	switches	power-cord	input_voltage	retract	{"max":110,"min":110}	AC power cord, 110V North America	cord-voltage-rating
