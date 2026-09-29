@@ -16,7 +16,7 @@
 import { getPool, closePool, withRun, withTx } from "../src/store/index.js";
 
 const arg = (n: string): string | undefined => { const i = process.argv.indexOf(n); return i >= 0 ? process.argv[i + 1] : undefined; };
-const vendor = arg("--vendor"), commit = process.argv.includes("--commit");
+const vendor = arg("--vendor"), commit = process.argv.includes("--commit"), evidence = process.argv.includes("--evidence");
 if (!vendor) { console.error("usage: reconcile-conflict-states.mts --vendor <slug> [--commit]"); process.exit(2); }
 
 const VERDICT = `CASE
@@ -30,13 +30,16 @@ const facts = (await db.query<{ id: string; tier: number; was: string; now: stri
      FROM facts f JOIN parts p ON p.id = f.part_id JOIN vendors v ON v.id = p.vendor_id
     WHERE v.slug = $1 AND f.superseded_by IS NULL AND f.state IN ('conflict', 'verified', 'corroborated')`, [vendor])).rows
   .filter((r) => r.was !== r.now);
-// Into or out of `conflict` only, and never on tier 0: an operator-reviewed value is PROTECTED by the merge, so an open
-// conflict against it is informational and flipping its state would change how the operator's own value is served.
+// Into or out of `conflict`, tier 0 included: "tier 0 protects against overwrite, not against disclosure" (reviewer
+// ruling, 29 Sep 2026) -- the STATE moves, value and tier never do. With --evidence (after backfill-evidence-chain.mts
+// restored the witnesses a supersede dropped) the corroborated/verified transitions the evidence now supports are
+// written too; without it they are counted and left.
 const ruledShape = (r: { was: string; now: string }) => (r.was === "conflict") !== (r.now === "conflict");
-const ruled = facts.filter((r) => ruledShape(r) && r.tier !== 0);
+const evidenceShape = (r: { was: string; now: string }) => r.was !== "conflict" && r.now !== "conflict";
+const ruled = facts.filter((r) => ruledShape(r) || (evidence && evidenceShape(r)));
 const tally: Record<string, number> = {};
 for (const r of facts) {
-  const k = `${r.was} -> ${r.now}${!ruledShape(r) ? "  (NOT RULED, not written)" : r.tier === 0 ? "  (tier 0, protected: not written)" : ""}`;
+  const k = `${r.was} -> ${r.now}${ruled.includes(r) ? (r.tier === 0 ? "  (tier 0: state only)" : "") : "  (evidence transition: written only with --evidence)"}`;
   tally[k] = (tally[k] ?? 0) + 1;
 }
 const orphans = (await db.query<{ id: string; by: string | null }>(
@@ -52,7 +55,7 @@ console.log(`  to write: ${ruled.length} state changes; orphan conflicts to clos
 if (!commit) { console.log("DRY RUN: nothing written. Re-run with --commit."); await closePool(); process.exit(0); }
 
 const res = await withRun("reconcile-conflict-states", {
-  vendor, state_changes: ruled.length, orphans: orphans.length, tally,
+  vendor, evidence, state_changes: ruled.length, orphans: orphans.length, tally,
   approved: "reviewer ruling 29 Sep 2026 (Batch A): fact state from the conflicts table both directions; orphans closed, no fact touched",
 }, async (runId) => withTx(async (client) => {
     const s = await client.query(`UPDATE facts f SET state = ${VERDICT} WHERE f.id = ANY($1::bigint[])`, [ruled.map((r) => r.id)]);

@@ -190,7 +190,22 @@ export async function supersedeFact(client: Queryable, oldId: number, newEntry: 
   // park: the old row stops being current (self-reference keeps the FK and the unique index happy)
   await client.query("UPDATE facts SET superseded_by = id, superseded_at = now() WHERE id = $1", [oldId]);
   const { id: newId } = await insertFactRow(client, part_id, newEntry, runId);
-  if (!GAP_STATES.has(newEntry.state)) await insertEvidence(client, newId, newEntry, runId);
+  if (!GAP_STATES.has(newEntry.state)) {
+    await insertEvidence(client, newId, newEntry, runId);
+    // THE OTHER WITNESSES COME ALONG when the new row restates the same thing (reviewer ruling, 29 Sep 2026). Only the
+    // new entry's own document used to be written, so a renormalize or repair that superseded a CORROBORATED fact left
+    // it one document of evidence -- 427 Cisco facts measured -- and a state recompute would have demoted them for a
+    // bug. Carried only when the old row said the same TEXT (same raw: a re-derivation) or the same VALUE; a revision
+    // with a new raw and a new value is not corroborated by what the old read said. Each carried row keeps its own
+    // run_id, so rolling back the run that READ it still removes it.
+    await client.query(
+      `INSERT INTO fact_evidence (fact_id, doc_id, locator, tier, method, raw, extracted_at, run_id)
+       SELECT $1, e.doc_id, e.locator, e.tier, e.method, e.raw, e.extracted_at, e.run_id
+         FROM fact_evidence e JOIN facts o ON o.id = e.fact_id
+        WHERE e.fact_id = $2 AND (o.raw = $3 OR o.value = $4::jsonb)
+          AND NOT EXISTS (SELECT 1 FROM fact_evidence x WHERE x.fact_id = $1 AND x.doc_id IS NOT DISTINCT FROM e.doc_id)`,
+      [newId, oldId, newEntry.raw, JSON.stringify(newEntry.value ?? null)]);
+  }
   // superseded_at is copied from the new row INSIDE SQL: round-tripping a timestamptz through a
   // JS Date drops the microseconds and put superseded_at up to 999 µs BEFORE created_at, which
   // the invariant-6 query caught on the first run of the suite.

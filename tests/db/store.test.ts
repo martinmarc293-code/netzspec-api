@@ -356,6 +356,24 @@ check("packLocator/unpackLocator round-trip a revision label",
     r.action === "corroborate" && f?.state === "corroborated" && f?.value === 60 && f?.doc_id === D1
     && ev.rows.map((x) => x.doc_id).join(",") === `${D1},${D2}`);
 }
+// supersede carries the OTHER witnesses forward when it restates the same text (reviewer ruling 29 Sep 2026: a renormalize
+// that superseded a corroborated fact left it one document of evidence, and a state recompute would have demoted it)
+{
+  const pe = await upsertPart({ vendor: "cisco", sku: "C9200-24T-EVID", category: "switches", product_class: "hardware" });
+  await withTx((c) => applyMerge(c, pe.id, entry("switching_capacity", 60, "60 Gbit/s", html(D1, "t1:r2:c3")), applyRun));
+  await withTx((c) => applyMerge(c, pe.id, entry("switching_capacity", 60, "60 Gbit/s", html(D2, "t1:r2:c3")), applyRun));
+  const docsOf = async () => { const f = await currentFact(pe.id, "switching_capacity", pool);
+    return (await query("SELECT DISTINCT doc_id FROM fact_evidence WHERE fact_id = $1 ORDER BY doc_id", [f?.id])).rows.map((x) => x.doc_id).join(","); };
+  const both = [D1, D2].sort().join(",");
+  check("CONTROL the fixture is corroborated by two documents before any supersede", await docsOf() === both, await docsOf());
+  const f1 = await currentFact(pe.id, "switching_capacity", pool);
+  await withTx((c) => supersedeFact(c, Number(f1!.id), entry("switching_capacity", 61, "60 Gbit/s", html(D1, "t1:r2:c3"), { state: "corroborated" }), applyRun));
+  check("supersedeFact: a re-derivation of the SAME raw keeps the second witness (D2 carried forward)", await docsOf() === both, await docsOf());
+  const f2 = await currentFact(pe.id, "switching_capacity", pool);
+  await withTx((c) => supersedeFact(c, Number(f2!.id), entry("switching_capacity", 62, "62 Gbit/s", html(D1, "t1:r2:c3")), applyRun));
+  check("SABOTAGE supersedeFact: a NEW raw with a NEW value carries no old witness (a revision is not corroborated by the old read)",
+    await docsOf() === D1, await docsOf());
+}
 // skip
 {
   const r1 = await withTx((c) => applyMerge(c, p1.id, entry("switching_capacity", 60, "60 Gbit/s", html(D2, "t1:r2:c3")), applyRun));
