@@ -587,7 +587,9 @@ const TESTS: Test[] = [
       }
       const shapes = (mp: Map<string, Record<MemberVerdict, number>>) => shapeKeys.map((k) => { const t = mp.get(k);
         return t ? `${k} accept ${t.accept} / refuse ${t.refuse} / flagged ${t.flagged} / unclassified ${t.unclassified}` : `${k} holds no facts`; }).join("; ");
-      const CEIL = path.join(REPO, "data", "completeness", "shape-unclassified-ceiling.json");
+      // NOT data/completeness/: every *.json there IS a vendor to /v1/completeness and tests/completeness.test.ts (VENDOR_FILE),
+      // so a ratchet file in that directory became a vendor called "shape-unclassified-ceiling" (build 63bae82, suite crashed).
+      const CEIL = path.join(REPO, "data", "ratchets", "shape-unclassified-ceiling-cisco.json");
       const nowUnc: Record<string, number> = Object.fromEntries(shapeKeys.map((k) => [k, shOwn.get(k)?.unclassified ?? 0]));
       type Ceil = { vendor: string; unit: string; recorded_at: string; git_sha: string; ceiling: Record<string, number> };
       let ceil: Ceil | null = null, ceilErr = "";
