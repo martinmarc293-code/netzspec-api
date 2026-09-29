@@ -36,7 +36,7 @@ HEAD 01ec60e+, deployed 01ec60e (artefacts a6f8b65). Full rebuild = scripts/moul
 ## Rulings given (never re-ask)
 - MX move: 18 → security/firewall; 4 Z → routers/router role smb. DONE (runs 1268–1272, 1277/1278).
 - Ghost MX rows MX16/18/26/650 → non_product + reason `datasheet_cell`. Class ALREADY non_product; only the reason is missing; detector population is the 716 `unknown`, not 4,313.
-- DONE: cellular gate (derived column-backed `cellular`; `cellular_bands` cond on it AND kind in router, module); German (ENUM_LABELS wins, ENUM_DE derives from it, ratchet at 0).
+- DONE: cellular gate; German (ENUM_LABELS wins). RULINGS on batch 3 (NEXT, in order): (c) derived facts inherited=true + inherited_from = the input's family row (state stays filled-derived); (b) the 44 truncated inherited cells via apply-extract from the cached document (cache miss -> flag truncated, never complete); (a) stale replay per field ON THE BOX with --allow, 25 distinct (raw,value) samples per key read and quoted, predictions pinned (ieee_standards one-member runs fall; supported_protocols unclassified falls).
 - Term 13 on meraki/security-camera: recorded exception EXPIRING on physical-security's creation. TODO.
 - connector: domains per category as measured (+ d8/m12/din I added); routers + collab rows back; WIRELESS row withheld (82 of 141 are mains cords, no `power-cord` kind).
 - column-backed: 5,156 duplicates retracted (run 1280); 728 only-source moved then retracted (run 1288); 1,258 remain.
