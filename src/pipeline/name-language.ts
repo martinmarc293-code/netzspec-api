@@ -13,6 +13,7 @@ import { createHash } from "node:crypto";
 import { getPool, closePool, withRun, withTx } from "../store/index.js";
 import { assertDetector, planGermanNames, isGermanName, planSpareWording, planPackagingNotes, planTwinNames, SPARE_LEFT, SPARE_REMOVED, FIXED_UNIT_SKU, PACKAGING_NOTE, type NameRow } from "../core/germanName.js";
 import { REPO_ROOT } from "../config.js";
+import { planFile as planFileAt } from "../core/planFile.js";
 
 export async function main(argv: string[]): Promise<void> {
   const commit = argv.includes("--commit");
@@ -38,8 +39,8 @@ export async function main(argv: string[]): Promise<void> {
   if (!commit) { console.log("DRY RUN — nothing written. Add --commit."); await closePool(); return; }
   if (!plans.length) { console.log("nothing to do"); await closePool(); return; }
 
-  let gitSha: string | undefined;
-  try { gitSha = execFileSync("git", ["rev-parse", "HEAD"], { cwd: REPO_ROOT, encoding: "utf8" }).trim(); } catch { gitSha = undefined; }
+  let gitSha: string | undefined = process.env.GIT_SHA;   // the box runs a git archive with no .git: GIT_SHA first
+  if (!gitSha) try { gitSha = execFileSync("git", ["rev-parse", "HEAD"], { cwd: REPO_ROOT, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }).trim(); } catch { gitSha = undefined; }
   const out = await withRun("name-language", { vendor, decision: "layers review round 2 B.6 (operator 14 Sep 2026)", predicted }, async () => {
     await withTx(async (client) => {
       const en = plans.filter((p) => p.action === "english_from_twin") as Extract<typeof plans[number], { action: "english_from_twin" }>[];
@@ -94,8 +95,8 @@ async function stripPackaging(vendor: string, commit: boolean): Promise<void> {
 
   const spareBefore = new Map(all.filter((r) => r.sku.trim().endsWith("=")).map((r) => [r.id, r.name]));
   const chassisBefore = new Map(kept_chassis.map((k) => [k.sku, k.name]));
-  let gitSha: string | undefined;
-  try { gitSha = execFileSync("git", ["rev-parse", "HEAD"], { cwd: REPO_ROOT, encoding: "utf8" }).trim(); } catch { gitSha = undefined; }
+  let gitSha: string | undefined = process.env.GIT_SHA;   // the box runs a git archive with no .git: GIT_SHA first
+  if (!gitSha) try { gitSha = execFileSync("git", ["rev-parse", "HEAD"], { cwd: REPO_ROOT, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }).trim(); } catch { gitSha = undefined; }
   const out = await withRun("name-spare-packaging", { vendor, decision: "closing items at aa1143f item 3, operator 14 Sep 2026: strip on all fixed units, keep on modular chassis and spares", predicted,
     kept_chassis, planned: plans.map((p) => ({ sku: p.sku, before: p.name, after: p.stripped, removed: p.removed })) }, async () => {
     await withTx(async (client) => {
@@ -128,7 +129,7 @@ async function fromTwin(vendor: string, commit: boolean): Promise<void> {
   const read = async () => (await pool.query<{ id: number; sku: string; name: string | null }>(
     `SELECT p.id, p.sku, p.name FROM parts p JOIN vendors v ON v.id = p.vendor_id WHERE v.slug = $1 AND p.retired_at IS NULL`, [vendor])).rows;
   const { plans, refused } = planTwinNames(await read());
-  const planFile = path.join(REPO_ROOT, "data", "dryrun", `twin-names-${vendor}-${new Date().toISOString().slice(0, 10)}.tsv`);
+  const planFile = planFileAt(REPO_ROOT, `twin-names-${vendor}`);   // one file per invocation: see src/core/planFile.ts
   fs.mkdirSync(path.dirname(planFile), { recursive: true });
   const cell = (s: string | null) => JSON.stringify(s);
   fs.writeFileSync(planFile, ["part_id\tsku\taction\told_name\tnew_name\tname_source_or_reason",
@@ -142,8 +143,8 @@ async function fromTwin(vendor: string, commit: boolean): Promise<void> {
   if (!commit) { console.log("DRY RUN — nothing written. Add --commit."); await closePool(); return; }
   if (!plans.length) { console.log("nothing to do"); await closePool(); return; }
 
-  let gitSha: string | undefined;
-  try { gitSha = execFileSync("git", ["rev-parse", "HEAD"], { cwd: REPO_ROOT, encoding: "utf8" }).trim(); } catch { gitSha = undefined; }
+  let gitSha: string | undefined = process.env.GIT_SHA;   // the box runs a git archive with no .git: GIT_SHA first
+  if (!gitSha) try { gitSha = execFileSync("git", ["rev-parse", "HEAD"], { cwd: REPO_ROOT, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }).trim(); } catch { gitSha = undefined; }
   const out = await withRun("name-from-twin", { vendor, predicted, plan: path.relative(REPO_ROOT, planFile), plan_sha256: planSha,
     approved: "reviewer ruling (Batch B order, 29 Sep 2026): twin_parity -- name propagation across spare/base pairs" }, async () => {
     await withTx(async (client) => {
@@ -182,8 +183,8 @@ async function stripSpare(vendor: string, commit: boolean): Promise<void> {
   if (!commit) { console.log("DRY RUN — nothing written. Add --commit."); await closePool(); return; }
   if (!plans.length) { console.log("nothing to do"); await closePool(); return; }
 
-  let gitSha: string | undefined;
-  try { gitSha = execFileSync("git", ["rev-parse", "HEAD"], { cwd: REPO_ROOT, encoding: "utf8" }).trim(); } catch { gitSha = undefined; }
+  let gitSha: string | undefined = process.env.GIT_SHA;   // the box runs a git archive with no .git: GIT_SHA first
+  if (!gitSha) try { gitSha = execFileSync("git", ["rev-parse", "HEAD"], { cwd: REPO_ROOT, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }).trim(); } catch { gitSha = undefined; }
   const out = await withRun("name-spare-wording", { vendor, decision: "layers re-audit at 2f3d17a item 3(d), operator yes 14 Sep 2026", predicted }, async () => {
     await withTx(async (client) => {
       // guarded on the name and its source still being what was planned

@@ -18,6 +18,7 @@ import path from "node:path";
 import { createHash } from "node:crypto";
 import { fileURLToPath } from "node:url";
 import { getPool, closePool, withRun, withTx } from "../src/store/index.js";
+import { planFile } from "../src/core/planFile.js";
 
 const arg = (n: string): string | undefined => { const i = process.argv.indexOf(n); return i >= 0 ? process.argv[i + 1] : undefined; };
 const vendor = arg("--vendor"), commit = process.argv.includes("--commit"), evidence = process.argv.includes("--evidence");
@@ -59,7 +60,7 @@ console.log(`  to write: ${ruled.length} state changes; orphan conflicts to clos
 // THE PLAN, every id with its prior state (reviewer ruling 29 Sep 2026, Batch A2): a state-only write cannot be undone by
 // rollbackRun (it inserts no row), so the prior states are the undo -- written before the run and named in its inputs.
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const plan = path.join(ROOT, "data", "dryrun", `reconcile-${vendor}${evidence ? "-evidence" : ""}-${new Date().toISOString().slice(0, 10)}.tsv`);
+const plan = planFile(ROOT, `reconcile-${vendor}${evidence ? "-evidence" : ""}`);   // one file per invocation: src/core/planFile.ts
 fs.mkdirSync(path.dirname(plan), { recursive: true });
 fs.writeFileSync(plan, ["fact_id\ttier\tprior_state\tnew_state", ...ruled.map((r) => `${r.id}\t${r.tier}\t${r.was}\t${r.now}`)].join("\n") + "\n");
 const planSha = createHash("sha256").update(fs.readFileSync(plan)).digest("hex");

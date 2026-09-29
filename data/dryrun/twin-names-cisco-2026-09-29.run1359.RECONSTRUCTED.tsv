@@ -1,0 +1,388 @@
+# RECONSTRUCTED 29 Sep: run 1359's plan was overwritten by a later dry run; old names from the 03:30 pg_dump netzspec-20260929.dump
+part_id	sku	action	old_name	new_name	name_source
+6965	15216-DCU-L-1100	write	"Cisco 15216-DCU-L-1100"	"SMF L-band Dispersion Compensation Unit 1100ps/nm"	twin: 15216-DCU-L-1100=
+7249	15216-DCU-L-800	write	"Cisco 15216-DCU-L-800"	"SMF L-band Dispersion Compensation Unit 800ps/nm"	twin: 15216-DCU-L-800=
+6938	15216-EF-40-EVEN	write	"Cisco 15216-EF-40-EVEN"	"ONS 15216 40-Channel Mux/DeMux Exposed Faceplate Patch Panel Even"	twin: 15216-EF-40-EVEN=
+7020	15216-EF-40-ODD	write	"Cisco 15216-EF-40-ODD"	"ONS 15216 40-Channel Mux/DeMux Exposed Faceplate Patch Panel Odd"	twin: 15216-EF-40-ODD=
+6970	15216-MD-40-EVEN	write	"Cisco 15216-MD-40-EVEN"	"ONS 15216 40ch Mux Demux Patch Panel Even"	twin: 15216-MD-40-EVEN=
+6945	15216-MD-40-ODD	write	"Cisco 15216-MD-40-ODD"	"ONS 15216 40ch Mux Demux Patch Panel Odd"	twin: 15216-MD-40-ODD=
+7269	15454-M-10X10G-LC	write	"Cisco 15454-M-10X10G-LC"	"10-Port 10 Gbps Multirate Client Line Card"	twin: 15454-M-10X10G-LC=
+7085	15454-M-WSE-K9	write	"Cisco 15454-M-WSE-K9"	"Full Feature Wire Speed Encryption Unit"	twin: 15454-M-WSE-K9=
+7108	15454-M2-DDR	write	"Cisco 15454-M2-DDR"	"2 service slot MSTP chassis deep door"	twin: 15454-M2-DDR=
+6897	15454-M2-WM	write	"Cisco 15454-M2-WM"	"Wall mount bracket, Cisco NCS2002"	twin: 15454-M2-WM=
+7933	3900-FANASSY-NEBS=	write	"Cisco 3900-FANASSY-NEBS="	"Cisco 3925/3945 Fan Assembly for NEBS w/3900-FANFLTR-NEBS & Bezel (Both system & spare)"	twin: 3900-FANASSY-NEBS
+7872	3900-FANASSY=	write	"Cisco 3900-FANASSY="	"Cisco 3925-3945E Fan Assembly (Both system & spare)"	twin: 3900-FANASSY
+9229	4G-ACC-OUT-LA=	write	"Cisco 4G-ACC-OUT-LA="	"Lightning Arrestor"	twin: 4G-ACC-OUT-LA
+10985	A90X-RSPA-BLANK	write	"Cisco A90X-RSPA-BLANK"	"ASR 90X Route Switch Processor Type-A Blank Cover"	twin: A90X-RSPA-BLANK=, spare wording removed
+10965	A99-32HG-FC=	write	"Cisco A99-32HG-FC="	"ASR 9900 3.2T Flexible Consumption Line Card - 5 th Generation"	twin: A99-32HG-FC
+10911	A99-32X100GE-X-SE=	write	"Cisco A99-32X100GE-X-SE="	"ASR 9900 3.2T Service Edge Line Card - 5 th Generation"	twin: A99-32X100GE-X-SE
+10992	A99-32X100GE-X-TR=	write	"Cisco A99-32X100GE-X-TR="	"ASR 9900 3.2T Packet Transport Line Card - 5 th Generation"	twin: A99-32X100GE-X-TR
+11300	A99-4HG-FLEX-FC=	write	"Cisco A99-4HG-FLEX-FC="	"ASR 9000 400GB Flexible Consumption Line Card - 5 th Generation"	twin: A99-4HG-FLEX-FC
+11185	A99-4HG-FLEX-SE=	write	"Cisco A99-4HG-FLEX-SE="	"ASR 9900 400GE Combo Service Edge Line Card - 5 th Generation"	twin: A99-4HG-FLEX-SE
+11126	A99-4HG-FLEX-TR=	write	"Cisco A99-4HG-FLEX-TR="	"ASR 9900 400GE Combo Packet Transport Line Card - 5 th Generation"	twin: A99-4HG-FLEX-TR
+11221	A99-RP3-SE=	write	"Cisco A99-RP3-SE="	"ASR 9900 Route Processor 3 for Service Edge"	twin: A99-RP3-SE
+11377	A99-RP3-TR=	write	"Cisco A99-RP3-TR="	"ASR 9900 Route Processor 3 for Packet Transport"	twin: A99-RP3-TR
+11537	A9K-20HG-FLEX-FC=	write	"Cisco A9K-20HG-FLEX-FC="	"ASR 9000 2T Flexible Consumption Combo Line Card - 5 th Generation"	twin: A9K-20HG-FLEX-FC
+11407	A9K-20HG-FLEX-SE=	write	"Cisco A9K-20HG-FLEX-SE="	"ASR 9000 2T Service Edge Combo Line Card - 5 th Generation"	twin: A9K-20HG-FLEX-SE
+11634	A9K-20HG-FLEX-TR=	write	"Cisco A9K-20HG-FLEX-TR="	"ASR 9000 2T Packet Transport Combo Line Card - 5 th Generation"	twin: A9K-20HG-FLEX-TR
+11440	A9K-4HG-FLEX-FC=	write	"Cisco A9K-4HG-FLEX-FC="	"ASR 9000 400GB Flexible Consumption Line Card - 5 th Generation"	twin: A9K-4HG-FLEX-FC
+11336	A9K-4HG-FLEX-SE=	write	"Cisco A9K-4HG-FLEX-SE="	"ASR 9000 400GE Combo Service Edge Line Card - 5 th Generation"	twin: A9K-4HG-FLEX-SE
+11337	A9K-4HG-FLEX-TR=	write	"Cisco A9K-4HG-FLEX-TR="	"ASR 9000 400GE Combo Packet Transport Line Card - 5 th Generation"	twin: A9K-4HG-FLEX-TR
+11552	A9K-8HG-FLEX-FC=	write	"Cisco A9K-8HG-FLEX-FC="	"ASR 9000 800G Flexible Consumption Combo Line Card - 5 th Generation"	twin: A9K-8HG-FLEX-FC
+11757	A9K-8HG-FLEX-SE=	write	"Cisco A9K-8HG-FLEX-SE="	"ASR 9000 800G Service Edge Combo Line Card - 5 th Generation"	twin: A9K-8HG-FLEX-SE
+11442	A9K-8HG-FLEX-TR=	write	"Cisco A9K-8HG-FLEX-TR="	"ASR 9000 800G Packet Transport Combo Line Card - 5 th Generation"	twin: A9K-8HG-FLEX-TR
+11653	A9K-AC-PEM-V2=	write	"Cisco A9K-AC-PEM-V2="	"ASR 9000 AC Power Entry Module (power tray) Version 2"	twin: A9K-AC-PEM-V2
+11619	A9K-DC-PEM-V2=	write	"Cisco A9K-DC-PEM-V2="	"ASR 9000 DC Power Entry Module (power tray) Version 2"	twin: A9K-DC-PEM-V2
+11593	A9K-MPA-1X200GE=	write	"Cisco A9K-MPA-1X200GE="	"ASR 9000 1-port 200GE Modular Port Adapter, requires CFP2-ER4 or CPAK optics"	twin: A9K-MPA-1X200GE
+11665	A9K-MPA-20X10GE=	write	"Cisco A9K-MPA-20X10GE="	"ASR 9000 20-port 10-Gigabit Ethernet Modular Port Adapter, requires SFP+ optics"	twin: A9K-MPA-20X10GE
+11533	A9K-MPA-2X40GE=	write	"Cisco A9K-MPA-2X40GE="	"ASR 9000 2-port 40-Gigabit Ethernet Modular Port Adapter, requires QSFP optics"	twin: A9K-MPA-2X40GE
+12374	AIR-ANT2450V-N	write	"Cisco AIR-ANT2450V-N"	"2.4GHz 5dBi Omnidirectional Colinear Array Antenna, Connectors N-Male"	twin: AIR-ANT2450V-N=
+12480	AIR-ANT2480V-N	write	"Cisco AIR-ANT2480V-N"	"2.4GHz 8dBi Omnidirectional Colinear Array Antenna, Connectors N-Male"	twin: AIR-ANT2480V-N=
+12445	AIR-ANT2524DG-R=	write	"Cisco AIR-ANT2524DG-R="	"Cisco Aironet dual-band dipole antenna; Grey; Peak Gain 2 dBi at 2.4. GHz and 4 dBi at 5 GHz"	twin: AIR-ANT2524DG-R
+12510	AIR-ANT2524DW-R=	write	"Cisco AIR-ANT2524DW-R="	"Cisco Aironet dual-band dipole antenna; White; Peak Gain 2 dBi at 2.4. GHz and 4 dBi at 5 GHz"	twin: AIR-ANT2524DW-R
+12257	AIR-ANT2535SDW-RS=	write	"Cisco AIR-ANT2535SDW-RS="	"Cisco Aironet short dual-band omni antenna, Peak Gain 3 dBi at 2.4. GHz and 5 dBi at 5 GHz"	twin: AIR-ANT2535SDW-RS
+12482	AIR-ANT2547V-N	write	"Cisco AIR-ANT2547V-N"	"2.4GHz 4dBi / 5GHz 7dBi Omnidirectional Colinear Array Antenna, Connectors N-Male"	twin: AIR-ANT2547V-N=
+12543	AIR-ANT5180V-N	write	"Cisco AIR-ANT5180V-N"	"5GHz 8dBi 2-Element Omnidirectional Colinear Array Antenna, Connectors N-Male"	twin: AIR-ANT5180V-N=
+15106	ANT-LPWA-DB-O-N-5=	write	"Cisco ANT-LPWA-DB-O-N-5="	"Outdoor omni-antenna, operates on 863-928 MHz, 5 dBi, type N female connector"	twin: ANT-LPWA-DB-O-N-5
+14891	APIC-SERVER-G5=	write	"Cisco APIC-SERVER-G5="	"Fifth-Generation APIC (combined appliance; no medium/large with this generation)"	twin: APIC-SERVER-G5
+15611	ASA5500-SC-100	write	"Cisco ASA5500-SC-100"	"ASA 5500 100 Security Contexts License"	twin: ASA5500-SC-100=
+15219	ASA5500-SC-250	write	"Cisco ASA5500-SC-250"	"ASA 5500 250 Security Contexts License"	twin: ASA5500-SC-250=
+16773	ASR-9006-AC-V2=	write	"Cisco ASR-9006-AC-V2="	"ASR 9006 AC Chassis with support for PEM Version 2"	twin: ASR-9006-AC-V2
+16661	ASR-9006-DC-V2=	write	"Cisco ASR-9006-DC-V2="	"ASR 9006 DC Chassis with support for PEM Version 2"	twin: ASR-9006-DC-V2
+16749	ASR-9010-AC-V2=	write	"Cisco ASR-9010-AC-V2="	"ASR 9010 AC Chassis with support for PEM Version 2"	twin: ASR-9010-AC-V2
+16380	ASR-9010-DC-V2=	write	"Cisco ASR-9010-DC-V2="	"ASR 9010 DC Chassis with support for PEM Version 2"	twin: ASR-9010-DC-V2
+16554	ASR-9902=	write	"Cisco ASR-9902="	"ASR 9902 Chassis, 2RU"	twin: ASR-9902
+16859	ASR1013/06-PWR-AC=	write	"Cisco ASR1013/06-PWR-AC="	"Cisco ASR1000 1600w AC Power Supply"	twin: ASR1013/06-PWR-AC
+17046	ASR1013/06-PWR-DC=	write	"Cisco ASR1013/06-PWR-DC="	"Cisco ASR1000 1600w DC Power Supply"	twin: ASR1013/06-PWR-DC
+17950	C-NIM-2T=	write	"Cisco C-NIM-2T="	"2-port 100Mbps/1Gbps dual-mode RJ45/SFP, NIM with WAN MACSec"	twin: C-NIM-2T
+17793	C-NIM-4X=	write	"Cisco C-NIM-4X="	"4-port 1/10 Gbps SFP/SFP+ switch NIM, LAN/WAN MACsec and Optional L3"	twin: C-NIM-4X
+18217	C-SM-16P4M2X=	write	"Cisco C-SM-16P4M2X="	"Cisco 22-port Catalyst L2 switch module with UADP ASIC"	twin: C-SM-16P4M2X
+17826	C-SM-40P8M2X=	write	"Cisco C-SM-40P8M2X="	"Cisco 50-port Catalyst L2 switch module with UADP ASIC"	twin: C-SM-40P8M2X
+18041	C-SM-NIM-ADPT=	write	"Cisco C-SM-NIM-ADPT="	"Single-wide 2x NIM carrier module in SM-X form factor"	twin: C-SM-NIM-ADPT
+20024	C3850-DNA-E-24=	write	"Cisco C3850-DNA-E-24="	"C3850 Cisco DNA Essentials, 24-port term licenses"	twin: C3850-DNA-E-24
+19963	C3850-DNA-E-48=	write	"Cisco C3850-DNA-E-48="	"C3850 Cisco DNA Essentials, 48-port term licenses"	twin: C3850-DNA-E-48
+20464	C8500-12X4QC=	write	"Cisco C8500-12X4QC="	"Cisco Catalyst 8500 Series 12-port SFP+, 2-port QSFP+, 2-port QSPF28"	twin: C8500-12X4QC
+20500	C8500-12X=	write	"Cisco C8500-12X="	"Cisco Catalyst 8500 Series 12-port SFP+"	twin: C8500-12X
+22493	C9400-SSD-240GB=	write	"Cisco C9400-SSD-240GB="	"Cisco Catalyst 9400 Series 240GB M2 SATA memory (Supervisor)"	twin: C9400-SSD-240GB
+22575	C9600-LC-48YL=	write	"Cisco C9600-LC-48YL="	"isco Catalyst 9600 Series 48-port 25GE/10GE/1GE"	twin: C9600-LC-48YL
+22924	CAB-250V-10A-AR=	write	"Cisco CAB-250V-10A-AR="	"AC Power Cord – 250V, 10A – Argentina (2.5 meters)"	twin: CAB-250V-10A-AR
+22829	CAB-250V-10A-CN=	write	"Cisco CAB-250V-10A-CN="	"AC Power Cord – 250V, 10A – PRC (2.5 meters)"	twin: CAB-250V-10A-CN
+22830	CAB-250V-10A-ID=	write	"Cisco CAB-250V-10A-ID="	"AC Power Cord – 250V, 10A – South Africa (2.5 meters)"	twin: CAB-250V-10A-ID
+23188	CAB-250V-10A-IS=	write	"Cisco CAB-250V-10A-IS="	"AC Power Cord – 250V, 10A – Israel (2.5 meters)"	twin: CAB-250V-10A-IS
+22872	CAB-48DC-40A-8AWG=	write	"Cisco CAB-48DC-40A-8AWG="	"C-Series -48VDC PSU Power Cord, 3.5M, 3 Wire, 8AWG, 40A"	twin: CAB-48DC-40A-8AWG
+23256	CAB-7513AC=	write	"Cisco CAB-7513AC="	"AC Power Cord, North America (110V)"	twin: CAB-7513AC
+23073	CAB-ACTW=	write	"Cisco CAB-ACTW="	"AC Power Cord (Taiwan), C13, EL 302, 2.3M"	twin: CAB-ACTW
+23106	CAB-BS1363-C19-UK=	write	"Cisco CAB-BS1363-C19-UK="	"BS-1363 to IEC-C19 14ft UK"	twin: CAB-BS1363-C19-UK
+23177	CAB-C13-C14-2M=	write	"Cisco CAB-C13-C14-2M="	"Power Cord Jumper, C13-C14 Connectors, 2 Meter Length (2.0 meters)"	twin: CAB-C13-C14-2M
+23141	CAB-C13-C14-AC=	write	"Cisco CAB-C13-C14-AC="	"Power cord, C13 to C14 (recessed receptacle), 10A (3 meter)"	twin: CAB-C13-C14-AC
+22907	CAB-C13-CBN=	write	"Cisco CAB-C13-CBN="	"Cabinet Jumper Power Cord, 250 VAC 10A, C14-C13 Connectors (0.7 meter)"	twin: CAB-C13-CBN
+23024	CAB-C2316-C19-IT=	write	"Cisco CAB-C2316-C19-IT="	"CEI 23-16 to IEC-C19 14ft, Italy"	twin: CAB-C2316-C19-IT
+22893	CAB-GREY-2.9M	write	"Cisco CAB-GREY-2.9M"	"Ethernet grey cable for Cisco Webex DX80"	twin: CAB-GREY-2.9M=
+22970	CAB-HD8-KIT	write	"Cisco CAB-HD8-KIT"	"High Density 8-port Async Cable w/ 8 DB-25 Modem Connectors"	twin: CAB-HD8-KIT=
+23735	CAB-IR2073-C19-AR=	write	"Cisco CAB-IR2073-C19-AR="	"IRSM 2073 to IEC-C19 14ft, Argentina"	twin: CAB-IR2073-C19-AR
+23319	CAB-N5K6A-NA=	write	"Cisco CAB-N5K6A-NA="	"Power Cord, 200/240V 6A, North America (2.5 meters)"	twin: CAB-N5K6A-NA
+23680	CAB-S132-C19-ISRL=	write	"Cisco CAB-S132-C19-ISRL="	"S132 to IEC-C19 14ft Israeli"	twin: CAB-S132-C19-ISRL
+23559	CAB-SABS-C19-IND=	write	"Cisco CAB-SABS-C19-IND="	"SABS 164-1 to IEC-C19 India"	twin: CAB-SABS-C19-IND
+23590	CAB-TA-CN	write	"Cisco CAB-TA-CN"	"AC power cord for Cisco Catalyst 2960-XR (China)"	twin: CAB-TA-CN=
+23565	CAB-VC-5M=	write	"Cisco CAB-VC-5M="	"^Standard camera control cable DSUB/RJ45"	twin: CAB-VC-5M
+26776	CG522-E=	write	"Cisco CG522-E="	"Cisco Catalyst Cellular Gateway, supporting 5G Sub6, external antenna"	twin: CG522-E
+28373	CP-7965=	write	"Cisco CP-7965="	"^Touch Screen IPPhone7965"	twin: CP-7965
+29061	CP-8832-3PCC-K9=	write	"Cisco CP-8832-3PCC-K9="	"Cisco 8832 for North America, charcoal, with options for either a PoE or non-PoE connector to ship in the same gift box as the 8832. This is for new installations."	twin: CP-8832-3PCC-K9
+29124	CP-8832-EU-K9=	write	"Cisco CP-8832-EU-K9="	"Cisco IP Conference Phone 8832 base in charcoal color for APAC, EMEA, Australia and New Zealand. This also includes an adapter along with a 9.8-ft (3-m) USB-C cable."	twin: CP-8832-EU-K9
+29150	CP-8832-K9=	write	"Cisco CP-8832-K9="	"Cisco IP Conference Phone 8832 base in charcoal color for North America. This also includes an adapter along with a 9.8-ft (3-m) USB-C cable."	twin: CP-8832-K9
+28877	CP-8832-LA-K9=	write	"Cisco CP-8832-LA-K9="	"Cisco IP Conference Phone 8832 base in charcoal color for LATAM. This also includes an adapter along with a 9.8-ft (3-m) USB-C cable."	twin: CP-8832-LA-K9
+28850	CP-8865-K9	write	"Cisco CP-8865-K9"	"Cisco IP Phone 8865, Charcoal"	twin: CP-8865-K9=
+28855	CP-DX70-W-K9	write	"Cisco CP-DX70-W-K9"	"Cisco DX70 – GPL *"	twin: CP-DX70-W-K9=
+29009	CP-DX70-W-K9++	write	"Cisco CP-DX70-W-K9++"	"Cisco DX70, for U.S. Government (Trade Agreement Act compliant) - GPL *"	twin: CP-DX70-W-K9++=
+29780	CS-BARPRO-K9=	write	"Cisco CS-BARPRO-K9="	"Cisco Room Bar Pro - First Light (with Room Navigator Table Stand, Mount and Accessories)"	twin: CS-BARPRO-K9
+29908	CS-BARPRO-NR-K9=	write	"Cisco CS-BARPRO-NR-K9="	"Cisco Room Bar Pro - No-Radio - First Light (with Room Navigator Table Stand, Mount and Accessories)"	twin: CS-BARPRO-NR-K9
+29730	CS-BOARD55-WMK	write	"Cisco CS-BOARD55-WMK"	"Cisco Webex Board 55 Wall Mount Kit -"	twin: CS-BOARD55-WMK=, spare wording removed
+29879	CS-BRDP55-K9=	write	"Cisco CS-BRDP55-K9="	"Cisco Board Pro 55 G2"	twin: CS-BRDP55-K9
+29953	CS-BRDP55-ND-K9=	write	"Cisco CS-BRDP55-ND-K9="	"Cisco Board Pro 55 G2, NoRadar"	twin: CS-BRDP55-ND-K9
+29794	CS-BRDP55-NR-K9=	write	"Cisco CS-BRDP55-NR-K9="	"Cisco Board Pro 55 G2 - No-Radio"	twin: CS-BRDP55-NR-K9
+30121	CS-BRDP75-K9=	write	"Cisco CS-BRDP75-K9="	"Cisco Board Pro 75 G2"	twin: CS-BRDP75-K9
+30122	CS-BRDP75-ND-K9=	write	"Cisco CS-BRDP75-ND-K9="	"Cisco Board Pro 75 G2, NoRadar"	twin: CS-BRDP75-ND-K9
+29739	CS-BRDP75-NR-K9=	write	"Cisco CS-BRDP75-NR-K9="	"Cisco Board Pro 75 G2, NoRadio"	twin: CS-BRDP75-NR-K9
+29768	CS-CPRO-K9=	write	"Cisco CS-CPRO-K9="	"Cisco Codec Pro G2"	twin: CS-CPRO-K9
+31270	CTS-5K-DISP42-KIT=	write	"CTS-IX5000 42"	"CTS-IX5000 42\" Brackets and Cable Runner"	twin: CTS-5K-DISP42-KIT, inch-mark truncation repaired
+31331	CTS-C20CODEC-K9	write	"Cisco CTS-C20CODEC-K9"	"C20 Codec -"	twin: CTS-C20CODEC-K9=, spare wording removed
+31877	CUIC-SVR-OFFERS=	write	"Cisco CUIC-SVR-OFFERS="	"^Cisco UCS Director Server Offerings"	twin: CUIC-SVR-OFFERS
+32206	CV-CNTR-M8N=	write	"Cisco CV-CNTR-M8N="	"Cyber Vision Center hardware appliance ( Cisco UCS C225 M8 Rack Server )"	twin: CV-CNTR-M8N
+32900	CWDM-SFP-1550	write	"Cisco CWDM-SFP-1550"	"Cisco CWDM SFP, 1550 nm; Gigabit Ethernet and 1-/2-GB Fibre Channel (yellow)"	twin: CWDM-SFP-1550=
+32845	CWDM-SFP-1570	write	"Cisco CWDM-SFP-1570"	"Cisco CWDM SFP, 1570 nm; Gigabit Ethernet and 1-/2-GB Fibre Channel (orange)"	twin: CWDM-SFP-1570=
+32967	CWDM-SFP-1590	write	"Cisco CWDM-SFP-1590"	"Cisco CWDM SFP, 1590 nm; Gigabit Ethernet and 1-/2-GB Fibre Channel (red)"	twin: CWDM-SFP-1590=
+32789	CWDM-SFP-xxxx=	write	"Cisco CWDM-SFP-xxxx="	"Cisco CWDM SFP"	twin: CWDM-SFP-xxxx
+33060	CWDM-SFP10G-xxxx=	write	"Cisco CWDM-SFP10G-xxxx="	"Cisco multi-rate 10G BASE CWDM SFP+ over Single Mode Fiber (SMF), with eight different wavelengths ranging from 1470-nm to 1610-nm"	twin: CWDM-SFP10G-xxxx
+32976	DCNM-LAN-N95-K9=	write	"Cisco DCNM-LAN-N95-K9="	"DCNM for LAN Advanced Edt. for Nexus 9500 switches"	twin: DCNM-LAN-N95-K9
+32797	DCNM-LS-N77-K9=	write	"Cisco DCNM-LS-N77-K9="	"DCNM for SAN and LAN Advanced Edt. for Nexus 7700 chassis"	twin: DCNM-LS-N77-K9
+33835	DS-C9710-FAN	write	"Cisco DS-C9710-FAN"	"MDS 9710 FAN Tray"	twin: DS-C9710-FAN=
+34074	DS-SFP-FC64G-LW	write	"Cisco DS-SFP-FC64G-LW"	"64 Gbps Fibre Channel LW SFP+, LC"	twin: DS-SFP-FC64G-LW=, spare wording removed
+33972	DS-X9710-FAB3	write	"Cisco DS-X9710-FAB3"	"MDS 9710 Crossbar Switching Fabric-3 Module"	twin: DS-X9710-FAB3=
+33973	DS-X9718-FAB3	write	"Cisco DS-X9718-FAB3"	"MDS 9718 Crossbar Switching Fabric-3 Module"	twin: DS-X9718-FAB3=
+34399	DWDM-SFP-3425	write	"Cisco DWDM-SFP-3425"	"Cisco 1534.25 NM DWDM Gigabit Ethernet and 1/2-Gbps Fibre Channel SFP"	twin: DWDM-SFP-3425=, spare wording removed
+34302	DWDM-SFP-3504	write	"Cisco DWDM-SFP-3504"	"Cisco 1535.04 NM DWDM Gigabit Ethernet and 1/2-Gbps Fibre Channel SFP"	twin: DWDM-SFP-3504=, spare wording removed
+34265	DWDM-SFP-3582	write	"Cisco DWDM-SFP-3582"	"Cisco 1535.82 NM DWDM Gigabit Ethernet and 1/2-Gbps Fibre Channel SFP"	twin: DWDM-SFP-3582=, spare wording removed
+34209	DWDM-SFP-3661	write	"Cisco DWDM-SFP-3661"	"Cisco 1536.61 NM DWDM Gigabit Ethernet and 1/2-Gbps Fibre Channel SFP"	twin: DWDM-SFP-3661=, spare wording removed
+34450	DWDM-SFP-3819	write	"Cisco DWDM-SFP-3819"	"Cisco 1538.19 NM DWDM Gigabit Ethernet and 1/2-Gbps Fibre Channel SFP"	twin: DWDM-SFP-3819=, spare wording removed
+34236	DWDM-SFP-3898	write	"Cisco DWDM-SFP-3898"	"Cisco 1538.98 NM DWDM Gigabit Ethernet and 1/2-Gbps Fibre Channel SFP"	twin: DWDM-SFP-3898=, spare wording removed
+34568	DWDM-SFP-3977	write	"Cisco DWDM-SFP-3977"	"Cisco 1539.77 NM DWDM Gigabit Ethernet and 1/2-Gbps Fibre Channel SFP"	twin: DWDM-SFP-3977=, spare wording removed
+34237	DWDM-SFP-4056	write	"Cisco DWDM-SFP-4056"	"Cisco 1540.56 NM DWDM Gigabit Ethernet and 1/2-Gbps Fibre Channel SFP"	twin: DWDM-SFP-4056=, spare wording removed
+34520	DWDM-SFP-4214	write	"Cisco DWDM-SFP-4214"	"Cisco 1542.14 NM DWDM Gigabit Ethernet and 1/2-Gbps Fibre Channel SFP"	twin: DWDM-SFP-4214=, spare wording removed
+34170	DWDM-SFP-4294	write	"Cisco DWDM-SFP-4294"	"Cisco 1542.94 NM DWDM Gigabit Ethernet and 1/2-Gbps Fibre Channel SFP"	twin: DWDM-SFP-4294=, spare wording removed
+34367	DWDM-SFP-4373	write	"Cisco DWDM-SFP-4373"	"Cisco 1543.73 NM DWDM Gigabit Ethernet and 1/2-Gbps Fibre Channel SFP"	twin: DWDM-SFP-4373=, spare wording removed
+34369	DWDM-SFP-4453	write	"Cisco DWDM-SFP-4453"	"Cisco 1544.53 NM DWDM Gigabit Ethernet and 1/2-Gbps Fibre Channel SFP"	twin: DWDM-SFP-4453=, spare wording removed
+34451	DWDM-SFP-4612	write	"Cisco DWDM-SFP-4612"	"Cisco 1546.12 NM DWDM Gigabit Ethernet and 1/2-Gbps Fibre Channel SFP"	twin: DWDM-SFP-4612=, spare wording removed
+34117	DWDM-SFP-4692	write	"Cisco DWDM-SFP-4692"	"Cisco 1546.92 NM DWDM Gigabit Ethernet and 1/2-Gbps Fibre Channel SFP"	twin: DWDM-SFP-4692=, spare wording removed
+34330	DWDM-SFP-4772	write	"Cisco DWDM-SFP-4772"	"Cisco 1547.72 NM DWDM Gigabit Ethernet and 1/2-Gbps Fibre Channel SFP"	twin: DWDM-SFP-4772=, spare wording removed
+34239	DWDM-SFP-4851	write	"Cisco DWDM-SFP-4851"	"Cisco 1548.51 NM DWDM Gigabit Ethernet and 1/2-Gbps Fibre Channel SFP"	twin: DWDM-SFP-4851=, spare wording removed
+34371	DWDM-SFP-5012	write	"Cisco DWDM-SFP-5012"	"Cisco 1550.12 NM DWDM Gigabit Ethernet and 1/2-Gbps Fibre Channel SFP"	twin: DWDM-SFP-5012=, spare wording removed
+34240	DWDM-SFP-5092	write	"Cisco DWDM-SFP-5092"	"Cisco 1550.92 NM DWDM Gigabit Ethernet and 1/2-Gbps Fibre Channel SFP"	twin: DWDM-SFP-5092=, spare wording removed
+34489	DWDM-SFP-5172	write	"Cisco DWDM-SFP-5172"	"Cisco 1551.72 NM DWDM Gigabit Ethernet and 1/2-Gbps Fibre Channel SFP"	twin: DWDM-SFP-5172=, spare wording removed
+34242	DWDM-SFP-5252	write	"Cisco DWDM-SFP-5252"	"Cisco 1552.52 NM DWDM Gigabit Ethernet and 1/2-Gbps Fibre Channel SFP"	twin: DWDM-SFP-5252=, spare wording removed
+34425	DWDM-SFP-5413	write	"Cisco DWDM-SFP-5413"	"Cisco 1554.13 NM DWDM Gigabit Ethernet and 1/2-Gbps Fibre Channel SFP"	twin: DWDM-SFP-5413=, spare wording removed
+34452	DWDM-SFP-5494	write	"Cisco DWDM-SFP-5494"	"Cisco 1554.94 NM DWDM Gigabit Ethernet and 1/2-Gbps Fibre Channel SFP"	twin: DWDM-SFP-5494=, spare wording removed
+34373	DWDM-SFP-5575	write	"Cisco DWDM-SFP-5575"	"Cisco 1555.75 NM DWDM Gigabit Ethernet and 1/2-Gbps Fibre Channel SFP"	twin: DWDM-SFP-5575=, spare wording removed
+34453	DWDM-SFP-5655	write	"Cisco DWDM-SFP-5655"	"Cisco 1556.55 NM DWDM Gigabit Ethernet and 1/2-Gbps Fibre Channel SFP"	twin: DWDM-SFP-5655=, spare wording removed
+34266	DWDM-SFP-5817	write	"Cisco DWDM-SFP-5817"	"Cisco 1558.17 NM DWDM Gigabit Ethernet and 1/2-Gbps Fibre Channel SFP"	twin: DWDM-SFP-5817=, spare wording removed
+34118	DWDM-SFP-5898	write	"Cisco DWDM-SFP-5898"	"Cisco 1558.98 NM DWDM Gigabit Ethernet and 1/2-Gbps Fibre Channel SFP"	twin: DWDM-SFP-5898=, spare wording removed
+34145	DWDM-SFP-5979	write	"Cisco DWDM-SFP-5979"	"Cisco 1559.79 NM DWDM Gigabit Ethernet and 1/2-Gbps Fibre Channel SFP"	twin: DWDM-SFP-5979=, spare wording removed
+34454	DWDM-SFP-6061	write	"Cisco DWDM-SFP-6061"	"Cisco 1560.61 NM DWDM Gigabit Ethernet and 1/2-Gbps Fibre Channel SFP"	twin: DWDM-SFP-6061=, spare wording removed
+35332	ENC-10G-ONT-01PR	write	"Cisco ENC-10G-ONT-01PR"	"Ruggedized XGS-PON ONT, powered by PoE"	twin: ENC-10G-ONT-01PR=
+35478	ENC-10G-ONT-10	write	"Cisco ENC-10G-ONT-10"	"XGS-PON ONT"	twin: ENC-10G-ONT-10=
+35369	ENC-10G-ONT-14A	write	"Cisco ENC-10G-ONT-14A"	"Multiport and ATA XGS-PON ONT"	twin: ENC-10G-ONT-14A=
+35351	EPNM-3.0-LAB-K9=	write	"Cisco EPNM-3.0-LAB-K9="	"Cisco Evolved Programmable Network Manager 3.x Lab App"	twin: EPNM-3.0-LAB-K9
+35352	EPNM-3.0-S-LAB-K9=	write	"Cisco EPNM-3.0-S-LAB-K9="	"Cisco EPN Manager Smart Lab App"	twin: EPNM-3.0-S-LAB-K9
+35859	ER11.5-SW-K9=	write	"Cisco ER11.5-SW-K9="	"Cisco Emergency Responder 11.5 Server Software New"	twin: ER11.5-SW-K9
+35978	ESA-AMP-LIC	write	"Cisco ESA-AMP-LIC"	"ESA Advanced Malware Protection (w/t 200 file uploads/day)"	twin: ESA-AMP-LIC=
+36262	ESA-AS-LIC	write	"Cisco ESA-AS-LIC"	"ESA Anti-Spam License"	twin: ESA-AS-LIC=
+36174	ESA-DLP-LIC	write	"Cisco ESA-DLP-LIC"	"ESA Data Loss Prevention License"	twin: ESA-DLP-LIC=
+35929	ESA-ESO-LIC	write	"Cisco ESA-ESO-LIC"	"ESA Outbound SW Bundle (DLP, Encryption) License"	twin: ESA-ESO-LIC=
+36338	ESA-IA-LIC	write	"Cisco ESA-IA-LIC"	"ESA Image Analyzer License"	twin: ESA-IA-LIC=
+36117	ESA-MFE-LIC	write	"Cisco ESA-MFE-LIC"	"ESA McAfee Anti-Malware License"	twin: ESA-MFE-LIC=
+36152	ESA-OF-LIC	write	"Cisco ESA-OF-LIC"	"ESA Outbreak Filters License"	twin: ESA-OF-LIC=
+36184	ESA-SO-LIC	write	"Cisco ESA-SO-LIC"	"ESA Sophos Anti-Malware License"	twin: ESA-SO-LIC=
+36688	FAN-T2	write	"Cisco FAN-T2"	"Fan module"	twin: FAN-T2=
+37161	FLASR1-BB-48K	write	"Cisco FLASR1-BB-48K"	"Broadband up to 48K Sessions Feature Lic for ASR1000 Series"	twin: FLASR1-BB-48K=
+37255	FLASR1-BB-64K	write	"Cisco FLASR1-BB-64K"	"Broadband up to 64K Sessions Feature Lic for ASR1000 Series"	twin: FLASR1-BB-64K=
+36895	FLASR1-BB-RTU	write	"Cisco FLASR1-BB-RTU"	"Broadband Right-To-Use w/ 500 sessions Lic for ASR1000"	twin: FLASR1-BB-RTU=, spare wording removed
+39239	GM-EQL-1.2G-10.5=	write	"Cisco GM-EQL-1.2G-10.5="	"GainMaker 1.2 GHz Forward Linear Equalizer, 10.5 dB"	twin: GM-EQL-1.2G-10.5
+39021	GM-EQL-1.2G-12=	write	"Cisco GM-EQL-1.2G-12="	"GainMaker 1.2 GHz Forward Linear Equalizer, 12 dB"	twin: GM-EQL-1.2G-12
+39458	GS7K-LCM-EDR=	write	"Cisco GS7K-LCM-EDR="	"GS7000 LCM for EDR"	twin: GS7K-LCM-EDR
+39360	GS7K-LIRX-FC	write	"Cisco GS7K-LIRX-FC"	"GS7000 Low Input Optical Receiver, FCA"	twin: GS7K-LIRX-FC=
+41765	HX-C240SD-EXT=	write	"Cisco HX-C240SD-EXT="	"UCS C240SD M5 Extender Kit"	twin: HX-C240SD-EXT
+42081	HX-CPU-I8352M=	write	"Cisco HX-CPU-I8352M="	"Intel 8352M 2.3GHz/185W 32C/48MB DDR4 3200MHz"	twin: HX-CPU-I8352M
+41998	HX-E-240-M6SX=	write	"Cisco HX-E-240-M6SX="	"Cisco HyperFlex Hybrid Edge 240 Full Capacity M6 system"	twin: HX-E-240-M6SX
+41907	HX-GPU-A30	write	"Cisco HX-GPU-A30"	"TESLA A30, PASSIVE, 180W, 24GB"	twin: HX-GPU-A30=
+42174	HX-HD10T7K6GAN=	write	"Cisco HX-HD10T7K6GAN="	"10TB 6G SATA 7.2K RPM LFF HDD (512e)"	twin: HX-HD10T7K6GAN
+42206	HX-HD12G10K9	write	"Cisco HX-HD12G10K9"	"1.2 TB 12G SAS 10K RPM SFF HDD (SED)"	twin: HX-HD12G10K9=
+41912	HX-HD12TB10K12G	write	"Cisco HX-HD12TB10K12G"	"1.2 TB 12G SAS 10K RPM SFF HDD"	twin: HX-HD12TB10K12G=
+42089	HX-HD18TB10KS4K	write	"Cisco HX-HD18TB10KS4K"	"1.8 TB 12G SAS 10K RPM SFF HDD (4K)"	twin: HX-HD18TB10KS4K=
+42066	HX-HD8T7K4KAM=	write	"Cisco HX-HD8T7K4KAM="	"8TB 12G SAS 7.2K RPM LFF HDD (4K)"	twin: HX-HD8T7K4KAM
+41797	HX-HD8T7K6GAN	write	"Cisco HX-HD8T7K6GAN"	"8 TB 6G SATA 7.2K RPM LFF HDD (512e)"	twin: HX-HD8T7K6GAN=
+42153	HX-MP-256GS-A0=	write	"Cisco HX-MP-256GS-A0="	"Intel Optane Persistent Memory, 256GB, 2666MHz"	twin: HX-MP-256GS-A0
+41930	HX-MR-X16G1RS-H=	write	"Cisco HX-MR-X16G1RS-H="	"16GB DDR4-2666-MHz RDIMM/PC4-21300/single rank/x4/1.2v"	twin: HX-MR-X16G1RS-H
+41966	HX-MSWS-22-DC16C=	write	"Cisco HX-MSWS-22-DC16C="	"Windows Server 2022 Data Center (16 Cores/Unlimited VMs)"	twin: HX-MSWS-22-DC16C
+41967	HX-MSWS-22-ST16C=	write	"Cisco HX-MSWS-22-ST16C="	"Windows Server 2022 Standard (16 Cores/2 VMs)"	twin: HX-MSWS-22-ST16C
+42156	HX-NV-GREDP-5S=	write	"Cisco HX-NV-GREDP-5S="	"EDU - Quadro Perpetual Lic - NVIDIA vDWS 1CCU; 5Yr SUMS Reqd"	twin: HX-NV-GREDP-5S
+42076	HX-NV-GREDP-5YR=	write	"Cisco HX-NV-GREDP-5YR="	"EDU - NVIDIA Quadro vDWS Production SUMS - 1CCU - 5 Year"	twin: HX-NV-GREDP-5YR
+42695	HX-NVME4-3840=	write	"Cisco HX-NVME4-3840="	"3.8TB 2.5in U.2 P5520 NVMe High Perf Medium Endurance"	twin: HX-NVME4-3840
+42263	HX-PSU1-1200W=	write	"Cisco HX-PSU1-1200W="	"1200W Titanium power supply for C-Series Servers"	twin: HX-PSU1-1200W
+43086	HX-VSP-7-0-FND-D=	write	"Cisco HX-VSP-7-0-FND-D="	"Factory Installed -vSphere SW 7.0 1-CPU Enduser provides Lic"	twin: HX-VSP-7-0-FND-D
+43145	HX-VSP-7-0-FND2-D=	write	"Cisco HX-VSP-7-0-FND2-D="	"Factory Installed -vSphere SW 7.0 2-CPU Enduser provides Lic"	twin: HX-VSP-7-0-FND2-D
+43056	HX-VSP-ROBO3-ADV	write	"Cisco HX-VSP-ROBO3-ADV"	"VMware vSphere 7.x ROBO Advanced (500 VM pack)"	twin: HX-VSP-ROBO3-ADV=
+43034	HX220C-M6S=	write	"Cisco HX220C-M6S="	"Cisco HyperFlex HX220c M6 Node"	twin: HX220C-M6S
+42966	HX240C-M6SX=	write	"Cisco HX240C-M6SX="	"Cisco HyperFlex HX240c M6 Node"	twin: HX240C-M6SX
+43098	HXAF220C-M6S=	write	"Cisco HXAF220C-M6S="	"Cisco HyperFlex HX220c M6 All Flash Node"	twin: HXAF220C-M6S
+43121	HXAF220C-M6SN=	write	"Cisco HXAF220C-M6SN="	"Cisco HXAF220c M6 All NVMe Hyperflex System"	twin: HXAF220C-M6SN
+42944	HXAF240C-M6SX=	write	"Cisco HXAF240C-M6SX="	"Cisco HyperFlex HX240c M6 All Flash Node"	twin: HXAF240C-M6SX
+43614	HXDP-E-SLR	write	"Cisco HXDP-E-SLR"	"HyperFlex Data Platform Edge Advantage SLR 1 to 10 Years"	twin: HXDP-E-SLR=
+43461	HXDP-E001-1YR	write	"Cisco HXDP-E001-1YR"	"HyperFlex Data Platform Edge Advantage 1 Yr"	twin: HXDP-E001-1YR=
+43381	HXDP-EP-SLR	write	"Cisco HXDP-EP-SLR"	"HyperFlex Data Platform Edge Premier SLR 1 to 10 Years"	twin: HXDP-EP-SLR=
+43556	HXDP-EP001-1YR	write	"Cisco HXDP-EP001-1YR"	"HyperFlex Data Platform Edge Premier 1 Yr"	twin: HXDP-EP001-1YR=
+43616	HXDP-EP001-5YR	write	"Cisco HXDP-EP001-5YR"	"HyperFlex Data Platform Edge Premier 5 Yr"	twin: HXDP-EP001-5YR=
+43224	HXDP-P-SLR	write	"Cisco HXDP-P-SLR"	"HyperFlex Data Platform Datacenter Premier SLR 1 to 10 Years"	twin: HXDP-P-SLR=
+43357	HXDP-P001-1YR	write	"Cisco HXDP-P001-1YR"	"HyperFlex Data Platform Datacenter Premier 1 Yr"	twin: HXDP-P001-1YR=
+43580	HXDP-S-SLR	write	"Cisco HXDP-S-SLR"	"HyperFlex Data Platform Datacenter Advantage SLR 1 to 10 Yrs"	twin: HXDP-S-SLR=
+43384	HXDP-S001-1YR	write	"Cisco HXDP-S001-1YR"	"HyperFlex Data Platform Datacenter Advantage 1 Yr"	twin: HXDP-S001-1YR=
+43919	IEM-3300-14T2S	write	"Cisco IEM-3300-14T2S"	"Catalyst IE3300 with 14 GE Copper + 2 GE SFP, Expansion Module"	twin: IEM-3300-14T2S=
+43759	IEM-3300-16P	write	"Cisco IEM-3300-16P"	"Catalyst IE3300 with 16 GE PoE/PoE+ Copper, Expansion Module"	twin: IEM-3300-16P=
+43712	IEM-3300-16T	write	"Cisco IEM-3300-16T"	"Catalyst IE3300 with 16 GE Copper ports, Expansion Module"	twin: IEM-3300-16T=
+44055	IEM-3300-4MU	write	"Cisco IEM-3300-4MU"	"Catalyst IE3300 with 4 2.5G Copper (4PPoE Type4), Expansion Module"	twin: IEM-3300-4MU=
+43956	IEM-3300-6T2S	write	"Cisco IEM-3300-6T2S"	"Catalyst IE3300 with 6 GE Copper + 2 GE SFP, Expansion Module"	twin: IEM-3300-6T2S=
+43732	IEM-3300-8P	write	"Cisco IEM-3300-8P"	"Catalyst IE3300 with 8 GE PoE/PoE+ Copper ports, Expansion Module"	twin: IEM-3300-8P=
+43990	IEM-3300-8S	write	"Cisco IEM-3300-8S"	"Catalyst IE3300 with 8 GE SFP Fiber ports, Expansion Module"	twin: IEM-3300-8S=
+43761	IEM-3300-8T	write	"Cisco IEM-3300-8T"	"Catalyst IE3300 with 8 GE Copper ports, Expansion Module"	twin: IEM-3300-8T=
+44056	IEM-3400-8P	write	"Cisco IEM-3400-8P"	"Catalyst IE3400 with 8 GE Copper PoE/PoE+, Expansion Module"	twin: IEM-3400-8P=
+43856	IEM-3400-8S	write	"Cisco IEM-3400-8S"	"Catalyst IE3400 with 8 GE SFP ports, Expansion Module"	twin: IEM-3400-8S=
+43686	IEM-3400-8T	write	"Cisco IEM-3400-8T"	"Catalyst IE3400 with 8 GE Copper ports, Expansion Module"	twin: IEM-3400-8T=
+43888	IEM-3500-14T2S	write	"Cisco IEM-3500-14T2S"	"IE3500 with 14 GE Copper + 2 GE SFP, Expansion Module"	twin: IEM-3500-14T2S=
+43794	IEM-3500-16P	write	"Cisco IEM-3500-16P"	"IE3500 with 16 GE PoE/PoE+ Copper, Expansion Module"	twin: IEM-3500-16P=
+43889	IEM-3500-16T	write	"Cisco IEM-3500-16T"	"IE3500 with 16 GE Copper ports, Expansion Module"	twin: IEM-3500-16T=
+43890	IEM-3500-4MU	write	"Cisco IEM-3500-4MU"	"IE3500 with 4 2.5G Copper (4PPoE), Expansion Module"	twin: IEM-3500-4MU=
+43796	IEM-3500-6T2S	write	"Cisco IEM-3500-6T2S"	"IE3500 with 6 GE Copper + 2 GE SFP, Expansion Module"	twin: IEM-3500-6T2S=
+44116	IEM-3500-8P	write	"Cisco IEM-3500-8P"	"IE3500 with 8 GE PoE/PoE+ Copper ports, Expansion Module"	twin: IEM-3500-8P=
+43765	IEM-3500-8S	write	"Cisco IEM-3500-8S"	"IE3500 with 8 GE SFP Fiber ports, Expansion Module"	twin: IEM-3500-8S=
+43714	IEM-3500-8T	write	"Cisco IEM-3500-8T"	"IE3500 with 8 GE Copper ports, Expansion Module"	twin: IEM-3500-8T=
+44527	IPS-4510-INC-K9=	write	"Cisco IPS-4510-INC-K9="	"IPS 4510 w SW, 4x SFP/SFP+, 6 GE Cu, 2xGe Mgmt CARD ONLY"	twin: IPS-4510-INC-K9
+44462	IPS-4520-INC-K9=	write	"Cisco IPS-4520-INC-K9="	"IPS 4520 with SW, 4x SFP/SFP+, 6 GE Cu, 2xGe Mgmt"	twin: IPS-4520-INC-K9
+44404	IR8140H-K9=	write	"Cisco IR8140H-K9="	"Cisco Catalyst IR8100 Series Industrial Router"	twin: IR8140H-K9
+51227	L-RFGW1-SWLIC=	write	"Cisco L-RFGW1-SWLIC="	"PAK CONTAINER FOR RFGW-1 LICENSES"	twin: L-RFGW1-SWLIC
+58442	M2USB-32G=	write	"Cisco M2USB-32G="	"Cisco C8000 Edge Platform – 32 GB M.2 USB SSD Storage"	twin: M2USB-32G
+58887	M9396T-PL16=	write	"Cisco M9396T-PL16="	"MDS 9396T 16-Port Upgrade License"	twin: M9396T-PL16
+59656	MEM-43-4G	write	"Cisco MEM-43-4G"	"4G DRAM (1 x 4G) for Cisco ISR 4300"	twin: MEM-43-4G=
+59659	MEM-C6K-CPTFL128M=	write	"Cisco MEM-C6K-CPTFL128M="	"Cat6500 Sup720 Compact Flash Mem 128MB"	twin: MEM-C6K-CPTFL128M
+60664	MSE-BZL-C220M4	write	"Cisco MSE-BZL-C220M4"	"C220 M4 Bezel"	twin: MSE-BZL-C220M4=, spare wording removed
+61835	N56-12Q-SSK9	write	"Cisco N56-12Q-SSK9"	"Nexus 5600 Storage License, 12-ports 40G or 48-ports 10G"	twin: N56-12Q-SSK9=
+61744	N5K-C5596UP-FA=	write	"Cisco N5K-C5596UP-FA="	"Chassis includes 48 fixed unified ports, Front-to-Back Airflow, 2 1100W AC Power Supplies, Fan Trays, 3 Expansion Slots"	twin: N5K-C5596UP-FA
+61854	N5KUK9-733N1.1	write	"Cisco N5KUK9-733N1.1"	"Nexus 5500 Base OS Software Rel 7.3(3)N1(1)"	twin: N5KUK9-733N1.1=, spare wording removed
+62237	N77-C7706-ACC-KIT	write	"Cisco N77-C7706-ACC-KIT"	"Nexus 7700 - 6 Slot Chassis Accessory Kit"	twin: N77-C7706-ACC-KIT=
+62303	N77-C7706-BSK	write	"Cisco N77-C7706-BSK"	"Nexus 7700 - 6 Slot Chassis Bottom Support Kit"	twin: N77-C7706-BSK=
+61523	N77-C7706-CAB-TOP	write	"Cisco N77-C7706-CAB-TOP"	"Nexus 7700 6 Slot Chassis Cable Management and Top LED Kit"	twin: N77-C7706-CAB-TOP=
+61765	N77-C7706-RMK	write	"Cisco N77-C7706-RMK"	"Nexus 7700 - 6 Slot Chassis Rack Mount Kit"	twin: N77-C7706-RMK=
+61767	N77-C7710-ACC-KIT	write	"Cisco N77-C7710-ACC-KIT"	"Nexus 7700 - 10 Slot Chassis Accessory Kit"	twin: N77-C7710-ACC-KIT=
+62323	N77-C7710-BSK	write	"Cisco N77-C7710-BSK"	"Nexus 7700 - 10 Slot Chassis Bottom Support Kit"	twin: N77-C7710-BSK=
+62341	N77-C7710-CAB-TOP	write	"Cisco N77-C7710-CAB-TOP"	"Nexus 7700 10 Slot Chassis Cable Management and Top LED Kit"	twin: N77-C7710-CAB-TOP=
+61870	N77-C7710-RMK	write	"Cisco N77-C7710-RMK"	"Nexus 7700 - 10 Slot Chassis Rack Mount Kit"	twin: N77-C7710-RMK=
+62349	N77-C7710-SHPPKG	write	"Cisco N77-C7710-SHPPKG"	"Nexus 7700 - 10 Slot Chassis Shipping Packaging"	twin: N77-C7710-SHPPKG=
+62386	N77-C7718-ACC-KIT	write	"Cisco N77-C7718-ACC-KIT"	"Nexus 7700 - 18 Slot Chassis Accessory Kit"	twin: N77-C7718-ACC-KIT=
+62350	N77-C7718-BSK	write	"Cisco N77-C7718-BSK"	"Nexus 7700 - 18 Slot Chassis Bottom Support Kit"	twin: N77-C7718-BSK=
+62635	N77-C7718-CAB-TOP	write	"Cisco N77-C7718-CAB-TOP"	"Nexus 7700 18 Slot Chassis Cable Management and Top LED Kit"	twin: N77-C7718-CAB-TOP=
+62578	N77-C7718-RMK	write	"Cisco N77-C7718-RMK"	"Nexus 7700 - 18 Slot Chassis Rack Mount Kit"	twin: N77-C7718-RMK=
+62391	N77-C7718-SHPPKG	write	"Cisco N77-C7718-SHPPKG"	"Nexus 7700 - 18 Slot Chassis Shipping Packaging"	twin: N77-C7718-SHPPKG=
+62841	N9K-C93108TC-FX3H=	write	"Cisco N9K-C93108TC-FX3H="	"Cisco N9000 fixed with 24p 100M/1/10G BASE-T and 6p 40G/100G QSFP28"	twin: N9K-C93108TC-FX3H
+62696	N9K-C93180YC-FX3H=	write	"Cisco N9K-C93180YC-FX3H="	"Cisco N9000 fixed with 24p 1/10G/25G SFP and 6p 40G/100G QSFP28"	twin: N9K-C93180YC-FX3H
+63877	NCS-55A1-24H=	write	"Cisco NCS-55A1-24H="	"NCS55A1 Fixed 24x100G chassis"	twin: NCS-55A1-24H
+64062	NCS-57B1-5D24H-SE=	write	"Cisco NCS-57B1-5D24H-SE="	"NCS57B1 Fixed-Scale HW 5x400, 24x100 all QSFP-DD chassis"	twin: NCS-57B1-5D24H-SE
+63847	NCS-57B1-5DSE-SYS=	write	"Cisco NCS-57B1-5DSE-SYS="	"NCS57B1 Fixed Scale HW Flexible Consumption Need Smart Lic"	twin: NCS-57B1-5DSE-SYS
+63947	NCS-57B1-6D24-SYS=	write	"Cisco NCS-57B1-6D24-SYS="	"NCS57B1 Fixed Base HW Flexible Consumption Need Smart Lic"	twin: NCS-57B1-6D24-SYS
+63848	NCS-57B1-6D24H-S=	write	"Cisco NCS-57B1-6D24H-S="	"NCS57B1 Fixed Base HW 6x400, 24x100 all QSFP-DD chassis"	twin: NCS-57B1-6D24H-S
+63850	NCS-57C1-48Q6D-S=	write	"Cisco NCS-57C1-48Q6D-S="	"NCS57C1 Fixed 32X1/10/25G, 16X1/10/25/50G, and 6x400G chassis"	twin: NCS-57C1-48Q6D-S
+63928	NCS1K-E-ILA-2R-C	write	"Cisco NCS1K-E-ILA-2R-C"	"NCS 1010 In-Line Amplifier with 2x Raman - C-band, enhanced"	twin: NCS1K-E-ILA-2R-C=
+64182	NCS1K-E-ILA-R-C	write	"Cisco NCS1K-E-ILA-R-C"	"NCS 1010 In-Line Amplifier with 1x Raman - C-band, enhanced"	twin: NCS1K-E-ILA-R-C=
+64025	NCS1K-E-OLT-C	write	"Cisco NCS1K-E-OLT-C"	"NCS 1010 Optical Line Terminal - C-band, enhanced"	twin: NCS1K-E-OLT-C=
+63889	NCS1K-E-OLT-L	write	"Cisco NCS1K-E-OLT-L"	"NCS 1010 Optical Line Terminal - L-band, enhanced"	twin: NCS1K-E-OLT-L=
+64153	NCS1K-E-OLT-R-C	write	"Cisco NCS1K-E-OLT-R-C"	"NCS 1010 Optical Line Terminal with Raman - C-band, enhanced"	twin: NCS1K-E-OLT-R-C=
+64077	NCS2K-EDRA1-26C	write	"Cisco NCS2K-EDRA1-26C"	"21dBm Erbium Doped Raman Amplifier 26dB Span - C-Band, includes one 2m LC/LC fiber-optic cables and one 2m E2000/PC High power fiber optical cable"	twin: NCS2K-EDRA1-26C=
+63842	NCS2K-EDRA1-35C	write	"Cisco NCS2K-EDRA1-35C"	"21dBm Erbium Doped Raman Amplifier 35dB Span - C-Band, includes one 2m LC/LC fiber-optic cable and one 2m E2000/PC High power fiber optical cable"	twin: NCS2K-EDRA1-35C=
+63902	NCS2K-EDRA2-35C	write	"Cisco NCS2K-EDRA2-35C"	"21dBm Erbium Doped Raman Amplifier + Bst 35dB Span - C-Band, includes two 2m LC/LC fiber-optic cables and one 2m E2000/PC High power fiber optical cable"	twin: NCS2K-EDRA2-35C=
+64324	NCS2K-TNCS-2-K9	write	"Cisco NCS2K-TNCS-2-K9"	"NCS 2000 Transport Node Controller, version 2"	twin: NCS2K-TNCS-2-K9=
+64561	NCS2K-TNCS-2O-K9	write	"Cisco NCS2K-TNCS-2O-K9"	"NCS 2000 Transport Node Controller w/2xOTDR/OSC, version 2"	twin: NCS2K-TNCS-2O-K9=
+64400	NCS4009-FC2-S	write	"Cisco NCS4009-FC2-S"	"NCS 4009 Agnostic Cross connect - Single-chassis - 400G"	twin: NCS4009-FC2-S=
+64610	NCS4016-FC2-M	write	"Cisco NCS4016-FC2-M"	"NCS 4016 Agnostic Cross connect - Multichassis - 400G"	twin: NCS4016-FC2-M=
+64455	NCS4K-4H-OPW-QC2	write	"Cisco NCS4K-4H-OPW-QC2"	"NCS 4000 400G WDM w/Packet/OTN - 10x QSFP + 2x CFP2 Line Card"	twin: NCS4K-4H-OPW-QC2=
+64617	NCS4K-SSD-100G	write	"Cisco NCS4K-SSD-100G"	"NCS 4000 100G SSD disk for ECU"	twin: NCS4K-SSD-100G=
+64686	ND-NODE-G5S	write	"Cisco ND-NODE-G5S"	"Cisco Nexus Dashboard small platform node based on Cisco UCS M8 server"	twin: ND-NODE-G5S=
+65173	NIM-16A=	write	"Cisco NIM-16A="	"16-port Asynchronous Module"	twin: NIM-16A
+64893	NIM-2BRI-NT/TE=	write	"Cisco NIM-2BRI-NT/TE="	"2-Port BRI Network Interface Module"	twin: NIM-2BRI-NT/TE
+64865	NIM-2FXO=	write	"Cisco NIM-2FXO="	"2-port Network Interface Module - FXO (Universal)"	twin: NIM-2FXO
+64842	NIM-2T=	write	"Cisco NIM-2T="	"2-port serial high-speed WAN interface card"	twin: NIM-2T
+65128	NIM-4BRI-NT/TE=	write	"Cisco NIM-4BRI-NT/TE="	"4-Port BRI Network Interface Module"	twin: NIM-4BRI-NT/TE
+65001	NIM-4E/M=	write	"Cisco NIM-4E/M="	"4-Port E/M Network Interface Module"	twin: NIM-4E/M
+64818	NIM-4FXSP=	write	"Cisco NIM-4FXSP="	"4-Port Network Interface Module - FXS, FXS-E and DID"	twin: NIM-4FXSP
+64894	NIM-4MFT-T1/E1=	write	"Cisco NIM-4MFT-T1/E1="	"4-port Multi-flex Trunk Voice/Clear-channel Data T1/E1 Module"	twin: NIM-4MFT-T1/E1
+64927	NIM-4T=	write	"Cisco NIM-4T="	"4-port serial high-speed WAN interface card"	twin: NIM-4T
+65179	NIM-8CE1T1-PRI=	write	"Cisco NIM-8CE1T1-PRI="	"8-port Multiflex trunk voice/channelized data T1/E1 module"	twin: NIM-8CE1T1-PRI
+65315	NO-POWER-CORD=	write	"Cisco NO-POWER-CORD="	"ECO friendly green option, no power cable will be shipped"	twin: NO-POWER-CORD
+66431	ONS-SC+-10G-xx.x=	write	"Cisco ONS-SC+-10G-xx.x="	"Cisco multi-rate 10G BASE DWDM SFP+ with different wavelengths ranging from 1530-nm to 1561-nm, 100 GHz, LC"	twin: ONS-SC+-10G-xx.x
+66955	ONS-SC+-10GEPxx.x=	write	"Cisco ONS-SC+-10GEPxx.x="	"Cisco multi-rate 10G BASE DWDM Edge Performance SFP+ with different wavelengths ranging from 1530-nm to 1561-nm, 100 GHz, LC"	twin: ONS-SC+-10GEPxx.x
+66729	ONS-SC-GE-LX=	write	"Cisco ONS-SC-GE-LX="	"1000BASE-LX Gigabit Ethernet transceiver module for SMF, 1310 nm wavelength, commercial operating temperature range and DOM support, dual LC/PC connector"	twin: ONS-SC-GE-LX
+66977	P-5GS6-R16SA-GL=	write	"Cisco P-5GS6-R16SA-GL="	"5G Sub-6 GHz Pluggable – 5G SA Global"	twin: P-5GS6-R16SA-GL
+67069	P-LTEA7-EAL=	write	"Cisco P-LTEA7-EAL="	"System and spare CAT7 LTE advanced pluggable for EMEA, APAC and Latin America"	twin: P-LTEA7-EAL
+66868	P-LTEA7-JP=	write	"Cisco P-LTEA7-JP="	"System and spare CAT7 LTE advanced pluggable for Japan"	twin: P-LTEA7-JP
+67397	P2-HD-EDR-SA	write	"Cisco P2-HD-EDR-SA"	"Cisco Prisma II EDR Host Module with 2:1 Tx"	twin: P2-HD-EDR-SA=
+67266	PACK-QSFP-SFP=	write	"Cisco PACK-QSFP-SFP="	"Packaging for QSFP 40G and SFP 10G"	twin: PACK-QSFP-SFP
+69983	PWR-2KW-DC-V2=	write	"Cisco PWR-2KW-DC-V2="	"2kW DC Power Module Version 2 for ASR-9006 & ASR-9010"	twin: PWR-2KW-DC-V2
+70047	PWR-3KW-AC-V2=	write	"Cisco PWR-3KW-AC-V2="	"3kW AC Power Module Version 2 for ASR-9006 & ASR-9010"	twin: PWR-3KW-AC-V2
+69742	PWR-C1-1900WHV-T	write	"Cisco PWR-C1-1900WHV-T"	"1900W HVAC/HVDC Titanium-certified power supply"	twin: PWR-C1-1900WHV-T=, spare wording removed
+69620	PWR-C6-715WDC	write	"Cisco PWR-C6-715WDC"	"715W DC Config 6 Power Supply"	twin: PWR-C6-715WDC=
+69685	PWR-CORD-IND-B	write	"Cisco PWR-CORD-IND-B"	"Power Cord for India 2m 10A-"	twin: PWR-CORD-IND-B=, spare wording removed
+70162	PWR-IE160W-67-DC	write	"Cisco PWR-IE160W-67-DC"	"IP67-rated PoE DC-DC power supply, Input:18V-60V Output: 54V, 3.1A max 160W"	twin: PWR-IE160W-67-DC=
+70532	PWR-IE50W-AC	write	"Cisco PWR-IE50W-AC"	"50W AC to DC or High DC to DC Power Supply"	twin: PWR-IE50W-AC=
+70470	PWR-IE50W-AC-IEC	write	"Cisco PWR-IE50W-AC-IEC"	"50W AC to DC Power Supply with IEC connector (IEC 60320 C14)"	twin: PWR-IE50W-AC-IEC=
+70318	PWR-RGD-AC-DC=	write	"Cisco PWR-RGD-AC-DC="	"High AC/DC (100-250 VDC/100-240 VAC) - 2.5 lb/1.13 kg"	twin: PWR-RGD-AC-DC
+70350	PWR-RGD-LOW-DC=	write	"Cisco PWR-RGD-LOW-DC="	"Low DC (24-60 VDC) - 2.5 lb/1.13 kg"	twin: PWR-RGD-LOW-DC
+70265	QSFP-100G-AOC10M=	write	"Cisco QSFP-100G-AOC10M="	"Cisco QSFP-100G-AOC10M 100G QSFP28 Active Optical Cable (AOC) — 10 m"	twin: QSFP-100G-AOC10M
+70266	QSFP-100G-AOC15M=	write	"Cisco QSFP-100G-AOC15M="	"Cisco QSFP-100G-AOC15M 100G QSFP28 Active Optical Cable (AOC) — 15 m"	twin: QSFP-100G-AOC15M
+70267	QSFP-100G-AOC1M=	write	"Cisco QSFP-100G-AOC1M="	"Cisco QSFP-100G-AOC1M 100G QSFP28 Active Optical Cable (AOC) — 1 m"	twin: QSFP-100G-AOC1M
+70415	QSFP-100G-AOC2M=	write	"Cisco QSFP-100G-AOC2M="	"Cisco QSFP-100G-AOC2M 100G QSFP28 Active Optical Cable (AOC) — 2 m"	twin: QSFP-100G-AOC2M
+70291	QSFP-100G-AOC3M=	write	"Cisco QSFP-100G-AOC3M="	"Cisco QSFP-100G-AOC3M 100G QSFP28 Active Optical Cable (AOC) — 3 m"	twin: QSFP-100G-AOC3M
+70268	QSFP-100G-AOC5M=	write	"Cisco QSFP-100G-AOC5M="	"Cisco QSFP-100G-AOC5M 100G QSFP28 Active Optical Cable (AOC) — 5 m"	twin: QSFP-100G-AOC5M
+70416	QSFP-100G-AOC7M=	write	"Cisco QSFP-100G-AOC7M="	"Cisco QSFP-100G-AOC7M 100G QSFP28 Active Optical Cable (AOC) — 7 m"	twin: QSFP-100G-AOC7M
+91094	QSFP-40G-ER4	write	null	"QSFP 40GBASE-ER4 Transceiver Module, LC, 40KM"	twin: QSFP-40G-ER4=
+91093	QSFP-40G-LR4	write	null	"QSFP 40GBASE-LR4 Transceiver Module, LC, 10KM"	twin: QSFP-40G-LR4=
+70514	QSFP-H40G-AOC10M=	write	"Cisco QSFP-H40G-AOC10M="	"Cisco QSFP-H40G-AOC10M 40G QSFP+ Active Optical Cable (AOC) — 10 m"	twin: QSFP-H40G-AOC10M
+70175	QSFP-H40G-AOC15M=	write	"Cisco QSFP-H40G-AOC15M="	"Cisco QSFP-H40G-AOC15M 40G QSFP+ Active Optical Cable (AOC) — 15 m"	twin: QSFP-H40G-AOC15M
+70421	QSFP-H40G-AOC1M=	write	"Cisco QSFP-H40G-AOC1M="	"Cisco QSFP-H40G-AOC1M 40G QSFP+ Active Optical Cable (AOC) — 1 m"	twin: QSFP-H40G-AOC1M
+70362	QSFP-H40G-AOC20M=	write	"Cisco QSFP-H40G-AOC20M="	"Cisco QSFP-H40G-AOC20M 40G QSFP+ Active Optical Cable (AOC) — 20 m"	twin: QSFP-H40G-AOC20M
+70298	QSFP-H40G-AOC25M=	write	"Cisco QSFP-H40G-AOC25M="	"Cisco QSFP-H40G-AOC25M 40G QSFP+ Active Optical Cable (AOC) — 25 m"	twin: QSFP-H40G-AOC25M
+70114	QSFP-H40G-AOC2M=	write	"Cisco QSFP-H40G-AOC2M="	"Cisco QSFP-H40G-AOC2M 40G QSFP+ Active Optical Cable (AOC) — 2 m"	twin: QSFP-H40G-AOC2M
+70336	QSFP-H40G-AOC30M=	write	"Cisco QSFP-H40G-AOC30M="	"Cisco QSFP-H40G-AOC30M 40G QSFP+ Active Optical Cable (AOC) — 30 m"	twin: QSFP-H40G-AOC30M
+70337	QSFP-H40G-AOC3M=	write	"Cisco QSFP-H40G-AOC3M="	"Cisco QSFP-H40G-AOC3M 40G QSFP+ Active Optical Cable (AOC) — 3 m"	twin: QSFP-H40G-AOC3M
+70483	QSFP-H40G-AOC5M=	write	"Cisco QSFP-H40G-AOC5M="	"Cisco QSFP-H40G-AOC5M 40G QSFP+ Active Optical Cable (AOC) — 5 m"	twin: QSFP-H40G-AOC5M
+70422	QSFP-H40G-AOC7M=	write	"Cisco QSFP-H40G-AOC7M="	"Cisco QSFP-H40G-AOC7M 40G QSFP+ Active Optical Cable (AOC) — 7 m"	twin: QSFP-H40G-AOC7M
+71101	RFGW-1-AC-CORD-G	write	"Cisco RFGW-1-AC-CORD-G"	"RFGW-1 UNITED KINGDOM AC POWER CORD"	twin: RFGW-1-AC-CORD-G=, spare wording removed
+91091	SFP-10G-ER	write	null	"10 Gigabit Ethernet ER SFP (Supported only with 10 Gigabit Ethernet ports)"	twin: SFP-10G-ER=, spare wording removed
+91092	SFP-10G-ZR	write	null	"Cisco 10GBASE-ZR SFP10G Module for SMF"	twin: SFP-10G-ZR=
+76872	SMA-EMGT-LIC	write	"Cisco SMA-EMGT-LIC"	"SMA Centralized Email Management Reporting License"	twin: SMA-EMGT-LIC=
+77124	SMA-WMGT-LIC	write	"Cisco SMA-WMGT-LIC"	"SMA Centralized Web Management Reporting License"	twin: SMA-WMGT-LIC=
+77160	SMA-WSPL-HIGH-LIC	write	"Cisco SMA-WSPL-HIGH-LIC"	"Web Security Advanced Reporting License - Higher Data Tier"	twin: SMA-WSPL-HIGH-LIC=
+77164	SMA-WSPL-LOW-LIC	write	"Cisco SMA-WSPL-LOW-LIC"	"Web Security Advanced Reporting License - Lower Data Tier"	twin: SMA-WSPL-LOW-LIC=
+77212	SPA-1CHSTM1/OC3V2=	write	"Cisco SPA-1CHSTM1/OC3V2="	"Cisco 1-port Channelized STM-1/OC-3c to DS0 Shared Port Adapter, Version 2"	twin: SPA-1CHSTM1/OC3V2
+77332	SPA-2XCT3/DS0-V2=	write	"Cisco SPA-2XCT3/DS0-V2="	"Cisco 2-Port Channelized T3 (DS0) Shared Port Adapter, Version 2"	twin: SPA-2XCT3/DS0-V2
+77411	SPA-2XT3/E3-V2=	write	"Cisco SPA-2XT3/E3-V2="	"Cisco 2-Port Clear Channel T3/E3 Shared Port Adapter, Version 2"	twin: SPA-2XT3/E3-V2
+77559	SPA-4XCT3/DS0-V2=	write	"Cisco SPA-4XCT3/DS0-V2="	"Cisco 4-Port Channelized T3 (DS0) Shared Port Adapter, Version 2"	twin: SPA-4XCT3/DS0-V2
+77498	SPA-4XT3/E3-V2=	write	"Cisco SPA-4XT3/E3-V2="	"Cisco 4-Port Clear Channel T3/E3 Shared Port Adapter, Version 2"	twin: SPA-4XT3/E3-V2
+77668	SPA-OC192POS-XFP=	write	"Cisco SPA-OC192POS-XFP="	"Cisco 1-Port OC-192c/STM-64c POS/RPR Shared Port Adapter with XFP Optics"	twin: SPA-OC192POS-XFP
+78146	STK-RACKMNT-2955=	write	"Cisco STK-RACKMNT-2955="	"19 in. DIN rail mount kit"	twin: STK-RACKMNT-2955
+79489	UCS-ACC-6536=	write	"Cisco UCS-ACC-6536="	"UCS 6536 chassis accessory kit"	twin: UCS-ACC-6536
+80238	UCS-CPU-A9124=	write	"Cisco UCS-CPU-A9124="	"AMD 9124 3.0GHz 200W 16C/64MB Cache DDR5 4800MT/s"	twin: UCS-CPU-A9124
+80499	UCS-CPU-A9224=	write	"Cisco UCS-CPU-A9224="	"AMD 9224 2.5GHz 200W 24C/64MB Cache DDR5 4800MT/s"	twin: UCS-CPU-A9224
+80240	UCS-CPU-A9254=	write	"Cisco UCS-CPU-A9254="	"AMD 9254 2.9GHz 200W 24C/128MB Cache DDR5 4800MT/s"	twin: UCS-CPU-A9254
+80214	UCS-CPU-A9354P=	write	"Cisco UCS-CPU-A9354P="	"AMD 9354P 3.25GHz 280W 32C/256MB Cache DDR5 4800MT/s"	twin: UCS-CPU-A9354P
+80387	UCS-CPU-A9454P=	write	"Cisco UCS-CPU-A9454P="	"AMD 9454P 2.75GHz 290W 48C/256MB Cache DDR5 4800MT/s"	twin: UCS-CPU-A9454P
+80324	UCS-CPU-A9684X=	write	"Cisco UCS-CPU-A9684X="	"AMD 9684X 2.55GHz 400W 96C/1,152MB Cache DDR5 4800MT/s"	twin: UCS-CPU-A9684X
+81211	UCS-DCPMM-AD=	write	"Cisco UCS-DCPMM-AD="	"Intel Optane DC Persistent Memory Operational Mode - App Di"	twin: UCS-DCPMM-AD
+81770	UCS-HD12TB10K12N	write	"Cisco UCS-HD12TB10K12N"	"1.2 TB 12G SAS 10K RPM SFF HDD"	twin: UCS-HD12TB10K12N=
+82178	UCS-L-6400-100G=	write	"Cisco UCS-L-6400-100G="	"UCS 6400 series ONLY Fabric Int 1 Port 40/100 Gbps port license"	twin: UCS-L-6400-100G
+81950	UCS-L-6400-25G=	write	"Cisco UCS-L-6400-25G="	"UCS 6400 series ONLY Fabric Int 1 Port 10/25 Gbps/FC port license"	twin: UCS-L-6400-25G
+81974	UCS-L-6400-25GC=	write	"Cisco UCS-L-6400-25GC="	"UCS 6400 series ONLY Fabric Int 1 Port 10/25 Gbps/FC port license C-direct only (used to connect directly from FI 6454 to C220, C240, C460, C480, and/or C4200)"	twin: UCS-L-6400-25GC
+82029	UCS-M10CBL-C240M5	write	"Cisco UCS-M10CBL-C240M5"	"C240M5 NVIDIA M10 Cable"	twin: UCS-M10CBL-C240M5=
+81925	UCS-MAN-S72A2T0V0=	write	"Cisco UCS-MAN-S72A2T0V0="	"MSFT AzureStack HCI Hyb CTO Node C220 M7sn w/Mellanox"	twin: UCS-MAN-S72A2T0V0
+81990	UCS-MR-X16G1RS-H=	write	"Cisco UCS-MR-X16G1RS-H="	"16GB DDR4-2666-MHz RDIMM/PC4-21300/single rank/x4/1.2v"	twin: UCS-MR-X16G1RS-H
+82313	UCS-NVMEG4-M960-D	write	"Cisco UCS-NVMEG4-M960-D"	"960GB 2.5in U.3 15mm P7450 Hg Perf Med End NVMe"	twin: UCS-NVMEG4-M960-D=
+82554	UCS-P100CBL-240M5	write	"Cisco UCS-P100CBL-240M5"	"C240/C245 M5/M6 NVIDIA P100 /V100 /RTX /A100 /A40 /A16 Cable"	twin: UCS-P100CBL-240M5=
+82262	UCS-PSU-6536-AC=	write	"Cisco UCS-PSU-6536-AC="	"UCS 6536 platinum power supply/100-240VAC (1100 W)"	twin: UCS-PSU-6536-AC
+82937	UCS-SD16TBKANK9-D	write	"Cisco UCS-SD16TBKANK9-D"	"1.6TB 2.5in Enter Perf 12G SAS Kioxia G2 SSD (3X SED-FIPS)"	twin: UCS-SD16TBKANK9-D=
+83255	UCS-SD960GM2NK9-D	write	"Cisco UCS-SD960GM2NK9-D"	"960GB 2.5in Enter Value 6G SATA Micron G2 SSD (SED)"	twin: UCS-SD960GM2NK9-D=
+85392	UCSC-LP-C25-1485=	write	"Cisco UCSC-LP-C25-1485="	"Low profile bracket for VIC"	twin: UCSC-LP-C25-1485
+85156	UCSC-LP-C40-1485=	write	"Cisco UCSC-LP-C40-1485="	"Low profile bracket for VIC1495"	twin: UCSC-LP-C40-1485
+85422	UCSC-M-V5D200GV2D=	write	"Cisco UCSC-M-V5D200GV2D="	"Cisco UCS VIC 15237 Dual port 40/100/200G mLOM for UCS C-Series M7/M8 rack servers"	twin: UCSC-M-V5D200GV2D
+85369	UCSC-MRAID-SC=	write	"Cisco UCSC-MRAID-SC="	"Supercap for Cisco 12G SAS Modular Raid controller"	twin: UCSC-MRAID-SC
+85738	UCSC-P-V5D200G-D=	write	"Cisco UCSC-P-V5D200G-D="	"Cisco UCS VIC 15235 Dual port 40/100/200G PCIe for Cisco UCS C-Series M7/M8 rack servers"	twin: UCSC-P-V5D200G-D
+85762	UCSC-P-V5Q50G-D=	write	"Cisco UCSC-P-V5Q50G-D="	"Cisco UCS VIC 15425 Quad port 10/25/50G PCIe for Cisco UCS C-Series M7/M8 rack servers"	twin: UCSC-P-V5Q50G-D
+85624	UCSC-PCIE-QD16GF=	write	"Cisco UCSC-PCIE-QD16GF="	"QLogic QLE2692 dual port 16G FC HBA"	twin: UCSC-PCIE-QD16GF
+85833	UCSC-PSU1-1050W	write	"Cisco UCSC-PSU1-1050W"	"Cisco UCS 1050W AC Power Supply for Rack Server Platinum"	twin: UCSC-PSU1-1050W=
+85854	UCSC-RAIL-D	write	"Cisco UCSC-RAIL-D"	"Rail kit"	twin: UCSC-RAIL-D=
+86292	UCSC-RAILB-M4	write	"Cisco UCSC-RAILB-M4"	"Ball Bearing Rail Kit for C220 and C240 M4 and M5 rack servers"	twin: UCSC-RAILB-M4=
+86252	UCSW-WT-35HDDT	write	"UCSW Whiptail Super Micro 3.5"	"UCSW Whiptail Super Micro 3.5\" HDD Tray MCP-220-00001-01"	twin: UCSW-WT-35HDDT=, inch-mark truncation repaired
+86447	UCSX-210C-M7=	write	"Cisco UCSX-210C-M7="	"Cisco UCS 210c M7 Compute Node w/o CPU, memory, storage, mezzanine"	twin: UCSX-210C-M7
+86541	UCSX-210C-M8=	write	"Cisco UCSX-210C-M8="	"Cisco UCS 210c M8 Compute Node w/o CPU, memory, storage, mezzanine"	twin: UCSX-210C-M8
+86755	UCSX-410C-M8=	write	"Cisco UCSX-410C-M8="	"Cisco UCS X410c M8 Compute Node w/o CPU, memory, storage, mezzanine"	twin: UCSX-410C-M8
+87226	UCSX-GPU-H200-NVL=	write	"Cisco UCSX-GPU-H200-NVL="	"NVIDIA H200 NVL: 600W, 141GB, 2-Slot NVL2 FHFL GPU"	twin: UCSX-GPU-H200-NVL
+86863	UCSX-GPU-L40S=	write	"Cisco UCSX-GPU-L40S="	"NVIDIA L40S, PASSIVE, 350W, 48GB"	twin: UCSX-GPU-L40S
+87192	UCSX-GPU-RTXP4500=	write	"Cisco UCSX-GPU-RTXP4500="	"NVIDIA RTX Pro 4500: 185W, 32GB, 2-Slot FHFL GPU"	twin: UCSX-GPU-RTXP4500
+87057	UCSX-GPU-RTXP6000=	write	"Cisco UCSX-GPU-RTXP6000="	"NVIDIA RTX Pro 6000: 600W, 96GB, 2-Slot FHFL GPU"	twin: UCSX-GPU-RTXP6000
+86804	UCSX-ME-V5Q50G-D=	write	"Cisco UCSX-ME-V5Q50G-D="	"UCS VIC 15422 4x25G mezz for Cisco UCS X210c-M7, X410c-M7, and X215c-M8 Compute Nodes"	twin: UCSX-ME-V5Q50G-D
+86902	UCSX-ML-V5Q50G-D=	write	"Cisco UCSX-ML-V5Q50G-D="	"UCS VIC 15420 4x25G mLOM for Cisco UCS X210c-M7, X410c-M7, and X215c-M8 Compute Nodes"	twin: UCSX-ML-V5Q50G-D
+87278	UCSX-S9108-100G=	write	"Cisco UCSX-S9108-100G="	"Cisco UCS Fabric Interconnects 9108 100G"	twin: UCSX-S9108-100G
+87640	UCSX-TPM-OPT-OUT=	write	"Cisco UCSX-TPM-OPT-OUT="	"OPT OUT, TPM 2.0, TCG, FIPS140-2, CC EAL4+ Certified"	twin: UCSX-TPM-OPT-OUT
+87382	UCSX-V5-BRIDGE-D=	write	"Cisco UCSX-V5-BRIDGE-D="	"UCS VIC 15000 bridge connector for VIC 15420 mLOM and VIC 15422 mezz in X210c-M7, X410c-M7, and X215c-M8 Compute Nodes"	twin: UCSX-V5-BRIDGE-D
+87974	UNITY-PIMG-MITEL=	write	"Cisco UNITY-PIMG-MITEL="	"PBX-IP Media Gateway for Mitel SX200 and SX2000 PBXs"	twin: UNITY-PIMG-MITEL
+90326	WS-X6816-10GE	write	"Cisco WS-X6816-10GE"	"16 Port 10G Fiber Base Board"	twin: WS-X6816-10GE=
+90118	WSA-AMM-LIC	write	"Cisco WSA-AMM-LIC"	"Web Anti-Virus McAfee License Key"	twin: WSA-AMM-LIC=
+90300	WSA-AMP-LIC	write	"Cisco WSA-AMP-LIC"	"WSA Advanced Malware Protection License"	twin: WSA-AMP-LIC=
+90302	WSA-AMS-LIC	write	"Cisco WSA-AMS-LIC"	"WSA Sophos Anti-Malware License Key"	twin: WSA-AMS-LIC=
+90209	WSA-AMW-LIC	write	"Cisco WSA-AMW-LIC"	"WSA Webroot Anti-Malware License Key"	twin: WSA-AMW-LIC=
+90270	WSA-WSE-LIC	write	"Cisco WSA-WSE-LIC"	"Web Essentials SW Bundle (WREP+WUC) Licenses"	twin: WSA-WSE-LIC=
+90703	WSA-WSP-LIC	write	"Cisco WSA-WSP-LIC"	"Web Premium SW Bundle (WREP+WUC+AMAL) Licenses"	twin: WSA-WSP-LIC=
+90632	WSA-WSS-LIC	write	"Cisco WSA-WSS-LIC"	"Web Shield Bundle (WREP+WUC+AMAL) CTA, AMP, TG-200 Files/Day"	twin: WSA-WSS-LIC=

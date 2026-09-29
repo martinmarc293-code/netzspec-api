@@ -12,6 +12,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { getPool, closePool, withRun, withTx, supersedeFact, retractFact } from "../src/store/index.js";
+import { planFile } from "../src/core/planFile.js";
 import { FIELD_DICTIONARY, domainFor } from "../src/core/fieldSchema.js";
 import { normalizeField, NORM_VERSION } from "../src/core/specNormalize.js";
 import type { SpecEntry } from "../src/core/specMerge.js";
@@ -43,7 +44,7 @@ for (const r of rows) {
   if (n.ok && inside(r.category, n.value)) acts.push({ row: r, action: "normalise", value: n.value, unit: n.unit });
   else acts.push({ row: r, action: "retract", why: n.ok ? `normalises to ${JSON.stringify(n.value)}, still outside` : `${n.reason}` });
 }
-const plan = path.join(ROOT, "data", "dryrun", `correct-tier0-${field}-${vendor}-${new Date().toISOString().slice(0, 10)}.tsv`);
+const plan = planFile(ROOT, `correct-tier0-${field}-${vendor}`);   // one file per invocation: src/core/planFile.ts
 fs.mkdirSync(path.dirname(plan), { recursive: true });
 fs.writeFileSync(plan, ["fact_id\tsku\tcategory\taction\tstored\tnormalised_or_reason",
   ...acts.map((a) => `${a.row.id}\t${a.row.sku}\t${a.row.category}\t${a.action}\t${JSON.stringify(a.row.value)}\t${a.action === "normalise" ? JSON.stringify(a.value) : a.why}`)].join("\n") + "\n");
