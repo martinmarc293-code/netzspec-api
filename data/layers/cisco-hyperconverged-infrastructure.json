@@ -1,8 +1,8 @@
 {
   "vendor": "cisco",
   "category": "hyperconverged-infrastructure",
-  "built_at": "2026-09-29T08:59:04.691Z",
-  "commit": "9ad8a7f676e296de81636801a263ca85973aa8b6",
+  "built_at": "2026-09-29T09:34:48.903Z",
+  "commit": "a68529ad9ad22adb59252a91df0bd64c3317e322",
   "uncommitted_rule_files": [],
   "mapping_file": "data/reference/product-lines/cisco-hyperconverged-infrastructure.json",
   "parts": 1216,
@@ -257,9 +257,9 @@
   "inbound_unplaced": {},
   "done": true,
   "build": {
-    "data_commit": "fff4686cd8ef+79dirty",
-    "code_commit": "9ad8a7f676e2",
+    "data_commit": "7944270f1bdc+80dirty",
+    "code_commit": "a68529ad9ad2",
     "contract_hash": "bcfc4c1ee314d3c2",
-    "generated_at": "2026-09-29T09:05:25.475Z"
+    "generated_at": "2026-09-29T09:41:43.354Z"
   }
 }
