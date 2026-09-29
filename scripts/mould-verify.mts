@@ -95,6 +95,55 @@ function apiHeaders(): Record<string, string> {
   return { "user-agent": "netzspec-mould-verify/1.0", ...(key ? { authorization: `Bearer ${key}` } : {}) };
 }
 
+/** endpoints_alive's classifier, ONE function for the check and its self-test (the self-test used to carry its own copy, which
+ *  could only ever agree with itself). FIVE outcomes: a 400 is its own, because the first run with the key called three
+ *  routes "genuinely DEAD" that had answered `querystring must have required property 'name'`, `unknown query parameter
+ *  "limit"` and `ref "C9200-24P" is not vendor:sku` -- the route validated the request and refused MY malformed probe, which is
+ *  proof it is alive and a defect of this file, never of the deployment. */
+type RouteVerdict = "alive" | "locked" | "refused" | "dead" | "unreachable";
+function routeVerdict(res: { status: number } | null): RouteVerdict {
+  if (res === null) return "unreachable";
+  if (res.status === 200) return "alive";
+  if (res.status === 401 || res.status === 403) return "locked";
+  if (res.status === 400 || res.status === 422) return "refused";
+  return "dead";
+}
+
+/** Every internal href on a built site that resolves to nothing (link_integrity, and its self-test over a real directory). */
+async function siteLinkReport(site: string): Promise<{ pages: number; checked: number; broken: string[] }> {
+  const fs = await import("node:fs"), path = await import("node:path");
+  const files = fs.readdirSync(site, { recursive: true, encoding: "utf8" }).filter((f) => typeof f === "string" && f.endsWith(".html"));
+  const broken: string[] = [];
+  let checked = 0;
+  for (const f of files) {
+    const html = fs.readFileSync(path.join(site, f), "utf8");
+    for (const m of html.matchAll(/href="([^"#?]+)"/g)) {
+      const href = m[1];
+      if (/^(https?:|mailto:|\/\/)/.test(href)) continue;   // external: a different question
+      checked++;
+      const target = path.resolve(path.dirname(path.join(site, f)), href);
+      if (!fs.existsSync(target) && !fs.existsSync(target + ".html") && !fs.existsSync(path.join(target, "index.html"))) broken.push(`${f} -> ${href}`);
+    }
+  }
+  return { pages: files.length, checked, broken };
+}
+
+/** THE SITE MUST BE THIS TREE'S SITE. data/site is gitignored (31 MB of generated pages), so mould-build writes it and the deploy
+ *  carries it across the swap; a carried site from an OLDER build judged against newer artefacts would certify pages nobody
+ *  built from them. So mould-build stamps data/site/BUILD.json with its GIT_SHA and this compares it with the completeness
+ *  report's built_on_commit (the same build's own record). Null = the same build; otherwise the reason it is not. */
+async function siteBuildProblem(site: string, reportFile: string): Promise<string | null> {
+  const fs = await import("node:fs"), path = await import("node:path");
+  const marker = path.join(site, "BUILD.json");
+  if (!fs.existsSync(marker)) return `the site carries no BUILD.json, so nothing says which build it is from`;
+  let sha: unknown, built: unknown;
+  try { sha = (JSON.parse(fs.readFileSync(marker, "utf8")) as { git_sha?: unknown }).git_sha; } catch { return `the site's BUILD.json does not parse`; }
+  try { built = (JSON.parse(fs.readFileSync(reportFile, "utf8")) as { built_on_commit?: unknown }).built_on_commit; } catch { return `the completeness report ${path.basename(reportFile)} cannot be read`; }
+  if (typeof sha !== "string" || !/^[0-9a-f]{40}$/.test(sha)) return `the site's BUILD.json names no full commit (${JSON.stringify(sha)})`;
+  if (typeof built !== "string" || built.length < 7) return `the completeness report names no build commit (${JSON.stringify(built)})`;
+  return sha.startsWith(built) ? null : `the site is from build ${sha.slice(0, 7)} and the artefacts from ${built.slice(0, 7)} — a STALE site`;
+}
+
 /** Two ledgers are the same when their canonical forms are: object keys sorted at every level, array order kept (a ledger's
  *  arrays are ordered on purpose, so a reordering is a real difference). */
 function sameLedger(a: unknown, b: unknown): boolean {
@@ -255,6 +304,8 @@ const RUN_KIND_CLASS: Record<string, { approval: boolean; gate: boolean }> = {
   "name-spare-packaging": D, "name-spare-wording": D, "name-from-twin": D, "images": D, "probe-failure-reason": D,
   "reclassify-by-twin-siblings": A, "retire-psu-options": AG, "retract-capability-or": A, "restamp-orphan-withdrawals": A,
   "backfill-doc-titles": D, "record-title-provenance": D, "record-retroactive-approval": A, "retro-gate": A, "apply-series-hints": AG, "apply-product-compat": AG, "set-series": A,
+  // Q7 (29 Sep): writes one ports fact per converted part (gate) and retracts its lan/wan facts (withdrawal -> approval)
+  "convert-lan-wan-ports": AG,
 };
 // The vendor this lane has axes for; vendor_coverage owns every other vendor's hardware (unknown_zero counts them apart).
 const OWN_VENDOR = "cisco";
@@ -2166,14 +2217,21 @@ const TESTS: Test[] = [
       const control = await get("/health");
       if (!control) return none(`the control /health could not be reached at ${BASE} — this is a fact about the ` +
         `network from here, NOT about the routes (producer: run again with reachability, or set NETZSPEC_API)`);
+      // /v1/report takes the name the route itself lists (reportNames, the route's own function): a hand-typed file name
+      // would go stale the day a report is renamed and read exactly like an outage.
+      const { reportNames } = await import("../src/api/routes/start.js");
+      const firstReport = reportNames()[0];
+      if (!firstReport) return none(`no committed report to ask /v1/report for (docs/reports holds none) — a probe I cannot form is MY defect`);
       const ROUTES = [
         "/openapi.json", "/v1/fields?category=switches", "/v1/parts?vendor=cisco&limit=1",
         // /v1/stats/gaps, NOT /v1/gaps. The first run of this test reported the latter as a dead
         // route on the deployment; the route was never called that. A path I typed from memory is
         // a fact about my memory, and it reads EXACTLY like an outage -- the second time today
         // this test manufactured a finding about the API out of its own input.
-        "/v1/report", "/v1/search?q=C9200-24P", "/v1/stats/gaps?vendor=cisco&limit=1",
-        "/v1/completeness/cisco", "/v1/compare?skus=C9200-24P,C9200-48P",
+        // AND THE THIRD TIME, 29 Sep, with the key: `/v1/report` without its required `name`, `limit` on a route that accepts
+        // only vendor/category, and bare SKUs where /v1/compare wants vendor:sku -- three 400s reported as dead routes.
+        `/v1/report?name=${encodeURIComponent(firstReport)}`, "/v1/search?q=C9200-24P", "/v1/stats/gaps?vendor=cisco",
+        "/v1/completeness/cisco", "/v1/compare?skus=cisco:C9200-24P,cisco:C9200-48P",
       ];
       // THREE OUTCOMES, AND 401 IS NOT ONE OF THE BAD ONES. A 401 proves the route EXISTS and is
       // protected -- strictly more than a 404 tells you. Counting it as dead would have reported
@@ -2211,18 +2269,22 @@ const TESTS: Test[] = [
       });
       const dead: string[] = [];        // 404 / 5xx: the route's fault
       const locked: string[] = [];      // 401 / 403: alive, and I have no key — could-not-check
+      const refused: string[] = [];     // 400 / 422: alive, and MY request was malformed — could-not-check, and my defect
       const unreachable: string[] = []; // no answer at all: mine, not theirs
       for (const r of ROUTES) {
         const res = await get(r);
-        if (!res) { unreachable.push(r); continue; }
-        if (res.status === 401 || res.status === 403) { locked.push(`${r} -> ${res.status}`); continue; }
-        if (res.status !== 200) dead.push(`${r} -> ${res.status}`);
+        const v = routeVerdict(res);
+        if (v === "unreachable") unreachable.push(r);
+        else if (v === "locked") locked.push(`${r} -> ${res!.status}`);
+        else if (v === "refused") refused.push(`${r} -> ${res!.status} ${res!.body.slice(0, 140)}`);
+        else if (v === "dead") dead.push(`${r} -> ${res!.status}`);
       }
       const hasKey = Boolean(process.env.NETZSPEC_API_KEY);
       const scope = `${ROUTES.length} routes asked of ${BASE} (control /health ${control.status}); ` +
-        `${dead.length} dead, ${locked.length} alive-but-authenticated, ${unreachable.length} unreachable`;
+        `${dead.length} dead, ${refused.length} refused my request, ${locked.length} alive-but-authenticated, ${unreachable.length} unreachable`;
       if (unregistered.length) return none(`${unregistered.length} of the paths this test asks for are registered nowhere in src/api/routes — that is MY defect, not the deployment's, and a 404 from such a path would read exactly like an outage: ${unregistered.join(", ")}`);
       if (dead.length) return bad(`${dead.length} routes are genuinely DEAD on the deployment — ${scope}: ${dead.join(", ")}`);
+      if (refused.length) return none(`${refused.length} probes were REFUSED as malformed — the route answered, so it is alive, and the request is MY defect, not the deployment's — ${scope}: ${refused.join(" | ")}`);
       if (unreachable.length) return none(`${unreachable.length} routes could not be reached while the control answered — ${scope}`);
       if (locked.length) {
         return none(`no route is dead, but ${locked.length} of ${ROUTES.length} need an API key this ` +
@@ -2239,14 +2301,12 @@ const TESTS: Test[] = [
     // 404 is dead, 401 is alive-and-locked, no answer is mine — and the first live run proved why
     // this matters: it called seven authenticated routes dead before this branch existed.
     selfTest: async () => {
-      const verdict = (res: { status: number } | null) =>
-        res === null ? "unreachable" : res.status === 401 || res.status === 403 ? "locked"
-        : res.status === 200 ? "alive" : "dead";
-      const negative = verdict({ status: 404 }) !== "dead";        // want FALSE: a 404 IS dead
-      const positive = verdict({ status: 401 }) === "locked" && verdict({ status: 200 }) === "alive"
-        && verdict(null) === "unreachable";
+      // the check's OWN classifier (routeVerdict), not a copy of it: the copy that lived here could only agree with itself
+      const negative = routeVerdict({ status: 404 }) !== "dead" || routeVerdict({ status: 500 }) !== "dead";   // want FALSE
+      const positive = routeVerdict({ status: 401 }) === "locked" && routeVerdict({ status: 200 }) === "alive"
+        && routeVerdict(null) === "unreachable" && routeVerdict({ status: 400 }) === "refused";
       return { negative, positive,
-               note: "404 must classify as dead; 401 as alive-but-locked, 200 as alive, no answer as unreachable — never folded together" };
+               note: "404/500 must classify as dead; 401 as alive-but-locked, 400 as refused (my malformed probe), 200 as alive, no answer as unreachable — never folded together" };
     },
   },
   {
@@ -2257,7 +2317,9 @@ const TESTS: Test[] = [
     // href on the arrangement site must resolve, and every category page must link its layers page and
     // back, because a one-way link is how a reader reaches a leaf and cannot get out.
     //
-    // NOT EXERCISED when the site is not built here -- an absent artefact is not zero broken links.
+    // NOT EXERCISED when the site is not built here -- an absent artefact is not zero broken links -- and when the site here is
+    // from another build than the artefacts (siteBuildProblem): the first site mould-build produced had no layer pages at all
+    // (build-layers ran without --site), 16 links into layers/ resolved to nothing, and only this check said so.
     run: async () => {
       const { REPO_ROOT } = await import("../src/config.js");
       const fs = await import("node:fs");
@@ -2267,32 +2329,38 @@ const TESTS: Test[] = [
         return none(`the arrangement site is not built in this tree (${path.relative(REPO_ROOT, SITE)} does not ` +
           `exist) — an absent artefact is NOT zero broken links (producer: mould:build, B1)`);
       }
-      const files = fs.readdirSync(SITE, { recursive: true, encoding: "utf8" })
-        .filter((f) => typeof f === "string" && f.endsWith(".html"));
-      if (!files.length) return none(`the site directory holds no HTML page (producer: mould:build, B1)`);
-      const broken: string[] = [];
-      let checked = 0;
-      for (const f of files) {
-        const html = fs.readFileSync(path.join(SITE, f), "utf8");
-        for (const m of html.matchAll(/href="([^"#?]+)"/g)) {
-          const href = m[1];
-          if (/^(https?:|mailto:|\/\/)/.test(href)) continue;   // external: a different question
-          checked++;
-          const target = path.resolve(path.dirname(path.join(SITE, f)), href);
-          if (!fs.existsSync(target) && !fs.existsSync(target + ".html") && !fs.existsSync(path.join(target, "index.html"))) {
-            broken.push(`${f} -> ${href}`);
-          }
-        }
-      }
-      const scope = `${checked.toLocaleString()} internal hrefs across ${files.length} pages`;
+      const stale = await siteBuildProblem(SITE, path.join(REPO_ROOT, "data", "completeness", `${OWN_VENDOR}.json`));
+      if (stale) return none(`the site here is not this build's: ${stale} — its links prove nothing about these artefacts (producer: mould:build)`);
+      const { pages, checked, broken } = await siteLinkReport(SITE);
+      if (!pages) return none(`the site directory holds no HTML page (producer: mould:build, B1)`);
+      const scope = `${checked.toLocaleString()} internal hrefs across ${pages} pages`;
       return broken.length === 0
         ? ok(`every internal link on the arrangement site resolves — ${scope}`)
         : bad(`${broken.length} internal links do not resolve — ${scope}: ${broken.slice(0, 5).join(", ")}`);
     },
+    // Over REAL directories, through the check's own two functions: a site with one dangling href, and a site whose links all
+    // resolve but whose BUILD.json names another build than its report -- each must be refused, and the clean twin accepted.
     selfTest: async () => {
-      const resolves = (exists: boolean) => exists;
-      return { negative: resolves(false), positive: resolves(true),
-               note: "a href with no file behind it must fail; one with a file must pass" };
+      const fs = await import("node:fs"), os = await import("node:os"), path = await import("node:path");
+      const root = fs.mkdtempSync(path.join(os.tmpdir(), "link-integrity-"));
+      const SHA = "d2bd6200e8dd4d8edad10c12d44a1b813194dead";
+      const make = (name: string, pages: Record<string, string>, sha: string) => {
+        const site = path.join(root, name, "site"), report = path.join(root, name, "report.json");
+        for (const [f, html] of Object.entries(pages)) { fs.mkdirSync(path.dirname(path.join(site, f)), { recursive: true }); fs.writeFileSync(path.join(site, f), html); }
+        fs.writeFileSync(path.join(site, "BUILD.json"), JSON.stringify({ git_sha: sha }));
+        fs.writeFileSync(report, JSON.stringify({ built_on_commit: SHA.slice(0, 7) }));
+        return { site, report };
+      };
+      const accepts = async (s: { site: string; report: string }) =>
+        (await siteBuildProblem(s.site, s.report)) === null && (await siteLinkReport(s.site)).broken.length === 0;
+      const good = { "index.html": `<a href="layers/index.html">l</a>`, "layers/index.html": `<a href="../index.html">back</a>` };
+      try {
+        const dangling = make("dangling", { ...good, "index.html": `<a href="layers/index.html">l</a><a href="layers/switches.html">s</a>` }, SHA);
+        const stale = make("stale", good, "129f847cf897" + SHA.slice(12));
+        const clean = make("clean", good, SHA);
+        return { negative: (await accepts(dangling)) || (await accepts(stale)), positive: await accepts(clean),
+                 note: "a dangling href must fail, and so must a clean site from ANOTHER build (stale BUILD.json); the clean same-build twin passes" };
+      } finally { fs.rmSync(root, { recursive: true, force: true }); }
     },
   },
   {
@@ -2316,6 +2384,7 @@ const TESTS: Test[] = [
       const KNOWN: Record<number, string> = {
         3: "in daily use — presumed the netzspec.com site; holder unconfirmed, see below",
         16: "the reviewer, minted 27 Sep 2026, read scope",
+        17: "the verifier on the box (mould-verify), minted 29 Sep 2026, read scope; token only in /root/netzspec-verifier.env (mode 600)",
       };
       const rows = (await query<{ id: number; name: string; last: string | null; scopes: string[] }>(`
         SELECT id, name, last_used_at::text last, scopes FROM api_keys WHERE revoked_at IS NULL ORDER BY id`)).rows;

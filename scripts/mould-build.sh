@@ -37,7 +37,11 @@ rm -f "$BEFORE"
 npx tsx scripts/run-tests.ts --miss-out "$BEFORE" > "$MISS_DIR/before-$GIT_SHA.log" 2>&1
 # its exit code is the red board's, so the ARTIFACT is what is checked
 [ -s "$BEFORE" ] || { echo "!! MISS snapshot was not written (see $MISS_DIR/before-$GIT_SHA.log) - nothing written"; exit 2; }
-step npx tsx scripts/build-layers.mts --vendor "$VENDOR" --all
+# THE ARRANGEMENT SITE starts empty HERE, before its first writer: build-layers renders the layer pages (data/site/layers) from
+# the same trees it writes to data/layers. The first build with a site (d2bd620) ran build-layers WITHOUT --site and cleared the
+# directory after it, so every category page linked a layer page nobody built: link_integrity, 16 dangling hrefs.
+rm -rf data/site
+step npx tsx scripts/build-layers.mts --vendor "$VENDOR" --all --site data/site
 step npx tsx scripts/write-layers-to-db.mts --commit
 step npx tsx src/pipeline/cli.ts recompute-completeness --vendor "$VENDOR"
 for c in $cats; do step npx tsx scripts/build-cup-ledger.mts --category "$c" --vendor "$VENDOR"; done
@@ -49,12 +53,16 @@ step npx tsx scripts/build-freeze.mts --vendor "$VENDOR"
 step npx tsx scripts/build-completeness.mts --vendor "$VENDOR"
 # THE ARRANGEMENT SITE, into data/site (reviewer ruling (e), 29 Sep 2026): link_integrity judges every href of the site built
 # from THIS build's artefacts, and it sat NOT EXERCISED because no build produced one -- an absent site is not zero broken
-# links. Same builder and inputs as scripts/publish-arrangement.sh; nothing is published from here. data/site is gitignored.
-rm -rf data/site
+# links. Same builder and inputs as scripts/publish-arrangement.sh; nothing is published from here. data/site is gitignored
+# (cleared above, before build-layers wrote its pages into it).
 step npx tsx scripts/build-arrangement-site.mts --vendor "$VENDOR" --out data/site --report "data/completeness/$VENDOR.json" --ledgers data/ledger \
   --plans data/reference/kind-layer-plans-2026-09-13.json --evidence "data/reference/cup-evidence-$VENDOR.json" \
   --spec docs/reviewer/netzspec-cisco-kind-layer-specification-2026-09-13.md --decision docs/decisions/2026-09-13-kind-layer-cisco.md \
   --questions "docs/reviewer/open-questions-$VENDOR.md" --state committed --note "mould-build $GIT_SHA"
+# The site's BUILD marker: data/site outlives this tree (the deploy carries it across the swap, it is not in git), so
+# link_integrity judges it only while this commit is the one the completeness report was built on -- a carried site from an
+# older build is reported STALE, never judged as the current artefacts' site.
+step bash -c 'printf "{\"git_sha\":\"%s\",\"built_at\":\"%s\"}\n" "$GIT_SHA" "$(date -u +%Y-%m-%dT%H:%M:%SZ)" > data/site/BUILD.json && grep -qF "$GIT_SHA" data/site/BUILD.json'
 # The fill-state histogram is recorded PER BUILD (reviewer ruling, 29 Sep 2026): fill_state_partition is green only
 # when the live histogram is the last record. The check's own verdict is not this build's concern, so its exit code is
 # deliberately not read; the ARTIFACT is -- the history's last line must carry this build's commit.
