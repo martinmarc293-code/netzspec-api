@@ -137,9 +137,9 @@
   "max_attempts": 3,
   "lease_minutes": 30,
   "build": {
-    "data_commit": "d80ae05d4c5a+88dirty",
-    "code_commit": "9c24544f63c0",
-    "contract_hash": "e07214730262c698",
-    "generated_at": "2026-09-29T22:16:29.244Z"
+    "data_commit": "a03b7e16ecc8+82dirty",
+    "code_commit": "a03b7e16ecc8",
+    "contract_hash": "b4fce311fad4b6a7",
+    "generated_at": "2026-09-29T23:00:45.902Z"
   }
 }

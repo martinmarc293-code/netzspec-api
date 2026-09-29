@@ -1,8 +1,8 @@
 {
   "vendor": "cisco",
   "category": "hyperconverged-systems",
-  "built_at": "2026-09-29T22:09:32.487Z",
-  "commit": "60311ed61231ff407632fc405a23fb98b028099e",
+  "built_at": "2026-09-29T22:53:31.033Z",
+  "commit": "a03b7e16ecc88833c14a905c10d1a07f86d25827",
   "uncommitted_rule_files": [],
   "mapping_file": "data/reference/product-lines/cisco-hyperconverged-systems.json",
   "parts": 1631,
@@ -316,9 +316,9 @@
   "inbound_unplaced": {},
   "done": true,
   "build": {
-    "data_commit": "d80ae05d4c5a+88dirty",
-    "code_commit": "9c24544f63c0",
-    "contract_hash": "e07214730262c698",
-    "generated_at": "2026-09-29T22:16:29.244Z"
+    "data_commit": "a03b7e16ecc8+82dirty",
+    "code_commit": "a03b7e16ecc8",
+    "contract_hash": "b4fce311fad4b6a7",
+    "generated_at": "2026-09-29T23:00:45.902Z"
   }
 }
