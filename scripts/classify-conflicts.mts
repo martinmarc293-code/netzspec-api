@@ -31,12 +31,14 @@ const ORPHAN_SQL = `SELECT k.id::text AS id, p.sku, k.field_key AS key FROM conf
 
 type Row = { id: string; sku: string; key: string; ke: ConflictEvidence | null; re: ConflictEvidence | null; kr: string | null; rr: string | null;
   fk: ConflictEvidence | null; fr: ConflictEvidence | null };
+// The facts lookup runs ONLY for a row with no evidence object (the 53 Atlas rows): run for all 15,983 it hit the pool's
+// 120 s statement_timeout (29 Sep), and CASE evaluates its branch lazily.
 const CLASS_SQL = `
   SELECT k.id::text AS id, p.sku, k.field_key AS key, k.kept_evidence AS ke, k.rejected_evidence AS re, k.kept_raw AS kr, k.rejected_raw AS rr,
-         (SELECT jsonb_build_object('doc_id', f.doc_id, 'locator', f.locator, 'extracted_at', f.extracted_at::text, 'norm_v', f.norm_v)
-            FROM facts f WHERE f.part_id = k.part_id AND f.field_key = k.field_key AND f.value = k.kept ORDER BY f.id DESC LIMIT 1) AS fk,
-         (SELECT jsonb_build_object('doc_id', f.doc_id, 'locator', f.locator, 'extracted_at', f.extracted_at::text, 'norm_v', f.norm_v)
-            FROM facts f WHERE f.part_id = k.part_id AND f.field_key = k.field_key AND f.value = k.rejected ORDER BY f.id DESC LIMIT 1) AS fr
+         CASE WHEN jsonb_typeof(k.kept_evidence) = 'object' AND jsonb_typeof(k.rejected_evidence) = 'object' THEN NULL ELSE (SELECT jsonb_build_object('doc_id', f.doc_id, 'locator', f.locator, 'extracted_at', f.extracted_at::text, 'norm_v', f.norm_v)
+            FROM facts f WHERE f.part_id = k.part_id AND f.field_key = k.field_key AND f.value = k.kept ORDER BY f.id DESC LIMIT 1) END AS fk,
+         CASE WHEN jsonb_typeof(k.kept_evidence) = 'object' AND jsonb_typeof(k.rejected_evidence) = 'object' THEN NULL ELSE (SELECT jsonb_build_object('doc_id', f.doc_id, 'locator', f.locator, 'extracted_at', f.extracted_at::text, 'norm_v', f.norm_v)
+            FROM facts f WHERE f.part_id = k.part_id AND f.field_key = k.field_key AND f.value = k.rejected ORDER BY f.id DESC LIMIT 1) END AS fr
     FROM conflicts k JOIN parts p ON p.id = k.part_id WHERE k.resolved_at IS NULL AND k.class IS NULL ORDER BY k.id`;
 
 /** The class and what decided it, or a hold with its reason. */
