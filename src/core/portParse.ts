@@ -243,8 +243,48 @@ function segments(s: string): string[] {
     // inside a name ("R&D", "AT&T") cannot break a clause apart.
     .split(/\s*(?:,|;|(?<=\s)\+(?=\s*\d)|&(?=\s*\d)|\band\b|\bwith\b|\bplus\b|\/(?=\s*\d+\s*x))\s*/i)
     .map((x) => x.trim())
-    .filter(Boolean);
+    .filter(Boolean)
+    .flatMap(splitAtLaterCounts);
 }
+
+/** A SECOND "N x" IN ONE CLAUSE OPENS A SECOND PORT GROUP (29 Sep 2026, ruling (c)). Meraki writes its port table with no
+ *  separator between groups --
+ *
+ *    MX85   "8 x Dedicated 1 Gigabit Ethernet RJ45 2 x Dedicated 1 Gigabit Ethernet SFP"
+ *           -> [{ port_typ: "sfp", anzahl: 8 }]
+ *
+ *  -- so both groups sat in one segment, the first count won and the connector scan (which walks CONNECTORS in list order,
+ *  not in position) took SFP: eight SFP ports, the count from one group wearing the connector of the next. A count with a
+ *  spaced multiplier AFTER the segment's first count starts a new segment. "4x10G" keeps its glued multiplier (a digit
+ *  follows the x), so a count-and-speed token is never cut; the product-level "or" alternatives are refused before this. */
+//  The cut is taken only when the group BEFORE it has already named its connector -- a group is complete when it has a
+//  count and a connector. Without that guard the test suite's own cable refusal broke on the first run: "... 100 GE
+//  MPO-Breakout-Glasfaserkabel zu 10x 10 GE SFP+" is ONE breakout cable, and cutting at "10x" made its far end a
+//  ten-port SFP+ device. Its first part names no connector, so it stays whole and is refused as a count of cables.
+function splitAtLaterCounts(seg: string): string[] {
+  const first = COUNT.exec(seg) ?? COUNT_AT_START.exec(seg);
+  if (!first) return [seg];
+  const cuts = [...seg.matchAll(/(?<=\s)\d{1,4}\s*[x×](?=\s|[A-Za-z])/g)].map((m) => m.index ?? 0).filter((i) => i > first.index);
+  const out: string[] = [];
+  let from = 0;
+  let countAt = first.index;   // the group's connector is read from ITS count onward: a SKU in front ("FG-CABLE-SR10-SFP+") is no evidence
+  for (const c of cuts) {
+    if (!CONNECTORS.some(([re]) => re.test(seg.slice(countAt, c)))) continue;
+    out.push(seg.slice(from, c).trim()); from = c; countAt = c;
+  }
+  out.push(seg.slice(from).trim());
+  return out.filter(Boolean);
+}
+
+/** A PoE OPTION IS A CAPABILITY OF PORTS ALREADY COUNTED, NOT MORE PORTS (29 Sep 2026, ruling (c)). The 890-series routers:
+ *
+ *    C897VAG-LTE  "8-port 10/100/ 1000-Mbps managed switch With 4-port Power over Ethernet (PoE) option"
+ *                 -> [{ rj45, 8 }, { rj45, 4 }]   (twelve ports on an eight-port switch)
+ *
+ *  Four of the eight ports can carry PoE, as an option. Split on "with", the option clause was read as four MORE copper
+ *  ports. A clause whose text after its count states PoE as an option, and that names no connector of its own, describes
+ *  the ports another clause counted: it is skipped (its PoE still tells a connector-less sibling that the ports are copper). */
+const POE_OPTION = /(?<![A-Za-z])(?:PoE\+?|Power over Ethernet)(?![A-Za-z])[^,;]*(?<![A-Za-z])option(?:al|s)?(?![A-Za-z])/i;
 
 export type PortParse =
   | { ok: true; value: PortGroup[] }
@@ -373,6 +413,7 @@ export function parsePorts(raw: string): PortParse {
     // only REQUIRED to parse if it looks like it is describing ports.
     const cm = COUNT.exec(seg) || COUNT_AT_START.exec(seg);
     if (cm && CABLE_NOUN.test(seg.slice(cm.index + cm[0].length))) { cableClause = seg; continue; }
+    if (cm && POE_OPTION.test(seg.slice(cm.index + cm[0].length)) && !CONNECTORS.some(([re]) => re.test(seg))) continue;
     const mentionsPorts = /\bports?\b/i.test(seg) || CONNECTORS.some(([re]) => re.test(seg));
     if (!cm && !mentionsPorts) continue;
     if (!cm) return { ok: false, detail: `segment has a port token but no count: "${seg}"` };

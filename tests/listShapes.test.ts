@@ -5,7 +5,7 @@
 // PURE: no database, no cache, no Python. The corpus measurements that produced these grammars are
 // recorded in the module and in the decision file; what this suite holds is the CONTRACT — that a
 // registered shape is a real definition and not a regex wearing one.
-import { LIST_SHAPES, shapeIsDefinition, classifyMember, extractIdentifier } from "../src/core/listShapes.js";
+import { LIST_SHAPES, shapeIsDefinition, classifyMember, extractIdentifier, salvageMember, reshapeList, PROTOCOL_VOCABULARY } from "../src/core/listShapes.js";
 
 let pass = 0, miss = 0;
 const check = (name: string, ok: boolean) => {
@@ -67,6 +67,44 @@ check("SABOTAGE a sentence is refused", classifyMember("supported_protocols", "L
 check("SABOTAGE a year is not an IEEE standard number", classifyMember("certifications", "1997") === "flagged");
 check("  but a real one with its prefix is", classifyMember("ieee_standards", "IEEE 1588") === "accept");
 check("SABOTAGE a temperature is refused", classifyMember("certifications", "0 to 40 degrees C") === "refuse");
+
+// ---- SALVAGE (ruling (a'), 29 Sep 2026): a refused member gives up the identifiers inside it -------------------------
+// Every case is a refused member read off the cisco store on 29 Sep 2026, verbatim.
+const same = (a: string[], b: string[]) => JSON.stringify(a) === JSON.stringify(b);
+check("ieee: '25-Gbps IEEE 802.3by and IEEE 802.3cc compliant' salvages BOTH standards",
+  same(salvageMember("ieee_standards", "25-Gbps IEEE 802.3by and IEEE 802.3cc compliant"), ["IEEE 802.3by", "IEEE 802.3cc"]));
+check("certifications: 'June 2007 (GR-63-CORE, issue 3, and GR-1089-CORE, issue 4)' salvages both GR documents",
+  same(salvageMember("certifications", "June 2007 (GR-63-CORE, issue 3, and GR-1089-CORE, issue 4)"), ["GR-63-CORE", "GR-1089-CORE"]));
+check("certifications: 'CB to IEC 60950-1 with all country deviations' salvages IEC 60950-1",
+  same(salvageMember("certifications", "CB to IEC 60950-1 with all country deviations"), ["IEC 60950-1"]));
+check("protocols: 'DNS: A record (RFC 1706), SRV record (RFC 2782)' salvages DNS and both RFCs, in order",
+  same(salvageMember("supported_protocols", "DNS: A record (RFC 1706), SRV record (RFC 2782)"), ["DNS", "RFC 1706", "RFC 2782"]));
+check("protocols: 'Session Initiation Protocol (SIP) for signaling' salvages SIP",
+  same(salvageMember("supported_protocols", "Session Initiation Protocol (SIP) for signaling"), ["SIP"]));
+// THE CLOSED VOCABULARY (reviewer condition). SVIs and VEPA classify `accept` under the loose protocol shape and are not
+// protocols; the closed table keeps them out.
+const svi = "Layer 3 interfaces: Routed ports on interfaces, Switch Virtual Interfaces (SVIs), PortChannels, and subinterfaces";
+const vepa = "Virtual Ethernet port aggregator (VEPA) Open Virtual Switch (OVS) wi";
+check("protocols: an SVI sentence salvages nothing (SVIs is not in the closed vocabulary)", same(salvageMember("supported_protocols", svi), []));
+check("protocols: a VEPA sentence salvages nothing", same(salvageMember("supported_protocols", vepa), []));
+check("SABOTAGE a loose acronym grab (the vocabulary widened to SVIs / VEPA / LOM) DOES salvage them -- so the table is load-bearing",
+  same(salvageMember("supported_protocols", svi, [...PROTOCOL_VOCABULARY, { token: "SVIs" }, { token: "VEPA" }, { token: "LOM" }]), ["SVIs"])
+  && same(salvageMember("supported_protocols", vepa, [...PROTOCOL_VOCABULARY, { token: "SVIs" }, { token: "VEPA" }, { token: "LOM" }]), ["VEPA"]));
+check("SABOTAGE nothing enters on the candidate pattern alone: 'LOM' matches no accept even when tabled",
+  classifyMember("supported_protocols", "LOM") !== "accept");
+check("SABOTAGE the accept filter is live: a TABLED token the shape does not accept (PIM-SM) is still not salvaged",
+  classifyMember("supported_protocols", "PIM-SM") !== "accept"
+  && same(salvageMember("supported_protocols", "IPv4 and IPv6 multicast routing PIM-SM, PIM-SSM", [{ token: "PIM-SM" }]), ["IPv4", "IPv6"]));
+check("every vocabulary token classifies accept, and its witness is a refused member that contains it",
+  PROTOCOL_VOCABULARY.every((v) => classifyMember("supported_protocols", v.token) === "accept"
+    && classifyMember("supported_protocols", v.witness) === "refuse" && v.witness.includes(v.token)));
+check("a heading carries nothing to salvage ('Safety:')", same(salvageMember("certifications", "Safety:"), []));
+// reshapeList: kept members stay exactly, salvage is de-duplicated against the list, and the counts add up
+const rl = reshapeList("ieee_standards", ["IEEE 802.3by", "25-Gbps IEEE 802.3by and IEEE 802.3cc compliant", "Safety:", "802"]);
+check("reshapeList keeps accepted and flagged members as they are and adds only what the list lacks",
+  same(rl.members, ["IEEE 802.3by", "IEEE 802.3cc", "802"]) && rl.accepted === 1 && rl.flagged === 1 && rl.salvaged === 1 && rl.dropped === 1);
+check("reshapeList of all-prose leaves NOTHING (the normaliser then refuses the cell; never stored empty)",
+  reshapeList("certifications", ["Safety:", "This product is designed to meet the following requirements (qualification in progress):"]).members.length === 0);
 
 console.log(`\nlist shapes: ${pass} passed, ${miss} missed`);
 if (miss) process.exit(1);

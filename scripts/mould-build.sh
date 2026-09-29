@@ -47,6 +47,14 @@ for c in $cats; do step npx tsx scripts/build-mapper-trace.mts --category "$c" -
 # full run (28 Sep) built them the other way round, so the report named the previous freeze.
 step npx tsx scripts/build-freeze.mts --vendor "$VENDOR"
 step npx tsx scripts/build-completeness.mts --vendor "$VENDOR"
+# THE ARRANGEMENT SITE, into data/site (reviewer ruling (e), 29 Sep 2026): link_integrity judges every href of the site built
+# from THIS build's artefacts, and it sat NOT EXERCISED because no build produced one -- an absent site is not zero broken
+# links. Same builder and inputs as scripts/publish-arrangement.sh; nothing is published from here. data/site is gitignored.
+rm -rf data/site
+step npx tsx scripts/build-arrangement-site.mts --vendor "$VENDOR" --out data/site --report "data/completeness/$VENDOR.json" --ledgers data/ledger \
+  --plans data/reference/kind-layer-plans-2026-09-13.json --evidence "data/reference/cup-evidence-$VENDOR.json" \
+  --spec docs/reviewer/netzspec-cisco-kind-layer-specification-2026-09-13.md --decision docs/decisions/2026-09-13-kind-layer-cisco.md \
+  --questions "docs/reviewer/open-questions-$VENDOR.md" --state committed --note "mould-build $GIT_SHA"
 # The fill-state histogram is recorded PER BUILD (reviewer ruling, 29 Sep 2026): fill_state_partition is green only
 # when the live histogram is the last record. The check's own verdict is not this build's concern, so its exit code is
 # deliberately not read; the ARTIFACT is -- the history's last line must carry this build's commit.

@@ -1,0 +1,92 @@
+# Refused list members read before renormalize (ruling (a'), 29 Sep 2026): the 25 most frequent distinct refused members per key,
+# cisco, weighted by the facts carrying them, from the live store (current facts on live parts). Quoted by the renormalize --allow.
+# Refused by src/core/listShapes.ts classifyMember; each is REPLACED by the identifiers salvaged from it (salvageMember) or dropped.
+
+604 distinct (key, value, vendor) rows; 0 not arrays
+  certifications|aruba: 5 refused member-occurrences on 5 facts; 0 facts would be left EMPTY
+  certifications|cisco: 1081 refused member-occurrences on 818 facts; 1 facts would be left EMPTY
+  certifications|hpe: 31 refused member-occurrences on 11 facts; 0 facts would be left EMPTY
+  ieee_standards|cisco: 584 refused member-occurrences on 467 facts; 1 facts would be left EMPTY
+  ieee_standards|juniper: 2 refused member-occurrences on 2 facts; 1 facts would be left EMPTY
+  supported_protocols|cisco: 2362 refused member-occurrences on 1023 facts; 32 facts would be left EMPTY
+
+== supported_protocols: 100 distinct refused members (cisco); the 25 most frequent:
+    237  "IPv6 addressing architecture"
+    163  "IPv6 name resolution"
+    163  "IPv6 translation: Transport packets between IPv6-only and IPv4-only endpoints (NAT-PT)"
+    141  "DNS: A record (RFC 1706), SRV record (RFC 2782)"
+     98  "Session Initiation Protocol (SIP) for signaling"
+     86  "IPv4 and IPv6 unicast"
+     81  "Layer 2 switch ports"
+     79  "unicast MAC filter"
+     61  "IPv6 unicast and multicast forwarding"
+     56  "Routing protocols: static, Open Shortest Path First (OSPFv2), OSPFv3, Intermediate Sy"
+     52  "Layer 3 interfaces: physical and subinterfaces"
+     50  "Transparent secure roaming"
+     50  "Provisioning of network parameters through DHCP"
+     49  "Layer 2 switch ports and VLAN trunks"
+     45  "IPv6 Ready logo and USGv6 R1 compliant*"
+     43  "IPv4 static routing"
+     38  "Cisco Bundle Ethernet technology (up to 64 ports per Ethernet Bund"
+     37  "IPv6 over cellular, including DHCP Prefix Delegation"
+     30  "Layer 3 interfaces: physical and sub-interfaces"
+     30  "Routing protocols: static, Open Shortest Path First (OSPFv2), OSPFv3, Intermediate S"
+     29  "Cisco bundle Ethernet technology (up to 32 ports per Ethernet bund"
+     26  "Maximum spanning tree instances"
+     26  "IPv4 direct routes"
+     26  "IPv4 multicast routes"
+     25  "Layer 2 switch ports IEEE 802.1Q VLAN encapsulation/Q-in-Q encapsulation IEEE 802.1ad Cisco Bundle Ethernet technology (up to 32 ports per Ethernet Bundle) Link"
+
+== ieee_standards: 34 distinct refused members (cisco); the 25 most frequent:
+    120  "Per-port byte and packet counters for policy drops; oversubscription drops; Cyclic Redundancy Check (CRC) error drops; packet sizes; and unicast, multicast, and broadcast packets"
+     58  "Safety:"
+     48  "RMON I and II standards"
+     46  "Power over Ethernet (PoE) - minimum IEEE 802.3: Power class 2 (3.84 – 6.49W)"
+     39  "25-Gbps IEEE 802.3by and IEEE 802.3cc compliant"
+     37  "Per-port byte and packet counters for policy drops, oversubscription drops, Cyclic Redundancy Check (CRC) error drops, packet sizes, and unicast, multicast, and broadcast packets"
+     34  "Per-port byte and packet counters for policy drops; oversubscription drops; cyclic redundancy check (CRC) error drops; packet sizes; and unicast, multicast, and broadcast packets"
+     28  "Per-port byte and packet"
+     18  "Management: SNMP versions 1, 2, and 3"
+     12  "1- and 10-Gbps IEEE 802.3 compliant"
+     12  "1 and 10 Gigabit Ethernet PHY monitoring"
+     11  "Bidirectional Forwarding Detection (BFD) for OSPF and IS-IS"
+     11  "IGMP Proxy reporting for IGMPv2 and MLDv1"
+     11  "Ethernet over MPLS (EoMPLS Martini draft)"
+     11  "IP routing: Static, RIP versions 1 and 2, EIGRP, OSPF, BGPv4, PIM-SM, and PIM-DM (metro IP access only)"
+     10  "Remote Monitoring (RMON) I and II standards"
+      9  "Per-port byte and packet counters for policy drops; oversubscription drops; cyclic redundancy check"
+      9  "(CRC) error drops; packet sizes; and unicast, multicast, and broadcast packets"
+      9  "IPv6: RIP, OSPFv3, static routes"
+      8  "100 Gigabit Ethernet Physical layer (PHY) monitoring"
+      7  "Source and destination MAC accounting and VLAN accounting"
+      6  "Automatically enforce your IT governance"
+      6  "security policies in the network by establishing golden configuration"
+      6  "100 Gigabit Ethernet physical layer (PHY) monitoring"
+      4  "Safety"
+
+== certifications: 56 distinct refused members (cisco); the 25 most frequent:
+    172  "Cisco ASR 9000 Series Routers are designed to meet:"
+     80  "This product is designed to meet the following requirements (qualification in progress):"
+     78  "Safety"
+     39  "to current issue"
+     34  "Information technology equipment: UL"
+     32  "Information technology equipment: UL/CSA 60950-1 EN 60950-1"
+     32  "CB to IEC 60950-1 with all country deviations UL/CUL 62368-1"
+     32  "CB to IEC62368-1 with country deviati"
+     32  "CB to IEC 60950-1 with all country deviations UL"
+     30  "The Cisco Nexus 2248TP"
+     30  "2232PP meet NEBS level-3 standards (hardware revision 3)."
+     28  "CSA-C22.2 No. 60950-1 Second Edition EN 60950-1 Second Edition IEC 60950-1 Second Edition GOST NOM (obtained by partners"
+     28  "Cisco ASR 9901 is designed to meet:"
+     27  "CB to IEC 60950 with all country deviations"
+     27  "Canada: RSS-210 Rev 5 (does not include 5.470-5.725 GHz ban"
+     22  "June 2007 (GR-63-CORE, issue 3, and GR-1089-CORE, issue 4)"
+     22  "The Cisco ASR 9903 Router is designed to meet:"
+     21  "The Cisco Nexus 2348UPQ"
+     21  "2332TQ meet NEBS level-3 standards (hardware revision 3) (not currently supported)"
+     20  "CSA-C22.2 No. 60950-1 Second Edition EN 60950-1 Second Edition IEC 60950-1 Second Edition NOM (obtained by partners"
+     19  "CB to IEC 60950-1 with all country deviations"
+     18  "CB to IEC 60950-1, 2nd edition with all group differences and nat"
+     15  "Homologation requirements vary by country and interface type. For specific country info"
+     15  "Note: Due to new FCC WiFi June 2016 regulation (FCC rules for part 15.409)"
+     15  "the WLAN radio used in the ISR's (specifically C819 –A WiFi Domain with AP802 dual 8"

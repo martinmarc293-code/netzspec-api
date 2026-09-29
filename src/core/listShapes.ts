@@ -258,6 +258,110 @@ export function classifyMember(key: string, member: string): MemberVerdict {
   return "unclassified";
 }
 
+// ---- SALVAGE: the identifiers inside a refused member (ruling (a'), 29 Sep 2026) --------------------------------------
+//
+// A REFUSED MEMBER IS A SENTENCE, NOT AN ABSENCE. Read in full, a third of the refused members carry a real identifier in
+// the middle of their prose: "25-Gbps IEEE 802.3by and IEEE 802.3cc compliant" (39 parts each), "CB to IEC 60950-1 with
+// all country deviations", "DNS: A record (RFC 1706), SRV record (RFC 2782)", "Session Initiation Protocol (SIP) for
+// signaling". extractIdentifier looks only at the FRONT of a member -- which is why these were refused -- so a plain drop
+// would have deleted 96 IEEE, 480 certification and ~1,500 protocol identifier-occurrences that appear nowhere else in
+// their lists: the 160-character cap's mistake made a second time, by the cleanup of the first.
+//
+// The rule, with the reviewer's conditions: a refused member is REPLACED by the identifiers embedded in it that the key's
+// OWN shape accepts -- every candidate goes back through classifyMember and must come out `accept`; nothing enters on the
+// candidate pattern alone -- de-duplicated against the list; a refused member with none is dropped. The normaliser keeps
+// the raw cell, so every salvaged identifier traces to the sentence it was read from.
+
+/** Candidate identifiers per key, UNANCHORED -- found anywhere in a refused member. A candidate is only a candidate:
+ *  salvageMember re-classifies it and keeps it only on `accept`. Lookarounds, never a word boundary (4x10G, 10GBASE-T). */
+const EMBEDDED: Readonly<Record<string, readonly RegExp[]>> = {
+  ieee_standards: [
+    /(?<![A-Za-z0-9.])(?:IEEE ?)?802\.[0-9]{1,2}[a-z]{0,4}(?![A-Za-z0-9])/gi,
+    /(?<![A-Za-z0-9])[0-9]{1,4}BASE-?[A-Z0-9]{1,4}(?![A-Za-z0-9])/gi,
+    /(?<![A-Za-z0-9])IEEE ?1[0-9]{3}(?![0-9])/gi,
+  ],
+  certifications: [
+    // an issuer and its number, read the way NUMBERED reads them; the re-classification decides what survives
+    new RegExp("(?<![A-Za-z0-9/])(?:" + ISSUER + ")[ \\-]?[0-9][0-9A-Za-z.\\-/]*(?:[ ]?[:\\-][ ]?(?:19|20)[0-9]{2})?(?:[ ,]+(?:Class|Klasse) ?[A-Z12](?![A-Za-z]))?", "gi"),
+    /(?<![A-Za-z])NEBS(?: Level ?[123])?(?![A-Za-z])/g,
+  ],
+  supported_protocols: [
+    /(?<![A-Za-z0-9])RFC ?[0-9]{1,5}(?![0-9])/g,
+    /(?<![A-Za-z0-9])ITU(?:-T)? ?[A-Z]\.[0-9]{1,4}(?:\.[0-9]+)?(?![0-9])/g,
+    /(?<![A-Za-z0-9])IPv[46](?![A-Za-z0-9])/g,
+  ],
+};
+
+/**
+ * THE PROTOCOL VOCABULARY IS CLOSED (reviewer condition, 29 Sep 2026). supported_protocols' own shape is loose -- any
+ * capitalised token of four characters passes -- so "every token the shape accepts" would salvage SVIs (a switch virtual
+ * interface) and VEPA (a port aggregator), which classify accept and are not protocols. Only these tokens are salvaged
+ * from prose; each still has to classify accept, and each carries the shortest refused cisco member it was read from on
+ * 29 Sep 2026, verbatim, so the entry can be checked against the store.
+ */
+export const PROTOCOL_VOCABULARY: readonly { token: string; witness: string }[] = [
+  { token: "DNS", witness: "DNS: A record (RFC 1706), SRV record (RFC 2782)" },
+  { token: "SIP", witness: "Session Initiation Protocol (SIP) for signaling" },
+  { token: "DHCP", witness: "DHCP relay agent" },
+  { token: "DHCPv6", witness: "IPv6 6rd Stateless address auto-configuration DHCPv6 server for IPv6 clients on a LAN DHCPv6 client for WAN connectivity Internet Control Me" },
+  { token: "OSPFv2", witness: "Routing protocols: static, Open Shortest Path First (OSPFv2), OSPFv3, Intermediate S" },
+  { token: "OSPFv3", witness: "Routing protocols: static, Open Shortest Path First (OSPFv2), OSPFv3, Intermediate S" },
+  { token: "UDP", witness: "User Datagram Protocol (UDP) (used only for Real-Time T" },
+  { token: "TCP", witness: "MAC address IPv4 only IPv6 only IPv4/IPv6 dual stack Session Initiation Protocol (SIP) Transmission Control Protocol (TCP) User Datagram Protocol (UDP) Real Tim" },
+  { token: "ARP", witness: "Classical IP over ATM; Client and Address Resolution Protocol (ARP) Server (RFCs 1577, 1755, and 1626)" },
+  { token: "ICMP", witness: "IPv6 addressing Internet Control Message Protocol (ICMP) Layer 3 routing protocols" },
+  { token: "PIM", witness: "IP multicast routing protocols: Protocol Independent Multicast (PIM), including sparse mode and dense mode" },
+  { token: "MSDP", witness: "2000 ingress  ; Multicast: PIM-SM Version 2 and SSM Bootstrap Router (BSR), Automatic Rendezvous Point (Auto-RP), and Static RP MSDP and Anycast-RP Internet Group Management Pr" },
+  { token: "BGP", witness: "IPv4 routing: Cisco IOS XR Software supports a wide range of IPv4 services and routing protocols, including Border Gateway Protocol (BGP), Intermediate System" },
+  { token: "MPLS", witness: "IPv6 routing (Static ; GRE, Ethernet, 802.1q VLAN, Serial over MPLS" },
+  { token: "GRE", witness: "IPv6 routing (Static ; GRE, Ethernet, 802.1q VLAN, Serial over MPLS" },
+  { token: "IGMPv2", witness: "IPv4 Multicast: The line cards support Internet Group Management Protocol Versions 2 and 3 (IGMPv2 and v3), Protocol Independent Multicast-Source Specific Mul" },
+  { token: "IGMPv3", witness: "Forwarding (VRF) Open Shortest Path First (OSPFv2,  ; IPv4 and IPv6 multicast routing PIM-SM, PIM-SSM IGMPv3, MLDv2 mLDP mVPN P2MP-TE" },
+  { token: "MLDv2", witness: "Forwarding (VRF) Open Shortest Path First (OSPFv2,  ; IPv4 and IPv6 multicast routing PIM-SM, PIM-SSM IGMPv3, MLDv2 mLDP mVPN P2MP-TE" },
+];
+const vocabularyPattern = (vocab: readonly { token: string }[]): RegExp =>
+  new RegExp("(?<![A-Za-z0-9+\\-])(?:" + vocab.map((v) => v.token).join("|") + ")(?![A-Za-z0-9+\\-])", "g");
+const VOCAB_RE = vocabularyPattern(PROTOCOL_VOCABULARY);
+
+/** Two spellings of one identifier are one member: case, whitespace and a leading "IEEE" do not make a second one. */
+const sameId = (s: string): string => s.toLowerCase().replace(/^ieee\s*/, "").replace(/\s+/g, "");
+
+/** The identifiers embedded in one member that the key's own shape accepts, in order of appearance, de-duplicated.
+ *  `vocabulary` exists for the sabotage case only: a protocol table widened to the shape's loose acronyms must salvage
+ *  SVIs, which is exactly what the closed table prevents. */
+export function salvageMember(key: string, member: string, vocabulary: readonly { token: string }[] = PROTOCOL_VOCABULARY): string[] {
+  const vocab = vocabulary === PROTOCOL_VOCABULARY ? VOCAB_RE : vocabularyPattern(vocabulary);
+  const res = [...(EMBEDDED[key] ?? []), ...(key === "supported_protocols" ? [vocab] : [])];
+  const found: { at: number; id: string }[] = [];
+  for (const re of res) for (const m of member.matchAll(new RegExp(re.source, re.flags))) {
+    const id = m[0].trim().replace(/[.,;:]+$/, "");
+    if (classifyMember(key, id) === "accept") found.push({ at: m.index ?? 0, id });
+  }
+  const out: string[] = [];
+  for (const { id } of found.sort((a, b) => a.at - b.at)) if (!out.some((x) => sameId(x) === sameId(id))) out.push(id);
+  return out;
+}
+
+export type Reshaped = { members: string[]; accepted: number; flagged: number; unclassified: number; salvaged: number; dropped: number };
+
+/** A stored list, reshaped by the grammar. Every member the shape does not refuse is KEPT as it is (accepted, flagged and
+ *  unclassified alike -- unclassified is the ratchet's business, not this function's); a refused member is replaced by its
+ *  salvaged identifiers, minus any the list already holds; a refused member with none is dropped. Counts are per member,
+ *  so a run can report accepted / salvaged / dropped before and after (reviewer condition). */
+export function reshapeList(key: string, members: readonly string[]): Reshaped {
+  const out: Reshaped = { members: [], accepted: 0, flagged: 0, unclassified: 0, salvaged: 0, dropped: 0 };
+  const verdicts = members.map((m) => classifyMember(key, m));
+  const have = new Set(members.filter((_, i) => verdicts[i] !== "refuse").map(sameId));
+  members.forEach((m, i) => {
+    const v = verdicts[i];
+    if (v !== "refuse") { out.members.push(m); out[v === "accept" ? "accepted" : v === "flagged" ? "flagged" : "unclassified"]++; return; }
+    const ids = salvageMember(key, m).filter((id) => !have.has(sameId(id)));
+    if (!ids.length) { out.dropped++; return; }
+    for (const id of ids) { have.add(sameId(id)); out.members.push(id); out.salvaged++; }
+  });
+  return out;
+}
+
 /** THE `.*` GUARD. A shape is a definition only when it can REFUSE, and only when its own fixtures
  *  behave: every accept fixture accepted, every refuse fixture refused, every flagged fixture flagged.
  *  A shape with an empty refuse set is reported as no definition at all, however well-formed it looks.

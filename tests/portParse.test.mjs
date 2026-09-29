@@ -28,6 +28,18 @@ const cases = [
   { in: "6 x QSFP-DD", want: [g("qsfp-dd", [], 6)] },
   // PoE is only defined over twisted pair — the one inference this file allows.
   { in: "24 GigE PoE 370W", want: [g("rj45", ["1G"], 24)] },
+  // ruling (c), 29 Sep 2026 — the two misreads that blocked the lan/wan conversion, both real stored values.
+  // MX85: two groups with no separator. The connector is the one IN each group's clause, not the first in list order.
+  { in: "8 x Dedicated 1 Gigabit Ethernet RJ45 2 x Dedicated 1 Gigabit Ethernet SFP",
+    want: [g("rj45", ["1G"], 8), g("sfp", ["1G"], 2)] },
+  // C897VAG-LTE: a PoE OPTION on four of the eight ports is not four more ports.
+  { in: "8-port 10/100/ 1000-Mbps managed switch With 4-port Power over Ethernet (PoE) option",
+    want: [g("rj45", [], 8)] },
+  { in: "4-port 10/100-Mbps managed switch With 2-port Power over Ethernet  (PoE) option",
+    want: [g("rj45", ["10/100M"], 4)] },
+  // CONTROL: a glued multiplier after the first count is a count-and-speed token, never a new group.
+  { in: "Catalyst 9300 24-port 1G copper with fixed 4x10G/1G SFP+ uplinks",
+    want: [g("rj45", ["1G"], 24), g("sfp-plus", ["10G", "1G"], 4)] },
   { in: "24p mGig UPOE", want: [g("rj45", [], 24)] },
 
   // ---- WHOLE REAL DESCRIPTIONS, product name and all ---------------------------------------

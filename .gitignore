@@ -33,3 +33,6 @@ docs/reviewer/**/handover.md
 docs/reviewer/**/*.zip
 docs/reviewer/**/*.csv
 docs/reviewer/**/*.gz
+
+# the arrangement site built by scripts/mould-build.sh for link_integrity (ruling (e), 29 Sep 2026); published separately by publish-arrangement.sh
+data/site/

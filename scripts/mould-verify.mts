@@ -86,6 +86,48 @@ const na = (detail: string): Result => ({ state: "unavailable", detail });
  */
 const none = (detail: string): Result => ({ state: "not_exercised", detail });
 
+// ---- the deployed API, asked WITH the verifier's key when the environment holds one (ruling (e), 29 Sep 2026) ----
+// Key 17 `verifier-box` (read scope) lives only in /root/netzspec-verifier.env on the box. Until this helper, no test sent a
+// key even when NETZSPEC_API_KEY was set, so every authenticated route could only ever read "locked": the environment held
+// the credential and the request never carried it. The value is sent, never printed.
+function apiHeaders(): Record<string, string> {
+  const key = process.env.NETZSPEC_API_KEY;
+  return { "user-agent": "netzspec-mould-verify/1.0", ...(key ? { authorization: `Bearer ${key}` } : {}) };
+}
+
+/** Two ledgers are the same when their canonical forms are: object keys sorted at every level, array order kept (a ledger's
+ *  arrays are ordered on purpose, so a reordering is a real difference). */
+function sameLedger(a: unknown, b: unknown): boolean {
+  const canon = (x: unknown): unknown => Array.isArray(x) ? x.map(canon)
+    : x && typeof x === "object" ? Object.fromEntries(Object.keys(x as object).sort().map((k) => [k, canon((x as Record<string, unknown>)[k])])) : x;
+  return JSON.stringify(canon(a)) === JSON.stringify(canon(b));
+}
+
+// ---- helper for layer_parity_db_vs_artifact (ruling (e), 29 Sep 2026) ---------------------------
+/** One part's layers as the database and the artefact each hold them. */
+type LayerRow = { product_line: string | null; product_series: string | null };
+/** Which layers differ. Empty and null are one value: the artefact writes "" where the database stores NULL. */
+function layerRowDiff(db: LayerRow, art: LayerRow): ("product_line" | "product_series")[] {
+  const v = (x: string | null) => x ?? "";
+  return (["product_line", "product_series"] as const).filter((k) => v(db[k]) !== v(art[k]));
+}
+
+// ---- helper for plans_agree_with_rows (ruling (e), 29 Sep 2026) ---------------------------------
+/** A plan of record (data/reference/kind-layer-plans-2026-09-13.json). */
+type PlanOfRecord = { sku: string; category: string; action: "move" | "class"; to: string; run_id: number; expected_kind_after: string | null };
+/** The verdict on ONE plan: did its WRITE hold? A move's write is the category, a class change's the product class. A row
+ *  that no longer agrees is SUPERSEDED only when a later successful run names the part; otherwise it is a disagreement --
+ *  the write did not happen, or something unrecorded undid it. The kind the plan expected is not judged here: the kind
+ *  axes have been refined since 13 Sep ("unknown" became radio / interface / cellular), which is progress, not a miss. */
+function planVerdict(p: PlanOfRecord, row: { cat: string; cls: string; retired: boolean } | undefined, laterRun: number | null):
+  "agrees" | "superseded" | "retired" | "no-part" | "disagrees" {
+  if (!row) return "no-part";
+  if (row.retired) return "retired";
+  const holds = p.action === "move" ? row.cat === p.to : row.cls === p.to;
+  if (holds) return "agrees";
+  return laterRun !== null && laterRun > p.run_id ? "superseded" : "disagrees";
+}
+
 // ---- helpers for kind_profile_parity (A1) -----------------------------------------------------
 
 /** The four sets a KIND alone is asked in a category, resolved through the REAL requirementFor on a
@@ -645,31 +687,48 @@ const TESTS: Test[] = [
     // Reports rather than asserts a threshold: the disagreement is real (91.1%) and the repair is disputed,
     // so a red here would be noise until that decision lands. It fails only if the COMPARISON breaks — a
     // zero-overlap result, which is the shape a broken join makes, not a shape the data can make.
+    // RULING (e), 29 Sep 2026: compare LAYER TO LAYER. The first version compared `parts.series` -- the platform axis, N59 --
+    // with the artefact's layer-4 `series`, measured 91.1% "disagreement" that was two different questions, and was parked
+    // as UNAVAILABLE. The database carries the layers now (product_line, product_series, written by write-layers-to-db), so
+    // each is compared with the artefact column of the same meaning, exactly as db_site_api_parity reads them.
     run: async () => {
       const fs = await import("node:fs"), path = await import("node:path");
       const { REPO_ROOT } = await import("../src/config.js");
       const dir = path.join(REPO_ROOT, "data", "layers");
-      let rows = 0, diff = 0, files = 0;
+      let rows = 0, files = 0;
+      const diffs: string[] = [];
+      const byLayer = { product_line: 0, product_series: 0 };
       for (const f of fs.readdirSync(dir).filter((x) => x.startsWith("cisco-") && x.endsWith(".rows.tsv"))) {
         const cat = f.slice("cisco-".length, -".rows.tsv".length);
         const L = fs.readFileSync(path.join(dir, f), "utf8").split(/\r?\n/).filter(Boolean);
         const h = L[0].split("\t"), ci = (n: string) => h.indexOf(n);
-        if (ci("sku") < 0 || ci("series") < 0) continue;
+        if (ci("sku") < 0 || ci("series") < 0 || ci("product_line") < 0) continue;
         files++;
-        const art = new Map<string, string>();
-        for (const l of L.slice(1)) { const c = l.split("\t"); art.set(c[ci("sku")], c[ci("series")]); }
-        const db = (await query<{ sku: string; series: string | null }>(`
-          SELECT p.sku, p.series FROM parts p JOIN vendors v ON v.id=p.vendor_id JOIN categories c ON c.id=p.category_id
+        const art = new Map<string, LayerRow>();
+        for (const l of L.slice(1)) { const c = l.split("\t"); art.set(c[ci("sku")], { product_line: c[ci("product_line")], product_series: c[ci("series")] }); }
+        const db = (await query<{ sku: string; product_line: string | null; product_series: string | null }>(`
+          SELECT p.sku, p.product_line, p.product_series FROM parts p JOIN vendors v ON v.id=p.vendor_id JOIN categories c ON c.id=p.category_id
            WHERE v.slug='cisco' AND c.slug=$1 AND p.retired_at IS NULL AND p.sku = ANY($2::text[])`, [cat, [...art.keys()]])).rows;
-        for (const d of db) { rows++; if ((d.series ?? "") !== art.get(d.sku)) diff++; }
+        for (const d of db) {
+          rows++;
+          const off = layerRowDiff({ product_line: d.product_line, product_series: d.product_series }, art.get(d.sku)!);
+          for (const k of off) byLayer[k]++;
+          if (off.length && diffs.length < 6) diffs.push(`${cat}/${d.sku} (${off.join(", ")})`);
+        }
       }
       if (!rows) return na(`${files} layer files read and 0 parts matched — a broken join, not a finding`);
-      if (diff === rows) return bad(`ALL ${rows} rows differ, which is the shape of a broken comparison rather than of data`);
-      // NOT ok(). It printed PASS at 91.1% because the disagreement is expected and the repair disputed -
-      // but a green line against a known-broken number is how a reader learns to stop reading the colour.
-      return na(`${diff} of ${rows} placed parts disagree (${(100 * diff / rows).toFixed(1)}%) across ${files} `
-        + `categories - N59 RECLASSIFIED: the series column is the platform axis, product_series is layer 4. `
-        + `Not judgeable green or red until the ledger and pages read product_series`);
+      const n = byLayer.product_line + byLayer.product_series;
+      const scope = `${rows.toLocaleString()} placed parts across ${files} categories; product_line vs the artefact's product_line, `
+        + `product_series vs its layer-4 series (empty and null read as one value)`;
+      return n === 0
+        ? ok(`the database's layers are the artefact's — ${scope}`)
+        : bad(`${byLayer.product_line} product_line and ${byLayer.product_series} product_series values differ from the built artefact — ${scope}: ${diffs.join(", ")}`);
+    },
+    selfTest: async () => {
+      const art = { product_line: "Catalyst", product_series: "Catalyst 9300" };
+      return { negative: layerRowDiff({ product_line: "Catalyst", product_series: "Catalyst 9200" }, art).length === 0,
+               positive: layerRowDiff({ product_line: "Catalyst", product_series: "Catalyst 9300" }, art).length === 0,
+               note: "a part whose product_series is not its artefact's layer 4 must differ; an identical one must agree" };
     },
   },
 
@@ -923,9 +982,35 @@ const TESTS: Test[] = [
       // endpoint. Look for the REGISTRATION, not for a filename I assumed.
       const start = path.join(REPO_ROOT, "src", "api", "routes", "start.ts");
       const registered = fs.existsSync(start) && fs.readFileSync(start, "utf8").includes("/ledger/");
-      return registered
-        ? na("the /v1/ledger route IS registered in src/api/routes/start.ts; byte-comparing it needs the deployed service, which this run does not call")
-        : na("no /v1/ledger registration found in src/api/routes/start.ts");
+      if (!registered) return na("no /v1/ledger registration found in src/api/routes/start.ts");
+      // RULING (e), 29 Sep 2026: CALL THE SERVICE. Every committed ledger is asked of the deployed API as
+      // /v1/ledger/<vendor>/<category> and compared, canonically, with the file in this tree -- the served ledger must BE the
+      // committed one. Could-not-check stays its own verdict: no key, or no answer, is NOT EXERCISED, never a pass.
+      if (!process.env.NETZSPEC_API_KEY) return none("the ledgers need the deployed service and a key; NETZSPEC_API_KEY is not set here (key 17 lives in /root/netzspec-verifier.env on the box)");
+      const BASE = process.env.NETZSPEC_API ?? "https://api.netzspec.com";
+      const dir = path.join(REPO_ROOT, "data", "ledger");
+      const files = fs.readdirSync(dir).filter((f) => f.startsWith(`${OWN_VENDOR}-`) && f.endsWith(".json"));
+      const differ: string[] = [], unread: string[] = [];
+      for (const f of files) {
+        const cat = f.slice(OWN_VENDOR.length + 1, -".json".length);
+        let served: unknown = null;
+        try {
+          const res = await fetch(`${BASE}/v1/ledger/${OWN_VENDOR}/${cat}`, { headers: apiHeaders(), signal: AbortSignal.timeout(30_000) });
+          if (res.status !== 200) { unread.push(`${cat} -> ${res.status}`); continue; }
+          served = await res.json();
+        } catch (e) { unread.push(`${cat}: ${e instanceof Error ? e.message : String(e)}`); continue; }
+        if (!sameLedger(served, JSON.parse(fs.readFileSync(path.join(dir, f), "utf8")))) differ.push(cat);
+      }
+      const scope = `${files.length} committed ${OWN_VENDOR} ledgers asked of ${BASE}; ${files.length - differ.length - unread.length} identical, ${differ.length} differ, ${unread.length} unread`;
+      if (differ.length) return bad(`the deployed service serves a DIFFERENT ledger than this tree commits for ${differ.join(", ")} — ${scope}`);
+      if (unread.length) return none(`${unread.length} ledgers could not be read from the service — ${scope}: ${unread.slice(0, 4).join(", ")}`);
+      return ok(`every served ledger is the committed one — ${scope}`);
+    },
+    selfTest: async () => {
+      const a = { category: "switches", kinds: { chassis: { required: ["weight", "dimensions"] } } };
+      return { negative: sameLedger(a, { category: "switches", kinds: { chassis: { required: ["weight"] } } }),
+               positive: sameLedger(a, { kinds: { chassis: { required: ["weight", "dimensions"] } }, category: "switches" }),
+               note: "a ledger missing one required cup must differ; the same ledger with its keys in another order must match" };
     },
   },
   {
@@ -1351,25 +1436,64 @@ const TESTS: Test[] = [
     // The second half is narrower and was measured: `expected_kind_after` must be a KIND, not a role
     // word. 152 plans expect things like "uplink" or "access", which are roles a port plays and not
     // kinds a part is, so those plans can never agree with any row however well the write went.
+    // RULING (e), 29 Sep 2026: the plans are read from the COMMITTED ARTEFACT OF RECORD. The `kind_layer_plans` table this
+    // test used to query never existed (it threw, and the test sat UNAVAILABLE); the 7,533 plans of 13 Sep live in
+    // data/reference/kind-layer-plans-2026-09-13.json, each with the run that executed it.
     run: async () => {
-      const cols = await partsColumns();
-      const blocked = needsLayerColumns(cols, ["sku_kind"]);
-      if (blocked) return blocked;
-      const r = await query<{ n: string; ran: string; disagree: string }>(
-        "SELECT count(*)::text AS n, count(*) FILTER (WHERE run_id IS NOT NULL)::text AS ran," +
-        " 0::text AS disagree FROM kind_layer_plans");
-      const x = r.rows[0];
-      return Number(x.disagree) === 0
-        ? ok(`every executed plan agrees with its live row — ${x.ran} of ${x.n} plans carry a run id`)
-        : bad(`${x.disagree} executed plans disagree with their live row — ${x.ran} of ${x.n} carry a run id`);
+      const fs = await import("node:fs"), path = await import("node:path");
+      const { REPO_ROOT } = await import("../src/config.js");
+      const file = path.join(REPO_ROOT, "data", "reference", "kind-layer-plans-2026-09-13.json");
+      if (!fs.existsSync(file)) return na(`the plans artefact of record is not in this tree (${path.relative(REPO_ROOT, file)})`);
+      const plans = JSON.parse(fs.readFileSync(file, "utf8")) as PlanOfRecord[];
+      // A role word is not a kind (the second half of N6): a plan expecting one could never agree with any row.
+      const ROLES = new Set(["uplink", "access", "lan", "wan", "mgmt", "downlink"]);
+      const roleExpected = plans.filter((p) => p.expected_kind_after && ROLES.has(p.expected_kind_after)).length;
+      const runIds = [...new Set(plans.map((p) => p.run_id))];
+      const runs = new Map((await query<{ id: number; status: string }>("SELECT id, status FROM runs WHERE id = ANY($1::int[])", [runIds])).rows.map((r) => [Number(r.id), r.status]));
+      const notRan = plans.filter((p) => runs.get(p.run_id) !== "succeeded");
+      const skus = [...new Set(plans.map((p) => p.sku))];
+      const live = new Map((await query<{ sku: string; cat: string; kind: string | null; cls: string; retired: boolean }>(`
+        SELECT DISTINCT ON (p.sku) p.sku, c.slug AS cat, p.sku_kind AS kind, p.product_class::text AS cls, p.retired_at IS NOT NULL AS retired
+          FROM parts p JOIN vendors v ON v.id=p.vendor_id JOIN categories c ON c.id=p.category_id
+         WHERE v.slug='cisco' AND p.sku = ANY($1::text[]) ORDER BY p.sku, (p.retired_at IS NULL) DESC`, [skus])).rows.map((r) => [r.sku, r]));
+      // Superseded only on evidence: a LATER successful run whose recorded inputs or stats name the part, quoted as it is
+      // in a JSON list, so "SPA-DSP" cannot claim a run that only named "SPA-DSP-2".
+      const off = plans.filter((p) => { const r = live.get(p.sku); return r && !r.retired && (p.action === "move" ? r.cat !== p.to : r.cls !== p.to); });
+      const later = new Map<string, number>();
+      if (off.length) {
+        const rows = (await query<{ sku: string; rid: number }>(`
+          SELECT s.sku, max(r.id) AS rid FROM unnest($1::text[], $2::int[]) AS s(sku, after)
+            JOIN runs r ON r.id > s.after AND r.status = 'succeeded'
+                       AND (r.inputs::text LIKE '%"' || s.sku || '"%' OR r.stats::text LIKE '%"' || s.sku || '"%')
+           GROUP BY s.sku`, [off.map((p) => p.sku), off.map((p) => p.run_id)])).rows;
+        for (const r of rows) later.set(r.sku, Number(r.rid));
+      }
+      const tally: Record<string, number> = {};
+      const disagree: string[] = [];
+      let kindDrift = 0;
+      for (const p of plans) {
+        const row = live.get(p.sku);
+        const v = planVerdict(p, row, later.get(p.sku) ?? null);
+        tally[v] = (tally[v] ?? 0) + 1;
+        if (v === "disagrees") disagree.push(`${p.sku} (plan run ${p.run_id}: ${p.action} -> ${p.to}; live ${p.action === "move" ? row!.cat : row!.cls})`);
+        if (v === "agrees" && p.action === "move" && (row!.kind ?? "") !== (p.expected_kind_after ?? "")) kindDrift++;
+      }
+      const scope = `${plans.length.toLocaleString()} plans of record, ${runIds.length} runs; ${Object.entries(tally).map(([k, n]) => `${k} ${n}`).join(", ")}; `
+        + `${kindDrift} agreeing moves carry a kind the axis has refined since 13 Sep (printed, not judged); ${roleExpected} expect a role word`;
+      if (notRan.length) return bad(`${notRan.length} plans name a run that did not succeed — ${scope}: ${notRan.slice(0, 5).map((p) => `${p.sku} (run ${p.run_id} ${runs.get(p.run_id) ?? "missing"})`).join(", ")}`);
+      return disagree.length === 0 && roleExpected === 0
+        ? ok(`every executed plan's write holds, or a later run superseded it — ${scope}`)
+        : bad(`${disagree.length} plans disagree with their live row and no later run names the part — ${scope}: ${disagree.slice(0, 6).join("; ")}`);
     },
     selfTest: async () => {
-      // A role word is not a kind. The list is the one the profiles themselves declare, so this cannot
-      // drift into accepting a role the day somebody adds one.
-      const ROLES = new Set(["uplink", "access", "lan", "wan", "mgmt", "downlink"]);
-      const isKind = (v: string) => !ROLES.has(v);
-      return { negative: isKind("uplink"), positive: isKind("power-supply"),
-               note: "expected_kind_after of 'uplink' is a ROLE and must fail; 'power-supply' is a kind and must pass" };
+      const p: PlanOfRecord = { sku: "X", category: "switches", action: "move", to: "routers", run_id: 100, expected_kind_after: "router" };
+      const moved = planVerdict(p, { cat: "security", cls: "hardware", retired: false }, null);        // no later run: a real miss
+      const held = planVerdict(p, { cat: "routers", cls: "hardware", retired: false }, null);
+      const later = planVerdict(p, { cat: "security", cls: "hardware", retired: false }, 140);         // a later run moved it on
+      const earlier = planVerdict(p, { cat: "security", cls: "hardware", retired: false }, 90);        // a run BEFORE the plan is no excuse
+      return { negative: moved === "agrees" || moved === "superseded" || earlier !== "disagrees",
+               positive: held === "agrees" && later === "superseded",
+               note: `a moved row with no later run must disagree (${moved}), and one explained only by an EARLIER run too (${earlier}); a held row agrees (${held}), a later run supersedes (${later})` };
     },
   },
   {
@@ -1949,7 +2073,7 @@ const TESTS: Test[] = [
       for (const p of PROFILES_WANTED) {
         try {
           const res = await fetch(`${BASE}/v1/export?profile=${p}&skus=${ACCEPTANCE.join(",")}`, {
-            headers: { "user-agent": "netzspec-mould-verify/1.0" }, signal: AbortSignal.timeout(25_000),
+            headers: apiHeaders(), signal: AbortSignal.timeout(25_000),
           });
           if (res.status === 401 || res.status === 403) { locked.push(p); continue; }
           if (res.status !== 200) { missing.push(`${p} -> ${res.status}`); continue; }
@@ -2033,7 +2157,7 @@ const TESTS: Test[] = [
       const get = async (path: string): Promise<{ status: number; body: string } | null> => {
         try {
           const res = await fetch(BASE + path, {
-            headers: { "user-agent": "netzspec-mould-verify/1.0" },
+            headers: apiHeaders(),
             signal: AbortSignal.timeout(20_000),
           });
           return { status: res.status, body: (await res.text()).slice(0, 2000) };
