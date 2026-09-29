@@ -114,6 +114,18 @@ HEAD/deployed 501b7ed (artefacts built on 0cbe5c5, contract 17b502e336ebefb6). R
   DONE: rebuild 715fae2 REGRESSED (3 cupLedger misses, mine: HX-16 os-license = named kind asked nothing; module:interfaces-modules
      exception missing; asked-nothing ceiling) -> fixed 55bba21 (HX-16 withdrawn to Q16) -> rebuild 55bba21 clean -> artefacts 6175802
      (contract 279d2ece1fd627bf, unknown ratchet 230) deployed -> board 28/5/0/0, self-test 24/0/9. Report: batch-d-report.md (Q13-Q18).
+  RULINGS on batch-d-report.md (29 Sep ~20:40 UTC):
+  Q13 the 826 normaliser-split -> resolve superseded-reading, the current fact id recorded. Q14 the 53 Atlas -> no-held-value.
+  Q15 N9K-AC04-A/B -> non_product; 4X100G-LR-S -> retire (fragment); UCWS-WT-SM-INN12, MDS-9222I-75-PPT, 9270F-DIFL AND
+     AIR-N-3006-DTA-K9 -> the no-evidence term (their documents say nothing; the 28 Sep call on AIR-N-3006 was a guess, withdrawn).
+  Q16 HX-16-* (12) -> product_class licence. Q17 order: R1 retract + R3 rekey + R2 reclassify as plans read row by row -> R4
+     widenings with witnesses -> the 90 read triples.
+  Q18 THE NEW FORMATS WIN (the hexcat files are pre-September): Attributes 4 (Artikelnummer, Attributgruppe, Attributname,
+     Attributwert); Condition 3 (Artikelnummer, Attributname, Attributwert); FAQ 3 (Artikelnummer, Attributname 'FAQ',
+     Attributwert = Q||A pairs joined by ##); Main 18 incl. URL-Pfad, Titel-Tag (SEO), Meta-Description (SEO) (the export is the
+     shop's surface). Groups exactly as in Wawi: 'Switch' (20 attributes), 'Transceivers & SFP Modul' (14).
+  antenna_gain routers lease lapses 6 Oct: MEASURE before then.
+  NEXT (Batch E): Q13+Q14 conflicts -> Q15+Q16 classes -> Q17 R1/R3/R2 -> rebuild, board; then R4 + the 90; then Q12 export.
      Veto triage (247) measured: four remedies (retract mis-mined module_slots, reclassify, rekey, widen) -> ask with counts.
   (d) was: check fix, rows, exceptions, KIND_QUESTION_SET_FROM, GATED_CUPS,
      wireless kinds (149 SKUs move: 82 power-cord, 19 drive, 14 memory, 9 fan, 9 storage-controller, 6 cpu, 6 tpm, 4 nic),
