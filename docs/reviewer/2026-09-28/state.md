@@ -90,7 +90,21 @@ HEAD/deployed 501b7ed (artefacts built on 0cbe5c5, contract 17b502e336ebefb6). R
      regenerated (had drifted since 28 Sep; one_build now compares with the code's hash), artefacts 501b7ed deployed, board
      27/6/0/0, self-test 24/0/9. Flipped: one_build, runs_have_approval, endpoints_alive (probes were malformed), link_integrity,
      keys_hygiene. Report + questions Q8-Q12: docs/reviewer/2026-09-28/batch-c2-report.md.
-  NEXT: send the report; while waiting: four_sets_sum veto plan (247 triples), Q11 dry run (classifier over the buckets), Step 9 design.
+  RULINGS 19:1x UTC on batch-c2-report.md (verified 27/33 against the log):
+  Q8 APPROVED all three: wireless heat sink/riser/interposer -> mechanical, CW-ACC-MEM-32G -> drive; retract the heat sink's
+     power_max (mis-keyed CPU class); PHYSICAL_OBJECT_CUPS wireless.module += power_max.
+  Q9 (1) FLMESH-HW-ACC -> accessory by SKU, (2) the 86 other doc-linked -> kind from their document titles (dry run read row by
+     row) APPROVED. (3) the 232 no-name-no-document: their OWN TERM in the partition line AND on the acquisition queue; their
+     apart-count is a RATCHET that may not grow; unknown_zero stays red until the evidenced ones reach 0.
+  Q10 ieee: replay. protocols: extend the grammar over the 201 recovered members (witness per entry), replay, the ceiling rises
+     only by the measured residue, recorded with the run id.
+  Q11 APPROVED as proposed (class column, classifier, writer sets class, normaliser-split -> 0 by re-normalising, 86 orphans
+     resolved no-live-value). The 7,218 same-doc-multicolumn: class NOW, they become the extractor's re-read plan AFTERWARDS.
+  Q12 the standing order wins: FOUR profiles, 18-column Main, 4-column Attributes (ONE profile across all categories, the existing
+     'Switches' and 'Transceivers & SFP Modul' group and attribute names exact), the check asserts the contract, not a 200.
+     Build order: shop cups + shop_ready -> the four profiles -> the check -> the acceptance diff.
+  NEXT (Batch D): Q8 -> Q9 -> Q10 -> Q11 (one writer at a time, dry run -> gate -> commit), ONE rebuild, board, report; then Q12.
+     Veto triage (247) measured: four remedies (retract mis-mined module_slots, reclassify, rekey, widen) -> ask with counts.
   (d) was: check fix, rows, exceptions, KIND_QUESTION_SET_FROM, GATED_CUPS,
      wireless kinds (149 SKUs move: 82 power-cord, 19 drive, 14 memory, 9 fan, 9 storage-controller, 6 cpu, 6 tpm, 4 nic),
      cellular registered in DERIVED_FILL_PATHS. New vetoes measured: 3 triples / 17 part-cups (wireless ap tdp = Meraki
