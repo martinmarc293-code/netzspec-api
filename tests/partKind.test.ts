@@ -155,7 +155,8 @@ check("and the collapse is severe enough to be worth a guard",
   // length and what it fits. So the guard there is the leak it was written for — NO DEVICE QUESTION
   // reaches a component — asserted against an explicit allow-list of what a cable may be asked.
   const COMPONENT_OWN: Record<string, string[]> = { switches: ["cable_length", "product_compatibility"],
-    // wireless (12 Sep 2026): the Swiss power cord is kind `cable` on wirelessKind's axis and is asked its length only
+    // wireless (12 Sep 2026): the Swiss power cord was kind `cable` on wirelessKind's axis and asked its length only; since
+    // ruling Q4 (29 Sep 2026) it is kind `power-cord`, asked the servers-unified-computing cord set -- the same two cups
     // 12 Sep 2026: product_compatibility joined the wireless component set (reviewer 2.3), so a cord owes it too.
     wireless: ["cable_length", "product_compatibility"],
     // servers (12 Sep 2026): a UCS component (the probe is a cable, kind accessory) is asked what it fits.
@@ -196,7 +197,7 @@ check("and the collapse is severe enough to be worth a guard",
     // kind-layer (13 Sep 2026): a cable in optical-networking and storage-networking is proposed the CABLE archetype
     // (connector, media) beside its length, and a SAN cable also what it fits (parent ruling: every component kind asks
     // product_compatibility); the allow-lists are widened by those cable keys, no device key.
-    "optical-networking": ["cable_length", "connector", "media"], "storage-networking": ["cable_length", "product_compatibility", "connector", "media"],
+    "optical-networking": ["cable_length", "connector", "media", "product_compatibility"], "storage-networking": ["cable_length", "product_compatibility", "connector", "media"],
     // security (12 Sep 2026), same reason: a component is asked WHAT IT FITS, and a PSU, a fan, a drive, a
     // cable and a netmod are each asked the one or two figures they are bought on. The allow-list is the whole
     // union, so a DEVICE question leaking onto a component still fails.

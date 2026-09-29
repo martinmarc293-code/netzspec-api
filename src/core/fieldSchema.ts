@@ -68,7 +68,7 @@ import { SAN_BOX, SAN_MODULE, SAN_FITS } from "./sanKind.js";
 // asked of `device` only; the constant stays exported for the axis's own test.
 import { MOD_COMPONENT } from "./moduleKind.js";
 import { MK_BOX, MK_PORTED, MK_POWERED } from "./merakiKind.js";
-import { applyPhysicalObjectCups } from "./physicalObjectCups.js";
+import { applyPhysicalObjectCups, applyGatedCups, applyKindQuestionSetFrom } from "./physicalObjectCups.js";
 
 export type Requirement =
   | { kind: "req" }
@@ -3900,6 +3900,9 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
 // live before this body runs, so the test asks both halves.
 export const PHYSICAL_OBJECT_CUP_REPORT = applyPhysicalObjectCups(
   PROFILES, (key) => Object.prototype.hasOwnProperty.call(FIELD_DICTIONARY, key) || Object.prototype.hasOwnProperty.call(GENERATED_FIELDS, key));
+// The same decision with a GATE (ruling (d), 29 Sep 2026): cellular_bands asked of a module only where `cellular` holds,
+// in every category a module is filed under, exactly as routers asks it. physicalObjectCups.ts, GATED_CUPS.
+export const GATED_CUP_REPORT = applyGatedCups(PROFILES);
 
 
 // The transceiver profile overrides two dictionary entries whose canonical unit differs from the
@@ -4897,6 +4900,13 @@ for (const cat of Object.keys(PROFILES)) {
   p.mounting = askAlsoOf(p.mounting, mount);
 }
 // end fallback-kinds ------------------------------------------------------------------------------
+
+// A KIND ASKED ANOTHER CATEGORY'S QUESTION SET, BY REFERENCE (29 Sep 2026: ruling (d) for optical `pluggable` <- transceiver,
+// Q3/Q4 for wireless's component kinds and power cords <- servers-unified-computing). THIS MUST BE THE LAST EDIT TO PROFILES:
+// it reads the SOURCE profile as it stands, and every block above rewrites some profile -- the generated merge, the role
+// axis, the superseded keys, fallback-kinds. Run earlier, it would reference a profile that was about to change, which is
+// the module-load ordering defect PHYSICAL_OBJECT_CUP_REPORT's note records. physicalObjectCups.ts, KIND_QUESTION_SET_FROM.
+export const KIND_QUESTION_SET_REPORT = applyKindQuestionSetFrom(PROFILES, COLUMN_BACKED);
 
 export const CATEGORIES = Object.keys(PROFILES);
 

@@ -103,7 +103,9 @@ eq("kind-layer: an fc-switch is asked no PoE, stacking, MAC table or VLAN cup",
 eq("kind-layer: director = CHASSIS + fabric_bandwidth, today's envelope kept", sanSet("director"),
    ["certifications", "dimensions", "fabric_bandwidth", "form_factor", "humidity_operating", "module_slots", "power_max", "psu_config", "rack_units", "temp_operating", "weight"].sort().join(","));
 eq("kind-layer: a director is still NOT asked ports", sanSet("director").split(",").includes("ports"), false);
-eq("kind-layer: supervisor = SUPERVISOR (+ today's power_max)", sanSet("supervisor"), "dram,flash,forwarding_rate,power_max,product_compatibility,switching_capacity");
+// fabric_bandwidth JOINED 29 Sep 2026 (ruling (d)): an MDS supervisor has a fabric bandwidth; its Ethernet MAC table and
+// uplinks are an exception (kindProfiles.ts, "Fibre Channel supervisor"), so those two stay out.
+eq("kind-layer: supervisor = SUPERVISOR (+ today's power_max, + fabric_bandwidth)", sanSet("supervisor"), "dram,fabric_bandwidth,flash,forwarding_rate,power_max,product_compatibility,switching_capacity");
 eq("kind-layer: unknown asks nothing", sanSet("unknown"), "");
 eq("kind-layer: a SAN cable = CABLE + what it fits (every component kind asks product_compatibility)", sanSet("cable"), "cable_length,connector,media,product_compatibility");
 for (const k of SAN_KINDS) eq(`kind "${k}" is reached by a catalogue SKU`, ALL.some(([, w]) => w === k), true);

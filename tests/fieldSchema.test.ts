@@ -355,7 +355,10 @@ check("the spelling rule has real dimensions to check",
   // `power-cord` kind, where routers separates 76 and collaboration-endpoints 262. A cord is bought on its
   // plug; requiring a connector of it is a gap nothing can ever close. If someone adds the row without
   // splitting the kind, this case says so.
-  check("wireless does NOT, until its mains cords have a kind of their own", cableReq("wireless") !== "req");
+  // RULING Q4 (29 Sep 2026): the mains cords HAVE their own kind now (`power-cord`, 82 rows), so the wireless row landed and
+  // this case flips: a wireless `cable` (RF coax, console, Cat 6A) is asked its connector, and a cord is still not.
+  check("wireless DOES now that its mains cords have a kind of their own (power-cord)", cableReq("wireless") === "req");
+  check("...and a wireless power-cord is NOT asked a connector (bought on its plug)", requirementFor("wireless", "connector", { kind: "power-cord" }) !== "req");
   // A cup required of a kind whose values the domain cannot express is the defect the whole ruling ends, so
   // every token counted off the part names is asserted present. Four of them (d8, m12, din) were missing from
   // the count that produced the ruling because I matched the SKUs against a list I had already written.

@@ -44,7 +44,11 @@
 export type WirelessKind =
   | "ap" | "wireless-sensor" | "wlc" | "antenna" | "backhaul" | "appliance" | "module"
   | "power" | "power-injector" | "cable" | "mechanical" | "accessory" | "bundle" | "software" | "unknown"
-  | "device";   // q28 decision (2026-09-15) + reviewer correction 28 Sep: the MobileAccessVE units, envelope + compatibility
+  | "device"    // q28 decision (2026-09-15) + reviewer correction 28 Sep: the MobileAccessVE units, envelope + compatibility
+  // rulings Q3/Q4 (29 Sep 2026): the MSE / CMX / DNAC-location / 5520-8540 controller appliances' internals and the mains
+  // cords, which `module` and `cable` were holding. Each is asked what the same kind is asked in servers-unified-computing
+  // (physicalObjectCups.ts, KIND_QUESTION_SET_FROM) -- a DIMM is a DIMM whichever appliance it is filed beside.
+  | "memory" | "drive" | "cpu" | "storage-controller" | "tpm" | "nic" | "fan" | "power-cord";
 
 /** Radio devices that serve clients: asked the radio questions. */
 export const WL_AP: readonly WirelessKind[] = ["ap"];
@@ -57,7 +61,8 @@ export const WL_PORTED: readonly WirelessKind[] = ["ap", "wireless-sensor", "wlc
  *  once, by LEDGER_KINDS (nameMarker.NAME_ONLY_KINDS), which de-duplicates it. */
 export const WL_KINDS: readonly WirelessKind[] =
   ["ap", "wireless-sensor", "wlc", "antenna", "backhaul", "appliance", "module", "power", "power-injector",
-   "cable", "mechanical", "accessory", "bundle", "software", "unknown", "device"];
+   "cable", "mechanical", "accessory", "bundle", "software", "unknown", "device",
+   "memory", "drive", "cpu", "storage-controller", "tpm", "nic", "fan", "power-cord"];
 
 const RULES: { kind: WirelessKind; re: RegExp }[] = [
   // Packs of ONE access point model, before the bundle rule: KAISER-12PACK-BNDL is "12 Pack of AP3802I".
@@ -119,6 +124,10 @@ const RULES: { kind: WirelessKind; re: RegExp }[] = [
   // PoE injectors — before power, which would take the PWR token.
   // kind-layer (13 Sep 2026): FM-POE-LOW / FM-POE-STD (Fluidmesh PoE injectors) and CW-INJ-8 (Catalyst 9163 injector).
   { kind: "power-injector", re: /PWRINJ|PWR-INJ|-INJ\d|(?:^|-)INJ-\d|^FM-POE-/ },
+  // MAINS CORDS, before cable and power (ruling Q4, 29 Sep 2026): 82 of the category's 141 `cable` rows were AC cords
+  // (AIR-PWR-CORD-UK, CAB-AC-C5-EUR, PWR-CAB-JPN-0.7M "Internal C13-C14 Power Cord", AIR-CORD-R3P-40NA=, CAB-C15-ACB),
+  // bought on a plug and a rating, never on an RF connector -- which is why `connector` could not be asked of `cable`.
+  { kind: "power-cord", re: /^AIR-PWR-CORD-|^AIR-CORD|^CAB-AC-|^CAB-C1\d-|^PWR-CAB-/ },
   // Cables and cords — before power, so a Swiss or regional power CORD is a cable (AIR-PWR-CORD-SW).
   // AIR-CAB-, CAB-L400-, AIR-420-003346-050 "50 ft. cable with RP-TNC", FM-LMR240- (LMR-240 coax), FM-CABLE-.
   // AIR-CAB002-D8-R and AIR-CAB005LL-N glue the length onto CAB; AIR-ACC2537-060 is "5-ft RG-58 type cable".
@@ -149,6 +158,26 @@ const RULES: { kind: WirelessKind; re: RegExp }[] = [
   // module), IWA-PCIE-C25Q-04 "UCS VIC 1455 Quad Port 10/25G" and IWA-SATAIN-220M6 "SATA Interposer board" (the IEC6400
   // URWB server's parts), AIR-MSE3350-HD "Field Replaceable Hard Disk For The MSE 3350" and MSE-HD600G10K12G (appliance
   // drives), COGNIO-SEWIFI-CB "Spectrum Expert cardbus adapter".
+  // THE APPLIANCE INTERNALS, before module (rulings Q3, 29 Sep 2026). `module` held 58 server components and 9 fan trays
+  // beside its 29 radio modules and 10 C9800 network modules, so a DIMM was asked a data rate and a port count. Named by
+  // the UCS token each carries, as ucsKind / collabKind name them:
+  //   memory   -MR- + X or digit:  AIR-MR-1X161RV-A, CMX-MR-X16G1RW, DN3-L-MR-X16G1RS-H, IWA-MR-X16G1RW, MSE-MR-1X162RU-A
+  //   drive    SD<n>G / SD-<n>G / A03-D<n>G / HD<n>G / a bare HD: AIR-SD240GBKS2-EV, AIR-SD-32G-S, MSE-A03-D600GA2,
+  //            MSE-HD600G10K12G, AIR-SRVR-300GB-HD=, AIR-MSE3350-HD=
+  //   cpu      CPU:  AIR-CPU-E52609D, CMX-CPU-5118, DN3-LOC-CPU-5118, IWA-CPU-I4310
+  //   storage-controller  RAID / MRAID<n>G:  AIR-RAID-9266NB, CMX-RAID-M5, AIR-MRAID12G-1GB (its FBWC cache module)
+  //   tpm      TPM<n>:  AIR-TPM2-001, IWA-TPM-002C
+  //   nic      -NIC- / the VIC 1455:  AIR-CT6870-NIC-K9, IWA-PCIE-C25Q-04
+  //   fan      FAN:  AIR-FAN-5500, CMX-FAN-C220M5, FAN-ROOM70-2PK=
+  // LEFT IN MODULE, named so the residue is visible: AIR-PCI-1A-240M4 (riser), CMX-HS-C220M5 (heat sink), IWA-SATAIN-220M6
+  // (interposer), the BLE beacons, AIR-MOD-*POE, AIR-VPN-WLC, COGNIO-SEWIFI-CB, CW-ACC-MEM-32G -- none of them was ruled.
+  { kind: "memory", re: /-MR-[X\d]/ },
+  { kind: "drive", re: /(?:^|-)(?:SD\d+G[A-Z0-9]*|SD-\d+G|A03-D\d{3,4}G[A-Z0-9]*|HD\d{3,4}G[A-Z0-9]*|HD)(?:-|=|$)/ },
+  { kind: "cpu", re: /(?:^|-)CPU(?:-|=|$)/ },
+  { kind: "storage-controller", re: /(?:^|-)(?:RAID|MRAID\d*G?)(?:-|=|$)/ },
+  { kind: "tpm", re: /(?:^|-)TPM\d*(?:-|=|$)/ },
+  { kind: "nic", re: /-NIC-|^IWA-PCIE-C25Q-/ },
+  { kind: "fan", re: /(?:^|-)(?:FAN|FANT)(?:-|=|$)/ },
   { kind: "module", re: /^AIR-RM\d|^AIR-RM-|^AIR-BLE-USB|-NIC-|^C9800-\d+X\d+GE|^AIR-VPN-|^WS-SVC-|-MR-[X\d]|(?:^|-)(?:MEM|FAN|FANT|CPU|SD|RAID|MRAID\d*G?|TPM\d*|PCI|HS|SRVR|A03|D\d{3,4}G[A-Z0-9]*|SD\d+G[A-Z0-9]*)(?:-|=|$)|^ASR5K-(?:\d{3,5}[A-Z0-9]*|SMC|PSC|RCC|SPIO|SPS3|C4OC3|4OC3C)-|^ASR55-(?:DPC|UDPC|MIO|UMIO|FSC|SSC)(?:-|=|$)|^AIR-MOD-S?POE|^IWA-(?:PCIE|SATAIN)-|^AIR-MSE\d{4}-HD|^MSE-HD\d|^COGNIO-/ },
   // Server-class appliances and platform chassis: MSE / CMX / DNAC-location appliances, Fluidmesh
   // gateways, the ASR 5000/5500 chassis (a mobile packet core platform filed in this category).

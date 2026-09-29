@@ -31,7 +31,7 @@ const CASES: [string, string][] = [
   ["AIR-ANT2524DB-R", "antenna"], ["IW-ANT-PNL-515-N", "antenna"], ["MA-ANT-3-A1", "antenna"], ["C-ANT9101=", "antenna"], ["FLMESH-HW-ANT-28", "antenna"], ["FLMESH-HW-OMNI-5-KIT", "antenna"], ["FM-HORN-30", "antenna"],
   ["FM3200B-HW", "backhaul"], ["FLMESH-HW-3200-1", "backhaul"], ["FLMESH-HW-KIT-1", "backhaul"],
   ["AIR-MSE-3355-K9", "appliance"], ["AIR-CMX-3375-K9", "appliance"], ["ASR5000-CHS-SYS-K9", "appliance"], ["FM1000-GWY", "appliance"],
-  ["AIR-RM3000M", "module"], ["C9800-10X10GE=", "module"], ["AIR-CT6870-NIC-K9", "module"], ["CMX-CPU-5118", "module"], ["ASR5K-0110G-MM-K9", "module"],
+  ["AIR-RM3000M", "module"], ["C9800-10X10GE=", "module"], ["AIR-CT6870-NIC-K9", "nic"], ["CMX-CPU-5118", "cpu"], ["ASR5K-0110G-MM-K9", "module"],
   ["AIR-PWR-5500-AC", "power"], ["AIR-8580-AC-750W", "power"], ["C9800-AC-1100W=", "power"], ["SB-PWR-48V", "power"], ["CW9800L-RPS=", "power"],
   ["AIR-PWRINJ6", "power-injector"], ["CB-PWRINJ-AR", "power-injector"], ["SB-PWR-INJ1-xx", "power-injector"],
   ["AIR-CAB-003-D8-D8=", "cable"], ["AIR-CAB005LL-N", "cable"], ["AIR-420-003346-050", "cable"], ["CAB-L400-20-N-R", "cable"], ["FM-LMR240-N2N-2FT", "cable"],
@@ -42,14 +42,17 @@ const CASES: [string, string][] = [
   ["MIXS-00-AA3IPS41=", "unknown"],
   // device-noun (13 Sep 2026): rows of the 158 the census found asked nothing
   ["C9800-80-CAP-K9", "wlc"], ["EDU-CT5520-K9", "wlc"], ["EDU-CT3504-K9", "wlc"], ["AIR-CT85DC-K9", "wlc"], ["AIR-CT85DC-SP-K9", "wlc"],
-  ["AIR-MRAID12G", "module"], ["MSE-MRAID12G", "module"], ["AIR-MRAID12G-1GB", "module"],
+  ["AIR-MRAID12G", "storage-controller"], ["MSE-MRAID12G", "storage-controller"], ["AIR-MRAID12G-1GB", "storage-controller"],
+  // rulings Q3/Q4 (29 Sep 2026): the appliance internals and the mains cords get their own kinds, one real SKU each
+  ["AIR-MR-1X161RV-A", "memory"], ["CMX-MR-X16G1RW", "memory"], ["MSE-SD960G0KS2-EV", "drive"], ["AIR-TPM2-001", "tpm"], ["IWA-TPM-002C", "tpm"],
+  ["AIR-FAN-5500", "fan"], ["CAB-AC-C5-EUR", "power-cord"], ["PWR-CAB-JPN-0.7M", "power-cord"], ["CAB-C15-ACB", "power-cord"],
 ];
 for (const [sku, want] of CASES) eq(`${sku} is ${want}`, wirelessKind(sku), want);
 
 // --- REFUSALS: what a slightly wider or differently ordered rule gets wrong --------------------------------
 const REFUSALS: [string, string, string][] = [
-  ["AIR-PWR-CORD-SW", "cable", "a Swiss power CORD: -SW is the country, and PWR must not win over CORD"],
-  ["AIR-CORD-R3P-40NA=", "cable", "an AC cord for the 1520 series, not a supply"],
+  ["AIR-PWR-CORD-SW", "power-cord", "a Swiss mains CORD: -SW is the country, and PWR must not win over CORD (a cord, not a supply; since Q4 a power-cord, not an RF cable)"],
+  ["AIR-CORD-R3P-40NA=", "power-cord", "an AC cord for the 1520 series, not a supply and not an RF cable"],
   ["AIR-ANTMNTGKIT=", "mechanical", "an antenna MOUNT clip adapter, not an antenna"],
   ["AIR-ACC245LA-N", "accessory", "a lightning arrestor sold for a remote antenna, not an antenna — and not a mount kit"],
   ["AIR-ACC2537-060", "cable", "'5-ft RG-58 type cable' — the one ACC family that is a cable"],
@@ -65,14 +68,14 @@ const REFUSALS: [string, string, string][] = [
   ["AIR-CT8510-SP-K9", "wlc", "the AC sibling of AIR-CT85DC-SP-K9, unchanged"],
   ["AIR-ANT2524DB-R", "antenna", "an antenna: CAP is read as a controller only behind C9800-(40|80|L)-"],
   ["CW9800L-RFID-1R", "accessory", "an RFID tag for a controller, still not the controller"],
-  ["AIR-RAID-9266NB", "module", "the RAID module the MRAID widening sits beside, unchanged"],
+  ["AIR-RAID-9266NB", "storage-controller", "the RAID card the MRAID widening sits beside: the same kind"],
   ["FM3500-30", "unknown", "'Enable Ethernet throughput up to 30 Mbit/s' — a plug-in licence, not a radio"],
   ["FM10000-GWY-1000", "unknown", "a gateway throughput upgrade, not the gateway"],
   ["FLMESH-HW-BRK-1", "mechanical", "a Fluidmesh bracket, not a radio"],
   ["C9130-MULTI", "unknown", "'Minimum Quantity = 10' — an ordering option, not an AP"],
   ["C9105-OVER", "unknown", "'C9105AX OVER OPTION'"],
   ["AIR-AP1702I-WLC", "bundle", "an AP SKU prefix on 'Bundle 2 AP1700I and WLC2504'"],
-  ["ASR5K-FANT-LW", "module", "an ASR 5000 fan tray, not the chassis"],
+  ["ASR5K-FANT-LW", "fan", "an ASR 5000 fan tray, not the chassis"],
   ["ASR5K-PFU", "power", "the ASR 5000 power filter unit"],
   ["ASR5K-BLNK-FR", "mechanical", "an ASR 5000 blanking panel"],
   ["ASR5K-05-HAXXEXT", "unknown", "'Willcom Only, HA SW, 10K sessions' — two digits is not a line-card token"],
@@ -89,14 +92,14 @@ const REFUSALS: [string, string, string][] = [
   ["AIR-CAP1552E-A-K9", "ap", "CAP is an outdoor mesh AP token, not a cover-cap"],
   ["AIR-ACC15-N-CAP=", "mechanical", "a CAP segment after a hyphen is a cover-cap"],
   ["FM-CABLE-M12PWR-2M", "cable", "M12PWR inside a cable PID is not a power supply"],
-  ["AIR-SD-32G-S", "module", "an SD card for the UCS-based appliance"],
+  ["AIR-SD-32G-S", "drive", "an SD card for the UCS-based appliance (drive, as collabKind files a UCS SD- card)"],
   ["C9124AXD-EWC-X", "ap", "EWC does not make an outdoor AP a controller"],
   ["PROMO-AP1815-B1G1", "ap", "'Buy an AP, get one free' is two access points"],
   ["AIR-PWR-A", "power", "a regional AP power adapter"],
-  ["CMX-FAN-C220M5", "module", "an appliance fan module"],
+  ["CMX-FAN-C220M5", "fan", "an appliance fan module"],
   ["DN3-LOC-PSU1-770W", "power", "an appliance PSU carries a wattage"],
   ["ASR55-DPC-K9", "module", "an ASR 5500 data processing card"],
-  ["MSE-A03-D600GA2", "module", "an appliance drive"],
+  ["MSE-A03-D600GA2", "drive", "an appliance drive"],
   ["AIR-CT8510-SW-8.1", "software", "a controller software release, not the controller"],
   ["SW9124AXE-EWC-K9", "software", "EWC software for the 9124"],
   ["AIR-CT5508-250-2PK", "wlc", "two controllers in a promo pack are still controllers"],
@@ -150,9 +153,9 @@ const REFUSALS: [string, string, string][] = [
   ["FM-OMNI-10", "antenna", "an omni antenna (placeholder name), not `unknown`"],
   ["FM-SECTOR90-16DS", "antenna", "a 90-degree sector antenna, not `unknown`"],
   ["AIR-MOD-POE", "module", "'AP1800 Power over Ethernet with 1G Ethernet module' — a module, not a supply"],
-  ["IWA-PCIE-C25Q-04", "module", "'UCS VIC 1455' in the IEC6400 URWB server, not `unknown`"],
-  ["AIR-MSE3350-HD=", "module", "'Field Replaceable Hard Disk For The MSE 3350', not the appliance"],
-  ["MSE-HD600G10K12G", "module", "an MSE appliance drive, not the appliance"],
+  ["IWA-PCIE-C25Q-04", "nic", "'UCS VIC 1455' in the IEC6400 URWB server, not `unknown`: a NIC"],
+  ["AIR-MSE3350-HD=", "drive", "'Field Replaceable Hard Disk For The MSE 3350', not the appliance"],
+  ["MSE-HD600G10K12G", "drive", "an MSE appliance drive, not the appliance"],
   ["COGNIO-SEWIFI-CB", "module", "'Spectrum Expert cardbus adapter', not software"],
   ["EDU-CW9800M", "wlc", "the K12 ordering form of the CW9800M controller"],
   ["AP1572EAC", "ap", "an Aironet 1570 outdoor AP without the AIR- segment"],
@@ -237,7 +240,13 @@ eq("appliance = ENV + ports", req("appliance"), "certifications,dimensions,form_
 eq("module = MODULE (ports, data_rate, what it fits)", req("module"), "data_rate,ports,product_compatibility");
 eq("power-injector = POWER-INJECTOR (+ input_voltage)", req("power-injector"), "input_voltage,poe_standard,product_compatibility,psu_rated_output");
 eq("antenna keeps today's four (antenna_type NOT added: its domain is internal/external)", req("antenna"), "antenna_connector,antenna_gain,product_compatibility,radio_bands");
-eq("cable keeps today's two (connector / media NOT added: optical and RJ45 domains, RF coax cables)", req("cable"), "cable_length,product_compatibility");
+// connector ADDED 29 Sep 2026 (ruling Q4): the objection was never the domain (it holds rp-tnc / n-type / qma / sma / d8 / m12
+// since 28 Sep) but the 82 mains cords sharing the kind; they are `power-cord` now, so a `cable` here is the 59 RF / console /
+// Cat 6A cables, which all have a connector. media stays out: an RF coax medium is not mmf/smf/dac-copper/rj45-copper/aoc.
+eq("cable = length, connector, what it fits (media NOT added: RF coax is none of media's values)", req("cable"), "cable_length,connector,product_compatibility");
+// ...and the cords are asked what a cord is asked in servers-unified-computing (KIND_QUESTION_SET_FROM), not a connector.
+eq("power-cord = the servers-unified-computing cord set (no connector: a mains cord is bought on its plug)", req("power-cord"), [...kindQuestionSet("servers-unified-computing", "power-cord").required].sort().join(","));
+eq("memory = the servers-unified-computing DIMM set", req("memory"), [...kindQuestionSet("servers-unified-computing", "memory").required].sort().join(","));
 eq("unknown asks nothing", kindQuestionSet("wireless", "unknown").required.length + kindQuestionSet("wireless", "unknown").pending.length, 0);
 eq("the outdoor witness SKU derives role outdoor", deployRole("wireless", "ap", "AIR-AP1562I-A-K9", "Low-Profile Outdoor AP"), "outdoor");
 

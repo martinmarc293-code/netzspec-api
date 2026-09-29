@@ -120,7 +120,11 @@ export const KIND_DECLARED_OPTIONAL: Readonly<Record<string, Readonly<Record<str
     video: { transmitter: [{ cup: "standard", witness: "4022938.19", held: 382 }],
              node: [{ cup: "standard", witness: "G2A2AA101A1PXXXBXX", held: 204 }, { cup: "wavelength", witness: "G2A2AA101A1PXXXBXX", held: 129 }] },
     "optical-networking": { mux: [{ cup: "wavelength", witness: "15216-AD1-2-39.7", held: 169 }],
-                            transponder: [{ cup: "connector", witness: "CH23/L/U/SC/15200", held: 104 }] },
+                            transponder: [{ cup: "connector", witness: "CH23/L/U/SC/15200", held: 104 }],
+                            // 29 Sep 2026: wire_gauge was a plain `opt` here until optical's pluggable took transceiver's question set by
+                            // reference; the composed cond names only pluggable, so the complement closed it for cables -- which hold 5
+                            // real AWG values from the page ("COAX 23 AWG", "24 AWG", "28 AWG" on the timing / alarm / USB cables).
+                            cable: [{ cup: "wire_gauge", witness: "15454-M-120TMGCBL=", held: 5 }] },
   };
 })();
 const declaredOptional = (category: string, kind: string, key: string): boolean =>

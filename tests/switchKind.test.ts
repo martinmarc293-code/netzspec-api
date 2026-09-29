@@ -474,11 +474,15 @@ eq(`kind-layer: refusals (${KL_REFUSAL.length}) are at least half the witnesses 
     ["fex", undefined, list("airflow", "altitude_max", "certifications", "cooling", "dimensions", "form_factor", "heat_dissipation",
       "humidity_operating", "ieee_standards", "input_voltage", "mtbf", "ports", "power_max", "power_typical", "product_compatibility",
       "psu_config", "temp_operating", "temp_storage", "uplink_ports", "weight", "ip_rating?", "psu_redundant?", "rack_units?")],
-    ["chassis", undefined, list("dimensions", "form_factor", "module_slots", "psu_config", "rack_units", "weight")],
-    ["supervisor", undefined, list("dram", "fabric_bandwidth", "flash", "forwarding_rate", "mac_table", "product_compatibility", "switching_capacity", "uplink_ports")],
+    // + certifications, humidity_operating (Batch B) and the Q1 chassis union (29 Sep 2026): altitude, power, compatibility,
+    // operating and storage temperature -- a chassis is asked the same six wherever it is filed.
+    ["chassis", undefined, list("altitude_max", "certifications", "dimensions", "form_factor", "humidity_operating", "module_slots", "power_max", "product_compatibility", "psu_config", "rack_units", "temp_operating", "temp_storage", "weight")],
+    // power_max joined supervisor and fabric in Batch B (PHYSICAL_OBJECT_CUPS, 27-29 Sep 2026); these two pins were left stale then.
+    ["supervisor", undefined, list("dram", "fabric_bandwidth", "flash", "forwarding_rate", "mac_table", "power_max", "product_compatibility", "switching_capacity", "uplink_ports")],
     ["linecard", undefined, list("data_rate", "fabric_bandwidth", "poe_standard", "ports", "power_max", "product_compatibility", "poe_ports?")],
-    ["module", undefined, list("data_rate", "poe_standard", "ports", "product_compatibility", "poe_ports?")],
-    ["fabric", undefined, list("fabric_bandwidth", "product_compatibility")],
+    // + power_max (Q3) and cellular_bands pending on the cellular column (ruling (d)), 29 Sep 2026.
+    ["module", undefined, list("data_rate", "poe_standard", "ports", "power_max", "product_compatibility", "cellular_bands?", "poe_ports?")],
+    ["fabric", undefined, list("fabric_bandwidth", "power_max", "product_compatibility")],
     ["power", undefined, list("airflow", "input_voltage", "product_compatibility", "psu_rated_output")],
     ["fan", undefined, list("airflow", "product_compatibility")],
     ["power-cord", undefined, list("cable_length", "product_compatibility")],

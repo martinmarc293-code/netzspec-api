@@ -10,8 +10,8 @@
 //
 // So the widening is a function and this file tests it against exactly that case — plus the counts, so a row
 // that stops landing shows up as a number instead of as a quiet absence.
-import { PROFILES, requirementFor, PHYSICAL_OBJECT_CUP_REPORT } from "../src/core/fieldSchema.js";
-import { alsoAskedOf, physicalObjectRows, PHYSICAL_OBJECT_CUPS, PARITY_WIDENINGS } from "../src/core/physicalObjectCups.js";
+import { PROFILES, requirementFor, PHYSICAL_OBJECT_CUP_REPORT, GATED_CUP_REPORT, KIND_QUESTION_SET_REPORT, COLUMN_BACKED } from "../src/core/fieldSchema.js";
+import { alsoAskedOf, physicalObjectRows, PHYSICAL_OBJECT_CUPS, PARITY_WIDENINGS, KIND_QUESTION_SET_FROM, askedAsIn, restrictKind, flattenCondition } from "../src/core/physicalObjectCups.js";
 
 let pass = 0, miss = 0;
 const check = (what: string, ok: boolean, detail?: unknown): void => {
@@ -47,10 +47,12 @@ check("routers/form_factor is NOT required of a kind in neither list (`cable`)",
 
 // ---- the counts, so a row cannot quietly stop landing ------------------------------------------------------
 const declared = physicalObjectRows().reduce((n, r) => n + r.cups.length, 0);
-check(`the table declares 55 cup additions across 27 (category, kind) rows (41 + the 14 of kind parity, Batch B)`,
-  declared === 55 && physicalObjectRows().length === 27, { declared, rows: physicalObjectRows().length });
-check("all 55 landed: nothing was refused as `na`, already req, or an unknown dictionary key",
-  PHYSICAL_OBJECT_CUP_REPORT.widened.length === 55 && PHYSICAL_OBJECT_CUP_REPORT.refusedNa.length === 0
+// 29 Sep 2026: the optical `pluggable` row (6 cups) LEFT the table for KIND_QUESTION_SET_FROM, so the pre-Batch-B base is 35,
+// and ruling (d) + Q1/Q3/Q4 added 23 witnessed cups over 12 new rows and two extended ones (routers/switches chassis).
+check(`the table declares 72 cup additions across 38 (category, kind) rows (35 + the 37 of kind parity, Batch B and ruling (d))`,
+  declared === 72 && physicalObjectRows().length === 38, { declared, rows: physicalObjectRows().length });
+check("all 72 landed: nothing was refused as `na`, already req, or an unknown dictionary key",
+  PHYSICAL_OBJECT_CUP_REPORT.widened.length === 72 && PHYSICAL_OBJECT_CUP_REPORT.refusedNa.length === 0
   && PHYSICAL_OBJECT_CUP_REPORT.alreadyReq.length === 0 && PHYSICAL_OBJECT_CUP_REPORT.unknownKey.length === 0,
   { widened: PHYSICAL_OBJECT_CUP_REPORT.widened.length, refusedNa: PHYSICAL_OBJECT_CUP_REPORT.refusedNa,
     alreadyReq: PHYSICAL_OBJECT_CUP_REPORT.alreadyReq, unknownKey: PHYSICAL_OBJECT_CUP_REPORT.unknownKey });
@@ -59,8 +61,8 @@ check("all 55 landed: nothing was refused as `na`, already req, or an unknown di
 const pw = PARITY_WIDENINGS.flatMap((w) => w.cups.map((c) => `${w.category}|${w.kind}|${c}`));
 check("Batch B: every PARITY_WIDENINGS cup is a table row that LANDED", pw.every((x) => PHYSICAL_OBJECT_CUP_REPORT.widened.includes(x)),
   pw.filter((x) => !PHYSICAL_OBJECT_CUP_REPORT.widened.includes(x)));
-check("Batch B: the table grew by exactly the witnessed cups (41 before + 14), so a row with no witness fails the count",
-  declared === 41 + pw.length && pw.length === 14, { declared, witnessed: pw.length });
+check("Batch B + (d): the table grew by exactly the witnessed cups (35 before + 37), so a row with no witness fails the count",
+  declared === 35 + pw.length && pw.length === 37, { declared, witnessed: pw.length });
 check("Batch B: every witness names a DIFFERENT, richer category and a real-looking SKU",
   PARITY_WIDENINGS.every((w) => w.richer !== w.category && /^[A-Z0-9][A-Z0-9-]+$/.test(w.witness)));
 check("Batch B: the two refused on measurement are NOT rows (collab cable media, collab memory flash)",
@@ -86,6 +88,68 @@ check("`na` is NOT overridden: widening from na is a REVERSAL of a category's de
 check("cond -> any([existing, kind in kinds]), elseOpt preserved exactly",
   JSON.stringify(alsoAskedOf({ kind: "cond", when: { field: "kind", inList: ["a"] }, elseOpt: false }, ["b"]))
   === JSON.stringify({ kind: "cond", when: { any: [{ field: "kind", inList: ["a"] }, { field: "kind", inList: ["b"] }] }, elseOpt: false }));
+
+// ---- KIND_QUESTION_SET_FROM: a kind asked another category's set BY REFERENCE (29 Sep 2026) ------------------------------
+// Asserted through the REAL requirementFor on the real profiles, over the values that decide the source's gates: equality for
+// the referenced kind, and the OTHER kinds of the target left exactly where they were (their pre-reference answers pinned).
+{
+  const asked = (cat: string, part: Record<string, unknown>) => Object.keys(PROFILES[cat]).filter((k) => !COLUMN_BACKED.has(k))
+    .map((k) => [k, requirementFor(cat, k, part as never)] as const).filter(([, r]) => r === "req" || r === "pending")
+    .map(([k, r]) => k + (r === "pending" ? "*" : "")).sort().join(",");
+  for (const media of [undefined, "mmf", "smf", "dac-copper", "aoc", "rj45-copper"]) {
+    const part = media ? { kind: "pluggable", media } : { kind: "pluggable" };
+    check(`optical-networking pluggable (media ${media ?? "unknown"}) is asked exactly transceiver's set`,
+      asked("optical-networking", part) === asked("transceiver", part), { optical: asked("optical-networking", part), transceiver: asked("transceiver", part) });
+  }
+  for (const kind of ["memory", "drive", "cpu", "storage-controller", "tpm", "nic", "fan", "power-cord"])
+    check(`wireless ${kind} is asked exactly the servers-unified-computing ${kind} set`,
+      asked("wireless", { kind }) === asked("servers-unified-computing", { kind }), { wireless: asked("wireless", { kind }), sucs: asked("servers-unified-computing", { kind }) });
+  // THE OTHER KINDS DID NOT MOVE -- the half a blind composition gets wrong. Pinned from HEAD before the reference landed.
+  check("optical pluggable-bidi still req reach_max (its own row, not transceiver's media gate)", requirementFor("optical-networking", "reach_max", { kind: "pluggable-bidi" } as never) === "req");
+  check("optical amplifier still req tx_power", requirementFor("optical-networking", "tx_power", { kind: "amplifier" } as never) === "req");
+  check("optical transponder fiber_type still OPTIONAL, not na (target elseOpt kept)", requirementFor("optical-networking", "fiber_type", { kind: "transponder" } as never) === "opt");
+  check("wireless ap is not asked dimm memory questions", requirementFor("wireless", "dram", { kind: "ap" } as never) !== "req");
+  check("the reference rewrote only what differs (35 cups), refused nothing, found every profile",
+    KIND_QUESTION_SET_REPORT.rewritten.length === 35 && KIND_QUESTION_SET_REPORT.naReversal.length === 0 && KIND_QUESTION_SET_REPORT.missingProfile.length === 0,
+    { rewritten: KIND_QUESTION_SET_REPORT.rewritten.length, naReversal: KIND_QUESTION_SET_REPORT.naReversal, missing: KIND_QUESTION_SET_REPORT.missingProfile });
+  check("every row of the table names a real (category, from) pair", KIND_QUESTION_SET_FROM.every((r) => PROFILES[r.category] && PROFILES[r.from] && r.category !== r.from));
+}
+// askedAsIn, every branch, including the two that must REFUSE or leave alone
+{
+  const K = "pluggable";
+  check("na target + a source that asks the kind -> REFUSED as a reversal",
+    askedAsIn({ kind: "na" }, { kind: "req" }, K) === "na-reversal");
+  check("na target + a source that asks nothing of the kind -> unchanged",
+    askedAsIn({ kind: "na" }, { kind: "opt" }, K) === "unchanged");
+  check("same answer for the kind on both sides -> unchanged (no rewrite, no nesting)",
+    askedAsIn({ kind: "cond", when: { field: "kind", inList: ["pluggable", "cable"] } }, { kind: "req" }, K) === "unchanged");
+  const opt = askedAsIn({ kind: "opt" }, { kind: "cond", when: { field: "media", inList: ["smf"] } }, K);
+  check("opt target -> required of the kind under the SOURCE's gate, still opt for every other kind",
+    JSON.stringify(opt) === JSON.stringify({ kind: "cond", when: { all: [{ field: "kind", inList: [K] }, { field: "media", inList: ["smf"] }] }, elseOpt: true }), opt);
+  const keep = askedAsIn({ kind: "cond", when: { field: "kind", inList: ["pluggable", "amplifier"] }, elseOpt: true }, { kind: "cond", when: { field: "media", inList: ["smf"] } }, K);
+  check("a target cond naming the kind: the kind leaves the target's list and takes the source's gate; the others keep theirs",
+    JSON.stringify(keep) === JSON.stringify({ kind: "cond", when: { any: [{ field: "kind", inList: ["amplifier"] }, { all: [{ field: "kind", inList: [K] }, { field: "media", inList: ["smf"] }] }] }, elseOpt: true }), keep);
+  const fenced = askedAsIn({ kind: "cond", when: { field: "media", inList: ["smf"] } }, { kind: "opt" }, K);
+  check("a target gate that could still fire for the kind through a NON-kind test is fenced with kind != K",
+    JSON.stringify(fenced) === JSON.stringify({ kind: "cond", when: { all: [{ field: "kind", notInList: [K] }, { field: "media", inList: ["smf"] }] }, elseOpt: false }), fenced);
+  // SABOTAGE: the blind composition (no restrictKind) would have answered `pluggable` from BOTH sides here.
+  check("SABOTAGE restrictKind decides kind tests: kind in [pluggable, x] is TRUE for pluggable, and x-only for the rest",
+    restrictKind({ field: "kind", inList: ["pluggable", "x"] }, K, true) === true
+    && JSON.stringify(restrictKind({ field: "kind", inList: ["pluggable", "x"] }, K, false)) === JSON.stringify({ field: "kind", inList: ["x"] }));
+  check("flattenCondition merges the kind lists under one any and splices nested anys",
+    JSON.stringify(flattenCondition({ any: [{ any: [{ field: "kind", inList: ["a"] }, { field: "kind", inList: ["b"] }] }, { field: "media", eq: "x" }, { field: "kind", inList: ["a", "c"] }] }))
+    === JSON.stringify({ any: [{ field: "kind", inList: ["a", "b", "c"] }, { field: "media", eq: "x" }] }));
+}
+// ---- GATED_CUPS: cellular_bands of a module wherever a module is filed, only when it is cellular -------------------------
+for (const cat of ["interfaces-modules", "wireless", "security", "switches", "routers"]) {
+  const r = (cellular?: boolean) => requirementFor(cat, "cellular_bands", (cellular === undefined ? { kind: "module" } : { kind: "module", cellular }) as never);
+  check(`${cat}: a cellular module is asked its bands, a non-cellular one is not, an unanswered gate pends`,
+    r(true) === "req" && r(false) === "opt" && r() === "pending", { t: r(true), f: r(false), u: r() });
+}
+check("the gated widening landed in all four categories and refused nothing",
+  GATED_CUP_REPORT.widened.length === 4 && GATED_CUP_REPORT.refusedNa.length === 0, GATED_CUP_REPORT);
+check("SABOTAGE/CONTROL a non-module in the same category is not asked cellular_bands for being cellular",
+  requirementFor("switches", "cellular_bands", { kind: "switch", cellular: true } as never) !== "req");
 
 console.log(`\n    physical-object cups: ${pass} passed, ${miss} missed (1 sabotage case, 5 widening branches)`);
 if (miss) process.exit(1);

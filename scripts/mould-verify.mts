@@ -1010,7 +1010,13 @@ const TESTS: Test[] = [
           // GROWN A NEW CUP SINCE ITS RULING. kindProfiles.parityRuled requires EVERY differing cup to
           // be covered and the ruling's categories to be among the ones that differ, so an approval
           // written for `transceiver` cannot excuse a divergence between two other categories.
-          const r = parityRuled(kind, [...diffCups], rows.map((x) => x.cat));
+          // A ruling covers ONLY the categories it names (Q3, 29 Sep 2026): the rest must give one answer, read from the sets
+          // resolved above, so the ruling check and the diff it excuses can never use two different resolutions.
+          const asks = (cat: string, cup: string): string => {
+            const s = rows.find((x) => x.cat === cat)?.sets;
+            return s?.req.includes(cup) ? "req" : s?.pending.includes(cup) ? "pending" : "no";
+          };
+          const r = parityRuled(kind, [...diffCups], rows.map((x) => x.cat), asks);
           if (r.ruled) { ruledOut.push(`${kind} (${r.by?.witness})`); continue; }
           // The CAUSE, from the register, so the failure says what work it needs instead of repeating a
           // list. A divergence in neither half is its own finding: nobody has classified it.

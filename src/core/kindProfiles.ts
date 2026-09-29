@@ -40,8 +40,10 @@ export type KindParityException = {
   /** a real SKU, so the next reader can go and look instead of taking the reason on trust. */
   witness: string;
   /** A LEASE, NOT A STATE: the ruling lapses the moment this dictionary key exists, and the divergence comes back red.
-   *  For an exception granted only until a signal lands (reviewer, 29 Sep 2026: "park with an expiry"). */
-  until?: { dictionaryKey: string; note: string };
+   *  For an exception granted only until a signal lands (reviewer, 29 Sep 2026: "park with an expiry").
+   *  `date` (YYYY-MM-DD) is the other expiry: a measurement that is DUE, not a signal that may never come. Past the
+   *  date the lease lapses on its own, so "parked until someone measures" cannot quietly become "parked for ever". */
+  until?: { dictionaryKey?: string; date?: string; note: string };
 };
 
 /** An unsettled divergence: named, with its cause and who has to decide. Still counted as a failure. */
@@ -114,6 +116,43 @@ export const KIND_PARITY_EXCEPTIONS: readonly KindParityException[] = [
     witness: "CAB-GREY-2.9M",
     until: { dictionaryKey: "cable_construction", note: "Step 9 (the transceiver pilot) adds cable_construction; media is then gated on it everywhere" },
   },
+  // ---- ruling (d), 29 Sep 2026, on the full N-way view (docs/reviewer/2026-09-28/parity-full-view.md) ----
+  {
+    kind: "supervisor",
+    cups: ["mac_table", "uplink_ports"],
+    categories: ["storage-networking"],
+    reason: "Fibre Channel supervisor - no Ethernet MAC table or uplinks (reviewer ruling, 29 Sep 2026). An MDS 9500/9700 " +
+      "supervisor switches FC frames; asking it for an Ethernet MAC table or Ethernet uplinks would be a gap nothing can close. " +
+      "fabric_bandwidth, which an MDS supervisor does have, is asked of it (PHYSICAL_OBJECT_CUPS).",
+    witness: "DS-X97-SF4-K9",
+  },
+  {
+    kind: "module",
+    cups: ["data_rate"],
+    categories: ["interfaces-modules"],
+    reason: "interfaces-modules' `module` rows are 68 of 68 DSP / voice / crypto cards (PVDM 45, NM-HDV 6, SPA-IPSEC 5, " +
+      "ISM-VPN 4, NME-RVPN 3, SM-EC 3, AIM 1, 3810-VCM3 1): a DSP farm or an encryption engine has channels and throughput, " +
+      "not a line rate, so data_rate would be 68 permanent gaps (reviewer ruling Q2, 29 Sep 2026).",
+    witness: "PVDM4-128",
+  },
+  {
+    kind: "module",
+    cups: ["data_rate"],
+    categories: ["routers"],
+    reason: "RULE 6 WINS, as for power_max (reviewer ruling Q2, 29 Sep 2026): routers.module already asks 3 cups at nothing " +
+      "known (ports, product_compatibility, cellular_bands pending), the bound of its granularity exception; data_rate would be the 4th.",
+    witness: "CGM-4G-LTE-EA-900",
+  },
+  {
+    kind: "antenna",
+    cups: ["antenna_gain"],
+    categories: ["routers"],
+    reason: "antenna_gain holds 0 facts in the whole catalogue; the parser now reads the vendor's printed '2.4G / 5G' " +
+      "(ed9b878). Router antennas are 25 of 88 spec-bearing; whether their documents yield a gain is a MEASUREMENT, and " +
+      "requiring the cup before it would put 88 gaps nothing has shown it can close (reviewer ruling, 29 Sep 2026).",
+    witness: "3G-ACC-OUT-LA",
+    until: { date: "2026-10-06", note: "measure antenna_gain extraction over the router antennas' spec-bearing documents, then add the cup or rule the exception" },
+  },
 ];
 
 /**
@@ -162,7 +201,9 @@ export const KIND_PARITY_OPEN: readonly KindParityOpen[] = [
   // field_of_view) and `security-camera` (meraki MV, 35 -- image_sensor, storage_capacity,
   // video_quality_max). Spread-sampled names: "Cisco Desk Camera 4K", "PTZ 4K Camera", "Quad Camera",
   // "Precision 40 Camera with 8x zoom" against MV12 / MV23 / MV53X-HW / MV72.
-  { kind: "pluggable", cause: "kind-split", note: "optical-networking 15454-ML1000-2 is asked reach_max/wavelength; transceiver 15216-GBIC-1510 is asked ddm/form_factor/media/standard/temp_class. A DWDM line-card pluggable against a datacom optic — needs the operator, because unlike the other four the two cup sets are both plausible for one kind." },
+  // RESOLVED 29 Sep 2026 (reviewer ruling (d)): `pluggable` is ONE profile, transceiver's, and optical-networking's
+  // pluggable is asked it by reference (KIND_QUESTION_SET_FROM in physicalObjectCups.ts), derived at load rather than
+  // copied. The thin six-cup copy that stood in PHYSICAL_OBJECT_CUPS left seven cups divergent, which is why a copy loses.
   { kind: "appliance", cause: "strictness", note: "THE SAME CUPS on both sides: security holds concurrent_sessions, firewall_throughput, ipsec_throughput, threat_throughput and the rest as `pending` where meraki holds them as `req`. Seven apparent disagreements, ONE question about strictness, answered by one line in one profile. `ports` falls out with it." },
   { kind: "power", cause: "profile-gap", note: "input_voltage asked by 12 categories, not interfaces-modules; airflow and psu_rated_output asked by 11, not interfaces-modules or routers. A power supply has an input voltage wherever it is filed." },
   { kind: "drive", cause: "profile-gap", note: "drive_interface asked by 6, not routers or switches. C9400-SSD-240GB has an interface." },
@@ -186,17 +227,35 @@ export const KIND_PARITY_OPEN: readonly KindParityOpen[] = [
  *    `transceiver` cannot silently excuse a divergence between two other categories.
  */
 /** An exception granted UNTIL a dictionary key exists has lapsed once it does: it no longer excuses anything. */
-export function leaseLapsed(e: KindParityException): boolean {
-  return !!e.until && Object.prototype.hasOwnProperty.call(FIELD_DICTIONARY, e.until.dictionaryKey);
+export function leaseLapsed(e: KindParityException, today: string = new Date().toISOString().slice(0, 10)): boolean {
+  if (!e.until) return false;
+  if (e.until.dictionaryKey && Object.prototype.hasOwnProperty.call(FIELD_DICTIONARY, e.until.dictionaryKey)) return true;
+  return !!e.until.date && today > e.until.date;
 }
 
-export function parityRuled(kind: string, cups: readonly string[], categories: readonly string[]):
+/**
+ * A RULING COVERS ONLY THE CATEGORIES IT NAMES (reviewer ruling Q3, 29 Sep 2026). Until then a cup counted as covered
+ * for the WHOLE kind the moment any ruling named it and any of its categories was present: the routers-only power_max
+ * ruling (rule 6) was silently excusing wireless and switches, which did not ask power_max either and had no ruling.
+ * Now, per cup: take every category a live ruling for that cup names; the categories it does NOT name must all give
+ * the same answer (`asks`: req / pending / no), or carry their own ruling. Anything else is uncovered.
+ *
+ * `asks(category, cup)` is the caller's resolution for this kind — the verifier passes the four sets it already
+ * resolved through the real requirementFor, so this function never re-implements the resolution it judges.
+ */
+export function parityRuled(kind: string, cups: readonly string[], categories: readonly string[],
+  asks: (category: string, cup: string) => string):
   { ruled: boolean; by: KindParityException | null; uncovered: string[] } {
   const rulings = KIND_PARITY_EXCEPTIONS.filter(
     (e) => e.kind === kind && e.categories.some((c) => categories.includes(c)) && !leaseLapsed(e));
   if (!rulings.length) return { ruled: false, by: null, uncovered: [...cups] };
-  const covered = new Set(rulings.flatMap((e) => e.cups));
-  const uncovered = cups.filter((c) => !covered.has(c));
+  const uncovered: string[] = [];
+  for (const cup of cups) {
+    const named = new Set(rulings.filter((e) => e.cups.includes(cup)).flatMap((e) => e.categories));
+    if (!named.size) { uncovered.push(cup); continue; }
+    const rest = new Set(categories.filter((c) => !named.has(c)).map((c) => asks(c, cup)));
+    if (rest.size > 1) uncovered.push(cup);
+  }
   return { ruled: uncovered.length === 0, by: rulings[0], uncovered };
 }
 

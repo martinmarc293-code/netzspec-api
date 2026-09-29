@@ -354,9 +354,13 @@ eq("UCS_KINDS names power, cable, fan, tpm and pdu, and no longer psu",
     nic: ["data_rate", "ports", "product_compatibility"],
     "storage-controller": ["drive_interface", "product_compatibility"],
     "io-module": ["data_rate", "ports", "product_compatibility"],
-    chassis: ["altitude_max", "certifications", "dimensions", "form_factor", "humidity_operating", "module_slots", "power_max", "product_compatibility", "psu_config", "temp_operating", "temp_storage", "weight"],
+    // rack_units JOINED 29 Sep 2026 (ruling Q1, the chassis union): asked of the chassis kind UNGATED -- the form_factor gate
+    // stays for servers (rack or blade); a chassis is rack-mounted by definition.
+    chassis: ["altitude_max", "certifications", "dimensions", "form_factor", "humidity_operating", "module_slots", "power_max", "product_compatibility", "psu_config", "rack_units", "temp_operating", "temp_storage", "weight"],
     pdu: ["input_voltage", "mounting", "product_compatibility", "psu_rated_output"],
-    unknown: [], bundle: ["bundle_contents"],
+    // product_compatibility JOINED 29 Sep 2026 (ruling (d)): a bundle states what it works with in every category it is filed
+    // under; relation-backed, so a bundle with no relation is not_held, never a gap. hci had it since Batch B (the pin was stale).
+    unknown: [], bundle: ["bundle_contents", "product_compatibility"],
   };
   for (const [kind, want] of Object.entries(WANT)) {
     eq(`kind-layer question set: servers-unified-computing ${kind}`, req("servers-unified-computing", kind), want.join(","));
