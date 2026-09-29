@@ -102,6 +102,16 @@ for (const s of refused) console.log(`  REFUSED ${s}`);
 if (missDocs.size) console.log(`  cache miss (still truncated, never complete): ${[...missDocs].join(", ")}`);
 if (stillDocs.size) console.log(`  still cut by the extractor: ${[...stillDocs].map(([d, k]) => `${d} x${k}`).join(", ")}`);
 for (const p of plans.slice(0, 3)) console.log(`  e.g. ${p.row.sku} ${p.row.locator}: ${p.row.raw.length} -> ${p.entry.raw.length} chars, ...${JSON.stringify(p.entry.raw.slice(p.row.raw.length - 12, p.row.raw.length + 40))}`);
+if (process.argv.includes("--cells")) {
+  // Every DISTINCT repaired cell once (all facts of one cell get the same value): read them before a --commit.
+  const cells = new Map<string, { n: number; p: Plan }>();
+  for (const p of plans) { const k = `${p.row.doc_id} ${cellOf(p.row.locator)}`; const c = cells.get(k); if (c) c.n++; else cells.set(k, { n: 1, p }); }
+  console.log(`  ${cells.size} distinct repaired cells:`);
+  for (const [k, { n, p }] of cells) {
+    const v = Array.isArray(p.entry.value) ? (p.entry.value as unknown[]).map(String) : [String(p.entry.value)];
+    console.log(`    ${k} x${n}: ${p.row.raw.length} -> ${p.entry.raw.length} chars, ${v.length} members; was cut at ${JSON.stringify(p.row.raw.slice(-14))}; last ${JSON.stringify(v.slice(-2)).slice(0, 90)}`);
+  }
+}
 const accounted = Object.values(out).reduce((a, b) => a + b, 0);
 if (accounted !== rows.length) { console.error(`ACCOUNTING: ${accounted} outcomes for ${rows.length} targets`); await closePool(); process.exit(2); }
 if (!commit) { console.log("DRY RUN: nothing written. Re-run with --commit."); await closePool(); process.exit(0); }
