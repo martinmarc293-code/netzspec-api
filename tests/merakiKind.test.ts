@@ -191,7 +191,7 @@ const ask = (sku: string) => completenessV2("meraki", { kind: partKind("meraki",
   const mkSet = (kind: string, role?: string) => { const q = kindQuestionSet("meraki", kind, role); return [...q.required, ...q.pending.map((p) => `${p.key}?`)].sort().join(","); };
   const L = (...xs: string[]) => [...xs].sort().join(",");
   const MS_CORE = ["certifications", "cooling", "dimensions", "form_factor", "forwarding_rate", "humidity_operating", "ieee_standards",
-    "jumbo_mtu", "mac_table", "mgmt_class", "mounting", "packet_buffer", "poe_standard", "ports", "power_max", "psu_config", "psu_options",
+    "jumbo_mtu", "mac_table", "mgmt_class", "mounting", "packet_buffer", "poe_standard", "ports", "power_max", "psu_config",
     "stackable", "switching_capacity", "temp_operating", "vlan_max", "weight",
     "module_slots?", "poe_budget?", "poe_ports?", "psu_redundant?", "rack_units?", "stacking_bandwidth?", "uplink_ports?"];
   const ENVP = ["altitude_max", "heat_dissipation", "input_voltage", "mtbf", "power_typical", "temp_storage"];
@@ -208,7 +208,7 @@ const ask = (sku: string) => completenessV2("meraki", { kind: partKind("meraki",
      L(...MS_CORE.filter((k) => k !== "psu_redundant?"), ...ENVP, "fabric_bandwidth", "psu_redundant"));
   eq("kind-layer: meraki/access-point = AP library + today's envelope, ip_rating pending on the unanswered role",
      mkSet("access-point"),
-     L("antenna_type", "certifications", "dimensions", "humidity_operating", "mounting", "poe_standard", "ports", "power_max", "psu_options",
+     L("antenna_type", "certifications", "dimensions", "humidity_operating", "mounting", "poe_standard", "ports", "power_max",
        "radio_bands", "radio_count", "spatial_streams", "temp_operating", "weight", "wifi_generation", "ip_rating?"));
   eq("kind-layer: an OUTDOOR meraki access point is also asked its IP rating", mkSet("access-point", "outdoor").split(",").includes("ip_rating"), true);
   // The meraki/appliance cup set stood here (certifications, concurrent_sessions, dimensions, firewall_throughput,
@@ -218,13 +218,13 @@ const ask = (sku: string) => completenessV2("meraki", { kind: partKind("meraki",
   eq("kind-layer: meraki/appliance asks NOTHING — the kind has no rule, no part and no gate", mkSet("appliance"), "");
   eq("kind-layer: meraki/camera = CAMERA + MV deltas + today's", mkSet("security-camera"),
      L(/* reviewer C.3: camera_zoom optional (0 labels) */ "dimensions", "field_of_view", "humidity_operating", "image_sensor", "max_resolution", "mounting", "power_max",
-       "product_compatibility", "psu_options", "storage_capacity", "temp_operating", "video_quality_max", "weight"));
+       "product_compatibility", "storage_capacity", "temp_operating", "video_quality_max", "weight"));
   // sensors / cellular_category / cloud_management are proposed required by II.15 but are free strings: the standing rule in
   // tests/freeStringCups.test.ts keeps them optional until a type decision is recorded.
   eq("kind-layer: meraki/sensor = today's (its library `sensors` cup is a free string, held optional)", mkSet("environment-sensor"),
-     L("battery_life", "dimensions", "humidity_operating", "mounting", "psu_options", "temp_operating", "weight"));
+     L("battery_life", "dimensions", "humidity_operating", "mounting", "temp_operating", "weight"));
   eq("kind-layer: meraki/gateway = CELLULAR's product_compatibility + today's", mkSet("cellular-gateway"),
-     L("cellular_bands", "dimensions", "humidity_operating", "mounting", "ports", "power_max", "product_compatibility", "psu_options", "temp_operating", "weight"));
+     L("cellular_bands", "dimensions", "humidity_operating", "mounting", "ports", "power_max", "product_compatibility", "temp_operating", "weight"));
   eq("kind-layer: meraki/unknown asks <= 1", kindQuestionSet("meraki", "unknown").required.length + kindQuestionSet("meraki", "unknown").pending.length <= 1, true);
 }
 

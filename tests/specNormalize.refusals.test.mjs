@@ -182,11 +182,15 @@ const CASES = [
   ["wireless", "spatial_streams", "8x8:8", "8x8:8"],
   ["wireless", "spatial_streams", "4x4", "4x4"],              // the array with no stream count
   ["wireless", "spatial_streams", "2x2 MIMO", "2x2"],
-  // REFUSED: the five values the census lists under this cup that are not one configuration.
+  // REFUSED: the values the census lists under this cup that are not one configuration (four; MR46 corrected below).
   ["wireless", "spatial_streams", "10 or 8 (2x2+4x4+4x4 or 4x4+4x4)", "ENUM_VIOLATION"],   // CW9174E: alternatives
   ["wireless", "spatial_streams", "8 (4x4 + 4x4)", "ENUM_VIOLATION"],                       // MR46E: a total
   ["wireless", "spatial_streams", "2.4GHz: 2 x 2 multiple input, multiple output (MIMO) with two spatial streams 5GHz: 4 x 4 multiple input, multiple output (MIMO) with four spatial streams", "ENUM_VIOLATION"],
-  ["wireless", "spatial_streams", "4 x 4 multiple input, multiple output (MIMO) with four spatial streams", "ENUM_VIOLATION"],
+  // CORRECTED 29 Sep 2026 (normaliser 1.8.4): MR46's sentence names ONE array and ONE stream count -- it is one configuration,
+  // unlike the other four listed here (two radios, alternatives, a total) -- so it reads 4x4:4. The mismatched count word
+  // below stays refused, which is what keeps the rule from reading a count the sentence does not state.
+  ["wireless", "spatial_streams", "4 x 4 multiple input, multiple output (MIMO) with four spatial streams", "4x4:4"],
+  ["wireless", "spatial_streams", "4 x 4 multiple input, multiple output (MIMO) with two spatial streams", "ENUM_VIOLATION"],
   // NOT INVENTED: no Cisco wireless part in the catalogue is 5x5:5.
   ["wireless", "spatial_streams", "5x5:5", "ENUM_VIOLATION"],
   //
