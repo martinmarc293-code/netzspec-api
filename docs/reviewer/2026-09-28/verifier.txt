@@ -24,7 +24,7 @@ mould:verify — 33 tests declared
   PASS  dictionary_in_sync             a sync now would change nothing — 610 keys and 6203 profile rows in code, asked by a rolled-back sync
   PASS  relations_for_components       compatibility is expressed as relations and not as strings — 0 product_compatibility FACTS; 59,931 compatibility RELATIONS; relation kinds present: compatible 59,931, successor 16,783, spare_of 11,320, license_for 765
   PASS  name_image_lifecycle_state     every live part records what its name, image and lifecycle actually are — 91,532 live parts; 11,307 carry a name that is their own SKU with a word in front; 55 have no name at all; 3 of 3 state columns exist (name_state, image_state, lifecycle_state); 11,307 are sku-only, which is now RECORDED rather than invisible and is work for the name lane, not a defect in the mould
-  FAIL  export_profiles_roundtrip      5 of 5 export profiles do not exist on the deployment — this is the surface a JTL shop loads from, so until it answers, every other green on this board is a means without an end — 5 profiles asked of https://api.netzspec.com for the 5 acceptance SKUs; 5 missing, 0 behind a key this environment does not hold: jtl-main -> 400, jtl-attributes-switches -> 400, jtl-attributes-transceivers -> 400, jtl-faq -> 400, jtl-condition -> 400   (S1–S9, STEP 9)
+  PASS  export_profiles_roundtrip      the four JTL files match the recorded contract on real rows — 4 profiles walked page by page (84 pages of ≤ 2000 cisco hardware parts) asked of https://api.netzspec.com; 500 data rows checked, 33 shop_ready parts; acceptance: C9200-24P not ready (attribute:Portanzahl, attribute:Port-Konfiguration, attribute:Port-Geschwindigkeit); C9200-48P-E not ready (attribute:Port-Geschwindigkeit, attribute:Stacking, weight); C9300-48P not ready (attribute:Portanzahl, attribute:Port-Konfiguration, attribute:Port-Geschwindigkeit); QDD-400G-DR4 not ready (attribute:Formfaktor, attribute:Geschwindigkeit, attribute:Fasertyp); QSFP-100G-CU3M not ready (weight); SFP-10G-SR not ready (attribute:Standard, weight)
   PASS  openapi_schemas                every shape a consumer needs is declared, and every level shape routes — 13 schemas declared on the deployment, 51 paths; 10 wanted, 3 of them held to a route
   PASS  endpoints_alive                every declared route answers 200 on the deployment — 8 routes asked of https://api.netzspec.com (control /health 200); 0 dead, 0 refused my request, 0 alive-but-authenticated, 0 unreachable
   PASS  link_integrity                 every internal link on the arrangement site resolves — 249 internal hrefs across 38 pages
@@ -34,8 +34,8 @@ mould:verify — 33 tests declared
   PASS  derived_gate_nulls             9,002 parts of 6 role-bearing (category, kind) pairs, every floor held; roles derived on all but 0 the table REFUSES as the wrong kind (they leave the score with a reason)
   FAIL  vendor_coverage                12 vendors hold 3476 live hardware parts with NO layering, ledger or kinds: juniper 974, extreme 96, fortinet 87, nvidia 85, mikrotik 63, ubiquiti 49, aruba 358, arista 344, supermicro 27, dell-emc 151, hpe 1142, lenovo 100 — N62 named five of these 12. WHEN THIS CLOSES: 1,369 of them sit in the eight categories the 22-row cup decision touches, so those rows land on them in one step, as gaps. Expected, not a regression   (N62)
 
-  passed 31   FAILED 2   not implemented 0   unavailable 0   not exercised 0   (of 33 declared)
-  failing: export_profiles_roundtrip, vendor_coverage
+  passed 32   FAILED 1   not implemented 0   unavailable 0   not exercised 0   (of 33 declared)
+  failing: vendor_coverage
 ==== SELF-TEST
 mould:verify --self-test — can each of the 33 declared tests actually fail?
 
@@ -63,7 +63,7 @@ mould:verify --self-test — can each of the 33 declared tests actually fail?
   PASS  dictionary_in_sync             refuses the broken input, accepts the twin — a reshaped key not yet synced, and a sync that would refuse, must fail; a sync that would change nothing must pass
   PASS  relations_for_components       refuses the broken input, accepts the twin — a prose string must not count as compatibility; a sourced from/to/kind/doc relation must
   PASS  name_image_lifecycle_state     refuses the broken input, accepts the twin — a name that is just the SKU with a word in front must not count as a name; a real one must
-  PASS  export_profiles_roundtrip      refuses the broken input, accepts the twin — an English decimal point must be refused for a German shop column; a comma decimal must pass
+  PASS  export_profiles_roundtrip      refuses the broken input, accepts the twin — a Condition file without its BOM must be refused; the writer's own file must pass the contract
   PASS  openapi_schemas                refuses the broken input, accepts the twin — Model declared with no /v1/models route must fail (reviewer, 28 Sep); every shape declared and routed must pass
   PASS  endpoints_alive                refuses the broken input, accepts the twin — 404/500 must classify as dead; 401 as alive-but-locked, 400 as refused (my malformed probe), 200 as alive, no answer as unreachable — never folded together
   PASS  link_integrity                 refuses the broken input, accepts the twin — a dangling href must fail, and so must a clean site from ANOTHER build (stale BUILD.json); the clean same-build twin passes
