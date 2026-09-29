@@ -18,12 +18,12 @@ import fs from "node:fs";
 import path from "node:path";
 import { createHash } from "node:crypto";
 import { fileURLToPath } from "node:url";
-import { getPool, closePool, withRun, withTx, insertFact, insertEvidence } from "../src/store/index.js";
+import { getPool, closePool, withRun, withTx, insertFact, insertEvidence, supersedeFact } from "../src/store/index.js";
 import { planFile } from "../src/core/planFile.js";
 import { normalizeField, NORM_VERSION } from "../src/core/specNormalize.js";
 import { unitFor } from "../src/core/fieldSchema.js";
 import { reReadSource, parseLocator, type ReadItem } from "../src/pipeline/gate-extract.js";
-import type { SpecEntry, FieldState } from "../src/core/specMerge.js";
+import { GAP_STATES, type SpecEntry, type FieldState } from "../src/core/specMerge.js";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const arg = (n: string): string | undefined => { const i = process.argv.indexOf(n); return i >= 0 ? process.argv[i + 1] : undefined; };
@@ -157,7 +157,12 @@ const res = await withRun("promote-orphan-readings", { plan: path.relative(ROOT,
       const unit = unitFor(cat, key) ?? undefined;
       const entry = (c: Cell, r: string): SpecEntry => ({ k: key, raw: r, value: p.value, ...(unit ? { unit } : {}), state,
         prov: { tier: c.tier, method: c.method, doc_id: c.doc_id, locator: c === primary ? locator : c.locator, extracted_at: today, norm_v: NORM_VERSION } });
-      const factId = await insertFact(client, Number(part_id), entry(primary, raw), runId);
+      // THE CURRENT ROW IS USUALLY THE TOMBSTONE of the pour Q17 retracted (run 1426 failed on facts_current_uq inserting beside
+      // it): a gap row is SUPERSEDED by the promoted reading; a current VALUE in any state is never overwritten -- refused.
+      const cur = (await client.query<{ id: string; state: string }>("SELECT id::text, state::text FROM facts WHERE part_id = $1 AND field_key = $2 AND superseded_by IS NULL",
+        [part_id, key])).rows[0];
+      if (cur && !(GAP_STATES as readonly string[]).includes(cur.state)) throw new Error(`${x.rs[0].sku} ${key}: a current ${cur.state} value exists (#${cur.id}) — refused, nothing written`);
+      const factId = cur ? await supersedeFact(client, Number(cur.id), entry(primary, raw), runId) : await insertFact(client, Number(part_id), entry(primary, raw), runId);
       facts++;
       // every OTHER source document of a promoted value is an evidence row of the same fact
       if (p.kind === "promote") for (const c of p.cells.slice(1)) await insertEvidence(client, factId, entry(c, cellText.get(`${x.g}|${c.doc_id}|${c.locator}`)!), runId);
