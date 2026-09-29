@@ -1,8 +1,8 @@
 {
   "vendor": "cisco",
   "category": "switches",
-  "built_at": "2026-09-29T04:17:03.924Z",
-  "commit": "664d5151514f2ac9466c635bd9622d38c966d0ac",
+  "built_at": "2026-09-29T07:38:11.763Z",
+  "commit": "e3f3f1d5346afbd8c65264e160cee4154ac810dd",
   "uncommitted_rule_files": [],
   "mapping_file": "data/reference/product-lines/cisco-switches.json",
   "parts": 7225,
@@ -4828,9 +4828,9 @@
   "inbound_unplaced": {},
   "done": true,
   "build": {
-    "data_commit": "664d5151514f+81dirty",
-    "code_commit": "664d5151514f",
+    "data_commit": "0ea2ef5218c4+79dirty",
+    "code_commit": "e3f3f1d5346a",
     "contract_hash": "bcfc4c1ee314d3c2",
-    "generated_at": "2026-09-29T04:24:04.048Z"
+    "generated_at": "2026-09-29T07:44:54.802Z"
   }
 }
