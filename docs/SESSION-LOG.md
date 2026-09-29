@@ -4,6 +4,19 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-29 (28) - BATCH A2 + BATCH B (reviewer rulings), WRITES ON THE BOX.** Done and verified: A2 runs 1350 correct-tier0
+  (433 normalised in place / 122 retracted), 1351 evidence backfill (1,135 rows onto 786 facts), 1352 reconcile (145 tier-0
+  flips + 18 orphans), 1354 --evidence (502 states, plan TSV + a state-only control whose sabotage, run 1353, threw and rolled
+  back); board 19/8/3/3 at d010ef0 (keys_hygiene green). Batch B code 4cfd249: twin names (--from-twin, run 1359: 386 names,
+  re-plan 0), plural + inch-mark marker fixes, UCS power-cord kind (64 cords), PARITY_WIDENINGS (+11 cups, witnessed), evidence
+  column, derived na in cupLedger.kindQuestionSet (keyed, refuses without both; veto fails four_sets_sum; recompute asserts;
+  /v1/fields?category=&kind=). Decision: docs/decisions/2026-09-29-batch-b-twins-parity-derived-na.md. PARKED for a ruling: the
+  6 twin bases classed `software` (settled move rule refuses them), UCSW-MSX-PCBL (names say different things), `cable` media
+  (8 categories ask it, 6 do not: needs cable_construction). TRAPS HIT: two undo plans lost (deploy swap; same-name overwrite by
+  the confirming dry run) -> deploy.sh carries data/dryrun, src/core/planFile.ts names plans per invocation, both rebuilt and
+  marked RECONSTRUCTED; a ratchet file in data/completeness read as a vendor; built_on_commit "unknown" on every box build
+  (GIT_SHA reached 2 of 5 build scripts); the Bash tool collapses `\\` inside quoted heredocs -- write escapes with Write/Edit.
+  NEXT: the Batch B board, the report, then Batch C (unknown_zero's named residue; the 7 undefined cups).
 - **2026-09-29 (27) - BATCHES 3-5 (reviewer rulings), ALL WRITES ON THE BOX.** Done and verified: splitter 1.8.1 -> 1.8.3
   (prefix runs; the pre-bullet head; spaced middle-dot runs; a prefix run delimits its ;-chunk), each measured with both
   real normalisers side by side and sabotaged per rule; renormalize 1329 (44), 1337 rfc (286), ieee + protocols at 1.8.2,

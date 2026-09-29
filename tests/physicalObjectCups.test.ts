@@ -47,10 +47,10 @@ check("routers/form_factor is NOT required of a kind in neither list (`cable`)",
 
 // ---- the counts, so a row cannot quietly stop landing ------------------------------------------------------
 const declared = physicalObjectRows().reduce((n, r) => n + r.cups.length, 0);
-check(`the table declares 52 cup additions across 26 (category, kind) rows (41 + the 11 of kind parity, Batch B)`,
-  declared === 52 && physicalObjectRows().length === 26, { declared, rows: physicalObjectRows().length });
-check("all 52 landed: nothing was refused as `na`, already req, or an unknown dictionary key",
-  PHYSICAL_OBJECT_CUP_REPORT.widened.length === 52 && PHYSICAL_OBJECT_CUP_REPORT.refusedNa.length === 0
+check(`the table declares 55 cup additions across 27 (category, kind) rows (41 + the 14 of kind parity, Batch B)`,
+  declared === 55 && physicalObjectRows().length === 27, { declared, rows: physicalObjectRows().length });
+check("all 55 landed: nothing was refused as `na`, already req, or an unknown dictionary key",
+  PHYSICAL_OBJECT_CUP_REPORT.widened.length === 55 && PHYSICAL_OBJECT_CUP_REPORT.refusedNa.length === 0
   && PHYSICAL_OBJECT_CUP_REPORT.alreadyReq.length === 0 && PHYSICAL_OBJECT_CUP_REPORT.unknownKey.length === 0,
   { widened: PHYSICAL_OBJECT_CUP_REPORT.widened.length, refusedNa: PHYSICAL_OBJECT_CUP_REPORT.refusedNa,
     alreadyReq: PHYSICAL_OBJECT_CUP_REPORT.alreadyReq, unknownKey: PHYSICAL_OBJECT_CUP_REPORT.unknownKey });
@@ -59,8 +59,8 @@ check("all 52 landed: nothing was refused as `na`, already req, or an unknown di
 const pw = PARITY_WIDENINGS.flatMap((w) => w.cups.map((c) => `${w.category}|${w.kind}|${c}`));
 check("Batch B: every PARITY_WIDENINGS cup is a table row that LANDED", pw.every((x) => PHYSICAL_OBJECT_CUP_REPORT.widened.includes(x)),
   pw.filter((x) => !PHYSICAL_OBJECT_CUP_REPORT.widened.includes(x)));
-check("Batch B: the table grew by exactly the witnessed cups (41 before + 11), so a row with no witness fails the count",
-  declared === 41 + pw.length && pw.length === 11, { declared, witnessed: pw.length });
+check("Batch B: the table grew by exactly the witnessed cups (41 before + 14), so a row with no witness fails the count",
+  declared === 41 + pw.length && pw.length === 14, { declared, witnessed: pw.length });
 check("Batch B: every witness names a DIFFERENT, richer category and a real-looking SKU",
   PARITY_WIDENINGS.every((w) => w.richer !== w.category && /^[A-Z0-9][A-Z0-9-]+$/.test(w.witness)));
 check("Batch B: the two refused on measurement are NOT rows (collab cable media, collab memory flash)",

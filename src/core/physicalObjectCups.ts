@@ -41,7 +41,9 @@ export const PHYSICAL_OBJECT_CUPS: Record<string, Record<string, readonly string
     chassis: ["dimensions", "form_factor", "module_slots", "psu_config", "weight"],
     linecard: ["data_rate", "power_max"],
     fabric: ["power_max"],
-    module: ["power_max"],   // kind parity, Batch B 29 Sep 2026 (PARITY_WIDENINGS)
+    // `module` +power_max was ruled (Batch B) and REVERTED the same day: routers.module then asks 4 cups at nothing known
+    // (ports, power_max, product_compatibility + cellular_bands pending), and rule 6 bounds a component kind at 3 -- the
+    // basis of its recorded granularity exception. A conflict between two rulings goes back to the reviewer, not into a threshold.
     // `antenna_gain` is DELIBERATELY ABSENT. Measured 27 Sep 2026: it holds 0 facts in the entire catalogue,
     // across every vendor, so requiring it of 88 router antennas would create 88 gaps nothing can close --
     // "a required field that nothing can ever fill is a permanent gap, not a recorded one". Its exclusion
@@ -77,7 +79,10 @@ export const PHYSICAL_OBJECT_CUPS: Record<string, Record<string, readonly string
   // row to two of the three broke that invariant — a category diverging because a decision reached its
   // siblings and not it, which is the very defect this whole table exists to remove.
   conferencing: { server: ["altitude_max", "cpu", "emc_emissions", "humidity_storage"] },
-  "hyperconverged-infrastructure": { bundle: ["product_compatibility"] },
+  "hyperconverged-infrastructure": { bundle: ["product_compatibility"], server: ["emc_emissions", "humidity_storage"] },   // server: PARITY_WIDENINGS
+  // The server group is FIVE categories, not the pair the parity check printed: once collab asked what hyperconverged-systems asks,
+  // servers-unified-computing and hci were the odd two out (cupLedger's cross-category set check). Same principle, same cups.
+  "servers-unified-computing": { server: ["emc_emissions", "humidity_storage"] },   // PARITY_WIDENINGS
   "hyperconverged-systems": { bundle: ["product_compatibility"] },   // kind parity, Batch B (PARITY_WIDENINGS)
   // pluggable joined the list on the reviewer's ruling rather than being a kind split: an ONS/NCS DWDM optic
   // and a Catalyst SFP are the same physical object, and the DWDM-specific cups (wavelength, reach_max,
@@ -115,7 +120,9 @@ export const PARITY_WIDENINGS: readonly { category: string; kind: string; cups: 
   { category: "unified-communications", kind: "server", cups: ["emc_emissions", "humidity_storage"], richer: "hyperconverged-systems", witness: "HX-B200-M5-U" },
   { category: "conferencing", kind: "server", cups: ["emc_emissions", "humidity_storage"], richer: "hyperconverged-systems", witness: "HX-B200-M5-U" },
   { category: "hyperconverged-systems", kind: "bundle", cups: ["product_compatibility"], richer: "hyperconverged-infrastructure", witness: "HCI-M6-MLB" },
-  { category: "routers", kind: "module", cups: ["power_max"], richer: "interfaces-modules", witness: "3810-VCM3" },
+  // servers-unified-computing prints both on its own sheets: DN3-HW-APL-XL holds OWN facts for emc_emissions and humidity_storage.
+  { category: "servers-unified-computing", kind: "server", cups: ["emc_emissions", "humidity_storage"], richer: "hyperconverged-systems", witness: "HX-B200-M5-U" },
+  { category: "hyperconverged-infrastructure", kind: "server", cups: ["emc_emissions", "humidity_storage"], richer: "hyperconverged-systems", witness: "HX-B200-M5-U" },
   { category: "optical-networking", kind: "chassis", cups: ["altitude_max", "product_compatibility", "temp_storage"], richer: "hyperconverged-infrastructure", witness: "HCIX-9508-CH" },
 ];
 

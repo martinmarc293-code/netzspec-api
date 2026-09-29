@@ -25,18 +25,7 @@ const PAIR_EXCEPTIONS: Record<string, string> = {
   // FOUR NEW KIND-ONLY EXCEPTIONS, PREDICTED BEFORE THE RUNS AND CONFIRMED BY THEM (fix list 4.1, 17 Sep 2026: "four of the 45
   // groups will disagree on kind once both members sit in servers"). The twin move plans joined each pair in one category, and the
   // classifier reads the two members differently because only one carries a descriptive name. Held for the kind rebuild.
-  "servers-unified-computing|UCSC-LP-C25-1485": "kind only: the base reads mechanical and the spare accessory — a low-profile bracket named only by its SKU on one side; both now sit in servers after the 17 Sep twin move plans ran (runs 1208 / 1210)",
-  "servers-unified-computing|UCSC-LP-C40-1485": "kind only: the same low-profile bracket pair at 40G — mechanical against accessory, both in servers after the twin moves ran",
-  "servers-unified-computing|UCSC-RAIL-D": "kind only: the base reads accessory and the spare mechanical for one rail kit; both in servers after the twin moves ran — a kind-layer defect, listed for the kind rebuild",
-  "servers-unified-computing|UCSC-RAILB-M4": "kind only: the same disagreement on the ball-bearing rail kit — accessory against mechanical, both in servers after the twin moves ran",
-  "servers-unified-computing|UCS-MAN-S72A2T0V0": "kind only: the base is named 'MSFT AzureStack HCI Hyb CTO Node C220 M7sn w/Mellanox' (server), the spare only by its SKU, so the kind axis reads its MAN token (bundle); both sit in UCS C220",
   "servers-unified-computing|UCSW-MSX-PCBL": "kind only: the base 'UCS Invicta Scaling System Mellanox Switch Power Cable' reads server from its SKU token, the spare '… Mellanox Jumper Cable' reads cable through its name; both sit in UCS Invicta (Whiptail) — a kind-layer defect listed in the round's record, not changed in a layers round",
-  "servers-unified-computing|UCSW-WT-35HDDT": "kind only: the base (name cut to 'UCSW Whiptail Super Micro 3.5') reads server from its SKU token, the spare '… 3.5\" HDD Tray …' reads drive through its name, and a tray is neither; both sit in UCS Invicta (Whiptail) — a kind-layer defect listed in the round's record",
-  "optical-networking|15454-M2-DDR": "kind only: the base is named only by its SKU (accessory), the spare '2 service slot MSTP chassis deep door' reads mechanical through its name; both sit in ONS 15454 MSTP",
-  "optical-networking|15454-M2-WM": "kind only: the base is named only by its SKU (accessory), the spare 'Wall mount bracket, Cisco NCS2002' reads mechanical through its name; both sit in ONS 15454 MSTP",
-  "video|CBR-PS-BLANK":"kind only: the base 'cBR-8 Power Supply Blanks (for empty Power Supply slots)' reads power from its PS token, the spare 'Blanks for the Power Supply Slots' reads accessory; both sit in cBR-8 — a kind-layer defect listed in the video round's record",
-  "video|P2-HD-EDR-SA": "kind only: the base is named only by its SKU ('Cisco P2-HD-EDR-SA', kind unknown), the spare 'Cisco Prisma II EDR Host Module with 2:1 Tx' reads plug-in through its name; both sit in Prisma II HD",
-  "security|ASA5585-REAR-RACK":"kind only: the base 'ASA 5585 Rear Rack Mount' reads mechanical through its name, the spare 'ASA 5585-X Rear Rack Mounts (1 pair)' stays accessory (the name marker does not read the plural); both sit in ASA 5585-X — a kind-layer defect listed in the security round's record",
   // re-audit decisions (operator, 15 Sep 2026): the check covers X, X=, X- and X-- (N-1, the twin rule), keyed by the group's base —
   // or its lowest member when no base is a row. N-3 classes the rows whose own catalogue entry says "Not used" / "Do not use"; where a
   // twin of such a row is the live part, the pair disagrees on purpose (the VOID precedent above)
@@ -45,7 +34,6 @@ const PAIR_EXCEPTIONS: Record<string, string> = {
   // again and the entries would now be stale — which is exactly what the check below refuses
   // the moves of 16 Sep brought a base to its spare's page and the two read different kinds — a kind-layer defect, listed for the Q-28
   // rebuild (docs/decisions/2026-09-15-q28-kind-rebuild-list.md), not fixed in a layers round
-  "servers-unified-computing|UCS-ACC-6536": "kind only: the base 'UCS 6536 chassis accessory kit' reads mechanical through its name, the spare UCS-ACC-6536= (named only by its SKU) stays accessory; both sit in UCS 6500 Fabric Interconnects since the base arrived from interfaces-modules (run #1158). UCS-ACC-6652 and UCS-ACC-6664 read mechanical the same way and have no spare row to disagree with",
 };
 
 // device-in-shared-parts exceptions (collaboration round): a whole product with no series and no document naming one. Re-audit decisions
@@ -110,7 +98,11 @@ const GLUED_DIGIT_EXCEPTIONS: Record<string, string> = {
 // here, and the suite goes red. The safety is not in the skips; it is in these numbers. A floor would make seventy-seven
 // dormant hazards live in one commit, and nothing at the skip site would say so.
 // Full record: docs/decisions/2026-09-16-scanned-the-typescript-side-for-the-silent-skip-and-found-none.md
+// BATCH B (29 Sep 2026): twelve kind-only twin exceptions REMOVED because their pairs now agree -- nine by name propagation
+// (run 1359), two by the plural marker words, one by the inch-mark repair. UCSW-MSX-PCBL stays: its names still say different things.
 const REVERSE_EXPECT: Record<string, number> = {
+  // collaboration 84 -> 85 (29 Sep 2026, Batch B run 1359): CAB-GREY-2.9M took its twin's real name "Ethernet grey cable for
+  // Cisco Webex DX80", which names ONE series while the row sits in Webex Desk Series shared parts -- a review item, not a regression.
   // routers 46 -> 44 (16 Sep 2026): CAB-N5K6A-NA(=) is a NEXUS 5000 power cord that reached NCS 5000, because LABEL_ALIASES
   // is keyed by a bare number and "5000" offers `N5K` to every series carrying that number. See ALIAS_REQUIRES.
   // collaboration 88 -> 80 and switches 98 -> 90 (16 Sep 2026): a STANDARDS number is not a platform. Eight China power cords
@@ -134,7 +126,7 @@ const REVERSE_EXPECT: Record<string, number> = {
   // conferencing merge), and HCI 109 -> 341 — the 487 rows that came from servers are UCSC- / HCI- components whose SKUs carry a
   // 220 / 240 platform token, so the C220 / C240 node series name them. That queue is PROPOSALS to read, not placements: it is
   // recorded exactly so its growth is visible rather than silent, and reading it is the next layering round's work.
-  "servers-unified-computing": 171, "hyperconverged-infrastructure": 341, "collaboration-endpoints": 84, switches: 92,
+  "servers-unified-computing": 171, "hyperconverged-infrastructure": 341, "collaboration-endpoints": 85, switches: 92,
   wireless: 59, routers: 44, "storage-networking": 38, "hyperconverged-systems": 31, security: 22, "interfaces-modules": 9,
   "unified-communications": 5, video: 3, "optical-networking": 3, transceiver: 0, meraki: 0,
 };
