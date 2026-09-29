@@ -19,6 +19,13 @@ check("NEGATIVE a part whose name says more than its SKU is EVIDENCED", !hasNoEv
 check("a SILENT_DOCUMENTS part with a SKU-only name is no-evidence although a document links it", hasNoEvidence(row("UCWS-WT-SM-INN12", "Cisco UCWS-WT-SM-INN12", true)));
 check("NEGATIVE a silent-document part whose NAME says something stays evidenced (the name is evidence)", !hasNoEvidence(row("MDS-9222I-75-PPT", "MDS 9222i Port Pack Transition", true)));
 check("NEGATIVE a linked part NOT in the list stays evidenced", !hasNoEvidence(row("4039503", "Cisco 4039503", true)));
+// Q15, the name half: AIR-N-3006-DTA-K9's name IS its silent document's cell. The board kept it evidenced after the ruling.
+check("a SILENT_NAMES part whose name is exactly the silent cell has no evidence (AIR-N-3006-DTA-K9 '^NECJ AS3504 DTA')",
+  hasNoEvidence(row("AIR-N-3006-DTA-K9", "^NECJ AS3504 DTA", true)));
+check("NEGATIVE the same part with a DIFFERENT (real) name is evidenced again — the silent name is matched exactly",
+  !hasNoEvidence(row("AIR-N-3006-DTA-K9", "Cisco Aironet 3504 Wireless Controller, Japan", true)));
+check("NEGATIVE the silent name on a part NOT in SILENT_NAMES is still a name (evidenced)",
+  !hasNoEvidence(row("UCWS-WT-SM-INN12", "^NECJ AS3504 DTA", true)));
 const split = splitUnknown([row("A", "Cisco A", false), row("B", "Cisco B", true), row("C", "a real product name", false)]);
 check("the split is a partition: 3 rows -> 1 no-evidence + 2 evidenced, none dropped", split.noEvidence.length === 1 && split.evidenced.length === 2,
   JSON.stringify({ n: split.noEvidence.map((r) => r.sku), e: split.evidenced.map((r) => r.sku) }));
@@ -30,4 +37,4 @@ check("NEGATIVE red: no ceiling recorded (a ratchet nobody recorded is not a rat
 check("NEGATIVE red: a kind asked nothing", !unknownZeroVerdict({ evidenced: 0, noEvidence: 0, ceiling: 0, askedNothing: 1 }).pass);
 
 if (misses.length) { console.log(`unknown evidence: ${pass} passed, ${misses.length} missed`); for (const m of misses) console.log(`  MISS ${m}`); process.exit(1); }
-console.log(`unknown evidence: ${pass} passed, 0 missed (7 refusals)`);
+console.log(`unknown evidence: ${pass} passed, 0 missed (9 refusals)`);

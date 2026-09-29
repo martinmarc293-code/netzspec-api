@@ -3,12 +3,18 @@
   "unit": "live cisco HARDWARE parts in kind unknown with a SKU-only name and no linked document",
   "recorded_at": "2026-09-29T21:14:38.048Z",
   "git_sha": "e3bbd1d4a36cbfaebb4051e608614515831d8ebb",
-  "ceiling": 233,
+  "ceiling": 234,
   "raises": [
     {
       "to": 234,
       "by": 4,
       "ruling": "reviewer ruling Q15, 29 Sep 2026: UCWS-WT-SM-INN12, MDS-9222I-75-PPT, 9270F-DIFL and AIR-N-3006-DTA-K9 join the no-evidence term (their documents were read and say nothing): src/core/unknownEvidence.ts SILENT_DOCUMENTS",
+      "at": "2026-09-29"
+    },
+    {
+      "to": 234,
+      "by": 1,
+      "ruling": "reviewer ruling Q15, 29 Sep 2026, its fourth member arriving late: AIR-N-3006-DTA-K9's NAME is its silent document's cell ('^NECJ AS3504 DTA') and kept it EVIDENCED until src/core/unknownEvidence.ts SILENT_NAMES; the build's min() had taken the ceiling 234 -> 233 because the ruled member had not arrived",
       "at": "2026-09-29"
     }
   ]

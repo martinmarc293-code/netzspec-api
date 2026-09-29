@@ -19,7 +19,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { LEDGER_KINDS, kindQuestionSet } from "../src/core/cupLedger.js";
+import { LEDGER_KINDS, Q17_R4_REFUSED, kindQuestionSet } from "../src/core/cupLedger.js";
 import { PROFILES } from "../src/core/fieldSchema.js";
 import { query, closePool } from "../src/store/db.js";
 import { planFile } from "../src/core/planFile.js";
@@ -52,14 +52,17 @@ const vetoed = rows.filter((r) => na.get(`${r.cat}|${r.kind}`)?.has(r.key));
 
 const byTriple = new Map<string, Row[]>();
 for (const r of vetoed) { const k = `${r.cat}|${r.kind}|${r.key}`; (byTriple.get(k) ?? byTriple.set(k, []).get(k)!).push(r); }
-type Verdict = { triple: string; remedy: "R4 widen" | "to read"; parts: number; witness: string; held: number };
+type Verdict = { triple: string; remedy: "R4 widen" | "to read"; parts: number; witness: string; held: number; why?: string };
+// A triple REFUSED as a widening after its values were read (cupLedger.ts Q17_R4_REFUSED) is "to read", with the reason.
+const refusedWhy = new Map(Q17_R4_REFUSED.map((r) => [`${r.category}|${r.kind}|${r.cup}`, r.why]));
 const verdicts: Verdict[] = [];
 for (const [triple, rs] of byTriple) {
   const all = rs.every((r) => statesIt(r.method, r.doc_type));
   const tally = new Map<string, number>();
   for (const r of rs) if (statesIt(r.method, r.doc_type)) tally.set(r.sku, (tally.get(r.sku) ?? 0) + 1);
   const witness = [...tally].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))[0]?.[0] ?? "";
-  verdicts.push({ triple, remedy: all ? "R4 widen" : "to read", parts: new Set(rs.map((r) => r.sku)).size, witness, held: rs.length });
+  const why = refusedWhy.get(triple);
+  verdicts.push({ triple, remedy: all && !why ? "R4 widen" : "to read", parts: new Set(rs.map((r) => r.sku)).size, witness, held: rs.length, why });
 }
 verdicts.sort((a, b) => a.remedy.localeCompare(b.remedy) || b.held - a.held);
 
@@ -70,6 +73,6 @@ fs.writeFileSync(plan, ["remedy\tcategory\tkind\tcup\tsku\tvalue\tmethod\tdoc_ty
   ...vetoed.map((r) => `${remedyOf.get(`${r.cat}|${r.kind}|${r.key}`)}\t${r.cat}\t${r.kind}\t${r.key}\t${r.sku}\t${r.value.replace(/[\t\r\n]+/g, " ")}\t${r.method}\t${r.doc_type ?? ""}`)].join("\n") + "\n");
 const sum = (rem: string) => { const vs = verdicts.filter((v) => v.remedy === rem); return `${vs.length} triples / ${vs.reduce((n, v) => n + v.held, 0)} part-cups`; };
 console.log(`${vendor}: ${byTriple.size} vetoed (category, kind, cup) triples on ${vetoed.length} part-cups — R4 widen ${sum("R4 widen")}; to read ${sum("to read")}`);
-for (const v of verdicts) console.log(`  ${v.remedy.padEnd(8)} ${v.triple.padEnd(60)} ${String(v.held).padStart(5)} part-cups on ${String(v.parts).padStart(4)} parts  witness ${v.witness || "-"}`);
+for (const v of verdicts) console.log(`  ${v.remedy.padEnd(8)} ${v.triple.padEnd(60)} ${String(v.held).padStart(5)} part-cups on ${String(v.parts).padStart(4)} parts  witness ${v.witness || "-"}${v.why ? `  [R4 REFUSED: ${v.why}]` : ""}`);
 console.log(`  plan ${path.relative(ROOT, plan)}`);
 await closePool();

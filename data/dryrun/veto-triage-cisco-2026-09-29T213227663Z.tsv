@@ -1,0 +1,870 @@
+remedy	category	kind	cup	sku	value	method	doc_type
+to read	hyperconverged-systems	nic	storage_capacity	HX-PCI25-40010	400	description_mining	vendor_eol_bulletin
+to read	interfaces-modules	interface	certifications	HWIC-2SHDSL	["No"]	html_table	vendor_datasheet_html
+to read	interfaces-modules	interface	certifications	HWIC-4SHDSL	["No"]	html_table	vendor_datasheet_html
+to read	interfaces-modules	interface	certifications	HWIC-4SHDSL-E	["No"]	html_table	vendor_datasheet_html
+to read	interfaces-modules	interface	compatible_platform	10000-SIP-600	"Cisco 10008, Cisco 10012"	aggregator_page:router-switch	aggregator_page
+to read	interfaces-modules	interface	compatible_platform	12000-SIP-401	"Cisco 12000 Series Routers"	aggregator_page:router-switch	aggregator_page
+to read	interfaces-modules	interface	compatible_platform	12000-SIP-501	"Cisco 12000 Series Routers"	aggregator_page:router-switch	aggregator_page
+to read	interfaces-modules	interface	compatible_platform	12000-SIP-601	"Cisco 12000 Series Routers"	aggregator_page:router-switch	aggregator_page
+to read	interfaces-modules	interface	compatible_platform	16OC3X/POS-I-LC-B	"n/a"	aggregator_page:router-switch	aggregator_page
+to read	interfaces-modules	interface	connector	16OC3/POS-SM	"lc-duplex"	description_mining	vendor_eol_bulletin
+to read	interfaces-modules	interface	connector	4CHOC12/DS3-I-SCB	"sc"	html_table	vendor_datasheet_html
+to read	interfaces-modules	interface	connector	4OC12X/ATM-IR-SC	"sc"	description_mining	vendor_datasheet_html
+to read	interfaces-modules	interface	connector	4OC12X/ATM-MM-SC	"sc"	description_mining	vendor_datasheet_html
+to read	interfaces-modules	interface	connector	8FE-FX-SC-B	"sc"	description_mining	vendor_datasheet_html
+to read	interfaces-modules	interface	connector	8OC3/POS-SM	"lc-duplex"	description_mining	vendor_eol_bulletin
+to read	interfaces-modules	interface	connector	HWIC-4SHDSL	"rj45"	html_table	vendor_datasheet_html
+to read	interfaces-modules	interface	connector	HWIC-4SHDSL-E	"rj45"	html_table	vendor_datasheet_html
+to read	interfaces-modules	interface	installation_type	10000-SIP-600	"Hot-swappable, front-insertion line card for Cisco 10000 chassis"	aggregator_page:router-switch	aggregator_page
+to read	interfaces-modules	interface	installation_type	12000-SIP-401	"Hot-swappable module for Cisco 12000 chassis"	aggregator_page:router-switch	aggregator_page
+to read	interfaces-modules	interface	installation_type	12000-SIP-501	"Hot-swappable, modular slot-based"	aggregator_page:router-switch	aggregator_page
+to read	interfaces-modules	interface	installation_type	12000-SIP-601	"n/a"	aggregator_page:router-switch	aggregator_page
+to read	interfaces-modules	interface	installation_type	16OC3X/POS-I-LC-B	"n/a"	aggregator_page:router-switch	aggregator_page
+to read	interfaces-modules	interface	ports	8FE-FX-SC-B	[{"speed": ["100M"], "anzahl": 8, "port_typ": "rj45"}]	description_mining	vendor_datasheet_html
+to read	interfaces-modules	interface	ports	C-NIM-1M	[{"speed": ["1G"], "anzahl": 1, "port_typ": "rj45"}]	description_mining	vendor_datasheet_html
+to read	interfaces-modules	interface	ports	C-NIM-1X	[{"speed": ["10G"], "anzahl": 1, "port_typ": "sfp-plus"}]	description_mining	vendor_datasheet_html
+to read	interfaces-modules	interface	ports	C-NIM-2T	[{"speed": ["1G"], "anzahl": 2, "port_typ": "sfp"}]	description_mining	vendor_datasheet_html
+to read	interfaces-modules	interface	ports	C-NIM-4X	[{"speed": ["10G"], "anzahl": 4, "port_typ": "sfp-plus"}]	description_mining	vendor_page
+to read	interfaces-modules	interface	ports	C-NIM-8M	[{"speed": [], "anzahl": 8, "port_typ": "rj45"}, {"speed": [], "anzahl": 4, "port_typ": "rj45"}]	description_mining	vendor_datasheet_html
+to read	interfaces-modules	interface	ports	C-NIM-WAN-2X	[{"speed": ["10G"], "anzahl": 2, "port_typ": "sfp-plus"}]	description_mining	vendor_page
+to read	interfaces-modules	interface	ports	C-NIM-WAN-4S	[{"speed": ["1G"], "anzahl": 4, "port_typ": "sfp"}]	description_mining	vendor_page
+to read	interfaces-modules	interface	ports	EHWIC-1GE-SFP-CU	[{"speed": ["1G"], "anzahl": 1, "port_typ": "sfp"}]	description_mining	vendor_eol_bulletin
+to read	interfaces-modules	interface	ports	EHWIC-1GE-SFPCU++=	[{"speed": ["1G"], "anzahl": 1, "port_typ": "sfp"}]	description_mining	vendor_eol_bulletin
+to read	interfaces-modules	interface	ports	GE-DCARD-ESW	[{"speed": ["1G"], "anzahl": 1, "port_typ": "rj45"}]	description_mining	vendor_eol_bulletin
+to read	interfaces-modules	interface	ports	HWIC-4ESW	[{"speed": ["100M"], "anzahl": 4, "port_typ": "rj45"}]	description_mining	vendor_datasheet_html
+to read	interfaces-modules	interface	ports	HWIC-D-9ESW	[{"speed": ["100M"], "anzahl": 9, "port_typ": "rj45"}]	description_mining	vendor_datasheet_html
+to read	interfaces-modules	interface	ports	NIM-ES2-8-P	[{"speed": ["1G"], "anzahl": 8, "port_typ": "rj45"}]	description_mining	vendor_datasheet_html
+to read	interfaces-modules	interface	ports	NIM-ES2-8-P=	[{"speed": ["2G"], "anzahl": 8, "port_typ": "rj45"}]	description_mining	vendor_eol_bulletin
+to read	interfaces-modules	interface	ports	NM-16ESW	[{"speed": ["10/100M"], "anzahl": 16, "port_typ": "rj45"}]	description_mining	vendor_eol_bulletin
+to read	interfaces-modules	interface	ports	NM-16ESW-1GIG	[{"speed": ["10/100M"], "anzahl": 16, "port_typ": "rj45"}, {"speed": ["1G"], "anzahl": 1, "port_typ": "rj45"}]	description_mining	vendor_eol_bulletin
+to read	interfaces-modules	interface	ports	NM-16ESW=	[{"speed": ["10/100M"], "anzahl": 16, "port_typ": "rj45"}]	description_mining	vendor_eol_bulletin
+to read	interfaces-modules	interface	ports	NMD-36-ESW	[{"speed": ["10/100M"], "anzahl": 36, "port_typ": "rj45"}]	description_mining	vendor_eol_bulletin
+to read	interfaces-modules	interface	ports	NMD-36-ESW-PWR	[{"speed": ["10/100M"], "anzahl": 36, "port_typ": "rj45"}]	description_mining	vendor_eol_bulletin
+to read	interfaces-modules	interface	ports	NMD-36-ESW-PWR-2G	[{"speed": ["10/100M", "2G"], "anzahl": 36, "port_typ": "rj45"}]	description_mining	vendor_eol_bulletin
+to read	interfaces-modules	interface	ports	NMD-36-ESW-PWR-2G=	[{"speed": ["10/100M", "2G"], "anzahl": 36, "port_typ": "rj45"}]	description_mining	vendor_eol_bulletin
+to read	interfaces-modules	interface	ports	NMD-36-ESW-PWR=	[{"speed": ["10/100M"], "anzahl": 36, "port_typ": "rj45"}]	description_mining	vendor_eol_bulletin
+to read	interfaces-modules	interface	ports	NMD-36-ESW=	[{"speed": ["10/100M"], "anzahl": 36, "port_typ": "rj45"}]	description_mining	vendor_eol_bulletin
+to read	interfaces-modules	interface	ports	SM-2GE-SFP-CU	[{"speed": ["1G"], "anzahl": 2, "port_typ": "sfp"}]	description_mining	vendor_eol_bulletin
+to read	interfaces-modules	interface	ports	SM-2GE-SFP-CU=	[{"speed": ["1G"], "anzahl": 2, "port_typ": "sfp"}]	description_mining	vendor_eol_bulletin
+to read	interfaces-modules	interface	ports	SM-D-ES3-48-P	[{"speed": ["100M"], "anzahl": 48, "port_typ": "rj45"}, {"speed": [], "anzahl": 2, "port_typ": "sfp"}]	description_mining	vendor_eol_bulletin
+to read	interfaces-modules	interface	ports	SM-D-ES3-48-P=	[{"speed": ["100M"], "anzahl": 48, "port_typ": "rj45"}, {"speed": [], "anzahl": 2, "port_typ": "sfp"}]	description_mining	vendor_eol_bulletin
+to read	interfaces-modules	interface	ports	SM-D-ES3G-48-P	[{"speed": ["1G"], "anzahl": 48, "port_typ": "rj45"}, {"speed": [], "anzahl": 2, "port_typ": "sfp"}]	description_mining	vendor_eol_bulletin
+to read	interfaces-modules	interface	ports	SM-D-ES3G-48-P=	[{"speed": ["1G"], "anzahl": 48, "port_typ": "rj45"}, {"speed": [], "anzahl": 2, "port_typ": "sfp"}]	description_mining	vendor_eol_bulletin
+to read	interfaces-modules	interface	ports	SM-ES3G-16-P	[{"speed": ["1G"], "anzahl": 16, "port_typ": "rj45"}]	description_mining	vendor_eol_bulletin
+to read	interfaces-modules	interface	ports	SM-ES3G-16-P=	[{"speed": ["1G"], "anzahl": 16, "port_typ": "rj45"}]	description_mining	vendor_eol_bulletin
+to read	interfaces-modules	interface	ports	SM-ES3G-24-P	[{"speed": ["1G"], "anzahl": 24, "port_typ": "rj45"}]	description_mining	vendor_eol_bulletin
+to read	interfaces-modules	interface	ports	SM-ES3G-24-P=	[{"speed": ["1G"], "anzahl": 24, "port_typ": "rj45"}]	description_mining	vendor_eol_bulletin
+to read	interfaces-modules	interface	ports	SM-X-6X1G	[{"speed": ["1G"], "anzahl": 6, "port_typ": "sfp"}]	description_mining	vendor_eol_bulletin
+to read	interfaces-modules	interface	ports	SM-X-6X1G=	[{"speed": ["1G"], "anzahl": 6, "port_typ": "sfp"}]	description_mining	vendor_eol_bulletin
+to read	interfaces-modules	interface	ports	SM-X-ES3-16-P	[{"speed": ["1G"], "anzahl": 16, "port_typ": "rj45"}]	description_mining	vendor_datasheet_html
+to read	interfaces-modules	interface	ports	SM-X-ES3-16-P++=	[{"speed": ["1G"], "anzahl": 16, "port_typ": "rj45"}]	description_mining	vendor_eol_bulletin
+to read	interfaces-modules	interface	ports	SM-X-ES3-16-P=	[{"speed": ["1G"], "anzahl": 16, "port_typ": "rj45"}]	description_mining	vendor_eol_bulletin
+to read	interfaces-modules	interface	ports	SM-X-ES3-24-P	[{"speed": ["1G"], "anzahl": 24, "port_typ": "rj45"}]	description_mining	vendor_datasheet_html
+to read	interfaces-modules	interface	ports	SM-X-ES3-24-P++=	[{"speed": ["1G"], "anzahl": 24, "port_typ": "rj45"}]	description_mining	vendor_eol_bulletin
+to read	interfaces-modules	interface	ports	SM-X-ES3-24-P-T	[{"speed": ["1G"], "anzahl": 24, "port_typ": "rj45"}]	description_mining	vendor_eol_bulletin
+to read	interfaces-modules	interface	ports	SM-X-ES3-24-P-T=	[{"speed": ["1G"], "anzahl": 24, "port_typ": "rj45"}]	description_mining	vendor_eol_bulletin
+to read	interfaces-modules	interface	ports	SM-X-ES3-24-P=	[{"speed": ["1G"], "anzahl": 24, "port_typ": "rj45"}]	description_mining	vendor_eol_bulletin
+to read	interfaces-modules	interface	ports	SM-X-ES3D-48-P++=	[{"speed": ["1G"], "anzahl": 48, "port_typ": "rj45"}, {"speed": [], "anzahl": 2, "port_typ": "sfp"}]	description_mining	vendor_eol_bulletin
+to read	interfaces-modules	interface	ports	SM-X-ES3D-48-P=	[{"speed": ["1G"], "anzahl": 48, "port_typ": "rj45"}, {"speed": [], "anzahl": 2, "port_typ": "sfp"}]	description_mining	vendor_eol_bulletin
+to read	meraki	security-camera	ieee_standards	MV12N	["802.11a", "802.11b", "802.11g", "802.11n", "802.11ac"]	html_table	vendor_datasheet_html
+to read	meraki	security-camera	ieee_standards	MV12W	["802.11a", "802.11b", "802.11g", "802.11n", "802.11ac", "Yes"]	html_table	vendor_datasheet_html
+to read	meraki	security-camera	ieee_standards	MV12WE	["802.11a", "802.11b", "802.11g", "802.11n", "802.11ac"]	html_table	vendor_datasheet_html
+to read	meraki	security-camera	ieee_standards	MV2	["802.11a", "802.11b", "802.11g", "802.11n", "802.11ac"]	html_table	vendor_datasheet_html
+to read	meraki	security-camera	ieee_standards	MV21	["No"]	html_table	vendor_datasheet_html
+to read	meraki	security-camera	ieee_standards	MV32	["802.11a", "802.11b", "802.11g", "802.11n", "802.11ac"]	html_table	vendor_datasheet_html
+to read	meraki	security-camera	ieee_standards	MV52	["802.11a", "802.11n", "802.11ac"]	html_table	vendor_datasheet_html
+to read	meraki	security-camera	ieee_standards	MV71	["No"]	html_table	vendor_datasheet_html
+to read	optical-networking	accessory	connector	MEC15201/SC/R=	"sc"	description_mining	vendor_eol_bulletin
+to read	optical-networking	accessory	rack_units	NCS2K-MF10-6RU=	6	description_mining	vendor_datasheet_html
+to read	optical-networking	amplifier	cable_length	15454-OPT-AMP-C=	2	description_mining	vendor_datasheet_html
+to read	optical-networking	amplifier	cable_length	15454-OPT-AMP-L=	2	description_mining	vendor_datasheet_html
+to read	optical-networking	amplifier	cable_length	15454-OPT-BST-L=	2	description_mining	vendor_datasheet_html
+to read	optical-networking	amplifier	cable_length	15454-OPT-RAMP-C=	2	description_mining	vendor_datasheet_html
+to read	optical-networking	amplifier	connector	15454-OPT-BST-E=	"lc-duplex"	description_mining	vendor_datasheet_html
+to read	optical-networking	amplifier	connector	15454-OPT-EDFA-17=	"lc-duplex"	description_mining	vendor_datasheet_html
+to read	optical-networking	amplifier	connector	15454-OPT-EDFA-24=	"lc-duplex"	description_mining	vendor_datasheet_html
+to read	optical-networking	cable	rack_units	15454-YCBL-LC=	2	description_mining	vendor_datasheet_html
+to read	optical-networking	mechanical	rack_units	15454-PP-4-SMR=	1	description_mining	vendor_datasheet_html
+to read	optical-networking	mechanical	rack_units	15454-PP-80-LC	2	description_mining	vendor_eol_bulletin
+to read	optical-networking	mechanical	rack_units	15454-PP-80-LC=	2	description_mining	vendor_datasheet_html
+to read	optical-networking	mechanical	rack_units	15454-PP-MESH-4=	2	description_mining	vendor_datasheet_html
+to read	optical-networking	mechanical	rack_units	15454-PP-MESH-8=	2	description_mining	vendor_datasheet_html
+to read	optical-networking	mechanical	rack_units	NCS2K-2RU-COVER=	2	description_mining	vendor_datasheet_html
+to read	optical-networking	mechanical	rack_units	NCS2K-MF-6RU-CVR=	6	description_mining	vendor_datasheet_html
+to read	optical-networking	mechanical	rack_units	NCS2K-MF-COVER=	1	description_mining	vendor_datasheet_html
+to read	optical-networking	mechanical	rack_units	NCS2K-PPMESH8-5AD=	2	description_mining	vendor_datasheet_html
+to read	optical-networking	mux	cable_length	15454-MMU=	2	description_mining	vendor_datasheet_html
+to read	optical-networking	mux	connector	15216-ATT-LC-10=	"lc-duplex"	description_mining	vendor_datasheet_html
+to read	optical-networking	mux	connector	15216-ATT-LC-12=	"lc-duplex"	description_mining	vendor_datasheet_html
+to read	optical-networking	mux	connector	15216-ATT-LC-15=	"lc-duplex"	description_mining	vendor_datasheet_html
+to read	optical-networking	mux	connector	15216-ATT-LC-18=	"lc-duplex"	description_mining	vendor_datasheet_html
+to read	optical-networking	mux	connector	15216-ATT-LC-2=	"lc-duplex"	description_mining	vendor_datasheet_html
+to read	optical-networking	mux	connector	15216-ATT-LC-3=	"lc-duplex"	description_mining	vendor_datasheet_html
+to read	optical-networking	mux	connector	15216-ATT-LC-5=	"lc-duplex"	description_mining	vendor_datasheet_html
+to read	optical-networking	mux	connector	15216-ATT-LC-7=	"lc-duplex"	description_mining	vendor_datasheet_html
+to read	optical-networking	mux	connector	15216-CS-SM-Y=	"lc-duplex"	description_mining	vendor_datasheet_html
+to read	optical-networking	mux	connector	15454-32DMX-O=	"mpo-12"	description_mining	vendor_datasheet_html
+to read	optical-networking	mux	connector	15454-32MUX-O=	"mpo-12"	description_mining	vendor_datasheet_html
+to read	optical-networking	mux	humidity_operating	15216-EF-40-EVEN=	{"max": 95, "min": 95}	html_table	vendor_datasheet_html
+to read	optical-networking	mux	humidity_operating	15216-EF-40-ODD=	{"max": 95, "min": 95}	html_table	vendor_datasheet_html
+to read	optical-networking	mux	module_slots	NCS2K-MF-1RU=	4	description_mining	vendor_datasheet_html
+to read	optical-networking	mux	ports	NCS2K-MF-8X10G-FO=	[{"speed": ["10G"], "anzahl": 2, "port_typ": "qsfp-plus"}]	description_mining	vendor_datasheet_html
+to read	optical-networking	mux	rack_units	NCS2K-MF-1RU=	1	description_mining	vendor_datasheet_html
+to read	optical-networking	mux	rack_units	NCS2K-MF-6RU=	6	description_mining	vendor_datasheet_html
+to read	optical-networking	mux	standard	15216-FLC-CWDM-8=	["cwdm"]	description_mining	vendor_datasheet_html
+to read	optical-networking	mux	temp_operating	15216-EF-40-EVEN=	{"max": -5, "min": -5}	html_table	vendor_datasheet_html
+to read	optical-networking	mux	temp_operating	15216-EF-40-ODD=	{"max": -5, "min": -5}	html_table	vendor_datasheet_html
+to read	optical-networking	mux	temp_storage	15216-EF-40-EVEN=	{"max": -40, "min": -40}	html_table	vendor_datasheet_html
+to read	optical-networking	mux	temp_storage	15216-EF-40-ODD=	{"max": -40, "min": -40}	html_table	vendor_datasheet_html
+to read	optical-networking	pluggable	ports	15454-ML1000-2	[{"speed": [], "anzahl": 2, "port_typ": "sfp"}]	description_mining	vendor_datasheet_html
+to read	optical-networking	pluggable	ports	15454E-ML1000-2	[{"speed": [], "anzahl": 2, "port_typ": "sfp"}]	description_mining	vendor_datasheet_html
+to read	optical-networking	transponder	standard	15454-10DME-C=	["dwdm"]	description_mining	vendor_datasheet_html
+to read	optical-networking	transponder	standard	15454-10DME-L=	["dwdm"]	description_mining	vendor_datasheet_html
+to read	optical-networking	transponder	standard	15454-10EX-L1-C=	["dwdm"]	description_mining	vendor_datasheet_html
+to read	optical-networking	transponder	standard	CO-10TDL50-X1001=	["dwdm"]	description_mining	vendor_eol_bulletin
+to read	optical-networking	transponder	standard	CO-10TDL51-X1001=	["dwdm"]	description_mining	vendor_eol_bulletin
+to read	optical-networking	transponder	standard	CO-40TDL40-X1001=	["dwdm"]	description_mining	vendor_eol_bulletin
+to read	optical-networking	transponder	standard	CO-40TDL40-X1010=	["dwdm"]	description_mining	vendor_eol_bulletin
+to read	optical-networking	transponder	standard	NCS1K4-1.2T-CW-K9=	["dwdm"]	description_mining	vendor_datasheet_html
+to read	optical-networking	transponder	standard	NCS1K4-1.2T-K9=	["dwdm"]	description_mining	vendor_datasheet_html
+to read	optical-networking	transponder	standard	NCS1K4-1.2T-L-K9=	["dwdm"]	description_mining	vendor_datasheet_html
+to read	routers	antenna	cable_length	3G-AE010-R	3.048	description_mining	vendor_eol_bulletin
+to read	routers	antenna	cable_length	3G-AE010-R=	3.048	description_mining	vendor_eol_bulletin
+to read	routers	antenna	cable_length	3G-AE015-R	4.572	description_mining	vendor_eol_bulletin
+to read	routers	antenna	cable_length	3G-AE015-R=	4.572	description_mining	vendor_eol_bulletin
+to read	routers	antenna	cable_length	3G-ANTM-SMKTS9=	1.524	description_mining	vendor_eol_bulletin
+to read	routers	antenna	mounting	3G-ANTM-OUT-OM=	["wall"]	description_mining	vendor_eol_bulletin
+to read	routers	antenna	mounting	3G-ANTM1916-CM	["ceiling"]	description_mining	vendor_eol_bulletin
+to read	routers	antenna	mounting	3G-ANTM1916-CM=	["ceiling"]	description_mining	vendor_eol_bulletin
+to read	routers	antenna	mounting	ANT-4G-CM-IN-TNC	["ceiling"]	description_mining	vendor_eol_bulletin
+to read	routers	antenna	mounting	ANT-4G-CM-IN-TNC=	["ceiling"]	description_mining	vendor_eol_bulletin
+to read	routers	appliance	dram	C8200-UCPE-1N8	64	html_table	vendor_datasheet_html
+to read	routers	appliance	dram	C8300-UCPE-1N20	32	html_table	vendor_datasheet_html
+to read	routers	appliance	dram	ENCS5104-200/K9	16	description_mining	vendor_eol_bulletin
+to read	routers	appliance	dram	ENCS5104-400/K9	16	description_mining	vendor_eol_bulletin
+to read	routers	appliance	dram	ENCS5104-64/K9	16	description_mining	vendor_eol_bulletin
+to read	routers	appliance	dram	ENCS5406/K9	16	description_mining	vendor_eol_bulletin
+to read	routers	appliance	dram	ENCS5408/K9	16	description_mining	vendor_eol_bulletin
+to read	routers	appliance	dram	ENCS5412/K9	16	description_mining	vendor_eol_bulletin
+to read	routers	appliance	module_slots	C1100TG-1N24P32A	1	html_table	vendor_datasheet_html
+to read	routers	appliance	module_slots	C1100TG-1N32A	1	html_table	vendor_datasheet_html
+to read	routers	appliance	module_slots	C1100TGX-1N24P32A	1	html_table	vendor_datasheet_html
+to read	routers	appliance	module_slots	C8200-UCPE-1N8	2	description_mining	vendor_datasheet_html
+to read	routers	bundle	dram	ISR4320U-MEM-MSATA	8	description_mining	vendor_eol_bulletin
+to read	routers	bundle	dram	ISR4330U-MEM-MSATA	16	description_mining	vendor_eol_bulletin
+to read	routers	bundle	dram	ISR4350U-MEM-MSATA	16	description_mining	vendor_eol_bulletin
+to read	routers	bundle	dram	ISR4430U-MEM-SSD	16	description_mining	vendor_eol_bulletin
+to read	routers	bundle	flash	CRS-FD-16G-10PK=	16	description_mining	vendor_eol_bulletin
+to read	routers	bundle	flash	ISR4320U-MEM-MSATA	8	description_mining	vendor_eol_bulletin
+to read	routers	bundle	flash	ISR4330U-MEM-MSATA	16	description_mining	vendor_eol_bulletin
+to read	routers	bundle	flash	ISR4350U-MEM-MSATA	16	description_mining	vendor_eol_bulletin
+to read	routers	bundle	flash	ISR4430U-MEM-SSD	16	description_mining	vendor_eol_bulletin
+to read	routers	bundle	module_slots	CRS-16-FC140/M-8P	16	description_mining	vendor_eol_bulletin
+to read	routers	bundle	module_slots	CRS-16-FC140/M-8P=	16	description_mining	vendor_eol_bulletin
+to read	routers	bundle	module_slots	CRS-16-FC140/M-BN	16	description_mining	vendor_eol_bulletin
+to read	routers	bundle	module_slots	CRS-16-FC140/M-BN=	16	description_mining	vendor_eol_bulletin
+to read	routers	bundle	module_slots	CRS-16-FC400/M-8P=	16	description_mining	vendor_eol_bulletin
+to read	routers	bundle	module_slots	CRS-16-FC400/M-BN=	16	description_mining	vendor_eol_bulletin
+to read	routers	bundle	module_slots	CRS-16-LCC-FILTER=	16	description_mining	vendor_eol_bulletin
+to read	routers	bundle	module_slots	CRS-16/S-CNSK	16	description_mining	vendor_eol_bulletin
+to read	routers	bundle	module_slots	CRS-4-CH-UPG-BUN	4	description_mining	vendor_eol_bulletin
+to read	routers	bundle	module_slots	CRS-8-FC140/M-4P	8	description_mining	vendor_eol_bulletin
+to read	routers	bundle	module_slots	CRS-8-FC140/M-4P=	8	description_mining	vendor_eol_bulletin
+to read	routers	bundle	module_slots	CRS-8-FC400/M-4P=	8	description_mining	vendor_eol_bulletin
+to read	routers	bundle	ports	NC6-20X100GE-L-C	[{"speed": ["100G"], "anzahl": 20, "port_typ": "combo"}]	description_mining	vendor_eol_bulletin
+to read	routers	bundle	ports	NC6-20X100GE-M-C	[{"speed": ["100G"], "anzahl": 20, "port_typ": "combo"}]	description_mining	vendor_eol_bulletin
+to read	routers	bundle	ports	NC6-2T-PAYG-L-BUN	[{"speed": ["100G"], "anzahl": 20, "port_typ": "combo"}]	description_mining	vendor_eol_bulletin
+to read	routers	bundle	ports	NC6-2T-PAYG-M-BUN	[{"speed": ["100G"], "anzahl": 20, "port_typ": "combo"}]	description_mining	vendor_eol_bulletin
+to read	routers	chassis	dram	CRS-4/S	4	html_table	vendor_datasheet_html
+to read	routers	drive	flash	M-ASR1K-EUSB-1GB=	1	description_mining	vendor_eol_bulletin
+to read	routers	drive	flash	MEMUSB-128FT	0.125	description_mining	vendor_eol_bulletin
+to read	routers	drive	flash	MEMUSB-128FT=	0.125	description_mining	vendor_eol_bulletin
+to read	routers	fan	module_slots	CRS-FCC-FAN-TR	24	description_mining	vendor_eol_bulletin
+to read	routers	mechanical	airflow	8K-4RU-F2B-AIR	"front-to-back"	description_mining	vendor_datasheet_html
+to read	routers	mechanical	airflow	N560-4-F2B-AIR-U	"front-to-back"	description_mining	vendor_datasheet_html
+to read	routers	mechanical	airflow	N560-4-F2B-AIR-U=	"front-to-back"	description_mining	vendor_datasheet_html
+to read	routers	mechanical	airflow	N560-4-F2B-AIR-V	"front-to-back"	description_mining	vendor_datasheet_html
+to read	routers	mechanical	airflow	N560-4-F2B-AIR-V=	"front-to-back"	description_mining	vendor_datasheet_html
+to read	routers	mechanical	airflow	NCS-5002-FLT-BK	"back-to-front"	description_mining	vendor_eol_bulletin
+to read	routers	mechanical	airflow	NCS-5002-FLT-BK=	"back-to-front"	description_mining	vendor_eol_bulletin
+to read	routers	mechanical	airflow	NCS-5002-FLT-FR	"front-to-back"	description_mining	vendor_eol_bulletin
+to read	routers	mechanical	airflow	NCS-5002-FLT-FR=	"front-to-back"	description_mining	vendor_eol_bulletin
+to read	routers	mechanical	airflow	NCS-5002-FLT-FRNT	"front-to-back"	description_mining	vendor_eol_bulletin
+to read	routers	mechanical	airflow	NCS-5002-FLT-FRNT=	"front-to-back"	description_mining	vendor_eol_bulletin
+to read	routers	mechanical	airflow	NCS-5011-FLT-BK	"back-to-front"	description_mining	vendor_eol_bulletin
+to read	routers	mechanical	airflow	NCS-5011-FLT-BK=	"back-to-front"	description_mining	vendor_eol_bulletin
+to read	routers	mechanical	airflow	NCS-5011-FLT-FR	"front-to-back"	description_mining	vendor_eol_bulletin
+to read	routers	mechanical	airflow	NCS-5502-FLTR-RV	"port-side-exhaust"	description_mining	vendor_datasheet_html
+to read	routers	mechanical	module_slots	CRS-LCC-CM-COVER	16	description_mining	vendor_eol_bulletin
+to read	routers	mechanical	module_slots	CRS-LCC-CM-COVER=	16	description_mining	vendor_eol_bulletin
+to read	routers	mechanical	rack_units	8K-2RU-KIT-L	2	description_mining	vendor_datasheet_html
+to read	routers	mechanical	rack_units	8K-2RU-KIT-L=	2	description_mining	vendor_datasheet_html
+to read	routers	mechanical	rack_units	8K-2RU-KIT-S	2	description_mining	vendor_datasheet_html
+to read	routers	mechanical	rack_units	8K-2RU-KIT-S=	2	description_mining	vendor_datasheet_html
+to read	routers	mechanical	rack_units	NCS4200-1RU-DOOR	1	description_mining	vendor_datasheet_html
+to read	routers	module	cable_length	IRM-NIM-RS232	3.048	description_mining	vendor_datasheet_html
+to read	routers	module	data_rate	NCS4200-1T8S-10CS	10	description_mining	vendor_eol_bulletin
+to read	routers	module	data_rate	NCS4200-1T8S-10CS=	10	description_mining	vendor_eol_bulletin
+to read	routers	power	ports	800-IL-PM-2	[{"speed": [], "anzahl": 2, "port_typ": "rj45"}]	description_mining	vendor_eol_bulletin
+to read	routers	power	ports	800-IL-PM-2=	[{"speed": [], "anzahl": 2, "port_typ": "rj45"}]	description_mining	vendor_eol_bulletin
+to read	routers	power	ports	800-IL-PM-4	[{"speed": [], "anzahl": 4, "port_typ": "rj45"}]	description_mining	vendor_eol_bulletin
+to read	routers	power	ports	800-IL-PM-4=	[{"speed": [], "anzahl": 4, "port_typ": "rj45"}]	description_mining	vendor_eol_bulletin
+to read	routers	power	ports	800-IL-PM=2	[{"speed": [], "anzahl": 2, "port_typ": "rj45"}]	description_mining	vendor_datasheet_html
+to read	routers	power	ports	800G2-POE-2	[{"speed": [], "anzahl": 2, "port_typ": "rj45"}]	description_mining	vendor_eol_bulletin
+to read	routers	power	ports	800G2-POE-2=	[{"speed": [], "anzahl": 2, "port_typ": "rj45"}]	description_mining	vendor_eol_bulletin
+to read	routers	power	ports	C800-PWRINJ-4	[{"speed": [], "anzahl": 4, "port_typ": "rj45"}]	description_mining	vendor_eol_bulletin
+to read	routers	power	ports	C800-PWRINJ-4=	[{"speed": [], "anzahl": 4, "port_typ": "rj45"}]	description_mining	vendor_eol_bulletin
+to read	routers	router	compatible_platform	CG418-E	"● Cisco IOS ® XE based platforms, including Cisco 1000 and 4000 Series Integrated Services Routers and Cisco Catalyst 8	html_table	vendor_datasheet_html
+to read	routers	router	compatible_platform	CG522-E	"● Cisco IOS ® XE based platforms, including Cisco 1000 and 4000 Series Integrated Services Routers and Cisco Catalyst 8	html_table	vendor_datasheet_html
+to read	routers	router	input_voltage	C8211-G2	{"max": 264, "min": 85}	html_table	vendor_page
+to read	routers	router	input_voltage	C8231-G2	{"max": 264, "min": 85}	html_table	vendor_page
+to read	routers	router	input_voltage	C8235-G2	{"max": 264, "min": 85}	html_table	vendor_page
+to read	routers	router	input_voltage	C8355-G2	{"max": 264, "min": 85}	html_table	vendor_page
+to read	routers	router	input_voltage	C841M-4X	{"max": 240, "min": 100}	html_table	vendor_datasheet_html
+to read	routers	router	input_voltage	C841M-8X	{"max": 240, "min": 100}	html_table	vendor_datasheet_html
+to read	routers	router	mounting	C8130-G2	["rack-19", "under-desk", "din-rail"]	html_table	vendor_guide
+to read	routers	router	mounting	C8131-G2	["rack-19", "under-desk", "din-rail"]	html_table	vendor_guide
+to read	routers	router	mounting	C8140-G2	["rack-19", "desktop", "under-desk", "wall", "din-rail"]	html_table	vendor_page
+to read	routers	router	mounting	C8151-G2	["rack-19", "under-desk", "din-rail"]	html_table	vendor_guide
+to read	routers	router	mounting	C8161-G2	["rack-19", "under-desk", "din-rail"]	html_table	vendor_guide
+to read	routers	router	mounting	C8211-G2	["rack-19", "under-desk", "din-rail"]	html_table	vendor_guide
+to read	routers	router	mounting	C8231-G2	["rack-19", "under-desk", "din-rail"]	html_table	vendor_guide
+to read	routers	router	mounting	C8235-G2	["rack-19", "under-desk", "din-rail"]	html_table	vendor_guide
+to read	routers	router	mounting	C8355-G2	["rack-19", "rack-23"]	html_table	vendor_guide
+to read	routers	router	mounting	C8375-E-G2	["rack-19", "rack-23", "wall"]	html_table	vendor_guide
+to read	routers	router	mounting	Z4	["desktop", "wall"]	html_table	vendor_datasheet_html
+to read	routers	router	mounting	Z4C	["desktop", "wall"]	html_table	vendor_datasheet_html
+to read	routers	router	ports	C1111-8PLTEEAS	[{"speed": [], "anzahl": 8, "port_typ": "sfp"}]	description_mining	vendor_eol_bulletin
+to read	routers	router	ports	C1161-8P	[{"speed": ["1G"], "anzahl": 8, "port_typ": "sfp"}]	description_mining	vendor_eol_bulletin
+to read	routers	router	ports	C1161-8P++	[{"speed": ["1G"], "anzahl": 8, "port_typ": "sfp"}]	description_mining	vendor_eol_bulletin
+to read	routers	router	ports	C1161X-8P	[{"speed": ["1G"], "anzahl": 8, "port_typ": "sfp"}]	description_mining	vendor_eol_bulletin
+to read	routers	router	ports	C1161X-8P++	[{"speed": ["1G"], "anzahl": 8, "port_typ": "sfp"}]	description_mining	vendor_eol_bulletin
+to read	routers	router	ports	C8200-1N-4T	[{"speed": ["1G"], "anzahl": 2, "port_typ": "sfp"}, {"speed": ["1G"], "anzahl": 2, "port_typ": "rj45"}]	description_mining	vendor_guide
+to read	routers	router	ports	C8200L-1N-4T	[{"speed": ["1G"], "anzahl": 2, "port_typ": "sfp"}, {"speed": ["1G"], "anzahl": 2, "port_typ": "rj45"}]	description_mining	vendor_guide
+to read	routers	router	ports	C8300-1N1S-4T2X	[{"speed": ["10G"], "anzahl": 2, "port_typ": "sfp-plus"}, {"speed": ["1G"], "anzahl": 4, "port_typ": "rj45"}]	description_mining	vendor_guide
+to read	routers	router	ports	C8300-1N1S-6T	[{"speed": ["1G"], "anzahl": 2, "port_typ": "sfp"}, {"speed": ["1G"], "anzahl": 4, "port_typ": "rj45"}]	description_mining	vendor_guide
+to read	routers	router	ports	C8300-2N2S-6T	[{"speed": ["1G"], "anzahl": 2, "port_typ": "sfp"}, {"speed": ["1G"], "anzahl": 4, "port_typ": "rj45"}]	description_mining	vendor_guide
+to read	routers	router	ports	C841M-4X	[{"speed": ["10/100/1000M"], "anzahl": 4, "port_typ": "rj45"}, {"speed": ["10/100/1000M"], "anzahl": 2, "port_typ": "rj4	description_mining	vendor_datasheet_html
+to read	routers	router	ports	C841M-8X	[{"speed": ["10/100/1000M"], "anzahl": 8, "port_typ": "rj45"}, {"speed": ["10/100/1000M"], "anzahl": 2, "port_typ": "rj4	description_mining	vendor_datasheet_html
+to read	routers	router	ports	C8500-12X	[{"speed": [], "anzahl": 12, "port_typ": "sfp-plus"}]	description_mining	vendor_datasheet_html
+to read	routers	router	ports	C8500-20X6C	[{"speed": [], "anzahl": 20, "port_typ": "sfp-plus"}, {"speed": [], "anzahl": 6, "port_typ": "qsfp-plus"}]	description_mining	vendor_datasheet_html
+to read	routers	router	ports	C897VAW-A-K9++	[{"speed": ["1G"], "anzahl": 1, "port_typ": "sfp"}]	description_mining	vendor_eol_bulletin
+to read	routers	router	ports	C927-4P	[{"speed": ["1G"], "anzahl": 1, "port_typ": "sfp"}]	description_mining	vendor_eol_bulletin
+to read	routers	router	ports	CISCO2821-AC-IP	[{"speed": ["1G"], "anzahl": 2, "port_typ": "rj45"}]	description_mining	vendor_datasheet_html
+to read	routers	router	ports	CISCO2851-AC-IP	[{"speed": ["1G"], "anzahl": 2, "port_typ": "rj45"}]	description_mining	vendor_datasheet_html
+to read	routers	router	ports	RV042-BR	[{"speed": [], "anzahl": 4, "port_typ": "rj45"}]	description_mining	vendor_eol_bulletin
+to read	routers	router	ports	RV042-IN	[{"speed": [], "anzahl": 4, "port_typ": "rj45"}]	description_mining	vendor_eol_bulletin
+to read	routers	router	ports	RV042-KR	[{"speed": [], "anzahl": 4, "port_typ": "rj45"}]	description_mining	vendor_eol_bulletin
+to read	routers	router	ports	RV082	[{"speed": [], "anzahl": 8, "port_typ": "rj45"}]	description_mining	vendor_eol_bulletin
+to read	routers	router	ports	RV082-AU	[{"speed": [], "anzahl": 8, "port_typ": "rj45"}]	description_mining	vendor_eol_bulletin
+to read	routers	router	ports	RV082-CN	[{"speed": [], "anzahl": 8, "port_typ": "rj45"}]	description_mining	vendor_eol_bulletin
+to read	routers	router	ports	RV082-EU	[{"speed": [], "anzahl": 8, "port_typ": "rj45"}]	description_mining	vendor_eol_bulletin
+to read	routers	router	ports	RV082-UK	[{"speed": [], "anzahl": 8, "port_typ": "rj45"}]	description_mining	vendor_eol_bulletin
+to read	routers	router	rack_units	C8355-G2	1	html_table	vendor_page
+to read	routers	router	rack_units	C8455-G2	1	html_table	vendor_datasheet_html
+to read	routers	router	rack_units	C8475-G2	1	html_table	vendor_datasheet_html
+to read	routers	router	storage_capacity	C8211-G2	16	html_table	vendor_page
+to read	routers	router	storage_capacity	C8231-G2	16	html_table	vendor_page
+to read	routers	router	storage_capacity	C8235-G2	16	html_table	vendor_page
+to read	routers	router	storage_capacity	C8455-G2	64	html_table	vendor_datasheet_html
+to read	routers	router	storage_capacity	C8475-G2	64	html_table	vendor_datasheet_html
+to read	routers	router	storage_capacity	C8550-G2	480	html_table	vendor_guide
+to read	routers	router	storage_capacity	C8570-G2	480	html_table	vendor_guide
+to read	routers	router	storage_capacity	C8650-G2	480	html_table	vendor_guide
+to read	routers	sp-router	rack_units	NCS4201-SA	1	description_mining	vendor_datasheet_html
+to read	routers	sp-router	rack_units	NCS4202-SA	1	description_mining	vendor_datasheet_html
+to read	security	drive	ports	ST-M6-D100GF	[{"speed": ["100G"], "anzahl": 2, "port_typ": "qsfp-plus"}]	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	bundle	data_rate	UCS-SPM-MDS-01E	16	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	bundle	data_rate	UCS-SPM-MDS-02E	16	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	bundle	data_rate	UCS-SPM-MDS-03E	16	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	bundle	data_rate	UCS-SPM-MDS-04E	16	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	bundle	data_rate	UCS-SPM-MDS-05E	16	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	bundle	data_rate	UCS-SPM-MDS-06E	16	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	bundle	data_rate	UCS-SPM-MDS-07E	16	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	bundle	data_rate	UCS-SPM-MDS-08E	16	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	chassis	data_rate	UCS-C3X60-12G0400	12	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	chassis	data_rate	UCS-C3X60-12G0400=	12	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	chassis	data_rate	UCSC-C3X60-HBA	12	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	chassis	data_rate	UCSC-C3X60-HBA=	12	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	chassis	data_rate	UCSC-C3X60-R1GB	12	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	chassis	data_rate	UCSC-C3X60-R1GB=	12	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	chassis	data_rate	UCSC-C3X60-R4GB	12	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	chassis	data_rate	UCSC-C3X60-R4GB=	12	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	drive	cpu	UCSC-C3K-M4SRB	"E5-2600 v4"	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	mechanical	cpu	UCS-M3-V2-LBL-100=	"E5-2600 v2"	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	mechanical	data_rate	UCSC-MRAID-SC	12	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	memory	input_voltage	CSP-MR-X16G1RS-H	{"max": 2, "min": 2}	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	memory	input_voltage	CSP-MR-X16G1RT-H	{"max": 2, "min": 2}	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	memory	input_voltage	CSP-MR-X32G2RS-H	{"max": 2, "min": 2}	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	memory	input_voltage	CSP-MR-X32G2RT-H	{"max": 2, "min": 2}	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	memory	storage_capacity	EM3-AF-480G-4T	480	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	nic	storage_capacity	UCS-PCI25-16003	1600	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	nic	storage_capacity	UCS-PCI25-16003=	1600	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	nic	storage_capacity	UCS-PCI25-40010	400	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	nic	storage_capacity	UCS-PCI25-40010=	400	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	nic	storage_capacity	UCS-PCI25-80010	800	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	nic	storage_capacity	UCS-PCI25-80010=	800	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	nic	storage_capacity	UCS-PCI25-8003	800	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	nic	storage_capacity	UCS-PCI25-8003=	800	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	power	modulation_format	UCSXE-PSU-2400W	"AC"	pdf_table	vendor_datasheet_pdf
+to read	servers-unified-computing	power	modulation_format	UCSXE-PSU-2400WDC	"DC"	pdf_table	vendor_datasheet_pdf
+to read	servers-unified-computing	server	data_rate	C880-16GFC-L202	16	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	server	data_rate	C880-16GFC-L202=	16	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	server	data_rate	C880-SASCONTR	6	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	server	data_rate	C880-SASCONTR=	6	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	server	storage_capacity	C885A-NVD15TK1V	15667.2	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	server	storage_capacity	C885A-NVD15TK1V=	15667.2	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	server	storage_capacity	C885A-NVD3T8K1V	3891.2	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	server	storage_capacity	C885A-NVD3T8K1V=	3891.2	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	server	storage_capacity	C885A-NVD7T6K1V	7782.4	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	server	storage_capacity	C885A-NVD7T6K1V=	7782.4	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	server	storage_capacity	C890-M5-480SSD	480	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	server	storage_capacity	C890-M5-480SSD=	480	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	server	storage_capacity	UCS-E160S-M3/K9	8192	html_table	vendor_whitepaper
+to read	servers-unified-computing	server	storage_capacity	UCS-E180D-M3/K9	16384	html_table	vendor_whitepaper
+to read	servers-unified-computing	server	storage_capacity	UCS-S-MSD960GBK9	960	html_table	vendor_datasheet_pdf
+to read	servers-unified-computing	server	storage_capacity	UCS-S3260-G3SD24G	240	html_table	vendor_datasheet_pdf
+to read	servers-unified-computing	server	storage_capacity	UCS-S3260-G3SD48G	480	html_table	vendor_datasheet_pdf
+to read	servers-unified-computing	server	storage_capacity	UCS-S3260-NVG240	4096	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	server	storage_capacity	UCS-S3260-NVG240=	4096	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	server	storage_capacity	UCS-S3260-NVMW16	1638.4	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	server	storage_capacity	UCS-S3260-NVMW16=	1638.4	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	server	storage_capacity	UCS-S3260-NVMW19T	1945.6	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	server	storage_capacity	UCS-S3260-NVMW19T=	1945.6	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	server	storage_capacity	UCS-S3260-NVMW32	3276.8	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	server	storage_capacity	UCS-S3260-NVMW32=	3276.8	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	server	storage_capacity	UCS-S3260-NVMW38T	3891.2	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	server	storage_capacity	UCS-S3260-NVMW38T=	3891.2	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	server	storage_capacity	UCS-S3260-NVMW64T	6553.6	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	server	storage_capacity	UCS-S3260-NVMW64T=	6553.6	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	server	storage_capacity	UCS-S3260G3SD160T	1638.4	html_table	vendor_datasheet_pdf
+to read	servers-unified-computing	storage-controller	data_rate	PLHC-MRAID12G	12	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	storage-controller	data_rate	UCSB-MRAID12G	12	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	storage-controller	data_rate	UCSB-MRAID12G=	12	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	storage-controller	data_rate	UCSB-RAID12G-M6	12	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	storage-controller	data_rate	UCSB-RAID12G-M6=	12	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	storage-controller	data_rate	UCSC-9400-8I	12	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	storage-controller	data_rate	UCSC-9400-8I=	12	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	storage-controller	data_rate	UCSC-MRAID12G	12	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	storage-controller	data_rate	UCSC-MRAID12G-1GB	12	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	storage-controller	data_rate	UCSC-MRAID12G-1GB=	12	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	storage-controller	data_rate	UCSC-MRAID12G-2GB	12	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	storage-controller	data_rate	UCSC-MRAID12G-2GB=	12	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	storage-controller	data_rate	UCSC-MRAID12G-4GB	12	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	storage-controller	data_rate	UCSC-MRAID12G-4GB=	12	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	storage-controller	data_rate	UCSC-MRAID12G-512	12	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	storage-controller	data_rate	UCSC-MRAID12G-512=	12	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	storage-controller	data_rate	UCSC-MRAID12G=	12	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	storage-controller	data_rate	UCSC-MRAIDC460	12	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	storage-controller	data_rate	UCSC-MRAIDC460=	12	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	storage-controller	data_rate	UCSC-PSAS12GHBA	12	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	storage-controller	data_rate	UCSC-PSAS12GHBA=	12	description_mining	vendor_eol_bulletin
+to read	servers-unified-computing	storage-controller	data_rate	UCSC-SAS9300-8E=	12	description_mining	vendor_eol_bulletin
+to read	storage-networking	fan	data_rate	DS-C32S-FAN-I=	32	description_mining	vendor_datasheet_html
+to read	storage-networking	fan	rack_units	DS-1RU-FAN	1	description_mining	vendor_eol_bulletin
+to read	switches	bundle	module_slots	C4500-10R-S8E-MGIG	10	description_mining	vendor_eol_bulletin
+to read	switches	bundle	module_slots	C4500E-3NR-7E-MGIG	3	description_mining	vendor_eol_bulletin
+to read	switches	bundle	module_slots	C4500E-3NR-7E-UPOE	3	description_mining	vendor_eol_bulletin
+to read	switches	bundle	module_slots	C4500E-3NR-8E-MGIG	3	description_mining	vendor_eol_bulletin
+to read	switches	bundle	module_slots	C4500E-3NR-8E-UPOE	3	description_mining	vendor_eol_bulletin
+to read	switches	bundle	module_slots	C4500E-3NR-8L-4748	3	description_mining	vendor_eol_bulletin
+to read	switches	bundle	module_slots	C4500E-3NR-8L-MGIG	3	description_mining	vendor_eol_bulletin
+to read	switches	bundle	module_slots	C4500E-3NR-8L-UPOE	3	description_mining	vendor_eol_bulletin
+to read	switches	bundle	module_slots	C4500E-6NR-7E-MGIG	6	description_mining	vendor_eol_bulletin
+to read	switches	bundle	module_slots	C4500E-6NR-7E-UPOE	6	description_mining	vendor_eol_bulletin
+to read	switches	bundle	module_slots	C4500E-6NR-8E-MGIG	6	description_mining	vendor_eol_bulletin
+to read	switches	bundle	module_slots	C4500E-6NR-8E-UPOE	6	description_mining	vendor_eol_bulletin
+to read	switches	bundle	module_slots	C4500E-6NR-8L-4748	6	description_mining	vendor_eol_bulletin
+to read	switches	bundle	module_slots	C4500E-6NR-8L-MGIG	6	description_mining	vendor_eol_bulletin
+to read	switches	bundle	module_slots	C4500E-6NR-8L-UPOE	6	description_mining	vendor_eol_bulletin
+to read	switches	bundle	module_slots	C4500E-7R-S7E-MGIG	7	description_mining	vendor_eol_bulletin
+to read	switches	bundle	module_slots	C4500E-7R-S7E-UPOE	7	description_mining	vendor_eol_bulletin
+to read	switches	bundle	module_slots	C4500E-7R-S8E-MGIG	7	description_mining	vendor_eol_bulletin
+to read	switches	bundle	module_slots	C4500E-7R-S8E-UPOE	7	description_mining	vendor_eol_bulletin
+to read	switches	bundle	module_slots	C4500E-7R-S8L-4748	7	description_mining	vendor_eol_bulletin
+to read	switches	bundle	module_slots	C4500E-7R-S8L-MGIG	7	description_mining	vendor_eol_bulletin
+to read	switches	bundle	module_slots	C4500E-7R-S8L-UPOE	7	description_mining	vendor_eol_bulletin
+to read	switches	bundle	module_slots	C4500E-7R-S9E-MGIG	7	description_mining	vendor_eol_bulletin
+to read	switches	bundle	module_slots	C4500E-S6-4748RJV	6	description_mining	vendor_eol_bulletin
+to read	switches	bundle	module_slots	C4500E-S6-MGIG	6	description_mining	vendor_eol_bulletin
+to read	switches	bundle	module_slots	C4500E-S7-4748RJV	7	description_mining	vendor_eol_bulletin
+to read	switches	bundle	module_slots	C4500RE-S7-MGIG	7	description_mining	vendor_eol_bulletin
+to read	switches	bundle	module_slots	C4510RE-S8-MGIG	10	description_mining	vendor_eol_bulletin
+to read	switches	bundle	poe_standard	C4500E-3NR-7E-UPOE	"upoe"	description_mining	vendor_eol_bulletin
+to read	switches	bundle	poe_standard	C4500E-3NR-8E-UPOE	"upoe"	description_mining	vendor_eol_bulletin
+to read	switches	bundle	poe_standard	C4500E-3NR-8L-UPOE	"upoe"	description_mining	vendor_eol_bulletin
+to read	switches	bundle	poe_standard	C4500E-6NR-7E-UPOE	"upoe"	description_mining	vendor_eol_bulletin
+to read	switches	bundle	poe_standard	C4500E-6NR-8E-UPOE	"upoe"	description_mining	vendor_eol_bulletin
+to read	switches	bundle	poe_standard	C4500E-6NR-8L-UPOE	"upoe"	description_mining	vendor_eol_bulletin
+to read	switches	bundle	poe_standard	C4500E-7R-S7E-UPOE	"upoe"	description_mining	vendor_eol_bulletin
+to read	switches	bundle	poe_standard	C4500E-7R-S8E-UPOE	"upoe"	description_mining	vendor_eol_bulletin
+to read	switches	bundle	poe_standard	C4500E-7R-S8L-UPOE	"upoe"	description_mining	vendor_eol_bulletin
+to read	switches	bundle	poe_standard	C4500E-S6-MGIG	"upoe"	description_mining	vendor_eol_bulletin
+to read	switches	bundle	poe_standard	C4500RE-S7-MGIG	"upoe"	description_mining	vendor_eol_bulletin
+to read	switches	bundle	poe_standard	C4510RE-S8-MGIG	"upoe"	description_mining	vendor_eol_bulletin
+to read	switches	bundle	poe_standard	C4510RE-S9-UPOE	"upoe"	description_mining	vendor_eol_bulletin
+to read	switches	bundle	ports	C1-N5672UP4FEX10GT	[{"speed": ["10G"], "anzahl": 4, "port_typ": "rj45"}]	description_mining	vendor_eol_bulletin
+to read	switches	bundle	ports	C1-N9K-C93108EXB24	[{"speed": ["100G"], "anzahl": 2, "port_typ": "qsfp-plus"}]	description_mining	vendor_eol_bulletin
+to read	switches	bundle	ports	C1-N9K-C93180EXB24	[{"speed": ["100G"], "anzahl": 2, "port_typ": "qsfp-plus"}]	description_mining	vendor_eol_bulletin
+to read	switches	bundle	ports	CH-C3560-24TS-S-24	[{"speed": ["10/100M"], "anzahl": 24, "port_typ": "rj45"}, {"speed": [], "anzahl": 2, "port_typ": "sfp"}]	description_mining	vendor_eol_bulletin
+to read	switches	bundle	ports	CH-C3560-48TS-S-24	[{"speed": ["10/100M"], "anzahl": 48, "port_typ": "rj45"}, {"speed": [], "anzahl": 2, "port_typ": "sfp"}]	description_mining	vendor_eol_bulletin
+to read	switches	bundle	ports	N3K-C3132Q-X-16BD	[{"speed": [], "anzahl": 16, "port_typ": "qsfp-plus"}]	description_mining	vendor_eol_bulletin
+to read	switches	bundle	ports	N3K-C3172PQ-6BD	[{"speed": [], "anzahl": 6, "port_typ": "qsfp-plus"}]	description_mining	vendor_eol_bulletin
+to read	switches	bundle	ports	N3K-C3172PQ-ZZ	[{"speed": [], "anzahl": 6, "port_typ": "qsfp-plus"}]	description_mining	vendor_eol_bulletin
+to read	switches	bundle	ports	N3K-C3172TQ-6BD	[{"speed": [], "anzahl": 6, "port_typ": "qsfp-plus"}]	description_mining	vendor_eol_bulletin
+to read	switches	bundle	ports	N3K-C3172TQ-ZZ	[{"speed": [], "anzahl": 6, "port_typ": "qsfp-plus"}]	description_mining	vendor_eol_bulletin
+to read	switches	bundle	ports	N3K-C3408-B	[{"speed": [], "anzahl": 12, "port_typ": "qsfp-plus"}]	description_mining	vendor_eol_bulletin
+to read	switches	bundle	ports	N3K-C3408-QSFP-B	[{"speed": [], "anzahl": 12, "port_typ": "qsfp-plus"}]	description_mining	vendor_eol_bulletin
+to read	switches	bundle	ports	N5672UP-4FEX-10GT	[{"speed": ["10G"], "anzahl": 4, "port_typ": "rj45"}]	description_mining	vendor_eol_bulletin
+to read	switches	bundle	ports	N5672UP-6FEX-10GT	[{"speed": ["10G"], "anzahl": 6, "port_typ": "rj45"}]	description_mining	vendor_eol_bulletin
+to read	switches	bundle	ports	N5696Q-8FEX-10GT	[{"speed": ["10G"], "anzahl": 8, "port_typ": "rj45"}]	description_mining	vendor_eol_bulletin
+to read	switches	bundle	ports	N6001P-4FEX-10GT	[{"speed": ["10G"], "anzahl": 4, "port_typ": "rj45"}]	description_mining	vendor_eol_bulletin
+to read	switches	bundle	ports	N6001P-6FEX-10GT	[{"speed": ["10G"], "anzahl": 6, "port_typ": "rj45"}]	description_mining	vendor_eol_bulletin
+to read	switches	bundle	ports	N6004-4FEX-10GT	[{"speed": ["10G"], "anzahl": 4, "port_typ": "rj45"}]	description_mining	vendor_eol_bulletin
+to read	switches	bundle	ports	N6004-6FEX-10GT	[{"speed": ["10G"], "anzahl": 6, "port_typ": "rj45"}]	description_mining	vendor_eol_bulletin
+to read	switches	bundle	ports	N6004-8FEX-10GT	[{"speed": ["10G"], "anzahl": 8, "port_typ": "rj45"}]	description_mining	vendor_eol_bulletin
+to read	switches	bundle	ports	N6004EF-4FEX-10GT	[{"speed": ["10G"], "anzahl": 4, "port_typ": "rj45"}]	description_mining	vendor_eol_bulletin
+to read	switches	bundle	ports	N6004EF-6FEX-10GT	[{"speed": ["10G"], "anzahl": 6, "port_typ": "rj45"}]	description_mining	vendor_eol_bulletin
+to read	switches	bundle	ports	N6004EF-8FEX-10GT	[{"speed": ["10G"], "anzahl": 8, "port_typ": "rj45"}]	description_mining	vendor_eol_bulletin
+to read	switches	bundle	ports	WS-C3560V2-48PS-SM	[{"speed": ["10/100M"], "anzahl": 48, "port_typ": "rj45"}, {"speed": [], "anzahl": 4, "port_typ": "sfp"}]	description_mining	vendor_eol_bulletin
+to read	switches	fabric	certifications	N77-C7706-FAB-2++=	["TAA compliant"]	description_mining	vendor_eol_bulletin
+to read	switches	fabric	certifications	N77-C7710-FAB-2++=	["TAA compliant"]	description_mining	vendor_eol_bulletin
+to read	switches	fabric	certifications	N7K-C7009-FAB-2++=	["TAA compliant"]	description_mining	vendor_eol_bulletin
+to read	switches	fabric	certifications	N7K-C7010-FAB-2++=	["TAA compliant"]	description_mining	vendor_eol_bulletin
+to read	switches	flash	dram	SD-X45-2GB-E	2	description_mining	vendor_datasheet_html
+to read	switches	linecard	certifications	C9600-LC-48S++	["TAA compliant"]	description_mining	vendor_eol_bulletin
+to read	switches	linecard	certifications	C9600-LC-48S++=	["TAA compliant"]	description_mining	vendor_eol_bulletin
+to read	switches	linecard	certifications	N9K-X9464PX++=	["TAA compliant"]	description_mining	vendor_eol_bulletin
+to read	switches	linecard	certifications	WS-X4748-UPOE+E++=	["TAA compliant"]	description_mining	vendor_eol_bulletin
+to read	switches	linecard	connector	WS-X4124-RJ45=	"rj45"	description_mining	vendor_eol_bulletin
+to read	switches	linecard	connector	WS-X4148-RJ	"rj45"	description_mining	vendor_datasheet_html
+to read	switches	linecard	connector	WS-X4148-RJ=	"rj45"	description_mining	vendor_eol_bulletin
+to read	switches	linecard	connector	WS-X4232-GB-RJ=	"rj45"	description_mining	vendor_eol_bulletin
+to read	switches	linecard	connector	WS-X4248-RJ45V	"rj45"	description_mining	vendor_datasheet_html
+to read	switches	linecard	connector	WS-X4248-RJ45V=	"rj45"	description_mining	vendor_eol_bulletin
+to read	switches	linecard	connector	WS-X4424-GB-RJ45=	"rj45"	description_mining	vendor_eol_bulletin
+to read	switches	linecard	connector	WS-X4524-GB-RJ45V	"rj45"	description_mining	vendor_datasheet_html
+to read	switches	linecard	connector	WS-X4524-GB-RJ45V=	"rj45"	description_mining	vendor_eol_bulletin
+to read	switches	linecard	connector	WS-X4548-GB-RJ45	"rj45"	description_mining	vendor_datasheet_html
+to read	switches	linecard	connector	WS-X4548-GB-RJ45=	"rj45"	description_mining	vendor_eol_bulletin
+to read	switches	linecard	connector	WS-X4548-GB-RJ45V	"rj45"	description_mining	vendor_datasheet_html
+to read	switches	linecard	connector	WS-X4548-RJ45V+	"rj45"	description_mining	vendor_datasheet_html
+to read	switches	linecard	connector	WS-X4548-RJ45V+=	"rj45"	description_mining	vendor_eol_bulletin
+to read	switches	linecard	connector	WS-X4648-RJ45V+E=	"rj45"	description_mining	vendor_eol_bulletin
+to read	switches	linecard	mgmt_class	C9610-LC-32CD	"smart-managed"	description_mining	vendor_datasheet_html
+to read	switches	linecard	mgmt_class	C9610-LC-40YL4CD	"smart-managed"	description_mining	vendor_datasheet_html
+to read	switches	mechanical	airflow	C9606-FB-23-KIT=	"front-to-back"	description_mining	vendor_datasheet_html
+to read	switches	mechanical	input_voltage	N9800-DC-TRAY	{"max": 48, "min": 48}	description_mining	vendor_datasheet_html
+to read	switches	mechanical	mgmt_class	C9610-23-KIT-2=	"smart-managed"	description_mining	vendor_datasheet_html
+to read	switches	mechanical	mgmt_class	C9610-NEBS-KIT	"smart-managed"	description_mining	vendor_datasheet_html
+to read	switches	mechanical	mgmt_class	C9610-NEBSFILTER=	"smart-managed"	description_mining	vendor_datasheet_html
+to read	switches	olt	uplink_ports	CGP-OLT-16T	[{"speed": [], "anzahl": 2, "port_typ": "sfp-plus"}]	vendor_page:cisco-datasheets	vendor_datasheet_html
+to read	switches	olt	uplink_ports	CGP-OLT-8T	[{"speed": [], "anzahl": 2, "port_typ": "sfp-plus"}]	vendor_page:cisco-datasheets	vendor_datasheet_html
+to read	switches	ont	cooling	CGP-ONT-1P	"fanless"	vendor_page:cisco-datasheets	vendor_datasheet_html
+to read	switches	ont	cooling	CGP-ONT-4P	"fanless"	vendor_page:cisco-datasheets	vendor_datasheet_html
+to read	switches	ont	cooling	CGP-ONT-4PV	"fanless"	vendor_page:cisco-datasheets	vendor_datasheet_html
+to read	switches	ont	cooling	CGP-ONT-4PVC	"fanless"	vendor_page:cisco-datasheets	vendor_datasheet_html
+to read	switches	ont	poe_standard	CGP-ONT-4P	"802.3at"	description_mining	vendor_eol_bulletin
+to read	switches	ont	poe_standard	CGP-ONT-4PV	"802.3at"	description_mining	vendor_eol_bulletin
+to read	switches	ont	poe_standard	CGP-ONT-4PVC	"802.3at"	description_mining	vendor_datasheet_html
+to read	switches	power	certifications	PWR-C2-1600WAC-I/2	["80 PLUS Platinum"]	description_mining	vendor_guide
+to read	switches	power	certifications	PWR-C2-500WAC-I	["80 PLUS Platinum"]	description_mining	vendor_guide
+to read	switches	power	certifications	PWR-C2-500WAC-I/2	["80 PLUS Platinum"]	description_mining	vendor_guide
+to read	switches	power	certifications	PWR-C2-500WAC-I=	["80 PLUS Platinum"]	description_mining	vendor_guide
+to read	switches	power	certifications	PWR-C2-850WAC-I	["80 PLUS Platinum"]	description_mining	vendor_guide
+to read	switches	power	certifications	PWR-C2-850WAC-I/2	["80 PLUS Platinum"]	description_mining	vendor_guide
+to read	switches	power	certifications	PWR-C2-850WAC-I=	["80 PLUS Platinum"]	description_mining	vendor_guide
+to read	switches	power	certifications	PWR-C2-850WAC-IUP	["80 PLUS Platinum"]	description_mining	vendor_guide
+to read	switches	power	humidity_operating	PWR-IE170W-PC-AC=	{"max": 95, "min": 95}	html_table	vendor_datasheet_html
+to read	switches	power	humidity_operating	PWR-IE170W-PC-DC=	{"max": 95, "min": 95}	html_table	vendor_datasheet_html
+to read	switches	power	humidity_operating	PWR-IE240W-PCAC-L=	{"max": 95, "min": 5}	html_table	vendor_datasheet_html
+to read	switches	power	humidity_operating	PWR-IE480W-PCAC-L=	{"max": 95, "min": 5}	html_table	vendor_datasheet_html
+to read	switches	power	humidity_operating	PWR-IE50W-AC-IEC=	{"max": 95, "min": 95}	html_table	vendor_datasheet_html
+to read	switches	power	humidity_operating	PWR-IE50W-AC-L=	{"max": 95, "min": 5}	html_table	vendor_datasheet_html
+to read	switches	power	humidity_operating	PWR-IE50W-AC=	{"max": 95, "min": 95}	html_table	vendor_datasheet_html
+to read	switches	power	humidity_operating	PWR-IE65W-PC-AC=	{"max": 95, "min": 95}	html_table	vendor_datasheet_html
+to read	switches	power	humidity_operating	PWR-IE65W-PC-DC=	{"max": 95, "min": 95}	html_table	vendor_datasheet_html
+to read	switches	power	poe_standard	PWR-C2-1025WAC=	"802.3at"	description_mining	vendor_datasheet_html
+to read	switches	power	poe_standard	PWR-C2-640WAC=	"802.3at"	description_mining	vendor_datasheet_html
+to read	switches	power	poe_standard	WS-UPOE-12VPSPL	"upoe"	description_mining	vendor_eol_bulletin
+to read	switches	power	poe_standard	WS-UPOE-12VPSPL=	"upoe"	description_mining	vendor_eol_bulletin
+to read	switches	power-cord	input_voltage	CAB-AC-250V/13A	{"max": 250, "min": 250}	description_mining	vendor_datasheet_html
+to read	switches	power-cord	input_voltage	CAB-TA-125V-JP=	{"max": 125, "min": 125}	description_mining	vendor_datasheet_html
+to read	switches	power-cord	input_voltage	N7K-DC-CAB-CAN=	{"max": 48, "min": 48}	description_mining	vendor_eol_bulletin
+to read	switches	power-cord	input_voltage	N7K-DC-CAB-CLO=	{"max": 48, "min": 48}	description_mining	vendor_eol_bulletin
+to read	switches	power-cord	input_voltage	N7K-DC-CAB=	{"max": 48, "min": 48}	description_mining	vendor_eol_bulletin
+to read	switches	supervisor	certifications	C9400-SUP-1++=	["TAA compliant"]	description_mining	vendor_eol_bulletin
+to read	switches	supervisor	certifications	C9400-SUP-1XL++=	["TAA compliant"]	description_mining	vendor_eol_bulletin
+to read	switches	supervisor	certifications	N9K-SUP-A++=	["TAA compliant"]	description_mining	vendor_eol_bulletin
+to read	switches	supervisor	certifications	N9K-SUP-B++=	["TAA compliant"]	description_mining	vendor_eol_bulletin
+to read	switches	supervisor	certifications	WS-X45-SUP9-E++=	["TAA compliant"]	description_mining	vendor_eol_bulletin
+to read	switches	switch	airflow	C1-C4500X-16SFP+	"front-to-back"	description_mining	vendor_eol_bulletin
+to read	switches	switch	airflow	C1-C4500X-24X-IPB	"front-to-back"	description_mining	vendor_eol_bulletin
+to read	switches	switch	airflow	C1-C4500X-32SFP+	"front-to-back"	description_mining	vendor_eol_bulletin
+to read	switches	switch	airflow	N3K-C3016-BA-L3	"port-side-intake"	description_mining	vendor_datasheet_html
+to read	switches	switch	airflow	N3K-C3016-BD-L3	"port-side-intake"	description_mining	vendor_datasheet_html
+to read	switches	switch	airflow	N3K-C3048-BA-L3	"port-side-intake"	description_mining	vendor_datasheet_html
+to read	switches	switch	airflow	N3K-C3048-BD-L3	"port-side-intake"	description_mining	vendor_datasheet_html
+to read	switches	switch	airflow	N3K-C3048-ZM-1BS	"port-side-intake"	description_mining	vendor_eol_bulletin
+to read	switches	switch	airflow	N3K-C3048-ZM-2BS	"port-side-intake"	description_mining	vendor_eol_bulletin
+to read	switches	switch	airflow	N3K-C3048-ZM-B	"port-side-intake"	description_mining	vendor_eol_bulletin
+to read	switches	switch	airflow	N3K-C3064-E-BD-L3	"port-side-intake"	description_mining	vendor_eol_bulletin
+to read	switches	switch	airflow	N3K-C3064-E-ZM-1B	"port-side-intake"	description_mining	vendor_eol_bulletin
+to read	switches	switch	airflow	N3K-C3064-E-ZM-B	"port-side-intake"	description_mining	vendor_eol_bulletin
+to read	switches	switch	airflow	N3K-C3064-T-BA-L3	"port-side-intake"	description_mining	vendor_datasheet_html
+to read	switches	switch	airflow	N3K-C3064-X-BA-L3	"port-side-intake"	description_mining	vendor_datasheet_html
+to read	switches	switch	airflow	N3K-C3064-X-BD-L3	"port-side-intake"	description_mining	vendor_datasheet_html
+to read	switches	switch	airflow	N3K-C3064-X-ZM-1B	"port-side-intake"	description_mining	vendor_eol_bulletin
+to read	switches	switch	airflow	N3K-C3064-X-ZM-2B	"port-side-intake"	description_mining	vendor_eol_bulletin
+to read	switches	switch	airflow	N3K-C3064-X-ZZ-BA	"port-side-intake"	description_mining	vendor_eol_bulletin
+to read	switches	switch	airflow	N3K-C3064-X-ZZ-BD	"port-side-intake"	description_mining	vendor_eol_bulletin
+to read	switches	switch	airflow	N3K-C3064PQ-FA-L3	"front-to-back"	description_mining	vendor_eol_bulletin
+to read	switches	switch	airflow	N3K-C3132-X-ZZ-B	"port-side-intake"	description_mining	vendor_eol_bulletin
+to read	switches	switch	airflow	N3K-C3132Q-BA-L3	"port-side-intake"	description_mining	vendor_datasheet_html
+to read	switches	switch	airflow	N3K-C3132Q-BD-L3	"port-side-intake"	description_mining	vendor_datasheet_html
+to read	switches	switch	airflow	N3K-C3132Q-X-BA-L3	"port-side-intake"	description_mining	vendor_datasheet_html
+to read	switches	switch	airflow	N3K-C3132Q-X-BD-L3	"port-side-intake"	description_mining	vendor_datasheet_html
+to read	switches	switch	airflow	N3K-C3164-ZZ-PI	"port-side-intake"	description_mining	vendor_eol_bulletin
+to read	switches	switch	airflow	N3K-C3172-BA-L3	"port-side-intake"	description_mining	vendor_datasheet_html
+to read	switches	switch	airflow	N3K-C3172-BD-L3	"port-side-intake"	description_mining	vendor_datasheet_html
+to read	switches	switch	airflow	N3K-C3232C-ZZ-PI	"port-side-intake"	description_mining	vendor_eol_bulletin
+to read	switches	switch	airflow	N3K-C3264Q-ZZ-PI	"port-side-intake"	description_mining	vendor_eol_bulletin
+to read	switches	switch	airflow	N3K-C3548P-BA-L3A	"port-side-intake"	description_mining	vendor_eol_bulletin
+to read	switches	switch	airflow	N3K-C3548P-BD-L3A	"port-side-intake"	description_mining	vendor_eol_bulletin
+to read	switches	switch	airflow	N5K-C5548P-FA	"front-to-back"	description_mining	vendor_datasheet_html
+to read	switches	switch	airflow	N5K-C5548UP-FA	"front-to-back"	description_mining	vendor_datasheet_html
+to read	switches	switch	airflow	N5K-C5596UP-FA	"front-to-back"	description_mining	vendor_datasheet_html
+to read	switches	switch	airflow	N9K-C92304QC-ZZ-PI	"port-side-intake"	description_mining	vendor_eol_bulletin
+to read	switches	switch	airflow	N9K-C9232C-ZZ-PI	"port-side-intake"	description_mining	vendor_eol_bulletin
+to read	switches	switch	airflow	WS-C3850-48XS-E	"front-to-back"	description_mining	vendor_datasheet_html
+to read	switches	switch	airflow	WS-C3850-48XS-S	"front-to-back"	description_mining	vendor_datasheet_html
+to read	switches	switch	airflow	WS-C4500X-16SFP+	"front-to-back"	description_mining	vendor_datasheet_html
+to read	switches	switch	airflow	WS-C4500X-24X-ES	"front-to-back"	description_mining	vendor_datasheet_html
+to read	switches	switch	airflow	WS-C4500X-24X-IPB	"front-to-back"	description_mining	vendor_datasheet_html
+to read	switches	switch	airflow	WS-C4500X-32SFP+	"front-to-back"	description_mining	vendor_datasheet_html
+to read	switches	switch	airflow	WS-C4500X-40X-ES	"front-to-back"	description_mining	vendor_datasheet_html
+to read	video	accessory	input_voltage	741982	{"max": -48, "min": -48}	description_mining	vendor_eol_bulletin
+to read	video	accessory	tx_power	4003219.00	{"max": 0, "min": 0}	description_mining	vendor_eol_bulletin
+to read	video	amplifier	connector	4005263	"sc"	description_mining	vendor_eol_bulletin
+to read	video	amplifier	connector	4010485.103.000.AB	"lc-duplex"	description_mining	vendor_eol_bulletin
+to read	video	amplifier	connector	4010485.105.000.AB	"lc-duplex"	description_mining	vendor_eol_bulletin
+to read	video	chassis	input_voltage	4011176.012.000.AA	{"max": -48, "min": -48}	description_mining	vendor_eol_bulletin
+to read	video	chassis	input_voltage	4011176.012.000.AB	{"max": -48, "min": -48}	description_mining	vendor_eol_bulletin
+to read	video	chassis	input_voltage	4030061	{"max": -48, "min": -48}	description_mining	vendor_eol_bulletin
+to read	video	chassis	input_voltage	4030062	{"max": -48, "min": -48}	description_mining	vendor_eol_bulletin
+to read	video	chassis	input_voltage	736732	{"max": -48, "min": -48}	description_mining	vendor_eol_bulletin
+to read	video	chassis	input_voltage	736740	{"max": -48, "min": -48}	description_mining	vendor_eol_bulletin
+to read	video	chassis	input_voltage	736743	{"max": -48, "min": -48}	description_mining	vendor_eol_bulletin
+to read	video	chassis	input_voltage	736744	{"max": -48, "min": -48}	description_mining	vendor_eol_bulletin
+to read	video	chassis	input_voltage	736750	{"max": -48, "min": -48}	description_mining	vendor_eol_bulletin
+to read	video	chassis	input_voltage	736766	{"max": -48, "min": -48}	description_mining	vendor_eol_bulletin
+to read	video	node	tx_power	HAX1X1XXXXXXXXXXBA	{"max": 20, "min": 20}	description_mining	vendor_eol_bulletin
+to read	video	node	tx_power	HB1XX1XXXXXXXXXXBA	{"max": 17, "min": 17}	description_mining	vendor_eol_bulletin
+to read	video	node	tx_power	HB1XXX1XXXXXXXXXBA	{"max": 17, "min": 17}	description_mining	vendor_eol_bulletin
+to read	video	node	tx_power	HB1XXXXXXXXXXXXXBA	{"max": 17, "min": 17}	description_mining	vendor_eol_bulletin
+to read	video	node	tx_power	HB1XXXXXXXXXXXXXBX	{"max": 17, "min": 17}	description_mining	vendor_eol_bulletin
+to read	video	node	tx_power	HBXXXXXX1XXXXXXXBA	{"max": 20, "min": 20}	description_mining	vendor_eol_bulletin
+to read	video	node	tx_power	HBXXXXXX1XXXXXXXBX	{"max": 20, "min": 20}	description_mining	vendor_eol_bulletin
+to read	video	passive	connector	1030007	"sc"	description_mining	vendor_datasheet_html
+to read	video	passive	connector	1030008	"sc"	description_mining	vendor_datasheet_html
+to read	video	passive	connector	1030009	"sc"	description_mining	vendor_datasheet_html
+to read	video	passive	connector	1030010	"sc"	description_mining	vendor_datasheet_html
+to read	video	passive	connector	1030011	"sc"	description_mining	vendor_datasheet_html
+to read	video	passive	connector	1030012	"sc"	description_mining	vendor_datasheet_html
+to read	video	passive	connector	1030013	"sc"	description_mining	vendor_datasheet_html
+to read	video	passive	connector	1030014	"sc"	description_mining	vendor_datasheet_html
+to read	video	passive	connector	1030016	"lc-duplex"	description_mining	vendor_datasheet_html
+to read	video	passive	connector	1030017	"lc-duplex"	description_mining	vendor_datasheet_html
+to read	video	passive	connector	1030030	"lc-duplex"	description_mining	vendor_datasheet_html
+to read	video	passive	connector	1030031	"lc-duplex"	description_mining	vendor_datasheet_html
+to read	video	passive	connector	1030034	"lc-duplex"	description_mining	vendor_datasheet_html
+to read	video	passive	connector	1030035	"lc-duplex"	description_mining	vendor_datasheet_html
+to read	video	passive	connector	1030036	"lc-duplex"	description_mining	vendor_datasheet_html
+to read	video	passive	connector	1030037	"lc-duplex"	description_mining	vendor_datasheet_html
+to read	video	passive	connector	1030038	"lc-duplex"	description_mining	vendor_datasheet_html
+to read	video	passive	connector	1030065	"lc-duplex"	description_mining	vendor_datasheet_html
+to read	video	passive	connector	4004874	"sc"	description_mining	vendor_datasheet_html
+to read	video	passive	connector	4004875	"sc"	description_mining	vendor_datasheet_html
+to read	video	passive	connector	4034491	"lc-duplex"	description_mining	vendor_datasheet_html
+to read	video	passive	connector	4043556	"sc"	description_mining	vendor_datasheet_html
+to read	video	passive	connector	4043597	"sc"	description_mining	vendor_datasheet_html
+to read	video	passive	connector	4043598	"sc"	description_mining	vendor_datasheet_html
+to read	video	passive	connector	4043601	"sc"	description_mining	vendor_datasheet_html
+to read	video	passive	connector	4043602	"sc"	description_mining	vendor_datasheet_html
+to read	video	passive	connector	4043603	"sc"	description_mining	vendor_datasheet_html
+to read	video	passive	connector	4043953	"sc"	description_mining	vendor_datasheet_html
+to read	video	passive	connector	4043955	"sc"	description_mining	vendor_datasheet_html
+to read	video	passive	connector	4043956	"sc"	description_mining	vendor_datasheet_html
+to read	video	passive	connector	OPCAS-MD08-2027-SA	"sc"	description_mining	vendor_datasheet_html
+to read	video	passive	connector	OPCAS-MD08-2835-SA	"sc"	description_mining	vendor_datasheet_html
+to read	video	passive	connector	OPCAS-MD08-3643-SA	"sc"	description_mining	vendor_datasheet_html
+to read	video	passive	connector	OPCAS-MD08-4451-SA	"sc"	description_mining	vendor_datasheet_html
+to read	video	passive	connector	OPCAS-MD08-5259-SA	"sc"	description_mining	vendor_datasheet_html
+to read	video	passive	connector	OPCAS-MD12-5061-SA	"sc"	description_mining	vendor_datasheet_html
+to read	video	passive	connector	OPCAS-MD16-2540-SA	"sc"	description_mining	vendor_datasheet_html
+to read	video	passive	connector	OPCAS-MD20-2039-SA	"sc"	description_mining	vendor_datasheet_html
+to read	video	passive	connector	OPCAS-MD20-4059-SA	"sc"	description_mining	vendor_datasheet_html
+to read	video	passive	connector	OPCAS-MD40-2059-SC	"sc"	description_mining	vendor_datasheet_html
+to read	video	passive	connector	OPLGX-BPF2-1862-SA	"sc"	description_mining	vendor_datasheet_html
+to read	video	passive	connector	OPLGX-BPF4-2162-LA	"lc-duplex"	description_mining	vendor_datasheet_html
+to read	video	passive	connector	OPLGX-MD04-2126-LA	"lc-duplex"	description_mining	vendor_datasheet_html
+to read	video	passive	connector	OPLGX-MD04-2839-LA	"lc-duplex"	description_mining	vendor_datasheet_html
+to read	video	passive	connector	OPLGX-MD04-4454-LA	"lc-duplex"	description_mining	vendor_datasheet_html
+to read	video	passive	connector	OPLGX-MD04-5762-LA	"lc-duplex"	description_mining	vendor_datasheet_html
+to read	video	passive	connector	OPLGX-MD08-2139-LA	"lc-duplex"	description_mining	vendor_datasheet_html
+to read	video	passive	connector	OPLGX-MD08-4462-LA	"lc-duplex"	description_mining	vendor_datasheet_html
+to read	video	passive	connector	OPLGX-MD16-2162-LA	"lc-duplex"	description_mining	vendor_datasheet_html
+to read	video	passive	connector	OPLGX-MD16-2162-LQ	"lc-duplex"	description_mining	vendor_datasheet_html
+to read	video	passive	connector	OPLGX-MD20-2039-LQ	"lc-duplex"	description_mining	vendor_datasheet_html
+to read	video	passive	connector	OPLGX-MD20-4059-LQ	"lc-duplex"	description_mining	vendor_datasheet_html
+to read	video	passive	connector	OPLGX-MD40-2059-LQ	"lc-duplex"	description_mining	vendor_datasheet_html
+to read	video	passive	data_rate	4021052	100	description_mining	vendor_eol_bulletin
+to read	video	passive	data_rate	4030093	200	description_mining	vendor_datasheet_html
+to read	video	passive	data_rate	4030094	200	description_mining	vendor_datasheet_html
+to read	video	passive	data_rate	4030096	100	description_mining	vendor_datasheet_html
+to read	video	passive	data_rate	4030097	100	description_mining	vendor_datasheet_html
+to read	video	passive	data_rate	4030098	100	description_mining	vendor_eol_bulletin
+to read	video	passive	data_rate	4030099	100	description_mining	vendor_eol_bulletin
+to read	video	passive	data_rate	4033329	200	description_mining	vendor_eol_bulletin
+to read	video	passive	data_rate	4040562	100	description_mining	vendor_eol_bulletin
+to read	video	passive	data_rate	4040589	100	description_mining	vendor_eol_bulletin
+to read	video	passive	data_rate	4040816	100	description_mining	vendor_eol_bulletin
+to read	video	passive	data_rate	4040817	100	description_mining	vendor_eol_bulletin
+to read	video	passive	data_rate	4040818	100	description_mining	vendor_eol_bulletin
+to read	video	passive	data_rate	4043574	100	description_mining	vendor_eol_bulletin
+to read	video	passive	wavelength	4004874	1340	description_mining	vendor_datasheet_html
+to read	video	passive	wavelength	4004875	1340	description_mining	vendor_datasheet_html
+to read	video	passive	wavelength	4034491	1360	description_mining	vendor_datasheet_html
+to read	video	transmitter	connector	P2HD1.2G13TXP04=	"sc"	description_mining	vendor_datasheet_html
+to read	video	transmitter	connector	P2HD1.2G13TXP06=	"sc"	description_mining	vendor_datasheet_html
+to read	video	transmitter	connector	P2HD1.2G13TXP08=	"sc"	description_mining	vendor_datasheet_html
+to read	video	transmitter	connector	P2HD1.2G13TXP10=	"sc"	description_mining	vendor_datasheet_html
+to read	video	transmitter	connector	P2HD1.2G13TXP12=	"sc"	description_mining	vendor_datasheet_html
+to read	video	transmitter	connector	P2HD1.2G13TXP14=	"sc"	description_mining	vendor_datasheet_html
+to read	video	transmitter	connector	P2HD1.2G13TXP15=	"sc"	description_mining	vendor_datasheet_html
+to read	video	transmitter	connector	P2HD1.2G13TXS03=	"sc"	description_mining	vendor_datasheet_html
+to read	video	transmitter	connector	P2HD1.2G13TXS05=	"sc"	description_mining	vendor_datasheet_html
+to read	video	transmitter	connector	P2HD1.2G13TXS06=	"sc"	description_mining	vendor_datasheet_html
+to read	video	transmitter	connector	P2HD1.2G13TXS08=	"sc"	description_mining	vendor_datasheet_html
+to read	video	transmitter	connector	P2HD1.2G15TXM21I=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXM22I=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXM24I=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXM26I=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXM28I=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXM33I=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXM36I=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXM39I=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXM44I=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXM48I=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXM52I=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXM54I=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXM57I=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXM60I=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXM61I=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXM62I=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXQ20=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXQ21I=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXQ22I=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXQ23=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXQ24I=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXQ25=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXQ26I=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXQ27=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXQ28I=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXQ29=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXQ30=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXQ31=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXQ32=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXQ33I=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXQ34=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXQ35=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXQ36I=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXQ37=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXQ38=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXQ39I=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXQ40=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXQ41=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXQ42=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXQ43=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXQ44I=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXQ45=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXQ46=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXQ47=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXQ48I=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXQ49=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXQ50=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXQ51=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXQ52I=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXQ53=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXQ54I=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXQ55=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXQ56=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXQ57I=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXQ58=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXQ59=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXQ60I=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXQ61I=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	connector	P2HD1.2G15TXQ62I=	"sc"	description_mining	vendor_eol_bulletin
+to read	video	transmitter	temp_operating	4012980	{"max": 50, "min": 0}	description_mining	vendor_eol_bulletin
+to read	video	transmitter	temp_operating	4012981	{"max": 50, "min": 0}	description_mining	vendor_eol_bulletin
+to read	video	transmitter	temp_operating	4012982	{"max": 50, "min": 0}	description_mining	vendor_eol_bulletin
+to read	video	transmitter	temp_operating	4012983	{"max": 50, "min": 0}	description_mining	vendor_eol_bulletin
+to read	video	transmitter	temp_operating	4012985	{"max": 50, "min": 0}	description_mining	vendor_eol_bulletin
+to read	video	transmitter	temp_operating	4012986	{"max": 50, "min": 0}	description_mining	vendor_eol_bulletin
+to read	video	transmitter	temp_operating	4012987	{"max": 50, "min": 0}	description_mining	vendor_eol_bulletin
+to read	video	transmitter	temp_operating	4012988	{"max": 50, "min": 0}	description_mining	vendor_eol_bulletin
+to read	video	transmitter	temp_operating	4012990	{"max": 50, "min": 0}	description_mining	vendor_eol_bulletin
+to read	video	transmitter	temp_operating	4012991	{"max": 50, "min": 0}	description_mining	vendor_eol_bulletin
+to read	video	transmitter	temp_operating	4012992	{"max": 50, "min": 0}	description_mining	vendor_eol_bulletin
+to read	video	transmitter	temp_operating	4012993	{"max": 50, "min": 0}	description_mining	vendor_eol_bulletin
+to read	wireless	accessory	antenna_connector	AIR-ACC1622	"rp-tnc"	description_mining	vendor_eol_bulletin
+to read	wireless	accessory	antenna_connector	AIR-ACC1623	"rp-tnc"	description_mining	vendor_eol_bulletin
+to read	wireless	accessory	antenna_connector	AIR-ACC1655	"rp-tnc"	description_mining	vendor_eol_bulletin
+to read	wireless	accessory	antenna_connector	AIR-ACC1828	"rp-tnc"	description_mining	vendor_eol_bulletin
+to read	wireless	accessory	antenna_connector	AIR-ACC2538	"rp-tnc"	description_mining	vendor_eol_bulletin
+to read	wireless	accessory	antenna_connector	CW-ACC-N2RPTNC	"rp-tnc"	description_mining	vendor_guide
+to read	wireless	antenna	cable_length	AIR-ANT2544V4M-R8=	2.4384	description_mining	vendor_datasheet_html
+to read	wireless	antenna	mounting	AIR-ANT2440NV-R=	["wall"]	description_mining	vendor_eol_bulletin
+to read	wireless	antenna	mounting	AIR-ANT2524V4C-R	["ceiling"]	description_mining	vendor_guide
+to read	wireless	antenna	mounting	AIR-ANT2524V4C-R=	["ceiling"]	description_mining	vendor_guide
+to read	wireless	antenna	mounting	AIR-ANT2524V4C-RS=	["ceiling"]	description_mining	vendor_guide
+to read	wireless	antenna	mounting	AIR-ANT2544V4M-R	["wall"]	description_mining	vendor_guide
+to read	wireless	antenna	mounting	AIR-ANT2544V4M-R8=	["wall"]	description_mining	vendor_datasheet_html
+to read	wireless	antenna	mounting	AIR-ANT2544V4M-R=	["wall"]	description_mining	vendor_guide
+to read	wireless	antenna	mounting	AIR-ANT2544V4M-RS=	["pole"]	description_mining	vendor_guide
+to read	wireless	antenna	mounting	AIR-ANT2566D4M-DS=	["pole"]	description_mining	vendor_guide
+to read	wireless	antenna	mounting	AIR-ANT2566D4M-RS=	["pole"]	description_mining	vendor_guide
+to read	wireless	antenna	mounting	AIR-ANT2566P4W-DS=	["pole"]	description_mining	vendor_guide
+to read	wireless	antenna	mounting	AIR-ANT2566P4W-RS=	["pole"]	description_mining	vendor_guide
+to read	wireless	antenna	mounting	AIR-ANT5140NV-R=	["wall"]	description_mining	vendor_eol_bulletin
+to read	wireless	antenna	mounting	C-ANT9101=	["ceiling"]	description_mining	vendor_datasheet_html
+to read	wireless	antenna	mounting	C-ANT9102=	["pole"]	description_mining	vendor_datasheet_html
+to read	wireless	antenna	mounting	C-ANT9103=	["pole"]	description_mining	vendor_datasheet_html
+to read	wireless	antenna	mounting	C-ANT9104=	["pole"]	description_mining	vendor_datasheet_html
+to read	wireless	antenna	mounting	CW-ANT-T-O2-D8	["ceiling"]	description_mining	vendor_guide
+to read	wireless	antenna	spatial_streams	CW-ANT-GPS2-S-00	"2x2:2"	description_mining	vendor_guide
+to read	wireless	antenna	spatial_streams	CW-ANT-O1-NS-00	"2x2:2"	description_mining	vendor_guide
+to read	wireless	antenna	wifi_generation	CW-ANT-GPS2-S-00	"wi-fi 6e"	description_mining	vendor_guide
+to read	wireless	antenna	wifi_generation	CW-ANT-O1-NS-00	"wi-fi 6e"	description_mining	vendor_guide
+to read	wireless	ap	mounting	3-CBW140AC-A-CA	["ceiling"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	3-CBW140AC-B	["ceiling"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	3-CBW140AC-D	["ceiling"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	3-CBW140AC-E	["ceiling"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	3-CBW140AC-G	["ceiling"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	3-CBW140AC-Z	["ceiling"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	3-CBW140AC-x	["ceiling"]	description_mining	vendor_datasheet_html
+to read	wireless	ap	mounting	3-CBW240AC-A-CA	["ceiling"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	3-CBW240AC-B	["ceiling"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	3-CBW240AC-D	["ceiling"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	3-CBW240AC-E	["ceiling"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	3-CBW240AC-G	["ceiling"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	3-CBW240AC-Z	["ceiling"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	3-CBW240AC-x	["ceiling"]	description_mining	vendor_datasheet_html
+to read	wireless	ap	mounting	5-CBW140AC-A-CA	["ceiling"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	5-CBW140AC-B	["ceiling"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	5-CBW140AC-D	["ceiling"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	5-CBW140AC-E	["ceiling"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	5-CBW140AC-G	["ceiling"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	5-CBW140AC-Z	["ceiling"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	5-CBW140AC-x	["ceiling"]	description_mining	vendor_datasheet_html
+to read	wireless	ap	mounting	5-CBW240AC-A-CA	["ceiling"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	5-CBW240AC-B	["ceiling"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	5-CBW240AC-D	["ceiling"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	5-CBW240AC-E	["ceiling"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	5-CBW240AC-G	["ceiling"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	5-CBW240AC-Z	["ceiling"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	5-CBW240AC-x	["ceiling"]	description_mining	vendor_datasheet_html
+to read	wireless	ap	mounting	C9105AXI-x	["ceiling"]	description_mining	vendor_guide
+to read	wireless	ap	mounting	C9105AXW-A	["wall"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	C9105AXW-B	["wall"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	C9105AXW-B++	["wall"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	C9105AXW-B-EDU	["wall"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	C9105AXW-B1	["wall"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	C9105AXW-C	["wall"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	C9105AXW-D	["wall"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	C9105AXW-E	["wall"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	C9105AXW-E1	["wall"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	C9105AXW-F	["wall"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	C9105AXW-G	["wall"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	C9105AXW-H	["wall"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	C9105AXW-I	["wall"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	C9105AXW-K	["wall"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	C9105AXW-N	["wall"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	C9105AXW-Q	["wall"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	C9105AXW-R	["wall"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	C9105AXW-S	["wall"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	C9105AXW-T	["wall"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	C9105AXW-Z	["wall"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	C9105AXW-x	["wall"]	description_mining	vendor_guide
+to read	wireless	ap	mounting	CBW140AC-A-CA	["ceiling"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	CBW140AC-B	["ceiling"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	CBW140AC-D	["ceiling"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	CBW140AC-E	["ceiling"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	CBW140AC-G	["ceiling"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	CBW140AC-Z	["ceiling"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	CBW140AC-x	["ceiling"]	description_mining	vendor_datasheet_html
+to read	wireless	ap	mounting	CBW143ACM-A-CA	["wall"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	CBW143ACM-B-NA	["wall"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	CBW143ACM-D-IN	["wall"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	CBW143ACM-E-EU	["wall"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	CBW143ACM-E-UK	["wall"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	CBW143ACM-I-EU	["wall"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	CBW143ACM-Z-AU	["wall"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	CBW143ACM-x-xx	["wall"]	description_mining	vendor_datasheet_html
+to read	wireless	ap	mounting	CBW145AC-A-CA	["wall"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	CBW145AC-B	["wall"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	CBW145AC-D	["wall"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	CBW145AC-E	["wall"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	CBW145AC-G	["wall"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	CBW145AC-Z	["wall"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	CBW150AX-A-EU	["ceiling"]	description_mining	vendor_datasheet_html
+to read	wireless	ap	mounting	CBW150AX-A-NA	["ceiling"]	description_mining	vendor_datasheet_html
+to read	wireless	ap	mounting	CBW150AX-B-NA	["ceiling"]	description_mining	vendor_datasheet_html
+to read	wireless	ap	mounting	CBW150AX-C-UK	["ceiling"]	description_mining	vendor_datasheet_html
+to read	wireless	ap	mounting	CBW150AX-D-IN	["ceiling"]	description_mining	vendor_datasheet_html
+to read	wireless	ap	mounting	CBW150AX-E-EU	["ceiling"]	description_mining	vendor_datasheet_html
+to read	wireless	ap	mounting	CBW150AX-E-UK	["ceiling"]	description_mining	vendor_datasheet_html
+to read	wireless	ap	mounting	CBW150AX-F-EU	["ceiling"]	description_mining	vendor_datasheet_html
+to read	wireless	ap	mounting	CBW150AX-H-CN	["ceiling"]	description_mining	vendor_datasheet_html
+to read	wireless	ap	mounting	CBW150AX-K-KR	["ceiling"]	description_mining	vendor_datasheet_html
+to read	wireless	ap	mounting	CBW150AX-K-UK	["ceiling"]	description_mining	vendor_datasheet_html
+to read	wireless	ap	mounting	CBW150AX-Q-JP	["ceiling"]	description_mining	vendor_datasheet_html
+to read	wireless	ap	mounting	CBW150AX-S-UK	["ceiling"]	description_mining	vendor_datasheet_html
+to read	wireless	ap	mounting	CBW150AX-T-TW	["ceiling"]	description_mining	vendor_datasheet_html
+to read	wireless	ap	mounting	CBW150AX-Z-AU	["ceiling"]	description_mining	vendor_datasheet_html
+to read	wireless	ap	mounting	CBW240AC-A-CA	["ceiling"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	CBW240AC-B	["ceiling"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	CBW240AC-D	["ceiling"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	CBW240AC-E	["ceiling"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	CBW240AC-Z	["ceiling"]	description_mining	vendor_eol_bulletin
+to read	wireless	ap	mounting	CBW240AC-x	["ceiling"]	description_mining	vendor_datasheet_html
+to read	wireless	ap	mounting	MR45	["desktop", "wall", "ceiling"]	html_table	vendor_datasheet_html
+to read	wireless	ap	mounting	MR55	["desktop", "wall", "ceiling"]	html_table	vendor_datasheet_html
+to read	wireless	ap	mounting	WAP361	["wall"]	description_mining	vendor_datasheet_html
+to read	wireless	ap	mounting	WAP361-A-K9	["wall"]	description_mining	vendor_datasheet_html
+to read	wireless	ap	mounting	WAP361-C-K9	["wall"]	description_mining	vendor_datasheet_html
+to read	wireless	ap	mounting	WAP361-E-K9	["wall"]	description_mining	vendor_datasheet_html
+to read	wireless	ap	mounting	WAP361-J-K9	["wall"]	description_mining	vendor_datasheet_html
+to read	wireless	ap	mounting	WAP361-K-K9	["wall"]	description_mining	vendor_datasheet_html
+to read	wireless	ap	mounting	WAP361-R-K9	["wall"]	description_mining	vendor_datasheet_html
+to read	wireless	ap	tdp	MR28	15	vendor_page:meraki	vendor_datasheet_html
+to read	wireless	ap	tdp	MR36	15	vendor_page:meraki	vendor_datasheet_html
+to read	wireless	ap	tdp	MR36H	30	vendor_page:meraki	vendor_datasheet_html
+to read	wireless	ap	tdp	MR44	30	vendor_page:meraki	vendor_datasheet_html
+to read	wireless	ap	tdp	MR46	30	vendor_page:meraki	vendor_datasheet_html
+to read	wireless	ap	tdp	MR56	30	vendor_page:meraki	vendor_datasheet_html
+to read	wireless	ap	tdp	MR57	40	vendor_page:meraki	vendor_datasheet_html
+to read	wireless	ap	tdp	MR78	15	vendor_page:meraki	vendor_datasheet_html
+to read	wireless	cpu	power_max	AIR-CPU-E52609D	85	description_mining	vendor_eol_bulletin
+to read	wireless	cpu	power_max	AIR-CPU-E52680D	120	description_mining	vendor_eol_bulletin
+to read	wireless	cpu	power_max	CMX-CPU-5118	105	description_mining	vendor_eol_bulletin
+to read	wireless	cpu	power_max	DN3-LOC-CPU-5118	105	description_mining	vendor_eol_bulletin
+to read	wireless	cpu	power_max	IWA-CPU-I4310	120	description_mining	vendor_eol_bulletin
+to read	wireless	cpu	power_max	MSE-CPU-E52650D	105	description_mining	vendor_eol_bulletin
+to read	wireless	mechanical	antenna_connector	AIR-ACC15-N-CAP=	"n-type"	description_mining	vendor_guide
+to read	wireless	mechanical	antenna_connector	AIR-ACC1725	"rp-tnc"	description_mining	vendor_eol_bulletin
+to read	wireless	mechanical	antenna_connector	AIR-ACC245LA-N=	"n-type"	description_mining	vendor_guide
+to read	wireless	mechanical	radio_bands	AIR-ACC245LA-N=	["5ghz"]	description_mining	vendor_guide
+to read	wireless	power	cable_length	AIR-PWR-ST-LT-R3P=	1.2192	description_mining	vendor_eol_bulletin
+to read	wireless	power-injector	mounting	AIR-PWRINJ-60-PMK=	["pole"]	description_mining	vendor_guide

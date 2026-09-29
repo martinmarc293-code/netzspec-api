@@ -110,7 +110,7 @@ export type KindQuestionSet = {
  * OPTIONAL set -- never `na` -- with the SKU that proves it and the part count the veto measured. The pours of the same queue
  * are retraction runs, not entries here. Worked by size, top down; four_sets_sum names what is left.
  */
-export const KIND_DECLARED_OPTIONAL: Readonly<Record<string, Readonly<Record<string, readonly { cup: string; witness: string; held: number }[]>>>> = (() => {
+const HAND_DECLARED_OPTIONAL: Readonly<Record<string, Readonly<Record<string, readonly { cup: string; witness: string; held: number }[]>>>> = (() => {
   const ucsCpu = [{ cup: "cpu", witness: "UCS-CPU-A9334", held: 1186 }, { cup: "cpu_sockets_max", witness: "UCS-CPU-A9684X", held: 142 }];
   const ucsDrive = [{ cup: "data_rate", witness: "KIN-HD10T7KL4KN", held: 480 }];   // 12 / 6 Gb/s SAS/SATA; 3 rows read "100" (a capacity pour, left for the band)
   return {
@@ -126,6 +126,160 @@ export const KIND_DECLARED_OPTIONAL: Readonly<Record<string, Readonly<Record<str
                             // real AWG values from the page ("COAX 23 AWG", "24 AWG", "28 AWG" on the timing / alarm / USB cables).
                             cable: [{ cup: "wire_gauge", witness: "15454-M-120TMGCBL=", held: 5 }] },
   };
+})();
+
+/**
+ * RULING Q17 R4 (29 Sep 2026): "R4 widenings with witnesses". Each row is a (category, kind, cup) the four_sets_sum veto named
+ * where EVERY own fact was read off a vendor datasheet table (html_table / pdf_table, or an operator hexcat_seed whose evidence
+ * is the datasheet): the vendor states the cup for this kind, so the kind's set was wrong, never the facts. Built by
+ * scripts/veto-triage.mts (plan data/dryrun/veto-triage-cisco-2026-09-29T211617750Z.tsv) and the VALUE DISTRIBUTION of every
+ * triple was read, not sampled: 116 widen (1,162 part-cups); 9 were REFUSED on what their values say (Q17_R4_REFUSED, below).
+ * witness = the SKU with the most such facts (ties by SKU); held = the part-cups the veto measured.
+ */
+const Q17_R4: readonly (readonly [category: string, kind: string, cup: string, witness: string, held: number])[] = [
+  ["hyperconverged-infrastructure", "cpu", "cpu_base_clock", "HCI-CPU-A9015", 28],
+  ["hyperconverged-systems", "cpu", "cache_l3", "HX-CPU-A7232P", 31],
+  ["hyperconverged-systems", "gpu", "certifications", "HX-GPU-7150X2", 1],
+  ["hyperconverged-systems", "gpu", "emc_emissions", "HX-GPU-7150X2", 1],
+  ["hyperconverged-systems", "gpu", "humidity_operating", "HX-GPU-7150X2", 1],
+  ["hyperconverged-systems", "gpu", "humidity_storage", "HX-GPU-7150X2", 1],
+  ["interfaces-modules", "interface", "dimensions", "C-NIM-1M", 15],
+  ["interfaces-modules", "interface", "temp_operating", "C-NIM-1M", 14],
+  ["interfaces-modules", "interface", "humidity_operating", "C-NIM-1M", 6],
+  ["meraki", "cellular-gateway", "temp_storage", "MG41", 6],
+  ["optical-networking", "mux", "weight", "15216-EF-40-EVEN=", 2],
+  ["optical-networking", "transponder", "input_power_range", "CIM8-LE-K9", 1],
+  ["optical-networking", "transponder", "tx_power", "CIM8-LE-K9", 1],
+  ["routers", "appliance", "altitude_max", "C1100TG-1N24P32A", 4],
+  ["routers", "appliance", "airflow", "C1100TG-1N24P32A", 3],
+  ["routers", "appliance", "input_voltage", "C1100TG-1N24P32A", 3],
+  ["routers", "appliance", "router_throughput", "C1100TG-1N24P32A", 3],
+  ["routers", "appliance", "storage_capacity", "C8220TG-48A-O", 1],
+  ["routers", "appliance", "temp_storage", "C8220TG-48A-O", 1],
+  ["routers", "fabric", "dimensions", "8804-FC0", 7],
+  ["routers", "fabric", "weight", "8804-FC0", 7],
+  ["routers", "fan", "weight", "8804-FAN", 8],
+  ["routers", "fan", "dimensions", "8804-FAN-V2", 2],
+  ["routers", "linecard", "weight", "A9K-MOD200-SE", 4],
+  ["routers", "module", "weight", "A9K-MPA-1X100GE", 11],
+  ["routers", "processor", "dimensions", "8800-RP", 2],
+  ["routers", "processor", "weight", "8800-RP", 2],
+  ["routers", "router", "psu_config", "C841M-4X", 2],
+  ["routers", "sp-router", "dram", "8011-32Y8L2H2FH", 3],
+  ["routers", "sp-router", "mounting", "8011-32Y8L2H2FH", 3],
+  ["routers", "sp-router", "storage_capacity", "8011-32Y8L2H2FH", 3],
+  ["routers", "sp-router", "airflow", "8011-32Y8L2H2FH", 2],
+  ["security", "analytics", "mounting", "CV-CNTR-M8N", 1],
+  ["security", "firewall", "mounting", "MX105", 15],
+  ["security", "firewall", "input_voltage", "1210CE", 7],
+  ["security", "firewall", "threat_defense_throughput", "1210CE", 3],
+  ["security", "security-module", "vpn_throughput", "SM-40", 3],
+  ["servers-unified-computing", "cpu", "cpu_base_clock", "UCS-CPU-A9015", 35],
+  ["servers-unified-computing", "server", "drive_interface", "UCSC-240M8E3-16X4", 4],
+  ["storage-networking", "director", "cooling", "DS-C9706", 3],
+  ["storage-networking", "director", "mgmt_class", "DS-C9706", 3],
+  ["storage-networking", "director", "switching_capacity", "DS-C9706", 3],
+  ["switches", "chassis", "cooling", "C6807-XL", 30],
+  ["switches", "chassis", "psu_redundant", "C6807-XL", 29],
+  ["switches", "chassis", "switching_capacity", "C6807-XL", 28],
+  ["switches", "chassis", "mounting", "C9404R", 7],
+  ["switches", "chassis", "mtbf", "C9404R", 7],
+  ["switches", "fabric", "mtbf", "N9K-C9504-FM", 14],
+  ["switches", "fabric", "power_typical", "N9K-C9504-FM", 14],
+  ["switches", "fabric", "weight", "N9K-C9504-FM", 14],
+  ["switches", "fabric", "airflow", "N9K-C9504-FM", 12],
+  ["switches", "fan", "cooling", "N2K-C2148T-FAN=", 31],
+  ["switches", "fan", "weight", "FAN-PI-V4", 10],
+  ["switches", "fan", "mtbf", "C9500X-FAN-1U-F", 5],
+  ["switches", "fan", "power_typical", "N9K-C9504-FAN", 5],
+  ["switches", "fan", "dimensions", "N9K-C9400-FAN-PI", 1],
+  ["switches", "fex", "forwarding_rate", "N2K-B22DELL-P", 16],
+  ["switches", "fex", "poe_standard", "N2K-B22DELL-P", 16],
+  ["switches", "fex", "stackable", "N2K-B22DELL-P", 16],
+  ["switches", "fex", "switching_capacity", "N2K-B22DELL-P", 16],
+  ["switches", "linecard", "mtbf", "C9400-LC-12QC", 60],
+  ["switches", "linecard", "switching_capacity", "C6800-48P-SFP", 37],
+  ["switches", "linecard", "packet_buffer", "WS-6148-GE-TX", 26],
+  ["switches", "linecard", "power_typical", "N9K-C9400-SW-GX2A", 25],
+  ["switches", "linecard", "weight", "N9K-C9400-SW-GX2A", 25],
+  ["switches", "linecard", "jumbo_mtu", "WS-6148-GE-TX", 21],
+  ["switches", "linecard", "airflow", "X9432PQ", 12],
+  ["switches", "linecard", "dimensions", "N9K-C9400-SW-GX2A", 4],
+  ["switches", "module", "mtbf", "C3850-NM-2-10G", 33],
+  ["switches", "module", "mounting", "IEM-3300-14T2S=", 19],
+  ["switches", "module", "weight", "IEM-3300-14T2S=", 19],
+  ["switches", "olt", "dimensions", "CGP-OLT-16T", 2],
+  ["switches", "olt", "flash", "CGP-OLT-16T", 2],
+  ["switches", "olt", "forwarding_rate", "CGP-OLT-16T", 2],
+  ["switches", "olt", "jumbo_mtu", "CGP-OLT-16T", 2],
+  ["switches", "olt", "mac_table", "CGP-OLT-16T", 2],
+  ["switches", "olt", "mtbf", "CGP-OLT-16T", 2],
+  ["switches", "olt", "switching_capacity", "CGP-OLT-16T", 2],
+  ["switches", "olt", "weight", "CGP-OLT-16T", 2],
+  ["switches", "ont", "dimensions", "CGP-ONT-1P", 5],
+  ["switches", "ont", "forwarding_rate", "CGP-ONT-1P", 5],
+  ["switches", "ont", "jumbo_mtu", "CGP-ONT-1P", 5],
+  ["switches", "ont", "mac_table", "CGP-ONT-1P", 5],
+  ["switches", "ont", "mtbf", "CGP-ONT-1P", 5],
+  ["switches", "ont", "switching_capacity", "CGP-ONT-1P", 5],
+  ["switches", "ont", "weight", "CGP-ONT-1P", 5],
+  ["switches", "ont", "flash", "CGP-ONT-4P", 4],
+  ["switches", "ont", "connector", "ENC-10G-ONT-01PR", 3],
+  ["switches", "ont", "humidity_operating", "ENC-10G-ONT-01PR", 3],
+  ["switches", "ont", "power_max", "ENC-10G-ONT-01PR", 3],
+  ["switches", "ont", "temp_operating", "ENC-10G-ONT-01PR", 3],
+  ["switches", "power", "mtbf", "C3KX-PWR-1100WAC", 53],
+  ["switches", "power", "weight", "PSU3KW-HVPI", 12],
+  ["switches", "power", "dimensions", "PWR-IE170W-PC-AC=", 11],
+  ["switches", "power", "ip_rating", "PWR-IE170W-PC-AC=", 9],
+  ["switches", "power", "temp_operating", "PWR-IE170W-PC-AC=", 9],
+  ["switches", "power", "temp_storage", "PWR-IE170W-PC-AC=", 9],
+  ["switches", "power", "heat_dissipation", "N55-PAC-1100W", 4],
+  ["switches", "power", "power_typical", "N55-PAC-1100W", 4],
+  ["switches", "supervisor", "jumbo_mtu", "C6800-SUP6T", 6],
+  ["switches", "supervisor", "power_typical", "N9K-C9400-SUP-A", 5],
+  ["switches", "supervisor", "weight", "N9K-C9400-SUP-A", 5],
+  ["switches", "supervisor", "airflow", "N9K-SUP-A", 4],
+  ["switches", "supervisor", "mtbf", "N9K-SUP-A", 4],
+  ["switches", "supervisor", "packet_buffer", "C9600-SUP-1", 4],
+  ["switches", "supervisor", "storage_capacity", "C9600-SUP-1", 4],
+  ["switches", "supervisor", "dimensions", "N9K-C9400-SUP-A", 1],
+  ["switches", "switch", "storage_capacity", "IE-3100-8T4S-E", 5],
+  ["transceiver", "breakout-cable", "ddm", "Q-4SFP25G-CU1.5M", 37],
+  ["transceiver", "breakout-cable", "form_factor", "Q-4SFP25G-CU1.5M", 37],
+  ["transceiver", "breakout-cable", "connector", "Q-4SFP25G-CU1.5M", 27],
+  ["transceiver", "breakout-cable", "standard", "Q-4SFP25G-CU1.5M", 21],
+  ["transceiver", "breakout-cable", "power_max", "QDD-2Q200-CU3M", 2],
+  ["transceiver", "cable", "wavelength", "QDD-400-AOC10M", 11],
+  ["transceiver", "tunable", "wavelength", "DP04QSDD-HE0", 1],
+  ["wireless", "ap", "humidity_operating", "MR45", 2],
+];
+
+/** The R4 candidates whose VALUES say the triple is not a widening -- a list of what the rule deliberately excludes is a GUARD,
+ *  not a comment: tests/cupLedger.test.ts fails if any of these is ever declared optional. They go to the to-read queue. */
+export const Q17_R4_REFUSED: readonly { category: string; kind: string; cup: string; why: string }[] = [
+  { category: "servers-unified-computing", kind: "power", cup: "modulation_format", why: "'AC' / 'DC' is the input type, mis-keyed as an optical modulation format" },
+  { category: "meraki", kind: "security-camera", cup: "ieee_standards", why: "2 of 8 read ['No'], a yes/no cell poured into a list" },
+  { category: "interfaces-modules", kind: "interface", cup: "certifications", why: "all 3 read ['No']" },
+  { category: "routers", kind: "router", cup: "compatible_platform", why: "a prose bullet ('Cisco IOS XE based platforms, including ...'), a relation candidate, not a value" },
+  { category: "routers", kind: "chassis", cup: "dram", why: "CRS-4/S '4': a 4-slot system's number read as memory" },
+  { category: "optical-networking", kind: "mux", cup: "temp_operating", why: "{-5,-5}: only one end of the range was read" },
+  { category: "optical-networking", kind: "mux", cup: "temp_storage", why: "{-40,-40}: only one end of the range was read" },
+  { category: "optical-networking", kind: "mux", cup: "humidity_operating", why: "{95,95}: only the upper bound was read" },
+  { category: "switches", kind: "power", cup: "humidity_operating", why: "6 of 9 read {95,95}: only the upper bound was read" },
+];
+
+/** The kind's declared optional sets: the hand-worked entries above plus the Q17 R4 widenings. A triple declared twice is a
+ *  load-time error, never a silent overwrite. */
+export const KIND_DECLARED_OPTIONAL: Readonly<Record<string, Readonly<Record<string, readonly { cup: string; witness: string; held: number }[]>>>> = (() => {
+  const out: Record<string, Record<string, { cup: string; witness: string; held: number }[]>> = {};
+  for (const [cat, kinds] of Object.entries(HAND_DECLARED_OPTIONAL)) for (const [kind, es] of Object.entries(kinds)) ((out[cat] ??= {})[kind] ??= []).push(...es);
+  for (const [cat, kind, cup, witness, held] of Q17_R4) {
+    const list = ((out[cat] ??= {})[kind] ??= []);
+    if (list.some((e) => e.cup === cup)) throw new Error(`KIND_DECLARED_OPTIONAL: ${cat}/${kind} ${cup} declared twice`);
+    list.push({ cup, witness, held });
+  }
+  return out;
 })();
 const declaredOptional = (category: string, kind: string, key: string): boolean =>
   !!KIND_DECLARED_OPTIONAL[category]?.[kind]?.some((e) => e.cup === key);

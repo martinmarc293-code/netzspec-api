@@ -1,7 +1,9 @@
 // scripts/retro-gate.mts — the apply gate's precision half, re-run over the facts a gateless run wrote.
 // Reviewer ruling 28 Sep 2026 (docs/decisions/2026-09-28-runs-have-approval.md): runs 942/952/959 are not exceptions
 // until the gate says so; pass -> named exception like run 69, fail -> their facts retract.
-//     CACHE_DIR=... npx tsx scripts/retro-gate.mts 942 952 959 [--rows <file.tsv>] [--commit]
+//     CACHE_DIR=... npx tsx scripts/retro-gate.mts 942 952 959 [--rows <file.tsv>] [--commit] [--ruling "<text>"]
+// --ruling names the approval a LATER gate miss is re-gated under (29 Sep 2026: run 1409, a rekey shipped without its gate);
+// without it the run records the 28 Sep ruling below, which names 942/952/959 and nothing else.
 // WHAT THIS CAN AND CANNOT CHECK. It calls the real auditProvenance. The gate asks two things of each fact: its LABEL
 // is on the page and its RAW value is on the page. Labels are not stored on facts, so the label half is passed empty
 // and only the VALUE half is checked -- printed on every line. Withdrawal rows (raw '') are counted apart: an empty
@@ -17,12 +19,15 @@ import { retractFact } from "../src/store/facts.js";
 import { auditProvenance, MIN_READABLE_SHARE, type WrittenFact } from "../src/pipeline/apply-acquired.js";
 import { REPO_ROOT } from "../src/config.js";
 
-const RULING = "reviewer ruling 28 Sep 2026: gate misses 942/952/959 re-gated; pass -> named exception like run 69, fail -> their facts retract";
+const RULING_28_SEP = "reviewer ruling 28 Sep 2026: gate misses 942/952/959 re-gated; pass -> named exception like run 69, fail -> their facts retract";
 const CACHE = process.env.CACHE_DIR ?? path.join(REPO_ROOT, "scraper", "cache");
 const args = process.argv.slice(2);
 const commit = args.includes("--commit");
 const rowsAt = args.indexOf("--rows");
-const runs = args.filter((a, i) => /^\d+$/.test(a) && args[i - 1] !== "--rows").map(Number);
+const rulingAt = args.indexOf("--ruling");
+const RULING = rulingAt >= 0 ? (args[rulingAt + 1] ?? "") : RULING_28_SEP;
+if (!RULING.trim()) { console.error("--ruling needs the text of the approval"); process.exit(2); }
+const runs = args.filter((a, i) => /^\d+$/.test(a) && args[i - 1] !== "--rows" && args[i - 1] !== "--ruling").map(Number);
 if (!runs.length) { console.error("usage: retro-gate.mts <run id> ... [--rows f.tsv] [--commit]"); process.exit(2); }
 const db = getPool();
 

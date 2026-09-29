@@ -3,7 +3,7 @@
 //   npx tsx tests/kindProfiles.test.ts
 import { FIELD_DICTIONARY, requirementFor } from "../src/core/fieldSchema.js";
 import { KIND_PARITY_EXCEPTIONS, parityRuled, leaseLapsed, formatParitySplit, type KindParityException } from "../src/core/kindProfiles.js";
-import { KIND_DECLARED_OPTIONAL, LEDGER_KINDS, kindQuestionSet } from "../src/core/cupLedger.js";
+import { KIND_DECLARED_OPTIONAL, LEDGER_KINDS, Q17_R4_REFUSED, kindQuestionSet } from "../src/core/cupLedger.js";
 
 let passed = 0; const misses: string[] = [];
 const check = (name: string, ok: boolean, detail = "") => { if (ok) passed++; else misses.push(`    MISS ${name}${detail ? " — " + detail : ""}`); };
@@ -83,6 +83,12 @@ for (const [cat, byKind] of Object.entries(KIND_DECLARED_OPTIONAL)) for (const [
 }
 check("SABOTAGE/CONTROL an undeclared cup keeps its derived na (UCS memory is never asked `cpu`)",
   kindQuestionSet("servers-unified-computing", "memory").not_applicable_by_kind.includes("cpu"));
+// Q17 R4 (29 Sep 2026): the triples REFUSED on their values are a guard, not a comment -- never declared optional, still na for
+// their kind (so four_sets_sum keeps naming them and they stay on the to-read queue until their facts are read).
+check("Q17 R4: the refused list is not empty (a guard over nothing guards nothing)", Q17_R4_REFUSED.length > 0);
+for (const r of Q17_R4_REFUSED) check(`Q17 R4 REFUSED ${r.category}/${r.kind} ${r.cup} is not declared optional and stays na (${r.why})`,
+  !(KIND_DECLARED_OPTIONAL[r.category]?.[r.kind] ?? []).some((e) => e.cup === r.cup)
+  && kindQuestionSet(r.category, r.kind).not_applicable_by_kind.includes(r.cup));
 
 console.log(`    kind profiles: ${passed} passed, ${misses.length} missed (5 sabotage cases)`);
 if (misses.length) { console.log(misses.join("\n")); process.exit(1); }

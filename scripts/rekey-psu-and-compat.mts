@@ -32,12 +32,14 @@ import { switchKind } from "../src/core/switchKind.js";
 import { normalizeField, NORM_VERSION, type Locale } from "../src/core/specNormalize.js";
 import { bandFor, unitFor } from "../src/core/fieldSchema.js";
 import type { SpecEntry } from "../src/core/specMerge.js";
+import { rekeyGate } from "../src/pipeline/rekeyGate.js";
 
 type Row = {
   id: string; part_id: string; sku: string; cat: string; field_key: string; value: unknown; unit: string | null;
   raw: string; state: string; tier: number; method: string; doc_id: string | null; locator: string | null;
-  extracted_at: string | null; new_exists: boolean; kind: string | null;
+  extracted_at: string | null; new_exists: boolean; kind: string | null; cache: string | null;
 };
+
 type Move = { from: string; to: string; label: string; select: (r: Row) => boolean; categories: string[] | null };
 
 const MOVES: Move[] = [
@@ -59,10 +61,10 @@ const MOVES: Move[] = [
 
 const SELECT = `
   SELECT f.id::text, f.part_id::text, p.sku, p.sku_kind AS kind, ct.slug AS cat, f.field_key, f.value, f.unit, f.raw, f.state::text AS state,
-         f.tier, f.method, f.doc_id, f.locator, f.extracted_at::text AS extracted_at,
+         f.tier, f.method, f.doc_id, f.locator, f.extracted_at::text AS extracted_at, sd.cache_path AS cache,
          EXISTS (SELECT 1 FROM facts g WHERE g.part_id = f.part_id AND g.field_key = $2 AND g.superseded_by IS NULL) AS new_exists
     FROM facts f JOIN parts p ON p.id = f.part_id JOIN vendors v ON v.id = p.vendor_id
-    JOIN categories ct ON ct.id = p.category_id
+    JOIN categories ct ON ct.id = p.category_id LEFT JOIN source_docs sd ON sd.doc_id = f.doc_id
    WHERE v.slug = 'cisco' AND p.retired_at IS NULL AND p.product_class = 'hardware'
      AND f.field_key = $1 AND f.superseded_by IS NULL AND NOT f.inherited
      AND f.value IS NOT NULL AND f.method NOT LIKE 'retracted:%'
@@ -116,9 +118,13 @@ async function main(): Promise<void> {
     for (const x of ok.slice(0, 8)) console.log(`     move    ${x.r.cat}/${x.r.sku.padEnd(22)} ${JSON.stringify(x.r.value).slice(0, 60)}  raw="${x.r.raw.slice(0, 40)}"`);
     for (const x of bad) console.log(`     REFUSED ${x.r.cat}/${x.r.sku.padEnd(22)} ${!x.p.ok ? x.p.why : ""}`);
   }
-  if (!commit) { console.log("\nnothing written. re-run with --commit"); await closePool(); return; }
   const todo = work.filter((x) => x.p.ok);
+  const gate = rekeyGate(todo.map((x) => x.r), work.length);
+  console.log(`\n  gate (${gate.half}): precision ${gate.precision}, checked ${gate.checked} of ${gate.sampled}, unreadable ${gate.unreadable}, ` +
+    `no raw ${gate.no_raw}, recall ${gate.recall.toFixed(3)} (${todo.length} of ${work.length} selected) -> ${gate.passed ? "PASS" : "FAIL"}  [cache ${gate.cache}]`);
+  if (!commit) { console.log("\nnothing written. re-run with --commit"); await closePool(); return; }
   if (!todo.length) { console.log("nothing to do"); await closePool(); return; }
+  if (!gate.passed) { console.error("  *** the gate did not pass: refused, nothing written ***"); process.exitCode = 1; await closePool(); return; }
   const out = await withRun("rekey-psu-and-compat", { moves: MOVES.map((m) => `${m.from}->${m.to}`), candidates: todo.length, norm_v: NORM_VERSION }, async (runId) => {
     const stats: Record<string, number> = {};
     for (const { m, r, p } of todo) {
@@ -129,7 +135,7 @@ async function main(): Promise<void> {
       });
       stats[`${m.from}->${m.to}`] = (stats[`${m.from}->${m.to}`] ?? 0) + 1;
     }
-    return { stats };
+    return { stats, gate };
   });
   let left = 0;
   for (const m of MOVES) {

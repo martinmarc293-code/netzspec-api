@@ -29,10 +29,18 @@ export const SILENT_DOCUMENTS: Readonly<Record<string, string>> = {
   "AIR-N-3006-DTA-K9": "the end-of-life row reads '^NECJ AS3504 DTA'; the 28 Sep kind call on it was a guess, withdrawn",
 };
 
-/** No evidence = the name says nothing beyond the SKU AND no document links the part (or every linked document was read and
- *  says nothing: SILENT_DOCUMENTS). Everything else is evidenced. */
+/** RULING Q15, the name half (29 Sep 2026). AIR-N-3006-DTA-K9's NAME is its silent document's cell, copied in: the board read
+ *  it as a real name and kept the part EVIDENCED after the ruling put it in the no-evidence term. A name listed here was read
+ *  and says nothing; it is matched EXACTLY, so the day a real name replaces it the part is evidenced again. */
+export const SILENT_NAMES: Readonly<Record<string, string>> = {
+  "AIR-N-3006-DTA-K9": "^NECJ AS3504 DTA",
+};
+
+/** No evidence = the name says nothing beyond the SKU (or is a name that was read and says nothing: SILENT_NAMES) AND no
+ *  document links the part (or every linked document was read and says nothing: SILENT_DOCUMENTS). Everything else is evidenced. */
 export function hasNoEvidence(r: UnknownRow): boolean {
-  return (!r.linked || r.sku in SILENT_DOCUMENTS) && nameIsJustTheSku(r.sku, r.name ?? "");
+  const silentName = nameIsJustTheSku(r.sku, r.name ?? "") || (r.sku in SILENT_NAMES && SILENT_NAMES[r.sku] === (r.name ?? "").trim());
+  return (!r.linked || r.sku in SILENT_DOCUMENTS) && silentName;
 }
 
 export function splitUnknown(rows: readonly UnknownRow[]): { evidenced: UnknownRow[]; noEvidence: UnknownRow[] } {
