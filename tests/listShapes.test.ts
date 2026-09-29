@@ -5,7 +5,7 @@
 // PURE: no database, no cache, no Python. The corpus measurements that produced these grammars are
 // recorded in the module and in the decision file; what this suite holds is the CONTRACT — that a
 // registered shape is a real definition and not a regex wearing one.
-import { LIST_SHAPES, shapeIsDefinition, classifyMember, extractIdentifier, salvageMember, reshapeList, PROTOCOL_VOCABULARY } from "../src/core/listShapes.js";
+import { LIST_SHAPES, shapeIsDefinition, classifyMember, extractIdentifier, salvageMember, reshapeList, PROTOCOL_VOCABULARY, PROTOCOL_GRAMMAR_Q10 } from "../src/core/listShapes.js";
 
 let pass = 0, miss = 0;
 const check = (name: string, ok: boolean) => {
@@ -92,9 +92,11 @@ check("SABOTAGE a loose acronym grab (the vocabulary widened to SVIs / VEPA / LO
   && same(salvageMember("supported_protocols", vepa, [...PROTOCOL_VOCABULARY, { token: "SVIs" }, { token: "VEPA" }, { token: "LOM" }]), ["VEPA"]));
 check("SABOTAGE nothing enters on the candidate pattern alone: 'LOM' matches no accept even when tabled",
   classifyMember("supported_protocols", "LOM") !== "accept");
-check("SABOTAGE the accept filter is live: a TABLED token the shape does not accept (PIM-SM) is still not salvaged",
-  classifyMember("supported_protocols", "PIM-SM") !== "accept"
-  && same(salvageMember("supported_protocols", "IPv4 and IPv6 multicast routing PIM-SM, PIM-SSM", [{ token: "PIM-SM" }]), ["IPv4", "IPv6"]));
+// PIM-DM, not PIM-SM: ruling Q10 (29 Sep 2026) made the shape ACCEPT PIM-SM and PIM-SSM, which removed this case's premise; dense
+// mode is the PIM mode Q10 deliberately did not add (no recovered member witnessed it), so it is still a token the shape refuses.
+check("SABOTAGE the accept filter is live: a TABLED token the shape does not accept (PIM-DM) is still not salvaged",
+  classifyMember("supported_protocols", "PIM-DM") !== "accept"
+  && same(salvageMember("supported_protocols", "IPv4 and IPv6 multicast routing PIM-DM", [{ token: "PIM-DM" }]), ["IPv4", "IPv6"]));
 check("every vocabulary token classifies accept, and its witness is a refused member that contains it",
   PROTOCOL_VOCABULARY.every((v) => classifyMember("supported_protocols", v.token) === "accept"
     && classifyMember("supported_protocols", v.witness) === "refuse" && v.witness.includes(v.token)));
@@ -105,6 +107,16 @@ check("reshapeList keeps accepted and flagged members as they are and adds only 
   same(rl.members, ["IEEE 802.3by", "IEEE 802.3cc", "802"]) && rl.accepted === 1 && rl.flagged === 1 && rl.salvaged === 1 && rl.dropped === 1);
 check("reshapeList of all-prose leaves NOTHING (the normaliser then refuses the cell; never stored empty)",
   reshapeList("certifications", ["Safety:", "This product is designed to meet the following requirements (qualification in progress):"]).members.length === 0);
+
+// RULING Q10 (29 Sep 2026): the protocols grammar over the members NORM 1.8.6 recovered -- every witness is read, the residue
+// the ruling left unclassified STAYS unclassified, and the rules reach no other cup.
+for (const w of PROTOCOL_GRAMMAR_Q10) check(`Q10 ${w.rule}: the witness ${JSON.stringify(w.witness)} (${w.sku}) is accepted`, classifyMember("supported_protocols", w.witness) === "accept");
+check("Q10 the identifier of '(SNMP) v3' is the acronym (the member itself is stored as written)", extractIdentifier("supported_protocols", "Simple Network Management Protocol (SNMP) v3") === "SNMP");
+for (const residue of ["2000 ingress a", "Anycast RP Internet Group Manage", "5 active VLANs", "Web browser", "Universal Plug", "Static RP MSDP"])
+  check(`Q10 CONTROL the residue ${JSON.stringify(residue)} is NOT accepted`, classifyMember("supported_protocols", residue) !== "accept");
+check("Q10 CONTROL an unlisted label head is not stripped", extractIdentifier("supported_protocols", "Foo: bar baz") === null);
+check("Q10 SCOPE the label-head rule does not reach certifications", classifyMember("certifications", "Multicast: PIMv2") !== "accept");
+check("Q10 SCOPE the hyphenated-bracket rule does not reach emc_emissions", extractIdentifier("emc_emissions", "Automatic Rendezvous Point (Auto-RP)") === null);
 
 console.log(`\nlist shapes: ${pass} passed, ${miss} missed`);
 if (miss) process.exit(1);

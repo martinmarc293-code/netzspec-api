@@ -238,8 +238,41 @@ export function extractIdentifier(key: string, member: string): string | null {
     const hit = re.exec(m);
     if (hit) return hit[0].trim();
   }
+  // RULING Q10 (29 Sep 2026), supported_protocols ONLY and only where everything above found nothing, so no member the grammar
+  // already reads changes its answer: the rules PROTOCOL_GRAMMAR_Q10 names, each required by a member NORM 1.8.6 recovered.
+  if (key === "supported_protocols") {
+    const lab = PROTOCOL_LABEL_HEAD.exec(m);
+    if (lab) { const id = extractIdentifier(key, m.slice(lab[0].length)); if (id) return id; }
+    const named = PROTOCOL_NAMES.exec(m);
+    if (named) return named[0];
+    const par = PROTOCOL_PARENTHETICAL.exec(m);
+    if (par) return par[1];
+  }
   return null;
 }
+
+// ---- RULING Q10 (29 Sep 2026): the protocols grammar, extended over the members NORM 1.8.6 recovered --------------------------
+// 1.8.6's " ; " split handed back chunks the older normaliser had dropped from the raw cell (the 8800 phones' 802.11a/b/g/n/ac,
+// the Nexus 3000 multicast lists): 242 new member occurrences, 48 distinct, 29 of them unclassified. Read in full, six are real
+// protocols the grammar could not read -- a three-letter family with a mode (PIM-SM), a column label glued on ("Multicast:
+// PIMv2"), a hyphenated acronym in brackets ("(Auto-RP)"), an acronym with a version after its bracket ("(SNMP) v3"). The rest
+// is residue and STAYS unclassified: fragments cut mid-word ("Anycast RP Internet Group Manage", "2000 ingress a"), capacity
+// statements ("5 active VLANs", "64-way Equal-Cost Multipath"), a management surface ("Web browser"), halves of a phrase the
+// splitter cut ("Universal Plug"). One rule per row below, each with the recovered member that required it and its SKU.
+/** "Multicast: " -- a capitalised column label glued to the front; the member is read from what follows it. */
+const PROTOCOL_LABEL_HEAD = /^(?:Multicast|Routing|Unicast|Security|Management|Layer 2|Layer 3):\s+/;
+/** PIM's modes, which ID_TOKEN cannot read (three letters, then a hyphen). Front-anchored: a description may follow. */
+const PROTOCOL_NAMES = /^PIM-(?:SM|SSM)(?![A-Za-z0-9])/;
+/** A spelled-out name ending in its acronym in brackets, where the acronym carries a hyphen, or a version follows it. */
+const PROTOCOL_PARENTHETICAL = /\(([A-Z][A-Za-z0-9]{1,9}(?:-[A-Z][A-Za-z0-9]{0,5})?)\)(?:\s*v[0-9]{1,2})?\s*$/;
+export const PROTOCOL_GRAMMAR_Q10: readonly { rule: string; witness: string; sku: string }[] = [
+  { rule: "PROTOCOL_LABEL_HEAD", witness: "Multicast: PIMv2", sku: "N3064T-32T-LIC" },
+  { rule: "PROTOCOL_LABEL_HEAD", witness: "Multicast: PIM-SM Version 2", sku: "N3K-C3048-BA-L3" },
+  { rule: "PROTOCOL_NAMES", witness: "PIM-SM", sku: "N3064T-32T-LIC" },
+  { rule: "PROTOCOL_NAMES", witness: "PIM-SSM IGMPv3", sku: "N540-24Q2C2DD-SYS" },
+  { rule: "PROTOCOL_PARENTHETICAL", witness: "Automatic Rendezvous Point (Auto-RP)", sku: "N3K-BAS1K9" },
+  { rule: "PROTOCOL_PARENTHETICAL", witness: "Simple Network Management Protocol (SNMP) v3", sku: "RV130-K9-AU" },
+];
 
 /** Which of the three populations a stored member belongs to. Order matters and is stated: a known
  *  short token is real BEFORE the length rule can call it wreckage; a bullet survivor is evidence
