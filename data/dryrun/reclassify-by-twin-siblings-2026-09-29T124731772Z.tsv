@@ -1,0 +1,7 @@
+part_id	sku	category	prior_class	prior_reason	twin_category	series	siblings	verdict
+26779	CGR1240/K9	cloud-systems-management	software	category-is_hardware=false:cloud-systems-management	routers	CGR 1000 Connected Grid	66 hardware in routers	restore
+43550	IC3000-2C2F-K9	cloud-systems-management	software	category-is_hardware=false:cloud-systems-management	routers	IC3000 Industrial Compute Gateway	1 hardware in routers	restore
+61361	N540X-4Z14G2Q-A	ios-nx-os-software	software	category-is_hardware=false:ios-nx-os-software	routers	NCS 520, 540 and 560	127 hardware in routers	restore
+61885	N540X-4Z14G2Q-D	ios-nx-os-software	software	category-is_hardware=false:ios-nx-os-software	routers	NCS 520, 540 and 560	127 hardware in routers	restore
+61777	N540X-8Z16G-SYS-A	ios-nx-os-software	software	category-is_hardware=false:ios-nx-os-software	routers	NCS 520, 540 and 560	127 hardware in routers	restore
+61660	N540X-8Z16G-SYS-D	ios-nx-os-software	software	category-is_hardware=false:ios-nx-os-software	routers	NCS 520, 540 and 560	127 hardware in routers	restore

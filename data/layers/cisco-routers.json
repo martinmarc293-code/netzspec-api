@@ -1,12 +1,12 @@
 {
   "vendor": "cisco",
   "category": "routers",
-  "built_at": "2026-09-29T12:17:42.784Z",
-  "commit": "702bf78b3dfc4eca103a03244d668a9c3408801e",
+  "built_at": "2026-09-29T13:06:39.008Z",
+  "commit": "57ad110a295d1ec38ddc50a0805fc962feca1587",
   "uncommitted_rule_files": [],
   "mapping_file": "data/reference/product-lines/cisco-routers.json",
-  "parts": 5113,
-  "layered": 5113,
+  "parts": 5119,
+  "layered": 5119,
   "pending": 0,
   "lines": [
     {
@@ -1086,16 +1086,16 @@
     },
     {
       "line": "NCS (Network Convergence System)",
-      "parts": 752,
+      "parts": 756,
       "series": [
         {
           "series": "NCS 520, 540 and 560",
           "family": "(none)",
           "role": "sp-access",
           "note": null,
-          "parts": 128,
+          "parts": 132,
           "kinds": {
-            "sp-router": 49,
+            "sp-router": 53,
             "mechanical": 46,
             "fan": 8,
             "processor": 11,
@@ -1104,7 +1104,7 @@
             "power": 2
           },
           "roles": {
-            "sp-access": 49
+            "sp-access": 53
           },
           "samples": [
             "N520-20G4Z-A — Cisco NCS 520 - 20xGE + 4x10GE, Commercial Temp, AC power",
@@ -1115,7 +1115,7 @@
             "N520-4G4Z-A-BUN — NCS 520 8-port, Commercial Temp, Promo Bundle"
           ],
           "rules": {
-            "sku": 128
+            "sku": 132
           },
           "pending_in": {},
           "pending_out": {}
@@ -1460,7 +1460,7 @@
     },
     {
       "line": "Industrial and IoT Routers",
-      "parts": 363,
+      "parts": 365,
       "series": [
         {
           "series": "IR 1101",
@@ -1629,18 +1629,18 @@
           "family": "Connected Grid Routers",
           "role": "industrial-iot",
           "note": "^CGR-N-CONN- (re-audit decisions, operator, 15 Sep 2026, Q-6 — this REVERSES the operator's earlier 'WPAN with the CGR antennas'): both CGR 1000 connector kits, CGR-N-CONN-WIMAX (here by its label until now) and CGR-N-CONN-WPAN (planned in from interfaces-modules), sit in this series by SKU",
-          "parts": 67,
+          "parts": 68,
           "kinds": {
             "module": 44,
             "accessory": 3,
             "mechanical": 8,
             "power-cord": 4,
             "power": 1,
-            "router": 1,
+            "router": 2,
             "flash": 6
           },
           "roles": {
-            "industrial-iot": 1
+            "industrial-iot": 2
           },
           "samples": [
             "CGM-3G-EVDO-G — Connected Grid Module - 3G Generic EVDO Rev A/0/1xRTT",
@@ -1651,7 +1651,7 @@
             "CGM-3G-EVDO-V= — Connected Grid Module - 3G Verizon EV-DO Rev A/0/1xRTT"
           ],
           "rules": {
-            "sku": 54,
+            "sku": 55,
             "label": 13
           },
           "pending_in": {},
@@ -1775,17 +1775,18 @@
           "family": "(none)",
           "role": "industrial-iot",
           "note": "IC3000-2C2F-K9= / IC3000-2C2F-K9++ planned in from switches: an edge-compute appliance (IOx) of the IoT line, kind appliance (operator, layers round 3: an arrival in a reviewed category)",
-          "parts": 2,
+          "parts": 3,
           "kinds": {
-            "appliance": 2
+            "appliance": 3
           },
           "roles": {},
           "samples": [
+            "IC3000-2C2F-K9 — Cisco IC3000 Industrial Compute Gateway",
             "IC3000-2C2F-K9++ — Industrial Compute appliance (TAA)",
             "IC3000-2C2F-K9= — Industrial Compute gateway Spare PID for TAC services"
           ],
           "rules": {
-            "sku": 2
+            "sku": 3
           },
           "pending_in": {},
           "pending_out": {}
@@ -3558,9 +3559,9 @@
   "inbound_unplaced": {},
   "done": true,
   "build": {
-    "data_commit": "abd34bdc5955+98dirty",
-    "code_commit": "ec9da45dc859",
+    "data_commit": "129f847cf897+90dirty",
+    "code_commit": "c6b9804b0414",
     "contract_hash": "bcfc4c1ee314d3c2",
-    "generated_at": "2026-09-29T12:26:27.224Z"
+    "generated_at": "2026-09-29T13:15:29.781Z"
   }
 }

@@ -1,0 +1,71 @@
+part_id	sku	action	old_name	new_name	name_source_or_reason
+62963	N9K-C9508=	refused	"Cisco N9K-C9508="	"Cisco Nexus 9508 Modularer Data-Center-Switch-Chassis – 8 Linecard-Slots, bis zu 86,4 Tbit/s, 13 HE (Leermodul-Chassis)"	a German title: the German lane (name_de) owns it
+62730	N9K-C93600CD-GX=	refused	"Cisco N9K-C93600CD-GX="	"Cisco N9K-C93600CD-GX Data-Center-Switch (NX-OS, L3) – 28× 40/100G-QSFP28 + 8× 400/100G-QSFP-DD, 1 HE"	a German title: the German lane (name_de) owns it
+62630	N9K-C93360YC-FX2=	refused	"Cisco N9K-C93360YC-FX2="	"Cisco N9K-C93360YC-FX2 Data-Center-Switch (NX-OS, L3) – 96× 1/10/25G-SFP28 + 12× 40/100G-QSFP28, 2 HE"	a German title: the German lane (name_de) owns it
+70482	QSFP-4SFP10G-CU1M=	refused	"Cisco QSFP-4SFP10G-CU1M="	"Cisco QSFP-4SFP10G-CU1M 40G QSFP+ zu 4× 10G SFP+ Breakout Twinax DAC — passive, 1 m"	a German title: the German lane (name_de) owns it
+38994	GLC-T-RGD=	refused	"Cisco GLC-T-RGD="	"Cisco GLC-T-RGD 1000BASE-T SFP Modul — RJ-45, Cat 5, 100 m, industriell"	a German title: the German lane (name_de) owns it
+39020	GLC-TE++=	refused	"Cisco GLC-TE++="	"Cisco GLC-TE++ 1000BASE-T SFP-Modul — T (Kupfer, erweitert), Kupfer (Cat-5), 100 m"	a German title: the German lane (name_de) owns it
+75327	SFP-10/25G-BXD-I=	refused	"Cisco SFP-10/25G-BXD-I="	"Cisco SFP-10/25G-BXD-I 10/25GBASE-BR BiDi Industrie-SFP28 — Tx 1330/Rx 1270 nm, SMF, 10 km"	a German title: the German lane (name_de) owns it
+62507	N9K-C92348GC-FX3=	refused	"Cisco N9K-C92348GC-FX3="	"Cisco N9K-C92348GC-FX3 Data-Center-Switch (NX-OS, L3) – 48× 10M/100M/1G-RJ45 (BASE-T) + 4× 1/10/25G-SFP28 + 2× 40/100G-QSFP28, 1 HE"	a German title: the German lane (name_de) owns it
+70295	QSFP-4SFP10-CU0-5=	refused	"Cisco QSFP-4SFP10-CU0-5="	"Cisco QSFP-4SFP10-CU0-5 40G QSFP+ zu 4× 10G SFP+ Breakout Twinax DAC — passive, 0,5 m"	a German title: the German lane (name_de) owns it
+38880	GLC-ZX-SMD=	refused	"Cisco GLC-ZX-SMD="	"Cisco GLC-ZX-SMD 1000BASE-ZX SFP Modul — 1550 nm SMF, ~70 km, Dual LC, DOM"	a German title: the German lane (name_de) owns it
+70297	QSFP-4X10G-AOC7M=	refused	"Cisco QSFP-4X10G-AOC7M="	"Cisco QSFP-4X10G-AOC7M 40G QSFP+ zu 4× 10G SFP+ Breakout Active Optical Cable (AOC) — 7 m"	a German title: the German lane (name_de) owns it
+70145	QSFP-4X10G-AC7M=	refused	"Cisco QSFP-4X10G-AC7M="	"Cisco QSFP-4X10G-AC7M 40G QSFP+ zu 4× 10G SFP+ Breakout Twinax DAC — aktive, 7 m"	a German title: the German lane (name_de) owns it
+70149	QSFP-H40G-CU1M=	refused	"Cisco QSFP-H40G-CU1M="	"Cisco QSFP-H40G-CU1M 40GBASE-CR4 QSFP+ Twinax DAC Kabel — passive, 1 m"	a German title: the German lane (name_de) owns it
+75125	SFP-10/25G-BXU-I=	refused	"Cisco SFP-10/25G-BXU-I="	"Cisco SFP-10/25G-BXU-I 10/25GBASE-BR BiDi Industrie-SFP28 — Tx 1270/Rx 1330 nm, SMF, 10 km"	a German title: the German lane (name_de) owns it
+70394	QSFP-4X10G-AOC5M=	refused	"Cisco QSFP-4X10G-AOC5M="	"Cisco QSFP-4X10G-AOC5M 40G QSFP+ zu 4× 10G SFP+ Breakout Active Optical Cable (AOC) — 5 m"	a German title: the German lane (name_de) owns it
+75097	SFP-10G-SR-I=	refused	"Cisco SFP-10G-SR-I="	"Cisco SFP-10G-SR-I 10GBASE-SR/SW Multirate SFP+ Modul — 850 nm MMF, CPRI, industriell"	a German title: the German lane (name_de) owns it
+62693	N9K-C93108TC-FX3P=	refused	"Cisco N9K-C93108TC-FX3P="	"Cisco N9K-C93108TC-FX3P Data-Center-Switch (NX-OS, L3) – 48× 100M/1/2.5/5/10G-RJ45 (mGig BASE-T, UPoE bis 60 W) + 6× …"	a German title: the German lane (name_de) owns it
+62768	N9K-C9336C-FX2=	refused	"Cisco N9K-C9336C-FX2="	"Cisco N9K-C9336C-FX2 Data-Center-Switch (NX-OS, L3) – 36× 40/100G-QSFP28, 1 HE"	a German title: the German lane (name_de) owns it
+75060	SFP-10G-AOC3M=	refused	"Cisco SFP-10G-AOC3M="	"Cisco SFP-10G-AOC3M SFP+ Active Optical Cable (AOC) — 3 m, 10GbE Glasfaser"	a German title: the German lane (name_de) owns it
+75095	SFP-10G-BX40D-I=	refused	"Cisco SFP-10G-BX40D-I="	"Cisco SFP-10G-BX40D-I 10G BiDi SFP+ Modul — Single LC, 40 km, Tx 1330/Rx 1270 nm"	a German title: the German lane (name_de) owns it
+61233	N3K-C3524P-10GX=	refused	"Cisco N3K-C3524P-10GX="	"Cisco N3K-C3524P-10GX 3524P-10GX Data-Center-Switch (NX-OS, L3) – 24× 1/10G-SFP+, 1 HE"	a German title: the German lane (name_de) owns it
+62479	N9K-C93180YC-FX3=	refused	"Cisco N9K-C93180YC-FX3="	"Cisco N9K-C93180YC-FX3 Data-Center-Switch (NX-OS, L3) – 48× 1/10/25G-SFP28 + 6× 40/100G-QSFP28, 1 HE"	a German title: the German lane (name_de) owns it
+70516	QSFP-H40G-CU5M=	refused	"Cisco QSFP-H40G-CU5M="	"Cisco QSFP-H40G-CU5M 40GBASE-CR4 QSFP+ Twinax DAC Kabel — passive, 5 m"	a German title: the German lane (name_de) owns it
+22730	C9404R=	refused	"Cisco C9404R="	"Cisco Catalyst 9404R Modularer Campus-Switch-Chassis – 2 Linecard-Slots, bis zu 9 tbit/s, 6 HE (Leermodul-Chassis)"	a German title: the German lane (name_de) owns it
+62599	N9K-C9504=	refused	"Cisco N9K-C9504="	"Cisco Nexus 9504 Modularer Data-Center-Switch-Chassis – 4 Linecard-Slots, bis zu 43,2 Tbit/s, 7 HE (Leermodul-Chassis)"	a German title: the German lane (name_de) owns it
+62209	N5K-C5548P=	refused	"Cisco N5K-C5548P="	"Cisco N5K-C5548P 5548P Data-Center-Switch (NX-OS, L2) – 32× 1/10G-SFP+ (FCoE), 1 HE"	a German title: the German lane (name_de) owns it
+75061	SFP-10G-SR-X=	refused	"Cisco SFP-10G-SR-X="	"Cisco SFP-10G-SR-X 10GBASE-SR/SW Multirate SFP+ Modul — 850 nm MMF, OTU2e, Dual LC"	a German title: the German lane (name_de) owns it
+75130	SFP-25G-ER-I=	refused	"Cisco SFP-25G-ER-I="	"Cisco SFP-25G-ER-I 25GBASE-ER Industrie-SFP28 — 1310 nm SMF, Duplex LC, 40 km, DOM"	a German title: the German lane (name_de) owns it
+39093	GLC-BX80-U-I=	refused	"Cisco GLC-BX80-U-I="	"Cisco GLC-BX80-U-I 1000BASE-BX80-U SFP Modul — BiDi, Single LC, 80 km, industriell"	a German title: the German lane (name_de) owns it
+75305	SFP-10G-LR-X=	refused	"Cisco SFP-10G-LR-X="	"Cisco SFP-10G-LR-X 10GBASE-LR/LW Multirate SFP+ Modul — 1310 nm SMF, OTU2e, Dual LC"	a German title: the German lane (name_de) owns it
+85608	UCSC-PSU1-1200W-D	refused	"Cisco UCSC-PSU1-1200W-D"	"1200W Power Supply Spare for FMC1800, 2800, 4800"	still carries the spare's wording after the strip: hand check
+62746	N9K-C9364C-GX=	refused	"Cisco N9K-C9364C-GX="	"Cisco N9K-C9364C-GX Data-Center-Switch (NX-OS, L3) – 64× 40/100G-QSFP28, 2 HE"	a German title: the German lane (name_de) owns it
+39257	GLC-BX-D-I=	refused	"Cisco GLC-BX-D-I="	"Cisco GLC-BX-D-I 1000BASE-BX10-D SFP Modul — BiDi, Single LC, 10 km, industriell"	a German title: the German lane (name_de) owns it
+61109	N3K-C3548P-10GX=	refused	"Cisco N3K-C3548P-10GX="	"Cisco N3K-C3548P-10GX 3548P-10GX Data-Center-Switch (NX-OS, L3) – 48× 1/10G-SFP+, 1 HE"	a German title: the German lane (name_de) owns it
+70286	QDD-400G-LR4-S=	refused	"Cisco QDD-400G-LR4-S="	"Cisco QDD-400G-LR4-S 400GBASE-LR4 QSFP-DD Modul — Duplex SMF, LC, 10 km, DOM"	a German title: the German lane (name_de) owns it
+70148	QSFP-H40G-ACU10M=	refused	"Cisco QSFP-H40G-ACU10M="	"Cisco QSFP-H40G-ACU10M 40GBASE-CR4 QSFP+ Twinax DAC Kabel — aktive, 10 m"	a German title: the German lane (name_de) owns it
+70174	QSFP-4X10G-AOC2M=	refused	"Cisco QSFP-4X10G-AOC2M="	"Cisco QSFP-4X10G-AOC2M 40G QSFP+ zu 4× 10G SFP+ Breakout Active Optical Cable (AOC) — 2 m"	a German title: the German lane (name_de) owns it
+39123	GLC-BX-U-I=	refused	"Cisco GLC-BX-U-I="	"Cisco GLC-BX-U-I 1000BASE-BX10-U SFP Modul — BiDi, Single LC, 10 km, industriell"	a German title: the German lane (name_de) owns it
+74892	SFP-10G-BXD-I=	refused	"Cisco SFP-10G-BXD-I="	"Cisco SFP-10G-BXD-I 10G BiDi SFP+ Modul — Single LC, 10 km, Tx 1330/Rx 1270 nm"	a German title: the German lane (name_de) owns it
+38839	GLC-BX40-D-I=	refused	"Cisco GLC-BX40-D-I="	"Cisco GLC-BX40-D-I 1000BASE-BX40-D SFP Modul — BiDi, Single LC, 40 km, industriell"	a German title: the German lane (name_de) owns it
+75096	SFP-10G-BX40U-I=	refused	"Cisco SFP-10G-BX40U-I="	"Cisco SFP-10G-BX40U-I 10G BiDi SFP+ Modul — Single LC, 40 km, Tx 1270/Rx 1330 nm"	a German title: the German lane (name_de) owns it
+75002	SFP-10G-ZR-I=	refused	"Cisco SFP-10G-ZR-I="	"Cisco SFP-10G-ZR-I 10GBASE-ZR/ZW Multirate SFP+ Modul — 1550 nm SMF, 70 km, industriell"	a German title: the German lane (name_de) owns it
+38812	GLC-BX80-D-I=	refused	"Cisco GLC-BX80-D-I="	"Cisco GLC-BX80-D-I 1000BASE-BX80-D SFP Modul — BiDi, Single LC, 80 km, industriell"	a German title: the German lane (name_de) owns it
+70424	QSFP-H40G-CU0-5M=	refused	"Cisco QSFP-H40G-CU0-5M="	"Cisco QSFP-H40G-CU0-5M 40GBASE-CR4 QSFP+ Twinax DAC Kabel — passive, 0,5 m"	a German title: the German lane (name_de) owns it
+70296	QSFP-4X10G-AOC1M=	refused	"Cisco QSFP-4X10G-AOC1M="	"Cisco QSFP-4X10G-AOC1M 40G QSFP+ zu 4× 10G SFP+ Breakout Active Optical Cable (AOC) — 1 m"	a German title: the German lane (name_de) owns it
+70300	QSFP-H40G-CU3M=	refused	"Cisco QSFP-H40G-CU3M="	"Cisco QSFP-H40G-CU3M 40GBASE-CR4 QSFP+ Twinax DAC Kabel — passive, 3 m"	a German title: the German lane (name_de) owns it
+70515	QSFP-H40G-CU4M=	refused	"Cisco QSFP-H40G-CU4M="	"Cisco QSFP-H40G-CU4M 40GBASE-CR4 QSFP+ Twinax DAC Kabel — passive, 4 m"	a German title: the German lane (name_de) owns it
+39019	GLC-FE-T-I=	refused	"Cisco GLC-FE-T-I="	"Cisco GLC-FE-T-I 100BASE-T Kupfer-SFP — RJ-45, Cat-5 UTP, 100 m, Industrie"	a German title: the German lane (name_de) owns it
+70205	QSFP-4SFP10G-CU4M=	refused	"Cisco QSFP-4SFP10G-CU4M="	"Cisco QSFP-4SFP10G-CU4M 40G QSFP+ zu 4× 10G SFP+ Breakout Twinax DAC — passive, 4 m"	a German title: the German lane (name_de) owns it
+70555	QSFP-4X10G-AOC3M=	refused	"Cisco QSFP-4X10G-AOC3M="	"Cisco QSFP-4X10G-AOC3M 40G QSFP+ zu 4× 10G SFP+ Breakout Active Optical Cable (AOC) — 3 m"	a German title: the German lane (name_de) owns it
+70553	QSFP-4SFP10G-CU5M=	refused	"Cisco QSFP-4SFP10G-CU5M="	"Cisco QSFP-4SFP10G-CU5M 40G QSFP+ zu 4× 10G SFP+ Breakout Twinax DAC — passive, 5 m"	a German title: the German lane (name_de) owns it
+38990	GLC-BX40-U-I=	refused	"Cisco GLC-BX40-U-I="	"Cisco GLC-BX40-U-I 1000BASE-BX40-U SFP Modul — BiDi, Single LC, 40 km, industriell"	a German title: the German lane (name_de) owns it
+70150	QSFP-H40G-CU2M=	refused	"Cisco QSFP-H40G-CU2M="	"Cisco QSFP-H40G-CU2M 40GBASE-CR4 QSFP+ Twinax DAC Kabel — passive, 2 m"	a German title: the German lane (name_de) owns it
+70172	QSFP-4SFP10G-CU2M=	refused	"Cisco QSFP-4SFP10G-CU2M="	"Cisco QSFP-4SFP10G-CU2M 40G QSFP+ zu 4× 10G SFP+ Breakout Twinax DAC — passive, 2 m"	a German title: the German lane (name_de) owns it
+75030	SFP-10/25G-LR-I=	refused	"Cisco SFP-10/25G-LR-I="	"Cisco SFP-10/25G-LR-I 10/25GBASE-LR Industrie-SFP28 — 1310 nm SMF, Duplex LC, 10 km, DOM"	a German title: the German lane (name_de) owns it
+75168	SFP-10G-T-X=	refused	"Cisco SFP-10G-T-X="	"Cisco SFP-10G-T-X 10GBASE-T SFP+ Modul — RJ-45, Cat6A/Cat7, 30 m Kupfer"	a German title: the German lane (name_de) owns it
+70235	QSFP-4SFP10G-CU3M=	refused	"Cisco QSFP-4SFP10G-CU3M="	"Cisco QSFP-4SFP10G-CU3M 40G QSFP+ zu 4× 10G SFP+ Breakout Twinax DAC — passive, 3 m"	a German title: the German lane (name_de) owns it
+70173	QSFP-4X10G-AC10M=	refused	"Cisco QSFP-4X10G-AC10M="	"Cisco QSFP-4X10G-AC10M 40G QSFP+ zu 4× 10G SFP+ Breakout Twinax DAC — aktive, 10 m"	a German title: the German lane (name_de) owns it
+70335	QSFP-H40G-ACU7M=	refused	"Cisco QSFP-H40G-ACU7M="	"Cisco QSFP-H40G-ACU7M 40GBASE-CR4 QSFP+ Twinax DAC Kabel — aktive, 7 m"	a German title: the German lane (name_de) owns it
+75279	SFP-10G-LR10-I=	refused	"Cisco SFP-10G-LR10-I="	"Cisco SFP-10G-LR10-I 10GBASE-LR SFP+ Modul — 1310 nm SMF, 10 km, CPRI, industriell"	a German title: the German lane (name_de) owns it
+39237	GLC-TE=	refused	"Cisco GLC-TE="	"Cisco GLC-TE 1000BASE-T SFP Modul — RJ-45, Cat 5, 100 m, EXT"	a German title: the German lane (name_de) owns it
+70549	QSFP-100G-CWDM4-S=	refused	"Cisco QSFP-100G-CWDM4-S="	"Cisco QSFP-100G-CWDM4-S 100G CWDM4 QSFP28 Modul — 1271–1331 nm SMF, Duplex LC, 2 km"	a German title: the German lane (name_de) owns it
+75328	SFP-10G-ER-I=	refused	"Cisco SFP-10G-ER-I="	"Cisco SFP-10G-ER-I 10GBASE-ER/EW Multirate SFP+ Modul — 1550 nm SMF, 40 km, industriell"	a German title: the German lane (name_de) owns it
+22541	C9606R=	refused	"Cisco C9606R="	"Cisco Catalyst 9606R Modularer Campus-Switch-Chassis – 4 Linecard-Slots, bis zu 25,6 tbit/s, 8 HE (Leermodul-Chassis)"	a German title: the German lane (name_de) owns it
+39258	GLC-BX40-DA-I=	refused	"Cisco GLC-BX40-DA-I="	"Cisco GLC-BX40-DA-I 1000BASE-BX40-D SFP Modul — BiDi, Single LC, 40 km, Alternative"	a German title: the German lane (name_de) owns it
+70332	QSFP-100G-PSM4-S=	refused	"Cisco QSFP-100G-PSM4-S="	"Cisco QSFP-100G-PSM4-S 100G QSFP28 Modul — 1310 nm SMF, MPO-12 APC, 500 m, DOM"	a German title: the German lane (name_de) owns it
+70237	QSFP-4X10G-AOC10M=	refused	"Cisco QSFP-4X10G-AOC10M="	"Cisco QSFP-4X10G-AOC10M 40G QSFP+ zu 4× 10G SFP+ Breakout Active Optical Cable (AOC) — 10 m"	a German title: the German lane (name_de) owns it
+75201	SFP-10G-BXU-I=	refused	"Cisco SFP-10G-BXU-I="	"Cisco SFP-10G-BXU-I 10G BiDi SFP+ Modul — Single LC, 10 km, Tx 1270/Rx 1330 nm"	a German title: the German lane (name_de) owns it
+88198	VG420-NIM-BLANK	refused	"Cisco VG420 NIM Blank"	"Cisco VG420 NIM Blank"	the lent name is itself SKU-only for this member
+60953	N3K-C31108PC-V=	refused	"Cisco N3K-C31108PC-V="	"Cisco N3K-C31108PC-V Nexus 31108PC-V Data-Center-Switch (NX-OS, L3) – 48× 1/10G-SFP+ + 6× 100G-QSFP28, 1 HE"	a German title: the German lane (name_de) owns it

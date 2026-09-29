@@ -10557,6 +10557,7 @@ routers	CGR-TERM-COVER=	CGR 2010 Power Terminal Cover	mechanical
 routers	CGR1120-DINRAIL	Din rail mount kit for CGR1120	mechanical	
 routers	CGR1120-DINRAIL=	Din rail mount kit for CGR1120	mechanical	
 routers	CGR1240-PWR-AC	Cisco CGR1240-PWR-AC	power	
+routers	CGR1240/K9	CGR1240 w/ 4 module slots,2 GE,2 serial,4 FE LAN,Wi-Fi,GPS	router	industrial-iot
 routers	CGR1240/K9=	CGR1240 w/ 4 module slots,2 GE,2 serial,4 FE LAN,Wi-Fi,GPS	router	industrial-iot
 routers	CGSE-PLUS-PK	Phantom PID for CRS Service Card for CGN, Anti DDoS and SDN	linecard	
 routers	CISCO-FIPS-KIT=	Tamper Proof for 80/18/28/38/72/73 Routers and ASA	mechanical	
@@ -11521,6 +11522,7 @@ routers	IAD888EF-K9	Cisco IAD888 EFM Security Router w/ FXS and ISDN Backup	rout
 routers	IAD888F-K9	Cisco IAD888 G.SHDSL/FXS/Sec Router w/ ISDN B/U	router	branch
 routers	IAD888FW-GN-A-K9	Cisco IAD888 G.SHDSL FXS Sec ISDN B/U 802.11n FCC Comp	router	branch
 routers	IAD888FW-GN-E-K9	Cisco IAD888 G.SHDSL FXS Sec ISDN B/U 802.11n ETSI Comp	router	branch
+routers	IC3000-2C2F-K9	Cisco IC3000 Industrial Compute Gateway	appliance	
 routers	IC3000-2C2F-K9++	Industrial Compute appliance (TAA)	appliance	
 routers	IC3000-2C2F-K9=	Industrial Compute gateway Spare PID for TAC services	appliance	
 routers	IOT-LA-NM-NF	Cisco IOT-LA-NM-NF	accessory	
@@ -12092,7 +12094,9 @@ routers	N540X-12Z16G-SYS	Cisco N540X-12Z16G-SYS	sp-router	sp-access
 routers	N540X-16Z4G8Q2C	Cisco N540X-16Z4G8Q2C	sp-router	sp-access
 routers	N540X-16Z8Q2C	Cisco N540X-16Z8Q2C	sp-router	sp-access
 routers	N540X-4Z14G2Q	Cisco N540X-4Z14G2Q	sp-router	sp-access
+routers	N540X-4Z14G2Q-A	NCS540 14x1G + 4x1/10G + 2x10/25G Dual-AC iTEMP Conformal-Coated Chassis	sp-router	sp-access
 routers	N540X-4Z14G2Q-A=	N540 14x1G + 4x1/10G + 2x10/25G Dual-AC iTEMP Conf-Coat Spr	sp-router	sp-access
+routers	N540X-4Z14G2Q-D	NCS540 14x1G + 4x1/10G + 2x10/25G Dual-AC iTEMP Conformal-Coated Chassis	sp-router	sp-access
 routers	N540X-4Z14G2Q-D=	N540 14x1G + 4x1/10G + 2x10/25G Dual-DC iTEMP Conf-Coat Spr	sp-router	sp-access
 routers	N540X-6Z18G-SYS	Cisco N540X-6Z18G-SYS	sp-router	sp-access
 routers	N540X-6Z18G-SYS-A	NCS540 18x1G SFP + 6x1/10G SFP+ Dual-AC iTEMP Conformal-Coated Chassis	sp-router	sp-access
@@ -12100,7 +12104,9 @@ routers	N540X-6Z18G-SYS-A=	NCS540 18x1G SFP + 6x1/10G SFP+ Dual AC iTEMP Conf-co
 routers	N540X-6Z18G-SYS-D	NCS540 18x1G SFP + 6x1/10G SFP+ Dual-DC iTEMP Conformal-Coated Chassis	sp-router	sp-access
 routers	N540X-6Z18G-SYS-D=	NCS540 18x1G SFP + 6x1/10G SFP+ Dual DC iTEMP Conf-Coat Spar	sp-router	sp-access
 routers	N540X-8Z16G-SYS	Cisco N540X-8Z16G-SYS	sp-router	sp-access
+routers	N540X-8Z16G-SYS-A	N540 12/20(CSFP) x1G + 4x1GCu + 8x1/10G Dual-AC iTEMP Conformal-Coated Chassis	sp-router	sp-access
 routers	N540X-8Z16G-SYS-A=	N540 12/20(CSFP)x1G + 4x1GCu + 8x1/10G DualAC iTEMP Conf Spr	sp-router	sp-access
+routers	N540X-8Z16G-SYS-D	N540 12/20(CSFP) x1G + 4x1GCu + 8x1/10G Dual-AC iTEMP Conformal-Coated Chassis	sp-router	sp-access
 routers	N540X-8Z16G-SYS-D=	N540 12/20(CSFP)x1G + 4x1GCu + 8x1/10G DualDC iTEMP Conf Spr	sp-router	sp-access
 routers	N540X-ACC-SYS	NCS540 CC 24x1/10G,8x1/10/25G SFP+/SFP28, 2x100G QSFP28	sp-router	sp-access
 routers	N560-4-CAB-BRKT	NCS 560-4 Cable Guide Bracket	mechanical	
