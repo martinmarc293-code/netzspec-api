@@ -192,7 +192,7 @@ const RUN_KIND_CLASS: Record<string, { approval: boolean; gate: boolean }> = {
   "split-bidi-rx": G, "migrate-atlas": G,
   // derives from what is stored -> neither
   "recompute-completeness": D, "write-layers-to-db": D, "build-spare-of": D, "derive-link-provenance": D,
-  "derive-part-states": D, "fill-family-from-hct-category": D, "sync-dictionary": D, "name-language": D,
+  "derive-part-states": D, "fill-family-from-hct-category": D, "sync-dictionary": D, "derive-pon-standard": D, "name-language": D,
   "name-spare-packaging": D, "name-spare-wording": D, "images": D, "probe-failure-reason": D,
   "backfill-doc-titles": D, "record-title-provenance": D, "record-retroactive-approval": A, "retro-gate": A, "apply-series-hints": AG, "apply-product-compat": AG, "set-series": A,
 };
