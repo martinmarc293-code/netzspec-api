@@ -17,6 +17,9 @@
 // The ORDER of the branches in mergeField is load-bearing and has its own case: unioning a newer
 // READING of a cell with the older reading of the same cell keeps both, and the older reading of a
 // badly split list is exactly what the new normaliser exists to replace.
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import {
   tierFor, tryTierFor, TIER_BY_DOC_TYPE, TIER_BY_METHOD,
   sameValue, agreementRule, listSetEqual, listSubsetOf, numericallyClose, truncatedPrefixEqual,
@@ -32,7 +35,7 @@ import { PRODUCT_CLASSES } from "../src/store/parts.js";
 import { sourceKind, unionListValues as unionInApplyExtract } from "../src/pipeline/apply-extract.js";
 import {
   NORM_VERSION, CANON, COUNT_LIKE, unitLookup,
-  splitListValue, isCitationContinuation, endsInCitation,
+  splitListValue, isCitationContinuation, endsInCitation, STANDARDS_PREFIXES,
 } from "../src/core/specNormalize.js";
 
 let pass = 0;
@@ -633,6 +636,30 @@ check("every curated pair names a real dictionary field and a category that has 
 }
 
 console.log(`${pass}/${pass + misses.length} passed`);
+// ---- two splitter defects with witnesses (reviewer ruling 29 Sep 2026; the AS/NZS class) -------------------------------
+{
+  const s = (raw: string) => JSON.stringify(splitListValue(raw));
+  const is = (name: string, raw: string, want: string[]) => check(name, s(raw) === JSON.stringify(want), `got ${s(raw)}`);
+  is("a run of standards prefixes is a list (the Catalyst PON Standards cell)",
+    "ITUT G.984.1 ITUT G.984.2 ITUT G.984.3 ITUT G.984.4 ITUT G.988 IEEE 802.1w IEEE 802.1x Authentication IEEE 802.3af",
+    ["ITUT G.984.1", "ITUT G.984.2", "ITUT G.984.3", "ITUT G.984.4", "ITUT G.988", "IEEE 802.1w", "IEEE 802.1x Authentication", "IEEE 802.3af"]);
+  is("a label run: a trailing 'Label:' belongs to the next item and a label head is dropped",
+    "Ethernet: IEEE 802.3 10 Gigabit Ethernet: IEEE 802.3ae IEEE 802.1D Spanning Tree Protocol",
+    ["IEEE 802.3", "IEEE 802.3ae", "IEEE 802.1D Spanning Tree Protocol"]);
+  is("'PID or PID' is two options", "PWR-OLT8-80WAC or PWR-OLT8-72WDC", ["PWR-OLT8-80WAC", "PWR-OLT8-72WDC"]);
+  is("SABOTAGE prose 'AC or DC' is never cut", "AC or DC power supply", ["AC or DC power supply"]);
+  is("SABOTAGE a run behind prose (a head that is not a label) is left whole", "Compliant with IEEE 802.3af IEEE 802.3at",
+    ["Compliant with IEEE 802.3af IEEE 802.3at"]);
+  is("SABOTAGE one prefix is one member", "IEEE 802.3af compliant", ["IEEE 802.3af compliant"]);
+  is("a delimited list is untouched by the run rule", "IEEE 802.3af, IEEE 802.3at", ["IEEE 802.3af", "IEEE 802.3at"]);
+  // the extractor keeps its own copy of the prefix set (Python); the two must not drift
+  const py = fs.readFileSync(path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "scraper/adapters/cisco_specs_deep.py"), "utf8");
+  const pyTuple = /STANDARDS_PREFIXES = \(([^)]*)\)/.exec(py)?.[1] ?? "";
+  const pySet = [...pyTuple.matchAll(/"([^"]+)"/g)].map((m) => m[1]);
+  check("the extractor's STANDARDS_PREFIXES equals the splitter's (a drift truncates what the splitter expects to split)",
+    JSON.stringify(pySet) === JSON.stringify([...STANDARDS_PREFIXES]), JSON.stringify(pySet));
+}
+
 if (misses.length) {
   for (const m of misses) console.log(`  MISS ${m}`);
   console.error(`\n${misses.length} merge rule case(s) wrong.`);

@@ -177,9 +177,16 @@ def _subject(rec: dict) -> str:
     return rec.get("sku") or rec.get("family_scope") or ""
 
 
+# The same set as STANDARDS_PREFIXES in src/core/specNormalize.ts (tests/specMerge.test.ts pins the two copies). A cell
+# naming two or more standards bodies' documents ("ITUT G.984.1 ITUT G.984.2 ... IEEE 802.3af") is a list the page never
+# delimited: capped as a scalar at 160 it lost 223 of 375 characters on the Catalyst PON sheet (29 Sep 2026).
+STANDARDS_PREFIXES = ("ITU-T", "ITUT", "IEEE", "RFC", "IETF")
+_PREFIX_AT = re.compile(r"(?<![A-Za-z0-9-])(?:" + "|".join(re.escape(p) for p in STANDARDS_PREFIXES) + r")(?=\s+\S)")
+
+
 def _is_list_cell(v: str) -> bool:
-    """The DOCUMENT marks this cell as a list. Two bullets or more, not one."""
-    return len(BULLETS.findall(v)) >= 2
+    """The DOCUMENT marks this cell as a list: two bullets or more, or a run of two or more standards prefixes."""
+    return len(BULLETS.findall(v)) >= 2 or len(_PREFIX_AT.findall(v)) >= 2
 
 
 def cap_cell(val: str, locator: str, defects: list[dict], what: str = "") -> tuple:

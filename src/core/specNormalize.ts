@@ -66,7 +66,10 @@ import { isPartNumber } from "../pipeline/partNumber.js";
 //        string to a list on 4 Sep 2026 and the comma splitter then read 396 citation cells for the
 //        first time, cutting "MIL-STD-810, Method 514.4" into two standards that do not exist. The
 //        rule and every bound in it are read off the stored raws — see isCitationContinuation.
-export const NORM_VERSION = "1.8.0"; // 13 Sep 2026: phase-1 close §5.4 (below)
+export const NORM_VERSION = "1.8.1"; // 29 Sep 2026: splitter (below)
+// 1.8.1 — 29 Sep 2026, reviewer ruling: two splitter defects with witnesses. A run of standards-body prefixes with no
+//         other delimiter ("ITUT G.984.1 ITUT G.984.2 ... IEEE 802.3af") and "PID or PID" are lists. Bumped so renormalize
+//         selects the stored values the old splitter wrote.
 // 1.8.0 — 13 Sep 2026, phase-1 close guide §5.4, docs/decisions/2026-09-13-free-string-cups.md. The 18 free-string
 //         required cups: standard / cellular_bands / mounting / ui_languages become closed lists, ip_rating and
 //         mic_type enums, the three resolution cups a {w,h} struct, camera_zoom / battery_life / display_size
@@ -734,10 +737,45 @@ export function expandIeee80211(member: string): string[] {
   return [m[2], ...rest].map((suffix) => `${m[1]}${suffix}`);
 }
 
+/**
+ * TWO SPLITTER DEFECTS WITH WITNESSES (reviewer ruling, 29 Sep 2026; the same class as AS/NZS).
+ *
+ * A RUN OF STANDARDS-BODY PREFIXES IS A LIST THE DOCUMENT NEVER DELIMITED. The Catalyst PON sheet's Standards cell is
+ * "ITUT G.984.1 ITUT G.984.2 ... IEEE 802.1x Authentication IEEE 802.3af" and a switch sheet's is "Ethernet: IEEE 802.3
+ * 10 Gigabit Ethernet: IEEE 802.3ae IEEE 802.1D ...": no bullet, no comma, so each became ONE member. Only a cell with
+ * >= 2 prefixes and no other delimiter is cut, at each prefix; a trailing "Label:" belongs to the NEXT item and a head
+ * that is only a label is dropped. scraper/adapters/cisco_specs_deep.py holds the same prefix set (STANDARDS_PREFIXES)
+ * so such a cell gets the list cap instead of being truncated at 160; tests/specMerge.test.ts pins the two copies.
+ *
+ * "PID or PID" IS TWO OPTIONS. psu_options stored "PWR-OLT8-80WAC or PWR-OLT8-72WDC" as one member. Split only when
+ * EVERY piece is part-number shaped, so prose ("AC or DC") is never cut.
+ */
+export const STANDARDS_PREFIXES = ["ITU-T", "ITUT", "IEEE", "RFC", "IETF"] as const;
+const PREFIX_AT = new RegExp(`(?<![A-Za-z0-9-])(?:${STANDARDS_PREFIXES.map((p) => p.replace(/-/g, "\\-")).join("|")})(?=\\s+\\S)`, "g");
+// "IEEE 802.3 10 Gigabit Ethernet:" -> "IEEE 802.3": after the prefix and its identifier, a remainder ending in ":" is the
+// NEXT item's label; a remainder without one ("Spanning Tree Protocol") is this item's own and stays
+const ID_THEN_LABEL = /^(\S+\s+\S+)\s+[^:]{1,40}:\s*$/;
+function splitPrefixRun(member: string): string[] {
+  const at = [...member.matchAll(PREFIX_AT)].map((m) => m.index ?? 0);
+  if (at.length < 2) return [member];
+  const pieces = at.map((start, i) => member.slice(start, i + 1 < at.length ? at[i + 1] : undefined).trim());
+  const head = member.slice(0, at[0]).trim();
+  // prose before the run ("Supports RFC 768 and RFC 783") is a sentence, not a list: left whole; a label head is dropped
+  if (head && !/^[^:]{1,40}:$/.test(head)) return [member];
+  const out = pieces.map((p) => ID_THEN_LABEL.exec(p)?.[1] ?? p);
+  return out.some((p) => /\s(?:and|or|&)$/i.test(p)) ? [member] : out;
+}
+const PID_SHAPE = /^[A-Z0-9][A-Z0-9.+=/]*-[A-Z0-9.+=/-]+$/;
+function splitPidOr(member: string): string[] {
+  const parts = member.split(/\s+or\s+/i).map((p) => p.trim());
+  return parts.length > 1 && parts.every((p) => PID_SHAPE.test(p)) ? parts : [member];
+}
+
 export function splitListValue(raw: string, slashRule: SlashRule = "pid-alternatives"): string[] {
   const t = String(raw ?? "").replace(/\r\n?/g, "\n");
   const clean = (parts: string[]) => parts.map((p) => p.replace(TRIM_EDGES, "").trim()).filter((p) => /[A-Za-z0-9]/.test(p));
-  const alternatives = (parts: string[]) => clean(parts.flatMap((p) => splitPidAlternatives(p, slashRule)))
+  const alternatives = (parts: string[]) => clean(clean(parts.length === 1 ? splitPrefixRun(parts[0]) : parts)
+    .flatMap(splitPidOr).flatMap((p) => splitPidAlternatives(p, slashRule)))
     .flatMap(expandIeee80211);
   if (HAS_BULLET.test(t) || t.includes("\n")) {
     const bulleted = clean(t.split(BULLET_SPLIT));
