@@ -2,6 +2,7 @@
 // round 2, B.6). No database.
 //
 //   npx tsx tests/germanName.test.ts
+import { planTwinNames, skuOnlyName } from "../src/core/germanName.js";
 import { isGermanName, assertDetector, planGermanNames, lendableEnglishName, stripSpareWording, planSpareWording, SPARE_LEFT, stripPackagingNote, planPackagingNotes, ENGLISH_CONTROLS, GERMAN_MARKERS, type NameRow } from "../src/core/germanName.js";
 
 let passed = 0; const misses: string[] = [];
@@ -97,6 +98,30 @@ const pk = planPackagingNotes([
 check("packaging plan: a fixed Nexus 9000 base is stripped, source 'twin: <sku>, spare wording removed: (no PS/Fans)'", pk.plans.length === 1 && pk.plans[0].stripped === "Nexus 9K Fixed with 32p 100G QSFP28" && pk.plans[0].source === "twin: N9K-C9232C=, spare wording removed: (no PS/Fans)", JSON.stringify(pk.plans));
 check("packaging plan: a modular chassis base keeps its note (base ships without power supplies); a spare is never touched", pk.kept_chassis.map((k) => k.sku).join() === "WS-C6509-E" && !pk.plans.some((p) => p.id === 3));
 check("SABOTAGE packaging plan: a base that is neither a known fixed unit nor a modular chassis is REFUSED for a hand check", pk.refused.length === 1 && pk.refused[0].sku === "ZZ-C1234", JSON.stringify(pk.refused));
+
+// TWIN NAME PROPAGATION (reviewer ruling, Batch B, 29 Sep 2026). The real pairs from the twin_parity measurement, by shape.
+const tw = planTwinNames([
+  { id: 1, sku: "UCS-ACC-6536", name: "UCS 6536 chassis accessory kit" }, { id: 2, sku: "UCS-ACC-6536=", name: "Cisco UCS-ACC-6536=" },
+  { id: 3, sku: "UCSC-RAIL-D", name: "Cisco UCSC-RAIL-D" }, { id: 4, sku: "UCSC-RAIL-D=", name: "Rail kit" },
+  { id: 5, sku: "N9K-C9232C", name: null }, { id: 6, sku: "N9K-C9232C=", name: "Nexus 9K Fixed with 32p 100G QSFP28 Spare (no PS/Fans)" },
+  { id: 7, sku: "CBR-PS-BLANK", name: "cBR-8 Power Supply Blanks" }, { id: 8, sku: "CBR-PS-BLANK=", name: "Blanks for the Power Supply Slots" },
+  { id: 9, sku: "ZZ-GERMAN", name: "Cisco ZZ-GERMAN" }, { id: 10, sku: "ZZ-GERMAN=", name: "Cisco ZZ-GERMAN= Netzteil für Catalyst-9300-Switches" },
+  { id: 11, sku: "ZZ-LONE=", name: "Cisco ZZ-LONE=" }, { id: 12, sku: "ZZ-BOTH", name: "Cisco ZZ-BOTH" }, { id: 13, sku: "ZZ-BOTH=", name: "ZZ-BOTH=" },
+]);
+const twOf = (sku: string) => tw.plans.find((p) => p.sku === sku);
+check("twin names: the SPARE's SKU-only name takes the base's real one, source 'twin: <base>'",
+  twOf("UCS-ACC-6536=")?.name === "UCS 6536 chassis accessory kit" && twOf("UCS-ACC-6536=")?.source === "twin: UCS-ACC-6536", JSON.stringify(twOf("UCS-ACC-6536=")));
+check("twin names: the BASE's SKU-only name takes the spare's real one", twOf("UCSC-RAIL-D")?.name === "Rail kit" && twOf("UCSC-RAIL-D")?.source === "twin: UCSC-RAIL-D=");
+check("twin names: a NULL base name counts as SKU-only, and a name lent BY the spare drops its spare wording",
+  twOf("N9K-C9232C")?.name === "Nexus 9K Fixed with 32p 100G QSFP28 (no PS/Fans)" && twOf("N9K-C9232C")?.source === "twin: N9K-C9232C=, spare wording removed", JSON.stringify(twOf("N9K-C9232C")));
+check("SABOTAGE twin names: two REAL names are never touched (CBR-PS-BLANK: choosing between wordings is a judgement)", !twOf("CBR-PS-BLANK") && !twOf("CBR-PS-BLANK="));
+check("SABOTAGE twin names: a German title is REFUSED, never lent", !twOf("ZZ-GERMAN") && tw.refused.some((r) => r.sku === "ZZ-GERMAN" && /German/.test(r.why)));
+check("twin names: no base, or both SKU-only, is no plan at all", !twOf("ZZ-LONE=") && !twOf("ZZ-BOTH") && !twOf("ZZ-BOTH="));
+check("twin names: exactly the three writes above and one refusal", tw.plans.length === 3 && tw.refused.length === 1, `${tw.plans.length}/${tw.refused.length}`);
+const twAfter = planTwinNames([{ id: 1, sku: "UCS-ACC-6536", name: "UCS 6536 chassis accessory kit" }, { id: 2, sku: "UCS-ACC-6536=", name: "UCS 6536 chassis accessory kit" }]);
+check("twin names: IDEMPOTENT — after the write a re-plan is empty", twAfter.plans.length === 0 && twAfter.refused.length === 0);
+check("skuOnlyName: 'Cisco <sku>' and punctuation variants are SKU-only; a real name is not",
+  skuOnlyName("UCS-ACC-6536=", "Cisco UCS-ACC-6536=") && skuOnlyName("UCS-ACC-6536", "cisco ucs acc 6536") && !skuOnlyName("UCSC-RAIL-D=", "Rail kit"));
 
 console.log(`    german names: ${passed} passed, ${misses.length} missed`);
 if (misses.length) { console.log(misses.join("\n")); process.exit(1); }

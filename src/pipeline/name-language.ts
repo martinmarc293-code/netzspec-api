@@ -7,8 +7,11 @@
 // Dry by default: prints the plan and its counts. --commit writes it as ONE run with the prediction in its inputs and the actual
 // counts in its stats, reads the result back from a new query and fails the run if they differ.
 import { execFileSync } from "node:child_process";
+import fs from "node:fs";
+import path from "node:path";
+import { createHash } from "node:crypto";
 import { getPool, closePool, withRun, withTx } from "../store/index.js";
-import { assertDetector, planGermanNames, isGermanName, planSpareWording, planPackagingNotes, SPARE_LEFT, SPARE_REMOVED, FIXED_UNIT_SKU, PACKAGING_NOTE, type NameRow } from "../core/germanName.js";
+import { assertDetector, planGermanNames, isGermanName, planSpareWording, planPackagingNotes, planTwinNames, SPARE_LEFT, SPARE_REMOVED, FIXED_UNIT_SKU, PACKAGING_NOTE, type NameRow } from "../core/germanName.js";
 import { REPO_ROOT } from "../config.js";
 
 export async function main(argv: string[]): Promise<void> {
@@ -16,6 +19,7 @@ export async function main(argv: string[]): Promise<void> {
   const vendor = argv.includes("--vendor") ? argv[argv.indexOf("--vendor") + 1] : "cisco";
   if (argv.includes("--strip-packaging")) return stripPackaging(vendor, commit);
   if (argv.includes("--strip-spare")) return stripSpare(vendor, commit);
+  if (argv.includes("--from-twin")) return fromTwin(vendor, commit);
   assertDetector();
   const pool = getPool();
   const read = async () => (await pool.query<NameRow & { category: string }>(
@@ -111,6 +115,48 @@ async function stripPackaging(vendor: string, commit: boolean): Promise<void> {
     const actual = { stripped: marked, fixed_base_names_still_carrying: fixedLeft.length, spares_changed: sparesChanged, chassis_changed: chassisChanged };
     if (fixedLeft.length || sparesChanged || chassisChanged || marked !== plans.length) throw new Error(`strip-packaging: actual ${JSON.stringify(actual)} does not match predicted ${JSON.stringify(predicted)}`);
     return { stats: { ...actual, kept_chassis: kept_chassis.length, predicted_to_strip: plans.length }, notes: `packaging note removed from ${plans.length} fixed-unit base names; ${kept_chassis.length} modular chassis kept (base ships without power supplies); spares unchanged` };
+  }, { gitSha });
+  console.log(`COMMITTED run ${out.runId}: ${JSON.stringify(out.stats)}`);
+  await closePool();
+}
+
+// `ingest name-language --from-twin [--commit]` (reviewer ruling, Batch B, 29 Sep 2026 -- twin_parity): a SKU-only name takes its
+// twin's real one (planTwinNames). The plan -- every id with its old name, new name and twin -- is written to data/dryrun BEFORE the
+// run and named in its inputs (the old names are the undo); the write is guarded on the old name; a re-plan afterwards must be empty.
+async function fromTwin(vendor: string, commit: boolean): Promise<void> {
+  const pool = getPool();
+  const read = async () => (await pool.query<{ id: number; sku: string; name: string | null }>(
+    `SELECT p.id, p.sku, p.name FROM parts p JOIN vendors v ON v.id = p.vendor_id WHERE v.slug = $1 AND p.retired_at IS NULL`, [vendor])).rows;
+  const { plans, refused } = planTwinNames(await read());
+  const planFile = path.join(REPO_ROOT, "data", "dryrun", `twin-names-${vendor}-${new Date().toISOString().slice(0, 10)}.tsv`);
+  fs.mkdirSync(path.dirname(planFile), { recursive: true });
+  const cell = (s: string | null) => JSON.stringify(s);
+  fs.writeFileSync(planFile, ["part_id\tsku\taction\told_name\tnew_name\tname_source_or_reason",
+    ...plans.map((p) => `${p.id}\t${p.sku}\twrite\t${cell(p.old)}\t${cell(p.name)}\t${p.source}`),
+    ...refused.map((p) => `${p.id}\t${p.sku}\trefused\t${cell(p.old)}\t${cell(p.name)}\t${p.why}`)].join("\n") + "\n");
+  const planSha = createHash("sha256").update(fs.readFileSync(planFile)).digest("hex");
+  const predicted = { to_write: plans.length, from_spare: plans.filter((p) => p.twin.endsWith("=")).length, refused: refused.length };
+  console.log(`name-language --from-twin ${vendor}: ${JSON.stringify(predicted)} -> ${path.relative(REPO_ROOT, planFile)} (sha256 ${planSha.slice(0, 12)})`);
+  for (const p of plans.slice(0, 10)) console.log(`  ${p.sku}: ${cell(p.old)} -> ${cell(p.name)}  [${p.source}]`);
+  for (const r of refused) console.log(`  REFUSED ${r.sku}: ${cell(r.name)} (${r.why})`);
+  if (!commit) { console.log("DRY RUN — nothing written. Add --commit."); await closePool(); return; }
+  if (!plans.length) { console.log("nothing to do"); await closePool(); return; }
+
+  let gitSha: string | undefined;
+  try { gitSha = execFileSync("git", ["rev-parse", "HEAD"], { cwd: REPO_ROOT, encoding: "utf8" }).trim(); } catch { gitSha = undefined; }
+  const out = await withRun("name-from-twin", { vendor, predicted, plan: path.relative(REPO_ROOT, planFile), plan_sha256: planSha,
+    approved: "reviewer ruling (Batch B order, 29 Sep 2026): twin_parity -- name propagation across spare/base pairs" }, async () => {
+    await withTx(async (client) => {
+      const a = await client.query(
+        `UPDATE parts p SET name = u.name, name_source = u.source, name_state = 'real', updated_at = now()
+           FROM unnest($1::bigint[], $2::text[], $3::text[], $4::text[]) AS u(id, old, name, source)
+          WHERE p.id = u.id AND p.name IS NOT DISTINCT FROM u.old`,
+        [plans.map((p) => p.id), plans.map((p) => p.old), plans.map((p) => p.name), plans.map((p) => p.source)]);
+      if (a.rowCount !== plans.length) throw new Error(`from-twin: wrote ${a.rowCount}/${plans.length} — a name changed between plan and write; nothing committed`);
+    });
+    const again = planTwinNames(await read());
+    if (again.plans.length) throw new Error(`from-twin: a re-plan after the write still finds ${again.plans.length} — the write did not take`);
+    return { stats: { written: plans.length, refused: refused.length, replan_after_write: 0 }, notes: `${plans.length} SKU-only names took their twin's real name` };
   }, { gitSha });
   console.log(`COMMITTED run ${out.runId}: ${JSON.stringify(out.stats)}`);
   await closePool();

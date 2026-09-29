@@ -141,3 +141,42 @@ export function planGermanNames(rows: NameRow[]): { plans: NamePlan[]; skipped_d
   }
   return { plans, skipped_done: skipped };
 }
+
+/** name_state's rule (scripts/derive-part-states.mts NAME_STATE), in TypeScript: a name is SKU-ONLY when it is empty, or,
+ *  with everything but letters and digits removed, the SKU itself or the SKU with "Cisco" in front. */
+export function skuOnlyName(sku: string, name: string | null | undefined): boolean {
+  const n = String(name ?? "").replace(/[^A-Za-z0-9]/g, "").toUpperCase();
+  const s = sku.replace(/[^A-Za-z0-9]/g, "").toUpperCase();
+  return !n || n === s || n === `CISCO${s}`;
+}
+
+export type TwinNamePlan = { id: number; sku: string; old: string | null; name: string; source: string; twin: string };
+/** TWIN NAME PROPAGATION (reviewer ruling, Batch B, 29 Sep 2026 -- twin_parity: "name propagation across spare/base pairs").
+ *  `X=` is the spare orderable of `X`: the same hardware, so the same name. Where exactly ONE member of a live pair has a
+ *  SKU-only name and the other a real one, the SKU-only member takes the real one. Never the other way, never between two
+ *  real names (those disagree about wording, and choosing between them is a judgement this does not make). A name lent BY
+ *  the spare drops the spare's wording (stripSpareWording), as the 14 Sep lane does; one that still carries it, or a
+ *  German title (the German lane owns those), is REFUSED and named, never written. Pure, and idempotent: after the write
+ *  both members are real, so a re-plan is empty. */
+export function planTwinNames(rows: { id: number; sku: string; name: string | null }[]):
+  { plans: TwinNamePlan[]; refused: (TwinNamePlan & { why: string })[] } {
+  const bySku = new Map(rows.map((r) => [r.sku, r]));
+  const plans: TwinNamePlan[] = [], refused: (TwinNamePlan & { why: string })[] = [];
+  for (const spare of rows) {
+    if (!spare.sku.endsWith("=")) continue;
+    const base = bySku.get(spare.sku.slice(0, -1));
+    if (!base) continue;
+    const so = skuOnlyName(spare.sku, spare.name), bo = skuOnlyName(base.sku, base.name);
+    if (so === bo) continue;
+    const [target, from] = so ? [spare, base] : [base, spare];
+    const fromSpare = from === spare;
+    const name = fromSpare ? stripSpareWording(from.name!) : from.name!.trim();
+    const p = { id: target.id, sku: target.sku, old: target.name, name, twin: from.sku,
+      source: fromSpare && name !== from.name!.trim() ? `twin: ${from.sku}, ${SPARE_REMOVED}` : `twin: ${from.sku}` };
+    if (isGermanName(name)) refused.push({ ...p, why: "a German title: the German lane (name_de) owns it" });
+    else if (fromSpare && SPARE_LEFT.test(name)) refused.push({ ...p, why: "still carries the spare's wording after the strip: hand check" });
+    else if (skuOnlyName(target.sku, name)) refused.push({ ...p, why: "the lent name is itself SKU-only for this member" });
+    else plans.push(p);
+  }
+  return { plans, refused };
+}
