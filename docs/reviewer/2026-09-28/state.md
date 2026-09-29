@@ -11,7 +11,7 @@
 - Decision files short and append-only; no sabotage narration beyond the commit line. Verifier log committed with each report.
 - Verify a chat send: composer must read 0 chars afterwards.
 
-## Board: passed 16 | FAILED 10 | unavailable 3 | not exercised 3 (of 32) · self-test proven 20 | BROKEN 0 | unproven 12
+## Board: passed 18 | FAILED 9 | unavailable 3 | not exercised 3 (of 33) · self-test proven 21 | BROKEN 0 | unproven 12 (62ecef1, Batch A)
 HEAD 01ec60e+, deployed 01ec60e (artefacts a6f8b65). Full rebuild = scripts/mould-build.sh on the box (GIT_SHA=<sha>; copy runs/vocab/cisco-datasheets/labels.json in first; freeze BEFORE report), then scripts/mould-stamp.mts in the repo. build-layers refuses a single-category write.
 
 ## Flip order
