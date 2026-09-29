@@ -1059,6 +1059,31 @@ check("no sabotage run was ever recorded as succeeded",
     }
   }
 }
+// ---- extract defects per document (reviewer ruling 29 Sep 2026, migration 0033) ----------------------------------------
+{
+  const defectsOf = async (d: string) => (await query<{ x: { counts: Record<string, number>; total: number } | null }>(
+    "SELECT extract_defects AS x FROM source_docs WHERE doc_id = $1", [d])).rows[0]?.x ?? null;
+  check("a document applied from a RESULT that reports no defects stays NULL: never measured, not a measured zero",
+    (await defectsOf(provDoc)) === null && (await defectsOf(merakiDoc)) === null);
+  const defDir = fs.mkdtempSync(path.join(os.tmpdir(), "nz-acquired-defects-")); tmpDirs.push(defDir);
+  for (const f of fixtureFiles("good")) {
+    const doc = JSON.parse(fs.readFileSync(f, "utf8")) as Acquired;
+    if (doc.source === "provantage") {
+      doc.task.part_id = partA;
+      doc.result.defects = [{ code: "MODEL_ROW_UNATTRIBUTABLE" }, { code: "MODEL_ROW_UNATTRIBUTABLE" }, { code: "VALUE_TRUNCATED" }];
+    }
+    if (doc.source === "meraki") doc.result.defects = [];
+    fs.writeFileSync(path.join(defDir, path.basename(f)), JSON.stringify(doc, null, 1));
+  }
+  sabotages++;
+  await main([defDir, "--commit", "--vendor", "cisco"]);
+  const pd = await defectsOf(provDoc), md = await defectsOf(merakiDoc);
+  check("SABOTAGE the page's defects land on ITS document, counted by code, with the run that measured them",
+    pd?.counts.MODEL_ROW_UNATTRIBUTABLE === 2 && pd.counts.VALUE_TRUNCATED === 1 && pd.total === 3, pd);
+  check("an EMPTY defect list is recorded as a measured zero, not left NULL", md !== null && md.total === 0
+    && Object.keys(md.counts).length === 0, md);
+}
+
 cleanup();
 check("the cached pages written for this suite are gone again", cacheFiles.every((f) => !fs.existsSync(f)));
 // The fixture parts have no completeness rows; left behind they would trip invariants.test.ts

@@ -49,6 +49,18 @@ export async function ensureSourceDoc(input: SourceDocInput, db: Queryable = get
   return r.rows[0].doc_id;
 }
 
+/** Replace a document's extract-defect counts with this extraction's (migration 0033). An empty list is recorded as a
+ *  measured zero, never skipped: NULL has to keep meaning "never measured". Returns the rows updated (1, or 0 when the
+ *  document is not in source_docs, which the caller counts). */
+export async function recordExtractDefects(docId: string, defects: readonly { code?: string }[], runId: number,
+  db: Queryable = getPool()): Promise<number> {
+  const counts: Record<string, number> = {};
+  for (const d of defects) { const c = d?.code || "UNCODED"; counts[c] = (counts[c] ?? 0) + 1; }
+  const r = await db.query("UPDATE source_docs SET extract_defects = $2::jsonb WHERE doc_id = $1",
+    [docId, JSON.stringify({ counts, total: defects.length, run_id: runId })]);
+  return r.rowCount ?? 0;
+}
+
 export async function getSourceDoc(docId: string, db: Queryable = getPool()): Promise<Record<string, unknown> | null> {
   const r = await db.query("SELECT doc_id, url, doc_type, vendor_id, title, doc_class, fetched_at::text AS fetched_at, content_sha256, cache_path, tables, created_at FROM source_docs WHERE doc_id = $1", [docId]);
   return r.rows[0] ?? null;

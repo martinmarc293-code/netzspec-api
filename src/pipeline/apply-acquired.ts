@@ -49,7 +49,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 import {
-  getPool, closePool, withTx, withRun, hashFile, getPart, partsBySkuNorm, partsByAliasValue, ensureSourceDoc, docIdFor, linkDocParts,
+  getPool, closePool, withTx, withRun, hashFile, getPart, partsBySkuNorm, partsByAliasValue, ensureSourceDoc, recordExtractDefects, docIdFor, linkDocParts,
   applyMerge, upsertAlias, upsertImage, upsertRelation, upsertLifecycle, recordSourceCheck, recordImageCandidate,
   RELATION_KINDS as STORE_RELATION_KINDS,
   type RelationKind, type AliasKind, type CheckOutcome, type LifecycleInput, type PartRow, type PartCandidate, type AliasCandidate,
@@ -72,6 +72,8 @@ export type Result = {
   lifecycle?: Record<string, string | null> | null;
   price?: Record<string, unknown> | null;
   others?: Result[];
+  /** the extractor's defects for the whole page (cisco_datasheets); absent = the adapter reports none */
+  defects?: { code?: string; locator?: string; detail?: string }[];
 };
 export type Acquired = {
   // `vendor` is the queue's own answer to "whose part is this task about" (scraper/worker.py joins
@@ -681,6 +683,7 @@ export async function main(argv: string[]): Promise<void> {
 
   const stats: Record<string, number> = {
     files: files.length, pages: 0, entries: 0, parts_matched: 0, sku_unknown: 0, ambiguous: 0, family_scoped_skipped: 0,
+    extract_defects: 0, docs_defects_recorded: 0, docs_defects_unrecorded: 0,
     // the two numbers that were invisible: how many FACTS the family refusal discarded, and
     // how many entries carried no SKU at all. Both used to vanish into a bare `continue`.
     facts_family_scoped: 0, entries_no_sku: 0,
@@ -914,6 +917,14 @@ export async function main(argv: string[]): Promise<void> {
           await recordSourceCheck(part.id, src.id, { doc_id: docId, fetch_id: doc.fetch_id ?? null, outcome, facts_found: mappedKeys.length, fields_found: [...new Set(mappedKeys)] }, runId, db);
           stats.checks++;
         }
+      }
+      // What the extractor could NOT read on this page, counted per document (reviewer ruling 29 Sep 2026, migration
+      // 0033). Only an adapter that REPORTS defects writes; a page whose parts matched nothing has no source_docs row
+      // to carry them, and that is counted rather than dropped.
+      if (Array.isArray(res.defects)) {
+        stats.extract_defects += res.defects.length;
+        if (a.commit && runId !== null && docId) stats.docs_defects_recorded += await recordExtractDefects(docId, res.defects, runId, db);
+        else if (a.commit && runId !== null) stats.docs_defects_unrecorded++;
       }
     }
 

@@ -385,6 +385,13 @@ _f, _d = _deep(_table(["Model", "Fans"], [["WS-C2960X-24PD-L", "fixed"]]), NO_MA
 check("M5", "an exact 'Model' header reads as it always has",
       any(x.get("sku") == "WS-C2960X-24PD-L" and x.get("shape") == "A" for x in _f), [(x.get("sku"), x.get("shape")) for x in _f])
 
+_res = MOD.extract(_table(["Switch model", "Uplink configuration PON port"],
+                          [["CGP-ONT-1P", "1 GPON (SC/APC receptacle)"], ["CGP-ONT-4TVCW-x *", "1 GPON (SC/APC receptacle)"]]),
+                   {"task": "datasheet", "key": PON_URL, "url": PON_URL})
+check("M7", "SABOTAGE the lane's RESULT carries the page's defects, so apply-acquired can count them per document (the "
+            "list used to be built and discarded)",
+      any(d.get("code") == "MODEL_ROW_UNATTRIBUTABLE" for d in (_res.get("defects") or [])), _res.get("defects"))
+
 _cwd = os.getcwd()
 try:
     os.chdir(tempfile.gettempdir())

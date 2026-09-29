@@ -230,6 +230,9 @@ def extract(html: str, task: dict) -> dict:
     # the document's own PID list, so apply-acquired can enforce inheritance scope
     primary["document_pids"] = res["pids"]
     primary["tables"] = res["tables"]
+    # what the extractor could not read on this page (reviewer ruling 29 Sep 2026): apply-acquired counts it per document
+    # into source_docs.extract_defects. Until now the list was built and discarded here.
+    primary["defects"] = res["defects"]
     primary["name"] = _title(html)
     return primary
 
