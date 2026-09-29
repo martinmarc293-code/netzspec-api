@@ -241,7 +241,12 @@ function segments(s: string): string[] {
     //
     // Guarded like the "+" separator: only an "&" followed by a digit splits, so an ampersand
     // inside a name ("R&D", "AT&T") cannot break a clause apart.
-    .split(/\s*(?:,|;|(?<=\s)\+(?=\s*\d)|&(?=\s*\d)|\band\b|\bwith\b|\bplus\b|\/(?=\s*\d+\s*x))\s*/i)
+    // "combo with N x SFP+" (29 Sep 2026): the "with" after "combo" names the combo port's OTHER medium, not a second group
+    // -- split there and "4 x 10 Gigabit copper ports (combo with 4 x SFP+)" became four combo ports plus four SFP+.
+    // A BULLET IS A SEPARATOR (29 Sep 2026, the ports replay). Cisco's small-business sheets list one port group per bullet
+    // with no count multiplier -- SF352-08P "● 8 10/100 PoE+ ports ● 2 Gigabit copper/SFP combo" -- and as one segment
+    // the eight access ports took the combo clause's connector.
+    .split(/\s*(?:,|;|[●•▪◦‣]|(?<=\s)\+(?=\s*\d)|&(?=\s*\d)|\band\b|(?<!combo\s{0,3})\bwith\b|\bplus\b|\/(?=\s*\d+\s*x))\s*/i)
     .map((x) => x.trim())
     .filter(Boolean)
     .flatMap(splitAtLaterCounts);
@@ -261,20 +266,39 @@ function segments(s: string): string[] {
 //  count and a connector. Without that guard the test suite's own cable refusal broke on the first run: "... 100 GE
 //  MPO-Breakout-Glasfaserkabel zu 10x 10 GE SFP+" is ONE breakout cable, and cutting at "10x" made its far end a
 //  ten-port SFP+ device. Its first part names no connector, so it stays whole and is refused as a count of cables.
+//  AND THE GROUP AFTER THE CUT MUST NAME ONE TOO -- both sides complete, or no cut. The replay over the 2,590 stored cisco
+//  `ports` facts found the other half of that rule on its first read: N9K-C9348GC-FX3PH "48p 100M/1GT w 8x half-duplex
+//  ports, 4p 10/25G SFP28 ..." -- eight of the 48 copper ports are half-duplex capable, and a cut at "8x" made that
+//  property a group with no connector, refusing a stored value that was right. The same rule reads Cisco's management
+//  port correctly: "8 x 10 Gigabit SFP+ ● 1 x GE management port" names no connector after its "1 x", so it is not a
+//  data-port group and stays with the SFP+ clause (20 switches were being refused on it).
 function splitAtLaterCounts(seg: string): string[] {
   const first = COUNT.exec(seg) ?? COUNT_AT_START.exec(seg);
   if (!first) return [seg];
-  const cuts = [...seg.matchAll(/(?<=\s)\d{1,4}\s*[x×](?=\s|[A-Za-z])/g)].map((m) => m.index ?? 0).filter((i) => i > first.index);
+  // A count INSIDE brackets describes the group it sits in -- "4 x 10 Gigabit copper ports (combo with 4 x SFP+)" is four
+  // combo ports, not four plus four -- so it never opens a group.
+  const depthAt = (i: number) => [...seg.slice(0, i)].reduce((d, ch) => d + (ch === "(" ? 1 : ch === ")" ? -1 : 0), 0);
+  const cuts = [...seg.matchAll(/(?<=\s)\d{1,4}\s*[x×](?=\s|[A-Za-z])/g)].map((m) => m.index ?? 0).filter((i) => i > first.index && depthAt(i) <= 0);
+  // a clause "names" its connector when it states one, or carries its own PoE token (PoE is only defined over copper)
+  const names = (s: string) => CONNECTORS.some(([re]) => re.test(s)) || POE.test(s);
   const out: string[] = [];
   let from = 0;
   let countAt = first.index;   // the group's connector is read from ITS count onward: a SKU in front ("FG-CABLE-SR10-SFP+") is no evidence
-  for (const c of cuts) {
-    if (!CONNECTORS.some(([re]) => re.test(seg.slice(countAt, c)))) continue;
+  cuts.forEach((c, i) => {
+    const next = cuts[i + 1] ?? seg.length, after = seg.slice(c, next);
+    // A MANAGEMENT PORT IS NOT A DATA PORT, and left attached it lent its "1G" to the SFP+ group before it ("4x 10G SFP+
+    // (dedicated) ports ● 1x 1G management port" -> SFP+ at 10G AND 1G). Cut off and dropped, like a cable clause.
+    if (MANAGEMENT.test(after) && !names(after)) { out.push(seg.slice(from, c).trim()); from = next; countAt = next; return; }
+    if (!names(seg.slice(countAt, c)) || !names(after)) return;
     out.push(seg.slice(from, c).trim()); from = c; countAt = c;
-  }
+  });
   out.push(seg.slice(from).trim());
   return out.filter(Boolean);
 }
+
+const MANAGEMENT = /(?<![A-Za-z])(?:management|mgmt|console|out-of-band)(?![A-Za-z])/i;
+/** A transceiver PART NUMBER right after a count: "2x QSFP-40G-SR4", "8x SFP-10G-SR", "4x GLC-SX-MMD" -- the count is of optics. */
+const OPTIC_PID = /^\s*(?:[x×]\s*)?(?:Q?SFP(?:28|56|-?DD)?|CFP2?|CPAK|GLC|X2|XENPAK)-[A-Z0-9]+(?:-[A-Z0-9]+)+/i;
 
 /** A PoE OPTION IS A CAPABILITY OF PORTS ALREADY COUNTED, NOT MORE PORTS (29 Sep 2026, ruling (c)). The 890-series routers:
  *
@@ -408,12 +432,18 @@ export function parsePorts(raw: string): PortParse {
   const out: PortGroup[] = [];
   let poeInferredFor: string | null = null;
   let cableClause: string | null = null;
+  let opticClause: string | null = null;
   for (const seg of segs) {
     // Ignore trailing prose that carries no count at all ("LAN Base", "no PS"). A segment is
     // only REQUIRED to parse if it looks like it is describing ports.
     const cm = COUNT.exec(seg) || COUNT_AT_START.exec(seg);
     if (cm && CABLE_NOUN.test(seg.slice(cm.index + cm[0].length))) { cableClause = seg; continue; }
     if (cm && POE_OPTION.test(seg.slice(cm.index + cm[0].length)) && !CONNECTORS.some(([re]) => re.test(seg))) continue;
+    // A COUNT OF OPTICS IS NOT A COUNT OF PORTS (29 Sep 2026, the ports replay): N2K-C2232PR "Nexus 2232PP Bundle with 2x
+    // QSFP-40G-SR4 8x SFP-10G-SR" names the transceivers the bundle ships, by part number, and was stored as ten ports.
+    if (cm && OPTIC_PID.test(seg.slice(cm.index + cm[0].length))) { opticClause = seg; continue; }
+    // a management port is not a data port (see splitAtLaterCounts): a bulleted "1 x GE management port" is skipped whole
+    if (cm && MANAGEMENT.test(seg.slice(cm.index + cm[0].length)) && !CONNECTORS.some(([re]) => re.test(seg))) continue;
     const mentionsPorts = /\bports?\b/i.test(seg) || CONNECTORS.some(([re]) => re.test(seg));
     if (!cm && !mentionsPorts) continue;
     if (!cm) return { ok: false, detail: `segment has a port token but no count: "${seg}"` };
@@ -433,7 +463,16 @@ export function parsePorts(raw: string): PortParse {
     const rest = seg.slice(0, cm.index) + " " + after;
 
     let typ: string | null = null;
-    for (const [re, t] of CONNECTORS) if (re.test(rest)) { typ = t; break; }
+    // A COMBO CLAUSE NAMES BOTH ITS MEDIA, so "combo" decides it before the list-order scan can pick either one: "4 x 10
+    // Gigabit copper ports (combo with 4 x SFP+)" is four combo ports, and SFP+ sits above COMBO in CONNECTORS.
+    // Read AFTER the count only: "Catalyst 9600 Series Combo line card 40 ports 1/10/25GE SFP" names a COMBO LINE CARD (the
+    // product, before the count), and its 40 ports are SFP -- the replay turned three line cards into combo ports on it.
+    if (/\bCOMBO\b/i.test(after)) typ = "combo";
+    if (!typ) for (const [re, t] of CONNECTORS) if (re.test(rest)) { typ = t; break; }
+    // A CLAUSE THAT CARRIES ITS OWN PoE TOKEN IS COPPER AND BORROWS NOTHING (29 Sep 2026, the ports replay). The at-most-once
+    // rule below guards a PoE LENT across clauses; "16 x 10/100/1000 30W PoE+ ports ● 8 x 2.5G 30W PoE+ ports" states PoE in
+    // each clause, which is this file's founding inference applied twice, not one inference spent twice.
+    if (!typ && POE.test(seg)) typ = "rj45";
     if (!typ && stringHasPoE) {
       // The PoE inference may be used AT MOST ONCE per string. A description states PoE for its
       // access ports and names its uplinks separately, so exactly one connector-less clause can
@@ -460,7 +499,9 @@ export function parsePorts(raw: string): PortParse {
   }
 
   if (!out.length) {
-    return { ok: false, detail: cableClause
+    return { ok: false, detail: opticClause
+      ? `a count of optics is not a count of ports ("${opticClause}"), and nothing else in "${s}" states a port`
+      : cableClause
       ? `a count of cables is not a count of ports ("${cableClause}"), and nothing else in "${s}" states a port`
       : `no port group found in "${s}"` };
   }

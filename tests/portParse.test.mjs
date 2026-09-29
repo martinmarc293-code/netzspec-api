@@ -37,6 +37,30 @@ const cases = [
     want: [g("rj45", [], 8)] },
   { in: "4-port 10/100-Mbps managed switch With 2-port Power over Ethernet  (PoE) option",
     want: [g("rj45", ["10/100M"], 4)] },
+  // THE REPLAY'S TWO FINDINGS (29 Sep 2026, 2,590 stored cisco ports facts): a later count opens a group only when BOTH
+  // sides name a connector. A property of counted ports ("w 8x half-duplex ports") is not a group; a management port is
+  // not a data port and stays with the clause before it.
+  { in: "Cisco N9300 with 48p 100M/1GT w 8x half-duplex ports, 4p 10/25G SFP28 and 2p 40/100G QSFP28 ports",
+    want: [g("rj45", ["1G"], 48), g("sfp28", ["25G"], 4), g("qsfp28", ["100G"], 2)] },   // exactly the stored value it must keep
+  { in: "● 8 x 10 Gigabit copper ports ● 8 x 10 Gigabit SFP+ ● 1 x GE management port ● Rack-mountable",
+    want: [g("rj45", ["10G"], 8), g("sfp-plus", ["10G"], 8)] },
+  // A clause with its OWN PoE token is copper: three groups, not two (the 8 x 2.5G group was absorbed, or took SFP+).
+  { in: "● 16 x 10/100/1000 30W PoE+ ports ● 8 x 2.5G 30W PoE+ ports ● 4 x 10 Gigabit SFP+ ● 375W PoE power budget ● Rack-mountable",
+    want: [g("rj45", ["10/100/1000M"], 16), g("rj45", ["2.5G"], 8), g("sfp-plus", ["10G"], 4)] },
+  // A count inside brackets describes its own group: four combo ports, not four plus four SFP+.
+  { in: "● 20 x 10 Gigabit SFP+ ● 4 x 10 Gigabit copper ports (combo with 4 x SFP+) ● 1 x GE management port ● Rack-mountable",
+    want: [g("sfp-plus", ["10G"], 20), g("combo", ["10G"], 4)] },
+  // "Combo" in the PRODUCT name, before the count, types nothing: a combo line card's 40 ports are SFP.
+  { in: "C9600-LC-40YL4CD Cisco Catalyst 9600 Series Combo line card 40 ports 1/10/25GE SFP and 2 ports 40/100GE QSFP Uplinks",
+    want: [g("sfp", ["25G"], 40), g("qsfp-plus", ["100G"], 2)] },   // exactly its stored value
+  // A bullet separates groups: eight copper PoE ports and two combo ports, not eight combo ports.
+  { in: "● 8 10/100 PoE+ ports ● 2 Gigabit copper/SFP combo ● 62W PoE power budget",
+    want: [g("rj45", ["10/100M"], 8), g("combo", ["1G"], 2)] },
+  // A count followed by a transceiver PART NUMBER counts optics shipped in a bundle, never ports.
+  { in: "Nexus 2232PP Bundle with 2x QSFP-40G-SR4 8x SFP-10G-SR", refuse: "count of optics" },
+  // ...and its speed does not leak into the group before it (was sfp-plus at 10G AND 1G).
+  { in: "● 48x 10G 10GBase-T copper ports ● 4x 10G SFP+ (dedicated) ports ● 1x 1G management port",
+    want: [g("rj45", ["10G"], 48), g("sfp-plus", ["10G"], 4)] },
   // CONTROL: a glued multiplier after the first count is a count-and-speed token, never a new group.
   { in: "Catalyst 9300 24-port 1G copper with fixed 4x10G/1G SFP+ uplinks",
     want: [g("rj45", ["1G"], 24), g("sfp-plus", ["10G", "1G"], 4)] },
