@@ -1,8 +1,8 @@
 {
   "vendor": "cisco",
   "category": "data-center-networking",
-  "built_at": "2026-09-29T21:10:01.720Z",
-  "commit": "e3bbd1d4a36cbfaebb4051e608614515831d8ebb",
+  "built_at": "2026-09-29T21:36:04.976Z",
+  "commit": "0921763551db50be769463be783609a8d65dcaf7",
   "uncommitted_rule_files": [],
   "mapping_file": "data/reference/product-lines/cisco-data-center-networking.json",
   "parts": 0,
@@ -42,9 +42,9 @@
   "inbound_unplaced": {},
   "done": true,
   "build": {
-    "data_commit": "0b2b6a89df75+89dirty",
-    "code_commit": "5ccc994f60c9",
+    "data_commit": "0921763551db+84dirty",
+    "code_commit": "0921763551db",
     "contract_hash": "e07214730262c698",
-    "generated_at": "2026-09-29T21:18:40.683Z"
+    "generated_at": "2026-09-29T21:43:23.268Z"
   }
 }

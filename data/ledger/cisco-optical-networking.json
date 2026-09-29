@@ -3,7 +3,7 @@
   "vendor": "cisco",
   "category": "optical-networking",
   "profile_hash": "09af958fe2c8b6f0",
-  "built_on_commit": "e3bbd1d",
+  "built_on_commit": "0921763",
   "norm_version": "1.8.7",
   "declared_fields": 403,
   "gap_states": {
@@ -2736,7 +2736,6 @@
         "input_current_max",
         "input_current_nominal",
         "input_plug",
-        "input_power_range",
         "input_voltage",
         "input_wavelength",
         "inrush_duration_max",
@@ -2882,7 +2881,6 @@
         "timing_ports",
         "tunable",
         "tx_max_output_power",
-        "tx_power",
         "uplink_modular",
         "upoe_support",
         "vcpu_count",
@@ -3053,6 +3051,7 @@
         "image_sensor",
         "input_current",
         "input_freq",
+        "input_power_range",
         "input_va_max",
         "inrush_current",
         "inrush_current_max",
@@ -3235,6 +3234,7 @@
         "touchscreen",
         "tpm",
         "tuning_range",
+        "tx_power",
         "tx_wavelength",
         "uc_proxy_sessions",
         "ui_languages",
@@ -6904,7 +6904,6 @@
         "vpn_throughput",
         "wall_mount",
         "wavelength_range",
-        "weight",
         "wind_rating",
         "wire_gauge",
         "write_latency",
@@ -7268,6 +7267,7 @@
         "wan_interfaces",
         "wavelength",
         "webex_native",
+        "weight",
         "whiteboarding",
         "width",
         "wifi_generation",
@@ -16413,9 +16413,9 @@
     }
   },
   "build": {
-    "data_commit": "0b2b6a89df75+89dirty",
-    "code_commit": "5ccc994f60c9",
+    "data_commit": "0921763551db+84dirty",
+    "code_commit": "0921763551db",
     "contract_hash": "e07214730262c698",
-    "generated_at": "2026-09-29T21:18:40.683Z"
+    "generated_at": "2026-09-29T21:43:23.268Z"
   }
 }

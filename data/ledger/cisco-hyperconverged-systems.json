@@ -3,7 +3,7 @@
   "vendor": "cisco",
   "category": "hyperconverged-systems",
   "profile_hash": "0cd8578b3ae1673c",
-  "built_on_commit": "e3bbd1d",
+  "built_on_commit": "0921763",
   "norm_version": "1.8.7",
   "declared_fields": 191,
   "gap_states": {
@@ -5227,7 +5227,6 @@
         "bundle_contents",
         "cable_length",
         "cache_drive_options",
-        "cache_l3",
         "call_bandwidth",
         "call_control",
         "calling_platform",
@@ -5658,6 +5657,7 @@
         "automation_features",
         "beamwidth_elevation",
         "bmc_management",
+        "cache_l3",
         "clearance_rear",
         "cluster_size_max",
         "coherent_interop_standards",
@@ -9282,7 +9282,6 @@
         "cellular_max_speed",
         "cellular_slots",
         "cellular_throughput",
-        "certifications",
         "channel_bandwidth",
         "channel_count",
         "channel_spacing",
@@ -9354,7 +9353,6 @@
         "dynamic_load_capacity",
         "eccn",
         "ecmp_paths_max",
-        "emc_emissions",
         "enclosure_material",
         "encryption",
         "ethernet_switch",
@@ -9399,8 +9397,6 @@
         "hsrp_groups",
         "hum_modulation_12a",
         "hum_modulation_15a",
-        "humidity_operating",
-        "humidity_storage",
         "hypervisor_support",
         "ieee_standards",
         "igmp_snooping_groups",
@@ -9702,6 +9698,7 @@
         "automation_features",
         "beamwidth_elevation",
         "bmc_management",
+        "certifications",
         "clearance_rear",
         "cluster_size_max",
         "coherent_interop_standards",
@@ -9724,6 +9721,7 @@
         "dimm_voltage",
         "drive_form_factor",
         "drive_options",
+        "emc_emissions",
         "emc_immunity",
         "etsi_standards",
         "expansion_io",
@@ -9737,6 +9735,8 @@
         "gpu_memory",
         "heat_dissipation",
         "holdup_time",
+        "humidity_operating",
+        "humidity_storage",
         "hypervisor",
         "input_current",
         "input_current_max",
@@ -19996,9 +19996,9 @@
     }
   },
   "build": {
-    "data_commit": "0b2b6a89df75+89dirty",
-    "code_commit": "5ccc994f60c9",
+    "data_commit": "0921763551db+84dirty",
+    "code_commit": "0921763551db",
     "contract_hash": "e07214730262c698",
-    "generated_at": "2026-09-29T21:18:40.683Z"
+    "generated_at": "2026-09-29T21:43:23.268Z"
   }
 }

@@ -3,7 +3,7 @@
   "vendor": "cisco",
   "category": "interfaces-modules",
   "profile_hash": "d5b4b7c0c3d50aa8",
-  "built_on_commit": "e3bbd1d",
+  "built_on_commit": "0921763",
   "norm_version": "1.8.7",
   "declared_fields": 394,
   "gap_states": {
@@ -1787,7 +1787,6 @@
         "dc_input_voltage",
         "dedicated_mgmt_interface",
         "delivery_method",
-        "dimensions",
         "dimm_slots",
         "dispersion_compensation",
         "display_resolution",
@@ -1814,7 +1813,6 @@
         "gpu_memory",
         "gre_tunnels",
         "hsrp_groups",
-        "humidity_operating",
         "hypervisor_support",
         "ieee_standards",
         "igmp_snooping_groups",
@@ -1961,7 +1959,6 @@
         "supported_pc_resolutions",
         "switching_threshold",
         "system_memory",
-        "temp_operating",
         "temp_operating_extended",
         "temp_short_term",
         "thermal_shock",
@@ -2081,6 +2078,7 @@
         "depth",
         "diagnostics",
         "digital_signage",
+        "dimensions",
         "dimm_ranks",
         "dimm_voltage",
         "directivity",
@@ -2132,6 +2130,7 @@
         "housing_material",
         "hum_modulation_12a",
         "hum_modulation_15a",
+        "humidity_operating",
         "humidity_storage",
         "hypervisor",
         "image_sensor",
@@ -2309,6 +2308,7 @@
         "system_management",
         "tdp",
         "temp_class",
+        "temp_operating",
         "temp_storage",
         "test_point_level",
         "third_party_apps",
@@ -11852,9 +11852,9 @@
     }
   },
   "build": {
-    "data_commit": "0b2b6a89df75+89dirty",
-    "code_commit": "5ccc994f60c9",
+    "data_commit": "0921763551db+84dirty",
+    "code_commit": "0921763551db",
     "contract_hash": "e07214730262c698",
-    "generated_at": "2026-09-29T21:18:40.683Z"
+    "generated_at": "2026-09-29T21:43:23.268Z"
   }
 }

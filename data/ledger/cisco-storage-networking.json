@@ -3,7 +3,7 @@
   "vendor": "cisco",
   "category": "storage-networking",
   "profile_hash": "b7fe49685dc85015",
-  "built_on_commit": "e3bbd1d",
+  "built_on_commit": "0921763",
   "norm_version": "1.8.7",
   "declared_fields": 185,
   "gap_states": {
@@ -2646,7 +2646,6 @@
         "console_ports",
         "console_ports_serial",
         "content_share_resolution",
-        "cooling",
         "copper_ethernet_ports",
         "cpu",
         "cpu_cores",
@@ -2808,7 +2807,6 @@
         "memory_max",
         "mezzanine_options",
         "mgig_rj45_ports",
-        "mgmt_class",
         "mibs_private",
         "mibs_standard",
         "mic_frequency_response",
@@ -2962,7 +2960,6 @@
         "supported_os",
         "supported_pc_resolutions",
         "surge_rating",
-        "switching_capacity",
         "switching_threshold",
         "system_management",
         "system_memory",
@@ -3036,6 +3033,7 @@
         "component_vendor_model",
         "concurrent_sessions",
         "connectivity_options",
+        "cooling",
         "country_of_origin",
         "cpu_base_clock",
         "cpu_boost_clock",
@@ -3092,6 +3090,7 @@
         "max_interfaces",
         "media_type_supported",
         "memory_speed_max",
+        "mgmt_class",
         "mgmt_ports",
         "min_disks_required",
         "min_software_release",
@@ -3149,6 +3148,7 @@
         "supported_modules",
         "supported_protocols",
         "supported_transceivers",
+        "switching_capacity",
         "tdp",
         "temp_class",
         "temp_operating_extended",
@@ -12613,9 +12613,9 @@
     }
   },
   "build": {
-    "data_commit": "0b2b6a89df75+89dirty",
-    "code_commit": "5ccc994f60c9",
+    "data_commit": "0921763551db+84dirty",
+    "code_commit": "0921763551db",
     "contract_hash": "e07214730262c698",
-    "generated_at": "2026-09-29T21:18:40.683Z"
+    "generated_at": "2026-09-29T21:43:23.268Z"
   }
 }

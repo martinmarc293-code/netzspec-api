@@ -3,7 +3,7 @@
   "vendor": "cisco",
   "category": "hyperconverged-infrastructure",
   "profile_hash": "e415fd16e03a4b29",
-  "built_on_commit": "e3bbd1d",
+  "built_on_commit": "0921763",
   "norm_version": "1.8.7",
   "declared_fields": 194,
   "gap_states": {
@@ -5290,7 +5290,6 @@
         "content_share_resolution",
         "cooling",
         "copper_ethernet_ports",
-        "cpu_base_clock",
         "cpu_interconnect",
         "cpu_options",
         "cpu_sockets",
@@ -5686,6 +5685,7 @@
         "connectivity_options",
         "country_of_origin",
         "cpu",
+        "cpu_base_clock",
         "cpu_boost_clock",
         "cpu_clock_frequency",
         "cpu_interconnect_links",
@@ -20012,9 +20012,9 @@
     }
   },
   "build": {
-    "data_commit": "0b2b6a89df75+89dirty",
-    "code_commit": "5ccc994f60c9",
+    "data_commit": "0921763551db+84dirty",
+    "code_commit": "0921763551db",
     "contract_hash": "e07214730262c698",
-    "generated_at": "2026-09-29T21:18:40.683Z"
+    "generated_at": "2026-09-29T21:43:23.268Z"
   }
 }

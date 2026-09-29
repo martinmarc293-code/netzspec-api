@@ -3,7 +3,7 @@
   "vendor": "cisco",
   "category": "servers-unified-computing",
   "profile_hash": "72c0b62b92187b05",
-  "built_on_commit": "e3bbd1d",
+  "built_on_commit": "0921763",
   "norm_version": "1.8.7",
   "declared_fields": 410,
   "gap_states": {
@@ -1109,7 +1109,6 @@
         "display_resolution",
         "display_size",
         "dram",
-        "drive_interface",
         "dynamic_load_capacity",
         "ecmp_paths_max",
         "enclosure_material",
@@ -1386,6 +1385,7 @@
         "display",
         "dori_distances",
         "drive_form_factor",
+        "drive_interface",
         "drive_options",
         "dual_stream",
         "eccn",
@@ -5274,7 +5274,6 @@
         "compatible_platform",
         "connector",
         "cooling",
-        "cpu_base_clock",
         "cpu_sockets",
         "crosstalk",
         "dac_type",
@@ -5542,6 +5541,7 @@
         "copper_ethernet_ports",
         "country_of_origin",
         "cpu",
+        "cpu_base_clock",
         "cpu_boost_clock",
         "cpu_clock_frequency",
         "cpu_interconnect",
@@ -20094,9 +20094,9 @@
     }
   },
   "build": {
-    "data_commit": "0b2b6a89df75+89dirty",
-    "code_commit": "5ccc994f60c9",
+    "data_commit": "0921763551db+84dirty",
+    "code_commit": "0921763551db",
     "contract_hash": "e07214730262c698",
-    "generated_at": "2026-09-29T21:18:40.683Z"
+    "generated_at": "2026-09-29T21:43:23.268Z"
   }
 }
