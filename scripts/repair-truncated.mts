@@ -45,11 +45,15 @@ const rows = (await db.query<Row>(
     ORDER BY f.doc_id, f.id`, [vendor, field])).rows;
 
 // ---- re-read every (document, locator) once ----------------------------------------------------------------------
+// A stored locator may carry the document revision it was read from ('t1:r3:c1|rev=2026-09-01T13:09:41.000Z'); the
+// extractor emits the cell coordinate alone. Match on the coordinate: the strict-prefix proof, not the stamp, is what
+// establishes it is the same cell. The superseding fact keeps the stored locator, stamp and all.
+const cellOf = (loc: string | null): string | null => (loc ? loc.split("|")[0] : null);
 const byDoc = new Map<string, { doc_id: string; url: string; cache_path: string | null; locators: Set<string> }>();
 for (const r of rows) {
   if (!r.doc_id || !r.url || !r.locator) continue;
   const d = byDoc.get(r.doc_id) ?? { doc_id: r.doc_id, url: r.url, cache_path: r.cache_path, locators: new Set<string>() };
-  d.locators.add(r.locator); byDoc.set(r.doc_id, d);
+  d.locators.add(cellOf(r.locator)!); byDoc.set(r.doc_id, d);
 }
 const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "repair-truncated-"));
 fs.writeFileSync(path.join(tmp, "in.json"), JSON.stringify([...byDoc.values()].map((d) => ({ ...d, locators: [...d.locators] }))));
@@ -68,7 +72,7 @@ for (const r of rows) {
   const doc = r.doc_id ? reread.docs[r.doc_id] : undefined;
   if (!doc || doc.status === "cache_miss") { out.cache_miss++; missDocs.add(String(r.doc_id)); continue; }
   if (doc.status !== "ok") { out.refused++; refused.push(`${name}: the extractor raised on the document (${doc.status})`); continue; }
-  const cells = (r.locator ? doc.cells[r.locator] : undefined) ?? [];
+  const cells = (r.locator ? doc.cells[cellOf(r.locator)!] : undefined) ?? [];
   if (!cells.length) { out.refused++; refused.push(`${name}: no record at the stored locator`); continue; }
   const same = cells.filter((c) => c.value === r.raw);
   const longer = [...new Set(cells.filter((c) => typeof c.value === "string" && c.value.length > r.raw.length && c.value.startsWith(r.raw)).map((c) => JSON.stringify([c.value, c.truncated])))]
