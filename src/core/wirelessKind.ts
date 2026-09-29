@@ -100,9 +100,10 @@ const RULES: { kind: WirelessKind; re: RegExp }[] = [
   { kind: "ap", re: /^C91\d\dAX[A-Z]*-[A-Z]{1,2}-CAP$/ },
   // kind-layer (13 Sep 2026): the Aironet 1800S Network Sensor (item 3 issue: "network sensor (not an AP)").
   { kind: "wireless-sensor", re: /^AIR-AP1800S-/ },
-  // kind-layer (13 Sep 2026): CW-ACC-MEM-32G "Additional 32GB Storage for Application Hosting" is a module, not a
-  // CW-ACC- accessory.
-  { kind: "module", re: /^CW-ACC-MEM-/ },
+  // kind-layer (13 Sep 2026): CW-ACC-MEM-32G "Additional 32GB Storage for Application Hosting" is not a CW-ACC- accessory.
+  // It was filed `module` because wireless had no `drive` kind until Q3 (29 Sep); ruling Q8 (29 Sep 2026): storage -> `drive`.
+  // The rule stays HERE, before the accessory rule's ^CW-ACC-, which is the only reason it exists.
+  { kind: "drive", re: /^CW-ACC-MEM-/ },
   // kind-layer (13 Sep 2026): MECHANICAL — the tokens of the old accessory rule that name what FIXES or COVERS a device,
   // and the families III.0 read: brackets and mounts (FM-BRKT, FLMESH-HW-BRK, AIR-MNT-ART1, CW-MNT-ART2-00 "Articulating
   // arm", AIR-AP1200MNTGKIT), pole / strand / antenna / ground mount kits (AIR-ACCPMK1570-2 "Wall or pole ... with tilt
@@ -169,8 +170,8 @@ const RULES: { kind: WirelessKind; re: RegExp }[] = [
   //   tpm      TPM<n>:  AIR-TPM2-001, IWA-TPM-002C
   //   nic      -NIC- / the VIC 1455:  AIR-CT6870-NIC-K9, IWA-PCIE-C25Q-04
   //   fan      FAN:  AIR-FAN-5500, CMX-FAN-C220M5, FAN-ROOM70-2PK=
-  // LEFT IN MODULE, named so the residue is visible: AIR-PCI-1A-240M4 (riser), CMX-HS-C220M5 (heat sink), IWA-SATAIN-220M6
-  // (interposer), the BLE beacons, AIR-MOD-*POE, AIR-VPN-WLC, COGNIO-SEWIFI-CB, CW-ACC-MEM-32G -- none of them was ruled.
+  // LEFT IN MODULE, named so the residue is visible: the BLE beacons, AIR-MOD-*POE, AIR-VPN-WLC, COGNIO-SEWIFI-CB (all powered
+  // modules; ruling Q8 asks them power_max). The three passive boards and the storage add-on moved by Q8, below.
   { kind: "memory", re: /-MR-[X\d]/ },
   { kind: "drive", re: /(?:^|-)(?:SD\d+G[A-Z0-9]*|SD-\d+G|A03-D\d{3,4}G[A-Z0-9]*|HD\d{3,4}G[A-Z0-9]*|HD)(?:-|=|$)/ },
   { kind: "cpu", re: /(?:^|-)CPU(?:-|=|$)/ },
@@ -178,6 +179,12 @@ const RULES: { kind: WirelessKind; re: RegExp }[] = [
   { kind: "tpm", re: /(?:^|-)TPM\d*(?:-|=|$)/ },
   { kind: "nic", re: /-NIC-|^IWA-PCIE-C25Q-/ },
   { kind: "fan", re: /(?:^|-)(?:FAN|FANT)(?:-|=|$)/ },
+  // RULING Q8 (29 Sep 2026), before module: three PASSIVE appliance boards and one storage add-on, each by its own family --
+  // CMX-HS-C220M5 "Heat sink for UCS C220 M5 rack servers 150W CPUs & below" (ucsKind: mechanical; its "150W" power_max fact
+  // was the CPU class it cools, retracted), AIR-PCI-1A-240M4 "Right PCIe Riser Board (Riser 1)" (a riser draws nothing and has
+  // no port: collabKind refuses riser-as-nic), IWA-SATAIN-220M6 "C220M6 SATA Interposer board (1U)". (CW-ACC-MEM-32G, the
+  // fourth, is `drive` by its own rule above, before the accessory rule's ^CW-ACC-.)
+  { kind: "mechanical", re: /^CMX-HS-|^AIR-PCI-\d|^IWA-SATAIN-/ },
   { kind: "module", re: /^AIR-RM\d|^AIR-RM-|^AIR-BLE-USB|-NIC-|^C9800-\d+X\d+GE|^AIR-VPN-|^WS-SVC-|-MR-[X\d]|(?:^|-)(?:MEM|FAN|FANT|CPU|SD|RAID|MRAID\d*G?|TPM\d*|PCI|HS|SRVR|A03|D\d{3,4}G[A-Z0-9]*|SD\d+G[A-Z0-9]*)(?:-|=|$)|^ASR5K-(?:\d{3,5}[A-Z0-9]*|SMC|PSC|RCC|SPIO|SPS3|C4OC3|4OC3C)-|^ASR55-(?:DPC|UDPC|MIO|UMIO|FSC|SSC)(?:-|=|$)|^AIR-MOD-S?POE|^IWA-(?:PCIE|SATAIN)-|^AIR-MSE\d{4}-HD|^MSE-HD\d|^COGNIO-/ },
   // Server-class appliances and platform chassis: MSE / CMX / DNAC-location appliances, Fluidmesh
   // gateways, the ASR 5000/5500 chassis (a mobile packet core platform filed in this category).

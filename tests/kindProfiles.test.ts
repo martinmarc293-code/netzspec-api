@@ -35,10 +35,10 @@ const closed = parityRuled("module", ["power_max"], ["routers", "interfaces-modu
 check("CONTROL Q3: the same ruling covers the cup when every category it does not name agrees", closed.ruled, JSON.stringify(closed));
 
 // THE GROUPING, not a pair (29 Sep 2026): the board printed `diffs[0]` = interfaces-modules vs routers for module power_max,
-// the one pair already RULED, while the unruled split (wireless against the three that ask) was nowhere on the line.
-// Through the REAL resolver over the five categories holding a live module today.
+// the one pair already RULED, while the unruled split (wireless against the three that ask) was nowhere on the line. FIXED
+// answers (the 29 Sep state), so the case cannot drift with the profiles -- Q8 has since closed the live split, below.
 const five = ["interfaces-modules", "routers", "security", "switches", "wireless"];
-const grouped = parityRuled("module", ["power_max"], five, real("module"));
+const grouped = parityRuled("module", ["power_max"], five, (cat) => (cat === "wireless" || cat === "routers" ? "no" : "req"));
 const g = grouped.split.find((s) => s.cup === "power_max");
 check("GROUPING: routers is reported as RULED for power_max, never inside the split", !!g && g.ruled.join() === "routers" &&
   !Object.values(g.answers).flat().includes("routers"), JSON.stringify(g));
@@ -46,6 +46,10 @@ check("GROUPING: every unruled category appears in exactly one answer group (non
   !!g && Object.values(g.answers).flat().sort().join() === five.filter((c) => c !== "routers").sort().join(), JSON.stringify(g));
 check("GROUPING: the printed line names every category of the split", !!g &&
   five.every((c) => formatParitySplit(g).includes(c)), g ? formatParitySplit(g) : "no split");
+// RULING Q8 (29 Sep 2026), through the REAL resolver: wireless modules are asked power_max, so the four unruled categories agree
+// and the routers ruling covers the rest -- module power_max is no longer a divergence.
+const q8 = parityRuled("module", ["power_max"], five, real("module"));
+check("Q8: module power_max is covered across the five categories holding a live module", q8.ruled, JSON.stringify(q8.split));
 
 // The cable/media lease: active while cable_construction is not a dictionary key.
 const cable = KIND_PARITY_EXCEPTIONS.find((e) => e.kind === "cable" && e.cups.includes("media"));

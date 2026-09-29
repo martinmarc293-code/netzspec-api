@@ -135,7 +135,13 @@ const REFUSALS: [string, string, string][] = [
   ["AIR-AP1140RETROMT=", "mechanical", "'Mount Kit Fits AP to 1130 Brackets' — not an AP 1140"],
   // III.0 item 4 §7 and item 6: wireless.other and neighbouring families, each read by name
   ["C9120AXI-B-CAP", "ap", "'9120AX Series - 5YR- SNTC' — the AP with support, not a cover-cap"],
-  ["CW-ACC-MEM-32G", "module", "'Additional 32GB Storage for Application Hosting' — not a CW-ACC accessory"],
+  ["CW-ACC-MEM-32G", "drive", "'Additional 32GB Storage for Application Hosting' — storage (ruling Q8), not a CW-ACC accessory"],
+  // ruling Q8 (29 Sep 2026): the passive appliance boards left in `module` by Q3 are mechanical — nothing to power, no port
+  ["CMX-HS-C220M5", "mechanical", "'Heat sink for UCS C220 M5' — its 150W is the CPU class it cools"],
+  ["AIR-PCI-1A-240M4", "mechanical", "'Right PCIe Riser Board' — a passive riser, not a NIC"],
+  ["IWA-SATAIN-220M6", "mechanical", "'C220M6 SATA Interposer board' — a passive board"],
+  ["AIR-BLE-USB=", "module", "a powered BLE beacon stays a module (Q8 asks it power_max)"],
+  ["COGNIO-SEWIFI-CB", "module", "a powered cardbus adapter stays a module"],
   ["FLMESH-HW-1000-1", "appliance", "the FM1000 GATEWAY, not a radio"],
   // q28 + reviewer correction (28 Sep 2026): the MobileAccessVE units are a device; their mounting kits are not.
   ["AIR-330-MB-1=", "device", "'One-link Main Building Unit' — a MobileAccessVE unit (q28)"],

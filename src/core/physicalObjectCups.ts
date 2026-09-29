@@ -80,7 +80,10 @@ export const PHYSICAL_OBJECT_CUPS: Record<string, Record<string, readonly string
   // wireless/cable was RF coax AND mains cords -- "20 ft. cable with RP-TNC connectors" beside "AC Power Cord, Type C5" --
   // so `connector` stayed out. RULING Q4 (29 Sep 2026): the 82 mains cords become their own `power-cord` kind (wirelessKind),
   // which leaves `cable` the 59 RF / console / Cat 6A cables that DO have a connector, in this category's RF domain.
-  wireless: { bundle: ["product_compatibility"], cable: ["connector"] },
+  // RULING Q8 (29 Sep 2026): after the heat sink, riser and interposer left `module` (mechanical) and the storage add-on became
+  // a drive, wireless `module` is 50 POWERED modules (AIR-RM radios 29, C9800 NMs 10, BLE beacons 5, PoE modules 3, VPN, VBLE,
+  // cardbus) and is asked power_max as interfaces-modules, security and switches ask it (routers: rule 6).
+  wireless: { bundle: ["product_compatibility"], cable: ["connector"], module: ["power_max"] },
   "unified-communications": { server: ["altitude_max", "cpu", "emc_emissions", "humidity_storage"], bundle: ["product_compatibility"] },
   // CONFERENCING JOINS FOR AN INVARIANT, not for parts: it holds 0 live rows today. All three COLLAB_CATEGORIES
   // (unified-communications, collaboration-endpoints, conferencing) are served by one kind axis, and
@@ -155,6 +158,8 @@ export const PARITY_WIDENINGS: readonly { category: string; kind: string; cups: 
   { category: "hyperconverged-infrastructure", kind: "chassis", cups: ["rack_units"], richer: "optical-networking", witness: "15454-M6-SA" },
   // module power_max, Q3: security asks it of every module.
   { category: "switches", kind: "module", cups: ["power_max"], richer: "security", witness: "ASA-IC-6GE-CU-A" },
+  // module power_max, Q8: the wireless modules left after the passive boards moved out.
+  { category: "wireless", kind: "module", cups: ["power_max"], richer: "security", witness: "ASA-IC-6GE-CU-A" },
   // supervisor fabric_bandwidth, (d): VS-S2T-10G holds its own.
   { category: "storage-networking", kind: "supervisor", cups: ["fabric_bandwidth"], richer: "switches", witness: "VS-S2T-10G" },
 ];

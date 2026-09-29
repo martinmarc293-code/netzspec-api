@@ -312,6 +312,8 @@ const RUN_KIND_CLASS: Record<string, { approval: boolean; gate: boolean }> = {
   "backfill-doc-titles": D, "record-title-provenance": D, "record-retroactive-approval": A, "retro-gate": A, "apply-series-hints": AG, "apply-product-compat": AG, "set-series": A,
   // Q7 (29 Sep): writes one ports fact per converted part (gate) and retracts its lan/wan facts (withdrawal -> approval)
   "convert-lan-wan-ports": AG,
+  // a named rule proves a fact sits under the wrong cup and withdraws it (ruling Q8 onward) -> approval
+  "retract-mis-keyed": A,
 };
 // The vendor this lane has axes for; vendor_coverage owns every other vendor's hardware (unknown_zero counts them apart).
 const OWN_VENDOR = "cisco";
