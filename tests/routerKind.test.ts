@@ -394,14 +394,15 @@ check("partKind: NC55-SFP-DCAP 'SFP/ZSFP Dust Cap' is mechanical", partKind("rou
   const pend = (kind: string, role?: string) => kindQuestionSet("routers", kind, role).pending.map((p) => p.key).sort().join(",");
   const EXPECT: [string, string | undefined, string][] = [
     // reviewer C.1 (13 Sep 2026): router_throughput, wan_interfaces, lan_interfaces REQUIRED of router in every role
+    // Batch C (29 Sep 2026): wan_interfaces / lan_interfaces LEFT the set -- retiring into `ports` with a role (reviewer ruling)
     // 27 Sep 2026: dimensions and flash left the unresolved-role REQUIRED list for the PENDING one -- still
     // counted in required_total, now naming deploy_role as what would settle them. The role blocks are
     // asserted below and are unchanged: branch still owes both, smb still owes neither.
-    ["router", undefined, "certifications,lan_interfaces,router_throughput,wan_interfaces"],
-    ["router", "branch", "certifications,dimensions,flash,lan_interfaces,router_throughput,wan_interfaces"],
-    ["router", "edge", "certifications,dimensions,flash,lan_interfaces,router_throughput,wan_interfaces"],
-    ["router", "smb", "certifications,humidity_operating,lan_interfaces,router_throughput,temp_operating,temp_storage,wan_interfaces"],
-    ["router", "industrial-iot", "altitude_max,certifications,dimensions,dram,flash,lan_interfaces,power_max,router_throughput,temp_operating,wan_interfaces,weight"],
+    ["router", undefined, "certifications,router_throughput"],
+    ["router", "branch", "certifications,dimensions,flash,router_throughput"],
+    ["router", "edge", "certifications,dimensions,flash,router_throughput"],
+    ["router", "smb", "certifications,humidity_operating,router_throughput,temp_operating,temp_storage"],
+    ["router", "industrial-iot", "altitude_max,certifications,dimensions,dram,flash,power_max,router_throughput,temp_operating,weight"],
     ["sp-router", undefined, "altitude_max,certifications,humidity_operating,input_voltage,ports,power_max,temp_operating,temp_storage"],
     // layers review 14 Sep 2026 (item 6): the SP roles are a population, not a cup delta — every role asks the kind core
     ["sp-router", "sp-access", "altitude_max,certifications,humidity_operating,input_voltage,ports,power_max,temp_operating,temp_storage"],
@@ -438,12 +439,12 @@ check("partKind: NC55-SFP-DCAP 'SFP/ZSFP Dust Cap' is mechanical", partKind("rou
   check("witness: ASR1002-X is a router in role edge", deployRole("routers", "router", "ASR1002-X") === "edge");
   // operator ruling (13 Sep 2026): C8455-G2 is branch now; the unresolved shape is asserted on the kind core directly.
   check("witness: C8455-G2 is a router in role branch (operator ruling) and is asked the core",
-    deployRole("routers", "router", "C8455-G2") === "branch" && req("router", "branch") === "certifications,dimensions,flash,lan_interfaces,router_throughput,wan_interfaces");
+    deployRole("routers", "router", "C8455-G2") === "branch" && req("router", "branch") === "certifications,dimensions,flash,router_throughput");   // lan/wan retiring into ports (Batch C)
   // An unplaced router is asked only what EVERY router is bought on, whatever its role; the rest is held
   // open against the role rather than demanded or waived. It was previously asked the core INCLUDING the
   // demotion cups (dimensions, flash) because an absent role satisfied their notInList.
   check("a router with no role is asked only the role-independent core",
-    req("router") === "certifications,lan_interfaces,router_throughput,wan_interfaces");
+    req("router") === "certifications,router_throughput");   // lan/wan retiring into ports (Batch C)
   check("cup set routers.bundle = bundle_contents,product_compatibility (operator ruling)", req("bundle") === "bundle_contents,product_compatibility");
   // THE TWO ROLE SHAPES, read through requirementFor so the semantics (not just the lists) are pinned.
   const rf = (key: string, v: Record<string, string>) => requirementFor("routers", key, v as never);

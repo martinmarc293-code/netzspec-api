@@ -3261,8 +3261,12 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // switch" — are feature bullets and are not counted); smb 53.4% each on the RV sheets' "Ethernet WAN" / "Ethernet
     // LAN" rows (unmapped today: filling work); industrial-iot 71.1% / 60.5% mapped.
     // REVIEWER C.1: required of `router` in every role (a primary row; the branch share above is mapped, not printed).
-    wan_interfaces: rtKinds(["router"]),
-    lan_interfaces: rtKinds(["router"]),
+    // RETIRING INTO `ports` WITH A ROLE (reviewer rulings, 28 and 29 Sep 2026): they are the ports quantity under two names,
+    // with no domain and no shape, so they cannot be required. The 'or' capability prose is retracted (the existing rule);
+    // the conversion of the rest waits for the port parser, which misreads 2 of the 4 values it accepts today ("8 x ... RJ45
+    // 2 x ... SFP" -> 8 SFP ports, a connector borrowed from the later clause; "8-port ... With 4-port PoE option" -> 12).
+    wan_interfaces: opt,
+    lan_interfaces: opt,
     // DECLARED HERE FOR THE FIRST TIME (check 1, missing field): the store already holds 9
     // `acl_entries` (C1101 10,000 … C8500-20X6C 380,000), 9 `ipv6_routes` (C1101 260K …
     // C8500-20X6C 7M) and 15 `vlan_max` (RV130 5, RV132W/RV134W 6) facts in this category under
