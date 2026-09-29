@@ -21,6 +21,7 @@ import { STRUCT_EXAMPLES } from "../src/core/structExamples.js";
 import { normalizeField } from "../src/core/specNormalize.js";
 import { FIELD_DICTIONARY, PROFILES, COLUMN_BACKED, RELATION_BACKED, domainFor, bandFor, FREE_TEXT_BY_DECISION, requirementFor, type Requirement } from "../src/core/fieldSchema.js";
 import { uncoveredEnumValues } from "../src/core/renderContract.js";
+import { JTL_PROFILES, jtlContractProblems, csvFile } from "../src/core/jtlExport.js";
 import { mouldStatuses } from "../src/core/brandMould.js";
 import { NO_PROFILE_REASONS } from "../src/core/noProfileReason.js";
 import { NOT_A_KIND, parityRuled, parityCause, formatParitySplit, KIND_PARITY_EXCEPTIONS, KIND_PARITY_OPEN } from "../src/core/kindProfiles.js";
@@ -2179,55 +2180,78 @@ const TESTS: Test[] = [
   },
   {
     name: "export_profiles_roundtrip",
-    findings: "S1–S9, STEP 9",
-    // THIS IS THE TEST THE WHOLE MOULD IS FOR. The catalogue exists so a JTL shop can be loaded from
-    // it: five export profiles, a 19-column semicolon file with a BOM, four-column attribute files,
-    // exact Wawi group and attribute names, GERMAN decimal commas, and category from the locked lists.
-    // Every other green on this board is a means to this one.
+    findings: "S1–S9, STEP 9; rulings Q12 + Q18",
+    // THIS IS THE TEST THE WHOLE MOULD IS FOR. The catalogue exists so a JTL shop can be loaded from it. Ruling Q12: "the check
+    // asserts the CONTRACT, not a 200" -- FOUR profiles (Q18: Main 18 ';', Attributes 4, Condition 3, FAQ 3 force-quoted), UTF-8
+    // BOM + CRLF, the exact Wawi groups 'Switch' (20) and 'Transceivers & SFP Modul' (14), German decimals, a sanitized URL path,
+    // no condition prose, and ONE Artikelnummer set across the four files. Asked of the DEPLOYED API (R3), with the key.
     //
-    // It is asked of the DEPLOYED API, per R3, because an export that works in a worktree is an export
-    // nobody can download. A 404 on the profile is the finding, not an error to swallow: it says the
-    // surface a shop would use does not exist yet.
+    // Two scopes, because they answer different questions. EVERY page of the vendor's shop_ready set checks the ROW contract on
+    // real rows -- an empty file proves only the header, so a vendor with no ready part is could-not-check, never a pass. The
+    // ACCEPTANCE SKUs are asked through jtl-readiness and printed with their reasons: a not-ready acceptance SKU is the fill
+    // lane's number (standing order 3-4), not a contract defect, and is never folded into the verdict.
     run: async () => {
       const BASE = process.env.NETZSPEC_API ?? "https://api.netzspec.com";
-      const PROFILES_WANTED = ["jtl-main", "jtl-attributes-switches", "jtl-attributes-transceivers", "jtl-faq", "jtl-condition"];
-      const ACCEPTANCE = ["C9200-24P", "C9200-48P-E", "SFP-10G-SR", "QSFP-100G-CU3M", "QDD-400G-DR4"];
-      const missing: string[] = [], locked: string[] = [];
-      let controlOk = false;
+      const ACCEPTANCE = ["C9200-24P", "C9200-48P-E", "C9300-48P", "SFP-10G-SR", "QSFP-100G-CU3M", "QDD-400G-DR4"];
       try {
         const c = await fetch(`${BASE}/health`, { headers: { "user-agent": "netzspec-mould-verify/1.0" }, signal: AbortSignal.timeout(20_000) });
-        controlOk = c.status === 200;
-      } catch { controlOk = false; }
-      if (!controlOk) return none(`the control /health could not be reached at ${BASE} — a fact about the network from here, not about the export`);
-      for (const p of PROFILES_WANTED) {
-        try {
-          const res = await fetch(`${BASE}/v1/export?profile=${p}&skus=${ACCEPTANCE.join(",")}`, {
-            headers: apiHeaders(), signal: AbortSignal.timeout(25_000),
-          });
-          if (res.status === 401 || res.status === 403) { locked.push(p); continue; }
-          if (res.status !== 200) { missing.push(`${p} -> ${res.status}`); continue; }
-        } catch (e) {
-          missing.push(`${p} unreachable: ${e instanceof Error ? e.message : String(e)}`);
-        }
+        if (c.status !== 200) return none(`the control /health answered ${c.status} at ${BASE} — a fact about the network from here, not about the export`);
+      } catch (e) { return none(`the control /health could not be reached at ${BASE}: ${e instanceof Error ? e.message : String(e)}`); }
+      const fails: string[] = [], sets = new Map<string, Set<string>>();
+      let rowsChecked = 0, locked = 0;
+      // EVERY page of every profile, walked by X-Next-Cursor: the shop_ready set is the vendor's, and a first page alone may hold
+      // no ready part at all (SKU order puts them anywhere). Capped, and a cap reached is named, never read as the end.
+      let pages = 0, capped = false;
+      for (const p of JTL_PROFILES) {
+        const set = new Set<string>();
+        let cursor: string | null = null, n = 0;
+        do {
+          let res: Response;
+          try {
+            res = await fetch(`${BASE}/v1/export?profile=${p}&vendor=${OWN_VENDOR}&limit=2000${cursor ? `&cursor=${encodeURIComponent(cursor)}` : ""}`,
+              { headers: apiHeaders(), signal: AbortSignal.timeout(120_000) });
+          } catch (e) { fails.push(`${p} unreachable: ${e instanceof Error ? e.message : String(e)}`); break; }
+          if (res.status === 401 || res.status === 403) { locked++; break; }
+          if (res.status !== 200) { fails.push(`${p} -> ${res.status}`); break; }
+          const body = await res.text();
+          const r = jtlContractProblems(p, body, res.headers.get("content-type"));
+          if (r.problems.length) fails.push(`${p} page ${n + 1}: ${r.problems.slice(0, 3).join("; ")}${r.problems.length > 3 ? ` … +${r.problems.length - 3}` : ""}`);
+          rowsChecked += r.rows.length;
+          for (const row of r.rows) set.add(row[0]);
+          cursor = res.headers.get("x-next-cursor"); n++; pages++;
+          if (n >= 60 && cursor) { capped = true; fails.push(`${p}: stopped at the 60-page cap with pages left — the set below is not the vendor's`); break; }
+        } while (cursor);
+        sets.set(p, set);
       }
-      const scope = `${PROFILES_WANTED.length} profiles asked of ${BASE} for the ${ACCEPTANCE.length} acceptance SKUs; ` +
-        `${missing.length} missing, ${locked.length} behind a key this environment does not hold`;
-      if (missing.length) {
-        return bad(`${missing.length} of ${PROFILES_WANTED.length} export profiles do not exist on the ` +
-          `deployment — this is the surface a JTL shop loads from, so until it answers, every other green ` +
-          `on this board is a means without an end — ${scope}: ${missing.join(", ")}`);
-      }
-      return locked.length
-        ? none(`every profile answered, but ${locked.length} need an API key this environment does not hold, ` +
-               `so the FILES were not validated — could-not-check, not a pass — ${scope}`)
-        : ok(`every export profile answers for the acceptance SKUs — ${scope}`);
+      void capped;
+      if (locked) return none(`${locked} of ${JTL_PROFILES.length} profiles need an API key this environment does not hold — the FILES were not validated, could-not-check, not a pass`);
+      const main = [...(sets.get("jtl-main") ?? [])].sort().join("|");
+      const mismatch = [...sets].filter(([, s]) => [...s].sort().join("|") !== main).map(([p]) => p);
+      if (mismatch.length) fails.push(`the Artikelnummer set differs from jtl-main in ${mismatch.join(", ")} (the importer's one-set rule)`);
+      let accept = "readiness not read";
+      try {
+        const rr = await fetch(`${BASE}/v1/export?profile=jtl-readiness&vendor=${OWN_VENDOR}&skus=${ACCEPTANCE.join(",")}`, { headers: apiHeaders(), signal: AbortSignal.timeout(60_000) });
+        if (rr.status === 200) {
+          const j = (await rr.json()) as { skus?: { sku: string; ready: boolean; reasons: string[] }[] };
+          accept = (j.skus ?? []).map((s) => (s.ready ? `${s.sku} READY` : `${s.sku} not ready (${s.reasons.slice(0, 3).join(", ")})`)).join("; ");
+          const found = new Set((j.skus ?? []).map((s) => s.sku));
+          const absent = ACCEPTANCE.filter((s) => !found.has(s));
+          if (absent.length) accept += `; not live hardware: ${absent.join(", ")}`;
+        } else accept = `jtl-readiness answered ${rr.status}`;
+      } catch (e) { accept = `jtl-readiness unreachable: ${e instanceof Error ? e.message : String(e)}`; }
+      const scope = `${JTL_PROFILES.length} profiles walked page by page (${pages} pages of ≤ 2000 ${OWN_VENDOR} hardware parts) asked of ${BASE}; ` +
+        `${rowsChecked} data rows checked, ${sets.get("jtl-main")?.size ?? 0} shop_ready parts; acceptance: ${accept}`;
+      if (fails.length) return bad(`the served files break the JTL contract — ${fails.join(" || ")} — ${scope}`);
+      if (!(sets.get("jtl-main")?.size)) return none(`every file matches the contract but holds NO data row (no shop_ready part in the vendor), so the ROW contract was not exercised — could-not-check, not a pass — ${scope}`);
+      return ok(`the four JTL files match the recorded contract on real rows — ${scope}`);
     },
-    // The half that can be proven without the network is the FORMAT, and its most common defect here is
-    // the decimal separator: a German shop reads "1.5" as fifteen thousand. That is the fixture.
+    // THE CONTRACT CHECKER, without the network: a planted broken file must be refused for its reason, and the twin that the
+    // real writer produces must pass (tests/jtlExport.test.ts carries the full sabotage set).
     selfTest: async () => {
-      const germanDecimal = (s: string) => /^-?\d{1,3}(\.\d{3})*(,\d+)?$/.test(s);
-      return { negative: germanDecimal("1.5"), positive: germanDecimal("1,5") && germanDecimal("1.234,56"),
-               note: "an English decimal point must be refused for a German shop column; a comma decimal must pass" };
+      const body = csvFile("jtl-condition", [["X-1", "condition", "new"]]);
+      const negative = jtlContractProblems("jtl-condition", body.slice(1), "text/csv").problems.length === 0;   // no BOM: must be refused
+      const positive = jtlContractProblems("jtl-condition", body, "text/csv; charset=utf-8").problems.length === 0;
+      return { negative, positive, note: "a Condition file without its BOM must be refused; the writer's own file must pass the contract" };
     },
   },
   {
