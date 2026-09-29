@@ -114,7 +114,9 @@ export const KIND_OVERRIDES: Readonly<Record<string, KindOverride>> = {
   // classifies: 32 cables, 3 mechanical, 3 PoE injectors, 6 accessories (FM-EMP, which the axis cannot place, takes Q9 (1)'s
   // family default). Q9 (1) had said 'accessory by SKU' for all 44 -- my premise, and the bulletin shows it was wrong.
   // The video PIDs: each bulletin row names the Prisma II / GS7000 product, which videoKind classifies. HX-16-*: the spec
-  // sheet says Windows Server 2016 licences (os-license; a CLASS change to licence is asked separately). Twins (X / X=) follow.
+  // sheet says Windows Server 2016 licences: NOT here -- a named kind asked nothing on a HARDWARE part broke the round-7 acceptance
+  // (cupLedger: asked-nothing is the fallback kinds only), so the 12 stay unknown (evidenced) until the class change to licence
+  // (Q16) takes them out of hardware. Twins (X / X=) follow.
 "CIUS-BATTERY=": { category: "collaboration-endpoints", kind: "power", evidence: "Lithium Batteries product bulletin row: 'Cius Spare Battery - Cius Tablet'" },
   "SPVAC-C7416-S-JP=": { category: "collaboration-endpoints", kind: "conference-camera", evidence: "VXME Accessories data sheet row: 'LogiCool Webcam C920-C - Smoke - Japan'" },
   "SPVAC-C7416-S=": { category: "collaboration-endpoints", kind: "conference-camera", evidence: "VXME Accessories data sheet row: 'Logitech Webcam C920-C - Smoke - Global'" },
@@ -127,18 +129,6 @@ export const KIND_OVERRIDES: Readonly<Record<string, KindOverride>> = {
   "SPVAC-UC725JP-S-BDL=": { category: "collaboration-endpoints", kind: "bundle", evidence: "VXME Accessories data sheet row: 'LogiCool UC Solution for Cisco 725-C Bundle - Japan Only'" },
   "HCIX-NVL2-H200": { category: "hyperconverged-infrastructure", kind: "mechanical", evidence: "X580p PCIe Node spec sheet: 'The NVL Bridge (HCIX-NVL2-H200)' - a passive NVLink bridge between two H200 GPUs" },
   "HCIX-NVL2-H200=": { category: "hyperconverged-infrastructure", kind: "mechanical", evidence: "twin of HCIX-NVL2-H200 (spare = base): X580p PCIe Node spec sheet: 'The NVL Bridge (HCIX-NVL2-H200)' - a passive NVLink bridge between two H200 GPUs" },
-  "HX-16-DC16C": { category: "hyperconverged-systems", kind: "os-license", evidence: "HX240c M5 LFF spec sheet line: 'HX-16-DC16C Windows Server 2016 Data Center (16 Cores...)'" },
-  "HX-16-DC16C-NS": { category: "hyperconverged-systems", kind: "os-license", evidence: "HX240c M5 LFF spec sheet line: 'HX-16-DC16C-NS Windows Server 2016 Data Center (16 Cores...)'" },
-  "HX-16-DC16C-RM": { category: "hyperconverged-systems", kind: "os-license", evidence: "HX240c M5 LFF spec sheet line: 'HX-16-DC16C-RM Windows Server 2016 Data Center (16 Cores...)'" },
-  "HX-16-DC24C": { category: "hyperconverged-systems", kind: "os-license", evidence: "HX240c M5 LFF spec sheet line: 'HX-16-DC24C Windows Server 2016 Data Center (24 Cores...)'" },
-  "HX-16-DC24C-NS": { category: "hyperconverged-systems", kind: "os-license", evidence: "HX240c M5 LFF spec sheet line: 'HX-16-DC24C-NS Windows Server 2016 Data Center (24 Cores...)'" },
-  "HX-16-DC24C-RM": { category: "hyperconverged-systems", kind: "os-license", evidence: "HX240c M5 LFF spec sheet line: 'HX-16-DC24C-RM Windows Server 2016 Data Center (24 Cores...)'" },
-  "HX-16-ST16C": { category: "hyperconverged-systems", kind: "os-license", evidence: "HX240c M5 LFF spec sheet line: 'HX-16-ST16C Windows Server 2016 Standard (16 Cores...)'" },
-  "HX-16-ST16C-NS": { category: "hyperconverged-systems", kind: "os-license", evidence: "HX240c M5 LFF spec sheet line: 'HX-16-ST16C-NS Windows Server 2016 Standard (16 Cores...)'" },
-  "HX-16-ST16C-RM": { category: "hyperconverged-systems", kind: "os-license", evidence: "HX240c M5 LFF spec sheet line: 'HX-16-ST16C-RM Windows Server 2016 Standard (16 Cores...)'" },
-  "HX-16-ST24C": { category: "hyperconverged-systems", kind: "os-license", evidence: "HX240c M5 LFF spec sheet line: 'HX-16-ST24C Windows Server 2016 Standard (24 Cores...)'" },
-  "HX-16-ST24C-NS": { category: "hyperconverged-systems", kind: "os-license", evidence: "HX240c M5 LFF spec sheet line: 'HX-16-ST24C-NS Windows Server 2016 Standard (24 Cores...)'" },
-  "HX-16-ST24C-RM": { category: "hyperconverged-systems", kind: "os-license", evidence: "HX240c M5 LFF spec sheet line: 'HX-16-ST24C-RM Windows Server 2016 Standard (24 Cores...)'" },
   "UCSX-NVL2-H200": { category: "servers-unified-computing", kind: "mechanical", evidence: "X580p PCIe Node spec sheet: 'The NVL Bridge (UCSX-NVL2-H200)' - a passive NVLink bridge between two H200 GPUs" },
   "UCSX-NVL2-H200=": { category: "servers-unified-computing", kind: "mechanical", evidence: "twin of UCSX-NVL2-H200 (spare = base): X580p PCIe Node spec sheet: 'The NVL Bridge (UCSX-NVL2-H200)' - a passive NVLink bridge between two H200 GPUs" },
   "UCSXE-1U-E3S-1L": { category: "servers-unified-computing", kind: "mechanical", evidence: "XE150c M8 spec sheet: 'the UCSXE-1U-E3S-1L storage riser' - a passive riser (as Q8's riser)" },

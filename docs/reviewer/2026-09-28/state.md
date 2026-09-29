@@ -104,6 +104,13 @@ HEAD/deployed 501b7ed (artefacts built on 0cbe5c5, contract 17b502e336ebefb6). R
      'Switches' and 'Transceivers & SFP Modul' group and attribute names exact), the check asserts the contract, not a 200.
      Build order: shop cups + shop_ready -> the four profiles -> the check -> the acceptance diff.
   NEXT (Batch D): Q8 -> Q9 -> Q10 -> Q11 (one writer at a time, dry run -> gate -> commit), ONE rebuild, board, report; then Q12.
+  BATCH D DONE ON THE BOX (29 Sep ~19:30-20:00 UTC): run 1390 retract-mis-keyed heat-sink (1); sync 1391 (1 profile row);
+     run 1392 ieee 24 superseded (NORM 1.8.7); run 1393 protocols 206 superseded (43 split + 163 NAT-PT swap); migration 0034;
+     run 1394 classify-conflicts 15,930 (53 held); run 1395 86 orphans resolved no-live-value. Code: 4b35d45 Q8, b61a80f Q9,
+     2923cf5+4061ad9 Q10, a767b3e+715fae2 Q11. CORRECTIONS told first: Q9(1) FLMESH = 32 cable/3 mech/3 PoE/6 acc (bulletin);
+     Q11 doc_id is sha1(url) -> revision-drift 9, normaliser-split 826. Rebuild on 715fae2 running; then copy back, stamp, board,
+     report docs/reviewer/2026-09-28/batch-d-report.md (Q13-Q18). Veto triage: data/dryrun/veto-triage-cisco-2026-09-29.tsv.
+     Tunnel started 20:56 laptop time (D:/tmp/pg-tunnel.sh) for the store suite on netzspec_test4 (migrated to 0034).
      Veto triage (247) measured: four remedies (retract mis-mined module_slots, reclassify, rekey, widen) -> ask with counts.
   (d) was: check fix, rows, exceptions, KIND_QUESTION_SET_FROM, GATED_CUPS,
      wireless kinds (149 SKUs move: 82 power-cord, 19 drive, 14 memory, 9 fan, 9 storage-controller, 6 cpu, 6 tpm, 4 nic),

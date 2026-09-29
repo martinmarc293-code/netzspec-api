@@ -427,6 +427,7 @@ for (const f of files) {
     "chassis:routers": "a line-card chassis states its slot count, its supply range, its typical draw and its system throughput; a UCS or HCI chassis owes the envelope alone",
     "module:routers": "a router interface module states its ports; a UCS io-module does not",
     "module:switches": "a switch module adds PoE ports and a PoE standard to the same set",
+    "module:interfaces-modules": "RULING Q2 (29 Sep 2026): 68 of 68 are DSP / voice / crypto cards with no line rate -- data_rate excepted (kindProfiles KIND_PARITY_EXCEPTIONS, witness PVDM4-128); it became the rebel when Q8 made wireless module agree with security",
     "module:security": "a netmod states ports and its own draw",
     "linecard:routers": "an ASR line card is bought on per-slot fabric bandwidth; a chassis line card elsewhere on its rate",
     "linecard:switches": "the same, plus PoE",
@@ -736,7 +737,9 @@ for (const f of files) {
   // report — three artifacts, three independent paths to the store, one number. 905 rows left hardware as
   // `non_product` and 4,821 moved to the category that owns them, so what remains is the residue that genuinely has
   // no compartment: 361 rows whose name is only their SKU, and 101 that are actionable.
-  const ASKED_NOTHING_CEILING = 500;
+  // RULINGS Q8/Q9 (29 Sep 2026): 462 -> 248 -- 113 doc-linked unknowns classified from their own documents (FLMESH by the URWB
+  // bulletin, the video PIDs by their Prisma II / GS7000 rows, collab/UCS by their data sheets). Ceiling lowered to hold the win.
+  const ASKED_NOTHING_CEILING = 250;
   check(`parts asked NOTHING are at or under ${ASKED_NOTHING_CEILING} (measured ${askedNothing}; the unresolved-kind count is ${parts}, and neither contains the other)`,
     askedNothing <= ASKED_NOTHING_CEILING, `${askedNothing} of ${hardware}`);
   check(`the ceiling is still close to the measurement (${askedNothing} vs ${ASKED_NOTHING_CEILING})`,
