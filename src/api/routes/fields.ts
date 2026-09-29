@@ -12,11 +12,16 @@ import { listFields } from "../queries/fields.js";
 import { seriesIndex } from "../queries/seriesIndex.js";
 import { buildLinkIndex, linkBase, followable, qs } from "../links.js";
 import { AnyJson, ERROR_RESPONSES, ListOf, Nullable } from "../schemas.js";
+import { badRequest } from "../errors.js";
+import { LEDGER_KINDS, kindQuestionSet } from "../../core/cupLedger.js";
+import { COLUMN_BACKED } from "../../core/fieldSchema.js";
 
 const Query = Type.Object({
   category: Type.Optional(Type.String()),
   /** Which vendor the link index is built for; the dictionary itself is vendor-neutral. */
   vendor: Type.Optional(Type.String({ description: "vendor slug for the `links` index (default cisco)" })),
+  /** WITH a category: each key's `applicability` for this KIND, from the derived four sets (29 Sep 2026). */
+  kind: Type.Optional(Type.String({ description: "a kind the category's ledger lists; adds `applicability` (req | pending | opt | na | column) per key. Refused without `category`." })),
 });
 const FieldItem = Type.Object({
   key: Type.String(), type: Type.String(), unit: Nullable(Type.String()), label_en: Type.String(), label_de: Type.String(),
@@ -29,6 +34,9 @@ const FieldItem = Type.Object({
   /** a retired key names the key that holds its quantity now; null = not retired (migration 0015) */
   superseded_by: Nullable(Type.String()),
   requirement: Type.Optional(Type.Object({ kind: Type.String(), when: Type.Optional(AnyJson) })),
+  /** only with ?category=&kind=: req | pending | opt | na | column, from cupLedger.kindQuestionSet -- the same keyed
+   *  derivation the ledger publishes and the recompute asserts. `na` = not applicable to this kind, derived, never typed. */
+  applicability: Type.Optional(Type.String()),
   /** round-7 ask F: current facts under this key per vendor slug, live parts only. {} = none anywhere. A dictionary
    *  change (a supersession, a retype, a closed domain) is measured across ALL vendors before it is made. */
   facts_current_by_vendor: Type.Record(Type.String(), Type.Integer()),
@@ -59,8 +67,18 @@ export async function fieldsRoutes(app: FastifyInstance, opts: FieldsRouteOption
       response: { 200: ListOf(FieldItem, { links: Type.Optional(Links) }), ...ERROR_RESPONSES },
     },
   }, async (req) => {
-    const items = await listFields(req.query.category);
-    const category = req.query.category;
+    const category = req.query.category, kind = req.query.kind;
+    // na IS DERIVED PER (CATEGORY, KIND) AND THE ROUTE REFUSES HALF A KEY, like the function it calls: a kind with no
+    // category, or a kind the category's ledger does not list, would be answered with a set derived for nobody.
+    if (kind !== undefined && !category) throw badRequest("`kind` needs `category`: na is derived per (category, kind)");
+    if (kind !== undefined && !(LEDGER_KINDS[category!] ?? []).includes(kind)) throw badRequest(`unknown kind "${kind}" for category "${category}"`);
+    const base0 = await listFields(category);
+    const items = kind === undefined ? base0 : (() => {
+      const q = kindQuestionSet(category!, kind);
+      const by = new Map<string, string>([...q.required.map((k) => [k, "req"] as const), ...q.pending.map((p) => [p.key, "pending"] as const),
+        ...q.optional.map((k) => [k, "opt"] as const), ...q.not_applicable_by_kind.map((k) => [k, "na"] as const)]);
+      return base0.map((i) => ({ ...i, applicability: COLUMN_BACKED.has(i.key) ? "column" : (by.get(i.key) ?? "na") }));
+    })();
     // No category, no index: the index is a tour of ONE category, and building it for the whole
     // dictionary would mean a series query per category on a request that asked for none.
     if (!category) return { items, next_cursor: null };
@@ -72,7 +90,7 @@ export async function fieldsRoutes(app: FastifyInstance, opts: FieldsRouteOption
       items,
       next_cursor: null,
       links: {
-        self: `${base}/fields${qs({ category, vendor: req.query.vendor })}`,
+        self: `${base}/fields${qs({ category, vendor: req.query.vendor, kind })}`,
         index: buildLinkIndex(base, vendor, category, series),
       },
     };

@@ -165,8 +165,10 @@ const NOT_A_PRODUCT_NAME_2 =
  * plug/drive sled mounted" is a real disk that ships in its sled, and a drive TRAY is likewise
  * usually the drive. Each list below is the tokens read off that family, not one shared set.
  */
-const MECHANICAL_VETO = ["blank", "blanking", "blnk", "filler", "cover", "cvr", "bezel", "carrier",
-  "bracket", "brackets", "brkt", "guard", "gland", "glands", "mount", "mounting", "rack-mount",
+// PLURALS (Batch B, 29 Sep 2026): "cBR-8 Power Supply Blanks" read `power` because `blanks` vetoed nothing, and "Rear Rack
+// Mounts" missed every singular mount word -- each pair's spare and base then disagreed on kind (twin_parity).
+const MECHANICAL_VETO = ["blank", "blanks", "blanking", "blnk", "filler", "fillers", "cover", "cvr", "bezel", "carrier",
+  "bracket", "brackets", "brkt", "guard", "gland", "glands", "mount", "mounts", "mounting", "rack-mount",
   "rackmount", "base", "panel", "pnl", "retainer", "arrestor", "arrester", "mechanical"];
 
 /**
@@ -211,7 +213,7 @@ const AP_NOUN = /(^|[^A-Za-z])AP(?:s)?([^A-Za-z]|$)/;
  */
 const SELF_MOUNTED_DEVICE =
   /(^|[^a-z])(?:access point|phone|camera|speaker|display|sensor|endpoint|headset|touch ?panel)([^a-z]|$)/i;
-const MOUNT_WORDS = ["mount", "mounting", "mnt", "wallplate", "wall plate"];
+const MOUNT_WORDS = ["mount", "mounts", "mounting", "mnt", "wallplate", "wall plate"];
 const FIXING_NOUNS = ["bracket", "brackets", "brkt", "rail", "rails", "railkit", "slide", "rackmount",
   "rmk", "stand", "pedestal", "clamp", "strap",
   // device-noun (13 Sep 2026): rack EARS (CS-SWCH-RACKEAR= "Rackears for Ethernet Switch", CTS-SX80-RACKEARS=
@@ -439,7 +441,7 @@ const RULES: { marker: NameMarker; hit: (n: string) => boolean; despiteDeviceNou
   // and must be tested only after every other rule has declined.
   {
     marker: "mechanical",
-    hit: (n) => w(n, "blank", "blanking", "filler", "blnk")
+    hit: (n) => w(n, "blank", "blanks", "blanking", "filler", "fillers", "blnk")
       // MOUNTING HARDWARE — and every token here names the FIXING, never the place it is fixed to.
       // A bare `rack` / `shelf` / `wall` / `desk` / `table` was in the first draft and it took two
       // real machines with it: "UCS C460 M2 Rack Server with DVD-RW and 1 PSU" and "Cisco Hyperflex

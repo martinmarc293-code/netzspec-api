@@ -39,7 +39,7 @@
 export type UcsKind =
   | "server" | "chassis" | "fabric-interconnect"
   | "cpu" | "memory" | "drive" | "power" | "nic" | "gpu" | "storage-controller" | "io-module"
-  | "cable" | "fan" | "tpm" | "pdu"
+  | "cable" | "power-cord" | "fan" | "tpm" | "pdu"
   | "accessory" | "os-license" | "software" | "bundle" | "non-product" | "unknown"
   // layers round 3 (15 Sep 2026): the axis names `mechanical` from the SKU for the R42610 rack's bar, doors, hardware kit, locks and
   // side panel (PRE_RULES), as moduleKind does for the slot dividers. NOT added to UCS_KINDS: cupLedger's three UCS lists already
@@ -52,7 +52,7 @@ export const UCS_MACHINE: readonly UcsKind[] = ["server", "chassis", "fabric-int
 /** Kinds that are a part OF a machine. Cisco publishes no weight or operating temperature for
  *  these, so a physical requirement on them is a gap nothing can ever close. */
 export const UCS_COMPONENT: readonly UcsKind[] =
-  ["cpu", "memory", "drive", "power", "nic", "gpu", "storage-controller", "io-module", "cable", "fan", "tpm", "pdu", "accessory"];
+  ["cpu", "memory", "drive", "power", "nic", "gpu", "storage-controller", "io-module", "cable", "power-cord", "fan", "tpm", "pdu", "accessory"];
 
 /** Kinds asked NOTHING: not a product of a kind we can specify (a bundle's contents are a relation,
  *  R3), not hardware at all, or not yet determined — the fallback that asks less, never more. */
@@ -333,6 +333,11 @@ export const RULES: { kind: UcsKind; exact?: Set<string>; prefix?: string[]; re?
 export const MLB_GENERATION = /^(?:UCSX?E?|HCIX?|HX)-(?:M[678]|UCSCM\d|MGPUM\d)-(?:[A-Z]+-)?MLB(?:-BR)?$/;
 
 export const PRE_RULES: { kind: UcsKind; re: RegExp }[] = [
+  // POWER CORDS (reviewer ruling, Batch B 29 Sep 2026: "hci's cables that are C19/C20 cords are power-cord kind, not cable").
+  // switchKind's cord rule -- a CAB- SKU that names no data-cable family -- plus a C13/C14/C19/C20 inlet token for the
+  // cords filed under another prefix (UCSB-CABL-C19-BRZ "NBR 14136 to C19 AC 14ft Power Cord, Brazil"). Measured over the
+  // three UCS categories' `cable` rows: 63 cords by the SKU rule (hci 22 of 24, hcs 8, UCS 33), none of them a data cable.
+  { kind: "power-cord", re: /^CAB-(?!CON|USB|SFP|SM-|INF-|RPS|GUIDE|SPWR|XPS|MCP|04X|STK|STACK|CAT)|^PWR-CAB-|-DC-CAB(?:-|$)|(?:^|-)C(?:13|14|19|20)(?:-|$)/ },
   { kind: "software", re: /^N10-MGT\d|^(?:N20|UCSB)-FW\d|^CIMC-C\d|^UCSW-DDUP-|^UCSX-C-SW-LATEST$/ },
   // kind-layer (13 Sep 2026): `^(?:HX|UCS)-DCPMM-` — UCS-DCPMM-AD "Intel Optane DC Persistent Memory Operational Mode -
   // App Direct" and UCS-DCPMM-MM are the same operating-mode SETTING as HX-DCPMM-AD, and were `memory`.

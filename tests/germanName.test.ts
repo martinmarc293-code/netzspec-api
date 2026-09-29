@@ -118,6 +118,15 @@ check("SABOTAGE twin names: two REAL names are never touched (CBR-PS-BLANK: choo
 check("SABOTAGE twin names: a German title is REFUSED, never lent", !twOf("ZZ-GERMAN") && tw.refused.some((r) => r.sku === "ZZ-GERMAN" && /German/.test(r.why)));
 check("twin names: no base, or both SKU-only, is no plan at all", !twOf("ZZ-LONE=") && !twOf("ZZ-BOTH") && !twOf("ZZ-BOTH="));
 check("twin names: exactly the three writes above and one refusal", tw.plans.length === 3 && tw.refused.length === 1, `${tw.plans.length}/${tw.refused.length}`);
+const tr = planTwinNames([
+  { id: 21, sku: "UCSW-WT-35HDDT", name: "UCSW Whiptail Super Micro 3.5" }, { id: 22, sku: "UCSW-WT-35HDDT=", name: 'UCSW Whiptail Super Micro 3.5" HDD Tray MCP-220-00001-01' },
+  { id: 23, sku: "ZZ-PREFIX", name: "Catalyst 9300 48-port" }, { id: 24, sku: "ZZ-PREFIX=", name: "Catalyst 9300 48-port PoE+ switch" },
+]);
+check("twin names: an INCH-MARK truncation is repaired from the twin, by rule (UCSW-WT-35HDDT)",
+  tr.plans.length === 1 && tr.plans[0].sku === "UCSW-WT-35HDDT" && tr.plans[0].name === 'UCSW Whiptail Super Micro 3.5" HDD Tray MCP-220-00001-01'
+  && tr.plans[0].source === "twin: UCSW-WT-35HDDT=, inch-mark truncation repaired", JSON.stringify(tr.plans));
+check("SABOTAGE twin names: a real name that is merely a PREFIX of its twin's (no inch mark at the cut) is NOT touched",
+  !tr.plans.some((p) => p.sku === "ZZ-PREFIX"));
 const twAfter = planTwinNames([{ id: 1, sku: "UCS-ACC-6536", name: "UCS 6536 chassis accessory kit" }, { id: 2, sku: "UCS-ACC-6536=", name: "UCS 6536 chassis accessory kit" }]);
 check("twin names: IDEMPOTENT — after the write a re-plan is empty", twAfter.plans.length === 0 && twAfter.refused.length === 0);
 check("skuOnlyName: 'Cisco <sku>' and punctuation variants are SKU-only; a real name is not",

@@ -1402,7 +1402,9 @@ const ucsCups = (): Record<string, Requirement> => ({
   // kind-layer (13 Sep 2026): CABLE library, proposed required for the new UCS `cable` kind — internal SAS/NVMe/GPU-power
   // cabling. NOTE for the measurement: `connector` and `media` carry the transceiver domains (LC/MPO, mmf/smf/dac), which
   // no internal server cable can take; cable_length is stated by no UCS cable SKU.
-  cable_length: ucsK("cable"), connector: ucsK("cable"), media: ucsK("cable"),
+  // power-cord (Batch B, 29 Sep 2026): the UCS axis names cords now, asked what every other category asks a cord -- its
+  // length (product_compatibility comes with UCS_PART_K) -- and not the data cable's connector/media.
+  cable_length: ucsK("cable", "power-cord"), connector: ucsK("cable"), media: ucsK("cable"),
   // every component (parent ruling 1), and the chassis (spec II.5: CHASSIS + product_compatibility)
   product_compatibility: ucsK(...UCS_PART_K, "chassis"),
   // round-7 ruling C (12 Sep 2026): a bundle owes what it is made of. Zero cups is what put 1,568 rows outside
@@ -3824,7 +3826,12 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // card for `flash`. The same eleven parts, the right cup: DRAM modules answer `dram`, SD/USB/CF cards answer
     // `flash`. storage_capacity stays declared for the drive kinds this category does not have.
     dram: cond({ field: "kind", inList: ["memory"] }),
-    flash: cond({ field: "kind", inList: ["memory"] }),
+    // `flash` OFF the memory kind (reviewer ruling, Batch B 29 Sep 2026): the kind's live parts are the two route-memory
+    // DIMMs (MEM-ISE-512A-2PK=, MEM-LC-ISE-512A=), and no SD/USB card is live in this category. Optional, so the 19 flash
+    // facts here stay acceptable. KNOWN CONFLATION, recorded rather than fixed: moduleKind still files SD-X/USB-X cards
+    // under `memory`, so the first one to arrive would be asked `dram`; a `flash` kind here would be one no catalogue SKU
+    // reaches today (tests/moduleKind.test.ts refuses a dead kind), so the split waits for the first live card.
+    flash: opt,
     memory_speed_max: cond({ field: "kind", inList: ["memory"] }),
     // `fxs_ports` AND `fxo_ports` STAY OPTIONAL BECAUSE THIS CATEGORY HAS NO ANALOG VOICE MODULE AT
     // ALL (12 Sep 2026, round 8, which asked for them to be required of `voice`). Measured first:
@@ -3876,8 +3883,12 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
 // cond(kind in [appliance]); writing cond(kind in [chassis]) over it does not add chassis, it removes appliance.
 // src/core/physicalObjectCups.ts carries the table, the widening (which preserves every kind a cup already had)
 // and the report of what it declined to do, and tests/physicalObjectCups.test.ts pins the exact counts.
+// THE DICTIONARY IS NOT WHOLE YET AT THIS LINE: GENERATED_FIELDS is merged into it ~600 lines below. A key only the generated
+// half declares (`humidity_storage`, required of hyperconverged-systems servers) therefore read as "unknown" here and the row
+// was refused (Batch B, 29 Sep 2026) -- the same shape as reading a membership set before its merge. The import binding is
+// live before this body runs, so the test asks both halves.
 export const PHYSICAL_OBJECT_CUP_REPORT = applyPhysicalObjectCups(
-  PROFILES, (key) => Object.prototype.hasOwnProperty.call(FIELD_DICTIONARY, key));
+  PROFILES, (key) => Object.prototype.hasOwnProperty.call(FIELD_DICTIONARY, key) || Object.prototype.hasOwnProperty.call(GENERATED_FIELDS, key));
 
 
 // The transceiver profile overrides two dictionary entries whose canonical unit differs from the

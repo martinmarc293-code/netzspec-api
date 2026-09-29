@@ -358,7 +358,9 @@ const ask = (sku: string) =>
      [...psu.missing].sort().join(","), "product_compatibility");
   eq("and never what it draws or a port count", psu.missing.includes("power_max") || psu.missing.includes("ports"), false);
   const sd = ask("SD-X45-2GB-E=");
-  eq("an SD card is asked its capacity (dram/flash, not a drive’s storage_capacity — 12 Sep) and what it fits", [...sd.missing].sort().join(","), "dram,flash,memory_speed_max,product_compatibility");
+  // Batch B (29 Sep 2026): `flash` off the memory kind (ruled). An SD card is still FILED as memory here, so it is now asked
+  // `dram` and not `flash` -- the conflation fieldSchema records; 0 SD/USB cards are live in this category.
+  eq("an SD card is asked the memory kind's set (dram, not flash: the recorded conflation) and what it fits", [...sd.missing].sort().join(","), "dram,memory_speed_max,product_compatibility");
   eq("and no operating temperature, no jumbo MTU", sd.missing.includes("temp_operating") || sd.missing.includes("jumbo_mtu"), false);
   const cell = ask("EHWIC-4G-LTE-A=");
   eq("a cellular module is asked its bands", cell.missing.includes("cellular_bands"), true);
@@ -404,7 +406,7 @@ const ask = (sku: string) =>
     ["unknown", "product_compatibility"], ["module", "power_max,product_compatibility"],
     ["interface", "product_compatibility"], ["fabric", "fabric_bandwidth,power_max,product_compatibility"],
     ["cellular", "cellular_bands,product_compatibility"], ["radio", "ieee_standards,product_compatibility"],
-    ["memory", "dram,flash,memory_speed_max,product_compatibility"], ["power", "product_compatibility"],
+    ["memory", "dram,memory_speed_max,product_compatibility"], ["power", "product_compatibility"],   // flash off memory: Batch B
     ["fan", "airflow,product_compatibility"], ["cable", "connector,product_compatibility"],
     ["accessory", "product_compatibility"], ["mux", "insertion_loss_max,product_compatibility"],
     ["optic", "connector,data_rate,form_factor"], ["mechanical", "mounting,product_compatibility"],

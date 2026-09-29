@@ -43,7 +43,9 @@ const CASES: [string, string][] = [
   ["UCS-RAID9286CV-8E", "storage-controller"],
   ["UCSC-PCIE-B3SFP=", "nic"],
   ["UCSX-RIS-B-440P", "accessory"],
-  ["CAB-C13-C14-AC=", "cable"], // kind-layer (13 Sep 2026): CAB is a `cable` token now
+  ["CAB-C13-C14-AC=", "power-cord"], // Batch B (29 Sep 2026): a mains cord is a power-cord (was `cable`: the axis had no cord kind)
+  ["UCSB-CABL-C19-BRZ", "power-cord"], // the C19 inlet token catches the cord a CAB- rule cannot ("NBR 14136 to C19 ... Power Cord, Brazil")
+  ["CBL-GPU-C240M6", "cable"], // CONTROL: an internal GPU cable stays a cable (C240 is a server token, not an inlet)
   // licences and bundles
   ["VMW-VS5-ENTP-5A", "os-license"],
   ["SLES-SVR-4S-1G-3A", "os-license"],
@@ -221,7 +223,9 @@ for (let i = 0; i < PRE_RULES.length; i++) {
     "RACK-BAR-001=", "R2XX-DMYMPWRCORD", "UCS-S3348-HBAM5", "UCS-S3X48-FAN=",
     // re-audit decisions (operator, 15 Sep 2026, Q-13): the SRE engine rule (off, the bundle component reads `bundle`), and the exact kinds of
     // the rows planned in (off, the E100 prefix reads `server` and the SRE spare disk falls to the token)
-    "ISM-SRE-300-BUN-K9", "E100-FCPLT-BRKT=", "E100S-CON-DGL", "E100S-MEM-UDIMM8G=", "SM-DSK-SATA-500GB="];
+    "ISM-SRE-300-BUN-K9", "E100-FCPLT-BRKT=", "E100S-CON-DGL", "E100S-MEM-UDIMM8G=", "SM-DSK-SATA-500GB=",
+    // Batch B (29 Sep 2026): the power-cord rule -- off, the cord falls to the CAB token and reads `cable` again
+    "CAB-C13-C14-AC="];
   const probe = PROBES.find((p) => PRE_RULES[i].re.test(p.toUpperCase().replace(/=+$/, "")));
   if (!probe) { eq(`a sabotage probe exists for PRE_RULES[${i}]`, false, true); continue; }
   const before = ucsKind(probe);

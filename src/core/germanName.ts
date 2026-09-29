@@ -167,6 +167,21 @@ export function planTwinNames(rows: { id: number; sku: string; name: string | nu
     const base = bySku.get(spare.sku.slice(0, -1));
     if (!base) continue;
     const so = skuOnlyName(spare.sku, spare.name), bo = skuOnlyName(base.sku, base.name);
+    // AN INCH-MARK TRUNCATION (ruling, Batch B): the upstream catalogue parser cut `UCSW Whiptail Super Micro 3.5" HDD Tray …`
+    // at its inch mark, so the base reads "…3.5" -- a real-looking name that is a strict prefix of its twin's, the twin
+    // continuing with `"` right after a digit. That is repaired by rule from the twin (measured 29 Sep: 1 live pair; no
+    // description holds the uncut text), never by hand. Two real names that merely differ stay untouched below.
+    if (!so && !bo) {
+      const [cut, whole] = [base, spare].sort((x, y) => (x.name ?? "").length - (y.name ?? "").length);
+      const c = (cut.name ?? "").trim(), full = (whole.name ?? "").trim();
+      if (c && full.length > c.length && full.startsWith(c) && /[0-9]$/.test(c) && full[c.length] === '"') {
+        const fromSpare = whole === spare, name = fromSpare ? stripSpareWording(full) : full;
+        const p = { id: cut.id, sku: cut.sku, old: cut.name, name, twin: whole.sku, source: `twin: ${whole.sku}, inch-mark truncation repaired` };
+        if (fromSpare && SPARE_LEFT.test(name)) refused.push({ ...p, why: "still carries the spare's wording after the strip: hand check" });
+        else plans.push(p);
+      }
+      continue;
+    }
     if (so === bo) continue;
     const [target, from] = so ? [spare, base] : [base, spare];
     const fromSpare = from === spare;

@@ -268,7 +268,9 @@ check("the collaboration axis does not reach routers", partKind("routers", "CP-8
     // altitude_max and cpu ADDED 28 Sep 2026 by the cup decision: a kind's cup set follows the physical object,
     // and a BE6H-M4-K9= is a server with a CPU whichever category it is filed under. Three collab categories,
     // one row each, so this expectation holds for all of them.
-    server: "altitude_max,certifications,cpu,cpu_sockets_max,dimensions,drive_bays,form_factor,humidity_operating,memory_max,memory_speed_max,power_max,temp_operating,temp_storage,weight",
+    // emc_emissions and humidity_storage ADDED 29 Sep 2026 by kind parity (Batch B, PARITY_WIDENINGS): hyperconverged-systems
+    // servers already ask them; the same three collab rows, so this expectation still holds for all of them.
+    server: "altitude_max,certifications,cpu,cpu_sockets_max,dimensions,drive_bays,emc_emissions,form_factor,humidity_operating,humidity_storage,memory_max,memory_speed_max,power_max,temp_operating,temp_storage,weight",
   };
   for (const [k, want] of Object.entries(WANT)) check(`collab \`${k}\` asks the spec archetype set`, req(CE, k) === want, req(CE, k));
   for (const k of ["cpu", "memory", "drive", "nic"]) {

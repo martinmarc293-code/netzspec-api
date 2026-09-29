@@ -27,6 +27,8 @@ import { NOT_A_KIND, parityRuled, parityCause, KIND_PARITY_EXCEPTIONS, KIND_PARI
 import { partKind } from "../src/core/partKind.js";
 import { deployRoleResult, roleAxisOf, roleAxisKinds } from "../src/core/deployRole.js";
 import { query, closePool, getPool } from "../src/store/db.js";
+import { readCompleteness } from "../src/api/queries/completeness.js";
+import { LEDGER_KINDS, kindQuestionSet } from "../src/core/cupLedger.js";
 import { syncDictionaryOn, dictionaryRows, profileRows, type DictionarySyncResult } from "../src/store/dictionary.js";
 import os from "node:os";
 import { existsSync, readFileSync, appendFileSync, mkdirSync, writeFileSync } from "node:fs";
@@ -89,6 +91,21 @@ const none = (detail: string): Result => ({ state: "not_exercised", detail });
 /** The four sets a KIND alone is asked in a category, resolved through the REAL requirementFor on a
  *  synthetic part carrying only that kind -- the same resolution the API performs for a part whose
  *  other values are unknown. Sorted, so a diff is about membership and never about iteration order. */
+/** One (category, kind, cup) that live parts of the kind hold OWN facts for, and how many parts. */
+type HeldCup = { cat: string; kind: string; key: string; parts: number };
+/** THE VETO, pure (four_sets_sum): every held cup the derivation marks na for its (category, kind) -- most parts first --
+ *  and, counted apart, the held cups on a (category, kind) the ledger lists no derivation for. Never folded together: a
+ *  pair nobody derived is not a pair with no veto. */
+function naVetoes(sets: ReadonlyMap<string, ReadonlySet<string>>, held: readonly HeldCup[]): { vetoes: HeldCup[]; underived: HeldCup[] } {
+  const vetoes: HeldCup[] = [], underived: HeldCup[] = [];
+  for (const h of held) {
+    const na = sets.get(`${h.cat}|${h.kind}`);
+    if (!na) underived.push(h);
+    else if (na.has(h.key)) vetoes.push(h);
+  }
+  return { vetoes: vetoes.sort((a, b) => b.parts - a.parts), underived };
+}
+
 function resolveFourSets(category: string, kind: string): Record<string, string[]> {
   const out: Record<string, string[]> = { req: [], pending: [], opt: [], na: [] };
   const profile = PROFILES[category];
@@ -193,7 +210,7 @@ const RUN_KIND_CLASS: Record<string, { approval: boolean; gate: boolean }> = {
   // derives from what is stored -> neither
   "recompute-completeness": D, "write-layers-to-db": D, "build-spare-of": D, "derive-link-provenance": D,
   "derive-part-states": D, "fill-family-from-hct-category": D, "sync-dictionary": D, "derive-pon-standard": D, "name-language": D,
-  "name-spare-packaging": D, "name-spare-wording": D, "images": D, "probe-failure-reason": D,
+  "name-spare-packaging": D, "name-spare-wording": D, "name-from-twin": D, "images": D, "probe-failure-reason": D,
   "backfill-doc-titles": D, "record-title-provenance": D, "record-retroactive-approval": A, "retro-gate": A, "apply-series-hints": AG, "apply-product-compat": AG, "set-series": A,
 };
 // The vendor this lane has axes for; vendor_coverage owns every other vendor's hardware (unknown_zero counts them apart).
@@ -935,6 +952,15 @@ const TESTS: Test[] = [
         list.push({ cat: category, sets });
         byKind.set(kind, list);
       }
+      // THE EVIDENCE COLUMN (reviewer ruling, 29 Sep 2026): the documents behind each side, beside the diff, so "one of you is
+      // wrong" (some side holds a spec sheet) and "neither of you can know yet" (no side does: an acquisition work order) are
+      // different lines. Read from the completeness report -- the progress surface's own held.spec_bearing -- and when the
+      // report cannot be read the column says so; it never decides the verdict, which stays "no unruled divergence".
+      const rep = readCompleteness(OWN_VENDOR);
+      const held = new Map<string, { parts: number; spec: number }>();
+      for (const c of rep?.categories ?? []) for (const k of c.kinds ?? []) held.set(`${c.category}|${k.kind}`, { parts: k.hardware_parts, spec: k.held.spec_bearing });
+      const evidence = (kind: string, cats: string[]) => cats.map((c) => { const h = held.get(`${c}|${kind}`); return h ? `${c} ${h.spec}/${h.parts} spec-bearing` : `${c} (no report row)`; }).join(", ");
+      const wrong: string[] = [], cannotKnow: string[] = [];
       const divergent: string[] = [];
       const ruledOut: string[] = [];
       const byCause = new Map<string, string[]>();
@@ -988,8 +1014,11 @@ const TESTS: Test[] = [
           const cause = causes.length ? causes.map((c) => c.cause).join("+") : "UNCLASSIFIED";
           if (!causes.length) unclassified++;
           byCause.set(cause, [...(byCause.get(cause) ?? []), kind]);
-          divergent.push(`${kind} [${cause}] ${diffs[0]}` +
-            (r.uncovered.length && r.by ? ` (ruled for ${r.by.cups.join("/")}, NOT for ${r.uncovered.join("/")})` : ""));
+          const line = `${kind} [${cause}] ${diffs[0]}` +
+            (r.uncovered.length && r.by ? ` (ruled for ${r.by.cups.join("/")}, NOT for ${r.uncovered.join("/")})` : "") +
+            ` {evidence: ${evidence(kind, rows.map((x) => x.cat))}}`;
+          divergent.push(line);
+          (rows.some((x) => (held.get(`${x.cat}|${kind}`)?.spec ?? 0) > 0) ? wrong : cannotKnow).push(line);
         }
       }
       // The denominator and what could not be compared, both in the line: a kind that exists in ONE
@@ -1005,8 +1034,10 @@ const TESTS: Test[] = [
         (unclassified ? ` — ${unclassified} in NEITHER half of kindProfiles.ts, which is its own finding` : "");
       return divergent.length === 0
         ? ok(`every kind is asked the same cups in every category it appears in — ${scope}`)
-        : bad(`${divergent.length} kinds are asked DIFFERENT cups depending on the category — ${scope}: ` +
-              divergent.slice(0, 6).join(" | ") + (divergent.length > 6 ? ` … +${divergent.length - 6}` : ""));
+        : bad(`${divergent.length} kinds are asked DIFFERENT cups depending on the category — ${scope}` +
+              (rep ? "" : " — EVIDENCE COLUMN UNAVAILABLE: the completeness report could not be read") +
+              ` || ONE OF YOU IS WRONG (a side holds spec sheets) ${wrong.length}: ${wrong.join(" | ") || "none"}` +
+              ` || NEITHER CAN KNOW YET (no side holds a spec sheet: acquisition) ${cannotKnow.length}: ${cannotKnow.join(" | ") || "none"}`);
     },
     // NEGATIVE FIXTURE AND POSITIVE TWIN, both resolved through the REAL requirementFor rather than a
     // stand-in, because a stand-in tests the logic I was thinking about and not the code that runs.
@@ -1027,56 +1058,66 @@ const TESTS: Test[] = [
   {
     name: "four_sets_sum",
     findings: "B4",
-    // EVERY CUP MUST HAVE AN ANSWER FOR EVERY KIND. req + pending + opt + na has to account for the
-    // whole profile, or some cup is in none of the four and nobody can say what the mould asks of that
-    // kind. The sum is the easy half; `na > 0` is the half that matters.
-    //
-    // WHY `na > 0` IS THE REAL ASSERTION. `na` says a cup is NEVER applicable to this kind, which
-    // closes a gap permanently instead of leaving a crawler hunting for it for ever. A kind with
-    // na = 0 is claiming every cup in its category could one day apply to it -- which is false for
-    // every kind in this catalogue: a power supply has no uplink ports, a transceiver has no rack
-    // units. So na = 0 is not a tidy default, it is an unbounded search, and the count of kinds
-    // sitting at zero is the size of that debt.
-    //
-    // This resolves from the PROFILES rather than the database, so unlike A1 it does not need the
-    // sku_kind column and can judge today.
+    needsDb: true,
+    // THE DERIVED na (reviewer rulings, 28 and 29 Sep 2026). `na` is the COMPLEMENT of a kind's cup set, derived per
+    // (category, kind) by the one keyed function the ledger, the recompute and the API all call -- cupLedger.kindQuestionSet,
+    // which refuses a call without both. Green when three things hold over every (category, kind) the ledger publishes:
+    //   1. the four sets sum to the DICTIONARY (every non-column-backed key has exactly one answer for the kind);
+    //   2. na > 0 on every pair (a kind claiming every cup could apply to it is an unbounded search);
+    //   3. NO VETO: a live part of that kind holding an OWN fact (not inherited, not retracted) under a cup the derivation
+    //      marks na. The veto FAILS this test, naming the kind and the cup -- the kind's set is wrong, never the fact.
+    // Own facts only, and that is load-bearing (kindArchetypes.ts): an inherited fact proves the FAMILY has the property.
     run: async () => {
-      const rows: { cat: string; kind: string; sum: number; size: number; na: number }[] = [];
-      for (const [cat, profile] of Object.entries(PROFILES)) {
-        const size = Object.keys(profile as Record<string, unknown>).length;
-        for (const kind of kindsDeclaredBy(cat)) {
-          const s = resolveFourSets(cat, kind);
-          rows.push({ cat, kind, size, na: s.na.length,
-                      sum: s.req.length + s.pending.length + s.opt.length + s.na.length });
+      const dict = Object.keys(FIELD_DICTIONARY).filter((k) => !COLUMN_BACKED.has(k)).length;
+      const sets = new Map<string, ReadonlySet<string>>();
+      const rows: { cat: string; kind: string; sum: number; na: number }[] = [];
+      for (const [cat, kinds] of Object.entries(LEDGER_KINDS)) {
+        if (!PROFILES[cat]) continue;
+        for (const kind of kinds as string[]) {
+          const q = kindQuestionSet(cat, kind);
+          sets.set(`${cat}|${kind}`, new Set(q.not_applicable_by_kind));
+          rows.push({ cat, kind, na: q.not_applicable_by_kind.length,
+            sum: q.required.length + q.pending.length + q.optional.length + q.not_applicable_by_kind.length });
         }
       }
-      if (!rows.length) return none("no (category, kind) pair could be resolved from the profiles");
-      const notSummed = rows.filter((r) => r.sum !== r.size);
-      const noNa = rows.filter((r) => r.na === 0);
-      const scope = `${rows.length} (category, kind) pairs resolved from PROFILES across ${Object.keys(PROFILES).length} categories`;
-      if (notSummed.length) {
-        return bad(`${notSummed.length} of ${rows.length} pairs do not account for every cup — ${scope}: ` +
-          notSummed.slice(0, 5).map((r) => `${r.cat}/${r.kind} ${r.sum} of ${r.size}`).join("; "));
-      }
-      return noNa.length === 0
-        ? ok(`every pair sums to its profile and marks at least one cup not-applicable — ${scope}`)
-        : bad(`the four sets account for every cup, but ${noNa.length} of ${rows.length} pairs mark NOTHING ` +
-              `not-applicable (na = 0), so each claims every cup in its category could one day apply — ${scope}: ` +
-              noNa.slice(0, 6).map((r) => `${r.cat}/${r.kind}`).join(", ") +
-              (noNa.length > 6 ? ` … +${noNa.length - 6}` : ""));
+      if (!rows.length) return none("no (category, kind) pair in the ledger's kind lists");
+      const held = (await query<HeldCup>(`
+        SELECT c.slug AS cat, p.sku_kind AS kind, f.field_key AS key, count(DISTINCT p.id)::int AS parts
+          FROM facts f JOIN parts p ON p.id = f.part_id JOIN categories c ON c.id = p.category_id JOIN vendors v ON v.id = p.vendor_id
+         WHERE v.slug = $1 AND p.retired_at IS NULL AND p.sku_kind IS NOT NULL AND f.superseded_by IS NULL AND NOT f.inherited
+           AND f.method NOT LIKE 'retracted:%' AND f.value IS NOT NULL
+         GROUP BY 1, 2, 3`, [OWN_VENDOR])).rows;
+      const { vetoes, underived } = naVetoes(sets, held);
+      const notSummed = rows.filter((r) => r.sum !== dict), noNa = rows.filter((r) => r.na === 0);
+      const naSizes = rows.map((r) => r.na).sort((a, b) => a - b);
+      const vetoParts = vetoes.reduce((n, v) => n + v.parts, 0);
+      const scope = `${rows.length} (category, kind) pairs from the ledger's kind lists, over the ${dict} non-column-backed dictionary keys; ` +
+        `na per pair min ${naSizes[0]} / median ${naSizes[Math.floor(naSizes.length / 2)]} / max ${naSizes[naSizes.length - 1]}; ` +
+        `${held.length} (category, kind, cup) triples hold own facts on live ${OWN_VENDOR} parts` +
+        (underived.length ? `; ${underived.length} of them on a (category, kind) the ledger does not list, so no derivation reaches them: ${underived.slice(0, 5).map((u) => `${u.cat}/${u.kind}`).join(", ")}` : "");
+      const fails = [
+        notSummed.length ? `${notSummed.length} pairs do not sum to the dictionary (${notSummed.slice(0, 4).map((r) => `${r.cat}/${r.kind} ${r.sum} of ${dict}`).join("; ")})` : "",
+        noNa.length ? `${noNa.length} pairs mark nothing na (${noNa.slice(0, 6).map((r) => `${r.cat}/${r.kind}`).join(", ")})` : "",
+        vetoes.length ? `VETO: ${vetoes.length} (category, kind, cup) triples on ${vetoParts} part-cups hold an OWN fact under a cup the derivation marks na — ` +
+          `the kind's set is wrong, never the fact: ${vetoes.slice(0, 12).map((v) => `${v.cat}/${v.kind} ${v.key} (${v.parts})`).join(", ")}` +
+          (vetoes.length > 12 ? ` … +${vetoes.length - 12}` : "") : "",
+      ].filter(Boolean);
+      return fails.length ? bad(`${fails.join(" || ")} — ${scope}`)
+        : ok(`every pair sums to the dictionary, marks at least one cup na, and no own fact sits in an na cup — ${scope}`);
     },
-    // Negative: a kind resolved against a real category must today mark nothing `na` — the defect this
-    // test exists to name. Positive twin: the sum itself, which must hold for the same pair, so the
-    // fixture cannot pass by the resolver returning nothing at all. A shape where both came from the
-    // same assertion would prove only that the resolver ran.
+    // Negative: a planted OWN fact under a cup the derivation marks na for a real pair must come back as a veto (the pass
+    // predicate on it must be FALSE). Positive twin: the same pair holding a fact under a cup it REQUIRES is no veto. And the
+    // keyed function must REFUSE a call without a kind -- a derivation for nobody read as everybody's is the 8 Sep defect.
     selfTest: async () => {
-      const cat = PROFILES.switches ? "switches" : Object.keys(PROFILES)[0];
-      const kind = kindsDeclaredBy(cat)[0] ?? "unknown";
-      const s = resolveFourSets(cat, kind);
-      const size = Object.keys(PROFILES[cat] as Record<string, unknown>).length;
-      const negative = s.na.length > 0;                                        // want FALSE today
-      const positive = s.req.length + s.pending.length + s.opt.length + s.na.length === size;
-      return { negative, positive, note: `${cat}/${kind}: na=${s.na.length} (want 0 today), sum=${s.req.length + s.pending.length + s.opt.length + s.na.length} of ${size}` };
+      const cat = "routers", kind = "power";
+      const q = kindQuestionSet(cat, kind);
+      const sets = new Map([[`${cat}|${kind}`, new Set(q.not_applicable_by_kind)]]);
+      const naKey = q.not_applicable_by_kind[0], reqKey = q.required[0] ?? q.pending[0]?.key;
+      const negative = naVetoes(sets, [{ cat, kind, key: naKey, parts: 1 }]).vetoes.length === 0;       // want FALSE
+      let refused = false;
+      try { kindQuestionSet(cat, ""); } catch { refused = true; }
+      const positive = refused && naVetoes(sets, [{ cat, kind, key: reqKey, parts: 1 }]).vetoes.length === 0;
+      return { negative, positive, note: `${cat}/${kind}: planted own fact under na cup "${naKey}" vetoed=${!negative}; under required "${reqKey}" vetoed=${!positive}; kind-less call refused=${refused}` };
     },
   },
   {

@@ -8,7 +8,8 @@
 // can fill each field, which labels map to it); tests/cupLedger.test.ts fails when a committed ledger no
 // longer matches its profile, because a frozen copy of a changing thing drifts silently in both directions.
 import { createHash } from "node:crypto";
-import { PROFILES, requirementFor, gateFields, COLUMN_BACKED, type Requirement } from "./fieldSchema.js";
+import { PROFILES, FIELD_DICTIONARY, requirementFor, gateFields, settledFalse, COLUMN_BACKED, type Requirement } from "./fieldSchema.js";
+import { proposedNa } from "./kindArchetypes.js";
 import { SW_BOX, SW_PART, SW_SET, SW_PON } from "./switchKind.js";
 import type { OpticKind } from "./opticKind.js";
 // wireless (12 Sep 2026)
@@ -94,7 +95,8 @@ export type KindQuestionSet = {
   required: string[];
   /** conditional fields that are OPEN at "nothing known yet": asked until their gate is answered */
   pending: { key: string; gate: string[] }[];
-  /** conditional fields that close for this kind whatever else is answered */
+  /** NOT APPLICABLE to this kind, derived (29 Sep 2026): a dictionary key the profile never mentions, a conditional
+   *  settled false for the kind, or an optional cup the kind's archetype cannot hold. See kindQuestionSet. */
   not_applicable_by_kind: string[];
   /** declared optional: accepted, never counted as a gap */
   optional: string[];
@@ -103,17 +105,39 @@ export type KindQuestionSet = {
 };
 
 export function kindQuestionSet(category: string, kind: string, role?: string | null): KindQuestionSet {
+  // `na` IS DERIVED PER (CATEGORY, KIND) AND THIS REFUSES A CALL WITHOUT BOTH (reviewer ruling, 29 Sep 2026). The 8 Sep
+  // licence marks landed on hardware because the caller handed a rule a CATEGORY; a kind-less call here would derive a
+  // set for nobody and be read as everybody's.
+  if (!category || !kind) throw new Error(`kindQuestionSet("${category}", "${kind}"): na is derived per (category, kind) — both are required`);
   const profile = PROFILES[category] as Record<string, Requirement> | undefined;
   if (!profile) throw new Error(`no profile for category "${category}"`);
   const out: KindQuestionSet = { required: [], pending: [], not_applicable_by_kind: [], optional: [], column_backed: [] };
-  for (const [key, r] of Object.entries(profile).sort(([a], [b]) => a.localeCompare(b))) {
+  const values = role ? { kind, deploy_role: role } : { kind };
+  const cannotHold = new Set(proposedNa(kind));
+  // THE COMPLEMENT (ruling of 28 Sep, "derive na as the complement"): the four sets cover the WHOLE DICTIONARY, not the
+  // profile. `na` is every cup that is neither required, conditional nor in this kind's declared optional set:
+  //   - a key the category's profile never mentions (requirementFor already answers "na" for it);
+  //   - a conditional whose gate is SETTLED FALSE for this kind -- it names other kinds only, so nothing left unanswered
+  //     about a part of this kind can ever make it fire (settledFalse, the resolver's own test);
+  //   - for the nine physical kinds with an archetype (kindArchetypes.ts), a plainly optional cup the archetype says the
+  //     object cannot hold.
+  // Everything else a profile declares optional -- unconditionally, or behind a gate that could still fire -- stays in
+  // the kind's optional set. The veto is not applied here: an OWN fact under a cup marked `na` fails four_sets_sum,
+  // naming the kind and the cup, because then the kind's set is wrong, never the fact.
+  const keys = [...new Set([...Object.keys(FIELD_DICTIONARY), ...Object.keys(profile)])].sort((a, b) => a.localeCompare(b));
+  for (const key of keys) {
+    const r = profile[key];
     // kind-layer (13 Sep 2026): the role is a discriminator like the kind. No role = the kind's core (unresolved role).
-    const q = requirementFor(category, key, role ? { kind, deploy_role: role } : { kind });
+    const q = requirementFor(category, key, values);
     if (COLUMN_BACKED.has(key)) { if (q === "req") out.column_backed.push(key); continue; }
     if (q === "req") out.required.push(key);
-    else if (q === "pending") out.pending.push({ key, gate: r.kind === "cond" ? gateFields(r.when).filter((g) => g !== "kind" && g !== "deploy_role") : [] });
-    else if (q === "opt") out.optional.push(key);
-    else if (r.kind === "cond") out.not_applicable_by_kind.push(key);
+    else if (q === "pending") out.pending.push({ key, gate: r?.kind === "cond" ? gateFields(r.when).filter((g) => g !== "kind" && g !== "deploy_role") : [] });
+    else if (!r || q === "na") out.not_applicable_by_kind.push(key);
+    // settled by the KIND ALONE: a role never closes a cup (rule 7 -- "a role addition is optional, never na, outside its
+    // role"); a cond the role answers no to stays optional for the kind.
+    else if (r.kind === "cond" && settledFalse(r.when, { kind })) out.not_applicable_by_kind.push(key);
+    else if (r.kind === "opt" && cannotHold.has(key)) out.not_applicable_by_kind.push(key);
+    else out.optional.push(key);
   }
   return out;
 }

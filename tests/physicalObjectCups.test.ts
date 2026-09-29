@@ -11,7 +11,7 @@
 // So the widening is a function and this file tests it against exactly that case — plus the counts, so a row
 // that stops landing shows up as a number instead of as a quiet absence.
 import { PROFILES, requirementFor, PHYSICAL_OBJECT_CUP_REPORT } from "../src/core/fieldSchema.js";
-import { alsoAskedOf, physicalObjectRows, PHYSICAL_OBJECT_CUPS } from "../src/core/physicalObjectCups.js";
+import { alsoAskedOf, physicalObjectRows, PHYSICAL_OBJECT_CUPS, PARITY_WIDENINGS } from "../src/core/physicalObjectCups.js";
 
 let pass = 0, miss = 0;
 const check = (what: string, ok: boolean, detail?: unknown): void => {
@@ -47,13 +47,24 @@ check("routers/form_factor is NOT required of a kind in neither list (`cable`)",
 
 // ---- the counts, so a row cannot quietly stop landing ------------------------------------------------------
 const declared = physicalObjectRows().reduce((n, r) => n + r.cups.length, 0);
-check(`the table declares 41 cup additions across 23 (category, kind) rows`,
-  declared === 41 && physicalObjectRows().length === 23, { declared, rows: physicalObjectRows().length });
-check("all 41 landed: nothing was refused as `na`, already req, or an unknown dictionary key",
-  PHYSICAL_OBJECT_CUP_REPORT.widened.length === 41 && PHYSICAL_OBJECT_CUP_REPORT.refusedNa.length === 0
+check(`the table declares 52 cup additions across 26 (category, kind) rows (41 + the 11 of kind parity, Batch B)`,
+  declared === 52 && physicalObjectRows().length === 26, { declared, rows: physicalObjectRows().length });
+check("all 52 landed: nothing was refused as `na`, already req, or an unknown dictionary key",
+  PHYSICAL_OBJECT_CUP_REPORT.widened.length === 52 && PHYSICAL_OBJECT_CUP_REPORT.refusedNa.length === 0
   && PHYSICAL_OBJECT_CUP_REPORT.alreadyReq.length === 0 && PHYSICAL_OBJECT_CUP_REPORT.unknownKey.length === 0,
   { widened: PHYSICAL_OBJECT_CUP_REPORT.widened.length, refusedNa: PHYSICAL_OBJECT_CUP_REPORT.refusedNa,
     alreadyReq: PHYSICAL_OBJECT_CUP_REPORT.alreadyReq, unknownKey: PHYSICAL_OBJECT_CUP_REPORT.unknownKey });
+
+// ---- kind parity, Batch B: every widening carries its richer side's witness, both directions ---------------------
+const pw = PARITY_WIDENINGS.flatMap((w) => w.cups.map((c) => `${w.category}|${w.kind}|${c}`));
+check("Batch B: every PARITY_WIDENINGS cup is a table row that LANDED", pw.every((x) => PHYSICAL_OBJECT_CUP_REPORT.widened.includes(x)),
+  pw.filter((x) => !PHYSICAL_OBJECT_CUP_REPORT.widened.includes(x)));
+check("Batch B: the table grew by exactly the witnessed cups (41 before + 11), so a row with no witness fails the count",
+  declared === 41 + pw.length && pw.length === 11, { declared, witnessed: pw.length });
+check("Batch B: every witness names a DIFFERENT, richer category and a real-looking SKU",
+  PARITY_WIDENINGS.every((w) => w.richer !== w.category && /^[A-Z0-9][A-Z0-9-]+$/.test(w.witness)));
+check("Batch B: the two refused on measurement are NOT rows (collab cable media, collab memory flash)",
+  !(PHYSICAL_OBJECT_CUPS["collaboration-endpoints"]?.cable ?? []).includes("media") && !(PHYSICAL_OBJECT_CUPS["collaboration-endpoints"]?.memory ?? []).includes("flash"));
 
 // ---- the one cup deliberately left out --------------------------------------------------------------------
 // `antenna_gain` holds 0 facts in the ENTIRE catalogue, across every vendor, so requiring it of 88 router

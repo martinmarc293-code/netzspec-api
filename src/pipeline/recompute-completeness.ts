@@ -26,6 +26,7 @@ const canonCups = (o: Record<string, string> | null | undefined): string =>
 import { modularPlatform } from "../core/modularPlatform.js";
 import { partKind } from "../core/partKind.js";
 import { deployRole } from "../core/deployRole.js";
+import { LEDGER_KINDS, kindQuestionSet } from "../core/cupLedger.js";
 import { mouldStatuses, isArrangedFor } from "../core/brandMould.js";
 import { noProfileVerdict, type NoProfileReason } from "../core/noProfileReason.js";
 
@@ -117,6 +118,7 @@ async function run(a: Args): Promise<Record<string, number>> {
   console.log(`recompute-completeness: ${parts.length} parts${a.vendor ? " vendor=" + a.vendor : ""}${a.category ? " category=" + a.category : ""}${a.since ? " since=" + a.since : ""}`);
 
   let written = 0, unchanged = 0, noProfile = 0, nonHardware = 0, notArranged = 0, roleRefused = 0, refusedSlots = 0;
+  const naByKind = new Map<string, Set<string>>();   // the derived na per (category, kind), asked once per pair
   const byReason = new Map<string, number>();
   const byGate = new Map<string, number>();
   let pendingTotal = 0;
@@ -255,6 +257,17 @@ async function run(a: Args): Promise<Record<string, number>> {
           const c = completenessV2(category, values, rels);
           if (c.no_profile) noProfile++;
           const reqFields = requiredFieldsFor(category, values, rels);
+          // THE DERIVED na, APPLIED AT RECOMPUTE TO PARTS OF THAT KIND ONLY (reviewer ruling, 29 Sep 2026). The keyed function
+          // (cupLedger.kindQuestionSet, which refuses a call without both) is asked only when the part HAS a kind -- a
+          // kind-less part is never handed a set derived for somebody else, the 8 Sep licence-marks defect. A cup the part
+          // is asked that its kind's derivation marks na is a contradiction between the resolver and the ledger: stop.
+          if (derivedKind !== undefined && LEDGER_KINDS[category]?.includes(derivedKind)) {
+            const key = `${category}|${derivedKind}`;
+            let na = naByKind.get(key);
+            if (!na) { na = new Set(kindQuestionSet(category, derivedKind).not_applicable_by_kind); naByKind.set(key, na); }
+            const clash = reqFields.filter((k) => na!.has(k));
+            if (clash.length) throw new Error(`recompute: ${p.sku} (${key}) is asked ${clash.join(", ")}, which the derivation marks na`);
+          }
           const cups: Record<string, string> = {};
           for (const k of c.relation_filled ?? []) cups[k] = "filled";
           for (const k of c.relation_not_held ?? []) cups[k] = "not_held";

@@ -41,6 +41,7 @@ export const PHYSICAL_OBJECT_CUPS: Record<string, Record<string, readonly string
     chassis: ["dimensions", "form_factor", "module_slots", "psu_config", "weight"],
     linecard: ["data_rate", "power_max"],
     fabric: ["power_max"],
+    module: ["power_max"],   // kind parity, Batch B 29 Sep 2026 (PARITY_WIDENINGS)
     // `antenna_gain` is DELIBERATELY ABSENT. Measured 27 Sep 2026: it holds 0 facts in the entire catalogue,
     // across every vendor, so requiring it of 88 router antennas would create 88 gaps nothing can close --
     // "a required field that nothing can ever fill is a permanent gap, not a recorded one". Its exclusion
@@ -63,26 +64,28 @@ export const PHYSICAL_OBJECT_CUPS: Record<string, Record<string, readonly string
   "collaboration-endpoints": {
     // `connector` out for the same reason: these are "Adaptor HDMI to DVID cable", "RJ.5 Microphone Cable",
     // "USB-C 3.2 Gen 2X2 Active Cable". HDMI, DVI-D, RJ.5 and USB-C are none of them domain values.
-    server: ["altitude_max", "cpu"],
+    server: ["altitude_max", "cpu", "emc_emissions", "humidity_storage"],   // +2: kind parity, Batch B (PARITY_WIDENINGS)
   },
   // wireless/cable is RF coax and power cords -- "20 ft. cable with RP-TNC connectors" -- so `connector` is
   // out for the reason above. Nothing remains for this category, and the row is kept as a comment rather than
   // deleted so the next reader sees it was considered and why.
   // wireless: { cable: ["connector"] },
-  "unified-communications": { server: ["altitude_max", "cpu"] },
+  "unified-communications": { server: ["altitude_max", "cpu", "emc_emissions", "humidity_storage"] },
   // CONFERENCING JOINS FOR AN INVARIANT, not for parts: it holds 0 live rows today. All three COLLAB_CATEGORIES
   // (unified-communications, collaboration-endpoints, conferencing) are served by one kind axis, and
   // tests/collabKind.test.ts asserts the other two ask exactly what collaboration-endpoints asks. Adding the
   // row to two of the three broke that invariant — a category diverging because a decision reached its
   // siblings and not it, which is the very defect this whole table exists to remove.
-  conferencing: { server: ["altitude_max", "cpu"] },
+  conferencing: { server: ["altitude_max", "cpu", "emc_emissions", "humidity_storage"] },
   "hyperconverged-infrastructure": { bundle: ["product_compatibility"] },
+  "hyperconverged-systems": { bundle: ["product_compatibility"] },   // kind parity, Batch B (PARITY_WIDENINGS)
   // pluggable joined the list on the reviewer's ruling rather than being a kind split: an ONS/NCS DWDM optic
   // and a Catalyst SFP are the same physical object, and the DWDM-specific cups (wavelength, reach_max,
   // tunability) are already gated on media/standard, so this references transceiver's question set rather
   // than keeping a thinner copy of it.
   "optical-networking": {
     pluggable: ["ddm", "form_factor", "media", "standard", "temp_class", "temp_operating"],
+    chassis: ["altitude_max", "product_compatibility", "temp_storage"],   // kind parity, Batch B: THE REAL EDIT (PARITY_WIDENINGS)
     // AMPLIFIER JOINED THIS TABLE ON 27 Sep 2026, and it was ruled a kind SPLIT until the rows were read.
     // The premise was that video's `amplifier` rows are RF amplifiers; 88 of 88 of their names read OPTICAL
     // and 0 read RF -- EDFAs and optical post-amps, every one stating its output in dBm -- and video ALREADY
@@ -95,6 +98,26 @@ export const PHYSICAL_OBJECT_CUPS: Record<string, Record<string, readonly string
   // compatibility list whichever category it is filed under; the applier widens each side independently.
   video: { amplifier: ["power_max", "product_compatibility"] },
 };
+
+/**
+ * KIND PARITY, BATCH B (reviewer ruling, 29 Sep 2026): "chassis edit + five widenings with the evidence column". Each row the
+ * ruling added above, with the RICHER side's witness -- the category/kind that already asks the cup, and a real SKU there. The
+ * ruling's argument is that the object publishes the cup, so the poorer side's absence becomes a counted not-held rather than
+ * an invisible one. MEASURED 29 Sep: neither side holds one OWN fact for any of these cups; the witness is the requirement the
+ * richer side already makes, which is why the poorer side's parts are mostly not-held (collab servers 0 of 30 spec-bearing).
+ * TWO of the ruled five were REFUSED on measurement and are NOT rows: collab cable `media` (177 of 308 are HDMI/USB/AV/power
+ * leads, outside media's domain -- the connector trap -- and the richer hci side is C19/C20 power cords) and collab memory
+ * `flash` (4 DDR4 RDIMMs; the richer interfaces-modules side is 2 route-memory DIMMs, so flash fits neither side).
+ * tests/physicalObjectCups.test.ts holds this list and the table rows to each other, both directions.
+ */
+export const PARITY_WIDENINGS: readonly { category: string; kind: string; cups: readonly string[]; richer: string; witness: string }[] = [
+  { category: "collaboration-endpoints", kind: "server", cups: ["emc_emissions", "humidity_storage"], richer: "hyperconverged-systems", witness: "HX-B200-M5-U" },
+  { category: "unified-communications", kind: "server", cups: ["emc_emissions", "humidity_storage"], richer: "hyperconverged-systems", witness: "HX-B200-M5-U" },
+  { category: "conferencing", kind: "server", cups: ["emc_emissions", "humidity_storage"], richer: "hyperconverged-systems", witness: "HX-B200-M5-U" },
+  { category: "hyperconverged-systems", kind: "bundle", cups: ["product_compatibility"], richer: "hyperconverged-infrastructure", witness: "HCI-M6-MLB" },
+  { category: "routers", kind: "module", cups: ["power_max"], richer: "interfaces-modules", witness: "3810-VCM3" },
+  { category: "optical-networking", kind: "chassis", cups: ["altitude_max", "product_compatibility", "temp_storage"], richer: "hyperconverged-infrastructure", witness: "HCIX-9508-CH" },
+];
 
 /** Every (category, kind, cup) the table names, flattened — the denominator for any count over it. */
 export function physicalObjectRows(): { category: string; kind: string; cups: readonly string[] }[] {
