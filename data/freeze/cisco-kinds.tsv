@@ -37298,7 +37298,7 @@ wireless	AIR-8580-AC-750W	Cisco 8580 750W AC Power Supply	power
 wireless	AIR-8580-AC-750W=	Cisco 8580 750W AC Power Supply	power	
 wireless	AIR-8580-DC-950W	Cisco 8580 950W DC Power Supply	power	
 wireless	AIR-8580-DC-950W=	Cisco 8580 950W DC Power Supply	power	
-wireless	AIR-A03-D500GC3	500GB 6Gb SATA 7.2K RPM SFF hot plug/drive sled mounted	module	
+wireless	AIR-A03-D500GC3	500GB 6Gb SATA 7.2K RPM SFF hot plug/drive sled mounted	drive	
 wireless	AIR-AC-750W-R	Cisco 9540 750W AC Power Supply, Reverse Air	power	
 wireless	AIR-AC-750W-R-BLK	Power Supply Blanking Panel for 9540 Controller	power	
 wireless	AIR-ACC-CAT6=	CAT 6/6A Ethernet Cable Gland Assembly kit*	mechanical	
@@ -38982,11 +38982,11 @@ wireless	AIR-CMX-3375-K9	CMX 3375 Appliance	appliance
 wireless	AIR-CMX-3375-K9=	CMX 3375 SFF 10 HD w/o CPU, mem, HD, PCIe, PSU	appliance	
 wireless	AIR-CONSADPT	Serial RJ45 to 4-pin TTL console adapter	accessory	
 wireless	AIR-CONSADPT=	Serial RJ45 to 4-pin TTL console adapter	accessory	
-wireless	AIR-CORD-R3P-40NA=	AC power cord, 40 ft (12m); North American plug; 1520/1550/1570 Series	cable	
-wireless	AIR-CORD-R3P-40UE=	AC power cord, 40 ft (12m); EU unterminated end; 1520/1550/1570 Series	cable	
-wireless	AIR-CORD1500-40UE=	Aironet 1500 AC Power Cord, 40 ft. unterm, EU	cable	
-wireless	AIR-CPU-E52609D	1.90 GHz E5-2609 v3/85W 6C/15MB Cache/DDR4 1600MHz	module	
-wireless	AIR-CPU-E52680D	2.50 GHz E5-2680 v3/120W 12C/30MB Cache/DDR4 2133MHz	module	
+wireless	AIR-CORD-R3P-40NA=	AC power cord, 40 ft (12m); North American plug; 1520/1550/1570 Series	power-cord	
+wireless	AIR-CORD-R3P-40UE=	AC power cord, 40 ft (12m); EU unterminated end; 1520/1550/1570 Series	power-cord	
+wireless	AIR-CORD1500-40UE=	Aironet 1500 AC Power Cord, 40 ft. unterm, EU	power-cord	
+wireless	AIR-CPU-E52609D	1.90 GHz E5-2609 v3/85W 6C/15MB Cache/DDR4 1600MHz	cpu	
+wireless	AIR-CPU-E52680D	2.50 GHz E5-2680 v3/120W 12C/30MB Cache/DDR4 2133MHz	cpu	
 wireless	AIR-CT2504-15-K9	2500 Series Wireless Controller for up to 15 Cisco access points	wlc	
 wireless	AIR-CT2504-15-K9++	2504 Wireless Controller with 15 AP Licenses (TAA)	wlc	
 wireless	AIR-CT2504-15PROM	2504 Wireless Controller w/ 15 AP Lic. and Promo 15 IOS Lic.	wlc	
@@ -39063,8 +39063,8 @@ wireless	AIR-CT5520-K9	Cisco 5520 Wireless Controller w/rack mounting kit	wlc
 wireless	AIR-CT5520-K9++	Cisco 5520 Wireless Controller w/rack mounting kit (TAA)	wlc	
 wireless	AIR-CT5520-K9-PM	Cisco 5520 Wireless Controller w/rack mounting kit	wlc	
 wireless	AIR-CT5520-PSU-BLK	Power Supply Blanking Panel for 5520 Controller	power	
-wireless	AIR-CT6870-NIC-K9	PCIe Network Interface 20G	module	
-wireless	AIR-CT6880-NIC-K9	PCIe Network Interface 40G	module	
+wireless	AIR-CT6870-NIC-K9	PCIe Network Interface 20G	nic	
+wireless	AIR-CT6880-NIC-K9	PCIe Network Interface 40G	nic	
 wireless	AIR-CT8510-100-K9	8500 Series Controller for up to 100 Cisco access points	wlc	
 wireless	AIR-CT8510-100-K9Z	Cisco 8500 Series Wireless Controller Supporting 100 APs	wlc	
 wireless	AIR-CT8510-100K9++	Cisco 8500 Series Wireless Controller Supporting 100 AP(TAA)	wlc	
@@ -39097,10 +39097,10 @@ wireless	AIR-CT85DC-K9	Base PID for Cisco 8500 Series Wireless Controller - DC	w
 wireless	AIR-CT85DC-SP-K9	8500 Series Wireless Controller with 0 APs included, Dual DC PSU	wlc	
 wireless	AIR-DC-950W	Cisco 9580 Modular Wireless Controller 950W DC Power Supply	power	
 wireless	AIR-DC-950W=	Cisco 9580 Modular Wireless Controller 950W DC Power Supply	power	
-wireless	AIR-FAN-5500	Redundant Fan Tray	module	
-wireless	AIR-FAN-5500=	5500 Series Wireless Controller Fan Tray	module	
-wireless	AIR-FAN-C220M4=	Spare fan - Cisco 5520 Wireless Controller	module	
-wireless	AIR-FAN-C240M4=	Spare fan - Cisco 8540 Wireless Controller	module	
+wireless	AIR-FAN-5500	Redundant Fan Tray	fan	
+wireless	AIR-FAN-5500=	5500 Series Wireless Controller Fan Tray	fan	
+wireless	AIR-FAN-C220M4=	Spare fan - Cisco 5520 Wireless Controller	fan	
+wireless	AIR-FAN-C240M4=	Spare fan - Cisco 8540 Wireless Controller	fan	
 wireless	AIR-MNT-ART1=	Articulating mounting bracket for Cisco Catalyst 9124AXD access point	mechanical	
 wireless	AIR-MNT-HORZ1=	Horizontal mounting bracket for Cisco Catalyst 9124AXI/AXD access point	mechanical	
 wireless	AIR-MNT-STRAND1=	Strand mounting bracket for Cisco Catalyst 9124AXI/AXD access point	mechanical	
@@ -39130,15 +39130,15 @@ wireless	AIR-MOD-USB-RW	AP1800 AC power to USB-C module for rest of world	power
 wireless	AIR-MOD-USB-RW=	Spare AP1800 AC power to USB-C module for rest of world	power	
 wireless	AIR-MOD-USB-US	AP1800 AC power to USB-C module for US	power	
 wireless	AIR-MOD-USB-US=	Spare AP1800 AC power to USB-C module for US	power	
-wireless	AIR-MR-1X041RX-A	4GB DDR3-1333-MHz RDIMM/PC3-10600/1R/1.35v	module	
-wireless	AIR-MR-1X081RU-A	8GB DDR4-2133-MHz RDIMM/PC4-17000/single rank/x4/1.2v	module	
-wireless	AIR-MR-1X081RV-A	8GB DDR4-2400-MHz RDIMM/PC4-19200/single rank/x4/1.2v	module	
-wireless	AIR-MR-1X082RV-A	16GB DDR4-2400-MHz RDIMM/PC4-19200/double rank/x4/1.2v	module	
-wireless	AIR-MR-1X161RV-A	16GB DDR4-2400-MHz RDIMM	module	
-wireless	AIR-MR-1X161RV-A=	16GB DDR4-2400-MHz RDIMM	module	
-wireless	AIR-MR-1X162RU-A	16GB DDR4-2133-MHz RDIMM/PC4-17000/dual rank/x4/1.2v	module	
-wireless	AIR-MRAID12G	Cisco 12G SAS Modular Raid Controller	module	
-wireless	AIR-MRAID12G-1GB	Cisco 12Gbps SAS 1GB FBWC Cache module (Raid 0/1/5/6)	module	
+wireless	AIR-MR-1X041RX-A	4GB DDR3-1333-MHz RDIMM/PC3-10600/1R/1.35v	memory	
+wireless	AIR-MR-1X081RU-A	8GB DDR4-2133-MHz RDIMM/PC4-17000/single rank/x4/1.2v	memory	
+wireless	AIR-MR-1X081RV-A	8GB DDR4-2400-MHz RDIMM/PC4-19200/single rank/x4/1.2v	memory	
+wireless	AIR-MR-1X082RV-A	16GB DDR4-2400-MHz RDIMM/PC4-19200/double rank/x4/1.2v	memory	
+wireless	AIR-MR-1X161RV-A	16GB DDR4-2400-MHz RDIMM	memory	
+wireless	AIR-MR-1X161RV-A=	16GB DDR4-2400-MHz RDIMM	memory	
+wireless	AIR-MR-1X162RU-A	16GB DDR4-2133-MHz RDIMM/PC4-17000/dual rank/x4/1.2v	memory	
+wireless	AIR-MRAID12G	Cisco 12G SAS Modular Raid Controller	storage-controller	
+wireless	AIR-MRAID12G-1GB	Cisco 12Gbps SAS 1GB FBWC Cache module (Raid 0/1/5/6)	storage-controller	
 wireless	AIR-MSE-3350-K9	MSE Hardware SKU	appliance	
 wireless	AIR-MSE-3355-K9	MSE 3355 Hardware SKU (Please select L-MSE-PAK for MSE Lic)	appliance	
 wireless	AIR-MSE-3355-K9Z	MSE 3355 Bundle PID; EQUIVALENT TO AIR-MSE-3355-K9	appliance	
@@ -39147,7 +39147,7 @@ wireless	AIR-MSE-B-C3-W25	MSE Bundle-MSE 3350 CAS 3K WIPS 25 (Limited Time Promo
 wireless	AIR-MSE-B2-C3-W25	MSE 3350 Bundle	bundle	
 wireless	AIR-MSE-B4-C3-W25	Cisco AIR-MSE-B4-C3-W25	bundle	
 wireless	AIR-MSE-B5-C3-W25	Cisco AIR-MSE-B5-C3-W25	bundle	
-wireless	AIR-MSE3350-HD=	Field Replaceable Hard Disk For The MSE 3350	module	
+wireless	AIR-MSE3350-HD=	Field Replaceable Hard Disk For The MSE 3350	drive	
 wireless	AIR-MSE3350-PWR=	Field Replaceable Power Supply For The MSE 3350	power	
 wireless	AIR-N-3006-DTA-K9	^NECJ AS3504 DTA	unknown	
 wireless	AIR-OEAP1810-A-K9	802.11ac OfficeExtend AP, A Reg Domain (not for US)	ap	indoor
@@ -39196,62 +39196,62 @@ wireless	AIR-PWR-5500-AC	Cisco 5500 Series Wireless Controller Redundant Power S
 wireless	AIR-PWR-5500-AC=	Cisco 5500 Series Wireless Controller Redundant Power Supply	power	
 wireless	AIR-PWR-C	Black power supply for Aironet acccess points	power	
 wireless	AIR-PWR-C=	Power Adapter (AC/DC) - Indoor AP700W	power	
-wireless	AIR-PWR-CORD-AP	Cisco AIR-PWR-CORD-AP	cable	
-wireless	AIR-PWR-CORD-AP-W	AIR Line White Cord Asia Pacific (APAC)	cable	
-wireless	AIR-PWR-CORD-AP-W=	AIR Line White Cord APAC Spare	cable	
-wireless	AIR-PWR-CORD-AP=	Cisco AIR-PWR-CORD-AP=	cable	
-wireless	AIR-PWR-CORD-AR	Cisco AIR-PWR-CORD-AR	cable	
-wireless	AIR-PWR-CORD-AR-W	AIR Line White Cord Argentina	cable	
-wireless	AIR-PWR-CORD-AR-W=	AIR Line White Cord Argentina Spare	cable	
-wireless	AIR-PWR-CORD-AR=	Cisco AIR-PWR-CORD-AR=	cable	
-wireless	AIR-PWR-CORD-AU	Cisco AIR-PWR-CORD-AU	cable	
-wireless	AIR-PWR-CORD-AU-W	AIR Line White Cord Australia	cable	
-wireless	AIR-PWR-CORD-AU-W=	AIR Line White Cord Australia Spare	cable	
-wireless	AIR-PWR-CORD-AU=	Cisco AIR-PWR-CORD-AU=	cable	
-wireless	AIR-PWR-CORD-BR	Cisco AIR-PWR-CORD-BR	cable	
-wireless	AIR-PWR-CORD-BR-W	AIR Line White Cord Brazil	cable	
-wireless	AIR-PWR-CORD-BR-W=	AIR Line White Cord Brazil Spare	cable	
-wireless	AIR-PWR-CORD-CE	Cisco AIR-PWR-CORD-CE	cable	
-wireless	AIR-PWR-CORD-CE-W	AIR Line White Cord Central Europe	cable	
-wireless	AIR-PWR-CORD-CE-W=	AIR Line White Cord Central Europe Spare	cable	
-wireless	AIR-PWR-CORD-CE=	Cisco AIR-PWR-CORD-CE=	cable	
-wireless	AIR-PWR-CORD-CH	Cisco AIR-PWR-CORD-CH	cable	
-wireless	AIR-PWR-CORD-CH-W	AIR Line White Cord China Main	cable	
-wireless	AIR-PWR-CORD-CH-W=	AIR Line White Cord China Spare	cable	
-wireless	AIR-PWR-CORD-CH=	Cisco AIR-PWR-CORD-CH=	cable	
-wireless	AIR-PWR-CORD-DM	Cisco AIR-PWR-CORD-DM	cable	
-wireless	AIR-PWR-CORD-DM-W	AIR Line White Cord Denmark	cable	
-wireless	AIR-PWR-CORD-DM-W=	AIR Line White Cord Denmark Spare	cable	
-wireless	AIR-PWR-CORD-DM=	Cisco AIR-PWR-CORD-DM=	cable	
-wireless	AIR-PWR-CORD-IN-W	AIR Line White Cord India	cable	
-wireless	AIR-PWR-CORD-IN-W=	AIR Line White Cord India Spare	cable	
-wireless	AIR-PWR-CORD-IS	Cisco AIR-PWR-CORD-IS	cable	
-wireless	AIR-PWR-CORD-IS-W	AIR Line White Cord Israel	cable	
-wireless	AIR-PWR-CORD-IS-W=	AIR Line White Cord Israel Spare	cable	
-wireless	AIR-PWR-CORD-IT	Cisco AIR-PWR-CORD-IT	cable	
-wireless	AIR-PWR-CORD-IT-W	AIR Line White Cord Italy	cable	
-wireless	AIR-PWR-CORD-IT-W=	AIR Line White Cord Italy Spare	cable	
-wireless	AIR-PWR-CORD-IT=	Cisco AIR-PWR-CORD-IT=	cable	
-wireless	AIR-PWR-CORD-JP	Cisco AIR-PWR-CORD-JP	cable	
-wireless	AIR-PWR-CORD-JP-W	AIR Line White Cord Japan	cable	
-wireless	AIR-PWR-CORD-JP-W=	AIR Line White Cord Japan Spare	cable	
-wireless	AIR-PWR-CORD-JP=	Cisco AIR-PWR-CORD-JP=	cable	
-wireless	AIR-PWR-CORD-K-W	AIR Line White Cord Korea	cable	
-wireless	AIR-PWR-CORD-K-W=	AIR Line White Cord Korea Spare	cable	
-wireless	AIR-PWR-CORD-NA	Cisco AIR-PWR-CORD-NA	cable	
-wireless	AIR-PWR-CORD-NA-W	AIR Line White Cord North America	cable	
-wireless	AIR-PWR-CORD-NA-W=	AIR Line White Cord North AmericaSpare	cable	
-wireless	AIR-PWR-CORD-NA=	Cisco AIR-PWR-CORD-NA=	cable	
-wireless	AIR-PWR-CORD-SA-W	AIR Line White Cord South Africa	cable	
-wireless	AIR-PWR-CORD-SA-W=	AIR Line White Cord South America Spare	cable	
-wireless	AIR-PWR-CORD-SW	Cisco AIR-PWR-CORD-SW	cable	
-wireless	AIR-PWR-CORD-SW-W	AIR Line White Cord Switzerland	cable	
-wireless	AIR-PWR-CORD-SW-W=	AIR Line White Cord Switzerland Spare	cable	
-wireless	AIR-PWR-CORD-SW=	Cisco AIR-PWR-CORD-SW=	cable	
-wireless	AIR-PWR-CORD-UK	Cisco AIR-PWR-CORD-UK	cable	
-wireless	AIR-PWR-CORD-UK-W	AIR Line White Cord United Kingdom	cable	
-wireless	AIR-PWR-CORD-UK-W=	AIR Line White Cord United Kingdom Spare	cable	
-wireless	AIR-PWR-CORD-UK=	Cisco AIR-PWR-CORD-UK=	cable	
+wireless	AIR-PWR-CORD-AP	Cisco AIR-PWR-CORD-AP	power-cord	
+wireless	AIR-PWR-CORD-AP-W	AIR Line White Cord Asia Pacific (APAC)	power-cord	
+wireless	AIR-PWR-CORD-AP-W=	AIR Line White Cord APAC Spare	power-cord	
+wireless	AIR-PWR-CORD-AP=	Cisco AIR-PWR-CORD-AP=	power-cord	
+wireless	AIR-PWR-CORD-AR	Cisco AIR-PWR-CORD-AR	power-cord	
+wireless	AIR-PWR-CORD-AR-W	AIR Line White Cord Argentina	power-cord	
+wireless	AIR-PWR-CORD-AR-W=	AIR Line White Cord Argentina Spare	power-cord	
+wireless	AIR-PWR-CORD-AR=	Cisco AIR-PWR-CORD-AR=	power-cord	
+wireless	AIR-PWR-CORD-AU	Cisco AIR-PWR-CORD-AU	power-cord	
+wireless	AIR-PWR-CORD-AU-W	AIR Line White Cord Australia	power-cord	
+wireless	AIR-PWR-CORD-AU-W=	AIR Line White Cord Australia Spare	power-cord	
+wireless	AIR-PWR-CORD-AU=	Cisco AIR-PWR-CORD-AU=	power-cord	
+wireless	AIR-PWR-CORD-BR	Cisco AIR-PWR-CORD-BR	power-cord	
+wireless	AIR-PWR-CORD-BR-W	AIR Line White Cord Brazil	power-cord	
+wireless	AIR-PWR-CORD-BR-W=	AIR Line White Cord Brazil Spare	power-cord	
+wireless	AIR-PWR-CORD-CE	Cisco AIR-PWR-CORD-CE	power-cord	
+wireless	AIR-PWR-CORD-CE-W	AIR Line White Cord Central Europe	power-cord	
+wireless	AIR-PWR-CORD-CE-W=	AIR Line White Cord Central Europe Spare	power-cord	
+wireless	AIR-PWR-CORD-CE=	Cisco AIR-PWR-CORD-CE=	power-cord	
+wireless	AIR-PWR-CORD-CH	Cisco AIR-PWR-CORD-CH	power-cord	
+wireless	AIR-PWR-CORD-CH-W	AIR Line White Cord China Main	power-cord	
+wireless	AIR-PWR-CORD-CH-W=	AIR Line White Cord China Spare	power-cord	
+wireless	AIR-PWR-CORD-CH=	Cisco AIR-PWR-CORD-CH=	power-cord	
+wireless	AIR-PWR-CORD-DM	Cisco AIR-PWR-CORD-DM	power-cord	
+wireless	AIR-PWR-CORD-DM-W	AIR Line White Cord Denmark	power-cord	
+wireless	AIR-PWR-CORD-DM-W=	AIR Line White Cord Denmark Spare	power-cord	
+wireless	AIR-PWR-CORD-DM=	Cisco AIR-PWR-CORD-DM=	power-cord	
+wireless	AIR-PWR-CORD-IN-W	AIR Line White Cord India	power-cord	
+wireless	AIR-PWR-CORD-IN-W=	AIR Line White Cord India Spare	power-cord	
+wireless	AIR-PWR-CORD-IS	Cisco AIR-PWR-CORD-IS	power-cord	
+wireless	AIR-PWR-CORD-IS-W	AIR Line White Cord Israel	power-cord	
+wireless	AIR-PWR-CORD-IS-W=	AIR Line White Cord Israel Spare	power-cord	
+wireless	AIR-PWR-CORD-IT	Cisco AIR-PWR-CORD-IT	power-cord	
+wireless	AIR-PWR-CORD-IT-W	AIR Line White Cord Italy	power-cord	
+wireless	AIR-PWR-CORD-IT-W=	AIR Line White Cord Italy Spare	power-cord	
+wireless	AIR-PWR-CORD-IT=	Cisco AIR-PWR-CORD-IT=	power-cord	
+wireless	AIR-PWR-CORD-JP	Cisco AIR-PWR-CORD-JP	power-cord	
+wireless	AIR-PWR-CORD-JP-W	AIR Line White Cord Japan	power-cord	
+wireless	AIR-PWR-CORD-JP-W=	AIR Line White Cord Japan Spare	power-cord	
+wireless	AIR-PWR-CORD-JP=	Cisco AIR-PWR-CORD-JP=	power-cord	
+wireless	AIR-PWR-CORD-K-W	AIR Line White Cord Korea	power-cord	
+wireless	AIR-PWR-CORD-K-W=	AIR Line White Cord Korea Spare	power-cord	
+wireless	AIR-PWR-CORD-NA	Cisco AIR-PWR-CORD-NA	power-cord	
+wireless	AIR-PWR-CORD-NA-W	AIR Line White Cord North America	power-cord	
+wireless	AIR-PWR-CORD-NA-W=	AIR Line White Cord North AmericaSpare	power-cord	
+wireless	AIR-PWR-CORD-NA=	Cisco AIR-PWR-CORD-NA=	power-cord	
+wireless	AIR-PWR-CORD-SA-W	AIR Line White Cord South Africa	power-cord	
+wireless	AIR-PWR-CORD-SA-W=	AIR Line White Cord South America Spare	power-cord	
+wireless	AIR-PWR-CORD-SW	Cisco AIR-PWR-CORD-SW	power-cord	
+wireless	AIR-PWR-CORD-SW-W	AIR Line White Cord Switzerland	power-cord	
+wireless	AIR-PWR-CORD-SW-W=	AIR Line White Cord Switzerland Spare	power-cord	
+wireless	AIR-PWR-CORD-SW=	Cisco AIR-PWR-CORD-SW=	power-cord	
+wireless	AIR-PWR-CORD-UK	Cisco AIR-PWR-CORD-UK	power-cord	
+wireless	AIR-PWR-CORD-UK-W	AIR Line White Cord United Kingdom	power-cord	
+wireless	AIR-PWR-CORD-UK-W=	AIR Line White Cord United Kingdom Spare	power-cord	
+wireless	AIR-PWR-CORD-UK=	Cisco AIR-PWR-CORD-UK=	power-cord	
 wireless	AIR-PWR-D	White Power Supply for Aironet Access Points	power	
 wireless	AIR-PWR-D=	White Power Supply for Aironet Access Points	power	
 wireless	AIR-PWR-ST-LT-R3P=	1520 Series Street Light Power Tap, 4 ft.	power	
@@ -39275,9 +39275,9 @@ wireless	AIR-PWRINJ5=	Power Injector (802.3af) for AP 1600, 2600 and 3600 w/o mo
 wireless	AIR-PWRINJ6	Power injector	power-injector	
 wireless	AIR-PWRINJ6=	Power injector, 802.3at, indoor	power-injector	
 wireless	AIR-PWRINJ7=	Cisco AIR-PWRINJ7=	power-injector	
-wireless	AIR-RAID-9266NB	MegaRAID 9266-8i with no battery back up	module	
-wireless	AIR-RAID-ROM1	MegaRAID 9266-8i with no battery back up	module	
-wireless	AIR-RAID-ROM5	Embedded SW RAID 0/1/10, 8 ports SAS/SATA	module	
+wireless	AIR-RAID-9266NB	MegaRAID 9266-8i with no battery back up	storage-controller	
+wireless	AIR-RAID-ROM1	MegaRAID 9266-8i with no battery back up	storage-controller	
+wireless	AIR-RAID-ROM5	Embedded SW RAID 0/1/10, 8 ports SAS/SATA	storage-controller	
 wireless	AIR-RM-VBLE2-K9=	Cisco AIR-RM-VBLE2-K9=	module	
 wireless	AIR-RM3000M	2.4 GHz & 5 GHz XOR Security Monitor Module	module	
 wireless	AIR-RM3000M++=	Wireless Security Module - TAA	module	
@@ -39308,21 +39308,21 @@ wireless	AIR-RM3010L-T-K9=	Hyperlocation Module with Advance Security; Reg. Doma
 wireless	AIR-RM3010L-UXK9=	Wireless Security & Location Module; Universal SKU	module	
 wireless	AIR-RM3010L-Z-K9=	Hyperlocation Module with Advance Security; Reg. Domain -Z	module	
 wireless	AIR-RM3010LA-UXK9=	Wireless Security & Location Module+ Omni Antenna; Univ. SKU	module	
-wireless	AIR-SD-32G-S	32GB SD Card for UCS servers	module	
-wireless	AIR-SD240G0KS2-EV	240GB 2.5 inch Enterprise Value 6G SATA SSD	module	
-wireless	AIR-SD240G0KS2-EV=	Spare SSD for Cisco Wireless Controller 5520 and 8540	module	
-wireless	AIR-SD240GBKS2-EV	240GB 2.5 inch Enterprise Value 6G SATA SSD	module	
-wireless	AIR-SD240GBKS2-EV=	Spare SSD for Cisco Wireless Controller 5520 and 8540	module	
-wireless	AIR-SD240GBKS4-EV	240GB 2.5 inch Enterprise Value 6G SATA SSD	module	
-wireless	AIR-SD240GBKS4-EV=	Spare SSD for Cisco Wireless Controller 5520 and 8540	module	
+wireless	AIR-SD-32G-S	32GB SD Card for UCS servers	drive	
+wireless	AIR-SD240G0KS2-EV	240GB 2.5 inch Enterprise Value 6G SATA SSD	drive	
+wireless	AIR-SD240G0KS2-EV=	Spare SSD for Cisco Wireless Controller 5520 and 8540	drive	
+wireless	AIR-SD240GBKS2-EV	240GB 2.5 inch Enterprise Value 6G SATA SSD	drive	
+wireless	AIR-SD240GBKS2-EV=	Spare SSD for Cisco Wireless Controller 5520 and 8540	drive	
+wireless	AIR-SD240GBKS4-EV	240GB 2.5 inch Enterprise Value 6G SATA SSD	drive	
+wireless	AIR-SD240GBKS4-EV=	Spare SSD for Cisco Wireless Controller 5520 and 8540	drive	
 wireless	AIR-SEC-50=	Physical Security Kit for Wall Plate AP	mechanical	
 wireless	AIR-SFP-KIT1=	SFP installation kit for Catalyst 9124AX (QTY 5)	mechanical	
-wireless	AIR-SRVR-300GB-HD=	Field replaceable 300GB HD for wireless/management servers	module	
+wireless	AIR-SRVR-300GB-HD=	Field replaceable 300GB HD for wireless/management servers	drive	
 wireless	AIR-SRVR-PWR=	Field replaceable AC power supply for wireless appliances	power	
 wireless	AIR-SVR-PWR-DC	Field replaceable DC Power Supply for 8510DC (AIR-CT85DC-K9)	power	
 wireless	AIR-SVR-PWR-DC=	Field replaceable DC Power Supply for 8510DC (AIR-CT85DC-K9)	power	
-wireless	AIR-TPM1-001	TPM Module For UCS	module	
-wireless	AIR-TPM2-001	Trusted Platform Module 1.2 for UCS (SPI-based)	module	
+wireless	AIR-TPM1-001	TPM Module For UCS	tpm	
+wireless	AIR-TPM2-001	Trusted Platform Module 1.2 for UCS (SPI-based)	tpm	
 wireless	AIR-VAP-CELLPCS	MobileAccessVE Access Pod for CELL/PCS bands	device	
 wireless	AIR-VAP-CELLPCS=	MobileAccessVE Access Pod for CELL/PCS bands	device	
 wireless	AIR-VAPMNTG-H-KIT=	MobileAccessVE VAP Mounting Kit	mechanical	
@@ -40145,23 +40145,23 @@ wireless	C9800-L-F-CA-K9	Cisco 9800-L Wireless Controller fiber service	wlc
 wireless	C9800-L-F-K9	Cisco Catalyst 9800-L-F Wireless Controller_Fiber Uplink (ships with one AC power adapter)	wlc	
 wireless	C9800L-RMNT	Cisco 9800 Wireless Controller rack mount tray	mechanical	
 wireless	C9800L-RMNT=	Cisco Catalyst 9800 Series Wireless Controller Rack Mount Bracket	mechanical	
-wireless	CAB-AC-C5	AC Power Cord, Type C5, US, Canada	cable	
-wireless	CAB-AC-C5-ARG	AC Power Cord, Type C5, Argentina	cable	
-wireless	CAB-AC-C5-AUS	AC Power Cord, Type C5, Australia	cable	
-wireless	CAB-AC-C5-BR	AC Power Cord, Type C5, Brazil	cable	
-wireless	CAB-AC-C5-BRA	AC Power Cord, Type C5, Brazil	cable	
-wireless	CAB-AC-C5-CHI	AC Power Cord, Type C5, China	cable	
-wireless	CAB-AC-C5-EUR	AC Power Cord, Type C5, Europe	cable	
-wireless	CAB-AC-C5-IND	AC Power Cord, Type C5, India	cable	
-wireless	CAB-AC-C5-ITA	Cisco CAB-AC-C5-ITA	cable	
-wireless	CAB-AC-C5-JAP	Cisco CAB-AC-C5-JAP	cable	
-wireless	CAB-AC-C5-KOR	Cisco CAB-AC-C5-KOR	cable	
-wireless	CAB-AC-C5-SAF	Cisco CAB-AC-C5-SAF	cable	
-wireless	CAB-AC-C5-SWI	Cisco CAB-AC-C5-SWI	cable	
-wireless	CAB-AC-C5-TWN	Cisco CAB-AC-C5-TWN	cable	
-wireless	CAB-AC-C5-UK	Cisco CAB-AC-C5-UK	cable	
-wireless	CAB-C13-C14-JMPRCAB-ACS	Cisco Power Cable	cable	
-wireless	CAB-C15-ACB	Brazil AC Type A Power Cable	cable	
+wireless	CAB-AC-C5	AC Power Cord, Type C5, US, Canada	power-cord	
+wireless	CAB-AC-C5-ARG	AC Power Cord, Type C5, Argentina	power-cord	
+wireless	CAB-AC-C5-AUS	AC Power Cord, Type C5, Australia	power-cord	
+wireless	CAB-AC-C5-BR	AC Power Cord, Type C5, Brazil	power-cord	
+wireless	CAB-AC-C5-BRA	AC Power Cord, Type C5, Brazil	power-cord	
+wireless	CAB-AC-C5-CHI	AC Power Cord, Type C5, China	power-cord	
+wireless	CAB-AC-C5-EUR	AC Power Cord, Type C5, Europe	power-cord	
+wireless	CAB-AC-C5-IND	AC Power Cord, Type C5, India	power-cord	
+wireless	CAB-AC-C5-ITA	Cisco CAB-AC-C5-ITA	power-cord	
+wireless	CAB-AC-C5-JAP	Cisco CAB-AC-C5-JAP	power-cord	
+wireless	CAB-AC-C5-KOR	Cisco CAB-AC-C5-KOR	power-cord	
+wireless	CAB-AC-C5-SAF	Cisco CAB-AC-C5-SAF	power-cord	
+wireless	CAB-AC-C5-SWI	Cisco CAB-AC-C5-SWI	power-cord	
+wireless	CAB-AC-C5-TWN	Cisco CAB-AC-C5-TWN	power-cord	
+wireless	CAB-AC-C5-UK	Cisco CAB-AC-C5-UK	power-cord	
+wireless	CAB-C13-C14-JMPRCAB-ACS	Cisco Power Cable	power-cord	
+wireless	CAB-C15-ACB	Brazil AC Type A Power Cable	power-cord	
 wireless	CAB-L400-20-N-R	RA-N (m) to RP-TNC (jack), LMR-400-DB, 20 ft	cable	
 wireless	CAB-L400-20-N-R=	RA-N (m) to RP-TNC (jack), LMR-400-DB, 20 ft	cable	
 wireless	CB-PWRINJ-AR	Cisco Business Power Over Ethernet Injector	power-injector	
@@ -40359,18 +40359,18 @@ wireless	CBW240AC-ZMULTI	BOM Level CBW240AC Bulk PID for Z Domain	ap	smb
 wireless	CBW240AC-x	CBW240AC 802.11ac 4x4 Wave 2 Access Point Ceiling Mount	ap	smb
 wireless	CMX-BBLKD-S2	UCS C-Series M5 SFF drive blanking panel	mechanical	
 wireless	CMX-BZL-C220M5	C220 M5 Security Bezel	mechanical	
-wireless	CMX-CPU-5118	2.3 GHz 5118/105W 12C/16.50MB Cache/DDR4 2400MHz	module	
-wireless	CMX-FAN-C220M5	CMX 3375 (C220 M5) Fan Module	module	
-wireless	CMX-FAN-C220M5=	C220 M5 Fan Module (one)	module	
+wireless	CMX-CPU-5118	2.3 GHz 5118/105W 12C/16.50MB Cache/DDR4 2400MHz	cpu	
+wireless	CMX-FAN-C220M5	CMX 3375 (C220 M5) Fan Module	fan	
+wireless	CMX-FAN-C220M5=	C220 M5 Fan Module (one)	fan	
 wireless	CMX-HS-C220M5	Heat sink for UCS C220 M5 rack servers 150W CPUs & below	module	
-wireless	CMX-MR-X16G1RS-H	16GB DDR4-2666-MHz RDIMM/PC4-21300/single rank/x4/1.2v	module	
-wireless	CMX-MR-X16G1RT-H	16GB DDR4-2933-MHz RDIMM/1Rx4/1.2v	module	
-wireless	CMX-MR-X16G1RW	16GB DDR4-3200-MHz RDIMM/1Rx4/1.2v	module	
+wireless	CMX-MR-X16G1RS-H	16GB DDR4-2666-MHz RDIMM/PC4-21300/single rank/x4/1.2v	memory	
+wireless	CMX-MR-X16G1RT-H	16GB DDR4-2933-MHz RDIMM/1Rx4/1.2v	memory	
+wireless	CMX-MR-X16G1RW	16GB DDR4-3200-MHz RDIMM/1Rx4/1.2v	memory	
 wireless	CMX-PSU1-770W	Cisco UCS 770W AC Power Supply for Rack Server	power	
-wireless	CMX-RAID-M5	Cisco 12G Modular RAID controller with 2GB cache	module	
+wireless	CMX-RAID-M5	Cisco 12G Modular RAID controller with 2GB cache	storage-controller	
 wireless	CMX-RAILB-M4	Ball Bearing Rail Kit for C220 & C240 M4 & M5 rack servers	mechanical	
-wireless	CMX-SD960GM1X-EV	960GB 2.5 inch Enterprise Value 6G SATA SSD	module	
-wireless	CMX-TPM2-001	Trusted Platform Module 1.2 for UCS (SPI-based)	module	
+wireless	CMX-SD960GM1X-EV	960GB 2.5 inch Enterprise Value 6G SATA SSD	drive	
+wireless	CMX-TPM2-001	Trusted Platform Module 1.2 for UCS (SPI-based)	tpm	
 wireless	COGNIO-SEWIFI-CB	Cognio Spectrum Expert cardbus adapter and software	module	
 wireless	CS-MGNT-TRAY+	Table Mount for Ethernet Switch Panorama	mechanical	
 wireless	CW-ACC-9179-A-00	Indoor Environment Pack for CW9179F	accessory	
@@ -40443,15 +40443,15 @@ wireless	CW9800L-RMNT-R	Rear rack mount bracket for CW9800L-RMNT	mechanical
 wireless	CW9800L-RPS=	Redundant Power Supply kit, which includes: ● Redundant Power Supply module ● 8-pin to 6-pin DC cable to connect RPS to CW9800L ● An additional power supply with power cord	power	
 wireless	CW9800M	Cisco Catalyst CW9800M Wireless Controller (ships with one AC power adapter)	wlc	
 wireless	CWWLSE-1130-19-K9	CiscoWorks WLSE (optional)	appliance	
-wireless	DN3-L-MR-X16G1RS-H	16GB DDR4-2666-MHz RDIMM/PC4-21300/single rank/x4/1.2v	module	
-wireless	DN3-L-SD960GM1X-EV	960GB 2.5 inch Enterprise Value 6G SATA SSD	module	
+wireless	DN3-L-MR-X16G1RS-H	16GB DDR4-2666-MHz RDIMM/PC4-21300/single rank/x4/1.2v	memory	
+wireless	DN3-L-SD960GM1X-EV	960GB 2.5 inch Enterprise Value 6G SATA SSD	drive	
 wireless	DN3-LOC-BZL-C220M5	C220 M5 Security Bezel	mechanical	
-wireless	DN3-LOC-CPU-5118	2.3 GHz 5118/105W 12C/16.50MB Cache/DDR4 2400MHz	module	
+wireless	DN3-LOC-CPU-5118	2.3 GHz 5118/105W 12C/16.50MB Cache/DDR4 2400MHz	cpu	
 wireless	DN3-LOC-K9	DNAC Location Appliance	appliance	
 wireless	DN3-LOC-PSU1-770W	Cisco UCS 770W AC Power Supply for Rack Server	power	
-wireless	DN3-LOC-RAID-M5	Cisco 12G Modular RAID controller with 2GB cache	module	
+wireless	DN3-LOC-RAID-M5	Cisco 12G Modular RAID controller with 2GB cache	storage-controller	
 wireless	DN3-LOC-RAILB-M4	Ball Bearing Rail Kit for C220 & C240 M4 & M5 rack servers	mechanical	
-wireless	DN3-LOC-TPM2-001	Trusted Platform Module 1.2 for UCS (SPI-based)	module	
+wireless	DN3-LOC-TPM2-001	Trusted Platform Module 1.2 for UCS (SPI-based)	tpm	
 wireless	EDU-AP1832I-B-K9	802.11ac Wave 2;3x3:2SS;Int Ant; B Domain (EDU for US K12)	ap	indoor
 wireless	EDU-AP4800-B-K9	EDU SKU .11ac W2 Analytics AP w/CA; 4x4:3; -B Domain	ap	indoor
 wireless	EDU-AP4800-B-K9C	EDU_Cisco Aironet Mobility Express 4800 Series	ap	indoor
@@ -40482,8 +40482,8 @@ wireless	ESW-6300-CON-R-K9	Embedded Wireless AP 6300, DC input, A Domain	ap	indu
 wireless	ESW-6300-CON-S-K9	Embedded Wireless AP 6300, DC input, S Domain	ap	industrial
 wireless	ESW-6300-CON-T-K9	Embedded Wireless AP 6300, DC input, A Domain	ap	industrial
 wireless	ESW-6300-CON-Z-K9	Embedded Wireless AP 6300, DC input, Z Domain	ap	industrial
-wireless	FAN-ROOM70-2PK-	FAN kit for ROOM 70 2pack	module	
-wireless	FAN-ROOM70-2PK=	FAN kit for ROOM 70 2pack	module	
+wireless	FAN-ROOM70-2PK-	FAN kit for ROOM 70 2pack	fan	
+wireless	FAN-ROOM70-2PK=	FAN kit for ROOM 70 2pack	fan	
 wireless	FINAL-PKG-RUSSIA	Contains Packing Kit for 2KE/3KI/3KE	mechanical	
 wireless	FLMESH-HW-1000-1	Cisco FLMESH-HW-1000-1	appliance	
 wireless	FLMESH-HW-10000-1	Cisco FLMESH-HW-10000-1	appliance	
@@ -40775,14 +40775,14 @@ wireless	IW9167EH-x-HZ	Industrial Wireless 9167EH-HZ, 11ax 6E AP, 8 RF ports, x 
 wireless	IW9167EH-x-URWB	Industrial Wireless 9167E, 11ax 6E AP, 8 RF ports, x domain, URWB software	ap	industrial
 wireless	IW9167EH-x-WGB	Industrial Wireless 9167E, 11ax 6E AP, 8 RF ports, x domain, WGB software	ap	industrial
 wireless	IW9167IH-x-AP	Industrial Wireless 9167I, 11ax 6E AP, internal antenna, x domain, Wi-Fi software	ap	industrial
-wireless	IWA-CPU-I4310	Intel 4310 2.1GHz/120W 12C/18MB DDR4 2667MHz	module	
-wireless	IWA-MR-X16G1RW	16GB RDIMM SRx4 3200 (8Gb)	module	
-wireless	IWA-PCIE-C25Q-04	Cisco UCS VIC 1455 Quad Port 10/25G SFP28 CNA PCIE (optional)	module	
-wireless	IWA-PCIE-C25Q-04=	^IEC6400 VIC 1455 Quad Port 10/25G SFP28 CNA PCIE	module	
+wireless	IWA-CPU-I4310	Intel 4310 2.1GHz/120W 12C/18MB DDR4 2667MHz	cpu	
+wireless	IWA-MR-X16G1RW	16GB RDIMM SRx4 3200 (8Gb)	memory	
+wireless	IWA-PCIE-C25Q-04	Cisco UCS VIC 1455 Quad Port 10/25G SFP28 CNA PCIE (optional)	nic	
+wireless	IWA-PCIE-C25Q-04=	^IEC6400 VIC 1455 Quad Port 10/25G SFP28 CNA PCIE	nic	
 wireless	IWA-PSU1-1050W	Cisco UCS 1050W AC Power Supply for Rack Server	power	
 wireless	IWA-SATAIN-220M6	C220M6 SATA Interposer board (1U)	module	
-wireless	IWA-SD480G63X-EP	480GB 2.5in Enterprise Performance 6GSATA SSD(3X endurance)	module	
-wireless	IWA-TPM-002C	TPM 2.0, TCG, FIPS140-2, CC EAL4+ Certified, for M6 servers	module	
+wireless	IWA-SD480G63X-EP	480GB 2.5in Enterprise Performance 6GSATA SSD(3X endurance)	drive	
+wireless	IWA-TPM-002C	TPM 2.0, TCG, FIPS140-2, CC EAL4+ Certified, for M6 servers	tpm	
 wireless	KAISER-12PACK-BNDL	12 Pack of AP3802I	ap	indoor
 wireless	KAISER-WLC-AP-BNDL	Kaiser Bundle of WLC3504 and 10-pack AP3802I	bundle	
 wireless	MA-ANT-3-A1	Meraki Indoor Dual-band Dipole Antenna	antenna	
@@ -40859,24 +40859,24 @@ wireless	MR78-HW	Cisco MR78-HW	ap	outdoor
 wireless	MR84	Cisco MR84	ap	outdoor
 wireless	MR86	Cisco MR86	ap	outdoor
 wireless	MR86-HW	Cisco MR86-HW	ap	outdoor
-wireless	MSE-A03-D600GA2	600GB 6Gb SAS 10K RPM SFF HDD/hot plug/drive sled mounted	module	
-wireless	MSE-A03-D600GA2=	600GB 6Gb SAS 10K RPM SFF HDD/hot plug/drive sled mounted	module	
+wireless	MSE-A03-D600GA2	600GB 6Gb SAS 10K RPM SFF HDD/hot plug/drive sled mounted	drive	
+wireless	MSE-A03-D600GA2=	600GB 6Gb SAS 10K RPM SFF HDD/hot plug/drive sled mounted	drive	
 wireless	MSE-BZL-C220M4	C220 M4 Bezel	mechanical	
 wireless	MSE-BZL-C220M4=	C220 M4 Bezel Spare	mechanical	
-wireless	MSE-CPU-E52650D	2.30 GHz E5-2650 v3/105W 10C/25MB Cache/DDR4 2133MHz	module	
-wireless	MSE-FAN-C220M4=	C220 M4 Fan Module (one)	module	
-wireless	MSE-HD600G10K12G	600GB 6Gb SAS 10K RPM SFF HDD/hot plug/drive sled mounted	module	
-wireless	MSE-HD600G10K12G=	600GB 6Gb SAS 10K RPM SFF HDD/hot plug/drive sled mounted	module	
-wireless	MSE-MR-1X161RV-A	16GB DDR4-2400-MHz RDIMM/PC4-19200/single rank/x4/1.2v	module	
-wireless	MSE-MR-1X162RU-A	16GB DDR4-2133-MHz RDIMM/PC4-17000/dual rank/x4/1.2v	module	
-wireless	MSE-MRAID12G	Cisco 12G SAS Modular Raid Controller	module	
-wireless	MSE-MRAID12G-1GB	Cisco 12Gbps SAS 1GB FBWC Cache module (Raid 0/1/5/6)	module	
+wireless	MSE-CPU-E52650D	2.30 GHz E5-2650 v3/105W 10C/25MB Cache/DDR4 2133MHz	cpu	
+wireless	MSE-FAN-C220M4=	C220 M4 Fan Module (one)	fan	
+wireless	MSE-HD600G10K12G	600GB 6Gb SAS 10K RPM SFF HDD/hot plug/drive sled mounted	drive	
+wireless	MSE-HD600G10K12G=	600GB 6Gb SAS 10K RPM SFF HDD/hot plug/drive sled mounted	drive	
+wireless	MSE-MR-1X161RV-A	16GB DDR4-2400-MHz RDIMM/PC4-19200/single rank/x4/1.2v	memory	
+wireless	MSE-MR-1X162RU-A	16GB DDR4-2133-MHz RDIMM/PC4-17000/dual rank/x4/1.2v	memory	
+wireless	MSE-MRAID12G	Cisco 12G SAS Modular Raid Controller	storage-controller	
+wireless	MSE-MRAID12G-1GB	Cisco 12Gbps SAS 1GB FBWC Cache module (Raid 0/1/5/6)	storage-controller	
 wireless	MSE-PSU1-770W	770W AC Hot-Plug Power Supply for 1U C-Series Rack Server	power	
 wireless	MSE-PSU1-770W=	770W AC Hot-Plug Power Supply for 1U C-Series Rack Server	power	
 wireless	MSE-RAILB-M4	Ball Bearing Rail Kit for C220 M4 and C240 M4 rack servers	mechanical	
-wireless	MSE-SD480G0KS2-EV	480 GB 2.5 inch Enterprise Value 6G SATA SSD	module	
-wireless	MSE-SD960G0KS2-EV	960 GB 2.5 inch Enterprise Value 6G SATA SSD	module	
-wireless	MSE-TPM2-001	Trusted Platform Module 1.2 for UCS (SPI-based)	module	
+wireless	MSE-SD480G0KS2-EV	480 GB 2.5 inch Enterprise Value 6G SATA SSD	drive	
+wireless	MSE-SD960G0KS2-EV	960 GB 2.5 inch Enterprise Value 6G SATA SSD	drive	
+wireless	MSE-TPM2-001	Trusted Platform Module 1.2 for UCS (SPI-based)	tpm	
 wireless	ON100-M6-K9	ON100 Network Agent Multipack	appliance	
 wireless	PPN-3802E-ATO	3K External ATO model	ap	indoor
 wireless	PPN-3802I-ATO	3K Internal ATO model	ap	indoor
@@ -40990,12 +40990,12 @@ wireless	PWR-115W-AC	Cisco 3504 Wireless Controller Power Supply	power
 wireless	PWR-115W-AC=	Cisco 3504 Wireless Controller Spare Power Supply	power	
 wireless	PWR-2504-AC=	Cisco 2504 Wireless Controller Spare Power Supply (not necessary with original order as 1 power supply is included)	power	
 wireless	PWR-750WACR-RED	Cisco PWR-750WACR-RED	power	
-wireless	PWR-CAB-INT-0.7M	Internal C13-C14 Power Cord NOT APPROVED for Japan, 110/22	cable	
-wireless	PWR-CAB-INT-0.7M=	Internal C13-C14 Power Cord NOT APPROVED for Japan, 110/22	cable	
-wireless	PWR-CAB-JPN-0.2M	Internal C13-C14 Power Cord for Japan	cable	
-wireless	PWR-CAB-JPN-0.2M=	Internal C13-C14 Power Cord for Japan	cable	
-wireless	PWR-CAB-JPN-0.7M	Internal C13-C14 Power Cord for Japan	cable	
-wireless	PWR-CAB-JPN-0.7M=	Internal C13-C14 Power Cord for Japan	cable	
+wireless	PWR-CAB-INT-0.7M	Internal C13-C14 Power Cord NOT APPROVED for Japan, 110/22	power-cord	
+wireless	PWR-CAB-INT-0.7M=	Internal C13-C14 Power Cord NOT APPROVED for Japan, 110/22	power-cord	
+wireless	PWR-CAB-JPN-0.2M	Internal C13-C14 Power Cord for Japan	power-cord	
+wireless	PWR-CAB-JPN-0.2M=	Internal C13-C14 Power Cord for Japan	power-cord	
+wireless	PWR-CAB-JPN-0.7M	Internal C13-C14 Power Cord for Japan	power-cord	
+wireless	PWR-CAB-JPN-0.7M=	Internal C13-C14 Power Cord for Japan	power-cord	
 wireless	PWR-RPS-DC1=	Spare Redundant Power Supply module (no PSU, no cables)	power	
 wireless	RACK-QCN-SN5=	Rack for CWWLSE Express 1030	mechanical	
 wireless	WAP121-A-K9-AR	Cisco WAP121 Wireless-N Access Point with Single Point Setup (Argentina)	ap	smb

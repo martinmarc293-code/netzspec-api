@@ -1,8 +1,8 @@
 {
   "vendor": "cisco",
   "category": "wireless",
-  "built_at": "2026-09-29T13:06:39.295Z",
-  "commit": "57ad110a295d1ec38ddc50a0805fc962feca1587",
+  "built_at": "2026-09-29T18:37:37.729Z",
+  "commit": "0cbe5c51a9f22816367aba245690fc55797737da",
   "uncommitted_rule_files": [],
   "mapping_file": "data/reference/product-lines/cisco-wireless.json",
   "parts": 3907,
@@ -979,8 +979,13 @@
           "note": null,
           "parts": 8,
           "kinds": {
-            "module": 7,
-            "power": 1
+            "cpu": 1,
+            "memory": 1,
+            "nic": 2,
+            "power": 1,
+            "module": 1,
+            "drive": 1,
+            "tpm": 1
           },
           "roles": {},
           "samples": [
@@ -1541,7 +1546,7 @@
             "wlc": 54,
             "power": 6,
             "mechanical": 4,
-            "module": 3
+            "fan": 3
           },
           "roles": {},
           "samples": [
@@ -1569,7 +1574,7 @@
             "power": 10,
             "mechanical": 2,
             "wlc": 34,
-            "module": 1
+            "fan": 1
           },
           "roles": {},
           "samples": [
@@ -1643,8 +1648,10 @@
           "note": "^AIR-SD240G (layering re-check of 17 Sep 2026, fix list section 1): AIR-SD240GBKS2-EV= / AIR-SD240GBKS4-EV= 'Spare SSD for Cisco Wireless Controller 5520 and 8540' (with their base PIDs) name two controllers of this line, and AIR-SD240G0KS2-EV(=) has its own end-of-sale notice 'for Wireless Controllers 5520 and 8540' (eos-eol-notice-c51-737832); the first four sat in Wireless Antennas and Accessories shared parts by a label, the last two here by the label check",
           "parts": 11,
           "kinds": {
-            "module": 10,
-            "power": 1
+            "nic": 2,
+            "drive": 7,
+            "power": 1,
+            "module": 1
           },
           "roles": {},
           "samples": [
@@ -1677,10 +1684,16 @@
           "kinds": {
             "appliance": 6,
             "bundle": 4,
-            "module": 24,
+            "drive": 8,
             "power": 4,
             "wireless-sensor": 1,
-            "mechanical": 6
+            "mechanical": 6,
+            "cpu": 2,
+            "fan": 3,
+            "module": 1,
+            "memory": 5,
+            "storage-controller": 3,
+            "tpm": 2
           },
           "roles": {},
           "samples": [
@@ -1705,10 +1718,14 @@
           "note": null,
           "parts": 9,
           "kinds": {
-            "module": 5,
+            "memory": 1,
+            "drive": 1,
             "mechanical": 2,
+            "cpu": 1,
             "appliance": 1,
-            "power": 1
+            "power": 1,
+            "storage-controller": 1,
+            "tpm": 1
           },
           "roles": {},
           "samples": [
@@ -1835,7 +1852,7 @@
           "note": "^PWR- fenced to the wireless rows it holds (layers round 3; operator: claimant-rule-too-broad, fixed in the wireless round): the 3504 / 2504 controller supplies, the internal C13-C14 cords and PWR-RPS-DC1=. CH1-(750W?ACR|950WDCR) removed (re-audit decisions, operator, 15 Sep 2026, Q-11): the PWR-CH1 750 W / 950 W supplies are the Catalyst 8500's (their spares in routers are named 'Cisco C8500 750W AC Power'); the three wireless rows PWR-CH1-750ACR / 750WACR / 950WDCR carry move plans to routers Catalyst 8500. The INT cords are fenced to the 0.7 m length wireless holds (collaboration-endpoints round): the 0.2 / 0.22 / 0.6 / 1.3 / 1.4 / 1.45 / 1.85 / 3.0 m INT cords are Room and TelePresence parts (Room Panorama and Room Kit EQX amp-to-camera cables, TelePresence C13-C14 jumpers) and stay in collaboration-endpoints",
           "parts": 97,
           "kinds": {
-            "cable": 65,
+            "power-cord": 65,
             "power": 18,
             "power-injector": 14
           },
@@ -1861,7 +1878,8 @@
           "note": "^CAB- fenced to the wireless rows it holds (layers round 3; operator: fixed in the wireless round): the type C5 power cords of the AP adapters, the LMR-400 RP-TNC cable and two controller power cables",
           "parts": 40,
           "kinds": {
-            "cable": 40
+            "cable": 23,
+            "power-cord": 17
           },
           "roles": {},
           "samples": [
@@ -1885,8 +1903,13 @@
           "note": "layering review of 17 Sep 2026 (fix list 2.1 / 2.2): server components and supplies of the UCS C-Series-based wireless controllers and appliances that name no platform this mapping places — CPUs, RDIMMs, MegaRAID and embedded RAID, a 32 GB SD card, a C240 M4 PCIe riser, a 650 W C-Series supply, a 500 GB drive, a UCS TPM — and the supplies named for a '9540' / '9580' controller that no series of this category names (AIR-AC-750W-R, its blanking panel, AIR-DC-950W). Cisco's end-of-sale notices list them only as 'Wireless Miscellaneous Accessories' (wireless-misc-accessories-sw-lic-eol) and 'Aironet Accessories' (aironet-accessories-eol15454), with no platform, so the series sits in the accessories line and claims no controller or appliance: the review proposed one 'Wireless controllers and appliances shared parts' series, and the rows span the AireOS controllers, the location appliances and controllers this mapping does not name. They sat in CMX 3375 / MSE 3355 / 3365 (^AIR-(MR|SD|PSU|BZL|RAID|MRAID|CPU|PCI|SVR|DC)-) and, by a label the check did not support, in Aironet Access Points shared parts (AIR-AC-750W-R, AIR-AC-750W-R-BLK, AIR-A03-D500GC3, AIR-TPM1-001). THE NAME CLAIMS NOTHING ON PURPOSE: every word of it is a labelEvidence stop word or a short word. The first name tried, 'Controller and appliance components', made 'Controller' a claim word, so the reverse check proposed 7 other controller supplies in the accessories shared parts for this series and withdrew 4 correct cross-line proposals (AIR-PSU1-770W(=) to the 5500 by '5520', AIR-PSU2V2-1200W(=) to the 8500 by '8540'); with this name both queues are the recorded 59 / 25 · ^AIR-MRAID12G, ^AIR-TPM2- (layering re-check of 17 Sep 2026, fix list section 1): AIR-MRAID12G 'Cisco 12G SAS Modular Raid Controller', AIR-MRAID12G-1GB its cache module and AIR-TPM2-001 'Trusted Platform Module 1.2 for UCS' are the same class as the MegaRAID and TPM rows here, listed by aironet-accessories-eol15454 with no platform; they sat in Wireless Antennas and Accessories shared parts by the label 'Antennas/Accessories'",
           "parts": 24,
           "kinds": {
-            "module": 19,
-            "power": 5
+            "drive": 2,
+            "power": 5,
+            "cpu": 2,
+            "memory": 7,
+            "storage-controller": 5,
+            "module": 1,
+            "tpm": 2
           },
           "roles": {},
           "samples": [
@@ -1932,7 +1955,7 @@
             "unknown": 1,
             "mechanical": 2,
             "antenna": 4,
-            "module": 2
+            "fan": 2
           },
           "roles": {},
           "samples": [
@@ -2050,9 +2073,9 @@
   "inbound_unplaced": {},
   "done": true,
   "build": {
-    "data_commit": "129f847cf897+90dirty",
-    "code_commit": "c6b9804b0414",
-    "contract_hash": "bcfc4c1ee314d3c2",
-    "generated_at": "2026-09-29T13:15:29.781Z"
+    "data_commit": "ac9579023224+93dirty",
+    "code_commit": "785eebde29c2",
+    "contract_hash": "17b502e336ebefb6",
+    "generated_at": "2026-09-29T18:46:18.590Z"
   }
 }

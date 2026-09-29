@@ -1,11 +1,11 @@
 {
-  "contract_hash": "bcfc4c1ee314d3c2",
-  "generated_at": "2026-09-28T16:44:05.977Z",
-  "code_commit": "2c2d8916466317349a60e45def70829a931708b8",
+  "contract_hash": "17b502e336ebefb6",
+  "generated_at": "2026-09-29T18:45:55.183Z",
+  "code_commit": "785eebde29c240015eb69155b507b049ba189044",
   "code_branch": "cisco",
-  "dirty_files": 4,
+  "dirty_files": 93,
   "counts": {
-    "dictionary_keys": 608,
+    "dictionary_keys": 610,
     "categories": 26,
     "list_shapes": 4,
     "free_text_by_decision": 3
@@ -251,14 +251,14 @@
         "unit": null,
         "band": null,
         "domain": null,
-        "shape": "list{ port_typ: e(rj45|sfp|sfp-plus|sfp28|sfp56|qsfp-plus|qsfp28|qsfp-dd|combo|other), speed: ls, anzahl: n }"
+        "shape": "list{ port_typ: e(rj45|sfp|sfp-plus|sfp28|sfp56|qsfp-plus|qsfp28|qsfp-dd|combo|other), speed: ls, anzahl: n, role: e(lan|wan|uplink|mgmt) }"
       },
       "uplink_ports": {
         "type": "struct",
         "unit": null,
         "band": null,
         "domain": null,
-        "shape": "list{ port_typ: e(rj45|sfp|sfp-plus|sfp28|sfp56|qsfp-plus|qsfp28|qsfp-dd|combo|other), speed: ls, anzahl: n }"
+        "shape": "list{ port_typ: e(rj45|sfp|sfp-plus|sfp28|sfp56|qsfp-plus|qsfp28|qsfp-dd|combo|other), speed: ls, anzahl: n, role: e(lan|wan|uplink|mgmt) }"
       },
       "uplink_modular": {
         "type": "b",
@@ -275,6 +275,30 @@
           32
         ],
         "domain": null,
+        "shape": null
+      },
+      "pon_ports": {
+        "type": "n",
+        "unit": null,
+        "band": [
+          1,
+          128
+        ],
+        "domain": null,
+        "shape": null
+      },
+      "pon_standard": {
+        "type": "e",
+        "unit": null,
+        "band": null,
+        "domain": [
+          "10g-epon",
+          "epon",
+          "gpon",
+          "ng-pon2",
+          "xg-pon",
+          "xgs-pon"
+        ],
         "shape": null
       },
       "mgmt_ports": {
@@ -5786,7 +5810,8 @@
           "when": {
             "field": "kind",
             "inList": [
-              "cable"
+              "cable",
+              "power-cord"
             ]
           }
         },
@@ -6094,7 +6119,14 @@
           "kind": "opt"
         },
         "emc_emissions": {
-          "kind": "opt"
+          "elseOpt": true,
+          "kind": "cond",
+          "when": {
+            "field": "kind",
+            "inList": [
+              "server"
+            ]
+          }
         },
         "emc_immunity": {
           "kind": "opt"
@@ -6239,7 +6271,14 @@
           }
         },
         "humidity_storage": {
-          "kind": "opt"
+          "elseOpt": true,
+          "kind": "cond",
+          "when": {
+            "field": "kind",
+            "inList": [
+              "server"
+            ]
+          }
         },
         "hypervisor": {
           "kind": "opt"
@@ -6651,23 +6690,45 @@
         "product_compatibility": {
           "kind": "cond",
           "when": {
-            "field": "kind",
-            "inList": [
-              "cpu",
-              "memory",
-              "drive",
-              "power",
-              "nic",
-              "gpu",
-              "storage-controller",
-              "io-module",
-              "cable",
-              "fan",
-              "tpm",
-              "pdu",
-              "accessory",
-              "chassis",
-              "mechanical"
+            "any": [
+              {
+                "any": [
+                  {
+                    "field": "kind",
+                    "inList": [
+                      "cpu",
+                      "memory",
+                      "drive",
+                      "power",
+                      "nic",
+                      "gpu",
+                      "storage-controller",
+                      "io-module",
+                      "cable",
+                      "power-cord",
+                      "fan",
+                      "tpm",
+                      "pdu",
+                      "accessory",
+                      "chassis"
+                    ]
+                  },
+                  {
+                    "field": "kind",
+                    "inList": [
+                      "bundle"
+                    ]
+                  }
+                ]
+              },
+              {
+                "field": "kind",
+                "inList": [
+                  "mechanical",
+                  "tpm",
+                  "pdu"
+                ]
+              }
             ]
           }
         },
@@ -6741,10 +6802,20 @@
         "rack_units": {
           "kind": "cond",
           "when": {
-            "field": "form_factor",
-            "inList": [
-              "rack-19",
-              "modular-chassis"
+            "any": [
+              {
+                "field": "form_factor",
+                "inList": [
+                  "rack-19",
+                  "modular-chassis"
+                ]
+              },
+              {
+                "field": "kind",
+                "inList": [
+                  "chassis"
+                ]
+              }
             ]
           }
         },
@@ -7290,7 +7361,14 @@
           }
         },
         "altitude_max": {
-          "kind": "opt"
+          "elseOpt": true,
+          "kind": "cond",
+          "when": {
+            "field": "kind",
+            "inList": [
+              "chassis"
+            ]
+          }
         },
         "altitude_storage": {
           "kind": "opt"
@@ -8152,22 +8230,32 @@
               {
                 "any": [
                   {
-                    "field": "kind",
-                    "inList": [
-                      "linecard",
-                      "plug-in",
-                      "fan",
-                      "cable",
-                      "accessory",
-                      "power",
-                      "transmitter",
-                      "receiver"
+                    "any": [
+                      {
+                        "field": "kind",
+                        "inList": [
+                          "linecard",
+                          "plug-in",
+                          "fan",
+                          "cable",
+                          "accessory",
+                          "power",
+                          "transmitter",
+                          "receiver"
+                        ]
+                      },
+                      {
+                        "field": "kind",
+                        "inList": [
+                          "amplifier"
+                        ]
+                      }
                     ]
                   },
                   {
                     "field": "kind",
                     "inList": [
-                      "amplifier"
+                      "chassis"
                     ]
                   }
                 ]
@@ -8450,7 +8538,14 @@
           }
         },
         "temp_storage": {
-          "kind": "opt"
+          "elseOpt": true,
+          "kind": "cond",
+          "when": {
+            "field": "kind",
+            "inList": [
+              "chassis"
+            ]
+          }
         },
         "test_point_level": {
           "kind": "opt"
@@ -8843,7 +8938,14 @@
           }
         },
         "emc_emissions": {
-          "kind": "opt"
+          "elseOpt": true,
+          "kind": "cond",
+          "when": {
+            "field": "kind",
+            "inList": [
+              "server"
+            ]
+          }
         },
         "emc_immunity": {
           "kind": "opt"
@@ -9052,28 +9154,47 @@
           "elseOpt": true,
           "kind": "cond",
           "when": {
-            "field": "kind",
-            "inList": [
-              "voice-module",
-              "cpu",
-              "memory",
-              "drive",
-              "nic",
-              "storage-controller",
-              "tpm",
-              "flash",
-              "power",
-              "expansion-module",
-              "accessory",
-              "transceiver",
-              "power-cord",
-              "cable",
-              "conference-camera",
-              "microphone",
-              "speaker",
-              "touch-panel",
-              "dect-base",
-              "mechanical"
+            "any": [
+              {
+                "any": [
+                  {
+                    "field": "kind",
+                    "inList": [
+                      "voice-module",
+                      "cpu",
+                      "memory",
+                      "drive",
+                      "nic",
+                      "storage-controller",
+                      "tpm",
+                      "flash",
+                      "power",
+                      "expansion-module",
+                      "accessory",
+                      "transceiver",
+                      "power-cord",
+                      "cable",
+                      "conference-camera",
+                      "microphone",
+                      "speaker",
+                      "touch-panel",
+                      "dect-base"
+                    ]
+                  },
+                  {
+                    "field": "kind",
+                    "inList": [
+                      "bundle"
+                    ]
+                  }
+                ]
+              },
+              {
+                "field": "kind",
+                "inList": [
+                  "mechanical"
+                ]
+              }
             ]
           }
         },
@@ -9372,6 +9493,15 @@
         "series": {
           "kind": "req"
         },
+        "bundle_contents": {
+          "kind": "cond",
+          "when": {
+            "field": "kind",
+            "inList": [
+              "bundle"
+            ]
+          }
+        },
         "poe_standard": {
           "kind": "cond",
           "when": {
@@ -9563,14 +9693,7 @@
           }
         },
         "video_codecs": {
-          "kind": "cond",
-          "when": {
-            "field": "kind",
-            "inList": [
-              "video-device",
-              "video-codec"
-            ]
-          }
+          "kind": "opt"
         },
         "max_resolution": {
           "kind": "cond",
@@ -9675,6 +9798,16 @@
         },
         "license_for": {
           "kind": "opt"
+        },
+        "humidity_storage": {
+          "elseOpt": true,
+          "kind": "cond",
+          "when": {
+            "field": "kind",
+            "inList": [
+              "server"
+            ]
+          }
         },
         "deploy_role": {
           "elseOpt": true,
@@ -10149,23 +10282,45 @@
         "product_compatibility": {
           "kind": "cond",
           "when": {
-            "field": "kind",
-            "inList": [
-              "cpu",
-              "memory",
-              "drive",
-              "power",
-              "nic",
-              "gpu",
-              "storage-controller",
-              "io-module",
-              "cable",
-              "fan",
-              "tpm",
-              "pdu",
-              "accessory",
-              "chassis",
-              "mechanical"
+            "any": [
+              {
+                "any": [
+                  {
+                    "field": "kind",
+                    "inList": [
+                      "cpu",
+                      "memory",
+                      "drive",
+                      "power",
+                      "nic",
+                      "gpu",
+                      "storage-controller",
+                      "io-module",
+                      "cable",
+                      "power-cord",
+                      "fan",
+                      "tpm",
+                      "pdu",
+                      "accessory",
+                      "chassis"
+                    ]
+                  },
+                  {
+                    "field": "kind",
+                    "inList": [
+                      "bundle"
+                    ]
+                  }
+                ]
+              },
+              {
+                "field": "kind",
+                "inList": [
+                  "mechanical",
+                  "tpm",
+                  "pdu"
+                ]
+              }
             ]
           }
         },
@@ -10502,7 +10657,8 @@
           "when": {
             "field": "kind",
             "inList": [
-              "cable"
+              "cable",
+              "power-cord"
             ]
           }
         },
@@ -10845,7 +11001,14 @@
           }
         },
         "emc_emissions": {
-          "kind": "opt"
+          "elseOpt": true,
+          "kind": "cond",
+          "when": {
+            "field": "kind",
+            "inList": [
+              "server"
+            ]
+          }
         },
         "emc_immunity": {
           "kind": "opt"
@@ -11119,6 +11282,7 @@
                       "storage-controller",
                       "io-module",
                       "cable",
+                      "power-cord",
                       "fan",
                       "tpm",
                       "pdu",
@@ -11193,10 +11357,20 @@
         "rack_units": {
           "kind": "cond",
           "when": {
-            "field": "form_factor",
-            "inList": [
-              "rack-19",
-              "modular-chassis"
+            "any": [
+              {
+                "field": "form_factor",
+                "inList": [
+                  "rack-19",
+                  "modular-chassis"
+                ]
+              },
+              {
+                "field": "kind",
+                "inList": [
+                  "chassis"
+                ]
+              }
             ]
           }
         },
@@ -11469,7 +11643,8 @@
           "when": {
             "field": "kind",
             "inList": [
-              "cable"
+              "cable",
+              "power-cord"
             ]
           }
         },
@@ -11498,7 +11673,14 @@
           "kind": "opt"
         },
         "humidity_storage": {
-          "kind": "opt"
+          "elseOpt": true,
+          "kind": "cond",
+          "when": {
+            "field": "kind",
+            "inList": [
+              "server"
+            ]
+          }
         },
         "altitude_storage": {
           "kind": "opt"
@@ -12086,7 +12268,14 @@
           "kind": "opt"
         },
         "emc_emissions": {
-          "kind": "opt"
+          "elseOpt": true,
+          "kind": "cond",
+          "when": {
+            "field": "kind",
+            "inList": [
+              "server"
+            ]
+          }
         },
         "emc_immunity": {
           "kind": "opt"
@@ -12262,7 +12451,14 @@
           }
         },
         "humidity_storage": {
-          "kind": "opt"
+          "elseOpt": true,
+          "kind": "cond",
+          "when": {
+            "field": "kind",
+            "inList": [
+              "server"
+            ]
+          }
         },
         "hypervisor": {
           "kind": "opt"
@@ -12643,28 +12839,47 @@
           "elseOpt": true,
           "kind": "cond",
           "when": {
-            "field": "kind",
-            "inList": [
-              "voice-module",
-              "cpu",
-              "memory",
-              "drive",
-              "nic",
-              "storage-controller",
-              "tpm",
-              "flash",
-              "power",
-              "expansion-module",
-              "accessory",
-              "transceiver",
-              "power-cord",
-              "cable",
-              "conference-camera",
-              "microphone",
-              "speaker",
-              "touch-panel",
-              "dect-base",
-              "mechanical"
+            "any": [
+              {
+                "any": [
+                  {
+                    "field": "kind",
+                    "inList": [
+                      "voice-module",
+                      "cpu",
+                      "memory",
+                      "drive",
+                      "nic",
+                      "storage-controller",
+                      "tpm",
+                      "flash",
+                      "power",
+                      "expansion-module",
+                      "accessory",
+                      "transceiver",
+                      "power-cord",
+                      "cable",
+                      "conference-camera",
+                      "microphone",
+                      "speaker",
+                      "touch-panel",
+                      "dect-base"
+                    ]
+                  },
+                  {
+                    "field": "kind",
+                    "inList": [
+                      "bundle"
+                    ]
+                  }
+                ]
+              },
+              {
+                "field": "kind",
+                "inList": [
+                  "mechanical"
+                ]
+              }
             ]
           }
         },
@@ -13029,14 +13244,7 @@
           "kind": "opt"
         },
         "video_codecs": {
-          "kind": "cond",
-          "when": {
-            "field": "kind",
-            "inList": [
-              "video-device",
-              "video-codec"
-            ]
-          }
+          "kind": "opt"
         },
         "video_encode_decode": {
           "kind": "opt"
@@ -13237,6 +13445,15 @@
         },
         "series": {
           "kind": "req"
+        },
+        "bundle_contents": {
+          "kind": "cond",
+          "when": {
+            "field": "kind",
+            "inList": [
+              "bundle"
+            ]
+          }
         },
         "memory_max": {
           "kind": "cond",
@@ -15129,17 +15346,7 @@
           }
         },
         "psu_options": {
-          "kind": "cond",
-          "when": {
-            "field": "kind",
-            "inList": [
-              "switch",
-              "access-point",
-              "security-camera",
-              "environment-sensor",
-              "cellular-gateway"
-            ]
-          }
+          "kind": "opt"
         },
         "psu_redundant": {
           "elseOpt": true,
@@ -16527,7 +16734,14 @@
           "kind": "opt"
         },
         "emc_emissions": {
-          "kind": "opt"
+          "elseOpt": true,
+          "kind": "cond",
+          "when": {
+            "field": "kind",
+            "inList": [
+              "server"
+            ]
+          }
         },
         "emc_immunity": {
           "kind": "opt"
@@ -16703,7 +16917,14 @@
           }
         },
         "humidity_storage": {
-          "kind": "opt"
+          "elseOpt": true,
+          "kind": "cond",
+          "when": {
+            "field": "kind",
+            "inList": [
+              "server"
+            ]
+          }
         },
         "hypervisor": {
           "kind": "opt"
@@ -17084,28 +17305,47 @@
           "elseOpt": true,
           "kind": "cond",
           "when": {
-            "field": "kind",
-            "inList": [
-              "voice-module",
-              "cpu",
-              "memory",
-              "drive",
-              "nic",
-              "storage-controller",
-              "tpm",
-              "flash",
-              "power",
-              "expansion-module",
-              "accessory",
-              "transceiver",
-              "power-cord",
-              "cable",
-              "conference-camera",
-              "microphone",
-              "speaker",
-              "touch-panel",
-              "dect-base",
-              "mechanical"
+            "any": [
+              {
+                "any": [
+                  {
+                    "field": "kind",
+                    "inList": [
+                      "voice-module",
+                      "cpu",
+                      "memory",
+                      "drive",
+                      "nic",
+                      "storage-controller",
+                      "tpm",
+                      "flash",
+                      "power",
+                      "expansion-module",
+                      "accessory",
+                      "transceiver",
+                      "power-cord",
+                      "cable",
+                      "conference-camera",
+                      "microphone",
+                      "speaker",
+                      "touch-panel",
+                      "dect-base"
+                    ]
+                  },
+                  {
+                    "field": "kind",
+                    "inList": [
+                      "bundle"
+                    ]
+                  }
+                ]
+              },
+              {
+                "field": "kind",
+                "inList": [
+                  "mechanical"
+                ]
+              }
             ]
           }
         },
@@ -17470,14 +17710,7 @@
           "kind": "opt"
         },
         "video_codecs": {
-          "kind": "cond",
-          "when": {
-            "field": "kind",
-            "inList": [
-              "video-device",
-              "video-codec"
-            ]
-          }
+          "kind": "opt"
         },
         "video_encode_decode": {
           "kind": "opt"
@@ -17661,6 +17894,15 @@
         },
         "series": {
           "kind": "req"
+        },
+        "bundle_contents": {
+          "kind": "cond",
+          "when": {
+            "field": "kind",
+            "inList": [
+              "bundle"
+            ]
+          }
         },
         "memory_max": {
           "kind": "cond",
@@ -18179,10 +18421,20 @@
         "altitude_max": {
           "kind": "cond",
           "when": {
-            "field": "kind",
-            "inList": [
-              "switch",
-              "fex"
+            "any": [
+              {
+                "field": "kind",
+                "inList": [
+                  "switch",
+                  "fex"
+                ]
+              },
+              {
+                "field": "kind",
+                "inList": [
+                  "chassis"
+                ]
+              }
             ]
           }
         },
@@ -18294,7 +18546,22 @@
           "kind": "opt"
         },
         "cellular_bands": {
-          "kind": "opt"
+          "elseOpt": true,
+          "kind": "cond",
+          "when": {
+            "all": [
+              {
+                "eq": true,
+                "field": "cellular"
+              },
+              {
+                "field": "kind",
+                "inList": [
+                  "module"
+                ]
+              }
+            ]
+          }
         },
         "cellular_category": {
           "kind": "opt"
@@ -19057,7 +19324,8 @@
               {
                 "field": "kind",
                 "inList": [
-                  "chassis"
+                  "chassis",
+                  "olt"
                 ]
               },
               {
@@ -19292,7 +19560,9 @@
               "switch",
               "module",
               "linecard",
-              "fex"
+              "fex",
+              "ont",
+              "olt"
             ]
           }
         },
@@ -19316,17 +19586,37 @@
               {
                 "any": [
                   {
-                    "field": "kind",
-                    "inList": [
-                      "switch",
-                      "fex",
-                      "linecard"
+                    "any": [
+                      {
+                        "any": [
+                          {
+                            "field": "kind",
+                            "inList": [
+                              "switch",
+                              "fex",
+                              "linecard"
+                            ]
+                          },
+                          {
+                            "field": "kind",
+                            "inList": [
+                              "chassis"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "field": "kind",
+                        "inList": [
+                          "fabric"
+                        ]
+                      }
                     ]
                   },
                   {
                     "field": "kind",
                     "inList": [
-                      "fabric"
+                      "supervisor"
                     ]
                   }
                 ]
@@ -19334,7 +19624,7 @@
               {
                 "field": "kind",
                 "inList": [
-                  "supervisor"
+                  "module"
                 ]
               }
             ]
@@ -19356,24 +19646,43 @@
         "product_compatibility": {
           "kind": "cond",
           "when": {
-            "field": "kind",
-            "inList": [
-              "linecard",
-              "module",
-              "supervisor",
-              "fabric",
-              "power",
-              "fan",
-              "memory",
-              "flash",
-              "drive",
-              "power-cord",
-              "stack-cable",
-              "cable",
-              "accessory",
-              "fex",
-              "bundle",
-              "mechanical"
+            "any": [
+              {
+                "any": [
+                  {
+                    "field": "kind",
+                    "inList": [
+                      "linecard",
+                      "module",
+                      "supervisor",
+                      "fabric",
+                      "power",
+                      "fan",
+                      "memory",
+                      "flash",
+                      "drive",
+                      "power-cord",
+                      "stack-cable",
+                      "cable",
+                      "accessory",
+                      "fex",
+                      "bundle"
+                    ]
+                  },
+                  {
+                    "field": "kind",
+                    "inList": [
+                      "chassis"
+                    ]
+                  }
+                ]
+              },
+              {
+                "field": "kind",
+                "inList": [
+                  "mechanical"
+                ]
+              }
             ]
           }
         },
@@ -19698,20 +20007,40 @@
         "temp_operating": {
           "kind": "cond",
           "when": {
-            "field": "kind",
-            "inList": [
-              "switch",
-              "fex"
+            "any": [
+              {
+                "field": "kind",
+                "inList": [
+                  "switch",
+                  "fex"
+                ]
+              },
+              {
+                "field": "kind",
+                "inList": [
+                  "chassis"
+                ]
+              }
             ]
           }
         },
         "temp_storage": {
           "kind": "cond",
           "when": {
-            "field": "kind",
-            "inList": [
-              "switch",
-              "fex"
+            "any": [
+              {
+                "field": "kind",
+                "inList": [
+                  "switch",
+                  "fex"
+                ]
+              },
+              {
+                "field": "kind",
+                "inList": [
+                  "chassis"
+                ]
+              }
             ]
           }
         },
@@ -19897,6 +20226,25 @@
         },
         "layer": {
           "kind": "opt"
+        },
+        "pon_ports": {
+          "kind": "cond",
+          "when": {
+            "field": "kind",
+            "inList": [
+              "ont",
+              "olt"
+            ]
+          }
+        },
+        "pon_standard": {
+          "kind": "cond",
+          "when": {
+            "field": "kind",
+            "inList": [
+              "olt"
+            ]
+          }
         },
         "uplink_modular": {
           "kind": "opt"
@@ -20092,6 +20440,16 @@
         },
         "qsfp_plus_ports": {
           "kind": "opt"
+        },
+        "cellular": {
+          "elseOpt": true,
+          "kind": "cond",
+          "when": {
+            "field": "kind",
+            "inList": [
+              "module"
+            ]
+          }
         },
         "gain": {
           "kind": "opt"
@@ -21663,7 +22021,22 @@
           "kind": "opt"
         },
         "cellular_bands": {
-          "kind": "opt"
+          "elseOpt": true,
+          "kind": "cond",
+          "when": {
+            "all": [
+              {
+                "eq": true,
+                "field": "cellular"
+              },
+              {
+                "field": "kind",
+                "inList": [
+                  "module"
+                ]
+              }
+            ]
+          }
         },
         "cellular_category": {
           "kind": "opt"
@@ -23348,6 +23721,16 @@
         "thermal_shock": {
           "kind": "opt"
         },
+        "cellular": {
+          "elseOpt": true,
+          "kind": "cond",
+          "when": {
+            "field": "kind",
+            "inList": [
+              "module"
+            ]
+          }
+        },
         "gain": {
           "kind": "opt"
         },
@@ -23372,11 +23755,13 @@
           "kind": "opt"
         },
         "airflow": {
+          "elseOpt": false,
           "kind": "cond",
           "when": {
             "field": "kind",
             "inList": [
-              "power"
+              "power",
+              "fan"
             ]
           }
         },
@@ -23513,11 +23898,13 @@
           "kind": "opt"
         },
         "cable_length": {
+          "elseOpt": false,
           "kind": "cond",
           "when": {
             "field": "kind",
             "inList": [
-              "cable"
+              "cable",
+              "power-cord"
             ]
           }
         },
@@ -23540,7 +23927,22 @@
           "kind": "opt"
         },
         "cellular_bands": {
-          "kind": "opt"
+          "elseOpt": true,
+          "kind": "cond",
+          "when": {
+            "all": [
+              {
+                "eq": true,
+                "field": "cellular"
+              },
+              {
+                "field": "kind",
+                "inList": [
+                  "module"
+                ]
+              }
+            ]
+          }
         },
         "cellular_category": {
           "kind": "opt"
@@ -23557,7 +23959,8 @@
               "wireless-sensor",
               "wlc",
               "backhaul",
-              "appliance"
+              "appliance",
+              "device"
             ]
           }
         },
@@ -23574,7 +23977,14 @@
           "kind": "opt"
         },
         "clock_speed": {
-          "kind": "opt"
+          "elseOpt": true,
+          "kind": "cond",
+          "when": {
+            "field": "kind",
+            "inList": [
+              "cpu"
+            ]
+          }
         },
         "cloud_management": {
           "kind": "opt"
@@ -23607,7 +24017,14 @@
           "kind": "opt"
         },
         "connector": {
-          "kind": "opt"
+          "elseOpt": true,
+          "kind": "cond",
+          "when": {
+            "field": "kind",
+            "inList": [
+              "cable"
+            ]
+          }
         },
         "console_port": {
           "kind": "opt"
@@ -23637,13 +24054,27 @@
           "kind": "opt"
         },
         "cpu_cache": {
-          "kind": "opt"
+          "elseOpt": true,
+          "kind": "cond",
+          "when": {
+            "field": "kind",
+            "inList": [
+              "cpu"
+            ]
+          }
         },
         "cpu_clock_frequency": {
           "kind": "opt"
         },
         "cpu_cores": {
-          "kind": "opt"
+          "elseOpt": true,
+          "kind": "cond",
+          "when": {
+            "field": "kind",
+            "inList": [
+              "cpu"
+            ]
+          }
         },
         "cpu_interconnect": {
           "kind": "opt"
@@ -23684,7 +24115,8 @@
           "when": {
             "field": "kind",
             "inList": [
-              "module"
+              "module",
+              "nic"
             ]
           }
         },
@@ -23743,7 +24175,8 @@
               "wireless-sensor",
               "wlc",
               "backhaul",
-              "appliance"
+              "appliance",
+              "device"
             ]
           }
         },
@@ -23766,13 +24199,28 @@
           "kind": "opt"
         },
         "dram": {
-          "kind": "opt"
+          "elseOpt": true,
+          "kind": "cond",
+          "when": {
+            "field": "kind",
+            "inList": [
+              "memory"
+            ]
+          }
         },
         "drive_bays": {
           "kind": "opt"
         },
         "drive_interface": {
-          "kind": "opt"
+          "elseOpt": true,
+          "kind": "cond",
+          "when": {
+            "field": "kind",
+            "inList": [
+              "drive",
+              "storage-controller"
+            ]
+          }
         },
         "dual_stream": {
           "kind": "opt"
@@ -23840,7 +24288,8 @@
             "field": "kind",
             "inList": [
               "wlc",
-              "appliance"
+              "appliance",
+              "device"
             ]
           }
         },
@@ -23914,7 +24363,8 @@
             "field": "kind",
             "inList": [
               "wlc",
-              "appliance"
+              "appliance",
+              "device"
             ]
           }
         },
@@ -24148,7 +24598,15 @@
           "kind": "opt"
         },
         "memory_speed_max": {
-          "kind": "opt"
+          "elseOpt": true,
+          "kind": "cond",
+          "when": {
+            "field": "kind",
+            "inList": [
+              "memory",
+              "cpu"
+            ]
+          }
         },
         "mezzanine_options": {
           "kind": "opt"
@@ -24290,6 +24748,7 @@
           "kind": "opt"
         },
         "ports": {
+          "elseOpt": false,
           "kind": "cond",
           "when": {
             "field": "kind",
@@ -24299,7 +24758,8 @@
               "wlc",
               "backhaul",
               "appliance",
-              "module"
+              "module",
+              "nic"
             ]
           }
         },
@@ -24324,7 +24784,8 @@
               "wireless-sensor",
               "wlc",
               "backhaul",
-              "appliance"
+              "appliance",
+              "device"
             ]
           }
         },
@@ -24335,6 +24796,7 @@
           "kind": "opt"
         },
         "product_compatibility": {
+          "elseOpt": false,
           "kind": "cond",
           "when": {
             "field": "kind",
@@ -24345,7 +24807,17 @@
               "power-injector",
               "cable",
               "antenna",
-              "mechanical"
+              "device",
+              "bundle",
+              "mechanical",
+              "memory",
+              "drive",
+              "cpu",
+              "storage-controller",
+              "tpm",
+              "nic",
+              "fan",
+              "power-cord"
             ]
           }
         },
@@ -24585,7 +25057,14 @@
           "kind": "opt"
         },
         "storage_capacity": {
-          "kind": "opt"
+          "elseOpt": true,
+          "kind": "cond",
+          "when": {
+            "field": "kind",
+            "inList": [
+              "drive"
+            ]
+          }
         },
         "storage_raw_capacity": {
           "kind": "opt"
@@ -24618,7 +25097,14 @@
           "kind": "opt"
         },
         "tdp": {
-          "kind": "opt"
+          "elseOpt": true,
+          "kind": "cond",
+          "when": {
+            "field": "kind",
+            "inList": [
+              "cpu"
+            ]
+          }
         },
         "temp_class": {
           "kind": "opt"
@@ -24632,7 +25118,8 @@
               "wireless-sensor",
               "wlc",
               "backhaul",
-              "appliance"
+              "appliance",
+              "device"
             ]
           }
         },
@@ -24747,7 +25234,8 @@
               "wireless-sensor",
               "wlc",
               "backhaul",
-              "appliance"
+              "appliance",
+              "device"
             ]
           }
         },
@@ -24875,6 +25363,16 @@
         },
         "thermal_shock": {
           "kind": "opt"
+        },
+        "cellular": {
+          "elseOpt": true,
+          "kind": "cond",
+          "when": {
+            "field": "kind",
+            "inList": [
+              "module"
+            ]
+          }
         },
         "gain": {
           "kind": "opt"
@@ -25707,14 +26205,7 @@
           "kind": "opt"
         },
         "lan_interfaces": {
-          "elseOpt": true,
-          "kind": "cond",
-          "when": {
-            "field": "kind",
-            "inList": [
-              "router"
-            ]
-          }
+          "kind": "opt"
         },
         "languages_supported": {
           "kind": "opt"
@@ -25985,17 +26476,28 @@
                   {
                     "any": [
                       {
-                        "all": [
+                        "any": [
                           {
-                            "field": "kind",
-                            "inList": [
-                              "router"
+                            "all": [
+                              {
+                                "field": "kind",
+                                "inList": [
+                                  "router"
+                                ]
+                              },
+                              {
+                                "field": "deploy_role",
+                                "inList": [
+                                  "industrial-iot"
+                                ]
+                              }
                             ]
                           },
                           {
-                            "field": "deploy_role",
+                            "field": "kind",
                             "inList": [
-                              "industrial-iot"
+                              "sp-router",
+                              "appliance"
                             ]
                           }
                         ]
@@ -26003,8 +26505,7 @@
                       {
                         "field": "kind",
                         "inList": [
-                          "sp-router",
-                          "appliance"
+                          "chassis"
                         ]
                       }
                     ]
@@ -26038,23 +26539,42 @@
         "product_compatibility": {
           "kind": "cond",
           "when": {
-            "field": "kind",
-            "inList": [
-              "linecard",
-              "module",
-              "processor",
-              "fabric",
-              "power",
-              "fan",
-              "memory",
-              "flash",
-              "drive",
-              "power-cord",
-              "cable",
-              "antenna",
-              "accessory",
-              "bundle",
-              "mechanical"
+            "any": [
+              {
+                "any": [
+                  {
+                    "field": "kind",
+                    "inList": [
+                      "linecard",
+                      "module",
+                      "processor",
+                      "fabric",
+                      "power",
+                      "fan",
+                      "memory",
+                      "flash",
+                      "drive",
+                      "power-cord",
+                      "cable",
+                      "antenna",
+                      "accessory",
+                      "bundle"
+                    ]
+                  },
+                  {
+                    "field": "kind",
+                    "inList": [
+                      "chassis"
+                    ]
+                  }
+                ]
+              },
+              {
+                "field": "kind",
+                "inList": [
+                  "mechanical"
+                ]
+              }
             ]
           }
         },
@@ -26115,18 +26635,28 @@
           "elseOpt": true,
           "kind": "cond",
           "when": {
-            "all": [
+            "any": [
               {
-                "field": "kind",
-                "inList": [
-                  "appliance"
+                "all": [
+                  {
+                    "field": "kind",
+                    "inList": [
+                      "appliance"
+                    ]
+                  },
+                  {
+                    "field": "form_factor",
+                    "inList": [
+                      "rack-19",
+                      "modular-chassis"
+                    ]
+                  }
                 ]
               },
               {
-                "field": "form_factor",
+                "field": "kind",
                 "inList": [
-                  "rack-19",
-                  "modular-chassis"
+                  "chassis"
                 ]
               }
             ]
@@ -26347,18 +26877,29 @@
           "when": {
             "any": [
               {
-                "all": [
+                "any": [
                   {
-                    "field": "kind",
-                    "inList": [
-                      "router"
+                    "all": [
+                      {
+                        "field": "kind",
+                        "inList": [
+                          "router"
+                        ]
+                      },
+                      {
+                        "field": "deploy_role",
+                        "inList": [
+                          "smb",
+                          "industrial-iot"
+                        ]
+                      }
                     ]
                   },
                   {
-                    "field": "deploy_role",
+                    "field": "kind",
                     "inList": [
-                      "smb",
-                      "industrial-iot"
+                      "sp-router",
+                      "appliance"
                     ]
                   }
                 ]
@@ -26366,8 +26907,7 @@
               {
                 "field": "kind",
                 "inList": [
-                  "sp-router",
-                  "appliance"
+                  "chassis"
                 ]
               }
             ]
@@ -26504,14 +27044,7 @@
           "kind": "opt"
         },
         "wan_interfaces": {
-          "elseOpt": true,
-          "kind": "cond",
-          "when": {
-            "field": "kind",
-            "inList": [
-              "router"
-            ]
-          }
+          "kind": "opt"
         },
         "wavelength": {
           "kind": "opt"
@@ -27417,10 +27950,20 @@
         "fabric_bandwidth": {
           "kind": "cond",
           "when": {
-            "field": "kind",
-            "inList": [
-              "fabric",
-              "director"
+            "any": [
+              {
+                "field": "kind",
+                "inList": [
+                  "fabric",
+                  "director"
+                ]
+              },
+              {
+                "field": "kind",
+                "inList": [
+                  "supervisor"
+                ]
+              }
             ]
           }
         },
@@ -27611,7 +28154,14 @@
           }
         },
         "altitude_max": {
-          "kind": "opt"
+          "elseOpt": true,
+          "kind": "cond",
+          "when": {
+            "field": "kind",
+            "inList": [
+              "chassis"
+            ]
+          }
         },
         "altitude_storage": {
           "kind": "opt"
@@ -27692,11 +28242,33 @@
           "kind": "opt"
         },
         "cable_length": {
+          "elseOpt": false,
           "kind": "cond",
           "when": {
-            "field": "kind",
-            "inList": [
-              "cable"
+            "any": [
+              {
+                "field": "kind",
+                "inList": [
+                  "cable"
+                ]
+              },
+              {
+                "all": [
+                  {
+                    "field": "kind",
+                    "inList": [
+                      "pluggable"
+                    ]
+                  },
+                  {
+                    "field": "media",
+                    "inList": [
+                      "dac-copper",
+                      "aoc"
+                    ]
+                  }
+                ]
+              }
             ]
           }
         },
@@ -27994,7 +28566,25 @@
           "kind": "opt"
         },
         "fiber_type": {
-          "kind": "opt"
+          "elseOpt": true,
+          "kind": "cond",
+          "when": {
+            "all": [
+              {
+                "field": "kind",
+                "inList": [
+                  "pluggable"
+                ]
+              },
+              {
+                "field": "media",
+                "inList": [
+                  "mmf",
+                  "smf"
+                ]
+              }
+            ]
+          }
         },
         "field_of_view": {
           "kind": "opt"
@@ -28018,19 +28608,10 @@
           "elseOpt": true,
           "kind": "cond",
           "when": {
-            "any": [
-              {
-                "field": "kind",
-                "inList": [
-                  "chassis"
-                ]
-              },
-              {
-                "field": "kind",
-                "inList": [
-                  "pluggable"
-                ]
-              }
+            "field": "kind",
+            "inList": [
+              "chassis",
+              "pluggable"
             ]
           }
         },
@@ -28287,19 +28868,10 @@
           "elseOpt": true,
           "kind": "cond",
           "when": {
-            "any": [
-              {
-                "field": "kind",
-                "inList": [
-                  "cable"
-                ]
-              },
-              {
-                "field": "kind",
-                "inList": [
-                  "pluggable"
-                ]
-              }
+            "field": "kind",
+            "inList": [
+              "cable",
+              "pluggable"
             ]
           }
         },
@@ -28494,20 +29066,49 @@
         "product_compatibility": {
           "kind": "cond",
           "when": {
-            "field": "kind",
-            "inList": [
-              "linecard",
-              "transponder",
-              "controller",
-              "fabric",
-              "amplifier",
-              "roadm",
-              "mux",
-              "dcu",
-              "power",
-              "fan",
-              "accessory",
-              "mechanical"
+            "any": [
+              {
+                "any": [
+                  {
+                    "any": [
+                      {
+                        "field": "kind",
+                        "inList": [
+                          "linecard",
+                          "transponder",
+                          "controller",
+                          "fabric",
+                          "amplifier",
+                          "roadm",
+                          "mux",
+                          "dcu",
+                          "power",
+                          "fan",
+                          "accessory"
+                        ]
+                      },
+                      {
+                        "field": "kind",
+                        "inList": [
+                          "chassis"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "field": "kind",
+                    "inList": [
+                      "cable"
+                    ]
+                  }
+                ]
+              },
+              {
+                "field": "kind",
+                "inList": [
+                  "mechanical"
+                ]
+              }
             ]
           }
         },
@@ -28582,13 +29183,35 @@
           "kind": "opt"
         },
         "reach_max": {
+          "elseOpt": false,
           "kind": "cond",
           "when": {
-            "field": "kind",
-            "inList": [
-              "pluggable",
-              "pluggable-bidi",
-              "pluggable-tunable"
+            "any": [
+              {
+                "field": "kind",
+                "inList": [
+                  "pluggable-bidi",
+                  "pluggable-tunable"
+                ]
+              },
+              {
+                "all": [
+                  {
+                    "field": "kind",
+                    "inList": [
+                      "pluggable"
+                    ]
+                  },
+                  {
+                    "field": "media",
+                    "inList": [
+                      "mmf",
+                      "smf",
+                      "rj45-copper"
+                    ]
+                  }
+                ]
+              }
             ]
           }
         },
@@ -28629,7 +29252,25 @@
           "kind": "opt"
         },
         "rx_sensitivity": {
-          "kind": "opt"
+          "elseOpt": true,
+          "kind": "cond",
+          "when": {
+            "all": [
+              {
+                "field": "kind",
+                "inList": [
+                  "pluggable"
+                ]
+              },
+              {
+                "field": "media",
+                "inList": [
+                  "mmf",
+                  "smf"
+                ]
+              }
+            ]
+          }
         },
         "rx_wavelength": {
           "kind": "cond",
@@ -28779,26 +29420,25 @@
           }
         },
         "temp_operating": {
+          "elseOpt": false,
           "kind": "cond",
           "when": {
-            "any": [
-              {
-                "field": "kind",
-                "inList": [
-                  "chassis"
-                ]
-              },
-              {
-                "field": "kind",
-                "inList": [
-                  "pluggable"
-                ]
-              }
+            "field": "kind",
+            "inList": [
+              "chassis",
+              "pluggable"
             ]
           }
         },
         "temp_storage": {
-          "kind": "opt"
+          "elseOpt": true,
+          "kind": "cond",
+          "when": {
+            "field": "kind",
+            "inList": [
+              "chassis"
+            ]
+          }
         },
         "test_point_level": {
           "kind": "opt"
@@ -28831,9 +29471,30 @@
           "elseOpt": true,
           "kind": "cond",
           "when": {
-            "field": "kind",
-            "inList": [
-              "amplifier"
+            "any": [
+              {
+                "field": "kind",
+                "inList": [
+                  "amplifier"
+                ]
+              },
+              {
+                "all": [
+                  {
+                    "field": "kind",
+                    "inList": [
+                      "pluggable"
+                    ]
+                  },
+                  {
+                    "field": "media",
+                    "inList": [
+                      "mmf",
+                      "smf"
+                    ]
+                  }
+                ]
+              }
             ]
           }
         },
@@ -28898,13 +29559,35 @@
           "kind": "opt"
         },
         "wavelength": {
+          "elseOpt": false,
           "kind": "cond",
           "when": {
-            "field": "kind",
-            "inList": [
-              "pluggable",
-              "pluggable-bidi",
-              "transponder"
+            "any": [
+              {
+                "field": "kind",
+                "inList": [
+                  "pluggable-bidi",
+                  "transponder"
+                ]
+              },
+              {
+                "all": [
+                  {
+                    "field": "kind",
+                    "inList": [
+                      "pluggable"
+                    ]
+                  },
+                  {
+                    "field": "media",
+                    "inList": [
+                      "mmf",
+                      "smf",
+                      "aoc"
+                    ]
+                  }
+                ]
+              }
             ]
           }
         },
@@ -28930,7 +29613,24 @@
           "kind": "opt"
         },
         "wire_gauge": {
-          "kind": "opt"
+          "elseOpt": true,
+          "kind": "cond",
+          "when": {
+            "all": [
+              {
+                "field": "kind",
+                "inList": [
+                  "pluggable"
+                ]
+              },
+              {
+                "field": "media",
+                "inList": [
+                  "dac-copper"
+                ]
+              }
+            ]
+          }
         },
         "wireless_security": {
           "kind": "opt"
@@ -29207,14 +29907,32 @@
           "when": {
             "any": [
               {
-                "field": "kind",
-                "inList": [
-                  "cellular"
+                "any": [
+                  {
+                    "field": "kind",
+                    "inList": [
+                      "cellular"
+                    ]
+                  },
+                  {
+                    "eq": true,
+                    "field": "cellular"
+                  }
                 ]
               },
               {
-                "eq": true,
-                "field": "cellular"
+                "all": [
+                  {
+                    "eq": true,
+                    "field": "cellular"
+                  },
+                  {
+                    "field": "kind",
+                    "inList": [
+                      "module"
+                    ]
+                  }
+                ]
               }
             ]
           }
@@ -29502,13 +30220,7 @@
           "kind": "opt"
         },
         "flash": {
-          "kind": "cond",
-          "when": {
-            "field": "kind",
-            "inList": [
-              "memory"
-            ]
-          }
+          "kind": "opt"
         },
         "flows_per_second": {
           "kind": "opt"
@@ -30418,6 +31130,16 @@
         },
         "carrier_certifications": {
           "kind": "opt"
+        },
+        "cellular": {
+          "elseOpt": true,
+          "kind": "cond",
+          "when": {
+            "field": "kind",
+            "inList": [
+              "module"
+            ]
+          }
         },
         "gain": {
           "kind": "opt"
