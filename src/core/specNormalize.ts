@@ -66,7 +66,7 @@ import { isPartNumber } from "../pipeline/partNumber.js";
 //        string to a list on 4 Sep 2026 and the comma splitter then read 396 citation cells for the
 //        first time, cutting "MIL-STD-810, Method 514.4" into two standards that do not exist. The
 //        rule and every bound in it are read off the stored raws — see isCitationContinuation.
-export const NORM_VERSION = "1.8.1"; // 29 Sep 2026: splitter (below)
+export const NORM_VERSION = "1.8.2"; // 29 Sep 2026: splitter (below) — 1.8.2: the pre-bullet head; spaced · runs
 // 1.8.1 — 29 Sep 2026, reviewer ruling: two splitter defects with witnesses. A run of standards-body prefixes with no
 //         other delimiter ("ITUT G.984.1 ITUT G.984.2 ... IEEE 802.3af") and "PID or PID" are lists. Bumped so renormalize
 //         selects the stored values the old splitter wrote.
@@ -496,6 +496,17 @@ const HAS_BULLET = new RegExp(`[${LIST_BULLETS}]`);
 const BULLET_SPLIT = new RegExp(`[${LIST_BULLETS}\\n]+`);
 const TRIM_EDGES = new RegExp(`^[${LIST_BULLETS}\\s;,]+|[\\s;,]+$`, "g");
 
+// ---- a RUN of spaced middle dots is a bullet list (1.8.2) ----------------------------------------
+// Reviewer ruling 29 Sep 2026: "a spaced · two-or-more times is a bullet". The MDS Fibre Channel cell
+// "• Fibre Channel standards · FC-PH, Revision 4.3 (…) · FC-PH, Amendment 1 (…)" was stored as ONE
+// 150-character member, because U+00B7 is not a bullet here. It is deliberately NOT added to LIST_BULLETS:
+// one spaced dot separates a title ("Model A · B") and an unspaced one is a product of units ("N·m"), so
+// only a RUN of spaced dots delimits.
+const SPACED_MIDDOT = /(?<=^|\s)\u00b7(?=\s)/g;
+function middotsAsBullets(t: string): string {
+  return (t.match(SPACED_MIDDOT) ?? []).length >= 2 ? t.replace(SPACED_MIDDOT, "\u2022") : t;
+}
+
 // ---- a comma INSIDE a citation is not a member boundary (1.5.2) ---------------------------------
 //
 // `shock` was retyped from `s` to `ls` on 4 Sep 2026, which pointed the comma splitter at 396 cells
@@ -772,7 +783,7 @@ function splitPidOr(member: string): string[] {
 }
 
 export function splitListValue(raw: string, slashRule: SlashRule = "pid-alternatives"): string[] {
-  const t = String(raw ?? "").replace(/\r\n?/g, "\n");
+  const t = middotsAsBullets(String(raw ?? "").replace(/\r\n?/g, "\n"));
   const clean = (parts: string[]) => parts.map((p) => p.replace(TRIM_EDGES, "").trim()).filter((p) => /[A-Za-z0-9]/.test(p));
   const alternatives = (parts: string[]) => clean(clean(parts.length === 1 ? splitPrefixRun(parts[0]) : parts)
     .flatMap(splitPidOr).flatMap((p) => splitPidAlternatives(p, slashRule)))
@@ -785,7 +796,17 @@ export function splitListValue(raw: string, slashRule: SlashRule = "pid-alternat
     // returning it would turn a nine-item QoS list into one sentence. Measured over the corpus:
     // this fallback is the difference between 15,429 cells splitting correctly and about 1,000 of
     // them collapsing.
-    if (bulleted.length > 1) return alternatives(bulleted);
+    if (bulleted.length > 1) {
+      // The text BEFORE the first bullet is not a bullet item (1.8.2, reviewer ruling 29 Sep 2026). "IEEE 802.11ac,
+      // 802.11a, …, 802.11i (WPA2 security) ; Safety: ● UL 60950-1 ● …" opens with a comma list and a heading, and
+      // taking that head as ONE item stored it as a single member — and swallowed the ';' — where 1.5.0 had split it
+      // (92 ieee_standards facts). An ITEM keeps its commas ("802.1q VLAN support, 1024 VLANs, and jumbo frames" is one
+      // feature) because a bullet says where it ends; the head has no bullet, so it takes the ordinary separators.
+      const lead = t.search(HAS_BULLET);
+      if (lead > 0) return alternatives([...clean(t.slice(0, lead).split("\n").flatMap(splitOutsideBrackets)),
+        ...clean(t.slice(lead).split(BULLET_SPLIT))]);
+      return alternatives(bulleted);
+    }
   }
   return alternatives(splitOutsideBrackets(t));
 }

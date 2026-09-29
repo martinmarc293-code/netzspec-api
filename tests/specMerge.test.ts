@@ -652,6 +652,18 @@ console.log(`${pass}/${pass + misses.length} passed`);
     ["Compliant with IEEE 802.3af IEEE 802.3at"]);
   is("SABOTAGE one prefix is one member", "IEEE 802.3af compliant", ["IEEE 802.3af compliant"]);
   is("a delimited list is untouched by the run rule", "IEEE 802.3af, IEEE 802.3at", ["IEEE 802.3af", "IEEE 802.3at"]);
+  // 1.8.2 (reviewer ruling 29 Sep 2026): 92 ieee_standards / 116 supported_protocols replays grew a member by >25 chars
+  is("the head BEFORE the first bullet takes the ordinary separators, ';' included (WAP571E-A-K9)",
+    "IEEE 802.11ac, 802.11a, 802.3af (PoE) ; Safety: ● UL 60950-1 ● IEC 60950-1",
+    ["IEEE 802.11ac", "802.11a", "802.3af (PoE)", "Safety:", "UL 60950-1", "IEC 60950-1"]);
+  is("SABOTAGE a bullet ITEM keeps its commas: only the head is split",
+    "● 802.1q VLAN support, 1024 VLANs, and jumbo frames ● Source and destination MAC accounting",
+    ["802.1q VLAN support, 1024 VLANs, and jumbo frames", "Source and destination MAC accounting"]);
+  is("a run of spaced middle dots is a bullet list (M9500FMS1K9=)",
+    "• Fibre Channel standards · FC-PH, Revision 4.3 (ANSI/INCITS 230-1994) · FC-PH, Amendment 1 (ANSI/INCITS 230-1994/AM1 1996)",
+    ["Fibre Channel standards", "FC-PH, Revision 4.3 (ANSI/INCITS 230-1994)", "FC-PH, Amendment 1 (ANSI/INCITS 230-1994/AM1 1996)"]);
+  is("SABOTAGE ONE spaced middle dot separates a title, it is not a bullet", "Catalyst 9300 · Stackable", ["Catalyst 9300 · Stackable"]);
+  is("SABOTAGE an unspaced middle dot is a product of units", "Torque 1.2 N·m · 5 N·m", ["Torque 1.2 N·m · 5 N·m"]);
   // the extractor keeps its own copy of the prefix set (Python); the two must not drift
   const py = fs.readFileSync(path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "scraper/adapters/cisco_specs_deep.py"), "utf8");
   const pyTuple = /STANDARDS_PREFIXES = \(([^)]*)\)/.exec(py)?.[1] ?? "";
