@@ -746,7 +746,7 @@ KIN-HD4T7KL12N	4 TB 12G SAS 7.2K RPM LFF HDD	UCS C-Series	drive	layered	Cisco Ap
 KIN-MR-X16G1RS-H	16GB DDR4-2666-MHz RDIMM/PC4-21300/single rank/x4/1.2v	UCS C-Series	memory	layered	Cisco Appliances on UCS	(none)	Kinetic appliance		sku ^KIN-							
 KIN-MR-X16G1RT-H	16GB DDR4-2933-MHz RDIMM/1Rx4/1.2v	UCS C-Series	memory	layered	Cisco Appliances on UCS	(none)	Kinetic appliance		sku ^KIN-							
 KIN-MR-X8G1RS-H	8GB DDR4-2666-MHz RDIMM/PC4-21300/single rank/x4/1.2v	UCS C-Series	memory	layered	Cisco Appliances on UCS	(none)	Kinetic appliance		sku ^KIN-							
-KIN-MRAID1GB-KIT	SAS RAID KIT for C220M5L	UCS C-Series	memory	layered	Cisco Appliances on UCS	(none)	Kinetic appliance		sku ^KIN-							
+KIN-MRAID1GB-KIT	SAS RAID KIT for C220M5L	UCS C-Series	storage-controller	layered	Cisco Appliances on UCS	(none)	Kinetic appliance		sku ^KIN-							
 KIN-PCI-1-C240M5	Riser 1 incl 3 PCIe slots (x8, x16, x8); slot 3 req CPU2	UCS C-Series	nic	layered	Cisco Appliances on UCS	(none)	Kinetic appliance		sku ^KIN-							
 KIN-PCIE-BD16GF	Emulex LPe31002 dual port 16G FC HBA	UCS C-Series	nic	layered	Cisco Appliances on UCS	(none)	Kinetic appliance		sku ^KIN-							
 KIN-PCIF-240M5	C240 M5 PCIe Riser Blanking Panel	UCS C-Series	nic	layered	Cisco Appliances on UCS	(none)	Kinetic appliance		sku ^KIN-							
@@ -838,8 +838,6 @@ N2XX-AQPCI03	Qlogic QLE2462 Dual Port 4Gb Fibre Channel HBA	UCS B-Series	nic	lay
 N2XX-AQPCI03=	Qlogic QLE2462 Dual Port 4Gb Fibre Channel HBA	UCS B-Series	nic	layered	UCS Server Components	(none)	Network and storage adapters		sku ^N2XX-A							
 N2XX-AQPCI05	Qlogic QLE2562 Dual Port 8Gb Fibre Channel HBA	S-Series Storage	nic	layered	UCS Server Components	(none)	Network and storage adapters		sku ^N2XX-A							
 N2XX-AQPCI05=	Qlogic QLE2562 Dual Port 8Gb Fibre Channel HBA	UCS C-Series	nic	layered	UCS Server Components	(none)	Network and storage adapters		sku ^N2XX-A							
-N9K-AC04-A	Cisco N9K-AC04-A	UCS C-Series	unknown	layered	UCS C-Series Rack Servers	(shared across the line)		UCS C-Series Rack Servers shared parts	label UCS C-Series							
-N9K-AC04-B	Cisco N9K-AC04-B	UCS C-Series	unknown	layered	UCS C-Series Rack Servers	(shared across the line)		UCS C-Series Rack Servers shared parts	label UCS C-Series							
 PACK-QSFP-SFP	Packaging for QSFP 40G and SFP 10G	UCS C-Series	power	layered	UCS C-Series Rack Servers	(shared across the line)		UCS C-Series Rack Servers shared parts	label UCS C-Series							
 PACK-QSFP-SFP=	Packaging for QSFP 40G and SFP 10G	HyperFlex HX Series	power	layered	UCS C-Series Rack Servers	(shared across the line)		UCS C-Series Rack Servers shared parts	label UCS C-Series							
 PLHC-5108-PKG-HW	Cisco+ UCS 5108 Packaging for chassis w/halfwidth blades	UCS C-Series	mechanical	layered	UCS B-Series Blade Servers	(none)	UCS 5108 blade chassis		sku (?<!CPU-[A-Z]{0,2})5108(?![0-9])							
@@ -3471,8 +3469,8 @@ UCS-S-HD18TRK9	UCS S3260 18TB (4Kn) 7.2K RPM SED Drives Rear Load	UCS C-Series	s
 UCS-S-HD18TRK9=	UCS S3260 18TB (4Kn) 7.2K RPM SED Drives Rear Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku ^UCS-S-							
 UCS-S-MSD960GBK9	Cisco UCS-S-MSD960GBK9	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku ^UCS-S-							
 UCS-S-MSD960GBK9=	Cisco UCS-S-MSD960GBK9=	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku ^UCS-S-							
-UCS-S3260-10TARR	10TB 12G SAS 7.2K RPM LFF HDD (4K) w Carrier- Rear Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
-UCS-S3260-10TARR=	10TB 12G SAS 7.2K RPM LFF HDD (4K) w Carrier- Rear Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
+UCS-S3260-10TARR	10TB 12G SAS 7.2K RPM LFF HDD (4K) w Carrier- Rear Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
+UCS-S3260-10TARR=	10TB 12G SAS 7.2K RPM LFF HDD (4K) w Carrier- Rear Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
 UCS-S3260-14HD10A	UCS S3260 1row of drives 14x10TB 4Kn Air drives Total: 140TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
 UCS-S3260-14HD10A=	UCS S3260 1row of drives 14x10TB 4Kn Air drives Total: 140TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
 UCS-S3260-14HD12	UCS S3260 1row of drives 14x 12TB Total: 168TB	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
@@ -3609,55 +3607,55 @@ UCS-S3260-G3SD48	Cisco UCS-S3260-G3SD48	UCS C-Series	server	layered	UCS S-Series
 UCS-S3260-G3SD48=	Cisco UCS-S3260-G3SD48=	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
 UCS-S3260-G3SD48G	Cisco UCS-S3260-G3SD48G	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
 UCS-S3260-G3SD48G=	Cisco UCS-S3260-G3SD48G=	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
-UCS-S3260-HD10TA	10TB 12G SAS 7.2K RPM LFF HDD (4K) w Carrier- Top Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
-UCS-S3260-HD10TA=	10TB 12G SAS 7.2K RPM LFF HDD (4K) w Carrier- Top Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
+UCS-S3260-HD10TA	10TB 12G SAS 7.2K RPM LFF HDD (4K) w Carrier- Top Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
+UCS-S3260-HD10TA=	10TB 12G SAS 7.2K RPM LFF HDD (4K) w Carrier- Top Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
 UCS-S3260-HD12T	UCS S3260 12TB NL-SAS 7200 RPM 12Gb HDD wCarrier- Top Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
 UCS-S3260-HD12T=	UCS S3260 12TB NL-SAS 7200 RPM 12Gb HDD wCarrier- Top Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
-UCS-S3260-HD12TR	UCS S3260 12TB NL-SAS 7200 RPM 12Gb HDD wCarrier-Rear Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
-UCS-S3260-HD12TR=	UCS S3260 12TB NL-SAS 7200 RPM 12Gb HDD wCarrier-Rear Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
+UCS-S3260-HD12TR	UCS S3260 12TB NL-SAS 7200 RPM 12Gb HDD wCarrier-Rear Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
+UCS-S3260-HD12TR=	UCS S3260 12TB NL-SAS 7200 RPM 12Gb HDD wCarrier-Rear Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
 UCS-S3260-HD14T	UCS S3260 14TB NL-SAS 7200 RPM 12Gb HDD wCarrier- Top Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
 UCS-S3260-HD14T=	UCS S3260 14TB NL-SAS 7200 RPM 12Gb HDD wCarrier- Top Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
-UCS-S3260-HD14TR	UCS S3260 14TB NL-SAS 7200 RPM 12Gb HDD wCarrier-Rear Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
-UCS-S3260-HD14TR=	UCS S3260 14TB NL-SAS 7200 RPM 12Gb HDD wCarrier-Rear Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
+UCS-S3260-HD14TR	UCS S3260 14TB NL-SAS 7200 RPM 12Gb HDD wCarrier-Rear Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
+UCS-S3260-HD14TR=	UCS S3260 14TB NL-SAS 7200 RPM 12Gb HDD wCarrier-Rear Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
 UCS-S3260-HD16T	UCS S3260 16TB NL-SAS 7200 RPM 12Gb HDD wCarrier- Top Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
 UCS-S3260-HD16T=	UCS S3260 16TB NL-SAS 7200 RPM 12Gb HDD wCarrier- Top Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
-UCS-S3260-HD16TR	UCS S3260 16TB NL-SAS 7200 RPM 12Gb HDD wCarrier-Rear Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
-UCS-S3260-HD16TR=	UCS S3260 16TB NL-SAS 7200 RPM 12Gb HDD wCarrier-Rear Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
+UCS-S3260-HD16TR	UCS S3260 16TB NL-SAS 7200 RPM 12Gb HDD wCarrier-Rear Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
+UCS-S3260-HD16TR=	UCS S3260 16TB NL-SAS 7200 RPM 12Gb HDD wCarrier-Rear Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
 UCS-S3260-HD2T	UCS S3260 2TB NL-SAS 7200 RPM 12Gb HDD wCarrier- Top Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
 UCS-S3260-HD2T=	UCS S3260 2TB NL-SAS 7200 RPM 12Gb HDD wCarrier- Top Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
-UCS-S3260-HD2TR	UCS S3260 2TB NL-SAS 7200 RPM 12Gb HDD wCarrier- Rear Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
-UCS-S3260-HD2TR=	UCS S3260 2TB NL-SAS 7200 RPM 12Gb HDD wCarrier- Rear Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
-UCS-S3260-HD8TA	8 TB 12G SAS 7.2K RPM LFF HDD (4K)	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
-UCS-S3260-HD8TA=	8 TB 12G SAS 7.2K RPM LFF HDD (4K)	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
-UCS-S3260-HD8TARR	8 TB 12G SAS 7.2K RPM LFF HDD (4K)	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
-UCS-S3260-HD8TARR=	8 TB 12G SAS 7.2K RPM LFF HDD (4K)	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
+UCS-S3260-HD2TR	UCS S3260 2TB NL-SAS 7200 RPM 12Gb HDD wCarrier- Rear Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
+UCS-S3260-HD2TR=	UCS S3260 2TB NL-SAS 7200 RPM 12Gb HDD wCarrier- Rear Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
+UCS-S3260-HD8TA	8 TB 12G SAS 7.2K RPM LFF HDD (4K)	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
+UCS-S3260-HD8TA=	8 TB 12G SAS 7.2K RPM LFF HDD (4K)	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
+UCS-S3260-HD8TARR	8 TB 12G SAS 7.2K RPM LFF HDD (4K)	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
+UCS-S3260-HD8TARR=	8 TB 12G SAS 7.2K RPM LFF HDD (4K)	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
 UCS-S3260-HD8TB	UCS S3260 8TB NL-SAS 7.2K UE10 HDD with HDD Carrier	S-Series Storage	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
 UCS-S3260-HD8TB=	UCS S3260 8TB NL-SAS 7.2K UE10 HDD with HDD Carrier	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
-UCS-S3260-HDS18T	Cisco UCS-S3260-HDS18T	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
-UCS-S3260-HDS18T=	Cisco UCS-S3260-HDS18T=	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
-UCS-S3260-HDS18TR	Cisco UCS-S3260-HDS18TR	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
-UCS-S3260-HDT14T	UCS S3260 14TB Tosh NL-SAS7200RPM 12Gb HDD wCarrier-Top Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
-UCS-S3260-HDT14T=	UCS S3260 14TB Tosh NL-SAS7200RPM 12Gb HDD wCarrier-Top Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
-UCS-S3260-HDT14TR	UCS S3260 14TB Tosh NL-SAS7200RPM 12Gb HDDwCarrier-Rear Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
-UCS-S3260-HDT14TR=	UCS S3260 14TB Tosh NL-SAS7200RPM 12Gb HDDwCarrier-Rear Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
-UCS-S3260-HDT20T	Cisco UCS-S3260-HDT20T	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
-UCS-S3260-HDT20TR	20TB 12G SAS 7.2K RPM LFF HDDRear Load (4K)	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
-UCS-S3260-HDW14T	Cisco UCS-S3260-HDW14T	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
-UCS-S3260-HDW14TR	Cisco UCS-S3260-HDW14TR	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
-UCS-S3260-HDW16T	UCS S3260 16TB WD NL-SAS 7200RPM 12Gb HDD wCarrier-Top Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
-UCS-S3260-HDW16T=	UCS S3260 16TB WD NL-SAS 7200RPM 12Gb HDD wCarrier-Top Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
-UCS-S3260-HDW16TR	UCS S3260 16TB WD NL-SAS 7200RPM 12Gb HDD wCarrier-Rear Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
-UCS-S3260-HDW16TR=	UCS S3260 16TB WD NL-SAS 7200RPM 12Gb HDD wCarrier-Rear Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
-UCS-S3260-HDW18T	18TB 12G SAS 7.2K RPM LFF HDD(4K) wCarrier- Top Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
-UCS-S3260-HDW18T=	18TB 12G SAS 7.2K RPM LFF HDD(4K) wCarrier- Top Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
-UCS-S3260-HDW18TR	18TB NL-SAS 7200 RPM 12Gb HDD wCarrier- Rear Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
-UCS-S3260-HDW18TR=	18TB NL-SAS 7200 RPM 12Gb HDD wCarrier- Rear Load	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
-UCS-S3260-HDW20T	Cisco UCS-S3260-HDW20T	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
-UCS-S3260-HDW20TR	Cisco UCS-S3260-HDW20TR	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
-UCS-S3260-HDW20TR=	Cisco UCS-S3260-HDW20TR=	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
-UCS-S3260-HDW22T	Cisco UCS-S3260-HDW22T	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
-UCS-S3260-HDW22TR	Cisco UCS-S3260-HDW22TR	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
-UCS-S3260-HDW22TR=	Cisco UCS-S3260-HDW22TR=	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
+UCS-S3260-HDS18T	Cisco UCS-S3260-HDS18T	S-Series Storage	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
+UCS-S3260-HDS18T=	Cisco UCS-S3260-HDS18T=	S-Series Storage	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
+UCS-S3260-HDS18TR	Cisco UCS-S3260-HDS18TR	S-Series Storage	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
+UCS-S3260-HDT14T	UCS S3260 14TB Tosh NL-SAS7200RPM 12Gb HDD wCarrier-Top Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
+UCS-S3260-HDT14T=	UCS S3260 14TB Tosh NL-SAS7200RPM 12Gb HDD wCarrier-Top Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
+UCS-S3260-HDT14TR	UCS S3260 14TB Tosh NL-SAS7200RPM 12Gb HDDwCarrier-Rear Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
+UCS-S3260-HDT14TR=	UCS S3260 14TB Tosh NL-SAS7200RPM 12Gb HDDwCarrier-Rear Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
+UCS-S3260-HDT20T	Cisco UCS-S3260-HDT20T	S-Series Storage	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
+UCS-S3260-HDT20TR	20TB 12G SAS 7.2K RPM LFF HDDRear Load (4K)	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
+UCS-S3260-HDW14T	Cisco UCS-S3260-HDW14T	S-Series Storage	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
+UCS-S3260-HDW14TR	Cisco UCS-S3260-HDW14TR	S-Series Storage	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
+UCS-S3260-HDW16T	UCS S3260 16TB WD NL-SAS 7200RPM 12Gb HDD wCarrier-Top Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
+UCS-S3260-HDW16T=	UCS S3260 16TB WD NL-SAS 7200RPM 12Gb HDD wCarrier-Top Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
+UCS-S3260-HDW16TR	UCS S3260 16TB WD NL-SAS 7200RPM 12Gb HDD wCarrier-Rear Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
+UCS-S3260-HDW16TR=	UCS S3260 16TB WD NL-SAS 7200RPM 12Gb HDD wCarrier-Rear Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
+UCS-S3260-HDW18T	18TB 12G SAS 7.2K RPM LFF HDD(4K) wCarrier- Top Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
+UCS-S3260-HDW18T=	18TB 12G SAS 7.2K RPM LFF HDD(4K) wCarrier- Top Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
+UCS-S3260-HDW18TR	18TB NL-SAS 7200 RPM 12Gb HDD wCarrier- Rear Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
+UCS-S3260-HDW18TR=	18TB NL-SAS 7200 RPM 12Gb HDD wCarrier- Rear Load	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
+UCS-S3260-HDW20T	Cisco UCS-S3260-HDW20T	S-Series Storage	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
+UCS-S3260-HDW20TR	Cisco UCS-S3260-HDW20TR	S-Series Storage	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
+UCS-S3260-HDW20TR=	Cisco UCS-S3260-HDW20TR=	S-Series Storage	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
+UCS-S3260-HDW22T	Cisco UCS-S3260-HDW22T	S-Series Storage	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
+UCS-S3260-HDW22TR	Cisco UCS-S3260-HDW22TR	S-Series Storage	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
+UCS-S3260-HDW22TR=	Cisco UCS-S3260-HDW22TR=	S-Series Storage	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
 UCS-S3260-IOE2	Cisco UCS S3260 IO Expander Version 2	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
 UCS-S3260-IOE2=	Cisco UCS S3260 IO Expander Version 2	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
 UCS-S3260-IOLID=	Cisco UCS-S3260-IOLID=	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
@@ -3725,8 +3723,8 @@ UCS-S326056HDW22T	Cisco UCS-S326056HDW22T	S-Series Storage	server	layered	UCS S-
 UCS-S326056WHDT20	Cisco UCS-S326056WHDT20	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
 UCS-S3260EXWHDT80	Cisco UCS-S3260EXWHDT80	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
 UCS-S3260G3SD160T	Cisco UCS-S3260G3SD160T	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
-UCS-S3260T-HD8TA	Cisco UCS-S3260T-HD8TA	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
-UCS-S3260T-HD8TA=	Cisco UCS-S3260T-HD8TA=	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
+UCS-S3260T-HD8TA	Cisco UCS-S3260T-HD8TA	S-Series Storage	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
+UCS-S3260T-HD8TA=	Cisco UCS-S3260T-HD8TA=	S-Series Storage	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
 UCS-S3260THD8TARR	Cisco UCS-S3260THD8TARR	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku S3260							
 UCS-S3348-HBAM5	UCS S3348 Pass through Controller (IT) based on LSI	UCS C-Series	storage-controller	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCS-S3348-(HBA|RAID)							
 UCS-S3348-HBAM5=	UCS S3348 Pass through Controller (IT) based on LSI	UCS C-Series	storage-controller	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCS-S3348-(HBA|RAID)							
@@ -5426,27 +5424,27 @@ UCSB-MEZ-QLG-03	Cisco UCS CNA M73KR-Q Qlogic Adapter	UCS B-Series	nic	layered	UC
 UCSB-MEZ-QLG-03=	Cisco UCS CNA M73KR-Q Qlogic	UCS B-Series	nic	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSB-(MLOM|ML-V|VIC|MEZ|RAID|MRAID)							
 UCSB-ML-V5Q10G	Cisco UCS VIC 15411 modular LOM for Blade Servers	UCS C-Series	memory	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSB-(MLOM|ML-V|VIC|MEZ|RAID|MRAID)							
 UCSB-ML-V5Q10G=	Cisco UCS VIC 15411 modular LOM for Blade Servers	UCS C-Series	memory	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSB-(MLOM|ML-V|VIC|MEZ|RAID|MRAID)							
-UCSB-MLOM-40G-01	Cisco UCS VIC 1240 modular LOM for blade servers	UCS B-Series	memory	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSB-(MLOM|ML-V|VIC|MEZ|RAID|MRAID)							
-UCSB-MLOM-40G-01=	Cisco UCS VIC 1240 modular LOM for blade servers	UCS C-Series	memory	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSB-(MLOM|ML-V|VIC|MEZ|RAID|MRAID)							
-UCSB-MLOM-40G-031	Cisco UCSB-MLOM-40G-031	UCS B-Series	memory	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSB-(MLOM|ML-V|VIC|MEZ|RAID|MRAID)							
-UCSB-MLOM-40G-032	Cisco UCSB-MLOM-40G-032	UCS B-Series	memory	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSB-(MLOM|ML-V|VIC|MEZ|RAID|MRAID)							
-UCSB-MLOM-40G-04	Cisco UCS VIC 1440 modular LOM for Blade Servers	UCS Virtual Interface Cards	memory	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSB-(MLOM|ML-V|VIC|MEZ|RAID|MRAID)							
-UCSB-MLOM-40G-041	Cisco UCSB-MLOM-40G-041	UCS B-Series	memory	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSB-(MLOM|ML-V|VIC|MEZ|RAID|MRAID)							
-UCSB-MLOM-40G-04=	Cisco UCS VIC 1440 modular LOM for Blade Servers	UCS C-Series	memory	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSB-(MLOM|ML-V|VIC|MEZ|RAID|MRAID)							
-UCSB-MLOM-PT-01	Cisco UCS Port Expander Card (mezz) for VIC	UCS C-Series	memory	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSB-(MLOM|ML-V|VIC|MEZ|RAID|MRAID)							
-UCSB-MLOM-PT-012	Cisco UCSB-MLOM-PT-012	UCS B-Series	memory	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSB-(MLOM|ML-V|VIC|MEZ|RAID|MRAID)							
-UCSB-MLOM-PT-01=	Cisco UCS Port Expander Card (mezz) for VIC	UCS C-Series	memory	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSB-(MLOM|ML-V|VIC|MEZ|RAID|MRAID)							
-UCSB-MLOM-PT-03	Pending-Cisco UCS Port Expander Card (mezz) for VIC 1340	UCS C-Series	memory	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSB-(MLOM|ML-V|VIC|MEZ|RAID|MRAID)							
-UCSB-MLOM-PT-03=	Pending-Cisco UCS Port Expander Card (mezz) for VIC 1340	UCS C-Series	memory	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSB-(MLOM|ML-V|VIC|MEZ|RAID|MRAID)							
-UCSB-MRAID-SC=	Cisco UCSB-MRAID-SC=	UCS B-Series	memory	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSB-(MLOM|ML-V|VIC|MEZ|RAID|MRAID)							
-UCSB-MRAID12G	Cisco FlexStorage 12G SAS RAID controller with Drive bays	UCS B-Series	memory	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSB-(MLOM|ML-V|VIC|MEZ|RAID|MRAID)							
-UCSB-MRAID12G-HE	Cisco UCSB-MRAID12G-HE	UCS B-Series	memory	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSB-(MLOM|ML-V|VIC|MEZ|RAID|MRAID)							
-UCSB-MRAID12G-HE1	Cisco UCSB-MRAID12G-HE1	UCS B-Series	memory	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSB-(MLOM|ML-V|VIC|MEZ|RAID|MRAID)							
-UCSB-MRAID12G-HE2	Cisco UCSB-MRAID12G-HE2	UCS B-Series	memory	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSB-(MLOM|ML-V|VIC|MEZ|RAID|MRAID)							
-UCSB-MRAID12G-HE3	Cisco UCSB-MRAID12G-HE3	UCS B-Series	memory	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSB-(MLOM|ML-V|VIC|MEZ|RAID|MRAID)							
-UCSB-MRAID12G1	Cisco UCSB-MRAID12G1	UCS B-Series	memory	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSB-(MLOM|ML-V|VIC|MEZ|RAID|MRAID)							
-UCSB-MRAID12G2	Cisco UCSB-MRAID12G2	UCS B-Series	memory	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSB-(MLOM|ML-V|VIC|MEZ|RAID|MRAID)							
-UCSB-MRAID12G=	Cisco FlexStorage 12G SAS RAID controller with Drive bays	UCS B-Series	memory	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSB-(MLOM|ML-V|VIC|MEZ|RAID|MRAID)							
+UCSB-MLOM-40G-01	Cisco UCS VIC 1240 modular LOM for blade servers	UCS B-Series	nic	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSB-(MLOM|ML-V|VIC|MEZ|RAID|MRAID)							
+UCSB-MLOM-40G-01=	Cisco UCS VIC 1240 modular LOM for blade servers	UCS C-Series	nic	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSB-(MLOM|ML-V|VIC|MEZ|RAID|MRAID)							
+UCSB-MLOM-40G-031	Cisco UCSB-MLOM-40G-031	UCS B-Series	nic	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSB-(MLOM|ML-V|VIC|MEZ|RAID|MRAID)							
+UCSB-MLOM-40G-032	Cisco UCSB-MLOM-40G-032	UCS B-Series	nic	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSB-(MLOM|ML-V|VIC|MEZ|RAID|MRAID)							
+UCSB-MLOM-40G-04	Cisco UCS VIC 1440 modular LOM for Blade Servers	UCS Virtual Interface Cards	nic	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSB-(MLOM|ML-V|VIC|MEZ|RAID|MRAID)							
+UCSB-MLOM-40G-041	Cisco UCSB-MLOM-40G-041	UCS B-Series	nic	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSB-(MLOM|ML-V|VIC|MEZ|RAID|MRAID)							
+UCSB-MLOM-40G-04=	Cisco UCS VIC 1440 modular LOM for Blade Servers	UCS C-Series	nic	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSB-(MLOM|ML-V|VIC|MEZ|RAID|MRAID)							
+UCSB-MLOM-PT-01	Cisco UCS Port Expander Card (mezz) for VIC	UCS C-Series	nic	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSB-(MLOM|ML-V|VIC|MEZ|RAID|MRAID)							
+UCSB-MLOM-PT-012	Cisco UCSB-MLOM-PT-012	UCS B-Series	nic	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSB-(MLOM|ML-V|VIC|MEZ|RAID|MRAID)							
+UCSB-MLOM-PT-01=	Cisco UCS Port Expander Card (mezz) for VIC	UCS C-Series	nic	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSB-(MLOM|ML-V|VIC|MEZ|RAID|MRAID)							
+UCSB-MLOM-PT-03	Pending-Cisco UCS Port Expander Card (mezz) for VIC 1340	UCS C-Series	nic	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSB-(MLOM|ML-V|VIC|MEZ|RAID|MRAID)							
+UCSB-MLOM-PT-03=	Pending-Cisco UCS Port Expander Card (mezz) for VIC 1340	UCS C-Series	nic	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSB-(MLOM|ML-V|VIC|MEZ|RAID|MRAID)							
+UCSB-MRAID-SC=	Cisco UCSB-MRAID-SC=	UCS B-Series	mechanical	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSB-(MLOM|ML-V|VIC|MEZ|RAID|MRAID)							
+UCSB-MRAID12G	Cisco FlexStorage 12G SAS RAID controller with Drive bays	UCS B-Series	storage-controller	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSB-(MLOM|ML-V|VIC|MEZ|RAID|MRAID)							
+UCSB-MRAID12G-HE	Cisco UCSB-MRAID12G-HE	UCS B-Series	storage-controller	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSB-(MLOM|ML-V|VIC|MEZ|RAID|MRAID)							
+UCSB-MRAID12G-HE1	Cisco UCSB-MRAID12G-HE1	UCS B-Series	storage-controller	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSB-(MLOM|ML-V|VIC|MEZ|RAID|MRAID)							
+UCSB-MRAID12G-HE2	Cisco UCSB-MRAID12G-HE2	UCS B-Series	storage-controller	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSB-(MLOM|ML-V|VIC|MEZ|RAID|MRAID)							
+UCSB-MRAID12G-HE3	Cisco UCSB-MRAID12G-HE3	UCS B-Series	storage-controller	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSB-(MLOM|ML-V|VIC|MEZ|RAID|MRAID)							
+UCSB-MRAID12G1	Cisco UCSB-MRAID12G1	UCS B-Series	storage-controller	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSB-(MLOM|ML-V|VIC|MEZ|RAID|MRAID)							
+UCSB-MRAID12G2	Cisco UCSB-MRAID12G2	UCS B-Series	storage-controller	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSB-(MLOM|ML-V|VIC|MEZ|RAID|MRAID)							
+UCSB-MRAID12G=	Cisco FlexStorage 12G SAS RAID controller with Drive bays	UCS B-Series	storage-controller	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSB-(MLOM|ML-V|VIC|MEZ|RAID|MRAID)							
 UCSB-NVME2H-I1000	Cisco UCSB-NVME2H-I1000	UCS C-Series	drive	layered	UCS Server Components	(none)	Drives and storage		sku ^UCS(X|B|C|XE|AI)-(SD(?!BKT|-RSR)|HD(?!BP)|NV(?!L)|M2(?!EXT))							
 UCSB-NVME2H-I1000=	Cisco UCSB-NVME2H-I1000=	UCS C-Series	drive	layered	UCS Server Components	(none)	Drives and storage		sku ^UCS(X|B|C|XE|AI)-(SD(?!BKT|-RSR)|HD(?!BP)|NV(?!L)|M2(?!EXT))							
 UCSB-NVME2H-I1600	Cisco UCSB-NVME2H-I1600	UCS B-Series	drive	layered	UCS Server Components	(none)	Drives and storage		sku ^UCS(X|B|C|XE|AI)-(SD(?!BKT|-RSR)|HD(?!BP)|NV(?!L)|M2(?!EXT))							
@@ -5842,23 +5840,23 @@ UCSC-C3X60-SSD4=	Cisco UCS C3X60 one row - 14 drives: 400GB SSD and 4TB Driv	UCS
 UCSC-C3X60-SSD6	Cisco UCS C3X60 one row - 14 drives: 400GB SSD and 6TB Driv	S-Series Storage	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku C3X60							
 UCSC-C3X60-SSD6=	Cisco UCS C3X60 one row - 14 drives: 400GB SSD and 6TB Driv	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku C3X60							
 UCSC-C3X60-SSD8	Cisco UCS C3X60 8TB HDD/SSD Combo	UCS C-Series	drive	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku C3X60							
-UCSC-C3X60-SVRN1	UCS C3X60 Server Node E5-2620 v2 CPU 128GB 1GB RAID cache	S-Series Storage	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku C3X60							
-UCSC-C3X60-SVRN1=	UCS C3X60 Server Node E5-2620 v2 CPU 128GB 1GB RAID cache	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku C3X60							
-UCSC-C3X60-SVRN2	UCS C3X60 Server Node E5-2620 v2 CPU 256GB 4GB RAID cache	S-Series Storage	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku C3X60							
-UCSC-C3X60-SVRN2=	UCS C3X60 Server Node E5-2620 v2 CPU 256GB 4GB RAID cache	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku C3X60							
-UCSC-C3X60-SVRN3	Cisco C3X60 Server Node E5-2660 v2 CPU 256GB 4GB RAID cache	S-Series Storage	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku C3X60							
-UCSC-C3X60-SVRN3=	Cisco C3X60 Server Node E5-2660 v2 CPU 256GB 4GB RAID cache	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku C3X60							
-UCSC-C3X60-SVRN4	Cisco C3X60 Server Node E5-2695 v2 CPU 256GB 4GB RAID cache	S-Series Storage	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku C3X60							
-UCSC-C3X60-SVRN4=	Cisco C3X60 Server Node E5-2695 v2 CPU 256GB 4GB RAID cache	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku C3X60							
-UCSC-C3X60-SVRN5	UCS C3X60 Server Node E5-2695 v2 CPU 512GB 4GB RAID cache	S-Series Storage	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku C3X60							
-UCSC-C3X60-SVRN5=	UCS C3X60 Server Node E5-2695 v2 CPU 512GB 4GB RAID cache	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku C3X60							
-UCSC-C3X60-SVRN6	UCS C3X60 Server Node E5-2660 v2 CPU 128GB SAS HBA	S-Series Storage	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku C3X60							
-UCSC-C3X60-SVRN6=	UCS C3X60 Server Node E5-2660 v2 CPU 128GB SAS HBA	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku C3X60							
-UCSC-C3X60-SVRN7	Cisco C3X60 Server Node E5-2695 v2 CPU 256GB SAS HBA Mode	S-Series Storage	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku C3X60							
-UCSC-C3X60-SVRN7=	Cisco C3X60 Server Node E5-2695 v2 CPU 256GB SAS HBA Mode	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku C3X60							
-UCSC-C3X60-SVRN8	Cisco C3X60 Server Node E5-2620 v2 CPU (6C), 256G, HBA	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku C3X60							
-UCSC-C3X60-SVRN8=	Cisco C3X60 Server Node E5-2620 v2 CPU (6C), 256G, HBA	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku C3X60							
-UCSC-C3X60-SVRNB=	Cisco UCS C3160 Server Node FRU	UCS C-Series	chassis	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku C3X60							
+UCSC-C3X60-SVRN1	UCS C3X60 Server Node E5-2620 v2 CPU 128GB 1GB RAID cache	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku C3X60							
+UCSC-C3X60-SVRN1=	UCS C3X60 Server Node E5-2620 v2 CPU 128GB 1GB RAID cache	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku C3X60							
+UCSC-C3X60-SVRN2	UCS C3X60 Server Node E5-2620 v2 CPU 256GB 4GB RAID cache	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku C3X60							
+UCSC-C3X60-SVRN2=	UCS C3X60 Server Node E5-2620 v2 CPU 256GB 4GB RAID cache	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku C3X60							
+UCSC-C3X60-SVRN3	Cisco C3X60 Server Node E5-2660 v2 CPU 256GB 4GB RAID cache	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku C3X60							
+UCSC-C3X60-SVRN3=	Cisco C3X60 Server Node E5-2660 v2 CPU 256GB 4GB RAID cache	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku C3X60							
+UCSC-C3X60-SVRN4	Cisco C3X60 Server Node E5-2695 v2 CPU 256GB 4GB RAID cache	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku C3X60							
+UCSC-C3X60-SVRN4=	Cisco C3X60 Server Node E5-2695 v2 CPU 256GB 4GB RAID cache	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku C3X60							
+UCSC-C3X60-SVRN5	UCS C3X60 Server Node E5-2695 v2 CPU 512GB 4GB RAID cache	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku C3X60							
+UCSC-C3X60-SVRN5=	UCS C3X60 Server Node E5-2695 v2 CPU 512GB 4GB RAID cache	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku C3X60							
+UCSC-C3X60-SVRN6	UCS C3X60 Server Node E5-2660 v2 CPU 128GB SAS HBA	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku C3X60							
+UCSC-C3X60-SVRN6=	UCS C3X60 Server Node E5-2660 v2 CPU 128GB SAS HBA	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku C3X60							
+UCSC-C3X60-SVRN7	Cisco C3X60 Server Node E5-2695 v2 CPU 256GB SAS HBA Mode	S-Series Storage	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku C3X60							
+UCSC-C3X60-SVRN7=	Cisco C3X60 Server Node E5-2695 v2 CPU 256GB SAS HBA Mode	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku C3X60							
+UCSC-C3X60-SVRN8	Cisco C3X60 Server Node E5-2620 v2 CPU (6C), 256G, HBA	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku C3X60							
+UCSC-C3X60-SVRN8=	Cisco C3X60 Server Node E5-2620 v2 CPU (6C), 256G, HBA	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku C3X60							
+UCSC-C3X60-SVRNB=	Cisco UCS C3160 Server Node FRU	UCS C-Series	server	layered	UCS S-Series Storage Servers	(none)	UCS C3160 / S3260		sku C3X60							
 UCSC-C420-M3	UCS C420 M3 w/o CPU, mem, HDD, PCIe, PSU, rail kit	UCS C-Series	server	layered	UCS C-Series Rack Servers	(none)	UCS C420 M3		sku (?<![A-Z0-9])C420-?M3							
 UCSC-C420-M3-CH2	DISTI: UCS C420 M3 w/o CPU, HSnk, mem, HD, PSU, w/Rails, Blnk	UCS C-Series	server	layered	UCS C-Series Rack Servers	(none)	UCS C420 M3		sku (?<![A-Z0-9])C420-?M3							
 UCSC-C420-M3=	UCS C420 M3 w/o CPU, mem, HDD, PCIe, PSU, rail kit	UCS C-Series	server	layered	UCS C-Series Rack Servers	(none)	UCS C420 M3		sku (?<![A-Z0-9])C420-?M3							
@@ -6271,29 +6269,29 @@ UCSC-M2IF-220M8=	Cisco UCSC-M2IF-220M8=	UCS C-Series	drive	layered	UCS C-Series 
 UCSC-M2RM-M82	Cisco UCSC-M2RM-M82	UCS C-Series	drive	layered	UCS Server Components	(none)	Drives and storage		sku ^UCS(X|B|C|XE|AI)-(SD(?!BKT|-RSR)|HD(?!BP)|NV(?!L)|M2(?!EXT))							
 UCSC-M2RR-240M8	Cisco UCSC-M2RR-240M8	UCS C-Series	drive	layered	UCS C-Series Rack Servers	(none)	UCS C240		sku ^(?=UCSC?-|CBL-).*(?<![0-9])240-?M[1-8]							
 UCSC-MBF3CBL-MX2U=	Cisco UCSC-MBF3CBL-MX2U=	UCS C-Series	cable	layered	UCS C-Series Rack Servers	(shared across the line)		UCS C-Series Rack Servers shared parts	sku ^UCSC-(?!CPU(?!-CVR|-GREASE|-TIM|-E[NP]2?-PNP|AT)|MR(?!AID)|ML-[0-9]|MP-|SD(?!BKT|-RSR)|HD(?!BP)|NV(?!L)|M2(?!EXT)|GPU(?!CBL|FM-BLK|-RKIT)|TPM|F-|PCIE(?!-F|-R)|P-|O-|M-V|MLOM-(?!BLK)|RAID|MRAID|SAS|HBA|PSAS|NYTRO|9[45]00)							
-UCSC-MLOM-BLK	MLOM Blanking Panel	UCS C-Series	memory	layered	UCS C-Series Rack Servers	(shared across the line)		UCS C-Series Rack Servers shared parts	sku ^UCSC-(?!CPU(?!-CVR|-GREASE|-TIM|-E[NP]2?-PNP|AT)|MR(?!AID)|ML-[0-9]|MP-|SD(?!BKT|-RSR)|HD(?!BP)|NV(?!L)|M2(?!EXT)|GPU(?!CBL|FM-BLK|-RKIT)|TPM|F-|PCIE(?!-F|-R)|P-|O-|M-V|MLOM-(?!BLK)|RAID|MRAID|SAS|HBA|PSAS|NYTRO|9[45]00)							
-UCSC-MLOM-BLK=	MLOM Blanking Panel	HyperFlex HX Series	memory	layered	UCS C-Series Rack Servers	(shared across the line)		UCS C-Series Rack Servers shared parts	sku ^UCSC-(?!CPU(?!-CVR|-GREASE|-TIM|-E[NP]2?-PNP|AT)|MR(?!AID)|ML-[0-9]|MP-|SD(?!BKT|-RSR)|HD(?!BP)|NV(?!L)|M2(?!EXT)|GPU(?!CBL|FM-BLK|-RKIT)|TPM|F-|PCIE(?!-F|-R)|P-|O-|M-V|MLOM-(?!BLK)|RAID|MRAID|SAS|HBA|PSAS|NYTRO|9[45]00)							
-UCSC-MLOM-C100-04	Cisco UCS VIC 1497 dual port 40/100G QSFP28 mLOM for C220 M5, C240 M5, C240 SD M5	UCS Virtual Interface Cards	memory	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSC-(PCIE(?!-F|-R)|P-|O-|M-V|MLOM-(?!BLK)|RAID|MRAID|SAS|HBA|PSAS|NYTRO|9[45]00)							
-UCSC-MLOM-C10T-02	Cisco UCS VIC1227T VIC MLOM - Dual Port 10GBaseT	UCS C-Series	memory	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSC-(PCIE(?!-F|-R)|P-|O-|M-V|MLOM-(?!BLK)|RAID|MRAID|SAS|HBA|PSAS|NYTRO|9[45]00)							
-UCSC-MLOM-C10T-02=	Cisco UCS VIC1227T VIC MLOM - Dual Port 10GBaseT	UCS C-Series	memory	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSC-(PCIE(?!-F|-R)|P-|O-|M-V|MLOM-(?!BLK)|RAID|MRAID|SAS|HBA|PSAS|NYTRO|9[45]00)							
-UCSC-MLOM-C25Q-04	Cisco UCS VIC 1457 quad port 10/25G SFP28 mLOM for C220 M5, C240 M5 and C240 SD M5	UCS Virtual Interface Cards	memory	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSC-(PCIE(?!-F|-R)|P-|O-|M-V|MLOM-(?!BLK)|RAID|MRAID|SAS|HBA|PSAS|NYTRO|9[45]00)							
-UCSC-MLOM-CSC-02	Cisco UCS VIC1227 VIC MLOM - Dual Port 10Gb SFP+	UCS C-Series	memory	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSC-(PCIE(?!-F|-R)|P-|O-|M-V|MLOM-(?!BLK)|RAID|MRAID|SAS|HBA|PSAS|NYTRO|9[45]00)							
-UCSC-MLOM-CSC-02=	Cisco UCS VIC1227 VIC MLOM - Dual Port 10Gb SFP+	UCS C-Series	memory	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSC-(PCIE(?!-F|-R)|P-|O-|M-V|MLOM-(?!BLK)|RAID|MRAID|SAS|HBA|PSAS|NYTRO|9[45]00)							
+UCSC-MLOM-BLK	MLOM Blanking Panel	UCS C-Series	nic	layered	UCS C-Series Rack Servers	(shared across the line)		UCS C-Series Rack Servers shared parts	sku ^UCSC-(?!CPU(?!-CVR|-GREASE|-TIM|-E[NP]2?-PNP|AT)|MR(?!AID)|ML-[0-9]|MP-|SD(?!BKT|-RSR)|HD(?!BP)|NV(?!L)|M2(?!EXT)|GPU(?!CBL|FM-BLK|-RKIT)|TPM|F-|PCIE(?!-F|-R)|P-|O-|M-V|MLOM-(?!BLK)|RAID|MRAID|SAS|HBA|PSAS|NYTRO|9[45]00)							
+UCSC-MLOM-BLK=	MLOM Blanking Panel	HyperFlex HX Series	nic	layered	UCS C-Series Rack Servers	(shared across the line)		UCS C-Series Rack Servers shared parts	sku ^UCSC-(?!CPU(?!-CVR|-GREASE|-TIM|-E[NP]2?-PNP|AT)|MR(?!AID)|ML-[0-9]|MP-|SD(?!BKT|-RSR)|HD(?!BP)|NV(?!L)|M2(?!EXT)|GPU(?!CBL|FM-BLK|-RKIT)|TPM|F-|PCIE(?!-F|-R)|P-|O-|M-V|MLOM-(?!BLK)|RAID|MRAID|SAS|HBA|PSAS|NYTRO|9[45]00)							
+UCSC-MLOM-C100-04	Cisco UCS VIC 1497 dual port 40/100G QSFP28 mLOM for C220 M5, C240 M5, C240 SD M5	UCS Virtual Interface Cards	nic	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSC-(PCIE(?!-F|-R)|P-|O-|M-V|MLOM-(?!BLK)|RAID|MRAID|SAS|HBA|PSAS|NYTRO|9[45]00)							
+UCSC-MLOM-C10T-02	Cisco UCS VIC1227T VIC MLOM - Dual Port 10GBaseT	UCS C-Series	nic	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSC-(PCIE(?!-F|-R)|P-|O-|M-V|MLOM-(?!BLK)|RAID|MRAID|SAS|HBA|PSAS|NYTRO|9[45]00)							
+UCSC-MLOM-C10T-02=	Cisco UCS VIC1227T VIC MLOM - Dual Port 10GBaseT	UCS C-Series	nic	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSC-(PCIE(?!-F|-R)|P-|O-|M-V|MLOM-(?!BLK)|RAID|MRAID|SAS|HBA|PSAS|NYTRO|9[45]00)							
+UCSC-MLOM-C25Q-04	Cisco UCS VIC 1457 quad port 10/25G SFP28 mLOM for C220 M5, C240 M5 and C240 SD M5	UCS Virtual Interface Cards	nic	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSC-(PCIE(?!-F|-R)|P-|O-|M-V|MLOM-(?!BLK)|RAID|MRAID|SAS|HBA|PSAS|NYTRO|9[45]00)							
+UCSC-MLOM-CSC-02	Cisco UCS VIC1227 VIC MLOM - Dual Port 10Gb SFP+	UCS C-Series	nic	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSC-(PCIE(?!-F|-R)|P-|O-|M-V|MLOM-(?!BLK)|RAID|MRAID|SAS|HBA|PSAS|NYTRO|9[45]00)							
+UCSC-MLOM-CSC-02=	Cisco UCS VIC1227 VIC MLOM - Dual Port 10Gb SFP+	UCS C-Series	nic	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSC-(PCIE(?!-F|-R)|P-|O-|M-V|MLOM-(?!BLK)|RAID|MRAID|SAS|HBA|PSAS|NYTRO|9[45]00)							
 UCSC-MPKIT-240M8L=	Cisco UCSC-MPKIT-240M8L=	UCS C-Series	accessory	layered	UCS C-Series Rack Servers	(none)	UCS C240		sku ^(?=UCSC?-|CBL-).*(?<![0-9])240-?M[1-8]							
-UCSC-MRAID-SC	Supercap for Cisco 12G SAS Modular Raid controller	UCS C-Series	memory	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSC-(PCIE(?!-F|-R)|P-|O-|M-V|MLOM-(?!BLK)|RAID|MRAID|SAS|HBA|PSAS|NYTRO|9[45]00)							
-UCSC-MRAID-SC=	Supercap for Cisco 12G SAS Modular Raid controller	S-Series Storage	memory	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSC-(PCIE(?!-F|-R)|P-|O-|M-V|MLOM-(?!BLK)|RAID|MRAID|SAS|HBA|PSAS|NYTRO|9[45]00)							
-UCSC-MRAID12G	Cisco 12G SAS Modular Raid Controller	UCS C-Series	memory	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSC-(PCIE(?!-F|-R)|P-|O-|M-V|MLOM-(?!BLK)|RAID|MRAID|SAS|HBA|PSAS|NYTRO|9[45]00)							
-UCSC-MRAID12G-1GB	Cisco 12Gbps SAS 1GB FBWC Cache module (Raid 0/1/5/6)	UCS C-Series	memory	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSC-(PCIE(?!-F|-R)|P-|O-|M-V|MLOM-(?!BLK)|RAID|MRAID|SAS|HBA|PSAS|NYTRO|9[45]00)							
-UCSC-MRAID12G-1GB=	Cisco 12Gbps SAS 1GB FBWC Cache module (Raid 0/1/5/6)	UCS C-Series	memory	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSC-(PCIE(?!-F|-R)|P-|O-|M-V|MLOM-(?!BLK)|RAID|MRAID|SAS|HBA|PSAS|NYTRO|9[45]00)							
-UCSC-MRAID12G-2GB	Cisco 12Gbps SAS 2GB FBWC Cache module (Raid 0/1/5/6)	UCS C-Series	memory	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSC-(PCIE(?!-F|-R)|P-|O-|M-V|MLOM-(?!BLK)|RAID|MRAID|SAS|HBA|PSAS|NYTRO|9[45]00)							
-UCSC-MRAID12G-2GB=	Cisco 12Gbps SAS 2GB FBWC Cache module (Raid 0/1/5/6)	UCS C-Series	memory	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSC-(PCIE(?!-F|-R)|P-|O-|M-V|MLOM-(?!BLK)|RAID|MRAID|SAS|HBA|PSAS|NYTRO|9[45]00)							
-UCSC-MRAID12G-4GB	Cisco 12Gbps SAS 4GB FBWC Cache module (Raid 0/1/5/6)	UCS C-Series	memory	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSC-(PCIE(?!-F|-R)|P-|O-|M-V|MLOM-(?!BLK)|RAID|MRAID|SAS|HBA|PSAS|NYTRO|9[45]00)							
-UCSC-MRAID12G-4GB=	Cisco 12Gbps SAS 4GB FBWC Cache module (Raid 0/1/5/6)	UCS C-Series	memory	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSC-(PCIE(?!-F|-R)|P-|O-|M-V|MLOM-(?!BLK)|RAID|MRAID|SAS|HBA|PSAS|NYTRO|9[45]00)							
-UCSC-MRAID12G-512	Cisco 12Gbps SAS 512MB FBWC Cache module (Raid 0/1/5)	UCS C-Series	memory	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSC-(PCIE(?!-F|-R)|P-|O-|M-V|MLOM-(?!BLK)|RAID|MRAID|SAS|HBA|PSAS|NYTRO|9[45]00)							
-UCSC-MRAID12G-512=	Cisco 12Gbps SAS 512MB FBWC Cache module (Raid 0/1/5)	UCS C-Series	memory	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSC-(PCIE(?!-F|-R)|P-|O-|M-V|MLOM-(?!BLK)|RAID|MRAID|SAS|HBA|PSAS|NYTRO|9[45]00)							
-UCSC-MRAID12G=	Cisco 12G SAS Modular Raid Controller	UCS C-Series	memory	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSC-(PCIE(?!-F|-R)|P-|O-|M-V|MLOM-(?!BLK)|RAID|MRAID|SAS|HBA|PSAS|NYTRO|9[45]00)							
-UCSC-MRAIDC460	Cisco 12G SAS Modular Raid Controller (12 port)	UCS C-Series	memory	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSC-(PCIE(?!-F|-R)|P-|O-|M-V|MLOM-(?!BLK)|RAID|MRAID|SAS|HBA|PSAS|NYTRO|9[45]00)							
-UCSC-MRAIDC460=	Cisco 12G SAS Modular Raid Controller (12 port)	UCS C-Series	memory	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSC-(PCIE(?!-F|-R)|P-|O-|M-V|MLOM-(?!BLK)|RAID|MRAID|SAS|HBA|PSAS|NYTRO|9[45]00)							
+UCSC-MRAID-SC	Supercap for Cisco 12G SAS Modular Raid controller	UCS C-Series	mechanical	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSC-(PCIE(?!-F|-R)|P-|O-|M-V|MLOM-(?!BLK)|RAID|MRAID|SAS|HBA|PSAS|NYTRO|9[45]00)							
+UCSC-MRAID-SC=	Supercap for Cisco 12G SAS Modular Raid controller	S-Series Storage	mechanical	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSC-(PCIE(?!-F|-R)|P-|O-|M-V|MLOM-(?!BLK)|RAID|MRAID|SAS|HBA|PSAS|NYTRO|9[45]00)							
+UCSC-MRAID12G	Cisco 12G SAS Modular Raid Controller	UCS C-Series	storage-controller	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSC-(PCIE(?!-F|-R)|P-|O-|M-V|MLOM-(?!BLK)|RAID|MRAID|SAS|HBA|PSAS|NYTRO|9[45]00)							
+UCSC-MRAID12G-1GB	Cisco 12Gbps SAS 1GB FBWC Cache module (Raid 0/1/5/6)	UCS C-Series	storage-controller	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSC-(PCIE(?!-F|-R)|P-|O-|M-V|MLOM-(?!BLK)|RAID|MRAID|SAS|HBA|PSAS|NYTRO|9[45]00)							
+UCSC-MRAID12G-1GB=	Cisco 12Gbps SAS 1GB FBWC Cache module (Raid 0/1/5/6)	UCS C-Series	storage-controller	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSC-(PCIE(?!-F|-R)|P-|O-|M-V|MLOM-(?!BLK)|RAID|MRAID|SAS|HBA|PSAS|NYTRO|9[45]00)							
+UCSC-MRAID12G-2GB	Cisco 12Gbps SAS 2GB FBWC Cache module (Raid 0/1/5/6)	UCS C-Series	storage-controller	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSC-(PCIE(?!-F|-R)|P-|O-|M-V|MLOM-(?!BLK)|RAID|MRAID|SAS|HBA|PSAS|NYTRO|9[45]00)							
+UCSC-MRAID12G-2GB=	Cisco 12Gbps SAS 2GB FBWC Cache module (Raid 0/1/5/6)	UCS C-Series	storage-controller	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSC-(PCIE(?!-F|-R)|P-|O-|M-V|MLOM-(?!BLK)|RAID|MRAID|SAS|HBA|PSAS|NYTRO|9[45]00)							
+UCSC-MRAID12G-4GB	Cisco 12Gbps SAS 4GB FBWC Cache module (Raid 0/1/5/6)	UCS C-Series	storage-controller	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSC-(PCIE(?!-F|-R)|P-|O-|M-V|MLOM-(?!BLK)|RAID|MRAID|SAS|HBA|PSAS|NYTRO|9[45]00)							
+UCSC-MRAID12G-4GB=	Cisco 12Gbps SAS 4GB FBWC Cache module (Raid 0/1/5/6)	UCS C-Series	storage-controller	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSC-(PCIE(?!-F|-R)|P-|O-|M-V|MLOM-(?!BLK)|RAID|MRAID|SAS|HBA|PSAS|NYTRO|9[45]00)							
+UCSC-MRAID12G-512	Cisco 12Gbps SAS 512MB FBWC Cache module (Raid 0/1/5)	UCS C-Series	storage-controller	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSC-(PCIE(?!-F|-R)|P-|O-|M-V|MLOM-(?!BLK)|RAID|MRAID|SAS|HBA|PSAS|NYTRO|9[45]00)							
+UCSC-MRAID12G-512=	Cisco 12Gbps SAS 512MB FBWC Cache module (Raid 0/1/5)	UCS C-Series	storage-controller	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSC-(PCIE(?!-F|-R)|P-|O-|M-V|MLOM-(?!BLK)|RAID|MRAID|SAS|HBA|PSAS|NYTRO|9[45]00)							
+UCSC-MRAID12G=	Cisco 12G SAS Modular Raid Controller	UCS C-Series	storage-controller	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSC-(PCIE(?!-F|-R)|P-|O-|M-V|MLOM-(?!BLK)|RAID|MRAID|SAS|HBA|PSAS|NYTRO|9[45]00)							
+UCSC-MRAIDC460	Cisco 12G SAS Modular Raid Controller (12 port)	UCS C-Series	storage-controller	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSC-(PCIE(?!-F|-R)|P-|O-|M-V|MLOM-(?!BLK)|RAID|MRAID|SAS|HBA|PSAS|NYTRO|9[45]00)							
+UCSC-MRAIDC460=	Cisco 12G SAS Modular Raid Controller (12 port)	UCS C-Series	storage-controller	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSC-(PCIE(?!-F|-R)|P-|O-|M-V|MLOM-(?!BLK)|RAID|MRAID|SAS|HBA|PSAS|NYTRO|9[45]00)							
 UCSC-MRB-002-C460	MEMORY RISER BOARD FOR C460 M2 SERVER ONLY	UCS C-Series	memory	layered	UCS C-Series Rack Servers	(none)	UCS C460 / C480		sku (?<![A-Z0-9])C4[68]0(?![0-9])							
 UCSC-MRB-002-C460=	MEMORY RISER BOARD FOR C460 M2 SERVER ONLY	UCS C-Series	memory	layered	UCS C-Series Rack Servers	(none)	UCS C460 / C480		sku (?<![A-Z0-9])C4[68]0(?![0-9])							
 UCSC-MRBD-12	Memory riser with 12 DIMM slots	UCS C-Series	memory	layered	UCS Server Components	(none)	Memory		sku ^UCS(X|B|C|XE|AI)-(MR(?!AID)|ML-[0-9]|MP-)							
@@ -7743,8 +7741,8 @@ UCSX-ML-V5Q50G	UCS VIC 15420 4x25G mLOM for Cisco UCS X210c-M6 Compute Node	UCS 
 UCSX-ML-V5Q50G-D	UCS VIC 15420 4x25G mLOM for Cisco UCS X210c-M7, X410c-M7, and X215c-M8 Compute Nodes	UCS Virtual Interface Cards	memory	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSX-(ME-|P-|MLOM|ML-V|MLV|V[0-9]-(?!BRIDGE)|RAID|MRAID|X10C-(RAID|PT))							
 UCSX-ML-V5Q50G-D=	UCS VIC 15420 4x25G mLOM for Cisco UCS X210c-M7, X410c-M7, and X215c-M8 Compute Nodes	UCS X-Series	memory	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSX-(ME-|P-|MLOM|ML-V|MLV|V[0-9]-(?!BRIDGE)|RAID|MRAID|X10C-(RAID|PT))							
 UCSX-ML-V5Q50G=	Cisco VIC 15420 4x 25G mLOM X-Series w/Secure Boot	UCS X-Series	memory	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSX-(ME-|P-|MLOM|ML-V|MLV|V[0-9]-(?!BRIDGE)|RAID|MRAID|X10C-(RAID|PT))							
-UCSX-MLOM-001	Modular LOM For UCS	UCS C-Series	memory	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSX-(ME-|P-|MLOM|ML-V|MLV|V[0-9]-(?!BRIDGE)|RAID|MRAID|X10C-(RAID|PT))							
-UCSX-MLOM-001=	Modular LOM For UCS	UCS C-Series	memory	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSX-(ME-|P-|MLOM|ML-V|MLV|V[0-9]-(?!BRIDGE)|RAID|MRAID|X10C-(RAID|PT))							
+UCSX-MLOM-001	Modular LOM For UCS	UCS C-Series	nic	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSX-(ME-|P-|MLOM|ML-V|MLV|V[0-9]-(?!BRIDGE)|RAID|MRAID|X10C-(RAID|PT))							
+UCSX-MLOM-001=	Modular LOM For UCS	UCS C-Series	nic	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSX-(ME-|P-|MLOM|ML-V|MLV|V[0-9]-(?!BRIDGE)|RAID|MRAID|X10C-(RAID|PT))							
 UCSX-MLV5D200GV2D	Cisco UCSX-MLV5D200GV2D	UCS C-Series	memory	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSX-(ME-|P-|MLOM|ML-V|MLV|V[0-9]-(?!BRIDGE)|RAID|MRAID|X10C-(RAID|PT))							
 UCSX-MLV5D200GV2D=	Cisco UCSX-MLV5D200GV2D=	UCS X-Series	memory	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSX-(ME-|P-|MLOM|ML-V|MLV|V[0-9]-(?!BRIDGE)|RAID|MRAID|X10C-(RAID|PT))							
 UCSX-MP-128GS-B0	Intel Optane Persistent Memory, 128GB, 3200MHz	UCS X-Series	memory	layered	UCS Server Components	(none)	Memory		sku ^UCS(X|B|C|XE|AI)-(MR(?!AID)|ML-[0-9]|MP-)							
@@ -7781,7 +7779,7 @@ UCSX-MR256G4RG5	Cisco UCSX-MR256G4RG5	UCS X-Series	memory	layered	UCS Server Com
 UCSX-MR256G4RG53	Cisco UCSX-MR256G4RG53	UCS X-Series	memory	layered	UCS Server Components	(none)	Memory		sku ^UCS(X|B|C|XE|AI)-(MR(?!AID)|ML-[0-9]|MP-)							
 UCSX-MR256G8RE3	Cisco UCSX-MR256G8RE3	UCS X-Series	memory	layered	UCS Server Components	(none)	Memory		sku ^UCS(X|B|C|XE|AI)-(MR(?!AID)|ML-[0-9]|MP-)							
 UCSX-MR256G8RE3=	Cisco UCSX-MR256G8RE3=	UCS X-Series	memory	layered	UCS Server Components	(none)	Memory		sku ^UCS(X|B|C|XE|AI)-(MR(?!AID)|ML-[0-9]|MP-)							
-UCSX-MRAID-SC=	Cisco UCSX-MRAID-SC=	UCS X-Series	memory	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSX-(ME-|P-|MLOM|ML-V|MLV|V[0-9]-(?!BRIDGE)|RAID|MRAID|X10C-(RAID|PT))							
+UCSX-MRAID-SC=	Cisco UCSX-MRAID-SC=	UCS X-Series	mechanical	layered	UCS Server Components	(none)	Network and storage adapters		sku ^UCSX-(ME-|P-|MLOM|ML-V|MLV|V[0-9]-(?!BRIDGE)|RAID|MRAID|X10C-(RAID|PT))							
 UCSX-MRX16G1RE3	16GB DDR5-5600 RDIMM 1Rx8 (16Gb)	UCS C-Series	memory	layered	UCS Server Components	(none)	Memory		sku ^UCS(X|B|C|XE|AI)-(MR(?!AID)|ML-[0-9]|MP-)							
 UCSX-MRX16G1RE3=	16GB DDR5-5600 RDIMM 1Rx8 (16Gb)	UCS C-Series	memory	layered	UCS Server Components	(none)	Memory		sku ^UCS(X|B|C|XE|AI)-(MR(?!AID)|ML-[0-9]|MP-)							
 UCSX-MRX16G1RE3M	16GB DDR5-5600 RDIMM 1Rx8 (16Gb)	UCS C-Series	memory	layered	UCS Server Components	(none)	Memory		sku ^UCS(X|B|C|XE|AI)-(MR(?!AID)|ML-[0-9]|MP-)							

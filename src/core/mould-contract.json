@@ -1,9 +1,9 @@
 {
-  "contract_hash": "279d2ece1fd627bf",
-  "generated_at": "2026-09-29T20:18:37.738Z",
-  "code_commit": "55bba2146fac732f5703e691188e4835404c55a4",
+  "contract_hash": "e07214730262c698",
+  "generated_at": "2026-09-29T21:18:34.012Z",
+  "code_commit": "5ccc994f60c931dbd3c85f16ce696343e8c8846c",
   "code_branch": "cisco",
-  "dirty_files": 90,
+  "dirty_files": 91,
   "counts": {
     "dictionary_keys": 610,
     "categories": 26,
@@ -27702,6 +27702,7 @@
           "kind": "opt"
         },
         "product_compatibility": {
+          "elseOpt": false,
           "kind": "cond",
           "when": {
             "field": "kind",
@@ -27713,7 +27714,8 @@
               "fan",
               "accessory",
               "cable",
-              "mechanical"
+              "mechanical",
+              "power-cord"
             ]
           }
         },
@@ -27912,12 +27914,34 @@
           "kind": "req"
         },
         "rack_units": {
+          "elseOpt": false,
           "kind": "cond",
           "when": {
-            "field": "kind",
-            "inList": [
-              "fc-switch",
-              "director"
+            "any": [
+              {
+                "field": "kind",
+                "inList": [
+                  "fc-switch",
+                  "director"
+                ]
+              },
+              {
+                "all": [
+                  {
+                    "field": "kind",
+                    "inList": [
+                      "power-cord"
+                    ]
+                  },
+                  {
+                    "field": "form_factor",
+                    "inList": [
+                      "rack-19",
+                      "modular-chassis"
+                    ]
+                  }
+                ]
+              }
             ]
           }
         },
@@ -28023,11 +28047,13 @@
           "kind": "opt"
         },
         "cable_length": {
+          "elseOpt": false,
           "kind": "cond",
           "when": {
             "field": "kind",
             "inList": [
-              "cable"
+              "cable",
+              "power-cord"
             ]
           }
         },

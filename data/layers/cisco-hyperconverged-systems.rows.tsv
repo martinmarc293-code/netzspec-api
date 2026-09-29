@@ -26,34 +26,22 @@ CBL-SATA-C220M6=	Cisco CBL-SATA-C220M6=	HyperFlex HX Series	cable	layered	HyperF
 CBL-SATA-C240M6=	Cisco CBL-SATA-C240M6=	HyperFlex HX Series	cable	layered	HyperFlex	(none)	HX240c		sku ^(?=HX|UCSC?-|CBL-).*(?<![0-9])240-?M[4-7]							
 CBL-SC-MR12GM52=	Cisco CBL-SC-MR12GM52=	HyperFlex HX Series	cable	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	accessory ^CBL- (label HyperFlex HX Series)							
 CBL-SC-MR12GM5P=	Cisco CBL-SC-MR12GM5P=	HyperFlex HX Series	cable	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	accessory ^CBL- (label HyperFlex HX Series)							
-HX-16-DC16C	Cisco HX-16-DC16C	HyperFlex HX Series	unknown	layered	HyperFlex	(none)	HyperFlex bundles and starter packs		sku ^HX-(SP|STD|16)-							
-HX-16-DC16C-NS	Cisco HX-16-DC16C-NS	HyperFlex HX Series	unknown	layered	HyperFlex	(none)	HyperFlex bundles and starter packs		sku ^HX-(SP|STD|16)-							
-HX-16-DC16C-RM	Cisco HX-16-DC16C-RM	HyperFlex HX Series	unknown	layered	HyperFlex	(none)	HyperFlex bundles and starter packs		sku ^HX-(SP|STD|16)-							
-HX-16-DC24C	Cisco HX-16-DC24C	HyperFlex HX Series	unknown	layered	HyperFlex	(none)	HyperFlex bundles and starter packs		sku ^HX-(SP|STD|16)-							
-HX-16-DC24C-NS	Cisco HX-16-DC24C-NS	HyperFlex HX Series	unknown	layered	HyperFlex	(none)	HyperFlex bundles and starter packs		sku ^HX-(SP|STD|16)-							
-HX-16-DC24C-RM	Cisco HX-16-DC24C-RM	HyperFlex HX Series	unknown	layered	HyperFlex	(none)	HyperFlex bundles and starter packs		sku ^HX-(SP|STD|16)-							
-HX-16-ST16C	Cisco HX-16-ST16C	HyperFlex HX Series	unknown	layered	HyperFlex	(none)	HyperFlex bundles and starter packs		sku ^HX-(SP|STD|16)-							
-HX-16-ST16C-NS	Cisco HX-16-ST16C-NS	HyperFlex HX Series	unknown	layered	HyperFlex	(none)	HyperFlex bundles and starter packs		sku ^HX-(SP|STD|16)-							
-HX-16-ST16C-RM	Cisco HX-16-ST16C-RM	HyperFlex HX Series	unknown	layered	HyperFlex	(none)	HyperFlex bundles and starter packs		sku ^HX-(SP|STD|16)-							
-HX-16-ST24C	Cisco HX-16-ST24C	HyperFlex HX Series	unknown	layered	HyperFlex	(none)	HyperFlex bundles and starter packs		sku ^HX-(SP|STD|16)-							
-HX-16-ST24C-NS	Cisco HX-16-ST24C-NS	HyperFlex HX Series	unknown	layered	HyperFlex	(none)	HyperFlex bundles and starter packs		sku ^HX-(SP|STD|16)-							
-HX-16-ST24C-RM	Cisco HX-16-ST24C-RM	HyperFlex HX Series	unknown	layered	HyperFlex	(none)	HyperFlex bundles and starter packs		sku ^HX-(SP|STD|16)-							
 HX-9400-8E	Cisco 12G 9400-8e 12G SAS HBA for external JBOD attach	HyperFlex HX Series	storage-controller	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-9400-8E=	Cisco 12G 9400-8e 12G SAS HBA for external JBOD attach	HyperFlex HX Series	storage-controller	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-ADGPU-240M6	C240M6 GPU Air Duct 2USFF/NVMe (for DW/FL only)	HyperFlex HX Series	drive	layered	HyperFlex	(none)	HX240c		sku ^(?=HX|UCSC?-|CBL-).*(?<![0-9])240-?M[4-7]							
 HX-ADGPU-240M6=	C240M6 GPU Air Duct 2USFF/NVMe (for DW/FL only)	HyperFlex HX Series	drive	layered	HyperFlex	(none)	HX240c		sku ^(?=HX|UCSC?-|CBL-).*(?<![0-9])240-?M[4-7]							
 HX-B-LSTOR-PT	Cisco FlexStorage Passthrough module w/drive bays	HyperFlex HX Series	accessory	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-B-LSTOR-PT=	Cisco FlexStorage Passthrough module w/drive bays	HyperFlex HX Series	accessory	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
-HX-B-MLOM-40G-03	Cisco UCS VIC 1340 modular LOM for blade servers	HyperFlex HX Series	memory	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
-HX-B-MLOM-40G-03=	Cisco UCS VIC 1340 modular LOM for blade servers	HyperFlex HX Series	memory	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
-HX-B-MLOM-40G-04	Cisco UCS VIC 1440 modular LOM for Blade Servers	HyperFlex HX Series	memory	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
-HX-B-MLOM-40G-04=	Cisco UCS VIC 1440 modular LOM for Blade Servers	HyperFlex HX Series	memory	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
-HX-B-MLOM-PT-01	Cisco UCS Port Expander Card (mezz) for VIC	HyperFlex HX Series	memory	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
-HX-B-MLOM-PT-01=	Cisco UCS Port Expander Card (mezz) for VIC	HyperFlex HX Series	memory	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
-HX-B-MRAID12G	Cisco FlexStorage 12G SAS RAID controller with Drive bays	HyperFlex HX Series	memory	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
-HX-B-MRAID12G-HE	Cisco FlexStorage 12G SAS RAID contr w/2GB FBWC/drive bays	HyperFlex HX Series	memory	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
-HX-B-MRAID12G-HE=	Cisco FlexStorage 12G SAS RAID contr w/2GB FBWC/drive bays	HyperFlex HX Series	memory	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
-HX-B-MRAID12G=	Cisco FlexStorage 12G SAS RAID controller with Drive bays	HyperFlex HX Series	memory	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
+HX-B-MLOM-40G-03	Cisco UCS VIC 1340 modular LOM for blade servers	HyperFlex HX Series	nic	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
+HX-B-MLOM-40G-03=	Cisco UCS VIC 1340 modular LOM for blade servers	HyperFlex HX Series	nic	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
+HX-B-MLOM-40G-04	Cisco UCS VIC 1440 modular LOM for Blade Servers	HyperFlex HX Series	nic	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
+HX-B-MLOM-40G-04=	Cisco UCS VIC 1440 modular LOM for Blade Servers	HyperFlex HX Series	nic	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
+HX-B-MLOM-PT-01	Cisco UCS Port Expander Card (mezz) for VIC	HyperFlex HX Series	nic	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
+HX-B-MLOM-PT-01=	Cisco UCS Port Expander Card (mezz) for VIC	HyperFlex HX Series	nic	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
+HX-B-MRAID12G	Cisco FlexStorage 12G SAS RAID controller with Drive bays	HyperFlex HX Series	storage-controller	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
+HX-B-MRAID12G-HE	Cisco FlexStorage 12G SAS RAID contr w/2GB FBWC/drive bays	HyperFlex HX Series	storage-controller	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
+HX-B-MRAID12G-HE=	Cisco FlexStorage 12G SAS RAID contr w/2GB FBWC/drive bays	HyperFlex HX Series	storage-controller	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
+HX-B-MRAID12G=	Cisco FlexStorage 12G SAS RAID controller with Drive bays	HyperFlex HX Series	storage-controller	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-B-NVME2H-I1000	Cisco HX-B-NVME2H-I1000	UCS C-Series	drive	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-B-NVME2H-I1000=	Cisco HX-B-NVME2H-I1000=	UCS C-Series	drive	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-B-NVME2H-I1600	Cisco HX-B-NVME2H-I1600	UCS C-Series	drive	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
@@ -762,16 +750,16 @@ HX-ML-X64G4RSHM	64GB DDR4-2666-MHz LRDIMM/quad rank/x4/1.2v. Micron only	UCS C-S
 HX-ML-X64G4RT-H	64GB DDR4-2933-MHz LRDIMM/4Rx4/1.2v	HyperFlex HX Series	memory	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-ML-X64G4RT-H1	Cisco HX-ML-X64G4RT-H1	HyperFlex HX Series	memory	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-ML-X64G4RT-H=	64GB DDR4-2933-MHz LRDIMM/4Rx4/1.2v	HyperFlex HX Series	memory	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
-HX-MLOM-C100-04	Cisco UCS VIC 1497 Dual Port 100G QSFP28 CNA mLOM	HyperFlex HX Series	memory	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
-HX-MLOM-C100-04=	Cisco UCS VIC 1497 Dual Port 100G QSFP28 CNA mLOM	HyperFlex HX Series	memory	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
-HX-MLOM-C25Q-04	Cisco UCS VIC 1457 Quad Port 10/25G SFP28 CNA MLOM	HyperFlex HX Series	memory	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
-HX-MLOM-C25Q-04=	Cisco UCS VIC 1457 Quad Port 10/25G SFP28 CNA MLOM	HyperFlex HX Series	memory	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
-HX-MLOM-C40Q-03	Cisco VIC 1387 Dual Port 40Gb QSFP CNA MLOM	HyperFlex HX Series	memory	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
-HX-MLOM-C40Q-03=	Cisco VIC 1387 Dual Port 40Gb QSFP CNA MLOM	HyperFlex HX Series	memory	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
-HX-MLOM-CSC-02	Cisco HX-MLOM-CSC-02	HyperFlex HX Series	memory	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
-HX-MLOM-IRJ45	Intel i350 quad-port MLOM NIC	HyperFlex HX Series	memory	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
-HX-MLOM-IRJ45=	Intel i350 quad-port MLOM NIC	HyperFlex HX Series	memory	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
-HX-MLOMBLK-M5=	Cisco HX-MLOMBLK-M5=	HyperFlex HX Series	memory	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
+HX-MLOM-C100-04	Cisco UCS VIC 1497 Dual Port 100G QSFP28 CNA mLOM	HyperFlex HX Series	nic	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
+HX-MLOM-C100-04=	Cisco UCS VIC 1497 Dual Port 100G QSFP28 CNA mLOM	HyperFlex HX Series	nic	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
+HX-MLOM-C25Q-04	Cisco UCS VIC 1457 Quad Port 10/25G SFP28 CNA MLOM	HyperFlex HX Series	nic	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
+HX-MLOM-C25Q-04=	Cisco UCS VIC 1457 Quad Port 10/25G SFP28 CNA MLOM	HyperFlex HX Series	nic	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
+HX-MLOM-C40Q-03	Cisco VIC 1387 Dual Port 40Gb QSFP CNA MLOM	HyperFlex HX Series	nic	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
+HX-MLOM-C40Q-03=	Cisco VIC 1387 Dual Port 40Gb QSFP CNA MLOM	HyperFlex HX Series	nic	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
+HX-MLOM-CSC-02	Cisco HX-MLOM-CSC-02	HyperFlex HX Series	nic	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
+HX-MLOM-IRJ45	Intel i350 quad-port MLOM NIC	HyperFlex HX Series	nic	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
+HX-MLOM-IRJ45=	Intel i350 quad-port MLOM NIC	HyperFlex HX Series	nic	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
+HX-MLOMBLK-M5=	Cisco HX-MLOMBLK-M5=	HyperFlex HX Series	nic	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-MP-128GS-A0	Intel Optane Persistent Memory, 128GB, 2666MHz	HyperFlex HX Series	memory	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-MP-128GS-A0=	Intel Optane Persistent Memory, 128GB, 2666MHz	HyperFlex HX Series	memory	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-MP-128GS-B0	Intel Optane Persistent Memory, 128GB, 3200MHz	HyperFlex HX Series	memory	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
@@ -814,8 +802,8 @@ HX-MR-X64G2RW=	64GB RDIMM DRx4 3200 (16Gb)	HyperFlex HX Series	memory	layered	Hy
 HX-MR-X64G4RS-H	64GB DDR4-2666-MHz TSV-RDIMM/PC4-21300/quad rank/x4/1.2v	UCS C-Series	memory	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-MR-X8G1RS-H	8GB DDR4-2666-MHz RDIMM/PC4-21300/single rank/x4/1.2v	UCS C-Series	memory	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-MR-X8G1RS-H=	8GB DDR4-2666-MHz RDIMM/PC4-21300/single rank/x4/1.2v	UCS C-Series	memory	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
-HX-MRAID1GB-KIT	SAS RAID KIT for C220M5L	HyperFlex HX Series	memory	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
-HX-MRAID1GB-KIT=	SAS RAID KIT for C220M5L	HyperFlex HX Series	memory	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
+HX-MRAID1GB-KIT	SAS RAID KIT for C220M5L	HyperFlex HX Series	storage-controller	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
+HX-MRAID1GB-KIT=	SAS RAID KIT for C220M5L	HyperFlex HX Series	storage-controller	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-MSD-32G	32GB Micro SD Card for UCS M5 servers	HyperFlex HX Series	drive	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-MSD-32G=	32GB Micro SD Card for UCS M5 servers	HyperFlex HX Series	drive	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-MSTOR-M2=	Cisco HX-MSTOR-M2=	HyperFlex HX Series	accessory	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
@@ -1624,7 +1612,7 @@ UCSC-HSHP-C245M6=	Cisco UCSC-HSHP-C245M6=	HyperFlex HX Series	accessory	layered	
 UCSC-HSLP-M6	Cisco UCSC-HSLP-M6	HyperFlex HX Series	accessory	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	label HyperFlex HX Series							
 UCSC-HSLP-M6=	Cisco UCSC-HSLP-M6=	HyperFlex HX Series	accessory	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	label HyperFlex HX Series							
 UCSC-M2EXT-240M6=2	Cisco UCSC-M2EXT-240M6=2	HyperFlex HX Series	drive	layered	HyperFlex	(none)	HX240c		sku ^(?=HX|UCSC?-|CBL-).*(?<![0-9])240-?M[4-7]							
-UCSC-MLOMBLK-M5	Cisco UCSC-MLOMBLK-M5	HyperFlex HX Series	memory	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	label HyperFlex HX Series							
+UCSC-MLOMBLK-M5	Cisco UCSC-MLOMBLK-M5	HyperFlex HX Series	nic	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	label HyperFlex HX Series							
 UCSC-MPSTOM6L-KIT=	Cisco UCSC-MPSTOM6L-KIT=	HyperFlex HX Series	accessory	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	label HyperFlex HX Series							
 UCSC-PCI-1-C240M5=	Cisco UCSC-PCI-1-C240M5=	HyperFlex HX Series	nic	layered	HyperFlex	(none)	HX240c		sku ^(?=HX|UCSC?-|CBL-).*(?<![0-9])240-?M[4-7]							
 UCSC-PCI-2B-240M5=	Cisco UCSC-PCI-2B-240M5=	HyperFlex HX Series	nic	layered	HyperFlex	(none)	HX240c		sku ^(?=HX|UCSC?-|CBL-).*(?<![0-9])240-?M[4-7]							

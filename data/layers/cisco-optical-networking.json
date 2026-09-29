@@ -1,17 +1,17 @@
 {
   "vendor": "cisco",
   "category": "optical-networking",
-  "built_at": "2026-09-29T20:11:28.036Z",
-  "commit": "55bba2146fac732f5703e691188e4835404c55a4",
+  "built_at": "2026-09-29T21:10:01.525Z",
+  "commit": "e3bbd1d4a36cbfaebb4051e608614515831d8ebb",
   "uncommitted_rule_files": [],
   "mapping_file": "data/reference/product-lines/cisco-optical-networking.json",
-  "parts": 1158,
-  "layered": 1158,
+  "parts": 1157,
+  "layered": 1157,
   "pending": 0,
   "lines": [
     {
       "line": "NCS 1000",
-      "parts": 134,
+      "parts": 133,
       "series": [
         {
           "series": "NCS 1001 / 1002 / 1004 / 1010 / 1014",
@@ -52,20 +52,17 @@
           "family": "(shared across the line)",
           "role": null,
           "note": null,
-          "parts": 4,
+          "parts": 3,
           "kinds": {
-            "unknown": 1,
             "cable": 3
           },
           "roles": {},
           "samples": [
-            "4X100G-LR-S — Cisco 4X100G-LR-S",
             "ONS-4X10-MMCBL-10= — 4x10G Foldable MPO to LC cable - Multimode - 10 meter",
             "ONS-4X10-MMCBL-20= — 4x10G Foldable MPO to LC cable - Multimode - 20 meter",
             "ONS-4X10-MMCBL-5= — 4x 10G Foldable MPO to LC cable - Multimode - 5 meter"
           ],
           "rules": {
-            "label-unsupported": 1,
             "accessory": 3
           },
           "pending_in": {},
@@ -379,20 +376,12 @@
   "unplaced": [],
   "label_check": {
     "applied": true,
-    "label_placed": 12,
+    "label_placed": 11,
     "by_kind": {
-      "none": 11,
+      "none": 10,
       "sku-token": 1
     },
     "moved": [
-      {
-        "sku": "4X100G-LR-S",
-        "name": "Cisco 4X100G-LR-S",
-        "series_label": "Network Convergence System 1000 Series",
-        "from_series": "NCS 1001 / 1002 / 1004 / 1010 / 1014",
-        "to_series": "NCS 1000 shared parts",
-        "why": "no platform token (1001, 1002, 1004, 1010, 1014) in the SKU or name, no compatible part placed in the series"
-      },
       {
         "sku": "800-103176-01",
         "name": "Cisco 800-103176-01",
@@ -479,9 +468,9 @@
   "inbound_unplaced": {},
   "done": true,
   "build": {
-    "data_commit": "55bba2146fac+89dirty",
-    "code_commit": "55bba2146fac",
-    "contract_hash": "279d2ece1fd627bf",
-    "generated_at": "2026-09-29T20:18:41.396Z"
+    "data_commit": "0b2b6a89df75+89dirty",
+    "code_commit": "5ccc994f60c9",
+    "contract_hash": "e07214730262c698",
+    "generated_at": "2026-09-29T21:18:40.683Z"
   }
 }

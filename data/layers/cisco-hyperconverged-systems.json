@@ -1,17 +1,17 @@
 {
   "vendor": "cisco",
   "category": "hyperconverged-systems",
-  "built_at": "2026-09-29T20:11:27.937Z",
-  "commit": "55bba2146fac732f5703e691188e4835404c55a4",
+  "built_at": "2026-09-29T21:10:01.432Z",
+  "commit": "e3bbd1d4a36cbfaebb4051e608614515831d8ebb",
   "uncommitted_rule_files": [],
   "mapping_file": "data/reference/product-lines/cisco-hyperconverged-systems.json",
-  "parts": 1643,
-  "layered": 1643,
+  "parts": 1631,
+  "layered": 1631,
   "pending": 0,
   "lines": [
     {
       "line": "HyperFlex",
-      "parts": 1643,
+      "parts": 1631,
       "series": [
         {
           "series": "HyperFlex compute-only nodes (C220 / C240 / C480 / B200 / B480)",
@@ -121,9 +121,8 @@
           "family": "(none)",
           "role": null,
           "note": "^UCS-SEED-HX (layers round 3): UCS-SEED-HX220 / HX240, planned in from servers-unified-computing. ^HX(AF)?-M[0-9]S-HXDP, ^HX2X0C- and ^HX-M[0-9]-MLB (same round): the system PIDs that order a HyperFlex cluster — HX-M5S-HXDP / HXAF-M5S-HXDP 'Cisco HX(AF)2X0C M5 Hyperflex System', HX2X0C-M4S / -M5S 'Cisco Hyperconverged System' and their successor HX-M6-MLB 'HX/HXAF/EDG M6 MLB' — sat in HyperFlex shared parts, the first six with kind server. HX-M4S-HXDP carries an earlier class plan to software (kind layer), which this round did not re-read · ^HX[0-9]{3}-NFR (layering runs of 25 Sep 2026 (operator: \"fix all the gaps and holes\")): HX220-NFR-FI-P1-1A / -V1-1A 'NFR HX220 Performance / Value bundle' arrived in the same run with kind server; they are not-for-resale BUNDLES, which is what this series holds",
-          "parts": 109,
+          "parts": 97,
           "kinds": {
-            "unknown": 12,
             "server": 43,
             "bundle": 49,
             "drive": 1,
@@ -132,15 +131,15 @@
           },
           "roles": {},
           "samples": [
-            "HX-16-DC16C — Cisco HX-16-DC16C",
-            "HX-16-DC16C-NS — Cisco HX-16-DC16C-NS",
-            "HX-16-DC16C-RM — Cisco HX-16-DC16C-RM",
-            "HX-16-DC24C — Cisco HX-16-DC24C",
-            "HX-16-DC24C-NS — Cisco HX-16-DC24C-NS",
-            "HX-16-DC24C-RM — Cisco HX-16-DC24C-RM"
+            "HX-M5S-HXDP — Cisco HX2X0C M5 Hyperflex System",
+            "HX-M5S-HXDP-BR — Cisco HX2X0C M5 Hyperflex System",
+            "HX-M6-MLB — HX/HXAF/EDG M6 MLB",
+            "HX-SP-1P2T — UCS SP Hperflex System 1.2 TB 12G SAS 10K RPM SFF HDD",
+            "HX-SP-220M4-BP-3 — UCS SP HX220c Hyperflex System w/2xE52650v4 for 3 rd Gen FI",
+            "HX-SP-220M4-BR1 — UCS SP HX220cHyperflex EDGE 1 System w/1xE52630v4, 8x16GB me"
           ],
           "rules": {
-            "sku": 109
+            "sku": 97
           },
           "pending_in": {},
           "pending_out": {}
@@ -271,15 +270,15 @@
           "kinds": {
             "power-cord": 8,
             "cable": 6,
-            "storage-controller": 24,
+            "storage-controller": 30,
             "accessory": 31,
-            "memory": 80,
+            "nic": 78,
             "drive": 478,
-            "nic": 61,
             "mechanical": 18,
             "cpu": 389,
             "bundle": 18,
             "gpu": 42,
+            "memory": 57,
             "power": 22,
             "tpm": 11,
             "pdu": 1
@@ -317,9 +316,9 @@
   "inbound_unplaced": {},
   "done": true,
   "build": {
-    "data_commit": "55bba2146fac+89dirty",
-    "code_commit": "55bba2146fac",
-    "contract_hash": "279d2ece1fd627bf",
-    "generated_at": "2026-09-29T20:18:41.396Z"
+    "data_commit": "0b2b6a89df75+89dirty",
+    "code_commit": "5ccc994f60c9",
+    "contract_hash": "e07214730262c698",
+    "generated_at": "2026-09-29T21:18:40.683Z"
   }
 }

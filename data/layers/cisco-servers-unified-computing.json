@@ -1,12 +1,12 @@
 {
   "vendor": "cisco",
   "category": "servers-unified-computing",
-  "built_at": "2026-09-29T20:11:26.128Z",
-  "commit": "55bba2146fac732f5703e691188e4835404c55a4",
+  "built_at": "2026-09-29T21:09:59.330Z",
+  "commit": "e3bbd1d4a36cbfaebb4051e608614515831d8ebb",
   "uncommitted_rule_files": [],
   "mapping_file": "data/reference/product-lines/cisco-servers-unified-computing.json",
-  "parts": 8264,
-  "layered": 8264,
+  "parts": 8262,
+  "layered": 8262,
   "pending": 0,
   "lines": [
     {
@@ -185,10 +185,10 @@
             "mechanical": 3,
             "cpu": 2,
             "drive": 3,
-            "memory": 4,
+            "memory": 3,
+            "storage-controller": 2,
             "nic": 3,
             "power": 3,
-            "storage-controller": 1,
             "server": 4
           },
           "roles": {},
@@ -722,9 +722,9 @@
           "note": "^UCS-S- (layers round 3): the 24 UCS-S- rows ('UCS S3260 1row of drives 14x 12TB …', '… Rear Expander …', '… Boot SSD', UCS-S-MSD960GBK9) sat in UCS Server Components shared parts with kind server — the kind axis reads the S token as an S-Series server (listed for the kind layer); their names say S3260. RENAMED from 'UCS S3260' (operator, 17 Sep 2026, layering review fix list 2.5 / 4.3: 'go with your recommendations'): Cisco names the C3160 Rack Server and the S3260 Storage Server separately, and this series holds both — 7 UCSC-C3160 rows by C3[12]60 and 7 UCSC-C3X60 rows named 'Cisco UCS C3160 …', where the C3X60 SKU family is shared by the two generations, so a split would have to file those rows under one of them. ^UCSC-C3K- added the same day: 17 UCSC-C3K rows — S3260 / C3000 M4 server nodes, the S3260 I/O expander, and C3000 NVMe SSDs and drives 'for M4 Server Node' — sat in UCS C-Series Rack Servers shared parts through ^UCSC-, because ^UCS-C3K- does not match the UCSC- spelling; their kind reads drive (listed for the kind rebuild)",
           "parts": 456,
           "kinds": {
-            "chassis": 80,
-            "drive": 110,
-            "server": 258,
+            "chassis": 63,
+            "drive": 153,
+            "server": 232,
             "mechanical": 4,
             "io-module": 4
           },
@@ -1213,7 +1213,7 @@
     },
     {
       "line": "UCS C-Series Rack Servers",
-      "parts": 1388,
+      "parts": 1386,
       "series": [
         {
           "series": "UCS C880A M8 (AI)",
@@ -1593,7 +1593,7 @@
           "family": "(shared across the line)",
           "role": null,
           "note": "^UCSC- fenced to the tokens the UCS Server Components series claim; ^UCSAI- fenced to the tokens the UCS Server Components series claim (operator, 17 Sep 2026, layering review fix list 4.2 ('go with your recommendations')) · ^UCSC-, ^UCSAI- fences: CPU -> CPU(?!-CVR|-GREASE|-TIM|-E[NP]2?-PNP|AT), SD(?!BKT) -> SD(?!BKT|-RSR) (layering re-check of 17 Sep 2026, fix list section 1): the same tokens as Processors and Drives and storage, so a CPU tool, grease, cover or TIM and the SD riser card stay with their family",
-          "parts": 320,
+          "parts": 318,
           "kinds": {
             "mechanical": 69,
             "pdu": 1,
@@ -1601,13 +1601,12 @@
             "power-cord": 23,
             "cable": 71,
             "bundle": 6,
-            "unknown": 14,
+            "unknown": 12,
             "power": 62,
             "io-module": 5,
-            "nic": 19,
+            "nic": 21,
             "fan": 3,
-            "drive": 3,
-            "memory": 2
+            "drive": 3
           },
           "roles": {},
           "samples": [
@@ -1619,7 +1618,7 @@
             "CAB-48DC-40A-AS-D — Cisco CAB-48DC-40A-AS-D"
           ],
           "rules": {
-            "label": 22,
+            "label": 20,
             "accessory": 38,
             "sku": 260
           },
@@ -1773,9 +1772,10 @@
           "note": "layers round 3: ^UCS-PCI and ^UCS-SDHPCIE removed — every row they matched is a drive decided by 'Drives and storage' (UCS-PCI25…, UCS-SD…); ^XRV-PCIE- places the XRv appliance PCIe NICs planned in from routers (their arrival exceptions there are retired). Dead rules removed elsewhere in the file: ^C880(?![0-9A]), ^C260-, 2[1-4]0[48]XP, ^UCSB-B22-, 9416(?![0-9]), ^UCS-COPC-240, ^[0-9]{3}P[0-9]$, ^N01-M · ^UCSX-(ME-|P-|MLOM|ML-V|MLV|V[0-9]-(?!BRIDGE)|RAID|MRAID|X10C-(RAID|PT)), ^UCSB-(MLOM|ML-V|VIC|MEZ|RAID|MRAID), ^UCSC-(PCIE(?!-F|-R)|P-|O-|M-V|MLOM-(?!BLK)|RAID|MRAID|SAS|HBA|PSAS|NYTRO|9[45]00), ^UCS(AI|XE)-(P-|O-), ^N20-(AI|BRAID), ^R2X0-ML (operator, 17 Sep 2026, layering review fix list 4.2 ('go with your recommendations'): the component kinds of the UCS platform lines' shared parts by component type, the platform visible in the SKU prefix): VIC / mLOM (MLOM, ML-V, MLV, M-V) / mezz / PCIe and OCP NICs and modular RAID / SAS / HBA controllers of X, B, C, XE and AI — not the MLOM blanking panel, the VIC bridges, the PCIe fillers (PCIE-F…) or the PCIe riser boards (PCIE-R…) — plus N20-AI / N20-BRAID and the C200 R2X0-ML mezz. The stored kind reads memory for the MLOM, ML-V, MLV and MRAID parts (listed for the kind rebuild) · ^UCS-S3348-(HBA|RAID) (layering re-check of 17 Sep 2026, fix list section 1): UCS-S3348-HBAM5(=) 'UCS S3348 Pass through Controller (IT) based on LSI' and UCS-S3348-RAIDM5(=) 'UCS S3348 Raid Controller based on LSI' sat in UCS Server Components shared parts through ^UCS-",
           "parts": 382,
           "kinds": {
-            "nic": 234,
-            "storage-controller": 92,
-            "memory": 55,
+            "nic": 254,
+            "storage-controller": 112,
+            "memory": 11,
+            "mechanical": 4,
             "unknown": 1
           },
           "roles": {},
@@ -1873,9 +1873,9 @@
   "inbound_unplaced": {},
   "done": true,
   "build": {
-    "data_commit": "55bba2146fac+89dirty",
-    "code_commit": "55bba2146fac",
-    "contract_hash": "279d2ece1fd627bf",
-    "generated_at": "2026-09-29T20:18:41.396Z"
+    "data_commit": "0b2b6a89df75+89dirty",
+    "code_commit": "5ccc994f60c9",
+    "contract_hash": "e07214730262c698",
+    "generated_at": "2026-09-29T21:18:40.683Z"
   }
 }

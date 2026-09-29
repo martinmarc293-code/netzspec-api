@@ -3350,8 +3350,8 @@ hyperconverged-infrastructure	HCI-M8-NTNX-MLB	Cisco Compute Hyperconverged and C
 hyperconverged-infrastructure	HCI-M8-VSAN-MLB	Cisco Compute Hyperconverged with VMware vSAN M8 Rack Server MLB	bundle	
 hyperconverged-infrastructure	HCI-ML-128G4RW	Cisco HCI-ML-128G4RW	memory	
 hyperconverged-infrastructure	HCI-ML-256G8RW1	Cisco HCI-ML-256G8RW1	memory	
-hyperconverged-infrastructure	HCI-MLOM	Cisco HCI-MLOM	memory	
-hyperconverged-infrastructure	HCI-MLOM-M6	Cisco VIC Connectivity	memory	
+hyperconverged-infrastructure	HCI-MLOM	Cisco HCI-MLOM	nic	
+hyperconverged-infrastructure	HCI-MLOM-M6	Cisco VIC Connectivity	nic	
 hyperconverged-infrastructure	HCI-MR-X16G1RW	Cisco HCI-MR-X16G1RW	memory	
 hyperconverged-infrastructure	HCI-MR-X32G1RW	Cisco HCI-MR-X32G1RW	memory	
 hyperconverged-infrastructure	HCI-MR-X32G2RW	Cisco HCI-MR-X32G2RW	memory	
@@ -4114,7 +4114,7 @@ hyperconverged-infrastructure	UCS-NVMEM6-W15300	Cisco UCS-NVMEM6-W15300	drive
 hyperconverged-infrastructure	UCS-NVMEM6-W7680	Cisco UCS-NVMEM6-W7680	drive	
 hyperconverged-infrastructure	UCS-TPM-002D	Cisco UCS-TPM-002D	tpm	
 hyperconverged-infrastructure	UCSB-CABL-C19-BRZ	NBR 14136 to C19 AC 14ft Power Cord, Brazil	power-cord	
-hyperconverged-infrastructure	UCSB-MLOM-40G-03	Cisco UCSB-MLOM-40G-03	memory	
+hyperconverged-infrastructure	UCSB-MLOM-40G-03	Cisco UCSB-MLOM-40G-03	nic	
 hyperconverged-infrastructure	UCSB-PSU-2500HVDC	Cisco UCSB-PSU-2500HVDC	power	
 hyperconverged-infrastructure	UCSB-VIC-M83-8P	Cisco UCSB-VIC-M83-8P	nic	
 hyperconverged-infrastructure	UCSC-P-ID10GC	Cisco UCSC-P-ID10GC	nic	
@@ -4178,34 +4178,22 @@ hyperconverged-systems	CBL-SATA-C220M6=	Cisco CBL-SATA-C220M6=	cable
 hyperconverged-systems	CBL-SATA-C240M6=	Cisco CBL-SATA-C240M6=	cable	
 hyperconverged-systems	CBL-SC-MR12GM52=	Cisco CBL-SC-MR12GM52=	cable	
 hyperconverged-systems	CBL-SC-MR12GM5P=	Cisco CBL-SC-MR12GM5P=	cable	
-hyperconverged-systems	HX-16-DC16C	Cisco HX-16-DC16C	unknown	
-hyperconverged-systems	HX-16-DC16C-NS	Cisco HX-16-DC16C-NS	unknown	
-hyperconverged-systems	HX-16-DC16C-RM	Cisco HX-16-DC16C-RM	unknown	
-hyperconverged-systems	HX-16-DC24C	Cisco HX-16-DC24C	unknown	
-hyperconverged-systems	HX-16-DC24C-NS	Cisco HX-16-DC24C-NS	unknown	
-hyperconverged-systems	HX-16-DC24C-RM	Cisco HX-16-DC24C-RM	unknown	
-hyperconverged-systems	HX-16-ST16C	Cisco HX-16-ST16C	unknown	
-hyperconverged-systems	HX-16-ST16C-NS	Cisco HX-16-ST16C-NS	unknown	
-hyperconverged-systems	HX-16-ST16C-RM	Cisco HX-16-ST16C-RM	unknown	
-hyperconverged-systems	HX-16-ST24C	Cisco HX-16-ST24C	unknown	
-hyperconverged-systems	HX-16-ST24C-NS	Cisco HX-16-ST24C-NS	unknown	
-hyperconverged-systems	HX-16-ST24C-RM	Cisco HX-16-ST24C-RM	unknown	
 hyperconverged-systems	HX-9400-8E	Cisco 12G 9400-8e 12G SAS HBA for external JBOD attach	storage-controller	
 hyperconverged-systems	HX-9400-8E=	Cisco 12G 9400-8e 12G SAS HBA for external JBOD attach	storage-controller	
 hyperconverged-systems	HX-ADGPU-240M6	C240M6 GPU Air Duct 2USFF/NVMe (for DW/FL only)	drive	
 hyperconverged-systems	HX-ADGPU-240M6=	C240M6 GPU Air Duct 2USFF/NVMe (for DW/FL only)	drive	
 hyperconverged-systems	HX-B-LSTOR-PT	Cisco FlexStorage Passthrough module w/drive bays	accessory	
 hyperconverged-systems	HX-B-LSTOR-PT=	Cisco FlexStorage Passthrough module w/drive bays	accessory	
-hyperconverged-systems	HX-B-MLOM-40G-03	Cisco UCS VIC 1340 modular LOM for blade servers	memory	
-hyperconverged-systems	HX-B-MLOM-40G-03=	Cisco UCS VIC 1340 modular LOM for blade servers	memory	
-hyperconverged-systems	HX-B-MLOM-40G-04	Cisco UCS VIC 1440 modular LOM for Blade Servers	memory	
-hyperconverged-systems	HX-B-MLOM-40G-04=	Cisco UCS VIC 1440 modular LOM for Blade Servers	memory	
-hyperconverged-systems	HX-B-MLOM-PT-01	Cisco UCS Port Expander Card (mezz) for VIC	memory	
-hyperconverged-systems	HX-B-MLOM-PT-01=	Cisco UCS Port Expander Card (mezz) for VIC	memory	
-hyperconverged-systems	HX-B-MRAID12G	Cisco FlexStorage 12G SAS RAID controller with Drive bays	memory	
-hyperconverged-systems	HX-B-MRAID12G-HE	Cisco FlexStorage 12G SAS RAID contr w/2GB FBWC/drive bays	memory	
-hyperconverged-systems	HX-B-MRAID12G-HE=	Cisco FlexStorage 12G SAS RAID contr w/2GB FBWC/drive bays	memory	
-hyperconverged-systems	HX-B-MRAID12G=	Cisco FlexStorage 12G SAS RAID controller with Drive bays	memory	
+hyperconverged-systems	HX-B-MLOM-40G-03	Cisco UCS VIC 1340 modular LOM for blade servers	nic	
+hyperconverged-systems	HX-B-MLOM-40G-03=	Cisco UCS VIC 1340 modular LOM for blade servers	nic	
+hyperconverged-systems	HX-B-MLOM-40G-04	Cisco UCS VIC 1440 modular LOM for Blade Servers	nic	
+hyperconverged-systems	HX-B-MLOM-40G-04=	Cisco UCS VIC 1440 modular LOM for Blade Servers	nic	
+hyperconverged-systems	HX-B-MLOM-PT-01	Cisco UCS Port Expander Card (mezz) for VIC	nic	
+hyperconverged-systems	HX-B-MLOM-PT-01=	Cisco UCS Port Expander Card (mezz) for VIC	nic	
+hyperconverged-systems	HX-B-MRAID12G	Cisco FlexStorage 12G SAS RAID controller with Drive bays	storage-controller	
+hyperconverged-systems	HX-B-MRAID12G-HE	Cisco FlexStorage 12G SAS RAID contr w/2GB FBWC/drive bays	storage-controller	
+hyperconverged-systems	HX-B-MRAID12G-HE=	Cisco FlexStorage 12G SAS RAID contr w/2GB FBWC/drive bays	storage-controller	
+hyperconverged-systems	HX-B-MRAID12G=	Cisco FlexStorage 12G SAS RAID controller with Drive bays	storage-controller	
 hyperconverged-systems	HX-B-NVME2H-I1000	Cisco HX-B-NVME2H-I1000	drive	
 hyperconverged-systems	HX-B-NVME2H-I1000=	Cisco HX-B-NVME2H-I1000=	drive	
 hyperconverged-systems	HX-B-NVME2H-I1600	Cisco HX-B-NVME2H-I1600	drive	
@@ -4914,16 +4902,16 @@ hyperconverged-systems	HX-ML-X64G4RSHM	64GB DDR4-2666-MHz LRDIMM/quad rank/x4/1.
 hyperconverged-systems	HX-ML-X64G4RT-H	64GB DDR4-2933-MHz LRDIMM/4Rx4/1.2v	memory	
 hyperconverged-systems	HX-ML-X64G4RT-H1	Cisco HX-ML-X64G4RT-H1	memory	
 hyperconverged-systems	HX-ML-X64G4RT-H=	64GB DDR4-2933-MHz LRDIMM/4Rx4/1.2v	memory	
-hyperconverged-systems	HX-MLOM-C100-04	Cisco UCS VIC 1497 Dual Port 100G QSFP28 CNA mLOM	memory	
-hyperconverged-systems	HX-MLOM-C100-04=	Cisco UCS VIC 1497 Dual Port 100G QSFP28 CNA mLOM	memory	
-hyperconverged-systems	HX-MLOM-C25Q-04	Cisco UCS VIC 1457 Quad Port 10/25G SFP28 CNA MLOM	memory	
-hyperconverged-systems	HX-MLOM-C25Q-04=	Cisco UCS VIC 1457 Quad Port 10/25G SFP28 CNA MLOM	memory	
-hyperconverged-systems	HX-MLOM-C40Q-03	Cisco VIC 1387 Dual Port 40Gb QSFP CNA MLOM	memory	
-hyperconverged-systems	HX-MLOM-C40Q-03=	Cisco VIC 1387 Dual Port 40Gb QSFP CNA MLOM	memory	
-hyperconverged-systems	HX-MLOM-CSC-02	Cisco HX-MLOM-CSC-02	memory	
-hyperconverged-systems	HX-MLOM-IRJ45	Intel i350 quad-port MLOM NIC	memory	
-hyperconverged-systems	HX-MLOM-IRJ45=	Intel i350 quad-port MLOM NIC	memory	
-hyperconverged-systems	HX-MLOMBLK-M5=	Cisco HX-MLOMBLK-M5=	memory	
+hyperconverged-systems	HX-MLOM-C100-04	Cisco UCS VIC 1497 Dual Port 100G QSFP28 CNA mLOM	nic	
+hyperconverged-systems	HX-MLOM-C100-04=	Cisco UCS VIC 1497 Dual Port 100G QSFP28 CNA mLOM	nic	
+hyperconverged-systems	HX-MLOM-C25Q-04	Cisco UCS VIC 1457 Quad Port 10/25G SFP28 CNA MLOM	nic	
+hyperconverged-systems	HX-MLOM-C25Q-04=	Cisco UCS VIC 1457 Quad Port 10/25G SFP28 CNA MLOM	nic	
+hyperconverged-systems	HX-MLOM-C40Q-03	Cisco VIC 1387 Dual Port 40Gb QSFP CNA MLOM	nic	
+hyperconverged-systems	HX-MLOM-C40Q-03=	Cisco VIC 1387 Dual Port 40Gb QSFP CNA MLOM	nic	
+hyperconverged-systems	HX-MLOM-CSC-02	Cisco HX-MLOM-CSC-02	nic	
+hyperconverged-systems	HX-MLOM-IRJ45	Intel i350 quad-port MLOM NIC	nic	
+hyperconverged-systems	HX-MLOM-IRJ45=	Intel i350 quad-port MLOM NIC	nic	
+hyperconverged-systems	HX-MLOMBLK-M5=	Cisco HX-MLOMBLK-M5=	nic	
 hyperconverged-systems	HX-MP-128GS-A0	Intel Optane Persistent Memory, 128GB, 2666MHz	memory	
 hyperconverged-systems	HX-MP-128GS-A0=	Intel Optane Persistent Memory, 128GB, 2666MHz	memory	
 hyperconverged-systems	HX-MP-128GS-B0	Intel Optane Persistent Memory, 128GB, 3200MHz	memory	
@@ -4966,8 +4954,8 @@ hyperconverged-systems	HX-MR-X64G2RW=	64GB RDIMM DRx4 3200 (16Gb)	memory
 hyperconverged-systems	HX-MR-X64G4RS-H	64GB DDR4-2666-MHz TSV-RDIMM/PC4-21300/quad rank/x4/1.2v	memory	
 hyperconverged-systems	HX-MR-X8G1RS-H	8GB DDR4-2666-MHz RDIMM/PC4-21300/single rank/x4/1.2v	memory	
 hyperconverged-systems	HX-MR-X8G1RS-H=	8GB DDR4-2666-MHz RDIMM/PC4-21300/single rank/x4/1.2v	memory	
-hyperconverged-systems	HX-MRAID1GB-KIT	SAS RAID KIT for C220M5L	memory	
-hyperconverged-systems	HX-MRAID1GB-KIT=	SAS RAID KIT for C220M5L	memory	
+hyperconverged-systems	HX-MRAID1GB-KIT	SAS RAID KIT for C220M5L	storage-controller	
+hyperconverged-systems	HX-MRAID1GB-KIT=	SAS RAID KIT for C220M5L	storage-controller	
 hyperconverged-systems	HX-MSD-32G	32GB Micro SD Card for UCS M5 servers	drive	
 hyperconverged-systems	HX-MSD-32G=	32GB Micro SD Card for UCS M5 servers	drive	
 hyperconverged-systems	HX-MSTOR-M2=	Cisco HX-MSTOR-M2=	accessory	
@@ -5776,7 +5764,7 @@ hyperconverged-systems	UCSC-HSHP-C245M6=	Cisco UCSC-HSHP-C245M6=	accessory
 hyperconverged-systems	UCSC-HSLP-M6	Cisco UCSC-HSLP-M6	accessory	
 hyperconverged-systems	UCSC-HSLP-M6=	Cisco UCSC-HSLP-M6=	accessory	
 hyperconverged-systems	UCSC-M2EXT-240M6=2	Cisco UCSC-M2EXT-240M6=2	drive	
-hyperconverged-systems	UCSC-MLOMBLK-M5	Cisco UCSC-MLOMBLK-M5	memory	
+hyperconverged-systems	UCSC-MLOMBLK-M5	Cisco UCSC-MLOMBLK-M5	nic	
 hyperconverged-systems	UCSC-MPSTOM6L-KIT=	Cisco UCSC-MPSTOM6L-KIT=	accessory	
 hyperconverged-systems	UCSC-PCI-1-C240M5=	Cisco UCSC-PCI-1-C240M5=	nic	
 hyperconverged-systems	UCSC-PCI-2B-240M5=	Cisco UCSC-PCI-2B-240M5=	nic	
@@ -7525,7 +7513,6 @@ optical-networking	15454W-100X10G-SK	10x 100G MXP LH - Starter Kit	mechanical
 optical-networking	15454W-2X100G-SK	2x 100G LR4 LH Transponder - Starter Kit	linecard	
 optical-networking	15454W-5X40GMXP-SK	5x 4x10G Coherent Muxponder w/SR XFPs Starter Kit	linecard	
 optical-networking	15454W-5XOTU2XP-SK	5x 2x10G OTN MR Transponder w/SR & Tunable XFPs Starter Kit	linecard	
-optical-networking	4X100G-LR-S	Cisco 4X100G-LR-S	unknown	
 optical-networking	800-103176-01	Cisco 800-103176-01	unknown	
 optical-networking	800-39910-07	Cisco 800-39910-07	unknown	
 optical-networking	800-41495-01	Cisco 800-41495-01	unknown	
@@ -15966,7 +15953,7 @@ servers-unified-computing	KIN-HD4T7KL12N	4 TB 12G SAS 7.2K RPM LFF HDD	drive
 servers-unified-computing	KIN-MR-X16G1RS-H	16GB DDR4-2666-MHz RDIMM/PC4-21300/single rank/x4/1.2v	memory	
 servers-unified-computing	KIN-MR-X16G1RT-H	16GB DDR4-2933-MHz RDIMM/1Rx4/1.2v	memory	
 servers-unified-computing	KIN-MR-X8G1RS-H	8GB DDR4-2666-MHz RDIMM/PC4-21300/single rank/x4/1.2v	memory	
-servers-unified-computing	KIN-MRAID1GB-KIT	SAS RAID KIT for C220M5L	memory	
+servers-unified-computing	KIN-MRAID1GB-KIT	SAS RAID KIT for C220M5L	storage-controller	
 servers-unified-computing	KIN-PCI-1-C240M5	Riser 1 incl 3 PCIe slots (x8, x16, x8); slot 3 req CPU2	nic	
 servers-unified-computing	KIN-PCIE-BD16GF	Emulex LPe31002 dual port 16G FC HBA	nic	
 servers-unified-computing	KIN-PCIF-240M5	C240 M5 PCIe Riser Blanking Panel	nic	
@@ -16058,8 +16045,6 @@ servers-unified-computing	N2XX-AQPCI03	Qlogic QLE2462 Dual Port 4Gb Fibre Channe
 servers-unified-computing	N2XX-AQPCI03=	Qlogic QLE2462 Dual Port 4Gb Fibre Channel HBA	nic	
 servers-unified-computing	N2XX-AQPCI05	Qlogic QLE2562 Dual Port 8Gb Fibre Channel HBA	nic	
 servers-unified-computing	N2XX-AQPCI05=	Qlogic QLE2562 Dual Port 8Gb Fibre Channel HBA	nic	
-servers-unified-computing	N9K-AC04-A	Cisco N9K-AC04-A	unknown	
-servers-unified-computing	N9K-AC04-B	Cisco N9K-AC04-B	unknown	
 servers-unified-computing	PACK-QSFP-SFP	Packaging for QSFP 40G and SFP 10G	power	
 servers-unified-computing	PACK-QSFP-SFP=	Packaging for QSFP 40G and SFP 10G	power	
 servers-unified-computing	PLHC-5108-PKG-HW	Cisco+ UCS 5108 Packaging for chassis w/halfwidth blades	mechanical	
@@ -18691,8 +18676,8 @@ servers-unified-computing	UCS-S-HD18TRK9	UCS S3260 18TB (4Kn) 7.2K RPM SED Drive
 servers-unified-computing	UCS-S-HD18TRK9=	UCS S3260 18TB (4Kn) 7.2K RPM SED Drives Rear Load	server	
 servers-unified-computing	UCS-S-MSD960GBK9	Cisco UCS-S-MSD960GBK9	server	
 servers-unified-computing	UCS-S-MSD960GBK9=	Cisco UCS-S-MSD960GBK9=	server	
-servers-unified-computing	UCS-S3260-10TARR	10TB 12G SAS 7.2K RPM LFF HDD (4K) w Carrier- Rear Load	server	
-servers-unified-computing	UCS-S3260-10TARR=	10TB 12G SAS 7.2K RPM LFF HDD (4K) w Carrier- Rear Load	server	
+servers-unified-computing	UCS-S3260-10TARR	10TB 12G SAS 7.2K RPM LFF HDD (4K) w Carrier- Rear Load	drive	
+servers-unified-computing	UCS-S3260-10TARR=	10TB 12G SAS 7.2K RPM LFF HDD (4K) w Carrier- Rear Load	drive	
 servers-unified-computing	UCS-S3260-14HD10A	UCS S3260 1row of drives 14x10TB 4Kn Air drives Total: 140TB	server	
 servers-unified-computing	UCS-S3260-14HD10A=	UCS S3260 1row of drives 14x10TB 4Kn Air drives Total: 140TB	server	
 servers-unified-computing	UCS-S3260-14HD12	UCS S3260 1row of drives 14x 12TB Total: 168TB	server	
@@ -18829,55 +18814,55 @@ servers-unified-computing	UCS-S3260-G3SD48	Cisco UCS-S3260-G3SD48	server
 servers-unified-computing	UCS-S3260-G3SD48=	Cisco UCS-S3260-G3SD48=	server	
 servers-unified-computing	UCS-S3260-G3SD48G	Cisco UCS-S3260-G3SD48G	server	
 servers-unified-computing	UCS-S3260-G3SD48G=	Cisco UCS-S3260-G3SD48G=	server	
-servers-unified-computing	UCS-S3260-HD10TA	10TB 12G SAS 7.2K RPM LFF HDD (4K) w Carrier- Top Load	server	
-servers-unified-computing	UCS-S3260-HD10TA=	10TB 12G SAS 7.2K RPM LFF HDD (4K) w Carrier- Top Load	server	
+servers-unified-computing	UCS-S3260-HD10TA	10TB 12G SAS 7.2K RPM LFF HDD (4K) w Carrier- Top Load	drive	
+servers-unified-computing	UCS-S3260-HD10TA=	10TB 12G SAS 7.2K RPM LFF HDD (4K) w Carrier- Top Load	drive	
 servers-unified-computing	UCS-S3260-HD12T	UCS S3260 12TB NL-SAS 7200 RPM 12Gb HDD wCarrier- Top Load	drive	
 servers-unified-computing	UCS-S3260-HD12T=	UCS S3260 12TB NL-SAS 7200 RPM 12Gb HDD wCarrier- Top Load	drive	
-servers-unified-computing	UCS-S3260-HD12TR	UCS S3260 12TB NL-SAS 7200 RPM 12Gb HDD wCarrier-Rear Load	server	
-servers-unified-computing	UCS-S3260-HD12TR=	UCS S3260 12TB NL-SAS 7200 RPM 12Gb HDD wCarrier-Rear Load	server	
+servers-unified-computing	UCS-S3260-HD12TR	UCS S3260 12TB NL-SAS 7200 RPM 12Gb HDD wCarrier-Rear Load	drive	
+servers-unified-computing	UCS-S3260-HD12TR=	UCS S3260 12TB NL-SAS 7200 RPM 12Gb HDD wCarrier-Rear Load	drive	
 servers-unified-computing	UCS-S3260-HD14T	UCS S3260 14TB NL-SAS 7200 RPM 12Gb HDD wCarrier- Top Load	drive	
 servers-unified-computing	UCS-S3260-HD14T=	UCS S3260 14TB NL-SAS 7200 RPM 12Gb HDD wCarrier- Top Load	drive	
-servers-unified-computing	UCS-S3260-HD14TR	UCS S3260 14TB NL-SAS 7200 RPM 12Gb HDD wCarrier-Rear Load	server	
-servers-unified-computing	UCS-S3260-HD14TR=	UCS S3260 14TB NL-SAS 7200 RPM 12Gb HDD wCarrier-Rear Load	server	
+servers-unified-computing	UCS-S3260-HD14TR	UCS S3260 14TB NL-SAS 7200 RPM 12Gb HDD wCarrier-Rear Load	drive	
+servers-unified-computing	UCS-S3260-HD14TR=	UCS S3260 14TB NL-SAS 7200 RPM 12Gb HDD wCarrier-Rear Load	drive	
 servers-unified-computing	UCS-S3260-HD16T	UCS S3260 16TB NL-SAS 7200 RPM 12Gb HDD wCarrier- Top Load	drive	
 servers-unified-computing	UCS-S3260-HD16T=	UCS S3260 16TB NL-SAS 7200 RPM 12Gb HDD wCarrier- Top Load	drive	
-servers-unified-computing	UCS-S3260-HD16TR	UCS S3260 16TB NL-SAS 7200 RPM 12Gb HDD wCarrier-Rear Load	server	
-servers-unified-computing	UCS-S3260-HD16TR=	UCS S3260 16TB NL-SAS 7200 RPM 12Gb HDD wCarrier-Rear Load	server	
+servers-unified-computing	UCS-S3260-HD16TR	UCS S3260 16TB NL-SAS 7200 RPM 12Gb HDD wCarrier-Rear Load	drive	
+servers-unified-computing	UCS-S3260-HD16TR=	UCS S3260 16TB NL-SAS 7200 RPM 12Gb HDD wCarrier-Rear Load	drive	
 servers-unified-computing	UCS-S3260-HD2T	UCS S3260 2TB NL-SAS 7200 RPM 12Gb HDD wCarrier- Top Load	drive	
 servers-unified-computing	UCS-S3260-HD2T=	UCS S3260 2TB NL-SAS 7200 RPM 12Gb HDD wCarrier- Top Load	drive	
-servers-unified-computing	UCS-S3260-HD2TR	UCS S3260 2TB NL-SAS 7200 RPM 12Gb HDD wCarrier- Rear Load	server	
-servers-unified-computing	UCS-S3260-HD2TR=	UCS S3260 2TB NL-SAS 7200 RPM 12Gb HDD wCarrier- Rear Load	server	
-servers-unified-computing	UCS-S3260-HD8TA	8 TB 12G SAS 7.2K RPM LFF HDD (4K)	server	
-servers-unified-computing	UCS-S3260-HD8TA=	8 TB 12G SAS 7.2K RPM LFF HDD (4K)	server	
-servers-unified-computing	UCS-S3260-HD8TARR	8 TB 12G SAS 7.2K RPM LFF HDD (4K)	server	
-servers-unified-computing	UCS-S3260-HD8TARR=	8 TB 12G SAS 7.2K RPM LFF HDD (4K)	server	
+servers-unified-computing	UCS-S3260-HD2TR	UCS S3260 2TB NL-SAS 7200 RPM 12Gb HDD wCarrier- Rear Load	drive	
+servers-unified-computing	UCS-S3260-HD2TR=	UCS S3260 2TB NL-SAS 7200 RPM 12Gb HDD wCarrier- Rear Load	drive	
+servers-unified-computing	UCS-S3260-HD8TA	8 TB 12G SAS 7.2K RPM LFF HDD (4K)	drive	
+servers-unified-computing	UCS-S3260-HD8TA=	8 TB 12G SAS 7.2K RPM LFF HDD (4K)	drive	
+servers-unified-computing	UCS-S3260-HD8TARR	8 TB 12G SAS 7.2K RPM LFF HDD (4K)	drive	
+servers-unified-computing	UCS-S3260-HD8TARR=	8 TB 12G SAS 7.2K RPM LFF HDD (4K)	drive	
 servers-unified-computing	UCS-S3260-HD8TB	UCS S3260 8TB NL-SAS 7.2K UE10 HDD with HDD Carrier	drive	
 servers-unified-computing	UCS-S3260-HD8TB=	UCS S3260 8TB NL-SAS 7.2K UE10 HDD with HDD Carrier	drive	
-servers-unified-computing	UCS-S3260-HDS18T	Cisco UCS-S3260-HDS18T	server	
-servers-unified-computing	UCS-S3260-HDS18T=	Cisco UCS-S3260-HDS18T=	server	
-servers-unified-computing	UCS-S3260-HDS18TR	Cisco UCS-S3260-HDS18TR	server	
-servers-unified-computing	UCS-S3260-HDT14T	UCS S3260 14TB Tosh NL-SAS7200RPM 12Gb HDD wCarrier-Top Load	server	
-servers-unified-computing	UCS-S3260-HDT14T=	UCS S3260 14TB Tosh NL-SAS7200RPM 12Gb HDD wCarrier-Top Load	server	
-servers-unified-computing	UCS-S3260-HDT14TR	UCS S3260 14TB Tosh NL-SAS7200RPM 12Gb HDDwCarrier-Rear Load	server	
-servers-unified-computing	UCS-S3260-HDT14TR=	UCS S3260 14TB Tosh NL-SAS7200RPM 12Gb HDDwCarrier-Rear Load	server	
-servers-unified-computing	UCS-S3260-HDT20T	Cisco UCS-S3260-HDT20T	server	
-servers-unified-computing	UCS-S3260-HDT20TR	20TB 12G SAS 7.2K RPM LFF HDDRear Load (4K)	server	
-servers-unified-computing	UCS-S3260-HDW14T	Cisco UCS-S3260-HDW14T	server	
-servers-unified-computing	UCS-S3260-HDW14TR	Cisco UCS-S3260-HDW14TR	server	
-servers-unified-computing	UCS-S3260-HDW16T	UCS S3260 16TB WD NL-SAS 7200RPM 12Gb HDD wCarrier-Top Load	server	
-servers-unified-computing	UCS-S3260-HDW16T=	UCS S3260 16TB WD NL-SAS 7200RPM 12Gb HDD wCarrier-Top Load	server	
-servers-unified-computing	UCS-S3260-HDW16TR	UCS S3260 16TB WD NL-SAS 7200RPM 12Gb HDD wCarrier-Rear Load	server	
-servers-unified-computing	UCS-S3260-HDW16TR=	UCS S3260 16TB WD NL-SAS 7200RPM 12Gb HDD wCarrier-Rear Load	server	
-servers-unified-computing	UCS-S3260-HDW18T	18TB 12G SAS 7.2K RPM LFF HDD(4K) wCarrier- Top Load	server	
-servers-unified-computing	UCS-S3260-HDW18T=	18TB 12G SAS 7.2K RPM LFF HDD(4K) wCarrier- Top Load	server	
-servers-unified-computing	UCS-S3260-HDW18TR	18TB NL-SAS 7200 RPM 12Gb HDD wCarrier- Rear Load	server	
-servers-unified-computing	UCS-S3260-HDW18TR=	18TB NL-SAS 7200 RPM 12Gb HDD wCarrier- Rear Load	server	
-servers-unified-computing	UCS-S3260-HDW20T	Cisco UCS-S3260-HDW20T	server	
-servers-unified-computing	UCS-S3260-HDW20TR	Cisco UCS-S3260-HDW20TR	server	
-servers-unified-computing	UCS-S3260-HDW20TR=	Cisco UCS-S3260-HDW20TR=	server	
-servers-unified-computing	UCS-S3260-HDW22T	Cisco UCS-S3260-HDW22T	server	
-servers-unified-computing	UCS-S3260-HDW22TR	Cisco UCS-S3260-HDW22TR	server	
-servers-unified-computing	UCS-S3260-HDW22TR=	Cisco UCS-S3260-HDW22TR=	server	
+servers-unified-computing	UCS-S3260-HDS18T	Cisco UCS-S3260-HDS18T	drive	
+servers-unified-computing	UCS-S3260-HDS18T=	Cisco UCS-S3260-HDS18T=	drive	
+servers-unified-computing	UCS-S3260-HDS18TR	Cisco UCS-S3260-HDS18TR	drive	
+servers-unified-computing	UCS-S3260-HDT14T	UCS S3260 14TB Tosh NL-SAS7200RPM 12Gb HDD wCarrier-Top Load	drive	
+servers-unified-computing	UCS-S3260-HDT14T=	UCS S3260 14TB Tosh NL-SAS7200RPM 12Gb HDD wCarrier-Top Load	drive	
+servers-unified-computing	UCS-S3260-HDT14TR	UCS S3260 14TB Tosh NL-SAS7200RPM 12Gb HDDwCarrier-Rear Load	drive	
+servers-unified-computing	UCS-S3260-HDT14TR=	UCS S3260 14TB Tosh NL-SAS7200RPM 12Gb HDDwCarrier-Rear Load	drive	
+servers-unified-computing	UCS-S3260-HDT20T	Cisco UCS-S3260-HDT20T	drive	
+servers-unified-computing	UCS-S3260-HDT20TR	20TB 12G SAS 7.2K RPM LFF HDDRear Load (4K)	drive	
+servers-unified-computing	UCS-S3260-HDW14T	Cisco UCS-S3260-HDW14T	drive	
+servers-unified-computing	UCS-S3260-HDW14TR	Cisco UCS-S3260-HDW14TR	drive	
+servers-unified-computing	UCS-S3260-HDW16T	UCS S3260 16TB WD NL-SAS 7200RPM 12Gb HDD wCarrier-Top Load	drive	
+servers-unified-computing	UCS-S3260-HDW16T=	UCS S3260 16TB WD NL-SAS 7200RPM 12Gb HDD wCarrier-Top Load	drive	
+servers-unified-computing	UCS-S3260-HDW16TR	UCS S3260 16TB WD NL-SAS 7200RPM 12Gb HDD wCarrier-Rear Load	drive	
+servers-unified-computing	UCS-S3260-HDW16TR=	UCS S3260 16TB WD NL-SAS 7200RPM 12Gb HDD wCarrier-Rear Load	drive	
+servers-unified-computing	UCS-S3260-HDW18T	18TB 12G SAS 7.2K RPM LFF HDD(4K) wCarrier- Top Load	drive	
+servers-unified-computing	UCS-S3260-HDW18T=	18TB 12G SAS 7.2K RPM LFF HDD(4K) wCarrier- Top Load	drive	
+servers-unified-computing	UCS-S3260-HDW18TR	18TB NL-SAS 7200 RPM 12Gb HDD wCarrier- Rear Load	drive	
+servers-unified-computing	UCS-S3260-HDW18TR=	18TB NL-SAS 7200 RPM 12Gb HDD wCarrier- Rear Load	drive	
+servers-unified-computing	UCS-S3260-HDW20T	Cisco UCS-S3260-HDW20T	drive	
+servers-unified-computing	UCS-S3260-HDW20TR	Cisco UCS-S3260-HDW20TR	drive	
+servers-unified-computing	UCS-S3260-HDW20TR=	Cisco UCS-S3260-HDW20TR=	drive	
+servers-unified-computing	UCS-S3260-HDW22T	Cisco UCS-S3260-HDW22T	drive	
+servers-unified-computing	UCS-S3260-HDW22TR	Cisco UCS-S3260-HDW22TR	drive	
+servers-unified-computing	UCS-S3260-HDW22TR=	Cisco UCS-S3260-HDW22TR=	drive	
 servers-unified-computing	UCS-S3260-IOE2	Cisco UCS S3260 IO Expander Version 2	server	
 servers-unified-computing	UCS-S3260-IOE2=	Cisco UCS S3260 IO Expander Version 2	server	
 servers-unified-computing	UCS-S3260-IOLID=	Cisco UCS-S3260-IOLID=	server	
@@ -18945,8 +18930,8 @@ servers-unified-computing	UCS-S326056HDW22T	Cisco UCS-S326056HDW22T	server
 servers-unified-computing	UCS-S326056WHDT20	Cisco UCS-S326056WHDT20	server	
 servers-unified-computing	UCS-S3260EXWHDT80	Cisco UCS-S3260EXWHDT80	server	
 servers-unified-computing	UCS-S3260G3SD160T	Cisco UCS-S3260G3SD160T	server	
-servers-unified-computing	UCS-S3260T-HD8TA	Cisco UCS-S3260T-HD8TA	server	
-servers-unified-computing	UCS-S3260T-HD8TA=	Cisco UCS-S3260T-HD8TA=	server	
+servers-unified-computing	UCS-S3260T-HD8TA	Cisco UCS-S3260T-HD8TA	drive	
+servers-unified-computing	UCS-S3260T-HD8TA=	Cisco UCS-S3260T-HD8TA=	drive	
 servers-unified-computing	UCS-S3260THD8TARR	Cisco UCS-S3260THD8TARR	server	
 servers-unified-computing	UCS-S3348-HBAM5	UCS S3348 Pass through Controller (IT) based on LSI	storage-controller	
 servers-unified-computing	UCS-S3348-HBAM5=	UCS S3348 Pass through Controller (IT) based on LSI	storage-controller	
@@ -20646,27 +20631,27 @@ servers-unified-computing	UCSB-MEZ-QLG-03	Cisco UCS CNA M73KR-Q Qlogic Adapter	n
 servers-unified-computing	UCSB-MEZ-QLG-03=	Cisco UCS CNA M73KR-Q Qlogic	nic	
 servers-unified-computing	UCSB-ML-V5Q10G	Cisco UCS VIC 15411 modular LOM for Blade Servers	memory	
 servers-unified-computing	UCSB-ML-V5Q10G=	Cisco UCS VIC 15411 modular LOM for Blade Servers	memory	
-servers-unified-computing	UCSB-MLOM-40G-01	Cisco UCS VIC 1240 modular LOM for blade servers	memory	
-servers-unified-computing	UCSB-MLOM-40G-01=	Cisco UCS VIC 1240 modular LOM for blade servers	memory	
-servers-unified-computing	UCSB-MLOM-40G-031	Cisco UCSB-MLOM-40G-031	memory	
-servers-unified-computing	UCSB-MLOM-40G-032	Cisco UCSB-MLOM-40G-032	memory	
-servers-unified-computing	UCSB-MLOM-40G-04	Cisco UCS VIC 1440 modular LOM for Blade Servers	memory	
-servers-unified-computing	UCSB-MLOM-40G-041	Cisco UCSB-MLOM-40G-041	memory	
-servers-unified-computing	UCSB-MLOM-40G-04=	Cisco UCS VIC 1440 modular LOM for Blade Servers	memory	
-servers-unified-computing	UCSB-MLOM-PT-01	Cisco UCS Port Expander Card (mezz) for VIC	memory	
-servers-unified-computing	UCSB-MLOM-PT-012	Cisco UCSB-MLOM-PT-012	memory	
-servers-unified-computing	UCSB-MLOM-PT-01=	Cisco UCS Port Expander Card (mezz) for VIC	memory	
-servers-unified-computing	UCSB-MLOM-PT-03	Pending-Cisco UCS Port Expander Card (mezz) for VIC 1340	memory	
-servers-unified-computing	UCSB-MLOM-PT-03=	Pending-Cisco UCS Port Expander Card (mezz) for VIC 1340	memory	
-servers-unified-computing	UCSB-MRAID-SC=	Cisco UCSB-MRAID-SC=	memory	
-servers-unified-computing	UCSB-MRAID12G	Cisco FlexStorage 12G SAS RAID controller with Drive bays	memory	
-servers-unified-computing	UCSB-MRAID12G-HE	Cisco UCSB-MRAID12G-HE	memory	
-servers-unified-computing	UCSB-MRAID12G-HE1	Cisco UCSB-MRAID12G-HE1	memory	
-servers-unified-computing	UCSB-MRAID12G-HE2	Cisco UCSB-MRAID12G-HE2	memory	
-servers-unified-computing	UCSB-MRAID12G-HE3	Cisco UCSB-MRAID12G-HE3	memory	
-servers-unified-computing	UCSB-MRAID12G1	Cisco UCSB-MRAID12G1	memory	
-servers-unified-computing	UCSB-MRAID12G2	Cisco UCSB-MRAID12G2	memory	
-servers-unified-computing	UCSB-MRAID12G=	Cisco FlexStorage 12G SAS RAID controller with Drive bays	memory	
+servers-unified-computing	UCSB-MLOM-40G-01	Cisco UCS VIC 1240 modular LOM for blade servers	nic	
+servers-unified-computing	UCSB-MLOM-40G-01=	Cisco UCS VIC 1240 modular LOM for blade servers	nic	
+servers-unified-computing	UCSB-MLOM-40G-031	Cisco UCSB-MLOM-40G-031	nic	
+servers-unified-computing	UCSB-MLOM-40G-032	Cisco UCSB-MLOM-40G-032	nic	
+servers-unified-computing	UCSB-MLOM-40G-04	Cisco UCS VIC 1440 modular LOM for Blade Servers	nic	
+servers-unified-computing	UCSB-MLOM-40G-041	Cisco UCSB-MLOM-40G-041	nic	
+servers-unified-computing	UCSB-MLOM-40G-04=	Cisco UCS VIC 1440 modular LOM for Blade Servers	nic	
+servers-unified-computing	UCSB-MLOM-PT-01	Cisco UCS Port Expander Card (mezz) for VIC	nic	
+servers-unified-computing	UCSB-MLOM-PT-012	Cisco UCSB-MLOM-PT-012	nic	
+servers-unified-computing	UCSB-MLOM-PT-01=	Cisco UCS Port Expander Card (mezz) for VIC	nic	
+servers-unified-computing	UCSB-MLOM-PT-03	Pending-Cisco UCS Port Expander Card (mezz) for VIC 1340	nic	
+servers-unified-computing	UCSB-MLOM-PT-03=	Pending-Cisco UCS Port Expander Card (mezz) for VIC 1340	nic	
+servers-unified-computing	UCSB-MRAID-SC=	Cisco UCSB-MRAID-SC=	mechanical	
+servers-unified-computing	UCSB-MRAID12G	Cisco FlexStorage 12G SAS RAID controller with Drive bays	storage-controller	
+servers-unified-computing	UCSB-MRAID12G-HE	Cisco UCSB-MRAID12G-HE	storage-controller	
+servers-unified-computing	UCSB-MRAID12G-HE1	Cisco UCSB-MRAID12G-HE1	storage-controller	
+servers-unified-computing	UCSB-MRAID12G-HE2	Cisco UCSB-MRAID12G-HE2	storage-controller	
+servers-unified-computing	UCSB-MRAID12G-HE3	Cisco UCSB-MRAID12G-HE3	storage-controller	
+servers-unified-computing	UCSB-MRAID12G1	Cisco UCSB-MRAID12G1	storage-controller	
+servers-unified-computing	UCSB-MRAID12G2	Cisco UCSB-MRAID12G2	storage-controller	
+servers-unified-computing	UCSB-MRAID12G=	Cisco FlexStorage 12G SAS RAID controller with Drive bays	storage-controller	
 servers-unified-computing	UCSB-NVME2H-I1000	Cisco UCSB-NVME2H-I1000	drive	
 servers-unified-computing	UCSB-NVME2H-I1000=	Cisco UCSB-NVME2H-I1000=	drive	
 servers-unified-computing	UCSB-NVME2H-I1600	Cisco UCSB-NVME2H-I1600	drive	
@@ -21062,23 +21047,23 @@ servers-unified-computing	UCSC-C3X60-SSD4=	Cisco UCS C3X60 one row - 14 drives: 
 servers-unified-computing	UCSC-C3X60-SSD6	Cisco UCS C3X60 one row - 14 drives: 400GB SSD and 6TB Driv	drive	
 servers-unified-computing	UCSC-C3X60-SSD6=	Cisco UCS C3X60 one row - 14 drives: 400GB SSD and 6TB Driv	drive	
 servers-unified-computing	UCSC-C3X60-SSD8	Cisco UCS C3X60 8TB HDD/SSD Combo	drive	
-servers-unified-computing	UCSC-C3X60-SVRN1	UCS C3X60 Server Node E5-2620 v2 CPU 128GB 1GB RAID cache	chassis	
-servers-unified-computing	UCSC-C3X60-SVRN1=	UCS C3X60 Server Node E5-2620 v2 CPU 128GB 1GB RAID cache	chassis	
-servers-unified-computing	UCSC-C3X60-SVRN2	UCS C3X60 Server Node E5-2620 v2 CPU 256GB 4GB RAID cache	chassis	
-servers-unified-computing	UCSC-C3X60-SVRN2=	UCS C3X60 Server Node E5-2620 v2 CPU 256GB 4GB RAID cache	chassis	
-servers-unified-computing	UCSC-C3X60-SVRN3	Cisco C3X60 Server Node E5-2660 v2 CPU 256GB 4GB RAID cache	chassis	
-servers-unified-computing	UCSC-C3X60-SVRN3=	Cisco C3X60 Server Node E5-2660 v2 CPU 256GB 4GB RAID cache	chassis	
-servers-unified-computing	UCSC-C3X60-SVRN4	Cisco C3X60 Server Node E5-2695 v2 CPU 256GB 4GB RAID cache	chassis	
-servers-unified-computing	UCSC-C3X60-SVRN4=	Cisco C3X60 Server Node E5-2695 v2 CPU 256GB 4GB RAID cache	chassis	
-servers-unified-computing	UCSC-C3X60-SVRN5	UCS C3X60 Server Node E5-2695 v2 CPU 512GB 4GB RAID cache	chassis	
-servers-unified-computing	UCSC-C3X60-SVRN5=	UCS C3X60 Server Node E5-2695 v2 CPU 512GB 4GB RAID cache	chassis	
-servers-unified-computing	UCSC-C3X60-SVRN6	UCS C3X60 Server Node E5-2660 v2 CPU 128GB SAS HBA	chassis	
-servers-unified-computing	UCSC-C3X60-SVRN6=	UCS C3X60 Server Node E5-2660 v2 CPU 128GB SAS HBA	chassis	
-servers-unified-computing	UCSC-C3X60-SVRN7	Cisco C3X60 Server Node E5-2695 v2 CPU 256GB SAS HBA Mode	chassis	
-servers-unified-computing	UCSC-C3X60-SVRN7=	Cisco C3X60 Server Node E5-2695 v2 CPU 256GB SAS HBA Mode	chassis	
-servers-unified-computing	UCSC-C3X60-SVRN8	Cisco C3X60 Server Node E5-2620 v2 CPU (6C), 256G, HBA	chassis	
-servers-unified-computing	UCSC-C3X60-SVRN8=	Cisco C3X60 Server Node E5-2620 v2 CPU (6C), 256G, HBA	chassis	
-servers-unified-computing	UCSC-C3X60-SVRNB=	Cisco UCS C3160 Server Node FRU	chassis	
+servers-unified-computing	UCSC-C3X60-SVRN1	UCS C3X60 Server Node E5-2620 v2 CPU 128GB 1GB RAID cache	server	
+servers-unified-computing	UCSC-C3X60-SVRN1=	UCS C3X60 Server Node E5-2620 v2 CPU 128GB 1GB RAID cache	server	
+servers-unified-computing	UCSC-C3X60-SVRN2	UCS C3X60 Server Node E5-2620 v2 CPU 256GB 4GB RAID cache	server	
+servers-unified-computing	UCSC-C3X60-SVRN2=	UCS C3X60 Server Node E5-2620 v2 CPU 256GB 4GB RAID cache	server	
+servers-unified-computing	UCSC-C3X60-SVRN3	Cisco C3X60 Server Node E5-2660 v2 CPU 256GB 4GB RAID cache	server	
+servers-unified-computing	UCSC-C3X60-SVRN3=	Cisco C3X60 Server Node E5-2660 v2 CPU 256GB 4GB RAID cache	server	
+servers-unified-computing	UCSC-C3X60-SVRN4	Cisco C3X60 Server Node E5-2695 v2 CPU 256GB 4GB RAID cache	server	
+servers-unified-computing	UCSC-C3X60-SVRN4=	Cisco C3X60 Server Node E5-2695 v2 CPU 256GB 4GB RAID cache	server	
+servers-unified-computing	UCSC-C3X60-SVRN5	UCS C3X60 Server Node E5-2695 v2 CPU 512GB 4GB RAID cache	server	
+servers-unified-computing	UCSC-C3X60-SVRN5=	UCS C3X60 Server Node E5-2695 v2 CPU 512GB 4GB RAID cache	server	
+servers-unified-computing	UCSC-C3X60-SVRN6	UCS C3X60 Server Node E5-2660 v2 CPU 128GB SAS HBA	server	
+servers-unified-computing	UCSC-C3X60-SVRN6=	UCS C3X60 Server Node E5-2660 v2 CPU 128GB SAS HBA	server	
+servers-unified-computing	UCSC-C3X60-SVRN7	Cisco C3X60 Server Node E5-2695 v2 CPU 256GB SAS HBA Mode	server	
+servers-unified-computing	UCSC-C3X60-SVRN7=	Cisco C3X60 Server Node E5-2695 v2 CPU 256GB SAS HBA Mode	server	
+servers-unified-computing	UCSC-C3X60-SVRN8	Cisco C3X60 Server Node E5-2620 v2 CPU (6C), 256G, HBA	server	
+servers-unified-computing	UCSC-C3X60-SVRN8=	Cisco C3X60 Server Node E5-2620 v2 CPU (6C), 256G, HBA	server	
+servers-unified-computing	UCSC-C3X60-SVRNB=	Cisco UCS C3160 Server Node FRU	server	
 servers-unified-computing	UCSC-C420-M3	UCS C420 M3 w/o CPU, mem, HDD, PCIe, PSU, rail kit	server	
 servers-unified-computing	UCSC-C420-M3-CH2	DISTI: UCS C420 M3 w/o CPU, HSnk, mem, HD, PSU, w/Rails, Blnk	server	
 servers-unified-computing	UCSC-C420-M3=	UCS C420 M3 w/o CPU, mem, HDD, PCIe, PSU, rail kit	server	
@@ -21491,29 +21476,29 @@ servers-unified-computing	UCSC-M2IF-220M8=	Cisco UCSC-M2IF-220M8=	drive
 servers-unified-computing	UCSC-M2RM-M82	Cisco UCSC-M2RM-M82	drive	
 servers-unified-computing	UCSC-M2RR-240M8	Cisco UCSC-M2RR-240M8	drive	
 servers-unified-computing	UCSC-MBF3CBL-MX2U=	Cisco UCSC-MBF3CBL-MX2U=	cable	
-servers-unified-computing	UCSC-MLOM-BLK	MLOM Blanking Panel	memory	
-servers-unified-computing	UCSC-MLOM-BLK=	MLOM Blanking Panel	memory	
-servers-unified-computing	UCSC-MLOM-C100-04	Cisco UCS VIC 1497 dual port 40/100G QSFP28 mLOM for C220 M5, C240 M5, C240 SD M5	memory	
-servers-unified-computing	UCSC-MLOM-C10T-02	Cisco UCS VIC1227T VIC MLOM - Dual Port 10GBaseT	memory	
-servers-unified-computing	UCSC-MLOM-C10T-02=	Cisco UCS VIC1227T VIC MLOM - Dual Port 10GBaseT	memory	
-servers-unified-computing	UCSC-MLOM-C25Q-04	Cisco UCS VIC 1457 quad port 10/25G SFP28 mLOM for C220 M5, C240 M5 and C240 SD M5	memory	
-servers-unified-computing	UCSC-MLOM-CSC-02	Cisco UCS VIC1227 VIC MLOM - Dual Port 10Gb SFP+	memory	
-servers-unified-computing	UCSC-MLOM-CSC-02=	Cisco UCS VIC1227 VIC MLOM - Dual Port 10Gb SFP+	memory	
+servers-unified-computing	UCSC-MLOM-BLK	MLOM Blanking Panel	nic	
+servers-unified-computing	UCSC-MLOM-BLK=	MLOM Blanking Panel	nic	
+servers-unified-computing	UCSC-MLOM-C100-04	Cisco UCS VIC 1497 dual port 40/100G QSFP28 mLOM for C220 M5, C240 M5, C240 SD M5	nic	
+servers-unified-computing	UCSC-MLOM-C10T-02	Cisco UCS VIC1227T VIC MLOM - Dual Port 10GBaseT	nic	
+servers-unified-computing	UCSC-MLOM-C10T-02=	Cisco UCS VIC1227T VIC MLOM - Dual Port 10GBaseT	nic	
+servers-unified-computing	UCSC-MLOM-C25Q-04	Cisco UCS VIC 1457 quad port 10/25G SFP28 mLOM for C220 M5, C240 M5 and C240 SD M5	nic	
+servers-unified-computing	UCSC-MLOM-CSC-02	Cisco UCS VIC1227 VIC MLOM - Dual Port 10Gb SFP+	nic	
+servers-unified-computing	UCSC-MLOM-CSC-02=	Cisco UCS VIC1227 VIC MLOM - Dual Port 10Gb SFP+	nic	
 servers-unified-computing	UCSC-MPKIT-240M8L=	Cisco UCSC-MPKIT-240M8L=	accessory	
-servers-unified-computing	UCSC-MRAID-SC	Supercap for Cisco 12G SAS Modular Raid controller	memory	
-servers-unified-computing	UCSC-MRAID-SC=	Supercap for Cisco 12G SAS Modular Raid controller	memory	
-servers-unified-computing	UCSC-MRAID12G	Cisco 12G SAS Modular Raid Controller	memory	
-servers-unified-computing	UCSC-MRAID12G-1GB	Cisco 12Gbps SAS 1GB FBWC Cache module (Raid 0/1/5/6)	memory	
-servers-unified-computing	UCSC-MRAID12G-1GB=	Cisco 12Gbps SAS 1GB FBWC Cache module (Raid 0/1/5/6)	memory	
-servers-unified-computing	UCSC-MRAID12G-2GB	Cisco 12Gbps SAS 2GB FBWC Cache module (Raid 0/1/5/6)	memory	
-servers-unified-computing	UCSC-MRAID12G-2GB=	Cisco 12Gbps SAS 2GB FBWC Cache module (Raid 0/1/5/6)	memory	
-servers-unified-computing	UCSC-MRAID12G-4GB	Cisco 12Gbps SAS 4GB FBWC Cache module (Raid 0/1/5/6)	memory	
-servers-unified-computing	UCSC-MRAID12G-4GB=	Cisco 12Gbps SAS 4GB FBWC Cache module (Raid 0/1/5/6)	memory	
-servers-unified-computing	UCSC-MRAID12G-512	Cisco 12Gbps SAS 512MB FBWC Cache module (Raid 0/1/5)	memory	
-servers-unified-computing	UCSC-MRAID12G-512=	Cisco 12Gbps SAS 512MB FBWC Cache module (Raid 0/1/5)	memory	
-servers-unified-computing	UCSC-MRAID12G=	Cisco 12G SAS Modular Raid Controller	memory	
-servers-unified-computing	UCSC-MRAIDC460	Cisco 12G SAS Modular Raid Controller (12 port)	memory	
-servers-unified-computing	UCSC-MRAIDC460=	Cisco 12G SAS Modular Raid Controller (12 port)	memory	
+servers-unified-computing	UCSC-MRAID-SC	Supercap for Cisco 12G SAS Modular Raid controller	mechanical	
+servers-unified-computing	UCSC-MRAID-SC=	Supercap for Cisco 12G SAS Modular Raid controller	mechanical	
+servers-unified-computing	UCSC-MRAID12G	Cisco 12G SAS Modular Raid Controller	storage-controller	
+servers-unified-computing	UCSC-MRAID12G-1GB	Cisco 12Gbps SAS 1GB FBWC Cache module (Raid 0/1/5/6)	storage-controller	
+servers-unified-computing	UCSC-MRAID12G-1GB=	Cisco 12Gbps SAS 1GB FBWC Cache module (Raid 0/1/5/6)	storage-controller	
+servers-unified-computing	UCSC-MRAID12G-2GB	Cisco 12Gbps SAS 2GB FBWC Cache module (Raid 0/1/5/6)	storage-controller	
+servers-unified-computing	UCSC-MRAID12G-2GB=	Cisco 12Gbps SAS 2GB FBWC Cache module (Raid 0/1/5/6)	storage-controller	
+servers-unified-computing	UCSC-MRAID12G-4GB	Cisco 12Gbps SAS 4GB FBWC Cache module (Raid 0/1/5/6)	storage-controller	
+servers-unified-computing	UCSC-MRAID12G-4GB=	Cisco 12Gbps SAS 4GB FBWC Cache module (Raid 0/1/5/6)	storage-controller	
+servers-unified-computing	UCSC-MRAID12G-512	Cisco 12Gbps SAS 512MB FBWC Cache module (Raid 0/1/5)	storage-controller	
+servers-unified-computing	UCSC-MRAID12G-512=	Cisco 12Gbps SAS 512MB FBWC Cache module (Raid 0/1/5)	storage-controller	
+servers-unified-computing	UCSC-MRAID12G=	Cisco 12G SAS Modular Raid Controller	storage-controller	
+servers-unified-computing	UCSC-MRAIDC460	Cisco 12G SAS Modular Raid Controller (12 port)	storage-controller	
+servers-unified-computing	UCSC-MRAIDC460=	Cisco 12G SAS Modular Raid Controller (12 port)	storage-controller	
 servers-unified-computing	UCSC-MRB-002-C460	MEMORY RISER BOARD FOR C460 M2 SERVER ONLY	memory	
 servers-unified-computing	UCSC-MRB-002-C460=	MEMORY RISER BOARD FOR C460 M2 SERVER ONLY	memory	
 servers-unified-computing	UCSC-MRBD-12	Memory riser with 12 DIMM slots	memory	
@@ -22963,8 +22948,8 @@ servers-unified-computing	UCSX-ML-V5Q50G	UCS VIC 15420 4x25G mLOM for Cisco UCS 
 servers-unified-computing	UCSX-ML-V5Q50G-D	UCS VIC 15420 4x25G mLOM for Cisco UCS X210c-M7, X410c-M7, and X215c-M8 Compute Nodes	memory	
 servers-unified-computing	UCSX-ML-V5Q50G-D=	UCS VIC 15420 4x25G mLOM for Cisco UCS X210c-M7, X410c-M7, and X215c-M8 Compute Nodes	memory	
 servers-unified-computing	UCSX-ML-V5Q50G=	Cisco VIC 15420 4x 25G mLOM X-Series w/Secure Boot	memory	
-servers-unified-computing	UCSX-MLOM-001	Modular LOM For UCS	memory	
-servers-unified-computing	UCSX-MLOM-001=	Modular LOM For UCS	memory	
+servers-unified-computing	UCSX-MLOM-001	Modular LOM For UCS	nic	
+servers-unified-computing	UCSX-MLOM-001=	Modular LOM For UCS	nic	
 servers-unified-computing	UCSX-MLV5D200GV2D	Cisco UCSX-MLV5D200GV2D	memory	
 servers-unified-computing	UCSX-MLV5D200GV2D=	Cisco UCSX-MLV5D200GV2D=	memory	
 servers-unified-computing	UCSX-MP-128GS-B0	Intel Optane Persistent Memory, 128GB, 3200MHz	memory	
@@ -23001,7 +22986,7 @@ servers-unified-computing	UCSX-MR256G4RG5	Cisco UCSX-MR256G4RG5	memory
 servers-unified-computing	UCSX-MR256G4RG53	Cisco UCSX-MR256G4RG53	memory	
 servers-unified-computing	UCSX-MR256G8RE3	Cisco UCSX-MR256G8RE3	memory	
 servers-unified-computing	UCSX-MR256G8RE3=	Cisco UCSX-MR256G8RE3=	memory	
-servers-unified-computing	UCSX-MRAID-SC=	Cisco UCSX-MRAID-SC=	memory	
+servers-unified-computing	UCSX-MRAID-SC=	Cisco UCSX-MRAID-SC=	mechanical	
 servers-unified-computing	UCSX-MRX16G1RE3	16GB DDR5-5600 RDIMM 1Rx8 (16Gb)	memory	
 servers-unified-computing	UCSX-MRX16G1RE3=	16GB DDR5-5600 RDIMM 1Rx8 (16Gb)	memory	
 servers-unified-computing	UCSX-MRX16G1RE3M	16GB DDR5-5600 RDIMM 1Rx8 (16Gb)	memory	
@@ -23483,70 +23468,70 @@ servers-unified-computing	X9108-IFM-100G	Cisco X9108-IFM-100G	io-module
 servers-unified-computing	X9108-IFM-25G	Cisco X9108-IFM-25G	io-module	
 servers-unified-computing	XRV-PCIE-C40Q-03	Cisco VIC 1385 Dual Port 40Gb QSFP+ CNA w/RDMA	nic	
 servers-unified-computing	XRV-PCIE-IQ10GF	Cisco XRV-PCIE-IQ10GF	unknown	
-storage-networking	CAB-1900W-CH	Power Cord, 250VAC, 16A GB1002 Plug, China	cable	
-storage-networking	CAB-1900W-CH=	Power Cord, 250VAC, 16A GB1002 Plug, China, Spare	cable	
-storage-networking	CAB-1900W-EU	Power Cord 250VAC 16A, Europe, Src Plug CEE 7/7	cable	
-storage-networking	CAB-1900W-EU=	Power Cord 250VAC 16A, Europe, Src Plug CEE 7/7, Spare	cable	
-storage-networking	CAB-1900W-INT	Power Cord 250VAC 16A, International, Src Plug IEC 309	cable	
-storage-networking	CAB-1900W-INT=	Power Cord 250VAC 16A, International, Src Plug IEC 309, Spare	cable	
-storage-networking	CAB-1900W-ISR	Power Cord 250VAC 16A, Israel, Src Plug SI16S3	cable	
-storage-networking	CAB-1900W-ISR=	Power Cord 250VAC 16A, Israel, Src Plug SI16S3, Spare	cable	
-storage-networking	CAB-1900W-KOR	Power Cord, 250VAC, Korea	cable	
-storage-networking	CAB-1900W-KOR=	Power Cord, 250VAC, Korea, Spare	cable	
-storage-networking	CAB-1900W-SA	Power Cord 250VAC 16A, South Africa, Src Plug EL 208, SABS 1661	cable	
-storage-networking	CAB-1900W-SA=	Power Cord 250VAC 16A, South Africa, Src Plug EL 208, SABS 1661, Spare	cable	
-storage-networking	CAB-1900W-SW	Power Cord 250VAC 16A, Switzerland, Src Plug SEV 1011	cable	
-storage-networking	CAB-1900W-SW=	Power Cord 250VAC 16A, Switzerland, Src Plug SEV 1011, Spare	cable	
-storage-networking	CAB-1900W-TWN	Power Cord, 250VAC, CNS10917-2, Taiwan	cable	
-storage-networking	CAB-1900W-TWN=	Power Cord, 250VAC, CNS10917-2, Taiwan, Spare	cable	
-storage-networking	CAB-1900W-UK	Power Cord 250VAC 13A, United Kingdom, Src Plug BS1363 (13A fuse)	cable	
-storage-networking	CAB-1900W-UK=	Power Cord 250VAC 13A, United Kingdom, Src Plug BS1363 (13A fuse), Spare	cable	
-storage-networking	CAB-1900W-US1	Power Cord 250VAC 20A, U.S./Japan, Src Plug NEMA 6-20	cable	
-storage-networking	CAB-1900W-US1=	Power Cord 250VAC 20A, U.S./Japan, Src Plug NEMA 6-20, Spare	cable	
-storage-networking	CAB-1900W-US2	Power Cord 250VAC 20A, U.S./Japan, Src Plug NEMA L6-20	cable	
-storage-networking	CAB-1900W-US2=	Power Cord 250VAC 20A, U.S./Japan, Src Plug NEMA L6-20, Spare	cable	
-storage-networking	CAB-250V-10A-BR	AC Power Cord – 250V, 10A – Brazil (2.1 meters)	cable	
-storage-networking	CAB-250V-10A-BR=	Power Cord, 250VAC 10A, Brazil, spare	cable	
-storage-networking	CAB-250V-10A-ID	AC Power Cord – 250V, 10A – South Africa (2.5 meters)	cable	
-storage-networking	CAB-250V-10A-ID=	AC Power Cord – 250V, 10A – South Africa (2.5 meters)	cable	
-storage-networking	CAB-9K10A-AR	Power Cord, 250VAC 10A IRAM 2073 Plug, Argentina	cable	
-storage-networking	CAB-9K10A-AR=	Power Cord, 250VAC 10A IRAM 2073 Plug, Argentina, spare	cable	
-storage-networking	CAB-9K10A-AU	Power Cord, 250VAC 10A 3112 Plug, Australia (2.5 meters)	cable	
-storage-networking	CAB-9K10A-AU=	Power Cord, 250VAC 10A 3112 Plug, Australia, spare	cable	
-storage-networking	CAB-9K10A-CH	Power Cord, 250VAC 10A GB1002 Plug, China, Spare	cable	
-storage-networking	CAB-9K10A-CH=	Power Cord, 250VAC 10A GB1002 Plug, China, spare	cable	
-storage-networking	CAB-9K10A-EU	Power Cord, 250VAC 10A CEE 7/7 Plug, EU (2.5 meters)	cable	
-storage-networking	CAB-9K10A-EU=	Power Cord, 250VAC 10A CEE 7/7 Plug, EU, spare	cable	
-storage-networking	CAB-9K10A-ISR	Power Cord, 250VAC 10A SI16S3 Plug, Israel	cable	
-storage-networking	CAB-9K10A-ISR=	Power Cord, 250VAC 10A SI16S3 Plug, Israel, spare	cable	
-storage-networking	CAB-9K10A-IT	Power Cord, 250VAC 10A CEI 23-16/VII Plug, Italy (2.5 meters)	cable	
-storage-networking	CAB-9K10A-IT=	Power Cord, 250VAC 10A CEI 23-16/VII Plug, Italy, spare	cable	
-storage-networking	CAB-9K10A-KOR	Power Cord, 125VAC 13A KSC8305 Plug, Korea, Spare	cable	
-storage-networking	CAB-9K10A-KOR=	Power Cord, 125VAC 13A KSC8305 Plug, Korea, spare	cable	
-storage-networking	CAB-9K10A-SA	Power Cord, 250VAC 10A SABS 164/1 Plug, South Africa, Spare	cable	
-storage-networking	CAB-9K10A-SA=	Power Cord, 250VAC 10A SABS 164/1 Plug, South Africa, spare	cable	
-storage-networking	CAB-9K10A-SW	Power Cord, 250VAC 10A, Straight C15, MP232 Plug, SWITZ, Spare	cable	
-storage-networking	CAB-9K10A-SW=	AC Power Cord, 250VAC 10A, Straight C15, MP232 Plug, SWITZ, spare	cable	
-storage-networking	CAB-9K10A-TWN	Power Cord, 125VAC 15A CNS10917-2, Taiwan, Spare	cable	
-storage-networking	CAB-9K10A-TWN=	Power Cord, 125VAC 15A CNS10917-2, Taiwan, spare	cable	
-storage-networking	CAB-9K10A-UK	Power Cord, 250VAC 10A BS1363 Plug (13 A fuse), UK (2.5 meters)	cable	
-storage-networking	CAB-9K10A-UK=	Power Cord, 250VAC 10A BS1363 Plug (13 A fuse), UK, spare	cable	
-storage-networking	CAB-9K12A-NA	Power Cord, 125VAC 13A NEMA 5-15 Plug, North America (2.5 meters)	cable	
-storage-networking	CAB-9K12A-NA=	Power Cord, 125VAC 13A NEMA 5-15 Plug, North America, spare	cable	
-storage-networking	CAB-9K16A-ARG	Power Cord 250VAC 16A, Argentina, Src Plug IR2073-C19	cable	
-storage-networking	CAB-9K16A-ARG=	Power Cord 250VAC 16A, Argentina, Src Plug IR2073-C19 , Spare	cable	
-storage-networking	CAB-9K16A-BRZ	Power Cord 250VAC 16A, Brazil, Src Plug EL224-C19	cable	
-storage-networking	CAB-9K16A-BRZ=	Power Cord 250VAC 16A, Brazil, Src Plug EL224-C19 , Spare	cable	
-storage-networking	CAB-9K16A-ISR	Power cord 250VAC 16A, Israel, source plug SI16S3	cable	
-storage-networking	CAB-9K16A-ISR=	Power cord 250VAC 16A, Israel, source plug SI16S3 , Spare	cable	
-storage-networking	CAB-9K16A-KOR	Power Cord 250VAC 16A, Korea, Src Plug	cable	
-storage-networking	CAB-9K16A-KOR=	Power Cord 250VAC 16A, Korea, Src Plug , Spare	cable	
-storage-networking	CAB-9K16A-SA	Power cord 250VAC 16A, South Africa , source plug EL 208, SABS 164-1	cable	
-storage-networking	CAB-9K16A-SA=	Power cord 250VAC 16A, South Africa, source plug EL 208, SABS 164-1 , Spare	cable	
-storage-networking	CAB-9K16A-US1	Power cord 250VAC 16A, United States/Japan, source plug NEMA 6-20	cable	
-storage-networking	CAB-9K16A-US1=	Power cord 250VAC 16A, United States/Japan, source plug NEMA 6-20 , Spare	cable	
-storage-networking	CAB-C15-CBN-CK	Cabinet Jumper Power Cord, 250 VAC 13A, C14-C15 Connectors, China, Republic of Korea	cable	
-storage-networking	CAB-C15-CBN-EURA	Cabinet Jumper Power Cord, 250 VAC 13A, C14-C15 Connectors, EU, Russian Federation, Belarus, Kazakhstan, and Australia	cable	
+storage-networking	CAB-1900W-CH	Power Cord, 250VAC, 16A GB1002 Plug, China	power-cord	
+storage-networking	CAB-1900W-CH=	Power Cord, 250VAC, 16A GB1002 Plug, China, Spare	power-cord	
+storage-networking	CAB-1900W-EU	Power Cord 250VAC 16A, Europe, Src Plug CEE 7/7	power-cord	
+storage-networking	CAB-1900W-EU=	Power Cord 250VAC 16A, Europe, Src Plug CEE 7/7, Spare	power-cord	
+storage-networking	CAB-1900W-INT	Power Cord 250VAC 16A, International, Src Plug IEC 309	power-cord	
+storage-networking	CAB-1900W-INT=	Power Cord 250VAC 16A, International, Src Plug IEC 309, Spare	power-cord	
+storage-networking	CAB-1900W-ISR	Power Cord 250VAC 16A, Israel, Src Plug SI16S3	power-cord	
+storage-networking	CAB-1900W-ISR=	Power Cord 250VAC 16A, Israel, Src Plug SI16S3, Spare	power-cord	
+storage-networking	CAB-1900W-KOR	Power Cord, 250VAC, Korea	power-cord	
+storage-networking	CAB-1900W-KOR=	Power Cord, 250VAC, Korea, Spare	power-cord	
+storage-networking	CAB-1900W-SA	Power Cord 250VAC 16A, South Africa, Src Plug EL 208, SABS 1661	power-cord	
+storage-networking	CAB-1900W-SA=	Power Cord 250VAC 16A, South Africa, Src Plug EL 208, SABS 1661, Spare	power-cord	
+storage-networking	CAB-1900W-SW	Power Cord 250VAC 16A, Switzerland, Src Plug SEV 1011	power-cord	
+storage-networking	CAB-1900W-SW=	Power Cord 250VAC 16A, Switzerland, Src Plug SEV 1011, Spare	power-cord	
+storage-networking	CAB-1900W-TWN	Power Cord, 250VAC, CNS10917-2, Taiwan	power-cord	
+storage-networking	CAB-1900W-TWN=	Power Cord, 250VAC, CNS10917-2, Taiwan, Spare	power-cord	
+storage-networking	CAB-1900W-UK	Power Cord 250VAC 13A, United Kingdom, Src Plug BS1363 (13A fuse)	power-cord	
+storage-networking	CAB-1900W-UK=	Power Cord 250VAC 13A, United Kingdom, Src Plug BS1363 (13A fuse), Spare	power-cord	
+storage-networking	CAB-1900W-US1	Power Cord 250VAC 20A, U.S./Japan, Src Plug NEMA 6-20	power-cord	
+storage-networking	CAB-1900W-US1=	Power Cord 250VAC 20A, U.S./Japan, Src Plug NEMA 6-20, Spare	power-cord	
+storage-networking	CAB-1900W-US2	Power Cord 250VAC 20A, U.S./Japan, Src Plug NEMA L6-20	power-cord	
+storage-networking	CAB-1900W-US2=	Power Cord 250VAC 20A, U.S./Japan, Src Plug NEMA L6-20, Spare	power-cord	
+storage-networking	CAB-250V-10A-BR	AC Power Cord – 250V, 10A – Brazil (2.1 meters)	power-cord	
+storage-networking	CAB-250V-10A-BR=	Power Cord, 250VAC 10A, Brazil, spare	power-cord	
+storage-networking	CAB-250V-10A-ID	AC Power Cord – 250V, 10A – South Africa (2.5 meters)	power-cord	
+storage-networking	CAB-250V-10A-ID=	AC Power Cord – 250V, 10A – South Africa (2.5 meters)	power-cord	
+storage-networking	CAB-9K10A-AR	Power Cord, 250VAC 10A IRAM 2073 Plug, Argentina	power-cord	
+storage-networking	CAB-9K10A-AR=	Power Cord, 250VAC 10A IRAM 2073 Plug, Argentina, spare	power-cord	
+storage-networking	CAB-9K10A-AU	Power Cord, 250VAC 10A 3112 Plug, Australia (2.5 meters)	power-cord	
+storage-networking	CAB-9K10A-AU=	Power Cord, 250VAC 10A 3112 Plug, Australia, spare	power-cord	
+storage-networking	CAB-9K10A-CH	Power Cord, 250VAC 10A GB1002 Plug, China, Spare	power-cord	
+storage-networking	CAB-9K10A-CH=	Power Cord, 250VAC 10A GB1002 Plug, China, spare	power-cord	
+storage-networking	CAB-9K10A-EU	Power Cord, 250VAC 10A CEE 7/7 Plug, EU (2.5 meters)	power-cord	
+storage-networking	CAB-9K10A-EU=	Power Cord, 250VAC 10A CEE 7/7 Plug, EU, spare	power-cord	
+storage-networking	CAB-9K10A-ISR	Power Cord, 250VAC 10A SI16S3 Plug, Israel	power-cord	
+storage-networking	CAB-9K10A-ISR=	Power Cord, 250VAC 10A SI16S3 Plug, Israel, spare	power-cord	
+storage-networking	CAB-9K10A-IT	Power Cord, 250VAC 10A CEI 23-16/VII Plug, Italy (2.5 meters)	power-cord	
+storage-networking	CAB-9K10A-IT=	Power Cord, 250VAC 10A CEI 23-16/VII Plug, Italy, spare	power-cord	
+storage-networking	CAB-9K10A-KOR	Power Cord, 125VAC 13A KSC8305 Plug, Korea, Spare	power-cord	
+storage-networking	CAB-9K10A-KOR=	Power Cord, 125VAC 13A KSC8305 Plug, Korea, spare	power-cord	
+storage-networking	CAB-9K10A-SA	Power Cord, 250VAC 10A SABS 164/1 Plug, South Africa, Spare	power-cord	
+storage-networking	CAB-9K10A-SA=	Power Cord, 250VAC 10A SABS 164/1 Plug, South Africa, spare	power-cord	
+storage-networking	CAB-9K10A-SW	Power Cord, 250VAC 10A, Straight C15, MP232 Plug, SWITZ, Spare	power-cord	
+storage-networking	CAB-9K10A-SW=	AC Power Cord, 250VAC 10A, Straight C15, MP232 Plug, SWITZ, spare	power-cord	
+storage-networking	CAB-9K10A-TWN	Power Cord, 125VAC 15A CNS10917-2, Taiwan, Spare	power-cord	
+storage-networking	CAB-9K10A-TWN=	Power Cord, 125VAC 15A CNS10917-2, Taiwan, spare	power-cord	
+storage-networking	CAB-9K10A-UK	Power Cord, 250VAC 10A BS1363 Plug (13 A fuse), UK (2.5 meters)	power-cord	
+storage-networking	CAB-9K10A-UK=	Power Cord, 250VAC 10A BS1363 Plug (13 A fuse), UK, spare	power-cord	
+storage-networking	CAB-9K12A-NA	Power Cord, 125VAC 13A NEMA 5-15 Plug, North America (2.5 meters)	power-cord	
+storage-networking	CAB-9K12A-NA=	Power Cord, 125VAC 13A NEMA 5-15 Plug, North America, spare	power-cord	
+storage-networking	CAB-9K16A-ARG	Power Cord 250VAC 16A, Argentina, Src Plug IR2073-C19	power-cord	
+storage-networking	CAB-9K16A-ARG=	Power Cord 250VAC 16A, Argentina, Src Plug IR2073-C19 , Spare	power-cord	
+storage-networking	CAB-9K16A-BRZ	Power Cord 250VAC 16A, Brazil, Src Plug EL224-C19	power-cord	
+storage-networking	CAB-9K16A-BRZ=	Power Cord 250VAC 16A, Brazil, Src Plug EL224-C19 , Spare	power-cord	
+storage-networking	CAB-9K16A-ISR	Power cord 250VAC 16A, Israel, source plug SI16S3	power-cord	
+storage-networking	CAB-9K16A-ISR=	Power cord 250VAC 16A, Israel, source plug SI16S3 , Spare	power-cord	
+storage-networking	CAB-9K16A-KOR	Power Cord 250VAC 16A, Korea, Src Plug	power-cord	
+storage-networking	CAB-9K16A-KOR=	Power Cord 250VAC 16A, Korea, Src Plug , Spare	power-cord	
+storage-networking	CAB-9K16A-SA	Power cord 250VAC 16A, South Africa , source plug EL 208, SABS 164-1	power-cord	
+storage-networking	CAB-9K16A-SA=	Power cord 250VAC 16A, South Africa, source plug EL 208, SABS 164-1 , Spare	power-cord	
+storage-networking	CAB-9K16A-US1	Power cord 250VAC 16A, United States/Japan, source plug NEMA 6-20	power-cord	
+storage-networking	CAB-9K16A-US1=	Power cord 250VAC 16A, United States/Japan, source plug NEMA 6-20 , Spare	power-cord	
+storage-networking	CAB-C15-CBN-CK	Cabinet Jumper Power Cord, 250 VAC 13A, C14-C15 Connectors, China, Republic of Korea	power-cord	
+storage-networking	CAB-C15-CBN-EURA	Cabinet Jumper Power Cord, 250 VAC 13A, C14-C15 Connectors, EU, Russian Federation, Belarus, Kazakhstan, and Australia	power-cord	
 storage-networking	DS-13SLT-FAB1	MDS 9513 Crossbar Switching Fabric Module	fabric	
 storage-networking	DS-13SLT-FAB1=	MDS 9513 crossbar switching fabric module, Spare	fabric	
 storage-networking	DS-13SLT-FAB2	MDS 9513 Crossbar Switching Fabric Module 2	fabric	
