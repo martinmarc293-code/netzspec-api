@@ -156,5 +156,20 @@ HEAD/deployed 501b7ed (artefacts built on 0cbe5c5, contract 17b502e336ebefb6). R
      the 2 MEMUSB band refusals; new vetoes the 219 kind moves may expose (re-run scripts/veto-triage.mts after the rebuild).
   NEXT: rebuild -> board -> Batch F report; then Q12 export (design: profiles jtl-main ';' 18 / jtl-attributes ',' 4 / jtl-condition
      ',' 3 / jtl-faq ',' 3 force-quoted; groups 'Switch' 20, 'Transceivers & SFP Modul' 14; shop_ready gate; BOM + CRLF).
+  BATCH F REPORTED (7290b1c): board 29/4. RULINGS (29 Sep ~22:30 UTC): Q19 per triple the evidence decides (verbatim seed on its page
+     -> widen; else retract the seed renderings); Q20 (b) gated: promote/compose then resolve promoted-reading, no locator -> no-live-value;
+     Q21 lower storage_capacity's floor to 64 MB (witness MEMUSB-128FT).
+  BATCH G DONE (runs 1423-1427): sync 1423 (band), rekey 1424 (MEMUSB 2), 1425 retracted 317 seed renderings, 1427 promoted 6 +
+     composed 6 under a 39/39 re-read gate (1426 failed on facts_current_uq beside a tombstone, rolled back clean), 51 orphans resolved.
+     Veto 0. Artefacts dae04c3 (contract b4fce311fad4b6a7).
+  Q12 EXPORT LIVE (2030289 + 2df5351): /v1/export?profile=jtl-main|jtl-attributes|jtl-condition|jtl-faq (+ jtl-readiness);
+     src/core/jtlExport.ts (contract, groups, shop_ready, jtlContractProblems), tests/jtlExport.test.ts 45/0. The check walks 84 pages.
+  BOARD 32/1/0/0 (2df5351), self-test 24/0/9 = STANDING ORDER ITEM 1 MET (vendor_coverage red by ruling). Reported: batch-g-report.md.
+  REVIEWER (29 Sep ~23:25 UTC): verified 32/33. RULING: weight jumps the queue. New fill order by shop_ready leverage:
+     1 weight (mapper gap on held sheets first; shipping_weight_kg derivation follows), 2 FAQ faq<3 (a derivation from filled cups),
+     3 name (sheet titles next), 4 the Wawi group attributes by count per category (throughput, certifications, power; form_factor /
+     media where they unlock them). RE-MEASURE jtl-readiness AFTER EACH and report the ready count per category. Baseline: 33 ready.
+  Q12 remaining: the acceptance diff vs the recorded files; the transceiver shop cups (transceiver_type, fiber_count,
+     cable_construction, application) are referenced by the group but are not dictionary keys yet.
 ## Pinned predictions
 - run 1350 lands -> the enum CISCO line drops standard to 0 (was 555 seed); what remains red there is non-seed audio_codecs/antenna_type/spatial_streams + refused shape members. required_cup_defined not moved by it (other vendors seed untouched).
