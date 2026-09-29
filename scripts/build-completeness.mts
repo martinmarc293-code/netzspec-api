@@ -50,6 +50,7 @@ import {
 import { deployRole, deployRoleRule, roleAxisOf, ROLE_DOMAINS } from "../src/core/deployRole.js";
 // kind layer 6b (13 Sep 2026): held by relevance, the mapper-gap state, the kind-issue plans.
 import { modularPlatform } from "../src/core/modularPlatform.js";
+import { UNKNOWN_HARDWARE_SQL, splitUnknown, type UnknownRow } from "../src/core/unknownEvidence.js";
 import { SPEC_BEARING_DOC_TYPES, heldRowSql, underivedRowSql, docStateOf, underivedRefusal, missingColumnsRefusal } from "../src/core/heldEvidence.js";
 import { loadCupEvidence, cupStateIndex, inertMapperGapEntries } from "../src/core/cupEvidence.js";
 import { loadPlans, planStatusIndex, emptyBreakdown, addKindIssue, nullShareExcludingKindIssue, unresolvedDisplay,
@@ -554,6 +555,10 @@ async function main(): Promise<void> {
     },
   };
 
+  // RULING Q9 (3), 29 Sep 2026: unknown-kind hardware with NO evidence -- a SKU-only name and no linked document -- is
+  // acquisition work (a document is needed before anyone can classify it), so it is ON the queue, by the same definition
+  // unknown_zero judges with (src/core/unknownEvidence.ts). The evidenced unknowns are counted beside it, never folded in.
+  const unknownSplit = splitUnknown(await q<UnknownRow>("acquisition: unknown hardware by evidence", UNKNOWN_HARDWARE_SQL, [vendor]));
   // ---- acquisition queue (outside every denominator) ----------------------------------------------------------------
   const acquisition_queue = {
     _about: "The NOT-HELD parts: no doc_parts row passes the held rule (spec_for_kind AND explicit|family), so they are "
@@ -567,6 +572,15 @@ async function main(): Promise<void> {
       held: pctOf(c.held.spec_bearing, c.hardware_parts), held_by_doc_type_legacy: c.held.held_by_doc_type_legacy }))
       .sort((x, y) => y.not_held_parts - x.not_held_parts),
     by_document_class_missing: [...notHeldByClass].map(([holds_instead, parts]) => ({ holds_instead, parts })).sort((x, y) => y.parts - x.parts),
+    unclassifiable_no_evidence: {
+      _about: "Live hardware in kind unknown whose name says nothing beyond its SKU and which no document links: a document is "
+        + "needed before anyone can classify it (ruling Q9 (3)). Its count is a ratchet that may not grow "
+        + "(data/ratchets/unknown-no-evidence-cisco.json); the EVIDENCED unknowns are unknown_zero's red, counted beside it.",
+      parts: unknownSplit.noEvidence.length, evidenced_unknown_parts: unknownSplit.evidenced.length,
+      by_category: [...unknownSplit.noEvidence.reduce((m, r) => m.set(r.category, (m.get(r.category) ?? 0) + 1), new Map<string, number>())]
+        .map(([category, parts]) => ({ category, parts })).sort((x, y) => y.parts - x.parts),
+      skus: unknownSplit.noEvidence.map((r) => r.sku),
+    },
   };
 
   // ---- residue (§6), measured where the store can measure it --------------------------------------------------------

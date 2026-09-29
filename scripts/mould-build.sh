@@ -72,6 +72,10 @@ step bash -c 'tail -1 data/completeness/fill-state-history.jsonl | grep -qF "$GI
 # it falls with the splitter/replay work and recording can never raise it. Same shape: the verdict is not read, the file is.
 npx tsx scripts/mould-verify.mts --only enum_values_in_domain --record-shape-ceiling > /tmp/shape-ceiling-record.log 2>&1 || true
 step bash -c 'grep -qF "$GIT_SHA" data/ratchets/shape-unclassified-ceiling-cisco.json'
+# The NO-EVIDENCE unknown count (ruling Q9 (3), 29 Sep 2026): the same ratchet shape -- recording writes min(ceiling, now), so
+# a build can lower it and never raise it. The verdict is unknown_zero's, not this build's; the ARTIFACT is checked.
+npx tsx scripts/mould-verify.mts --only unknown_zero --record-unknown-ceiling > /tmp/unknown-ceiling-record.log 2>&1 || true
+step bash -c 'grep -qF "$GIT_SHA" data/ratchets/unknown-no-evidence-cisco.json'
 [ -n "$PREV" ] || echo "   no post-build MISS snapshot of an earlier commit in $MISS_DIR: the SESSION diff is not available on this run"
 # exit 1 = a MISS neither baseline had, a suite that stopped being exercised, or a vanished suite: the step fails and says so
 step npx tsx scripts/run-tests.ts --miss-out "$AFTER" --miss-diff "$BEFORE" ${PREV:+--miss-diff "$PREV"}

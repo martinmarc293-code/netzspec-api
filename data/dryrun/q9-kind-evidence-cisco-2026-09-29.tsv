@@ -1,0 +1,133 @@
+category	sku	kind	evidence
+wireless	FLMESH-HW-ACC-1	mechanical	EoL bulletin 'Cisco Ultra-Reliable Wireless Backhaul' (19f6506d) row: FLMESH-HW-ACC-1 = FM-BRKT
+wireless	FLMESH-HW-ACC-10	cable	EoL bulletin 'Cisco Ultra-Reliable Wireless Backhaul' (19f6506d) row: FLMESH-HW-ACC-10 = FM-LMR240-RPSMA2QMA-4FT
+wireless	FLMESH-HW-ACC-17	accessory	EoL bulletin 'Cisco Ultra-Reliable Wireless Backhaul' (19f6506d) row: FLMESH-HW-ACC-17 = FM-EMP (axis cannot place it: Q9 (1)'s family default)
+wireless	FLMESH-HW-ACC-19	power-injector	EoL bulletin 'Cisco Ultra-Reliable Wireless Backhaul' (19f6506d) row: FLMESH-HW-ACC-19 = FM-POE-LOW
+wireless	FLMESH-HW-ACC-20	power-injector	EoL bulletin 'Cisco Ultra-Reliable Wireless Backhaul' (19f6506d) row: FLMESH-HW-ACC-20 = FM-POE-LOW-48
+wireless	FLMESH-HW-ACC-21	power-injector	EoL bulletin 'Cisco Ultra-Reliable Wireless Backhaul' (19f6506d) row: FLMESH-HW-ACC-21 = FM-POE-STD
+wireless	FLMESH-HW-ACC-23	accessory	EoL bulletin 'Cisco Ultra-Reliable Wireless Backhaul' (19f6506d) row: FLMESH-HW-ACC-23 = FM-QMA2SMA
+wireless	FLMESH-HW-ACC-24	accessory	EoL bulletin 'Cisco Ultra-Reliable Wireless Backhaul' (19f6506d) row: FLMESH-HW-ACC-24 = FM-SPLITTER
+wireless	FLMESH-HW-ACC-25	accessory	EoL bulletin 'Cisco Ultra-Reliable Wireless Backhaul' (19f6506d) row: FLMESH-HW-ACC-25 = FM-SURGE
+wireless	FLMESH-HW-ACC-26	mechanical	EoL bulletin 'Cisco Ultra-Reliable Wireless Backhaul' (19f6506d) row: FLMESH-HW-ACC-26 = FM-WMOUNT
+wireless	FLMESH-HW-ACC-31	mechanical	EoL bulletin 'Cisco Ultra-Reliable Wireless Backhaul' (19f6506d) row: FLMESH-HW-ACC-31 = FM-BRKT-SLIDING
+wireless	FLMESH-HW-ACC-32	cable	EoL bulletin 'Cisco Ultra-Reliable Wireless Backhaul' (19f6506d) row: FLMESH-HW-ACC-32 = FM-LMR240-N2N-6FT
+wireless	FLMESH-HW-ACC-33	cable	EoL bulletin 'Cisco Ultra-Reliable Wireless Backhaul' (19f6506d) row: FLMESH-HW-ACC-33 = FM-CABLE-M12PWR-2M
+wireless	FLMESH-HW-ACC-34	cable	EoL bulletin 'Cisco Ultra-Reliable Wireless Backhaul' (19f6506d) row: FLMESH-HW-ACC-34 = FM-CABLE-M12XM12-10M
+wireless	FLMESH-HW-ACC-35	cable	EoL bulletin 'Cisco Ultra-Reliable Wireless Backhaul' (19f6506d) row: FLMESH-HW-ACC-35 = FM-CABLE-M12XM12-1M
+wireless	FLMESH-HW-ACC-36	cable	EoL bulletin 'Cisco Ultra-Reliable Wireless Backhaul' (19f6506d) row: FLMESH-HW-ACC-36 = FM-CABLE-M12XM12-20M
+wireless	FLMESH-HW-ACC-37	cable	EoL bulletin 'Cisco Ultra-Reliable Wireless Backhaul' (19f6506d) row: FLMESH-HW-ACC-37 = FM-CABLE-M12XM12-2M
+wireless	FLMESH-HW-ACC-38	cable	EoL bulletin 'Cisco Ultra-Reliable Wireless Backhaul' (19f6506d) row: FLMESH-HW-ACC-38 = FM-CABLE-M12XM12-5M
+wireless	FLMESH-HW-ACC-39	cable	EoL bulletin 'Cisco Ultra-Reliable Wireless Backhaul' (19f6506d) row: FLMESH-HW-ACC-39 = FM-CABLE-M12XRJ45-10M
+wireless	FLMESH-HW-ACC-40	cable	EoL bulletin 'Cisco Ultra-Reliable Wireless Backhaul' (19f6506d) row: FLMESH-HW-ACC-40 = FM-CABLE-M12XRJ45-2M
+wireless	FLMESH-HW-ACC-41	cable	EoL bulletin 'Cisco Ultra-Reliable Wireless Backhaul' (19f6506d) row: FLMESH-HW-ACC-41 = FM-CABLE-M12XRJ45-5M
+wireless	FLMESH-HW-ACC-42	cable	EoL bulletin 'Cisco Ultra-Reliable Wireless Backhaul' (19f6506d) row: FLMESH-HW-ACC-42 = FM-LMR240-N2N-4FT
+wireless	FLMESH-HW-ACC-43	cable	EoL bulletin 'Cisco Ultra-Reliable Wireless Backhaul' (19f6506d) row: FLMESH-HW-ACC-43 = FM-LMR240-N2N-2FT
+wireless	FLMESH-HW-ACC-44	cable	EoL bulletin 'Cisco Ultra-Reliable Wireless Backhaul' (19f6506d) row: FLMESH-HW-ACC-44 = FM-LMR240-QMA2N-2FT
+wireless	FLMESH-HW-ACC-46	cable	EoL bulletin 'Cisco Ultra-Reliable Wireless Backhaul' (19f6506d) row: FLMESH-HW-ACC-46 = FM-LMR240-RPSMA2N-4FT
+wireless	FLMESH-HW-ACC-47	cable	EoL bulletin 'Cisco Ultra-Reliable Wireless Backhaul' (19f6506d) row: FLMESH-HW-ACC-47 = FM-LMR240-QMA2N-4FT
+wireless	FLMESH-HW-ACC-48	cable	EoL bulletin 'Cisco Ultra-Reliable Wireless Backhaul' (19f6506d) row: FLMESH-HW-ACC-48 = FM-LMR240-QMA2N-6FT
+wireless	FLMESH-HW-ACC-49	cable	EoL bulletin 'Cisco Ultra-Reliable Wireless Backhaul' (19f6506d) row: FLMESH-HW-ACC-49 = FM-LMR240-QMA2N-CU
+wireless	FLMESH-HW-ACC-50	cable	EoL bulletin 'Cisco Ultra-Reliable Wireless Backhaul' (19f6506d) row: FLMESH-HW-ACC-50 = FM-LMR240-QMA2QMA-2FT
+wireless	FLMESH-HW-ACC-51	cable	EoL bulletin 'Cisco Ultra-Reliable Wireless Backhaul' (19f6506d) row: FLMESH-HW-ACC-51 = FM-LMR240-QMA2QMA-4FT
+wireless	FLMESH-HW-ACC-52	cable	EoL bulletin 'Cisco Ultra-Reliable Wireless Backhaul' (19f6506d) row: FLMESH-HW-ACC-52 = FM-LMR240-QMA2QMA-6FT
+wireless	FLMESH-HW-ACC-53	cable	EoL bulletin 'Cisco Ultra-Reliable Wireless Backhaul' (19f6506d) row: FLMESH-HW-ACC-53 = FM-LMR240-QMA2QMA-CU
+wireless	FLMESH-HW-ACC-54	cable	EoL bulletin 'Cisco Ultra-Reliable Wireless Backhaul' (19f6506d) row: FLMESH-HW-ACC-54 = FM-LMR240-RPSMA2N-2FT
+wireless	FLMESH-HW-ACC-55	cable	EoL bulletin 'Cisco Ultra-Reliable Wireless Backhaul' (19f6506d) row: FLMESH-HW-ACC-55 = FM-LMR240-RPSMA2N-6FT
+wireless	FLMESH-HW-ACC-56	cable	EoL bulletin 'Cisco Ultra-Reliable Wireless Backhaul' (19f6506d) row: FLMESH-HW-ACC-56 = FM-LMR240-RPSMA2N-CU
+wireless	FLMESH-HW-ACC-57	cable	EoL bulletin 'Cisco Ultra-Reliable Wireless Backhaul' (19f6506d) row: FLMESH-HW-ACC-57 = FM-LMR240-RPSMA2QMA-2FT
+wireless	FLMESH-HW-ACC-58	cable	EoL bulletin 'Cisco Ultra-Reliable Wireless Backhaul' (19f6506d) row: FLMESH-HW-ACC-58 = FM-LMR240-RPSMA2QMA-6FT
+wireless	FLMESH-HW-ACC-59	cable	EoL bulletin 'Cisco Ultra-Reliable Wireless Backhaul' (19f6506d) row: FLMESH-HW-ACC-59 = FM-LMR240-RPSMA2RPSMA-2FT
+wireless	FLMESH-HW-ACC-60	cable	EoL bulletin 'Cisco Ultra-Reliable Wireless Backhaul' (19f6506d) row: FLMESH-HW-ACC-60 = FM-LMR240-RPSMA2RPSMA-4FT
+wireless	FLMESH-HW-ACC-61	cable	EoL bulletin 'Cisco Ultra-Reliable Wireless Backhaul' (19f6506d) row: FLMESH-HW-ACC-61 = FM-LMR240-RPSMA2RPSMA-6FT
+wireless	FLMESH-HW-ACC-62	cable	EoL bulletin 'Cisco Ultra-Reliable Wireless Backhaul' (19f6506d) row: FLMESH-HW-ACC-62 = FM-LMR240-RPSMA2RPSMA-CU
+wireless	FLMESH-HW-ACC-63	cable	EoL bulletin 'Cisco Ultra-Reliable Wireless Backhaul' (19f6506d) row: FLMESH-HW-ACC-63 = FM-SHIELD-RPSMA-CABLE
+wireless	FLMESH-HW-ACC-64	accessory	EoL bulletin 'Cisco Ultra-Reliable Wireless Backhaul' (19f6506d) row: FLMESH-HW-ACC-64 = FM-RPSMA2RPSMA
+wireless	FLMESH-HW-ACC-65	accessory	EoL bulletin 'Cisco Ultra-Reliable Wireless Backhaul' (19f6506d) row: FLMESH-HW-ACC-65 = FM-ATT-06-N
+collaboration-endpoints	CIUS-BATTERY=	power	Lithium Batteries product bulletin row: 'Cius Spare Battery - Cius Tablet'
+collaboration-endpoints	SPVAC-C7416-S=	conference-camera	VXME Accessories data sheet row: 'Logitech Webcam C920-C - Smoke - Global'
+collaboration-endpoints	SPVAC-C7416-S-JP=	conference-camera	VXME Accessories data sheet row: 'LogiCool Webcam C920-C - Smoke - Japan'
+collaboration-endpoints	SPVAC-H5610-S-CL=	headset	VXME Accessories data sheet row: 'Jabra Handset 450 for Cisco - Smoke' (CL)
+collaboration-endpoints	SPVAC-H5610-S-EU=	headset	VXME Accessories data sheet row: 'Jabra Handset 450 for Cisco - Smoke' (EU)
+collaboration-endpoints	SPVAC-H5610-S-JP=	headset	VXME Accessories data sheet row: 'Jabra Handset 450 for Cisco - Smoke' (JP)
+collaboration-endpoints	SPVAC-H5610-S-TW=	headset	VXME Accessories data sheet row: 'Jabra Handset 450 for Cisco - Smoke' (TW)
+collaboration-endpoints	SPVAC-H5610-S-US=	headset	VXME Accessories data sheet row: 'Jabra Handset 450 for Cisco - Smoke' (US)
+collaboration-endpoints	SPVAC-UC725-S-BDL=	bundle	VXME Accessories data sheet row: 'Logitech UC Solution for Cisco 725-C Bundle ... Includes: Logitech UC Keyboard ...'
+collaboration-endpoints	SPVAC-UC725JP-S-BDL=	bundle	VXME Accessories data sheet row: 'LogiCool UC Solution for Cisco 725-C Bundle - Japan Only'
+hyperconverged-systems	HX-16-DC16C	os-license	HX240c M5 LFF spec sheet line: 'HX-16-DC16C Windows Server 2016 Data Center (16 Cores...)'
+hyperconverged-systems	HX-16-DC16C-NS	os-license	HX240c M5 LFF spec sheet line: 'HX-16-DC16C-NS Windows Server 2016 Data Center (16 Cores...)'
+hyperconverged-systems	HX-16-DC16C-RM	os-license	HX240c M5 LFF spec sheet line: 'HX-16-DC16C-RM Windows Server 2016 Data Center (16 Cores...)'
+hyperconverged-systems	HX-16-DC24C	os-license	HX240c M5 LFF spec sheet line: 'HX-16-DC24C Windows Server 2016 Data Center (24 Cores...)'
+hyperconverged-systems	HX-16-DC24C-NS	os-license	HX240c M5 LFF spec sheet line: 'HX-16-DC24C-NS Windows Server 2016 Data Center (24 Cores...)'
+hyperconverged-systems	HX-16-DC24C-RM	os-license	HX240c M5 LFF spec sheet line: 'HX-16-DC24C-RM Windows Server 2016 Data Center (24 Cores...)'
+hyperconverged-systems	HX-16-ST16C	os-license	HX240c M5 LFF spec sheet line: 'HX-16-ST16C Windows Server 2016 Standard (16 Cores...)'
+hyperconverged-systems	HX-16-ST16C-NS	os-license	HX240c M5 LFF spec sheet line: 'HX-16-ST16C-NS Windows Server 2016 Standard (16 Cores...)'
+hyperconverged-systems	HX-16-ST16C-RM	os-license	HX240c M5 LFF spec sheet line: 'HX-16-ST16C-RM Windows Server 2016 Standard (16 Cores...)'
+hyperconverged-systems	HX-16-ST24C	os-license	HX240c M5 LFF spec sheet line: 'HX-16-ST24C Windows Server 2016 Standard (24 Cores...)'
+hyperconverged-systems	HX-16-ST24C-NS	os-license	HX240c M5 LFF spec sheet line: 'HX-16-ST24C-NS Windows Server 2016 Standard (24 Cores...)'
+hyperconverged-systems	HX-16-ST24C-RM	os-license	HX240c M5 LFF spec sheet line: 'HX-16-ST24C-RM Windows Server 2016 Standard (24 Cores...)'
+hyperconverged-infrastructure	HCIX-NVL2-H200	mechanical	X580p PCIe Node spec sheet: 'The NVL Bridge (HCIX-NVL2-H200)' - a passive NVLink bridge between two H200 GPUs
+servers-unified-computing	UCSX-NVL2-H200	mechanical	X580p PCIe Node spec sheet: 'The NVL Bridge (UCSX-NVL2-H200)' - a passive NVLink bridge between two H200 GPUs
+servers-unified-computing	UCSXE-1U-E3S-1L	mechanical	XE150c M8 spec sheet: 'the UCSXE-1U-E3S-1L storage riser' - a passive riser (as Q8's riser)
+servers-unified-computing	UCSXE-1U-E3S-2L	mechanical	XE150c M8 spec sheet: 'If the UCSXE-1U-E3S-2L riser is ...' - a passive riser
+servers-unified-computing	UCSXE-1U-PCI-L	mechanical	XE150c M8 spec sheet: 'the UCSXE-1U-PCI-L IO riser' - a passive riser
+wireless	ASCT-EX2000	appliance	EoL row 'Exciter' - the AeroScout exciter, as its sibling ASCT-EX3200 (ruling 12, 28 Sep)
+video	4002242	plug-in	EoL bulletin row: 4002242 = P2-OPSW-FP-LOINPUT
+video	4002243	plug-in	EoL bulletin row: 4002243 = P2-OPSW-E2-LOINPUT
+video	4010485.114.000.AA	amplifier	EoL bulletin row: 4010485.114.000.AA = P2-EDFA-FPST-18X18.9-LA
+video	4030095	passive	EoL bulletin row: 4030095 = GS7000-OP-CWDM-1X8-1470-1610-SA-MPO
+video	4030098	passive	EoL bulletin row: 4030098 = GS7000-OP-DWDM-1X8-100G-3643-SA-MPO
+video	4030099	passive	EoL bulletin row: 4030099 = GS7000-OP-DWDM-1X8-100G-4451-SA-MPO
+video	4030100	passive	EoL bulletin row: 4030100 = GS7000-OP-BWDM-NCBC8D4-BC3941NC2059SAMPO
+video	4030101	passive	EoL bulletin row: 4030101 = GS7000-OP-BWDM-NCBC8D4-BC18-NC2059-SAMPO
+video	4030106	passive	EoL bulletin row: 4030106 = GS7000-OP-BWDM-NCBC8D4-BC18NC2027F-SAMPO
+video	4030107	passive	EoL bulletin row: 4030107 = GS7000-OP-BWDM-NCBC8D4-BC18NC2835F-SAMPO
+video	4030108	passive	EoL bulletin row: 4030108 = GS7000-OP-BWDM-NCBC8D4-BC18NC3643F-SAMPO
+video	4030109	passive	EoL bulletin row: 4030109 = GS7000-OP-BWDM-NCBC8D4-BC18NC4551F-SAMPO
+video	4033327	passive	EoL bulletin row: 4033327 = GS7000-OP-COUPLER-2X2-EVEN-SA
+video	4033328	passive	EoL bulletin row: 4033328 = GS7000-OP-COUPLER-1X2-95-05-SA
+video	4033329	passive	EoL bulletin row: 4033329 = GS7000-OP-OADM-200G-ITU18-SA
+video	4035899	passive	EoL bulletin row: 4035899 = CYL-BWDM-DPON-13101490/15501610-900-SA
+video	4037358	passive	EoL bulletin row: 4037358 = GS7000-OP-BWDM-1X2-2035-3651-SA
+video	4037359	passive	EoL bulletin row: 4037359 = GS7000-OP-BWDM-1X2-2027-2835-SA
+video	4037360	passive	EoL bulletin row: 4037360 = GS7000-OP-BWDM-1X2-3643-4451-SA
+video	4039503	transmitter	EoL bulletin row: 4039503 = P2-15TXM-12-EM-GHZ-SA-CHC-1WD
+video	4039505	transmitter	EoL bulletin row: 4039505 = P2-15TXM-12-EM-GHZ-SA-CHE-1WD
+video	4039506	transmitter	EoL bulletin row: 4039506 = P2-15TXM-12-EM-GHZ-SA-CHF-1WD
+video	4039507	transmitter	EoL bulletin row: 4039507 = P2-15TXM-12-EM-GHZ-SA-CHG-1WD
+video	4039508	transmitter	EoL bulletin row: 4039508 = P2-15TXM-12-EM-GHZ-SA-CHH-1WD
+video	4040566	amplifier	EoL bulletin row: 4040566 = P2-EDFA-MOD-4X16-SA
+video	4042697	amplifier	EoL bulletin row: 4042697 = P2-HD-EDFA-VGF-1X21-SA
+video	4043499	amplifier	EoL bulletin row: 4043499 = P2-HD-EDFA-VGF-1X17-SA
+video	4043500	amplifier	EoL bulletin row: 4043500 = P2-HD-EDFA-VGF-1X20-SA
+video	4043574	passive	EoL bulletin row: 4043574 = GS7000-OP-DWDM-SQAM-8CH-100G-SA-EXPDTP-C
+video	737015	amplifier	EoL bulletin row: 737015 = P2-EDFA-MOD-GF-1X17-FA
+video	737016	amplifier	EoL bulletin row: 737016 = P2-EDFA-MOD-GF-1X17-E2
+video	737018	amplifier	EoL bulletin row: 737018 = P2-EDFA-MOD-GF-1X20-FA
+video	737019	amplifier	EoL bulletin row: 737019 = P2-EDFA-MOD-GF-1X20-E2
+video	737689	transmitter	EoL bulletin row: 737689 = P2-HD-15TXQ-Super-SA-ITU32-FS
+video	737690	transmitter	EoL bulletin row: 737690 = P2-HD-15TXQ-Super-SA-ITU33-FS
+video	737824	transmitter	EoL bulletin row: 737824 = P2-HD-15TXQ-IWDM-SA-CH1-FS
+video	737825	transmitter	EoL bulletin row: 737825 = P2-HD-15TXQ-IWDM-SA-CH2-FS
+video	737826	transmitter	EoL bulletin row: 737826 = P2-HD-15TXQ-IWDM-SA-CH3-FS
+video	737827	transmitter	EoL bulletin row: 737827 = P2-HD-15TXQ-IWDM-SA-CH4-FS
+video	737828	transmitter	EoL bulletin row: 737828 = P2-HD-15TXQ-IWDM-SA-CH5-FS
+video	737829	transmitter	EoL bulletin row: 737829 = P2-HD-15TXQ-IWDM-SA-CH6-FS
+video	737830	transmitter	EoL bulletin row: 737830 = P2-HD-15TXQ-IWDM-SA-CH7-FS
+video	737831	transmitter	EoL bulletin row: 737831 = P2-HD-15TXQ-IWDM-SA-CH8-FS
+video	737832	transmitter	EoL bulletin row: 737832 = P2-HD-15TXQ-IWDM-SA-CH9-FS
+video	737833	transmitter	EoL bulletin row: 737833 = P2-HD-15TXQ-IWDM-SA-CH10-FS
+video	737834	transmitter	EoL bulletin row: 737834 = P2-HD-15TXQ-IWDM-SA-CH11-FS
+video	737835	transmitter	EoL bulletin row: 737835 = P2-HD-15TXQ-IWDM-SA-CH12-FS
+video	737836	transmitter	EoL bulletin row: 737836 = P2-HD-15TXQ-IWDM-SA-CH13-FS
+video	737837	transmitter	EoL bulletin row: 737837 = P2-HD-15TXQ-IWDM-SA-CH14-FS
+video	737838	transmitter	EoL bulletin row: 737838 = P2-HD-15TXQ-IWDM-SA-CH15-FS
+video	737839	transmitter	EoL bulletin row: 737839 = P2-HD-15TXQ-IWDM-SA-CH16-FS
+hyperconverged-infrastructure	HCIX-NVL2-H200=	mechanical	twin of HCIX-NVL2-H200 (spare = base): X580p PCIe Node spec sheet: 'The NVL Bridge (HCIX-NVL2-H200)' - a passive NVLink bridge between two H200 GPUs
+servers-unified-computing	UCSX-NVL2-H200=	mechanical	twin of UCSX-NVL2-H200 (spare = base): X580p PCIe Node spec sheet: 'The NVL Bridge (UCSX-NVL2-H200)' - a passive NVLink bridge between two H200 GPUs
+video	9270F-DIFL	HELD	EoL row names '9270-DIFLA/B/SI' only: the product is not identifiable from it
+servers-unified-computing	N9K-AC04-A	HELD	NOT A PART: a switch HOSTNAME in the Qumulo white paper's config listing ('interface port-channel10 description Cluster-Node1-P1'): class question
+servers-unified-computing	N9K-AC04-B	HELD	NOT A PART: the same config listing's second switch hostname: class question
+optical-networking	4X100G-LR-S	HELD	A FRAGMENT: the NCS 1014 data sheet row reads '● QDD-4X100G-LR-S' (the real PID): class / retire question
+servers-unified-computing	UCWS-WT-SM-INN12	HELD	both linked EoL bulletins (EN, FR) carry the row 'UCWS-WT-SM-INN12 | VOID': the document says nothing
+storage-networking	MDS-9222I-75-PPT	HELD	the EoL row repeats the SKU with no description: the document says nothing
+wireless	AIR-N-3006-DTA-K9	HELD	EoL row '^NECJ AS3504 DTA'; returned to unknown on 28 Sep as a group-level guess, not re-decided here

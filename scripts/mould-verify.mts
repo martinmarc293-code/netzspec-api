@@ -25,6 +25,7 @@ import { mouldStatuses } from "../src/core/brandMould.js";
 import { NO_PROFILE_REASONS } from "../src/core/noProfileReason.js";
 import { NOT_A_KIND, parityRuled, parityCause, formatParitySplit, KIND_PARITY_EXCEPTIONS, KIND_PARITY_OPEN } from "../src/core/kindProfiles.js";
 import { partKind } from "../src/core/partKind.js";
+import { UNKNOWN_HARDWARE_SQL, splitUnknown, unknownZeroVerdict, type UnknownRow } from "../src/core/unknownEvidence.js";
 import { deployRoleResult, roleAxisOf, roleAxisKinds } from "../src/core/deployRole.js";
 import { query, closePool, getPool } from "../src/store/db.js";
 import { readCompleteness } from "../src/api/queries/completeness.js";
@@ -1460,12 +1461,26 @@ const TESTS: Test[] = [
       // coverage number is only as honest as its denominator.
       // Reviewer ruling 28 Sep 2026: the other vendors' unkinded hardware is vendor_coverage's population, counted
       // APART and never in this check's number (one population, one red). This check's own number is OWN_VENDOR's.
-      const r = await query<{ category: string; n: string }>(
-        "SELECT c.slug AS category, count(*)::text AS n FROM parts p JOIN categories c ON c.id = p.category_id" +
-        " JOIN vendors v ON v.id = p.vendor_id" +
-        " WHERE p.retired_at IS NULL AND (p.sku_kind IS NULL OR p.sku_kind = 'unknown')" +
-        " AND p.product_class = 'hardware' AND v.slug = $1" +
-        " GROUP BY 1 ORDER BY count(*) DESC", [OWN_VENDOR]);
+      // RULING Q9 (3), 29 Sep 2026: the population splits by EVIDENCE (src/core/unknownEvidence.ts, shared with the
+      // completeness report's acquisition queue). EVIDENCED unknowns keep this check red; NO-EVIDENCE ones (a SKU-only name
+      // and no document) are their own term, on the acquisition queue, under a ratchet that may not grow.
+      const rows = (await query<UnknownRow>(UNKNOWN_HARDWARE_SQL, [OWN_VENDOR])).rows;
+      const { evidenced, noEvidence } = splitUnknown(rows);
+      const byCat = (rs: UnknownRow[]) => [...rs.reduce((m, x) => m.set(x.category, (m.get(x.category) ?? 0) + 1), new Map<string, number>())]
+        .sort((a, b) => b[1] - a[1]).map(([c, n]) => `${c} ${n}`).join(", ");
+      const UCEIL = path.join(REPO, "data", "ratchets", "unknown-no-evidence-cisco.json");
+      type UCeil = { vendor: string; unit: string; recorded_at: string; git_sha: string; ceiling: number };
+      let uceil: UCeil | null = null;
+      try { if (existsSync(UCEIL)) uceil = JSON.parse(readFileSync(UCEIL, "utf8")) as UCeil; } catch { uceil = null; }
+      if (uceil && (uceil.vendor !== OWN_VENDOR || typeof uceil.ceiling !== "number")) uceil = null;
+      if (process.argv.includes("--record-unknown-ceiling")) {
+        uceil = { vendor: OWN_VENDOR, unit: "live cisco HARDWARE parts in kind unknown with a SKU-only name and no linked document",
+          recorded_at: new Date().toISOString(), git_sha: process.env.GIT_SHA ?? "unknown", ceiling: Math.min(noEvidence.length, uceil?.ceiling ?? Infinity) };
+        mkdirSync(path.dirname(UCEIL), { recursive: true });
+        writeFileSync(UCEIL, JSON.stringify(uceil, null, 2) + "\n");
+      }
+      const r = { rows: [...rows.reduce((m, x) => m.set(x.category, (m.get(x.category) ?? 0) + 1), new Map<string, number>())]
+        .sort((a, b) => b[1] - a[1]).map(([category, n]) => ({ category, n: String(n) })) };
       const apart = Number((await query<{ n: string }>(
         "SELECT count(*)::text AS n FROM parts p JOIN vendors v ON v.id = p.vendor_id" +
         " WHERE p.retired_at IS NULL AND (p.sku_kind IS NULL OR p.sku_kind = 'unknown')" +
@@ -1482,22 +1497,34 @@ const TESTS: Test[] = [
           const s = resolveFourSets(cat, k);
           return s.req.length + s.pending.length === 0;
         }).map((k) => `${cat}/${k}`));
-      const scope = `${r.rows.length} ${OWN_VENDOR} categories hold an unclassified HARDWARE part; ` +
+      const partition = `${total.toLocaleString()} unknown = ${evidenced.length} EVIDENCED (judged: ${byCat(evidenced) || "none"}) + ` +
+        `${noEvidence.length} NO EVIDENCE (apart, on the acquisition queue; ceiling ${uceil ? `${uceil.ceiling} @${uceil.git_sha.slice(0, 7)}` : "MISSING"}: ${byCat(noEvidence) || "none"})`;
+      const scope = `${partition}; ${r.rows.length} ${OWN_VENDOR} categories hold an unclassified HARDWARE part; ` +
         `${apart.toLocaleString()} other-vendor hardware parts are vendor_coverage's, counted apart; ` +
         `${notHardware.toLocaleString()} further parts have no kind and correctly never will ` +
         `(${excluded.rows.slice(0, 4).map((x) => `${x.cls} ${Number(x.n).toLocaleString()}`).join(", ")}) — ` +
         `excluded from the judgement and counted here, never folded into it; ` +
-        `${askedNothing.length} (category, kind) pairs are asked no required or pending cup at all`;
-      return total === 0 && askedNothing.length === 0
-        ? ok(`no live part is unclassified and every kind is asked something — ${scope}`)
-        : bad(`${total.toLocaleString()} live HARDWARE parts are in kind unknown, so they are asked nothing and ` +
-              `score perfectly while leaving the denominator — ${scope}: ` +
-              r.rows.slice(0, 6).map((x) => `${x.category} ${x.n}`).join(", "));
+        `${askedNothing.length} (category, kind) pairs are asked no required or pending cup at all` +
+        (askedNothing.length ? ` (${askedNothing.slice(0, 6).join(", ")})` : "") +
+        (evidenced.length ? `; evidenced: ${evidenced.slice(0, 12).map((x) => x.sku).join(" ")}${evidenced.length > 12 ? " …" : ""}` : "");
+      const v = unknownZeroVerdict({ evidenced: evidenced.length, noEvidence: noEvidence.length, ceiling: uceil?.ceiling ?? null, askedNothing: askedNothing.length });
+      return v.pass
+        ? ok(`no EVIDENCED part is unclassified, every kind is asked something, and the no-evidence count is within its ratchet — ${scope}`)
+        : bad(`${v.fails.join("; ")} — an unknown part is asked nothing and scores perfectly while leaving the denominator — ${scope}`);
     },
+    // Through the check's OWN functions (unknownEvidence.ts): an unknown part a document links is EVIDENCED and must keep the
+    // check red; a SKU-only, unlinked part is apart and passes within its ceiling; the same count one over the ceiling fails.
     selfTest: async () => {
-      const classified = (kind: string | null) => kind !== null && kind !== "unknown";
-      return { negative: classified("unknown"), positive: classified("power-supply"),
-               note: "a part in kind unknown must fail; a classified part must pass" };
+      const fixture = (linked: boolean, name: string): UnknownRow => ({ sku: "4039503", name, category: "video", linked });
+      const verdict = (rows: UnknownRow[], ceiling: number) => {
+        const { evidenced, noEvidence } = splitUnknown(rows);
+        return unknownZeroVerdict({ evidenced: evidenced.length, noEvidence: noEvidence.length, ceiling, askedNothing: 0 }).pass;
+      };
+      const negative = verdict([fixture(true, "Cisco 4039503")], 5) || verdict([fixture(false, "Cisco 4039503"), fixture(false, "4039503")], 1)
+        || verdict([fixture(false, "Prisma II 1.2 GHz transmitter")], 5);
+      const positive = verdict([fixture(false, "Cisco 4039503")], 1);
+      return { negative, positive,
+               note: "a document-linked unknown, a named unknown and a no-evidence count over its ceiling must each fail; one SKU-only unlinked part within its ceiling passes" };
     },
   },
   {

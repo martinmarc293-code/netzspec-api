@@ -243,7 +243,7 @@ eq("wireless-sensor = the AP set MINUS ap_max_clients (it serves no clients)", r
 eq("backhaul = the AP set (link_budget and max_roaming_speed both optional: no enabled source publishes either)", req("backhaul"), "antenna_type,certifications,dimensions,poe_standard,ports,power_max,radio_bands,radio_count,spatial_streams,temp_operating,weight,wifi_generation");
 eq("wlc = WLC + ENV (humidity, form factor; rack units pending on it)", req("wlc"), "certifications,dimensions,form_factor,humidity_operating,ports,power_max,temp_operating,weight,wlc_ap_capacity,wlc_client_capacity");
 eq("appliance = ENV + ports", req("appliance"), "certifications,dimensions,form_factor,humidity_operating,ports,power_max,temp_operating,weight");
-eq("module = MODULE (ports, data_rate, what it fits)", req("module"), "data_rate,ports,product_compatibility");
+eq("module = MODULE (ports, data_rate, what it fits) + power_max (ruling Q8: every powered module)", req("module"), "data_rate,ports,power_max,product_compatibility");
 eq("power-injector = POWER-INJECTOR (+ input_voltage)", req("power-injector"), "input_voltage,poe_standard,product_compatibility,psu_rated_output");
 eq("antenna keeps today's four (antenna_type NOT added: its domain is internal/external)", req("antenna"), "antenna_connector,antenna_gain,product_compatibility,radio_bands");
 // connector ADDED 29 Sep 2026 (ruling Q4): the objection was never the domain (it holds rp-tnc / n-type / qma / sma / d8 / m12
