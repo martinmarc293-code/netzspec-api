@@ -459,6 +459,12 @@ export function decide(row: FactToCheck, opts: { versionThreshold: string }): Ve
     };
   }
 
+  // A DERIVED fact's raw is its derivation's input, not a value this normaliser reads: replayed here it would read as
+  // refused and be RETRACTED. It is left exactly as it is and counted under its own reason (src/core/derivedReplay.ts).
+  if (String(row.method ?? "").startsWith("derived:")) {
+    return { outcome: "unrecoverable", reason: "DERIVED_REPLAYED_BY_ITS_DERIVATION", magnitude: 1, selectedBy };
+  }
+
   const n = normalizeField(row.category, row.field_key, raw, { locale: localeForMethod(row.method) });
 
   // BEFORE anything is called a refusal or a change: is this replay simply less informed than the

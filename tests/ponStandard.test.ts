@@ -5,6 +5,8 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { ponStandardFromStandards } from "../src/core/ponStandard.js";
 import { DERIVED_FILL_PATHS } from "../src/core/derivedFillPaths.js";
+import { replayDerived } from "../src/core/derivedReplay.js";
+import { decide } from "../src/pipeline/renormalize.js";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 let pass = 0, sabotages = 0;
@@ -44,6 +46,24 @@ const derived = W.rows.filter((r) => r.derived).length;
 check("pon_standard is registered, and its validated sentence states the witness table's own counts",
   !!reg && reg.validated.includes(`derived ${derived} `) && reg.validated.includes(`${W.rows.length} live-part facts`)
     && reg.validated.includes("pon-standard-witnesses.json"), reg?.validated);
+// ---- a derived fact is replayed by its DERIVATION, never by the normaliser (29 Sep 2026) ----------------------------
+check("replayDerived: the registered derivation reproduces a value from the stored raw", replayDerived("derived:pon_standard", CATALYST_PON) === null);
+sabotages++;
+check("SABOTAGE replayDerived: a raw the derivation cannot read is refused with its reason",
+  replayDerived("derived:pon_standard", "IEEE 802.3af")?.reason === "DERIVATION_REFUSED");
+sabotages++;
+check("SABOTAGE replayDerived: a derived method with no registered replay is refused loudly, never waved through",
+  replayDerived("derived:nothing_registered", CATALYST_PON)?.reason === "DERIVATION_UNREGISTERED");
+const row = { id: 1, part_id: 1, sku: "CGP-OLT-8T", field_key: "pon_standard", category: "switches", value: "gpon", unit: null,
+  raw: CATALYST_PON, state: "verified", tier: 2, method: "derived:pon_standard", doc_id: "e947e1ba847e8868", locator: "t11:r2:c1",
+  extracted_at: null, norm_v: "1.8.0", inherited: false, inherited_from: null };
+const kept = decide(row, { versionThreshold: "9.9.9" });
+check("renormalize leaves a derived fact exactly as it is, under its own reason (it would otherwise RETRACT it)",
+  kept.outcome === "unrecoverable" && kept.reason === "DERIVED_REPLAYED_BY_ITS_DERIVATION", kept);
+sabotages++;
+const asRead = decide({ ...row, method: "html_table" }, { versionThreshold: "9.9.9" });
+check("SABOTAGE the same raw on a READ fact is refused by the normaliser: the derived branch is what protects the value",
+  asRead.outcome === "refused", asRead);
 check("the suite carries at least 4 sabotage cases", sabotages >= 4, sabotages);
 
 if (misses.length) { console.log(`ponStandard: ${pass} passed, ${misses.length} missed`); for (const m of misses) console.log(`  MISS ${m}`); process.exit(1); }

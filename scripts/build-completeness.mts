@@ -39,6 +39,7 @@ import { partKind, FALLBACK_KINDS } from "../src/core/partKind.js";
 import { LEDGER_KINDS, kindQuestionSet, slotsAtNothingKnown } from "../src/core/cupLedger.js";
 import { FIELD_DICTIONARY } from "../src/core/fieldSchema.js";
 import { normalizeField, NORM_VERSION } from "../src/core/specNormalize.js";
+import { replayDerived } from "../src/core/derivedReplay.js";
 import { SPEC_BEARING } from "../src/core/docClass.js";
 import {
   checkReport, cupRequirement, ledgerCupKeys, pctOf, UNRESOLVED_ROLE, type Block, type CategoryBlock, type CheckContext, type CompletenessReport, type CrossCheck,
@@ -89,6 +90,7 @@ type FactRow = {
   method: string; state: string; vnull: boolean; inherited: boolean; created_at: string; doc_id: string | null;
 };
 function replayRefusal(category: string, key: string, r: Pick<FactRow, "raw" | "unit" | "method">): { reason: string; detail: string } | null {
+  if (r.method.startsWith("derived:")) return replayDerived(r.method, r.raw);  // its raw is the derivation's input
   const locale = r.method === "hexcat_seed" ? "de" : "en";
   const bare = normalizeField(category, key, r.raw, { locale });
   if (bare.ok) return null;

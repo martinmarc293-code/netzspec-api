@@ -37,6 +37,7 @@ import { partKind } from "../src/core/partKind.js";
 import { LEDGER_KINDS, kindQuestionSet } from "../src/core/cupLedger.js";
 import { FIELD_DICTIONARY, PROFILES, bandFor, domainFor, SUPERSEDED_KEYS } from "../src/core/fieldSchema.js";
 import { normalizeField, NORM_VERSION } from "../src/core/specNormalize.js";
+import { replayDerived } from "../src/core/derivedReplay.js";
 
 const arg = (n: string): string | undefined => { const i = process.argv.indexOf(n); return i >= 0 ? process.argv[i + 1] : undefined; };
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1")), "..");
@@ -105,6 +106,7 @@ type FactRow = {
  * different way, and each was found by someone reading the output rather than the code.
  */
 function replayRefusal(category: string, key: string, r: FactRow): { reason: string; detail: string } | null {
+  if (r.method.startsWith("derived:")) return replayDerived(r.method, r.raw);  // its raw is the derivation's input
   const locale = r.method === "hexcat_seed" ? "de" : "en";
   const bare = normalizeField(category, key, r.raw, { locale });
   if (bare.ok) return null;
