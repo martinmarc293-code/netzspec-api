@@ -684,6 +684,14 @@ console.log(`${pass}/${pass + misses.length} passed`);
     ["Fibre Channel standards", "FC-PH, Revision 4.3 (ANSI/INCITS 230-1994)", "FC-PH, Amendment 1 (ANSI/INCITS 230-1994/AM1 1996)"]);
   is("SABOTAGE ONE spaced middle dot separates a title, it is not a bullet", "Catalyst 9300 · Stackable", ["Catalyst 9300 · Stackable"]);
   is("SABOTAGE an unspaced middle dot is a product of units", "Torque 1.2 N·m · 5 N·m", ["Torque 1.2 N·m · 5 N·m"]);
+  // 1.8.3: a cell that IS a run of prefixes is delimited by them, commas or not (the repaired Catalyst 9300 cell, 287 parts)
+  is("a run whose item carries commas is cut at its prefixes, and the item keeps its commas (Catalyst 9300 Standards)",
+    "IEEE 802.1s IEEE 802.1w IEEE 802.3 10BASE-T, 100BASE-TX, and 1000BASE-T ports IEEE 802.1D Spanning Tree Protocol",
+    ["IEEE 802.1s", "IEEE 802.1w", "IEEE 802.3 10BASE-T, 100BASE-TX, and 1000BASE-T ports", "IEEE 802.1D Spanning Tree Protocol"]);
+  is("SABOTAGE a run never spans the extractor's ' ; ' cell join (IE-3500H: the next cell's MIB list stays apart)",
+    "RFC 768: UDP RFC 1901, 1902-1907 SNMP ; CISCO-IMAGE-MIB, IF-MIB", ["RFC 768: UDP", "RFC 1901, 1902-1907 SNMP", "CISCO-IMAGE-MIB", "IF-MIB"]);
+  is("CONTROL a cell with no run takes the old separators", "Supports IEEE 802.1Q, IEEE 802.1p, and RFC 768",
+    ["Supports IEEE 802.1Q", "IEEE 802.1p", "RFC 768"]);
   // the extractor keeps its own copy of the prefix set (Python); the two must not drift
   const py = fs.readFileSync(path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "scraper/adapters/cisco_specs_deep.py"), "utf8");
   const pyTuple = /STANDARDS_PREFIXES = \(([^)]*)\)/.exec(py)?.[1] ?? "";

@@ -66,7 +66,7 @@ import { isPartNumber } from "../pipeline/partNumber.js";
 //        string to a list on 4 Sep 2026 and the comma splitter then read 396 citation cells for the
 //        first time, cutting "MIL-STD-810, Method 514.4" into two standards that do not exist. The
 //        rule and every bound in it are read off the stored raws — see isCitationContinuation.
-export const NORM_VERSION = "1.8.2"; // 29 Sep 2026: splitter (below) — 1.8.2: the pre-bullet head; spaced · runs
+export const NORM_VERSION = "1.8.3"; // 29 Sep 2026: splitter (below) — 1.8.2 the pre-bullet head, spaced middle-dot runs; 1.8.3 a run of standards prefixes delimits its ;-chunk, commas or not
 // 1.8.1 — 29 Sep 2026, reviewer ruling: two splitter defects with witnesses. A run of standards-body prefixes with no
 //         other delimiter ("ITUT G.984.1 ITUT G.984.2 ... IEEE 802.3af") and "PID or PID" are lists. Bumped so renormalize
 //         selects the stored values the old splitter wrote.
@@ -609,6 +609,20 @@ export function isCitationContinuation(before: string, after: string): boolean {
 
 /** Split on "," and ";" and the words "and"/"und", but never inside brackets — and never inside a
  *  citation (see isCitationContinuation above). */
+/** Split at ONE separator outside brackets — splitOutsideBrackets' depth rule, nothing else (1.8.3). */
+function splitTopLevel(t: string, sep: string): string[] {
+  const out: string[] = [];
+  let depth = 0, start = 0;
+  for (let i = 0; i < t.length; i++) {
+    const c = t[i];
+    if (c === "(" || c === "[" || c === "{") depth++;
+    else if (c === ")" || c === "]" || c === "}") depth = depth > 0 ? depth - 1 : 0;
+    else if (!depth && c === sep) { out.push(t.slice(start, i)); start = i + 1; }
+  }
+  out.push(t.slice(start));
+  return out;
+}
+
 function splitOutsideBrackets(t: string): string[] {
   const out: string[] = [];
   let depth = 0, start = 0;
@@ -807,6 +821,20 @@ export function splitListValue(raw: string, slashRule: SlashRule = "pid-alternat
         ...clean(t.slice(lead).split(BULLET_SPLIT))]);
       return alternatives(bulleted);
     }
+  }
+  // A CELL THAT IS A RUN OF STANDARDS PREFIXES IS DELIMITED BY THEM, commas or not (1.8.3, 29 Sep 2026). Until 1.8.2 the
+  // run rule fired only on a cell with no other delimiter, which held while the 160-character cap cut every long run
+  // before its first comma. The repaired Catalyst 9300 Standards cell (287 parts) is "IEEE 802.1s IEEE 802.1w … IEEE
+  // 802.3 10BASE-T, 100BASE-TX, and 1000BASE-T ports IEEE 802.1D Spanning Tree Protocol …": cut at the comma it became
+  // three members, two of them runs of a dozen standards, and "IEEE 802.3 10BASE-T, 100BASE-TX, and 1000BASE-T ports" —
+  // ONE standard and its description — was broken in three. A run is cut at its prefixes and an item keeps its commas.
+  // A cell whose head is prose ("Compliant with IEEE 802.3af IEEE 802.3at") is not a run and is left to the separators.
+  // The rule works per ';' CHUNK: the extractor joins two cells with " ; ", and a run never spans that join — the first
+  // draft cut the whole cell at its prefixes and merged "RFC 1901, 1902-1907 SNMP" with the next cell's MIB list (the
+  // IE-3500H RFC cells, 9 facts). A cell with no run in any chunk takes exactly the old path.
+  const chunks = splitTopLevel(t, ";");
+  if (chunks.some((c) => splitPrefixRun(c.trim()).length > 1)) {
+    return alternatives(chunks.flatMap((c) => { const run = splitPrefixRun(c.trim()); return run.length > 1 ? run : splitOutsideBrackets(c); }));
   }
   return alternatives(splitOutsideBrackets(t));
 }
