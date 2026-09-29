@@ -20,6 +20,8 @@ import { profileHash, LEDGER_KINDS } from "./cupLedger.js";
 import { FIELD_DICTIONARY, SUPERSEDED_KEYS } from "./fieldSchema.js";
 import { SPEC_BEARING } from "./docClass.js";
 import { DERIVED_FILL_PATHS } from "./derivedFillPaths.js";
+import { INHERIT_CLASS_A, INHERIT_CLASS_B, INHERIT_CLASS_C } from "./specMerge.js";
+import { NORM_VERSION } from "./specNormalize.js";
 import { partKind } from "./partKind.js";
 // kind-layer infra (13 Sep 2026): layer 3 joins the freeze — the role rule table and the role of every live part.
 import { RULES, STRIP, ROLE_DOMAINS, deployRole, roleAxisOf, type Rule } from "./deployRole.js";
@@ -122,7 +124,18 @@ export type FreezeUnits = {
    *  every snapshot row — counted per (category|kind|role) and hashed line by line. */
   roles: { rules: number; rules_sha: string; axes: Record<string, string>; axes_sha: string;
     parts_with_axis: number; unresolved: number; by_role: Record<string, number>; mapping_sha: string };
+  /** Reviewer ruling 29 Sep 2026: both change what a stored value MEANS, so a freeze that does not move when they do cannot
+   *  say two artefacts are comparable. Content, not stamp: the class unit hashes the MEMBERSHIP canInherit reads, never the
+   *  generated file's text or comments; the normaliser unit is the version value, never the comment beside it. */
+  inherit_classes: { a: number; b: number; c: number; sha: string };
+  normaliser: { version: string };
 };
+
+/** The inheritance-class unit: sorted membership of A/B/C. Takes the sets so a sabotage can hand it a moved field. */
+export function inheritClassesUnit(sets: { a: Set<string>; b: Set<string>; c: Set<string> } = { a: INHERIT_CLASS_A, b: INHERIT_CLASS_B, c: INHERIT_CLASS_C }) {
+  const m = { a: [...sets.a].sort(), b: [...sets.b].sort(), c: [...sets.c].sort() };
+  return { a: m.a.length, b: m.b.length, c: m.c.length, sha: sha(stable(m)) };
+}
 
 /** Every unit, from code + committed files + the kind snapshot rows. */
 export function freezeUnits(vendor: string, repoRoot: string, kindRows: KindRow[]): FreezeUnits {
@@ -195,6 +208,8 @@ export function freezeUnits(vendor: string, repoRoot: string, kindRows: KindRow[
       // A row with no column hashes as "?" — distinct from "" (no role), so an old snapshot cannot hash like a new one.
       mapping_sha: sha(kindRows.map((r) => [r.category, r.sku, r.deploy_role ?? "?"].join("\t")).join("\n")),
     },
+    inherit_classes: inheritClassesUnit(),
+    normaliser: { version: NORM_VERSION },
   };
 }
 

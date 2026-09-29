@@ -165,7 +165,7 @@ const row = (o: Partial<ConflictRow>): ConflictRow => ({
   kept_evidence: { tier: 2, method: "html_table", doc_id: docA, norm_v: "1.0.0" },
   rejected_evidence: { tier: 2, method: "html_table", doc_id: docB, norm_v: "1.5.0" },
   kept_raw: null, rejected_raw: null,
-  sku: "C9200L-24P-4G", product_class: "hardware", part_family: "Cisco Catalyst 9200", category: "switches",
+  sku: "C9200L-24P-4G", product_class: "hardware", part_family: "Cisco Catalyst 9200", part_series: null, category: "switches",
   fact_id: 99, fact_value: 3048, fact_unit: "m", fact_raw: "10,000 ft. (3000 meters)", fact_state: "conflict",
   fact_tier: 1, fact_method: "html_table", fact_doc: docA, fact_locator: "t2:r2:c1", fact_extracted_at: "2026-09-01",
   fact_norm_v: "1.0.0", inherited: false, inherited_from: null,

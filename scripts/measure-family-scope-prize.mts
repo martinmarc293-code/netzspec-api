@@ -80,7 +80,7 @@ for (const d of docs) {
     if (!part) { refusedBy["not a part in the catalogue"] = (refusedBy["not a part in the catalogue"] ?? 0) + 1; pairs++; continue; }
     pairs++;
     const refusal = describesPart({ sku: part.sku, productClass: part.product_class,
-      categorySlug: part.cat, partFamily: NEUTRAL, docFamily: NEUTRAL });
+      categorySlug: part.cat, partFamily: NEUTRAL, partSeries: null, docFamily: NEUTRAL });
     if (refusal) refusedBy[refusal.rule.split(":")[0] + ":" + (refusal.rule.split(":")[1] ?? "")] =
       (refusedBy[refusal.rule.split(":")[0] + ":" + (refusal.rule.split(":")[1] ?? "")] ?? 0) + 1;
     else { survivors++; survivingPairs++; }
@@ -101,7 +101,7 @@ for (const d of docs) {
   for (const raw of d.pids) {
     const part = bySku.get(raw.trim().toUpperCase());
     if (part && !describesPart({ sku: part.sku, productClass: part.product_class, categorySlug: part.cat,
-      partFamily: NEUTRAL, docFamily: NEUTRAL })) s++;
+      partFamily: NEUTRAL, partSeries: null, docFamily: NEUTRAL })) s++;
   }
   rowsOut += d.specFacts * s;
 }

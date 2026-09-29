@@ -779,8 +779,11 @@ export type InheritSubject = {
   productClass?: string | null;
   /** the part's category slug */
   categorySlug?: string | null;
-  /** parts.family */
+  /** parts.family — the MODEL since 8 Sep 2026 (the SKU minus its orderable suffix): the model-scope evidence */
   partFamily?: string | null;
+  /** parts.product_series (layer 4): the family-scope evidence. REQUIRED, and `undefined` throws in describesPart: a query
+   *  that forgot the column would otherwise fall back to the model alone in silence, which is the defect being closed. */
+  partSeries: string | null;
   /** the family the fact would be inherited FROM: the scope label, or the datasheet's own family */
   docFamily?: string | null;
 };
@@ -797,14 +800,21 @@ export function describesPart(s: InheritSubject): { rule: string; reason: string
   if (s.categorySlug && ACCESSORY_CATEGORIES.has(s.categorySlug)) {
     return { rule: `category:${s.categorySlug}`, reason: `INHERIT_NOT_A_SUBJECT: ${s.sku} is in category ${s.categorySlug}` };
   }
-  const fam = familyMatches(s.partFamily, s.docFamily);
-  if (fam === null) {
-    return { rule: "family:unknown", reason: `INHERIT_NOT_A_SUBJECT: ${s.sku} family ${JSON.stringify(s.partFamily ?? null)} / document family ${JSON.stringify(s.docFamily ?? null)} — one of them names no product line` };
+  // TWO INPUTS, EITHER ONE ADMITS (reviewer ruling 29 Sep 2026). parts.family has meant the MODEL since 8 Sep, so compared
+  // alone it no longer matched a series datasheet ('C9300-24T' against catalyst-9300-series-switches) and refused 25,154
+  // current inherited facts. Layer 4 is the family-scope evidence, the model the model-scope evidence: a single-model sheet
+  // (rv160-vpn-router) is matched by the model where layer 4 ('RV Series') is coarser than the document. This is what
+  // "layer 4 for family scope, model for model scope" reduces to without detecting the document's scope: nothing admitted
+  // on the model alone is lost (0 ok -> refused), and 10,172 refused facts are admitted by layer 4.
+  if (s.partSeries === undefined) throw new Error(`describesPart(${s.sku}): partSeries not supplied — the caller's query must select parts.product_series`);
+  const byModel = familyMatches(s.partFamily, s.docFamily), bySeries = familyMatches(s.partSeries, s.docFamily);
+  if (byModel === true || bySeries === true) return null;
+  const said = `model ${JSON.stringify(s.partFamily ?? null)}, series ${JSON.stringify(s.partSeries)}`;
+  // A mismatch on EITHER side is evidence of two different products; unknown only when neither side could compare.
+  if (byModel === false || bySeries === false) {
+    return { rule: "family:mismatch", reason: `INHERIT_NOT_A_SUBJECT: ${s.sku} (${said}) is not the document's family ${JSON.stringify(s.docFamily)}` };
   }
-  if (fam === false) {
-    return { rule: "family:mismatch", reason: `INHERIT_NOT_A_SUBJECT: ${s.sku} is family ${JSON.stringify(s.partFamily)}, the document's family is ${JSON.stringify(s.docFamily)}` };
-  }
-  return null;
+  return { rule: "family:unknown", reason: `INHERIT_NOT_A_SUBJECT: ${s.sku} (${said}) / document family ${JSON.stringify(s.docFamily ?? null)} — one of them names no product line` };
 }
 
 // ---------------------------------------------------------------------------------------------

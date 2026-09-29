@@ -163,10 +163,10 @@ async function main(): Promise<void> {
   }
 
   // ---- the gate -------------------------------------------------------------------------------------------------------------------------
-  type Reread = { id: string; current: boolean; inherited: boolean; state: string; field_key: string; inherited_from: string | null; part_id: string; sku: string; pc: string; retired: boolean; category_id: number; family: string | null };
+  type Reread = { id: string; current: boolean; inherited: boolean; state: string; field_key: string; inherited_from: string | null; part_id: string; sku: string; pc: string; retired: boolean; category_id: number; family: string | null; product_series: string | null };
   const reread = new Map((await pool.query<Reread>(
     `SELECT f.id::text AS id, (f.superseded_by IS NULL) AS current, f.inherited, f.state::text AS state, f.field_key, f.inherited_from,
-            p.id::text AS part_id, p.sku, p.product_class::text AS pc, (p.retired_at IS NOT NULL) AS retired, p.category_id, p.family
+            p.id::text AS part_id, p.sku, p.product_class::text AS pc, (p.retired_at IS NOT NULL) AS retired, p.category_id, p.family, p.product_series
        FROM facts f JOIN parts p ON p.id = f.part_id WHERE f.id = ANY($1::bigint[])`, [retract.map((f) => f.id)])).rows.map((r) => [r.id, r]));
   const planned = new Set(partIds);
   let ok = 0, changed = 0, notRefused = 0, unreadable = 0;
@@ -178,7 +178,7 @@ async function main(): Promise<void> {
         || r.retired || r.pc !== expectedClass || (sel.categoryId !== null && Number(r.category_id) !== Number(sel.categoryId)) || !planned.has(r.part_id)) {
       changed++; misses.push(`${f.sku} ${f.field_key}: changed since it was read (current ${r.current}, inherited ${r.inherited}, state ${r.state}, class ${r.pc} — expected ${expectedClass}, retired ${r.retired})`); continue;
     }
-    const refusal = describesPart({ sku: r.sku, productClass: targetClass, categorySlug: category, partFamily: r.family, docFamily: r.inherited_from });
+    const refusal = describesPart({ sku: r.sku, productClass: targetClass, categorySlug: category, partFamily: r.family, partSeries: r.product_series, docFamily: r.inherited_from });
     if (refusal?.rule !== `class:${targetClass}`) { notRefused++; misses.push(`${r.sku} ${r.field_key}: the store's inheritance rule does not refuse a family fact to a ${targetClass} (${refusal ? refusal.rule : "no refusal"})`); continue; }
     ok++;
   }

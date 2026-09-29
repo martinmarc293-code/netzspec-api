@@ -245,7 +245,7 @@ export type ApplyResult = {
 };
 
 /** What `describesPart` needs about the part, as the store reads it. */
-type PartSubjectRow = { sku: string; product_class: string | null; category_slug: string | null; family: string | null };
+type PartSubjectRow = { sku: string; product_class: string | null; category_slug: string | null; family: string | null; product_series: string | null };
 
 /**
  * Merge `incoming` into the part's current fact for the same field and perform the effect:
@@ -266,7 +266,7 @@ type PartSubjectRow = { sku: string; product_class: string | null; category_slug
  */
 export async function applyMerge(client: Queryable, partId: number, incoming: SpecEntry, runId: number): Promise<ApplyResult> {
   const cur = await client.query<FactRow & PartSubjectRow>(
-    `SELECT p.sku, p.product_class::text AS product_class, p.family, c.slug AS category_slug,
+    `SELECT p.sku, p.product_class::text AS product_class, p.family, p.product_series, c.slug AS category_slug,
             f.id, f.part_id, f.field_key, f.value, f.unit, f.raw, f.state, f.tier, f.method, f.doc_id, f.locator,
             f.extracted_at::text AS extracted_at, f.norm_v, f.inherited, f.inherited_from, f.run_id, f.created_at, f.superseded_by, f.superseded_at
        FROM parts p
@@ -288,7 +288,7 @@ export async function applyMerge(client: Queryable, partId: number, incoming: Sp
   if (incoming.inherited === true) {
     const refusal = describesPart({
       sku: row.sku, productClass: row.product_class, categorySlug: row.category_slug,
-      partFamily: row.family, docFamily: incoming.inherited_from ?? null,
+      partFamily: row.family, partSeries: row.product_series, docFamily: incoming.inherited_from ?? null,
     });
     if (refusal) return { action: "refused_inherit", refused: refusal.reason, rule: refusal.rule, factId: existing?.id };
   }

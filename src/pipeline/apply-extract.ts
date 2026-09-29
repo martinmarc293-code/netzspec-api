@@ -203,7 +203,7 @@ export function familyLabel(scope: string | undefined, url: string): string {
 // ---- the plan: everything decided, nothing written --------------------------------------------------
 /** `product_class` is here for `storeRefusal`: describesPart refuses a licence or a service
  *  outright, and the plan cannot predict the store's refusal without it. */
-export type PartRef = { id: number; sku: string; category: string; family: string | null; product_class: string | null };
+export type PartRef = { id: number; sku: string; category: string; family: string | null; product_class: string | null; product_series: string | null };
 
 export type DocInfo = DocRef & {
   source: string; kind: SourceKind; tables: number | null; fetched_at: string | null;
@@ -318,7 +318,7 @@ export function storeRefusal(part: PartRef, e: SpecEntry): { rule: string; reaso
   if (e.inherited === true) {
     const refusal = describesPart({
       sku: part.sku, productClass: part.product_class, categorySlug: part.category,
-      partFamily: part.family, docFamily: e.inherited_from ?? null,
+      partFamily: part.family, partSeries: part.product_series, docFamily: e.inherited_from ?? null,
     });
     if (refusal) return refusal;
   }
@@ -349,13 +349,13 @@ export async function loadParts(vendor: string, skus: Iterable<string>, db: Quer
   const byNorm = new Map<string, PartRef>();
   for (let i = 0; i < wanted.length; i += 1000) {
     const r = await db.query<PartRef & { sku_norm: string }>(
-      `SELECT p.id, p.sku, p.sku_norm, c.slug AS category, p.family, p.product_class::text AS product_class
+      `SELECT p.id, p.sku, p.sku_norm, c.slug AS category, p.family, p.product_series, p.product_class::text AS product_class
          FROM parts p JOIN categories c ON c.id = p.category_id
         WHERE p.vendor_id = (SELECT id FROM vendors WHERE slug = $1) AND p.sku_norm = ANY($2::text[])
         ORDER BY p.sku`,
       [vendor, wanted.slice(i, i + 1000)]);
     for (const row of r.rows) {
-      const ref: PartRef = { id: row.id, sku: row.sku, category: row.category, family: row.family, product_class: row.product_class };
+      const ref: PartRef = { id: row.id, sku: row.sku, category: row.category, family: row.family, product_class: row.product_class, product_series: row.product_series };
       exact.set(row.sku, ref);
       if (!byNorm.has(row.sku_norm)) byNorm.set(row.sku_norm, ref);
     }

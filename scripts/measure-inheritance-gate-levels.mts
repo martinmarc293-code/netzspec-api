@@ -41,7 +41,7 @@ try {
   console.log(`  pairs whose family_raw is null: ${rows.filter((r) => r.family_raw === null).length}; series null: ${rows.filter((r) => r.series === null).length}; family null: ${rows.filter((r) => r.family === null).length}`);
 
   const verdict = (r: Pair, fam: string | null): string =>
-    describesPart({ sku: r.sku, productClass: r.product_class, categorySlug: r.category, partFamily: fam, docFamily: r.inherited_from })?.rule ?? "ACCEPT";
+    describesPart({ sku: r.sku, productClass: r.product_class, categorySlug: r.category, partFamily: fam, partSeries: null, docFamily: r.inherited_from })?.rule ?? "ACCEPT"; // null: one input at a time
   const cells = new Map<string, { pairs: number; facts: number; eg: string[] }>();
   for (const r of rows) {
     const k = `family_raw=${verdict(r, r.family_raw)} | family(model)=${verdict(r, r.family)} | series=${verdict(r, r.series)}`;

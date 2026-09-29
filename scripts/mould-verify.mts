@@ -185,7 +185,7 @@ const RUN_KIND_CLASS: Record<string, { approval: boolean; gate: boolean }> = {
   // apply-* that also change membership or withdraw -> both
   "apply-retract-inherited": AG, "apply-retract-column-backed": AG, "apply-retract-port-misparse": AG,
   "apply-promote-only-source-series": AG, "apply-reclassify-hardware-evidence": AG,
-  "apply-reclassify-nonhardware": AG, "apply-enumeration": AG,
+  "apply-reclassify-nonhardware": AG, "apply-enumeration": AG, "apply-repair-truncated": AG,
   // writes facts -> gate
   "apply-acquired": G, "apply-specs": G, "apply-renormalize": G, "apply-remerge": G, "apply-derive-cellular": G,
   "apply-key-holders": G, "remap-cpu-power-to-tdp": G, "reroute-per-slot-capacity": G, "rekey-psu-and-compat": G,

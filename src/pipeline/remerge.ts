@@ -71,7 +71,7 @@ export type ConflictRow = {
   kept: unknown; rejected: unknown; reason: string;
   kept_evidence: Prov | null; rejected_evidence: Prov | null;
   kept_raw: string | null; rejected_raw: string | null;
-  sku: string; product_class: string | null; part_family: string | null; category: string | null;
+  sku: string; product_class: string | null; part_family: string | null; part_series: string | null; category: string | null;
   fact_id: number | null; fact_value: unknown; fact_unit: string | null; fact_raw: string | null;
   fact_state: string | null; fact_tier: number | null; fact_method: string | null; fact_doc: string | null;
   fact_locator: string | null; fact_extracted_at: string | null; fact_norm_v: string | null;
@@ -82,7 +82,7 @@ export type ConflictRow = {
 const CONFLICT_SQL = `
   SELECT k.id, k.run_id, k.part_id, k.field_key, k.kept, k.rejected, k.reason,
          k.kept_evidence, k.rejected_evidence, k.kept_raw, k.rejected_raw,
-         p.sku, p.product_class::text AS product_class, p.family AS part_family, c.slug AS category,
+         p.sku, p.product_class::text AS product_class, p.family AS part_family, p.product_series AS part_series, c.slug AS category,
          f.id AS fact_id, f.value AS fact_value, f.unit AS fact_unit, f.raw AS fact_raw,
          f.state::text AS fact_state, f.tier AS fact_tier, f.method AS fact_method, f.doc_id AS fact_doc,
          f.locator AS fact_locator, f.extracted_at::text AS fact_extracted_at, f.norm_v AS fact_norm_v,
@@ -206,7 +206,7 @@ export function decide(r: ConflictRow): Decision {
   if (r.inherited === true) {
     const refusal = describesPart({
       sku: r.sku, productClass: r.product_class, categorySlug: r.category,
-      partFamily: r.part_family, docFamily: r.inherited_from,
+      partFamily: r.part_family, partSeries: r.part_series, docFamily: r.inherited_from,
     });
     if (refusal) return { kind: "retract", rule: refusal.rule, reason: refusal.reason, state: "gap_unattempted" };
   }
@@ -296,7 +296,7 @@ export function gateRemerge(rows: ConflictRow[], decisions: Map<number, Decision
       continue;
     }
     if (r.inherited !== true) misses.push(`RETRACT_NOT_INHERITED conflict ${r.id} ${r.sku}/${r.field_key}: fact ${r.fact_id} is a per-SKU value`);
-    if (d.rule === "family:mismatch" && familyMatches(r.part_family, r.inherited_from) === true) {
+    if (d.rule === "family:mismatch" && (familyMatches(r.part_family, r.inherited_from) === true || familyMatches(r.part_series, r.inherited_from) === true)) {
       misses.push(`RETRACT_CONTRADICTION conflict ${r.id} ${r.sku}/${r.field_key}: rule says family mismatch, familyMatches says they match`);
     }
   }

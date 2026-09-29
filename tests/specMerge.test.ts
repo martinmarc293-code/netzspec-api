@@ -415,7 +415,27 @@ check("the shipped normaliser version is newer than the one the corpus was writt
 // 4. describesPart — being LISTED in a document is not being described by it
 // =================================================================================================
 type S = Parameters<typeof describesPart>[0];
-const subj = (o: Partial<S> & { sku: string }): S => ({ productClass: "hardware", categorySlug: "switches", partFamily: "Cisco Catalyst 9200", docFamily: "catalyst-9200-series-switches", ...o });
+const subj = (o: Partial<S> & { sku: string }): S => ({ productClass: "hardware", categorySlug: "switches", partFamily: "Cisco Catalyst 9200", partSeries: null, docFamily: "catalyst-9200-series-switches", ...o });
+
+// ---- two inputs, either one admits (reviewer ruling 29 Sep 2026): the model is the model-scope evidence, layer 4 the
+// family-scope evidence. Each case has a twin with the admitting input removed, so a case cannot pass on the other input.
+{
+  const rv = { sku: "RV160-K9-NA", categorySlug: "routers", partFamily: "RV160-K9-NA", partSeries: "RV Series", docFamily: "rv160-vpn-router" };
+  check("model scope: RV160 inherits from the single-model rv160 sheet by its MODEL, where layer 4 ('RV Series') is coarser",
+    describesPart(subj(rv)) === null, JSON.stringify(describesPart(subj(rv))));
+  check("SABOTAGE the same part with the model taken away is refused: the model is what admits it",
+    describesPart(subj({ ...rv, partFamily: null }))?.rule === "family:unknown", JSON.stringify(describesPart(subj({ ...rv, partFamily: null }))));
+  const c93 = { sku: "C9300-24T", partFamily: "C9300-24T", partSeries: "Catalyst 9300", docFamily: "catalyst-9300-series-switches" };
+  check("family scope: C9300-24T inherits from the catalyst-9300 SERIES sheet by layer 4", describesPart(subj(c93)) === null, JSON.stringify(describesPart(subj(c93))));
+  check("SABOTAGE the model alone refuses it (the 8 Sep defect: family became the model): layer 4 is what admits it",
+    describesPart(subj({ ...c93, partSeries: null }))?.rule === "family:mismatch", JSON.stringify(describesPart(subj({ ...c93, partSeries: null }))));
+  const drive = { sku: "UCS-HD600G10K12N", categorySlug: "servers", partFamily: "UCS-HD600G10K12N", partSeries: "Drives and storage", docFamily: "ucs-c-series-rack-servers" };
+  check("SABOTAGE a drive does not inherit a rack server's specs: neither input describes it, refused as a MISMATCH naming layer 4",
+    describesPart(subj(drive))?.rule === "family:mismatch" && /series "Drives and storage"/.test(describesPart(subj(drive))?.reason ?? ""), JSON.stringify(describesPart(subj(drive))));
+  let threw = false;
+  try { describesPart({ ...subj(c93), partSeries: undefined as unknown as null }); } catch { threw = true; }
+  check("SABOTAGE a caller whose query never selected product_series throws, never falls back to the model in silence", threw);
+}
 
 check("a real switch reading its own series datasheet may inherit",
   describesPart(subj({ sku: "C9200L-24P-4G" })) === null);
@@ -622,7 +642,7 @@ check("every curated pair names a real dictionary field and a category that has 
   // `family:unknown` refused it — and refused the hardware CONTROL identically, so it could not have
   // told the two apart. Matching families on both sides, and the control proves the rest of
   // describesPart lets this subject through, so the only variable left is the class.
-  const subject = { sku: "NZ-TEST-PART-9", partFamily: "Catalyst 2960-X", docFamily: "Catalyst 2960-X" };
+  const subject = { sku: "NZ-TEST-PART-9", partFamily: "Catalyst 2960-X", partSeries: null, docFamily: "Catalyst 2960-X" };
   check("CONTROL the fixture is otherwise acceptable, so the class is the only variable",
     describesPart({ ...subject, productClass: "hardware" }) === null);
   check("a `license` part IS refused — the rule non_product now joins",

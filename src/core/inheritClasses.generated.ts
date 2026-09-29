@@ -531,9 +531,4 @@ export const GENERATED_CLASS_C: string[] = [
   "sgt_bindings",   // A hardware table-size scale limit; usually uniform but a per-model figure in the document must win.
   "sgt_policies",   // Architectural table-size limit; inherit only if no per-SKU value is stated.
   "virtual_networks",   // VN/VRF scale limit; an architectural ceiling, per-model value wins if present.
-  // --- 2026-09-29 reviewer ruling (batch 4 b): the class was missing, not the fact — ieee_standards is 100% inherited on
-  // switches, yet canInherit refused it, so its 44 truncated inherited cells could not be replayed. Added by hand: the
-  // legacy generator (src/pipeline/legacy/apply-inheritance-classes.mjs) rebuilds the whole file from a 2 Sep journal
-  // into lib/, which would drop every dated section since. ---
-  "ieee_standards",   // A standards list stated once per series, like supported_protocols. C not A: a PoE and a non-PoE member of one sheet can carry different 802.3 lists, and a per-model list must win.
 ];

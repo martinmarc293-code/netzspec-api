@@ -11,8 +11,9 @@ import fs from "node:fs";
 import path from "node:path";
 import { REPO_ROOT } from "../src/config.js";
 import {
-  freezeUnits, freezeHash, parseKindSnapshot, kindDrift, sha, stable, roleDrift, roleRuleTable, liveRoleOf, type FreezeUnits, type KindRow,
+  freezeUnits, freezeHash, parseKindSnapshot, kindDrift, sha, stable, roleDrift, roleRuleTable, liveRoleOf, inheritClassesUnit, type FreezeUnits, type KindRow,
 } from "../src/core/arrangementFreeze.js";
+import { INHERIT_CLASS_A, INHERIT_CLASS_B, INHERIT_CLASS_C } from "../src/core/specMerge.js";
 import { RULES } from "../src/core/deployRole.js";
 
 let pass = 0;
@@ -55,6 +56,22 @@ if (fs.existsSync(file) && fs.existsSync(tsv)) {
   check("the kind snapshot and the ledgers describe the same population, per category", snapshotCounts.length === 0,
     snapshotCounts.map(([c, d]) => `${c}: snapshot ${now.kinds.by_category[c] ?? 0}, ledger ${d.parts}`).join("; "));
   check("the freeze hash is reproduced", freezeHash(now) === frozen.freeze_hash, `now ${freezeHash(now).slice(0, 16)}, frozen ${frozen.freeze_hash.slice(0, 16)}`);
+
+  // ---- inheritance classes and the normaliser version (reviewer ruling 29 Sep 2026: both change what a stored value means) ----
+  const fi = (f as Partial<FreezeUnits>).inherit_classes, fn = (f as Partial<FreezeUnits>).normaliser;
+  check("inherit classes: the freeze pins the class unit", fi !== undefined, `the committed freeze predates it — ${REFREEZE}`);
+  if (fi) check(`inherit classes: the A ${fi.a} / B ${fi.b} / C ${fi.c} membership canInherit reads is frozen`, now.inherit_classes.sha === fi.sha,
+    `now A ${now.inherit_classes.a} / B ${now.inherit_classes.b} / C ${now.inherit_classes.c} — ${REFREEZE}`);
+  check("normaliser: the freeze pins NORM_VERSION", fn !== undefined, `the committed freeze predates it — ${REFREEZE}`);
+  if (fn) check(`normaliser: NORM_VERSION ${fn.version} is the frozen one`, now.normaliser.version === fn.version, `now ${now.normaliser.version} — ${REFREEZE}`);
+  // The moved field is taken FROM class C and checked absent from A: the first fixture moved ieee_standards, which was
+  // already a hand-written A member, so the move changed nothing and the sabotage stayed green.
+  const mv = [...INHERIT_CLASS_C].find((k) => !INHERIT_CLASS_A.has(k)) ?? "";
+  check(`SABOTAGE a field moved from class C to A (${mv}) changes the class unit`, mv !== "" &&
+    inheritClassesUnit({ a: new Set([...INHERIT_CLASS_A, mv]), b: INHERIT_CLASS_B, c: new Set([...INHERIT_CLASS_C].filter((k) => k !== mv)) }).sha !== now.inherit_classes.sha);
+  check("CONTROL the same membership in another order hashes the same (content, not text)",
+    inheritClassesUnit({ a: new Set([...INHERIT_CLASS_A].reverse()), b: INHERIT_CLASS_B, c: INHERIT_CLASS_C }).sha === now.inherit_classes.sha);
+  check("SABOTAGE a different NORM_VERSION changes the freeze hash", freezeHash({ ...now, normaliser: { version: "0.0.0" } }) !== freezeHash(now));
 
   // ---- layer 3 (kind-layer infra, 13 Sep 2026): the role of every frozen row, and the rule table that derives it -----
   // A SNAPSHOT WITHOUT THE COLUMN is its own finding, not "no roles": the rows cannot be compared, and a check that
