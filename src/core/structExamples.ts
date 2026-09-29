@@ -35,7 +35,9 @@ export const STRUCT_EXAMPLES: Record<string, { raw: string; from: string }> = {
   // THE ONE THE CHECK EXISTS FOR. No stored fact anywhere, so the example is what the vendor PRINTS:
   // the label "Antenna Gain" carries "● 2.4G: 0.6 dBi ● 5G: 0.8 dBi" (14 occurrences) and "Peak Gain"
   // carries "6 dBi" (7). Both must parse for the cup to be fillable; today neither does.
-  antenna_gain: { raw: "● 2.4 GHz: 0.6 dBi ● 5 GHz: 0.8 dBi", from: "datasheet label inventory, 14 occurrences" },
+  // 29 Sep 2026: the raw is now the PRINTED form the comment above quotes ("2.4G", not "2.4 GHz"). The paraphrase stood in
+  // for it until the parser existed, and a parser proven on the paraphrase refused the vendor's real string.
+  antenna_gain: { raw: "● 2.4G: 0.6 dBi ● 5G: 0.8 dBi", from: "datasheet label inventory, 14 occurrences" },
 };
 
 /**

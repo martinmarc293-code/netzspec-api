@@ -211,7 +211,7 @@ const RUN_KIND_CLASS: Record<string, { approval: boolean; gate: boolean }> = {
   "recompute-completeness": D, "write-layers-to-db": D, "build-spare-of": D, "derive-link-provenance": D,
   "derive-part-states": D, "fill-family-from-hct-category": D, "sync-dictionary": D, "derive-pon-standard": D, "name-language": D,
   "name-spare-packaging": D, "name-spare-wording": D, "name-from-twin": D, "images": D, "probe-failure-reason": D,
-  "reclassify-by-twin-siblings": A, "retire-psu-options": AG, "retract-capability-or": A,
+  "reclassify-by-twin-siblings": A, "retire-psu-options": AG, "retract-capability-or": A, "restamp-orphan-withdrawals": A,
   "backfill-doc-titles": D, "record-title-provenance": D, "record-retroactive-approval": A, "retro-gate": A, "apply-series-hints": AG, "apply-product-compat": AG, "set-series": A,
 };
 // The vendor this lane has axes for; vendor_coverage owns every other vendor's hardware (unknown_zero counts them apart).
@@ -295,10 +295,13 @@ const TESTS: Test[] = [
     // it went red on its first run because I had pasted a DISPLAY-TRUNCATED raw into the example table, and the
     // full string parses. Both run through the REAL normalizeField, never a stand-in.
     selfTest: async () => {
-      const bad = STRUCT_EXAMPLES.antenna_gain, good = STRUCT_EXAMPLES.dimensions;
+      // MOVED 29 Sep 2026: antenna_gain gained its parser (Batch C), so it can no longer be the negative. bidi_wavelengths is
+      // the next real one: a declared struct shape with NO parser behind it, and a real printed value -- "Tx 1490 nm / Rx 1310 nm"
+      // is stored 9x under `wavelength` on BiDi optics, which is exactly the cell this cup exists to hold.
+      const bad = { raw: "Tx 1490 nm / Rx 1310 nm" }, good = STRUCT_EXAMPLES.dimensions;
       const parses = (cat: string, key: string, raw: string) =>
         (normalizeField(cat, key, raw, { locale: "en" }) as { ok: boolean }).ok;
-      const structNeg = parses("wireless", "antenna_gain", bad.raw);     // must be FALSE: no parser behind the shape
+      const structNeg = parses("transceiver", "bidi_wavelengths", bad.raw);   // must be FALSE: no parser behind the shape
       const structPos = parses("switches", "dimensions", good.raw);      // must be TRUE: a shape with a parser
       // THE ENUM HALF'S FIXTURE AND ITS TWIN ARE THE SAME CATEGORY AND THE SAME CUP, differing only in the
       // VALUE — which is the whole claim being proven: the rule distinguishes what is stored, not which cup
@@ -314,7 +317,7 @@ const TESTS: Test[] = [
         // named in the note, because a single boolean cannot say which condition stopped distinguishing.
         negative: structNeg || enumNeg,
         positive: structPos && enumPos,
-        note: `struct: antenna_gain accepts its own canonical example = ${structNeg} (must be false), dimensions = ${structPos} (must be true); ` +
+        note: `struct: bidi_wavelengths accepts a real printed BiDi pair = ${structNeg} (must be false), dimensions = ${structPos} (must be true); ` +
               `enum: transceiver/standard admits "-40 bis 85 °C" = ${enumNeg} (must be false), admits "10gbase-dwdm" = ${enumPos} (must be true)`,
       };
     },

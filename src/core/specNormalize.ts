@@ -1777,8 +1777,8 @@ type Reach = { medium?: string; distanz: number };
 // any parser -- a required cup on 216 wireless antennas with a shape and nothing behind it. A gain is accepted only WITH
 // its band, in either order ("2.4 GHz: 4 dBi", "4 dBi @ 5 GHz"); a range, a gain with no band, one band stated with two
 // gains (several antennas in one cell), and anything but dBi are refused and named. A single-band antenna keeps one key.
-const GAIN_BAND_FIRST = /(?<![0-9.,])(2[.,]4|5)\s*GHz\s*[:=\-\u2013]?\s*(?:gain\s*[:=]?\s*)?([+\-\u2212]?[0-9]+(?:[.,][0-9]+)?)\s*dBi(?![a-z])/gi;
-const GAIN_FIRST = /(?<![0-9.,])([+\-\u2212]?[0-9]+(?:[.,][0-9]+)?)\s*dBi\s*(?:\(\s*)?(?:at|@|in|for)?\s*(2[.,]4|5)\s*GHz/gi;
+const GAIN_BAND_FIRST = /(?<![0-9.,])(2[.,]4|5)\s*G(?:Hz)?(?![a-z])\s*[:=\-\u2013]?\s*(?:gain\s*[:=]?\s*)?([+\-\u2212]?[0-9]+(?:[.,][0-9]+)?)\s*dBi(?![a-z])/gi;
+const GAIN_FIRST = /(?<![0-9.,])([+\-\u2212]?[0-9]+(?:[.,][0-9]+)?)\s*dBi\s*(?:\(\s*)?(?:at|@|in|for)?\s*(2[.,]4|5)\s*G(?:Hz)?(?![a-z])/gi;
 const GAIN_RANGE = /[0-9]\s*(?:-|\u2013|to)\s*[0-9]+(?:[.,][0-9]+)?\s*dBi/i;
 function parseAntennaGain(s: string): { ok: true; value: { band24?: number; band5?: number } } | { ok: false; detail: string } {
   if (!/dBi/i.test(s)) return { ok: false, detail: `no dBi figure in "${s}"` };

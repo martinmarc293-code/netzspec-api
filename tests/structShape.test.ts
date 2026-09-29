@@ -12,6 +12,7 @@
 // members. Every real shape in the dictionary is pinned below, plus the sabotage cases.
 import { parseShape, structShapeProblem, FIELD_DICTIONARY } from "../src/core/fieldSchema.js";
 import { normalizeField } from "../src/core/specNormalize.js";
+import { STRUCT_EXAMPLES } from "../src/core/structExamples.js";
 
 let passed = 0, failed = 0;
 const lines: string[] = [];
@@ -88,6 +89,10 @@ eq("an unknown field is not this check's business", structShapeProblem("no_such_
   eq("antenna_gain: the canonical example parses to both bands", canon.ok ? canon.value : canon, { band24: 0.6, band5: 0.8 });
   eq("antenna_gain: and the value satisfies the declared shape", canon.ok ? structShapeProblem("antenna_gain", canon.value) : "refused", null);
   eq("antenna_gain: gain-first order with its band", (g("4 dBi @ 5 GHz") as { value?: unknown }).value, { band5: 4 });
+  // THE PRINTED FORM, read from the example table so the two cannot drift: "2.4G" / "5G", not "GHz". The parser was first
+  // proven on a paraphrase and refused this string (29 Sep 2026) -- the self-test of required_cup_defined caught it.
+  eq("antenna_gain: the vendor's printed '2.4G / 5G' form (STRUCT_EXAMPLES)", (g(STRUCT_EXAMPLES.antenna_gain.raw) as { value?: unknown }).value, { band24: 0.6, band5: 0.8 });
+  eq("antenna_gain: a 5GBASE token is not the 5 GHz band", g("5GBASE-T 3 dBi").ok, false);
   const refuse = (raw: string, why: RegExp) => { const r = g(raw); ok(`SABOTAGE antenna_gain refuses "${raw}" (${why.source})`, !r.ok && why.test((r as { detail?: string }).detail ?? ""), JSON.stringify(r)); };
   refuse("3-5 dBi", /range/);
   refuse("5 dBi", /no band/);
