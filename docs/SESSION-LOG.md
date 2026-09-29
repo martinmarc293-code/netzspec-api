@@ -4,6 +4,16 @@ Moved out of `CLAUDE.md` on 5 Sep 2026 so agents stop paying to read it. Rules: 
 note at the end of every work block (decisions closed, done + verified, next, traps); lessons go
 into `CLAUDE.md`'s rules or memory, never only here.
 
+- **2026-09-29 (26) - BATCH 2 (A-D) BUILT, APPLIED, REBUILT, REPORTED; RULINGS FOR BATCH 3 IN HAND.** Done and verified:
+  dictionary_in_sync (runs the REAL sync into a rolled-back transaction; red twice through the real path), host-named title
+  check, `--only` on the verifier; "switch model" admitted only over attributable PIDs + MODEL_ROW_UNATTRIBUTABLE + known-SKU
+  map anchored + 2 pon_ports rules (code 664d515); apply run 1323 (reextract `--doc`) inserted 16, pon_ports on both OLTs;
+  pon_standard derivation registered with data/reference/pon-standard-witnesses.json (8/8); one mould-build (its MISS diff
+  0 new), stamp, artefacts 0ea2ef5; board 17/10/3/3 of 33, self-test 21/0/12 (3143985). NEXT = state.md "RULINGS on batch
+  2": defects into the acquired record, write derived:pon_standard (state filled-derived), fix the psu_options and
+  ieee_standards splitters with a replay. Traps: a harness must pass each page's REAL url (the known-SKU map is keyed by
+  url; a placeholder measured the fallback and produced a false finding I reported); `Enter` after the synthetic paste did
+  not send this time, the send button did; MISS snapshots on the box live in /var/lib/netzspec-api/miss/cisco/.
 - **2026-09-29 (25) - SYNC-DICTIONARY UNBLOCKED, MISS DIFF IN THE REBUILD, PON MEASURED; RULINGS IN HAND.** Done and
   verified: the reshape guard counted a raw whose unit lived in the LABEL ("130" under "TDP (W)") as refused; it now re-reads
   those from the stored value when type+unit did not move (`core/replayContext.ts`, one predicate with renormalize; 6052ee4).
