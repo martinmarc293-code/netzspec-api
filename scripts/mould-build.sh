@@ -47,6 +47,11 @@ for c in $cats; do step npx tsx scripts/build-mapper-trace.mts --category "$c" -
 # full run (28 Sep) built them the other way round, so the report named the previous freeze.
 step npx tsx scripts/build-freeze.mts --vendor "$VENDOR"
 step npx tsx scripts/build-completeness.mts --vendor "$VENDOR"
+# The fill-state histogram is recorded PER BUILD (reviewer ruling, 29 Sep 2026): fill_state_partition is green only
+# when the live histogram is the last record. The check's own verdict is not this build's concern, so its exit code is
+# deliberately not read; the ARTIFACT is -- the history's last line must carry this build's commit.
+npx tsx scripts/mould-verify.mts --only fill_state_partition --record-fill-state > /tmp/fill-state-record.log 2>&1 || true
+step bash -c 'tail -1 data/completeness/fill-state-history.jsonl | grep -qF "$GIT_SHA"'
 [ -n "$PREV" ] || echo "   no post-build MISS snapshot of an earlier commit in $MISS_DIR: the SESSION diff is not available on this run"
 # exit 1 = a MISS neither baseline had, a suite that stopped being exercised, or a vanished suite: the step fails and says so
 step npx tsx scripts/run-tests.ts --miss-out "$AFTER" --miss-diff "$BEFORE" ${PREV:+--miss-diff "$PREV"}

@@ -16,7 +16,7 @@
  * pass), 0 only when every implemented test passed. Unimplemented tests do not fail the run — they are a
  * known, printed debt — but the count is in the output of every single run so it cannot be forgotten.
  */
-import { shapeIsDefinition } from "../src/core/listShapes.js";
+import { shapeIsDefinition, classifyMember, LIST_SHAPES, type MemberVerdict } from "../src/core/listShapes.js";
 import { STRUCT_EXAMPLES } from "../src/core/structExamples.js";
 import { normalizeField } from "../src/core/specNormalize.js";
 import { FIELD_DICTIONARY, PROFILES, COLUMN_BACKED, RELATION_BACKED, domainFor, bandFor, FREE_TEXT_BY_DECISION, requirementFor, type Requirement } from "../src/core/fieldSchema.js";
@@ -185,7 +185,7 @@ const RUN_KIND_CLASS: Record<string, { approval: boolean; gate: boolean }> = {
   // apply-* that also change membership or withdraw -> both
   "apply-retract-inherited": AG, "apply-retract-column-backed": AG, "apply-retract-port-misparse": AG,
   "apply-promote-only-source-series": AG, "apply-reclassify-hardware-evidence": AG,
-  "apply-reclassify-nonhardware": AG, "apply-enumeration": AG, "apply-repair-truncated": AG,
+  "apply-reclassify-nonhardware": AG, "apply-enumeration": AG, "apply-repair-truncated": AG, "retract-seed-out-of-domain": A, "reconcile-conflict-states": A,
   // writes facts -> gate
   "apply-acquired": G, "apply-specs": G, "apply-renormalize": G, "apply-remerge": G, "apply-derive-cellular": G,
   "apply-key-holders": G, "remap-cpu-power-to-tdp": G, "reroute-per-slot-capacity": G, "rekey-psu-and-compat": G,
@@ -560,9 +560,27 @@ const TESTS: Test[] = [
         out += n; byKey.set(r.key, (byKey.get(r.key) ?? 0) + n);
       }
       const worst = [...byKey].sort((a, b) => b[1] - a[1]).slice(0, 6).map(([k, n]) => `${k} ${n}`).join(", ");
+      // THE SHAPE-DEFINED LIST CUPS (reviewer ruling, 29 Sep 2026). certifications, ieee_standards, supported_protocols
+      // and emc_emissions have no domain -- a registered SHAPE (src/core/listShapes.ts, e9aad23) is their definition --
+      // so the loop above skips them and they were invisible to the one check that should cover them. Their members are
+      // classified by the shape's own grammar and REPORTED per key beside the domain count; the pass condition is the
+      // domain count, unchanged (whether a refused member should fail it is a question put to the reviewer).
+      const shapeKeys = Object.keys(LIST_SHAPES);
+      const sh = new Map<string, Record<MemberVerdict, number>>();
+      for (const r of (await query<{ key: string; value: string; n: string }>(`
+          SELECT f.field_key key, f.value::text value, count(*)::text n FROM facts f JOIN parts p ON p.id=f.part_id
+           WHERE f.field_key = ANY($1::text[]) AND f.superseded_by IS NULL AND f.method NOT LIKE 'retracted:%'
+             AND p.retired_at IS NULL AND f.value IS NOT NULL GROUP BY 1,2`, [shapeKeys])).rows) {
+        let v: unknown; try { v = JSON.parse(r.value); } catch { v = r.value; }
+        const t = sh.get(r.key) ?? { accept: 0, refuse: 0, flagged: 0, unclassified: 0 };
+        for (const m of Array.isArray(v) ? v : [v]) t[classifyMember(r.key, String(m))] += Number(r.n);
+        sh.set(r.key, t);
+      }
+      const shapes = "shape-defined list cups (members): " + shapeKeys.map((k) => { const t = sh.get(k);
+        return t ? `${k} accept ${t.accept} / refuse ${t.refuse} / flagged ${t.flagged} / unclassified ${t.unclassified}` : `${k} holds no facts`; }).join("; ");
       return out === 0
-        ? ok(`every one of ${total} enum/list facts is inside its category's domain`)
-        : bad(`${out} of ${total} facts hold a value outside their domain — ${worst}`);
+        ? ok(`every one of ${total} enum/list facts is inside its category's domain; ${shapes}`)
+        : bad(`${out} of ${total} facts hold a value outside their domain — ${worst}; ${shapes}`);
     },
   },
   {
@@ -1411,7 +1429,8 @@ const TESTS: Test[] = [
         const r = await query<{ method: string; inherited: boolean; doc_type: string | null; n: string }>(
           "SELECT coalesce(f.method, '(none)') AS method, f.inherited AS inherited," +
           " sd.doc_type AS doc_type, count(*)::text AS n" +
-          " FROM facts f LEFT JOIN source_docs sd ON sd.doc_id = f.doc_id" +
+          " FROM facts f JOIN completeness cp ON cp.part_id = f.part_id AND NOT cp.no_profile" +
+          " LEFT JOIN source_docs sd ON sd.doc_id = f.doc_id" +
           " WHERE f.superseded_by IS NULL AND f.state IN ('verified','corroborated')" +
           " GROUP BY 1, 2, 3");
         rows = r.rows.map((x) => ({ ...x, n: Number(x.n) }));
@@ -1433,7 +1452,6 @@ const TESTS: Test[] = [
       const hist = new Map<string, number>();
       for (const r of rows) hist.set(state(r), (hist.get(state(r)) ?? 0) + r.n);
       const filled = hist.get("filled") ?? 0;
-      const misfiled = total - filled;
       const shown = [...hist.entries()].sort((a, b) => b[1] - a[1])
         .map(([k, v]) => `${k} ${v.toLocaleString()}`).join(", ");
       const scope = `${total.toLocaleString()} live facts partitioned; ${hist.size} states occupied: ${shown}`;
@@ -1441,37 +1459,59 @@ const TESTS: Test[] = [
       // than assumed, because a histogram that does not sum is a histogram measuring nothing.
       const sums = [...hist.values()].reduce((a, b) => a + b, 0) === total;
       if (!sums) return bad(`the states do NOT partition the facts — ${scope}`);
-      // A PROGRESS BAR, NOT A DEFECT (decision 2026-09-28-fill-state-is-a-progress-bar). The green condition
-      // is unchanged -- every live fact filled -- but a level with no previous level cannot say whether the
-      // work is MOVING. So each build's states are recorded (`--record-fill-state`, appended to a committed
-      // history) and every run prints the change since the last record: `filled` should rise, the seed and
-      // EoL states fall, and the day one moves the wrong way is now visible.
+      // THE RULED DEFINITION (reviewer, 29 Sep 2026): this check tests the PARTITION, not the fill. Green when every
+      // served fact on a SCORED part (completeness.no_profile = false) sits in exactly one of the SIX states and they sum
+      // to the total; the histogram is RECORDED per build (mould-build.sh runs --record-fill-state) and the live one IS
+      // the last record; and against the previous record `filled` has not fallen and `unverified_seed` / `mined_from_eol`
+      // have not risen -- a reversal is red unless a succeeded run between the two records stands behind it. Only
+      // `filled` is filled: filled_inherited is printed beside it, never merged, and the share is PRINTED, not asserted.
+      const SIX = ["filled", "filled_inherited", "unverified_seed", "mined_from_eol", "method_not_a_read", "mined_non_spec_doc"];
+      const stray = [...hist.keys()].filter((k) => !SIX.includes(k));
+      if (stray.length) return bad(`${stray.map((k) => `${hist.get(k)} in ${k}`).join(", ")} — outside the six states — ${scope}`);
       const HIST = path.join(REPO, "data", "completeness", "fill-state-history.jsonl");
-      const now = Object.fromEntries([...hist.entries()].sort());
-      let prev: { at: string; git_sha: string; states: Record<string, number> } | null = null;
-      try {
-        const lines = existsSync(HIST) ? readFileSync(HIST, "utf8").split("\n").filter((l) => l.trim()) : [];
-        if (lines.length) prev = JSON.parse(lines[lines.length - 1]);
-      } catch (e) {
-        prev = null;   // an unreadable history is reported, never read as "no change"
-        console.log(`  !! fill-state history unreadable at ${HIST}: ${e instanceof Error ? e.message : String(e)}`);
-      }
-      const delta = prev
-        ? "since " + prev.at.slice(0, 16) + " (" + prev.git_sha.slice(0, 7) + "): " +
-          [...new Set([...Object.keys(prev.states), ...Object.keys(now)])].sort().map((k) => {
-            const d = (now[k] ?? 0) - (prev!.states[k] ?? 0);
-            return `${k} ${d >= 0 ? "+" : ""}${d.toLocaleString()}`;
-          }).join(", ")
-        : "no previous record — this is the baseline";
+      const POP = "served facts on scored parts (completeness.no_profile = false)";
+      const now: Record<string, number> = Object.fromEntries(SIX.map((k) => [k, hist.get(k) ?? 0]));
       if (process.argv.includes("--record-fill-state")) {
         mkdirSync(path.dirname(HIST), { recursive: true });
-        appendFileSync(HIST, JSON.stringify({ at: new Date().toISOString(),
-          git_sha: process.env.GIT_SHA ?? "unknown", total, states: now }) + "\n");
+        appendFileSync(HIST, JSON.stringify({ at: new Date().toISOString(), git_sha: process.env.GIT_SHA ?? "unknown",
+          population: POP, total, states: now }) + "\n");
       }
-      return misfiled === 0
-        ? ok(`every live fact is genuinely filled — ${scope}; ${delta}`)
-        : bad(`${misfiled.toLocaleString()} of ${total.toLocaleString()} live facts are not yet "filled" by the ` +
-              `four conditions — a progress bar, not a regression — ${scope}; ${delta}`);
+      type Rec = { at: string; git_sha: string; population?: string; total: number; states: Record<string, number> };
+      let recs: Rec[];
+      try {
+        // A record of another population is another measurement: never compared, so the first record under this one
+        // is a baseline rather than a "fall" of every state.
+        recs = (existsSync(HIST) ? readFileSync(HIST, "utf8").split("\n").filter((l) => l.trim()) : [])
+          .map((l) => JSON.parse(l) as Rec).filter((r) => r.population === POP);
+      } catch (e) {
+        return bad(`the fill-state history is unreadable at ${HIST}: ${e instanceof Error ? e.message : String(e)} — could not check is not a pass`);
+      }
+      const last = recs[recs.length - 1], prev = recs[recs.length - 2];
+      const vec = (s: Record<string, number>) => JSON.stringify(SIX.map((k) => s[k] ?? 0));
+      const bar = `progress: filled ${filled.toLocaleString()} of ${total.toLocaleString()} (${(100 * filled / total).toFixed(1)}%), ` +
+        `filled_inherited ${now.filled_inherited.toLocaleString()} beside it`;
+      if (!last) return bad(`no build has recorded this histogram (${POP}) — mould-build.sh must run --record-fill-state — ${scope}`);
+      if (vec(last.states) !== vec(now))
+        return bad(`the live histogram is not the last recorded build's (${last.git_sha.slice(0, 7)}, ${last.at.slice(0, 16)}) — ` +
+          `a write since that build, or the build did not record — ${scope}`);
+      if (!prev) return ok(`the six states partition all ${total.toLocaleString()} ${POP}; recorded ${last.at.slice(0, 16)} ` +
+        `(${last.git_sha.slice(0, 7)}), the first record under this population: the baseline; ${bar}`);
+      const p = prev.states;
+      const rev = [
+        now.filled < (p.filled ?? 0) ? `filled ${p.filled} -> ${now.filled}` : "",
+        now.unverified_seed > (p.unverified_seed ?? 0) ? `unverified_seed ${p.unverified_seed} -> ${now.unverified_seed}` : "",
+        now.mined_from_eol > (p.mined_from_eol ?? 0) ? `mined_from_eol ${p.mined_from_eol} -> ${now.mined_from_eol}` : "",
+      ].filter(Boolean);
+      let why = "";
+      if (rev.length) {
+        const runs = (await query<{ id: string; kind: string }>(
+          "SELECT id::text AS id, kind FROM runs WHERE status = 'succeeded' AND finished_at > $1 AND finished_at <= $2 ORDER BY id",
+          [prev.at, last.at])).rows;
+        if (!runs.length) return bad(`a reversal with no recorded run between ${prev.at.slice(0, 16)} and ${last.at.slice(0, 16)}: ${rev.join(", ")} — ${scope}`);
+        why = `; reversal ${rev.join(", ")} stands on ${runs.length} run(s) between the records: ${runs.slice(0, 6).map((r) => `${r.kind} ${r.id}`).join(", ")}`;
+      }
+      return ok(`the six states partition all ${total.toLocaleString()} ${POP}; recorded ${last.at.slice(0, 16)} ` +
+        `(${last.git_sha.slice(0, 7)}); direction vs ${prev.at.slice(0, 16)} holds${why}; ${bar}`);
     },
     // The classifier is the thing under test, so the fixture drives IT and not a proxy. A seeded value
     // on a real datasheet must not be filled; a table-read value on a datasheet must be.

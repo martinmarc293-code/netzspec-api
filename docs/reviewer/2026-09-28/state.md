@@ -17,15 +17,15 @@ HEAD 01ec60e+, deployed 01ec60e (artefacts a6f8b65). Full rebuild = scripts/moul
 ## Flip order
 | # | item | status | what to do (from its decision file) |
 | --- | --- | --- | --- |
-| 1 | fill_state_partition | DONE code (still red by design) | baseline recorded in data/completeness/fill-state-history.jsonl; seed 26,619 (was 32,503 in the decision file) |
+| 1 | fill_state_partition | BATCH A (predicate) | GREEN when: every live fact on a scored part in exactly ONE of the six states and they sum to live facts; histogram recorded per build; vs the previous build filled non-decreasing, unverified_seed + mined_from_eol non-increasing - a reversal without a recorded run is red. Only `filled` is filled (filled_inherited beside it, never merged); the share is PRINTED, not asserted |
 | 2 | runs_have_approval | GREEN | run 1292: reviewer_retroactive on 20; run 1293 retro-gate: 952 pass → exception, 942/959 fail → 87 facts retracted (plan data/dryrun/retro-gate-2026-09-28.tsv) |
 | 3 | openapi_schemas | GREEN | /v1/models/{vendor}/{model} routes Model (families = alias); the check now requires a route per level shape |
 | 4 | doc_category_by_relevance | GREEN | runs 1289/1290: 68 titles, title_source pdf-info-trailer; run 1291: 15 title_state none |
 | 5 | column_backed_never_facts | GREEN (on 0b4b83e) | run 1296 layers (MDS 9100/9200 lists renamed), run 1297: 45 -> 0 (19 chassis-member, 24 umbrella, 2 relations incl. 1 QSFP -> MDS 9000). Earlier: | run 1294: 102 prefix dups; run 1295: 933 relations + 1,111 retracted. 45 parked: unlisted chassis 24, MDS 9000 umbrella 20, 1 router series |
-| 6 | enum_values_in_domain | AWAITING seed retraction | 2,011: standard 1,806 (1,775 hexcat_seed), mounting 115, audio_codecs 80 (all INHERITED), 10 wireless |
+| 6 | enum_values_in_domain | BATCH A | 2,011: standard 1,806 (1,775 hexcat_seed = cisco 555 + 11 OTHER vendors 1,220 - the check has no vendor filter), mounting 115, audio_codecs 80, 10 wireless. + shape-defined list cups (certifications, ieee_standards, supported_protocols, emc_emissions): accept / refuse / unclassified per key |
 | 7 | required_cup_defined | AWAITING-RULING | 30 cups = 3 keys. bundle_contents 0 facts, video_codecs 0 facts, product_compatibility 79 |
 | 8 | relations_for_components | GREEN (3f2762b) | run 1306: 79 facts -> 45 model lists = 118 compatible relations, 29 prose + 5 mixed retracted; product_compatibility + bundle_contents now RELATION_BACKED (per-kind filled/not_held in the report) |
-| 9 | conflicts_classified | TODO | orphans are 599 not 12,874 (corrected). Needs a `class` column + classifier |
+| 9 | conflicts_classified | BATCH A | ONE run: fact state from the conflicts table, both directions - 49 in `conflict` with no open conflict -> their merge verdict; 4,420 verified (3,259) / corroborated (1,161) under an open conflict -> `conflict`; the 625 orphans: conflict rows only, status resolved, resolution `orphaned` + the run id of the retraction that removed their value, no fact touched |
 | 10 | twin_parity | AWAITING-RULING | 19 are a NAME asymmetry; the `=` moves 1 of 14. Three options costed |
 | 11 | kind_profile_parity | AWAITING acquisition | 5 of 6 pairs: NOBODY on either side holds the cup; hcs/server 0 of 208 spec-bearing |
 | 12 | unknown_zero | 363 | 12b block landed: ont/olt (18 PON rows + the D-PON ONT, moved), device (12 MobileAccessVE, wireless axis), CIT3-FI moved + fabric-interconnect, AIM-DES/BP series fixed (run 1313); AIR-N-3006-DTA-K9 back to unknown (a group-level guess); 362 = name gap. OPEN: pon_ports / pon_standard have no enabled source (source-fields) |
