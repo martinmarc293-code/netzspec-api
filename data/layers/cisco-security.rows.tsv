@@ -407,7 +407,7 @@ ASA5585-RACK-KIT=	ASA 5585-X Front Rack and Rear Rack Kit	ASA 5500 Series Next G
 ASA5585-RAILS	ASA 5585 Rail kit	ASA 5500 Series Next Generation	mechanical	layered	ASA and ISA	(none)	ASA 5585-X		sku ^ASA-?5585							
 ASA5585-RAILS=	ASA 5585 Rail kit	ASA 5500 Series Next Generation	mechanical	layered	ASA and ISA	(none)	ASA 5585-X		sku ^ASA-?5585							
 ASA5585-REAR-RACK	ASA 5585 Rear Rack Mount	ASA 5500 Series Next Generation	mechanical	layered	ASA and ISA	(none)	ASA 5585-X		sku ^ASA-?5585							
-ASA5585-REAR-RACK=	ASA 5585-X Rear Rack Mounts (1 pair)	ASA 5500 Series Next Generation	accessory	layered	ASA and ISA	(none)	ASA 5585-X		sku ^ASA-?5585							
+ASA5585-REAR-RACK=	ASA 5585-X Rear Rack Mounts (1 pair)	ASA 5500 Series Next Generation	mechanical	layered	ASA and ISA	(none)	ASA 5585-X		sku ^ASA-?5585							
 ASA5585-S10-5K-K9	Cisco ASA 5585-X SSL/IPsec VPN Edition SSP-10 Bundle includes 5000 IPsec VPN peers, 5000 Premium VPN peers, firewall services, 8 Gigabit Ethernet interfaces, 2 management interfaces, 3DES/AES license	5500-X ASA with Firepower	firewall	layered	ASA and ISA	(none)	ASA 5585-X		sku ^ASA-?5585							
 ASA5585-S10-K7	ASA 5585-X Chassis with SSP10, 8GE, 2GE Mgt, 1 AC, NPE	ASA 5500 Series Next Generation	firewall	layered	ASA and ISA	(none)	ASA 5585-X		sku ^ASA-?5585							
 ASA5585-S10-K8	Cisco ASA 5585-X Firewall Edition SSP-10 bundle includes 8 Gigabit Ethernet interfaces, 2 Gigabit Ethernet SFP interfaces, 2 Gigabit Ethernet management interfaces, 5000 IPsec VPN peers, 2 Premium VPN peers, DES license	5500-X ASA with Firepower	firewall	layered	ASA and ISA	(none)	ASA 5585-X		sku ^ASA-?5585							
@@ -644,7 +644,7 @@ CV-CNTR-M5S5=	Cyber Vision Center Appliance M5S5 Spare	Cyber Vision	analytics	la
 CV-CNTR-M6N	Cyber Vision Center Appliance M6N	Cyber Vision	analytics	layered	Cyber Vision	(none)	Cyber Vision Center appliances		sku ^CV-							
 CV-CNTR-M6N=	Cyber Vision Center Appliance M6N Spare	Cyber Vision	analytics	layered	Cyber Vision	(none)	Cyber Vision Center appliances		sku ^CV-							
 CV-CNTR-M8N	Cyber Vision Center hardware appliance ( Cisco UCS C225 M8 Rack Server )	Cyber Vision	analytics	layered	Cyber Vision	(none)	Cyber Vision Center appliances		sku ^CV-							
-CV-CNTR-M8N=	Cisco CV-CNTR-M8N=	Cyber Vision	analytics	layered	Cyber Vision	(none)	Cyber Vision Center appliances		sku ^CV-							
+CV-CNTR-M8N=	Cyber Vision Center hardware appliance ( Cisco UCS C225 M8 Rack Server )	Cyber Vision	analytics	layered	Cyber Vision	(none)	Cyber Vision Center appliances		sku ^CV-							
 CV-CPU-A7443P	AMD 2.85GHz 7443P 200W 24C/128MB Cache DDR4 3200MHz	Cyber Vision	cpu	layered	Cyber Vision	(none)	Cyber Vision Center appliances		sku ^CV-							
 CV-CPU-A9355P	Cisco CV-CPU-A9355P	Cyber Vision	cpu	layered	Cyber Vision	(none)	Cyber Vision Center appliances		sku ^CV-							
 CV-CPU-I4210R	Intel 4210R 2.4GHz/100W 10C/13.75MB DDR4 2400MHz	Cyber Vision	cpu	layered	Cyber Vision	(none)	Cyber Vision Center appliances		sku ^CV-							
@@ -1411,11 +1411,11 @@ IPS-4360-K9	IPS 4360 with SW, 8 GE data + 1 GE mgmt, AC Power	5500-X ASA with Fi
 IPS-4360-PWR-BLK	IPS 4360 power supply blank	5500-X ASA with Firepower	mechanical	layered	IPS (legacy)	(none)	IPS 4300 / 4500		sku ^IPS-							
 IPS-4360-PWR-BLK=	IPS 4360 power supply blank	5500-X ASA with Firepower	mechanical	layered	IPS (legacy)	(none)	IPS 4300 / 4500		sku ^IPS-							
 IPS-4510-INC-K9	IPS 4510 w SW, 4x SFP/SFP+, 6 GE Cu, 2xGe Mgmt CARD ONLY	5500-X ASA with Firepower	ips	layered	IPS (legacy)	(none)	IPS 4300 / 4500		sku ^IPS-							
-IPS-4510-INC-K9=	Cisco IPS-4510-INC-K9=	5500-X ASA with Firepower	ips	layered	IPS (legacy)	(none)	IPS 4300 / 4500		sku ^IPS-							
+IPS-4510-INC-K9=	IPS 4510 w SW, 4x SFP/SFP+, 6 GE Cu, 2xGe Mgmt CARD ONLY	5500-X ASA with Firepower	ips	layered	IPS (legacy)	(none)	IPS 4300 / 4500		sku ^IPS-							
 IPS-4510-K9	IPS 4510 with SW, 4x SFP/SFP+, 6 GE Cu, 2xGe Mgmt	5500-X ASA with Firepower	ips	layered	IPS (legacy)	(none)	IPS 4300 / 4500		sku ^IPS-							
 IPS-4510-SSP-K9=	IPS 4510 w SW, 4x SFP/SFP+, 6 GE Cu, 2xGe Mgmt CARD ONLY	5500-X ASA with Firepower	ips-module	layered	IPS (legacy)	(none)	IPS 4300 / 4500		sku ^IPS-							
 IPS-4520-INC-K9	IPS 4520 with SW, 4x SFP/SFP+, 6 GE Cu, 2xGe Mgmt	5500-X ASA with Firepower	ips	layered	IPS (legacy)	(none)	IPS 4300 / 4500		sku ^IPS-							
-IPS-4520-INC-K9=	Cisco IPS-4520-INC-K9=	5500-X ASA with Firepower	ips	layered	IPS (legacy)	(none)	IPS 4300 / 4500		sku ^IPS-							
+IPS-4520-INC-K9=	IPS 4520 with SW, 4x SFP/SFP+, 6 GE Cu, 2xGe Mgmt	5500-X ASA with Firepower	ips	layered	IPS (legacy)	(none)	IPS 4300 / 4500		sku ^IPS-							
 IPS-4520-K9	IPS 4520 with SW, 4x SFP/SFP+, 6 GE Cu, 2xGe Mgmt	5500-X ASA with Firepower	ips	layered	IPS (legacy)	(none)	IPS 4300 / 4500		sku ^IPS-							
 IPS-4520-SSP-K9=	IPS 4520 with SW, 4x SFP/SFP+, 6 GE Cu, 2xGe Mgmt	5500-X ASA with Firepower	ips-module	layered	IPS (legacy)	(none)	IPS 4300 / 4500		sku ^IPS-							
 IPS-4520-XL-K9	IPS 4520 with 2 Blades, SW, 8x SFP/SFP+, 12 GE Cu, 4xGe Mgmt	5500-X ASA with Firepower	ips	layered	IPS (legacy)	(none)	IPS 4300 / 4500		sku ^IPS-							

@@ -177,7 +177,7 @@ CAB-ETHRJ45-4.2M-	Shielded Twisted Pair Ethernet Cable w/ RJ45 4.2 mts long,	Tel
 CAB-ETHRJ45-4.2M=	Shielded Twisted Pair Ethernet Cable w/ RJ45 4.2 mts long,	TelePresence MX Series	cable	layered	TelePresence (legacy)	(shared across the line)		TelePresence (legacy) shared parts	accessory ^CAB- (label TelePresence MX Series)							
 CAB-ETHRSHLD-10M	Cisco Ceiling Microphone optional cable(10 meter not plenum rated)	Microphones	cable	layered	Microphones	(shared across the line)		Microphones shared parts	accessory ^CAB- (label Microphones)							
 CAB-ETHRSHLD-10M=	Shielded Ethernet Cable, not plenum rated, 10m - SPARE	Spark Board	cable	layered	Microphones	(shared across the line)		Microphones shared parts	accessory ^CAB- (label Microphones)							
-CAB-GREY-2.9M	Cisco CAB-GREY-2.9M	Desk Series	cable	layered	Webex Desk Series	(shared across the line)		Webex Desk Series shared parts	accessory ^CAB- (label Desk Series)							
+CAB-GREY-2.9M	Ethernet grey cable for Cisco Webex DX80	Desk Series	cable	layered	Webex Desk Series	(shared across the line)		Webex Desk Series shared parts	accessory ^CAB- (label Desk Series)							
 CAB-GREY-2.9M=	Ethernet grey cable for Cisco Webex DX80	Desk Series	cable	layered	Webex Desk Series	(shared across the line)		Webex Desk Series shared parts	accessory ^CAB- (label Desk Series)							
 CAB-HDMI-MUL4K-2M	Cisco Multi-head Cable 2.5 meters (4K, USB-C, HDMI, miniDP)	Room Series	cable	layered	Webex Room Series	(shared across the line)		Webex Room Series shared parts	accessory ^CAB- (label Room Series)							
 CAB-HDMI-MUL4K-2M=	Cisco Multi-head Cable - 2.5 meter (4K, USB-C, HDMI, miniDP) - SPARE	Room Series	cable	layered	Webex Room Series	(shared across the line)		Webex Room Series shared parts	accessory ^CAB- (label Room Series)							
@@ -358,7 +358,7 @@ CAB-USBC-AC-4M=	USB-C 3.2 Gen 2X2 Active Cable, 4M length - SPARE	Desk Series	ca
 CAB-USBC-AC-9M	Active Optical Cable, USB-C 3.1, 9M long, USB Charging	Spark Board	cable	layered	Webex Board Series	(shared across the line)		Webex Board Series shared parts	accessory ^CAB- (label Spark Board)							
 CAB-USBC-AC-9M=	Cisco USB-C active optical cable, 9 meter - Gray - SPARE	Spark Board	cable	layered	Webex Board Series	(shared across the line)		Webex Board Series shared parts	accessory ^CAB- (label Spark Board)							
 CAB-VC-5M	^Standard camera control cable DSUB/RJ45	TelePresence MX Series	cable	layered	TelePresence (legacy)	(shared across the line)		TelePresence (legacy) shared parts	accessory ^CAB- (label TelePresence MX Series)							
-CAB-VC-5M=	Cisco CAB-VC-5M=	TelePresence MX Series	cable	layered	TelePresence (legacy)	(shared across the line)		TelePresence (legacy) shared parts	accessory ^CAB- (label TelePresence MX Series)							
+CAB-VC-5M=	^Standard camera control cable DSUB/RJ45	TelePresence MX Series	cable	layered	TelePresence (legacy)	(shared across the line)		TelePresence (legacy) shared parts	accessory ^CAB- (label TelePresence MX Series)							
 CAB-VC2-5M	Standard camera control cable DSUB/RJ45	TelePresence MX Series	cable	layered	TelePresence (legacy)	(shared across the line)		TelePresence (legacy) shared parts	accessory ^CAB- (label TelePresence MX Series)							
 CAB-VC2-5M=	Standard camera control cable DSUB/RJ45	TelePresence MX Series	cable	layered	TelePresence (legacy)	(shared across the line)		TelePresence (legacy) shared parts	accessory ^CAB- (label TelePresence MX Series)							
 CAB-VGA-8M	VGA to VGA Cable 8m	TelePresence SX Series (QuickSet)	cable	layered	TelePresence (legacy)	(shared across the line)		TelePresence (legacy) shared parts	accessory ^CAB- (label TelePresence SX Series (QuickSet))							
@@ -739,7 +739,7 @@ CP-7962G-CH1	Cisco UC Phone 7962 with 1 RTU License	7900 - Unified IP Phone	phon
 CP-7962G-ITA-S1=	Cisco UC Phone 7962G Type 1 Promo for ITA	7900 - Unified IP Phone	phone	layered	IP Phones	(none)	Unified IP Phone 7900		sku ^CP-79	desk	series:Unified IP Phone 7900					
 CP-7962G=	Cisco UC Phone 7962, spare	7900 - Unified IP Phone	phone	layered	IP Phones	(none)	Unified IP Phone 7900		sku ^CP-79	desk	series:Unified IP Phone 7900					
 CP-7965	^Touch Screen IPPhone7965	7900 - Unified IP Phone	phone	layered	IP Phones	(none)	Unified IP Phone 7900		sku ^CP-79	desk	series:Unified IP Phone 7900					
-CP-7965=	Cisco CP-7965=	7900 - Unified IP Phone	phone	layered	IP Phones	(none)	Unified IP Phone 7900		sku ^CP-79	desk	series:Unified IP Phone 7900					
+CP-7965=	^Touch Screen IPPhone7965	7900 - Unified IP Phone	phone	layered	IP Phones	(none)	Unified IP Phone 7900		sku ^CP-79	desk	series:Unified IP Phone 7900					
 CP-7965G	Cisco UC Phone 7965, Gig Ethernet, Color	7900 - Unified IP Phone	phone	layered	IP Phones	(none)	Unified IP Phone 7900		sku ^CP-79	desk	series:Unified IP Phone 7900					
 CP-7965G++=	Cisco UC Phone 7965, Gig Ethernet, Color, spare, TAA	7900 - Unified IP Phone	phone	layered	IP Phones	(none)	Unified IP Phone 7900		sku ^CP-79	desk	series:Unified IP Phone 7900					
 CP-7965G-CCME	Cisco UC Phone 7965, Gig, Color, with 1 CCME RTU License	7900 - Unified IP Phone	phone	layered	IP Phones	(none)	Unified IP Phone 7900		sku ^CP-79	desk	series:Unified IP Phone 7900					
@@ -883,23 +883,23 @@ CP-8832-3PC-J-K9	Cisco 8832 for Japan, charcoal, with options for either a PoE o
 CP-8832-3PC-LA-K9	Cisco 8832 for Latin America, charcoal, with options for either a PoE or non-PoE connector to ship in the same gift box as the 8832. This is for new installations. ● If selecting the Non-PoE Ethernet Option, select the regional power clip first, then click on the selected clip under Configuration Summary (on the left) to select the required non-PoE Ethernet Injector.	IP Phone 8800 Series with Multiplatform Firmware	phone	layered	IP Phones	(none)	IP Conference Phone 8831 / 8832		sku ^CP-883[12]	conference	series:IP Conference Phone 8831 / 8832					
 CP-8832-3PC-NR-K9	Cisco 8832, No DECT Radio, for worldwide, charcoal, with options for either a PoE or non-PoE connector to ship in the same gift box as the 8832. This is for new installations. ● If selecting the Non-PoE Ethernet Option, select the regional power clip first, then click on the selected clip under Configuration Summary (on the left) to select the required non-PoE Ethernet Injector.	IP Phone 8800 Series with Multiplatform Firmware	phone	layered	IP Phones	(none)	IP Conference Phone 8831 / 8832		sku ^CP-883[12]	conference	series:IP Conference Phone 8831 / 8832					
 CP-8832-3PCC-K9	Cisco 8832 for North America, charcoal, with options for either a PoE or non-PoE connector to ship in the same gift box as the 8832. This is for new installations.	IP Phone 8800 Series with Multiplatform Firmware	phone	layered	IP Phones	(none)	IP Conference Phone 8831 / 8832		sku ^CP-883[12]	conference	series:IP Conference Phone 8831 / 8832					
-CP-8832-3PCC-K9=	Cisco CP-8832-3PCC-K9=	IP Phone 8800 Series with Multiplatform Firmware	phone	layered	IP Phones	(none)	IP Conference Phone 8831 / 8832		sku ^CP-883[12]	conference	series:IP Conference Phone 8831 / 8832					
+CP-8832-3PCC-K9=	Cisco 8832 for North America, charcoal, with options for either a PoE or non-PoE connector to ship in the same gift box as the 8832. This is for new installations.	IP Phone 8800 Series with Multiplatform Firmware	phone	layered	IP Phones	(none)	IP Conference Phone 8831 / 8832		sku ^CP-883[12]	conference	series:IP Conference Phone 8831 / 8832					
 CP-8832-DC-AUNZ=	Optional Cisco IP Conference Phone 8832 Daisy Chain Kit for Australia and New Zealand. This includes a smart adapter, a power adapter and three USB-C cables.	IP Phone 8800 Series	accessory	layered	IP Phones	(none)	IP Conference Phone 8831 / 8832		sku ^CP-883[12]							
 CP-8832-DC-EU=	Optional Cisco IP Conference Phone 8832 Daisy Chain Kit for Europe. This includes a smart adapter, a power adapter and three USB-C cables.	IP Phone 8800 Series	accessory	layered	IP Phones	(none)	IP Conference Phone 8831 / 8832		sku ^CP-883[12]							
 CP-8832-DC=	Optional Cisco IP Conference Phone 8832 Daisy Chain Kit for North America. This includes a smart adapter, a power adapter and three USB-C cables.	IP Phone 8800 Series	accessory	layered	IP Phones	(none)	IP Conference Phone 8831 / 8832		sku ^CP-883[12]							
 CP-8832-ETH-WW=	Cisco IP Conference Phone 8832 non-PoE Ethernet Adapter Spare for Worldwide, with configurable Power Clip. A USB-C cable is included.	IP Phone 8800 Series	accessory	layered	IP Phones	(none)	IP Conference Phone 8831 / 8832		sku ^CP-883[12]							
 CP-8832-ETH=	Cisco IP Conference Phone 8832 non-PoE Ethernet Adapter Spare for North America. A USB-C cable is included.	IP Phone 8800 Series	accessory	layered	IP Phones	(none)	IP Conference Phone 8831 / 8832		sku ^CP-883[12]							
 CP-8832-EU-K9	Cisco IP Conference Phone 8832 base in charcoal color for APAC, EMEA, Australia and New Zealand. This also includes an adapter along with a 9.8-ft (3-m) USB-C cable.	IP Phone 8800 Series	phone	layered	IP Phones	(none)	IP Conference Phone 8831 / 8832		sku ^CP-883[12]	conference	series:IP Conference Phone 8831 / 8832					
-CP-8832-EU-K9=	Cisco CP-8832-EU-K9=	IP Phone 8800 Series	phone	layered	IP Phones	(none)	IP Conference Phone 8831 / 8832		sku ^CP-883[12]	conference	series:IP Conference Phone 8831 / 8832					
+CP-8832-EU-K9=	Cisco IP Conference Phone 8832 base in charcoal color for APAC, EMEA, Australia and New Zealand. This also includes an adapter along with a 9.8-ft (3-m) USB-C cable.	IP Phone 8800 Series	phone	layered	IP Phones	(none)	IP Conference Phone 8831 / 8832		sku ^CP-883[12]	conference	series:IP Conference Phone 8831 / 8832					
 CP-8832-EU-W-K9	Cisco IP Conference Phone 8832 base in white color for APAC, EMEA, Australia and New Zealand. This also includes an adapter along with a 9.8-ft (3-m) USB-C cable.	IP Phone 8800 Series	phone	layered	IP Phones	(none)	IP Conference Phone 8831 / 8832		sku ^CP-883[12]	conference	series:IP Conference Phone 8831 / 8832					
 CP-8832-EU-W-K9=	8832 base SPARE in white color for APAC, EMEA, and Australia	IP Phone 8800 Series	phone	layered	IP Phones	(none)	IP Conference Phone 8831 / 8832		sku ^CP-883[12]	conference	series:IP Conference Phone 8831 / 8832					
 CP-8832-J-W-K9	Cisco IP Conference Phone 8832 base in white color for Japan. This also includes an adapter along with a 9.8-ft (3-m) USB-C cable.	IP Phone 8800 Series	phone	layered	IP Phones	(none)	IP Conference Phone 8831 / 8832		sku ^CP-883[12]	conference	series:IP Conference Phone 8831 / 8832					
 CP-8832-J-W-K9=	8832 base SPARE in white color for Japan	IP Phone 8800 Series	phone	layered	IP Phones	(none)	IP Conference Phone 8831 / 8832		sku ^CP-883[12]	conference	series:IP Conference Phone 8831 / 8832					
 CP-8832-K9	Cisco IP Conference Phone 8832 base in charcoal color for North America. This also includes an adapter along with a 9.8-ft (3-m) USB-C cable.	IP Phone 8800 Series	phone	layered	IP Phones	(none)	IP Conference Phone 8831 / 8832		sku ^CP-883[12]	conference	series:IP Conference Phone 8831 / 8832					
 CP-8832-K9++	Cisco CP-8832-K9++	IP Phone 8800 Series	phone	layered	IP Phones	(none)	IP Conference Phone 8831 / 8832		sku ^CP-883[12]	conference	series:IP Conference Phone 8831 / 8832					
-CP-8832-K9=	Cisco CP-8832-K9=	IP Phone 7800 Series	phone	layered	IP Phones	(none)	IP Conference Phone 8831 / 8832		sku ^CP-883[12]	conference	series:IP Conference Phone 8831 / 8832					
+CP-8832-K9=	Cisco IP Conference Phone 8832 base in charcoal color for North America. This also includes an adapter along with a 9.8-ft (3-m) USB-C cable.	IP Phone 7800 Series	phone	layered	IP Phones	(none)	IP Conference Phone 8831 / 8832		sku ^CP-883[12]	conference	series:IP Conference Phone 8831 / 8832					
 CP-8832-LA-K9	Cisco IP Conference Phone 8832 base in charcoal color for LATAM. This also includes an adapter along with a 9.8-ft (3-m) USB-C cable.	IP Phone 8800 Series	phone	layered	IP Phones	(none)	IP Conference Phone 8831 / 8832		sku ^CP-883[12]	conference	series:IP Conference Phone 8831 / 8832					
-CP-8832-LA-K9=	Cisco CP-8832-LA-K9=	IP Phone 8800 Series	phone	layered	IP Phones	(none)	IP Conference Phone 8831 / 8832		sku ^CP-883[12]	conference	series:IP Conference Phone 8831 / 8832					
+CP-8832-LA-K9=	Cisco IP Conference Phone 8832 base in charcoal color for LATAM. This also includes an adapter along with a 9.8-ft (3-m) USB-C cable.	IP Phone 8800 Series	phone	layered	IP Phones	(none)	IP Conference Phone 8831 / 8832		sku ^CP-883[12]	conference	series:IP Conference Phone 8831 / 8832					
 CP-8832-LA-W-K9	Cisco IP Conference Phone 8832 base in white color for LATAM. This also includes an adapter along with a 9.8-ft (3-m) USB-C cable.	IP Phone 8800 Series	phone	layered	IP Phones	(none)	IP Conference Phone 8831 / 8832		sku ^CP-883[12]	conference	series:IP Conference Phone 8831 / 8832					
 CP-8832-LA-W-K9=	8832 base SPARE in white color for Latin America	IP Phone 8800 Series	phone	layered	IP Phones	(none)	IP Conference Phone 8831 / 8832		sku ^CP-883[12]	conference	series:IP Conference Phone 8831 / 8832					
 CP-8832-MIC-WIRED=	Optional Cisco IP Conference Phone 8832 Wired Microphone Kit in silver color for worldwide use. Kit includes two wired microphones.	IP Phone 8800 Series	microphone	layered	IP Phones	(none)	IP Conference Phone 8831 / 8832		sku ^CP-883[12]							
@@ -950,7 +950,7 @@ CP-8865-3PCC-K9=	Cisco IP Video Phone 8865 shipped with multiplatform phone firm
 CP-8865-3PCC-XU=	Cisco IP Video Phone 8865 with MPP Firmware for Russia	IP Phone 8800 Series	phone	layered	IP Phones	(none)	IP Phone 8800 (8811 - 8875)		sku ^CP-88	desk	series:IP Phone 8800 (8811 - 8875)					
 CP-8865-3PW-NA-K9=	Cisco IP Video Phone 8865 shipped with multiplatform phone firmware, and a power cube and a power cord for North America	IP Phone 8800 Series with Multiplatform Firmware	phone	layered	IP Phones	(none)	IP Phone 8800 (8811 - 8875)		sku ^CP-88	desk	series:IP Phone 8800 (8811 - 8875)					
 CP-8865-A-K9=	Cisco IP phone 8865 Arabic layout	IP Phone 8800 Series	phone	layered	IP Phones	(none)	IP Phone 8800 (8811 - 8875)		sku ^CP-88	desk	series:IP Phone 8800 (8811 - 8875)					
-CP-8865-K9	Cisco CP-8865-K9	IP Phone 8800 Series	phone	layered	IP Phones	(none)	IP Phone 8800 (8811 - 8875)		sku ^CP-88	desk	series:IP Phone 8800 (8811 - 8875)					
+CP-8865-K9	Cisco IP Phone 8865, Charcoal	IP Phone 8800 Series	phone	layered	IP Phones	(none)	IP Phone 8800 (8811 - 8875)		sku ^CP-88	desk	series:IP Phone 8800 (8811 - 8875)					
 CP-8865-K9++=	Cisco IP Phone 8865 for TAA	IP Phone 8800 Series	phone	layered	IP Phones	(none)	IP Phone 8800 (8811 - 8875)		sku ^CP-88	desk	series:IP Phone 8800 (8811 - 8875)					
 CP-8865-K9=	Cisco IP Phone 8865, Charcoal	IP Phone 8800 Series	phone	layered	IP Phones	(none)	IP Phone 8800 (8811 - 8875)		sku ^CP-88	desk	series:IP Phone 8800 (8811 - 8875)					
 CP-8865-NC-K9=	Cisco UC Phone 8865	IP Phone 8800 Series	phone	layered	IP Phones	(none)	IP Phone 8800 (8811 - 8875)		sku ^CP-88	desk	series:IP Phone 8800 (8811 - 8875)					
@@ -1015,8 +1015,8 @@ CP-DX650-W-K9	Cisco Desktop Collaboration Experience DX650 White	Desk Series	vid
 CP-DX650-W-K9=	Cisco DX650 White Spare	Desk Series	video-device	layered	Webex Desk Series	(none)	DX70 / DX80		sku ^CP-DX[0-9]{2}							
 CP-DX70-FS=	Foot stand for Cisco DX70	Desk Series	mechanical	layered	Webex Desk Series	(none)	DX70 / DX80		sku ^CP-DX[0-9]{2}							
 CP-DX70-VESA=	Cisco VESA adapter and wall mounting option	Desk Series	mechanical	layered	Webex Desk Series	(none)	DX70 / DX80		sku ^CP-DX[0-9]{2}							
-CP-DX70-W-K9	Cisco CP-DX70-W-K9	Desk Series	video-device	layered	Webex Desk Series	(none)	DX70 / DX80		sku ^CP-DX[0-9]{2}							
-CP-DX70-W-K9++	Cisco CP-DX70-W-K9++	Desk Series	video-device	layered	Webex Desk Series	(none)	DX70 / DX80		sku ^CP-DX[0-9]{2}							
+CP-DX70-W-K9	Cisco DX70 – GPL *	Desk Series	video-device	layered	Webex Desk Series	(none)	DX70 / DX80		sku ^CP-DX[0-9]{2}							
+CP-DX70-W-K9++	Cisco DX70, for U.S. Government (Trade Agreement Act compliant) - GPL *	Desk Series	video-device	layered	Webex Desk Series	(none)	DX70 / DX80		sku ^CP-DX[0-9]{2}							
 CP-DX70-W-K9++=	Cisco DX70, for U.S. Government (Trade Agreement Act compliant) - GPL *	Desk Series	video-device	layered	Webex Desk Series	(none)	DX70 / DX80		sku ^CP-DX[0-9]{2}							
 CP-DX70-W-K9=	Cisco DX70 – GPL *	Desk Series	video-device	layered	Webex Desk Series	(none)	DX70 / DX80		sku ^CP-DX[0-9]{2}							
 CP-DX70-W-NR-K9++=	Cisco CP-DX70-W-NR-K9++=	Desk Series	video-device	layered	Webex Desk Series	(none)	DX70 / DX80		sku ^CP-DX[0-9]{2}							
@@ -1252,14 +1252,14 @@ CS-BARPRO-CAMCOV=	Privacy Camera Cover for Room Bar Pro - SPARE	Room Series	mech
 CS-BARPRO-K9	Cisco Room Bar Pro - First Light (with Room Navigator Table Stand, Mount and Accessories)	Room Series	video-codec	layered	Webex Room Series	(none)	Room Bar Pro		sku ^CS-BARPRO							
 CS-BARPRO-K9++	Cisco Room Bar Pro - First Light - TAA (with Room Navigator Table Stand, Mount and Accessories)	Room Series	video-codec	layered	Webex Room Series	(none)	Room Bar Pro		sku ^CS-BARPRO							
 CS-BARPRO-K9--	Cisco Room Bar Pro - First Light - Customized Model	Room Series	video-codec	layered	Webex Room Series	(none)	Room Bar Pro		sku ^CS-BARPRO							
-CS-BARPRO-K9=	Cisco CS-BARPRO-K9=	Room Series	video-codec	layered	Webex Room Series	(none)	Room Bar Pro		sku ^CS-BARPRO							
+CS-BARPRO-K9=	Cisco Room Bar Pro - First Light (with Room Navigator Table Stand, Mount and Accessories)	Room Series	video-codec	layered	Webex Room Series	(none)	Room Bar Pro		sku ^CS-BARPRO							
 CS-BARPRO-MOUNT-	Mounting Kit (Wall and Screen) for Cisco Room Bar Pro	Room Series	mechanical	layered	Webex Room Series	(none)	Room Bar Pro		sku ^CS-BARPRO							
 CS-BARPRO-MOUNT=	Mounting Kit (Wall and Screen) for Room Bar Pro - SPARE	Room Series	mechanical	layered	Webex Room Series	(none)	Room Bar Pro		sku ^CS-BARPRO							
 CS-BARPRO-NC-K9	Cisco CS-BARPRO-NC-K9	Room Series	video-codec	layered	Webex Room Series	(none)	Room Bar Pro		sku ^CS-BARPRO							
 CS-BARPRO-NR-K9	Cisco Room Bar Pro - No-Radio - First Light (with Room Navigator Table Stand, Mount and Accessories)	Room Series	video-codec	layered	Webex Room Series	(none)	Room Bar Pro		sku ^CS-BARPRO							
 CS-BARPRO-NR-K9++	Cisco Room Bar Pro - No-Radio - First Light - TAA (with Room Navigator Table Stand, Mount and Accessories)	Room Series	video-codec	layered	Webex Room Series	(none)	Room Bar Pro		sku ^CS-BARPRO							
 CS-BARPRO-NR-K9--	Cisco Room Bar Pro - First Light - Customized Model - No-Radio	Room Series	video-codec	layered	Webex Room Series	(none)	Room Bar Pro		sku ^CS-BARPRO							
-CS-BARPRO-NR-K9=	Cisco CS-BARPRO-NR-K9=	Room Series	video-codec	layered	Webex Room Series	(none)	Room Bar Pro		sku ^CS-BARPRO							
+CS-BARPRO-NR-K9=	Cisco Room Bar Pro - No-Radio - First Light (with Room Navigator Table Stand, Mount and Accessories)	Room Series	video-codec	layered	Webex Room Series	(none)	Room Bar Pro		sku ^CS-BARPRO							
 CS-BOARD55	^Cisco Spark Board 55 - unit	Spark Board	video-device	layered	Webex Board Series	(none)	Webex Board 55 / 70 / 85 (Spark Board)		sku ^(CS|SPARK)-BOARD							
 CS-BOARD55-FS	Cisco Spark Board 55 Floor Stand (New Design)	Spark Board	mechanical	layered	Webex Board Series	(none)	Webex Board 55 / 70 / 85 (Spark Board)		sku ^(CS|SPARK)-BOARD							
 CS-BOARD55-FS=	Cisco Webex Board 55 Floor Stand (New Design) - spare	Spark Board	mechanical	layered	Webex Board Series	(none)	Webex Board 55 / 70 / 85 (Spark Board)		sku ^(CS|SPARK)-BOARD							
@@ -1272,7 +1272,7 @@ CS-BOARD55-K9	Cisco Spark Board 55	Spark Board	video-device	layered	Webex Board 
 CS-BOARD55-M-FS	Cisco Webex Board 55 Floor Stand	Spark Board	mechanical	layered	Webex Board Series	(none)	Webex Board 55 / 70 / 85 (Spark Board)		sku ^(CS|SPARK)-BOARD							
 CS-BOARD55-M-WMK	Cisco Webex Board 55 Wall Mount Kit	Spark Board	mechanical	layered	Webex Board Series	(none)	Webex Board 55 / 70 / 85 (Spark Board)		sku ^(CS|SPARK)-BOARD							
 CS-BOARD55-M-WS	Cisco Webex Board 55 Wall Stand	Spark Board	mechanical	layered	Webex Board Series	(none)	Webex Board 55 / 70 / 85 (Spark Board)		sku ^(CS|SPARK)-BOARD							
-CS-BOARD55-WMK	Cisco CS-BOARD55-WMK	Spark Board	mechanical	layered	Webex Board Series	(none)	Webex Board 55 / 70 / 85 (Spark Board)		sku ^(CS|SPARK)-BOARD							
+CS-BOARD55-WMK	Cisco Webex Board 55 Wall Mount Kit -	Spark Board	mechanical	layered	Webex Board Series	(none)	Webex Board 55 / 70 / 85 (Spark Board)		sku ^(CS|SPARK)-BOARD							
 CS-BOARD55-WMK=	Cisco Webex Board 55 Wall Mount Kit - Spare	Spark Board	mechanical	layered	Webex Board Series	(none)	Webex Board 55 / 70 / 85 (Spark Board)		sku ^(CS|SPARK)-BOARD							
 CS-BOARD55-WS	Cisco Spark Board 55 Wall Stand (New Design)	Spark Board	mechanical	layered	Webex Board Series	(none)	Webex Board 55 / 70 / 85 (Spark Board)		sku ^(CS|SPARK)-BOARD							
 CS-BOARD55-WS=	Cisco Webex Board 55 Wall Stand (New Design) - spare	Spark Board	mechanical	layered	Webex Board Series	(none)	Webex Board 55 / 70 / 85 (Spark Board)		sku ^(CS|SPARK)-BOARD							
@@ -1407,15 +1407,15 @@ CS-BRDP55-G3NRK9--	Cisco Board Pro 55 G3 - Customized Model - No-Radio	Spark Boa
 CS-BRDP55-K9	Cisco Board Pro 55 G2	Spark Board	video-device	layered	Webex Board Series	(none)	Board Pro G2 (55 / 75)		sku ^CS-BRDP							
 CS-BRDP55-K9++	Cisco Board Pro 55 G2, TAA	Spark Board	video-device	layered	Webex Board Series	(none)	Board Pro G2 (55 / 75)		sku ^CS-BRDP							
 CS-BRDP55-K9--	Cisco Board Pro 55 G2, Customized Model	Spark Board	video-device	layered	Webex Board Series	(none)	Board Pro G2 (55 / 75)		sku ^CS-BRDP							
-CS-BRDP55-K9=	Cisco CS-BRDP55-K9=	Spark Board	video-device	layered	Webex Board Series	(none)	Board Pro G2 (55 / 75)		sku ^CS-BRDP							
+CS-BRDP55-K9=	Cisco Board Pro 55 G2	Spark Board	video-device	layered	Webex Board Series	(none)	Board Pro G2 (55 / 75)		sku ^CS-BRDP							
 CS-BRDP55-ND-K9	Cisco Board Pro 55 G2, NoRadar	Spark Board	video-device	layered	Webex Board Series	(none)	Board Pro G2 (55 / 75)		sku ^CS-BRDP							
-CS-BRDP55-ND-K9=	Cisco CS-BRDP55-ND-K9=	Spark Board	video-device	layered	Webex Board Series	(none)	Board Pro G2 (55 / 75)		sku ^CS-BRDP							
+CS-BRDP55-ND-K9=	Cisco Board Pro 55 G2, NoRadar	Spark Board	video-device	layered	Webex Board Series	(none)	Board Pro G2 (55 / 75)		sku ^CS-BRDP							
 CS-BRDP55-NR-K7	Cisco CS-BRDP55-NR-K7	Spark Board	video-device	layered	Webex Board Series	(none)	Board Pro G2 (55 / 75)		sku ^CS-BRDP							
 CS-BRDP55-NR-K7=	Cisco CS-BRDP55-NR-K7=	Spark Board	video-device	layered	Webex Board Series	(none)	Board Pro G2 (55 / 75)		sku ^CS-BRDP							
 CS-BRDP55-NR-K9	Cisco Board Pro 55 G2 - No-Radio	Spark Board	video-device	layered	Webex Board Series	(none)	Board Pro G2 (55 / 75)		sku ^CS-BRDP							
 CS-BRDP55-NR-K9++	Cisco Board Pro 55 G2, NoRadio, TAA	Spark Board	video-device	layered	Webex Board Series	(none)	Board Pro G2 (55 / 75)		sku ^CS-BRDP							
 CS-BRDP55-NR-K9--	Cisco Board Pro 55 G2, NoRadio, Customized Model	Spark Board	video-device	layered	Webex Board Series	(none)	Board Pro G2 (55 / 75)		sku ^CS-BRDP							
-CS-BRDP55-NR-K9=	Cisco CS-BRDP55-NR-K9=	Spark Board	video-device	layered	Webex Board Series	(none)	Board Pro G2 (55 / 75)		sku ^CS-BRDP							
+CS-BRDP55-NR-K9=	Cisco Board Pro 55 G2 - No-Radio	Spark Board	video-device	layered	Webex Board Series	(none)	Board Pro G2 (55 / 75)		sku ^CS-BRDP							
 CS-BRDP55-SK-AUS=	Replacement Safety Kit for Board Pro 55 Floor Stand - Australia and New Zealand-SPARE	Spark Board	mechanical	layered	Webex Board Series	(none)	Board Pro G2 (55 / 75)		sku ^CS-BRDP							
 CS-BRDP75-FSK-AUS=	Cisco Board Pro 75 Floor Stand w/Safety Kit for Australia and New Zealand-SPARE	Spark Board	mechanical	layered	Webex Board Series	(none)	Board Pro G2 (55 / 75)		sku ^CS-BRDP							
 CS-BRDP75-G3-K9	Cisco Board Pro 75 G3	Spark Board	video-device	layered	Webex Board Series	(none)	Board Pro G2 (55 / 75)		sku ^CS-BRDP							
@@ -1428,15 +1428,15 @@ CS-BRDP75-G3NRK9--	Cisco Board Pro 75 G3 - Customized Model - No-Radio	Spark Boa
 CS-BRDP75-K9	Cisco Board Pro 75 G2	Spark Board	video-device	layered	Webex Board Series	(none)	Board Pro G2 (55 / 75)		sku ^CS-BRDP							
 CS-BRDP75-K9++	Cisco Board Pro 75 G2, TAA	Spark Board	video-device	layered	Webex Board Series	(none)	Board Pro G2 (55 / 75)		sku ^CS-BRDP							
 CS-BRDP75-K9--	Cisco Board Pro 75 G2, Customized Model	Spark Board	video-device	layered	Webex Board Series	(none)	Board Pro G2 (55 / 75)		sku ^CS-BRDP							
-CS-BRDP75-K9=	Cisco CS-BRDP75-K9=	Spark Board	video-device	layered	Webex Board Series	(none)	Board Pro G2 (55 / 75)		sku ^CS-BRDP							
+CS-BRDP75-K9=	Cisco Board Pro 75 G2	Spark Board	video-device	layered	Webex Board Series	(none)	Board Pro G2 (55 / 75)		sku ^CS-BRDP							
 CS-BRDP75-ND-K9	Cisco Board Pro 75 G2, NoRadar	Spark Board	video-device	layered	Webex Board Series	(none)	Board Pro G2 (55 / 75)		sku ^CS-BRDP							
-CS-BRDP75-ND-K9=	Cisco CS-BRDP75-ND-K9=	Spark Board	video-device	layered	Webex Board Series	(none)	Board Pro G2 (55 / 75)		sku ^CS-BRDP							
+CS-BRDP75-ND-K9=	Cisco Board Pro 75 G2, NoRadar	Spark Board	video-device	layered	Webex Board Series	(none)	Board Pro G2 (55 / 75)		sku ^CS-BRDP							
 CS-BRDP75-NR-K7	Cisco CS-BRDP75-NR-K7	Spark Board	video-device	layered	Webex Board Series	(none)	Board Pro G2 (55 / 75)		sku ^CS-BRDP							
 CS-BRDP75-NR-K7=	Cisco CS-BRDP75-NR-K7=	Spark Board	video-device	layered	Webex Board Series	(none)	Board Pro G2 (55 / 75)		sku ^CS-BRDP							
 CS-BRDP75-NR-K9	Cisco Board Pro 75 G2, NoRadio	Spark Board	video-device	layered	Webex Board Series	(none)	Board Pro G2 (55 / 75)		sku ^CS-BRDP							
 CS-BRDP75-NR-K9++	Cisco Board Pro 75 G2, NoRadio, TAA	Spark Board	video-device	layered	Webex Board Series	(none)	Board Pro G2 (55 / 75)		sku ^CS-BRDP							
 CS-BRDP75-NR-K9--	Cisco Board Pro 75 G2, NoRadio, Customized Model	Spark Board	video-device	layered	Webex Board Series	(none)	Board Pro G2 (55 / 75)		sku ^CS-BRDP							
-CS-BRDP75-NR-K9=	Cisco CS-BRDP75-NR-K9=	Spark Board	video-device	layered	Webex Board Series	(none)	Board Pro G2 (55 / 75)		sku ^CS-BRDP							
+CS-BRDP75-NR-K9=	Cisco Board Pro 75 G2, NoRadio	Spark Board	video-device	layered	Webex Board Series	(none)	Board Pro G2 (55 / 75)		sku ^CS-BRDP							
 CS-BRDP75-SK-AUS=	Replacement Safety Kit for Board Pro 75 Floor Stand - Australia and New Zealand-SPARE	Spark Board	mechanical	layered	Webex Board Series	(none)	Board Pro G2 (55 / 75)		sku ^CS-BRDP							
 CS-CAB-V-QPA85-	Samsung 85" QPA invisible cable	Room Series	cable	layered	Webex Room Series	(shared across the line)		Webex Room Series shared parts	label Room Series							
 CS-CAB-V-QPA85=	Samsung 85" QPA invisible cable	Room Series	cable	layered	Webex Room Series	(shared across the line)		Webex Room Series shared parts	label Room Series							
@@ -1518,7 +1518,7 @@ CS-CPRO-ANT=	Replacement Codec Pro Antennas - SPARE	Room Series	accessory	layere
 CS-CPRO-G2ANT=	Antenna for Cisco Codec Pro G2 - SPARE	Room Series	video-codec	layered	Webex Room Series	(none)	Codec Plus / Pro / EQ		sku ^CS-CPRO							
 CS-CPRO-K9	Cisco Codec Pro G2	Room Series	video-codec	layered	Webex Room Series	(none)	Codec Plus / Pro / EQ		sku ^CS-CPRO							
 CS-CPRO-K9++	Cisco Codec Pro G2 – TAA	Room Series	video-codec	layered	Webex Room Series	(none)	Codec Plus / Pro / EQ		sku ^CS-CPRO							
-CS-CPRO-K9=	Cisco CS-CPRO-K9=	Room Series	video-codec	layered	Webex Room Series	(none)	Codec Plus / Pro / EQ		sku ^CS-CPRO							
+CS-CPRO-K9=	Cisco Codec Pro G2	Room Series	video-codec	layered	Webex Room Series	(none)	Codec Plus / Pro / EQ		sku ^CS-CPRO							
 CS-CPRO-KANT+	Antenna for Cisco Codec Pro G2 (Not available on Radio Version)	Room Series	video-codec	layered	Webex Room Series	(none)	Codec Plus / Pro / EQ		sku ^CS-CPRO							
 CS-CPRO-MNT+	Mounting Brackets for Codec Pro G2	Room Series	mechanical	layered	Webex Room Series	(none)	Codec Plus / Pro / EQ		sku ^CS-CPRO							
 CS-CPRO-MNT=	Mounting Brackets for Cisco Codec Pro G2 - SPARE	Room Series	mechanical	layered	Webex Room Series	(none)	Codec Plus / Pro / EQ		sku ^CS-CPRO							
@@ -2118,7 +2118,7 @@ CTS-5K-CBL-SUBW=	CTS-IX5000 Cable Kit for the Subwoofer	TelePresence IX5000 Seri
 CTS-5K-CTRL-DVX-10	Touch 10 Control Device - selectable option for IX5x00	TelePresence IX5000 Series	touch-panel	layered	TelePresence (legacy)	(none)	TelePresence IX5000		sku ^CTS-5K(?!-(LC|UI)-SWITCH)							
 CTS-5K-DISP42	CTS-IX5000 42	TelePresence IX5000 Series	display	layered	TelePresence (legacy)	(none)	TelePresence IX5000		sku ^CTS-5K(?!-(LC|UI)-SWITCH)							
 CTS-5K-DISP42-KIT	CTS-IX5000 42" Brackets and Cable Runner	TelePresence MX Series	mechanical	layered	TelePresence (legacy)	(none)	TelePresence IX5000		sku ^CTS-5K(?!-(LC|UI)-SWITCH)							
-CTS-5K-DISP42-KIT=	CTS-IX5000 42	TelePresence MX Series	mechanical	layered	TelePresence (legacy)	(none)	TelePresence IX5000		sku ^CTS-5K(?!-(LC|UI)-SWITCH)							
+CTS-5K-DISP42-KIT=	CTS-IX5000 42" Brackets and Cable Runner	TelePresence MX Series	mechanical	layered	TelePresence (legacy)	(none)	TelePresence IX5000		sku ^CTS-5K(?!-(LC|UI)-SWITCH)							
 CTS-5K-DISP42=	CTS-IX5000 42	TelePresence IX5000 Series	display	layered	TelePresence (legacy)	(none)	TelePresence IX5000		sku ^CTS-5K(?!-(LC|UI)-SWITCH)							
 CTS-5K-ENCODER	CTS-IX5000 Encoder / Decoder for World Wide Shipment	TelePresence IX5000 Series	video-codec	layered	TelePresence (legacy)	(none)	TelePresence IX5000		sku ^CTS-5K(?!-(LC|UI)-SWITCH)							
 CTS-5K-ENCODER++	CTS-IX5000 TAA Encoder / Decoder for US only	TelePresence MX Series	video-codec	layered	TelePresence (legacy)	(none)	TelePresence IX5000		sku ^CTS-5K(?!-(LC|UI)-SWITCH)							
@@ -2205,7 +2205,7 @@ CTS-ATP-PHD4XS1	ATP Demo -PrecisionHD 1080p Camera w 4x-not sold stand alone	Mic
 CTS-ATP-QSC20-K9	ATP Demo - Quick Set w/C20	TelePresence SX Series (QuickSet)	bundle	layered	TelePresence (legacy)	(shared across the line)		TelePresence (legacy) shared parts	sku ^CTS-							
 CTS-ATP-QSC20-MIC	ATP Demo - Precision Microphone 20	TelePresence SX Series (QuickSet)	bundle	layered	TelePresence (legacy)	(shared across the line)		TelePresence (legacy) shared parts	sku ^CTS-							
 CTS-ATP-QSC20-WMK	ATP Demo - Wall Mount Kit for Quick Set	TelePresence SX Series (QuickSet)	mechanical	layered	TelePresence (legacy)	(shared across the line)		TelePresence (legacy) shared parts	sku ^CTS-							
-CTS-C20CODEC-K9	Cisco CTS-C20CODEC-K9	TelePresence SX Series (QuickSet)	video-codec	layered	TelePresence (legacy)	(none)	TelePresence C-series codecs		sku ^CTS-C[0-9]{2}							
+CTS-C20CODEC-K9	C20 Codec -	TelePresence SX Series (QuickSet)	video-codec	layered	TelePresence (legacy)	(none)	TelePresence C-series codecs		sku ^CTS-C[0-9]{2}							
 CTS-C20CODEC-K9=	C20 Codec - Spare	TelePresence SX Series (QuickSet)	video-codec	layered	TelePresence (legacy)	(none)	TelePresence C-series codecs		sku ^CTS-C[0-9]{2}							
 CTS-C20CODEC=	C20 CODEC Non Encrypted Version Spare	TelePresence SX Series (QuickSet)	video-codec	layered	TelePresence (legacy)	(none)	TelePresence C-series codecs		sku ^CTS-C[0-9]{2}							
 CTS-CABL-RJ45-6	TelePresence Cable Rj45 to RJ45 6M	TelePresence MX Series	cable	layered	TelePresence (legacy)	(shared across the line)		TelePresence (legacy) shared parts	sku ^CTS-							
@@ -2736,7 +2736,7 @@ PWR-CORD-EUR-E=	MX - Pwr cable Euro 5m	TelePresence MX Series	power-cord	layered
 PWR-CORD-GBR-B=	Power Cord for United Kingdom 2m 10A-SPARE	Conferencing Cameras	power-cord	layered	Cameras	(shared across the line)		Cameras shared parts	accessory ^PWR-CORD (label Conferencing Cameras)							
 PWR-CORD-IND-A	Power cable India 1.8 m	TelePresence MX Series	power-cord	layered	TelePresence (legacy)	(shared across the line)		TelePresence (legacy) shared parts	accessory ^PWR-CORD (label TelePresence MX Series)							
 PWR-CORD-IND-A=	India Power Cord, 1.8 m spare	TelePresence MX Series	power-cord	layered	TelePresence (legacy)	(shared across the line)		TelePresence (legacy) shared parts	accessory ^PWR-CORD (label TelePresence MX Series)							
-PWR-CORD-IND-B	Cisco PWR-CORD-IND-B	Desk Series	power-cord	layered	Webex Desk Series	(shared across the line)		Webex Desk Series shared parts	accessory ^PWR-CORD (label Desk Series)							
+PWR-CORD-IND-B	Power Cord for India 2m 10A-	Desk Series	power-cord	layered	Webex Desk Series	(shared across the line)		Webex Desk Series shared parts	accessory ^PWR-CORD (label Desk Series)							
 PWR-CORD-IND-B=	Power Cord for India 2m 10A-SPARE	Desk Series	power-cord	layered	Webex Desk Series	(shared across the line)		Webex Desk Series shared parts	accessory ^PWR-CORD (label Desk Series)							
 PWR-CORD-IND-D	Power Cord for India	Desk Series	power-cord	layered	Webex Desk Series	(shared across the line)		Webex Desk Series shared parts	accessory ^PWR-CORD (label Desk Series)							
 PWR-CORD-IND-D=	Power Cord for India	Desk Series	power-cord	layered	Webex Desk Series	(shared across the line)		Webex Desk Series shared parts	accessory ^PWR-CORD (label Desk Series)							

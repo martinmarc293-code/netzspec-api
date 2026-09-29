@@ -1,8 +1,8 @@
 {
   "vendor": "cisco",
   "category": "collaboration-endpoints",
-  "built_at": "2026-09-29T10:52:51.807Z",
-  "commit": "5aa426358a46218d1e6bd7b0c5bd6f774ea5d4f3",
+  "built_at": "2026-09-29T12:17:43.286Z",
+  "commit": "702bf78b3dfc4eca103a03244d668a9c3408801e",
   "uncommitted_rule_files": [],
   "mapping_file": "data/reference/product-lines/cisco-collaboration-endpoints.json",
   "parts": 2937,
@@ -262,7 +262,7 @@
             "CAB-COMBO-2M — Combo cable USB & HDMI. Grey. 2 meters",
             "CAB-COMBO-2M= — HDMI/USB grey cable for Cisco Webex DX80",
             "CAB-DX-2HDMI-3M — HDMI-to-HDMI cable, 3m",
-            "CAB-GREY-2.9M — Cisco CAB-GREY-2.9M",
+            "CAB-GREY-2.9M — Ethernet grey cable for Cisco Webex DX80",
             "CAB-GREY-2.9M= — Ethernet grey cable for Cisco Webex DX80",
             "CAB-USBC-1.5M — USB-C 3.2 Gen 2X2 Passive Cable, 1.5M length"
           ],
@@ -947,7 +947,7 @@
           "samples": [
             "CTS-ATP-C60-K9 — ATP Demo - Codec C60- NPP,Rackmt Kit,Rmt Cntrl, HDMI,Pwr Cbl",
             "CTS-ATP-C90-K9 — ATP Demo - Codec C90- NPP,Rackmt Kit,Rmt Cntrl, HDMI,Pwr Cbl",
-            "CTS-C20CODEC-K9 — Cisco CTS-C20CODEC-K9",
+            "CTS-C20CODEC-K9 — C20 Codec -",
             "CTS-C20CODEC-K9= — C20 Codec - Spare",
             "CTS-C20CODEC= — C20 CODEC Non Encrypted Version Spare",
             "CTS-QSC20-K9 — QuickSet C20 with NPP, 1 mic, remote control"
@@ -2021,9 +2021,9 @@
   "inbound_unplaced": {},
   "done": true,
   "build": {
-    "data_commit": "62ecef167114+81dirty",
-    "code_commit": "1cce5baf24ab",
+    "data_commit": "abd34bdc5955+98dirty",
+    "code_commit": "ec9da45dc859",
     "contract_hash": "bcfc4c1ee314d3c2",
-    "generated_at": "2026-09-29T11:01:58.001Z"
+    "generated_at": "2026-09-29T12:26:27.224Z"
   }
 }

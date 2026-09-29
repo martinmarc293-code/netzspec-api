@@ -222,7 +222,7 @@ AIR-ANT2450EV-N	2.4-2.7 GHz, 5 dBi Omni with N Connector	Aironet 1550	antenna	la
 AIR-ANT2450HG-N	2.4 GHz 5dBi Omni, Horizontal Pol. Antenna, Gray, N conn.	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories	(none)	Antennas		sku ^AIR-ANT							
 AIR-ANT2450HG-N=	2.4 GHz 5dBi Omni, Horizontal Pol. Antenna, Gray, N conn.	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories	(none)	Antennas		sku ^AIR-ANT							
 AIR-ANT2450S-R=	2.4 GHz, 5 dBi, 135-degree Sector w/ RP-TNC Connector	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories	(none)	Antennas		sku ^AIR-ANT							
-AIR-ANT2450V-N	Cisco AIR-ANT2450V-N	Aironet 1560	antenna	layered	Wireless Antennas and Accessories	(none)	Antennas		sku ^AIR-ANT							
+AIR-ANT2450V-N	2.4GHz 5dBi Omnidirectional Colinear Array Antenna, Connectors N-Male	Aironet 1560	antenna	layered	Wireless Antennas and Accessories	(none)	Antennas		sku ^AIR-ANT							
 AIR-ANT2450V-N=	2.4GHz 5dBi Omnidirectional Colinear Array Antenna, Connectors N-Male	Catalyst 9163	antenna	layered	Wireless Antennas and Accessories	(none)	Antennas		sku ^AIR-ANT							
 AIR-ANT2450VG-N	2.4 GHz 5dBi Omni, Vertical Pol. Antenna, Gray, N conn.	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories	(none)	Antennas		sku ^AIR-ANT							
 AIR-ANT2450VG-N=	2.4 GHz 5dBi Omni, Vertical Pol. Antenna, Gray, N conn.	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories	(none)	Antennas		sku ^AIR-ANT							
@@ -234,7 +234,7 @@ AIR-ANT2460NP-R=	2.4 GHz 6 dBi 802.11n directional antenna	Antennas/Accessories	
 AIR-ANT2460P-R	2.4 GHz, 6 dBi Patch Antenna w/RP-TNC Connector	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories	(none)	Antennas		sku ^AIR-ANT							
 AIR-ANT2465P-R	2.4 GHz, 6.5 dBi Diversity Patch Antenna w/RP-TNC Connectors	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories	(none)	Antennas		sku ^AIR-ANT							
 AIR-ANT2470PD-NA	2.4 GHz, Diversity 7 dBi Patch with N Connector, Right Angle	Aironet 1550	antenna	layered	Wireless Antennas and Accessories	(none)	Antennas		sku ^AIR-ANT							
-AIR-ANT2480V-N	Cisco AIR-ANT2480V-N	Aironet 1560	antenna	layered	Wireless Antennas and Accessories	(none)	Antennas		sku ^AIR-ANT							
+AIR-ANT2480V-N	2.4GHz 8dBi Omnidirectional Colinear Array Antenna, Connectors N-Male	Aironet 1560	antenna	layered	Wireless Antennas and Accessories	(none)	Antennas		sku ^AIR-ANT							
 AIR-ANT2480V-N=	2.4GHz 8dBi Omnidirectional Colinear Array Antenna, Connectors N-Male	Catalyst 9163	antenna	layered	Wireless Antennas and Accessories	(none)	Antennas		sku ^AIR-ANT							
 AIR-ANT2485P-R	2.4 GHz, 8.5 dBi Patch Antenna w/ RP-TNC Connector	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories	(none)	Antennas		sku ^AIR-ANT							
 AIR-ANT25-LOC-02=	Hyperlocation Antenna, Model 2, + WiFi Ant., Directional	Access Point Modules	antenna	layered	Wireless Antennas and Accessories	(none)	Antennas		sku ^AIR-ANT							
@@ -250,10 +250,10 @@ AIR-ANT2524DB-R/=	2.4 GHz 2 dBi/5 GHz 4 dBi Dipole Ant., Black, connectors RP-TN
 AIR-ANT2524DB-R=	2.4 GHz 2 dBi/5 GHz 4 dBi Dipole Ant., Blk, RP-TNC	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories	(none)	Antennas		sku ^AIR-ANT							
 AIR-ANT2524DG-R	Cisco Aironet dual-band dipole antenna; Grey; Peak Gain 2 dBi at 2.4. GHz and 4 dBi at 5 GHz	Catalyst 9163	antenna	layered	Wireless Antennas and Accessories	(none)	Antennas		sku ^AIR-ANT							
 AIR-ANT2524DG-R/=	2.4 GHz 2 dBi/5 GHz 4 dBi Dipole Ant., Gray, connectors RP-TNC	Catalyst 9100	antenna	layered	Wireless Antennas and Accessories	(none)	Antennas		sku ^AIR-ANT							
-AIR-ANT2524DG-R=	Cisco AIR-ANT2524DG-R=	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories	(none)	Antennas		sku ^AIR-ANT							
+AIR-ANT2524DG-R=	Cisco Aironet dual-band dipole antenna; Grey; Peak Gain 2 dBi at 2.4. GHz and 4 dBi at 5 GHz	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories	(none)	Antennas		sku ^AIR-ANT							
 AIR-ANT2524DW-R	Cisco Aironet dual-band dipole antenna; White; Peak Gain 2 dBi at 2.4. GHz and 4 dBi at 5 GHz	Catalyst 9163	antenna	layered	Wireless Antennas and Accessories	(none)	Antennas		sku ^AIR-ANT							
 AIR-ANT2524DW-R/=	2.4 GHz 2 dBi/5 GHz 4 dBi Dipole Ant., White, connectors RP-TNC	Catalyst 9100	antenna	layered	Wireless Antennas and Accessories	(none)	Antennas		sku ^AIR-ANT							
-AIR-ANT2524DW-R=	Cisco AIR-ANT2524DW-R=	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories	(none)	Antennas		sku ^AIR-ANT							
+AIR-ANT2524DW-R=	Cisco Aironet dual-band dipole antenna; White; Peak Gain 2 dBi at 2.4. GHz and 4 dBi at 5 GHz	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories	(none)	Antennas		sku ^AIR-ANT							
 AIR-ANT2524DW-RS	Cisco Aironet dual-band dipole antenna; White; Peak Gain 2 dBi at 2.4. GHz and 4 dBi at 5 GHz	Catalyst 9163	antenna	layered	Wireless Antennas and Accessories	(none)	Antennas		sku ^AIR-ANT							
 AIR-ANT2524V4C-R	Ceiling Mount Omni Antenna, 4-port, with RP-TNC connectors Note: Connect to AP using AIR-CAB002-D8-R=.	9130AX	antenna	layered	Wireless Antennas and Accessories	(none)	Antennas		sku ^AIR-ANT							
 AIR-ANT2524V4C-R=	2.4 GHz 2 dBi/5 GHz 4 dBi Ceiling Mount Omni Ant., 4-port, connectors RP-TNC	Catalyst 9100	antenna	layered	Wireless Antennas and Accessories	(none)	Antennas		sku ^AIR-ANT							
@@ -261,12 +261,12 @@ AIR-ANT2524V4C-RS=	Cisco Aironet omni antenna, ceiling mount, Peak Gain 2 dBi at
 AIR-ANT2535SDW-R	Cisco Aironet short dual-band omni antenna, Peak Gain 3 dBi at 2.4. GHz and 5 dBi at 5 GHz	Catalyst 9163	antenna	layered	Wireless Antennas and Accessories	(none)	Antennas		sku ^AIR-ANT							
 AIR-ANT2535SDW-R=	2.4 GHz 3dBi/5 GHz 5dBi Low Profile Antenna, White, RP-TNC	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories	(none)	Antennas		sku ^AIR-ANT							
 AIR-ANT2535SDW-RS	Cisco Aironet short dual-band omni antenna, Peak Gain 3 dBi at 2.4. GHz and 5 dBi at 5 GHz	Catalyst 9163	antenna	layered	Wireless Antennas and Accessories	(none)	Antennas		sku ^AIR-ANT							
-AIR-ANT2535SDW-RS=	Cisco AIR-ANT2535SDW-RS=	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories	(none)	Antennas		sku ^AIR-ANT							
+AIR-ANT2535SDW-RS=	Cisco Aironet short dual-band omni antenna, Peak Gain 3 dBi at 2.4. GHz and 5 dBi at 5 GHz	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories	(none)	Antennas		sku ^AIR-ANT							
 AIR-ANT2544V4M-R	Wall Mount Omni Antenna, 4-port, with RP-TNC connectors. Note: Connect to AP using AIR-CAB002-D8-R=.	9130AX	antenna	layered	Wireless Antennas and Accessories	(none)	Antennas		sku ^AIR-ANT							
 AIR-ANT2544V4M-R8=	Dual-band Multiple-Input, Multiple-Output (MIMO) wall-mounted omnidirectional antenna with 8-ft antenna cable operates in the 2.4- and 5-GHz frequency ranges and is designed for indoor or outdoor use with the Aironet 1830, 1850, 2800, and 3800 Series and Cisco Catalyst 9115AX, 9120AX, 9130AX Series access points.	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories	(none)	Antennas		sku ^AIR-ANT							
 AIR-ANT2544V4M-R=	2.4 GHz 4 dBi/5 GHz 4 dBi Wall Mount Omni Ant., 4-port, connectors RP-TNC	Catalyst 9100	antenna	layered	Wireless Antennas and Accessories	(none)	Antennas		sku ^AIR-ANT							
 AIR-ANT2544V4M-RS=	Cisco Aironet omni antenna, wall/pole mount, Peak Gain 2 dBi at 2.4 GHz and 4 dBi at 5 GHz	Catalyst 9163	antenna	layered	Wireless Antennas and Accessories	(none)	Antennas		sku ^AIR-ANT							
-AIR-ANT2547V-N	Cisco AIR-ANT2547V-N	800 ISR	antenna	layered	Wireless Antennas and Accessories	(none)	Antennas		sku ^AIR-ANT							
+AIR-ANT2547V-N	2.4GHz 4dBi / 5GHz 7dBi Omnidirectional Colinear Array Antenna, Connectors N-Male	800 ISR	antenna	layered	Wireless Antennas and Accessories	(none)	Antennas		sku ^AIR-ANT							
 AIR-ANT2547V-N-HZ	Cisco AIR-ANT2547V-N-HZ	800 ISR	antenna	layered	Wireless Antennas and Accessories	(none)	Antennas		sku ^AIR-ANT							
 AIR-ANT2547V-N-HZ=	Cisco AIR-ANT2547V-N-HZ=	Aironet 1550	antenna	layered	Wireless Antennas and Accessories	(none)	Antennas		sku ^AIR-ANT							
 AIR-ANT2547V-N=	2.4GHz 4dBi / 5GHz 7dBi Omnidirectional Colinear Array Antenna, Connectors N-Male	Catalyst 9163	antenna	layered	Wireless Antennas and Accessories	(none)	Antennas		sku ^AIR-ANT							
@@ -325,7 +325,7 @@ AIR-ANT5160V-R=	5Ghz 6dBi Omni Antenna w/RP-TNC connector	Antennas/Accessories	a
 AIR-ANT5170P-R	5Ghz 7dBi Diversity Patch Antenna w/RP-TNC connectors	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories	(none)	Antennas		sku ^AIR-ANT							
 AIR-ANT5170P-R=	^5Ghz 7dBi Diversity Patch Antenna w/RP-TNC connector	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories	(none)	Antennas		sku ^AIR-ANT							
 AIR-ANT5175V-N=	4.9 GHz-5.8 GHz, 7.5 dBi Omni with N Connector	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories	(none)	Antennas		sku ^AIR-ANT							
-AIR-ANT5180V-N	Cisco AIR-ANT5180V-N	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories	(none)	Antennas		sku ^AIR-ANT							
+AIR-ANT5180V-N	5GHz 8dBi 2-Element Omnidirectional Colinear Array Antenna, Connectors N-Male	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories	(none)	Antennas		sku ^AIR-ANT							
 AIR-ANT5180V-N=	5GHz 8dBi 2-Element Omnidirectional Colinear Array Antenna, Connectors N-Male	Catalyst 9163	antenna	layered	Wireless Antennas and Accessories	(none)	Antennas		sku ^AIR-ANT							
 AIR-ANT5195P-R	5GHz 9.5dBi Patch Antenna w/RP-TNC connector	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories	(none)	Antennas		sku ^AIR-ANT							
 AIR-ANT5195P-R=	^5GHz 9.5dBi Patch Antenna w/RP-TNC connector	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories	(none)	Antennas		sku ^AIR-ANT							
@@ -3696,7 +3696,7 @@ MR86	Cisco MR86	Catalyst 9800 Series Wireless Controllers	ap	layered	Meraki MR A
 MR86-HW	Cisco MR86-HW	Meraki	ap	layered	Meraki MR Access Points	(none)	Meraki MR outdoor (MR58 / 66 / 70 / 72 / 74 / 76 / 78 / 84 / 86)		sku ^MR(58|66|70|72|74|76|78|84|86)(-|$)	outdoor	series:Meraki MR outdoor (MR58 / 66 / 70 / 72 / 74 / 76 / 78 / 84 / 86)					
 MSE-A03-D600GA2	600GB 6Gb SAS 10K RPM SFF HDD/hot plug/drive sled mounted	Mobility Services Engine	module	layered	Location and Spaces Appliances	(none)	CMX 3375 / MSE 3355 / 3365		sku ^MSE-							
 MSE-A03-D600GA2=	600GB 6Gb SAS 10K RPM SFF HDD/hot plug/drive sled mounted	Mobility Services Engine	module	layered	Location and Spaces Appliances	(none)	CMX 3375 / MSE 3355 / 3365		sku ^MSE-							
-MSE-BZL-C220M4	Cisco MSE-BZL-C220M4	Mobility Services Engine	mechanical	layered	Location and Spaces Appliances	(none)	CMX 3375 / MSE 3355 / 3365		sku ^MSE-							
+MSE-BZL-C220M4	C220 M4 Bezel	Mobility Services Engine	mechanical	layered	Location and Spaces Appliances	(none)	CMX 3375 / MSE 3355 / 3365		sku ^MSE-							
 MSE-BZL-C220M4=	C220 M4 Bezel Spare	Mobility Services Engine	mechanical	layered	Location and Spaces Appliances	(none)	CMX 3375 / MSE 3355 / 3365		sku ^MSE-							
 MSE-CPU-E52650D	2.30 GHz E5-2650 v3/105W 10C/25MB Cache/DDR4 2133MHz	Mobility Services Engine	module	layered	Location and Spaces Appliances	(none)	CMX 3375 / MSE 3355 / 3365		sku ^MSE-							
 MSE-FAN-C220M4=	C220 M4 Fan Module (one)	Mobility Services Engine	module	layered	Location and Spaces Appliances	(none)	CMX 3375 / MSE 3355 / 3365		sku ^MSE-							

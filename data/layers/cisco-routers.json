@@ -1,8 +1,8 @@
 {
   "vendor": "cisco",
   "category": "routers",
-  "built_at": "2026-09-29T10:52:51.301Z",
-  "commit": "5aa426358a46218d1e6bd7b0c5bd6f774ea5d4f3",
+  "built_at": "2026-09-29T12:17:42.784Z",
+  "commit": "702bf78b3dfc4eca103a03244d668a9c3408801e",
   "uncommitted_rule_files": [],
   "mapping_file": "data/reference/product-lines/cisco-routers.json",
   "parts": 5113,
@@ -324,8 +324,8 @@
           "samples": [
             "C8500-12X — Cisco Catalyst 8500 Series 12-port SFP+",
             "C8500-12X4QC — Cisco Catalyst 8500 Series 12-port SFP+, 2-port QSFP+, 2-por",
-            "C8500-12X4QC= — Cisco C8500-12X4QC=",
-            "C8500-12X= — Cisco C8500-12X=",
+            "C8500-12X4QC= — Cisco Catalyst 8500 Series 12-port SFP+, 2-port QSFP+, 2-por",
+            "C8500-12X= — Cisco Catalyst 8500 Series 12-port SFP+",
             "C8500-20X6C — Cisco Catalyst 8500 Series 20-port SFP+, 6-port QSFP+",
             "C8500-4PT-KIT — Cisco Catalyst 8500 Edge accessory kit – 4-post kit"
           ],
@@ -960,7 +960,7 @@
           "samples": [
             "100GE-CFP-COVER — 100GE CFP Dust Cover",
             "100GE-CFP-COVER= — 100GE CFP Dust Cover",
-            "A90X-RSPA-BLANK — Cisco A90X-RSPA-BLANK",
+            "A90X-RSPA-BLANK — ASR 90X Route Switch Processor Type-A Blank Cover",
             "A90X-RSPA-BLANK= — ASR 90X Route Switch Processor Type-A Blank Cover, spare",
             "A90X-RSPB-BLANK= — ASR 90X Route Switch Processor Type-B Blank Cover, spare",
             "CAB-9AS-M — 4-port EIA-232 DTE cable, 68-pin port, 10 ft. length, male D"
@@ -1299,11 +1299,11 @@
           "roles": {},
           "samples": [
             "CAB-250V-10A-AR — AC Power Cord – 250V, 10A – Argentina (2.5 meters)",
-            "CAB-250V-10A-AR= — Cisco CAB-250V-10A-AR=",
+            "CAB-250V-10A-AR= — AC Power Cord – 250V, 10A – Argentina (2.5 meters)",
             "CAB-250V-10A-CN — AC Power Cord – 250V, 10A – PRC (2.5 meters)",
-            "CAB-250V-10A-CN= — Cisco CAB-250V-10A-CN=",
+            "CAB-250V-10A-CN= — AC Power Cord – 250V, 10A – PRC (2.5 meters)",
             "CAB-250V-10A-IS — AC Power Cord – 250V, 10A – Israel (2.5 meters)",
-            "CAB-250V-10A-IS= — Cisco CAB-250V-10A-IS="
+            "CAB-250V-10A-IS= — AC Power Cord – 250V, 10A – Israel (2.5 meters)"
           ],
           "rules": {
             "accessory": 24,
@@ -1400,10 +1400,10 @@
             "bundle": 58,
             "linecard": 79,
             "sp-router": 5,
-            "mechanical": 148,
+            "mechanical": 150,
             "power": 58,
             "power-cord": 18,
-            "accessory": 27,
+            "accessory": 25,
             "chassis": 52,
             "fan": 18,
             "fabric": 36,
@@ -1527,7 +1527,7 @@
           },
           "samples": [
             "IR8140H-K9 — Cisco Catalyst IR8100 Series Industrial Router",
-            "IR8140H-K9= — Cisco IR8140H-K9=",
+            "IR8140H-K9= — Cisco Catalyst IR8100 Series Industrial Router",
             "IR8140H-P-K9 — Cisco IR8140H-P-K9",
             "IR8140H-P-K9= — Cisco IR8140H-P-K9=",
             "IRMH-5GR16SA — Cisco IRMH-5GR16SA",
@@ -1762,7 +1762,7 @@
             "CG418-E — Cisco Catalyst Cellular Gateway, supporting LTE Advanced Pro",
             "CG418-E= — LTE Advanced Pro Cisco Cellular Gateway",
             "CG522-E — Cisco Catalyst Cellular Gateway, supporting 5G Sub6, externa",
-            "CG522-E= — Cisco CG522-E="
+            "CG522-E= — Cisco Catalyst Cellular Gateway, supporting 5G Sub6, externa"
           ],
           "rules": {
             "sku": 4
@@ -1808,7 +1808,7 @@
           "roles": {},
           "samples": [
             "4G-ACC-OUT-LA — Lightning Arrestor",
-            "4G-ACC-OUT-LA= — Cisco 4G-ACC-OUT-LA=",
+            "4G-ACC-OUT-LA= — Lightning Arrestor",
             "4G-LTE-ANTM-O-3-B — Cisco 4G-LTE-ANTM-O-3-B",
             "5G-ANTM-O-4-B — Cisco 5G-ANTM-O-4-B",
             "5G-ANTM-SMA-D — Cisco 5G-ANTM-SMA-D",
@@ -2466,7 +2466,7 @@
       },
       {
         "sku": "M2USB-32G=",
-        "name": "Cisco M2USB-32G=",
+        "name": "Cisco C8000 Edge Platform – 32 GB M.2 USB SSD Storage",
         "series_label": "Catalyst 8500",
         "from_series": "Catalyst 8300",
         "to_series": "Catalyst 8000 Edge shared parts",
@@ -3330,7 +3330,7 @@
       },
       {
         "sku": "PWR-RGD-AC-DC=",
-        "name": "Cisco PWR-RGD-AC-DC=",
+        "name": "High AC/DC (100-250 VDC/100-240 VAC) - 2.5 lb/1.13 kg",
         "series_label": "2000 Series Connected Grid",
         "from_series": "IR 8300",
         "to_series": "Industrial and IoT Routers shared parts",
@@ -3346,7 +3346,7 @@
       },
       {
         "sku": "PWR-RGD-LOW-DC=",
-        "name": "Cisco PWR-RGD-LOW-DC=",
+        "name": "Low DC (24-60 VDC) - 2.5 lb/1.13 kg",
         "series_label": "2000 Series Connected Grid",
         "from_series": "IR 8300",
         "to_series": "Industrial and IoT Routers shared parts",
@@ -3558,9 +3558,9 @@
   "inbound_unplaced": {},
   "done": true,
   "build": {
-    "data_commit": "62ecef167114+81dirty",
-    "code_commit": "1cce5baf24ab",
+    "data_commit": "abd34bdc5955+98dirty",
+    "code_commit": "ec9da45dc859",
     "contract_hash": "bcfc4c1ee314d3c2",
-    "generated_at": "2026-09-29T11:01:58.001Z"
+    "generated_at": "2026-09-29T12:26:27.224Z"
   }
 }

@@ -1,8 +1,8 @@
 {
   "vendor": "cisco",
   "category": "switches",
-  "built_at": "2026-09-29T10:52:50.795Z",
-  "commit": "5aa426358a46218d1e6bd7b0c5bd6f774ea5d4f3",
+  "built_at": "2026-09-29T12:17:42.197Z",
+  "commit": "702bf78b3dfc4eca103a03244d668a9c3408801e",
   "uncommitted_rule_files": [],
   "mapping_file": "data/reference/product-lines/cisco-switches.json",
   "parts": 7225,
@@ -1124,11 +1124,11 @@
           },
           "roles": {},
           "samples": [
-            "ENC-10G-ONT-01PR — Cisco ENC-10G-ONT-01PR",
+            "ENC-10G-ONT-01PR — Ruggedized XGS-PON ONT, powered by PoE",
             "ENC-10G-ONT-01PR= — Ruggedized XGS-PON ONT, powered by PoE",
-            "ENC-10G-ONT-10 — Cisco ENC-10G-ONT-10",
+            "ENC-10G-ONT-10 — XGS-PON ONT",
             "ENC-10G-ONT-10= — XGS-PON ONT",
-            "ENC-10G-ONT-14A — Cisco ENC-10G-ONT-14A",
+            "ENC-10G-ONT-14A — Multiport and ATA XGS-PON ONT",
             "ENC-10G-ONT-14A= — Multiport and ATA XGS-PON ONT"
           ],
           "rules": {
@@ -1986,7 +1986,7 @@
             "IE-3400-8P2S-E — Cisco IE-3400-8P2S-E Catalyst IE3400 lüfterloser Layer-3-Ind",
             "IE-3400-8T2S-A — Cisco IE-3400-8T2S-A Catalyst IE3400 lüfterloser Layer-3-Ind",
             "IE-3400-8T2S-E — Cisco IE-3400-8T2S-E Catalyst IE3400 lüfterloser Layer-3-Ind",
-            "IEM-3400-8P — Cisco IEM-3400-8P",
+            "IEM-3400-8P — Catalyst IE3400 with 8 GE Copper PoE/PoE+, Expansion Module",
             "IEM-3400-8P= — Catalyst IE3400 with 8 GE Copper PoE/PoE+, Expansion Module"
           ],
           "rules": {
@@ -2196,7 +2196,7 @@
             "CAB-STK-0.5M= — Cisco 0.5M stack cable",
             "CAB-STK-1M= — Cisco 1M stack cable",
             "CW-SFP-KIT1 — SFP Installation Kit for IE-3500H-12P2MU2X",
-            "PWR-IE160W-67-DC — Cisco PWR-IE160W-67-DC",
+            "PWR-IE160W-67-DC — IP67-rated PoE DC-DC power supply, Input:18V-60V Output: 54V",
             "PWR-IE160W-67-DC= — IP67-rated PoE DC-DC power supply, Input:18V-60V Output: 54V"
           ],
           "rules": {
@@ -3304,7 +3304,7 @@
       },
       {
         "sku": "FAN-T2",
-        "name": "Cisco FAN-T2",
+        "name": "Fan module",
         "series_label": "Catalyst 9300",
         "from_series": "Catalyst 9300",
         "to_series": "Catalyst shared parts",
@@ -3624,7 +3624,7 @@
       },
       {
         "sku": "PWR-C1-1900WHV-T",
-        "name": "Cisco PWR-C1-1900WHV-T",
+        "name": "1900W HVAC/HVDC Titanium-certified power supply",
         "series_label": "Catalyst 9300",
         "from_series": "Catalyst 9300",
         "to_series": "Catalyst shared parts",
@@ -4208,19 +4208,19 @@
       },
       {
         "sku": "PWR-C6-715WDC",
-        "name": "Cisco PWR-C6-715WDC",
+        "name": "715W DC Config 6 Power Supply",
         "series_label": "Catalyst 9300",
-        "from_series": "Catalyst 9200",
+        "from_series": "Catalyst 9300",
         "to_series": "Catalyst shared parts",
-        "why": "no platform token (9200) in the SKU or name, no compatible part placed in the series"
+        "why": "no platform token (9300) in the SKU or name, no compatible part placed in the series"
       },
       {
         "sku": "PWR-C6-715WDC=",
         "name": "715W DC Config 6 Power Supply",
         "series_label": "Catalyst 9200",
-        "from_series": "Catalyst 9200",
+        "from_series": "Catalyst 9300",
         "to_series": "Catalyst shared parts",
-        "why": "no platform token (9200) in the SKU or name, no compatible part placed in the series"
+        "why": "no platform token (9300) in the SKU or name, no compatible part placed in the series"
       },
       {
         "sku": "PWR-CLP",
@@ -4240,19 +4240,19 @@
       },
       {
         "sku": "PWR-IE160W-67-DC",
-        "name": "Cisco PWR-IE160W-67-DC",
+        "name": "IP67-rated PoE DC-DC power supply, Input:18V-60V Output: 54V, 3.1A max 160W",
         "series_label": "IE 2000",
-        "from_series": "IE 3400H",
+        "from_series": "IE 2000",
         "to_series": "Industrial Ethernet shared parts",
-        "why": "no platform token (3400) in the SKU or name, no compatible part placed in the series"
+        "why": "no platform token (2000) in the SKU or name, no compatible part placed in the series"
       },
       {
         "sku": "PWR-IE160W-67-DC=",
         "name": "IP67-rated PoE DC-DC power supply, Input:18V-60V Output: 54V, 3.1A max 160W",
         "series_label": "Catalyst IE3400 Heavy Duty Series",
-        "from_series": "IE 3400H",
+        "from_series": "IE 2000",
         "to_series": "Industrial Ethernet shared parts",
-        "why": "no platform token (3400) in the SKU or name, no compatible part placed in the series"
+        "why": "no platform token (2000) in the SKU or name, no compatible part placed in the series"
       },
       {
         "sku": "PWR-IE170W-PC-AC=",
@@ -4312,7 +4312,7 @@
       },
       {
         "sku": "PWR-IE50W-AC",
-        "name": "Cisco PWR-IE50W-AC",
+        "name": "50W AC to DC or High DC to DC Power Supply",
         "series_label": "3000 Series Industrial Security Appliances (ISA)",
         "from_series": "IE 3400",
         "to_series": "Industrial Ethernet shared parts",
@@ -4320,7 +4320,7 @@
       },
       {
         "sku": "PWR-IE50W-AC-IEC",
-        "name": "Cisco PWR-IE50W-AC-IEC",
+        "name": "50W AC to DC Power Supply with IEC connector (IEC 60320 C14)",
         "series_label": "3000 Series Industrial Security Appliances (ISA)",
         "from_series": "IE 3400",
         "to_series": "Industrial Ethernet shared parts",
@@ -4828,9 +4828,9 @@
   "inbound_unplaced": {},
   "done": true,
   "build": {
-    "data_commit": "62ecef167114+81dirty",
-    "code_commit": "1cce5baf24ab",
+    "data_commit": "abd34bdc5955+98dirty",
+    "code_commit": "ec9da45dc859",
     "contract_hash": "bcfc4c1ee314d3c2",
-    "generated_at": "2026-09-29T11:01:58.001Z"
+    "generated_at": "2026-09-29T12:26:27.224Z"
   }
 }

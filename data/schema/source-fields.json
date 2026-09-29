@@ -1541,9 +1541,9 @@
     }
   },
   "build": {
-    "data_commit": "62ecef167114+81dirty",
-    "code_commit": "1cce5baf24ab",
+    "data_commit": "abd34bdc5955+98dirty",
+    "code_commit": "ec9da45dc859",
     "contract_hash": "bcfc4c1ee314d3c2",
-    "generated_at": "2026-09-29T11:01:58.001Z"
+    "generated_at": "2026-09-29T12:26:27.224Z"
   }
 }

@@ -1,8 +1,8 @@
 {
   "vendor": "cisco",
   "category": "video",
-  "built_at": "2026-09-29T10:52:51.724Z",
-  "commit": "5aa426358a46218d1e6bd7b0c5bd6f774ea5d4f3",
+  "built_at": "2026-09-29T12:17:43.209Z",
+  "commit": "702bf78b3dfc4eca103a03244d668a9c3408801e",
   "uncommitted_rule_files": [],
   "mapping_file": "data/reference/product-lines/cisco-video.json",
   "parts": 3260,
@@ -171,7 +171,7 @@
             "GM-EQC-1.2G-0= — Cisco GM-EQC-1.2G-0=",
             "GM-EQL-1.2G-1.5= — Cisco GM-EQL-1.2G-1.5=",
             "GM-EQL-1.2G-10.5 — GainMaker 1.2 GHz Forward Linear Equalizer, 10.5 dB",
-            "GM-EQL-1.2G-10.5= — Cisco GM-EQL-1.2G-10.5="
+            "GM-EQL-1.2G-10.5= — GainMaker 1.2 GHz Forward Linear Equalizer, 10.5 dB"
           ],
           "rules": {
             "name": 2,
@@ -227,9 +227,8 @@
             "transmitter": 363,
             "receiver": 14,
             "amplifier": 17,
-            "plug-in": 2,
+            "plug-in": 3,
             "chassis": 1,
-            "unknown": 1,
             "fan": 1
           },
           "roles": {},
@@ -386,9 +385,9 @@
             "linecard": 68,
             "system": 3,
             "chassis": 3,
-            "power": 13,
-            "accessory": 7,
-            "mechanical": 21,
+            "power": 12,
+            "accessory": 6,
+            "mechanical": 23,
             "cable": 5,
             "fan": 2
           },
@@ -463,11 +462,10 @@
           "kinds": {
             "linecard": 4,
             "power": 4,
-            "mechanical": 10,
+            "mechanical": 12,
             "cable": 2,
             "chassis": 2,
-            "fan": 4,
-            "accessory": 2
+            "fan": 4
           },
           "roles": {},
           "samples": [
@@ -716,9 +714,9 @@
   "inbound_unplaced": {},
   "done": true,
   "build": {
-    "data_commit": "62ecef167114+81dirty",
-    "code_commit": "1cce5baf24ab",
+    "data_commit": "abd34bdc5955+98dirty",
+    "code_commit": "ec9da45dc859",
     "contract_hash": "bcfc4c1ee314d3c2",
-    "generated_at": "2026-09-29T11:01:58.001Z"
+    "generated_at": "2026-09-29T12:26:27.224Z"
   }
 }

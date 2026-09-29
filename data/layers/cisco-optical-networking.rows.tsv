@@ -138,12 +138,12 @@ sku	name	series_label	kind	placement	product_line	product_family	series	nav_buck
 15216-DCU-E-200=	E-LEAF Dispersion Compensation Unit 200 ps/nm	ONS 15200 Series DWDM Systems	dcu	layered	ONS 15216 / 15200 DWDM passives	(none)	ONS 15216 filters, OADM, mux/demux and DCU		sku ^15216(?!-GBIC)							
 15216-DCU-E-350=	E-LEAF Dispersion Compensation Unit 350 ps/nm	ONS 15200 Series DWDM Systems	dcu	layered	ONS 15216 / 15200 DWDM passives	(none)	ONS 15216 filters, OADM, mux/demux and DCU		sku ^15216(?!-GBIC)							
 15216-DCU-L-1000=	SMF L-band Dispersion Compensation Unit 1000ps/nm	ONS 15200 Series DWDM Systems	dcu	layered	ONS 15216 / 15200 DWDM passives	(none)	ONS 15216 filters, OADM, mux/demux and DCU		sku ^15216(?!-GBIC)							
-15216-DCU-L-1100	Cisco 15216-DCU-L-1100	ONS 15200 Series DWDM Systems	dcu	layered	ONS 15216 / 15200 DWDM passives	(none)	ONS 15216 filters, OADM, mux/demux and DCU		sku ^15216(?!-GBIC)							
+15216-DCU-L-1100	SMF L-band Dispersion Compensation Unit 1100ps/nm	ONS 15200 Series DWDM Systems	dcu	layered	ONS 15216 / 15200 DWDM passives	(none)	ONS 15216 filters, OADM, mux/demux and DCU		sku ^15216(?!-GBIC)							
 15216-DCU-L-1100=	SMF L-band Dispersion Compensation Unit 1100ps/nm	ONS 15200 Series DWDM Systems	dcu	layered	ONS 15216 / 15200 DWDM passives	(none)	ONS 15216 filters, OADM, mux/demux and DCU		sku ^15216(?!-GBIC)							
 15216-DCU-L-300=	SMF L-band Dispersion Compensation Unit 300ps/nm	ONS 15200 Series DWDM Systems	dcu	layered	ONS 15216 / 15200 DWDM passives	(none)	ONS 15216 filters, OADM, mux/demux and DCU		sku ^15216(?!-GBIC)							
 15216-DCU-L-600=	SMF L-band Dispersion Compensation Unit 600ps/nm	ONS 15200 Series DWDM Systems	dcu	layered	ONS 15216 / 15200 DWDM passives	(none)	ONS 15216 filters, OADM, mux/demux and DCU		sku ^15216(?!-GBIC)							
 15216-DCU-L-700=	SMF L-band Dispersion Compensation Unit 700ps/nm	ONS 15200 Series DWDM Systems	dcu	layered	ONS 15216 / 15200 DWDM passives	(none)	ONS 15216 filters, OADM, mux/demux and DCU		sku ^15216(?!-GBIC)							
-15216-DCU-L-800	Cisco 15216-DCU-L-800	ONS 15200 Series DWDM Systems	dcu	layered	ONS 15216 / 15200 DWDM passives	(none)	ONS 15216 filters, OADM, mux/demux and DCU		sku ^15216(?!-GBIC)							
+15216-DCU-L-800	SMF L-band Dispersion Compensation Unit 800ps/nm	ONS 15200 Series DWDM Systems	dcu	layered	ONS 15216 / 15200 DWDM passives	(none)	ONS 15216 filters, OADM, mux/demux and DCU		sku ^15216(?!-GBIC)							
 15216-DCU-L-800=	SMF L-band Dispersion Compensation Unit 800ps/nm	ONS 15200 Series DWDM Systems	dcu	layered	ONS 15216 / 15200 DWDM passives	(none)	ONS 15216 filters, OADM, mux/demux and DCU		sku ^15216(?!-GBIC)							
 15216-DCU-SA=	Mechanical shelf (housing 2 DCM)	ONS 15200 Series DWDM Systems	mechanical	layered	ONS 15216 / 15200 DWDM passives	(none)	ONS 15216 filters, OADM, mux/demux and DCU		sku ^15216(?!-GBIC)							
 15216-EDFA1=	Metro Erbium-Doped Fiber Amplifier 17 dBm	ONS 15200 Series DWDM Systems	amplifier	layered	ONS 15216 / 15200 DWDM passives	(none)	ONS 15216 filters, OADM, mux/demux and DCU		sku ^15216(?!-GBIC)							
@@ -152,9 +152,9 @@ sku	name	series_label	kind	placement	product_line	product_family	series	nav_buck
 15216-EDFA2-A=	Metro EDFA 17 dBm with SNMP	ONS 15200 Series DWDM Systems	amplifier	layered	ONS 15216 / 15200 DWDM passives	(none)	ONS 15216 filters, OADM, mux/demux and DCU		sku ^15216(?!-GBIC)							
 15216-EDFA2=	Metro Erbium Dopped Fiber Amplifier 17 dBm w/ SNMP, Rev2, spare	ONS 15200 Series DWDM Systems	amplifier	layered	ONS 15216 / 15200 DWDM passives	(none)	ONS 15216 filters, OADM, mux/demux and DCU		sku ^15216(?!-GBIC)							
 15216-EDFA3=	Metro EDFA, Mid Stage Access, Variable Gain 17 dBm	ONS 15200 Series DWDM Systems	amplifier	layered	ONS 15216 / 15200 DWDM passives	(none)	ONS 15216 filters, OADM, mux/demux and DCU		sku ^15216(?!-GBIC)							
-15216-EF-40-EVEN	Cisco 15216-EF-40-EVEN	ONS 15200 Series DWDM Systems	mux	layered	ONS 15216 / 15200 DWDM passives	(none)	ONS 15216 filters, OADM, mux/demux and DCU		sku ^15216(?!-GBIC)							
+15216-EF-40-EVEN	ONS 15216 40-Channel Mux/DeMux Exposed Faceplate Patch Panel Even	ONS 15200 Series DWDM Systems	mux	layered	ONS 15216 / 15200 DWDM passives	(none)	ONS 15216 filters, OADM, mux/demux and DCU		sku ^15216(?!-GBIC)							
 15216-EF-40-EVEN=	ONS 15216 40-Channel Mux/DeMux Exposed Faceplate Patch Panel Even	ONS 15200 Series DWDM Systems	mux	layered	ONS 15216 / 15200 DWDM passives	(none)	ONS 15216 filters, OADM, mux/demux and DCU		sku ^15216(?!-GBIC)							
-15216-EF-40-ODD	Cisco 15216-EF-40-ODD	ONS 15200 Series DWDM Systems	mux	layered	ONS 15216 / 15200 DWDM passives	(none)	ONS 15216 filters, OADM, mux/demux and DCU		sku ^15216(?!-GBIC)							
+15216-EF-40-ODD	ONS 15216 40-Channel Mux/DeMux Exposed Faceplate Patch Panel Odd	ONS 15200 Series DWDM Systems	mux	layered	ONS 15216 / 15200 DWDM passives	(none)	ONS 15216 filters, OADM, mux/demux and DCU		sku ^15216(?!-GBIC)							
 15216-EF-40-ODD=	ONS 15216 40-Channel Mux/DeMux Exposed Faceplate Patch Panel Odd	ONS 15200 Series DWDM Systems	mux	layered	ONS 15216 / 15200 DWDM passives	(none)	ONS 15216 filters, OADM, mux/demux and DCU		sku ^15216(?!-GBIC)							
 15216-EF-ODD-LIC=	Cisco 15216-EF-ODD-LIC=	ONS 15200 Series DWDM Systems	mux	layered	ONS 15216 / 15200 DWDM passives	(none)	ONS 15216 filters, OADM, mux/demux and DCU		sku ^15216(?!-GBIC)							
 15216-FBGDCU-1157=	Cisco 15216-FBGDCU-1157=	ONS 15200 Series DWDM Systems	dcu	layered	ONS 15216 / 15200 DWDM passives	(none)	ONS 15216 filters, OADM, mux/demux and DCU		sku ^15216(?!-GBIC)							
@@ -222,9 +222,9 @@ sku	name	series_label	kind	placement	product_line	product_family	series	nav_buck
 15216-LC-SC-10=	Fiber patchcord - LC to SC - 6m	Network Convergence System 2000 Series	cable	layered	ONS 15216 / 15200 DWDM passives	(none)	ONS 15216 filters, OADM, mux/demux and DCU		sku ^15216(?!-GBIC)							
 15216-LC-SC-20=	Fiber patchcord - LC to SC - 8m	Network Convergence System 2000 Series	cable	layered	ONS 15216 / 15200 DWDM passives	(none)	ONS 15216 filters, OADM, mux/demux and DCU		sku ^15216(?!-GBIC)							
 15216-LC-SC-5=	Fiber patchcord - LC to SC - 4m	Network Convergence System 2000 Series	cable	layered	ONS 15216 / 15200 DWDM passives	(none)	ONS 15216 filters, OADM, mux/demux and DCU		sku ^15216(?!-GBIC)							
-15216-MD-40-EVEN	Cisco 15216-MD-40-EVEN	ONS 15200 Series DWDM Systems	mux	layered	ONS 15216 / 15200 DWDM passives	(none)	ONS 15216 filters, OADM, mux/demux and DCU		sku ^15216(?!-GBIC)							
+15216-MD-40-EVEN	ONS 15216 40ch Mux Demux Patch Panel Even	ONS 15200 Series DWDM Systems	mux	layered	ONS 15216 / 15200 DWDM passives	(none)	ONS 15216 filters, OADM, mux/demux and DCU		sku ^15216(?!-GBIC)							
 15216-MD-40-EVEN=	ONS 15216 40ch Mux Demux Patch Panel Even	ONS 15200 Series DWDM Systems	mux	layered	ONS 15216 / 15200 DWDM passives	(none)	ONS 15216 filters, OADM, mux/demux and DCU		sku ^15216(?!-GBIC)							
-15216-MD-40-ODD	Cisco 15216-MD-40-ODD	ONS 15200 Series DWDM Systems	mux	layered	ONS 15216 / 15200 DWDM passives	(none)	ONS 15216 filters, OADM, mux/demux and DCU		sku ^15216(?!-GBIC)							
+15216-MD-40-ODD	ONS 15216 40ch Mux Demux Patch Panel Odd	ONS 15200 Series DWDM Systems	mux	layered	ONS 15216 / 15200 DWDM passives	(none)	ONS 15216 filters, OADM, mux/demux and DCU		sku ^15216(?!-GBIC)							
 15216-MD-40-ODD=	ONS 15216 40ch Mux Demux Patch Panel Odd	ONS 15454 Series Multiservice Transport Platforms	mux	layered	ONS 15216 / 15200 DWDM passives	(none)	ONS 15216 filters, OADM, mux/demux and DCU		sku ^15216(?!-GBIC)							
 15216-MD-48-CM=	Cisco ONS 15216 48-Channel 50-GHz De-Interleaver with Coupler	ONS 15200 Series DWDM Systems	mux	layered	ONS 15216 / 15200 DWDM passives	(none)	ONS 15216 filters, OADM, mux/demux and DCU		sku ^15216(?!-GBIC)							
 15216-MD-48-CME=	Cisco 15216-MD-48-CME=	ONS 15200 Series DWDM Systems	mux	layered	ONS 15216 / 15200 DWDM passives	(none)	ONS 15216 filters, OADM, mux/demux and DCU		sku ^15216(?!-GBIC)							
@@ -378,7 +378,7 @@ sku	name	series_label	kind	placement	product_line	product_family	series	nav_buck
 15454-M-100GC-LIC	100G OTU-4 ITU-T CP-DQPSK Full C Band Tuneable LC - Licensed	Network Convergence System 2000 Series	transponder	layered	ONS 15454 MSTP and NCS 2000	(none)	ONS 15454 MSTP (M2 / M6 / M12 shelves and cards)		sku ^15454							
 15454-M-100GC-LIC=	100G OTU-4 ITU-T CP-DQPSK Full C Band Tuneable LC – Licensed	ONS 15454 Series Multiservice Transport Platforms	transponder	layered	ONS 15454 MSTP and NCS 2000	(none)	ONS 15454 MSTP (M2 / M6 / M12 shelves and cards)		sku ^15454							
 15454-M-10X10-LIC=	10-Port 10 Gbps Multirate Client LC Licensed w/ 1 Licence at 10G	ONS 15454 Series Multiservice Transport Platforms	linecard	layered	ONS 15454 MSTP and NCS 2000	(none)	ONS 15454 MSTP (M2 / M6 / M12 shelves and cards)		sku ^15454							
-15454-M-10X10G-LC	Cisco 15454-M-10X10G-LC	ONS 15454 Series Multiservice Transport Platforms	linecard	layered	ONS 15454 MSTP and NCS 2000	(none)	ONS 15454 MSTP (M2 / M6 / M12 shelves and cards)		sku ^15454							
+15454-M-10X10G-LC	10-Port 10 Gbps Multirate Client Line Card	ONS 15454 Series Multiservice Transport Platforms	linecard	layered	ONS 15454 MSTP and NCS 2000	(none)	ONS 15454 MSTP (M2 / M6 / M12 shelves and cards)		sku ^15454							
 15454-M-10X10G-LC=	10-Port 10 Gbps Multirate Client Line Card	ONS 15454 Series Multiservice Transport Platforms	linecard	layered	ONS 15454 MSTP and NCS 2000	(none)	ONS 15454 MSTP (M2 / M6 / M12 shelves and cards)		sku ^15454							
 15454-M-120TMGCBL	BITS IN/OUT cable for ANSI	ONS 15454 Series Multiservice Transport Platforms	cable	layered	ONS 15454 MSTP and NCS 2000	(none)	ONS 15454 MSTP (M2 / M6 / M12 shelves and cards)		sku ^15454							
 15454-M-120TMGCBL=	BITS IN/OUT cable for ANSI	Network Convergence System 2000 Series	cable	layered	ONS 15454 MSTP and NCS 2000	(none)	ONS 15454 MSTP (M2 / M6 / M12 shelves and cards)		sku ^15454							
@@ -427,7 +427,7 @@ sku	name	series_label	kind	placement	product_line	product_family	series	nav_buck
 15454-M-TSCE-K9=	Enhanced Transport Shelf Controller for M2, M6, CPT200, CPT600	Network Convergence System 2000 Series	controller	layered	ONS 15454 MSTP and NCS 2000	(none)	ONS 15454 MSTP (M2 / M6 / M12 shelves and cards)		sku ^15454							
 15454-M-TSCEK9++=	MSTP/NCS2K Transport Shelf Controller with Ethernet PTP, TA	Network Convergence System 2000 Series	controller	layered	ONS 15454 MSTP and NCS 2000	(none)	ONS 15454 MSTP (M2 / M6 / M12 shelves and cards)		sku ^15454							
 15454-M-USBCBL=	USB cable for passive devices	Network Convergence System 2000 Series	cable	layered	ONS 15454 MSTP and NCS 2000	(none)	ONS 15454 MSTP (M2 / M6 / M12 shelves and cards)		sku ^15454							
-15454-M-WSE-K9	Cisco 15454-M-WSE-K9	Network Convergence System 2000 Series	linecard	layered	ONS 15454 MSTP and NCS 2000	(none)	ONS 15454 MSTP (M2 / M6 / M12 shelves and cards)		sku ^15454							
+15454-M-WSE-K9	Full Feature Wire Speed Encryption Unit	Network Convergence System 2000 Series	linecard	layered	ONS 15454 MSTP and NCS 2000	(none)	ONS 15454 MSTP (M2 / M6 / M12 shelves and cards)		sku ^15454							
 15454-M-WSE-K9++	Full Feature Wire Speed Encryption Unit	Network Convergence System 2000 Series	linecard	layered	ONS 15454 MSTP and NCS 2000	(none)	ONS 15454 MSTP (M2 / M6 / M12 shelves and cards)		sku ^15454							
 15454-M-WSE-K9++=	Full Feature Wire Speed Encryption Unit, TAA	Network Convergence System 2000 Series	linecard	layered	ONS 15454 MSTP and NCS 2000	(none)	ONS 15454 MSTP (M2 / M6 / M12 shelves and cards)		sku ^15454							
 15454-M-WSE-K9=	Full Feature Wire Speed Encryption Unit	ONS 15454 Series Multiservice Transport Platforms	linecard	layered	ONS 15454 MSTP and NCS 2000	(none)	ONS 15454 MSTP (M2 / M6 / M12 shelves and cards)		sku ^15454							
@@ -442,7 +442,7 @@ sku	name	series_label	kind	placement	product_line	product_family	series	nav_buck
 15454-M2-DC-E=	2 service slot MSTP chassis DC ETSI filter with memory	ONS 15454 Series Multiservice Transport Platforms	power	layered	ONS 15454 MSTP and NCS 2000	(none)	ONS 15454 MSTP (M2 / M6 / M12 shelves and cards)		sku ^15454							
 15454-M2-DC=	2 service slot MSTP chassis DC ANSI filter with memory	ONS 15454 Series Multiservice Transport Platforms	power	layered	ONS 15454 MSTP and NCS 2000	(none)	ONS 15454 MSTP (M2 / M6 / M12 shelves and cards)		sku ^15454							
 15454-M2-DCCBL-LE=	DC power cable for ETSI left exit	Network Convergence System 2000 Series	cable	layered	ONS 15454 MSTP and NCS 2000	(none)	ONS 15454 MSTP (M2 / M6 / M12 shelves and cards)		sku ^15454							
-15454-M2-DDR	Cisco 15454-M2-DDR	ONS 15454 Series Multiservice Transport Platforms	accessory	layered	ONS 15454 MSTP and NCS 2000	(none)	ONS 15454 MSTP (M2 / M6 / M12 shelves and cards)		sku ^15454							
+15454-M2-DDR	2 service slot MSTP chassis deep door	ONS 15454 Series Multiservice Transport Platforms	mechanical	layered	ONS 15454 MSTP and NCS 2000	(none)	ONS 15454 MSTP (M2 / M6 / M12 shelves and cards)		sku ^15454							
 15454-M2-DDR=	2 service slot MSTP chassis deep door	ONS 15454 Series Multiservice Transport Platforms	mechanical	layered	ONS 15454 MSTP and NCS 2000	(none)	ONS 15454 MSTP (M2 / M6 / M12 shelves and cards)		sku ^15454							
 15454-M2-DEF21=	21” Air deflector, Cisco NCS2002	Network Convergence System 2000 Series	accessory	layered	ONS 15454 MSTP and NCS 2000	(none)	ONS 15454 MSTP (M2 / M6 / M12 shelves and cards)		sku ^15454							
 15454-M2-DEF23=	23” Air deflector, Cisco NCS2002	Network Convergence System 2000 Series	accessory	layered	ONS 15454 MSTP and NCS 2000	(none)	ONS 15454 MSTP (M2 / M6 / M12 shelves and cards)		sku ^15454							
@@ -455,7 +455,7 @@ sku	name	series_label	kind	placement	product_line	product_family	series	nav_buck
 15454-M2-FTF=	2-service-slot MSTP chassis fan tray filter	Network Convergence System 2000 Series	mechanical	layered	ONS 15454 MSTP and NCS 2000	(none)	ONS 15454 MSTP (M2 / M6 / M12 shelves and cards)		sku ^15454							
 15454-M2-SA	2 service slot MSTP shelf, includes M-SHIPKIT, M2‑FTF, BRKTS	ONS 15454 Series Multiservice Transport Platforms	chassis	layered	ONS 15454 MSTP and NCS 2000	(none)	ONS 15454 MSTP (M2 / M6 / M12 shelves and cards)		sku ^15454							
 15454-M2-SA=	2 service slot MSTP shelf, includes M-SHIPKIT, M2‑FTF, BRKTS	ONS 15454 Series Multiservice Transport Platforms	chassis	layered	ONS 15454 MSTP and NCS 2000	(none)	ONS 15454 MSTP (M2 / M6 / M12 shelves and cards)		sku ^15454							
-15454-M2-WM	Cisco 15454-M2-WM	ONS 15454 Series Multiservice Transport Platforms	accessory	layered	ONS 15454 MSTP and NCS 2000	(none)	ONS 15454 MSTP (M2 / M6 / M12 shelves and cards)		sku ^15454							
+15454-M2-WM	Wall mount bracket, Cisco NCS2002	ONS 15454 Series Multiservice Transport Platforms	mechanical	layered	ONS 15454 MSTP and NCS 2000	(none)	ONS 15454 MSTP (M2 / M6 / M12 shelves and cards)		sku ^15454							
 15454-M2-WM=	Wall mount bracket, Cisco NCS2002	Network Convergence System 2000 Series	mechanical	layered	ONS 15454 MSTP and NCS 2000	(none)	ONS 15454 MSTP (M2 / M6 / M12 shelves and cards)		sku ^15454							
 15454-M6-AC	6 service slot MSTP chassis AC power supply	ONS 15454 Series Multiservice Transport Platforms	power	layered	ONS 15454 MSTP and NCS 2000	(none)	ONS 15454 MSTP (M2 / M6 / M12 shelves and cards)		sku ^15454							
 15454-M6-AC2	Cisco 15454-M6-AC2	ONS 15454 Series Multiservice Transport Platforms	power	layered	ONS 15454 MSTP and NCS 2000	(none)	ONS 15454 MSTP (M2 / M6 / M12 shelves and cards)		sku ^15454							
@@ -791,17 +791,17 @@ NCS1K-BRK-SYS	NCS 1000 shelf for 4 passive modules - assemble to order	Optical N
 NCS1K-CNTLR	Network Convergence System 1000 Controller	Network Convergence System 1000 Series	controller	layered	NCS 1000	(none)	NCS 1001 / 1002 / 1004 / 1010 / 1014		sku ^NCS1K							
 NCS1K-CNTLR2=	Network Convergence System 1001 controller 2	Network Convergence System 1000 Series	controller	layered	NCS 1000	(none)	NCS 1001 / 1002 / 1004 / 1010 / 1014		sku ^NCS1K							
 NCS1K-CNTLR=	Network Convergence System 1002 Controller	Network Convergence System 1000 Series	controller	layered	NCS 1000	(none)	NCS 1001 / 1002 / 1004 / 1010 / 1014		sku ^NCS1K							
-NCS1K-E-ILA-2R-C	Cisco NCS1K-E-ILA-2R-C	ONS 15454 Series Multiservice Transport Platforms	amplifier	layered	NCS 1000	(none)	NCS 1001 / 1002 / 1004 / 1010 / 1014		sku ^NCS1K							
+NCS1K-E-ILA-2R-C	NCS 1010 In-Line Amplifier with 2x Raman - C-band, enhanced	ONS 15454 Series Multiservice Transport Platforms	amplifier	layered	NCS 1000	(none)	NCS 1001 / 1002 / 1004 / 1010 / 1014		sku ^NCS1K							
 NCS1K-E-ILA-2R-C=	NCS 1010 In-Line Amplifier with 2x Raman - C-band, enhanced	Optical Network Planner	amplifier	layered	NCS 1000	(none)	NCS 1001 / 1002 / 1004 / 1010 / 1014		sku ^NCS1K							
-NCS1K-E-ILA-R-C	Cisco NCS1K-E-ILA-R-C	ONS 15454 Series Multiservice Transport Platforms	amplifier	layered	NCS 1000	(none)	NCS 1001 / 1002 / 1004 / 1010 / 1014		sku ^NCS1K							
+NCS1K-E-ILA-R-C	NCS 1010 In-Line Amplifier with 1x Raman - C-band, enhanced	ONS 15454 Series Multiservice Transport Platforms	amplifier	layered	NCS 1000	(none)	NCS 1001 / 1002 / 1004 / 1010 / 1014		sku ^NCS1K							
 NCS1K-E-ILA-R-C-2=	NCS 1010 In-Line Amplifier with 1x Raman west facing - C-band, enhanced	Optical Network Planner	amplifier	layered	NCS 1000	(none)	NCS 1001 / 1002 / 1004 / 1010 / 1014		sku ^NCS1K							
 NCS1K-E-ILA-R-C=	NCS 1010 In-Line Amplifier with 1x Raman - C-band, enhanced	Optical Network Planner	amplifier	layered	NCS 1000	(none)	NCS 1001 / 1002 / 1004 / 1010 / 1014		sku ^NCS1K							
 NCS1K-E-LC-LC-5=	NCS 1010 LC-LC 5m cable with pull tab	Optical Network Planner	cable	layered	NCS 1000	(none)	NCS 1001 / 1002 / 1004 / 1010 / 1014		sku ^NCS1K							
-NCS1K-E-OLT-C	Cisco NCS1K-E-OLT-C	ONS 15454 Series Multiservice Transport Platforms	amplifier	layered	NCS 1000	(none)	NCS 1001 / 1002 / 1004 / 1010 / 1014		sku ^NCS1K							
+NCS1K-E-OLT-C	NCS 1010 Optical Line Terminal - C-band, enhanced	ONS 15454 Series Multiservice Transport Platforms	amplifier	layered	NCS 1000	(none)	NCS 1001 / 1002 / 1004 / 1010 / 1014		sku ^NCS1K							
 NCS1K-E-OLT-C=	NCS 1010 Optical Line Terminal - C-band, enhanced	Optical Network Planner	amplifier	layered	NCS 1000	(none)	NCS 1001 / 1002 / 1004 / 1010 / 1014		sku ^NCS1K							
-NCS1K-E-OLT-L	Cisco NCS1K-E-OLT-L	ONS 15454 Series Multiservice Transport Platforms	amplifier	layered	NCS 1000	(none)	NCS 1001 / 1002 / 1004 / 1010 / 1014		sku ^NCS1K							
+NCS1K-E-OLT-L	NCS 1010 Optical Line Terminal - L-band, enhanced	ONS 15454 Series Multiservice Transport Platforms	amplifier	layered	NCS 1000	(none)	NCS 1001 / 1002 / 1004 / 1010 / 1014		sku ^NCS1K							
 NCS1K-E-OLT-L=	NCS 1010 Optical Line Terminal - L-band, enhanced	Optical Network Planner	amplifier	layered	NCS 1000	(none)	NCS 1001 / 1002 / 1004 / 1010 / 1014		sku ^NCS1K							
-NCS1K-E-OLT-R-C	Cisco NCS1K-E-OLT-R-C	ONS 15454 Series Multiservice Transport Platforms	amplifier	layered	NCS 1000	(none)	NCS 1001 / 1002 / 1004 / 1010 / 1014		sku ^NCS1K							
+NCS1K-E-OLT-R-C	NCS 1010 Optical Line Terminal with Raman - C-band, enhanced	ONS 15454 Series Multiservice Transport Platforms	amplifier	layered	NCS 1000	(none)	NCS 1001 / 1002 / 1004 / 1010 / 1014		sku ^NCS1K							
 NCS1K-E-OLT-R-C=	NCS 1010 Optical Line Terminal with Raman - C-band, enhanced	Optical Network Planner	amplifier	layered	NCS 1000	(none)	NCS 1001 / 1002 / 1004 / 1010 / 1014		sku ^NCS1K							
 NCS1K-EDFA=	Network Convergence System 1001 amplifier module	Network Convergence System 1000 Series	amplifier	layered	NCS 1000	(none)	NCS 1001 / 1002 / 1004 / 1010 / 1014		sku ^NCS1K							
 NCS1K-FAN	Network Convergence System 1000 Fan	Network Convergence System 1000 Series	fan	layered	NCS 1000	(none)	NCS 1001 / 1002 / 1004 / 1010 / 1014		sku ^NCS1K							
@@ -968,16 +968,16 @@ NCS2K-9-SMR34FS-L	9-port Single Module ROADM - 20-34dB Gain - FS - Licensed	Netw
 NCS2K-9-SMR34FS-L=	9-port Single Module ROADM - 20-34dB Gain - FS - Licensed	Network Convergence System 2000 Series	roadm	layered	ONS 15454 MSTP and NCS 2000	(none)	NCS 2000 (NCS 2002 / 2006 / 2015)		sku ^NCS2K							
 NCS2K-9-SMR34FS=	9-port Single Module ROADM - 20-34dB Gain - Flex Spectrum	Network Convergence System 2000 Series	roadm	layered	ONS 15454 MSTP and NCS 2000	(none)	NCS 2000 (NCS 2002 / 2006 / 2015)		sku ^NCS2K							
 NCS2K-EDRA1-26	21dBm Erbium Doped Raman Amplifier 26dB Span - C-Band	Network Convergence System 2000 Series	amplifier	layered	ONS 15454 MSTP and NCS 2000	(none)	NCS 2000 (NCS 2002 / 2006 / 2015)		sku ^NCS2K							
-NCS2K-EDRA1-26C	Cisco NCS2K-EDRA1-26C	Network Convergence System 2000 Series	amplifier	layered	ONS 15454 MSTP and NCS 2000	(none)	NCS 2000 (NCS 2002 / 2006 / 2015)		sku ^NCS2K							
+NCS2K-EDRA1-26C	21dBm Erbium Doped Raman Amplifier 26dB Span - C-Band, includes one 2m LC/LC fiber-optic cables and one 2m E2000/PC High power fiber optical cable	Network Convergence System 2000 Series	amplifier	layered	ONS 15454 MSTP and NCS 2000	(none)	NCS 2000 (NCS 2002 / 2006 / 2015)		sku ^NCS2K							
 NCS2K-EDRA1-26C=	21dBm Erbium Doped Raman Amplifier 26dB Span - C-Band, includes one 2m LC/LC fiber-optic cables and one 2m E2000/PC High power fiber optical cable	Network Convergence System 2000 Series	amplifier	layered	ONS 15454 MSTP and NCS 2000	(none)	NCS 2000 (NCS 2002 / 2006 / 2015)		sku ^NCS2K							
 NCS2K-EDRA1-35	21dBm Erbium Doped Raman Amplifier 35dB Span - C-Band	Network Convergence System 2000 Series	amplifier	layered	ONS 15454 MSTP and NCS 2000	(none)	NCS 2000 (NCS 2002 / 2006 / 2015)		sku ^NCS2K							
-NCS2K-EDRA1-35C	Cisco NCS2K-EDRA1-35C	Network Convergence System 2000 Series	amplifier	layered	ONS 15454 MSTP and NCS 2000	(none)	NCS 2000 (NCS 2002 / 2006 / 2015)		sku ^NCS2K							
+NCS2K-EDRA1-35C	21dBm Erbium Doped Raman Amplifier 35dB Span - C-Band, includes one 2m LC/LC fiber-optic cable and one 2m E2000/PC High power fiber optical cable	Network Convergence System 2000 Series	amplifier	layered	ONS 15454 MSTP and NCS 2000	(none)	NCS 2000 (NCS 2002 / 2006 / 2015)		sku ^NCS2K							
 NCS2K-EDRA1-35C=	21dBm Erbium Doped Raman Amplifier 35dB Span - C-Band, includes one 2m LC/LC fiber-optic cable and one 2m E2000/PC High power fiber optical cable	Network Convergence System 2000 Series	amplifier	layered	ONS 15454 MSTP and NCS 2000	(none)	NCS 2000 (NCS 2002 / 2006 / 2015)		sku ^NCS2K							
 NCS2K-EDRA2-26	21dBm Erbium Doped Raman Amplifier + Bst 26dB Span - C-Band	Network Convergence System 2000 Series	amplifier	layered	ONS 15454 MSTP and NCS 2000	(none)	NCS 2000 (NCS 2002 / 2006 / 2015)		sku ^NCS2K							
 NCS2K-EDRA2-26C	21dBm Erbium Doped Raman Amplifier + Bst 26dB Span - C-Band	Network Convergence System 2000 Series	amplifier	layered	ONS 15454 MSTP and NCS 2000	(none)	NCS 2000 (NCS 2002 / 2006 / 2015)		sku ^NCS2K							
 NCS2K-EDRA2-26C=	21dBm Erbium Doped Raman Amplifier + Bst 26dB Span - C-Band, includes two 2m LC/LC fiber-optic cables and one 2m E2000/PC High power fiber optical cable	Network Convergence System 2000 Series	amplifier	layered	ONS 15454 MSTP and NCS 2000	(none)	NCS 2000 (NCS 2002 / 2006 / 2015)		sku ^NCS2K							
 NCS2K-EDRA2-35	21dBm Erbium Doped Raman Amplifier + Bst 35dB Span - C-Band	Network Convergence System 2000 Series	amplifier	layered	ONS 15454 MSTP and NCS 2000	(none)	NCS 2000 (NCS 2002 / 2006 / 2015)		sku ^NCS2K							
-NCS2K-EDRA2-35C	Cisco NCS2K-EDRA2-35C	Network Convergence System 2000 Series	amplifier	layered	ONS 15454 MSTP and NCS 2000	(none)	NCS 2000 (NCS 2002 / 2006 / 2015)		sku ^NCS2K							
+NCS2K-EDRA2-35C	21dBm Erbium Doped Raman Amplifier + Bst 35dB Span - C-Band, includes two 2m LC/LC fiber-optic cables and one 2m E2000/PC High power fiber optical cable	Network Convergence System 2000 Series	amplifier	layered	ONS 15454 MSTP and NCS 2000	(none)	NCS 2000 (NCS 2002 / 2006 / 2015)		sku ^NCS2K							
 NCS2K-EDRA2-35C=	21dBm Erbium Doped Raman Amplifier + Bst 35dB Span - C-Band, includes two 2m LC/LC fiber-optic cables and one 2m E2000/PC High power fiber optical cable	Network Convergence System 2000 Series	amplifier	layered	ONS 15454 MSTP and NCS 2000	(none)	NCS 2000 (NCS 2002 / 2006 / 2015)		sku ^NCS2K							
 NCS2K-HP-LC-2=	E2000 High-Power to LC pacth cord - 2m	Network Convergence System 2000 Series	cable	layered	ONS 15454 MSTP and NCS 2000	(none)	NCS 2000 (NCS 2002 / 2006 / 2015)		sku ^NCS2K							
 NCS2K-LC-LBK=	LC Loopback - Male connectors	Network Convergence System 2000 Series	cable	layered	ONS 15454 MSTP and NCS 2000	(none)	NCS 2000 (NCS 2002 / 2006 / 2015)		sku ^NCS2K							
@@ -1012,9 +1012,9 @@ NCS2K-MR-MXPLIC++=	10/40/100G MR Muxponder - Licensable for Encryption	Network C
 NCS2K-OPT-EDFA-35=	NCS2000 - Optical Amplifier, C Band, Switchable Gain	ONS 15454 Series Multiservice Transport Platforms	amplifier	layered	ONS 15454 MSTP and NCS 2000	(none)	NCS 2000 (NCS 2002 / 2006 / 2015)		sku ^NCS2K							
 NCS2K-PPMESH8-5AD=	2RU 8-Degree Mesh Patch Panel- 5-Add/Drop Port + Monitoring	Network Convergence System 2000 Series	mechanical	layered	ONS 15454 MSTP and NCS 2000	(none)	NCS 2000 (NCS 2002 / 2006 / 2015)		sku ^NCS2K							
 NCS2K-SVO-K9=	Shelf Virtualization Orchestrator - LC	Network Convergence System 2000 Series	controller	layered	ONS 15454 MSTP and NCS 2000	(none)	NCS 2000 (NCS 2002 / 2006 / 2015)		sku ^NCS2K							
-NCS2K-TNCS-2-K9	Cisco NCS2K-TNCS-2-K9	Network Convergence System 2000 Series	controller	layered	ONS 15454 MSTP and NCS 2000	(none)	NCS 2000 (NCS 2002 / 2006 / 2015)		sku ^NCS2K							
+NCS2K-TNCS-2-K9	NCS 2000 Transport Node Controller, version 2	Network Convergence System 2000 Series	controller	layered	ONS 15454 MSTP and NCS 2000	(none)	NCS 2000 (NCS 2002 / 2006 / 2015)		sku ^NCS2K							
 NCS2K-TNCS-2-K9=	NCS 2000 Transport Node Controller, version 2	ONS 15454 Series Multiservice Transport Platforms	controller	layered	ONS 15454 MSTP and NCS 2000	(none)	NCS 2000 (NCS 2002 / 2006 / 2015)		sku ^NCS2K							
-NCS2K-TNCS-2O-K9	Cisco NCS2K-TNCS-2O-K9	Network Convergence System 2000 Series	controller	layered	ONS 15454 MSTP and NCS 2000	(none)	NCS 2000 (NCS 2002 / 2006 / 2015)		sku ^NCS2K							
+NCS2K-TNCS-2O-K9	NCS 2000 Transport Node Controller w/2xOTDR/OSC, version 2	Network Convergence System 2000 Series	controller	layered	ONS 15454 MSTP and NCS 2000	(none)	NCS 2000 (NCS 2002 / 2006 / 2015)		sku ^NCS2K							
 NCS2K-TNCS-2O-K9=	NCS 2000 Transport Node Controller w/2xOTDR/OSC, version 2	ONS 15454 Series Multiservice Transport Platforms	controller	layered	ONS 15454 MSTP and NCS 2000	(none)	NCS 2000 (NCS 2002 / 2006 / 2015)		sku ^NCS2K							
 NCS2K-TNCS-K9	Transport Node Controller for NCS2002, 2006 & 2015 chassis	Network Convergence System 2000 Series	controller	layered	ONS 15454 MSTP and NCS 2000	(none)	NCS 2000 (NCS 2002 / 2006 / 2015)		sku ^NCS2K							
 NCS2K-TNCS-K9-OF	NCS 2000 TNCS Controller - Out of Franchise Kit	Network Convergence System 2000 Series	controller	layered	ONS 15454 MSTP and NCS 2000	(none)	NCS 2000 (NCS 2002 / 2006 / 2015)		sku ^NCS2K							
@@ -1025,7 +1025,7 @@ NCS2K-TNCSO-K9-OF	NCS 2000 TNCS Controller with 2x OTDR - Out of Franchise Kit	N
 NCS4009-DOOR=	NCS 4009 Door	Network Convergence System 4000 Series	accessory	layered	NCS 4000	(none)	NCS 4009 / 4016		sku ^NCS400[0-9]							
 NCS4009-FC-S	NCS 4009 Agnostic Cross connect - Single-chassis	Network Convergence System 4000 Series	fabric	layered	NCS 4000	(none)	NCS 4009 / 4016		sku ^NCS400[0-9]							
 NCS4009-FC-S=	NCS 4009 Agnostic Cross connect - Single-chassis	Network Convergence System 4000 Series	fabric	layered	NCS 4000	(none)	NCS 4009 / 4016		sku ^NCS400[0-9]							
-NCS4009-FC2-S	Cisco NCS4009-FC2-S	Network Convergence System 4000 Series	fabric	layered	NCS 4000	(none)	NCS 4009 / 4016		sku ^NCS400[0-9]							
+NCS4009-FC2-S	NCS 4009 Agnostic Cross connect - Single-chassis - 400G	Network Convergence System 4000 Series	fabric	layered	NCS 4000	(none)	NCS 4009 / 4016		sku ^NCS400[0-9]							
 NCS4009-FC2-S-KIT	NCS 4009 Fabric – Single-chassis – V2 with Fan - kit	Network Convergence System 4000 Series	fabric	layered	NCS 4000	(none)	NCS 4009 / 4016		sku ^NCS400[0-9]							
 NCS4009-FC2-S=	NCS 4009 Agnostic Cross connect - Single-chassis - 400G	Network Convergence System 4000 Series	fabric	layered	NCS 4000	(none)	NCS 4009 / 4016		sku ^NCS400[0-9]							
 NCS4009-SA-AC=	NCS 4009 shelf assembly - AC Power	Network Convergence System 4000 Series	chassis	layered	NCS 4000	(none)	NCS 4009 / 4016		sku ^NCS400[0-9]							
@@ -1035,7 +1035,7 @@ NCS4009-STRT-KIT	NCS 4009 DC Starter Kit	Network Convergence System 4000 Series	
 NCS4016-DOOR=	NCS 4016 Door	Network Convergence System 4000 Series	accessory	layered	NCS 4000	(none)	NCS 4009 / 4016		sku ^NCS4016							
 NCS4016-FC-M	NCS 4016 Agnostic Cross Connect - Multi-chassis	Network Convergence System 4000 Series	fabric	layered	NCS 4000	(none)	NCS 4009 / 4016		sku ^NCS4016							
 NCS4016-FC-M=	NCS 4016 Agnostic Cross connect - Multichassis	Network Convergence System 4000 Series	fabric	layered	NCS 4000	(none)	NCS 4009 / 4016		sku ^NCS4016							
-NCS4016-FC2-M	Cisco NCS4016-FC2-M	Network Convergence System 4000 Series	fabric	layered	NCS 4000	(none)	NCS 4009 / 4016		sku ^NCS4016							
+NCS4016-FC2-M	NCS 4016 Agnostic Cross connect - Multichassis - 400G	Network Convergence System 4000 Series	fabric	layered	NCS 4000	(none)	NCS 4009 / 4016		sku ^NCS4016							
 NCS4016-FC2-M=	NCS 4016 Agnostic Cross connect - Multichassis - 400G	Network Convergence System 4000 Series	fabric	layered	NCS 4000	(none)	NCS 4009 / 4016		sku ^NCS4016							
 NCS4016-SA-AC=	NCS 4016 shelf assembly - AC Power	Network Convergence System 4000 Series	chassis	layered	NCS 4000	(none)	NCS 4009 / 4016		sku ^NCS4016							
 NCS4016-SA-DC	NCS 4016 shelf assembly - DC Power	Network Convergence System 4000 Series	chassis	layered	NCS 4000	(none)	NCS 4009 / 4016		sku ^NCS4016							
@@ -1057,7 +1057,7 @@ NCS4K-2H10T-OP-KS	NCS 4000 2x 100G CPAK 10x10G SFP+ OTN/Packet Line Card	Network
 NCS4K-2H10T-OP-KS=	NCS 4000 2x 100G CPAK 10x10G SFP+ OTN/Packet Line Card	Network Convergence System 4000 Series	linecard	layered	NCS 4000	(none)	NCS 4009 / 4016		sku ^NCS4K							
 NCS4K-2X100G-SK	NCS4000 2x 100G CP-DQPSK WDM Line Card + 4x CPAK LR4 STARTER KIT	Network Convergence System 4000 Series	mechanical	layered	NCS 4000	(none)	NCS 4009 / 4016		sku ^NCS4K							
 NCS4K-4H-OPW-LO=	NCS 4000 400G Packet/OTN/WDM - QSFP28/CFP2 - Lic. 100G OTN	Network Convergence System 4000 Series	transponder	layered	NCS 4000	(none)	NCS 4009 / 4016		sku ^NCS4K							
-NCS4K-4H-OPW-QC2	Cisco NCS4K-4H-OPW-QC2	Network Convergence System 4000 Series	transponder	layered	NCS 4000	(none)	NCS 4009 / 4016		sku ^NCS4K							
+NCS4K-4H-OPW-QC2	NCS 4000 400G WDM w/Packet/OTN - 10x QSFP + 2x CFP2 Line Card	Network Convergence System 4000 Series	transponder	layered	NCS 4000	(none)	NCS 4009 / 4016		sku ^NCS4K							
 NCS4K-4H-OPW-QC2=	NCS 4000 400G WDM w/Packet/OTN - 10x QSFP + 2x CFP2 Line Card	Network Convergence System 4000 Series	transponder	layered	NCS 4000	(none)	NCS 4009 / 4016		sku ^NCS4K							
 NCS4K-AC-CBL-IEC=	NCS 4000 AC Power Cable - IEC compliant	Network Convergence System 4000 Series	cable	layered	NCS 4000	(none)	NCS 4009 / 4016		sku ^NCS4K							
 NCS4K-AC-CBL-NEMA=	NCS 4000 AC Power Cable - NEMA compliant	Network Convergence System 4000 Series	cable	layered	NCS 4000	(none)	NCS 4009 / 4016		sku ^NCS4K							
@@ -1082,7 +1082,7 @@ NCS4K-FTA=	NCS 4000 Fan tray Assembly	Network Convergence System 4000 Series	fan
 NCS4K-FTF=	NCS 4000 Fan Tray Filter	Network Convergence System 4000 Series	mechanical	layered	NCS 4000	(none)	NCS 4009 / 4016		sku ^NCS4K							
 NCS4K-RP++=	NCS 4000 Router Processor and Controller (32G RAM)	Network Convergence System 4000 Series	controller	layered	NCS 4000	(none)	NCS 4009 / 4016		sku ^NCS4K							
 NCS4K-RP=	NCS 4000 Router Processor and Controller (32G RAM)	Network Convergence System 4000 Series	controller	layered	NCS 4000	(none)	NCS 4009 / 4016		sku ^NCS4K							
-NCS4K-SSD-100G	Cisco NCS4K-SSD-100G	Network Convergence System 4000 Series	accessory	layered	NCS 4000	(none)	NCS 4009 / 4016		sku ^NCS4K							
+NCS4K-SSD-100G	NCS 4000 100G SSD disk for ECU	Network Convergence System 4000 Series	accessory	layered	NCS 4000	(none)	NCS 4009 / 4016		sku ^NCS4K							
 NCS4K-SSD-100G=	NCS 4000 100G SSD disk for ECU	Network Convergence System 4000 Series	accessory	layered	NCS 4000	(none)	NCS 4009 / 4016		sku ^NCS4K							
 NCS4K-SSD-200G	NCS 4000 200G SSD disk for ECU	Network Convergence System 4000 Series	accessory	layered	NCS 4000	(none)	NCS 4009 / 4016		sku ^NCS4K							
 NCS4K-SSD-200G++=	NCS 4000 200G SSD disk for ECU	Network Convergence System 4000 Series	accessory	layered	NCS 4000	(none)	NCS 4009 / 4016		sku ^NCS4K							

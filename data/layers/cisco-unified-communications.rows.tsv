@@ -352,7 +352,7 @@ UNITY-PIMG-DIGITAL	PBX-IP Media Gateway for Nortel, Avaya, Siemens and NEC PBXs	
 UNITY-PIMG-LEGEND	PBX-IP Media Gateway for Avaya Merlin Legend systems	Unity Connection	voice-gateway	layered	Unity Connection and MCS servers	(none)	Unity Connection PIMG gateways and MCS servers		sku ^UNITY							
 UNITY-PIMG-LGD	PBX-IP Media Gateway for Avaya Merlin Legend systems	Unity Connection	voice-gateway	layered	Unity Connection and MCS servers	(none)	Unity Connection PIMG gateways and MCS servers		sku ^UNITY							
 UNITY-PIMG-MITEL	PBX-IP Media Gateway for Mitel SX200 and SX2000 PBXs	Unity Connection	voice-gateway	layered	Unity Connection and MCS servers	(none)	Unity Connection PIMG gateways and MCS servers		sku ^UNITY							
-UNITY-PIMG-MITEL=	Cisco UNITY-PIMG-MITEL=	Unity Connection	voice-gateway	layered	Unity Connection and MCS servers	(none)	Unity Connection PIMG gateways and MCS servers		sku ^UNITY							
+UNITY-PIMG-MITEL=	PBX-IP Media Gateway for Mitel SX200 and SX2000 PBXs	Unity Connection	voice-gateway	layered	Unity Connection and MCS servers	(none)	Unity Connection PIMG gateways and MCS servers		sku ^UNITY							
 UNITY-PIMG-MTL	PBX-IP Media Gateway for Mitel SX200 and SX2000 PBXs	Unity Connection	voice-gateway	layered	Unity Connection and MCS servers	(none)	Unity Connection PIMG gateways and MCS servers		sku ^UNITY							
 UNITY-PIMG-ROLM	PBX IP MEDIA GATEWAY-ROLM	Unity Connection	voice-gateway	layered	Unity Connection and MCS servers	(none)	Unity Connection PIMG gateways and MCS servers		sku ^UNITY							
 UNITY-PIMG-ROLM=	PBX IP MEDIA GATEWAY-ROLM	Unity Connection	voice-gateway	layered	Unity Connection and MCS servers	(none)	Unity Connection PIMG gateways and MCS servers		sku ^UNITY							

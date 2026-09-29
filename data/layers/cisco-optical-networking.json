@@ -1,8 +1,8 @@
 {
   "vendor": "cisco",
   "category": "optical-networking",
-  "built_at": "2026-09-29T10:52:52.266Z",
-  "commit": "5aa426358a46218d1e6bd7b0c5bd6f774ea5d4f3",
+  "built_at": "2026-09-29T12:17:43.769Z",
+  "commit": "702bf78b3dfc4eca103a03244d668a9c3408801e",
   "uncommitted_rule_files": [],
   "mapping_file": "data/reference/product-lines/cisco-optical-networking.json",
   "parts": 1158,
@@ -126,9 +126,9 @@
             "mux": 13,
             "roadm": 24,
             "chassis": 8,
-            "mechanical": 28,
+            "mechanical": 30,
             "amplifier": 26,
-            "accessory": 12,
+            "accessory": 10,
             "controller": 10,
             "power": 16,
             "fan": 8,
@@ -303,7 +303,7 @@
             "NCS4009-DOOR= — NCS 4009 Door",
             "NCS4009-FC-S — NCS 4009 Agnostic Cross connect - Single-chassis",
             "NCS4009-FC-S= — NCS 4009 Agnostic Cross connect - Single-chassis",
-            "NCS4009-FC2-S — Cisco NCS4009-FC2-S",
+            "NCS4009-FC2-S — NCS 4009 Agnostic Cross connect - Single-chassis - 400G",
             "NCS4009-FC2-S-KIT — NCS 4009 Fabric – Single-chassis – V2 with Fan - kit",
             "NCS4009-FC2-S= — NCS 4009 Agnostic Cross connect - Single-chassis - 400G"
           ],
@@ -479,9 +479,9 @@
   "inbound_unplaced": {},
   "done": true,
   "build": {
-    "data_commit": "62ecef167114+81dirty",
-    "code_commit": "1cce5baf24ab",
+    "data_commit": "abd34bdc5955+98dirty",
+    "code_commit": "ec9da45dc859",
     "contract_hash": "bcfc4c1ee314d3c2",
-    "generated_at": "2026-09-29T11:01:58.001Z"
+    "generated_at": "2026-09-29T12:26:27.224Z"
   }
 }

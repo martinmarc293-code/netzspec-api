@@ -1,8 +1,8 @@
 {
   "vendor": "cisco",
   "category": "servers-unified-computing",
-  "built_at": "2026-09-29T10:52:50.426Z",
-  "commit": "5aa426358a46218d1e6bd7b0c5bd6f774ea5d4f3",
+  "built_at": "2026-09-29T12:17:41.846Z",
+  "commit": "702bf78b3dfc4eca103a03244d668a9c3408801e",
   "uncommitted_rule_files": [],
   "mapping_file": "data/reference/product-lines/cisco-servers-unified-computing.json",
   "parts": 8264,
@@ -249,14 +249,14 @@
           "note": null,
           "parts": 254,
           "kinds": {
-            "server": 135,
+            "server": 134,
             "mechanical": 23,
             "cable": 19,
             "nic": 18,
             "accessory": 4,
             "pdu": 2,
             "storage-controller": 2,
-            "drive": 41,
+            "drive": 42,
             "io-module": 6,
             "memory": 2,
             "power": 2
@@ -541,7 +541,7 @@
           "roles": {},
           "samples": [
             "UCSX-S9108-100G — Cisco UCS Fabric Interconnects 9108 100G",
-            "UCSX-S9108-100G= — Cisco UCSX-S9108-100G=",
+            "UCSX-S9108-100G= — Cisco UCS Fabric Interconnects 9108 100G",
             "UCSX-S9108-100GM6 — Cisco UCSX-S9108-100GM6",
             "UCSX-S9108-SW — Cisco UCSX-S9108-SW"
           ],
@@ -640,8 +640,8 @@
           "note": null,
           "parts": 16,
           "kinds": {
-            "mechanical": 1,
-            "accessory": 3,
+            "mechanical": 2,
+            "accessory": 2,
             "fan": 2,
             "fabric-interconnect": 6,
             "power": 4
@@ -651,7 +651,7 @@
             "UCS-ACC-6536 — UCS 6536 chassis accessory kit",
             "UCS-ACC-6536-D — Cisco UCS-ACC-6536-D",
             "UCS-ACC-6536-D= — Cisco UCS-ACC-6536-D=",
-            "UCS-ACC-6536= — Cisco UCS-ACC-6536=",
+            "UCS-ACC-6536= — UCS 6536 chassis accessory kit",
             "UCS-FAN-6536 — UCS 6536 fan module",
             "UCS-FAN-6536-D — Cisco UCS-FAN-6536-D"
           ],
@@ -750,7 +750,7 @@
           "note": null,
           "parts": 2,
           "kinds": {
-            "cable": 1,
+            "power-cord": 1,
             "storage-controller": 1
           },
           "roles": {},
@@ -944,8 +944,9 @@
           "note": "^UCSX- fenced to the tokens the UCS Server Components series claim; ^UCSX[A-Z]{2} removed (operator, 17 Sep 2026, layering review fix list 4.2 ('go with your recommendations')): ^UCSX[A-Z]{2} placed only the glued UCSXSD / UCSXNVME / UCSXS9 drives, which Drives and storage now claims · ^UCSX- fences: CPU -> CPU(?!-CVR|-GREASE|-TIM|-E[NP]2?-PNP|AT), SD(?!BKT) -> SD(?!BKT|-RSR) (layering re-check of 17 Sep 2026, fix list section 1): the same tokens as Processors and Drives and storage, so a CPU tool, grease, cover or TIM and the SD riser card stay with their family",
           "parts": 64,
           "kinds": {
-            "cable": 9,
+            "power-cord": 8,
             "accessory": 30,
+            "cable": 1,
             "mechanical": 4,
             "cpu": 4,
             "drive": 1,
@@ -1183,10 +1184,11 @@
           "note": "^UCSB- fenced to the tokens the UCS Server Components series claim; ^N20-B fenced to the tokens the UCS Server Components series claim; ^A01-X removed (operator, 17 Sep 2026, layering review fix list 4.2 ('go with your recommendations')): ^A01-X placed only the 24 A01-X B-Series CPUs, which Processors now claims · ^UCSB- fences: CPU -> CPU(?!-CVR|-GREASE|-TIM|-E[NP]2?-PNP|AT), SD(?!BKT) -> SD(?!BKT|-RSR) (layering re-check of 17 Sep 2026, fix list section 1): the same tokens as Processors and Drives and storage, so a CPU tool, grease, cover or TIM and the SD riser card stay with their family",
           "parts": 58,
           "kinds": {
-            "cable": 4,
+            "power-cord": 1,
             "drive": 1,
             "bundle": 1,
             "mechanical": 38,
+            "cable": 3,
             "power": 5,
             "storage-controller": 1,
             "accessory": 8
@@ -1360,8 +1362,8 @@
           "parts": 174,
           "kinds": {
             "cable": 21,
-            "server": 54,
-            "bundle": 15,
+            "server": 55,
+            "bundle": 14,
             "mechanical": 21,
             "accessory": 32,
             "fan": 5,
@@ -1594,10 +1596,11 @@
           "note": "^UCSC- fenced to the tokens the UCS Server Components series claim; ^UCSAI- fenced to the tokens the UCS Server Components series claim (operator, 17 Sep 2026, layering review fix list 4.2 ('go with your recommendations')) · ^UCSC-, ^UCSAI- fences: CPU -> CPU(?!-CVR|-GREASE|-TIM|-E[NP]2?-PNP|AT), SD(?!BKT) -> SD(?!BKT|-RSR) (layering re-check of 17 Sep 2026, fix list section 1): the same tokens as Processors and Drives and storage, so a CPU tool, grease, cover or TIM and the SD riser card stay with their family",
           "parts": 320,
           "kinds": {
-            "mechanical": 65,
+            "mechanical": 69,
             "pdu": 1,
-            "accessory": 46,
-            "cable": 94,
+            "accessory": 42,
+            "power-cord": 23,
+            "cable": 71,
             "bundle": 6,
             "unknown": 14,
             "power": 62,
@@ -1613,7 +1616,7 @@
             "C16-2PDU — AddOn-Bullion 2PDU",
             "C16-CB16 — AddOn-Bullion 8 Module Connecting Box CB16",
             "CAB-48DC-40A-8AWG — C-Series -48VDC PSU Power Cord, 3.5M, 3 Wire, 8AWG, 40A",
-            "CAB-48DC-40A-8AWG= — Cisco CAB-48DC-40A-8AWG=",
+            "CAB-48DC-40A-8AWG= — C-Series -48VDC PSU Power Cord, 3.5M, 3 Wire, 8AWG, 40A",
             "CAB-48DC-40A-AS-D — Cisco CAB-48DC-40A-AS-D"
           ],
           "rules": {
@@ -1871,9 +1874,9 @@
   "inbound_unplaced": {},
   "done": true,
   "build": {
-    "data_commit": "62ecef167114+81dirty",
-    "code_commit": "1cce5baf24ab",
+    "data_commit": "abd34bdc5955+98dirty",
+    "code_commit": "ec9da45dc859",
     "contract_hash": "bcfc4c1ee314d3c2",
-    "generated_at": "2026-09-29T11:01:58.001Z"
+    "generated_at": "2026-09-29T12:26:27.224Z"
   }
 }

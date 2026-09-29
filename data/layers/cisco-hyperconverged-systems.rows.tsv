@@ -1,12 +1,12 @@
 sku	name	series_label	kind	placement	product_line	product_family	series	nav_bucket	placed_by	deploy_role	role_rule	role_issue	plan	belongs	label_evidence	family_carrier
-CAB-48DC-40A	Cisco CAB-48DC-40A	HyperFlex HX Series	cable	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	accessory ^CAB- (label HyperFlex HX Series)							
-CAB-9K12A-NA2=	Cisco CAB-9K12A-NA2=	HyperFlex HX Series	cable	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	accessory ^CAB- (label HyperFlex HX Series)							
-CAB-9K12A-NA4=	Cisco CAB-9K12A-NA4=	HyperFlex HX Series	cable	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	accessory ^CAB- (label HyperFlex HX Series)							
-CAB-9K12A-NA5=	Cisco CAB-9K12A-NA5=	HyperFlex HX Series	cable	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	accessory ^CAB- (label HyperFlex HX Series)							
-CAB-C13-C14-3M-IN1	Cisco CAB-C13-C14-3M-IN1	HyperFlex HX Series	cable	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	accessory ^CAB- (label HyperFlex HX Series)							
-CAB-C13-C14-3M-IN2	Cisco CAB-C13-C14-3M-IN2	HyperFlex HX Series	cable	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	accessory ^CAB- (label HyperFlex HX Series)							
-CAB-C13-C14-IN1	Cisco CAB-C13-C14-IN1	HyperFlex HX Series	cable	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	accessory ^CAB- (label HyperFlex HX Series)							
-CAB-C13-C14-IN2	Cisco CAB-C13-C14-IN2	HyperFlex HX Series	cable	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	accessory ^CAB- (label HyperFlex HX Series)							
+CAB-48DC-40A	Cisco CAB-48DC-40A	HyperFlex HX Series	power-cord	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	accessory ^CAB- (label HyperFlex HX Series)							
+CAB-9K12A-NA2=	Cisco CAB-9K12A-NA2=	HyperFlex HX Series	power-cord	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	accessory ^CAB- (label HyperFlex HX Series)							
+CAB-9K12A-NA4=	Cisco CAB-9K12A-NA4=	HyperFlex HX Series	power-cord	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	accessory ^CAB- (label HyperFlex HX Series)							
+CAB-9K12A-NA5=	Cisco CAB-9K12A-NA5=	HyperFlex HX Series	power-cord	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	accessory ^CAB- (label HyperFlex HX Series)							
+CAB-C13-C14-3M-IN1	Cisco CAB-C13-C14-3M-IN1	HyperFlex HX Series	power-cord	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	accessory ^CAB- (label HyperFlex HX Series)							
+CAB-C13-C14-3M-IN2	Cisco CAB-C13-C14-3M-IN2	HyperFlex HX Series	power-cord	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	accessory ^CAB- (label HyperFlex HX Series)							
+CAB-C13-C14-IN1	Cisco CAB-C13-C14-IN1	HyperFlex HX Series	power-cord	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	accessory ^CAB- (label HyperFlex HX Series)							
+CAB-C13-C14-IN2	Cisco CAB-C13-C14-IN2	HyperFlex HX Series	power-cord	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	accessory ^CAB- (label HyperFlex HX Series)							
 CBL-FNVME-240M6	Cisco CBL-FNVME-240M6	HyperFlex HX Series	cable	layered	HyperFlex	(none)	HX240c		sku ^(?=HX|UCSC?-|CBL-).*(?<![0-9])240-?M[4-7]							
 CBL-FNVME-240M6=	Cisco CBL-FNVME-240M6=	HyperFlex HX Series	cable	layered	HyperFlex	(none)	HX240c		sku ^(?=HX|UCSC?-|CBL-).*(?<![0-9])240-?M[4-7]							
 CBL-GPU-C240M6	Cisco CBL-GPU-C240M6	HyperFlex HX Series	cable	layered	HyperFlex	(none)	HX240c		sku ^(?=HX|UCSC?-|CBL-).*(?<![0-9])240-?M[4-7]							
@@ -122,7 +122,7 @@ HX-C240-M6SN	Compute UCS C240 M6 Rack w/o CPU, mem, drives, 2U 24 NVMe	HyperFlex
 HX-C240-M6SX	Compute UCS C240 M6 Rack w/o CPU, mem, drives, 2U w 24	HyperFlex HX Series	server	layered	HyperFlex	(none)	HyperFlex compute-only nodes (C220 / C240 / C480 / B200 / B480)		sku ^HX-(C220|C240|C480|B200|B480)							
 HX-C240M5LVN0	HX Veeam Data Protection Node w/192GB, 96TB, 40GVIC	HyperFlex HX Series	server	layered	HyperFlex	(none)	HyperFlex compute-only nodes (C220 / C240 / C480 / B200 / B480)		sku ^HX-(C220|C240|C480|B200|B480)							
 HX-C240SD-EXT	UCS C240SD M5 Extender Kit	HyperFlex HX Series	server	layered	HyperFlex	(none)	HyperFlex compute-only nodes (C220 / C240 / C480 / B200 / B480)		sku ^HX-(C220|C240|C480|B200|B480)							
-HX-C240SD-EXT=	Cisco HX-C240SD-EXT=	HyperFlex HX Series	server	layered	HyperFlex	(none)	HyperFlex compute-only nodes (C220 / C240 / C480 / B200 / B480)		sku ^HX-(C220|C240|C480|B200|B480)							
+HX-C240SD-EXT=	UCS C240SD M5 Extender Kit	HyperFlex HX Series	server	layered	HyperFlex	(none)	HyperFlex compute-only nodes (C220 / C240 / C480 / B200 / B480)		sku ^HX-(C220|C240|C480|B200|B480)							
 HX-C480-8AUX	UCS C480 M5 Auxiliary Drive Module for 8x rear drives	HyperFlex HX Series	server	layered	HyperFlex	(none)	HyperFlex compute-only nodes (C220 / C240 / C480 / B200 / B480)		sku ^HX-(C220|C240|C480|B200|B480)							
 HX-C480-8AUX=	UCS C480 M5 Auxiliary Drive Module for 8x rear drives	HyperFlex HX Series	server	layered	HyperFlex	(none)	HyperFlex compute-only nodes (C220 / C240 / C480 / B200 / B480)		sku ^HX-(C220|C240|C480|B200|B480)							
 HX-C480-8HDD	UCS C480 M5 Drive Module for 8x HDD	HyperFlex HX Series	server	layered	HyperFlex	(none)	HyperFlex compute-only nodes (C220 / C240 / C480 / B200 / B480)		sku ^HX-(C220|C240|C480|B200|B480)							
@@ -514,7 +514,7 @@ HX-CPU-I8351N	Intel 8351N 2.4GHz/225W 36C/54MB DDR4 2933MHz	HyperFlex HX Series	
 HX-CPU-I8351N3	Cisco HX-CPU-I8351N3	HyperFlex HX Series	cpu	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-CPU-I8351N=	Intel 8351N 2.4GHz/225W 36C/54MB DDR4 2933MHz	HyperFlex HX Series	cpu	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-CPU-I8352M	Intel 8352M 2.3GHz/185W 32C/48MB DDR4 3200MHz	HyperFlex HX Series	cpu	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
-HX-CPU-I8352M=	Cisco HX-CPU-I8352M=	HyperFlex HX Series	cpu	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
+HX-CPU-I8352M=	Intel 8352M 2.3GHz/185W 32C/48MB DDR4 3200MHz	HyperFlex HX Series	cpu	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-CPU-I8352S	Cisco HX-CPU-I8352S	HyperFlex HX Series	cpu	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-CPU-I8352S=	Cisco HX-CPU-I8352S=	HyperFlex HX Series	cpu	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-CPU-I8352V	Intel 8352V 2.1GHz/195W 36C/54M DDR4 2933MHz	HyperFlex HX Series	cpu	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
@@ -551,7 +551,7 @@ HX-E-240-M5SX	Cisco HyperFlex Hybrid Edge 240 Full Capacity M5 system	HyperFlex 
 HX-E-240-M5SX=	Cisco HyperFlex Hybrid Edge 240 Full Capacity M5 system	HyperFlex HX Series	server	layered	HyperFlex	(none)	HyperFlex Edge		sku ^HX(AF)?-E-							
 HX-E-240-M6SX	Cisco HyperFlex Hybrid Edge 240 Full Capacity M6 system	HyperFlex HX Series	server	layered	HyperFlex	(none)	HyperFlex Edge		sku ^HX(AF)?-E-							
 HX-E-240-M6SX1	Cisco HX-E-240-M6SX1	HyperFlex HX Series	server	layered	HyperFlex	(none)	HyperFlex Edge		sku ^HX(AF)?-E-							
-HX-E-240-M6SX=	Cisco HX-E-240-M6SX=	HyperFlex HX Series	server	layered	HyperFlex	(none)	HyperFlex Edge		sku ^HX(AF)?-E-							
+HX-E-240-M6SX=	Cisco HyperFlex Hybrid Edge 240 Full Capacity M6 system	HyperFlex HX Series	server	layered	HyperFlex	(none)	HyperFlex Edge		sku ^HX(AF)?-E-							
 HX-E-240M5SX1	Cisco HX-E-240M5SX1	HyperFlex HX Series	server	layered	HyperFlex	(none)	HyperFlex Edge		sku ^HX(AF)?-E-							
 HX-ENCR-01	HX Encrypt w/1x800GB SAS, 1x240GB SATA, 6x1.2TB SAS	UCS B-Series	bundle	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-ENCR-01A	Cisco HX-ENCR-01A	UCS B-Series	bundle	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
@@ -595,7 +595,7 @@ HX-GPU-A10=4	Cisco HX-GPU-A10=4	HyperFlex HX Series	gpu	layered	HyperFlex	(share
 HX-GPU-A16	NVIDIA A16 PCIE 250W 4X16GB	HyperFlex HX Series	gpu	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-GPU-A165	Cisco HX-GPU-A165	HyperFlex HX Series	gpu	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-GPU-A16=	NVIDIA A16 PCIE 250W 4X16GB	HyperFlex HX Series	gpu	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
-HX-GPU-A30	Cisco HX-GPU-A30	HyperFlex HX Series	gpu	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
+HX-GPU-A30	TESLA A30, PASSIVE, 180W, 24GB	HyperFlex HX Series	gpu	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-GPU-A303	Cisco HX-GPU-A303	HyperFlex HX Series	gpu	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-GPU-A30=	TESLA A30, PASSIVE, 180W, 24GB	HyperFlex HX Series	gpu	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-GPU-A40	TESLA A40 RTX, PASSIVE, 300W, 48GB	HyperFlex HX Series	gpu	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
@@ -628,14 +628,14 @@ HX-GPURKIT-C220	GPU Riser Bracket assy kit C220 / C225 1U	HyperFlex HX Series	gp
 HX-GPURKIT-C220=	GPU Riser Bracket assy kit C220 / C225 1U	HyperFlex HX Series	gpu	layered	HyperFlex	(none)	HX220c		sku ^(?=HX|UCSC-|CBL-).*(?<![A-Z0-9])C220(?![0-9])							
 HX-HD10T7K4KAM=	10TB 12G SAS 7.2K RPM LFF HDD (4K)	HyperFlex HX Series	drive	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-HD10T7K6GAN	10TB 6G SATA 7.2K RPM LFF HDD (512e)	HyperFlex HX Series	drive	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
-HX-HD10T7K6GAN=	Cisco HX-HD10T7K6GAN=	UCS C-Series	drive	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
+HX-HD10T7K6GAN=	10TB 6G SATA 7.2K RPM LFF HDD (512e)	UCS C-Series	drive	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-HD10T7KL4KSN	10TB 12G SAS 7.2K RPM LFF HDD (4K)	UCS C-Series	drive	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-HD10T7KL4KSN=	10TB 12G SAS 7.2K RPM LFF HDD (4K)	UCS C-Series	drive	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-HD10T7KL6GN	10TB 6G SATA 7.2K RPM LFF HDD (512E)	UCS C-Series	drive	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-HD10T7KL6GN=	10TB 6G SATA 7.2K RPM LFF HDD (512E)	UCS C-Series	drive	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-HD10T7KLEM	10 TB 12G SAS 7.2K RPM LFF HDD (512e)	UCS C-Series	drive	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-HD10T7KLEM=	10 TB 12G SAS 7.2K RPM LFF HDD (512e)	UCS C-Series	drive	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
-HX-HD12G10K9	Cisco HX-HD12G10K9	HyperFlex HX Series	drive	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
+HX-HD12G10K9	1.2 TB 12G SAS 10K RPM SFF HDD (SED)	HyperFlex HX Series	drive	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-HD12G10K9=	1.2 TB 12G SAS 10K RPM SFF HDD (SED)	UCS C-Series	drive	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-HD12T10NK9	1.2TB 12G SAS 10K RPM SFF HDD (SED)	HyperFlex HX Series	drive	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-HD12T10NK9=	1.2TB 12G SAS 10K RPM SFF HDD (SED)	HyperFlex HX Series	drive	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
@@ -643,7 +643,7 @@ HX-HD12T7KL4KM	12TB 12G SAS 7.2K RPM LFF HDD (4K)	HyperFlex HX Series	drive	laye
 HX-HD12T7KL4KM=	12TB 12G SAS 7.2K RPM LFF HDD (4K)	HyperFlex HX Series	drive	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-HD12T7KL4KN	12TB 12G SAS 7.2K RPM LFF HDD (4K)	HyperFlex HX Series	drive	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-HD12T7KL4KN=	12TB 12G SAS 7.2K RPM LFF HDD (4K)	HyperFlex HX Series	drive	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
-HX-HD12TB10K12G	Cisco HX-HD12TB10K12G	HyperFlex HX Series	drive	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
+HX-HD12TB10K12G	1.2 TB 12G SAS 10K RPM SFF HDD	HyperFlex HX Series	drive	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-HD12TB10K12G=	1.2 TB 12G SAS 10K RPM SFF HDD	UCS C-Series	drive	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-HD12TB10K12N	1.2 TB 12G SAS 10K RPM SFF HDD	HyperFlex HX Series	drive	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-HD12TB10K12N=	1.2 TB 12G SAS 10K RPM SFF HDD	HyperFlex HX Series	drive	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
@@ -651,7 +651,7 @@ HX-HD14T7KL4KN	14TB 12G SAS 7.2K RPM LFF HDD(4K)	HyperFlex HX Series	drive	layer
 HX-HD18T10NK9	1.8TB 12G SAS 10K RPM SFF HDD (4K format, SED)	HyperFlex HX Series	drive	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-HD18TB10K4KN	1.8TB 12G SAS 10K RPM SFF HDD (4K)	HyperFlex HX Series	drive	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-HD18TB10K4KN=	1.8TB 12G SAS 10K RPM SFF HDD (4K)	HyperFlex HX Series	drive	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
-HX-HD18TB10KS4K	Cisco HX-HD18TB10KS4K	HyperFlex HX Series	drive	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
+HX-HD18TB10KS4K	1.8 TB 12G SAS 10K RPM SFF HDD (4K)	HyperFlex HX Series	drive	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-HD18TB10KS4K=	1.8 TB 12G SAS 10K RPM SFF HDD (4K)	UCS C-Series	drive	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-HD18TW7KL4KN	18TB 12G SAS 7.2K RPM LFF HDD(4K)	HyperFlex HX Series	drive	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-HD1T7K6GAN	1 TB 6G SATA 7.2K RPM SFF HDD	HyperFlex HX Series	drive	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
@@ -682,10 +682,10 @@ HX-HD6T7KL4KN	6TB 12G SAS 7.2K RPM LFF HDD (4K)	HyperFlex HX Series	drive	layere
 HX-HD6T7KL4KN=	6TB 12G SAS 7.2K RPM LFF HDD (4K)	HyperFlex HX Series	drive	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-HD6T7KLEM	Cisco HX-HD6T7KLEM	UCS C-Series	drive	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-HD8T7K4KAM	8TB 12G SAS 7.2K RPM LFF HDD (4K)	HyperFlex HX Series	drive	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
-HX-HD8T7K4KAM=	Cisco HX-HD8T7K4KAM=	HyperFlex HX Series	drive	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
+HX-HD8T7K4KAM=	8TB 12G SAS 7.2K RPM LFF HDD (4K)	HyperFlex HX Series	drive	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-HD8T7K4KAN	8 TB 12G SAS 7.2K RPM LFF HDD (4K)	HyperFlex HX Series	drive	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-HD8T7K4KAN=	8 TB 12G SAS 7.2K RPM LFF HDD (4K)	HyperFlex HX Series	drive	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
-HX-HD8T7K6GAN	Cisco HX-HD8T7K6GAN	UCS C-Series	drive	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
+HX-HD8T7K6GAN	8 TB 6G SATA 7.2K RPM LFF HDD (512e)	UCS C-Series	drive	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-HD8T7K6GAN=	8 TB 6G SATA 7.2K RPM LFF HDD (512e)	HyperFlex HX Series	drive	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-HD8T7KL4KN	8 TB 12G SAS 7.2K RPM LFF HDD (4K)	UCS C-Series	drive	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-HD8T7KL4KN=	8 TB 12G SAS 7.2K RPM LFF HDD (4K)	UCS C-Series	drive	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
@@ -777,7 +777,7 @@ HX-MP-128GS-A0=	Intel Optane Persistent Memory, 128GB, 2666MHz	HyperFlex HX Seri
 HX-MP-128GS-B0	Intel Optane Persistent Memory, 128GB, 3200MHz	HyperFlex HX Series	memory	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-MP-128GS-B0=	Intel Optane Persistent Memory, 128GB, 3200MHz	HyperFlex HX Series	memory	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-MP-256GS-A0	Intel Optane Persistent Memory, 256GB, 2666MHz	HyperFlex HX Series	memory	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
-HX-MP-256GS-A0=	Cisco HX-MP-256GS-A0=	HyperFlex HX Series	memory	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
+HX-MP-256GS-A0=	Intel Optane Persistent Memory, 256GB, 2666MHz	HyperFlex HX Series	memory	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-MP-256GS-B0	Cisco HX-MP-256GS-B0	HyperFlex HX Series	memory	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-MP-256GS-B0=	Cisco HX-MP-256GS-B0=	HyperFlex HX Series	memory	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-MP-512GS-A0	Cisco HX-MP-512GS-A0	HyperFlex HX Series	memory	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
@@ -788,7 +788,7 @@ HX-MR-128G8RS-H	128GB DDR4-2666-MHz TSV-RDIMM/PC4-21300/octal rank/x4/1.2v	Hyper
 HX-MR-1X161RV-A	Cisco HX-MR-1X161RV-A	HyperFlex HX Series	memory	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-MR-1X322RV-A	Cisco HX-MR-1X322RV-A	HyperFlex HX Series	memory	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-MR-X16G1RS-H	16GB DDR4-2666-MHz RDIMM/PC4-21300/single rank/x4/1.2v	HyperFlex HX Series	memory	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
-HX-MR-X16G1RS-H=	Cisco HX-MR-X16G1RS-H=	UCS C-Series	memory	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
+HX-MR-X16G1RS-H=	16GB DDR4-2666-MHz RDIMM/PC4-21300/single rank/x4/1.2v	UCS C-Series	memory	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-MR-X16G1RT-H	Cisco HX-MR-X16G1RT-H	HyperFlex HX Series	memory	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-MR-X16G1RT-H1	Cisco HX-MR-X16G1RT-H1	HyperFlex HX Series	memory	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-MR-X16G1RW	16GB RDIMM SRx4 3200 (8Gb)	HyperFlex HX Series	memory	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
@@ -843,7 +843,7 @@ HX-NVME2H-I4000	Cisco HX-NVME2H-I4000	UCS C-Series	drive	layered	HyperFlex	(shar
 HX-NVME2H-I4000=	Cisco HX-NVME2H-I4000=	UCS C-Series	drive	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-NVME4-1920	1.9TB 2.5in U.2 P5520 NVMe High Perf Medium Endurance	HyperFlex HX Series	drive	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-NVME4-3840	3.8TB 2.5in U.2 P5520 NVMe High Perf Medium Endurance	HyperFlex HX Series	drive	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
-HX-NVME4-3840=	Cisco HX-NVME4-3840=	HyperFlex HX Series	drive	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
+HX-NVME4-3840=	3.8TB 2.5in U.2 P5520 NVMe High Perf Medium Endurance	HyperFlex HX Series	drive	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-NVME4-7680=	Cisco HX-NVME4-7680=	HyperFlex HX Series	drive	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-NVMEHW-H1600	Cisco HX-NVMEHW-H1600	HyperFlex HX Series	drive	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-NVMEHW-H3800	3.8TB 2.5in U.2 HGST SN200 NVMe High Perf. Value Endurance	UCS C-Series	drive	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
@@ -957,7 +957,7 @@ HX-PSU1-1050ELV=	Cisco UCS 1050W AC Power Supply for Rack Server Low Line	HyperF
 HX-PSU1-1050W	Cisco UCS 1050W AC Power Supply for Rack Server Platinum	HyperFlex HX Series	power	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-PSU1-1050W=	Cisco UCS 1050W AC Power Supply for Rack Server Platinum	HyperFlex HX Series	power	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-PSU1-1200W	1200W Titanium power supply for C-Series Servers	HyperFlex HX Series	power	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
-HX-PSU1-1200W=	Cisco HX-PSU1-1200W=	HyperFlex HX Series	power	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
+HX-PSU1-1200W=	1200W Titanium power supply for C-Series Servers	HyperFlex HX Series	power	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-PSU1-1600W	Cisco UCS 1600W AC Power Supply for Rack Server Platinum	HyperFlex HX Series	power	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-PSU1-1600W1	Cisco HX-PSU1-1600W1	HyperFlex HX Series	power	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
 HX-PSU1-1600W=	Cisco UCS 1600W AC Power Supply for Rack Server Platinum	HyperFlex HX Series	power	layered	HyperFlex	(shared across the line)		HyperFlex shared parts	sku ^HX							
@@ -1427,7 +1427,7 @@ HX220C-M5SX=	Cisco HyperFlex HX220c M5 Node	HyperFlex HX Series	server	layered	H
 HX220C-M6S	Cisco HyperFlex HX220c M6 Node	HyperFlex HX Series	server	layered	HyperFlex	(none)	HX220c		sku ^HX(AF)?220C							
 HX220C-M6S-EXP	Cisco HyperFlex HX220c Express M6 Node	HyperFlex HX Series	server	layered	HyperFlex	(none)	HX220c		sku ^HX(AF)?220C							
 HX220C-M6S-EXP3	Cisco HX220C-M6S-EXP3	HyperFlex HX Series	server	layered	HyperFlex	(none)	HX220c		sku ^HX(AF)?220C							
-HX220C-M6S=	Cisco HX220C-M6S=	HyperFlex HX Series	server	layered	HyperFlex	(none)	HX220c		sku ^HX(AF)?220C							
+HX220C-M6S=	Cisco HyperFlex HX220c M6 Node	HyperFlex HX Series	server	layered	HyperFlex	(none)	HX220c		sku ^HX(AF)?220C							
 HX225-M6S	Cisco HX225-M6S	HyperFlex HX Series	server	layered	HyperFlex	(none)	HX225c		sku ^(?=HX|CBL-).*(?<![0-9])225-?M[6-7]							
 HX225C-M6S-EXP	Cisco HX225C-M6S-EXP	HyperFlex HX Series	server	layered	HyperFlex	(none)	HX225c		sku ^HX(AF)?225C							
 HX225C-M6S-EXP2	Cisco HX225C-M6S-EXP2	HyperFlex HX Series	server	layered	HyperFlex	(none)	HX225c		sku ^HX(AF)?225C							
@@ -1447,7 +1447,7 @@ HX240C-M6L1	Cisco HX240C-M6L1	HyperFlex HX Series	server	layered	HyperFlex	(none
 HX240C-M6SX	Cisco HyperFlex HX240c M6 Node	HyperFlex HX Series	server	layered	HyperFlex	(none)	HX240c		sku ^HX(AF)?240C							
 HX240C-M6SX-EXP	Cisco HyperFlex HX240c Express M6 Node	HyperFlex HX Series	server	layered	HyperFlex	(none)	HX240c		sku ^HX(AF)?240C							
 HX240C-M6SX-EXP3	Cisco HX240C-M6SX-EXP3	HyperFlex HX Series	server	layered	HyperFlex	(none)	HX240c		sku ^HX(AF)?240C							
-HX240C-M6SX=	Cisco HX240C-M6SX=	HyperFlex HX Series	server	layered	HyperFlex	(none)	HX240c		sku ^HX(AF)?240C							
+HX240C-M6SX=	Cisco HyperFlex HX240c M6 Node	HyperFlex HX Series	server	layered	HyperFlex	(none)	HX240c		sku ^HX(AF)?240C							
 HX245C-M6SX	Cisco HyperFlex HX245C M6 Node	HyperFlex HX Series	server	layered	HyperFlex	(none)	HX245c		sku ^HX(AF)?245C							
 HX245C-M6SX-EXP	Cisco HX245C-M6SX-EXP	HyperFlex HX Series	server	layered	HyperFlex	(none)	HX245c		sku ^HX(AF)?245C							
 HX245C-M6SX-EXP2	Cisco HX245C-M6SX-EXP2	HyperFlex HX Series	server	layered	HyperFlex	(none)	HX245c		sku ^HX(AF)?245C							
@@ -1517,11 +1517,11 @@ HXAF220C-M5SX=	Cisco HyperFlex HX220c M5 All Flash Node	HyperFlex HX Series	serv
 HXAF220C-M6S	Cisco HyperFlex HX220c M6 All Flash Node	HyperFlex HX Series	server	layered	HyperFlex	(none)	HX220c		sku ^HX(AF)?220C							
 HXAF220C-M6S-EXP	Cisco HXAF220c M6 All Flash Express M6 Node	HyperFlex HX Series	server	layered	HyperFlex	(none)	HX220c		sku ^HX(AF)?220C							
 HXAF220C-M6S-EXP2	Cisco HXAF220C-M6S-EXP2	HyperFlex HX Series	server	layered	HyperFlex	(none)	HX220c		sku ^HX(AF)?220C							
-HXAF220C-M6S=	Cisco HXAF220C-M6S=	HyperFlex HX Series	server	layered	HyperFlex	(none)	HX220c		sku ^HX(AF)?220C							
+HXAF220C-M6S=	Cisco HyperFlex HX220c M6 All Flash Node	HyperFlex HX Series	server	layered	HyperFlex	(none)	HX220c		sku ^HX(AF)?220C							
 HXAF220C-M6SN	Cisco HXAF220c M6 All NVMe Hyperflex System	HyperFlex HX Series	server	layered	HyperFlex	(none)	HX220c		sku ^HX(AF)?220C							
 HXAF220C-M6SN-EXP	^Cisco HXAF220c M6 All NVMe Express M6 Node	HyperFlex HX Series	server	layered	HyperFlex	(none)	HX220c		sku ^HX(AF)?220C							
 HXAF220C-M6SN-EXP1	Cisco HXAF220C-M6SN-EXP1	HyperFlex HX Series	server	layered	HyperFlex	(none)	HX220c		sku ^HX(AF)?220C							
-HXAF220C-M6SN=	Cisco HXAF220C-M6SN=	HyperFlex HX Series	server	layered	HyperFlex	(none)	HX220c		sku ^HX(AF)?220C							
+HXAF220C-M6SN=	Cisco HXAF220c M6 All NVMe Hyperflex System	HyperFlex HX Series	server	layered	HyperFlex	(none)	HX220c		sku ^HX(AF)?220C							
 HXAF220c-M5SX1	Cisco HXAF220c-M5SX1	HyperFlex HX Series	server	layered	HyperFlex	(none)	HX220c		sku ^HX(AF)?220C							
 HXAF225-M6S	Cisco HXAF225-M6S	HyperFlex HX Series	server	layered	HyperFlex	(none)	HX225c		sku ^(?=HX|CBL-).*(?<![0-9])225-?M[6-7]							
 HXAF225C-M6S	Cisco HyperFlex HX225C M6 All Flash Node	HyperFlex HX Series	server	layered	HyperFlex	(none)	HX225c		sku ^HX(AF)?225C							
@@ -1543,7 +1543,7 @@ HXAF240C-M6SN-EXP	Cisco HXAF240c M6 All NVMe Express M6 Node	HyperFlex HX Series
 HXAF240C-M6SX	Cisco HyperFlex HX240c M6 All Flash Node	HyperFlex HX Series	server	layered	HyperFlex	(none)	HX240c		sku ^HX(AF)?240C							
 HXAF240C-M6SX-EXP	Cisco HXAF240c M6 All Flash Express M6 Node	HyperFlex HX Series	server	layered	HyperFlex	(none)	HX240c		sku ^HX(AF)?240C							
 HXAF240C-M6SX-EXP2	Cisco HXAF240C-M6SX-EXP2	HyperFlex HX Series	server	layered	HyperFlex	(none)	HX240c		sku ^HX(AF)?240C							
-HXAF240C-M6SX=	Cisco HXAF240C-M6SX=	HyperFlex HX Series	server	layered	HyperFlex	(none)	HX240c		sku ^HX(AF)?240C							
+HXAF240C-M6SX=	Cisco HyperFlex HX240c M6 All Flash Node	HyperFlex HX Series	server	layered	HyperFlex	(none)	HX240c		sku ^HX(AF)?240C							
 HXAF245C-M6SX	Cisco HyperFlex HX245C M6 All Flash Node	HyperFlex HX Series	server	layered	HyperFlex	(none)	HX245c		sku ^HX(AF)?245C							
 HXAF245C-M6SX-EXP	Cisco HXAF245C-M6SX-EXP	HyperFlex HX Series	server	layered	HyperFlex	(none)	HX245c		sku ^HX(AF)?245C							
 HXAF245C-M6SX-EXP1	Cisco HXAF245C-M6SX-EXP1	HyperFlex HX Series	server	layered	HyperFlex	(none)	HX245c		sku ^HX(AF)?245C							
