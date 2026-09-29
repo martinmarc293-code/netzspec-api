@@ -3,8 +3,8 @@
   "vendor": "cisco",
   "category": "servers-unified-computing",
   "profile_hash": "72c0b62b92187b05",
-  "built_on_commit": "0cbe5c5",
-  "norm_version": "1.8.6",
+  "built_on_commit": "55bba21",
+  "norm_version": "1.8.7",
   "declared_fields": 410,
   "gap_states": {
     "filled": "the part holds a current fact under the key (facts.superseded_by IS NULL, not retracted)",
@@ -21,8 +21,8 @@
   },
   "totals": {
     "parts": 8264,
-    "required_slots_at_nothing_known": 61107,
-    "required_slots_stored": 54714,
+    "required_slots_at_nothing_known": 61117,
+    "required_slots_stored": 54719,
     "_slots_note": "at_nothing_known = parts × (required + pending) with only the kind known — and, for a kind with a role axis (role_axis: deploy_role), the SUM over its `roles` blocks of role parts × that role's (required + pending), because a role that asks fewer cups opens fewer slots; the kind's own `slots_per_part_at_nothing_known` and cup lists are its CORE (the `(unresolved)` role). stored = the live denominator (completeness.required_total), smaller wherever an answered gate has closed a pending question; per role it is the same sum split by role",
     "by_kind": {
       "server": 1985,
@@ -46,8 +46,8 @@
       "os-license": 0,
       "software": 0,
       "non-product": 0,
-      "unknown": 20,
-      "mechanical": 348
+      "unknown": 15,
+      "mechanical": 353
     },
     "pending_reclassification": 0,
     "pending_reclassification_stored_slots": 0,
@@ -69,7 +69,7 @@
         "kinds": [
           "unknown"
         ],
-        "parts": 20,
+        "parts": 15,
         "facts3": 0,
         "device_noun": 0,
         "device_noun_exempt": 0
@@ -79,7 +79,7 @@
           "accessory",
           "unknown"
         ],
-        "parts": 276,
+        "parts": 271,
         "facts3": 0,
         "device_noun": 0,
         "device_noun_exempt": 0,
@@ -90,7 +90,7 @@
           "accessory",
           "unknown"
         ],
-        "parts": 276,
+        "parts": 271,
         "facts3": 0,
         "device_noun": 0,
         "device_noun_exempt": 0,
@@ -100,7 +100,7 @@
         "accessory",
         "unknown"
       ],
-      "parts": 276,
+      "parts": 271,
       "facts3": 0,
       "device_noun": 0
     }
@@ -18682,16 +18682,16 @@
       "column_backed": []
     },
     "unknown": {
-      "parts": 20,
+      "parts": 15,
       "parts_with_3plus_own_facts": 0,
       "parts_with_a_device_noun_in_name": 0,
       "parts_with_a_device_noun_exempt_by_kind": 0,
       "slots_per_part_at_nothing_known": 0,
       "required_slots_at_nothing_known": 0,
       "required_slots_stored": 0,
-      "series_count": 5,
+      "series_count": 3,
       "share_of_category": {
-        "num": 20,
+        "num": 15,
         "den": 8264,
         "pct": 0.2
       },
@@ -18707,10 +18707,10 @@
       },
       "document_evidence": {
         "spec_bearing": 0,
-        "spec_linked_not_held": 4,
+        "spec_linked_not_held": 0,
         "eol_only": 3,
-        "no_document": 13,
-        "spec_bearing_by_doc_type_legacy": 4,
+        "no_document": 12,
+        "spec_bearing_by_doc_type_legacy": 0,
         "blocked_by": "not-held (acquisition)"
       },
       "required": [],
@@ -19327,18 +19327,18 @@
       "column_backed": []
     },
     "mechanical": {
-      "parts": 348,
+      "parts": 353,
       "parts_with_3plus_own_facts": 0,
       "parts_with_a_device_noun_in_name": 0,
       "parts_with_a_device_noun_exempt_by_kind": 27,
       "slots_per_part_at_nothing_known": 2,
-      "required_slots_at_nothing_known": 696,
-      "required_slots_stored": 349,
-      "series_count": 13,
+      "required_slots_at_nothing_known": 706,
+      "required_slots_stored": 354,
+      "series_count": 14,
       "share_of_category": {
-        "num": 348,
+        "num": 353,
         "den": 8264,
-        "pct": 4.2
+        "pct": 4.3
       },
       "role_axis": "none",
       "label_jaccard": null,
@@ -19349,7 +19349,7 @@
       },
       "term13": {
         "trips": [
-          "parts 348 >= 200"
+          "parts 353 >= 200"
         ],
         "verdict": "exception",
         "label_jaccard": null,
@@ -19358,10 +19358,10 @@
       },
       "document_evidence": {
         "spec_bearing": 8,
-        "spec_linked_not_held": 1,
+        "spec_linked_not_held": 5,
         "eol_only": 333,
-        "no_document": 6,
-        "spec_bearing_by_doc_type_legacy": 9,
+        "no_document": 7,
+        "spec_bearing_by_doc_type_legacy": 13,
         "blocked_by": "not-held (acquisition)"
       },
       "required": [
@@ -20094,9 +20094,9 @@
     }
   },
   "build": {
-    "data_commit": "ac9579023224+93dirty",
-    "code_commit": "785eebde29c2",
-    "contract_hash": "17b502e336ebefb6",
-    "generated_at": "2026-09-29T18:46:18.590Z"
+    "data_commit": "55bba2146fac+89dirty",
+    "code_commit": "55bba2146fac",
+    "contract_hash": "279d2ece1fd627bf",
+    "generated_at": "2026-09-29T20:18:41.396Z"
   }
 }

@@ -418,7 +418,7 @@ collaboration-endpoints	CIT3-TPM-002C	TPM 2.0, TCG, FIPS140-2, CC EAL4+ Certifie
 collaboration-endpoints	CIT3-TPM2-002	Trusted Platform Module 2.0 for UCS servers	tpm	
 collaboration-endpoints	CIT3-UAC1	Single phase AC power module for UCS 5108	power	
 collaboration-endpoints	CIT3-UCSB-MRAID12G	Cisco FlexStorage 12G SAS RAID controller with Drive bays	storage-controller	
-collaboration-endpoints	CIUS-BATTERY=	Cisco CIUS-BATTERY=	unknown	
+collaboration-endpoints	CIUS-BATTERY=	Cisco CIUS-BATTERY=	power	
 collaboration-endpoints	CMS-M-M8-K9	Cisco CMS-M-M8-K9	server	
 collaboration-endpoints	CMS-S-M7-K9	Cisco CMS-S-M7-K9	server	
 collaboration-endpoints	CP-3905	Cisco Unified SIP Phone 3905, Charcoal, Standard Handset	phone	desk
@@ -2900,18 +2900,18 @@ collaboration-endpoints	SPBOARD-CBLMGMT=	Cisco Spark Board, Cable Management kit
 collaboration-endpoints	SPBOARD-WS-SCRW=	Screw kit for Cisco Webex Board Wall Stand	mechanical	
 collaboration-endpoints	SPK-SHARE-K9	Cisco Webex Share wireless screen-sharing adapter.	accessory	
 collaboration-endpoints	SPK-SHARE-K9=	Cisco Webex Share - SPARE	accessory	
-collaboration-endpoints	SPVAC-C7416-S-JP=	Cisco SPVAC-C7416-S-JP=	unknown	
-collaboration-endpoints	SPVAC-C7416-S=	Cisco SPVAC-C7416-S=	unknown	
+collaboration-endpoints	SPVAC-C7416-S-JP=	Cisco SPVAC-C7416-S-JP=	conference-camera	
+collaboration-endpoints	SPVAC-C7416-S=	Cisco SPVAC-C7416-S=	conference-camera	
 collaboration-endpoints	SPVAC-H450-W-EU=	SolutionsPlus: Jabra Handset 450 for Cisco -White-EU	accessory	
 collaboration-endpoints	SPVAC-H450-W-JP=	SolutionsPlus: Jabra Handset 450 for Cisco -White-Japan	accessory	
 collaboration-endpoints	SPVAC-H450-W-US=	SolutionsPlus: Jabra Handset 450 for Cisco -White-US	accessory	
-collaboration-endpoints	SPVAC-H5610-S-CL=	Cisco SPVAC-H5610-S-CL=	unknown	
-collaboration-endpoints	SPVAC-H5610-S-EU=	Cisco SPVAC-H5610-S-EU=	unknown	
-collaboration-endpoints	SPVAC-H5610-S-JP=	Cisco SPVAC-H5610-S-JP=	unknown	
-collaboration-endpoints	SPVAC-H5610-S-TW=	Cisco SPVAC-H5610-S-TW=	unknown	
-collaboration-endpoints	SPVAC-H5610-S-US=	Cisco SPVAC-H5610-S-US=	unknown	
-collaboration-endpoints	SPVAC-UC725-S-BDL=	Cisco SPVAC-UC725-S-BDL=	unknown	
-collaboration-endpoints	SPVAC-UC725JP-S-BDL=	Cisco SPVAC-UC725JP-S-BDL=	unknown	
+collaboration-endpoints	SPVAC-H5610-S-CL=	Cisco SPVAC-H5610-S-CL=	headset	
+collaboration-endpoints	SPVAC-H5610-S-EU=	Cisco SPVAC-H5610-S-EU=	headset	
+collaboration-endpoints	SPVAC-H5610-S-JP=	Cisco SPVAC-H5610-S-JP=	headset	
+collaboration-endpoints	SPVAC-H5610-S-TW=	Cisco SPVAC-H5610-S-TW=	headset	
+collaboration-endpoints	SPVAC-H5610-S-US=	Cisco SPVAC-H5610-S-US=	headset	
+collaboration-endpoints	SPVAC-UC725-S-BDL=	Cisco SPVAC-UC725-S-BDL=	bundle	
+collaboration-endpoints	SPVAC-UC725JP-S-BDL=	Cisco SPVAC-UC725JP-S-BDL=	bundle	
 collaboration-endpoints	TTC5-15	Cisco TTC5-15	unknown	
 collaboration-endpoints	TTC5-17	Cisco TTC5-17	unknown	
 collaboration-endpoints	UCSC-C240-M8-CL	UCS C240 M8 2U Rack Server for Collaboration AI	server	
@@ -3983,8 +3983,8 @@ hyperconverged-infrastructure	HCIX-NVB7T6M2V	Cisco HCIX-NVB7T6M2V	drive
 hyperconverged-infrastructure	HCIX-NVB7T6M2V9	Cisco HCIX-NVB7T6M2V9	drive	
 hyperconverged-infrastructure	HCIX-NVB7T6O1V	Cisco HCIX-NVB7T6O1V	drive	
 hyperconverged-infrastructure	HCIX-NVB7T6O1V=	Cisco HCIX-NVB7T6O1V=	drive	
-hyperconverged-infrastructure	HCIX-NVL2-H200	Cisco HCIX-NVL2-H200	unknown	
-hyperconverged-infrastructure	HCIX-NVL2-H200=	Cisco HCIX-NVL2-H200=	unknown	
+hyperconverged-infrastructure	HCIX-NVL2-H200	Cisco HCIX-NVL2-H200	mechanical	
+hyperconverged-infrastructure	HCIX-NVL2-H200=	Cisco HCIX-NVL2-H200=	mechanical	
 hyperconverged-infrastructure	HCIX-NVME4-15360	15.3TB 2.5in U.2 15mm P5520 Hg Perf Med End NVMe	drive	
 hyperconverged-infrastructure	HCIX-NVME4-15360=	15.3TB 2.5in U.2 15mm P5520 Hg Perf Med End NVMe	drive	
 hyperconverged-infrastructure	HCIX-NVME4-1920	1.9TB 2.5in U.2 15mm P5520 Hg Perf Med End NVMe	drive	
@@ -23086,8 +23086,8 @@ servers-unified-computing	UCSX-NVE16T4K1P	Cisco UCSX-NVE16T4K1P	drive
 servers-unified-computing	UCSX-NVE16T4S1P	Cisco UCSX-NVE16T4S1P	drive	
 servers-unified-computing	UCSX-NVE17T6K1V	Cisco UCSX-NVE17T6K1V	drive	
 servers-unified-computing	UCSX-NVE17T6K2V9	Cisco UCSX-NVE17T6K2V9	drive	
-servers-unified-computing	UCSX-NVL2-H200	Cisco UCSX-NVL2-H200	unknown	
-servers-unified-computing	UCSX-NVL2-H200=	Cisco UCSX-NVL2-H200=	unknown	
+servers-unified-computing	UCSX-NVL2-H200	Cisco UCSX-NVL2-H200	mechanical	
+servers-unified-computing	UCSX-NVL2-H200=	Cisco UCSX-NVL2-H200=	mechanical	
 servers-unified-computing	UCSX-NVM2-400GB	Cisco UCSX-NVM2-400GB	drive	
 servers-unified-computing	UCSX-NVM2-400GB=	Cisco UCSX-NVM2-400GB=	drive	
 servers-unified-computing	UCSX-NVM2-960GB	Cisco UCSX-NVM2-960GB	drive	
@@ -23374,9 +23374,9 @@ servers-unified-computing	UCSXE-150C-M8-20	Cisco UCS XE150c M8 Compute Node with
 servers-unified-computing	UCSXE-150C-M8-20-U	Cisco UCS XE150c M8 Compute Node with 20-core CPU and without storage or memory (ordered as standalone)	server	
 servers-unified-computing	UCSXE-150C-M8-32	Cisco UCS XE150c M8 Compute Node with 32-core CPU and without storage or memory (ordered as a UCS XE9305 Chassis option)	server	
 servers-unified-computing	UCSXE-150C-M8-32-U	Cisco UCS XE150c M8 Compute Node with 32-core CPU and without storage or memory (ordered as standalone)	server	
-servers-unified-computing	UCSXE-1U-E3S-1L	Cisco UCSXE-1U-E3S-1L	unknown	
-servers-unified-computing	UCSXE-1U-E3S-2L	Cisco UCSXE-1U-E3S-2L	unknown	
-servers-unified-computing	UCSXE-1U-PCI-L	Cisco UCSXE-1U-PCI-L	unknown	
+servers-unified-computing	UCSXE-1U-E3S-1L	Cisco UCSXE-1U-E3S-1L	mechanical	
+servers-unified-computing	UCSXE-1U-E3S-2L	Cisco UCSXE-1U-E3S-2L	mechanical	
+servers-unified-computing	UCSXE-1U-PCI-L	Cisco UCSXE-1U-PCI-L	mechanical	
 servers-unified-computing	UCSXE-9305-U	Cisco UCS XE9305 Chassis Configured	chassis	
 servers-unified-computing	UCSXE-9305=	Cisco UCS XE9305 Chassis Spare	chassis	
 servers-unified-computing	UCSXE-BEZ-3	Cisco UCSXE-BEZ-3	accessory	
@@ -34052,8 +34052,8 @@ video	4000698	Cisco 4000698	unknown
 video	4000770	(P2-EDFA-FPST-4X17-SA) Opt Post Amp, 4/17dBm, Cnstnt Unfrmty, SA	amplifier	
 video	4001126	Cisco 4001126	unknown	
 video	4002241	(P2-OPSW-SA-LOINPUT) Opt Sw, LO In, 1310/1550nm, SA	plug-in	
-video	4002242	Cisco 4002242	unknown	
-video	4002243	Cisco 4002243	unknown	
+video	4002242	Cisco 4002242	plug-in	
+video	4002243	Cisco 4002243	plug-in	
 video	4002630	(P2-EDFA-FPST-4X18.5-SA) FTTH Post Amp, 25.5dBm, 4/18.5dBm, SA	amplifier	
 video	4002676	(P2-EDFA-MOD-2x21-SA) Opt Amp, Dual Pumped, 2/21dBm, SA	amplifier	
 video	4002787	(P2-EDFA-MOD-9X17-SA) Con Opt Amp, 9/17dBm, SA	amplifier	
@@ -34212,7 +34212,7 @@ video	4010485.104.000.AB	(P2-EDFA-FPST-14x20.0-LA)Opt Post Amp, 14/20dBm, LA	amp
 video	4010485.105.000.AB	(P2-EDFA-FPST-16X19.5-LA)Opt Post Amp,16/19.5dBm,LC/APC Dx	amplifier	
 video	4010485.107.000.AB	(P2-EDFA-FPST-20x18.5-LA)Opt Post Amp,20/18.5dBm,LA	amplifier	
 video	4010485.113.000.AA	(P2-EDFA-FPST-22x18.1-LA) Opt Post Amp, 22/18.1dBm, LA	amplifier	
-video	4010485.114.000.AA	Cisco 4010485.114.000.AA	unknown	
+video	4010485.114.000.AA	Cisco 4010485.114.000.AA	amplifier	
 video	4010485.115.000.AA	(P2-EDFA-FPST-18X18.9-LA)Opt Amp,18/18.9dBm,LA	amplifier	
 video	4010485.116.000.AA	(P2-EDFA-FPST-24x17.65-LA)Opt Post Amp,24/17.65dBm,LA	amplifier	
 video	4010485.117.000.AA	(P2-EDFA-FPST-24X19.0-LA)Opt Post Amp,24/19,0dBm,LA	amplifier	
@@ -34633,21 +34633,21 @@ video	4030061	Prisma II Chassis, Frt Acc, F Conn, Frt Fan Exh, 2/-48VDC Pwr	chas
 video	4030062	Prisma II Chassis, Frt Acc, 28F Conn, Frt Fan Exh, 2/-48VDC Pwr	chassis	
 video	4030093	DWDM 8 channel Mux/Demux 200G, Ch 21 - 35 Odd	passive	
 video	4030094	DWDM 8 channel Mux/Demux 200G, Ch 45 - 59 Odd	passive	
-video	4030095	Cisco 4030095	unknown	
+video	4030095	Cisco 4030095	passive	
 video	4030096	DWDM 8 channel Mux/Demux 100G, Ch 20 - 27	passive	
 video	4030097	DWDM 8 channel Mux/Demux 100G, Ch 28 - 35	passive	
-video	4030098	Cisco 4030098	unknown	
-video	4030099	Cisco 4030099	unknown	
-video	4030100	Cisco 4030100	unknown	
-video	4030101	Cisco 4030101	unknown	
+video	4030098	Cisco 4030098	passive	
+video	4030099	Cisco 4030099	passive	
+video	4030100	Cisco 4030100	passive	
+video	4030101	Cisco 4030101	passive	
 video	4030102	Cisco 4030102	unknown	
 video	4030103	Cisco 4030103	unknown	
 video	4030104	Cisco 4030104	unknown	
 video	4030105	Cisco 4030105	unknown	
-video	4030106	Cisco 4030106	unknown	
-video	4030107	Cisco 4030107	unknown	
-video	4030108	Cisco 4030108	unknown	
-video	4030109	Cisco 4030109	unknown	
+video	4030106	Cisco 4030106	passive	
+video	4030107	Cisco 4030107	passive	
+video	4030108	Cisco 4030108	passive	
+video	4030109	Cisco 4030109	passive	
 video	4030110	BWDM4 Four Band Filter	passive	
 video	4030111	BWDM2 Two Band (Red/Blue) Filter	passive	
 video	4030112	Cisco 4030112	unknown	
@@ -34671,9 +34671,9 @@ video	4033285	(P2-EDFA-MOD-4X20-SA) Opt Amp, 4/20dBm, SA	amplifier
 video	4033287	(P2-EDFA-MOD-8X17-E2) Opt Amp, 8/17dBm, E2	amplifier	
 video	4033289	RFGW-1 Angle Bracket Kit	chassis	
 video	4033325	(P2-EDFA-FPST-2X21-SA) Opt Post Amp, 2x21, SA	amplifier	
-video	4033327	Cisco 4033327	unknown	
-video	4033328	Cisco 4033328	unknown	
-video	4033329	Cisco 4033329	unknown	
+video	4033327	Cisco 4033327	passive	
+video	4033328	Cisco 4033328	passive	
+video	4033329	Cisco 4033329	passive	
 video	4033333	OADM, Filter, DWDM-ITU-18-SA	passive	
 video	4033490	GS7000 Fwd Config Module, 2x4 w/CH Insertion	plug-in	
 video	4034491	1310/1550 Quad-filters with LC/UPC connectors 1310 port pass band 1260—1360 nm — 1550 port pass band 1460—1620 nm Quad—four filters are mounted into a single LGX style module 1310 port insertion loss 1.0 dB— 1550 port insertion loss 1.0 dB 1310 port isolation 40 dB— 1550 port isolation 30 dB	passive	
@@ -34683,7 +34683,7 @@ video	4035080	DPON PS, 230VAC/50-60Hz, 12VDC/1A, Wall-mt LS, AUS	power
 video	4035081	DPON PS, 230VAC/50-60Hz, 12VDC/1A, Wall-mt LS, EUR	power	
 video	4035082	DPON PS, 230-240VAC/50-60Hz, 12VDC/1A, Wall-mt LS, w/BS-1363, UK	power	
 video	4035083	DPON PS, 100-120VAC/50-60Hz, 12VDC/1A, Wall-mt LS, NA	power	
-video	4035899	Cisco 4035899	unknown	
+video	4035899	Cisco 4035899	passive	
 video	4036053	(P2-EDFA-MOD-1x13-SA) 1550 EDFA Opt Amp, 13dBm, SA	amplifier	
 video	4036054	(P2-EDFA-MOD-1x16-SA) 1550 EDFA Opt Amp, 16dBm, SA	amplifier	
 video	4036055	(P2-EDFA-MOD-1x17-SA)1550 EDFA Opt Amp, 17dBm, SA	amplifier	
@@ -34723,9 +34723,9 @@ video	4037225	(P2-HD-EDFA-GF-17H-SA) 1550HD GF EDFA Opt Amp, 17HdBm, SA	amplifie
 video	4037226	(P2-HD-EDFA-GF-20L-SA) 1550HD GF EDFA Opt Amp, 20LdBm, SA	amplifier	
 video	4037227	(P2-HD-EDFA-GF-20H-SA) 1550HD GF EDFA Opt Amp, 20HdBm, SA	amplifier	
 video	4037229	(P2-HD-OPSW-LA)1550HD Opt Switch,LA	plug-in	
-video	4037358	Cisco 4037358	unknown	
-video	4037359	Cisco 4037359	unknown	
-video	4037360	Cisco 4037360	unknown	
+video	4037358	Cisco 4037358	passive	
+video	4037359	Cisco 4037359	passive	
+video	4037360	Cisco 4037360	passive	
 video	4037364	Cisco 4037364	unknown	
 video	4039119	Cisco 4039119	unknown	
 video	4039120	Cisco 4039120	unknown	
@@ -34739,12 +34739,12 @@ video	4039401	Cisco 4039401	unknown
 video	4039402	Cisco 4039402	unknown	
 video	4039501	(P2-15TXM-12-EM-GHZ-SA-CHA-1WD) 1550DWDM, 12dBm, 1GHz, SA, CH A	transmitter	
 video	4039502	(P2-15TXM-12-EM-GHZ-SA-CHB-1WD) 1550DWDM, 12dBm, 1GHz, SA, CH B	transmitter	
-video	4039503	Cisco 4039503	unknown	
+video	4039503	Cisco 4039503	transmitter	
 video	4039504	(P2-15TXM-12-EM-GHZ-SA-CHD-1WD) 1550DWDM, 12dBm, 1GHz, SA, CH D	transmitter	
-video	4039505	Cisco 4039505	unknown	
-video	4039506	Cisco 4039506	unknown	
-video	4039507	Cisco 4039507	unknown	
-video	4039508	Cisco 4039508	unknown	
+video	4039505	Cisco 4039505	transmitter	
+video	4039506	Cisco 4039506	transmitter	
+video	4039507	Cisco 4039507	transmitter	
+video	4039508	Cisco 4039508	transmitter	
 video	4040030	RFGW-1 AC Power Supply Module Spare	chassis	
 video	4040031	RFGW-1 DC Power Supply Module Spare	chassis	
 video	4040109	GS7000,40/52,TPs,8p,Unconfigured,Fwd/Rev,PS	node	
@@ -34754,7 +34754,7 @@ video	4040413	LGX-DWDM MXDX 8CH ABCDEFGH LRMW SA	passive
 video	4040561	CAS-DWDM-MXDX 4Ch A-D LRMW 900-NC EXP	passive	
 video	4040562	CAS-DWDM-SQAM 8Ch 100G 2035 900-NC EXP	passive	
 video	4040565	Prisma II HD, LN, RXR, SA	receiver	
-video	4040566	Cisco 4040566	unknown	
+video	4040566	Cisco 4040566	amplifier	
 video	4040588	LGX-DWDM MXDX 4Ch A-D LRMW SA EXP DTP	passive	
 video	4040589	LGX-DWDM SQAM 8Ch 100G SA EXP DTP-C 20, 21, 23, 27, 28, 30, 34, 35	passive	
 video	4040757	Cisco 4040757	unknown	
@@ -34771,7 +34771,7 @@ video	4041315	Cisco 4041315	unknown
 video	4041316	Cisco 4041316	unknown	
 video	4042128	RFGW-1, QAM Cover Replacement Kit (Box=6)	chassis	
 video	4042555	GS7000,OP,CWDM,1X10,1430,1610,SA,MPO	passive	
-video	4042697	Cisco 4042697	unknown	
+video	4042697	Cisco 4042697	amplifier	
 video	4042748	EDR PRX85 Prisma HD Rx w/SR OPM	receiver	
 video	4042749	EDR PRX85 Prisma HD Rx w/XR OPM	receiver	
 video	4042750	EDR Rx OPM SR	receiver	
@@ -35048,10 +35048,10 @@ video	4043203	P2-15TXM-12-EM-IWDM-SA-CH1-1WD) 1550DWDM, 12dBm, 1GHz, SA, CH 13	t
 video	4043204	P2-15TXM-12-EM-IWDM-SA-CH1-1WD) 1550DWDM, 12dBm, 1GHz, SA, CH 14	transmitter	
 video	4043205	P2-15TXM-12-EM-IWDM-SA-CH1-1WD) 1550DWDM, 12dBm, 1GHz, SA, CH 15	transmitter	
 video	4043206	P2-15TXM-12-EM-IWDM-SA-CH1-1WD) 1550DWDM, 12dBm, 1GHz, SA, CH 16	transmitter	
-video	4043499	Cisco 4043499	unknown	
-video	4043500	Cisco 4043500	unknown	
+video	4043499	Cisco 4043499	amplifier	
+video	4043500	Cisco 4043500	amplifier	
 video	4043556	LGX-MXDX-16CH-iWDM ITU 21, 22, 24, 26, 28, 33, 36, 39, 44, 48, 52, 54, 57, 60, 61, 62 DTP-SC/APC	passive	
-video	4043574	Cisco 4043574	unknown	
+video	4043574	Cisco 4043574	passive	
 video	4043597	LGX-MXDX-8CH-iWDM ITU 21, 22, 24, 26, 28, 33, 36, 39 EXP-DTP-SC/APC	passive	
 video	4043598	LGX-MXDX-8CH-iWDM ITU 44, 48, 52, 54, 57, 60, 61, 62 EXP-DTP-SC/APC	passive	
 video	4043601	CAS-MXDX-16CH-iWDM ITU 21, 22, 24, 26, 28, 33, 36, 39, 44, 48, 52, 54, 57, 60, 61, 62 DTP-SC/APC	passive	
@@ -35234,10 +35234,10 @@ video	737004	(P2-EDFA-MOD-4X17-SA) Opt Amp, Dual Pumped, 4/17dBm, SA	amplifier
 video	737006	(P2-EDFA-PST-1X24-SA) Opt Post Amp, 23dBm, SA	amplifier	
 video	737013	(P2-EDFA-MOD-1X24-SA) Opt Amp, 24dBm, SA	amplifier	
 video	737014	(P2-EDFA-MOD-GF-1x17-SA)GF Opt Amp,17dBm, SA	amplifier	
-video	737015	Cisco 737015	unknown	
-video	737016	Cisco 737016	unknown	
-video	737018	Cisco 737018	unknown	
-video	737019	Cisco 737019	unknown	
+video	737015	Cisco 737015	amplifier	
+video	737016	Cisco 737016	amplifier	
+video	737018	Cisco 737018	amplifier	
+video	737019	Cisco 737019	amplifier	
 video	737216	(P2-15TXF-08EM-NT30-SA-5560)1550Tx,NT30,8dBm,SA,5560(H/SBS)	transmitter	
 video	737217	(P2-15TXF-08EM-GHZ-SA-5060)1550Tx,NT78,8dBm,SA,1550-60	transmitter	
 video	737226	(P2-15TXF-08EM-NT78-SA-5060)1550Tx,NT78,8dBm,SA,5560(H/SBS)	transmitter	
@@ -35345,24 +35345,24 @@ video	737685	(P2-HD-15TXQ-Super-SA-ITU25-FS) SuperQAM, 10dBm, 1GHz, ITU25, FS	tr
 video	737686	(P2-HD-15TXQ-Super-SA-ITU26-FS) SuperQAM, 10dBm, 1GHz, ITU26, FS	transmitter	
 video	737687	(P2-HD-15TXQ-Super-SA-ITU29-FS) SuperQAM, 10dBm, 1GHz, ITU29, FS	transmitter	
 video	737688	(P2-HD-15TXQ-Super-SA-ITU31-FS) SuperQAM, 10dBm, 1GHz, ITU31, FS	transmitter	
-video	737689	Cisco 737689	unknown	
-video	737690	Cisco 737690	unknown	
-video	737824	Cisco 737824	unknown	
-video	737825	Cisco 737825	unknown	
-video	737826	Cisco 737826	unknown	
-video	737827	Cisco 737827	unknown	
-video	737828	Cisco 737828	unknown	
-video	737829	Cisco 737829	unknown	
-video	737830	Cisco 737830	unknown	
-video	737831	Cisco 737831	unknown	
-video	737832	Cisco 737832	unknown	
-video	737833	Cisco 737833	unknown	
-video	737834	Cisco 737834	unknown	
-video	737835	Cisco 737835	unknown	
-video	737836	Cisco 737836	unknown	
-video	737837	Cisco 737837	unknown	
-video	737838	Cisco 737838	unknown	
-video	737839	Cisco 737839	unknown	
+video	737689	Cisco 737689	transmitter	
+video	737690	Cisco 737690	transmitter	
+video	737824	Cisco 737824	transmitter	
+video	737825	Cisco 737825	transmitter	
+video	737826	Cisco 737826	transmitter	
+video	737827	Cisco 737827	transmitter	
+video	737828	Cisco 737828	transmitter	
+video	737829	Cisco 737829	transmitter	
+video	737830	Cisco 737830	transmitter	
+video	737831	Cisco 737831	transmitter	
+video	737832	Cisco 737832	transmitter	
+video	737833	Cisco 737833	transmitter	
+video	737834	Cisco 737834	transmitter	
+video	737835	Cisco 737835	transmitter	
+video	737836	Cisco 737836	transmitter	
+video	737837	Cisco 737837	transmitter	
+video	737838	Cisco 737838	transmitter	
+video	737839	Cisco 737839	transmitter	
 video	737861	(P2-RXF-SA-NA) Fwd Rx, 1GHz, SA, Non-Attenuator	receiver	
 video	737862	(P2-RXF-GHZ-E2-NA) Fwd Rx, 1GHz, E2	receiver	
 video	738325.201.000.AB	Prisma II Rear Exhaust Fan	fan	
@@ -39181,7 +39181,7 @@ wireless	AIR-OEAP1815-R-K9	Cisco Aironet OEAP1815 Series	ap	indoor
 wireless	AIR-OEAP1815-S-K9	Cisco Aironet OEAP1815 Series	ap	indoor
 wireless	AIR-OEAP1815-T-K9	Cisco Aironet OEAP1815 Series	ap	indoor
 wireless	AIR-OEAP1815-Z-K9	Cisco Aironet OEAP1815 Series	ap	indoor
-wireless	AIR-PCI-1A-240M4	Right PCIe Riser Board (Riser 1) (x8 + GPU) for C240 M4	module	
+wireless	AIR-PCI-1A-240M4	Right PCIe Riser Board (Riser 1) (x8 + GPU) for C240 M4	mechanical	
 wireless	AIR-PSU-650W	650W power supply for C-series rack servers	power	
 wireless	AIR-PSU-930WDC	930W -48V DC Common Slot Power Supply for 8540 Controller	power	
 wireless	AIR-PSU-930WDC=	930W -48V DC Common Slot Power Supply for 8540 Controller	power	
@@ -39480,7 +39480,7 @@ wireless	AP1572EAC	Cisco AP1572EAC	ap	outdoor
 wireless	AP1572EC	Cisco AP1572EC	ap	outdoor
 wireless	AP1572IC	Cisco AP1572IC	ap	outdoor
 wireless	AP18321-UXK9	Hydra 3X3 cost saving version for Corsica Lite AP1830	ap	indoor
-wireless	ASCT-EX2000	Cisco ASCT-EX2000	unknown	
+wireless	ASCT-EX2000	Cisco ASCT-EX2000	appliance	
 wireless	ASCT-EX3200	Compact exciter	appliance	
 wireless	BTIMGE-K9	Cisco BTIMGE-K9	unknown	
 wireless	C-ANT9101=	Tri-band MIMO Ceiling mount omnidirectional antenna operates in the 2.4-, 5- and 6-GHz frequency ranges and supports IoT. This antenna is designed for indoor use with 9130AX Series access points	antenna	
@@ -40362,7 +40362,7 @@ wireless	CMX-BZL-C220M5	C220 M5 Security Bezel	mechanical
 wireless	CMX-CPU-5118	2.3 GHz 5118/105W 12C/16.50MB Cache/DDR4 2400MHz	cpu	
 wireless	CMX-FAN-C220M5	CMX 3375 (C220 M5) Fan Module	fan	
 wireless	CMX-FAN-C220M5=	C220 M5 Fan Module (one)	fan	
-wireless	CMX-HS-C220M5	Heat sink for UCS C220 M5 rack servers 150W CPUs & below	module	
+wireless	CMX-HS-C220M5	Heat sink for UCS C220 M5 rack servers 150W CPUs & below	mechanical	
 wireless	CMX-MR-X16G1RS-H	16GB DDR4-2666-MHz RDIMM/PC4-21300/single rank/x4/1.2v	memory	
 wireless	CMX-MR-X16G1RT-H	16GB DDR4-2933-MHz RDIMM/1Rx4/1.2v	memory	
 wireless	CMX-MR-X16G1RW	16GB DDR4-3200-MHz RDIMM/1Rx4/1.2v	memory	
@@ -40381,7 +40381,7 @@ wireless	CW-ACC-CVR2	Cisco CW-ACC-CVR2	accessory
 wireless	CW-ACC-DESK1-00	Desk top stand accessory for Cisco Wireless 9172H access point	mechanical	
 wireless	CW-ACC-KIT1-00	Accessory Kit for CW9163E	mechanical	
 wireless	CW-ACC-KIT2	Cisco CW-ACC-KIT2	accessory	
-wireless	CW-ACC-MEM-32G	Additional 32GB Storage for Application Hosting. Note: Only available at the time of ordering; Cannot be added after time of sale.	module	
+wireless	CW-ACC-MEM-32G	Additional 32GB Storage for Application Hosting. Note: Only available at the time of ordering; Cannot be added after time of sale.	drive	
 wireless	CW-ACC-N2RPTNC	4 pack of N-type to RP-TNC adapters	accessory	
 wireless	CW-ACC-QCKCNCT1	Quick connect Cat 6A extension cable, 25cm for CW9179F	cable	
 wireless	CW-ACC-SPACER1-00	Wall spacer accessory for Cisco Wireless 9172H access point	mechanical	
@@ -40505,50 +40505,50 @@ wireless	FLMESH-HW-4500-2NA	FM4500MOBI-HW, NAM/LAM Version	backhaul
 wireless	FLMESH-HW-4500-3	Cisco FLMESH-HW-4500-3	backhaul	
 wireless	FLMESH-HW-4500-EMB	Cisco FLMESH-HW-4500-EMB	backhaul	
 wireless	FLMESH-HW-4800-1	FM4800F-HW MOBI, single MIMO radio device	backhaul	
-wireless	FLMESH-HW-ACC-1	Cisco FLMESH-HW-ACC-1	unknown	
-wireless	FLMESH-HW-ACC-10	Cisco FLMESH-HW-ACC-10	unknown	
-wireless	FLMESH-HW-ACC-17	Cisco FLMESH-HW-ACC-17	unknown	
-wireless	FLMESH-HW-ACC-19	Cisco FLMESH-HW-ACC-19	unknown	
-wireless	FLMESH-HW-ACC-20	Cisco FLMESH-HW-ACC-20	unknown	
-wireless	FLMESH-HW-ACC-21	Cisco FLMESH-HW-ACC-21	unknown	
-wireless	FLMESH-HW-ACC-23	Cisco FLMESH-HW-ACC-23	unknown	
-wireless	FLMESH-HW-ACC-24	Cisco FLMESH-HW-ACC-24	unknown	
-wireless	FLMESH-HW-ACC-25	Cisco FLMESH-HW-ACC-25	unknown	
-wireless	FLMESH-HW-ACC-26	Cisco FLMESH-HW-ACC-26	unknown	
-wireless	FLMESH-HW-ACC-31	Cisco FLMESH-HW-ACC-31	unknown	
-wireless	FLMESH-HW-ACC-32	Cisco FLMESH-HW-ACC-32	unknown	
-wireless	FLMESH-HW-ACC-33	Cisco FLMESH-HW-ACC-33	unknown	
-wireless	FLMESH-HW-ACC-34	Cisco FLMESH-HW-ACC-34	unknown	
-wireless	FLMESH-HW-ACC-35	Cisco FLMESH-HW-ACC-35	unknown	
-wireless	FLMESH-HW-ACC-36	Cisco FLMESH-HW-ACC-36	unknown	
-wireless	FLMESH-HW-ACC-37	Cisco FLMESH-HW-ACC-37	unknown	
-wireless	FLMESH-HW-ACC-38	Cisco FLMESH-HW-ACC-38	unknown	
-wireless	FLMESH-HW-ACC-39	Cisco FLMESH-HW-ACC-39	unknown	
-wireless	FLMESH-HW-ACC-40	Cisco FLMESH-HW-ACC-40	unknown	
-wireless	FLMESH-HW-ACC-41	Cisco FLMESH-HW-ACC-41	unknown	
-wireless	FLMESH-HW-ACC-42	Cisco FLMESH-HW-ACC-42	unknown	
-wireless	FLMESH-HW-ACC-43	Cisco FLMESH-HW-ACC-43	unknown	
-wireless	FLMESH-HW-ACC-44	Cisco FLMESH-HW-ACC-44	unknown	
-wireless	FLMESH-HW-ACC-46	Cisco FLMESH-HW-ACC-46	unknown	
-wireless	FLMESH-HW-ACC-47	Cisco FLMESH-HW-ACC-47	unknown	
-wireless	FLMESH-HW-ACC-48	Cisco FLMESH-HW-ACC-48	unknown	
-wireless	FLMESH-HW-ACC-49	Cisco FLMESH-HW-ACC-49	unknown	
-wireless	FLMESH-HW-ACC-50	Cisco FLMESH-HW-ACC-50	unknown	
-wireless	FLMESH-HW-ACC-51	Cisco FLMESH-HW-ACC-51	unknown	
-wireless	FLMESH-HW-ACC-52	Cisco FLMESH-HW-ACC-52	unknown	
-wireless	FLMESH-HW-ACC-53	Cisco FLMESH-HW-ACC-53	unknown	
-wireless	FLMESH-HW-ACC-54	Cisco FLMESH-HW-ACC-54	unknown	
-wireless	FLMESH-HW-ACC-55	Cisco FLMESH-HW-ACC-55	unknown	
-wireless	FLMESH-HW-ACC-56	Cisco FLMESH-HW-ACC-56	unknown	
-wireless	FLMESH-HW-ACC-57	Cisco FLMESH-HW-ACC-57	unknown	
-wireless	FLMESH-HW-ACC-58	Cisco FLMESH-HW-ACC-58	unknown	
-wireless	FLMESH-HW-ACC-59	Cisco FLMESH-HW-ACC-59	unknown	
-wireless	FLMESH-HW-ACC-60	Cisco FLMESH-HW-ACC-60	unknown	
-wireless	FLMESH-HW-ACC-61	Cisco FLMESH-HW-ACC-61	unknown	
-wireless	FLMESH-HW-ACC-62	Cisco FLMESH-HW-ACC-62	unknown	
-wireless	FLMESH-HW-ACC-63	Cisco FLMESH-HW-ACC-63	unknown	
-wireless	FLMESH-HW-ACC-64	Cisco FLMESH-HW-ACC-64	unknown	
-wireless	FLMESH-HW-ACC-65	Cisco FLMESH-HW-ACC-65	unknown	
+wireless	FLMESH-HW-ACC-1	Cisco FLMESH-HW-ACC-1	mechanical	
+wireless	FLMESH-HW-ACC-10	Cisco FLMESH-HW-ACC-10	cable	
+wireless	FLMESH-HW-ACC-17	Cisco FLMESH-HW-ACC-17	accessory	
+wireless	FLMESH-HW-ACC-19	Cisco FLMESH-HW-ACC-19	power-injector	
+wireless	FLMESH-HW-ACC-20	Cisco FLMESH-HW-ACC-20	power-injector	
+wireless	FLMESH-HW-ACC-21	Cisco FLMESH-HW-ACC-21	power-injector	
+wireless	FLMESH-HW-ACC-23	Cisco FLMESH-HW-ACC-23	accessory	
+wireless	FLMESH-HW-ACC-24	Cisco FLMESH-HW-ACC-24	accessory	
+wireless	FLMESH-HW-ACC-25	Cisco FLMESH-HW-ACC-25	accessory	
+wireless	FLMESH-HW-ACC-26	Cisco FLMESH-HW-ACC-26	mechanical	
+wireless	FLMESH-HW-ACC-31	Cisco FLMESH-HW-ACC-31	mechanical	
+wireless	FLMESH-HW-ACC-32	Cisco FLMESH-HW-ACC-32	cable	
+wireless	FLMESH-HW-ACC-33	Cisco FLMESH-HW-ACC-33	cable	
+wireless	FLMESH-HW-ACC-34	Cisco FLMESH-HW-ACC-34	cable	
+wireless	FLMESH-HW-ACC-35	Cisco FLMESH-HW-ACC-35	cable	
+wireless	FLMESH-HW-ACC-36	Cisco FLMESH-HW-ACC-36	cable	
+wireless	FLMESH-HW-ACC-37	Cisco FLMESH-HW-ACC-37	cable	
+wireless	FLMESH-HW-ACC-38	Cisco FLMESH-HW-ACC-38	cable	
+wireless	FLMESH-HW-ACC-39	Cisco FLMESH-HW-ACC-39	cable	
+wireless	FLMESH-HW-ACC-40	Cisco FLMESH-HW-ACC-40	cable	
+wireless	FLMESH-HW-ACC-41	Cisco FLMESH-HW-ACC-41	cable	
+wireless	FLMESH-HW-ACC-42	Cisco FLMESH-HW-ACC-42	cable	
+wireless	FLMESH-HW-ACC-43	Cisco FLMESH-HW-ACC-43	cable	
+wireless	FLMESH-HW-ACC-44	Cisco FLMESH-HW-ACC-44	cable	
+wireless	FLMESH-HW-ACC-46	Cisco FLMESH-HW-ACC-46	cable	
+wireless	FLMESH-HW-ACC-47	Cisco FLMESH-HW-ACC-47	cable	
+wireless	FLMESH-HW-ACC-48	Cisco FLMESH-HW-ACC-48	cable	
+wireless	FLMESH-HW-ACC-49	Cisco FLMESH-HW-ACC-49	cable	
+wireless	FLMESH-HW-ACC-50	Cisco FLMESH-HW-ACC-50	cable	
+wireless	FLMESH-HW-ACC-51	Cisco FLMESH-HW-ACC-51	cable	
+wireless	FLMESH-HW-ACC-52	Cisco FLMESH-HW-ACC-52	cable	
+wireless	FLMESH-HW-ACC-53	Cisco FLMESH-HW-ACC-53	cable	
+wireless	FLMESH-HW-ACC-54	Cisco FLMESH-HW-ACC-54	cable	
+wireless	FLMESH-HW-ACC-55	Cisco FLMESH-HW-ACC-55	cable	
+wireless	FLMESH-HW-ACC-56	Cisco FLMESH-HW-ACC-56	cable	
+wireless	FLMESH-HW-ACC-57	Cisco FLMESH-HW-ACC-57	cable	
+wireless	FLMESH-HW-ACC-58	Cisco FLMESH-HW-ACC-58	cable	
+wireless	FLMESH-HW-ACC-59	Cisco FLMESH-HW-ACC-59	cable	
+wireless	FLMESH-HW-ACC-60	Cisco FLMESH-HW-ACC-60	cable	
+wireless	FLMESH-HW-ACC-61	Cisco FLMESH-HW-ACC-61	cable	
+wireless	FLMESH-HW-ACC-62	Cisco FLMESH-HW-ACC-62	cable	
+wireless	FLMESH-HW-ACC-63	Cisco FLMESH-HW-ACC-63	cable	
+wireless	FLMESH-HW-ACC-64	Cisco FLMESH-HW-ACC-64	accessory	
+wireless	FLMESH-HW-ACC-65	Cisco FLMESH-HW-ACC-65	accessory	
 wireless	FLMESH-HW-ANT-27	Cisco FLMESH-HW-ANT-27	antenna	
 wireless	FLMESH-HW-ANT-28	Cisco FLMESH-HW-ANT-28	antenna	
 wireless	FLMESH-HW-ANT-29	Cisco FLMESH-HW-ANT-29	antenna	
@@ -40780,7 +40780,7 @@ wireless	IWA-MR-X16G1RW	16GB RDIMM SRx4 3200 (8Gb)	memory
 wireless	IWA-PCIE-C25Q-04	Cisco UCS VIC 1455 Quad Port 10/25G SFP28 CNA PCIE (optional)	nic	
 wireless	IWA-PCIE-C25Q-04=	^IEC6400 VIC 1455 Quad Port 10/25G SFP28 CNA PCIE	nic	
 wireless	IWA-PSU1-1050W	Cisco UCS 1050W AC Power Supply for Rack Server	power	
-wireless	IWA-SATAIN-220M6	C220M6 SATA Interposer board (1U)	module	
+wireless	IWA-SATAIN-220M6	C220M6 SATA Interposer board (1U)	mechanical	
 wireless	IWA-SD480G63X-EP	480GB 2.5in Enterprise Performance 6GSATA SSD(3X endurance)	drive	
 wireless	IWA-TPM-002C	TPM 2.0, TCG, FIPS140-2, CC EAL4+ Certified, for M6 servers	tpm	
 wireless	KAISER-12PACK-BNDL	12 Pack of AP3802I	ap	indoor

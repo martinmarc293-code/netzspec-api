@@ -3,8 +3,8 @@
   "vendor": "cisco",
   "category": "collaboration-endpoints",
   "profile_hash": "4404a4592c3a2534",
-  "built_on_commit": "0cbe5c5",
-  "norm_version": "1.8.6",
+  "built_on_commit": "55bba21",
+  "norm_version": "1.8.7",
   "declared_fields": 405,
   "gap_states": {
     "filled": "the part holds a current fact under the key (facts.superseded_by IS NULL, not retracted)",
@@ -21,18 +21,18 @@
   },
   "totals": {
     "parts": 2937,
-    "required_slots_at_nothing_known": 21343,
-    "required_slots_stored": 19539,
+    "required_slots_at_nothing_known": 21410,
+    "required_slots_stored": 19599,
     "_slots_note": "at_nothing_known = parts × (required + pending) with only the kind known — and, for a kind with a role axis (role_axis: deploy_role), the SUM over its `roles` blocks of role parts × that role's (required + pending), because a role that asks fewer cups opens fewer slots; the kind's own `slots_per_part_at_nothing_known` and cup lists are its CORE (the `(unresolved)` role). stored = the live denominator (completeness.required_total), smaller wherever an answered gate has closed a pending question; per role it is the same sum split by role",
     "by_kind": {
       "phone": 442,
       "dect-base": 12,
       "video-device": 289,
       "video-codec": 240,
-      "conference-camera": 60,
+      "conference-camera": 62,
       "microphone": 64,
       "speaker": 15,
-      "headset": 78,
+      "headset": 83,
       "touch-panel": 61,
       "display": 55,
       "expansion-module": 21,
@@ -47,15 +47,15 @@
       "storage-controller": 5,
       "tpm": 2,
       "flash": 0,
-      "power": 203,
+      "power": 204,
       "power-cord": 262,
       "cable": 308,
       "mechanical": 541,
       "accessory": 203,
       "transceiver": 0,
       "software": 0,
-      "bundle": 13,
-      "unknown": 12
+      "bundle": 15,
+      "unknown": 2
     },
     "pending_reclassification": 0,
     "pending_reclassification_stored_slots": 0,
@@ -77,7 +77,7 @@
         "kinds": [
           "unknown"
         ],
-        "parts": 12,
+        "parts": 2,
         "facts3": 0,
         "device_noun": 0,
         "device_noun_exempt": 0
@@ -87,7 +87,7 @@
           "accessory",
           "unknown"
         ],
-        "parts": 215,
+        "parts": 205,
         "facts3": 0,
         "device_noun": 0,
         "device_noun_exempt": 0,
@@ -98,7 +98,7 @@
           "accessory",
           "unknown"
         ],
-        "parts": 215,
+        "parts": 205,
         "facts3": 0,
         "device_noun": 0,
         "device_noun_exempt": 0,
@@ -108,7 +108,7 @@
         "accessory",
         "unknown"
       ],
-      "parts": 215,
+      "parts": 205,
       "facts3": 0,
       "device_noun": 0
     }
@@ -12376,18 +12376,18 @@
       ]
     },
     "conference-camera": {
-      "parts": 60,
+      "parts": 62,
       "parts_with_3plus_own_facts": 0,
       "parts_with_a_device_noun_in_name": 0,
       "parts_with_a_device_noun_exempt_by_kind": 0,
       "slots_per_part_at_nothing_known": 12,
-      "required_slots_at_nothing_known": 720,
-      "required_slots_stored": 660,
-      "series_count": 10,
+      "required_slots_at_nothing_known": 744,
+      "required_slots_stored": 682,
+      "series_count": 11,
       "share_of_category": {
-        "num": 60,
+        "num": 62,
         "den": 2937,
-        "pct": 2
+        "pct": 2.1
       },
       "role_axis": "none",
       "label_jaccard": null,
@@ -12401,10 +12401,10 @@
       },
       "document_evidence": {
         "spec_bearing": 0,
-        "spec_linked_not_held": 0,
+        "spec_linked_not_held": 2,
         "eol_only": 34,
         "no_document": 26,
-        "spec_bearing_by_doc_type_legacy": 0,
+        "spec_bearing_by_doc_type_legacy": 2,
         "blocked_by": "not-held (acquisition)"
       },
       "required": [
@@ -15842,18 +15842,18 @@
       ]
     },
     "headset": {
-      "parts": 78,
+      "parts": 83,
       "parts_with_3plus_own_facts": 0,
       "parts_with_a_device_noun_in_name": 0,
       "parts_with_a_device_noun_exempt_by_kind": 0,
       "slots_per_part_at_nothing_known": 7,
-      "required_slots_at_nothing_known": 546,
-      "required_slots_stored": 546,
-      "series_count": 4,
+      "required_slots_at_nothing_known": 581,
+      "required_slots_stored": 581,
+      "series_count": 5,
       "share_of_category": {
-        "num": 78,
+        "num": 83,
         "den": 2937,
-        "pct": 2.7
+        "pct": 2.8
       },
       "role_axis": "none",
       "label_jaccard": null,
@@ -15867,10 +15867,10 @@
       },
       "document_evidence": {
         "spec_bearing": 27,
-        "spec_linked_not_held": 32,
+        "spec_linked_not_held": 37,
         "eol_only": 12,
         "no_document": 7,
-        "spec_bearing_by_doc_type_legacy": 59,
+        "spec_bearing_by_doc_type_legacy": 64,
         "blocked_by": "not-held (acquisition)"
       },
       "required": [
@@ -30644,16 +30644,16 @@
       ]
     },
     "power": {
-      "parts": 203,
+      "parts": 204,
       "parts_with_3plus_own_facts": 0,
       "parts_with_a_device_noun_in_name": 7,
       "parts_with_a_device_noun_exempt_by_kind": 0,
       "slots_per_part_at_nothing_known": 4,
-      "required_slots_at_nothing_known": 812,
-      "required_slots_stored": 609,
+      "required_slots_at_nothing_known": 816,
+      "required_slots_stored": 612,
       "series_count": 21,
       "share_of_category": {
-        "num": 203,
+        "num": 204,
         "den": 2937,
         "pct": 6.9
       },
@@ -30666,7 +30666,7 @@
       },
       "term13": {
         "trips": [
-          "parts 203 >= 200"
+          "parts 204 >= 200"
         ],
         "verdict": "unmeasured",
         "label_jaccard": null,
@@ -30676,7 +30676,7 @@
       "document_evidence": {
         "spec_bearing": 2,
         "spec_linked_not_held": 79,
-        "eol_only": 109,
+        "eol_only": 110,
         "no_document": 13,
         "spec_bearing_by_doc_type_legacy": 81,
         "blocked_by": "not-held (acquisition)"
@@ -35846,18 +35846,18 @@
       ]
     },
     "bundle": {
-      "parts": 13,
+      "parts": 15,
       "parts_with_3plus_own_facts": 0,
       "parts_with_a_device_noun_in_name": 0,
       "parts_with_a_device_noun_exempt_by_kind": 0,
       "slots_per_part_at_nothing_known": 2,
-      "required_slots_at_nothing_known": 26,
+      "required_slots_at_nothing_known": 30,
       "required_slots_stored": 0,
-      "series_count": 3,
+      "series_count": 4,
       "share_of_category": {
-        "num": 13,
+        "num": 15,
         "den": 2937,
-        "pct": 0.4
+        "pct": 0.5
       },
       "role_axis": "none",
       "label_jaccard": null,
@@ -35871,10 +35871,10 @@
       },
       "document_evidence": {
         "spec_bearing": 0,
-        "spec_linked_not_held": 0,
+        "spec_linked_not_held": 2,
         "eol_only": 13,
         "no_document": 0,
-        "spec_bearing_by_doc_type_legacy": 0,
+        "spec_bearing_by_doc_type_legacy": 2,
         "blocked_by": "not-held (acquisition)"
       },
       "required": [
@@ -36570,18 +36570,18 @@
       ]
     },
     "unknown": {
-      "parts": 12,
+      "parts": 2,
       "parts_with_3plus_own_facts": 0,
       "parts_with_a_device_noun_in_name": 0,
       "parts_with_a_device_noun_exempt_by_kind": 0,
       "slots_per_part_at_nothing_known": 0,
       "required_slots_at_nothing_known": 0,
       "required_slots_stored": 0,
-      "series_count": 3,
+      "series_count": 1,
       "share_of_category": {
-        "num": 12,
+        "num": 2,
         "den": 2937,
-        "pct": 0.4
+        "pct": 0.1
       },
       "role_axis": "none",
       "label_jaccard": null,
@@ -36595,10 +36595,10 @@
       },
       "document_evidence": {
         "spec_bearing": 0,
-        "spec_linked_not_held": 9,
-        "eol_only": 1,
+        "spec_linked_not_held": 0,
+        "eol_only": 0,
         "no_document": 2,
-        "spec_bearing_by_doc_type_legacy": 9,
+        "spec_bearing_by_doc_type_legacy": 0,
         "blocked_by": "not-held (acquisition)"
       },
       "required": [],
@@ -37219,9 +37219,9 @@
     }
   },
   "build": {
-    "data_commit": "ac9579023224+93dirty",
-    "code_commit": "785eebde29c2",
-    "contract_hash": "17b502e336ebefb6",
-    "generated_at": "2026-09-29T18:46:18.590Z"
+    "data_commit": "55bba2146fac+89dirty",
+    "code_commit": "55bba2146fac",
+    "contract_hash": "279d2ece1fd627bf",
+    "generated_at": "2026-09-29T20:18:41.396Z"
   }
 }

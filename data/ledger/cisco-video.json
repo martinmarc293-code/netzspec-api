@@ -3,8 +3,8 @@
   "vendor": "cisco",
   "category": "video",
   "profile_hash": "ce4463f404a6f529",
-  "built_on_commit": "0cbe5c5",
-  "norm_version": "1.8.6",
+  "built_on_commit": "55bba21",
+  "norm_version": "1.8.7",
   "declared_fields": 398,
   "gap_states": {
     "filled": "the part holds a current fact under the key (facts.superseded_by IS NULL, not retracted)",
@@ -21,27 +21,27 @@
   },
   "totals": {
     "parts": 3260,
-    "required_slots_at_nothing_known": 13387,
-    "required_slots_stored": 11510,
+    "required_slots_at_nothing_known": 13546,
+    "required_slots_stored": 11635,
     "_slots_note": "at_nothing_known = parts × (required + pending) with only the kind known — and, for a kind with a role axis (role_axis: deploy_role), the SUM over its `roles` blocks of role parts × that role's (required + pending), because a role that asks fewer cups opens fewer slots; the kind's own `slots_per_part_at_nothing_known` and cup lists are its CORE (the `(unresolved)` role). stored = the live denominator (completeness.required_total), smaller wherever an answered gate has closed a pending question; per role it is the same sum split by role",
     "by_kind": {
       "node": 537,
       "chassis": 69,
       "system": 293,
-      "transmitter": 1089,
+      "transmitter": 1112,
       "optic": 32,
       "receiver": 41,
-      "amplifier": 88,
+      "amplifier": 97,
       "rf-amplifier": 51,
-      "passive": 210,
+      "passive": 227,
       "linecard": 95,
-      "plug-in": 237,
+      "plug-in": 239,
       "power": 43,
       "fan": 17,
       "cable": 68,
       "accessory": 17,
       "software": 0,
-      "unknown": 260,
+      "unknown": 209,
       "mechanical": 113
     },
     "pending_reclassification": 0,
@@ -64,7 +64,7 @@
         "kinds": [
           "unknown"
         ],
-        "parts": 260,
+        "parts": 209,
         "facts3": 0,
         "device_noun": 0,
         "device_noun_exempt": 0
@@ -74,7 +74,7 @@
           "accessory",
           "unknown"
         ],
-        "parts": 277,
+        "parts": 226,
         "facts3": 0,
         "device_noun": 0,
         "device_noun_exempt": 0,
@@ -85,7 +85,7 @@
           "accessory",
           "unknown"
         ],
-        "parts": 277,
+        "parts": 226,
         "facts3": 0,
         "device_noun": 0,
         "device_noun_exempt": 0,
@@ -95,7 +95,7 @@
         "accessory",
         "unknown"
       ],
-      "parts": 277,
+      "parts": 226,
       "facts3": 0,
       "device_noun": 0
     }
@@ -3675,18 +3675,18 @@
       ]
     },
     "transmitter": {
-      "parts": 1089,
+      "parts": 1112,
       "parts_with_3plus_own_facts": 120,
       "parts_with_a_device_noun_in_name": 16,
       "parts_with_a_device_noun_exempt_by_kind": 0,
       "slots_per_part_at_nothing_known": 3,
-      "required_slots_at_nothing_known": 3267,
-      "required_slots_stored": 2178,
+      "required_slots_at_nothing_known": 3336,
+      "required_slots_stored": 2224,
       "series_count": 3,
       "share_of_category": {
-        "num": 1089,
+        "num": 1112,
         "den": 3260,
-        "pct": 33.4
+        "pct": 34.1
       },
       "role_axis": "none",
       "label_jaccard": null,
@@ -3697,7 +3697,7 @@
       },
       "term13": {
         "trips": [
-          "parts 1089 >= 200"
+          "parts 1112 >= 200"
         ],
         "verdict": "exception",
         "label_jaccard": null,
@@ -3707,7 +3707,7 @@
       "document_evidence": {
         "spec_bearing": 0,
         "spec_linked_not_held": 89,
-        "eol_only": 721,
+        "eol_only": 744,
         "no_document": 279,
         "spec_bearing_by_doc_type_legacy": 89,
         "blocked_by": "not-held (acquisition)"
@@ -5979,18 +5979,18 @@
       ]
     },
     "amplifier": {
-      "parts": 88,
+      "parts": 97,
       "parts_with_3plus_own_facts": 0,
       "parts_with_a_device_noun_in_name": 0,
       "parts_with_a_device_noun_exempt_by_kind": 0,
       "slots_per_part_at_nothing_known": 6,
-      "required_slots_at_nothing_known": 528,
-      "required_slots_stored": 440,
+      "required_slots_at_nothing_known": 582,
+      "required_slots_stored": 485,
       "series_count": 2,
       "share_of_category": {
-        "num": 88,
+        "num": 97,
         "den": 3260,
-        "pct": 2.7
+        "pct": 3
       },
       "role_axis": "none",
       "label_jaccard": null,
@@ -6005,7 +6005,7 @@
       "document_evidence": {
         "spec_bearing": 0,
         "spec_linked_not_held": 0,
-        "eol_only": 77,
+        "eol_only": 86,
         "no_document": 11,
         "spec_bearing_by_doc_type_legacy": 0,
         "blocked_by": "not-held (acquisition)"
@@ -7649,18 +7649,18 @@
       ]
     },
     "passive": {
-      "parts": 210,
+      "parts": 227,
       "parts_with_3plus_own_facts": 2,
       "parts_with_a_device_noun_in_name": 0,
       "parts_with_a_device_noun_exempt_by_kind": 0,
       "slots_per_part_at_nothing_known": 2,
-      "required_slots_at_nothing_known": 420,
-      "required_slots_stored": 420,
-      "series_count": 4,
+      "required_slots_at_nothing_known": 454,
+      "required_slots_stored": 454,
+      "series_count": 5,
       "share_of_category": {
-        "num": 210,
+        "num": 227,
         "den": 3260,
-        "pct": 6.4
+        "pct": 7
       },
       "role_axis": "none",
       "label_jaccard": null,
@@ -7671,7 +7671,7 @@
       },
       "term13": {
         "trips": [
-          "parts 210 >= 200"
+          "parts 227 >= 200"
         ],
         "verdict": "exception",
         "label_jaccard": null,
@@ -7681,7 +7681,7 @@
       "document_evidence": {
         "spec_bearing": 4,
         "spec_linked_not_held": 8,
-        "eol_only": 27,
+        "eol_only": 44,
         "no_document": 171,
         "spec_bearing_by_doc_type_legacy": 12,
         "blocked_by": "not-held (acquisition)"
@@ -9273,16 +9273,16 @@
       ]
     },
     "plug-in": {
-      "parts": 237,
+      "parts": 239,
       "parts_with_3plus_own_facts": 0,
       "parts_with_a_device_noun_in_name": 0,
       "parts_with_a_device_noun_exempt_by_kind": 0,
       "slots_per_part_at_nothing_known": 1,
-      "required_slots_at_nothing_known": 237,
+      "required_slots_at_nothing_known": 239,
       "required_slots_stored": 0,
       "series_count": 4,
       "share_of_category": {
-        "num": 237,
+        "num": 239,
         "den": 3260,
         "pct": 7.3
       },
@@ -9295,7 +9295,7 @@
       },
       "term13": {
         "trips": [
-          "parts 237 >= 200"
+          "parts 239 >= 200"
         ],
         "verdict": "exception",
         "label_jaccard": null,
@@ -9305,7 +9305,7 @@
       "document_evidence": {
         "spec_bearing": 0,
         "spec_linked_not_held": 0,
-        "eol_only": 191,
+        "eol_only": 193,
         "no_document": 46,
         "spec_bearing_by_doc_type_legacy": 0,
         "blocked_by": "not-held (acquisition)"
@@ -13737,18 +13737,18 @@
       ]
     },
     "unknown": {
-      "parts": 260,
+      "parts": 209,
       "parts_with_3plus_own_facts": 0,
       "parts_with_a_device_noun_in_name": 0,
       "parts_with_a_device_noun_exempt_by_kind": 0,
       "slots_per_part_at_nothing_known": 0,
       "required_slots_at_nothing_known": 0,
       "required_slots_stored": 0,
-      "series_count": 6,
+      "series_count": 4,
       "share_of_category": {
-        "num": 260,
+        "num": 209,
         "den": 3260,
-        "pct": 8
+        "pct": 6.4
       },
       "role_axis": "none",
       "label_jaccard": null,
@@ -13759,7 +13759,7 @@
       },
       "term13": {
         "trips": [
-          "parts 260 >= 200"
+          "parts 209 >= 200"
         ],
         "verdict": "exception",
         "label_jaccard": null,
@@ -13769,7 +13769,7 @@
       "document_evidence": {
         "spec_bearing": 0,
         "spec_linked_not_held": 0,
-        "eol_only": 52,
+        "eol_only": 1,
         "no_document": 208,
         "spec_bearing_by_doc_type_legacy": 0,
         "blocked_by": "not-held (acquisition)"
@@ -15155,9 +15155,9 @@
     }
   },
   "build": {
-    "data_commit": "ac9579023224+93dirty",
-    "code_commit": "785eebde29c2",
-    "contract_hash": "17b502e336ebefb6",
-    "generated_at": "2026-09-29T18:46:18.590Z"
+    "data_commit": "55bba2146fac+89dirty",
+    "code_commit": "55bba2146fac",
+    "contract_hash": "279d2ece1fd627bf",
+    "generated_at": "2026-09-29T20:18:41.396Z"
   }
 }

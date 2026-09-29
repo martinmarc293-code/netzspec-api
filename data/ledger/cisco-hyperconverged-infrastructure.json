@@ -3,8 +3,8 @@
   "vendor": "cisco",
   "category": "hyperconverged-infrastructure",
   "profile_hash": "e415fd16e03a4b29",
-  "built_on_commit": "0cbe5c5",
-  "norm_version": "1.8.6",
+  "built_on_commit": "55bba21",
+  "norm_version": "1.8.7",
   "declared_fields": 194,
   "gap_states": {
     "filled": "the part holds a current fact under the key (facts.superseded_by IS NULL, not retracted)",
@@ -21,8 +21,8 @@
   },
   "totals": {
     "parts": 1216,
-    "required_slots_at_nothing_known": 6357,
-    "required_slots_stored": 5207,
+    "required_slots_at_nothing_known": 6361,
+    "required_slots_stored": 5209,
     "_slots_note": "at_nothing_known = parts × (required + pending) with only the kind known — and, for a kind with a role axis (role_axis: deploy_role), the SUM over its `roles` blocks of role parts × that role's (required + pending), because a role that asks fewer cups opens fewer slots; the kind's own `slots_per_part_at_nothing_known` and cup lists are its CORE (the `(unresolved)` role). stored = the live denominator (completeness.required_total), smaller wherever an answered gate has closed a pending question; per role it is the same sum split by role",
     "by_kind": {
       "server": 57,
@@ -46,8 +46,8 @@
       "os-license": 0,
       "software": 0,
       "non-product": 0,
-      "unknown": 2,
-      "mechanical": 8
+      "unknown": 0,
+      "mechanical": 10
     },
     "pending_reclassification": 0,
     "pending_reclassification_stored_slots": 0,
@@ -66,20 +66,17 @@
         "skus": []
       },
       "asked_nothing": {
-        "kinds": [
-          "unknown"
-        ],
-        "parts": 2,
+        "kinds": [],
+        "parts": 0,
         "facts3": 0,
         "device_noun": 0,
         "device_noun_exempt": 0
       },
       "unresolved_kind": {
         "kinds": [
-          "accessory",
-          "unknown"
+          "accessory"
         ],
-        "parts": 39,
+        "parts": 37,
         "facts3": 0,
         "device_noun": 0,
         "device_noun_exempt": 0,
@@ -87,20 +84,18 @@
       },
       "either": {
         "kinds": [
-          "accessory",
-          "unknown"
+          "accessory"
         ],
-        "parts": 39,
+        "parts": 37,
         "facts3": 0,
         "device_noun": 0,
         "device_noun_exempt": 0,
         "device_noun_skus": []
       },
       "kinds": [
-        "accessory",
-        "unknown"
+        "accessory"
       ],
-      "parts": 39,
+      "parts": 37,
       "facts3": 0,
       "device_noun": 0
     }
@@ -18613,18 +18608,18 @@
       "column_backed": []
     },
     "unknown": {
-      "parts": 2,
+      "parts": 0,
       "parts_with_3plus_own_facts": 0,
       "parts_with_a_device_noun_in_name": 0,
       "parts_with_a_device_noun_exempt_by_kind": 0,
       "slots_per_part_at_nothing_known": 0,
       "required_slots_at_nothing_known": 0,
       "required_slots_stored": 0,
-      "series_count": 1,
+      "series_count": 0,
       "share_of_category": {
-        "num": 2,
+        "num": 0,
         "den": 1216,
-        "pct": 0.2
+        "pct": 0
       },
       "role_axis": "none",
       "label_jaccard": null,
@@ -18638,11 +18633,11 @@
       },
       "document_evidence": {
         "spec_bearing": 0,
-        "spec_linked_not_held": 1,
+        "spec_linked_not_held": 0,
         "eol_only": 0,
-        "no_document": 1,
-        "spec_bearing_by_doc_type_legacy": 1,
-        "blocked_by": "not-held (acquisition)"
+        "no_document": 0,
+        "spec_bearing_by_doc_type_legacy": 0,
+        "blocked_by": "no parts"
       },
       "required": [],
       "pending_until_gate_answered": [],
@@ -19258,18 +19253,18 @@
       "column_backed": []
     },
     "mechanical": {
-      "parts": 8,
+      "parts": 10,
       "parts_with_3plus_own_facts": 0,
       "parts_with_a_device_noun_in_name": 0,
       "parts_with_a_device_noun_exempt_by_kind": 0,
       "slots_per_part_at_nothing_known": 2,
-      "required_slots_at_nothing_known": 16,
-      "required_slots_stored": 8,
+      "required_slots_at_nothing_known": 20,
+      "required_slots_stored": 10,
       "series_count": 1,
       "share_of_category": {
-        "num": 8,
+        "num": 10,
         "den": 1216,
-        "pct": 0.7
+        "pct": 0.8
       },
       "role_axis": "none",
       "label_jaccard": null,
@@ -19283,10 +19278,10 @@
       },
       "document_evidence": {
         "spec_bearing": 0,
-        "spec_linked_not_held": 0,
+        "spec_linked_not_held": 1,
         "eol_only": 8,
-        "no_document": 0,
-        "spec_bearing_by_doc_type_legacy": 0,
+        "no_document": 1,
+        "spec_bearing_by_doc_type_legacy": 1,
         "blocked_by": "not-held (acquisition)"
       },
       "required": [
@@ -20017,9 +20012,9 @@
     }
   },
   "build": {
-    "data_commit": "ac9579023224+93dirty",
-    "code_commit": "785eebde29c2",
-    "contract_hash": "17b502e336ebefb6",
-    "generated_at": "2026-09-29T18:46:18.590Z"
+    "data_commit": "55bba2146fac+89dirty",
+    "code_commit": "55bba2146fac",
+    "contract_hash": "279d2ece1fd627bf",
+    "generated_at": "2026-09-29T20:18:41.396Z"
   }
 }

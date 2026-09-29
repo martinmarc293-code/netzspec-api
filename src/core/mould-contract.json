@@ -1,9 +1,9 @@
 {
-  "contract_hash": "17b502e336ebefb6",
-  "generated_at": "2026-09-29T18:45:55.183Z",
-  "code_commit": "785eebde29c240015eb69155b507b049ba189044",
+  "contract_hash": "279d2ece1fd627bf",
+  "generated_at": "2026-09-29T20:18:37.738Z",
+  "code_commit": "55bba2146fac732f5703e691188e4835404c55a4",
   "code_branch": "cisco",
-  "dirty_files": 93,
+  "dirty_files": 90,
   "counts": {
     "dictionary_keys": 610,
     "categories": 26,
@@ -24778,14 +24778,24 @@
         "power_max": {
           "kind": "cond",
           "when": {
-            "field": "kind",
-            "inList": [
-              "ap",
-              "wireless-sensor",
-              "wlc",
-              "backhaul",
-              "appliance",
-              "device"
+            "any": [
+              {
+                "field": "kind",
+                "inList": [
+                  "ap",
+                  "wireless-sensor",
+                  "wlc",
+                  "backhaul",
+                  "appliance",
+                  "device"
+                ]
+              },
+              {
+                "field": "kind",
+                "inList": [
+                  "module"
+                ]
+              }
             ]
           }
         },

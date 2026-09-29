@@ -1,8 +1,8 @@
 {
   "vendor": "cisco",
   "category": "wireless",
-  "built_at": "2026-09-29T18:37:37.729Z",
-  "commit": "0cbe5c51a9f22816367aba245690fc55797737da",
+  "built_at": "2026-09-29T20:11:27.296Z",
+  "commit": "55bba2146fac732f5703e691188e4835404c55a4",
   "uncommitted_rule_files": [],
   "mapping_file": "data/reference/product-lines/cisco-wireless.json",
   "parts": 3907,
@@ -120,7 +120,7 @@
           "kinds": {
             "mechanical": 16,
             "accessory": 5,
-            "module": 1,
+            "drive": 1,
             "cable": 1,
             "antenna": 9,
             "power-injector": 1
@@ -949,13 +949,13 @@
           "kinds": {
             "appliance": 6,
             "backhaul": 41,
-            "unknown": 45,
+            "mechanical": 11,
+            "cable": 64,
+            "accessory": 11,
+            "power-injector": 6,
             "antenna": 42,
-            "mechanical": 8,
             "power": 2,
-            "accessory": 5,
-            "cable": 32,
-            "power-injector": 3
+            "unknown": 1
           },
           "roles": {},
           "samples": [
@@ -983,7 +983,7 @@
             "memory": 1,
             "nic": 2,
             "power": 1,
-            "module": 1,
+            "mechanical": 1,
             "drive": 1,
             "tpm": 1
           },
@@ -1687,10 +1687,9 @@
             "drive": 8,
             "power": 4,
             "wireless-sensor": 1,
-            "mechanical": 6,
+            "mechanical": 7,
             "cpu": 2,
             "fan": 3,
-            "module": 1,
             "memory": 5,
             "storage-controller": 3,
             "tpm": 2
@@ -1751,8 +1750,7 @@
           "kinds": {
             "accessory": 1,
             "module": 1,
-            "unknown": 1,
-            "appliance": 1
+            "appliance": 2
           },
           "roles": {},
           "samples": [
@@ -1908,7 +1906,7 @@
             "cpu": 2,
             "memory": 7,
             "storage-controller": 5,
-            "module": 1,
+            "mechanical": 1,
             "tpm": 2
           },
           "roles": {},
@@ -2073,9 +2071,9 @@
   "inbound_unplaced": {},
   "done": true,
   "build": {
-    "data_commit": "ac9579023224+93dirty",
-    "code_commit": "785eebde29c2",
-    "contract_hash": "17b502e336ebefb6",
-    "generated_at": "2026-09-29T18:46:18.590Z"
+    "data_commit": "55bba2146fac+89dirty",
+    "code_commit": "55bba2146fac",
+    "contract_hash": "279d2ece1fd627bf",
+    "generated_at": "2026-09-29T20:18:41.396Z"
   }
 }

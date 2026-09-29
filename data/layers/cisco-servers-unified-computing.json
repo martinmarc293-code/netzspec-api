@@ -1,8 +1,8 @@
 {
   "vendor": "cisco",
   "category": "servers-unified-computing",
-  "built_at": "2026-09-29T18:37:36.534Z",
-  "commit": "0cbe5c51a9f22816367aba245690fc55797737da",
+  "built_at": "2026-09-29T20:11:26.128Z",
+  "commit": "55bba2146fac732f5703e691188e4835404c55a4",
   "uncommitted_rule_files": [],
   "mapping_file": "data/reference/product-lines/cisco-servers-unified-computing.json",
   "parts": 8264,
@@ -355,7 +355,7 @@
           "note": "^UCSXE- fenced to the tokens the UCS Server Components series claim (operator, 17 Sep 2026, layering review fix list 4.2 ('go with your recommendations')) · ^UCSXE- fences: CPU -> CPU(?!-CVR|-GREASE|-TIM|-E[NP]2?-PNP|AT), SD(?!BKT) -> SD(?!BKT|-RSR) (layering re-check of 17 Sep 2026, fix list section 1): the same tokens as Processors and Drives and storage, so a CPU tool, grease, cover or TIM and the SD riser card stay with their family",
           "parts": 17,
           "kinds": {
-            "unknown": 3,
+            "mechanical": 3,
             "accessory": 11,
             "bundle": 1,
             "power": 2
@@ -947,13 +947,12 @@
             "power-cord": 8,
             "accessory": 30,
             "cable": 1,
-            "mechanical": 4,
+            "mechanical": 6,
             "cpu": 4,
             "drive": 1,
             "io-module": 5,
             "gpu": 4,
             "bundle": 3,
-            "unknown": 2,
             "power": 2
           },
           "roles": {},
@@ -1874,9 +1873,9 @@
   "inbound_unplaced": {},
   "done": true,
   "build": {
-    "data_commit": "ac9579023224+93dirty",
-    "code_commit": "785eebde29c2",
-    "contract_hash": "17b502e336ebefb6",
-    "generated_at": "2026-09-29T18:46:18.590Z"
+    "data_commit": "55bba2146fac+89dirty",
+    "code_commit": "55bba2146fac",
+    "contract_hash": "279d2ece1fd627bf",
+    "generated_at": "2026-09-29T20:18:41.396Z"
   }
 }

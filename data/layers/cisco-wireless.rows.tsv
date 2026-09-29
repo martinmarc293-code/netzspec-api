@@ -2016,7 +2016,7 @@ AIR-OEAP1815-R-K9	Cisco Aironet OEAP1815 Series	Aironet 1815	ap	layered	Aironet 
 AIR-OEAP1815-S-K9	Cisco Aironet OEAP1815 Series	Aironet 1815	ap	layered	Aironet Access Points	(none)	Aironet 1815		sku ^(AIR-|PROMO-|PPN-|PULS-)?(AP|OEAP)1815	indoor	series:Aironet 1815					
 AIR-OEAP1815-T-K9	Cisco Aironet OEAP1815 Series	Aironet 1815	ap	layered	Aironet Access Points	(none)	Aironet 1815		sku ^(AIR-|PROMO-|PPN-|PULS-)?(AP|OEAP)1815	indoor	series:Aironet 1815					
 AIR-OEAP1815-Z-K9	Cisco Aironet OEAP1815 Series	Aironet 1815	ap	layered	Aironet Access Points	(none)	Aironet 1815		sku ^(AIR-|PROMO-|PPN-|PULS-)?(AP|OEAP)1815	indoor	series:Aironet 1815					
-AIR-PCI-1A-240M4	Right PCIe Riser Board (Riser 1) (x8 + GPU) for C240 M4	Antennas/Accessories	module	layered	Wireless Antennas and Accessories	(none)	Modules and power (unnamed platform)		sku ^AIR-(MR|SD|RAID|CPU|PCI|DC)-							
+AIR-PCI-1A-240M4	Right PCIe Riser Board (Riser 1) (x8 + GPU) for C240 M4	Antennas/Accessories	mechanical	layered	Wireless Antennas and Accessories	(none)	Modules and power (unnamed platform)		sku ^AIR-(MR|SD|RAID|CPU|PCI|DC)-							
 AIR-PSU-650W	650W power supply for C-series rack servers	Aironet 1550	power	layered	Wireless Antennas and Accessories	(none)	Modules and power (unnamed platform)		sku ^AIR-PSU-650W							
 AIR-PSU-930WDC	930W -48V DC Common Slot Power Supply for 8540 Controller	Antennas/Accessories	power	layered	AireOS Wireless LAN Controllers	(none)	8500 (8510 / 8540 / 8580)		sku ^AIR-PSU-930WDC							
 AIR-PSU-930WDC=	930W -48V DC Common Slot Power Supply for 8540 Controller	Antennas/Accessories	power	layered	AireOS Wireless LAN Controllers	(none)	8500 (8510 / 8540 / 8580)		sku ^AIR-PSU-930WDC							
@@ -2315,7 +2315,7 @@ AP1572EAC	Cisco AP1572EAC	Aironet 1570	ap	layered	Aironet Access Points	(none)	A
 AP1572EC	Cisco AP1572EC	Aironet 1570	ap	layered	Aironet Access Points	(none)	Aironet 1570		sku ^(AIR-)?AP157[02]	outdoor	series:Aironet 1570					true
 AP1572IC	Cisco AP1572IC	Aironet 1570	ap	layered	Aironet Access Points	(none)	Aironet 1570		sku ^(AIR-)?AP157[02]	outdoor	series:Aironet 1570					true
 AP18321-UXK9	Hydra 3X3 cost saving version for Corsica Lite AP1830	Aironet 1830	ap	layered	Aironet Access Points	(none)	Aironet 1830		sku ^(AIR-?|PROMO-|PPN-|PULS-)?AP183[02]	indoor	series:Aironet 1830					
-ASCT-EX2000	Cisco ASCT-EX2000	Mobility Services Engine	unknown	layered	Location and Spaces Appliances	(none)	Exciters and BLE / VBLE radio modules		sku ^ASCT-							
+ASCT-EX2000	Cisco ASCT-EX2000	Mobility Services Engine	appliance	layered	Location and Spaces Appliances	(none)	Exciters and BLE / VBLE radio modules		sku ^ASCT-							
 ASCT-EX3200	Compact exciter	Mobility Services Engine	appliance	layered	Location and Spaces Appliances	(none)	Exciters and BLE / VBLE radio modules		sku ^ASCT-							
 BTIMGE-K9	Cisco BTIMGE-K9	Aironet 1550	unknown	layered	Aironet Access Points	(shared across the line)		Aironet Access Points shared parts	label-unsupported (label Aironet 1550; was Aironet 1550): no platform token (1550) in the SKU or name, no compatible part placed in the series						none: no platform token (1550) in the SKU or name, no compatible part placed in the series	
 C-ANT9101=	Tri-band MIMO Ceiling mount omnidirectional antenna operates in the 2.4-, 5- and 6-GHz frequency ranges and supports IoT. This antenna is designed for indoor use with 9130AX Series access points	Antennas/Accessories	antenna	layered	Wireless Antennas and Accessories	(shared across the line)		Wireless Antennas and Accessories shared parts	label Antennas/Accessories							
@@ -3197,7 +3197,7 @@ CMX-BZL-C220M5	C220 M5 Security Bezel	Mobility Services Engine	mechanical	layere
 CMX-CPU-5118	2.3 GHz 5118/105W 12C/16.50MB Cache/DDR4 2400MHz	Mobility Services Engine	cpu	layered	Location and Spaces Appliances	(none)	CMX 3375 / MSE 3355 / 3365		sku ^CMX-							
 CMX-FAN-C220M5	CMX 3375 (C220 M5) Fan Module	Mobility Services Engine	fan	layered	Location and Spaces Appliances	(none)	CMX 3375 / MSE 3355 / 3365		sku ^CMX-							
 CMX-FAN-C220M5=	C220 M5 Fan Module (one)	Mobility Services Engine	fan	layered	Location and Spaces Appliances	(none)	CMX 3375 / MSE 3355 / 3365		sku ^CMX-							
-CMX-HS-C220M5	Heat sink for UCS C220 M5 rack servers 150W CPUs & below	Mobility Services Engine	module	layered	Location and Spaces Appliances	(none)	CMX 3375 / MSE 3355 / 3365		sku ^CMX-							
+CMX-HS-C220M5	Heat sink for UCS C220 M5 rack servers 150W CPUs & below	Mobility Services Engine	mechanical	layered	Location and Spaces Appliances	(none)	CMX 3375 / MSE 3355 / 3365		sku ^CMX-							
 CMX-MR-X16G1RS-H	16GB DDR4-2666-MHz RDIMM/PC4-21300/single rank/x4/1.2v	Mobility Services Engine	memory	layered	Location and Spaces Appliances	(none)	CMX 3375 / MSE 3355 / 3365		sku ^CMX-							
 CMX-MR-X16G1RT-H	16GB DDR4-2933-MHz RDIMM/1Rx4/1.2v	Mobility Services Engine	memory	layered	Location and Spaces Appliances	(none)	CMX 3375 / MSE 3355 / 3365		sku ^CMX-							
 CMX-MR-X16G1RW	16GB DDR4-3200-MHz RDIMM/1Rx4/1.2v	Mobility Services Engine	memory	layered	Location and Spaces Appliances	(none)	CMX 3375 / MSE 3355 / 3365		sku ^CMX-							
@@ -3216,7 +3216,7 @@ CW-ACC-CVR2	Cisco CW-ACC-CVR2	3800 Series Integrated Services Routers ISR	access
 CW-ACC-DESK1-00	Desk top stand accessory for Cisco Wireless 9172H access point	Catalyst 9163	mechanical	layered	Catalyst Wireless Access Points	(shared across the line)		Catalyst Wireless Access Points shared parts	sku ^CW-							
 CW-ACC-KIT1-00	Accessory Kit for CW9163E	Catalyst 9163	mechanical	layered	Catalyst Wireless Access Points	(shared across the line)		Catalyst Wireless Access Points shared parts	sku ^CW-							
 CW-ACC-KIT2	Cisco CW-ACC-KIT2	3800 Series Integrated Services Routers ISR	accessory	layered	Catalyst Wireless Access Points	(shared across the line)		Catalyst Wireless Access Points shared parts	sku ^CW-							
-CW-ACC-MEM-32G	Additional 32GB Storage for Application Hosting. Note: Only available at the time of ordering; Cannot be added after time of sale.	Catalyst 9800 Series Wireless Controllers	module	layered	Catalyst Wireless Access Points	(shared across the line)		Catalyst Wireless Access Points shared parts	sku ^CW-							
+CW-ACC-MEM-32G	Additional 32GB Storage for Application Hosting. Note: Only available at the time of ordering; Cannot be added after time of sale.	Catalyst 9800 Series Wireless Controllers	drive	layered	Catalyst Wireless Access Points	(shared across the line)		Catalyst Wireless Access Points shared parts	sku ^CW-							
 CW-ACC-N2RPTNC	4 pack of N-type to RP-TNC adapters	Catalyst 9163	accessory	layered	Catalyst Wireless Access Points	(shared across the line)		Catalyst Wireless Access Points shared parts	sku ^CW-							
 CW-ACC-QCKCNCT1	Quick connect Cat 6A extension cable, 25cm for CW9179F	Catalyst 9163	cable	layered	Catalyst Wireless Access Points	(shared across the line)		Catalyst Wireless Access Points shared parts	sku ^CW-							
 CW-ACC-SPACER1-00	Wall spacer accessory for Cisco Wireless 9172H access point	Catalyst 9163	mechanical	layered	Catalyst Wireless Access Points	(shared across the line)		Catalyst Wireless Access Points shared parts	sku ^CW-							
@@ -3340,50 +3340,50 @@ FLMESH-HW-4500-2NA	FM4500MOBI-HW, NAM/LAM Version	Ultra-Reliable Wireless Backha
 FLMESH-HW-4500-3	Cisco FLMESH-HW-4500-3	Ultra-Reliable Wireless Backhaul	backhaul	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
 FLMESH-HW-4500-EMB	Cisco FLMESH-HW-4500-EMB	Ultra-Reliable Wireless Backhaul	backhaul	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
 FLMESH-HW-4800-1	FM4800F-HW MOBI, single MIMO radio device	Ultra-Reliable Wireless Backhaul	backhaul	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
-FLMESH-HW-ACC-1	Cisco FLMESH-HW-ACC-1	Ultra-Reliable Wireless Backhaul	unknown	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
-FLMESH-HW-ACC-10	Cisco FLMESH-HW-ACC-10	Ultra-Reliable Wireless Backhaul	unknown	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
-FLMESH-HW-ACC-17	Cisco FLMESH-HW-ACC-17	Ultra-Reliable Wireless Backhaul	unknown	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
-FLMESH-HW-ACC-19	Cisco FLMESH-HW-ACC-19	Ultra-Reliable Wireless Backhaul	unknown	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
-FLMESH-HW-ACC-20	Cisco FLMESH-HW-ACC-20	Ultra-Reliable Wireless Backhaul	unknown	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
-FLMESH-HW-ACC-21	Cisco FLMESH-HW-ACC-21	Ultra-Reliable Wireless Backhaul	unknown	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
-FLMESH-HW-ACC-23	Cisco FLMESH-HW-ACC-23	Ultra-Reliable Wireless Backhaul	unknown	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
-FLMESH-HW-ACC-24	Cisco FLMESH-HW-ACC-24	Ultra-Reliable Wireless Backhaul	unknown	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
-FLMESH-HW-ACC-25	Cisco FLMESH-HW-ACC-25	Ultra-Reliable Wireless Backhaul	unknown	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
-FLMESH-HW-ACC-26	Cisco FLMESH-HW-ACC-26	Ultra-Reliable Wireless Backhaul	unknown	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
-FLMESH-HW-ACC-31	Cisco FLMESH-HW-ACC-31	Ultra-Reliable Wireless Backhaul	unknown	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
-FLMESH-HW-ACC-32	Cisco FLMESH-HW-ACC-32	Ultra-Reliable Wireless Backhaul	unknown	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
-FLMESH-HW-ACC-33	Cisco FLMESH-HW-ACC-33	Ultra-Reliable Wireless Backhaul	unknown	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
-FLMESH-HW-ACC-34	Cisco FLMESH-HW-ACC-34	Ultra-Reliable Wireless Backhaul	unknown	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
-FLMESH-HW-ACC-35	Cisco FLMESH-HW-ACC-35	Ultra-Reliable Wireless Backhaul	unknown	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
-FLMESH-HW-ACC-36	Cisco FLMESH-HW-ACC-36	Ultra-Reliable Wireless Backhaul	unknown	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
-FLMESH-HW-ACC-37	Cisco FLMESH-HW-ACC-37	Ultra-Reliable Wireless Backhaul	unknown	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
-FLMESH-HW-ACC-38	Cisco FLMESH-HW-ACC-38	Ultra-Reliable Wireless Backhaul	unknown	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
-FLMESH-HW-ACC-39	Cisco FLMESH-HW-ACC-39	Ultra-Reliable Wireless Backhaul	unknown	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
-FLMESH-HW-ACC-40	Cisco FLMESH-HW-ACC-40	Ultra-Reliable Wireless Backhaul	unknown	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
-FLMESH-HW-ACC-41	Cisco FLMESH-HW-ACC-41	Ultra-Reliable Wireless Backhaul	unknown	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
-FLMESH-HW-ACC-42	Cisco FLMESH-HW-ACC-42	Ultra-Reliable Wireless Backhaul	unknown	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
-FLMESH-HW-ACC-43	Cisco FLMESH-HW-ACC-43	Ultra-Reliable Wireless Backhaul	unknown	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
-FLMESH-HW-ACC-44	Cisco FLMESH-HW-ACC-44	Ultra-Reliable Wireless Backhaul	unknown	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
-FLMESH-HW-ACC-46	Cisco FLMESH-HW-ACC-46	Ultra-Reliable Wireless Backhaul	unknown	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
-FLMESH-HW-ACC-47	Cisco FLMESH-HW-ACC-47	Ultra-Reliable Wireless Backhaul	unknown	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
-FLMESH-HW-ACC-48	Cisco FLMESH-HW-ACC-48	Ultra-Reliable Wireless Backhaul	unknown	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
-FLMESH-HW-ACC-49	Cisco FLMESH-HW-ACC-49	Ultra-Reliable Wireless Backhaul	unknown	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
-FLMESH-HW-ACC-50	Cisco FLMESH-HW-ACC-50	Ultra-Reliable Wireless Backhaul	unknown	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
-FLMESH-HW-ACC-51	Cisco FLMESH-HW-ACC-51	Ultra-Reliable Wireless Backhaul	unknown	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
-FLMESH-HW-ACC-52	Cisco FLMESH-HW-ACC-52	Ultra-Reliable Wireless Backhaul	unknown	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
-FLMESH-HW-ACC-53	Cisco FLMESH-HW-ACC-53	Ultra-Reliable Wireless Backhaul	unknown	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
-FLMESH-HW-ACC-54	Cisco FLMESH-HW-ACC-54	Ultra-Reliable Wireless Backhaul	unknown	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
-FLMESH-HW-ACC-55	Cisco FLMESH-HW-ACC-55	Ultra-Reliable Wireless Backhaul	unknown	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
-FLMESH-HW-ACC-56	Cisco FLMESH-HW-ACC-56	Ultra-Reliable Wireless Backhaul	unknown	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
-FLMESH-HW-ACC-57	Cisco FLMESH-HW-ACC-57	Ultra-Reliable Wireless Backhaul	unknown	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
-FLMESH-HW-ACC-58	Cisco FLMESH-HW-ACC-58	Ultra-Reliable Wireless Backhaul	unknown	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
-FLMESH-HW-ACC-59	Cisco FLMESH-HW-ACC-59	Ultra-Reliable Wireless Backhaul	unknown	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
-FLMESH-HW-ACC-60	Cisco FLMESH-HW-ACC-60	Ultra-Reliable Wireless Backhaul	unknown	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
-FLMESH-HW-ACC-61	Cisco FLMESH-HW-ACC-61	Ultra-Reliable Wireless Backhaul	unknown	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
-FLMESH-HW-ACC-62	Cisco FLMESH-HW-ACC-62	Ultra-Reliable Wireless Backhaul	unknown	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
-FLMESH-HW-ACC-63	Cisco FLMESH-HW-ACC-63	Ultra-Reliable Wireless Backhaul	unknown	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
-FLMESH-HW-ACC-64	Cisco FLMESH-HW-ACC-64	Ultra-Reliable Wireless Backhaul	unknown	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
-FLMESH-HW-ACC-65	Cisco FLMESH-HW-ACC-65	Ultra-Reliable Wireless Backhaul	unknown	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
+FLMESH-HW-ACC-1	Cisco FLMESH-HW-ACC-1	Ultra-Reliable Wireless Backhaul	mechanical	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
+FLMESH-HW-ACC-10	Cisco FLMESH-HW-ACC-10	Ultra-Reliable Wireless Backhaul	cable	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
+FLMESH-HW-ACC-17	Cisco FLMESH-HW-ACC-17	Ultra-Reliable Wireless Backhaul	accessory	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
+FLMESH-HW-ACC-19	Cisco FLMESH-HW-ACC-19	Ultra-Reliable Wireless Backhaul	power-injector	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
+FLMESH-HW-ACC-20	Cisco FLMESH-HW-ACC-20	Ultra-Reliable Wireless Backhaul	power-injector	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
+FLMESH-HW-ACC-21	Cisco FLMESH-HW-ACC-21	Ultra-Reliable Wireless Backhaul	power-injector	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
+FLMESH-HW-ACC-23	Cisco FLMESH-HW-ACC-23	Ultra-Reliable Wireless Backhaul	accessory	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
+FLMESH-HW-ACC-24	Cisco FLMESH-HW-ACC-24	Ultra-Reliable Wireless Backhaul	accessory	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
+FLMESH-HW-ACC-25	Cisco FLMESH-HW-ACC-25	Ultra-Reliable Wireless Backhaul	accessory	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
+FLMESH-HW-ACC-26	Cisco FLMESH-HW-ACC-26	Ultra-Reliable Wireless Backhaul	mechanical	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
+FLMESH-HW-ACC-31	Cisco FLMESH-HW-ACC-31	Ultra-Reliable Wireless Backhaul	mechanical	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
+FLMESH-HW-ACC-32	Cisco FLMESH-HW-ACC-32	Ultra-Reliable Wireless Backhaul	cable	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
+FLMESH-HW-ACC-33	Cisco FLMESH-HW-ACC-33	Ultra-Reliable Wireless Backhaul	cable	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
+FLMESH-HW-ACC-34	Cisco FLMESH-HW-ACC-34	Ultra-Reliable Wireless Backhaul	cable	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
+FLMESH-HW-ACC-35	Cisco FLMESH-HW-ACC-35	Ultra-Reliable Wireless Backhaul	cable	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
+FLMESH-HW-ACC-36	Cisco FLMESH-HW-ACC-36	Ultra-Reliable Wireless Backhaul	cable	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
+FLMESH-HW-ACC-37	Cisco FLMESH-HW-ACC-37	Ultra-Reliable Wireless Backhaul	cable	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
+FLMESH-HW-ACC-38	Cisco FLMESH-HW-ACC-38	Ultra-Reliable Wireless Backhaul	cable	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
+FLMESH-HW-ACC-39	Cisco FLMESH-HW-ACC-39	Ultra-Reliable Wireless Backhaul	cable	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
+FLMESH-HW-ACC-40	Cisco FLMESH-HW-ACC-40	Ultra-Reliable Wireless Backhaul	cable	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
+FLMESH-HW-ACC-41	Cisco FLMESH-HW-ACC-41	Ultra-Reliable Wireless Backhaul	cable	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
+FLMESH-HW-ACC-42	Cisco FLMESH-HW-ACC-42	Ultra-Reliable Wireless Backhaul	cable	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
+FLMESH-HW-ACC-43	Cisco FLMESH-HW-ACC-43	Ultra-Reliable Wireless Backhaul	cable	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
+FLMESH-HW-ACC-44	Cisco FLMESH-HW-ACC-44	Ultra-Reliable Wireless Backhaul	cable	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
+FLMESH-HW-ACC-46	Cisco FLMESH-HW-ACC-46	Ultra-Reliable Wireless Backhaul	cable	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
+FLMESH-HW-ACC-47	Cisco FLMESH-HW-ACC-47	Ultra-Reliable Wireless Backhaul	cable	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
+FLMESH-HW-ACC-48	Cisco FLMESH-HW-ACC-48	Ultra-Reliable Wireless Backhaul	cable	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
+FLMESH-HW-ACC-49	Cisco FLMESH-HW-ACC-49	Ultra-Reliable Wireless Backhaul	cable	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
+FLMESH-HW-ACC-50	Cisco FLMESH-HW-ACC-50	Ultra-Reliable Wireless Backhaul	cable	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
+FLMESH-HW-ACC-51	Cisco FLMESH-HW-ACC-51	Ultra-Reliable Wireless Backhaul	cable	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
+FLMESH-HW-ACC-52	Cisco FLMESH-HW-ACC-52	Ultra-Reliable Wireless Backhaul	cable	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
+FLMESH-HW-ACC-53	Cisco FLMESH-HW-ACC-53	Ultra-Reliable Wireless Backhaul	cable	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
+FLMESH-HW-ACC-54	Cisco FLMESH-HW-ACC-54	Ultra-Reliable Wireless Backhaul	cable	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
+FLMESH-HW-ACC-55	Cisco FLMESH-HW-ACC-55	Ultra-Reliable Wireless Backhaul	cable	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
+FLMESH-HW-ACC-56	Cisco FLMESH-HW-ACC-56	Ultra-Reliable Wireless Backhaul	cable	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
+FLMESH-HW-ACC-57	Cisco FLMESH-HW-ACC-57	Ultra-Reliable Wireless Backhaul	cable	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
+FLMESH-HW-ACC-58	Cisco FLMESH-HW-ACC-58	Ultra-Reliable Wireless Backhaul	cable	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
+FLMESH-HW-ACC-59	Cisco FLMESH-HW-ACC-59	Ultra-Reliable Wireless Backhaul	cable	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
+FLMESH-HW-ACC-60	Cisco FLMESH-HW-ACC-60	Ultra-Reliable Wireless Backhaul	cable	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
+FLMESH-HW-ACC-61	Cisco FLMESH-HW-ACC-61	Ultra-Reliable Wireless Backhaul	cable	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
+FLMESH-HW-ACC-62	Cisco FLMESH-HW-ACC-62	Ultra-Reliable Wireless Backhaul	cable	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
+FLMESH-HW-ACC-63	Cisco FLMESH-HW-ACC-63	Ultra-Reliable Wireless Backhaul	cable	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
+FLMESH-HW-ACC-64	Cisco FLMESH-HW-ACC-64	Ultra-Reliable Wireless Backhaul	accessory	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
+FLMESH-HW-ACC-65	Cisco FLMESH-HW-ACC-65	Ultra-Reliable Wireless Backhaul	accessory	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
 FLMESH-HW-ANT-27	Cisco FLMESH-HW-ANT-27	Ultra-Reliable Wireless Backhaul	antenna	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
 FLMESH-HW-ANT-28	Cisco FLMESH-HW-ANT-28	Ultra-Reliable Wireless Backhaul	antenna	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
 FLMESH-HW-ANT-29	Cisco FLMESH-HW-ANT-29	Ultra-Reliable Wireless Backhaul	antenna	layered	Industrial Wireless	(none)	Ultra-Reliable Wireless Backhaul (Fluidmesh)		sku ^FLMESH-							
@@ -3615,7 +3615,7 @@ IWA-MR-X16G1RW	16GB RDIMM SRx4 3200 (8Gb)	Ultra-Reliable Wireless Backhaul	memor
 IWA-PCIE-C25Q-04	Cisco UCS VIC 1455 Quad Port 10/25G SFP28 CNA PCIE (optional)	Ultra-Reliable Wireless Backhaul	nic	layered	Industrial Wireless	(none)	IEC6400 edge compute (URWB)		sku ^IWA-							
 IWA-PCIE-C25Q-04=	^IEC6400 VIC 1455 Quad Port 10/25G SFP28 CNA PCIE	Ultra-Reliable Wireless Backhaul	nic	layered	Industrial Wireless	(none)	IEC6400 edge compute (URWB)		sku ^IWA-							
 IWA-PSU1-1050W	Cisco UCS 1050W AC Power Supply for Rack Server	Ultra-Reliable Wireless Backhaul	power	layered	Industrial Wireless	(none)	IEC6400 edge compute (URWB)		sku ^IWA-							
-IWA-SATAIN-220M6	C220M6 SATA Interposer board (1U)	Ultra-Reliable Wireless Backhaul	module	layered	Industrial Wireless	(none)	IEC6400 edge compute (URWB)		sku ^IWA-							
+IWA-SATAIN-220M6	C220M6 SATA Interposer board (1U)	Ultra-Reliable Wireless Backhaul	mechanical	layered	Industrial Wireless	(none)	IEC6400 edge compute (URWB)		sku ^IWA-							
 IWA-SD480G63X-EP	480GB 2.5in Enterprise Performance 6GSATA SSD(3X endurance)	Ultra-Reliable Wireless Backhaul	drive	layered	Industrial Wireless	(none)	IEC6400 edge compute (URWB)		sku ^IWA-							
 IWA-TPM-002C	TPM 2.0, TCG, FIPS140-2, CC EAL4+ Certified, for M6 servers	Ultra-Reliable Wireless Backhaul	tpm	layered	Industrial Wireless	(none)	IEC6400 edge compute (URWB)		sku ^IWA-							
 KAISER-12PACK-BNDL	12 Pack of AP3802I	3800	ap	layered	Aironet Access Points	(none)	Aironet 3800		sku ^KAISER-12PACK	indoor	series:Aironet 3800					

@@ -1,8 +1,8 @@
 {
   "vendor": "cisco",
   "category": "video",
-  "built_at": "2026-09-29T18:37:37.840Z",
-  "commit": "0cbe5c51a9f22816367aba245690fc55797737da",
+  "built_at": "2026-09-29T20:11:27.417Z",
+  "commit": "55bba2146fac732f5703e691188e4835404c55a4",
   "uncommitted_rule_files": [],
   "mapping_file": "data/reference/product-lines/cisco-video.json",
   "parts": 3260,
@@ -188,11 +188,12 @@
           "parts": 133,
           "kinds": {
             "optic": 32,
-            "unknown": 91,
+            "unknown": 76,
             "accessory": 2,
             "power": 1,
             "amplifier": 3,
             "plug-in": 1,
+            "passive": 15,
             "cable": 3
           },
           "roles": {},
@@ -282,7 +283,7 @@
           "kinds": {
             "power": 6,
             "mechanical": 3,
-            "unknown": 1
+            "passive": 1
           },
           "roles": {},
           "samples": [
@@ -343,14 +344,15 @@
           "parts": 87,
           "kinds": {
             "cable": 8,
-            "unknown": 53,
-            "transmitter": 2,
+            "unknown": 18,
+            "transmitter": 25,
+            "plug-in": 4,
             "fan": 2,
             "mechanical": 14,
-            "plug-in": 2,
+            "amplifier": 9,
             "receiver": 2,
+            "passive": 3,
             "accessory": 1,
-            "passive": 2,
             "power": 1
           },
           "roles": {},
@@ -714,9 +716,9 @@
   "inbound_unplaced": {},
   "done": true,
   "build": {
-    "data_commit": "ac9579023224+93dirty",
-    "code_commit": "785eebde29c2",
-    "contract_hash": "17b502e336ebefb6",
-    "generated_at": "2026-09-29T18:46:18.590Z"
+    "data_commit": "55bba2146fac+89dirty",
+    "code_commit": "55bba2146fac",
+    "contract_hash": "279d2ece1fd627bf",
+    "generated_at": "2026-09-29T20:18:41.396Z"
   }
 }

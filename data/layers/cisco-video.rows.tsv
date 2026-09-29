@@ -147,8 +147,8 @@ sku	name	series_label	kind	placement	product_line	product_family	series	nav_buck
 4000770	(P2-EDFA-FPST-4X17-SA) Opt Post Amp, 4/17dBm, Cnstnt Unfrmty, SA	Prisma II Products	amplifier	layered	Prisma II Optical Transport	(none)	Prisma II		name [(]P2-							
 4001126	Cisco 4001126	Optical Passive Components	unknown	layered	Optical Passive Components	(shared across the line)		Optical Passive Components shared parts	label Optical Passive Components							
 4002241	(P2-OPSW-SA-LOINPUT) Opt Sw, LO In, 1310/1550nm, SA	Prisma II Products	plug-in	layered	Prisma II Optical Transport	(none)	Prisma II		name [(]P2-							
-4002242	Cisco 4002242	Prisma II Products	unknown	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
-4002243	Cisco 4002243	Prisma II Products	unknown	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
+4002242	Cisco 4002242	Prisma II Products	plug-in	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
+4002243	Cisco 4002243	Prisma II Products	plug-in	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
 4002630	(P2-EDFA-FPST-4X18.5-SA) FTTH Post Amp, 25.5dBm, 4/18.5dBm, SA	Prisma II Products	amplifier	layered	Prisma II Optical Transport	(none)	Prisma II		name [(]P2-							
 4002676	(P2-EDFA-MOD-2x21-SA) Opt Amp, Dual Pumped, 2/21dBm, SA	Prisma II Products	amplifier	layered	Prisma II Optical Transport	(none)	Prisma II		name [(]P2-							
 4002787	(P2-EDFA-MOD-9X17-SA) Con Opt Amp, 9/17dBm, SA	Prisma II Products	amplifier	layered	Prisma II Optical Transport	(none)	Prisma II		name [(]P2-							
@@ -307,7 +307,7 @@ sku	name	series_label	kind	placement	product_line	product_family	series	nav_buck
 4010485.105.000.AB	(P2-EDFA-FPST-16X19.5-LA)Opt Post Amp,16/19.5dBm,LC/APC Dx	Prisma II Products	amplifier	layered	Prisma II Optical Transport	(none)	Prisma II		name [(]P2-							
 4010485.107.000.AB	(P2-EDFA-FPST-20x18.5-LA)Opt Post Amp,20/18.5dBm,LA	Prisma II Products	amplifier	layered	Prisma II Optical Transport	(none)	Prisma II		name [(]P2-							
 4010485.113.000.AA	(P2-EDFA-FPST-22x18.1-LA) Opt Post Amp, 22/18.1dBm, LA	Prisma II Products	amplifier	layered	Prisma II Optical Transport	(none)	Prisma II		name [(]P2-							
-4010485.114.000.AA	Cisco 4010485.114.000.AA	Prisma II Products	unknown	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
+4010485.114.000.AA	Cisco 4010485.114.000.AA	Prisma II Products	amplifier	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
 4010485.115.000.AA	(P2-EDFA-FPST-18X18.9-LA)Opt Amp,18/18.9dBm,LA	Prisma II Products	amplifier	layered	Prisma II Optical Transport	(none)	Prisma II		name [(]P2-							
 4010485.116.000.AA	(P2-EDFA-FPST-24x17.65-LA)Opt Post Amp,24/17.65dBm,LA	Prisma II Products	amplifier	layered	Prisma II Optical Transport	(none)	Prisma II		name [(]P2-							
 4010485.117.000.AA	(P2-EDFA-FPST-24X19.0-LA)Opt Post Amp,24/19,0dBm,LA	Prisma II Products	amplifier	layered	Prisma II Optical Transport	(none)	Prisma II		name [(]P2-							
@@ -728,21 +728,21 @@ sku	name	series_label	kind	placement	product_line	product_family	series	nav_buck
 4030062	Prisma II Chassis, Frt Acc, 28F Conn, Frt Fan Exh, 2/-48VDC Pwr	Prisma II Products	chassis	layered	Prisma II Optical Transport	(none)	Prisma II		name Prisma II							
 4030093	DWDM 8 channel Mux/Demux 200G, Ch 21 - 35 Odd	GS7000 Nodes	passive	layered	Optical Passive Components	(none)	Mux / demux, OADM and WDM filters		name Mux/Demux							
 4030094	DWDM 8 channel Mux/Demux 200G, Ch 45 - 59 Odd	GS7000 Nodes	passive	layered	Optical Passive Components	(none)	Mux / demux, OADM and WDM filters		name Mux/Demux							
-4030095	Cisco 4030095	GS7000 Optical Hub and Hub-Node	unknown	layered	GS7000 Nodes and Optical Hubs	(shared across the line)		GS7000 Nodes and Optical Hubs shared parts	label GS7000 Optical Hub and Hub-Node							
+4030095	Cisco 4030095	GS7000 Optical Hub and Hub-Node	passive	layered	GS7000 Nodes and Optical Hubs	(shared across the line)		GS7000 Nodes and Optical Hubs shared parts	label GS7000 Optical Hub and Hub-Node							
 4030096	DWDM 8 channel Mux/Demux 100G, Ch 20 - 27	GS7000 Nodes	passive	layered	Optical Passive Components	(none)	Mux / demux, OADM and WDM filters		name Mux/Demux							
 4030097	DWDM 8 channel Mux/Demux 100G, Ch 28 - 35	GS7000 Nodes	passive	layered	Optical Passive Components	(none)	Mux / demux, OADM and WDM filters		name Mux/Demux							
-4030098	Cisco 4030098	GS7000 Optical Hub and Hub-Node	unknown	layered	GS7000 Nodes and Optical Hubs	(shared across the line)		GS7000 Nodes and Optical Hubs shared parts	label GS7000 Optical Hub and Hub-Node							
-4030099	Cisco 4030099	GS7000 Optical Hub and Hub-Node	unknown	layered	GS7000 Nodes and Optical Hubs	(shared across the line)		GS7000 Nodes and Optical Hubs shared parts	label GS7000 Optical Hub and Hub-Node							
-4030100	Cisco 4030100	GS7000 Optical Hub and Hub-Node	unknown	layered	GS7000 Nodes and Optical Hubs	(shared across the line)		GS7000 Nodes and Optical Hubs shared parts	label GS7000 Optical Hub and Hub-Node							
-4030101	Cisco 4030101	GS7000 Optical Hub and Hub-Node	unknown	layered	GS7000 Nodes and Optical Hubs	(shared across the line)		GS7000 Nodes and Optical Hubs shared parts	label GS7000 Optical Hub and Hub-Node							
+4030098	Cisco 4030098	GS7000 Optical Hub and Hub-Node	passive	layered	GS7000 Nodes and Optical Hubs	(shared across the line)		GS7000 Nodes and Optical Hubs shared parts	label GS7000 Optical Hub and Hub-Node							
+4030099	Cisco 4030099	GS7000 Optical Hub and Hub-Node	passive	layered	GS7000 Nodes and Optical Hubs	(shared across the line)		GS7000 Nodes and Optical Hubs shared parts	label GS7000 Optical Hub and Hub-Node							
+4030100	Cisco 4030100	GS7000 Optical Hub and Hub-Node	passive	layered	GS7000 Nodes and Optical Hubs	(shared across the line)		GS7000 Nodes and Optical Hubs shared parts	label GS7000 Optical Hub and Hub-Node							
+4030101	Cisco 4030101	GS7000 Optical Hub and Hub-Node	passive	layered	GS7000 Nodes and Optical Hubs	(shared across the line)		GS7000 Nodes and Optical Hubs shared parts	label GS7000 Optical Hub and Hub-Node							
 4030102	Cisco 4030102	GS7000 Nodes	unknown	layered	GS7000 Nodes and Optical Hubs	(shared across the line)		GS7000 Nodes and Optical Hubs shared parts	label GS7000 Nodes							
 4030103	Cisco 4030103	GS7000 Nodes	unknown	layered	GS7000 Nodes and Optical Hubs	(shared across the line)		GS7000 Nodes and Optical Hubs shared parts	label GS7000 Nodes							
 4030104	Cisco 4030104	GS7000 Nodes	unknown	layered	GS7000 Nodes and Optical Hubs	(shared across the line)		GS7000 Nodes and Optical Hubs shared parts	label GS7000 Nodes							
 4030105	Cisco 4030105	GS7000 Nodes	unknown	layered	GS7000 Nodes and Optical Hubs	(shared across the line)		GS7000 Nodes and Optical Hubs shared parts	label GS7000 Nodes							
-4030106	Cisco 4030106	GS7000 Optical Hub and Hub-Node	unknown	layered	GS7000 Nodes and Optical Hubs	(shared across the line)		GS7000 Nodes and Optical Hubs shared parts	label GS7000 Optical Hub and Hub-Node							
-4030107	Cisco 4030107	GS7000 Optical Hub and Hub-Node	unknown	layered	GS7000 Nodes and Optical Hubs	(shared across the line)		GS7000 Nodes and Optical Hubs shared parts	label GS7000 Optical Hub and Hub-Node							
-4030108	Cisco 4030108	GS7000 Optical Hub and Hub-Node	unknown	layered	GS7000 Nodes and Optical Hubs	(shared across the line)		GS7000 Nodes and Optical Hubs shared parts	label GS7000 Optical Hub and Hub-Node							
-4030109	Cisco 4030109	GS7000 Optical Hub and Hub-Node	unknown	layered	GS7000 Nodes and Optical Hubs	(shared across the line)		GS7000 Nodes and Optical Hubs shared parts	label GS7000 Optical Hub and Hub-Node							
+4030106	Cisco 4030106	GS7000 Optical Hub and Hub-Node	passive	layered	GS7000 Nodes and Optical Hubs	(shared across the line)		GS7000 Nodes and Optical Hubs shared parts	label GS7000 Optical Hub and Hub-Node							
+4030107	Cisco 4030107	GS7000 Optical Hub and Hub-Node	passive	layered	GS7000 Nodes and Optical Hubs	(shared across the line)		GS7000 Nodes and Optical Hubs shared parts	label GS7000 Optical Hub and Hub-Node							
+4030108	Cisco 4030108	GS7000 Optical Hub and Hub-Node	passive	layered	GS7000 Nodes and Optical Hubs	(shared across the line)		GS7000 Nodes and Optical Hubs shared parts	label GS7000 Optical Hub and Hub-Node							
+4030109	Cisco 4030109	GS7000 Optical Hub and Hub-Node	passive	layered	GS7000 Nodes and Optical Hubs	(shared across the line)		GS7000 Nodes and Optical Hubs shared parts	label GS7000 Optical Hub and Hub-Node							
 4030110	BWDM4 Four Band Filter	GS7000 Nodes	passive	layered	Optical Passive Components	(none)	Mux / demux, OADM and WDM filters		name filter							
 4030111	BWDM2 Two Band (Red/Blue) Filter	GS7000 Nodes	passive	layered	Optical Passive Components	(none)	Mux / demux, OADM and WDM filters		name filter							
 4030112	Cisco 4030112	GS7000 Nodes	unknown	layered	GS7000 Nodes and Optical Hubs	(shared across the line)		GS7000 Nodes and Optical Hubs shared parts	label GS7000 Nodes							
@@ -766,9 +766,9 @@ sku	name	series_label	kind	placement	product_line	product_family	series	nav_buck
 4033287	(P2-EDFA-MOD-8X17-E2) Opt Amp, 8/17dBm, E2	Prisma II Products	amplifier	layered	Prisma II Optical Transport	(none)	Prisma II		name [(]P2-							
 4033289	RFGW-1 Angle Bracket Kit	RF Gateway Series	chassis	layered	RF Gateway	(none)	RFGW-1		name RFGW-1(?![0-9])							
 4033325	(P2-EDFA-FPST-2X21-SA) Opt Post Amp, 2x21, SA	Prisma II Products	amplifier	layered	Prisma II Optical Transport	(none)	Prisma II		name [(]P2-							
-4033327	Cisco 4033327	GS7000 Optical Hub and Hub-Node	unknown	layered	GS7000 Nodes and Optical Hubs	(shared across the line)		GS7000 Nodes and Optical Hubs shared parts	label GS7000 Optical Hub and Hub-Node							
-4033328	Cisco 4033328	GS7000 Optical Hub and Hub-Node	unknown	layered	GS7000 Nodes and Optical Hubs	(shared across the line)		GS7000 Nodes and Optical Hubs shared parts	label GS7000 Optical Hub and Hub-Node							
-4033329	Cisco 4033329	GS7000 Optical Hub and Hub-Node	unknown	layered	GS7000 Nodes and Optical Hubs	(shared across the line)		GS7000 Nodes and Optical Hubs shared parts	label GS7000 Optical Hub and Hub-Node							
+4033327	Cisco 4033327	GS7000 Optical Hub and Hub-Node	passive	layered	GS7000 Nodes and Optical Hubs	(shared across the line)		GS7000 Nodes and Optical Hubs shared parts	label GS7000 Optical Hub and Hub-Node							
+4033328	Cisco 4033328	GS7000 Optical Hub and Hub-Node	passive	layered	GS7000 Nodes and Optical Hubs	(shared across the line)		GS7000 Nodes and Optical Hubs shared parts	label GS7000 Optical Hub and Hub-Node							
+4033329	Cisco 4033329	GS7000 Optical Hub and Hub-Node	passive	layered	GS7000 Nodes and Optical Hubs	(shared across the line)		GS7000 Nodes and Optical Hubs shared parts	label GS7000 Optical Hub and Hub-Node							
 4033333	OADM, Filter, DWDM-ITU-18-SA	Optical Passive Components	passive	layered	Optical Passive Components	(none)	Mux / demux, OADM and WDM filters		name OADM							
 4033490	GS7000 Fwd Config Module, 2x4 w/CH Insertion	GS7000 Optical Hub and Hub-Node	plug-in	layered	GS7000 Nodes and Optical Hubs	(none)	GS7000 node modules and housings		name GS7000							
 4034491	1310/1550 Quad-filters with LC/UPC connectors 1310 port pass band 1260—1360 nm — 1550 port pass band 1460—1620 nm Quad—four filters are mounted into a single LGX style module 1310 port insertion loss 1.0 dB— 1550 port insertion loss 1.0 dB 1310 port isolation 40 dB— 1550 port isolation 30 dB	Optical Passive Components	passive	layered	Optical Passive Components	(none)	Mux / demux, OADM and WDM filters		name filter							
@@ -778,7 +778,7 @@ sku	name	series_label	kind	placement	product_line	product_family	series	nav_buck
 4035081	DPON PS, 230VAC/50-60Hz, 12VDC/1A, Wall-mt LS, EUR	Prisma D-PON	power	layered	Prisma II Optical Transport	(none)	Prisma D-PON		name DPON							
 4035082	DPON PS, 230-240VAC/50-60Hz, 12VDC/1A, Wall-mt LS, w/BS-1363, UK	Prisma D-PON	power	layered	Prisma II Optical Transport	(none)	Prisma D-PON		name DPON							
 4035083	DPON PS, 100-120VAC/50-60Hz, 12VDC/1A, Wall-mt LS, NA	Prisma D-PON	power	layered	Prisma II Optical Transport	(none)	Prisma D-PON		name DPON							
-4035899	Cisco 4035899	Prisma D-PON	unknown	layered	Prisma II Optical Transport	(none)	Prisma D-PON		sku ^4035899$							
+4035899	Cisco 4035899	Prisma D-PON	passive	layered	Prisma II Optical Transport	(none)	Prisma D-PON		sku ^4035899$							
 4036053	(P2-EDFA-MOD-1x13-SA) 1550 EDFA Opt Amp, 13dBm, SA	Prisma II Products	amplifier	layered	Prisma II Optical Transport	(none)	Prisma II		name [(]P2-							
 4036054	(P2-EDFA-MOD-1x16-SA) 1550 EDFA Opt Amp, 16dBm, SA	Prisma II Products	amplifier	layered	Prisma II Optical Transport	(none)	Prisma II		name [(]P2-							
 4036055	(P2-EDFA-MOD-1x17-SA)1550 EDFA Opt Amp, 17dBm, SA	Prisma II Products	amplifier	layered	Prisma II Optical Transport	(none)	Prisma II		name [(]P2-							
@@ -818,9 +818,9 @@ sku	name	series_label	kind	placement	product_line	product_family	series	nav_buck
 4037226	(P2-HD-EDFA-GF-20L-SA) 1550HD GF EDFA Opt Amp, 20LdBm, SA	Prisma II Products	amplifier	layered	Prisma II Optical Transport	(none)	Prisma II HD		name [(]P2-HD							
 4037227	(P2-HD-EDFA-GF-20H-SA) 1550HD GF EDFA Opt Amp, 20HdBm, SA	Prisma II Products	amplifier	layered	Prisma II Optical Transport	(none)	Prisma II HD		name [(]P2-HD							
 4037229	(P2-HD-OPSW-LA)1550HD Opt Switch,LA	Prisma II Products	plug-in	layered	Prisma II Optical Transport	(none)	Prisma II HD		name [(]P2-HD							
-4037358	Cisco 4037358	GS7000 Optical Hub and Hub-Node	unknown	layered	GS7000 Nodes and Optical Hubs	(shared across the line)		GS7000 Nodes and Optical Hubs shared parts	label GS7000 Optical Hub and Hub-Node							
-4037359	Cisco 4037359	GS7000 Optical Hub and Hub-Node	unknown	layered	GS7000 Nodes and Optical Hubs	(shared across the line)		GS7000 Nodes and Optical Hubs shared parts	label GS7000 Optical Hub and Hub-Node							
-4037360	Cisco 4037360	GS7000 Optical Hub and Hub-Node	unknown	layered	GS7000 Nodes and Optical Hubs	(shared across the line)		GS7000 Nodes and Optical Hubs shared parts	label GS7000 Optical Hub and Hub-Node							
+4037358	Cisco 4037358	GS7000 Optical Hub and Hub-Node	passive	layered	GS7000 Nodes and Optical Hubs	(shared across the line)		GS7000 Nodes and Optical Hubs shared parts	label GS7000 Optical Hub and Hub-Node							
+4037359	Cisco 4037359	GS7000 Optical Hub and Hub-Node	passive	layered	GS7000 Nodes and Optical Hubs	(shared across the line)		GS7000 Nodes and Optical Hubs shared parts	label GS7000 Optical Hub and Hub-Node							
+4037360	Cisco 4037360	GS7000 Optical Hub and Hub-Node	passive	layered	GS7000 Nodes and Optical Hubs	(shared across the line)		GS7000 Nodes and Optical Hubs shared parts	label GS7000 Optical Hub and Hub-Node							
 4037364	Cisco 4037364	Optical Passive Components	unknown	layered	Optical Passive Components	(shared across the line)		Optical Passive Components shared parts	label Optical Passive Components							
 4039119	Cisco 4039119	Optical Passive Components	unknown	layered	Optical Passive Components	(shared across the line)		Optical Passive Components shared parts	label Optical Passive Components							
 4039120	Cisco 4039120	Optical Passive Components	unknown	layered	Optical Passive Components	(shared across the line)		Optical Passive Components shared parts	label Optical Passive Components							
@@ -834,12 +834,12 @@ sku	name	series_label	kind	placement	product_line	product_family	series	nav_buck
 4039402	Cisco 4039402	Optical Passive Components	unknown	layered	Optical Passive Components	(shared across the line)		Optical Passive Components shared parts	label Optical Passive Components							
 4039501	(P2-15TXM-12-EM-GHZ-SA-CHA-1WD) 1550DWDM, 12dBm, 1GHz, SA, CH A	Prisma II Products	transmitter	layered	Prisma II Optical Transport	(none)	Prisma II		name [(]P2-							
 4039502	(P2-15TXM-12-EM-GHZ-SA-CHB-1WD) 1550DWDM, 12dBm, 1GHz, SA, CH B	Prisma II Products	transmitter	layered	Prisma II Optical Transport	(none)	Prisma II		name [(]P2-							
-4039503	Cisco 4039503	Prisma II Products	unknown	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
+4039503	Cisco 4039503	Prisma II Products	transmitter	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
 4039504	(P2-15TXM-12-EM-GHZ-SA-CHD-1WD) 1550DWDM, 12dBm, 1GHz, SA, CH D	Prisma II Products	transmitter	layered	Prisma II Optical Transport	(none)	Prisma II		name [(]P2-							
-4039505	Cisco 4039505	Prisma II Products	unknown	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
-4039506	Cisco 4039506	Prisma II Products	unknown	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
-4039507	Cisco 4039507	Prisma II Products	unknown	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
-4039508	Cisco 4039508	Prisma II Products	unknown	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
+4039505	Cisco 4039505	Prisma II Products	transmitter	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
+4039506	Cisco 4039506	Prisma II Products	transmitter	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
+4039507	Cisco 4039507	Prisma II Products	transmitter	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
+4039508	Cisco 4039508	Prisma II Products	transmitter	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
 4040030	RFGW-1 AC Power Supply Module Spare	RF Gateway Series	chassis	layered	RF Gateway	(none)	RFGW-1		name RFGW-1(?![0-9])							
 4040031	RFGW-1 DC Power Supply Module Spare	RF Gateway Series	chassis	layered	RF Gateway	(none)	RFGW-1		name RFGW-1(?![0-9])							
 4040109	GS7000,40/52,TPs,8p,Unconfigured,Fwd/Rev,PS	GS7000 Optical Hub and Hub-Node	node	layered	GS7000 Nodes and Optical Hubs	(none)	GS7000 node modules and housings		name GS7000							
@@ -849,7 +849,7 @@ sku	name	series_label	kind	placement	product_line	product_family	series	nav_buck
 4040561	CAS-DWDM-MXDX 4Ch A-D LRMW 900-NC EXP	Prisma II Products	passive	layered	Optical Passive Components	(none)	Mux / demux, OADM and WDM filters		name MXDX							
 4040562	CAS-DWDM-SQAM 8Ch 100G 2035 900-NC EXP	Prisma II Products	passive	layered	Optical Passive Components	(none)	Mux / demux, OADM and WDM filters		name DWDM							
 4040565	Prisma II HD, LN, RXR, SA	Prisma II Products	receiver	layered	Prisma II Optical Transport	(none)	Prisma II		name Prisma II							
-4040566	Cisco 4040566	Prisma II Products	unknown	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
+4040566	Cisco 4040566	Prisma II Products	amplifier	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
 4040588	LGX-DWDM MXDX 4Ch A-D LRMW SA EXP DTP	Prisma II Products	passive	layered	Optical Passive Components	(none)	Mux / demux, OADM and WDM filters		name MXDX							
 4040589	LGX-DWDM SQAM 8Ch 100G SA EXP DTP-C 20, 21, 23, 27, 28, 30, 34, 35	Prisma II Products	passive	layered	Optical Passive Components	(none)	Mux / demux, OADM and WDM filters		name DWDM							
 4040757	Cisco 4040757	Optical Passive Components	unknown	layered	Optical Passive Components	(shared across the line)		Optical Passive Components shared parts	label Optical Passive Components							
@@ -866,7 +866,7 @@ sku	name	series_label	kind	placement	product_line	product_family	series	nav_buck
 4041316	Cisco 4041316	Optical Passive Components	unknown	layered	Optical Passive Components	(shared across the line)		Optical Passive Components shared parts	label Optical Passive Components							
 4042128	RFGW-1, QAM Cover Replacement Kit (Box=6)	RF Gateway Series	chassis	layered	RF Gateway	(none)	RFGW-1		name RFGW-1(?![0-9])							
 4042555	GS7000,OP,CWDM,1X10,1430,1610,SA,MPO	GS7000 Optical Hub and Hub-Node	passive	layered	GS7000 Nodes and Optical Hubs	(none)	GS7000 node modules and housings		name GS7000							
-4042697	Cisco 4042697	Prisma II Products	unknown	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
+4042697	Cisco 4042697	Prisma II Products	amplifier	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
 4042748	EDR PRX85 Prisma HD Rx w/SR OPM	Prisma II Products	receiver	layered	Prisma II Optical Transport	(none)	Prisma II HD		name Prisma HD							
 4042749	EDR PRX85 Prisma HD Rx w/XR OPM	Prisma II Products	receiver	layered	Prisma II Optical Transport	(none)	Prisma II HD		name Prisma HD							
 4042750	EDR Rx OPM SR	Prisma II Products	receiver	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
@@ -1143,10 +1143,10 @@ sku	name	series_label	kind	placement	product_line	product_family	series	nav_buck
 4043204	P2-15TXM-12-EM-IWDM-SA-CH1-1WD) 1550DWDM, 12dBm, 1GHz, SA, CH 14	Prisma II Products	transmitter	layered	Prisma II Optical Transport	(none)	Prisma II		name ^P2-							
 4043205	P2-15TXM-12-EM-IWDM-SA-CH1-1WD) 1550DWDM, 12dBm, 1GHz, SA, CH 15	Prisma II Products	transmitter	layered	Prisma II Optical Transport	(none)	Prisma II		name ^P2-							
 4043206	P2-15TXM-12-EM-IWDM-SA-CH1-1WD) 1550DWDM, 12dBm, 1GHz, SA, CH 16	Prisma II Products	transmitter	layered	Prisma II Optical Transport	(none)	Prisma II		name ^P2-							
-4043499	Cisco 4043499	Prisma II Products	unknown	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
-4043500	Cisco 4043500	Prisma II Products	unknown	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
+4043499	Cisco 4043499	Prisma II Products	amplifier	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
+4043500	Cisco 4043500	Prisma II Products	amplifier	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
 4043556	LGX-MXDX-16CH-iWDM ITU 21, 22, 24, 26, 28, 33, 36, 39, 44, 48, 52, 54, 57, 60, 61, 62 DTP-SC/APC	Optical Passive Components	passive	layered	Optical Passive Components	(none)	Mux / demux, OADM and WDM filters		name MXDX							
-4043574	Cisco 4043574	Prisma II Products	unknown	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
+4043574	Cisco 4043574	Prisma II Products	passive	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
 4043597	LGX-MXDX-8CH-iWDM ITU 21, 22, 24, 26, 28, 33, 36, 39 EXP-DTP-SC/APC	Optical Passive Components	passive	layered	Optical Passive Components	(none)	Mux / demux, OADM and WDM filters		name MXDX							
 4043598	LGX-MXDX-8CH-iWDM ITU 44, 48, 52, 54, 57, 60, 61, 62 EXP-DTP-SC/APC	Optical Passive Components	passive	layered	Optical Passive Components	(none)	Mux / demux, OADM and WDM filters		name MXDX							
 4043601	CAS-MXDX-16CH-iWDM ITU 21, 22, 24, 26, 28, 33, 36, 39, 44, 48, 52, 54, 57, 60, 61, 62 DTP-SC/APC	Optical Passive Components	passive	layered	Optical Passive Components	(none)	Mux / demux, OADM and WDM filters		name MXDX							
@@ -1329,10 +1329,10 @@ sku	name	series_label	kind	placement	product_line	product_family	series	nav_buck
 737006	(P2-EDFA-PST-1X24-SA) Opt Post Amp, 23dBm, SA	Prisma II Products	amplifier	layered	Prisma II Optical Transport	(none)	Prisma II		name [(]P2-							
 737013	(P2-EDFA-MOD-1X24-SA) Opt Amp, 24dBm, SA	Prisma II Products	amplifier	layered	Prisma II Optical Transport	(none)	Prisma II		name [(]P2-							
 737014	(P2-EDFA-MOD-GF-1x17-SA)GF Opt Amp,17dBm, SA	Prisma II Products	amplifier	layered	Prisma II Optical Transport	(none)	Prisma II		name [(]P2-							
-737015	Cisco 737015	Prisma II Products	unknown	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
-737016	Cisco 737016	Prisma II Products	unknown	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
-737018	Cisco 737018	Prisma II Products	unknown	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
-737019	Cisco 737019	Prisma II Products	unknown	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
+737015	Cisco 737015	Prisma II Products	amplifier	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
+737016	Cisco 737016	Prisma II Products	amplifier	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
+737018	Cisco 737018	Prisma II Products	amplifier	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
+737019	Cisco 737019	Prisma II Products	amplifier	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
 737216	(P2-15TXF-08EM-NT30-SA-5560)1550Tx,NT30,8dBm,SA,5560(H/SBS)	Prisma II Products	transmitter	layered	Prisma II Optical Transport	(none)	Prisma II		name [(]P2-							
 737217	(P2-15TXF-08EM-GHZ-SA-5060)1550Tx,NT78,8dBm,SA,1550-60	Prisma II Products	transmitter	layered	Prisma II Optical Transport	(none)	Prisma II		name [(]P2-							
 737226	(P2-15TXF-08EM-NT78-SA-5060)1550Tx,NT78,8dBm,SA,5560(H/SBS)	Prisma II Products	transmitter	layered	Prisma II Optical Transport	(none)	Prisma II		name [(]P2-							
@@ -1440,24 +1440,24 @@ sku	name	series_label	kind	placement	product_line	product_family	series	nav_buck
 737686	(P2-HD-15TXQ-Super-SA-ITU26-FS) SuperQAM, 10dBm, 1GHz, ITU26, FS	Prisma II Products	transmitter	layered	Prisma II Optical Transport	(none)	Prisma II HD		name [(]P2-HD							
 737687	(P2-HD-15TXQ-Super-SA-ITU29-FS) SuperQAM, 10dBm, 1GHz, ITU29, FS	Prisma II Products	transmitter	layered	Prisma II Optical Transport	(none)	Prisma II HD		name [(]P2-HD							
 737688	(P2-HD-15TXQ-Super-SA-ITU31-FS) SuperQAM, 10dBm, 1GHz, ITU31, FS	Prisma II Products	transmitter	layered	Prisma II Optical Transport	(none)	Prisma II HD		name [(]P2-HD							
-737689	Cisco 737689	Prisma II Products	unknown	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
-737690	Cisco 737690	Prisma II Products	unknown	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
-737824	Cisco 737824	Prisma II Products	unknown	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
-737825	Cisco 737825	Prisma II Products	unknown	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
-737826	Cisco 737826	Prisma II Products	unknown	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
-737827	Cisco 737827	Prisma II Products	unknown	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
-737828	Cisco 737828	Prisma II Products	unknown	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
-737829	Cisco 737829	Prisma II Products	unknown	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
-737830	Cisco 737830	Prisma II Products	unknown	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
-737831	Cisco 737831	Prisma II Products	unknown	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
-737832	Cisco 737832	Prisma II Products	unknown	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
-737833	Cisco 737833	Prisma II Products	unknown	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
-737834	Cisco 737834	Prisma II Products	unknown	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
-737835	Cisco 737835	Prisma II Products	unknown	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
-737836	Cisco 737836	Prisma II Products	unknown	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
-737837	Cisco 737837	Prisma II Products	unknown	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
-737838	Cisco 737838	Prisma II Products	unknown	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
-737839	Cisco 737839	Prisma II Products	unknown	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
+737689	Cisco 737689	Prisma II Products	transmitter	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
+737690	Cisco 737690	Prisma II Products	transmitter	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
+737824	Cisco 737824	Prisma II Products	transmitter	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
+737825	Cisco 737825	Prisma II Products	transmitter	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
+737826	Cisco 737826	Prisma II Products	transmitter	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
+737827	Cisco 737827	Prisma II Products	transmitter	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
+737828	Cisco 737828	Prisma II Products	transmitter	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
+737829	Cisco 737829	Prisma II Products	transmitter	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
+737830	Cisco 737830	Prisma II Products	transmitter	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
+737831	Cisco 737831	Prisma II Products	transmitter	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
+737832	Cisco 737832	Prisma II Products	transmitter	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
+737833	Cisco 737833	Prisma II Products	transmitter	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
+737834	Cisco 737834	Prisma II Products	transmitter	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
+737835	Cisco 737835	Prisma II Products	transmitter	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
+737836	Cisco 737836	Prisma II Products	transmitter	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
+737837	Cisco 737837	Prisma II Products	transmitter	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
+737838	Cisco 737838	Prisma II Products	transmitter	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
+737839	Cisco 737839	Prisma II Products	transmitter	layered	Prisma II Optical Transport	(shared across the line)		Prisma II Optical Transport shared parts	label Prisma II Products							
 737861	(P2-RXF-SA-NA) Fwd Rx, 1GHz, SA, Non-Attenuator	Prisma II Products	receiver	layered	Prisma II Optical Transport	(none)	Prisma II		name [(]P2-							
 737862	(P2-RXF-GHZ-E2-NA) Fwd Rx, 1GHz, E2	Prisma II Products	receiver	layered	Prisma II Optical Transport	(none)	Prisma II		name [(]P2-							
 738325.201.000.AB	Prisma II Rear Exhaust Fan	Prisma II Products	fan	layered	Prisma II Optical Transport	(none)	Prisma II		name Prisma II							
