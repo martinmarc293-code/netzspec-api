@@ -1,8 +1,8 @@
 {
   "vendor": "cisco",
   "unit": "unclassified MEMBERS (fact-weighted) of live facts on live parts",
-  "recorded_at": "2026-09-30T11:03:03.872Z",
-  "git_sha": "4fd84431623d4f195da43fca4d41c68b701801a9",
+  "recorded_at": "2026-09-30T12:18:14.873Z",
+  "git_sha": "639753baa955d3be3bcf82829578671bccc2a46d",
   "ceiling": {
     "certifications": 3741,
     "emc_emissions": 182,
