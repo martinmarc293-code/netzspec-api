@@ -316,5 +316,13 @@ HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). R
 - Top-5 by ready-gain today: weight 919, attributes:none 53, PoE 39, Stromversorgung 33, Stacking 12 (the UCS work is off-list:
   DRIFT flagged honestly; the reviewer ordered it).
 
+## ORDER AFTER COMPACTION (reviewer verdict 30 Sep ~11:25 UTC; streak 1 -- the next report NEEDS a ready gain)
+1. ONE batch, the three ruled attribute rules, predicted +84 ready: PoE 39 (rule D: "data only"/"non-PoE" in the ordering-table
+   PID description -> poe_standard none, per-SKU read), Stromversorgung 33 (rule C: the document-level power cell ->
+   psu_config + input_voltage; today "Power" maps to __not_a_spec -- a value-shaped mapper rule), Stacking 12 (rule B:
+   stacking_bandwidth > 0 -> stackable yes, "N/A" -> no, derived:stackable-from-bandwidth, register in DERIVED_FILL_PATHS).
+   Measure each rule's population first, dry-run, gate, commit, rebuild, board, scorecard --record, report.
+2. then the comparator round (see NOW); 3. then the second-source evaluation (weight 919 is source-blocked: measured 30 Sep).
+
 ## Pinned predictions
 - run 1350 lands -> the enum CISCO line drops standard to 0 (was 555 seed); what remains red there is non-seed audio_codecs/antenna_type/spatial_streams + refused shape members. required_cup_defined not moved by it (other vendors seed untouched).

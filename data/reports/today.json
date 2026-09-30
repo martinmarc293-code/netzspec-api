@@ -1,9 +1,8 @@
 {
   "date": "2026-09-30",
-  "rule": "comparator round (series-in-family, glued prefix, letter series with the line word), flip lists read first, remerge off; then the second-source evaluation (fill pipeline item 3)",
-  "blocker_key": "family:unknown refusals of the sheets' own servers (UCS C220 <- ucs-c-series)",
-  "focus": "ordered",
-  "predicted_unlock": 0,
+  "rule": "the three ruled attribute rules as ONE batch: PoE (rule D: 'data only' / 'non-PoE' in the ordering-table PID description -> poe_standard none), Stromversorgung (rule C: the document-level power cell -> psu_config + input_voltage), Stacking (rule B: stacking_bandwidth > 0 -> stackable yes, 'N/A' -> no, derived:stackable-from-bandwidth)",
+  "blocker_key": "attribute:PoE",
+  "predicted_unlock": 84,
   "predicted_at_ready": 154,
-  "note": "weight (919) is source-blocked: of the 100 whose held sheet prints a weight, all are accessories/components the sheet lists; the weights are the switches'"
+  "note": "reviewer's correction (30 Sep): these three first, then the comparator round, then the second-source evaluation"
 }
