@@ -43,6 +43,9 @@ if (acq) {
          `outcomes ${JSON.stringify(o)}; not the document: ${nd}; refused at enqueue ${JSON.stringify(acq.refused ?? {})}; ` +
          `stop: ${acq.stop_reason ?? "none"}${acq.budget_hit ? "; time budget reached" : ""}`);
 } else L.push("acquire: no summary (the step did not run or did not finish)");
+const refusedPdf = fs.existsSync(`${night}/extract-pdf-refused.txt`)
+  ? fs.readFileSync(`${night}/extract-pdf-refused.txt`, "utf8").split("\n").filter(Boolean).length : 0;
+if (refusedPdf) L.push(`pdf extraction refused by the memory / time cap: ${refusedPdf} (listed in ${night}/extract-pdf-refused.txt, for the day)`);
 const tgt = readJson(`${night}/target.txt.json`);
 if (tgt) L.push(`target: ${tgt.urls} URLs under not-held series (of ${tgt.queued_spec_shaped} queued spec-shaped; ${tgt.demoted_last} demoted, placed last)`);
 // ruling B: families committed, families staged, golden rows owed

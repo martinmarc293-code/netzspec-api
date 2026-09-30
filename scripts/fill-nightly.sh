@@ -107,13 +107,30 @@ WM=$(cat "$FILL/extract-watermark" 2>/dev/null || echo "2026-09-30T06:40:00Z")
 python3 scripts/fill-night-docs.py --since "$WM" --out-dir "$NIGHT" > "$NIGHT/docs.log" 2>&1 || stop extract "fill-night-docs failed (see $NIGHT/docs.log)"
 log "$(tail -1 "$NIGHT/docs.log")"
 EXTRACTS=()
-for kind in html pdf; do
-  [ -s "$NIGHT/$kind.txt" ] || continue
-  adapter=cisco-specs-deep; [ $kind = pdf ] && adapter=cisco-specs-pdf
-  python3 scraper/run.py $adapter --cache-only --urls-file "$NIGHT/$kind.txt" --out "$NIGHT/extract-$kind.json" > "$NIGHT/extract-$kind.log" 2>&1 \
-    || stop extract "$adapter exit $? (see $NIGHT/extract-$kind.log)"
-  EXTRACTS+=("$NIGHT/extract-$kind.json")
-done
+# BOUNDED EXTRACTION. Dry run 4 (30 Sep 08:34) ran the PDF extractor over 163 PDFs in ONE process; pdfplumber keeps what it
+# reads, it grew to 3.4 GB and the kernel's global OOM killer took it (exit 137) after an hour, with the API and Postgres on
+# the same 3.8 GB box. So every extractor runs in its own cgroup scope with a memory cap (systemd-run -p MemoryMax: the
+# kill stays inside the scope; MemorySwapMax=0 because the box has 2 GB of swap and a capped process would otherwise page
+# out instead of stopping -- proven on the box: 300 MB WRITTEN under a 100 MB cap exits 137, under 1200 MB it completes; a
+# bytearray() control 'passed' under 100 MB because zero pages are not resident until written) and a time limit; PDFs go ONE PER PROCESS, and a PDF that exceeds either limit is listed in
+# extract-pdf-refused.txt and reported -- one oversized document must never take the night down with it.
+if [ -s "$NIGHT/html.txt" ]; then
+  timeout 1800 systemd-run --scope -q -p MemoryMax=1500M -p MemorySwapMax=0 -- python3 scraper/run.py cisco-specs-deep --cache-only \
+    --urls-file "$NIGHT/html.txt" --out "$NIGHT/extract-html.json" > "$NIGHT/extract-html.log" 2>&1 \
+    || stop extract "cisco-specs-deep exit $? (memory cap 1500 MB / 30 min; see $NIGHT/extract-html.log)"
+  EXTRACTS+=("$NIGHT/extract-html.json")
+fi
+if [ -s "$NIGHT/pdf.txt" ]; then
+  mkdir -p "$NIGHT/pdfx"; : > "$NIGHT/extract-pdf-refused.txt"; i=0
+  while IFS= read -r u; do
+    i=$((i + 1)); printf '%s\n' "$u" > "$NIGHT/pdfx/one.txt"
+    timeout 300 systemd-run --scope -q -p MemoryMax=1200M -p MemorySwapMax=0 -- python3 scraper/run.py cisco-specs-pdf --cache-only \
+      --urls-file "$NIGHT/pdfx/one.txt" --out "$NIGHT/pdfx/extract-pdf-$i.json" >> "$NIGHT/extract-pdf.log" 2>&1 \
+      || { echo "$u	exit $?" >> "$NIGHT/extract-pdf-refused.txt"; rm -f "$NIGHT/pdfx/extract-pdf-$i.json"; }
+  done < "$NIGHT/pdf.txt"
+  log "pdf extraction: $i documents, $(grep -c . "$NIGHT/extract-pdf-refused.txt") refused by the memory or time cap"
+  for f in "$NIGHT"/pdfx/extract-pdf-*.json; do [ -s "$f" ] && EXTRACTS+=("$f"); done
+fi
 # SPLIT BY DOCUMENT FAMILY (ruling B): a family with >= 5 golden rows in scope and defects inside the budget COMMITS on the
 # gate; a family seen for the first time is STAGED (dry gate, kept in staged-*.json for the day, which adds golden rows,
 # re-runs the split on the staged files and commits what now qualifies). A family listing none of our parts is demoted.
