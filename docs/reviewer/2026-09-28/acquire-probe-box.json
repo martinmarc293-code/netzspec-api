@@ -1,0 +1,199 @@
+{
+ "probe": "scraper/worker_probe.py",
+ "started_at": "20260930T055842Z",
+ "platform": "linux",
+ "profile": "/var/lib/netzspec-api/chrome-profile-cisco",
+ "need": 19,
+ "urls_file": "data/probe/spec-20.txt",
+ "control": {
+  "first": 200,
+  "last": 200
+ },
+ "rows": [
+  {
+   "url": "https://www.cisco.com/c/en/us/products/collateral/unified-communications/cisco-collaboration-flex-plan/datasheet-c78-741985.html",
+   "status": 200,
+   "bytes": 424336,
+   "tables": 3,
+   "verdict": "pass",
+   "seconds": 12.8,
+   "final_url": "https://www.cisco.com/c/en/us/products/collateral/unified-communications/cisco-collaboration-flex-plan/datasheet-c78-741985.html"
+  },
+  {
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-7000-series-switches/data-sheets-1488429034260.html",
+   "status": 200,
+   "bytes": 458493,
+   "tables": 5,
+   "verdict": "pass",
+   "seconds": 5.0,
+   "final_url": "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-7000-series-switches/datasheet-c78-736537.html"
+  },
+  {
+   "url": "https://www.cisco.com/c/en/us/products/collateral/wireless/packet-core/data-sheet-c78-741416.html",
+   "status": 200,
+   "bytes": 376642,
+   "tables": 3,
+   "verdict": "pass",
+   "seconds": 10.7,
+   "final_url": "https://www.cisco.com/c/en/us/products/collateral/wireless/packet-core/data-sheet-c78-741416.html"
+  },
+  {
+   "url": "https://www.cisco.com/c/en/us/products/se/2022/5/Collateral/data-sheets-1531951523680.html",
+   "status": 200,
+   "bytes": 542353,
+   "tables": 9,
+   "verdict": "pass",
+   "seconds": 11.3,
+   "final_url": "https://www.cisco.com/c/en/us/products/collateral/security/security-cloud-control/datasheet-c78-736847.html"
+  },
+  {
+   "url": "https://www.cisco.com/c/en/us/products/collateral/hyperconverged-infrastructure/hyperflex-hx-series/datasheet-c78-736784.html",
+   "status": 200,
+   "bytes": 401608,
+   "tables": 3,
+   "verdict": "pass",
+   "seconds": 6.2,
+   "final_url": "https://www.cisco.com/c/en/us/products/collateral/hyperconverged-infrastructure/hyperflex-hx-series/datasheet-c78-736784.html"
+  },
+  {
+   "url": "https://www.cisco.com/c/en/us/products/se/2017/10/Collateral/data-sheets-1508478352914.html",
+   "status": 200,
+   "bytes": 228,
+   "tables": 0,
+   "verdict": "no-document",
+   "seconds": 2.8,
+   "final_url": "https://salesassets.cisco.com/adaptivemedia/rendition?id=9b4c2679068326bac86808e2ad05acbe8683b54e"
+  },
+  {
+   "url": "https://www.cisco.com/c/en/us/products/collateral/security/web-security-appliance/datasheet-c78-741272.html",
+   "status": 200,
+   "bytes": 816215,
+   "tables": 1,
+   "verdict": "pass",
+   "seconds": 8.0,
+   "final_url": "https://www.cisco.com/c/en/us/products/collateral/security/web-security-appliance/datasheet-c78-741272.html"
+  },
+  {
+   "url": "https://www.cisco.com/c/en/us/products/collateral/wireless/packet-core/datasheet-c78-741841.html",
+   "status": 200,
+   "bytes": 390027,
+   "tables": 7,
+   "verdict": "pass",
+   "seconds": 10.8,
+   "final_url": "https://www.cisco.com/c/en/us/products/collateral/wireless/packet-core/datasheet-c78-744630.html"
+  },
+  {
+   "url": "https://www.cisco.com/c/en/us/products/collateral/unified-communications/jabber-mac/datasheet-c78-740458.html",
+   "status": 200,
+   "bytes": 490262,
+   "tables": 5,
+   "verdict": "pass",
+   "seconds": 4.7,
+   "final_url": "https://www.cisco.com/c/en/us/products/collateral/unified-communications/jabber-mac/datasheet-c78-740458.html"
+  },
+  {
+   "url": "https://www.cisco.com/c/en/us/products/se/2020/9/Collateral/nb-06-cat9800-80-wirel-mod-data-sheet-ctp-en.html",
+   "status": 200,
+   "bytes": 354842,
+   "tables": 0,
+   "verdict": "no-document",
+   "seconds": 4.2,
+   "final_url": "https://id.cisco.com/oauth2/default/v1/authorize?response_type=code&scope=openid%20email%20profile&client_id=47cfee3d-3d18-443c-86de-74ff2af89cd4&state=7Ud3Hmaap1L1TMhIsI1IA94Iwq8&redirect_uri=https%3A%2F%2Fwww.cisco.com%2Fc%2Fsso%2Faction.html&nonce=2OC4BP0SR2iiWuXRZJ4qE0rjD4T38qekfnv1t0s3j8Y"
+  },
+  {
+   "url": "https://www.cisco.com/c/en/us/products/se/2021/5/Collateral/datasheet-c78-744371.html",
+   "status": 200,
+   "bytes": 354605,
+   "tables": 0,
+   "verdict": "no-document",
+   "seconds": 10.9,
+   "final_url": "https://id.cisco.com/oauth2/default/v1/authorize?response_type=code&scope=openid%20email%20profile&client_id=47cfee3d-3d18-443c-86de-74ff2af89cd4&state=kkjs9sCSSt9UwZ7wWvI1MKGQB7o&redirect_uri=https%3A%2F%2Fwww.cisco.com%2Fc%2Fsso%2Faction.html&nonce=hrrtwA5tcHeAvRDF1lWqRrRSKR6xfH4e4OmbXUxmExM"
+  },
+  {
+   "url": "https://www.cisco.com/c/en/us/products/collateral/wireless/packet-core/datasheet-c78-744628.html",
+   "status": 200,
+   "bytes": 390757,
+   "tables": 6,
+   "verdict": "pass",
+   "seconds": 4.8,
+   "final_url": "https://www.cisco.com/c/en/us/products/collateral/wireless/packet-core/datasheet-c78-744628.html"
+  },
+  {
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/datasheet-c78-743577.html",
+   "status": 200,
+   "bytes": 406462,
+   "tables": 6,
+   "verdict": "pass",
+   "seconds": 4.0,
+   "final_url": "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/datasheet-c78-743577.html"
+  },
+  {
+   "url": "https://www.cisco.com/c/en/us/products/collateral/cloud-systems-management/crosswork-network-automation/datasheet-c78-742113.html",
+   "status": 200,
+   "bytes": 437903,
+   "tables": 5,
+   "verdict": "pass",
+   "seconds": 10.8,
+   "final_url": "https://www.cisco.com/c/en/us/products/collateral/cloud-systems-management/crosswork-network-automation/datasheet-c78-742113.html"
+  },
+  {
+   "url": "https://www.cisco.com/c/en/us/products/collateral/cloud-systems-management/findit-network-management/datasheet-c78-737934-de.html",
+   "status": 200,
+   "bytes": 373056,
+   "tables": 2,
+   "verdict": "pass",
+   "seconds": 3.8,
+   "final_url": "https://www.cisco.com/c/en/us/products/collateral/cloud-systems-management/findit-network-management/datasheet-c78-737934-de.html"
+  },
+  {
+   "url": "https://www.cisco.com/c/en/us/products/collateral/video/compact-nodes/datasheet-c78-736197.html",
+   "status": 200,
+   "bytes": 453611,
+   "tables": 6,
+   "verdict": "pass",
+   "seconds": 10.6,
+   "final_url": "https://www.cisco.com/c/en/us/products/collateral/video/compact-nodes/datasheet-c78-736197.html"
+  },
+  {
+   "url": "https://www.cisco.com/c/en/us/products/se/2020/8/Collateral/nb-06-cat9800-wirel-cont-data-sheet-ctp-en.html",
+   "status": 200,
+   "bytes": 354728,
+   "tables": 0,
+   "verdict": "no-document",
+   "seconds": 5.4,
+   "final_url": "https://id.cisco.com/oauth2/default/v1/authorize?response_type=code&scope=openid%20email%20profile&client_id=47cfee3d-3d18-443c-86de-74ff2af89cd4&state=DR6zZw94Bbh2EqaBgFc7m9ixcAY&redirect_uri=https%3A%2F%2Fwww.cisco.com%2Fc%2Fsso%2Faction.html&nonce=_0mWrZZokFWSjrCzkEtRnj8X22dbeki9b7t-vk8s40I"
+  },
+  {
+   "url": "https://www.cisco.com/c/en/us/solutions/collateral/enterprise-networks/intelligent-wan-akamai/datasheet-c78-734173.html",
+   "status": 200,
+   "bytes": 600555,
+   "tables": 0,
+   "verdict": "no-document",
+   "seconds": 10.2,
+   "final_url": "https://www.cisco.com/site/us/en/solutions/networking/sdwan/index.html"
+  },
+  {
+   "url": "https://www.cisco.com/c/en/us/products/collateral/routers/wide-area-application-services-waas-software/datasheet_c78-611644.html",
+   "status": 200,
+   "bytes": 388057,
+   "tables": 3,
+   "verdict": "pass",
+   "seconds": 5.3,
+   "final_url": "https://www.cisco.com/c/en/us/products/collateral/routers/wide-area-application-services-waas-software/datasheet_c78-611644.html"
+  },
+  {
+   "url": "https://www.cisco.com/c/en/us/products/collateral/unified-communications/cisco-collaboration-flex-plan/datasheet-c78-741986.html",
+   "status": 200,
+   "bytes": 446519,
+   "tables": 4,
+   "verdict": "pass",
+   "seconds": 10.3,
+   "final_url": "https://www.cisco.com/c/en/us/products/collateral/unified-communications/cisco-collaboration-flex-plan/datasheet-c78-741986.html"
+  }
+ ],
+ "verdict": "FAIL: 15 of 20 pages are the document (need 19)",
+ "user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36",
+ "passed": 15,
+ "of": 20,
+ "stopped_at": null
+}

@@ -1,0 +1,64 @@
+{
+ "probe": "scraper/worker_probe.py",
+ "started_at": "20260930T060206Z",
+ "platform": "win32",
+ "profile": "D:\\netzspec-chrome-profile-probe",
+ "need": 0,
+ "urls_file": "C:\\Users\\Vince\\AppData\\Local\\Temp/probe-5.txt",
+ "control": {
+  "first": 200,
+  "last": 200
+ },
+ "rows": [
+  {
+   "url": "https://www.cisco.com/c/en/us/products/se/2017/10/Collateral/data-sheets-1508478352914.html",
+   "status": 200,
+   "bytes": 228,
+   "tables": 0,
+   "verdict": "no-document",
+   "seconds": 6.0,
+   "final_url": "https://salesassets.cisco.com/adaptivemedia/rendition?id=9b4c2679068326bac86808e2ad05acbe8683b54e"
+  },
+  {
+   "url": "https://www.cisco.com/c/en/us/products/se/2020/9/Collateral/nb-06-cat9800-80-wirel-mod-data-sheet-ctp-en.html",
+   "status": 200,
+   "bytes": 355689,
+   "tables": 0,
+   "verdict": "no-document",
+   "seconds": 12.3,
+   "final_url": "https://id.cisco.com/oauth2/default/v1/authorize?response_type=code&scope=openid%20email%20profile&client_id=47cfee3d-3d18-443c-86de-74ff2af89cd4&state=6-JmSx45pdHBtVoZnGGoK2gL5Z8&redirect_uri=https%3A%2F%2Fwww.cisco.com%2Fc%2Fsso%2Faction.html&nonce=ysfUI-AqT4Go0BOgc5RqDfkUE-lifHw87iMpel8fyrU"
+  },
+  {
+   "url": "https://www.cisco.com/c/en/us/products/se/2021/5/Collateral/datasheet-c78-744371.html",
+   "status": 200,
+   "bytes": 355680,
+   "tables": 0,
+   "verdict": "no-document",
+   "seconds": 11.5,
+   "final_url": "https://id.cisco.com/oauth2/default/v1/authorize?response_type=code&scope=openid%20email%20profile&client_id=47cfee3d-3d18-443c-86de-74ff2af89cd4&state=FAY_84JYZY6UPrcaGGnrm_QjVBU&redirect_uri=https%3A%2F%2Fwww.cisco.com%2Fc%2Fsso%2Faction.html&nonce=MHSreAcMlznYWVzxPT36YHAetSydcB_1MFF0kRAiTrg"
+  },
+  {
+   "url": "https://www.cisco.com/c/en/us/products/se/2020/8/Collateral/nb-06-cat9800-wirel-cont-data-sheet-ctp-en.html",
+   "status": 200,
+   "bytes": 355827,
+   "tables": 0,
+   "verdict": "no-document",
+   "seconds": 8.8,
+   "final_url": "https://id.cisco.com/oauth2/default/v1/authorize?response_type=code&scope=openid%20email%20profile&client_id=47cfee3d-3d18-443c-86de-74ff2af89cd4&state=jqoLSDUPz89O5Rmh4Qu-_5JFuP8&redirect_uri=https%3A%2F%2Fwww.cisco.com%2Fc%2Fsso%2Faction.html&nonce=cGza3f3lN5-c2tSkEdOzV0ap4j6UcDLJmN7aJnouY90"
+  },
+  {
+   "url": "https://www.cisco.com/c/en/us/solutions/collateral/enterprise-networks/intelligent-wan-akamai/datasheet-c78-734173.html",
+   "status": 200,
+   "bytes": 615442,
+   "tables": 0,
+   "verdict": "no-document",
+   "seconds": 9.5,
+   "final_url": "https://www.cisco.com/site/us/en/solutions/networking/sdwan/index.html"
+  }
+ ],
+ "verdict": "PASS: 0 of 5 pages are the document (need 0)",
+ "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36",
+ "passed": 0,
+ "of": 5,
+ "stopped_at": null
+}
