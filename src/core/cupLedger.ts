@@ -348,12 +348,27 @@ const Q17_READ: readonly (readonly [category: string, kind: string, cup: string,
   ["wireless", "power", "cable_length", "AIR-PWR-ST-LT-R3P=", 1],
   ["wireless", "power-injector", "mounting", "AIR-PWRINJ-60-PMK=", 1],
 ];
+/**
+ * THE Q24 WEIGHT TRIPLES (30 Sep 2026). Ruling Q24 wrote 29 per-SKU weights from single-model sheets (run 1448, every
+ * statement re-read, gate 26/26), and the first board after it vetoed 5 triples on 9 part-cups: an optical amplifier, an
+ * OTDR / shelf-orchestrator controller, an MDS supervisor, RF-gateway and NCS line cards held a weight under a cup their kind
+ * marked na. scripts/veto-triage.mts classified all 5 as R4 (every part-cup an html_table read off the vendor's datasheet),
+ * so by the Q17 R4 rule the kind's set is what was wrong: a physical module has a weight. Optional, never required.
+ * witness = the triage's (the SKU with the most such facts, ties by SKU); held = the part-cups measured.
+ */
+const Q24_R4: readonly (readonly [category: string, kind: string, cup: string, witness: string, held: number])[] = [
+  ["optical-networking", "amplifier", "weight", "15454-OPT-AMP-C=", 2],
+  ["optical-networking", "controller", "weight", "NCS1K-OTDR=", 2],
+  ["optical-networking", "linecard", "weight", "NCS1K4-2-QDD-C-K9=", 1],
+  ["storage-networking", "supervisor", "weight", "DS-X9530-SF2AK9", 2],
+  ["video", "linecard", "weight", "RFGW-DS48-1G", 2],
+];
 /** The kind's declared optional sets: the hand-worked entries above plus the Q17 R4 widenings. A triple declared twice is a
- *  load-time error, never a silent overwrite. The Q17 read widenings join them (Q17_READ). */
+ *  load-time error, never a silent overwrite. The Q17 read widenings join them (Q17_READ), and the Q24 weight triples (Q24_R4). */
 export const KIND_DECLARED_OPTIONAL: Readonly<Record<string, Readonly<Record<string, readonly { cup: string; witness: string; held: number }[]>>>> = (() => {
   const out: Record<string, Record<string, { cup: string; witness: string; held: number }[]>> = {};
   for (const [cat, kinds] of Object.entries(HAND_DECLARED_OPTIONAL)) for (const [kind, es] of Object.entries(kinds)) ((out[cat] ??= {})[kind] ??= []).push(...es);
-  for (const [cat, kind, cup, witness, held] of [...Q17_R4, ...Q17_READ]) {
+  for (const [cat, kind, cup, witness, held] of [...Q17_R4, ...Q17_READ, ...Q24_R4]) {
     const list = ((out[cat] ??= {})[kind] ??= []);
     if (list.some((e) => e.cup === cup)) throw new Error(`KIND_DECLARED_OPTIONAL: ${cat}/${kind} ${cup} declared twice`);
     list.push({ cup, witness, held });

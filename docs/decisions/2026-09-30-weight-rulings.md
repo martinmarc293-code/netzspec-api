@@ -73,6 +73,11 @@ was added after every qualifying sheet was read against its model:
   statements 3; a bound 2; a multiple 1.
 - Four writes carry a base-unit qualifier: NC55 bundles "…(6.35 kg) without optics", MT sensors under "Weight (excluding
   batteries)". The store already holds weights of that kind ("Without power supply: 13.7 lb (6.21 kg)").
+- **The first board after run 1448 vetoed 5 triples on 9 part-cups** (`four_sets_sum` 31/2): an optical amplifier, an
+  OTDR / shelf-orchestrator controller, an MDS supervisor, RF-gateway and NCS line cards now held a weight under a cup their
+  kind marked na. `scripts/veto-triage.mts` classed all 5 R4 (every part-cup an html_table read off the vendor's datasheet),
+  so by the Q17 R4 rule the kind's set was wrong: `Q24_R4` in `cupLedger.ts` declares `weight` OPTIONAL for those five
+  (category, kind) pairs with the triage's witnesses. Never required. `shipping_weight` was already optional there.
 
 ## Held, named
 
