@@ -1,0 +1,21 @@
+# 20 of 204 queued datasheet-named HTML pages on www.cisco.com (not listings), random.seed(20260930), 30 Sep 2026
+https://www.cisco.com/c/en/us/products/collateral/unified-communications/cisco-collaboration-flex-plan/datasheet-c78-741985.html
+https://www.cisco.com/c/en/us/products/collateral/switches/nexus-7000-series-switches/data-sheets-1488429034260.html
+https://www.cisco.com/c/en/us/products/collateral/wireless/packet-core/data-sheet-c78-741416.html
+https://www.cisco.com/c/en/us/products/se/2022/5/Collateral/data-sheets-1531951523680.html
+https://www.cisco.com/c/en/us/products/collateral/hyperconverged-infrastructure/hyperflex-hx-series/datasheet-c78-736784.html
+https://www.cisco.com/c/en/us/products/se/2017/10/Collateral/data-sheets-1508478352914.html
+https://www.cisco.com/c/en/us/products/collateral/security/web-security-appliance/datasheet-c78-741272.html
+https://www.cisco.com/c/en/us/products/collateral/wireless/packet-core/datasheet-c78-741841.html
+https://www.cisco.com/c/en/us/products/collateral/unified-communications/jabber-mac/datasheet-c78-740458.html
+https://www.cisco.com/c/en/us/products/se/2020/9/Collateral/nb-06-cat9800-80-wirel-mod-data-sheet-ctp-en.html
+https://www.cisco.com/c/en/us/products/se/2021/5/Collateral/datasheet-c78-744371.html
+https://www.cisco.com/c/en/us/products/collateral/wireless/packet-core/datasheet-c78-744628.html
+https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/datasheet-c78-743577.html
+https://www.cisco.com/c/en/us/products/collateral/cloud-systems-management/crosswork-network-automation/datasheet-c78-742113.html
+https://www.cisco.com/c/en/us/products/collateral/cloud-systems-management/findit-network-management/datasheet-c78-737934-de.html
+https://www.cisco.com/c/en/us/products/collateral/video/compact-nodes/datasheet-c78-736197.html
+https://www.cisco.com/c/en/us/products/se/2020/8/Collateral/nb-06-cat9800-wirel-cont-data-sheet-ctp-en.html
+https://www.cisco.com/c/en/us/solutions/collateral/enterprise-networks/intelligent-wan-akamai/datasheet-c78-734173.html
+https://www.cisco.com/c/en/us/products/collateral/routers/wide-area-application-services-waas-software/datasheet_c78-611644.html
+https://www.cisco.com/c/en/us/products/collateral/unified-communications/cisco-collaboration-flex-plan/datasheet-c78-741986.html
