@@ -286,6 +286,13 @@ HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). R
      max(60, 5%)); otherwise STAGED (staged-*.json kept, dry gate); the day adds >= 5 golden rows from the family's own sheet,
      re-runs scripts/fill-split-families.py on the staged files, commits what qualifies. Report: families committed/staged,
      golden rows owed. Cron after A and B land (cfb1607).
+     LIVE 30 Sep: cron `0 1 * * *` (box clock Etc/UTC) -> scripts/fill-nightly.sh, deployed 88c5099. Dry runs 4-5 found and
+     fixed: the PDF extractor OOM-killed at 3.4 GB in one process (now one PDF per memory-capped scope, MemoryMax 1200M +
+     MemorySwapMax=0, proven to kill; 15 of 200 PDFs refused by the cap and listed); a same-day re-run reusing the night dir
+     (now moved aside under the lock); and an EMPTY pid_list read as "lists none of our parts", which demoted the UCS /
+     HyperFlex families the target ranks first (now `no_pid_list`, staged, never demoted; the 112 wrong demotions moved to
+     demoted.json.dry5-wrong-rule). DAY-WORK BLOCKER #1: neither extractor reads a PID list from ANY of dry run 5's 299
+     documents -- 27 UCS/HyperFlex spec sheets gave facts (up to 96) and pid_list 0 -- so no family can commit or inherit.
      TRAP: the night rebuilds and stamps the artefacts IN THE DEPLOY TREE (STAMP_*_COMMIT = the deployed commit). The day
      session copies them into the repo, restamps, commits BEFORE ANY DEPLOY -- a deploy first would put the older committed
      artefacts back under the API.
