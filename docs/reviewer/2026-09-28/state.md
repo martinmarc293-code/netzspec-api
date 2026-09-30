@@ -306,12 +306,10 @@ HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). R
 - PERFORMANCE CHECK (standing order, 30 Sep): every report ends with `npx tsx scripts/scorecard.ts --record` (flags first);
   the reviewer's verdict goes back with `--verdict "<line>"`; data/reports/today.json is the day's rule/blocker/prediction
   (keep it current: blocker_key must be a readiness reason to count as on-list); dashboard panel "Arbeitsqualität".
-- LANDED: component shapes 9cf372c (29 tokens + ownFamilies for adapters; specMerge 195/195). NOT YET: (2) the approved
-  retraction -- one run on the box, plan = the 1,662 flip rows (served, inherited, on newly-component parts, refused by a
-  component:* rule; the 10 adapters-from-their-own-sheet facts excluded by ownFamilies); control: no own fact touched. Build it
-  as scripts/retract-component-inherited.mts from the retract-inherited.mts template (selector = the flip list, precision =
-  re-read + describesPart component:*, recall = independent count + specMerge suite, per-chunk check = no SELECTED fact still
-  current, NOT "no inherited fact left"). Register the run kind (AG) in mould-verify.
+- LANDED: component shapes 9cf372c; run 1458 retracted the 1,662 component-held inherited facts (gate 1/1, own facts the same 2,991
+  rows, undo data/dryrun/retract-component-inherited-cisco-2026-09-30T105418299Z.tsv); artefacts dafb39b (board 32/1). First
+  scorecard recorded (244d033; flags DRIFT + WASTEFUL). Waiting on the reviewer's verdict: record it with
+  `npx tsx scripts/scorecard.ts --verdict "<line>"`, commit, apply it (comparator round, or switch to weight 919).
 - THEN the comparator round: series-in-family (Nexus 9300 <- nexus-9000-series), glued prefix (IE 3500 <- ie3500-rugged),
   letter series (UCS C220 <- ucs-c-series) ONLY with the line word (UCS<->ucs); sabotages: c9350 vs a 9350 of another line,
   ucs-c-series vs a Catalyst C9300, UCS B200 vs ucs-c-series. Flip lists read first; remerge OFF.
