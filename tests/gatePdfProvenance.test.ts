@@ -67,10 +67,18 @@ check("SABOTAGE the interpolation detector fires on a literal that carries one",
   ("print(f" + '"' + "$" + "{x}" + '"' + ")").includes("$" + "{"));
 
 // ---- the auditor reads through the extractor's own parser -----------------------------------------
-for (const imported of ["read_page", "text_lines", "text_contains", "cap_value"]) {
+for (const imported of ["read_page", "text_lines", "text_contains"]) {
   check(`READ_SCRIPT imports ${imported} from the PDF extractor`,
     new RegExp(`from adapters.cisco_specs_pdf import [^\\n]*\\b${imported}\\b`).test(script));
 }
+// 30 Sep 2026: the PDF branch capped each re-read cell with cap_value(cell). 67a4f95 made cap_value's `cap` REQUIRED, so
+// every PDF cell raised TypeError -- and a bare `except Exception:` turned each into "out_of_range", i.e. a verdict that
+// the cell was not on the page. This suite is pure and could not see it; the real run is in
+// tests/scraper/test_cisco_specs_pdf.py ("the gate's re-reader, run for real"). What CAN be pinned here is the shape:
+check("READ_SCRIPT caps nothing: cellMatches owns the cap-aware comparison, and a second cap call is a second call site to break",
+  !script.includes("cap_value("));
+check("READ_SCRIPT has no bare `except Exception:` -- only a missing index may become out_of_range; a reader defect must surface",
+  !script.includes("except Exception:"));
 check("READ_SCRIPT imports the HTML extractor's own grid builder",
   /from adapters\.cisco_specs_deep import [^\n]*_rows/.test(script));
 
@@ -125,9 +133,8 @@ check("SABOTAGE a negative line is refused", parseLocator("p1:L-3") === null);
 check("SABOTAGE a line locator with a trailing field is refused", parseLocator("p1:L3:c1") === null);
 
 // ---- cellMatches: how a re-read cell is compared with a stored value --------------------------------
-// The PDF branch now caps the cell with the extractor's own cap_value before returning it, so an
-// over-cap value compares equal here rather than needing a second copy of the truncation rule in
-// TypeScript. These pin the comparison itself.
+// Both branches return the cell WHOLE (the PDF branch capped it until 30 Sep 2026, and that call broke; see above), so
+// the cap-aware comparison lives here and only here. These pin the comparison itself.
 check("whitespace is collapsed on both sides", cellMatches("  3.42  in.\n(8.7 cm) ", "3.42 in. (8.7 cm)"));
 check("SABOTAGE a different value does not match", !cellMatches("3.42 in. (8.7 cm)", "3.43 in. (8.7 cm)"));
 check("SABOTAGE an empty cell does not match a real value", !cellMatches("", "1050"));

@@ -71,13 +71,22 @@ def check(what: str, ok: bool, got: str = "") -> None:
 # 1. cap_value — a cell longer than the cap ends at a word boundary AND says so
 # ==================================================================================================
 print("cap_value")
-check("a value inside the cap is untouched and not flagged", cap_value("short value") == ("short value", False))
-check("a value exactly at the cap is untouched", cap_value("x" * VALUE_CAP) == ("x" * VALUE_CAP, False))
+# 67a4f95 (27 Sep 2026) made `cap` REQUIRED ("a default is how the wrong one gets applied on the second call site"). This
+# suite still called it without one, so from that commit it died on line 74 and ran nothing below -- unseen, because it
+# needs the PDF cache and the box's run-tests never runs it. Every call names its cap now, and the refusal is pinned.
+try:
+    cap_value("no cap given")
+    _refused = False
+except TypeError:
+    _refused = True
+check("cap_value REFUSES a call without a cap (the 27 Sep decision: caps are per cell type, never a default)", _refused)
+check("a value inside the cap is untouched and not flagged", cap_value("short value", VALUE_CAP) == ("short value", False))
+check("a value exactly at the cap is untouched", cap_value("x" * VALUE_CAP, VALUE_CAP) == ("x" * VALUE_CAP, False))
 
 long_real = ("47CFR Part 15 (CFR 47) Class A AS/NZS CISPR32 Class A CISPR32 Class A EN55032 Class A "
              "ICES003 Class A VCCI-CISPR32 Class A EN61000-3-2 EN61000-3-3 KS C 9832 Class A "
              "KS C 9835 CNS13438")
-got, cut = cap_value(long_real)
+got, cut = cap_value(long_real, VALUE_CAP)
 check("SABOTAGE a real over-cap value is cut at a word boundary, never mid-word (it used to end 'KS C 9832 Cla')",
       cut and got.endswith("9832") and not long_real[len(got):].startswith(got[-1:] + "x"), repr(got[-24:]))
 check("... the cut is a whole-word prefix of the cell", long_real.startswith(got) and long_real[len(got)] == " ")
@@ -87,14 +96,14 @@ check("SABOTAGE a hard slice at the cap would have cut mid-word — this asserts
       got != long_real[:VALUE_CAP], repr(long_real[VALUE_CAP - 6:VALUE_CAP]))
 
 one_token = "https://example.invalid/" + "a" * 300
-got2, cut2 = cap_value(one_token)
+got2, cut2 = cap_value(one_token, VALUE_CAP)
 check("a single token longer than half the cap has no boundary to back off to: cut hard, still flagged",
       cut2 is True and len(got2) == VALUE_CAP)
 
 check("the label cap is a separate, smaller number", LABEL_CAP < VALUE_CAP)
 check("cap_value honours an explicit cap", cap_value("one two three four", 9) == ("one two", True))
 check("SABOTAGE a cap that keeps a partial word is a miss", cap_value("one two three four", 9)[0] != "one two t")
-check("None and empty are not a crash", cap_value(None) == ("", False))
+check("None and empty are not a crash", cap_value(None, VALUE_CAP) == ("", False))
 
 
 # ==================================================================================================
@@ -534,6 +543,53 @@ _REAL = {
 for _line, _want in _REAL.items():
     _got = spec_pairs(_line + "\n")
     check(f"KEPT: {_line[:46]}", len(_got) == 1 and (_got[0][0], _got[0][1]) == _want, repr(_got))
+
+
+# ---- the gate's re-reader, run for real (30 Sep 2026) -------------------------------------------------------------
+# src/pipeline/gate-extract.ts carries its Python re-reader as a string (READ_SCRIPT), and every test of it was PURE:
+# tests/gatePdfProvenance.test.ts reads its source and never runs it. On 27 Sep 67a4f95 made cap_value's `cap` required;
+# the re-reader called cap_value(cell) with one argument, so EVERY PDF cell raised TypeError and a bare `except` graded it
+# "out_of_range" -- the cell is not on the page -- for three days, unseen. This section runs the real script, extracted
+# from the TypeScript source, against a real cached sheet, and proves its two failure branches mean what they say.
+print("")
+print("the gate's re-reader (gate-extract.ts READ_SCRIPT), run for real")
+import json as _json          # noqa: E402
+import subprocess as _sp      # noqa: E402
+
+_ts = (ROOT / "src" / "pipeline" / "gate-extract.ts").read_text(encoding="utf-8")
+_start = _ts.find("const READ_SCRIPT = `")
+_end = _ts.find("`;", _start)
+_script = _ts[_start + len("const READ_SCRIPT = `"):_end] if _start >= 0 and _end > _start else ""
+check("READ_SCRIPT is found in gate-extract.ts", bool(_script) and "pdfplumber.open" in _script, f"{len(_script)} chars")
+
+
+def _reread(script: str, items: list) -> list:
+    r = _sp.run([sys.executable, "-c", script, str(CACHE)], input=_json.dumps(items).encode("utf-8"),
+                cwd=str(ROOT), capture_output=True, timeout=600)
+    if r.returncode != 0:
+        return [{"status": f"HELPER FAILED exit {r.returncode}: {r.stderr.decode('utf-8', 'replace')[-200:]}"}] * len(items)
+    return _json.loads(r.stdout.decode("utf-8"))
+
+
+_ITEM = lambda c, r=11: {"url": C240M7, "loc": {"p": 48, "t": 0, "r": r, "c": c}, "label": "PID Description", "value": "x"}
+if not cached(C240M7).exists():
+    check("the re-reader case needs the cached C240M7 sheet (could not check is never a pass)", False, "not in scraper/cache")
+else:
+    _got = _reread(_script, [_ITEM(1), _ITEM(0), _ITEM(0, r=99)])
+    check("a PDF description cell is re-read WHOLE and ok (C240M7 p48 t0 r11 c1)",
+          _got[0].get("status") == "ok" and _got[0].get("cell") == "C-Series -48VDC PSU PWR Cord, 3.5M, 3Wire, 8AWG, 40A (AS/NZ)", repr(_got[0]))
+    check("... and the same row's PID cell names its SKU (c0 = CAB-48DC-40A-AS-D)",
+          _got[1].get("status") == "ok" and _got[1].get("cell") == "CAB-48DC-40A-AS-D", repr(_got[1]))
+    check("SABOTAGE a locator past the table is out_of_range -- the ONLY verdict a failed lookup may give",
+          _got[2].get("status") == "out_of_range", repr(_got[2]))
+    # Reinstate the 27 Sep defect exactly: the grid access through a function that needs a second argument.
+    _anchor = 'res["cell"] = tables[loc["p"]][loc["t"]][loc["r"]][loc["c"]]'
+    check("SABOTAGE anchor occurs exactly once (a break that never went in is not a pass)", _script.count(_anchor) == 1, str(_script.count(_anchor)))
+    if _script.count(_anchor) == 1:
+        _broken = _script.replace(_anchor, 'res["cell"] = (lambda s, cap: s)(tables[loc["p"]][loc["t"]][loc["r"]][loc["c"]])')
+        _bad = _reread(_broken, [_ITEM(1), _ITEM(0)])
+        check("SABOTAGE a reader that RAISES is could-not-check (pdf_error), never a verdict that the cell is missing",
+              all(x.get("status") == "pdf_error" for x in _bad), repr([x.get("status") for x in _bad]))
 
 
 print(f"\n{npass} passed, {nfail} missed")

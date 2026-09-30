@@ -147,7 +147,7 @@ const READ_SCRIPT = `
 import sys, json, io, hashlib, pathlib
 sys.path.insert(0, "scraper")
 from adapters.cisco_specs_deep import _rows
-from adapters.cisco_specs_pdf import read_page, text_lines, spec_pairs, text_contains, cap_value
+from adapters.cisco_specs_pdf import read_page, text_lines, spec_pairs, text_contains
 from bs4 import BeautifulSoup
 req = json.loads(sys.stdin.buffer.read().decode("utf-8"))
 cache = pathlib.Path(sys.argv[1])
@@ -189,7 +189,9 @@ for url, idxs in by_url.items():
                 try:
                     res["cell"] = grid[loc["t"]][loc["r"]][loc["c"]]
                     res["status"] = "ok"
-                except Exception:
+                except (IndexError, KeyError):
+                    # ONLY a locator the grid no longer has is out_of_range. Any other exception is a
+                    # defect of this reader and must surface, never become a verdict (see the PDF branch).
                     res["status"] = "out_of_range"
             out[i] = res
         del soup, grid
@@ -229,12 +231,22 @@ for url, idxs in by_url.items():
                         # would fail cellMatches (an equality, not a containment) for every
                         # TEXTLINE fact. A line the splitter no longer pairs is out_of_range —
                         # correct, because the fact is then no longer reproducible from the page.
-                        res["cell"] = cap_value(pairs[loc["p"]][loc["line"]])[0]
+                        res["cell"] = pairs[loc["p"]][loc["line"]]
                         res["status"] = "ok"
                     else:
-                        res["cell"] = cap_value(tables[loc["p"]][loc["t"]][loc["r"]][loc["c"]])[0]
+                        res["cell"] = tables[loc["p"]][loc["t"]][loc["r"]][loc["c"]]
                         res["status"] = "ok"
-                except Exception:
+                except (IndexError, KeyError):
+                    # THE CELL IS RETURNED WHOLE, as the HTML branch returns it: cellMatches owns the
+                    # cap-aware comparison (ADAPTER_CAPS, couldBeCapped). This branch used to cap the
+                    # cell with the extractor's cap_value, and 67a4f95 (27 Sep 2026) made that
+                    # function's cap argument REQUIRED; the one-argument call here then raised
+                    # TypeError on EVERY PDF cell, and a bare except turned each one into
+                    # out_of_range -- "the cell is not there", about cells that were. For three days
+                    # every PDF re-read graded as not reproducible; no gate ran over PDF facts in
+                    # that window, which is the only reason nothing was refused on it. Only a
+                    # missing index is a verdict now: anything else reaches the handler below as
+                    # pdf_error, which every caller counts as could-not-check.
                     res["status"] = "out_of_range"
                 out[i] = res
             del tables, texts, pairs
