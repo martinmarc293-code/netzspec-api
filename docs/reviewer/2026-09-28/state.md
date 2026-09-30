@@ -302,31 +302,36 @@ HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). R
      TRAP: the night rebuilds and stamps the artefacts IN THE DEPLOY TREE (STAMP_*_COMMIT = the deployed commit). The day
      session copies them into the repo, restamps, commits BEFORE ANY DEPLOY -- a deploy first would put the older committed
      artefacts back under the API.
-## NOW (30 Sep ~11:00 UTC) -- handoff written on a WASTEFUL flag (context 90%)
-- PERFORMANCE CHECK (standing order, 30 Sep): every report ends with `npx tsx scripts/scorecard.ts --record` (flags first);
-  the reviewer's verdict goes back with `--verdict "<line>"`; data/reports/today.json is the day's rule/blocker/prediction
-  (keep it current: blocker_key must be a readiness reason to count as on-list); dashboard panel "Arbeitsqualität".
-- LANDED: component shapes 9cf372c; run 1458 retracted the 1,662 component-held inherited facts (gate 1/1, own facts the same 2,991
-  rows, undo data/dryrun/retract-component-inherited-cisco-2026-09-30T105418299Z.tsv); artefacts dafb39b (board 32/1). First
-  scorecard recorded (244d033; flags DRIFT + WASTEFUL). Waiting on the reviewer's verdict: record it with
-  `npx tsx scripts/scorecard.ts --verdict "<line>"`, commit, apply it (comparator round, or switch to weight 919).
-- THEN the comparator round: series-in-family (Nexus 9300 <- nexus-9000-series), glued prefix (IE 3500 <- ie3500-rugged),
-  letter series (UCS C220 <- ucs-c-series) ONLY with the line word (UCS<->ucs); sabotages: c9350 vs a 9350 of another line,
-  ucs-c-series vs a Catalyst C9300, UCS B200 vs ucs-c-series. Flip lists read first; remerge OFF.
-- Top-5 by ready-gain today: weight 919, attributes:none 53, PoE 39, Stromversorgung 33, Stacking 12 (the UCS work is off-list:
-  DRIFT flagged honestly; the reviewer ordered it).
-
-## ORDER AFTER COMPACTION (reviewer verdict 30 Sep ~11:25 UTC; streak 1 -- the next report NEEDS a ready gain)
-1. ONE batch, the three ruled attribute rules, predicted +84 ready: PoE 39 (rule D: "data only"/"non-PoE" in the ordering-table
-   PID description -> poe_standard none, per-SKU read), Stromversorgung 33 (rule C: the document-level power cell ->
-   psu_config + input_voltage; today "Power" maps to __not_a_spec -- a value-shaped mapper rule), Stacking 12 (rule B:
-   stacking_bandwidth > 0 -> stackable yes, "N/A" -> no, derived:stackable-from-bandwidth, register in DERIVED_FILL_PATHS).
-   Measure each rule's population first, dry-run, gate, commit, rebuild, board, scorecard --record, report.
-   MEASURED 30 Sep (docs/reviewer/2026-09-28/three-rules-populations.txt, the sole-blocked lists): PoE 39 = 20 C9300 copper
-   'data only' (rule D covers) + 6 C9300 SFP models + 12 IEM-3300/3400/3500 expansion modules + 1 N9K-X9400-8D (NOT covered by D
-   as ruled); Stromversorgung 33 = 31 Small Business 350 switches (SF350/SG350/SG350X/SX350X: one sheet family, rule C) + 2
-   PWR-IE power supplies; Stacking 12 = C9200L models (rule B). Realistic unlock ~63 (not 84): D 20 + C up to 31 + B 12.
-2. then the comparator round (see NOW); 3. then the second-source evaluation (weight 919 is source-blocked: measured 30 Sep).
+## NOW (30 Sep ~12:30 UTC) -- FINAL FILL ORDER in force (reviewer, 30 Sep; supersedes FAST FILL / laptop lane)
+- ORDER: (1) FETCH box only, continuous, <= 1 req / 2 s, stop on 403/429/challenge/Akamai streak, lease per SERIES sheet by
+  not-held count, laptop lane dropped, disk warning < 5 GB; (2) READ rules first, headless `claude -p` (cheapest model) only for
+  tables no rule reads, snippet in / quoted cell out, drop the lane below 300 values per 1 % weekly; (3) WRITE box only, through
+  the gates, llm_table ranks below rule reads; (4) SHIPPING WEIGHT: small components get Versandgewicht from a shipping-class table
+  (derived:shipping-class), Artikelgewicht stays empty, shop_ready accepts Versandgewicht for those kinds only; (5) TODAY: the three
+  switch rules -> shipping-class rule (predict first) -> comparator round -> headless pilot (switches, transceivers, routers) ->
+  second-source evaluation (free sources, report in 3 days); (6) WATCH: dashboard + verifier nightly and after every batch,
+  scorecard with flags, weekly deep audit (200 parts, > 1 % error pauses writes).
+- LIMITS: weekly usage 51 % at 12:00 UTC (app usage card; resets 5 Oct 09:00 UTC). Headless lane pauses at 55 %, ALL work stops at
+  70 %: commit, state.md, report, wait. `scorecard.ts --weekly-pct N` prints and records it; the dashboard shows "Wochenlimit".
+- LANDED today (rulings B, C, D): 311fd8b value-shaped mapper rules + derived:stackable-from-bandwidth; d8b3f2e apply-extract
+  --partial + the gate re-reads shape E by re-running the extractor; 639753b witnesses + plan in the repo. Run 1461 (partial, tag
+  value-rules): 362 inserted, 0 conflicts, 23 protected by tier-0 seeds, 6 new doc_parts links, gate PASS 210/210. Run 1462: 44
+  stackable facts (16 C9200, 28 C9200L). Corpus-measured with the real mapFactAll over 1,679 re-extracted held sheets.
+  CORRECTION: my first count of the PoE group said 20 'data only' + 12 IEM; the list itself says 18 + 14 (the saved file is
+  column-truncated, so the phrase is cut on some lines -- counted from the extract instead: 18 blocked C9300 of 20 cells).
+- FINDING for the reviewer: 16 C9200CX parts serve stackable = yes from hexcat_seed; the C9200 sheet's t0 row 'Compact Models
+  (C9200CX SKUs)' says Stacking Bandwidth Support 'No'. Reads are never overwritten by the derivation: listed, held for a ruling.
+- stacking_bandwidth itself NOT written (class B; the row is a group statement): held for a ruling.
+- OWED REWORK: 10 unit suites red at HEAD before this batch (clean-worktree control): collabKind, cupLedger, freeStringCups,
+  layerIndex, moduleKind, productLine, promote-required, routerKind, source-fields, trayHoles -- mostly cup-set pins older than
+  the physical-object ruling (a47ebdb, 27 Sep). Mine: batches ran targeted suites, not the whole suite. Fix BEFORE the
+  shipping-class rule (it changes shop_ready, a gate).
+- SHIPPING-CLASS prediction (measured 12:20 UTC, live readiness): 921 parts have weight as their ONLY blocker, 0 carry a
+  Versandgewicht. The order's small-component kinds cover ~455: mechanical kits/brackets/blanks/covers 230, optics + cables 126,
+  power cords 42, flash/memory 29, CPUs 21, drives 7. Not covered: fans 73, devices (switches 204, video transmitters 38,
+  bundles 36, line cards 28, route processors 10, chassis 8, router modules 30, radio/cellular 27).
+- DISK (box, 12:00 UTC): 14 GB free of 38; cache 4.4 GB, +698 MB in 24 h (171 PDFs at ~4.1 MB, 4 HTML); 9 GB above the 5 GB floor
+  = ~2,200 more PDFs at that mix. Reclaimable: /tmp 1.7 GB (today's corpus scratch), /root/*.old 2.6 GB.
 
 ## Pinned predictions
 - run 1350 lands -> the enum CISCO line drops standard to 0 (was 555 seed); what remains red there is non-seed audio_codecs/antenna_type/spatial_streams + refused shape members. required_cup_defined not moved by it (other vendors seed untouched).
