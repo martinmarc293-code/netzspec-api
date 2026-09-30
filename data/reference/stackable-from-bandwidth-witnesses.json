@@ -1,0 +1,46 @@
+{
+ "ruling": "(B) reviewer, 30 Sep 2026: stated stacking bandwidth > 0 -> stackable yes for that sub-series, an explicit no -> no",
+ "built_by": "scripts/derive-stackable-from-bandwidth.mts --extract",
+ "rows": [
+  {
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-9200-series-switches/nb-06-cat9200-ser-data-sheet-cte-en.html",
+   "doc_id": "de692de8d2c8f641",
+   "cache_path": "de692de8d2c8f641a2b0b7d284ef68cb84142f9f.html",
+   "locator": "t0:r2:c4",
+   "row_header": "Modular uplink models (C9200 SKUs)",
+   "column_header": "Stacking Bandwidth Support",
+   "value": "160 Gbps",
+   "prefix": "C9200",
+   "stackable": true
+  },
+  {
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-9200-series-switches/nb-06-cat9200-ser-data-sheet-cte-en.html",
+   "doc_id": "de692de8d2c8f641",
+   "cache_path": "de692de8d2c8f641a2b0b7d284ef68cb84142f9f.html",
+   "locator": "t0:r3:c4",
+   "row_header": "Fixed uplink Models (C9200L SKUs)",
+   "column_header": "Stacking Bandwidth Support",
+   "value": "80 Gbps",
+   "prefix": "C9200L",
+   "stackable": true
+  },
+  {
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-9200-series-switches/nb-06-cat9200-ser-data-sheet-cte-en.html",
+   "doc_id": "de692de8d2c8f641",
+   "cache_path": "de692de8d2c8f641a2b0b7d284ef68cb84142f9f.html",
+   "locator": "t0:r4:c4",
+   "row_header": "Compact Models (C9200CX SKUs)",
+   "column_header": "Stacking Bandwidth Support",
+   "value": "No",
+   "prefix": "C9200CX",
+   "stackable": false
+  }
+ ],
+ "refused": [
+  {
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-9200-series-switches/nb-06-cat9200-ser-data-sheet-cte-en.html",
+   "locator": "t0:r1:c4",
+   "why": "the row header \"Modular uplink models (C9200 Enhanced VN SKUs)\" names no SKU prefix (a qualified group)"
+  }
+ ]
+}
