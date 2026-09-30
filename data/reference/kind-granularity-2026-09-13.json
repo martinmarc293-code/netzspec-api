@@ -882,6 +882,11 @@
    "basis": "unmeasured",
    "status": "re-based by the cisco lane, 25 Sep 2026, after the kind-layer plans ran (7,533 of 7,533) — the parent confirms or replaces",
    "reason": "trips term 13 on parts alone (216 parts, 11 series groups, 4 cups on 25 Sep 2026) and has more than the 3 cups rule 6 bounds a component kind at, so no checked basis applies. It crossed the threshold when the kind-layer plans moved parts into it; nothing about the kind itself changed. What would settle it is a label-Jaccard across its series groups, which this repo has for nine pairs and no script to reproduce."
+  },
+  "meraki.security-camera": {
+   "basis": "single-series",
+   "status": "recorded 30 Sep 2026 by the day session -- the reviewer confirms or replaces",
+   "reason": "35 of meraki's 69 parts (50.7%) are MV cameras in ONE series (ledger series_count 1): no series grouping exists to measure a Jaccard over, and the share is the category's size (69 parts), not a kind hiding two row shapes"
   }
  }
 }

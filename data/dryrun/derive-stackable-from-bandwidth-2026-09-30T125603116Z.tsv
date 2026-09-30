@@ -1,0 +1,84 @@
+sku	part_id	key	value	supersedes	was	raw	doc_id	locator
+C9200CX-12P-2X2G-A	5843	stackable	false	67785	verified hexcat_seed	Stacking Bandwidth Support | Compact Models (C9200CX SKUs) | No	de692de8d2c8f641	t0:r4:c4
+C9200CX-12P-2X2G-E	5842	stackable	false	67767	verified hexcat_seed	Stacking Bandwidth Support | Compact Models (C9200CX SKUs) | No	de692de8d2c8f641	t0:r4:c4
+C9200CX-12P-2XGH-A	5849	stackable	false	67892	verified hexcat_seed	Stacking Bandwidth Support | Compact Models (C9200CX SKUs) | No	de692de8d2c8f641	t0:r4:c4
+C9200CX-12P-2XGH-E	5848	stackable	false	67874	verified hexcat_seed	Stacking Bandwidth Support | Compact Models (C9200CX SKUs) | No	de692de8d2c8f641	t0:r4:c4
+C9200CX-12T-2X2G-A	5841	stackable	false	67750	verified hexcat_seed	Stacking Bandwidth Support | Compact Models (C9200CX SKUs) | No	de692de8d2c8f641	t0:r4:c4
+C9200CX-12T-2X2G-E	5840	stackable	false	67734	verified hexcat_seed	Stacking Bandwidth Support | Compact Models (C9200CX SKUs) | No	de692de8d2c8f641	t0:r4:c4
+C9200CX-8P-2X2G-A	5845	stackable	false	67821	verified hexcat_seed	Stacking Bandwidth Support | Compact Models (C9200CX SKUs) | No	de692de8d2c8f641	t0:r4:c4
+C9200CX-8P-2X2G-E	5844	stackable	false	67803	verified hexcat_seed	Stacking Bandwidth Support | Compact Models (C9200CX SKUs) | No	de692de8d2c8f641	t0:r4:c4
+C9200CX-8P-2XGH-A	5851	stackable	false	67928	verified hexcat_seed	Stacking Bandwidth Support | Compact Models (C9200CX SKUs) | No	de692de8d2c8f641	t0:r4:c4
+C9200CX-8P-2XGH-E	5850	stackable	false	67910	verified hexcat_seed	Stacking Bandwidth Support | Compact Models (C9200CX SKUs) | No	de692de8d2c8f641	t0:r4:c4
+C9200CX-8PT-2G-A	5855	stackable	false	67996	verified hexcat_seed	Stacking Bandwidth Support | Compact Models (C9200CX SKUs) | No	de692de8d2c8f641	t0:r4:c4
+C9200CX-8PT-2G-E	5854	stackable	false	67980	verified hexcat_seed	Stacking Bandwidth Support | Compact Models (C9200CX SKUs) | No	de692de8d2c8f641	t0:r4:c4
+C9200CX-8UXG-2X-A	5847	stackable	false	67855	verified hexcat_seed	Stacking Bandwidth Support | Compact Models (C9200CX SKUs) | No	de692de8d2c8f641	t0:r4:c4
+C9200CX-8UXG-2X-E	5846	stackable	false	67838	verified hexcat_seed	Stacking Bandwidth Support | Compact Models (C9200CX SKUs) | No	de692de8d2c8f641	t0:r4:c4
+C9200CX-8UXG-2XH-A	5853	stackable	false	67963	verified hexcat_seed	Stacking Bandwidth Support | Compact Models (C9200CX SKUs) | No	de692de8d2c8f641	t0:r4:c4
+C9200CX-8UXG-2XH-E	5852	stackable	false	67945	verified hexcat_seed	Stacking Bandwidth Support | Compact Models (C9200CX SKUs) | No	de692de8d2c8f641	t0:r4:c4
+C9200-24P	3090	stacking_bandwidth	160			160 Gbps	de692de8d2c8f641	t0:r2:c4
+C9200-24P-A	5798	stacking_bandwidth	160			160 Gbps	de692de8d2c8f641	t0:r2:c4
+C9200-24P-E	5799	stacking_bandwidth	160			160 Gbps	de692de8d2c8f641	t0:r2:c4
+C9200-24PB	3091	stacking_bandwidth	160			160 Gbps	de692de8d2c8f641	t0:r2:c4
+C9200-24PB-A	5800	stacking_bandwidth	160			160 Gbps	de692de8d2c8f641	t0:r2:c4
+C9200-24PXG	3092	stacking_bandwidth	160			160 Gbps	de692de8d2c8f641	t0:r2:c4
+C9200-24PXG-A	5802	stacking_bandwidth	160			160 Gbps	de692de8d2c8f641	t0:r2:c4
+C9200-24PXG-E	5801	stacking_bandwidth	160			160 Gbps	de692de8d2c8f641	t0:r2:c4
+C9200-24T	2004	stacking_bandwidth	160			160 Gbps	de692de8d2c8f641	t0:r2:c4
+C9200-24T-A	5796	stacking_bandwidth	160			160 Gbps	de692de8d2c8f641	t0:r2:c4
+C9200-24T-E	5797	stacking_bandwidth	160			160 Gbps	de692de8d2c8f641	t0:r2:c4
+C9200-48P	2005	stacking_bandwidth	160			160 Gbps	de692de8d2c8f641	t0:r2:c4
+C9200-48P-A	5805	stacking_bandwidth	160			160 Gbps	de692de8d2c8f641	t0:r2:c4
+C9200-48P-E	5806	stacking_bandwidth	160			160 Gbps	de692de8d2c8f641	t0:r2:c4
+C9200-48PB	3095	stacking_bandwidth	160			160 Gbps	de692de8d2c8f641	t0:r2:c4
+C9200-48PB-A	5809	stacking_bandwidth	160			160 Gbps	de692de8d2c8f641	t0:r2:c4
+C9200-48PL	3094	stacking_bandwidth	160			160 Gbps	de692de8d2c8f641	t0:r2:c4
+C9200-48PL-A	5807	stacking_bandwidth	160			160 Gbps	de692de8d2c8f641	t0:r2:c4
+C9200-48PL-E	5808	stacking_bandwidth	160			160 Gbps	de692de8d2c8f641	t0:r2:c4
+C9200-48PXG	3096	stacking_bandwidth	160			160 Gbps	de692de8d2c8f641	t0:r2:c4
+C9200-48PXG-A	5811	stacking_bandwidth	160			160 Gbps	de692de8d2c8f641	t0:r2:c4
+C9200-48PXG-E	5810	stacking_bandwidth	160			160 Gbps	de692de8d2c8f641	t0:r2:c4
+C9200-48T	3093	stacking_bandwidth	160			160 Gbps	de692de8d2c8f641	t0:r2:c4
+C9200-48T-A	5803	stacking_bandwidth	160			160 Gbps	de692de8d2c8f641	t0:r2:c4
+C9200-48T-E	5804	stacking_bandwidth	160			160 Gbps	de692de8d2c8f641	t0:r2:c4
+C9200L-24P-4G	2001	stacking_bandwidth	80			80 Gbps	de692de8d2c8f641	t0:r3:c4
+C9200L-24P-4G-A	5814	stacking_bandwidth	80			80 Gbps	de692de8d2c8f641	t0:r3:c4
+C9200L-24P-4G-E	5815	stacking_bandwidth	80			80 Gbps	de692de8d2c8f641	t0:r3:c4
+C9200L-24P-4X	3101	stacking_bandwidth	80			80 Gbps	de692de8d2c8f641	t0:r3:c4
+C9200L-24P-4X-A	5824	stacking_bandwidth	80			80 Gbps	de692de8d2c8f641	t0:r3:c4
+C9200L-24P-4X-E	5825	stacking_bandwidth	80			80 Gbps	de692de8d2c8f641	t0:r3:c4
+C9200L-24PXG-2Y	3107	stacking_bandwidth	80			80 Gbps	de692de8d2c8f641	t0:r3:c4
+C9200L-24PXG-2Y-A	5837	stacking_bandwidth	80			80 Gbps	de692de8d2c8f641	t0:r3:c4
+C9200L-24PXG-2Y-E	5836	stacking_bandwidth	80			80 Gbps	de692de8d2c8f641	t0:r3:c4
+C9200L-24PXG-4X	3105	stacking_bandwidth	80			80 Gbps	de692de8d2c8f641	t0:r3:c4
+C9200L-24PXG-4X-A	5833	stacking_bandwidth	80			80 Gbps	de692de8d2c8f641	t0:r3:c4
+C9200L-24PXG-4X-E	5832	stacking_bandwidth	80			80 Gbps	de692de8d2c8f641	t0:r3:c4
+C9200L-24T-4G	3097	stacking_bandwidth	80			80 Gbps	de692de8d2c8f641	t0:r3:c4
+C9200L-24T-4G-A	5812	stacking_bandwidth	80			80 Gbps	de692de8d2c8f641	t0:r3:c4
+C9200L-24T-4G-E	5813	stacking_bandwidth	80			80 Gbps	de692de8d2c8f641	t0:r3:c4
+C9200L-24T-4X	3100	stacking_bandwidth	80			80 Gbps	de692de8d2c8f641	t0:r3:c4
+C9200L-24T-4X-A	5822	stacking_bandwidth	80			80 Gbps	de692de8d2c8f641	t0:r3:c4
+C9200L-24T-4X-E	5823	stacking_bandwidth	80			80 Gbps	de692de8d2c8f641	t0:r3:c4
+C9200L-48P-4G	2006	stacking_bandwidth	80			80 Gbps	de692de8d2c8f641	t0:r3:c4
+C9200L-48P-4G-A	5818	stacking_bandwidth	80			80 Gbps	de692de8d2c8f641	t0:r3:c4
+C9200L-48P-4G-E	5819	stacking_bandwidth	80			80 Gbps	de692de8d2c8f641	t0:r3:c4
+C9200L-48P-4X	3103	stacking_bandwidth	80			80 Gbps	de692de8d2c8f641	t0:r3:c4
+C9200L-48P-4X-A	5828	stacking_bandwidth	80			80 Gbps	de692de8d2c8f641	t0:r3:c4
+C9200L-48P-4X-E	5829	stacking_bandwidth	80			80 Gbps	de692de8d2c8f641	t0:r3:c4
+C9200L-48PL-4G	3099	stacking_bandwidth	80			80 Gbps	de692de8d2c8f641	t0:r3:c4
+C9200L-48PL-4G-A	5820	stacking_bandwidth	80			80 Gbps	de692de8d2c8f641	t0:r3:c4
+C9200L-48PL-4G-E	5821	stacking_bandwidth	80			80 Gbps	de692de8d2c8f641	t0:r3:c4
+C9200L-48PL-4X	3104	stacking_bandwidth	80			80 Gbps	de692de8d2c8f641	t0:r3:c4
+C9200L-48PL-4X-A	5830	stacking_bandwidth	80			80 Gbps	de692de8d2c8f641	t0:r3:c4
+C9200L-48PL-4X-E	5831	stacking_bandwidth	80			80 Gbps	de692de8d2c8f641	t0:r3:c4
+C9200L-48PXG-2Y	3108	stacking_bandwidth	80			80 Gbps	de692de8d2c8f641	t0:r3:c4
+C9200L-48PXG-2Y-A	5839	stacking_bandwidth	80			80 Gbps	de692de8d2c8f641	t0:r3:c4
+C9200L-48PXG-2Y-E	5838	stacking_bandwidth	80			80 Gbps	de692de8d2c8f641	t0:r3:c4
+C9200L-48PXG-4X	3106	stacking_bandwidth	80			80 Gbps	de692de8d2c8f641	t0:r3:c4
+C9200L-48PXG-4X-A	5835	stacking_bandwidth	80			80 Gbps	de692de8d2c8f641	t0:r3:c4
+C9200L-48PXG-4X-E	5834	stacking_bandwidth	80			80 Gbps	de692de8d2c8f641	t0:r3:c4
+C9200L-48T-4G	3098	stacking_bandwidth	80			80 Gbps	de692de8d2c8f641	t0:r3:c4
+C9200L-48T-4G-A	5816	stacking_bandwidth	80			80 Gbps	de692de8d2c8f641	t0:r3:c4
+C9200L-48T-4G-E	5817	stacking_bandwidth	80			80 Gbps	de692de8d2c8f641	t0:r3:c4
+C9200L-48T-4X	3102	stacking_bandwidth	80			80 Gbps	de692de8d2c8f641	t0:r3:c4
+C9200L-48T-4X-A	5826	stacking_bandwidth	80			80 Gbps	de692de8d2c8f641	t0:r3:c4
+C9200L-48T-4X-E	5827	stacking_bandwidth	80			80 Gbps	de692de8d2c8f641	t0:r3:c4

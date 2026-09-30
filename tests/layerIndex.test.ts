@@ -47,8 +47,11 @@ check("CONTROL cisco/switches HAS a line file (so the two nulls above are about 
   const idx = parseLayerRows(text)!;
   const shared = [...idx.values()].filter((p) => p.product_family === "(shared across the line)");
   check(`the shared-parts marker passes through unchanged (${shared.length} rows in cisco/switches)`, shared.length > 0);
-  const anySharedSeries = [...idx.values()].some((p) => p.series === SHARED_PARTS(p.product_line));
-  check("…and such a row's series is its line's shared-parts series", anySharedSeries);
+  // FORMAT CHANGE ddfe2f8 (27 Sep 2026): the "… shared parts" navigation construct split out of `series` into `nav_bucket` --
+  // it must never enter a product column. So a shared row's SERIES is empty and its NAV_BUCKET carries the construct; both are
+  // asserted, over every shared row, so the old shape (the construct back in series) fails too.
+  const navOk = shared.filter((p) => p.nav_bucket === SHARED_PARTS(p.product_line) && p.series === "").length;
+  check(`…and every such row carries its line's shared-parts bucket in nav_bucket, never in series (${navOk} of ${shared.length})`, shared.length > 0 && navOk === shared.length);
 }
 
 // ---- SABOTAGE: the refusals, each for its stated reason ---------------------------------------------------------

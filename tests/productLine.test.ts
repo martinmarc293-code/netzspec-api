@@ -633,15 +633,21 @@ witness("meraki", [
   ["MV2", "Cisco MV2", "Meraki", "Meraki MV Smart Cameras", "MV2"],                        // not MV21 / MV22
   ["MV21", "Cisco MV21", "Meraki", "Meraki MV Smart Cameras", "MV21"],
   ["MV12WE", "Cisco MV12WE", "Meraki", "Meraki MV Smart Cameras", "MV12"],
-  ["MX95", "Cisco MX95", "Meraki", "Meraki MX Security and SD-WAN Appliances", "MX95"],
-  ["MX67C", "Cisco MX67C", "Meraki", "Meraki MX Security and SD-WAN Appliances", "MX67"],
-  ["MX105", "Cisco MX105", "Meraki", "Meraki MX Security and SD-WAN Appliances", "MX105"],   // not MX100
-  ["Z4C-HW", "Meraki Z4C Cloud Managed Teleworker Gateway", "Meraki", "Meraki Z Teleworker Gateways", "Z4C"], // not Z4
-  ["Z4-HW", "Meraki Z4 Cloud Managed Teleworker Gateway", "Meraki", "Meraki Z Teleworker Gateways", "Z4"],
   ["MG21E-HW-NA", "Meraki MG21E Cellular Gateway External Antennas – North America", "Meraki", "Meraki MG Cellular Gateways", "MG21 / MG21E"],
   ["MT40-HW", "Cisco MT40-HW", "Meraki", "Meraki MT Sensors", "MT40"],
 ]);
 witness("wireless", [["MR84", "Cisco MR84", "Meraki", "Meraki MR Access Points", "Meraki MR outdoor (MR58 / 66 / 70 / 72 / 74 / 76 / 78 / 84 / 86)"]]);
+// the MX move (af75cf2, 28 Sep 2026): 18 firewalls to security, 4 teleworker gateways to routers -- the same lines and series,
+// witnessed in the categories they now live in (they were left under meraki, and read "unplaced" there since the move)
+witness("security", [
+  ["MX95", "Cisco MX95", "Meraki", "Meraki MX Security and SD-WAN Appliances", "MX95"],
+  ["MX67C", "Cisco MX67C", "Meraki", "Meraki MX Security and SD-WAN Appliances", "MX67"],
+  ["MX105", "Cisco MX105", "Meraki", "Meraki MX Security and SD-WAN Appliances", "MX105"],   // not MX100
+]);
+witness("routers", [
+  ["Z4C-HW", "Meraki Z4C Cloud Managed Teleworker Gateway", "Meraki", "Meraki Z Teleworker Gateways", "Z4C"], // not Z4
+  ["Z4-HW", "Meraki Z4 Cloud Managed Teleworker Gateway", "Meraki", "Meraki Z Teleworker Gateways", "Z4"],
+]);
 // layers round 3, merge plans (not run): the targets place what conferencing and data-center-networking plan to move
 witness("collaboration-endpoints", [
   ["CTI-CMS-2K-M6-K9", "Cisco Meeting Server 2000 M6", "Meeting Server", "Meeting Server and TelePresence Management", "Meeting Server 1000 / 2000"],
