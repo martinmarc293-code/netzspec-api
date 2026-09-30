@@ -3,7 +3,7 @@
   "vendor": "cisco",
   "category": "optical-networking",
   "profile_hash": "7cd6fa1829bc5889",
-  "built_on_commit": "07546d0",
+  "built_on_commit": "6b76fe8",
   "norm_version": "1.8.8",
   "declared_fields": 404,
   "gap_states": {
@@ -1966,7 +1966,6 @@
         "wall_mount",
         "wavelength",
         "wavelength_range",
-        "weight",
         "wind_rating",
         "wire_gauge",
         "write_latency",
@@ -2330,6 +2329,7 @@
         "vpn_peers",
         "wan_interfaces",
         "webex_native",
+        "weight",
         "whiteboarding",
         "width",
         "wifi_generation",
@@ -3648,7 +3648,6 @@
         "wall_mount",
         "wavelength",
         "wavelength_range",
-        "weight",
         "wind_rating",
         "wire_gauge",
         "write_latency",
@@ -4012,6 +4011,7 @@
         "vpn_peers",
         "wan_interfaces",
         "webex_native",
+        "weight",
         "whiteboarding",
         "width",
         "wifi_generation",
@@ -5365,7 +5365,6 @@
         "wall_mount",
         "wavelength",
         "wavelength_range",
-        "weight",
         "wind_rating",
         "wire_gauge",
         "write_latency",
@@ -5730,6 +5729,7 @@
         "vpn_peers",
         "wan_interfaces",
         "webex_native",
+        "weight",
         "whiteboarding",
         "width",
         "wifi_generation",
@@ -16415,9 +16415,9 @@
     }
   },
   "build": {
-    "data_commit": "07546d09ba9b+82dirty",
-    "code_commit": "07546d09ba9b",
+    "data_commit": "2785b6fbc04d+82dirty",
+    "code_commit": "6b76fe8b555d",
     "contract_hash": "c7b80d502adb8305",
-    "generated_at": "2026-09-30T03:02:35.333Z"
+    "generated_at": "2026-09-30T03:44:15.471Z"
   }
 }
