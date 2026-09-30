@@ -19,7 +19,7 @@ import path from "node:path";
 import { createHash } from "node:crypto";
 import { fileURLToPath } from "node:url";
 import { getPool, closePool, withRun, withTx, insertFact, supersedeFact } from "../src/store/index.js";
-import { NORM_VERSION } from "../src/core/specNormalize.js";
+import { NORM_VERSION, normalizeField } from "../src/core/specNormalize.js";
 import { cachedText, CACHE_DIR, ws } from "../src/pipeline/apply-acquired.js";
 import { readWitnessCell } from "../src/core/stackableFromBandwidth.js";
 import { replayDerived } from "../src/core/derivedReplay.js";
@@ -72,6 +72,8 @@ const refused: string[] = [];
 const excluded: Record<string, string[]> = {};
 const readKept: string[] = [];
 let alreadyCorrect = 0, unreadable = 0;
+const bwMembers: { sku: string; partId: number; w: Witness }[] = [];
+const seedsSuperseded: string[] = [];
 const exclude = (why: string, sku: string) => { (excluded[why] ??= []).push(sku); };
 
 for (const w of table.rows) {
@@ -101,6 +103,7 @@ for (const w of table.rows) {
       if (prior.entry.value !== w.stackable) refused.push(`${m.sku}: two witnesses disagree (${prior.entry.raw} / ${raw})`);
       continue;
     }
+    bwMembers.push({ sku: m.sku, partId: m.id, w });
     plans.set(m.sku, { sku: m.sku, partId: m.id, replaces: null, was: "", entry: {
       k: "stackable", raw, value: w.stackable, state: "verified",
       prov: { tier: 2, method: METHOD, doc_id: w.doc_id, locator: w.locator, extracted_at: new Date().toISOString().slice(0, 10), norm_v: NORM_VERSION },
@@ -113,6 +116,12 @@ const cur = (await db.query<{ part_id: number; id: number; method: string; value
   [[...plans.values()].map((p) => p.partId)])).rows;
 for (const c of cur) {
   const p = [...plans.values()].find((x) => x.partId === c.part_id)!;
+  // RULING (a), 30 Sep 2026: "supersede the 16 seeds with the sheet's No -- tier 0 protects against a worse source, not against the
+  // sheet's own row for those SKUs". Only a hexcat_seed that DISAGREES with the witness; every other read is still kept.
+  if (c.value !== null && c.method === "hexcat_seed" && c.value !== p.entry.value) {
+    seedsSuperseded.push(`${p.sku} (hexcat_seed ${JSON.stringify(c.value)} -> ${JSON.stringify(p.entry.value)})`);
+    p.replaces = c.id; p.was = `${c.state} ${c.method}`; continue;
+  }
   if (c.value !== null && c.method !== METHOD) {
     readKept.push(`${p.sku} (${c.method} ${JSON.stringify(c.value)}${c.value !== p.entry.value ? " -- DISAGREES with the sheet's sub-series row" : ""})`);
     plans.delete(p.sku); continue;
@@ -121,6 +130,32 @@ for (const c of cur) {
   p.replaces = c.id; p.was = `${c.state} ${c.method}`;
 }
 const list = [...plans.values()].sort((a, b) => a.sku.localeCompare(b.sku));
+// RULING (b), 30 Sep 2026: "store stacking_bandwidth per SKU from the sub-series row, row as source -- as Q24 did for per-model
+// weights". A READ of the cell (html_table, the cell's locator, raw = the cell), for members whose row states a bandwidth; a
+// row that says "No" states no bandwidth and writes none. A read already there is kept (listed when it disagrees).
+const bwPlans: Plan[] = [];
+const bwKept: string[] = [];
+let bwAlready = 0;
+const bwCur = new Map((await db.query<{ part_id: number; id: number; method: string; value: unknown; state: string }>(
+  `SELECT part_id, id, method, value, state::text AS state FROM facts WHERE field_key = 'stacking_bandwidth' AND superseded_by IS NULL AND part_id = ANY($1::bigint[])`,
+  [bwMembers.map((m) => m.partId)])).rows.map((r) => [r.part_id, r]));
+for (const { sku, partId, w } of bwMembers) {
+  if (!w.stackable) continue;
+  const n = normalizeField("switches", "stacking_bandwidth", w.value, { locale: "en" });
+  if (!n.ok) { refused.push(`${sku}: the normaliser refuses stacking bandwidth "${w.value}" (${n.reason})`); continue; }
+  const c = bwCur.get(partId);
+  if (c && c.value !== null) {
+    if (JSON.stringify(c.value) === JSON.stringify(n.value)) { bwAlready++; continue; }
+    bwKept.push(`${sku} (${c.method} ${JSON.stringify(c.value)} -- DISAGREES with the row's ${w.value})`); continue;
+  }
+  bwPlans.push({ sku, partId, replaces: c?.id ?? null, was: c ? `${c.state} ${c.method}` : "", entry: {
+    k: "stacking_bandwidth", raw: w.value, value: n.value, unit: n.unit, state: "verified",
+    prov: { tier: 2, method: "html_table", doc_id: w.doc_id, locator: w.locator, extracted_at: new Date().toISOString().slice(0, 10), norm_v: NORM_VERSION },
+  } });
+}
+console.log(`ruling (a): ${seedsSuperseded.length} hexcat_seed stackable values superseded by the sheet's row${seedsSuperseded.length ? ": " + seedsSuperseded.join(", ") : ""}`);
+console.log(`ruling (b): stacking_bandwidth ${bwPlans.length} to write, ${bwAlready} already right, ${bwKept.length} reads kept${bwKept.length ? ": " + bwKept.join(", ") : ""}`);
+list.push(...bwPlans);
 console.log(`derived:stackable-from-bandwidth: ${table.rows.length} witness cells (sha256 ${sha.slice(0, 12)}); ${list.length} to write ` +
   `(${list.filter((p) => p.replaces).length} superseding a gap or an older derivation), ${alreadyCorrect} already correct, ` +
   `${readKept.length} reads kept, ${refused.length} refused, ${unreadable} unreadable`);
@@ -131,13 +166,14 @@ if (refused.length) { console.error(`REFUSED, nothing written:\n  ${refused.join
 // the plan is the undo: every row written, and the fact it superseded; unique per invocation, kept in the repo
 const planFile = path.join(ROOT, "data", "dryrun", `derive-stackable-from-bandwidth-${new Date().toISOString().replace(/[:.]/g, "")}${commit ? "" : "-dry"}.tsv`);
 fs.mkdirSync(path.dirname(planFile), { recursive: true });
-fs.writeFileSync(planFile, ["sku\tpart_id\tvalue\tsupersedes\twas\traw\tdoc_id\tlocator",
-  ...list.map((p) => [p.sku, p.partId, p.entry.value, p.replaces ?? "", p.was, p.entry.raw, p.entry.prov.doc_id, p.entry.prov.locator].join("\t"))].join("\n") + "\n");
+fs.writeFileSync(planFile, ["sku\tpart_id\tkey\tvalue\tsupersedes\twas\traw\tdoc_id\tlocator",
+  ...list.map((p) => [p.sku, p.partId, p.entry.k, JSON.stringify(p.entry.value), p.replaces ?? "", p.was, p.entry.raw, p.entry.prov.doc_id, p.entry.prov.locator].join("\t"))].join("\n") + "\n");
 console.log(`plan: ${path.relative(ROOT, planFile)}`);
 if (!commit) { console.log("DRY RUN: nothing written. Re-run with --commit."); await closePool(); process.exit(0); }
 const out = await withRun("derive-stackable-from-bandwidth", {
   witnesses: path.relative(ROOT, FILE), witnesses_sha256: sha, cells: table.rows.length, planned: list.length, plan: path.relative(ROOT, planFile),
-  approved: "reviewer ruling (B), 30 Sep 2026: stated stacking bandwidth > 0 -> stackable yes for that sub-series, an explicit no -> no; derived:stackable-from-bandwidth",
+  approved: "reviewer ruling (B), 30 Sep 2026: stated stacking bandwidth > 0 -> stackable yes for that sub-series, an explicit no -> no; derived:stackable-from-bandwidth. Rulings (a)/(b) of the verdict 30 Sep ~12:40: the disagreeing C9200CX seeds superseded by the sheet's row; stacking_bandwidth written per SKU from the row (html_table read)",
+  seeds_superseded: seedsSuperseded, stacking_bandwidth_written: bwPlans.length,
 }, async (runId) => withTx(async (client) => {
   for (const p of list) {
     if (p.replaces) await supersedeFact(client, p.replaces, p.entry, runId);
