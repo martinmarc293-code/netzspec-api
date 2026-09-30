@@ -48,11 +48,20 @@ def family_of(url: str) -> str:
 
 
 def decide(docs: int, docs_listing_ours: int, facts: int, defects: int, golden_rows: int,
-           min_golden: int = 5, defect_budget: float = 0.05) -> tuple[str, str]:
-    """(status, why) for one family: 'commit' only with golden rows in scope and defects inside the budget."""
+           min_golden: int = 5, defect_budget: float = 0.05, docs_with_pids: int | None = None) -> tuple[str, str]:
+    """(status, why) for one family: 'commit' only with golden rows in scope and defects inside the budget.
+
+    AN EMPTY PID LIST IS COULD-NOT-TELL, NOT "NONE OF OURS". Dry run 5 (30 Sep 2026) read 27 UCS / HyperFlex spec sheets whose
+    PDF extraction produced facts (up to 96 a sheet) and a pid_list of 0 on every one -- the extractor did not read their
+    PID tables -- and this rule, then keyed on "no document lists a part of ours", demoted exactly the families the target
+    ranks first. `no_listed_parts` (which demotes) now needs documents that DID list PIDs, none of them ours; a family whose
+    documents listed no PID at all is `no_pid_list`: staged, reported as an extractor gap, never demoted."""
     share = defects / max(facts, 1)
+    with_pids = docs if docs_with_pids is None else docs_with_pids
+    if docs and not with_pids:
+        return "staged", "no_pid_list: the extractor read no PID list from this family's documents (an extractor gap, not demoted)"
     if docs and not docs_listing_ours:
-        return "staged", "no_listed_parts: no document of this family lists a part we hold"
+        return "staged", "no_listed_parts: its documents list PIDs, none of them a part we hold"
     if golden_rows < min_golden:
         return "staged", f"golden rows owed: {golden_rows} in scope, {min_golden} needed"
     if share > defect_budget:
@@ -93,7 +102,7 @@ def main() -> int:
                                                  WHERE v.slug = 'cisco' AND p.retired_at IS NULL""").fetchall()}
 
     inputs = [(Path(x), json.loads(Path(x).read_text(encoding="utf-8"))) for x in a.extract]
-    fam = defaultdict(lambda: {"docs": 0, "docs_listing_ours": 0, "pids": set(), "facts": 0, "defects": 0})
+    fam = defaultdict(lambda: {"docs": 0, "docs_with_pids": 0, "docs_listing_ours": 0, "pids": set(), "facts": 0, "defects": 0})
     for _, data in inputs:
         for r in data.get("records", []):
             f = fam[family_of(r.get("source_url") or "")]
@@ -101,6 +110,7 @@ def main() -> int:
                 f["docs"] += 1
                 pids = {norm(p) for p in (r.get("pid_list") or [])}
                 f["pids"] |= pids
+                f["docs_with_pids"] += bool(pids)
                 f["docs_listing_ours"] += bool(pids & ours)
                 f["defects"] += len(r.get("defects") or [])
             else:
@@ -108,8 +118,10 @@ def main() -> int:
     decided = {}
     for key, f in fam.items():
         grows = sum(golden_by_sku.get(p, 0) for p in f["pids"])
-        status, why = decide(f["docs"], f["docs_listing_ours"], f["facts"], f["defects"], grows, a.min_golden, a.defect_budget)
-        decided[key] = {"status": status, "why": why, "docs": f["docs"], "docs_listing_ours": f["docs_listing_ours"],
+        status, why = decide(f["docs"], f["docs_listing_ours"], f["facts"], f["defects"], grows, a.min_golden, a.defect_budget,
+                             docs_with_pids=f["docs_with_pids"])
+        decided[key] = {"status": status, "why": why, "docs": f["docs"], "docs_with_pids": f["docs_with_pids"],
+                        "docs_listing_ours": f["docs_listing_ours"],
                         "facts": f["facts"], "defects": f["defects"], "golden_rows": grows}
 
     out = Path(a.out_dir)
@@ -137,8 +149,9 @@ def main() -> int:
     n = {s: sum(1 for d in decided.values() if d["status"] == s) for s in ("commit", "staged")}
     owed = sum(1 for d in decided.values() if d["why"].startswith("golden rows owed"))
     nolist = sum(1 for d in decided.values() if d["why"].startswith("no_listed_parts"))
-    print(f"families: {len(decided)} -- commit {n['commit']}, staged {n['staged']} (golden owed {owed}, no listed parts {nolist}, "
-          f"defect budget {n['staged'] - owed - nolist}); files: {', '.join(written) or 'none'}")
+    nopid = sum(1 for d in decided.values() if d["why"].startswith("no_pid_list"))
+    print(f"families: {len(decided)} -- commit {n['commit']}, staged {n['staged']} (golden owed {owed}, no listed parts {nolist} "
+          f"[demoted], no PID list read {nopid}, defect budget {n['staged'] - owed - nolist - nopid}); files: {len(written)}")
     return 0
 
 

@@ -54,8 +54,10 @@ if (fams) {
   const all = Object.entries(fams);
   const com = all.filter(([, f]) => f.status === "commit"), owed = all.filter(([, f]) => f.why.startsWith("golden rows owed"));
   const nolist = all.filter(([, f]) => f.why.startsWith("no_listed_parts")), budget = all.filter(([, f]) => f.why.startsWith("defect budget"));
+  const nopid = all.filter(([, f]) => f.why.startsWith("no_pid_list"));
   L.push(`families: committed ${com.length} (${com.reduce((s, [, f]) => s + f.docs, 0)} docs), staged ${all.length - com.length} ` +
-         `(golden rows owed ${owed.length}, no listed parts ${nolist.length} -> demoted, defect budget ${budget.length})`);
+         `(golden rows owed ${owed.length}, no listed parts ${nolist.length} -> demoted, NO PID LIST READ ${nopid.length} ` +
+         `(${nopid.reduce((s, [, f]) => s + f.docs, 0)} docs: an extractor gap), defect budget ${budget.length})`);
   const short = (k: string) => k.replace(/^https:\/\/www\.cisco\.com\/c\/(dam\/)?en\/us\/products\/(collateral\/)?/, "$1");
   if (owed.length) L.push(`golden rows owed (the day adds >= 5 per family, then re-splits the staged file): ` +
     owed.sort((a, b) => b[1].docs - a[1].docs).slice(0, 5).map(([k, f]) => `${short(k)} ${f.docs} docs`).join(" | "));
