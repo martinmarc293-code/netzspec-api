@@ -328,5 +328,21 @@ HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). R
 - NEXT after the report: comparator round (series-in-family, glued prefix, letter series with the line word; sabotages listed
   in 'Flip order'); then build the continuous fetch lane and the weekly deep audit the order names.
 
+## ORDER AFTER COMPACTION (reviewer verdict 30 Sep ~13:30 UTC: ON TRACK, +524 vs 519; WASTEFUL -> compact now)
+Weekly usage 53 % at 13:25 UTC (~17 % left before the 70 % stop; headless lane will not run this week).
+1. BUILD THE CONTINUOUS FETCH LANE FIRST (FINAL FILL ORDER item 1): box only, continuous, <= 1 req / 2 s, stop on 403/429/
+   challenge or an Akamai error streak (3 in a row or > 5 %), lease per SERIES sheet (ordering guides, spec sheets, datasheets)
+   ordered by NOT-HELD part count, disk warning < 5 GB. Reuse scraper/worker.py (--url-list --stop-on-block --max-minutes, the
+   soft_block constants) and the nightly's target builder (scripts/fill-night-target.mts); a systemd service or a supervised
+   nohup loop on the box, with a pause lease (reason + expiry) and a heartbeat checked from outside. The top blockers (device
+   weights 397, Betriebstemperatur 259) are mostly sheets not yet fetched.
+2. Then the comparator round (see NOW / Flip order). 3. Then the weekly deep audit (200 parts, error rate per category, > 1 %
+   pauses writes).
+RULINGS to implement (30 Sep ~13:30): (ii) a SEVENTH fill state `derived_operational` for derived:shipping-class facts (and any
+   operational, non-spec derivation): scripts/mould-verify.mts fill_state_partition (SIX -> seven, `derived_operational` shown
+   apart and EXCLUDED from filled %); the dashboard/partition text says so; the recorded history keeps its population name.
+   meraki.security-camera single-series exception: add an expiry note -- it lapses when physical-security is created (the
+   Meraki ruling), not standing. (i) fans stay XXL 15 kg: no change.
+
 ## Pinned predictions
 - run 1350 lands -> the enum CISCO line drops standard to 0 (was 555 seed); what remains red there is non-seed audio_codecs/antenna_type/spatial_streams + refused shape members. required_cup_defined not moved by it (other vendors seed untouched).
