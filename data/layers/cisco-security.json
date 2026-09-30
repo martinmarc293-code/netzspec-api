@@ -1,8 +1,8 @@
 {
   "vendor": "cisco",
   "category": "security",
-  "built_at": "2026-09-29T22:53:30.852Z",
-  "commit": "a03b7e16ecc88833c14a905c10d1a07f86d25827",
+  "built_at": "2026-09-30T00:44:13.714Z",
+  "commit": "708ee4acdf786b50f1bcac1a2d9068edc5dc2113",
   "uncommitted_rule_files": [],
   "mapping_file": "data/reference/product-lines/cisco-security.json",
   "parts": 2000,
@@ -1542,9 +1542,9 @@
   "inbound_unplaced": {},
   "done": true,
   "build": {
-    "data_commit": "a03b7e16ecc8+82dirty",
-    "code_commit": "a03b7e16ecc8",
+    "data_commit": "708ee4acdf78+83dirty",
+    "code_commit": "708ee4acdf78",
     "contract_hash": "b4fce311fad4b6a7",
-    "generated_at": "2026-09-29T23:00:45.902Z"
+    "generated_at": "2026-09-30T00:51:30.602Z"
   }
 }
