@@ -3,7 +3,7 @@
   "vendor": "cisco",
   "category": "switches",
   "profile_hash": "22a5e52a2f5049db",
-  "built_on_commit": "6b76fe8",
+  "built_on_commit": "b416463",
   "norm_version": "1.8.8",
   "declared_fields": 457,
   "gap_states": {
@@ -1529,10 +1529,14 @@
             }
           ],
           "parts_holding_by_method": {
-            "hexcat_seed": 1062,
-            "html_table": 701,
+            "derived:condition-intersection": 61,
+            "hexcat_seed": 950,
+            "html_table": 659,
+            "vendor_page:cisco-datasheets": 93,
             "vendor_page:meraki": 53
           },
+          "derived_by": "src/core/conditionIntersection.ts temperatureIntersection (writer scripts/correct-temps-by-sheet.mts from data/reference/temp-correction-witnesses.json, scripts/temp-correction-witnesses.py)",
+          "derivation_validated": "30 Sep 2026: 35 Catalyst 1300 models from the one cell stating '-5° to 50°C' plus 'Minimum ambient temperature for cold start is 0°C' -> 0..50; 27 IE3200/3300/3400/3500 parts holding the enclosure statement ('-40..70 vented, -40..60 sealed, -40..75 fan-equipped') -> -40..60; every cell re-read WHOLE on its cached page before a write (gate 178 of 178); IE2000 (a -34 °C fan case) held and asked; the function's cases and 6 sabotages in tests/conditionIntersection.test.ts",
           "observed_fill_path": true,
           "observed_filled": true,
           "seed_only": false
@@ -4295,10 +4299,14 @@
                 }
               ],
               "parts_holding_by_method": {
-                "hexcat_seed": 1062,
-                "html_table": 701,
+                "derived:condition-intersection": 61,
+                "hexcat_seed": 950,
+                "html_table": 659,
+                "vendor_page:cisco-datasheets": 93,
                 "vendor_page:meraki": 53
               },
+              "derived_by": "src/core/conditionIntersection.ts temperatureIntersection (writer scripts/correct-temps-by-sheet.mts from data/reference/temp-correction-witnesses.json, scripts/temp-correction-witnesses.py)",
+              "derivation_validated": "30 Sep 2026: 35 Catalyst 1300 models from the one cell stating '-5° to 50°C' plus 'Minimum ambient temperature for cold start is 0°C' -> 0..50; 27 IE3200/3300/3400/3500 parts holding the enclosure statement ('-40..70 vented, -40..60 sealed, -40..75 fan-equipped') -> -40..60; every cell re-read WHOLE on its cached page before a write (gate 178 of 178); IE2000 (a -34 °C fan case) held and asked; the function's cases and 6 sabotages in tests/conditionIntersection.test.ts",
               "observed_fill_path": true,
               "observed_filled": true,
               "seed_only": false
@@ -6887,10 +6895,14 @@
                 }
               ],
               "parts_holding_by_method": {
-                "hexcat_seed": 1062,
-                "html_table": 701,
+                "derived:condition-intersection": 61,
+                "hexcat_seed": 950,
+                "html_table": 659,
+                "vendor_page:cisco-datasheets": 93,
                 "vendor_page:meraki": 53
               },
+              "derived_by": "src/core/conditionIntersection.ts temperatureIntersection (writer scripts/correct-temps-by-sheet.mts from data/reference/temp-correction-witnesses.json, scripts/temp-correction-witnesses.py)",
+              "derivation_validated": "30 Sep 2026: 35 Catalyst 1300 models from the one cell stating '-5° to 50°C' plus 'Minimum ambient temperature for cold start is 0°C' -> 0..50; 27 IE3200/3300/3400/3500 parts holding the enclosure statement ('-40..70 vented, -40..60 sealed, -40..75 fan-equipped') -> -40..60; every cell re-read WHOLE on its cached page before a write (gate 178 of 178); IE2000 (a -34 °C fan case) held and asked; the function's cases and 6 sabotages in tests/conditionIntersection.test.ts",
               "observed_fill_path": true,
               "observed_filled": true,
               "seed_only": false
@@ -9580,10 +9592,14 @@
                 }
               ],
               "parts_holding_by_method": {
-                "hexcat_seed": 1062,
-                "html_table": 701,
+                "derived:condition-intersection": 61,
+                "hexcat_seed": 950,
+                "html_table": 659,
+                "vendor_page:cisco-datasheets": 93,
                 "vendor_page:meraki": 53
               },
+              "derived_by": "src/core/conditionIntersection.ts temperatureIntersection (writer scripts/correct-temps-by-sheet.mts from data/reference/temp-correction-witnesses.json, scripts/temp-correction-witnesses.py)",
+              "derivation_validated": "30 Sep 2026: 35 Catalyst 1300 models from the one cell stating '-5° to 50°C' plus 'Minimum ambient temperature for cold start is 0°C' -> 0..50; 27 IE3200/3300/3400/3500 parts holding the enclosure statement ('-40..70 vented, -40..60 sealed, -40..75 fan-equipped') -> -40..60; every cell re-read WHOLE on its cached page before a write (gate 178 of 178); IE2000 (a -34 °C fan case) held and asked; the function's cases and 6 sabotages in tests/conditionIntersection.test.ts",
               "observed_fill_path": true,
               "observed_filled": true,
               "seed_only": false
@@ -12224,10 +12240,14 @@
                 }
               ],
               "parts_holding_by_method": {
-                "hexcat_seed": 1062,
-                "html_table": 701,
+                "derived:condition-intersection": 61,
+                "hexcat_seed": 950,
+                "html_table": 659,
+                "vendor_page:cisco-datasheets": 93,
                 "vendor_page:meraki": 53
               },
+              "derived_by": "src/core/conditionIntersection.ts temperatureIntersection (writer scripts/correct-temps-by-sheet.mts from data/reference/temp-correction-witnesses.json, scripts/temp-correction-witnesses.py)",
+              "derivation_validated": "30 Sep 2026: 35 Catalyst 1300 models from the one cell stating '-5° to 50°C' plus 'Minimum ambient temperature for cold start is 0°C' -> 0..50; 27 IE3200/3300/3400/3500 parts holding the enclosure statement ('-40..70 vented, -40..60 sealed, -40..75 fan-equipped') -> -40..60; every cell re-read WHOLE on its cached page before a write (gate 178 of 178); IE2000 (a -34 °C fan case) held and asked; the function's cases and 6 sabotages in tests/conditionIntersection.test.ts",
               "observed_fill_path": true,
               "observed_filled": true,
               "seed_only": false
@@ -14917,10 +14937,14 @@
                 }
               ],
               "parts_holding_by_method": {
-                "hexcat_seed": 1062,
-                "html_table": 701,
+                "derived:condition-intersection": 61,
+                "hexcat_seed": 950,
+                "html_table": 659,
+                "vendor_page:cisco-datasheets": 93,
                 "vendor_page:meraki": 53
               },
+              "derived_by": "src/core/conditionIntersection.ts temperatureIntersection (writer scripts/correct-temps-by-sheet.mts from data/reference/temp-correction-witnesses.json, scripts/temp-correction-witnesses.py)",
+              "derivation_validated": "30 Sep 2026: 35 Catalyst 1300 models from the one cell stating '-5° to 50°C' plus 'Minimum ambient temperature for cold start is 0°C' -> 0..50; 27 IE3200/3300/3400/3500 parts holding the enclosure statement ('-40..70 vented, -40..60 sealed, -40..75 fan-equipped') -> -40..60; every cell re-read WHOLE on its cached page before a write (gate 178 of 178); IE2000 (a -34 °C fan case) held and asked; the function's cases and 6 sabotages in tests/conditionIntersection.test.ts",
               "observed_fill_path": true,
               "observed_filled": true,
               "seed_only": false
@@ -17483,10 +17507,14 @@
                 }
               ],
               "parts_holding_by_method": {
-                "hexcat_seed": 1062,
-                "html_table": 701,
+                "derived:condition-intersection": 61,
+                "hexcat_seed": 950,
+                "html_table": 659,
+                "vendor_page:cisco-datasheets": 93,
                 "vendor_page:meraki": 53
               },
+              "derived_by": "src/core/conditionIntersection.ts temperatureIntersection (writer scripts/correct-temps-by-sheet.mts from data/reference/temp-correction-witnesses.json, scripts/temp-correction-witnesses.py)",
+              "derivation_validated": "30 Sep 2026: 35 Catalyst 1300 models from the one cell stating '-5° to 50°C' plus 'Minimum ambient temperature for cold start is 0°C' -> 0..50; 27 IE3200/3300/3400/3500 parts holding the enclosure statement ('-40..70 vented, -40..60 sealed, -40..75 fan-equipped') -> -40..60; every cell re-read WHOLE on its cached page before a write (gate 178 of 178); IE2000 (a -34 °C fan case) held and asked; the function's cases and 6 sabotages in tests/conditionIntersection.test.ts",
               "observed_fill_path": true,
               "observed_filled": true,
               "seed_only": false
@@ -19852,10 +19880,14 @@
             }
           ],
           "parts_holding_by_method": {
-            "hexcat_seed": 1062,
-            "html_table": 701,
+            "derived:condition-intersection": 61,
+            "hexcat_seed": 950,
+            "html_table": 659,
+            "vendor_page:cisco-datasheets": 93,
             "vendor_page:meraki": 53
           },
+          "derived_by": "src/core/conditionIntersection.ts temperatureIntersection (writer scripts/correct-temps-by-sheet.mts from data/reference/temp-correction-witnesses.json, scripts/temp-correction-witnesses.py)",
+          "derivation_validated": "30 Sep 2026: 35 Catalyst 1300 models from the one cell stating '-5° to 50°C' plus 'Minimum ambient temperature for cold start is 0°C' -> 0..50; 27 IE3200/3300/3400/3500 parts holding the enclosure statement ('-40..70 vented, -40..60 sealed, -40..75 fan-equipped') -> -40..60; every cell re-read WHOLE on its cached page before a write (gate 178 of 178); IE2000 (a -34 °C fan case) held and asked; the function's cases and 6 sabotages in tests/conditionIntersection.test.ts",
           "observed_fill_path": true,
           "observed_filled": true,
           "seed_only": false
@@ -21430,10 +21462,14 @@
             }
           ],
           "parts_holding_by_method": {
-            "hexcat_seed": 1062,
-            "html_table": 701,
+            "derived:condition-intersection": 61,
+            "hexcat_seed": 950,
+            "html_table": 659,
+            "vendor_page:cisco-datasheets": 93,
             "vendor_page:meraki": 53
           },
+          "derived_by": "src/core/conditionIntersection.ts temperatureIntersection (writer scripts/correct-temps-by-sheet.mts from data/reference/temp-correction-witnesses.json, scripts/temp-correction-witnesses.py)",
+          "derivation_validated": "30 Sep 2026: 35 Catalyst 1300 models from the one cell stating '-5° to 50°C' plus 'Minimum ambient temperature for cold start is 0°C' -> 0..50; 27 IE3200/3300/3400/3500 parts holding the enclosure statement ('-40..70 vented, -40..60 sealed, -40..75 fan-equipped') -> -40..60; every cell re-read WHOLE on its cached page before a write (gate 178 of 178); IE2000 (a -34 °C fan case) held and asked; the function's cases and 6 sabotages in tests/conditionIntersection.test.ts",
           "observed_fill_path": true,
           "observed_filled": true,
           "seed_only": false
@@ -36886,9 +36922,9 @@
     }
   },
   "build": {
-    "data_commit": "2785b6fbc04d+82dirty",
-    "code_commit": "6b76fe8b555d",
+    "data_commit": "e5839cc512b9+82dirty",
+    "code_commit": "e5839cc512b9",
     "contract_hash": "c7b80d502adb8305",
-    "generated_at": "2026-09-30T03:44:15.471Z"
+    "generated_at": "2026-09-30T05:43:58.090Z"
   }
 }

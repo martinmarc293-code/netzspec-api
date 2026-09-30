@@ -124,9 +124,9 @@
   },
   "coverage_note": "13 of 54 switch fields carry an ETIM mapping. The other 41 have NO ETIM feature - a closed mapping gap, recorded as an empty array in the dictionary, not an open TODO.",
   "build": {
-    "data_commit": "2785b6fbc04d+82dirty",
-    "code_commit": "6b76fe8b555d",
+    "data_commit": "e5839cc512b9+82dirty",
+    "code_commit": "e5839cc512b9",
     "contract_hash": "c7b80d502adb8305",
-    "generated_at": "2026-09-30T03:44:15.471Z"
+    "generated_at": "2026-09-30T05:43:58.090Z"
   }
 }
