@@ -1,9 +1,9 @@
 {
-  "contract_hash": "ae08c48ebe0b9b8a",
-  "generated_at": "2026-09-30T02:15:26.347Z",
-  "code_commit": "2ec1394c584b061c442b697daa27dac2acfdb138",
+  "contract_hash": "c7b80d502adb8305",
+  "generated_at": "2026-09-30T02:30:26.733Z",
+  "code_commit": "8f09a858577c037cdf03d45cc174229c324ddfd2",
   "code_branch": "cisco",
-  "dirty_files": 92,
+  "dirty_files": 82,
   "counts": {
     "dictionary_keys": 610,
     "categories": 26,
@@ -5481,6 +5481,9 @@
         },
         "certifications": {
           "kind": "opt"
+        },
+        "shipping_weight": {
+          "kind": "opt"
         }
       },
       "software": {
@@ -5551,6 +5554,9 @@
           "kind": "opt"
         },
         "certifications": {
+          "kind": "opt"
+        },
+        "shipping_weight": {
           "kind": "opt"
         }
       },
@@ -5623,6 +5629,9 @@
         },
         "certifications": {
           "kind": "opt"
+        },
+        "shipping_weight": {
+          "kind": "opt"
         }
       },
       "data-center-analytics": {
@@ -5690,6 +5699,9 @@
           "kind": "opt"
         },
         "certifications": {
+          "kind": "opt"
+        },
+        "shipping_weight": {
           "kind": "opt"
         }
       },
@@ -7330,6 +7342,9 @@
         "write_latency": {
           "kind": "opt"
         },
+        "shipping_weight": {
+          "kind": "opt"
+        },
         "gain": {
           "kind": "opt"
         },
@@ -8793,6 +8808,9 @@
         "video_interfaces": {
           "kind": "opt"
         },
+        "shipping_weight": {
+          "kind": "opt"
+        },
         "rx_max_input_power": {
           "kind": "opt"
         }
@@ -9812,6 +9830,9 @@
             ]
           }
         },
+        "shipping_weight": {
+          "kind": "opt"
+        },
         "deploy_role": {
           "elseOpt": true,
           "kind": "cond",
@@ -10786,6 +10807,9 @@
           "kind": "opt"
         },
         "write_latency": {
+          "kind": "opt"
+        },
+        "shipping_weight": {
           "kind": "opt"
         },
         "iops_random_read_4k": {
@@ -11782,6 +11806,9 @@
           "kind": "opt"
         },
         "write_latency": {
+          "kind": "opt"
+        },
+        "shipping_weight": {
           "kind": "opt"
         },
         "iops_random_read_4k": {
@@ -13494,6 +13521,9 @@
         "license_for": {
           "kind": "opt"
         },
+        "shipping_weight": {
+          "kind": "opt"
+        },
         "gain": {
           "kind": "opt"
         },
@@ -14920,6 +14950,9 @@
         "voq_buffer": {
           "kind": "opt"
         },
+        "shipping_weight": {
+          "kind": "opt"
+        },
         "gain": {
           "kind": "opt"
         },
@@ -15894,6 +15927,9 @@
           }
         },
         "camera_zoom": {
+          "kind": "opt"
+        },
+        "shipping_weight": {
           "kind": "opt"
         },
         "deploy_role": {
@@ -17943,6 +17979,9 @@
         "license_for": {
           "kind": "opt"
         },
+        "shipping_weight": {
+          "kind": "opt"
+        },
         "gain": {
           "kind": "opt"
         },
@@ -18279,6 +18318,9 @@
           "kind": "opt"
         },
         "timing_sync": {
+          "kind": "opt"
+        },
+        "shipping_weight": {
           "kind": "opt"
         }
       },
@@ -20454,6 +20496,9 @@
             ]
           }
         },
+        "shipping_weight": {
+          "kind": "opt"
+        },
         "gain": {
           "kind": "opt"
         },
@@ -21880,6 +21925,9 @@
           "kind": "opt"
         },
         "chromatic_dispersion_tolerance": {
+          "kind": "opt"
+        },
+        "shipping_weight": {
           "kind": "opt"
         },
         "gain": {
@@ -23734,6 +23782,9 @@
             ]
           }
         },
+        "shipping_weight": {
+          "kind": "opt"
+        },
         "gain": {
           "kind": "opt"
         },
@@ -25386,6 +25437,9 @@
               "module"
             ]
           }
+        },
+        "shipping_weight": {
+          "kind": "opt"
         },
         "gain": {
           "kind": "opt"
@@ -28156,6 +28210,9 @@
         "poe_standard": {
           "kind": "opt"
         },
+        "shipping_weight": {
+          "kind": "opt"
+        },
         "iops_random_read_4k": {
           "kind": "opt"
         },
@@ -29791,6 +29848,9 @@
         "thermal_shock": {
           "kind": "opt"
         },
+        "shipping_weight": {
+          "kind": "opt"
+        },
         "rx_max_input_power": {
           "kind": "opt"
         }
@@ -31179,6 +31239,9 @@
               "module"
             ]
           }
+        },
+        "shipping_weight": {
+          "kind": "opt"
         },
         "gain": {
           "kind": "opt"

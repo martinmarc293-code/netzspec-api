@@ -1,8 +1,8 @@
 {
   "vendor": "cisco",
   "category": "collaboration-endpoints",
-  "built_at": "2026-09-30T02:06:31.068Z",
-  "commit": "2ec1394c584b061c442b697daa27dac2acfdb138",
+  "built_at": "2026-09-30T02:23:34.656Z",
+  "commit": "8f09a858577c037cdf03d45cc174229c324ddfd2",
   "uncommitted_rule_files": [],
   "mapping_file": "data/reference/product-lines/cisco-collaboration-endpoints.json",
   "parts": 2937,
@@ -2022,9 +2022,9 @@
   "inbound_unplaced": {},
   "done": true,
   "build": {
-    "data_commit": "2ec1394c584b+92dirty",
-    "code_commit": "2ec1394c584b",
-    "contract_hash": "ae08c48ebe0b9b8a",
-    "generated_at": "2026-09-30T02:15:33.284Z"
+    "data_commit": "b53bdafa7427+82dirty",
+    "code_commit": "8f09a858577c",
+    "contract_hash": "c7b80d502adb8305",
+    "generated_at": "2026-09-30T02:30:30.426Z"
   }
 }
