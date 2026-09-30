@@ -12625,9 +12625,9 @@
     }
   },
   "build": {
-    "data_commit": "639753baa955+83dirty",
-    "code_commit": "639753baa955",
+    "data_commit": "2a5ba0deb4ae+2dirty",
+    "code_commit": "2a5ba0deb4ae",
     "contract_hash": "c7b80d502adb8305",
-    "generated_at": "2026-09-30T12:21:12.855Z"
+    "generated_at": "2026-09-30T12:39:36.826Z"
   }
 }
