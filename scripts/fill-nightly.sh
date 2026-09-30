@@ -95,23 +95,34 @@ rc=$?
 log "acquire exit $rc"
 [ $rc = 3 ] && stop acquire "$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1])).get("stop_reason"))' "$NIGHT/acquire.json" 2>/dev/null)"
 [ $rc = 0 ] || stop acquire "worker exit $rc (see $NIGHT/acquire.log)"
-# ---- APPLY: documents fetched (or re-read) by the pipeline and not yet applied, through the gate -------------------------------
-# A WATERMARK, not a date: every acquired day directory without an `.applied` marker. Keyed on the date alone, a day's
-# fetches that were never applied (a stopped night, a dry run by hand) would be stranded -- done in the queue, cached, and
-# never read into the store. The marker is written only after a COMMITTED apply succeeded; apply-acquired reads *.json only.
-APPLY_DIRS=()
-for d in "$FILL/runs/acquired/cisco-datasheets"/*/; do
-  [ -d "$d" ] && [ ! -f "$d.applied" ] && APPLY_DIRS+=("${d%/}")
+# ---- EXTRACT -> MAP -> GATE -> APPLY: the documents the lane finished since the watermark ---------------------------------------
+# The lane's own acquired JSON is family-scoped for most Cisco datasheets (a series table, a PID list at the back), and
+# apply-acquired skips family-scoped records by design -- the first dry run read 63 pages, 220 entries, 0 parts matched.
+# The Cisco datasheet path is the deep extractor (HTML) and the PDF extractor, run CACHE-ONLY over exactly these documents,
+# then `ingest apply-extract`: it writes the document's PID list first and inherits a series value only into the SKUs the
+# document lists, and its gate (precision, recall, provenance, regression) decides the commit. A WATERMARK, not a date:
+# the watermark moves only after a COMMITTED apply, so a stopped night's documents are extracted by the next one.
+WM=$(cat "$FILL/extract-watermark" 2>/dev/null || echo "2026-09-30T06:40:00Z")
+python3 scripts/fill-night-docs.py --since "$WM" --out-dir "$NIGHT" > "$NIGHT/docs.log" 2>&1 || stop extract "fill-night-docs failed (see $NIGHT/docs.log)"
+log "$(tail -1 "$NIGHT/docs.log")"
+EXTRACTS=()
+for kind in html pdf; do
+  [ -s "$NIGHT/$kind.txt" ] || continue
+  adapter=cisco-specs-deep; [ $kind = pdf ] && adapter=cisco-specs-pdf
+  python3 scraper/run.py $adapter --cache-only --urls-file "$NIGHT/$kind.txt" --out "$NIGHT/extract-$kind.json" > "$NIGHT/extract-$kind.log" 2>&1 \
+    || stop extract "$adapter exit $? (see $NIGHT/extract-$kind.log)"
+  EXTRACTS+=("$NIGHT/extract-$kind.json")
 done
-N_ACQ=0; for d in "${APPLY_DIRS[@]}"; do N_ACQ=$(( N_ACQ + $(ls "$d" | grep -c '\.json$') )); done
-log "unapplied acquired files: $N_ACQ in ${#APPLY_DIRS[@]} day director(ies)"
-if [ "$N_ACQ" -gt 0 ]; then
+if [ ${#EXTRACTS[@]} -gt 0 ]; then
   COMMIT=--commit; [ "$DRY" = 1 ] && COMMIT=""
-  npm run -s ingest -- apply-acquired "${APPLY_DIRS[@]}" $COMMIT --vendor cisco > "$NIGHT/apply.log" 2>&1
+  npm run -s ingest -- apply-extract "${EXTRACTS[@]}" $COMMIT --vendor cisco > "$NIGHT/apply.log" 2>&1
   rc=$?
-  log "apply exit $rc"
-  [ $rc = 0 ] || stop apply "apply-acquired exit $rc: a failed gate or error (see $NIGHT/apply.log)"
-  if [ "$DRY" = 0 ]; then for d in "${APPLY_DIRS[@]}"; do date -u +%FT%TZ > "$d/.applied"; done; fi
+  log "apply-extract exit $rc"
+  [ $rc = 0 ] || stop apply "apply-extract exit $rc: a failed gate or an error (see $NIGHT/apply.log)"
+fi
+if [ "$DRY" = 0 ]; then
+  python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["watermark_next"])' "$NIGHT/docs.json" > "$FILL/extract-watermark.new" \
+    && mv "$FILL/extract-watermark.new" "$FILL/extract-watermark"
 fi
 
 if [ "$DRY" = 1 ]; then
