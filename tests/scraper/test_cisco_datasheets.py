@@ -392,6 +392,118 @@ check("M7", "SABOTAGE the lane's RESULT carries the page's defects, so apply-acq
             "list used to be built and discarded)",
       any(d.get("code") == "MODEL_ROW_UNATTRIBUTABLE" for d in (_res.get("defects") or [])), _res.get("defects"))
 
+# ---- shape D: a NESTED per-model sub-table inside an attribute table (30 Sep 2026, the weight lane) ------------------
+# The fixture keeps the real Catalyst 1300 / Business 220 geometry: a "Feature | Description" table whose label cell is
+# rowspanned down a block and whose model and value cells are each colspanned over two columns.
+def _nested(block_rows, head=("Model", "Unit weight"), label="Unit weight", extra="", rowspan=True):
+    n = len(block_rows) + 1
+    sub = f'<td colspan="2">{head[0]}</td>' + "".join(f'<td colspan="{4 // (len(head) - 1)}">{h}</td>' for h in head[1:])
+    lead = "" if rowspan else "<td></td>"          # the SF350 sheets leave the label cell BLANK instead of spanning it
+    body = "".join("<tr>" + lead + "".join(f'<td colspan="{span}">{c}</td>' for c, span in r) + "</tr>" for r in block_rows)
+    return ("<html><body><table><tr><th>Feature</th><th colspan=\"6\">Description</th></tr>"
+            f'<tr><td rowspan="{n if rowspan else 1}">{label}</td>{sub}</tr>{body}'
+            '<tr><td>Power</td><td colspan="6">100-240V 50-60 Hz, internal, universal</td></tr>'
+            f"{extra}</table></body></html>")
+
+
+_W = [[("C1300-8T-E-2G", 2), ("1.39 kg (3.06 lb)", 4)], [("C1300-8P-E-2G", 2), ("1.72 kg (3.79 lb)", 4)],
+      [("C1300-16T-2G", 2), ("2.18 kg (4.80 lb)", 4)]]
+_r = DEEP.extract_document(_nested(_W), NO_MAP_URL)
+_got = {(x.get("sku"), x["label"]): x for x in _r["facts"] if x.get("sku")}
+check("SD1", "a nested 'label | Model | value' sub-table is read PER MODEL: each weight lands on its own row's PID, shape D, "
+            "located at the value cell",
+      _got.get(("C1300-8T-E-2G", "Unit weight"), {}).get("value") == "1.39 kg (3.06 lb)"
+      and _got.get(("C1300-8P-E-2G", "Unit weight"), {}).get("value") == "1.72 kg (3.79 lb)"
+      and _got.get(("C1300-16T-2G", "Unit weight"), {}).get("value") == "2.18 kg (4.80 lb)"
+      and all(x["shape"] == "D" for x in _got.values()) and _got[("C1300-8T-E-2G", "Unit weight")]["locator"] == "t0:r2:c3",
+      sorted((k, v["value"], v["locator"]) for k, v in _got.items()))
+_noise = [x for x in _r["facts"] if not x.get("sku") and x["label"] == "Unit weight"]
+check("SD2", "SABOTAGE shape B's reading of the SAME block (the PID and the weight as two document-level values of 'Unit "
+            "weight', pairing lost) is withheld and counted, not emitted beside it; the row after the block is untouched",
+      not _noise and _r["counts"].get("B_read_as_D", 0) > 0
+      and any(x["label"] == "Power" and x.get("family_scope") for x in _r["facts"]),
+      ([(x["label"], x["value"]) for x in _noise], _r["counts"]))
+
+_r = DEEP.extract_document(_nested(_W, head=("Model", "Specification")), NO_MAP_URL)
+check("SD3", "SABOTAGE a sub-table whose value column is a GENERIC word ('Specification') is NOT read per model: it names "
+            "no measurement",
+      not any(x.get("shape") == "D" for x in _r["facts"]), [(x.get("sku"), x["label"]) for x in _r["facts"]][:6])
+
+_r = DEEP.extract_document(_nested([[("C1300-8T-E-2G", 2), ("1.39 kg", 2), ("1.52 kg", 2)]], head=("Model", "AC PSU", "DC PSU")),
+                           NO_MAP_URL)
+check("SD4", "SABOTAGE two value columns (AC PSU | DC PSU) are CONFIGURATIONS and stay unread as a model's single value",
+      not any(x.get("shape") == "D" for x in _r["facts"]), [(x.get("sku"), x["label"], x["value"]) for x in _r["facts"]][:6])
+
+_r = DEEP.extract_document(_nested([[("C1300-8T-E-2G", 2), ("1.39 kg", 2), ("", 2)]], head=("Model", "AC PSU", "DC PSU")),
+                           NO_MAP_URL)
+check("SD4b", "SABOTAGE a configuration table is refused by its HEADER, not by luck: with the DC cell blank the row prints "
+             "one value, and it is still not read as the model's weight under 'AC PSU'",
+      not any(x.get("shape") == "D" for x in _r["facts"]), [(x.get("sku"), x["label"], x["value"]) for x in _r["facts"]][:6])
+
+_r = DEEP.extract_document(_nested(_W, head=("Router", "Unit weight")), NO_MAP_URL)
+check("SD8", "SABOTAGE only the measured model words head a sub-table's model column ('Model', 'Model name', ...): "
+            "'Router' is not one of them, so the block keeps the path it always had",
+      not any(x.get("shape") == "D" for x in _r["facts"]), [(x.get("sku"), x["label"]) for x in _r["facts"]][:6])
+
+_r = DEEP.extract_document(_nested(_W[:1], extra='<tr><td>Dimensions</td><td colspan="2">C1300-8P-E-2G</td>'
+                                                 '<td colspan="4">268 x 170 x 44 mm</td></tr>'), NO_MAP_URL)
+check("SD9", "SABOTAGE a new label ENDS the block: a later 'Dimensions | PID | value' row with the same spans is not read "
+            "as that PID's weight",
+      not any(x.get("sku") == "C1300-8P-E-2G" and x["label"] == "Unit weight" for x in _r["facts"])
+      and any(x.get("sku") == "C1300-8T-E-2G" and x["label"] == "Unit weight" for x in _r["facts"]),
+      [(x.get("sku"), x["label"], x["value"]) for x in _r["facts"] if x.get("sku")])
+
+_r = DEEP.extract_document(_nested([_W[0], [("Cisco Catalyst 1300 8-port", 2), ("1.72 kg (3.79 lb)", 4)]]), NO_MAP_URL)
+_un = [y for y in _r["defects"] if y["code"] == "MODEL_ROW_UNATTRIBUTABLE"]
+check("SD5", "SABOTAGE a block row naming no attributable PID is RECORDED, its weight given to nobody, and the good row "
+            "beside it still read",
+      len(_un) == 1 and _un[0]["locator"] == "t0:r3" and not any(x.get("value") == "1.72 kg (3.79 lb)" and x.get("sku") for x in _r["facts"])
+      and any(x.get("sku") == "C1300-8T-E-2G" and x.get("shape") == "D" for x in _r["facts"]), (_un, _r["counts"]))
+
+_r = DEEP.extract_document(_nested([_W[0], [("C1300-8P-E-2G", 3), ("1.72 kg (3.79 lb)", 3)]]), NO_MAP_URL)
+_mis = [y for y in _r["defects"] if y["code"] == "SUBTABLE_ROW_MISALIGNED"]
+check("SD6", "SABOTAGE a block row whose cells break the sub-header's column spans is RECORDED as misaligned and not read "
+            "as a model row (a shifted cell is how a weight lands on the wrong model)",
+      len(_mis) == 1 and _mis[0]["locator"] == "t0:r3" and not any(x.get("sku") == "C1300-8P-E-2G" for x in _r["facts"]),
+      (_mis, [(x.get("sku"), x["value"]) for x in _r["facts"] if x.get("sku")]))
+
+_r = DEEP.extract_document(_nested([[("C1300-8T-E-2G", 2), ("32 W", 4)]], head=("Model", "Worst case"), label="Power consumption"),
+                           NO_MAP_URL)
+check("SD7", "a value header that differs from the label QUALIFIES it, the way shape A's two-row headers do",
+      any(x.get("sku") == "C1300-8T-E-2G" and x["label"] == "Power consumption [Worst case]" and x["value"] == "32 W"
+          for x in _r["facts"]), [(x.get("sku"), x["label"], x["value"]) for x in _r["facts"]][:6])
+
+_r = DEEP.extract_document(_nested(_W, rowspan=False), NO_MAP_URL)
+_got = {x["sku"]: x["value"] for x in _r["facts"] if x.get("shape") == "D"}
+check("SD10", "continuation rows whose label cell is BLANK (the SF350 / SF220 layout) belong to the block and are read "
+             "per model, all three of them",
+      _got == {"C1300-8T-E-2G": "1.39 kg (3.06 lb)", "C1300-8P-E-2G": "1.72 kg (3.79 lb)", "C1300-16T-2G": "2.18 kg (4.80 lb)"}, _got)
+
+_r = DEEP.extract_document(_nested([[("C1300-8T-E-2G", 2), ("0.13 kVA", 4)]], head=("Model", "Power Rating"), label="Model"),
+                           NO_MAP_URL)
+check("SD11", "SABOTAGE a row whose own label is a MODEL WORD ('Model | Model | Power Rating', the 2960 sheets) is a model "
+             "table's header, not an attribute's sub-table",
+      not any(x.get("shape") == "D" for x in _r["facts"]) and not _r["counts"].get("B_read_as_D"), _r["counts"])
+
+_r = DEEP.extract_document(_nested(_W, head=("Product Number", "Product Description"), label="Product Number and Description"),
+                           NO_MAP_URL)
+check("SD12", "SABOTAGE a value column headed 'Product Description' is a description, not a measurement, and is not read "
+             "per model",
+      not any(x.get("shape") == "D" for x in _r["facts"]), [(x.get("sku"), x["label"]) for x in _r["facts"]][:6])
+
+_r = DEEP.extract_document(_nested(_W, head=("Model name", "Unit dimensions"), label="Unit dimensions (W x D x H)"), NO_MAP_URL)
+check("SD13", "a value header that only RESTATES the label adds no qualifier: the label stays exactly as printed, so its "
+             "axis order and its mapper rule still apply",
+      any(x.get("sku") == "C1300-8T-E-2G" and x["label"] == "Unit dimensions (W x D x H)" for x in _r["facts"]),
+      sorted({x["label"] for x in _r["facts"] if x.get("shape") == "D"}))
+
+_r = DEEP.extract_document(_nested([_W[0], [("", 2), ("", 4)], _W[1]], rowspan=False), NO_MAP_URL)
+check("SD14", "a wholly blank spacer row inside a block is skipped, not recorded as a misaligned model row, and the "
+              "models on both sides of it are read",
+      {x["sku"] for x in _r["facts"] if x.get("shape") == "D"} == {"C1300-8T-E-2G", "C1300-8P-E-2G"}
+      and not any(y["code"] == "SUBTABLE_ROW_MISALIGNED" for y in _r["defects"]),
+      ([x.get("sku") for x in _r["facts"] if x.get("shape") == "D"], [y["code"] for y in _r["defects"]]))
+
 _cwd = os.getcwd()
 try:
     os.chdir(tempfile.gettempdir())

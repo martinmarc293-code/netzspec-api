@@ -632,6 +632,108 @@ def parse_shape_c(rows, ti, url, defects=None):
     return recs
 
 
+# The model-column word of a NESTED sub-table (shape D). Measured: "Model" (Catalyst 1300) and "Model name" (Business
+# 220). Deliberately a closed list -- a word here turns a column of cells into SUBJECTS.
+SUBTABLE_MODEL_HDR = re.compile(r"^(model|model name|model number|sku|part number|product number|product id|pid)$", re.I)
+
+
+def _runs(cells, start: int = 1) -> list[tuple]:
+    """A row from column `start` as [(text, first_col, last_col)]: adjacent identical cells are ONE printed cell, because
+    the row expander writes a colspanned cell into every column it covers. Blank cells start no run."""
+    out: list[tuple] = []
+    for ci in range(start, len(cells)):
+        t = (cells[ci] or "").strip()
+        if not t:
+            continue
+        if out and out[-1][0] == t and out[-1][2] == ci - 1:
+            out[-1] = (t, out[-1][1], ci)
+        else:
+            out.append((t, ci, ci))
+    return out
+
+
+def parse_shape_d(rows, ti, url, defects=None):
+    """NESTED per-model sub-table inside an attribute table. Returns (records, consumed row indices).
+
+    Cisco's small-business sheets (Catalyst 1300, Business 220) lay a whole "Feature | Description" table out as
+    attribute rows, and span ONE attribute over a sub-table of models:
+
+        r39  Unit weight | Model         | Unit weight          <- the sub-header: label, model word, value header
+        r40  Unit weight | C1300-8T-E-2G | 1.39 kg (3.06 lb)    <- the label is rowspanned down the block,
+        r41  Unit weight | C1300-8P-E-2G | 1.72 kg (3.79 lb)       the model and value cells are colspanned
+
+    Shape B read every cell of that block as a DOCUMENT-level value of "Unit weight" -- the PID as one value, the weight
+    as another -- so the pairing, the only thing that makes the weight a per-model fact, was lost. Over the 845 held HTML
+    datasheets this shape holds 217 models' unit weights, 218 unit dimensions and 203 packet buffers on 11 small-business
+    sheets; against HEAD the ONLY differences are those records and shape B's withheld readings of the same rows
+    (30 Sep 2026, docs/reviewer/2026-09-28/weight-lane-report.md).
+
+    Read only when the geometry says so outright: a sub-header of EXACTLY two printed cells after the label, the first a
+    model word and the second a named value (never "Description"/"Details", which would make a model's DESCRIPTION its
+    spec); then rows under the SAME label whose two printed cells sit in the SAME column spans, the first a PID this
+    datasheet attributes. Two value columns (AC | DC) are configurations and stay unread. A row in the block that breaks
+    the geometry, or names no attributable PID, is recorded and left to the path it always had -- never dropped silently.
+
+    The label cell of a continuation row is either the label again (rowspanned: Catalyst 1300) or BLANK (the Small
+    Business SF350/SF220 sheets leave it empty instead of spanning it); the block ends at the first row naming another
+    label. The value header qualifies the label only when it adds words ("Power consumption [Worst case]"): the SMB
+    sheets restate the label there ("Unit dimensions (W x D x H) | Model name | Unit dimensions"), and a qualifier that
+    says nothing new is a synthesised label no mapper rule is written for.
+    """
+    defects = defects if defects is not None else []
+    recs: list[dict] = []
+    consumed: set[int] = set()
+    words = lambda s: set(re.findall(r"[a-z0-9]+", s.lower()))
+    ri = 0
+    while ri < len(rows):
+        cells = rows[ri]
+        label = (cells[0] or "").strip() if cells else ""
+        head = _runs(cells)
+        if not (label and _looks_like_label(label) and not SECTION_NOISE.match(label)
+                and not SUBTABLE_MODEL_HDR.match(label) and not MODEL_HDR.match(label) and len(head) == 2
+                and SUBTABLE_MODEL_HDR.match(head[0][0]) and not SUBTABLE_MODEL_HDR.match(head[1][0])
+                and not GENERIC_COLUMN.match(head[1][0]) and not re.search(r"descri|detail", head[1][0], re.I)):
+            ri += 1
+            continue
+        mspan, vspan, vhead = head[0][1:], head[1][1:], head[1][0]
+        consumed.add(ri)
+        lbl = label if words(vhead) <= words(label) else f"{label} [{vhead}]"
+        rj = ri + 1
+        while rj < len(rows) and rows[rj] and (rows[rj][0] or "").strip() in (label, ""):
+            runs = _runs(rows[rj])
+            if not runs:                  # a wholly blank spacer row is not a model row, and not a defect
+                rj += 1
+                continue
+            if len(runs) != 2 or runs[0][1:] != mspan or runs[1][1:] != vspan:
+                defects.append({"code": "SUBTABLE_ROW_MISALIGNED", "locator": f"t{ti}:r{rj}",
+                                "detail": f"{label!r}: {len(runs)} printed cells at {[r[1:] for r in runs]}, the sub-header's "
+                                          f"model/value spans are {mspan}/{vspan}; row not read as a model row"})
+                rj += 1
+                continue
+            pid, val = runs[0][0], runs[1][0]
+            if not _is_pid(pid):
+                defects.append({"code": "MODEL_ROW_UNATTRIBUTABLE", "locator": f"t{ti}:r{rj}",
+                                "detail": f"{pid[:60]!r} under {label!r} is not a PID this datasheet attributes; row not read"})
+                rj += 1
+                continue
+            consumed.add(rj)
+            if not _blank(val):
+                loc = f"t{ti}:r{rj}:c{vspan[0]}"
+                v, cut = cap_cell(val, loc, defects, f"{pid} {lbl!r}: ")
+                rec = {"sku": pid, "label": lbl, "value": v, "shape": "D", "locator": loc, "source_url": url}
+                if cut:
+                    rec["_cut"] = True
+                recs.append(rec)
+            rj += 1
+        ri = rj
+    return recs, consumed
+
+
+def _row_of(locator: str) -> int | None:
+    m = re.match(r"^t\d+:r(\d+)(?::|$)", locator or "")
+    return int(m.group(1)) if m else None
+
+
 def document_pids(rows_all) -> list[str]:
     """Every PID the DOCUMENT itself enumerates as a SUBJECT. This is the scope set for any
     family-level fact (Q5): a family value may only be inherited by a SKU this document lists.
@@ -690,7 +792,7 @@ def extract_document(html: str, url: str) -> dict:
     tables = soup.find_all("table")
     rows_all = [_rows(t) for t in tables]
     pids = document_pids(rows_all)
-    counts = {"A": 0, "B": 0, "C": 0}
+    counts = {"A": 0, "B": 0, "C": 0, "D": 0, "B_read_as_D": 0}
     defects: list[dict] = []
     facts: list[dict] = []
     # Expanding rowspans necessarily repeats a spanned cell into every row it covers, so the
@@ -702,8 +804,16 @@ def extract_document(html: str, url: str) -> dict:
     for ti, rows in enumerate(rows_all):
         if len(rows) < 2:
             continue
-        for fn, shape in ((parse_shape_a, "A"), (parse_shape_b, "B"), (parse_shape_c, "C")):
-            recs = fn(rows, ti, url, defects)
+        # shape D first: the rows it reads as per-model sub-tables are the rows shape B would otherwise emit as
+        # document-level noise ("Unit weight = C1300-8T-E-2G"), so B's reading of exactly those rows is withheld and
+        # COUNTED (B_read_as_D) -- the same cells, read once, by the shape that keeps their pairing
+        d_recs, d_rows = parse_shape_d(rows, ti, url, defects)
+        for fn, shape in ((parse_shape_a, "A"), (parse_shape_b, "B"), (parse_shape_c, "C"), (None, "D")):
+            recs = d_recs if fn is None else fn(rows, ti, url, defects)
+            if shape == "B" and d_rows:
+                kept = [r for r in recs if _row_of(r["locator"]) not in d_rows]
+                counts["B_read_as_D"] += len(recs) - len(kept)
+                recs = kept
             # a list spread over several cells of THIS table is one fact, before the
             # triple-dedup sees it (the dedup would otherwise keep both halves apart)
             recs = join_list_fragments(recs, defects)
