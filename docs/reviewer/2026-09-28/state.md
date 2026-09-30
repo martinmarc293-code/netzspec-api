@@ -171,5 +171,20 @@ HEAD/deployed 501b7ed (artefacts built on 0cbe5c5, contract 17b502e336ebefb6). R
      media where they unlock them). RE-MEASURE jtl-readiness AFTER EACH and report the ready count per category. Baseline: 33 ready.
   Q12 remaining: the acceptance diff vs the recorded files; the transceiver shop cups (transceiver_type, fiber_count,
      cable_construction, application) are referenced by the group but are not dictionary keys yet.
+  WEIGHT LANE (30 Sep, docs/reviewer/2026-09-28/weight-lane-report.md): measured first -- the mapper gap proper is 14 parts;
+     the held-sheet gap is an EXTRACTOR shape. b17015d shape D (nested 'label | Model | value' sub-tables, SMB sheets; 14 guards
+     sabotaged; corpus diff +640 D records only). Run 1430: D-only apply (weights + dimensions; whole-sheet re-apply would refill
+     retraction tombstones) 432 inserts, gate 60/60. Run 1431: 7 C8000 edge routers never re-applied after rule 47. 708ee4a
+     mapper (rule 47 widened, ^system weight$, (grams) unit, rule 119 anchored); c5e3f64 artefacts (MISS new 0). Run 1434: 14
+     mapper rows (IE-4010-4S24P withheld: header spans two columns with different weights). Served weight 448 -> 684.
+  FAQ (1d46889): pairs derived from filled cups in the recorded shop's voice; the padding summary pair removed. 52 -> 104 ready.
+  READY: 33 -> 52 (weight) -> 104 (FAQ): switches 71, interfaces-modules 32, routers 1.
+  QUESTIONS OPEN (report): Q22 weight at catalogue scale (the recorded transceiver file carries a flat 0,05/0,20 placeholder);
+     Q23 Versandgewicht not derivable (band deltas +0,6..+2,5); Q24 single-model sheets vs Class B (48 parts); Q25 'Module
+     weight (Max)'.
+  NEXT: name -- the per-SKU source is the DESCRIPTION CELL sheets print beside a PID (PDF spec sheets 'PID Description': 895
+     name-blocked parts, servers 693, HCI 199; HTML ordering tables 71), not a sheet title (a title names a series). 6,171
+     name-blocked in all. Then the Wawi group attributes (31 SMB switches blocked by Stromversorgung alone, 30 by
+     Betriebstemperatur alone -- Class C, inheritable). Held: 203 per-model packet buffers vs 124 held conflicts.
 ## Pinned predictions
 - run 1350 lands -> the enum CISCO line drops standard to 0 (was 555 seed); what remains red there is non-seed audio_codecs/antenna_type/spatial_streams + refused shape members. required_cup_defined not moved by it (other vendors seed untouched).
