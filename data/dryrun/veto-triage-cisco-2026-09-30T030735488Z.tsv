@@ -1,0 +1,10 @@
+remedy	category	kind	cup	sku	value	method	doc_type
+R4 widen	optical-networking	amplifier	weight	15454-OPT-AMP-C=	1.4	html_table	vendor_datasheet_html
+R4 widen	optical-networking	amplifier	weight	15454-OPT-RAMP-C=	2.1	html_table	vendor_datasheet_html
+R4 widen	optical-networking	controller	weight	NCS1K-OTDR=	0.5	html_table	vendor_datasheet_html
+R4 widen	optical-networking	controller	weight	NCS2K-SVO-K9=	3.1	html_table	vendor_datasheet_html
+R4 widen	optical-networking	linecard	weight	NCS1K4-2-QDD-C-K9=	3.2	html_table	vendor_datasheet_html
+R4 widen	storage-networking	supervisor	weight	DS-X9530-SF2AK9	2.9	html_table	vendor_datasheet_html
+R4 widen	storage-networking	supervisor	weight	DS-X9530-SF2AK9=	2.9	html_table	vendor_datasheet_html
+R4 widen	video	linecard	weight	RFGW-DS48-1G	4.32	html_table	vendor_datasheet_html
+R4 widen	video	linecard	weight	RFGW-DS48-1G=	4.32	html_table	vendor_datasheet_html

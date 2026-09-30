@@ -1,0 +1,605 @@
+{
+ "what": "live Cisco hardware parts whose SKU is a FOOTNOTE FABRICATION: the page prints the SKU minus its last character, and that character (a digit) is a raised footnote marker the old PDF extraction glued to the PID",
+ "counted_over": "the 614 rows of the first data/reference/pid-description-names.json (built 30 Sep 2026 from runs/extract/cisco-pdf-2026-09-0*.json); a row is listed when scripts/name-from-description.mts re-read its witness on the cached page with gate-extract's reader (after 8599a99) and the row's PID cell printed exactly the SKU minus a trailing digit",
+ "not_counted": "fabrications that are not SKU-only, or that no description cell proposed: this is a floor for the catalogue, not a census",
+ "n": 85,
+ "base_live": 64,
+ "with_live_facts": 76,
+ "rows": [
+  {
+   "sku": "HCI-HDL24TW1S74K1",
+   "page_prints": "HCI-HDL24TW1S74K",
+   "base_live": false,
+   "category": "hyperconverged-infrastructure",
+   "live_facts": 4
+  },
+  {
+   "sku": "HCI-HDM24TW1S74K1",
+   "page_prints": "HCI-HDM24TW1S74K",
+   "base_live": false,
+   "category": "hyperconverged-infrastructure",
+   "live_facts": 4
+  },
+  {
+   "sku": "HCI-ML-256G8RW1",
+   "page_prints": "HCI-ML-256G8RW",
+   "base_live": false,
+   "category": "hyperconverged-infrastructure",
+   "live_facts": 4
+  },
+  {
+   "sku": "HCI-MR128G2RG33",
+   "page_prints": "HCI-MR128G2RG3",
+   "base_live": true,
+   "category": "hyperconverged-infrastructure",
+   "live_facts": 3
+  },
+  {
+   "sku": "HCI-MR128G4RE33",
+   "page_prints": "HCI-MR128G4RE3",
+   "base_live": false,
+   "category": "hyperconverged-infrastructure",
+   "live_facts": 3
+  },
+  {
+   "sku": "HCI-MRX48G1RF32",
+   "page_prints": "HCI-MRX48G1RF3",
+   "base_live": false,
+   "category": "hyperconverged-infrastructure",
+   "live_facts": 3
+  },
+  {
+   "sku": "HCI-MRX96G2RF32",
+   "page_prints": "HCI-MRX96G2RF3",
+   "base_live": false,
+   "category": "hyperconverged-infrastructure",
+   "live_facts": 3
+  },
+  {
+   "sku": "HCI-P-I8D100GF2",
+   "page_prints": "HCI-P-I8D100GF",
+   "base_live": true,
+   "category": "hyperconverged-infrastructure",
+   "live_facts": 2
+  },
+  {
+   "sku": "HCI-P-I8D25GF-M62",
+   "page_prints": "HCI-P-I8D25GF-M6",
+   "base_live": true,
+   "category": "hyperconverged-infrastructure",
+   "live_facts": 2
+  },
+  {
+   "sku": "HCI-P-I8D25GF2",
+   "page_prints": "HCI-P-I8D25GF",
+   "base_live": false,
+   "category": "hyperconverged-infrastructure",
+   "live_facts": 2
+  },
+  {
+   "sku": "HCI-P-I8Q25GF-M63",
+   "page_prints": "HCI-P-I8Q25GF-M6",
+   "base_live": true,
+   "category": "hyperconverged-infrastructure",
+   "live_facts": 2
+  },
+  {
+   "sku": "HCI-P-I8Q25GF2",
+   "page_prints": "HCI-P-I8Q25GF",
+   "base_live": false,
+   "category": "hyperconverged-infrastructure",
+   "live_facts": 2
+  },
+  {
+   "sku": "HCIX-MR128G4RE33",
+   "page_prints": "HCIX-MR128G4RE3",
+   "base_live": true,
+   "category": "hyperconverged-infrastructure",
+   "live_facts": 4
+  },
+  {
+   "sku": "HCIX-MRX48G1RF32",
+   "page_prints": "HCIX-MRX48G1RF3",
+   "base_live": false,
+   "category": "hyperconverged-infrastructure",
+   "live_facts": 4
+  },
+  {
+   "sku": "HCIX-MRX96G2RF32",
+   "page_prints": "HCIX-MRX96G2RF3",
+   "base_live": false,
+   "category": "hyperconverged-infrastructure",
+   "live_facts": 4
+  },
+  {
+   "sku": "HCIX-V4-PCIME1",
+   "page_prints": "HCIX-V4-PCIME",
+   "base_live": false,
+   "category": "hyperconverged-infrastructure",
+   "live_facts": 3
+  },
+  {
+   "sku": "HCi-GPU-H200-NVL1",
+   "page_prints": "HCi-GPU-H200-NVL",
+   "base_live": false,
+   "category": "hyperconverged-infrastructure",
+   "live_facts": 4
+  },
+  {
+   "sku": "HX-M-V25-042",
+   "page_prints": "HX-M-V25-04",
+   "base_live": true,
+   "category": "hyperconverged-systems",
+   "live_facts": 2
+  },
+  {
+   "sku": "HX-M2-HWRAID3",
+   "page_prints": "HX-M2-HWRAID",
+   "base_live": true,
+   "category": "hyperconverged-systems",
+   "live_facts": 0
+  },
+  {
+   "sku": "HX-ML-128G4RT-H1",
+   "page_prints": "HX-ML-128G4RT-H",
+   "base_live": true,
+   "category": "hyperconverged-systems",
+   "live_facts": 2
+  },
+  {
+   "sku": "HX-ML-128G4RW2",
+   "page_prints": "HX-ML-128G4RW",
+   "base_live": true,
+   "category": "hyperconverged-systems",
+   "live_facts": 2
+  },
+  {
+   "sku": "HX-ML-X64G4RT-H1",
+   "page_prints": "HX-ML-X64G4RT-H",
+   "base_live": true,
+   "category": "hyperconverged-systems",
+   "live_facts": 2
+  },
+  {
+   "sku": "HX-MR-X16G1RT-H1",
+   "page_prints": "HX-MR-X16G1RT-H",
+   "base_live": true,
+   "category": "hyperconverged-systems",
+   "live_facts": 2
+  },
+  {
+   "sku": "HX-MR-X16G1RW2",
+   "page_prints": "HX-MR-X16G1RW",
+   "base_live": true,
+   "category": "hyperconverged-systems",
+   "live_facts": 2
+  },
+  {
+   "sku": "HX-MR-X32G2RT-H1",
+   "page_prints": "HX-MR-X32G2RT-H",
+   "base_live": true,
+   "category": "hyperconverged-systems",
+   "live_facts": 2
+  },
+  {
+   "sku": "HX-MR-X32G2RW2",
+   "page_prints": "HX-MR-X32G2RW",
+   "base_live": true,
+   "category": "hyperconverged-systems",
+   "live_facts": 2
+  },
+  {
+   "sku": "HX-MR-X64G2RT-H1",
+   "page_prints": "HX-MR-X64G2RT-H",
+   "base_live": true,
+   "category": "hyperconverged-systems",
+   "live_facts": 2
+  },
+  {
+   "sku": "HX-MR-X64G2RW2",
+   "page_prints": "HX-MR-X64G2RW",
+   "base_live": true,
+   "category": "hyperconverged-systems",
+   "live_facts": 2
+  },
+  {
+   "sku": "HX-P-I8Q25GF3",
+   "page_prints": "HX-P-I8Q25GF",
+   "base_live": true,
+   "category": "hyperconverged-systems",
+   "live_facts": 2
+  },
+  {
+   "sku": "HX-P-I8Q25GF4",
+   "page_prints": "HX-P-I8Q25GF",
+   "base_live": true,
+   "category": "hyperconverged-systems",
+   "live_facts": 2
+  },
+  {
+   "sku": "HX-PCIE-IRJ453",
+   "page_prints": "HX-PCIE-IRJ45",
+   "base_live": true,
+   "category": "hyperconverged-systems",
+   "live_facts": 2
+  },
+  {
+   "sku": "UCS-M2-HWRAID21",
+   "page_prints": "UCS-M2-HWRAID2",
+   "base_live": false,
+   "category": "servers-unified-computing",
+   "live_facts": 2
+  },
+  {
+   "sku": "UCS-ML-128G4RW1",
+   "page_prints": "UCS-ML-128G4RW",
+   "base_live": true,
+   "category": "hyperconverged-infrastructure",
+   "live_facts": 2
+  },
+  {
+   "sku": "UCS-ML-128G4RW2",
+   "page_prints": "UCS-ML-128G4RW",
+   "base_live": true,
+   "category": "servers-unified-computing",
+   "live_facts": 2
+  },
+  {
+   "sku": "UCS-ML-128G4RW=1",
+   "page_prints": "UCS-ML-128G4RW=",
+   "base_live": true,
+   "category": "hyperconverged-infrastructure",
+   "live_facts": 0
+  },
+  {
+   "sku": "UCS-ML-256G8RT-H1",
+   "page_prints": "UCS-ML-256G8RT-H",
+   "base_live": true,
+   "category": "servers-unified-computing",
+   "live_facts": 2
+  },
+  {
+   "sku": "UCS-ML-256G8RW1",
+   "page_prints": "UCS-ML-256G8RW",
+   "base_live": true,
+   "category": "hyperconverged-infrastructure",
+   "live_facts": 2
+  },
+  {
+   "sku": "UCS-ML-256G8RW2",
+   "page_prints": "UCS-ML-256G8RW",
+   "base_live": true,
+   "category": "servers-unified-computing",
+   "live_facts": 2
+  },
+  {
+   "sku": "UCS-ML-X64G4RT-H1",
+   "page_prints": "UCS-ML-X64G4RT-H",
+   "base_live": true,
+   "category": "servers-unified-computing",
+   "live_facts": 0
+  },
+  {
+   "sku": "UCS-MR-X16G1RW1",
+   "page_prints": "UCS-MR-X16G1RW",
+   "base_live": true,
+   "category": "hyperconverged-infrastructure",
+   "live_facts": 2
+  },
+  {
+   "sku": "UCS-MR-X16G1RW2",
+   "page_prints": "UCS-MR-X16G1RW",
+   "base_live": true,
+   "category": "servers-unified-computing",
+   "live_facts": 2
+  },
+  {
+   "sku": "UCS-MR-X32G2RW1",
+   "page_prints": "UCS-MR-X32G2RW",
+   "base_live": true,
+   "category": "hyperconverged-infrastructure",
+   "live_facts": 2
+  },
+  {
+   "sku": "UCS-MR-X32G2RW2",
+   "page_prints": "UCS-MR-X32G2RW",
+   "base_live": true,
+   "category": "servers-unified-computing",
+   "live_facts": 2
+  },
+  {
+   "sku": "UCS-MR-X64G2RW1",
+   "page_prints": "UCS-MR-X64G2RW",
+   "base_live": true,
+   "category": "hyperconverged-infrastructure",
+   "live_facts": 2
+  },
+  {
+   "sku": "UCS-MR-X64G2RW2",
+   "page_prints": "UCS-MR-X64G2RW",
+   "base_live": true,
+   "category": "servers-unified-computing",
+   "live_facts": 2
+  },
+  {
+   "sku": "UCS-MR-X64G2RW=1",
+   "page_prints": "UCS-MR-X64G2RW=",
+   "base_live": true,
+   "category": "hyperconverged-infrastructure",
+   "live_facts": 0
+  },
+  {
+   "sku": "UCS-MR128G4RE31",
+   "page_prints": "UCS-MR128G4RE3",
+   "base_live": true,
+   "category": "servers-unified-computing",
+   "live_facts": 0
+  },
+  {
+   "sku": "UCS-MR128G4RE33",
+   "page_prints": "UCS-MR128G4RE3",
+   "base_live": true,
+   "category": "servers-unified-computing",
+   "live_facts": 3
+  },
+  {
+   "sku": "UCS-MR256G4RG53",
+   "page_prints": "UCS-MR256G4RG5",
+   "base_live": true,
+   "category": "servers-unified-computing",
+   "live_facts": 3
+  },
+  {
+   "sku": "UCS-MR256G8RE32",
+   "page_prints": "UCS-MR256G8RE3",
+   "base_live": true,
+   "category": "servers-unified-computing",
+   "live_facts": 3
+  },
+  {
+   "sku": "UCS-MRX48G1RF32",
+   "page_prints": "UCS-MRX48G1RF3",
+   "base_live": true,
+   "category": "servers-unified-computing",
+   "live_facts": 3
+  },
+  {
+   "sku": "UCS-MRX96G2RF32",
+   "page_prints": "UCS-MRX96G2RF3",
+   "base_live": true,
+   "category": "servers-unified-computing",
+   "live_facts": 3
+  },
+  {
+   "sku": "UCS-NVB1T9M2V91",
+   "page_prints": "UCS-NVB1T9M2V9",
+   "base_live": true,
+   "category": "servers-unified-computing",
+   "live_facts": 4
+  },
+  {
+   "sku": "UCS-NVB1T9M2V92",
+   "page_prints": "UCS-NVB1T9M2V9",
+   "base_live": true,
+   "category": "servers-unified-computing",
+   "live_facts": 4
+  },
+  {
+   "sku": "UCS-NVB3T8M2V91",
+   "page_prints": "UCS-NVB3T8M2V9",
+   "base_live": true,
+   "category": "servers-unified-computing",
+   "live_facts": 4
+  },
+  {
+   "sku": "UCS-NVB7T6M2V91",
+   "page_prints": "UCS-NVB7T6M2V9",
+   "base_live": true,
+   "category": "servers-unified-computing",
+   "live_facts": 4
+  },
+  {
+   "sku": "UCS-NVB7T6M2V92",
+   "page_prints": "UCS-NVB7T6M2V9",
+   "base_live": true,
+   "category": "servers-unified-computing",
+   "live_facts": 4
+  },
+  {
+   "sku": "UCS-NVMEG4-M6400D1",
+   "page_prints": "UCS-NVMEG4-M6400D",
+   "base_live": true,
+   "category": "servers-unified-computing",
+   "live_facts": 4
+  },
+  {
+   "sku": "UCSB-MLOM-40G-041",
+   "page_prints": "UCSB-MLOM-40G-04",
+   "base_live": true,
+   "category": "servers-unified-computing",
+   "live_facts": 0
+  },
+  {
+   "sku": "UCSC-GPU-H200-NVL1",
+   "page_prints": "UCSC-GPU-H200-NVL",
+   "base_live": false,
+   "category": "servers-unified-computing",
+   "live_facts": 4
+  },
+  {
+   "sku": "UCSC-GPU-H200-NVL2",
+   "page_prints": "UCSC-GPU-H200-NVL",
+   "base_live": false,
+   "category": "servers-unified-computing",
+   "live_facts": 4
+  },
+  {
+   "sku": "UCSC-GPU-L40S4",
+   "page_prints": "UCSC-GPU-L40S",
+   "base_live": true,
+   "category": "servers-unified-computing",
+   "live_facts": 4
+  },
+  {
+   "sku": "UCSC-GPU-L43",
+   "page_prints": "UCSC-GPU-L4",
+   "base_live": true,
+   "category": "servers-unified-computing",
+   "live_facts": 4
+  },
+  {
+   "sku": "UCSC-GPU-RTX6000D2",
+   "page_prints": "UCSC-GPU-RTX6000D",
+   "base_live": false,
+   "category": "servers-unified-computing",
+   "live_facts": 4
+  },
+  {
+   "sku": "UCSC-GPU-RTXP60002",
+   "page_prints": "UCSC-GPU-RTXP6000",
+   "base_live": false,
+   "category": "servers-unified-computing",
+   "live_facts": 4
+  },
+  {
+   "sku": "UCSC-M2RM-M82",
+   "page_prints": "UCSC-M2RM-M8",
+   "base_live": false,
+   "category": "servers-unified-computing",
+   "live_facts": 2
+  },
+  {
+   "sku": "UCSC-O-ID10GC-D2",
+   "page_prints": "UCSC-O-ID10GC-D",
+   "base_live": true,
+   "category": "servers-unified-computing",
+   "live_facts": 2
+  },
+  {
+   "sku": "UCSC-P-I8D25GF-D3",
+   "page_prints": "UCSC-P-I8D25GF-D",
+   "base_live": true,
+   "category": "servers-unified-computing",
+   "live_facts": 2
+  },
+  {
+   "sku": "UCSC-P-I8Q25GF-D3",
+   "page_prints": "UCSC-P-I8Q25GF-D",
+   "base_live": true,
+   "category": "servers-unified-computing",
+   "live_facts": 2
+  },
+  {
+   "sku": "UCSC-P-N3140H6",
+   "page_prints": "UCSC-P-N3140H",
+   "base_live": false,
+   "category": "servers-unified-computing",
+   "live_facts": 2
+  },
+  {
+   "sku": "UCSC-P-N7S400GFO5",
+   "page_prints": "UCSC-P-N7S400GFO",
+   "base_live": true,
+   "category": "servers-unified-computing",
+   "live_facts": 2
+  },
+  {
+   "sku": "UCSC-P-NC3220L3",
+   "page_prints": "UCSC-P-NC3220L",
+   "base_live": true,
+   "category": "servers-unified-computing",
+   "live_facts": 2
+  },
+  {
+   "sku": "UCSX-GPU-RTXP45003",
+   "page_prints": "UCSX-GPU-RTXP4500",
+   "base_live": true,
+   "category": "servers-unified-computing",
+   "live_facts": 1
+  },
+  {
+   "sku": "UCSX-GPU-RTXP45006",
+   "page_prints": "UCSX-GPU-RTXP4500",
+   "base_live": true,
+   "category": "servers-unified-computing",
+   "live_facts": 1
+  },
+  {
+   "sku": "UCSX-ME-V5Q50G-D3",
+   "page_prints": "UCSX-ME-V5Q50G-D",
+   "base_live": true,
+   "category": "servers-unified-computing",
+   "live_facts": 0
+  },
+  {
+   "sku": "UCSX-MR256G4RG53",
+   "page_prints": "UCSX-MR256G4RG5",
+   "base_live": true,
+   "category": "servers-unified-computing",
+   "live_facts": 1
+  },
+  {
+   "sku": "UCSX-MR256G4RG54",
+   "page_prints": "UCSX-MR256G4RG5",
+   "base_live": true,
+   "category": "hyperconverged-infrastructure",
+   "live_facts": 4
+  },
+  {
+   "sku": "UCSX-MRX48G1RF32",
+   "page_prints": "UCSX-MRX48G1RF3",
+   "base_live": true,
+   "category": "servers-unified-computing",
+   "live_facts": 1
+  },
+  {
+   "sku": "UCSX-MRX96G2RF32",
+   "page_prints": "UCSX-MRX96G2RF3",
+   "base_live": true,
+   "category": "servers-unified-computing",
+   "live_facts": 1
+  },
+  {
+   "sku": "UCSX-NVB1T9M2V97",
+   "page_prints": "UCSX-NVB1T9M2V9",
+   "base_live": true,
+   "category": "servers-unified-computing",
+   "live_facts": 1
+  },
+  {
+   "sku": "UCSX-NVB3T8M2V97",
+   "page_prints": "UCSX-NVB3T8M2V9",
+   "base_live": true,
+   "category": "servers-unified-computing",
+   "live_facts": 1
+  },
+  {
+   "sku": "UCSX-NVB7T6M2V97",
+   "page_prints": "UCSX-NVB7T6M2V9",
+   "base_live": true,
+   "category": "servers-unified-computing",
+   "live_facts": 1
+  },
+  {
+   "sku": "UCSX-V4-BRIDGE3",
+   "page_prints": "UCSX-V4-BRIDGE",
+   "base_live": true,
+   "category": "hyperconverged-infrastructure",
+   "live_facts": 5
+  },
+  {
+   "sku": "UCSX-V4-PCIME-D1",
+   "page_prints": "UCSX-V4-PCIME-D",
+   "base_live": false,
+   "category": "servers-unified-computing",
+   "live_facts": 0
+  },
+  {
+   "sku": "UCSX-V5-PCIME2",
+   "page_prints": "UCSX-V5-PCIME",
+   "base_live": false,
+   "category": "servers-unified-computing",
+   "live_facts": 0
+  }
+ ]
+}

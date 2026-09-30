@@ -187,5 +187,35 @@ HEAD/deployed 501b7ed (artefacts built on 0cbe5c5, contract 17b502e336ebefb6). R
      name-blocked parts, servers 693, HCI 199; HTML ordering tables 71), not a sheet title (a title names a series). 6,171
      name-blocked in all. Then the Wawi group attributes (31 SMB switches blocked by Stromversorgung alone, 30 by
      Betriebstemperatur alone -- Class C, inheritable). Held: 203 per-model packet buffers vs 124 held conflicts.
+  RULINGS (30 Sep ~02:00 UTC, on the weight-lane report): Q22 WAITS ("a default derived from zero measured weights is
+     invention"); tier variants row by row (-A/-E only, the model's own row, exact model, inherited_from = model row);
+     Q23 a ruled allowance (median packaging delta per band from the recorded switch file, derived:shipping-allowance) +
+     shipping_weight retyped numeric, printed metric never converted; Q24 per-SKU when every hardware subject on the sheet is
+     one model (incl. regional + licence-suffix variants); Q25 derived:max-bound, band [1, 2000] g, and "a unit override must
+     carry its own band" as a check. "Name lane next as you've planned -- PID-description cells, not sheet titles."
+  BUILT (all pushed; docs/reviewer/2026-09-28/weight-rulings-report.md): run 1437 tier 178 (55 -> 104 ready); runs 1438 sync,
+     1439 renormalise weight (218 superseded / 404 restamped, printed metric), 1440 shipping 3, 1441 max-bound 28 (104 -> 109),
+     1442 shipping 890, 1445 sync (profile rule: every profile asking weight declares shipping_weight opt -- the first board's
+     four_sets_sum veto 18 triples / 664 part-cups); 07546d0 + run 1448 Q24 29 weights (26 sheets; guard: another build ordered
+     as a table subject; HOLD 2 module sheets) + run 1449 shipping 29; 2785b6f artefacts -> board 31/2: four_sets_sum 5 triples
+     / 9 part-cups -> 6b76fe8 Q24_R4 (weight OPTIONAL for 5 kinds, R4 by veto-triage).
+  FOUND (8599a99): gate-extract's Python re-reader called cap_value(cell) with one argument since 67a4f95 (27 Sep) -> every
+     PDF cell TypeError -> bare except -> "out_of_range". Latent (no PDF gate run since). Fixed + tests/scraper/
+     test_cisco_specs_pdf.py runs the real script (the same commit had killed that suite at line 74). hpe/juniper trees need
+     8599a99 merged.
+  NAME LANE (in progress, uncommitted): scripts/pid-description-names.py (--reextract runs the CURRENT pdf/deep adapters over
+     the cache: 50 PDFs + 596 HTML) + scripts/name-from-description.mts (gate: description cell exact AND the row or column
+     header names the SKU). First gate: 89 of 614 refused, 85 = footnote-fabricated live parts (data/reference/
+     footnote-fabrications-cisco.json; 76 with live facts; 21 with no live real PID) -> question to the reviewer.
+  10b3500 artefacts (MISS vs 07546d0: new 0 gone 0) -> BOARD 32/1/0/0, self-test 24/0/9, READY 110 (switches 103,
+     transceiver 5, routers 2); export PASS 110 parts / 1,711 rows.
+  LEVERAGE (per part, real jtlReadiness): sole blockers weight 909, attributes:none 53, Betriebstemperatur 45, PoE 39,
+     Stromversorgung 33, Stacking 12, NAME 1 (name+weight 329). The 129 single-attribute parts are all switches (1300/1200/
+     IE3500/IE3400, C9300, 350/350X, C9200) -- Class C from each series' sheet. Proposed to the reviewer: attributes next.
+  QUESTIONS OUT (weight-rulings-report.md): order (attributes before more names?); the 85 fabrications (retire / promote
+     real PID or rename); the 60-char CCW limit (34 names); the typo cables.
+  RUNNING: laptop PID 25648 `python3.11 scripts/pid-description-names.py --reextract` (50 PDFs ~1 s/page, then 596 HTML;
+     writes runs/extract/cisco-description-reextract.json only at the END). Then: rebuild the table, read it, dry-run
+     name-from-description (laptop cache; the box has no pdfplumber path tested), commit, run, board.
 ## Pinned predictions
 - run 1350 lands -> the enum CISCO line drops standard to 0 (was 555 seed); what remains red there is non-seed audio_codecs/antenna_type/spatial_streams + refused shape members. required_cup_defined not moved by it (other vendors seed untouched).
