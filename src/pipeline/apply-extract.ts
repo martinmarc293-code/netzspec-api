@@ -72,7 +72,7 @@ import {
   getPool, closePool, withTx, withRun, hashFile, ensureSourceDoc, docIdFor, linkDocParts, applyMerge,
   type Queryable,
 } from "../store/index.js";
-import { mapFact, unitFromLabel, type RawFact } from "../core/deepSpecMap.js";
+import { mapFact, mapFactAll, unitFromLabel, type RawFact, type MappedCell } from "../core/deepSpecMap.js";
 import { isNatThroughputLabel, natThroughputDecision, NAT_AS_ROUTER_THROUGHPUT_LABEL } from "../core/natThroughput.js";
 import { FIELD_DICTIONARY } from "../core/fieldSchema.js";
 import { GENERATED_FIELDS } from "../core/fieldSchema.generated.js";
@@ -376,7 +376,7 @@ export async function planExtract(files: ExtractFile[], opts: { vendor: string; 
     list_fragment_cells: 0,
     doc_defects: 0, raw_with_label_unit: 0,
     sku_unknown: 0, sku_unknown_facts: 0, pid_list_unknown: 0, family_no_listed_parts: 0,
-    inherit_ok: 0, inherit_class_b: 0, inherit_scope_unresolved: 0, inherit_scope_violation: 0, inherit_class_c_exception: 0, inherit_refused_other: 0,
+    inherit_ok: 0, inherit_value_rule_class_c: 0, value_rule_cells: 0, value_rule_refused: 0, inherit_class_b: 0, inherit_scope_unresolved: 0, inherit_scope_violation: 0, inherit_class_c_exception: 0, inherit_refused_other: 0,
     // entries the STORE will refuse before any SQL (describesPart / notApplicable): offered to the
     // merge, never produced. Counted here so produced_per_doc's definition is visible in the stats.
     entries_refused_before_merge: 0,
@@ -527,6 +527,15 @@ export async function planExtract(files: ExtractFile[], opts: { vendor: string; 
   };
   const noteUnmapped = (label: string, value: string, category: string) => noteLabel(unmapped, label, value, category);
   /** Split the sentinels. __backlog is a named gap and its labels are listed, not counted away. */
+  // a value rule's reading, and its refusals, are counted apart: a refused cell keeps its label mapping and would otherwise be
+  // indistinguishable from a cell no rule looked at
+  const noteValueRule = (cell: MappedCell) => {
+    if (!cell.rule) return;
+    if (cell.refused) { stats.value_rule_refused++; return; }
+    stats.value_rule_cells++;
+    const k = `value_rule_${cell.rule.replace(/-/g, "_")}`;
+    stats[k] = (stats[k] ?? 0) + 1;
+  };
   const noteSentinel = (sentinel: string, label: string, value: string, category: string) => {
     stats.sentinel++;
     const k = `sentinel_${sentinel.replace(/^__/, "")}`;
@@ -585,25 +594,29 @@ export async function planExtract(files: ExtractFile[], opts: { vendor: string; 
     const nat = isNatThroughputLabel(f.label) ? natDecision(part, d) : null;
     if (nat) natStat(nat.why);
     if (nat && !nat.use) { noteSentinel("__backlog", f.label, f.value, part.category); continue; }
-    const m = nat ? mapFact({ ...f, label: NAT_AS_ROUTER_THROUGHPUT_LABEL }, part.category) : mapFact(f, part.category);
-    // The class-C exception is "the document STATES a per-SKU value for this key", which is true
-    // the moment the label maps — whether the value survived the normaliser or not, and whether or
-    // not it was the first cell for that field. Recording it only for values that were KEPT let a
-    // family value be inherited over a per-SKU value the document really does publish.
-    if (m.kind === "ok" || m.kind === "rejected") {
-      const perDoc = perSkuKeys.get(part.id) ?? new Map<string, Set<string>>();
-      const keys = perDoc.get(d.doc_id) ?? new Set<string>();
-      keys.add(m.key); perDoc.set(d.doc_id, keys); perSkuKeys.set(part.id, perDoc);
+    const cell: MappedCell = nat ? { facts: [mapFact({ ...f, label: NAT_AS_ROUTER_THROUGHPUT_LABEL }, part.category)], rule: null, refused: null }
+      : mapFactAll(f, part.category);
+    noteValueRule(cell);
+    for (const m of cell.facts) {
+      // The class-C exception is "the document STATES a per-SKU value for this key", which is true
+      // the moment the label maps — whether the value survived the normaliser or not, and whether or
+      // not it was the first cell for that field. Recording it only for values that were KEPT let a
+      // family value be inherited over a per-SKU value the document really does publish.
+      if (m.kind === "ok" || m.kind === "rejected") {
+        const perDoc = perSkuKeys.get(part.id) ?? new Map<string, Set<string>>();
+        const keys = perDoc.get(d.doc_id) ?? new Set<string>();
+        keys.add(m.key); perDoc.set(d.doc_id, keys); perSkuKeys.set(part.id, perDoc);
+      }
+      if (m.kind === "unmapped") { stats.unmapped++; noteUnmapped(m.label, f.value, part.category); continue; }
+      if (m.kind === "sentinel") { noteSentinel(m.sentinel, f.label, f.value, part.category); continue; }
+      if (m.kind === "rejected") { stats.rejected++; quarantine.push({ sku: f.sku, label: f.label, value: f.value, key: m.key, reason: m.reason, detail: m.detail, locator: f.locator, doc_id: d.doc_id }); continue; }
+      stats.mapped_ok++;
+      // the smb NAT row keeps its own label in the replayable raw ("Performance: NAT throughput | 1 Gbps"): the provenance
+      // must say it was a NAT row, not an aggregate one
+      const raw = nat ? `${f.label} | ${m.raw}` : rawFor(f, m);
+      const e: SpecEntry = { k: m.key, raw, value: m.value, unit: m.unit, state: "verified", prov: provFor(d, m.locator) };
+      addIncoming(part, e, f, f.label, d, false);
     }
-    if (m.kind === "unmapped") { stats.unmapped++; noteUnmapped(m.label, f.value, part.category); continue; }
-    if (m.kind === "sentinel") { noteSentinel(m.sentinel, f.label, f.value, part.category); continue; }
-    if (m.kind === "rejected") { stats.rejected++; quarantine.push({ sku: f.sku, label: f.label, value: f.value, key: m.key, reason: m.reason, detail: m.detail, locator: f.locator, doc_id: d.doc_id }); continue; }
-    stats.mapped_ok++;
-    // the smb NAT row keeps its own label in the replayable raw ("Performance: NAT throughput | 1 Gbps"): the provenance
-    // must say it was a NAT row, not an aggregate one
-    const raw = nat ? `${f.label} | ${m.raw}` : rawFor(f, m);
-    const e: SpecEntry = { k: m.key, raw, value: m.value, unit: m.unit, state: "verified", prov: provFor(d, m.locator) };
-    addIncoming(part, e, f, f.label, d, false);
   }
 
   // pass 2: family-scoped facts, only through the scope check
@@ -613,34 +626,41 @@ export async function planExtract(files: ExtractFile[], opts: { vendor: string; 
     // none of them is (or the document prints a forwarding row), the row is a named gap, once.
     const natOk = isNatThroughputLabel(f.label) ? new Set(d.parts.filter((p) => natDecision(p, d).use).map((p) => p.id)) : null;
     if (natOk && natOk.size === 0) { natStat(natDecision(d.parts[0], d).why); noteSentinel("__backlog", f.label, f.value, d.category); continue; }
-    const m = natOk ? mapFact({ ...f, label: NAT_AS_ROUTER_THROUGHPUT_LABEL }, d.category) : mapFact(f, d.category);
-    if (m.kind === "unmapped") { stats.unmapped++; noteUnmapped(m.label, f.value, d.category); continue; }
-    if (m.kind === "sentinel") { noteSentinel(m.sentinel, f.label, f.value, d.category); continue; }
-    if (m.kind === "rejected") { stats.rejected++; quarantine.push({ scope: f.family_scope, label: f.label, value: f.value, key: m.key, reason: m.reason, detail: m.detail, locator: f.locator, doc_id: d.doc_id }); continue; }
-    stats.mapped_ok++;
-    if (INHERIT_CLASS_B.has(m.key)) { stats.inherit_class_b++; continue; }
-    const scope = resolveScope(f.family_scope, d.pid_list);
-    if (scope.kind === "unresolved") { stats.inherit_scope_unresolved++; continue; }
-    const scopePids = scope.kind === "pids" ? scope.pids : undefined;
-    const base: SpecEntry = { k: m.key, raw: natOk ? `${f.label} | ${m.raw}` : rawFor(f, m), value: m.value, unit: m.unit, state: "verified", prov: provFor(d, m.locator) };
-    for (const pid of d.pid_list) {
-      const part = resolvePart(pid);
-      if (!part) continue;                       // counted once above as pid_list_unknown
-      if (natOk && !natOk.has(part.id)) { natStat("outside-smb"); continue; }
-      if (natOk) natStat("smb");
-      const chk = canInherit({
-        fieldKey: m.key, sku: pid, docPidList: d.pid_list,
-        hasPerSkuException: perSkuKeys.get(part.id)?.get(d.doc_id)?.has(m.key) === true,
-        scopeLabel: f.family_scope, scopePids,
-      });
-      if (!chk.ok) {
-        if (/INHERIT_SCOPE_VIOLATION/.test(chk.reason)) stats.inherit_scope_violation++;
-        else if (chk.cls === "C") stats.inherit_class_c_exception++;
-        else stats.inherit_refused_other++;
-        continue;
+    const cell: MappedCell = natOk ? { facts: [mapFact({ ...f, label: NAT_AS_ROUTER_THROUGHPUT_LABEL }, d.category)], rule: null, refused: null }
+      : mapFactAll(f, d.category);
+    noteValueRule(cell);
+    for (const m of cell.facts) {
+      if (m.kind === "unmapped") { stats.unmapped++; noteUnmapped(m.label, f.value, d.category); continue; }
+      if (m.kind === "sentinel") { noteSentinel(m.sentinel, f.label, f.value, d.category); continue; }
+      if (m.kind === "rejected") { stats.rejected++; quarantine.push({ scope: f.family_scope, label: f.label, value: f.value, key: m.key, reason: m.reason, detail: m.detail, locator: f.locator, doc_id: d.doc_id }); continue; }
+      stats.mapped_ok++;
+      // a value rule may declare its own class for a document-level cell (ruling (C)); nothing else lifts class B
+      const docClass = m.docClass;
+      if (INHERIT_CLASS_B.has(m.key) && docClass !== "C") { stats.inherit_class_b++; continue; }
+      const scope = resolveScope(f.family_scope, d.pid_list);
+      if (scope.kind === "unresolved") { stats.inherit_scope_unresolved++; continue; }
+      const scopePids = scope.kind === "pids" ? scope.pids : undefined;
+      const base: SpecEntry = { k: m.key, raw: natOk ? `${f.label} | ${m.raw}` : rawFor(f, m), value: m.value, unit: m.unit, state: "verified", prov: provFor(d, m.locator) };
+      for (const pid of d.pid_list) {
+        const part = resolvePart(pid);
+        if (!part) continue;                       // counted once above as pid_list_unknown
+        if (natOk && !natOk.has(part.id)) { natStat("outside-smb"); continue; }
+        if (natOk) natStat("smb");
+        const chk = canInherit({
+          fieldKey: m.key, sku: pid, docPidList: d.pid_list,
+          hasPerSkuException: perSkuKeys.get(part.id)?.get(d.doc_id)?.has(m.key) === true,
+          scopeLabel: f.family_scope, scopePids, classOverride: docClass,
+        });
+        if (!chk.ok) {
+          if (/INHERIT_SCOPE_VIOLATION/.test(chk.reason)) stats.inherit_scope_violation++;
+          else if (chk.cls === "C") stats.inherit_class_c_exception++;
+          else stats.inherit_refused_other++;
+          continue;
+        }
+        stats.inherit_ok++;
+        if (docClass) stats.inherit_value_rule_class_c++;
+        addIncoming(part, inheritedEntry(base, familyLabel(f.family_scope, d.url)), f, f.label, d, true);
       }
-      stats.inherit_ok++;
-      addIncoming(part, inheritedEntry(base, familyLabel(f.family_scope, d.url)), f, f.label, d, true);
     }
   }
   stats.sku_unknown = unknownSkus.size;

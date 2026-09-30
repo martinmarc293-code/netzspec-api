@@ -1063,10 +1063,19 @@ export function canInherit(args: {
    * writer at the one place they all pass through, not once per pipeline.
    */
   subject?: InheritSubject;
+  /**
+   * A class a VALUE RULE declares for its own facts from a document-level cell (deepSpecMap.ts VALUE_RULES, `docClass`),
+   * where it differs from the key's class. Ruling (C), 30 Sep 2026: the one power line a small-business sheet prints for the
+   * whole sheet reaches that sheet's listed parts as class C, although psu_config and input_voltage are class B. It is the
+   * RULE's class, never the key's: the same keys from any other cell stay class B, and every class C condition still holds
+   * (the PID list, the scope, the part being a product the document describes, no per-SKU value in the same document).
+   */
+  classOverride?: "C";
 }): InheritCheck {
   const { fieldKey, sku, docPidList, hasPerSkuException, scopePids } = args;
+  const asC = args.classOverride === "C";
 
-  if (INHERIT_CLASS_B.has(fieldKey)) {
+  if (!asC && INHERIT_CLASS_B.has(fieldKey)) {
     return { ok: false, cls: "B", reason: `${fieldKey} is class B — per-SKU source mandatory, never inherited`, rule: "class_b" };
   }
   if (args.subject) {
@@ -1083,15 +1092,16 @@ export function canInherit(args: {
     return { ok: false, cls: INHERIT_CLASS_A.has(fieldKey) ? "A" : "C",
       reason: `INHERIT_SCOPE_VIOLATION: ${sku} is not in the scope "${args.scopeLabel}"` };
   }
-  if (INHERIT_CLASS_A.has(fieldKey)) {
+  if (!asC && INHERIT_CLASS_A.has(fieldKey)) {
     return { ok: true, cls: "A", reason: "class A, SKU is in the document's PID list" };
   }
-  if (INHERIT_CLASS_C.has(fieldKey)) {
+  if (asC || INHERIT_CLASS_C.has(fieldKey)) {
     if (hasPerSkuException) {
       return { ok: false, cls: "C",
         reason: `class C but the document carries a per-SKU value for ${fieldKey}; use that instead` };
     }
-    return { ok: true, cls: "C", reason: "class C, no per-SKU exception in this document" };
+    return { ok: true, cls: "C", reason: asC ? `class C as ruled for the value rule (${fieldKey} is class B from any other cell), no per-SKU exception in this document`
+      : "class C, no per-SKU exception in this document" };
   }
   return { ok: false, cls: "unknown", reason: `${fieldKey} has no inheritance class — refused by default` };
 }

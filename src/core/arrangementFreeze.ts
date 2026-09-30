@@ -20,6 +20,7 @@ import { profileHash, LEDGER_KINDS } from "./cupLedger.js";
 import { FIELD_DICTIONARY, SUPERSEDED_KEYS } from "./fieldSchema.js";
 import { SPEC_BEARING } from "./docClass.js";
 import { DERIVED_FILL_PATHS } from "./derivedFillPaths.js";
+import { VALUE_RULES, valueRuleTable } from "./deepSpecMap.js";
 import { INHERIT_CLASS_A, INHERIT_CLASS_B, INHERIT_CLASS_C } from "./specMerge.js";
 import { NORM_VERSION } from "./specNormalize.js";
 import { partKind } from "./partKind.js";
@@ -116,7 +117,7 @@ export type FreezeUnits = {
   profiles: Record<string, string>;
   dictionary: { keys: number; sha: string };
   kinds: { parts: number; by_category: Record<string, number>; mapping_sha: string };
-  mapper: { alias_file_sha: string; conflicts: number; conflicts_sha: string };
+  mapper: { alias_file_sha: string; conflicts: number; conflicts_sha: string; value_rules: number; value_rules_sha: string };
   derived_fill_paths: { keys: string[]; sha: string };
   spec_bearing_classes: { classes: string[]; sha: string };
   denominators: Record<string, { parts: number; required_slots_stored: number }>;
@@ -193,7 +194,10 @@ export function freezeUnits(vendor: string, repoRoot: string, kindRows: KindRow[
     profiles,
     dictionary: { keys: dict.length, sha: sha(stable(dict)) },
     kinds: { parts: kindRows.length, by_category: byCat, mapping_sha: sha(kindRows.map(kindLineKindsOnly).join("\n")) },
-    mapper: { alias_file_sha: sha(aliasText), conflicts: conflicts.split("\n").filter(Boolean).length, conflicts_sha: sha(conflicts) },
+    // the VALUE-SHAPED rules (deepSpecMap.ts, rulings (C)/(D) of 30 Sep 2026) are mapper rules too: a changed label, value
+    // shape, scope, emission or declared class moves this pin exactly as an edited alias rule does
+    mapper: { alias_file_sha: sha(aliasText), conflicts: conflicts.split("\n").filter(Boolean).length, conflicts_sha: sha(conflicts),
+      value_rules: VALUE_RULES.length, value_rules_sha: sha(stable(valueRuleTable())) },
     derived_fill_paths: { keys: Object.keys(DERIVED_FILL_PATHS).sort(), sha: sha(stable(DERIVED_FILL_PATHS)) },
     spec_bearing_classes: { classes, sha: sha(classes.join(",")) },
     denominators,

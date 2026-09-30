@@ -28,7 +28,9 @@ export type MappedFact =
   | { kind: "unmapped"; label: string }
   | { kind: "rejected"; key: string; reason: NormReason; detail: string }
   | { kind: "ok"; key: string; value: unknown; unit?: string; raw: string;
-      locator: string; sku?: string; scope?: string };
+      locator: string; sku?: string; scope?: string;
+      /** set when a VALUE RULE produced the fact: its id, and the inheritance class it declares for a document-level cell */
+      rule?: string; docClass?: "C" };
 
 const root = process.cwd();
 const en = JSON.parse(fs.readFileSync(path.join(root, "data/schema/attribute-aliases.en.json"), "utf8"));
@@ -244,6 +246,95 @@ export function mapFact(fact: RawFact, category = "switches"): MappedFact {
   const value = key === "dimensions" ? reorderDimensions(fact.label, n.value) : n.value;
   return { kind: "ok", key, value, unit: n.unit, raw: fact.value, locator: fact.locator,
     sku: fact.sku, scope: fact.family_scope };
+}
+
+// ---- VALUE-SHAPED RULES -----------------------------------------------------------------------------------------------------
+// Reviewer rulings (C) and (D), 30 Sep 2026 -- docs/decisions/2026-09-30-value-shaped-rules.md. A LABEL cannot decide these:
+// "Power" is a section heading or boilerplate on most sheets (-> __not_a_spec, and it stays that) and states the power supply
+// only where the small-business sheets print one line in ONE shape; "[Product description]" is an ordering-table column
+// (-> __not_a_spec) that states PoE only when it says "data only" or "non-PoE". So a rule is keyed on the label AND the value's
+// shape, it is tried BEFORE the label rules, and a cell without the shape takes the label's ordinary mapping: nothing about any
+// other cell changes. One power cell states two cups (where the supply sits, and its input range), so a rule EMITS a list.
+// Pinned by the arrangement freeze (valueRuleTable), like the alias file.
+export type ValueRule = {
+  id: string;
+  label: RegExp;
+  value: RegExp;
+  /** the categories the rule reads in; everywhere else the cell keeps its label mapping */
+  only: readonly string[];
+  emit: (m: RegExpExecArray) => { key: string; value: string }[];
+  /** a cell that has the shape and still cannot be read: returns why (the same cell contradicting itself) */
+  refuse?: (value: string) => string | null;
+  /** The inheritance class the RULE declares for its facts from a document-level cell, where it differs from the key's own
+   *  (canInherit's classOverride). Never a property of the key: the same key from any other cell keeps its class. */
+  docClass?: "C";
+  why: string;
+};
+
+export const VALUE_RULES: readonly ValueRule[] = [
+  {
+    // (C) the small-business sheets' power line: "100-240V 50-60 Hz, internal, universal" / "100 to 240V 47 to 63 Hz, internal,
+    // universal" / "100-240V 50-60 Hz, external". "internal" -> fixed-internal: the domain's only internal value; the cell does
+    // not say modular, and a modular supply is the claim a sheet makes in words ("field-replaceable", "redundant").
+    id: "power-line-smb",
+    label: /^power$/i,
+    // the optional comma after V: the corpus run (1,679 sheets) found 24 lines written "100-240 V, 50-60 Hz, Internal"
+    value: /^(\d{2,3})\s*(?:-|–|to)\s*(\d{2,3})\s*V,?\s+(\d{2})\s*(?:-|–|to)\s*(\d{2})\s*Hz,\s*(internal|external)(?:,\s*universal)?$/i,
+    only: ["switches"],
+    emit: (m) => [
+      { key: "psu_config", value: m[5].toLowerCase() === "internal" ? "fixed-internal" : "external" },
+      { key: "input_voltage", value: `${m[1]}-${m[2]} V` },
+    ],
+    docClass: "C",
+    why: "ruling (C): one stated power line -> psu_config + input_voltage; a sheet-level line is class C for that sheet",
+  },
+  {
+    // (D) the ordering table's PID description: "Catalyst 9300 24-port 1G copper with modular uplinks, data only, Network
+    // Advantage". Only the two explicit phrases; a description that ALSO names PoE is refused, not read (a PoE switch whose
+    // uplinks are "data only" states both).
+    id: "poe-data-only",
+    label: /\[product description\]$|^product description$|^description$/i,
+    value: /(?<![A-Za-z-])(?:data[ -]only|non-PoE)(?![A-Za-z])/i,
+    only: ["switches"],
+    emit: () => [{ key: "poe_standard", value: "none" }],
+    // no lookbehind here on purpose: "4PPoE" (IE3300-4MU) has a letter before its PoE, and refusing is the safe direction.
+    // THE PORT COUNT: the phrase states PoE only about ports the description counts. The corpus run read it on four power
+    // supplies -- "1000W AC power supply (data only)", "power supply ... for all non-PoE 2960-XR switches" -- where it
+    // describes the supply or the switches it fits, never a port of the part itself.
+    refuse: (v) => /poe|power over ethernet/i.test(v.replace(/non-PoE/gi, "")) ? "the same description also names PoE"
+      : !/(?<![A-Za-z0-9])\d{1,3}[- ]?port/i.test(v) ? "the description counts no ports of its own: the phrase is about another product"
+      : null,
+    why: "ruling (D): 'data only' / 'non-PoE' in the ordering table's PID description -> poe_standard none, per SKU",
+  },
+];
+
+/** The rule table as data, for the arrangement freeze: a changed pattern, scope, class or emission moves the pin. */
+export function valueRuleTable(): unknown {
+  return VALUE_RULES.map((r) => ({ id: r.id, label: String(r.label), value: String(r.value), only: [...r.only],
+    docClass: r.docClass ?? null, refuse: r.refuse ? String(r.refuse) : null, emit: String(r.emit) }));
+}
+
+/** What a value rule did with one cell: the facts it produced (or the label mapping, when no rule read the cell), the rule's id,
+ *  and why a rule whose shape matched still refused the cell -- a refusal is counted, never folded into "no rule". */
+export type MappedCell = { facts: MappedFact[]; rule: string | null; refused: string | null };
+
+export function mapFactAll(fact: RawFact, category = "switches"): MappedCell {
+  for (const r of VALUE_RULES) {
+    if (!r.only.includes(category) || !r.label.test(fact.label)) continue;
+    const value = String(fact.value ?? "").replace(/\s+/g, " ").trim();
+    const m = r.value.exec(value);
+    if (!m) continue;
+    const why = r.refuse?.(value) ?? null;
+    if (why) return { facts: [mapFact(fact, category)], rule: r.id, refused: why };
+    const facts: MappedFact[] = r.emit(m).map(({ key, value: v }) => {
+      const n = normalizeField(category, key, v, { locale: "en" });
+      if (!n.ok) return { kind: "rejected", key, reason: n.reason, detail: n.detail };
+      return { kind: "ok", key, value: n.value, unit: n.unit, raw: fact.value, locator: fact.locator,
+        sku: fact.sku, scope: fact.family_scope, rule: r.id, docClass: r.docClass };
+    });
+    return { facts, rule: r.id, refused: null };
+  }
+  return { facts: [mapFact(fact, category)], rule: null, refused: null };
 }
 
 /** Split an extractor output file into its document records and its facts. */

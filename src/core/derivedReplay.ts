@@ -7,6 +7,7 @@ import { ponStandardFromStandards } from "./ponStandard.js";
 import { normalizeField } from "./specNormalize.js";
 import { shippingFromRaw } from "./shippingAllowance.js";
 import { temperatureIntersection } from "./conditionIntersection.js";
+import { stackableFromBandwidth } from "./stackableFromBandwidth.js";
 
 const DERIVATIONS: Readonly<Record<string, (raw: string) => unknown>> = {
   "derived:pon_standard": (raw) => { const d = ponStandardFromStandards([raw]); return d.ok ? d.value : null; },
@@ -17,6 +18,8 @@ const DERIVATIONS: Readonly<Record<string, (raw: string) => unknown>> = {
   "derived:shipping-allowance": (raw) => shippingFromRaw(raw),
   // reviewer ruling 30 Sep 2026: the raw keeps EVERY condition the sheet states; the value is the range true under all of them
   "derived:condition-intersection": (raw) => { const t = temperatureIntersection(raw); return t.ok ? t.value : null; },
+  // ruling (B), 30 Sep 2026: the raw is "<column header> | <row header> | <stated cell>"; the value is what the cell states
+  "derived:stackable-from-bandwidth": (raw) => stackableFromBandwidth(raw),
 };
 
 /** null = the derivation reproduces a value from this raw; otherwise the reason it cannot. */
