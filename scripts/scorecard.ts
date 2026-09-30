@@ -149,13 +149,20 @@ const miss = (p: number, a: number | null) => p > 0 && a !== null && Math.abs(p 
 if (miss(predicted, actual) && prev && miss(Number(prev.predicted), prev.actual)) flags.push("OFF-TARGET: prediction vs actual off by > 30% twice in a row");
 if ((ctxPct ?? 0) > 60 || (commands > 150 && readyDelta === 0)) flags.push(`WASTEFUL: context ${ctxPct ?? "?"}%, ${commands} commands, ready ${readyDelta === null ? "?" : `+${readyDelta}`}`);
 if (light?.color === "RED") flags.push(`RED-NIGHT: ${light.reason}`);
+// FINAL FILL ORDER (30 Sep 2026), LIMITS: the owner's Max plan only. The headless lane pauses at 55 % weekly usage; ALL work stops
+// at 70 % (commit, state.md, report, wait for the reset). The % is the app's usage card ("Weekly · all models"), which this
+// script cannot read -- it is handed in with --weekly-pct, and a scorecard without it says so rather than leaving the line out.
+const weeklyArg = arg("--weekly-pct");
+const weekly = weeklyArg !== undefined && Number.isFinite(Number(weeklyArg)) ? Number(weeklyArg) : null;
+if (weekly !== null && weekly >= 70) flags.push(`LIMIT-70: weekly usage ${weekly}% -- ALL work stops: commit, state.md, report, wait for the reset`);
+else if (weekly !== null && weekly >= 55) flags.push(`LIMIT-55: weekly usage ${weekly}% -- the headless lane is paused`);
 
 const hhmm = (ms: number) => `${String(Math.floor(ms / 3600e3)).padStart(2, "0")}:${String(Math.floor((ms % 3600e3) / 60e3)).padStart(2, "0")}`;
 const card = {
   at: now.toISOString(), since, ready: R.ready, ready_delta: readyDelta, filled_pct: R.filled_pct, filled_delta: filledDelta,
   predicted: Number.isFinite(predicted) ? predicted : null, actual, rule: today?.rule ?? null, blocker_key: today?.blocker_key ?? null,
   blocker_rank: rank >= 0 ? rank + 1 : null, top5: R.top5, off_list: offList, fixups, fixup_commits: fixupList, reverts,
-  questions, questions_already_ruled: null, commands, context_tokens: ctx, context_pct: ctxPct, streak, flags,
+  questions, questions_already_ruled: null, commands, context_tokens: ctx, context_pct: ctxPct, weekly_pct: weekly, streak, flags,
   light: light ? `${light.color}: ${light.reason}` : "unknown", verdict: null,
 };
 const lines = [
@@ -165,6 +172,7 @@ const lines = [
   `rework    commits fixing my own earlier commits: ${fixups}${fixupList.length ? ` (${fixupList.join(", ")})` : ""} · reverts: ${reverts} · commits in window: ${commits.length}`,
   `asks      ${tfile ? `questions to reviewer: ${questions}` : "questions to reviewer: not computed (no transcript given)"} · of which already ruled in state.md: n/a (a reading, not a count)`,
   `cost      ${tfile ? `context used: ${ctxPct ?? "?"}% (${ctx?.toLocaleString("en") ?? "?"} of ${CONTEXT_WINDOW.toLocaleString("en")} tokens) · commands run: ${commands}` : "context / commands: not computed (no transcript given)"} · time since last report: ${hhmm(now.getTime() - new Date(since).getTime())}`,
+  `limits    weekly usage (all models): ${weekly === null ? "NOT GIVEN (--weekly-pct)" : `${weekly}%`} · headless lane pauses at 55%, all work stops at 70%`,
   `streak    consecutive reports with ready +0: ${streak} · night: ${card.light}`,
 ];
 console.log(lines.join("\n"));
