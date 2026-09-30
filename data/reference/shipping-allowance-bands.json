@@ -1,0 +1,93 @@
+{
+ "ruling": "Q23 (reviewer, 30 Sep 2026): Versandgewicht = Artikelgewicht + the median packaging delta of its weight band, stored as derived:shipping-allowance with the recorded switch file as witness",
+ "built_by": "scripts/shipping-allowance-bands.py",
+ "witness": {
+  "path": "D:\\Project\\hexcat\\output\\Cisco_Switches_LATEST_2d21e32\\Hexwaren_Cisco_Switches_Main.csv",
+  "bytes": 2247352,
+  "sha256": "ce7c30b0023e39e6963ab9c8c0539be0b938cf1ae11a2dcd55cf59e2284d1a01",
+  "rows_used": 995,
+  "rows_total": 995
+ },
+ "bands": [
+  {
+   "from_kg": 0,
+   "below_kg": 1,
+   "n": 17,
+   "allowance_kg": 0.6,
+   "q1_kg": 0.6,
+   "q3_kg": 1.85,
+   "min_kg": 0.6,
+   "max_kg": 2.5
+  },
+  {
+   "from_kg": 1,
+   "below_kg": 2,
+   "n": 105,
+   "allowance_kg": 0.8,
+   "q1_kg": 0.6,
+   "q3_kg": 1.0,
+   "min_kg": 0.6,
+   "max_kg": 2.5
+  },
+  {
+   "from_kg": 2,
+   "below_kg": 3,
+   "n": 79,
+   "allowance_kg": 1.0,
+   "q1_kg": 0.92,
+   "q3_kg": 1.2,
+   "min_kg": 0.6,
+   "max_kg": 2.5
+  },
+  {
+   "from_kg": 3,
+   "below_kg": 5,
+   "n": 176,
+   "allowance_kg": 1.5,
+   "q1_kg": 1.2,
+   "q3_kg": 2.5,
+   "min_kg": 0.8,
+   "max_kg": 2.5
+  },
+  {
+   "from_kg": 5,
+   "below_kg": 8,
+   "n": 429,
+   "allowance_kg": 1.7,
+   "q1_kg": 1.5,
+   "q3_kg": 2.5,
+   "min_kg": 0.6,
+   "max_kg": 2.5
+  },
+  {
+   "from_kg": 8,
+   "below_kg": 12,
+   "n": 119,
+   "allowance_kg": 2.0,
+   "q1_kg": 1.7,
+   "q3_kg": 2.5,
+   "min_kg": 1.5,
+   "max_kg": 3.0
+  },
+  {
+   "from_kg": 12,
+   "below_kg": 20,
+   "n": 33,
+   "allowance_kg": 2.12,
+   "q1_kg": 2.0,
+   "q3_kg": 2.5,
+   "min_kg": 1.5,
+   "max_kg": 6.8
+  },
+  {
+   "from_kg": 20,
+   "below_kg": null,
+   "n": 37,
+   "allowance_kg": 2.5,
+   "q1_kg": 2.325,
+   "q3_kg": 14.0,
+   "min_kg": 1.5,
+   "max_kg": 30.5
+  }
+ ]
+}

@@ -1,0 +1,328 @@
+{
+ "ruling": "Q25 (reviewer, 30 Sep 2026): 'Module weight (Max)' accepted as the cable's weight, method derived:max-bound",
+ "built_by": "scripts/max-bound-weight-witnesses.py",
+ "rows": [
+  {
+   "sku": "QDD-400-CU0.5M",
+   "doc_id": "da3cfbb69aa6bc9f",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/transceiver-modules/datasheet-c78-743172.html",
+   "cache_path": "da3cfbb69aa6bc9f2766ea42474edb787d62d31b.html",
+   "label": "Module weight (Max)",
+   "locator": "t5:r3:c2",
+   "raw": "250 g"
+  },
+  {
+   "sku": "QDD-400-CU1M",
+   "doc_id": "da3cfbb69aa6bc9f",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/transceiver-modules/datasheet-c78-743172.html",
+   "cache_path": "da3cfbb69aa6bc9f2766ea42474edb787d62d31b.html",
+   "label": "Module weight (Max)",
+   "locator": "t5:r4:c2",
+   "raw": "250 g"
+  },
+  {
+   "sku": "QDD-400-CU2M",
+   "doc_id": "da3cfbb69aa6bc9f",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/transceiver-modules/datasheet-c78-743172.html",
+   "cache_path": "da3cfbb69aa6bc9f2766ea42474edb787d62d31b.html",
+   "label": "Module weight (Max)",
+   "locator": "t5:r5:c2",
+   "raw": "450 g"
+  },
+  {
+   "sku": "QDD-400-CU2.5M",
+   "doc_id": "da3cfbb69aa6bc9f",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/transceiver-modules/datasheet-c78-743172.html",
+   "cache_path": "da3cfbb69aa6bc9f2766ea42474edb787d62d31b.html",
+   "label": "Module weight (Max)",
+   "locator": "t5:r6:c2",
+   "raw": "550 g"
+  },
+  {
+   "sku": "QDD-400-CU3M",
+   "doc_id": "da3cfbb69aa6bc9f",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/transceiver-modules/datasheet-c78-743172.html",
+   "cache_path": "da3cfbb69aa6bc9f2766ea42474edb787d62d31b.html",
+   "label": "Module weight (Max)",
+   "locator": "t5:r7:c2",
+   "raw": "600 g"
+  },
+  {
+   "sku": "QDD-4ZQ100CU1M",
+   "doc_id": "da3cfbb69aa6bc9f",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/transceiver-modules/datasheet-c78-743172.html",
+   "cache_path": "da3cfbb69aa6bc9f2766ea42474edb787d62d31b.html",
+   "label": "Module weight (Max)",
+   "locator": "t5:r8:c2",
+   "raw": "400g"
+  },
+  {
+   "sku": "QDD4ZQ100-CU2M",
+   "doc_id": "da3cfbb69aa6bc9f",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/transceiver-modules/datasheet-c78-743172.html",
+   "cache_path": "da3cfbb69aa6bc9f2766ea42474edb787d62d31b.html",
+   "label": "Module weight (Max)",
+   "locator": "t5:r9:c2",
+   "raw": "600 g"
+  },
+  {
+   "sku": "QDD-4ZQ100-CU2.5M",
+   "doc_id": "da3cfbb69aa6bc9f",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/transceiver-modules/datasheet-c78-743172.html",
+   "cache_path": "da3cfbb69aa6bc9f2766ea42474edb787d62d31b.html",
+   "label": "Module weight (Max)",
+   "locator": "t5:r10:c2",
+   "raw": "700 g"
+  },
+  {
+   "sku": "QDD-4ZQ100-CU3M",
+   "doc_id": "da3cfbb69aa6bc9f",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/transceiver-modules/datasheet-c78-743172.html",
+   "cache_path": "da3cfbb69aa6bc9f2766ea42474edb787d62d31b.html",
+   "label": "Module weight (Max)",
+   "locator": "t5:r11:c2",
+   "raw": "800 g"
+  },
+  {
+   "sku": "QDD-2Q200-CU1M",
+   "doc_id": "da3cfbb69aa6bc9f",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/transceiver-modules/datasheet-c78-743172.html",
+   "cache_path": "da3cfbb69aa6bc9f2766ea42474edb787d62d31b.html",
+   "label": "Module weight (Max)",
+   "locator": "t5:r12:c2",
+   "raw": "300 g"
+  },
+  {
+   "sku": "QDD-2Q200-CU2M",
+   "doc_id": "da3cfbb69aa6bc9f",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/transceiver-modules/datasheet-c78-743172.html",
+   "cache_path": "da3cfbb69aa6bc9f2766ea42474edb787d62d31b.html",
+   "label": "Module weight (Max)",
+   "locator": "t5:r13:c2",
+   "raw": "400 g"
+  },
+  {
+   "sku": "QDD-2Q200-CU2.5M",
+   "doc_id": "da3cfbb69aa6bc9f",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/transceiver-modules/datasheet-c78-743172.html",
+   "cache_path": "da3cfbb69aa6bc9f2766ea42474edb787d62d31b.html",
+   "label": "Module weight (Max)",
+   "locator": "t5:r14:c2",
+   "raw": "500 g"
+  },
+  {
+   "sku": "QDD-2Q200-CU3M",
+   "doc_id": "da3cfbb69aa6bc9f",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/transceiver-modules/datasheet-c78-743172.html",
+   "cache_path": "da3cfbb69aa6bc9f2766ea42474edb787d62d31b.html",
+   "label": "Module weight (Max)",
+   "locator": "t5:r15:c2",
+   "raw": "600 g"
+  },
+  {
+   "sku": "QDD-400-AOC1M",
+   "doc_id": "da3cfbb69aa6bc9f",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/transceiver-modules/datasheet-c78-743172.html",
+   "cache_path": "da3cfbb69aa6bc9f2766ea42474edb787d62d31b.html",
+   "label": "Module weight (Max)",
+   "locator": "t5:r16:c2",
+   "raw": "160 g"
+  },
+  {
+   "sku": "QDD-400-AOC2M",
+   "doc_id": "da3cfbb69aa6bc9f",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/transceiver-modules/datasheet-c78-743172.html",
+   "cache_path": "da3cfbb69aa6bc9f2766ea42474edb787d62d31b.html",
+   "label": "Module weight (Max)",
+   "locator": "t5:r17:c2",
+   "raw": "180 g"
+  },
+  {
+   "sku": "QDD-400-AOC3M",
+   "doc_id": "da3cfbb69aa6bc9f",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/transceiver-modules/datasheet-c78-743172.html",
+   "cache_path": "da3cfbb69aa6bc9f2766ea42474edb787d62d31b.html",
+   "label": "Module weight (Max)",
+   "locator": "t5:r18:c2",
+   "raw": "190 g"
+  },
+  {
+   "sku": "QDD-400-AOC5M",
+   "doc_id": "da3cfbb69aa6bc9f",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/transceiver-modules/datasheet-c78-743172.html",
+   "cache_path": "da3cfbb69aa6bc9f2766ea42474edb787d62d31b.html",
+   "label": "Module weight (Max)",
+   "locator": "t5:r19:c2",
+   "raw": "200 g"
+  },
+  {
+   "sku": "QDD-400-AOC7M",
+   "doc_id": "da3cfbb69aa6bc9f",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/transceiver-modules/datasheet-c78-743172.html",
+   "cache_path": "da3cfbb69aa6bc9f2766ea42474edb787d62d31b.html",
+   "label": "Module weight (Max)",
+   "locator": "t5:r20:c2",
+   "raw": "230 g"
+  },
+  {
+   "sku": "QDD-400-AOC10M",
+   "doc_id": "da3cfbb69aa6bc9f",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/transceiver-modules/datasheet-c78-743172.html",
+   "cache_path": "da3cfbb69aa6bc9f2766ea42474edb787d62d31b.html",
+   "label": "Module weight (Max)",
+   "locator": "t5:r21:c2",
+   "raw": "270 g"
+  },
+  {
+   "sku": "QDD-400-AOC15M",
+   "doc_id": "da3cfbb69aa6bc9f",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/transceiver-modules/datasheet-c78-743172.html",
+   "cache_path": "da3cfbb69aa6bc9f2766ea42474edb787d62d31b.html",
+   "label": "Module weight (Max)",
+   "locator": "t5:r22:c2",
+   "raw": "320 g"
+  },
+  {
+   "sku": "QDD-400-AOC20M",
+   "doc_id": "da3cfbb69aa6bc9f",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/transceiver-modules/datasheet-c78-743172.html",
+   "cache_path": "da3cfbb69aa6bc9f2766ea42474edb787d62d31b.html",
+   "label": "Module weight (Max)",
+   "locator": "t5:r23:c2",
+   "raw": "390 g"
+  },
+  {
+   "sku": "QDD-400-AOC25M",
+   "doc_id": "da3cfbb69aa6bc9f",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/transceiver-modules/datasheet-c78-743172.html",
+   "cache_path": "da3cfbb69aa6bc9f2766ea42474edb787d62d31b.html",
+   "label": "Module weight (Max)",
+   "locator": "t5:r24:c2",
+   "raw": "430 g"
+  },
+  {
+   "sku": "QDD-400-AOC30M",
+   "doc_id": "da3cfbb69aa6bc9f",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/transceiver-modules/datasheet-c78-743172.html",
+   "cache_path": "da3cfbb69aa6bc9f2766ea42474edb787d62d31b.html",
+   "label": "Module weight (Max)",
+   "locator": "t5:r25:c2",
+   "raw": "490 g"
+  },
+  {
+   "sku": "QSFP-200-CU1M",
+   "doc_id": "2e6f3ad86d6f7c1e",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/transceiver-modules/nb-06-200g-qsfp56-cables-trans-mod-ds-cte-en.html",
+   "cache_path": "2e6f3ad86d6f7c1e641892cc193692fe6057c1a8.html",
+   "label": "Module weight (Max)",
+   "locator": "t5:r3:c2",
+   "raw": "250 g"
+  },
+  {
+   "sku": "QSFP-200-CU2M",
+   "doc_id": "2e6f3ad86d6f7c1e",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/transceiver-modules/nb-06-200g-qsfp56-cables-trans-mod-ds-cte-en.html",
+   "cache_path": "2e6f3ad86d6f7c1e641892cc193692fe6057c1a8.html",
+   "label": "Module weight (Max)",
+   "locator": "t5:r4:c2",
+   "raw": "450 g"
+  },
+  {
+   "sku": "QSFP-200-CU3M",
+   "doc_id": "2e6f3ad86d6f7c1e",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/transceiver-modules/nb-06-200g-qsfp56-cables-trans-mod-ds-cte-en.html",
+   "cache_path": "2e6f3ad86d6f7c1e641892cc193692fe6057c1a8.html",
+   "label": "Module weight (Max)",
+   "locator": "t5:r5:c2",
+   "raw": "600 g"
+  },
+  {
+   "sku": "QSFP-4S50-CU1M",
+   "doc_id": "2e6f3ad86d6f7c1e",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/transceiver-modules/nb-06-200g-qsfp56-cables-trans-mod-ds-cte-en.html",
+   "cache_path": "2e6f3ad86d6f7c1e641892cc193692fe6057c1a8.html",
+   "label": "Module weight (Max)",
+   "locator": "t5:r6:c2",
+   "raw": "400g"
+  },
+  {
+   "sku": "QSFP-4S50-CU2M",
+   "doc_id": "2e6f3ad86d6f7c1e",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/transceiver-modules/nb-06-200g-qsfp56-cables-trans-mod-ds-cte-en.html",
+   "cache_path": "2e6f3ad86d6f7c1e641892cc193692fe6057c1a8.html",
+   "label": "Module weight (Max)",
+   "locator": "t5:r7:c2",
+   "raw": "600g"
+  },
+  {
+   "sku": "QSFP-4S50-CU3M",
+   "doc_id": "2e6f3ad86d6f7c1e",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/transceiver-modules/nb-06-200g-qsfp56-cables-trans-mod-ds-cte-en.html",
+   "cache_path": "2e6f3ad86d6f7c1e641892cc193692fe6057c1a8.html",
+   "label": "Module weight (Max)",
+   "locator": "t5:r8:c2",
+   "raw": "800g"
+  },
+  {
+   "sku": "QDD-2Q200-CU3M",
+   "doc_id": "2e6f3ad86d6f7c1e",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/transceiver-modules/nb-06-200g-qsfp56-cables-trans-mod-ds-cte-en.html",
+   "cache_path": "2e6f3ad86d6f7c1e641892cc193692fe6057c1a8.html",
+   "label": "Module weight (Max)",
+   "locator": "t5:r9:c2",
+   "raw": "600 g"
+  },
+  {
+   "sku": "QDD-4ZQ100CU1M",
+   "doc_id": "2e6f3ad86d6f7c1e",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/transceiver-modules/nb-06-200g-qsfp56-cables-trans-mod-ds-cte-en.html",
+   "cache_path": "2e6f3ad86d6f7c1e641892cc193692fe6057c1a8.html",
+   "label": "Module weight (Max)",
+   "locator": "t5:r10:c2",
+   "raw": "400 g"
+  },
+  {
+   "sku": "QDD-4ZQ100-CU2M",
+   "doc_id": "2e6f3ad86d6f7c1e",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/transceiver-modules/nb-06-200g-qsfp56-cables-trans-mod-ds-cte-en.html",
+   "cache_path": "2e6f3ad86d6f7c1e641892cc193692fe6057c1a8.html",
+   "label": "Module weight (Max)",
+   "locator": "t5:r11:c2",
+   "raw": "600 g"
+  },
+  {
+   "sku": "QDD-4ZQ100-CU2.5M",
+   "doc_id": "2e6f3ad86d6f7c1e",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/transceiver-modules/nb-06-200g-qsfp56-cables-trans-mod-ds-cte-en.html",
+   "cache_path": "2e6f3ad86d6f7c1e641892cc193692fe6057c1a8.html",
+   "label": "Module weight (Max)",
+   "locator": "t5:r12:c2",
+   "raw": "700 g"
+  },
+  {
+   "sku": "QDD-4ZQ100-CU3M",
+   "doc_id": "2e6f3ad86d6f7c1e",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/transceiver-modules/nb-06-200g-qsfp56-cables-trans-mod-ds-cte-en.html",
+   "cache_path": "2e6f3ad86d6f7c1e641892cc193692fe6057c1a8.html",
+   "label": "Module weight (Max)",
+   "locator": "t5:r13:c2",
+   "raw": "800 g"
+  }
+ ],
+ "refused": [
+  {
+   "doc_id": "da3cfbb69aa6bc9f",
+   "locator": "t5:r2",
+   "subject": "Optical modules",
+   "value": "100 g",
+   "why": "the subject is not a PID of this sheet (a class names no part)"
+  },
+  {
+   "doc_id": "2e6f3ad86d6f7c1e",
+   "locator": "t5:r2",
+   "subject": "Optical modules",
+   "value": "100 g",
+   "why": "the subject is not a PID of this sheet (a class names no part)"
+  }
+ ]
+}

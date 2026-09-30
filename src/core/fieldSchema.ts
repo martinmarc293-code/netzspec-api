@@ -469,6 +469,10 @@ export const FIELD_DICTIONARY: Record<string, FieldDef> = {
   // --- physical / compliance ------------------------------------------------------------------
   dimensions: { key: "dimensions", de: "Abmessungen (H×B×T)", en: "Dimensions (H×W×D)", type: "struct", unit: "mm", shape: "{ h: n, w: n, d: n }", etim: ["EF000040", "EF000008", "EF000049"], icecat: null },
   weight: { key: "weight", de: "Gewicht", en: "Weight", type: "n", unit: "kg", band: [0.01, 500], etim: [], icecat: null },
+  // RETYPED 30 Sep 2026 (ruling Q23, docs/decisions/2026-09-30-weight-rulings.md): the generated entry typed it a STRING, so the
+  // three facts every vendor held were stored as text ("14.0 lb 6.35 kg") and no allowance could be computed or exported.
+  // Numeric, kilograms, the weight's own band; a curated entry wins over the generated one and survives regeneration.
+  shipping_weight: { key: "shipping_weight", de: "Versandgewicht", en: "Shipping weight", type: "n", unit: "kg", band: [0.01, 500], etim: [], icecat: null },
   certifications: { key: "certifications", de: "Zertifizierungen", en: "Certifications", type: "ls", examples: ["ce", "ul", "fcc-a", "rohs", "reach", "vcci", "kc", "bsmi", "eac"], etim: [], icecat: null },
   ieee_standards: { key: "ieee_standards", de: "IEEE-Standards", en: "IEEE standards", type: "ls", examples: ["802.3ab", "802.1q", "802.3az", "802.1x"], etim: [], icecat: null },
 
@@ -4044,7 +4048,11 @@ export const DOMAIN_OVERRIDES: Record<string, Record<string, string[]>> = {
 const COLLAB_BANDS: Record<string, [number, number]> = { voice_lines: [1, 128], fxs_ports: [1, 512], fxo_ports: [0, 512] };
 // end collab
 export const BAND_OVERRIDES: Record<string, Record<string, [number, number]>> = {
-  transceiver: { power_max: [0.1, 40] },
+  // weight [1, 2000] GRAMS (ruling Q25, 30 Sep 2026): UNIT_OVERRIDES reads an optic's weight in grams, and until now its band
+  // was the dictionary's KILOGRAM band [0.01, 500] read in grams -- a band never measured in its own unit, which refused every
+  // real copper cable over half a kilo (Cisco prints QDD-4ZQ100-CU3M at 800 g). No vendor held a transceiver weight, so it had
+  // never been exercised. tests/weightRulings.test.ts now requires EVERY unit override to carry a band in its own unit.
+  transceiver: { power_max: [0.1, 40], weight: [1, 2000] },
   // wireless (12 Sep 2026): power_max is now asked of APs (a few W to ~60 W on UPOE), controllers (9800-80
   // 1100 W PSUs) and UCS-based appliances; the switch band [1, 30000] would store a 3 kW access point. The 38
   // stored values (30..950 W) are PSU RATINGS mined from supply names, filed under the wrong key (proposal).
@@ -4135,6 +4143,26 @@ export const BAND_OVERRIDES: Record<string, Record<string, [number, number]>> = 
 
 export function unitFor(category: string, key: string): string | undefined {
   return UNIT_OVERRIDES[category]?.[key] ?? FIELD_DICTIONARY[key]?.unit;
+}
+
+/**
+ * THE UNIT OVERRIDE CARRIES ITS OWN BAND (reviewer, 30 Sep 2026). A band is written in its entry's unit, so an override that
+ * changes the unit and inherits the dictionary's band reads that band on the wrong scale -- transceiver weight read the KILOGRAM
+ * band [0.01, 500] in grams and refused every real cable over half a kilo, silently, for as long as the override existed.
+ * Returns every (category, key) whose unit is overridden while its band is not; tests/weightRulings.test.ts requires none.
+ */
+export function unitOverridesWithoutBand(
+  units: Record<string, Record<string, string>> = UNIT_OVERRIDES,
+  bands: Record<string, Record<string, [number, number]>> = BAND_OVERRIDES,
+  dict: Record<string, { band?: [number, number]; unit?: string } | undefined> = FIELD_DICTIONARY,
+): string[] {
+  const out: string[] = [];
+  for (const [cat, keys] of Object.entries(units)) {
+    for (const [key, unit] of Object.entries(keys)) {
+      if (dict[key]?.band && unit !== dict[key]?.unit && !bands[cat]?.[key]) out.push(`${cat}/${key} (unit ${unit}, band inherited in ${dict[key]?.unit})`);
+    }
+  }
+  return out;
 }
 
 export function bandFor(category: string, key: string): [number, number] | undefined {

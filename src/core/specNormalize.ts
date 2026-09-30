@@ -67,7 +67,7 @@ import { isPartNumber } from "../pipeline/partNumber.js";
 //        string to a list on 4 Sep 2026 and the comma splitter then read 396 citation cells for the
 //        first time, cutting "MIL-STD-810, Method 514.4" into two standards that do not exist. The
 //        rule and every bound in it are read off the stored raws — see isCitationContinuation.
-export const NORM_VERSION = "1.8.7"; // 1.8.7 (29 Sep 2026, ruling Q10): the supported_protocols grammar reads PIM modes, a glued column label and a hyphenated / versioned bracketed acronym (listShapes PROTOCOL_GRAMMAR_Q10), so a member it now reads is KEPT rather than refused and salvaged -- the output moves for 163 stored facts ("... (NAT-PT)" kept, its salvaged "IPv4" gone). 1.8.6 (29 Sep 2026, ruling Q5): " ; " always splits a list cell; a certifications member naming 2+ issuer-numbered standards is cut at each start. 1.8.5 (29 Sep 2026, ruling (a')): a list with a registered SHAPE drops refused prose members after salvaging the identifiers inside them (listShapes.reshapeList); all-prose cells are refused. 29 Sep 2026: splitter (below) — 1.8.2 the pre-bullet head, spaced middle-dot runs; 1.8.3 a run of standards prefixes delimits its ;-chunk, commas or not; 1.8.4 antenna_gain {band24, band5} strict parser (0 stored facts) + the anchored spatial_streams MIMO sentence (MR46: 4x4:4)
+export const NORM_VERSION = "1.8.8"; // 1.8.8 (30 Sep 2026, ruling Q23): a mass printed as pounds THEN kilograms with no parentheses ("13.90 lb 6.30 kg", "16.05 lbs / 7.28 kg") reads the printed kilogram figure, never the converted pound one -- 114 of 117 such stored Cisco weights move by at most the rounding of the conversion (0.499 -> 0.487 the largest). 1.8.7 (29 Sep 2026, ruling Q10): the supported_protocols grammar reads PIM modes, a glued column label and a hyphenated / versioned bracketed acronym (listShapes PROTOCOL_GRAMMAR_Q10), so a member it now reads is KEPT rather than refused and salvaged -- the output moves for 163 stored facts ("... (NAT-PT)" kept, its salvaged "IPv4" gone). 1.8.6 (29 Sep 2026, ruling Q5): " ; " always splits a list cell; a certifications member naming 2+ issuer-numbered standards is cut at each start. 1.8.5 (29 Sep 2026, ruling (a')): a list with a registered SHAPE drops refused prose members after salvaging the identifiers inside them (listShapes.reshapeList); all-prose cells are refused. 29 Sep 2026: splitter (below) — 1.8.2 the pre-bullet head, spaced middle-dot runs; 1.8.3 a run of standards prefixes delimits its ;-chunk, commas or not; 1.8.4 antenna_gain {band24, band5} strict parser (0 stored facts) + the anchored spatial_streams MIMO sentence (MR46: 4x4:4)
 // 1.8.1 — 29 Sep 2026, reviewer ruling: two splitter defects with witnesses. A run of standards-body prefixes with no
 //         other delimiter ("ITUT G.984.1 ITUT G.984.2 ... IEEE 802.3af") and "PID or PID" are lists. Bumped so renormalize
 //         selects the stored values the old splitter wrote.
@@ -1879,6 +1879,9 @@ const STACKING_TOKENS: [RegExp, string][] = [
   [/flex\s*stack(?![\s-]*(?:plus|extended))/i, "flexstack"],
 ];
 
+/** Pounds then kilograms, both printed, no parentheses -- the kilogram figure is captured (see preprocessValue). */
+const DUAL_MASS = /^\s*\d+(?:\.\d+)?\s*(?:lbs?|pounds?)\.?\s*[,;/]?\s*(\d+(?:\.\d+)?)\s*(?:kgs?|kilograms?)\.?\s*$/i;
+
 export function preprocessValue(raw: string, key: string): string {
   let s = raw.replace(NBSP, " ");
   s = s.replace(DEGREE_LOOKALIKES, "°");
@@ -1975,6 +1978,14 @@ export function preprocessValue(raw: string, key: string): string {
       const mp = METRIC_PAREN.exec(s);
       if (mp) s = mp[1].trim();
     }
+  }
+  // Pounds then kilograms, NO parentheses: "13.90 lb 6.30 kg", "16.05 lbs / 7.28 kg", "3.0 lbs 1.4 Kg". The sheet prints both
+  // figures and the kilogram one IS the value (reviewer ruling, 30 Sep 2026: "the metric figure the sheet prints, never a
+  // converted one"). Reading the first figure and converting it stored 6.304934 for a sheet that says 6.30 -- 114 of 117 such
+  // Cisco weights, and 0.499 for a sheet that says 0.487. Only this exact two-figure shape is read; anything else keeps its path.
+  {
+    const dm = DUAL_MASS.exec(s);
+    if (dm) s = `${dm[1]} kg`;
   }
   return s.trim();
 }

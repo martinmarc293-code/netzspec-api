@@ -4,9 +4,16 @@
 // renormalize over the key would have retracted them. Every `derived:<key>` method replays through its registered
 // derivation here; a derived method with no entry is refused LOUDLY rather than waved through.
 import { ponStandardFromStandards } from "./ponStandard.js";
+import { normalizeField } from "./specNormalize.js";
+import { shippingFromRaw } from "./shippingAllowance.js";
 
 const DERIVATIONS: Readonly<Record<string, (raw: string) => unknown>> = {
   "derived:pon_standard": (raw) => { const d = ponStandardFromStandards([raw]); return d.ok ? d.value : null; },
+  // ruling Q25 (30 Sep 2026): the raw IS the sheet's stated maximum ("250 g"); the derivation is only the label -- the value is
+  // the mass as the dictionary's own normaliser reads it, so replay is that read (scripts/derive-max-bound-weight.mts)
+  "derived:max-bound": (raw) => { const n = normalizeField("transceiver", "weight", raw, { locale: "en" }); return n.ok ? n.value : null; },
+  // ruling Q23 (30 Sep 2026): the raw is the part's weight in kg ("5.5 kg"), the value that weight plus its band's allowance
+  "derived:shipping-allowance": (raw) => shippingFromRaw(raw),
 };
 
 /** null = the derivation reproduces a value from this raw; otherwise the reason it cannot. */

@@ -14,6 +14,11 @@
 // (precision 1.000 over the 1,054 seeds) but speaks for 10.1% of switches, and a cup required of 4,931 parts on
 // a path that reaches 500 is still mostly a gap nobody can close.
 export const DERIVED_FILL_PATHS: Readonly<Record<string, { by: string; validated: string }>> = {
+  // ruling Q23 (30 Sep 2026): Versandgewicht = the part's served weight + the median packaging delta of its weight band.
+  shipping_weight: { by: "src/core/shippingAllowance.ts shippingWeightKg (bands: data/reference/shipping-allowance-bands.json, scripts/shipping-allowance-bands.py; writer scripts/derive-shipping-weight.mts)", validated: "30 Sep 2026: 8 bands from 995 of 995 rows of the recorded Hexwaren Cisco switch Main file (sha256 in the table); medians 0.6 / 0.8 / 1.0 / 1.5 / 1.7 / 2.0 / 2.12 / 2.5 kg with their quartiles recorded; the recorded delta is NOT a function of the weight (within a band +0.6 to +2.5 kg), which is why the ruling takes the median" },
+  // ruling Q25 (30 Sep 2026): a cable's "Module weight (Max)" is its weight, labelled derived:max-bound so it never reads as a
+  // measured spec. The cup's other taps are reads; this entry registers the one derived method that writes under it.
+  weight: { by: "scripts/derive-max-bound-weight.mts from data/reference/max-bound-weight-witnesses.json (scripts/max-bound-weight-witnesses.py: the 'Module weight (Max)' rows of the held QSFP-DD and 200G QSFP56 cable sheets, re-read from cache)", validated: "30 Sep 2026: 34 witness rows over 29 SKUs on 2 sheets; the 5 SKUs printed on both sheets state the same maximum; 2 class rows ('Optical modules 100 g') refused as naming no part; every row re-read on its cached page (label and value) before a write" },
   form_factor_a: { by: "src/core/breakoutEnds.ts breakoutEndsFor", validated: "51 of 51 breakout-cable parts; SKU table agrees with the text reading on all 32 that have text" },
   form_factor_b: { by: "src/core/breakoutEnds.ts breakoutEndsFor", validated: "51 of 51 breakout-cable parts; SKU table agrees with the text reading on all 32 that have text" },
   breakout_count: { by: "src/core/breakoutEnds.ts breakoutEndsFor", validated: "51 of 51 breakout-cable parts; SKU table agrees with the text reading on all 32 that have text" },
