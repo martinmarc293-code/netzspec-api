@@ -302,36 +302,31 @@ HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). R
      TRAP: the night rebuilds and stamps the artefacts IN THE DEPLOY TREE (STAMP_*_COMMIT = the deployed commit). The day
      session copies them into the repo, restamps, commits BEFORE ANY DEPLOY -- a deploy first would put the older committed
      artefacts back under the API.
-## NOW (30 Sep ~12:30 UTC) -- FINAL FILL ORDER in force (reviewer, 30 Sep; supersedes FAST FILL / laptop lane)
-- ORDER: (1) FETCH box only, continuous, <= 1 req / 2 s, stop on 403/429/challenge/Akamai streak, lease per SERIES sheet by
-  not-held count, laptop lane dropped, disk warning < 5 GB; (2) READ rules first, headless `claude -p` (cheapest model) only for
-  tables no rule reads, snippet in / quoted cell out, drop the lane below 300 values per 1 % weekly; (3) WRITE box only, through
-  the gates, llm_table ranks below rule reads; (4) SHIPPING WEIGHT: small components get Versandgewicht from a shipping-class table
-  (derived:shipping-class), Artikelgewicht stays empty, shop_ready accepts Versandgewicht for those kinds only; (5) TODAY: the three
-  switch rules -> shipping-class rule (predict first) -> comparator round -> headless pilot (switches, transceivers, routers) ->
-  second-source evaluation (free sources, report in 3 days); (6) WATCH: dashboard + verifier nightly and after every batch,
-  scorecard with flags, weekly deep audit (200 parts, > 1 % error pauses writes).
-- LIMITS: weekly usage 51 % at 12:00 UTC (app usage card; resets 5 Oct 09:00 UTC). Headless lane pauses at 55 %, ALL work stops at
-  70 %: commit, state.md, report, wait. `scorecard.ts --weekly-pct N` prints and records it; the dashboard shows "Wochenlimit".
-- LANDED today (rulings B, C, D): 311fd8b value-shaped mapper rules + derived:stackable-from-bandwidth; d8b3f2e apply-extract
-  --partial + the gate re-reads shape E by re-running the extractor; 639753b witnesses + plan in the repo. Run 1461 (partial, tag
-  value-rules): 362 inserted, 0 conflicts, 23 protected by tier-0 seeds, 6 new doc_parts links, gate PASS 210/210. Run 1462: 44
-  stackable facts (16 C9200, 28 C9200L). Corpus-measured with the real mapFactAll over 1,679 re-extracted held sheets.
-  CORRECTION: my first count of the PoE group said 20 'data only' + 12 IEM; the list itself says 18 + 14 (the saved file is
-  column-truncated, so the phrase is cut on some lines -- counted from the extract instead: 18 blocked C9300 of 20 cells).
-- FINDING for the reviewer: 16 C9200CX parts serve stackable = yes from hexcat_seed; the C9200 sheet's t0 row 'Compact Models
-  (C9200CX SKUs)' says Stacking Bandwidth Support 'No'. Reads are never overwritten by the derivation: listed, held for a ruling.
-- stacking_bandwidth itself NOT written (class B; the row is a group statement): held for a ruling.
-- OWED REWORK: 10 unit suites red at HEAD before this batch (clean-worktree control): collabKind, cupLedger, freeStringCups,
-  layerIndex, moduleKind, productLine, promote-required, routerKind, source-fields, trayHoles -- mostly cup-set pins older than
-  the physical-object ruling (a47ebdb, 27 Sep). Mine: batches ran targeted suites, not the whole suite. Fix BEFORE the
-  shipping-class rule (it changes shop_ready, a gate).
-- SHIPPING-CLASS prediction (measured 12:20 UTC, live readiness): 921 parts have weight as their ONLY blocker, 0 carry a
-  Versandgewicht. The order's small-component kinds cover ~455: mechanical kits/brackets/blanks/covers 230, optics + cables 126,
-  power cords 42, flash/memory 29, CPUs 21, drives 7. Not covered: fans 73, devices (switches 204, video transmitters 38,
-  bundles 36, line cards 28, route processors 10, chassis 8, router modules 30, radio/cellular 27).
-- DISK (box, 12:00 UTC): 14 GB free of 38; cache 4.4 GB, +698 MB in 24 h (171 PDFs at ~4.1 MB, 4 HTML); 9 GB above the 5 GB floor
-  = ~2,200 more PDFs at that mix. Reclaimable: /tmp 1.7 GB (today's corpus scratch), /root/*.old 2.6 GB.
+## NOW (30 Sep ~13:15 UTC) -- FINAL FILL ORDER in force; handoff on a WASTEFUL flag (context 74 %)
+- ORDER (reviewer verdict ~12:40): red suites that pin cup sets -> shipping-class rule -> the rest of the suites -> comparator
+  round -> headless pilot (NOT this week: weekly 52 %, it pauses at 55 %) -> second-source evaluation (free sources, 3 days).
+  Standing: FETCH box only, continuous, <= 1 req / 2 s, per-SERIES-sheet lease by not-held count (NOT BUILT YET -- the nightly
+  01:00 run is the only fetch today); WRITE through the gates; WATCH: dashboard + verifier after every batch; weekly deep audit
+  (200 parts, > 1 % error pauses writes) -- NOT BUILT YET. LIMITS: all work stops at 70 % weekly.
+- DONE today, all committed + pushed + deployed:
+  * rulings B/C/D (runs 1461 partial apply, 1462): ready 154 -> 215.
+  * apply-extract --partial + the gate re-reads shape E by re-running the extractor (d8b3f2e).
+  * owed rework: 11 red suites -> 0 after the rebuild (routerKind, moduleKind, collabKind, freeStringCups, trayHoles, cupLedger,
+    promote-required, source-fields, productLine, layerIndex); every pin cites the ruling that moved it; the transforms now
+    RECORD what they did (ROLE_GATE_WITHOUT_AXIS, applier reports) and readers import the records.
+  * shipping-class rule: data/reference/shipping-classes.json (26 rows; collab + video mechanical EXCLUDED after reading their
+    rows -- floor stands, table legs, a node housing; switches mechanical L->XL, accessory S->M), shop_ready accepts a
+    Versandgewicht for listed kinds only, derived:shipping-class with the table registered as a reference_table document.
+    Run 1465: 7,235 facts. Ready 215 -> 739 (+524 vs predicted 519).
+  * rulings (a)/(b): run 1466 -- 16 C9200CX seeds superseded by the sheet's 'No'; 67 stacking_bandwidth reads per SKU.
+  * meraki.security-camera single-series granularity exception recorded (reviewer to confirm).
+- IN FLIGHT: rebuild of the HEAD after 'the rest of the suites' commit (/tmp/build-sc.log on the box). Then: copy data back,
+  contract/stamp/freeze checks, commit, deploy, board, scorecard --record --weekly-pct, publish dashboard, report.
+- OPEN QUESTIONS for the reviewer (in the next report): the fill-state partition files derived:shipping-class facts under
+  'mined_non_spec_doc' (their witness is a reference_table, not a spec doc) -- a seventh state, or leave it; fans are NOT small
+  parcels (router fan trays p90 12.2 kg), classed XXL rather than excluded.
+- NEXT after the report: comparator round (series-in-family, glued prefix, letter series with the line word; sabotages listed
+  in 'Flip order'); then build the continuous fetch lane and the weekly deep audit the order names.
 
 ## Pinned predictions
 - run 1350 lands -> the enum CISCO line drops standard to 0 (was 555 seed); what remains red there is non-seed audio_codecs/antenna_type/spatial_streams + refused shape members. required_cup_defined not moved by it (other vendors seed untouched).
