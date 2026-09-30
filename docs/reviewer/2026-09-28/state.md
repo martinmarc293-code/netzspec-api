@@ -293,6 +293,12 @@ HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). R
      HyperFlex families the target ranks first (now `no_pid_list`, staged, never demoted; the 112 wrong demotions moved to
      demoted.json.dry5-wrong-rule). DAY-WORK BLOCKER #1: neither extractor reads a PID list from ANY of dry run 5's 299
      documents -- 27 UCS/HyperFlex spec sheets gave facts (up to 96) and pid_list 0 -- so no family can commit or inherit.
+     DASHBOARD LIVE 30 Sep: https://api.netzspec.com/fill/cisco/ (Caddy /fill/ -> /var/lib/netzspec-api/fill-site, noindex,
+     no-store; backup /etc/caddy/Caddyfile.bak-fill-20260930T102941). scripts/build-fill-dashboard.mts + src/core/fillDashboard.ts
+     (tests/fillDashboard.test.ts 25/0: dashboard_sums, the light), republished by scripts/publish-fill-dashboard.sh at every night
+     ending (--record adds the night to fill/history.jsonl). Items 1-4, 6-11 in v1; item 5's /v1 mirror NOT built (asked):
+     the same JSON is public at /fill/cisco/fill.json and /fill/cisco/<category>/fill.json. No fact values on public pages.
+     today.json (fill/today.json) is the day session's line for "being worked on today" -- keep it current.
      TRAP: the night rebuilds and stamps the artefacts IN THE DEPLOY TREE (STAMP_*_COMMIT = the deployed commit). The day
      session copies them into the repo, restamps, commits BEFORE ANY DEPLOY -- a deploy first would put the older committed
      artefacts back under the API.
