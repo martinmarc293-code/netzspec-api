@@ -38,8 +38,6 @@ done
 NIGHT="$FILL/nights/$DAY"; [ "$DRY" = 1 ] && NIGHT="$FILL/nights/$DAY-dry"
 mkdir -p "$FILL/reports" "$FILL/runs" "$NIGHT"
 REPORT="$FILL/reports/fill-$DAY.md"; [ "$DRY" = 1 ] && REPORT="$FILL/reports/fill-$DAY-dry.md"
-# The spec-shaped target (the ruling: tonight's target only, never the whole queue). POSIX regex, matched case-insensitively.
-TARGET='^https://www\.cisco\.com/.*(data-?sheet|spec-?sheet|ordering|order-guide|install|hardware-guide|/ds[-_]|-ds\.html)'
 
 exec 9>"$FILL/lock"
 if ! flock -n 9; then echo "$(date -u +%FT%TZ) another fill-nightly holds $FILL/lock; not starting"; exit 0; fi
@@ -86,10 +84,13 @@ if [ ! -s "$FILL/ready-last.json" ]; then
   curl -s --max-time 300 -o "$FILL/ready-last.json" -H "authorization: Bearer $NETZSPEC_API_KEY" "https://api.netzspec.com/v1/export?profile=jtl-readiness&vendor=cisco"
 fi
 
-# ---- ACQUIRE ----------------------------------------------------------------------------------------------------------------
-log "acquire: cisco-datasheets, target $TARGET"
+# ---- ACQUIRE: the TARGET (ruling A) -- spec-shaped URLs under series whose parts hold no spec-bearing document, most
+# not-held parts first; a directory whose documents listed none of our parts (demoted.json) goes last -----------------------
+npx tsx scripts/fill-night-target.mts --out "$NIGHT/target.txt" --demoted "$FILL/demoted.json" > "$NIGHT/target.log" 2>&1 \
+  || stop acquire "fill-night-target failed (see $NIGHT/target.log)"
+log "$(tail -1 "$NIGHT/target.log")"
 RUNS_DIR="$FILL/runs" timeout $(( ACQ_MIN * 60 + 1800 )) xvfb-run -a "$PY" scraper/worker.py run --sources cisco-datasheets \
-  --profile-dir "$FILL/chrome-profile-cisco" --url-match "$TARGET" --stop-on-block --max-minutes "$ACQ_MIN" \
+  --profile-dir "$FILL/chrome-profile-cisco" --url-list "$NIGHT/target.txt" --stop-on-block --max-minutes "$ACQ_MIN" \
   --summary-out "$NIGHT/acquire.json" > "$NIGHT/acquire.log" 2>&1
 rc=$?
 log "acquire exit $rc"
@@ -113,12 +114,30 @@ for kind in html pdf; do
     || stop extract "$adapter exit $? (see $NIGHT/extract-$kind.log)"
   EXTRACTS+=("$NIGHT/extract-$kind.json")
 done
+# SPLIT BY DOCUMENT FAMILY (ruling B): a family with >= 5 golden rows in scope and defects inside the budget COMMITS on the
+# gate; a family seen for the first time is STAGED (dry gate, kept in staged-*.json for the day, which adds golden rows,
+# re-runs the split on the staged files and commits what now qualifies). A family listing none of our parts is demoted.
 if [ ${#EXTRACTS[@]} -gt 0 ]; then
-  COMMIT=--commit; [ "$DRY" = 1 ] && COMMIT=""
-  npm run -s ingest -- apply-extract "${EXTRACTS[@]}" $COMMIT --vendor cisco > "$NIGHT/apply.log" 2>&1
-  rc=$?
-  log "apply-extract exit $rc"
-  [ $rc = 0 ] || stop apply "apply-extract exit $rc: a failed gate or an error (see $NIGHT/apply.log)"
+  python3 scripts/fill-split-families.py --extract "${EXTRACTS[@]}" --out-dir "$NIGHT" --demoted "$FILL/demoted.json" > "$NIGHT/split.log" 2>&1 \
+    || stop split "fill-split-families failed (see $NIGHT/split.log)"
+  log "$(tail -1 "$NIGHT/split.log")"
+  COMMITS=(); STAGED=()
+  for f in "$NIGHT"/commit-extract-*.json; do [ -s "$f" ] && COMMITS+=("$f"); done
+  for f in "$NIGHT"/staged-extract-*.json; do [ -s "$f" ] && STAGED+=("$f"); done
+  if [ ${#COMMITS[@]} -gt 0 ]; then
+    # the ruling's re-read: at least max(60, 5% of the committed facts)
+    SAMPLE=$(python3 -c 'import json,sys; n=sum(sum(1 for r in json.load(open(f))["records"] if not r.get("__doc__")) for f in sys.argv[1:]); print(max(60, -(-n*5//100)))' "${COMMITS[@]}")
+    COMMIT=--commit; [ "$DRY" = 1 ] && COMMIT=""
+    npm run -s ingest -- apply-extract "${COMMITS[@]}" $COMMIT --vendor cisco --sample "$SAMPLE" > "$NIGHT/apply.log" 2>&1
+    rc=$?
+    log "apply-extract (committing families, sample $SAMPLE) exit $rc"
+    [ $rc = 0 ] || stop apply "apply-extract exit $rc: a failed gate or an error (see $NIGHT/apply.log)"
+  fi
+  if [ ${#STAGED[@]} -gt 0 ]; then
+    # the staged families' DRY gate, for the report; its UNVERIFIED is the expected answer for a family nobody has checked
+    npm run -s ingest -- apply-extract "${STAGED[@]}" --vendor cisco > "$NIGHT/staged-apply.log" 2>&1
+    log "staged families: dry apply-extract exit $? (see $NIGHT/staged-apply.log)"
+  fi
 fi
 if [ "$DRY" = 0 ]; then
   python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["watermark_next"])' "$NIGHT/docs.json" > "$FILL/extract-watermark.new" \

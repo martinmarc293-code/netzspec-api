@@ -1360,19 +1360,21 @@ class Queue:
                 row.update({k: r[k] for k in LIVE_SOURCE_COLUMNS})
         return {r["id"] for r in rows if r["enabled"]}
 
-    def lease(self, source_ids: list[int], url_match: str | None = None) -> dict | None:
-        # url_match (--url-match): a POSIX regex the row's url must match, case-insensitive. The nightly run leases only
-        # its spec-shaped target this way (reviewer ruling 30 Sep 2026: tonight's target only, never the whole queue).
+    def lease(self, source_ids: list[int], url_match: str | None = None, url_list: list[str] | None = None) -> dict | None:
+        # url_match (--url-match): a POSIX regex the row's url must match, case-insensitive. url_list (--url-list): the
+        # night's TARGET, leased in the list's own order (reviewer ruling A, 30 Sep 2026: spec-shaped URLs under series whose
+        # parts hold no spec-bearing document, most not-held parts first). Both None = the queue's order, as before.
         return self.conn.execute(
             """
             WITH picked AS (
               SELECT id FROM fetch_queue
                WHERE source_id = ANY(%s)
                  AND (%s::text IS NULL OR url ~* %s)
+                 AND (%s::text[] IS NULL OR url = ANY(%s::text[]))
                  AND ((status IN ('queued', 'failed') AND next_at <= now())
                       -- a lease older than 30 minutes belongs to a worker that died mid-task
                       OR (status = 'leased' AND leased_at < now() - interval '30 minutes'))
-               ORDER BY priority, next_at, id
+               ORDER BY array_position(%s::text[], url) NULLS LAST, priority, next_at, id
                LIMIT 1 FOR UPDATE SKIP LOCKED)
             UPDATE fetch_queue q
                SET status = 'leased', leased_by = %s, leased_at = now(), attempts = attempts + 1, updated_at = now()
@@ -1385,7 +1387,7 @@ class Queue:
                       -- match a part. NULL for a task with no part behind it (a listing, a
                       -- manually queued URL), and the adapters treat NULL as "do not guess".
                       (SELECT v.slug FROM parts p JOIN vendors v ON v.id = p.vendor_id
-                        WHERE p.id = q.part_id) AS vendor""", (source_ids, url_match, url_match, WORKER)).fetchone()
+                        WHERE p.id = q.part_id) AS vendor""", (source_ids, url_match, url_match, url_list, url_list, url_list, WORKER)).fetchone()
 
     def complete(self, task_id: int, status: str, result: dict | None = None, error: str | None = None, next_at: datetime | None = None) -> None:
         # result is kept when none is given: a datasheet task's origin page and a --force flag
@@ -1477,6 +1479,7 @@ class Loop:
         self.done = self.failed = 0
         # the nightly controls (reviewer ruling 30 Sep 2026), all OFF unless the CLI sets them
         self.url_match: str | None = None      # lease only rows whose url matches (--url-match)
+        self.url_list: list[str] | None = None  # lease only these urls, in this order (--url-list)
         self.stop_on_block = False            # the first 403 / 429 / challenge ends the run (--stop-on-block)
         self.deadline: float | None = None     # time.monotonic() after which no new task is leased (--max-minutes)
         self.stop_reason: str | None = None    # set by a refusal or the soft-block rule; the run ends and says why
@@ -1876,7 +1879,7 @@ class Loop:
             # is kept out of `live` so nothing is leased for it meanwhile.
             afford = self.affordable(active)
             live = [sid for sid in afford if self.paused_until.get(sid, now()) <= now()]
-            task = self.q.lease(live, self.url_match) if live else None
+            task = self.q.lease(live, self.url_match, self.url_list) if live else None
             if not task:
                 # an out-of-budget lane already wrote its own beat in affordable(); writing "idle"
                 # over it here is how the sentinel would end up restarting it in a loop
@@ -1955,6 +1958,10 @@ def run(args: argparse.Namespace) -> int:
     install_shutdown(browser)
     lp = Loop(q, browser, runs_dir, spend=spend, env=env)
     lp.url_match = (getattr(args, "url_match", "") or "").strip() or None
+    if getattr(args, "url_list", ""):
+        lp.url_list = [u.strip() for u in Path(args.url_list).read_text(encoding="utf-8").splitlines() if u.strip()]
+        if not lp.url_list:
+            print("  --url-list is empty: nothing will be leased", flush=True)   # the lease matches no row; the run ends normally
     lp.stop_on_block = bool(getattr(args, "stop_on_block", False))
     if getattr(args, "max_minutes", None):
         lp.deadline = time.monotonic() + 60 * args.max_minutes
@@ -2044,6 +2051,7 @@ def main() -> int:
     r.add_argument("--idle", type=int, default=30, help="seconds to sleep when idle in --loop")
     r.add_argument("--max-tasks", type=int, default=None, help="exit after N tasks so a supervisor can rotate workers")
     r.add_argument("--url-match", default="", help="lease only rows whose url matches this POSIX regex (case-insensitive)")
+    r.add_argument("--url-list", default="", help="lease only the urls in this file (one per line), in the file's order")
     r.add_argument("--stop-on-block", action="store_true", help="the first 403 / 429 / challenge ends the run (exit 3)")
     r.add_argument("--max-minutes", type=float, default=None, help="lease no new task after this many minutes")
     r.add_argument("--summary-out", default="", help="write the run summary (counts, night counters, stop reason) as JSON")

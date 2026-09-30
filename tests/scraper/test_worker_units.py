@@ -67,13 +67,15 @@ class FakeQueue(W.Queue):
         self.fetches: list[tuple] = []
         self.proxy_bytes: list = []
         self.url_matches: list = []   # what each lease was asked to filter on; the filter itself is SQL (url ~* %s)
+        self.url_lists: list = []     # ...and the target list it was handed (SQL: url = ANY, ordered by array_position)
         self.sources = {"fake": {"id": 1, "slug": "fake", "host": "fake.test", "tier": 3, "politeness_ms": 0, "enabled": True, "proxy": "direct", "proxy_country": None},
                         "other": {"id": 2, "slug": "other", "host": "other.test", "tier": 3, "politeness_ms": 0, "enabled": True, "proxy": "direct", "proxy_country": None},
                         "paid": {"id": 3, "slug": "paid", "host": "paid.test", "tier": 3, "politeness_ms": 0, "enabled": True, "proxy": "residential", "proxy_country": "de"}}
         self.by_id = {r["id"]: r for r in self.sources.values()}
 
-    def lease(self, source_ids, url_match=None):
+    def lease(self, source_ids, url_match=None, url_list=None):
         self.url_matches.append(url_match)
+        self.url_lists.append(url_list)
         for i, t in enumerate(self.tasks):
             if t["source_id"] in source_ids:
                 return self.tasks.pop(i)
@@ -1006,6 +1008,13 @@ lp.stop_on_block = True
 lp.run([1])
 check("N11", "a 503 is blocked for its task but does not stop the lane (only 403 / 429 / a challenge do)",
       lp.stop_reason is None and len(q.completed) == 2, f"{lp.stop_reason} {len(q.completed)}")
+
+q = FakeQueue([task(150, url=u[0])])
+lp = W.Loop(q, FakeBrowser({u[0]: page(u[0])}), RUNS, load=lambda slug: source())
+lp.url_list = [u[0], u[1]]
+lp.run([1], max_tasks=1)
+check("N12", "the loop hands the night's target list to every lease, in order (the SQL orders by array_position)",
+      q.url_lists[:1] == [[u[0], u[1]]], str(q.url_lists))
 
 print(f"\n{npass} passed, {nfail} missed")
 raise SystemExit(1 if nfail else 0)

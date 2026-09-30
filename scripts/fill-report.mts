@@ -43,18 +43,32 @@ if (acq) {
          `outcomes ${JSON.stringify(o)}; not the document: ${nd}; refused at enqueue ${JSON.stringify(acq.refused ?? {})}; ` +
          `stop: ${acq.stop_reason ?? "none"}${acq.budget_hit ? "; time budget reached" : ""}`);
 } else L.push("acquire: no summary (the step did not run or did not finish)");
+const tgt = readJson(`${night}/target.txt.json`);
+if (tgt) L.push(`target: ${tgt.urls} URLs under not-held series (of ${tgt.queued_spec_shaped} queued spec-shaped; ${tgt.demoted_last} demoted, placed last)`);
+// ruling B: families committed, families staged, golden rows owed
+const fams: Record<string, { status: string; why: string; docs: number; golden_rows: number }> | null = readJson(`${night}/families.json`);
+if (fams) {
+  const all = Object.entries(fams);
+  const com = all.filter(([, f]) => f.status === "commit"), owed = all.filter(([, f]) => f.why.startsWith("golden rows owed"));
+  const nolist = all.filter(([, f]) => f.why.startsWith("no_listed_parts")), budget = all.filter(([, f]) => f.why.startsWith("defect budget"));
+  L.push(`families: committed ${com.length} (${com.reduce((s, [, f]) => s + f.docs, 0)} docs), staged ${all.length - com.length} ` +
+         `(golden rows owed ${owed.length}, no listed parts ${nolist.length} -> demoted, defect budget ${budget.length})`);
+  const short = (k: string) => k.replace(/^https:\/\/www\.cisco\.com\/c\/(dam\/)?en\/us\/products\/(collateral\/)?/, "$1");
+  if (owed.length) L.push(`golden rows owed (the day adds >= 5 per family, then re-splits the staged file): ` +
+    owed.sort((a, b) => b[1].docs - a[1].docs).slice(0, 5).map(([k, f]) => `${short(k)} ${f.docs} docs`).join(" | "));
+}
 L.push("", "## runs tonight (kind, status, gate)");
-for (const r of runs.slice(0, 12)) {
+for (const r of runs.slice(0, 8)) {
   const g = r.gate ? `gate ${r.gate.passed === false ? "FAILED" : "passed"}${r.gate.precision !== undefined ? ` p=${r.gate.precision}` : ""}` : "no gate";
   L.push(`- ${r.id} ${r.kind} ${r.status} ${g}`);
 }
-if (runs.length > 12) L.push(`- ... ${runs.length - 12} more (runs.started_at >= ${since})`);
+if (runs.length > 8) L.push(`- ... ${runs.length - 8} more (runs.started_at >= ${since})`);
 if (!runs.length) L.push("- none");
 const fl = board.match(/passed (\d+)\s+FAILED (\d+)/), failing = board.match(/failing: (.*)/);
 L.push("", `board: ${fl ? `${fl[1]} passed / ${fl[2]} failed${failing ? ` (${failing[1].trim()})` : ""}` : "NOT RUN or unreadable"}`);
 if (today) {
   L.push("", "## ready per category (today vs yesterday) and top 5 blockers (parts per reason)");
-  const cats = Object.entries(today.by_category).sort((a, b) => b[1].parts - a[1].parts).slice(0, 12);
+  const cats = Object.entries(today.by_category).sort((a, b) => b[1].parts - a[1].parts).slice(0, 10);
   for (const [cat, c] of cats) {
     const p = prev?.by_category?.[cat]?.ready;
     const top = Object.entries(c.reasons).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([k, v]) => `${k.replace(/^attribute:/, "")} ${v}`).join(" | ");
