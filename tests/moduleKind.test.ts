@@ -350,12 +350,14 @@ const ask = (sku: string) =>
   eq("a blank faceplate is asked exactly one thing: what it fits", blank.missing.join(","), "product_compatibility");
   // kind-layer (13 Sep 2026): the CUP BAR. 88.6% of the 70 readable cables state a connector and 7.1% a length.
   const cord = ask("CAB-E1-RJ45BNC");
-  eq("a cable is asked its connector and what it fits (cable_length 7.1% — optional)", [...cord.missing].sort().join(","), "connector,product_compatibility");
-  eq("and its length is OPTIONAL, not na", requirementFor("interfaces-modules", "cable_length", { kind: "cable" } as never), "opt");
+  // REVERSED 27 Sep 2026 by the physical-object ruling (docs/decisions/2026-09-27-a-kinds-cup-set-follows-the-physical-object.md):
+  // a kind's cup set follows the object, not its fill share -- the 13 Sep bar below is kept as history; the pins follow the ruling.
+  eq("a cable is asked its connector, its length and what it fits (27 Sep: + cable_length)", [...cord.missing].sort().join(","), "cable_length,connector,product_compatibility");
+  eq("and its length is REQUIRED (27 Sep table: interfaces-modules cable + cable_length)", requirementFor("interfaces-modules", "cable_length", { kind: "cable" } as never), "req");
   // 48 readable supplies here: psu_rated_output 0%, input_voltage 4.2%, airflow 4.2% — all three optional.
   const psu = ask("SB-PWR-48V-EU");
-  eq("a PoE injector is asked what it fits — its PSU cups measured 0 / 4.2 / 4.2% and are optional",
-     [...psu.missing].sort().join(","), "product_compatibility");
+  eq("a PoE injector is asked its supply cups and what it fits (27 Sep table: + input_voltage, airflow, psu_rated_output)",
+     [...psu.missing].sort().join(","), "airflow,input_voltage,product_compatibility,psu_rated_output");
   eq("and never what it draws or a port count", psu.missing.includes("power_max") || psu.missing.includes("ports"), false);
   const sd = ask("SD-X45-2GB-E=");
   // Batch B (29 Sep 2026): `flash` off the memory kind (ruled). An SD card is still FILED as memory here, so it is now asked
@@ -403,11 +405,13 @@ const ask = (sku: string) =>
   // kind-layer (13 Sep 2026): EVERY kind's cup set, whole. Low-n kinds (under 30 readable held parts) keep what they
   // were asked; `interface`, `power` and `cable` decided on their own shares.
   const REQ: [string, string][] = [
-    ["unknown", "product_compatibility"], ["module", "power_max,product_compatibility"],
+    ["unknown", "product_compatibility"], ["module", "ports,power_max,product_compatibility"],   // 27 Sep table: + ports
+   
     ["interface", "product_compatibility"], ["fabric", "fabric_bandwidth,power_max,product_compatibility"],
     ["cellular", "cellular_bands,product_compatibility"], ["radio", "ieee_standards,product_compatibility"],
-    ["memory", "dram,memory_speed_max,product_compatibility"], ["power", "product_compatibility"],   // flash off memory: Batch B
-    ["fan", "airflow,product_compatibility"], ["cable", "connector,product_compatibility"],
+    ["memory", "dram,memory_speed_max,product_compatibility"], ["power", "airflow,input_voltage,product_compatibility,psu_rated_output"],   // flash off memory: Batch B; power: 27 Sep table
+    ["fan", "airflow,product_compatibility"], ["cable", "cable_length,connector,product_compatibility"],   // 27 Sep table: + cable_length
+   
     ["accessory", "product_compatibility"], ["mux", "insertion_loss_max,product_compatibility"],
     ["optic", "connector,data_rate,form_factor"], ["mechanical", "mounting,product_compatibility"],
     ["device", "certifications,dimensions,form_factor,humidity_operating,ports,power_max,temp_operating"],

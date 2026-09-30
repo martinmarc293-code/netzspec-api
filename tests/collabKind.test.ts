@@ -12,7 +12,7 @@
 import { collabKind, COLLAB_RULES, COLLAB_KINDS, COLLAB_ENDPOINT, type CollabKind } from "../src/core/collabKind.js";
 import { partKind, KIND_CATEGORIES, COLLAB_CATEGORIES } from "../src/core/partKind.js";
 import { kindQuestionSet, LEDGER_KINDS } from "../src/core/cupLedger.js";
-import { PROFILES, requirementFor, type Requirement } from "../src/core/fieldSchema.js";
+import { PROFILES, requirementFor, ROLE_GATE_WITHOUT_AXIS, type Requirement } from "../src/core/fieldSchema.js";
 import { deployRole } from "../src/core/deployRole.js";
 
 let pass = 0;
@@ -277,8 +277,14 @@ check("the collaboration axis does not reach routers", partKind("routers", "CP-8
     const ucs = new Set(kindQuestionSet("servers-unified-computing", k).required);
     check(`collab \`${k}\` asks at least what a UCS \`${k}\` asks (rule 3)`, [...ucs].every((key) => kindQuestionSet(CE, k).required.includes(key)), [...ucs].filter((key) => !kindQuestionSet(CE, k).required.includes(key)));
   }
+  // THE ONE RECORDED DIFFERENCE (27 Sep 2026, docs/decisions/2026-09-27-deploy-role-is-a-derived-gate.md): a category with NO role
+  // axis cannot ask a role-gated cup, so its role-gated conds were rewritten to `opt` -- recorded by the transform itself
+  // (ROLE_GATE_WITHOUT_AXIS). Only those keys, only in the role-bearing comparison; the pin below makes a new one visible.
+  check("the only role-gated rewrite in a category with no role axis is conferencing.wifi_generation", ROLE_GATE_WITHOUT_AXIS.join() === "conferencing.wifi_generation", ROLE_GATE_WITHOUT_AXIS);
   for (const cat of ["unified-communications", "conferencing"]) {
-    const differs = [...new Set([...LEDGER_KINDS[CE], ...LEDGER_KINDS[cat]])].filter((k) => req(CE, k) !== req(cat, k) || req(CE, k, "wireless") !== req(cat, k, "wireless"));
+    const noRole = new Set(ROLE_GATE_WITHOUT_AXIS.filter((x) => x.startsWith(`${cat}.`)).map((x) => x.slice(cat.length + 1)));
+    const strip = (s: string) => s.split(",").filter((k) => !noRole.has(k)).join(",");
+    const differs = [...new Set([...LEDGER_KINDS[CE], ...LEDGER_KINDS[cat]])].filter((k) => req(CE, k) !== req(cat, k) || strip(req(CE, k, "wireless")) !== req(cat, k, "wireless"));
     check(`${cat} asks every kind (and phone role) exactly what ${CE} asks`, differs.length === 0, differs);
   }
   check("no collab kind is named power-supply or server-component any more", !LEDGER_KINDS[CE].some((k) => k === "power-supply" || k === "server-component"));

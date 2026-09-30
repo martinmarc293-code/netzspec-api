@@ -297,8 +297,9 @@ lines.unshift(`    cup ledger: ${passed} passed, ${failed} missed (${files.lengt
   // the 70 readable cables here state a length and 88.6% state their connector — so `connector` is what a cable in this
   // category is asked, and `cable_length` is optional. The assertion is still "exactly two cups, and nothing about a
   // port"; only which two changed.
-  check("interfaces-modules/cable is asked exactly connector and product_compatibility",
-    [...q.required].sort().join(",") === "connector,product_compatibility", q.required.join(","));
+  // 27 Sep 2026 physical-object table: + cable_length (interfaces-modules cable, 126 parts). Still "nothing about a port".
+  check("interfaces-modules/cable is asked exactly cable_length, connector and product_compatibility",
+    [...q.required].sort().join(",") === "cable_length,connector,product_compatibility", q.required.join(","));
   const wrong = { ...good, required: [...good.required, { key: "ports" }, { key: "temp_operating" }] };
   const d = drift("cable", wrong, q);
   check("SABOTAGE a ledger asking a cable for ports and an operating temperature is caught",
@@ -406,7 +407,6 @@ for (const f of files) {
     // four that were real defects (power's airflow and input_voltage, drive's interface, memory's dram/flash
     // instead of a drive's capacity, the routers antenna set) are fixed in fieldSchema.ts rather than listed here.
     "switch:switches": "a Catalyst switch is the category's whole product and owes ~30 cups; the `switch` kind elsewhere is a small appliance",
-    "camera:meraki": "an MV is a storage-carrying sensor (image_sensor, storage_capacity, video_quality_max); a Webex camera is bought on zoom and field of view",
     "server:unified-communications": "a UC application server is ordered as a bundle; whether it should owe the UCS cups (cpu, drive_bays, memory_speed_max) is an open question in the round-3 reply",
     // round-7 ruling B (12 Sep 2026). The promote bar measured emc_emissions (91%) and humidity_storage (86%)
     // on hyperconverged-systems servers and on neither other UCS category; requiring them of all three would
@@ -434,9 +434,7 @@ for (const f of files) {
     "fabric:routers": "a fabric card's power draw is stated on the chassis sheet, not the card's",
     "fabric:switches": "the same",
     "supervisor:switches": "a Catalyst supervisor IS the control plane: it owes the switching figures the chassis cannot state without it",
-    "appliance:security": "a security appliance is a firewall-class box with sessions and throughput; the wireless `appliance` is a CMX/location server",
     "appliance:wireless": "the same pair, other side",
-    "gateway:unified-communications": "a voice gateway owes FXS ports, codecs and protocols; the wireless `gateway` is a Fluidmesh radio bridge",
     "optic:video": "an analog cable-plant optic is bought on wavelength and output power; a pluggable on form factor and rate",
     "amplifier:video": "an RF amplifier states input level and output; an optical EDFA states gain",
     "pluggable:transceiver": "the transceiver category IS the optic profile; the pluggables elsewhere are proposals to move here",
@@ -478,7 +476,6 @@ for (const f of files) {
     // firewall_throughput 47.1%" -- all true, and all now facts about `security`/`firewall`, where the 18
     // MX live. merakiKind has no `appliance` rule any more, so the pair this exception names cannot exist,
     // and the check that reports a stale exception is the one that found it.
-    "sensor:wireless": "an 802.11 air-quality sensor is an access point in everything but name (radios, spatial streams, PoE); a Meraki MT is a battery IoT sensor. Same word, two products — and NO readable part here, so could-not-measure",
     "antenna:wireless": "an antenna is bought on its gain, its connector and its bands: 133 readable, antenna_connector 52.6%. antenna_gain reads 0% AND not_parsed against 52 labels, so it is fill work, not a cup that should come off. A router antenna is an accessory whip with no published pattern",
   };
   const sets = new Map<string, { cat: string; req: string; parts: number }[]>();

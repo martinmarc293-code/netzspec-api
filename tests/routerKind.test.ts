@@ -407,19 +407,22 @@ check("partKind: NC55-SFP-DCAP 'SFP/ZSFP Dust Cap' is mechanical", partKind("rou
     // layers review 14 Sep 2026 (item 6): the SP roles are a population, not a cup delta — every role asks the kind core
     ["sp-router", "sp-access", "altitude_max,certifications,humidity_operating,input_voltage,ports,power_max,temp_operating,temp_storage"],
     ["sp-router", "sp-core", "altitude_max,certifications,humidity_operating,input_voltage,ports,power_max,temp_operating,temp_storage"],
-    ["chassis", undefined, "altitude_max,certifications,humidity_operating,temp_storage"],
+    // 27 Sep 2026 physical-object table (docs/decisions/2026-09-27-a-kinds-cup-set-follows-the-physical-object.md): + dimensions,
+    // form_factor, module_slots, psu_config, weight; ruling Q1 (29 Sep, state.md): the chassis UNION in all six categories
+    // (+ power_max, product_compatibility, rack_units, temp_operating). The pins below were left on the older sets until 30 Sep.
+    ["chassis", undefined, "altitude_max,certifications,dimensions,form_factor,humidity_operating,module_slots,power_max,product_compatibility,psu_config,rack_units,temp_operating,temp_storage,weight"],
     ["appliance", undefined, "certifications,dimensions,form_factor,humidity_operating,ports,power_max,temp_operating,weight"],
-    ["linecard", undefined, "ports,product_compatibility"],
+    ["linecard", undefined, "data_rate,ports,power_max,product_compatibility"],   // 27 Sep table: + data_rate, power_max
     ["module", undefined, "ports,product_compatibility"],   // power_max ruled then REVERTED (rule 6: a component kind asks <= 3)
     ["processor", undefined, "dram,product_compatibility"],
-    ["fabric", undefined, "fabric_bandwidth,product_compatibility"],
-    ["antenna", undefined, "product_compatibility,radio_bands"],
-    ["power", undefined, "input_voltage,product_compatibility"],
+    ["fabric", undefined, "fabric_bandwidth,power_max,product_compatibility"],   // 27 Sep table: + power_max
+    ["antenna", undefined, "antenna_connector,product_compatibility,radio_bands"],   // 27 Sep table: + antenna_connector (antenna_gain optional, Batch B)
+    ["power", undefined, "airflow,input_voltage,product_compatibility,psu_rated_output"],   // 27 Sep table: + airflow, psu_rated_output
     ["fan", undefined, "airflow,product_compatibility"],
-    ["memory", undefined, "dram,product_compatibility"],
+    ["memory", undefined, "dram,memory_speed_max,product_compatibility"],   // 27 Sep table: + memory_speed_max
     ["flash", undefined, "flash,product_compatibility"],
-    ["drive", undefined, "product_compatibility,storage_capacity"],
-    ["cable", undefined, "product_compatibility"],
+    ["drive", undefined, "drive_interface,product_compatibility,storage_capacity"],   // 27 Sep table: + drive_interface
+    ["cable", undefined, "cable_length,connector,product_compatibility"],   // 27 Sep table: + cable_length, connector
     ["power-cord", undefined, "cable_length,product_compatibility"],
     ["mechanical", undefined, "mounting,product_compatibility"],
     ["accessory", undefined, "product_compatibility"],
@@ -431,7 +434,8 @@ check("partKind: NC55-SFP-DCAP 'SFP/ZSFP Dust Cap' is mechanical", partKind("rou
   // cup is pending too, each naming `deploy_role`, so this is no longer "only module_slots" -- it is
   // "module_slots on modular, and everything the role would decide on deploy_role".
   check("a router's module_slots is pending on `modular`, and the role-gated cups on `deploy_role`",
-    pend("router") === "altitude_max,dimensions,dram,flash,humidity_operating,module_slots,power_max,temp_operating,temp_storage,weight");
+    // + cellular_bands, gated on the derived `cellular` (registered 29 Sep, ruling (d))
+    pend("router") === "altitude_max,cellular_bands,dimensions,dram,flash,humidity_operating,module_slots,power_max,temp_operating,temp_storage,weight");
   // ROLE WITNESSES: a real SKU per role, placed by the live deployRole on the live kind.
   check("witness: RV340-K9 is a router in role smb", routerKind("RV340-K9") === "router" && deployRole("routers", "router", "RV340-K9") === "smb");
   check("witness: IR1821-K9 is a router in role industrial-iot", routerKind("IR1821-K9") === "router" && deployRole("routers", "router", "IR1821-K9") === "industrial-iot");

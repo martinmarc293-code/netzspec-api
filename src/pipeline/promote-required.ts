@@ -64,8 +64,20 @@ import path from "node:path";
 import { getPool, closePool } from "../store/db.js";
 import {
   FIELD_DICTIONARY, PROFILES, completenessV2, DEVICE_GATED_CATEGORIES, SUPERSEDED_KEYS,
+  PHYSICAL_OBJECT_CUP_REPORT, GATED_CUP_REPORT, KIND_QUESTION_SET_REPORT, ROLE_GATE_WITHOUT_AXIS,
   type FieldType, type Requirement, type PartValues,
 } from "../core/fieldSchema.js";
+import { GATED_CUPS } from "../core/physicalObjectCups.js";
+
+/** THE APPLIERS' OWN RECORDS (30 Sep 2026). Three tables widen the MERGED profiles after the merge -- the physical-object
+ *  cups (27 Sep), the gated cups, the kind question sets -- and each reports what it widened; a gated cup also widens its gate
+ *  key. `<category>.<key>`, IMPORTED from the reports, so the exemption cannot outlive (or overreach) the transforms. Until
+ *  this set existed, the reconciler called every such key parser drift and refused to run (red since 27 Sep). */
+export const APPLIED_AFTER_MERGE: ReadonlySet<string> = new Set([
+  ...[...PHYSICAL_OBJECT_CUP_REPORT.widened, ...GATED_CUP_REPORT.widened, ...KIND_QUESTION_SET_REPORT.rewritten]
+    .map((w) => { const [c, , k] = w.split("|"); return `${c}.${k}`; }),
+  ...GATED_CUPS.flatMap((g) => g.categories.filter((c) => GATED_CUP_REPORT.widened.includes(`${c}|${g.kind}|${g.cup}`)).map((c) => `${c}.${g.gateKey}`)),
+]);
 import { REPO_ROOT } from "../config.js";
 import { roleAxisKinds } from "../core/deployRole.js";
 
@@ -362,8 +374,11 @@ export function handWritten(source: string, generated: Record<string, Record<str
       // it tells every unclaimed kind "not applicable", which is how gating `switches` on the part
       // kind once closed seven dependents' gaps in silence — so that stays a problem. Anything
       // other than opt -> cond+elseOpt is still reported, which is what keeps this check alive.
+      // THE FOURTH (27 Sep 2026): a category with NO role axis has every role-gated `cond` rewritten to `opt` (fieldSchema.ts,
+      // the loop that records ROLE_GATE_WITHOUT_AXIS) -- conferencing.wifi_generation. Imported from the transform's own record.
       else if (kind !== "unknown" && merged.kind !== kind
-               && !(kind === "opt" && merged.kind === "cond" && merged.elseOpt === true)) {
+               && !(kind === "opt" && merged.kind === "cond" && merged.elseOpt === true)
+               && !(kind === "cond" && merged.kind === "opt" && ROLE_GATE_WITHOUT_AXIS.includes(`${cat}.${k}`))) {
         problems.push(`hand-written ${cat}.${k} parsed as "${kind}" but merged as "${merged.kind}"`);
       }
     }
@@ -403,6 +418,8 @@ export function handWritten(source: string, generated: Record<string, Record<str
       // existed and caught it. The condition is derived from the same `roleAxisKinds` the transform uses,
       // never a restated list, so the exemption cannot outlive the rule it describes.
       if (r.kind === "cond" && r.elseOpt === true && k === "deploy_role" && roleAxisKinds(cat).length > 0) continue;
+      // the appliers' own records (APPLIED_AFTER_MERGE): unified-communications.humidity_storage is the physical-object table
+      if (APPLIED_AFTER_MERGE.has(`${cat}.${k}`)) continue;
       problems.push(`merged ${cat}.${k} is "${r.kind}" but appears in neither half — the PROFILES parser has drifted`);
     }
   }

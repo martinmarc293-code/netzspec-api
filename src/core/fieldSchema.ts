@@ -4587,6 +4587,9 @@ for (const prof of Object.values(PROFILES)) {
 // firing for nobody while reading exactly like a rule nothing satisfies — a dead gate dressed as a live
 // one. `conferencing` is that case and it is a finding, not something to paper over here: it gates
 // `wifi_generation` on a `deploy_role` no kind of its can ever carry.
+/** Every `<category>.<key>` the loop below rewrote from a role-gated `cond` to `opt`, recorded by the transform itself so a
+ *  reader of the two source halves (src/pipeline/promote-required.ts handWritten) imports it instead of restating it. */
+export const ROLE_GATE_WITHOUT_AXIS: string[] = [];
 for (const cat of Object.keys(PROFILES)) {
   const kinds = roleAxisKinds(cat);
   if (kinds.length === 0) {
@@ -4607,6 +4610,7 @@ for (const cat of Object.keys(PROFILES)) {
       if ((rule as { kind?: string }).kind !== "cond") continue;
       if (!JSON.stringify((rule as { when?: unknown }).when ?? {}).includes('"deploy_role"')) continue;
       PROFILES[cat][key] = opt;
+      ROLE_GATE_WITHOUT_AXIS.push(`${cat}.${key}`);
     }
     continue;
   }

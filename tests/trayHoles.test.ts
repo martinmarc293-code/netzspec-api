@@ -28,13 +28,15 @@ import { kindQuestionSet, slotsAtNothingKnown } from "../src/core/cupLedger.js";
 let pass = 0; const misses: string[] = [];
 const check = (name: string, ok: boolean, detail = "") => { if (ok) pass++; else misses.push(`    MISS ${name}${detail ? " — " + detail : ""}`); };
 
-/** Parts whose kind asks for NOTHING, per category, measured 25 Sep 2026 on the completed layering (41,067 hardware rows). */
-const NO_CUPS_EXPECT: Record<string, number> = {
-  video: 267, wireless: 69, "optical-networking": 39, "servers-unified-computing": 29, "collaboration-endpoints": 28,
-  "unified-communications": 14, "hyperconverged-systems": 13, "hyperconverged-infrastructure": 2, "storage-networking": 1,
-};
+/** Parts whose kind asks for NOTHING, per category. Measured 25 Sep 2026 on the completed layering (41,067 hardware rows):
+ *  video 267, wireless 69, optical-networking 39, servers-unified-computing 29, collaboration-endpoints 28,
+ *  unified-communications 14, hyperconverged-systems 13, hyperconverged-infrastructure 2, storage-networking 1 (462; 361 bare,
+ *  101 named). RATCHETED TO ZERO 30 Sep 2026: the 27 Sep physical-object ruling and the unknown-kind decision
+ *  (docs/decisions/2026-09-28-unknown-kind-106.md) left no layered row whose kind asks nothing -- measured on the rebuild of
+ *  639753b. The recorded counts stayed at 25 Sep until this date because the batches that moved them ran targeted suites. */
+const NO_CUPS_EXPECT: Record<string, number> = {};
 /** Of those, the ones with no evidence to act on: the name is only the SKU. Recorded so the ACTIONABLE half is visible. */
-const BARE_EXPECT = 361, NAMED_EXPECT = 101;
+const BARE_EXPECT = 0, NAMED_EXPECT = 0;
 
 const rowsOf = (cat: string) => {
   const p = path.join(REPO_ROOT, "data", "layers", `cisco-${cat}.rows.tsv`);

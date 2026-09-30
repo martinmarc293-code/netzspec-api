@@ -90,8 +90,10 @@ const decision = fs.existsSync(DECISION_FILE) ? fs.readFileSync(DECISION_FILE, "
   check("SABOTAGE: ip_rating retyped back to a free string is named where it is required", s2.includes("switches/ip_rating"), s2);
   sabotages++;
   const s3 = freeStringViolations(PROFILES, FIELD_DICTIONARY, { image_sensor: FREE_TEXT_BY_DECISION.image_sensor, display: FREE_TEXT_BY_DECISION.display });
-  check("SABOTAGE: dropping cpu from the allow-list names cpu in all three UCS categories",
-    s3.join() === "hyperconverged-infrastructure/cpu,hyperconverged-systems/cpu,servers-unified-computing/cpu", s3);
+  // six since 27 Sep 2026: the physical-object table asks `cpu` of the server kinds in collaboration-endpoints and
+  // unified-communications too (and conferencing reads collaboration-endpoints' kinds)
+  check("SABOTAGE: dropping cpu from the allow-list names cpu wherever it is required (the three UCS categories + the collab/UC servers)",
+    s3.join() === "collaboration-endpoints/cpu,conferencing/cpu,hyperconverged-infrastructure/cpu,hyperconverged-systems/cpu,servers-unified-computing/cpu,unified-communications/cpu", s3);
   // CONTROL: column-backed `series` is type s, required everywhere, and must never be named.
   check("CONTROL: the column-backed series cup is not a finding", !s3.some((x) => x.endsWith("/series")) && FIELD_DICTIONARY.series.type === "s");
 }
