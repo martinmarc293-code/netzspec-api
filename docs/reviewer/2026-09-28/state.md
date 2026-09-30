@@ -201,8 +201,9 @@ HEAD/deployed 501b7ed (artefacts built on 0cbe5c5, contract 17b502e336ebefb6). R
      / 9 part-cups -> 6b76fe8 Q24_R4 (weight OPTIONAL for 5 kinds, R4 by veto-triage).
   FOUND (8599a99): gate-extract's Python re-reader called cap_value(cell) with one argument since 67a4f95 (27 Sep) -> every
      PDF cell TypeError -> bare except -> "out_of_range". Latent (no PDF gate run since). Fixed + tests/scraper/
-     test_cisco_specs_pdf.py runs the real script (the same commit had killed that suite at line 74). hpe/juniper trees need
-     8599a99 merged.
+     test_cisco_specs_pdf.py runs the real script (the same commit had killed that suite at line 74). CHECKED FROM THEIR
+     BRANCHES: only cisco has 67a4f95; hpe/juniper/main keep cap_value's default, so their re-reader works. The pair
+     67a4f95 + 8599a99 must travel together (never cherry-pick 67a4f95 alone).
   NAME LANE (in progress, uncommitted): scripts/pid-description-names.py (--reextract runs the CURRENT pdf/deep adapters over
      the cache: 50 PDFs + 596 HTML) + scripts/name-from-description.mts (gate: description cell exact AND the row or column
      header names the SKU). First gate: 89 of 614 refused, 85 = footnote-fabricated live parts (data/reference/
@@ -214,6 +215,58 @@ HEAD/deployed 501b7ed (artefacts built on 0cbe5c5, contract 17b502e336ebefb6). R
      IE3500/IE3400, C9300, 350/350X, C9200) -- Class C from each series' sheet. Proposed to the reviewer: attributes next.
   QUESTIONS OUT (weight-rulings-report.md): order (attributes before more names?); the 85 fabrications (retire / promote
      real PID or rename); the 60-char CCW limit (34 names); the typo cables.
+  RULINGS (30 Sep ~04:30 UTC, on weight-rulings-report.md): (0) ATTRIBUTES BEFORE NAMES -- order every fill by ready-gain
+     per job, measured with the real jtlReadiness; Betriebstemperatur, PoE, Stromversorgung, Stacking from the series sheets,
+     then re-measure and pick the next largest. (1) FOOTNOTE FABRICATIONS: merge or rename, never plain retire -- real PID
+     live (64): re-attach the fabricated row's facts to the real part where the fact's cell names it and no duplicate exists,
+     retire the fabrication with a REDIRECT to the real SKU; real PID absent (21): RENAME the row to the PID the page prints
+     (gate: the page shows it), sku_kind recomputed, facts and relations stay attached. (2) 60-CHAR NAMES: accept where the
+     cut lands on a word boundary, name_state = 'vendor-truncated', exported as printed; cut mid-word keeps refusing until a
+     longer source closes it. (3) TYPO CABLES: retire with a redirect if the correct SKU is live and they hold no own facts,
+     else merge as (1). (4) flag 8599a99 to whoever runs the hpe/juniper trees.
+     MEASURED BEFORE BUILDING (0): the four fields are mostly PER-MODEL on those sheets, not one document-level value
+     (C1300 temps -5/0 °C by model; C9300 poe_standard 22 raws over 87 parts; C9200L stackable 3 raws), and the same docs'
+     "siblings" are partly hexcat_seed renderings with borrowed provenance -> build as per-model READS where the sheet
+     pairs a value with a model, Class C only where a sheet states ONE value; report the split.
+  ATTRIBUTE LANE decomposed (measured, sent) + PRE-RULINGS (30 Sep ~05:00 UTC): (A) inline per-model lists in one cell
+     (Betriebstemperatur C1200 9 + C1300 21; three grammars) -> per-model inline-list reader, per-model READs: AS PROPOSED.
+     (B) Stacking: stated stacking bandwidth > 0 derives stackable = yes for that sub-series, "N/A" derives no --
+     registered derivation derived:stackable-from-bandwidth, witness the column header; the bandwidth itself stored as
+     stacking_bandwidth. (C) SG350X 'Power: 100 to 240V ..., internal, universal' = Class C -> psu_config + input_voltage:
+     AS PROPOSED. (D) "data only" / "non-PoE" in the ordering-table PID DESCRIPTION -> poe_standard = none; only those
+     explicit phrases, state filled, method the description cell. IE enclosure-conditional temperatures: store the range
+     that holds under EVERY stated condition (the intersection), all conditions kept in raw.
+  SHAPE E BUILT (ee72905 + a48f489): 291 per-model records (Power 174 held for the (C) mapper rule, Operating temperature
+     117), 16 sabotaged rules, corpus diff 0 other differences; scoped to the two measured labels; a numbered sentence after
+     the last list is a CONDITION (C1300 cold start) and refused.
+  RULINGS (30 Sep ~06:10 UTC): (1) CORRECTION WRITER approved -- supersede an inherited value with the per-model read of the
+     SAME cell (gate: the cell re-read now, stored raw its capped head, the per-model value inside it; conflicts row resolved
+     per_model_reread; plan = undo) -- AND fix the cause: isSameCellReread recognises a same cell by doc + locator with the
+     stored raw a PREFIX of the re-read, not by equal raw text (the 160 cap made equal text impossible for these cells).
+     (2) WRITE THE READS, NOT THE SEEDS ("a seed that agrees is still a typed value; the ready check wants filled"):
+     C1200 9 -> the per-model read -5..50 supersedes the seed, conflict resolved per_model_reread; C1300 21 -> the read with
+     the intersection rule applied, 0..50 (cold start included), condition kept in raw, supersedes the seed; IE3400/3500 15
+     -> supersede the tier-0 seed with -40..60, all enclosure conditions in raw ("tier 0 protects against overwrite by a
+     worse source, not by the sheet's own full statement"). Predicted +30 ready (C1200/C1300), more with IE: REPORT MEASURED.
+  STANDING ORDER REPLACED (30 Sep ~06:40 UTC; operator to reviewer: "it is your job to fill every single data and you will
+     give command to CC"; the reviewer's "FILL PIPELINE", replaces the last command):
+     1 NIGHTLY on the box: `npm run fill:nightly`, cron 01:00, one writer lock, log in data/reports/ --
+       a ACQUIRE for scored Cisco hardware lacking a spec-bearing doc: uncached Cisco datasheet / spec-sheet / ordering-guide /
+         install-guide pages, cache first, <= 1 req / 2 s, stop + report on 403/429, never itprice / blocked aggregators;
+       b EXTRACT -> MAP -> GATE -> APPLY only documents fetched or re-read tonight (never a whole-sheet re-apply), every
+         write through its gate, a failed gate stops the run; c DERIVE every registered derivation, each with its control;
+       d RECOMPUTE -> mould-build -> mould:verify -> jtl-readiness; e REPORT data/reports/fill-<date>.md <= 40 lines (ready
+         per category today vs yesterday, top 5 blockers per category, runs + gates, anything stopped). HARD LIMITS: never
+         override tier 0, a ruling, a retraction tombstone or a held conflict; Cisco only; a red board test blocks the next night.
+     2 DAY WORK: read only the report; take the largest ready-gain blocker, write ONE rule for every affected part, dry-run,
+       commit, the night applies it. Judgement calls (new rule type, source override, retraction) -> one-line question.
+     3 FIELDS NO CISCO PAGE PRINTS (EAN/GTIN, HS code, component weights): find a token-free second source; evaluate candidates
+       on a 50-PID sample (coverage, agreement with Cisco sheets, terms of use); report the table; importer after a yes.
+       A source tier BELOW the vendor sheet: fills only empty cups, disagreement -> conflict, gate = 20-row check vs Cisco.
+     4 REPORTS: one per batch, five lines (commit . ready before->after . blockers fixed . verifier . self-test).
+     5 STOP: gate failure, verifier red, throttling, disk < 5 GB, or ready count falling without a recorded retraction.
+  IN FLIGHT (ruled before the new order, a one-off because it overrides tier 0 by ruling): the temperature correction --
+     data/reference/temp-correction-witnesses.json (read 117, intersection 36 C1300, statement 34 enclosure), writer next.
   RUNNING: laptop PID 25648 `python3.11 scripts/pid-description-names.py --reextract` (50 PDFs ~1 s/page, then 596 HTML;
      writes runs/extract/cisco-description-reextract.json only at the END). Then: rebuild the table, read it, dry-run
      name-from-description (laptop cache; the box has no pdfplumber path tested), commit, run, board.

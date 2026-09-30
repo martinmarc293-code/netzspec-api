@@ -226,7 +226,8 @@ export async function supersedeFact(client: Queryable, oldId: number, newEntry: 
  * apply-extract. Every conflict written from now on carries both strings so a later rule change can
  * be applied to it in place.
  */
-async function insertConflict(
+// exported for ruled correction writers (scripts/correct-temps-by-sheet.mts), which record a supersede the way the merge does
+export async function insertConflict(
   client: Queryable, partId: number,
   c: { k: string; kept: unknown; rejected: unknown; reason: string; kept_prov: Prov; rejected_prov: Prov },
   runId: number, resolved?: { resolution: string; resolved_by: string },

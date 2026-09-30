@@ -6,6 +6,7 @@
 import { ponStandardFromStandards } from "./ponStandard.js";
 import { normalizeField } from "./specNormalize.js";
 import { shippingFromRaw } from "./shippingAllowance.js";
+import { temperatureIntersection } from "./conditionIntersection.js";
 
 const DERIVATIONS: Readonly<Record<string, (raw: string) => unknown>> = {
   "derived:pon_standard": (raw) => { const d = ponStandardFromStandards([raw]); return d.ok ? d.value : null; },
@@ -14,6 +15,8 @@ const DERIVATIONS: Readonly<Record<string, (raw: string) => unknown>> = {
   "derived:max-bound": (raw) => { const n = normalizeField("transceiver", "weight", raw, { locale: "en" }); return n.ok ? n.value : null; },
   // ruling Q23 (30 Sep 2026): the raw is the part's weight in kg ("5.5 kg"), the value that weight plus its band's allowance
   "derived:shipping-allowance": (raw) => shippingFromRaw(raw),
+  // reviewer ruling 30 Sep 2026: the raw keeps EVERY condition the sheet states; the value is the range true under all of them
+  "derived:condition-intersection": (raw) => { const t = temperatureIntersection(raw); return t.ok ? t.value : null; },
 };
 
 /** null = the derivation reproduces a value from this raw; otherwise the reason it cannot. */

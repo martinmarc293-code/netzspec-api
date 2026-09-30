@@ -85,3 +85,20 @@ was added after every qualifying sheet was read against its model:
   `QDD4ZQ100-CU2M` (part 70542, of QDD-4ZQ100-CU2M) and `QDD-4ZQ100CU1M` (both sheets print it without the second dash). No weight
   is written to either; retiring them is a membership decision (the Q15 precedent) and is asked separately.
 - The 203 per-model packet buffers shape D reads disagree with 124 conflicts the store already holds; they get their own reading.
+
+## The attribute lane's first rulings (30 Sep 2026, after "attributes before names")
+
+- **Shape E** (`ee72905`, `a48f489`): inline per-model value lists in one cell, three grammars, scoped to the two MEASURED
+  labels ('Operating temperature', 'Power'); a numbered sentence after the last list is a CONDITION and refused. 16 rules
+  sabotaged; corpus diff against the pre-E extractor: +291 records, 0 other differences.
+- **isSameCellReread** (ruling (1), "fix the cause"): same document + same locator + the stored raw a PREFIX of the re-read
+  is one cell; the 160 cap made equal text impossible for exactly these cells. Four cases, three sabotaged.
+- **derived:condition-intersection** (`src/core/conditionIntersection.ts`, registered in `DERIVED_FILL_PATHS.temp_operating`):
+  the range true under every stated condition, Celsius figures only, bounds from 'minimum/maximum … °C'.
+- **The correction** (`scripts/correct-temps-by-sheet.mts`, one ruled run, witnesses `data/reference/temp-correction-witnesses.json`):
+  ruling (1) the 34 CBS250/CBS350 values inherited from a capped inline cell and contradicted by its per-model read are
+  superseded by that read; ruling (2) "write the reads, not the seeds": C1200 (and every other seed the per-model read agrees
+  with) superseded by the read, C1300 by the cold-start intersection 0..50 (condition in raw), IE3200/3300/3400/3500 by the
+  enclosure intersection -40..60 (all conditions in raw). Held and asked: IE2000 (a -34 °C fan case would move -40..60 to
+  -34..60) and C130024MGP-4X (the sheet's own typo, live as a part). Not written, listed as candidates: the C9500X
+  fan-conditional statement and a C9200 altitude statement.

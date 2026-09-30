@@ -1,0 +1,1811 @@
+{
+ "ruling": "reviewer, 30 Sep 2026: supersede inherited values with the per-model read of the same cell; write the reads, not the seeds (C1200 per-model read, C1300 read with the cold-start intersection, IE3x00 -40..60 intersection)",
+ "built_by": "scripts/temp-correction-witnesses.py",
+ "docs_not_cached_here": [],
+ "statement_candidates_not_ruled": {
+  "34939fb4527bb127 -5°C to +45°C (23° to 113°F) sea level when using the C9500X-FAN-1U-R ": 74,
+  "373a1a15bf37d21f -5°C to +45°C (23° to 113°F) sea level when using the C9500X-FAN-1U-R ": 37,
+  "78667b10022bb3fb 32° to 122°F (0° to 50°C) for C1200-8T-D 23° to 122°F (-5° to 50°C) fo": 15,
+  "de692de8d2c8f641 Normal operating temperature * and altitudes: ● -5°C to +45°C, up to 5": 4
+ },
+ "held": [
+  [
+   "C130024MGP-4X",
+   "1f03d2f74ef601d9",
+   "the C1300 sheet's own typo of C1300-24MGP-4X, live as a part: a membership question (the typo-cable ruling), no fact is written to it"
+  ],
+  [
+   "IE-2000-16T67-B",
+   "40ba250b2d5c1f6e",
+   "IE2000: the same enclosure rule, but not in the ruled set -- its statement adds a fan-equipped case from -34 °C, so the intersection would move the stored -40..60 to -34..60; asked, not written"
+  ],
+  [
+   "IE-2000-16T67P-G-E",
+   "40ba250b2d5c1f6e",
+   "IE2000: the same enclosure rule, but not in the ruled set -- its statement adds a fan-equipped case from -34 °C, so the intersection would move the stored -40..60 to -34..60; asked, not written"
+  ],
+  [
+   "IE-2000-24T67-B",
+   "40ba250b2d5c1f6e",
+   "IE2000: the same enclosure rule, but not in the ruled set -- its statement adds a fan-equipped case from -34 °C, so the intersection would move the stored -40..60 to -34..60; asked, not written"
+  ],
+  [
+   "IE-2000-8T67-B",
+   "40ba250b2d5c1f6e",
+   "IE2000: the same enclosure rule, but not in the ruled set -- its statement adds a fan-equipped case from -34 °C, so the intersection would move the stored -40..60 to -34..60; asked, not written"
+  ],
+  [
+   "IE-2000-8T67P-G-E",
+   "40ba250b2d5c1f6e",
+   "IE2000: the same enclosure rule, but not in the ruled set -- its statement adds a fan-equipped case from -34 °C, so the intersection would move the stored -40..60 to -34..60; asked, not written"
+  ],
+  [
+   "IE2000-B-E=",
+   "40ba250b2d5c1f6e",
+   "IE2000: the same enclosure rule, but not in the ruled set -- its statement adds a fan-equipped case from -34 °C, so the intersection would move the stored -40..60 to -34..60; asked, not written"
+  ],
+  [
+   "SD-IE-1GB",
+   "40ba250b2d5c1f6e",
+   "IE2000: the same enclosure rule, but not in the ruled set -- its statement adds a fan-equipped case from -34 °C, so the intersection would move the stored -40..60 to -34..60; asked, not written"
+  ]
+ ],
+ "counts": {
+  "read": 117,
+  "intersection": 35,
+  "statement": 27
+ },
+ "rows": [
+  {
+   "kind": "read",
+   "sku": "C1200-16P-2G",
+   "doc_id": "78667b10022bb3fb",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-1200-series-switches/nb-06-cat1200-ser-data-sheet-cte-en.html",
+   "cache_path": "78667b10022bb3fb2574956e5aaf68da68af2470.html",
+   "locator": "t0:r235:c1",
+   "raw": "23° to 122°F (-5° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "C1200-16T-2G",
+   "doc_id": "78667b10022bb3fb",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-1200-series-switches/nb-06-cat1200-ser-data-sheet-cte-en.html",
+   "cache_path": "78667b10022bb3fb2574956e5aaf68da68af2470.html",
+   "locator": "t0:r235:c1",
+   "raw": "23° to 122°F (-5° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "C1200-24FP-4G",
+   "doc_id": "78667b10022bb3fb",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-1200-series-switches/nb-06-cat1200-ser-data-sheet-cte-en.html",
+   "cache_path": "78667b10022bb3fb2574956e5aaf68da68af2470.html",
+   "locator": "t0:r235:c1",
+   "raw": "23° to 122°F (-5° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "C1200-24FP-4X",
+   "doc_id": "78667b10022bb3fb",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-1200-series-switches/nb-06-cat1200-ser-data-sheet-cte-en.html",
+   "cache_path": "78667b10022bb3fb2574956e5aaf68da68af2470.html",
+   "locator": "t0:r235:c1",
+   "raw": "23° to 122°F (-5° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "C1200-24P-4G",
+   "doc_id": "78667b10022bb3fb",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-1200-series-switches/nb-06-cat1200-ser-data-sheet-cte-en.html",
+   "cache_path": "78667b10022bb3fb2574956e5aaf68da68af2470.html",
+   "locator": "t0:r235:c1",
+   "raw": "23° to 122°F (-5° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "C1200-24P-4X",
+   "doc_id": "78667b10022bb3fb",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-1200-series-switches/nb-06-cat1200-ser-data-sheet-cte-en.html",
+   "cache_path": "78667b10022bb3fb2574956e5aaf68da68af2470.html",
+   "locator": "t0:r235:c1",
+   "raw": "23° to 122°F (-5° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "C1200-24T-4G",
+   "doc_id": "78667b10022bb3fb",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-1200-series-switches/nb-06-cat1200-ser-data-sheet-cte-en.html",
+   "cache_path": "78667b10022bb3fb2574956e5aaf68da68af2470.html",
+   "locator": "t0:r235:c1",
+   "raw": "23° to 122°F (-5° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "C1200-24T-4X",
+   "doc_id": "78667b10022bb3fb",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-1200-series-switches/nb-06-cat1200-ser-data-sheet-cte-en.html",
+   "cache_path": "78667b10022bb3fb2574956e5aaf68da68af2470.html",
+   "locator": "t0:r235:c1",
+   "raw": "23° to 122°F (-5° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "C1200-48P-4G",
+   "doc_id": "78667b10022bb3fb",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-1200-series-switches/nb-06-cat1200-ser-data-sheet-cte-en.html",
+   "cache_path": "78667b10022bb3fb2574956e5aaf68da68af2470.html",
+   "locator": "t0:r235:c1",
+   "raw": "23° to 122°F (-5° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "C1200-48P-4X",
+   "doc_id": "78667b10022bb3fb",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-1200-series-switches/nb-06-cat1200-ser-data-sheet-cte-en.html",
+   "cache_path": "78667b10022bb3fb2574956e5aaf68da68af2470.html",
+   "locator": "t0:r235:c1",
+   "raw": "23° to 122°F (-5° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "C1200-48T-4G",
+   "doc_id": "78667b10022bb3fb",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-1200-series-switches/nb-06-cat1200-ser-data-sheet-cte-en.html",
+   "cache_path": "78667b10022bb3fb2574956e5aaf68da68af2470.html",
+   "locator": "t0:r235:c1",
+   "raw": "23° to 122°F (-5° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "C1200-48T-4X",
+   "doc_id": "78667b10022bb3fb",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-1200-series-switches/nb-06-cat1200-ser-data-sheet-cte-en.html",
+   "cache_path": "78667b10022bb3fb2574956e5aaf68da68af2470.html",
+   "locator": "t0:r235:c1",
+   "raw": "23° to 122°F (-5° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "C1200-8FP-2G",
+   "doc_id": "78667b10022bb3fb",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-1200-series-switches/nb-06-cat1200-ser-data-sheet-cte-en.html",
+   "cache_path": "78667b10022bb3fb2574956e5aaf68da68af2470.html",
+   "locator": "t0:r235:c1",
+   "raw": "23° to 122°F (-5° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "C1200-8P-E-2G",
+   "doc_id": "78667b10022bb3fb",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-1200-series-switches/nb-06-cat1200-ser-data-sheet-cte-en.html",
+   "cache_path": "78667b10022bb3fb2574956e5aaf68da68af2470.html",
+   "locator": "t0:r235:c1",
+   "raw": "23° to 122°F (-5° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "C1200-8T-D",
+   "doc_id": "78667b10022bb3fb",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-1200-series-switches/nb-06-cat1200-ser-data-sheet-cte-en.html",
+   "cache_path": "78667b10022bb3fb2574956e5aaf68da68af2470.html",
+   "locator": "t0:r235:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "C1200-8T-E-2G",
+   "doc_id": "78667b10022bb3fb",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-1200-series-switches/nb-06-cat1200-ser-data-sheet-cte-en.html",
+   "cache_path": "78667b10022bb3fb2574956e5aaf68da68af2470.html",
+   "locator": "t0:r235:c1",
+   "raw": "23° to 122°F (-5° to 50°C)"
+  },
+  {
+   "kind": "intersection",
+   "sku": "C1300-12XS",
+   "doc_id": "1f03d2f74ef601d9",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-1300-series-switches/nb-06-cat1300-ser-data-sheet-cte-en.html",
+   "cache_path": "1f03d2f74ef601d9ead8c86e5872567bc4db726d.html",
+   "locator": "t1:r78:c1",
+   "raw": "23° to 122°F (-5° to 50°C) … Minimum ambient temperature for cold start is 32°F (0°C )",
+   "fragments": [
+    "23° to 122°F (-5° to 50°C)",
+    "Minimum ambient temperature for cold start is 32°F (0°C )"
+   ]
+  },
+  {
+   "kind": "intersection",
+   "sku": "C1300-12XT-2X",
+   "doc_id": "1f03d2f74ef601d9",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-1300-series-switches/nb-06-cat1300-ser-data-sheet-cte-en.html",
+   "cache_path": "1f03d2f74ef601d9ead8c86e5872567bc4db726d.html",
+   "locator": "t1:r78:c1",
+   "raw": "23° to 122°F (-5° to 50°C) … Minimum ambient temperature for cold start is 32°F (0°C )",
+   "fragments": [
+    "23° to 122°F (-5° to 50°C)",
+    "Minimum ambient temperature for cold start is 32°F (0°C )"
+   ]
+  },
+  {
+   "kind": "intersection",
+   "sku": "C1300-16FP-2G",
+   "doc_id": "1f03d2f74ef601d9",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-1300-series-switches/nb-06-cat1300-ser-data-sheet-cte-en.html",
+   "cache_path": "1f03d2f74ef601d9ead8c86e5872567bc4db726d.html",
+   "locator": "t1:r78:c1",
+   "raw": "23° to 122°F (-5° to 50°C) … Minimum ambient temperature for cold start is 32°F (0°C )",
+   "fragments": [
+    "23° to 122°F (-5° to 50°C)",
+    "Minimum ambient temperature for cold start is 32°F (0°C )"
+   ]
+  },
+  {
+   "kind": "intersection",
+   "sku": "C1300-16P-2G",
+   "doc_id": "1f03d2f74ef601d9",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-1300-series-switches/nb-06-cat1300-ser-data-sheet-cte-en.html",
+   "cache_path": "1f03d2f74ef601d9ead8c86e5872567bc4db726d.html",
+   "locator": "t1:r78:c1",
+   "raw": "23° to 122°F (-5° to 50°C) … Minimum ambient temperature for cold start is 32°F (0°C )",
+   "fragments": [
+    "23° to 122°F (-5° to 50°C)",
+    "Minimum ambient temperature for cold start is 32°F (0°C )"
+   ]
+  },
+  {
+   "kind": "intersection",
+   "sku": "C1300-16P-4X",
+   "doc_id": "1f03d2f74ef601d9",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-1300-series-switches/nb-06-cat1300-ser-data-sheet-cte-en.html",
+   "cache_path": "1f03d2f74ef601d9ead8c86e5872567bc4db726d.html",
+   "locator": "t1:r78:c1",
+   "raw": "23° to 122°F (-5° to 50°C) … Minimum ambient temperature for cold start is 32°F (0°C )",
+   "fragments": [
+    "23° to 122°F (-5° to 50°C)",
+    "Minimum ambient temperature for cold start is 32°F (0°C )"
+   ]
+  },
+  {
+   "kind": "intersection",
+   "sku": "C1300-16T-2G",
+   "doc_id": "1f03d2f74ef601d9",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-1300-series-switches/nb-06-cat1300-ser-data-sheet-cte-en.html",
+   "cache_path": "1f03d2f74ef601d9ead8c86e5872567bc4db726d.html",
+   "locator": "t1:r78:c1",
+   "raw": "23° to 122°F (-5° to 50°C) … Minimum ambient temperature for cold start is 32°F (0°C )",
+   "fragments": [
+    "23° to 122°F (-5° to 50°C)",
+    "Minimum ambient temperature for cold start is 32°F (0°C )"
+   ]
+  },
+  {
+   "kind": "intersection",
+   "sku": "C1300-16XTS",
+   "doc_id": "1f03d2f74ef601d9",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-1300-series-switches/nb-06-cat1300-ser-data-sheet-cte-en.html",
+   "cache_path": "1f03d2f74ef601d9ead8c86e5872567bc4db726d.html",
+   "locator": "t1:r78:c1",
+   "raw": "23° to 122°F (-5° to 50°C) … Minimum ambient temperature for cold start is 32°F (0°C )",
+   "fragments": [
+    "23° to 122°F (-5° to 50°C)",
+    "Minimum ambient temperature for cold start is 32°F (0°C )"
+   ]
+  },
+  {
+   "kind": "intersection",
+   "sku": "C1300-24FP-4G",
+   "doc_id": "1f03d2f74ef601d9",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-1300-series-switches/nb-06-cat1300-ser-data-sheet-cte-en.html",
+   "cache_path": "1f03d2f74ef601d9ead8c86e5872567bc4db726d.html",
+   "locator": "t1:r78:c1",
+   "raw": "23° to 122°F (-5° to 50°C) … Minimum ambient temperature for cold start is 32°F (0°C )",
+   "fragments": [
+    "23° to 122°F (-5° to 50°C)",
+    "Minimum ambient temperature for cold start is 32°F (0°C )"
+   ]
+  },
+  {
+   "kind": "intersection",
+   "sku": "C1300-24FP-4X",
+   "doc_id": "1f03d2f74ef601d9",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-1300-series-switches/nb-06-cat1300-ser-data-sheet-cte-en.html",
+   "cache_path": "1f03d2f74ef601d9ead8c86e5872567bc4db726d.html",
+   "locator": "t1:r78:c1",
+   "raw": "23° to 122°F (-5° to 50°C) … Minimum ambient temperature for cold start is 32°F (0°C )",
+   "fragments": [
+    "23° to 122°F (-5° to 50°C)",
+    "Minimum ambient temperature for cold start is 32°F (0°C )"
+   ]
+  },
+  {
+   "kind": "intersection",
+   "sku": "C1300-24P-4G",
+   "doc_id": "1f03d2f74ef601d9",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-1300-series-switches/nb-06-cat1300-ser-data-sheet-cte-en.html",
+   "cache_path": "1f03d2f74ef601d9ead8c86e5872567bc4db726d.html",
+   "locator": "t1:r78:c1",
+   "raw": "23° to 122°F (-5° to 50°C) … Minimum ambient temperature for cold start is 32°F (0°C )",
+   "fragments": [
+    "23° to 122°F (-5° to 50°C)",
+    "Minimum ambient temperature for cold start is 32°F (0°C )"
+   ]
+  },
+  {
+   "kind": "intersection",
+   "sku": "C1300-24P-4X",
+   "doc_id": "1f03d2f74ef601d9",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-1300-series-switches/nb-06-cat1300-ser-data-sheet-cte-en.html",
+   "cache_path": "1f03d2f74ef601d9ead8c86e5872567bc4db726d.html",
+   "locator": "t1:r78:c1",
+   "raw": "23° to 122°F (-5° to 50°C) … Minimum ambient temperature for cold start is 32°F (0°C )",
+   "fragments": [
+    "23° to 122°F (-5° to 50°C)",
+    "Minimum ambient temperature for cold start is 32°F (0°C )"
+   ]
+  },
+  {
+   "kind": "intersection",
+   "sku": "C1300-24T-4G",
+   "doc_id": "1f03d2f74ef601d9",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-1300-series-switches/nb-06-cat1300-ser-data-sheet-cte-en.html",
+   "cache_path": "1f03d2f74ef601d9ead8c86e5872567bc4db726d.html",
+   "locator": "t1:r78:c1",
+   "raw": "23° to 122°F (-5° to 50°C) … Minimum ambient temperature for cold start is 32°F (0°C )",
+   "fragments": [
+    "23° to 122°F (-5° to 50°C)",
+    "Minimum ambient temperature for cold start is 32°F (0°C )"
+   ]
+  },
+  {
+   "kind": "intersection",
+   "sku": "C1300-24T-4X",
+   "doc_id": "1f03d2f74ef601d9",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-1300-series-switches/nb-06-cat1300-ser-data-sheet-cte-en.html",
+   "cache_path": "1f03d2f74ef601d9ead8c86e5872567bc4db726d.html",
+   "locator": "t1:r78:c1",
+   "raw": "23° to 122°F (-5° to 50°C) … Minimum ambient temperature for cold start is 32°F (0°C )",
+   "fragments": [
+    "23° to 122°F (-5° to 50°C)",
+    "Minimum ambient temperature for cold start is 32°F (0°C )"
+   ]
+  },
+  {
+   "kind": "intersection",
+   "sku": "C1300-24XS",
+   "doc_id": "1f03d2f74ef601d9",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-1300-series-switches/nb-06-cat1300-ser-data-sheet-cte-en.html",
+   "cache_path": "1f03d2f74ef601d9ead8c86e5872567bc4db726d.html",
+   "locator": "t1:r78:c1",
+   "raw": "23° to 122°F (-5° to 50°C) … Minimum ambient temperature for cold start is 32°F (0°C )",
+   "fragments": [
+    "23° to 122°F (-5° to 50°C)",
+    "Minimum ambient temperature for cold start is 32°F (0°C )"
+   ]
+  },
+  {
+   "kind": "intersection",
+   "sku": "C1300-24XT",
+   "doc_id": "1f03d2f74ef601d9",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-1300-series-switches/nb-06-cat1300-ser-data-sheet-cte-en.html",
+   "cache_path": "1f03d2f74ef601d9ead8c86e5872567bc4db726d.html",
+   "locator": "t1:r78:c1",
+   "raw": "23° to 122°F (-5° to 50°C) … Minimum ambient temperature for cold start is 32°F (0°C )",
+   "fragments": [
+    "23° to 122°F (-5° to 50°C)",
+    "Minimum ambient temperature for cold start is 32°F (0°C )"
+   ]
+  },
+  {
+   "kind": "intersection",
+   "sku": "C1300-24XTS",
+   "doc_id": "1f03d2f74ef601d9",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-1300-series-switches/nb-06-cat1300-ser-data-sheet-cte-en.html",
+   "cache_path": "1f03d2f74ef601d9ead8c86e5872567bc4db726d.html",
+   "locator": "t1:r78:c1",
+   "raw": "23° to 122°F (-5° to 50°C) … Minimum ambient temperature for cold start is 32°F (0°C )",
+   "fragments": [
+    "23° to 122°F (-5° to 50°C)",
+    "Minimum ambient temperature for cold start is 32°F (0°C )"
+   ]
+  },
+  {
+   "kind": "intersection",
+   "sku": "C1300-48FP-4G",
+   "doc_id": "1f03d2f74ef601d9",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-1300-series-switches/nb-06-cat1300-ser-data-sheet-cte-en.html",
+   "cache_path": "1f03d2f74ef601d9ead8c86e5872567bc4db726d.html",
+   "locator": "t1:r78:c1",
+   "raw": "23° to 122°F (-5° to 50°C) … Minimum ambient temperature for cold start is 32°F (0°C )",
+   "fragments": [
+    "23° to 122°F (-5° to 50°C)",
+    "Minimum ambient temperature for cold start is 32°F (0°C )"
+   ]
+  },
+  {
+   "kind": "intersection",
+   "sku": "C1300-48FP-4X",
+   "doc_id": "1f03d2f74ef601d9",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-1300-series-switches/nb-06-cat1300-ser-data-sheet-cte-en.html",
+   "cache_path": "1f03d2f74ef601d9ead8c86e5872567bc4db726d.html",
+   "locator": "t1:r78:c1",
+   "raw": "23° to 122°F (-5° to 50°C) … Minimum ambient temperature for cold start is 32°F (0°C )",
+   "fragments": [
+    "23° to 122°F (-5° to 50°C)",
+    "Minimum ambient temperature for cold start is 32°F (0°C )"
+   ]
+  },
+  {
+   "kind": "intersection",
+   "sku": "C1300-48MGP-4X",
+   "doc_id": "1f03d2f74ef601d9",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-1300-series-switches/nb-06-cat1300-ser-data-sheet-cte-en.html",
+   "cache_path": "1f03d2f74ef601d9ead8c86e5872567bc4db726d.html",
+   "locator": "t1:r78:c1",
+   "raw": "23° to 122°F (-5° to 50°C) … Minimum ambient temperature for cold start is 32°F (0°C )",
+   "fragments": [
+    "23° to 122°F (-5° to 50°C)",
+    "Minimum ambient temperature for cold start is 32°F (0°C )"
+   ]
+  },
+  {
+   "kind": "intersection",
+   "sku": "C1300-48P-4G",
+   "doc_id": "1f03d2f74ef601d9",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-1300-series-switches/nb-06-cat1300-ser-data-sheet-cte-en.html",
+   "cache_path": "1f03d2f74ef601d9ead8c86e5872567bc4db726d.html",
+   "locator": "t1:r78:c1",
+   "raw": "23° to 122°F (-5° to 50°C) … Minimum ambient temperature for cold start is 32°F (0°C )",
+   "fragments": [
+    "23° to 122°F (-5° to 50°C)",
+    "Minimum ambient temperature for cold start is 32°F (0°C )"
+   ]
+  },
+  {
+   "kind": "intersection",
+   "sku": "C1300-48P-4X",
+   "doc_id": "1f03d2f74ef601d9",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-1300-series-switches/nb-06-cat1300-ser-data-sheet-cte-en.html",
+   "cache_path": "1f03d2f74ef601d9ead8c86e5872567bc4db726d.html",
+   "locator": "t1:r78:c1",
+   "raw": "23° to 122°F (-5° to 50°C) … Minimum ambient temperature for cold start is 32°F (0°C )",
+   "fragments": [
+    "23° to 122°F (-5° to 50°C)",
+    "Minimum ambient temperature for cold start is 32°F (0°C )"
+   ]
+  },
+  {
+   "kind": "intersection",
+   "sku": "C1300-48T-4G",
+   "doc_id": "1f03d2f74ef601d9",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-1300-series-switches/nb-06-cat1300-ser-data-sheet-cte-en.html",
+   "cache_path": "1f03d2f74ef601d9ead8c86e5872567bc4db726d.html",
+   "locator": "t1:r78:c1",
+   "raw": "23° to 122°F (-5° to 50°C) … Minimum ambient temperature for cold start is 32°F (0°C )",
+   "fragments": [
+    "23° to 122°F (-5° to 50°C)",
+    "Minimum ambient temperature for cold start is 32°F (0°C )"
+   ]
+  },
+  {
+   "kind": "intersection",
+   "sku": "C1300-48T-4X",
+   "doc_id": "1f03d2f74ef601d9",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-1300-series-switches/nb-06-cat1300-ser-data-sheet-cte-en.html",
+   "cache_path": "1f03d2f74ef601d9ead8c86e5872567bc4db726d.html",
+   "locator": "t1:r78:c1",
+   "raw": "23° to 122°F (-5° to 50°C) … Minimum ambient temperature for cold start is 32°F (0°C )",
+   "fragments": [
+    "23° to 122°F (-5° to 50°C)",
+    "Minimum ambient temperature for cold start is 32°F (0°C )"
+   ]
+  },
+  {
+   "kind": "intersection",
+   "sku": "C1300-8FP-2G",
+   "doc_id": "1f03d2f74ef601d9",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-1300-series-switches/nb-06-cat1300-ser-data-sheet-cte-en.html",
+   "cache_path": "1f03d2f74ef601d9ead8c86e5872567bc4db726d.html",
+   "locator": "t1:r78:c1",
+   "raw": "23° to 122°F (-5° to 50°C) … Minimum ambient temperature for cold start is 32°F (0°C )",
+   "fragments": [
+    "23° to 122°F (-5° to 50°C)",
+    "Minimum ambient temperature for cold start is 32°F (0°C )"
+   ]
+  },
+  {
+   "kind": "intersection",
+   "sku": "C1300-8MGP-2X",
+   "doc_id": "1f03d2f74ef601d9",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-1300-series-switches/nb-06-cat1300-ser-data-sheet-cte-en.html",
+   "cache_path": "1f03d2f74ef601d9ead8c86e5872567bc4db726d.html",
+   "locator": "t1:r78:c1",
+   "raw": "23° to 122°F (-5° to 50°C) … Minimum ambient temperature for cold start is 32°F (0°C )",
+   "fragments": [
+    "23° to 122°F (-5° to 50°C)",
+    "Minimum ambient temperature for cold start is 32°F (0°C )"
+   ]
+  },
+  {
+   "kind": "intersection",
+   "sku": "C1300-8P-E-2G",
+   "doc_id": "1f03d2f74ef601d9",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-1300-series-switches/nb-06-cat1300-ser-data-sheet-cte-en.html",
+   "cache_path": "1f03d2f74ef601d9ead8c86e5872567bc4db726d.html",
+   "locator": "t1:r78:c1",
+   "raw": "23° to 122°F (-5° to 50°C) … Minimum ambient temperature for cold start is 32°F (0°C )",
+   "fragments": [
+    "23° to 122°F (-5° to 50°C)",
+    "Minimum ambient temperature for cold start is 32°F (0°C )"
+   ]
+  },
+  {
+   "kind": "intersection",
+   "sku": "C1300-8T-E-2G",
+   "doc_id": "1f03d2f74ef601d9",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-1300-series-switches/nb-06-cat1300-ser-data-sheet-cte-en.html",
+   "cache_path": "1f03d2f74ef601d9ead8c86e5872567bc4db726d.html",
+   "locator": "t1:r78:c1",
+   "raw": "23° to 122°F (-5° to 50°C) … Minimum ambient temperature for cold start is 32°F (0°C )",
+   "fragments": [
+    "23° to 122°F (-5° to 50°C)",
+    "Minimum ambient temperature for cold start is 32°F (0°C )"
+   ]
+  },
+  {
+   "kind": "intersection",
+   "sku": "C1300X-10NU-2X",
+   "doc_id": "1f03d2f74ef601d9",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-1300-series-switches/nb-06-cat1300-ser-data-sheet-cte-en.html",
+   "cache_path": "1f03d2f74ef601d9ead8c86e5872567bc4db726d.html",
+   "locator": "t1:r78:c1",
+   "raw": "23° to 122°F (-5° to 50°C) … Minimum ambient temperature for cold start is 32°F (0°C )",
+   "fragments": [
+    "23° to 122°F (-5° to 50°C)",
+    "Minimum ambient temperature for cold start is 32°F (0°C )"
+   ]
+  },
+  {
+   "kind": "intersection",
+   "sku": "C1300X-24MU-4X",
+   "doc_id": "1f03d2f74ef601d9",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-1300-series-switches/nb-06-cat1300-ser-data-sheet-cte-en.html",
+   "cache_path": "1f03d2f74ef601d9ead8c86e5872567bc4db726d.html",
+   "locator": "t1:r78:c1",
+   "raw": "23° to 122°F (-5° to 50°C) … Minimum ambient temperature for cold start is 32°F (0°C )",
+   "fragments": [
+    "23° to 122°F (-5° to 50°C)",
+    "Minimum ambient temperature for cold start is 32°F (0°C )"
+   ]
+  },
+  {
+   "kind": "intersection",
+   "sku": "C1300X-24NGU-4X",
+   "doc_id": "1f03d2f74ef601d9",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-1300-series-switches/nb-06-cat1300-ser-data-sheet-cte-en.html",
+   "cache_path": "1f03d2f74ef601d9ead8c86e5872567bc4db726d.html",
+   "locator": "t1:r78:c1",
+   "raw": "23° to 122°F (-5° to 50°C) … Minimum ambient temperature for cold start is 32°F (0°C )",
+   "fragments": [
+    "23° to 122°F (-5° to 50°C)",
+    "Minimum ambient temperature for cold start is 32°F (0°C )"
+   ]
+  },
+  {
+   "kind": "intersection",
+   "sku": "C1300X-24P-4X",
+   "doc_id": "1f03d2f74ef601d9",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-1300-series-switches/nb-06-cat1300-ser-data-sheet-cte-en.html",
+   "cache_path": "1f03d2f74ef601d9ead8c86e5872567bc4db726d.html",
+   "locator": "t1:r78:c1",
+   "raw": "23° to 122°F (-5° to 50°C) … Minimum ambient temperature for cold start is 32°F (0°C )",
+   "fragments": [
+    "23° to 122°F (-5° to 50°C)",
+    "Minimum ambient temperature for cold start is 32°F (0°C )"
+   ]
+  },
+  {
+   "kind": "intersection",
+   "sku": "C1300X-24T-4X",
+   "doc_id": "1f03d2f74ef601d9",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-1300-series-switches/nb-06-cat1300-ser-data-sheet-cte-en.html",
+   "cache_path": "1f03d2f74ef601d9ead8c86e5872567bc4db726d.html",
+   "locator": "t1:r78:c1",
+   "raw": "23° to 122°F (-5° to 50°C) … Minimum ambient temperature for cold start is 32°F (0°C )",
+   "fragments": [
+    "23° to 122°F (-5° to 50°C)",
+    "Minimum ambient temperature for cold start is 32°F (0°C )"
+   ]
+  },
+  {
+   "kind": "intersection",
+   "sku": "C1300X-48NGU-4X",
+   "doc_id": "1f03d2f74ef601d9",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-1300-series-switches/nb-06-cat1300-ser-data-sheet-cte-en.html",
+   "cache_path": "1f03d2f74ef601d9ead8c86e5872567bc4db726d.html",
+   "locator": "t1:r78:c1",
+   "raw": "23° to 122°F (-5° to 50°C) … Minimum ambient temperature for cold start is 32°F (0°C )",
+   "fragments": [
+    "23° to 122°F (-5° to 50°C)",
+    "Minimum ambient temperature for cold start is 32°F (0°C )"
+   ]
+  },
+  {
+   "kind": "intersection",
+   "sku": "C1300X-48P-4X",
+   "doc_id": "1f03d2f74ef601d9",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-1300-series-switches/nb-06-cat1300-ser-data-sheet-cte-en.html",
+   "cache_path": "1f03d2f74ef601d9ead8c86e5872567bc4db726d.html",
+   "locator": "t1:r78:c1",
+   "raw": "23° to 122°F (-5° to 50°C) … Minimum ambient temperature for cold start is 32°F (0°C )",
+   "fragments": [
+    "23° to 122°F (-5° to 50°C)",
+    "Minimum ambient temperature for cold start is 32°F (0°C )"
+   ]
+  },
+  {
+   "kind": "intersection",
+   "sku": "C1300X-48T-4X",
+   "doc_id": "1f03d2f74ef601d9",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-1300-series-switches/nb-06-cat1300-ser-data-sheet-cte-en.html",
+   "cache_path": "1f03d2f74ef601d9ead8c86e5872567bc4db726d.html",
+   "locator": "t1:r78:c1",
+   "raw": "23° to 122°F (-5° to 50°C) … Minimum ambient temperature for cold start is 32°F (0°C )",
+   "fragments": [
+    "23° to 122°F (-5° to 50°C)",
+    "Minimum ambient temperature for cold start is 32°F (0°C )"
+   ]
+  },
+  {
+   "kind": "read",
+   "sku": "CBS250-16P-2G",
+   "doc_id": "87742937d5d4ef3e",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-250-series-smart-switches/nb-06-bus250-smart-switch-ds-cte-en.html",
+   "cache_path": "87742937d5d4ef3eb099789809639a3f8bdebffc.html",
+   "locator": "t0:r260:c1",
+   "raw": "23° to 122°F (-5° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "CBS250-16T-2G",
+   "doc_id": "87742937d5d4ef3e",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-250-series-smart-switches/nb-06-bus250-smart-switch-ds-cte-en.html",
+   "cache_path": "87742937d5d4ef3eb099789809639a3f8bdebffc.html",
+   "locator": "t0:r260:c1",
+   "raw": "23° to 122°F (-5° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "CBS250-24FP-4G",
+   "doc_id": "87742937d5d4ef3e",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-250-series-smart-switches/nb-06-bus250-smart-switch-ds-cte-en.html",
+   "cache_path": "87742937d5d4ef3eb099789809639a3f8bdebffc.html",
+   "locator": "t0:r260:c1",
+   "raw": "23° to 122°F (-5° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "CBS250-24FP-4X",
+   "doc_id": "87742937d5d4ef3e",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-250-series-smart-switches/nb-06-bus250-smart-switch-ds-cte-en.html",
+   "cache_path": "87742937d5d4ef3eb099789809639a3f8bdebffc.html",
+   "locator": "t0:r260:c1",
+   "raw": "23° to 122°F (-5° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "CBS250-24P-4G",
+   "doc_id": "87742937d5d4ef3e",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-250-series-smart-switches/nb-06-bus250-smart-switch-ds-cte-en.html",
+   "cache_path": "87742937d5d4ef3eb099789809639a3f8bdebffc.html",
+   "locator": "t0:r260:c1",
+   "raw": "23° to 122°F (-5° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "CBS250-24P-4X",
+   "doc_id": "87742937d5d4ef3e",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-250-series-smart-switches/nb-06-bus250-smart-switch-ds-cte-en.html",
+   "cache_path": "87742937d5d4ef3eb099789809639a3f8bdebffc.html",
+   "locator": "t0:r260:c1",
+   "raw": "23° to 122°F (-5° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "CBS250-24PP-4G",
+   "doc_id": "87742937d5d4ef3e",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-250-series-smart-switches/nb-06-bus250-smart-switch-ds-cte-en.html",
+   "cache_path": "87742937d5d4ef3eb099789809639a3f8bdebffc.html",
+   "locator": "t0:r260:c1",
+   "raw": "23° to 122°F (-5° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "CBS250-24T-4G",
+   "doc_id": "87742937d5d4ef3e",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-250-series-smart-switches/nb-06-bus250-smart-switch-ds-cte-en.html",
+   "cache_path": "87742937d5d4ef3eb099789809639a3f8bdebffc.html",
+   "locator": "t0:r260:c1",
+   "raw": "23° to 122°F (-5° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "CBS250-24T-4X",
+   "doc_id": "87742937d5d4ef3e",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-250-series-smart-switches/nb-06-bus250-smart-switch-ds-cte-en.html",
+   "cache_path": "87742937d5d4ef3eb099789809639a3f8bdebffc.html",
+   "locator": "t0:r260:c1",
+   "raw": "23° to 122°F (-5° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "CBS250-48P-4G",
+   "doc_id": "87742937d5d4ef3e",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-250-series-smart-switches/nb-06-bus250-smart-switch-ds-cte-en.html",
+   "cache_path": "87742937d5d4ef3eb099789809639a3f8bdebffc.html",
+   "locator": "t0:r260:c1",
+   "raw": "23° to 122°F (-5° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "CBS250-48P-4X",
+   "doc_id": "87742937d5d4ef3e",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-250-series-smart-switches/nb-06-bus250-smart-switch-ds-cte-en.html",
+   "cache_path": "87742937d5d4ef3eb099789809639a3f8bdebffc.html",
+   "locator": "t0:r260:c1",
+   "raw": "23° to 122°F (-5° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "CBS250-48PP-4G",
+   "doc_id": "87742937d5d4ef3e",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-250-series-smart-switches/nb-06-bus250-smart-switch-ds-cte-en.html",
+   "cache_path": "87742937d5d4ef3eb099789809639a3f8bdebffc.html",
+   "locator": "t0:r260:c1",
+   "raw": "23° to 122°F (-5° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "CBS250-48T-4G",
+   "doc_id": "87742937d5d4ef3e",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-250-series-smart-switches/nb-06-bus250-smart-switch-ds-cte-en.html",
+   "cache_path": "87742937d5d4ef3eb099789809639a3f8bdebffc.html",
+   "locator": "t0:r260:c1",
+   "raw": "23° to 122°F (-5° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "CBS250-48T-4X",
+   "doc_id": "87742937d5d4ef3e",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-250-series-smart-switches/nb-06-bus250-smart-switch-ds-cte-en.html",
+   "cache_path": "87742937d5d4ef3eb099789809639a3f8bdebffc.html",
+   "locator": "t0:r260:c1",
+   "raw": "23° to 122°F (-5° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "CBS250-8FP-E-2G",
+   "doc_id": "87742937d5d4ef3e",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-250-series-smart-switches/nb-06-bus250-smart-switch-ds-cte-en.html",
+   "cache_path": "87742937d5d4ef3eb099789809639a3f8bdebffc.html",
+   "locator": "t0:r260:c1",
+   "raw": "23° to 122°F (-5° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "CBS250-8P-E-2G",
+   "doc_id": "87742937d5d4ef3e",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-250-series-smart-switches/nb-06-bus250-smart-switch-ds-cte-en.html",
+   "cache_path": "87742937d5d4ef3eb099789809639a3f8bdebffc.html",
+   "locator": "t0:r260:c1",
+   "raw": "23° to 122°F (-5° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "CBS250-8PP-D",
+   "doc_id": "87742937d5d4ef3e",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-250-series-smart-switches/nb-06-bus250-smart-switch-ds-cte-en.html",
+   "cache_path": "87742937d5d4ef3eb099789809639a3f8bdebffc.html",
+   "locator": "t0:r260:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "CBS250-8PP-E-2G",
+   "doc_id": "87742937d5d4ef3e",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-250-series-smart-switches/nb-06-bus250-smart-switch-ds-cte-en.html",
+   "cache_path": "87742937d5d4ef3eb099789809639a3f8bdebffc.html",
+   "locator": "t0:r260:c1",
+   "raw": "23° to 122°F (-5° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "CBS250-8T-D",
+   "doc_id": "87742937d5d4ef3e",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-250-series-smart-switches/nb-06-bus250-smart-switch-ds-cte-en.html",
+   "cache_path": "87742937d5d4ef3eb099789809639a3f8bdebffc.html",
+   "locator": "t0:r260:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "CBS250-8T-E-2G",
+   "doc_id": "87742937d5d4ef3e",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-250-series-smart-switches/nb-06-bus250-smart-switch-ds-cte-en.html",
+   "cache_path": "87742937d5d4ef3eb099789809639a3f8bdebffc.html",
+   "locator": "t0:r260:c1",
+   "raw": "23° to 122°F (-5° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "CBS350-12NP-4X",
+   "doc_id": "6c3d661192a7e9ab",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-350-series-managed-switches/datasheet-c78-744156.html",
+   "cache_path": "6c3d661192a7e9ab16b634e61c88f3363f6d2258.html",
+   "locator": "t0:r405:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "CBS350-12XS",
+   "doc_id": "6c3d661192a7e9ab",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-350-series-managed-switches/datasheet-c78-744156.html",
+   "cache_path": "6c3d661192a7e9ab16b634e61c88f3363f6d2258.html",
+   "locator": "t0:r405:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "CBS350-12XT",
+   "doc_id": "6c3d661192a7e9ab",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-350-series-managed-switches/datasheet-c78-744156.html",
+   "cache_path": "6c3d661192a7e9ab16b634e61c88f3363f6d2258.html",
+   "locator": "t0:r405:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "CBS350-16FP-2G",
+   "doc_id": "6c3d661192a7e9ab",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-350-series-managed-switches/datasheet-c78-744156.html",
+   "cache_path": "6c3d661192a7e9ab16b634e61c88f3363f6d2258.html",
+   "locator": "t0:r405:c1",
+   "raw": "23° to 122°F (-5° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "CBS350-16P-2G",
+   "doc_id": "6c3d661192a7e9ab",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-350-series-managed-switches/datasheet-c78-744156.html",
+   "cache_path": "6c3d661192a7e9ab16b634e61c88f3363f6d2258.html",
+   "locator": "t0:r405:c1",
+   "raw": "23° to 122°F (-5° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "CBS350-16P-E-2G",
+   "doc_id": "6c3d661192a7e9ab",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-350-series-managed-switches/datasheet-c78-744156.html",
+   "cache_path": "6c3d661192a7e9ab16b634e61c88f3363f6d2258.html",
+   "locator": "t0:r405:c1",
+   "raw": "23° to 122°F (-5° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "CBS350-16T-2G",
+   "doc_id": "6c3d661192a7e9ab",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-350-series-managed-switches/datasheet-c78-744156.html",
+   "cache_path": "6c3d661192a7e9ab16b634e61c88f3363f6d2258.html",
+   "locator": "t0:r405:c1",
+   "raw": "23° to 122°F (-5° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "CBS350-16T-E-2G",
+   "doc_id": "6c3d661192a7e9ab",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-350-series-managed-switches/datasheet-c78-744156.html",
+   "cache_path": "6c3d661192a7e9ab16b634e61c88f3363f6d2258.html",
+   "locator": "t0:r405:c1",
+   "raw": "23° to 122°F (-5° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "CBS350-16XTS",
+   "doc_id": "6c3d661192a7e9ab",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-350-series-managed-switches/datasheet-c78-744156.html",
+   "cache_path": "6c3d661192a7e9ab16b634e61c88f3363f6d2258.html",
+   "locator": "t0:r405:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "CBS350-24FP-4G",
+   "doc_id": "6c3d661192a7e9ab",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-350-series-managed-switches/datasheet-c78-744156.html",
+   "cache_path": "6c3d661192a7e9ab16b634e61c88f3363f6d2258.html",
+   "locator": "t0:r405:c1",
+   "raw": "23° to 122°F (-5° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "CBS350-24FP-4X",
+   "doc_id": "6c3d661192a7e9ab",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-350-series-managed-switches/datasheet-c78-744156.html",
+   "cache_path": "6c3d661192a7e9ab16b634e61c88f3363f6d2258.html",
+   "locator": "t0:r405:c1",
+   "raw": "23° to 122°F (-5° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "CBS350-24MGP-4X",
+   "doc_id": "6c3d661192a7e9ab",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-350-series-managed-switches/datasheet-c78-744156.html",
+   "cache_path": "6c3d661192a7e9ab16b634e61c88f3363f6d2258.html",
+   "locator": "t0:r405:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "CBS350-24NGP-4X",
+   "doc_id": "6c3d661192a7e9ab",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-350-series-managed-switches/datasheet-c78-744156.html",
+   "cache_path": "6c3d661192a7e9ab16b634e61c88f3363f6d2258.html",
+   "locator": "t0:r405:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "CBS350-24P-4G",
+   "doc_id": "6c3d661192a7e9ab",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-350-series-managed-switches/datasheet-c78-744156.html",
+   "cache_path": "6c3d661192a7e9ab16b634e61c88f3363f6d2258.html",
+   "locator": "t0:r405:c1",
+   "raw": "23° to 122°F (-5° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "CBS350-24P-4X",
+   "doc_id": "6c3d661192a7e9ab",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-350-series-managed-switches/datasheet-c78-744156.html",
+   "cache_path": "6c3d661192a7e9ab16b634e61c88f3363f6d2258.html",
+   "locator": "t0:r405:c1",
+   "raw": "23° to 122°F (-5° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "CBS350-24S-4G",
+   "doc_id": "6c3d661192a7e9ab",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-350-series-managed-switches/datasheet-c78-744156.html",
+   "cache_path": "6c3d661192a7e9ab16b634e61c88f3363f6d2258.html",
+   "locator": "t0:r405:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "CBS350-24T-4G",
+   "doc_id": "6c3d661192a7e9ab",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-350-series-managed-switches/datasheet-c78-744156.html",
+   "cache_path": "6c3d661192a7e9ab16b634e61c88f3363f6d2258.html",
+   "locator": "t0:r405:c1",
+   "raw": "23° to 122°F (-5° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "CBS350-24T-4X",
+   "doc_id": "6c3d661192a7e9ab",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-350-series-managed-switches/datasheet-c78-744156.html",
+   "cache_path": "6c3d661192a7e9ab16b634e61c88f3363f6d2258.html",
+   "locator": "t0:r405:c1",
+   "raw": "23° to 122°F (-5° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "CBS350-24XS",
+   "doc_id": "6c3d661192a7e9ab",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-350-series-managed-switches/datasheet-c78-744156.html",
+   "cache_path": "6c3d661192a7e9ab16b634e61c88f3363f6d2258.html",
+   "locator": "t0:r405:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "CBS350-24XT",
+   "doc_id": "6c3d661192a7e9ab",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-350-series-managed-switches/datasheet-c78-744156.html",
+   "cache_path": "6c3d661192a7e9ab16b634e61c88f3363f6d2258.html",
+   "locator": "t0:r405:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "CBS350-24XTS",
+   "doc_id": "6c3d661192a7e9ab",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-350-series-managed-switches/datasheet-c78-744156.html",
+   "cache_path": "6c3d661192a7e9ab16b634e61c88f3363f6d2258.html",
+   "locator": "t0:r405:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "CBS350-48FP-4G",
+   "doc_id": "6c3d661192a7e9ab",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-350-series-managed-switches/datasheet-c78-744156.html",
+   "cache_path": "6c3d661192a7e9ab16b634e61c88f3363f6d2258.html",
+   "locator": "t0:r405:c1",
+   "raw": "23° to 122°F (-5° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "CBS350-48FP-4X",
+   "doc_id": "6c3d661192a7e9ab",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-350-series-managed-switches/datasheet-c78-744156.html",
+   "cache_path": "6c3d661192a7e9ab16b634e61c88f3363f6d2258.html",
+   "locator": "t0:r405:c1",
+   "raw": "23° to 122°F (-5° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "CBS350-48NGP-4X",
+   "doc_id": "6c3d661192a7e9ab",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-350-series-managed-switches/datasheet-c78-744156.html",
+   "cache_path": "6c3d661192a7e9ab16b634e61c88f3363f6d2258.html",
+   "locator": "t0:r405:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "CBS350-48P-4G",
+   "doc_id": "6c3d661192a7e9ab",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-350-series-managed-switches/datasheet-c78-744156.html",
+   "cache_path": "6c3d661192a7e9ab16b634e61c88f3363f6d2258.html",
+   "locator": "t0:r405:c1",
+   "raw": "23° to 122°F (-5° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "CBS350-48P-4X",
+   "doc_id": "6c3d661192a7e9ab",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-350-series-managed-switches/datasheet-c78-744156.html",
+   "cache_path": "6c3d661192a7e9ab16b634e61c88f3363f6d2258.html",
+   "locator": "t0:r405:c1",
+   "raw": "23° to 122°F (-5° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "CBS350-48T-4G",
+   "doc_id": "6c3d661192a7e9ab",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-350-series-managed-switches/datasheet-c78-744156.html",
+   "cache_path": "6c3d661192a7e9ab16b634e61c88f3363f6d2258.html",
+   "locator": "t0:r405:c1",
+   "raw": "23° to 122°F (-5° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "CBS350-48T-4X",
+   "doc_id": "6c3d661192a7e9ab",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-350-series-managed-switches/datasheet-c78-744156.html",
+   "cache_path": "6c3d661192a7e9ab16b634e61c88f3363f6d2258.html",
+   "locator": "t0:r405:c1",
+   "raw": "23° to 122°F (-5° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "CBS350-48XT-4X",
+   "doc_id": "6c3d661192a7e9ab",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-350-series-managed-switches/datasheet-c78-744156.html",
+   "cache_path": "6c3d661192a7e9ab16b634e61c88f3363f6d2258.html",
+   "locator": "t0:r405:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "CBS350-8FP-2G",
+   "doc_id": "6c3d661192a7e9ab",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-350-series-managed-switches/datasheet-c78-744156.html",
+   "cache_path": "6c3d661192a7e9ab16b634e61c88f3363f6d2258.html",
+   "locator": "t0:r405:c1",
+   "raw": "23° to 122°F (-5° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "CBS350-8FP-E-2G",
+   "doc_id": "6c3d661192a7e9ab",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-350-series-managed-switches/datasheet-c78-744156.html",
+   "cache_path": "6c3d661192a7e9ab16b634e61c88f3363f6d2258.html",
+   "locator": "t0:r405:c1",
+   "raw": "23° to 122°F (-5° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "CBS350-8MGP-2X",
+   "doc_id": "6c3d661192a7e9ab",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-350-series-managed-switches/datasheet-c78-744156.html",
+   "cache_path": "6c3d661192a7e9ab16b634e61c88f3363f6d2258.html",
+   "locator": "t0:r405:c1",
+   "raw": "32° to 113°F (0° to 45°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "CBS350-8MP-2X",
+   "doc_id": "6c3d661192a7e9ab",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-350-series-managed-switches/datasheet-c78-744156.html",
+   "cache_path": "6c3d661192a7e9ab16b634e61c88f3363f6d2258.html",
+   "locator": "t0:r405:c1",
+   "raw": "32° to 113°F (0° to 45°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "CBS350-8P-2G",
+   "doc_id": "6c3d661192a7e9ab",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-350-series-managed-switches/datasheet-c78-744156.html",
+   "cache_path": "6c3d661192a7e9ab16b634e61c88f3363f6d2258.html",
+   "locator": "t0:r405:c1",
+   "raw": "23° to 122°F (-5° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "CBS350-8P-E-2G",
+   "doc_id": "6c3d661192a7e9ab",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-350-series-managed-switches/datasheet-c78-744156.html",
+   "cache_path": "6c3d661192a7e9ab16b634e61c88f3363f6d2258.html",
+   "locator": "t0:r405:c1",
+   "raw": "23° to 122°F (-5° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "CBS350-8S-E-2G",
+   "doc_id": "6c3d661192a7e9ab",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-350-series-managed-switches/datasheet-c78-744156.html",
+   "cache_path": "6c3d661192a7e9ab16b634e61c88f3363f6d2258.html",
+   "locator": "t0:r405:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "CBS350-8T-E-2G",
+   "doc_id": "6c3d661192a7e9ab",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-350-series-managed-switches/datasheet-c78-744156.html",
+   "cache_path": "6c3d661192a7e9ab16b634e61c88f3363f6d2258.html",
+   "locator": "t0:r405:c1",
+   "raw": "23° to 122°F (-5° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "CBS350-8XT",
+   "doc_id": "6c3d661192a7e9ab",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/business-350-series-managed-switches/datasheet-c78-744156.html",
+   "cache_path": "6c3d661192a7e9ab16b634e61c88f3363f6d2258.html",
+   "locator": "t0:r405:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "statement",
+   "sku": "IE-3200-8P2S-E",
+   "doc_id": "37808a639001f3c5",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-ie3200-rugged-series/cat-ie3200-rugged-series-ds.html",
+   "cache_path": "37808a639001f3c5c338628a92d907d01b0f8cc7.html",
+   "locator": "t10:r7:c1",
+   "raw": "Operating temperature: -40°C to +70°C (40 LFM vented enclosure) -40°C to +60°C (sealed enclosure) -40°C to +75°C (Min. 200 LFM fan or blower-equipped enclosure)"
+  },
+  {
+   "kind": "statement",
+   "sku": "IE-3200-8T2S-E",
+   "doc_id": "37808a639001f3c5",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-ie3200-rugged-series/cat-ie3200-rugged-series-ds.html",
+   "cache_path": "37808a639001f3c5c338628a92d907d01b0f8cc7.html",
+   "locator": "t10:r7:c1",
+   "raw": "Operating temperature: -40°C to +70°C (40 LFM vented enclosure) -40°C to +60°C (sealed enclosure) -40°C to +75°C (Min. 200 LFM fan or blower-equipped enclosure)"
+  },
+  {
+   "kind": "statement",
+   "sku": "IE-3300-8P2S-A",
+   "doc_id": "7b24beb93905621c",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-ie3300-rugged-series/catalyst-ie3300-rugged-series-ds.html",
+   "cache_path": "7b24beb93905621ca18a9f7fc905ab291b33c2a5.html",
+   "locator": "t13:r7:c1",
+   "raw": "Operating temperature: -40°C to +70°C (40 LFM vented enclosure) -40°C to +60°C (sealed enclosure) -40°C to +75°C (Min. 200 LFM fan or blower-equipped enclosure)"
+  },
+  {
+   "kind": "statement",
+   "sku": "IE-3300-8P2S-E",
+   "doc_id": "7b24beb93905621c",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-ie3300-rugged-series/catalyst-ie3300-rugged-series-ds.html",
+   "cache_path": "7b24beb93905621ca18a9f7fc905ab291b33c2a5.html",
+   "locator": "t13:r7:c1",
+   "raw": "Operating temperature: -40°C to +70°C (40 LFM vented enclosure) -40°C to +60°C (sealed enclosure) -40°C to +75°C (Min. 200 LFM fan or blower-equipped enclosure)"
+  },
+  {
+   "kind": "statement",
+   "sku": "IE-3300-8T2S-A",
+   "doc_id": "7b24beb93905621c",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-ie3300-rugged-series/catalyst-ie3300-rugged-series-ds.html",
+   "cache_path": "7b24beb93905621ca18a9f7fc905ab291b33c2a5.html",
+   "locator": "t13:r7:c1",
+   "raw": "Operating temperature: -40°C to +70°C (40 LFM vented enclosure) -40°C to +60°C (sealed enclosure) -40°C to +75°C (Min. 200 LFM fan or blower-equipped enclosure)"
+  },
+  {
+   "kind": "statement",
+   "sku": "IE-3300-8T2S-E",
+   "doc_id": "7b24beb93905621c",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-ie3300-rugged-series/catalyst-ie3300-rugged-series-ds.html",
+   "cache_path": "7b24beb93905621ca18a9f7fc905ab291b33c2a5.html",
+   "locator": "t13:r7:c1",
+   "raw": "Operating temperature: -40°C to +70°C (40 LFM vented enclosure) -40°C to +60°C (sealed enclosure) -40°C to +75°C (Min. 200 LFM fan or blower-equipped enclosure)"
+  },
+  {
+   "kind": "statement",
+   "sku": "IE-3300-8T2X-A",
+   "doc_id": "7b24beb93905621c",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-ie3300-rugged-series/catalyst-ie3300-rugged-series-ds.html",
+   "cache_path": "7b24beb93905621ca18a9f7fc905ab291b33c2a5.html",
+   "locator": "t13:r7:c1",
+   "raw": "Operating temperature: -40°C to +70°C (40 LFM vented enclosure) -40°C to +60°C (sealed enclosure) -40°C to +75°C (Min. 200 LFM fan or blower-equipped enclosure)"
+  },
+  {
+   "kind": "statement",
+   "sku": "IE-3300-8T2X-E",
+   "doc_id": "7b24beb93905621c",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-ie3300-rugged-series/catalyst-ie3300-rugged-series-ds.html",
+   "cache_path": "7b24beb93905621ca18a9f7fc905ab291b33c2a5.html",
+   "locator": "t13:r7:c1",
+   "raw": "Operating temperature: -40°C to +70°C (40 LFM vented enclosure) -40°C to +60°C (sealed enclosure) -40°C to +75°C (Min. 200 LFM fan or blower-equipped enclosure)"
+  },
+  {
+   "kind": "statement",
+   "sku": "IE-3300-8U2X-A",
+   "doc_id": "7b24beb93905621c",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-ie3300-rugged-series/catalyst-ie3300-rugged-series-ds.html",
+   "cache_path": "7b24beb93905621ca18a9f7fc905ab291b33c2a5.html",
+   "locator": "t13:r7:c1",
+   "raw": "Operating temperature: -40°C to +70°C (40 LFM vented enclosure) -40°C to +60°C (sealed enclosure) -40°C to +75°C (Min. 200 LFM fan or blower-equipped enclosure)"
+  },
+  {
+   "kind": "statement",
+   "sku": "IE-3300-8U2X-E",
+   "doc_id": "7b24beb93905621c",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-ie3300-rugged-series/catalyst-ie3300-rugged-series-ds.html",
+   "cache_path": "7b24beb93905621ca18a9f7fc905ab291b33c2a5.html",
+   "locator": "t13:r7:c1",
+   "raw": "Operating temperature: -40°C to +70°C (40 LFM vented enclosure) -40°C to +60°C (sealed enclosure) -40°C to +75°C (Min. 200 LFM fan or blower-equipped enclosure)"
+  },
+  {
+   "kind": "statement",
+   "sku": "IE-3400-8P2S-A",
+   "doc_id": "2ea8fc17200677fa",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-ie3400-rugged-series/cat-ie3400-rugged-series-ds.html",
+   "cache_path": "2ea8fc17200677fa6493295125ef8a56c3a51e50.html",
+   "locator": "t13:r7:c1",
+   "raw": "Operating temperature: -40°C to +70°C (40 LFM vented enclosure) -40°C to +60°C (sealed enclosure) -40°C to +75°C (Min. 200 LFM fan or blower-equipped enclosure)"
+  },
+  {
+   "kind": "statement",
+   "sku": "IE-3400-8P2S-E",
+   "doc_id": "2ea8fc17200677fa",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-ie3400-rugged-series/cat-ie3400-rugged-series-ds.html",
+   "cache_path": "2ea8fc17200677fa6493295125ef8a56c3a51e50.html",
+   "locator": "t13:r7:c1",
+   "raw": "Operating temperature: -40°C to +70°C (40 LFM vented enclosure) -40°C to +60°C (sealed enclosure) -40°C to +75°C (Min. 200 LFM fan or blower-equipped enclosure)"
+  },
+  {
+   "kind": "statement",
+   "sku": "IE-3400-8T2S-A",
+   "doc_id": "2ea8fc17200677fa",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-ie3400-rugged-series/cat-ie3400-rugged-series-ds.html",
+   "cache_path": "2ea8fc17200677fa6493295125ef8a56c3a51e50.html",
+   "locator": "t13:r7:c1",
+   "raw": "Operating temperature: -40°C to +70°C (40 LFM vented enclosure) -40°C to +60°C (sealed enclosure) -40°C to +75°C (Min. 200 LFM fan or blower-equipped enclosure)"
+  },
+  {
+   "kind": "statement",
+   "sku": "IE-3400-8T2S-E",
+   "doc_id": "2ea8fc17200677fa",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-ie3400-rugged-series/cat-ie3400-rugged-series-ds.html",
+   "cache_path": "2ea8fc17200677fa6493295125ef8a56c3a51e50.html",
+   "locator": "t13:r7:c1",
+   "raw": "Operating temperature: -40°C to +70°C (40 LFM vented enclosure) -40°C to +60°C (sealed enclosure) -40°C to +75°C (Min. 200 LFM fan or blower-equipped enclosure)"
+  },
+  {
+   "kind": "statement",
+   "sku": "IE-3500-8P3S-A",
+   "doc_id": "b8622078cd3085fd",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/networking/industrial-switches/ie3500-rugged-series/ie3500-rugged-series-ds.html",
+   "cache_path": "b8622078cd3085fd01d1ac1438e2953f94d20ef1.html",
+   "locator": "t14:r5:c1",
+   "raw": "Operating temperature: -40°C to +70°C (40 LFM vented enclosure) -40°C to +60°C (sealed enclosure) -40°C to +75°C (Min. 200 LFM fan or blower-equipped enclosure)"
+  },
+  {
+   "kind": "statement",
+   "sku": "IE-3500-8P3S-E",
+   "doc_id": "b8622078cd3085fd",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/networking/industrial-switches/ie3500-rugged-series/ie3500-rugged-series-ds.html",
+   "cache_path": "b8622078cd3085fd01d1ac1438e2953f94d20ef1.html",
+   "locator": "t14:r5:c1",
+   "raw": "Operating temperature: -40°C to +70°C (40 LFM vented enclosure) -40°C to +60°C (sealed enclosure) -40°C to +75°C (Min. 200 LFM fan or blower-equipped enclosure)"
+  },
+  {
+   "kind": "statement",
+   "sku": "IE-3500-8T3S-A",
+   "doc_id": "b8622078cd3085fd",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/networking/industrial-switches/ie3500-rugged-series/ie3500-rugged-series-ds.html",
+   "cache_path": "b8622078cd3085fd01d1ac1438e2953f94d20ef1.html",
+   "locator": "t14:r5:c1",
+   "raw": "Operating temperature: -40°C to +70°C (40 LFM vented enclosure) -40°C to +60°C (sealed enclosure) -40°C to +75°C (Min. 200 LFM fan or blower-equipped enclosure)"
+  },
+  {
+   "kind": "statement",
+   "sku": "IE-3500-8T3S-E",
+   "doc_id": "b8622078cd3085fd",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/networking/industrial-switches/ie3500-rugged-series/ie3500-rugged-series-ds.html",
+   "cache_path": "b8622078cd3085fd01d1ac1438e2953f94d20ef1.html",
+   "locator": "t14:r5:c1",
+   "raw": "Operating temperature: -40°C to +70°C (40 LFM vented enclosure) -40°C to +60°C (sealed enclosure) -40°C to +75°C (Min. 200 LFM fan or blower-equipped enclosure)"
+  },
+  {
+   "kind": "statement",
+   "sku": "IE-3500-8T3X-A",
+   "doc_id": "b8622078cd3085fd",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/networking/industrial-switches/ie3500-rugged-series/ie3500-rugged-series-ds.html",
+   "cache_path": "b8622078cd3085fd01d1ac1438e2953f94d20ef1.html",
+   "locator": "t14:r5:c1",
+   "raw": "Operating temperature: -40°C to +70°C (40 LFM vented enclosure) -40°C to +60°C (sealed enclosure) -40°C to +75°C (Min. 200 LFM fan or blower-equipped enclosure)"
+  },
+  {
+   "kind": "statement",
+   "sku": "IE-3500-8T3X-E",
+   "doc_id": "b8622078cd3085fd",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/networking/industrial-switches/ie3500-rugged-series/ie3500-rugged-series-ds.html",
+   "cache_path": "b8622078cd3085fd01d1ac1438e2953f94d20ef1.html",
+   "locator": "t14:r5:c1",
+   "raw": "Operating temperature: -40°C to +70°C (40 LFM vented enclosure) -40°C to +60°C (sealed enclosure) -40°C to +75°C (Min. 200 LFM fan or blower-equipped enclosure)"
+  },
+  {
+   "kind": "statement",
+   "sku": "IE-3500-8U3X-A",
+   "doc_id": "b8622078cd3085fd",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/networking/industrial-switches/ie3500-rugged-series/ie3500-rugged-series-ds.html",
+   "cache_path": "b8622078cd3085fd01d1ac1438e2953f94d20ef1.html",
+   "locator": "t14:r5:c1",
+   "raw": "Operating temperature: -40°C to +70°C (40 LFM vented enclosure) -40°C to +60°C (sealed enclosure) -40°C to +75°C (Min. 200 LFM fan or blower-equipped enclosure)"
+  },
+  {
+   "kind": "statement",
+   "sku": "IE-3500-8U3X-E",
+   "doc_id": "b8622078cd3085fd",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/networking/industrial-switches/ie3500-rugged-series/ie3500-rugged-series-ds.html",
+   "cache_path": "b8622078cd3085fd01d1ac1438e2953f94d20ef1.html",
+   "locator": "t14:r5:c1",
+   "raw": "Operating temperature: -40°C to +70°C (40 LFM vented enclosure) -40°C to +60°C (sealed enclosure) -40°C to +75°C (Min. 200 LFM fan or blower-equipped enclosure)"
+  },
+  {
+   "kind": "statement",
+   "sku": "IE-3505-8P3S-A",
+   "doc_id": "b8622078cd3085fd",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/networking/industrial-switches/ie3500-rugged-series/ie3500-rugged-series-ds.html",
+   "cache_path": "b8622078cd3085fd01d1ac1438e2953f94d20ef1.html",
+   "locator": "t14:r5:c1",
+   "raw": "Operating temperature: -40°C to +70°C (40 LFM vented enclosure) -40°C to +60°C (sealed enclosure) -40°C to +75°C (Min. 200 LFM fan or blower-equipped enclosure)"
+  },
+  {
+   "kind": "statement",
+   "sku": "IE-3505-8P3S-E",
+   "doc_id": "b8622078cd3085fd",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/networking/industrial-switches/ie3500-rugged-series/ie3500-rugged-series-ds.html",
+   "cache_path": "b8622078cd3085fd01d1ac1438e2953f94d20ef1.html",
+   "locator": "t14:r5:c1",
+   "raw": "Operating temperature: -40°C to +70°C (40 LFM vented enclosure) -40°C to +60°C (sealed enclosure) -40°C to +75°C (Min. 200 LFM fan or blower-equipped enclosure)"
+  },
+  {
+   "kind": "statement",
+   "sku": "IE-3505-8T3S-A",
+   "doc_id": "b8622078cd3085fd",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/networking/industrial-switches/ie3500-rugged-series/ie3500-rugged-series-ds.html",
+   "cache_path": "b8622078cd3085fd01d1ac1438e2953f94d20ef1.html",
+   "locator": "t14:r5:c1",
+   "raw": "Operating temperature: -40°C to +70°C (40 LFM vented enclosure) -40°C to +60°C (sealed enclosure) -40°C to +75°C (Min. 200 LFM fan or blower-equipped enclosure)"
+  },
+  {
+   "kind": "statement",
+   "sku": "IE-3505-8T3S-E",
+   "doc_id": "b8622078cd3085fd",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/networking/industrial-switches/ie3500-rugged-series/ie3500-rugged-series-ds.html",
+   "cache_path": "b8622078cd3085fd01d1ac1438e2953f94d20ef1.html",
+   "locator": "t14:r5:c1",
+   "raw": "Operating temperature: -40°C to +70°C (40 LFM vented enclosure) -40°C to +60°C (sealed enclosure) -40°C to +75°C (Min. 200 LFM fan or blower-equipped enclosure)"
+  },
+  {
+   "kind": "statement",
+   "sku": "IE3500-NW-A=",
+   "doc_id": "b8622078cd3085fd",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/networking/industrial-switches/ie3500-rugged-series/ie3500-rugged-series-ds.html",
+   "cache_path": "b8622078cd3085fd01d1ac1438e2953f94d20ef1.html",
+   "locator": "t14:r5:c1",
+   "raw": "Operating temperature: -40°C to +70°C (40 LFM vented enclosure) -40°C to +60°C (sealed enclosure) -40°C to +75°C (Min. 200 LFM fan or blower-equipped enclosure)"
+  },
+  {
+   "kind": "read",
+   "sku": "SF350-08",
+   "doc_id": "6be3747b9ea74d07",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/small-business-smart-switches/data-sheet-c78-737359.html",
+   "cache_path": "6be3747b9ea74d072694a84649ffdb3d959d7a30.html",
+   "locator": "t0:r316:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "SF350-24",
+   "doc_id": "6be3747b9ea74d07",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/small-business-smart-switches/data-sheet-c78-737359.html",
+   "cache_path": "6be3747b9ea74d072694a84649ffdb3d959d7a30.html",
+   "locator": "t0:r316:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "SF350-24MP",
+   "doc_id": "6be3747b9ea74d07",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/small-business-smart-switches/data-sheet-c78-737359.html",
+   "cache_path": "6be3747b9ea74d072694a84649ffdb3d959d7a30.html",
+   "locator": "t0:r316:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "SF350-24P",
+   "doc_id": "6be3747b9ea74d07",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/small-business-smart-switches/data-sheet-c78-737359.html",
+   "cache_path": "6be3747b9ea74d072694a84649ffdb3d959d7a30.html",
+   "locator": "t0:r316:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "SF350-48",
+   "doc_id": "6be3747b9ea74d07",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/small-business-smart-switches/data-sheet-c78-737359.html",
+   "cache_path": "6be3747b9ea74d072694a84649ffdb3d959d7a30.html",
+   "locator": "t0:r316:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "SF350-48MP",
+   "doc_id": "6be3747b9ea74d07",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/small-business-smart-switches/data-sheet-c78-737359.html",
+   "cache_path": "6be3747b9ea74d072694a84649ffdb3d959d7a30.html",
+   "locator": "t0:r316:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "SF350-48P",
+   "doc_id": "6be3747b9ea74d07",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/small-business-smart-switches/data-sheet-c78-737359.html",
+   "cache_path": "6be3747b9ea74d072694a84649ffdb3d959d7a30.html",
+   "locator": "t0:r316:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "SF352-08",
+   "doc_id": "6be3747b9ea74d07",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/small-business-smart-switches/data-sheet-c78-737359.html",
+   "cache_path": "6be3747b9ea74d072694a84649ffdb3d959d7a30.html",
+   "locator": "t0:r316:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "SF352-08MP",
+   "doc_id": "6be3747b9ea74d07",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/small-business-smart-switches/data-sheet-c78-737359.html",
+   "cache_path": "6be3747b9ea74d072694a84649ffdb3d959d7a30.html",
+   "locator": "t0:r316:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "SF352-08P",
+   "doc_id": "6be3747b9ea74d07",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/small-business-smart-switches/data-sheet-c78-737359.html",
+   "cache_path": "6be3747b9ea74d072694a84649ffdb3d959d7a30.html",
+   "locator": "t0:r316:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "SG350-10",
+   "doc_id": "6be3747b9ea74d07",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/small-business-smart-switches/data-sheet-c78-737359.html",
+   "cache_path": "6be3747b9ea74d072694a84649ffdb3d959d7a30.html",
+   "locator": "t0:r316:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "SG350-10MP",
+   "doc_id": "6be3747b9ea74d07",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/small-business-smart-switches/data-sheet-c78-737359.html",
+   "cache_path": "6be3747b9ea74d072694a84649ffdb3d959d7a30.html",
+   "locator": "t0:r316:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "SG350-10P",
+   "doc_id": "6be3747b9ea74d07",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/small-business-smart-switches/data-sheet-c78-737359.html",
+   "cache_path": "6be3747b9ea74d072694a84649ffdb3d959d7a30.html",
+   "locator": "t0:r316:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "SG350-10SFP",
+   "doc_id": "6be3747b9ea74d07",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/small-business-smart-switches/data-sheet-c78-737359.html",
+   "cache_path": "6be3747b9ea74d072694a84649ffdb3d959d7a30.html",
+   "locator": "t0:r316:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "SG350-20",
+   "doc_id": "6be3747b9ea74d07",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/small-business-smart-switches/data-sheet-c78-737359.html",
+   "cache_path": "6be3747b9ea74d072694a84649ffdb3d959d7a30.html",
+   "locator": "t0:r316:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "SG350-28",
+   "doc_id": "6be3747b9ea74d07",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/small-business-smart-switches/data-sheet-c78-737359.html",
+   "cache_path": "6be3747b9ea74d072694a84649ffdb3d959d7a30.html",
+   "locator": "t0:r316:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "SG350-28MP",
+   "doc_id": "6be3747b9ea74d07",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/small-business-smart-switches/data-sheet-c78-737359.html",
+   "cache_path": "6be3747b9ea74d072694a84649ffdb3d959d7a30.html",
+   "locator": "t0:r316:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "SG350-28P",
+   "doc_id": "6be3747b9ea74d07",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/small-business-smart-switches/data-sheet-c78-737359.html",
+   "cache_path": "6be3747b9ea74d072694a84649ffdb3d959d7a30.html",
+   "locator": "t0:r316:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "SG350-28SFP",
+   "doc_id": "6be3747b9ea74d07",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/small-business-smart-switches/data-sheet-c78-737359.html",
+   "cache_path": "6be3747b9ea74d072694a84649ffdb3d959d7a30.html",
+   "locator": "t0:r316:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "SG350-52",
+   "doc_id": "6be3747b9ea74d07",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/small-business-smart-switches/data-sheet-c78-737359.html",
+   "cache_path": "6be3747b9ea74d072694a84649ffdb3d959d7a30.html",
+   "locator": "t0:r316:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "SG350-52MP",
+   "doc_id": "6be3747b9ea74d07",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/small-business-smart-switches/data-sheet-c78-737359.html",
+   "cache_path": "6be3747b9ea74d072694a84649ffdb3d959d7a30.html",
+   "locator": "t0:r316:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "SG350-52P",
+   "doc_id": "6be3747b9ea74d07",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/small-business-smart-switches/data-sheet-c78-737359.html",
+   "cache_path": "6be3747b9ea74d072694a84649ffdb3d959d7a30.html",
+   "locator": "t0:r316:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "SG350X-12PMV",
+   "doc_id": "d26e6b5a91668d9f",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/350x-series-stackable-managed-switches/datasheet-c78-735986.html",
+   "cache_path": "d26e6b5a91668d9fa7a32b2a09d298e994cce5df.html",
+   "locator": "t0:r276:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "SG350X-24",
+   "doc_id": "d26e6b5a91668d9f",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/350x-series-stackable-managed-switches/datasheet-c78-735986.html",
+   "cache_path": "d26e6b5a91668d9fa7a32b2a09d298e994cce5df.html",
+   "locator": "t0:r276:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "SG350X-24MP",
+   "doc_id": "d26e6b5a91668d9f",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/350x-series-stackable-managed-switches/datasheet-c78-735986.html",
+   "cache_path": "d26e6b5a91668d9fa7a32b2a09d298e994cce5df.html",
+   "locator": "t0:r276:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "SG350X-24P",
+   "doc_id": "d26e6b5a91668d9f",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/350x-series-stackable-managed-switches/datasheet-c78-735986.html",
+   "cache_path": "d26e6b5a91668d9fa7a32b2a09d298e994cce5df.html",
+   "locator": "t0:r276:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "SG350X-24PD",
+   "doc_id": "d26e6b5a91668d9f",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/350x-series-stackable-managed-switches/datasheet-c78-735986.html",
+   "cache_path": "d26e6b5a91668d9fa7a32b2a09d298e994cce5df.html",
+   "locator": "t0:r276:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "SG350X-24PV",
+   "doc_id": "d26e6b5a91668d9f",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/350x-series-stackable-managed-switches/datasheet-c78-735986.html",
+   "cache_path": "d26e6b5a91668d9fa7a32b2a09d298e994cce5df.html",
+   "locator": "t0:r276:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "SG350X-48",
+   "doc_id": "d26e6b5a91668d9f",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/350x-series-stackable-managed-switches/datasheet-c78-735986.html",
+   "cache_path": "d26e6b5a91668d9fa7a32b2a09d298e994cce5df.html",
+   "locator": "t0:r276:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "SG350X-48MP",
+   "doc_id": "d26e6b5a91668d9f",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/350x-series-stackable-managed-switches/datasheet-c78-735986.html",
+   "cache_path": "d26e6b5a91668d9fa7a32b2a09d298e994cce5df.html",
+   "locator": "t0:r276:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "SG350X-48P",
+   "doc_id": "d26e6b5a91668d9f",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/350x-series-stackable-managed-switches/datasheet-c78-735986.html",
+   "cache_path": "d26e6b5a91668d9fa7a32b2a09d298e994cce5df.html",
+   "locator": "t0:r276:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "SG350X-48PV",
+   "doc_id": "d26e6b5a91668d9f",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/350x-series-stackable-managed-switches/datasheet-c78-735986.html",
+   "cache_path": "d26e6b5a91668d9fa7a32b2a09d298e994cce5df.html",
+   "locator": "t0:r276:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "SG350X-8PMD",
+   "doc_id": "d26e6b5a91668d9f",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/350x-series-stackable-managed-switches/datasheet-c78-735986.html",
+   "cache_path": "d26e6b5a91668d9fa7a32b2a09d298e994cce5df.html",
+   "locator": "t0:r276:c1",
+   "raw": "32° to 113°F (0° to 45°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "SG350XG-24F",
+   "doc_id": "d26e6b5a91668d9f",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/350x-series-stackable-managed-switches/datasheet-c78-735986.html",
+   "cache_path": "d26e6b5a91668d9fa7a32b2a09d298e994cce5df.html",
+   "locator": "t0:r276:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "SG350XG-24T",
+   "doc_id": "d26e6b5a91668d9f",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/350x-series-stackable-managed-switches/datasheet-c78-735986.html",
+   "cache_path": "d26e6b5a91668d9fa7a32b2a09d298e994cce5df.html",
+   "locator": "t0:r276:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "SG350XG-2F10",
+   "doc_id": "d26e6b5a91668d9f",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/350x-series-stackable-managed-switches/datasheet-c78-735986.html",
+   "cache_path": "d26e6b5a91668d9fa7a32b2a09d298e994cce5df.html",
+   "locator": "t0:r276:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "SG350XG-48T",
+   "doc_id": "d26e6b5a91668d9f",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/350x-series-stackable-managed-switches/datasheet-c78-735986.html",
+   "cache_path": "d26e6b5a91668d9fa7a32b2a09d298e994cce5df.html",
+   "locator": "t0:r276:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "SG355-10P",
+   "doc_id": "6be3747b9ea74d07",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/small-business-smart-switches/data-sheet-c78-737359.html",
+   "cache_path": "6be3747b9ea74d072694a84649ffdb3d959d7a30.html",
+   "locator": "t0:r316:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "SX350X-08",
+   "doc_id": "d26e6b5a91668d9f",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/350x-series-stackable-managed-switches/datasheet-c78-735986.html",
+   "cache_path": "d26e6b5a91668d9fa7a32b2a09d298e994cce5df.html",
+   "locator": "t0:r276:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "SX350X-12",
+   "doc_id": "d26e6b5a91668d9f",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/350x-series-stackable-managed-switches/datasheet-c78-735986.html",
+   "cache_path": "d26e6b5a91668d9fa7a32b2a09d298e994cce5df.html",
+   "locator": "t0:r276:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "SX350X-24",
+   "doc_id": "d26e6b5a91668d9f",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/350x-series-stackable-managed-switches/datasheet-c78-735986.html",
+   "cache_path": "d26e6b5a91668d9fa7a32b2a09d298e994cce5df.html",
+   "locator": "t0:r276:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "SX350X-24F",
+   "doc_id": "d26e6b5a91668d9f",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/350x-series-stackable-managed-switches/datasheet-c78-735986.html",
+   "cache_path": "d26e6b5a91668d9fa7a32b2a09d298e994cce5df.html",
+   "locator": "t0:r276:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  },
+  {
+   "kind": "read",
+   "sku": "SX350X-52",
+   "doc_id": "d26e6b5a91668d9f",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/switches/350x-series-stackable-managed-switches/datasheet-c78-735986.html",
+   "cache_path": "d26e6b5a91668d9fa7a32b2a09d298e994cce5df.html",
+   "locator": "t0:r276:c1",
+   "raw": "32° to 122°F (0° to 50°C)"
+  }
+ ]
+}

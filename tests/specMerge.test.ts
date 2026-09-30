@@ -501,6 +501,24 @@ check("SABOTAGE an absent raw on either side is not evidence of sameness",
   !isSameCellReread(cell("", 1), cell("", 2)) && !isSameCellReread(cell("16 MB", 1), cell("", 2)),
   "two pre-0008 conflicts carry no raw at all and must not look like one cell read twice");
 
+// SAME CELL BY ITS ADDRESS (reviewer ruling, 30 Sep 2026): same document + same locator + the stored raw a prefix of the
+// re-read. A raw the old cap cut MID-WORD is not at the current cap, so truncatedPrefixEqual cannot see it.
+const cutOld = "32° to 122°F (0° to 50°C) 1.9TB 2.5in U.2 P5520 NVMe High Perf. Value Endu";
+const cutNew = "32° to 122°F (0° to 50°C) 1.9TB 2.5in U.2 P5520 NVMe High Perf. Value Endurance, 1X DWPD";
+const at = { locator: "t0:r405:c1" };
+check("the same doc + the same locator + the stored raw a PREFIX of the re-read (cut mid-word by an old cap) is one cell",
+  isSameCellReread(cell(cutOld, 1, at), cell(cutNew, 1, at)) && !truncatedPrefixEqual(cutOld, cutNew));
+check("SABOTAGE the same prefix at a DIFFERENT locator is two cells",
+  !isSameCellReread(cell(cutOld, 1, at), cell(cutNew, 1, { locator: "t0:r406:c1" })));
+check("SABOTAGE the same locator with a stored raw that is NOT a prefix is not a re-read",
+  !isSameCellReread(cell("0 to 45°C", 1, at), cell("-5 to 50°C and more text", 1, at)));
+check("SABOTAGE the same locator and prefix in a DIFFERENT document is two cells",
+  !isSameCellReread(cell(cutOld, 1, at), cell(cutNew, 1, { ...at, doc_id: "docB" })));
+check("SABOTAGE a stored raw LONGER than the re-read is not this rule's (the joined-list case above stays held)",
+  !isSameCellReread(cell(cutNew, 1, at), cell(cutOld, 1, at)));
+check("...and through mergeField a newer read of that addressed cell SUPERSEDES instead of being held",
+  mergeField("C9200", cell(cutOld, 1, at), cell(cutNew, 2, { ...at, norm_v: "1.5.1" })).action === "supersede");
+
 check("a newer read of the SAME cell supersedes",
   mergeField("C9200", cell("16 MB", 16), cell("16 MB", 16.5, { norm_v: "1.5.1" })).action === "supersede");
 check("SABOTAGE a newer read of a DIFFERENT cell of the same document is a disagreement, not a supersede",

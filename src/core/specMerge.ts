@@ -348,7 +348,15 @@ export function truncatedPrefixEqual(a: unknown, b: unknown, cap = MAX_CELL): bo
 export function isSameCellReread(existing: SpecEntry, incoming: SpecEntry): boolean {
   const a = existing.raw, b = incoming.raw;
   if (!a || !b) return false;
-  return a === b || truncatedPrefixEqual(a, b);
+  if (a === b || truncatedPrefixEqual(a, b)) return true;
+  // SAME CELL BY ITS ADDRESS (reviewer ruling, 30 Sep 2026): the same document and the same locator, with the STORED raw a
+  // prefix of the re-read. Equal text cannot be required of a cell the old 160 cap cut mid-word ('... Value Endu' against
+  // '... Value Endurance'), and truncatedPrefixEqual only knows a raw cut at the CURRENT cap -- so every re-read of such a
+  // cell was held as a conflict against itself. The address is what makes the prefix safe: two different cells of one
+  // document (the 3,164 measured above) never share a locator, and a stored raw LONGER than the re-read is not this rule's.
+  const la = existing.prov?.locator, lb = incoming.prov?.locator;
+  const da = existing.prov?.doc_id, db = incoming.prov?.doc_id;
+  return !!la && la === lb && !!da && da === db && b.length > a.length && b.startsWith(a);
 }
 
 export type CompareOpts = {

@@ -333,6 +333,10 @@ const RUN_KIND_CLASS: Record<string, { approval: boolean; gate: boolean }> = {
   "derive-shipping-weight": D,
   // ruling Q24: a single-model sheet's document-level weight written per SKU (a read, gate re-reads every statement)
   "apply-single-model-weight": AG,
+  // name lane (30 Sep 2026): a SKU-only name takes the description cell its sheet prints beside the PID (gate re-reads each)
+  "name-from-description": AG,
+  // reviewer temperature rulings (30 Sep 2026): per-model reads / intersections supersede inherited values and seeds, one run
+  "correct-temps-by-sheet": AG,
 };
 // The vendor this lane has axes for; vendor_coverage owns every other vendor's hardware (unknown_zero counts them apart).
 const OWN_VENDOR = "cisco";
