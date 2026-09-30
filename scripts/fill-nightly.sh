@@ -93,7 +93,7 @@ RUNS_DIR="$FILL/runs" timeout $(( ACQ_MIN * 60 + 1800 )) xvfb-run -a "$PY" scrap
   --summary-out "$NIGHT/acquire.json" > "$NIGHT/acquire.log" 2>&1
 rc=$?
 log "acquire exit $rc"
-[ $rc = 3 ] && stop acquire "$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1])).get("stop_reason"))' "$NIGHT/acquire.json" 2>/dev/null) (throttling)"
+[ $rc = 3 ] && stop acquire "$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1])).get("stop_reason"))' "$NIGHT/acquire.json" 2>/dev/null)"
 [ $rc = 0 ] || stop acquire "worker exit $rc (see $NIGHT/acquire.log)"
 # ---- APPLY: documents fetched (or re-read) by the pipeline and not yet applied, through the gate -------------------------------
 # A WATERMARK, not a date: every acquired day directory without an `.applied` marker. Keyed on the date alone, a day's

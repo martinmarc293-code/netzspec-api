@@ -445,6 +445,23 @@ def soft_block(in_a_row: int, total: int, fetched: int) -> str | None:
         return f"Akamai error pages on {total} of {fetched} fetches (more than {SOFT_BLOCK_SHARE_PCT}%)"
     return None
 
+
+# THE STOP STATUSES (reviewer ruling 30 Sep 2026: "stop and report on 403/429", and on a challenge). BLOCKED_STATUSES is wider
+# on purpose -- it decides a task's disposition -- and the difference matters: the first dry run of the nightly (30 Sep,
+# 06:47 UTC) met ONE Cisco DAM PDF answering 401 and stopped a healthy lane on it, and the report called that throttling. A
+# 401 is a document behind a login, a fact about that URL: it is recorded as not-the-document (login-wall) and never stops
+# the lane. A robots.txt refusal cannot stop it either, and needs no clause to say so: it is decided before any request, so
+# it carries no status and no challenge (a `reason == "robots"` guard was written here first; sabotaging it changed nothing,
+# because nothing can reach it -- a guard that cannot fire is not a guard, so it went).
+LANE_STOP_STATUSES = frozenset({403, 429})
+
+
+def stops_lane(status, challenged: bool) -> bool:
+    """Does this refusal stop the lane under --stop-on-block?"""
+    return bool(challenged) or status in LANE_STOP_STATUSES
+
+
+
 # Evidence that THIS exit is the problem, matched against the error text of a failed fetch. These
 # are the shapes measured on 5 Sep 2026: hpe-quickspecs answered ERR_CERT_AUTHORITY_INVALID on five
 # psnow ids and a self-signed-certificate error on an Aruba PDF, both meaning the exit is
@@ -1604,11 +1621,11 @@ class Loop:
         self.outcomes[outcome] += 1
         return outcome
 
-    def _note_block(self, src_row: dict, slug: str) -> None:
+    def _note_block(self, src_row: dict, slug: str, stop: bool = True, why: str = "a refusal") -> None:
         sid = src_row["id"]
-        if self.stop_on_block:
+        if self.stop_on_block and stop:
             # the ruling: a refusal is never worked around -- the lane stops and reports, it does not wait and retry
-            self.stop_reason = self.stop_reason or f"{slug}: a refusal or challenge (see the blocked row and runs/screens)"
+            self.stop_reason = self.stop_reason or f"{slug}: {why}, which the ruling stops on (see the blocked row and runs/screens)"
         self.consecutive_blocked[sid] = self.consecutive_blocked.get(sid, 0) + 1
         if self.consecutive_blocked[sid] >= 3:
             self.paused_until[sid] = now() + timedelta(minutes=30)
@@ -1628,6 +1645,13 @@ class Loop:
         if b["status"] != 200 or not b["body"][:5] == b"%PDF-":
             b = self.browser.fetch_binary_inpage(url, origin, politeness_ms=src_row["politeness_ms"])
         proxy_bytes = self.charge_proxy(src_row)
+        self.night["fetched"] += 1
+        self.night["akamai_in_a_row"] = 0
+        if b["status"] == 401:
+            # a document behind a login (see LANE_STOP_STATUSES): recorded per URL, never retried, never a stop
+            self.night["not_document"]["login-wall"] += 1
+            print(f"  not-the-document {slug} pdf {task['key'][:70]}: login-wall (http 401)")
+            return self._finish(task, slug, "skipped", error="not the document: login-wall; pdf lane http 401")
         outcome = classify_binary(b["status"], b["body"][:5] == b"%PDF-")
         ok = outcome == "pdf_fetched"
         fetch_id = self.q.record_fetch(src_row["id"], url, b["status"], hashlib.sha256(b["body"]).hexdigest() if ok else None,
@@ -1639,7 +1663,7 @@ class Loop:
         if outcome == "not_listed":
             return self._finish(task, slug, outcome, result={"outcome": "not_listed", "url": url, "fetch_id": fetch_id, "origin": origin})
         if outcome == "blocked":
-            self._note_block(src_row, slug)
+            self._note_block(src_row, slug, stop=stops_lane(b["status"], False), why=f"pdf lane http {b['status']}")
         reason = f"pdf lane: {outcome} status {b['status']} / {b['content_type'][:40]}"
         print(f"  pdf-fail {slug} {task['key'][:70]}: {reason}")
         return self._finish(task, slug, outcome, error=reason)
@@ -1677,9 +1701,11 @@ class Loop:
             # failed the veto and went round the retry loop as an "unusable capture". A 404 is left to the not_listed
             # path below, which records the part_source_check.
             nd = None
-            if not res.get("blocked") and not res.get("cached"):
+            if not res.get("cached") and res.get("reason") != "robots":
                 page = res.get("html") or ""
-                if res.get("status") == 200 and not (page and src.is_not_found(page)):
+                if res.get("status") == 401:
+                    nd = "login-wall"   # a document behind a login: per URL, never a stop (see LANE_STOP_STATUSES)
+                elif not res.get("blocked") and res.get("status") == 200 and not (page and src.is_not_found(page)):
                     nd = not_document(page, url, res.get("final_url"))
                 self.night["fetched"] += 1
                 self.night["akamai_in_a_row"] = self.night["akamai_in_a_row"] + 1 if nd == "akamai-error" else 0
@@ -1716,7 +1742,9 @@ class Loop:
                                      bool(res.get("html")) and src.is_not_found(res["html"]))
             if outcome == "blocked":
                 reason = res.get("reason") or f"http {res.get('status')} / challenge"
-                self._note_block(src_row, slug)
+                challenged = looks_blocked(res.get("html") or "")
+                self._note_block(src_row, slug, stop=stops_lane(res.get("status"), challenged),
+                                 why="a challenge" if challenged else f"http {res.get('status')}")
                 if task["part_id"] and (reason == "robots" or task["attempts"] >= MAX_ATTEMPTS):
                     self.q.record_check(task["part_id"], src_row["id"], None, "blocked", 0, [])
                 self.record_proxy_spend(src_row, url, res.get("status"), proxy_bytes)

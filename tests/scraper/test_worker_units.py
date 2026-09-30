@@ -964,5 +964,48 @@ ok = q.enqueue(1, "datasheet", se, se, None)
 check("N6", "the real enqueue refuses a login-walled URL, counted and not inserted", ok is False and q.inserted == []
       and q.refused.get("login-walled") == 1, f"{ok} {q.inserted} {dict(q.refused)}")
 
+# only 403 / 429 / a challenge stops the lane; a 401 is a login wall recorded per URL; robots.txt never stops it
+# (the first dry run of the nightly, 30 Sep 2026, stopped a healthy lane on one DAM PDF answering 401)
+PDF = "https://fake.test/doc/x.pdf"
+q = FakeQueue([task(140, kind="datasheet", url=PDF), task(141, url=u[0])])
+lp = W.Loop(q, FakeBrowser({u[0]: page(u[0])}, binaries={PDF: {"status": 401, "body": b"<html>sign in</html>", "content_type": "text/html"}}),
+            RUNS, load=lambda slug: source())
+lp.stop_on_block = True
+lp.run([1])
+c = q.completed[0]
+check("N7", "a PDF answering 401 is a login wall: SKIPPED with its class, the lane goes on to the next task",
+      lp.stop_reason is None and c["status"] == "skipped" and "login-wall" in (c["error"] or "") and len(q.completed) == 2,
+      f"{lp.stop_reason} {c} completed={len(q.completed)}")
+
+q = FakeQueue([task(142, url=u[1]), task(143, url=u[0])])
+lp = W.Loop(q, FakeBrowser({u[1]: page(u[1], html="<html>Unauthorized</html>", status=401, blocked=True), u[0]: page(u[0])}), RUNS,
+            load=lambda slug: source())
+lp.stop_on_block = True
+lp.run([1])
+c = q.completed[0]
+check("N8", "an HTML page answering 401 is a login wall, not a stop", lp.stop_reason is None and c["status"] == "skipped"
+      and "login-wall" in (c["error"] or "") and len(q.completed) == 2, f"{lp.stop_reason} {c}")
+
+q = FakeQueue([task(144, url=u[2]), task(145, url=u[0])])
+lp = W.Loop(q, FakeBrowser({u[2]: page(u[2], html="", status=None, blocked=True, reason="robots"), u[0]: page(u[0])}), RUNS,
+            load=lambda slug: source())
+lp.stop_on_block = True
+lp.run([1])
+check("N9", "a robots.txt refusal never stops the lane", lp.stop_reason is None and len(q.completed) == 2, f"{lp.stop_reason} {len(q.completed)}")
+
+q = FakeQueue([task(146, url=u[3]), task(147, url=u[0])])
+lp = W.Loop(q, FakeBrowser({u[3]: page(u[3], html="", status=429, blocked=True)}), RUNS, load=lambda slug: source())
+lp.stop_on_block = True
+lp.run([1])
+check("N10", "a 429 stops the lane, and the stop names the status", lp.stop_reason is not None and "http 429" in lp.stop_reason
+      and len(q.tasks) == 1, f"{lp.stop_reason} left={len(q.tasks)}")
+
+q = FakeQueue([task(148, url=u[4]), task(149, url=u[0])])
+lp = W.Loop(q, FakeBrowser({u[4]: page(u[4], html="", status=503, blocked=True), u[0]: page(u[0])}), RUNS, load=lambda slug: source())
+lp.stop_on_block = True
+lp.run([1])
+check("N11", "a 503 is blocked for its task but does not stop the lane (only 403 / 429 / a challenge do)",
+      lp.stop_reason is None and len(q.completed) == 2, f"{lp.stop_reason} {len(q.completed)}")
+
 print(f"\n{npass} passed, {nfail} missed")
 raise SystemExit(1 if nfail else 0)
