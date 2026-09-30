@@ -1,8 +1,8 @@
 {
   "date": "2026-09-30",
-  "rule": "the three ruled attribute rules as ONE batch: PoE (rule D: 'data only' / 'non-PoE' in the ordering-table PID description -> poe_standard none), Stromversorgung (rule C: the document-level power cell -> psu_config + input_voltage), Stacking (rule B: stacking_bandwidth > 0 -> stackable yes, 'N/A' -> no, derived:stackable-from-bandwidth)",
-  "blocker_key": "attribute:PoE",
-  "predicted_unlock": 84,
-  "predicted_at_ready": 154,
-  "note": "reviewer's correction (30 Sep): these three first, then the comparator round, then the second-source evaluation"
+  "rule": "the shipping-class rule (FINAL FILL ORDER item 4): small components ship on a Versandgewicht from a class table (derived:shipping-class, the table as witness), shop_ready accepts it for those kinds only; with the owed red suites fixed first and rulings (a)/(b) applied",
+  "blocker_key": "weight",
+  "predicted_unlock": 519,
+  "predicted_at_ready": 215,
+  "note": "reviewer's order (30 Sep ~12:40): the red suites that pin cup sets -> the shipping-class rule (~528 with fans; 519 after two classes were excluded on reading their rows) -> the rest of the suites"
 }

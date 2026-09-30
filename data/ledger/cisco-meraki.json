@@ -3,7 +3,7 @@
   "vendor": "cisco",
   "category": "meraki",
   "profile_hash": "2e2d7408031058af",
-  "built_on_commit": "639753b",
+  "built_on_commit": "e5760e4",
   "norm_version": "1.8.8",
   "declared_fields": 157,
   "gap_states": {
@@ -1577,7 +1577,7 @@
             {
               "source": "cisco-datasheets",
               "class": "datasheet-html",
-              "basis": "profile-required-only",
+              "basis": "seen",
               "enabled": true,
               "facts_current": 25384
             },
@@ -4024,7 +4024,7 @@
                 {
                   "source": "cisco-datasheets",
                   "class": "datasheet-html",
-                  "basis": "profile-required-only",
+                  "basis": "seen",
                   "enabled": true,
                   "facts_current": 25384
                 },
@@ -6382,7 +6382,7 @@
                 {
                   "source": "cisco-datasheets",
                   "class": "datasheet-html",
-                  "basis": "profile-required-only",
+                  "basis": "seen",
                   "enabled": true,
                   "facts_current": 25384
                 },
@@ -8823,7 +8823,7 @@
                 {
                   "source": "cisco-datasheets",
                   "class": "datasheet-html",
-                  "basis": "profile-required-only",
+                  "basis": "seen",
                   "enabled": true,
                   "facts_current": 25384
                 },
@@ -10952,7 +10952,7 @@
                 {
                   "source": "cisco-datasheets",
                   "class": "datasheet-html",
-                  "basis": "profile-required-only",
+                  "basis": "seen",
                   "enabled": true,
                   "facts_current": 25384
                 },
@@ -13032,7 +13032,7 @@
                 {
                   "source": "cisco-datasheets",
                   "class": "datasheet-html",
-                  "basis": "profile-required-only",
+                  "basis": "seen",
                   "enabled": true,
                   "facts_current": 25384
                 },
@@ -15126,7 +15126,7 @@
                 {
                   "source": "cisco-datasheets",
                   "class": "datasheet-html",
-                  "basis": "profile-required-only",
+                  "basis": "seen",
                   "enabled": true,
                   "facts_current": 25384
                 },
@@ -26473,15 +26473,19 @@
       },
       "role_axis": "none",
       "label_jaccard": null,
-      "granularity_exception": null,
+      "granularity_exception": {
+        "basis": "single-series",
+        "reason": "35 of meraki's 69 parts (50.7%) are MV cameras in ONE series (ledger series_count 1): no series grouping exists to measure a Jaccard over, and the share is the category's size (69 parts), not a kind hiding two row shapes",
+        "status": "recorded 30 Sep 2026 by the day session -- the reviewer confirms or replaces"
+      },
       "term13": {
         "trips": [
           "share 50.7% >= 40%"
         ],
-        "verdict": "FAIL",
+        "verdict": "exception",
         "label_jaccard": null,
-        "basis": null,
-        "detail": "trips term 13 (share 50.7% >= 40%) with no role axis, no measured Jaccard and no recorded granularity_exception"
+        "basis": "single-series",
+        "detail": "35 of meraki's 69 parts (50.7%) are MV cameras in ONE series (ledger series_count 1): no series grouping exists to measure a Jaccard over, and the share is the category's size (69 parts), not a kind hiding two row shapes"
       },
       "document_evidence": {
         "spec_bearing": 0,
@@ -26842,14 +26846,14 @@
             {
               "source": "cisco-datasheets",
               "class": "datasheet-html",
-              "basis": "seen",
+              "basis": "profile-required-only",
               "enabled": true,
               "facts_current": 25384
             },
             {
               "source": "cisco-datasheet-pdf",
               "class": "datasheet-pdf",
-              "basis": "seen-but-inactive",
+              "basis": "profile-required-only",
               "enabled": false,
               "facts_current": 0
             }
@@ -29087,14 +29091,14 @@
             {
               "source": "cisco-datasheets",
               "class": "datasheet-html",
-              "basis": "seen",
+              "basis": "profile-required-only",
               "enabled": true,
               "facts_current": 25384
             },
             {
               "source": "cisco-datasheet-pdf",
               "class": "datasheet-pdf",
-              "basis": "seen-but-inactive",
+              "basis": "profile-required-only",
               "enabled": false,
               "facts_current": 0
             }
@@ -29906,14 +29910,14 @@
             {
               "source": "cisco-datasheets",
               "class": "datasheet-html",
-              "basis": "seen",
+              "basis": "profile-required-only",
               "enabled": true,
               "facts_current": 25384
             },
             {
               "source": "cisco-datasheet-pdf",
               "class": "datasheet-pdf",
-              "basis": "seen-but-inactive",
+              "basis": "profile-required-only",
               "enabled": false,
               "facts_current": 0
             }
@@ -30670,14 +30674,14 @@
             {
               "source": "cisco-datasheets",
               "class": "datasheet-html",
-              "basis": "seen",
+              "basis": "profile-required-only",
               "enabled": true,
               "facts_current": 25384
             },
             {
               "source": "cisco-datasheet-pdf",
               "class": "datasheet-pdf",
-              "basis": "seen-but-inactive",
+              "basis": "profile-required-only",
               "enabled": false,
               "facts_current": 0
             }
@@ -31330,9 +31334,9 @@
     }
   },
   "build": {
-    "data_commit": "2a5ba0deb4ae+2dirty",
-    "code_commit": "2a5ba0deb4ae",
+    "data_commit": "e5760e489ae6+84dirty",
+    "code_commit": "e5760e489ae6",
     "contract_hash": "c7b80d502adb8305",
-    "generated_at": "2026-09-30T12:39:36.826Z"
+    "generated_at": "2026-09-30T13:09:44.610Z"
   }
 }

@@ -3,7 +3,7 @@
   "vendor": "cisco",
   "category": "switches",
   "profile_hash": "22a5e52a2f5049db",
-  "built_on_commit": "639753b",
+  "built_on_commit": "e5760e4",
   "norm_version": "1.8.8",
   "declared_fields": 457,
   "gap_states": {
@@ -22,7 +22,7 @@
   "totals": {
     "parts": 7225,
     "required_slots_at_nothing_known": 169950,
-    "required_slots_stored": 162368,
+    "required_slots_stored": 162352,
     "_slots_note": "at_nothing_known = parts × (required + pending) with only the kind known — and, for a kind with a role axis (role_axis: deploy_role), the SUM over its `roles` blocks of role parts × that role's (required + pending), because a role that asks fewer cups opens fewer slots; the kind's own `slots_per_part_at_nothing_known` and cup lists are its CORE (the `(unresolved)` role). stored = the live denominator (completeness.required_total), smaller wherever an answered gate has closed a pending question; per role it is the same sum split by role",
     "by_kind": {
       "switch": 4224,
@@ -101,12 +101,12 @@
   "kinds": {
     "switch": {
       "parts": 4224,
-      "parts_with_3plus_own_facts": 1479,
+      "parts_with_3plus_own_facts": 1483,
       "parts_with_a_device_noun_in_name": 2048,
       "parts_with_a_device_noun_exempt_by_kind": 0,
       "slots_per_part_at_nothing_known": 39,
       "required_slots_at_nothing_known": 153867,
-      "required_slots_stored": 149771,
+      "required_slots_stored": 149755,
       "series_count": 158,
       "share_of_category": {
         "num": 4224,
@@ -1340,7 +1340,7 @@
             {
               "source": "cisco-datasheets",
               "class": "datasheet-html",
-              "basis": "profile-required-only",
+              "basis": "seen",
               "enabled": true,
               "facts_current": 25384
             },
@@ -1409,9 +1409,9 @@
             }
           ],
           "parts_holding_by_method": {
-            "derived:stackable-from-bandwidth": 44,
+            "derived:stackable-from-bandwidth": 60,
             "description_mining": 313,
-            "hexcat_seed": 995
+            "hexcat_seed": 979
           },
           "derived_by": "src/core/stackableFromBandwidth.ts readWitnessCell / stackableFromBandwidth (writer scripts/derive-stackable-from-bandwidth.mts from data/reference/stackable-from-bandwidth-witnesses.json)",
           "derivation_validated": "30 Sep 2026, the Catalyst 9200 sheet's transposed table t0 read cell by cell: C9200L 80 Gbps -> yes, C9200 160 Gbps -> yes, C9200CX 'No' -> no, 'C9200 Enhanced VN SKUs' refused (a qualified group names no prefix); members are the parts the sheet lists with SKU '<prefix>-', category switches, class hardware, kind switch, no component shape (licences and stack kits the same sheet lists are excluded by name in the plan); 19 cases, 5 sabotages in tests/stackableFromBandwidth.test.ts. Run 1462 over the corpus (1,679 held HTML sheets re-extracted): 3 witness cells, 44 written (16 C9200, 28 C9200L, all yes), excluded 111 licences, 5 modules/stack kits, 1 blank; 47 reads kept, of which 16 C9200CX hexcat_seed 'yes' DISAGREE with the sheet's 'No' (listed, not overwritten)",
@@ -2252,7 +2252,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 38,
+            "html_table": 105,
             "vendor_page:meraki": 1
           },
           "observed_fill_path": true,
@@ -4113,7 +4113,7 @@
                 {
                   "source": "cisco-datasheets",
                   "class": "datasheet-html",
-                  "basis": "profile-required-only",
+                  "basis": "seen",
                   "enabled": true,
                   "facts_current": 25384
                 },
@@ -4182,9 +4182,9 @@
                 }
               ],
               "parts_holding_by_method": {
-                "derived:stackable-from-bandwidth": 44,
+                "derived:stackable-from-bandwidth": 60,
                 "description_mining": 313,
-                "hexcat_seed": 995
+                "hexcat_seed": 979
               },
               "derived_by": "src/core/stackableFromBandwidth.ts readWitnessCell / stackableFromBandwidth (writer scripts/derive-stackable-from-bandwidth.mts from data/reference/stackable-from-bandwidth-witnesses.json)",
               "derivation_validated": "30 Sep 2026, the Catalyst 9200 sheet's transposed table t0 read cell by cell: C9200L 80 Gbps -> yes, C9200 160 Gbps -> yes, C9200CX 'No' -> no, 'C9200 Enhanced VN SKUs' refused (a qualified group names no prefix); members are the parts the sheet lists with SKU '<prefix>-', category switches, class hardware, kind switch, no component shape (licences and stack kits the same sheet lists are excluded by name in the plan); 19 cases, 5 sabotages in tests/stackableFromBandwidth.test.ts. Run 1462 over the corpus (1,679 held HTML sheets re-extracted): 3 witness cells, 44 written (16 C9200, 28 C9200L, all yes), excluded 111 licences, 5 modules/stack kits, 1 blank; 47 reads kept, of which 16 C9200CX hexcat_seed 'yes' DISAGREE with the sheet's 'No' (listed, not overwritten)",
@@ -4848,7 +4848,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 38,
+                "html_table": 105,
                 "vendor_page:meraki": 1
               },
               "observed_fill_path": true,
@@ -5498,7 +5498,7 @@
           "parts": 1466,
           "slots_per_part_at_nothing_known": 36,
           "required_slots_at_nothing_known": 52776,
-          "required_slots_stored": 50420,
+          "required_slots_stored": 50404,
           "document_evidence": {
             "spec_bearing": 749,
             "spec_linked_not_held": 90,
@@ -6712,7 +6712,7 @@
                 {
                   "source": "cisco-datasheets",
                   "class": "datasheet-html",
-                  "basis": "profile-required-only",
+                  "basis": "seen",
                   "enabled": true,
                   "facts_current": 25384
                 },
@@ -6781,9 +6781,9 @@
                 }
               ],
               "parts_holding_by_method": {
-                "derived:stackable-from-bandwidth": 44,
+                "derived:stackable-from-bandwidth": 60,
                 "description_mining": 313,
-                "hexcat_seed": 995
+                "hexcat_seed": 979
               },
               "derived_by": "src/core/stackableFromBandwidth.ts readWitnessCell / stackableFromBandwidth (writer scripts/derive-stackable-from-bandwidth.mts from data/reference/stackable-from-bandwidth-witnesses.json)",
               "derivation_validated": "30 Sep 2026, the Catalyst 9200 sheet's transposed table t0 read cell by cell: C9200L 80 Gbps -> yes, C9200 160 Gbps -> yes, C9200CX 'No' -> no, 'C9200 Enhanced VN SKUs' refused (a qualified group names no prefix); members are the parts the sheet lists with SKU '<prefix>-', category switches, class hardware, kind switch, no component shape (licences and stack kits the same sheet lists are excluded by name in the plan); 19 cases, 5 sabotages in tests/stackableFromBandwidth.test.ts. Run 1462 over the corpus (1,679 held HTML sheets re-extracted): 3 witness cells, 44 written (16 C9200, 28 C9200L, all yes), excluded 111 licences, 5 modules/stack kits, 1 blank; 47 reads kept, of which 16 C9200CX hexcat_seed 'yes' DISAGREE with the sheet's 'No' (listed, not overwritten)",
@@ -7447,7 +7447,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 38,
+                "html_table": 105,
                 "vendor_page:meraki": 1
               },
               "observed_fill_path": true,
@@ -9361,7 +9361,7 @@
                 {
                   "source": "cisco-datasheets",
                   "class": "datasheet-html",
-                  "basis": "profile-required-only",
+                  "basis": "seen",
                   "enabled": true,
                   "facts_current": 25384
                 },
@@ -9481,9 +9481,9 @@
                 }
               ],
               "parts_holding_by_method": {
-                "derived:stackable-from-bandwidth": 44,
+                "derived:stackable-from-bandwidth": 60,
                 "description_mining": 313,
-                "hexcat_seed": 995
+                "hexcat_seed": 979
               },
               "derived_by": "src/core/stackableFromBandwidth.ts readWitnessCell / stackableFromBandwidth (writer scripts/derive-stackable-from-bandwidth.mts from data/reference/stackable-from-bandwidth-witnesses.json)",
               "derivation_validated": "30 Sep 2026, the Catalyst 9200 sheet's transposed table t0 read cell by cell: C9200L 80 Gbps -> yes, C9200 160 Gbps -> yes, C9200CX 'No' -> no, 'C9200 Enhanced VN SKUs' refused (a qualified group names no prefix); members are the parts the sheet lists with SKU '<prefix>-', category switches, class hardware, kind switch, no component shape (licences and stack kits the same sheet lists are excluded by name in the plan); 19 cases, 5 sabotages in tests/stackableFromBandwidth.test.ts. Run 1462 over the corpus (1,679 held HTML sheets re-extracted): 3 witness cells, 44 written (16 C9200, 28 C9200L, all yes), excluded 111 licences, 5 modules/stack kits, 1 blank; 47 reads kept, of which 16 C9200CX hexcat_seed 'yes' DISAGREE with the sheet's 'No' (listed, not overwritten)",
@@ -10093,7 +10093,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 38,
+                "html_table": 105,
                 "vendor_page:meraki": 1
               },
               "observed_fill_path": true,
@@ -12063,7 +12063,7 @@
                 {
                   "source": "cisco-datasheets",
                   "class": "datasheet-html",
-                  "basis": "profile-required-only",
+                  "basis": "seen",
                   "enabled": true,
                   "facts_current": 25384
                 },
@@ -12132,9 +12132,9 @@
                 }
               ],
               "parts_holding_by_method": {
-                "derived:stackable-from-bandwidth": 44,
+                "derived:stackable-from-bandwidth": 60,
                 "description_mining": 313,
-                "hexcat_seed": 995
+                "hexcat_seed": 979
               },
               "derived_by": "src/core/stackableFromBandwidth.ts readWitnessCell / stackableFromBandwidth (writer scripts/derive-stackable-from-bandwidth.mts from data/reference/stackable-from-bandwidth-witnesses.json)",
               "derivation_validated": "30 Sep 2026, the Catalyst 9200 sheet's transposed table t0 read cell by cell: C9200L 80 Gbps -> yes, C9200 160 Gbps -> yes, C9200CX 'No' -> no, 'C9200 Enhanced VN SKUs' refused (a qualified group names no prefix); members are the parts the sheet lists with SKU '<prefix>-', category switches, class hardware, kind switch, no component shape (licences and stack kits the same sheet lists are excluded by name in the plan); 19 cases, 5 sabotages in tests/stackableFromBandwidth.test.ts. Run 1462 over the corpus (1,679 held HTML sheets re-extracted): 3 witness cells, 44 written (16 C9200, 28 C9200L, all yes), excluded 111 licences, 5 modules/stack kits, 1 blank; 47 reads kept, of which 16 C9200CX hexcat_seed 'yes' DISAGREE with the sheet's 'No' (listed, not overwritten)",
@@ -12798,7 +12798,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 38,
+                "html_table": 105,
                 "vendor_page:meraki": 1
               },
               "observed_fill_path": true,
@@ -14763,7 +14763,7 @@
                 {
                   "source": "cisco-datasheets",
                   "class": "datasheet-html",
-                  "basis": "profile-required-only",
+                  "basis": "seen",
                   "enabled": true,
                   "facts_current": 25384
                 },
@@ -14832,9 +14832,9 @@
                 }
               ],
               "parts_holding_by_method": {
-                "derived:stackable-from-bandwidth": 44,
+                "derived:stackable-from-bandwidth": 60,
                 "description_mining": 313,
-                "hexcat_seed": 995
+                "hexcat_seed": 979
               },
               "derived_by": "src/core/stackableFromBandwidth.ts readWitnessCell / stackableFromBandwidth (writer scripts/derive-stackable-from-bandwidth.mts from data/reference/stackable-from-bandwidth-witnesses.json)",
               "derivation_validated": "30 Sep 2026, the Catalyst 9200 sheet's transposed table t0 read cell by cell: C9200L 80 Gbps -> yes, C9200 160 Gbps -> yes, C9200CX 'No' -> no, 'C9200 Enhanced VN SKUs' refused (a qualified group names no prefix); members are the parts the sheet lists with SKU '<prefix>-', category switches, class hardware, kind switch, no component shape (licences and stack kits the same sheet lists are excluded by name in the plan); 19 cases, 5 sabotages in tests/stackableFromBandwidth.test.ts. Run 1462 over the corpus (1,679 held HTML sheets re-extracted): 3 witness cells, 44 written (16 C9200, 28 C9200L, all yes), excluded 111 licences, 5 modules/stack kits, 1 blank; 47 reads kept, of which 16 C9200CX hexcat_seed 'yes' DISAGREE with the sheet's 'No' (listed, not overwritten)",
@@ -15459,7 +15459,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 38,
+                "html_table": 105,
                 "vendor_page:meraki": 1
               },
               "observed_fill_path": true,
@@ -17336,7 +17336,7 @@
                 {
                   "source": "cisco-datasheets",
                   "class": "datasheet-html",
-                  "basis": "profile-required-only",
+                  "basis": "seen",
                   "enabled": true,
                   "facts_current": 25384
                 },
@@ -17405,9 +17405,9 @@
                 }
               ],
               "parts_holding_by_method": {
-                "derived:stackable-from-bandwidth": 44,
+                "derived:stackable-from-bandwidth": 60,
                 "description_mining": 313,
-                "hexcat_seed": 995
+                "hexcat_seed": 979
               },
               "derived_by": "src/core/stackableFromBandwidth.ts readWitnessCell / stackableFromBandwidth (writer scripts/derive-stackable-from-bandwidth.mts from data/reference/stackable-from-bandwidth-witnesses.json)",
               "derivation_validated": "30 Sep 2026, the Catalyst 9200 sheet's transposed table t0 read cell by cell: C9200L 80 Gbps -> yes, C9200 160 Gbps -> yes, C9200CX 'No' -> no, 'C9200 Enhanced VN SKUs' refused (a qualified group names no prefix); members are the parts the sheet lists with SKU '<prefix>-', category switches, class hardware, kind switch, no component shape (licences and stack kits the same sheet lists are excluded by name in the plan); 19 cases, 5 sabotages in tests/stackableFromBandwidth.test.ts. Run 1462 over the corpus (1,679 held HTML sheets re-extracted): 3 witness cells, 44 written (16 C9200, 28 C9200L, all yes), excluded 111 licences, 5 modules/stack kits, 1 blank; 47 reads kept, of which 16 C9200CX hexcat_seed 'yes' DISAGREE with the sheet's 'No' (listed, not overwritten)",
@@ -18248,7 +18248,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 38,
+                "html_table": 105,
                 "vendor_page:meraki": 1
               },
               "observed_fill_path": true,
@@ -19762,14 +19762,14 @@
             {
               "source": "cisco-datasheets",
               "class": "datasheet-html",
-              "basis": "seen",
+              "basis": "profile-required-only",
               "enabled": true,
               "facts_current": 25384
             },
             {
               "source": "cisco-datasheet-pdf",
               "class": "datasheet-pdf",
-              "basis": "seen-but-inactive",
+              "basis": "profile-required-only",
               "enabled": false,
               "facts_current": 0
             }
@@ -19812,7 +19812,7 @@
             {
               "source": "cisco-datasheets",
               "class": "datasheet-html",
-              "basis": "profile-required-only",
+              "basis": "seen",
               "enabled": true,
               "facts_current": 25384
             },
@@ -21284,14 +21284,14 @@
             {
               "source": "cisco-datasheets",
               "class": "datasheet-html",
-              "basis": "seen",
+              "basis": "profile-required-only",
               "enabled": true,
               "facts_current": 25384
             },
             {
               "source": "cisco-datasheet-pdf",
               "class": "datasheet-pdf",
-              "basis": "seen-but-inactive",
+              "basis": "profile-required-only",
               "enabled": false,
               "facts_current": 0
             }
@@ -21334,7 +21334,7 @@
             {
               "source": "cisco-datasheets",
               "class": "datasheet-html",
-              "basis": "profile-required-only",
+              "basis": "seen",
               "enabled": true,
               "facts_current": 25384
             },
@@ -22546,14 +22546,14 @@
             {
               "source": "cisco-datasheets",
               "class": "datasheet-html",
-              "basis": "seen",
+              "basis": "profile-required-only",
               "enabled": true,
               "facts_current": 25384
             },
             {
               "source": "cisco-datasheet-pdf",
               "class": "datasheet-pdf",
-              "basis": "seen-but-inactive",
+              "basis": "profile-required-only",
               "enabled": false,
               "facts_current": 0
             }
@@ -23510,14 +23510,14 @@
             {
               "source": "cisco-datasheets",
               "class": "datasheet-html",
-              "basis": "seen",
+              "basis": "profile-required-only",
               "enabled": true,
               "facts_current": 25384
             },
             {
               "source": "cisco-datasheet-pdf",
               "class": "datasheet-pdf",
-              "basis": "seen-but-inactive",
+              "basis": "profile-required-only",
               "enabled": false,
               "facts_current": 0
             }
@@ -24641,14 +24641,14 @@
             {
               "source": "cisco-datasheets",
               "class": "datasheet-html",
-              "basis": "seen",
+              "basis": "profile-required-only",
               "enabled": true,
               "facts_current": 25384
             },
             {
               "source": "cisco-datasheet-pdf",
               "class": "datasheet-pdf",
-              "basis": "seen-but-inactive",
+              "basis": "profile-required-only",
               "enabled": false,
               "facts_current": 0
             }
@@ -25556,14 +25556,14 @@
             {
               "source": "cisco-datasheets",
               "class": "datasheet-html",
-              "basis": "seen",
+              "basis": "profile-required-only",
               "enabled": true,
               "facts_current": 25384
             },
             {
               "source": "cisco-datasheet-pdf",
               "class": "datasheet-pdf",
-              "basis": "seen-but-inactive",
+              "basis": "profile-required-only",
               "enabled": false,
               "facts_current": 0
             }
@@ -26371,14 +26371,14 @@
             {
               "source": "cisco-datasheets",
               "class": "datasheet-html",
-              "basis": "seen",
+              "basis": "profile-required-only",
               "enabled": true,
               "facts_current": 25384
             },
             {
               "source": "cisco-datasheet-pdf",
               "class": "datasheet-pdf",
-              "basis": "seen-but-inactive",
+              "basis": "profile-required-only",
               "enabled": false,
               "facts_current": 0
             }
@@ -27062,7 +27062,7 @@
     },
     "fan": {
       "parts": 203,
-      "parts_with_3plus_own_facts": 9,
+      "parts_with_3plus_own_facts": 30,
       "parts_with_a_device_noun_in_name": 38,
       "parts_with_a_device_noun_exempt_by_kind": 0,
       "slots_per_part_at_nothing_known": 2,
@@ -27157,14 +27157,14 @@
             {
               "source": "cisco-datasheets",
               "class": "datasheet-html",
-              "basis": "seen",
+              "basis": "profile-required-only",
               "enabled": true,
               "facts_current": 25384
             },
             {
               "source": "cisco-datasheet-pdf",
               "class": "datasheet-pdf",
-              "basis": "seen-but-inactive",
+              "basis": "profile-required-only",
               "enabled": false,
               "facts_current": 0
             }
@@ -27951,14 +27951,14 @@
             {
               "source": "cisco-datasheets",
               "class": "datasheet-html",
-              "basis": "seen",
+              "basis": "profile-required-only",
               "enabled": true,
               "facts_current": 25384
             },
             {
               "source": "cisco-datasheet-pdf",
               "class": "datasheet-pdf",
-              "basis": "seen-but-inactive",
+              "basis": "profile-required-only",
               "enabled": false,
               "facts_current": 0
             }
@@ -28707,14 +28707,14 @@
             {
               "source": "cisco-datasheets",
               "class": "datasheet-html",
-              "basis": "seen",
+              "basis": "profile-required-only",
               "enabled": true,
               "facts_current": 25384
             },
             {
               "source": "cisco-datasheet-pdf",
               "class": "datasheet-pdf",
-              "basis": "seen-but-inactive",
+              "basis": "profile-required-only",
               "enabled": false,
               "facts_current": 0
             }
@@ -29441,14 +29441,14 @@
             {
               "source": "cisco-datasheets",
               "class": "datasheet-html",
-              "basis": "seen",
+              "basis": "profile-required-only",
               "enabled": true,
               "facts_current": 25384
             },
             {
               "source": "cisco-datasheet-pdf",
               "class": "datasheet-pdf",
-              "basis": "seen-but-inactive",
+              "basis": "profile-required-only",
               "enabled": false,
               "facts_current": 0
             }
@@ -30247,14 +30247,14 @@
             {
               "source": "cisco-datasheets",
               "class": "datasheet-html",
-              "basis": "seen",
+              "basis": "profile-required-only",
               "enabled": true,
               "facts_current": 25384
             },
             {
               "source": "cisco-datasheet-pdf",
               "class": "datasheet-pdf",
-              "basis": "seen-but-inactive",
+              "basis": "profile-required-only",
               "enabled": false,
               "facts_current": 0
             }
@@ -31087,14 +31087,14 @@
             {
               "source": "cisco-datasheets",
               "class": "datasheet-html",
-              "basis": "seen",
+              "basis": "profile-required-only",
               "enabled": true,
               "facts_current": 25384
             },
             {
               "source": "cisco-datasheet-pdf",
               "class": "datasheet-pdf",
-              "basis": "seen-but-inactive",
+              "basis": "profile-required-only",
               "enabled": false,
               "facts_current": 0
             }
@@ -31925,14 +31925,14 @@
             {
               "source": "cisco-datasheets",
               "class": "datasheet-html",
-              "basis": "seen",
+              "basis": "profile-required-only",
               "enabled": true,
               "facts_current": 25384
             },
             {
               "source": "cisco-datasheet-pdf",
               "class": "datasheet-pdf",
-              "basis": "seen-but-inactive",
+              "basis": "profile-required-only",
               "enabled": false,
               "facts_current": 0
             }
@@ -32620,14 +32620,14 @@
             {
               "source": "cisco-datasheets",
               "class": "datasheet-html",
-              "basis": "seen",
+              "basis": "profile-required-only",
               "enabled": true,
               "facts_current": 25384
             },
             {
               "source": "cisco-datasheet-pdf",
               "class": "datasheet-pdf",
-              "basis": "seen-but-inactive",
+              "basis": "profile-required-only",
               "enabled": false,
               "facts_current": 0
             }
@@ -34039,14 +34039,14 @@
             {
               "source": "cisco-datasheets",
               "class": "datasheet-html",
-              "basis": "seen",
+              "basis": "profile-required-only",
               "enabled": true,
               "facts_current": 25384
             },
             {
               "source": "cisco-datasheet-pdf",
               "class": "datasheet-pdf",
-              "basis": "seen-but-inactive",
+              "basis": "profile-required-only",
               "enabled": false,
               "facts_current": 0
             }
@@ -34769,14 +34769,14 @@
             {
               "source": "cisco-datasheets",
               "class": "datasheet-html",
-              "basis": "seen",
+              "basis": "profile-required-only",
               "enabled": true,
               "facts_current": 25384
             },
             {
               "source": "cisco-datasheet-pdf",
               "class": "datasheet-pdf",
-              "basis": "seen-but-inactive",
+              "basis": "profile-required-only",
               "enabled": false,
               "facts_current": 0
             }
@@ -35462,7 +35462,22 @@
       "required": [
         {
           "key": "pon_ports",
-          "sources": [],
+          "sources": [
+            {
+              "source": "cisco-datasheets",
+              "class": "datasheet-html",
+              "basis": "profile-required-only",
+              "enabled": true,
+              "facts_current": 25384
+            },
+            {
+              "source": "cisco-datasheet-pdf",
+              "class": "datasheet-pdf",
+              "basis": "profile-required-only",
+              "enabled": false,
+              "facts_current": 0
+            }
+          ],
           "label_occurrences": 0,
           "labels": [],
           "parts_holding_by_method": {
@@ -36237,7 +36252,22 @@
         },
         {
           "key": "pon_ports",
-          "sources": [],
+          "sources": [
+            {
+              "source": "cisco-datasheets",
+              "class": "datasheet-html",
+              "basis": "profile-required-only",
+              "enabled": true,
+              "facts_current": 25384
+            },
+            {
+              "source": "cisco-datasheet-pdf",
+              "class": "datasheet-pdf",
+              "basis": "profile-required-only",
+              "enabled": false,
+              "facts_current": 0
+            }
+          ],
           "label_occurrences": 0,
           "labels": [],
           "parts_holding_by_method": {
@@ -36249,7 +36279,22 @@
         },
         {
           "key": "pon_standard",
-          "sources": [],
+          "sources": [
+            {
+              "source": "cisco-datasheets",
+              "class": "datasheet-html",
+              "basis": "profile-required-only",
+              "enabled": true,
+              "facts_current": 25384
+            },
+            {
+              "source": "cisco-datasheet-pdf",
+              "class": "datasheet-pdf",
+              "basis": "profile-required-only",
+              "enabled": false,
+              "facts_current": 0
+            }
+          ],
           "label_occurrences": 0,
           "labels": [],
           "parts_holding_by_method": {
@@ -36943,9 +36988,9 @@
     }
   },
   "build": {
-    "data_commit": "2a5ba0deb4ae+2dirty",
-    "code_commit": "2a5ba0deb4ae",
+    "data_commit": "e5760e489ae6+84dirty",
+    "code_commit": "e5760e489ae6",
     "contract_hash": "c7b80d502adb8305",
-    "generated_at": "2026-09-30T12:39:36.826Z"
+    "generated_at": "2026-09-30T13:09:44.610Z"
   }
 }
