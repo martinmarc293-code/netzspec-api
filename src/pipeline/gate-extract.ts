@@ -125,10 +125,16 @@ export type ProducedFact = {
   locator: string; source_url: string; doc_id: string; inherited: boolean;
 };
 
-export type ReadItem = { url: string; loc: Locator | null; label: string; value: string };
+/** `inline`: a shape-E fact -- one model's value read out of an inline per-model list in ONE cell. The cell never equals the
+ *  value, so equality cannot grade it; the re-reader instead runs the extractor over the cached page again and reports whether
+ *  it reproduces exactly this (sku, locator, value). Containment would be weaker than the rule: every model's segment is in the
+ *  cell, so a value given to the wrong model would pass. */
+export type ReadItem = { url: string; loc: Locator | null; label: string; value: string; inline?: { sku: string; locator: string } };
 export type ReadResult = {
   status: "ok" | "no_cache" | "out_of_range" | "pdf_error" | "no_locator";
   cell?: string; label_in_text?: boolean; value_in_text?: boolean; detail?: string;
+  /** shape E only: the extractor, re-run on the cached page, produced this (sku, locator, value) */
+  inline_ok?: boolean;
 };
 
 // The re-reader. Grouped by document, one document's grid in memory at a time (the legacy
@@ -172,7 +178,14 @@ for url, idxs in by_url.items():
     html_f = cache / (key + ".html")
     pdf_f = cache / (key + ".bin")
     if html_f.exists():
-        soup = BeautifulSoup(html_f.read_text(encoding="utf-8", errors="replace"), "lxml")
+        html_text = html_f.read_text(encoding="utf-8", errors="replace")
+        inline = None
+        if any(req[i].get("inline") for i in idxs):
+            # shape E: the SAME extractor over the SAME cached bytes must reproduce each sampled (sku, locator, value)
+            from adapters.cisco_specs_deep import extract_document
+            got = extract_document(html_text, url)
+            inline = set((r.get("sku"), r.get("locator"), norm(r.get("value"))) for r in got["facts"] if r.get("shape") == "E")
+        soup = BeautifulSoup(html_text, "lxml")
         for s in soup(["script", "style"]):
             s.decompose()
         # one blob, so the wrap walk degenerates to a plain substring test: HTML does not wrap
@@ -183,6 +196,8 @@ for url, idxs in by_url.items():
             loc = it.get("loc")
             res = {"label_in_text": label_in(it["label"], lines),
                    "value_in_text": text_contains(it["value"], lines)}
+            if it.get("inline"):
+                res["inline_ok"] = (it["inline"]["sku"], it["inline"]["locator"], norm(it["value"])) in inline
             if loc is None:
                 res["status"] = "no_locator"
             else:
@@ -436,6 +451,11 @@ export type GateInput = {
   golden: GoldenExpectation[];
   sample: number;
   allowRegression?: string | null;
+  /** apply-extract --partial: the file carries only value-rule cells of held sheets. Recall is scoped to the golden rows of the
+   *  FIELDS offered (a golden row of another field is not this file's to produce), NOT MEASURED when none exists -- then the gate
+   *  is the provenance re-read, stated in the misses -- and the per-document regression comparison is not made (a partial file
+   *  is not a re-read of the document, so fewer facts per document is its definition, not a regression). */
+  partial?: { reason: string; fields: string[] } | null;
   /** is this SKU a part of ours — only for the wording of a recall miss */
   isPart?: (sku: string) => boolean;
   cacheDir?: string;
@@ -526,7 +546,7 @@ export function gateExtract(input: GateInput): GateOutcome {
     const d = docByUrl.get(f.source_url);
     if (d) docsBySku.set(f.sku, [d]);
   }
-  const inScope = golden.filter((g) => docsBySku.has(g.sku));
+  const inScope = golden.filter((g) => docsBySku.has(g.sku) && (!input.partial || input.partial.fields.includes(g.field)));
   const overlapSkus = new Set(inScope.map((g) => g.sku)).size;
 
   // ---- golden: value + unit, then the cell ---------------------------------------------------------
@@ -560,7 +580,8 @@ export function gateExtract(input: GateInput): GateOutcome {
   const flagged = suspectFacts(pool, docs);
   const sampleIdx = planSample(pool, input.sample, rnd, flagged.isSuspect);
   const sampleFacts = sampleIdx.map((i) => pool[i]);
-  const sampleItems: ReadItem[] = sampleFacts.map((f) => ({ url: f.source_url, loc: parseLocator(f.locator), label: f.label, value: f.value }));
+  const sampleItems: ReadItem[] = sampleFacts.map((f) => ({ url: f.source_url, loc: parseLocator(f.locator), label: f.label, value: f.value,
+    ...(f.shape === "E" && f.sku ? { inline: { sku: f.sku, locator: f.locator } } : {}) }));
   const docsInFile = new Set(pool.map((f) => f.source_url)).size;
   const docsSampled = new Set(sampleFacts.map((f) => f.source_url)).size;
   const coverage = {
@@ -598,18 +619,22 @@ export function gateExtract(input: GateInput): GateOutcome {
       misses.push(`PROVENANCE_MISS ${f.sku ?? f.family_scope ?? "?"} "${f.label}" = ${JSON.stringify(norm(f.value).slice(0, 60))}: locator ${JSON.stringify(String(f.locator ?? ""))} does not name a cell (t<n>:r<n>[:c<n>], PDFs p<n>:t<n>:r<n>[:c<n>])`);
       return;
     }
-    const cellOk = r.status === "ok" && cellMatches(r.cell, f.value, { truncated: (f as { truncated?: boolean }).truncated });
+    const inline = f.shape === "E" && !!f.sku;
+    const cellOk = r.status === "ok" && (inline ? r.inline_ok === true : cellMatches(r.cell, f.value, { truncated: (f as { truncated?: boolean }).truncated }));
     if (r.label_in_text && r.value_in_text && cellOk) { provOk++; return; }
     provBad++;
     const what = !r.value_in_text ? "value not in page text" : !r.label_in_text ? "label not in page text"
-      : r.status === "out_of_range" ? "locator out of range" : `cell holds ${JSON.stringify(norm(r.cell).slice(0, 60))}`;
+      : r.status === "out_of_range" ? "locator out of range"
+      : inline ? `the extractor re-run on the cached page does not give ${f.sku} this value at this cell (cell ${JSON.stringify(norm(r.cell).slice(0, 60))})`
+      : `cell holds ${JSON.stringify(norm(r.cell).slice(0, 60))}`;
     misses.push(`PROVENANCE_MISS ${f.sku ?? f.family_scope ?? "?"} "${f.label}" = ${JSON.stringify(norm(f.value).slice(0, 60))} at ${f.locator} (${what})`);
   });
 
   // ---- regression -------------------------------------------------------------------------------------
   const regressed: ExtractGate["regression"]["regressed"] = [];
   const comparedDocs = new Set<string>();
-  for (const [docId, after] of Object.entries(input.factsPerDoc)) {
+  if (input.partial) misses.push(`PARTIAL: no regression comparison -- a partial file is not a re-read of its documents (${input.partial.reason})`);
+  for (const [docId, after] of Object.entries(input.partial ? {} : input.factsPerDoc)) {
     const before = input.previous.get(docId);
     if (before === undefined) continue;
     comparedDocs.add(docId);
@@ -617,7 +642,7 @@ export function gateExtract(input: GateInput): GateOutcome {
   }
   // the metric that tracks the PAGE: a mapper or dictionary change can leave the raw count
   // untouched and still halve what the document produces
-  for (const [docId, after] of Object.entries(input.producedPerDoc ?? {})) {
+  for (const [docId, after] of Object.entries(input.partial ? {} : input.producedPerDoc ?? {})) {
     const before = input.previousProduced?.get(docId);
     if (before === undefined) continue;
     comparedDocs.add(docId);
@@ -626,7 +651,7 @@ export function gateExtract(input: GateInput): GateOutcome {
   // a document the previous SAME-TAG run read and this run does not mention at all: silent until
   // now, because a document that is absent has no row in factsPerDoc to compare. Scoped to the
   // same tag: a shard file never holds the other shard's documents (absentDocs).
-  for (const x of absentDocs(input.previous, input.factsPerDoc, input.absentScope)) {
+  for (const x of input.partial ? [] : absentDocs(input.previous, input.factsPerDoc, input.absentScope)) {
     comparedDocs.add(x.doc_id);
     regressed.push({ doc_id: x.doc_id, before: x.before, after: 0, metric: "absent" });
   }
@@ -643,7 +668,14 @@ export function gateExtract(input: GateInput): GateOutcome {
   const precision = attempted ? Number((correct / attempted).toFixed(4)) : 0;
   const recall = inScope.length ? Number(((inScope.length - missing) / inScope.length).toFixed(4)) : 0;
   let verdict: ExtractGate["verdict"];
-  if (overlapSkus === 0) {
+  // a partial file with no golden row for the fields it offers: recall cannot be measured, and saying so is the verdict's
+  // first line -- the gate is then the provenance re-read of the sample (every cell, at the sizes a partial apply has)
+  const partialNoGolden = !!input.partial && inScope.length === 0;
+  if (partialNoGolden) {
+    misses.unshift(`PARTIAL: ${input.partial!.reason} -- the file offers ${input.partial!.fields.join(", ")} only; no golden row exists for those fields ` +
+      `on these documents, so recall is NOT MEASURED and the gate is the provenance re-read`);
+  }
+  if (overlapSkus === 0 && !partialNoGolden) {
     verdict = "unverified";
     misses.unshift(`UNVERIFIED: none of the ${new Set(golden.map((g) => g.sku)).size} golden PIDs is listed by a document in this file — add hand-checked expectations for parts THIS file covers`);
   } else if (sampleFacts.length > 0 && provChecked === 0) {
@@ -652,7 +684,7 @@ export function gateExtract(input: GateInput): GateOutcome {
   } else if (!coverage.ok) {
     verdict = "unverified";
     misses.unshift(`UNVERIFIED: the provenance sample covers ${coverage.docs_sampled} of ${coverage.docs_in_file} documents (minimum ${coverage.min_docs}) and ${coverage.facts_sampled} of ${coverage.facts_in_file} facts (minimum ${coverage.min_facts}) — raise --sample`);
-  } else if (precision >= PRECISION_GATE && recall === 1 && wrong === 0 && unchecked === 0 && provBad === 0 && (regressed.length === 0 || allowed)) {
+  } else if ((partialNoGolden || (precision >= PRECISION_GATE && recall === 1)) && wrong === 0 && unchecked === 0 && provBad === 0 && (regressed.length === 0 || allowed)) {
     verdict = "pass";
   } else verdict = "fail";
 
@@ -661,6 +693,8 @@ export function gateExtract(input: GateInput): GateOutcome {
     misses: misses.slice(0, MISSES_IN_GATE), misses_total: misses.length, verdict, threshold: PRECISION_GATE,
     golden: { files: new Set(golden.map((g) => g.from)).size, expectations: golden.length, in_scope: inScope.length, overlap_skus: overlapSkus, correct, wrong, missing, unchecked },
     provenance: { sampled: sampleFacts.length, checked: provChecked, ok: provOk, mismatched: provBad, unchecked: provUnchecked },
+    // named for what it says: whether golden precision and recall were MEASURED at all, not a number that reads as 0 %
+    partial: input.partial ? { reason: input.partial.reason, fields: input.partial.fields, golden_in_scope: inScope.length, golden_measured: inScope.length > 0 } : null,
     coverage,
     defects: { total: flagged.total, by_code: flagged.byCode, facts_affected: pool.filter(flagged.isSuspect).length, sampled: provSuspect },
     regression: { docs_compared: comparedDocs.size, regressed, allowed, reason: allowed ? input.allowRegression ?? null : null },
@@ -669,7 +703,10 @@ export function gateExtract(input: GateInput): GateOutcome {
 }
 
 export function printGate(gate: ExtractGate, allMisses: string[] = gate.misses): void {
-  console.log(`gate: ${gate.verdict.toUpperCase()} — precision ${(gate.precision * 100).toFixed(1)}% (gate ${gate.threshold * 100}%), recall ${(gate.recall * 100).toFixed(1)}%`);
+  const part = gate.partial as { golden_measured: boolean; fields: string[] } | null;
+  console.log(part && !part.golden_measured
+    ? `gate: ${gate.verdict.toUpperCase()} — PARTIAL (${part.fields.join(", ")}): golden precision and recall NOT MEASURED (no golden row for these fields); provenance ${gate.provenance.ok}/${gate.provenance.checked} re-read clean`
+    : `gate: ${gate.verdict.toUpperCase()} — precision ${(gate.precision * 100).toFixed(1)}% (gate ${gate.threshold * 100}%), recall ${(gate.recall * 100).toFixed(1)}%`);
   console.log(`  golden: ${gate.golden.in_scope} in scope of ${gate.golden.expectations} (${gate.golden.overlap_skus} PIDs overlap) — correct ${gate.golden.correct}, wrong ${gate.golden.wrong}, missing ${gate.golden.missing}, unchecked ${gate.golden.unchecked}`);
   console.log(`  provenance: ${gate.provenance.ok}/${gate.provenance.checked} re-read clean, ${gate.provenance.mismatched} mismatched, ${gate.provenance.unchecked} no cache (sampled ${gate.provenance.sampled})`);
   console.log(`  coverage: ${gate.coverage.docs_sampled}/${gate.coverage.docs_in_file} documents (minimum ${gate.coverage.min_docs}), ${gate.coverage.facts_sampled}/${gate.coverage.facts_in_file} facts (minimum ${gate.coverage.min_facts}) — ${gate.coverage.ok ? "enough to measure" : "NOT ENOUGH"}`);

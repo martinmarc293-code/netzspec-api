@@ -72,7 +72,7 @@ import {
   getPool, closePool, withTx, withRun, hashFile, ensureSourceDoc, docIdFor, linkDocParts, applyMerge,
   type Queryable,
 } from "../store/index.js";
-import { mapFact, mapFactAll, unitFromLabel, type RawFact, type MappedCell } from "../core/deepSpecMap.js";
+import { mapFact, mapFactAll, unitFromLabel, VALUE_RULES, type RawFact, type MappedCell } from "../core/deepSpecMap.js";
 import { isNatThroughputLabel, natThroughputDecision, NAT_AS_ROUTER_THROUGHPUT_LABEL } from "../core/natThroughput.js";
 import { FIELD_DICTIONARY } from "../core/fieldSchema.js";
 import { GENERATED_FIELDS } from "../core/fieldSchema.generated.js";
@@ -87,10 +87,13 @@ import {
 export type ApplyArgs = {
   paths: string[]; commit: boolean; sample: number; allowRegression: string | null;
   goldenDir: string | null; tag: string; vendor: string;
+  /** --partial "<reason>": the file carries ONLY value-rule cells of held sheets (a new rule applied to what is already held,
+   *  FINAL FILL ORDER 30 Sep 2026 "rules first"); every other cell refuses the run, and the gate is scoped to the offered fields */
+  partial: string | null;
 };
 
 export function parseArgs(argv: string[]): ApplyArgs {
-  const out: ApplyArgs = { paths: [], commit: false, sample: 60, allowRegression: null, goldenDir: null, tag: "cisco", vendor: "cisco" };
+  const out: ApplyArgs = { paths: [], commit: false, sample: 60, allowRegression: null, goldenDir: null, tag: "cisco", vendor: "cisco", partial: null };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === "--commit") out.commit = true;
@@ -99,12 +102,14 @@ export function parseArgs(argv: string[]): ApplyArgs {
     else if (a === "--golden-dir") out.goldenDir = argv[++i] ?? null;
     else if (a === "--tag") out.tag = argv[++i] ?? "cisco";
     else if (a === "--vendor") out.vendor = argv[++i] ?? "cisco";
+    else if (a === "--partial") out.partial = argv[++i] ?? null;
     else out.paths.push(a);
   }
   // --sample 0 checked NOTHING and the gate still printed a provenance line, which reads as a
   // pass with an empty sample. A sample is either taken or the command is not run.
   if (!Number.isFinite(out.sample) || out.sample < 1) throw new Error(`--sample must be a positive number (0 would check nothing and still print a provenance line)`);
   if (out.allowRegression !== null && !out.allowRegression.trim()) throw new Error("--allow-regression needs a reason");
+  if (out.partial !== null && !out.partial.trim()) throw new Error("--partial needs a reason");
   return out;
 }
 
@@ -716,12 +721,27 @@ export function writeReports(plan: Plan, tag: string): ReturnType<typeof reportP
  * first, to avoid burning a run row, was the one that lied, and the two could drift again the next
  * time either grew a parameter. One function, two callers, no room (5 Sep 2026).
  */
+/** --partial: every cell in the file must be one a value rule reads (label AND value shape), or the run is refused before
+ *  anything is planned for writing; the fields it offers are what the plan produced. A partial file is how a NEW rule reaches
+ *  sheets already held without re-offering their other cells (which could refill the gap rows a ruled retraction left). */
+export function partialScope(plan: Plan, reason: string): { reason: string; fields: string[] } {
+  const stray = plan.allFacts.filter((f) => !VALUE_RULES.some((r) => r.label.test(f.label) && r.value.test(String(f.value ?? "").replace(/\s+/g, " ").trim())));
+  if (stray.length) {
+    throw new Error(`--partial: ${stray.length} cell(s) no value rule reads, e.g. "${stray[0].label}" = "${String(stray[0].value).slice(0, 60)}" ` +
+      `-- a partial file carries value-rule cells only`);
+  }
+  const fields = new Set<string>();
+  for (const byKey of plan.produced.values()) for (const k of byKey.keys()) fields.add(k);
+  return { reason, fields: [...fields].sort() };
+}
+
 export function gateInputFor(
   plan: Plan,
   previous: { raw: Map<string, number>; produced: Map<string, number>; sameTagDocs: Set<string> },
-  opts: { golden: GoldenExpectation[]; sample: number; allowRegression: string | null },
+  opts: { golden: GoldenExpectation[]; sample: number; allowRegression: string | null; partial?: { reason: string; fields: string[] } | null },
 ): GateInput {
   return {
+    partial: opts.partial ?? null,
     produced: plan.produced,
     // the CELLS, never the joins: docs/DATA_MODEL.md § The list rule, and expandFragments' own comment
     facts: expandFragments(plan.allFacts),
@@ -754,7 +774,8 @@ export async function main(argv: string[]): Promise<void> {
   const plan = await planExtract(files, { vendor: a.vendor, db: pool });
   const golden = loadGolden(a.goldenDir ?? GOLDEN_DIR);
   const previous = await previousPerDoc(pool, "apply-specs", a.tag);
-  const { gate, misses } = gateExtract(gateInputFor(plan, previous, { golden, sample: a.sample, allowRegression: a.allowRegression }));
+  const partial = a.partial ? partialScope(plan, a.partial) : null;
+  const { gate, misses } = gateExtract(gateInputFor(plan, previous, { golden, sample: a.sample, allowRegression: a.allowRegression, partial }));
   const reports = writeReports(plan, a.tag);
   writeGateReport(gate, misses, a.tag);
 
@@ -763,12 +784,13 @@ export async function main(argv: string[]): Promise<void> {
   const refusedEntries: { sku: string; key: string; reason: string }[] = [];
   const inputs = {
     files: plan.files.map((f) => ({ ...hashFile(f.file), source: f.source })), commit: a.commit, sample: a.sample,
-    allow_regression: a.allowRegression, golden_dir: a.goldenDir, vendor: a.vendor,
+    allow_regression: a.allowRegression, golden_dir: a.goldenDir, vendor: a.vendor, partial,
   };
   const notes = [
     `files=${plan.files.map((f) => path.basename(f.file)).join(",")}`,
     `sources=${[...new Set(plan.files.map((f) => f.source))].join(",")}`,
     a.allowRegression ? `allow_regression=${a.allowRegression}` : "",
+    partial ? `partial=${partial.reason} (fields ${partial.fields.join(",")})` : "",
   ].filter(Boolean).join("; ");
 
   let runId: number | null = null;
