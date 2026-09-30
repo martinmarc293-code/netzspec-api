@@ -76,8 +76,10 @@ PDF apply would have scored every PDF fact a provenance miss and read as mass fa
 `tests/scraper/test_cisco_specs_pdf.py` at its line 74 (it needs the PDF cache, and the box never runs it). Fixed: the cell
 is returned whole as the HTML branch always did (`cellMatches` owns the cap-aware comparison), and only a missing index is a
 verdict — a reader exception is `pdf_error`, could-not-check. The Python suite now runs the REAL script extracted from the
-TypeScript on a cached sheet (133/0; HEAD's re-reader turns both real cells red with `out_of_range`). **The hpe and juniper
-trees carry their own `gate-extract.ts`; the fix reaches them only when they merge `8599a99`.**
+TypeScript on a cached sheet (133/0; HEAD's re-reader turns both real cells red with `out_of_range`).
+**CORRECTED after sending (checked from their branches, not assumed):** only `cisco` contains 67a4f95. `hpe`, `juniper` and
+`main` still give `cap_value` its default cap, so their one-argument call works and their re-reader was never broken. The
+risk for them is taking 67a4f95 WITHOUT 8599a99 (a cherry-pick); both sit on `cisco`, in order, so a merge brings the pair.
 
 ## Name lane — in progress, and what its gate found
 
