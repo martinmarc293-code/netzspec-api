@@ -331,6 +331,8 @@ const RUN_KIND_CLASS: Record<string, { approval: boolean; gate: boolean }> = {
   "inherit-tier-weight": AG, "derive-max-bound-weight": G,
   // ruling Q23: Versandgewicht derived from the stored weight and the ruled band table -> derives from what is stored
   "derive-shipping-weight": D,
+  // ruling Q24: a single-model sheet's document-level weight written per SKU (a read, gate re-reads every statement)
+  "apply-single-model-weight": AG,
 };
 // The vendor this lane has axes for; vendor_coverage owns every other vendor's hardware (unknown_zero counts them apart).
 const OWN_VENDOR = "cisco";

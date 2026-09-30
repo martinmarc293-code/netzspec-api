@@ -34,7 +34,7 @@ Report: `docs/reviewer/2026-09-28/weight-lane-report.md`.
 | general rule: **a unit override carries its own band** | `unitOverridesWithoutBand()` in fieldSchema, required empty by `tests/weightRulings.test.ts` (sabotage: removing the gram band names `transceiver/weight`) | — |
 | **Q23** Versandgewicht = weight + the median packaging delta of its band, `derived:shipping-allowance`, the recorded file as witness; `shipping_weight` retyped numeric (kg, the weight band), the 3 facts parsed to the printed metric figure | curated `FIELD_DICTIONARY.shipping_weight`; `data/reference/shipping-allowance-bands.json` (`scripts/shipping-allowance-bands.py`, witness sha256 recorded); `src/core/shippingAllowance.ts`; `scripts/derive-shipping-weight.mts` (run kind D); `derivedReplay` + `DERIVED_FILL_PATHS.shipping_weight` | every part with a served weight (862 at the dry run) |
 | **printed metric, never converted** (Q23's wording, applied to every mass) | `specNormalize` 1.8.8: "N lb M kg" / "N lbs / M kg" reads M; only that exact two-figure shape | renormalize of `weight` (114 values move) and `shipping_weight` (3) |
-| **Q24** a document-level weight on a sheet whose every hardware subject is one model is a per-SKU source (48 parts) | **not built yet** | — |
+| **Q24** a document-level weight on a sheet whose every hardware subject is one model is a per-SKU source ("the 48") | witness table `data/reference/single-model-weight-witnesses.json` (`scripts/single-model-weight-witnesses.py`: four conditions, every refusal listed with its reason, `--check` rebuilds from cache); `scripts/apply-single-model-weight.mts` (run kind AG): every statement re-read on its page, the dictionary's normaliser must reproduce the kilograms the page prints or the run is refused, a READ with the sheet and cell as source, re-plan 0 | 26 sheets, 30 weightless parts: 29 written, 1 skipped (`NCS1K4-1.2TL-K9=`: the cell glues the PID to the value, the normaliser refuses it) |
 
 The allowance bands (kg): [0,1) +0,6 · [1,2) +0,8 · [2,3) +1,0 · [3,5) +1,5 · [5,8) +1,7 · [8,12) +2,0 · [12,20) +2,12 ·
 [20,∞) +2,5, each with its n and quartiles in the table. The top band's spread runs to 30,5 kg: its median is the ruling's, and
@@ -49,6 +49,30 @@ so the fix is a rule, written once after every profile is final (`fieldSchema.ts
 category whose profile asks `weight` declares `shipping_weight` optional**. Optional, never required: the allowance is a ruled
 convention, not a measurement a part can be missing. `tests/weightRulings.test.ts` pins it for the six vetoed kinds (disabling
 the rule turns both cases red).
+
+## Q24: what reading every qualifying sheet found
+
+The witness table applies the ruling as four measured conditions (the generator's docstring states each): the store links
+the sheet to parts of ONE model and the sheet's own subject PIDs are that model; ONE document-level weight statement; ONE
+plain mass (no bound, multiple or sub-labelled list); and no OTHER BUILD of the model ordered as a table subject. The fourth
+was added after every qualifying sheet was read against its model:
+
+- **Two sheets order several builds** and are linked to one: the ASR 9000 RSP440 sheet orders "A9K-RSP440-TR and
+  A9K-RSP440-SE" beside -LT (different DRAM and fabric), the CRS LSP sheet orders CRS-LSP beside CRS-LSP400G. Refused as
+  series sheets. Sabotage: disabling the condition lets exactly these two back in (`--check` 28 sheets, DIFFERS).
+- **A bundle is not another build.** NC55-24X100G-SB and NC55-18H18F-BA are each the line card plus a right-to-use licence;
+  the sheet's ordering table says so in its Subcomponent column. One hardware model, a licence-suffix variant: kept. (The
+  first reading held NC55-24X100G-SB as "two builds"; the ordering table corrected it.)
+- **The first, broad form of condition 4 was wrong** ("any other model of the same category as a table subject"): it fired
+  on the store's bare `MT11` beside `MT11-HW` on four sensor sheets and on a blank line-card cover beside its card. A cover
+  is not a build; the condition is now same stem + same category + a different model, with the measurement in its docstring.
+- **Two module sheets linked only to the optic they take** (CRS-3 100GE module → CFP-100G-LR4; Nexus 7700 F3 module →
+  FET-10G) are held by hand in `HOLD`, one reason per entry; the build fails if an entry stops qualifying, so the list cannot
+  rot. The transceiver band ([1, 2000] g) refuses both values as well.
+- Refused, each listed with its reason: no document-level weight at all 34 sheets; a sub-labelled list 5; several different
+  statements 3; a bound 2; a multiple 1.
+- Four writes carry a base-unit qualifier: NC55 bundles "…(6.35 kg) without optics", MT sensors under "Weight (excluding
+  batteries)". The store already holds weights of that kind ("Without power supply: 13.7 lb (6.21 kg)").
 
 ## Held, named
 

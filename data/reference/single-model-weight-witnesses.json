@@ -1,0 +1,569 @@
+{
+ "ruling": "Q24 (reviewer, 30 Sep 2026): a document-level weight on a sheet whose every hardware subject is one model is a per-SKU source",
+ "built_by": "scripts/single-model-weight-witnesses.py",
+ "rows": [
+  {
+   "doc_id": "0ff3d2ff7fe82dcd",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/high-speed-wan-interface-cards/data_sheet_c78-692767.html",
+   "cache_path": "0ff3d2ff7fe82dcd7a49984848973f0843cb02a5.html",
+   "model": "EHWIC-4SHDSL-EA",
+   "skus": [
+    "EHWIC-4SHDSL-EA"
+   ],
+   "locator": "t7:r4:c1",
+   "statement": "3 Lbs",
+   "expected_kg": 1.360777
+  },
+  {
+   "doc_id": "1a1ab3e54571da24",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/optical-networking/network-convergence-system-1000-series/datasheet-c78-743956.html",
+   "cache_path": "1a1ab3e54571da245423aa7825d4747772c049c1.html",
+   "model": "NCS1K4-1.2TL-K9",
+   "skus": [
+    "NCS1K4-1.2TL-K9="
+   ],
+   "locator": "t6:r4:c1",
+   "statement": "NCS1K4-1.2TL-K9 3.32 Kg",
+   "expected_kg": 3.32
+  },
+  {
+   "doc_id": "1cb1b44300d93402",
+   "url": "https://documentation.meraki.com/IoT/MT_-_Sensors/Product_Information/MT_Overviews_and_Datasheets/MT11_Datasheet_-_Probe_Sensor",
+   "cache_path": "1cb1b44300d93402c72ea9f415b76a7a400fcabe.html",
+   "model": "MT11-HW",
+   "skus": [
+    "MT11-HW"
+   ],
+   "locator": "t3:r1:c1",
+   "statement": "107g",
+   "expected_kg": 0.107
+  },
+  {
+   "doc_id": "23df8e1f3a2af54a",
+   "url": "https://documentation.meraki.com/SASE_and_SD-WAN/MX/Product_Information/Overviews_and_Datasheets/MX250_Datasheet",
+   "cache_path": "23df8e1f3a2af54af2f4c2c4308f8abcad4cfd5e.html",
+   "model": "MX250",
+   "skus": [
+    "MX250"
+   ],
+   "locator": "t1:r2:c1",
+   "statement": "16 lb (7.3kg)",
+   "expected_kg": 7.3
+  },
+  {
+   "doc_id": "271b9c4d5ec892e4",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/video/rf-gateway-series/data_sheet_c78-514532.html",
+   "cache_path": "271b9c4d5ec892e4fa8e947b081930f24aff4eaf.html",
+   "model": "RFGW-DS48-1G",
+   "skus": [
+    "RFGW-DS48-1G",
+    "RFGW-DS48-1G="
+   ],
+   "locator": "t1:r5:c1",
+   "statement": "9.5 lb (4.32 kg)",
+   "expected_kg": 4.32
+  },
+  {
+   "doc_id": "291af22ccdddc8c6",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/optical-networking/network-convergence-system-1000-series/network-convergence-system-1004-800g-ds.html",
+   "cache_path": "291af22ccdddc8c6cdd533a36c4ab3ea13246ece.html",
+   "model": "NCS1K4-2-QDD-C-K9",
+   "skus": [
+    "NCS1K4-2-QDD-C-K9="
+   ],
+   "locator": "t2:r7:c1",
+   "statement": "3.2 kg",
+   "expected_kg": 3.2
+  },
+  {
+   "doc_id": "310bda858408179f",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/storage-networking/mds-9500-series-multilayer-directors/data_sheet_c78_605104.html",
+   "cache_path": "310bda858408179fa033d329eccde39fe74fe3e5.html",
+   "model": "DS-X9530-SF2AK9",
+   "skus": [
+    "DS-X9530-SF2AK9",
+    "DS-X9530-SF2AK9="
+   ],
+   "locator": "t0:r20:c1",
+   "statement": "7.25 lb (2.90 kg)",
+   "expected_kg": 2.9
+  },
+  {
+   "doc_id": "3b5e3e4b8f9ef0f6",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/optical-networking/ons-15454-series-multiservice-provisioning-platforms/data_sheet_c78-500925.html",
+   "cache_path": "3b5e3e4b8f9ef0f6265245d5b3d3c6865a429794.html",
+   "model": "15454-OPT-RAMP-C",
+   "skus": [
+    "15454-OPT-RAMP-C="
+   ],
+   "locator": "t3:r7:c1",
+   "statement": "2.1 Kg (4.6 lbs)",
+   "expected_kg": 2.1
+  },
+  {
+   "doc_id": "3f28bb26f69eb57b",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/optical-networking/network-convergence-system-2000-series/datasheet-c78-743433.html",
+   "cache_path": "3f28bb26f69eb57b5e965000b53aba20f4f406a0.html",
+   "model": "NCS2K-SVO-K9",
+   "skus": [
+    "NCS2K-SVO-K9="
+   ],
+   "locator": "t2:r8:c1",
+   "statement": "6.8 lb (3.1 kg)",
+   "expected_kg": 3.1
+  },
+  {
+   "doc_id": "43536b8b8da0eedc",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/high-speed-wan-interface-cards/data_sheet_c78_439537.html",
+   "cache_path": "43536b8b8da0eedca848f056ca480729e9c2136d.html",
+   "model": "HWIC-1B-U",
+   "skus": [
+    "HWIC-1B-U"
+   ],
+   "locator": "t5:r3:c1",
+   "statement": "0.45 lbs",
+   "expected_kg": 0.204117
+  },
+  {
+   "doc_id": "4605c5e6c93bfbde",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/routers/carrier-routing-system/product_data_sheet0900aecd80395bbe.html",
+   "cache_path": "4605c5e6c93bfbdeb3aa987e1db98fadddbc1967.html",
+   "model": "1OC768-ITU/C",
+   "skus": [
+    "1OC768-ITU/C"
+   ],
+   "locator": "t0:r11:c1",
+   "statement": "8.6 lb (3.9 kg)",
+   "expected_kg": 3.9
+  },
+  {
+   "doc_id": "7d3465a860720b87",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/optical-networking/network-convergence-system-1000-series/datasheet-c78-742294.html",
+   "cache_path": "7d3465a860720b875242688848459d0548ec5c3d.html",
+   "model": "NCS1K-OTDR",
+   "skus": [
+    "NCS1K-OTDR="
+   ],
+   "locator": "t4:r7:c1",
+   "statement": "0.5 Kg",
+   "expected_kg": 0.5
+  },
+  {
+   "doc_id": "8753489c9f20642b",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/wireless/catalyst-9800-series-wireless-controllers/nb-06-cat9800-wirel-cont-data-sheet-ctp-en.html",
+   "cache_path": "8753489c9f20642b1a168fc2c6cefe4215f6157a.html",
+   "model": "C9800-40",
+   "skus": [
+    "C9800-40-K9"
+   ],
+   "locator": "t1:r4:c1",
+   "statement": "22.8 lb (10.34 kg)",
+   "expected_kg": 10.34
+  },
+  {
+   "doc_id": "8f5f56ce4761776a",
+   "url": "https://documentation.meraki.com/IoT/MT_-_Sensors/Product_Information/MT_Overviews_and_Datasheets/MT10_Datasheet_-_Temperature_and_Humidity",
+   "cache_path": "8f5f56ce4761776a3204e65b56bb467d420cb248.html",
+   "model": "MT10-HW",
+   "skus": [
+    "MT10-HW"
+   ],
+   "locator": "t5:r1:c1",
+   "statement": "102g",
+   "expected_kg": 0.102
+  },
+  {
+   "doc_id": "9b0a0732fdacd004",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/routers/crs-1-8-slot-single-shelf-system/product_data_sheet0900aecd801d53aa.html",
+   "cache_path": "9b0a0732fdacd00474f1fcd24eca4348e1b04389.html",
+   "model": "CRS-8-RP/R",
+   "skus": [
+    "CRS-8-RP/R"
+   ],
+   "locator": "t0:r12:c1",
+   "statement": "8.75 lb (3.96 kg)",
+   "expected_kg": 3.96
+  },
+  {
+   "doc_id": "c89c3c9f3f65b686",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/catalyst-6500-series-7600-series-wireless-services-module-wism/product_data_sheet0900aecd80364340.html",
+   "cache_path": "c89c3c9f3f65b686add1a1e699cba7f0b659366f.html",
+   "model": "WS-SVC-WISM-1",
+   "skus": [
+    "WS-SVC-WISM-1-K9"
+   ],
+   "locator": "t1:r10:c1",
+   "statement": "11 lbs (5 kg)",
+   "expected_kg": 5.0
+  },
+  {
+   "doc_id": "d27dc68a8df5f0ac",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/routers/network-convergence-system-5500-series/datasheet-c78-737776.html",
+   "cache_path": "d27dc68a8df5f0aca1c00bb53d76b93341182777.html",
+   "model": "NC55-18H18F-BA",
+   "skus": [
+    "NC55-18H18F-BA",
+    "NC55-18H18F-BA="
+   ],
+   "locator": "t1:r4:c1",
+   "statement": "14.0 lbs (6.35 kg) without optics",
+   "expected_kg": 6.35
+  },
+  {
+   "doc_id": "d79e79c38784c60f",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/routers/crs-1-8-slot-single-shelf-system/product_data_sheet0900aecd80395b82.html",
+   "cache_path": "d79e79c38784c60fa8f0dc7157419f2efd1b2dbc.html",
+   "model": "4-10GE-ITU/C",
+   "skus": [
+    "4-10GE-ITU/C"
+   ],
+   "locator": "t0:r10:c1",
+   "statement": "8.6 lb (3.9 kg)",
+   "expected_kg": 3.9
+  },
+  {
+   "doc_id": "d9c10570a8437920",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/optical-networking/network-convergence-system-1000-series/datasheet-c78-2463551.html",
+   "cache_path": "d9c10570a843792088d883222f31f3d8d434c8f1.html",
+   "model": "NCS1K-MD-64-C",
+   "skus": [
+    "NCS1K-MD-64-C="
+   ],
+   "locator": "t3:r7:c1",
+   "statement": "5.5 pounds",
+   "expected_kg": 2.494758
+  },
+  {
+   "doc_id": "dde032a0d3f4f3fc",
+   "url": "https://documentation.meraki.com/IoT/MT_-_Sensors/Product_Information/MT_Overviews_and_Datasheets/MT15_Datasheet_-_Indoor_Air_Quality_w%2F%2FCO2",
+   "cache_path": "dde032a0d3f4f3fca6e07c5bdd1c201e1150e32f.html",
+   "model": "MT15-HW",
+   "skus": [
+    "MT15-HW"
+   ],
+   "locator": "t5:r1:c1",
+   "statement": "216g",
+   "expected_kg": 0.216
+  },
+  {
+   "doc_id": "e1b186f16e7ddba0",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/data_sheet_c78_439536.html",
+   "cache_path": "e1b186f16e7ddba094ef56eb73f8281962393586.html",
+   "model": "HWIC-4B-S/T",
+   "skus": [
+    "HWIC-4B-S/T"
+   ],
+   "locator": "t6:r3:c1",
+   "statement": "0.45 lbs",
+   "expected_kg": 0.204117
+  },
+  {
+   "doc_id": "efcad3936e931aa8",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/routers/4000-series-integrated-services-routers-isr/datasheet-c78-740935.html",
+   "cache_path": "efcad3936e931aa8524bbac1738cddec642df4d4.html",
+   "model": "NIM-4SHDSL-EA",
+   "skus": [
+    "NIM-4SHDSL-EA"
+   ],
+   "locator": "t6:r4:c1",
+   "statement": "0.40 lb (181g)",
+   "expected_kg": 0.181
+  },
+  {
+   "doc_id": "f41f9742fc3e3f99",
+   "url": "https://documentation.meraki.com/SASE_and_SD-WAN/MX/Product_Information/Overviews_and_Datasheets/MX450_Datasheet",
+   "cache_path": "f41f9742fc3e3f9965dddaa112595191cf0a19a3.html",
+   "model": "MX450",
+   "skus": [
+    "MX450"
+   ],
+   "locator": "t1:r2:c1",
+   "statement": "16 lb (7.3kg)",
+   "expected_kg": 7.3
+  },
+  {
+   "doc_id": "f831dd3694c924c3",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/routers/network-convergence-system-5500-series/datasheet-c78-737779.html",
+   "cache_path": "f831dd3694c924c3f3384e089af6d48442a3c77b.html",
+   "model": "NC55-24X100G-SB",
+   "skus": [
+    "NC55-24X100G-SB",
+    "NC55-24X100G-SB="
+   ],
+   "locator": "t1:r4:c1",
+   "statement": "15.3 lbs (6.94 kg) without optics",
+   "expected_kg": 6.94
+  },
+  {
+   "doc_id": "f915469e45d6cf77",
+   "url": "https://www.cisco.com/c/en/us/products/collateral/optical-networking/ons-15454-series-multiservice-provisioning-platforms/prod_data_sheet0900aecd8072b322.html",
+   "cache_path": "f915469e45d6cf77050739fc9e8080c7922cf1d0.html",
+   "model": "15454-OPT-AMP-C",
+   "skus": [
+    "15454-OPT-AMP-C="
+   ],
+   "locator": "t3:r5:c1",
+   "statement": "1.4 kg / 3.08 lbs",
+   "expected_kg": 1.4
+  },
+  {
+   "doc_id": "f93e9cf968e5e106",
+   "url": "https://documentation.meraki.com/IoT/MT_-_Sensors/Product_Information/MT_Overviews_and_Datasheets/MT12_Datasheet_-_Water_Detection",
+   "cache_path": "f93e9cf968e5e106cacd60f3f0983111a7e0a86e.html",
+   "model": "MT12-HW",
+   "skus": [
+    "MT12-HW"
+   ],
+   "locator": "t5:r1:c1",
+   "statement": "113g",
+   "expected_kg": 0.113
+  }
+ ],
+ "refused": [
+  {
+   "doc_id": "0024cf6c75f9fb28",
+   "model": "CAB-AIC-008",
+   "why": "no plain weight statement: a bound, not a value: '1.1 lb maximum'"
+  },
+  {
+   "doc_id": "00ccc6d801f07af8",
+   "model": "MT14-HW",
+   "why": "no plain weight statement: "
+  },
+  {
+   "doc_id": "0466bccd9caaa412",
+   "model": "WS-SVC-WEBVPN-K9",
+   "why": "no plain weight statement: "
+  },
+  {
+   "doc_id": "11206df080e504f3",
+   "model": "15454-OPT-BST-E",
+   "why": "no plain weight statement: "
+  },
+  {
+   "doc_id": "2bd1acffb3643746",
+   "model": "N540-6Z14S-SYS-D",
+   "why": "2 different weight statements: ['6.3 kg', '10 kg']"
+  },
+  {
+   "doc_id": "2dd09efe83da535f",
+   "model": "GRWIC-ISDN-1B-U",
+   "why": "no plain weight statement: a sub-labelled list, not one weight: '• ISDN BRI U GRWIC: 0.9 lb (0.4 kg) • ISDN BRI S/T GRWIC: 0.'"
+  },
+  {
+   "doc_id": "2f81e763d10ce625",
+   "model": "CFP-100G-LR4",
+   "why": "HELD (read by hand): a CRS-3 100GE interface-module sheet; the store links only the CFP-100G-LR4 optic it takes"
+  },
+  {
+   "doc_id": "320f1f1a80468293",
+   "model": "N9K-C93320TC-FX3P",
+   "why": "no plain weight statement: "
+  },
+  {
+   "doc_id": "32c8c566ce83f265",
+   "model": "A9K-RSP440-LT",
+   "why": "the sheet orders another build of the model as a table subject: ['A9K-RSP440-SE', 'A9K-RSP440-TR']"
+  },
+  {
+   "doc_id": "3827d5679b12c2f5",
+   "model": "CFP-100G-LR4",
+   "why": "no plain weight statement: a sub-labelled list, not one weight: '14 x 1.72 x 20.5 in.; 17.2 lb (35.56 x 4.37 x 52.07 cm; 7.8 '"
+  },
+  {
+   "doc_id": "3b42106d5ef03e07",
+   "model": "CRS-4/S",
+   "why": "no plain weight statement: "
+  },
+  {
+   "doc_id": "3f3294395c742054",
+   "model": "MT20-HW",
+   "why": "no plain weight statement: a sub-labelled list, not one weight: 'Main Device: 29; Magnet Cover: 10g'"
+  },
+  {
+   "doc_id": "4581ca4fadb38dbf",
+   "model": "AMPPC-3000",
+   "why": "no plain weight statement: "
+  },
+  {
+   "doc_id": "479470995d0b20fb",
+   "model": "MT30-HW",
+   "why": "no plain weight statement: "
+  },
+  {
+   "doc_id": "4c16f3e13ee0dac2",
+   "model": "NCS2K-OPT-EDFA-35",
+   "why": "no plain weight statement: a bound, not a value: '< 2Kg'"
+  },
+  {
+   "doc_id": "59a6a43684f25013",
+   "model": "UCS-MGPUM8-MLB",
+   "why": "no plain weight statement: "
+  },
+  {
+   "doc_id": "5b01ca64ce6fc032",
+   "model": "NM-1T3/E3",
+   "why": "no plain weight statement: "
+  },
+  {
+   "doc_id": "6327ac9ed686d696",
+   "model": "UCSC-C240M5SD",
+   "why": "no plain weight statement: "
+  },
+  {
+   "doc_id": "64f1aa389f3a29ca",
+   "model": "SM-X-1T3/E3",
+   "why": "no plain weight statement: "
+  },
+  {
+   "doc_id": "6c7bbbb007de6c0f",
+   "model": "CV-CNTR-M8N",
+   "why": "no plain weight statement: "
+  },
+  {
+   "doc_id": "733e83c5fd9293dc",
+   "model": "A9K-ISM-100",
+   "why": "no plain weight statement: 2 'Weight:' segments in the cell"
+  },
+  {
+   "doc_id": "74d364d347c8f41d",
+   "model": "15216-ID-50",
+   "why": "no plain weight statement: "
+  },
+  {
+   "doc_id": "7ca42b3c2f2fe167",
+   "model": "15454-M-SHIPKIT",
+   "why": "no plain weight statement: "
+  },
+  {
+   "doc_id": "7db8e4c60c22ec36",
+   "model": "NCS-6008-SYS",
+   "why": "no plain weight statement: "
+  },
+  {
+   "doc_id": "7e72051dfbd2c777",
+   "model": "DN3-HW-APL-XL",
+   "why": "no plain weight statement: "
+  },
+  {
+   "doc_id": "847eb08eac1ad469",
+   "model": "AMPPC-3000",
+   "why": "no plain weight statement: "
+  },
+  {
+   "doc_id": "856c33b6bc00e50b",
+   "model": "CW9800H1-MCG",
+   "why": "no plain weight statement: "
+  },
+  {
+   "doc_id": "87231505221ad859",
+   "model": "WS-SVC-AON-1",
+   "why": "no plain weight statement: "
+  },
+  {
+   "doc_id": "8d45c79fa462cf9f",
+   "model": "15216-SC-CL",
+   "why": "no plain weight statement: "
+  },
+  {
+   "doc_id": "9b08909af79d0415",
+   "model": "DWDM-SFP10G-E-I",
+   "why": "no plain weight statement: "
+  },
+  {
+   "doc_id": "ae8f54541c56e872",
+   "model": "FET-10G",
+   "why": "HELD (read by hand): a Nexus 7700 F3 48-port module sheet; the store links only the FET-10G it takes"
+  },
+  {
+   "doc_id": "b08fe82ea88398a5",
+   "model": "DP04QSDD-ER1",
+   "why": "no plain weight statement: "
+  },
+  {
+   "doc_id": "b155a2068652f7f9",
+   "model": "15454-MMU",
+   "why": "no plain weight statement: "
+  },
+  {
+   "doc_id": "b5172d1ba83aafdf",
+   "model": "MT40-HW",
+   "why": "no plain weight statement: "
+  },
+  {
+   "doc_id": "bfb55fe184689edb",
+   "model": "CBW145AC-X",
+   "why": "no plain weight statement: a sub-labelled list, not one weight: '● Access point without mounting bracket or any other accesso'"
+  },
+  {
+   "doc_id": "c6d797f922e4a680",
+   "model": "CRS-LSP400G",
+   "why": "the sheet orders another build of the model as a table subject: ['CRS-LSP']"
+  },
+  {
+   "doc_id": "cab3b890c89af457",
+   "model": "C8220TG-48A-O",
+   "why": "no plain weight statement: "
+  },
+  {
+   "doc_id": "ce3a6b9d7b2163a2",
+   "model": "15216-MD-ID-50",
+   "why": "no plain weight statement: "
+  },
+  {
+   "doc_id": "d474f3aa8076857c",
+   "model": "FM-PONTE-50",
+   "why": "no plain weight statement: a multiple, not one unit's weight: '2x 18.34 oz (0.519 Kg)'"
+  },
+  {
+   "doc_id": "e000f9866125c7a4",
+   "model": "DP04CFP2-D15",
+   "why": "no plain weight statement: "
+  },
+  {
+   "doc_id": "e010746f9aca3789",
+   "model": "PA-VXC-2TE1+",
+   "why": "no plain weight statement: "
+  },
+  {
+   "doc_id": "e3dfe62a10c131b7",
+   "model": "CFP2-WDM-DS100-HL",
+   "why": "no plain weight statement: "
+  },
+  {
+   "doc_id": "e6206e008afd9873",
+   "model": "ANT-4G-SR-OUT-TNC",
+   "why": "4 different weight statements: ['5.2 oz (147 g)', '6.0 oz (170.1 g)', '6 oz (0.17 kg)']"
+  },
+  {
+   "doc_id": "e8b82c25e4ba9b9c",
+   "model": "MV53X",
+   "why": "12 different weight statements: ['2.02 lb / 0.92kg', '2.31 lb / 1.05 kg', '0.94 lb / 0.43 kg']"
+  },
+  {
+   "doc_id": "eab1df3a1beb0fc2",
+   "model": "DN3-HW-APL-XL",
+   "why": "no plain weight statement: "
+  },
+  {
+   "doc_id": "ec8e6da16d63d683",
+   "model": "HWIC-4SHDSL-E",
+   "why": "no plain weight statement: "
+  },
+  {
+   "doc_id": "ee8862b3335c62e6",
+   "model": "C921J-4P",
+   "why": "no plain weight statement: a sub-labelled list, not one weight: '2.04 lb (0.924 kg) maximum Product dimensions:'"
+  },
+  {
+   "doc_id": "ef325d756c2a9b56",
+   "model": "DN3-HW-APL-XL",
+   "why": "no plain weight statement: "
+  },
+  {
+   "doc_id": "fc27cbe088d05a01",
+   "model": "DP01QSDD-ZF1",
+   "why": "no plain weight statement: "
+  }
+ ]
+}
