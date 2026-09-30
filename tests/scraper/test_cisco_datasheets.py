@@ -523,9 +523,9 @@ _ORDER = ('<table><tr><th>Model</th><th>Description</th></tr>' + "".join(
     + "</table>")
 
 _r = DEEP.extract_document(_feature([("Operating temperature", "23° to 122°F (-5° to 50°C) C1300-8T-E-2G, C1300-8P-E-2G, "
-                                      "C1300-16T-2G. Minimum ambient temperature for cold start is 32°F (0°C )")]), NO_MAP_URL)
-check("SE1", "value-first (the Catalyst 1300 cell): the range goes to EVERY listed model, shape E, at the value cell; the "
-             "trailing cold-start sentence is a note and is in no record",
+                                      "C1300-16T-2G. Fanless models are silent")]), NO_MAP_URL)
+check("SE1", "value-first (the CBS350 / C1300 grammar): the range goes to EVERY listed model, shape E, at the value cell; a trailing "
+             "sentence with no number is a note and is in no record",
       _e(_r) == {(m, "23° to 122°F (-5° to 50°C)") for m in ("C1300-8T-E-2G", "C1300-8P-E-2G", "C1300-16T-2G")}
       and all(x["locator"] == "t0:r1:c1" for x in _r["facts"] if x.get("shape") == "E"),
       sorted(_e(_r)))
@@ -607,6 +607,22 @@ _r = DEEP.extract_document(_feature([("Power", "C1300-8T-E-2G, C1300-16T-2G and 
 check("SE14", "SABOTAGE the digits inside a series name are not a value: 'and all SX350X models' after a list carries no "
               "STANDALONE number, so it is refused instead of becoming two models' value",
       not _e(_r) and any("no digit" in d["detail"] for d in _r["defects"]), (sorted(_e(_r)), [d["detail"] for d in _r["defects"]]))
+
+
+_r = DEEP.extract_document(_feature([("Operating temperature", "23° to 122°F (-5° to 50°C) C1300-8T-E-2G, C1300-8P-E-2G, "
+                                      "C1300-16T-2G. Minimum ambient temperature for cold start is 32°F (0°C )")]), NO_MAP_URL)
+check("SE21", "SABOTAGE a sentence WITH A NUMBER after the last list (the Catalyst 1300 cold-start minimum) conditions every "
+              "value before it: refused, never read as a bare -5..50 °C with its condition dropped",
+      not _e(_r) and any("conditions the values" in d["detail"] for d in _r["defects"]), (sorted(_e(_r)), [d["detail"] for d in _r["defects"]]))
+
+
+_r = DEEP.extract_document(_feature([("Operating temperature", "32° to 122°F (0° to 50°C): C1300-8T-E-2G, C1300-16T-2G "
+                                      "32° to 113°F (0° to 45°C): SG350-08PD")]), NO_MAP_URL)
+check("SE22", "a trailing VALUE for a model the sheet does not attribute (the SF/SG350 cell's SG350-08PD) is an "
+              "unattributable group -- skipped and reported -- not a condition: the listed models keep their value",
+      _e(_r) == {("C1300-8T-E-2G", "32° to 122°F (0° to 50°C)"), ("C1300-16T-2G", "32° to 122°F (0° to 50°C)")}
+      and any(d["code"] == "INLINE_TOKEN_UNATTRIBUTABLE" and "SG350-08PD" in d["detail"] for d in _r["defects"]),
+      (sorted(_e(_r)), [d["detail"] for d in _r["defects"]]))
 
 
 def _refused(r, why):

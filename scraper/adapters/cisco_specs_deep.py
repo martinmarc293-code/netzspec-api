@@ -824,8 +824,19 @@ def parse_inline_models(text: str, doc_pids) -> tuple:
     if has_digit(segs[0]):                       # value-first: every value precedes its list
         for i in range(1, len(segs), 2):
             pairs.append((segs[i - 1], segs[i][2]))
+        tail_models = [t for s, _e, t in toks if lists and s >= lists[-1][1] and t[0].isalpha() and not _is_pid(t.rstrip("="))]
         if INLINE_OTHERS.search(segs[-1]):
             default = segs[-1]
+        elif has_digit(segs[-1]) and tail_models:
+            # a value for a model this sheet does not attribute ('... 32° to 113°F (0° to 45°C): SG350-08PD'): that group
+            # is skipped and reported like any unattributable token; it says nothing about the models before it
+            lists[-1][3].extend(tail_models)
+        elif has_digit(segs[-1]):
+            # a sentence after the last list that carries a NUMBER conditions every value before it: the Catalyst 1300
+            # cell ends 'Minimum ambient temperature for cold start is 32°F (0°C)', so '-5 to 50 °C' is not the whole
+            # claim (the ruled range is the one that holds under every stated condition). Read without it, the value
+            # would drop its condition in silence.
+            return None, f"a note with a number after the last list conditions the values ({segs[-1].strip()[:50]!r})", []
     else:                                        # list-first: every list precedes its value
         if len(segs[0].strip(" \t,;:.()")) > 20:
             return None, f"a list-first cell that opens with prose ({segs[0].strip()[:40]!r}): not a per-model list", []
