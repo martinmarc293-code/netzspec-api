@@ -1,0 +1,87 @@
+== attribute:PoE: 39 parts
+   C9300-24S-A            [switches / Catalyst 9300] C9300-24S-A – Catalyst 9300 24-port 1G SFP with modular uplinks, Network Advantage
+   C9300-24S-E            [switches / Catalyst 9300] C9300-24S-E – Catalyst 9300 24-port 1G SFP with modular uplinks, Network Essentials
+   C9300-24S-M            [switches / Catalyst 9300] C9300-24S-M – Cisco Catalyst 9300 24-port 1G SFP, modular uplinks, Meraki Advanced or Ente
+   C9300-24T-A            [switches / Catalyst 9300] C9300-24T-A – Catalyst 9300 24-port 1G copper with modular uplinks, data only, Network Adv
+   C9300-24T-E            [switches / Catalyst 9300] C9300-24T-E – Catalyst 9300 24-port 1G copper with modular uplinks, data only, Network Ess
+   C9300-24T-M            [switches / Catalyst 9300] C9300-24T-M – Catalyst 9300 24-port 1G copper with modular uplinks, data only, Meraki Adva
+   C9300-48S-A            [switches / Catalyst 9300] C9300-48S-A – Catalyst 9300 48-port 1G SFP with modular uplinks, Network Advantage
+   C9300-48S-E            [switches / Catalyst 9300] C9300-48S-E – Catalyst 9300 48-port 1G SFP with modular uplinks, Network Essentials
+   C9300-48S-M            [switches / Catalyst 9300] C9300-48S-M – Catalyst 9300 48-port 1G SFP with modular uplinks, Meraki Advanced or Enterp
+   C9300-48T-A            [switches / Catalyst 9300] C9300-48T-A – Catalyst 9300 48-port 1G copper with modular uplinks, data only, Network Adv
+   C9300-48T-E            [switches / Catalyst 9300] C9300-48T-E – Catalyst 9300 48-port 1G copper with modular uplinks, data only, Network Ess
+   C9300-48T-M            [switches / Catalyst 9300] C9300-48T-M – Catalyst 9300 48-port 1G copper with modular uplinks, data only, Meraki Adva
+   C9300L-24T-4G-A        [switches / Catalyst 9300] C9300L-24T-4G-A – Catalyst 9300 24-port 1G copper, with fixed 4x1G SFP uplinks, data only,
+   C9300L-24T-4G-E        [switches / Catalyst 9300] C9300L-24T-4G-E – Catalyst 9300 24-port 1G copper, with fixed 4x1G SFP uplinks, data only,
+   C9300L-24T-4X-A        [switches / Catalyst 9300] C9300L-24T-4X-A – Catalyst 9300 24-port 1G copper with fixed 4x10G/1G SFP+ uplinks, data o
+   C9300L-24T-4X-E        [switches / Catalyst 9300] C9300L-24T-4X-E – Catalyst 9300 24-port 1G copper with fixed 4x10G/1G SFP+ uplinks, data o
+   C9300L-24T-4X-M        [switches / Catalyst 9300] C9300L-24T-4X-M – Catalyst 9300 24-port 1G copper with fixed 4x10G/1G SFP+ uplinks, data o
+   C9300L-48T-4G-A        [switches / Catalyst 9300] C9300L-48T-4G-A – Catalyst 9300 48-port 1G copper, with fixed 4x1G SFP uplinks, data only,
+   C9300L-48T-4G-E        [switches / Catalyst 9300] C9300L-48T-4G-E – Catalyst 9300 48-port 1G copper, with fixed 4x1G SFP uplinks, data only,
+   C9300L-48T-4X-A        [switches / Catalyst 9300] C9300L-48T-4X-A – Catalyst 9300 48-port 1G copper with fixed 4x10G/1G SFP+ uplinks, data o
+   C9300L-48T-4X-E        [switches / Catalyst 9300] C9300L-48T-4X-E – Catalyst 9300 48-port 1G copper with fixed 4x10G/1G SFP+ uplinks, data o
+   C9300L-48T-4X-M        [switches / Catalyst 9300] C9300L-48T-4X-M – Catalyst 9300 48-port 1G copper with fixed 4x10G/1G SFP+ uplinks, data o
+   C9300X-48TX-A          [switches / Catalyst 9300] C9300X-48TX-A – Catalyst 9300 48-port 10G/mGig copper with modular uplink, data only, Netw
+   C9300X-48TX-E          [switches / Catalyst 9300] C9300X-48TX-E – Catalyst 9300 48-port 10G/mGig copper with modular uplink, data only, Netw
+   IEM-3300-14T2S=        [switches / IE 3300] Catalyst IE3300 with 14 GE Copper + 2 GE SFP, Expansion Module
+   IEM-3300-16T=          [switches / IE 3300] Catalyst IE3300 with 16 GE Copper ports, Expansion Module
+   IEM-3300-4MU=          [switches / IE 3300] Catalyst IE3300 with 4 2.5G Copper (4PPoE Type4), Expansion Module
+   IEM-3300-6T2S=         [switches / IE 3300] Catalyst IE3300 with 6 GE Copper + 2 GE SFP, Expansion Module
+   IEM-3300-8S=           [switches / IE 3300] Catalyst IE3300 with 8 GE SFP Fiber ports, Expansion Module
+   IEM-3300-8T=           [switches / IE 3300] Catalyst IE3300 with 8 GE Copper ports, Expansion Module
+   IEM-3400-8S=           [switches / IE 3400] Catalyst IE3400 with 8 GE SFP ports, Expansion Module
+   IEM-3400-8T=           [switches / IE 3400] Catalyst IE3400 with 8 GE Copper ports, Expansion Module
+   IEM-3500-14T2S=        [switches / IE 3500] IE3500 with 14 GE Copper + 2 GE SFP, Expansion Module
+   IEM-3500-16T=          [switches / IE 3500] IE3500 with 16 GE Copper ports, Expansion Module
+   IEM-3500-4MU=          [switches / IE 3500] IE3500 with 4 2.5G Copper (4PPoE), Expansion Module
+   IEM-3500-6T2S=         [switches / IE 3500] IE3500 with 6 GE Copper + 2 GE SFP, Expansion Module
+   IEM-3500-8S=           [switches / IE 3500] IE3500 with 8 GE SFP Fiber ports, Expansion Module
+   IEM-3500-8T=           [switches / IE 3500] IE3500 with 8 GE Copper ports, Expansion Module
+   N9K-X9400-8D           [switches / Nexus 9500] Cisco N9400 8p 400G QSFP-DD LEM
+== attribute:Stromversorgung: 33 parts
+   PWR-IE240W-AC-IEC=     [switches / Catalyst IE3100 Ru] 240W AC to DC Power Supply with IEC connector (IEC 60320 C16)
+   PWR-IE400W-AC-IEC=     [switches / Catalyst IE3100 Ru] 400W AC to DC Power Supply with IEC connector (IEC 60320 C16)
+   SF350-24MP             [switches / Small Business 350] Cisco SF350-24MP 350-Series Managed Switch (L2, SB-OS) – 24× FE-RJ45 (PoE+) + 2× 1G-Combo 
+   SF350-24P              [switches / Small Business 350] Cisco SF350-24P 350-Series Managed Switch (L2, SB-OS) – 24× FE-RJ45 (PoE+) + 2× 1G-Combo +
+   SF350-48MP             [switches / Small Business 350] Cisco SF350-48MP 350-Series Managed Switch (L2, SB-OS) – 48× FE-RJ45 (PoE+) + 2× 1G-Combo 
+   SF350-48P              [switches / Small Business 350] Cisco SF350-48P 350-Series Managed Switch (L2, SB-OS) – 48× FE-RJ45 (PoE+) + 2× 1G-Combo +
+   SF352-08MP             [switches / Small Business 350] Cisco SF352-08MP 350-Series Managed Switch (L2, SB-OS) – 8× FE-RJ45 (PoE+) + 2× 1G-Combo
+   SF352-08P              [switches / Small Business 350] Cisco SF352-08P 350-Series Managed Switch (L2, SB-OS) – 8× FE-RJ45 (PoE+) + 2× 1G-Combo
+   SG350-10MP             [switches / Small Business 350] Cisco SG350-10MP 350-Series Managed Switch (L2, SB-OS) – 8× 1G-RJ45 (PoE+) + 2× 1G-Combo
+   SG350-10P              [switches / Small Business 350] Cisco SG350-10P 350-Series Managed Switch (L2, SB-OS) – 8× 1G-RJ45 (PoE+) + 2× 1G-Combo
+   SG350-10SFP            [switches / Small Business 350] Cisco SG350-10SFP 350-Series Managed Switch (L2, SB-OS) – 8× 1G-SFP + 2× 1G-Combo
+   SG350-28MP             [switches / Small Business 350] Cisco SG350-28MP 350-Series Managed Switch (L2, SB-OS) – 24× 1G-RJ45 (PoE+) + 2× 1G-Combo 
+   SG350-28P              [switches / Small Business 350] Cisco SG350-28P 350-Series Managed Switch (L2, SB-OS) – 24× 1G-RJ45 (PoE+) + 2× 1G-Combo +
+   SG350-28SFP            [switches / Small Business 350] Cisco SG350-28SFP 350-Series Managed Switch (L2, SB-OS) – 24× 1G-SFP + 2× 1G-Combo + 2× 1G
+   SG350-52MP             [switches / Small Business 350] Cisco SG350-52MP 350-Series Managed Switch (L2, SB-OS) – 48× 1G-RJ45 (PoE+) + 2× 1G-Combo 
+   SG350-52P              [switches / Small Business 350] Cisco SG350-52P 350-Series Managed Switch (L2, SB-OS) – 48× 1G-RJ45 (PoE+) + 2× 1G-Combo +
+   SG350X-12PMV           [switches / Small Business 350] Cisco SG350X-12PMV 350X-Series stapelbarer Managed Switch (L2, SB-OS) – 12× 5G-RJ45 (PoE+)
+   SG350X-24MP            [switches / Small Business 350] Cisco SG350X-24MP 350X-Series stapelbarer Managed Switch (L2, SB-OS) – 24× 1G-RJ45 (PoE+) 
+   SG350X-24P             [switches / Small Business 350] Cisco SG350X-24P 350X-Series stapelbarer Managed Switch (L2, SB-OS) – 24× 1G-RJ45 (PoE+) +
+   SG350X-24PD            [switches / Small Business 350] Cisco SG350X-24PD 350X-Series stapelbarer Managed Switch (L2, SB-OS) – 20× 1G-RJ45 (PoE+) 
+   SG350X-24PV            [switches / Small Business 350] Cisco SG350X-24PV 350X-Series stapelbarer Managed Switch (L2, SB-OS) – 16× 1G-RJ45 (PoE+) 
+   SG350X-48MP            [switches / Small Business 350] Cisco SG350X-48MP 350X-Series stapelbarer Managed Switch (L2, SB-OS) – 48× 1G-RJ45 (PoE+) 
+   SG350X-48P             [switches / Small Business 350] Cisco SG350X-48P 350X-Series stapelbarer Managed Switch (L2, SB-OS) – 48× 1G-RJ45 (PoE+) +
+   SG350X-48PV            [switches / Small Business 350] Cisco SG350X-48PV 350X-Series stapelbarer Managed Switch (L2, SB-OS) – 40× 1G-RJ45 (PoE+) 
+   SG350X-8PMD            [switches / Small Business 350] Cisco SG350X-8PMD 350X-Series stapelbarer Managed Switch (L2, SB-OS) – 8× 2,5G-RJ45 (PoE+)
+   SG350XG-24F            [switches / Small Business 350] Cisco SG350XG-24F 350X-Series stapelbarer Managed Switch (L2, SB-OS) – 22× 10G-SFP+ + 2× 1
+   SG350XG-24T            [switches / Small Business 350] Cisco SG350XG-24T 350X-Series stapelbarer Managed Switch (L2, SB-OS) – 22× 10G-RJ45 + 2× 1
+   SG350XG-2F10           [switches / Small Business 350] Cisco SG350XG-2F10 350X-Series stapelbarer Managed Switch (L2, SB-OS) – 10× 10G-RJ45 + 2× 
+   SG350XG-48T            [switches / Small Business 350] Cisco SG350XG-48T 350X-Series stapelbarer Managed Switch (L2, SB-OS) – 46× 10G-RJ45 + 2× 1
+   SG355-10P              [switches / Small Business 350] Cisco SG355-10P 350-Series Managed Switch (L2, SB-OS) – 8× 1G-RJ45 (PoE+) + 2× 1G-Combo
+   SX350X-08              [switches / Small Business 350] Cisco SX350X-08 350X-Series stapelbarer Managed Switch (L2, SB-OS) – 6× 10G-RJ45 + 2× 10G-
+   SX350X-12              [switches / Small Business 350] Cisco SX350X-12 350X-Series stapelbarer Managed Switch (L2, SB-OS) – 10× 10G-RJ45 + 2× 10G
+   SX350X-24F             [switches / Small Business 350] Cisco SX350X-24F 350X-Series stapelbarer Managed Switch (L2, SB-OS) – 20× 10G-SFP+ + 4× 10
+== attribute:Stacking: 12 parts
+   C9200L-24P-4G-A        [switches / Catalyst 9200] C9200L-24P-4G-A – Catalyst 9200L 24-port PoE+ 4x1G uplink Switch, Network Advantage
+   C9200L-24P-4G-E        [switches / Catalyst 9200] C9200L-24P-4G-E – Catalyst 9200L 24-port PoE+ 4x1G uplink Switch, Network Essentials
+   C9200L-24P-4X-A        [switches / Catalyst 9200] C9200L-24P-4X-A – Catalyst 9200L 24-port PoE+ 4x10G uplink Switch, Network Advantage
+   C9200L-24P-4X-E        [switches / Catalyst 9200] C9200L-24P-4X-E – Catalyst 9200L 24-port PoE+ 4x10G uplink Switch, Network Essentials
+   C9200L-48P-4G-A        [switches / Catalyst 9200] C9200L-48P-4G-A – Catalyst 9200L 48-port PoE+ 4x1G uplink Switch, Network Advantage
+   C9200L-48P-4G-E        [switches / Catalyst 9200] C9200L-48P-4G-E – Catalyst 9200L 48-port PoE+ 4x1G uplink Switch, Network Essentials
+   C9200L-48P-4X-A        [switches / Catalyst 9200] C9200L-48P-4X-A – Catalyst 9200L 48-port PoE+ 4x10G uplink Switch, Network Advantage
+   C9200L-48P-4X-E        [switches / Catalyst 9200] C9200L-48P-4X-E – Catalyst 9200L 48-port PoE+ 4x10G uplink Switch, Network Essentials
+   C9200L-48PL-4G-A       [switches / Catalyst 9200] C9200L-48PL-4G-A – Catalyst 9200L 48-port partial PoE+ 4x1G uplink Switch, Network Advanta
+   C9200L-48PL-4G-E       [switches / Catalyst 9200] C9200L-48PL-4G-E – Catalyst 9200L 48-port partial PoE+ 4x1G uplink Switch, Network Essenti
+   C9200L-48PL-4X-A       [switches / Catalyst 9200] C9200L-48PL-4X-A – Catalyst 9200L 48-port partial PoE+ 4x10G uplink Switch, Network Advant
+   C9200L-48PL-4X-E       [switches / Catalyst 9200] C9200L-48PL-4X-E – Catalyst 9200L 48-port partial PoE+ 4x10G uplink Switch, Network Essent

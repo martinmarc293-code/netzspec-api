@@ -322,6 +322,10 @@ HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). R
    psu_config + input_voltage; today "Power" maps to __not_a_spec -- a value-shaped mapper rule), Stacking 12 (rule B:
    stacking_bandwidth > 0 -> stackable yes, "N/A" -> no, derived:stackable-from-bandwidth, register in DERIVED_FILL_PATHS).
    Measure each rule's population first, dry-run, gate, commit, rebuild, board, scorecard --record, report.
+   MEASURED 30 Sep (docs/reviewer/2026-09-28/three-rules-populations.txt, the sole-blocked lists): PoE 39 = 20 C9300 copper
+   'data only' (rule D covers) + 6 C9300 SFP models + 12 IEM-3300/3400/3500 expansion modules + 1 N9K-X9400-8D (NOT covered by D
+   as ruled); Stromversorgung 33 = 31 Small Business 350 switches (SF350/SG350/SG350X/SX350X: one sheet family, rule C) + 2
+   PWR-IE power supplies; Stacking 12 = C9200L models (rule B). Realistic unlock ~63 (not 84): D 20 + C up to 31 + B 12.
 2. then the comparator round (see NOW); 3. then the second-source evaluation (weight 919 is source-blocked: measured 30 Sep).
 
 ## Pinned predictions
