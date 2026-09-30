@@ -88,8 +88,11 @@ for (const p of plans) {
   }
 }
 const precision = checked ? hits / checked : plans.length ? 0 : 1;
+// recall = the share of the plan's model rows that could be re-read at all: an unreadable page is not a pass
+const recall = seen.size ? (seen.size - unreadable) / seen.size : 1;
 const gate = { method: "every model row re-read on its cached page: the model SKU and the weight's number", sampled: seen.size, checked, unreadable,
-  precision: Number(precision.toFixed(4)), passed: plans.length === 0 || (precision === 1 && unreadable === 0), misses: misses.slice(0, 10) };
+  precision: Number(precision.toFixed(4)), recall: Number(recall.toFixed(4)), passed: plans.length === 0 || (precision === 1 && unreadable === 0),
+  misses: misses.slice(0, 10) };
 
 const planPath = planFileAt(ROOT, "inherit-tier-weight");
 fs.mkdirSync(path.dirname(planPath), { recursive: true });
