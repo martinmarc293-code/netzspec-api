@@ -73,11 +73,12 @@ const box = execFileSync("ssh", ["-o", "ConnectTimeout=20", "-i", path.join(os.h
 const R = JSON.parse(box.trim().split("\n").filter((l) => l.startsWith("{")).pop()!);
 const today = readJson(TODAY);
 
-// the transcript: the newest .jsonl of this project
-const tdir = path.join(os.homedir(), ".claude", "projects", "D--Project");
-const tfile = fs.readdirSync(tdir).filter((f) => f.endsWith(".jsonl")).map((f) => path.join(tdir, f))
-  .sort((a, b) => fs.statSync(b).mtimeMs - fs.statSync(a).mtimeMs)[0];
-const entries = fs.readFileSync(tfile, "utf8").split("\n").filter(Boolean).map((l) => { try { return JSON.parse(l); } catch { return null; } }).filter(Boolean);
+// THIS session's transcript, named explicitly (--transcript, or NETZSPEC_SESSION_TRANSCRIPT). The first version took the project
+// directory's NEWEST .jsonl and read another session running in D:\Project: 0 questions, the wrong context, a 6-hour window.
+// Without a transcript, asks / commands / context are printed as not computed -- never borrowed from another session.
+const tfile = arg("--transcript") ?? process.env.NETZSPEC_SESSION_TRANSCRIPT ?? null;
+if (tfile && !fs.existsSync(tfile)) { console.error(`no transcript at ${tfile}`); process.exit(2); }
+const entries = tfile ? fs.readFileSync(tfile, "utf8").split("\n").filter(Boolean).map((l) => { try { return JSON.parse(l); } catch { return null; } }).filter(Boolean) : [];
 const sends: { at: string; text: string }[] = [];
 const toolIds = new Map<string, string>();
 let lastUsage: any = null;
@@ -113,12 +114,14 @@ for (const block of log.split("@@").filter(Boolean)) {
   commits.push({ sha, subject, files: files.filter(Boolean) });
 }
 const seen = new Set<string>();
+const CODE = /^(src|scripts|scraper|tests|ops)\//;
 let fixups = 0, reverts = 0;
 const fixupList: string[] = [];
 for (const c of commits) {
   if (/^Revert\b/i.test(c.subject)) reverts++;
-  else if (/\b(fix|fixes|fixed|correct|corrected|wrong)\b/i.test(c.subject) && c.files.some((f) => seen.has(f))) { fixups++; fixupList.push(c.sha.slice(0, 7)); }
-  c.files.forEach((f) => seen.add(f));
+  // CODE only: a state.md or report commit that mentions a fix is bookkeeping, not rework (the first run counted one)
+  else if (/\b(fix|fixes|fixed|correct|corrected|wrong)\b/i.test(c.subject) && c.files.some((f) => CODE.test(f) && seen.has(f))) { fixups++; fixupList.push(c.sha.slice(0, 7)); }
+  c.files.filter((f) => CODE.test(f)).forEach((f) => seen.add(f));
 }
 
 // the night, from the dashboard's own light
@@ -158,8 +161,8 @@ const lines = [
   `outcome   ready ${readyDelta === null ? "(first scorecard)" : `${readyDelta >= 0 ? "+" : ""}${readyDelta}`} (${R.ready} of ${R.scanned}) · filled ${filledDelta === null ? "(first)" : `${filledDelta >= 0 ? "+" : ""}${filledDelta}%`} (${R.filled_pct}%) · today's rule unlocked: predicted ${Number.isFinite(predicted) ? predicted : "n/a"} / actual ${actual ?? "n/a"}`,
   `focus     ${offList ? `off the top-5 by ready-gain (${today?.blocker_key ?? "no today.json"})` : `blocker #${rank + 1} of the top-5 (${today.blocker_key})`} · off-list work: ${offList ? `yes (${today?.rule ?? "?"})` : "no"} · top-5: ${R.top5.map((b: any) => `${b.blocker} ${b.parts}`).join(", ")}`,
   `rework    commits fixing my own earlier commits: ${fixups}${fixupList.length ? ` (${fixupList.join(", ")})` : ""} · reverts: ${reverts} · commits in window: ${commits.length}`,
-  `asks      questions to reviewer: ${questions} · of which already ruled in state.md: n/a (a reading, not a count)`,
-  `cost      context used: ${ctxPct ?? "?"}% (${ctx?.toLocaleString("en") ?? "?"} of ${CONTEXT_WINDOW.toLocaleString("en")} tokens) · commands run: ${commands} · time since last report: ${hhmm(now.getTime() - new Date(since).getTime())}`,
+  `asks      ${tfile ? `questions to reviewer: ${questions}` : "questions to reviewer: not computed (no transcript given)"} · of which already ruled in state.md: n/a (a reading, not a count)`,
+  `cost      ${tfile ? `context used: ${ctxPct ?? "?"}% (${ctx?.toLocaleString("en") ?? "?"} of ${CONTEXT_WINDOW.toLocaleString("en")} tokens) · commands run: ${commands}` : "context / commands: not computed (no transcript given)"} · time since last report: ${hhmm(now.getTime() - new Date(since).getTime())}`,
   `streak    consecutive reports with ready +0: ${streak} · night: ${card.light}`,
 ];
 console.log(lines.join("\n"));
