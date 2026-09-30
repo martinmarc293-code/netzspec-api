@@ -35,8 +35,10 @@ import sys as _sys
 from pathlib import Path as _P0
 _sys.path.insert(0, str(_P0(__file__).resolve().parent.parent))
 from netzscrape import is_attributable_pid, cap_value
+from sources.base import is_part_number   # the queue's own part-number test: refuses bare words, quantities, short tokens
 
 import json as _json
+import os
 import re
 import sys
 from pathlib import Path as _Path
@@ -97,6 +99,46 @@ def _is_pid(s: str) -> bool:
         if _norm_pid(c) in _KNOWN_NORM:
             return True
     return False
+
+
+# THE DOCUMENT'S PID LIST FROM ITS ORDERING TABLES (reviewer ruling, 30 Sep 2026). A two-column "Product ID (PID) |
+# Description" table is how every UCS / HyperFlex spec sheet lists what can be ordered (c220m7: from page 17), and no shape
+# read it: `param` wants a Parameter/Value header, `grid` wants three columns, and `_is_pid` knows only the PIDs the
+# ground-truth map lists for THIS url -- so every sheet the map has never seen came out with facts and pid_list 0 (dry run 5:
+# 27 of 27 UCS / HyperFlex sheets), and nothing could inherit. A token from such a table enters pid_list only when it matches
+# the SKU grammar (is_attributable_pid AND sources.base.is_part_number, which refuses the bare words a heading row carries:
+# 'Note' passed is_attributable_pid alone) AND exists in the catalogue (the file NETZSPEC_KNOWN_SKUS_FILE names, one SKU per
+# line, compared through _norm_pid). The per-sheet hit rate is printed, so a misread column shows as a LOW RATE, never as
+# new parts. No fact is written from these tables. Without a catalogue file nothing enters the list: refuse, never guess.
+PID_TABLE_HDR = re.compile(r"^\s*(product\s*id\b|pid\b|part\s*(number|no\.?)\b)", re.I)
+_CATALOGUE: set[str] = set()
+_CATALOGUE_LOADED = False
+
+
+def _load_catalogue() -> set[str]:
+    global _CATALOGUE, _CATALOGUE_LOADED
+    if not _CATALOGUE_LOADED:
+        _CATALOGUE_LOADED = True
+        f = os.environ.get("NETZSPEC_KNOWN_SKUS_FILE", "")
+        if f and _Path(f).exists():
+            _CATALOGUE = {_norm_pid(x) for x in _Path(f).read_text(encoding="utf-8").splitlines() if x.strip()}
+    return _CATALOGUE
+
+
+def pid_table_pids(rows: list[list], catalogue: set[str]) -> tuple[set[str], set[str]] | None:
+    """(read, listed) for one table when it is a two-column PID | Description ordering table, else None.
+
+    read   = every first-column token that matches the SKU grammar;
+    listed = the ones the catalogue holds (compared through _norm_pid). A cell may carry several PIDs on separate lines."""
+    if not rows or len(rows) < 2 or max(len(r) for r in rows) != 2 or not PID_TABLE_HDR.match(rows[0][0] or ""):
+        return None
+    read: set[str] = set()
+    for r in rows[1:]:
+        for tok in re.split(r"[\s,;]+", (r[0] or "") if r else ""):
+            tok = tok.strip().rstrip(".,;:")
+            if tok and is_attributable_pid(tok) and is_part_number(tok)[0]:
+                read.add(tok)
+    return read, {p for p in read if _norm_pid(p) in catalogue}
 
 
 # A two-column "Parameter | Value" table header, the dominant shape in Cisco spec sheets.
@@ -748,6 +790,7 @@ def run(browser, urls: list[str]) -> list[dict]:
     global _KNOWN_NORM
     out: list[dict] = []
     sku_map = _load_sku_map()
+    catalogue = _load_catalogue()
 
     for url in urls:
         if not url.lower().split("?")[0].endswith(".pdf"):
@@ -773,6 +816,7 @@ def run(browser, urls: list[str]) -> list[dict]:
         trimmed = {n[:-1] for n in _KNOWN_NORM if len(n) > 6 and n[-1].isdigit()} - _KNOWN_NORM
         _KNOWN_NORM |= trimmed
         pids_seen: set[str] = set()
+        pid_read: set[str] = set()          # every grammar-valid token of the PID tables; pids_seen gets the catalogue's
         before = len(out)
         counts = {"param": 0, "grid": 0, "textline": 0, "markers": 0, "truncated": 0,
                   "overprint": 0, "not_a_spec": 0}
@@ -831,6 +875,13 @@ def run(browser, urls: list[str]) -> list[dict]:
                     rows = merged_rows
                     hdr = rows[0]
                     ncols = max(len(r) for r in rows)
+
+                    # an ORDERING table: its PIDs are the document's list; it yields no fact (see PID_TABLE_HDR)
+                    got = pid_table_pids(rows, catalogue)
+                    if got is not None:
+                        pid_read |= got[0]
+                        pids_seen |= got[1]
+                        continue
 
                     # Shape "param": two-column Parameter/Value. Document-scoped -- see the
                     # scope note at the top of this file.
@@ -951,11 +1002,16 @@ def run(browser, urls: list[str]) -> list[dict]:
 
             npages = len(pdf.pages)
 
+        listed_from_tables = {p for p in pid_read if _norm_pid(p) in catalogue}
         out.append({"__doc__": True, "source_url": url, "pid_list": sorted(pids_seen),
-                    "tables": npages, "defects": defects})
+                    "tables": npages, "defects": defects,
+                    "pid_table": {"read": len(pid_read), "in_catalogue": len(listed_from_tables),
+                                  "catalogue_given": bool(catalogue)}})
         print(f"  [cisco-specs-pdf] {url[-46:]}: {len(out)-before-1} facts "
               f"(param={counts['param']} grid={counts['grid']} textline={counts['textline']}), {npages}p, "
-              f"{len(pids_seen)} PIDs, defects={len(defects)}, "
+              f"{len(pids_seen)} PIDs (PID tables: {len(pid_read)} read, {len(listed_from_tables)} in the catalogue"
+              f"{f', {100 * len(listed_from_tables) // len(pid_read)}%' if pid_read else ''}"
+              f"{'' if catalogue else ', NO CATALOGUE GIVEN: none listed'}), defects={len(defects)}, "
               f"footnote markers stripped={counts['markers']}, truncated={counts['truncated']}, "
               f"overprinted glyphs removed={counts['overprint']}, "
               f"picture cells refused={counts['not_a_spec']}", flush=True)

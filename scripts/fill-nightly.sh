@@ -128,7 +128,8 @@ if [ -s "$NIGHT/pdf.txt" ]; then
   mkdir -p "$NIGHT/pdfx"; : > "$NIGHT/extract-pdf-refused.txt"; i=0
   while IFS= read -r u; do
     i=$((i + 1)); printf '%s\n' "$u" > "$NIGHT/pdfx/one.txt"
-    timeout 300 systemd-run --scope -q -p MemoryMax=1200M -p MemorySwapMax=0 -- python3 scraper/run.py cisco-specs-pdf --cache-only \
+    NETZSPEC_KNOWN_SKUS_FILE="$NIGHT/known-skus.txt" timeout 300 systemd-run --scope -q -p MemoryMax=1200M -p MemorySwapMax=0 \
+      -- python3 scraper/run.py cisco-specs-pdf --cache-only \
       --urls-file "$NIGHT/pdfx/one.txt" --out "$NIGHT/pdfx/extract-pdf-$i.json" >> "$NIGHT/extract-pdf.log" 2>&1 \
       || { echo "$u	exit $?" >> "$NIGHT/extract-pdf-refused.txt"; rm -f "$NIGHT/pdfx/extract-pdf-$i.json"; }
   done < "$NIGHT/pdf.txt"

@@ -39,6 +39,9 @@ def main() -> int:
     import psycopg
     with psycopg.connect(env()["DATABASE_URL"], autocommit=True, application_name="cisco/fill-night-docs") as c:
         now = c.execute("SELECT now()").fetchone()[0]
+        # the catalogue the PDF extractor's PID-table reader checks a token against (ruling 30 Sep 2026: grammar AND catalogue)
+        skus = [r[0] for r in c.execute("""SELECT p.sku FROM parts p JOIN vendors v ON v.id = p.vendor_id
+                                            WHERE v.slug = 'cisco' AND p.retired_at IS NULL ORDER BY 1""").fetchall()]
         rows = c.execute("""SELECT q.url FROM fetch_queue q JOIN sources s ON s.id = q.source_id
                              WHERE s.slug = 'cisco-datasheets' AND q.task = 'datasheet' AND q.status = 'done'
                                AND q.updated_at > %s::timestamptz AND q.updated_at <= %s AND q.url IS NOT NULL
@@ -55,7 +58,9 @@ def main() -> int:
     out.mkdir(parents=True, exist_ok=True)
     (out / "html.txt").write_text("".join(u + "\n" for u in html), encoding="utf-8")
     (out / "pdf.txt").write_text("".join(u + "\n" for u in pdf), encoding="utf-8")
+    (out / "known-skus.txt").write_text("".join(s + "\n" for s in skus), encoding="utf-8")
     info = {"since": a.since, "watermark_next": now.isoformat(), "finished": len(rows), "html": len(html), "pdf": len(pdf),
+            "catalogue_skus": len(skus),
             "not_cached": len(missing), "not_cached_examples": missing[:5]}
     (out / "docs.json").write_text(json.dumps(info, indent=1) + "\n", encoding="utf-8")
     print(f"documents finished since {a.since}: {len(rows)} (html {len(html)}, pdf {len(pdf)}, not cached {len(missing)}); "
