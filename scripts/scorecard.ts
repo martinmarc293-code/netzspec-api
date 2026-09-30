@@ -1,0 +1,166 @@
+// scripts/scorecard.ts — the reviewer's PERFORMANCE CHECK (standing order, 30 Sep 2026): the SCORECARD at the end of every
+// report, computed here and never typed by hand; the AUTOMATIC FLAGS are printed first when any fires.
+//
+//   npx tsx scripts/scorecard.ts [--record]                  compute; --record appends it to data/reports/scorecard.jsonl
+//   npx tsx scripts/scorecard.ts --verdict "<one line>"      the reviewer's verdict, set on the last recorded entry
+//   npx tsx scripts/scorecard.ts --dump-ready                (run ON THE BOX by the laptop run) ready, filled %, top-5 sole blockers
+//
+// WHERE EACH NUMBER COMES FROM, so none of them is a sentence:
+//   ready / filled / top-5      the store, computed fresh ON THE BOX (--dump-ready over ssh): jtlReadiness over every live Cisco
+//                               hardware SKU (the export's own function), completeness sums, blockers held by exactly one reason
+//   today's rule                data/reports/today.json {date, rule, blocker_key, predicted_unlock, predicted_at_ready}
+//   rework                      git log since the previous scorecard: reverts; and fix-ups = commits whose subject says
+//                               fix/correct/wrong and that touch a file an EARLIER commit of the same window touched
+//   asks / commands / context   this session's transcript (the newest .jsonl of the project): the messages sent to the reviewer
+//                               through the browser (their question marks), tool calls since the previous scorecard, and the last
+//                               call's input + cache tokens against a 1,000,000-token window
+//   night                       the dashboard's own light, https://api.netzspec.com/fill/cisco/fill.json
+// NOT COMPUTABLE, AND SAID SO: whether a question was "already ruled in state.md" (that is a reading, not a count) and whether a
+// gate/test failure was caused by my own change. The script prints them as `n/a` and never folds them into a pass.
+import fs from "node:fs";
+import path from "node:path";
+import os from "node:os";
+import { execFileSync } from "node:child_process";
+
+const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1")), "..");
+const LOG = path.join(ROOT, "data", "reports", "scorecard.jsonl");
+const TODAY = path.join(ROOT, "data", "reports", "today.json");
+const CONTEXT_WINDOW = 1_000_000;
+const argv = process.argv.slice(2);
+const arg = (k: string) => { const i = argv.indexOf(k); return i >= 0 ? argv[i + 1] : undefined; };
+const readJson = (f: string): any => { try { return JSON.parse(fs.readFileSync(f, "utf8")); } catch { return null; } };
+const history: any[] = fs.existsSync(LOG) ? fs.readFileSync(LOG, "utf8").split("\n").filter(Boolean).map((l) => JSON.parse(l)) : [];
+
+// ------------------------------------------------------------------------------------------------ --dump-ready (on the box)
+if (argv.includes("--dump-ready")) {
+  const { query, closePool } = await import("../src/store/db.js");
+  const { jtlReadiness } = await import("../src/api/queries/jtlExport.js");
+  const skus = (await query<{ sku: string }>(`SELECT p.sku FROM parts p JOIN vendors v ON v.id = p.vendor_id
+    WHERE v.slug = 'cisco' AND p.retired_at IS NULL AND p.product_class = 'hardware'`)).rows.map((r) => r.sku);
+  let ready = 0;
+  const sole = new Map<string, number>();
+  for (let i = 0; i < skus.length; i += 2000) {
+    const r = await jtlReadiness({ vendor: "cisco", skus: skus.slice(i, i + 2000) });
+    for (const s of r.skus ?? []) {
+      if (s.ready) { ready++; continue; }
+      const rs = [...new Set(s.reasons)];
+      if (rs.length === 1) sole.set(rs[0], (sole.get(rs[0]) ?? 0) + 1);
+    }
+  }
+  const f = (await query<{ present: string; total: string }>(`SELECT sum(c.required_present)::text AS present, sum(c.required_total)::text AS total
+    FROM completeness c JOIN parts p ON p.id = c.part_id JOIN vendors v ON v.id = p.vendor_id WHERE v.slug = 'cisco' AND NOT c.no_profile`)).rows[0];
+  console.log(JSON.stringify({ ready, scanned: skus.length, filled_pct: Math.round((1000 * Number(f.present)) / Number(f.total)) / 10,
+    top5: [...sole].sort((a, b) => b[1] - a[1]).slice(0, 5).map(([k, n]) => ({ blocker: k, parts: n })) }));
+  await closePool();
+  process.exit(0);
+}
+
+// ------------------------------------------------------------------------------------------------ --verdict
+if (arg("--verdict") !== undefined) {
+  if (!history.length) { console.error("no recorded scorecard to attach a verdict to"); process.exit(2); }
+  history[history.length - 1].verdict = arg("--verdict");
+  fs.writeFileSync(LOG, history.map((h) => JSON.stringify(h)).join("\n") + "\n");
+  console.log(`verdict set on the scorecard of ${history[history.length - 1].at}`);
+  process.exit(0);
+}
+
+// ------------------------------------------------------------------------------------------------ the scorecard
+const prev = history[history.length - 1] ?? null;
+const now = new Date();
+// readiness: fresh, on the box, through the deployed script
+const box = execFileSync("ssh", ["-o", "ConnectTimeout=20", "-i", path.join(os.homedir(), ".ssh", "dubaifix_hetzner"), "root@77.42.72.81",
+  "cd /root/netzspec-api && npx tsx scripts/scorecard.ts --dump-ready"], { encoding: "utf8", timeout: 600_000 });
+const R = JSON.parse(box.trim().split("\n").filter((l) => l.startsWith("{")).pop()!);
+const today = readJson(TODAY);
+
+// the transcript: the newest .jsonl of this project
+const tdir = path.join(os.homedir(), ".claude", "projects", "D--Project");
+const tfile = fs.readdirSync(tdir).filter((f) => f.endsWith(".jsonl")).map((f) => path.join(tdir, f))
+  .sort((a, b) => fs.statSync(b).mtimeMs - fs.statSync(a).mtimeMs)[0];
+const entries = fs.readFileSync(tfile, "utf8").split("\n").filter(Boolean).map((l) => { try { return JSON.parse(l); } catch { return null; } }).filter(Boolean);
+const sends: { at: string; text: string }[] = [];
+const toolIds = new Map<string, string>();
+let lastUsage: any = null;
+for (const e of entries) {
+  const m = e.message;
+  if (e.type !== "assistant" || !m) continue;
+  if (m.usage) lastUsage = m.usage;
+  for (const c of Array.isArray(m.content) ? m.content : []) {
+    if (c?.type !== "tool_use") continue;
+    toolIds.set(c.id, e.timestamp);
+    const js = String(c.input?.text ?? "");
+    if (/javascript_tool$/.test(c.name) && js.includes("insertText")) {
+      const msg = /const msg = `([\s\S]*?)`;/.exec(js)?.[1];
+      if (msg) sends.push({ at: e.timestamp, text: msg });
+    }
+  }
+}
+const uniqSends = [...new Map(sends.map((s) => [s.text, s])).values()];
+// the window: since the previous scorecard; the first one counts since the report before the latest one sent
+const since = prev?.at ?? uniqSends[uniqSends.length - 2]?.at ?? new Date(now.getTime() - 6 * 3600e3).toISOString();
+const commands = [...toolIds.values()].filter((t) => t > since).length;
+const asked = uniqSends.filter((s) => s.at > since);
+const questions = asked.reduce((n, s) => n + (s.text.match(/\?(\s|$)/g) ?? []).length, 0);
+const ctx = lastUsage ? (lastUsage.input_tokens ?? 0) + (lastUsage.cache_read_input_tokens ?? 0) + (lastUsage.cache_creation_input_tokens ?? 0) : null;
+const ctxPct = ctx === null ? null : Math.round((100 * ctx) / CONTEXT_WINDOW);
+
+// git: reverts and fix-ups in the window
+const log = execFileSync("git", ["log", `--since=${since}`, "--reverse", "--name-only", "--format=@@%H|%s"], { cwd: ROOT, encoding: "utf8" });
+const commits: { sha: string; subject: string; files: string[] }[] = [];
+for (const block of log.split("@@").filter(Boolean)) {
+  const [head, ...files] = block.trim().split("\n");
+  const [sha, subject] = [head.slice(0, head.indexOf("|")), head.slice(head.indexOf("|") + 1)];
+  commits.push({ sha, subject, files: files.filter(Boolean) });
+}
+const seen = new Set<string>();
+let fixups = 0, reverts = 0;
+const fixupList: string[] = [];
+for (const c of commits) {
+  if (/^Revert\b/i.test(c.subject)) reverts++;
+  else if (/\b(fix|fixes|fixed|correct|corrected|wrong)\b/i.test(c.subject) && c.files.some((f) => seen.has(f))) { fixups++; fixupList.push(c.sha.slice(0, 7)); }
+  c.files.forEach((f) => seen.add(f));
+}
+
+// the night, from the dashboard's own light
+let light: any = null;
+try { light = JSON.parse(execFileSync("curl", ["-s", "--max-time", "20", "https://api.netzspec.com/fill/cisco/fill.json"], { encoding: "utf8" })).light; } catch { /* reported as unknown */ }
+
+// outcome and focus
+const readyDelta = prev ? R.ready - prev.ready : null;
+const filledDelta = prev ? Math.round((R.filled_pct - prev.filled_pct) * 10) / 10 : null;
+const predicted = Number(today?.predicted_unlock ?? NaN);
+const actual = Number.isFinite(Number(today?.predicted_at_ready)) ? R.ready - Number(today.predicted_at_ready) : null;
+const rank = R.top5.findIndex((b: any) => b.blocker === today?.blocker_key);
+const offList = rank < 0;
+const streak = readyDelta === 0 ? (prev?.streak ?? 0) + 1 : 0;      // a first scorecard has no delta: never counted as +0
+
+// the flags (standing order, item 3)
+const flags: string[] = [];
+const prevStalledish = prev && prev.ready_delta === 0 && !(Number(prev.actual) > 0);
+if (readyDelta === 0 && !(Number(actual) > 0) && prevStalledish) flags.push("STALLED: 2 reports in a row with ready +0 and no unlocking rule shipped");
+if (rank < 0 || rank > 2) flags.push(`DRIFT: today's work (${today?.blocker_key ?? "no today.json"}) is not a top-3 blocker by ready-gain`);
+if (fixups >= 2) flags.push(`SLOPPY: ${fixups} fix-ups of my own commits in this batch (${fixupList.join(", ")})`);
+const miss = (p: number, a: number | null) => p > 0 && a !== null && Math.abs(p - a) / p > 0.3;
+if (miss(predicted, actual) && prev && miss(Number(prev.predicted), prev.actual)) flags.push("OFF-TARGET: prediction vs actual off by > 30% twice in a row");
+if ((ctxPct ?? 0) > 60 || (commands > 150 && readyDelta === 0)) flags.push(`WASTEFUL: context ${ctxPct ?? "?"}%, ${commands} commands, ready ${readyDelta === null ? "?" : `+${readyDelta}`}`);
+if (light?.color === "RED") flags.push(`RED-NIGHT: ${light.reason}`);
+
+const hhmm = (ms: number) => `${String(Math.floor(ms / 3600e3)).padStart(2, "0")}:${String(Math.floor((ms % 3600e3) / 60e3)).padStart(2, "0")}`;
+const card = {
+  at: now.toISOString(), since, ready: R.ready, ready_delta: readyDelta, filled_pct: R.filled_pct, filled_delta: filledDelta,
+  predicted: Number.isFinite(predicted) ? predicted : null, actual, rule: today?.rule ?? null, blocker_key: today?.blocker_key ?? null,
+  blocker_rank: rank >= 0 ? rank + 1 : null, top5: R.top5, off_list: offList, fixups, fixup_commits: fixupList, reverts,
+  questions, questions_already_ruled: null, commands, context_tokens: ctx, context_pct: ctxPct, streak, flags,
+  light: light ? `${light.color}: ${light.reason}` : "unknown", verdict: null,
+};
+const lines = [
+  ...(flags.length ? ["FLAGS: " + flags.join(" | "), ""] : []),
+  `outcome   ready ${readyDelta === null ? "(first scorecard)" : `${readyDelta >= 0 ? "+" : ""}${readyDelta}`} (${R.ready} of ${R.scanned}) · filled ${filledDelta === null ? "(first)" : `${filledDelta >= 0 ? "+" : ""}${filledDelta}%`} (${R.filled_pct}%) · today's rule unlocked: predicted ${Number.isFinite(predicted) ? predicted : "n/a"} / actual ${actual ?? "n/a"}`,
+  `focus     ${offList ? `off the top-5 by ready-gain (${today?.blocker_key ?? "no today.json"})` : `blocker #${rank + 1} of the top-5 (${today.blocker_key})`} · off-list work: ${offList ? `yes (${today?.rule ?? "?"})` : "no"} · top-5: ${R.top5.map((b: any) => `${b.blocker} ${b.parts}`).join(", ")}`,
+  `rework    commits fixing my own earlier commits: ${fixups}${fixupList.length ? ` (${fixupList.join(", ")})` : ""} · reverts: ${reverts} · commits in window: ${commits.length}`,
+  `asks      questions to reviewer: ${questions} · of which already ruled in state.md: n/a (a reading, not a count)`,
+  `cost      context used: ${ctxPct ?? "?"}% (${ctx?.toLocaleString("en") ?? "?"} of ${CONTEXT_WINDOW.toLocaleString("en")} tokens) · commands run: ${commands} · time since last report: ${hhmm(now.getTime() - new Date(since).getTime())}`,
+  `streak    consecutive reports with ready +0: ${streak} · night: ${card.light}`,
+];
+console.log(lines.join("\n"));
+if (argv.includes("--record")) { fs.mkdirSync(path.dirname(LOG), { recursive: true }); fs.appendFileSync(LOG, JSON.stringify(card) + "\n"); console.log(`(recorded: ${path.relative(ROOT, LOG)})`); }

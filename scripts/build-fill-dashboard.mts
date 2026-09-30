@@ -79,7 +79,12 @@ const reportFile = lastNight ? path.join(FILL, "reports", `fill-${lastNight}.md`
 const reportHead = reportFile && fs.existsSync(reportFile) ? fs.readFileSync(reportFile, "utf8").split("\n")[0] : "";
 const stopFile = path.join(FILL, "STOP");
 const stopped = fs.existsSync(stopFile) ? fs.readFileSync(stopFile, "utf8").trim() : (/STOPPED at (.*)$/.exec(reportHead)?.[1] ?? null);
-const todayPlan = readJson(path.join(FILL, "today.json"));
+// the day session's line for "being worked on today": the repo's copy (deployed with the code), else the box's older path
+const REPO = path.resolve(path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1")), "..");
+const todayPlan = readJson(path.join(REPO, "data", "reports", "today.json")) ?? readJson(path.join(FILL, "today.json"));
+// the reviewer's PERFORMANCE CHECK (standing order, 30 Sep 2026): the last 10 scorecards, with the reviewer's verdict beside each
+const scorecards: any[] = (() => { try { return fs.readFileSync(path.join(REPO, "data", "reports", "scorecard.jsonl"), "utf8")
+  .split("\n").filter(Boolean).map((l) => JSON.parse(l)).slice(-10).reverse(); } catch { return []; } })();
 const boardText = fs.existsSync(path.join(FILL, "board-last.txt")) ? fs.readFileSync(path.join(FILL, "board-last.txt"), "utf8") : "";
 const failing = (/^\s*failing: (.*)$/m.exec(boardText)?.[1] ?? "").split(",").map((s) => s.trim()).filter((s) => s && s !== "vendor_coverage");
 const nightStart = lastNight ? `${lastNight}T00:30:00Z` : today;
@@ -214,6 +219,8 @@ const brandBody = `<h1>${esc(VENDOR === "cisco" ? "Cisco" : VENDOR)}: ${filledPc
 <p class="muted">${partition.map((p) => `${esc(p.reason)} ${Number(p.n).toLocaleString("de-DE")}`).join(" · ")}</p>
 <h2>Was letzte Nacht passiert ist</h2><ul>${happened.map((h) => `<li>${esc(h)}</li>`).join("")}</ul>
 <h2>Woran heute gearbeitet wird</h2>${todayPlan ? `<p>${esc(todayPlan.rule)} — Blocker: ${esc(todayPlan.blocker)} — erwartet: ${esc(todayPlan.predicted_unlock)} Teile shop-ready${Number.isFinite(actual) && prev ? ` · nach der Nacht: ${actual}` : ""} <span class="muted">(${esc(todayPlan.date)})</span></p>` : `<p class="muted">Kein Eintrag (today.json fehlt).</p>`}
+<h2>Arbeitsqualität (die letzten 10 Berichte)</h2>${scorecards.length ? `<table><tr><th>Bericht</th><th>shop-ready</th><th>befüllt</th><th>Prognose / tatsächlich</th><th>Nacharbeit</th><th>Fragen</th><th>Kontext</th><th>Warnungen</th><th>Urteil des Reviewers</th></tr>${scorecards.map((c) =>
+  `<tr><td>${esc(String(c.at).slice(0, 16).replace("T", " "))}</td><td>${c.ready}${c.ready_delta === null ? "" : ` (${c.ready_delta >= 0 ? "+" : ""}${c.ready_delta})`}</td><td>${c.filled_pct}%</td><td>${c.predicted ?? "–"} / ${c.actual ?? "–"}</td><td>${c.fixups} / ${c.reverts}</td><td>${c.questions}</td><td>${c.context_pct ?? "?"}%</td><td>${esc((c.flags ?? []).map((f: string) => f.split(":")[0]).join(", ") || "–")}</td><td>${esc(c.verdict ?? "ausstehend")}</td></tr>`).join("")}</table>` : `<p class="muted">Noch kein Bericht mit Scorecard.</p>`}
 <h2>Kategorien</h2>${LEGEND}<table><tr><th>Kategorie</th><th>Pflichtfelder · shop-ready</th><th>befüllt</th><th>shop-ready</th><th>30 Nächte</th><th>Ø/Nacht</th><th>fertig in</th></tr>${catRows}</table>
 <h2>Qualität (neue Werte pro Tag)</h2><table><tr><th>Tag</th><th>geschrieben</th><th>zurückgezogen</th><th>Konflikte neu / gelöst</th><th>vom Normalisierer abgelehnt</th><th>Gate-Präzision</th><th>gelesen / abgeleitet / geerbt %</th></tr>
 ${qual.slice(-10).reverse().map((d) => `<tr><td>${d.day}</td><td>${d.written}</td><td>${d.retracted}</td><td>${d.opened} / ${d.resolved}</td><td>${d.refused ?? "n/a"}</td><td>${d.precision ?? "–"}</td><td>${d.reads_pct ?? "–"} / ${d.derived_pct ?? "–"} / ${d.inherited_pct ?? "–"}</td></tr>`).join("")}</table>
