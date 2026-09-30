@@ -270,18 +270,17 @@ HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). R
      Held and asked: IE2000 (-34 C fan case), C130024MGP-4X (sheet typo live as a part). Candidates not written: C9500X fan-conditional, C9200 altitude.
   PARKED: the name lane (pid-description-names table 527 names / 79 refused, name-from-description writer) -- needs migration 0035
      (name_state 'vendor-truncated'), sticky NAME_STATE in derive-part-states, realName accepting it. Name alone blocks 1 part.
-  ACQUIRE -- WHERE CHROME RUNS (question to the reviewer, 30 Sep). Measured: cisco-datasheets queue 42,430 queued (40,468
-     www.cisco.com: datasheet-named 1,141, install 596, spec-sheet 42, ordering 30 = 1,809 spec-shaped; products pages 9,108,
-     support/doc 6,301, white-paper 1,426, eol 1,412, at-a-glance 1,170, q-and-a 777, other 18,465), blocked 1,355 (itprice 823).
-     Cisco is Akamai: a bare client gets 403 "Access Denied", a real installed Chrome is admitted (brand.py; lane 437/3 = 99%).
-     No captcha on cisco.com. The lane = scraper/worker.py profile mode: installed Chrome (channel 'chrome'), headless=False
-     "not negotiable" (docs/SCRAPING.md), persistent profile per lane, 3 consecutive blocks -> source paused 30 min; context
-     relaunch on evidence only on proxied lanes. The box has no Chrome / Playwright / display.
-     A = box: google-chrome-stable + xvfb + a playwright venv (~0.5 GB, disk 15.7 GB free), run the lane under xvfb-run from cron
-         inside fill:nightly. Unmeasured: whether Akamai admits Chrome from a Hetzner datacenter IP. Probe first: 20 spec-shaped
-         URLs + example.com control, pass = >= 19 with tables > 0.
-     B = laptop: the proven lane, cache synced to the box before EXTRACT. Laptop sleeps; Task Scheduler here runs nothing; needs
-         a WMI-spawned loop and the tunnel. Fallback if A's probe fails.
-     Either way zero model tokens per night; the session reads only data/reports/fill-<date>.md.
+  ACQUIRE (ruled 30 Sep: A, the box): probe docs/reviewer/2026-09-28/acquire-probe.md (20/20 HTTP 200, 0 refusals; the 5
+     non-documents identical from the laptop control). Box: google-chrome-stable 154.0.8037.92-1 + xvfb + /opt/netzspec/pw
+     (playwright 1.60.0). Worker (4cd236e): --url-match, --stop-on-block (exit 3), --max-minutes, --summary-out; login page /
+     Akamai error / redirect off the document -> SKIPPED with its class, never cached or retried; Akamai error pages stop the
+     lane at 3 in a row or > 5% (from the 20th fetch). /c/[dam/]<lang>/<cc>/products/se/ refused at enqueue (worker + plan.py)
+     and the 527 rows parked by run 1457 (HTML and DAM PDF both end on id.cisco.com "Log In to Cisco").
+  NIGHTLY: scripts/fill-nightly.sh (npm run fill:nightly; cron 01:00 UTC on the box) -> /var/lib/netzspec-api/fill:
+     lock, STOP (a stop blocks every later night until the day session clears it), nights/<date>/*.log, reports/fill-<date>.md,
+     board-last.txt, ready-last.json, runs/acquired/... (APPLY by watermark: every day dir without .applied), vocab/.
+     TRAP: the night rebuilds and stamps the artefacts IN THE DEPLOY TREE (STAMP_*_COMMIT = the deployed commit). The day
+     session copies them into the repo, restamps, commits BEFORE ANY DEPLOY -- a deploy first would put the older committed
+     artefacts back under the API.
 ## Pinned predictions
 - run 1350 lands -> the enum CISCO line drops standard to 0 (was 555 seed); what remains red there is non-seed audio_codecs/antenna_type/spatial_streams + refused shape members. required_cup_defined not moved by it (other vendors seed untouched).
