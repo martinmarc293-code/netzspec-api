@@ -40,6 +40,16 @@ The allowance bands (kg): [0,1) +0,6 · [1,2) +0,8 · [2,3) +1,0 · [3,5) +1,5 �
 [20,∞) +2,5, each with its n and quartiles in the table. The top band's spread runs to 30,5 kg: its median is the ruling's, and
 the table is to be revisited when real shipping weights exist.
 
+## Found by the first deployed board: a derived cup must follow its input
+
+After run 1442 the board's `four_sets_sum` vetoed 18 (category, kind) triples on 664 part-cups: parts now held a correct
+`shipping_weight` under kinds whose question set marked it `na`, because only one category profile mentioned the cup and the
+complement rule closes every cup a profile never names. The check's premise holds (the kind's set was wrong, never the fact),
+so the fix is a rule, written once after every profile is final (`fieldSchema.ts`, after the generated-profile merge): **every
+category whose profile asks `weight` declares `shipping_weight` optional**. Optional, never required: the allowance is a ruled
+convention, not a measurement a part can be missing. `tests/weightRulings.test.ts` pins it for the six vetoed kinds (disabling
+the rule turns both cases red).
+
 ## Held, named
 
 - Two live parts are typo-shaped duplicates of real cables, created from the sheets' own misprints and linked to no document:

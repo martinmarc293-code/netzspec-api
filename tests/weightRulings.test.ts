@@ -2,7 +2,8 @@
 //
 //   npx tsx tests/weightRulings.test.ts
 import { normalizeField } from "../src/core/specNormalize.js";
-import { unitOverridesWithoutBand, UNIT_OVERRIDES, BAND_OVERRIDES, FIELD_DICTIONARY } from "../src/core/fieldSchema.js";
+import { unitOverridesWithoutBand, UNIT_OVERRIDES, BAND_OVERRIDES, FIELD_DICTIONARY, PROFILES } from "../src/core/fieldSchema.js";
+import { kindQuestionSet } from "../src/core/cupLedger.js";
 import { allowanceTable, allowanceBand, shippingWeightKg, shippingFromRaw, shippingRaw } from "../src/core/shippingAllowance.js";
 import { replayDerived } from "../src/core/derivedReplay.js";
 
@@ -47,6 +48,16 @@ check("shipping_weight is numeric kg with the weight band", FIELD_DICTIONARY.shi
 check("the three stored shapes parse to the printed metric: '14.0 lb 6.35 kg' -> 6.35", kg("routers", "shipping_weight", "14.0 lb 6.35 kg") === 6.35, kg("routers", "shipping_weight", "14.0 lb 6.35 kg"));
 sabotage++;
 check("SABOTAGE a shipping weight in a non-mass unit is refused, not stored as text", String(kg("routers", "shipping_weight", "44 W")).startsWith("REFUSED"));
+
+// ---- a derived cup follows its input: wherever weight is asked, shipping_weight is optional -------------------------------
+const lostShipping = Object.entries(PROFILES).filter(([, p]) => (p as Record<string, unknown>).weight && !(p as Record<string, unknown>).shipping_weight).map(([c]) => c);
+check("every category whose profile asks weight declares shipping_weight", lostShipping.length === 0, lostShipping);
+const vetoed: [string, string][] = [["switches", "switch"], ["interfaces-modules", "interface"], ["switches", "linecard"], ["transceiver", "cable"], ["wireless", "ap"], ["security", "firewall"]];
+check("SABOTAGE-GUARD the kinds the first board vetoed (664 part-cups) now ask shipping_weight as optional, never na",
+  vetoed.every(([c, k]) => kindQuestionSet(c, k).optional.includes("shipping_weight") && !kindQuestionSet(c, k).not_applicable_by_kind.includes("shipping_weight")),
+  vetoed.map(([c, k]) => `${c}/${k}: ${kindQuestionSet(c, k).optional.includes("shipping_weight") ? "opt" : "NOT opt"}`));
+check("...and it is never REQUIRED of anything: an allowance is a convention, not a measurement a part can be missing",
+  Object.keys(PROFILES).every((c) => (PROFILES[c] as Record<string, { kind?: string }>).shipping_weight?.kind !== "req"));
 
 // ---- the allowance bands (one table, contiguous, open at the top) --------------------------------------------------------
 const t = allowanceTable();

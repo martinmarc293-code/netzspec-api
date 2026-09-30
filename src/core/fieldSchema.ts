@@ -4548,6 +4548,17 @@ for (const [cat, fields] of Object.entries(GENERATED_PROFILES)) {
   PROFILES[cat] = { ...fields, ...(PROFILES[cat] || {}) };
 }
 
+// A DERIVED CUP FOLLOWS ITS INPUT (ruling Q23, 30 Sep 2026; docs/decisions/2026-09-30-weight-rulings.md). shipping_weight is
+// computed from the served weight (src/core/shippingAllowance.ts), so every category whose profile asks weight -- in any form --
+// declares shipping_weight OPTIONAL. Without it the first deployed board vetoed 664 part-cups on 18 (category, kind) triples:
+// the derivation wrote a correct value under a cup the complement rule marked na because no profile but one mentioned it, and
+// four_sets_sum reads that, rightly, as the kind's set being wrong. Optional and never required: the allowance is a ruled
+// convention, not a measurement a part can be missing. Written once here, after every profile is final, so a category that
+// gains weight tomorrow gains its shipping weight with it.
+for (const prof of Object.values(PROFILES)) {
+  if (prof.weight && !prof.shipping_weight) prof.shipping_weight = { kind: "opt" };
+}
+
 // `deploy_role` IS A DERIVED GATE AND IS NOW DECLARED LIKE ITS TWIN (reviewer, 27 Sep 2026).
 //
 // THE DEFECT. `modular` and `deploy_role` are both COLUMN_BACKED and both derived from the SKU, and they
