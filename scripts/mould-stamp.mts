@@ -40,7 +40,22 @@ const git = (cmd: string): string => {
  *  touched it IS the data commit -- and when the tree is dirty that is recorded rather than rounded to
  *  the last commit, because an artefact built from uncommitted data is a real thing that happened and
  *  pretending otherwise is how production came to run code that existed in no commit. */
+/** THE BOX HAS NO .git: a deploy is a `git archive`, and the nightly FILL PIPELINE rebuilds the artefacts there. When git
+ *  cannot answer, the build names itself through STAMP_CODE_COMMIT (the deployed commit) and STAMP_DATA_COMMIT (that commit
+ *  plus what moved, "<sha12>+nightly-<date>"); with neither, the stamp REFUSES. The old fallback wrote "unknown+1dirty" --
+ *  git's error read as one dirty file -- which is a stamp that says nothing while looking like one. */
+const IN_GIT = git("git rev-parse --is-inside-work-tree") === "true";
+function fromEnv(name: string): string {
+  const v = (process.env[name] || "").trim();
+  if (!v || v.includes("unknown")) {
+    console.error(`NO GIT HERE and ${name} is not set: refusing to stamp (a stamp must name its build)`);
+    process.exit(1);
+  }
+  return v;
+}
+
 function dataCommit(): string {
+  if (!IN_GIT) return fromEnv("STAMP_DATA_COMMIT");
   const head = git("git log -1 --format=%H -- data");
   const dirty = git("git status --porcelain -- data").split("\n").filter(Boolean).length;
   return dirty ? `${head.slice(0, 12)}+${dirty}dirty` : head.slice(0, 12);
@@ -106,7 +121,8 @@ if (!ch) {
   process.exit(1);
 }
 
-const build = { data_commit: dataCommit(), code_commit: git("git rev-parse HEAD").slice(0, 12), contract_hash: ch, generated_at: new Date().toISOString() };
+const build = { data_commit: dataCommit(), code_commit: IN_GIT ? git("git rev-parse HEAD").slice(0, 12) : fromEnv("STAMP_CODE_COMMIT"),
+                contract_hash: ch, generated_at: new Date().toISOString() };
 for (const a of found) {
   a.json.build = build;
   fs.writeFileSync(a.abs, JSON.stringify(a.json, null, 2) + "\n");

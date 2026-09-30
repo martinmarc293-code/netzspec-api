@@ -66,12 +66,14 @@ class FakeQueue(W.Queue):
         self.checks: list[tuple] = []
         self.fetches: list[tuple] = []
         self.proxy_bytes: list = []
+        self.url_matches: list = []   # what each lease was asked to filter on; the filter itself is SQL (url ~* %s)
         self.sources = {"fake": {"id": 1, "slug": "fake", "host": "fake.test", "tier": 3, "politeness_ms": 0, "enabled": True, "proxy": "direct", "proxy_country": None},
                         "other": {"id": 2, "slug": "other", "host": "other.test", "tier": 3, "politeness_ms": 0, "enabled": True, "proxy": "direct", "proxy_country": None},
                         "paid": {"id": 3, "slug": "paid", "host": "paid.test", "tier": 3, "politeness_ms": 0, "enabled": True, "proxy": "residential", "proxy_country": "de"}}
         self.by_id = {r["id"]: r for r in self.sources.values()}
 
-    def lease(self, source_ids):
+    def lease(self, source_ids, url_match=None):
+        self.url_matches.append(url_match)
         for i, t in enumerate(self.tasks):
             if t["source_id"] in source_ids:
                 return self.tasks.pop(i)
@@ -911,6 +913,56 @@ check("CD5", "the cache path uses challenge_fingerprint, not looks_blocked - the
              "narrowed weeks ago and the EVICTION path was left on the broad one, so the narrower "
              "rules protected what we report and not what we keep",
       "poisoned = challenge_fingerprint(cached)" in (ROOT / "scraper" / "worker.py").read_text(encoding="utf-8"))
+
+# =============================================================================================
+# the nightly controls (reviewer ruling 30 Sep 2026: tonight's target only; a refusal or a run of Akamai error pages stops
+# the lane; a page that is not the document is recorded with its class and never retried)
+# =============================================================================================
+AKAMAI_HTML = ('<html><head><title>Error</title></head><body>\nAn error occurred while processing your request.<p>\n'
+               'Reference #50.5003d717.1790747975.286e9ecb\n</p><p>https://errors.edgesuite.net/50.5003d717.1790747975.286e9ecb</p>\n</body></html>')
+LOGIN_HTML = "<html><head><title>Log In to Cisco</title></head><body>sign in</body></html>"
+u = [f"https://fake.test/N{i}.html" for i in range(8)]
+
+q = FakeQueue([task(101, url=u[0])])
+lp = W.Loop(q, FakeBrowser({u[0]: page(u[0])}), RUNS, load=lambda slug: source())
+lp.url_match = "data-?sheet"
+lp.run([1], max_tasks=1)
+check("N1", "the loop hands its url filter to every lease", q.url_matches[:1] == ["data-?sheet"], str(q.url_matches))
+
+q = FakeQueue([task(102, url=u[1], attempts=1)])
+lp = W.Loop(q, FakeBrowser({u[1]: page(u[1], html=LOGIN_HTML)}), RUNS, load=lambda slug: source())
+lp.run([1], max_tasks=1)
+c = q.completed[-1]
+check("N2", "a login page is SKIPPED with its class, never failed-and-retried", c["status"] == "skipped" and c["next_at"] is None
+      and "not the document: login-wall" in (c["error"] or ""), str(c))
+
+q = FakeQueue([task(110 + i, url=u[2 + i]) for i in range(4)])
+b = FakeBrowser({x: page(x, html=AKAMAI_HTML) for x in u[2:6]})
+lp = W.Loop(q, b, RUNS, load=lambda slug: source())
+lp.run([1])
+check("N3", "3 Akamai error pages in a row stop the lane; the 4th task is never leased",
+      lp.stop_reason is not None and "3 Akamai error pages in a row" in lp.stop_reason and len(q.completed) == 3 and len(q.tasks) == 1,
+      f"{lp.stop_reason} completed={len(q.completed)} left={len(q.tasks)}")
+
+q = FakeQueue([task(120, url=u[6]), task(121, url=u[7])])
+lp = W.Loop(q, FakeBrowser({u[6]: page(u[6], html="Access Denied", status=403, blocked=True)}), RUNS, load=lambda slug: source())
+lp.stop_on_block = True
+lp.run([1])
+check("N4", "with --stop-on-block the first refusal ends the run; the next task is never leased",
+      lp.stop_reason is not None and len(q.tasks) == 1, f"{lp.stop_reason} left={len(q.tasks)}")
+
+q = FakeQueue([task(130, url=u[0])])
+lp = W.Loop(q, FakeBrowser(), RUNS, load=lambda slug: source())
+lp.deadline = 0.0   # already past
+lp.run([1])
+check("N5", "past the time budget no task is leased, and the run says so", lp.budget_hit and len(q.tasks) == 1 and q.completed == [],
+      f"budget_hit={lp.budget_hit} left={len(q.tasks)}")
+
+q = FakeQueue()
+se = "https://www.cisco.com/c/en/us/products/se/2021/5/Collateral/datasheet-c78-744371.html"
+ok = q.enqueue(1, "datasheet", se, se, None)
+check("N6", "the real enqueue refuses a login-walled URL, counted and not inserted", ok is False and q.inserted == []
+      and q.refused.get("login-walled") == 1, f"{ok} {q.inserted} {dict(q.refused)}")
 
 print(f"\n{npass} passed, {nfail} missed")
 raise SystemExit(1 if nfail else 0)

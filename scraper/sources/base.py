@@ -496,3 +496,51 @@ def wrong_host(src, url: str) -> str | None:
     return (f"host {host} is not served by this lane ({', '.join(hosts)}): a page ABOUT this "
             f"vendor's part published by somebody else belongs to that publisher's source, and "
             f"fetching it here bypasses their enabled flag and charges their blocks to this lane")
+
+
+# ---------------------------------------------------------------------------------------------
+# URL shapes that never enter a queue, and pages that are not the document
+# (reviewer ruling 30 Sep 2026; the evidence is docs/reviewer/2026-09-28/acquire-probe.md)
+# ---------------------------------------------------------------------------------------------
+# Cisco's sales-enablement collateral under /c/<lang>/<cc>/products/se/ redirects EVERY client to "Log In to Cisco"
+# (box Chrome and laptop Chrome alike, 3 of 3 in the probe; 527 lane rows, 0 ever done), and so does the same shape under
+# the asset path /c/dam/<lang>/<cc>/products/se/ (259 of the 527, PDFs: opened as a page they end on id.cisco.com, "Log In to
+# Cisco"; fetched as bytes they are 210 KB of HTML carrying the login markers, measured 30 Sep 2026). We never sign in, so such a URL
+# is refused at enqueue and parked in the queue with its reason. Scoped to the one host: other vendors' /se/ is not this.
+LOGIN_WALLED_URLS = (re.compile(r"^https?://www\.cisco\.com/c/(?:dam/)?[a-z]{2}/[a-z]{2}/products/se/", re.I),)
+
+# A 200 that is NOT the document. Recorded per URL with its class, never cached, never retried, and never a reason to
+# stop a lane on its own -- only a refusal (403 / 429 / challenge) stops one. Akamai's error page is ALSO counted by the
+# worker as a soft-block signal (3 in a row, or more than 5% of a run's fetches, stops the lane): one on a dead URL is a
+# fact about the URL, a run of them is Akamai deciding.
+AKAMAI_ERROR_PAGE = re.compile(r"An error occurred while processing your request.{0,400}?errors\.edgesuite\.net", re.I | re.S)
+LOGIN_PAGE_TITLE = re.compile(r"<title[^>]*>\s*Log In to Cisco\s*</title>", re.I)
+LOGIN_HOSTS = re.compile(r"^https?://(?:id|sso|login|cloudsso)\.cisco\.com/", re.I)
+TABLE_TAG = re.compile(r"<table[\s>]", re.I)
+
+
+def refused_url(url: str | None) -> str | None:
+    """The reason this URL may never enter a fetch queue, or None."""
+    if url and any(rx.search(url) for rx in LOGIN_WALLED_URLS):
+        return "login-walled"
+    return None
+
+
+def _path(u: str | None) -> str:
+    p = _urlparse(u or "")
+    return (p.netloc.lower() + p.path.rstrip("/")).lower()
+
+
+def not_document(html: str, url: str, final_url: str | None) -> str | None:
+    """'akamai-error' | 'login-wall' | 'redirected' when a 200 capture is not the document the URL names, else None.
+
+    'redirected' needs BOTH a different final address AND no table on the page: Cisco moves collateral, and a moved
+    datasheet that still carries its tables is the document at a new address, not a redirect off it."""
+    h = html or ""
+    if AKAMAI_ERROR_PAGE.search(h[:5000]):
+        return "akamai-error"
+    if LOGIN_PAGE_TITLE.search(h[:20000]) or (final_url and LOGIN_HOSTS.search(final_url)):
+        return "login-wall"
+    if final_url and _path(final_url) != _path(url) and not TABLE_TAG.search(h):
+        return "redirected"
+    return None

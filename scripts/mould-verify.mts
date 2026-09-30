@@ -337,6 +337,9 @@ const RUN_KIND_CLASS: Record<string, { approval: boolean; gate: boolean }> = {
   "name-from-description": AG,
   // reviewer temperature rulings (30 Sep 2026): per-model reads / intersections supersede inherited values and seeds, one run
   "correct-temps-by-sheet": AG,
+  // FILL PIPELINE acquire (reviewer ruling 30 Sep 2026): the login-walled /products/se/ queue rows parked, never re-queued
+  // (a queue decision, no fact moves; the ruling is the approval, recorded in inputs.approved)
+  "park-login-walled": A,
 };
 // The vendor this lane has axes for; vendor_coverage owns every other vendor's hardware (unknown_zero counts them apart).
 const OWN_VENDOR = "cisco";

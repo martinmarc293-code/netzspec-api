@@ -62,6 +62,7 @@ from psycopg.rows import dict_row                 # noqa: E402
 from brands import load_brand                     # noqa: E402
 from sources import load_source                   # noqa: E402
 from sources.base import wrong_host              # noqa: E402  one copy, shared with worker.py
+from sources.base import refused_url             # noqa: E402  URL shapes that never enter a queue (login-walled)
 from brands import dbconn                        # noqa: E402  keepalives + a named session
 
 #: How often a discovery (listing) task is re-run. Not read from the pack's `schedule` dict because
@@ -521,7 +522,13 @@ def plan(conn, brand, limit: int, apply: bool) -> dict:
             # because each statement saw only its own row. First writer wins, which matches the old
             # behaviour: the earlier section's item was the one that inserted.
             items, seen = [], set()
+            refused_shapes: dict[str, int] = {}
             for item in out["entry"] + out["recover"] + out["refresh"] + out["gaps"]:
+                # a URL shape no client can read without signing in is never queued (ruling 30 Sep 2026); counted, not dropped
+                why = refused_url(item.get("url")) or refused_url(item.get("key"))
+                if why:
+                    refused_shapes[why] = refused_shapes.get(why, 0) + 1
+                    continue
                 k = (by_slug[item["source"]], item["task"], item["key"])
                 if k in seen:
                     continue
@@ -575,6 +582,7 @@ def plan(conn, brand, limit: int, apply: bool) -> dict:
                                  WHERE id = ANY(%s)""",
                              ([i["queue_id"] for i in out["rediscover"]],))
         out["inserted"] = ins
+        out["refused_shapes"] = refused_shapes
         out["reactivated"] = reactivated      # a `done` row put back to work: a REPAIR, not a no-op
         out["left_alone"] = req               # queued/leased/failed/blocked/skipped - not ours to touch
         out["requeued_listings"] = len(out["rediscover"])
@@ -607,7 +615,8 @@ def render(p: dict, apply: bool) -> str:
         # while carrying `checked`.
         L += [f"  inserted {p.get('inserted', 0):,}   reactivated {p.get('reactivated', 0):,}   "
               f"left alone {p.get('left_alone', 0):,}   "
-              f"listings re-queued {p.get('requeued_listings', 0):,}",
+              f"listings re-queued {p.get('requeued_listings', 0):,}   "
+              f"refused shapes {p.get('refused_shapes') or {}}",
               "  (reactivated = a `done` row put back to work. left alone = queued, leased, failed, "
               "blocked or skipped: a worker owns it or a human parked it.)", ""]
     for s in p["skipped"][:10]:

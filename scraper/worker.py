@@ -103,7 +103,7 @@ for _stream in (sys.stdout, sys.stderr):
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import netzscrape  # noqa: E402  (CACHE, LEDGER, _key, _ledger, UA_TOKEN)
 from sources import load_source  # noqa: E402
-from sources.base import looks_blocked, challenge_fingerprint, is_part_number, wrong_host  # noqa: E402
+from sources.base import looks_blocked, challenge_fingerprint, is_part_number, wrong_host, refused_url, not_document  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 WORKER = f"{socket.gethostname()}:{os.getpid()}"
@@ -427,6 +427,23 @@ PROXY_ROTATE_EVERY = 75
 # burning a fresh session id each time. Three is enough to walk past a bad exit or a scored session
 # and few enough that a genuinely broken lane stops and lets the consecutive-block pause speak.
 EVIDENCE_ROTATE_MAX = 3
+
+# THE SOFT BLOCK (reviewer ruling 30 Sep 2026). Akamai's "An error occurred while processing your request" page is
+# recorded per URL like any page that is not the document, but a RUN of them is Akamai deciding, not the URLs: 3 in a
+# row, or more than 5% of the run's network fetches, stops the lane. The share is judged from the 20th fetch on -- one
+# dead URL among the first five fetches is 20% and is a fact about that URL, which the 3-in-a-row rule covers.
+SOFT_BLOCK_IN_A_ROW = 3
+SOFT_BLOCK_SHARE_PCT = 5
+SOFT_BLOCK_SHARE_FROM = 20
+
+
+def soft_block(in_a_row: int, total: int, fetched: int) -> str | None:
+    """The reason to stop the lane on Akamai error pages, or None."""
+    if in_a_row >= SOFT_BLOCK_IN_A_ROW:
+        return f"{in_a_row} Akamai error pages in a row"
+    if fetched >= SOFT_BLOCK_SHARE_FROM and total * 100 > SOFT_BLOCK_SHARE_PCT * fetched:
+        return f"Akamai error pages on {total} of {fetched} fetches (more than {SOFT_BLOCK_SHARE_PCT}%)"
+    return None
 
 # Evidence that THIS exit is the problem, matched against the error text of a failed fetch. These
 # are the shapes measured on 5 Sep 2026: hpe-quickspecs answered ERR_CERT_AUTHORITY_INVALID on five
@@ -1326,12 +1343,15 @@ class Queue:
                 row.update({k: r[k] for k in LIVE_SOURCE_COLUMNS})
         return {r["id"] for r in rows if r["enabled"]}
 
-    def lease(self, source_ids: list[int]) -> dict | None:
+    def lease(self, source_ids: list[int], url_match: str | None = None) -> dict | None:
+        # url_match (--url-match): a POSIX regex the row's url must match, case-insensitive. The nightly run leases only
+        # its spec-shaped target this way (reviewer ruling 30 Sep 2026: tonight's target only, never the whole queue).
         return self.conn.execute(
             """
             WITH picked AS (
               SELECT id FROM fetch_queue
                WHERE source_id = ANY(%s)
+                 AND (%s::text IS NULL OR url ~* %s)
                  AND ((status IN ('queued', 'failed') AND next_at <= now())
                       -- a lease older than 30 minutes belongs to a worker that died mid-task
                       OR (status = 'leased' AND leased_at < now() - interval '30 minutes'))
@@ -1348,7 +1368,7 @@ class Queue:
                       -- match a part. NULL for a task with no part behind it (a listing, a
                       -- manually queued URL), and the adapters treat NULL as "do not guess".
                       (SELECT v.slug FROM parts p JOIN vendors v ON v.id = p.vendor_id
-                        WHERE p.id = q.part_id) AS vendor""", (source_ids, WORKER)).fetchone()
+                        WHERE p.id = q.part_id) AS vendor""", (source_ids, url_match, url_match, WORKER)).fetchone()
 
     def complete(self, task_id: int, status: str, result: dict | None = None, error: str | None = None, next_at: datetime | None = None) -> None:
         # result is kept when none is given: a datasheet task's origin page and a --force flag
@@ -1392,6 +1412,10 @@ class Queue:
         elif not key:
             self.refused["empty"] += 1
             return False
+        why = refused_url(url) or (refused_url(key) if task not in PART_KEY_TASKS else None)
+        if why:
+            self.refused[why] += 1
+            return False
         return self._insert(source_id, task, key, url, part_id, priority, result)
 
     def _insert(self, source_id: int, task: str, key: str, url: str | None, part_id: int | None, priority: int, result: dict | None) -> bool:
@@ -1434,6 +1458,13 @@ class Loop:
         self.paused_until: dict[int, datetime] = {}
         self.consecutive_blocked: dict[int, int] = {}
         self.done = self.failed = 0
+        # the nightly controls (reviewer ruling 30 Sep 2026), all OFF unless the CLI sets them
+        self.url_match: str | None = None      # lease only rows whose url matches (--url-match)
+        self.stop_on_block = False            # the first 403 / 429 / challenge ends the run (--stop-on-block)
+        self.deadline: float | None = None     # time.monotonic() after which no new task is leased (--max-minutes)
+        self.stop_reason: str | None = None    # set by a refusal or the soft-block rule; the run ends and says why
+        self.budget_hit = False
+        self.night = {"fetched": 0, "akamai_in_a_row": 0, "akamai_total": 0, "not_document": Counter()}
         self.outcomes: Counter = Counter()
 
     # -- the residential meter -------------------------------------------------------------
@@ -1575,6 +1606,9 @@ class Loop:
 
     def _note_block(self, src_row: dict, slug: str) -> None:
         sid = src_row["id"]
+        if self.stop_on_block:
+            # the ruling: a refusal is never worked around -- the lane stops and reports, it does not wait and retry
+            self.stop_reason = self.stop_reason or f"{slug}: a refusal or challenge (see the blocked row and runs/screens)"
         self.consecutive_blocked[sid] = self.consecutive_blocked.get(sid, 0) + 1
         if self.consecutive_blocked[sid] >= 3:
             self.paused_until[sid] = now() + timedelta(minutes=30)
@@ -1637,6 +1671,28 @@ class Loop:
             # ...and counted, whatever the outcome. A blocked page consumed the IP exactly as a
             # good one did, so rotating only on success would keep a burnt IP for ever.
             self.count_fetch(src_row)
+            # NOT THE DOCUMENT (reviewer ruling 30 Sep 2026): a login page, Akamai's error page or a redirect off the
+            # document is finished SKIPPED with its class -- terminal, never cached (the adapter's usability veto already
+            # refused the write), never retried, and on its own never a reason to stop the lane. Before this each of them
+            # failed the veto and went round the retry loop as an "unusable capture". A 404 is left to the not_listed
+            # path below, which records the part_source_check.
+            nd = None
+            if not res.get("blocked") and not res.get("cached"):
+                page = res.get("html") or ""
+                if res.get("status") == 200 and not (page and src.is_not_found(page)):
+                    nd = not_document(page, url, res.get("final_url"))
+                self.night["fetched"] += 1
+                self.night["akamai_in_a_row"] = self.night["akamai_in_a_row"] + 1 if nd == "akamai-error" else 0
+            if nd:
+                self.night["not_document"][nd] += 1
+                if nd == "akamai-error":
+                    self.night["akamai_total"] += 1
+                    why = soft_block(self.night["akamai_in_a_row"], self.night["akamai_total"], self.night["fetched"])
+                    if why:
+                        self.stop_reason = self.stop_reason or f"soft block: {why}"
+                final = str(res.get("final_url") or "")
+                print(f"  not-the-document {slug} {task['task']} {task['key'][:70]}: {nd} (final {final[:90]})")
+                return self._finish(task, slug, "skipped", error=f"not the document: {nd}; final url {final[:200]}")
             # A capture the adapter vetoed is a RENDER failure, not an answer: retry it with the
             # queue's back-off rather than extracting from a shell and recording `no_facts`, which
             # would look like a page that genuinely has nothing on it.
@@ -1762,6 +1818,13 @@ class Loop:
     def run(self, active: list[int], *, loop: bool = False, idle: int = 30, max_tasks: int | None = None) -> dict:
         processed = 0
         while True:
+            if self.stop_reason:
+                print(f"  STOP: {self.stop_reason}", flush=True)
+                break
+            if self.deadline is not None and time.monotonic() >= self.deadline:
+                self.budget_hit = True
+                print("  time budget reached; no new task leased", flush=True)
+                break
             if max_tasks is not None and processed >= max_tasks:
                 print(f"  max-tasks {max_tasks} reached")
                 break
@@ -1785,7 +1848,7 @@ class Loop:
             # is kept out of `live` so nothing is leased for it meanwhile.
             afford = self.affordable(active)
             live = [sid for sid in afford if self.paused_until.get(sid, now()) <= now()]
-            task = self.q.lease(live) if live else None
+            task = self.q.lease(live, self.url_match) if live else None
             if not task:
                 # an out-of-budget lane already wrote its own beat in affordable(); writing "idle"
                 # over it here is how the sentinel would end up restarting it in a loop
@@ -1803,7 +1866,10 @@ class Loop:
 
     def summary(self) -> dict:
         return {"done": self.done, "failed": self.failed, "outcomes": dict(self.outcomes),
-                "refused": dict(getattr(self.q, "refused", {}) or {})}
+                "refused": dict(getattr(self.q, "refused", {}) or {}),
+                "night": {**{k: v for k, v in self.night.items() if k != "not_document"},
+                          "not_document": dict(self.night["not_document"])},
+                "stop_reason": self.stop_reason, "budget_hit": self.budget_hit}
 
 
 def run(args: argparse.Namespace) -> int:
@@ -1860,6 +1926,10 @@ def run(args: argparse.Namespace) -> int:
                       filter_assets=not getattr(args, "load_images", False))
     install_shutdown(browser)
     lp = Loop(q, browser, runs_dir, spend=spend, env=env)
+    lp.url_match = (getattr(args, "url_match", "") or "").strip() or None
+    lp.stop_on_block = bool(getattr(args, "stop_on_block", False))
+    if getattr(args, "max_minutes", None):
+        lp.deadline = time.monotonic() + 60 * args.max_minutes
     print(f"worker {WORKER} mode={browser.mode} profile={browser.profile_dir} sources={wanted} "
           f"loop={args.loop} max_tasks={args.max_tasks}", flush=True)
     if proxy:
@@ -1881,6 +1951,10 @@ def run(args: argparse.Namespace) -> int:
                                           for r in residential)
                     + f" aborted={browser.aborted} unmeasured={sum(spend.unmeasured.values())}")
         print(f"worker exit: done={s['done']} failed={s['failed']} outcomes={s['outcomes']} refused={s['refused']} browser={browser.stats}{tail}")
+        if getattr(args, "summary_out", ""):
+            Path(args.summary_out).write_text(json.dumps({**s, "browser": browser.stats}, indent=1, default=str) + "\n", encoding="utf-8")
+    if lp.stop_reason:
+        return 3  # stopped by a refusal or the soft-block rule: the nightly reads this as STOP, never as done
     return 0
 
 
@@ -1941,6 +2015,10 @@ def main() -> int:
     r.add_argument("--loop", action="store_true", help="keep polling when the queue is empty")
     r.add_argument("--idle", type=int, default=30, help="seconds to sleep when idle in --loop")
     r.add_argument("--max-tasks", type=int, default=None, help="exit after N tasks so a supervisor can rotate workers")
+    r.add_argument("--url-match", default="", help="lease only rows whose url matches this POSIX regex (case-insensitive)")
+    r.add_argument("--stop-on-block", action="store_true", help="the first 403 / 429 / challenge ends the run (exit 3)")
+    r.add_argument("--max-minutes", type=float, default=None, help="lease no new task after this many minutes")
+    r.add_argument("--summary-out", default="", help="write the run summary (counts, night counters, stop reason) as JSON")
     f = sub.add_parser("fetch")
     f.add_argument("urls", nargs="+")
     f.add_argument("--cdp", default="")

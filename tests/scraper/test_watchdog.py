@@ -1352,7 +1352,7 @@ class PausingQueue:
     def enabled_ids(self, source_ids):
         return {i for i in source_ids if self.by_id[i]["enabled"]}
 
-    def lease(self, source_ids):
+    def lease(self, source_ids, url_match=None):   # the real Queue's signature (url_match: the nightly filter)
         self.leases += 1
         if self.leases > 3:
             raise AssertionError("the worker kept leasing from a DISABLED source")

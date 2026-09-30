@@ -16,6 +16,7 @@
     "test:db": "tsx scripts/run-tests.ts --db",
     "migrate": "tsx db/migrate.ts",
     "ingest": "tsx src/pipeline/cli.ts",
+    "fill:nightly": "bash scripts/fill-nightly.sh",
     "mould:verify": "tsx scripts/mould-verify.mts",
     "mould:contract": "tsx scripts/mould-contract.mts",
     "mould:contract:check": "tsx scripts/mould-contract.mts --check"
