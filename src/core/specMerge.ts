@@ -676,7 +676,10 @@ export const CLASS_PARTITION = { IS_A_SUBJECT, PENDING_DECISION, NON_PRODUCT_CLA
  *  chassis that their own datasheets describe. */
 export const ACCESSORY_CATEGORIES: ReadonlySet<string> = new Set(["transceiver"]);
 
-export type ComponentShape = { kind: "prefix" | "contains"; token: string; why: string };
+/** `ownFamilies`: the document families that ARE this component's own documents (reviewer ruling, 30 Sep 2026). A part of the
+ *  shape still takes a family-level fact from one of them -- an adapter from the adapters document -- and from nothing else; the
+ *  exception is keyed on the document's family, never a pass for the shape. */
+export type ComponentShape = { kind: "prefix" | "contains"; token: string; why: string; ownFamilies?: readonly string[] };
 
 /**
  * SKU shapes that are COMPONENTS a chassis datasheet enumerates. This table exists because the
@@ -709,6 +712,39 @@ export const COMPONENT_SKU_SHAPES: readonly ComponentShape[] = [
   { kind: "prefix", token: "XFP", why: "XFP optic; 71 parts" },
   { kind: "prefix", token: "X2-", why: "X2 optic; 23 parts" },
   { kind: "contains", token: "-SSD", why: "storage module sold with a chassis; 46 run-#38 conflicts (C9K-F1-SSD-480G)" },
+  // ---- the component-shape round (reviewer rulings, 30 Sep 2026; docs/reviewer/2026-09-28/component-shapes.md). Each token counted
+  // against every live Cisco part and its matches read; the flip list (current inherited facts these tokens refuse) was 1,672 facts
+  // on 616 parts: 1,662 components serving a server's / chassis's EMC, humidity, altitude, certifications (a CPU with its server's
+  // EMC certification), and 10 adapters taking ieee_standards from their OWN adapters document -- kept by `ownFamilies`.
+  { kind: "contains", token: "-CPU-", why: "processor; 2,790 parts (UCS-CPU-I4210, HX-CPU-I6244=, FMC-M5-CPU-4116); licences that match are refused earlier by class" },
+  { kind: "contains", token: "-MR-", why: "RDIMM; 264 parts (UCS-MR-X16G1RW, AIR-MR-1X082RV-A); Meraki MR mount plates (MA-MNT-MR-13) are accessories too" },
+  { kind: "contains", token: "-ML-", why: "LRDIMM and mLOM VIC; 196 parts (UCS-ML-128G8RS-H, UCSX-ML-V5Q50G); 106 FWM-ML licences refused earlier by class", ownFamilies: ["unified-computing-system-adapters"] },
+  { kind: "contains", token: "-GPU-", why: "GPU card; 235 parts (UCSC-GPU-H100-80, HX-GPU-P4)" },
+  { kind: "contains", token: "-PCIE-", why: "PCIe adapter or riser board; 160 parts (UCSC-PCIE-IQ10GF=, HX-PCIE-ID25GF)", ownFamilies: ["unified-computing-system-adapters"] },
+  { kind: "prefix", token: "UCSC-P-", why: "UCS C-Series PCIe adapter; 73 parts (UCSC-P-IQ1GC, UCSC-P-M5D100GF)", ownFamilies: ["unified-computing-system-adapters"] },
+  { kind: "prefix", token: "N2XX-", why: "UCS adapter; 24 parts (N2XX-AIPCI01=)", ownFamilies: ["unified-computing-system-adapters"] },
+  { kind: "contains", token: "-RIS-", why: "riser; 17 parts (HX-RIS-1B-240M5, UCSX-RIS-A-440P)" },
+  { kind: "contains", token: "-RAIL", why: "rail kit; 87 parts (UCSC-RAIL-2U, HX-RAILS-M5, ASA-RAILS, AIR-AP-T-RAIL-F)" },
+  { kind: "contains", token: "-BZL-", why: "bezel; 59 parts (UCSC-BZL-C220M5=, CMICR-BZL-S-C)" },
+  { kind: "contains", token: "-BBLKD", why: "drive blanking panel; 33 parts (UCSC-BBLKD-L)" },
+  { kind: "contains", token: "-FBRS-", why: "riser blank; 5 parts (UCSC-FBRS-C220M6)" },
+  { kind: "prefix", token: "R2XX-RAID", why: "RAID configuration option; 15 parts (R2XX-RAID0: 'Enable RAID 0 Setting')" },
+  { kind: "prefix", token: "CBL-", why: "internal cable or cable kit; 96 parts (CBL-NVME-C220FF=, CBL-SAS24-240M6, CBL-BRKT-V2)" },
+  { kind: "prefix", token: "UCSC-HS", why: "UCS C heatsink (UCSC-HS-C220M5=, UCSC-HSHP-C245M6); scoped to the UCS/HX prefixes: a global -HS- matched 52 Cisco HEADSETS" },
+  { kind: "prefix", token: "UCSX-HS", why: "UCS X heatsink; scoped (see UCSC-HS)" },
+  { kind: "prefix", token: "UCSB-HS", why: "UCS B heatsink; scoped (see UCSC-HS)" },
+  { kind: "prefix", token: "HX-HS", why: "HyperFlex heatsink; scoped (see UCSC-HS)" },
+  { kind: "contains", token: "-TPM", why: "Trusted Platform Module; 102 parts (UCSC-TPM-001-C460, APIC-TPM2-002B-C)" },
+  { kind: "prefix", token: "UCS-M2-", why: "M.2 boot drive / controller (UCS-M2-240G=); scoped: a global -M2- matched a UCS B230 M2 BLADE SERVER (M2 is also a generation)" },
+  { kind: "prefix", token: "HX-M2-", why: "HyperFlex M.2 drive; scoped (see UCS-M2-)" },
+  { kind: "prefix", token: "UCSX-M2-", why: "UCS X M.2 drive; scoped (see UCS-M2-)" },
+  { kind: "contains", token: "-MRAID", why: "modular RAID controller; 73 parts (UCSC-MRAID-SC=, SNS-MRAID12G)" },
+  { kind: "contains", token: "-PSU", why: "power supply unit; 304 parts (UCSC-PSU1-1200W=, NCS1K4-AC-PSU=, FPR4K-PSU-BLANK=)" },
+  { kind: "prefix", token: "UCS-HD", why: "UCS hard drive; 251 parts (UCS-HD600G10K12N, UCS-HDL22TW1S74K)" },
+  { kind: "prefix", token: "HX-HD", why: "HyperFlex hard drive; 69 parts" },
+  { kind: "prefix", token: "HX-SD", why: "HyperFlex SSD; 270 parts (HX-SD38T2HTNK9)" },
+  { kind: "prefix", token: "UCSX-SD", why: "UCS X SSD; 152 parts (UCSX-SDB480OA1P)" },
+  { kind: "prefix", token: "UCS-SD", why: "UCS SSD and SD card; 483 parts (UCS-SDB960OA1V, UCS-SD-64G-S)" },
 ];
 
 /** The component shape `sku` matches, or null. The Cisco spare "=" suffix is packaging: stripped
@@ -802,7 +838,10 @@ export function describesPart(s: InheritSubject): { rule: string; reason: string
     return { rule: `class:${s.productClass}`, reason: `INHERIT_NOT_A_SUBJECT: ${s.sku} is a ${s.productClass}, not a product this document describes` };
   }
   const shape = componentShape(s.sku);
-  if (shape) {
+  // THE OWN-FAMILY EXCEPTION (reviewer ruling, 30 Sep 2026): a component shape refuses every family-level fact EXCEPT one from a
+  // document family the shape names as its own -- an adapter reading the adapters document. Keyed on the document's family, never
+  // a pass for the shape: the same adapter reading a server sheet is still refused (the test's sabotage).
+  if (shape && !(shape.ownFamilies ?? []).includes(String(s.docFamily ?? "").trim().toLowerCase())) {
     return { rule: `component:${shape.token}`, reason: `INHERIT_NOT_A_SUBJECT: ${s.sku} matches component shape ${shape.kind}:${shape.token} (${shape.why}); the document lists it, it does not describe it` };
   }
   if (s.categorySlug && ACCESSORY_CATEGORIES.has(s.categorySlug)) {

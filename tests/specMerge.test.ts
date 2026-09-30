@@ -430,8 +430,13 @@ const subj = (o: Partial<S> & { sku: string }): S => ({ productClass: "hardware"
   check("SABOTAGE the model alone refuses it (the 8 Sep defect: family became the model): layer 4 is what admits it",
     describesPart(subj({ ...c93, partSeries: null }))?.rule === "family:mismatch", JSON.stringify(describesPart(subj({ ...c93, partSeries: null }))));
   const drive = { sku: "UCS-HD600G10K12N", categorySlug: "servers", partFamily: "UCS-HD600G10K12N", partSeries: "Drives and storage", docFamily: "ucs-c-series-rack-servers" };
-  check("SABOTAGE a drive does not inherit a rack server's specs: neither input describes it, refused as a MISMATCH naming layer 4",
-    describesPart(subj(drive))?.rule === "family:mismatch" && /series "Drives and storage"/.test(describesPart(subj(drive))?.reason ?? ""), JSON.stringify(describesPart(subj(drive))));
+  // since the component-shape round (30 Sep 2026) a UCS drive is refused EARLIER, as a component; the layer-4 mismatch the case was
+  // written to pin is kept alive on a part no component shape covers (the twin below)
+  check("SABOTAGE a drive does not inherit a rack server's specs: refused as a component (UCS-HD)",
+    describesPart(subj(drive))?.rule === "component:UCS-HD", JSON.stringify(describesPart(subj(drive))));
+  const server = { sku: "UCSC-C220-M5SX", categorySlug: "servers", partFamily: "UCSC-C220-M5SX", partSeries: "UCS C220", docFamily: "catalyst-9300-series-switches" };
+  check("SABOTAGE a server reading another line's sheet is refused as a MISMATCH naming layer 4",
+    describesPart(subj(server))?.rule === "family:mismatch" && /series "UCS C220"/.test(describesPart(subj(server))?.reason ?? ""), JSON.stringify(describesPart(subj(server))));
   let threw = false;
   try { describesPart({ ...subj(c93), partSeries: undefined as unknown as null }); } catch { threw = true; }
   check("SABOTAGE a caller whose query never selected product_series throws, never falls back to the model in silence", threw);
@@ -443,6 +448,24 @@ check("a licence may not", describesPart(subj({ sku: "L-C9200-24-E-A", productCl
 check("a service contract may not", describesPart(subj({ sku: "CON-SNT-C9200L24", productClass: "service" }))?.rule === "class:service");
 check("an optic may not, even when the catalogue calls it a switch",
   describesPart(subj({ sku: "SFP-10G-LR=", categorySlug: "switches" }))?.rule === "component:SFP");
+
+// ---- the component-shape round (reviewer rulings, 30 Sep 2026): the new shapes, the own-family exception and its sabotage
+{
+  const adapter = { sku: "UCSC-P-ID10GC", categorySlug: "servers-unified-computing", partFamily: "UCSC-P-ID10GC", partSeries: "Network and storage adapters" };
+  check("an adapter takes a family fact from its OWN family document (unified-computing-system-adapters)",
+    !String(describesPart(subj({ ...adapter, docFamily: "unified-computing-system-adapters" }))?.rule ?? "").startsWith("component:"),
+    JSON.stringify(describesPart(subj({ ...adapter, docFamily: "unified-computing-system-adapters" }))));
+  check("SABOTAGE the same adapter reading a SERVER family's document is still a component (the exception is the document's, not the shape's)",
+    describesPart(subj({ ...adapter, docFamily: "ucs-c-series-rack-servers" }))?.rule === "component:UCSC-P-",
+    JSON.stringify(describesPart(subj({ ...adapter, docFamily: "ucs-c-series-rack-servers" }))));
+  check("the exception is per shape: a CPU reading the adapters document is still a component",
+    describesPart(subj({ sku: "UCS-CPU-I4210", docFamily: "unified-computing-system-adapters" }))?.rule === "component:-CPU-");
+  check("a RAID option does not inherit a server's weight", describesPart(subj({ sku: "R2XX-RAID0", docFamily: "ucs-c-series-rack-servers" }))?.rule === "component:R2XX-RAID");
+  check("a heat sink does not", describesPart(subj({ sku: "UCSC-HS-C220M5=", docFamily: "ucs-c-series-rack-servers" }))?.rule === "component:UCSC-HS");
+  check("a cable does not", describesPart(subj({ sku: "CBL-NVME-C220FF=", docFamily: "ucs-c-series-rack-servers" }))?.rule === "component:CBL-");
+  check("a Cisco HEADSET is not a component (the heatsink token is scoped to UCS/HX prefixes, never a global -HS-)", componentShape("CP-HS-W-521-USBA") === null);
+  check("a UCS B230 M2 blade SERVER is not a component (no global -M2-: M2 is also a generation)", componentShape("B230-BASE-M2-CH2") === null);
+}
 check("a console cable may not", describesPart(subj({ sku: "CAB-CONSOLE-RJ45" }))?.rule === "component:CAB-");
 check("a power supply may not", describesPart(subj({ sku: "PWR-IE50W-AC=" }))?.rule === "component:PWR-");
 check("a stacking cable may not", describesPart(subj({ sku: "STACK-T2-1M=" }))?.rule === "component:STACK-");
