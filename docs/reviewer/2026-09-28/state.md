@@ -302,5 +302,21 @@ HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). R
      TRAP: the night rebuilds and stamps the artefacts IN THE DEPLOY TREE (STAMP_*_COMMIT = the deployed commit). The day
      session copies them into the repo, restamps, commits BEFORE ANY DEPLOY -- a deploy first would put the older committed
      artefacts back under the API.
+## NOW (30 Sep ~11:00 UTC) -- handoff written on a WASTEFUL flag (context 90%)
+- PERFORMANCE CHECK (standing order, 30 Sep): every report ends with `npx tsx scripts/scorecard.ts --record` (flags first);
+  the reviewer's verdict goes back with `--verdict "<line>"`; data/reports/today.json is the day's rule/blocker/prediction
+  (keep it current: blocker_key must be a readiness reason to count as on-list); dashboard panel "Arbeitsqualität".
+- LANDED: component shapes 9cf372c (29 tokens + ownFamilies for adapters; specMerge 195/195). NOT YET: (2) the approved
+  retraction -- one run on the box, plan = the 1,662 flip rows (served, inherited, on newly-component parts, refused by a
+  component:* rule; the 10 adapters-from-their-own-sheet facts excluded by ownFamilies); control: no own fact touched. Build it
+  as scripts/retract-component-inherited.mts from the retract-inherited.mts template (selector = the flip list, precision =
+  re-read + describesPart component:*, recall = independent count + specMerge suite, per-chunk check = no SELECTED fact still
+  current, NOT "no inherited fact left"). Register the run kind (AG) in mould-verify.
+- THEN the comparator round: series-in-family (Nexus 9300 <- nexus-9000-series), glued prefix (IE 3500 <- ie3500-rugged),
+  letter series (UCS C220 <- ucs-c-series) ONLY with the line word (UCS<->ucs); sabotages: c9350 vs a 9350 of another line,
+  ucs-c-series vs a Catalyst C9300, UCS B200 vs ucs-c-series. Flip lists read first; remerge OFF.
+- Top-5 by ready-gain today: weight 919, attributes:none 53, PoE 39, Stromversorgung 33, Stacking 12 (the UCS work is off-list:
+  DRIFT flagged honestly; the reviewer ordered it).
+
 ## Pinned predictions
 - run 1350 lands -> the enum CISCO line drops standard to 0 (was 555 seed); what remains red there is non-seed audio_codecs/antenna_type/spatial_streams + refused shape members. required_cup_defined not moved by it (other vendors seed untouched).
