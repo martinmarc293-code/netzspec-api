@@ -340,6 +340,9 @@ const RUN_KIND_CLASS: Record<string, { approval: boolean; gate: boolean }> = {
   // FILL PIPELINE acquire (reviewer ruling 30 Sep 2026): the login-walled /products/se/ queue rows parked, never re-queued
   // (a queue decision, no fact moves; the ruling is the approval, recorded in inputs.approved)
   "park-login-walled": A,
+  // component-shape round (reviewer rulings 30 Sep 2026): withdraws the inherited facts components held from their host's sheet
+  // (approval) inside a gated run (re-read + the store's rule + an independent count)
+  "apply-retract-component-inherited": AG,
 };
 // The vendor this lane has axes for; vendor_coverage owns every other vendor's hardware (unknown_zero counts them apart).
 const OWN_VENDOR = "cisco";
