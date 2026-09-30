@@ -93,20 +93,20 @@ export type Light = { color: "GREEN" | "AMBER" | "RED"; reason: string };
 
 /** The addendum's rules, RED first, then AMBER, else GREEN; the reason is one plain sentence. */
 export function statusLight(f: NightFacts): Light {
-  if (f.first_night_pending) return { color: "AMBER", reason: "No night has run yet: the first fill night starts at 01:00 UTC." };
-  if (!f.ran_last_night) return { color: "RED", reason: "No fill run happened last night." };
-  if (f.stopped) return { color: "RED", reason: `The night stopped: ${f.stopped}.` };
+  if (f.first_night_pending) return { color: "AMBER", reason: "Noch keine Nacht gelaufen: die erste Befüllungsnacht startet um 01:00 UTC." };
+  if (!f.ran_last_night) return { color: "RED", reason: "Letzte Nacht lief keine Befüllung." };
+  if (f.stopped) return { color: "RED", reason: `Die Nacht wurde gestoppt: ${f.stopped}.` };
   if (f.ready_before !== null && f.ready_now < f.ready_before && !f.retraction_recorded)
-    return { color: "RED", reason: `Shop-ready fell from ${f.ready_before} to ${f.ready_now} with no recorded retraction.` };
-  if (f.board_other_failing.length) return { color: "RED", reason: `A board test went red: ${f.board_other_failing.join(", ")}.` };
-  if (f.no_progress_nights >= 2) return { color: "AMBER", reason: `No progress ${f.no_progress_nights} nights running.` };
-  if (f.stalled_categories.length) return { color: "AMBER", reason: `Stalled 3 nights: ${f.stalled_categories.slice(0, 3).join(", ")}.` };
-  if (f.staged_waiting_days > 3) return { color: "AMBER", reason: `Families have waited ${f.staged_waiting_days} days for golden rows.` };
-  if (f.soft_block_pct !== null && f.soft_block_pct > 2) return { color: "AMBER", reason: `Akamai error pages at ${f.soft_block_pct.toFixed(1)}% of fetches.` };
-  if (f.quality_wrong_way.length) return { color: "AMBER", reason: `Quality moving the wrong way: ${f.quality_wrong_way[0]}.` };
-  if (f.prediction_miss_pct !== null && f.prediction_miss_pct > 30) return { color: "AMBER", reason: `Today's prediction missed by ${Math.round(f.prediction_miss_pct)}%.` };
-  if (f.committed_facts <= 0) return { color: "AMBER", reason: "Last night ran cleanly but committed no data." };
-  return { color: "GREEN", reason: `Last night committed ${f.committed_facts} facts; shop-ready ${f.ready_before ?? "?"} -> ${f.ready_now}.` };
+    return { color: "RED", reason: `Shop-ready fiel von ${f.ready_before} auf ${f.ready_now}, ohne erfasste Rücknahme.` };
+  if (f.board_other_failing.length) return { color: "RED", reason: `Ein Prüftest ist rot: ${f.board_other_failing.join(", ")}.` };
+  if (f.no_progress_nights >= 2) return { color: "AMBER", reason: `Seit ${f.no_progress_nights} Nächten kein Fortschritt.` };
+  if (f.stalled_categories.length) return { color: "AMBER", reason: `3 Nächte ohne Bewegung: ${f.stalled_categories.slice(0, 3).join(", ")}.` };
+  if (f.staged_waiting_days > 3) return { color: "AMBER", reason: `Dokumentfamilien warten seit ${f.staged_waiting_days} Tagen auf Prüfzeilen (golden rows).` };
+  if (f.soft_block_pct !== null && f.soft_block_pct > 2) return { color: "AMBER", reason: `Akamai-Fehlerseiten bei ${f.soft_block_pct.toFixed(1)} % der Abrufe.` };
+  if (f.quality_wrong_way.length) return { color: "AMBER", reason: `Qualität bewegt sich in die falsche Richtung: ${f.quality_wrong_way[0]}.` };
+  if (f.prediction_miss_pct !== null && f.prediction_miss_pct > 30) return { color: "AMBER", reason: `Die heutige Prognose lag ${Math.round(f.prediction_miss_pct)} % daneben.` };
+  if (f.committed_facts <= 0) return { color: "AMBER", reason: "Die Nacht lief sauber, hat aber keine Daten geschrieben." };
+  return { color: "GREEN", reason: `Letzte Nacht: ${f.committed_facts} Fakten geschrieben; shop-ready ${f.ready_before ?? "?"} → ${f.ready_now}.` };
 }
 
 /** Days to 100% filled at the average gain per night (null when there is no gain to extrapolate). */

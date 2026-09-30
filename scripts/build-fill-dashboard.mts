@@ -120,9 +120,9 @@ const qual = days.map((d) => {
 const wrong: string[] = [];
 const l2 = qual.slice(-3);
 if (l2.length === 3) {
-  if (l2[2].retracted > l2[1].retracted && l2[1].retracted > l2[0].retracted) wrong.push(`retractions rose two nights running (${l2[2].retracted})`);
-  if (l2[2].opened > l2[2].resolved && l2[1].opened > l2[1].resolved) wrong.push(`conflicts opened outpaced resolved two nights (${l2[2].opened} vs ${l2[2].resolved})`);
-  if ((l2[2].precision ?? 1) < 0.98 && (l2[1].precision ?? 1) < 0.98) wrong.push(`gate precision under 98% two nights (${l2[2].precision})`);
+  if (l2[2].retracted > l2[1].retracted && l2[1].retracted > l2[0].retracted) wrong.push(`Rücknahmen zwei Nächte in Folge gestiegen (${l2[2].retracted})`);
+  if (l2[2].opened > l2[2].resolved && l2[1].opened > l2[1].resolved) wrong.push(`zwei Nächte mehr neue als gelöste Konflikte (${l2[2].opened} zu ${l2[2].resolved})`);
+  if ((l2[2].precision ?? 1) < 0.98 && (l2[1].precision ?? 1) < 0.98) wrong.push(`Gate-Präzision zwei Nächte unter 98 % (${l2[2].precision})`);
 }
 
 // ------------------------------------------------------------------------------------------------ the light
@@ -180,7 +180,7 @@ const spark = (vals: number[]) => {
   const pts = vals.map((v, i) => `${((i * W) / (vals.length - 1)).toFixed(1)},${(H - ((v - min) / ((max - min) || 1)) * H).toFixed(1)}`).join(" ");
   return `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}"><polyline fill="none" stroke="#2b59c3" stroke-width="1.6" points="${pts}"/></svg>`;
 };
-const LEGEND = `<p class="legend muted">${["filled (read from a sheet)", "filled (inherited / derived)", "waiting on a gate", "not read yet (sheet held)", "no sheet held"]
+const LEGEND = `<p class="legend muted">${["befüllt (aus einem Datenblatt gelesen)", "befüllt (geerbt / abgeleitet)", "wartet auf eine Vorbedingung", "Datenblatt vorhanden, noch nicht gelesen", "kein Datenblatt"]
   .map((l, i) => `<span class="s${i}"></span>${l}`).join("")}</p>`;
 // one stylesheet for the whole site (41k part pages each carrying it came to 208 MB): `root` is the page's path back to it
 const page = (title: string, body: string, root = "") => `<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
