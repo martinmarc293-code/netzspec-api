@@ -141,7 +141,9 @@ const streak = readyDelta === 0 ? (prev?.streak ?? 0) + 1 : 0;      // a first s
 const flags: string[] = [];
 const prevStalledish = prev && prev.ready_delta === 0 && !(Number(prev.actual) > 0);
 if (readyDelta === 0 && !(Number(actual) > 0) && prevStalledish) flags.push("STALLED: 2 reports in a row with ready +0 and no unlocking rule shipped");
-if (rank < 0 || rank > 2) flags.push(`DRIFT: today's work (${today?.blocker_key ?? "no today.json"}) is not a top-3 blocker by ready-gain`);
+// reviewer, 30 Sep 2026: "ordered correctness work is not drift" -- today.json focus "ordered-correctness" is never DRIFT
+const ordered = today?.focus === "ordered-correctness";
+if (!ordered && (rank < 0 || rank > 2)) flags.push(`DRIFT: today's work (${today?.blocker_key ?? "no today.json"}) is not a top-3 blocker by ready-gain`);
 if (fixups >= 2) flags.push(`SLOPPY: ${fixups} fix-ups of my own commits in this batch (${fixupList.join(", ")})`);
 const miss = (p: number, a: number | null) => p > 0 && a !== null && Math.abs(p - a) / p > 0.3;
 if (miss(predicted, actual) && prev && miss(Number(prev.predicted), prev.actual)) flags.push("OFF-TARGET: prediction vs actual off by > 30% twice in a row");
@@ -159,7 +161,7 @@ const card = {
 const lines = [
   ...(flags.length ? ["FLAGS: " + flags.join(" | "), ""] : []),
   `outcome   ready ${readyDelta === null ? "(first scorecard)" : `${readyDelta >= 0 ? "+" : ""}${readyDelta}`} (${R.ready} of ${R.scanned}) · filled ${filledDelta === null ? "(first)" : `${filledDelta >= 0 ? "+" : ""}${filledDelta}%`} (${R.filled_pct}%) · today's rule unlocked: predicted ${Number.isFinite(predicted) ? predicted : "n/a"} / actual ${actual ?? "n/a"}`,
-  `focus     ${offList ? `off the top-5 by ready-gain (${today?.blocker_key ?? "no today.json"})` : `blocker #${rank + 1} of the top-5 (${today.blocker_key})`} · off-list work: ${offList ? `yes (${today?.rule ?? "?"})` : "no"} · top-5: ${R.top5.map((b: any) => `${b.blocker} ${b.parts}`).join(", ")}`,
+  `focus     ${ordered ? `ordered-correctness (${today?.rule ?? "?"})` : offList ? `off the top-5 by ready-gain (${today?.blocker_key ?? "no today.json"})` : `blocker #${rank + 1} of the top-5 (${today.blocker_key})`} · off-list work: ${offList ? `yes (${today?.rule ?? "?"})` : "no"} · top-5: ${R.top5.map((b: any) => `${b.blocker} ${b.parts}`).join(", ")}`,
   `rework    commits fixing my own earlier commits: ${fixups}${fixupList.length ? ` (${fixupList.join(", ")})` : ""} · reverts: ${reverts} · commits in window: ${commits.length}`,
   `asks      ${tfile ? `questions to reviewer: ${questions}` : "questions to reviewer: not computed (no transcript given)"} · of which already ruled in state.md: n/a (a reading, not a count)`,
   `cost      ${tfile ? `context used: ${ctxPct ?? "?"}% (${ctx?.toLocaleString("en") ?? "?"} of ${CONTEXT_WINDOW.toLocaleString("en")} tokens) · commands run: ${commands}` : "context / commands: not computed (no transcript given)"} · time since last report: ${hhmm(now.getTime() - new Date(since).getTime())}`,

@@ -4,5 +4,6 @@
   "blocker_key": "component parts holding a server's inherited values (not a shop-ready blocker)",
   "predicted_unlock": 0,
   "predicted_at_ready": 154,
-  "note": "a correctness fix the reviewer ordered: it withdraws wrong served values and unlocks no part; the UCS servers wait for the comparator round"
+  "note": "a correctness fix the reviewer ordered: it withdraws wrong served values and unlocks no part; the UCS servers wait for the comparator round",
+  "focus": "ordered-correctness"
 }
