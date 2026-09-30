@@ -1,35 +1,182 @@
 {
  "_about": "FINAL FILL ORDER item 4 (reviewer, 30 Sep 2026): a small component with no measured weight gets a Versandgewicht from its SHIPPING CLASS (derived:shipping-class, this table the witness); its Artikelgewicht stays empty until a measured weight exists; shop_ready accepts the Versandgewicht for these kinds only. Fans included by the reviewer's verdict of 30 Sep ~12:40 UTC. A tier is a PARCEL class, never a claim about the part's weight. Rows are the (category, kind) pairs the prediction counted (921 parts whose only blocker is weight). A tier rounds UP: for shipping the maximum is the safe side (ruling Q25).",
- "tiers": { "XS": 0.25, "S": 0.5, "M": 1, "L": 2, "XL": 5, "XXL": 15 },
+ "tiers": {
+  "XS": 0.25,
+  "S": 0.5,
+  "M": 1,
+  "L": 2,
+  "XL": 5,
+  "XXL": 15
+ },
  "measured": "served weights of live Cisco hardware of the same (category, kind), 30 Sep 2026 ~13:30 UTC: transceiver/cable n=18 median 0.27 p90 0.55 max 0.60 kg; transceiver/breakout-cable n=10 median 0.60 p90 0.80 max 0.80; switches/fan n=8 median 2.6 p90 4.4 max 5.2; routers/fan n=8 median 5.67 p90 12.2 max 12.59. No other small-component kind holds a measured weight.",
  "classes": [
-  { "category": "transceiver", "kind": "pluggable", "tier": "XS", "basis": "declared (no measured weight): an SFP/QSFP-class optic in its box" },
-  { "category": "transceiver", "kind": "cable", "tier": "M", "basis": "measured p90 0.55 kg (n=18), rounded up" },
-  { "category": "transceiver", "kind": "breakout-cable", "tier": "M", "basis": "measured p90 0.80 kg (n=10), rounded up" },
-  { "category": "switches", "kind": "stack-cable", "tier": "M", "basis": "declared (no measured weight): a stacking cable up to 3 m, the transceiver-cable tier" },
-  { "category": "switches", "kind": "cable", "tier": "M", "basis": "declared (no measured weight): the transceiver-cable tier" },
-  { "category": "wireless", "kind": "cable", "tier": "M", "basis": "declared (no measured weight): the transceiver-cable tier" },
-  { "category": "switches", "kind": "power-cord", "tier": "M", "basis": "declared (no measured weight): a power cord; M not S because DC and 3-phase cords are heavy" },
-  { "category": "routers", "kind": "power-cord", "tier": "M", "basis": "declared (no measured weight): as switches/power-cord" },
-  { "category": "wireless", "kind": "power-cord", "tier": "M", "basis": "declared (no measured weight): as switches/power-cord" },
-  { "category": "collaboration-endpoints", "kind": "power-cord", "tier": "M", "basis": "declared (no measured weight): as switches/power-cord" },
-  { "category": "servers-unified-computing", "kind": "power-cord", "tier": "M", "basis": "declared (no measured weight): as switches/power-cord (CAB-48DC-40A-8AWG is an 8 AWG DC cable)" },
-  { "category": "switches", "kind": "flash", "tier": "XS", "basis": "declared (no measured weight): a flash card or USB module" },
-  { "category": "routers", "kind": "flash", "tier": "XS", "basis": "declared (no measured weight): a flash card or disk module" },
-  { "category": "unified-communications", "kind": "flash", "tier": "XS", "basis": "declared (no measured weight): a flash module" },
-  { "category": "switches", "kind": "memory", "tier": "XS", "basis": "declared (no measured weight): a memory module" },
-  { "category": "switches", "kind": "drive", "tier": "S", "basis": "declared (no measured weight): an SSD module" },
-  { "category": "servers-unified-computing", "kind": "cpu", "tier": "S", "basis": "declared (no measured weight): a processor in its tray" },
-  { "category": "hyperconverged-infrastructure", "kind": "cpu", "tier": "S", "basis": "declared (no measured weight): a processor in its tray" },
-  { "category": "hyperconverged-systems", "kind": "cpu", "tier": "S", "basis": "declared (no measured weight): a processor in its tray" },
-  { "category": "switches", "kind": "mechanical", "tier": "L", "basis": "declared (no measured weight): rack kits, brackets, blanks, covers" },
-  { "category": "wireless", "kind": "mechanical", "tier": "L", "basis": "declared (no measured weight): mounting kits and brackets" },
-  { "category": "collaboration-endpoints", "kind": "mechanical", "tier": "L", "basis": "declared (no measured weight): wall-mount kits, bezels" },
-  { "category": "video", "kind": "mechanical", "tier": "L", "basis": "declared (no measured weight): covers" },
-  { "category": "routers", "kind": "mechanical", "tier": "XL", "basis": "declared (no measured weight): rack-mount kits for large router chassis (8200/8700), so XL rather than L" },
-  { "category": "switches", "kind": "accessory", "tier": "S", "basis": "declared (no measured weight): a small accessory kit" },
-  { "category": "switches", "kind": "fan", "tier": "XL", "basis": "measured p90 4.4 kg (n=8), rounded up: NOT a small parcel" },
-  { "category": "storage-networking", "kind": "fan", "tier": "XL", "basis": "declared (no measured weight): the switches/fan tier" },
-  { "category": "routers", "kind": "fan", "tier": "XXL", "basis": "measured p90 12.2 kg (n=8), max 12.59: router fan trays are NOT small parcels" }
+  {
+   "category": "transceiver",
+   "kind": "pluggable",
+   "tier": "XS",
+   "basis": "declared (no measured weight): an SFP/QSFP-class optic in its box"
+  },
+  {
+   "category": "transceiver",
+   "kind": "cable",
+   "tier": "M",
+   "basis": "measured p90 0.55 kg (n=18), rounded up"
+  },
+  {
+   "category": "transceiver",
+   "kind": "breakout-cable",
+   "tier": "M",
+   "basis": "measured p90 0.80 kg (n=10), rounded up"
+  },
+  {
+   "category": "switches",
+   "kind": "stack-cable",
+   "tier": "M",
+   "basis": "declared (no measured weight): a stacking cable up to 3 m, the transceiver-cable tier"
+  },
+  {
+   "category": "switches",
+   "kind": "cable",
+   "tier": "M",
+   "basis": "declared (no measured weight): the transceiver-cable tier"
+  },
+  {
+   "category": "wireless",
+   "kind": "cable",
+   "tier": "M",
+   "basis": "declared (no measured weight): the transceiver-cable tier"
+  },
+  {
+   "category": "switches",
+   "kind": "power-cord",
+   "tier": "M",
+   "basis": "declared (no measured weight): a power cord; M not S because DC and 3-phase cords are heavy"
+  },
+  {
+   "category": "routers",
+   "kind": "power-cord",
+   "tier": "M",
+   "basis": "declared (no measured weight): as switches/power-cord"
+  },
+  {
+   "category": "wireless",
+   "kind": "power-cord",
+   "tier": "M",
+   "basis": "declared (no measured weight): as switches/power-cord"
+  },
+  {
+   "category": "collaboration-endpoints",
+   "kind": "power-cord",
+   "tier": "M",
+   "basis": "declared (no measured weight): as switches/power-cord"
+  },
+  {
+   "category": "servers-unified-computing",
+   "kind": "power-cord",
+   "tier": "M",
+   "basis": "declared (no measured weight): as switches/power-cord (CAB-48DC-40A-8AWG is an 8 AWG DC cable)"
+  },
+  {
+   "category": "switches",
+   "kind": "flash",
+   "tier": "XS",
+   "basis": "declared (no measured weight): a flash card or USB module"
+  },
+  {
+   "category": "routers",
+   "kind": "flash",
+   "tier": "XS",
+   "basis": "declared (no measured weight): a flash card or disk module"
+  },
+  {
+   "category": "unified-communications",
+   "kind": "flash",
+   "tier": "XS",
+   "basis": "declared (no measured weight): a flash module"
+  },
+  {
+   "category": "switches",
+   "kind": "memory",
+   "tier": "XS",
+   "basis": "declared (no measured weight): a memory module"
+  },
+  {
+   "category": "switches",
+   "kind": "drive",
+   "tier": "S",
+   "basis": "declared (no measured weight): an SSD module"
+  },
+  {
+   "category": "servers-unified-computing",
+   "kind": "cpu",
+   "tier": "S",
+   "basis": "declared (no measured weight): a processor in its tray"
+  },
+  {
+   "category": "hyperconverged-infrastructure",
+   "kind": "cpu",
+   "tier": "S",
+   "basis": "declared (no measured weight): a processor in its tray"
+  },
+  {
+   "category": "hyperconverged-systems",
+   "kind": "cpu",
+   "tier": "S",
+   "basis": "declared (no measured weight): a processor in its tray"
+  },
+  {
+   "category": "switches",
+   "kind": "mechanical",
+   "tier": "XL",
+   "basis": "declared (no measured weight): rack kits, brackets, blanks, covers -- raised L -> XL after reading the rows (chassis cable-management kits for 18-slot Nexus chassis)"
+  },
+  {
+   "category": "wireless",
+   "kind": "mechanical",
+   "tier": "L",
+   "basis": "declared (no measured weight): mounting kits and brackets"
+  },
+  {
+   "category": "routers",
+   "kind": "mechanical",
+   "tier": "XL",
+   "basis": "declared (no measured weight): rack-mount kits for large router chassis (8200/8700), so XL rather than L"
+  },
+  {
+   "category": "switches",
+   "kind": "accessory",
+   "tier": "M",
+   "basis": "declared (no measured weight): accessory kits -- raised S -> M after reading the rows (a Catalyst 6800 base board)"
+  },
+  {
+   "category": "switches",
+   "kind": "fan",
+   "tier": "XL",
+   "basis": "measured p90 4.4 kg (n=8), rounded up: NOT a small parcel"
+  },
+  {
+   "category": "storage-networking",
+   "kind": "fan",
+   "tier": "XL",
+   "basis": "declared (no measured weight): the switches/fan tier"
+  },
+  {
+   "category": "routers",
+   "kind": "fan",
+   "tier": "XXL",
+   "basis": "measured p90 12.2 kg (n=8), max 12.59: router fan trays are NOT small parcels"
+  }
+ ],
+ "excluded": [
+  {
+   "category": "collaboration-endpoints",
+   "kind": "mechanical",
+   "why": "read 30 Sep 2026: the kind mixes clips and covers with freight -- Board Pro 55 and Room Kit EQX floor stands, IX5000 table legs -- so no parcel tier is honest for it; those parts keep needing a measured weight"
+  },
+  {
+   "category": "video",
+   "kind": "mechanical",
+   "why": "read 30 Sep 2026: the kind holds a GS7000 node housing beside covers and crowbars; excluded for the same reason"
+  }
  ]
 }

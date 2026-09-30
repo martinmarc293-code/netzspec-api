@@ -14,7 +14,7 @@ const check = (name: string, got: unknown, want: unknown) => {
 
 // ---- the table ------------------------------------------------------------------------------------------------------------
 const rows = shippingClasses();
-check("the table holds the 28 rows the prediction counted", rows.length, 28);
+check("the table holds 26 rows: the 28 pairs the prediction counted, less the two excluded after reading their rows", rows.length, 26);
 check("every row names a (category, kind) some ledger holds -- a typo would be a row that can never match",
   rows.filter((r) => !(LEDGER_KINDS[r.category] ?? []).includes(r.kind)).map((r) => `${r.category}/${r.kind}`), []);
 check("a switch fan is XL, 5 kg (measured p90 4.4 kg, rounded up)", [shippingClassOf("switches", "fan")?.tier, shippingClassOf("switches", "fan")?.kg], ["XL", 5]);
