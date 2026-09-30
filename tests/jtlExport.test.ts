@@ -86,6 +86,13 @@ refuse("a name the store calls sku-only", { ...SWITCH, nameState: "sku-only" }, 
 refuse("condition prose in the name (R2)", { ...SWITCH, name: "Cisco C9200-24P Neuware, versiegelt" }, /^banned:/);
 refuse("a slug with a dot (R3)", { ...SWITCH, slug: "qsfp-100g-sr1.2" }, "url-path");
 refuse("no series, so no Kat-3", { ...SWITCH, series: null }, "kat3");
+// the one-set rule (30 Sep 2026): a part whose kind requires no group attribute is vacuously complete on attributes, and with a
+// name, a series and a weight its FAQ reaches three pairs -- but it has no row for the Attributes file, so the four files
+// cannot share one Artikelnummer set. It must be refused for exactly that.
+refuse("a part with NO attribute row at all (a switch fan: no required group attribute, only a weight)",
+  { ...SWITCH, sku: "FAN-PI-V4", kind: "fan", deployRole: null, facts: facts({ weight: 0.3 }, { weight: "kg" }), required: new Set() }, "attributes:none");
+check("...and that is its ONLY reason, so the clause is what refuses it (name, series, weight and 3 FAQ pairs all hold)",
+  shopReady({ ...SWITCH, sku: "FAN-PI-V4", kind: "fan", deployRole: null, facts: facts({ weight: 0.3 }, { weight: "kg" }), required: new Set() }).reasons.join("|") === "attributes:none");
 check("bannedIn names the phrase; an 'Original Cisco' authenticity claim is allowed", bannedIn("Original Cisco-Neuware") !== null && bannedIn("Original Cisco C9200") === null);
 
 // ---- Kat-3 is the TRUE part type (R4) -----------------------------------------------------------------------------------------

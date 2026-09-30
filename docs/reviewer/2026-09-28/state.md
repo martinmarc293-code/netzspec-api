@@ -177,8 +177,9 @@ HEAD/deployed 501b7ed (artefacts built on 0cbe5c5, contract 17b502e336ebefb6). R
      retraction tombstones) 432 inserts, gate 60/60. Run 1431: 7 C8000 edge routers never re-applied after rule 47. 708ee4a
      mapper (rule 47 widened, ^system weight$, (grams) unit, rule 119 anchored); c5e3f64 artefacts (MISS new 0). Run 1434: 14
      mapper rows (IE-4010-4S24P withheld: header spans two columns with different weights). Served weight 448 -> 684.
-  FAQ (1d46889): pairs derived from filled cups in the recorded shop's voice; the padding summary pair removed. 52 -> 104 ready.
-  READY: 33 -> 52 (weight) -> 104 (FAQ): switches 71, interfaces-modules 32, routers 1.
+  FAQ (1d46889): pairs derived from filled cups in the recorded shop's voice; the padding summary pair removed. First measured
+     104 ready -- WRONG: 49 had no Attributes row; the board's one-set check went red; shopReady now names attributes:none. 55.
+  READY: 33 -> 52 (weight) -> 55 (FAQ + run 1434 + the one-set clause): switches 54, routers 1.
   QUESTIONS OPEN (report): Q22 weight at catalogue scale (the recorded transceiver file carries a flat 0,05/0,20 placeholder);
      Q23 Versandgewicht not derivable (band deltas +0,6..+2,5); Q24 single-model sheets vs Class B (48 parts); Q25 'Module
      weight (Max)'.

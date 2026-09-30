@@ -283,6 +283,13 @@ export function shopReady(p: PartView): { ready: boolean; reasons: string[]; res
     if (!a.cups.some((c) => p.required.has(c) && !(c in RELATION_BACKED))) continue;
     if (!got.has(a.name)) reasons.push(`attribute:${a.name}`);
   }
+  // THE ONE-SET RULE, stated rather than implied. The four files carry ONE Artikelnummer set, so a ready part needs at least
+  // one row in the Attributes file. This clause was missing and held only by accident: the old FAQ could reach three pairs
+  // only through an attribute summary or the temperature, so every ready part happened to have one. When the FAQ became
+  // one question per filled cup, 49 parts whose kind requires no group attribute (switch fans and fabric modules,
+  // interfaces-modules 'interface') reached three pairs from name, series and weight -- and the served files broke the
+  // one-set rule on the first deployed board (30 Sep 2026). A part with nothing to list is not ready, whatever else holds.
+  if (!rs.length) reasons.push("attributes:none");
   if (!realName(p)) reasons.push("name");
   if (!kg(p, "weight")) reasons.push("weight");
   if (!kat3(p)) reasons.push("kat3");

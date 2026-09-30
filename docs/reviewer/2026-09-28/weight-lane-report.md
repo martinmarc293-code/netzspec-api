@@ -1,13 +1,13 @@
 # Weight lane + FAQ — 30 Sep 2026 (ruling 29 Sep ~23:25 UTC: "weight — mapper gap on held sheets first", then FAQ)
 
-**shop_ready 33 → 52 after weight → 104 after FAQ** (switches 32 → 71, interfaces-modules 0 → 32, routers 1). Live Cisco
+**shop_ready 33 → 52 after weight → 55 after FAQ and run 1434** (switches 32 → 54, routers 1). **Correction:** this file first said 104 after FAQ; 49 of those had no row for the Attributes file, the deployed board's one-set check went red on it, and the gate now names that reason (item 7). Live Cisco
 hardware parts with a served weight: **448 → 684** (run 1430 +215, run 1431 +7, run 1434 +14). Measured each time with
 the API's own `jtlReadiness` over all 41,058 parts:
 
 | category | parts | ready before | after weight (1430/1431) | after FAQ + 1434 |
 | --- | --- | --- | --- | --- |
 | servers-unified-computing | 8,262 | 0 | 0 | 0 |
-| switches | 7,225 | 32 | 51 | 71 |
+| switches | 7,225 | 32 | 51 | 54 |
 | routers | 5,119 | 1 | 1 | 1 |
 | wireless | 3,907 | 0 | 0 | 0 |
 | video | 3,260 | 0 | 0 | 0 |
@@ -17,11 +17,11 @@ the API's own `jtlReadiness` over all 41,058 parts:
 | hyperconverged-systems | 1,631 | 0 | 0 | 0 |
 | hyperconverged-infrastructure | 1,216 | 0 | 0 | 0 |
 | optical-networking | 1,157 | 0 | 0 | 0 |
-| interfaces-modules | 1,079 | 0 | 0 | 32 |
+| interfaces-modules | 1,079 | 0 | 0 | 0 |
 | storage-networking | 661 | 0 | 0 | 0 |
 | unified-communications | 426 | 0 | 0 | 0 |
 | meraki | 69 | 0 | 0 | 0 |
-| **all** | **41,058** | **33** | **52** | **104** |
+| **all** | **41,058** | **33** | **52** | **55** |
 
 ## What the measurement said about the premise
 
@@ -77,7 +77,13 @@ Cisco's sheets do print weights — mostly not per model, and the mapper is the 
    attributes is gone: it repeated the per-attribute pairs and already asked the operating temperature twice — padding
    the 3-pair bar. A part with one filled cup and no series now honestly has two pairs. No ready part can drop (a ready
    part has a weight pair, its name, and an attribute or series pair). jtlExport 50/0, five sabotages caught.
-   **52 → 104 ready.**
+7. **The one-set clause** (the deployed board caught my regression): the FAQ change made 49 parts ready — switch fans (5)
+   and fabric modules (12), interfaces-modules `interface` (32) — whose kinds require no group attribute, so their FAQ
+   reached three pairs from name, series and weight while they had **no row for the Attributes file**; the served files
+   then broke the importer's one-Artikelnummer-set rule (`export_profiles_roundtrip` red). The old FAQ had been holding
+   that line by accident. shopReady now names it, `attributes:none`, with a sabotaged case; the four files carry one set
+   of 55. The same reason now counts, per category, the parts with nothing to list at all (routers 4,154, servers 5,536,
+   wireless 3,017 …) — exactly the counts the old `faq<3` was standing in for. **52 → 55 ready.**
 
 ## The ceiling, and the questions it raises
 
