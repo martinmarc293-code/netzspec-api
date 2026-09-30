@@ -1,8 +1,8 @@
 {
   "vendor": "cisco",
   "category": "optical-networking",
-  "built_at": "2026-09-30T00:44:13.967Z",
-  "commit": "708ee4acdf786b50f1bcac1a2d9068edc5dc2113",
+  "built_at": "2026-09-30T01:04:39.090Z",
+  "commit": "1d46889c1d45f85c64bc4914e41c54b0e47754e7",
   "uncommitted_rule_files": [],
   "mapping_file": "data/reference/product-lines/cisco-optical-networking.json",
   "parts": 1157,
@@ -468,9 +468,9 @@
   "inbound_unplaced": {},
   "done": true,
   "build": {
-    "data_commit": "708ee4acdf78+83dirty",
-    "code_commit": "708ee4acdf78",
+    "data_commit": "c5e3f6429669+82dirty",
+    "code_commit": "037fdeeadf79",
     "contract_hash": "b4fce311fad4b6a7",
-    "generated_at": "2026-09-30T00:51:30.602Z"
+    "generated_at": "2026-09-30T01:11:27.769Z"
   }
 }
