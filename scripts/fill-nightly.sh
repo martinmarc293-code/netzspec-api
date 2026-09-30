@@ -95,17 +95,23 @@ rc=$?
 log "acquire exit $rc"
 [ $rc = 3 ] && stop acquire "$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1])).get("stop_reason"))' "$NIGHT/acquire.json" 2>/dev/null) (throttling)"
 [ $rc = 0 ] || stop acquire "worker exit $rc (see $NIGHT/acquire.log)"
-ACQ_DIR="$FILL/runs/acquired/cisco-datasheets/$DAY"
-N_ACQ=$(ls "$ACQ_DIR" 2>/dev/null | wc -l)
-log "acquired files tonight: $N_ACQ"
-
-# ---- APPLY: tonight's documents only, through the gate ------------------------------------------------------------------------
+# ---- APPLY: documents fetched (or re-read) by the pipeline and not yet applied, through the gate -------------------------------
+# A WATERMARK, not a date: every acquired day directory without an `.applied` marker. Keyed on the date alone, a day's
+# fetches that were never applied (a stopped night, a dry run by hand) would be stranded -- done in the queue, cached, and
+# never read into the store. The marker is written only after a COMMITTED apply succeeded; apply-acquired reads *.json only.
+APPLY_DIRS=()
+for d in "$FILL/runs/acquired/cisco-datasheets"/*/; do
+  [ -d "$d" ] && [ ! -f "$d.applied" ] && APPLY_DIRS+=("${d%/}")
+done
+N_ACQ=0; for d in "${APPLY_DIRS[@]}"; do N_ACQ=$(( N_ACQ + $(ls "$d" | grep -c '\.json$') )); done
+log "unapplied acquired files: $N_ACQ in ${#APPLY_DIRS[@]} day director(ies)"
 if [ "$N_ACQ" -gt 0 ]; then
   COMMIT=--commit; [ "$DRY" = 1 ] && COMMIT=""
-  npm run -s ingest -- apply-acquired "$ACQ_DIR" $COMMIT --vendor cisco > "$NIGHT/apply.log" 2>&1
+  npm run -s ingest -- apply-acquired "${APPLY_DIRS[@]}" $COMMIT --vendor cisco > "$NIGHT/apply.log" 2>&1
   rc=$?
   log "apply exit $rc"
   [ $rc = 0 ] || stop apply "apply-acquired exit $rc: a failed gate or error (see $NIGHT/apply.log)"
+  if [ "$DRY" = 0 ]; then for d in "${APPLY_DIRS[@]}"; do date -u +%FT%TZ > "$d/.applied"; done; fi
 fi
 
 if [ "$DRY" = 1 ]; then
