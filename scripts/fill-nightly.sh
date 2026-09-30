@@ -41,6 +41,10 @@ REPORT="$FILL/reports/fill-$DAY.md"; [ "$DRY" = 1 ] && REPORT="$FILL/reports/fil
 
 exec 9>"$FILL/lock"
 if ! flock -n 9; then echo "$(date -u +%FT%TZ) another fill-nightly holds $FILL/lock; not starting"; exit 0; fi
+# A second run on the same day (a re-run after a STOP is cleared, a dry run by hand) gets a CLEAN night directory: the earlier
+# run's files are moved aside, never globbed into this one (commit-extract-*.json and pdfx/extract-pdf-*.json are picked by
+# name, so a leftover from a larger earlier run would be applied as tonight's). Done under the lock, never before it.
+if [ -n "$(ls -A "$NIGHT" 2>/dev/null)" ]; then mv "$NIGHT" "$NIGHT.moved-$(date -u +%H%M%S)"; mkdir -p "$NIGHT"; fi
 log() { echo "$(date -u +%FT%TZ) $*"; }
 
 report() {  # $1 = stop reason or empty
