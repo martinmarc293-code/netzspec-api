@@ -196,9 +196,13 @@ export function realName(p: PartView): boolean {
 const kg = (p: PartView, key: string): string | null => {
   const f = p.facts.get(key);
   if (!f || typeof f.value !== "number" || !Number.isFinite(f.value) || f.value <= 0) return null;
-  if (f.unit && f.unit !== "kg") return null;
+  // A transceiver's weight is stored in GRAMS (fieldSchema UNIT_OVERRIDES: "Weight on an optic is grams"), so it is converted
+  // here -- refusing every unit but kg meant no transceiver could ever export a weight, however many the store held (latent
+  // until 30 Sep 2026: no vendor held one). Any other unit is refused, never guessed.
+  const value = f.unit === "g" ? f.value / 1000 : !f.unit || f.unit === "kg" ? f.value : null;
+  if (value === null) return null;
   // to the gram, German comma, no padding: a transceiver's 0.075 kg must not round to 0,07 or 0,08
-  return formatNumberDe(Math.round(f.value * 1000) / 1000);
+  return formatNumberDe(Math.round(value * 1000) / 1000);
 };
 
 export type Resolved = { attr: JtlAttribute; value: string };

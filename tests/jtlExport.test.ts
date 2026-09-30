@@ -86,6 +86,14 @@ refuse("a name the store calls sku-only", { ...SWITCH, nameState: "sku-only" }, 
 refuse("condition prose in the name (R2)", { ...SWITCH, name: "Cisco C9200-24P Neuware, versiegelt" }, /^banned:/);
 refuse("a slug with a dot (R3)", { ...SWITCH, slug: "qsfp-100g-sr1.2" }, "url-path");
 refuse("no series, so no Kat-3", { ...SWITCH, series: null }, "kat3");
+// a transceiver's weight is stored in GRAMS (UNIT_OVERRIDES): the export converts it; a unit it does not know is refused
+const OPTIC_W = (value: number, unit: string): PartView => ({ ...SWITCH, category: "transceiver", categoryDe: "Transceiver & Optiken", kind: "cable",
+  sku: "QDD-400-CU1M", slug: "qdd-400-cu1m", facts: facts({ media: "dac-copper", weight: value }, { weight: unit }), required: new Set() });
+check("a transceiver weight stored in grams exports in kilograms, German decimals (250 g -> 0,25)",
+  profileRows(OPTIC_W(250, "g"), [])["jtl-main"][0][5] === "0,25", profileRows(OPTIC_W(250, "g"), [])["jtl-main"][0][5]);
+sabotage++;
+check("SABOTAGE a weight in a unit the export does not know (lb) is refused as no weight, never read as kilograms",
+  profileRows(OPTIC_W(2, "lb"), [])["jtl-main"][0][5] === "" && shopReady(OPTIC_W(2, "lb")).reasons.includes("weight"));
 // the one-set rule (30 Sep 2026): a part whose kind requires no group attribute is vacuously complete on attributes, and with a
 // name, a series and a weight its FAQ reaches three pairs -- but it has no row for the Attributes file, so the four files
 // cannot share one Artikelnummer set. It must be refused for exactly that.
