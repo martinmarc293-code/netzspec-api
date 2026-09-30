@@ -11,8 +11,8 @@
 - Decision files short and append-only; no sabotage narration beyond the commit line. Verifier log committed with each report.
 - Verify a chat send: composer must read 0 chars afterwards.
 
-## Board: passed 28 | FAILED 5 | unavailable 0 | not exercised 0 (of 33) · self-test proven 24 | BROKEN 0 | unproven 9 (6175802, Batch D)
-HEAD/deployed 501b7ed (artefacts built on 0cbe5c5, contract 17b502e336ebefb6). Red: kind_profile_parity (Q8), unknown_zero (Q9), conflicts_classified (Q11), export (Q12), four_sets_sum (veto 247), vendor_coverage (ruled). Full rebuild = scripts/mould-build.sh on the box (GIT_SHA=<sha>; mkdir -p + copy runs/vocab/cisco-datasheets/labels.json first; freeze BEFORE report), then scripts/mould-stamp.mts in the repo. build-layers refuses a single-category write.
+## Board: passed 32 | FAILED 1 | unavailable 0 | not exercised 0 (of 33) · self-test proven 24 | BROKEN 0 | unproven 9 (24271ed, 30 Sep)
+HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). Red: vendor_coverage only (ruled out of scope). Log: docs/reviewer/2026-09-28/verifier.txt
 
 ## Flip order
 | # | item | status | what to do (from its decision file) |
@@ -265,10 +265,23 @@ HEAD/deployed 501b7ed (artefacts built on 0cbe5c5, contract 17b502e336ebefb6). R
        A source tier BELOW the vendor sheet: fills only empty cups, disagreement -> conflict, gate = 20-row check vs Cisco.
      4 REPORTS: one per batch, five lines (commit . ready before->after . blockers fixed . verifier . self-test).
      5 STOP: gate failure, verifier red, throttling, disk < 5 GB, or ready count falling without a recorded retraction.
-  IN FLIGHT (ruled before the new order, a one-off because it overrides tier 0 by ruling): the temperature correction --
-     data/reference/temp-correction-witnesses.json (read 117, intersection 36 C1300, statement 34 enclosure), writer next.
-  RUNNING: laptop PID 25648 `python3.11 scripts/pid-description-names.py --reextract` (50 PDFs ~1 s/page, then 596 HTML;
-     writes runs/extract/cisco-description-reextract.json only at the END). Then: rebuild the table, read it, dry-run
-     name-from-description (laptop cache; the box has no pdfplumber path tested), commit, run, board.
+  DONE (30 Sep): the temperature correction, run 1454 (154 written, gate 178/178, re-plan 0; undo data/dryrun/correct-temps-by-sheet-cisco-2026-09-30T053040080Z.tsv).
+     Artefacts 24271ed (built on b416463, contract c7b80d502adb8305), deployed. READY 110 -> 154 (switches 103 -> 147).
+     Held and asked: IE2000 (-34 C fan case), C130024MGP-4X (sheet typo live as a part). Candidates not written: C9500X fan-conditional, C9200 altitude.
+  PARKED: the name lane (pid-description-names table 527 names / 79 refused, name-from-description writer) -- needs migration 0035
+     (name_state 'vendor-truncated'), sticky NAME_STATE in derive-part-states, realName accepting it. Name alone blocks 1 part.
+  ACQUIRE -- WHERE CHROME RUNS (question to the reviewer, 30 Sep). Measured: cisco-datasheets queue 42,430 queued (40,468
+     www.cisco.com: datasheet-named 1,141, install 596, spec-sheet 42, ordering 30 = 1,809 spec-shaped; products pages 9,108,
+     support/doc 6,301, white-paper 1,426, eol 1,412, at-a-glance 1,170, q-and-a 777, other 18,465), blocked 1,355 (itprice 823).
+     Cisco is Akamai: a bare client gets 403 "Access Denied", a real installed Chrome is admitted (brand.py; lane 437/3 = 99%).
+     No captcha on cisco.com. The lane = scraper/worker.py profile mode: installed Chrome (channel 'chrome'), headless=False
+     "not negotiable" (docs/SCRAPING.md), persistent profile per lane, 3 consecutive blocks -> source paused 30 min; context
+     relaunch on evidence only on proxied lanes. The box has no Chrome / Playwright / display.
+     A = box: google-chrome-stable + xvfb + a playwright venv (~0.5 GB, disk 15.7 GB free), run the lane under xvfb-run from cron
+         inside fill:nightly. Unmeasured: whether Akamai admits Chrome from a Hetzner datacenter IP. Probe first: 20 spec-shaped
+         URLs + example.com control, pass = >= 19 with tables > 0.
+     B = laptop: the proven lane, cache synced to the box before EXTRACT. Laptop sleeps; Task Scheduler here runs nothing; needs
+         a WMI-spawned loop and the tunnel. Fallback if A's probe fails.
+     Either way zero model tokens per night; the session reads only data/reports/fill-<date>.md.
 ## Pinned predictions
 - run 1350 lands -> the enum CISCO line drops standard to 0 (was 555 seed); what remains red there is non-seed audio_codecs/antenna_type/spatial_streams + refused shape members. required_cup_defined not moved by it (other vendors seed untouched).
