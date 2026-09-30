@@ -29,6 +29,28 @@ api.netzspec.com {
 		file_server
 	}
 
+	# PUBLIC arrangement site (13 Sep 2026): static structure + counts, no fact values, no keys. (Recorded here 30 Sep 2026;
+	# it had been added to the live Caddyfile only.)
+	handle_path /arrangement/* {
+		root * /var/lib/netzspec-api/arrangement
+		header X-Robots-Tag "noindex, nofollow"
+		header Cache-Control "no-store"
+		header X-Content-Type-Options nosniff
+		file_server
+	}
+	redir /arrangement /arrangement/cisco/index.html 302
+
+	# FILL DASHBOARD (30 Sep 2026, reviewer spec + addendum): public, noindex; structure, counts, states and document links,
+	# no fact values. Rebuilt and swapped by scripts/publish-fill-dashboard.sh at the end of every fill night.
+	handle_path /fill/* {
+		root * /var/lib/netzspec-api/fill-site
+		header X-Robots-Tag "noindex, nofollow"
+		header Cache-Control "no-store"
+		header X-Content-Type-Options nosniff
+		file_server
+	}
+	redir /fill /fill/cisco/index.html 302
+
 	# The API. Node sets its own security headers; Caddy only forwards.
 	handle {
 		reverse_proxy 127.0.0.1:3021

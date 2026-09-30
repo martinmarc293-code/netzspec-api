@@ -182,8 +182,9 @@ const spark = (vals: number[]) => {
 };
 const LEGEND = `<p class="legend muted">${["filled (read from a sheet)", "filled (inherited / derived)", "waiting on a gate", "not read yet (sheet held)", "no sheet held"]
   .map((l, i) => `<span class="s${i}"></span>${l}`).join("")}</p>`;
-const page = (title: string, body: string) => `<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="robots" content="noindex,nofollow"><title>${esc(title)}</title><style>${CSS}</style></head><body><main>${body}
+// one stylesheet for the whole site (41k part pages each carrying it came to 208 MB): `root` is the page's path back to it
+const page = (title: string, body: string, root = "") => `<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>${esc(title)}</title><link rel="stylesheet" href="${root}style.css"></head><body><main>${body}
 <p class="muted">Built ${esc(new Date().toISOString())} from the store (no fact values on public pages). JSON beside every page: fill.json.</p></main></body></html>`;
 
 // the brand page
@@ -202,7 +203,7 @@ const partition = (await query<{ reason: string; n: string }>(`SELECT CASE WHEN 
 const happened = [
   lastNight ? `Nacht ${lastNight}: ${acq ? `${acq.night?.fetched ?? 0} Seiten geladen, ${acq.browser?.cache_hits ?? 0} aus dem Cache` : "keine Abruf-Zusammenfassung"}` : "Noch keine Nacht gelaufen.",
   docs ? `${docs.finished ?? 0} Dokumente gelesen (${docs.html ?? 0} HTML, ${docs.pdf ?? 0} PDF)` : "",
-  `${committed} Fakten geschrieben`,
+  lastNight ? `${committed} Fakten geschrieben` : "",
   prev ? `${Math.max(0, tree.ready - prev.brand.ready)} Teile wurden shop-ready (${tree.ready - prev.brand.ready >= 0 ? "+" : ""}${tree.ready - prev.brand.ready})` : "",
   stopped ? `Gestoppt: ${stopped}` : (reportHead ? reportHead.replace(/^# /, "") : ""),
 ].filter(Boolean).slice(0, 5);
@@ -224,6 +225,7 @@ ${famRows ? `<table><tr><th>family (document directory)</th><th>docs</th><th>sta
 <p class="muted">Required slots ${req.toLocaleString("de-DE")} + ${tree.seg.pending_gate.toLocaleString("de-DE")} waiting on a gate. dashboard_sums: ok.</p>`;
 
 fs.mkdirSync(OUT, { recursive: true });
+fs.writeFileSync(path.join(OUT, "style.css"), CSS);
 fs.writeFileSync(path.join(OUT, "index.html"), page(`Cisco Befüllung`, brandBody));
 const jsonNode = (n: Node, depth: number): any => ({ name: n.name, parts: n.parts, ready: n.ready, filled_pct: filledPct(n.seg), seg: n.seg,
   ...(depth > 0 && n.children && Object.keys(n.children).length ? { children: Object.fromEntries(Object.entries(n.children).map(([k, c]) => [k, jsonNode(c, depth - 1)])) } : {}) });
@@ -260,7 +262,7 @@ for (const [slug, n] of Object.entries(tree.children!)) {
   const body = `<p><a href="../index.html">← Cisco</a></p><h1>${esc(catName.get(slug))}: ${filledPct(n.seg)}% befüllt · ${n.ready} von ${n.parts} shop-ready</h1>${LEGEND}${bar(n.seg)}${thin(n)}
 <h2>Top 5 Blocker (Teile, die daran hängen)</h2><ol>${top.map(([r, c]) => `<li>${esc(r.replace(/^attribute:/, ""))} — ${c}</li>`).join("")}</ol>
 <h2>Produktlinie → Familie → Serie</h2>${Object.values(n.children ?? {}).sort((a, b) => b.parts - a.parts).map((c) => nodeHtml(c, 1, "Produktlinie")).join("")}`;
-  fs.writeFileSync(path.join(dir, "index.html"), page(`${catName.get(slug)} — Befüllung`, body));
+  fs.writeFileSync(path.join(dir, "index.html"), page(`${catName.get(slug)} — Befüllung`, body, "../"));
   fs.writeFileSync(path.join(dir, "fill.json"), JSON.stringify({ category: slug, name_de: catName.get(slug), node: jsonNode(n, 3), top_blockers: top }, null, 1));
   for (const p of partsByCat.get(slug) ?? []) {
     const cups = p.required_fields.map((k) => {
@@ -275,7 +277,7 @@ for (const [slug, n] of Object.entries(tree.children!)) {
 <p>${esc([p.product_line, p.product_family, p.series].filter(Boolean).join(" → "))} · ${p.ready ? "shop-ready" : `nicht shop-ready: ${esc((reasons.get(p.sku) ?? []).join(", "))}`}</p>${bar(s)}
 <table><tr><th>Pflichtfeld</th><th>Zustand</th><th>Quelle / warum</th></tr>${cups}${gates}</table>
 <p class="muted">Werte: <code>/v1/parts/${esc(VENDOR)}/${esc(p.sku)}</code> (mit API-Schlüssel).</p>`;
-    fs.writeFileSync(path.join(dir, "parts", `${slugify(p.slug || p.sku)}.html`), page(p.sku, body2));
+    fs.writeFileSync(path.join(dir, "parts", `${slugify(p.slug || p.sku)}.html`), page(p.sku, body2, "../../"));
     partPages++;
   }
 }

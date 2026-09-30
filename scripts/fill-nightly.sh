@@ -56,6 +56,10 @@ report() {  # $1 = stop reason or empty
   if [ $rc = 4 ] && [ "$DRY" = 0 ]; then echo "ready fell with no recorded retraction ($REPORT)" > "$FILL/STOP"; fi
   if [ $rc = 0 ] && [ -z "$stop" ] && [ "$DRY" = 0 ] && [ -s "$NIGHT/ready.json" ]; then cp "$NIGHT/ready.json" "$FILL/ready-last.json"; fi
   log "report written: $REPORT (report exit $rc)"
+  # the dashboard is republished on EVERY ending, a stop included: a stopped night must turn the owner's light RED
+  local rec=""; [ "$DRY" = 0 ] && rec="--record"
+  if bash scripts/publish-fill-dashboard.sh $rec > "$NIGHT/dashboard.log" 2>&1; then log "dashboard published"
+  else log "dashboard publish FAILED (see $NIGHT/dashboard.log); yesterday's page stays up"; fi
 }
 stop() {  # $1 = step, $2 = reason
   log "STOP at $1: $2"
@@ -68,6 +72,7 @@ stop() {  # $1 = step, $2 = reason
 if [ -f "$FILL/STOP" ] && [ "$DRY" = 0 ]; then
   log "REFUSED: $FILL/STOP holds '$(cat "$FILL/STOP")' -- the day session clears it after the reviewer answers"
   printf '# FILL night %s -- REFUSED\n\nA previous stop is unresolved: %s\n' "$DAY" "$(cat "$FILL/STOP")" > "$REPORT"
+  bash scripts/publish-fill-dashboard.sh > /dev/null 2>&1 || true   # the light reads the STOP file: RED, with its reason
   exit 0
 fi
 FREE_GB=$(df -BG --output=avail / | tail -1 | tr -dc 0-9)
