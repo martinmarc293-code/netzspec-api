@@ -8,6 +8,7 @@ import { normalizeField } from "./specNormalize.js";
 import { shippingFromRaw } from "./shippingAllowance.js";
 import { temperatureIntersection } from "./conditionIntersection.js";
 import { stackableFromBandwidth } from "./stackableFromBandwidth.js";
+import { shippingFromClassRaw } from "./shippingClass.js";
 
 const DERIVATIONS: Readonly<Record<string, (raw: string) => unknown>> = {
   "derived:pon_standard": (raw) => { const d = ponStandardFromStandards([raw]); return d.ok ? d.value : null; },
@@ -20,6 +21,8 @@ const DERIVATIONS: Readonly<Record<string, (raw: string) => unknown>> = {
   "derived:condition-intersection": (raw) => { const t = temperatureIntersection(raw); return t.ok ? t.value : null; },
   // ruling (B), 30 Sep 2026: the raw is "<column header> | <row header> | <stated cell>"; the value is what the cell states
   "derived:stackable-from-bandwidth": (raw) => stackableFromBandwidth(raw),
+  // FINAL FILL ORDER item 4, 30 Sep 2026: the raw names the class and its tier; the value is that tier's kg in the table NOW
+  "derived:shipping-class": (raw) => shippingFromClassRaw(raw),
 };
 
 /** null = the derivation reproduces a value from this raw; otherwise the reason it cannot. */

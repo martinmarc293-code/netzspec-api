@@ -19,6 +19,7 @@
 // R4 Kat-3 is the true part type (AOC is not DAC); R6 a weight is a stored fact or nothing -- never an estimate.
 import { renderValue, formatNumberDe, LIST_SEPARATOR } from "./renderContract.js";
 import { FIELD_DICTIONARY, COLUMN_BACKED, RELATION_BACKED } from "./fieldSchema.js";
+import { shippingClassOf } from "./shippingClass.js";
 
 // ---- THE BYTE CONTRACT ---------------------------------------------------------------------------------------------------
 // Written without escapes on purpose: a BOM typed as an escape through an editing tool has arrived in this repo as the raw
@@ -295,7 +296,10 @@ export function shopReady(p: PartView): { ready: boolean; reasons: string[]; res
   // one-set rule on the first deployed board (30 Sep 2026). A part with nothing to list is not ready, whatever else holds.
   if (!rs.length) reasons.push("attributes:none");
   if (!realName(p)) reasons.push("name");
-  if (!kg(p, "weight")) reasons.push("weight");
+  // FINAL FILL ORDER item 4 (30 Sep 2026): a SMALL COMPONENT (a kind the shipping-class table lists) may ship on its
+  // Versandgewicht alone; its Artikelgewicht stays empty until a measured weight exists. Every other kind -- a device, a chassis
+  // -- still needs a measured weight: the class table decides which, never the presence of a shipping weight.
+  if (!kg(p, "weight") && !(shippingClassOf(p.category, p.kind) && kg(p, "shipping_weight"))) reasons.push("weight");
   if (!kat3(p)) reasons.push("kat3");
   if (!URL_PATH.test(urlPath(p))) reasons.push("url-path");
   const row = mainRow(p, rs), faq = faqCell(p, rs);

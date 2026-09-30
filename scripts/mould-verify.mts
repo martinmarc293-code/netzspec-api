@@ -331,6 +331,8 @@ const RUN_KIND_CLASS: Record<string, { approval: boolean; gate: boolean }> = {
   "inherit-tier-weight": AG, "derive-max-bound-weight": G,
   // ruling (B), 30 Sep 2026: stackable from a sub-series row's stated stacking bandwidth (every witness cell re-read)
   "derive-stackable-from-bandwidth": G,
+  // FINAL FILL ORDER item 4 (30 Sep 2026): Versandgewicht for small components from the shipping-class table (derives from a table)
+  "derive-shipping-class": D,
   // ruling Q23: Versandgewicht derived from the stored weight and the ruled band table -> derives from what is stored
   "derive-shipping-weight": D,
   // ruling Q24: a single-model sheet's document-level weight written per SKU (a read, gate re-reads every statement)
