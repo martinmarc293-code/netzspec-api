@@ -1,9 +1,9 @@
 {
-  "contract_hash": "b4fce311fad4b6a7",
-  "generated_at": "2026-09-29T23:00:42.439Z",
-  "code_commit": "a03b7e16ecc88833c14a905c10d1a07f86d25827",
+  "contract_hash": "ae08c48ebe0b9b8a",
+  "generated_at": "2026-09-30T02:15:26.347Z",
+  "code_commit": "2ec1394c584b061c442b697daa27dac2acfdb138",
   "code_branch": "cisco",
-  "dirty_files": 86,
+  "dirty_files": 92,
   "counts": {
     "dictionary_keys": 610,
     "categories": 26,
@@ -861,6 +861,16 @@
         "shape": "{ h: n, w: n, d: n }"
       },
       "weight": {
+        "type": "n",
+        "unit": "kg",
+        "band": [
+          0.01,
+          500
+        ],
+        "domain": null,
+        "shape": null
+      },
+      "shipping_weight": {
         "type": "n",
         "unit": "kg",
         "band": [
@@ -2802,13 +2812,6 @@
       "shipping_dimensions": {
         "type": "s",
         "unit": null,
-        "band": null,
-        "domain": null,
-        "shape": null
-      },
-      "shipping_weight": {
-        "type": "s",
-        "unit": "kg",
         "band": null,
         "domain": null,
         "shape": null
