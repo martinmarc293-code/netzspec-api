@@ -184,6 +184,14 @@ const RULES: [string, string, string, string, Reason?][] = [
   // are real labels from the SAME sheet that an unanchored "pon port" rule would swallow: per-port capacities, not counts.
   ["Downlinks total PON ports", "pon_ports", "T-CONT of each PON port", "256 GPON ports", "RANGE_VIOLATION"],
   ["Uplink configuration PON port", "pon_ports", "Gemport of each PON port", "GPON", "PARSE_FAIL"],
+  // WEIGHT (30 Sep 2026, the weight lane). The near-misses are real labels from the same inventory: a chassis weight stated
+  // in ANOTHER configuration is a second value, not the one the widened rule reads; and "Weighted …" is QoS vocabulary that
+  // rule 119 used to route to weight because nothing stopped "weight" running on into a word.
+  ["Chassis weight (with fan tray)", "weight", "Chassis weight (without fan tray, without PSU)", "17.5 in", "UNIT_UNKNOWN"],
+  ["Chassis weight with 2 AC power supplies and fan tray", "weight", "Chassis weight with 8 power supplies (AC) and 4 fan trays", "17.5 in", "UNIT_UNKNOWN"],
+  ["System Weight", "weight", "System switching capacity", "17.5 in", "UNIT_UNKNOWN"],
+  ["Weight (grams)", "weight", "Weighted Random Early Detection (WRED)", "220 mm", "UNIT_UNKNOWN"],
+  ["Weight", "weight", "Weighted average", "17.5 in", "UNIT_UNKNOWN"],
 ];
 
 /**
@@ -280,6 +288,12 @@ const ACCEPTS: [string, string, unknown][] = [
   ["Technical Information > Processor Core", "Tetracosa-core (24 Core)", 24],
   ["Network & Communication > Layer Supported", "3", "l3"],
   ["Network & Communication > Layer Supported", "2", "l2"],
+  // the weight lane's real values (30 Sep 2026): the grams label unit, the metric parenthetical of a configuration-stated
+  // cell, and the widened chassis rule
+  ["Weight (grams)", "220", 0.22],
+  ["System Weight", "Without power supply: 12.7 lb (5.78 kg)", 5.78],
+  ["Chassis weight (with fan tray)", "39.0 lb (17.2 kg)", 17.2],
+  ["Unit weight", "1.39 kg (3.06 lb)", 1.39],
 ];
 for (const [label, value, want] of ACCEPTS) {
   const key = mapLabel(label);

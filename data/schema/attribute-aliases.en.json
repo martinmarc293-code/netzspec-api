@@ -398,12 +398,13 @@
       }
     ],
     [
-      "^chassis weight( with 2x ac power supplies and fan tray)?$",
+      "^chassis weight( [(]with fan tray[)]| with 2x? ac power supplies and fan tray)?$",
       "weight",
-      "routers (12 Sep 2026): 'Chassis weight' 31 ('14.3 lbs (with 2X AC power supplies and fan tray)') and the long form 12 ('20.6 lbs').",
+      "routers (12 Sep 2026): 'Chassis weight' 31 ('14.3 lbs (with 2X AC power supplies and fan tray)') and the long form 12 ('20.6 lbs'). Widened 30 Sep 2026 (the weight lane): switches 'Chassis weight (with fan tray)' 7 (Catalyst 4500-E and 9400 chassis, '39.0 lb (17.2 kg)') and routers '... with 2 AC power supplies ...' 1 (C8220TG-48A-O). Each is the ONE configuration its sheet states; the variants naming another ('(without fan trays or PSUs)', 'with 8 power supplies (AC) and 4 fan trays') stay unmapped, because two configurations of one chassis are two values, not one.",
       {
         "only": [
-          "routers"
+          "routers",
+          "switches"
         ]
       }
     ],
@@ -820,9 +821,9 @@
       "same fact, imperial"
     ],
     [
-      "^(unit )?weight|^kilograms$",
+      "^(unit )?weight(?![a-z])|^kilograms$",
       "weight",
-      ""
+      "30 Sep 2026: 'weight' must not run on into a word. 'Weighted average' (41), 'Weighted Random Early Detection (WRED)' and 'Weighted Cost Multi-Path (WCMP)' reached weight through this rule and were kept out of the store only because their values are not masses."
     ],
     [
       "mean time between failures|^mtbf",
@@ -6851,6 +6852,16 @@
       {
         "only": [
           "security"
+        ]
+      }
+    ],
+    [
+      "^system weight$",
+      "weight",
+      "switches (30 Sep 2026, the weight lane): the IE-4010 / IE-5000 sheets' 'System Weight' states ONE configuration per cell ('Without power supply: 12.7 lb (5.78 kg)'), the same shape as 'Weight (with default power supply)'; the metric parenthetical is read. 3 occurrences, 5 parts. Appended at the end so no earlier rule's index moves.",
+      {
+        "only": [
+          "switches"
         ]
       }
     ]

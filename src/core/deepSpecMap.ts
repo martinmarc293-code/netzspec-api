@@ -149,6 +149,9 @@ const LABEL_UNITS: [RegExp, string][] = [
   // "Kilograms" and were rejected UNIT_MISSING with the unit standing where the name should be.
   [/\[kilograms?\]|\bkilograms?\b|\bkg\b/i, "kg"],
   [/\[pounds?\]|\bpounds?\b|\blbs?\b/i, "lb"],
+  // "Weight (grams)": the ONT sheets put the unit in the label and a bare number in the cell ("220"), refused UNIT_MISSING
+  // with the unit in plain sight (30 Sep 2026). Only the bracketed forms -- "kilograms" is caught one rule up.
+  [/\(\s*grams?\s*\)|\[\s*grams?\s*\]/i, "g"],
   [/centimet|\bcm\b/i, "cm"],
   [/\binch(es)?\b/i, "in"],
   [/P\(W\)|\bwatts?\b|\(W\)/i, "W"],
