@@ -279,6 +279,13 @@ HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). R
   NIGHTLY: scripts/fill-nightly.sh (npm run fill:nightly; cron 01:00 UTC on the box) -> /var/lib/netzspec-api/fill:
      lock, STOP (a stop blocks every later night until the day session clears it), nights/<date>/*.log, reports/fill-<date>.md,
      board-last.txt, ready-last.json, runs/acquired/... (APPLY by watermark: every day dir without .applied), vocab/.
+     RULINGS 30 Sep (after 3 dry runs, docs/reviewer/2026-09-28/fill-dry-runs.md): A = the target is spec-shaped URLs under
+     series whose parts hold no spec-bearing doc, most not-held parts first (scripts/fill-night-target.mts, worker --url-list);
+     a family whose fetched docs list none of our parts is demoted (placed last). B = per DOCUMENT FAMILY (series directory;
+     HTML and /c/dam/ PDF are separate): >= 5 golden rows in scope + defects <= 5% -> commits nightly (apply-extract, sample
+     max(60, 5%)); otherwise STAGED (staged-*.json kept, dry gate); the day adds >= 5 golden rows from the family's own sheet,
+     re-runs scripts/fill-split-families.py on the staged files, commits what qualifies. Report: families committed/staged,
+     golden rows owed. Cron after A and B land (cfb1607).
      TRAP: the night rebuilds and stamps the artefacts IN THE DEPLOY TREE (STAMP_*_COMMIT = the deployed commit). The day
      session copies them into the repo, restamps, commits BEFORE ANY DEPLOY -- a deploy first would put the older committed
      artefacts back under the API.
