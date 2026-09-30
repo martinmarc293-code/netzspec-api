@@ -55,6 +55,22 @@ check("Attributes: German renderings under the Wawi names (Layer -> 'Layer 3', B
 check("an attribute whose cup the mould does not require is not a gap (no Uplink-Ports, still ready)", ok.ready && !ok.resolved.some((r) => r.attr.name === "Uplink-Ports"));
 const faq = faqCell(SWITCH, ok.resolved);
 check("FAQ: Q||A pairs joined by ##, at least three", faq.split("##").length >= 3 && faq.split("##").every((p) => p.split("||").length === 2), faq);
+// ---- FAQ derived from filled cups (ruling 29 Sep 2026) ----
+const qa = faq.split("##").map((p) => p.split("||") as [string, string]);
+check("FAQ: the ports are ONE question folding count and configuration, in the recorded voice ('bietet insgesamt 24 Ports: ...')",
+  qa.filter(([q]) => /Port/.test(q)).length === 1 && qa.some(([q, a]) => q === "Wie viele Ports hat der C9200-24P?" && a.startsWith("Der C9200-24P bietet insgesamt 24 Ports: ")), qa);
+check("FAQ: no question is asked twice and no answer is given twice (the operating temperature used to be both)",
+  new Set(qa.map(([q]) => q)).size === qa.length && new Set(qa.map(([, a]) => a)).size === qa.length, qa);
+check("FAQ: a served weight is a question of its own, in German decimals ('wiegt 5,5 kg')",
+  qa.some(([q, a]) => q === "Wie schwer ist der C9200-24P?" && a === "Der C9200-24P wiegt 5,5 kg."), qa);
+check("FAQ: an attribute with no curated question is asked in the neutral form that needs no article",
+  qa.some(([q, a]) => q === "Was gibt Cisco für „Anwendung“ beim C9200-24P an?" && a === "Anwendung: Access."), qa);
+sabotage++;
+const ONE_FACT: PartView = { ...SWITCH, sku: "UCSC-X-1", category: "servers-unified-computing", categoryDe: "Server", kind: "server", series: null,
+  deployRole: null, facts: facts({ temp_operating: { min: 10, max: 35 } }, { temp_operating: "°C" }), required: new Set(["temp_operating"]) };
+const one = faqCell(ONE_FACT, shopReady(ONE_FACT).resolved);
+check("SABOTAGE a part with a name and ONE filled cup and no series has two things to say, not three: faq<3, no padding",
+  one.split("##").length === 2 && shopReady(ONE_FACT).reasons.includes("faq<3"), one);
 
 const refuse = (what: string, p: PartView, reason: string | RegExp) => {
   sabotage++;

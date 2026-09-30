@@ -221,12 +221,51 @@ export function mainRow(p: PartView, rs: readonly Resolved[]): string[] {
     title, meta, KAT1, KAT2[p.category] ?? p.categoryDe, k3, "Y", "Y"];
 }
 
+/** One question per attribute, in the recorded shop's own voice (Hexwaren_Cisco_Switches_FAQ.csv: "Wie viele Ports hat der …?",
+ *  "Lässt sich der … stapeln?", "Unterstützt der … PoE?", "Welche Uplinks hat der …?"). An attribute not listed is asked in one
+ *  neutral form that needs no article: German gender varies by attribute, and a wrong article is a visible error. */
+const FAQ_QUESTIONS: Readonly<Record<string, (sku: string) => string>> = {
+  "Switch-Typ": (s) => `Was für ein Switch ist der ${s}?`,
+  "Layer": (s) => `Auf welchem Layer arbeitet der ${s}?`,
+  "Uplink-Ports": (s) => `Welche Uplinks hat der ${s}?`,
+  "PoE": (s) => `Unterstützt der ${s} PoE?`,
+  "Switching-Kapazität": (s) => `Welche Switching-Kapazität hat der ${s}?`,
+  "Durchsatz": (s) => `Welchen Durchsatz erreicht der ${s}?`,
+  "Bauform": (s) => `Welche Bauform hat der ${s}?`,
+  "Stromversorgung": (s) => `Wie wird der ${s} mit Strom versorgt?`,
+  "Stacking": (s) => `Lässt sich der ${s} stapeln?`,
+  "Betriebstemperatur": (s) => `In welchem Temperaturbereich arbeitet der ${s}?`,
+  "Formfaktor": (s) => `Welchen Formfaktor hat der ${s}?`,
+  "Geschwindigkeit": (s) => `Welche Geschwindigkeit unterstützt der ${s}?`,
+  "Anschlusstyp": (s) => `Welchen Anschluss hat der ${s}?`,
+  "Reichweite": (s) => `Welche Reichweite hat der ${s}?`,
+  "Wellenlänge": (s) => `Mit welcher Wellenlänge arbeitet der ${s}?`,
+  "Gewicht": (s) => `Wie schwer ist der ${s}?`,
+  "Abmessungen (H×B×T)": (s) => `Welche Abmessungen hat der ${s}?`,
+  "Leistungsaufnahme (max.)": (s) => `Wie hoch ist die maximale Leistungsaufnahme des ${s}?`,
+};
+/** Folded into the ports question, never asked on their own: three questions about one port list is one answer said thrice. */
+const FAQ_FOLDED = new Set(["Portanzahl", "Port-Konfiguration", "Port-Geschwindigkeit"]);
+
+/** FAQ pairs DERIVED FROM FILLED CUPS (ruling, 29 Sep 2026: "FAQ -- generated from filled cups, a derivation, no acquisition"):
+ *  the name, the series, then ONE question per resolved attribute in its Wawi order, and the weight when it is served. Every
+ *  answer is a served fact through the German rendering contract. A fact is asked about ONCE: the pair that summarised up to
+ *  five attributes is gone, because beside the per-attribute pairs it repeated them -- and it already asked the operating
+ *  temperature twice, which is padding the 3-pair bar, not a third thing to say. */
 export function faqCell(p: PartView, rs: readonly Resolved[]): string {
   const pairs: [string, string][] = [[`Was ist der Cisco ${p.sku}?`, `${p.name}.`]];
-  if (rs.length) pairs.push([`Welche technischen Daten hat der ${p.sku}?`, `${summary(rs, 5)}.`]);
   if (p.series) pairs.push([`Zu welcher Serie gehört der ${p.sku}?`, `Der ${p.sku} gehört zur Cisco-Serie ${p.series}.`]);
-  const temp = rs.find((r) => r.attr.name === "Betriebstemperatur");
-  if (temp) pairs.push([`In welchem Temperaturbereich arbeitet der ${p.sku}?`, `Betriebstemperatur: ${temp.value}.`]);
+  const byName = new Map(rs.map((r) => [r.attr.name, r.value]));
+  const total = byName.get("Portanzahl"), config = byName.get("Port-Konfiguration");
+  if (total || config) pairs.push([`Wie viele Ports hat der ${p.sku}?`,
+    total ? `Der ${p.sku} bietet insgesamt ${total} Ports${config ? `: ${config}` : ""}.` : `Port-Konfiguration: ${config}.`]);
+  for (const r of rs) {
+    if (FAQ_FOLDED.has(r.attr.name)) continue;
+    const q = FAQ_QUESTIONS[r.attr.name]?.(p.sku) ?? `Was gibt Cisco für „${r.attr.name}“ beim ${p.sku} an?`;
+    pairs.push([q, `${r.attr.name}: ${r.value}.`]);
+  }
+  const w = kg(p, "weight");
+  if (w && !byName.has("Gewicht")) pairs.push([`Wie schwer ist der ${p.sku}?`, `Der ${p.sku} wiegt ${w} kg.`]);
   return pairs.map(([q, a]) => `${q}||${a}`).join("##");
 }
 
