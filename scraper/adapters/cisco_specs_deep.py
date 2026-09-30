@@ -734,6 +734,177 @@ def _row_of(locator: str) -> int | None:
     return int(m.group(1)) if m else None
 
 
+# ---- shape E: INLINE per-model value lists in ONE cell (30 Sep 2026, the attribute lane, ruling (A)) -------------------
+# A PID-shaped token: letters/digits with at least one dash (explicit lookarounds, never \b: '4x10G' and 'C1300-8T-E-2G'
+# have no word boundaries where a \b expects them).
+INLINE_TOKEN = re.compile(r"(?<![A-Za-z0-9-])[A-Z0-9][A-Z0-9/+]*(?:-[A-Z0-9/+]+)+=?(?![A-Za-z0-9-])")
+# What may sit BETWEEN two models of one list: separators and at most one conjunction.
+INLINE_SEP = re.compile(r"^[\s,;/]*(?:(?:and|or|&)[\s,;/]*)?$", re.I)
+INLINE_OTHERS = re.compile(r"(?<![A-Za-z])(?:for\s+)?(?:all\s+)?(?:the\s+)?other\s+models?(?![A-Za-z])", re.I)
+INLINE_FOR_TAIL = re.compile(r"(?<![A-Za-z])for\s*$", re.I)
+INLINE_CAPTION = re.compile(r"^(?:table|figure)\s+\d", re.I)
+INLINE_VALUE_MAX = 120
+# THE MEASURED LABELS. Read over the whole held corpus (949 HTML sheets, 30 Sep 2026) under every rule below, 'Operating
+# temperature' and 'Power' gave 327 records on 9 small-business sheets (C1200/C1300, CBS110/220/250/350, SF250/SF350/SG350X),
+# each read and each paired right. The 22 other labels still produced a misaligned list (the NCS 1010 chassis dimensions
+# given to its PSU, 'The NCS 1010' as a value), MIB names read as models, and a configuration ('6.4 Tbps ... with' the
+# supervisor it needs) -- so they keep shape B's path until each is measured, exactly as the model-table qualifier (M4)
+# admits only the word it was measured on.
+INLINE_LABELS = re.compile(r"^(?:operating temperature|power)$", re.I)
+# What the corpus read of 30 Sep 2026 found inside VALUES that were not one model's value (949 sheets, 952 records):
+#   a condition      '-5°C to +45°C ... when using the C9500X-FAN-1U-R'  -> the CHASSIS range, given to the fan
+#   a composition    '18.38 Kg (including FANs, SSD and CNTLR)'           -> the chassis weight, given to the PSU
+#   'respectively'   '204.66 and 209.66 Watts respectively'               -> two values, both given to both models
+#   a bullet list    ') ● 209,170 hours (Cisco Catalyst'                  -> fragments of a notes list
+INLINE_CONDITION = re.compile(r"(?<![A-Za-z])(?:when|using|with|including|incl|respectively|except|unless|depending|if|only|see)(?![A-Za-z])", re.I)
+INLINE_NOTE_MARK = re.compile("[" + "".join(chr(c) for c in (0x25CF, 0x2022, 0x25AA, 0x25A0, 0x25E6)) + "]")
+# a MODEL inside a value ('NCS 1002-K9 18.38 Kg'): a dash segment that opens with a letter. A value's own ranges open
+# every segment with a digit ('100-240V', '-5 to 50').
+INLINE_MODELISH = re.compile(r"(?<![A-Za-z0-9])[A-Z0-9]+(?:-[A-Z0-9]+)*-[A-Z][A-Z0-9]*(?![A-Za-z0-9])")
+
+
+def _series_prefix(pids) -> str | None:
+    """The first dash-segment every named PID shares ('C1200-'), or None when they disagree."""
+    heads = {p.split("-")[0] for p in pids}
+    return f"{heads.pop()}-" if len(heads) == 1 else None
+
+
+def parse_inline_models(text: str, doc_pids) -> tuple:
+    """ONE cell that pairs values with MODEL LISTS inline -> ([(value, [pid, ...]), ...], None, skipped) or (None, why, []).
+
+    Cisco's small-business sheets print a per-model difference inside a single cell, in three grammars:
+        value-first   '23° to 122°F (-5° to 50°C) C1300-8T-E-2G, C1300-8P-E-2G, ...'      'v1: A, B, C v2: D'
+        list-first    'SG350X-12PMV, ..., SX350X-52 32° to 122°F (0° to 50°C) SG350X-8PMD 32° to 113°F (0° to 45°C)'
+        for / others  '32° to 122°F (0° to 50°C) for C1200-8T-D 23° to 122°F (-5° to 50°C) for other models'
+    Shape B read each as ONE document-level value, capped at 160 characters (the C1300 list is 900), and a family value
+    inherited from it would give C1200-8T-D the other models' range. The direction is decided by what the cell OPENS with:
+    a value (a digit before the first list) pairs each value with the list AFTER it, and a trailing sentence after the
+    last list is a note ('Minimum ambient temperature for cold start is 32°F (0°C)'), read into no record; a list pairs each
+    list with the value after it. 'other models' is the sheet's other PIDs sharing the named models' series prefix.
+
+    Refused, never guessed (the cell then keeps the path it always had): fewer than two attributable PIDs (one plus
+    'other models' is enough); a value with no digit (prose that names models, 'supported on A and B'); a value longer
+    than INLINE_VALUE_MAX; a model named twice with different values; 'other models' when the named models share no
+    series prefix, when it names nobody, or inside a list-first cell. A PID-shaped token INSIDE a list that this sheet
+    does not attribute (the C1300 sheet prints 'C130024MGP-4X', a typo) is skipped and returned, never read as a value."""
+    toks = [(m.start(), m.end(), m.group(0)) for m in INLINE_TOKEN.finditer(text or "")]
+    known = [t for t in toks if _is_pid(t[2].rstrip("="))]
+    has_others = bool(INLINE_OTHERS.search(text or ""))
+    if len(known) < 2 and not (known and has_others):
+        return None, None, []
+    groups: list[list] = []                      # [start, end, [attributable pids], [skipped tokens]]
+    for s, e, t in toks:
+        pid = _is_pid(t.rstrip("="))
+        # an unattributable token joins a list only when it is shaped like a model (it opens with a LETTER): a number
+        # range ('50-60 Hz', '100-240V') beside a list is the next VALUE, and swallowing it left 'Hz, external' behind
+        if not pid and not t[0].isalpha():
+            continue
+        if groups and INLINE_SEP.match(text[groups[-1][1]:s]):
+            groups[-1][1] = e
+            (groups[-1][2] if pid else groups[-1][3]).append(t)
+        else:
+            groups.append([s, e, [t] if pid else [], [] if pid else [t]])
+    lists = [g for g in groups if g[2]]          # a run of tokens this sheet attributes to nobody is text, not a list
+    # a cell whose every list names ONE model pairs components with configurations ('when using the C9500X-FAN-1U-R'),
+    # not models with their values: a model list has two or more members somewhere, or closes with 'other models'
+    if lists and max(len(g[2]) for g in lists) < 2 and not has_others:
+        return None, "every list names a single model: a configuration table, not a per-model list", []
+    segs: list = []
+    pos = 0
+    for g in lists:
+        segs.append(text[pos:g[0]])
+        segs.append(g)
+        pos = g[1]
+    segs.append(text[pos:])
+    # a value carries a STANDALONE number ('32° to 122°F', '100-240V'); the digits inside a series name ('all SX350X
+    # models') are not one, and counting them read "and all SX350X models)" as three models' value
+    has_digit = lambda s: bool(re.search(r"(?<![A-Za-z0-9])[0-9]", s))
+    pairs: list = []
+    default = None
+    if has_digit(segs[0]):                       # value-first: every value precedes its list
+        for i in range(1, len(segs), 2):
+            pairs.append((segs[i - 1], segs[i][2]))
+        if INLINE_OTHERS.search(segs[-1]):
+            default = segs[-1]
+    else:                                        # list-first: every list precedes its value
+        if len(segs[0].strip(" \t,;:.()")) > 20:
+            return None, f"a list-first cell that opens with prose ({segs[0].strip()[:40]!r}): not a per-model list", []
+        for i in range(1, len(segs), 2):
+            if INLINE_OTHERS.search(segs[i + 1]):
+                return None, "'other models' inside a list-first cell: which list it closes is not on the page", []
+            pairs.append((segs[i + 1], segs[i][2]))
+
+    def clean(v: str) -> str:
+        v = INLINE_OTHERS.sub("", v).strip()
+        v = INLINE_FOR_TAIL.sub("", v).strip()
+        return v.strip(" \t,;:.")
+
+    out, seen = [], {}
+    for raw_v, pids in pairs + ([(default, None)] if default is not None else []):
+        v = clean(raw_v)
+        if not v or not has_digit(v):
+            return None, f"a value with no digit ({v[:40]!r}): prose that names models, not a per-model value", []
+        if INLINE_CAPTION.match(v):
+            return None, f"a caption, not a value ({v[:40]!r})", []
+        if INLINE_CONDITION.search(v):
+            return None, f"a conditional or relational value ({v[:50]!r}): not one model's own value", []
+        if INLINE_NOTE_MARK.search(v):
+            return None, f"a bulleted note, not a value ({v[:40]!r})", []
+        if v.count("(") != v.count(")"):
+            return None, f"unbalanced parentheses ({v[:40]!r}): a value cut at a model list", []
+        if INLINE_MODELISH.search(v):
+            return None, f"a model name inside the value ({INLINE_MODELISH.search(v).group(0)!r} in {v[:40]!r}): the lists are misaligned", []
+        if len(v) > INLINE_VALUE_MAX:
+            return None, f"a value longer than {INLINE_VALUE_MAX} characters ({v[:40]!r}...): not one model's value", []
+        if pids is None:                         # 'other models': the sheet's other PIDs of the SAME series
+            prefix = _series_prefix([p.rstrip("=") for p in seen])
+            if prefix is None:
+                return None, "'other models' but the named models share no series prefix", []
+            pids = [p for p in (x.strip() for x in doc_pids) if p.upper().startswith(prefix.upper()) and p not in seen
+                    and p.rstrip("=") not in seen and _is_pid(p.rstrip("="))]
+            if not pids:
+                return None, f"'other models' names nobody: no other {prefix} PID on this sheet", []
+        for p in pids:
+            if p in seen and seen[p] != v:
+                return None, f"{p} is named twice with different values ({seen[p][:30]!r} / {v[:30]!r})", []
+            seen[p] = v
+        out.append((v, list(pids)))
+    skipped = [t for g in lists for t in g[3]]
+    return out, None, skipped
+
+
+def parse_shape_e(rows, ti, url, doc_pids, defects=None):
+    """Rows of an attribute table whose ONE printed value cell is an inline per-model list (parse_inline_models).
+    Returns (records, consumed row indices): each model gets its own record, shape E, located at the value cell; shape
+    B's document-level reading of the same row is withheld by the caller and counted. A refused cell is recorded as a
+    defect and keeps the path it always had."""
+    defects = defects if defects is not None else []
+    recs: list[dict] = []
+    consumed: set[int] = set()
+    for ri, cells in enumerate(rows):
+        label = (cells[0] or "").strip() if cells else ""
+        if not (label and _looks_like_label(label) and not SECTION_NOISE.match(label) and INLINE_LABELS.match(label)):
+            continue
+        runs = _runs(cells)
+        if len(runs) != 1:                       # several printed cells are variants (shape B), not one inline list
+            continue
+        text, c0, _c1 = runs[0]
+        pairs, why, skipped = parse_inline_models(text, doc_pids)
+        if pairs is None:
+            if why:
+                defects.append({"code": "INLINE_LIST_REFUSED", "locator": f"t{ti}:r{ri}", "detail": f"{label!r}: {why}"})
+            continue
+        if skipped:
+            defects.append({"code": "INLINE_TOKEN_UNATTRIBUTABLE", "locator": f"t{ti}:r{ri}",
+                            "detail": f"{label!r}: {skipped[:6]} in a model list are not PIDs this datasheet attributes; skipped"})
+        consumed.add(ri)
+        loc = f"t{ti}:r{ri}:c{c0}"
+        for value, pids in pairs:
+            for pid in pids:
+                recs.append({"sku": pid, "label": label, "value": value, "shape": "E", "locator": loc, "source_url": url})
+    return recs, consumed
+
+
 def document_pids(rows_all) -> list[str]:
     """Every PID the DOCUMENT itself enumerates as a SUBJECT. This is the scope set for any
     family-level fact (Q5): a family value may only be inherited by a SKU this document lists.
@@ -792,7 +963,7 @@ def extract_document(html: str, url: str) -> dict:
     tables = soup.find_all("table")
     rows_all = [_rows(t) for t in tables]
     pids = document_pids(rows_all)
-    counts = {"A": 0, "B": 0, "C": 0, "D": 0, "B_read_as_D": 0}
+    counts = {"A": 0, "B": 0, "C": 0, "D": 0, "E": 0, "B_read_as_D": 0, "B_read_as_E": 0}
     defects: list[dict] = []
     facts: list[dict] = []
     # Expanding rowspans necessarily repeats a spanned cell into every row it covers, so the
@@ -808,11 +979,18 @@ def extract_document(html: str, url: str) -> dict:
         # document-level noise ("Unit weight = C1300-8T-E-2G"), so B's reading of exactly those rows is withheld and
         # COUNTED (B_read_as_D) -- the same cells, read once, by the shape that keeps their pairing
         d_recs, d_rows = parse_shape_d(rows, ti, url, defects)
-        for fn, shape in ((parse_shape_a, "A"), (parse_shape_b, "B"), (parse_shape_c, "C"), (None, "D")):
-            recs = d_recs if fn is None else fn(rows, ti, url, defects)
+        # shape E likewise: a row whose one value cell pairs values with inline model lists is read per model, and B's
+        # document-level (and 160-capped) reading of that row is withheld and counted (B_read_as_E)
+        e_recs, e_rows = parse_shape_e(rows, ti, url, pids, defects)
+        for fn, shape in ((parse_shape_a, "A"), (parse_shape_b, "B"), (parse_shape_c, "C"), (None, "D"), (None, "E")):
+            recs = {"D": d_recs, "E": e_recs}[shape] if fn is None else fn(rows, ti, url, defects)
             if shape == "B" and d_rows:
                 kept = [r for r in recs if _row_of(r["locator"]) not in d_rows]
                 counts["B_read_as_D"] += len(recs) - len(kept)
+                recs = kept
+            if shape == "B" and e_rows:
+                kept = [r for r in recs if _row_of(r["locator"]) not in e_rows]
+                counts["B_read_as_E"] += len(recs) - len(kept)
                 recs = kept
             # a list spread over several cells of THIS table is one fact, before the
             # triple-dedup sees it (the dedup would otherwise keep both halves apart)

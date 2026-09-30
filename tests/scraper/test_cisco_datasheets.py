@@ -504,6 +504,139 @@ check("SD14", "a wholly blank spacer row inside a block is skipped, not recorded
       and not any(y["code"] == "SUBTABLE_ROW_MISALIGNED" for y in _r["defects"]),
       ([x.get("sku") for x in _r["facts"] if x.get("shape") == "D"], [y["code"] for y in _r["defects"]]))
 
+
+# ---- shape E: INLINE per-model value lists in ONE cell (30 Sep 2026, the attribute lane, ruling (A)) ----------------
+# The real geometry: a "Feature | Description" table whose value cell is colspanned over the description columns, and
+# holds the per-model difference INSIDE the cell. The three grammars are the Catalyst 1300 / 1200 and SG350X sheets'.
+def _feature(rows, extra=""):
+    body = "".join(f'<tr><td>{lab}</td><td colspan="6">{cell}</td></tr>' for lab, cell in rows)
+    return (f'<html><body><table><tr><th>Feature</th><th colspan="6">Description</th></tr>{body}</table>{extra}'
+            '</body></html>')
+
+
+def _e(r, label=None):
+    return {(x["sku"], x["value"]) for x in r["facts"] if x.get("shape") == "E" and (label is None or x["label"] == label)}
+
+
+_ORDER = ('<table><tr><th>Model</th><th>Description</th></tr>' + "".join(
+    f"<tr><td>{m}</td><td>switch</td></tr>" for m in ("C1200-8T-D", "C1200-16T-2G", "C1200-24T-4G", "C1300-8T-E-2G"))
+    + "</table>")
+
+_r = DEEP.extract_document(_feature([("Operating temperature", "23° to 122°F (-5° to 50°C) C1300-8T-E-2G, C1300-8P-E-2G, "
+                                      "C1300-16T-2G. Minimum ambient temperature for cold start is 32°F (0°C )")]), NO_MAP_URL)
+check("SE1", "value-first (the Catalyst 1300 cell): the range goes to EVERY listed model, shape E, at the value cell; the "
+             "trailing cold-start sentence is a note and is in no record",
+      _e(_r) == {(m, "23° to 122°F (-5° to 50°C)") for m in ("C1300-8T-E-2G", "C1300-8P-E-2G", "C1300-16T-2G")}
+      and all(x["locator"] == "t0:r1:c1" for x in _r["facts"] if x.get("shape") == "E"),
+      sorted(_e(_r)))
+check("SE2", "SABOTAGE shape B's document-level reading of the same row (the whole cell as one value, capped at 160) is "
+             "withheld and counted",
+      not any(x["label"] == "Operating temperature" and not x.get("sku") for x in _r["facts"])
+      and _r["counts"].get("B_read_as_E", 0) > 0, _r["counts"])
+
+_r = DEEP.extract_document(_feature([("Operating temperature", "32° to 122°F (0° to 50°C): C1300-8T-E-2G, C1300-16T-2G "
+                                      "32° to 113°F (0° to 45°C): C1300-24T-4G")]), NO_MAP_URL)
+check("SE3", "value-first with two groups (the SF/SG350 cell): each value pairs with the list AFTER it",
+      _e(_r) == {("C1300-8T-E-2G", "32° to 122°F (0° to 50°C)"), ("C1300-16T-2G", "32° to 122°F (0° to 50°C)"),
+                 ("C1300-24T-4G", "32° to 113°F (0° to 45°C)")}, sorted(_e(_r)))
+
+_r = DEEP.extract_document(_feature([("Operating temperature", "C1300-8T-E-2G, C1300-16T-2G 32° to 122°F (0° to 50°C) "
+                                      "C1300-24T-4G 32° to 113°F (0° to 45°C)")]), NO_MAP_URL)
+check("SE4", "SABOTAGE list-first (the SG350X cell): each list pairs with the value AFTER it -- read the other way, the "
+             "0-45 °C model would take the 0-50 °C range",
+      _e(_r) == {("C1300-8T-E-2G", "32° to 122°F (0° to 50°C)"), ("C1300-16T-2G", "32° to 122°F (0° to 50°C)"),
+                 ("C1300-24T-4G", "32° to 113°F (0° to 45°C)")}, sorted(_e(_r)))
+
+_r = DEEP.extract_document(_feature([("Operating temperature", "32° to 122°F (0° to 50°C) for C1200-8T-D 23° to 122°F "
+                                      "(-5° to 50°C) for other models")], extra=_ORDER), NO_MAP_URL)
+check("SE5", "'for other models' (the Catalyst 1200 cell): the named model gets its range, the sheet's OTHER C1200 models "
+             "get the default -- and a model of another series on the same sheet (C1300-8T-E-2G) gets nothing",
+      _e(_r) == {("C1200-8T-D", "32° to 122°F (0° to 50°C)"), ("C1200-16T-2G", "23° to 122°F (-5° to 50°C)"),
+                 ("C1200-24T-4G", "23° to 122°F (-5° to 50°C)")}, sorted(_e(_r)))
+
+_r = DEEP.extract_document(_feature([("Power", "Supported on C1300-8T-E-2G and C1300-16T-2G only")]), NO_MAP_URL)
+check("SE6", "SABOTAGE prose that names models is not a per-model value: refused with its reason, no E record, and shape B "
+             "keeps the row it always had",
+      not _e(_r) and any(d["code"] == "INLINE_LIST_REFUSED" and "no digit" in d["detail"] for d in _r["defects"])
+      and any(x["label"] == "Power" and not x.get("sku") for x in _r["facts"]),
+      ([d["detail"] for d in _r["defects"]], sorted(_e(_r))))
+
+_r = DEEP.extract_document(_feature([("Operating temperature", "0 to 50°C for C1300-8T-E-2G")]), NO_MAP_URL)
+check("SE7", "SABOTAGE ONE model and no 'other models' is not an inline list: no E record and no defect -- the cell keeps "
+             "the path it always had",
+      not _e(_r) and not any(d["code"].startswith("INLINE") for d in _r["defects"]), (sorted(_e(_r)), _r["defects"]))
+
+_r = DEEP.extract_document(_feature([("Operating temperature", "0 to 50°C: C1300-8T-E-2G, C1300-16T-2G 0 to 45°C: "
+                                      "C1300-16T-2G")]), NO_MAP_URL)
+check("SE8", "SABOTAGE a model named twice with DIFFERENT values is refused whole, never resolved by position",
+      not _e(_r) and any("named twice" in d["detail"] for d in _r["defects"]), [d["detail"] for d in _r["defects"]])
+
+_r = DEEP.extract_document(_feature([("Operating temperature", "0 to 50°C for C1200-8T-D, C1300-8T-E-2G -5 to 50°C for "
+                                      "other models")], extra=_ORDER), NO_MAP_URL)
+check("SE9", "SABOTAGE 'other models' when the named models share no series prefix is refused: which series is 'other' "
+             "is not on the page",
+      not _e(_r) and any("series prefix" in d["detail"] for d in _r["defects"]), [d["detail"] for d in _r["defects"]])
+
+_r = DEEP.extract_document(_feature([("Operating temperature", "-5 to 50°C: C1300-8T-E-2G, C130024MGP-4X, C1300-16T-2G")]),
+                           NO_MAP_URL)
+check("SE10", "SABOTAGE a model-shaped token the sheet does not attribute (the C1300 sheet's typo 'C130024MGP-4X') is "
+              "skipped and REPORTED, never read as a value, and the list around it is read",
+      _e(_r) == {("C1300-8T-E-2G", "-5 to 50°C"), ("C1300-16T-2G", "-5 to 50°C")}
+      and any(d["code"] == "INLINE_TOKEN_UNATTRIBUTABLE" and "C130024MGP-4X" in d["detail"] for d in _r["defects"]),
+      (sorted(_e(_r)), [d["detail"] for d in _r["defects"]]))
+
+_r = DEEP.extract_document(_feature([("Power", "100-240V 50-60 Hz, internal, universal: C1300-16T-2G, C1300-24T-4G "
+                                      "100-240V 50-60 Hz, external: C1300-8T-E-2G")]), NO_MAP_URL)
+check("SE11", "SABOTAGE a number range right after a list ('... SG350-52MP 100-240V 50-60 Hz, external:', the real SF/SG350 "
+              "cell) is the next VALUE, not a model: swallowing it left 'Hz, external' and refused the whole power cell",
+      _e(_r) == {("C1300-16T-2G", "100-240V 50-60 Hz, internal, universal"), ("C1300-24T-4G", "100-240V 50-60 Hz, internal, universal"),
+                 ("C1300-8T-E-2G", "100-240V 50-60 Hz, external")}, sorted(_e(_r)))
+
+_r = DEEP.extract_document(_feature([("Operating temperature", "Secure boot and image signing are supported on "
+                                      "C1300-8T-E-2G, C1300-16T-2G and all 350 models")]), NO_MAP_URL)
+check("SE12", "SABOTAGE a list-first cell that OPENS WITH PROSE is refused (the SG350X 'Trustworthy systems' cell read as "
+              "'and all SX350X models)' for three SKUs before this rule)",
+      not _e(_r) and any("opens with prose" in d["detail"] for d in _r["defects"]), (sorted(_e(_r)), [d["detail"] for d in _r["defects"]]))
+
+_r = DEEP.extract_document(_feature([("Specifications", "Table 3: C1300-8T-E-2G, C1300-16T-2G")]), NO_MAP_URL)
+_r2 = DEEP.extract_document(_feature([("Operating temperature", "Table 3: C1300-8T-E-2G, C1300-16T-2G")]), NO_MAP_URL)
+check("SE13", "SABOTAGE a caption ('Table 3') carries a digit but is not a value: refused",
+      not _e(_r2) and any("caption" in d["detail"] for d in _r2["defects"]), [d["detail"] for d in _r2["defects"]])
+
+_r = DEEP.extract_document(_feature([("Power", "C1300-8T-E-2G, C1300-16T-2G and all SX350X models")]), NO_MAP_URL)
+check("SE14", "SABOTAGE the digits inside a series name are not a value: 'and all SX350X models' after a list carries no "
+              "STANDALONE number, so it is refused instead of becoming two models' value",
+      not _e(_r) and any("no digit" in d["detail"] for d in _r["defects"]), (sorted(_e(_r)), [d["detail"] for d in _r["defects"]]))
+
+
+def _refused(r, why):
+    return not _e(r) and any(d["code"] == "INLINE_LIST_REFUSED" and why in d["detail"] for d in r["defects"])
+
+
+_r = DEEP.extract_document(_feature([("Operating temperature", "-5°C to +45°C when using the C1300-8T-E-2G, C1300-16T-2G "
+                                      "-5°C to +35°C when using the C1300-24T-4G")]), NO_MAP_URL)
+check("SE15", "SABOTAGE a CONDITIONAL value ('... when using the <fan>', the C9500X sheet gave the chassis range to its fans) "
+              "is refused", _refused(_r, "conditional"), [d["detail"] for d in _r["defects"]])
+_r = DEEP.extract_document(_feature([("Power", "● 100-240V internal: C1300-8T-E-2G, C1300-16T-2G ● 12V external: C1300-24T-4G")]),
+                           NO_MAP_URL)
+check("SE16", "SABOTAGE a bulleted notes cell is not a per-model list", _refused(_r, "bulleted"), [d["detail"] for d in _r["defects"]])
+_r = DEEP.extract_document(_feature([("Operating temperature", "0 to 50°C (C1300-8T-E-2G, C1300-16T-2G) -5 to 50°C "
+                                      "(C1300-24T-4G, C1300-8P-E-2G)")]), NO_MAP_URL)
+check("SE17", "SABOTAGE a value cut at a parenthesised model list (unbalanced parentheses) is refused",
+      _refused(_r, "unbalanced"), [d["detail"] for d in _r["defects"]])
+_r = DEEP.extract_document(_feature([("Power", "NCS 1002-K9 100-240V: C1300-8T-E-2G, C1300-16T-2G")]), NO_MAP_URL)
+check("SE18", "SABOTAGE a MODEL NAME inside a value ('NCS 1002-K9 ...', the NCS sheet gave its chassis weight to a PSU) means "
+              "the lists are misaligned: refused", _refused(_r, "model name"), [d["detail"] for d in _r["defects"]])
+_r = DEEP.extract_document(_feature([("Operating temperature", "-5 to 45°C: C1300-8T-E-2G -5 to 35°C: C1300-16T-2G")]), NO_MAP_URL)
+check("SE19", "SABOTAGE a cell whose EVERY list names one model is a configuration table, not a model list: refused",
+      _refused(_r, "single model"), [d["detail"] for d in _r["defects"]])
+_r = DEEP.extract_document(_feature([("Weight", "1.39 kg: C1300-8T-E-2G, C1300-8P-E-2G 2.18 kg: C1300-16T-2G, C1300-24T-4G")]),
+                           NO_MAP_URL)
+check("SE20", "SABOTAGE a label shape E was NOT measured on ('Weight') keeps shape B's path even when its cell is a clean "
+              "inline list: no E record and no defect",
+      not _e(_r) and not any(d["code"].startswith("INLINE") for d in _r["defects"])
+      and any(x["label"] == "Weight" and not x.get("sku") for x in _r["facts"]), (sorted(_e(_r)), _r["defects"]))
+
 _cwd = os.getcwd()
 try:
     os.chdir(tempfile.gettempdir())
