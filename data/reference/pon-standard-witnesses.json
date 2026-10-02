@@ -7,7 +7,7 @@
       "category": "switches",
       "sku": "CGP-OLT-16T",
       "source_field": "ieee_standards",
-      "raw": "ITUT G.984.1 ITUT G.984.2 ITUT G.984.3 ITUT G.984.4 ITUT G.988 IEEE 802.1w IEEE 802.1x Authentication IEEE 802.3af IEEE 802.3at IEEE 802.3ad IEEE 802.1D Spannin",
+      "raw": "ITUT G.984.1 ITUT G.984.2 ITUT G.984.3 ITUT G.984.4 ITUT G.988 IEEE 802.1w IEEE 802.1x Authentication IEEE 802.3af IEEE 802.3at IEEE 802.3ad IEEE 802.1D Spanning Tree Protocol IEEE 802.1p CoS prioritization IEEE 802.1Q VLAN IEEE 802.3ab 1000BASE-T specification IEEE 802.3z 1000BASE-X specification IEEE 802.3ae IEEE 802.11b/g/n/ac RMON I and II standards SNMPv1, v2c, and v3",
       "derived": "gpon",
       "refused": null,
       "evidence": [
@@ -18,14 +18,15 @@
       ],
       "name": "Catalyst PON 16-port GPON OLT, 4 GE Combo ports (Copper RJ45 + SFP optical), 2 10GE SFP+",
       "name_states": "gpon",
-      "agree": true
+      "agree": true,
+      "raw_cut_160": "ITUT G.984.1 ITUT G.984.2 ITUT G.984.3 ITUT G.984.4 ITUT G.988 IEEE 802.1w IEEE 802.1x Authentication IEEE 802.3af IEEE 802.3at IEEE 802.3ad IEEE 802.1D Spannin"
     },
     {
       "vendor": "cisco",
       "category": "switches",
       "sku": "CGP-OLT-8T",
       "source_field": "ieee_standards",
-      "raw": "ITUT G.984.1 ITUT G.984.2 ITUT G.984.3 ITUT G.984.4 ITUT G.988 IEEE 802.1w IEEE 802.1x Authentication IEEE 802.3af IEEE 802.3at IEEE 802.3ad IEEE 802.1D Spannin",
+      "raw": "ITUT G.984.1 ITUT G.984.2 ITUT G.984.3 ITUT G.984.4 ITUT G.988 IEEE 802.1w IEEE 802.1x Authentication IEEE 802.3af IEEE 802.3at IEEE 802.3ad IEEE 802.1D Spanning Tree Protocol IEEE 802.1p CoS prioritization IEEE 802.1Q VLAN IEEE 802.3ab 1000BASE-T specification IEEE 802.3z 1000BASE-X specification IEEE 802.3ae IEEE 802.11b/g/n/ac RMON I and II standards SNMPv1, v2c, and v3",
       "derived": "gpon",
       "refused": null,
       "evidence": [
@@ -36,14 +37,15 @@
       ],
       "name": "Catalyst PON 8-port GPON OLT,4 GE Combo ports (Copper RJ45 + SFP optical), 2 10GE SFP+",
       "name_states": "gpon",
-      "agree": true
+      "agree": true,
+      "raw_cut_160": "ITUT G.984.1 ITUT G.984.2 ITUT G.984.3 ITUT G.984.4 ITUT G.988 IEEE 802.1w IEEE 802.1x Authentication IEEE 802.3af IEEE 802.3at IEEE 802.3ad IEEE 802.1D Spannin"
     },
     {
       "vendor": "cisco",
       "category": "switches",
       "sku": "CGP-ONT-1P",
       "source_field": "ieee_standards",
-      "raw": "ITUT G.984.1 ITUT G.984.2 ITUT G.984.3 ITUT G.984.4 ITUT G.988 IEEE 802.1w IEEE 802.1x Authentication IEEE 802.3af IEEE 802.3at IEEE 802.3ad IEEE 802.1D Spannin",
+      "raw": "ITUT G.984.1 ITUT G.984.2 ITUT G.984.3 ITUT G.984.4 ITUT G.988 IEEE 802.1w IEEE 802.1x Authentication IEEE 802.3af IEEE 802.3at IEEE 802.3ad IEEE 802.1D Spanning Tree Protocol IEEE 802.1p CoS prioritization IEEE 802.1Q VLAN IEEE 802.3ab 1000BASE-T specification IEEE 802.3z 1000BASE-X specification IEEE 802.3ae IEEE 802.11b/g/n/ac RMON I and II standards SNMPv1, v2c, and v3",
       "derived": "gpon",
       "refused": null,
       "evidence": [
@@ -54,14 +56,15 @@
       ],
       "name": "Cisco GPON ONT 1X1G PoE, 2.5G uplink",
       "name_states": "gpon",
-      "agree": true
+      "agree": true,
+      "raw_cut_160": "ITUT G.984.1 ITUT G.984.2 ITUT G.984.3 ITUT G.984.4 ITUT G.988 IEEE 802.1w IEEE 802.1x Authentication IEEE 802.3af IEEE 802.3at IEEE 802.3ad IEEE 802.1D Spannin"
     },
     {
       "vendor": "cisco",
       "category": "switches",
       "sku": "CGP-ONT-4P",
       "source_field": "ieee_standards",
-      "raw": "ITUT G.984.1 ITUT G.984.2 ITUT G.984.3 ITUT G.984.4 ITUT G.988 IEEE 802.1w IEEE 802.1x Authentication IEEE 802.3af IEEE 802.3at IEEE 802.3ad IEEE 802.1D Spannin",
+      "raw": "ITUT G.984.1 ITUT G.984.2 ITUT G.984.3 ITUT G.984.4 ITUT G.988 IEEE 802.1w IEEE 802.1x Authentication IEEE 802.3af IEEE 802.3at IEEE 802.3ad IEEE 802.1D Spanning Tree Protocol IEEE 802.1p CoS prioritization IEEE 802.1Q VLAN IEEE 802.3ab 1000BASE-T specification IEEE 802.3z 1000BASE-X specification IEEE 802.3ae IEEE 802.11b/g/n/ac RMON I and II standards SNMPv1, v2c, and v3",
       "derived": "gpon",
       "refused": null,
       "evidence": [
@@ -72,14 +75,15 @@
       ],
       "name": "Cisco GPON ONT 4X1G PoE+, 2.5G uplink",
       "name_states": "gpon",
-      "agree": true
+      "agree": true,
+      "raw_cut_160": "ITUT G.984.1 ITUT G.984.2 ITUT G.984.3 ITUT G.984.4 ITUT G.988 IEEE 802.1w IEEE 802.1x Authentication IEEE 802.3af IEEE 802.3at IEEE 802.3ad IEEE 802.1D Spannin"
     },
     {
       "vendor": "cisco",
       "category": "switches",
       "sku": "CGP-ONT-4PV",
       "source_field": "ieee_standards",
-      "raw": "ITUT G.984.1 ITUT G.984.2 ITUT G.984.3 ITUT G.984.4 ITUT G.988 IEEE 802.1w IEEE 802.1x Authentication IEEE 802.3af IEEE 802.3at IEEE 802.3ad IEEE 802.1D Spannin",
+      "raw": "ITUT G.984.1 ITUT G.984.2 ITUT G.984.3 ITUT G.984.4 ITUT G.988 IEEE 802.1w IEEE 802.1x Authentication IEEE 802.3af IEEE 802.3at IEEE 802.3ad IEEE 802.1D Spanning Tree Protocol IEEE 802.1p CoS prioritization IEEE 802.1Q VLAN IEEE 802.3ab 1000BASE-T specification IEEE 802.3z 1000BASE-X specification IEEE 802.3ae IEEE 802.11b/g/n/ac RMON I and II standards SNMPv1, v2c, and v3",
       "derived": "gpon",
       "refused": null,
       "evidence": [
@@ -90,14 +94,15 @@
       ],
       "name": "Cisco GPON ONT 4X1G PoE+, 2 voice ports, 2.5G uplink",
       "name_states": "gpon",
-      "agree": true
+      "agree": true,
+      "raw_cut_160": "ITUT G.984.1 ITUT G.984.2 ITUT G.984.3 ITUT G.984.4 ITUT G.988 IEEE 802.1w IEEE 802.1x Authentication IEEE 802.3af IEEE 802.3at IEEE 802.3ad IEEE 802.1D Spannin"
     },
     {
       "vendor": "cisco",
       "category": "switches",
       "sku": "CGP-ONT-4PVC",
       "source_field": "ieee_standards",
-      "raw": "ITUT G.984.1 ITUT G.984.2 ITUT G.984.3 ITUT G.984.4 ITUT G.988 IEEE 802.1w IEEE 802.1x Authentication IEEE 802.3af IEEE 802.3at IEEE 802.3ad IEEE 802.1D Spannin",
+      "raw": "ITUT G.984.1 ITUT G.984.2 ITUT G.984.3 ITUT G.984.4 ITUT G.988 IEEE 802.1w IEEE 802.1x Authentication IEEE 802.3af IEEE 802.3at IEEE 802.3ad IEEE 802.1D Spanning Tree Protocol IEEE 802.1p CoS prioritization IEEE 802.1Q VLAN IEEE 802.3ab 1000BASE-T specification IEEE 802.3z 1000BASE-X specification IEEE 802.3ae IEEE 802.11b/g/n/ac RMON I and II standards SNMPv1, v2c, and v3",
       "derived": "gpon",
       "refused": null,
       "evidence": [
@@ -108,14 +113,15 @@
       ],
       "name": "Catalyst PON 4-port GPON ONT, PoE+, 2 POTS RJ11, 1 CATV Coax",
       "name_states": "gpon",
-      "agree": true
+      "agree": true,
+      "raw_cut_160": "ITUT G.984.1 ITUT G.984.2 ITUT G.984.3 ITUT G.984.4 ITUT G.988 IEEE 802.1w IEEE 802.1x Authentication IEEE 802.3af IEEE 802.3at IEEE 802.3ad IEEE 802.1D Spannin"
     },
     {
       "vendor": "cisco",
       "category": "switches",
       "sku": "CGP-ONT-4TVCW-x",
       "source_field": "ieee_standards",
-      "raw": "ITUT G.984.1 ITUT G.984.2 ITUT G.984.3 ITUT G.984.4 ITUT G.988 IEEE 802.1w IEEE 802.1x Authentication IEEE 802.3af IEEE 802.3at IEEE 802.3ad IEEE 802.1D Spannin",
+      "raw": "ITUT G.984.1 ITUT G.984.2 ITUT G.984.3 ITUT G.984.4 ITUT G.988 IEEE 802.1w IEEE 802.1x Authentication IEEE 802.3af IEEE 802.3at IEEE 802.3ad IEEE 802.1D Spanning Tree Protocol IEEE 802.1p CoS prioritization IEEE 802.1Q VLAN IEEE 802.3ab 1000BASE-T specification IEEE 802.3z 1000BASE-X specification IEEE 802.3ae IEEE 802.11b/g/n/ac RMON I and II standards SNMPv1, v2c, and v3",
       "derived": "gpon",
       "refused": null,
       "evidence": [
@@ -126,7 +132,8 @@
       ],
       "name": "Catalyst PON 4-port GPON ONT, 2 POTS RJ11, 1 CATV Coax, 1 Wi-Fi 2.4G/5GHz. x=Region Prefix. Currently -EU, -NA and -IN available. Please reach out for other regions. EU – EU power adapter, -E Wireless LNA regulatory domain NA – NA power adapter, -A Wireless LNA regulatory domain IN – IN power adapter, -H Wireless LNA regulatory domain",
       "name_states": "gpon",
-      "agree": true
+      "agree": true,
+      "raw_cut_160": "ITUT G.984.1 ITUT G.984.2 ITUT G.984.3 ITUT G.984.4 ITUT G.988 IEEE 802.1w IEEE 802.1x Authentication IEEE 802.3af IEEE 802.3at IEEE 802.3ad IEEE 802.1D Spannin"
     },
     {
       "vendor": "cisco",
@@ -143,5 +150,6 @@
       "name_states": "xgs-pon",
       "agree": true
     }
-  ]
+  ],
+  "_repinned": "2 Oct 2026: the 7 switches rows re-pinned to the REPAIRED raw after the 29 Sep cut-cell repair (each row: exactly one current fact starts with the 160-char cut raw, now raw_cut_160; the derivation is unchanged). The cut raw matched no current fact, so derive-pon-standard refused all 7 and the 1 Oct night stopped."
 }
