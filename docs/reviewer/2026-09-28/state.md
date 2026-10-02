@@ -323,6 +323,11 @@ HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). R
   receivers at write time, these predate it -- a retraction plan to propose), bundle(hardware) 72, unknown 27. Bucket A is now
   12,827 device-receiver facts: admitted 6,971, family:mismatch 4,675, family:unknown 1,157, component:SFP 24 (the SFP rows are
   the 30 real switches the `contains SFP` component token matches -- never retract them; a component-shape fix to propose).
+- VERDICT 2 Oct ~14:05 UTC: Q2 DONE (run 1472, 4,328 retracted, verified). Q3 APPROVED AS PLANNED: 43 class changes (ingest
+  reclassify scoped: stray-device + the 7 CRS sku-exact rules), 5 exact moves, the two kind rules (ucsKind DN appliance family ->
+  server; routerKind C1100TG-16A -> module), one decision + rebuilt artefacts, ready +0 predicted. STALLED is real -> NEW ORDER
+  after Q3 lands: COMPACT -> two READY-GAIN batches (Betriebstemperatur 266, names 168) -> Q1 (re-extract the 432) -> bucket A ->
+  Q3b (software-category class audit: 6,630 category-default parts; the 99 held facts stay held until then).
 - VERDICT 2 Oct ~13:35 UTC: ON TRACK, ready streak 1 -> after THIS round, two batches go to READY-GAIN (Betriebstemperatur 266,
   names 168) before more correctness work. ORDER: Q2 -> Q3 (a+c) -> Q1 -> bucket A -> ready-gain.
   Q2: the 4,274 non-hardware served doc facts = its own retraction plan NOW (30-row sample, ready impact 0), before bucket A.

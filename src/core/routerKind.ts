@@ -187,6 +187,10 @@ export const RULES: { id: string; kind: RouterKind; re: RegExp }[] = [
   // SVC-E180D-M3 "Cisco Internal. E180D-M3 Service Spare", SVC-E160S-M3 "UCS-E, SingleWide, 6 Core CPU", SVC-E1120D-M3 —
   // UCS-E service-module spares moving from servers-unified-computing (agent 4's move list): a router module.
   { id: "module-svc-e-spare", kind: "module", re: /^SVC-E1\d{2,3}[DS]-M\d/ },
+  // Q3 class correction (2 Oct 2026): C1100TG-16A "16-port Async Module for Cisco 1100 Terminal Services Gateway", moving in from
+  // cloud-systems-management with the stray devices. The appliance rule's `^C1100TGX?-` would call the MODULE an appliance; the
+  // gateways themselves carry an N (C1100TG-1N32A, C1100TGX-1N24P32A) and stay appliances -- pinned both ways in the test.
+  { id: "module-async-tsg", kind: "module", re: /^C1100TG-\d+A=?$/ },
   { id: "accessory-cable-mgmt", kind: "accessory",
     // + A900-OPT-GUIDE-H= / A900-ROPT-GUIDE-H= "optical guide for horizontal fiber routing support" (round 2, arriving with NCS 4200):
     // their A900- prefix otherwise reaches sp-asr900 and a fibre guide is asked a whole router's questions.

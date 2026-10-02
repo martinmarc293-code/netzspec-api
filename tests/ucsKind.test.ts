@@ -121,13 +121,17 @@ const POS12: [string, string][] = [
   ["DDR5-4800", "non-product"], ["UCS-EZ-HANA-XL2", "bundle"], ["HX-STD-05", "bundle"],
   // round-7 addendum K/L (12 Sep 2026)
   ["DN3-HW-APL-XL", "server"], ["DN3-HW-APL-XL=", "server"], ["DN3-P-I8D25GF", "nic"], ["APIC-P-ID10GC", "nic"], ["APIC-O-ID10GC", "nic"],
+  // Q3 class correction (2 Oct 2026): the whole Catalyst/DNA Center appliance family by size suffix, the 17 movers' shapes
+  ["DN1-HW-APL", "server"], ["DN1-HW-APL=", "server"], ["DN2-HW-APL-M=", "server"], ["DN3-HW-APL", "server"], ["DN4-HW-APL-L", "server"],
 ];
 for (const [sku, kind] of POS12) eq(`12 Sep: ${sku}`, ucsKind(sku), kind);
 const REF12: [string, string, string][] = [
   // [sku, the kind it must NOT be, why]
   // THE CHECK THE OPERATOR NAMED: the DN/APIC-prefixed part already in servers-unified-computing is a DRIVE.
   ["APIC-SD100G0KA2-E", "nic", "'100G SATA 2.5 inch Enterprise Performance SSD' — -[PO]- must be a whole segment"],
-  ["APIC-SD100G0KA2-E", "server", "'100G SATA ... SSD' — only DN3-HW-APL- is a server"],
+  ["APIC-SD100G0KA2-E", "server", "'100G SATA ... SSD' — only the DN appliance family is a server"],
+  ["DN3-HW-APL-XL-LIC", "server", "Q3: 'Catalyst Center Gen3 XL Appliance License' — the size-suffix family refuses -LIC"],
+  ["DN2-HW-APL-U", "server", "Q3: 'Appliance -- Upgrade' — refused, as strayDevice refuses it"],
   ["N20-C6508", "bundle", "the 5108 chassis; its token C6508 is a bundle token"],
   ["N20-C6508", "software", "N20-FW\\d is anchored"],
   ["C890-M5-SIOM-B", "io-module", "a server's system I/O card — no dash before IOM"],

@@ -134,6 +134,8 @@ const POSITIVE: [string, RouterKind, string, string][] = [
   ["C8300-UCPE-1N20", "appliance", "appliance-nfv-console", "Catalyst 8300 Series Edge uCPE platform, 20-core Intel (was enterprise)"],
   ["XRV9000-APLN-ROUT=", "appliance", "appliance-nfv-console", "XRV 9000 Appliance with UCS-C220 M5 server (was enterprise)"],
   ["C1100TG-1N32A", "appliance", "appliance-nfv-console", "Cisco 1100 Terminal Services Gateway w/ 32 Async (was enterprise)"],
+  // Q3 class correction (2 Oct 2026): the gateway's async MODULE is a module, not the appliance its prefix names
+  ["C1100TG-16A", "module", "module-async-tsg", "16-port Async Module for Cisco 1100 Terminal Services Gateway (moving from cloud-systems-management)"],
   ["C8220TG-48A-O", "appliance", "appliance-nfv-console", "C8220TG-48A-O secure console server, 48x RJ-45 async (was enterprise)"],
   // The seven component-rule misses, each named by its catalogue name.
   ["NCS-5002-FLT-BK", "accessory", "accessory-panel-filter", "Cisco NCS 5002 Air Filter Back to Front Airflow"],
@@ -178,6 +180,8 @@ const POSITIVE: [string, RouterKind, string, string][] = [
 
 // sku, the kind it must KEEP, the wider rule that would have misfiled it
 const REFUSAL: [string, RouterKind, string][] = [
+  // Q3 class correction (2 Oct 2026): the async-module rule must not take a gateway -- the gateways carry an N
+  ["C1100TG-1N24P32A", "appliance", "a `^C1100TG-\\d+A` module rule — 'Cisco 1100 Terminal Services Gateway w/ 32 Async, 24 L2 ports, 1 NIM'"],
   // round-7 addendum D: the operator's wording was "-SYS -> sp-core"; these are why the rule is scoped to N540.
   ["8608-SYS", "chassis", "a bare -SYS -> sp-core rule — 'Cisco 8608 Chassis' (line-card chassis)"],
   ["ASR-9006-SYS", "chassis", "a bare -SYS -> sp-core rule — 'ASR 9006 System'"],

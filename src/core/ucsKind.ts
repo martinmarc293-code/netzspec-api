@@ -416,7 +416,11 @@ export const PRE_RULES: { kind: UcsKind; re: RegExp }[] = [
   // NAMED: one DN/APIC-prefixed part is already in servers-unified-computing and it is a DRIVE —
   // APIC-SD100G0KA2-E "100G SATA 2.5 inch Enterprise Performance SSD". `-[PO]-` needs the letter as a whole
   // segment, so `APIC-SD...` is not reached and stays a drive (asserted in tests/ucsKind.test.ts).
-  { kind: "server", re: /^DN3-HW-APL-/ },
+  // Q3 class correction (2 Oct 2026): the WHOLE appliance family by size suffix -- DN1/DN2/DN3/DN4, with or without -XL/-L/-M/-S,
+  // and their spares -- moving in from cloud-systems-management (strayDevice.ts's own family form). The old `^DN3-HW-APL-` named
+  // only the Gen-3 sized ones, so 15 of the 17 movers would have read `unknown`; the suffix list still refuses the -LIC and -U
+  // PIDs (DN3-HW-APL-XL-LIC is a licence, DN2-HW-APL-U an upgrade), as strayDevice does.
+  { kind: "server", re: /^DN\d-HW-APL(?:-(?:XL|L|M|S))?=?$/ },
   { kind: "nic", re: /^(?:DN3|APIC)-[PO]-/ },
   { kind: "drive", re: /^E-(?:SSD|HDD)-|^A03-D\d/ },
   { kind: "accessory", re: /-BRIDGE/ },
