@@ -25,7 +25,8 @@ import { shopReady } from "../src/core/jtlExport.js";
 
 const argv = process.argv.slice(2);
 const arg = (k: string) => { const i = argv.indexOf(k); return i >= 0 ? argv[i + 1] : undefined; };
-const vendor = arg("--vendor") ?? "cisco", planOut = arg("--plan"), top = Number(arg("--top") ?? 40), withReady = argv.includes("--ready");
+const vendor = arg("--vendor") ?? "cisco", planOut = arg("--plan"), top = Number(arg("--top") ?? 40), readyOut = arg("--ready-out");
+const withReady = argv.includes("--ready") || !!readyOut;
 
 type Part = { id: number; sku: string; name: string | null; cat: string; pc: string | null; family: string | null; series: string | null };
 const parts = (await query<Part>(`
@@ -117,9 +118,13 @@ if (withReady) {
       const fewer = new Map(v.facts);
       for (const k of outByPart.get(id) ?? []) fewer.delete(k);
       const after = shopReady({ ...v, facts: fewer });
-      if (!after.ready) { lose++; if (lost.length < 12) lost.push(`${v.sku} (${after.reasons.join(", ")})`); }
+      if (!after.ready) { lose++; lost.push(`${v.sku}\t${v.category}\t${v.kind ?? ""}\t${[...(outByPart.get(id) ?? [])].join(",")}\t${after.reasons.join(",")}`); }
     }
   }
-  console.log(`  ready impact: ${skus.length} parts hold an OUT fact; ${readyNow} of them are shop-ready now; ${lose} would NOT be with their OUT facts withdrawn${lost.length ? ` -- e.g. ${lost.join("; ")}` : ""}`);
+  console.log(`  ready impact: ${skus.length} parts hold an OUT fact; ${readyNow} of them are shop-ready now; ${lose} would NOT be with their OUT facts withdrawn${lost.length ? ` -- e.g. ${lost.slice(0, 8).map((l) => l.split("\t")[0]).join(", ")}` : ""}`);
+  if (readyOut) {
+    fs.writeFileSync(readyOut, ["sku\tcategory\tkind\tout_fields\treasons_after", ...lost].join("\n") + "\n");
+    console.log(`  ready-out: ${lost.length} parts -> ${readyOut}`);
+  }
 }
 await closePool();
