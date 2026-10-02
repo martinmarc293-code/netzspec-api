@@ -323,7 +323,18 @@ HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). R
   receivers at write time, these predate it -- a retraction plan to propose), bundle(hardware) 72, unknown 27. Bucket A is now
   12,827 device-receiver facts: admitted 6,971, family:mismatch 4,675, family:unknown 1,157, component:SFP 24 (the SFP rows are
   the 30 real switches the `contains SFP` component token matches -- never retract them; a component-shape fix to propose).
-- NEXT (reviewer's order): the 233 raw-bearing re-apply rows through applyMerge. TRAP: the conflicts row has NO inherited flag
+- VERDICT 2 Oct ~13:35 UTC: ON TRACK, ready streak 1 -> after THIS round, two batches go to READY-GAIN (Betriebstemperatur 266,
+  names 168) before more correctness work. ORDER: Q2 -> Q3 (a+c) -> Q1 -> bucket A -> ready-gain.
+  Q2: the 4,274 non-hardware served doc facts = its own retraction plan NOW (30-row sample, ready impact 0), before bucket A.
+  Q3: (a)+(c) TOGETHER as one class-correction run: the 7 stale CRS classes and the 36 real devices stored software are the same
+  defect (wrong class; the 36 are real hardware leaving the score) -> class fix + their category move per strayDevice.ts, ONE
+  decision, rebuilt artefacts. (b) the `contains SFP` narrowing LAST (24 facts, low yield).
+  Q1: RE-EXTRACT, don't derive the flag: re-run the 432 rows' documents through the current pipeline (scoped), the gates decide
+  own vs inherited ("a held-by-one-part proxy can still be a family cell"). Dry run, sample, commit. Measured after asking: of
+  the 432, 201 sit on stored NON-hardware receivers (233: licence 108 + software 16; 199: licence 61 + software 16) -- they read
+  "in subject" in (b') only through the pre-(3a) kind; the re-extraction's class rule should refuse them (a prediction to check).
+  Of the 233 cells, 205 are held inherited by 24-31 other parts, 28 by no other part. 17 + 21 rejected documents.
+- SUPERSEDED BY THE VERDICT ABOVE (kept for the trap it names): the 233 raw-bearing re-apply rows through applyMerge. TRAP: the conflicts row has NO inherited flag
   and remerge.incomingEntry offers a rejected side as a per-SKU value -- for a family-level cell that would store an inherited
   value as the part's OWN and inflate `filled`. Measure the flag from the cell's own record first (other parts holding the same
   doc_id + locator, and whether they hold it inherited), then a DRY RUN through applyMerge; commit on the reviewer's yes. The 199
