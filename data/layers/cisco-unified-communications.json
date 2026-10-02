@@ -1,8 +1,8 @@
 {
   "vendor": "cisco",
   "category": "unified-communications",
-  "built_at": "2026-09-30T13:02:09.050Z",
-  "commit": "e5760e489ae690d8ea8003ff935da14cbf9ac391",
+  "built_at": "2026-10-02T08:29:34.901Z",
+  "commit": "89ecb857c8d8b6e4602131b254c789d1c6bffcde",
   "uncommitted_rule_files": [],
   "mapping_file": "data/reference/product-lines/cisco-unified-communications.json",
   "parts": 426,
@@ -633,9 +633,9 @@
   "inbound_unplaced": {},
   "done": true,
   "build": {
-    "data_commit": "e5760e489ae6+84dirty",
-    "code_commit": "e5760e489ae6",
+    "data_commit": "ef0848f7e14d+83dirty",
+    "code_commit": "874fe6a8395b",
     "contract_hash": "c7b80d502adb8305",
-    "generated_at": "2026-09-30T13:09:44.610Z"
+    "generated_at": "2026-10-02T11:22:07.718Z"
   }
 }
