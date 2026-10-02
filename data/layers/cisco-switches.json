@@ -1,12 +1,12 @@
 {
   "vendor": "cisco",
   "category": "switches",
-  "built_at": "2026-10-02T08:29:33.327Z",
-  "commit": "89ecb857c8d8b6e4602131b254c789d1c6bffcde",
+  "built_at": "2026-10-02T13:57:31.147Z",
+  "commit": "233279a057aab8db71255b70ae9ecd38ca29f826",
   "uncommitted_rule_files": [],
   "mapping_file": "data/reference/product-lines/cisco-switches.json",
-  "parts": 7225,
-  "layered": 7225,
+  "parts": 7228,
+  "layered": 7228,
   "pending": 0,
   "lines": [
     {
@@ -1166,7 +1166,7 @@
     },
     {
       "line": "Nexus",
-      "parts": 1871,
+      "parts": 1874,
       "series": [
         {
           "series": "Nexus 2000 Fabric Extenders",
@@ -1531,16 +1531,16 @@
           "family": "Nexus 9000",
           "role": "datacenter",
           "note": "Tetration Analytics PIDs: TA-C93180YC-FX(-NR / 3 / =) and TA-N9K-C9372PX-E(=) / TA-N9K-C9372TX-E(=) are the Nexus 9300 switches sold in Tetration clusters — a switch under an appliance PID stays a switch (operator, layers round 3; their servers plans are cancelled)",
-          "parts": 219,
+          "parts": 222,
           "kinds": {
-            "switch": 165,
+            "switch": 168,
             "bundle": 31,
             "mechanical": 3,
             "fan": 12,
             "module": 8
           },
           "roles": {
-            "datacenter": 165
+            "datacenter": 168
           },
           "samples": [
             "9364E-SG2 — Cisco 9364E-SG2",
@@ -1551,7 +1551,7 @@
             "C1-N9K-C93108-B18Q — Cisco ONE 2 Nexus 93108TC-EX with 8 QSFP-40G-SR-BD"
           ],
           "rules": {
-            "sku": 219
+            "sku": 222
           },
           "pending_in": {},
           "pending_out": {}
@@ -4828,9 +4828,9 @@
   "inbound_unplaced": {},
   "done": true,
   "build": {
-    "data_commit": "c290f8e19709+2dirty",
-    "code_commit": "c290f8e19709",
+    "data_commit": "233279a057aa+88dirty",
+    "code_commit": "233279a057aa",
     "contract_hash": "19704b71cf482f48",
-    "generated_at": "2026-10-02T11:32:05.645Z"
+    "generated_at": "2026-10-02T14:07:49.280Z"
   }
 }

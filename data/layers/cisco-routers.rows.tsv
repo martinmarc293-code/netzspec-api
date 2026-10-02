@@ -1584,6 +1584,7 @@ C1-CISCO4331T-P/K9	Cisco ONE ISR 4331 (3GE,2NIM,1SM,4G FL,4G RAM,w/PERF)	3900 Se
 C1-CISCO4351/K9	Cisco ONE ISR 4351 (3GE,3NIM,2SM,4G FLASH,4G DRAM,IPB)	3900 Series Integrated Services Routers ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^(CISCO)?4[2-4][0-9]{2}(?![0-9])	branch	series:ISR 4000					
 C1-CISCO4431/K9	Cisco ONE ISR 4431 (4GE,3NIM,8G FLASH,4G DRAM,IPB)	3900 Series Integrated Services Routers ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^(CISCO)?4[2-4][0-9]{2}(?![0-9])	branch	series:ISR 4000					
 C1-CISCO4451/K9	Cisco ONE ISR 4451 (4GE,3NIM,2SM,8G FLASH,4G DRAM, IPB)	3900 Series Integrated Services Routers ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^(CISCO)?4[2-4][0-9]{2}(?![0-9])	branch	series:ISR 4000					
+C1100TG-16A	16-port Async Module for Cisco 1100 Terminal Services Gateway	Terminal Services Gateways	module	layered	Console and Terminal Servers	(none)	Terminal Services Gateways		sku ^C1100TGX?-							
 C1100TG-1N24P32A	Cisco 1100 Terminal Services Gateway w/ 32 Async,24-layer 2 switch Port, 1 NIM with support for 4G DRAM	Terminal Services Gateways	appliance	layered	Console and Terminal Servers	(none)	Terminal Services Gateways		sku ^C1100TGX?-							
 C1100TG-1N32A	Cisco 1100 Terminal Services Gateway w/ 32 Async, 1 NIM (support for 2 GB DRAM)	Terminal Services Gateways	appliance	layered	Console and Terminal Servers	(none)	Terminal Services Gateways		sku ^C1100TGX?-							
 C1100TGX-1N24P32A	Cisco 1100 Terminal Services Gateway w/ 32 Async,24-layer 2 switch Port, 1 NIM with support for 8G DRAM	Terminal Services Gateways	appliance	layered	Console and Terminal Servers	(none)	Terminal Services Gateways		sku ^C1100TGX?-							
@@ -2702,7 +2703,6 @@ CONE-2921-ATO	ISR 2921 for Cisco ONE	2900 ISR	router	layered	ISR (Integrated Ser
 CPA-CAB-232FC=	RS-232 CABLE,DCE,FEMALE,10 FT	4000 ISR	cable	layered	ISR (Integrated Services Routers)	(shared across the line)		ISR (Integrated Services Routers) shared parts	accessory -CAB- (label 4000 ISR)							
 CPA-CAB-V35FC=	V.35 CABLE,DCE,FEMALE,10 FEET	4000 ISR	cable	layered	ISR (Integrated Services Routers)	(shared across the line)		ISR (Integrated Services Routers) shared parts	accessory -CAB- (label 4000 ISR)							
 CPT-50-FTF=	CPT-50 Fan Tray Filter	ASR 9000	mechanical	layered	ASR (Aggregation Services Routers)	(shared across the line)		ASR (Aggregation Services Routers) shared parts	label-unsupported (label ASR 9000; was ASR 9000): no platform token (9000) in the SKU or name, no compatible part placed in the series						none: no platform token (9000) in the SKU or name, no compatible part placed in the series	
-CRS-1-TEST-40G=	CRS-1 TEST PID for 40G licensing	Carrier Routing System	sp-router	layered	CRS (Carrier Routing System)	(none)	CRS		sku ^CRS	sp-core	series:CRS					
 CRS-100GE-BUN=	Cisco CRS Series 1x100GE, CRS-FP-140G Bundle	Carrier Routing System	linecard	layered	CRS (Carrier Routing System)	(none)	CRS		sku ^CRS							
 CRS-16-140G-UPG	Cisco CRS Series 16 Slot Upgrade Kit 140G	Carrier Routing System	mechanical	layered	CRS (Carrier Routing System)	(none)	CRS		sku ^CRS							
 CRS-16-400G-UPG	Cisco CRS Series 16 Slot Upgrade Kit 400G	Carrier Routing System	mechanical	layered	CRS (Carrier Routing System)	(none)	CRS		sku ^CRS							
@@ -2852,8 +2852,6 @@ CRS-16LCC140-B-BN=	CRS 16 Slots Line Card Chassis-140G/M-Enhanced	Carrier Routin
 CRS-16LCC140-B=	CRS 16 Slots Line Card Chassis-140G/M-Enhanced	Carrier Routing System	chassis	layered	CRS (Carrier Routing System)	(none)	CRS		sku ^CRS							
 CRS-16LCC400-B-BN=	CRS 16 Slots Line Card Chassis-400G/M-Enhanced	Carrier Routing System	chassis	layered	CRS (Carrier Routing System)	(none)	CRS		sku ^CRS							
 CRS-16LCC400-B=	CRS 16 Slots Line Card Chassis-400G/M-Enhanced	Carrier Routing System	chassis	layered	CRS (Carrier Routing System)	(none)	CRS		sku ^CRS							
-CRS-3-ANY-PK=	CRS-3 Multipack Bundle	Carrier Routing System	sp-router	layered	CRS (Carrier Routing System)	(none)	CRS		sku ^CRS	sp-core	series:CRS					
-CRS-3-UPGRADE-BUN	CRS-3 Upgrade Bundle	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	(none)	CRS		sku ^CRS							
 CRS-4-140G-UPG	Cisco CRS Series 4 Slot Upgrade Kit 140G	Carrier Routing System	mechanical	layered	CRS (Carrier Routing System)	(none)	CRS		sku ^CRS							
 CRS-4-CH-UPG-BUN	CRS 4 slots to 8 slot chassis upgrade bundle	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	(none)	CRS		sku ^CRS							
 CRS-4-DOOR-FUJI=	CRS-1 4 Slot System Fujitsu Door Kit	Carrier Routing System	mechanical	layered	CRS (Carrier Routing System)	(none)	CRS		sku ^CRS							
@@ -3062,7 +3060,6 @@ CRS-DC-M-BLANK	^CRS-1 Modular Power DC Face Plate	Carrier Routing System	accesso
 CRS-DC-M-BLANK=	CRS-1 Modular Power DC Face Plate	Carrier Routing System	accessory	layered	CRS (Carrier Routing System)	(none)	CRS		sku ^CRS							
 CRS-DIMM	CRS 2G Memory Kit for MSC/FP	Carrier Routing System	memory	layered	CRS (Carrier Routing System)	(none)	CRS		sku ^CRS							
 CRS-DIMM-2G=	CRS 2G Memory Kit for MSC/FP	Carrier Routing System	memory	layered	CRS (Carrier Routing System)	(none)	CRS		sku ^CRS							
-CRS-DP-DLR	CRS DP Dollar Adjustment	Carrier Routing System	sp-router	layered	CRS (Carrier Routing System)	(none)	CRS		sku ^CRS	sp-core	series:CRS					
 CRS-DRP	Cisco CRS-1 Series Distributed Route Processor	Carrier Routing System	processor	layered	CRS (Carrier Routing System)	(none)	CRS		sku ^CRS							
 CRS-DRP-B	Cisco CRS-1 Series Distributed Route Processor	Carrier Routing System	processor	layered	CRS (Carrier Routing System)	(none)	CRS		sku ^CRS							
 CRS-DRP-B-CPU	Cisco CRS-1 Distributed Route Processor CPU Module	Carrier Routing System	processor	layered	CRS (Carrier Routing System)	(none)	CRS		sku ^CRS							
@@ -3249,7 +3246,6 @@ CRS-PRP-UPG-CAB	Cisco CRS Performance Route Processor Upgrade Cable	Carrier Rout
 CRS-PRP-UPG-CAB=	CRS PRP Upgrade Cable	Carrier Routing System	cable	layered	CRS (Carrier Routing System)	(none)	CRS		sku ^CRS							
 CRS-PWR-INST-KIT	CRS Modular Power Installation Kit	Carrier Routing System	mechanical	layered	CRS (Carrier Routing System)	(none)	CRS		sku ^CRS							
 CRS-PWR-INST-KIT=	CRS Modular Power Installation Kit	Carrier Routing System	mechanical	layered	CRS (Carrier Routing System)	(none)	CRS		sku ^CRS							
-CRS-REBATE-ATT	CRS Dummy Rebate SKU for ATT	Carrier Routing System	sp-router	layered	CRS (Carrier Routing System)	(none)	CRS		sku ^CRS	sp-core	series:CRS					
 CRS-RP-PKG-4PK	Cisco CRS-1 RP/FAN-CT Package Box 4 Units	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	(none)	CRS		sku ^CRS							
 CRS-RP-PKG-4PK=	Cisco CRS-1 RP/FAN-CT Package Box 4 Units	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	(none)	CRS		sku ^CRS							
 CRS-S123-HANDLE=	Cisco CRS-1 for S123 Fabric board	Carrier Routing System	accessory	layered	CRS (Carrier Routing System)	(none)	CRS		sku ^CRS							
@@ -3263,11 +3259,9 @@ CRS-SIP	Cisco Carrier Routing System SPA Interface Processor Card	Carrier Routin
 CRS-SIP=	Cisco Carrier Routing System SPA Interface Processor Card	Carrier Routing System	linecard	layered	CRS (Carrier Routing System)	(none)	CRS		sku ^CRS							
 CRS-X-FP	Cisco CRS-X-FP	Carrier Routing System	linecard	layered	CRS (Carrier Routing System)	(none)	CRS		sku ^CRS							
 CRS-X-PLIM	Cisco CRS-X-PLIM	Carrier Routing System	module	layered	CRS (Carrier Routing System)	(none)	CRS		sku ^CRS							
-CRS-X-UPGRADE-BUN	CRS-X Upgrade Bundle	Carrier Routing System	bundle	layered	CRS (Carrier Routing System)	(none)	CRS		sku ^CRS							
 CRS1-SIP-800	Cisco Carrier Routing System SPA Interface Processor Card	Carrier Routing System	linecard	layered	CRS (Carrier Routing System)	(none)	CRS		sku ^CRS							
 CRS1-SIP-800-SK	CRS Jacket card for starter kit	Carrier Routing System	linecard	layered	CRS (Carrier Routing System)	(none)	CRS		sku ^CRS							
 CRS1-SIP-800=	Cisco Carrier Routing System SPA Interface Processor Card	Carrier Routing System	linecard	layered	CRS (Carrier Routing System)	(none)	CRS		sku ^CRS							
-CRS1-SPA	SPA for Cisco CRS-1; No Physical Part; For Tracking Only	Carrier Routing System	sp-router	layered	CRS (Carrier Routing System)	(none)	CRS		sku ^CRS	sp-core	series:CRS					
 CRS3-FC24=	CRS-3 Fabric Chassis 24-Slot System (complete FCC)	Carrier Routing System	chassis	layered	CRS (Carrier Routing System)	(none)	CRS		sku ^CRS							
 CRS3-FCC=	Cisco CRS-3 FCC, spare (chassis only)	Carrier Routing System	chassis	layered	CRS (Carrier Routing System)	(none)	CRS		sku ^CRS							
 CRS3-MC-FC24	CRS-3 Multichassis System with 24-Slot Fabric Chassis	Carrier Routing System	chassis	layered	CRS (Carrier Routing System)	(none)	CRS		sku ^CRS							
@@ -3973,10 +3967,14 @@ N520-X-4G4Z-A=	Cisco NCS 520 - 4xGE + 4x10GE, Industrial Temp, AC power	Network 
 N520-X-4G4Z-D	Cisco NCS 520 - 4xGE + 4x10GE, Industrial Temp, DC power	Network Convergence System 500	sp-router	layered	NCS (Network Convergence System)	(none)	NCS 520, 540 and 560		sku ^N5[246]0(?![0-9])	sp-access	series:NCS 520, 540 and 560					
 N520-X-4G4Z-D=	Cisco NCS 520 - 4xGE + 4x10GE, Industrial Temp, DC power	Network Convergence System 500	sp-router	layered	NCS (Network Convergence System)	(none)	NCS 520, 540 and 560		sku ^N5[246]0(?![0-9])	sp-access	series:NCS 520, 540 and 560					
 N540-12Z20G-SYS	Cisco N540-12Z20G-SYS	8000	sp-router	layered	NCS (Network Convergence System)	(none)	NCS 520, 540 and 560		sku ^N5[246]0(?![0-9])	sp-access	series:NCS 520, 540 and 560					
+N540-12Z20G-SYS-A	NCS540 20x1G+12x10G AC	IOS XR Software	sp-router	layered	NCS (Network Convergence System)	(none)	NCS 520, 540 and 560		sku ^N5[246]0(?![0-9])	sp-access	series:NCS 520, 540 and 560					
+N540-12Z20G-SYS-D	NCS540 20x1G+12x10G DC	IOS XR Software	sp-router	layered	NCS (Network Convergence System)	(none)	NCS 520, 540 and 560		sku ^N5[246]0(?![0-9])	sp-access	series:NCS 520, 540 and 560					
 N540-24Q2C2DD-SYS	Cisco N540-24Q2C2DD-SYS	8000	sp-router	layered	NCS (Network Convergence System)	(none)	NCS 520, 540 and 560		sku ^N5[246]0(?![0-9])	sp-access	series:NCS 520, 540 and 560					
 N540-24Q8L2DD-SYS	NCS540-2x400G QSFP-DD+8x50G+24x25G	IOS XR Software	sp-router	layered	NCS (Network Convergence System)	(none)	NCS 520, 540 and 560		sku ^N5[246]0(?![0-9])	sp-access	series:NCS 520, 540 and 560					
 N540-24Z8Q2C-SYS	NCS 540 System Flexible Consumption	IOS XR Software	sp-router	layered	NCS (Network Convergence System)	(none)	NCS 520, 540 and 560		sku ^N5[246]0(?![0-9])	sp-access	series:NCS 520, 540 and 560					
 N540-28Z4C-SYS	Cisco N540-28Z4C-SYS	8000	sp-router	layered	NCS (Network Convergence System)	(none)	NCS 520, 540 and 560		sku ^N5[246]0(?![0-9])	sp-access	series:NCS 520, 540 and 560					
+N540-28Z4C-SYS-A	NCS540 28x10G + 4x100G AC	IOS XR Software	sp-router	layered	NCS (Network Convergence System)	(none)	NCS 520, 540 and 560		sku ^N5[246]0(?![0-9])	sp-access	series:NCS 520, 540 and 560					
+N540-28Z4C-SYS-D	NCS 540 28x10G + 4x100G DC	IOS XR Software	sp-router	layered	NCS (Network Convergence System)	(none)	NCS 520, 540 and 560		sku ^N5[246]0(?![0-9])	sp-access	series:NCS 520, 540 and 560					
 N540-6Z14S-SYS	Cisco N540-6Z14S-SYS	8000	sp-router	layered	NCS (Network Convergence System)	(none)	NCS 520, 540 and 560		sku ^N5[246]0(?![0-9])	sp-access	series:NCS 520, 540 and 560					
 N540-6Z14S-SYS-D	Cisco N540-6Z14S-SYS-D	ASR 920 Series Aggregation Services Router	sp-router	layered	NCS (Network Convergence System)	(none)	NCS 520, 540 and 560		sku ^N5[246]0(?![0-9])	sp-access	series:NCS 520, 540 and 560					
 N540-6Z18G-SYS	Cisco N540-6Z18G-SYS	8000	sp-router	layered	NCS (Network Convergence System)	(none)	NCS 520, 540 and 560		sku ^N5[246]0(?![0-9])	sp-access	series:NCS 520, 540 and 560					
@@ -3990,6 +3988,8 @@ N540-FH-AGG-SYS=	N540-Front Haul Aggregation Router	Network Convergence System 5
 N540-FH-CSR-SYS	N540-Front Haul Cell Site Router	Network Convergence System 540	sp-router	layered	NCS (Network Convergence System)	(none)	NCS 520, 540 and 560		sku ^N5[246]0(?![0-9])	sp-access	series:NCS 520, 540 and 560					
 N540-FH-CSR-SYS=	N540-Front Haul Cell Site Router	Network Convergence System 540	sp-router	layered	NCS (Network Convergence System)	(none)	NCS 520, 540 and 560		sku ^N5[246]0(?![0-9])	sp-access	series:NCS 520, 540 and 560					
 N540X-12Z16G-SYS	Cisco N540X-12Z16G-SYS	8000	sp-router	layered	NCS (Network Convergence System)	(none)	NCS 520, 540 and 560		sku ^N5[246]0(?![0-9])	sp-access	series:NCS 520, 540 and 560					
+N540X-12Z16G-SYS-A	NCS540 12x1G SFP + 4x1G Cu + 12x10G AC	IOS XR Software	sp-router	layered	NCS (Network Convergence System)	(none)	NCS 520, 540 and 560		sku ^N5[246]0(?![0-9])	sp-access	series:NCS 520, 540 and 560					
+N540X-12Z16G-SYS-D	NCS540 12x1G SFP + 4x1G Cu + 12x10G DC	IOS XR Software	sp-router	layered	NCS (Network Convergence System)	(none)	NCS 520, 540 and 560		sku ^N5[246]0(?![0-9])	sp-access	series:NCS 520, 540 and 560					
 N540X-16Z4G8Q2C	Cisco N540X-16Z4G8Q2C	8000	sp-router	layered	NCS (Network Convergence System)	(none)	NCS 520, 540 and 560		sku ^N5[246]0(?![0-9])	sp-access	series:NCS 520, 540 and 560					
 N540X-16Z8Q2C	Cisco N540X-16Z8Q2C	8000	sp-router	layered	NCS (Network Convergence System)	(none)	NCS 520, 540 and 560		sku ^N5[246]0(?![0-9])	sp-access	series:NCS 520, 540 and 560					
 N540X-4Z14G2Q	Cisco N540X-4Z14G2Q	8000	sp-router	layered	NCS (Network Convergence System)	(none)	NCS 520, 540 and 560		sku ^N5[246]0(?![0-9])	sp-access	series:NCS 520, 540 and 560					
@@ -4034,7 +4034,9 @@ N560-4-RSP4-E=	Cisco NCS 560-4 RSP4 Enhanced – 800G, XL Scale (/w ext. TCAM), 
 N560-4-RSP4=	Cisco NCS 560-4 RSP4 – 800G, L Scale, spare	Network Convergence System 500	processor	layered	NCS (Network Convergence System)	(none)	NCS 520, 540 and 560		sku ^N5[246]0(?![0-9])							
 N560-4-RSP4E	NCS 560-4 Route Switch Processor 4 Enhanced, 800G, XL scale	Network Convergence System 500	processor	layered	NCS (Network Convergence System)	(none)	NCS 520, 540 and 560		sku ^N5[246]0(?![0-9])							
 N560-4-RSP4E=	NCS 560-4 Route Switch Processor 4 Enhanced, 800G, XL scale, Spare	Network Convergence System 500	processor	layered	NCS (Network Convergence System)	(none)	NCS 520, 540 and 560		sku ^N5[246]0(?![0-9])							
+N560-4-SYS	N560 4RU HW. Flex. Consumption for RSP4. Smart Licensing	IOS XR Software	chassis	layered	NCS (Network Convergence System)	(none)	NCS 520, 540 and 560		sku ^N5[246]0(?![0-9])							
 N560-4-SYS-BUN1	NCS 560-4 4RU System ATO, 800G, L scale, Single RSP	Network Convergence System 500	chassis	layered	NCS (Network Convergence System)	(none)	NCS 520, 540 and 560		sku ^N5[246]0(?![0-9])							
+N560-4-SYS-E	N560 4RU HW. Flex. Consumption for RSP4-E. Smart Licensing	IOS XR Software	chassis	layered	NCS (Network Convergence System)	(none)	NCS 520, 540 and 560		sku ^N5[246]0(?![0-9])							
 N560-4-SYS-E-BUN1	NCS 560-4 4RU System ATO, 800G, XL scale, Single RSP	Network Convergence System 500	chassis	layered	NCS (Network Convergence System)	(none)	NCS 520, 540 and 560		sku ^N5[246]0(?![0-9])							
 N560-4RSP4=	NCS 560-4 Route Switch Processor 4, 800G, L scale, Spare	Network Convergence System 500	processor	layered	NCS (Network Convergence System)	(none)	NCS 520, 540 and 560		sku ^N5[246]0(?![0-9])							
 N560-7-SYS	NCS 560 7RU System ATO, 800G, LL scale, Flexible Consumption	IOS XR Software	sp-router	layered	NCS (Network Convergence System)	(none)	NCS 520, 540 and 560		sku ^N5[246]0(?![0-9])	sp-access	series:NCS 520, 540 and 560					
@@ -4502,7 +4504,10 @@ NCS-55A2-MOD-HX-S	NCS 55A2 Fixed 24X10G + 16X25G and MPA Chassis, Temperature Ha
 NCS-55A2-MOD-S	NCS 55A2 Fixed 24X10G + 16X25G and MPA Chassis	Transceiver Modules	sp-router	layered	NCS (Network Convergence System)	(none)	NCS 5500		sku ^NCS-?55	sp-edge	series:NCS 5500					
 NCS-55A2-MOD-SE-S	NCS 55A2 Fixed 24X10G + 16X25G and MPA Scale Chassis	Network Convergence System 5500 Series	sp-router	layered	NCS (Network Convergence System)	(none)	NCS 5500		sku ^NCS-?55	sp-edge	series:NCS 5500					
 NCS-55A2-MOD-SYS	24X10G + 16X25G Flexible Consumption Need Smart Lic	IOS XR Software	sp-router	layered	NCS (Network Convergence System)	(none)	NCS 5500		sku ^NCS-?55	sp-edge	series:NCS 5500					
+NCS-55A2-MODH-SYS	NCS 55A2 Fixed 24X10G + 16X25G and MPA Chassis, Temperature Hardened	IOS XR Software	sp-router	layered	NCS (Network Convergence System)	(none)	NCS 5500		sku ^NCS-?55	sp-edge	series:NCS 5500					
 NCS-55A2-MODS-SYS	Fixed 24X10G+16X25G and MPA NCS 55A2 SE Chassis for Flexible Consumption	IOS XR Software	sp-router	layered	NCS (Network Convergence System)	(none)	NCS 5500		sku ^NCS-?55	sp-edge	series:NCS 5500					
+NCS-55A2-MODX-SYS	NCS 55A2 Fixed 24X10G + 16X25G and MPA Chassis, Temperature Hardened with Conformal Coating	IOS XR Software	sp-router	layered	NCS (Network Convergence System)	(none)	NCS 5500		sku ^NCS-?55	sp-edge	series:NCS 5500					
+NCS-55A2MODSH-SYS	NCS 55A2 Fixed 24X10G + 16X25G and MPA Scale Chassis, Temperature Hardened with Conformal Coating	IOS XR Software	sp-router	layered	NCS (Network Convergence System)	(none)	NCS 5500		sku ^NCS-?55	sp-edge	series:NCS 5500					
 NCS-57B1-5D24H-SE	NCS57B1 Fixed-Scale HW 5x400, 24x100 all QSFP-DD chassis	Network Convergence System 5700 Series	sp-router	layered	NCS (Network Convergence System)	(none)	NCS 5700		sku ^NCS-?57	sp-edge	series:NCS 5700					
 NCS-57B1-5D24H-SE=	NCS57B1 Fixed-Scale HW 5x400, 24x100 all QSFP-DD chassis	Network Convergence System 5500 Series	sp-router	layered	NCS (Network Convergence System)	(none)	NCS 5700		sku ^NCS-?57	sp-edge	series:NCS 5700					
 NCS-57B1-5DSE-SYS	NCS57B1 Fixed Scale HW Flexible Consumption Need Smart Lic	Network Convergence System 5500 Series	sp-router	layered	NCS (Network Convergence System)	(none)	NCS 5700		sku ^NCS-?57	sp-edge	series:NCS 5700					
@@ -4520,7 +4525,10 @@ NCS-57C1-48Q6D-S	NCS57C1 Fixed 32X1/10/25G, 16X1/10/25/50G, and 6x400G chassis	N
 NCS-57C1-48Q6D-S=	NCS57C1 Fixed 32X1/10/25G, 16X1/10/25/50G, and 6x400G chassis	Network Convergence System 5500 Series	sp-router	layered	NCS (Network Convergence System)	(none)	NCS 5700		sku ^NCS-?57	sp-edge	series:NCS 5700					
 NCS-57C3-MOD-S	NCS 57C3 Base Chassis, Fixed Ports - 48X25G, 8X100, and 3XMPA Chassis	Network Convergence System 5500 Series	sp-router	layered	NCS (Network Convergence System)	(none)	NCS 5700		sku ^NCS-?57	sp-edge	series:NCS 5700					
 NCS-57C3-MOD-SE-S	NCS 57C3 Scale Chassis, Fixed Ports - 48X25G, 4X100, and 3XMPA Chassis	Network Convergence System 5500 Series	sp-router	layered	NCS (Network Convergence System)	(none)	NCS 5700		sku ^NCS-?57	sp-edge	series:NCS 5700					
+NCS-57C3-MOD-SYS	NCS 57C3 Base Chassis, Fixed ports - 48X25G, 8X100, and 3XMPA Chassis	IOS XR Software	sp-router	layered	NCS (Network Convergence System)	(none)	NCS 5700		sku ^NCS-?57	sp-edge	series:NCS 5700					
+NCS-57C3-MODS-SYS	NCS 57C3 Scale Chassis, Fixed ports - 48X25G, 4X100, and 3XMPA Chassis	IOS XR Software	sp-router	layered	NCS (Network Convergence System)	(none)	NCS 5700		sku ^NCS-?57	sp-edge	series:NCS 5700					
 NCS-57D2-18DD-S	NCS57D2 Fixed Base HW 18x400, 64x100 all QSFP-DD chassis	Network Convergence System 5700 Series	sp-router	layered	NCS (Network Convergence System)	(none)	NCS 5700		sku ^NCS-?57	sp-edge	series:NCS 5700					
+NCS-57D2-18DD-SYS	NCS57D2 7.2T Fixed Base Chassis 66 QSFP-DD flexible ports	IOS XR Software	sp-router	layered	NCS (Network Convergence System)	(none)	NCS 5700		sku ^NCS-?57	sp-edge	series:NCS 5700					
 NCS-57D2-18DD-TRK	57D2-18DD Base Hardware Tracking PID	Network Convergence System 5700 Series	sp-router	layered	NCS (Network Convergence System)	(none)	NCS 5700		sku ^NCS-?57	sp-edge	series:NCS 5700					
 NCS-6008	NCS 6008 - 8-Slot Chassis	6000	chassis	layered	NCS (Network Convergence System)	(none)	NCS 6000		sku ^NCS-?6							
 NCS-6008-1T-MIG	NCS 6008 - 1 TB LC Migration System	6000	chassis	layered	NCS (Network Convergence System)	(none)	NCS 6000		sku ^NCS-?6							

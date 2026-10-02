@@ -9672,6 +9672,7 @@ routers	C1-CISCO4331T-P/K9	Cisco ONE ISR 4331 (3GE,2NIM,1SM,4G FL,4G RAM,w/PERF)
 routers	C1-CISCO4351/K9	Cisco ONE ISR 4351 (3GE,3NIM,2SM,4G FLASH,4G DRAM,IPB)	router	branch
 routers	C1-CISCO4431/K9	Cisco ONE ISR 4431 (4GE,3NIM,8G FLASH,4G DRAM,IPB)	router	branch
 routers	C1-CISCO4451/K9	Cisco ONE ISR 4451 (4GE,3NIM,2SM,8G FLASH,4G DRAM, IPB)	router	branch
+routers	C1100TG-16A	16-port Async Module for Cisco 1100 Terminal Services Gateway	module	
 routers	C1100TG-1N24P32A	Cisco 1100 Terminal Services Gateway w/ 32 Async,24-layer 2 switch Port, 1 NIM with support for 4G DRAM	appliance	
 routers	C1100TG-1N32A	Cisco 1100 Terminal Services Gateway w/ 32 Async, 1 NIM (support for 2 GB DRAM)	appliance	
 routers	C1100TGX-1N24P32A	Cisco 1100 Terminal Services Gateway w/ 32 Async,24-layer 2 switch Port, 1 NIM with support for 8G DRAM	appliance	
@@ -10790,7 +10791,6 @@ routers	CONE-2921-ATO	ISR 2921 for Cisco ONE	router	branch
 routers	CPA-CAB-232FC=	RS-232 CABLE,DCE,FEMALE,10 FT	cable	
 routers	CPA-CAB-V35FC=	V.35 CABLE,DCE,FEMALE,10 FEET	cable	
 routers	CPT-50-FTF=	CPT-50 Fan Tray Filter	mechanical	
-routers	CRS-1-TEST-40G=	CRS-1 TEST PID for 40G licensing	sp-router	sp-core
 routers	CRS-100GE-BUN=	Cisco CRS Series 1x100GE, CRS-FP-140G Bundle	linecard	
 routers	CRS-16-140G-UPG	Cisco CRS Series 16 Slot Upgrade Kit 140G	mechanical	
 routers	CRS-16-400G-UPG	Cisco CRS Series 16 Slot Upgrade Kit 400G	mechanical	
@@ -10940,8 +10940,6 @@ routers	CRS-16LCC140-B-BN=	CRS 16 Slots Line Card Chassis-140G/M-Enhanced	chassi
 routers	CRS-16LCC140-B=	CRS 16 Slots Line Card Chassis-140G/M-Enhanced	chassis	
 routers	CRS-16LCC400-B-BN=	CRS 16 Slots Line Card Chassis-400G/M-Enhanced	chassis	
 routers	CRS-16LCC400-B=	CRS 16 Slots Line Card Chassis-400G/M-Enhanced	chassis	
-routers	CRS-3-ANY-PK=	CRS-3 Multipack Bundle	sp-router	sp-core
-routers	CRS-3-UPGRADE-BUN	CRS-3 Upgrade Bundle	bundle	
 routers	CRS-4-140G-UPG	Cisco CRS Series 4 Slot Upgrade Kit 140G	mechanical	
 routers	CRS-4-CH-UPG-BUN	CRS 4 slots to 8 slot chassis upgrade bundle	bundle	
 routers	CRS-4-DOOR-FUJI=	CRS-1 4 Slot System Fujitsu Door Kit	mechanical	
@@ -11150,7 +11148,6 @@ routers	CRS-DC-M-BLANK	^CRS-1 Modular Power DC Face Plate	accessory
 routers	CRS-DC-M-BLANK=	CRS-1 Modular Power DC Face Plate	accessory	
 routers	CRS-DIMM	CRS 2G Memory Kit for MSC/FP	memory	
 routers	CRS-DIMM-2G=	CRS 2G Memory Kit for MSC/FP	memory	
-routers	CRS-DP-DLR	CRS DP Dollar Adjustment	sp-router	sp-core
 routers	CRS-DRP	Cisco CRS-1 Series Distributed Route Processor	processor	
 routers	CRS-DRP-B	Cisco CRS-1 Series Distributed Route Processor	processor	
 routers	CRS-DRP-B-CPU	Cisco CRS-1 Distributed Route Processor CPU Module	processor	
@@ -11337,7 +11334,6 @@ routers	CRS-PRP-UPG-CAB	Cisco CRS Performance Route Processor Upgrade Cable	cabl
 routers	CRS-PRP-UPG-CAB=	CRS PRP Upgrade Cable	cable	
 routers	CRS-PWR-INST-KIT	CRS Modular Power Installation Kit	mechanical	
 routers	CRS-PWR-INST-KIT=	CRS Modular Power Installation Kit	mechanical	
-routers	CRS-REBATE-ATT	CRS Dummy Rebate SKU for ATT	sp-router	sp-core
 routers	CRS-RP-PKG-4PK	Cisco CRS-1 RP/FAN-CT Package Box 4 Units	bundle	
 routers	CRS-RP-PKG-4PK=	Cisco CRS-1 RP/FAN-CT Package Box 4 Units	bundle	
 routers	CRS-S123-HANDLE=	Cisco CRS-1 for S123 Fabric board	accessory	
@@ -11351,11 +11347,9 @@ routers	CRS-SIP	Cisco Carrier Routing System SPA Interface Processor Card	lineca
 routers	CRS-SIP=	Cisco Carrier Routing System SPA Interface Processor Card	linecard	
 routers	CRS-X-FP	Cisco CRS-X-FP	linecard	
 routers	CRS-X-PLIM	Cisco CRS-X-PLIM	module	
-routers	CRS-X-UPGRADE-BUN	CRS-X Upgrade Bundle	bundle	
 routers	CRS1-SIP-800	Cisco Carrier Routing System SPA Interface Processor Card	linecard	
 routers	CRS1-SIP-800-SK	CRS Jacket card for starter kit	linecard	
 routers	CRS1-SIP-800=	Cisco Carrier Routing System SPA Interface Processor Card	linecard	
-routers	CRS1-SPA	SPA for Cisco CRS-1; No Physical Part; For Tracking Only	sp-router	sp-core
 routers	CRS3-FC24=	CRS-3 Fabric Chassis 24-Slot System (complete FCC)	chassis	
 routers	CRS3-FCC=	Cisco CRS-3 FCC, spare (chassis only)	chassis	
 routers	CRS3-MC-FC24	CRS-3 Multichassis System with 24-Slot Fabric Chassis	chassis	
@@ -12061,10 +12055,14 @@ routers	N520-X-4G4Z-A=	Cisco NCS 520 - 4xGE + 4x10GE, Industrial Temp, AC power	
 routers	N520-X-4G4Z-D	Cisco NCS 520 - 4xGE + 4x10GE, Industrial Temp, DC power	sp-router	sp-access
 routers	N520-X-4G4Z-D=	Cisco NCS 520 - 4xGE + 4x10GE, Industrial Temp, DC power	sp-router	sp-access
 routers	N540-12Z20G-SYS	Cisco N540-12Z20G-SYS	sp-router	sp-access
+routers	N540-12Z20G-SYS-A	NCS540 20x1G+12x10G AC	sp-router	sp-access
+routers	N540-12Z20G-SYS-D	NCS540 20x1G+12x10G DC	sp-router	sp-access
 routers	N540-24Q2C2DD-SYS	Cisco N540-24Q2C2DD-SYS	sp-router	sp-access
 routers	N540-24Q8L2DD-SYS	NCS540-2x400G QSFP-DD+8x50G+24x25G	sp-router	sp-access
 routers	N540-24Z8Q2C-SYS	NCS 540 System Flexible Consumption	sp-router	sp-access
 routers	N540-28Z4C-SYS	Cisco N540-28Z4C-SYS	sp-router	sp-access
+routers	N540-28Z4C-SYS-A	NCS540 28x10G + 4x100G AC	sp-router	sp-access
+routers	N540-28Z4C-SYS-D	NCS 540 28x10G + 4x100G DC	sp-router	sp-access
 routers	N540-6Z14S-SYS	Cisco N540-6Z14S-SYS	sp-router	sp-access
 routers	N540-6Z14S-SYS-D	Cisco N540-6Z14S-SYS-D	sp-router	sp-access
 routers	N540-6Z18G-SYS	Cisco N540-6Z18G-SYS	sp-router	sp-access
@@ -12078,6 +12076,8 @@ routers	N540-FH-AGG-SYS=	N540-Front Haul Aggregation Router	sp-router	sp-access
 routers	N540-FH-CSR-SYS	N540-Front Haul Cell Site Router	sp-router	sp-access
 routers	N540-FH-CSR-SYS=	N540-Front Haul Cell Site Router	sp-router	sp-access
 routers	N540X-12Z16G-SYS	Cisco N540X-12Z16G-SYS	sp-router	sp-access
+routers	N540X-12Z16G-SYS-A	NCS540 12x1G SFP + 4x1G Cu + 12x10G AC	sp-router	sp-access
+routers	N540X-12Z16G-SYS-D	NCS540 12x1G SFP + 4x1G Cu + 12x10G DC	sp-router	sp-access
 routers	N540X-16Z4G8Q2C	Cisco N540X-16Z4G8Q2C	sp-router	sp-access
 routers	N540X-16Z8Q2C	Cisco N540X-16Z8Q2C	sp-router	sp-access
 routers	N540X-4Z14G2Q	Cisco N540X-4Z14G2Q	sp-router	sp-access
@@ -12122,7 +12122,9 @@ routers	N560-4-RSP4-E=	Cisco NCS 560-4 RSP4 Enhanced – 800G, XL Scale (/w ext.
 routers	N560-4-RSP4=	Cisco NCS 560-4 RSP4 – 800G, L Scale, spare	processor	
 routers	N560-4-RSP4E	NCS 560-4 Route Switch Processor 4 Enhanced, 800G, XL scale	processor	
 routers	N560-4-RSP4E=	NCS 560-4 Route Switch Processor 4 Enhanced, 800G, XL scale, Spare	processor	
+routers	N560-4-SYS	N560 4RU HW. Flex. Consumption for RSP4. Smart Licensing	chassis	
 routers	N560-4-SYS-BUN1	NCS 560-4 4RU System ATO, 800G, L scale, Single RSP	chassis	
+routers	N560-4-SYS-E	N560 4RU HW. Flex. Consumption for RSP4-E. Smart Licensing	chassis	
 routers	N560-4-SYS-E-BUN1	NCS 560-4 4RU System ATO, 800G, XL scale, Single RSP	chassis	
 routers	N560-4RSP4=	NCS 560-4 Route Switch Processor 4, 800G, L scale, Spare	processor	
 routers	N560-7-SYS	NCS 560 7RU System ATO, 800G, LL scale, Flexible Consumption	sp-router	sp-access
@@ -12590,7 +12592,10 @@ routers	NCS-55A2-MOD-HX-S	NCS 55A2 Fixed 24X10G + 16X25G and MPA Chassis, Temper
 routers	NCS-55A2-MOD-S	NCS 55A2 Fixed 24X10G + 16X25G and MPA Chassis	sp-router	sp-edge
 routers	NCS-55A2-MOD-SE-S	NCS 55A2 Fixed 24X10G + 16X25G and MPA Scale Chassis	sp-router	sp-edge
 routers	NCS-55A2-MOD-SYS	24X10G + 16X25G Flexible Consumption Need Smart Lic	sp-router	sp-edge
+routers	NCS-55A2-MODH-SYS	NCS 55A2 Fixed 24X10G + 16X25G and MPA Chassis, Temperature Hardened	sp-router	sp-edge
 routers	NCS-55A2-MODS-SYS	Fixed 24X10G+16X25G and MPA NCS 55A2 SE Chassis for Flexible Consumption	sp-router	sp-edge
+routers	NCS-55A2-MODX-SYS	NCS 55A2 Fixed 24X10G + 16X25G and MPA Chassis, Temperature Hardened with Conformal Coating	sp-router	sp-edge
+routers	NCS-55A2MODSH-SYS	NCS 55A2 Fixed 24X10G + 16X25G and MPA Scale Chassis, Temperature Hardened with Conformal Coating	sp-router	sp-edge
 routers	NCS-57B1-5D24H-SE	NCS57B1 Fixed-Scale HW 5x400, 24x100 all QSFP-DD chassis	sp-router	sp-edge
 routers	NCS-57B1-5D24H-SE=	NCS57B1 Fixed-Scale HW 5x400, 24x100 all QSFP-DD chassis	sp-router	sp-edge
 routers	NCS-57B1-5DSE-SYS	NCS57B1 Fixed Scale HW Flexible Consumption Need Smart Lic	sp-router	sp-edge
@@ -12608,7 +12613,10 @@ routers	NCS-57C1-48Q6D-S	NCS57C1 Fixed 32X1/10/25G, 16X1/10/25/50G, and 6x400G c
 routers	NCS-57C1-48Q6D-S=	NCS57C1 Fixed 32X1/10/25G, 16X1/10/25/50G, and 6x400G chassis	sp-router	sp-edge
 routers	NCS-57C3-MOD-S	NCS 57C3 Base Chassis, Fixed Ports - 48X25G, 8X100, and 3XMPA Chassis	sp-router	sp-edge
 routers	NCS-57C3-MOD-SE-S	NCS 57C3 Scale Chassis, Fixed Ports - 48X25G, 4X100, and 3XMPA Chassis	sp-router	sp-edge
+routers	NCS-57C3-MOD-SYS	NCS 57C3 Base Chassis, Fixed ports - 48X25G, 8X100, and 3XMPA Chassis	sp-router	sp-edge
+routers	NCS-57C3-MODS-SYS	NCS 57C3 Scale Chassis, Fixed ports - 48X25G, 4X100, and 3XMPA Chassis	sp-router	sp-edge
 routers	NCS-57D2-18DD-S	NCS57D2 Fixed Base HW 18x400, 64x100 all QSFP-DD chassis	sp-router	sp-edge
+routers	NCS-57D2-18DD-SYS	NCS57D2 7.2T Fixed Base Chassis 66 QSFP-DD flexible ports	sp-router	sp-edge
 routers	NCS-57D2-18DD-TRK	57D2-18DD Base Hardware Tracking PID	sp-router	sp-edge
 routers	NCS-6008	NCS 6008 - 8-Slot Chassis	chassis	
 routers	NCS-6008-1T-MIG	NCS 6008 - 1 TB LC Migration System	chassis	
@@ -15805,10 +15813,27 @@ servers-unified-computing	CSP-TPM2-002	Trusted Platform Module 2.0	tpm
 servers-unified-computing	CSP-TPM2-002=	Trusted Platform Module 2.0 for CSP 2100	tpm	
 servers-unified-computing	CSP-USBFLSHB-16GB	UCS Servers 16GB Flash USB Drive	drive	
 servers-unified-computing	CX-7	Cisco CX-7	bundle	
+servers-unified-computing	DN1-HW-APL	Cisco DNA Center Appliance	server	
+servers-unified-computing	DN1-HW-APL=	Spare Cisco DNA Center Appliance	server	
+servers-unified-computing	DN2-HW-APL	Cisco DNA Center Appliance (Gen 2) - 44 Core	server	
+servers-unified-computing	DN2-HW-APL-L	Cisco DNA Center Appliance (Gen 2) - 56 Core	server	
+servers-unified-computing	DN2-HW-APL-L=	Cisco DNA Center Appliance (Gen 2) 56-Core	server	
+servers-unified-computing	DN2-HW-APL-M	Cisco DNA Center Appliance Manager	server	
+servers-unified-computing	DN2-HW-APL-M=	Cisco DNA Center Appliance Manager	server	
+servers-unified-computing	DN2-HW-APL-XL	DNA Center Appliance (Gen 2)	server	
+servers-unified-computing	DN2-HW-APL-XL=	Cisco DNA Center Appliance (Gen 2)	server	
+servers-unified-computing	DN2-HW-APL=	Spare Cisco DNA Center Appliance (Gen 2) - 44 core	server	
+servers-unified-computing	DN3-HW-APL	Cisco Catalyst Center Appliance (Gen 3) - 32 Core	server	
+servers-unified-computing	DN3-HW-APL-L	Cisco Catalyst Center Appliance (Gen 3) - 56 Core	server	
+servers-unified-computing	DN3-HW-APL-L=	Spare Cisco Catalyst Center Appliance (Gen 3) - 56 Core	server	
 servers-unified-computing	DN3-HW-APL-XL	Cisco Catalyst Center Appliance (Gen 3) - 80 Core	server	
 servers-unified-computing	DN3-HW-APL-XL=	Spare Cisco Catalyst Center Appliance (Gen 3) - 80 Core	server	
+servers-unified-computing	DN3-HW-APL=	Spare Cisco Catalyst Center Appliance (Gen 3) - 32 Core	server	
 servers-unified-computing	DN3-P-I8D25GF	Cisco-Intel E810XXVDA2 2x25/10 GbE SFP28 PCIe NIC	nic	
 servers-unified-computing	DN3-P-I8Q25GF	Cisco-Intel E810XXVDA4L 4x25/10 GbE SFP28 PCIe NIC	nic	
+servers-unified-computing	DN4-HW-APL	Cisco DN4-HW-APL	server	
+servers-unified-computing	DN4-HW-APL-L	Cisco DN4-HW-APL-L	server	
+servers-unified-computing	DN4-HW-APL-XL	Cisco DN4-HW-APL-XL	server	
 servers-unified-computing	E-SSD-SATA-1TB	1 TB, SATA SSD drive for UCS-E M6	drive	
 servers-unified-computing	E-SSD-SATA-1TB=	1 TB, SATA SSD drive for UCS-E M6 spare	drive	
 servers-unified-computing	E-SSD-SATA-2TB	2 TB, SATA SSD drive for UCS-E M6	drive	
@@ -30136,6 +30161,9 @@ switches	SX550X-52	Cisco SX550X-52 550X-Series stapelbarer Layer-3-Managed-Switc
 switches	SX550X-52-K9-EU	Cisco SX550X-52 52-Port 10GBase-T Stackable Managed Switch	switch	smb
 switches	SX550X-52-K9-NA	Cisco SX550X-52 52-Port 10GBase-T Stackable Managed Switch	switch	smb
 switches	SX550X-52-K9-UK	Cisco SX550X-52 52-Port 10GBase-T Stackable Managed Switch	switch	smb
+switches	TA-C93108TC-FX	Nexus 9300 with 48p 10G-T, 6p 100G QSFP, MACsec, UP	switch	datacenter
+switches	TA-C93108TC-FX3P	Secure Workoad M6 Nexus 9300 48p 10G-T,6p100G QSFP,MACsec,UP	switch	datacenter
+switches	TA-C93108TC-FX=	Nexus 9300 with 48p 10G-T, 6p 100G QSFP, MACsec, UP	switch	datacenter
 switches	TA-C93180YC-FX	Nexus 9300 with 48p 10/25G SFP+, 6p 100G QSFP, MACsec, UP	switch	datacenter
 switches	TA-C93180YC-FX-NR	Nexus9300 with 48p 10/25G SFP+,6p 100G QSFP,MACsec,UP NoRack	switch	datacenter
 switches	TA-C93180YC-FX3	Workload M6 Nexus9300 48p10/25G SFP+,6p100G QSFP,MACsec,UP	switch	datacenter
@@ -40393,6 +40421,7 @@ wireless	CW9163	Cisco CW9163	ap	outdoor
 wireless	CW9163E-MR	Cisco Catalyst 9163E Outdoor Access Point, N-type antenna connectors; Wi-Fi 6E; 2x2:2SS with Reg -MR	ap	outdoor
 wireless	CW9163E-x	Cisco Catalyst 9163E Outdoor Access Point, N-type antenna connectors; Wi-Fi 6E; 2x2:2SS with Reg -x	ap	outdoor
 wireless	CW9164	Cisco CW9164	ap	indoor
+wireless	CW9164I	Cisco CW9164I	ap	indoor
 wireless	CW9164I-MR	Cisco Catalyst 9164I Access Point, Wi-Fi 6E, internal antennas, 2x2+4x4+4x4 MIMO, 2.5G mGig with Meraki. Note: Customers ordering 9160 access points shipping with Meraki Management Mode (-MR) must have a Meraki license to operate with the Meraki dashboard or to migrate to Cisco DNA Management Mode.	ap	indoor
 wireless	CW9164I-X	Cisco Catalyst 9164I Access Point, Wi-Fi 6E, internal antennas, 2x2+4x4+4x4 MIMO, 2.5G mGig with Reg-X.	ap	indoor
 wireless	CW9166	Cisco CW9166	ap	indoor

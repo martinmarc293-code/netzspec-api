@@ -1,12 +1,12 @@
 {
   "vendor": "cisco",
   "category": "servers-unified-computing",
-  "built_at": "2026-10-02T08:29:32.961Z",
-  "commit": "89ecb857c8d8b6e4602131b254c789d1c6bffcde",
+  "built_at": "2026-10-02T13:57:30.765Z",
+  "commit": "233279a057aab8db71255b70ae9ecd38ca29f826",
   "uncommitted_rule_files": [],
   "mapping_file": "data/reference/product-lines/cisco-servers-unified-computing.json",
-  "parts": 8262,
-  "layered": 8262,
+  "parts": 8279,
+  "layered": 8279,
   "pending": 0,
   "lines": [
     {
@@ -127,27 +127,29 @@
     },
     {
       "line": "Cisco Appliances on UCS",
-      "parts": 31,
+      "parts": 48,
       "series": [
         {
           "series": "Catalyst Center appliance",
           "family": "(none)",
           "role": null,
           "note": "(?!LOC|L-) (layers round 3): the rule claimed the nine DN3-LOC / DN3-L- parts of the Catalyst Center location appliance, which wireless holds (its round recorded the claim for this round); the four rows it decides here are DN3-HW-APL-XL(=) and DN3-P-I8D25GF / I8Q25GF",
-          "parts": 4,
+          "parts": 21,
           "kinds": {
-            "server": 2,
+            "server": 19,
             "nic": 2
           },
           "roles": {},
           "samples": [
-            "DN3-HW-APL-XL — Cisco Catalyst Center Appliance (Gen 3) - 80 Core",
-            "DN3-HW-APL-XL= — Spare Cisco Catalyst Center Appliance (Gen 3) - 80 Core",
-            "DN3-P-I8D25GF — Cisco-Intel E810XXVDA2 2x25/10 GbE SFP28 PCIe NIC",
-            "DN3-P-I8Q25GF — Cisco-Intel E810XXVDA4L 4x25/10 GbE SFP28 PCIe NIC"
+            "DN1-HW-APL — Cisco DNA Center Appliance",
+            "DN1-HW-APL= — Spare Cisco DNA Center Appliance",
+            "DN2-HW-APL — Cisco DNA Center Appliance (Gen 2) - 44 Core",
+            "DN2-HW-APL-L — Cisco DNA Center Appliance (Gen 2) - 56 Core",
+            "DN2-HW-APL-L= — Cisco DNA Center Appliance (Gen 2) 56-Core",
+            "DN2-HW-APL-M — Cisco DNA Center Appliance Manager"
           ],
           "rules": {
-            "sku": 4
+            "sku": 21
           },
           "pending_in": {},
           "pending_out": {}
@@ -1881,9 +1883,9 @@
   "inbound_unplaced": {},
   "done": true,
   "build": {
-    "data_commit": "c290f8e19709+2dirty",
-    "code_commit": "c290f8e19709",
+    "data_commit": "233279a057aa+88dirty",
+    "code_commit": "233279a057aa",
     "contract_hash": "19704b71cf482f48",
-    "generated_at": "2026-10-02T11:32:05.645Z"
+    "generated_at": "2026-10-02T14:07:49.280Z"
   }
 }

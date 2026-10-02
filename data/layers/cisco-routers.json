@@ -1,12 +1,12 @@
 {
   "vendor": "cisco",
   "category": "routers",
-  "built_at": "2026-10-02T08:29:33.836Z",
-  "commit": "89ecb857c8d8b6e4602131b254c789d1c6bffcde",
+  "built_at": "2026-10-02T13:57:31.660Z",
+  "commit": "233279a057aab8db71255b70ae9ecd38ca29f826",
   "uncommitted_rule_files": [],
   "mapping_file": "data/reference/product-lines/cisco-routers.json",
-  "parts": 5119,
-  "layered": 5119,
+  "parts": 5127,
+  "layered": 5127,
   "pending": 0,
   "lines": [
     {
@@ -1086,25 +1086,25 @@
     },
     {
       "line": "NCS (Network Convergence System)",
-      "parts": 756,
+      "parts": 770,
       "series": [
         {
           "series": "NCS 520, 540 and 560",
           "family": "(none)",
           "role": "sp-access",
           "note": null,
-          "parts": 132,
+          "parts": 140,
           "kinds": {
-            "sp-router": 53,
+            "sp-router": 59,
             "mechanical": 46,
             "fan": 8,
             "processor": 11,
-            "chassis": 4,
+            "chassis": 6,
             "module": 8,
             "power": 2
           },
           "roles": {
-            "sp-access": 53
+            "sp-access": 59
           },
           "samples": [
             "N520-20G4Z-A — Cisco NCS 520 - 20xGE + 4x10GE, Commercial Temp, AC power",
@@ -1115,7 +1115,7 @@
             "N520-4G4Z-A-BUN — NCS 520 8-port, Commercial Temp, Promo Bundle"
           ],
           "rules": {
-            "sku": 132
+            "sku": 140
           },
           "pending_in": {},
           "pending_out": {}
@@ -1158,7 +1158,7 @@
           "family": "(none)",
           "role": "sp-edge",
           "note": null,
-          "parts": 236,
+          "parts": 239,
           "kinds": {
             "linecard": 94,
             "power": 18,
@@ -1168,11 +1168,11 @@
             "module": 14,
             "fabric": 1,
             "processor": 8,
-            "sp-router": 42,
+            "sp-router": 45,
             "chassis": 9
           },
           "roles": {
-            "sp-edge": 42
+            "sp-edge": 45
           },
           "samples": [
             "NC-55-18H18F — NC55-18x100G + 18x40G Base Line Card HW for Flexible Consump",
@@ -1183,7 +1183,7 @@
             "NC-55-24X100G-SE= — NCS 5500 24x100G Scale Line Card"
           ],
           "rules": {
-            "sku": 230,
+            "sku": 233,
             "label": 6
           },
           "pending_in": {},
@@ -1194,7 +1194,7 @@
           "family": "(none)",
           "role": "sp-edge",
           "note": null,
-          "parts": 87,
+          "parts": 90,
           "kinds": {
             "linecard": 39,
             "power": 2,
@@ -1202,10 +1202,10 @@
             "fan": 5,
             "processor": 1,
             "module": 12,
-            "sp-router": 19
+            "sp-router": 22
           },
           "roles": {
-            "sp-edge": 19
+            "sp-edge": 22
           },
           "samples": [
             "NC-57-18DD-SE — NCS 5700 Series 18 ports of 400 GE or 30 ports of 200 GE / 1",
@@ -1216,7 +1216,7 @@
             "NC-57-36H-SE= — NCS 5700 Series 36 ports of 100 GE line card spare with Flex"
           ],
           "rules": {
-            "sku": 87
+            "sku": 90
           },
           "pending_in": {},
           "pending_out": {}
@@ -1387,19 +1387,18 @@
     },
     {
       "line": "CRS (Carrier Routing System)",
-      "parts": 721,
+      "parts": 714,
       "series": [
         {
           "series": "CRS",
           "family": "(none)",
           "role": "sp-core",
           "note": null,
-          "parts": 707,
+          "parts": 700,
           "kinds": {
             "module": 54,
-            "bundle": 58,
+            "bundle": 56,
             "linecard": 79,
-            "sp-router": 5,
             "mechanical": 150,
             "power": 58,
             "power-cord": 18,
@@ -1413,9 +1412,7 @@
             "memory": 3,
             "flash": 2
           },
-          "roles": {
-            "sp-core": 5
-          },
+          "roles": {},
           "samples": [
             "1-100GE-DWDM/C — Cisco CRS Series 1x100GE Integrated DWDM Interface Module",
             "1-100GE-DWDM/C++= — Cisco CRS Series 1x100GE Integrated DWDM Interface Module",
@@ -1425,7 +1422,7 @@
             "100GE-MSC-BNDL= — Cisco CRS Series 100GE MSC Bundle"
           ],
           "rules": {
-            "sku": 640,
+            "sku": 633,
             "label": 67
           },
           "pending_in": {},
@@ -1950,7 +1947,7 @@
     },
     {
       "line": "Console and Terminal Servers",
-      "parts": 8,
+      "parts": 9,
       "series": [
         {
           "series": "Secure Console",
@@ -1978,18 +1975,20 @@
           "family": "(none)",
           "role": null,
           "note": null,
-          "parts": 3,
+          "parts": 4,
           "kinds": {
+            "module": 1,
             "appliance": 3
           },
           "roles": {},
           "samples": [
+            "C1100TG-16A — 16-port Async Module for Cisco 1100 Terminal Services Gatewa",
             "C1100TG-1N24P32A — Cisco 1100 Terminal Services Gateway w/ 32 Async,24-layer 2 ",
             "C1100TG-1N32A — Cisco 1100 Terminal Services Gateway w/ 32 Async, 1 NIM (sup",
             "C1100TGX-1N24P32A — Cisco 1100 Terminal Services Gateway w/ 32 Async,24-layer 2 "
           ],
           "rules": {
-            "sku": 3
+            "sku": 4
           },
           "pending_in": {},
           "pending_out": {}
@@ -3559,9 +3558,9 @@
   "inbound_unplaced": {},
   "done": true,
   "build": {
-    "data_commit": "c290f8e19709+2dirty",
-    "code_commit": "c290f8e19709",
+    "data_commit": "233279a057aa+88dirty",
+    "code_commit": "233279a057aa",
     "contract_hash": "19704b71cf482f48",
-    "generated_at": "2026-10-02T11:32:05.645Z"
+    "generated_at": "2026-10-02T14:07:49.280Z"
   }
 }

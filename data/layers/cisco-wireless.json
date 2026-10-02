@@ -1,17 +1,17 @@
 {
   "vendor": "cisco",
   "category": "wireless",
-  "built_at": "2026-10-02T08:29:34.098Z",
-  "commit": "89ecb857c8d8b6e4602131b254c789d1c6bffcde",
+  "built_at": "2026-10-02T13:57:31.935Z",
+  "commit": "233279a057aab8db71255b70ae9ecd38ca29f826",
   "uncommitted_rule_files": [],
   "mapping_file": "data/reference/product-lines/cisco-wireless.json",
-  "parts": 3907,
-  "layered": 3907,
+  "parts": 3908,
+  "layered": 3908,
   "pending": 0,
   "lines": [
     {
       "line": "Catalyst Wireless Access Points",
-      "parts": 65,
+      "parts": 66,
       "series": [
         {
           "series": "Catalyst CW9163E (outdoor, Wi-Fi 6E)",
@@ -64,12 +64,12 @@
           "family": "(none)",
           "role": "indoor",
           "note": null,
-          "parts": 14,
+          "parts": 15,
           "kinds": {
-            "ap": 14
+            "ap": 15
           },
           "roles": {
-            "indoor": 14
+            "indoor": 15
           },
           "samples": [
             "CW9162 — Cisco CW9162",
@@ -77,10 +77,10 @@
             "CW9162I-MR — Cisco Catalyst 9162I Access Point, Wi-Fi 6E, internal antenn",
             "CW9162I-x — Cisco Catalyst 9162I Access Point, Wi-Fi 6E, internal antenn",
             "CW9164 — Cisco CW9164",
-            "CW9164I-MR — Cisco Catalyst 9164I Access Point, Wi-Fi 6E, internal antenn"
+            "CW9164I — Cisco CW9164I"
           ],
           "rules": {
-            "sku": 14
+            "sku": 15
           },
           "pending_in": {},
           "pending_out": {}
@@ -2071,9 +2071,9 @@
   "inbound_unplaced": {},
   "done": true,
   "build": {
-    "data_commit": "c290f8e19709+2dirty",
-    "code_commit": "c290f8e19709",
+    "data_commit": "233279a057aa+88dirty",
+    "code_commit": "233279a057aa",
     "contract_hash": "19704b71cf482f48",
-    "generated_at": "2026-10-02T11:32:05.645Z"
+    "generated_at": "2026-10-02T14:07:49.280Z"
   }
 }

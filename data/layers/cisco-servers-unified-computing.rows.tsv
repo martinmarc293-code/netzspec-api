@@ -598,10 +598,27 @@ CSP-TPM2-002	Trusted Platform Module 2.0	Cloud Services Platform 5000	tpm	layere
 CSP-TPM2-002=	Trusted Platform Module 2.0 for CSP 2100	Cloud Services Platform 5000	tpm	layered	Cloud Services Platform	(shared across the line)		Cloud Services Platform shared parts	sku ^CSP-							
 CSP-USBFLSHB-16GB	UCS Servers 16GB Flash USB Drive	Cloud Services Platform 5000	drive	layered	Cloud Services Platform	(shared across the line)		Cloud Services Platform shared parts	sku ^CSP-							
 CX-7	Cisco CX-7	UCS C-Series	bundle	layered	UCS C-Series Rack Servers	(shared across the line)		UCS C-Series Rack Servers shared parts	label UCS C-Series							
+DN1-HW-APL	Cisco DNA Center Appliance	Catalyst Center	server	layered	Cisco Appliances on UCS	(none)	Catalyst Center appliance		sku ^DN[0-9]-(?!LOC|L-)							
+DN1-HW-APL=	Spare Cisco DNA Center Appliance	Catalyst Center	server	layered	Cisco Appliances on UCS	(none)	Catalyst Center appliance		sku ^DN[0-9]-(?!LOC|L-)							
+DN2-HW-APL	Cisco DNA Center Appliance (Gen 2) - 44 Core	Catalyst Center	server	layered	Cisco Appliances on UCS	(none)	Catalyst Center appliance		sku ^DN[0-9]-(?!LOC|L-)							
+DN2-HW-APL-L	Cisco DNA Center Appliance (Gen 2) - 56 Core	Catalyst Center	server	layered	Cisco Appliances on UCS	(none)	Catalyst Center appliance		sku ^DN[0-9]-(?!LOC|L-)							
+DN2-HW-APL-L=	Cisco DNA Center Appliance (Gen 2) 56-Core	Catalyst Center	server	layered	Cisco Appliances on UCS	(none)	Catalyst Center appliance		sku ^DN[0-9]-(?!LOC|L-)							
+DN2-HW-APL-M	Cisco DNA Center Appliance Manager	Catalyst Center	server	layered	Cisco Appliances on UCS	(none)	Catalyst Center appliance		sku ^DN[0-9]-(?!LOC|L-)							
+DN2-HW-APL-M=	Cisco DNA Center Appliance Manager	Catalyst Center	server	layered	Cisco Appliances on UCS	(none)	Catalyst Center appliance		sku ^DN[0-9]-(?!LOC|L-)							
+DN2-HW-APL-XL	DNA Center Appliance (Gen 2)	Catalyst Center	server	layered	Cisco Appliances on UCS	(none)	Catalyst Center appliance		sku ^DN[0-9]-(?!LOC|L-)							
+DN2-HW-APL-XL=	Cisco DNA Center Appliance (Gen 2)	Catalyst Center	server	layered	Cisco Appliances on UCS	(none)	Catalyst Center appliance		sku ^DN[0-9]-(?!LOC|L-)							
+DN2-HW-APL=	Spare Cisco DNA Center Appliance (Gen 2) - 44 core	Catalyst Center	server	layered	Cisco Appliances on UCS	(none)	Catalyst Center appliance		sku ^DN[0-9]-(?!LOC|L-)							
+DN3-HW-APL	Cisco Catalyst Center Appliance (Gen 3) - 32 Core	Catalyst Center	server	layered	Cisco Appliances on UCS	(none)	Catalyst Center appliance		sku ^DN[0-9]-(?!LOC|L-)							
+DN3-HW-APL-L	Cisco Catalyst Center Appliance (Gen 3) - 56 Core	Catalyst Center	server	layered	Cisco Appliances on UCS	(none)	Catalyst Center appliance		sku ^DN[0-9]-(?!LOC|L-)							
+DN3-HW-APL-L=	Spare Cisco Catalyst Center Appliance (Gen 3) - 56 Core	Catalyst Center	server	layered	Cisco Appliances on UCS	(none)	Catalyst Center appliance		sku ^DN[0-9]-(?!LOC|L-)							
 DN3-HW-APL-XL	Cisco Catalyst Center Appliance (Gen 3) - 80 Core	Catalyst Center	server	layered	Cisco Appliances on UCS	(none)	Catalyst Center appliance		sku ^DN[0-9]-(?!LOC|L-)							
 DN3-HW-APL-XL=	Spare Cisco Catalyst Center Appliance (Gen 3) - 80 Core	Catalyst Center	server	layered	Cisco Appliances on UCS	(none)	Catalyst Center appliance		sku ^DN[0-9]-(?!LOC|L-)							
+DN3-HW-APL=	Spare Cisco Catalyst Center Appliance (Gen 3) - 32 Core	Catalyst Center	server	layered	Cisco Appliances on UCS	(none)	Catalyst Center appliance		sku ^DN[0-9]-(?!LOC|L-)							
 DN3-P-I8D25GF	Cisco-Intel E810XXVDA2 2x25/10 GbE SFP28 PCIe NIC	Catalyst Center	nic	layered	Cisco Appliances on UCS	(none)	Catalyst Center appliance		sku ^DN[0-9]-(?!LOC|L-)							
 DN3-P-I8Q25GF	Cisco-Intel E810XXVDA4L 4x25/10 GbE SFP28 PCIe NIC	Catalyst Center	nic	layered	Cisco Appliances on UCS	(none)	Catalyst Center appliance		sku ^DN[0-9]-(?!LOC|L-)							
+DN4-HW-APL	Cisco DN4-HW-APL	Catalyst Center	server	layered	Cisco Appliances on UCS	(none)	Catalyst Center appliance		sku ^DN[0-9]-(?!LOC|L-)							
+DN4-HW-APL-L	Cisco DN4-HW-APL-L	Catalyst Center	server	layered	Cisco Appliances on UCS	(none)	Catalyst Center appliance		sku ^DN[0-9]-(?!LOC|L-)							
+DN4-HW-APL-XL	Cisco DN4-HW-APL-XL	Catalyst Center	server	layered	Cisco Appliances on UCS	(none)	Catalyst Center appliance		sku ^DN[0-9]-(?!LOC|L-)							
 E-SSD-SATA-1TB	1 TB, SATA SSD drive for UCS-E M6	UCS E-Series	drive	layered	UCS E-Series Server Modules	(none)	UCS E-Series		sku ^E-SSD							
 E-SSD-SATA-1TB=	1 TB, SATA SSD drive for UCS-E M6 spare	UCS E-Series	drive	layered	UCS E-Series Server Modules	(none)	UCS E-Series		sku ^E-SSD							
 E-SSD-SATA-2TB	2 TB, SATA SSD drive for UCS-E M6	UCS E-Series	drive	layered	UCS E-Series Server Modules	(none)	UCS E-Series		sku ^E-SSD							
