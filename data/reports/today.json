@@ -1,9 +1,9 @@
 {
   "date": "2026-10-02",
   "focus": "ordered-correctness",
-  "rule": "(3a) the class decides the kind before the axis: stored product_class first, productClass.ts SKU rules (no name) as the fallback; a non-hardware part never takes a hardware kind (5,371 non-hardware parts held a device kind). With the scorecard reading the board's fill-state share (one module).",
+  "rule": "Q2: retract the 4,328 served document-scoped inherited facts on parts the store does not call hardware (run 1472, describesPart's class rule; 149 category-default rows held for Q3). Next Q3 (a+c): one class correction -- 7 stale CRS classes, 36 real devices in software categories (reclassify + move + two kind rules).",
   "blocker_key": "attributes:none",
   "predicted_unlock": 0,
   "predicted_at_ready": 574,
-  "note": "ready is predicted NOT to move: the export scans stored-hardware SKUs only, and with the stored class passed 0 of the 41,058 frozen hardware kinds change (measured before the commit). The kinds that change are on non-hardware parts (24,473), which no readiness check reads."
+  "note": "ready is predicted NOT to move: the export returns a view for 0 of the 1,077 receivers (measured with the export's own loadPage + shopReady before the run)."
 }
