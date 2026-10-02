@@ -82,7 +82,28 @@ async function main(): Promise<void> {
     "SELECT id::text, part_id::text, field_key FROM conflicts WHERE resolved_at IS NULL AND part_id = ANY($1::bigint[])", [partIds])).rows;
   const retractedField = new Set(sel.map((r) => `${r.part_id}|${r.field_key}`));
   const toResolve = conflicts.filter((c) => retractedField.has(`${c.part_id}|${c.field_key}`));
-  console.log(`  open conflicts on a retracted field, resolved with it: ${toResolve.length}`);
+  // THE OTHER SIDE of each such conflict, judged by ITS document (the evidence carries no inherited flag): where that document
+  // DESCRIBES the part, the rejected value may be a good one. It is HELD today (a conflict's field renders nothing), so resolving
+  // loses nothing a consumer sees -- and leaving the conflict open over a retracted field would make an orphan (the board's own
+  // definition). Resolved with a distinct resolution and written to a re-apply list: the follow-up offers the raw-bearing ones back
+  // through applyMerge (the store's full gate decides) and lists the pre-0008 ones (no raw) for re-extraction.
+  const sideInfo = (await pool.query<{ id: string; doc_id: string | null; title: string | null; rejected_raw: string | null; rejected: unknown }>(`
+    SELECT k.id::text, k.rejected_evidence->>'doc_id' AS doc_id, sd.title, k.rejected_raw, k.rejected
+      FROM conflicts k LEFT JOIN source_docs sd ON sd.doc_id = k.rejected_evidence->>'doc_id' WHERE k.id = ANY($1::bigint[])`,
+    [toResolve.map((c) => c.id)])).rows;
+  const sideById = new Map(sideInfo.map((s) => [s.id, s]));
+  const partOf = new Map(sel.map((r) => [r.part_id, r]));
+  const goodSide = new Set(toResolve.filter((c) => {
+    const s = sideById.get(c.id), p = partOf.get(c.part_id)!;
+    return !!s?.doc_id && !subjectRefusal({ vendor, docId: s.doc_id, title: s.title, categorySlug: p.category, sku: p.sku, name: p.name });
+  }).map((c) => c.id));
+  const REAPPLY = `${RESOLUTION};rejected_side_in_subject:reapply_owed`;
+  const reapplyFile = planFile.replace(/\.tsv$/, "-reapply-owed.tsv");
+  fs.writeFileSync(reapplyFile, ["conflict_id\tpart_id\tsku\tfield_key\trejected_doc_id\thas_rejected_raw\trejected_raw\trejected_value",
+    ...toResolve.filter((c) => goodSide.has(c.id)).map((c) => { const s = sideById.get(c.id)!, p = partOf.get(c.part_id)!;
+      return [c.id, c.part_id, p.sku, c.field_key, s.doc_id ?? "", s.rejected_raw ? "yes" : "no", clean(s.rejected_raw ?? ""), clean(JSON.stringify(s.rejected))].join("\t"); })].join("\n") + "\n");
+  const withRaw = toResolve.filter((c) => goodSide.has(c.id) && sideById.get(c.id)?.rejected_raw).length;
+  console.log(`  open conflicts on a retracted field, resolved with it: ${toResolve.length} -- ${toResolve.length - goodSide.size} whose other side is also out of subject (or names no document); ${goodSide.size} whose other side's document DESCRIBES the part (held today; resolved '...reapply_owed'; ${withRaw} carry the rejected raw, ${goodSide.size - withRaw} pre-0008 without) -> ${path.relative(REPO_ROOT, reapplyFile)}`);
 
   // ---- the gate
   const reread = new Map((await pool.query<Row & { current: boolean; inherited: boolean; retired: boolean }>(`
@@ -134,7 +155,8 @@ async function main(): Promise<void> {
   for (let i = 0; i < partIds.length; i += CHUNK) chunks.push(partIds.slice(i, i + CHUNK));
   const out = await withRun("apply-retract-doc-subject", {
     vendor, rule: RETRACT_RULE, approved, plan_file: path.relative(REPO_ROOT, planFile), approved_plan: path.basename(planIn),
-    candidates: { parts: partIds.length, facts: sel.length, conflicts_to_resolve: toResolve.length, chunks: chunks.length },
+    candidates: { parts: partIds.length, facts: sel.length, conflicts_to_resolve: toResolve.length, chunks: chunks.length,
+      conflicts_reapply_owed: goodSide.size, reapply_file: path.relative(REPO_ROOT, reapplyFile) },
     fact_ids: sel.map((r) => r.id), conflict_ids: toResolve.map((c) => c.id),
   }, async (runId) => {
     let retracted = 0, resolved = 0;
@@ -144,8 +166,11 @@ async function main(): Promise<void> {
       const cids = toResolve.filter((c) => inChunk.has(c.part_id)).map((c) => c.id);
       await withTx(async (tx) => {
         for (const f of facts) await retractFact(tx, Number(f.id), RETRACT_RULE, runId);
-        const res = cids.length ? await tx.query("UPDATE conflicts SET resolved_at = now(), resolution = $2, resolved_by = $3 WHERE id = ANY($1::bigint[]) AND resolved_at IS NULL",
-          [cids, RESOLUTION, `retract-doc-subjects#${runId}`]) : { rowCount: 0 };
+        const resolveAs = async (ids: string[], resolution: string) => ids.length ? (await tx.query(
+          "UPDATE conflicts SET resolved_at = now(), resolution = $2, resolved_by = $3 WHERE id = ANY($1::bigint[]) AND resolved_at IS NULL",
+          [ids, resolution, `retract-doc-subjects#${runId}`])).rowCount ?? 0 : 0;
+        const n = await resolveAs(cids.filter((id) => !goodSide.has(id)), RESOLUTION) + await resolveAs(cids.filter((id) => goodSide.has(id)), REAPPLY);
+        const res = { rowCount: n };
         if ((res.rowCount ?? 0) !== cids.length) throw new Error(`chunk ${i + 1}: resolved ${res.rowCount} of ${cids.length} conflicts -- rolled back`);
         const still = (await tx.query<{ n: number }>("SELECT count(*)::int AS n FROM facts WHERE id = ANY($1::bigint[]) AND superseded_by IS NULL", [facts.map((f) => f.id)])).rows[0].n;
         if (still !== 0) throw new Error(`chunk ${i + 1}: ${still} selected fact(s) still current after the retraction -- rolled back`);
