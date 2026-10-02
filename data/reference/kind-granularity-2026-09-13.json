@@ -885,7 +885,8 @@
   },
   "meraki.security-camera": {
    "basis": "single-series",
-   "status": "recorded 30 Sep 2026 by the day session -- the reviewer confirms or replaces",
+   "status": "recorded 30 Sep 2026 by the day session; CONFIRMED by the reviewer 30 Sep 2026 as a RECORDED exception, not a standing one: it expires when the physical-security category is created (the Meraki ruling), and the judge then names it EXPIRED",
+   "expires_with_category": "physical-security",
    "reason": "35 of meraki's 69 parts (50.7%) are MV cameras in ONE series (ledger series_count 1): no series grouping exists to measure a Jaccard over, and the share is the category's size (69 parts), not a kind hiding two row shapes"
   }
  }

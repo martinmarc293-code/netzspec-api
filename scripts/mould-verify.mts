@@ -88,6 +88,23 @@ const na = (detail: string): Result => ({ state: "unavailable", detail });
  */
 const none = (detail: string): Result => ({ state: "not_exercised", detail });
 
+/** THE FILL-STATE CLASSIFIER, one function for fill_state_partition's run and its self-test (a self-test that re-implements
+ *  the rule tests a copy). A served fact lands in exactly one state. `derived_operational` (reviewer ruling (ii), 30 Sep 2026)
+ *  comes first because its witness is a reference table, which the doc-type branch would otherwise call mined_non_spec_doc. */
+const SPEC_BEARING_DOCS = new Set(["vendor_datasheet_html", "vendor_datasheet_pdf", "vendor_tool"]);
+const READ_METHODS = new Set(["html_table", "pdf_table", "textline"]);
+/** Derivations that serve OPERATIONS rather than state a specification: shown apart, never in the filled share. */
+const OPERATIONAL_DERIVATIONS = new Set(["derived:shipping-class"]);
+const fillState = (r: { method: string; inherited: boolean; doc_type: string | null }): string =>
+  OPERATIONAL_DERIVATIONS.has(r.method) ? "derived_operational"
+  : r.inherited ? "filled_inherited"
+  : r.method === "hexcat_seed" ? "unverified_seed"
+  : r.doc_type === "vendor_eol_bulletin" ? "mined_from_eol"
+  : !r.doc_type ? "no_document"
+  : !SPEC_BEARING_DOCS.has(r.doc_type) ? "mined_non_spec_doc"
+  : !READ_METHODS.has(r.method) && !r.method.startsWith("derived:") ? "method_not_a_read"
+  : "filled";
+
 // ---- the deployed API, asked WITH the verifier's key when the environment holds one (ruling (e), 29 Sep 2026) ----
 // Key 17 `verifier-box` (read scope) lives only in /root/netzspec-verifier.env on the box. Until this helper, no test sent a
 // key even when NETZSPEC_API_KEY was set, so every authenticated route could only ever read "locked": the environment held
@@ -1804,17 +1821,8 @@ const TESTS: Test[] = [
         return none(`could not read the fact provenance: ${e instanceof Error ? e.message : String(e)}`);
       }
       if (!rows.length) return none("no live fact exists to partition");
-      const SPEC_BEARING = new Set(["vendor_datasheet_html", "vendor_datasheet_pdf", "vendor_tool"]);
-      const READ_METHODS = new Set(["html_table", "pdf_table", "textline"]);
       const total = rows.reduce((n, r) => n + r.n, 0);
-      const state = (r: typeof rows[0]): string =>
-        r.inherited ? "filled_inherited"
-        : r.method === "hexcat_seed" ? "unverified_seed"
-        : r.doc_type === "vendor_eol_bulletin" ? "mined_from_eol"
-        : !r.doc_type ? "no_document"
-        : !SPEC_BEARING.has(r.doc_type) ? "mined_non_spec_doc"
-        : !READ_METHODS.has(r.method) && !r.method.startsWith("derived:") ? "method_not_a_read"
-        : "filled";
+      const state = fillState;
       const hist = new Map<string, number>();
       for (const r of rows) hist.set(state(r), (hist.get(state(r)) ?? 0) + r.n);
       const filled = hist.get("filled") ?? 0;
@@ -1831,9 +1839,11 @@ const TESTS: Test[] = [
       // the last record; and against the previous record `filled` has not fallen and `unverified_seed` / `mined_from_eol`
       // have not risen -- a reversal is red unless a succeeded run between the two records stands behind it. Only
       // `filled` is filled: filled_inherited is printed beside it, never merged, and the share is PRINTED, not asserted.
-      const SIX = ["filled", "filled_inherited", "unverified_seed", "mined_from_eol", "method_not_a_read", "mined_non_spec_doc"];
+      // SEVEN since ruling (ii), 30 Sep 2026: derived_operational (the shipping-class Versandgewicht) is shown apart. The name
+      // SIX stays on the list so the history's vector keeps one order; the new state is appended, and an older record reads 0.
+      const SIX = ["filled", "filled_inherited", "unverified_seed", "mined_from_eol", "method_not_a_read", "mined_non_spec_doc", "derived_operational"];
       const stray = [...hist.keys()].filter((k) => !SIX.includes(k));
-      if (stray.length) return bad(`${stray.map((k) => `${hist.get(k)} in ${k}`).join(", ")} — outside the six states — ${scope}`);
+      if (stray.length) return bad(`${stray.map((k) => `${hist.get(k)} in ${k}`).join(", ")} — outside the seven states — ${scope}`);
       const HIST = path.join(REPO, "data", "completeness", "fill-state-history.jsonl");
       const POP = "served facts on scored parts (completeness.no_profile = false)";
       const now: Record<string, number> = Object.fromEntries(SIX.map((k) => [k, hist.get(k) ?? 0]));
@@ -1854,13 +1864,16 @@ const TESTS: Test[] = [
       }
       const last = recs[recs.length - 1], prev = recs[recs.length - 2];
       const vec = (s: Record<string, number>) => JSON.stringify(SIX.map((k) => s[k] ?? 0));
-      const bar = `progress: filled ${filled.toLocaleString()} of ${total.toLocaleString()} (${(100 * filled / total).toFixed(1)}%), ` +
-        `filled_inherited ${now.filled_inherited.toLocaleString()} beside it`;
+      // the filled share EXCLUDES derived_operational (ruling (ii)): an operational value is not a spec slot, so it is neither
+      // in the numerator nor in the denominator, and it is printed apart
+      const specTotal = total - now.derived_operational;
+      const bar = `progress: filled ${filled.toLocaleString()} of ${specTotal.toLocaleString()} spec facts (${(100 * filled / specTotal).toFixed(1)}%), ` +
+        `filled_inherited ${now.filled_inherited.toLocaleString()} beside it; derived_operational ${now.derived_operational.toLocaleString()} apart (not in the share)`;
       if (!last) return bad(`no build has recorded this histogram (${POP}) — mould-build.sh must run --record-fill-state — ${scope}`);
       if (vec(last.states) !== vec(now))
         return bad(`the live histogram is not the last recorded build's (${last.git_sha.slice(0, 7)}, ${last.at.slice(0, 16)}) — ` +
           `a write since that build, or the build did not record — ${scope}`);
-      if (!prev) return ok(`the six states partition all ${total.toLocaleString()} ${POP}; recorded ${last.at.slice(0, 16)} ` +
+      if (!prev) return ok(`the seven states partition all ${total.toLocaleString()} ${POP}; recorded ${last.at.slice(0, 16)} ` +
         `(${last.git_sha.slice(0, 7)}), the first record under this population: the baseline; ${bar}`);
       const p = prev.states;
       const rev = [
@@ -1876,18 +1889,19 @@ const TESTS: Test[] = [
         if (!runs.length) return bad(`a reversal with no recorded run between ${prev.at.slice(0, 16)} and ${last.at.slice(0, 16)}: ${rev.join(", ")} — ${scope}`);
         why = `; reversal ${rev.join(", ")} stands on ${runs.length} run(s) between the records: ${runs.slice(0, 6).map((r) => `${r.kind} ${r.id}`).join(", ")}`;
       }
-      return ok(`the six states partition all ${total.toLocaleString()} ${POP}; recorded ${last.at.slice(0, 16)} ` +
+      return ok(`the seven states partition all ${total.toLocaleString()} ${POP}; recorded ${last.at.slice(0, 16)} ` +
         `(${last.git_sha.slice(0, 7)}); direction vs ${prev.at.slice(0, 16)} holds${why}; ${bar}`);
     },
     // The classifier is the thing under test, so the fixture drives IT and not a proxy. A seeded value
     // on a real datasheet must not be filled; a table-read value on a datasheet must be.
     selfTest: async () => {
-      const filled = (method: string, inherited: boolean, docType: string | null) =>
-        !inherited && method !== "hexcat_seed" && docType === "vendor_datasheet_html" &&
-        (method === "html_table" || method === "pdf_table" || method.startsWith("derived:"));
-      return { negative: filled("hexcat_seed", false, "vendor_datasheet_html"),
-               positive: filled("html_table", false, "vendor_datasheet_html"),
-               note: "a hexcat_seed value on a real datasheet must NOT count as filled; a table-read value must" };
+      // the REAL classifier (fillState), never a copy of it: a seeded value on a real datasheet must not be filled, a
+      // shipping-class value must be derived_operational (not mined_non_spec_doc, not filled), a table read must be filled
+      const row = (method: string, inherited: boolean, doc_type: string | null) => ({ method, inherited, doc_type, n: 1 });
+      return { negative: fillState(row("hexcat_seed", false, "vendor_datasheet_html")) === "filled"
+                 || fillState(row("derived:shipping-class", false, "reference_table")) !== "derived_operational",
+               positive: fillState(row("html_table", false, "vendor_datasheet_html")) === "filled",
+               note: "a hexcat_seed value on a real datasheet must NOT count as filled, a shipping-class value is derived_operational; a table-read value is filled" };
     },
   },
   {

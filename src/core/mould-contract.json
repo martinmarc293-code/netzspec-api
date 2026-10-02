@@ -1,9 +1,9 @@
 {
-  "contract_hash": "c7b80d502adb8305",
-  "generated_at": "2026-09-30T02:30:26.733Z",
-  "code_commit": "8f09a858577c037cdf03d45cc174229c324ddfd2",
+  "contract_hash": "19704b71cf482f48",
+  "generated_at": "2026-10-02T11:31:53.141Z",
+  "code_commit": "c290f8e197094085e9035b6f2dad463831258173",
   "code_branch": "cisco",
-  "dirty_files": 82,
+  "dirty_files": 9,
   "counts": {
     "dictionary_keys": 610,
     "categories": 26,
@@ -31323,6 +31323,7 @@
       "unverified_seed",
       "mined_from_eol",
       "mined_non_spec_doc",
+      "derived_operational",
       "method_not_a_read",
       "no_document",
       "held_not_parsed",

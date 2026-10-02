@@ -66,7 +66,9 @@ export function mouldContract() {
     // WHAT "FILLED" MEANS. Four conditions, and the states a slot lands in when it misses one. Today only
     // 8,007 of 102,743 live facts satisfy all four, which is why this belongs in the contract and not in
     // a comment.
-    slot_states: ["filled", "filled_inherited", "unverified_seed", "mined_from_eol", "mined_non_spec_doc",
+    // derived_operational (reviewer ruling (ii), 30 Sep 2026): a value derived for OPERATIONS, not read as a spec -- the
+    // shipping-class Versandgewicht. Not a spec and not a mined value; shown apart and excluded from the filled share.
+    slot_states: ["filled", "filled_inherited", "unverified_seed", "mined_from_eol", "mined_non_spec_doc", "derived_operational",
                   "method_not_a_read", "no_document", "held_not_parsed", "not_held", "pending", "defect"],
     filled_requires: { own: true, spec_bearing_doc: true, method_read_the_artefact: true, no_open_conflict: true },
 

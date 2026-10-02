@@ -14,6 +14,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { FALLBACK_KINDS } from "./partKind.js";
+import { PROFILES } from "./fieldSchema.js";
 
 export const GRANULARITY_REFERENCE = path.join("data", "reference", "kind-granularity-2026-09-13.json");
 
@@ -32,7 +33,10 @@ export type GranularityBasis = "asks-at-most-3-cups" | "unresolved-kind" | "sing
   | "no-measurable-pair" | "gated-within-kind" | "unmeasured";
 export const GRANULARITY_BASES: readonly GranularityBasis[] = ["asks-at-most-3-cups", "unresolved-kind", "single-series",
   "measured-empty-groups", "no-measurable-pair", "gated-within-kind", "unmeasured"];
-export type GranularityException = { basis: GranularityBasis; reason: string; status: string; gate?: string };
+export type GranularityException = { basis: GranularityBasis; reason: string; status: string; gate?: string;
+  /** A RECORDED exception, not a standing one (reviewer, 30 Sep 2026, meraki.security-camera): it lapses the day this category
+   *  exists (has a profile), and basisFails then names it EXPIRED -- an expiry written only as a note is a sentence, not a guard. */
+  expires_with_category?: string };
 export type GranularityReference = {
   thresholds: { parts: number; share_of_category_pct: number; series: number; label_jaccard: number };
   measured: Record<string, GranularityMeasured>;
@@ -92,7 +96,10 @@ export type Term13Verdict = {
 };
 
 /** Does a recorded basis still hold for this kind? Returns null when it holds, else why not. */
-export function basisFails(ex: GranularityException, kind: string, k: Term13Input, m: GranularityMeasured | undefined): string | null {
+export function basisFails(ex: GranularityException, kind: string, k: Term13Input, m: GranularityMeasured | undefined,
+  categories: ReadonlySet<string> = new Set(Object.keys(PROFILES))): string | null {
+  if (ex.expires_with_category && categories.has(ex.expires_with_category))
+    return `EXPIRED: the category "${ex.expires_with_category}" now exists, so this recorded exception has lapsed -- move the parts there and drop the exception`;
   switch (ex.basis) {
     case "asks-at-most-3-cups":
       return k.slots_per_part_at_nothing_known <= 3 ? null : `asks ${k.slots_per_part_at_nothing_known} cups now, not <= 3`;

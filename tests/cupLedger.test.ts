@@ -17,7 +17,7 @@ import { ROLE_DOMAINS, roleAxisOf, type Rule } from "../src/core/deployRole.js";
 import { emptyBreakdown, addKindIssue, nullShareExcludingKindIssue, unresolvedDisplay } from "../src/core/kindLayerPlans.js";
 import { PROFILES, type Requirement } from "../src/core/fieldSchema.js";
 import {
-  GRANULARITY_BASES, judgeTerm13, loadGranularityReference, measuredFor, staleExceptions, type GranularityReference, type Term13Input, type Term13Verdict,
+  GRANULARITY_BASES, judgeTerm13, loadGranularityReference, measuredFor, staleExceptions, basisFails, type GranularityReference, type Term13Input, type Term13Verdict,
 } from "../src/core/kindGranularity.js";
 
 let passed = 0, failed = 0;
@@ -1162,6 +1162,19 @@ for (const f of files) {
   lines.push(`    term 13: ${tripping} kinds trip the thresholds over ${judged.size} judged ledgers — role axis ${tally["role-axis"]?.length ?? 0}, measured Jaccard ${tally.jaccard?.length ?? 0}, `
     + `checked exception ${tally.exception?.length ?? 0} ${JSON.stringify(byBasis)}, UNMEASURED ${tally.unmeasured?.length ?? 0} [${(tally.unmeasured ?? []).join(", ")}], FAIL ${tally.FAIL?.length ?? 0} [${(tally.FAIL ?? []).join(", ")}]`
     + ` · ${unjudged.length} reference exceptions not judged (their category's ledger predates term 13)`);
+
+  // THE EXPIRY of a RECORDED exception (reviewer, 30 Sep 2026: meraki.security-camera lapses when physical-security is created).
+  {
+    const ex = gref.exceptions["meraki.security-camera"];
+    const cam = { parts: 35, share_of_category: { num: 35, den: 69, pct: 50.7 }, series_count: 1, role_axis: "none",
+      slots_per_part_at_nothing_known: 6, required: [], pending_until_gate_answered: [] } as unknown as Term13Input;
+    check("CONTROL meraki.security-camera: the recorded single-series exception holds today (no physical-security category exists)",
+      !!ex && ex.expires_with_category === "physical-security" && basisFails(ex, "security-camera", cam, undefined) === null,
+      JSON.stringify(ex ?? null).slice(0, 160));
+    const lapsed = ex ? basisFails(ex, "security-camera", cam, undefined, new Set([...Object.keys(PROFILES), "physical-security"])) : null;
+    check("SABOTAGE the day physical-security exists, the judge names the exception EXPIRED (a recorded exception, not a standing one)",
+      typeof lapsed === "string" && lapsed.startsWith("EXPIRED"), String(lapsed));
+  }
 
   // SABOTAGE on the judge the builder and this suite share: drop one kind's axis / exception and the check names it.
   {
