@@ -302,7 +302,35 @@ HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). R
      TRAP: the night rebuilds and stamps the artefacts IN THE DEPLOY TREE (STAMP_*_COMMIT = the deployed commit). The day
      session copies them into the repo, restamps, commits BEFORE ANY DEPLOY -- a deploy first would put the older committed
      artefacts back under the API.
-## HANDOFF (2 Oct ~11:45 UTC) -- READ FIRST; (b') CLOSED, next is (3a)
+## HANDOFF (2 Oct ~13:20 UTC) -- READ FIRST; scorecard fix + (3a) DONE, next is the 233 / the 199 / bucket A
+- SCORECARD FIX DONE (b11c924): src/core/fillState.ts is the ONE fill-state module (classifier, seven states, population,
+  history path, partition SQL, fillHistogram, filledShare, sameHistogram, readFillStateHistory); mould-verify imports it, and
+  scorecard --dump-ready computes FILLED with it and compares with the last record. Scorecard prints "filled 16.0% = 8,847 of
+  55,291 spec facts ... = the last recorded build (e97d3b6)" and "a DIFFERENT measure: required slots present 9.6%"; records
+  carry filled_share_pct / required_present_pct (older ones: filled_pct = the slot measure). Dashboard: two columns. fillState
+  31/31, 5 sabotages red for the stated reason.
+- (3a) DONE (625e6ed, deployed, verified at the API): partKind(category, sku, name?, productClass?) -- the class decides FIRST
+  (stored, else classify() with NO name); non-hardware -> "non-hardware", unknown -> "unknown". kindAndRole + subjectRefusal
+  REQUIRE the class; every production caller passes it; build-freeze/kindDrift share FREEZE_PRODUCT_CLASS. Measured before the
+  commit: frozen kinds 0/41,058 move (7 CRS through the fallback alone: stale stored class, exact rules of 13 Sep postdate the
+  last reclassify); 24,473 live kinds change, 0 on stored hardware; 5,371 non-hardware parts held a DEVICE kind. API: licence
+  C3750X-12S-S-E -> non-hardware; C9200L-24P-4G switch/access; ASR1002X-10G-VPNK9 router/edge; ?kind=switch&class=license -> 0.
+  SFP-10G-LR= is transceiver/pluggable (the "switches" premise came from a stale specMerge comment, corrected); 0 optics read as
+  switch; the 30 switches parts with a component SKU shape are all switches (SG350-10SFP ...). Decision record:
+  docs/decisions/2026-10-02-kind-class-first.md. Board 32/1, 0 Bearer; contract 19704b71cf482f48 unchanged; ONE BUILD.
+- STORE CHECK AFTER (3a): 20,043 doc-scoped inherited facts IN 15,467 | OUT 0 | NOT JUDGED 4,576 = non-hardware licence 3,605,
+  software 580, non_product 83, service 6 (= 4,274 on stored non-hardware parts: describesPart's class rule refuses such
+  receivers at write time, these predate it -- a retraction plan to propose), bundle(hardware) 72, unknown 27. Bucket A is now
+  12,827 device-receiver facts: admitted 6,971, family:mismatch 4,675, family:unknown 1,157, component:SFP 24 (the SFP rows are
+  the 30 real switches the `contains SFP` component token matches -- never retract them; a component-shape fix to propose).
+- NEXT (reviewer's order): the 233 raw-bearing re-apply rows through applyMerge. TRAP: the conflicts row has NO inherited flag
+  and remerge.incomingEntry offers a rejected side as a per-SKU value -- for a family-level cell that would store an inherited
+  value as the part's OWN and inflate `filled`. Measure the flag from the cell's own record first (other parts holding the same
+  doc_id + locator, and whether they hold it inherited), then a DRY RUN through applyMerge; commit on the reviewer's yes. The 199
+  pre-0008 rows -> the re-extraction list (distinct rejected documents). Then bucket A. Proposals to put up: the 4,274
+  non-hardware retraction, the 7 CRS reclassify, the `contains SFP` narrowing, the 36 stray devices' category move.
+
+## HANDOFF (2 Oct ~11:45 UTC) -- superseded by the one above; kept for its record
 - (b') DONE + VERIFIED: gate live (67c00e8); run 1469 retracted 13,367 out-of-subject facts (verified); rebuild c290f8e (MISS diff
   0/0/0; freeze 39/0, completeness 423/0 with 3 sabotage cases unexercised IDENTICALLY at the baseline commit, cupLedger 0 missed).
   Ruling (ii) DONE (847c789): seventh fill state derived_operational (one classifier fillState, shown apart, out of the filled

@@ -157,6 +157,8 @@ const pd = (a: number | null, b: unknown) => a !== null && typeof b === "number"
 const filledDelta = pd(fillPct, prev?.filled_share_pct);
 // REQUIRED SLOTS PRESENT: the same computation older scorecards recorded under the name `filled_pct`, so it compares with them
 const requiredDelta = pd(R.required_present_pct ?? null, prev?.required_present_pct ?? prev?.filled_pct);
+/** one decimal always: "16.0", never "16" beside a "9.6" */
+const p1 = (v: unknown) => typeof v === "number" ? v.toFixed(1) : "n/a";
 const sign = (d: number | null, first: string) => d === null ? first : `${d >= 0 ? "+" : ""}${d}%`;
 const rec = R.fill?.record;
 const recNote = R.fill?.record_error ? `the fill-state history is UNREADABLE (${R.fill.record_error}) -- could not compare`
@@ -208,8 +210,8 @@ const card = {
 };
 const lines = [
   ...(flags.length ? ["FLAGS: " + flags.join(" | "), ""] : []),
-  `outcome   ready ${readyDelta === null ? "(first scorecard)" : `${readyDelta >= 0 ? "+" : ""}${readyDelta}`} (${R.ready} of ${R.scanned}) · filled ${sign(filledDelta, "(first under the fill-state share)")} (${fillPct ?? "n/a"}%) · today's rule unlocked: predicted ${Number.isFinite(predicted) ? predicted : "n/a"} / actual ${actual ?? "n/a"}`,
-  `fill      filled ${fillPct ?? "n/a"}% = ${R.fill?.filled?.toLocaleString("en") ?? "?"} of ${R.fill?.spec_total?.toLocaleString("en") ?? "?"} spec facts (the board's fill-state share, src/core/fillState.ts), ${recNote} · filled_inherited ${R.fill?.filled_inherited?.toLocaleString("en") ?? "?"} beside it, derived_operational ${R.fill?.derived_operational?.toLocaleString("en") ?? "?"} apart${R.fill?.outside_seven?.length ? ` · OUTSIDE the seven states: ${R.fill.outside_seven.join(", ")}` : ""} · a DIFFERENT measure: required slots present ${R.required_present_pct ?? "n/a"}% (completeness sums, ${sign(requiredDelta, "first")})`,
+  `outcome   ready ${readyDelta === null ? "(first scorecard)" : `${readyDelta >= 0 ? "+" : ""}${readyDelta}`} (${R.ready} of ${R.scanned}) · filled ${sign(filledDelta, "(first under the fill-state share)")} (${p1(fillPct)}%) · today's rule unlocked: predicted ${Number.isFinite(predicted) ? predicted : "n/a"} / actual ${actual ?? "n/a"}`,
+  `fill      filled ${p1(fillPct)}% = ${R.fill?.filled?.toLocaleString("en") ?? "?"} of ${R.fill?.spec_total?.toLocaleString("en") ?? "?"} spec facts (the board's fill-state share, src/core/fillState.ts), ${recNote} · filled_inherited ${R.fill?.filled_inherited?.toLocaleString("en") ?? "?"} beside it, derived_operational ${R.fill?.derived_operational?.toLocaleString("en") ?? "?"} apart${R.fill?.outside_seven?.length ? ` · OUTSIDE the seven states: ${R.fill.outside_seven.join(", ")}` : ""} · a DIFFERENT measure: required slots present ${p1(R.required_present_pct)}% (completeness sums, ${sign(requiredDelta, "first")})`,
   `focus     ${ordered ? `${today.focus}: reviewer-ordered work` : offList ? `off the top-5 by ready-gain (${today?.blocker_key ?? "no today.json"})` : `blocker #${rank + 1} of the top-5 (${today.blocker_key})`} · off-list work: ${offList ? `yes (${today?.rule ?? "?"})` : "no"} · top-5: ${R.top5.map((b: any) => `${b.blocker} ${b.parts}`).join(", ")}`,
   `rework    commits fixing my own earlier commits: ${fixups}${fixupList.length ? ` (${fixupList.join(", ")})` : ""} · reverts: ${reverts} · commits in window: ${commits.length}`,
   `asks      ${tfile ? `questions to reviewer: ${questions}` : "questions to reviewer: not computed (no transcript given)"} · of which already ruled in state.md: n/a (a reading, not a count)`,
