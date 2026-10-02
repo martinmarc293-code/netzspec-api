@@ -338,6 +338,24 @@ HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). R
   weekly audit. LIMIT: lifted by the operator; the reviewer: "flag at 90 % so it doesn't cut off mid-run" -- scorecard
   LIMIT-90 (with --limits-lifted). Of the 13 owed families only 6 carry facts (UCS C-series 17 docs / 838 facts, Catalyst
   Center 2 / 332, HyperFlex 4 / 232, HCI C220 M8 1 / 70, UCS X 2 / 22, UCS B 3 / 11); the 7 guide families carry 0.
+- CORRECTION SENT (between 06:58 and 07:15 UTC): "1,505 facts" was the RAW count. Filtered through storeRefusal (scratch plan-dump.mts) the 6
+  families would WRITE 85 entries, ~62 wrong: UCS C-series 46 = the servers' humidity/EMC on UCS-CPUAT= (CPU assembly tool),
+  UCS-DIMM-BLK= (blank), UCS-MSTOR-SD(=) (SD carrier); HyperFlex 16 (HX-VIC-MODE option, HX-M6-MLB board wrong; HX system
+  SKUs maybe right); DN3-HW-APL-XL 17 (already holds its env facts); UCSX-F-9416-D 6. Golden rows on chassis would have let the
+  46 through (the gate grades golden SKUs only). REVIEWER: re-order approved; "a denylist of component patterns always leaks the
+  next tool, blank or option; an allowlist of subject kinds can't"; ADD: run the allowlist as a check over the current store and
+  put any served out-of-subject facts in ONE retraction plan with (b').
+- (c) DONE (box, worker.Browser profile mode, cache writes vetoed, 10 requests, 0 blocks; /tmp/probe-pdf-html.jsonl): the 10
+  .pdf URLs redirect -- 5 to HTML datasheets ALREADY HELD since 3 Sep (HX240c M5 with 0 parts linked, N9300-GX 21, IE3200 33,
+  IE3400 52, Secure Workload 4), 4 to marketing/support pages, 1 to the NCS 540 datasheet listing. Folds into (d).
+- STORE CHECK (scratch subject-check.mts / subject-measure.mts): 33,410 document-scoped inherited facts served (part-to-part 356
+  excluded). By receiver kind x DEVICE_KINDS x "the document lists a device": A 16,737 | B 4,833 | C 11,840 (263 docs). First-cut
+  rule (subject from the TITLE noun, else DEVICE_KINDS): IN 17,998 | OUT 15,412 -- device sheets 11,721 out (power 1,852,
+  mechanical 1,709, cable 907, module 866, pluggable 657, drive 596, fan 580...), line-card sheets 2,029 out (router 717 = the
+  REVERSE leak onto the chassis, pluggable 661), module 1,176, supervisor 278, interface 175. Known misses: transponder line cards,
+  breakout cables in a cable+transceiver sheet, no-axis categories (ND-CLUSTERG5L), licences read as kind switch (C9400-DNA-E-3Y).
+  PROPOSED (sent just before 07:15 UTC): one docSubject table used by the apply AND the check; iterate on the OUT sample; dry-run retraction plan
+  per document with the ready impact measured first; staged families re-dumped under the rule.
 
 ## ORDER AFTER COMPACTION (reviewer verdict 30 Sep ~13:30 UTC: ON TRACK, +524 vs 519; WASTEFUL -> compact now)
 Weekly usage 53 % at 13:25 UTC (~17 % left before the 70 % stop; headless lane will not run this week).
