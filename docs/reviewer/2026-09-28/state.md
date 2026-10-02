@@ -302,7 +302,37 @@ HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). R
      TRAP: the night rebuilds and stamps the artefacts IN THE DEPLOY TREE (STAMP_*_COMMIT = the deployed commit). The day
      session copies them into the repo, restamps, commits BEFORE ANY DEPLOY -- a deploy first would put the older committed
      artefacts back under the API.
-## HANDOFF (2 Oct ~13:20 UTC) -- READ FIRST; scorecard fix + (3a) DONE, next is the 233 / the 199 / bucket A
+## HANDOFF (2 Oct ~14:30 UTC) -- READ FIRST AFTER COMPACTION; Q2 + Q3 DONE, next is READY-GAIN (reviewer's order)
+- DONE + VERIFIED this block (all pushed; deployed 2e2187f; board 32/1 = vendor_coverage only, 0 Bearer):
+  * scorecard reads the fill-state share (b11c924, src/core/fillState.ts). (3a) the class decides the kind (625e6ed).
+  * Q2: run 1472 retracted the 4,328 served doc-scoped inherited facts on non-hardware parts (describesPart class rule;
+    1,488 conflicts resolved; verified from a new connection). 149 facts on 43 category-default parts HELD (Q3b).
+  * runs record their commit on the box (8697dbc: openRun -> resolveCodeSha: caller sha, env GIT_SHA, the tree's GIT_SHA file).
+  * Q3: run 1473 reclassify (43: 36 strays software->hardware, 7 CRS hardware->non_product), runs 1474-1478 moves (17 DN
+    appliances -> servers-unified-computing, 14 NCS -> routers, 3 Nexus 9300 -> switches, CW9164I -> wireless, C1100TG-16A ->
+    routers), kind rules 233279a (ucsKind DN family -> server, routerKind C1100TG-16A -> module), rebuild 63f48c6 (frozen kinds
+    exactly +36/-7, MISS diff clean both ways, ONE BUILD, fill-state total +50 filled_inherited +50). Record:
+    docs/decisions/2026-10-02-q3-class-correction.md.
+  * The board then went red on runs_have_approval (run 1473: `ingest reclassify` had no way to carry an approval) -> 2e2187f:
+    reclassify REQUIRES --approved with --commit; recorder run 1481 wrote 1473's verbatim approval, marked approved_recorded_late.
+  * Scorecard ~14:28: ready 574 of 41,087 (+0, predicted 0), filled 16.0% (8,847 of 55,341), required slots 9.5%; flags STALLED
+    (streak 3), WASTEFUL (context 82%), LIMIT-70 LIFTED (weekly 73%).
+- NEXT, the reviewer's order (verdict ~14:05): COMPACT -> READY-GAIN batch 1: Betriebstemperatur (266 parts whose SOLE export
+  blocker is attribute:Betriebstemperatur) -> READY-GAIN batch 2: names (168, blocker `name`) -> Q1: re-extract the 432 re-apply
+  rows' documents through the current pipeline, scoped (gates decide own vs inherited; dry run, sample, commit -- prediction: the
+  201 rows on non-hardware receivers are refused by the class rule) -> bucket A plan (12,827 device-receiver facts: admitted 6,971,
+  family:mismatch 4,675, family:unknown 1,157, component:SFP 24 = the 30 real switches the `contains SFP` token matches: NEVER
+  retract them) -> Q3b software-category class audit (6,630 category-default parts; 394 stale name-shape classes held too).
+- READY-GAIN starting points: the sole-blocker definition is scripts/scorecard.ts --dump-ready (jtlReadiness reasons held by
+  exactly one reason). Earlier split (2 Oct morning, "FETCH-LANE PREMISE" below): Betriebstemperatur 259 = held 70 + NOT held 189;
+  names 168 all held. The NAME LANE work-in-progress is UNTRACKED in the tree (scripts/name-from-description.mts,
+  scripts/pid-description-names.py, data/reference/pid-description-names.json) -- read them before writing anything new for names.
+- TRAPS: the working tree is CRLF (python multi-line anchors with \n match nothing -- use Edit); scratch .mts must import
+  file:///D:/Project/netzspec-api-cisco/... and cannot import `pg` (use the store's query helper); mould-build needs
+  runs/vocab/cisco-datasheets/labels.json (cp from /root/netzspec-arrangement-build/runs/vocab/cisco-datasheets/) and the FULL
+  40-char GIT_SHA; DB suites need NETZSPEC_DB=test; heavy writes run on the box (scp the approval text, pass it with $(cat ...)).
+
+## HANDOFF (2 Oct ~13:20 UTC) -- superseded by the one above
 - SCORECARD FIX DONE (b11c924): src/core/fillState.ts is the ONE fill-state module (classifier, seven states, population,
   history path, partition SQL, fillHistogram, filledShare, sameHistogram, readFillStateHistory); mould-verify imports it, and
   scorecard --dump-ready computes FILLED with it and compares with the last record. Scorecard prints "filled 16.0% = 8,847 of
