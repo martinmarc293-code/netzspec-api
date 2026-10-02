@@ -42,10 +42,14 @@ import { getPool, closePool, withTx, withRun } from "../store/index.js";
 import { REPO_ROOT } from "../config.js";
 import { classify, RULE_NAMES, SKU_RULES, type ProductClass } from "../core/productClass.js";
 
-export type Args = { commit: boolean; vendor: string | null; examples: number; batch: number; onlyRules: string[] };
+export type Args = { commit: boolean; vendor: string | null; examples: number; batch: number; onlyRules: string[];
+  /** the decision, verbatim -- REQUIRED with --commit: a class change is a row-membership decision, and runs_have_approval
+   *  judges a reclassify run by the approval in its inputs. Until 2 Oct 2026 there was no way to give one: runs 933-1023 needed
+   *  the reviewer's retroactive line (28 Sep), and run 1473 went red on the board with its approval given and nowhere to put it. */
+  approved: string | null };
 
 export function parseArgs(argv: string[]): Args {
-  const a: Args = { commit: false, vendor: null, examples: 20, batch: 5000, onlyRules: [] };
+  const a: Args = { commit: false, vendor: null, examples: 20, batch: 5000, onlyRules: [], approved: null };
   for (let i = 0; i < argv.length; i++) {
     const x = argv[i];
     if (x === "--commit") a.commit = true;
@@ -53,8 +57,10 @@ export function parseArgs(argv: string[]): Args {
     else if (x === "--examples") a.examples = Number(argv[++i]);
     else if (x === "--batch") a.batch = Number(argv[++i]);
     else if (x === "--only-rule") a.onlyRules.push(argv[++i]);
-    else throw new Error(`unexpected argument ${x}: usage is ingest reclassify [--commit] [--vendor V] [--examples N]`);
+    else if (x === "--approved") a.approved = argv[++i] ?? null;
+    else throw new Error(`unexpected argument ${x}: usage is ingest reclassify [--commit --approved "<the decision, verbatim>"] [--vendor V] [--examples N] [--only-rule R ...]`);
   }
+  if (a.commit && !(a.approved ?? "").trim()) throw new Error("--commit needs --approved \"<the decision, verbatim>\": a class change is a row-membership decision, and the run records it");
   if (!Number.isFinite(a.examples) || a.examples < 1) throw new Error("--examples must be a positive number");
   return a;
 }
@@ -245,7 +251,7 @@ export async function main(argv: string[]): Promise<void> {
     // the writes span several transactions, so a throw half way through must still report how far
     // it got: `partial` hands withRun the counters that are otherwise lost with the exception
     let progress = 0;
-    const out = await withRun("reclassify", { vendor: a.vendor, rules: SKU_RULES.length, scanned: p.scanned, examples: a.examples, only_rules: a.onlyRules, held_by_rule: p.held_by_rule }, async (id) => {
+    const out = await withRun("reclassify", { vendor: a.vendor, rules: SKU_RULES.length, scanned: p.scanned, examples: a.examples, only_rules: a.onlyRules, held_by_rule: p.held_by_rule, approved: a.approved }, async (id) => {
       tag = `run${id}`;
       const n = await applyPlan(p, a.batch, (w) => { progress = w; });
       const lines = Object.entries(p.by_rule).sort((x, y) => y[1].count - x[1].count)

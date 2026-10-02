@@ -99,7 +99,13 @@ const count = async (sql: string, params: unknown[] = []) => (await query<{ n: n
   let refused = "";
   try { parseArgs(["--nope"]); } catch (e) { refused = (e as Error).message; }
   check("SABOTAGE parseArgs: an unknown argument is refused NAMING it", /unexpected argument --nope/.test(refused), refused);
-  check("parseArgs: the default is a dry run", parseArgs([]).commit === false && parseArgs(["--commit"]).commit === true);
+  check("parseArgs: the default is a dry run", parseArgs([]).commit === false && parseArgs(["--commit", "--approved", "fixture"]).commit === true);
+  // 2 Oct 2026: a commit without the decision is refused -- run 1473 went red on runs_have_approval with nowhere to record one
+  sabotages++;
+  let noApproval = "";
+  try { parseArgs(["--commit"]); } catch (e) { noApproval = (e as Error).message; }
+  check("SABOTAGE parseArgs: --commit without --approved is refused, naming the flag", /--commit needs --approved/.test(noApproval), noApproval);
+  check("parseArgs: the approval is kept verbatim for the run's inputs", parseArgs(["--commit", "--approved", "reviewer, 2 Oct: yes"]).approved === "reviewer, 2 Oct: yes");
 }
 
 // =================================================================================================
@@ -171,7 +177,7 @@ const before = await states();
 // the commit
 // =================================================================================================
 {
-  const r = cli("--commit");
+  const r = cli("--commit", "--approved", "reclassify.test-fixture");
   const after = await states();
   check("commit: exits 0 and names the run", r.status === 0 && /COMMITTED run \d+/.test(r.out), r.out.slice(-400));
   const run = (await query<{ id: number; kind: string; status: string; gate: unknown; stats: Record<string, unknown>; notes: string | null }>(
@@ -214,7 +220,7 @@ const before = await states();
 // =================================================================================================
 {
   const stateBefore = await states();
-  const r = cli("--commit");
+  const r = cli("--commit", "--approved", "reclassify.test-fixture");
   const after = await states();
   check("second commit: nothing left to change", r.status === 0 && /would change 0\b/.test(r.out), r.out.split("\n").slice(0, 4).join(" | "));
   check("second commit: opens NO run when there is nothing to write (still one run in the table)", (await count("SELECT count(*)::int AS n FROM runs")) === 1);
