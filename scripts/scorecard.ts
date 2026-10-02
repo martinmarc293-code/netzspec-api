@@ -7,7 +7,10 @@
 //
 // WHERE EACH NUMBER COMES FROM, so none of them is a sentence:
 //   ready / filled / top-5      the store, computed fresh ON THE BOX (--dump-ready over ssh): jtlReadiness over every live Cisco
-//                               hardware SKU (the export's own function), completeness sums, blockers held by exactly one reason
+//                               hardware SKU (the export's own function), blockers held by exactly one reason, and FILLED = the
+//                               board's fill-state share (src/core/fillState.ts, the verifier's own module; compared with the last
+//                               recorded build). Required slots present (completeness sums) is printed beside it as a DIFFERENT
+//                               measure -- until 2 Oct 2026 it was printed as "filled" (scorecards before then: `filled_pct`).
 //   today's rule                data/reports/today.json {date, rule, blocker_key, predicted_unlock, predicted_at_ready}
 //   rework                      git log since the previous scorecard: reverts; and fix-ups = commits whose subject says
 //                               fix/correct/wrong and that touch a file an EARLIER commit of the same window touched
@@ -47,9 +50,26 @@ if (argv.includes("--dump-ready")) {
       if (rs.length === 1) sole.set(rs[0], (sole.get(rs[0]) ?? 0) + 1);
     }
   }
+  // REQUIRED SLOTS PRESENT (completeness sums): a SLOT measure, printed under its own name. Until 2 Oct 2026 it was printed as
+  // "filled" beside a board whose "filled" is the fill-state share -- two numbers, one word, two computations.
   const f = (await query<{ present: string; total: string }>(`SELECT sum(c.required_present)::text AS present, sum(c.required_total)::text AS total
     FROM completeness c JOIN parts p ON p.id = c.part_id JOIN vendors v ON v.id = p.vendor_id WHERE v.slug = 'cisco' AND NOT c.no_profile`)).rows[0];
-  console.log(JSON.stringify({ ready, scanned: skus.length, filled_pct: Math.round((1000 * Number(f.present)) / Number(f.total)) / 10,
+  // FILLED: the fill-state share, computed by the board's own module (src/core/fillState.ts: its SQL, its classifier, its share)
+  // and compared with the last recorded build -- the board is green only when the live histogram IS that record, so a
+  // difference here is a write since the build and is printed, never smoothed over.
+  const fsm = await import("../src/core/fillState.js");
+  const hist = fsm.fillHistogram((await query<{ method: string; inherited: boolean; doc_type: string | null; n: string }>(fsm.FILL_STATE_SQL)).rows);
+  const share = fsm.filledShare(hist.states, hist.total);
+  let record: { at: string; git_sha: string; same_as_live: boolean } | null = null, record_error: string | null = null;
+  try {
+    const last = fsm.readFillStateHistory(path.join(ROOT, fsm.FILL_STATE_HISTORY)).pop();
+    record = last ? { at: last.at, git_sha: last.git_sha, same_as_live: fsm.sameHistogram(last.states, hist.states) } : null;
+  } catch (e) { record_error = e instanceof Error ? e.message : String(e); }
+  console.log(JSON.stringify({ ready, scanned: skus.length,
+    required_present_pct: Math.round((1000 * Number(f.present)) / Number(f.total)) / 10,
+    fill: { pct: share.pct, filled: share.filled, spec_total: share.spec_total, total: hist.total,
+      filled_inherited: hist.states.filled_inherited ?? 0, derived_operational: hist.states.derived_operational ?? 0,
+      outside_seven: Object.keys(hist.states).filter((k) => !(fsm.FILL_STATES as readonly string[]).includes(k)), record, record_error },
     top5: [...sole].sort((a, b) => b[1] - a[1]).slice(0, 5).map(([k, n]) => ({ blocker: k, parts: n })) }));
   await closePool();
   process.exit(0);
@@ -130,7 +150,19 @@ try { light = JSON.parse(execFileSync("curl", ["-s", "--max-time", "20", "https:
 
 // outcome and focus
 const readyDelta = prev ? R.ready - prev.ready : null;
-const filledDelta = prev ? Math.round((R.filled_pct - prev.filled_pct) * 10) / 10 : null;
+// FILLED is the fill-state share since 2 Oct 2026; an older scorecard has no `filled_share_pct`, so the first one under this
+// measure has no delta rather than a fake jump from the slot measure (9.6 -> 16.0 would read as +6.4 % of work never done).
+const fillPct: number | null = R.fill?.pct ?? null;
+const pd = (a: number | null, b: unknown) => a !== null && typeof b === "number" ? Math.round((a - b) * 10) / 10 : null;
+const filledDelta = pd(fillPct, prev?.filled_share_pct);
+// REQUIRED SLOTS PRESENT: the same computation older scorecards recorded under the name `filled_pct`, so it compares with them
+const requiredDelta = pd(R.required_present_pct ?? null, prev?.required_present_pct ?? prev?.filled_pct);
+const sign = (d: number | null, first: string) => d === null ? first : `${d >= 0 ? "+" : ""}${d}%`;
+const rec = R.fill?.record;
+const recNote = R.fill?.record_error ? `the fill-state history is UNREADABLE (${R.fill.record_error}) -- could not compare`
+  : !rec ? "no build has recorded the histogram yet"
+  : rec.same_as_live ? `= the last recorded build (${String(rec.git_sha).slice(0, 7)}, ${String(rec.at).slice(0, 16)})`
+  : `NOT the last recorded build (${String(rec.git_sha).slice(0, 7)}, ${String(rec.at).slice(0, 16)}): a write since that build -- the board's fill_state_partition is red until a build records it`;
 const predicted = Number(today?.predicted_unlock ?? NaN);
 const actual = Number.isFinite(Number(today?.predicted_at_ready)) ? R.ready - Number(today.predicted_at_ready) : null;
 const rank = R.top5.findIndex((b: any) => b.blocker === today?.blocker_key);
@@ -165,7 +197,10 @@ else if (weekly !== null && weekly >= 55) flags.push(lifted ? `LIMIT-55 LIFTED (
 
 const hhmm = (ms: number) => `${String(Math.floor(ms / 3600e3)).padStart(2, "0")}:${String(Math.floor((ms % 3600e3) / 60e3)).padStart(2, "0")}`;
 const card = {
-  at: now.toISOString(), since, ready: R.ready, ready_delta: readyDelta, filled_pct: R.filled_pct, filled_delta: filledDelta,
+  at: now.toISOString(), since, ready: R.ready, ready_delta: readyDelta,
+  filled_share_pct: fillPct, filled_share_delta: filledDelta, filled_facts: R.fill?.filled ?? null, spec_facts: R.fill?.spec_total ?? null,
+  fill_record: rec ? { git_sha: rec.git_sha, at: rec.at, same_as_live: rec.same_as_live } : null,
+  required_present_pct: R.required_present_pct ?? null, required_present_delta: requiredDelta,
   predicted: Number.isFinite(predicted) ? predicted : null, actual, rule: today?.rule ?? null, blocker_key: today?.blocker_key ?? null,
   blocker_rank: rank >= 0 ? rank + 1 : null, top5: R.top5, off_list: offList, fixups, fixup_commits: fixupList, reverts,
   questions, questions_already_ruled: null, commands, context_tokens: ctx, context_pct: ctxPct, weekly_pct: weekly, limits_lifted: lifted ?? null, streak, flags,
@@ -173,7 +208,8 @@ const card = {
 };
 const lines = [
   ...(flags.length ? ["FLAGS: " + flags.join(" | "), ""] : []),
-  `outcome   ready ${readyDelta === null ? "(first scorecard)" : `${readyDelta >= 0 ? "+" : ""}${readyDelta}`} (${R.ready} of ${R.scanned}) · filled ${filledDelta === null ? "(first)" : `${filledDelta >= 0 ? "+" : ""}${filledDelta}%`} (${R.filled_pct}%) · today's rule unlocked: predicted ${Number.isFinite(predicted) ? predicted : "n/a"} / actual ${actual ?? "n/a"}`,
+  `outcome   ready ${readyDelta === null ? "(first scorecard)" : `${readyDelta >= 0 ? "+" : ""}${readyDelta}`} (${R.ready} of ${R.scanned}) · filled ${sign(filledDelta, "(first under the fill-state share)")} (${fillPct ?? "n/a"}%) · today's rule unlocked: predicted ${Number.isFinite(predicted) ? predicted : "n/a"} / actual ${actual ?? "n/a"}`,
+  `fill      filled ${fillPct ?? "n/a"}% = ${R.fill?.filled?.toLocaleString("en") ?? "?"} of ${R.fill?.spec_total?.toLocaleString("en") ?? "?"} spec facts (the board's fill-state share, src/core/fillState.ts), ${recNote} · filled_inherited ${R.fill?.filled_inherited?.toLocaleString("en") ?? "?"} beside it, derived_operational ${R.fill?.derived_operational?.toLocaleString("en") ?? "?"} apart${R.fill?.outside_seven?.length ? ` · OUTSIDE the seven states: ${R.fill.outside_seven.join(", ")}` : ""} · a DIFFERENT measure: required slots present ${R.required_present_pct ?? "n/a"}% (completeness sums, ${sign(requiredDelta, "first")})`,
   `focus     ${ordered ? `${today.focus}: reviewer-ordered work` : offList ? `off the top-5 by ready-gain (${today?.blocker_key ?? "no today.json"})` : `blocker #${rank + 1} of the top-5 (${today.blocker_key})`} · off-list work: ${offList ? `yes (${today?.rule ?? "?"})` : "no"} · top-5: ${R.top5.map((b: any) => `${b.blocker} ${b.parts}`).join(", ")}`,
   `rework    commits fixing my own earlier commits: ${fixups}${fixupList.length ? ` (${fixupList.join(", ")})` : ""} · reverts: ${reverts} · commits in window: ${commits.length}`,
   `asks      ${tfile ? `questions to reviewer: ${questions}` : "questions to reviewer: not computed (no transcript given)"} · of which already ruled in state.md: n/a (a reading, not a count)`,

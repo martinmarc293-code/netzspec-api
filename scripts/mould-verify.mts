@@ -29,6 +29,8 @@ import { partKind } from "../src/core/partKind.js";
 import { UNKNOWN_HARDWARE_SQL, splitUnknown, unknownZeroVerdict, type UnknownRow } from "../src/core/unknownEvidence.js";
 import { deployRoleResult, roleAxisOf, roleAxisKinds } from "../src/core/deployRole.js";
 import { query, closePool, getPool } from "../src/store/db.js";
+import { fillState, fillHistogram, filledShare, sameHistogram, readFillStateHistory, FILL_STATES, FILL_STATE_POPULATION,
+  FILL_STATE_HISTORY, FILL_STATE_SQL, type FillStateRecord } from "../src/core/fillState.js";
 import { readCompleteness } from "../src/api/queries/completeness.js";
 import { LEDGER_KINDS, kindQuestionSet } from "../src/core/cupLedger.js";
 import { syncDictionaryOn, dictionaryRows, profileRows, type DictionarySyncResult } from "../src/store/dictionary.js";
@@ -88,22 +90,9 @@ const na = (detail: string): Result => ({ state: "unavailable", detail });
  */
 const none = (detail: string): Result => ({ state: "not_exercised", detail });
 
-/** THE FILL-STATE CLASSIFIER, one function for fill_state_partition's run and its self-test (a self-test that re-implements
- *  the rule tests a copy). A served fact lands in exactly one state. `derived_operational` (reviewer ruling (ii), 30 Sep 2026)
- *  comes first because its witness is a reference table, which the doc-type branch would otherwise call mined_non_spec_doc. */
-const SPEC_BEARING_DOCS = new Set(["vendor_datasheet_html", "vendor_datasheet_pdf", "vendor_tool"]);
-const READ_METHODS = new Set(["html_table", "pdf_table", "textline"]);
-/** Derivations that serve OPERATIONS rather than state a specification: shown apart, never in the filled share. */
-const OPERATIONAL_DERIVATIONS = new Set(["derived:shipping-class"]);
-const fillState = (r: { method: string; inherited: boolean; doc_type: string | null }): string =>
-  OPERATIONAL_DERIVATIONS.has(r.method) ? "derived_operational"
-  : r.inherited ? "filled_inherited"
-  : r.method === "hexcat_seed" ? "unverified_seed"
-  : r.doc_type === "vendor_eol_bulletin" ? "mined_from_eol"
-  : !r.doc_type ? "no_document"
-  : !SPEC_BEARING_DOCS.has(r.doc_type) ? "mined_non_spec_doc"
-  : !READ_METHODS.has(r.method) && !r.method.startsWith("derived:") ? "method_not_a_read"
-  : "filled";
+// THE FILL-STATE CLASSIFIER lives in src/core/fillState.ts (imported above): ONE definition for fill_state_partition's run,
+// its self-test (a self-test that re-implements the rule tests a copy) and the scorecard (2 Oct 2026: the scorecard printed a
+// different "filled" from a different computation, and two numbers under one word drift apart).
 
 // ---- the deployed API, asked WITH the verifier's key when the environment holds one (ruling (e), 29 Sep 2026) ----
 // Key 17 `verifier-box` (read scope) lives only in /root/netzspec-verifier.env on the box. Until this helper, no test sent a
@@ -1809,22 +1798,15 @@ const TESTS: Test[] = [
     run: async () => {
       let rows: { method: string; inherited: boolean; doc_type: string | null; n: number }[];
       try {
-        const r = await query<{ method: string; inherited: boolean; doc_type: string | null; n: string }>(
-          "SELECT coalesce(f.method, '(none)') AS method, f.inherited AS inherited," +
-          " sd.doc_type AS doc_type, count(*)::text AS n" +
-          " FROM facts f JOIN completeness cp ON cp.part_id = f.part_id AND NOT cp.no_profile" +
-          " LEFT JOIN source_docs sd ON sd.doc_id = f.doc_id" +
-          " WHERE f.superseded_by IS NULL AND f.state IN ('verified','corroborated')" +
-          " GROUP BY 1, 2, 3");
+        const r = await query<{ method: string; inherited: boolean; doc_type: string | null; n: string }>(FILL_STATE_SQL);
         rows = r.rows.map((x) => ({ ...x, n: Number(x.n) }));
       } catch (e) {
         return none(`could not read the fact provenance: ${e instanceof Error ? e.message : String(e)}`);
       }
       if (!rows.length) return none("no live fact exists to partition");
-      const total = rows.reduce((n, r) => n + r.n, 0);
-      const state = fillState;
-      const hist = new Map<string, number>();
-      for (const r of rows) hist.set(state(r), (hist.get(state(r)) ?? 0) + r.n);
+      // the histogram through fillHistogram, the scorecard's own call: one aggregation of one classifier
+      const { total, states } = fillHistogram(rows);
+      const hist = new Map<string, number>(Object.entries(states));
       const filled = hist.get("filled") ?? 0;
       const shown = [...hist.entries()].sort((a, b) => b[1] - a[1])
         .map(([k, v]) => `${k} ${v.toLocaleString()}`).join(", ");
@@ -1839,38 +1821,35 @@ const TESTS: Test[] = [
       // the last record; and against the previous record `filled` has not fallen and `unverified_seed` / `mined_from_eol`
       // have not risen -- a reversal is red unless a succeeded run between the two records stands behind it. Only
       // `filled` is filled: filled_inherited is printed beside it, never merged, and the share is PRINTED, not asserted.
-      // SEVEN since ruling (ii), 30 Sep 2026: derived_operational (the shipping-class Versandgewicht) is shown apart. The name
-      // SIX stays on the list so the history's vector keeps one order; the new state is appended, and an older record reads 0.
-      const SIX = ["filled", "filled_inherited", "unverified_seed", "mined_from_eol", "method_not_a_read", "mined_non_spec_doc", "derived_operational"];
-      const stray = [...hist.keys()].filter((k) => !SIX.includes(k));
+      // SEVEN since ruling (ii), 30 Sep 2026: derived_operational (the shipping-class Versandgewicht) is shown apart. The
+      // history's vector keeps one order (FILL_STATES); the new state is appended, and an older record reads 0.
+      const SEVEN: readonly string[] = FILL_STATES;
+      const stray = [...hist.keys()].filter((k) => !SEVEN.includes(k));
       if (stray.length) return bad(`${stray.map((k) => `${hist.get(k)} in ${k}`).join(", ")} — outside the seven states — ${scope}`);
-      const HIST = path.join(REPO, "data", "completeness", "fill-state-history.jsonl");
-      const POP = "served facts on scored parts (completeness.no_profile = false)";
-      const now: Record<string, number> = Object.fromEntries(SIX.map((k) => [k, hist.get(k) ?? 0]));
+      const HIST = path.join(REPO, FILL_STATE_HISTORY);
+      const POP = FILL_STATE_POPULATION;
+      const now: Record<string, number> = Object.fromEntries(SEVEN.map((k) => [k, hist.get(k) ?? 0]));
       if (process.argv.includes("--record-fill-state")) {
         mkdirSync(path.dirname(HIST), { recursive: true });
         appendFileSync(HIST, JSON.stringify({ at: new Date().toISOString(), git_sha: process.env.GIT_SHA ?? "unknown",
           population: POP, total, states: now }) + "\n");
       }
-      type Rec = { at: string; git_sha: string; population?: string; total: number; states: Record<string, number> };
-      let recs: Rec[];
+      let recs: FillStateRecord[];
       try {
         // A record of another population is another measurement: never compared, so the first record under this one
         // is a baseline rather than a "fall" of every state.
-        recs = (existsSync(HIST) ? readFileSync(HIST, "utf8").split("\n").filter((l) => l.trim()) : [])
-          .map((l) => JSON.parse(l) as Rec).filter((r) => r.population === POP);
+        recs = readFillStateHistory(HIST);
       } catch (e) {
         return bad(`the fill-state history is unreadable at ${HIST}: ${e instanceof Error ? e.message : String(e)} — could not check is not a pass`);
       }
       const last = recs[recs.length - 1], prev = recs[recs.length - 2];
-      const vec = (s: Record<string, number>) => JSON.stringify(SIX.map((k) => s[k] ?? 0));
       // the filled share EXCLUDES derived_operational (ruling (ii)): an operational value is not a spec slot, so it is neither
-      // in the numerator nor in the denominator, and it is printed apart
-      const specTotal = total - now.derived_operational;
-      const bar = `progress: filled ${filled.toLocaleString()} of ${specTotal.toLocaleString()} spec facts (${(100 * filled / specTotal).toFixed(1)}%), ` +
+      // in the numerator nor in the denominator, and it is printed apart. filledShare is the scorecard's function too.
+      const share = filledShare(now, total);
+      const bar = `progress: filled ${filled.toLocaleString()} of ${share.spec_total.toLocaleString()} spec facts (${share.pct === null ? "n/a" : share.pct.toFixed(1)}%), ` +
         `filled_inherited ${now.filled_inherited.toLocaleString()} beside it; derived_operational ${now.derived_operational.toLocaleString()} apart (not in the share)`;
       if (!last) return bad(`no build has recorded this histogram (${POP}) — mould-build.sh must run --record-fill-state — ${scope}`);
-      if (vec(last.states) !== vec(now))
+      if (!sameHistogram(last.states, now))
         return bad(`the live histogram is not the last recorded build's (${last.git_sha.slice(0, 7)}, ${last.at.slice(0, 16)}) — ` +
           `a write since that build, or the build did not record — ${scope}`);
       if (!prev) return ok(`the seven states partition all ${total.toLocaleString()} ${POP}; recorded ${last.at.slice(0, 16)} ` +
