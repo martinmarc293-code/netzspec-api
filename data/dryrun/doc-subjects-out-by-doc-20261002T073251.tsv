@@ -1,0 +1,381 @@
+doc_id	out_facts	subject	title	kinds	fields
+e92a5b29cf9798d0	878	device	Cisco Network Convergence System 2000 Series Data Sheet - Cisco	cable 389, mechanical 106, mux 84, roadm 74, accessory 67, amplifier 48, controller 40, power 35, transponder 20, fan 15	temp_storage 195, humidity_operating 179, certifications 170, regions_supported 168, temp_operating 166
+f06b537d8957ff32	517	device	Cisco Catalyst 8300 Series Edge Platforms Data Sheet - Cisco	interface 317, mechanical 64, power 45, drive 25, memory 24, accessory 20, fan 18, cellular 4	humidity_storage 73, qos_features 71, certifications 70, supported_protocols 68, temp_operating 67, temp_storage 67, crypto_algorithms 62, altitude_max 39
+e9cb9a602f8ec0be	496	card	Cisco ONS 15454 10-Port 10 Gbps Line Card Data Sheet - Cisco	pluggable 484, cable 12	emc_emissions 166, regions_supported 166, optical_pm 164
+638d72c59601332b	317	device	Cisco Catalyst 9300 Series Switches Data Sheet - Cisco	module 124, power 81, stack-cable 66, drive 24, fan 7, mechanical 6, power-cord 5, cable 4	temp_operating 73, temp_storage 73, humidity_storage 63, ieee_standards 62, altitude_max 23, certifications 23
+de692de8d2c8f641	218	device	Cisco Catalyst 9200 Series Switches Data Sheet - Cisco	mechanical 88, power 74, stack-cable 24, module 22, accessory 6, power-cord 4	certifications 46, humidity_storage 46, temp_operating 44, temp_storage 44, ieee_standards 19, altitude_max 19
+e573c2b895e21bb2	191	device	Cisco Unified Wireless IP Phone 7921G - Cisco	power 78, accessory 42, power-cord 36, mechanical 28, cable 7	supported_protocols 30, temp_operating 30, humidity_operating 30, temp_storage 30, altitude_max 30, ui_languages 30, certifications 11
+0d52b28daf5b6b30	190	device	Cisco Catalyst 3750-X and 3560-X Series Switches Data Sheet - Cisco	power-cord 54, power 36, module 32, mechanical 24, stack-cable 24, cable 12, fan 8	humidity_operating 49, altitude_storage 49, temp_operating 46, temp_storage 46
+8e3a62fc89fc76f1	188	device	Cisco Catalyst IR1800 Rugged Series Routers Data Sheet - Cisco	cable 78, antenna 78, mechanical 14, accessory 7, power-cord 6, cellular 5	ieee_standards 33, flash 29, dram 28, mounting 28, supported_protocols 27, temp_operating 27, altitude_max 16
+163e8998487b6873	185	device	Cisco Network Convergence System 5500 Series: 55A2 Chassis Data Sheet - Cisco	module 83, power 44, mechanical 33, fan 14, fabric 11	dram 27, altitude_max 20, temp_operating 19, qos_features 16, humidity_storage 16, programming_interfaces 16, humidity_operating 16, segment_routing_features 16
+b06d49cb21a5df4c	184	card	Cisco ASR 900 Series Interface Modules Data Sheet - Cisco	pluggable 89, cable 39, mechanical 24, bidi 16, accessory 12, tunable 4	humidity_operating 96, temp_storage 88
+3c9af914be303043	167	device	Cisco 1000 Series Integrated Services Routers Data Sheet - Cisco	pluggable 116, cable 21, cellular 18, bidi 12	emc_immunity 61, emc_emissions 61, certifications 45
+21031fae4600573e	167	device	Cisco MDS 9509 Multilayer Director Data Sheet - Cisco	linecard 66, pluggable 32, power-cord 24, accessory 20, supervisor 10, power 10, fan 5	programming_interfaces 58, fabric_services 34, supported_protocols 25, diagnostics 25, certifications 25
+7c17829d2a8a1cff	160	device	Cisco Network Convergence System 4000 Series Data Sheet - Cisco	mechanical 36, accessory 32, fabric 24, power 18, linecard 12, fan 12, cable 12, controller 8, transponder 6	supported_protocols 41, emc_immunity 40, etsi_standards 40, certifications 39
+1a26a81d0a62e787	158	device	Cisco Wireless Phone 9821 Data Sheet - Cisco	power 60, mechanical 49, accessory 42, cable 7	supported_protocols 24, temp_operating 24, temp_storage 24, humidity_operating 24, call_control 24, altitude_max 24, certifications 14
+1b91e980e48bf2c7	157	device	Cisco Catalyst IE9300 Rugged Series Data Sheet - Cisco	pluggable 75, mechanical 22, power 21, stack-cable 12, flash 11, bidi 10, cable 6	humidity_operating 38, shock 18, temp_storage 18, qos_features 17, programming_interfaces 17, temp_operating 14, ieee_standards 7, supported_protocols 7
+07ac5acc909a3e58	153	device	Cisco Network Convergence System 5500 Series Modular Chassis - Cisco	linecard 67, accessory 20, fan 18, processor 16, power 16, mechanical 16	emc_emissions 98, emc_immunity 55
+d1e37ef90ad7caa7	135	device	Cisco UCS C220 M8 SFF Rack Server Spec Sheet	drive 70, nic 39, power-cord 18, memory 6, gpu 2	emc_emissions 69, emc_immunity 66
+a443efa02304597a	132	card	Cisco Catalyst 9400 Supervisor Engine Modules Data Sheet - Cisco	switch 105, drive 15, chassis 12	ieee_standards 27, temp_storage 27, altitude_max 27, certifications 27, temp_operating 24
+2ea8fc17200677fa	132	device	Cisco Catalyst IE3400 Rugged Series Data Sheet - Cisco	module 97, pluggable 35	temp_storage 17, shock 17, qos_features 16, snmp_mibs 11, ieee_standards 11, rfc_compliance 11, supported_protocols 11, certifications 11
+e539825af78bd0b5	129	device	Cisco Integrated Services Routers Generation 2 Ordering Guide - Cisco	memory 33, mechanical 30, power 30, flash 13, fan 10, processor 8, module 2, power-cord 2, cable 1	flash 70, dram 59
+5664cf3b037d513b	128	device	Cisco Catalyst 3850 Series Switches Data Sheet - Cisco	module 60, mechanical 28, power 24, fan 12, power-cord 4	humidity_storage 25, temp_operating 25, temp_storage 25, certifications 25, ieee_standards 14, altitude_max 14
+1ad0b794548c594e	128	device	Network Convergence System 5700 Series: NCS-57C3 Chassis Data Sheet - Cisco	module 74, power 18, fan 18, processor 9, mechanical 9	humidity_operating 20, humidity_storage 17, qos_features 15, segment_routing_features 15, programming_interfaces 15, supported_protocols 13, emc_immunity 13, certifications 13
+211f9513a8451065	124	device	Cisco RF Gateway 1 - Cisco	cable 72, power 16, linecard 12, pluggable 12, mechanical 8, fan 4	supported_protocols 31, temp_storage 31, temp_operating 31, humidity_operating 31
+65c8506070d5dc0f	120	device	Cisco Compute Hyperconverged and Compute-Only with Nutanix-210c M7 All-NVMe Node	drive 60, memory 54, storage-controller 6	temp_operating 22, humidity_operating 22, temp_storage 22, humidity_storage 18, altitude_storage 18, altitude_max 18
+fadaf6b4f5674c4e	117	device	Cisco Network Convergence System (NCS) 1010 Data Sheet - Cisco	amplifier 54, mechanical 24, mux 18, cable 12, controller 6, fan 3	regions_supported 39, emc_emissions 39, certifications 39
+661eeb6837d29857	116	device	Cisco IP Phone 7800 Series Data Sheet - Cisco	mechanical 91, power 21, accessory 4	mounting 21, temp_operating 20, humidity_operating 20, cucm_versions 14, ui_languages 14, certifications 14, temp_storage 13
+4a9922635cc122f8	104	device	Cisco N9300-FX3 Series Switches Data Sheet - Cisco	power 72, fan 22, mechanical 10	temp_operating 27, temp_storage 19, humidity_operating 19, emc_emissions 19, emc_immunity 17, altitude_max 3
+e61c2ca5fbc3869a	103	card	Cisco ONS 15454 Any Rate Enhanced Xponder Card - Cisco	pluggable 96, bidi 6, tunable 1	humidity_storage 24, regions_supported 21, certifications 21, humidity_operating 20, temp_operating 17
+088a25e3ebe4b56f	102	device	Cisco Compute Hyperconverged and Compute-Only with Nutanix-220 M7 All-NVMe/All-Flash Serve	drive 48, nic 32, memory 12, power-cord 6, storage-controller 4	emc_immunity 29, emc_emissions 29, humidity_operating 22, humidity_storage 22
+632e9bc4f7295fbe	98	card	Cisco ASR 9000 Series 400G and 200G Modular Line Cards Data Sheet - Cisco	router 94, sp-router 4	altitude_max 28, ieee_standards 10, humidity_storage 10, etsi_standards 10, temp_operating 10, temp_storage 10, humidity_operating 10, certifications 10
+e16e6f059b712909	96	device	Cisco Catalyst 8200 Series Edge uCPE Data Sheet - Cisco	drive 53, memory 21, mechanical 15, power 7	humidity_storage 13, qos_features 13, temp_operating 13, temp_storage 13, supported_protocols 12, certifications 12, crypto_algorithms 11, altitude_max 9
+b8622078cd3085fd	94	device	Cisco IE3500 Rugged Series Data Sheet - Cisco	module 88, pluggable 3, cable 3	humidity_operating 14, qos_features 8, supported_protocols 8, programming_interfaces 8, shock 8, snmp_mibs 8, temp_operating 8, temp_storage 8
+c2f2c267baa2122a	92	device	Cisco Catalyst 8500 Series Edge Platforms Data Sheet - Cisco	mechanical 32, power 23, memory 20, fan 6, drive 6, accessory 5	qos_features 47, certifications 45
+7b24beb93905621c	91	device	Cisco Catalyst IE3300 Rugged Series Data Sheet - Cisco	pluggable 52, module 24, bidi 9, cable 6	temp_operating 27, shock 21, humidity_operating 19, programming_interfaces 10, temp_storage 10, rfc_compliance 2, qos_features 2
+2b56b0b7c4e8c61a	90	device	Cisco ASR 9903 Compact High-Performance Router Data Sheet - Cisco	linecard 32, mechanical 24, processor 16, power 10, fan 8	humidity_storage 12, temp_operating 12, humidity_operating 12, temp_storage 12, supported_protocols 12, ieee_standards 10, altitude_max 10, certifications 10
+a330b9242b320fa0	84	device	Cisco Catalyst IR8300 Rugged Series Router Data Sheet - Cisco	pluggable 27, module 19, cellular 16, bidi 8, power 7, drive 5, mechanical 2	humidity_operating 22, altitude_storage 17, humidity_storage 17, crypto_algorithms 16, dram 4, supported_protocols 2, altitude_max 2, temp_operating 2
+accee1f1f74a2f9f	83	card	Cisco ASR 9900 Series 5th Generation 32-Port 100 Gigabit Ethernet Line Card Data Sheet - C	router 83	temp_operating 16, temp_storage 13, humidity_operating 13, supported_protocols 10, ieee_standards 10, humidity_storage 10, certifications 7, altitude_max 4
+d7a5884ed696844b	83	device	Cisco Unified IP Conference Phone 8831 Data Sheet - Cisco	mechanical 55, accessory 15, power 8, cable 5	emc_emissions 17, cucm_versions 17, emc_immunity 17, ui_languages 16, certifications 16
+1b00076fbd280814	81	device	Cisco Catalyst 8200 Series Edge Platforms Data Sheet - Cisco	interface 33, accessory 24, mechanical 17, memory 3, cellular 2, drive 2	altitude_max 46, qos_features 5, humidity_storage 5, crypto_algorithms 5, temp_operating 5, temp_storage 5, supported_protocols 5, certifications 5
+dc3694c51d8de1a7	81	device	Cisco Nexus 34180YC and 3464C Programmable Switches Data Sheet - Cisco	power 43, fan 22, mechanical 16	altitude_storage 25, temp_operating 14, humidity_operating 14, altitude_max 14, emc_emissions 10, emc_immunity 4
+182e3672a258ad84	80	device	Cisco 829 Industrial Integrated Services Routers Data Sheet - Cisco	antenna 51, power 14, accessory 8, power-cord 7	programming_interfaces 12, emc_immunity 12, emc_emissions 12, mounting 11, flash 10, temp_operating 10, supported_protocols 10, dram 3
+bb1bc513af0976aa	78	device	Cisco Desk Phone 9800 Series Data Sheet - Cisco	mechanical 42, accessory 24, power 12	supported_protocols 13, temp_storage 13, temp_operating 13, humidity_operating 13, audio_codecs 13, ui_languages 13
+f6f4765f11d958c1	76	device	Cisco Network Convergence System 5700 Series: NCS-57D2-18DD Fixed Chassis Data Sheet - Cis	mechanical 42, fan 20, power 14	qos_features 9, humidity_storage 9, temp_storage 9, humidity_operating 9, emc_emissions 9, segment_routing_features 9, temp_operating 9, altitude_max 7
+b41c5b953f712f00	74	device	Cisco UCS C240 M7 SFF Rack Server Spec Sheet	drive 34, nic 14, power-cord 12, memory 10, storage-controller 4	emc_immunity 37, emc_emissions 37
+9b8d61bd4600b0da	74	device	Cisco Catalyst 3650 Series Switches Data Sheet - Cisco	power 30, mechanical 19, stack-cable 9, power-cord 7, module 6, fan 3	temp_storage 26, temp_operating 26, certifications 19, ieee_standards 1, humidity_storage 1, altitude_max 1
+76ee894fc554be6b	72	card	Cisco ASR 9000 Series 4-Port and 8-Port 100 Gigabit Ethernet Line Cards Data Sheet - Cisco	router 48, sp-router 24	etsi_standards 12, ieee_standards 9, humidity_storage 9, temp_operating 9, supported_protocols 9, temp_storage 8, humidity_operating 8, certifications 8
+025ed93f1b5e9c8a	71	device	Cisco N9300 Platform Switches Data Sheet - Cisco	power 24, module 24, fan 12, mechanical 10, power-cord 1	humidity_operating 14, temp_operating 13, temp_storage 13, emc_emissions 12, altitude_max 11, emc_immunity 8
+34939fb4527bb127	70	device	Cisco Catalyst 9500 Series Switches Data Sheet - Cisco	mechanical 45, module 20, fan 5	temp_operating 14, altitude_max 14, temp_storage 14, humidity_storage 14, certifications 14
+e69ad0afbc381afe	70	card	Cisco 8800 Series Third-Generation Service Edge Line Cards Data Sheet - Cisco	router 60, chassis 10	temp_storage 19, altitude_max 15, humidity_storage 12, temp_operating 12, humidity_operating 12
+d27ae43f2e280e20	66	device	Cisco N9300-FX2 Series Switches Data Sheet - Cisco	power 29, power-cord 18, fan 18, mechanical 1	altitude_max 30, temp_operating 12, temp_storage 10, humidity_operating 10, emc_emissions 4
+12ad9b8449329168	66	device	Cisco N9300-GX Series Switches Data Sheet - Cisco	power 39, fan 16, mechanical 11	dram 18, packet_buffer 18, rohs_compliance 18, emc_emissions 8, emc_immunity 4
+5a9237a2a8623e2a	65	device	Cisco UCS 6400 Series Fabric Interconnects Data Sheet - Cisco	cable 43, pluggable 12, breakout-cable 4, fan 3, mechanical 3	emc_emissions 43, emc_immunity 22
+de20866285786429	65	device	Cisco IE3500 Heavy Duty Series Data Sheet - Cisco	pluggable 35, cable 11, bidi 8, accessory 6, flash 5	temp_operating 25, emc_emissions 24, qos_features 9, temp_storage 3, programming_interfaces 2, shock 1, certifications 1
+f52d0b0f02f955c4	64	device	Ethernet Services Plus Line Cards on Cisco Catalyst 6500 Series Switches Data Sheet - Cisc	pluggable 64	laser_safety_class 32, certifications 32
+a5dbf1f67727ca95	64	device	Cisco 8700 Series Routers Data Sheet - Cisco	power 24, mechanical 22, module 12, fan 5, power-cord 1	emc_immunity 24, certifications 22, programming_interfaces 18
+b9bb9e5e15a5ec18	64	device	Cisco RF Gateway 10 Universal Edge QAM - Cisco	linecard 21, mechanical 9, cable 9, accessory 6, power 6, flash 6, pluggable 4, fan 3	temp_operating 22, mounting 22, certifications 20
+bccddd95eb84cd7c	64	card	Cisco ASR 9000 Series 5th Generation High-Density Multi-Rate Line Cards: 2 Terabit and 0.8	router 64	ieee_standards 8, humidity_storage 8, temp_storage 8, altitude_max 8, temp_operating 8, humidity_operating 8, supported_protocols 8, certifications 8
+834d24533f2a64fb	62	card	Cisco EtherSwitch 4- and 9-Port High-Speed WAN Interface Cards - Cisco	power 38, router 24	temp_operating 18, humidity_operating 18, temp_storage 18, programming_interfaces 8
+eb3c07e3df2e7960	62	device	Cisco Network Convergence System 4000 Multi-Chassis System Data Sheet - Cisco	cable 36, mechanical 18, pluggable 5, fan 3	emc_immunity 21, etsi_standards 21, certifications 20
+7212abe2990b3325	61	device	Cisco Network Convergence System 5500 Series: Fixed Chassis Data Sheet - Cisco	power-cord 49, cable 12	qos_features 20, segment_routing_features 20, programming_interfaces 13, emc_immunity 4, supported_protocols 2, certifications 2
+7517543dde202c5b	60	device	Cisco Nexus 2000 Series Fabric Extenders Data Sheet - Cisco	fan 22, mechanical 16, cable 9, power 7, breakout-cable 6	emc_emissions 29, emc_immunity 12, qos_features 11, certifications 8
+ffa7adcd2a377361	60	device	Cisco 2010 Connected Grid Router Data Sheet - Cisco	module 53, pluggable 5, bidi 2	dram 19, certifications 12, temp_operating 10, altitude_max 10, humidity_operating 9
+f290019c77b19140	59	device	Cisco Industrial Ethernet 3000 Layer 2/Layer 3 Series Switches Data Sheet - Cisco	module 24, mechanical 16, power 6, cable 4, accessory 4, flash 4, pluggable 1	humidity_operating 17, temp_storage 16, certifications 14, temp_operating 12
+2362772905997ea1	59	device	Cisco Network Convergence System 5700 Series: NCS-57C1 Fixed Chassis Data Sheet - Cisco	mechanical 36, power 18, fan 5	qos_features 7, humidity_storage 7, altitude_max 7, humidity_operating 7, segment_routing_features 7, supported_protocols 6, programming_interfaces 6, emc_immunity 6
+9dde779f6314c438	58	device	Cisco N9300-FX3S Series Switch Data Sheet - Cisco	power-cord 46, fan 12	temp_operating 22, emc_emissions 14, emc_immunity 14, humidity_operating 4, temp_storage 2, altitude_max 2
+76d7f519fff3a3c4	58	device	Cisco Compute Hyperconverged and Compute-Only with Nutanix-225C M8 All-NVMe Server	nic 28, drive 16, memory 8, storage-controller 4, power-cord 2	emc_immunity 16, emc_emissions 16, humidity_operating 13, humidity_storage 13
+3eb3330b2b6be911	56	card	Cisco ASR 9000 Series 24-Port and 48-Port Dual-Rate 10GE/1GE Line Card Data Sheet - Cisco	router 54, sp-router 2	etsi_standards 7, humidity_operating 7, ieee_standards 6, humidity_storage 6, supported_protocols 6, temp_storage 6, altitude_max 6, temp_operating 6
+645699c9e5da4ab8	52	device	Cisco Unified Wireless IP Phone 7920 Version 2.0 - Cisco	power 24, accessory 20, mechanical 8	supported_protocols 13, temp_operating 13, temp_storage 13, humidity_operating 13
+03ec8f40347142cf	51	device	Cisco N9300-SE1 Series Switches Data Sheet - Cisco	power 30, mechanical 11, fan 10	temp_storage 10, altitude_max 10, temp_operating 10, humidity_operating 10, emc_emissions 9, emc_immunity 2
+5ec51845ac76cdd5	51	card	10 Gigabit Ethernet DWDM XPonder Card for the Cisco ONS 15454 MSTP Data Sheet - Cisco	pluggable 46, tunable 5	temp_operating 12, humidity_storage 12, emc_emissions 9, regions_supported 9, certifications 9
+3529ea9816638018	50	card	Cisco Small Business 48V Power Adapter Data Sheet - Cisco	power 50	humidity_storage 10, temp_storage 10, temp_operating 10, humidity_operating 10, certifications 10
+01e7418de2175fd4	50	device	Cisco Network Convergence System 2000 Series Erbium-Doped Raman Amplifiers Data Sheet - Ci	amplifier 50	emc_emissions 10, temp_operating 10, humidity_operating 10, regions_supported 10, certifications 10
+69df34e75f7ecdf5	50	device	Cisco IP DECT 6800 Series Data Sheet - Cisco	power 45, mechanical 5	ieee_standards 10, supported_protocols 10, humidity_operating 10, mounting 10, ui_languages 10
+8ac963a60a793913	49	card	Cisco ASR 9000 Series 2-Port 100 Gigabit Ethernet Line Cards Data Sheet - Cisco	sp-router 31, pluggable 18	humidity_operating 7, humidity_storage 7, temp_storage 6, etsi_standards 6, ieee_standards 6, supported_protocols 6, temp_operating 4, certifications 4
+eeedf4783e30b825	49	device	Cisco 819 Integrated Services Routers with 3G and Wi-Fi Data Sheet - Cisco	power 39, mechanical 10	certifications 8, temp_operating 8, altitude_max 8, programming_interfaces 8, qos_features 8, emc_emissions 3, emc_immunity 3, supported_protocols 3
+92b1ee16755274c1	49	device	Cisco Network Convergence System 5500 Series: NCS-55A1-24Q6H-S and NCS-55A1-24Q6H-SS Fixed	fan 30, power 14, mechanical 5	temp_storage 9, temp_operating 9, humidity_storage 7, altitude_max 7, humidity_operating 7, qos_features 2, programming_interfaces 2, emc_emissions 2
+71a7f8b750bb7348	48	device	Cisco Small Business High Power Gigabit Power over Ethernet Injector Data Sheet - Cisco	power 48	humidity_storage 8, temp_storage 8, ieee_standards 8, temp_operating 8, humidity_operating 8, certifications 8
+576972ab9fa107f1	48	device	Cisco Compute Hyperconverged 9508 Chassis	power-cord 48	temp_operating 9, humidity_operating 9, emc_emissions 9, emc_immunity 9, temp_storage 9, humidity_storage 1, altitude_storage 1, altitude_max 1
+3f4ba2d43e77a0e4	48	device	Cisco Catalyst IR8100 Heavy Duty Series Router Data Sheet - Cisco	antenna 18, accessory 18, module 12	qos_features 8, supported_protocols 8, dram 8, flash 8, certifications 8, mounting 8
+fd27c3774d8952e2	48	card	Cisco Catalyst 6500 Series Supervisor Engine 2T Data Sheet - Cisco	switch 30, flash 12, memory 6	emc_emissions 16, emc_immunity 16, certifications 16
+96fb93ee616e7d73	47	device	Cisco C9610 Series Smart Switches Data Sheet - Cisco	linecard 20, mechanical 16, supervisor 8, power 3	temp_operating 15, humidity_storage 12, temp_storage 12, altitude_max 8
+d4d35493a8a3ff44	47	device	Cisco Network Convergence System 520 Data Sheet - Cisco	mechanical 45, pluggable 2	qos_features 16, programming_interfaces 16, supported_protocols 15
+d4f2edad9ed4f1eb	46	device	Cisco Nexus 5600 Platform 10-Gbps Switches Data Sheet - Cisco	pluggable 19, fan 10, cable 5, mechanical 4, module 4, adapter 2, power-cord 2	emc_emissions 28, emc_immunity 18
+eaf12b2609ebd802	45	device	Cisco Wireless Phone 800 Series Data Sheet - Cisco	accessory 18, mechanical 14, power 11, cable 2	certifications 23, call_control 22
+5101115dc17605ec	45	device	Cisco Industrial Ethernet 5000 Series Switches Data Sheet - Cisco	pluggable 26, bidi 15, cable 2, flash 1, power 1	mac_table 30, vlan_max 15
+045d1e634f93f067	45	device	Cisco IP Conference Phone 8832 Data Sheet - Cisco	accessory 30, power 10, cable 5	supported_protocols 9, temp_storage 9, temp_operating 9, humidity_operating 9, ui_languages 9
+78478c2ca457fb36	44	card	Cisco Carrier Grade Services Engine Module Data Sheet - Cisco	router 44	emc_immunity 11, etsi_standards 11, supported_protocols 11, certifications 11
+b1c4eb1b17106929	44	device	MDS 9124V 64-Gbps 24-Port Fibre Channel Switch Data Sheet - Cisco	power-cord 20, power 18, fan 6	temp_operating 13, fabric_services 8, certifications 7, diagnostics 6, programming_interfaces 5, supported_protocols 5
+b6fa71dc68445544	44	device	Cisco Wireless IP Phone 8821 Data Sheet - Cisco	power 40, accessory 4	humidity_operating 11, call_control 11, temp_operating 11, temp_storage 11
+be25fa2199c09251	44	device	Cisco Catalyst 2960-X and 2960-XR Series Switches Data Sheet - Cisco	power-cord 11, module 9, power 8, mechanical 6, accessory 3, fan 3, stack-cable 3, cable 1	emc_immunity 30, ieee_standards 7, rfc_compliance 7
+bb710e9c53c311e6	44	card	Cisco NCS 4200 Series Network Convergence System Interface Modules Data Sheet - Cisco	cable 24, pluggable 14, bidi 4, accessory 2	temp_storage 22, humidity_operating 22
+4d1567c9a1297840	43	card	Cisco UCS Virtual Interface Card 15000 Series Data Sheet - Cisco	cable 15, pluggable 12, breakout-cable 10, memory 4, accessory 2	ieee_standards 43
+6808d677ec50358c	43	device	Cisco Nexus 5600 Platform 40-Gbps Switches Data Sheet - Cisco	mechanical 24, module 12, power 4, pluggable 3	emc_emissions 22, emc_immunity 21
+7f53c4b7f842a0ad	43	device	Cisco UCS C225 M8 SFF Rack Server Spec Sheet	drive 26, memory 10, power-cord 3, nic 2, accessory 2	emc_emissions 22, emc_immunity 21
+6157c493256a5530	43	card	Cisco 8800 Series P200 Based Line Cards Data Sheet - Cisco	router 37, accessory 6	encryption 9, temp_storage 9, humidity_storage 7, temp_operating 7, humidity_operating 7, altitude_max 4
+7ec8ef38de098198	43	card	Cisco NCS 4000 400 Gbps DWDM/OTN/Packet Universal Line Card Data Sheet - Cisco	pluggable 39, tunable 4	temp_storage 13, humidity_operating 10, certifications 7, regions_supported 6, emc_emissions 6, optical_pm 1
+370d3d626dbea373	42	device	Cisco Small Business Gigabit Power over Ethernet Injector - Cisco	power 42	humidity_storage 7, humidity_operating 7, temp_storage 7, temp_operating 7, ieee_standards 7, certifications 7
+e89539cecbe06f85	42	card	Cisco ASR 9000 Series 5th Generation 400 Gigabit Ethernet Enhanced Multi-Rate Line Card Da	router 42	ieee_standards 6, humidity_storage 6, temp_operating 6, supported_protocols 6, temp_storage 6, humidity_operating 6, certifications 6
+0a941374bbe508f6	41	device	Cisco Catalyst 9600 Series Switches Data Sheet - Cisco	linecard 17, mechanical 12, power 6, supervisor 6	ieee_standards 16, humidity_operating 16, humidity_storage 9
+62cd2314848dfc7c	40	card	Cisco ASR 9900 Series 5th Generation 10-Port 400 Gigabit Ethernet Line Card Data Sheet - C	router 40	ieee_standards 5, humidity_storage 5, temp_storage 5, supported_protocols 5, altitude_max 5, humidity_operating 5, temp_operating 5, certifications 5
+1e842780b7b968ea	40	device	Cisco IP Phone 6800 Series with Multiplatform Phone Firmware Data Sheet - Cisco	power 24, accessory 10, mechanical 6	supported_protocols 7, temp_operating 7, temp_storage 7, humidity_operating 7, mounting 6, ui_languages 6
+3396c9a8e6e91d8a	40	device	Cisco 8010 Series Large Density Fixed Routers Data Sheet - Cisco	mechanical 25, accessory 12, power-cord 3	qos_features 10, supported_protocols 10, programming_interfaces 10, segment_routing_features 10
+fb92e954ec2de451	39	device	Cisco Catalyst 8300 Series Edge uCPE Data Sheet - Cisco	mechanical 16, drive 11, power 5, cellular 2, memory 2, fan 1, interface 1, cable 1	certifications 39
+e9c4b3e3d162af12	38	device	Cisco Catalyst 3750 Series Switches Data Sheet - Cisco	pluggable 18, cable 10, mechanical 5, power 3, accessory 1, fan 1	certifications 29, ieee_standards 9
+1a4cb858d5e2573b	38	device	Cisco IP Phone 8811 Data Sheet - Cisco	mechanical 32, power 6	temp_operating 6, humidity_operating 6, temp_storage 5, audio_codecs 5, supported_protocols 4, cucm_versions 4, mounting 4, ui_languages 4
+e80c9b5e408f87b8	38	device	Cisco UCS C220 M8 EDSFF E3.S Rack Server Spec Sheet	drive 38	emc_immunity 19, emc_emissions 19
+daee68aac49c1c7a	38	card	Cisco NCS 2000 400 Gbps XPonder Line Card Data Sheet - Cisco	pluggable 21, cable 16, tunable 1	regions_supported 14, emc_emissions 10, optical_pm 7, certifications 7
+f64dc0153dee65e5	37	device	Cisco MDS 9718 Multilayer Director Data Sheet - Cisco	mechanical 24, supervisor 4, fabric 4, fan 4, pluggable 1	fabric_services 10, certifications 9, supported_protocols 9, diagnostics 9
+4acf1239580e3ae6	36	device	Cisco Nexus 6004 Extensible Fixed Switch Data Sheet - Cisco	mechanical 12, module 12, fan 6, pluggable 4, power 2	emc_emissions 18, emc_immunity 18
+ba4e9914c51d7b4d	36	card	Cisco 8800 Series P100-Based Line Cards Data Sheet - Cisco	router 36	humidity_storage 9, temp_operating 9, altitude_max 9, humidity_operating 9
+e981c199c3b16224	35	device	Cisco ASR 9902 Compact High-Performance Router Data Sheet - Cisco	mechanical 28, fan 7	ieee_standards 5, humidity_storage 5, temp_operating 5, humidity_operating 5, temp_storage 5, supported_protocols 5, certifications 5
+ee6aa31182f23331	34	device	Cisco Nexus 2300 Platform Fabric Extenders Data Sheet - Cisco	power 24, mechanical 6, fan 4	rohs_compliance 14, qos_features 5, emc_emissions 5, emc_immunity 5, certifications 5
+fd45745dd9d07998	32	device	C8355-G2-MX Datasheet - Cisco Meraki Documentation	pluggable 16, power-cord 8, cable 8	temp_operating 8, temp_storage 8, humidity_operating 8, mounting 8
+f6b2cd0ca6ac5eb2	32	device	Cisco UCS X210c M7 Compute Node Spec Sheet	drive 27, storage-controller 3, memory 2	altitude_storage 32
+ff371441ef93b0d5	32	device	Cisco MDS 9710 Multilayer Director Data Sheet - Cisco	power 16, power-cord 4, pluggable 4, supervisor 4, mechanical 2, fan 1, fabric 1	fabric_services 14, supported_protocols 6, diagnostics 6, certifications 6
+9b90b9f609974bb5	32	device	Cisco IP Phone 8865NR Data Sheet - Cisco	mechanical 28, power 4	certifications 5, temp_operating 4, humidity_operating 4, mounting 4, supported_protocols 3, temp_storage 3, cucm_versions 3, audio_codecs 3
+66f24c36fabebf74	31	device	Cisco N9200 Platform Switches Data Sheet - Cisco	power 16, fan 12, mechanical 3	altitude_max 17, temp_operating 4, temp_storage 4, humidity_operating 4, emc_immunity 2
+10f44aa4d91b0c5d	31	device	Cisco Network Convergence System 5500 Series: Dense 25G Fixed Chassis Data Sheet - Cisco	power 18, mechanical 7, fan 6	dram 7, emc_emissions 7, emc_immunity 5, supported_protocols 3, programming_interfaces 3, qos_features 3, segment_routing_features 3
+36946c9e3057461a	30	device	Cisco Catalyst IR1101 Rugged Series Router Data Sheet - Cisco	power 11, cellular 9, pluggable 8, bidi 2	temp_operating 7, flash 6, emc_immunity 5, emc_emissions 3, dram 3, qos_features 3, temp_storage 3
+a21f8c888190fdee	30	device	Cisco 4-Port, 8-Port, and 8-Port with PoE/PoE+ Gigabit Ethernet LAN Switch Network Interfa	power 18, interface 12	altitude_max 9, temp_operating 9, temp_storage 9, programming_interfaces 3
+282a2d3f3f40268c	28	device	Cisco Nexus 3408-S Switch Data Sheet - Cisco	linecard 20, power 4, fan 4	emc_emissions 10, emc_immunity 6, supported_protocols 4, ieee_standards 4, snmp_mibs 4
+e470878f1ad70ecd	28	device	Cisco 8608 Router Data Sheet - Cisco	mechanical 8, power 6, module 6, fan 4, fabric 2, processor 2	emc_immunity 14, emc_emissions 14
+d2be01a7727923bd	28	device	Cisco HyperFlex Express HX220C M6 All NVMe, All Flash and Hybrid Server Nodes	drive 24, power-cord 4	emc_immunity 8, emc_emissions 8, humidity_operating 6, humidity_storage 6
+3b3868dd363b648d	28	card	Cisco Connected Grid Cellular Modules for the Cisco 1000 Series Connected Grid Routers Dat	cable 14, antenna 14	emc_immunity 9, emc_emissions 9, shock 3, altitude_storage 3, altitude_max 2, certifications 2
+c5a39e8fa45c51b0	28	card	Cisco MDS 9000 Family Storage Services Module - Cisco	pluggable 28	programming_interfaces 12, supported_protocols 8, certifications 8
+c09551505c0057d2	28	device	Cisco Compute Hyperconverged HCINX240C M8 LFF Server	drive 22, power-cord 2, nic 2, memory 2	emc_immunity 14, emc_emissions 14
+75f7d7a830391dfa	27	card	Cisco ASR 9000 Series 12-Port 100-Gigabit Ethernet Line Cards Data Sheet - Cisco	router 27	humidity_storage 3, temp_storage 3, etsi_standards 3, altitude_max 3, temp_operating 3, humidity_operating 3, supported_protocols 3, ieee_standards 3
+3a6079cc99f8bc30	27	device	Cisco Nexus 3548-X, 3524-X, 3548-XL, and 3524-XL Switches Data Sheet - Cisco	power 13, cable 5, fan 4, breakout-cable 3, pluggable 2	emc_emissions 22, emc_immunity 5
+b92977dc1668ab81	27	device	Cisco Connected Grid for 1000 Series WiMax Module Data Sheet - Cisco	antenna 14, module 13	altitude_storage 8, shock 8, certifications 8, altitude_max 3
+ba6f3208f79f4a74	27	card	ASR 1000 Series Route Processor Data Sheet - Cisco	memory 14, drive 13	certifications 27
+d4aed34267917f52	27	card	Cisco Small Business 12V Power Adapter - Cisco	power 27	humidity_storage 9, humidity_operating 9, certifications 9
+0cad8ed867ff5e6a	26	device	Cisco Network Convergence System 1002 Data Sheet - Cisco	power 6, cable 4, controller 4, fan 4, mechanical 4, accessory 3, tunable 1	laser_safety_class 9, optical_pm 7, regions_supported 5, certifications 5
+35296d62eb0a83b6	25	device	Cisco Catalyst 9600 Series Switches Data Sheet - Cisco	supervisor 10, linecard 7, mechanical 4, power 3, cable 1	altitude_max 19, ieee_standards 2, humidity_storage 2, humidity_operating 2
+f33a76d7c2c030f9	25	device	Cisco MDS 9250i Multiservice Fabric Switch Data Sheet - Cisco	power-cord 13, mechanical 6, cable 3, power 1, fan 1, pluggable 1	programming_interfaces 25
+b27536663b823c7b	25	device	Cisco Catalyst IE3100 Rugged Series Data Sheet - Cisco	power 16, flash 9	ieee_standards 3, qos_features 3, snmp_mibs 3, programming_interfaces 3, temp_operating 3, shock 3, rfc_compliance 3, temp_storage 2
+b810afad9f7d9c63	25	device	Cisco UCS S3260 Storage Server Spec Sheet	drive 25	certifications 5, emc_emissions 5, humidity_operating 5, altitude_storage 5, altitude_max 5
+cdc4fb9e3635852c	25	device	8-port Asynchronous Synchronous Serial GRWIC for the Cisco 2010 Connected Grid Router Data	cable 12, module 9, interface 4	humidity_storage 6, humidity_operating 6, altitude_storage 6, certifications 5, temp_operating 1, altitude_max 1
+78667b10022bb3fb	25	device	Cisco Catalyst 1200 Series Switches Data Sheet - Cisco	mechanical 12, power 12, cable 1	jumbo_mtu 5, humidity_storage 4, ieee_standards 4, temp_storage 4, humidity_operating 4, certifications 4
+f7a79b15dd1af88a	24	device	Cisco Nexus 3048 Switch Data Sheet - Cisco	fan 18, mechanical 5, pluggable 1	qos_features 5, emc_immunity 5, emc_emissions 5, supported_protocols 3, snmp_mibs 3, ieee_standards 3
+1db0970cbad59da0	24	device	Cisco Network Convergence System 1001 Data Sheet - Cisco	cable 6, power 6, mux 3, amplifier 3, controller 3, fan 3	emc_emissions 8, certifications 8, regions_supported 8
+225cdd52d9659adb	24	device	Cisco C9550 Series Smart Switches Data Sheet - Cisco	fan 24	humidity_storage 4, temp_operating 4, altitude_max 4, temp_storage 4, emc_emissions 4, emc_immunity 4
+aac89b5bad0844c9	24	device	Cisco Firepower 9300 Series Data Sheet - Cisco	security-module 24	humidity_storage 3, temp_storage 3, humidity_operating 3, altitude_max 3, emc_emissions 3, emc_immunity 3, altitude_storage 3, mounting 3
+8c63288a4996c1f3	23	card	Cisco ASR 9000 400-Gbps IPoDWDM Line Card Data Sheet - Cisco	sp-router 18, tunable 5	ieee_standards 3, humidity_storage 3, etsi_standards 3, humidity_operating 3, temp_storage 3, optical_pm 2, temp_operating 2, altitude_max 2
+ebe72ba693522dab	22	device	Cisco MDS 9396V 64-Gbps 96-Port Fibre Channel Switch Data Sheet - Cisco	power 15, pluggable 7	temp_operating 10, diagnostics 3, programming_interfaces 3, fabric_services 3, certifications 3
+17672f27eb2ca26b	22	device	Cisco HyperFlex HX220 M6 Edge All Flash and Hybrid Server Nodes Spec Sheet	cable 14, nic 8	emc_immunity 7, emc_emissions 7, humidity_operating 4, humidity_storage 4
+5485d38d87b5628d	22	device	Cisco Network Convergence System 5700 Series: NCS-57B1 Fixed Chassis Data Sheet - Cisco	mechanical 10, fan 10, power 2	altitude_max 4, emc_immunity 2, qos_features 2, humidity_storage 2, programming_interfaces 2, temp_storage 2, humidity_operating 2, emc_emissions 2
+585ea334a738d76f	22	device	Cisco ISR1100 and ISR1100X Series Routers Data Sheet - Cisco	pluggable 16, cable 6	wireless_security 6, emc_emissions 5, emc_immunity 4, certifications 4, temp_operating 3
+1eef1eacffec3d25	21	card	Cisco Connected Grid 2G/3G/4G Multimode Long Term Evolution (LTE) GRWIC Modules Data Sheet	cable 13, antenna 8	humidity_operating 9, humidity_storage 4, shock 4, altitude_storage 4
+f2c1c0d83ba886a3	21	card	Extended Performance 10-Gbps Full-Band Tunable Multirate Transponder Card for the Cisco ON	pluggable 21	temp_storage 4, laser_safety_class 4, emc_emissions 4, regions_supported 3, humidity_operating 3, certifications 3
+0336338b6e4e74f9	20	device	Cisco Nexus C36180YC-R Switch Data Sheet - Cisco	power 14, fan 6	emc_emissions 10, emc_immunity 6, snmp_mibs 2, ieee_standards 2
+b8b4ec84e4a93e32	20	device	Cisco ASR 9901 Router Data Sheet - Cisco	mechanical 8, power 8, fan 4	humidity_storage 5, humidity_operating 5, temp_storage 5, certifications 5
+1ca2cf4c110ddebf	20	card	Cisco ONS 15454 2-Port CFP Line Card Data Sheet - Cisco	pluggable 20	regions_supported 5, humidity_operating 5, temp_storage 5, emc_emissions 5
+c81116122147f201	20	device	Cisco Remote PHY Model 220 RPD Data Sheet - Cisco	pluggable 20	humidity_operating 20
+bc0a2b219bf6a190	20	device	Cisco Catalyst 4500-X Series Fixed 10 Gigabit Ethernet Aggregation Switch Data Sheet - Cis	power 8, flash 4, fan 4, module 2, cable 2	jumbo_mtu 10, certifications 10
+355d18c2e1cafc1d	20	device	Cisco Nexus 3172PQ, 3172TQ, 3172TQ-32T, 3172PQ-XL, and 3172TQ-XL Switches Data Sheet - Cis	power 20	emc_immunity 8, emc_emissions 8, qos_features 4
+a2ea20301422d099	20	device	Cisco 8404 Router Data Sheet - Cisco	mechanical 10, module 4, fan 2, processor 2, power 2	emc_immunity 10, emc_emissions 10
+33ab53989e6e62ff	19	card	Cisco Network Convergence System 2000 Series Passive Patch Panel Modules Data Sheet - Cisc	accessory 9, cable 6, mechanical 4	emc_emissions 8, temp_operating 8, certifications 1, humidity_operating 1, regions_supported 1
+242b8dab384383c6	19	device	Cisco UCS X410c M8 Compute Node Spec Sheet	drive 16, storage-controller 2, memory 1	altitude_storage 19
+e1f3abbe0cc2ce8d	19	card	Cisco NCS 2000 1.2 Tbps DWDM Line Module Data Sheet - Cisco	pluggable 14, tunable 5	latency 7, regions_supported 7, emc_emissions 3, optical_pm 1, certifications 1
+67173f23a26d4661	18	device	Cisco Network Convergence System 5500 Series: 55A1 Fixed Chassis Data Sheet - Cisco	power-cord 18	dram 18
+8a8f3a775bc5335f	18	card	Cisco Catalyst 6500 Supervisor Engine 32 PISA Data Sheet - Cisco	switch 10, memory 4, flash 4	ieee_standards 9, temp_operating 9
+4fb41a26e3dd6255	18	device	Cisco 880 Series Integrated Services Routers - Data Sheet - Cisco	cellular 15, memory 3	flash 8, supported_protocols 5, certifications 5
+f17a0da0fa8efdca	18	card	Cisco Wireless Controller on Cisco Services-Ready Engine (SRE) Data Sheet - Cisco	server 9, router 6, drive 3	programming_interfaces 6, encryption 6, supported_protocols 6
+fcc339b5a7ded520	18	device	Power over Ethernet on the Cisco Catalyst 4500E Series Platform Data Sheet - Cisco	power 18	rohs_compliance 9, certifications 9
+ff39869cb21589cd	17	device	Cisco Network Convergence System 1004 OTN-Xponder Data Sheet - Cisco	cable 13, pluggable 2, transponder 2	certifications 17
+82aa5b861b8817f5	17	device	Cisco IP Conference Phone 7832 Data Sheet - Cisco	power 17	temp_operating 3, temp_storage 3, humidity_operating 3, cucm_versions 3, audio_codecs 3, supported_protocols 1, ui_languages 1
+63d6e00403dc572d	17	device	Cisco NCS 5000 Series Data Sheet - Cisco	cable 9, pluggable 8	segment_routing_features 7, qos_features 5, programming_interfaces 5
+70b95ac9443bf75a	17	card	Cisco Nexus 7000 F1-Series 32-Port 1 and 10 Gigabit Ethernet Module Data Sheet - Cisco	pluggable 12, cable 5	status_leds 9, safety_standards 4, queues_per_port 2, dram 1, jumbo_mtu 1
+b9bd487f373a242b	17	device	Cisco WAP361 Wireless-AC/N Dual Radio Wall Plate Access Point with PoE Data Sheet - Cisco	power 17	humidity_storage 2, temp_storage 2, operating_system 2, vlan_max 2, diagnostics 2, temp_operating 2, humidity_operating 2, dram 2
+8f6659f8bff28ca8	17	device	Cisco 8010 Series Medium Density Fixed Routers Data Sheet - Cisco	accessory 17	supported_protocols 5, qos_features 4, segment_routing_features 4, programming_interfaces 4
+693ec50dbadd2cba	16	device	Cisco Compute Hyperconverged 440p PCIe Node Spec Sheet	nic 9, accessory 6, gpu 1	temp_operating 4, humidity_operating 3, temp_storage 3, humidity_storage 2, altitude_storage 2, altitude_max 2
+807edec259fb340d	16	device	Cisco Network Convergence System 1004 Data Sheet - Cisco	cable 6, mechanical 4, fan 2, controller 2, accessory 2	regions_supported 8, certifications 8
+5808d75eb27d627c	16	card	8-Port Enhanced Data Muxponder Card for the Cisco ONS 15454 Data Sheet - Cisco	pluggable 16	laser_safety_class 4, emc_emissions 3, temp_operating 3, regions_supported 3, certifications 3
+d6d61e8ab387edd5	16	device	Cisco Hyperflex HXAF220c M5 Spec Sheet	memory 8, drive 8	humidity_operating 4, humidity_storage 4, emc_emissions 4, certifications 4
+65a3ed053a578a32	15	device	Cisco Nexus 31128PQ Switch Data Sheet - Cisco	power 8, fan 6, mechanical 1	qos_features 9, emc_emissions 3, emc_immunity 3
+7ac13e6b0ed1363d	15	device	Cisco ONS 15454 M6 Multiservice Transport Platform Data Sheet - Cisco	accessory 12, mechanical 3	humidity_operating 4, temp_operating 4, regions_supported 3, temp_storage 2, certifications 2
+e5aabe1cf4d02da8	15	card	Cisco Nexus 7000 M3-Series 24-Port 40 Gigabit Ethernet Module Data Sheet - Cisco	pluggable 15	safety_standards 6, status_leds 2, jumbo_mtu 1, ipv4_routes 1, ipv6_routes 1, dram 1, programming_interfaces 1, mac_table 1
+97ad7b035f46ff00	15	card	Cisco Network Convergence System 2000 Series Passive Auxiliary Modules Data Sheet - Cisco	mechanical 10, accessory 5	emc_emissions 3, certifications 3, temp_operating 3, humidity_operating 3, regions_supported 3
+19e03350ca929dbf	15	card	Cisco Network Convergence System 5500 Series: 1.2-Tbps IPoDWDM Modular Line Card Data Shee	router 14, tunable 1	emc_immunity 3, qos_features 2, supported_protocols 2, programming_interfaces 2, segment_routing_features 2, optical_pm 2, certifications 2
+f3c2e4e7292410f4	14	device	Cisco 819 Non-Hardened 4G LTE 2.0 Machine-to-Machine Integrated Services Routers with Wi-F	power 8, mechanical 4, antenna 2	flash 7, dram 6, supported_protocols 1
+f033154dc1311514	14	card	Cisco Nexus 7000 M1-Series 8-Port 10 Gigabit Ethernet Module with XL Option Data Sheet - C	pluggable 14	status_leds 7, safety_standards 7
+ff96694659484b3c	14	card	Cisco ASR 9000 Series 5th Generation 400 Gigabit Ethernet Multi-Rate Line Card Data Sheet 	router 14	altitude_max 7, ieee_standards 1, humidity_storage 1, temp_storage 1, supported_protocols 1, temp_operating 1, humidity_operating 1, certifications 1
+24ae5f20fead09ba	14	device	Cisco 1905 Series Integrated Services Routers - Cisco	interface 10, cellular 4	qos_features 7, altitude_storage 7
+2145e269815382e6	14	device	Cisco UCS X210c M8 Compute Node Spec Sheet	drive 13, memory 1	altitude_storage 14
+4fc9df164f1cbe14	14	device	Cisco Catalyst 4948 10 Gigabit Ethernet Switch Data Sheet - Cisco	power-cord 8, power 2, mechanical 2, linecard 1, pluggable 1	certifications 14
+215e6c3b7ebdf7c4	14	device	Cisco Nexus 3264Q Switch Data Sheet - Cisco	cable 8, pluggable 6	emc_emissions 12, emc_immunity 2
+d47e2427b8166f9a	14	device	Cisco Secure Network Server 3800 Series Data Sheet - Cisco	drive 8, fan 5, power 1	altitude_storage 4, emc_emissions 2, emc_immunity 2, temp_storage 2, altitude_max 2, temp_operating 2
+384d1a3d46bb2ee9	14	device	Cisco NCS 5011 Router Data Sheet - Cisco	pluggable 8, breakout-cable 3, cable 3	qos_features 5, segment_routing_features 5, supported_protocols 2, programming_interfaces 2
+c5ea409dcbb5f5ca	13	optic	Cisco Network Convergence System 1004 High-Density QSFP-DD Transponder Data Sheet - Cisco	cable 9, transponder 4	certifications 13
+3d471e74e297b39f	13	device	Cisco IP Phone 8851 Data Sheet - Cisco	mechanical 12, power 1	certifications 5, supported_protocols 1, humidity_operating 1, cucm_versions 1, audio_codecs 1, temp_operating 1, temp_storage 1, mounting 1
+3ff9dacfaaf67fa4	13	device	Cisco NCS 2000 100-Gbps Multirate Muxponder Data Sheet - Cisco	pluggable 11, tunable 2	regions_supported 7, emc_emissions 6
+094c15ce8fc7a345	13	card	Cisco ASR 9000 Series Ethernet Line Cards - Cisco	sp-router 13	programming_interfaces 3, dram 3, humidity_storage 2, humidity_operating 2, temp_storage 2, supported_protocols 1
+6726824f789aecc6	13	device	Cisco Nexus 3064-X, 3064-T, and 3064-32T Switches Data Sheet - Cisco	fan 8, breakout-cable 4, pluggable 1	emc_emissions 3, emc_immunity 2, supported_protocols 2, ieee_standards 2, qos_features 2, snmp_mibs 2
+4bc5727c94dae842	12	device	Cisco Industrial Ethernet 4000 Series Switches Data Sheet - Cisco	power 10, pluggable 2	mac_table 6, vlan_max 6
+df62c7424eff7d1f	12	device	Cisco Nexus 6001 Switch Data Sheet - Cisco	power 6, fan 4, mechanical 2	emc_emissions 6, emc_immunity 6
+130a86e38467d870	12	device	Cisco 5500 Series Wireless Controllers Data Sheet - Cisco	fan 4, power 4, mechanical 4	supported_protocols 3, programming_interfaces 3, encryption 3, ieee_standards 3
+4ffaccf2502cdf34	12	device	Cisco Catalyst 6500 Series Services SPA Carrier-600 - Cisco	linecard 9, module 3	emc_emissions 4, emc_immunity 4, certifications 4
+1b98b1a44bc94014	12	card	Cisco MDS 9000 Family Multiprotocol Services Module - Cisco	pluggable 12	fabric_services 12
+e2b64cc81b6f40f6	12	card	Cisco Network Convergence System 5500 Series: Modular Line Cards NC55-24H12F-SE Data Sheet	router 12	qos_features 2, supported_protocols 2, programming_interfaces 2, emc_immunity 2, segment_routing_features 2, certifications 2
+7ae12c3eeb11846b	12	card	Cisco Network Convergence System 5500 Series: Modular Line Cards NC55-36X100G-A-SE Data Sh	router 12	qos_features 2, programming_interfaces 2, emc_immunity 2, certifications 2, segment_routing_features 2, supported_protocols 2
+ae6f3c13fc88abf5	12	device	Cisco Catalyst Micro Switches Data Sheet - Cisco	power 9, flash 3	certifications 4, ieee_standards 4, rfc_compliance 4
+667a16f06f215262	12	device	Cisco C9350 Series Smart Switches Data Sheet - Cisco	stack-cable 6, cable 4, fan 2	humidity_storage 6, temp_storage 6
+3b5fa1f103adbc66	12	card	Cisco 8800 Series Q200-Based Line Cards Data Sheet - Cisco	router 12	humidity_storage 12
+3805d2478fec4ceb	12	device	Cisco MSPP-ON-A-Blade Card: Multiservice Aggregation for the ONS 15454 Platform Data Sheet	pluggable 12	emc_emissions 7, humidity_operating 3, regions_supported 1, certifications 1
+fe5fb07bd435025b	12	card	Gigabit Carrier Ethernet DWDM XPonder Card for the Cisco ONS 15454 MSTP Data Sheet - Cisco	pluggable 12	temp_operating 12
+1bae2153f7f143b0	12	device	Cisco Network Convergence System 5500 Series: PLE Modular Port Adaptor Data Sheet - Cisco	linecard 12	humidity_storage 4, altitude_max 4, humidity_operating 4
+2a26b577ad35585a	12	device	Cisco Compute Hyperconverged and Compute-Only with Nutanix-240 M6 All-Flash Server	nic 12	emc_emissions 4, emc_immunity 4, humidity_operating 2, humidity_storage 2
+85c82172f82ea37e	12	device	Cisco SPA504G 4-Line IP Phone with 2-Port Switch, PoE and LCD Display - Cisco	power 12	supported_protocols 4, temp_operating 4, temp_storage 4
+5d1fd360bd83375c	12	card	Cisco Network Convergence System 5500 Series: Modular Line Cards NC55-MOD-A-S & NC55-MOD-A	router 12	qos_features 2, supported_protocols 2, programming_interfaces 2, emc_immunity 2, segment_routing_features 2, certifications 2
+d27dc68a8df5f0ac	12	card	Cisco Network Convergence System 5500 Series: Modular Line Cards NC55-18H18F Data Sheet - 	router 12	qos_features 2, supported_protocols 2, emc_immunity 2, programming_interfaces 2, certifications 2, segment_routing_features 2
+c88780ca72f5dc0a	11	card	Cisco ASR 9000 Series 32-Port 100 Gigabit Ethernet Line Card Data Sheet - Cisco	router 11	etsi_standards 4, ieee_standards 1, humidity_storage 1, temp_storage 1, supported_protocols 1, temp_operating 1, humidity_operating 1, certifications 1
+8e0331d223cfc83e	11	device	Cisco Wireless IP Phone 8821-EX Data Sheet - Cisco	power 10, accessory 1	altitude_max 11
+7be5a7c2ffcf5234	11	device	Cisco Industrial Ethernet 2000 Series Switches Data Sheet - Cisco	pluggable 7, flash 2, bidi 2	emc_emissions 9, temp_storage 2
+d12aebfbb05369c5	11	card	Cisco Catalyst 6500 Series 10 Gigabit Ethernet Interface Modules Data Sheet - Cisco	pluggable 7, cable 4	certifications 11
+437013d2cbf76d41	11	device	Cisco Nexus 3132C-Z Switches Data Sheet - Cisco	power 7, pluggable 4	emc_emissions 7, supported_protocols 1, emc_immunity 1, snmp_mibs 1, ieee_standards 1
+b3ef6b67a12e773f	10	card	Cisco ASR 9000 Series 4-Port 100-Gigabit Ethernet LAN Line Card Data Sheet - Cisco	router 10	supported_protocols 2, ieee_standards 1, humidity_storage 1, temp_storage 1, etsi_standards 1, altitude_max 1, temp_operating 1, humidity_operating 1
+9b97693fa8802418	10	device	N9300 Series Smart Switch Data Sheet - Cisco	power 6, fan 4	supported_protocols 10
+c238e1c409c389c6	10	device	Cisco UCS 6200 Series Fabric Interconnects Data Sheet - Cisco	mechanical 6, fan 4	emc_emissions 5, emc_immunity 5
+ff6e338ce4d82942	10	device	Cisco Secure Firewall 1200 Series Data Sheet - Cisco	power 4, mechanical 4, drive 2	emc_emissions 5, emc_immunity 5
+ec3a09ac0abbd2f7	10	device	Cisco Nexus 3432D-S Switch Data Sheet - Cisco	power 8, fan 2	emc_emissions 6, emc_immunity 4
+f79b303868c721b3	10	card	1-port Serial WAN Interface Module for Cisco 800M Series Integrated Services Routers Data 	cable 10	supported_protocols 10
+d396a2b1bef98a12	10	device	Cisco GS7000 1218-MHz 4-Port Fiber Deep Node, 85/102-MHz Split with Cisco Smart PHY Model 	pluggable 10	humidity_operating 10
+26ca23775e4c1d0d	10	device	Cisco WAP121 Wireless-N Access Point with Single Point Setup Data Sheet - Cisco	power 10	humidity_storage 1, temp_storage 1, vlan_max 1, diagnostics 1, certifications 1, temp_operating 1, humidity_operating 1, operating_system 1
+a7fb3f031277ddf4	10	device	Cisco Catalyst 2960-S and 2960 Series Switches with LAN Lite Software Data Sheet - Cisco	mechanical 6, power-cord 4	certifications 6, rfc_compliance 2, ieee_standards 2
+9877cf891be95760	10	card	Cisco XR 12000 and 12000 Series Gigabit Ethernet Line Cards - Cisco	switch 10	ieee_standards 2, emc_immunity 2, etsi_standards 2, supported_protocols 2, certifications 2
+40ba250b2d5c1f6e	10	device	Cisco Industrial Ethernet 2000 IP67 Series Switches Data Sheet - Cisco	flash 10	emc_emissions 1, shock 1, temp_operating 1, supported_protocols 1, temp_storage 1, programming_interfaces 1, snmp_mibs 1, ieee_standards 1
+c84a375ff9e8b827	10	card	Cisco ASR 9900 Series 16-Port 100 Gigabit Ethernet Service Edge Line Card Data Sheet - Cis	router 10	altitude_max 2, humidity_storage 1, temp_storage 1, etsi_standards 1, temp_operating 1, humidity_operating 1, ieee_standards 1, supported_protocols 1
+6d64c5a4bd391d6c	10	device	Cisco UCS X9508 Chassis and X210c M6 Compute-Only (CO) Node Spec Sheet	accessory 10	temp_operating 2, temp_storage 2, humidity_operating 2, emc_emissions 2, emc_immunity 2
+6ce38f2d1f645eee	9	device	Cisco Connected Grid Multimode VDSL2, ADSL2/2+ and Symmetric High-Bitrate (G.SHDSL) DSL GR	module 6, interface 3	shock 3, altitude_max 3, altitude_storage 3
+16a74c8d2b3b3233	9	device	Cisco IP Phone 8865 Data Sheet - Cisco	mechanical 9	supported_protocols 1, cucm_versions 1, temp_operating 1, temp_storage 1, humidity_operating 1, audio_codecs 1, mounting 1, ui_languages 1
+4f2af9da000670a0	9	device	40-Channel Reconfigurable Optical Add/Drop Multiplexing Portfolio for 15454 MSTP - Cisco	mechanical 3, mux 3, roadm 3	certifications 9
+4409360cd034e872	9	device	Cisco Wireless Gateway for LoRaWAN Data Sheet - Cisco	mechanical 6, antenna 3	ieee_standards 2, temp_operating 2, humidity_operating 2, dram 1, flash 1, certifications 1
+75be89f8392a342b	9	card	Cisco MDS 9700 48-Port 64-Gbps Fibre Channel Switching Module Data Sheet - Cisco	pluggable 9	supported_protocols 5, programming_interfaces 4
+edadb7f3e1d1ee58	9	device	Cisco SPA501G 8-Line IP Phone with 2-Port Switch, PoE and Paper Label - Cisco	accessory 5, power 4	humidity_storage 5, supported_protocols 1, temp_operating 1, temp_storage 1, humidity_operating 1
+52e4eaf997c5a20b	8	card	Cisco MDS 9700 Series Supervisor 1E Data Sheet - Cisco	director 8	diagnostics 2, certifications 2, fabric_services 2, supported_protocols 2
+0c3932221866e24a	8	card	Cisco Nexus 7000 M2-Series 2-Port 100 Gigabit Ethernet Module with XL Option Data Sheet - 	pluggable 8	status_leds 4, safety_standards 4
+3c752f963012ecbe	8	card	Cisco MDS 9700 Series Supervisor-4 Module Data Sheet - Cisco	director 8	supported_protocols 2, fabric_services 2, diagnostics 2, certifications 2
+37808a639001f3c5	8	device	Cisco Catalyst IE3200 Rugged Series Data Sheet - Cisco	pluggable 6, bidi 2	shock 8
+eb0803372fe8d2ad	8	device	Cisco N9364C-H1 Switch Data Sheet - Cisco	fan 4, power 2, mechanical 2	emc_immunity 8
+52fdd2003a38bfef	8	device	Cisco HyperFlex HX240C M6 LFF Server Node Spec Sheet	memory 8	humidity_operating 2, humidity_storage 2, emc_immunity 2, emc_emissions 2
+b15589339b3b4262	8	device	Cisco MDS 9513 Multilayer Director Data Sheet - Cisco	power 2, fan 2, fabric 2, accessory 1, linecard 1	fabric_services 8
+f9a55a31b70faee2	8	device	Cisco UCS X215c M8 Compute Node Spec Sheet	memory 3, accessory 2, drive 2, nic 1	altitude_storage 8
+d1aa772f6afcc0ac	8	device	Cisco IOS XR Software Release 3.5.2 for Cisco CRS-1 and XR 12000 Series Routers - Cisco	interface 8	programming_interfaces 8
+0d1c7d0e0e116474	8	device	Cisco UCS C240 M8 SFF Rack Server Spec Sheet	drive 4, gpu 2, nic 2	emc_immunity 4, emc_emissions 4
+944de49891bd21ca	8	card	Cisco NCS 560-4 Route Switch Processor 4 Data Sheet - Cisco	accessory 4, mechanical 4	programming_interfaces 4, humidity_operating 4
+550dfd6920a1a881	8	device	Cisco Wireless 9177 Series Access Points Data Sheet - Cisco	antenna 5, accessory 2, cable 1	certifications 8
+ca71c8a8120c710d	8	device	Cisco UCS 2304 Fabric Extender Data Sheet - Cisco	io-module 8	emc_emissions 4, emc_immunity 4
+4a8ae3cd8b964ab5	8	device	Cisco Compute-Only B200 M5/M6 Nodes	nic 8	temp_operating 2, altitude_max 2, altitude_storage 2, certifications 2
+92921346140836b8	8	device	Cisco UCS 6600 Series Fabric Interconnects Data Sheet - Cisco	mechanical 4, fan 4	emc_emissions 4, emc_immunity 4
+82f5a72ccea5d8c8	8	card	Compute Modules for the Cisco 1000 Series Connected Grid Routers Data Sheet - Cisco	memory 8	shock 2, temp_operating 2, altitude_max 2, altitude_storage 2
+0bfd1afa4e487db0	8	device	Cisco Catalyst 6880-X Series Extensible Fixed Aggregation Switch Data Sheet - Cisco	linecard 8	temp_operating 2, temp_storage 2, humidity_operating 2, altitude_max 2
+9a3a800193f4cd8b	8	device	Cisco Network Convergence System 1014 Data Sheet - Cisco	accessory 2, controller 2, fan 2, mechanical 2	regions_supported 4, certifications 4
+17938d433b4b890e	8	device	Cisco ASR 9001 Router Data Sheet - Cisco	power 8	humidity_storage 2, humidity_operating 2, temp_storage 2, certifications 2
+94cfcdddd60c44e1	7	card	40-Channel Single-Module ROADM for the Cisco ONS 15454 Multiservice Transport Platform - C	cable 5, mechanical 2	emc_emissions 6, certifications 1
+d1d727ecaaeae889	7	device	Cisco UCS X410c M7 Compute Node Spec Sheet	drive 7	altitude_storage 7
+cfaf5cd1ede07b94	7	card	Cisco NCS 1014 12.8T High-Density OSFP Multi-Haul DWDM Line Card Data Sheet - Cisco	accessory 2, mechanical 2, chassis 2, fan 1	encryption 7
+7ac28f297a84c68d	7	device	Cisco Remote PHY Shelf 7200 Data Sheet - Cisco	pluggable 4, linecard 3	altitude_max 5, temp_storage 1, humidity_operating 1
+d527fab196e02ec3	7	device	Cisco 890 Series Integrated Services Routers Data Sheet - Cisco	mechanical 6, pluggable 1	dram 3, qos_features 2, certifications 2
+08a17028631b331a	7	device	Cisco Catalyst IE3400 Heavy Duty Series Data Sheet - Cisco	flash 6, power 1	ieee_standards 1, supported_protocols 1, emc_emissions 1, shock 1, rfc_compliance 1, snmp_mibs 1, temp_storage 1
+94470adf99014cf1	7	device	Cisco Video Phone 8875 Data Sheet - Cisco	mechanical 7	temp_operating 1, supported_protocols 1, temp_storage 1, humidity_operating 1, audio_codecs 1, ui_languages 1, certifications 1
+36487b1298137c74	7	device	Cisco 819 4G LTE 2.0 Machine-to-Machine Integrated Services Routers Data Sheet - Cisco	power 7	supported_protocols 1, programming_interfaces 1, dram 1, flash 1, temp_operating 1, emc_immunity 1, emc_emissions 1
+b433bac7c3323867	6	device	Cisco Catalyst Digital Building Series Switches Data Sheet - Cisco	mechanical 6	ieee_standards 2, rfc_compliance 2, certifications 2
+b1af204fcb361dd1	6	device	Cisco 2500 Series Wireless Controllers Data Sheet - Cisco	mechanical 3, power 3	encryption 2, supported_protocols 2, programming_interfaces 2
+9ff8f1b0ffd156d6	6	card	Cisco NCS 2000 100-Gbps Coherent DWDM Trunk Card with CPAK Client Interface Data Sheet - C	pluggable 6	regions_supported 2, laser_safety_class 2, emc_emissions 2
+8de3265f17960efb	6	card	Cisco Connected Grid WPAN Modules for the Cisco 1000 Series Connected Grid Router Data She	cable 6	altitude_storage 6
+9b9a57b5d58ea8eb	6	card	Cisco CRS 4-Port 40GE LAN/OTN Interface Module - Cisco	pluggable 6	emc_immunity 3, etsi_standards 3
+561c0f07d63e8571	6	device	Cisco 812 CiFi Integrated Services Routers (3G-3.7G Cellular and Wi-Fi) Data Sheet - Cisco	power 6	humidity_operating 2, qos_features 1, programming_interfaces 1, temp_operating 1, certifications 1
+6a25925c2b12b1e1	6	card	Cisco NCS 2000 200-Gbps Multirate DWDM Line Card Data Sheet - Cisco	pluggable 6	regions_supported 2, emc_emissions 2, laser_safety_class 2
+02cb28cf72a962c8	6	device	Cisco HyperFlex HX225 M6 Edge All Flash and Hybrid Server Nodes spec sheet	nic 6	emc_emissions 2, emc_immunity 2, humidity_operating 1, humidity_storage 1
+617afea24101369a	6	card	Cisco ATA 191 Multiplatform Analog Telephone Adapter Data Sheet - Cisco	ata 3, power 3	qos_features 2, supported_protocols 2, ieee_standards 2
+58b3b6c4fa082ccd	6	device	Servers - Unified Computing - Cisco UCS 2408 Fabric Extender Data Sheet - Cisco	io-module 4, pluggable 2	emc_emissions 3, emc_immunity 3
+5c7fdff5e285eaf8	6	card	Cisco MDS 9000 24/10-Port SAN Extension Module for Cisco MDS 9700 Series Multilayer Direct	pluggable 6	programming_interfaces 6
+1b6724676304801a	6	device	Cisco 809 Industrial Integrated Services Routers Data Sheet - Cisco	antenna 6	supported_protocols 1, flash 1, programming_interfaces 1, emc_immunity 1, emc_emissions 1, mounting 1
+cad9e5016e8f34c6	6	device	Cisco IOS XR Release 6.1.2 for Cisco ASR 9000 Series Routers Product Bulletin - Cisco	module 4, linecard 2	segment_routing_features 6
+e605576c0d5635cd	6	card	Cisco CRS 40x10 Gigabit Ethernet Interface Module Data Sheet - Cisco	pluggable 6	etsi_standards 6
+44e86d65bcf106ad	6	device	Cisco Industrial Ethernet 2000U Series Switches Data Sheet - Cisco	mechanical 3, flash 3	ieee_standards 2, certifications 2, temp_operating 2
+ebce9a0dbe4b1ace	6	device	Cisco Secure Firewall ISA3000 Data Sheet - Cisco	power 6	rfc_compliance 2, supported_protocols 2, ieee_standards 2
+b852fc8ad600b876	6	device	Cisco Compute Hyperconverged X580p PCIe Node Spec Sheet	mechanical 6	temp_operating 1, humidity_operating 1, temp_storage 1, humidity_storage 1, altitude_storage 1, altitude_max 1
+98d1cc42dbd51525	6	device	Cisco Wireless 9174 Series Access Points Data Sheet - Cisco	antenna 3, mechanical 2, cable 1	certifications 6
+2dd09efe83da535f	6	device	Cisco Connected Grid ISDN BRI U and BRI S/T GRWICs for the Cisco 2010 Connected Grid Route	module 6	shock 2, altitude_storage 2, altitude_max 2
+1a8415b75c73651f	6	card	Cisco 12000 Series Channelized Line Card - Cisco	memory 6	emc_immunity 2, etsi_standards 2, certifications 2
+774e530e0777bf8a	6	device	Cisco VG420 Analog Voice Gateway Data Sheet - Cisco	mechanical 6	certifications 6
+705ba33ab326119a	6	device	Cisco Compute Hyperconverged with HCIXVS215C M8 All-NVMe vSAN ReadyNode	memory 6	temp_storage 1, humidity_storage 1, altitude_storage 1, temp_operating 1, humidity_operating 1, altitude_max 1
+d3c53db821d505b5	6	card	Cisco Route Processor Module XF - Cisco	pluggable 6	ieee_standards 2, temp_operating 2, dram 2
+3e959341a801a0f2	6	headset	Cisco Headset 720 Series Data Sheet - Cisco	cable 3, mechanical 3	temp_operating 2, temp_storage 2, humidity_operating 2
+7107e635f8d6bc36	6	device	Cisco Catalyst CW9800M Wireless Controller Data Sheet - Cisco	pluggable 6	ieee_standards 1, vlan_max 1, programming_interfaces 1, max_wlans 1, operating_system 1, supported_protocols 1
+b2bda04df1c5ea67	5	card	Cisco ASR 9900 Series 8-Port 100 Gigabit Ethernet Line Cards with 7-Fabric Support Data Sh	router 5	altitude_max 5
+4265e08764f0cf42	5	card	Cisco 12000 Series ATM Line Cards - Cisco	mechanical 5	qos_features 1, emc_immunity 1, etsi_standards 1, supported_protocols 1, certifications 1
+756882088d618fa1	5	card	Cisco Network Convergence System 6000 Series 20-Port 100-Gbps Label Switch Router Line Car	mechanical 2, fan 1, chassis 1, sp-router 1	ieee_standards 5
+c78a555a57fdf671	5	device	Cisco N9332C and N9364C Fixed Spine Switches Data Sheet - Cisco	mechanical 4, power-cord 1	emc_immunity 5
+3b5e3e4b8f9ef0f6	5	device	Raman C-Band Optical Amplifier for the Cisco ONS 15454 Multiservice Transport Platform - C	amplifier 5	regions_supported 1, humidity_operating 1, temp_operating 1, temp_storage 1, certifications 1
+9eee9fd3bbee45c3	5	card	Cisco Catalyst 6500 Series Wireless LAN Services Module - Cisco	ap 4, appliance 1	certifications 5
+4c16f3e13ee0dac2	5	device	A Switchable-Gain Optical Amplifier functioning in the flexible spectrum of C-Band for the	amplifier 5	humidity_storage 1, certifications 1, temp_operating 1, regions_supported 1, humidity_operating 1
+f5330664ed4e58f5	5	device	Cisco SPA525G 5-Line IP Phone with Color Display - Cisco	power 4, mechanical 1	humidity_operating 5
+c294a6ef715a933d	4	device	Cisco N9300-EX, FX, and FX3 24 Port Series Switches Data Sheet - Cisco	power 3, power-cord 1	altitude_max 4
+fe545d2769ab7ccf	4	device	Enhanced C-Band 96-Channel EDFA Amplifiers for the Cisco ONS 15454 MSTP Data Sheet - Cisco	amplifier 4	humidity_storage 2, regions_supported 2
+857b27a11926af04	4	card	Cisco UCS Virtual Interface Card 1400/14000 Series Data Sheet - Cisco	cable 3, accessory 1	ieee_standards 4
+99acfb1162c12af9	4	card	Cisco Network Convergence System 6000 Series 10-Port 100-Gbps Label Switch Router Line Car	pluggable 3, mechanical 1	ieee_standards 4
+e8f942d584c8f37a	4	card	Cisco Nexus 7000 F3-Series 6-Port 100 Gigabit Ethernet Module Data Sheet - Cisco	pluggable 4	safety_standards 2, status_leds 2
+c651ca27f9a4ed16	4	card+fan	Cisco NCS 5500 Modular Chassis: Second-Generation Fabric and Fan Modules Data Sheet - Cisc	router 4	emc_immunity 2, certifications 2
+5c3b39e682779b19	4	device	Cisco UCS 6536 Fabric Interconnect Data Sheet - Cisco	mechanical 2, fan 2	emc_emissions 2, emc_immunity 2
+2fb9685becc01e37	4	card	Products - Cisco NCS 4000 400G Packet Optical Line Card Data Sheet - Cisco	pluggable 3, tunable 1	temp_storage 4
+fe57409cbd84d376	4	device	Cisco Nexus 3132Q, 3132Q-X, and 3132Q-XL Switches Data Sheet - Cisco	fan 4	emc_immunity 2, emc_emissions 2
+68b62e5c1a803d3c	4	device	Cisco 8500 Series Wireless Controllers Data Sheet - Cisco	drive 4	ieee_standards 1, encryption 1, programming_interfaces 1, supported_protocols 1
+249977f1a511f186	4	card	Cisco Nexus 7000 F3-Series 12-Port 40 Gigabit Ethernet Module Data Sheet - Cisco	pluggable 4	jumbo_mtu 2, safety_standards 2
+7a98e12327a216f9	4	card	Cisco Catalyst 6500/Cisco 7600 Series Supervisor Engine 720 Data Sheet - Cisco	fan 4	supported_protocols 2, ieee_standards 2
+e33a8f229661109d	4	card	Cisco Network Convergence System 5500 Series: 48 x 1/10/25G Line Card Data Sheet - Cisco	router 4	temp_storage 2, temp_operating 2
+20c929c8cda27895	4	card	Cisco ASR 900 Series Route Switch Processor Data Sheet - Cisco	mechanical 4	ipv4_routes 2, humidity_operating 2
+ecb4b5957c35b07d	4	device	Products - Cisco IR1000 Rugged Series Secure Routers Data Sheet - Cisco	cellular 4	qos_features 1, temp_storage 1, emc_emissions 1, emc_immunity 1
+af64a934603f2213	4	card	Cisco ASR 9000 Series 40 and 56 Gigabit Ethernet Line Cards Data Sheet - Cisco	sp-router 4	altitude_max 4
+c2ebcd38a727c9b2	4	device	Reconfigurable Optical Add/Drop Multiplexing Portfolio for the Cisco ONS 15454 - Cisco	mux 2, roadm 2	certifications 4
+1cc4ae6a73aee7f5	4	device	Cisco UCS C245 M8 SFF Rack Server Spec Sheet	nic 4	emc_immunity 2, emc_emissions 2
+ba0123886cfe207f	4	card	Cisco 7300 Two-Port OC-3 ATM Line Card - Cisco	router 4	temp_storage 4
+ac37a16b11d60129	4	card	Cisco ONS 15454 100-Gbps CP-DQPSK Full C-Band Tunable DWDM Trunk Card Data Sheet - Cisco	pluggable 4	laser_safety_class 1, regions_supported 1, emc_emissions 1, optical_pm 1
+6be3747b9ea74d07	4	device	Cisco 350 Series Managed Switches Data Sheet - Cisco	pluggable 4	certifications 4
+933e0fe67d60ea3c	4	device	Cisco Nexus 2000 and Nexus 5500 Switches Data Sheet - Cisco	power-cord 2, mechanical 2	emc_emissions 2, emc_immunity 2
+53decb34e38672a1	4	card	Cisco Nexus 7700 M3-Series 48-Port 1 and 10 Gigabit Ethernet Module Data Sheet - Cisco	bidi 4	status_leds 2, safety_standards 2
+169bada1cb1309fc	4	device	Cisco SPA 303 3-Line IP Phone Data Sheet - Cisco	mechanical 4	supported_protocols 1, temp_operating 1, temp_storage 1, humidity_storage 1
+1381565066564f1a	3	device	Catalyst 9300X-M Datasheet - Cisco Meraki Documentation	module 3	supported_protocols 3
+3e6013a0dc9b94e5	3	device	Cisco N9300-FX Series Switches Data Sheet - Cisco	power 2, mechanical 1	altitude_max 3
+ab1a0f8e072ffaa1	3	card	Cisco CRS 2-Port 40GE LAN/OTN Interface Module - Cisco	pluggable 3	supported_protocols 3
+7c08e3422c82ba65	3	device	Cisco 880VA Series Integrated Services Routers Data Sheet - Cisco	memory 3	qos_features 3
+e15e7112e2941775	3	device	Cisco N9332D-H2R Switch Data Sheet - Cisco	power 2, fan 1	emc_immunity 3
+18989e0127e9ce20	3	card	Cisco Catalyst 4500E Supervisor Engine 9-E Data Sheet - Cisco	flash 2, switch 1	ipv6_routes 3
+11206df080e504f3	3	device	Enhanced Optical Booster Amplifier for Cisco ONS 15454 MSTP - Cisco	amplifier 3	humidity_storage 1, temp_operating 1, certifications 1
+52ae06cf3a1eae4a	3	device	Cisco ME 3400E Series Ethernet Access Switches Data Sheet - Cisco	mechanical 3	ieee_standards 3
+3f28bb26f69eb57b	3	device	Cisco NCS 2000 Shelf Virtualization Orchestrator Data Sheet - Cisco	controller 3	temp_storage 1, humidity_operating 1, certifications 1
+f00615b93617887e	3	card	Cisco 3800 and 3900 Series ATM OC-3 Network Module - Cisco	pluggable 3	humidity_operating 3
+1aff03d7abc73cd6	3	card	Cisco Channelized T1/E1 and ISDN PRI Modules for the Integrated Services Routers Data Shee	cable 3	temp_operating 1, temp_storage 1, humidity_operating 1
+df0c5bbbd23dc363	3	device	Cisco Nexus 3636C-R Switch Data Sheet - Cisco	power 3	emc_emissions 2, emc_immunity 1
+9bc7de771f909454	3	device	Cisco Catalyst 3560-CX and 2960-CX Series Compact Switches Data Sheet - Cisco	power 3	ieee_standards 1, certifications 1, rfc_compliance 1
+e25bd89a252935be	3	card	Cisco ATA 191 Analog Telephone Adapter Data Sheet - Cisco	ata 3	qos_features 1, ieee_standards 1, supported_protocols 1
+c266b7fcf97174c3	3	card	Cisco ATA 192 Multiplatform Analog Telephone Adapter Data Sheet - Cisco	ata 3	qos_features 1, ieee_standards 1, supported_protocols 1
+c4403bac330cbff3	3	device	Cisco Unified IP Phone 7970G - Cisco	power 3	temp_operating 1, humidity_operating 1, temp_storage 1
+d146ae3fee5aee4b	3	card	Cisco Network Convergence System 1014 2.4T Transponder Line Card Data Sheet - Cisco	accessory 3	humidity_operating 1, temp_storage 1, optical_pm 1
+800dfbf767c39ad5	3	device	Cisco 1921 Series Integrated Services Routers Data Sheet - Cisco	power 3	qos_features 1, humidity_storage 1, altitude_storage 1
+b3b5236d9f43fa54	2	device	Cisco Catalyst 2960-S Series Switches Data Sheet - Cisco	module 2	ieee_standards 1, rfc_compliance 1
+c43bdb7cb8408cc1	2	device	Cisco N9300-EX Series Switches Data Sheet - Cisco	fan 2	temp_operating 2
+8ee5a568513916c3	2	device	MS130R Datasheet - Cisco Meraki Documentation	power 2	emc_emissions 2
+8a518f15b5563a80	2	device	L-Band Optical Amplifier Portfolio for the Cisco ONS 15454 - Cisco	amplifier 2	certifications 2
+ce720ed60418bf9f	2	device	Cisco N93400LD-H1 Switch Data Sheet - Cisco	mechanical 2	emc_immunity 2
+62baf67e9b496f63	2	card	Cisco Network Convergence System 4000 Series DWDM Line Cards Data Sheet - Cisco	pluggable 2	optical_pm 2
+b14b563881decdb7	2	device	Cisco UCS 6300 Series Fabric Interconnects Data Sheet - Cisco	adapter 1, pluggable 1	emc_emissions 2
+4966ae75175d4395	2	card	Cisco Network Convergence System 1014 EDFA2 Line Card Data Sheet - Cisco	tunable 1, pluggable 1	regions_supported 2
+0a2eac74e21e575d	2	card	Cisco Nexus 7700 M3-Series 100 Gigabit Ethernet Module Data Sheet - Cisco	pluggable 2	dram 2
+d86d14082305e40d	2	device	Cisco Catalyst 2960-C and 3560-C Series Compact Switches Data Sheet - Cisco	mechanical 2	certifications 2
+defc46ab3c632fc3	2	device	Cisco Smart PHY 300 and 600 Shelves Data Sheet - Cisco	cable 1, tunable 1	humidity_operating 2
+267a1c1456115cf8	2	device	Cisco UCS 6324 Fabric Interconnect Data Sheet - Cisco	pluggable 2	emc_emissions 2
+74820ae5d1ed86e0	2	card	Cisco 1 Port OC48-C/STM-16C ATM Shared Port Adapter - Cisco	pluggable 2	supported_protocols 2
+663cc428d9eb1d88	2	device	High Power Counter-Propagating and Co-Propagating Raman units for the Cisco ONS 15454 Mult	amplifier 2	humidity_storage 2
+5b1929f61b565ffe	2	card	Cisco Nexus 7700 F3-Series 12-Port 100 Gigabit Ethernet Module Data Sheet - Cisco	pluggable 2	status_leds 1, safety_standards 1
+cb20b29fc4918a1a	2	card	Cisco CRS-X 4-Port 100 GE LAN_OTN Interface Module Data Sheet - Cisco	pluggable 2	emc_immunity 1, etsi_standards 1
+87bb6270a7562051	2	device	Cisco Nexus 3164Q Switch Data Sheet - Cisco	power 2	emc_emissions 1, emc_immunity 1
+0c7601fd0a07b138	2	device	Cisco Catalyst 2960-Plus Series Switches Data Sheet - Cisco	mechanical 2	ieee_standards 1, rfc_compliance 1
+0024cf6c75f9fb28	2	card	Alarm Monitoring & Remote Control Module - Cisco	cable 2	snmp_mibs 1, ieee_standards 1
+85d6712fde04d053	2	card	Cisco E1/T1 ISDN PRI Network Module - Cisco	cable 2	humidity_operating 1, emc_emissions 1
+8c1bc9802938fb0b	2	card	Cisco NCS 560-7 Route Switch Processor 4 Data Sheet - Cisco	mechanical 2	humidity_operating 1, programming_interfaces 1
+f8fa22b107bdc2c9	1	device	Cisco Wireless 9179F Access Point Data Sheet - Cisco	accessory 1	certifications 1
+0b2892db75450a5f	1	device	Catalyst 9300L-M Datasheet - Cisco Meraki Documentation	pluggable 1	supported_protocols 1
+f915469e45d6cf77	1	device	Enhanced C-Band Optical Amplifier for the Cisco ONS 15454 Multiservice Transport - Cisco	amplifier 1	humidity_storage 1
+76d995862361e0d3	1	card	Cisco Connected Grid WPAN Module for the Cisco 1000 Series Connected Grid Router Data Shee	antenna 1	altitude_storage 1
+b1226cd7a447ea5b	1	card	Cisco Nexus 7700 M3-Series 24- Port 40 Gigabit Ethernet Module Data Sheet - Cisco	pluggable 1	safety_standards 1
+cd8995e25e6dc09f	1	device	Cisco VG410 Analog Voice Gateway Data Sheet - Cisco	mechanical 1	certifications 1
+86def2444074b970	1	card	Cisco Catalyst 6900 Series 40 Gigabit Ethernet Interface Module for Cisco Catalyst 6500 Se	pluggable 1	jumbo_mtu 1
+2acf293b3fd55477	1	device	Cisco UCS X580p PCIe Node Data Sheet - Cisco	accessory 1	altitude_storage 1
+78779222a31c595e	1	card	Cisco MDS 9000 Family 8-Gbps Advanced Fibre Channel Switching Modules - Cisco	director 1	programming_interfaces 1
+af9561eee647c1f0	1	device	Cisco Industrial Ethernet 3010 Series Switches Layer 2/Layer 3 - Cisco	cable 1	certifications 1
+898e0452342efbf0	1	card	Cisco ONS 15454 4 x 2.5-Gbps Muxponder Card - Cisco	pluggable 1	laser_safety_class 1
+6c5c9ff6231c59cd	1	card	6800 Series 10 Gigabit and Gigabit Ethernet Interface Modules for Cisco 6500 Series Switch	pluggable 1	certifications 1
+30684916aee80d45	1	device	Cisco 880G and 890G Series 4G LTE 2.0 Integrated Services Routers - Data Sheet - Cisco	antenna 1	dram 1
+58915782a579cb89	1	card	Cisco Nexus 7000 F3-Series 48-Port 1 and 10 Gigabit Ethernet Module Data Sheet - Cisco	pluggable 1	safety_standards 1
+87231505221ad859	1	card	Cisco Catalyst 6500 Series Application-Oriented Networking Module - Cisco	switch 1	certifications 1
+a8e3629e8e8538dc	1	card	Cisco ONS 15454 100Gbps Coherent DWDM Trunk Card - Cisco	pluggable 1	certifications 1
+ce5d9211046f0acb	1	card	Multirate DWDM OTU2 XPonder Card for the Cisco ONS 15454 MSTP Data Sheet - Cisco	pluggable 1	humidity_storage 1
+7b4dd5a26aec3f20	1	device	Cisco Catalyst 4500E Supervisor Engine 8-E: Wired and Wireless Convergence Data Sheet - Ci	supervisor 1	ipv6_routes 1
+2f81e763d10ce625	1	card	Cisco CRS-3 1-Port 100 Gigabit Ethernet Interface Module - Cisco	pluggable 1	emc_immunity 1
+d7fc740f6cd81819	1	device	Cisco UCS X580p PCIe Node Spec Sheet	mechanical 1	altitude_storage 1
+d9c10570a8437920	1	device	Cisco Network Convergence System 1000 Mux/Demux 64-Channel Patch Panel Data Sheet - Cisco	mux 1	regions_supported 1
+72cb379fddd98e00	1	card	Cisco ONS 15454 10-Gbps Multirate Transponder Card - Cisco	chassis 1	laser_safety_class 1
+7d3441ccefa9812b	1	device	Cisco Nexus 3016 Switch Data Sheet - Cisco	cable 1	emc_emissions 1
