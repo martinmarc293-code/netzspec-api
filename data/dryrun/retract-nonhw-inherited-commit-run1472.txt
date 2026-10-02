@@ -1,0 +1,42 @@
+COMMIT -- retract document-scoped inherited facts on non-hardware parts (database netzspec, cisco)
+  current inherited facts with a raw: 20399; part-to-part not selected: 356; refused by the class rule: 4477; HELD for Q3 (class only the category default): 149 on 43 parts; selected: 4328 on 1077 parts -- license 3709, software 530, non_product 83, service 6
+  plan (the undo): data/dryrun/retract-nonhw-inherited-cisco-2026-10-02T132743671Z.tsv
+  sample (30 rows, every 144th):
+    IE3100-DNA-E-L-5Y      license     switches                   rfc_compliance         ● RFC 768: User Datagram Protocol (UDP) ● RFC 783: Trivial F
+    N3K-C3048-LAN1K9       license     switches                   ieee_standards         ● IEEE 802.1D: Spanning Tree Protocol ● IEEE 802.1p: CoS Pri
+    A9K-800G-AIP-TR        license     routers                    certifications         Cisco ASR 9000 Series Routers are designed to meet: ● FCC Cl
+    C9300-DNX-E-48-3Y      license     switches                   ieee_standards         IEEE 802.1s IEEE 802.1w IEEE 802.1x IEEE 802.1x-Rev IEEE 802
+    C3650-24-L-S           license     switches                   temp_operating         23 to 113°F (-5 to 45°C)
+    SW-CCM-UL-7920         software    collaboration-endpoints    temp_operating         • 32°F to 113°F (0°C to 45°C)
+    M91VXK9-P-5Y           license     storage-networking         supported_protocols    ● Fibre Channel standards ● FC-PI-6 (INCITS 512-2015) ● FC-P
+    XR-NC57-PK9-07.08      software    routers                    segment_routing_features ● Segment routing–based transport ● IS-IS extensions to segm
+    NGA-M-SIA-3            license     routers                    segment_routing_features Segment Routing with MPLS data plane (SR-MPLS) Segment Routi
+    SW-CCME-UL-7921G       software    collaboration-endpoints    altitude_max           Certified for operation: 0 to 6,500 ft (0 to 2 km)
+    C9200L-DNX-E-24-3Y     license     switches                   certifications         ● 47 CFR Part 15 ● CISPR 32 Class A ● CNS 13438 ● EN 300 386
+    L-C3850-24-L-S         license     switches                   temp_storage           -40 to 158°F (-40 to 70°C)
+    SL-39-DATA-K9          license     routers                    flash                  None available; Fixed internal 256MB eUSB Flash only
+    M9124V-PL8=            license     storage-networking         temp_operating         ● Temperature, ambient operating: ◦ 32 to 104°F (0 to 40°C) 
+    IE3400-DNA-A-5Y        license     switches                   temp_storage           Temperature: - 40°C to +85°C Altitude: 15,000 feet IEC 60068
+    C3560CX2-DNAC1A=       license     switches                   certifications         ● UL 60950-1 ● CAN/CSA 22.2 No. 60950-1 ● EN 60950-1 ● IEC 6
+    S-A9902-IVRF           license     routers                    supported_protocols    NetFlow, IEEE 802.1ag, IEEE 802.3ah, ITU Y.1731, IP Service-
+    L-C3650-24-L-S         license     switches                   temp_storage           -40 to 158°F (-40 to 70°C)
+    C9200CX-8-E-A          license     switches                   ieee_standards         EEE 802.1s ; RMON I and II standards ; IEEE 802.1w ; SNMPv1,
+    S-A9K-MOBILE-LIC       license     routers                    temp_storage           -40 to 158°F (-40 to 70°C)
+    IE9300-DNA-E-7Y        license     switches                   programming_interfaces YANG, NETCONF, RESTCONF, Cisco Plug and Play (PnP), Day-0 Ze
+    L-NCS2K-CK-CL=         license     optical-networking         emc_emissions          ● ETSI EN 300 386 V1.4.1 (2008-04) Telecommunication network
+    IE3400-DNA-E-3Y        license     switches                   qos_features           Ingress policing, rate limit, egress queuing/shaping, auto Q
+    XR-NCS1K4-720LK9       license     optical-networking         humidity_operating     ● 5% to 85%, noncondensing ● 5% to 90% but not to exceed 0.0
+    L-ISA3000-URL-3Y       license     security                   ieee_standards         ● IEEE 802.1D MAC Bridges, Spanning Tree Protocol (STP) ● IE
+    L-C3850-48-L-S         license     switches                   humidity_storage       5 to 90% noncondensing
+    A9K-36X10G-AIP-TR      license     routers                    temp_operating         23 to 131ºF (–5 to 55ºC) Note: Short-term refers to a period
+    S-A9903-20HG-CGN       license     routers                    temp_operating         41 to 104°F (5 to 40°C) Note: Limitations may apply when usi
+    A9K-MOD80-OPT-LIC      license     routers                    humidity_operating     10 to 85%
+    N3K-32X-LIC            license     switches                   qos_features           ● Layer 2 IEEE 802.1p (class of service [CoS]) ● 8 hardware 
+  open conflicts on a retracted field, resolved with it: 1488 (other side: vendor_datasheet_html/html_table 1485, vendor_guide/html_table 3) -> data/dryrun/retract-nonhw-inherited-cisco-2026-10-02T132743671Z-conflicts.tsv
+  gate: {"precision":1,"recall":1,"passed":true,"checked":4328,"ok":4328,"changed":0,"unreadable":0,"not_refused_by_class_rule":0,"hardware_receivers":0,"approved_plan":{"file":"nonhw-class-plan-20261002T132153.tsv","rows":4328,"planned_not_selected":0,"selected_not_planned":0},"rule":"describesPart -> class:*","suites":{"specMerge":{"ok":true,"exit":0}},"misses":[]}
+fatal: not a git repository (or any of the parent directories): .git
+  chunk 25/27: 3964 retracted
+
+  COMMITTED run 1472: retracted 4328 facts on 1077 parts; conflicts resolved 1488
+  verified from a NEW connection: selected facts still current (must be 0): 0; superseded by this run's retraction rows: 4328 of 4328; every other current fact on these parts the same rows: true (1775); open conflicts left on a retracted field: 0
+exit 0

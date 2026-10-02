@@ -13,7 +13,9 @@
 //             file a fact came from.
 import crypto from "node:crypto";
 import fs from "node:fs";
+import path from "node:path";
 import type pg from "pg";
+import { REPO_ROOT } from "../config.js";
 import { getPool, withTx } from "./db.js";
 import { rollbackRun } from "./facts.js";
 import { assertDiskForRun } from "./diskGuard.js";
@@ -194,6 +196,21 @@ export async function reapStaleRuns(
   return { reaped: r.rowCount ?? 0, ids: r.rows.map((x) => x.id) };
 }
 
+/**
+ * THE COMMIT A RUN'S CODE CAME FROM, when the caller could not say. 2 Oct 2026: runs 1469 and 1472 -- two approved retractions --
+ * ran on the box from deployed trees, where there is no .git and GIT_SHA was not in the environment, so both recorded git_sha
+ * NULL: "which code withdrew these facts" became a question for someone's memory. Eighteen scripts compute the sha their own way
+ * (git, else the env), so the fallback lives here, where every writer passes: the caller's value, else GIT_SHA from the
+ * environment, else the GIT_SHA file deploy.sh writes into every deployed tree. Nothing found stays null -- never a guess.
+ */
+export function resolveCodeSha(given: string | undefined | null, env: NodeJS.ProcessEnv = process.env,
+  shaFile: string = path.join(REPO_ROOT, "GIT_SHA")): string | null {
+  const ok = (s: string | undefined | null) => (s ?? "").trim().match(/^[0-9a-f]{7,40}$/) ? (s ?? "").trim() : null;
+  if (ok(given)) return ok(given);
+  if (ok(env.GIT_SHA)) return ok(env.GIT_SHA);
+  try { return ok(fs.readFileSync(shaFile, "utf8")); } catch { return null; }
+}
+
 export async function openRun(
   kind: string,
   opts: { inputs: Record<string, unknown>; gitSha?: string; notes?: string },
@@ -223,7 +240,7 @@ export async function openRun(
   const inputs = { ...(opts.inputs ?? {}), ...(disk.skipped ? { disk_guard: disk.skipped } : {}) };
   const r = await db.query<{ id: number }>(
     "INSERT INTO runs (kind, inputs, git_sha, notes, disk_free_bytes) VALUES ($1, $2::jsonb, $3, $4, $5) RETURNING id",
-    [kind, JSON.stringify(inputs), opts.gitSha ?? null, opts.notes ?? null, disk.free_bytes],
+    [kind, JSON.stringify(inputs), resolveCodeSha(opts.gitSha), opts.notes ?? null, disk.free_bytes],
   );
   return r.rows[0].id;
 }
