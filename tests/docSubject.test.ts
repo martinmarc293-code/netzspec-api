@@ -1,7 +1,7 @@
 // tests/docSubject.test.ts — reviewer ruling (b'), 2 Oct 2026: a document-scoped fact reaches only a part of a kind the document
 // DESCRIBES. The titles are real titles from source_docs; every leak direction the store check found has a sabotage case, and
 // every direction that must stay open has a control.
-import { subjectFromTitle, docSubject, judgeReceiver, parseOverrides, CARD_KINDS } from "../src/core/docSubject.js";
+import { subjectFromTitle, docSubject, judgeReceiver, parseOverrides, subjectRefusal, CARD_KINDS } from "../src/core/docSubject.js";
 import { DEVICE_KINDS } from "../src/core/layerChecks.js";
 
 let pass = 0;
@@ -61,6 +61,16 @@ check("not judged: an untitled document, whatever the receiver", verdict(null, "
 check("every card kind is a card subject and none is a device kind except the collab expansion module",
   [...CARD_KINDS].filter((k) => DEVICE_KINDS.has(k)), ["expansion-module"]);
 
+// ---- the gate the store applies (subjectRefusal): the vendor scope, the refusal rules -------------------------------------------
+const SW = "Cisco Catalyst 9200 Series Switches Data Sheet";
+const gate = (o: Partial<Parameters<typeof subjectRefusal>[0]>) => subjectRefusal({ vendor: "cisco", docId: "d", title: SW, categorySlug: "switches", sku: "C9200L-24P-4G", name: null, ...o })?.rule ?? "admitted";
+check("control: the switch sheet's value reaches the switch", gate({}), "admitted");
+check("SABOTAGE a rack kit the component patterns miss (4PT-KIT-T1=, kind mechanical) is refused by the subject gate", gate({ sku: "4PT-KIT-T1=" }), "subject:out");
+check("SABOTAGE an untitled document is refused as not judged, never admitted", gate({ title: null }), "subject:not-judged");
+check("SABOTAGE a category with no kind axis is refused as not judged", gate({ categorySlug: "cloud-systems-management", sku: "ND-CLUSTERG5L" }), "subject:not-judged");
+check("an entry naming no document is not document-scoped: left to describesPart", gate({ docId: null, sku: "4PT-KIT-T1=" }), "admitted");
+check("a vendor outside the measured set is not judged here (arista: 42 inherited facts, no census yet)", gate({ vendor: "arista", sku: "4PT-KIT-T1=", title: null }), "admitted");
+
 // ---- the override table ---------------------------------------------------------------------------------------------------
 const table = parseOverrides({ overrides: [{ doc_id: "d1", add_kinds: ["power"], witness: "section 'Power supplies', t12", reason: "the sheet specifies its PSUs" }] });
 const ov = docSubject({ doc_id: "d1", title: "Cisco Catalyst 9300 Series Switches Data Sheet" }, table);
@@ -74,7 +84,7 @@ check("SABOTAGE an override naming no kinds is refused at load", refuses({ doc_i
 check("SABOTAGE a document twice is refused at load", (() => { try { parseOverrides({ overrides: [{ doc_id: "d", kinds: ["power"], witness: "w", reason: "r" }, { doc_id: "d", kinds: ["fan"], witness: "w", reason: "r" }] }); return "accepted"; } catch (e) { return (e as Error).message; } })(), "doc-subjects.json: d appears twice");
 check("the shipped table loads (a broken file would refuse every document)", (() => { try { docSubject({ doc_id: "x", title: "t" }); return "loads"; } catch (e) { return (e as Error).message; } })(), "loads");
 
-const TOTAL = 43;
+const TOTAL = 49;
 if (misses.length || pass !== TOTAL) {
   for (const m of misses) console.log(`  MISS ${m}`);
   console.error(`\n${pass}/${TOTAL} doc-subject cases passed${pass + misses.length !== TOTAL ? ` (ran ${pass + misses.length}, expected ${TOTAL})` : ""}.`);

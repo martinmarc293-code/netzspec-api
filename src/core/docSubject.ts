@@ -22,6 +22,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { REPO_ROOT } from "../config.js";
 import { DEVICE_KINDS } from "./layerChecks.js";
+import { partKind } from "./partKind.js";
 
 /** What slots into or plugs into a device: the subjects of card, module, adapter and engine sheets. */
 export const CARD_KINDS: ReadonlySet<string> = new Set(["linecard", "module", "interface", "supervisor", "fabric", "transponder", "mux",
@@ -124,6 +125,29 @@ export function docSubject(doc: { doc_id?: string | null; title?: string | null 
 }
 
 export type SubjectVerdict = { verdict: "in" } | { verdict: "out"; reason: string } | { verdict: "not_judged"; reason: string };
+
+/** The vendors the gate judges. The kind axes were built and MEASURED on Cisco SKUs; inheritance outside Cisco is near zero
+ *  (current inherited facts, 2 Oct 2026: cisco 33,769, arista 42, every other vendor 0). A vendor joins this set after a census
+ *  of ITS document-scoped facts through scripts/check-doc-subjects.mts --vendor <slug>: the store is shared by every lane. */
+export const SUBJECT_GATE_VENDORS: ReadonlySet<string> = new Set(["cisco"]);
+
+/**
+ * THE GATE, as the store applies it to ONE inherited entry (src/store/facts.ts applyMerge, after describesPart) and as
+ * apply-extract's storeRefusal mirrors it: null admits; a refusal names its rule. An entry that names no document is not
+ * document-scoped and is left to describesPart. OUT and NOT JUDGED both refuse -- not judged is never a pass (reviewer
+ * condition 2), and a refused inheritance is a gap the part's own sheet can still fill, where an admitted wrong one is served.
+ */
+export function subjectRefusal(a: { vendor: string | null; docId: string | null | undefined; title: string | null | undefined;
+  categorySlug: string | null; sku: string; name: string | null }): { rule: string; reason: string } | null {
+  if (!a.docId) return null;
+  if (!a.vendor || !SUBJECT_GATE_VENDORS.has(a.vendor)) return null;   // a vendor joins after its own census (see the set)
+  const kind = a.categorySlug ? partKind(a.categorySlug, a.sku, a.name ?? undefined) : undefined;
+  const v = judgeReceiver(docSubject({ doc_id: a.docId, title: a.title }), kind);
+  if (v.verdict === "in") return null;
+  return v.verdict === "out"
+    ? { rule: "subject:out", reason: `INHERIT_NOT_A_SUBJECT: ${a.sku}: ${v.reason}; the document lists it, it does not describe it` }
+    : { rule: "subject:not-judged", reason: `INHERIT_NOT_JUDGED: ${a.sku}: ${v.reason}` };
+}
 
 /** Is a receiver of kind `kind` (undefined: its category has no kind axis) a subject of the document? */
 export function judgeReceiver(subject: DocSubject, kind: string | undefined): SubjectVerdict {

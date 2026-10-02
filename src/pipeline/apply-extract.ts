@@ -132,6 +132,8 @@ export function sourceKind(source: string | undefined): SourceKind {
 // extractor, the watchdog and any future writer cannot drift into three answers for one document.
 // Re-exported here because this module's callers already import from it.
 import { classifyDoc, classifyDocType } from "../core/docClass.js";
+import { subjectRefusal } from "../core/docSubject.js";
+import { titlesFromCache } from "./docTitle.js";
 export { classifyDoc, classifyDocType };
 
 export type ExtractFile = { file: string; source: string; kind: SourceKind; generated_at: string | null; docs: RawFact[]; facts: RawFact[] };
@@ -208,13 +210,17 @@ export function familyLabel(scope: string | undefined, url: string): string {
 // ---- the plan: everything decided, nothing written --------------------------------------------------
 /** `product_class` is here for `storeRefusal`: describesPart refuses a licence or a service
  *  outright, and the plan cannot predict the store's refusal without it. */
-export type PartRef = { id: number; sku: string; category: string; family: string | null; product_class: string | null; product_series: string | null };
+export type PartRef = { id: number; sku: string; category: string; family: string | null; product_class: string | null; product_series: string | null;
+  /** for partKind in the doc-subject gate (some kind axes read the name) */
+  name: string | null };
 
 export type DocInfo = DocRef & {
   source: string; kind: SourceKind; tables: number | null; fetched_at: string | null;
   /** the fetch stamp that tells one revision of this document from the next (prov.revision_label) */
   revision_label: string | null;
   parts: PartRef[]; category: string | null;
+  /** the usable title (source_docs, else the cached document): the doc-subject gate reads the subject from it */
+  title: string | null;
 };
 
 export type Quarantined = { sku?: string; scope?: string; label: string; value: string; key: string; reason: string; detail: string; locator: string; doc_id: string };
@@ -319,13 +325,16 @@ export type Plan = {
  * by a refused inheritance is graded as produced. That is a gate-scoping decision with its own
  * blast radius (it moves precision and recall on real files) and belongs to its own round.
  */
-export function storeRefusal(part: PartRef, e: SpecEntry): { rule: string; reason: string } | null {
+export function storeRefusal(part: PartRef, e: SpecEntry, docTitle: string | null = null, vendor: string | null = null): { rule: string; reason: string } | null {
   if (e.inherited === true) {
     const refusal = describesPart({
       sku: part.sku, productClass: part.product_class, categorySlug: part.category,
       partFamily: part.family, partSeries: part.product_series, docFamily: e.inherited_from ?? null,
     });
     if (refusal) return refusal;
+    // the store's SUBJECT gate, mirrored (src/store/facts.ts applyMerge): the same function on the same inputs
+    const subject = subjectRefusal({ vendor, docId: e.prov?.doc_id, title: docTitle, categorySlug: part.category, sku: part.sku, name: part.name });
+    if (subject) return subject;
   }
   return notApplicable({ sku: part.sku, categorySlug: part.category, fieldKey: e.k });
 }
@@ -354,13 +363,13 @@ export async function loadParts(vendor: string, skus: Iterable<string>, db: Quer
   const byNorm = new Map<string, PartRef>();
   for (let i = 0; i < wanted.length; i += 1000) {
     const r = await db.query<PartRef & { sku_norm: string }>(
-      `SELECT p.id, p.sku, p.sku_norm, c.slug AS category, p.family, p.product_series, p.product_class::text AS product_class
+      `SELECT p.id, p.sku, p.sku_norm, p.name, c.slug AS category, p.family, p.product_series, p.product_class::text AS product_class
          FROM parts p JOIN categories c ON c.id = p.category_id
         WHERE p.vendor_id = (SELECT id FROM vendors WHERE slug = $1) AND p.sku_norm = ANY($2::text[])
         ORDER BY p.sku`,
       [vendor, wanted.slice(i, i + 1000)]);
     for (const row of r.rows) {
-      const ref: PartRef = { id: row.id, sku: row.sku, category: row.category, family: row.family, product_class: row.product_class, product_series: row.product_series };
+      const ref: PartRef = { id: row.id, sku: row.sku, category: row.category, family: row.family, product_class: row.product_class, product_series: row.product_series, name: row.name };
       exact.set(row.sku, ref);
       if (!byNorm.has(row.sku_norm)) byNorm.set(row.sku_norm, ref);
     }
@@ -410,11 +419,27 @@ export async function planExtract(files: ExtractFile[], opts: { vendor: string; 
         tables: typeof d.tables === "number" ? d.tables : null, fetched_at: day,
         revision_label: fetchStamp(url, f.kind.doc_type, stated, f.generated_at),
         defects: d.defects ? [...d.defects] : [],
-        parts: [], category: null,
+        parts: [], category: null, title: null,
       });
     }
   }
   stats.docs = docByUrl.size;
+  // THE TITLES the doc-subject gate reads (src/core/docSubject.ts, reviewer ruling (b')): source_docs first, then the cached document
+  // for one not registered yet or registered without a title -- the apply registers it WITH this title, so the store's gate (which
+  // reads source_docs.title in the same transaction) sees what this plan saw. Untitled stays null: NOT JUDGED, refused, counted.
+  {
+    const all = [...docByUrl.values()];
+    const known = new Map((await opts.db.query<{ doc_id: string; title: string | null }>(
+      "SELECT doc_id, title FROM source_docs WHERE doc_id = ANY($1::text[])", [all.map((d) => d.doc_id)])).rows.map((r) => [r.doc_id, r.title]));
+    const unknown = all.filter((d) => !known.get(d.doc_id));
+    const read = titlesFromCache(unknown.map((d) => ({ doc_id: d.doc_id, path: cacheFileFor(d.url, d.kind.doc_type), pdf: d.kind.doc_type === "vendor_datasheet_pdf" })));
+    for (const d of all) d.title = known.get(d.doc_id) ?? read.titles.get(d.doc_id) ?? null;
+    stats.doc_titles_from_store = all.length - unknown.length;
+    stats.doc_titles_read_from_cache = unknown.filter((d) => d.title).length;
+    stats.doc_titles_unreadable = read.unreadable;
+    stats.doc_titles_refused = read.refused;
+    stats.docs_untitled = all.filter((d) => !d.title).length;
+  }
   for (const d of docByUrl.values()) stats.doc_defects += d.defects?.length ?? 0;
 
   const skus = new Set<string>();
@@ -508,7 +533,7 @@ export async function planExtract(files: ExtractFile[], opts: { vendor: string; 
     // The entry is still OFFERED to the merge even when the store will refuse it — the refusal is
     // the store's to make and to count, so one rule covers every pipeline (applyMerge). What it is
     // not is PRODUCED: see `storeRefusal` for the definition this line implements.
-    const refusal = storeRefusal(part, e);
+    const refusal = storeRefusal(part, e, doc.title, opts.vendor);
     if (refusal) {
       stats.entries_refused_before_merge++;
       const k = `refused_before_merge_${refusal.rule.split(":")[0]}`;
@@ -815,7 +840,7 @@ export async function main(argv: string[]): Promise<void> {
         // the document's class comes from the document, not from the extractor that read it
         // (classifyDocType above: 43% of these were EoL notices wearing a datasheet's label).
         // cache_path still follows the EXTRACTOR, because that is what decides the file on disk.
-        await ensureSourceDoc({ url: d.url, doc_type: classifyDocType(d.url, d.kind.doc_type), vendor: a.vendor, fetched_at: d.fetched_at, tables: d.tables, cache_path: `${sha1(d.url)}${d.kind.doc_type === "vendor_datasheet_pdf" ? ".bin" : ".html"}` }, pool);
+        await ensureSourceDoc({ url: d.url, doc_type: classifyDocType(d.url, d.kind.doc_type), vendor: a.vendor, fetched_at: d.fetched_at, tables: d.tables, cache_path: `${sha1(d.url)}${d.kind.doc_type === "vendor_datasheet_pdf" ? ".bin" : ".html"}`, title: d.title }, pool);
         mergeStats.docs_written++;
         mergeStats.doc_parts_linked += await linkDocParts(d.doc_id, d.parts.map((p) => p.id), pool);
       }

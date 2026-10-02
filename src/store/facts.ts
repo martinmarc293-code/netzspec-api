@@ -27,6 +27,7 @@ import {
 } from "../core/specMerge.js";
 import type { Queryable } from "./runs.js";
 import { conflictClass } from "../core/conflictClass.js";
+import { subjectRefusal } from "../core/docSubject.js";
 
 export type FactRow = {
   id: number;
@@ -266,7 +267,8 @@ export type ApplyResult = {
 };
 
 /** What `describesPart` needs about the part, as the store reads it. */
-type PartSubjectRow = { sku: string; product_class: string | null; category_slug: string | null; family: string | null; product_series: string | null };
+type PartSubjectRow = { sku: string; name: string | null; product_class: string | null; category_slug: string | null; family: string | null;
+  product_series: string | null; doc_title: string | null; vendor_slug: string | null };
 
 /**
  * Merge `incoming` into the part's current fact for the same field and perform the effect:
@@ -286,15 +288,19 @@ type PartSubjectRow = { sku: string; product_class: string | null; category_slug
  *   agree_same_doc   the two agree and add no independent source: nothing to do.
  */
 export async function applyMerge(client: Queryable, partId: number, incoming: SpecEntry, runId: number): Promise<ApplyResult> {
+  // p.name and the incoming document's title feed the doc-subject gate below (reviewer ruling (b'), 2 Oct 2026); the title is
+  // read in the same statement, so a document registered earlier in this transaction is seen with the title it was given.
   const cur = await client.query<FactRow & PartSubjectRow>(
-    `SELECT p.sku, p.product_class::text AS product_class, p.family, p.product_series, c.slug AS category_slug,
+    `SELECT p.sku, p.name, p.product_class::text AS product_class, p.family, p.product_series, c.slug AS category_slug,
+            (SELECT v.slug FROM vendors v WHERE v.id = p.vendor_id) AS vendor_slug,
+            (SELECT sd.title FROM source_docs sd WHERE sd.doc_id = $3::text) AS doc_title,
             f.id, f.part_id, f.field_key, f.value, f.unit, f.raw, f.state, f.tier, f.method, f.doc_id, f.locator,
             f.extracted_at::text AS extracted_at, f.norm_v, f.inherited, f.inherited_from, f.run_id, f.created_at, f.superseded_by, f.superseded_at
        FROM parts p
        JOIN categories c ON c.id = p.category_id
        LEFT JOIN facts f ON f.part_id = p.id AND f.field_key = $2 AND f.superseded_by IS NULL
       WHERE p.id = $1`,
-    [partId, incoming.k],
+    [partId, incoming.k, incoming.inherited === true ? incoming.prov?.doc_id ?? null : null],
   );
   if (!cur.rows[0]) throw new Error(`applyMerge: part ${partId} does not exist`);
   const row = cur.rows[0];
@@ -312,6 +318,10 @@ export async function applyMerge(client: Queryable, partId: number, incoming: Sp
       partFamily: row.family, partSeries: row.product_series, docFamily: incoming.inherited_from ?? null,
     });
     if (refusal) return { action: "refused_inherit", refused: refusal.reason, rule: refusal.rule, factId: existing?.id };
+    // THE SUBJECT GATE (reviewer ruling (b'), 2 Oct 2026): a document-scoped value reaches only a kind the document DESCRIBES --
+    // the allowlist describesPart's component patterns are not (src/core/docSubject.ts). OUT and NOT JUDGED both refuse.
+    const subject = subjectRefusal({ vendor: row.vendor_slug, docId: incoming.prov?.doc_id, title: row.doc_title, categorySlug: row.category_slug, sku: row.sku, name: row.name });
+    if (subject) return { action: "refused_inherit", refused: subject.reason, rule: subject.rule, factId: existing?.id };
   }
 
   // THE APPLICABILITY GATE, in the same place and for the same reason: a field the part cannot

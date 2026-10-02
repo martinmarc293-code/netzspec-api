@@ -45,7 +45,9 @@ const PARTS = [
   { id: 3, sku: "ISR4331/K9", sku_norm: "ISR4331/K9", category: "routers", family: null, product_class: "hardware" },
   { id: 4, sku: "RV345-K9", sku_norm: "RV345-K9", category: "routers", family: null, product_class: "hardware" },
 ];
-const fakeDb = { query: async (_sql: string, params: unknown[]) => {
+const fakeDb = { query: async (sql: string, params: unknown[]) => {
+  // planExtract reads the documents' titles from source_docs first (the doc-subject gate, 2 Oct 2026): this fixture registers none
+  if (/FROM source_docs/.test(sql)) return { rows: [] };
   const wanted = new Set((params[1] as string[]).map((s) => s.toUpperCase()));
   return { rows: PARTS.filter((p) => wanted.has(p.sku_norm)) };
 } } as never;

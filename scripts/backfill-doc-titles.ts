@@ -23,69 +23,17 @@
  */
 import fs from "node:fs";
 import path from "node:path";
-import { spawnSync } from "node:child_process";
 import { getPool, closePool } from "../src/store/index.js";
 import { withRun } from "../src/store/runs.js";
-import { resolvePython } from "../src/pipeline/apply-acquired.js";
 import { REPO_ROOT } from "../src/config.js";
 
 // Same default as config.CACHE_DIR; on the box CACHE_DIR is /var/lib/netzspec-api/cache.
 const CACHE = process.env.CACHE_DIR ?? path.join(REPO_ROOT, "scraper", "cache");
 
-function decodeEntities(s: string): string {
-  return s
-    .replace(/&#(\d+);/g, (_s, d) => String.fromCharCode(Number(d)))
-    .replace(/&#x([0-9a-f]+);/gi, (_s, h) => String.fromCharCode(parseInt(h, 16)))
-    .replace(/&nbsp;/gi, " ").replace(/&amp;/gi, "&")
-    .replace(/&quot;/gi, '"').replace(/&#39;|&apos;/gi, "'")
-    .replace(/&lt;/gi, "<").replace(/&gt;/gi, ">");
-}
-function clean(s: string): string | null {
-  const t = s.replace(/\s+/g, " ").trim();
-  return t.length >= 3 ? t.slice(0, 300) : null;
-}
-
-/** The <title> of a cached page, or null. Entities are decoded because Cisco writes
- *  'Cisco Catalyst 9300 Series Switches Data Sheet &#8211; Cisco' and the dash would otherwise
- *  land in the database as literal '&#8211;' and split one family into two. */
-export function titleOf(html: string): string | null {
-  const m = /<title[^>]*>([\s\S]{0,400}?)<\/title>/i.exec(html);
-  return m ? clean(decodeEntities(m[1])) : null;
-}
-
-type PdfTitle = { title: string | null; error: string | null };
-/** The Info dictionary /Title of each PDF, from ONE python process. Could-not-read is thrown, never returned as "no title". */
-export function pdfInfoTitles(paths: string[]): Map<string, PdfTitle> {
-  const out = new Map<string, PdfTitle>();
-  if (!paths.length) return out;
-  const py = resolvePython();
-  if (!py) throw new Error("no python found: PDF titles could not be read, which is not the same as none");
-  const r = spawnSync(py, [path.join(REPO_ROOT, "scripts", "pdf-info-titles.py")], {
-    input: JSON.stringify(paths), encoding: "utf8", maxBuffer: 64 * 1024 * 1024,
-    env: { ...process.env, PYTHONIOENCODING: "utf-8" },
-  });
-  if (r.error || r.status !== 0) throw new Error(`pdf-info-titles.py failed (${r.error?.message ?? `exit ${r.status}`}): ${(r.stderr ?? "").slice(0, 300)}`);
-  for (const line of r.stdout.split("\n")) {
-    if (!line.trim()) continue;
-    const o = JSON.parse(line) as { path: string; title: string | null; error: string | null };
-    out.set(o.path, { title: o.title === null ? null : clean(o.title), error: o.error });
-  }
-  if (out.size !== paths.length) throw new Error(`pdf-info-titles.py answered ${out.size} of ${paths.length} paths`);
-  return out;
-}
-
-/** Why a title names nothing a reviewer could use, or null when it is a title. Every reason came from a real row. */
-export function titleRefusal(t: string): string | null {
-  const codes = [...t].map((ch) => ch.charCodeAt(0));
-  if (codes.some((c) => c < 32 || (c >= 127 && c < 160) || c === 0xfffd)) return "not_text";
-  if (codes.filter((c) => c >= 0xa0 && c <= 0xff).length / codes.length > 0.2) return "not_text";
-  if (t.includes(String.fromCharCode(92)) || /^[a-z]:|^\//i.test(t)) return "file_path";
-  if (/\.(docx?|pptx?|indd|pdf|xlsx?|ai|eps)$/i.test(t)) return "file_name";
-  if (/^(untitled|document\s*\d*|slide\s*\d+|title|presentation\s*\d*|microsoft (word|powerpoint).*)$/i.test(t)) return "placeholder";
-  if (/template/i.test(t)) return "placeholder";
-  if (!/\s/.test(t)) return "single_token";
-  return null;
-}
+// titleOf / pdfInfoTitles / titleRefusal moved to src/pipeline/docTitle.ts on 2 Oct 2026 (the doc-subject gate reads titles at
+// write time); re-exported here for any caller that imported them from this script.
+import { titleOf, pdfInfoTitles, titleRefusal } from "../src/pipeline/docTitle.js";
+export { titleOf, pdfInfoTitles, titleRefusal };
 
 async function main(): Promise<void> {
   const commit = process.argv.includes("--commit");

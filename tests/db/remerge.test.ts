@@ -70,9 +70,11 @@ const urlA = "https://www.cisco.com/c/en/us/products/collateral/switches/catalys
 const urlB = "https://www.cisco.com/c/en/us/products/collateral/switches/nexus-7000-series-switches/dsB.html";
 const urlP = "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-9200-series-switches/dsA.pdf";
 const docA = docIdFor(urlA), docB = docIdFor(urlB), docP = docIdFor(urlP);
-await ensureSourceDoc({ url: urlA, doc_type: "vendor_datasheet_html", vendor: "cisco", fetched_at: "2026-09-01" });
-await ensureSourceDoc({ url: urlB, doc_type: "vendor_datasheet_html", vendor: "cisco", fetched_at: "2026-09-01" });
-await ensureSourceDoc({ url: urlP, doc_type: "vendor_datasheet_pdf", vendor: "cisco", fetched_at: "2026-09-01" });
+// TITLED (2 Oct 2026): the store's doc-subject gate reads the subject from source_docs.title, and an untitled document is NOT
+// JUDGED, so its document-scoped values are refused -- the fixture documents carry the titles their real sheets have.
+await ensureSourceDoc({ url: urlA, doc_type: "vendor_datasheet_html", vendor: "cisco", fetched_at: "2026-09-01", title: "Cisco Catalyst 9200 Series Switches Data Sheet" });
+await ensureSourceDoc({ url: urlB, doc_type: "vendor_datasheet_html", vendor: "cisco", fetched_at: "2026-09-01", title: "Cisco Nexus 7000 Series Switches Data Sheet" });
+await ensureSourceDoc({ url: urlP, doc_type: "vendor_datasheet_pdf", vendor: "cisco", fetched_at: "2026-09-01", title: "Cisco Catalyst 9200 Series Switches Data Sheet" });
 await linkDocParts(docA, [chassis, optic, licence], getPool());
 
 const seedRun = await openRun("apply-specs", { inputs: { seed: true } });
@@ -103,6 +105,43 @@ const entry = (o: Partial<SpecEntry> & { k: string; value: unknown }): SpecEntry
   const direct = await withTx((c) => applyMerge(c, optic, perSku, seedRun));
   check("the same value stated PER-SKU for the optic is written: only inheritance is refused",
     direct.action === "insert", `got ${direct.action}`);
+}
+
+// =================================================================================================
+// 1b. the SUBJECT gate (reviewer ruling (b'), 2 Oct 2026), in the same place: a document-scoped value reaches only a kind the
+//     document DESCRIBES. The rack kit is the shape the store check found: no component pattern matches it, so describesPart
+//     admits it, and it was serving the switch sheet's environment and standards.
+// =================================================================================================
+{
+  const kit = (await upsertPart({ vendor: "cisco", sku: "4PT-KIT-T1=", category: "switches", family: "Cisco Catalyst 9200", product_class: "hardware" })).id;
+  const urlU = "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-9200-series-switches/dsU.html";
+  await ensureSourceDoc({ url: urlU, doc_type: "vendor_datasheet_html", vendor: "cisco", fetched_at: "2026-09-01" });   // NO title
+  const docU = docIdFor(urlU);
+  await linkDocParts(docA, [kit], getPool());
+  await linkDocParts(docU, [kit], getPool());
+  const fromA = entry({ k: "altitude_max", value: 3000, unit: "m", inherited: true, inherited_from: "catalyst-9200-series-switches" });
+  const fromU = entry({ k: "weight", value: 4.2, unit: "kg", inherited: true, inherited_from: "catalyst-9200-series-switches",
+    prov: { tier: 2, method: "html_table", doc_id: docU, locator: "t1:r1:c1", norm_v: "1.5.0" } });
+
+  const onKit = await withTx((c) => applyMerge(c, kit, fromA, seedRun));
+  check("SABOTAGE a rack kit the component patterns miss may NOT inherit the switch sheet's altitude (subject:out)",
+    onKit.action === "refused_inherit" && onKit.rule === "subject:out", `got ${onKit.action} ${onKit.rule}`);
+  check("and the refusal says the document lists it but does not describe it", /does not describe it/.test(onKit.refused ?? ""), onKit.refused);
+  check("nothing was written for the kit", (await currentFact(kit, "altitude_max", getPool())) === null);
+  // the control takes a switch of its own: section 2 seeds altitude_max on `chassis`, and a fact left here would collide with it
+  const sw = (await upsertPart({ vendor: "cisco", sku: "C9200L-48T-4G", category: "switches", family: "Cisco Catalyst 9200", product_class: "hardware" })).id;
+  await linkDocParts(docA, [sw], getPool());
+  await linkDocParts(docU, [sw], getPool());
+  const onSwitch = await withTx((c) => applyMerge(c, sw, fromA, seedRun));
+  check("control: the switch the sheet describes takes the same value", onSwitch.action === "insert", `got ${onSwitch.action} ${onSwitch.rule}`);
+  const untitled = await withTx((c) => applyMerge(c, sw, fromU, seedRun));
+  check("SABOTAGE an UNTITLED document is not judged, and not judged is refused (never a pass)",
+    untitled.action === "refused_inherit" && untitled.rule === "subject:not-judged", `got ${untitled.action} ${untitled.rule}`);
+  const arista = (await upsertPart({ vendor: "arista", sku: "ZZ-ARISTA-KIT", category: "switches", family: "Cisco Catalyst 9200", product_class: "hardware" })).id;
+  await linkDocParts(docU, [arista], getPool());
+  const onArista = await withTx((c) => applyMerge(c, arista, fromU, seedRun));
+  check("a vendor outside the measured set is not judged by this gate: arista inherits from the same untitled document",
+    onArista.action === "insert", `got ${onArista.action} ${onArista.rule}`);
 }
 
 // =================================================================================================
