@@ -59,7 +59,10 @@ export type DocSubject =
 export function subjectFromTitle(title: string | null | undefined): DocSubject {
   if (!title || !title.trim()) return { judged: false, reason: "untitled document" };
   const t = title.replace(/\s+-\s+Cisco\s*$/i, "").replace(BOILER, " ");
-  const head = t.includes(":") ? t.slice(t.lastIndexOf(":") + 1) : t;   // "NCS 5500 Modular Chassis: Fabric and Fan Modules"
+  const afterColon = t.includes(":") ? t.slice(t.lastIndexOf(":") + 1) : t;   // "NCS 5500 Modular Chassis: Fabric and Fan Modules"
+  // the head noun stands BEFORE a prepositional phrase: "Cellular Modules for the Cisco 1000 Series Connected Grid Routers"
+  // describes modules, "Line Cards with 7-Fabric Supervisor" line cards (the store check's one miss, 2 Oct)
+  const head = afterColon.split(/(?<![A-Za-z])(?:for|with)(?![A-Za-z])/i)[0];
   type Hit = { start: number; end: number; text: string; noun: Noun };
   let hits: Hit[] = [];
   for (const noun of NOUNS) for (const m of head.matchAll(noun.re)) hits.push({ start: m.index!, end: m.index! + m[0].length, text: m[0], noun });

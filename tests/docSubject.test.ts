@@ -31,6 +31,10 @@ check("SABOTAGE a modifier further left never joins: 'QSFP-DD Transponder Line C
 check("the rightmost noun wins over a device noun to its left: 'Line-Card Chassis Route Processor' is a processor sheet",
   groups("CRS 8-Slot Line-Card Chassis Route Processor"), ["card"]);
 check("'WAN Interface Cards' are cards", groups("Cisco EtherSwitch 4- and 9-Port High-Speed WAN Interface Cards"), ["card"]);
+check("SABOTAGE the head stands before 'for': 'Cellular Modules for the ... Connected Grid Routers' describes modules",
+  groups("Cisco Connected Grid Cellular Modules for the Cisco 1000 Series Connected Grid Routers"), ["card"]);
+check("...and before 'with': '819 Integrated Services Routers with 3G and Wi-Fi' still describes routers",
+  groups("Cisco 819 Integrated Services Routers with 3G and Wi-Fi Data Sheet"), ["device"]);
 check("a power-supply sheet describes power supplies", groups("Cisco Catalyst 9300 Series Power Supplies Data Sheet"), ["power"]);
 check("an untitled document is NOT JUDGED, never a default", groups(null), "not judged: untitled document");
 
@@ -70,7 +74,7 @@ check("SABOTAGE an override naming no kinds is refused at load", refuses({ doc_i
 check("SABOTAGE a document twice is refused at load", (() => { try { parseOverrides({ overrides: [{ doc_id: "d", kinds: ["power"], witness: "w", reason: "r" }, { doc_id: "d", kinds: ["fan"], witness: "w", reason: "r" }] }); return "accepted"; } catch (e) { return (e as Error).message; } })(), "doc-subjects.json: d appears twice");
 check("the shipped table loads (a broken file would refuse every document)", (() => { try { docSubject({ doc_id: "x", title: "t" }); return "loads"; } catch (e) { return (e as Error).message; } })(), "loads");
 
-const TOTAL = 41;
+const TOTAL = 43;
 if (misses.length || pass !== TOTAL) {
   for (const m of misses) console.log(`  MISS ${m}`);
   console.error(`\n${pass}/${TOTAL} doc-subject cases passed${pass + misses.length !== TOTAL ? ` (ran ${pass + misses.length}, expected ${TOTAL})` : ""}.`);
