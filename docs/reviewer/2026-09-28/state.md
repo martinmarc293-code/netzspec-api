@@ -302,27 +302,24 @@ HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). R
      TRAP: the night rebuilds and stamps the artefacts IN THE DEPLOY TREE (STAMP_*_COMMIT = the deployed commit). The day
      session copies them into the repo, restamps, commits BEFORE ANY DEPLOY -- a deploy first would put the older committed
      artefacts back under the API.
-## HANDOFF (2 Oct ~08:30 UTC, operator shut the laptop down mid-batch) -- READ FIRST
-- DONE + VERIFIED: (1) the doc-subject gate is LIVE (67c00e8 + 89ecb85 deployed): subjectRefusal in applyMerge after describesPart,
-  mirrored in apply-extract (which now registers documents WITH their titles), scoped to cisco. (2) RUN 1469 committed on the box:
-  13,367 out-of-subject document-scoped facts retracted on 3,647 parts, 4,898 conflicts resolved (432 '...rejected_side_in_subject:
-  reapply_owed'); verified from a new connection (0 still current, 13,367/13,367 superseded, the other 11,600 facts on those parts
-  unchanged, 0 open conflicts left). Undo + re-apply list + log in the repo (ef0848f): data/dryrun/retract-doc-subjects-cisco-
-  2026-10-02T082406663Z*.tsv, -commit-run1469.txt. Reviewer approved both the plan and the conflict handling.
-- IN FLIGHT ON THE BOX: mould-build launched ~08:25 UTC (/tmp/build-ds.log, start marker /tmp/build-ds.start), on the deployed code
-  89ecb85. Its artifacts are in the BOX tree only. NEXT SESSION, BEFORE ANY DEPLOY: if tonight's 01:00 night has not rebuilt and stamped
-  over it, copy the data newer than /tmp/build-ds.start into the repo (contract --check, stamp, stamp --check, freeze/completeness/
-  cupLedger tests), commit, deploy; then the board, the scorecard (--weekly-pct, --limits-lifted; today.json predicts ready -165:
-  739 -> 574), the dashboard, and the batch report to the reviewer.
-- The STOP was cleared 06:57Z: tonight's 01:00 night runs (target is only the 10 failing .pdf URLs, so it applies ~nothing new; the
-  store gate is live for whatever it does apply). Read fill-2026-10-03.md first thing.
-- NEXT, reviewer's order: (3a) the kind fix -- a non-hardware part never takes a device kind (use the STORED product_class where the
-  caller has it, productClass.ts SKU rules as the fallback; measure first whether the fallback moves any FROZEN hardware kind row --
-  the freeze snapshots hardware parts only); also seen: SFP-10G-LR= in switches reads as kind 'switch'. Then offer the 233 raw-bearing
-  re-apply rows back through applyMerge (the full gate decides), and put the 199 pre-0008 rows on the re-extraction list. Then the
-  bucket-A plan (9,714 device-receiver facts the current family gate refuses): dry run, 30-row sample, ready impact, the same format.
-- The local pg tunnel (5433) was restarted WMI-detached this session; it dies with the laptop -- restart with the standard script.
-- The last chat message to the reviewer (the wrap-up note) may have an unread reply: READ IT before anything else.
+## HANDOFF (2 Oct ~11:45 UTC) -- READ FIRST; (b') CLOSED, next is (3a)
+- (b') DONE + VERIFIED: gate live (67c00e8); run 1469 retracted 13,367 out-of-subject facts (verified); rebuild c290f8e (MISS diff
+  0/0/0; freeze 39/0, completeness 423/0 with 3 sabotage cases unexercised IDENTICALLY at the baseline commit, cupLedger 0 missed).
+  Ruling (ii) DONE (847c789): seventh fill state derived_operational (one classifier fillState, shown apart, out of the filled
+  share) -> contract 19704b71cf482f48, re-stamped ONE BUILD; Meraki camera exception carries expires_with_category
+  physical-security and basisFails names it EXPIRED (cupLedger control + sabotage; removing the check: 2,460/1). Fill-state record
+  e97d3b6: filled 8,847 of 55,291 spec facts (16.0%), filled_inherited 13,317, derived_operational 7,235 apart. Board 32/1
+  (vendor_coverage only). Scorecard 2 Oct ~11:40: ready 574 (-165, predicted -165), weekly 70% (limits LIFTED; reviewer flag 90%).
+- NEXT, reviewer's order: (3a) the kind fix -- a non-hardware part never takes a device kind: STORED product_class where the
+  caller has it (~2,430 licence parts are product_class license already; ~60 software/non_product), productClass.ts SKU rules
+  as the fallback; MEASURE FIRST whether the fallback moves any FROZEN hardware kind row (data/freeze/cisco-kinds.tsv holds
+  hardware only). Hardware bundles named "...with licence" (ASR1002X-10G-VPNK9, ASA bundles) are DEVICES: never a name regex.
+  Also seen: SFP-10G-LR= in switches reads as kind 'switch'. THEN the 233 raw-bearing re-apply rows
+  (data/dryrun/retract-doc-subjects-cisco-2026-10-02T082406663Z-reapply-owed.tsv) offered back through applyMerge, the 199
+  pre-0008 rows onto the re-extraction list; THEN the bucket-A plan (9,714 device-receiver facts the current family gate
+  refuses): dry run, 30-row sample, ready impact (the reviewer: keep that format).
+- Tonight's 01:00 night runs (STOP clear); read fill-2026-10-03.md first. The local pg tunnel (5433) was restarted WMI-detached
+  this session (the laptop was shut down once since; restart with the standard script if dead).
 
 ## NOW (2 Oct ~07:00 UTC) -- after compaction: night STOP diagnosed + fixed (reviewer to clear); fetch-lane premise checked
 - OPERATOR, 2 Oct ~06:40 UTC: "the limit usage is no more with you right now till further notice" -- the 55 % / 70 % weekly
