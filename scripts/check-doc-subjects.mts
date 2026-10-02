@@ -27,10 +27,15 @@ const argv = process.argv.slice(2);
 const arg = (k: string) => { const i = argv.indexOf(k); return i >= 0 ? argv[i + 1] : undefined; };
 const vendor = arg("--vendor") ?? "cisco", planOut = arg("--plan"), top = Number(arg("--top") ?? 40), readyOut = arg("--ready-out");
 const withReady = argv.includes("--ready") || !!readyOut;
+// --plan-class <tsv> (reviewer Q2, 2 Oct 2026): every document-scoped inherited fact whose receiver's STORED class is not hardware
+// (and not `unknown`, which is not evidence either way) -- the plan retract-nonhw-inherited.mts must reproduce fact for fact. The
+// predicate is spelled from the row's class here, NOT through describesPart (the retraction's selector), so the two agreeing is a
+// cross-check rather than one function counted twice. Its ready impact is measured beside it (the export's own views + shopReady).
+const planClassOut = arg("--plan-class");
 
-type Part = { id: number; sku: string; name: string | null; cat: string; pc: string | null; family: string | null; series: string | null };
+type Part = { id: number; sku: string; name: string | null; cat: string; pc: string | null; pcr: string | null; family: string | null; series: string | null };
 const parts = (await query<Part>(`
-  SELECT p.id, p.sku, p.name, c.slug AS cat, p.product_class::text AS pc, p.family, p.product_series AS series
+  SELECT p.id, p.sku, p.name, c.slug AS cat, p.product_class::text AS pc, p.product_class_reason AS pcr, p.family, p.product_series AS series
     FROM parts p JOIN categories c ON c.id = p.category_id JOIN vendors v ON v.id = p.vendor_id
    WHERE v.slug = $1 AND p.retired_at IS NULL`, [vendor])).rows;
 const byId = new Map(parts.map((p) => [p.id, p]));
@@ -64,9 +69,24 @@ const outByPart = new Map<number, Set<string>>();
 const A = { n: 0, refused: new Map<string, number>() };
 const licence = new Map<string, { n: number; samples: Set<string> }>();
 const LICENCE = /(?<![A-Za-z])(?:licen[cs]e|subscription|DNA (?:Advantage|Essentials|Premier))(?![A-Za-z])|-[1-9]Y$|^L-/i;
+const NOT_HARDWARE_EVIDENCE = new Set(["hardware", "unknown"]);
+const classRows: string[] = [];
+const classByPart = new Map<number, Set<string>>();
+const classSplit = new Map<string, number>();
+let classHeld = 0;
+const classHeldParts = new Set<string>();
 for (const f of facts) {
   const p = byId.get(f.part_id)!;
   const kind = kindOf.get(f.part_id);
+  // HELD, not planned: a receiver whose class is only its CATEGORY's default (no SKU or name rule named it) -- the class Q3 corrects
+  // (36 real devices filed in software categories); retracting first would withdraw facts on hardware.
+  if (p.pc && !NOT_HARDWARE_EVIDENCE.has(p.pc) && (p.pcr ?? "").startsWith("category-is_hardware=false")) { classHeld++; classHeldParts.add(p.sku); }
+  else if (p.pc && !NOT_HARDWARE_EVIDENCE.has(p.pc)) {
+    classRows.push([f.id, p.sku, p.cat, p.pc, kind ?? "(no axis)", f.field_key, f.doc_id ?? "", (titles.get(f.doc_id ?? "")?.title ?? "").replace(/\s+/g, " ").slice(0, 90), f.raw.replace(/\s+/g, " ")].join("\t"));
+    (classByPart.get(f.part_id) ?? classByPart.set(f.part_id, new Set()).get(f.part_id)!).add(f.field_key);
+    const k = `${p.pc}${kind === undefined ? " (category has no kind axis)" : ""}`;
+    classSplit.set(k, (classSplit.get(k) ?? 0) + 1);
+  }
   if (kind && DEVICE_KINDS.has(kind)) {
     A.n++;
     const r = describesPart({ sku: p.sku, productClass: p.pc, categorySlug: p.cat, partFamily: p.family, partSeries: p.series, docFamily: f.inherited_from ?? null });
@@ -114,6 +134,25 @@ for (const [d, e] of [...outDocs].sort((a, b) => b[1].n - a[1].n).slice(0, top))
 if (planOut) {
   fs.writeFileSync(planOut, ["fact_id\tsku\tcategory\tkind\tfield\tdoc_id\tsubject\ttitle\traw", ...outRows].join("\n") + "\n");
   console.log(`  plan: ${outRows.length} OUT rows -> ${planOut}`);
+}
+console.log(`  on a stored NON-hardware receiver (class, not kind): ${classRows.length} facts on ${classByPart.size} parts -- ${top3(classSplit, 12) || "none"}; HELD (class only the category default, Q3): ${classHeld} facts on ${classHeldParts.size} parts`);
+if (planClassOut) {
+  fs.writeFileSync(planClassOut, ["fact_id\tsku\tcategory\tclass\tkind\tfield\tdoc_id\ttitle\traw", ...classRows].join("\n") + "\n");
+  // ready impact, the export's own way: how many of these receivers does the export even return, and how many are shop-ready
+  const skus = [...classByPart.keys()].map((id) => byId.get(id)!.sku);
+  let views = 0, readyNow = 0, lose = 0;
+  for (let i = 0; i < skus.length; i += 2000) {
+    const { parts: vs } = await loadPage({ vendor, skus: skus.slice(i, i + 2000), limit: 2000 });
+    for (const v of vs) {
+      views++;
+      if (!shopReady(v).ready) continue;
+      readyNow++;
+      const fewer = new Map(v.facts);
+      for (const k of classByPart.get(idBySku.get(v.sku)!) ?? []) fewer.delete(k);
+      if (!shopReady({ ...v, facts: fewer }).ready) lose++;
+    }
+  }
+  console.log(`  plan-class: ${classRows.length} rows -> ${planClassOut}; ready impact: the export returns a view for ${views} of the ${skus.length} receivers, ${readyNow} shop-ready now, ${lose} would not be after the withdrawal`);
 }
 if (withReady) {
   // the parts shop-ready now that would not be with their OUT fields withdrawn: the export's own views and shopReady

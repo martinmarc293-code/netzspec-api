@@ -354,6 +354,7 @@ const RUN_KIND_CLASS: Record<string, { approval: boolean; gate: boolean }> = {
   // (approval) inside a gated run (re-read + the store's rule + an independent count)
   "apply-retract-component-inherited": AG,
   "apply-retract-doc-subject": AG,   // (b') 2 Oct 2026: the served out-of-subject document-scoped facts, approval + gate
+  "apply-retract-nonhw-class": AG,   // Q2 2 Oct 2026: served document-scoped inherited facts on non-hardware parts, approval + gate
 };
 // The vendor this lane has axes for; vendor_coverage owns every other vendor's hardware (unknown_zero counts them apart).
 const OWN_VENDOR = "cisco";
