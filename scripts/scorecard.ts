@@ -154,15 +154,18 @@ if (light?.color === "RED") flags.push(`RED-NIGHT: ${light.reason}`);
 // script cannot read -- it is handed in with --weekly-pct, and a scorecard without it says so rather than leaving the line out.
 const weeklyArg = arg("--weekly-pct");
 const weekly = weeklyArg !== undefined && Number.isFinite(Number(weeklyArg)) ? Number(weeklyArg) : null;
-if (weekly !== null && weekly >= 70) flags.push(`LIMIT-70: weekly usage ${weekly}% -- ALL work stops: commit, state.md, report, wait for the reset`);
-else if (weekly !== null && weekly >= 55) flags.push(`LIMIT-55: weekly usage ${weekly}% -- the headless lane is paused`);
+// --limits-lifted "<who, when>": the operator lifted the stops (2 Oct 2026: "the limit usage is no more with you right now till
+// further notice"). The flag still prints, so the usage stays visible, but it says the stop is lifted and by whom.
+const lifted = arg("--limits-lifted");
+if (weekly !== null && weekly >= 70) flags.push(lifted ? `LIMIT-70 LIFTED (${lifted}): weekly usage ${weekly}%` : `LIMIT-70: weekly usage ${weekly}% -- ALL work stops: commit, state.md, report, wait for the reset`);
+else if (weekly !== null && weekly >= 55) flags.push(lifted ? `LIMIT-55 LIFTED (${lifted}): weekly usage ${weekly}%` : `LIMIT-55: weekly usage ${weekly}% -- the headless lane is paused`);
 
 const hhmm = (ms: number) => `${String(Math.floor(ms / 3600e3)).padStart(2, "0")}:${String(Math.floor((ms % 3600e3) / 60e3)).padStart(2, "0")}`;
 const card = {
   at: now.toISOString(), since, ready: R.ready, ready_delta: readyDelta, filled_pct: R.filled_pct, filled_delta: filledDelta,
   predicted: Number.isFinite(predicted) ? predicted : null, actual, rule: today?.rule ?? null, blocker_key: today?.blocker_key ?? null,
   blocker_rank: rank >= 0 ? rank + 1 : null, top5: R.top5, off_list: offList, fixups, fixup_commits: fixupList, reverts,
-  questions, questions_already_ruled: null, commands, context_tokens: ctx, context_pct: ctxPct, weekly_pct: weekly, streak, flags,
+  questions, questions_already_ruled: null, commands, context_tokens: ctx, context_pct: ctxPct, weekly_pct: weekly, limits_lifted: lifted ?? null, streak, flags,
   light: light ? `${light.color}: ${light.reason}` : "unknown", verdict: null,
 };
 const lines = [
@@ -172,7 +175,7 @@ const lines = [
   `rework    commits fixing my own earlier commits: ${fixups}${fixupList.length ? ` (${fixupList.join(", ")})` : ""} · reverts: ${reverts} · commits in window: ${commits.length}`,
   `asks      ${tfile ? `questions to reviewer: ${questions}` : "questions to reviewer: not computed (no transcript given)"} · of which already ruled in state.md: n/a (a reading, not a count)`,
   `cost      ${tfile ? `context used: ${ctxPct ?? "?"}% (${ctx?.toLocaleString("en") ?? "?"} of ${CONTEXT_WINDOW.toLocaleString("en")} tokens) · commands run: ${commands}` : "context / commands: not computed (no transcript given)"} · time since last report: ${hhmm(now.getTime() - new Date(since).getTime())}`,
-  `limits    weekly usage (all models): ${weekly === null ? "NOT GIVEN (--weekly-pct)" : `${weekly}%`} · headless lane pauses at 55%, all work stops at 70%`,
+  `limits    weekly usage (all models): ${weekly === null ? "NOT GIVEN (--weekly-pct)" : `${weekly}%`} · headless lane pauses at 55%, all work stops at 70%${lifted ? ` · LIFTED by the operator (${lifted})` : ""}`,
   `streak    consecutive reports with ready +0: ${streak} · night: ${card.light}`,
 ];
 console.log(lines.join("\n"));

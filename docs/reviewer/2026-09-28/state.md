@@ -302,31 +302,34 @@ HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). R
      TRAP: the night rebuilds and stamps the artefacts IN THE DEPLOY TREE (STAMP_*_COMMIT = the deployed commit). The day
      session copies them into the repo, restamps, commits BEFORE ANY DEPLOY -- a deploy first would put the older committed
      artefacts back under the API.
-## NOW (30 Sep ~13:15 UTC) -- FINAL FILL ORDER in force; handoff on a WASTEFUL flag (context 74 %)
-- ORDER (reviewer verdict ~12:40): red suites that pin cup sets -> shipping-class rule -> the rest of the suites -> comparator
-  round -> headless pilot (NOT this week: weekly 52 %, it pauses at 55 %) -> second-source evaluation (free sources, 3 days).
-  Standing: FETCH box only, continuous, <= 1 req / 2 s, per-SERIES-sheet lease by not-held count (NOT BUILT YET -- the nightly
-  01:00 run is the only fetch today); WRITE through the gates; WATCH: dashboard + verifier after every batch; weekly deep audit
-  (200 parts, > 1 % error pauses writes) -- NOT BUILT YET. LIMITS: all work stops at 70 % weekly.
-- DONE today, all committed + pushed + deployed:
-  * rulings B/C/D (runs 1461 partial apply, 1462): ready 154 -> 215.
-  * apply-extract --partial + the gate re-reads shape E by re-running the extractor (d8b3f2e).
-  * owed rework: 11 red suites -> 0 after the rebuild (routerKind, moduleKind, collabKind, freeStringCups, trayHoles, cupLedger,
-    promote-required, source-fields, productLine, layerIndex); every pin cites the ruling that moved it; the transforms now
-    RECORD what they did (ROLE_GATE_WITHOUT_AXIS, applier reports) and readers import the records.
-  * shipping-class rule: data/reference/shipping-classes.json (26 rows; collab + video mechanical EXCLUDED after reading their
-    rows -- floor stands, table legs, a node housing; switches mechanical L->XL, accessory S->M), shop_ready accepts a
-    Versandgewicht for listed kinds only, derived:shipping-class with the table registered as a reference_table document.
-    Run 1465: 7,235 facts. Ready 215 -> 739 (+524 vs predicted 519).
-  * rulings (a)/(b): run 1466 -- 16 C9200CX seeds superseded by the sheet's 'No'; 67 stacking_bandwidth reads per SKU.
-  * meraki.security-camera single-series granularity exception recorded (reviewer to confirm).
-- IN FLIGHT: rebuild of the HEAD after 'the rest of the suites' commit (/tmp/build-sc.log on the box). Then: copy data back,
-  contract/stamp/freeze checks, commit, deploy, board, scorecard --record --weekly-pct, publish dashboard, report.
-- OPEN QUESTIONS for the reviewer (in the next report): the fill-state partition files derived:shipping-class facts under
-  'mined_non_spec_doc' (their witness is a reference_table, not a spec doc) -- a seventh state, or leave it; fans are NOT small
-  parcels (router fan trays p90 12.2 kg), classed XXL rather than excluded.
-- NEXT after the report: comparator round (series-in-family, glued prefix, letter series with the line word; sabotages listed
-  in 'Flip order'); then build the continuous fetch lane and the weekly deep audit the order names.
+## NOW (2 Oct ~07:00 UTC) -- after compaction: night STOP diagnosed + fixed (reviewer to clear); fetch-lane premise checked
+- OPERATOR, 2 Oct ~06:40 UTC: "the limit usage is no more with you right now till further notice" -- the 55 % / 70 % weekly
+  stops are LIFTED until the operator says otherwise. Weekly is still reported in every scorecard (66 % at 06:36 UTC; resets
+  5 Oct 08:59 UTC). The 30 Sep -> 2 Oct rise (53 -> 66 %) was mostly other sessions: this one had compacted.
+- NIGHTS: 1 Oct STOPPED at derive (derive-pon-standard exit 2); 2 Oct REFUSED on $FILL/STOP. Cause: the pon witness table
+  pinned the 160-char CUT ieee_standards raw; the 29 Sep cut-cell repair replaced those facts with the full 375-char cell, so
+  no current fact carried the witness raw and all 7 refused (correctly). FIX f08566a (deployed): the 7 switches rows re-pinned
+  only where exactly ONE current fact starts with the cut raw and derives the same value (gpon); the cut raw kept as
+  raw_cut_160. The real script on the box afterwards: 0 to write, 7 already correct, 0 refused, exit 0 -- the night's control
+  ("; 0 to write") passes. ponStandard 17/0. $FILL/STOP is NOT cleared: the reviewer answers first (standing order).
+  Same-shape scan (160-char raws in data/reference witness tables; the net finds the 7 at HEAD): max-bound-weight 0;
+  temp-correction 27, which cannot refuse this way (correct-temps-by-sheet matches by containment in the re-read cell).
+- 1 OCT NIGHT YIELD (before the stop): acquire 242 done / 12 failed, 0 blocks, 112 network fetches; 541 documents since the
+  watermark (html 241, pdf 297, not cached 3); 27 PDFs refused by the memory / time cap; families 261 -> committed 0:
+  * golden rows owed: 13 families, 41 docs, every one listing our parts, 1,505 facts -- DAY WORK owed by this session
+    (>= 5 golden rows per family, re-split the staged files, commit what qualifies).
+  * no PID list read: 248 families / 470 docs -- 105 HTML collateral sheets with 4,351 facts but no PID list (an extractor
+    gap); 200 /td/docs/ guides with 160 facts and 0 PID lists; 156 other with 828 facts; 9 PDF sheets.
+- FETCH-LANE PREMISE (reviewer (iii): "the top blockers are mostly sheets not yet fetched"), measured 2 Oct with the
+  scorecard's sole-blocker definition x heldRowSql x fill-night-target's URL match (scratch blocker-split.mts):
+  weight 397 = held 232 (a queued sheet under the series: 63) + NOT held 165 (queued sheet: 1);
+  Betriebstemperatur 259 = held 70 (queued 64) + NOT held 189 (queued 183); name 168 all held; Standard 39 all held.
+  The not-held TARGET is now 10 URLs (of 1,000 queued spec-shaped), and ALL 10 are .pdf URLs failed "status 200 / text/html"
+  (HyperFlex HX 1,108 not-held parts, Nexus 9000 333, URWB 194, MDS 9000 62, IE3200 19, IE3400 12, NCS 540 4, Tetration 4;
+  plus series "Cisco", 275 parts, whose 5-char slug false-matches any /cisco* path -- it leased a contact-centre guide).
+  A continuous lane on today's target has almost nothing to fetch; the lever is what those HTML answers are.
+- ASKED the reviewer (2 Oct report): clear the STOP; the order among golden rows (1,505 facts) / the 10 .pdf->text/html /
+  the HTML no-PID gap (105 sheets) / the lane with a blocker-driven target; /td/docs/ guides out of the target?
 
 ## ORDER AFTER COMPACTION (reviewer verdict 30 Sep ~13:30 UTC: ON TRACK, +524 vs 519; WASTEFUL -> compact now)
 Weekly usage 53 % at 13:25 UTC (~17 % left before the 70 % stop; headless lane will not run this week).
@@ -335,7 +338,7 @@ Weekly usage 53 % at 13:25 UTC (~17 % left before the 70 % stop; headless lane w
    ordered by NOT-HELD part count, disk warning < 5 GB. Reuse scraper/worker.py (--url-list --stop-on-block --max-minutes, the
    soft_block constants) and the nightly's target builder (scripts/fill-night-target.mts); a systemd service or a supervised
    nohup loop on the box, with a pause lease (reason + expiry) and a heartbeat checked from outside. The top blockers (device
-   weights 397, Betriebstemperatur 259) are mostly sheets not yet fetched.
+   weights 397, Betriebstemperatur 259) are mostly sheets not yet fetched. [PREMISE CHECKED 2 Oct: see NOW]
 2. Then the comparator round (see NOW / Flip order). 3. Then the weekly deep audit (200 parts, error rate per category, > 1 %
    pauses writes).
 RULINGS to implement (30 Sep ~13:30): (ii) a SEVENTH fill state `derived_operational` for derived:shipping-class facts (and any

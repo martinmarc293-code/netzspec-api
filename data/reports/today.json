@@ -1,8 +1,9 @@
 {
-  "date": "2026-09-30",
-  "rule": "the shipping-class rule (FINAL FILL ORDER item 4): small components ship on a Versandgewicht from a class table (derived:shipping-class, the table as witness), shop_ready accepts it for those kinds only; with the owed red suites fixed first and rulings (a)/(b) applied",
-  "blocker_key": "weight",
-  "predicted_unlock": 519,
-  "predicted_at_ready": 215,
-  "note": "reviewer's order (30 Sep ~12:40): the red suites that pin cup sets -> the shipping-class rule (~528 with fans; 519 after two classes were excluded on reading their rows) -> the rest of the suites"
+  "date": "2026-10-02",
+  "focus": "ordered",
+  "rule": "reviewer (iii): the fetch lane first -- premise checked before building (the not-held target is 10 URLs, all .pdf answering text/html); with the 1 Oct night STOP fixed (pon witnesses re-pinned to the repaired raw, f08566a)",
+  "blocker_key": "attribute:Betriebstemperatur",
+  "predicted_unlock": 0,
+  "predicted_at_ready": 739,
+  "note": "no unlocking rule shipped: the STOP fix unblocks the nights; ready moves when the night commits (golden rows owed for 13 staged families, 1,505 facts)"
 }
