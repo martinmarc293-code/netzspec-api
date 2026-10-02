@@ -20,8 +20,9 @@ type PartRow = { id: string; sku: string; name: string | null; name_state: strin
 
 export type JtlScope = { vendor: string; category?: string; skus?: string[]; limit: number; cursor?: string };
 
-/** One page of live hardware parts in SKU order, as the gate sees them. */
-async function loadPage(s: JtlScope): Promise<{ parts: PartView[]; last: string | null; more: boolean }> {
+/** One page of live hardware parts in SKU order, as the gate sees them. Exported for scripts/check-doc-subjects.mts, which
+ *  grades the same views with the out-of-subject facts removed (the ready impact of a retraction, measured before it). */
+export async function loadPage(s: JtlScope): Promise<{ parts: PartView[]; last: string | null; more: boolean }> {
   const where: string[] = ["v.slug = $1", "p.retired_at IS NULL", "p.product_class = 'hardware'"];
   const values: unknown[] = [s.vendor];
   const bind = (v: unknown) => { values.push(v); return `$${values.length}`; };

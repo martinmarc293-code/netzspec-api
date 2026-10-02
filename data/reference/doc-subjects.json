@@ -1,0 +1,4 @@
+{
+  "_readme": "Per-document SUBJECT overrides for src/core/docSubject.ts (reviewer ruling (b'), 2 Oct 2026, condition 1). A document's subject is read from its title's head noun; an override is for a sheet that ALSO specifies its own modules, power supplies or other parts under a section heading, so those kinds are subjects of that document too. Every override names the document (doc_id, with url and title for the reader), the kinds it adds (add_kinds) or replaces (kinds), the WITNESS (the section heading and its locator in the cached document) and the reason. The loader refuses an entry without a witness, a reason or kinds, or one that appears twice.",
+  "overrides": []
+}
