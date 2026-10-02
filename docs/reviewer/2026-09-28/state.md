@@ -310,6 +310,11 @@ HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). R
   physical-security and basisFails names it EXPIRED (cupLedger control + sabotage; removing the check: 2,460/1). Fill-state record
   e97d3b6: filled 8,847 of 55,291 spec facts (16.0%), filled_inherited 13,317, derived_operational 7,235 apart. Board 32/1
   (vendor_coverage only). Scorecard 2 Oct ~11:40: ready 574 (-165, predicted -165), weekly 70% (limits LIFTED; reviewer flag 90%).
+- VERDICT 2 Oct ~11:50 UTC: ON TRACK (-165 predicted = actual); WASTEFUL valid -> COMPACT before (3a). FIRST (small): the
+  scorecard prints filled 9.6% (completeness sums) while the live fill-state record says 16.0% -- make scorecard.ts read the SAME
+  fillState share (the last data/completeness/fill-state-history.jsonl record, filled / (total - derived_operational)) so the
+  two cannot drift; keep the completeness % beside it only if labelled as a different measure. (3a) ADDITION: count how many OTHER
+  spare optics/components the switches axis reads as kind switch (SFP-10G-LR= is one) -- an optic in switches is a pluggable.
 - NEXT, reviewer's order: (3a) the kind fix -- a non-hardware part never takes a device kind: STORED product_class where the
   caller has it (~2,430 licence parts are product_class license already; ~60 software/non_product), productClass.ts SKU rules
   as the fallback; MEASURE FIRST whether the fallback moves any FROZEN hardware kind row (data/freeze/cisco-kinds.tsv holds
