@@ -317,6 +317,8 @@ HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). R
     reclassify REQUIRES --approved with --commit; recorder run 1481 wrote 1473's verbatim approval, marked approved_recorded_late.
   * Scorecard ~14:28: ready 574 of 41,087 (+0, predicted 0), filled 16.0% (8,847 of 55,341), required slots 9.5%; flags STALLED
     (streak 3), WASTEFUL (context 82%), LIMIT-70 LIFTED (weekly 73%).
+- VERDICT 2 Oct ~14:40 UTC on the Q3 report: "Q3 accepted -- exactly +36 / -7, and the late-recorded approval marked as such
+  rather than passed off as carried. Correct. Compact, then Betriebstemperatur and names. NEXT REPORT MUST SHOW READY MOVING."
 - NEXT, the reviewer's order (verdict ~14:05): COMPACT -> READY-GAIN batch 1: Betriebstemperatur (266 parts whose SOLE export
   blocker is attribute:Betriebstemperatur) -> READY-GAIN batch 2: names (168, blocker `name`) -> Q1: re-extract the 432 re-apply
   rows' documents through the current pipeline, scoped (gates decide own vs inherited; dry run, sample, commit -- prediction: the
