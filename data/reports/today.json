@@ -1,9 +1,9 @@
 {
   "date": "2026-10-02",
   "focus": "ordered",
-  "rule": "reviewer (iii): the fetch lane first -- premise checked before building (the not-held target is 10 URLs, all .pdf answering text/html); with the 1 Oct night STOP fixed (pon witnesses re-pinned to the repaired raw, f08566a)",
-  "blocker_key": "attribute:Betriebstemperatur",
-  "predicted_unlock": 0,
+  "rule": "(b') the doc-subject allowlist: the store gate (67c00e8) + the approved retraction of the 13,367 served out-of-subject document-scoped facts (ready 739 -> 574 accepted by the reviewer: those 165 were ready on values that described a different product)",
+  "blocker_key": "attributes:none",
+  "predicted_unlock": -165,
   "predicted_at_ready": 739,
-  "note": "no unlocking rule shipped: the STOP fix unblocks the nights; ready moves when the night commits (golden rows owed for 13 staged families, 1,505 facts)"
+  "note": "a correctness retraction: ready is predicted to FALL by the 165 parts the check measured (the export's own views and shopReady with the OUT fields removed, data/dryrun/doc-subjects-ready-lost-20261002T073251.tsv)"
 }

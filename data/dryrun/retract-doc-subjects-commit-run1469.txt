@@ -1,0 +1,12 @@
+COMMIT -- retract out-of-subject document-scoped facts (database netzspec, cisco)
+  current inherited facts with a raw: 33766; part-to-part not selected: 356; selected (subject:out): 13367 on 3647 parts
+  plan (the undo): data/dryrun/retract-doc-subjects-cisco-2026-10-02T082406663Z.tsv
+  open conflicts on a retracted field, resolved with it: 4898 -- 4466 whose other side is also out of subject (or names no document); 432 whose other side's document DESCRIBES the part (held today; resolved '...reapply_owed'; 233 carry the rejected raw, 199 pre-0008 without) -> data/dryrun/retract-doc-subjects-cisco-2026-10-02T082406663Z-reapply-owed.tsv
+  gate: {"precision":1,"recall":1,"passed":true,"checked":13367,"ok":13367,"changed":0,"unreadable":0,"not_refused_by_store_rule":0,"approved_plan":{"file":"doc-subjects-out-20261002T073251.tsv","rows":13367,"planned_not_selected":0,"selected_not_planned":0},"rule":"subjectRefusal -> subject:out","suites":{"docSubject":{"ok":true,"summary":"49/49 doc-subject cases passed"}},"misses":[]}
+fatal: not a git repository (or any of the parent directories): .git
+  chunk 25/92: 3695 retracted
+  chunk 50/92: 7388 retracted
+  chunk 75/92: 10849 retracted
+
+  COMMITTED run 1469: retracted 13367 facts on 3647 parts; conflicts resolved 4898
+  verified from a NEW connection: selected facts still current (must be 0): 0; superseded by this run's retraction rows: 13367 of 13367; every other current fact on these parts the same rows (own, part-to-part, in-subject, not judged): true (11600); open conflicts left on a retracted field: 0
