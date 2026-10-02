@@ -2631,15 +2631,15 @@ const TESTS: Test[] = [
         "switches|switch": 4224, "routers|router": 1288, "routers|sp-router": 264,
         "wireless|ap": 2767, "collaboration-endpoints|phone": 442, "unified-communications|phone": 7,
       };
-      const rows = (await query<{ sku: string; name: string | null; cat: string }>(`
-        SELECT p.sku, p.name, c.slug cat FROM parts p
+      const rows = (await query<{ sku: string; name: string | null; cat: string; product_class: string }>(`
+        SELECT p.sku, p.name, c.slug cat, p.product_class::text AS product_class FROM parts p
           JOIN vendors v ON v.id = p.vendor_id JOIN categories c ON c.id = p.category_id
          WHERE v.slug = 'cisco' AND p.retired_at IS NULL AND p.product_class = 'hardware'`)).rows;
       const seen = new Map<string, number>();
       let axisParts = 0, refused = 0, couldNotDerive = 0;
       const cnd: string[] = [];
       for (const r of rows) {
-        const kind = partKind(r.cat, r.sku, r.name ?? undefined);
+        const kind = partKind(r.cat, r.sku, r.name ?? undefined, r.product_class);
         if (!roleAxisOf(r.cat, kind)) continue;              // no axis: not this check's population
         axisParts++;
         seen.set(`${r.cat}|${kind}`, (seen.get(`${r.cat}|${kind}`) ?? 0) + 1);

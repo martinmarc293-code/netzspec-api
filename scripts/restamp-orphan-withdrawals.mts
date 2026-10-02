@@ -49,11 +49,13 @@ import { retractFact } from "../src/store/facts.js";
 import { partKind } from "../src/core/partKind.js";
 import { kindQuestionSet, LEDGER_KINDS } from "../src/core/cupLedger.js";
 
-type Row = { id: string; sku: string; name: string | null; category: string; field_key: string; method: string; day: string; served: boolean };
+type Row = { id: string; sku: string; name: string | null; category: string; field_key: string; method: string; day: string; served: boolean;
+  /** (3a) the part's stored class: partKind reads it first */
+  product_class: string };
 type Decided = Row & { kind: string; verdict: "retract" | "hold"; why: string };
 
 const SELECT = `
-  SELECT f.id::text AS id, p.sku, p.name, ct.slug AS category, f.field_key,
+  SELECT f.id::text AS id, p.sku, p.name, ct.slug AS category, f.field_key, p.product_class::text AS product_class,
          COALESCE(f.method,'') AS method, to_char(f.superseded_at,'YYYY-MM-DD') AS day,
          (p.retired_at IS NULL AND f.state::text IN ('verified','corroborated')
           AND EXISTS (SELECT 1 FROM field_dictionary d WHERE d.key = f.field_key)
@@ -86,7 +88,7 @@ function ruleFor(r: Row): string {
 /** Retract only what the kind layer POSITIVELY rules out. Anything it cannot classify is held, not guessed. */
 function decide(r: Row): Decided {
   if (!LEDGER_KINDS[r.category]) return { ...r, kind: "(no ledger)", verdict: "hold", why: "category has no kind ledger" };
-  const kind = partKind(r.category, r.sku, r.name ?? undefined) ?? "(none)";
+  const kind = partKind(r.category, r.sku, r.name ?? undefined, r.product_class) ?? "(none)";
   let q;
   try { q = kindQuestionSet(r.category, kind); }
   catch (e) { return { ...r, kind, verdict: "hold", why: `question set refused: ${(e as Error).message.slice(0, 40)}` }; }

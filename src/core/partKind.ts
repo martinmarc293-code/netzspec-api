@@ -45,6 +45,7 @@ import { strayDevice } from "./strayDevice.js";
 // end fallback-kinds
 import { ucsBundleKind } from "./bundleFamily.js"; // round-7 ruling C (12 Sep 2026)
 import { KIND_OVERRIDES } from "./kindOverrides.js";
+import { classify } from "./productClass.js"; // (3a): the class decides before any axis
 
 /** The category axis alone, without the per-SKU overrides: what tests/kindOverrides.test.ts checks an override against. */
 export function axisOnlyKind(categorySlug: string, sku: string): string | undefined {
@@ -85,8 +86,23 @@ export const KIND_CATEGORIES: readonly string[] = [
  * UCS names the MACHINES from a SKU token and defaults to `unknown`; switches name the
  * COMPONENTS from a marker in any segment and default to `switch`.
  */
-export function partKind(categorySlug: string, sku: string, name?: string): string | undefined {
+export function partKind(categorySlug: string, sku: string, name?: string, productClass?: string | null): string | undefined {
   const axis = axisKind(categorySlug, sku, name);
+  // (3a) A NON-HARDWARE PART NEVER TAKES A HARDWARE KIND (reviewer, 2 Oct 2026). The axes read SKU shapes and default to the
+  // category's box -- switchKind to `switch`, routerKind to `router` -- so 1,498 licences in `switches` read as switches and
+  // the doc-subject gate judged them subjects of switch datasheets: 5,371 non-hardware parts held a device kind, carrying
+  // 2,420 inherited document facts. The class decides first, before the axis, the per-SKU overrides and the name:
+  //   * the STORED product_class when the caller has it (parts.product_class: SKU rules, name rules, plans, reclassify runs);
+  //   * else productClass.ts WITHOUT a name -- the SKU rules, the explicit bundle plan and the UCS SKU-token axis, with the
+  //     category taken as hardware so a part no SKU rule names keeps its axis kind (securityKind's step 1, generalised).
+  // NO NAME RULE in the fallback: "ASR1002X-10G-VPNK9 ... with licence" and the ASA "...-BUN-K9" bundles are DEVICES; a
+  // name regex would turn them into licences. Measured before shipping (2 Oct): with the stored class passed, 0 of the 41,058
+  // frozen hardware kinds move; through the fallback alone, 7 do (CRS-DP-DLR, CRS1-SPA ... exact non_product rules added on
+  // 13 Sep after the last reclassify run -- a stale stored class, not a kind question), so every builder passes the class.
+  // `unknown` stays `unknown`: an undetermined class is not evidence that the part is not hardware, and not that it is.
+  if (axis === undefined) return undefined;
+  const cls = productClass ?? classify({ sku, categorySlug, categoryIsHardware: true }).klass;
+  if (cls !== "hardware") return cls === "unknown" ? "unknown" : "non-hardware";
   // Ruled per-SKU kinds (src/core/kindOverrides.ts) apply only where the axis gave up; an axis that knows the SKU wins.
   const ov = KIND_OVERRIDES[sku];
   if (ov && ov.category === categorySlug && (axis === undefined || axis === "unknown")) return ov.kind;

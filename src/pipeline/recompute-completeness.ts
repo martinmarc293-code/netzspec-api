@@ -201,7 +201,7 @@ async function run(a: Args): Promise<Record<string, number>> {
         // Note this is NOT the same as a role that could not be derived: that is zero parts today, and it
         // must stay scored and go `pending`, because "we could not work it out" and "it is not this
         // thing" are opposite facts. See src/core/noProfileReason.ts.
-        const kindForVerdict = partKind(category, p.sku, p.name ?? undefined);
+        const kindForVerdict = partKind(category, p.sku, p.name ?? undefined, p.product_class);
         const verdict = noProfileVerdict({
           arranged: isArrangedFor(vendorSlug, category), isHardware: p.product_class === "hardware",
           category, kind: kindForVerdict, sku: p.sku, name: p.name,

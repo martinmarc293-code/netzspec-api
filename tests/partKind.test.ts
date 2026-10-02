@@ -237,6 +237,33 @@ check("and the collapse is severe enough to be worth a guard",
   }
 }
 
+// ---- (3a, 2 Oct 2026): A NON-HARDWARE PART NEVER TAKES A HARDWARE KIND. The class decides before the axis, the per-SKU
+// overrides and the name: the STORED class when the caller passes it, else productClass.ts without a name (SKU rules only).
+{
+  const eq = (name: string, got: unknown, want: unknown) => check(name, got === want, `got ${String(got)}, want ${String(want)}`);
+  eq("SABOTAGE a stored licence in switches is non-hardware (the axis says switch)", partKind("switches", "C9400-DNA-E-3Y", undefined, "license"), "non-hardware");
+  eq("CONTROL ...and its axis kind is switch, which is what the class now overrides", partKind("switches", "C9400-DNA-E-3Y", undefined, "hardware"), "switch");
+  eq("SABOTAGE stored software in routers is non-hardware (the axis says router)", partKind("routers", "3G-EVDO-BSNL-P1.0", undefined, "software"), "non-hardware");
+  eq("an undetermined class stays unknown: not evidence of hardware, not evidence against it", partKind("switches", "0.25K", undefined, "unknown"), "unknown");
+  eq("a category with no kind axis stays undefined whatever the class", partKind("cloud-systems-management", "L-DNAC-ESS-3Y", undefined, "license"), undefined);
+  eq("SABOTAGE the class precedes a per-SKU override (CS-R-USB-UPG-BUN is overridden to accessory)", partKind("collaboration-endpoints", "CS-R-USB-UPG-BUN", undefined, "license"), "non-hardware");
+  eq("CONTROL ...the override stands for a hardware part", partKind("collaboration-endpoints", "CS-R-USB-UPG-BUN", undefined, "hardware"), "accessory");
+  // the fallback, with no stored class: the SKU rules and nothing else
+  eq("fallback: a DNA-infix licence reads non-hardware with no stored class", partKind("switches", "C9400-DNA-E-3Y"), "non-hardware");
+  eq("fallback: a switch SKU with a licence-worded NAME stays a switch -- the fallback reads no name",
+    partKind("switches", "C9200L-24P-4G", "Software license for C9200L"), "switch");
+  // THE MEASURED DISAGREEMENT (2 Oct): 7 frozen hardware rows whose exact non_product rules (13 Sep) postdate the last
+  // reclassify run. Stored first, they keep their frozen kind; through the fallback they read non-hardware. A stale CLASS,
+  // which is why every builder passes the stored class -- and the reason it is pinned here rather than discovered by a rebuild.
+  eq("stored hardware wins over a SKU rule: CRS-DP-DLR keeps its frozen kind sp-router", partKind("routers", "CRS-DP-DLR", "CRS DP Dollar Adjustment", "hardware"), "sp-router");
+  eq("...and the fallback alone reads it non-hardware (the exact rule sku-exact:CRS-DP-DLR)", partKind("routers", "CRS-DP-DLR", "CRS DP Dollar Adjustment"), "non-hardware");
+  // A REAL DEVICE FILED IN A SOFTWARE CATEGORY, stored `software` by the category default (run 973 refused to class the 51
+  // hardware; the category move is a proposal): the stored class decides, so it reads non-hardware until that move lands.
+  eq("a Catalyst Center appliance stored software (category default) reads non-hardware: the class is the defect, not the kind",
+    partKind("cloud-systems-management", "DN2-HW-APL", undefined, "software"), "non-hardware");
+  eq("CONTROL ...and as stored hardware strayDevice names it a server", partKind("cloud-systems-management", "DN2-HW-APL", undefined, "hardware"), "server");
+}
+
 lines.unshift(`    part kind: ${passed} passed, ${failed} missed ` +
               `(${gating.length} gating categories derived from PROFILES: ${gating.join(", ")})`);
 console.log(lines.join("\n"));

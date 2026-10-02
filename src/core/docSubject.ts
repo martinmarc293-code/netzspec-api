@@ -138,10 +138,14 @@ export const SUBJECT_GATE_VENDORS: ReadonlySet<string> = new Set(["cisco"]);
  * condition 2), and a refused inheritance is a gap the part's own sheet can still fill, where an admitted wrong one is served.
  */
 export function subjectRefusal(a: { vendor: string | null; docId: string | null | undefined; title: string | null | undefined;
-  categorySlug: string | null; sku: string; name: string | null }): { rule: string; reason: string } | null {
+  categorySlug: string | null; sku: string; name: string | null;
+  /** (3a, 2 Oct 2026) the receiver's STORED product_class, REQUIRED so every caller states it (null = not loaded: partKind
+   *  falls back to the SKU rules). Without it a licence in `switches` read as kind `switch` and was judged a subject of every
+   *  switch datasheet that lists it: 5,371 non-hardware parts held a device kind, 2,420 inherited document facts among them. */
+  productClass: string | null }): { rule: string; reason: string } | null {
   if (!a.docId) return null;
   if (!a.vendor || !SUBJECT_GATE_VENDORS.has(a.vendor)) return null;   // a vendor joins after its own census (see the set)
-  const kind = a.categorySlug ? partKind(a.categorySlug, a.sku, a.name ?? undefined) : undefined;
+  const kind = a.categorySlug ? partKind(a.categorySlug, a.sku, a.name ?? undefined, a.productClass) : undefined;
   const v = judgeReceiver(docSubject({ doc_id: a.docId, title: a.title }), kind);
   if (v.verdict === "in") return null;
   return v.verdict === "out"

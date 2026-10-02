@@ -120,13 +120,13 @@ async function main(): Promise<void> {
   // So each row is decided by the part's OWN kind, through the same real partKind + kindQuestionSet
   // every other caller uses (not a copy of the rule): retract only where the kind layer POSITIVELY rules
   // the cup out (not_applicable_by_kind), hold everything else for a person.
-  const { rows: matched } = await pool.query<{ id: string; sku: string; name: string | null; field_key: string }>(
-    `SELECT f.id::text AS id, p.sku, p.name, f.field_key FROM facts f
+  const { rows: matched } = await pool.query<{ id: string; sku: string; name: string | null; field_key: string; product_class: string }>(
+    `SELECT f.id::text AS id, p.sku, p.name, f.field_key, p.product_class::text AS product_class FROM facts f
        JOIN parts p ON p.id = f.part_id JOIN vendors v ON v.id = p.vendor_id
        JOIN categories ct ON ct.id = p.category_id
       WHERE ${where} ORDER BY f.id`, [CATEGORY, PHYSICAL, groups]);
-  const verdictOf = (r: { sku: string; name: string | null; field_key: string }): { retract: boolean; why: string; kind: string } => {
-    const kind = partKind(CATEGORY, r.sku, r.name ?? undefined) ?? "(none)";
+  const verdictOf = (r: { sku: string; name: string | null; field_key: string; product_class: string }): { retract: boolean; why: string; kind: string } => {
+    const kind = partKind(CATEGORY, r.sku, r.name ?? undefined, r.product_class) ?? "(none)";
     let q;
     try { q = kindQuestionSet(CATEGORY, kind); } catch { return { retract: false, why: "question set refused", kind }; }
     if (q.not_applicable_by_kind.includes(r.field_key)) return { retract: true, why: "not applicable for the kind", kind };

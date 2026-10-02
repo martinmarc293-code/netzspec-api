@@ -48,8 +48,16 @@ const diffs = (rows: Ref[]) => rows.filter((r) => familyOf(r) !== r.family);
   check("group 2: 52 chassis and 44 fabric interconnects", [t("chassis-or-fabric-interconnect", "chassis"), t("chassis-or-fabric-interconnect", "fabric-interconnect")], [52, 44]);
   check("group 3: 95 drives and 15 memory", [t("drive-memory-flash-component", "drive"), t("drive-memory-flash-component", "memory")], [95, 15]);
   check("groups 4, 6, 13, 14 stay bundle (175, 37, 7, 101)", [t("multi-device-bundle", "bundle"), t("storage-config-pack", "bundle"), t("bare-server-multipack", "bundle"), t("no-description", "bundle")], [175, 37, 7, 101]);
-  check("group 8: 4 memory, 3 drives, 2 mechanical, 2 pallets", [t("non-ucs-misfiled", "memory"), t("non-ucs-misfiled", "drive"), t("non-ucs-misfiled", "mechanical"), t("non-ucs-misfiled", "non-product")], [4, 3, 2, 2]);
-  check("the 7 name-omits-model rows: 5 servers, 2 bundles", [t("solution-or-programme-label-only", "server"), t("solution-or-programme-label-only", "bundle") - 2], [5, 2]);
+  // (3a, 2 Oct 2026) a non-hardware part's kind is `non-hardware`: the class decides before the axis. The plan's own class
+  // decisions now name these kinds -- the two pallets are non_product (packaging-not-a-product), the axis called them
+  // `non-product`; same count, the shared word.
+  check("group 8: 4 memory, 3 drives, 2 mechanical, 2 pallets", [t("non-ucs-misfiled", "memory"), t("non-ucs-misfiled", "drive"), t("non-ucs-misfiled", "mechanical"), t("non-ucs-misfiled", "non-hardware")], [4, 3, 2, 2]);
+  // The `- 2` this check carried until 2 Oct compensated for EDU-C9800-BNDL and WIRELESS-PS-BUNDLE: programme labels the plan
+  // classed non_product while the axis still called them `bundle`. Under (3a) they read non-hardware, so the 7 rows are
+  // counted as they are -- and the two are pinned by name, so the compensation cannot come back unnoticed.
+  check("the 7 name-omits-model rows: 5 servers, 2 bundles", [t("solution-or-programme-label-only", "server"), t("solution-or-programme-label-only", "bundle")], [5, 2]);
+  check("(3a) the two programme labels the axis called bundle read non-hardware: the plan classed them non_product",
+    ref.parts.filter((r) => ["EDU-C9800-BNDL", "WIRELESS-PS-BUNDLE"].includes(r.sku)).map((r) => partKind(r.category, r.sku, r.name)), ["non-hardware", "non-hardware"]);
 }
 
 // ---- 3. named cases: the head-noun rule, the MDS pairs, the held seven -----------------------------------------
@@ -109,7 +117,7 @@ check("THE SCOPE: a row the SKU axis did not call bundle is never read by name",
   check("SABOTAGE a scope that matches ZERO changes is refused, for that reason", /matches ZERO changes/.test(threw), true);
 }
 
-const TOTAL = 1 + 1 + 7 + 7 + 6 + 5 + 3;
+const TOTAL = 1 + 1 + 8 + 7 + 6 + 5 + 3;   // section 2 gained the (3a) programme-label pin (2 Oct 2026)
 console.log(`    bundle family: ${pass} passed, ${misses.length} missed (of ${TOTAL})`);
 for (const m of misses) console.log(`    MISS ${m}`);
 if (misses.length || pass !== TOTAL) process.exit(1);

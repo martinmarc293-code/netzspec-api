@@ -19,8 +19,12 @@ import type { PartSummaryT } from "../schemas.js";
  * the completeness score say a part is cannot disagree. `deploy_role` is null where the kind has no role axis or no
  * rule places the part.
  */
-export function kindAndRole(category: string, sku: string, name: string | null | undefined): { kind: string | null; deploy_role: string | null } {
-  const kind = partKind(category, sku, name ?? undefined) ?? null;
+export function kindAndRole(category: string, sku: string, name: string | null | undefined,
+  /** (3a, 2 Oct 2026) the STORED product_class -- REQUIRED, so every API caller states it: partKind lets the class decide
+   *  before the axis, and a record that dropped it would serve a licence in `switches` as kind `switch`. null = not loaded
+   *  (partKind then falls back to the SKU rules, never to a name). */
+  productClass: string | null): { kind: string | null; deploy_role: string | null } {
+  const kind = partKind(category, sku, name ?? undefined, productClass) ?? null;
   return { kind, deploy_role: kind === null ? null : deployRole(category, kind, sku, name ?? null) };
 }
 
@@ -110,7 +114,7 @@ export function toSummary(r: SummaryRow): PartSummaryT {
     // listing. Free here: partKind is pure, and it takes the NAME because three kinds are derived
     // from it (a builder that omits the name measures a system nobody runs).
     // kind-layer infra (13 Sep 2026): `deploy_role` beside it — layer 3, which population of the kind (null = none).
-    ...kindAndRole(r.category, r.sku, r.name),
+    ...kindAndRole(r.category, r.sku, r.name, r.product_class),
     product_class: r.product_class, name: r.name, lifecycle_status: r.lifecycle_status,
     fact_count: r.fact_count, completeness_pct: r.completeness_pct, has_image: r.has_image,
     updated_at: isoOf(r.updated_at) as string,

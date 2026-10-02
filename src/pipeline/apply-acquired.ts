@@ -401,14 +401,16 @@ export type EntryMapping = {
  */
 export function mapEntryFacts(
   facts: RawPair[],
-  ctx: { category: string; src: SourceRow; docType: string; docId: string | null; pageUrl: string; sku: string; fetchedDay: string },
+  ctx: { category: string; src: SourceRow; docType: string; docId: string | null; pageUrl: string; sku: string; fetchedDay: string;
+    /** (3a) the matched part's STORED product_class, for the kind the NAT ruling reads */
+    productClass?: string | null },
 ): EntryMapping {
   const out: EntryMapping = { mapped: [], unmapped: [], rejected: [], sentinel: 0 };
   // operator ruling 13 Sep 2026 (src/core/natThroughput.ts): the entry's pairs are ONE page, so they are the document a
   // "NAT throughput" row is judged against — router_throughput for an smb router only, never beside a forwarding row.
   const pageLabels = facts.map((f) => f.label);
   for (const f of facts) {
-    const nat = isNatThroughputLabel(f.label) ? natThroughputDecision({ category: ctx.category, sku: ctx.sku, docLabels: pageLabels }) : null;
+    const nat = isNatThroughputLabel(f.label) ? natThroughputDecision({ category: ctx.category, sku: ctx.sku, productClass: ctx.productClass, docLabels: pageLabels }) : null;
     if (nat && !nat.use) { out.sentinel++; continue; }
     const m = mapFact({ label: nat ? NAT_AS_ROUTER_THROUGHPUT_LABEL : f.label, value: f.value, locator: f.locator || "", shape: "pair", source_url: ctx.pageUrl, sku: ctx.sku }, ctx.category);
     if (m.kind === "ok") {
@@ -841,7 +843,7 @@ export async function main(argv: string[]): Promise<void> {
         if (a.commit && runId !== null) await linkDocParts(docId, [part.id], db);
 
         const rawFacts = entry.facts || [];
-        const m = mapEntryFacts(rawFacts, { category, src, docType, docId, pageUrl, sku, fetchedDay });
+        const m = mapEntryFacts(rawFacts, { category, src, docType, docId, pageUrl, sku, fetchedDay, productClass: part.product_class });
         stats.facts_raw += rawFacts.length;
         stats.facts_ok += m.mapped.length;
         stats.facts_unmapped += m.unmapped.length;

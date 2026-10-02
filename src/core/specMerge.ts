@@ -683,9 +683,12 @@ export type ComponentShape = { kind: "prefix" | "contains"; token: string; why: 
 
 /**
  * SKU shapes that are COMPONENTS a chassis datasheet enumerates. This table exists because the
- * catalogue's own class and category are wrong for exactly these parts and cannot be relied on
- * here: CWDM-SFP-1610= and SFP-10G-LR= are category `switches`, QSFP-40G-LR4-S= is
- * `storage-networking`, and all three are `product_class hardware`. CLAUDE.md's rule applies — a
+ * catalogue's own class and category were wrong for exactly these parts and could not be relied on
+ * here: CWDM-SFP-1610= and SFP-10G-LR= were category `switches`, QSFP-40G-LR4-S= was
+ * `storage-networking`, all three `product_class hardware`. (All three are `transceiver`, kind `pluggable`, since the
+ * 8 Sep 2026 optics move -- corrected 2 Oct, when this sentence was taken as current and sent a kind question the wrong way.
+ * The `contains SFP` token below also matches 30 SWITCHES whose SKU names their ports -- SG350-10SFP, WS-C4500X-16SFP+,
+ * ME-4507E-S7L+96SFP -- measured 2 Oct; reported, not changed here.) CLAUDE.md's rule applies — a
  * rule is a SKU SHAPE, not a family name — and every token below was counted against the live
  * parts table on 4 Sep 2026 with its matches read.
  *

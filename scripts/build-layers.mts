@@ -69,8 +69,8 @@ if (one && !dump && !process.argv.includes("--inside-full-rebuild")) {
   process.exit(2);
 }
 
-type Row = { id: number; sku: string; name: string | null; series: string | null; category: string };
-const rows = (await query<Row>(`SELECT p.id, p.sku, p.name, p.series, c.slug AS category FROM parts p JOIN vendors v ON v.id = p.vendor_id
+type Row = { id: number; sku: string; name: string | null; series: string | null; category: string; product_class: string };
+const rows = (await query<Row>(`SELECT p.id, p.sku, p.name, p.series, c.slug AS category, p.product_class::text AS product_class FROM parts p JOIN vendors v ON v.id = p.vendor_id
   JOIN categories c ON c.id = p.category_id WHERE v.slug = $1 AND p.retired_at IS NULL AND p.product_class = 'hardware' ORDER BY p.sku`, [vendor])).rows;
 // the label check reads compatible relations (a part linked to parts placed by SKU or name in the series evidences that series)
 const compatible = (await query<{ a: number; b: number }>(`SELECT from_part_id AS a, to_part_id AS b FROM relations WHERE kind = 'compatible' AND to_part_id IS NOT NULL`)).rows;
@@ -92,7 +92,7 @@ if (dump) {
   console.log(`${cat}: ${mine.length} parts, ${by.size} series labels`);
   for (const [s, rs] of [...by].sort((a, b) => b[1].length - a[1].length)) {
     const kinds = new Map<string, number>();
-    for (const r of rs) { const k = partKind(cat, r.sku, r.name ?? undefined) ?? "(none)"; kinds.set(k, (kinds.get(k) ?? 0) + 1); }
+    for (const r of rs) { const k = partKind(cat, r.sku, r.name ?? undefined, r.product_class) ?? "(none)"; kinds.set(k, (kinds.get(k) ?? 0) + 1); }
     console.log(`\n## ${s} — ${rs.length} parts — ${[...kinds].sort((a, b) => b[1] - a[1]).map(([k, n]) => `${k} ${n}`).join(", ")}`);
     const step = Math.max(1, Math.floor(rs.length / 8));
     for (let i = 0; i < rs.length && i < step * 8; i += step) console.log(`   ${rs[i].sku.padEnd(26)} ${String(rs[i].name ?? "").slice(0, 80)}`);
@@ -235,7 +235,7 @@ function build(cat: string): Tree {
     tree.label_check.label_placed = evidence.size;
   }
   for (const r of mine) {
-    const kind = partKind(cat, r.sku, r.name ?? undefined) ?? "(none)";
+    const kind = partKind(cat, r.sku, r.name ?? undefined, r.product_class) ?? "(none)";
     const plan = planOf.get(`${cat}|${r.sku.trim().toUpperCase()}`);
     // the role the CUP ENGINE gives this part (deployRoleResult, which reads the series table first) — recorded on every row
     const rr = deployRoleResult(cat, kind, r.sku, r.name);

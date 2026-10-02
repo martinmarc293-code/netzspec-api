@@ -320,7 +320,7 @@ export async function applyMerge(client: Queryable, partId: number, incoming: Sp
     if (refusal) return { action: "refused_inherit", refused: refusal.reason, rule: refusal.rule, factId: existing?.id };
     // THE SUBJECT GATE (reviewer ruling (b'), 2 Oct 2026): a document-scoped value reaches only a kind the document DESCRIBES --
     // the allowlist describesPart's component patterns are not (src/core/docSubject.ts). OUT and NOT JUDGED both refuse.
-    const subject = subjectRefusal({ vendor: row.vendor_slug, docId: incoming.prov?.doc_id, title: row.doc_title, categorySlug: row.category_slug, sku: row.sku, name: row.name });
+    const subject = subjectRefusal({ vendor: row.vendor_slug, docId: incoming.prov?.doc_id, title: row.doc_title, categorySlug: row.category_slug, sku: row.sku, name: row.name, productClass: row.product_class });
     if (subject) return { action: "refused_inherit", refused: subject.reason, rule: subject.rule, factId: existing?.id };
   }
 

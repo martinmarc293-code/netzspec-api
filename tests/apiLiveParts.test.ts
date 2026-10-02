@@ -239,12 +239,17 @@ check("SABOTAGE an unrecorded exemption has no entry to justify it", EXPECTED_EX
     const s = toSummary(row(category, sku, name));
     check(`toSummary ${category}/${sku} carries kind ${kind} and deploy_role ${role}`, s.kind === kind && s.deploy_role === role, `kind ${s.kind}, deploy_role ${s.deploy_role}`);
     check(`kindAndRole ${sku} is exactly partKind + deployRole with that kind (the recompute call)`,
-      JSON.stringify(kindAndRole(category, sku, name)) === JSON.stringify({ kind: partKind(category, sku, name) ?? null, deploy_role: deployRole(category, partKind(category, sku, name), sku, name) }));
+      JSON.stringify(kindAndRole(category, sku, name, "hardware")) === JSON.stringify({ kind: partKind(category, sku, name, "hardware") ?? null, deploy_role: deployRole(category, partKind(category, sku, name, "hardware"), sku, name) }));
   }
+  // (3a, 2 Oct 2026) the listing reads the STORED class first: a licence in `switches` is not served as kind `switch`
+  const lic = toSummary({ ...row("switches", "C9400-DNA-E-3Y", "C9400 DNA Essentials, 3 Year Term license"), product_class: "license" });
+  check("SABOTAGE a stored licence in switches is served as kind non-hardware, never switch, and carries no role", lic.kind === "non-hardware" && lic.deploy_role === null, `${lic.kind}/${lic.deploy_role}`);
+  const asStored = toSummary(row("switches", "C9400-DNA-E-3Y", "C9400 DNA Essentials, 3 Year Term license"));
+  check("CONTROL the stored class decides, not the SKU rules: the same SKU stored as hardware keeps the axis kind", asStored.kind === "switch", `${asStored.kind}`);
   const nonAxis = toSummary(row("switches", "PWR-C1-715WAC-P", "715W AC Config 1 Power Supply"));
   check("a part whose kind has no role axis carries deploy_role null (never a default)", nonAxis.kind !== "switch" && nonAxis.deploy_role === null, `${nonAxis.kind}/${nonAxis.deploy_role}`);
   const partSrc = fs.readFileSync(path.join(DIR, "part.ts"), "utf8");
-  check("the part record takes kind AND deploy_role from the same helper as the listing", partSrc.includes("...kindAndRole(h.cat_slug, h.sku, h.name)"));
+  check("the part record takes kind AND deploy_role from the same helper as the listing", partSrc.includes("...kindAndRole(h.cat_slug, h.sku, h.name, h.product_class)"));
   check("PartSummary declares deploy_role (else the serializer drops it)", "deploy_role" in (PartSummary as unknown as { properties: object }).properties);
   check("PartRecord declares deploy_role (else the serializer drops it)", "deploy_role" in (PartRecord as unknown as { properties: object }).properties);
 

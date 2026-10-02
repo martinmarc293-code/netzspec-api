@@ -219,11 +219,18 @@ export function freezeUnits(vendor: string, repoRoot: string, kindRows: KindRow[
 
 export const freezeHash = (u: FreezeUnits): string => sha(stable(u));
 
+/** THE SNAPSHOT'S POPULATION CLASS. build-freeze selects `p.product_class = FREEZE_PRODUCT_CLASS` and derives each kind with
+ *  it; kindDrift re-derives with the same class, because partKind lets the class decide before the axis (3a, 2 Oct 2026) and a
+ *  re-derivation that dropped it would compare a different function -- through the SKU-rule fallback 7 frozen CRS rows read
+ *  non-hardware (their stored class predates their exact rules), a stale class reported as kind drift. One constant, so the
+ *  builder's WHERE and the drift check cannot name two populations. */
+export const FREEZE_PRODUCT_CLASS = "hardware";
+
 /** Re-derive every kind in a snapshot with the live classifier; returns the rows whose kind moved. */
 export function kindDrift(rows: KindRow[]): { row: KindRow; now: string }[] {
   const out: { row: KindRow; now: string }[] = [];
   for (const r of rows) {
-    const now = partKind(r.category, r.sku, r.name || undefined) ?? "(none)";
+    const now = partKind(r.category, r.sku, r.name || undefined, FREEZE_PRODUCT_CLASS) ?? "(none)";
     if (now !== r.kind) out.push({ row: r, now });
   }
   return out;

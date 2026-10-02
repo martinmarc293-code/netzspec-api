@@ -34,7 +34,8 @@ const parts = (await query<Part>(`
     FROM parts p JOIN categories c ON c.id = p.category_id JOIN vendors v ON v.id = p.vendor_id
    WHERE v.slug = $1 AND p.retired_at IS NULL`, [vendor])).rows;
 const byId = new Map(parts.map((p) => [p.id, p]));
-const kindOf = new Map(parts.map((p) => [p.id, partKind(p.cat, p.sku, p.name ?? undefined)]));
+// (3a) with the STORED class, as the gate reads it: a licence in `switches` is not a switch receiver
+const kindOf = new Map(parts.map((p) => [p.id, partKind(p.cat, p.sku, p.name ?? undefined, p.pc)]));
 const liveSkus = new Set(parts.map((p) => p.sku.toUpperCase()));
 const idBySku = new Map(parts.map((p) => [p.sku, p.id]));
 const all = (await query<{ id: number; part_id: number; field_key: string; doc_id: string | null; inherited_from: string | null; raw: string }>(`
@@ -55,6 +56,7 @@ const subjectOf = (doc: string | null): DocSubject => {
 
 const n = { in: 0, out: 0, nj: 0 };
 const njBy = new Map<string, number>();
+const njKind = new Map<string, number>();
 const outBy = new Map<string, number>();
 const outDocs = new Map<string, { n: number; kinds: Map<string, number>; fields: Map<string, number> }>();
 const outRows: string[] = [];
@@ -78,7 +80,12 @@ for (const f of facts) {
   const s = subjectOf(f.doc_id);
   const v = judgeReceiver(s, kind);
   if (v.verdict === "in") { n.in++; continue; }
-  if (v.verdict === "not_judged") { n.nj++; njBy.set(v.reason.replace(/'[^']*'/, "'<kind>'"), (njBy.get(v.reason.replace(/'[^']*'/, "'<kind>'")) ?? 0) + 1); continue; }
+  if (v.verdict === "not_judged") {
+    n.nj++; njBy.set(v.reason.replace(/'[^']*'/, "'<kind>'"), (njBy.get(v.reason.replace(/'[^']*'/, "'<kind>'")) ?? 0) + 1);
+    // (3a) the receiver's kind and STORED class, so the parts the class now keeps out of the device kinds are a number of their own
+    if (kind !== undefined) njKind.set(`${kind} (${p.pc ?? "class?"})`, (njKind.get(`${kind} (${p.pc ?? "class?"})`) ?? 0) + 1);
+    continue;
+  }
   n.out++;
   const g = s.judged ? s.groups.join("+") : "?";
   outBy.set(`${g} -> ${kind}`, (outBy.get(`${g} -> ${kind}`) ?? 0) + 1);
@@ -92,9 +99,13 @@ const top3 = (m: Map<string, number>, k = 3) => [...m].sort((a, b) => b[1] - a[1
 console.log(`doc-subjects (${vendor}): ${all.length} current inherited facts with a raw; ${partToPart} part-to-part (inherited_from is a live SKU) counted apart;`);
 console.log(`  ${facts.length} document-scoped -> IN ${n.in} | OUT ${n.out} | NOT JUDGED ${n.nj}  (in + out + not judged = ${n.in + n.out + n.nj})`);
 console.log(`  not judged, by reason: ${[...njBy].sort((a, b) => b[1] - a[1]).map(([r, c]) => `${c} ${r}`).join(" | ") || "none"}`);
+console.log(`  not judged, by receiver kind (stored class): ${top3(njKind, 12) || "none"}`);
 console.log(`  OUT by subject -> receiver kind (top 16): ${top3(outBy, 16)}`);
 console.log(`  bucket A (device receivers, ${A.n} facts) under the CURRENT family gate: ${[...A.refused].sort((a, b) => b[1] - a[1]).map(([r, c]) => `${r} ${c}`).join(", ")}`);
-console.log(`  licences read as a device kind (name/SKU says licence or subscription): ${[...licence].map(([k, e]) => `${k} ${e.n} (e.g. ${[...e.samples].join(", ")})`).join("; ") || "none"}`);
+// Since (3a) a STORED licence never takes a device kind, so every row here is a part the store calls hardware whose name or SKU
+// mentions a licence -- a device sold with one ("...-VPNK9 ... AES license", Nexus "-L3" bundles): devices by the reviewer's
+// ruling (never a name regex). Counted in FACTS, and printed so a stored class that is wrong shows up here first.
+console.log(`  stored-HARDWARE device receivers whose name/SKU mentions a licence (facts; devices sold with one): ${[...licence].map(([k, e]) => `${k} ${e.n} (e.g. ${[...e.samples].join(", ")})`).join("; ") || "none"}`);
 console.log(`  OUT spans ${outDocs.size} documents (${subjects.size} documents judged); the ${Math.min(top, outDocs.size)} carrying the most:`);
 for (const [d, e] of [...outDocs].sort((a, b) => b[1].n - a[1].n).slice(0, top)) {
   const t = titles.get(d);

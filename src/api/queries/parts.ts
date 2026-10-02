@@ -134,8 +134,8 @@ export async function listParts(params: PartsListParams): Promise<{ items: PartS
     // Written out rather than derived from SUMMARY_FROM by a regex: this needs three columns and
     // two joins, and a string surgery on someone else's FROM clause is a coupling that breaks
     // silently the day SUMMARY_FROM gains a join. LIVE_PART here for the same reason it is there.
-    const pop = await query<{ id: number; sku: string; name: string | null }>(
-      `SELECT p.id, p.sku, p.name
+    const pop = await query<{ id: number; sku: string; name: string | null; product_class: string }>(
+      `SELECT p.id, p.sku, p.name, p.product_class::text AS product_class
          FROM parts p
          JOIN categories c ON c.id = p.category_id
          JOIN vendors v ON v.id = p.vendor_id
@@ -145,7 +145,8 @@ export async function listParts(params: PartsListParams): Promise<{ items: PartS
     const cat = params.category;
     // The role is derived with the SAME kind the row just matched on, by the call recompute and the listing make.
     const ids = pop.rows
-      .filter((r) => (partKind(cat, r.sku, r.name ?? undefined) ?? "(none)") === want)
+      // (3a) with the STORED class, as the record's kindAndRole does: a licence in `switches` is not a `?kind=switch` hit
+      .filter((r) => (partKind(cat, r.sku, r.name ?? undefined, r.product_class) ?? "(none)") === want)
       .filter((r) => wantRole === undefined || deployRole(cat, want, r.sku, r.name ?? null) === wantRole)
       .map((r) => r.id);
     // An empty id list must produce an empty page, not an unfiltered one: `= ANY('{}')` is false

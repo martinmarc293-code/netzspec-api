@@ -282,7 +282,7 @@ export async function partRecords(ids: number[], states: FactState[], publicBase
       // The same call /v1/parts items and the ledger builder make, WITH the name: a UCS programme SKU's kind is read
       // from its name (bundleFamily.ts), so a caller that dropped it would report a different kind here.
       // kind-layer infra (13 Sep 2026): kind and deploy_role by the one helper /v1/parts items use (shared.kindAndRole).
-      ...kindAndRole(h.cat_slug, h.sku, h.name),
+      ...kindAndRole(h.cat_slug, h.sku, h.name, h.product_class),
       lifecycle,
       facts: (factsBy.get(id) ?? []).map(toFact),
       relations: (relationsBy.get(id) ?? []).map((r) => ({ kind: r.kind, sku: r.sku, in_catalog: r.in_catalog, tier: r.tier, source_url: r.source_url, note: r.note })),

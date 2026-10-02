@@ -116,7 +116,7 @@ try {
   const cupOf = (r: Row): string => {
     if (!LEDGER_KINDS[r.category]) return "no ledger";
     try {
-      const q = kindQuestionSet(r.category, partKind(r.category, r.sku, r.name ?? undefined) ?? "(none)");
+      const q = kindQuestionSet(r.category, partKind(r.category, r.sku, r.name ?? undefined, r.product_class) ?? "(none)");
       return q.required.includes(r.field_key) ? "required" : q.optional.includes(r.field_key) ? "optional"
         : q.not_applicable_by_kind.includes(r.field_key) ? "not applicable" : "other";
     } catch { return "question set refused"; }

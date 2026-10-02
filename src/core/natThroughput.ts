@@ -48,10 +48,12 @@ export type NatDecision =
   | { use: true; key: "router_throughput"; why: "smb" }
   | { use: false; sentinel: "__backlog"; why: "superseded" | "outside-smb"; by?: string };
 
-export function natThroughputDecision(input: { category: string; sku: string; name?: string | null; docLabels: Iterable<string> }): NatDecision {
+export function natThroughputDecision(input: { category: string; sku: string; name?: string | null; docLabels: Iterable<string>;
+  /** (3a) the part's STORED product_class where the caller has it: a licence in `routers` is never an smb router */
+  productClass?: string | null }): NatDecision {
   const winner = forwardingThroughputRow(input.docLabels, input.category);
   if (winner) return { use: false, sentinel: "__backlog", why: "superseded", by: winner };
-  const kind = partKind(input.category, input.sku, input.name ?? undefined);
+  const kind = partKind(input.category, input.sku, input.name ?? undefined, input.productClass);
   if (input.category === "routers" && kind === "router" && deployRole(input.category, kind, input.sku, input.name) === "smb") {
     return { use: true, key: "router_throughput", why: "smb" };
   }

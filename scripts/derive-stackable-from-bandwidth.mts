@@ -94,7 +94,7 @@ for (const w of table.rows) {
   for (const m of members) {
     if (m.category !== "switches") { exclude(`category ${m.category}`, m.sku); continue; }
     if (m.product_class !== "hardware") { exclude(`class ${m.product_class}`, m.sku); continue; }
-    const kind = partKind(m.category, m.sku, m.name ?? undefined);
+    const kind = partKind(m.category, m.sku, m.name ?? undefined, m.product_class);
     if (kind !== "switch") { exclude(`kind ${kind}`, m.sku); continue; }
     const shape = componentShape(m.sku);
     if (shape) { exclude(`component ${shape.token}`, m.sku); continue; }

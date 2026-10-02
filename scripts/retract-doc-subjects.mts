@@ -42,7 +42,9 @@ for (let i = 0; i < argv.length; i++) {
 }
 
 type Row = { id: string; part_id: string; sku: string; name: string | null; field_key: string; state: string; inherited_from: string | null;
-  doc_id: string | null; doc_title: string | null; value: unknown; raw: string | null; category: string };
+  doc_id: string | null; doc_title: string | null; value: unknown; raw: string | null; category: string;
+  /** (3a) the receiver's stored class: the gate's kind is read with it */
+  product_class: string };
 
 async function main(): Promise<void> {
   const commit = argv.includes("--commit"), approved = arg("--approved"), vendor = arg("--vendor") ?? "cisco", planIn = arg("--plan");
@@ -53,7 +55,7 @@ async function main(): Promise<void> {
 
   const SQL = `
     SELECT f.id::text, f.part_id::text, p.sku, p.name, f.field_key, f.state::text, f.inherited_from, f.doc_id, sd.title AS doc_title,
-           f.value, f.raw, c.slug AS category
+           f.value, f.raw, c.slug AS category, p.product_class::text AS product_class
       FROM facts f JOIN parts p ON p.id = f.part_id JOIN vendors v ON v.id = p.vendor_id JOIN categories c ON c.id = p.category_id
       LEFT JOIN source_docs sd ON sd.doc_id = f.doc_id`;
   // ---- the selector: the store's own rule over every current inherited fact with a raw
@@ -62,7 +64,7 @@ async function main(): Promise<void> {
   const liveSkus = new Set((await pool.query<{ sku: string }>(`SELECT p.sku FROM parts p JOIN vendors v ON v.id = p.vendor_id
       WHERE v.slug = $1 AND p.retired_at IS NULL`, [vendor])).rows.map((r) => r.sku.toUpperCase()));
   const partToPart = (r: Row) => !!r.inherited_from && liveSkus.has(r.inherited_from.toUpperCase());
-  const ruleOf = (r: Row) => subjectRefusal({ vendor, docId: r.doc_id, title: r.doc_title, categorySlug: r.category, sku: r.sku, name: r.name })?.rule ?? "admitted";
+  const ruleOf = (r: Row) => subjectRefusal({ vendor, docId: r.doc_id, title: r.doc_title, categorySlug: r.category, sku: r.sku, name: r.name, productClass: r.product_class })?.rule ?? "admitted";
   const sel = all.filter((r) => !partToPart(r) && ruleOf(r) === "subject:out");
   const partIds = [...new Set(sel.map((r) => r.part_id))];
   console.log(`${commit ? "COMMIT" : "DRY RUN"} -- retract out-of-subject document-scoped facts (database ${dbName}, ${vendor})`);
@@ -95,7 +97,7 @@ async function main(): Promise<void> {
   const partOf = new Map(sel.map((r) => [r.part_id, r]));
   const goodSide = new Set(toResolve.filter((c) => {
     const s = sideById.get(c.id), p = partOf.get(c.part_id)!;
-    return !!s?.doc_id && !subjectRefusal({ vendor, docId: s.doc_id, title: s.title, categorySlug: p.category, sku: p.sku, name: p.name });
+    return !!s?.doc_id && !subjectRefusal({ vendor, docId: s.doc_id, title: s.title, categorySlug: p.category, sku: p.sku, name: p.name, productClass: p.product_class });
   }).map((c) => c.id));
   const REAPPLY = `${RESOLUTION};rejected_side_in_subject:reapply_owed`;
   const reapplyFile = planFile.replace(/\.tsv$/, "-reapply-owed.tsv");

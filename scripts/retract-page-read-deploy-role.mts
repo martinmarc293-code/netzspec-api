@@ -38,9 +38,11 @@ import { kindAndRole } from "../src/api/queries/shared.js";
 const RULE = "page-read-value-for-a-derived-key";
 const commit = process.argv.includes("--commit");
 
-type Row = { id: string; part_id: string; sku: string; name: string | null; cat: string; vendor: string; value: string; raw: string | null; method: string; state: string; run_id: number };
+type Row = { id: string; part_id: string; sku: string; name: string | null; cat: string; vendor: string; value: string; raw: string | null; method: string; state: string; run_id: number;
+  /** (3a) the stored class: kindAndRole requires it */
+  product_class: string };
 const SELECT = `
-  SELECT f.id::text, f.part_id::text, p.sku, p.name, c.slug cat, v.slug vendor,
+  SELECT f.id::text, f.part_id::text, p.sku, p.name, c.slug cat, v.slug vendor, p.product_class::text AS product_class,
          f.value::text value, f.raw, f.method, f.state::text state, f.run_id
     FROM facts f
     JOIN parts p ON p.id = f.part_id
@@ -59,7 +61,7 @@ const SELECT = `
 type Cand = Row & { kind: string | null; role: string | null; stored: string; agrees: boolean };
 export function classify(rows: Row[]): Cand[] {
   return rows.map((r) => {
-    const kr = kindAndRole(r.cat, r.sku, r.name);
+    const kr = kindAndRole(r.cat, r.sku, r.name, r.product_class);
     const stored = JSON.parse(r.value) as string;
     return { ...r, kind: kr.kind ?? null, role: kr.deploy_role, stored, agrees: kr.deploy_role !== null && kr.deploy_role === stored };
   });
@@ -77,7 +79,7 @@ export function refusal(cands: Cand[]): string | null {
 if (process.argv.includes("--selftest")) {
   const syn = (sku: string, cat: string, value: string): Row => ({
     id: "0", part_id: "0", sku, name: null, cat, vendor: "cisco",
-    value: JSON.stringify(value), raw: "synthetic", method: "html_table", state: "verified", run_id: 0,
+    value: JSON.stringify(value), raw: "synthetic", method: "html_table", state: "verified", run_id: 0, product_class: "hardware",
   });
   // These run through the REAL kindAndRole, so the fixture cannot encode a relationship the code does not have.
   const agreeing = classify([syn("WS-C3750G-48TS-S", "switches", "access")]);      // derivation: switch -> access

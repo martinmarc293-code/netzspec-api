@@ -148,8 +148,8 @@ async function main(): Promise<void> {
   // — the three name-derived kinds would report zero parts — which is the structural gap the
   // asked-nothing survey identified (`recompute-completeness.ts` selected every column except p.name).
   const parts = (await pool.query<{ id: string; sku: string; name: string | null; series: string | null; rt: number | null;
-    own: string; held_docs: number; spec_docs: number; any_docs: number }>(`
-    SELECT p.id::text, p.sku, p.name, p.series, cp.required_total AS rt,
+    own: string; held_docs: number; spec_docs: number; any_docs: number; product_class: string }>(`
+    SELECT p.id::text, p.sku, p.name, p.series, cp.required_total AS rt, p.product_class::text AS product_class,
            (SELECT count(*) FROM facts f
              WHERE f.part_id = p.id AND f.superseded_by IS NULL AND f.inherited_from IS NULL
                AND f.method NOT LIKE 'retracted:%')::text AS own,
@@ -192,7 +192,7 @@ async function main(): Promise<void> {
   const refusedByRule = new Map<string, number>();
   const refusedSkus: string[] = [];
   for (const p of parts) {
-    const k = partKind(category, p.sku, p.name ?? undefined) ?? "(none)";
+    const k = partKind(category, p.sku, p.name ?? undefined, p.product_class) ?? "(none)";
     // A PART THE ROLE TABLE REFUSES IS NOT IN THIS KIND'S POPULATION (27 Sep 2026).
     //
     // `deployRoleResult` returns an ISSUE for a row the table says is not the kind its category scores it

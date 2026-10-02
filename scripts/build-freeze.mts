@@ -17,7 +17,7 @@ import { getPool, closePool } from "../src/store/index.js";
 import { REPO_ROOT } from "../src/config.js";
 import { LEDGER_KINDS } from "../src/core/cupLedger.js";
 import { partKind } from "../src/core/partKind.js";
-import { freezeUnits, freezeHash, kindLine, liveRoleOf, type KindRow } from "../src/core/arrangementFreeze.js";
+import { freezeUnits, freezeHash, kindLine, liveRoleOf, FREEZE_PRODUCT_CLASS, type KindRow } from "../src/core/arrangementFreeze.js";
 
 const arg = (n: string): string | undefined => { const i = process.argv.indexOf(n); return i >= 0 ? process.argv[i + 1] : undefined; };
 
@@ -33,7 +33,7 @@ async function main(): Promise<void> {
       SELECT c.slug AS category, p.sku, coalesce(p.name, '') AS name
         FROM parts p JOIN vendors v ON v.id = p.vendor_id JOIN categories c ON c.id = p.category_id
         LEFT JOIN completeness cm ON cm.part_id = p.id
-       WHERE v.slug = $1 AND p.retired_at IS NULL AND p.product_class = 'hardware' AND c.slug = ANY($2::text[])
+       WHERE v.slug = $1 AND p.retired_at IS NULL AND p.product_class = $3::product_class AND c.slug = ANY($2::text[])
          -- THE FREEZE PINS THE SCORED POPULATION, WHICH IS WHAT THE LEDGERS DESCRIBE (27 Sep 2026).
          -- Parts the role table refuses as the wrong kind are not scored (no_profile_reason =
          -- kind_refused_by_role_table) and are excluded from the cup ledgers' kind populations, so
@@ -41,7 +41,7 @@ async function main(): Promise<void> {
          -- cross-checks itself against -- which is exactly what it refused on: store 7224, ledger 7206.
          -- Read from the stored reason, never re-derived, so one rule decides it in one place.
          AND coalesce(cm.no_profile_reason, '') <> 'kind_refused_by_role_table'
-       ORDER BY c.slug, p.sku`, [vendor, Object.keys(LEDGER_KINDS)])).rows;
+       ORDER BY c.slug, p.sku`, [vendor, Object.keys(LEDGER_KINDS), FREEZE_PRODUCT_CLASS])).rows;
   } finally {
     client.release();
     await closePool();
@@ -50,7 +50,7 @@ async function main(): Promise<void> {
   // function tests/arrangementFreeze.test.ts re-derives every row with, so the builder and the test cannot disagree on
   // what "the role of this row" means.
   const kindRows: KindRow[] = rows.map((r) => {
-    const row: KindRow = { ...r, kind: partKind(r.category, r.sku, r.name || undefined) ?? "(none)" };
+    const row: KindRow = { ...r, kind: partKind(r.category, r.sku, r.name || undefined, FREEZE_PRODUCT_CLASS) ?? "(none)" };
     return { ...row, deploy_role: liveRoleOf(row) };
   });
   const units = freezeUnits(vendor, REPO_ROOT, kindRows);

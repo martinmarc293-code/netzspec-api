@@ -333,7 +333,7 @@ export function storeRefusal(part: PartRef, e: SpecEntry, docTitle: string | nul
     });
     if (refusal) return refusal;
     // the store's SUBJECT gate, mirrored (src/store/facts.ts applyMerge): the same function on the same inputs
-    const subject = subjectRefusal({ vendor, docId: e.prov?.doc_id, title: docTitle, categorySlug: part.category, sku: part.sku, name: part.name });
+    const subject = subjectRefusal({ vendor, docId: e.prov?.doc_id, title: docTitle, categorySlug: part.category, sku: part.sku, name: part.name, productClass: part.product_class });
     if (subject) return subject;
   }
   return notApplicable({ sku: part.sku, categorySlug: part.category, fieldKey: e.k });
@@ -605,7 +605,7 @@ export async function planExtract(files: ExtractFile[], opts: { vendor: string; 
     const a = labelsOfDoc.get(d.doc_id) ?? [];
     a.push(f.label); labelsOfDoc.set(d.doc_id, a);
   }
-  const natDecision = (part: PartRef, d: DocInfo) => natThroughputDecision({ category: part.category, sku: part.sku, docLabels: labelsOfDoc.get(d.doc_id) ?? [] });
+  const natDecision = (part: PartRef, d: DocInfo) => natThroughputDecision({ category: part.category, sku: part.sku, productClass: part.product_class, docLabels: labelsOfDoc.get(d.doc_id) ?? [] });
   const natStat = (why: string) => { const k = `nat_throughput_${why.replace(/-/g, "_")}`; stats[k] = (stats[k] ?? 0) + 1; };
 
   // pass 1: SKU-scoped facts, so the class-C exception (a per-SKU value in the same document) is

@@ -63,7 +63,17 @@ check("every card kind is a card subject and none is a device kind except the co
 
 // ---- the gate the store applies (subjectRefusal): the vendor scope, the refusal rules -------------------------------------------
 const SW = "Cisco Catalyst 9200 Series Switches Data Sheet";
-const gate = (o: Partial<Parameters<typeof subjectRefusal>[0]>) => subjectRefusal({ vendor: "cisco", docId: "d", title: SW, categorySlug: "switches", sku: "C9200L-24P-4G", name: null, ...o })?.rule ?? "admitted";
+const gate = (o: Partial<Parameters<typeof subjectRefusal>[0]>) => subjectRefusal({ vendor: "cisco", docId: "d", title: SW, categorySlug: "switches", sku: "C9200L-24P-4G", name: null, productClass: "hardware", ...o })?.rule ?? "admitted";
+// ---- (3a, 2 Oct 2026) the receiver's CLASS decides before its kind axis -------------------------------------------------------
+const ASR = "Cisco ASR 1000 Series Aggregation Services Routers Data Sheet";
+check("SABOTAGE a stored licence in switches (C9400-DNA-E-3Y, the axis says switch) is not judged, never admitted as a switch",
+  gate({ sku: "C9400-DNA-E-3Y", name: "C9400 DNA Essentials, 3 Year Term license", productClass: "license" }), "subject:not-judged");
+check("...and with no stored class the SKU-rule fallback (the DNA infix) reads it non-hardware too", gate({ sku: "C9400-DNA-E-3Y", productClass: null }), "subject:not-judged");
+check("SABOTAGE stored software in routers (the axis says router) is not judged", gate({ categorySlug: "routers", sku: "3G-EVDO-BSNL-P1.0", title: ASR, productClass: "software" }), "subject:not-judged");
+check("CONTROL a hardware bundle named '... license' stored hardware stays a router: ASR1002X-10G-VPNK9 reaches its sheet",
+  gate({ categorySlug: "routers", sku: "ASR1002X-10G-VPNK9", name: "Cisco ASR1002-X, 10G, VPN Bundle, K9, AES license", title: ASR, productClass: "hardware" }), "admitted");
+check("SABOTAGE the fallback reads NO name: a licence-worded name on a switch SKU with no stored class stays a switch",
+  gate({ name: "Software license for C9200L", productClass: null }), "admitted");
 check("control: the switch sheet's value reaches the switch", gate({}), "admitted");
 check("SABOTAGE a rack kit the component patterns miss (4PT-KIT-T1=, kind mechanical) is refused by the subject gate", gate({ sku: "4PT-KIT-T1=" }), "subject:out");
 check("SABOTAGE an untitled document is refused as not judged, never admitted", gate({ title: null }), "subject:not-judged");
@@ -84,7 +94,7 @@ check("SABOTAGE an override naming no kinds is refused at load", refuses({ doc_i
 check("SABOTAGE a document twice is refused at load", (() => { try { parseOverrides({ overrides: [{ doc_id: "d", kinds: ["power"], witness: "w", reason: "r" }, { doc_id: "d", kinds: ["fan"], witness: "w", reason: "r" }] }); return "accepted"; } catch (e) { return (e as Error).message; } })(), "doc-subjects.json: d appears twice");
 check("the shipped table loads (a broken file would refuse every document)", (() => { try { docSubject({ doc_id: "x", title: "t" }); return "loads"; } catch (e) { return (e as Error).message; } })(), "loads");
 
-const TOTAL = 49;
+const TOTAL = 54;
 if (misses.length || pass !== TOTAL) {
   for (const m of misses) console.log(`  MISS ${m}`);
   console.error(`\n${pass}/${TOTAL} doc-subject cases passed${pass + misses.length !== TOTAL ? ` (ran ${pass + misses.length}, expected ${TOTAL})` : ""}.`);

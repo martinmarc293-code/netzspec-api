@@ -57,7 +57,7 @@ function docLabels(doc: string): Lab[] {
 const derived = (await query<{ n: number }>(`SELECT count(*)::int n FROM doc_parts dp JOIN parts p ON p.id = dp.part_id JOIN vendors v ON v.id = p.vendor_id
    JOIN categories ct ON ct.id = p.category_id WHERE v.slug = $1 AND ct.slug = $2 AND dp.link_run_id IS NOT NULL`, [vendor, category])).rows[0].n;
 if (derived === 0) throw new Error(`no derived link provenance for ${vendor}/${category} — run derive-link-provenance --commit first; the bar is never measured over unclassified links`);
-const parts = (await query<{ id: string; sku: string; name: string | null }>(`SELECT p.id::text, p.sku, p.name FROM parts p JOIN vendors v ON v.id = p.vendor_id
+const parts = (await query<{ id: string; sku: string; name: string | null; product_class: string }>(`SELECT p.id::text, p.sku, p.name, p.product_class::text AS product_class FROM parts p JOIN vendors v ON v.id = p.vendor_id
    JOIN categories ct ON ct.id = p.category_id WHERE v.slug = $1 AND ct.slug = $2 AND p.retired_at IS NULL AND p.product_class = 'hardware'`, [vendor, category])).rows;
 const heldLinks = (await query<{ part_id: string; doc_id: string }>(`SELECT dp.part_id::text, dp.doc_id FROM doc_parts dp JOIN parts p ON p.id = dp.part_id
    JOIN vendors v ON v.id = p.vendor_id JOIN categories ct ON ct.id = p.category_id
@@ -72,7 +72,7 @@ for (const l of heldLinks) (docsOf.get(l.part_id) ?? docsOf.set(l.part_id, []).g
 const holds = new Set(holdersRows.map((r) => `${r.part_id} ${r.k}`));
 type P = { id: string; sku: string; kind: string; role: string | null; modular: boolean | null; docs: string[] };
 const pop: P[] = parts.map((p) => {
-  const kind = partKind(category, p.sku, p.name ?? undefined) ?? "(none)";
+  const kind = partKind(category, p.sku, p.name ?? undefined, p.product_class) ?? "(none)";
   return { id: p.id, sku: p.sku, kind, role: deployRole(category, kind, p.sku, p.name), modular: modularPlatform(p.sku), docs: docsOf.get(p.id) ?? [] };
 });
 

@@ -142,7 +142,7 @@ export function hostCupsByCategory(parts: readonly DumpPart[]): Map<string, stri
 /** The cups a part is asked: required + pending of its kind (and role). Empty for non-hardware or a part with no kind. */
 export function cupsAsked(p: { sku: string; name: string | null; category: string; product_class: string }): { kind: string | null; role: string | null; cups: string[] } {
   if (p.product_class !== "hardware") return { kind: null, role: null, cups: [] };
-  const kind = partKind(p.category, p.sku, p.name ?? undefined) ?? null;
+  const kind = partKind(p.category, p.sku, p.name ?? undefined, p.product_class) ?? null;
   if (!kind) return { kind: null, role: null, cups: [] };
   const role = deployRole(p.category, kind, p.sku, p.name);
   try {

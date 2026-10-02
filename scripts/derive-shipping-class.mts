@@ -35,10 +35,10 @@ const sha = createHash("sha256").update(fs.readFileSync(SHIPPING_CLASS_FILE)).di
 const WITNESS_URL = `netzspec://reference/shipping-classes.json#sha256=${sha.slice(0, 16)}`;
 const db = getPool();
 
-const parts = (await db.query<{ id: number; sku: string; name: string | null; category: string }>(
-  `SELECT p.id, p.sku, p.name, c.slug AS category FROM parts p JOIN vendors v ON v.id = p.vendor_id JOIN categories c ON c.id = p.category_id
+const parts = (await db.query<{ id: number; sku: string; name: string | null; category: string; product_class: string }>(
+  `SELECT p.id, p.sku, p.name, c.slug AS category, p.product_class::text AS product_class FROM parts p JOIN vendors v ON v.id = p.vendor_id JOIN categories c ON c.id = p.category_id
     WHERE v.slug = 'cisco' AND p.retired_at IS NULL AND p.product_class = 'hardware' ORDER BY p.sku`)).rows;
-const inClass = parts.map((p) => ({ p, c: shippingClassOf(p.category, partKind(p.category, p.sku, p.name ?? undefined)) })).filter((x) => x.c);
+const inClass = parts.map((p) => ({ p, c: shippingClassOf(p.category, partKind(p.category, p.sku, p.name ?? undefined, p.product_class)) })).filter((x) => x.c);
 const ids = inClass.map((x) => x.p.id);
 const cur = new Map<string, { part_id: number; key: string; id: number; method: string; value: unknown; state: string }>();
 for (const r of (await db.query<{ part_id: number; key: string; id: number; method: string; value: unknown; state: string }>(

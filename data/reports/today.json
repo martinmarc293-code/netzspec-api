@@ -1,9 +1,9 @@
 {
   "date": "2026-10-02",
-  "focus": "ordered",
-  "rule": "(b') the doc-subject allowlist: the store gate (67c00e8) + the approved retraction of the 13,367 served out-of-subject document-scoped facts (ready 739 -> 574 accepted by the reviewer: those 165 were ready on values that described a different product)",
+  "focus": "ordered-correctness",
+  "rule": "(3a) the class decides the kind before the axis: stored product_class first, productClass.ts SKU rules (no name) as the fallback; a non-hardware part never takes a hardware kind (5,371 non-hardware parts held a device kind). With the scorecard reading the board's fill-state share (one module).",
   "blocker_key": "attributes:none",
-  "predicted_unlock": -165,
-  "predicted_at_ready": 739,
-  "note": "a correctness retraction: ready is predicted to FALL by the 165 parts the check measured (the export's own views and shopReady with the OUT fields removed, data/dryrun/doc-subjects-ready-lost-20261002T073251.tsv)"
+  "predicted_unlock": 0,
+  "predicted_at_ready": 574,
+  "note": "ready is predicted NOT to move: the export scans stored-hardware SKUs only, and with the stored class passed 0 of the 41,058 frozen hardware kinds change (measured before the commit). The kinds that change are on non-hardware parts (24,473), which no readiness check reads."
 }

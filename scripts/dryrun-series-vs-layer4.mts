@@ -56,12 +56,12 @@ for (const f of fs.readdirSync(dir).filter((x) => x.startsWith("cisco-") && x.en
   if (ci("sku") < 0 || ci("series") < 0 || ci("product_line") < 0) { console.log(`   !! ${f}: header lacks a needed column, SKIPPED and not counted`); continue; }
   const art = new Map<string, { se: string; pl: string }>();
   for (const l of L.slice(1)) { const c = l.split("\t"); art.set(c[ci("sku")], { se: c[ci("series")], pl: c[ci("product_line")] }); }
-  const db = (await query<{ sku: string; series: string | null; name: string | null }>(`
-    SELECT p.sku, p.series, p.name FROM parts p JOIN vendors v ON v.id=p.vendor_id JOIN categories c ON c.id=p.category_id
+  const db = (await query<{ sku: string; series: string | null; name: string | null; product_class: string }>(`
+    SELECT p.sku, p.series, p.name, p.product_class::text AS product_class FROM parts p JOIN vendors v ON v.id=p.vendor_id JOIN categories c ON c.id=p.category_id
      WHERE v.slug='cisco' AND c.slug=$1 AND p.retired_at IS NULL AND p.sku = ANY($2::text[])`, [cat, [...art.keys()]])).rows;
   for (const d of db) {
     const a = art.get(d.sku)!;
-    rows.push({ sku: d.sku, cat, col: d.series, art: a.se, line: a.pl, kind: kindAndRole(cat, d.sku, d.name).kind ?? null });
+    rows.push({ sku: d.sku, cat, col: d.series, art: a.se, line: a.pl, kind: kindAndRole(cat, d.sku, d.name, d.product_class).kind ?? null });
   }
 }
 const diff = rows.filter((r) => (r.col ?? "") !== r.art);

@@ -219,8 +219,8 @@ async function main(): Promise<void> {
 
   const partRows = await q<{ id: string; sku: string; name: string | null; category: string; series: string | null; family: string | null;
     required_total: number | null; required_fields: string[] | null; required_present: number | null;
-    relation_cups: Record<string, string> | null }>("parts", `
-    SELECT p.id::text, p.sku, p.name, ct.slug AS category, p.series, p.family,
+    relation_cups: Record<string, string> | null; product_class: string }>("parts", `
+    SELECT p.id::text, p.sku, p.name, ct.slug AS category, p.series, p.family, p.product_class::text AS product_class,
            cp.required_total, cp.required_fields, cp.required_present, cp.relation_cups
       FROM parts p JOIN vendors v ON v.id = p.vendor_id JOIN categories ct ON ct.id = p.category_id
       LEFT JOIN completeness cp ON cp.part_id = p.id
@@ -367,7 +367,7 @@ async function main(): Promise<void> {
     doc_state: string; legacy_held: boolean; asked_nothing: boolean; states: Record<string, string> }[] | null = partsOutFile ? [] : null;
 
   for (const p of partRows) {
-    const kind = partKind(p.category, p.sku, p.name ?? undefined) ?? "(none)";
+    const kind = partKind(p.category, p.sku, p.name ?? undefined, p.product_class) ?? "(none)";
     // The ledger's own rule (build-cup-ledger.mts): a `non-hardware` kind is counted beside the kinds, never in one.
     if (kind === "non-hardware") { pendingReclass.set(p.category, (pendingReclass.get(p.category) ?? 0) + 1); continue; }
     const d = docs.get(p.id);
@@ -602,7 +602,7 @@ async function main(): Promise<void> {
             OR p.sku LIKE '%CUxM' OR p.sku LIKE '%AOCxM' OR p.sku LIKE '%ACxM')`, [vendor]);
   const pdfSource = (await q<{ enabled: boolean }>("residue: pdf source", "SELECT enabled FROM sources WHERE slug = $1", [`${vendor}-datasheet-pdf`]))[0];
   const asr = skuRows.filter((r) => r.sku.toUpperCase().startsWith("ASR5K-") && r.product_class === "hardware" && r.category === "wireless");
-  const asrKinds = asr.reduce<Record<string, number>>((m, r) => { const k = partKind("wireless", r.sku, r.name ?? undefined) ?? "(none)"; m[k] = (m[k] ?? 0) + 1; return m; }, {});
+  const asrKinds = asr.reduce<Record<string, number>>((m, r) => { const k = partKind("wireless", r.sku, r.name ?? undefined, r.product_class) ?? "(none)"; m[k] = (m[k] ?? 0) + 1; return m; }, {});
   const lengthGeneric = skuRows.filter((r) => /(CU|AOC|AC)xM$/.test(r.sku));
   const currentWithValue = factRows.filter((f) => !f.vnull);
   const seedFacts = currentWithValue.filter((f) => f.method === "hexcat_seed").length;
