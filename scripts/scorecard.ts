@@ -157,7 +157,10 @@ const weekly = weeklyArg !== undefined && Number.isFinite(Number(weeklyArg)) ? N
 // --limits-lifted "<who, when>": the operator lifted the stops (2 Oct 2026: "the limit usage is no more with you right now till
 // further notice"). The flag still prints, so the usage stays visible, but it says the stop is lifted and by whom.
 const lifted = arg("--limits-lifted");
-if (weekly !== null && weekly >= 70) flags.push(lifted ? `LIMIT-70 LIFTED (${lifted}): weekly usage ${weekly}%` : `LIMIT-70: weekly usage ${weekly}% -- ALL work stops: commit, state.md, report, wait for the reset`);
+// reviewer, 2 Oct 2026, on the lifted limit: the plan still stops EVERY session at 100 % until the reset -- "flag at 90 % so it
+// doesn't cut off mid-run".
+if (weekly !== null && lifted && weekly >= 90) flags.push(`LIMIT-90: weekly usage ${weekly}% -- the plan stops every session at 100% until the reset: finish the running step, start no long run, report`);
+else if (weekly !== null && weekly >= 70) flags.push(lifted ? `LIMIT-70 LIFTED (${lifted}): weekly usage ${weekly}%` : `LIMIT-70: weekly usage ${weekly}% -- ALL work stops: commit, state.md, report, wait for the reset`);
 else if (weekly !== null && weekly >= 55) flags.push(lifted ? `LIMIT-55 LIFTED (${lifted}): weekly usage ${weekly}%` : `LIMIT-55: weekly usage ${weekly}% -- the headless lane is paused`);
 
 const hhmm = (ms: number) => `${String(Math.floor(ms / 3600e3)).padStart(2, "0")}:${String(Math.floor((ms % 3600e3) / 60e3)).padStart(2, "0")}`;

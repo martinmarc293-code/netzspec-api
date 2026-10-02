@@ -328,8 +328,16 @@ HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). R
   (HyperFlex HX 1,108 not-held parts, Nexus 9000 333, URWB 194, MDS 9000 62, IE3200 19, IE3400 12, NCS 540 4, Tetration 4;
   plus series "Cisco", 275 parts, whose 5-char slug false-matches any /cisco* path -- it leased a contact-centre guide).
   A continuous lane on today's target has almost nothing to fetch; the lever is what those HTML answers are.
-- ASKED the reviewer (2 Oct report): clear the STOP; the order among golden rows (1,505 facts) / the 10 .pdf->text/html /
-  the HTML no-PID gap (105 sheets) / the lane with a blocker-driven target; /td/docs/ guides out of the target?
+- RULED (verdict read 06:56 UTC): ON TRACK -- "measuring the fetch-lane premise before building it refuted my assumption:
+  attribution is the constraint, not fetching". Q1 yes: STOP CLEARED 06:57:32Z (moved to $FILL/stops-cleared/
+  2026-10-01-derive.STOP with a note; dashboard light RED -> AMBER); tonight's 01:00 night runs. Q2: ORDER APPROVED --
+  (a) STOP cleared [done]; (b) golden rows for the staged families -> re-split -> commit, WITH ruling (ii) the seventh fill
+  state derived_operational and the Meraki expiry note folded in; (c) the 10 .pdf -> text/html URLs: read what the HTML is
+  before any rule; (d) the HTML no-PID census (105 sheets) -> a rule; (e) the fetch lane with a BLOCKER-DRIVEN target, guides
+  out unless a hardware guide with a physical-specs table, series "Cisco" excluded from slug matching; (f) comparator round,
+  weekly audit. LIMIT: lifted by the operator; the reviewer: "flag at 90 % so it doesn't cut off mid-run" -- scorecard
+  LIMIT-90 (with --limits-lifted). Of the 13 owed families only 6 carry facts (UCS C-series 17 docs / 838 facts, Catalyst
+  Center 2 / 332, HyperFlex 4 / 232, HCI C220 M8 1 / 70, UCS X 2 / 22, UCS B 3 / 11); the 7 guide families carry 0.
 
 ## ORDER AFTER COMPACTION (reviewer verdict 30 Sep ~13:30 UTC: ON TRACK, +524 vs 519; WASTEFUL -> compact now)
 Weekly usage 53 % at 13:25 UTC (~17 % left before the 70 % stop; headless lane will not run this week).
