@@ -303,6 +303,8 @@ HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). R
      session copies them into the repo, restamps, commits BEFORE ANY DEPLOY -- a deploy first would put the older committed
      artefacts back under the API.
 ## HANDOFF (5 Oct ~22:30 UTC) -- READ FIRST. OPERATOR ORDER: ROUTERS ONLY until every Cisco router is shop_ready
+- SCOPE: category=routers
+  (read by scripts/scorecard.ts: ready and the top-5 sole blockers are counted in this scope, the catalogue beside it)
 - OPERATOR, 5 Oct ~21:00 UTC (verbatim): "complete the router category full, you are not allowed to focus on anything else
   beside this, fully compelte the router category, find all the datasheets, get all the data and make this cisco router
   category ready so that claude web can esality fetch all the details from the api to make the excel sheet for jtl shop for

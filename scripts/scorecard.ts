@@ -38,13 +38,23 @@ const history: any[] = fs.existsSync(LOG) ? fs.readFileSync(LOG, "utf8").split("
 if (argv.includes("--dump-ready")) {
   const { query, closePool } = await import("../src/store/db.js");
   const { jtlReadiness } = await import("../src/api/queries/jtlExport.js");
-  const skus = (await query<{ sku: string }>(`SELECT p.sku FROM parts p JOIN vendors v ON v.id = p.vendor_id
-    WHERE v.slug = 'cisco' AND p.retired_at IS NULL AND p.product_class = 'hardware'`)).rows.map((r) => r.sku);
-  let ready = 0;
+  // THE SCOPE (reviewer, 5 Oct 2026: "make the scorecard read the scope from state.md and compute top-5 and ready within it, so
+  // the flags judge router work against router blockers"). --scope <category>: ready, scanned and the sole blockers are counted
+  // over that category; the catalogue's ready is still counted and printed beside it, never instead of it.
+  const scope = argv.includes("--scope") ? argv[argv.indexOf("--scope") + 1] ?? null : null;
+  const rows = (await query<{ sku: string; cat: string }>(`SELECT p.sku, c.slug AS cat FROM parts p JOIN vendors v ON v.id = p.vendor_id
+    JOIN categories c ON c.id = p.category_id WHERE v.slug = 'cisco' AND p.retired_at IS NULL AND p.product_class = 'hardware'`)).rows;
+  const skus = rows.map((r) => r.sku);
+  const catOf = new Map(rows.map((r) => [r.sku, r.cat]));
+  if (scope && !rows.some((r) => r.cat === scope)) { console.error(`--scope ${scope}: no live hardware part in that category -- refusing a scope that scores nothing`); process.exit(2); }
+  let ready = 0, readyAll = 0, scanned = 0;
   const sole = new Map<string, number>();
   for (let i = 0; i < skus.length; i += 2000) {
     const r = await jtlReadiness({ vendor: "cisco", skus: skus.slice(i, i + 2000) });
     for (const s of r.skus ?? []) {
+      if (s.ready) readyAll++;
+      if (scope && catOf.get(s.sku) !== scope) continue;
+      scanned++;
       if (s.ready) { ready++; continue; }
       const rs = [...new Set(s.reasons)];
       if (rs.length === 1) sole.set(rs[0], (sole.get(rs[0]) ?? 0) + 1);
@@ -65,7 +75,7 @@ if (argv.includes("--dump-ready")) {
     const last = fsm.readFillStateHistory(path.join(ROOT, fsm.FILL_STATE_HISTORY)).pop();
     record = last ? { at: last.at, git_sha: last.git_sha, same_as_live: fsm.sameHistogram(last.states, hist.states) } : null;
   } catch (e) { record_error = e instanceof Error ? e.message : String(e); }
-  console.log(JSON.stringify({ ready, scanned: skus.length,
+  console.log(JSON.stringify({ ready, scanned, scope, ready_catalogue: readyAll, scanned_catalogue: skus.length,
     required_present_pct: Math.round((1000 * Number(f.present)) / Number(f.total)) / 10,
     fill: { pct: share.pct, filled: share.filled, spec_total: share.spec_total, total: hist.total,
       filled_inherited: hist.states.filled_inherited ?? 0, derived_operational: hist.states.derived_operational ?? 0,
@@ -88,8 +98,13 @@ if (arg("--verdict") !== undefined) {
 const prev = history[history.length - 1] ?? null;
 const now = new Date();
 // readiness: fresh, on the box, through the deployed script
+// the scope is READ from state.md ("- SCOPE: category=<slug>"), the file the reviewer and the operator read, so the scorecard can
+// never judge a scope nobody wrote down; no line = the whole catalogue, as before
+const STATE = path.join(ROOT, "docs", "reviewer", "2026-09-28", "state.md");
+const scopeLine = fs.existsSync(STATE) ? /^- SCOPE: category=([a-z0-9-]+)/m.exec(fs.readFileSync(STATE, "utf8")) : null;
+const SCOPE = scopeLine ? scopeLine[1] : null;
 const box = execFileSync("ssh", ["-o", "ConnectTimeout=20", "-i", path.join(os.homedir(), ".ssh", "dubaifix_hetzner"), "root@77.42.72.81",
-  "cd /root/netzspec-api && npx tsx scripts/scorecard.ts --dump-ready"], { encoding: "utf8", timeout: 600_000 });
+  `cd /root/netzspec-api && npx tsx scripts/scorecard.ts --dump-ready${SCOPE ? ` --scope ${SCOPE}` : ""}`], { encoding: "utf8", timeout: 900_000 });
 const R = JSON.parse(box.trim().split("\n").filter((l) => l.startsWith("{")).pop()!);
 const today = readJson(TODAY);
 
@@ -149,7 +164,9 @@ let light: any = null;
 try { light = JSON.parse(execFileSync("curl", ["-s", "--max-time", "20", "https://api.netzspec.com/fill/cisco/fill.json"], { encoding: "utf8" })).light; } catch { /* reported as unknown */ }
 
 // outcome and focus
-const readyDelta = prev ? R.ready - prev.ready : null;
+// a delta only within ONE scope: the first scoped card after a catalogue one (574 -> 199) is a new baseline, not a loss
+const sameScope = !!prev && (prev.scope ?? null) === (R.scope ?? null);
+const readyDelta = prev && sameScope ? R.ready - prev.ready : null;
 // FILLED is the fill-state share since 2 Oct 2026; an older scorecard has no `filled_share_pct`, so the first one under this
 // measure has no delta rather than a fake jump from the slot measure (9.6 -> 16.0 would read as +6.4 % of work never done).
 const fillPct: number | null = R.fill?.pct ?? null;
@@ -199,7 +216,7 @@ else if (weekly !== null && weekly >= 55) flags.push(lifted ? `LIMIT-55 LIFTED (
 
 const hhmm = (ms: number) => `${String(Math.floor(ms / 3600e3)).padStart(2, "0")}:${String(Math.floor((ms % 3600e3) / 60e3)).padStart(2, "0")}`;
 const card = {
-  at: now.toISOString(), since, ready: R.ready, ready_delta: readyDelta,
+  at: now.toISOString(), since, scope: R.scope ?? null, ready: R.ready, ready_delta: readyDelta, ready_catalogue: R.ready_catalogue ?? null,
   filled_share_pct: fillPct, filled_share_delta: filledDelta, filled_facts: R.fill?.filled ?? null, spec_facts: R.fill?.spec_total ?? null,
   fill_record: rec ? { git_sha: rec.git_sha, at: rec.at, same_as_live: rec.same_as_live } : null,
   required_present_pct: R.required_present_pct ?? null, required_present_delta: requiredDelta,
@@ -210,7 +227,7 @@ const card = {
 };
 const lines = [
   ...(flags.length ? ["FLAGS: " + flags.join(" | "), ""] : []),
-  `outcome   ready ${readyDelta === null ? "(first scorecard)" : `${readyDelta >= 0 ? "+" : ""}${readyDelta}`} (${R.ready} of ${R.scanned}) · filled ${sign(filledDelta, "(first under the fill-state share)")} (${p1(fillPct)}%) · today's rule unlocked: predicted ${Number.isFinite(predicted) ? predicted : "n/a"} / actual ${actual ?? "n/a"}`,
+  `outcome   ready ${readyDelta === null ? (prev && !sameScope ? "(first card in this scope)" : "(first scorecard)") : `${readyDelta >= 0 ? "+" : ""}${readyDelta}`} (${R.ready} of ${R.scanned}${R.scope ? ` in scope ${R.scope}; catalogue ${R.ready_catalogue} of ${R.scanned_catalogue}` : ""}) · filled ${sign(filledDelta, "(first under the fill-state share)")} (${p1(fillPct)}%) · today's rule unlocked: predicted ${Number.isFinite(predicted) ? predicted : "n/a"} / actual ${actual ?? "n/a"}`,
   `fill      filled ${p1(fillPct)}% = ${R.fill?.filled?.toLocaleString("en") ?? "?"} of ${R.fill?.spec_total?.toLocaleString("en") ?? "?"} spec facts (the board's fill-state share, src/core/fillState.ts), ${recNote} · filled_inherited ${R.fill?.filled_inherited?.toLocaleString("en") ?? "?"} beside it, derived_operational ${R.fill?.derived_operational?.toLocaleString("en") ?? "?"} apart${R.fill?.outside_seven?.length ? ` · OUTSIDE the seven states: ${R.fill.outside_seven.join(", ")}` : ""} · a DIFFERENT measure: required slots present ${p1(R.required_present_pct)}% (completeness sums, ${sign(requiredDelta, "first")})`,
   `focus     ${ordered ? `${today.focus}: reviewer-ordered work` : offList ? `off the top-5 by ready-gain (${today?.blocker_key ?? "no today.json"})` : `blocker #${rank + 1} of the top-5 (${today.blocker_key})`} · off-list work: ${offList ? `yes (${today?.rule ?? "?"})` : "no"} · top-5: ${R.top5.map((b: any) => `${b.blocker} ${b.parts}`).join(", ")}`,
   `rework    commits fixing my own earlier commits: ${fixups}${fixupList.length ? ` (${fixupList.join(", ")})` : ""} · reverts: ${reverts} · commits in window: ${commits.length}`,
