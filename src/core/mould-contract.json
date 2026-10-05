@@ -1,9 +1,9 @@
 {
-  "contract_hash": "19704b71cf482f48",
-  "generated_at": "2026-10-02T11:31:53.141Z",
-  "code_commit": "c290f8e197094085e9035b6f2dad463831258173",
+  "contract_hash": "201b779a47640e74",
+  "generated_at": "2026-10-05T22:17:51.683Z",
+  "code_commit": "597179d4689f60ac9998a3fcb68f98fd5b3c1547",
   "code_branch": "cisco",
-  "dirty_files": 9,
+  "dirty_files": 98,
   "counts": {
     "dictionary_keys": 610,
     "categories": 26,
@@ -26787,9 +26787,29 @@
           "elseOpt": true,
           "kind": "cond",
           "when": {
-            "field": "kind",
-            "inList": [
-              "router"
+            "all": [
+              {
+                "field": "kind",
+                "inList": [
+                  "router"
+                ]
+              },
+              {
+                "field": "series",
+                "inList": [
+                  "1000",
+                  "4000",
+                  "4000 ISR",
+                  "8000",
+                  "8100 Series Secure",
+                  "8200 Series Secure",
+                  "8400 Series Secure",
+                  "Catalyst 8200",
+                  "Catalyst 8300",
+                  "Catalyst 8500L",
+                  "RV Series"
+                ]
+              }
             ]
           }
         },

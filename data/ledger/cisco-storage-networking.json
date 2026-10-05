@@ -3,7 +3,7 @@
   "vendor": "cisco",
   "category": "storage-networking",
   "profile_hash": "15ba45635aede5cf",
-  "built_on_commit": "2e2187f",
+  "built_on_commit": "597179d",
   "norm_version": "1.8.8",
   "declared_fields": 186,
   "gap_states": {
@@ -12623,9 +12623,9 @@
     }
   },
   "build": {
-    "data_commit": "cff35e0ab6b5+93dirty",
-    "code_commit": "cff35e0ab6b5",
-    "contract_hash": "19704b71cf482f48",
-    "generated_at": "2026-10-05T21:07:25.643Z"
+    "data_commit": "597179d4689f+93dirty",
+    "code_commit": "597179d4689f",
+    "contract_hash": "201b779a47640e74",
+    "generated_at": "2026-10-05T22:18:51.745Z"
   }
 }

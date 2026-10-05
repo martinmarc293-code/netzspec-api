@@ -302,7 +302,39 @@ HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). R
      TRAP: the night rebuilds and stamps the artefacts IN THE DEPLOY TREE (STAMP_*_COMMIT = the deployed commit). The day
      session copies them into the repo, restamps, commits BEFORE ANY DEPLOY -- a deploy first would put the older committed
      artefacts back under the API.
-## HANDOFF (2 Oct ~14:30 UTC) -- READ FIRST AFTER COMPACTION; Q2 + Q3 DONE, next is READY-GAIN (reviewer's order)
+## HANDOFF (5 Oct ~22:30 UTC) -- READ FIRST. OPERATOR ORDER: ROUTERS ONLY until every Cisco router is shop_ready
+- OPERATOR, 5 Oct ~21:00 UTC (verbatim): "complete the router category full, you are not allowed to focus on anything else
+  beside this, fully compelte the router category, find all the datasheets, get all the data and make this cisco router
+  category ready so that claude web can esality fetch all the details from the api to make the excel sheet for jtl shop for
+  complete cisco routers". SCOPE: category routers (live hardware). Everything else is superseded (memory:
+  netzspec-routers-only-focus). Baseline 5 Oct: router shop_ready 199 of 5,127; held 1,626; eol-only 2,842; no doc 417.
+- DONE (pushed): 13defe7 night artefacts 3-5 Oct pulled before any deploy; 46a390a router-acquire-seed.py (run 1491/1492:
+  239+2 listings, 120 families derived); d005edd lane discovers hardware installation guides from ROUTER listings (HW_GUIDE /
+  GUIDE_LIST, HG1-HG7); 597179d throughput rulings (a)+(b) + export renders the basis + exportRequired (series-settled
+  pending cups) + board check router_throughput_series + extractor _header_subjects (multi-model / model-name / PID(desc)
+  headers -> the parts they name; HL1-HL16; corpus +4,456 records, 9 deliberate refusals) + scripts/scratch-tree.sh.
+  Decision: docs/decisions/2026-10-05-router-throughput.md (+ addendum: Safety -> certifications, Altitude (China) dropped).
+- ACQUIRED: pass 1 (listings, 0 challenges), pass 2 (342 URLs: 327 done, 184 sheets with facts, 25 PDFs, 0 challenges).
+  Router document set on the box: /tmp/rt-all-html.txt (455, incl. 97 hardware guides) + /tmp/rt-all-pdf.txt (25).
+- REVIEWER RULINGS 5 Oct: plan approved; throughput rule now; install guides in pass 2; per-series ceiling report owed after
+  pass 2; R5 accessories export "Kompatibel mit" (compatible relations), bundles "Lieferumfang" (bundle_contains), no
+  relation -> not ready; (a) basis rendered beside the value; (b) cond(series), decision + freeze + ledgers one commit;
+  scorecard to read the router scope; "next report must show router ready moving -- throughput re-apply on golden-verified
+  families first".
+- IN FLIGHT: mould-build at 597179d on the box (/tmp/build-597179d.log, holds $FILL/lock) -> pull data -newer
+  /tmp/build-597179d.start, contract/stamp/ONE BUILD, freeze/completeness/cupLedger/layersStanding/mapperTrace, commit.
+  UNCOMMITTED locally: data/reference/golden/cisco-routers.golden.json (17 rows: ISR 4000 + 8100/8200 Secure; 3 held back
+  with reasons), the Safety/Altitude(China) alias rules + decision addendum (need another rebuild).
+- DRY GATE on ISR 4000 + secure-routers families (scratch tree): precision 100% (17/17), provenance 60/60, regression 0;
+  UNVERIFIED only on sample coverage -> commit with --sample 120.
+- FINDINGS for the reviewer: router `series` labels are wrong in places ("2900 ISR" holds ASR1002 bundles, C1-CISCO29xx,
+  C1861, C2801) -> Kat-3 wrong; bundles/variants are each their own model (parts.family), so a base chassis' sheet values do
+  not reach CISCO2911-V/K9 etc.; RV/single-model sheets: document-level values refused by inheritance; ISR 1000 pattern
+  headers (C1161(X)-8P, C111x-8P) + inline per-model cells not read; ISR 4000 weights per PSU configuration (ruling owed);
+  normaliser "N Rack Units"; extractor all-caps labels (DRAM/EMC); C1100TG throughput raw "500 Mbps 100 Mbps" stored as 0.5.
+- The dead night .pdf rows: 23 in all, 15 already blocked at 5 attempts, 8 failed at 4 -> the lane's own cap retires them.
+
+## HANDOFF (2 Oct ~14:30 UTC) -- superseded by the one above; Q2 + Q3 DONE
 - DONE + VERIFIED this block (all pushed; deployed 2e2187f; board 32/1 = vendor_coverage only, 0 Bearer):
   * scorecard reads the fill-state share (b11c924, src/core/fillState.ts). (3a) the class decides the kind (625e6ed).
   * Q2: run 1472 retracted the 4,328 served doc-scoped inherited facts on non-hardware parts (describesPart class rule;
