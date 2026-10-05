@@ -338,6 +338,26 @@
       }
     ],
     [
+      "^safety$|^regulatory compliance: safety$|^environmental: certifications$",
+      "certifications",
+      "routers, 5 Oct 2026 (operator order: routers until JTL-complete; Zertifizierungen is required of every router): the router sheets' commonest certification row is 'Safety' -- 104 sheets, 151 rows, '● USA: UL 60950-1 ● Canada: CAN/CSA C22.2 No. 60950-1 ...' -- and the unscoped heading rule below sent every one to __not_a_spec, value or no value. A heading row that only repeats its label is a __section_heading sentinel BEFORE any rule is consulted, so this takes the rows that carry standards and nothing else. 'Regulatory Compliance: Safety' (4) and 'Environmental: Certifications' (5) were unmapped. 'EMC standards' already lands here (unchanged).",
+      {
+        "only": [
+          "routers"
+        ]
+      }
+    ],
+    [
+      "^altitude \\(china\\)$",
+      "__not_a_spec",
+      "routers, 5 Oct 2026: the ISR 4000 sheet prints 'Altitude (China)' 0-2,000 m beside 'Altitude (Rest of the world)' 0-3,050 m, both reaching altitude_max, so every ISR 4000 held a conflict. The China row is a regional regulatory restatement (a market's limit, not the product's); the rest-of-world row is the product's own rating and stays.",
+      {
+        "only": [
+          "routers"
+        ]
+      }
+    ],
+    [
       "^ipv4 forwarding throughput \\(imix\\)$",
       "router_throughput",
       "routers, reviewer ruling (a) 5 Oct 2026: the ISR 1000 sheet's per-model figure is 'IPv4 forwarding throughput (IMIX)' (autonomous mode; '1765 Mbps' for C1161). One basis per sheet; the basis stays in raw and the export renders it beside the value (ruling (a)), so an IMIX figure is never shown as if comparable with a 1400-byte one. NAT throughput is deliberately NOT here: src/core/natThroughput.ts (operator ruling 13 Sep 2026) lifts it into router_throughput only for an smb router whose sheet prints no forwarding row -- and this IMIX row now IS such a forwarding row, so on an ISR 1100 sheet that prints both, the forwarding figure wins as that ruling says. 'ESP bandwidth' (ASR 1000) is NOT aliased: it is the fitted ESP module's figure, conditional on the configuration.",
@@ -6887,9 +6907,9 @@
     ]
   ],
   "build": {
-    "data_commit": "597179d4689f+93dirty",
+    "data_commit": "597179d4689f+94dirty",
     "code_commit": "597179d4689f",
     "contract_hash": "201b779a47640e74",
-    "generated_at": "2026-10-05T22:18:51.745Z"
+    "generated_at": "2026-10-05T22:17:11.957Z"
   }
 }

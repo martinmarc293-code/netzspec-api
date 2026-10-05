@@ -59,6 +59,27 @@ category `routers`:
    router OUTSIDE the list holding a throughput (missed series) fails. Sabotage: "Catalyst 8500" added → FAIL naming it.
    The missed-series direction is not exercised until router throughput facts land (the first router re-apply).
 
+## Addendum, same night: two router sheet rows that reached the wrong cup
+
+Found while hand-reading the ISR 4000 and 8000 Secure Router sheets for the first router golden rows (both rules scoped to
+`routers`; switches and security trace exactly as before):
+
+7. `^safety$|^regulatory compliance: safety$|^environmental: certifications$` → `certifications`. "Safety" is the router
+   sheets' commonest certification row (104 sheets, 151 rows, "● USA: UL 60950-1 ● Canada: CAN/CSA C22.2 No. 60950-1 …"),
+   and the unscoped heading rule sent every one to `__not_a_spec` whether or not it carried standards. Zertifizierungen is
+   required of EVERY router, so this was the largest single reason routers could not certify. A heading row that only
+   repeats its label is a `__section_heading` sentinel before any rule is consulted (traced: "Safety | Safety" → sentinel),
+   so the rule takes only the rows that carry standards.
+8. `^altitude \(china\)$` → `__not_a_spec`. The ISR 4000 sheet prints 0–2,000 m for China beside 0–3,050 m for the rest of
+   the world; both reached `altitude_max`, so every ISR 4000 held a conflict. The China row is a market's limit, not the
+   product's rating.
+
+Owed, found the same way and NOT changed here: the normaliser refuses "3 Rack Units (3RU)" (UNIT_UNKNOWN "Rack") while
+"1 RU" reads; the extractor never emits an all-caps row label ("DRAM", "EMC", "MTBF": `_looks_like_label` wants three
+lowercase letters, every category); the ISR 4000 weights are printed per power-supply configuration (five rows reach
+`weight`) and need a ruling on which is the article weight. The three affected golden rows are in `held_back` with these
+reasons.
+
 ## Not in this record
 
 The router re-apply itself (golden rows per family, the family gate, commits) and the extractor's header fix

@@ -1,0 +1,183 @@
+{
+  "_readme": [
+    "ROUTERS golden sample (operator order 5 Oct 2026: the router category only, until every Cisco router is shop_ready).",
+    "HAND-VERIFIED expected values, the gate's own set (src/pipeline/gate-extract.ts): a row is one (sku, field) expectation,",
+    "and ruling B (30 Sep 2026) commits a router document family only with >= 5 of them for SKUs its own sheets list.",
+    "",
+    "How each row was verified: the RAW is the cell as the cached page prints it, read through the extractor's own grid reader",
+    "(cisco_specs_deep._rows, table/row/column given in `at`), and the VALUE is computed by hand from that raw under the",
+    "dictionary's unit (router_throughput Gbit/s: '500 Mbps' -> 0.5; rack_units HE; power_max W from a '(watts)' label).",
+    "Nothing here was copied from an extractor or mapper output and blessed -- that would pass however wrong the pipeline is.",
+    "",
+    "Deliberately NOT here yet: the ISR 4000 weights (five rows, one per power-supply configuration -- a ruling is owed on which",
+    "is the article weight), its humidity (operating and non-operating rows share the label 'Relative humidity') and its",
+    "altitude (a China row and a rest-of-world row both map to altitude_max)."
+  ],
+  "expectations": [
+    {
+      "sku": "ISR4461/K9",
+      "field": "router_throughput",
+      "raw": "1.5Gbps",
+      "value": 1.5,
+      "unit": "Gbit/s",
+      "at": "4000-series-integrated-services-routers-isr/data_sheet-c78-732542.html t4:r1:c1 'Aggregate Throughput (Default)'"
+    },
+    {
+      "sku": "ISR4451-X/K9",
+      "field": "router_throughput",
+      "raw": "1 Gbps",
+      "value": 1,
+      "unit": "Gbit/s",
+      "at": "ditto t4:r1:c2 (column 'Cisco 4451')"
+    },
+    {
+      "sku": "ISR4431/K9",
+      "field": "router_throughput",
+      "raw": "500 Mbps",
+      "value": 0.5,
+      "unit": "Gbit/s",
+      "at": "ditto t4:r1:c3"
+    },
+    {
+      "sku": "ISR4351/K9",
+      "field": "router_throughput",
+      "raw": "200 Mbps",
+      "value": 0.2,
+      "unit": "Gbit/s",
+      "at": "ditto t4:r1:c4"
+    },
+    {
+      "sku": "ISR4331/K9",
+      "field": "router_throughput",
+      "raw": "100 Mbps",
+      "value": 0.1,
+      "unit": "Gbit/s",
+      "at": "ditto t4:r1:c5 (column 'Cisco 4331/ 4331-DC')"
+    },
+    {
+      "sku": "ISR4321/K9",
+      "field": "router_throughput",
+      "raw": "50 Mbps",
+      "value": 0.05,
+      "unit": "Gbit/s",
+      "at": "ditto t4:r1:c6"
+    },
+    {
+      "sku": "ISR4221/K9",
+      "field": "router_throughput",
+      "raw": "35Mbps",
+      "value": 0.035,
+      "unit": "Gbit/s",
+      "at": "ditto t4:r1:c7 (column 'Cisco 4221(X)')"
+    },
+    {
+      "sku": "ISR4351/K9",
+      "field": "power_max",
+      "raw": "430",
+      "value": 430,
+      "unit": "W",
+      "at": "ditto t4:r34:c4 'Maximum power with AC power supply (watts)'"
+    },
+    {
+      "sku": "C8131-G2",
+      "field": "router_throughput",
+      "raw": "1.9 Gbps",
+      "value": 1.9,
+      "unit": "Gbit/s",
+      "at": "secure-routers/8100-series-secure-routers-ds.html t11:r1:c2 'Forwarding (512B)'"
+    },
+    {
+      "sku": "C8140-G2",
+      "field": "router_throughput",
+      "raw": "5.6 Gbps",
+      "value": 5.6,
+      "unit": "Gbit/s",
+      "at": "ditto t11:r1:c3"
+    },
+    {
+      "sku": "C8130-G2",
+      "field": "router_throughput",
+      "raw": "1.9 Gbps",
+      "value": 1.9,
+      "unit": "Gbit/s",
+      "at": "ditto t11:r1:c1 (column 'C8130-G2/ C8130-VAI-G2/ C8130-VAP-G2/ C8130H-G2')"
+    },
+    {
+      "sku": "C8161-G2",
+      "field": "router_throughput",
+      "raw": "5.6 Gbps",
+      "value": 5.6,
+      "unit": "Gbit/s",
+      "at": "ditto t11:r1:c4 (column 'C8151-G2/ C8151-CVAI-G2/ C8151-CVAP-G2/ C8161-G2/ ...')"
+    },
+    {
+      "sku": "C8140-G2",
+      "field": "power_typical",
+      "raw": "20W",
+      "value": 20,
+      "unit": "W",
+      "at": "ditto t8:r9:c2 'Typical Power'"
+    },
+    {
+      "sku": "C8211-G2",
+      "field": "router_throughput",
+      "raw": "5.6 Gbps",
+      "value": 5.6,
+      "unit": "Gbit/s",
+      "at": "secure-routers/8200-series-secure-routers-ds.html t10:r2:c3 'Forwarding (512B)'"
+    },
+    {
+      "sku": "C8235-G2",
+      "field": "router_throughput",
+      "raw": "19 Gbps",
+      "value": 19,
+      "unit": "Gbit/s",
+      "at": "ditto t10:r2:c1 (column 'C8235-E-G2, C8235-G2, C8225-G2, and C8255-G2-UCSXE')"
+    },
+    {
+      "sku": "C8221L-G2",
+      "field": "router_throughput",
+      "raw": "19 Gbps",
+      "value": 19,
+      "unit": "Gbit/s",
+      "at": "ditto t10:r2:c2 (column 'C8231-E-G2, C8231-G2, C8221-G2, and C8221L-G2')"
+    },
+    {
+      "sku": "C8235-E-G2",
+      "field": "rack_units",
+      "raw": "1 RU",
+      "value": 1,
+      "unit": "HE",
+      "at": "ditto t11:r2:c1 'Rack units (RU)' (column 'C8235-E-G2 and C8231-E-G2')"
+    }
+  ],
+  "held_back": [
+    {
+      "sku": "ISR4461/K9",
+      "field": "rack_units",
+      "raw": "3 Rack Units (3RU)",
+      "value": 3,
+      "unit": "HE",
+      "at": "ditto t4:r43:c1 'Rack height'",
+      "held_because": "the normaliser refuses the printed 'N Rack Units (NRU)' (UNIT_UNKNOWN: 'Rack', 5 Oct dry gate) while '1 RU' reads; a normaliser fix is owed and this row returns with it"
+    },
+    {
+      "sku": "ISR4431/K9",
+      "field": "rack_units",
+      "raw": "1 Rack Units (1RU)",
+      "value": 1,
+      "unit": "HE",
+      "at": "ditto t4:r43:c3",
+      "held_because": "the normaliser refuses the printed 'N Rack Units (NRU)' (UNIT_UNKNOWN: 'Rack', 5 Oct dry gate) while '1 RU' reads; a normaliser fix is owed and this row returns with it"
+    },
+    {
+      "sku": "C8235-G2",
+      "field": "dram",
+      "raw": "16 GB",
+      "value": 16,
+      "unit": "GB",
+      "at": "ditto t8:r9:c2 'DRAM'",
+      "held_because": "the extractor never emits the row: _looks_like_label wants three lowercase letters and the label is the all-caps 'DRAM' (also 'EMC', 'MTBF'); an extractor fix is owed and this row returns with it"
+    }
+  ]
+}
