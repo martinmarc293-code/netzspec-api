@@ -356,6 +356,9 @@ const RUN_KIND_CLASS: Record<string, { approval: boolean; gate: boolean }> = {
   "apply-retract-doc-subject": AG,   // (b') 2 Oct 2026: the served out-of-subject document-scoped facts, approval + gate
   "apply-retract-nonhw-class": AG,   // Q2 2 Oct 2026: served document-scoped inherited facts on non-hardware parts, approval + gate
   "record-late-approval": A,         // 2 Oct 2026: a contemporaneous approval the run's tool could not carry (run 1473), marked late
+  // ROUTERS (operator order 5 Oct 2026): every router family's datasheet listings queued for the lane -- a queue decision like
+  // park-login-walled (no fact moves); the operator's order is the approval, recorded verbatim in inputs.approved
+  "enqueue-router-listings": A,
 };
 // The vendor this lane has axes for; vendor_coverage owns every other vendor's hardware (unknown_zero counts them apart).
 const OWN_VENDOR = "cisco";
