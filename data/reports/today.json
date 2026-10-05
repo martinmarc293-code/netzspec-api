@@ -1,9 +1,9 @@
 {
   "date": "2026-10-05",
   "focus": "routers-only",
-  "rule": "OPERATOR ORDER 5 Oct ~21:00 UTC: the Cisco router category only, until every router is shop_ready through /v1/export?category=routers. R1 (reviewer order): every router family's datasheet listings queued (runs 1491, 1492) and fetched by the lane on the box; the lane now also discovers the hardware installation guides from router listings (d005edd). No fact written yet: the 57 router document families are staged until each has >= 5 golden rows (rule B).",
-  "blocker_key": "attributes:none",
+  "rule": "ROUTERS: rulings (a)+(b) (throughput basis rendered, series-gated requirement) + extractor model-header fix + Safety -> certifications; first router golden rows; ISR 4000 family committed (run 1495: 456 inserted, router_throughput + certifications on 16 ISR 4000 parts). Every ISR 4000 now waits ONLY on weight (5 configuration rows -> held conflicts; a ruling is asked).",
+  "blocker_key": "attribute:System-Durchsatz",
   "predicted_unlock": 0,
-  "predicted_at_ready": 574,
-  "note": "router baseline 5 Oct: shop_ready 199 of 5,127; held 1,626 (31.7%), eol-only 2,842, no document 417. Ready is predicted NOT to move this batch: acquisition and discovery only, nothing applied."
+  "predicted_at_ready": 199,
+  "note": "router ready is predicted NOT to move: the ISR 4000 parts that gained System-Durchsatz and Zertifizierungen are all blocked by weight (state conflict). The weight ruling is the unlock."
 }

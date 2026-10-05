@@ -305,6 +305,16 @@ HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). R
 ## HANDOFF (5 Oct ~22:30 UTC) -- READ FIRST. OPERATOR ORDER: ROUTERS ONLY until every Cisco router is shop_ready
 - SCOPE: category=routers
   (read by scripts/scorecard.ts: ready and the top-5 sole blockers are counted in this scope, the catalogue beside it)
+- LATEST (5 Oct ~23:00 UTC): HEAD 4eeaa8f deployed. Run 1495 committed the ISR 4000 family (gate PASS 8/8 golden, 120/120
+  provenance, 1 regression allowed with reason): 456 inserted; every ISR 4000 now shows System-Durchsatz + Zertifizierungen
+  in the export and waits ONLY on weight (5 PSU-configuration weight rows -> 14 facts in state `conflict`). Router ready 199
+  (scoped scorecard, first card in scope; sole blockers weight 165, System-Durchsatz 3, name 1). Report sent ~23:00 asking the
+  WEIGHT RULING (article weight = no-module weight in the default AC configuration; DC/PoE/1000-W rows -> __not_a_spec;
+  conflicts closed as superseded readings in one approval run). NEXT after the ruling: the weight rule + conflict close,
+  then a hardware-guide reader (97 guides fetched, 0 facts, no PID lists = the component-weight source), then the
+  secure-routers family (staged on defect budget 10.8%), more golden families, RV single-model sheets, ISR 1000 patterns.
+  freeze/mapperTrace are RED until the next rebuild (alias rules of f0a0bd1); rebuild after the next applies, ONE BUILD.
+  Extract on the box: /tmp/rt-all-html.json (455 router docs, 39,131 records), split /tmp/rt-split2/ (209 families).
 - OPERATOR, 5 Oct ~21:00 UTC (verbatim): "complete the router category full, you are not allowed to focus on anything else
   beside this, fully compelte the router category, find all the datasheets, get all the data and make this cisco router
   category ready so that claude web can esality fetch all the details from the api to make the excel sheet for jtl shop for
