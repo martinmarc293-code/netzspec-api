@@ -328,6 +328,48 @@ check("LD10", "SABOTAGE a DATASHEET page still discovers nothing at all - the as
               "lane cost us is unchanged by the ladder",
       MOD.discover(LADDER_HTML, {"task": "datasheet", "key": LADDER_BASE, "url": LADDER_BASE}) == [])
 
+# ---- THE HARDWARE INSTALLATION GUIDES (operator order 5 Oct 2026, routers only; reviewer ruling the same day) -------------
+# The links are the REAL ones a cached router support page carries (4000 ISR and ASR 9000 series pages, read 5 Oct 2026),
+# beside the shapes that must stay out: a configuration guide that mentions hardware, a safety booklet under /hardware/, a
+# support tech note about an "installation guide", a syslog guide, and the support home page LD4 already refuses.
+HG_BASE = "https://www.cisco.com/c/en/us/support/routers/4000-series-integrated-services-routers-isr/series.html"
+HG_HTML = ('<html><body>'
+           '<a href="/c/en/us/td/docs/routers/access/4400/hardware/installation/guide4400-4300/C4400_isr.html">HIG</a>'
+           '<a href="/c/en/us/td/docs/routers/access/interfaces/NIM/hardware/installation/guide/4GLTENIM_HIG.html">NIM HIG</a>'
+           '<a href="/c/en/us/td/docs/iosxr/asr9000/hardware-install/hig/b-asr9k-hardware-installation-guide.html">ASR9K HIG</a>'
+           '<a href="/c/dam/en/us/td/docs/iosxr/asr9000/hardware-install/line-card-quick-reference-guide/asr9000_line_card_quick_reference.pdf">LC ref</a>'
+           '<a href="/c/en/us/support/routers/4000-series-integrated-services-routers-isr/products-installation-and-configuration-guides-list.html">guides</a>'
+           '<a href="/c/en/us/td/docs/routers/asr9000/software/26xx/interfaces/configuration/guide/b-interfaces-hardware-component-cg-asr9000-26xx.html">CONFIG</a>'
+           '<a href="/c/dam/en/us/td/docs/routers/access/4400/hardware/Safety_Warnings/RCSI-0370-book.pdf">SAFETY</a>'
+           '<a href="/c/en/us/support/docs/routers/4000-series-integrated-services-routers/213851-isr-waas-installation-guide-on-isr-4000.html">TECHNOTE</a>'
+           '<a href="/c/en/us/td/docs/ios-xml/ios/17_xe/syslogs/17-10-x/b-system-message-guide-17-10-x.html">SYSLOG</a>'
+           '<a href="/c/en/us/support/routers/4000-series-integrated-services-routers-isr/tsd-products-support-series-home.html">support home</a>'
+           '</body></html>')
+_hg = MOD.discover(HG_HTML, {"task": "listing", "key": HG_BASE, "url": HG_BASE})
+_hg_docs = {f["key"]: f["priority"] for f in _hg if f["task"] == "datasheet"}
+_hg_lists = {f["key"]: f["priority"] for f in _hg if f["task"] == "listing"}
+check("HG1", "a ROUTER support page queues its hardware installation guides (routers/ and iosxr/ trees, HTML and /c/dam/ "
+             "PDF) as DOCUMENTS at the datasheets' priority -- the only Cisco source of a component's weight",
+      sum(1 for k in _hg_docs if "C4400_isr" in k or "4GLTENIM_HIG" in k or "b-asr9k-hardware-installation-guide" in k
+          or "asr9000_line_card_quick_reference" in k) == 4 and set(_hg_docs.values()) == {100}, str(_hg_docs))
+check("HG2", "the series' installation-guide index is queued as a LISTING at the ladder's 70, so the rest of its guides are found",
+      any(k.endswith("products-installation-and-configuration-guides-list.html") and p == 70 for k, p in _hg_lists.items()),
+      str(_hg_lists))
+check("HG3", "SABOTAGE a CONFIGURATION guide that says 'hardware' is not queued -- hardware without install is not a hardware guide",
+      not any("configuration/guide" in k for k in _hg_docs), str(_hg_docs))
+check("HG4", "SABOTAGE a safety booklet under /hardware/ (RCSI), a support TECH NOTE about an installation guide and a "
+             "syslog guide are not queued",
+      not any(("RCSI" in k) or ("/support/docs/" in k) or ("syslogs" in k) for k in _hg_docs), str(_hg_docs))
+check("HG5", "SABOTAGE the support home page is still never a listing (LD4's rule holds on a router page too)",
+      not any("tsd-products-support-series-home" in k for k in _hg_lists), str(_hg_lists))
+_hg_sw = MOD.discover(HG_HTML, {"task": "listing", "key": "https://www.cisco.com/c/en/us/support/switches/x/series.html",
+                                "url": "https://www.cisco.com/c/en/us/support/switches/x/series.html"})
+check("HG6", "SABOTAGE a NON-router listing queues no guide at all -- the order is routers only, every other category "
+             "discovers exactly as before",
+      not any(("td/docs" in f["key"]) or ("guides-list" in f["key"]) for f in _hg_sw), str([f["key"] for f in _hg_sw]))
+check("HG7", "SABOTAGE a router DATASHEET page discovers nothing (the asymmetry LD10 pins, kept for guides too)",
+      MOD.discover(HG_HTML, {"task": "datasheet", "key": HG_BASE, "url": HG_BASE}) == [])
+
 # ---- model-column headers (reviewer ruling, 29 Sep 2026; docs/decisions/2026-09-29-pon-cups.md) ----------------------
 # The fixtures keep the real pages' header text and first-cell shapes. The PON sheet's url is the REAL one: the known-SKU
 # map that makes CGP-* PIDs is keyed by url, and a harness that passed a placeholder url once measured only the HW_PID

@@ -88,6 +88,31 @@ PRODUCT_INDEX = re.compile(
     r"(?:/(?:index\.html?)?)?$", re.I)
 
 
+# THE HARDWARE INSTALLATION GUIDES (operator order 5 Oct 2026, routers only until JTL-complete; reviewer ruling the same day:
+# "add the hardware installation guides (/td/docs/routers/... hardware/install guides only, not config guides) as router
+# listing targets"). Weight blocks 4,118 of 5,127 routers, and for a component -- a PSU, a line card, a NIM -- the only Cisco
+# document that prints a weight is the FRU table of the platform's hardware installation guide. Those guides live under
+# /td/docs/ (routers/ for the access and ASR 1000 trees, iosxr/ for ASR 9000 and NCS), never under /products/collateral/, so
+# the collateral rule above can never reach them. A support series page links them directly, and links a per-series
+# "installation and configuration guides" list page that names the rest.
+#
+#   HW_GUIDE    a /td/docs/ page or PDF whose PATH says hardware AND install (either order), or the hardware-install / hig
+#               trees. A configuration guide says "configuration" and not "install" beside "hardware"; a safety booklet
+#               (RCSI-*) says neither; a support tech note is /support/docs/, not /td/docs/ -- all three stay out.
+#   GUIDE_LIST  the support tree's own index of a series' guides; queued as a LISTING so its hardware guides are found.
+#
+# SCOPED TO ROUTER LISTINGS: only a listing whose own URL is a /routers/ page yields guides, so this widens the router crawl
+# and nothing else (the order is routers only, and every other category's listings behave exactly as before).
+HW_GUIDE = re.compile(
+    r"^https?://(?:www\.)?cisco\.com/c/(?:dam/)?en/us/td/docs/[^?#]*?"
+    r"(?:hardware[-_/][^?#]*install|install[^?#]*/hardware/|hardware-install|/hig/|[-_/]hig[-_./])"
+    r"[^?#]*\.(?:html?|pdf)$", re.I)
+GUIDE_LIST = re.compile(
+    r"^https?://(?:www\.)?cisco\.com/c/en/us/support/[a-z0-9-]+/[a-z0-9-]+/"
+    r"products-installation-(?:and-configuration-)?guides-list\.html$", re.I)
+ROUTER_LISTING = re.compile(r"^https?://(?:www\.)?cisco\.com/c/en/us/(?:products|support)/routers/", re.I)
+
+
 def _abs(base: str, href: str) -> str | None:
     if not href or href.startswith(("#", "mailto:", "javascript:")):
         return None
@@ -349,4 +374,18 @@ def discover(html: str, task: dict) -> list[dict]:
         # 70 matches the entry points, because this IS an entry point - one the site named rather
         # than one we hand-seeded. It still sits behind part-anchored gap work at 60.
         out.append({"task": "listing", "key": u, "url": u, "priority": 70})
+
+    # THE HARDWARE GUIDES, from a ROUTER listing only (see HW_GUIDE above): the guide itself as a document at the datasheets'
+    # priority, the series' guide index as a listing at the ladder's.
+    if ROUTER_LISTING.match(base):
+        for a in doc.find_all("a", href=True):
+            u = _abs(base, a["href"])
+            if not u or u in seen:
+                continue
+            if HW_GUIDE.match(u):
+                seen.add(u)
+                out.append({"task": "datasheet", "key": u, "url": u, "priority": 100})
+            elif GUIDE_LIST.match(u) and u.rstrip("/") != base.rstrip("/"):
+                seen.add(u)
+                out.append({"task": "listing", "key": u, "url": u, "priority": 70})
     return out
