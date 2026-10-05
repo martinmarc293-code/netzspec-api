@@ -315,6 +315,25 @@ HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). R
   secure-routers family (staged on defect budget 10.8%), more golden families, RV single-model sheets, ISR 1000 patterns.
   freeze/mapperTrace are RED until the next rebuild (alias rules of f0a0bd1); rebuild after the next applies, ONE BUILD.
   Extract on the box: /tmp/rt-all-html.json (455 router docs, 39,131 records), split /tmp/rt-split2/ (209 families).
+- VERDICT 5 Oct ~23:10 UTC (verbatim): "Approved, with one adjustment: where a configuration row matches a distinct orderable
+  PID -- a DC variant like ISR4331-DC/K9 or a PoE-bundled SKU -- that row is that PID's article weight, not __not_a_spec. Only
+  rows describing an add-on configuration of the same PID (an extra PoE module, a 1,000 W upgrade) go to __not_a_spec. Base
+  PID = the no-module weight with the PSU it ships with, as you propose; 4321 stays 3.5 kg. Close the held conflicts as
+  superseded readings in one approval run, then the installation-guide reader. Compact first -- context is at 83 %."
+- NEXT AFTER COMPACTION (in order): (1) the WEIGHT RULE per the verdict: router weight rows per configuration (census on
+  /tmp/rt-all-html.json: 'Weight with AC PS (no modules)', '...1, 450-WAC...', '...DC PS...', '...AC PS with POE...', '...1
+  1,000-WAC + 1 PoE module...', 'Weight with AC (PoE) Power Supply (No Modules)', 'Weight with internal power supply (no
+  modules), AC/DC/HVDC PSU', 'Typical weight (fully loaded with modules)' [maps to weight today -- wrong], 'Weight (chassis
+  only)' vs '(full system)', 'Chassis weight with 2x AC power supplies and fan tray', 'Product weight device only' [RV,
+  unmapped]) -> base row to the base PID; a row naming a distinct orderable variant (ISR4331-DC/K9 for the DC row, a PoE
+  SKU) to THAT PID; add-on configurations of the same PID and 'fully loaded' -> __not_a_spec. Needs the DC row attributed to
+  the -DC PID (column 'Cisco 4331/ 4331-DC' already names both) -- design per-row PID attribution, decision record, tests,
+  golden rows (ISR 4000 weights), re-apply the ISR 4000 family, then ONE approval run closing the held weight conflicts as
+  superseded readings (resolve-superseded-readings precedent, ruling Q13). (2) the installation-guide reader (97 guides, 0
+  facts). (3) rebuild (freeze/mapperTrace red since f0a0bd1) + pull + commit. Then secure-routers (defect budget), more
+  golden families, RV single-model sheets, ISR 1000 patterns, series labels, bundle->base inheritance (ask first).
+- NIGHT 01:00 UTC: will pick up today's 307 router docs (watermark 5 Oct 01:00) and may commit families with golden rows;
+  do NOT deploy 01:00-01:45; pull its artefacts (find data -newer GIT_SHA) before the next deploy.
 - OPERATOR, 5 Oct ~21:00 UTC (verbatim): "complete the router category full, you are not allowed to focus on anything else
   beside this, fully compelte the router category, find all the datasheets, get all the data and make this cisco router
   category ready so that claude web can esality fetch all the details from the api to make the excel sheet for jtl shop for
