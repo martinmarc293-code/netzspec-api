@@ -402,11 +402,14 @@ check("partKind: NC55-SFP-DCAP 'SFP/ZSFP Dust Cap' is mechanical", partKind("rou
     // 27 Sep 2026: dimensions and flash left the unresolved-role REQUIRED list for the PENDING one -- still
     // counted in required_total, now naming deploy_role as what would settle them. The role blocks are
     // asserted below and are unchanged: branch still owes both, smb still owes neither.
-    ["router", undefined, "certifications,router_throughput"],
-    ["router", "branch", "certifications,dimensions,flash,router_throughput"],
-    ["router", "edge", "certifications,dimensions,flash,router_throughput"],
-    ["router", "smb", "certifications,humidity_operating,router_throughput,temp_operating,temp_storage"],
-    ["router", "industrial-iot", "altitude_max,certifications,dimensions,dram,flash,power_max,router_throughput,temp_operating,weight"],
+    // REVIEWER RULING (b), 5 Oct 2026 (docs/decisions/2026-10-05-router-throughput.md): router_throughput is required only in
+    // the series whose sheets print it -- a SERIES gate, so at the kind and role level it is PENDING on `series` (pinned below),
+    // no longer required. Every other cup of every role is unchanged.
+    ["router", undefined, "certifications"],
+    ["router", "branch", "certifications,dimensions,flash"],
+    ["router", "edge", "certifications,dimensions,flash"],
+    ["router", "smb", "certifications,humidity_operating,temp_operating,temp_storage"],
+    ["router", "industrial-iot", "altitude_max,certifications,dimensions,dram,flash,power_max,temp_operating,weight"],
     ["sp-router", undefined, "altitude_max,certifications,humidity_operating,input_voltage,ports,power_max,temp_operating,temp_storage"],
     // layers review 14 Sep 2026 (item 6): the SP roles are a population, not a cup delta — every role asks the kind core
     ["sp-router", "sp-access", "altitude_max,certifications,humidity_operating,input_voltage,ports,power_max,temp_operating,temp_storage"],
@@ -439,7 +442,8 @@ check("partKind: NC55-SFP-DCAP 'SFP/ZSFP Dust Cap' is mechanical", partKind("rou
   // "module_slots on modular, and everything the role would decide on deploy_role".
   check("a router's module_slots is pending on `modular`, and the role-gated cups on `deploy_role`",
     // + cellular_bands, gated on the derived `cellular` (registered 29 Sep, ruling (d))
-    pend("router") === "altitude_max,cellular_bands,dimensions,dram,flash,humidity_operating,module_slots,power_max,temp_operating,temp_storage,weight");
+    // + router_throughput, gated on `series` (reviewer ruling (b), 5 Oct 2026)
+    pend("router") === "altitude_max,cellular_bands,dimensions,dram,flash,humidity_operating,module_slots,power_max,router_throughput,temp_operating,temp_storage,weight");
   // ROLE WITNESSES: a real SKU per role, placed by the live deployRole on the live kind.
   check("witness: RV340-K9 is a router in role smb", routerKind("RV340-K9") === "router" && deployRole("routers", "router", "RV340-K9") === "smb");
   check("witness: IR1821-K9 is a router in role industrial-iot", routerKind("IR1821-K9") === "router" && deployRole("routers", "router", "IR1821-K9") === "industrial-iot");
@@ -447,12 +451,19 @@ check("partKind: NC55-SFP-DCAP 'SFP/ZSFP Dust Cap' is mechanical", partKind("rou
   check("witness: ASR1002-X is a router in role edge", deployRole("routers", "router", "ASR1002-X") === "edge");
   // operator ruling (13 Sep 2026): C8455-G2 is branch now; the unresolved shape is asserted on the kind core directly.
   check("witness: C8455-G2 is a router in role branch (operator ruling) and is asked the core",
-    deployRole("routers", "router", "C8455-G2") === "branch" && req("router", "branch") === "certifications,dimensions,flash,router_throughput");   // lan/wan retiring into ports (Batch C)
+    deployRole("routers", "router", "C8455-G2") === "branch" && req("router", "branch") === "certifications,dimensions,flash");   // lan/wan retiring into ports (Batch C); throughput series-gated (ruling (b) 5 Oct)
   // An unplaced router is asked only what EVERY router is bought on, whatever its role; the rest is held
   // open against the role rather than demanded or waived. It was previously asked the core INCLUDING the
   // demotion cups (dimensions, flash) because an absent role satisfied their notInList.
+  // REVIEWER RULING (b), 5 Oct 2026: the series gate itself, read the way the export reads it (exportRequired: kind + series)
+  check("ruling (b): a router in a series whose sheets print a throughput (4000 ISR, RV Series, 8100 Series Secure) is REQUIRED to state it",
+    ["4000 ISR", "RV Series", "8100 Series Secure"].every((series) => requirementFor("routers", "router_throughput", { kind: "router", series }) === "req"));
+  check("SABOTAGE ruling (b): a router in a series whose sheets print none (2900 ISR, 800, ASR 1000) is NOT required -- optional, never na",
+    ["2900 ISR", "800", "ASR 1000"].every((series) => requirementFor("routers", "router_throughput", { kind: "router", series }) === "opt"));
+  check("SABOTAGE ruling (b): the series gate is the kind's too -- an sp-router in a listed series is not asked (8000 holds both kinds)",
+    requirementFor("routers", "router_throughput", { kind: "sp-router", series: "8000" }) === "opt");
   check("a router with no role is asked only the role-independent core",
-    req("router") === "certifications,router_throughput");   // lan/wan retiring into ports (Batch C)
+    req("router") === "certifications");   // lan/wan retiring into ports (Batch C); throughput series-gated (ruling (b) 5 Oct)
   check("cup set routers.bundle = bundle_contents,product_compatibility (operator ruling)", req("bundle") === "bundle_contents,product_compatibility");
   // THE TWO ROLE SHAPES, read through requirementFor so the semantics (not just the lists) are pinned.
   const rf = (key: string, v: Record<string, string>) => requirementFor("routers", key, v as never);

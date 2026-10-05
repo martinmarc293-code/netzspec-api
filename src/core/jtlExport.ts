@@ -60,7 +60,9 @@ export function csvFile(profile: JtlProfile, rows: readonly (readonly string[])[
 }
 
 // ---- THE PART, AS THE EXPORT SEES IT ----------------------------------------------------------------------------------------
-export type Fact = { value: unknown; unit: string | null };
+/** `raw` is the stored raw: for a router throughput it carries the printed label ("<label> | <cell>"), which is where the
+ *  measurement basis lives (ruling (a), 5 Oct 2026). Optional: no other attribute reads it. */
+export type Fact = { value: unknown; unit: string | null; raw?: string | null };
 export type PartView = {
   sku: string; name: string | null; nameState: string | null; slug: string; category: string; categoryDe: string;
   kind: string | null; series: string | null; subBrand: string | null;
@@ -148,6 +150,34 @@ export const TRANSCEIVER_GROUP: { group: string; attributes: readonly JtlAttribu
   ],
 };
 
+// ---- ROUTER THROUGHPUT: THE VALUE WITH ITS BASIS (reviewer ruling (a), 5 Oct 2026) ---------------------------------------------
+// Cisco prints a router's throughput on different bases per series -- IPv4 forwarding at 1400 or 512 bytes, IMIX, NAT (RV), the
+// default-licence aggregate (ISR 4000) -- and the bases are not comparable: an IMIX figure is a fraction of a 1400-byte one. So
+// "System-Durchsatz" is rendered WITH the basis the sheet printed ("1,5 Gbit/s (IPv4, 1400 Byte)"), never as a bare number that
+// invites a false comparison. The basis is read off the LABEL apply-extract keeps in the fact's raw ("<label> | <cell>"); a raw
+// with no readable basis renders NOTHING -- the attribute is then a gap, which is an answer, where a bare number would be a claim.
+// Explicit patterns, no \b (product strings: CLAUDE.md).
+export const THROUGHPUT_BASES: readonly (readonly [RegExp, string])[] = [
+  [/imix/i, "IPv4, IMIX"],
+  [/(?<![0-9])1400\s*bytes?/i, "IPv4, 1400 Byte"],
+  [/\(\s*512\s*b(?:ytes?)?\s*\)/i, "512 Byte"],
+  [/(?<![a-z])nat\s+throughput/i, "NAT"],
+  [/aggregate\s+throughput\s*\(\s*default\s*\)/i, "Aggregat, Standardlizenz"],
+];
+/** The German basis of a stored router-throughput raw, or null when the raw names none (a bare cell, or an unknown label). */
+export function throughputBasisDe(raw: string | null | undefined): string | null {
+  const s = String(raw ?? "");
+  const cut = s.indexOf(" | ");
+  if (cut < 0) return null;
+  const label = s.slice(0, cut);
+  return THROUGHPUT_BASES.find(([re]) => re.test(label))?.[1] ?? null;
+}
+const throughputText = (p: PartView): string | null => {
+  const v = text(p, "router_throughput");
+  const basis = throughputBasisDe(p.facts.get("router_throughput")?.raw);
+  return v && basis ? `${v} (${basis})` : null;
+};
+
 /** The group a category exports under. Switches and transceivers carry the recorded Wawi groups; every other category is
  *  published from the mould: its German category name, one attribute per REQUIRED cup (German label, rendered value). */
 export function groupFor(p: PartView): { group: string; attributes: readonly JtlAttribute[] } {
@@ -156,7 +186,8 @@ export function groupFor(p: PartView): { group: string; attributes: readonly Jtl
   const dict = FIELD_DICTIONARY as Record<string, { de?: string } | undefined>;
   // a relation-backed cup is answered by relations and a column-backed one by the parts row -- neither is a fact to render
   const cups = [...p.required].filter((k) => dict[k]?.de && !(k in RELATION_BACKED) && !COLUMN_BACKED.has(k)).sort((a, b) => (dict[a]!.de!).localeCompare(dict[b]!.de!, "de"));
-  return { group: p.categoryDe, attributes: cups.map((k, i) => ({ name: dict[k]!.de!, sort: i + 1, cups: [k], value: (q: PartView) => text(q, k) })) };
+  return { group: p.categoryDe, attributes: cups.map((k, i) => ({ name: dict[k]!.de!, sort: i + 1, cups: [k],
+    value: k === "router_throughput" ? throughputText : (q: PartView) => text(q, k) })) };
 }
 
 // ---- THE MAIN ROW -----------------------------------------------------------------------------------------------------------

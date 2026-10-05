@@ -1656,6 +1656,10 @@ const rtRoleAdd = (roles: readonly string[], kinds: readonly string[] = []): Req
 ] }, { elseOpt: true });
 /** Required of `kinds`, OPTIONAL of every other kind (the shape of a cup demoted for some kind that asked it). */
 const rtKinds = (kinds: readonly string[]): Requirement => cond({ field: "kind", inList: [...kinds] }, { elseOpt: true });
+/** Reviewer ruling (b), 5 Oct 2026: the router series whose OWN sheets print a per-model throughput. Exported so the test that
+ *  pins the list against the live series (both directions) reads this list and not a copy. */
+export const ROUTER_THROUGHPUT_SERIES = ["1000", "4000", "4000 ISR", "8000", "8100 Series Secure", "8200 Series Secure",
+  "8400 Series Secure", "Catalyst 8200", "Catalyst 8300", "Catalyst 8500L", "RV Series"] as const;
 // --- end kind-layer routers helpers ------------------------------------------------------------------------------
 // --- kind-layer (13 Sep 2026): switches role conditions ----------------------------------------------------------------
 // The switch cup set is the kind's core with per-ROLE deltas (`deploy_role`, derived by src/core/deployRole.ts). Two shapes,
@@ -3251,7 +3255,18 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // five-sheet hand read, and the step-2 rule is "required stays required unless printed < 50% over relevant held parts".
     // The 7.9% was a MAPPED share; the printed share is the bar (current-generation sheets print it under labels the
     // mapper does not map: state mapper-gap, variants attached by the measurement). Other kinds stay optional.
-    router_throughput: rtKinds(["router"]), forwarding_rate: opt,
+    // REVIEWER RULING (b), 5 Oct 2026 (docs/decisions/2026-10-05-router-throughput.md) NARROWS C.1: required of a `router`
+    // only in the series whose own sheets print a per-model throughput, optional elsewhere -- the 8 Sep security precedent.
+    // Measured on the 190 router sheets re-extracted 5 Oct (cache-only, the header fix and ruling (a)'s rules): offered to
+    // 8000 15/20, 4000 ISR 8/38, 4000 7/7, Catalyst 8300 4/6, 8500L 4/4, 8200 Series Secure 4/4, 8100 Series Secure 2/34,
+    // Catalyst 8200 2/7, 8400 Series Secure 1/1; and PRINTED but not yet read by the pipeline on 1000 (ISR 1000: "IPv4
+    // forwarding throughput (IMIX)" under bare-model / pattern headers) and RV Series (NAT throughput, natThroughput.ts's smb
+    // rule, on single-model sheets). 0 offered and none printed: 2900 ISR 269, 800 261, ASR 1000 88 (ESP bandwidth is the
+    // fitted module's, not mapped), 1900 36, 800 ISR 36, 900 30 ... -- 926 routers no Cisco sheet could ever answer.
+    // Checked both ways against live series (5 Oct): every name below holds kind-router parts (367 in all); "Catalyst
+    // 8500" holds none and is left out, because a list member that fires for nobody reads exactly like a rule nothing meets.
+    router_throughput: cond({ all: [{ field: "kind", inList: ["router"] }, { field: "series", inList: [...ROUTER_THROUGHPUT_SERIES] }] }, { elseOpt: true }),
+    forwarding_rate: opt,
     // --- routers-r5 (12 Sep 2026): THE BRANCH CUPS -----------------------------------------------
     // These five moved from every device to `enterprise` alone, and the measurement is the whole
     // argument. Over the live store, the device parts holding each of them:

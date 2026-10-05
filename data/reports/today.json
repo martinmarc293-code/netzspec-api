@@ -1,9 +1,9 @@
 {
-  "date": "2026-10-02",
-  "focus": "ordered-correctness",
-  "rule": "Q3 (a+c): one class correction -- run 1473 reclassify (7 stale CRS classes -> non_product, 36 real devices in software categories -> hardware), runs 1474-1478 moves (17 DN appliances -> servers-unified-computing, 14 NCS -> routers, 3 Nexus 9300 -> switches, CW9164I -> wireless, C1100TG-16A -> routers), two kind rules (233279a), rebuilt artefacts (63f48c6). NEXT (reviewer): compact, then two READY-GAIN batches (Betriebstemperatur 266, names 168).",
+  "date": "2026-10-05",
+  "focus": "routers-only",
+  "rule": "OPERATOR ORDER 5 Oct ~21:00 UTC: the Cisco router category only, until every router is shop_ready through /v1/export?category=routers. R1 (reviewer order): every router family's datasheet listings queued (runs 1491, 1492) and fetched by the lane on the box; the lane now also discovers the hardware installation guides from router listings (d005edd). No fact written yet: the 57 router document families are staged until each has >= 5 golden rows (rule B).",
   "blocker_key": "attributes:none",
   "predicted_unlock": 0,
   "predicted_at_ready": 574,
-  "note": "ready is predicted NOT to move: the 36 enter the export scan with 0 own facts, the 7 CRS leave it with 0 facts; the scan grows 41,058 -> 41,087."
+  "note": "router baseline 5 Oct: shop_ready 199 of 5,127; held 1,626 (31.7%), eol-only 2,842, no document 417. Ready is predicted NOT to move this batch: acquisition and discovery only, nothing applied."
 }

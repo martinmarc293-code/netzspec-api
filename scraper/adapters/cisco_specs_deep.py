@@ -148,6 +148,105 @@ def _txt(cell) -> str:
     return cell.get_text(" ", strip=True)
 
 
+# --- column headers that name SEVERAL models, or a model by NAME (routers, 5 Oct 2026) ----------------------------------
+# Operator order 5 Oct 2026: the router category only, until every router is JTL-complete. A dry re-apply of the 190 router
+# sheets found the per-model columns of whole router lines unattributable for the shape of their HEADER, not their cells:
+#
+#   "C8235-E-G2, C8235-G2, C8225-G2, and C8255-G2-UCSXE"   the 8000 Secure Router sheets: ONE column for several models.
+#                                                          The whole string passed HW_PID on its first PID, became ONE
+#                                                          sku, and apply-extract reported it an unknown SKU (316 records)
+#   "C8130-G2/ C8131-G2"                                   the same with a slash
+#   "Cisco 4451", "Cisco 4221(X)", "Cisco 4331/ 4331-DC",  the ISR 4000 / ISR G2 sheets name their columns by MODEL; read
+#   "Cisco 2911", "Cisco1941, Cisco1941W"                  as a family scope that resolves to nothing (~1,500 records)
+#   "C8300-2N2S-6T (2RU w/ 1G WAN)"                        a PID with a parenthetical description
+#
+# _header_subjects resolves such a header to the part numbers it NAMES, and to nothing else: a list piece must itself be a
+# PID (_is_pid) or a model NAME that matches exactly one-or-more of THIS sheet's known SKUs (datasheet-skus.json, the ground
+# truth _is_pid already uses) as <ISR|CISCO|C><model>[-X][/K9] -- never the catalogue at large, never a prefix, never a
+# pattern. A piece that resolves to nothing is reported and skipped; the others keep the column's values, because the header
+# names each of them outright. A cell under a multi-model header that QUALIFIES its value per model ("4331-DC: ...",
+# "C1126/C1127: 4.53 lb") is refused whole (HEADER_LIST_CELL_QUALIFIED): spreading it would give every model every value.
+HEADER_LIST_SEP = re.compile(r"\s*,\s*(?:and\s+|&\s*)?|\s+and\s+|\s*&\s*|\s*/\s+|\s*;\s*", re.I)
+MODEL_NAME = re.compile(r"^(?:cisco\s*)?(\d{3,4}[a-z]{0,3}(?:\([a-z]\))?(?:-[a-z0-9]{1,4})?)$", re.I)
+PAREN_TAIL = re.compile(r"^(.*?\S)\s*\([^()]*\)$")
+PID_TOKEN = re.compile(r"[A-Za-z0-9][A-Za-z0-9./+=-]*")   # one PID token: no space, nothing a sentence carries
+FOOTNOTE_MARK = re.compile(r"\s*[*†‡]+\s*$")
+CELL_MODEL_QUALIFIER = re.compile(r"(?<![A-Za-z0-9])(?:ISR|CISCO|C)?\d{3,4}[A-Za-z0-9-]*(?:\s*/\s*(?:ISR|CISCO|C)?\d{3,4}[A-Za-z0-9-]*)*\s*:", re.I)
+_KNOWN_ORIG: dict[str, list[str]] = {}   # normalised known PID -> EVERY spelling the SKU map holds for it (ISR4331 and ISR4331/K9)
+
+
+def _model_name_pids(piece: str, prefixed: bool = True) -> list[str]:
+    """The known SKUs of THIS datasheet a model NAME ('Cisco 4451', 'Cisco 4221(X)') names exactly. A BARE number ('4331-DC')
+    is a model name only as a later piece of a header whose earlier piece said 'Cisco' (prefixed=False): alone, '1000' or
+    '800' in a header is a series or a speed, and must never become a part."""
+    s = piece.strip()
+    if prefixed and not re.match(r"^cisco", s, re.I):
+        return []
+    m = MODEL_NAME.match(s)
+    if not m or not _KNOWN_NORM:
+        return []
+    tok = m.group(1).upper()
+    opt = re.search(r"\(([A-Z])\)", tok)
+    models = [tok.replace(opt.group(0), ""), tok.replace(opt.group(0), opt.group(1))] if opt else [tok]
+    out: list[str] = []
+    for model in models:
+        rx = re.compile(r"(?:ISR|CISCO|C)?" + re.escape(model) + r"(?:-X)?")
+        out += [o for k in sorted(_KNOWN_NORM) if rx.fullmatch(k) for o in _KNOWN_ORIG.get(k, [k])]
+    return list(dict.fromkeys(out))
+
+
+def _model_digits(pid: str) -> str:
+    """A PID's model token for qualifier matching: upper, no spare '=', no '/K9', no ISR/CISCO/C prefix."""
+    return re.sub(r"^(?:ISR|CISCO|C)", "", _norm_pid(pid))
+
+
+def _own_model_qualifier(val: str, subjects: list[str]) -> str | None:
+    """The first "<model>:" qualifier in a cell that names one of THIS column's models ('4331-DC:', 'C8131-G2:'), else None.
+    A standard's own colon ('TIA-968-B:2009', 'CS-03:2004') names no model of the column and is not a qualifier."""
+    own = {_model_digits(p) for p in subjects}
+    for m in CELL_MODEL_QUALIFIER.finditer(val or ""):
+        for tok in re.split(r"\s*/\s*", m.group(0).rstrip(": ")):
+            t = _model_digits(tok)
+            if t and any(o == t or o.startswith(t + "-") or o.startswith(t) and t[-1:].isdigit() and not o[len(t):len(t) + 1].isdigit() for o in own):
+                return m.group(0).strip()
+    return None
+
+
+def _header_subjects(header: str) -> tuple[list[str], list[str]]:
+    """(the PIDs a model-column header names, the pieces it names that resolve to none). ([], []) = not a model header."""
+    h = FOOTNOTE_MARK.sub("", (header or "").strip())
+    if not h:
+        return [], []
+    # a PID with a trailing description, BEFORE any split: the description can hold a separator ('(2RU w/ 1G WAN)'), and
+    # HW_PID is anchored at the start only, so a split fragment like 'C8300-2N2S-6T (2RU w' would pass as a PID
+    m = PAREN_TAIL.match(h)
+    if m and PID_TOKEN.fullmatch(m.group(1).strip()) and _is_pid(m.group(1).strip()):
+        return [m.group(1).strip()], []
+    pieces = [FOOTNOTE_MARK.sub("", p).strip() for p in HEADER_LIST_SEP.split(h) if p and p.strip()]
+    if len(pieces) == 1:
+        if _is_pid(h):
+            return [h], []
+        return _model_name_pids(h), []
+    got: list[str] = []
+    unresolved: list[str] = []
+    named_before = False
+    for p in pieces:
+        # a LIST piece must be PID-SHAPED as well as known: the SKU maps carry tokens like 'ADSL2' that would split a
+        # caption ('ADSL2 and 2+ over ... Chipset') into a fake subject
+        # ...and KNOWN to this sheet when it has a known set: HW_PID alone takes a series caption ('C2960-S and C2960
+        # Specifications' -> 'C2960-S') for a part (corpus measurement 5 Oct 2026: 40 such records, 0 known)
+        if _is_pid(p) and re.search(r"[-/]", p) and PID_TOKEN.fullmatch(p) and (not _KNOWN_NORM or _norm_pid(p) in _KNOWN_NORM):
+            got.append(p)
+            continue
+        named = _model_name_pids(p, prefixed=not named_before)
+        if named:
+            got += named
+            named_before = named_before or bool(re.match(r"^cisco", p, re.I))
+        else:
+            unresolved.append(p)
+    return (list(dict.fromkeys(got)), unresolved) if got else ([], [])
+
+
 def _is_pid(s: str) -> bool:
     # ground truth first: a cell that IS a known SKU for this datasheet is a model row, whatever
     # its shape. Fall back to the switch-shaped regex for sheets whose PIDs we somehow do not hold.
@@ -527,6 +626,7 @@ def parse_shape_b(rows, ti, url, defects=None):
         return recs
     if len(header) < 2:
         return recs
+    reported_cols: set[int] = set()   # a column's unresolved header pieces are reported once
     for ri, cells in enumerate(rows[1:], start=1):
         label = (cells[0] or "").strip()
         if not _looks_like_label(label) or SECTION_NOISE.match(label):
@@ -546,8 +646,25 @@ def parse_shape_b(rows, ti, url, defects=None):
             # per-SKU fact on the sheets that lay their specs out attribute-per-row: the 1000,
             # 1300 and 2960-L datasheets produced 1,465 / 7,748 / 740 shape-B facts and ZERO
             # SKU-scoped ones. If the header is a PID, this is a per-SKU measurement.
-            if _is_pid(variant):
+            subjects, unresolved = _header_subjects(variant)
+            if subjects == [variant]:
                 rec["sku"] = variant
+            elif subjects:
+                # a header naming several models, a model by NAME, or a PID with a description (see _header_subjects)
+                if unresolved and ci not in reported_cols:
+                    reported_cols.add(ci)
+                    defects.append({"code": "HEADER_PIECE_UNRESOLVED", "locator": f"t{ti}:r0:c{ci}",
+                                    "detail": f"{variant[:80]!r}: {unresolved[:4]} name no PID this datasheet attributes; "
+                                              f"the column is read for {subjects[:6]} only"})
+                qual = _own_model_qualifier(val, subjects) if len(subjects) > 1 else None
+                if qual:
+                    defects.append({"code": "HEADER_LIST_CELL_QUALIFIED", "locator": loc,
+                                    "detail": f"{label!r} under {variant[:60]!r}: the cell qualifies its value per model "
+                                              f"({qual!r}); not spread over {len(subjects)} models"})
+                    continue
+                for pid in subjects:
+                    recs.append({**rec, "sku": pid, "header": variant[:120]})
+                continue
             elif GENERIC_COLUMN.match(variant):
                 # Not a variant at all. A two-column "Feature | Details" table names no model in
                 # its header, so scoping the value to the word "Details" produces a fact that can
@@ -970,6 +1087,10 @@ def extract_document(html: str, url: str) -> dict:
     assert_english(html)
     # this datasheet's known SKUs become the model-row ground truth for _is_pid
     _KNOWN_NORM = {_norm_pid(k) for k in _load_sku_map().get(url, [])}
+    global _KNOWN_ORIG
+    _KNOWN_ORIG = {}
+    for k in _load_sku_map().get(url, []):
+        _KNOWN_ORIG.setdefault(_norm_pid(k), []).append(k)
     soup = BeautifulSoup(html, "lxml")
     tables = soup.find_all("table")
     rows_all = [_rows(t) for t in tables]

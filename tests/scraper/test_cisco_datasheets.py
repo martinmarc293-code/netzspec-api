@@ -706,6 +706,77 @@ check("M6", "SABOTAGE the known-SKU map loads from ANY working directory: resolv
             "silently missing and every map-only PID (CGP-*, FPR-, UCSC-...) fell to the HW_PID fallback",
       len(_map) > 1000 and PON_URL in _map, len(_map))
 
+# ---- MODEL-COLUMN HEADERS THAT NAME SEVERAL MODELS, OR A MODEL BY NAME (routers, 5 Oct 2026) -------------------------
+# Every header string below is copied from a cached router sheet (8100/8200 Secure Router, ISR 4000 c78-732542, ISR G2
+# 1900/2900, Catalyst 8300, the 880 sheet's chipset caption, a Catalyst 1000 single-PID column). The known set is the one
+# _is_pid trusts (datasheet-skus.json for the sheet being parsed), handed in directly so the cases need no url.
+def _with_known(pids):
+    DEEP._KNOWN_NORM = {DEEP._norm_pid(p) for p in pids}
+    DEEP._KNOWN_ORIG = {}
+    for p in pids:
+        DEEP._KNOWN_ORIG.setdefault(DEEP._norm_pid(p), []).append(p)
+
+
+_with_known(["C8235-E-G2", "C8235-G2", "C8225-G2", "C8255-G2-UCSXE", "C8130-G2", "C8131-G2", "ISR4451-X/K9", "ISR4221/K9",
+             "ISR4221X/K9", "ISR4331/K9", "ISR4331", "ISR4331-DC/K9", "CISCO1941/K9", "CISCO2911/K9", "C8300-2N2S-6T", "ADSL2"])
+_hs = DEEP._header_subjects
+check("HL1", "a header listing four models with commas and 'and' names all four (the 8200 Secure Router column)",
+      _hs("C8235-E-G2, C8235-G2, C8225-G2, and C8255-G2-UCSXE")[0] == ["C8235-E-G2", "C8235-G2", "C8225-G2", "C8255-G2-UCSXE"],
+      _hs("C8235-E-G2, C8235-G2, C8225-G2, and C8255-G2-UCSXE"))
+check("HL2", "a slash list names both models ('C8130-G2/ C8131-G2'), while a PID's own slash ('ISR4331/K9') never splits",
+      _hs("C8130-G2/ C8131-G2")[0] == ["C8130-G2", "C8131-G2"] and _hs("ISR4331/K9")[0] == ["ISR4331/K9"],
+      (_hs("C8130-G2/ C8131-G2"), _hs("ISR4331/K9")))
+check("HL3", "a model NAME resolves to the sheet's own PID of that model, the -X generation suffix allowed ('Cisco 4451' -> ISR4451-X/K9)",
+      _hs("Cisco 4451")[0] == ["ISR4451-X/K9"], _hs("Cisco 4451"))
+check("HL4", "an optional letter in a model name names both models ('Cisco 4221(X)' -> ISR4221/K9 and ISR4221X/K9)",
+      _hs("Cisco 4221(X)")[0] == ["ISR4221/K9", "ISR4221X/K9"], _hs("Cisco 4221(X)"))
+check("HL5", "a bare model after a 'Cisco' piece is a model name ('Cisco 4331/ 4331-DC'), and EVERY spelling the sheet holds of it "
+             "is named (ISR4331/K9 and ISR4331, which normalise alike)",
+      sorted(_hs("Cisco 4331/ 4331-DC")[0]) == ["ISR4331", "ISR4331-DC/K9", "ISR4331/K9"], _hs("Cisco 4331/ 4331-DC"))
+check("HL6", "a 'PID (description)' header names the PID ('C8300-2N2S-6T (2RU w/ 1G WAN)')",
+      _hs("C8300-2N2S-6T (2RU w/ 1G WAN)")[0] == ["C8300-2N2S-6T"], _hs("C8300-2N2S-6T (2RU w/ 1G WAN)"))
+check("HL7", "SABOTAGE a BARE number header names nobody ('1000', '800', '4451' alone are a series or a speed, never a part)",
+      _hs("1000") == ([], []) and _hs("800") == ([], []) and _hs("4451") == ([], []), (_hs("1000"), _hs("4451")))
+_with_known(["CISCO2911/K9"])
+check("HL8", "SABOTAGE a model name the SHEET does not list resolves to nothing -- never to the catalogue at large",
+      _hs("Cisco 4451") == ([], []), _hs("Cisco 4451"))
+_with_known(["CISCO1941/K9", "ADSL2"])
+check("HL9", "SABOTAGE a caption is not split into a fake subject because a token of it sits in the sheet's map "
+             "('ADSL2 and 2+ over Basic Telephone Service Line-Card Chipset')",
+      _hs("ADSL2 and 2+ over Basic Telephone Service Line-Card Chipset") == ([], []),
+      _hs("ADSL2 and 2+ over Basic Telephone Service Line-Card Chipset"))
+check("HL10", "a list with an unresolvable piece keeps the pieces it NAMES and reports the rest ('Cisco1941, Cisco1941W': "
+              "1941W's PIDs are regional variants this rule does not guess at)",
+      _hs("Cisco1941, Cisco1941W") == (["CISCO1941/K9"], ["Cisco1941W"]), _hs("Cisco1941, Cisco1941W"))
+_with_known(["C1000-24T-4G-L"])
+check("HL11", "the single-PID header path is unchanged: the header IS the subject", _hs("C1000-24T-4G-L") == (["C1000-24T-4G-L"], []))
+_qual = DEEP._own_model_qualifier
+check("HL12", "a cell qualifying its value per model of THIS column is caught ('250 (no PoE) 4331-DC: PoE not supported', "
+              "'C8131-G2: Yes C8130-G2: No')",
+      _qual("250 (no PoE) 4331-DC: PoE not supported", ["ISR4331/K9", "ISR4331-DC/K9"]) is not None
+      and _qual("C8131-G2: Yes C8130-G2: No", ["C8130-G2", "C8131-G2"]) is not None)
+check("HL13", "SABOTAGE a standard's own colon is not a model qualifier ('T1 IC CS-03:2004 TIA-968-B:2009' under ISR4451)",
+      _qual("T1 IC CS-03:2004 TIA-968-B:2009", ["ISR4451", "ISR4451-X/K9"]) is None,
+      _qual("T1 IC CS-03:2004 TIA-968-B:2009", ["ISR4451", "ISR4451-X/K9"]))
+_with_known(["C8130-G2", "C8131-G2", "ISR4451-X/K9"])
+_b_def: list = []
+_b = DEEP.parse_shape_b([["Feature", "Cisco 4451", "C8130-G2/ C8131-G2"],
+                         ["Weight", "4.6 kg", "1.2 kg"],
+                         ["SD-WAN Capable", "Yes", "C8131-G2: Yes C8130-G2: No"]], 3, "https://example.invalid/x.html", _b_def)
+_bw = sorted((r.get("sku"), r["value"]) for r in _b if r["label"] == "Weight")
+check("HL14", "end to end through shape B: each named model gets the column's value as ITS OWN record, same cell, header kept",
+      _bw == [("C8130-G2", "1.2 kg"), ("C8131-G2", "1.2 kg"), ("ISR4451-X/K9", "4.6 kg")]
+      and all(r.get("header") and r["locator"].startswith("t3:r1:") for r in _b if r["label"] == "Weight"), _bw)
+check("HL15", "SABOTAGE ...and the per-model-qualified cell is refused for the multi-model column, with its reason recorded",
+      not any(r["label"] == "SD-WAN Capable" and r.get("sku") in ("C8130-G2", "C8131-G2") for r in _b)
+      and any(d["code"] == "HEADER_LIST_CELL_QUALIFIED" for d in _b_def), [d["code"] for d in _b_def])
+_with_known(["C2960-24TT-L", "C2960-48TC-S"])
+check("HL16", "SABOTAGE a PID-SHAPED piece the sheet does not know is not a subject when the sheet has a known set ('C2960-S and "
+              "C2960 Specifications' is a caption: 40 records in the corpus took 'C2960-S' for a part)",
+      _hs("C2960-S and C2960 Specifications") == ([], []), _hs("C2960-S and C2960 Specifications"))
+DEEP._KNOWN_NORM = set()
+DEEP._KNOWN_ORIG = {}
+
 summary = f"\n{npass} passed, {nfail} missed"
 if nskip:
     # A suite that ran at PART STRENGTH says so in the line a human reads, or "46 passed, 1 missed"

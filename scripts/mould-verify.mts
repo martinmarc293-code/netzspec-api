@@ -19,7 +19,7 @@
 import { shapeIsDefinition, classifyMember, LIST_SHAPES, type MemberVerdict } from "../src/core/listShapes.js";
 import { STRUCT_EXAMPLES } from "../src/core/structExamples.js";
 import { normalizeField } from "../src/core/specNormalize.js";
-import { FIELD_DICTIONARY, PROFILES, COLUMN_BACKED, RELATION_BACKED, domainFor, bandFor, FREE_TEXT_BY_DECISION, requirementFor, type Requirement } from "../src/core/fieldSchema.js";
+import { FIELD_DICTIONARY, PROFILES, COLUMN_BACKED, RELATION_BACKED, domainFor, bandFor, FREE_TEXT_BY_DECISION, requirementFor, ROUTER_THROUGHPUT_SERIES, type Requirement } from "../src/core/fieldSchema.js";
 import { uncoveredEnumValues } from "../src/core/renderContract.js";
 import { JTL_PROFILES, jtlContractProblems, csvFile } from "../src/core/jtlExport.js";
 import { mouldStatuses } from "../src/core/brandMould.js";
@@ -2675,6 +2675,43 @@ const TESTS: Test[] = [
       }
       return ok(`${total} parts of ${seen.size} role-bearing (category, kind) pairs, every floor held; `
         + `roles derived on all but ${refused} the table REFUSES as the wrong kind (they leave the score with a reason)`);
+    },
+  },
+  {
+    name: "router_throughput_series",
+    findings: "reviewer ruling (b), 5 Oct 2026 -- router_throughput required only in the series whose sheets print it",
+    needsDb: true,
+    // A series list behind a requirement fails two ways, silently each: a listed series that holds no router asks NOBODY
+    // (it reads exactly like a requirement nothing meets), and a series whose sheets DO print a throughput but is missing
+    // from the list lets its routers export with System-Durchsatz silently optional. Both directions, on the live store:
+    //   dead entry    a listed series with no live kind-router hardware part
+    //   missed series a live kind-router part holding a current router_throughput fact OUTSIDE the listed series -- a sheet
+    //                 printed it there, so the list is short (the evidence that built the list, 5 Oct: plan offers per series)
+    run: async () => {
+      const rows = (await query<{ sku: string; name: string | null; series: string | null; pc: string; thr: boolean }>(`
+        SELECT p.sku, p.name, p.series, p.product_class::text AS pc,
+               EXISTS (SELECT 1 FROM facts f WHERE f.part_id = p.id AND f.field_key = 'router_throughput'
+                        AND f.superseded_by IS NULL AND f.value IS NOT NULL) AS thr
+          FROM parts p JOIN vendors v ON v.id = p.vendor_id JOIN categories c ON c.id = p.category_id
+         WHERE v.slug = 'cisco' AND c.slug = 'routers' AND p.retired_at IS NULL AND p.product_class = 'hardware'`)).rows;
+      const listed = new Set<string>(ROUTER_THROUGHPUT_SERIES);
+      const perSeries = new Map<string, number>();
+      const missed: string[] = [];
+      let routers = 0;
+      for (const r of rows) {
+        if (partKind("routers", r.sku, r.name ?? undefined, r.pc) !== "router") continue;
+        routers++;
+        if (r.series && listed.has(r.series)) perSeries.set(r.series, (perSeries.get(r.series) ?? 0) + 1);
+        else if (r.thr) missed.push(`${r.sku} (${r.series ?? "no series"})`);
+      }
+      if (routers === 0) return none("no live kind-router part exists here, so there is no throughput requirement to judge");
+      const dead = [...listed].filter((s) => !perSeries.has(s));
+      if (dead.length) return bad(`${dead.length} listed series hold no live router, so the requirement asks nobody there: ${dead.join(", ")}`);
+      if (missed.length) return bad(`${missed.length} router(s) hold a router_throughput OUTSIDE the listed series -- their sheets print it, `
+        + `the list is short: ${missed.slice(0, 8).join(", ")}`);
+      const asked = [...perSeries.values()].reduce((a, b) => a + b, 0);
+      return ok(`${listed.size} listed series all hold routers (${asked} asked of ${routers} live routers); no router outside them holds a `
+        + `throughput: ${[...perSeries].map(([s, n]) => `${s} ${n}`).join(", ")}`);
     },
   },
   {

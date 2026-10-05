@@ -138,5 +138,30 @@ broken("an attribute that is not the group's Wawi name", "jtl-attributes", good(
 broken("an unquoted FAQ value", "jtl-faq", BOM + "Artikelnummer,Attributname,Attributwert" + CRLF + "X-1,FAQ,A||B##C||D##E||F" + CRLF, /unquoted value cell/);
 broken("newness prose in a cell (R2)", "jtl-main", good("jtl-main").replace("Cisco Catalyst 9200 24-port PoE+ Switch;", "Cisco Catalyst 9200 Neuware;"), /banned phrase/);
 
+// ---- ROUTER THROUGHPUT WITH ITS BASIS (reviewer ruling (a), 5 Oct 2026) --------------------------------------------------------
+// The raws are the shapes apply-extract stores for router_throughput ("<label> | <cell>", LABEL_IN_RAW), labels as printed on
+// the 8100 Secure Router, ISR 1000, Catalyst 8200, RV and ISR 4000 sheets.
+const router = (raw: string | null): PartView => ({
+  sku: "C8131-G2", name: "Cisco 8131 Secure Router", nameState: "real", slug: "c8131-g2", category: "routers", categoryDe: "Router",
+  kind: "router", series: "8100 Series Secure", subBrand: null, deployRole: "branch",
+  facts: new Map<string, Fact>([["router_throughput", { value: 1.9, unit: "Gbit/s", raw }], ["weight", { value: 1.2, unit: "kg", raw: "1.2 kg" }]]),
+  required: new Set(["router_throughput"]),
+});
+const thr = (raw: string | null) => resolveAttributes(router(raw)).find((r) => r.attr.name === "System-Durchsatz")?.value ?? null;
+check("System-Durchsatz carries the basis: 'Forwarding (512B)' -> '(512 Byte)'", /^1,9 Gbit\/s \(512 Byte\)$/.test(thr("Forwarding (512B) | 1.9 Gbps") ?? ""), thr("Forwarding (512B) | 1.9 Gbps"));
+check("...'IPv4 forwarding throughput (IMIX)' -> '(IPv4, IMIX)'; 'IPv4 Forwarding Throughput (1400Bytes)' -> '(IPv4, 1400 Byte)'",
+  / \(IPv4, IMIX\)$/.test(thr("IPv4 forwarding throughput (IMIX) | 1765 Mbps") ?? "") && / \(IPv4, 1400 Byte\)$/.test(thr("IPv4 Forwarding Throughput (1400Bytes) | Up to 3.8Gbps") ?? ""),
+  [thr("IPv4 forwarding throughput (IMIX) | 1765 Mbps"), thr("IPv4 Forwarding Throughput (1400Bytes) | Up to 3.8Gbps")]);
+check("...'Performance: NAT throughput' -> '(NAT)'; 'Aggregate Throughput (Default)' -> '(Aggregat, Standardlizenz)'",
+  / \(NAT\)$/.test(thr("Performance: NAT throughput | 600 Mbps") ?? "") && / \(Aggregat, Standardlizenz\)$/.test(thr("Aggregate Throughput (Default) | 1.5Gbps") ?? ""),
+  [thr("Performance: NAT throughput | 600 Mbps"), thr("Aggregate Throughput (Default) | 1.5Gbps")]);
+sabotage++;
+check("SABOTAGE a bare stored cell (no label, so no basis) renders NOTHING -- never a bare number -- and the part waits on it",
+  thr("1.9 Gbps") === null && shopReady(router("1.9 Gbps")).reasons.includes("attribute:System-Durchsatz"), shopReady(router("1.9 Gbps")).reasons);
+sabotage++;
+check("SABOTAGE a label naming no basis ('Maximum throughput') renders nothing either", thr("Maximum throughput | 2 Gbps") === null, thr("Maximum throughput | 2 Gbps"));
+check("POSITIVE the same router with a based throughput is not blocked by it", !shopReady(router("Forwarding (512B) | 1.9 Gbps")).reasons.includes("attribute:System-Durchsatz"),
+  shopReady(router("Forwarding (512B) | 1.9 Gbps")).reasons);
+
 console.log(`\n    jtl export: ${pass} passed, ${miss} missed (${sabotage} sabotage cases)`);
 if (miss) process.exit(1);

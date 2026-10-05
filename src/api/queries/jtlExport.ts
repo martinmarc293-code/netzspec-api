@@ -8,6 +8,7 @@
 import { query } from "../../store/db.js";
 import { badRequest } from "../errors.js";
 import { kindQuestionSet } from "../../core/cupLedger.js";
+import { requirementFor } from "../../core/fieldSchema.js";
 import { deployRole } from "../../core/deployRole.js";
 import { csvFile, shopReady, profileRows, type JtlProfile, type PartView, type Fact } from "../../core/jtlExport.js";
 import { RENDERED_STATES, factRunSucceeded } from "./shared.js";
@@ -19,6 +20,20 @@ type PartRow = { id: string; sku: string; name: string | null; name_state: strin
   kind: string | null; series: string | null; sub_brand: string | null };
 
 export type JtlScope = { vendor: string; category?: string; skus?: string[]; limit: number; cursor?: string };
+
+/**
+ * The cups the export demands of a part: the kind's required set, PLUS every cup the kind leaves `pending` whose condition the
+ * part's SERIES settles to required. Reviewer ruling (b), 5 Oct 2026, made router_throughput required only in the series whose
+ * sheets print it -- a series condition, which kindQuestionSet (kind, role) can only answer `pending`; read at the kind level the
+ * export would have dropped System-Durchsatz for every router, the 367 the ruling keeps it for included. ROLE conditions are NOT
+ * resolved here, exactly as before: the export has always asked the kind's core, and widening that is a separate decision.
+ */
+export function exportRequired(category: string, kind: string, series: string | null): Set<string> {
+  const q = kindQuestionSet(category, kind);
+  const out = new Set(q.required);
+  if (series) for (const c of q.pending) if (requirementFor(category, c.key, { kind, series }) === "req") out.add(c.key);
+  return out;
+}
 
 /** One page of live hardware parts in SKU order, as the gate sees them. Exported for scripts/check-doc-subjects.mts, which
  *  grades the same views with the out-of-subject facts removed (the ready impact of a retraction, measured before it). */
@@ -37,18 +52,18 @@ export async function loadPage(s: JtlScope): Promise<{ parts: PartView[]; last: 
   const more = rows.length > s.limit;
   const page = rows.slice(0, s.limit);
   if (!page.length) return { parts: [], last: null, more: false };
-  const facts = (await query<{ part_id: string; field_key: string; value: unknown; unit: string | null }>(`
-    SELECT f.part_id::text AS part_id, f.field_key, f.value, f.unit FROM facts f
+  const facts = (await query<{ part_id: string; field_key: string; value: unknown; unit: string | null; raw: string | null }>(`
+    SELECT f.part_id::text AS part_id, f.field_key, f.value, f.unit, f.raw FROM facts f
      WHERE f.part_id = ANY($1::bigint[]) AND f.superseded_by IS NULL AND f.value IS NOT NULL
        AND f.state::text = ANY($2::text[]) AND ${factRunSucceeded("f")}`, [page.map((p) => p.id), [...RENDERED_STATES]])).rows;
   const byPart = new Map<string, Map<string, Fact>>();
   for (const f of facts) {
     const m = byPart.get(f.part_id) ?? byPart.set(f.part_id, new Map()).get(f.part_id)!;
-    m.set(f.field_key, { value: f.value, unit: f.unit });
+    m.set(f.field_key, { value: f.value, unit: f.unit, raw: f.raw });
   }
   const parts = page.map((p): PartView => {
     let required: Set<string> = new Set();
-    if (p.kind) { try { required = new Set(kindQuestionSet(p.category, p.kind).required); } catch { required = new Set(); } }
+    if (p.kind) { try { required = exportRequired(p.category, p.kind, p.series); } catch { required = new Set(); } }
     return { sku: p.sku, name: p.name, nameState: p.name_state, slug: p.slug, category: p.category, categoryDe: p.category_de,
       kind: p.kind, series: p.series, subBrand: p.sub_brand, deployRole: p.kind ? deployRole(p.category, p.kind, p.sku, p.name) : null,
       facts: byPart.get(p.id) ?? new Map(), required };

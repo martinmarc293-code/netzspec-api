@@ -328,6 +328,26 @@
       }
     ],
     [
+      "^aggregate throughput \\(performance licen[cs]e\\)$",
+      "__not_a_spec",
+      "routers, reviewer ruling (a) 5 Oct 2026: the ISR 4000 sheet prints Aggregate Throughput three times per model -- (Default), (Performance License), (Boost License). Only the base figure is the box's own; a licence tier is a value conditional on a licence configuration (the halting rule), as the Boost row already is under the licens rule below. Placed BEFORE the unanchored 'aggregate throughput' rule, which took this row too and would have held a conflict on every ISR 4000 at re-apply.",
+      {
+        "only": [
+          "routers"
+        ]
+      }
+    ],
+    [
+      "^ipv4 forwarding throughput \\(imix\\)$",
+      "router_throughput",
+      "routers, reviewer ruling (a) 5 Oct 2026: the ISR 1000 sheet's per-model figure is 'IPv4 forwarding throughput (IMIX)' (autonomous mode; '1765 Mbps' for C1161). One basis per sheet; the basis stays in raw and the export renders it beside the value (ruling (a)), so an IMIX figure is never shown as if comparable with a 1400-byte one. NAT throughput is deliberately NOT here: src/core/natThroughput.ts (operator ruling 13 Sep 2026) lifts it into router_throughput only for an smb router whose sheet prints no forwarding row -- and this IMIX row now IS such a forwarding row, so on an ISR 1100 sheet that prints both, the forwarding figure wins as that ruling says. 'ESP bandwidth' (ASR 1000) is NOT aliased: it is the fitted ESP module's figure, conditional on the configuration.",
+      {
+        "only": [
+          "routers"
+        ]
+      }
+    ],
+    [
       "^ipsec \\(512b\\)$",
       "ipsec_throughput",
       "routers (12 Sep 2026): 'IPsec (512B)' 29 ('20 Gbps' | '3 Gbps'), the same C8000 table as Forwarding (512B).",
