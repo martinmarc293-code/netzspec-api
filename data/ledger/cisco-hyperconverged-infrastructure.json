@@ -3,7 +3,7 @@
   "vendor": "cisco",
   "category": "hyperconverged-infrastructure",
   "profile_hash": "d01fa4f8778b05d7",
-  "built_on_commit": "233279a",
+  "built_on_commit": "2e2187f",
   "norm_version": "1.8.8",
   "declared_fields": 195,
   "gap_states": {
@@ -20008,9 +20008,9 @@
     }
   },
   "build": {
-    "data_commit": "233279a057aa+88dirty",
-    "code_commit": "233279a057aa",
+    "data_commit": "cff35e0ab6b5+93dirty",
+    "code_commit": "cff35e0ab6b5",
     "contract_hash": "19704b71cf482f48",
-    "generated_at": "2026-10-02T14:07:49.280Z"
+    "generated_at": "2026-10-05T21:07:25.643Z"
   }
 }

@@ -1,8 +1,8 @@
 {
   "vendor": "cisco",
   "category": "interfaces-modules",
-  "built_at": "2026-10-02T13:57:32.672Z",
-  "commit": "233279a057aab8db71255b70ae9ecd38ca29f826",
+  "built_at": "2026-10-05T01:02:31.185Z",
+  "commit": "2e2187f460fb096c43ddd0d863630009e11c86ca",
   "uncommitted_rule_files": [],
   "mapping_file": "data/reference/product-lines/cisco-interfaces-modules.json",
   "parts": 1079,
@@ -569,9 +569,9 @@
   "inbound_unplaced": {},
   "done": true,
   "build": {
-    "data_commit": "233279a057aa+88dirty",
-    "code_commit": "233279a057aa",
+    "data_commit": "cff35e0ab6b5+93dirty",
+    "code_commit": "cff35e0ab6b5",
     "contract_hash": "19704b71cf482f48",
-    "generated_at": "2026-10-02T14:07:49.280Z"
+    "generated_at": "2026-10-05T21:07:25.643Z"
   }
 }
