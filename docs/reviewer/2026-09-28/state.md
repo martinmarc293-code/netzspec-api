@@ -352,6 +352,21 @@ HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). R
   scripts/classify-conflicts.mts (ruling Q11/Q13 classes; run kind resolve-superseded-readings is classed A on the board)
   and scripts/reconcile-conflict-states.mts (how a conflict's fact state is reconciled). Dry plan, sample, commit, verify
   from a new connection, then router ready (expect the ISR 4000 base PIDs ready), scorecard, report.
+- !! 6 Oct 07:12 UTC: THE 01:00 NIGHT STOPPED at verify ($FILL/STOP, 01:14): board fails enum_values_in_domain,
+  four_sets_sum, dictionary_in_sync, router_throughput_series (+ the ruled vendor_coverage). CAUSED BY MY 5 Oct WORK:
+  dictionary_in_sync = the profile change (597179d router_throughput cond) was never synced to category_profiles (run
+  sync-dictionary); router_throughput_series = a router OUTSIDE the listed series holds a throughput -- ISR4331-DC/K9 (and
+  C1-CISCO4331-DC/K9?) carry series '3900 Series Integrated Services Routers ISR' (wrong; they are 4000 ISR) -> fix the
+  SERIES (set-series run, approval) rather than widen the list; enum_values_in_domain + four_sets_sum = run 1495 facts
+  (read the board lines: board-last.txt / nights/2026-10-06/verifier.txt). FIX ALL FOUR, re-run the board, REPORT to the
+  reviewer, clear STOP only after its answer (move to $FILL/stops-cleared/ with a note). ALSO: the night REBUILT artefacts
+  in the deploy tree and my 4b17c60 deploy swapped them out: they are in /root/netzspec-api.old (121 files newer than its
+  GIT_SHA 4eeaa8f) -- pull from THERE before the next deploy (or rebuild fresh; a rebuild is owed anyway).
+- CLOSING RUN READY (not committed): scripts/resolve-weight-config-conflicts.mts + board class A (local, uncommitted);
+  dry on the box: 72 open router weight conflicts, resolve 44 (ISR 4000 + 3 8800 chassis-only kept), held 28 (8804/8808/
+  8812-SYS where the KEPT side is 'Weight (full system)' -- needs a supersede to the chassis-only value, not a close).
+  Commit + deploy the script, then --commit --approved-file <23:10 verdict verbatim>, then reconcile-conflict-states.mts
+  --vendor cisco (dry, then --commit) to return the kept facts to verified -> ISR 4000 ready.
 - NIGHT 01:00 UTC: will pick up today's 307 router docs (watermark 5 Oct 01:00) and may commit families with golden rows;
   do NOT deploy 01:00-01:45; pull its artefacts (find data -newer GIT_SHA) before the next deploy.
 - OPERATOR, 5 Oct ~21:00 UTC (verbatim): "complete the router category full, you are not allowed to focus on anything else
