@@ -519,6 +519,22 @@ HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). R
   api suite 193/0. Edge: 9 one-member cut lists are OPTIONAL emc_emissions runs -> render nothing (readiness unaffected).
   NEXT: deploy (migrate runs before the swap), flag-truncated-list-facts.mts dry then --commit (approval = this verdict), verify
   on the live API (ISR4451-X/K9 certifications truncated, text_de without the DSPR stump; still ready).
+- 6 Oct 17:50 UTC BOUNDARY FLAG SHIPPED: 2728b2e deployed, migration 0035 APPLIED to the live database (before the swap); RUN 1512
+  flag-truncated-list-facts: 137 superseded with identical rows truncated=true (0 skipped; new connection 137/0 mismatches). Live
+  API ISR4451-X%2FK9: certifications + supported_protocols truncated:true, text_de without the DSPR / Multilink stumps; live export
+  Zertifizierungen without DSPR; still READY. RESIDUE (reported): a list merged from two cut cells keeps the first cut's stump
+  mid-list ("Border Gateway" in the ISR 4000 protocol lists) until (A)'s re-apply replaces them whole. Plan file
+  data/dryrun/flag-truncated-list-facts-2026-10-06T175024304Z.tsv. REPORT SENT.
+- VERDICT ~18:40 (verbatim): "Both yes. Guide universe: the live parts of the series whose listing linked the book — correct
+  scope. Two conditions: a model name that resolves to several PIDs in the series ("Cisco 4461" → ISR4461/K9 plus its bundles)
+  goes to the base PID only, variants through the already-ruled rules; a name that resolves to nothing is counted per guide,
+  never silently dropped. PDF twins: ISR 4000 twin first and read the 4461 rows off the PDF itself; then the 10-twin sample
+  against their HTML; then the rest under a recorded enqueue run, links taken from each page. Where PDF and HTML of the same
+  sheet disagree on a value, it's a conflict, and the newer revision wins with the reason recorded; where the PDF only adds rows,
+  it fills."
+  ORDER NOW: (1) PDF twin of c78-732542 (seed script, run kind enqueue-router-pdf-twins A) -> fetch -> cisco-specs-pdf -> read
+  the 4461 rows; (2) (A) build + sabotage -> 7 gate misses -> classify recovered members -> router re-apply; (3) guide universe;
+  (4) 10-twin sample, then the rest; (5) space-separated standards runs.
 - CLOSING RUN READY (not committed): scripts/resolve-weight-config-conflicts.mts + board class A (local, uncommitted);
   dry on the box: 72 open router weight conflicts, resolve 44 (ISR 4000 + 3 8800 chassis-only kept), held 28 (8804/8808/
   8812-SYS where the KEPT side is 'Weight (full system)' -- needs a supersede to the chassis-only value, not a close).
