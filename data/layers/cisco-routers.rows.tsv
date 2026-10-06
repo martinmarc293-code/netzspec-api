@@ -3541,14 +3541,14 @@ ISR1100-6G	ISR1100 Router, 4 GE LAN/WAN Ports and 2 SFP ports, 4GB RAM	1000	rout
 ISR1100X-4G	ISR1100 Series Router, 4 Eth LAN/WAN Ports, 8GB RAM	1000	router	layered	ISR (Integrated Services Routers)	(none)	ISR 1100		sku ^ISR11	branch	series:ISR 1100					
 ISR1100X-6G	ISR1100 Router, 4 GE LAN/WAN Ports and 2 SFP ports, 8GB RAM	1000	router	layered	ISR (Integrated Services Routers)	(none)	ISR 1100		sku ^ISR11	branch	series:ISR 1100					
 ISR4221	Cisco ISR4221	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
-ISR4221-AX/K9	Cisco ISR4221-AX/K9	1900 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
+ISR4221-AX/K9	Cisco ISR4221-AX/K9	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
 ISR4221-B/K9	Cisco ISR 4221 High BW (2GE, 2NIM, 4G FLASH, 4G DRAM, IPB)	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
-ISR4221-SEC/K9	Cisco ISR 4221 SEC Bundle with SEC lic	1900 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
-ISR4221/K9	Cisco ISR 4221 (2GE,2NIM,8G FLASH,4G DRAM,IPB)	4000	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
-ISR4221X/K9	Cisco ISR 4221 (2GE,2NIM,8G FLASH,8G DRAM,IPB)	4000	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
+ISR4221-SEC/K9	Cisco ISR 4221 SEC Bundle with SEC lic	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
+ISR4221/K9	Cisco ISR 4221 (2GE,2NIM,8G FLASH,4G DRAM,IPB)	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
+ISR4221X/K9	Cisco ISR 4221 (2GE,2NIM,8G FLASH,8G DRAM,IPB)	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
 ISR4320U-MEM-MSATA	Upgrade to 8GB DRAM/8GB Flash, 200GB mSATA SSD bundle	4000 ISR	bundle	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}							
 ISR4321	Cisco ISR4321	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
-ISR4321-AX/K9	Cisco ISR 4321 AX Bundle w/APP, SEC lic	2900 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
+ISR4321-AX/K9	Cisco ISR 4321 AX Bundle w/APP, SEC lic	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
 ISR4321-AXV/K9	Cisco ISR 4321 AXV Bundle, w/APP, SEC, UC License	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
 ISR4321-B/K9	Cisco ISR 4321 (2GE, 2NIM, 4G FLASH, 4G DRAM, IPB)	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
 ISR4321-EN-3Y-100M	VIPTELA-ISR4321 3Year 100Mbps Enterprise Bundle	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
@@ -3559,33 +3559,33 @@ ISR4321-PR-3Y-100M	VIPTELA-ISR4321 3Year 100Mbps Enterprise Bundle	4000 ISR	rout
 ISR4321-PR-3Y-20M	VIPTELA-ISR4321 3Year 20Mbps Professional Bundle	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
 ISR4321-PR-3Y-50M	VIPTELA-ISR4321 3Year 50Mbps Professional Bundle	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
 ISR4321-SEC/K9	Cisco ISR 4321 Sec bundle w/SEC license	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
-ISR4321-V/K9	Cisco ISR 4321 Bundle, w/UC License	2900 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
-ISR4321-VSEC/K9	Cisco ISR 4321 Bundle w/UC & SEC License	2900 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
-ISR4321/K9	Cisco ISR 4321 (2GE,2NIM,4G FLASH,4G DRAM,IPB)	4000	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
+ISR4321-V/K9	Cisco ISR 4321 Bundle, w/UC License	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
+ISR4321-VSEC/K9	Cisco ISR 4321 Bundle w/UC & SEC License	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
+ISR4321/K9	Cisco ISR 4321 (2GE,2NIM,4G FLASH,4G DRAM,IPB)	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
 ISR4321BR/K9	Cisco ISR 4321 (2GE,2NIM,4G FLASH,4G DRAM,IPB)	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
 ISR4330U-MEM-MSATA	Upgrade to 16GB DRAM/16GB Flash, 200GB mSATA SSD bundle	4000 ISR	bundle	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}							
 ISR4331	Cisco ISR4331	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
-ISR4331-AX/K9	Cisco ISR 4331 AX Bundle w/ APP,SEC lic	2900 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
-ISR4331-AXV/K9	Cisco ISR 4331 AXV Bundle,PVDM4-32 w/APP,SEC,UC License	2900 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
+ISR4331-AX/K9	Cisco ISR 4331 AX Bundle w/ APP,SEC lic	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
+ISR4331-AXV/K9	Cisco ISR 4331 AXV Bundle,PVDM4-32 w/APP,SEC,UC License	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
 ISR4331-B/K9	Cisco ISR 4331 (3GE, 2NIM, 1SM, 4G FLASH, 4G DRAM, IPB)	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
 ISR4331-DC/K9	Cisco ISR 4331 (3GE,2NIM,1SM,4G FLASH,4G DRAM,IPB) w/ DC PS	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
 ISR4331-PM20	Cisco ISR4331 Promotional Bundle	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
-ISR4331-SEC/K9	Cisco ISR 4331 Sec bundle w/SEC license	2900 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
-ISR4331-SPM	Cisco ISR 4331 (3GE, 2NIM, 1SM) w/ SDWAN Promotion	1000	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
-ISR4331-SPM-8G	Cisco ISR4331 (3GE, 2NIM, 1SM) w/ 8G + SDWAN Support	1000	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
-ISR4331-V/K9	Cisco ISR 4331 UC Bundle, PVDM4-32, UC License	2900 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
-ISR4331-VSEC/K9	Cisco ISR 4331 Bundle w/UC & Sec Lic, PVDM4-32	2900 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
-ISR4331/K9	Cisco ISR 4331 (3GE,2NIM,1SM,4G FLASH,4G DRAM,IPB)	4000	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
+ISR4331-SEC/K9	Cisco ISR 4331 Sec bundle w/SEC license	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
+ISR4331-SPM	Cisco ISR 4331 (3GE, 2NIM, 1SM) w/ SDWAN Promotion	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
+ISR4331-SPM-8G	Cisco ISR4331 (3GE, 2NIM, 1SM) w/ 8G + SDWAN Support	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
+ISR4331-V/K9	Cisco ISR 4331 UC Bundle, PVDM4-32, UC License	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
+ISR4331-VSEC/K9	Cisco ISR 4331 Bundle w/UC & Sec Lic, PVDM4-32	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
+ISR4331/K9	Cisco ISR 4331 (3GE,2NIM,1SM,4G FLASH,4G DRAM,IPB)	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
 ISR4331BR/K9	Cisco ISR 4331 (3GE,2NIM,1SM,4G FLASH,4G DRAM,IPB)	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
 ISR4350U-MEM-MSATA	Upgrade to 16GB DRAM/16GB Flash, 200GB mSATA SSD bundle	4000 ISR	bundle	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}							
 ISR4351	Cisco ISR4351	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
-ISR4351-AX/K9	Cisco ISR 4351 AX Bundle w/ APP,SEC lic	2900 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
-ISR4351-AXV/K9	Cisco ISR 4351 AXV Bundle,PVDM4-64 w/APP,SEC,UC License	2900 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
+ISR4351-AX/K9	Cisco ISR 4351 AX Bundle w/ APP,SEC lic	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
+ISR4351-AXV/K9	Cisco ISR 4351 AXV Bundle,PVDM4-64 w/APP,SEC,UC License	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
 ISR4351-PM20	Cisco ISR4351 Promotional Bundle	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
-ISR4351-SEC/K9	Cisco ISR 4351 Sec bundle w/SEC license	2900 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
-ISR4351-V/K9	Cisco ISR 4351 UC Bundle, PVDM4-64, UC License	2900 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
-ISR4351-VSEC/K9	Cisco ISR 4351 Bundle with UC & Sec Lic, PVDM4-64	2900 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
-ISR4351/K9	Cisco ISR 4351 (3GE,3NIM,2SM,4G FLASH,4G DRAM,IPB)	4000	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
+ISR4351-SEC/K9	Cisco ISR 4351 Sec bundle w/SEC license	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
+ISR4351-V/K9	Cisco ISR 4351 UC Bundle, PVDM4-64, UC License	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
+ISR4351-VSEC/K9	Cisco ISR 4351 Bundle with UC & Sec Lic, PVDM4-64	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
+ISR4351/K9	Cisco ISR 4351 (3GE,3NIM,2SM,4G FLASH,4G DRAM,IPB)	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
 ISR4430U-MEM-SSD	Upgrade to 16GB DRAM/16GB Flash, 200GB SSD+NIM bundle	4000 ISR	bundle	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}							
 ISR4431	Cisco ISR4431	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
 ISR4431-AX/K9	Cisco ISR 4431 AX Bundle with APP and SEC license	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
@@ -3594,7 +3594,7 @@ ISR4431-PM20	Cisco ISR4431 Promotional Bundle	4000 ISR	router	layered	ISR (Integ
 ISR4431-SEC/K9	Cisco ISR 4431 Sec bundle w/SEC license	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
 ISR4431-V/K9	Cisco ISR 4431 UC Bundle, PVDM4-64, UC License	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
 ISR4431-VSEC/K9	Cisco ISR 4431 Bundle with UC & Sec Lic, PVDM4-64	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
-ISR4431/K9	ISR4431/K9 – ISR 4431 with 4 onboard GE, 3 NIM slots, 1 ISC slot, 8GB Flash Memory default, 2 GB DRAM default (data plane), 4 GB DRAM default (control plane)	4000	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
+ISR4431/K9	ISR4431/K9 – ISR 4431 with 4 onboard GE, 3 NIM slots, 1 ISC slot, 8GB Flash Memory default, 2 GB DRAM default (data plane), 4 GB DRAM default (control plane)	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
 ISR4451	Cisco ISR4451	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
 ISR4451-PM20	Cisco ISR4451 Promotional Bundle	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
 ISR4451-UCSE-S/K9	Cisco ISR 4451 CI Bundle w 24 port SM, UCS-E Single Wide SM	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
@@ -3612,7 +3612,7 @@ ISR4461-K9-CAP	Cisco ISR 4461 EDU (2x10GE+4x1GE,3NIM,3SM,8G FLASH,4G DRAM)	4000 
 ISR4461-SEC/K9	Cisco ISR 4461 Sec Bundle, w/SEC license	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
 ISR4461-V/K9	Cisco ISR 4461 UC Bundle, PVDM4-64, UC Lic,CUBE25	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
 ISR4461-VSEC/K9	Cisco ISR 4461 VSEC Bundle, PVDM4-64 w/ UC,SEC Lic,CUBE-25	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
-ISR4461/K9	ISR4461/K9 – Cisco ISR 4461 with 4 onboard GE, 3 NIM slots, 1 ISC slot, 3 SM slots, 8 GB Flash Memory default, 2 GB DRAM default (data plane), 4 GB DRAM default (control plane)	4000	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
+ISR4461/K9	ISR4461/K9 – Cisco ISR 4461 with 4 onboard GE, 3 NIM slots, 1 ISC slot, 3 SM slots, 8 GB Flash Memory default, 2 GB DRAM default (data plane), 4 GB DRAM default (control plane)	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
 ISR4461/K9++	Cisco ISR 4461 (2x10GE+4x1GE,3NIM,3SM,8G FLASH,4G DRAM)-TAA	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^ISR4[0-9]{3}	branch	series:ISR 4000					
 IXM-LPWA-800-K9+	● TAA part number for Cisco wireless gateway for LoRaWAN, operates on the frequency subset of 863 - 870 MHz ISM band, applicable to LoRaWAN regional profile for Europe, Middle East, Africa and India	Wireless Gateway for LoRaWAN	router	layered	Industrial and IoT Routers	(none)	Wireless Gateway for LoRaWAN		sku ^IXM-	industrial-iot	series:Wireless Gateway for LoRaWAN					
 IXM-LPWA-900-K9+	TAA PID for Cisco wireless gateway for LoRaWAN, operates on the frequency subset of 902 - 928 MHz ISM band, applicable to LoRaWAN regional profile for Americas, Asia (not for India and China) and Pacific	Wireless Gateway for LoRaWAN	router	layered	Industrial and IoT Routers	(none)	Wireless Gateway for LoRaWAN		sku ^IXM-	industrial-iot	series:Wireless Gateway for LoRaWAN					
@@ -5067,8 +5067,8 @@ RV345P-K9-CN	Cisco RV345P Dual WAN Gigabit VPN Router	RV Series	router	layered	S
 RV345P-K9-G5	Cisco RV345P Dual WAN Gigabit VPN Router	RV Series	router	layered	Small Business Routers	(none)	RV Series		sku ^RV[0-9]	smb	series:RV Series					
 RV345P-K9-IN	Cisco RV345P Dual WAN Gigabit VPN Router	RV Series	router	layered	Small Business Routers	(none)	RV Series		sku ^RV[0-9]	smb	series:RV Series					
 RV345P-K9-NA	Cisco RV345P Dual WAN Gigabit VPN Router	RV Series	router	layered	Small Business Routers	(none)	RV Series		sku ^RV[0-9]	smb	series:RV Series					
-SI-ISR4321-IWAN/K9	ISR 4321 SEED IT Program Offering	1000	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^SI-ISR4	branch	series:ISR 4000					
-SI-ISR4331-IWAN/K9	ISR 4331 SEED IT Program Offering	1000	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^SI-ISR4	branch	series:ISR 4000					
+SI-ISR4321-IWAN/K9	ISR 4321 SEED IT Program Offering	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^SI-ISR4	branch	series:ISR 4000					
+SI-ISR4331-IWAN/K9	ISR 4331 SEED IT Program Offering	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^SI-ISR4	branch	series:ISR 4000					
 SI-ISR4351-IWAN/K9	ISR 4351 SEED IT Program Offering	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^SI-ISR4	branch	series:ISR 4000					
 SI-ISR4431-IWAN/K9	ISR 4431 SEED IT Program Offering	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^SI-ISR4	branch	series:ISR 4000					
 SI-ISR4451-IWAN/K9	ISR 4451 SEED IT Program Offering	4000 ISR	router	layered	ISR (Integrated Services Routers)	(none)	ISR 4000		sku ^SI-ISR4	branch	series:ISR 4000					

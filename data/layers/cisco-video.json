@@ -1,8 +1,8 @@
 {
   "vendor": "cisco",
   "category": "video",
-  "built_at": "2026-10-06T16:17:51.143Z",
-  "commit": "8dcbd093663c3352fe8571cd53fb53d469085579",
+  "built_at": "2026-10-06T16:45:18.127Z",
+  "commit": "febbd1ddb2aa37303fe9b82325a7278451a3459c",
   "uncommitted_rule_files": [],
   "mapping_file": "data/reference/product-lines/cisco-video.json",
   "parts": 3260,
@@ -716,9 +716,9 @@
   "inbound_unplaced": {},
   "done": true,
   "build": {
-    "data_commit": "c491304ade70+85dirty",
-    "code_commit": "fcc221636360",
-    "contract_hash": "201b779a47640e74",
-    "generated_at": "2026-10-06T16:25:15.537Z"
+    "data_commit": "febbd1ddb2aa+84dirty",
+    "code_commit": "febbd1ddb2aa",
+    "contract_hash": "ae6f436b328c9b58",
+    "generated_at": "2026-10-06T16:52:08.384Z"
   }
 }
