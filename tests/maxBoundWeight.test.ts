@@ -18,6 +18,11 @@ sabotages++; check("SABOTAGE a raw no weight band admits is refused", replayDeri
   replayDerived("derived:max-bound", "5000 kg"));
 sabotages++; check("SABOTAGE a raw with no mass is refused", replayDerived("derived:max-bound", "maximum")?.reason === "DERIVATION_REFUSED");
 
+// derived:model-row (reviewer 6 Oct ~21:40): a named model's stated weight replays, and is never shown as a maximum
+check("a model row's stated weight replays", replayDerived("derived:model-row", "2.3 lb (1.0 kg)") === null);
+sabotages++; check("SABOTAGE a model row with no mass is refused", replayDerived("derived:model-row", "Weight")?.reason === "DERIVATION_REFUSED");
+sabotages++; check("SABOTAGE a model-row weight is plain, never 'max.'", !isMaxBound({ value: 1.0, unit: "kg", method: "derived:model-row" }));
+
 // the export: only the max-bound method reads as a maximum
 check("the marker is the registered method", MAX_BOUND === "derived:max-bound");
 check("a max-bound weight is a maximum", isMaxBound({ value: 2.5, unit: "kg", method: "derived:max-bound" }));

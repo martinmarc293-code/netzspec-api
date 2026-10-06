@@ -23,7 +23,13 @@ import { normalizeField, NORM_VERSION } from "../src/core/specNormalize.js";
 import { cachedText, labelOnPage, CACHE_DIR, ws } from "../src/pipeline/apply-acquired.js";
 import type { SpecEntry } from "../src/core/specMerge.js";
 
-export const METHOD = "derived:max-bound";
+// TWO WITNESS SETS, ONE CODE PATH (reviewer, 6 Oct 2026 ~21:40): `--set max-bound` (default) writes stated MAXIMA (cables, router
+// series) as derived:max-bound; `--set model-row` writes a NAMED MODEL's stated weight (data/reference/model-row-weight-witnesses.json)
+// as derived:model-row -- the same re-read, listing and normalisation, a different method so a value is never shown as a bound.
+const SET = process.argv.includes("--set") ? process.argv[process.argv.indexOf("--set") + 1] : "max-bound";
+if (SET !== "max-bound" && SET !== "model-row") { console.error(`--set must be max-bound or model-row, not ${SET}`); process.exit(2); }
+export const METHOD = SET === "model-row" ? "derived:model-row" : "derived:max-bound";
+const RUN_KIND = SET === "model-row" ? "derive-model-row-weight" : "derive-max-bound-weight";
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const FILE = path.join(ROOT, "data/reference/max-bound-weight-witnesses.json");
 const commit = process.argv.includes("--commit");
@@ -33,11 +39,14 @@ const commit = process.argv.includes("--commit");
 type Row = { sku: string; doc_id: string; url: string; cache_path: string; label: string; locator: string; raw: string;
   doc_type?: string; listed_by?: string | null; series?: string; statement?: string };
 const FILE_SERIES = path.join(ROOT, "data/reference/series-max-weight-witnesses.json");
-const cable = JSON.parse(fs.readFileSync(FILE, "utf8")) as { rows: Row[] };
-const series = fs.existsSync(FILE_SERIES) ? JSON.parse(fs.readFileSync(FILE_SERIES, "utf8")) as { rows: Row[] } : { rows: [] as Row[] };
+const FILE_MODEL = path.join(ROOT, "data/reference/model-row-weight-witnesses.json");
+const read = (f: string) => (fs.existsSync(f) ? JSON.parse(fs.readFileSync(f, "utf8")) as { rows: Row[] } : { rows: [] as Row[] });
+const sha256 = (f: string) => (fs.existsSync(f) ? createHash("sha256").update(fs.readFileSync(f)).digest("hex") : null);
+const cable = SET === "max-bound" ? read(FILE) : { rows: [] as Row[] };
+const series = SET === "max-bound" ? read(FILE_SERIES) : read(FILE_MODEL);   // the rows that may need their witness page registered
 const table = { rows: [...cable.rows, ...series.rows] };
-const sha = createHash("sha256").update(fs.readFileSync(FILE)).digest("hex");
-const shaSeries = fs.existsSync(FILE_SERIES) ? createHash("sha256").update(fs.readFileSync(FILE_SERIES)).digest("hex") : null;
+const sha = SET === "max-bound" ? sha256(FILE)! : sha256(FILE_MODEL)!;
+const shaSeries = SET === "max-bound" ? sha256(FILE_SERIES) : null;
 // ws: the gate's own normaliser (lowercases, like the page text cachedText returns)
 // the box's <repo>/scraper/cache is a stale partial copy (CLAUDE.md, 25 Sep 2026): the real cache is named by CACHE_DIR there
 const CACHE = process.env.CACHE_DIR ?? CACHE_DIR;
@@ -89,18 +98,20 @@ for (const [sku, rows] of [...bySku].sort((a, b) => a[0].localeCompare(b[0]))) {
     prov: { tier: 2, method: METHOD, doc_id: first.doc_id, locator: first.locator, extracted_at: new Date().toISOString().slice(0, 10), norm_v: NORM_VERSION },
   } });
 }
-console.log(`derived:max-bound weight: ${table.rows.length} witness rows over ${bySku.size} SKUs (witnesses sha256 ${sha.slice(0, 12)}); ` +
+console.log(`${METHOD} weight: ${table.rows.length} witness rows over ${bySku.size} SKUs (witnesses sha256 ${sha.slice(0, 12)}); ` +
   `${plans.length} to write (${plans.filter((p) => p.replaces).length} superseding a derived fact), ${alreadyFilled} already correct, ` +
   `${readKept} read weights kept, ${noPart.length} naming no live part, ${refused.length} refused, ${unreadable} unreadable`);
 for (const p of plans) console.log(`  ${p.sku.padEnd(20)} -> ${p.entry.value} ${p.entry.unit}   (${p.entry.raw}; ${p.entry.prov.doc_id} ${p.entry.prov.locator}${p.also.length ? `; also stated alike on ${p.also.join(", ")}` : ""})`);
 for (const s of noPart) console.log(`  NO LIVE PART  ${s}`);
 if (refused.length) { console.error(`REFUSED, nothing written:\n  ${refused.join("\n  ")}`); await closePool(); process.exit(2); }
 if (!commit) { console.log("DRY RUN: nothing written. Re-run with --commit."); await closePool(); process.exit(0); }
-const out = await withRun("derive-max-bound-weight", {
-  witnesses: path.relative(ROOT, FILE), witnesses_sha256: sha, rows: table.rows.length, planned: plans.length, no_live_part: noPart,
+const out = await withRun(RUN_KIND, {
+  set: SET, witnesses: path.relative(ROOT, SET === "model-row" ? FILE_MODEL : FILE), witnesses_sha256: sha, rows: table.rows.length, planned: plans.length, no_live_part: noPart,
   series_witnesses: shaSeries ? path.relative(ROOT, FILE_SERIES) : null, series_witnesses_sha256: shaSeries,
-  approved: "reviewer Q25, 30 Sep 2026: 'Module weight (Max)' accepted as the cable's weight, method derived:max-bound; band [1, 2000] g approved the same day; " +
-    "reviewer (a), 6 Oct 2026: a series maximum ('5.5 lb (2.5 kg) maximum') is the article weight for every model of the series, rendered 'max.'",
+  approved: SET === "model-row"
+    ? "reviewer 6 Oct 2026 ~21:40: Model-row writer approved as specified -- witness re-read inside its section, the model-token rule with the variant exclusion, held-sheet PIDs only, kind router, derived:model-row registered beside max-bound, plain rendering"
+    : "reviewer Q25, 30 Sep 2026: 'Module weight (Max)' accepted as the cable's weight, method derived:max-bound; band [1, 2000] g approved the same day; " +
+      "reviewer (a), 6 Oct 2026: a series maximum ('5.5 lb (2.5 kg) maximum') is the article weight for every model of the series, rendered 'max.'",
 }, async (runId) => withTx(async (client) => {
   // a guide chapter that states a series maximum is not yet a source document (it lists no PID, so no apply registered it):
   // register it, so the fact's provenance names the page the maximum was read from
@@ -115,5 +126,5 @@ const out = await withRun("derive-max-bound-weight", {
     unreadable, precision: 1, recall: 1, passed: refused.length === 0 && unreadable === 0 };
   return { stats: { written: plans.length, superseded: plans.filter((p) => p.replaces).length, already_correct: alreadyFilled, read_kept: readKept, no_live_part: noPart.length }, gate };
 }));
-console.log(`run ${out.runId}: wrote ${plans.length} derived:max-bound weights`);
+console.log(`run ${out.runId}: wrote ${plans.length} ${METHOD} weights`);
 await closePool();
