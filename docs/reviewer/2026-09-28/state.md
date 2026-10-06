@@ -391,6 +391,16 @@ HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). R
   by the closing tool; needs the DC value as the current fact = a supersede, ask), ISR4461/K9 (no weight printed).
   NEXT: scoped scorecard + report; then set-series (scan 3900 for 43xx/44xx first), classify +98/+4 members, rebuild,
   board, clear STOP after the reviewer's answer.
+- VERDICT 6 Oct ~07:50 (verbatim): "Ready +7, verified on your list -- the first router family through the full chain.
+  ISR4331-DC/K9: yes, supersede -- the DC row is that PID's article weight by the ruling; resolve the conflict with it.
+  ISR4461/K9: waits for the installation-guide reader (that's the build after the board is green). The scoped reconcile was
+  the right call; the non-router drift stays a finding until routers are done. Proceed in your order; compact first."
+  ORDER NOW: (a) set-series: scan series '3900 Series Integrated Services Routers ISR' for 43xx/44xx PIDs, then ONE
+  approval run -> '4000 ISR' (find the set-series tool: run kind set-series, class A); (b) ISR4331-DC/K9 weight supersede
+  to the DC row's 6.2 kg + resolve its open conflicts (approved); (c) classify the +98 supported_protocols / +4
+  certifications members (listShapes grammar / refuse; no ceiling raise); (d) rebuild (mould-build at HEAD, pull,
+  contract/stamp ONE BUILD, suites, commit, deploy), board green -> move \$FILL/STOP to stops-cleared/ with a note ->
+  report; (e) installation-guide reader.
 - CLOSING RUN READY (not committed): scripts/resolve-weight-config-conflicts.mts + board class A (local, uncommitted);
   dry on the box: 72 open router weight conflicts, resolve 44 (ISR 4000 + 3 8800 chassis-only kept), held 28 (8804/8808/
   8812-SYS where the KEPT side is 'Weight (full system)' -- needs a supersede to the chassis-only value, not a close).
