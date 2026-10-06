@@ -68,7 +68,14 @@ def main() -> int:
     ap.add_argument("--commit", action="store_true")
     ap.add_argument("--only-urls", default="", help="queue only these chapter URLs (one per line); each must be a derived chapter")
     ap.add_argument("--out", default=str(ROOT / "data" / "acquire" / "router-guide-chapters.txt"))
+    # A RECORDED ONE-OFF (reviewer, 6 Oct ~19:10, on the ISR 4461 weight): "Add it to --only-urls explicitly as a recorded one-off,
+    # not by widening the chapter rule." A chapter SPEC_CHAPTER does not derive (a Preinstallation chapter) is queued only when it is
+    # named here WITH a reason, and only under the book directory of a guide the lane already holds; the reason goes into the run.
+    ap.add_argument("--one-off", action="append", default=[], help="a chapter URL SPEC_CHAPTER does not derive (repeatable)")
+    ap.add_argument("--one-off-reason", default="", help="why the one-off chapters are queued (required with --one-off)")
     a = ap.parse_args()
+    if a.one_off and not a.one_off_reason.strip():
+        raise SystemExit("--one-off needs --one-off-reason: a one-off without its reason is the rule-widening the ruling forbids")
     sha = subprocess.run(["git", "rev-parse", "HEAD"], capture_output=True, text=True, cwd=ROOT).stdout.strip() or None
     if not sha and (ROOT / "GIT_SHA").exists():
         sha = (ROOT / "GIT_SHA").read_text(encoding="utf-8").strip()
@@ -93,6 +100,13 @@ def main() -> int:
             if stray:
                 raise SystemExit(f"--only-urls names {len(stray)} URL(s) that are not derived chapters (refusing): {stray[:3]}")
             want = only
+        # The recorded one-offs: each must sit under the book directory of a guide the lane holds -- a chapter of a book we have,
+        # never a URL guessed anywhere else -- and is queued beside the derived chapters, its reason written into the run.
+        books = {g.rsplit(".", 1)[0] + "/" for g in guides}
+        stray_one_off = [u for u in a.one_off if not any(u.startswith(b) for b in books)]
+        if stray_one_off:
+            raise SystemExit(f"--one-off names {len(stray_one_off)} URL(s) under no held guide's book directory (refusing): {stray_one_off[:3]}")
+        want = want + [u for u in a.one_off if u not in want]
         refused = {u: refused_url(u) for u in want if refused_url(u)}
         want = [u for u in want if u not in refused]
         have = {r[0]: r[1] for r in c.execute(
@@ -103,7 +117,7 @@ def main() -> int:
         print(f"done router guides: {len(guides)}; landing pages with spec chapters: {landing}; spec chapters derived: {len(derived)}")
         print(f"to queue: {len(want)} (refused at enqueue {len(refused)}); existing rows by status {dict(sorted(by.items()))}")
         for u in want[:12]:
-            print(f"  {derived[u][1][:44]:44} {u.split('/td/docs/')[1][:96]}")
+            print(f"  {derived.get(u, ('', '(one-off)'))[1][:44]:44} {u.split('/td/docs/')[1][:96]}")
         Path(a.out).parent.mkdir(parents=True, exist_ok=True)
         Path(a.out).write_text("\n".join(want) + "\n", encoding="utf-8")
         if not a.commit:
@@ -112,7 +126,8 @@ def main() -> int:
         run_id, stats, now = enqueue(
             c, source_id=src, task="datasheet", urls=want, priority=PRIORITY, kind="enqueue-router-guide-chapters",
             inputs={"approved": APPROVED, "chapters": len(want), "derived": len(derived), "landing_pages": landing,
-                    "only_urls": a.only_urls or None, "refused": refused, "existing_by_status": by, "priority": PRIORITY},
+                    "only_urls": a.only_urls or None, "refused": refused, "existing_by_status": by, "priority": PRIORITY,
+                    "one_off": [{"url": u, "reason": a.one_off_reason} for u in a.one_off] or None},
             sha=sha, notes="router hardware-guide spec chapters for the cisco-datasheets lane (installation-guide reader, step 1)")
         print(f"run {run_id}: inserted {stats['inserted']}, reactivated {stats['reactivated']}, left as is {stats['left_as_is']}; re-read: {now}")
         return 0
