@@ -52,14 +52,14 @@ export async function loadPage(s: JtlScope): Promise<{ parts: PartView[]; last: 
   const more = rows.length > s.limit;
   const page = rows.slice(0, s.limit);
   if (!page.length) return { parts: [], last: null, more: false };
-  const facts = (await query<{ part_id: string; field_key: string; value: unknown; unit: string | null; raw: string | null }>(`
-    SELECT f.part_id::text AS part_id, f.field_key, f.value, f.unit, f.raw FROM facts f
+  const facts = (await query<{ part_id: string; field_key: string; value: unknown; unit: string | null; raw: string | null; truncated: boolean }>(`
+    SELECT f.part_id::text AS part_id, f.field_key, f.value, f.unit, f.raw, f.truncated FROM facts f
      WHERE f.part_id = ANY($1::bigint[]) AND f.superseded_by IS NULL AND f.value IS NOT NULL
        AND f.state::text = ANY($2::text[]) AND ${factRunSucceeded("f")}`, [page.map((p) => p.id), [...RENDERED_STATES]])).rows;
   const byPart = new Map<string, Map<string, Fact>>();
   for (const f of facts) {
     const m = byPart.get(f.part_id) ?? byPart.set(f.part_id, new Map()).get(f.part_id)!;
-    m.set(f.field_key, { value: f.value, unit: f.unit, raw: f.raw });
+    m.set(f.field_key, { value: f.value, unit: f.unit, raw: f.raw, truncated: f.truncated === true });
   }
   const parts = page.map((p): PartView => {
     let required: Set<string> = new Set();

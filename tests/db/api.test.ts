@@ -197,7 +197,9 @@ async function main(): Promise<void> {
   // text_de / text_de_why added 25 Sep 2026 with the German rendering contract: `label_de` is the Merkmal's NAME,
   // `text_de` its VALUE as one German cell, so a JTL-Shop import is two columns off this object. This exact list
   // is load-bearing and it earned its keep the hour it was written — it is what caught the two new keys.
-  const FACT_KEYS = ["key", "label_en", "label_de", "type", "value", "unit", "text_de", "text_de_why", "raw", "state", "tier", "method", "inherited", "inherited_from", "source", "evidence_count"].sort();
+  // truncated added 6 Oct 2026 (migration 0035, reviewer ruling: "truncated: true on the API"): the value is the head of a longer
+  // cell, and text_de leaves a truncated list's last member out.
+  const FACT_KEYS = ["key", "label_en", "label_de", "type", "value", "unit", "text_de", "text_de_why", "raw", "state", "tier", "method", "inherited", "inherited_from", "source", "evidence_count", "truncated"].sort();
   let etag = "";
   {
     const r = await get("/v1/parts/cisco/c9200l-24p-4g");

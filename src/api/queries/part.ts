@@ -14,7 +14,7 @@
 //     with a single id. GET /v1/parts/{vendor}/{sku} and GET /v1/export therefore cannot drift:
 //     the shape equality the export contract promises holds by construction (and is tested).
 import { SPEC_BEARING, type DocClass } from "../../core/docClass.js";
-import { renderValue } from "../../core/renderContract.js";
+import { renderValue, renderableValue } from "../../core/renderContract.js";
 import { query } from "../../store/db.js";
 import { badRequest } from "../errors.js";
 import { ALL_STATES, RENDERED_STATES, factRunSucceeded, isoOf, kindAndRole, type FactState, type PartIdentity } from "./shared.js";
@@ -39,12 +39,15 @@ export type FactItem = {
   text_de: string | null; text_de_why: string | null;
   raw: string; state: string; tier: number; method: string; inherited: boolean; inherited_from: string | null;
   source: FactSource | null; evidence_count: number;
+  /** migration 0035: the value is the head of a longer cell; text_de leaves a truncated list's last member out */
+  truncated: boolean;
 };
 
 type FactRow = {
   id: number; part_id: number; field_key: string; label_en: string; label_de: string; type: string; value: unknown; unit: string | null;
   raw: string; state: string; tier: number; method: string; inherited: boolean; inherited_from: string | null;
   doc_id: string | null; doc_url: string | null; locator: string | null; extracted_at: string | null; evidence_count: number;
+  truncated: boolean;
 };
 
 /** Current facts in `states` for every part in `partIds`, ordered by (part, key). One statement. */
@@ -53,7 +56,7 @@ async function factRows(partIds: number[], states: FactState[]): Promise<FactRow
   const { rows } = await query<FactRow>(`
     SELECT f.id, f.part_id, f.field_key, d.label_en, d.label_de, d.type, f.value, f.unit, f.raw, f.state::text AS state, f.tier, f.method,
            f.inherited, f.inherited_from, f.doc_id, sd.url AS doc_url, f.locator, f.extracted_at::text AS extracted_at,
-           (SELECT count(*)::int FROM fact_evidence e WHERE e.fact_id = f.id) AS evidence_count
+           (SELECT count(*)::int FROM fact_evidence e WHERE e.fact_id = f.id) AS evidence_count, f.truncated
       FROM facts f
       JOIN field_dictionary d ON d.key = f.field_key
       LEFT JOIN source_docs sd ON sd.doc_id = f.doc_id
@@ -73,13 +76,14 @@ async function factRows(partIds: number[], states: FactState[]): Promise<FactRow
 // and the reasons are what turned "the contract covers 96.31%" into a list of 2,561 specific legacy rows. It
 // renders against the row's OWN type, from field_dictionary, not against this repo's copy of it.
 function toFact(r: FactRow): FactItem {
-  const rendered = renderValue(r.field_key, r.value, r.unit, r.type);
+  // a truncated list renders without its cut tail member (renderableValue); value and raw are served as read
+  const rendered = renderValue(r.field_key, renderableValue(r.value, r.truncated), r.unit, r.type);
   return {
     key: r.field_key, label_en: r.label_en, label_de: r.label_de, type: r.type, value: r.value, unit: r.unit,
     text_de: rendered.ok ? rendered.text : null, text_de_why: rendered.ok ? null : rendered.why,
     raw: r.raw, state: r.state, tier: r.tier, method: r.method, inherited: r.inherited, inherited_from: r.inherited_from,
     source: r.doc_id ? { doc_id: r.doc_id, url: r.doc_url, locator: r.locator, extracted_at: r.extracted_at } : null,
-    evidence_count: r.evidence_count,
+    evidence_count: r.evidence_count, truncated: r.truncated === true,
   };
 }
 

@@ -31,6 +31,18 @@ import { FIELD_DICTIONARY, DOMAIN_OVERRIDES, ENUM_LABELS } from "./fieldSchema.j
  */
 export const LIST_SEPARATOR = " | ";
 
+/**
+ * THE VALUE A RENDERER MAY SHOW, given facts.truncated (migration 0035). Reviewer ruling, 6 Oct 2026 ~18:30 (verbatim): "(b) —
+ * render the list without its cut tail member, truncated: true on the API. The head is true; a stump like "Border Gateway" is the
+ * only false part. ... The drop is at render time only — the stored fact keeps its raw."
+ * A truncated LIST loses its last member here and nowhere else; anything that is not a list is returned as stored (a capped
+ * scalar is rendered whole, its flag is the consumer's warning). A one-member truncated list renders as nothing: its only
+ * member is the stump (measured 6 Oct: 9 such facts, all optional emc_emissions runs the space-separated rule will split).
+ */
+export function renderableValue(value: unknown, truncated: boolean | null | undefined): unknown {
+  return truncated === true && Array.isArray(value) ? value.slice(0, -1) : value;
+}
+
 /** Booleans. JTL renders a Merkmalwert as text; there is no boolean type to hand it. */
 export const BOOLEAN_DE: Readonly<Record<"true" | "false", string>> = { true: "Ja", false: "Nein" };
 

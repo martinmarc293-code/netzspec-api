@@ -45,6 +45,10 @@ export type Prov = {
 export type SpecEntry = {
   k: string; raw: string; value?: unknown; unit?: string;
   state: FieldState; inherited?: boolean; inherited_from?: string; prov: Prov;
+  /** The value is the HEAD of a longer cell: the extractor (or apply) capped it, so a list's last member may be a stump
+   *  ("Border Gateway"). Stored as facts.truncated (migration 0035, reviewer ruling 6 Oct 2026 ~18:30); renderers drop a
+   *  truncated list's last member, the stored value and raw stay as read. Absent = false. */
+  truncated?: boolean;
 };
 
 export type MergeAction =

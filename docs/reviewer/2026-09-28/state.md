@@ -504,6 +504,21 @@ HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). R
   PDF TWINS (data/dryrun/router-pdf-twins-2026-10-06.json): 323 of 371 router HTML datasheets link their own PDF; 315 distinct
   twins, 6 held. -> REPORT + ASK: queue the ISR 4000 twin first (verify the 4461 rows), then measure a sample of twins for rows
   the HTML lacks before queueing the rest.
+- VERDICT ~18:30 (verbatim): "(1) Column — append-only supersede for the 137, as you propose. (2) (b) — render the list without
+  its cut tail member, truncated: true on the API. The head is true; a stump like "Border Gateway" is the only false part.
+  ISR4451-X/K9 stays ready: a true partial certification list is still a true statement, and the wide re-extraction under (A)
+  replaces it with the whole list. The drop is at render time only — the stored fact keeps its raw. Installation guides: two steps
+  as you describe — queue the "Technical Specifications" and "Overview" chapters from the cached landing pages, then measure
+  per-model attribution on a handful before building it. Proceed." (Guide/PDF-twin report SENT after it; answer pending.)
+- BOUNDARY FLAG BUILT (committed with this entry): migration 0035 facts.truncated boolean NOT NULL DEFAULT false (lock_timeout 10s);
+  SpecEntry.truncated, FactRow/FACT_COLUMNS/rowToEntry/insertFactRow carry it (supersedeFact through insertFactRow);
+  renderContract.renderableValue drops a truncated LIST's last member at render time (API text_de, JTL export text());
+  the API serves truncated on every fact (schema + toFact; api suite FACT_KEYS updated). Proof: jtlExport 65/0 (4 new: cut tail
+  dropped + part stays ready, control whole, one-member -> nothing, renderableValue unit) -- sabotage (hook removed) 2 red;
+  store suite 111/111 on netzspec_test4 (migrated: 0035) -- 3 new cases, sabotage (insert writes false) 1 red, restored by md5;
+  api suite 193/0. Edge: 9 one-member cut lists are OPTIONAL emc_emissions runs -> render nothing (readiness unaffected).
+  NEXT: deploy (migrate runs before the swap), flag-truncated-list-facts.mts dry then --commit (approval = this verdict), verify
+  on the live API (ISR4451-X/K9 certifications truncated, text_de without the DSPR stump; still ready).
 - CLOSING RUN READY (not committed): scripts/resolve-weight-config-conflicts.mts + board class A (local, uncommitted);
   dry on the box: 72 open router weight conflicts, resolve 44 (ISR 4000 + 3 8800 chassis-only kept), held 28 (8804/8808/
   8812-SYS where the KEPT side is 'Weight (full system)' -- needs a supersede to the chassis-only value, not a close).

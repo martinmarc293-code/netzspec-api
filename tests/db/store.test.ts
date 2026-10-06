@@ -43,7 +43,7 @@ import {
   openRun, closeRun, withRun, hashFile, getRun,
   ensureCategory, upsertPart, findPart, slugify, PRODUCT_CLASSES, RELATION_KINDS,
   docIdFor, ensureSourceDoc, getSourceDoc, linkDocParts,
-  applyMerge, currentFacts, currentFact, factHistory, writeGapConfirmed, supersedeFact, packLocator, unpackLocator, rollbackRun,
+  applyMerge, currentFacts, currentFact, factHistory, writeGapConfirmed, supersedeFact, packLocator, unpackLocator, rollbackRun, rowToEntry,
   upsertLifecycle, mergeLifecycle,
   upsertRelation,
   upsertImage, setImageVariant, setMerchantReadiness,
@@ -373,6 +373,26 @@ check("packLocator/unpackLocator round-trip a revision label",
   await withTx((c) => supersedeFact(c, Number(f2!.id), entry("switching_capacity", 62, "62 Gbit/s", html(D1, "t1:r2:c3")), applyRun));
   check("SABOTAGE supersedeFact: a NEW raw with a NEW value carries no old witness (a revision is not corroborated by the old read)",
     await docsOf() === D1, await docsOf());
+}
+// facts.truncated (migration 0035, reviewer ruling 6 Oct 2026 ~18:30): the column defaults to false, an IDENTICAL supersede that
+// carries truncated: true stores it with value, raw and witnesses unchanged -- the flag run's exact shape -- and rowToEntry reads
+// it back; the flag is per ROW, so a later supersede that does not carry it (a whole re-read) clears it
+{
+  const pt = await upsertPart({ vendor: "cisco", sku: "C9200-24T-TRUNC", category: "switches", product_class: "hardware" });
+  await withTx((c) => applyMerge(c, pt.id, entry("switching_capacity", 60, "60 Gbit/s", html(D1, "t1:r2:c3")), applyRun));
+  await withTx((c) => applyMerge(c, pt.id, entry("switching_capacity", 60, "60 Gbit/s", html(D2, "t1:r2:c3")), applyRun));
+  const f0 = await currentFact(pt.id, "switching_capacity", pool);
+  const docs = async (id: number) => (await query("SELECT DISTINCT doc_id FROM fact_evidence WHERE fact_id = $1 ORDER BY doc_id", [id])).rows.map((x) => x.doc_id).join(",");
+  check("CONTROL a fact written without the flag reads back truncated = false, and rowToEntry carries no flag",
+    f0?.truncated === false && rowToEntry(f0!).truncated === undefined, String(f0?.truncated));
+  await withTx((c) => supersedeFact(c, Number(f0!.id), { ...rowToEntry(f0!), truncated: true }, applyRun));
+  const f1 = await currentFact(pt.id, "switching_capacity", pool);
+  check("an identical supersede carrying truncated: true stores the flag on a NEW row, value, raw and both witnesses unchanged",
+    f1?.truncated === true && Number(f1!.id) !== Number(f0!.id) && JSON.stringify(f1?.value) === JSON.stringify(f0?.value) && f1?.raw === f0?.raw
+    && rowToEntry(f1!).truncated === true && await docs(Number(f1!.id)) === [D1, D2].sort().join(","), `${f1?.truncated} ${await docs(Number(f1!.id))}`);
+  await withTx((c) => supersedeFact(c, Number(f1!.id), entry("switching_capacity", 60, "60 Gbit/s", html(D1, "t1:r2:c3")), applyRun));
+  const f2 = await currentFact(pt.id, "switching_capacity", pool);
+  check("the flag is per row: a later supersede that does not carry it (a whole re-read) clears it", f2?.truncated === false, String(f2?.truncated));
 }
 // skip
 {

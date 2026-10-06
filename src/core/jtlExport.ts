@@ -17,7 +17,7 @@
 // THE HEXCAT GUARDRAILS THAT BECAME RULES HERE (memory: hexcat-guardrails): R2 no condition / sealing / newness prose in any
 // text (condition lives only in the Condition profile); R3 the URL path is one '/' and nothing but [a-z0-9-] on either side;
 // R4 Kat-3 is the true part type (AOC is not DAC); R6 a weight is a stored fact or nothing -- never an estimate.
-import { renderValue, formatNumberDe, LIST_SEPARATOR } from "./renderContract.js";
+import { renderValue, renderableValue, formatNumberDe, LIST_SEPARATOR } from "./renderContract.js";
 import { FIELD_DICTIONARY, COLUMN_BACKED, RELATION_BACKED } from "./fieldSchema.js";
 import { shippingClassOf } from "./shippingClass.js";
 
@@ -62,7 +62,9 @@ export function csvFile(profile: JtlProfile, rows: readonly (readonly string[])[
 // ---- THE PART, AS THE EXPORT SEES IT ----------------------------------------------------------------------------------------
 /** `raw` is the stored raw: for a router throughput it carries the printed label ("<label> | <cell>"), which is where the
  *  measurement basis lives (ruling (a), 5 Oct 2026). Optional: no other attribute reads it. */
-export type Fact = { value: unknown; unit: string | null; raw?: string | null };
+export type Fact = { value: unknown; unit: string | null; raw?: string | null;
+  /** facts.truncated (migration 0035): the value is the head of a longer cell -- a list renders without its last member */
+  truncated?: boolean };
 export type PartView = {
   sku: string; name: string | null; nameState: string | null; slug: string; category: string; categoryDe: string;
   kind: string | null; series: string | null; subBrand: string | null;
@@ -78,7 +80,7 @@ const text = (p: PartView, key: string): string | null => {
   const f = p.facts.get(key);
   if (!f) return null;
   const type = (FIELD_DICTIONARY as Record<string, { type?: string } | undefined>)[key]?.type;
-  const r = renderValue(key, f.value, f.unit, type);
+  const r = renderValue(key, renderableValue(f.value, f.truncated), f.unit, type);
   return r.ok ? r.text : null;
 };
 

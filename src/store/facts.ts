@@ -49,10 +49,12 @@ export type FactRow = {
   created_at: Date;
   superseded_by: number | null;
   superseded_at: Date | null;
+  /** migration 0035: the value is the head of a longer cell (see SpecEntry.truncated) */
+  truncated: boolean;
 };
 
 const FACT_COLUMNS = `id, part_id, field_key, value, unit, raw, state, tier, method, doc_id, locator,
-  extracted_at::text AS extracted_at, norm_v, inherited, inherited_from, run_id, created_at, superseded_by, superseded_at`;
+  extracted_at::text AS extracted_at, norm_v, inherited, inherited_from, run_id, created_at, superseded_by, superseded_at, truncated`;
 
 // Derived from src/core/specMerge.ts, not retyped. This set decides that a gap row carries no evidence (insertFact,
 // supersedeFact — so every retraction) and that a real value replaces a gap row instead of being merged with it
@@ -85,6 +87,7 @@ export function rowToEntry(row: FactRow): SpecEntry {
   return {
     k: row.field_key, raw: row.raw, value: row.value ?? undefined, unit: row.unit ?? undefined,
     state: row.state, inherited: row.inherited, inherited_from: row.inherited_from ?? undefined, prov,
+    ...(row.truncated ? { truncated: true } : {}),
   };
 }
 
@@ -151,11 +154,12 @@ async function insertFactRow(client: Queryable, partId: number, e: SpecEntry, ru
   try {
     const r = await client.query<{ id: number; created_at: Date }>(
       `INSERT INTO facts (part_id, field_key, value, unit, raw, state, tier, method, doc_id, locator, extracted_at, norm_v,
-                          inherited, inherited_from, run_id)
-       VALUES ($1, $2, $3::jsonb, $4, $5, $6::fact_state, $7, $8, $9, $10, $11::date, $12, $13, $14, $15)
+                          inherited, inherited_from, run_id, truncated)
+       VALUES ($1, $2, $3::jsonb, $4, $5, $6::fact_state, $7, $8, $9, $10, $11::date, $12, $13, $14, $15, $16)
        RETURNING id, created_at`,
       [partId, e.k, jsonParam(e.value), e.unit ?? null, e.raw, e.state, e.prov.tier, e.prov.method, e.prov.doc_id ?? null,
-        packLocator(e.prov), e.prov.extracted_at ?? null, e.prov.norm_v ?? null, e.inherited === true, e.inherited_from ?? null, runId],
+        packLocator(e.prov), e.prov.extracted_at ?? null, e.prov.norm_v ?? null, e.inherited === true, e.inherited_from ?? null, runId,
+        e.truncated === true],
     );
     return r.rows[0];
   } catch (err) {

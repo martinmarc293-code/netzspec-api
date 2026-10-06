@@ -2,6 +2,7 @@
 // groups, and the shop_ready gate -- every refusal asserted FOR ITS REASON, each beside the positive twin that passes.
 import { BOM, CRLF, JTL_FILES, MAIN_HEADER, SWITCH_GROUP, TRANSCEIVER_GROUP, csvFile, csvField, shopReady, profileRows, kat3, faqCell,
   resolveAttributes, bannedIn, jtlContractProblems, type PartView, type Fact } from "../src/core/jtlExport.js";
+import { renderableValue } from "../src/core/renderContract.js";
 
 let pass = 0, miss = 0, sabotage = 0;
 const check = (what: string, ok: boolean, detail?: unknown): void => {
@@ -162,6 +163,32 @@ sabotage++;
 check("SABOTAGE a label naming no basis ('Maximum throughput') renders nothing either", thr("Maximum throughput | 2 Gbps") === null, thr("Maximum throughput | 2 Gbps"));
 check("POSITIVE the same router with a based throughput is not blocked by it", !shopReady(router("Forwarding (512B) | 1.9 Gbps")).reasons.includes("attribute:System-Durchsatz"),
   shopReady(router("Forwarding (512B) | 1.9 Gbps")).reasons);
+
+// ---- A TRUNCATED LIST RENDERS WITHOUT ITS CUT TAIL (reviewer ruling, 6 Oct 2026 ~18:30) --------------------------------------
+// facts.truncated (migration 0035): the stored list is the head of a cell the extractor cut at 160 characters, so its LAST member
+// may be a stump. "(b) — render the list without its cut tail member ... ISR4451-X/K9 stays ready: a true partial certification
+// list is still a true statement." The members are ISR4451-X/K9's stored certifications (Safety + the cut Telecom cell), shortened.
+const STUMP = "IS6100:2004 DSPR Gray Book:2000 DSPR Technical Condition:";
+const CERTS = ["UL 60950-1 CAN/CSA C22.2 No. 60950-1", "EN 60950-1", "IEC 60950-1", "T1 IC CS-03:2004", STUMP];
+const certRouter = (truncated: boolean | undefined, certs: string[] = CERTS): PartView => {
+  const base = router("Aggregate Throughput (Default) | 1 Gbps");
+  return { ...base, sku: "ISR4451-X/K9", name: "Cisco ISR 4451", series: "4000 ISR",
+    facts: new Map<string, Fact>([...base.facts, ["certifications", { value: certs, unit: null, truncated }]]),
+    required: new Set(["router_throughput", "certifications"]) };
+};
+const certText = (p: PartView) => resolveAttributes(p).find((r) => r.attr.name === "Zertifizierungen")?.value ?? null;
+check("a TRUNCATED certifications list renders WITHOUT its cut tail member, and keeps every member before it",
+  !(certText(certRouter(true)) ?? "").includes("DSPR") && (certText(certRouter(true)) ?? "").includes("T1 IC CS-03:2004"), certText(certRouter(true)));
+check("...and the part stays ready on it: a true partial list is a true statement", !shopReady(certRouter(true)).reasons.includes("attribute:Zertifizierungen"),
+  shopReady(certRouter(true)).reasons);
+check("CONTROL the same list NOT truncated renders whole, the last member included", (certText(certRouter(undefined)) ?? "").includes("DSPR"), certText(certRouter(undefined)));
+sabotage++;
+check("SABOTAGE a ONE-member truncated list renders nothing (its only member is the stump), so a required cup then blocks",
+  certText(certRouter(true, [STUMP])) === null && shopReady(certRouter(true, [STUMP])).reasons.includes("attribute:Zertifizierungen"),
+  [certText(certRouter(true, [STUMP])), shopReady(certRouter(true, [STUMP])).reasons]);
+check("renderableValue drops a list's last member only when truncated, and never touches a scalar",
+  JSON.stringify(renderableValue(["a", "b"], true)) === '["a"]' && JSON.stringify(renderableValue(["a", "b"], false)) === '["a","b"]'
+  && renderableValue(1.5, true) === 1.5 && renderableValue("x", true) === "x");
 
 console.log(`\n    jtl export: ${pass} passed, ${miss} missed (${sabotage} sabotage cases)`);
 if (miss) process.exit(1);

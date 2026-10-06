@@ -136,6 +136,9 @@ export const FactItem = Type.Object({
   text_de_why: Nullable(Type.String({ description: "why text_de is null — an uncovered enum value, a malformed payload, a struct with no renderer" })),
   raw: Type.String(), state: Type.String(), tier: Type.Integer(), method: Type.String(), inherited: Type.Boolean(),
   inherited_from: Nullable(Type.String()), source: FactSource, evidence_count: Type.Integer(),
+  /** migration 0035 (reviewer ruling 6 Oct 2026): the value is the HEAD of a longer cell the extractor cut. `value` and `raw`
+   *  are as read; `text_de` already leaves a truncated list's last member out, because that member may be a stump. */
+  truncated: Type.Boolean({ description: "the value is the head of a longer cell; a list's last member may be cut (text_de omits it)" }),
 });
 export const ImageVariant = Type.Object({
   variant: Type.String(), url: Type.String(), width: Type.Integer(), height: Type.Integer(), bytes: Type.Integer(), format: Type.String(),
