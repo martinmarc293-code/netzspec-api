@@ -608,6 +608,14 @@ for (const sku of ["SG350-10SFP", "WS-C4500X-16SFP+"]) {
   check(`TWIN and componentShape DOES match ${sku}, which is why it may not drive a retraction`,
     componentShape(sku)?.token === "SFP");
 }
+// NEVER_A_FACT (board N54, reviewer 6 Oct 2026): product_compatibility is a RELATION in every category, so the store refuses the
+// string -- for the reason stated, and nothing else is caught by it
+for (const [sku, cat] of [["8800-RP", "routers"], ["HWIC-2SHDSL", "interfaces-modules"], ["UCSC-PSU1-1050W", "servers-unified-computing"]]) {
+  const r = notApplicable({ sku, categorySlug: cat, fieldKey: "product_compatibility" });
+  check(`product_compatibility is never a fact (${cat}): refused as not_a_fact`, r?.rule === "not_a_fact:product_compatibility", JSON.stringify(r));
+}
+check("SABOTAGE the never-a-fact rule catches no other key (weight on 8800-RP is still applicable)",
+  notApplicable({ sku: "8800-RP", categorySlug: "routers", fieldKey: "weight" }) === null);
 check("SABOTAGE an optic filed under `switches` (SFP-10G-SR= really is) is likewise untouched by category",
   notApplicable({ sku: "SFP-10G-SR=", categorySlug: "switches", fieldKey: "supported_transceivers" }) === null,
   "the catalogue puts the same optic in two categories; the rule reaches only the one it can trust");

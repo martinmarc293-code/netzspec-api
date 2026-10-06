@@ -1036,7 +1036,19 @@ export type ApplicabilitySubject = { sku: string; categorySlug?: string | null; 
  * keying on category is exactly what keeps them safe; tests/specMerge.test.ts holds them as
  * sabotage cases so a future shape-based rule cannot land without turning them red.
  */
+/**
+ * Keys that are NEVER a fact, in any category: the answer lives in another structure, so a string under the key is refused at the
+ * store (every pipeline) and withdrawn where it already stands (scripts/retract-not-a-fact.mts). Board N54 (relations_for_components):
+ * "what does this fit" is a RELATION -- the 14 strings run 1514 wrote ("8804, 8808, 8812, 8818", "Cisco IOS XE based platforms ...")
+ * turned the board red; reviewer 6 Oct 2026 ~21:40: clear "the 14 prose facts".
+ */
+export const NEVER_A_FACT: ReadonlyMap<string, string> = new Map([
+  ["product_compatibility", "compatibility is a RELATION (board N54): a string cannot be filtered, compared or rendered"],
+]);
+
 export function notApplicable(s: ApplicabilitySubject): { rule: string; reason: string } | null {
+  const never = NEVER_A_FACT.get(s.fieldKey);
+  if (never) return { rule: `not_a_fact:${s.fieldKey}`, reason: `FIELD_NOT_A_FACT: ${s.fieldKey} on ${s.sku} -- ${never}` };
   const why = NONSENSICAL_PAIRS.get(`${s.categorySlug}/${s.fieldKey}`);
   if (!why) return null;
   return {

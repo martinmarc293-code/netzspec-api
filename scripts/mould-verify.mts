@@ -342,6 +342,8 @@ const RUN_KIND_CLASS: Record<string, { approval: boolean; gate: boolean }> = {
   "inherit-bundle-chassis": AG,
   // reviewer 6 Oct 2026 FLAG 1: the weight/power facts (b) put on module bundles (AXV, HSEC+) are retracted (approval + gate)
   "retract-bundle-module-facts": AG,
+  // reviewer 6 Oct 2026 ~21:40 (board N54): served facts under a key that is never a fact (product_compatibility) are withdrawn
+  "retract-not-a-fact": AG,
   // reviewer 6 Oct 2026 FLAG 3: a cup Cisco does not publish for a part, recorded gap_confirmed with the sources checked
   "record-not-published": A,
   // ruling (B), 30 Sep 2026: stackable from a sub-series row's stated stacking bandwidth (every witness cell re-read)
