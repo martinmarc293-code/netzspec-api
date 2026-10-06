@@ -419,6 +419,18 @@ HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). R
   -- a stray qualifier naming 4431-DC in the column headed "Cisco 4331/ 4331-DC"; the DC row is garbled across the sheet
   (4451/4431/4351 DC cells all 28.8 lb / 13.1 kg, the 4431's AC chassis is 8.4 kg), no 4431-DC PID exists; 6.2 kg stays the
   4331-DC's (its column, equal to its AC sibling). Plan: data/dryrun/resolve-weight-config-supersede-2026-10-06T160140644Z.tsv.
+- 6 Oct ~16:20 UTC (c) DONE (committed, not yet on the box): listShapes GRAMMAR_6OCT -- Frame Relay, static routes, EIA-232/449/
+  530/530A, V.35, X.21 (supported_protocols), T1 IC CS-03:2004 (certifications), whole members only; RESIDUE_6OCT stays
+  unclassified with causes: Border Gateway (160 cap on the comma-delimited Protocols cell), RIP Versions 1 / 2 (RIP and RIPv2)
+  (splitter cut). All-vendor before/after: only cisco unclassified->accept 133 + 4; cisco unclassified 3,195->3,062 (ceiling
+  3,097), 1,926->1,922 (= ceiling) -> ratchet GREEN, ceiling untouched (record-shape-ceiling at the rebuild lowers it to 3,062).
+  No stored value moves (reshapeList keeps unclassified and accepted alike), NORM 1.8.8 unchanged, contract 201b779a47640e74
+  unchanged. listShapes 75/0; sabotage 1/8/1 red; restored by md5. Decision: docs/decisions/2026-10-06-list-grammar-isr4000-members.md.
+  FINDING TO REPORT: the extractor caps comma-delimited list cells at 160 (_is_list_cell = 2 bullets or 2 standards prefixes)
+  -> every router Protocols/Encapsulations row is cut (ISR 4000: BGP..PPPoE past char 160); 'Multilink' (cut tail) is ACCEPTED
+  by the loose token rule. Fix = the extractor's list test, a gate contract change -> ASK. arrangementFreeze is red on the alias
+  file since f0a0bd1 (5 Oct Safety rows, after the 0f27a12 freeze) -- pre-existing, the rebuild (d) regenerates it.
+  NEXT (d): rebuild at HEAD on the box, pull, contract/stamp ONE BUILD, freeze, suites, commit, deploy, board, STOP.
 - CLOSING RUN READY (not committed): scripts/resolve-weight-config-conflicts.mts + board class A (local, uncommitted);
   dry on the box: 72 open router weight conflicts, resolve 44 (ISR 4000 + 3 8800 chassis-only kept), held 28 (8804/8808/
   8812-SYS where the KEPT side is 'Weight (full system)' -- needs a supersede to the chassis-only value, not a close).

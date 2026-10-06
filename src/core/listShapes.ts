@@ -247,7 +247,10 @@ export function extractIdentifier(key: string, member: string): string | null {
     if (named) return named[0];
     const par = PROTOCOL_PARENTHETICAL.exec(m);
     if (par) return par[1];
+    // RULING (c), 6 Oct 2026 (GRAMMAR_6OCT): whole members only, and only where everything above found nothing
+    if (PROTOCOL_NAMED_6OCT.test(m) || SERIAL_STANDARD_6OCT.test(m)) return m;
   }
+  if (key === "certifications" && CERT_IC_CS03_6OCT.test(m)) return m;
   return null;
 }
 
@@ -272,6 +275,42 @@ export const PROTOCOL_GRAMMAR_Q10: readonly { rule: string; witness: string; sku
   { rule: "PROTOCOL_NAMES", witness: "PIM-SSM IGMPv3", sku: "N540-24Q2C2DD-SYS" },
   { rule: "PROTOCOL_PARENTHETICAL", witness: "Automatic Rendezvous Point (Auto-RP)", sku: "N3K-BAS1K9" },
   { rule: "PROTOCOL_PARENTHETICAL", witness: "Simple Network Management Protocol (SNMP) v3", sku: "RV130-K9-AU" },
+];
+
+// ---- RULING (c), 6 Oct 2026 (reviewer: "CLASSIFY, DON'T RAISE THE CEILING: ... real identifiers -> extend the grammar,
+// junk -> refuse; the ceiling moves only if a residue remains with a named reason") --------------------------------------------
+// Run 1495 (the ISR 4000 sheet c78-732542 and its serial NIMs) grew the cisco unclassified ratchet by 98 supported_protocols and
+// 4 certifications member-occurrences. Read in full: 54 are real identifiers this grammar could not read -- a WAN protocol and a
+// routing method a router sheet names in words, the EIA/TIA serial standards and the ITU-T V-/X-series written without "ITU-T",
+// Industry Canada's telecom terminal standard. The other 48 are residue and STAY unclassified, with their causes named:
+// "Border Gateway" (16) is the 160-character cap cutting "Border Gateway Protocol (BGP)" -- the Protocols row is comma-delimited,
+// so the extractor's list test (two bullets, or two standards prefixes) reads it as a scalar and keeps 160 of ~800 characters;
+// "Routing Information Protocol Versions 1" and "2 (RIP and RIPv2)" (16 each) are the splitter's cut through "Versions 1 and 2".
+// WHOLE-MEMBER rules, so nothing with a description after it changes answer: a member these accept was UNCLASSIFIED, which
+// reshapeList keeps exactly as it keeps an accepted one -- no stored value moves and NORM_VERSION does not change (measured
+// before/after over every vendor's stored members: every flip is unclassified -> accept).
+/** A WAN protocol and a routing method that router sheets list by name, never by acronym. */
+const PROTOCOL_NAMED_6OCT = /^(?:Frame Relay|static routes)$/;
+/** EIA/TIA-232, -449, -530, -530A, and the ITU-T V- and X-series as serial NIM sheets write them ("V.35", "X.21"). */
+const SERIAL_STANDARD_6OCT = /^(?:(?:EIA|TIA)(?:\/(?:EIA|TIA))?-[0-9]{3}[A-Z]?|[VX]\.[0-9]{1,3})$/;
+/** Industry Canada CS-03, with the interface the router sheet declares it for. */
+const CERT_IC_CS03_6OCT = /^(?:T1 )?IC CS-03(?::(?:19|20)[0-9]{2})?$/;
+export const GRAMMAR_6OCT: readonly { key: string; rule: string; witness: string; sku: string }[] = [
+  { key: "supported_protocols", rule: "PROTOCOL_NAMED_6OCT", witness: "Frame Relay", sku: "ISR4461/K9" },
+  { key: "supported_protocols", rule: "PROTOCOL_NAMED_6OCT", witness: "static routes", sku: "ISR4461/K9" },
+  { key: "supported_protocols", rule: "SERIAL_STANDARD_6OCT", witness: "EIA-232", sku: "NIM-2T" },
+  { key: "supported_protocols", rule: "SERIAL_STANDARD_6OCT", witness: "EIA-449", sku: "NIM-2T" },
+  { key: "supported_protocols", rule: "SERIAL_STANDARD_6OCT", witness: "EIA-530", sku: "NIM-2T" },
+  { key: "supported_protocols", rule: "SERIAL_STANDARD_6OCT", witness: "EIA-530A", sku: "NIM-2T" },
+  { key: "supported_protocols", rule: "SERIAL_STANDARD_6OCT", witness: "V.35", sku: "NIM-2T" },
+  { key: "supported_protocols", rule: "SERIAL_STANDARD_6OCT", witness: "X.21", sku: "NIM-2T" },
+  { key: "certifications", rule: "CERT_IC_CS03_6OCT", witness: "T1 IC CS-03:2004", sku: "ISR4461/K9" },
+];
+/** The 6 Oct residue, left unclassified on purpose (see above); the suite holds it there. */
+export const RESIDUE_6OCT: readonly { key: string; member: string; cause: string }[] = [
+  { key: "supported_protocols", member: "Border Gateway", cause: "160-character cap on a comma-delimited Protocols cell" },
+  { key: "supported_protocols", member: "Routing Information Protocol Versions 1", cause: "splitter cut through 'Versions 1 and 2'" },
+  { key: "supported_protocols", member: "2 (RIP and RIPv2)", cause: "splitter cut through 'Versions 1 and 2'" },
 ];
 
 /** Which of the three populations a stored member belongs to. Order matters and is stated: a known
