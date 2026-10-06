@@ -356,6 +356,13 @@ const Q17_READ: readonly (readonly [category: string, kind: string, cup: string,
  * so by the Q17 R4 rule the kind's set is what was wrong: a physical module has a weight. Optional, never required.
  * witness = the triage's (the SKU with the most such facts, ties by SKU); held = the part-cups measured.
  */
+// ROUTERS (operator order 5 Oct 2026), the 6 Oct board's four_sets_sum VETO: the ISR 4000 sheet (c78-732542, run 1495) prints
+// 'Airflow' and the memory maximum per model, so 16 live routers hold OWN facts under two cups the router kind's derivation
+// marked na -- "the kind's set is wrong, never the fact". Both join the kind's declared OPTIONAL set (never required).
+const ROUTERS_6OCT: readonly (readonly [category: string, kind: string, cup: string, witness: string, held: number])[] = [
+  ["routers", "router", "airflow", "ISR4221/K9", 16],
+  ["routers", "router", "memory_max", "ISR4221/K9", 16],
+];
 const Q24_R4: readonly (readonly [category: string, kind: string, cup: string, witness: string, held: number])[] = [
   ["optical-networking", "amplifier", "weight", "15454-OPT-AMP-C=", 2],
   ["optical-networking", "controller", "weight", "NCS1K-OTDR=", 2],
@@ -368,7 +375,7 @@ const Q24_R4: readonly (readonly [category: string, kind: string, cup: string, w
 export const KIND_DECLARED_OPTIONAL: Readonly<Record<string, Readonly<Record<string, readonly { cup: string; witness: string; held: number }[]>>>> = (() => {
   const out: Record<string, Record<string, { cup: string; witness: string; held: number }[]>> = {};
   for (const [cat, kinds] of Object.entries(HAND_DECLARED_OPTIONAL)) for (const [kind, es] of Object.entries(kinds)) ((out[cat] ??= {})[kind] ??= []).push(...es);
-  for (const [cat, kind, cup, witness, held] of [...Q17_R4, ...Q17_READ, ...Q24_R4]) {
+  for (const [cat, kind, cup, witness, held] of [...Q17_R4, ...Q17_READ, ...Q24_R4, ...ROUTERS_6OCT]) {
     const list = ((out[cat] ??= {})[kind] ??= []);
     if (list.some((e) => e.cup === cup)) throw new Error(`KIND_DECLARED_OPTIONAL: ${cat}/${kind} ${cup} declared twice`);
     list.push({ cup, witness, held });
