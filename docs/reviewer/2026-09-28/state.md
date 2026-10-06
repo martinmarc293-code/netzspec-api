@@ -385,6 +385,12 @@ HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). R
   rfc_compliance 102, wireless...; routers ~50: certifications 23, weight 13, cable_length 13) -> NOT in scope/approval.
   NEXT: add a --category filter to scripts/reconcile-conflict-states.mts (parts join on categories.slug), run it dry then
   --commit for --category routers only; report the non-router drift to the reviewer as a finding (not acted on).
+- 6 Oct ~07:45: RUN 1502 reconcile-conflict-states --category routers (new flag, a5... deployed): 64 states (51 conflict->
+  verified, 13 -> corroborated). ROUTER READY MOVED: ISR4221/K9, ISR4221X/K9, ISR4321/K9, ISR4331/K9, ISR4351/K9,
+  ISR4431/K9, ISR4451-X/K9 READY. Not: ISR4331-DC/K9 (weight conflict still open: base row kept on a DC variant -> held
+  by the closing tool; needs the DC value as the current fact = a supersede, ask), ISR4461/K9 (no weight printed).
+  NEXT: scoped scorecard + report; then set-series (scan 3900 for 43xx/44xx first), classify +98/+4 members, rebuild,
+  board, clear STOP after the reviewer's answer.
 - CLOSING RUN READY (not committed): scripts/resolve-weight-config-conflicts.mts + board class A (local, uncommitted);
   dry on the box: 72 open router weight conflicts, resolve 44 (ISR 4000 + 3 8800 chassis-only kept), held 28 (8804/8808/
   8812-SYS where the KEPT side is 'Weight (full system)' -- needs a supersede to the chassis-only value, not a close).
