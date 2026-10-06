@@ -29,7 +29,7 @@ import { createHash } from "node:crypto";
 import { fileURLToPath } from "node:url";
 import { execFileSync } from "node:child_process";
 import { getPool, closePool, withRun, withTx } from "../src/store/index.js";
-import { applyMerge } from "../src/store/facts.js";
+import { applyMerge, retractFact } from "../src/store/facts.js";
 import { cachedText, CACHE_DIR, ws } from "../src/pipeline/apply-acquired.js";
 import { planFile as planFileAt } from "../src/core/planFile.js";
 import type { SpecEntry, FieldState } from "../src/core/specMerge.js";
@@ -49,6 +49,27 @@ export const PHYSICAL = new Set([
 ]);
 /** Licence affixes: each sells software on the same box. Anything else in a SKU is hardware and is never stripped. */
 const LICENCE_AFFIX = /-(?:SEC|AXV|AX|HSEC\+?)(?=\/K9$|-K9$|$)/;
+/** Bundles that carry a module INSIDE the chassis (reviewer, 6 Oct ~21:20, correcting (b) on its premise): AXV ships a PVDM4 DSP
+ *  ("ISR 4331 AXV Bundle, PVDM4-32 ..."), HSEC+ a VPN ISM module ("VPN ISM module HSEC bundles ..."; HSEC without + says "no ISM
+ *  VPN module"). "Their module makes them a different physical object. Keep dimensions, environment, certifications." */
+export const MODULE_AFFIX = new Set(["AXV", "HSEC+"]);
+export const MODULE_SENSITIVE = new Set(["weight", "power_typical", "power_max", "power_max_dc", "input_current", "mtbf"]);
+/** "SEC/AX bundles inherit router_throughput: the stated value is the standard-licence throughput, and a technology package
+ *  doesn't change it. AXV excluded." (reviewer, 6 Oct ~21:20) */
+export const THROUGHPUT_AFFIX = new Set(["SEC", "AX"]);
+/** The licence affix a bundle SKU carries ("SEC", "AX", "AXV", "HSEC", "HSEC+"), or null (a C1- prefix alone, or no bundle). */
+export function bundleAffix(sku: string): string | null {
+  const m = LICENCE_AFFIX.exec(sku.toUpperCase().replace(/^C1-/, ""));
+  return m ? m[0].slice(1) : null;
+}
+/** The keys a bundle takes from its base: the physical set, minus weight and power where a module sits inside, plus the
+ *  standard-licence throughput where the affix is a technology package. */
+export function keysFor(sku: string): Set<string> {
+  const a = bundleAffix(sku);
+  const keys = new Set([...PHYSICAL].filter((k) => !(a && MODULE_AFFIX.has(a) && MODULE_SENSITIVE.has(k))));
+  if (a && THROUGHPUT_AFFIX.has(a)) keys.add("router_throughput");
+  return keys;
+}
 
 /** The base chassis SKU a licence bundle names, or null when the SKU carries no licence affix at all. */
 export function bundleBase(sku: string): string | null {
@@ -85,7 +106,8 @@ async function plan(): Promise<{ plans: Plan[]; refused: string[]; bundles: numb
   const held = new Set(facts.map((f) => `${f.part_id}|${f.key}`));
   const plans: Plan[] = [];
   for (const { v, m } of ok) {
-    for (const f of facts.filter((x) => x.part_id === m!.id && PHYSICAL.has(x.key) && ["verified", "corroborated"].includes(x.state))) {
+    const keys = keysFor(v.sku);
+    for (const f of facts.filter((x) => x.part_id === m!.id && keys.has(x.key) && ["verified", "corroborated"].includes(x.state))) {
       if (held.has(`${v.id}|${f.key}`)) continue;
       if (!f.doc_id || f.method.startsWith("derived:")) { refused.push(`${v.sku} ${f.key}: the base's fact is ${f.method} with ${f.doc_id ? "a" : "no"} document -- only a read is copied`); continue; }
       plans.push({ vId: v.id, vSku: v.sku, m: f });
@@ -93,6 +115,44 @@ async function plan(): Promise<{ plans: Plan[]; refused: string[]; bundles: numb
   }
   plans.sort((a, b) => a.vSku.localeCompare(b.vSku) || a.m.key.localeCompare(b.m.key));
   return { plans, refused, bundles: ok.length };
+}
+
+// ---- RETRACT MODE (reviewer, 6 Oct ~21:20, FLAG 1): withdraw what this writer put on a MODULE bundle's weight and power keys
+// before the module affixes were known (run 1517). keysFor() never plans those keys again, so the retraction stays retracted.
+if (process.argv.includes("--retract-module")) {
+  const sel = (await db.query<{ id: string; sku: string; key: string; inherited: boolean }>(`
+    SELECT f.id::text, p.sku, f.field_key AS key, f.inherited FROM facts f JOIN parts p ON p.id = f.part_id
+      JOIN categories c ON c.id = p.category_id JOIN runs r ON r.id = f.run_id
+     WHERE c.slug = $1 AND p.retired_at IS NULL AND f.superseded_by IS NULL AND f.method NOT LIKE 'retracted:%'
+       AND r.kind = 'inherit-bundle-chassis' AND f.field_key = ANY($2::text[])`, [CATEGORY, [...MODULE_SENSITIVE]])).rows
+    .filter((f) => MODULE_AFFIX.has(bundleAffix(f.sku) ?? ""));
+  // gate: precision = each selected fact re-checked by the rule's own predicates; recall = an INDEPENDENT count by SKU pattern
+  const ok = sel.filter((f) => f.inherited && MODULE_SENSITIVE.has(f.key) && MODULE_AFFIX.has(bundleAffix(f.sku) ?? "")).length;
+  const counted = (await db.query<{ n: number }>(`
+    SELECT count(*)::int AS n FROM facts f JOIN parts p ON p.id = f.part_id JOIN categories c ON c.id = p.category_id JOIN runs r ON r.id = f.run_id
+     WHERE c.slug = $1 AND p.retired_at IS NULL AND f.superseded_by IS NULL AND f.method NOT LIKE 'retracted:%' AND r.kind = 'inherit-bundle-chassis'
+       AND f.field_key = ANY($2::text[]) AND (upper(p.sku) LIKE '%-AXV/K9' OR upper(p.sku) LIKE '%-HSEC+/K9')`, [CATEGORY, [...MODULE_SENSITIVE]])).rows[0].n;
+  const hi = Math.max(counted, sel.length);
+  const rgate = { method: "each fact re-checked (inherited, module affix, weight/power key, written by inherit-bundle-chassis); recall = an independent SKU-pattern count",
+    sampled: sel.length, checked: sel.length, unreadable: 0, precision: sel.length ? ok / sel.length : 1, recall: hi ? Math.min(counted, sel.length) / hi : 1,
+    passed: ok === sel.length && counted === sel.length, counted };
+  const bySku: Record<string, string[]> = {};
+  for (const f of sel) (bySku[f.sku] ??= []).push(f.key);
+  console.log(`retract-module (${CATEGORY}): ${sel.length} facts on ${Object.keys(bySku).length} module bundles; gate ${JSON.stringify(rgate)}`);
+  for (const [s, ks] of Object.entries(bySku)) console.log(`  ${s.padEnd(20)} ${ks.sort().join(", ")}`);
+  if (!rgate.passed) { console.error("GATE FAILED, nothing retracted"); await closePool(); process.exit(2); }
+  if (!commit) { console.log("DRY RUN: nothing retracted. Re-run with --commit."); await closePool(); process.exit(0); }
+  let rsha: string | undefined = process.env.GIT_SHA;
+  if (!rsha) try { rsha = execFileSync("git", ["rev-parse", "HEAD"], { cwd: ROOT, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }).trim(); } catch { rsha = undefined; }
+  const rout = await withRun("retract-bundle-module-facts", { category: CATEGORY, fact_ids: sel.map((f) => f.id), by_sku: bySku,
+    approved: "reviewer 6 Oct 2026 ~21:20, FLAG 1: approve -- retract the six physical-power/weight facts on the 11 AXV/HSEC+ bundles; their module makes them a different physical object. Keep dimensions, environment, certifications. HSEC (no +) stays." },
+    async (runId) => withTx(async (client) => {
+      for (const f of sel) await retractFact(client, Number(f.id), "bundle-module-not-chassis", runId);
+      return { stats: { retracted: sel.length, bundles: Object.keys(bySku).length }, gate: rgate };
+    }), { gitSha: rsha });
+  console.log(`COMMITTED run ${rout.runId}: retracted ${sel.length} facts on ${Object.keys(bySku).length} bundles`);
+  await closePool();
+  process.exit(0);
 }
 
 const { plans, refused, bundles } = await plan();

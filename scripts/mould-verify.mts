@@ -338,6 +338,10 @@ const RUN_KIND_CLASS: Record<string, { approval: boolean; gate: boolean }> = {
   // reviewer ruling 6 Oct 2026 (b): a licence bundle (-SEC/-AX/-AXV/-HSEC/C1-) takes its base chassis's physical facts (inherited;
   // approval + a gate that re-reads each base fact on its page)
   "inherit-bundle-chassis": AG,
+  // reviewer 6 Oct 2026 FLAG 1: the weight/power facts (b) put on module bundles (AXV, HSEC+) are retracted (approval + gate)
+  "retract-bundle-module-facts": AG,
+  // reviewer 6 Oct 2026 FLAG 3: a cup Cisco does not publish for a part, recorded gap_confirmed with the sources checked
+  "record-not-published": A,
   // ruling (B), 30 Sep 2026: stackable from a sub-series row's stated stacking bandwidth (every witness cell re-read)
   "derive-stackable-from-bandwidth": G,
   // FINAL FILL ORDER item 4 (30 Sep 2026): Versandgewicht for small components from the shipping-class table (derives from a table)
