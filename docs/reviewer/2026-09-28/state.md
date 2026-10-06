@@ -572,6 +572,43 @@ HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). R
   7,228 -> 7,228, fewer on 0. FACT-weighted ratchet forecast (scripts/q2-ratchet-forecast.mts): certifications +20 -> four members ->
   CERT_FRONT_6OCT_B + the 'Designed to meet' lead-in (guarded) -> certifications net 0, protocols net +4; cisco 2,940 / 1,855 vs
   ceilings 3,062 / 1,922. ASK THE REVIEWER: commit with --allow-regression "<the isolation numbers>"?
+- VERDICT ~19:10 on the 4461 (verbatim): "Fetch that one chapter — one request, and it's the last Cisco place the number could be.
+  Add it to --only-urls explicitly as a recorded one-off, not by widening the chapter rule. If it has no weight for the 4461, record
+  it not published with the three sources checked (datasheet HTML, datasheet PDF, guide Overview + Preinstallation) as the reason;
+  the shipping class then carries it, and it waits honestly. ... "PDF adds nothing" and "PDF unreadable" as separate numbers in the
+  sample."
+- VERDICT ~19:15 on the re-apply (verbatim): "Yes — commit with that --allow-regression reason. The isolation proves (A) itself costs
+  nothing; the regression is the old baselines predating the store refusals. Two things in the same batch: Re-baseline — after the
+  commit, the regression guard for these 127 documents compares against this run, so the next check measures today's rules against
+  today's rules. Check what's still served from the old plan: facts from those 127 documents that today's refusals would reject but
+  that are still current (an apply doesn't retract what it no longer produces). Count them; if any, they get the usual dry
+  retraction plan with a sample — they're the same class as the 13,367 we already retracted, just not reached by the earlier
+  selectors. Then board and the report."
+  ORDER NOW: (1) commit the router re-apply (allow-regression reason) on the box; (2) confirm the re-baseline (previousPerDoc now
+  reads this run for the 127); (3) count still-current facts from those docs that today's refusals reject -> dry retraction plan
+  + sample; (4) board + report with scorecard; (5) the 4461 Preinstallation chapter as a recorded one-off.
+- DONE ~19:00 UTC: (1) run 1514 committed (gate PASS, regressions allowed with the reason); (2) re-baseline confirmed (the last
+  succeeded run per doc is now 1514, e.g. 585ea334 produced 2); router ready 213. (3) COUNTED (scripts/count-stale-refused-facts.mts,
+  plan data/dryrun/count-stale-refused-facts-2026-10-06-dry.tsv): 127 docs -> 4,940 current served facts; today's store rules refuse
+  1,136 on 288 parts = family:mismatch 1,095, class:software 35, subject:not-judged 4, family:unknown 2. NOT the 13,367's class --
+  that was the SUBJECT gate (run 1469); these are the FAMILY rule, which had never had a row-level read.
+- FINDING, retraction HELD for a ruling: the family rule judges the part against the document's URL FOLDER (inherited_from), not
+  the document. Cisco files many sheets under one folder: '887-integrated-services-router-isr' holds the 880 Series sheet,
+  '800-series-routers' the 812/819/860/880G-890G/890 sheets, 'nexus-9000-series-switches' the N9200/N9300 sheets,
+  'network-convergence-system-500-series-routers' the NCS 540 sheets; "1000 Series ISR" are models C11xx; and the model-token
+  compare misses glued prefixes (IR809G/809, N9300/9300, ir1800/1800) and variants (RV160W/rv160). Read: 40 groups + a 30-row
+  spread sample (29/30 a router or switch reading its own sheet). Of 1,095: ~1,060 wrong refusals; right: UCS-E modules under the
+  8300 sheet (24), A900-CM-GNSS under the RSP4 sheet (2), junk part '3G/4G' (7, right outcome wrong reason); unsure: C8500L-8S4X
+  under the 8500 sheet (2). The plan as specified would retract ~1,060 correct facts.
+- AT APPLY TIME (scripts/family-refusals-in-plan.mts on /tmp/rt-A-html.json; data/dryrun/family-refusals-run1514-plan-2026-10-06.*):
+  family refusals 5,797, routers 3,890 (2,386 on a key the part holds nothing for, 1,250 of them req|cond). The rule is ALSO the
+  accidental accessory filter: ANT-*, PWR2-*, PSU*, RCKMT-*, ACS-810-*, PANEL-3G-*, CABLE-16TDM-*, M2USB/SSD/HDD, IRM-* are
+  refused only because their tokens miss the folder. 'folder OR title' admits real routers AND ANT-4G-* (via the title's "4G") --
+  unsafe alone; a fix needs a KIND gate (parts.sku_kind) for accessories + title evidence + prefix handling, measured all-vendor.
+- READINESS (scripts/family-refusals-readiness.mts, data/dryrun/family-refusals-readiness-2026-10-06.out): category routers in the
+  export 5,127 parts, ready 213; KIND router 1,293, ready 14 (weight 1,245, Zertifizierungen 1,000, attributes:none 980, faq<3
+  977, System-Durchsatz 355, name 258). Lifting every family refusal: 58 not-ready parts gain >=1 attribute, 0 become ready.
+  The family rule is a correctness issue, not today's readiness lever; WEIGHT on kind router is.
 - CLOSING RUN READY (not committed): scripts/resolve-weight-config-conflicts.mts + board class A (local, uncommitted);
   dry on the box: 72 open router weight conflicts, resolve 44 (ISR 4000 + 3 8800 chassis-only kept), held 28 (8804/8808/
   8812-SYS where the KEPT side is 'Weight (full system)' -- needs a supersede to the chassis-only value, not a close).

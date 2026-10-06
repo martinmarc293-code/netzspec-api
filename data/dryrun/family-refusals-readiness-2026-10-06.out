@@ -1,0 +1,25 @@
+routers in the export 5127; ready 213; not ready 4914
+not-ready reasons: {"weight":4084,"attributes:none":4044,"faq<3":4005,"attribute:Zertifizierungen":1383,"attribute:Port-Bestückung":1085,"attribute:Leistungsaufnahme (max.)":1083,"attribute:Eingangsspannung":647,"name":566,"attribute:Luftstromrichtung":543,"attribute:Datenrate":541,"attribute:Montage":513,"attribute:Betriebstemperatur":436,"attribute:Rel. Luftfeuchtigkeit (Betrieb)":408,"attribute:Lagertemperatur":406,"attribute:Max. Betriebshöhe":402,"attribute:System-Durchsatz":355,"attribute:Nennausgangsleistung":307,"attribute:Arbeitsspeicher":297,"attribute:Anschlusstyp":259,"attribute:Bauform":189,"attribute:Gewicht":187,"attribute:Abmessungen (H×B×T)":181,"attribute:Netzteil-Konfiguration":163,"attribute:Kabellänge":159,"attribute:Maximale DIMM-Taktrate":154,"attribute:Höheneinheiten":153,"attribute:Modulslots":97,"attribute:Antennenanschluss":88,"attribute:Frequenzbänder":88,"attribute:Laufwerksanbindung":88,"attribute:Onboard-Speicher":85,"attribute:Bandbreite der Switch-Fabric-Anbindung":81,"attribute:Flash-Speicher":25}
+not-ready parts with >=1 missing attribute a family-refused entry would fill: 58; every reason covered (would be ready): 0; covered except faq<3/attributes:none: 2
+refused not-ready parts by kind: {"module":{"parts":53,"refusedKeys":309},"antenna":{"parts":25,"refusedKeys":222},"mechanical":{"parts":42,"refusedKeys":132},"accessory":{"parts":20,"refusedKeys":81},"power":{"parts":27,"refusedKeys":201},"processor":{"parts":7,"refusedKeys":16},"bundle":{"parts":2,"refusedKeys":2},"router":{"parts":241,"refusedKeys":1224},"appliance":{"parts":5,"refusedKeys":5},"cable":{"parts":21,"refusedKeys":57},"linecard":{"parts":38,"refusedKeys":226},"chassis":{"parts":3,"refusedKeys":9},"drive":{"parts":21,"refusedKeys":73},"power-cord":{"parts":1,"refusedKeys":10},"memory":{"parts":24,"refusedKeys":56},"sp-router":{"parts":26,"refusedKeys":200},"fan":{"parts":1,"refusedKeys":12}}
+  NEAR IRM-1800-M12KIT [mechanical] attribute:Montage | left: attributes:none,faq<3
+  NEAR IRM-1800-M12KIT= [mechanical] attribute:Montage | left: attributes:none,faq<3
+KIND router       1293 ready 14  top: weight=1245 attribute:Zertifizierungen=1000 attributes:none=980 faq<3=977 attribute:System-Durchsatz=355 name=258
+KIND mechanical   665 ready 152  top: attribute:Montage=513 attributes:none=513 faq<3=513
+KIND linecard     541 ready 0  top: attribute:Datenrate=541 attribute:Leistungsaufnahme (max.)=541 weight=533 attribute:Port-Bestückung=490 attributes:none=490 faq<3=482
+KIND power        385 ready 0  top: weight=385 attribute:Luftstromrichtung=379 attribute:Eingangsspannung=372 attribute:Nennausgangsleistung=307 attributes:none=305 faq<3=305
+KIND module       352 ready 0  top: weight=339 attribute:Port-Bestückung=320 attributes:none=320 faq<3=307 name=19
+KIND sp-router    275 ready 0  top: attribute:Eingangsspannung=275 attribute:Leistungsaufnahme (max.)=275 weight=275 attribute:Betriebstemperatur=253 attribute:Lagertemperatur=250 attribute:Port-Bestückung=249
+KIND cable        259 ready 0  top: attribute:Anschlusstyp=259 weight=259 attribute:Kabellänge=96 attributes:none=96 faq<3=96 name=32
+KIND processor    215 ready 2  top: weight=212 attribute:Arbeitsspeicher=206 attributes:none=206 faq<3=206 name=11
+KIND fan          183 ready 19  top: attribute:Luftstromrichtung=164 attributes:none=164 faq<3=156 name=19
+KIND chassis      163 ready 0  top: attribute:Bauform=163 attribute:Betriebstemperatur=163 attribute:Leistungsaufnahme (max.)=163 attribute:Max. Betriebshöhe=163 attribute:Netzteil-Konfiguration=163 attribute:Gewicht=162
+KIND accessory    157 ready 0  top: attributes:none=157 weight=157 faq<3=157 name=74
+KIND memory       154 ready 0  top: attribute:Maximale DIMM-Taktrate=154 weight=154 attribute:Arbeitsspeicher=91 attributes:none=91 faq<3=91 name=3
+KIND bundle       88 ready 0  top: attributes:none=88 weight=88 faq<3=88
+KIND antenna      88 ready 0  top: attribute:Antennenanschluss=88 attribute:Frequenzbänder=88 attributes:none=88 weight=88 faq<3=88 name=37
+KIND drive        88 ready 0  top: attribute:Laufwerksanbindung=88 weight=88 attribute:Onboard-Speicher=85 attributes:none=85 faq<3=85 name=9
+KIND fabric       81 ready 0  top: attribute:Bandbreite der Switch-Fabric-Anbindung=81 attribute:Leistungsaufnahme (max.)=81 attributes:none=81 weight=74 faq<3=74 name=5
+KIND power-cord   76 ready 13  top: attribute:Kabellänge=63 attributes:none=63 faq<3=63 name=6
+KIND flash        38 ready 13  top: attribute:Flash-Speicher=25 attributes:none=25 faq<3=25 name=1
+KIND appliance    26 ready 0  top: attribute:Bauform=26 attribute:Port-Bestückung=26 attribute:Gewicht=25 weight=25 attribute:Leistungsaufnahme (max.)=23 attribute:Abmessungen (H×B×T)=22
