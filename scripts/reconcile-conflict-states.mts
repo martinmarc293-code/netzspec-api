@@ -22,6 +22,9 @@ import { planFile } from "../src/core/planFile.js";
 
 const arg = (n: string): string | undefined => { const i = process.argv.indexOf(n); return i >= 0 ? process.argv[i + 1] : undefined; };
 const vendor = arg("--vendor"), commit = process.argv.includes("--commit"), evidence = process.argv.includes("--evidence");
+// --category <slug> (6 Oct 2026, routers-only order): reconcile ONE category. A vendor-wide run on 6 Oct would have moved 500
+// states, ~450 of them other categories' pre-existing drift that no ruling of the day covered. Absent = the whole vendor, as before.
+const category = arg("--category") ?? null;
 if (!vendor) { console.error("usage: reconcile-conflict-states.mts --vendor <slug> [--commit]"); process.exit(2); }
 
 const VERDICT = `CASE
@@ -32,8 +35,8 @@ const VERDICT = `CASE
 const db = getPool();
 const facts = (await db.query<{ id: string; tier: number; was: string; now: string }>(
   `SELECT f.id::text AS id, f.tier, f.state::text AS was, (${VERDICT})::text AS now
-     FROM facts f JOIN parts p ON p.id = f.part_id JOIN vendors v ON v.id = p.vendor_id
-    WHERE v.slug = $1 AND f.superseded_by IS NULL AND f.state IN ('conflict', 'verified', 'corroborated')`, [vendor])).rows
+     FROM facts f JOIN parts p ON p.id = f.part_id JOIN vendors v ON v.id = p.vendor_id JOIN categories cc ON cc.id = p.category_id
+    WHERE v.slug = $1 AND ($2::text IS NULL OR cc.slug = $2) AND f.superseded_by IS NULL AND f.state IN ('conflict', 'verified', 'corroborated')`, [vendor, category])).rows
   .filter((r) => r.was !== r.now);
 // Into or out of `conflict`, tier 0 included: "tier 0 protects against overwrite, not against disclosure" (reviewer
 // ruling, 29 Sep 2026) -- the STATE moves, value and tier never do. With --evidence (after backfill-evidence-chain.mts
@@ -50,11 +53,11 @@ for (const r of facts) {
 const orphans = (await db.query<{ id: string; by: string | null }>(
   `SELECT k.id::text AS id,
           (SELECT f.run_id::text FROM facts f WHERE f.part_id = k.part_id AND f.field_key = k.field_key AND f.superseded_by IS NULL LIMIT 1) AS by
-     FROM conflicts k JOIN parts p ON p.id = k.part_id JOIN vendors v ON v.id = p.vendor_id
-    WHERE v.slug = $1 AND k.resolved_at IS NULL AND NOT EXISTS (
+     FROM conflicts k JOIN parts p ON p.id = k.part_id JOIN vendors v ON v.id = p.vendor_id JOIN categories cc ON cc.id = p.category_id
+    WHERE v.slug = $1 AND ($2::text IS NULL OR cc.slug = $2) AND k.resolved_at IS NULL AND NOT EXISTS (
           SELECT 1 FROM facts f WHERE f.part_id = k.part_id AND f.field_key = k.field_key
-             AND f.superseded_by IS NULL AND f.state IN ('verified', 'corroborated', 'conflict'))`, [vendor])).rows;
-console.log(`${vendor}: fact states the verdict moves:`);
+             AND f.superseded_by IS NULL AND f.state IN ('verified', 'corroborated', 'conflict'))`, [vendor, category])).rows;
+console.log(`${vendor}${category ? ` / ${category}` : ""}: fact states the verdict moves:`);
 for (const [k, n] of Object.entries(tally).sort((a, b) => b[1] - a[1])) console.log(`  ${String(n).padStart(6)}  ${k}`);
 console.log(`  to write: ${ruled.length} state changes; orphan conflicts to close: ${orphans.length} (${orphans.filter((o) => !o.by).length} with no current row at all)`);
 // THE PLAN, every id with its prior state (reviewer ruling 29 Sep 2026, Batch A2): a state-only write cannot be undone by
@@ -73,7 +76,7 @@ if (!commit) { console.log("DRY RUN: nothing written. Re-run with --commit."); a
 const FP = `SELECT md5(string_agg(f.id::text || '|' || coalesce(f.value::text, '') || '|' || f.tier::text || '|' || coalesce(f.locator, '')
     || '|' || coalesce(f.raw, '') || '|' || coalesce(f.doc_id::text, ''), ',' ORDER BY f.id)) AS fp FROM facts f WHERE f.id = ANY($1::bigint[])`;
 const res = await withRun("reconcile-conflict-states", {
-  vendor, evidence, state_changes: ruled.length, orphans: orphans.length, tally, plan: path.relative(ROOT, plan), plan_sha256: planSha,
+  vendor, category, evidence, state_changes: ruled.length, orphans: orphans.length, tally, plan: path.relative(ROOT, plan), plan_sha256: planSha,
   approved: evidence
     ? "reviewer ruling 29 Sep 2026 (Batch A2): --evidence both directions (105 promotions, 397 demotions); plan TSV of prior states; state-only control"
     : "reviewer ruling 29 Sep 2026 (Batch A): fact state from the conflicts table both directions; orphans closed, no fact touched",
