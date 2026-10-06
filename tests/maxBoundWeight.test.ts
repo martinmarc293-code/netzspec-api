@@ -57,6 +57,24 @@ if (existsSync(W)) {
   check("Q2: C8500-20X6C's two-value cell is ruled max-bound, so it is never a plain model row", !t.rows.some((r) => r.sku === "C8500-20X6C"));
   check("Q5: NC57-MPA-12L-S is not named by the sheet's table (only the -FC is), so it is not a row", !t.rows.some((r) => r.sku === "NC57-MPA-12L-S"));
 }
+// derived:family-row (reviewer ~22:50, Q1/Q4): its own method, so a family's value stays distinguishable from a model's -- and plain
+check("a family row's stated weight replays", replayDerived("derived:family-row", "5.7 lb (2.59 kg)") === null);
+sabotages++; check("SABOTAGE a family row with no mass is refused", replayDerived("derived:family-row", "Weight")?.reason === "DERIVATION_REFUSED");
+sabotages++; check("SABOTAGE a family-row weight is plain, never 'max.'", !isMaxBound({ value: 2.59, unit: "kg", method: "derived:family-row" }));
+{
+  const F = new URL("../data/reference/family-row-weight-witnesses.json", import.meta.url);
+  const M = new URL("../data/reference/model-row-weight-witnesses.json", import.meta.url);
+  const t = JSON.parse(readFileSync(F, "utf8")) as { rows: { sku: string; raw: string; group: string; method: string }[] };
+  const model = new Set((JSON.parse(readFileSync(M, "utf8")) as { rows: { sku: string }[] }).rows.map((r) => r.sku));
+  check("family-row: the table has rows", t.rows.length > 0, t.rows.length);
+  check("family-row: every row's raw replays", t.rows.every((r) => replayDerived("derived:family-row", r.raw) === null));
+  check("family-row: a PID has exactly one family row", new Set(t.rows.map((r) => r.sku)).size === t.rows.length);
+  check("family-row: every row names the sheet's grouping it was read from (never a pattern alone)", t.rows.every((r) => r.method === "derived:family-row" && r.group.length > 0));
+  check("family-row: a PID with a MODEL row never takes a family row (the named model is more specific)", t.rows.every((r) => !model.has(r.sku)),
+    t.rows.filter((r) => model.has(r.sku)).map((r) => r.sku));
+  check("family-row: C897VAGW-LTE keeps its own 6.1 lb model row, not the 89xG group's 5.7 lb", !t.rows.some((r) => r.sku.startsWith("C897VAGW")));
+  check("Q4: the NCS 55A2 sheet sends NC57 MPAs elsewhere, so none is in its class", !t.rows.some((r) => r.sku.startsWith("NC57-")));
+}
 check("the suite carries at least 4 sabotage cases", sabotages >= 4, sabotages);
 
 if (misses.length) { console.log(`maxBoundWeight: ${pass} passed, ${misses.length} missed`); for (const m of misses) console.log(`  MISS ${m}`); process.exit(1); }

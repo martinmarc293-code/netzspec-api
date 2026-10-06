@@ -58,7 +58,7 @@ export const MODULE_SENSITIVE = new Set(["weight", "power_typical", "power_max",
  *  doesn't change it. AXV excluded." (reviewer, 6 Oct ~21:20) */
 export const THROUGHPUT_AFFIX = new Set(["SEC", "AX"]);
 /** Derived base facts a bundle may copy: the registered weight derivations, each tied to a re-read page (DERIVED_FILL_PATHS.weight). */
-export const COPYABLE_DERIVED = new Set(["derived:model-row", "derived:max-bound"]);
+export const COPYABLE_DERIVED = new Set(["derived:model-row", "derived:family-row", "derived:max-bound"]);
 /** The licence affix a bundle SKU carries ("SEC", "AX", "AXV", "HSEC", "HSEC+"), or null (a C1- prefix alone, or no bundle). */
 export function bundleAffix(sku: string): string | null {
   const m = LICENCE_AFFIX.exec(sku.toUpperCase().replace(/^C1-/, ""));

@@ -26,10 +26,12 @@ import type { SpecEntry } from "../src/core/specMerge.js";
 // TWO WITNESS SETS, ONE CODE PATH (reviewer, 6 Oct 2026 ~21:40): `--set max-bound` (default) writes stated MAXIMA (cables, router
 // series) as derived:max-bound; `--set model-row` writes a NAMED MODEL's stated weight (data/reference/model-row-weight-witnesses.json)
 // as derived:model-row -- the same re-read, listing and normalisation, a different method so a value is never shown as a bound.
+// A THIRD SET (reviewer, 6 Oct 2026 ~22:50, Q1/Q4): `--set family-row` writes a value a sheet states for a model FAMILY onto each
+// PID the same sheet lists under that family (data/reference/family-row-weight-witnesses.json) as derived:family-row.
 const SET = process.argv.includes("--set") ? process.argv[process.argv.indexOf("--set") + 1] : "max-bound";
-if (SET !== "max-bound" && SET !== "model-row") { console.error(`--set must be max-bound or model-row, not ${SET}`); process.exit(2); }
-export const METHOD = SET === "model-row" ? "derived:model-row" : "derived:max-bound";
-const RUN_KIND = SET === "model-row" ? "derive-model-row-weight" : "derive-max-bound-weight";
+if (SET !== "max-bound" && SET !== "model-row" && SET !== "family-row") { console.error(`--set must be max-bound, model-row or family-row, not ${SET}`); process.exit(2); }
+export const METHOD = SET === "model-row" ? "derived:model-row" : SET === "family-row" ? "derived:family-row" : "derived:max-bound";
+const RUN_KIND = SET === "model-row" ? "derive-model-row-weight" : SET === "family-row" ? "derive-family-row-weight" : "derive-max-bound-weight";
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const FILE = path.join(ROOT, "data/reference/max-bound-weight-witnesses.json");
 const commit = process.argv.includes("--commit");
@@ -43,9 +45,11 @@ const FILE_MODEL = path.join(ROOT, "data/reference/model-row-weight-witnesses.js
 const read = (f: string) => (fs.existsSync(f) ? JSON.parse(fs.readFileSync(f, "utf8")) as { rows: Row[] } : { rows: [] as Row[] });
 const sha256 = (f: string) => (fs.existsSync(f) ? createHash("sha256").update(fs.readFileSync(f)).digest("hex") : null);
 const cable = SET === "max-bound" ? read(FILE) : { rows: [] as Row[] };
-const series = SET === "max-bound" ? read(FILE_SERIES) : read(FILE_MODEL);   // the rows that may need their witness page registered
+const FILE_FAMILY = path.join(ROOT, "data/reference/family-row-weight-witnesses.json");
+const FILE_SET = SET === "model-row" ? FILE_MODEL : FILE_FAMILY;   // the non-max-bound sets' one witness file
+const series = SET === "max-bound" ? read(FILE_SERIES) : read(FILE_SET);   // the rows that may need their witness page registered
 const table = { rows: [...cable.rows, ...series.rows] };
-const sha = SET === "max-bound" ? sha256(FILE)! : sha256(FILE_MODEL)!;
+const sha = SET === "max-bound" ? sha256(FILE)! : sha256(FILE_SET)!;
 const shaSeries = SET === "max-bound" ? sha256(FILE_SERIES) : null;
 // ws: the gate's own normaliser (lowercases, like the page text cachedText returns)
 // the box's <repo>/scraper/cache is a stale partial copy (CLAUDE.md, 25 Sep 2026): the real cache is named by CACHE_DIR there
@@ -106,9 +110,14 @@ for (const s of noPart) console.log(`  NO LIVE PART  ${s}`);
 if (refused.length) { console.error(`REFUSED, nothing written:\n  ${refused.join("\n  ")}`); await closePool(); process.exit(2); }
 if (!commit) { console.log("DRY RUN: nothing written. Re-run with --commit."); await closePool(); process.exit(0); }
 const out = await withRun(RUN_KIND, {
-  set: SET, witnesses: path.relative(ROOT, SET === "model-row" ? FILE_MODEL : FILE), witnesses_sha256: sha, rows: table.rows.length, planned: plans.length, no_live_part: noPart,
+  set: SET, witnesses: path.relative(ROOT, SET === "max-bound" ? FILE : FILE_SET), witnesses_sha256: sha, rows: table.rows.length, planned: plans.length, no_live_part: noPart,
   series_witnesses: shaSeries ? path.relative(ROOT, FILE_SERIES) : null, series_witnesses_sha256: shaSeries,
-  approved: SET === "model-row"
+  approved: SET === "family-row"
+    ? "reviewer 6 Oct 2026 ~22:50 (verbatim): 'Q1 -- yes, as a separate method derived:family-row (not model-row), so a value stated for a family stays " +
+      "distinguishable from one stated for the model: the family row writes onto each PID the same sheet lists under that family -- never by token match " +
+      "alone.' and 'Q4 -- yes. Different from Q25: the sheet itself bounds the class to exactly its own MPAs (NC57 sent elsewhere), so it names its parts; " +
+      "derived:family-row, PID list from the same sheet.'"
+    : SET === "model-row"
     ? "reviewer 6 Oct 2026 ~21:40: Model-row writer approved as specified -- witness re-read inside its section, the model-token rule with the variant exclusion, held-sheet PIDs only, kind router, derived:model-row registered beside max-bound, plain rendering"
     : "reviewer Q25, 30 Sep 2026: 'Module weight (Max)' accepted as the cable's weight, method derived:max-bound; band [1, 2000] g approved the same day; " +
       "reviewer (a), 6 Oct 2026: a series maximum ('5.5 lb (2.5 kg) maximum') is the article weight for every model of the series, rendered 'max.'",

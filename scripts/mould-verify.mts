@@ -337,6 +337,8 @@ const RUN_KIND_CLASS: Record<string, { approval: boolean; gate: boolean }> = {
   "inherit-tier-weight": AG, "derive-max-bound-weight": G,
   // reviewer 6 Oct 2026 ~21:40: a named model's stated weight attributed to its PIDs (derived:model-row; every witness row re-read)
   "derive-model-row-weight": G,
+  // reviewer 6 Oct 2026 ~22:50 (Q1/Q4): a family's stated weight onto the PIDs its sheet lists under that family (derived:family-row)
+  "derive-family-row-weight": G,
   // reviewer ruling 6 Oct 2026 (b): a licence bundle (-SEC/-AX/-AXV/-HSEC/C1-) takes its base chassis's physical facts (inherited;
   // approval + a gate that re-reads each base fact on its page)
   "inherit-bundle-chassis": AG,

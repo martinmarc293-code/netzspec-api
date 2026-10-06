@@ -1,0 +1,554 @@
+{
+  "ruling": "reviewer 6 Oct 2026 ~22:50, Q1 + Q4: derived:family-row -- a family's stated value onto each PID the same sheet lists under that family",
+  "sources": [
+    {
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/800-series-routers/datasheet_c78-732744.html",
+      "doc_type": "vendor_datasheet_html",
+      "label": "Weight",
+      "raw": "5.7 lb (2.59 kg)",
+      "family": "C890G-LTE (Table 9 group 'Cisco 89xG 4G LTE 2.0 Integrated Services Router')",
+      "statement": "Weight Cisco C880G-4G ● 5.6 lb (2.54 kg) Cisco C890G-LTE ● 5.7 lb (2.59 kg)",
+      "printed": [
+        "Weight Cisco C880G-4G ● 5.6 lb (2.54 kg) Cisco C890G-LTE ● 5.7 lb (2.59 kg)"
+      ],
+      "group": {
+        "from": "Table 9. Cisco 890G and 880G 4G Series LTE 2.0 ISRs ordering information Product Description Cisco 89xG 4G LTE 2.0 Integrated Services Router",
+        "to": [
+          "Cisco 88xG 4G LTE 2.0 Integrated Services Router"
+        ]
+      },
+      "pids": null
+    },
+    {
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/800-series-routers/datasheet_c78-732744.html",
+      "doc_type": "vendor_datasheet_html",
+      "label": "Weight",
+      "raw": "5.6 lb (2.54 kg)",
+      "family": "C880G-4G (Table 9 group 'Cisco 88xG 4G LTE 2.0 Integrated Services Router')",
+      "statement": "Weight Cisco C880G-4G ● 5.6 lb (2.54 kg) Cisco C890G-LTE ● 5.7 lb (2.59 kg)",
+      "printed": [
+        "Weight Cisco C880G-4G ● 5.6 lb (2.54 kg) Cisco C890G-LTE ● 5.7 lb (2.59 kg)"
+      ],
+      "group": {
+        "from": "Cisco 88xG 4G LTE 2.0 Integrated Services Router",
+        "to": [
+          "Table 10."
+        ]
+      },
+      "pids": null
+    },
+    {
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/800-series-routers/datasheet_c78-737332.html",
+      "doc_type": "vendor_datasheet_html",
+      "label": "Weight",
+      "raw": "5.7 lb (2.59 kg)",
+      "family": "890G Series 4G LTE 2.5 (the sheet's one router group; one sheet-level weight)",
+      "statement": "Weight ● 5.7 lb (2.59 kg)",
+      "printed": [
+        "Weight ● 5.7 lb (2.59 kg)"
+      ],
+      "group": {
+        "from": "Ordering information Product Description Cisco 890G Series 4G LTE 2.5 Integrated Services Router",
+        "to": [
+          "Ordering information"
+        ]
+      },
+      "pids": null
+    },
+    {
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/819-integrated-services-router-isr/datasheet_c78-732558.html",
+      "doc_type": "vendor_datasheet_html",
+      "label": "Weight",
+      "raw": "2.3 lb (1.0 kg)",
+      "family": "C819G-4G (group 'Cisco 819G non-hardened 4G LTE Integrated Services Routers')",
+      "statement": "Weight Cisco C819G-4G 2.3 lb (1.0 kg) Cisco 819HG 3.2 lb (1.5 kg)",
+      "printed": [
+        "Weight Cisco C819G-4G 2.3 lb (1.0 kg) Cisco 819HG 3.2 lb (1.5 kg)"
+      ],
+      "group": {
+        "from": "Ordering information Product Description Cisco 819G non-hardened 4G LTE Integrated Services Routers",
+        "to": [
+          "Cisco 819G hardened 4G LTE Integrated Services Routers"
+        ]
+      },
+      "pids": null
+    },
+    {
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/819-integrated-services-router-isr/datasheet_c78-732558.html",
+      "doc_type": "vendor_datasheet_html",
+      "label": "Weight",
+      "raw": "3.2 lb (1.5 kg)",
+      "family": "819HG (group 'Cisco 819G hardened 4G LTE Integrated Services Routers')",
+      "statement": "Weight Cisco C819G-4G 2.3 lb (1.0 kg) Cisco 819HG 3.2 lb (1.5 kg)",
+      "printed": [
+        "Weight Cisco C819G-4G 2.3 lb (1.0 kg) Cisco 819HG 3.2 lb (1.5 kg)"
+      ],
+      "group": {
+        "from": "Cisco 819G hardened 4G LTE Integrated Services Routers",
+        "to": [
+          "Power supplies and mounting brackets"
+        ]
+      },
+      "pids": null
+    },
+    {
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/819-integrated-services-router-isr/datasheet-C78-734216.html",
+      "doc_type": "vendor_datasheet_html",
+      "label": "Weight",
+      "raw": "2.3 lb (1.0 kg)",
+      "family": "C819GW-4G (the sheet's one router group 'Cisco 819G non-hardened 4G LTE Integrated Services Routers')",
+      "statement": "Weight Cisco C819GW-4G 2.3 lb (1.0 kg)",
+      "printed": [
+        "Weight Cisco C819GW-4G 2.3 lb (1.0 kg)"
+      ],
+      "group": {
+        "from": "Ordering information Product Description Cisco 819G non-hardened 4G LTE Integrated Services Routers",
+        "to": [
+          "Power supplies and mounting brackets"
+        ]
+      },
+      "pids": null
+    },
+    {
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/network-convergence-system-5500-series/datasheet-c78-741080.html",
+      "doc_type": "vendor_datasheet_html",
+      "label": "Weight",
+      "raw": "0.8 lbs",
+      "family": "NC55 MPA class of the NCS 55A2 sheet ('Physical specification of MPA')",
+      "statement": "Weight – 0.8 lbs",
+      "span": 600,
+      "printed": [
+        "Physical specification of MPA",
+        "Weight – 0.8 lbs",
+        "please refer to NCS 5700 Series MPA datasheet"
+      ],
+      "group": null,
+      "pids": "^NC55-MPA-",
+      "kinds": [
+        "module"
+      ]
+    }
+  ],
+  "rows": [
+    {
+      "sku": "C896VAG-LTE-GA-K9",
+      "doc_id": "30684916aee80d45",
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/800-series-routers/datasheet_c78-732744.html",
+      "cache_path": "30684916aee80d45c29417e5b891cd0b6d60a291.html",
+      "doc_type": "vendor_datasheet_html",
+      "label": "Weight",
+      "locator": "C890G-LTE (Table 9 group 'Cisco 89xG 4G LTE 2.0 Integrated Services Router') / Weight",
+      "raw": "5.7 lb (2.59 kg)",
+      "statement": "Weight Cisco C880G-4G ● 5.6 lb (2.54 kg) Cisco C890G-LTE ● 5.7 lb (2.59 kg)",
+      "method": "derived:family-row",
+      "family": "C890G-LTE (Table 9 group 'Cisco 89xG 4G LTE 2.0 Integrated Services Router')",
+      "group": "Table 9. Cisco 890G and 880G 4G Series LTE 2.0 ISRs ordering information Product Description Cisco 89xG 4G LTE 2.0 Integrated Services Router .. Cisco 88xG 4G LTE 2.0 Integrated Services Router",
+      "listed_by": null
+    },
+    {
+      "sku": "C898EAG-LTE-GA-K9",
+      "doc_id": "30684916aee80d45",
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/800-series-routers/datasheet_c78-732744.html",
+      "cache_path": "30684916aee80d45c29417e5b891cd0b6d60a291.html",
+      "doc_type": "vendor_datasheet_html",
+      "label": "Weight",
+      "locator": "C890G-LTE (Table 9 group 'Cisco 89xG 4G LTE 2.0 Integrated Services Router') / Weight",
+      "raw": "5.7 lb (2.59 kg)",
+      "statement": "Weight Cisco C880G-4G ● 5.6 lb (2.54 kg) Cisco C890G-LTE ● 5.7 lb (2.59 kg)",
+      "method": "derived:family-row",
+      "family": "C890G-LTE (Table 9 group 'Cisco 89xG 4G LTE 2.0 Integrated Services Router')",
+      "group": "Table 9. Cisco 890G and 880G 4G Series LTE 2.0 ISRs ordering information Product Description Cisco 89xG 4G LTE 2.0 Integrated Services Router .. Cisco 88xG 4G LTE 2.0 Integrated Services Router",
+      "listed_by": null
+    },
+    {
+      "sku": "C899G-LTE-GA-K9",
+      "doc_id": "30684916aee80d45",
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/800-series-routers/datasheet_c78-732744.html",
+      "cache_path": "30684916aee80d45c29417e5b891cd0b6d60a291.html",
+      "doc_type": "vendor_datasheet_html",
+      "label": "Weight",
+      "locator": "C890G-LTE (Table 9 group 'Cisco 89xG 4G LTE 2.0 Integrated Services Router') / Weight",
+      "raw": "5.7 lb (2.59 kg)",
+      "statement": "Weight Cisco C880G-4G ● 5.6 lb (2.54 kg) Cisco C890G-LTE ● 5.7 lb (2.59 kg)",
+      "method": "derived:family-row",
+      "family": "C890G-LTE (Table 9 group 'Cisco 89xG 4G LTE 2.0 Integrated Services Router')",
+      "group": "Table 9. Cisco 890G and 880G 4G Series LTE 2.0 ISRs ordering information Product Description Cisco 89xG 4G LTE 2.0 Integrated Services Router .. Cisco 88xG 4G LTE 2.0 Integrated Services Router",
+      "listed_by": null
+    },
+    {
+      "sku": "C899G-LTE-JP-K9",
+      "doc_id": "30684916aee80d45",
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/800-series-routers/datasheet_c78-732744.html",
+      "cache_path": "30684916aee80d45c29417e5b891cd0b6d60a291.html",
+      "doc_type": "vendor_datasheet_html",
+      "label": "Weight",
+      "locator": "C890G-LTE (Table 9 group 'Cisco 89xG 4G LTE 2.0 Integrated Services Router') / Weight",
+      "raw": "5.7 lb (2.59 kg)",
+      "statement": "Weight Cisco C880G-4G ● 5.6 lb (2.54 kg) Cisco C890G-LTE ● 5.7 lb (2.59 kg)",
+      "method": "derived:family-row",
+      "family": "C890G-LTE (Table 9 group 'Cisco 89xG 4G LTE 2.0 Integrated Services Router')",
+      "group": "Table 9. Cisco 890G and 880G 4G Series LTE 2.0 ISRs ordering information Product Description Cisco 89xG 4G LTE 2.0 Integrated Services Router .. Cisco 88xG 4G LTE 2.0 Integrated Services Router",
+      "listed_by": null
+    },
+    {
+      "sku": "C899G-LTE-NA-K9",
+      "doc_id": "30684916aee80d45",
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/800-series-routers/datasheet_c78-732744.html",
+      "cache_path": "30684916aee80d45c29417e5b891cd0b6d60a291.html",
+      "doc_type": "vendor_datasheet_html",
+      "label": "Weight",
+      "locator": "C890G-LTE (Table 9 group 'Cisco 89xG 4G LTE 2.0 Integrated Services Router') / Weight",
+      "raw": "5.7 lb (2.59 kg)",
+      "statement": "Weight Cisco C880G-4G ● 5.6 lb (2.54 kg) Cisco C890G-LTE ● 5.7 lb (2.59 kg)",
+      "method": "derived:family-row",
+      "family": "C890G-LTE (Table 9 group 'Cisco 89xG 4G LTE 2.0 Integrated Services Router')",
+      "group": "Table 9. Cisco 890G and 880G 4G Series LTE 2.0 ISRs ordering information Product Description Cisco 89xG 4G LTE 2.0 Integrated Services Router .. Cisco 88xG 4G LTE 2.0 Integrated Services Router",
+      "listed_by": null
+    },
+    {
+      "sku": "C899G-LTE-ST-K9",
+      "doc_id": "30684916aee80d45",
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/800-series-routers/datasheet_c78-732744.html",
+      "cache_path": "30684916aee80d45c29417e5b891cd0b6d60a291.html",
+      "doc_type": "vendor_datasheet_html",
+      "label": "Weight",
+      "locator": "C890G-LTE (Table 9 group 'Cisco 89xG 4G LTE 2.0 Integrated Services Router') / Weight",
+      "raw": "5.7 lb (2.59 kg)",
+      "statement": "Weight Cisco C880G-4G ● 5.6 lb (2.54 kg) Cisco C890G-LTE ● 5.7 lb (2.59 kg)",
+      "method": "derived:family-row",
+      "family": "C890G-LTE (Table 9 group 'Cisco 89xG 4G LTE 2.0 Integrated Services Router')",
+      "group": "Table 9. Cisco 890G and 880G 4G Series LTE 2.0 ISRs ordering information Product Description Cisco 89xG 4G LTE 2.0 Integrated Services Router .. Cisco 88xG 4G LTE 2.0 Integrated Services Router",
+      "listed_by": null
+    },
+    {
+      "sku": "C899G-LTE-VZ-K9",
+      "doc_id": "30684916aee80d45",
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/800-series-routers/datasheet_c78-732744.html",
+      "cache_path": "30684916aee80d45c29417e5b891cd0b6d60a291.html",
+      "doc_type": "vendor_datasheet_html",
+      "label": "Weight",
+      "locator": "C890G-LTE (Table 9 group 'Cisco 89xG 4G LTE 2.0 Integrated Services Router') / Weight",
+      "raw": "5.7 lb (2.59 kg)",
+      "statement": "Weight Cisco C880G-4G ● 5.6 lb (2.54 kg) Cisco C890G-LTE ● 5.7 lb (2.59 kg)",
+      "method": "derived:family-row",
+      "family": "C890G-LTE (Table 9 group 'Cisco 89xG 4G LTE 2.0 Integrated Services Router')",
+      "group": "Table 9. Cisco 890G and 880G 4G Series LTE 2.0 ISRs ordering information Product Description Cisco 89xG 4G LTE 2.0 Integrated Services Router .. Cisco 88xG 4G LTE 2.0 Integrated Services Router",
+      "listed_by": null
+    },
+    {
+      "sku": "C881G-4G-GA-K9",
+      "doc_id": "30684916aee80d45",
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/800-series-routers/datasheet_c78-732744.html",
+      "cache_path": "30684916aee80d45c29417e5b891cd0b6d60a291.html",
+      "doc_type": "vendor_datasheet_html",
+      "label": "Weight",
+      "locator": "C880G-4G (Table 9 group 'Cisco 88xG 4G LTE 2.0 Integrated Services Router') / Weight",
+      "raw": "5.6 lb (2.54 kg)",
+      "statement": "Weight Cisco C880G-4G ● 5.6 lb (2.54 kg) Cisco C890G-LTE ● 5.7 lb (2.59 kg)",
+      "method": "derived:family-row",
+      "family": "C880G-4G (Table 9 group 'Cisco 88xG 4G LTE 2.0 Integrated Services Router')",
+      "group": "Cisco 88xG 4G LTE 2.0 Integrated Services Router .. Table 10.",
+      "listed_by": null
+    },
+    {
+      "sku": "C897VAG-LTE-LA-K9",
+      "doc_id": "8bdfe7347c556d84",
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/800-series-routers/datasheet_c78-737332.html",
+      "cache_path": "8bdfe7347c556d84a5d75bc400405daf6f0ec930.html",
+      "doc_type": "vendor_datasheet_html",
+      "label": "Weight",
+      "locator": "890G Series 4G LTE 2.5 (the sheet's one router group; one sheet-level weight) / Weight",
+      "raw": "5.7 lb (2.59 kg)",
+      "statement": "Weight ● 5.7 lb (2.59 kg)",
+      "method": "derived:family-row",
+      "family": "890G Series 4G LTE 2.5 (the sheet's one router group; one sheet-level weight)",
+      "group": "Ordering information Product Description Cisco 890G Series 4G LTE 2.5 Integrated Services Router .. Ordering information",
+      "listed_by": null
+    },
+    {
+      "sku": "C898EAG-LTE-LA-K9",
+      "doc_id": "8bdfe7347c556d84",
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/800-series-routers/datasheet_c78-737332.html",
+      "cache_path": "8bdfe7347c556d84a5d75bc400405daf6f0ec930.html",
+      "doc_type": "vendor_datasheet_html",
+      "label": "Weight",
+      "locator": "890G Series 4G LTE 2.5 (the sheet's one router group; one sheet-level weight) / Weight",
+      "raw": "5.7 lb (2.59 kg)",
+      "statement": "Weight ● 5.7 lb (2.59 kg)",
+      "method": "derived:family-row",
+      "family": "890G Series 4G LTE 2.5 (the sheet's one router group; one sheet-level weight)",
+      "group": "Ordering information Product Description Cisco 890G Series 4G LTE 2.5 Integrated Services Router .. Ordering information",
+      "listed_by": null
+    },
+    {
+      "sku": "C899G-LTE-LA-K9",
+      "doc_id": "8bdfe7347c556d84",
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/800-series-routers/datasheet_c78-737332.html",
+      "cache_path": "8bdfe7347c556d84a5d75bc400405daf6f0ec930.html",
+      "doc_type": "vendor_datasheet_html",
+      "label": "Weight",
+      "locator": "890G Series 4G LTE 2.5 (the sheet's one router group; one sheet-level weight) / Weight",
+      "raw": "5.7 lb (2.59 kg)",
+      "statement": "Weight ● 5.7 lb (2.59 kg)",
+      "method": "derived:family-row",
+      "family": "890G Series 4G LTE 2.5 (the sheet's one router group; one sheet-level weight)",
+      "group": "Ordering information Product Description Cisco 890G Series 4G LTE 2.5 Integrated Services Router .. Ordering information",
+      "listed_by": null
+    },
+    {
+      "sku": "C819G-LTE-MNA-K9",
+      "doc_id": "36487b1298137c74",
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/819-integrated-services-router-isr/datasheet_c78-732558.html",
+      "cache_path": "36487b1298137c74af4191012f78f7d766349d2e.html",
+      "doc_type": "vendor_datasheet_html",
+      "label": "Weight",
+      "locator": "C819G-4G (group 'Cisco 819G non-hardened 4G LTE Integrated Services Routers') / Weight",
+      "raw": "2.3 lb (1.0 kg)",
+      "statement": "Weight Cisco C819G-4G 2.3 lb (1.0 kg) Cisco 819HG 3.2 lb (1.5 kg)",
+      "method": "derived:family-row",
+      "family": "C819G-4G (group 'Cisco 819G non-hardened 4G LTE Integrated Services Routers')",
+      "group": "Ordering information Product Description Cisco 819G non-hardened 4G LTE Integrated Services Routers .. Cisco 819G hardened 4G LTE Integrated Services Routers",
+      "listed_by": null
+    },
+    {
+      "sku": "C819HG-LTE-MNA-K9",
+      "doc_id": "36487b1298137c74",
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/819-integrated-services-router-isr/datasheet_c78-732558.html",
+      "cache_path": "36487b1298137c74af4191012f78f7d766349d2e.html",
+      "doc_type": "vendor_datasheet_html",
+      "label": "Weight",
+      "locator": "819HG (group 'Cisco 819G hardened 4G LTE Integrated Services Routers') / Weight",
+      "raw": "3.2 lb (1.5 kg)",
+      "statement": "Weight Cisco C819G-4G 2.3 lb (1.0 kg) Cisco 819HG 3.2 lb (1.5 kg)",
+      "method": "derived:family-row",
+      "family": "819HG (group 'Cisco 819G hardened 4G LTE Integrated Services Routers')",
+      "group": "Cisco 819G hardened 4G LTE Integrated Services Routers .. Power supplies and mounting brackets",
+      "listed_by": null
+    },
+    {
+      "sku": "C819GW-LTE-GA-EK9",
+      "doc_id": "f3c2e4e7292410f4",
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/819-integrated-services-router-isr/datasheet-C78-734216.html",
+      "cache_path": "f3c2e4e7292410f4bf02bdcb6ee914ea797f09ee.html",
+      "doc_type": "vendor_datasheet_html",
+      "label": "Weight",
+      "locator": "C819GW-4G (the sheet's one router group 'Cisco 819G non-hardened 4G LTE Integrated Services Routers') / Weight",
+      "raw": "2.3 lb (1.0 kg)",
+      "statement": "Weight Cisco C819GW-4G 2.3 lb (1.0 kg)",
+      "method": "derived:family-row",
+      "family": "C819GW-4G (the sheet's one router group 'Cisco 819G non-hardened 4G LTE Integrated Services Routers')",
+      "group": "Ordering information Product Description Cisco 819G non-hardened 4G LTE Integrated Services Routers .. Power supplies and mounting brackets",
+      "listed_by": null
+    },
+    {
+      "sku": "C819GW-LTE-MNA-AK9",
+      "doc_id": "f3c2e4e7292410f4",
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/819-integrated-services-router-isr/datasheet-C78-734216.html",
+      "cache_path": "f3c2e4e7292410f4bf02bdcb6ee914ea797f09ee.html",
+      "doc_type": "vendor_datasheet_html",
+      "label": "Weight",
+      "locator": "C819GW-4G (the sheet's one router group 'Cisco 819G non-hardened 4G LTE Integrated Services Routers') / Weight",
+      "raw": "2.3 lb (1.0 kg)",
+      "statement": "Weight Cisco C819GW-4G 2.3 lb (1.0 kg)",
+      "method": "derived:family-row",
+      "family": "C819GW-4G (the sheet's one router group 'Cisco 819G non-hardened 4G LTE Integrated Services Routers')",
+      "group": "Ordering information Product Description Cisco 819G non-hardened 4G LTE Integrated Services Routers .. Power supplies and mounting brackets",
+      "listed_by": null
+    },
+    {
+      "sku": "NC55-MPA-12T-S",
+      "doc_id": "163e8998487b6873",
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/network-convergence-system-5500-series/datasheet-c78-741080.html",
+      "cache_path": "163e8998487b68737f1294b1269808bab2a89a4f.html",
+      "doc_type": "vendor_datasheet_html",
+      "label": "Weight",
+      "locator": "NC55 MPA class of the NCS 55A2 sheet ('Physical specification of MPA') / Weight",
+      "raw": "0.8 lbs",
+      "statement": "Weight – 0.8 lbs",
+      "method": "derived:family-row",
+      "family": "NC55 MPA class of the NCS 55A2 sheet ('Physical specification of MPA')",
+      "group": "class ^NC55-MPA-, printed on the sheet",
+      "listed_by": null
+    },
+    {
+      "sku": "NC55-MPA-12T-S-FC",
+      "doc_id": "163e8998487b6873",
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/network-convergence-system-5500-series/datasheet-c78-741080.html",
+      "cache_path": "163e8998487b68737f1294b1269808bab2a89a4f.html",
+      "doc_type": "vendor_datasheet_html",
+      "label": "Weight",
+      "locator": "NC55 MPA class of the NCS 55A2 sheet ('Physical specification of MPA') / Weight",
+      "raw": "0.8 lbs",
+      "statement": "Weight – 0.8 lbs",
+      "method": "derived:family-row",
+      "family": "NC55 MPA class of the NCS 55A2 sheet ('Physical specification of MPA')",
+      "group": "class ^NC55-MPA-, printed on the sheet",
+      "listed_by": null
+    },
+    {
+      "sku": "NC55-MPA-1TH2H-FC",
+      "doc_id": "163e8998487b6873",
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/network-convergence-system-5500-series/datasheet-c78-741080.html",
+      "cache_path": "163e8998487b68737f1294b1269808bab2a89a4f.html",
+      "doc_type": "vendor_datasheet_html",
+      "label": "Weight",
+      "locator": "NC55 MPA class of the NCS 55A2 sheet ('Physical specification of MPA') / Weight",
+      "raw": "0.8 lbs",
+      "statement": "Weight – 0.8 lbs",
+      "method": "derived:family-row",
+      "family": "NC55 MPA class of the NCS 55A2 sheet ('Physical specification of MPA')",
+      "group": "class ^NC55-MPA-, printed on the sheet",
+      "listed_by": null
+    },
+    {
+      "sku": "NC55-MPA-1TH2H-S",
+      "doc_id": "163e8998487b6873",
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/network-convergence-system-5500-series/datasheet-c78-741080.html",
+      "cache_path": "163e8998487b68737f1294b1269808bab2a89a4f.html",
+      "doc_type": "vendor_datasheet_html",
+      "label": "Weight",
+      "locator": "NC55 MPA class of the NCS 55A2 sheet ('Physical specification of MPA') / Weight",
+      "raw": "0.8 lbs",
+      "statement": "Weight – 0.8 lbs",
+      "method": "derived:family-row",
+      "family": "NC55 MPA class of the NCS 55A2 sheet ('Physical specification of MPA')",
+      "group": "class ^NC55-MPA-, printed on the sheet",
+      "listed_by": null
+    },
+    {
+      "sku": "NC55-MPA-2TH-HX-S",
+      "doc_id": "163e8998487b6873",
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/network-convergence-system-5500-series/datasheet-c78-741080.html",
+      "cache_path": "163e8998487b68737f1294b1269808bab2a89a4f.html",
+      "doc_type": "vendor_datasheet_html",
+      "label": "Weight",
+      "locator": "NC55 MPA class of the NCS 55A2 sheet ('Physical specification of MPA') / Weight",
+      "raw": "0.8 lbs",
+      "statement": "Weight – 0.8 lbs",
+      "method": "derived:family-row",
+      "family": "NC55 MPA class of the NCS 55A2 sheet ('Physical specification of MPA')",
+      "group": "class ^NC55-MPA-, printed on the sheet",
+      "listed_by": null
+    },
+    {
+      "sku": "NC55-MPA-2TH-HXFC",
+      "doc_id": "163e8998487b6873",
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/network-convergence-system-5500-series/datasheet-c78-741080.html",
+      "cache_path": "163e8998487b68737f1294b1269808bab2a89a4f.html",
+      "doc_type": "vendor_datasheet_html",
+      "label": "Weight",
+      "locator": "NC55 MPA class of the NCS 55A2 sheet ('Physical specification of MPA') / Weight",
+      "raw": "0.8 lbs",
+      "statement": "Weight – 0.8 lbs",
+      "method": "derived:family-row",
+      "family": "NC55 MPA class of the NCS 55A2 sheet ('Physical specification of MPA')",
+      "group": "class ^NC55-MPA-, printed on the sheet",
+      "listed_by": null
+    },
+    {
+      "sku": "NC55-MPA-2TH-S",
+      "doc_id": "163e8998487b6873",
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/network-convergence-system-5500-series/datasheet-c78-741080.html",
+      "cache_path": "163e8998487b68737f1294b1269808bab2a89a4f.html",
+      "doc_type": "vendor_datasheet_html",
+      "label": "Weight",
+      "locator": "NC55 MPA class of the NCS 55A2 sheet ('Physical specification of MPA') / Weight",
+      "raw": "0.8 lbs",
+      "statement": "Weight – 0.8 lbs",
+      "method": "derived:family-row",
+      "family": "NC55 MPA class of the NCS 55A2 sheet ('Physical specification of MPA')",
+      "group": "class ^NC55-MPA-, printed on the sheet",
+      "listed_by": null
+    },
+    {
+      "sku": "NC55-MPA-4H-HD-FC",
+      "doc_id": "163e8998487b6873",
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/network-convergence-system-5500-series/datasheet-c78-741080.html",
+      "cache_path": "163e8998487b68737f1294b1269808bab2a89a4f.html",
+      "doc_type": "vendor_datasheet_html",
+      "label": "Weight",
+      "locator": "NC55 MPA class of the NCS 55A2 sheet ('Physical specification of MPA') / Weight",
+      "raw": "0.8 lbs",
+      "statement": "Weight – 0.8 lbs",
+      "method": "derived:family-row",
+      "family": "NC55 MPA class of the NCS 55A2 sheet ('Physical specification of MPA')",
+      "group": "class ^NC55-MPA-, printed on the sheet",
+      "listed_by": null
+    },
+    {
+      "sku": "NC55-MPA-4H-HD-S",
+      "doc_id": "163e8998487b6873",
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/network-convergence-system-5500-series/datasheet-c78-741080.html",
+      "cache_path": "163e8998487b68737f1294b1269808bab2a89a4f.html",
+      "doc_type": "vendor_datasheet_html",
+      "label": "Weight",
+      "locator": "NC55 MPA class of the NCS 55A2 sheet ('Physical specification of MPA') / Weight",
+      "raw": "0.8 lbs",
+      "statement": "Weight – 0.8 lbs",
+      "method": "derived:family-row",
+      "family": "NC55 MPA class of the NCS 55A2 sheet ('Physical specification of MPA')",
+      "group": "class ^NC55-MPA-, printed on the sheet",
+      "listed_by": null
+    },
+    {
+      "sku": "NC55-MPA-4H-HX-FC",
+      "doc_id": "163e8998487b6873",
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/network-convergence-system-5500-series/datasheet-c78-741080.html",
+      "cache_path": "163e8998487b68737f1294b1269808bab2a89a4f.html",
+      "doc_type": "vendor_datasheet_html",
+      "label": "Weight",
+      "locator": "NC55 MPA class of the NCS 55A2 sheet ('Physical specification of MPA') / Weight",
+      "raw": "0.8 lbs",
+      "statement": "Weight – 0.8 lbs",
+      "method": "derived:family-row",
+      "family": "NC55 MPA class of the NCS 55A2 sheet ('Physical specification of MPA')",
+      "group": "class ^NC55-MPA-, printed on the sheet",
+      "listed_by": null
+    },
+    {
+      "sku": "NC55-MPA-4H-HX-S",
+      "doc_id": "163e8998487b6873",
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/network-convergence-system-5500-series/datasheet-c78-741080.html",
+      "cache_path": "163e8998487b68737f1294b1269808bab2a89a4f.html",
+      "doc_type": "vendor_datasheet_html",
+      "label": "Weight",
+      "locator": "NC55 MPA class of the NCS 55A2 sheet ('Physical specification of MPA') / Weight",
+      "raw": "0.8 lbs",
+      "statement": "Weight – 0.8 lbs",
+      "method": "derived:family-row",
+      "family": "NC55 MPA class of the NCS 55A2 sheet ('Physical specification of MPA')",
+      "group": "class ^NC55-MPA-, printed on the sheet",
+      "listed_by": null
+    },
+    {
+      "sku": "NC55-MPA-4H-S",
+      "doc_id": "163e8998487b6873",
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/network-convergence-system-5500-series/datasheet-c78-741080.html",
+      "cache_path": "163e8998487b68737f1294b1269808bab2a89a4f.html",
+      "doc_type": "vendor_datasheet_html",
+      "label": "Weight",
+      "locator": "NC55 MPA class of the NCS 55A2 sheet ('Physical specification of MPA') / Weight",
+      "raw": "0.8 lbs",
+      "statement": "Weight – 0.8 lbs",
+      "method": "derived:family-row",
+      "family": "NC55 MPA class of the NCS 55A2 sheet ('Physical specification of MPA')",
+      "group": "class ^NC55-MPA-, printed on the sheet",
+      "listed_by": null
+    },
+    {
+      "sku": "NC55-MPA-4H-S-FC",
+      "doc_id": "163e8998487b6873",
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/network-convergence-system-5500-series/datasheet-c78-741080.html",
+      "cache_path": "163e8998487b68737f1294b1269808bab2a89a4f.html",
+      "doc_type": "vendor_datasheet_html",
+      "label": "Weight",
+      "locator": "NC55 MPA class of the NCS 55A2 sheet ('Physical specification of MPA') / Weight",
+      "raw": "0.8 lbs",
+      "statement": "Weight – 0.8 lbs",
+      "method": "derived:family-row",
+      "family": "NC55 MPA class of the NCS 55A2 sheet ('Physical specification of MPA')",
+      "group": "class ^NC55-MPA-, printed on the sheet",
+      "listed_by": null
+    }
+  ]
+}

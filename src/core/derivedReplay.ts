@@ -25,6 +25,9 @@ const DERIVATIONS: Readonly<Record<string, (raw: string) => unknown>> = {
   // reviewer 6 Oct 2026 ~21:40: a NAMED MODEL's stated weight ("Cisco 819G ... 2.3 lb (1.0 kg)"), attributed to the model's PIDs by
   // scripts/model-row-weight-witnesses.mts; the raw is the stated weight, so replay is the same read as max-bound (device kg)
   "derived:model-row": (raw) => { const n = normalizeField("routers", "weight", raw, { locale: "en" }); return n.ok ? n.value : null; },
+  // reviewer 6 Oct 2026 ~22:50 (Q1/Q4): a value a sheet states for a model FAMILY (or a class it bounds to its own PIDs), written onto
+  // each PID the same sheet lists under that family -- its own method, so it stays distinguishable from a named model's row
+  "derived:family-row": (raw) => { const n = normalizeField("routers", "weight", raw, { locale: "en" }); return n.ok ? n.value : null; },
   // ruling Q23 (30 Sep 2026): the raw is the part's weight in kg ("5.5 kg"), the value that weight plus its band's allowance
   "derived:shipping-allowance": (raw) => shippingFromRaw(raw),
   // reviewer ruling 30 Sep 2026: the raw keeps EVERY condition the sheet states; the value is the range true under all of them
