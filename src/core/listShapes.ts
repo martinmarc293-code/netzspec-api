@@ -249,8 +249,21 @@ export function extractIdentifier(key: string, member: string): string | null {
     if (par) return par[1];
     // RULING (c), 6 Oct 2026 (GRAMMAR_6OCT): whole members only, and only where everything above found nothing
     if (PROTOCOL_NAMED_6OCT.test(m) || SERIAL_STANDARD_6OCT.test(m)) return m;
+    // (A)'s classify pass, 6 Oct 2026 (GRAMMAR_6OCT_B): the members the whole comma cells recovered
+    if (PROTOCOL_NAMED_6OCT_B.test(m) || PROTOCOL_ROLE_6OCT_B.test(m) || IGMP_VERSIONS_6OCT_B.test(m) || L3VPN_6OCT_B.test(m)
+      || SERIAL_GROUP_6OCT_B.test(m) || MLFR_6OCT_B.test(m)) return m;
+    const fnote = FOOTNOTE_6OCT_B.exec(m);
+    if (fnote) return extractIdentifier(key, fnote[1]);
   }
   if (key === "certifications" && CERT_IC_CS03_6OCT.test(m)) return m;
+  // (A)'s classify pass (GRAMMAR_6OCT_B): an edition note or a Class qualifier the splitter left at the FRONT of the next standard
+  // A member the prose rule REFUSES keeps that verdict: a refused member is dropped and salvaged by reshapeList, so reading it
+  // here would move a stored value -- measured 6 Oct across every vendor, one aruba member ("Class A EN 55035 ... part 15 subpart
+  // B") flipped refuse -> accept until this guard.
+  if (key === "certifications" && !LIST_SHAPES.certifications.refuse.test(m) && !LOOKS_LIKE_PROSE.test(m)) {
+    const head = CERT_HEAD_6OCT_B.exec(m);
+    if (head) return extractIdentifier(key, m.slice(head[0].length));
+  }
   return null;
 }
 
@@ -311,6 +324,65 @@ export const RESIDUE_6OCT: readonly { key: string; member: string; cause: string
   { key: "supported_protocols", member: "Border Gateway", cause: "160-character cap on a comma-delimited Protocols cell" },
   { key: "supported_protocols", member: "Routing Information Protocol Versions 1", cause: "splitter cut through 'Versions 1 and 2'" },
   { key: "supported_protocols", member: "2 (RIP and RIPv2)", cause: "splitter cut through 'Versions 1 and 2'" },
+];
+
+// ---- (A)'S CLASSIFY PASS, 6 Oct 2026 (reviewer: "build with the sabotage cases -> fix the 7 gate misses -> classify the recovered
+// members (no ceiling raise) -> re-apply the router corpus") ----------------------------------------------------------------------
+// Keeping comma cells whole (cisco_specs_deep COMMA_LIST_MIN_ITEMS) recovered 55 distinct list members the grammar left
+// unclassified over the router corpus (334 protocol + 7 certification occurrences). Read in full: the real router protocol names
+// are read here, whole members only, one witness each (a SKU, or the document where the record is document-level). The rest stays
+// unclassified with its cause named in RESIDUE_6OCT_B -- splitter halves, QoS mechanism words, SD-WAN feature names, fused runs.
+// A member these accept was UNCLASSIFIED, which reshapeList keeps exactly as an accepted one, so no stored value moves.
+/** Router protocol and service names that are not acronym-shaped: a routing feature, a Cisco service, IPsec spelled apart. */
+const PROTOCOL_NAMED_6OCT_B = /^(?:BGP Router Reflector|Call Home|IP sec|Cisco Discovery Protocol|split DNS|syslog|NAT\/PAT|NAT pools|NAT traversal|static NAT|symmetric NAT|OTV)$/;
+/** A protocol in a stated role. */
+const PROTOCOL_ROLE_6OCT_B = /^(?:DHCP|DNS) (?:client|server|relay)$/;
+/** IGMP with the versions it speaks. */
+const IGMP_VERSIONS_6OCT_B = /^IGMP v[123](?:\/v[123])+$/;
+/** Layer 3 VPN, spelled out or abbreviated, with the sentence's full stop where the cell ended. */
+const L3VPN_6OCT_B = /^(?:Layer 3 VPN|L3 VPN)\.?$/;
+/** The serial interface with the standards it supports in brackets ("Serial (RS-232, RS-449, X.21, V.35, and EIA-530)"). */
+const SERIAL_GROUP_6OCT_B = /^Serial \((?:(?:RS|EIA|TIA)-[0-9]{3}[A-Z]?|[VX]\.[0-9]{1,3})(?:,? (?:and )?(?:(?:RS|EIA|TIA)-[0-9]{3}[A-Z]?|[VX]\.[0-9]{1,3}))+\)$/;
+/** Multilink Frame Relay with its acronym and the Frame Relay Forum agreements it implements. */
+const MLFR_6OCT_B = /^Multilink Frame Relay \(MLFR\)(?: \(FR\.[0-9]{1,2}(?: and FR\.[0-9]{1,2})?\))?$/;
+/** A footnote marker a datasheet hangs on a name ("OTV [6]"): the member is read without it. */
+const FOOTNOTE_6OCT_B = /^(.*\S)\s*\[[0-9]{1,2}\]$/;
+/** An edition note or a Class qualifier that belongs to the PREVIOUS standard, left at the front of the next one by the splitter
+ *  ("Third Edition EN 62368-1: 2020", "Class A EN/IEC 61000-3-3/3-11 ..."): the standard after it is read; alone, it stays residue. */
+const CERT_HEAD_6OCT_B = /^(?:(?:First|Second|Third|Fourth) Edition|Class [AB])\s+(?=\S)/;
+export const GRAMMAR_6OCT_B: readonly { key: string; rule: string; witness: string; where: string }[] = [
+  { key: "supported_protocols", rule: "PROTOCOL_NAMED_6OCT_B", witness: "BGP Router Reflector", where: "C1100TGX-1N24P32A" },
+  { key: "supported_protocols", rule: "PROTOCOL_NAMED_6OCT_B", witness: "Call Home", where: "ISR4461" },
+  { key: "supported_protocols", rule: "PROTOCOL_NAMED_6OCT_B", witness: "IP sec", where: "doc c78-669126" },
+  { key: "supported_protocols", rule: "PROTOCOL_NAMED_6OCT_B", witness: "Cisco Discovery Protocol", where: "doc 0900aecd805e315d" },
+  { key: "supported_protocols", rule: "PROTOCOL_NAMED_6OCT_B", witness: "split DNS", where: "doc c78-742893" },
+  { key: "supported_protocols", rule: "PROTOCOL_NAMED_6OCT_B", witness: "syslog", where: "doc c78-742893" },
+  { key: "supported_protocols", rule: "PROTOCOL_NAMED_6OCT_B", witness: "NAT/PAT", where: "doc c78-742893" },
+  { key: "supported_protocols", rule: "PROTOCOL_NAMED_6OCT_B", witness: "NAT pools", where: "doc c78-742893" },
+  { key: "supported_protocols", rule: "PROTOCOL_NAMED_6OCT_B", witness: "NAT traversal", where: "doc c78-742893" },
+  { key: "supported_protocols", rule: "PROTOCOL_NAMED_6OCT_B", witness: "static NAT", where: "doc c78-742893" },
+  { key: "supported_protocols", rule: "PROTOCOL_NAMED_6OCT_B", witness: "symmetric NAT", where: "doc c78-742893" },
+  { key: "supported_protocols", rule: "PROTOCOL_ROLE_6OCT_B", witness: "DHCP relay", where: "doc c78-742893" },
+  { key: "supported_protocols", rule: "PROTOCOL_ROLE_6OCT_B", witness: "DHCP client", where: "doc c78-742893" },
+  { key: "supported_protocols", rule: "PROTOCOL_ROLE_6OCT_B", witness: "DHCP server", where: "doc c78-742893" },
+  { key: "supported_protocols", rule: "PROTOCOL_ROLE_6OCT_B", witness: "DNS client", where: "doc c78-742893" },
+  { key: "supported_protocols", rule: "IGMP_VERSIONS_6OCT_B", witness: "IGMP v1/v2", where: "doc c78-742893" },
+  { key: "supported_protocols", rule: "L3VPN_6OCT_B", witness: "Layer 3 VPN", where: "doc c78-736910" },
+  { key: "supported_protocols", rule: "L3VPN_6OCT_B", witness: "Layer 3 VPN.", where: "doc c78-736910" },
+  { key: "supported_protocols", rule: "L3VPN_6OCT_B", witness: "L3 VPN.", where: "doc c78-553896" },
+  { key: "supported_protocols", rule: "SERIAL_GROUP_6OCT_B", witness: "Serial (RS-232, RS-449, X.21, V.35, and EIA-530)", where: "C1100TGX-1N24P32A" },
+  { key: "supported_protocols", rule: "MLFR_6OCT_B", witness: "Multilink Frame Relay (MLFR) (FR.15 and FR.16)", where: "doc c78-598389" },
+  { key: "supported_protocols", rule: "FOOTNOTE_6OCT_B", witness: "OTV [6]", where: "ISR4461" },
+  { key: "certifications", rule: "CERT_HEAD_6OCT_B", witness: "Third Edition EN 62368-1: 2020", where: "doc ncs-57C3-fixed-chassis-ds" },
+  { key: "certifications", rule: "CERT_HEAD_6OCT_B", witness: "Class A EN/IEC 61000-3-3/3-11 EN/IEC 61000-3-2/3-12", where: "doc 8000-series-p100-line-card-ds" },
+];
+/** The classify pass's residue, left unclassified on purpose with its cause; the suite holds it there. */
+export const RESIDUE_6OCT_B: readonly { key: string; member: string; cause: string }[] = [
+  { key: "supported_protocols", member: "Layer 2", cause: "splitter cut through 'Layer 2 and Layer 3 VPN' -- the half that names no VPN" },
+  { key: "supported_protocols", member: "shaping", cause: "a QoS mechanism word from a 'QoS: classification, ...' cell, not a protocol" },
+  { key: "supported_protocols", member: "zero-trust", cause: "an SD-WAN feature name poured into the protocols cup" },
+  { key: "supported_protocols", member: "Routing Protocols", cause: "a section heading the comma split left as a member" },
+  { key: "certifications", member: "Third Edition", cause: "an edition note split from the standard it qualifies" },
 ];
 
 /** Which of the three populations a stored member belongs to. Order matters and is stated: a known

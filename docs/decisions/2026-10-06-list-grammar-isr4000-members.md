@@ -34,3 +34,34 @@ Encapsulations row read this way (ISR 4000: BGP, IS-IS, IGMPv3, PIM, MPLS, L2TPv
 are all past character 160), and `Multilink` -- the cut tail of "Multilink Frame Relay (MLFR)" -- is *accepted* by the loose
 token rule. The fix belongs in the extractor's list test (a comma-dense cell under a list label is a list); it is a gate
 contract change ("move one, move both", gate-extract.ts cellMatches), so it goes to the reviewer first.
+
+## Addendum, 6 Oct 2026 evening: (A)'s classify pass (GRAMMAR_6OCT_B)
+
+**Ruling (reviewer, ~17:20):** "build with the sabotage cases → fix the 7 gate misses → classify the recovered members (no ceiling
+raise) → re-apply the router corpus." (The "7 gate misses" were the Q2 measurement's own: it re-read joined values whole, where the
+real gate expands a joined record into its cells first; re-measured that way, 769 of 769 changed cells re-read clean.)
+
+**Measured.** Keeping comma cells whole (cisco_specs_deep, COMMA_LIST_MIN_ITEMS 5) recovered 55 distinct list members the grammar left
+unclassified over the 455 router documents (334 protocol + 7 certification occurrences). Read in full:
+
+- **Read now (whole members, one witness each, `GRAMMAR_6OCT_B`):** BGP Router Reflector, Call Home, IP sec, Cisco Discovery Protocol,
+  split DNS, syslog, NAT/PAT, NAT pools, NAT traversal, static NAT, symmetric NAT, OTV (under its footnote marker "[6]"), DHCP/DNS in
+  a stated role (client / server / relay), IGMP with its versions, Layer 3 VPN / L3 VPN, "Serial (RS-232, RS-449, X.21, V.35, and
+  EIA-530)", "Multilink Frame Relay (MLFR) (FR.15 and FR.16)"; for certifications, a standard behind an edition note or a Class
+  qualifier the splitter left at its front ("Third Edition EN 62368-1: 2020", "Class A EN/IEC 61000-3-3/3-11 ...").
+- **Residue, unclassified with its cause (`RESIDUE_6OCT_B`):** "Layer 2" (the splitter's cut through "Layer 2 and Layer 3 VPN"), QoS
+  mechanism words (classification, shaping, policing ...), SD-WAN feature names (zero-trust, whitelisting ...), a section heading
+  ("Routing Protocols"), two fused space-separated runs, edition fragments ("Third Edition" alone).
+
+**The guard the measurement forced.** The certification head rule first flipped ONE aruba member from refuse to accept ("Class A EN
+55035 ... part 15 subpart B"): a refused member is dropped and salvaged by reshapeList, so that flip would have moved a stored value in
+another lane. A member the prose rule refuses now keeps that verdict; the suite holds the aruba member refused (removing the guard
+turns that case red).
+
+**All-vendor before/after (59,820 member occurrences):** the only flips are unclassified -> accept -- cisco supported_protocols 122,
+hpe certifications 93, aruba certifications 35. No refused or flagged member changes verdict, so no stored value moves anywhere and
+NORM stays 1.8.8. Cisco unclassified supported_protocols 3,062 -> 2,940 before the re-apply; the hpe and aruba lines only fall.
+
+**Proof.** tests/listShapes.test.ts 110/0: 24 witnesses accepted, the residue held unclassified, sabotage on whole-member reading, an
+unnamed role, a non-serial Serial group, a footnote on a non-name, scope, and the aruba guard. Sabotage: the protocol hook removed ->
+22 witness cases red; the prose guard removed -> exactly the aruba case red; restored by md5 each time.

@@ -5,7 +5,7 @@
 // PURE: no database, no cache, no Python. The corpus measurements that produced these grammars are
 // recorded in the module and in the decision file; what this suite holds is the CONTRACT — that a
 // registered shape is a real definition and not a regex wearing one.
-import { LIST_SHAPES, shapeIsDefinition, classifyMember, extractIdentifier, salvageMember, reshapeList, PROTOCOL_VOCABULARY, PROTOCOL_GRAMMAR_Q10, GRAMMAR_6OCT, RESIDUE_6OCT } from "../src/core/listShapes.js";
+import { LIST_SHAPES, shapeIsDefinition, classifyMember, extractIdentifier, salvageMember, reshapeList, PROTOCOL_VOCABULARY, PROTOCOL_GRAMMAR_Q10, GRAMMAR_6OCT, RESIDUE_6OCT, GRAMMAR_6OCT_B, RESIDUE_6OCT_B } from "../src/core/listShapes.js";
 
 let pass = 0, miss = 0;
 const check = (name: string, ok: boolean) => {
@@ -128,6 +128,21 @@ check("6OCT SABOTAGE a dotted token of another series is not a serial standard",
 check("6OCT SABOTAGE CS-03 declared for an interface the sheet does not write is not read", classifyMember("certifications", "Z9 IC CS-03") !== "accept");
 check("6OCT SCOPE the serial rule does not reach certifications", classifyMember("certifications", "V.35") !== "accept");
 check("6OCT SCOPE the CS-03 rule does not reach supported_protocols", extractIdentifier("supported_protocols", "T1 IC CS-03:2004") === null);
+
+// (A)'s classify pass, 6 Oct 2026: the members whole comma cells recovered -- every witness read, the named residue held unclassified,
+// whole members only, and the footnote rule reads the name under the marker and nothing else.
+for (const w of GRAMMAR_6OCT_B) check(`6OCT_B ${w.rule}: the witness ${JSON.stringify(w.witness)} (${w.where}) is accepted`, classifyMember(w.key, w.witness) === "accept");
+for (const r of RESIDUE_6OCT_B) check(`6OCT_B RESIDUE ${JSON.stringify(r.member)} stays unclassified (${r.cause})`, classifyMember(r.key, r.member) === "unclassified");
+check("6OCT_B SABOTAGE whole member only: a named service with a description after it is not read", extractIdentifier("supported_protocols", "Call Home with diagnostics upload") === null);
+check("6OCT_B SABOTAGE a role the rule does not name is not read ('DHCP proxy')", classifyMember("supported_protocols", "DHCP proxy") !== "accept");
+check("6OCT_B SABOTAGE a Serial group naming anything but serial standards is not read", classifyMember("supported_protocols", "Serial (RS-232, async lines)") !== "accept");
+check("6OCT_B SABOTAGE a footnote marker does not launder a non-name: 'feature set [3]' finds no identifier and is not accepted",
+  extractIdentifier("supported_protocols", "feature set [3]") === null && classifyMember("supported_protocols", "feature set [3]") !== "accept");
+check("6OCT_B SCOPE the protocol names do not reach certifications", classifyMember("certifications", "Call Home") !== "accept");
+// the guard on the certification head rule: a member the prose rule refuses stays REFUSED (reading it would move a stored value);
+// the member is aruba's own, measured 6 Oct as the one refuse -> accept flip before the guard
+check("6OCT_B SABOTAGE a REFUSED member with a Class head stays refused (no stored value may move): aruba's 'Class A EN 55035 ... part 15 subpart B'",
+  classifyMember("certifications", "Class A EN 55035:2017+A11:2020 EN 61000-3-3:2013+A2:2021 US: FCC 47 CFR part 15 subpart B") === "refuse");
 
 console.log(`\nlist shapes: ${pass} passed, ${miss} missed`);
 if (miss) process.exit(1);

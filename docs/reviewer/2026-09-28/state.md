@@ -555,6 +555,15 @@ HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). R
   cells first (gateInputFor -> expandFragments). Re-measured that way: 769 changed cells checked, 769 ok, 0 bad. Nothing to fix
   in the gate -- RETRACT the "7 misses" to the reviewer. NEXT: classify the recovered members (no ceiling raise), then re-apply the
   router corpus through the gate.
+- 6 Oct ~19:30 CLASSIFY PASS DONE (committed with this entry): listShapes GRAMMAR_6OCT_B -- 22 protocol witnesses (BGP Router
+  Reflector, Call Home, IP sec, CDP spelled out, DHCP/DNS roles, NAT forms, IGMP versions, L3 VPN, Serial (...), MLFR (FR.15/16), OTV
+  under its footnote) + a certification head rule (an edition note / Class qualifier the splitter left in front of the next
+  standard) GUARDED so a prose-refused member stays refused (the first version flipped one aruba member refuse->accept). Residue named
+  in RESIDUE_6OCT_B. All-vendor before/after: only unclassified->accept (cisco protocols 122, hpe certs 93, aruba certs 35); cisco
+  unclassified protocols 3,062 -> 2,940 now. Router re-apply forecast (record-weighted, final grammar): protocols +34, certifications
+  -3. listShapes 110/0; sabotage: hook removed 22 red, guard removed 1 red. Contract unchanged ae6f436b328c9b58.
+  NEXT: deploy, re-extract the router corpus with (A), DRY apply through the gate + a FACT-weighted ratchet forecast from the plan,
+  then commit; board; report.
 - CLOSING RUN READY (not committed): scripts/resolve-weight-config-conflicts.mts + board class A (local, uncommitted);
   dry on the box: 72 open router weight conflicts, resolve 44 (ISR 4000 + 3 8800 chassis-only kept), held 28 (8804/8808/
   8812-SYS where the KEPT side is 'Weight (full system)' -- needs a supersede to the chassis-only value, not a close).
