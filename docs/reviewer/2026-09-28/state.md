@@ -480,6 +480,30 @@ HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). R
   114 of them ACCEPTED by the grammar today (Multilink, PIM, Intermediate, IEC 60950-1, NEBS, Border Gateway Protocol (BGP)...);
   wide 74 remain cut -- space-separated standards runs (certifications 55) the comma rule does not reach. supported_protocols is
   OPT for routers, certifications REQ. NUMBERS SENT TO THE REVIEWER; nothing ships before its answer.
+- VERDICT ~17:20 (verbatim): "(A) approved — the mapper is the only place that knows what a key is; a label list in the extractor
+  is the second copy that drifts. Two additions: The boundary flag ships now, independent of (A): the 114 cut members the grammar
+  accepts today ("Multilink", "PIM", "IEC 60950-1", "Border Gateway Protocol (BGP)" at the edge) get truncated on their facts in
+  the current store — they're served as complete when they aren't. A dry count, then a recorded run. The scalar cap at apply
+  records truncated: true on the fact so the gate's provenance branch reads it as the head of its cell, exactly as the
+  adapter-side cap does. Order as you propose: build with the sabotage cases → fix the 7 gate misses → classify the recovered
+  members (no ceiling raise) → re-apply the router corpus. Space-separated standards runs as a second measured rule after.
+  Installation-guide reader meanwhile — agreed."
+- BOUNDARY FLAG DRY COUNT (scripts/count-cut-list-facts.mts, data/dryrun/count-cut-list-facts-2026-10-06-dry.tsv): 137 current
+  facts end at a cut (protocols 66, certifications 48, emc 23; 92 with an accepted tail); 8 READY routers carry one (all 8 a cut
+  supported_protocols, ISR4451-X/K9 also a cut certifications). FACTS HAVE NO 'truncated' (no column, no state) -> ASKED: column
+  vs side table, and what the export does with a truncated list (recommended: column; export drops the cut tail member).
+- GUIDE READER STEP 1 (6 Oct ~17:20): router-guide-chapters-seed.py -- 110 done guides, 59 landing pages, 81 spec chapters;
+  RUN 1511 queued a 6-chapter sample; worker fetched 6/6 (0 challenged). Extracted: 5 of 6 chapters family-scoped with NO pid
+  list (ASR 9001 29 tables/74 records, ISR 4000 Overview 45 tables/87 records, IR1800 33, 8200 12, NCS 540 19 tables/2 records),
+  only the Catalyst 8300 overview attributes to SKUs (4 PIDs, 20 records). Step 2 needs a PID UNIVERSE per guide (the HTML
+  extractor knows only data/reference/datasheet-skus.json per datasheet URL; the PDF lane uses NETZSPEC_KNOWN_SKUS_FILE).
+- ISR4461/K9's WEIGHT IS NOT IN THE GUIDE: the ISR 4000 Overview chapter holds 0 kg/lb in 47,915 chars, and our cached HTML of
+  c78-732542 (rev 2026-09-01) has the 4461 column BLANK on every weight row (the other columns match the golden exactly, so no
+  shift). A web search finds the sheet's PDF twin (data_sheet-c78-732542.pdf, (c) 2026, 28 pages) quoted with 4461 rows the HTML
+  lacks ("Weight with one AC 1,100 PS ... 13.9 kg") -- UNVERIFIED (a search summary is not the page). We do not hold it.
+  PDF TWINS (data/dryrun/router-pdf-twins-2026-10-06.json): 323 of 371 router HTML datasheets link their own PDF; 315 distinct
+  twins, 6 held. -> REPORT + ASK: queue the ISR 4000 twin first (verify the 4461 rows), then measure a sample of twins for rows
+  the HTML lacks before queueing the rest.
 - CLOSING RUN READY (not committed): scripts/resolve-weight-config-conflicts.mts + board class A (local, uncommitted);
   dry on the box: 72 open router weight conflicts, resolve 44 (ISR 4000 + 3 8800 chassis-only kept), held 28 (8804/8808/
   8812-SYS where the KEPT side is 'Weight (full system)' -- needs a supersede to the chassis-only value, not a close).
