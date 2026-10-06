@@ -1,0 +1,693 @@
+{
+ "inputs": {
+  "base": "/tmp/q2-base.json",
+  "wide": "/tmp/q2-wide.json",
+  "base_records": 38676,
+  "wide_records": 38665,
+  "base_docs": 455,
+  "wide_docs": 455
+ },
+ "flips": {
+  "groups_changed": 576,
+  "by_key": {
+   "supported_protocols": {
+    "groups": 83,
+    "list": true,
+    "lenBefore": 13588,
+    "lenAfter": 43837,
+    "still_truncated": 0
+   },
+   "crypto_algorithms": {
+    "groups": 43,
+    "list": true,
+    "lenBefore": 7349,
+    "lenAfter": 8570,
+    "still_truncated": 0
+   },
+   "cellular_bands": {
+    "groups": 27,
+    "list": true,
+    "lenBefore": 4276,
+    "lenAfter": 11917,
+    "still_truncated": 0
+   },
+   "certifications": {
+    "groups": 15,
+    "list": true,
+    "lenBefore": 3471,
+    "lenAfter": 4929,
+    "still_truncated": 0
+   },
+   "qos_features": {
+    "groups": 13,
+    "list": true,
+    "lenBefore": 2179,
+    "lenAfter": 3979,
+    "still_truncated": 0
+   },
+   "programming_interfaces": {
+    "groups": 8,
+    "list": true,
+    "lenBefore": 1215,
+    "lenAfter": 3759,
+    "still_truncated": 0
+   },
+   "timing_sync": {
+    "groups": 5,
+    "list": false,
+    "lenBefore": 781,
+    "lenAfter": 1361,
+    "still_truncated": 0
+   },
+   "lan_interfaces": {
+    "groups": 2,
+    "list": true,
+    "lenBefore": 310,
+    "lenAfter": 536,
+    "still_truncated": 0
+   },
+   "input_voltage": {
+    "groups": 2,
+    "list": false,
+    "lenBefore": 315,
+    "lenAfter": 415,
+    "still_truncated": 0
+   },
+   "emc_emissions": {
+    "groups": 2,
+    "list": true,
+    "lenBefore": 308,
+    "lenAfter": 493,
+    "still_truncated": 0
+   },
+   "product_compatibility": {
+    "groups": 2,
+    "list": true,
+    "lenBefore": 565,
+    "lenAfter": 1389,
+    "still_truncated": 0
+   },
+   "dimensions": {
+    "groups": 2,
+    "list": false,
+    "lenBefore": 628,
+    "lenAfter": 1051,
+    "still_truncated": 0
+   },
+   "ui_languages": {
+    "groups": 1,
+    "list": true,
+    "lenBefore": 158,
+    "lenAfter": 238,
+    "still_truncated": 0
+   },
+   "advanced_functions": {
+    "groups": 1,
+    "list": true,
+    "lenBefore": 159,
+    "lenAfter": 310,
+    "still_truncated": 0
+   },
+   "wavelength": {
+    "groups": 1,
+    "list": false,
+    "lenBefore": 157,
+    "lenAfter": 258,
+    "still_truncated": 0
+   }
+  },
+  "not_a_fact": {
+   "unmapped": 292,
+   "sentinel": 59,
+   "rejected": 18
+  },
+  "scalar_examples": [
+   "timing_sync | routers | family:__document__ | \"Timing\" | 153 -> 329 | \"Enhanced Synchronous Ethernet (eSyncE) Enhanced Ethernet Synchronization Message Channel (eESMC) Internal PRTC-B GNSS re\"",
+   "input_voltage | routers | family:Cisco NCS 4200 Series System | \"DC input voltage\" | 158 -> 245 | \"For 900W DC power supply, voltage range: –40V to –72V DC, nominal –48V/–60V DC For 1200W DC power supply, voltage range:\"",
+   "timing_sync | routers | family:__document__ | \"Timing\" | 156 -> 323 | \"Enhanced Synchronous Ethernet (eSyncE) Enhanced Ethernet Synchronization Message Channel (eESMC) Internal PRTC-B GNSS re\"",
+   "timing_sync | routers | family:__document__ | \"Timing\" | 153 -> 329 | \"Enhanced Synchronous Ethernet (eSyncE) Enhanced Ethernet Synchronization Message Channel (eESMC) Internal PRTC-B GNSS re\"",
+   "dimensions | routers | family:__document__ | \"Physical dimensions (H x W x D)\" | 471 -> 506 | \"Not applicable: The ESP module is integrated in the Cisco ASR 1002-HX chassis. | Not applicable: The ESP module is integ\"",
+   "dimensions | routers | family:Cisco ASR 901 Series Specification | \"Dimensions (H x W x D)\" | 157 -> 545 | \"A901-12C-FT-D, A901-4C-FT-D: 1.7 x 17.5 x 8.3 in. (43.2 x 444.5 x 211 mm), 1 RU A901-12C-F-D, A901-4C-F-D: 1.7 x 17.5 x \"",
+   "input_voltage | routers | family:Cisco ASR 900 Series Router | \"DC input voltage\" | 157 -> 170 | \"For 550W DC power supply, voltage range: 19.2V to 72V DC, nominal +24V DC, -48V/–60V DC. For 1200W DC power supply, volt\"",
+   "wavelength | routers | family:DWDM line interface | \"Wavelength range\" | 157 -> 258 | \"Full tunable from 1528.77 nm to 1563.86 nm across every other wavelength on the ITU 50-Ghz grid. For example: 1OC768-DPS\"",
+   "timing_sync | routers | family:__document__ | \"Timing\" | 160 -> 191 | \"SyncE with ESMC Integrated GNSS receiver (GPS, Galileo, Glonass, BeiDou) IEEE 1588-2008 PTP T-GM, T-BC, T-TSC, A-PTS, Vi\"",
+   "timing_sync | routers | family:__document__ | \"Timing\" | 159 -> 189 | \"● SyncE, G.8265.1, G.8275.1, G.8275.2, G.8273.2 ◦ NCS-55A1-24H support from 6.5.2 and beyond ◦ NCS-55A1-36H-SE-S support\""
+  ]
+ },
+ "gate_reread_of_changed_wide_records": {
+  "checked": 728,
+  "ok": 721,
+  "bad": 7,
+  "unchecked": 0,
+  "bad_examples": [
+   "family:__document__ \"Approvals and Compliance\" t1:r20:c1 status=ok label_in_text=true value_in_text=false cell=\"Safety ● UL 60950-1,CAN/CSA-C22.2 No. 60950-1, EN 60950-1, IEC 60950-1, AS/NZS 6\"",
+   "family:__document__ \"Approvals and compliance\" t1:r20:c1 status=ok label_in_text=true value_in_text=false cell=\"Safety ● UL 60950-1,CAN/CSA-C22.2 No. 60950-1, EN 60950-1, IEC 60950-1, AS/NZS 6\"",
+   "family:__document__ \"Approvals and compliance\" t1:r19:c1 status=ok label_in_text=true value_in_text=false cell=\"Safety ● UL 60950-1,CAN/CSA-C22.2 No. 60950-1, EN 60950-1, IEC 60950-1, AS/NZS 6\"",
+   "family:__document__ \"Approvals and compliance\" t1:r18:c1 status=ok label_in_text=true value_in_text=false cell=\"Safety ● UL 60950-1, CAN/CSA-C22.2 No. 60950-1, EN 60950-1, IEC 60950-1, AS/NZS \"",
+   "family:__document__ \"Wireless technologies supported (performance and throughput)\" t2:r9:c1 status=ok label_in_text=true value_in_text=false cell=\"C819(H)G-4G-V-K9 LTE 700 MHz (band 13) Backward compatibility: ◦ CDMA (Rev A, Re\"",
+   "family:__document__ \"Input\" t110:r8:c1 status=ok label_in_text=true value_in_text=false cell=\"200 to 240 VAC, 50 to 60 Hz, 27.7 ATolerance: +/–10% (180 to 264) VAC, 50 to 60 \"",
+   "family:__document__ \"Input\" t111:r8:c1 status=ok label_in_text=true value_in_text=false cell=\"200 to 240 VAC, 50 to 60 Hz, 27.7 ATolerance: +/–10% (180 to 264) VAC, 50 to 60 \""
+  ]
+ },
+ "members_base": {
+  "certifications": {
+   "accept": 2948,
+   "refuse": 0,
+   "flagged": 48,
+   "unclassified": 627,
+   "truncated": 70
+  },
+  "supported_protocols": {
+   "accept": 1486,
+   "refuse": 0,
+   "flagged": 16,
+   "unclassified": 434,
+   "truncated": 99
+  },
+  "ieee_standards": {
+   "accept": 346,
+   "refuse": 0,
+   "flagged": 1,
+   "unclassified": 189,
+   "truncated": 0
+  },
+  "emc_emissions": {
+   "accept": 474,
+   "refuse": 0,
+   "flagged": 0,
+   "unclassified": 13,
+   "truncated": 6
+  }
+ },
+ "members_wide": {
+  "certifications": {
+   "accept": 2984,
+   "refuse": 0,
+   "flagged": 44,
+   "unclassified": 634,
+   "truncated": 55
+  },
+  "supported_protocols": {
+   "accept": 2441,
+   "refuse": 0,
+   "flagged": 189,
+   "unclassified": 772,
+   "truncated": 15
+  },
+  "ieee_standards": {
+   "accept": 346,
+   "refuse": 0,
+   "flagged": 1,
+   "unclassified": 189,
+   "truncated": 0
+  },
+  "emc_emissions": {
+   "accept": 480,
+   "refuse": 0,
+   "flagged": 0,
+   "unclassified": 13,
+   "truncated": 4
+  }
+ },
+ "hidden_cut_tails_base": [
+  "supported_protocols: \"Border Gateway Protocol (BGP)\" (C1100TGX-1N24P32A, \"Protocols\")",
+  "supported_protocols: \"Border Gateway Protocol (BGP)\" (C1100TG-1N24P32A, \"Protocols\")",
+  "supported_protocols: \"Border Gateway Protocol (BGP)\" (C1100TG-1N32A, \"Protocols\")",
+  "certifications: \"EN 61000-3-2, EN\" (family:__document__, \"Approvals and Compliance\")",
+  "certifications: \"EN 61000-3-2, EN\" (family:__document__, \"Approvals and compliance\")",
+  "supported_protocols: \"PIM\" (family:__document__, \"Multicast\")",
+  "certifications: \"EN300\" (family:8010 Series Medium Density Routers, \"EMC standards (Emissions)\")",
+  "certifications: \"EN61000-6-2:2005\" (family:8010 Series Medium Density Routers, \"EMC standards (Immunity)\")",
+  "emc_emissions: \"EN 55032:2012/AC:2013 EN 55022 AS/NZS CISPR 32 KN32: 2015 ICES-003 Issue 6: 2016\" (family:__document__, \"EMC emissions\")",
+  "certifications: \"IEC 60950-1\" (family:__document__, \"Safety\")",
+  "supported_protocols: \"Intermediate\" (family:__document__, \"Protocols\")",
+  "certifications: \"IEC 60950-1 CSA\" (family:__document__, \"Safety\")",
+  "supported_protocols: \"Intermediate\" (family:Support, \"Protocols\")",
+  "certifications: \"EN 61000-6-4 Emission Standard for Industrial\" (family:Standards, \"Industry standards\")",
+  "certifications: \"NOM-019-SCFI (through partners and distributor)\" (family:Standards, \"Safety standards and certifications\")",
+  "certifications: \"NEBS\" (family:Benefits/Description, \"NEBS (Network Equipment Building System)\")",
+  "certifications: \"IS6100:2004 DSPR Gray Book:2000 DSPR Technical Condition:\" (ISR4461, \"Telecom\")",
+  "certifications: \"IS6100:2004 DSPR Gray Book:2000 DSPR Technical Condition:\" (ISR4461/K9, \"Telecom\")",
+  "certifications: \"IS6100:2004 DSPR Gray Book:2000 DSPR Technical Condition:\" (ISR4451, \"Telecom\")",
+  "certifications: \"IS6100:2004 DSPR Gray Book:2000 DSPR Technical Condition:\" (ISR4451-X/K9, \"Telecom\")",
+  "supported_protocols: \"Multilink\" (ISR4461, \"Encapsulations\")",
+  "supported_protocols: \"Multilink\" (ISR4461/K9, \"Encapsulations\")",
+  "supported_protocols: \"Multilink\" (ISR4451, \"Encapsulations\")",
+  "supported_protocols: \"Multilink\" (ISR4451-X/K9, \"Encapsulations\")",
+  "supported_protocols: \"Multilink\" (ISR4431, \"Encapsulations\")"
+ ],
+ "hidden_cut_tails_wide": [
+  "supported_protocols: \"PIM\" (family:__document__, \"Multicast\")",
+  "certifications: \"EN300\" (family:8010 Series Medium Density Routers, \"EMC standards (Emissions)\")",
+  "certifications: \"EN61000-6-2:2005\" (family:8010 Series Medium Density Routers, \"EMC standards (Immunity)\")",
+  "certifications: \"IEC 60950-1\" (family:__document__, \"Safety\")",
+  "certifications: \"IEC 60950-1 CSA\" (family:__document__, \"Safety\")",
+  "certifications: \"EN 61000-6-4 Emission Standard for Industrial\" (family:Standards, \"Industry standards\")",
+  "certifications: \"NEBS\" (family:Benefits/Description, \"NEBS (Network Equipment Building System)\")",
+  "certifications: \"IS6100:2004 DSPR Gray Book:2000 DSPR Technical Condition:\" (ISR4461, \"Telecom\")",
+  "certifications: \"IS6100:2004 DSPR Gray Book:2000 DSPR Technical Condition:\" (ISR4461/K9, \"Telecom\")",
+  "certifications: \"IS6100:2004 DSPR Gray Book:2000 DSPR Technical Condition:\" (ISR4451, \"Telecom\")",
+  "certifications: \"IS6100:2004 DSPR Gray Book:2000 DSPR Technical Condition:\" (ISR4451-X/K9, \"Telecom\")",
+  "certifications: \"NEBS\" (family:Benefits/Description, \"NEBS (Network Equipment Building System)\")",
+  "certifications: \"IS6100:2004 DSPR Gray Book:2000 DSPR Technical Condition:\" (ISR4461, \"Telecom\")",
+  "certifications: \"IS6100:2004 DSPR Gray Book:2000 DSPR Technical Condition:\" (ISR4461/K9, \"Telecom\")",
+  "certifications: \"IS6100:2004 DSPR Gray Book:2000 DSPR Technical Condition:\" (ISR4451, \"Telecom\")",
+  "certifications: \"IS6100:2004 DSPR Gray Book:2000 DSPR Technical Condition:\" (ISR4451-X/K9, \"Telecom\")",
+  "certifications: \"IS6100:2004 DSPR Gray Book:2000 DSPR Technical Condition:\" (family:Cisco 5400 ENCS, \"Telecom\")",
+  "certifications: \"IEC/EN61000-4-2 Electrostatic Discharge Immunity IEC/EN61000-4-3 Radiated Immunity IEC/EN61000-4-4 EFT-B Immunity IEC/EN61000-4-5 Surge IEC/EN61000-4-6 Immunity\" (family:Regulatory compliance statement: Products comply with CE Markings according to directives 2014/30/EU and 2014/35/EU, \"EMC standards (immunity)\")",
+  "supported_protocols: \"PIM\" (family:__document__, \"Multicast\")",
+  "certifications: \"EN300\" (family:8010 Series Large Density Routers, \"EMC standards (Emissions)\")",
+  "certifications: \"EN61000-6-2:2005\" (family:8010 Series Large Density Routers, \"EMC standards (Immunity)\")",
+  "supported_protocols: \"PIM\" (family:__document__, \"Multicast\")",
+  "certifications: \"EN300\" (family:8010 Series Medium Density Routers, \"EMC standards (Emissions)\")",
+  "certifications: \"EN61000-6-2:2005\" (family:8010 Series Medium Density Routers, \"EMC standards (Immunity)\")",
+  "certifications: \"KS C 9610-3-3\" (family:__document__, \"EMC standards\")"
+ ],
+ "cut_tail_verdicts_base": {
+  "supported_protocols": {
+   "accept": 47,
+   "unclassified": 52
+  },
+  "certifications": {
+   "accept": 62,
+   "unclassified": 8
+  },
+  "emc_emissions": {
+   "accept": 5,
+   "flagged": 1
+  }
+ },
+ "cut_tail_verdicts_wide": {
+  "supported_protocols": {
+   "unclassified": 12,
+   "accept": 3
+  },
+  "certifications": {
+   "accept": 52,
+   "unclassified": 3
+  },
+  "emc_emissions": {
+   "accept": 4
+  }
+ },
+ "routers_with_protocols": 25,
+ "routers_grew": 16,
+ "routers_shrank": 0,
+ "protocols_median_before": 15,
+ "protocols_median_after": 51,
+ "router_examples": [
+  {
+   "sku": "ISR4461",
+   "before": 15,
+   "after": 51,
+   "gained": [
+    "Border Gateway Protocol (BGP)",
+    "BGP Router Reflector",
+    "Intermediate System-to-Intermediate System (IS-IS)",
+    "Multicast Internet Group Management Protocol Version 3 (IGMPv3)",
+    "Protocol Independent Multicast sparse mode (PIM SM)",
+    "PIM Source Specific Multicast (SSM)",
+    "RSVP",
+    "CDP",
+    "ERSPAN",
+    "IPSLA",
+    "Call Home",
+    "EEM",
+    "IKE",
+    "ACL",
+    "EVC",
+    "DHCP",
+    "FR",
+    "DNS",
+    "LISP",
+    "OTV [6]",
+    "HSRP",
+    "RADIUS",
+    "AAA",
+    "AVC",
+    "Distance Vector Multicast Routing Protocol (DVMRP)",
+    "IPv4-to-IPv6 Multicast",
+    "MPLS",
+    "Layer 2",
+    "Layer 3 VPN",
+    "IP sec",
+    "Layer 2 Tunneling Protocol Version 3 (L2TPv3)",
+    "Bidirectional Forwarding Detection (BFD)",
+    "IEEE802.1ag",
+    "IEEE802.3ah",
+    "Multilink Frame Relay (MLFR) (FR.15 and FR.16)",
+    "High-Level Data Link Control (HDLC)",
+    "Serial (RS-232, RS-449, X.21, V.35, and EIA-530)",
+    "PPP over Ethernet (PPPoE)"
+   ],
+   "lost": [
+    "Border Gateway",
+    "Multilink"
+   ]
+  },
+  {
+   "sku": "ISR4461/K9",
+   "before": 15,
+   "after": 51,
+   "gained": [
+    "Border Gateway Protocol (BGP)",
+    "BGP Router Reflector",
+    "Intermediate System-to-Intermediate System (IS-IS)",
+    "Multicast Internet Group Management Protocol Version 3 (IGMPv3)",
+    "Protocol Independent Multicast sparse mode (PIM SM)",
+    "PIM Source Specific Multicast (SSM)",
+    "RSVP",
+    "CDP",
+    "ERSPAN",
+    "IPSLA",
+    "Call Home",
+    "EEM",
+    "IKE",
+    "ACL",
+    "EVC",
+    "DHCP",
+    "FR",
+    "DNS",
+    "LISP",
+    "OTV [6]",
+    "HSRP",
+    "RADIUS",
+    "AAA",
+    "AVC",
+    "Distance Vector Multicast Routing Protocol (DVMRP)",
+    "IPv4-to-IPv6 Multicast",
+    "MPLS",
+    "Layer 2",
+    "Layer 3 VPN",
+    "IP sec",
+    "Layer 2 Tunneling Protocol Version 3 (L2TPv3)",
+    "Bidirectional Forwarding Detection (BFD)",
+    "IEEE802.1ag",
+    "IEEE802.3ah",
+    "Multilink Frame Relay (MLFR) (FR.15 and FR.16)",
+    "High-Level Data Link Control (HDLC)",
+    "Serial (RS-232, RS-449, X.21, V.35, and EIA-530)",
+    "PPP over Ethernet (PPPoE)"
+   ],
+   "lost": [
+    "Border Gateway",
+    "Multilink"
+   ]
+  },
+  {
+   "sku": "ISR4451",
+   "before": 15,
+   "after": 51,
+   "gained": [
+    "Border Gateway Protocol (BGP)",
+    "BGP Router Reflector",
+    "Intermediate System-to-Intermediate System (IS-IS)",
+    "Multicast Internet Group Management Protocol Version 3 (IGMPv3)",
+    "Protocol Independent Multicast sparse mode (PIM SM)",
+    "PIM Source Specific Multicast (SSM)",
+    "RSVP",
+    "CDP",
+    "ERSPAN",
+    "IPSLA",
+    "Call Home",
+    "EEM",
+    "IKE",
+    "ACL",
+    "EVC",
+    "DHCP",
+    "FR",
+    "DNS",
+    "LISP",
+    "OTV [6]",
+    "HSRP",
+    "RADIUS",
+    "AAA",
+    "AVC",
+    "Distance Vector Multicast Routing Protocol (DVMRP)",
+    "IPv4-to-IPv6 Multicast",
+    "MPLS",
+    "Layer 2",
+    "Layer 3 VPN",
+    "IP sec",
+    "Layer 2 Tunneling Protocol Version 3 (L2TPv3)",
+    "Bidirectional Forwarding Detection (BFD)",
+    "IEEE802.1ag",
+    "IEEE802.3ah",
+    "Multilink Frame Relay (MLFR) (FR.15 and FR.16)",
+    "High-Level Data Link Control (HDLC)",
+    "Serial (RS-232, RS-449, X.21, V.35, and EIA-530)",
+    "PPP over Ethernet (PPPoE)"
+   ],
+   "lost": [
+    "Border Gateway",
+    "Multilink"
+   ]
+  },
+  {
+   "sku": "ISR4431",
+   "before": 15,
+   "after": 51,
+   "gained": [
+    "Border Gateway Protocol (BGP)",
+    "BGP Router Reflector",
+    "Intermediate System-to-Intermediate System (IS-IS)",
+    "Multicast Internet Group Management Protocol Version 3 (IGMPv3)",
+    "Protocol Independent Multicast sparse mode (PIM SM)",
+    "PIM Source Specific Multicast (SSM)",
+    "RSVP",
+    "CDP",
+    "ERSPAN",
+    "IPSLA",
+    "Call Home",
+    "EEM",
+    "IKE",
+    "ACL",
+    "EVC",
+    "DHCP",
+    "FR",
+    "DNS",
+    "LISP",
+    "OTV [6]",
+    "HSRP",
+    "RADIUS",
+    "AAA",
+    "AVC",
+    "Distance Vector Multicast Routing Protocol (DVMRP)",
+    "IPv4-to-IPv6 Multicast",
+    "MPLS",
+    "Layer 2",
+    "Layer 3 VPN",
+    "IP sec",
+    "Layer 2 Tunneling Protocol Version 3 (L2TPv3)",
+    "Bidirectional Forwarding Detection (BFD)",
+    "IEEE802.1ag",
+    "IEEE802.3ah",
+    "Multilink Frame Relay (MLFR) (FR.15 and FR.16)",
+    "High-Level Data Link Control (HDLC)",
+    "Serial (RS-232, RS-449, X.21, V.35, and EIA-530)",
+    "PPP over Ethernet (PPPoE)"
+   ],
+   "lost": [
+    "Border Gateway",
+    "Multilink"
+   ]
+  },
+  {
+   "sku": "ISR4431/K9",
+   "before": 15,
+   "after": 51,
+   "gained": [
+    "Border Gateway Protocol (BGP)",
+    "BGP Router Reflector",
+    "Intermediate System-to-Intermediate System (IS-IS)",
+    "Multicast Internet Group Management Protocol Version 3 (IGMPv3)",
+    "Protocol Independent Multicast sparse mode (PIM SM)",
+    "PIM Source Specific Multicast (SSM)",
+    "RSVP",
+    "CDP",
+    "ERSPAN",
+    "IPSLA",
+    "Call Home",
+    "EEM",
+    "IKE",
+    "ACL",
+    "EVC",
+    "DHCP",
+    "FR",
+    "DNS",
+    "LISP",
+    "OTV [6]",
+    "HSRP",
+    "RADIUS",
+    "AAA",
+    "AVC",
+    "Distance Vector Multicast Routing Protocol (DVMRP)",
+    "IPv4-to-IPv6 Multicast",
+    "MPLS",
+    "Layer 2",
+    "Layer 3 VPN",
+    "IP sec",
+    "Layer 2 Tunneling Protocol Version 3 (L2TPv3)",
+    "Bidirectional Forwarding Detection (BFD)",
+    "IEEE802.1ag",
+    "IEEE802.3ah",
+    "Multilink Frame Relay (MLFR) (FR.15 and FR.16)",
+    "High-Level Data Link Control (HDLC)",
+    "Serial (RS-232, RS-449, X.21, V.35, and EIA-530)",
+    "PPP over Ethernet (PPPoE)"
+   ],
+   "lost": [
+    "Border Gateway",
+    "Multilink"
+   ]
+  },
+  {
+   "sku": "ISR4351",
+   "before": 15,
+   "after": 51,
+   "gained": [
+    "Border Gateway Protocol (BGP)",
+    "BGP Router Reflector",
+    "Intermediate System-to-Intermediate System (IS-IS)",
+    "Multicast Internet Group Management Protocol Version 3 (IGMPv3)",
+    "Protocol Independent Multicast sparse mode (PIM SM)",
+    "PIM Source Specific Multicast (SSM)",
+    "RSVP",
+    "CDP",
+    "ERSPAN",
+    "IPSLA",
+    "Call Home",
+    "EEM",
+    "IKE",
+    "ACL",
+    "EVC",
+    "DHCP",
+    "FR",
+    "DNS",
+    "LISP",
+    "OTV [6]",
+    "HSRP",
+    "RADIUS",
+    "AAA",
+    "AVC",
+    "Distance Vector Multicast Routing Protocol (DVMRP)",
+    "IPv4-to-IPv6 Multicast",
+    "MPLS",
+    "Layer 2",
+    "Layer 3 VPN",
+    "IP sec",
+    "Layer 2 Tunneling Protocol Version 3 (L2TPv3)",
+    "Bidirectional Forwarding Detection (BFD)",
+    "IEEE802.1ag",
+    "IEEE802.3ah",
+    "Multilink Frame Relay (MLFR) (FR.15 and FR.16)",
+    "High-Level Data Link Control (HDLC)",
+    "Serial (RS-232, RS-449, X.21, V.35, and EIA-530)",
+    "PPP over Ethernet (PPPoE)"
+   ],
+   "lost": [
+    "Border Gateway",
+    "Multilink"
+   ]
+  },
+  {
+   "sku": "ISR4351/K9",
+   "before": 15,
+   "after": 51,
+   "gained": [
+    "Border Gateway Protocol (BGP)",
+    "BGP Router Reflector",
+    "Intermediate System-to-Intermediate System (IS-IS)",
+    "Multicast Internet Group Management Protocol Version 3 (IGMPv3)",
+    "Protocol Independent Multicast sparse mode (PIM SM)",
+    "PIM Source Specific Multicast (SSM)",
+    "RSVP",
+    "CDP",
+    "ERSPAN",
+    "IPSLA",
+    "Call Home",
+    "EEM",
+    "IKE",
+    "ACL",
+    "EVC",
+    "DHCP",
+    "FR",
+    "DNS",
+    "LISP",
+    "OTV [6]",
+    "HSRP",
+    "RADIUS",
+    "AAA",
+    "AVC",
+    "Distance Vector Multicast Routing Protocol (DVMRP)",
+    "IPv4-to-IPv6 Multicast",
+    "MPLS",
+    "Layer 2",
+    "Layer 3 VPN",
+    "IP sec",
+    "Layer 2 Tunneling Protocol Version 3 (L2TPv3)",
+    "Bidirectional Forwarding Detection (BFD)",
+    "IEEE802.1ag",
+    "IEEE802.3ah",
+    "Multilink Frame Relay (MLFR) (FR.15 and FR.16)",
+    "High-Level Data Link Control (HDLC)",
+    "Serial (RS-232, RS-449, X.21, V.35, and EIA-530)",
+    "PPP over Ethernet (PPPoE)"
+   ],
+   "lost": [
+    "Border Gateway",
+    "Multilink"
+   ]
+  },
+  {
+   "sku": "ISR4331/K9",
+   "before": 15,
+   "after": 51,
+   "gained": [
+    "Border Gateway Protocol (BGP)",
+    "BGP Router Reflector",
+    "Intermediate System-to-Intermediate System (IS-IS)",
+    "Multicast Internet Group Management Protocol Version 3 (IGMPv3)",
+    "Protocol Independent Multicast sparse mode (PIM SM)",
+    "PIM Source Specific Multicast (SSM)",
+    "RSVP",
+    "CDP",
+    "ERSPAN",
+    "IPSLA",
+    "Call Home",
+    "EEM",
+    "IKE",
+    "ACL",
+    "EVC",
+    "DHCP",
+    "FR",
+    "DNS",
+    "LISP",
+    "OTV [6]",
+    "HSRP",
+    "RADIUS",
+    "AAA",
+    "AVC",
+    "Distance Vector Multicast Routing Protocol (DVMRP)",
+    "IPv4-to-IPv6 Multicast",
+    "MPLS",
+    "Layer 2",
+    "Layer 3 VPN",
+    "IP sec",
+    "Layer 2 Tunneling Protocol Version 3 (L2TPv3)",
+    "Bidirectional Forwarding Detection (BFD)",
+    "IEEE802.1ag",
+    "IEEE802.3ah",
+    "Multilink Frame Relay (MLFR) (FR.15 and FR.16)",
+    "High-Level Data Link Control (HDLC)",
+    "Serial (RS-232, RS-449, X.21, V.35, and EIA-530)",
+    "PPP over Ethernet (PPPoE)"
+   ],
+   "lost": [
+    "Border Gateway",
+    "Multilink"
+   ]
+  }
+ ],
+ "router_shrank_examples": []
+}

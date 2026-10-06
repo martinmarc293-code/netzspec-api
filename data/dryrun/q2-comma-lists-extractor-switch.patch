@@ -1,0 +1,39 @@
+diff --git a/scraper/adapters/cisco_specs_deep.py b/scraper/adapters/cisco_specs_deep.py
+index a3f91d4c..94598b11 100644
+--- a/scraper/adapters/cisco_specs_deep.py
++++ b/scraper/adapters/cisco_specs_deep.py
+@@ -283,9 +283,33 @@ STANDARDS_PREFIXES = ("ITU-T", "ITUT", "IEEE", "RFC", "IETF")
+ _PREFIX_AT = re.compile(r"(?<![A-Za-z0-9-])(?:" + "|".join(re.escape(p) for p in STANDARDS_PREFIXES) + r")(?=\s+\S)")
+ 
+ 
++# Q2, DRY MEASUREMENT ONLY (reviewer, 6 Oct 2026 ~16:20: "yes, dry only ... Bring the numbers before anything ships"). A
++# comma-delimited cell is a list the page delimited with commas -- the ISR 4000 "Protocols" row is ~800 characters of
++# "IPv4, IPv6, static routes, ..." and the test above calls it a SCALAR, so it kept 160 and lost BGP, IS-IS, MPLS and the rest.
++# Only ", " OUTSIDE brackets counts: "1,000,000" has no space after its commas, and "Serial (RS-232, RS-449, X.21)" is one item.
++# Off unless NETZSPEC_COMMA_LISTS=1, so nothing that runs by default moves until the measurement has been read.
++COMMA_LISTS = __import__("os").environ.get("NETZSPEC_COMMA_LISTS") == "1"
++COMMA_LIST_MIN_ITEMS = 5
++
++
++def _top_level_comma_items(v: str) -> int:
++    """How many items ", " separates outside (), [] -- 1 for a cell with none."""
++    depth, n = 0, 1
++    for i, ch in enumerate(v):
++        if ch in "([":
++            depth += 1
++        elif ch in ")]":
++            depth = max(0, depth - 1)
++        elif ch == "," and depth == 0 and v[i + 1:i + 2] == " ":
++            n += 1
++    return n
++
++
+ def _is_list_cell(v: str) -> bool:
+     """The DOCUMENT marks this cell as a list: two bullets or more, or a run of two or more standards prefixes."""
+-    return len(BULLETS.findall(v)) >= 2 or len(_PREFIX_AT.findall(v)) >= 2
++    if len(BULLETS.findall(v)) >= 2 or len(_PREFIX_AT.findall(v)) >= 2:
++        return True
++    return COMMA_LISTS and _top_level_comma_items(v) >= COMMA_LIST_MIN_ITEMS
+ 
+ 
+ def cap_cell(val: str, locator: str, defects: list[dict], what: str = "") -> tuple:

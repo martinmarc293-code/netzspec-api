@@ -466,6 +466,20 @@ HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). R
   no gate change needed. Measure base vs wide over /tmp/rt-all-html.txt in the scratch tree: cells that flip (by key, ls vs
   scalar), the gate re-read, each router's protocol list, + the reviewer's rule: the last member of a truncated (160) piece is
   flagged truncated even when the grammar accepts it ('Multilink').
+- 6 Oct ~17:10 UTC Q2 MEASURED (dry; nothing shipped): base vs NETZSPEC_COMMA_LISTS=1 over the 455 router HTML docs (scratch tree,
+  1500M cap, both exit 0; scripts/q2-comma-lists-measure.mts, report data/dryrun/q2-comma-lists-report-2026-10-06.json, the
+  extractor switch kept as data/dryrun/q2-comma-lists-extractor-switch.patch and REVERTED from the tree). 576 cell groups change:
+  197 land in LIST cups (supported_protocols 83, crypto_algorithms 43, cellular_bands 27, certifications 15, qos_features 13,
+  programming_interfaces 8, lan_interfaces/emc/product_compatibility 2 each, ui_languages/advanced_functions 1), 10 in SCALAR
+  cups (timing_sync 5, input_voltage 2, dimensions 2 incl. a multi-model A901 cell, wavelength 1), 369 nowhere (unmapped 292,
+  sentinel 59, rejected 18). Gate re-read of the 728 changed wide records: 721 ok, 7 value_in_text=false (glued cell text the cut
+  used to hide: "27.7 ATolerance", "60950-1,CAN/CSA"), 0 unchecked. Routers with SKU-level protocol rows: 16 of 25 grow, 0 shrink,
+  median 15 -> 51 (ISR4461/K9 15 -> 51: BGP, IS-IS, IGMPv3, PIM, RSVP, CDP, ... MPLS, L2TPv3, BFD). Members: supported_protocols
+  accept 1,486 -> 2,441, unclassified 434 -> 772 (+338), flagged 16 -> 189 (bullet residue); certifications accept +36, uncl +7.
+  The 160-boundary rule (last member of a cut record = truncated): base 175 such members (protocols 99, certifications 70, emc 6),
+  114 of them ACCEPTED by the grammar today (Multilink, PIM, Intermediate, IEC 60950-1, NEBS, Border Gateway Protocol (BGP)...);
+  wide 74 remain cut -- space-separated standards runs (certifications 55) the comma rule does not reach. supported_protocols is
+  OPT for routers, certifications REQ. NUMBERS SENT TO THE REVIEWER; nothing ships before its answer.
 - CLOSING RUN READY (not committed): scripts/resolve-weight-config-conflicts.mts + board class A (local, uncommitted);
   dry on the box: 72 open router weight conflicts, resolve 44 (ISR 4000 + 3 8800 chassis-only kept), held 28 (8804/8808/
   8812-SYS where the KEPT side is 'Weight (full system)' -- needs a supersede to the chassis-only value, not a close).
