@@ -431,6 +431,21 @@ HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). R
   by the loose token rule. Fix = the extractor's list test, a gate contract change -> ASK. arrangementFreeze is red on the alias
   file since f0a0bd1 (5 Oct Safety rows, after the 0f27a12 freeze) -- pre-existing, the rebuild (d) regenerates it.
   NEXT (d): rebuild at HEAD on the box, pull, contract/stamp ONE BUILD, freeze, suites, commit, deploy, board, STOP.
+- 6 Oct 16:15 UTC: deployed 8dcbd09, mould-build at 8dcbd09 launched on the box (/tmp/build-8dcbd09.log, start marker
+  /tmp/build-8dcbd09.start). Scorecard recorded: router ready 207 (+1, predicted 1 / actual 1), flags none. REPORT SENT.
+- VERDICT 6 Oct ~16:20 UTC (verbatim): "(a) 4221 in: yes — it's the family's smallest model; inside the ruling. (b) Kept 6.2 for
+  4331-DC: accepted, but record it as an anomaly in the decision with the cell's literal "(4431-DC)" and the reasoning (column
+  header names 4331-DC, value equals its AC sibling, no 4431-DC PID exists). If a later sheet revision disagrees, that note is
+  the first thing to read. Q1: yes — one set-series run, the 26 hardware + 4 licences to "4000 ISR", and "4000" dropped from the
+  throughput list in the same commit. Q2: yes, dry only, and add one rule to the measurement: a member that ends at the 160
+  boundary is flagged truncated regardless of whether the grammar accepts it — "Multilink" passing the token rule is exactly how
+  a cut tail hides. Bring the numbers before anything ships. Board report first, then the STOP, then the installation-guide
+  reader."
+  (b) anomaly note WRITTEN in docs/decisions/2026-10-05-router-weight-configuration.md. ORDER NOW: let the 8dcbd09 build finish
+  -> pull, ONE BUILD, suites, commit, deploy; THEN Q1 (set-series 26 hw + 4 lic -> '4000 ISR' FIRST, then commit
+  ROUTER_THROUGHPUT_SERIES minus '4000' + contract, sync-dictionary run, rebuild) -> board -> BOARD REPORT -> STOP (after its
+  answer) -> installation-guide reader. Q2 = DRY measurement only (comma-dense list cells + a 160-boundary truncation flag),
+  numbers to the reviewer before anything ships.
 - CLOSING RUN READY (not committed): scripts/resolve-weight-config-conflicts.mts + board class A (local, uncommitted);
   dry on the box: 72 open router weight conflicts, resolve 44 (ISR 4000 + 3 8800 chassis-only kept), held 28 (8804/8808/
   8812-SYS where the KEPT side is 'Weight (full system)' -- needs a supersede to the chassis-only value, not a close).

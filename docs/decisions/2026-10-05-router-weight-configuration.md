@@ -26,3 +26,19 @@ ISR4331-DC/K9 6.2 (the DC row).
 
 **Still owed:** the held weight conflicts closed as superseded readings in ONE approval run after the re-apply; then the
 installation-guide reader.
+
+**Done 6 Oct 2026:** run 1501 closed 44 conflicts (the rejected row refused, the kept row the ruled one); run 1504 superseded
+ISR4331-DC/K9's weight from the AC base row (t4:r49) to the DC row (t4:r50) on both URLs of c78-732542 and resolved its 4
+conflicts (reviewer, 6 Oct ~07:50: "yes, supersede -- the DC row is that PID's article weight by the ruling"). 28 conflicts on
+the 8800 -SYS chassis stay held for their own ruling.
+
+## ANOMALY -- read this first if a later revision of c78-732542 disagrees (reviewer, 6 Oct ~16:20: "record it as an anomaly")
+
+The DC cell that ISR4331-DC/K9's 6.2 kg is read from says, literally, **`13.5 lb (6.2 kg) (4431-DC)`** -- under the column
+header **`Cisco 4331/ 4331-DC`** (table 4, row 50, column 5). The qualifier names a model that is not in that column, and the
+sheet's whole DC row looks garbled: the 4451, 4431 and 4351 DC cells all read `28.8lb (13.1kg)`, while the 4431's AC chassis is
+`18.5 lb (8.4 kg)`. The 6.2 kg was kept as the 4331-DC's because (1) the column header names 4331-DC, (2) the value equals its
+AC sibling's `13.5 lb (6.2 kg)` on the row above, and (3) no 4431-DC PID exists in the catalogue -- and 6.2 kg cannot be a 4431,
+whose AC chassis weighs 8.4 kg. The weight rule refuses the DC row for every PID that is not a DC variant, so the garbled cells
+in the other columns reach nothing. If a later revision of the sheet moves or corrects that cell, re-read it before trusting
+the stored value.
