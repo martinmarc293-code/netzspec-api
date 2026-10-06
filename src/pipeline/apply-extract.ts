@@ -74,6 +74,7 @@ import {
 } from "../store/index.js";
 import { mapFact, mapFactAll, unitFromLabel, VALUE_RULES, type RawFact, type MappedCell } from "../core/deepSpecMap.js";
 import { isNatThroughputLabel, natThroughputDecision, NAT_AS_ROUTER_THROUGHPUT_LABEL } from "../core/natThroughput.js";
+import { weightRowDecision } from "../core/weightConfig.js";
 import { FIELD_DICTIONARY } from "../core/fieldSchema.js";
 import { GENERATED_FIELDS } from "../core/fieldSchema.generated.js";
 import { NORM_VERSION } from "../core/specNormalize.js";
@@ -391,7 +392,7 @@ export async function planExtract(files: ExtractFile[], opts: { vendor: string; 
     collision_same_value: 0, collision_differing: 0, collision_exact_repeat: 0, collision_list_union: 0,
     // raw cells folded into one fact by the extractor's list rule (RawFact.fragments)
     list_fragment_cells: 0,
-    doc_defects: 0, raw_with_label_unit: 0, raw_with_label_basis: 0,
+    doc_defects: 0, raw_with_label_unit: 0, raw_with_label_basis: 0, weight_config_refused: 0,
     sku_unknown: 0, sku_unknown_facts: 0, pid_list_unknown: 0, family_no_listed_parts: 0,
     inherit_ok: 0, inherit_value_rule_class_c: 0, value_rule_cells: 0, value_rule_refused: 0, inherit_class_b: 0, inherit_scope_unresolved: 0, inherit_scope_violation: 0, inherit_class_c_exception: 0, inherit_refused_other: 0,
     // entries the STORE will refuse before any SQL (describesPart / notApplicable): offered to the
@@ -645,6 +646,11 @@ export async function planExtract(files: ExtractFile[], opts: { vendor: string; 
       if (m.kind === "unmapped") { stats.unmapped++; noteUnmapped(m.label, f.value, part.category); continue; }
       if (m.kind === "sentinel") { noteSentinel(m.sentinel, f.label, f.value, part.category); continue; }
       if (m.kind === "rejected") { stats.rejected++; quarantine.push({ sku: f.sku, label: f.label, value: f.value, key: m.key, reason: m.reason, detail: m.detail, locator: f.locator, doc_id: d.doc_id }); continue; }
+      // reviewer ruling 5 Oct 2026 (src/core/weightConfig.ts): a weight row printed per CONFIGURATION is the article weight only
+      // of the PID that configuration is (base row -> the base PID, a DC row -> the -DC PID); add-ons and full loads never. Routers
+      // only, the operator's order. Refused rows are counted and filed as __not_a_spec, never silently dropped.
+      const wd = m.key === "weight" && part.category === "routers" ? weightRowDecision(f.label, part.sku) : null;
+      if (wd && !wd.use) { stats.weight_config_refused++; noteSentinel("__not_a_spec", f.label, f.value, part.category); continue; }
       stats.mapped_ok++;
       // the smb NAT row keeps its own label in the replayable raw ("Performance: NAT throughput | 1 Gbps"): the provenance
       // must say it was a NAT row, not an aggregate one
@@ -680,6 +686,10 @@ export async function planExtract(files: ExtractFile[], opts: { vendor: string; 
         const part = resolvePart(pid);
         if (!part) continue;                       // counted once above as pid_list_unknown
         if (natOk && !natOk.has(part.id)) { natStat("outside-smb"); continue; }
+        if (m.key === "weight" && part.category === "routers") {   // the same ruling for a series-level weight row
+          const wd = weightRowDecision(f.label, part.sku);
+          if (wd && !wd.use) { stats.weight_config_refused++; continue; }
+        }
         if (natOk) natStat("smb");
         const chk = canInherit({
           fieldKey: m.key, sku: pid, docPidList: d.pid_list,
