@@ -401,6 +401,15 @@ HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). R
   certifications members (listShapes grammar / refuse; no ceiling raise); (d) rebuild (mould-build at HEAD, pull,
   contract/stamp ONE BUILD, suites, commit, deploy), board green -> move \$FILL/STOP to stops-cleared/ with a note ->
   report; (e) installation-guide reader.
+- 6 Oct 15:48 UTC (a) DONE: RUN 1503 set-series, 25 ISR 4000 PIDs '3900 Series Integrated Services Routers ISR' -> '4000 ISR'
+  (21 hardware incl. ISR4331-DC/K9 + C1-CISCO4331-DC/K9 + 2x C1-CISCO4221 (family's smallest model, read as in the ruling,
+  REPORT IT) + 4 C1 licences); new connection: 0 not carrying it. set-series.mts gained --skus-file / --approved-file, one run,
+  all-or-nothing, prior values in run inputs + plan data/dryrun/set-series-2026-10-06T154831317Z.tsv; sabotage (an unknown
+  SKU in the list) REFUSED whole, exit 2. None of the 25 was ready (20 hold 0-2 facts), so no ready drop. FINDING TO REPORT:
+  the ISR 4000 family still sits under FIVE labels -> kat3 splits in the shop: '4000' 7 hw (the 7 READY base PIDs),
+  '4000 ISR' 42+21 hw, '2900 ISR' 13 hw + 4 lic, '1900 ISR' 2 hw (ISR4221-AX/SEC), '1000' 4 hw (ISR4331-SPM, SI-ISR4331-
+  IWAN/K9 ...) + 9 sw, 'ASR 1000' 3 sw. Propose: one label for the family (which: '4000' vs '4000 ISR'?), ROUTER_THROUGHPUT_
+  SERIES edited in the same change (a moved-out entry becomes a dead entry = board red). ASK, do not run.
 - CLOSING RUN READY (not committed): scripts/resolve-weight-config-conflicts.mts + board class A (local, uncommitted);
   dry on the box: 72 open router weight conflicts, resolve 44 (ISR 4000 + 3 8800 chassis-only kept), held 28 (8804/8808/
   8812-SYS where the KEPT side is 'Weight (full system)' -- needs a supersede to the chassis-only value, not a close).

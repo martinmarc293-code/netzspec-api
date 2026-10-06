@@ -1,0 +1,26 @@
+sku	part_id	from	to
+C1-CISCO4221/K9	17957	3900 Series Integrated Services Routers ISR	4000 ISR
+C1-CISCO4221T-P/K9	17802	3900 Series Integrated Services Routers ISR	4000 ISR
+C1-CISCO4321/K9	17936	3900 Series Integrated Services Routers ISR	4000 ISR
+C1-CISCO4321T-P/K9	18081	3900 Series Integrated Services Routers ISR	4000 ISR
+C1-CISCO4331-DC/K9	17900	3900 Series Integrated Services Routers ISR	4000 ISR
+C1-CISCO4331/K9	17901	3900 Series Integrated Services Routers ISR	4000 ISR
+C1-CISCO4331T-P/K9	18050	3900 Series Integrated Services Routers ISR	4000 ISR
+C1-CISCO4351/K9	17835	3900 Series Integrated Services Routers ISR	4000 ISR
+C1-CISCO4431/K9	17836	3900 Series Integrated Services Routers ISR	4000 ISR
+C1-CISCO4451/K9	17902	3900 Series Integrated Services Routers ISR	4000 ISR
+ISR4331-DC/K9	45072	3900 Series Integrated Services Routers ISR	4000 ISR
+ISR4431-AX/K9	44782	3900 Series Integrated Services Routers ISR	4000 ISR
+ISR4431-AXV/K9	44963	3900 Series Integrated Services Routers ISR	4000 ISR
+ISR4431-SEC/K9	44621	3900 Series Integrated Services Routers ISR	4000 ISR
+ISR4431-V/K9	44935	3900 Series Integrated Services Routers ISR	4000 ISR
+ISR4431-VSEC/K9	45041	3900 Series Integrated Services Routers ISR	4000 ISR
+ISR4451-X-AX/K9	44899	3900 Series Integrated Services Routers ISR	4000 ISR
+ISR4451-X-AXV/K9	44747	3900 Series Integrated Services Routers ISR	4000 ISR
+ISR4451-X-SEC/K9	44714	3900 Series Integrated Services Routers ISR	4000 ISR
+ISR4451-X-V/K9	44936	3900 Series Integrated Services Routers ISR	4000 ISR
+ISR4451-X-VSEC/K9	44715	3900 Series Integrated Services Routers ISR	4000 ISR
+C1A1AISR4400SK9	18815	3900 Series Integrated Services Routers ISR	4000 ISR
+C1A2UISR4400SK9	19198	3900 Series Integrated Services Routers ISR	4000 ISR
+C1F1AISR4431SK9	19431	3900 Series Integrated Services Routers ISR	4000 ISR
+C1F2UISR4431SK9	19676	3900 Series Integrated Services Routers ISR	4000 ISR
