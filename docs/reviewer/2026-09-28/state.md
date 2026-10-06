@@ -332,6 +332,13 @@ HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). R
   superseded readings (resolve-superseded-readings precedent, ruling Q13). (2) the installation-guide reader (97 guides, 0
   facts). (3) rebuild (freeze/mapperTrace red since f0a0bd1) + pull + commit. Then secure-routers (defect budget), more
   golden families, RV single-model sheets, ISR 1000 patterns, series labels, bundle->base inheritance (ask first).
+- 6 Oct ~00:00 UTC: WEIGHT RULE SHIPPED 4b17c60 (deployed): src/core/weightConfig.ts in apply-extract (routers only),
+  tests/weightConfig 13/0, 7 ISR 4000 weight golden rows (24 golden in all), docs/decisions/2026-10-05-router-weight-
+  configuration.md. NEXT: (i) re-split /tmp/rt-all-html.json -> dry apply ISR 4000 family (--sample 120 --tag rt-isr4k2) ->
+  commit; (ii) ONE approval run closing the held ISR 4000 weight conflicts as superseded readings (see scripts/resolve-
+  superseded-readings*, ruling Q13; approval = the 23:10 verdict, verbatim above); (iii) check router ready (ISR 4000 should
+  turn ready: their only blocker was weight); (iv) report + scoped scorecard; (v) installation-guide reader.
+  OPERATOR 6 Oct: 'compact the session yourself automatically' -- never ask for /compact; auto-compaction at ~97%.
 - NIGHT 01:00 UTC: will pick up today's 307 router docs (watermark 5 Oct 01:00) and may commit families with golden rows;
   do NOT deploy 01:00-01:45; pull its artefacts (find data -newer GIT_SHA) before the next deploy.
 - OPERATOR, 5 Oct ~21:00 UTC (verbatim): "complete the router category full, you are not allowed to focus on anything else
