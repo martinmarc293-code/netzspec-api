@@ -87,7 +87,8 @@ const SOURCES: Source[] = [
   // Q2. The C8200 table's part-number cell names both models and prints one unconditional chassis weight. The C8300 and C8500 rows
   // are "with 2x AC power supplies and fan tray": plain because the ordering guides say the platforms SHIP with two PSUs (requires).
   // Columns are read in the order the part-number and rack-unit rows print them: C8300 2RU (2N2S) then 1RU (1N1S); C8500 20X6C, 12X4QC,
-  // 12X, 8500L. The 20X6C cell ("77.5 lbs (4x AC) 75 lbs. (3x AC)") is ruled max-bound of the larger -- NOT a row here (plain method).
+  // 12X, 8500L. The 20X6C cell ("77.5 lbs (4x AC) 75 lbs. (3x AC)") was first ruled max-bound of the larger; re-ruled ~23:35 to the
+// shipped configuration (3x AC, 75 lbs) once the ordering guide showed it ships with three PSUs -- its row is the last one below.
   { url: "https://www.cisco.com/c/en/us/products/collateral/routers/catalyst-8200-series-edge-platforms/nb-06-cat8200-series-edge-plat-ds-cte-en.html",
     doc_type: "vendor_datasheet_html", heading: null, label: "Chassis weight", raw: "10 lb (4.54 kg)", model: "C8200-1N-4T and C8200L-1N-4T",
     printed: ["Table 12. Mechanical specifications", "Part number C8200-1N-4T and C8200L-1N-4T", "Chassis weight 10 lb (4.54 kg)"], pids: /^C8200L?-1N-4T$/ },
@@ -101,6 +102,11 @@ const SOURCES: Source[] = [
     raw: "20.25 lbs", model: "C8500-12X", pids: /^C8500-12X$/, requires: C8500_OG },
   { url: C8500_DS, doc_type: "vendor_datasheet_html", heading: null, printed: T17, label: "Chassis weight with 2x AC power supplies and fan tray",
     raw: "17 lbs", model: "C8500L-8S4X", pids: /^C8500L-8S4X$/, requires: C8500_OG },
+  // reviewer ~23:35 (verbatim): "A: plain 75 — the shipped configuration, same rule as the C8300 and C8500; 77.5 is the optional fourth
+  // PSU." The 20X6C's cell prints both ("77.5 lbs (4x AC) 75 lbs. (3x AC)"); the guide says it ships with three (N+1), the 4th optional.
+  { url: C8500_DS, doc_type: "vendor_datasheet_html", heading: null, printed: T17, label: "Chassis weight with 2x AC power supplies and fan tray",
+    raw: "75 lbs", model: "C8500-20X6C (3x AC, the shipped configuration)", pids: /^C8500-20X6C$/,
+    requires: { url: C8500_OG.url, printed: "ship with two (redundant) power supplies and three (N+1) with the C8500-20X6C" } },
 ];
 
 const cacheFile = (url: string) => `${createHash("sha1").update(url).digest("hex")}.html`;

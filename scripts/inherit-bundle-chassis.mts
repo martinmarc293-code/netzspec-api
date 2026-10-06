@@ -47,8 +47,20 @@ export const PHYSICAL = new Set([
   "input_current", "input_freq", "input_voltage", "inrush_current", "power_max", "power_max_dc", "power_typical", "psu_options",
   "mtbf", "module_slots", "usb_ports", "oir_support", "certifications", "emc_emissions", "emc_immunity", "shipping_dimensions",
 ]);
-/** Licence affixes: each sells software on the same box. Anything else in a SKU is hardware and is never stripped. */
-const LICENCE_AFFIX = /-(?:SEC|AXV|AX|HSEC\+?)(?=\/K9$|-K9$|$)/;
+/** Licence affixes: each sells software on the same box. Anything else in a SKU is hardware and is never stripped.
+ *  -FC (Flexible Consumption), reviewer 6 Oct ~23:35 (verbatim): "B: yes — -FC joins the licence affixes; physical facts flow both
+ *  ways between the -FC and the base, nothing else." (NC57-MPA-12L-S and -FC carry the same catalogue name.) */
+const LICENCE_AFFIX = /-(?:SEC|AXV|AX|HSEC\+?|FC)(?=\/K9$|-K9$|$)/;
+/** The affixes whose physical facts flow BOTH ways (base <- variant too, where only the variant is printed). */
+export const BOTH_WAYS_AFFIX = new Set(["FC"]);
+/** Sales variants named one by one, never by a suffix rule (reviewer ~23:35, C: "depends on what the bundle contains — read their
+ *  catalogue names first. If a bundle adds only software or a licence, it inherits like (b); if it adds hardware ... the AXV rule").
+ *  Read 6 Oct ~23:40: both carry the RP1's own name and DRAM with only a sales qualifier -- no hardware added. A "-BUN" elsewhere
+ *  (40X10G-LSP-BUN=) is a linecard bundle that DOES carry hardware, which is why this is a list and not a pattern. */
+export const SALES_VARIANT: ReadonlyMap<string, { base: string; name: string }> = new Map([
+  ["ASR1000-RP1-BUN", { base: "ASR1000-RP1", name: "Cisco ASR1000 Route Processor 1, 4GB DRAM, Bundle Component" }],
+  ["ASR1000-RP1-CB", { base: "ASR1000-RP1", name: "ASR1000 Route Processor 1, 4GB DRAM, China Special" }],
+]);
 /** Bundles that carry a module INSIDE the chassis (reviewer, 6 Oct ~21:20, correcting (b) on its premise): AXV ships a PVDM4 DSP
  *  ("ISR 4331 AXV Bundle, PVDM4-32 ..."), HSEC+ a VPN ISM module ("VPN ISM module HSEC bundles ..."; HSEC without + says "no ISM
  *  VPN module"). "Their module makes them a different physical object. Keep dimensions, environment, certifications." */
@@ -75,6 +87,8 @@ export function keysFor(sku: string): Set<string> {
 
 /** The base chassis SKU a licence bundle names, or null when the SKU carries no licence affix at all. */
 export function bundleBase(sku: string): string | null {
+  const sales = SALES_VARIANT.get(sku.toUpperCase());
+  if (sales) return sales.base;
   let s = sku.toUpperCase(), changed = false;
   if (s.startsWith("C1-")) { s = s.slice(3); changed = true; }
   const t = s.replace(LICENCE_AFFIX, "");
@@ -93,7 +107,10 @@ async function plan(): Promise<{ plans: Plan[]; refused: string[]; bundles: numb
     SELECT p.id, p.sku, p.sku_kind AS kind FROM parts p JOIN vendors v ON v.id = p.vendor_id JOIN categories c ON c.id = p.category_id
      WHERE v.slug = 'cisco' AND c.slug = $1 AND p.retired_at IS NULL AND p.product_class = 'hardware'`, [CATEGORY])).rows;
   const bySku = new Map(parts.map((p) => [p.sku.toUpperCase(), p]));
-  const pairs = parts.map((v) => ({ v, m: bundleBase(v.sku) ? bySku.get(bundleBase(v.sku)!) : undefined })).filter((x) => x.m);
+  const forward = parts.map((v) => ({ v, m: bundleBase(v.sku) ? bySku.get(bundleBase(v.sku)!) : undefined })).filter((x) => x.m);
+  // -FC flows both ways: the base also takes the variant's physical facts where only the variant is printed (keysFor(base) is the
+  // physical set alone -- no throughput, no other key: "physical facts ... nothing else")
+  const pairs = [...forward, ...forward.filter(({ v }) => BOTH_WAYS_AFFIX.has(bundleAffix(v.sku) ?? "")).map(({ v, m }) => ({ v: m!, m: v }))];
   const refused: string[] = [];
   const ok = pairs.filter(({ v, m }) => {
     if (m!.kind !== v.kind) { refused.push(`${v.sku}: kind ${v.kind} is not its base ${m!.sku}'s ${m!.kind}`); return false; }

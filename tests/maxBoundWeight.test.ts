@@ -51,10 +51,13 @@ if (existsSync(W)) {
   check("model-row: a PID has exactly one model row", new Set(t.rows.map((r) => r.sku)).size === t.rows.length);
   // Q2: "with 2x AC power supplies" is plain ONLY because an ordering guide says the platform ships that way -- the licence travels
   const withPsu = t.rows.filter((r) => /with 2x AC power supplies/i.test(r.label));
-  check("Q2: the 'with 2x AC power supplies' rows exist (C8300 + C8500)", withPsu.length === 7, withPsu.length);
+  check("Q2: the 'with 2x AC power supplies' rows exist (C8300 + C8500)", withPsu.length === 8, withPsu.length);
   check("Q2: every 'with 2x AC power supplies' row carries the ordering-guide statement that licenses a plain weight",
     withPsu.every((r) => !!r.requires_url && /ship with/i.test(r.requires_statement ?? "")), withPsu.filter((r) => !r.requires_url).map((r) => r.sku));
-  check("Q2: C8500-20X6C's two-value cell is ruled max-bound, so it is never a plain model row", !t.rows.some((r) => r.sku === "C8500-20X6C"));
+  // re-ruled ~23:35 ("A: plain 75 — the shipped configuration ... 77.5 is the optional fourth PSU"): the 3x AC value, never the 4x
+  const x20 = t.rows.filter((r) => r.sku === "C8500-20X6C");
+  check("A: C8500-20X6C takes the shipped 3x AC weight (75 lbs), never the optional fourth PSU's 77.5", x20.length === 1 && x20[0].raw === "75 lbs",
+    x20.map((r) => r.raw));
   check("Q5: NC57-MPA-12L-S is not named by the sheet's table (only the -FC is), so it is not a row", !t.rows.some((r) => r.sku === "NC57-MPA-12L-S"));
 }
 // derived:family-row (reviewer ~22:50, Q1/Q4): its own method, so a family's value stays distinguishable from a model's -- and plain

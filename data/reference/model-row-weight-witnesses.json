@@ -264,6 +264,25 @@
         "url": "https://www.cisco.com/c/en/us/products/collateral/routers/catalyst-8500-series-edge-platforms/guide-c07-744092.html",
         "printed": "Cisco Catalyst 8500 Series Edge Platforms ship with two (redundant) power supplies"
       }
+    },
+    {
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/catalyst-8500-series-edge-platforms/datasheet-c78-744089.html",
+      "doc_type": "vendor_datasheet_html",
+      "heading": null,
+      "printed": [
+        "Table 17. Mechanical specifications for the Cisco Catalyst Series 8500 Edge Platforms",
+        "Part number C8500-20X6C C8500-12X4QC C8500-12X C8500L-8S4X",
+        "Rack units (RU) 3RU 1RU 1RU 1RU",
+        "Chassis weight with 2x AC power supplies and fan tray 77.5 lbs (4x AC) 75 lbs. (3x AC) 20.75 lbs 20.25 lbs 17 lbs"
+      ],
+      "label": "Chassis weight with 2x AC power supplies and fan tray",
+      "raw": "75 lbs",
+      "model": "C8500-20X6C (3x AC, the shipped configuration)",
+      "pids": "^C8500-20X6C$",
+      "requires": {
+        "url": "https://www.cisco.com/c/en/us/products/collateral/routers/catalyst-8500-series-edge-platforms/guide-c07-744092.html",
+        "printed": "ship with two (redundant) power supplies and three (N+1) with the C8500-20X6C"
+      }
     }
   ],
   "rows": [
@@ -1021,6 +1040,22 @@
       "listed_by": "3b96ea14e79e56bd",
       "requires_url": "https://www.cisco.com/c/en/us/products/collateral/routers/catalyst-8500-series-edge-platforms/guide-c07-744092.html",
       "requires_statement": "Cisco Catalyst 8500 Series Edge Platforms ship with two (redundant) power supplies"
+    },
+    {
+      "sku": "C8500-20X6C",
+      "doc_id": "c2f2c267baa2122a",
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/catalyst-8500-series-edge-platforms/datasheet-c78-744089.html",
+      "cache_path": "c2f2c267baa2122ab0e894a3895503e2155c05f1.html",
+      "doc_type": "vendor_datasheet_html",
+      "label": "Chassis weight with 2x AC power supplies and fan tray",
+      "locator": "sheet / C8500-20X6C (3x AC, the shipped configuration) / Chassis weight with 2x AC power supplies and fan tray",
+      "raw": "75 lbs",
+      "statement": "Chassis weight with 2x AC power supplies and fan tray 77.5 lbs (4x AC) 75 lbs. (3x AC) 20.75 lbs 20.25 lbs 17 lbs",
+      "method": "derived:model-row",
+      "model": "C8500-20X6C (3x AC, the shipped configuration)",
+      "listed_by": "3b96ea14e79e56bd",
+      "requires_url": "https://www.cisco.com/c/en/us/products/collateral/routers/catalyst-8500-series-edge-platforms/guide-c07-744092.html",
+      "requires_statement": "ship with two (redundant) power supplies and three (N+1) with the C8500-20X6C"
     }
   ]
 }
