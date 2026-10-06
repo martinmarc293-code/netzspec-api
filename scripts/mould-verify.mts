@@ -362,6 +362,8 @@ const RUN_KIND_CLASS: Record<string, { approval: boolean; gate: boolean }> = {
   "resolve-weight-config-conflicts": A,   // weight ruling 5 Oct 2026 ~23:10: closes conflicts the ruling settles (no fact moves)
   // 6 Oct 2026: the hardware guides' SPEC CHAPTERS (installation-guide reader, step 1) -- a queue decision, no fact moves
   "enqueue-router-guide-chapters": A,
+  // 6 Oct 2026 ~18:40 (PDF twins): each router HTML datasheet's own PDF link queued -- a queue decision, no fact moves
+  "enqueue-router-pdf-twins": A,
   // 6 Oct 2026 ~18:30 (boundary flag): supersedes each measured cut fact with an IDENTICAL row carrying truncated = true --
   // no value, raw or state moves, so a ruled correction like resolve-weight-config-conflicts, not an extraction to gate
   "flag-truncated-list-facts": A,

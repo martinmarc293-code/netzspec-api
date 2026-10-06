@@ -23,7 +23,6 @@ from __future__ import annotations
 import argparse
 import hashlib
 import html
-import json
 import os
 import re
 import subprocess
@@ -34,6 +33,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scraper"))
 from sources.base import refused_url  # noqa: E402
 from sources.cisco_datasheets import HW_GUIDE  # noqa: E402  -- the lane's own guide test, never a second copy
+from seed_queue import env, enqueue  # noqa: E402  -- the one write every seed makes
 
 APPROVED = ("operator, 5 Oct 2026: \"complete the router category full ... find all the datasheets, get all the data and make this "
             "cisco router category ready ...\"; reviewer, 6 Oct 2026 ~17:20: \"Installation-guide reader meanwhile -- agreed\"")
@@ -43,15 +43,6 @@ CACHE = Path(os.environ.get("NETZSPEC_CACHE_DIR", "/var/lib/netzspec-api/cache")
 # Overview 14, Product Overview 7, Product IDs 4, Specifications 1. ROM Monitor / Installation Roadmap overviews are not hardware.
 SPEC_CHAPTER = re.compile(r"(?i)technical specifications|^specifications$|product ids?(?![a-z])|(?:^|\s)overview(?:\s|$)")
 NOT_SPEC = re.compile(r"(?i)rom ?mon|roadmap")
-
-
-def env() -> dict:
-    out = {}
-    for line in (ROOT / ".env").read_text(encoding="utf-8").splitlines():
-        m = re.match(r"^\s*([A-Za-z0-9_]+)\s*=\s*(.*)$", line)
-        if m:
-            out[m.group(1)] = m.group(2).strip().strip('"').strip("'")
-    return out
 
 
 def chapters_of(url: str) -> list[tuple[str, str]]:
@@ -81,7 +72,7 @@ def main() -> int:
     sha = subprocess.run(["git", "rev-parse", "HEAD"], capture_output=True, text=True, cwd=ROOT).stdout.strip() or None
     if not sha and (ROOT / "GIT_SHA").exists():
         sha = (ROOT / "GIT_SHA").read_text(encoding="utf-8").strip()
-    with psycopg.connect(env()["DATABASE_URL"], autocommit=True, application_name="cisco/router-guide-chapters-seed") as c:
+    with psycopg.connect(env(ROOT)["DATABASE_URL"], autocommit=True, application_name="cisco/router-guide-chapters-seed") as c:
         src = c.execute("SELECT id FROM sources WHERE slug = 'cisco-datasheets'").fetchone()[0]
         guides = [r[0] for r in c.execute(
             "SELECT DISTINCT url FROM fetch_queue WHERE source_id = %s AND status::text = 'done' AND url LIKE '%%/td/docs/%%' ORDER BY 1",
@@ -118,26 +109,12 @@ def main() -> int:
         if not a.commit:
             print("dry run: nothing written (--commit to queue them); URL list written to", a.out)
             return 0
-        with c.transaction():
-            run_id = c.execute(
-                "INSERT INTO runs (kind, inputs, git_sha, notes) VALUES ('enqueue-router-guide-chapters', %s::jsonb, %s, %s) RETURNING id",
-                (json.dumps({"approved": APPROVED, "chapters": len(want), "derived": len(derived), "landing_pages": landing,
-                             "only_urls": a.only_urls or None, "refused": refused, "existing_by_status": by, "priority": PRIORITY}),
-                 sha, "router hardware-guide spec chapters for the cisco-datasheets lane (installation-guide reader, step 1)")).fetchone()[0]
-            res = c.execute(
-                """INSERT INTO fetch_queue (source_id, task, key, url, priority)
-                   SELECT %s, 'datasheet', u, u, %s FROM unnest(%s::text[]) AS u
-                   ON CONFLICT (source_id, task, key) DO UPDATE
-                     SET status = 'queued', next_at = now(), attempts = 0, last_error = NULL, leased_by = NULL,
-                         priority = EXCLUDED.priority, updated_at = now()
-                   WHERE fetch_queue.status::text IN ('done', 'failed', 'blocked')
-                   RETURNING (xmax = 0) AS inserted""", (src, PRIORITY, want)).fetchall()
-            ins = sum(1 for r in res if r[0])
-            c.execute("UPDATE runs SET status = 'succeeded'::run_status, finished_at = now(), stats = %s::jsonb WHERE id = %s",
-                      (json.dumps({"inserted": ins, "reactivated": len(res) - ins, "left_as_is": len(want) - len(res)}), run_id))
-        now = c.execute("SELECT status::text, count(*) FROM fetch_queue WHERE source_id = %s AND task = 'datasheet' AND key = ANY(%s) "
-                        "GROUP BY 1 ORDER BY 1", (src, want)).fetchall()
-        print(f"run {run_id}: inserted {ins}, reactivated {len(res) - ins}, left as is {len(want) - len(res)}; re-read: {dict(now)}")
+        run_id, stats, now = enqueue(
+            c, source_id=src, task="datasheet", urls=want, priority=PRIORITY, kind="enqueue-router-guide-chapters",
+            inputs={"approved": APPROVED, "chapters": len(want), "derived": len(derived), "landing_pages": landing,
+                    "only_urls": a.only_urls or None, "refused": refused, "existing_by_status": by, "priority": PRIORITY},
+            sha=sha, notes="router hardware-guide spec chapters for the cisco-datasheets lane (installation-guide reader, step 1)")
+        print(f"run {run_id}: inserted {stats['inserted']}, reactivated {stats['reactivated']}, left as is {stats['left_as_is']}; re-read: {now}")
         return 0
 
 

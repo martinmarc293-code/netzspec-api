@@ -29,8 +29,6 @@ row stays skipped (a parked decision is not this script's to reverse). Every URL
 from __future__ import annotations
 
 import argparse
-import json
-import re
 import subprocess
 import sys
 from pathlib import Path
@@ -38,6 +36,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scraper"))
 from sources.base import refused_url  # noqa: E402
+from seed_queue import env, enqueue  # noqa: E402  -- the one write every seed makes
 
 HOST = "https://www.cisco.com"
 APPROVED = ("operator, 5 Oct 2026: \"complete the router category full, you are not allowed to focus on anything else beside "
@@ -67,15 +66,6 @@ FAMILY_SQL = r"""
     FROM u WHERE url ~* '/products/(collateral/)?routers/[a-z0-9]' ORDER BY 1"""
 
 
-def env() -> dict:
-    out = {}
-    for line in (ROOT / ".env").read_text(encoding="utf-8").splitlines():
-        m = re.match(r"^\s*([A-Za-z0-9_]+)\s*=\s*(.*)$", line)
-        if m:
-            out[m.group(1)] = m.group(2).strip().strip('"').strip("'")
-    return out
-
-
 def seeds_for(families: list[str]) -> list[str]:
     """The listing URLs, product indexes first (current families answer there), then the support pages (retired ones)."""
     out = [f"{HOST}/c/en/us/products/routers/index.html"]
@@ -93,7 +83,7 @@ def main() -> int:
     sha = subprocess.run(["git", "rev-parse", "HEAD"], capture_output=True, text=True, cwd=ROOT).stdout.strip() or None
     if not sha and (ROOT / "GIT_SHA").exists():
         sha = (ROOT / "GIT_SHA").read_text(encoding="utf-8").strip()
-    with psycopg.connect(env()["DATABASE_URL"], autocommit=True, application_name="cisco/router-acquire-seed") as c:
+    with psycopg.connect(env(ROOT)["DATABASE_URL"], autocommit=True, application_name="cisco/router-acquire-seed") as c:
         fams = [r[0] for r in c.execute(FAMILY_SQL).fetchall() if r[0]]
         if not fams:
             raise SystemExit("no router family derived from the store's URLs -- a broken query, never 'nothing to seed'")
@@ -119,32 +109,18 @@ def main() -> int:
         if not a.commit:
             print("dry run: nothing written (--commit to queue the listings and write the URL list)")
             return 0
-        with c.transaction():
-            run_id = c.execute(
-                "INSERT INTO runs (kind, inputs, git_sha, notes) VALUES ('enqueue-router-listings', %s::jsonb, %s, %s) RETURNING id",
-                (json.dumps({"approved": APPROVED, "families": kept, "excluded": {f: SOFTWARE_ONLY[f] for f in fams if f in SOFTWARE_ONLY},
-                             "seeds": len(seeds), "refused": refused, "existing_by_status": by, "priority": PRIORITY}),
-                 sha, "router datasheet listings for the cisco-datasheets lane (operator order 5 Oct 2026)")).fetchone()[0]
-            res = c.execute(
-                """INSERT INTO fetch_queue (source_id, task, key, url, priority)
-                   SELECT %s, 'listing', u, u, %s FROM unnest(%s::text[]) AS u
-                   ON CONFLICT (source_id, task, key) DO UPDATE
-                     SET status = 'queued', next_at = now(), attempts = 0, last_error = NULL, leased_by = NULL,
-                         priority = EXCLUDED.priority, updated_at = now()
-                   WHERE fetch_queue.status::text IN ('done', 'failed', 'blocked')
-                   RETURNING (xmax = 0) AS inserted""", (src, PRIORITY, seeds)).fetchall()
-            ins = sum(1 for r in res if r[0])
-            react = len(res) - ins
-            c.execute("UPDATE runs SET status = 'succeeded'::run_status, finished_at = now(), stats = %s::jsonb WHERE id = %s",
-                      (json.dumps({"inserted": ins, "reactivated": react, "left_as_is": len(seeds) - len(res)}), run_id))
-        # re-read after the transaction closed: every seed must now be a queued (or leased) listing row
-        now = c.execute("SELECT status::text, count(*) FROM fetch_queue WHERE source_id = %s AND task = 'listing' AND key = ANY(%s) "
-                        "GROUP BY 1 ORDER BY 1", (src, seeds)).fetchall()
+        # the one write every seed makes (scraper/seed_queue.py); `now` is the re-read after its transaction closed
+        run_id, stats, now = enqueue(
+            c, source_id=src, task="listing", urls=seeds, priority=PRIORITY, kind="enqueue-router-listings",
+            inputs={"approved": APPROVED, "families": kept, "excluded": {f: SOFTWARE_ONLY[f] for f in fams if f in SOFTWARE_ONLY},
+                    "seeds": len(seeds), "refused": refused, "existing_by_status": by, "priority": PRIORITY},
+            sha=sha, notes="router datasheet listings for the cisco-datasheets lane (operator order 5 Oct 2026)")
         Path(a.out).write_text("".join(u + "\n" for u in seeds), encoding="utf-8")
-        print(f"run {run_id}: inserted {ins}, reactivated {react}, left as is {len(seeds) - len(res)}; seeds by status now {dict(now)}")
+        print(f"run {run_id}: inserted {stats['inserted']}, reactivated {stats['reactivated']}, left as is {stats['left_as_is']}; "
+              f"seeds by status now {now}")
         print(f"URL list for the worker (--url-list): {a.out} ({len(seeds)} lines)")
-        queued = sum(n for s, n in now if s in ("queued", "leased"))
-        return 0 if queued + sum(n for s, n in now if s == "skipped") == len(seeds) else 1
+        queued = sum(n for s, n in now.items() if s in ("queued", "leased"))
+        return 0 if queued + now.get("skipped", 0) == len(seeds) else 1
 
 
 if __name__ == "__main__":
