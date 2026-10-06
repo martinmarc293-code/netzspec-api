@@ -380,6 +380,11 @@ HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). R
   system' may be its right article weight: check what the -SYS PID includes. TODO NOW: deploy HEAD (resolve script +
   cupLedger), closing run --commit (approval = this verdict), reconcile-conflict-states (dry, commit), set-series scan +
   run, classify the members, rebuild + pull + ONE BUILD, board green -> clear STOP -> report with scorecard.
+- 6 Oct ~07:40: RUN 1501 closed the 44 router weight conflicts (new connection: 0 open). reconcile-conflict-states dry
+  (vendor-wide) would write 500 state changes, mostly NON-router pre-existing drift (switches ieee_standards 131,
+  rfc_compliance 102, wireless...; routers ~50: certifications 23, weight 13, cable_length 13) -> NOT in scope/approval.
+  NEXT: add a --category filter to scripts/reconcile-conflict-states.mts (parts join on categories.slug), run it dry then
+  --commit for --category routers only; report the non-router drift to the reviewer as a finding (not acted on).
 - CLOSING RUN READY (not committed): scripts/resolve-weight-config-conflicts.mts + board class A (local, uncommitted);
   dry on the box: 72 open router weight conflicts, resolve 44 (ISR 4000 + 3 8800 chassis-only kept), held 28 (8804/8808/
   8812-SYS where the KEPT side is 'Weight (full system)' -- needs a supersede to the chassis-only value, not a close).
