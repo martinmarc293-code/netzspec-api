@@ -34,7 +34,27 @@ const CAP819 = "Table A-3 Cisco 819 ISR Specifications";
 const MAX_SPAN = 1500;
 type Source = { url: string; doc_type: string; heading: string | null; printed: string[]; label: string; raw: string; model: string; pids: RegExp;
   /** max characters from the first printed string to the end of the last (one table); a single-model sheet names its model far above */
-  span?: number };
+  span?: number;
+  /** the part kinds a row may land on (default router). Reviewer, 6 Oct 2026 ~22:50, Q5 (verbatim): "yes, extend the model-row writer
+   *  to module and processor kinds with the same guards (model-token rule, held sheet lists the PID)". */
+  kinds?: string[];
+  /** a second page whose statement licenses the reading, re-read the same way and recorded on the row. Reviewer, ~22:50, Q2
+   *  (verbatim): "'with 2× AC PSUs and fan tray' → derived:max-bound, unless the C8300 ordering guide shows the base PID ships with
+   *  two PSUs (then plain weight)". The ordering guides do say so, and that sentence is the evidence for the plain weight. */
+  requires?: { url: string; printed: string } };
+const DOT = String.fromCharCode(0x25cf), DASH = String.fromCharCode(0x2013);
+const C8300_DS = "https://www.cisco.com/c/en/us/products/collateral/routers/catalyst-8300-series-edge-platforms/datasheet-c78-744088.html";
+const C8500_DS = "https://www.cisco.com/c/en/us/products/collateral/routers/catalyst-8500-series-edge-platforms/datasheet-c78-744089.html";
+const C8300_OG = { url: "https://www.cisco.com/c/en/us/products/collateral/routers/catalyst-8300-series-edge-platforms/cat-8300-8200-series-edge-plat-og.html",
+  printed: "All Catalyst 8300 edge platforms, by default, ship with dual redundant AC power supplies and fan trays." };
+const C8500_OG = { url: "https://www.cisco.com/c/en/us/products/collateral/routers/catalyst-8500-series-edge-platforms/guide-c07-744092.html",
+  printed: "Cisco Catalyst 8500 Series Edge Platforms ship with two (redundant) power supplies" };
+const T15 = ["Table 15. Mechanical specifications", "Part number C8300-2N2S-4T2X C8300-2N2S-6T C8300-1N1S-4T2X C8300-1N1S-6T", "Rack units (RU) 2RU 1RU",
+  "Chassis weight with 2x AC power supplies and fan tray 40 lbs 20 lbs"];
+const T17 = ["Table 17. Mechanical specifications for the Cisco Catalyst Series 8500 Edge Platforms", "Part number C8500-20X6C C8500-12X4QC C8500-12X C8500L-8S4X",
+  "Rack units (RU) 3RU 1RU 1RU 1RU", "Chassis weight with 2x AC power supplies and fan tray 77.5 lbs (4x AC) 75 lbs. (3x AC) 20.75 lbs 20.25 lbs 17 lbs"];
+const RP_SHEET = "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/data_sheet_c78-441072.html";
+const MPA57 = "https://www.cisco.com/c/en/us/products/collateral/routers/network-convergence-system-5500-series/ncs-5700-series-mpa-ds.html";
 const SOURCES: Source[] = [
   { url: HIG, doc_type: "vendor_guide", heading: "Cisco 819 Series", printed: [CAP819, ...H819, ROW819], label: "Weight", raw: "3.3 lb (1.5 kg)",
     model: "819HG / 819HG-4G", pids: /^C819HG(?:\+7-K9|-(?:4G-)?[A-Z]{1,2}-K9)$/ },
@@ -49,6 +69,38 @@ const SOURCES: Source[] = [
     label: "Weight: With AC power supply (no modules)", raw: "6.75 lb", model: "1921 (base, AC, no modules)", pids: /^CISCO1921\/K9$/ },
   { url: `${DS8}datasheet_c78-732744.html`, doc_type: "vendor_datasheet_html", heading: null, printed: [`Cisco C897VAGW-LTE ${String.fromCharCode(0x25cf)} 6.1 lb (2.76 kg)`],
     label: "Weight", raw: "6.1 lb (2.76 kg)", model: "C897VAGW-LTE", pids: /^C897VAGW-LTE(?:-[A-Z0-9]+)?$/ },
+  // Q5 (module / processor kinds). Each anchored between its own caption and the NEXT one, so a weight cannot be read across a
+  // table boundary: the NCS 5700 sheet's Table 2 is the 2D4H, not the 12L-S (1.2 lb belongs to it), and its Table 3 -- the
+  // 12L-S-FC -- prints 1.1 lb before Table 4 starts. NC57-MPA-12L-S (no -FC) is not named on the sheet and is not a row.
+  { url: "https://www.cisco.com/c/en/us/products/collateral/routers/8000-series-routers/8404-router-ds.html", doc_type: "vendor_datasheet_html",
+    heading: null, printed: [`84-MPA-2H12Z-M ${DOT} Weight: 3.08 lb (1.4 kg)`], label: "Weight", raw: "3.08 lb (1.4 kg)", model: "84-MPA-2H12Z-M",
+    pids: /^84-MPA-2H12Z-M=?$/, kinds: ["module"] },
+  { url: MPA57, doc_type: "vendor_datasheet_html", heading: null, span: 1500, label: "Weight", raw: "1.1 lbs (0.51 kg)", model: "NC57-MPA-12L-S-FC",
+    printed: ["Table 3. Features and specifications of NC57-MPA-12L-S-FC MPA", `Weight ${DASH} 1.1 lbs (0.51 kg)`, "Table 4. Features and specifications of NC57-MPA-1FH1D-FC MPA"],
+    pids: /^NC57-MPA-12L-S-FC=?$/, kinds: ["module"] },
+  { url: RP_SHEET, doc_type: "vendor_datasheet_html", heading: null, span: 6000, label: "Weight", raw: "5.0 lb (2.3 kg)", model: "ASR 1000 RP1",
+    printed: ["Table 4. Cisco ASR 1000 Series RP1 product specifications", "Weight 5.0 lb (2.3 kg)", "Table 5. Cisco ASR 1000 Series RP2 product specifications"],
+    pids: /^ASR1000-RP1=?$/, kinds: ["processor"] },
+  { url: RP_SHEET, doc_type: "vendor_datasheet_html", heading: null, span: 6000, label: "Weight", raw: "5.0 lb (2.3 kg)", model: "ASR 1000 RP2",
+    printed: ["Table 5. Cisco ASR 1000 Series RP2 product specifications", "Weight 5.0 lb (2.3 kg)", "Table 6. Cisco ASR 1000 Series RP3 product specifications"],
+    pids: /^ASR1000-RP2=?$/, kinds: ["processor"] },
+  // Q2. The C8200 table's part-number cell names both models and prints one unconditional chassis weight. The C8300 and C8500 rows
+  // are "with 2x AC power supplies and fan tray": plain because the ordering guides say the platforms SHIP with two PSUs (requires).
+  // Columns are read in the order the part-number and rack-unit rows print them: C8300 2RU (2N2S) then 1RU (1N1S); C8500 20X6C, 12X4QC,
+  // 12X, 8500L. The 20X6C cell ("77.5 lbs (4x AC) 75 lbs. (3x AC)") is ruled max-bound of the larger -- NOT a row here (plain method).
+  { url: "https://www.cisco.com/c/en/us/products/collateral/routers/catalyst-8200-series-edge-platforms/nb-06-cat8200-series-edge-plat-ds-cte-en.html",
+    doc_type: "vendor_datasheet_html", heading: null, label: "Chassis weight", raw: "10 lb (4.54 kg)", model: "C8200-1N-4T and C8200L-1N-4T",
+    printed: ["Table 12. Mechanical specifications", "Part number C8200-1N-4T and C8200L-1N-4T", "Chassis weight 10 lb (4.54 kg)"], pids: /^C8200L?-1N-4T$/ },
+  { url: C8300_DS, doc_type: "vendor_datasheet_html", heading: null, printed: T15, label: "Chassis weight with 2x AC power supplies and fan tray",
+    raw: "40 lbs", model: "C8300 2RU (C8300-2N2S-4T2X, C8300-2N2S-6T)", pids: /^C8300-2N2S-(?:4T2X|6T)$/, requires: C8300_OG },
+  { url: C8300_DS, doc_type: "vendor_datasheet_html", heading: null, printed: T15, label: "Chassis weight with 2x AC power supplies and fan tray",
+    raw: "20 lbs", model: "C8300 1RU (C8300-1N1S-4T2X, C8300-1N1S-6T)", pids: /^C8300-1N1S-(?:4T2X|6T)$/, requires: C8300_OG },
+  { url: C8500_DS, doc_type: "vendor_datasheet_html", heading: null, printed: T17, label: "Chassis weight with 2x AC power supplies and fan tray",
+    raw: "20.75 lbs", model: "C8500-12X4QC", pids: /^C8500-12X4QC$/, requires: C8500_OG },
+  { url: C8500_DS, doc_type: "vendor_datasheet_html", heading: null, printed: T17, label: "Chassis weight with 2x AC power supplies and fan tray",
+    raw: "20.25 lbs", model: "C8500-12X", pids: /^C8500-12X$/, requires: C8500_OG },
+  { url: C8500_DS, doc_type: "vendor_datasheet_html", heading: null, printed: T17, label: "Chassis weight with 2x AC power supplies and fan tray",
+    raw: "17 lbs", model: "C8500L-8S4X", pids: /^C8500L-8S4X$/, requires: C8500_OG },
 ];
 
 const cacheFile = (url: string) => `${createHash("sha1").update(url).digest("hex")}.html`;
@@ -76,21 +128,27 @@ for (const s of SOURCES) {
   if (found.missing) throw new Error(`${s.url}: "${found.missing}" is not printed in order`);
   // one table, not strings scattered over a page: the caption-to-row span is bounded
   if (found.span > (s.span ?? MAX_SPAN)) throw new Error(`${s.url}: the printed strings span ${found.span} characters (> ${s.span ?? MAX_SPAN}): not one table`);
+  if (s.requires) {   // the statement that licenses a plain reading must itself be printed, or the source writes nothing
+    const rt = cachedText(cacheFile(s.requires.url), CACHE);
+    if (rt === null) throw new Error(`${s.requires.url} is not readable from the cache -- could not check, nothing written`);
+    if (!rt.includes(ws(s.requires.printed))) throw new Error(`${s.requires.url}: "${s.requires.printed}" is not printed -- the plain reading is not licensed`);
+  }
   const parts = (await db.query<{ sku: string; listed_by: string | null }>(`
     SELECT p.sku, (SELECT dp.doc_id FROM doc_parts dp JOIN source_docs sd ON sd.doc_id = dp.doc_id
                     WHERE dp.part_id = p.id AND sd.doc_type::text IN ('vendor_datasheet_html','vendor_datasheet_pdf','vendor_guide')
                     ORDER BY dp.doc_id LIMIT 1) AS listed_by
       FROM parts p JOIN vendors v ON v.id = p.vendor_id JOIN categories c ON c.id = p.category_id
-     WHERE v.slug = 'cisco' AND p.retired_at IS NULL AND p.product_class = 'hardware' AND c.slug = 'routers' AND p.sku_kind = 'router'
-     ORDER BY p.sku`)).rows.filter((p) => s.pids.test(p.sku));
+     WHERE v.slug = 'cisco' AND p.retired_at IS NULL AND p.product_class = 'hardware' AND c.slug = 'routers' AND p.sku_kind = ANY($1::text[])
+     ORDER BY p.sku`, [s.kinds ?? ["router"]])).rows.filter((p) => s.pids.test(p.sku));
   const held = parts.filter((p) => p.listed_by);
   report.push(`${s.model.padEnd(28)} ${s.raw.padEnd(18)} ${parts.length} PIDs match, ${held.length} listed by a held sheet: ${held.map((p) => p.sku).join(" ")}`);
   for (const p of held) rows.push({ sku: p.sku, doc_id: docIdFor(s.url), url: s.url, cache_path: cacheFile(s.url), doc_type: s.doc_type,
     label: s.label, locator: `${s.heading ?? "sheet"} / ${s.model} / ${s.label}`, raw: s.raw, statement: s.printed[s.printed.length - 1],
-    method: "derived:model-row", model: s.model, listed_by: docIdFor(s.url) === p.listed_by ? null : p.listed_by, series: s.heading ?? undefined });
+    method: "derived:model-row", model: s.model, listed_by: docIdFor(s.url) === p.listed_by ? null : p.listed_by, series: s.heading ?? undefined,
+    requires_url: s.requires?.url, requires_statement: s.requires?.printed });
 }
 await closePool();
-const body = JSON.stringify({ ruling: "reviewer 6 Oct 2026 ~21:40: model-row writer approved as specified (derived:model-row, plain rendering)",
+const body = JSON.stringify({ ruling: "reviewer 6 Oct 2026 ~21:40: model-row writer approved as specified (derived:model-row, plain rendering); ~22:50 Q5: extended to module and processor kinds with the same guards",
   sources: SOURCES.map((s) => ({ ...s, pids: s.pids.source })), rows }, null, 2) + "\n";
 for (const r of report) console.log(r);
 console.log(`${rows.length} witness rows over ${new Set(rows.map((r) => r.sku)).size} PIDs`);

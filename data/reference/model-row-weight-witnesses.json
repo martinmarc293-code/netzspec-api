@@ -1,5 +1,5 @@
 {
-  "ruling": "reviewer 6 Oct 2026 ~21:40: model-row writer approved as specified (derived:model-row, plain rendering)",
+  "ruling": "reviewer 6 Oct 2026 ~21:40: model-row writer approved as specified (derived:model-row, plain rendering); ~22:50 Q5: extended to module and processor kinds with the same guards",
   "sources": [
     {
       "url": "https://www.cisco.com/c/en/us/td/docs/routers/access/800/hardware/installation/guide/800HIG/appendix.html",
@@ -86,6 +86,184 @@
       "raw": "6.1 lb (2.76 kg)",
       "model": "C897VAGW-LTE",
       "pids": "^C897VAGW-LTE(?:-[A-Z0-9]+)?$"
+    },
+    {
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/8000-series-routers/8404-router-ds.html",
+      "doc_type": "vendor_datasheet_html",
+      "heading": null,
+      "printed": [
+        "84-MPA-2H12Z-M ● Weight: 3.08 lb (1.4 kg)"
+      ],
+      "label": "Weight",
+      "raw": "3.08 lb (1.4 kg)",
+      "model": "84-MPA-2H12Z-M",
+      "pids": "^84-MPA-2H12Z-M=?$",
+      "kinds": [
+        "module"
+      ]
+    },
+    {
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/network-convergence-system-5500-series/ncs-5700-series-mpa-ds.html",
+      "doc_type": "vendor_datasheet_html",
+      "heading": null,
+      "span": 1500,
+      "label": "Weight",
+      "raw": "1.1 lbs (0.51 kg)",
+      "model": "NC57-MPA-12L-S-FC",
+      "printed": [
+        "Table 3. Features and specifications of NC57-MPA-12L-S-FC MPA",
+        "Weight – 1.1 lbs (0.51 kg)",
+        "Table 4. Features and specifications of NC57-MPA-1FH1D-FC MPA"
+      ],
+      "pids": "^NC57-MPA-12L-S-FC=?$",
+      "kinds": [
+        "module"
+      ]
+    },
+    {
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/data_sheet_c78-441072.html",
+      "doc_type": "vendor_datasheet_html",
+      "heading": null,
+      "span": 6000,
+      "label": "Weight",
+      "raw": "5.0 lb (2.3 kg)",
+      "model": "ASR 1000 RP1",
+      "printed": [
+        "Table 4. Cisco ASR 1000 Series RP1 product specifications",
+        "Weight 5.0 lb (2.3 kg)",
+        "Table 5. Cisco ASR 1000 Series RP2 product specifications"
+      ],
+      "pids": "^ASR1000-RP1=?$",
+      "kinds": [
+        "processor"
+      ]
+    },
+    {
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/data_sheet_c78-441072.html",
+      "doc_type": "vendor_datasheet_html",
+      "heading": null,
+      "span": 6000,
+      "label": "Weight",
+      "raw": "5.0 lb (2.3 kg)",
+      "model": "ASR 1000 RP2",
+      "printed": [
+        "Table 5. Cisco ASR 1000 Series RP2 product specifications",
+        "Weight 5.0 lb (2.3 kg)",
+        "Table 6. Cisco ASR 1000 Series RP3 product specifications"
+      ],
+      "pids": "^ASR1000-RP2=?$",
+      "kinds": [
+        "processor"
+      ]
+    },
+    {
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/catalyst-8200-series-edge-platforms/nb-06-cat8200-series-edge-plat-ds-cte-en.html",
+      "doc_type": "vendor_datasheet_html",
+      "heading": null,
+      "label": "Chassis weight",
+      "raw": "10 lb (4.54 kg)",
+      "model": "C8200-1N-4T and C8200L-1N-4T",
+      "printed": [
+        "Table 12. Mechanical specifications",
+        "Part number C8200-1N-4T and C8200L-1N-4T",
+        "Chassis weight 10 lb (4.54 kg)"
+      ],
+      "pids": "^C8200L?-1N-4T$"
+    },
+    {
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/catalyst-8300-series-edge-platforms/datasheet-c78-744088.html",
+      "doc_type": "vendor_datasheet_html",
+      "heading": null,
+      "printed": [
+        "Table 15. Mechanical specifications",
+        "Part number C8300-2N2S-4T2X C8300-2N2S-6T C8300-1N1S-4T2X C8300-1N1S-6T",
+        "Rack units (RU) 2RU 1RU",
+        "Chassis weight with 2x AC power supplies and fan tray 40 lbs 20 lbs"
+      ],
+      "label": "Chassis weight with 2x AC power supplies and fan tray",
+      "raw": "40 lbs",
+      "model": "C8300 2RU (C8300-2N2S-4T2X, C8300-2N2S-6T)",
+      "pids": "^C8300-2N2S-(?:4T2X|6T)$",
+      "requires": {
+        "url": "https://www.cisco.com/c/en/us/products/collateral/routers/catalyst-8300-series-edge-platforms/cat-8300-8200-series-edge-plat-og.html",
+        "printed": "All Catalyst 8300 edge platforms, by default, ship with dual redundant AC power supplies and fan trays."
+      }
+    },
+    {
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/catalyst-8300-series-edge-platforms/datasheet-c78-744088.html",
+      "doc_type": "vendor_datasheet_html",
+      "heading": null,
+      "printed": [
+        "Table 15. Mechanical specifications",
+        "Part number C8300-2N2S-4T2X C8300-2N2S-6T C8300-1N1S-4T2X C8300-1N1S-6T",
+        "Rack units (RU) 2RU 1RU",
+        "Chassis weight with 2x AC power supplies and fan tray 40 lbs 20 lbs"
+      ],
+      "label": "Chassis weight with 2x AC power supplies and fan tray",
+      "raw": "20 lbs",
+      "model": "C8300 1RU (C8300-1N1S-4T2X, C8300-1N1S-6T)",
+      "pids": "^C8300-1N1S-(?:4T2X|6T)$",
+      "requires": {
+        "url": "https://www.cisco.com/c/en/us/products/collateral/routers/catalyst-8300-series-edge-platforms/cat-8300-8200-series-edge-plat-og.html",
+        "printed": "All Catalyst 8300 edge platforms, by default, ship with dual redundant AC power supplies and fan trays."
+      }
+    },
+    {
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/catalyst-8500-series-edge-platforms/datasheet-c78-744089.html",
+      "doc_type": "vendor_datasheet_html",
+      "heading": null,
+      "printed": [
+        "Table 17. Mechanical specifications for the Cisco Catalyst Series 8500 Edge Platforms",
+        "Part number C8500-20X6C C8500-12X4QC C8500-12X C8500L-8S4X",
+        "Rack units (RU) 3RU 1RU 1RU 1RU",
+        "Chassis weight with 2x AC power supplies and fan tray 77.5 lbs (4x AC) 75 lbs. (3x AC) 20.75 lbs 20.25 lbs 17 lbs"
+      ],
+      "label": "Chassis weight with 2x AC power supplies and fan tray",
+      "raw": "20.75 lbs",
+      "model": "C8500-12X4QC",
+      "pids": "^C8500-12X4QC$",
+      "requires": {
+        "url": "https://www.cisco.com/c/en/us/products/collateral/routers/catalyst-8500-series-edge-platforms/guide-c07-744092.html",
+        "printed": "Cisco Catalyst 8500 Series Edge Platforms ship with two (redundant) power supplies"
+      }
+    },
+    {
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/catalyst-8500-series-edge-platforms/datasheet-c78-744089.html",
+      "doc_type": "vendor_datasheet_html",
+      "heading": null,
+      "printed": [
+        "Table 17. Mechanical specifications for the Cisco Catalyst Series 8500 Edge Platforms",
+        "Part number C8500-20X6C C8500-12X4QC C8500-12X C8500L-8S4X",
+        "Rack units (RU) 3RU 1RU 1RU 1RU",
+        "Chassis weight with 2x AC power supplies and fan tray 77.5 lbs (4x AC) 75 lbs. (3x AC) 20.75 lbs 20.25 lbs 17 lbs"
+      ],
+      "label": "Chassis weight with 2x AC power supplies and fan tray",
+      "raw": "20.25 lbs",
+      "model": "C8500-12X",
+      "pids": "^C8500-12X$",
+      "requires": {
+        "url": "https://www.cisco.com/c/en/us/products/collateral/routers/catalyst-8500-series-edge-platforms/guide-c07-744092.html",
+        "printed": "Cisco Catalyst 8500 Series Edge Platforms ship with two (redundant) power supplies"
+      }
+    },
+    {
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/catalyst-8500-series-edge-platforms/datasheet-c78-744089.html",
+      "doc_type": "vendor_datasheet_html",
+      "heading": null,
+      "printed": [
+        "Table 17. Mechanical specifications for the Cisco Catalyst Series 8500 Edge Platforms",
+        "Part number C8500-20X6C C8500-12X4QC C8500-12X C8500L-8S4X",
+        "Rack units (RU) 3RU 1RU 1RU 1RU",
+        "Chassis weight with 2x AC power supplies and fan tray 77.5 lbs (4x AC) 75 lbs. (3x AC) 20.75 lbs 20.25 lbs 17 lbs"
+      ],
+      "label": "Chassis weight with 2x AC power supplies and fan tray",
+      "raw": "17 lbs",
+      "model": "C8500L-8S4X",
+      "pids": "^C8500L-8S4X$",
+      "requires": {
+        "url": "https://www.cisco.com/c/en/us/products/collateral/routers/catalyst-8500-series-edge-platforms/guide-c07-744092.html",
+        "printed": "Cisco Catalyst 8500 Series Edge Platforms ship with two (redundant) power supplies"
+      }
     }
   ],
   "rows": [
@@ -605,6 +783,244 @@
       "method": "derived:model-row",
       "model": "C897VAGW-LTE",
       "listed_by": null
+    },
+    {
+      "sku": "84-MPA-2H12Z-M",
+      "doc_id": "a2ea20301422d099",
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/8000-series-routers/8404-router-ds.html",
+      "cache_path": "a2ea20301422d0994d21385ab29372ee8e55f1e9.html",
+      "doc_type": "vendor_datasheet_html",
+      "label": "Weight",
+      "locator": "sheet / 84-MPA-2H12Z-M / Weight",
+      "raw": "3.08 lb (1.4 kg)",
+      "statement": "84-MPA-2H12Z-M ● Weight: 3.08 lb (1.4 kg)",
+      "method": "derived:model-row",
+      "model": "84-MPA-2H12Z-M",
+      "listed_by": null
+    },
+    {
+      "sku": "NC57-MPA-12L-S-FC",
+      "doc_id": "23c966d84c51cbdd",
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/network-convergence-system-5500-series/ncs-5700-series-mpa-ds.html",
+      "cache_path": "23c966d84c51cbdd3b489dbadfe65e6e295e087f.html",
+      "doc_type": "vendor_datasheet_html",
+      "label": "Weight",
+      "locator": "sheet / NC57-MPA-12L-S-FC / Weight",
+      "raw": "1.1 lbs (0.51 kg)",
+      "statement": "Table 4. Features and specifications of NC57-MPA-1FH1D-FC MPA",
+      "method": "derived:model-row",
+      "model": "NC57-MPA-12L-S-FC",
+      "listed_by": "163e8998487b6873"
+    },
+    {
+      "sku": "NC57-MPA-12L-S-FC=",
+      "doc_id": "23c966d84c51cbdd",
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/network-convergence-system-5500-series/ncs-5700-series-mpa-ds.html",
+      "cache_path": "23c966d84c51cbdd3b489dbadfe65e6e295e087f.html",
+      "doc_type": "vendor_datasheet_html",
+      "label": "Weight",
+      "locator": "sheet / NC57-MPA-12L-S-FC / Weight",
+      "raw": "1.1 lbs (0.51 kg)",
+      "statement": "Table 4. Features and specifications of NC57-MPA-1FH1D-FC MPA",
+      "method": "derived:model-row",
+      "model": "NC57-MPA-12L-S-FC",
+      "listed_by": null
+    },
+    {
+      "sku": "ASR1000-RP1",
+      "doc_id": "ba6f3208f79f4a74",
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/data_sheet_c78-441072.html",
+      "cache_path": "ba6f3208f79f4a74d6b51adbb5b0d5e76f16e3cb.html",
+      "doc_type": "vendor_datasheet_html",
+      "label": "Weight",
+      "locator": "sheet / ASR 1000 RP1 / Weight",
+      "raw": "5.0 lb (2.3 kg)",
+      "statement": "Table 5. Cisco ASR 1000 Series RP2 product specifications",
+      "method": "derived:model-row",
+      "model": "ASR 1000 RP1",
+      "listed_by": "b0342d1e0aea2e44"
+    },
+    {
+      "sku": "ASR1000-RP1=",
+      "doc_id": "ba6f3208f79f4a74",
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/data_sheet_c78-441072.html",
+      "cache_path": "ba6f3208f79f4a74d6b51adbb5b0d5e76f16e3cb.html",
+      "doc_type": "vendor_datasheet_html",
+      "label": "Weight",
+      "locator": "sheet / ASR 1000 RP1 / Weight",
+      "raw": "5.0 lb (2.3 kg)",
+      "statement": "Table 5. Cisco ASR 1000 Series RP2 product specifications",
+      "method": "derived:model-row",
+      "model": "ASR 1000 RP1",
+      "listed_by": "b0342d1e0aea2e44"
+    },
+    {
+      "sku": "ASR1000-RP2",
+      "doc_id": "ba6f3208f79f4a74",
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/data_sheet_c78-441072.html",
+      "cache_path": "ba6f3208f79f4a74d6b51adbb5b0d5e76f16e3cb.html",
+      "doc_type": "vendor_datasheet_html",
+      "label": "Weight",
+      "locator": "sheet / ASR 1000 RP2 / Weight",
+      "raw": "5.0 lb (2.3 kg)",
+      "statement": "Table 6. Cisco ASR 1000 Series RP3 product specifications",
+      "method": "derived:model-row",
+      "model": "ASR 1000 RP2",
+      "listed_by": "ab20aca5a9653a83"
+    },
+    {
+      "sku": "ASR1000-RP2=",
+      "doc_id": "ba6f3208f79f4a74",
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/asr-1000-series-aggregation-services-routers/data_sheet_c78-441072.html",
+      "cache_path": "ba6f3208f79f4a74d6b51adbb5b0d5e76f16e3cb.html",
+      "doc_type": "vendor_datasheet_html",
+      "label": "Weight",
+      "locator": "sheet / ASR 1000 RP2 / Weight",
+      "raw": "5.0 lb (2.3 kg)",
+      "statement": "Table 6. Cisco ASR 1000 Series RP3 product specifications",
+      "method": "derived:model-row",
+      "model": "ASR 1000 RP2",
+      "listed_by": "ab20aca5a9653a83"
+    },
+    {
+      "sku": "C8200-1N-4T",
+      "doc_id": "1b00076fbd280814",
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/catalyst-8200-series-edge-platforms/nb-06-cat8200-series-edge-plat-ds-cte-en.html",
+      "cache_path": "1b00076fbd280814cbcc1c6a618a03b352be4ee8.html",
+      "doc_type": "vendor_datasheet_html",
+      "label": "Chassis weight",
+      "locator": "sheet / C8200-1N-4T and C8200L-1N-4T / Chassis weight",
+      "raw": "10 lb (4.54 kg)",
+      "statement": "Chassis weight 10 lb (4.54 kg)",
+      "method": "derived:model-row",
+      "model": "C8200-1N-4T and C8200L-1N-4T",
+      "listed_by": null
+    },
+    {
+      "sku": "C8200L-1N-4T",
+      "doc_id": "1b00076fbd280814",
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/catalyst-8200-series-edge-platforms/nb-06-cat8200-series-edge-plat-ds-cte-en.html",
+      "cache_path": "1b00076fbd280814cbcc1c6a618a03b352be4ee8.html",
+      "doc_type": "vendor_datasheet_html",
+      "label": "Chassis weight",
+      "locator": "sheet / C8200-1N-4T and C8200L-1N-4T / Chassis weight",
+      "raw": "10 lb (4.54 kg)",
+      "statement": "Chassis weight 10 lb (4.54 kg)",
+      "method": "derived:model-row",
+      "model": "C8200-1N-4T and C8200L-1N-4T",
+      "listed_by": null
+    },
+    {
+      "sku": "C8300-2N2S-4T2X",
+      "doc_id": "f06b537d8957ff32",
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/catalyst-8300-series-edge-platforms/datasheet-c78-744088.html",
+      "cache_path": "f06b537d8957ff320258b86b9cdf92e8791f3b94.html",
+      "doc_type": "vendor_datasheet_html",
+      "label": "Chassis weight with 2x AC power supplies and fan tray",
+      "locator": "sheet / C8300 2RU (C8300-2N2S-4T2X, C8300-2N2S-6T) / Chassis weight with 2x AC power supplies and fan tray",
+      "raw": "40 lbs",
+      "statement": "Chassis weight with 2x AC power supplies and fan tray 40 lbs 20 lbs",
+      "method": "derived:model-row",
+      "model": "C8300 2RU (C8300-2N2S-4T2X, C8300-2N2S-6T)",
+      "listed_by": "318d993bb91afa19",
+      "requires_url": "https://www.cisco.com/c/en/us/products/collateral/routers/catalyst-8300-series-edge-platforms/cat-8300-8200-series-edge-plat-og.html",
+      "requires_statement": "All Catalyst 8300 edge platforms, by default, ship with dual redundant AC power supplies and fan trays."
+    },
+    {
+      "sku": "C8300-2N2S-6T",
+      "doc_id": "f06b537d8957ff32",
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/catalyst-8300-series-edge-platforms/datasheet-c78-744088.html",
+      "cache_path": "f06b537d8957ff320258b86b9cdf92e8791f3b94.html",
+      "doc_type": "vendor_datasheet_html",
+      "label": "Chassis weight with 2x AC power supplies and fan tray",
+      "locator": "sheet / C8300 2RU (C8300-2N2S-4T2X, C8300-2N2S-6T) / Chassis weight with 2x AC power supplies and fan tray",
+      "raw": "40 lbs",
+      "statement": "Chassis weight with 2x AC power supplies and fan tray 40 lbs 20 lbs",
+      "method": "derived:model-row",
+      "model": "C8300 2RU (C8300-2N2S-4T2X, C8300-2N2S-6T)",
+      "listed_by": "318d993bb91afa19",
+      "requires_url": "https://www.cisco.com/c/en/us/products/collateral/routers/catalyst-8300-series-edge-platforms/cat-8300-8200-series-edge-plat-og.html",
+      "requires_statement": "All Catalyst 8300 edge platforms, by default, ship with dual redundant AC power supplies and fan trays."
+    },
+    {
+      "sku": "C8300-1N1S-4T2X",
+      "doc_id": "f06b537d8957ff32",
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/catalyst-8300-series-edge-platforms/datasheet-c78-744088.html",
+      "cache_path": "f06b537d8957ff320258b86b9cdf92e8791f3b94.html",
+      "doc_type": "vendor_datasheet_html",
+      "label": "Chassis weight with 2x AC power supplies and fan tray",
+      "locator": "sheet / C8300 1RU (C8300-1N1S-4T2X, C8300-1N1S-6T) / Chassis weight with 2x AC power supplies and fan tray",
+      "raw": "20 lbs",
+      "statement": "Chassis weight with 2x AC power supplies and fan tray 40 lbs 20 lbs",
+      "method": "derived:model-row",
+      "model": "C8300 1RU (C8300-1N1S-4T2X, C8300-1N1S-6T)",
+      "listed_by": "318d993bb91afa19",
+      "requires_url": "https://www.cisco.com/c/en/us/products/collateral/routers/catalyst-8300-series-edge-platforms/cat-8300-8200-series-edge-plat-og.html",
+      "requires_statement": "All Catalyst 8300 edge platforms, by default, ship with dual redundant AC power supplies and fan trays."
+    },
+    {
+      "sku": "C8300-1N1S-6T",
+      "doc_id": "f06b537d8957ff32",
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/catalyst-8300-series-edge-platforms/datasheet-c78-744088.html",
+      "cache_path": "f06b537d8957ff320258b86b9cdf92e8791f3b94.html",
+      "doc_type": "vendor_datasheet_html",
+      "label": "Chassis weight with 2x AC power supplies and fan tray",
+      "locator": "sheet / C8300 1RU (C8300-1N1S-4T2X, C8300-1N1S-6T) / Chassis weight with 2x AC power supplies and fan tray",
+      "raw": "20 lbs",
+      "statement": "Chassis weight with 2x AC power supplies and fan tray 40 lbs 20 lbs",
+      "method": "derived:model-row",
+      "model": "C8300 1RU (C8300-1N1S-4T2X, C8300-1N1S-6T)",
+      "listed_by": "318d993bb91afa19",
+      "requires_url": "https://www.cisco.com/c/en/us/products/collateral/routers/catalyst-8300-series-edge-platforms/cat-8300-8200-series-edge-plat-og.html",
+      "requires_statement": "All Catalyst 8300 edge platforms, by default, ship with dual redundant AC power supplies and fan trays."
+    },
+    {
+      "sku": "C8500-12X4QC",
+      "doc_id": "c2f2c267baa2122a",
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/catalyst-8500-series-edge-platforms/datasheet-c78-744089.html",
+      "cache_path": "c2f2c267baa2122ab0e894a3895503e2155c05f1.html",
+      "doc_type": "vendor_datasheet_html",
+      "label": "Chassis weight with 2x AC power supplies and fan tray",
+      "locator": "sheet / C8500-12X4QC / Chassis weight with 2x AC power supplies and fan tray",
+      "raw": "20.75 lbs",
+      "statement": "Chassis weight with 2x AC power supplies and fan tray 77.5 lbs (4x AC) 75 lbs. (3x AC) 20.75 lbs 20.25 lbs 17 lbs",
+      "method": "derived:model-row",
+      "model": "C8500-12X4QC",
+      "listed_by": "3b96ea14e79e56bd",
+      "requires_url": "https://www.cisco.com/c/en/us/products/collateral/routers/catalyst-8500-series-edge-platforms/guide-c07-744092.html",
+      "requires_statement": "Cisco Catalyst 8500 Series Edge Platforms ship with two (redundant) power supplies"
+    },
+    {
+      "sku": "C8500-12X",
+      "doc_id": "c2f2c267baa2122a",
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/catalyst-8500-series-edge-platforms/datasheet-c78-744089.html",
+      "cache_path": "c2f2c267baa2122ab0e894a3895503e2155c05f1.html",
+      "doc_type": "vendor_datasheet_html",
+      "label": "Chassis weight with 2x AC power supplies and fan tray",
+      "locator": "sheet / C8500-12X / Chassis weight with 2x AC power supplies and fan tray",
+      "raw": "20.25 lbs",
+      "statement": "Chassis weight with 2x AC power supplies and fan tray 77.5 lbs (4x AC) 75 lbs. (3x AC) 20.75 lbs 20.25 lbs 17 lbs",
+      "method": "derived:model-row",
+      "model": "C8500-12X",
+      "listed_by": "3b96ea14e79e56bd",
+      "requires_url": "https://www.cisco.com/c/en/us/products/collateral/routers/catalyst-8500-series-edge-platforms/guide-c07-744092.html",
+      "requires_statement": "Cisco Catalyst 8500 Series Edge Platforms ship with two (redundant) power supplies"
+    },
+    {
+      "sku": "C8500L-8S4X",
+      "doc_id": "c2f2c267baa2122a",
+      "url": "https://www.cisco.com/c/en/us/products/collateral/routers/catalyst-8500-series-edge-platforms/datasheet-c78-744089.html",
+      "cache_path": "c2f2c267baa2122ab0e894a3895503e2155c05f1.html",
+      "doc_type": "vendor_datasheet_html",
+      "label": "Chassis weight with 2x AC power supplies and fan tray",
+      "locator": "sheet / C8500L-8S4X / Chassis weight with 2x AC power supplies and fan tray",
+      "raw": "17 lbs",
+      "statement": "Chassis weight with 2x AC power supplies and fan tray 77.5 lbs (4x AC) 75 lbs. (3x AC) 20.75 lbs 20.25 lbs 17 lbs",
+      "method": "derived:model-row",
+      "model": "C8500L-8S4X",
+      "listed_by": "3b96ea14e79e56bd",
+      "requires_url": "https://www.cisco.com/c/en/us/products/collateral/routers/catalyst-8500-series-edge-platforms/guide-c07-744092.html",
+      "requires_statement": "Cisco Catalyst 8500 Series Edge Platforms ship with two (redundant) power supplies"
     }
   ]
 }

@@ -43,6 +43,20 @@ if (existsSync(W)) {
     t.rows.filter((r) => r.listed_by && /-4G|LTE/.test(r.sku)).map((r) => r.sku));
   check("a PID appears at most once per series", new Set(t.rows.map((r) => `${r.sku}|${r.series}`)).size === t.rows.length);
 }
+// the MODEL-ROW witness table (reviewer ~21:40, extended ~22:50 by Q2 and Q5)
+{
+  const M = new URL("../data/reference/model-row-weight-witnesses.json", import.meta.url);
+  const t = JSON.parse(readFileSync(M, "utf8")) as { rows: { sku: string; raw: string; label: string; requires_url?: string; requires_statement?: string }[] };
+  check("model-row: every row's raw replays", t.rows.every((r) => replayDerived("derived:model-row", r.raw) === null));
+  check("model-row: a PID has exactly one model row", new Set(t.rows.map((r) => r.sku)).size === t.rows.length);
+  // Q2: "with 2x AC power supplies" is plain ONLY because an ordering guide says the platform ships that way -- the licence travels
+  const withPsu = t.rows.filter((r) => /with 2x AC power supplies/i.test(r.label));
+  check("Q2: the 'with 2x AC power supplies' rows exist (C8300 + C8500)", withPsu.length === 7, withPsu.length);
+  check("Q2: every 'with 2x AC power supplies' row carries the ordering-guide statement that licenses a plain weight",
+    withPsu.every((r) => !!r.requires_url && /ship with/i.test(r.requires_statement ?? "")), withPsu.filter((r) => !r.requires_url).map((r) => r.sku));
+  check("Q2: C8500-20X6C's two-value cell is ruled max-bound, so it is never a plain model row", !t.rows.some((r) => r.sku === "C8500-20X6C"));
+  check("Q5: NC57-MPA-12L-S is not named by the sheet's table (only the -FC is), so it is not a row", !t.rows.some((r) => r.sku === "NC57-MPA-12L-S"));
+}
 check("the suite carries at least 4 sabotage cases", sabotages >= 4, sabotages);
 
 if (misses.length) { console.log(`maxBoundWeight: ${pass} passed, ${misses.length} missed`); for (const m of misses) console.log(`  MISS ${m}`); process.exit(1); }
