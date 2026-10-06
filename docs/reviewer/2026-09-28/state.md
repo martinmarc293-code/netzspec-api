@@ -535,6 +535,16 @@ HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). R
   ORDER NOW: (1) PDF twin of c78-732542 (seed script, run kind enqueue-router-pdf-twins A) -> fetch -> cisco-specs-pdf -> read
   the 4461 rows; (2) (A) build + sabotage -> 7 gate misses -> classify recovered members -> router re-apply; (3) guide universe;
   (4) 10-twin sample, then the rest; (5) space-separated standards runs.
+- 6 Oct ~18:10 UTC (1) DONE: 35d41bc deployed (scraper/seed_queue.py = the one enqueue write, 9/9 on netzspec_test4, sabotage 3 red;
+  router-acquire-seed + router-guide-chapters-seed switched to it, dry runs unchanged; router-pdf-twins-seed.py: 290 router HTML
+  datasheets -> 276 twins, 4 held). RUN 1513 queued data_sheet-c78-732542.pdf; worker done=1 (pdf_fetched, 0 challenged);
+  cisco-specs-pdf: 27 records from 28 tables, NO weight record. READ OFF THE PDF ITSELF (pdfplumber, pp.12-13): the SAME table as
+  the HTML -- every weight row has 6 values for 7 model columns, the 4461 cell EMPTY. The web snippet's "4461: 13.1 kg / 19.4 kg"
+  were the 4451 column's values, misattributed because the 4461 cell is blank (a search summary is not the page). So the ISR
+  4461's weight is published in neither rendering of its datasheet, nor in the guide's Overview chapter. Remaining Cisco place:
+  the guide's Preinstallation chapter (not a SPEC_CHAPTER title, so not derived). ASK: fetch that one chapter, or record the
+  4461's weight as not published? Also for the 10-twin sample: this twin added nothing over its HTML, and the PDF extractor read
+  27 records where the HTML gives hundreds.
 - CLOSING RUN READY (not committed): scripts/resolve-weight-config-conflicts.mts + board class A (local, uncommitted);
   dry on the box: 72 open router weight conflicts, resolve 44 (ISR 4000 + 3 8800 chassis-only kept), held 28 (8804/8808/
   8812-SYS where the KEPT side is 'Weight (full system)' -- needs a supersede to the chassis-only value, not a close).
