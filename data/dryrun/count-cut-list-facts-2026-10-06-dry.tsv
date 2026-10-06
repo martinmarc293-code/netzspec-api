@@ -1,0 +1,138 @@
+fact_id	sku	category	key	doc_id	cell	tail	tail_verdict
+148310	C1100TGX-1N24P32A	routers	supported_protocols	50a8a4d89ae22545	t2:r53:c1+t2:r54:c1	Border Gateway Protocol (BGP)	accept
+148313	C1100TG-1N24P32A	routers	supported_protocols	50a8a4d89ae22545	t2:r53:c2+t2:r54:c2	Border Gateway Protocol (BGP)	accept
+148316	C1100TG-1N32A	routers	supported_protocols	50a8a4d89ae22545	t2:r53:c3+t2:r54:c3	Border Gateway Protocol (BGP)	accept
+206313	EHWIC-4G-LTE-V	interfaces-modules	certifications	94988e5e6d3debe0	t1:r20:c1+t1:r21:c1+t1:r22:c1	EN 61000-3-2, EN	accept
+206314	EHWIC-4G-LTE-A	interfaces-modules	certifications	94988e5e6d3debe0	t1:r20:c1+t1:r21:c1+t1:r22:c1	EN 61000-3-2, EN	accept
+206315	EHWIC-4G-LTE-G	interfaces-modules	certifications	94988e5e6d3debe0	t1:r20:c1+t1:r21:c1+t1:r22:c1	EN 61000-3-2, EN	accept
+206316	EHWIC-4G-LTE-BE	interfaces-modules	certifications	94988e5e6d3debe0	t1:r20:c1+t1:r21:c1+t1:r22:c1	EN 61000-3-2, EN	accept
+206317	EHWIC-4G-LTE-JP	interfaces-modules	certifications	94988e5e6d3debe0	t1:r20:c1+t1:r21:c1+t1:r22:c1	EN 61000-3-2, EN	accept
+206327	EHWIC-4G-LTE-AU	interfaces-modules	certifications	87eb320c38f859fb	t1:r20:c1+t1:r21:c1+t1:r22:c1	EN 61000-3-2, EN	accept
+206328	EHWIC-4G-LTE-GB	interfaces-modules	certifications	87eb320c38f859fb	t1:r20:c1+t1:r21:c1+t1:r22:c1	EN 61000-3-2, EN	accept
+206329	EHWIC-4G-LTE-VZ	interfaces-modules	certifications	87eb320c38f859fb	t1:r20:c1+t1:r21:c1+t1:r22:c1	EN 61000-3-2, EN	accept
+206330	EHWIC-4G-LTE-ST	interfaces-modules	certifications	87eb320c38f859fb	t1:r20:c1+t1:r21:c1+t1:r22:c1	EN 61000-3-2, EN	accept
+206331	EHWIC-4G-LTE-AT	interfaces-modules	certifications	87eb320c38f859fb	t1:r20:c1+t1:r21:c1+t1:r22:c1	EN 61000-3-2, EN	accept
+206332	EHWIC-4G-LTE-CA	interfaces-modules	certifications	87eb320c38f859fb	t1:r20:c1+t1:r21:c1+t1:r22:c1	EN 61000-3-2, EN	accept
+143680	CGM-3G-HSPA-AB-G	routers	emc_emissions	3b3868dd363b648d	t4:r19:c1	EN 55032:2012/AC:2013 EN 55022 AS/NZS CISPR 32 KN32: 2015 ICES-003 Issue 6: 2016	accept
+143682	CGM-3G-HSPA-G	routers	emc_emissions	3b3868dd363b648d	t4:r19:c1	EN 55032:2012/AC:2013 EN 55022 AS/NZS CISPR 32 KN32: 2015 ICES-003 Issue 6: 2016	accept
+143684	CGM-3G-HSPA-A	routers	emc_emissions	3b3868dd363b648d	t4:r19:c1	EN 55032:2012/AC:2013 EN 55022 AS/NZS CISPR 32 KN32: 2015 ICES-003 Issue 6: 2016	accept
+143686	CGM-3G-EVDO-V	routers	emc_emissions	3b3868dd363b648d	t4:r19:c1	EN 55032:2012/AC:2013 EN 55022 AS/NZS CISPR 32 KN32: 2015 ICES-003 Issue 6: 2016	accept
+143688	CGM-3G-EVDO-S	routers	emc_emissions	3b3868dd363b648d	t4:r19:c1	EN 55032:2012/AC:2013 EN 55022 AS/NZS CISPR 32 KN32: 2015 ICES-003 Issue 6: 2016	accept
+143691	CGM-4G-LTE-MNA	routers	emc_emissions	3b3868dd363b648d	t4:r19:c1	EN 55032:2012/AC:2013 EN 55022 AS/NZS CISPR 32 KN32: 2015 ICES-003 Issue 6: 2016	accept
+143693	CGM-4G-LTE-GA	routers	emc_emissions	3b3868dd363b648d	t4:r19:c1	EN 55032:2012/AC:2013 EN 55022 AS/NZS CISPR 32 KN32: 2015 ICES-003 Issue 6: 2016	accept
+143695	CGM-4G-LTE-EA-AB	routers	emc_emissions	3b3868dd363b648d	t4:r19:c1	EN 55032:2012/AC:2013 EN 55022 AS/NZS CISPR 32 KN32: 2015 ICES-003 Issue 6: 2016	accept
+143697	CGM-4G-LTE-EA-900	routers	emc_emissions	3b3868dd363b648d	t4:r19:c1	EN 55032:2012/AC:2013 EN 55022 AS/NZS CISPR 32 KN32: 2015 ICES-003 Issue 6: 2016	accept
+143700	CGM-4G-LTE-LA-AB	routers	emc_emissions	3b3868dd363b648d	t4:r19:c1	EN 55032:2012/AC:2013 EN 55022 AS/NZS CISPR 32 KN32: 2015 ICES-003 Issue 6: 2016	accept
+143702	CGM-4G-LTE-MNA-AB	routers	emc_emissions	3b3868dd363b648d	t4:r19:c1	EN 55032:2012/AC:2013 EN 55022 AS/NZS CISPR 32 KN32: 2015 ICES-003 Issue 6: 2016	accept
+197892	ISR1100-4G	routers	supported_protocols	585ea334a738d76f	t6:r1:c1+t6:r2:c1+t7:r1:c1+t7:r2:c1	bridge domains	unclassified
+197893	ISR1100-6G	routers	supported_protocols	585ea334a738d76f	t6:r1:c1+t6:r2:c1+t7:r1:c1+t7:r2:c1	bridge domains	unclassified
+197894	ISR1100X-4G	routers	supported_protocols	585ea334a738d76f	t6:r1:c1+t6:r2:c1+t7:r1:c1+t7:r2:c1	bridge domains	unclassified
+197895	ISR1100X-6G	routers	supported_protocols	585ea334a738d76f	t6:r1:c1+t6:r2:c1+t7:r1:c1+t7:r2:c1	bridge domains	unclassified
+197783	CISCO1921/K9	routers	supported_protocols	800dfbf767c39ad5	t3:r1:c1+t3:r2:c1	Intermediate	accept
+147786	CISCO1921DC/K9	routers	supported_protocols	800dfbf767c39ad5	t3:r1:c1+t3:r2:c1	Intermediate	accept
+197782	CISCO1921-SEC/K9	routers	supported_protocols	800dfbf767c39ad5	t3:r1:c1+t3:r2:c1	Intermediate	accept
+147780	C1921-4G-V-SEC/K9	routers	supported_protocols	800dfbf767c39ad5	t3:r1:c1+t3:r2:c1	Intermediate	accept
+147781	C1921-4SHDSL-EA/K9	routers	supported_protocols	800dfbf767c39ad5	t3:r1:c1+t3:r2:c1	Intermediate	accept
+147782	C1921-AX/K9	routers	supported_protocols	800dfbf767c39ad5	t3:r1:c1+t3:r2:c1	Intermediate	accept
+147783	C1921-VA/K9	routers	supported_protocols	800dfbf767c39ad5	t3:r1:c1+t3:r2:c1	Intermediate	accept
+147784	C1921VAM/K9	routers	supported_protocols	800dfbf767c39ad5	t3:r1:c1+t3:r2:c1	Intermediate	accept
+238452	ISR4461	routers	certifications	709fdf95cb3f9230	t4:r71:c1+t4:r73:c1	IS6100:2004 DSPR Gray Book:2000 DSPR Technical Condition:	accept
+238478	ISR4461/K9	routers	certifications	709fdf95cb3f9230	t4:r71:c1+t4:r73:c1	IS6100:2004 DSPR Gray Book:2000 DSPR Technical Condition:	accept
+238507	ISR4451	routers	certifications	709fdf95cb3f9230	t4:r71:c2+t4:r73:c2	IS6100:2004 DSPR Gray Book:2000 DSPR Technical Condition:	accept
+238536	ISR4451-X/K9	routers	certifications	709fdf95cb3f9230	t4:r71:c2+t4:r73:c2	IS6100:2004 DSPR Gray Book:2000 DSPR Technical Condition:	accept
+238453	ISR4461	routers	supported_protocols	709fdf95cb3f9230	t4:r75:c1+t4:r76:c1	Border Gateway	unclassified
+238479	ISR4461/K9	routers	supported_protocols	709fdf95cb3f9230	t4:r75:c1+t4:r76:c1	Border Gateway	unclassified
+238508	ISR4451	routers	supported_protocols	709fdf95cb3f9230	t4:r75:c2+t4:r76:c2	Border Gateway	unclassified
+238537	ISR4451-X/K9	routers	supported_protocols	709fdf95cb3f9230	t4:r75:c2+t4:r76:c2	Border Gateway	unclassified
+238566	ISR4431	routers	supported_protocols	709fdf95cb3f9230	t4:r75:c3+t4:r76:c3	Border Gateway	unclassified
+238595	ISR4431/K9	routers	supported_protocols	709fdf95cb3f9230	t4:r75:c3+t4:r76:c3	Border Gateway	unclassified
+238624	ISR4351	routers	supported_protocols	709fdf95cb3f9230	t4:r75:c4+t4:r76:c4	Border Gateway	unclassified
+238653	ISR4351/K9	routers	supported_protocols	709fdf95cb3f9230	t4:r75:c4+t4:r76:c4	Border Gateway	unclassified
+238682	ISR4331/K9	routers	supported_protocols	709fdf95cb3f9230	t4:r75:c5+t4:r76:c5	Border Gateway	unclassified
+238711	ISR4331	routers	supported_protocols	709fdf95cb3f9230	t4:r75:c5+t4:r76:c5	Border Gateway	unclassified
+238740	ISR4331-DC/K9	routers	supported_protocols	709fdf95cb3f9230	t4:r75:c5+t4:r76:c5	Border Gateway	unclassified
+238768	ISR4321	routers	supported_protocols	709fdf95cb3f9230	t4:r75:c6+t4:r76:c6	Border Gateway	unclassified
+238796	ISR4321/K9	routers	supported_protocols	709fdf95cb3f9230	t4:r75:c6+t4:r76:c6	Border Gateway	unclassified
+238824	ISR4221	routers	supported_protocols	709fdf95cb3f9230	t4:r75:c7+t4:r76:c7	Border Gateway	unclassified
+238852	ISR4221/K9	routers	supported_protocols	709fdf95cb3f9230	t4:r75:c7+t4:r76:c7	Border Gateway	unclassified
+238880	ISR4221X/K9	routers	supported_protocols	709fdf95cb3f9230	t4:r75:c7+t4:r76:c7	Border Gateway	unclassified
+205138	8011-32Y8L2H2FH	routers	supported_protocols	3396c9a8e6e91d8a	t1:r1:c1+t1:r2:c1+t1:r6:c1	v3 Intermediate System to Intermediate System (IS-IS) for	unclassified
+205137	8011-4G24Y4H-I	routers	supported_protocols	3396c9a8e6e91d8a	t1:r1:c1+t1:r2:c1+t1:r6:c1	v3 Intermediate System to Intermediate System (IS-IS) for	unclassified
+205502	8102-28FH-DPU-O	routers	certifications	7f314e2546374ded	t3:r3:c1	KS C 9610-3-3	accept
+205514	8101-32H-O	routers	certifications	7f314e2546374ded	t3:r3:c1	KS C 9610-3-3	accept
+205497	8122-64EHF-O	routers	certifications	7f314e2546374ded	t3:r3:c1	KS C 9610-3-3	accept
+205498	8122-64EH-O	routers	certifications	7f314e2546374ded	t3:r3:c1	KS C 9610-3-3	accept
+205517	8102-64H-O	routers	certifications	7f314e2546374ded	t3:r3:c1	KS C 9610-3-3	accept
+205521	8501-SYS-MT	routers	certifications	7f314e2546374ded	t3:r3:c1	KS C 9610-3-3	accept
+205525	8101-32FH-O	routers	certifications	7f314e2546374ded	t3:r3:c1	KS C 9610-3-3	accept
+205503	8212-48FH-M	routers	certifications	19f9a46aa2d12725	t3:r3:c1	KS C 9610-3-3	accept
+205504	8223-64E-MO	routers	certifications	19f9a46aa2d12725	t3:r3:c1	KS C 9610-3-3	accept
+205506	8201-32FH	routers	certifications	19f9a46aa2d12725	t3:r3:c1	KS C 9610-3-3	accept
+205509	8201-32FH/8201-32FH-O	routers	certifications	19f9a46aa2d12725	t3:r3:c1	KS C 9610-3-3	accept
+205510	8202-32FH-M	routers	certifications	19f9a46aa2d12725	t3:r3:c1	KS C 9610-3-3	accept
+205518	8201-24H8FH	routers	certifications	19f9a46aa2d12725	t3:r3:c1	KS C 9610-3-3	accept
+205520	8223-64E-M	routers	certifications	19f9a46aa2d12725	t3:r3:c1	KS C 9610-3-3	accept
+205526	8223-64EF-MO	routers	certifications	19f9a46aa2d12725	t3:r3:c1	KS C 9610-3-3	accept
+205530	8223-64EF-M	routers	certifications	19f9a46aa2d12725	t3:r3:c1	KS C 9610-3-3	accept
+149960	8404-SYS-D	routers	emc_emissions	a2ea20301422d099	t3:r3:c1	FCC 47 CFR Part 15 Class A AS/NZS CISPR 32 Class A EN55032 Class A CISPR 32 Class A ICES-003 Class A VCCI Class A KS C 9832 Class A CNS-15936 Class A	accept
+149961	8404=	routers	emc_emissions	a2ea20301422d099	t3:r3:c1	FCC 47 CFR Part 15 Class A AS/NZS CISPR 32 Class A EN55032 Class A CISPR 32 Class A ICES-003 Class A VCCI Class A KS C 9832 Class A CNS-15936 Class A	accept
+145471	8608-SYS	routers	emc_emissions	e470878f1ad70ecd	t3:r3:c1	FCC 47 CFR Part 15 Class A AS/NZS CISPR 32 Class A EN55032 Class A CISPR 32 Class A ICES-003 Class A VCCI Class A KS C 9832 Class A CNS-15936 Class A	accept
+145472	8608-SYS-NR	routers	emc_emissions	e470878f1ad70ecd	t3:r3:c1	FCC 47 CFR Part 15 Class A AS/NZS CISPR 32 Class A EN55032 Class A CISPR 32 Class A ICES-003 Class A VCCI Class A KS C 9832 Class A CNS-15936 Class A	accept
+145473	8608-SYS-R	routers	emc_emissions	e470878f1ad70ecd	t3:r3:c1	FCC 47 CFR Part 15 Class A AS/NZS CISPR 32 Class A EN55032 Class A CISPR 32 Class A ICES-003 Class A VCCI Class A KS C 9832 Class A CNS-15936 Class A	accept
+145474	8608=	routers	emc_emissions	e470878f1ad70ecd	t3:r3:c1	FCC 47 CFR Part 15 Class A AS/NZS CISPR 32 Class A EN55032 Class A CISPR 32 Class A ICES-003 Class A VCCI Class A KS C 9832 Class A CNS-15936 Class A	accept
+205501	8711-32FH-M	routers	certifications	a5dbf1f67727ca95	t10:r4:c1	KS C 9610-3-3	accept
+205500	8711-28H8F-M	routers	certifications	a5dbf1f67727ca95	t10:r4:c1	KS C 9610-3-3	accept
+205519	8711-48Z-M	routers	certifications	a5dbf1f67727ca95	t10:r4:c1	KS C 9610-3-3	accept
+205527	8712-MOD-M	routers	certifications	a5dbf1f67727ca95	t10:r4:c1	KS C 9610-3-3	accept
+98297	IR809G-LTE-LA-K9	routers	emc_emissions	1b6724676304801a	t5:r23:c1	CNS	flagged
+98326	IR809G-LTE-NA-K9	cloud-systems-management	emc_emissions	1b6724676304801a	t5:r23:c1	CNS	flagged
+98450	IR809G-LTE-GA-K9	routers	emc_emissions	1b6724676304801a	t5:r23:c1	CNS	flagged
+69867	3G/4G	routers	emc_emissions	182e3672a258ad84	t6:r23:c1	47 CFR Part 15 B EN 55032:2015 CISPR 32 Edition 2 CNS13438: 2006 EN 300 386 V1.6.1 EN61000-3-2: 2014 (AC Power Supply) EN61000-3-3: 2013 (AC Power Supply)	accept
+98214	IR829GW-LTE-NA-AK9	routers	emc_emissions	182e3672a258ad84	t6:r23:c1	47 CFR Part 15 B EN 55032:2015 CISPR 32 Edition 2 CNS13438: 2006 EN 300 386 V1.6.1 EN61000-3-2: 2014 (AC Power Supply) EN61000-3-3: 2013 (AC Power Supply)	accept
+98437	IR829GW-LTE-VZ-AK9	routers	emc_emissions	182e3672a258ad84	t6:r23:c1	47 CFR Part 15 B EN 55032:2015 CISPR 32 Edition 2 CNS13438: 2006 EN 300 386 V1.6.1 EN61000-3-2: 2014 (AC Power Supply) EN61000-3-3: 2013 (AC Power Supply)	accept
+197791	C8200L-1N-4T	routers	supported_protocols	1b00076fbd280814	t12:r1:c1+t12:r2:c1+t13:r2:c1	Multilink	accept
+197790	C8200-1N-4T	routers	supported_protocols	1b00076fbd280814	t12:r1:c1+t12:r2:c1+t13:r2:c1	Multilink	accept
+197909	C8200-UCPE-1N8	routers	supported_protocols	e16e6f059b712909	t8:r1:c1+t8:r2:c1+t9:r2:c1	Multilink	accept
+206969	C8200-UCPE-1N8	routers	certifications	e16e6f059b712909	t11:r1:c1+t11:r3:c1	AS/NZS 62368.1 Class I	accept
+197818	C8300-2N2S-4T2X	routers	supported_protocols	f06b537d8957ff32	t12:r1:c1+t12:r2:c1+t13:r2:c1	Multilink	accept
+197819	C8300-2N2S-6T	routers	supported_protocols	f06b537d8957ff32	t12:r1:c1+t12:r2:c1+t13:r2:c1	Multilink	accept
+197820	C8300-1N1S-4T2X	routers	supported_protocols	f06b537d8957ff32	t12:r1:c1+t12:r2:c1+t13:r2:c1	Multilink	accept
+197821	C8300-1N1S-6T	routers	supported_protocols	f06b537d8957ff32	t12:r1:c1+t12:r2:c1+t13:r2:c1	Multilink	accept
+197877	UCS-E1100D-M6/K9	servers-unified-computing	supported_protocols	f06b537d8957ff32	t12:r1:c1+t12:r2:c1+t13:r2:c1	Multilink	accept
+197878	UCS-E1120D-M3/K9	servers-unified-computing	supported_protocols	f06b537d8957ff32	t12:r1:c1+t12:r2:c1+t13:r2:c1	Multilink	accept
+197879	UCS-E160S-M3/K9	servers-unified-computing	supported_protocols	f06b537d8957ff32	t12:r1:c1+t12:r2:c1+t13:r2:c1	Multilink	accept
+197880	UCS-E180D-M3/K9	servers-unified-computing	supported_protocols	f06b537d8957ff32	t12:r1:c1+t12:r2:c1+t13:r2:c1	Multilink	accept
+206926	C8300-UCPE-1N20	routers	certifications	fb92e954ec2de451	t20:r1:c1	CAN/CSA-C22.2 No.	accept
+206412	CG522-E	routers	certifications	27af7fecc4bbf8ea	t3:r1:c1	AS/NZS 60950-1 IEC/EN 60825 Laser Safety FDA: Code of Federal Regulations	accept
+206413	CG418-E	routers	certifications	27af7fecc4bbf8ea	t3:r1:c1	AS/NZS 60950-1 IEC/EN 60825 Laser Safety FDA: Code of Federal Regulations	accept
+197223	CG113-4GW6x	routers	supported_protocols	8a809a45d23ecd5e	t1:r1:c1	Network Time Protocol	unclassified
+197224	CG113-W6x	routers	supported_protocols	8a809a45d23ecd5e	t1:r1:c1	Network Time Protocol	unclassified
+28268	SFP-10G-ZR	transceiver	supported_protocols	d4d35493a8a3ff44	t1:r1:c1	Q-in-Q Ethernet Link Aggregation Group (LAG) Link	unclassified
+204378	N520-20G4Z-A	routers	supported_protocols	d4d35493a8a3ff44	t1:r1:c1+t1:r2:c1	Q-in-Q Ethernet Link Aggregation Group (LAG) Link	unclassified
+204379	N520-20G4Z-D	routers	supported_protocols	d4d35493a8a3ff44	t1:r1:c1+t1:r2:c1	Q-in-Q Ethernet Link Aggregation Group (LAG) Link	unclassified
+204380	N520-4G4Z-A	routers	supported_protocols	d4d35493a8a3ff44	t1:r1:c1+t1:r2:c1	Q-in-Q Ethernet Link Aggregation Group (LAG) Link	unclassified
+204396	N520-X-20G4Z-A	routers	supported_protocols	d4d35493a8a3ff44	t1:r1:c1+t1:r2:c1	Q-in-Q Ethernet Link Aggregation Group (LAG) Link	unclassified
+204397	N520-X-20G4Z-D	routers	supported_protocols	d4d35493a8a3ff44	t1:r1:c1+t1:r2:c1	Q-in-Q Ethernet Link Aggregation Group (LAG) Link	unclassified
+204398	N520-X-4G4Z-A	routers	supported_protocols	d4d35493a8a3ff44	t1:r1:c1+t1:r2:c1	Q-in-Q Ethernet Link Aggregation Group (LAG) Link	unclassified
+204399	N520-X-4G4Z-D	routers	supported_protocols	d4d35493a8a3ff44	t1:r1:c1+t1:r2:c1	Q-in-Q Ethernet Link Aggregation Group (LAG) Link	unclassified
+208057	N540-24Z8Q2C-SYS	routers	supported_protocols	f479514a178c24b1	t1:r1:c1+t1:r2:c1+t1:r5:c1	Q-in-Q Ethernet Link Aggregation Group (LAG) Link	unclassified
+208058	N540-ACC-SYS	routers	supported_protocols	f479514a178c24b1	t1:r1:c1+t1:r2:c1+t1:r5:c1	Q-in-Q Ethernet Link Aggregation Group (LAG) Link	unclassified
+208059	N540X-ACC-SYS	routers	supported_protocols	f479514a178c24b1	t1:r1:c1+t1:r2:c1+t1:r5:c1	Q-in-Q Ethernet Link Aggregation Group (LAG) Link	unclassified
+206324	N540-24Z8Q2C-SYS	routers	certifications	f479514a178c24b1	t3:r3:c1	CNS13438	accept
+206325	N540-ACC-SYS	routers	certifications	f479514a178c24b1	t3:r3:c1	CNS13438	accept
+206326	N540X-ACC-SYS	routers	certifications	f479514a178c24b1	t3:r3:c1	CNS13438	accept
+208060	N540-6Z14S-SYS-D	routers	supported_protocols	2bd1acffb3643746	t1:r1:c1+t1:r2:c1+t1:r5:c1	Q-in-Q Ethernet Link Aggregation	unclassified
+208061	N540-24Q8L2DD-SYS	routers	supported_protocols	4e88992fc80b83c6	t1:r1:c1+t1:r2:c1+t1:r5:c1	Q-in-Q Ethernet Link Aggregation Group (LAG) Link	unclassified
+208062	N540-24Q2C2DD-SYS	routers	supported_protocols	4e88992fc80b83c6	t1:r1:c1+t1:r2:c1+t1:r5:c1	Q-in-Q Ethernet Link Aggregation Group (LAG) Link	unclassified
+206334	N540-24Q2C2DD-SYS	routers	certifications	4e88992fc80b83c6	t3:r2:c1+t3:r4:c1	CNS13438	accept
+206333	N540-24Q8L2DD-SYS	routers	certifications	4e88992fc80b83c6	t3:r2:c1+t3:r4:c1	CNS13438	accept
+205200	NCS-55A2-MOD-HD-S	routers	supported_protocols	163e8998487b6873	t2:r1:c1+t2:r2:c1+t2:r5:c1	Intermediate System	unclassified
+205201	NCS-55A2-MOD-HX-S	routers	supported_protocols	163e8998487b6873	t2:r1:c1+t2:r2:c1+t2:r5:c1	Intermediate System	unclassified
+205198	NC55A2-MOD-SE-H-S	routers	supported_protocols	163e8998487b6873	t2:r1:c1+t2:r2:c1+t2:r5:c1	Intermediate System	unclassified
+205202	NCS-55A2-MOD-SE-S	routers	supported_protocols	163e8998487b6873	t2:r1:c1+t2:r2:c1+t2:r5:c1	Intermediate System	unclassified
+207456	NC55A2-MOD-SE-H-S	routers	certifications	163e8998487b6873	t5:r2:c1+t5:r4:c1+t6:r2:c1	EN61000-3-2	accept
+207458	NCS-55A2-MOD-HD-S	routers	certifications	163e8998487b6873	t5:r2:c1+t5:r4:c1+t6:r2:c1	EN61000-3-2	accept
+207459	NCS-55A2-MOD-HX-S	routers	certifications	163e8998487b6873	t5:r2:c1+t5:r4:c1+t6:r2:c1	EN61000-3-2	accept
+207460	NCS-55A2-MOD-SE-S	routers	certifications	163e8998487b6873	t5:r2:c1+t5:r4:c1+t6:r2:c1	EN61000-3-2	accept
+197780	CISCO1905-SEC/K9	routers	supported_protocols	24ae5f20fead09ba	t3:r1:c1+t3:r2:c1	Intermediate	accept
+197781	CISCO1905/K9	routers	supported_protocols	24ae5f20fead09ba	t3:r1:c1+t3:r2:c1	Intermediate	accept

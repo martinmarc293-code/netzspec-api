@@ -360,6 +360,8 @@ const RUN_KIND_CLASS: Record<string, { approval: boolean; gate: boolean }> = {
   // park-login-walled (no fact moves); the operator's order is the approval, recorded verbatim in inputs.approved
   "enqueue-router-listings": A,
   "resolve-weight-config-conflicts": A,   // weight ruling 5 Oct 2026 ~23:10: closes conflicts the ruling settles (no fact moves)
+  // 6 Oct 2026: the hardware guides' SPEC CHAPTERS (installation-guide reader, step 1) -- a queue decision, no fact moves
+  "enqueue-router-guide-chapters": A,
 };
 // The vendor this lane has axes for; vendor_coverage owns every other vendor's hardware (unknown_zero counts them apart).
 const OWN_VENDOR = "cisco";
