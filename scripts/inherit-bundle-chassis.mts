@@ -57,6 +57,8 @@ export const MODULE_SENSITIVE = new Set(["weight", "power_typical", "power_max",
 /** "SEC/AX bundles inherit router_throughput: the stated value is the standard-licence throughput, and a technology package
  *  doesn't change it. AXV excluded." (reviewer, 6 Oct ~21:20) */
 export const THROUGHPUT_AFFIX = new Set(["SEC", "AX"]);
+/** Derived base facts a bundle may copy: the registered weight derivations, each tied to a re-read page (DERIVED_FILL_PATHS.weight). */
+export const COPYABLE_DERIVED = new Set(["derived:model-row", "derived:max-bound"]);
 /** The licence affix a bundle SKU carries ("SEC", "AX", "AXV", "HSEC", "HSEC+"), or null (a C1- prefix alone, or no bundle). */
 export function bundleAffix(sku: string): string | null {
   const m = LICENCE_AFFIX.exec(sku.toUpperCase().replace(/^C1-/, ""));
@@ -109,7 +111,9 @@ async function plan(): Promise<{ plans: Plan[]; refused: string[]; bundles: numb
     const keys = keysFor(v.sku);
     for (const f of facts.filter((x) => x.part_id === m!.id && keys.has(x.key) && ["verified", "corroborated"].includes(x.state))) {
       if (held.has(`${v.id}|${f.key}`)) continue;
-      if (!f.doc_id || f.method.startsWith("derived:")) { refused.push(`${v.sku} ${f.key}: the base's fact is ${f.method} with ${f.doc_id ? "a" : "no"} document -- only a read is copied`); continue; }
+      // a READ is copied, and so is a REGISTERED weight derivation that names its page (derived:model-row, derived:max-bound --
+      // reviewer 6 Oct ~21:40: "Then the bundle re-run for the 1921 family"): the method travels with it, so a max stays a max
+      if (!f.doc_id || (f.method.startsWith("derived:") && !COPYABLE_DERIVED.has(f.method))) { refused.push(`${v.sku} ${f.key}: the base's fact is ${f.method} with ${f.doc_id ? "a" : "no"} document -- only a read or a registered weight derivation is copied`); continue; }
       plans.push({ vId: v.id, vSku: v.sku, m: f });
     }
   }
