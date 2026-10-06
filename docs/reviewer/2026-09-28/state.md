@@ -339,6 +339,19 @@ HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). R
   superseded-readings*, ruling Q13; approval = the 23:10 verdict, verbatim above); (iii) check router ready (ISR 4000 should
   turn ready: their only blocker was weight); (iv) report + scoped scorecard; (v) installation-guide reader.
   OPERATOR 6 Oct: 'compact the session yourself automatically' -- never ask for /compact; auto-compaction at ~97%.
+- 6 Oct ~00:20 UTC: RUN 1499 committed the ISR 4000 re-apply with the weight rule (gate PASS, golden 15/15 incl. the 7
+  weights; regression allowed = exactly the 64 refused configuration rows; insert 0, 126 entries onto OPEN conflicts).
+  OPEN ISR 4000 weight conflicts (conflicts table, field weight, resolved_at null, parts ISR4*): kept = the base-row value
+  the ruling picks (ISR4221* 3.22, ISR4321* 3.5, ISR4331*/-DC 6.2, ISR4351* 13.1, ISR4431* 8.4, ISR4451* 13.1), rejected =
+  'Typical weight (fully loaded with modules)' (7.3/16.1 lb, 17.1, 10.2, 3.68...), the AC-PoE row (6.4), DC rows (13.1 on
+  4431), 1,000-W rows; classes same-doc-multicolumn + source-disagreement (the sheet's two URLs). The kept facts sit in
+  state `conflict` -> not served -> ISR 4000 still not ready. NEXT = the ONE approval run (verdict 23:10 verbatim): for each
+  open router weight conflict whose REJECTED raw/label is refused by weightRowDecision for that part (loaded/addon/other
+  variant) and whose KEPT side is the ruled row: resolve it (resolution e.g. 'rule:weight_config_superseded_reading',
+  resolved_by run), then return the kept fact to `verified` when no open conflict remains on (part, weight). Read FIRST:
+  scripts/classify-conflicts.mts (ruling Q11/Q13 classes; run kind resolve-superseded-readings is classed A on the board)
+  and scripts/reconcile-conflict-states.mts (how a conflict's fact state is reconciled). Dry plan, sample, commit, verify
+  from a new connection, then router ready (expect the ISR 4000 base PIDs ready), scorecard, report.
 - NIGHT 01:00 UTC: will pick up today's 307 router docs (watermark 5 Oct 01:00) and may commit families with golden rows;
   do NOT deploy 01:00-01:45; pull its artefacts (find data -newer GIT_SHA) before the next deploy.
 - OPERATOR, 5 Oct ~21:00 UTC (verbatim): "complete the router category full, you are not allowed to focus on anything else
