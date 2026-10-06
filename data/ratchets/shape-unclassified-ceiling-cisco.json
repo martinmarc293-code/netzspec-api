@@ -1,22 +1,12 @@
 {
   "vendor": "cisco",
   "unit": "unclassified MEMBERS (fact-weighted) of live facts on live parts",
-  "recorded_at": "2026-10-06T22:05:00.000Z",
-  "git_sha": "8cea6371",
+  "recorded_at": "2026-10-06T22:26:41.617Z",
+  "git_sha": "704ff96356864f7e9a6ee75514e28dc4b2764e62",
   "ceiling": {
     "certifications": 1710,
     "emc_emissions": 64,
     "ieee_standards": 16839,
     "supported_protocols": 2856
-  },
-  "moved": {
-    "lowered": "GRAMMAR_6OCT_C (src/core/listShapes.ts) read 95 member forms run 1514 left unclassified; the cisco counts fell to certifications 1,710 (from 2,225), emc_emissions 64 (72), supported_protocols 2,856 (3,245), measured with the grammar over every live fact; the ceilings are set to those counts so the gain is locked in",
-    "raised": {
-      "key": "ieee_standards",
-      "from": 16829,
-      "to": 16839,
-      "reason": "RESIDUE_6OCT_C: 'SNMP v1, v2c, and v3' and 'SNMPv1, v2c, and v3' -- a protocol a sheet's Standards row lists, filed under ieee_standards by run 1514; an IEEE grammar must not read it",
-      "ruling": "reviewer 6 Oct 2026 ~07:35: CLASSIFY, DON'T RAISE THE CEILING -- the ceiling moves only if a residue remains with a named reason"
-    }
   }
 }
