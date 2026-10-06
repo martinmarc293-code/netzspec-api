@@ -223,7 +223,8 @@ let gitSha: string | undefined = process.env.GIT_SHA;
 if (!gitSha) try { gitSha = execFileSync("git", ["rev-parse", "HEAD"], { cwd: ROOT, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }).trim(); } catch { gitSha = undefined; }
 const out = await withRun("inherit-bundle-chassis", {
   category: CATEGORY, planned: plans.length, refused: refused.length, plan: path.relative(ROOT, planPath), plan_sha256: planSha,
-  approved: "reviewer ruling 6 Oct 2026 ~20:40: (b) Yes -- the -SEC/-AX/-AXV/-HSEC/C1- bundles are the same box with a licence; inherit the base chassis's physical facts (inherited_from = base PID, state filled-inherited). Hardware affixes excluded",
+  approved: "reviewer ruling 6 Oct 2026 ~20:40: (b) Yes -- the -SEC/-AX/-AXV/-HSEC/C1- bundles are the same box with a licence; inherit the base chassis's physical facts (inherited_from = base PID, state filled-inherited). Hardware affixes excluded" +
+    "; reviewer ~23:35: 'B: yes -- -FC joins the licence affixes; physical facts flow both ways between the -FC and the base, nothing else.' and 'C: ... If a bundle adds only software or a licence, it inherits like (b)' (ASR1000-RP1-BUN / -RP1-CB: names read, RP1 + a sales qualifier)",
 }, async (runId) => withTx(async (client) => {
   const actions: Record<string, number> = {};
   const notInserted: string[] = [];
