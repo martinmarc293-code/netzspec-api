@@ -456,6 +456,16 @@ HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). R
   ROUTER_THROUGHPUT_SERIES minus '4000' (fieldSchema), contract 201b779a47640e74 -> ae6f436b328c9b58; tsc 0; jtlExport 60/0.
   NEXT: commit+deploy, sync-dictionary on the box (class D), rebuild, pull, ONE BUILD, suites, commit, deploy, board -- before
   01:00 (the night resumes). Then Q2 dry, then the installation-guide reader.
+- 6 Oct 16:55 UTC Q1 DONE: febbd1d deployed; sync-dictionary RUN 1508 (profiles 1 updated: the router_throughput cond);
+  rebuild at febbd1d (16:43:31-16:51:28; ONE BUILD, contract ae6f436b328c9b58; box 109/110, MISS 2 = brandOwnership; gone 3:
+  the frozen profile hashes / freeze hash / routers ledger profile hash) -> 8e135ca, deployed (NETZSPEC_DEPLOY_ALLOW_DIRTY=1:
+  the only dirty file is the uncommitted Q2 extractor switch, HEAD ships). BOARD at 8e135ca: 33/1 (vendor_coverage, ruled);
+  router_throughput_series: 10 listed series, 403 asked of 1,293 live routers. ISR 4000 READY 8 unchanged under '4000 ISR'.
+- Q2 (DRY ONLY, nothing ships): uncommitted scraper/adapters/cisco_specs_deep.py -- NETZSPEC_COMMA_LISTS=1 makes a cell with
+  >= 5 top-level ", " items a list (6000 cap). gate-extract cellMatches ALREADY accepts 6000 (ADAPTER_CAPS [160,800,6000]):
+  no gate change needed. Measure base vs wide over /tmp/rt-all-html.txt in the scratch tree: cells that flip (by key, ls vs
+  scalar), the gate re-read, each router's protocol list, + the reviewer's rule: the last member of a truncated (160) piece is
+  flagged truncated even when the grammar accepts it ('Multilink').
 - CLOSING RUN READY (not committed): scripts/resolve-weight-config-conflicts.mts + board class A (local, uncommitted);
   dry on the box: 72 open router weight conflicts, resolve 44 (ISR 4000 + 3 8800 chassis-only kept), held 28 (8804/8808/
   8812-SYS where the KEPT side is 'Weight (full system)' -- needs a supersede to the chassis-only value, not a close).
