@@ -362,6 +362,15 @@ HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). R
   reviewer, clear STOP only after its answer (move to $FILL/stops-cleared/ with a note). ALSO: the night REBUILT artefacts
   in the deploy tree and my 4b17c60 deploy swapped them out: they are in /root/netzspec-api.old (121 files newer than its
   GIT_SHA 4eeaa8f) -- pull from THERE before the next deploy (or rebuild fresh; a rebuild is owed anyway).
+- THE FOUR BOARD REDS, read 07:15 (board-last.txt): (1) enum_values_in_domain = the unclassified-member RATCHET grew
+  (supported_protocols 3,195 > ceiling 3,097; certifications 1,926 > 1,922) from run 1495's ISR 4000 lists -> classify the
+  new members or record a new ceiling WITH the reviewer's yes (mould-verify --record-shape-ceiling); (2) four_sets_sum VETO
+  = OWN facts under cups the router kind marks na: routers/router airflow 16, memory_max 16 (ISR 4000 rows) -> 'the kind's
+  set is wrong, never the fact': add both to the router kind's declared optional set (find declaredOptional / kindArchetypes
+  in src/core/cupLedger.ts), rebuild; (3) dictionary_in_sync = 1 profile row (router_throughput cond) -> run the
+  sync-dictionary command (class D); (4) router_throughput_series = ISR4331-DC/K9 filed under series '3900 Series
+  Integrated Services Routers ISR' -> set-series to '4000 ISR' (+ C1-CISCO4331-DC/K9), class A: ASK the reviewer. Report
+  sent? see the chat. STOP stays until the reviewer answers.
 - CLOSING RUN READY (not committed): scripts/resolve-weight-config-conflicts.mts + board class A (local, uncommitted);
   dry on the box: 72 open router weight conflicts, resolve 44 (ISR 4000 + 3 8800 chassis-only kept), held 28 (8804/8808/
   8812-SYS where the KEPT side is 'Weight (full system)' -- needs a supersede to the chassis-only value, not a close).
