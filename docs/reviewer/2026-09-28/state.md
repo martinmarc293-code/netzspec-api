@@ -371,6 +371,15 @@ HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). R
   sync-dictionary command (class D); (4) router_throughput_series = ISR4331-DC/K9 filed under series '3900 Series
   Integrated Services Routers ISR' -> set-series to '4000 ISR' (+ C1-CISCO4331-DC/K9), class A: ASK the reviewer. Report
   sent? see the chat. STOP stays until the reviewer answers.
+- VERDICT 6 Oct ~07:35 UTC: (1) sync -- mine [DONE run 1500]; (2) YES set-series both (ISR4331-DC/K9, C1-CISCO4331-DC/K9)
+  -> '4000 ISR' in ONE approval run, but FIRST scan the '3900 ISR' series for any other 43xx/44xx PIDs filed there and
+  include them; (3) YES airflow + memory_max optional [DONE, committed]; (4) CLASSIFY, DON'T RAISE THE CEILING: read the
+  +98 supported_protocols / +4 certifications members -- real identifiers -> extend the grammar (listShapes), junk ->
+  refuse; the ceiling moves only if a residue remains with a named reason; CLOSING RUN: GO, resolve the 44; the 28 8800
+  rows stay held -- for that later ruling, an -SYS PID may genuinely ship as a full system (fans, RPs, fabric), so 'full
+  system' may be its right article weight: check what the -SYS PID includes. TODO NOW: deploy HEAD (resolve script +
+  cupLedger), closing run --commit (approval = this verdict), reconcile-conflict-states (dry, commit), set-series scan +
+  run, classify the members, rebuild + pull + ONE BUILD, board green -> clear STOP -> report with scorecard.
 - CLOSING RUN READY (not committed): scripts/resolve-weight-config-conflicts.mts + board class A (local, uncommitted);
   dry on the box: 72 open router weight conflicts, resolve 44 (ISR 4000 + 3 8800 chassis-only kept), held 28 (8804/8808/
   8812-SYS where the KEPT side is 'Weight (full system)' -- needs a supersede to the chassis-only value, not a close).
