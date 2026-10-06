@@ -1,9 +1,9 @@
 {
-  "contract_hash": "201b779a47640e74",
-  "generated_at": "2026-10-05T22:17:51.683Z",
-  "code_commit": "597179d4689f60ac9998a3fcb68f98fd5b3c1547",
+  "contract_hash": "ae6f436b328c9b58",
+  "generated_at": "2026-10-06T16:32:53.006Z",
+  "code_commit": "49e0518132c647b074ba7f9469601a355b209e3c",
   "code_branch": "cisco",
-  "dirty_files": 98,
+  "dirty_files": 6,
   "counts": {
     "dictionary_keys": 610,
     "categories": 26,
@@ -26798,7 +26798,6 @@
                 "field": "series",
                 "inList": [
                   "1000",
-                  "4000",
                   "4000 ISR",
                   "8000",
                   "8100 Series Secure",

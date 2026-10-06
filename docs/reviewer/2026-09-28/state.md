@@ -446,6 +446,16 @@ HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). R
   ROUTER_THROUGHPUT_SERIES minus '4000' + contract, sync-dictionary run, rebuild) -> board -> BOARD REPORT -> STOP (after its
   answer) -> installation-guide reader. Q2 = DRY measurement only (comma-dense list cells + a 160-boundary truncation flag),
   numbers to the reviewer before anything ships.
+- 6 Oct 16:24 UTC REBUILD DONE: 49e0518 (built at 8dcbd09; ONE BUILD, contract 201b779a47640e74; box 109/110, MISS 2 =
+  brandOwnership T11/T13 unchanged; gone 4). Deployed; BOARD at 49e0518: 33 passed / 1 failed (vendor_coverage, ruled): the four
+  night reds PASS. BOARD REPORT SENT. VERDICT ~16:35 (verbatim): "Board accepted: 33 of 34, the one by ruling. Yes — clear the
+  STOP with the note; the night resumes at 01:00. Q1 before it, then Q2 dry, then the installation-guide reader."
+  STOP CLEARED 16:38:17Z -> $FILL/stops-cleared/2026-10-06-verify.STOP + .txt (note with the fixes and the verdict).
+- 6 Oct 16:32 UTC Q1 RUN 1507 set-series: 30 PIDs -> '4000 ISR' ('4000' 7 hw, '1900 ISR' 2, '2900 ISR' 13 + 4 lic, '1000' 4);
+  new connection 0 left. No part of any vendor carries '4000' now ('4000 ISR' = 332 cisco routers-category parts). Code:
+  ROUTER_THROUGHPUT_SERIES minus '4000' (fieldSchema), contract 201b779a47640e74 -> ae6f436b328c9b58; tsc 0; jtlExport 60/0.
+  NEXT: commit+deploy, sync-dictionary on the box (class D), rebuild, pull, ONE BUILD, suites, commit, deploy, board -- before
+  01:00 (the night resumes). Then Q2 dry, then the installation-guide reader.
 - CLOSING RUN READY (not committed): scripts/resolve-weight-config-conflicts.mts + board class A (local, uncommitted);
   dry on the box: 72 open router weight conflicts, resolve 44 (ISR 4000 + 3 8800 chassis-only kept), held 28 (8804/8808/
   8812-SYS where the KEPT side is 'Weight (full system)' -- needs a supersede to the chassis-only value, not a close).

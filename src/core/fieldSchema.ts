@@ -1657,8 +1657,10 @@ const rtRoleAdd = (roles: readonly string[], kinds: readonly string[] = []): Req
 /** Required of `kinds`, OPTIONAL of every other kind (the shape of a cup demoted for some kind that asked it). */
 const rtKinds = (kinds: readonly string[]): Requirement => cond({ field: "kind", inList: [...kinds] }, { elseOpt: true });
 /** Reviewer ruling (b), 5 Oct 2026: the router series whose OWN sheets print a per-model throughput. Exported so the test that
- *  pins the list against the live series (both directions) reads this list and not a copy. */
-export const ROUTER_THROUGHPUT_SERIES = ["1000", "4000", "4000 ISR", "8000", "8100 Series Secure", "8200 Series Secure",
+ *  pins the list against the live series (both directions) reads this list and not a copy.
+ *  "4000" left the list 6 Oct 2026 (reviewer Q1: "'4000' dropped from the throughput list in the same commit"): run 1507 moved
+ *  the ISR 4000 family off its five labels onto "4000 ISR", so "4000" names no part and a listed series with no member is red. */
+export const ROUTER_THROUGHPUT_SERIES = ["1000", "4000 ISR", "8000", "8100 Series Secure", "8200 Series Secure",
   "8400 Series Secure", "Catalyst 8200", "Catalyst 8300", "Catalyst 8500L", "RV Series"] as const;
 // --- end kind-layer routers helpers ------------------------------------------------------------------------------
 // --- kind-layer (13 Sep 2026): switches role conditions ----------------------------------------------------------------
