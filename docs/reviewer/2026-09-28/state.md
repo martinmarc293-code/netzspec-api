@@ -545,6 +545,16 @@ HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). R
   the guide's Preinstallation chapter (not a SPEC_CHAPTER title, so not derived). ASK: fetch that one chapter, or record the
   4461's weight as not published? Also for the 10-twin sample: this twin added nothing over its HTML, and the PDF extractor read
   27 records where the HTML gives hundreds.
+- 6 Oct ~19:00 (A) BUILT (committed with this entry): extractor -- COMMA_LIST_MIN_ITEMS 5 permanent (_marked_list /
+  _comma_only_list / _is_list_cell), a long comma-only cell carries comma_list + scalar_head (cap_value at 160); apply-extract
+  mapCapped -- a comma cell mapping to a NON-list key is read from scalar_head, truncated=true, counted comma_list_scalar_capped;
+  every fact read from a capped record carries truncated (cutOf), the same-document list union ORs it. Proof: datasheet suite
+  128/0 (CL1-CL5; sabotage: rule off -> CL1 red, head removed -> CL1 red); apply-extract DB suite 148/0 (3 (A) cases through
+  planExtract; sabotage: scalar branch removed -> exactly the scalar case red); restored by md5 each time.
+  THE 7 GATE MISSES WERE MINE: my Q2 measurement re-read JOINED values whole; the real gate expands joined records into their
+  cells first (gateInputFor -> expandFragments). Re-measured that way: 769 changed cells checked, 769 ok, 0 bad. Nothing to fix
+  in the gate -- RETRACT the "7 misses" to the reviewer. NEXT: classify the recovered members (no ceiling raise), then re-apply the
+  router corpus through the gate.
 - CLOSING RUN READY (not committed): scripts/resolve-weight-config-conflicts.mts + board class A (local, uncommitted);
   dry on the box: 72 open router weight conflicts, resolve 44 (ISR 4000 + 3 8800 chassis-only kept), held 28 (8804/8808/
   8812-SYS where the KEPT side is 'Weight (full system)' -- needs a supersede to the chassis-only value, not a close).

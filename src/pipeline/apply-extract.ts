@@ -392,7 +392,7 @@ export async function planExtract(files: ExtractFile[], opts: { vendor: string; 
     collision_same_value: 0, collision_differing: 0, collision_exact_repeat: 0, collision_list_union: 0,
     // raw cells folded into one fact by the extractor's list rule (RawFact.fragments)
     list_fragment_cells: 0,
-    doc_defects: 0, raw_with_label_unit: 0, raw_with_label_basis: 0, weight_config_refused: 0,
+    doc_defects: 0, raw_with_label_unit: 0, raw_with_label_basis: 0, weight_config_refused: 0, comma_list_scalar_capped: 0,
     sku_unknown: 0, sku_unknown_facts: 0, pid_list_unknown: 0, family_no_listed_parts: 0,
     inherit_ok: 0, inherit_value_rule_class_c: 0, value_rule_cells: 0, value_rule_refused: 0, inherit_class_b: 0, inherit_scope_unresolved: 0, inherit_scope_violation: 0, inherit_class_c_exception: 0, inherit_refused_other: 0,
     // entries the STORE will refuse before any SQL (describesPart / notApplicable): offered to the
@@ -526,6 +526,8 @@ export async function planExtract(files: ExtractFile[], opts: { vendor: string; 
         if (e.prov.locator && mergeInto.prov.locator && !mergeInto.prov.locator.split("+").includes(e.prov.locator)) {
           mergeInto.prov = { ...mergeInto.prov, locator: `${mergeInto.prov.locator}+${e.prov.locator}` };
         }
+        // a union of two cells is cut wherever EITHER cell was cut (facts.truncated): the flag is OR-ed, never dropped by the merge
+        if (e.truncated) mergeInto.truncated = true;
         // what the gate grades must be what will be WRITTEN, so the produced value follows the
         // union — but its `raw` and `locator` stay the first CELL, which is what re-reads.
         const bag0 = produced.get(part.sku)?.get(e.k);
@@ -586,6 +588,27 @@ export async function planExtract(files: ExtractFile[], opts: { vendor: string; 
     return m.raw;
   };
 
+  // (A), reviewer 6 Oct 2026 ~17:20 (verbatim): "(A) approved — the mapper is the only place that knows what a key is; a label list
+  // in the extractor is the second copy that drifts. ... The scalar cap at apply records truncated: true on the fact so the gate's
+  // provenance branch reads it as the head of its cell, exactly as the adapter-side cap does." The extractor keeps a comma-delimited
+  // list cell WHOLE and hands over the 160-character head a scalar would have kept (comma_list / scalar_head). Here, where the key
+  // is known: a cell that maps to a key that is NOT a list is read from that head, flagged truncated -- so a scalar cup never
+  // receives 6,000 characters its normaliser has no grammar for, and keeps exactly what it received before (A).
+  const isListKey = (key: string): boolean =>
+    ((FIELD_DICTIONARY as Record<string, { type?: string }>)[key] ?? (GENERATED_FIELDS as Record<string, { type?: string }>)[key])?.type === "ls";
+  const mapCapped = (f: RawFact, category: string, natLabel: boolean): { fr: RawFact; cell: MappedCell } => {
+    const map = (r: RawFact): MappedCell => natLabel ? { facts: [mapFact({ ...r, label: NAT_AS_ROUTER_THROUGHPUT_LABEL }, category)], rule: null, refused: null }
+      : mapFactAll(r, category);
+    const cell = map(f);
+    if (!f.comma_list || typeof f.scalar_head !== "string") return { fr: f, cell };
+    if (!cell.facts.some((m) => m.kind === "ok" && !isListKey(m.key))) return { fr: f, cell };
+    stats.comma_list_scalar_capped++;
+    const head: RawFact = { ...f, value: f.scalar_head, truncated: true };
+    return { fr: head, cell: map(head) };
+  };
+  /** what a fact read from record `fr` says about its own completeness (facts.truncated) */
+  const cutOf = (fr: RawFact): { truncated?: true } => (fr.truncated ? { truncated: true } : {});
+
   const docOf = (f: RawFact): DocInfo | null => {
     const d = docByUrl.get(f.source_url);
     if (!d) { stats.facts_without_doc++; return null; }
@@ -630,8 +653,7 @@ export async function planExtract(files: ExtractFile[], opts: { vendor: string; 
     const nat = isNatThroughputLabel(f.label) ? natDecision(part, d) : null;
     if (nat) natStat(nat.why);
     if (nat && !nat.use) { noteSentinel("__backlog", f.label, f.value, part.category); continue; }
-    const cell: MappedCell = nat ? { facts: [mapFact({ ...f, label: NAT_AS_ROUTER_THROUGHPUT_LABEL }, part.category)], rule: null, refused: null }
-      : mapFactAll(f, part.category);
+    const { fr, cell } = mapCapped(f, part.category, !!nat);
     noteValueRule(cell);
     for (const m of cell.facts) {
       // The class-C exception is "the document STATES a per-SKU value for this key", which is true
@@ -643,9 +665,9 @@ export async function planExtract(files: ExtractFile[], opts: { vendor: string; 
         const keys = perDoc.get(d.doc_id) ?? new Set<string>();
         keys.add(m.key); perDoc.set(d.doc_id, keys); perSkuKeys.set(part.id, perDoc);
       }
-      if (m.kind === "unmapped") { stats.unmapped++; noteUnmapped(m.label, f.value, part.category); continue; }
-      if (m.kind === "sentinel") { noteSentinel(m.sentinel, f.label, f.value, part.category); continue; }
-      if (m.kind === "rejected") { stats.rejected++; quarantine.push({ sku: f.sku, label: f.label, value: f.value, key: m.key, reason: m.reason, detail: m.detail, locator: f.locator, doc_id: d.doc_id }); continue; }
+      if (m.kind === "unmapped") { stats.unmapped++; noteUnmapped(m.label, fr.value, part.category); continue; }
+      if (m.kind === "sentinel") { noteSentinel(m.sentinel, fr.label, fr.value, part.category); continue; }
+      if (m.kind === "rejected") { stats.rejected++; quarantine.push({ sku: fr.sku, label: fr.label, value: fr.value, key: m.key, reason: m.reason, detail: m.detail, locator: fr.locator, doc_id: d.doc_id }); continue; }
       // reviewer ruling 5 Oct 2026 (src/core/weightConfig.ts): a weight row printed per CONFIGURATION is the article weight only
       // of the PID that configuration is (base row -> the base PID, a DC row -> the -DC PID); add-ons and full loads never. Routers
       // only, the operator's order. Refused rows are counted and filed as __not_a_spec, never silently dropped.
@@ -654,9 +676,9 @@ export async function planExtract(files: ExtractFile[], opts: { vendor: string; 
       stats.mapped_ok++;
       // the smb NAT row keeps its own label in the replayable raw ("Performance: NAT throughput | 1 Gbps"): the provenance
       // must say it was a NAT row, not an aggregate one
-      const raw = nat ? `${f.label} | ${m.raw}` : rawFor(f, m);
-      const e: SpecEntry = { k: m.key, raw, value: m.value, unit: m.unit, state: "verified", prov: provFor(d, m.locator) };
-      addIncoming(part, e, f, f.label, d, false);
+      const raw = nat ? `${fr.label} | ${m.raw}` : rawFor(fr, m);
+      const e: SpecEntry = { k: m.key, raw, value: m.value, unit: m.unit, state: "verified", prov: provFor(d, m.locator), ...cutOf(fr) };
+      addIncoming(part, e, fr, fr.label, d, false);
     }
   }
 
@@ -667,13 +689,12 @@ export async function planExtract(files: ExtractFile[], opts: { vendor: string; 
     // none of them is (or the document prints a forwarding row), the row is a named gap, once.
     const natOk = isNatThroughputLabel(f.label) ? new Set(d.parts.filter((p) => natDecision(p, d).use).map((p) => p.id)) : null;
     if (natOk && natOk.size === 0) { natStat(natDecision(d.parts[0], d).why); noteSentinel("__backlog", f.label, f.value, d.category); continue; }
-    const cell: MappedCell = natOk ? { facts: [mapFact({ ...f, label: NAT_AS_ROUTER_THROUGHPUT_LABEL }, d.category)], rule: null, refused: null }
-      : mapFactAll(f, d.category);
+    const { fr, cell } = mapCapped(f, d.category, !!natOk);
     noteValueRule(cell);
     for (const m of cell.facts) {
-      if (m.kind === "unmapped") { stats.unmapped++; noteUnmapped(m.label, f.value, d.category); continue; }
-      if (m.kind === "sentinel") { noteSentinel(m.sentinel, f.label, f.value, d.category); continue; }
-      if (m.kind === "rejected") { stats.rejected++; quarantine.push({ scope: f.family_scope, label: f.label, value: f.value, key: m.key, reason: m.reason, detail: m.detail, locator: f.locator, doc_id: d.doc_id }); continue; }
+      if (m.kind === "unmapped") { stats.unmapped++; noteUnmapped(m.label, fr.value, d.category); continue; }
+      if (m.kind === "sentinel") { noteSentinel(m.sentinel, fr.label, fr.value, d.category); continue; }
+      if (m.kind === "rejected") { stats.rejected++; quarantine.push({ scope: fr.family_scope, label: fr.label, value: fr.value, key: m.key, reason: m.reason, detail: m.detail, locator: fr.locator, doc_id: d.doc_id }); continue; }
       stats.mapped_ok++;
       // a value rule may declare its own class for a document-level cell (ruling (C)); nothing else lifts class B
       const docClass = m.docClass;
@@ -681,7 +702,7 @@ export async function planExtract(files: ExtractFile[], opts: { vendor: string; 
       const scope = resolveScope(f.family_scope, d.pid_list);
       if (scope.kind === "unresolved") { stats.inherit_scope_unresolved++; continue; }
       const scopePids = scope.kind === "pids" ? scope.pids : undefined;
-      const base: SpecEntry = { k: m.key, raw: natOk ? `${f.label} | ${m.raw}` : rawFor(f, m), value: m.value, unit: m.unit, state: "verified", prov: provFor(d, m.locator) };
+      const base: SpecEntry = { k: m.key, raw: natOk ? `${fr.label} | ${m.raw}` : rawFor(fr, m), value: m.value, unit: m.unit, state: "verified", prov: provFor(d, m.locator), ...cutOf(fr) };
       for (const pid of d.pid_list) {
         const part = resolvePart(pid);
         if (!part) continue;                       // counted once above as pid_list_unknown
@@ -704,7 +725,7 @@ export async function planExtract(files: ExtractFile[], opts: { vendor: string; 
         }
         stats.inherit_ok++;
         if (docClass) stats.inherit_value_rule_class_c++;
-        addIncoming(part, inheritedEntry(base, familyLabel(f.family_scope, d.url)), f, f.label, d, true);
+        addIncoming(part, inheritedEntry(base, familyLabel(fr.family_scope, d.url)), fr, fr.label, d, true);
       }
     }
   }

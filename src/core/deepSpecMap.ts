@@ -21,6 +21,12 @@ export type RawFact = {
   pid_list?: string[];
   tables?: number;
   defects?: { code: string; locator: string; detail: string }[];
+  /** the extractor capped this value (160 scalar / 6000 list): it is the HEAD of its cell (facts.truncated, migration 0035) */
+  truncated?: boolean;
+  /** (A), reviewer 6 Oct 2026: a comma-delimited list cell kept WHOLE; `scalar_head` is the 160-character head the scalar cap
+   *  would have kept, which apply-extract reads instead when the cell maps to a key that is not a list */
+  comma_list?: boolean;
+  scalar_head?: string;
 };
 
 export type MappedFact =

@@ -777,6 +777,40 @@ check("HL16", "SABOTAGE a PID-SHAPED piece the sheet does not know is not a subj
 DEEP._KNOWN_NORM = set()
 DEEP._KNOWN_ORIG = {}
 
+# ---- (A) COMMA-DELIMITED LIST CELLS (reviewer, 6 Oct 2026 ~17:20: "(A) approved -- the mapper is the only place that knows what
+# a key is") -- a cell of five or more ", "-separated items outside brackets is a list: kept whole, and handed over with the
+# 160-character head a scalar would have kept, so apply-extract can read the head when the key is not a list. The protocol names
+# are the ISR 4000 sheet's own (c78-732542, "Protocols").
+_PROTO = ("IPv4, IPv6, static routes, Open Shortest Path First (OSPF), Enhanced IGRP (EIGRP), Border Gateway Protocol (BGP), "
+          "BGP Router Reflector, Intermediate System-to-Intermediate System (IS-IS), RSVP, CDP, ERSPAN, IPSLA, Call Home, EEM, "
+          "IKE, ACL, EVC, DHCP, FR, DNS, LISP, HSRP, RADIUS, AAA, AVC, MPLS, IP sec, Bidirectional Forwarding Detection (BFD)")
+_PROSE = ("The router supports a wide range of routing protocols and services, and every one of them is described in the "
+          "configuration guide for the release that ships on the platform, which is where an operator should look first")
+_FOUR = ("Fully featured routing with every protocol licence included as standard, Advanced security with zone firewall "
+         "and intrusion prevention, Application visibility with performance routing, Unified communications with voice gateway")
+_BRACKET = ("Serial interfaces on every module of the family (RS-232, RS-449, X.21, V.35, EIA-530, EIA-530A and HSSI) are "
+            "supported in DTE and DCE modes with clock rates set per port by the configuration of the router as shipped")
+_BULLETS = " ".join(f"● feature number {i} of the platform described at some length here" for i in range(6))
+_rcl = DEEP.extract_document(_feature([("Protocols", _PROTO), ("Notes", _PROSE), ("Bundles", _FOUR), ("Serial", _BRACKET),
+                                       ("Highlights", _BULLETS)]), NO_MAP_URL)
+_by = {x["label"]: x for x in _rcl["facts"]}
+_p = _by.get("Protocols", {})
+check("CL1", "a 28-item comma cell (the ISR 4000 Protocols row) is a LIST: kept WHOLE, not truncated, marked comma_list, and its "
+             "scalar_head is the 160-character head a scalar would have kept (a prefix of the value, at most 160)",
+      _p.get("value") == _PROTO and _p.get("truncated") is False and _p.get("comma_list") is True
+      and isinstance(_p.get("scalar_head"), str) and 80 <= len(_p["scalar_head"]) <= 160 and _PROTO.startswith(_p["scalar_head"]),
+      {k: (v if k != "value" else len(v)) for k, v in _p.items() if k in ("value", "truncated", "comma_list", "scalar_head")})
+check("CL2", "SABOTAGE a long PROSE cell with two commas is still a scalar: capped at 160, truncated, no comma_list",
+      len(_by.get("Notes", {}).get("value", "")) <= 160 and _by.get("Notes", {}).get("truncated") is True
+      and "comma_list" not in _by.get("Notes", {}), {k: v for k, v in _by.get("Notes", {}).items() if k != "fragments"})
+check("CL3", "SABOTAGE FOUR long items are not five: capped at 160, no comma_list (the threshold is a measured floor, not 'any comma')",
+      len(_by.get("Bundles", {}).get("value", "")) <= 160 and "comma_list" not in _by.get("Bundles", {}), len(_by.get("Bundles", {}).get("value", "")))
+check("CL4", "SABOTAGE commas INSIDE brackets do not count: 'Serial interfaces (RS-232, RS-449, ...)' is one item, capped at 160",
+      len(_by.get("Serial", {}).get("value", "")) <= 160 and "comma_list" not in _by.get("Serial", {}), len(_by.get("Serial", {}).get("value", "")))
+check("CL5", "a BULLETED list over 160 is the list rule that predates (A): kept whole and carrying NO scalar head (not comma-only)",
+      len(_by.get("Highlights", {}).get("value", "")) > 160 and "comma_list" not in _by.get("Highlights", {}) and "scalar_head" not in _by.get("Highlights", {}),
+      {k: v for k, v in _by.get("Highlights", {}).items() if k in ("truncated", "comma_list")})
+
 summary = f"\n{npass} passed, {nfail} missed"
 if nskip:
     # A suite that ran at PART STRENGTH says so in the line a human reads, or "46 passed, 1 missed"

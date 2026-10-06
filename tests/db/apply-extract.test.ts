@@ -863,6 +863,46 @@ const extraTags: string[] = [];
 
 check("no sabotage run was ever recorded as succeeded", (await query<{ n: number }>("SELECT count(*)::int AS n FROM runs WHERE kind = 'apply-specs' AND status = 'succeeded'")).rows[0].n === 2);
 
+// ---- (A) COMMA LISTS (reviewer, 6 Oct 2026 ~17:20: "(A) approved — the mapper is the only place that knows what a key is") ----
+// The extractor keeps a comma-delimited cell WHOLE and hands over the head a scalar would have kept (comma_list / scalar_head).
+// Through the real plan: a LIST key reads the whole cell; a SCALAR key reads the head, flagged truncated and counted; a record
+// without comma_list (every extract written before (A)) is mapped exactly as given. Sabotage, run by hand on 6 Oct 2026: with
+// mapCapped's scalar branch removed, the scalar case went red and the list and control cases stayed green.
+{
+  const routers = await cat("routers");
+  await query(`INSERT INTO field_dictionary (key, type, unit, label_en, label_de) VALUES
+    ('supported_protocols', 'ls', NULL, 'Supported protocols', 'Unterstützte Protokolle'), ('timing_sync', 's', NULL, 'Timing', 'Taktung')
+    ON CONFLICT (key) DO NOTHING`);
+  const UCL = "https://www.cisco.com/c/en/us/products/collateral/routers/nztest-comma/nztest-comma-router-ds.html";
+  const pCL = await part("NZT-CL-ROUTER-A", routers, "NZTEST CL");
+  const pPRE = await part("NZT-CL-ROUTER-B", routers, "NZTEST CL");
+  const PROTO = "IPv4, IPv6, static routes, Open Shortest Path First (OSPF), Enhanced IGRP (EIGRP), Border Gateway Protocol (BGP), "
+    + "BGP Router Reflector, RSVP, CDP, ERSPAN, IPSLA, EEM, IKE, ACL, EVC, DHCP, DNS, LISP, HSRP, RADIUS, AAA, AVC, MPLS, "
+    + "Bidirectional Forwarding Detection (BFD)";
+  const TIMING = "Enhanced Synchronous Ethernet (eSyncE), Enhanced Ethernet Synchronization Message Channel (eESMC), Internal PRTC-B "
+    + "GNSS receiver, IEEE 1588-2008 PTP T-GM, T-BC, T-TSC, A-PTS, G.8275.1, G.8275.2";
+  const headOf = (v: string) => v.slice(0, v.lastIndexOf(" ", 160));
+  const clFile = path.join(tmp, "comma-lists.json");
+  fs.writeFileSync(clFile, JSON.stringify({ source: "cisco-specs-deep", generated_at: "2026-10-06T00:00:00Z", records: [
+    { __doc__: true, source_url: UCL, pid_list: ["NZT-CL-ROUTER-A", "NZT-CL-ROUTER-B"], tables: 1, defects: [] },
+    { sku: "NZT-CL-ROUTER-A", label: "Protocols", value: PROTO, shape: "A", locator: "t0:r1:c1", source_url: UCL, truncated: false, comma_list: true, scalar_head: headOf(PROTO) },
+    { sku: "NZT-CL-ROUTER-A", label: "Timing", value: TIMING, shape: "A", locator: "t0:r2:c1", source_url: UCL, truncated: false, comma_list: true, scalar_head: headOf(TIMING) },
+    { sku: "NZT-CL-ROUTER-B", label: "Timing", value: headOf(TIMING), shape: "A", locator: "t0:r2:c2", source_url: UCL, truncated: true },
+  ] }, null, 1));
+  const cp = await planExtract([loadExtractFile(clFile)], { vendor: "cisco", db: db() });
+  const incA = cp.incoming.get(pCL) ?? [], incB = cp.incoming.get(pPRE) ?? [];
+  const proto = incA.find((e) => e.k === "supported_protocols"), timing = incA.find((e) => e.k === "timing_sync"), pre = incB.find((e) => e.k === "timing_sync");
+  check("(A) a comma cell under a LIST key is read WHOLE: its last member (past character 160) is in the list, and it is not flagged truncated",
+    Array.isArray(proto?.value) && (proto!.value as string[]).includes("Bidirectional Forwarding Detection (BFD)") && proto?.truncated !== true,
+    { value: proto?.value, truncated: proto?.truncated });
+  sabotages++;
+  check("(A) the same kind of cell under a SCALAR key is read from its 160-character HEAD, flagged truncated, and counted -- never the 6,000",
+    timing?.raw === headOf(TIMING) && timing?.truncated === true && (cp.stats as Record<string, number>).comma_list_scalar_capped === 1,
+    { raw: timing?.raw, truncated: timing?.truncated, capped: (cp.stats as Record<string, number>).comma_list_scalar_capped });
+  check("(A) CONTROL a record without comma_list (every extract before (A)) is mapped as given, its adapter cut carried as truncated",
+    pre?.raw === headOf(TIMING) && pre?.truncated === true, { raw: pre?.raw, truncated: pre?.truncated });
+}
+
 // ---- CONDITION A (reviewer verdict on 678606c, §3.3; 12 Sep 2026) ----------------------------------------
 // A value the domain cannot express is REFUSED — ENUM_VIOLATION, one quarantine line per value naming key,
 // document and locator — and NOTHING is written for it: above all nothing FOLDED to the nearest value the

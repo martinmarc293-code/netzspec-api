@@ -9,7 +9,7 @@
 // Every judgement is the pipeline's own: apply's loader, the mapper (mapFactAll), the list grammar (classifyMember), the gate's
 // re-read of the cached page (reReadSource + cellMatches) -- the measurement must not be a second implementation of what it measures.
 import fs from "node:fs";
-import { loadExtractFile } from "../src/pipeline/apply-extract.js";
+import { loadExtractFile, expandFragments } from "../src/pipeline/apply-extract.js";
 import { mapFactAll, type RawFact, type MappedFact } from "../src/core/deepSpecMap.js";
 import { FIELD_DICTIONARY } from "../src/core/fieldSchema.js";
 import { classifyMember, LIST_SHAPES } from "../src/core/listShapes.js";
@@ -66,7 +66,9 @@ for (const k of changed) {
 }
 
 // ---- 2. the gate's re-read of every changed WIDE record ---------------------------------------------------------------------
-const reread = changed.flatMap((k) => gw.get(k) ?? []).filter((r) => r.label && r.value);
+// expanded into CELLS exactly as the real gate does (gateInputFor -> expandFragments): a joined value is in no single cell by
+// construction, and the first version of this measurement re-read joined values whole and reported 7 misses that were its own
+const reread = (expandFragments(changed.flatMap((k) => gw.get(k) ?? [])) as Rec[]).filter((r) => r.label && r.value);
 const results = reread.length ? reReadSource(reread.map((r) => ({ url: r.source_url, loc: parseLocator(r.locator), label: r.label, value: r.value })), { python: process.env.NETZSPEC_PYTHON || "python3" }) : [];
 const gate = { checked: 0, ok: 0, bad: 0, unchecked: 0, bad_examples: [] as string[] };
 results.forEach((res, i) => {

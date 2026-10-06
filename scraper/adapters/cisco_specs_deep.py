@@ -283,9 +283,42 @@ STANDARDS_PREFIXES = ("ITU-T", "ITUT", "IEEE", "RFC", "IETF")
 _PREFIX_AT = re.compile(r"(?<![A-Za-z0-9-])(?:" + "|".join(re.escape(p) for p in STANDARDS_PREFIXES) + r")(?=\s+\S)")
 
 
-def _is_list_cell(v: str) -> bool:
-    """The DOCUMENT marks this cell as a list: two bullets or more, or a run of two or more standards prefixes."""
+# (A), reviewer 6 Oct 2026 ~17:20 (verbatim): "(A) approved — the mapper is the only place that knows what a key is; a label list
+# in the extractor is the second copy that drifts." A comma-delimited cell is a list the page delimited with commas: the ISR 4000
+# "Protocols" row is ~800 characters of "IPv4, IPv6, static routes, ..." and the test below used to call it a SCALAR, so it kept
+# 160 and lost BGP, IS-IS, MPLS and the rest (Q2, measured 6 Oct over the 455 router documents: 197 list-cup cells recovered,
+# routers' median protocol list 15 -> 51). Only ", " OUTSIDE brackets counts: "1,000,000" has no space after its commas, and
+# "Serial (RS-232, RS-449, X.21)" is one item. Such a cell is kept whole AND carries the head a scalar would have kept
+# (comma_list / scalar_head, set where `truncated` is): apply-extract, which knows the key, reads the head when it is not a list.
+COMMA_LIST_MIN_ITEMS = 5
+
+
+def _top_level_comma_items(v: str) -> int:
+    """How many items ", " separates outside (), [] -- 1 for a cell with none."""
+    depth, n = 0, 1
+    for i, ch in enumerate(v):
+        if ch in "([":
+            depth += 1
+        elif ch in ")]":
+            depth = max(0, depth - 1)
+        elif ch == "," and depth == 0 and v[i + 1:i + 2] == " ":
+            n += 1
+    return n
+
+
+def _marked_list(v: str) -> bool:
+    """The document MARKS the cell as a list: two bullets or more, or a run of two or more standards prefixes."""
     return len(BULLETS.findall(v)) >= 2 or len(_PREFIX_AT.findall(v)) >= 2
+
+
+def _comma_only_list(v: str) -> bool:
+    """A list by the comma rule ALONE -- the cells (A) keeps whole that the scalar cap used to cut."""
+    return not _marked_list(v) and _top_level_comma_items(v) >= COMMA_LIST_MIN_ITEMS
+
+
+def _is_list_cell(v: str) -> bool:
+    """A list cell: marked by the document (bullets, a run of standards prefixes), or (A) five or more ", "-separated items."""
+    return _marked_list(v) or _top_level_comma_items(v) >= COMMA_LIST_MIN_ITEMS
 
 
 def cap_cell(val: str, locator: str, defects: list[dict], what: str = "") -> tuple:
@@ -411,6 +444,12 @@ def join_list_fragments(recs: list[dict], defects: list[dict] | None = None) -> 
         # produced before this contract -- and those are the only ones the gate may judge
         # by length alone.
         r["truncated"] = bool(r.pop("_cut", False))
+        # (A): a comma-delimited cell kept whole is handed over WITH the head a scalar would have kept, because only the mapper
+        # knows whether its key is a list -- apply-extract reads `scalar_head` (flagged truncated) when it is not.
+        v = r.get("value")
+        if isinstance(v, str) and len(v) > MAX_CELL and _comma_only_list(v):
+            r["comma_list"] = True
+            r["scalar_head"] = cap_value(v, MAX_CELL)[0]
     return out
 
 
