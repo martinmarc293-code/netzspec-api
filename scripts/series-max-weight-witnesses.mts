@@ -30,6 +30,7 @@ const OUT = path.join(ROOT, "data/reference/series-max-weight-witnesses.json");
 const CACHE = process.env.CACHE_DIR ?? CACHE_DIR;
 const HIG = "https://www.cisco.com/c/en/us/td/docs/routers/access/800/hardware/installation/guide/800HIG/appendix.html";
 const DS = "https://www.cisco.com/c/en/us/products/collateral/routers/800-series-routers/";
+const ISR900 = "https://www.cisco.com/c/en/us/products/collateral/routers/900-series-integrated-services-routers-isr/";
 type Source = { url: string; doc_type: string; heading: string | null; statement: string; label: string; raw: string;
   listed_by: string | null; series: string; exclude?: RegExp };
 const SOURCES: Source[] = [
@@ -43,6 +44,14 @@ const SOURCES: Source[] = [
     label: "Physical Dimensions and Weight", raw: "5.5 lb (2.5 kg)", listed_by: null, series: "860 Series" },
   { url: `${DS}data_sheet_c78-693249.html`, doc_type: "vendor_datasheet_html", heading: null, statement: "Weight: 5.5 lb (2.5 kg) maximum",
     label: "Physical dimensions and weight", raw: "5.5 lb (2.5 kg)", listed_by: null, series: "860VAE Series" },
+  // the same ruling, three more sheets that state their series' maximum outright (6 Oct ~22:15, from the weight-only blocker survey)
+  { url: `${ISR900}datasheet-c78-741615.html`, doc_type: "vendor_datasheet_html", heading: null, statement: "Weight: 2.65 lb (1.20 kg) maximum",
+    label: "Weight", raw: "2.65 lb (1.20 kg)", listed_by: null, series: "900 Series" },
+  { url: `${ISR900}datasheet-c78-741616.html`, doc_type: "vendor_datasheet_html", heading: null, statement: "Weight: 2.04 lb (0.924 kg) maximum",
+    label: "Weight", raw: "2.04 lb (0.924 kg)", listed_by: null, series: "900J Series" },
+  { url: "https://www.cisco.com/c/en/us/products/collateral/routers/1900-series-integrated-services-routers-isr/data_sheet_c78_556319.html",
+    doc_type: "vendor_datasheet_html", heading: null, statement: "Maximum Weight - Fully Configured 14 lbs", label: "Maximum Weight - Fully Configured",
+    raw: "14 lbs", listed_by: null, series: "1941 Series" },
 ];
 
 /** The cache file NAME (cachedText joins it to the cache directory), the same name netzscrape's `_key` gives the page. */
