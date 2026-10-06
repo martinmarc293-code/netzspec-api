@@ -564,6 +564,14 @@ HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). R
   -3. listShapes 110/0; sabotage: hook removed 22 red, guard removed 1 red. Contract unchanged ae6f436b328c9b58.
   NEXT: deploy, re-extract the router corpus with (A), DRY apply through the gate + a FACT-weighted ratchet forecast from the plan,
   then commit; board; report.
+- 6 Oct 18:31-19:00 ROUTER RE-APPLY, DRY: f70a3a5 deployed; /tmp/rt-A-html.json (455 docs, 38,665 records, 588 comma_list, 1,179
+  still cut). apply-extract dry (tag routers-A): gate FAIL on REGRESSION only -- precision 100%, recall 100%, 127 of 312 docs regressed
+  (e.g. c78-742893 122 -> 2). CAUSE: the baselines are run 60 (4 Sep, tag deep-s0), planned BEFORE the component/class/family/subject
+  store refusals of 29-30 Sep (this run refuses 22,749 entries before the merge: class 9,943, family 5,797, component 5,012, subject
+  1,786). (A) ALONE, isolated (scripts/q2-produced-diff.mts: pre-(A) and (A) extracts planned under TODAY's rules): 182 docs, produced
+  7,228 -> 7,228, fewer on 0. FACT-weighted ratchet forecast (scripts/q2-ratchet-forecast.mts): certifications +20 -> four members ->
+  CERT_FRONT_6OCT_B + the 'Designed to meet' lead-in (guarded) -> certifications net 0, protocols net +4; cisco 2,940 / 1,855 vs
+  ceilings 3,062 / 1,922. ASK THE REVIEWER: commit with --allow-regression "<the isolation numbers>"?
 - CLOSING RUN READY (not committed): scripts/resolve-weight-config-conflicts.mts + board class A (local, uncommitted);
   dry on the box: 72 open router weight conflicts, resolve 44 (ISR 4000 + 3 8800 chassis-only kept), held 28 (8804/8808/
   8812-SYS where the KEPT side is 'Weight (full system)' -- needs a supersede to the chassis-only value, not a close).

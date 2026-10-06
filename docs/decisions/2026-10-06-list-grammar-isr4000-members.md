@@ -65,3 +65,13 @@ NORM stays 1.8.8. Cisco unclassified supported_protocols 3,062 -> 2,940 before t
 **Proof.** tests/listShapes.test.ts 110/0: 24 witnesses accepted, the residue held unclassified, sabotage on whole-member reading, an
 unnamed role, a non-serial Serial group, a footnote on a non-name, scope, and the aruba guard. Sabotage: the protocol hook removed ->
 22 witness cases red; the prose guard removed -> exactly the aruba case red; restored by md5 each time.
+
+**Extended after the fact-weighted forecast (same evening).** Planning the router re-apply itself (scripts/q2-ratchet-forecast.mts:
+current facts of the same document replaced by what the plan offers, store refusals excluded) showed certifications +20 -- four
+members, five parts each, the record-weighted count had not seen. Each is a real standard in a form the grammar missed: "TIA/EIA/
+IS-968 ..." (a triple issuer), "G.824 IEEE 802.3 RTTE Directive" (the second half of "ITU-T G.823, G.824"), "Designed to meet
+GR-63-CORE" (a prose lead-in), "CFR Part 15:2016" ("47 CFR Part 15" whose 47 the run splitter peeled off). CERT_FRONT_6OCT_B and the
+lead-in on CERT_HEAD_6OCT_B read them, behind the same prose guard. All-vendor before/after: still only unclassified -> accept --
+cisco protocols 122, cisco certifications 67, hpe certifications 93, aruba certifications 35; cisco now 2,940 / 1,855 against
+ceilings 3,062 / 1,922. Forecast for the re-apply: certifications net 0, protocols net +4 ("Layer 2" +16 where the "Border Gateway"
+stump -16 goes). Suite 114/0; the front rule removed -> its 3 witnesses red.

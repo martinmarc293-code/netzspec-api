@@ -263,6 +263,8 @@ export function extractIdentifier(key: string, member: string): string | null {
   if (key === "certifications" && !LIST_SHAPES.certifications.refuse.test(m) && !LOOKS_LIKE_PROSE.test(m)) {
     const head = CERT_HEAD_6OCT_B.exec(m);
     if (head) return extractIdentifier(key, m.slice(head[0].length));
+    const front = CERT_FRONT_6OCT_B.exec(m);
+    if (front) return front[0];
   }
   return null;
 }
@@ -349,7 +351,11 @@ const MLFR_6OCT_B = /^Multilink Frame Relay \(MLFR\)(?: \(FR\.[0-9]{1,2}(?: and 
 const FOOTNOTE_6OCT_B = /^(.*\S)\s*\[[0-9]{1,2}\]$/;
 /** An edition note or a Class qualifier that belongs to the PREVIOUS standard, left at the front of the next one by the splitter
  *  ("Third Edition EN 62368-1: 2020", "Class A EN/IEC 61000-3-3/3-11 ..."): the standard after it is read; alone, it stays residue. */
-const CERT_HEAD_6OCT_B = /^(?:(?:First|Second|Third|Fourth) Edition|Class [AB])\s+(?=\S)/;
+const CERT_HEAD_6OCT_B = /^(?:(?:First|Second|Third|Fourth) Edition|Class [AB]|Designed to meet)\s+(?=\S)/;
+/** A standard at the FRONT of a member in a form the issuer grammar does not read (front-anchored; a fused run may follow, as with
+ *  ID_NUMBERED): the triple-issuer TIA/EIA/IS-968, an ITU-T recommendation written without "ITU-T" ("G.824", the second of "ITU-T
+ *  G.823, G.824" after the comma split), and FCC Part 15 whose "47" the run splitter peeled off ("47 CFR Part 15:2016"). */
+const CERT_FRONT_6OCT_B = /^(?:TIA\/EIA\/IS-[0-9]{3}[A-Z]?|[GKQ]\.[0-9]{3,4}|CFR Part [0-9]{1,3}(?::(?:19|20)[0-9]{2})?)(?![0-9])/;
 export const GRAMMAR_6OCT_B: readonly { key: string; rule: string; witness: string; where: string }[] = [
   { key: "supported_protocols", rule: "PROTOCOL_NAMED_6OCT_B", witness: "BGP Router Reflector", where: "C1100TGX-1N24P32A" },
   { key: "supported_protocols", rule: "PROTOCOL_NAMED_6OCT_B", witness: "Call Home", where: "ISR4461" },
@@ -375,6 +381,10 @@ export const GRAMMAR_6OCT_B: readonly { key: string; rule: string; witness: stri
   { key: "supported_protocols", rule: "FOOTNOTE_6OCT_B", witness: "OTV [6]", where: "ISR4461" },
   { key: "certifications", rule: "CERT_HEAD_6OCT_B", witness: "Third Edition EN 62368-1: 2020", where: "doc ncs-57C3-fixed-chassis-ds" },
   { key: "certifications", rule: "CERT_HEAD_6OCT_B", witness: "Class A EN/IEC 61000-3-3/3-11 EN/IEC 61000-3-2/3-12", where: "doc 8000-series-p100-line-card-ds" },
+  { key: "certifications", rule: "CERT_HEAD_6OCT_B", witness: "Designed to meet GR-63-CORE", where: "doc 8700-series-routers-ds" },
+  { key: "certifications", rule: "CERT_FRONT_6OCT_B", witness: "TIA/EIA/IS-968 CS-03 ANSI T1.101 IEEE 802.3 RTTE Directive", where: "doc c78-598389" },
+  { key: "certifications", rule: "CERT_FRONT_6OCT_B", witness: "G.824 IEEE 802.3 RTTE Directive", where: "C1100TGX-1N24P32A" },
+  { key: "certifications", rule: "CERT_FRONT_6OCT_B", witness: "CFR Part 15:2016", where: "doc 8010-series-mdfr-ds" },
 ];
 /** The classify pass's residue, left unclassified on purpose with its cause; the suite holds it there. */
 export const RESIDUE_6OCT_B: readonly { key: string; member: string; cause: string }[] = [
