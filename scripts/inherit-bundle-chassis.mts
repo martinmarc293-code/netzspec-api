@@ -114,8 +114,12 @@ for (const p of plans) {
   seen.set(p.m.id, ok);
 }
 const precision = checked ? hits / checked : plans.length ? 0 : 1;
+// recall = the share of the plan's base facts that could be re-read at all: an unreadable page is not a pass (closeRun requires it;
+// run 1516 was refused at close without it and rolled back with 0 facts)
+const recall = seen.size ? (seen.size - unreadable) / seen.size : 1;
 const gate = { method: "every base fact re-read on its cached page: the base SKU and the head of the fact's raw cell", sampled: seen.size, checked,
-  unreadable, precision: Number(precision.toFixed(4)), passed: plans.length === 0 || (precision === 1 && unreadable === 0), misses: misses.slice(0, 12) };
+  unreadable, precision: Number(precision.toFixed(4)), recall: Number(recall.toFixed(4)),
+  passed: plans.length === 0 || (precision === 1 && unreadable === 0), misses: misses.slice(0, 12) };
 
 const planPath = planFileAt(ROOT, "inherit-bundle-chassis");
 fs.mkdirSync(path.dirname(planPath), { recursive: true });
