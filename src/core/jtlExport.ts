@@ -64,7 +64,15 @@ export function csvFile(profile: JtlProfile, rows: readonly (readonly string[])[
  *  measurement basis lives (ruling (a), 5 Oct 2026). Optional: no other attribute reads it. */
 export type Fact = { value: unknown; unit: string | null; raw?: string | null;
   /** facts.truncated (migration 0035): the value is the head of a longer cell -- a list renders without its last member */
-  truncated?: boolean };
+  truncated?: boolean;
+  /** facts.method: `derived:max-bound` marks a stated MAXIMUM (rulings Q25, 30 Sep, and (a), 6 Oct 2026), which renders "max." */
+  method?: string | null };
+
+/** A weight that is a stated maximum (a cable's "Module weight (Max)", a series' "5.5 lb (2.5 kg) maximum"), never a measurement.
+ *  Ruling (a), 6 Oct 2026: Artikelgewicht and Versandgewicht take the number (the safe side), and wherever the weight is SHOWN it
+ *  reads "max. 2,5 kg", never a bare number. */
+export const MAX_BOUND = "derived:max-bound";
+export const isMaxBound = (f: Fact | undefined): boolean => f?.method === MAX_BOUND;
 export type PartView = {
   sku: string; name: string | null; nameState: string | null; slug: string; category: string; categoryDe: string;
   kind: string | null; series: string | null; subBrand: string | null;
@@ -81,7 +89,7 @@ const text = (p: PartView, key: string): string | null => {
   if (!f) return null;
   const type = (FIELD_DICTIONARY as Record<string, { type?: string } | undefined>)[key]?.type;
   const r = renderValue(key, renderableValue(f.value, f.truncated), f.unit, type);
-  return r.ok ? r.text : null;
+  return r.ok ? (isMaxBound(f) ? `max. ${r.text}` : r.text) : null;
 };
 
 // ---- THE TWO WAWI GROUPS ----------------------------------------------------------------------------------------------------
@@ -303,7 +311,8 @@ export function faqCell(p: PartView, rs: readonly Resolved[]): string {
     pairs.push([q, `${r.attr.name}: ${r.value}.`]);
   }
   const w = kg(p, "weight");
-  if (w && !byName.has("Gewicht")) pairs.push([`Wie schwer ist der ${p.sku}?`, `Der ${p.sku} wiegt ${w} kg.`]);
+  if (w && !byName.has("Gewicht")) pairs.push([`Wie schwer ist der ${p.sku}?`,
+    isMaxBound(p.facts.get("weight")) ? `Der ${p.sku} wiegt maximal ${w} kg.` : `Der ${p.sku} wiegt ${w} kg.`]);
   return pairs.map(([q, a]) => `${q}||${a}`).join("##");
 }
 

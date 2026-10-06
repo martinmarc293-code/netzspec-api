@@ -18,6 +18,7 @@ import path from "node:path";
 import { createHash } from "node:crypto";
 import { fileURLToPath } from "node:url";
 import { getPool, closePool, withRun, withTx, insertFact, supersedeFact } from "../src/store/index.js";
+import { ensureSourceDoc } from "../src/store/docs.js";
 import { normalizeField, NORM_VERSION } from "../src/core/specNormalize.js";
 import { cachedText, labelOnPage, CACHE_DIR, ws } from "../src/pipeline/apply-acquired.js";
 import type { SpecEntry } from "../src/core/specMerge.js";
@@ -26,9 +27,17 @@ export const METHOD = "derived:max-bound";
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const FILE = path.join(ROOT, "data/reference/max-bound-weight-witnesses.json");
 const commit = process.argv.includes("--commit");
-type Row = { sku: string; doc_id: string; url: string; cache_path: string; label: string; locator: string; raw: string };
-const table = JSON.parse(fs.readFileSync(FILE, "utf8")) as { rows: Row[] };
+// listed_by / series (ruling (a), 6 Oct 2026, SERIES maxima): a guide table states the series maximum and names no PID, so the
+// row names the DATASHEET that lists the PID and carries the same series name (scripts/series-max-weight-witnesses.mts checks the
+// title and the guide section). Then the part must be linked to listed_by, and the witness page must print the series name too.
+type Row = { sku: string; doc_id: string; url: string; cache_path: string; label: string; locator: string; raw: string;
+  doc_type?: string; listed_by?: string | null; series?: string; statement?: string };
+const FILE_SERIES = path.join(ROOT, "data/reference/series-max-weight-witnesses.json");
+const cable = JSON.parse(fs.readFileSync(FILE, "utf8")) as { rows: Row[] };
+const series = fs.existsSync(FILE_SERIES) ? JSON.parse(fs.readFileSync(FILE_SERIES, "utf8")) as { rows: Row[] } : { rows: [] as Row[] };
+const table = { rows: [...cable.rows, ...series.rows] };
 const sha = createHash("sha256").update(fs.readFileSync(FILE)).digest("hex");
+const shaSeries = fs.existsSync(FILE_SERIES) ? createHash("sha256").update(fs.readFileSync(FILE_SERIES)).digest("hex") : null;
 // ws: the gate's own normaliser (lowercases, like the page text cachedText returns)
 // the box's <repo>/scraper/cache is a stale partial copy (CLAUDE.md, 25 Sep 2026): the real cache is named by CACHE_DIR there
 const CACHE = process.env.CACHE_DIR ?? CACHE_DIR;
@@ -47,6 +56,8 @@ for (const [sku, rows] of [...bySku].sort((a, b) => a[0].localeCompare(b[0]))) {
     const text = cachedText(r.cache_path, CACHE);
     if (text === null) { unreadable++; refused.push(`${sku}: ${r.doc_id} is not readable from the cache (${r.cache_path})`); continue; }
     if (!labelOnPage(r.label, text) || !text.includes(ws(r.raw))) refused.push(`${sku}: ${r.doc_id} ${r.locator} no longer says "${r.label}" / "${r.raw}"`);
+    if (r.statement && !text.includes(ws(r.statement))) refused.push(`${sku}: ${r.doc_id} no longer prints "${r.statement}"`);
+    if (r.series && !text.includes(ws(r.series))) refused.push(`${sku}: ${r.doc_id} does not name the series "${r.series}"`);
   }
   const parts = (await db.query<{ id: number; category: string }>(
     `SELECT p.id, c.slug AS category FROM parts p JOIN vendors v ON v.id = p.vendor_id JOIN categories c ON c.id = p.category_id
@@ -56,8 +67,9 @@ for (const [sku, rows] of [...bySku].sort((a, b) => a[0].localeCompare(b[0]))) {
   // THE SHEET MUST LIST THE PART. The QSFP-DD sheet prints "QDD4ZQ100-CU2M", a typo of QDD-4ZQ100-CU2M, and the catalogue holds
   // that typo as a live part (70542: name = its SKU, no facts, linked to no document). A weight would move it towards the shop.
   // A part the witness document is not linked to is listed and skipped, never written.
+  // a guide row is linked through the datasheet that lists the PID (listed_by), never through the guide, which names no PID
   const linked = (await db.query<{ n: number }>(`SELECT count(*)::int AS n FROM doc_parts WHERE part_id = $1 AND doc_id = ANY($2::text[])`,
-    [parts[0].id, rows.map((r) => r.doc_id)])).rows[0].n;
+    [parts[0].id, rows.map((r) => r.listed_by ?? r.doc_id)])).rows[0].n;
   if (!linked) { noPart.push(`${sku}: a live part exists but no witness document lists it (${rows.map((r) => r.doc_id).join(", ")}) -- a typo or fragment, not written`); continue; }
   const norm = rows.map((r) => ({ r, n: normalizeField(parts[0].category, "weight", r.raw, { locale: "en" }) }));
   const bad = norm.find((x) => !x.n.ok);
@@ -86,8 +98,14 @@ if (refused.length) { console.error(`REFUSED, nothing written:\n  ${refused.join
 if (!commit) { console.log("DRY RUN: nothing written. Re-run with --commit."); await closePool(); process.exit(0); }
 const out = await withRun("derive-max-bound-weight", {
   witnesses: path.relative(ROOT, FILE), witnesses_sha256: sha, rows: table.rows.length, planned: plans.length, no_live_part: noPart,
-  approved: "reviewer Q25, 30 Sep 2026: 'Module weight (Max)' accepted as the cable's weight, method derived:max-bound; band [1, 2000] g approved the same day",
+  series_witnesses: shaSeries ? path.relative(ROOT, FILE_SERIES) : null, series_witnesses_sha256: shaSeries,
+  approved: "reviewer Q25, 30 Sep 2026: 'Module weight (Max)' accepted as the cable's weight, method derived:max-bound; band [1, 2000] g approved the same day; " +
+    "reviewer (a), 6 Oct 2026: a series maximum ('5.5 lb (2.5 kg) maximum') is the article weight for every model of the series, rendered 'max.'",
 }, async (runId) => withTx(async (client) => {
+  // a guide chapter that states a series maximum is not yet a source document (it lists no PID, so no apply registered it):
+  // register it, so the fact's provenance names the page the maximum was read from
+  for (const r of new Map(series.rows.filter((x) => plans.some((p) => p.entry.prov.doc_id === x.doc_id)).map((x) => [x.doc_id, x])).values())
+    await ensureSourceDoc({ url: r.url, doc_type: r.doc_type ?? "vendor_guide", vendor: "cisco", cache_path: r.cache_path }, client);
   for (const p of plans) {
     if (p.replaces) await supersedeFact(client, p.replaces, p.entry, runId);
     else await insertFact(client, p.partId, p.entry, runId);

@@ -80,7 +80,9 @@ function toFact(r: FactRow): FactItem {
   const rendered = renderValue(r.field_key, renderableValue(r.value, r.truncated), r.unit, r.type);
   return {
     key: r.field_key, label_en: r.label_en, label_de: r.label_de, type: r.type, value: r.value, unit: r.unit,
-    text_de: rendered.ok ? rendered.text : null, text_de_why: rendered.ok ? null : rendered.why,
+    // ruling (a), 6 Oct 2026: a stated maximum (derived:max-bound) is shown as "max. ...", never as a bare measurement
+    text_de: rendered.ok ? (r.method === "derived:max-bound" ? `max. ${rendered.text}` : rendered.text) : null,
+    text_de_why: rendered.ok ? null : rendered.why,
     raw: r.raw, state: r.state, tier: r.tier, method: r.method, inherited: r.inherited, inherited_from: r.inherited_from,
     source: r.doc_id ? { doc_id: r.doc_id, url: r.doc_url, locator: r.locator, extracted_at: r.extracted_at } : null,
     evidence_count: r.evidence_count, truncated: r.truncated === true,

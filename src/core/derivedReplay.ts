@@ -14,7 +14,14 @@ const DERIVATIONS: Readonly<Record<string, (raw: string) => unknown>> = {
   "derived:pon_standard": (raw) => { const d = ponStandardFromStandards([raw]); return d.ok ? d.value : null; },
   // ruling Q25 (30 Sep 2026): the raw IS the sheet's stated maximum ("250 g"); the derivation is only the label -- the value is
   // the mass as the dictionary's own normaliser reads it, so replay is that read (scripts/derive-max-bound-weight.mts)
-  "derived:max-bound": (raw) => { const n = normalizeField("transceiver", "weight", raw, { locale: "en" }); return n.ok ? n.value : null; },
+  // ruling (a), 6 Oct 2026 widened the POPULATION, not the derivation: a router series' "5.5 lb (2.5 kg) maximum" is stored in kg
+  // under the device band, where a cable's maximum is grams under the transceiver band [1, 2000] g. The writer normalised each
+  // under its own part's category; the replay has no category, so it accepts the stated maximum under either store unit -- a
+  // raw that neither band admits ("5 t", "0 g") is still refused.
+  "derived:max-bound": (raw) => {
+    for (const cat of ["transceiver", "routers"]) { const n = normalizeField(cat, "weight", raw, { locale: "en" }); if (n.ok) return n.value; }
+    return null;
+  },
   // ruling Q23 (30 Sep 2026): the raw is the part's weight in kg ("5.5 kg"), the value that weight plus its band's allowance
   "derived:shipping-allowance": (raw) => shippingFromRaw(raw),
   // reviewer ruling 30 Sep 2026: the raw keeps EVERY condition the sheet states; the value is the range true under all of them
