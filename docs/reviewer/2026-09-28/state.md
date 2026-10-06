@@ -305,6 +305,31 @@ HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). R
 ## HANDOFF (5 Oct ~22:30 UTC) -- READ FIRST. OPERATOR ORDER: ROUTERS ONLY until every Cisco router is shop_ready
 - SCOPE: category=routers
   (read by scripts/scorecard.ts: ready and the top-5 sole blockers are counted in this scope, the catalogue beside it)
+- LATEST (6 Oct ~22:30 UTC): ROUTER READY 213 (start of the ~20:40 pivot) -> 368 -> 382 (blockers-exact over all 5,127
+  routers-category parts, live export function). Runs since the pivot: 1515 enqueue 76 guide chapters (fetched, extracted
+  /var/lib/netzspec-api/fill/nights/2026-10-06/chapters76-*), 1516 failed+rolled back (gate missing recall), 1517 bundle
+  chassis inheritance 612 facts (ruling (b)), 1518 series max-bound 124 (ruling (a)), 1519 retract 46 module-sensitive
+  facts on 11 AXV/HSEC+ bundles (FLAG 1), 1520 router_throughput onto SEC/AX bundles 14, 1521 ISR4461 weight
+  gap_confirmed (FLAG 3, four sources), 1522 title backfill 1, 1523 model-row weights 35, 1524 bundle weights 2, 1525
+  retract product_compatibility 14 (+ store rule NEVER_A_FACT), 1526 retract 11 veto pours, 1529 SCOPED link provenance
+  (103 underived links on 20 docs, linked by run 1514; 62 spec_for_kind / 41 mention, 0 could-not-check, held 58 -> 58;
+  scope = full parts.json + only the NULL pairs, /root/prov-1006/; the run note's "stay underived" is wrong for a scoped
+  dump -- they keep their 25 Sep derivation), 1532 series max-bound +20 (900 / 900J / 1941 sheets; exactly the 14
+  weight-only parts became ready). Commits: 1e12a25 GRAMMAR_6OCT_C classify (95 forms, all unclassified -> accept, ieee
+  ceiling +10 named SNMP residue; region guard proven on a REAL aruba member after the hand-written one stayed green),
+  e3450c1 + 704ff96 DERIVED_FILL_PATHS.weight names the series + model-row witnesses with counts, 326ece7 three series-max
+  sources, 14d9888 valueRules wiring pin re-pinned to (A)'s mapCapped helper (red since af10632f, found by the rebuild's
+  MISS diff). REBUILD DONE: 611ed11 (built at 704ff96 22:20-22:28; ONE BUILD, contract ae6f436b unchanged; MISS diff new 0
+  both ways; box 110/111 = the brandOwnership T11/T13 baseline, laptop 111/111), deployed. BOARD at 611ed11: 33/1
+  (vendor_coverage, ruled). NIGHT: its precheck reads $FILL/board-last.txt -- was last night's (5 fails) -> replaced by
+  today's green board 22:43 (old kept as $FILL/board-last.2026-10-06T0114.txt); no STOP file; night runs 01:00. Fill
+  dashboard republished by hand (no --record): Router 382/5127, 12.8% (operator's screenshot had 199, 10.8%); its light
+  stays RED with last night's stop reason until tonight's run. REPORT SENT ~22:50 with five weight rulings asked (survey
+  /root/prov-1006/weight-survey.txt; weight-only blockers 94 -> 80): Q1 family-named rows (C890G-LTE, C819G-4G, the 890G
+  2.5 Asia sheet; 15), Q2 C8300/C8500/C8200 'Chassis weight with 2x AC power supplies and fan tray' (10), Q3 module
+  shipment weights by description (16), Q4 the NC55-MPA class row (6), Q5 model rows on module/processor kinds (84-MPA,
+  NC57-MPA, ASR1000-RP; 7). TRAP met: a remote `while pgrep -f scripts/mould-build.sh` wait matched ITSELF (its bash -c
+  carries the pattern) -- match the invocation (`pgrep -f "^bash scripts/mould-build"`), never a mention.
 - LATEST (5 Oct ~23:00 UTC): HEAD 4eeaa8f deployed. Run 1495 committed the ISR 4000 family (gate PASS 8/8 golden, 120/120
   provenance, 1 regression allowed with reason): 456 inserted; every ISR 4000 now shows System-Durchsatz + Zertifizierungen
   in the export and waits ONLY on weight (5 PSU-configuration weight rows -> 14 facts in state `conflict`). Router ready 199
