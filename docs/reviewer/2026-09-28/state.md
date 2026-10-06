@@ -410,6 +410,15 @@ HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). R
   '4000 ISR' 42+21 hw, '2900 ISR' 13 hw + 4 lic, '1900 ISR' 2 hw (ISR4221-AX/SEC), '1000' 4 hw (ISR4331-SPM, SI-ISR4331-
   IWAN/K9 ...) + 9 sw, 'ASR 1000' 3 sw. Propose: one label for the family (which: '4000' vs '4000 ISR'?), ROUTER_THROUGHPUT_
   SERIES edited in the same change (a moved-out entry becomes a dead entry = board red). ASK, do not run.
+- 6 Oct 16:01 UTC (b) DONE: RUN 1504 (resolve-weight-config-conflicts --supersede-sku, deployed 9a56213): ISR4331-DC/K9
+  weight fact 238729 (AC base row r49, both URLs) -> 238887 = 6.2 kg corroborated from the DC row t4:r50:c5 on BOTH URLs of
+  c78-732542 (two supersedes, own doc last, so the second URL's base row is not carried as a witness); its 4 conflicts
+  resolved; new connection: open=0; reconcile --category routers dry: 0 changes. ISR4331-DC/K9 now READY (router ready 207).
+  Control before writing: the reconstruction must reproduce the current fact's raw/tier/method/day/revision; sabotaged twice
+  on the scratch tree (raw drift, day drift) -> both REFUSED by name. REPORT: the DC cell reads "13.5 lb (6.2 kg) (4431-DC)"
+  -- a stray qualifier naming 4431-DC in the column headed "Cisco 4331/ 4331-DC"; the DC row is garbled across the sheet
+  (4451/4431/4351 DC cells all 28.8 lb / 13.1 kg, the 4431's AC chassis is 8.4 kg), no 4431-DC PID exists; 6.2 kg stays the
+  4331-DC's (its column, equal to its AC sibling). Plan: data/dryrun/resolve-weight-config-supersede-2026-10-06T160140644Z.tsv.
 - CLOSING RUN READY (not committed): scripts/resolve-weight-config-conflicts.mts + board class A (local, uncommitted);
   dry on the box: 72 open router weight conflicts, resolve 44 (ISR 4000 + 3 8800 chassis-only kept), held 28 (8804/8808/
   8812-SYS where the KEPT side is 'Weight (full system)' -- needs a supersede to the chassis-only value, not a close).

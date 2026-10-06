@@ -1,0 +1,4 @@
+sku	current_fact	current_value	doc_id	control	ruled_locator	ruled_label	new_value	new_raw	verdict	why
+ISR4331-DC/K9	238729	6.2	709fdf95cb3f9230	ok	t4:r50:c5	Weight with DC PS (no modules)	6.2 kg	13.5 lb (6.2 kg) (4431-DC)		
+ISR4331-DC/K9	238729	6.2	efdf4e8ffd61c017	ok	t4:r50:c5	Weight with DC PS (no modules)	6.2 kg	13.5 lb (6.2 kg) (4431-DC)		
+ISR4331-DC/K9	238729	6.2	efdf4e8ffd61c017>709fdf95cb3f9230						supersede	2 step(s), then resolve 4 conflict(s)
