@@ -101,7 +101,14 @@ check("CLASS: only the power rule declares a class", VALUE_RULES.filter((r) => r
 {
   const src = fs.readFileSync(path.join(process.cwd(), "src", "pipeline", "apply-extract.ts"), "utf8").split(/\r?\n/)
     .filter((l) => !/^\s*(\/\/|\*|import )/.test(l));
-  check("WIRING: two call sites of mapFactAll (pass 1 and pass 2)", src.filter((l) => /mapFactAll\(f, /.test(l)).length, 2);
+  // (A), 6 Oct 2026 (af10632f): both passes now map through ONE helper, mapCapped, which calls mapFactAll once and re-maps a
+  // comma-list cell's scalar head -- so the pin is the helper's two callers (pass 1 by the part's category, pass 2 by the
+  // document's) plus the helper's own single mapFactAll call. It counted the pre-(A) shape and sat red from af10632f until the
+  // 22:15 rebuild's MISS diff named it.
+  check("WIRING: two call sites of mapFactAll (pass 1 and pass 2)", [
+    src.filter((l) => /mapCapped\(f, part\.category, /.test(l)).length,
+    src.filter((l) => /mapCapped\(f, d\.category, /.test(l)).length,
+    src.filter((l) => /: mapFactAll\(r, category\);/.test(l)).length], [1, 1, 1]);
   check("WIRING: pass 2 passes the rule's class to canInherit", src.filter((l) => /classOverride: docClass/.test(l)).length, 1);
   check("WIRING: class B is lifted only for a declared class C", src.filter((l) => /INHERIT_CLASS_B\.has\(m\.key\) && docClass !== "C"/.test(l)).length, 1);
 }
