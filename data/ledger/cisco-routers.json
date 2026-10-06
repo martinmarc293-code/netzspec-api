@@ -3,7 +3,7 @@
   "vendor": "cisco",
   "category": "routers",
   "profile_hash": "ec49e274f9f8262e",
-  "built_on_commit": "597179d",
+  "built_on_commit": "8dcbd09",
   "norm_version": "1.8.8",
   "declared_fields": 432,
   "gap_states": {
@@ -22,7 +22,7 @@
   "totals": {
     "parts": 5127,
     "required_slots_at_nothing_known": 22557,
-    "required_slots_stored": 16067,
+    "required_slots_stored": 16088,
     "_slots_note": "at_nothing_known = parts × (required + pending) with only the kind known — and, for a kind with a role axis (role_axis: deploy_role), the SUM over its `roles` blocks of role parts × that role's (required + pending), because a role that asks fewer cups opens fewer slots; the kind's own `slots_per_part_at_nothing_known` and cup lists are its CORE (the `(unresolved)` role). stored = the live denominator (completeness.required_total), smaller wherever an answered gate has closed a pending question; per role it is the same sum split by role",
     "by_kind": {
       "router": 1293,
@@ -99,12 +99,12 @@
   "kinds": {
     "router": {
       "parts": 1293,
-      "parts_with_3plus_own_facts": 61,
+      "parts_with_3plus_own_facts": 77,
       "parts_with_a_device_noun_in_name": 455,
       "parts_with_a_device_noun_exempt_by_kind": 0,
       "slots_per_part_at_nothing_known": 13,
       "required_slots_at_nothing_known": 8547,
-      "required_slots_stored": 5981,
+      "required_slots_stored": 6002,
       "series_count": 38,
       "share_of_category": {
         "num": 1293,
@@ -157,8 +157,12 @@
               "facts_current": 0
             }
           ],
-          "label_occurrences": 760,
+          "label_occurrences": 1100,
           "labels": [
+            {
+              "label": "Safety",
+              "n": 333
+            },
             {
               "label": "Certifications",
               "n": 119
@@ -178,15 +182,11 @@
             {
               "label": "EMC standards",
               "n": 37
-            },
-            {
-              "label": "Telecom",
-              "n": 32
             }
           ],
           "parts_holding_by_method": {
             "description_mining": 1,
-            "html_table": 455,
+            "html_table": 471,
             "vendor_page:cisco-datasheets": 2
           },
           "observed_fill_path": true,
@@ -220,7 +220,7 @@
               "facts_current": 0
             }
           ],
-          "label_occurrences": 335,
+          "label_occurrences": 327,
           "labels": [
             {
               "label": "Altitude",
@@ -239,16 +239,16 @@
               "n": 17
             },
             {
-              "label": "Altitude (China)",
-              "n": 8
-            },
-            {
               "label": "Altitude (Rest of the world)",
               "n": 7
+            },
+            {
+              "label": "Operating Altitude",
+              "n": 6
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 182
+            "html_table": 198
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -354,7 +354,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 37
+            "html_table": 53
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -543,7 +543,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 306
+            "html_table": 322
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -592,7 +592,7 @@
           ],
           "parts_holding_by_method": {
             "description_mining": 87,
-            "html_table": 3
+            "html_table": 19
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -654,7 +654,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 10
+            "html_table": 26
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -714,7 +714,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 3
+            "html_table": 19
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -776,7 +776,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 242
+            "html_table": 258
           },
           "derived_by": "src/core/conditionIntersection.ts temperatureIntersection (writer scripts/correct-temps-by-sheet.mts from data/reference/temp-correction-witnesses.json, scripts/temp-correction-witnesses.py)",
           "derivation_validated": "30 Sep 2026: 35 Catalyst 1300 models from the one cell stating '-5° to 50°C' plus 'Minimum ambient temperature for cold start is 0°C' -> 0..50; 27 IE3200/3300/3400/3500 parts holding the enclosure statement ('-40..70 vented, -40..60 sealed, -40..75 fan-equipped') -> -40..60; every cell re-read WHOLE on its cached page before a write (gate 178 of 178); IE2000 (a -34 °C fan case) held and asked; the function's cases and 6 sabotages in tests/conditionIntersection.test.ts",
@@ -905,7 +905,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 55,
+            "html_table": 69,
             "vendor_page:cisco-datasheets": 8
           },
           "derived_by": "scripts/derive-max-bound-weight.mts from data/reference/max-bound-weight-witnesses.json (scripts/max-bound-weight-witnesses.py: the 'Module weight (Max)' rows of the held QSFP-DD and 200G QSFP56 cable sheets, re-read from cache)",
@@ -918,7 +918,6 @@
       ],
       "not_applicable_by_kind": [
         "aes_audio_encryption",
-        "airflow",
         "antenna_connector",
         "ap_cluster_size",
         "bidi_wavelengths",
@@ -1013,7 +1012,6 @@
         "max_rf_tags",
         "max_roaming_speed",
         "max_site_tags",
-        "memory_max",
         "memory_speed_max",
         "mgig_rj45_ports",
         "mgmt_class",
@@ -1116,6 +1114,7 @@
         "acoustic_noise",
         "acoustic_sound_power",
         "advanced_functions",
+        "airflow",
         "altitude_storage",
         "amplifier_type",
         "antenna_efficiency",
@@ -1323,6 +1322,7 @@
         "max_wlans",
         "media",
         "media_type_supported",
+        "memory_max",
         "mezzanine_options",
         "mgmt_ports",
         "min_illumination",
@@ -1524,7 +1524,7 @@
           "parts": 844,
           "slots_per_part_at_nothing_known": 6,
           "required_slots_at_nothing_known": 5064,
-          "required_slots_stored": 3425,
+          "required_slots_stored": 3446,
           "document_evidence": {
             "spec_bearing": 269,
             "spec_linked_not_held": 78,
@@ -1559,8 +1559,12 @@
                   "facts_current": 0
                 }
               ],
-              "label_occurrences": 760,
+              "label_occurrences": 1100,
               "labels": [
+                {
+                  "label": "Safety",
+                  "n": 333
+                },
                 {
                   "label": "Certifications",
                   "n": 119
@@ -1580,15 +1584,11 @@
                 {
                   "label": "EMC standards",
                   "n": 37
-                },
-                {
-                  "label": "Telecom",
-                  "n": 32
                 }
               ],
               "parts_holding_by_method": {
                 "description_mining": 1,
-                "html_table": 455,
+                "html_table": 471,
                 "vendor_page:cisco-datasheets": 2
               },
               "observed_fill_path": true,
@@ -1655,7 +1655,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 37
+                "html_table": 53
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -1804,7 +1804,7 @@
               ],
               "parts_holding_by_method": {
                 "description_mining": 87,
-                "html_table": 3
+                "html_table": 19
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -1866,7 +1866,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 3
+                "html_table": 19
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -1878,7 +1878,6 @@
           ],
           "not_applicable_by_kind": [
             "aes_audio_encryption",
-            "airflow",
             "antenna_connector",
             "ap_cluster_size",
             "bidi_wavelengths",
@@ -1973,7 +1972,6 @@
             "max_rf_tags",
             "max_roaming_speed",
             "max_site_tags",
-            "memory_max",
             "memory_speed_max",
             "mgig_rj45_ports",
             "mgmt_class",
@@ -2076,6 +2074,7 @@
             "acoustic_noise",
             "acoustic_sound_power",
             "advanced_functions",
+            "airflow",
             "altitude_max",
             "altitude_storage",
             "amplifier_type",
@@ -2286,6 +2285,7 @@
             "max_wlans",
             "media",
             "media_type_supported",
+            "memory_max",
             "mezzanine_options",
             "mgmt_ports",
             "min_illumination",
@@ -2526,8 +2526,12 @@
                   "facts_current": 0
                 }
               ],
-              "label_occurrences": 760,
+              "label_occurrences": 1100,
               "labels": [
+                {
+                  "label": "Safety",
+                  "n": 333
+                },
                 {
                   "label": "Certifications",
                   "n": 119
@@ -2547,15 +2551,11 @@
                 {
                   "label": "EMC standards",
                   "n": 37
-                },
-                {
-                  "label": "Telecom",
-                  "n": 32
                 }
               ],
               "parts_holding_by_method": {
                 "description_mining": 1,
-                "html_table": 455,
+                "html_table": 471,
                 "vendor_page:cisco-datasheets": 2
               },
               "observed_fill_path": true,
@@ -2615,7 +2615,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 306
+                "html_table": 322
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -2674,7 +2674,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 242
+                "html_table": 258
               },
               "derived_by": "src/core/conditionIntersection.ts temperatureIntersection (writer scripts/correct-temps-by-sheet.mts from data/reference/temp-correction-witnesses.json, scripts/temp-correction-witnesses.py)",
               "derivation_validated": "30 Sep 2026: 35 Catalyst 1300 models from the one cell stating '-5° to 50°C' plus 'Minimum ambient temperature for cold start is 0°C' -> 0..50; 27 IE3200/3300/3400/3500 parts holding the enclosure statement ('-40..70 vented, -40..60 sealed, -40..75 fan-equipped') -> -40..60; every cell re-read WHOLE on its cached page before a write (gate 178 of 178); IE2000 (a -34 °C fan case) held and asked; the function's cases and 6 sabotages in tests/conditionIntersection.test.ts",
@@ -2824,7 +2824,7 @@
               ],
               "parts_holding_by_method": {
                 "description_mining": 87,
-                "html_table": 3
+                "html_table": 19
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -2886,7 +2886,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 3
+                "html_table": 19
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -2898,7 +2898,6 @@
           ],
           "not_applicable_by_kind": [
             "aes_audio_encryption",
-            "airflow",
             "antenna_connector",
             "ap_cluster_size",
             "bidi_wavelengths",
@@ -2993,7 +2992,6 @@
             "max_rf_tags",
             "max_roaming_speed",
             "max_site_tags",
-            "memory_max",
             "memory_speed_max",
             "mgig_rj45_ports",
             "mgmt_class",
@@ -3096,6 +3094,7 @@
             "acoustic_noise",
             "acoustic_sound_power",
             "advanced_functions",
+            "airflow",
             "altitude_max",
             "altitude_storage",
             "amplifier_type",
@@ -3307,6 +3306,7 @@
             "max_wlans",
             "media",
             "media_type_supported",
+            "memory_max",
             "mezzanine_options",
             "mgmt_ports",
             "min_illumination",
@@ -3545,8 +3545,12 @@
                   "facts_current": 0
                 }
               ],
-              "label_occurrences": 760,
+              "label_occurrences": 1100,
               "labels": [
+                {
+                  "label": "Safety",
+                  "n": 333
+                },
                 {
                   "label": "Certifications",
                   "n": 119
@@ -3566,15 +3570,11 @@
                 {
                   "label": "EMC standards",
                   "n": 37
-                },
-                {
-                  "label": "Telecom",
-                  "n": 32
                 }
               ],
               "parts_holding_by_method": {
                 "description_mining": 1,
-                "html_table": 455,
+                "html_table": 471,
                 "vendor_page:cisco-datasheets": 2
               },
               "observed_fill_path": true,
@@ -3641,7 +3641,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 37
+                "html_table": 53
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -3790,7 +3790,7 @@
               ],
               "parts_holding_by_method": {
                 "description_mining": 87,
-                "html_table": 3
+                "html_table": 19
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -3852,7 +3852,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 3
+                "html_table": 19
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -3864,7 +3864,6 @@
           ],
           "not_applicable_by_kind": [
             "aes_audio_encryption",
-            "airflow",
             "antenna_connector",
             "ap_cluster_size",
             "bidi_wavelengths",
@@ -3959,7 +3958,6 @@
             "max_rf_tags",
             "max_roaming_speed",
             "max_site_tags",
-            "memory_max",
             "memory_speed_max",
             "mgig_rj45_ports",
             "mgmt_class",
@@ -4062,6 +4060,7 @@
             "acoustic_noise",
             "acoustic_sound_power",
             "advanced_functions",
+            "airflow",
             "altitude_max",
             "altitude_storage",
             "amplifier_type",
@@ -4272,6 +4271,7 @@
             "max_wlans",
             "media",
             "media_type_supported",
+            "memory_max",
             "mezzanine_options",
             "mgmt_ports",
             "min_illumination",
@@ -4512,7 +4512,7 @@
                   "facts_current": 0
                 }
               ],
-              "label_occurrences": 335,
+              "label_occurrences": 327,
               "labels": [
                 {
                   "label": "Altitude",
@@ -4531,16 +4531,16 @@
                   "n": 17
                 },
                 {
-                  "label": "Altitude (China)",
-                  "n": 8
-                },
-                {
                   "label": "Altitude (Rest of the world)",
                   "n": 7
+                },
+                {
+                  "label": "Operating Altitude",
+                  "n": 6
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 182
+                "html_table": 198
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -4571,8 +4571,12 @@
                   "facts_current": 0
                 }
               ],
-              "label_occurrences": 760,
+              "label_occurrences": 1100,
               "labels": [
+                {
+                  "label": "Safety",
+                  "n": 333
+                },
                 {
                   "label": "Certifications",
                   "n": 119
@@ -4592,15 +4596,11 @@
                 {
                   "label": "EMC standards",
                   "n": 37
-                },
-                {
-                  "label": "Telecom",
-                  "n": 32
                 }
               ],
               "parts_holding_by_method": {
                 "description_mining": 1,
-                "html_table": 455,
+                "html_table": 471,
                 "vendor_page:cisco-datasheets": 2
               },
               "observed_fill_path": true,
@@ -4667,7 +4667,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 37
+                "html_table": 53
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -4853,7 +4853,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 10
+                "html_table": 26
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -4912,7 +4912,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 242
+                "html_table": 258
               },
               "derived_by": "src/core/conditionIntersection.ts temperatureIntersection (writer scripts/correct-temps-by-sheet.mts from data/reference/temp-correction-witnesses.json, scripts/temp-correction-witnesses.py)",
               "derivation_validated": "30 Sep 2026: 35 Catalyst 1300 models from the one cell stating '-5° to 50°C' plus 'Minimum ambient temperature for cold start is 0°C' -> 0..50; 27 IE3200/3300/3400/3500 parts holding the enclosure statement ('-40..70 vented, -40..60 sealed, -40..75 fan-equipped') -> -40..60; every cell re-read WHOLE on its cached page before a write (gate 178 of 178); IE2000 (a -34 °C fan case) held and asked; the function's cases and 6 sabotages in tests/conditionIntersection.test.ts",
@@ -4980,7 +4980,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 55,
+                "html_table": 69,
                 "vendor_page:cisco-datasheets": 8
               },
               "derived_by": "scripts/derive-max-bound-weight.mts from data/reference/max-bound-weight-witnesses.json (scripts/max-bound-weight-witnesses.py: the 'Module weight (Max)' rows of the held QSFP-DD and 200G QSFP56 cable sheets, re-read from cache)",
@@ -5072,7 +5072,7 @@
               ],
               "parts_holding_by_method": {
                 "description_mining": 87,
-                "html_table": 3
+                "html_table": 19
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -5134,7 +5134,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 3
+                "html_table": 19
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -5146,7 +5146,6 @@
           ],
           "not_applicable_by_kind": [
             "aes_audio_encryption",
-            "airflow",
             "antenna_connector",
             "ap_cluster_size",
             "bidi_wavelengths",
@@ -5241,7 +5240,6 @@
             "max_rf_tags",
             "max_roaming_speed",
             "max_site_tags",
-            "memory_max",
             "memory_speed_max",
             "mgig_rj45_ports",
             "mgmt_class",
@@ -5344,6 +5342,7 @@
             "acoustic_noise",
             "acoustic_sound_power",
             "advanced_functions",
+            "airflow",
             "altitude_storage",
             "amplifier_type",
             "antenna_efficiency",
@@ -5552,6 +5551,7 @@
             "max_wlans",
             "media",
             "media_type_supported",
+            "memory_max",
             "mezzanine_options",
             "mgmt_ports",
             "min_illumination",
@@ -5803,8 +5803,12 @@
                   "facts_current": 0
                 }
               ],
-              "label_occurrences": 760,
+              "label_occurrences": 1100,
               "labels": [
+                {
+                  "label": "Safety",
+                  "n": 333
+                },
                 {
                   "label": "Certifications",
                   "n": 119
@@ -5824,15 +5828,11 @@
                 {
                   "label": "EMC standards",
                   "n": 37
-                },
-                {
-                  "label": "Telecom",
-                  "n": 32
                 }
               ],
               "parts_holding_by_method": {
                 "description_mining": 1,
-                "html_table": 455,
+                "html_table": 471,
                 "vendor_page:cisco-datasheets": 2
               },
               "observed_fill_path": true,
@@ -5866,7 +5866,7 @@
                   "facts_current": 0
                 }
               ],
-              "label_occurrences": 335,
+              "label_occurrences": 327,
               "labels": [
                 {
                   "label": "Altitude",
@@ -5885,16 +5885,16 @@
                   "n": 17
                 },
                 {
-                  "label": "Altitude (China)",
-                  "n": 8
-                },
-                {
                   "label": "Altitude (Rest of the world)",
                   "n": 7
+                },
+                {
+                  "label": "Operating Altitude",
+                  "n": 6
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 182
+                "html_table": 198
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -6000,7 +6000,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 37
+                "html_table": 53
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -6189,7 +6189,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 306
+                "html_table": 322
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -6238,7 +6238,7 @@
               ],
               "parts_holding_by_method": {
                 "description_mining": 87,
-                "html_table": 3
+                "html_table": 19
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -6300,7 +6300,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 10
+                "html_table": 26
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -6360,7 +6360,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 3
+                "html_table": 19
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -6422,7 +6422,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 242
+                "html_table": 258
               },
               "derived_by": "src/core/conditionIntersection.ts temperatureIntersection (writer scripts/correct-temps-by-sheet.mts from data/reference/temp-correction-witnesses.json, scripts/temp-correction-witnesses.py)",
               "derivation_validated": "30 Sep 2026: 35 Catalyst 1300 models from the one cell stating '-5° to 50°C' plus 'Minimum ambient temperature for cold start is 0°C' -> 0..50; 27 IE3200/3300/3400/3500 parts holding the enclosure statement ('-40..70 vented, -40..60 sealed, -40..75 fan-equipped') -> -40..60; every cell re-read WHOLE on its cached page before a write (gate 178 of 178); IE2000 (a -34 °C fan case) held and asked; the function's cases and 6 sabotages in tests/conditionIntersection.test.ts",
@@ -6551,7 +6551,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 55,
+                "html_table": 69,
                 "vendor_page:cisco-datasheets": 8
               },
               "derived_by": "scripts/derive-max-bound-weight.mts from data/reference/max-bound-weight-witnesses.json (scripts/max-bound-weight-witnesses.py: the 'Module weight (Max)' rows of the held QSFP-DD and 200G QSFP56 cable sheets, re-read from cache)",
@@ -6564,7 +6564,6 @@
           ],
           "not_applicable_by_kind": [
             "aes_audio_encryption",
-            "airflow",
             "antenna_connector",
             "ap_cluster_size",
             "bidi_wavelengths",
@@ -6659,7 +6658,6 @@
             "max_rf_tags",
             "max_roaming_speed",
             "max_site_tags",
-            "memory_max",
             "memory_speed_max",
             "mgig_rj45_ports",
             "mgmt_class",
@@ -6762,6 +6760,7 @@
             "acoustic_noise",
             "acoustic_sound_power",
             "advanced_functions",
+            "airflow",
             "altitude_storage",
             "amplifier_type",
             "antenna_efficiency",
@@ -6969,6 +6968,7 @@
             "max_wlans",
             "media",
             "media_type_supported",
+            "memory_max",
             "mezzanine_options",
             "mgmt_ports",
             "min_illumination",
@@ -7228,7 +7228,7 @@
               "facts_current": 0
             }
           ],
-          "label_occurrences": 335,
+          "label_occurrences": 327,
           "labels": [
             {
               "label": "Altitude",
@@ -7247,16 +7247,16 @@
               "n": 17
             },
             {
-              "label": "Altitude (China)",
-              "n": 8
-            },
-            {
               "label": "Altitude (Rest of the world)",
               "n": 7
+            },
+            {
+              "label": "Operating Altitude",
+              "n": 6
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 182
+            "html_table": 198
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -7287,8 +7287,12 @@
               "facts_current": 0
             }
           ],
-          "label_occurrences": 760,
+          "label_occurrences": 1100,
           "labels": [
+            {
+              "label": "Safety",
+              "n": 333
+            },
             {
               "label": "Certifications",
               "n": 119
@@ -7308,15 +7312,11 @@
             {
               "label": "EMC standards",
               "n": 37
-            },
-            {
-              "label": "Telecom",
-              "n": 32
             }
           ],
           "parts_holding_by_method": {
             "description_mining": 1,
-            "html_table": 455,
+            "html_table": 471,
             "vendor_page:cisco-datasheets": 2
           },
           "observed_fill_path": true,
@@ -7376,7 +7376,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 306
+            "html_table": 322
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -7435,7 +7435,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 22
+            "html_table": 38
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -7561,7 +7561,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 10
+            "html_table": 26
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -7620,7 +7620,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 242
+            "html_table": 258
           },
           "derived_by": "src/core/conditionIntersection.ts temperatureIntersection (writer scripts/correct-temps-by-sheet.mts from data/reference/temp-correction-witnesses.json, scripts/temp-correction-witnesses.py)",
           "derivation_validated": "30 Sep 2026: 35 Catalyst 1300 models from the one cell stating '-5° to 50°C' plus 'Minimum ambient temperature for cold start is 0°C' -> 0..50; 27 IE3200/3300/3400/3500 parts holding the enclosure statement ('-40..70 vented, -40..60 sealed, -40..75 fan-equipped') -> -40..60; every cell re-read WHOLE on its cached page before a write (gate 178 of 178); IE2000 (a -34 °C fan case) held and asked; the function's cases and 6 sabotages in tests/conditionIntersection.test.ts",
@@ -8335,7 +8335,7 @@
                   "facts_current": 0
                 }
               ],
-              "label_occurrences": 335,
+              "label_occurrences": 327,
               "labels": [
                 {
                   "label": "Altitude",
@@ -8354,16 +8354,16 @@
                   "n": 17
                 },
                 {
-                  "label": "Altitude (China)",
-                  "n": 8
-                },
-                {
                   "label": "Altitude (Rest of the world)",
                   "n": 7
+                },
+                {
+                  "label": "Operating Altitude",
+                  "n": 6
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 182
+                "html_table": 198
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -8394,8 +8394,12 @@
                   "facts_current": 0
                 }
               ],
-              "label_occurrences": 760,
+              "label_occurrences": 1100,
               "labels": [
+                {
+                  "label": "Safety",
+                  "n": 333
+                },
                 {
                   "label": "Certifications",
                   "n": 119
@@ -8415,15 +8419,11 @@
                 {
                   "label": "EMC standards",
                   "n": 37
-                },
-                {
-                  "label": "Telecom",
-                  "n": 32
                 }
               ],
               "parts_holding_by_method": {
                 "description_mining": 1,
-                "html_table": 455,
+                "html_table": 471,
                 "vendor_page:cisco-datasheets": 2
               },
               "observed_fill_path": true,
@@ -8483,7 +8483,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 306
+                "html_table": 322
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -8542,7 +8542,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 22
+                "html_table": 38
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -8668,7 +8668,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 10
+                "html_table": 26
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -8727,7 +8727,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 242
+                "html_table": 258
               },
               "derived_by": "src/core/conditionIntersection.ts temperatureIntersection (writer scripts/correct-temps-by-sheet.mts from data/reference/temp-correction-witnesses.json, scripts/temp-correction-witnesses.py)",
               "derivation_validated": "30 Sep 2026: 35 Catalyst 1300 models from the one cell stating '-5° to 50°C' plus 'Minimum ambient temperature for cold start is 0°C' -> 0..50; 27 IE3200/3300/3400/3500 parts holding the enclosure statement ('-40..70 vented, -40..60 sealed, -40..75 fan-equipped') -> -40..60; every cell re-read WHOLE on its cached page before a write (gate 178 of 178); IE2000 (a -34 °C fan case) held and asked; the function's cases and 6 sabotages in tests/conditionIntersection.test.ts",
@@ -9442,7 +9442,7 @@
                   "facts_current": 0
                 }
               ],
-              "label_occurrences": 335,
+              "label_occurrences": 327,
               "labels": [
                 {
                   "label": "Altitude",
@@ -9461,16 +9461,16 @@
                   "n": 17
                 },
                 {
-                  "label": "Altitude (China)",
-                  "n": 8
-                },
-                {
                   "label": "Altitude (Rest of the world)",
                   "n": 7
+                },
+                {
+                  "label": "Operating Altitude",
+                  "n": 6
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 182
+                "html_table": 198
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -9501,8 +9501,12 @@
                   "facts_current": 0
                 }
               ],
-              "label_occurrences": 760,
+              "label_occurrences": 1100,
               "labels": [
+                {
+                  "label": "Safety",
+                  "n": 333
+                },
                 {
                   "label": "Certifications",
                   "n": 119
@@ -9522,15 +9526,11 @@
                 {
                   "label": "EMC standards",
                   "n": 37
-                },
-                {
-                  "label": "Telecom",
-                  "n": 32
                 }
               ],
               "parts_holding_by_method": {
                 "description_mining": 1,
-                "html_table": 455,
+                "html_table": 471,
                 "vendor_page:cisco-datasheets": 2
               },
               "observed_fill_path": true,
@@ -9590,7 +9590,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 306
+                "html_table": 322
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -9649,7 +9649,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 22
+                "html_table": 38
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -9775,7 +9775,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 10
+                "html_table": 26
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -9834,7 +9834,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 242
+                "html_table": 258
               },
               "derived_by": "src/core/conditionIntersection.ts temperatureIntersection (writer scripts/correct-temps-by-sheet.mts from data/reference/temp-correction-witnesses.json, scripts/temp-correction-witnesses.py)",
               "derivation_validated": "30 Sep 2026: 35 Catalyst 1300 models from the one cell stating '-5° to 50°C' plus 'Minimum ambient temperature for cold start is 0°C' -> 0..50; 27 IE3200/3300/3400/3500 parts holding the enclosure statement ('-40..70 vented, -40..60 sealed, -40..75 fan-equipped') -> -40..60; every cell re-read WHOLE on its cached page before a write (gate 178 of 178); IE2000 (a -34 °C fan case) held and asked; the function's cases and 6 sabotages in tests/conditionIntersection.test.ts",
@@ -10549,7 +10549,7 @@
                   "facts_current": 0
                 }
               ],
-              "label_occurrences": 335,
+              "label_occurrences": 327,
               "labels": [
                 {
                   "label": "Altitude",
@@ -10568,16 +10568,16 @@
                   "n": 17
                 },
                 {
-                  "label": "Altitude (China)",
-                  "n": 8
-                },
-                {
                   "label": "Altitude (Rest of the world)",
                   "n": 7
+                },
+                {
+                  "label": "Operating Altitude",
+                  "n": 6
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 182
+                "html_table": 198
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -10608,8 +10608,12 @@
                   "facts_current": 0
                 }
               ],
-              "label_occurrences": 760,
+              "label_occurrences": 1100,
               "labels": [
+                {
+                  "label": "Safety",
+                  "n": 333
+                },
                 {
                   "label": "Certifications",
                   "n": 119
@@ -10629,15 +10633,11 @@
                 {
                   "label": "EMC standards",
                   "n": 37
-                },
-                {
-                  "label": "Telecom",
-                  "n": 32
                 }
               ],
               "parts_holding_by_method": {
                 "description_mining": 1,
-                "html_table": 455,
+                "html_table": 471,
                 "vendor_page:cisco-datasheets": 2
               },
               "observed_fill_path": true,
@@ -10697,7 +10697,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 306
+                "html_table": 322
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -10756,7 +10756,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 22
+                "html_table": 38
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -10882,7 +10882,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 10
+                "html_table": 26
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -10941,7 +10941,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 242
+                "html_table": 258
               },
               "derived_by": "src/core/conditionIntersection.ts temperatureIntersection (writer scripts/correct-temps-by-sheet.mts from data/reference/temp-correction-witnesses.json, scripts/temp-correction-witnesses.py)",
               "derivation_validated": "30 Sep 2026: 35 Catalyst 1300 models from the one cell stating '-5° to 50°C' plus 'Minimum ambient temperature for cold start is 0°C' -> 0..50; 27 IE3200/3300/3400/3500 parts holding the enclosure statement ('-40..70 vented, -40..60 sealed, -40..75 fan-equipped') -> -40..60; every cell re-read WHOLE on its cached page before a write (gate 178 of 178); IE2000 (a -34 °C fan case) held and asked; the function's cases and 6 sabotages in tests/conditionIntersection.test.ts",
@@ -11670,7 +11670,7 @@
                   "facts_current": 0
                 }
               ],
-              "label_occurrences": 335,
+              "label_occurrences": 327,
               "labels": [
                 {
                   "label": "Altitude",
@@ -11689,16 +11689,16 @@
                   "n": 17
                 },
                 {
-                  "label": "Altitude (China)",
-                  "n": 8
-                },
-                {
                   "label": "Altitude (Rest of the world)",
                   "n": 7
+                },
+                {
+                  "label": "Operating Altitude",
+                  "n": 6
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 182
+                "html_table": 198
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -11729,8 +11729,12 @@
                   "facts_current": 0
                 }
               ],
-              "label_occurrences": 760,
+              "label_occurrences": 1100,
               "labels": [
+                {
+                  "label": "Safety",
+                  "n": 333
+                },
                 {
                   "label": "Certifications",
                   "n": 119
@@ -11750,15 +11754,11 @@
                 {
                   "label": "EMC standards",
                   "n": 37
-                },
-                {
-                  "label": "Telecom",
-                  "n": 32
                 }
               ],
               "parts_holding_by_method": {
                 "description_mining": 1,
-                "html_table": 455,
+                "html_table": 471,
                 "vendor_page:cisco-datasheets": 2
               },
               "observed_fill_path": true,
@@ -11818,7 +11818,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 306
+                "html_table": 322
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -11877,7 +11877,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 22
+                "html_table": 38
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -12003,7 +12003,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 10
+                "html_table": 26
               },
               "observed_fill_path": true,
               "observed_filled": true,
@@ -12062,7 +12062,7 @@
                 }
               ],
               "parts_holding_by_method": {
-                "html_table": 242
+                "html_table": 258
               },
               "derived_by": "src/core/conditionIntersection.ts temperatureIntersection (writer scripts/correct-temps-by-sheet.mts from data/reference/temp-correction-witnesses.json, scripts/temp-correction-witnesses.py)",
               "derivation_validated": "30 Sep 2026: 35 Catalyst 1300 models from the one cell stating '-5° to 50°C' plus 'Minimum ambient temperature for cold start is 0°C' -> 0..50; 27 IE3200/3300/3400/3500 parts holding the enclosure statement ('-40..70 vented, -40..60 sealed, -40..75 fan-equipped') -> -40..60; every cell re-read WHOLE on its cached page before a write (gate 178 of 178); IE2000 (a -34 °C fan case) held and asked; the function's cases and 6 sabotages in tests/conditionIntersection.test.ts",
@@ -12798,7 +12798,7 @@
               "facts_current": 0
             }
           ],
-          "label_occurrences": 335,
+          "label_occurrences": 327,
           "labels": [
             {
               "label": "Altitude",
@@ -12817,16 +12817,16 @@
               "n": 17
             },
             {
-              "label": "Altitude (China)",
-              "n": 8
-            },
-            {
               "label": "Altitude (Rest of the world)",
               "n": 7
+            },
+            {
+              "label": "Operating Altitude",
+              "n": 6
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 182
+            "html_table": 198
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -12857,8 +12857,12 @@
               "facts_current": 0
             }
           ],
-          "label_occurrences": 760,
+          "label_occurrences": 1100,
           "labels": [
+            {
+              "label": "Safety",
+              "n": 333
+            },
             {
               "label": "Certifications",
               "n": 119
@@ -12878,15 +12882,11 @@
             {
               "label": "EMC standards",
               "n": 37
-            },
-            {
-              "label": "Telecom",
-              "n": 32
             }
           ],
           "parts_holding_by_method": {
             "description_mining": 1,
-            "html_table": 455,
+            "html_table": 471,
             "vendor_page:cisco-datasheets": 2
           },
           "observed_fill_path": true,
@@ -12953,7 +12953,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 37
+            "html_table": 53
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -13053,7 +13053,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 306
+            "html_table": 322
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -13101,7 +13101,7 @@
           ],
           "parts_holding_by_method": {
             "description_mining": 87,
-            "html_table": 3
+            "html_table": 19
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -13160,7 +13160,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 10
+            "html_table": 26
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -13369,7 +13369,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 242
+            "html_table": 258
           },
           "derived_by": "src/core/conditionIntersection.ts temperatureIntersection (writer scripts/correct-temps-by-sheet.mts from data/reference/temp-correction-witnesses.json, scripts/temp-correction-witnesses.py)",
           "derivation_validated": "30 Sep 2026: 35 Catalyst 1300 models from the one cell stating '-5° to 50°C' plus 'Minimum ambient temperature for cold start is 0°C' -> 0..50; 27 IE3200/3300/3400/3500 parts holding the enclosure statement ('-40..70 vented, -40..60 sealed, -40..75 fan-equipped') -> -40..60; every cell re-read WHOLE on its cached page before a write (gate 178 of 178); IE2000 (a -34 °C fan case) held and asked; the function's cases and 6 sabotages in tests/conditionIntersection.test.ts",
@@ -13496,7 +13496,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 55,
+            "html_table": 69,
             "vendor_page:cisco-datasheets": 8
           },
           "derived_by": "scripts/derive-max-bound-weight.mts from data/reference/max-bound-weight-witnesses.json (scripts/max-bound-weight-witnesses.py: the 'Module weight (Max)' rows of the held QSFP-DD and 200G QSFP56 cable sheets, re-read from cache)",
@@ -14166,8 +14166,12 @@
               "facts_current": 0
             }
           ],
-          "label_occurrences": 760,
+          "label_occurrences": 1100,
           "labels": [
+            {
+              "label": "Safety",
+              "n": 333
+            },
             {
               "label": "Certifications",
               "n": 119
@@ -14187,15 +14191,11 @@
             {
               "label": "EMC standards",
               "n": 37
-            },
-            {
-              "label": "Telecom",
-              "n": 32
             }
           ],
           "parts_holding_by_method": {
             "description_mining": 1,
-            "html_table": 455,
+            "html_table": 471,
             "vendor_page:cisco-datasheets": 2
           },
           "observed_fill_path": true,
@@ -14262,7 +14262,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 37
+            "html_table": 53
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -14362,7 +14362,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 306
+            "html_table": 322
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -14488,7 +14488,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 10
+            "html_table": 26
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -14547,7 +14547,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 242
+            "html_table": 258
           },
           "derived_by": "src/core/conditionIntersection.ts temperatureIntersection (writer scripts/correct-temps-by-sheet.mts from data/reference/temp-correction-witnesses.json, scripts/temp-correction-witnesses.py)",
           "derivation_validated": "30 Sep 2026: 35 Catalyst 1300 models from the one cell stating '-5° to 50°C' plus 'Minimum ambient temperature for cold start is 0°C' -> 0..50; 27 IE3200/3300/3400/3500 parts holding the enclosure statement ('-40..70 vented, -40..60 sealed, -40..75 fan-equipped') -> -40..60; every cell re-read WHOLE on its cached page before a write (gate 178 of 178); IE2000 (a -34 °C fan case) held and asked; the function's cases and 6 sabotages in tests/conditionIntersection.test.ts",
@@ -14615,7 +14615,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 55,
+            "html_table": 69,
             "vendor_page:cisco-datasheets": 8
           },
           "derived_by": "scripts/derive-max-bound-weight.mts from data/reference/max-bound-weight-witnesses.json (scripts/max-bound-weight-witnesses.py: the 'Module weight (Max)' rows of the held QSFP-DD and 200G QSFP56 cable sheets, re-read from cache)",
@@ -16237,7 +16237,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 10
+            "html_table": 26
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -18601,7 +18601,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 10
+            "html_table": 26
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -19355,7 +19355,7 @@
           ],
           "parts_holding_by_method": {
             "description_mining": 40,
-            "html_table": 5
+            "html_table": 21
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -19414,7 +19414,7 @@
             }
           ],
           "parts_holding_by_method": {
-            "html_table": 22
+            "html_table": 38
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -20198,7 +20198,7 @@
           ],
           "parts_holding_by_method": {
             "description_mining": 40,
-            "html_table": 5
+            "html_table": 21
           },
           "observed_fill_path": true,
           "observed_filled": true,
@@ -27013,9 +27013,9 @@
     }
   },
   "build": {
-    "data_commit": "597179d4689f+93dirty",
-    "code_commit": "597179d4689f",
+    "data_commit": "c491304ade70+85dirty",
+    "code_commit": "fcc221636360",
     "contract_hash": "201b779a47640e74",
-    "generated_at": "2026-10-05T22:18:51.745Z"
+    "generated_at": "2026-10-06T16:25:15.537Z"
   }
 }
