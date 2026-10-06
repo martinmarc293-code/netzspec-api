@@ -5,7 +5,8 @@
 // PURE: no database, no cache, no Python. The corpus measurements that produced these grammars are
 // recorded in the module and in the decision file; what this suite holds is the CONTRACT — that a
 // registered shape is a real definition and not a regex wearing one.
-import { LIST_SHAPES, shapeIsDefinition, classifyMember, extractIdentifier, salvageMember, reshapeList, PROTOCOL_VOCABULARY, PROTOCOL_GRAMMAR_Q10, GRAMMAR_6OCT, RESIDUE_6OCT, GRAMMAR_6OCT_B, RESIDUE_6OCT_B } from "../src/core/listShapes.js";
+import { LIST_SHAPES, shapeIsDefinition, classifyMember, extractIdentifier, salvageMember, reshapeList, PROTOCOL_VOCABULARY, PROTOCOL_GRAMMAR_Q10, GRAMMAR_6OCT, RESIDUE_6OCT, GRAMMAR_6OCT_B, RESIDUE_6OCT_B,
+  GRAMMAR_6OCT_C, RESIDUE_6OCT_C, PROTOCOL_EXACT_6OCT_C_LIST, CERT_EXACT_6OCT_C_LIST, EMC_EXACT_6OCT_C_LIST } from "../src/core/listShapes.js";
 
 let pass = 0, miss = 0;
 const check = (name: string, ok: boolean) => {
@@ -143,6 +144,27 @@ check("6OCT_B SCOPE the protocol names do not reach certifications", classifyMem
 // the member is aruba's own, measured 6 Oct as the one refuse -> accept flip before the guard
 check("6OCT_B SABOTAGE a REFUSED member with a Class head stays refused (no stored value may move): aruba's 'Class A EN 55035 ... part 15 subpart B'",
   classifyMember("certifications", "Class A EN 55035:2017+A11:2020 EN 61000-3-3:2013+A2:2021 US: FCC 47 CFR part 15 subpart B") === "refuse");
+
+// ---- GRAMMAR_6OCT_C (the re-apply's classify pass, 6 Oct 2026 evening): exact whole members, the region label, the residue -------
+for (const m of PROTOCOL_EXACT_6OCT_C_LIST) check(`6OCT_C protocol ${JSON.stringify(m)} is read`, classifyMember("supported_protocols", m) === "accept");
+for (const m of CERT_EXACT_6OCT_C_LIST) check(`6OCT_C certification ${JSON.stringify(m)} is read`, classifyMember("certifications", m) === "accept");
+for (const m of EMC_EXACT_6OCT_C_LIST) check(`6OCT_C emc ${JSON.stringify(m)} is read`, classifyMember("emc_emissions", m) === "accept");
+for (const m of ["USA: UL 60950-1", "Canada: CAN/CSA C22.2 No. 60950-1", "Rest of world: IEC 60950-1"])
+  check(`6OCT_C a region label in front of a standard is read: ${JSON.stringify(m)}`, classifyMember("certifications", m) === "accept");
+for (const r of RESIDUE_6OCT_C) check(`6OCT_C RESIDUE ${JSON.stringify(r.member)} stays unclassified (${r.cause})`, classifyMember(r.key, r.member) === "unclassified");
+check("6OCT_C every rule family is witnessed", GRAMMAR_6OCT_C.length === 4 && GRAMMAR_6OCT_C.every((g) => g.members > 0));
+// SABOTAGE: exactness -- a string the reading did not see keeps its answer, in its own cup and in another
+check("6OCT_C SABOTAGE a near miss is not read (exact members, not a pattern): 'DNS proxies'", classifyMember("supported_protocols", "DNS proxies") === "unclassified");
+check("6OCT_C SABOTAGE a near miss is not read: 'ACA TS0011'", classifyMember("certifications", "ACA TS0011") !== "accept");
+check("6OCT_C SABOTAGE an exact member is read only in its own cup ('DNS proxy' is no certification)", classifyMember("certifications", "DNS proxy") !== "accept");
+check("6OCT_C SABOTAGE a region label with nothing readable after it stays unread", classifyMember("certifications", "USA: see the table") !== "accept");
+// The region strip's refusal guard, proven on the member that needs it: a REAL aruba cell (4 live facts) that the prose rule
+// refuses. Without the guard, extractIdentifier reads "EN 62368-1:2014" off the front of what follows "Europe: " and the member
+// flips refuse -> accept, which moves a stored value (measured 6 Oct over every vendor's live facts: the only such flip). A
+// hand-written "USA: Class A EN 55035 ..." stood here first and stayed green with the guard removed -- the Class-head block
+// below re-applies the same refusal, so that fixture never reached this guard.
+check("6OCT_C SABOTAGE a REFUSED member behind a region label stays refused (no stored value may move)",
+  classifyMember("certifications", "Europe: EN 62368-1:2014 +A11:2017 2nd Ed. EN 62368-1:2020 +A11:2020 3rd Ed. UK: BS EN 62368-1:2014 + A11:2017 2nd Ed BS EN 62368-1:2020 + A11:2020 3rd Ed US/Canada: UL 62368-1 2nd Ed. CAN/CSA-C22.2 No. 62368-1-14 2nd Ed. Worldwide: IEC 60950-1:2005 + Am1:2009 + Am2:2013 w/all known National Deviations IEC 62368-1:2014 2nd Ed. w/all known National Deviations IEC 62368-1:2018 3rd Ed. w/all known National Deviations") === "refuse");
 
 console.log(`\nlist shapes: ${pass} passed, ${miss} missed`);
 if (miss) process.exit(1);

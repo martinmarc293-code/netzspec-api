@@ -254,6 +254,15 @@ export function extractIdentifier(key: string, member: string): string | null {
       || SERIAL_GROUP_6OCT_B.test(m) || MLFR_6OCT_B.test(m)) return m;
     const fnote = FOOTNOTE_6OCT_B.exec(m);
     if (fnote) return extractIdentifier(key, fnote[1]);
+    // the re-apply's classify pass (GRAMMAR_6OCT_C): exact whole members only
+    if (PROTOCOL_EXACT_6OCT_C.has(m)) return m;
+  }
+  if (key === "emc_emissions" && EMC_EXACT_6OCT_C.has(m)) return m;
+  if (key === "certifications" && CERT_EXACT_6OCT_C.has(m)) return m;
+  // a region label in front of a standard: read what follows, behind the same refusal guard as the edition/Class heads below
+  if (key === "certifications" && !LIST_SHAPES.certifications.refuse.test(m) && !LOOKS_LIKE_PROSE.test(m)) {
+    const region = CERT_REGION_6OCT_C.exec(m);
+    if (region) { const id = extractIdentifier(key, m.slice(region[0].length)); if (id) return id; }
   }
   if (key === "certifications" && CERT_IC_CS03_6OCT.test(m)) return m;
   // (A)'s classify pass (GRAMMAR_6OCT_B): an edition note or a Class qualifier the splitter left at the FRONT of the next standard
@@ -356,6 +365,65 @@ const CERT_HEAD_6OCT_B = /^(?:(?:First|Second|Third|Fourth) Edition|Class [AB]|D
  *  ID_NUMBERED): the triple-issuer TIA/EIA/IS-968, an ITU-T recommendation written without "ITU-T" ("G.824", the second of "ITU-T
  *  G.823, G.824" after the comma split), and FCC Part 15 whose "47" the run splitter peeled off ("47 CFR Part 15:2016"). */
 const CERT_FRONT_6OCT_B = /^(?:TIA\/EIA\/IS-[0-9]{3}[A-Z]?|[GKQ]\.[0-9]{3,4}|CFR Part [0-9]{1,3}(?::(?:19|20)[0-9]{2})?)(?![0-9])/;
+// ---- THE RE-APPLY'S CLASSIFY PASS, 6 Oct 2026 evening (GRAMMAR_6OCT_C) -------------------------------------------------------------
+// Run 1514 (the router corpus re-applied with whole comma cells) left 132 distinct unclassified members on the facts it wrote and
+// put the cisco ratchet over its ceilings (board enum_values_in_domain). The ruling stands: "CLASSIFY, DON'T RAISE THE CEILING".
+// Read in full (reviewer 6 Oct ~21:40: clear the board): the real identifiers are accepted as EXACT WHOLE MEMBERS -- a Set, not a
+// pattern, so no string the reading did not see can change its answer -- and the residue stays unclassified with its cause
+// (RESIDUE_6OCT_C). An unclassified member and an accepted one are kept alike by reshapeList, so no stored value moves.
+/** Router protocol and service names as the router sheets print them (spelled-out names, a role, a mode, a scope). */
+const PROTOCOL_EXACT_6OCT_C: ReadonlySet<string> = new Set([
+  "Link Aggregation Control Protocol (LACP): IEEE 802.3ad", "LACP: IEEE 802.3ad", "Dynamic Host Configuration Protocol (DHCP) server",
+  "DNS proxy", "Port mirroring", "Port Mirroring", "IPv6 DHCP", "Layer 2 forwarding", "Dynamic DNS (TZO, DynDNS, 3322.org, No-IP)",
+  "Dynamic DNS (DynDNS), TZO, 3322.org)", "Dynamic Domain Name System (TZO, DynDNS, 3322.org, NOIP)", "DNS relay, Dynamic DNS (DynDNS, 3322)",
+  "One-to-one NAT", "One-to-One NAT", "IPv6 PIM-SM", "egress IPv4 ACL", "Static IP", "Static IPv4", "Transparent bridge", "eBGP", "iBGP",
+  "native VLAN", "bridge domains", "Internet Group Management Protocol (IGMP) Versions 2 and 3",
+  "Internet Group Management Protocol (IGMP) Versions 1, 2, and 3", "PIM-ECMP", "mLDP", "WAN MACsec", "IP Security (IPsec) Protocol",
+  "IP Security (IPSec) Protocol", "L3 Ingress IPv4 ACL and IPv6 ACL", "IPv6 unicast", "Layer 3 Virtual Private Network", "BGP Route Reflector",
+  "IPv6 ACLs", "IPv6 routing", "Raw Socket TCP", "Cisco Discovery Protocol IPv4", "Bidirectional PIM", "Secure Shell (SSHv2) Protocol",
+  "Segment Routing", "Model Driven Telemetry", "100 Gigabit Ethernet IEEE 802.3", "40 Gigabit Ethernet IEEE 802.3", "10 Gigabit Ethernet IEEE 802.3",
+]);
+/** Certifications in forms the issuer grammar does not read: several issuers on one number, a regulation named in words, a carrier's
+ *  own requirement, an edition written out. */
+const CERT_EXACT_6OCT_C: ReadonlySet<string> = new Set([
+  "UL/CSA/IEC/EN 60950-1", "ACA TS001", "FDA: Code of Federal Regulations Laser Safety", "FDA Code of Federal Regulations Laser Safety",
+  "BSMI Class A", "CAN/CSA C22.2 No. 60950-1, 2nd edition", "CAN/CSA C22.2 No. 60950-1, 2 nd edition", "CAN/CSA C22.2 No. 60950-1",
+  "CAN/CSA C22.2 No. 62368-1", "CSA C22.2 No. 62368-1:1 (Edition. 3.0)", "VZ.TPR.9205: Verizon TEEER", "TUV/GS to EN 60950-1, Second Edition",
+  "73/23/EEC Electromagnetic Emissions Certification", "AS/NZ 3548: 1995 (including AMD I + II) Class B", "AS/NZ CISPR 22: Class A",
+  "ANSI / UL 60950-1", "ANSI / UL 62368-1", "EN / IEC 62368-1", "FIPS 140-2", "Common Criteria Department of Defense", "DoDIN APL IPv6",
+  "CSA-certified to UL/CSA 60950-1, 2 nd Ed.",
+]);
+/** EMC emission standards in forms the grammar does not read: a national EMC regulation, FCC Part 15B, and VCCI's technical
+ *  requirement documents (V-2 / V-3, dated), which the splitter left without the word "VCCI". */
+const EMC_EXACT_6OCT_C: ReadonlySet<string> = new Set(["AS/NZ CISPR32", "47 CFR FCC Part 15B", "QCVN 118:2018/BTTTT", "V-2/2015.04", "V-3/2015.04"]);
+/** A region label the sheet printed in front of a standard ("USA: UL 60950-1", "Rest of world: IEC 60950-1"): the standard is read. */
+const CERT_REGION_6OCT_C = /^(?:USA|Canada|Europe|China|Australia and New Zealand|Rest of world):\s+(?=\S)/;
+/** One witness per rule family: the run that wrote the member (all from run 1514's router re-apply). */
+export const GRAMMAR_6OCT_C: readonly { key: string; rule: string; members: number; where: string }[] = [
+  { key: "supported_protocols", rule: "PROTOCOL_EXACT_6OCT_C", members: PROTOCOL_EXACT_6OCT_C.size, where: "run 1514 (router corpus re-apply)" },
+  { key: "certifications", rule: "CERT_EXACT_6OCT_C", members: CERT_EXACT_6OCT_C.size, where: "run 1514 (router corpus re-apply)" },
+  { key: "certifications", rule: "CERT_REGION_6OCT_C", members: 6, where: "run 1514: USA:/Canada:/Europe:/China:/Australia and New Zealand:/Rest of world:" },
+  { key: "emc_emissions", rule: "EMC_EXACT_6OCT_C", members: EMC_EXACT_6OCT_C.size, where: "run 1514 (router corpus re-apply)" },
+];
+export const PROTOCOL_EXACT_6OCT_C_LIST = [...PROTOCOL_EXACT_6OCT_C], CERT_EXACT_6OCT_C_LIST = [...CERT_EXACT_6OCT_C], EMC_EXACT_6OCT_C_LIST = [...EMC_EXACT_6OCT_C];
+/** What the pass leaves unclassified, with its cause. The ieee_standards line is the one residue that moves a ceiling (+10). */
+export const RESIDUE_6OCT_C: readonly { key: string; member: string; cause: string }[] = [
+  { key: "ieee_standards", member: "SNMP v1, v2c, and v3", cause: "a protocol a sheet's Standards row lists; an IEEE grammar must not read it (+10 over the ceiling, the only residue that moves one)" },
+  { key: "ieee_standards", member: "SNMPv1, v2c, and v3", cause: "as above" },
+  { key: "certifications", member: "BSMI Cl", cause: "a cut 'BSMI Class A' (truncated cell)" },
+  { key: "certifications", member: "ANSI /", cause: "the splitter's half of 'ANSI / UL 60950-1'" },
+  { key: "certifications", member: "Designed to meet:", cause: "a lead-in with its colon; the standards follow as their own members" },
+  { key: "certifications", member: "Third Edition EN", cause: "an edition note and a stray issuer" },
+  { key: "certifications", member: "CCI Class A", cause: "a cut 'VCCI Class A'" },
+  { key: "certifications", member: "Radio:", cause: "a section label" },
+  { key: "supported_protocols", member: "Border Gateway", cause: "a cut 'Border Gateway Protocol' (a cell capped before (A))" },
+  { key: "supported_protocols", member: "Routing Information Protocol Versions 1", cause: "the splitter's cut through 'Versions 1 and 2'" },
+  { key: "supported_protocols", member: "Port management", cause: "a management feature, not a protocol" },
+  { key: "supported_protocols", member: "IPv6 statistics", cause: "a counter set, not a protocol" },
+  { key: "supported_protocols", member: "Web browser", cause: "a management surface" },
+  { key: "supported_protocols", member: "ping", cause: "a diagnostic tool" },
+  { key: "supported_protocols", member: "Multilink Fra", cause: "a cut 'Multilink Frame Relay'" },
+];
 export const GRAMMAR_6OCT_B: readonly { key: string; rule: string; witness: string; where: string }[] = [
   { key: "supported_protocols", rule: "PROTOCOL_NAMED_6OCT_B", witness: "BGP Router Reflector", where: "C1100TGX-1N24P32A" },
   { key: "supported_protocols", rule: "PROTOCOL_NAMED_6OCT_B", witness: "Call Home", where: "ISR4461" },

@@ -75,3 +75,27 @@ lead-in on CERT_HEAD_6OCT_B read them, behind the same prose guard. All-vendor b
 cisco protocols 122, cisco certifications 67, hpe certifications 93, aruba certifications 35; cisco now 2,940 / 1,855 against
 ceilings 3,062 / 1,922. Forecast for the re-apply: certifications net 0, protocols net +4 ("Layer 2" +16 where the "Border Gateway"
 stump -16 goes). Suite 114/0; the front rule removed -> its 3 witnesses red.
+
+**GRAMMAR_6OCT_C -- the re-apply's classify pass (same day, ~22:00 UTC).** Run 1514's router re-apply left 95 member forms
+unclassified that are real identifiers, read in full: 45 protocol names written out whole ("Link Aggregation Control Protocol
+(LACP): IEEE 802.3ad", "One-to-one NAT", "Segment Routing"), 22 certifications ("UL/CSA/IEC/EN 60950-1", "ACA TS001", "FIPS
+140-2"), 5 EMC standards ("AS/NZ CISPR32", "47 CFR FCC Part 15B"), and a region label in front of a standard ("USA: UL 60950-1").
+The rule is EXACT whole members for the three lists (a near miss keeps its answer -- 'DNS proxies' and 'ACA TS0011' are cases),
+and for the region label: strip it and read what follows, behind the same refusal guard as the Class heads. Residue that stays
+unclassified is named in RESIDUE_6OCT_C with its cause.
+
+All vendors, every live fact (65,308 member-occurrences): 95 forms flip, every one unclassified -> accept -- cisco protocols 389,
+certifications 515, emc 8; hpe certifications 35; aruba certifications 19; arista protocols 1. No stored value moves (an accepted
+and an unclassified member are kept alike by reshapeList; NORM stays 1.8.8). Cisco now: certifications 1,710 (from 2,225), emc 64
+(72), protocols 2,856 (3,245); the ceilings are lowered to those counts.
+
+**One ceiling RISES, with its named reason:** ieee_standards 16,829 -> 16,839, for 'SNMP v1, v2c, and v3' and 'SNMPv1, v2c, and
+v3' -- a protocol a sheet's Standards row lists, filed under ieee_standards by run 1514. An IEEE grammar must not read SNMP, so it
+stays unclassified (RESIDUE_6OCT_C), per the 07:35 ruling "the ceiling moves only if a residue remains with a named reason".
+
+Sabotage, each hook removed in turn and restored by md5: protocol exact -> 45 red, emc exact -> 5, certification exact -> 23 (the 22
+plus the 'Canada:' region case, whose remainder is an exact member), region strip -> 3. **The region strip's refusal guard first
+went 0 red**: the hand-written fixture ("USA: Class A EN 55035 ...") was refused by the Class-head block below, so it never reached
+this guard. The all-vendor flip run with the guard removed found the member that does need it -- an aruba cell (4 facts) beginning
+"Europe: EN 62368-1:2014 +A11:2017 2nd Ed. ...", refused as prose, which flips refuse -> accept (a stored value would move). That
+real member is now the case, and removing the guard turns exactly it red. Suite 210/0.
