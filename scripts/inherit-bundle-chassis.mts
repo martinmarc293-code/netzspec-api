@@ -1,0 +1,164 @@
+// scripts/inherit-bundle-chassis.mts — a LICENCE BUNDLE takes its base chassis's physical facts (reviewer ruling, 6 Oct 2026).
+//
+//     npx tsx scripts/inherit-bundle-chassis.mts [--category routers] [--commit]
+//
+// The ruling, verbatim (6 Oct ~20:40, on "37 parts gain a weight now; hardware affixes (-V, -VA, -4G, -LTE, W) excluded"):
+// "(b) Yes — the -SEC/-AX/-AXV/-HSEC/C1- bundles are the same box with a licence; inherit the base chassis's physical facts
+// (inherited_from = base PID, state filled-inherited). Hardware affixes excluded, as you have it."
+//
+// The population is EXACTLY: a live Cisco hardware part V in the category whose SKU is a live part M's SKU plus licence affixes
+// only -- a "C1-" (Cisco ONE) prefix and/or ONE of -SEC, -AX, -AXV, -HSEC, -HSEC+ before the "/K9" -- where V and M share
+// category and kind. A hardware affix (-V voice PVDM, -VA/-4G/-LTE/-SHDSL modules, -WAE/-SRE engines, a W wireless radio, -DC/
+// -POE power builds) is never stripped, so such a SKU has no base here and is never planned.
+//
+// THE KEYS are the chassis's physical and compliance facts (PHYSICAL below): the same box ships under the licence, so its weight,
+// size, power, environment and certifications are the box's. Throughput, crypto, QoS and memory are NOT copied -- they can depend
+// on the licence or the factory build. A key V already holds in any current state is never touched (no overwrite), so the write
+// is idempotent in itself.
+//
+// Each fact is M's CURRENT served fact (verified / corroborated) with a document, written THROUGH applyMerge -- the one
+// inheritance gate every writer passes -- carrying M's provenance (document, locator, tier, method, raw): inherited = true,
+// inherited_from = M's SKU. A fact of M's that is itself derived or has no document is refused and named, never copied.
+//
+// GATE: every distinct M fact is re-read on its cached page -- M's SKU and the head of the fact's own raw cell must both be
+// printed there. An unreadable page is counted apart and fails the run (could not check is not a pass). After the write a re-plan
+// must find nothing.
+import fs from "node:fs";
+import path from "node:path";
+import { createHash } from "node:crypto";
+import { fileURLToPath } from "node:url";
+import { execFileSync } from "node:child_process";
+import { getPool, closePool, withRun, withTx } from "../src/store/index.js";
+import { applyMerge } from "../src/store/facts.js";
+import { cachedText, CACHE_DIR, ws } from "../src/pipeline/apply-acquired.js";
+import { planFile as planFileAt } from "../src/core/planFile.js";
+import type { SpecEntry, FieldState } from "../src/core/specMerge.js";
+
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const arg = (k: string) => { const i = process.argv.indexOf(k); return i >= 0 ? process.argv[i + 1] : undefined; };
+const commit = process.argv.includes("--commit");
+const CATEGORY = arg("--category") ?? "routers";
+const CACHE = process.env.CACHE_DIR ?? CACHE_DIR;
+
+/** The chassis's physical and compliance facts: what the same box carries whatever licence it ships under. */
+export const PHYSICAL = new Set([
+  "weight", "dimensions", "rack_units", "wall_mount", "airflow", "acoustic_noise", "acoustic_sound_power",
+  "temp_operating", "temp_short_term", "temp_storage", "humidity_operating", "humidity_storage", "altitude_max", "altitude_storage",
+  "input_current", "input_freq", "input_voltage", "inrush_current", "power_max", "power_max_dc", "power_typical", "psu_options",
+  "mtbf", "module_slots", "usb_ports", "oir_support", "certifications", "emc_emissions", "emc_immunity", "shipping_dimensions",
+]);
+/** Licence affixes: each sells software on the same box. Anything else in a SKU is hardware and is never stripped. */
+const LICENCE_AFFIX = /-(?:SEC|AXV|AX|HSEC\+?)(?=\/K9$|-K9$|$)/;
+
+/** The base chassis SKU a licence bundle names, or null when the SKU carries no licence affix at all. */
+export function bundleBase(sku: string): string | null {
+  let s = sku.toUpperCase(), changed = false;
+  if (s.startsWith("C1-")) { s = s.slice(3); changed = true; }
+  const t = s.replace(LICENCE_AFFIX, "");
+  if (t !== s) { s = t; changed = true; }
+  return changed ? s : null;
+}
+
+type MFact = { id: string; sku: string; key: string; value: unknown; unit: string | null; raw: string; method: string; tier: number;
+  state: FieldState; doc_id: string | null; locator: string | null; extracted_at: string | null; norm_v: string | null;
+  truncated: boolean; inherited: boolean; cache_path: string | null };
+type Plan = { vId: number; vSku: string; m: MFact };
+
+const db = getPool();
+async function plan(): Promise<{ plans: Plan[]; refused: string[]; bundles: number }> {
+  const parts = (await db.query<{ id: number; sku: string; kind: string | null }>(`
+    SELECT p.id, p.sku, p.sku_kind AS kind FROM parts p JOIN vendors v ON v.id = p.vendor_id JOIN categories c ON c.id = p.category_id
+     WHERE v.slug = 'cisco' AND c.slug = $1 AND p.retired_at IS NULL AND p.product_class = 'hardware'`, [CATEGORY])).rows;
+  const bySku = new Map(parts.map((p) => [p.sku.toUpperCase(), p]));
+  const pairs = parts.map((v) => ({ v, m: bundleBase(v.sku) ? bySku.get(bundleBase(v.sku)!) : undefined })).filter((x) => x.m);
+  const refused: string[] = [];
+  const ok = pairs.filter(({ v, m }) => {
+    if (m!.kind !== v.kind) { refused.push(`${v.sku}: kind ${v.kind} is not its base ${m!.sku}'s ${m!.kind}`); return false; }
+    return true;
+  });
+  const ids = [...new Set(ok.flatMap(({ v, m }) => [v.id, m!.id]))];
+  const facts = (await db.query<MFact & { part_id: number }>(`
+    SELECT f.part_id, p.sku, f.id::text, f.field_key AS key, f.value, f.unit, f.raw, f.method, f.tier, f.state::text AS state, f.doc_id,
+           f.locator, f.extracted_at::text AS extracted_at, f.norm_v, f.truncated, f.inherited, sd.cache_path
+      FROM facts f JOIN parts p ON p.id = f.part_id LEFT JOIN source_docs sd ON sd.doc_id = f.doc_id
+     WHERE f.part_id = ANY($1::bigint[]) AND f.superseded_by IS NULL AND f.method NOT LIKE 'retracted:%'`, [ids])).rows;
+  const held = new Set(facts.map((f) => `${f.part_id}|${f.key}`));
+  const plans: Plan[] = [];
+  for (const { v, m } of ok) {
+    for (const f of facts.filter((x) => x.part_id === m!.id && PHYSICAL.has(x.key) && ["verified", "corroborated"].includes(x.state))) {
+      if (held.has(`${v.id}|${f.key}`)) continue;
+      if (!f.doc_id || f.method.startsWith("derived:")) { refused.push(`${v.sku} ${f.key}: the base's fact is ${f.method} with ${f.doc_id ? "a" : "no"} document -- only a read is copied`); continue; }
+      plans.push({ vId: v.id, vSku: v.sku, m: f });
+    }
+  }
+  plans.sort((a, b) => a.vSku.localeCompare(b.vSku) || a.m.key.localeCompare(b.m.key));
+  return { plans, refused, bundles: ok.length };
+}
+
+const { plans, refused, bundles } = await plan();
+// GATE: each distinct base fact re-read on its cached page -- the base SKU and the head of its own raw cell both printed there.
+// A raw stored in the "<label> | <cell>" replay form is two cells on the page, so EACH segment's head must be printed (the label
+// and the value both, which is stricter than the value alone); a merged list's raw is "cellA ; cellB" and its first cell is read.
+const heads = (raw: string) => raw.split(" ; ")[0].split(" | ").map((s) => ws(s).slice(0, 32).trim()).filter(Boolean);
+const head = (raw: string) => heads(raw).join(" + ");
+let checked = 0, hits = 0, unreadable = 0;
+const misses: string[] = [];
+const seen = new Map<string, boolean>();
+for (const p of plans) {
+  if (seen.has(p.m.id)) continue;
+  const text = cachedText(p.m.cache_path, CACHE);
+  if (text === null) { unreadable++; seen.set(p.m.id, false); misses.push(`${p.m.sku} ${p.m.key}: ${p.m.doc_id} not readable from the cache`); continue; }
+  checked++;
+  const ok = text.includes(ws(p.m.sku)) && heads(p.m.raw).every((h) => text.includes(h));
+  if (ok) hits++; else misses.push(`${p.m.sku} ${p.m.key}: ${p.m.doc_id} does not print "${p.m.sku}" and "${head(p.m.raw)}"`);
+  seen.set(p.m.id, ok);
+}
+const precision = checked ? hits / checked : plans.length ? 0 : 1;
+const gate = { method: "every base fact re-read on its cached page: the base SKU and the head of the fact's raw cell", sampled: seen.size, checked,
+  unreadable, precision: Number(precision.toFixed(4)), passed: plans.length === 0 || (precision === 1 && unreadable === 0), misses: misses.slice(0, 12) };
+
+const planPath = planFileAt(ROOT, "inherit-bundle-chassis");
+fs.mkdirSync(path.dirname(planPath), { recursive: true });
+fs.writeFileSync(planPath, ["part_id\tsku\taction\tbase\tkey\tmethod\tdoc_id\tlocator\traw",
+  ...plans.map((p) => `${p.vId}\t${p.vSku}\twrite\t${p.m.sku}\t${p.m.key}\t${p.m.method}\t${p.m.doc_id}\t${p.m.locator}\t${JSON.stringify(p.m.raw.slice(0, 200))}`),
+  ...refused.map((r) => `\t\trefused\t\t\t\t\t\t${JSON.stringify(r)}`)].join("\n") + "\n");
+const planSha = createHash("sha256").update(fs.readFileSync(planPath)).digest("hex");
+const byKey: Record<string, number> = {};
+for (const p of plans) byKey[p.m.key] = (byKey[p.m.key] ?? 0) + 1;
+console.log(`inherit-bundle-chassis (${CATEGORY}): ${bundles} licence bundles with a live base of the same kind; ${plans.length} facts to write on ` +
+  `${new Set(plans.map((p) => p.vId)).size} bundles, ${refused.length} refused; by key ${JSON.stringify(byKey)}`);
+console.log(`gate ${JSON.stringify(gate)} -> ${path.relative(ROOT, planPath)} (sha256 ${planSha.slice(0, 12)})`);
+for (const sku of [...new Set(plans.map((p) => `${p.vSku} <- ${p.m.sku}`))].slice(0, 40)) console.log(`  ${sku}`);
+for (const r of refused.slice(0, 20)) console.log(`  REFUSED ${r}`);
+if (!gate.passed) { console.error(`GATE FAILED, nothing written: ${misses.slice(0, 12).join("; ")}`); await closePool(); process.exit(2); }
+if (!commit) { console.log("DRY RUN: nothing written. Re-run with --commit."); await closePool(); process.exit(0); }
+if (!plans.length) { console.log("nothing to do"); await closePool(); process.exit(0); }
+
+let gitSha: string | undefined = process.env.GIT_SHA;
+if (!gitSha) try { gitSha = execFileSync("git", ["rev-parse", "HEAD"], { cwd: ROOT, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }).trim(); } catch { gitSha = undefined; }
+const out = await withRun("inherit-bundle-chassis", {
+  category: CATEGORY, planned: plans.length, refused: refused.length, plan: path.relative(ROOT, planPath), plan_sha256: planSha,
+  approved: "reviewer ruling 6 Oct 2026 ~20:40: (b) Yes -- the -SEC/-AX/-AXV/-HSEC/C1- bundles are the same box with a licence; inherit the base chassis's physical facts (inherited_from = base PID, state filled-inherited). Hardware affixes excluded",
+}, async (runId) => withTx(async (client) => {
+  const actions: Record<string, number> = {};
+  const notInserted: string[] = [];
+  for (const p of plans) {
+    const entry: SpecEntry = {
+      k: p.m.key, raw: p.m.raw, value: p.m.value, unit: p.m.unit ?? undefined, state: "verified",
+      inherited: true, inherited_from: p.m.sku, ...(p.m.truncated ? { truncated: true } : {}),
+      prov: { tier: p.m.tier, method: p.m.method, doc_id: p.m.doc_id ?? undefined, locator: p.m.locator ?? undefined,
+        extracted_at: p.m.extracted_at ?? undefined, norm_v: p.m.norm_v ?? undefined },
+    };
+    const r = await applyMerge(client, p.vId, entry, runId);
+    actions[r.action] = (actions[r.action] ?? 0) + 1;
+    if (r.action !== "insert") notInserted.push(`${p.vSku} ${p.m.key}: ${r.action}${"refused" in r && r.refused ? ` (${r.refused})` : ""}`);
+  }
+  // every planned fact must have been INSERTED: a refusal by the inheritance gate means the plan and the store disagree, and the
+  // transaction is rolled back rather than half-applied
+  if (notInserted.length) throw new Error(`inherit-bundle-chassis: ${notInserted.length} planned facts were not inserted: ${notInserted.slice(0, 10).join("; ")}`);
+  return { stats: { written: plans.length, refused: refused.length, ...actions }, gate };
+}), { gitSha });
+const again = await plan();
+console.log(`COMMITTED run ${out.runId}: ${JSON.stringify(out.stats)}; re-plan after the write finds ${again.plans.length}`);
+if (again.plans.length) { console.error("the write did not take"); process.exitCode = 1; }
+await closePool();

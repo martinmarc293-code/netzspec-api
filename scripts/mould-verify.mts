@@ -335,6 +335,9 @@ const RUN_KIND_CLASS: Record<string, { approval: boolean; gate: boolean }> = {
   // rulings of 30 Sep 2026 (the weight lane): a licence-tier variant takes its model row's weight (inherited; approval + a gate
   // that re-reads each model row), and a cable's stated 'Module weight (Max)' written as derived:max-bound (every row re-read)
   "inherit-tier-weight": AG, "derive-max-bound-weight": G,
+  // reviewer ruling 6 Oct 2026 (b): a licence bundle (-SEC/-AX/-AXV/-HSEC/C1-) takes its base chassis's physical facts (inherited;
+  // approval + a gate that re-reads each base fact on its page)
+  "inherit-bundle-chassis": AG,
   // ruling (B), 30 Sep 2026: stackable from a sub-series row's stated stacking bandwidth (every witness cell re-read)
   "derive-stackable-from-bandwidth": G,
   // FINAL FILL ORDER item 4 (30 Sep 2026): Versandgewicht for small components from the shipping-class table (derives from a table)
