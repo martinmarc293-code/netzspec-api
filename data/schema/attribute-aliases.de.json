@@ -155,9 +155,9 @@
     "Splitverhältnis": "PON split ratio"
   },
   "build": {
-    "data_commit": "326ece7b2536+83dirty",
-    "code_commit": "704ff9635686",
+    "data_commit": "91f81ec4e175+83dirty",
+    "code_commit": "91f81ec4e175",
     "contract_hash": "ae6f436b328c9b58",
-    "generated_at": "2026-10-06T22:35:24.765Z"
+    "generated_at": "2026-10-06T23:20:37.629Z"
   }
 }

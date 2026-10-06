@@ -3,7 +3,7 @@
   "vendor": "cisco",
   "category": "servers-unified-computing",
   "profile_hash": "c43f10fc5e6131ae",
-  "built_on_commit": "704ff96",
+  "built_on_commit": "91f81ec",
   "norm_version": "1.8.8",
   "declared_fields": 411,
   "gap_states": {
@@ -153,7 +153,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -213,7 +213,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -273,7 +273,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -310,7 +310,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -354,7 +354,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -420,7 +420,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -447,7 +447,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -507,7 +507,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -548,7 +548,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -608,7 +608,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -675,7 +675,7 @@
               "class": "datasheet-html",
               "basis": "profile-required-only",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -725,7 +725,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -762,7 +762,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -819,7 +819,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -881,7 +881,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -941,7 +941,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -993,8 +993,8 @@
             }
           ],
           "parts_holding_by_method": {},
-          "derived_by": "scripts/derive-max-bound-weight.mts --set max-bound from data/reference/max-bound-weight-witnesses.json (scripts/max-bound-weight-witnesses.py: the 'Module weight (Max)' rows of the held QSFP-DD and 200G QSFP56 cable sheets) and data/reference/series-max-weight-witnesses.json (scripts/series-max-weight-witnesses.mts: the 880/880VA sections of the 800 Series hardware guide appendix and the 890/860/860VAE, 900, 900J and 1941 datasheets); --set model-row from data/reference/model-row-weight-witnesses.json (scripts/model-row-weight-witnesses.mts: Table A-3 of the 819 hardware guide, the 812G, 1921 and C897VAGW-LTE sheets); every row re-read from cache",
-          "derivation_validated": "30 Sep 2026: 34 cable witness rows over 29 SKUs on 2 sheets; the 5 SKUs printed on both sheets state the same maximum; 2 class rows ('Optical modules 100 g') refused as naming no part. 6 Oct 2026, run 1518: 133 series rows over 124 PIDs (880 Series 92, 880VA 10, 890 13, 860 7, 860VAE 11), each statement re-read inside its own series section and saying 'maximum'; a guide row only for a PID a held datasheet or guide lists, LTE/4G variants excluded; the 9 PIDs in two sections state the same 5.5 lb (2.5 kg). Run 1532: +21 rows from three sheets stating their series maximum outright -- 900 Series 13 ('Weight: 2.65 lb (1.20 kg) maximum'), 900J 1 ('2.04 lb (0.924 kg) maximum'), 1941 7 ('Maximum Weight - Fully Configured 14 lbs') -- 154 series rows over 145 PIDs, 20 written, 1 read weight kept. Run 1523: 35 model rows over 35 PIDs (819 Table A-3 27, 812G 5, C897VAGW-LTE 2, 1921 1), the model's caption, headers and row re-read in order within a bounded span; tests/maxBoundWeight.test.ts (19 cases, 6 sabotage)",
+          "derived_by": "scripts/derive-max-bound-weight.mts --set max-bound from data/reference/max-bound-weight-witnesses.json (scripts/max-bound-weight-witnesses.py: the 'Module weight (Max)' rows of the held QSFP-DD and 200G QSFP56 cable sheets) and data/reference/series-max-weight-witnesses.json (scripts/series-max-weight-witnesses.mts: the 880/880VA sections of the 800 Series hardware guide appendix and the 890/860/860VAE, 900, 900J and 1941 datasheets); --set model-row from data/reference/model-row-weight-witnesses.json (scripts/model-row-weight-witnesses.mts: Table A-3 of the 819 hardware guide, the 812G, 1921 and C897VAGW-LTE sheets; Q2/Q5 of ~22:50: the C8200/C8300/C8500 mechanical tables with the ordering-guide sentence that they ship with two PSUs, the 8404, NCS 5700 MPA and ASR 1000 RP sheets); --set family-row from data/reference/family-row-weight-witnesses.json (scripts/family-row-weight-witnesses.mts: a family's stated weight onto the PIDs the same sheet's ordering table lists under that family, or the class a sheet bounds to its own PIDs); every row re-read from cache",
+          "derivation_validated": "30 Sep 2026: 34 cable witness rows over 29 SKUs on 2 sheets; the 5 SKUs printed on both sheets state the same maximum; 2 class rows ('Optical modules 100 g') refused as naming no part. 6 Oct 2026, run 1518: 133 series rows over 124 PIDs (880 Series 92, 880VA 10, 890 13, 860 7, 860VAE 11), each statement re-read inside its own series section and saying 'maximum'; a guide row only for a PID a held datasheet or guide lists, LTE/4G variants excluded; the 9 PIDs in two sections state the same 5.5 lb (2.5 kg). Run 1532: +21 rows from three sheets stating their series maximum outright -- 900 Series 13 ('Weight: 2.65 lb (1.20 kg) maximum'), 900J 1 ('2.04 lb (0.924 kg) maximum'), 1941 7 ('Maximum Weight - Fully Configured 14 lbs') -- 154 series rows over 145 PIDs, 20 written, 1 read weight kept. Run 1523: 35 model rows over 35 PIDs (819 Table A-3 27, 812G 5, C897VAGW-LTE 2, 1921 1), the model's caption, headers and row re-read in order within a bounded span; tests/maxBoundWeight.test.ts. Run 1535 (Q2 + Q5): +16 model rows -- 51 over 51 PIDs; the C8300/C8500 rows each carry the ordering-guide statement that licenses a plain weight, the C8500-20X6C two-value cell is not a model row (ruled max-bound). FAMILY ROWS (derived:family-row, ~22:50 Q1/Q4): 28 rows over 28 PIDs from 4 sheets -- the 880G/890G LTE 2.0 Table 9 groups (89xG 7, 88xG 1), the 890G LTE 2.5 sheet (3), the 819 M2M groups (non-hardened 1, hardened 1), the 819 non-hardened sheet (2), the NCS 55A2 MPA class (13); every group heading printed exactly once and ended by the next heading; a PID with a model row is never a family row; tests/maxBoundWeight.test.ts (35 cases, 8 sabotage)",
           "observed_fill_path": true,
           "observed_filled": true,
           "seed_only": false
@@ -1009,7 +1009,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -1700,7 +1700,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -1760,7 +1760,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -1820,7 +1820,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -1886,7 +1886,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -1927,7 +1927,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -1987,7 +1987,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -2032,7 +2032,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -2089,7 +2089,7 @@
               "class": "datasheet-html",
               "basis": "profile-required-only",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -2139,7 +2139,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -2177,7 +2177,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -2237,7 +2237,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -2299,7 +2299,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -2359,7 +2359,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -2411,8 +2411,8 @@
             }
           ],
           "parts_holding_by_method": {},
-          "derived_by": "scripts/derive-max-bound-weight.mts --set max-bound from data/reference/max-bound-weight-witnesses.json (scripts/max-bound-weight-witnesses.py: the 'Module weight (Max)' rows of the held QSFP-DD and 200G QSFP56 cable sheets) and data/reference/series-max-weight-witnesses.json (scripts/series-max-weight-witnesses.mts: the 880/880VA sections of the 800 Series hardware guide appendix and the 890/860/860VAE, 900, 900J and 1941 datasheets); --set model-row from data/reference/model-row-weight-witnesses.json (scripts/model-row-weight-witnesses.mts: Table A-3 of the 819 hardware guide, the 812G, 1921 and C897VAGW-LTE sheets); every row re-read from cache",
-          "derivation_validated": "30 Sep 2026: 34 cable witness rows over 29 SKUs on 2 sheets; the 5 SKUs printed on both sheets state the same maximum; 2 class rows ('Optical modules 100 g') refused as naming no part. 6 Oct 2026, run 1518: 133 series rows over 124 PIDs (880 Series 92, 880VA 10, 890 13, 860 7, 860VAE 11), each statement re-read inside its own series section and saying 'maximum'; a guide row only for a PID a held datasheet or guide lists, LTE/4G variants excluded; the 9 PIDs in two sections state the same 5.5 lb (2.5 kg). Run 1532: +21 rows from three sheets stating their series maximum outright -- 900 Series 13 ('Weight: 2.65 lb (1.20 kg) maximum'), 900J 1 ('2.04 lb (0.924 kg) maximum'), 1941 7 ('Maximum Weight - Fully Configured 14 lbs') -- 154 series rows over 145 PIDs, 20 written, 1 read weight kept. Run 1523: 35 model rows over 35 PIDs (819 Table A-3 27, 812G 5, C897VAGW-LTE 2, 1921 1), the model's caption, headers and row re-read in order within a bounded span; tests/maxBoundWeight.test.ts (19 cases, 6 sabotage)",
+          "derived_by": "scripts/derive-max-bound-weight.mts --set max-bound from data/reference/max-bound-weight-witnesses.json (scripts/max-bound-weight-witnesses.py: the 'Module weight (Max)' rows of the held QSFP-DD and 200G QSFP56 cable sheets) and data/reference/series-max-weight-witnesses.json (scripts/series-max-weight-witnesses.mts: the 880/880VA sections of the 800 Series hardware guide appendix and the 890/860/860VAE, 900, 900J and 1941 datasheets); --set model-row from data/reference/model-row-weight-witnesses.json (scripts/model-row-weight-witnesses.mts: Table A-3 of the 819 hardware guide, the 812G, 1921 and C897VAGW-LTE sheets; Q2/Q5 of ~22:50: the C8200/C8300/C8500 mechanical tables with the ordering-guide sentence that they ship with two PSUs, the 8404, NCS 5700 MPA and ASR 1000 RP sheets); --set family-row from data/reference/family-row-weight-witnesses.json (scripts/family-row-weight-witnesses.mts: a family's stated weight onto the PIDs the same sheet's ordering table lists under that family, or the class a sheet bounds to its own PIDs); every row re-read from cache",
+          "derivation_validated": "30 Sep 2026: 34 cable witness rows over 29 SKUs on 2 sheets; the 5 SKUs printed on both sheets state the same maximum; 2 class rows ('Optical modules 100 g') refused as naming no part. 6 Oct 2026, run 1518: 133 series rows over 124 PIDs (880 Series 92, 880VA 10, 890 13, 860 7, 860VAE 11), each statement re-read inside its own series section and saying 'maximum'; a guide row only for a PID a held datasheet or guide lists, LTE/4G variants excluded; the 9 PIDs in two sections state the same 5.5 lb (2.5 kg). Run 1532: +21 rows from three sheets stating their series maximum outright -- 900 Series 13 ('Weight: 2.65 lb (1.20 kg) maximum'), 900J 1 ('2.04 lb (0.924 kg) maximum'), 1941 7 ('Maximum Weight - Fully Configured 14 lbs') -- 154 series rows over 145 PIDs, 20 written, 1 read weight kept. Run 1523: 35 model rows over 35 PIDs (819 Table A-3 27, 812G 5, C897VAGW-LTE 2, 1921 1), the model's caption, headers and row re-read in order within a bounded span; tests/maxBoundWeight.test.ts. Run 1535 (Q2 + Q5): +16 model rows -- 51 over 51 PIDs; the C8300/C8500 rows each carry the ordering-guide statement that licenses a plain weight, the C8500-20X6C two-value cell is not a model row (ruled max-bound). FAMILY ROWS (derived:family-row, ~22:50 Q1/Q4): 28 rows over 28 PIDs from 4 sheets -- the 880G/890G LTE 2.0 Table 9 groups (89xG 7, 88xG 1), the 890G LTE 2.5 sheet (3), the 819 M2M groups (non-hardened 1, hardened 1), the 819 non-hardened sheet (2), the NCS 55A2 MPA class (13); every group heading printed exactly once and ended by the next heading; a PID with a model row is never a family row; tests/maxBoundWeight.test.ts (35 cases, 8 sabotage)",
           "observed_fill_path": true,
           "observed_filled": true,
           "seed_only": false
@@ -3058,7 +3058,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -3118,7 +3118,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -3178,7 +3178,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -3235,7 +3235,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -3301,7 +3301,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -3342,7 +3342,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -3399,7 +3399,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -3459,7 +3459,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -3526,7 +3526,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -3576,7 +3576,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -3633,7 +3633,7 @@
               "class": "datasheet-html",
               "basis": "profile-required-only",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -3658,7 +3658,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -3714,7 +3714,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -3780,7 +3780,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -3837,7 +3837,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -3875,7 +3875,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -3932,7 +3932,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -3994,7 +3994,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -4054,7 +4054,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -4104,7 +4104,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -4156,8 +4156,8 @@
             }
           ],
           "parts_holding_by_method": {},
-          "derived_by": "scripts/derive-max-bound-weight.mts --set max-bound from data/reference/max-bound-weight-witnesses.json (scripts/max-bound-weight-witnesses.py: the 'Module weight (Max)' rows of the held QSFP-DD and 200G QSFP56 cable sheets) and data/reference/series-max-weight-witnesses.json (scripts/series-max-weight-witnesses.mts: the 880/880VA sections of the 800 Series hardware guide appendix and the 890/860/860VAE, 900, 900J and 1941 datasheets); --set model-row from data/reference/model-row-weight-witnesses.json (scripts/model-row-weight-witnesses.mts: Table A-3 of the 819 hardware guide, the 812G, 1921 and C897VAGW-LTE sheets); every row re-read from cache",
-          "derivation_validated": "30 Sep 2026: 34 cable witness rows over 29 SKUs on 2 sheets; the 5 SKUs printed on both sheets state the same maximum; 2 class rows ('Optical modules 100 g') refused as naming no part. 6 Oct 2026, run 1518: 133 series rows over 124 PIDs (880 Series 92, 880VA 10, 890 13, 860 7, 860VAE 11), each statement re-read inside its own series section and saying 'maximum'; a guide row only for a PID a held datasheet or guide lists, LTE/4G variants excluded; the 9 PIDs in two sections state the same 5.5 lb (2.5 kg). Run 1532: +21 rows from three sheets stating their series maximum outright -- 900 Series 13 ('Weight: 2.65 lb (1.20 kg) maximum'), 900J 1 ('2.04 lb (0.924 kg) maximum'), 1941 7 ('Maximum Weight - Fully Configured 14 lbs') -- 154 series rows over 145 PIDs, 20 written, 1 read weight kept. Run 1523: 35 model rows over 35 PIDs (819 Table A-3 27, 812G 5, C897VAGW-LTE 2, 1921 1), the model's caption, headers and row re-read in order within a bounded span; tests/maxBoundWeight.test.ts (19 cases, 6 sabotage)",
+          "derived_by": "scripts/derive-max-bound-weight.mts --set max-bound from data/reference/max-bound-weight-witnesses.json (scripts/max-bound-weight-witnesses.py: the 'Module weight (Max)' rows of the held QSFP-DD and 200G QSFP56 cable sheets) and data/reference/series-max-weight-witnesses.json (scripts/series-max-weight-witnesses.mts: the 880/880VA sections of the 800 Series hardware guide appendix and the 890/860/860VAE, 900, 900J and 1941 datasheets); --set model-row from data/reference/model-row-weight-witnesses.json (scripts/model-row-weight-witnesses.mts: Table A-3 of the 819 hardware guide, the 812G, 1921 and C897VAGW-LTE sheets; Q2/Q5 of ~22:50: the C8200/C8300/C8500 mechanical tables with the ordering-guide sentence that they ship with two PSUs, the 8404, NCS 5700 MPA and ASR 1000 RP sheets); --set family-row from data/reference/family-row-weight-witnesses.json (scripts/family-row-weight-witnesses.mts: a family's stated weight onto the PIDs the same sheet's ordering table lists under that family, or the class a sheet bounds to its own PIDs); every row re-read from cache",
+          "derivation_validated": "30 Sep 2026: 34 cable witness rows over 29 SKUs on 2 sheets; the 5 SKUs printed on both sheets state the same maximum; 2 class rows ('Optical modules 100 g') refused as naming no part. 6 Oct 2026, run 1518: 133 series rows over 124 PIDs (880 Series 92, 880VA 10, 890 13, 860 7, 860VAE 11), each statement re-read inside its own series section and saying 'maximum'; a guide row only for a PID a held datasheet or guide lists, LTE/4G variants excluded; the 9 PIDs in two sections state the same 5.5 lb (2.5 kg). Run 1532: +21 rows from three sheets stating their series maximum outright -- 900 Series 13 ('Weight: 2.65 lb (1.20 kg) maximum'), 900J 1 ('2.04 lb (0.924 kg) maximum'), 1941 7 ('Maximum Weight - Fully Configured 14 lbs') -- 154 series rows over 145 PIDs, 20 written, 1 read weight kept. Run 1523: 35 model rows over 35 PIDs (819 Table A-3 27, 812G 5, C897VAGW-LTE 2, 1921 1), the model's caption, headers and row re-read in order within a bounded span; tests/maxBoundWeight.test.ts. Run 1535 (Q2 + Q5): +16 model rows -- 51 over 51 PIDs; the C8300/C8500 rows each carry the ordering-guide statement that licenses a plain weight, the C8500-20X6C two-value cell is not a model row (ruled max-bound). FAMILY ROWS (derived:family-row, ~22:50 Q1/Q4): 28 rows over 28 PIDs from 4 sheets -- the 880G/890G LTE 2.0 Table 9 groups (89xG 7, 88xG 1), the 890G LTE 2.5 sheet (3), the 819 M2M groups (non-hardened 1, hardened 1), the 819 non-hardened sheet (2), the NCS 55A2 MPA class (13); every group heading printed exactly once and ended by the next heading; a PID with a model row is never a family row; tests/maxBoundWeight.test.ts (35 cases, 8 sabotage)",
           "observed_fill_path": true,
           "observed_filled": true,
           "seed_only": false
@@ -4172,7 +4172,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -4220,7 +4220,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -4272,7 +4272,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -4335,7 +4335,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -5015,7 +5015,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -5050,7 +5050,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -5083,7 +5083,7 @@
               "class": "datasheet-html",
               "basis": "profile-required-only",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -5127,7 +5127,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -5164,7 +5164,7 @@
               "class": "datasheet-html",
               "basis": "profile-required-only",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -5214,7 +5214,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -5908,7 +5908,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -5974,7 +5974,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -6011,7 +6011,7 @@
               "class": "datasheet-html",
               "basis": "profile-required-only",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -6706,7 +6706,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -6750,7 +6750,7 @@
               "class": "datasheet-html",
               "basis": "profile-required-only",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -6800,7 +6800,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -7503,7 +7503,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -7552,7 +7552,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -7609,7 +7609,7 @@
               "class": "datasheet-html",
               "basis": "profile-required-only",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -7659,7 +7659,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -8339,7 +8339,7 @@
               "class": "datasheet-html",
               "basis": "profile-required-only",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -8398,7 +8398,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -8464,7 +8464,7 @@
               "class": "datasheet-html",
               "basis": "profile-required-only",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -9157,7 +9157,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -9214,7 +9214,7 @@
               "class": "datasheet-html",
               "basis": "profile-required-only",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -9264,7 +9264,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -9955,7 +9955,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -9999,7 +9999,7 @@
               "class": "datasheet-html",
               "basis": "profile-required-only",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -10693,7 +10693,7 @@
               "class": "datasheet-html",
               "basis": "profile-required-only",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -10752,7 +10752,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -10818,7 +10818,7 @@
               "class": "datasheet-html",
               "basis": "profile-required-only",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -11517,7 +11517,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -11562,7 +11562,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -11612,7 +11612,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -11657,7 +11657,7 @@
               "class": "datasheet-html",
               "basis": "profile-required-only",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -12349,7 +12349,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -12394,7 +12394,7 @@
               "class": "datasheet-html",
               "basis": "profile-required-only",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -13088,7 +13088,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -13137,7 +13137,7 @@
               "class": "datasheet-html",
               "basis": "profile-required-only",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -13831,7 +13831,7 @@
               "class": "datasheet-html",
               "basis": "profile-required-only",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -14526,7 +14526,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -14583,7 +14583,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -14649,7 +14649,7 @@
               "class": "datasheet-html",
               "basis": "profile-required-only",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -14699,7 +14699,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -15379,7 +15379,7 @@
               "class": "datasheet-html",
               "basis": "profile-required-only",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -16080,7 +16080,7 @@
               "class": "datasheet-html",
               "basis": "profile-required-only",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -16107,7 +16107,7 @@
               "class": "datasheet-html",
               "basis": "profile-required-only",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -19387,7 +19387,7 @@
               "class": "datasheet-html",
               "basis": "seen",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -19453,7 +19453,7 @@
               "class": "datasheet-html",
               "basis": "profile-required-only",
               "enabled": true,
-              "facts_current": 17220
+              "facts_current": 17263
             },
             {
               "source": "cisco-datasheet-pdf",
@@ -20108,9 +20108,9 @@
     }
   },
   "build": {
-    "data_commit": "326ece7b2536+83dirty",
-    "code_commit": "704ff9635686",
+    "data_commit": "91f81ec4e175+83dirty",
+    "code_commit": "91f81ec4e175",
     "contract_hash": "ae6f436b328c9b58",
-    "generated_at": "2026-10-06T22:35:24.765Z"
+    "generated_at": "2026-10-06T23:20:37.629Z"
   }
 }
