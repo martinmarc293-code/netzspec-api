@@ -306,6 +306,8 @@ HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). R
 - SCOPE: category=routers
   (read by scripts/scorecard.ts: ready and the top-5 sole blockers are counted in this scope, the catalogue beside it)
 - HANDOFF (7 Oct ~06:55 UTC, laptop lid closing): ROUTER READY 440 (213 at the pivot; 422 after 1539/1545; +18 RV).
+  DONE AFTER WRAP-UP: the 44127ca artefacts are committed (c151af4, ONE BUILD, 112/112) and the box board went green at 06:58
+  (stamp-board-copy.log: board-last.txt replaced) -- the two items below about pulling and the night board are SETTLED.
   Deployed 44127cac (contract 4492fc49). The box build at 44127ca (06:41-06:49, MISS OK both ways) wrote its artifacts INTO
   the deploy tree but they are NOT COMMITTED: next session, pull them first (find data -newer /tmp/build-44127ca.start),
   ONE BUILD, suites, commit, deploy -- before ANY other deploy, or the deploy swap discards them. Night 01:00 on 44127cac
