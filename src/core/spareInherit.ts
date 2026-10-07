@@ -9,11 +9,42 @@
 //    bundle and different-configuration refusals stand as written. ... Where both sides hold read values, neither overwrites the
 //    other: a disagreement stays a conflict."
 //
+import { describesPart } from "./specMerge.js";
+import { subjectRefusal } from "./docSubject.js";
+
 // PURE: no store, no network. scripts/inherit-spare.mts plans with these and tests/spareInherit.test.ts proves them on real names.
 
 /** Derived facts a giver may pass on: the registered weight derivations, each tied to a re-read page (DERIVED_FILL_PATHS.weight).
  *  ONE list for both inheritance writers: it lived in scripts/inherit-bundle-chassis.mts, which runs at import, so it moved here. */
 export const COPYABLE_DERIVED: ReadonlySet<string> = new Set(["derived:model-row", "derived:family-row", "derived:max-bound"]);
+
+/** A receiver of an inherited fact, as the store's two inheritance gates read it (applyMerge's own columns). */
+export type GateReceiver = { sku: string; name: string | null; product_class: string | null; category_slug: string | null;
+  family: string | null; product_series: string | null; vendor_slug: string | null };
+type Refusal = { rule: string; reason: string };
+
+/** THE STORE'S INHERITANCE GATES, in applyMerge's order: describesPart (the document describes the part), then the subject gate
+ *  (the document describes this KIND). One function, so the planner and the store ask exactly the same question. */
+export function inheritanceRefusal(r: GateReceiver, e: { docId: string | null | undefined; docTitle: string | null; inheritedFrom: string | null }): Refusal | null {
+  const d = describesPart({ sku: r.sku, productClass: r.product_class, categorySlug: r.category_slug, partFamily: r.family,
+    partSeries: r.product_series, docFamily: e.inheritedFrom });
+  if (d) return d;
+  return subjectRefusal({ vendor: r.vendor_slug, docId: e.docId, title: e.docTitle, categorySlug: r.category_slug, sku: r.sku, name: r.name, productClass: r.product_class });
+}
+
+/** RULING (A), 7 Oct 2026 (verbatim): "don't bypass the gate -- ask it about the partner. For each refused spare fact, run the same
+ *  gate as if the receiver were its spare_of partner. Passes for the partner: admit the fact. The spare is the same part, so it
+ *  gets the partner's answer. Fails for the partner too: don't copy it, and list it."
+ *  `partner` is the receiver's STORED spare_of partner whose SKU the fact names as inherited_from, or null when there is none --
+ *  then the receiver's own answer stands. Returns the refusal that stands (null = admit) and which receiver answered. */
+export function spareGate(receiver: GateReceiver, partner: GateReceiver | null, e: { docId: string | null | undefined; docTitle: string | null; inheritedFrom: string | null }):
+  { refusal: Refusal | null; answeredBy: "receiver" | "partner"; receiverRefusal: Refusal | null } {
+  const own = inheritanceRefusal(receiver, e);
+  if (!own || !partner) return { refusal: own, answeredBy: "receiver", receiverRefusal: own };
+  const p = inheritanceRefusal(partner, e);
+  return { refusal: p ? { rule: `partner:${p.rule}`, reason: `${p.reason} (asked as its spare_of partner ${partner.sku}; the receiver ${receiver.sku} was refused: ${own.rule})` } : null,
+    answeredBy: "partner", receiverRefusal: own };
+}
 
 /** Cups a spare never takes from its base (nor gives back): box contents and how the part is ORDERED rather than what it IS.
  *  shipping_weight and shipping_dimensions are the box -- "a spare often ships without the rack kit, cords or brackets the base

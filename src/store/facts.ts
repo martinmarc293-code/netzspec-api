@@ -22,12 +22,12 @@
 // are the only two places that know this; a migration adding facts.revision_label would replace
 // them and nothing else.
 import {
-  mergeField, describesPart, notApplicable, tryTierFor, GAP_STATES as GAP_STATE_LIST,
+  mergeField, notApplicable, tryTierFor, GAP_STATES as GAP_STATE_LIST,
   type MergeAction, type Prov, type SpecEntry, type FieldState,
 } from "../core/specMerge.js";
 import type { Queryable } from "./runs.js";
 import { conflictClass } from "../core/conflictClass.js";
-import { subjectRefusal } from "../core/docSubject.js";
+import { inheritanceRefusal, spareGate, type GateReceiver } from "../core/spareInherit.js";
 
 export type FactRow = {
   id: number;
@@ -317,15 +317,27 @@ export async function applyMerge(client: Queryable, partId: number, incoming: Sp
   // forget it. Refused BEFORE any SQL, so the caller can count and quarantine it like any other
   // refusal rather than losing a transaction.
   if (incoming.inherited === true) {
-    const refusal = describesPart({
-      sku: row.sku, productClass: row.product_class, categorySlug: row.category_slug,
-      partFamily: row.family, partSeries: row.product_series, docFamily: incoming.inherited_from ?? null,
-    });
-    if (refusal) return { action: "refused_inherit", refused: refusal.reason, rule: refusal.rule, factId: existing?.id };
-    // THE SUBJECT GATE (reviewer ruling (b'), 2 Oct 2026): a document-scoped value reaches only a kind the document DESCRIBES --
-    // the allowlist describesPart's component patterns are not (src/core/docSubject.ts). OUT and NOT JUDGED both refuse.
-    const subject = subjectRefusal({ vendor: row.vendor_slug, docId: incoming.prov?.doc_id, title: row.doc_title, categorySlug: row.category_slug, sku: row.sku, name: row.name, productClass: row.product_class });
-    if (subject) return { action: "refused_inherit", refused: subject.reason, rule: subject.rule, factId: existing?.id };
+    // describesPart, then THE SUBJECT GATE (reviewer ruling (b'), 2 Oct 2026: a document-scoped value reaches only a kind the
+    // document DESCRIBES -- the allowlist describesPart's component patterns are not; OUT and NOT JUDGED both refuse), asked in
+    // that order by ONE function (src/core/spareInherit.ts inheritanceRefusal) so a planner can ask exactly what the store asks.
+    const receiver: GateReceiver = { sku: row.sku, name: row.name, product_class: row.product_class, category_slug: row.category_slug,
+      family: row.family, product_series: row.product_series, vendor_slug: row.vendor_slug };
+    const gateIn = { docId: incoming.prov?.doc_id, docTitle: row.doc_title, inheritedFrom: incoming.inherited_from ?? null };
+    // RULING (A), 7 Oct 2026: a fact refused for the receiver but named after the receiver's STORED spare_of partner (either
+    // direction) is asked again with the PARTNER as receiver -- "the spare is the same part, so it gets the partner's answer".
+    // Looked up only on a refusal, so every other write pays nothing; a partner that fails too keeps the refusal (prefixed partner:).
+    let partner: GateReceiver | null = null;
+    if (incoming.inherited_from && inheritanceRefusal(receiver, gateIn)) {
+      partner = (await client.query<GateReceiver>(
+        `SELECT p2.sku, p2.name, p2.product_class::text AS product_class, c2.slug AS category_slug, p2.family, p2.product_series,
+                (SELECT v.slug FROM vendors v WHERE v.id = p2.vendor_id) AS vendor_slug
+           FROM relations r JOIN parts p2 ON p2.id = CASE WHEN r.from_part_id = $1 THEN r.to_part_id ELSE r.from_part_id END
+           JOIN categories c2 ON c2.id = p2.category_id
+          WHERE r.kind = 'spare_of' AND (r.from_part_id = $1 OR r.to_part_id = $1) AND p2.sku = $2 AND p2.retired_at IS NULL`,
+        [partId, incoming.inherited_from])).rows[0] ?? null;
+    }
+    const g = spareGate(receiver, partner, gateIn);
+    if (g.refusal) return { action: "refused_inherit", refused: g.refusal.reason, rule: g.refusal.rule, factId: existing?.id };
   }
 
   // THE APPLICABILITY GATE, in the same place and for the same reason: a field the part cannot
