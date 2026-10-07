@@ -304,6 +304,17 @@ HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). R
      artefacts back under the API.
 ## HANDOFF (5 Oct ~22:30 UTC) -- READ FIRST. OPERATOR ORDER: ROUTERS ONLY until every Cisco router is shop_ready
 - SCOPE: category=routers
+- RULINGS 7 Oct ~17:20 UTC (verbatim essentials): (A) 'yes, but don't bypass the gate -- ask it about the partner. For each
+  refused spare fact, run the same gate as if the receiver were its spare_of partner. Passes for the partner: admit the fact.
+  Fails for the partner too: don't copy it, and list it ... with counts by gate (PWR-/CAB- shape, subject). Applicability is
+  still asked, and the tests and sabotage cover both branches.' (B) 'yes. inherit-spare runs after the fill runs and before
+  recompute and readiness, under one writer, and copies only facts that pass (A)'. (C) 'yes, class A, with three conditions':
+  exact token only (C8200-1N-4T never links from C8200-1N-4T= or C8200-1N-4T-xx, nor the reverse); after derive-link-provenance
+  send 20 random new spec_for_kind links + 10 mention links WITH THE LINE each token sits on, BEFORE the reader reads
+  (compatibility/accessory/'replaces' tables); the 736 spec docs with no cache file are a DEFECT -- say why and whether re-fetch
+  is a plain fetch, before the reader starts. TONIGHT: 'Rebuild, run the board and refresh board-last.txt before 01:00. If that
+  isn't done by then, set STOP. The night must not run new code on yesterday's green.' Reviewer: 443 = 348 + 95 verified.
+  OPERATOR 7 Oct ~17:15: asked router progress (not RAM) -- answered 443/5,127 = 8.6% ready (348 bases + 95 spares).
 - 7 Oct ~17:00 UTC (after compaction): SPARE RULING received (verbatim in src/core/spareInherit.ts) and APPLIED. Proof first:
   260/261 shared READ cells agree across 257 spare pairs (219 same document, 42 independent all agree; the one = a PSU name
   'Spare'). Commits 63848de (inherit-spare + spareInherit.ts + scorecard bases/spares + board kind AG), 8f5452d (an upgrade
