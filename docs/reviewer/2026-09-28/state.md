@@ -304,6 +304,25 @@ HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). R
      artefacts back under the API.
 ## HANDOFF (5 Oct ~22:30 UTC) -- READ FIRST. OPERATOR ORDER: ROUTERS ONLY until every Cisco router is shop_ready
 - SCOPE: category=routers
+- STOPPED BY THE OPERATOR 7 Oct ~19:10 UTC ('stop for now till further notice'). READY 443 = 348 bases + 95 spares (unchanged).
+  DEPLOYED a348c957 (provenance rule L) -- deployed AFTER the 18:04 board (board ran on 2df2f42; a348c95 changed only
+  derive-link-provenance, which the night does not run). Night 01:00 runs with board-last.txt green. Nothing running on the box.
+  UNCOMMITTED IN THE WORKTREE (W1, not deployed, not run): scripts/shipment-weight-witnesses.mts (Q3: 13 description rows ->
+  19 PIDs + spares on the A900 / NCS 4200 / NCS 560 sheets), derive-max-bound-weight --set shipment-row, shipping-classes.json
+  routers/module XL + exclude_family_with_heavier_measured_sibling, src/core/shippingClass.ts flag, derive-shipping-class sibling
+  exclusion, tests/shippingClass (TOTAL must become 19). STILL TO DO for W1: register in DERIVED_FILL_PATHS.shipping_weight
+  (freeze moves -> ONE BUILD), suites, commit, deploy, witnesses on the box, writer dry/commit, derive-shipping-class dry/commit,
+  scorecard. Then the 19:00 rulings (C819 rows, own-sheet shape, provenance full DRY run only).
+- RULINGS 7 Oct ~19:00 UTC: provenance fix holds (fresh sample 19/20; run 1561: spec_for_kind 302 / mention 1,440, 206 parts).
+  OPEN, in order AFTER W1: (1) C819-type rows: 'A bare model token that is a prefix of other tokens on the same sheet never
+  links by token match. Count the catalogue rows like C819 (a bare model name with no orderable suffix, where the catalogue holds
+  longer PIDs starting with it); for each, orderable or fragment row; fragment rows get Q15's treatment, not a fill. Report the
+  five 819 links it holds with that count.' (2) THIRD SHAPE 'the part's own sheet': title or PID header names the part, or its
+  family with the part in the ordering table (a token in a list doesn't count) -> spec_for_kind whatever it prints, link_evidence
+  'own sheet, prints N of M kind cups'; tests + sabotage. (3) FULL provenance re-run: DRY RUN ONLY -- report flips each way, parts
+  losing their last spec_for_kind link, whether any fact / readiness count / board ratchet moves; NOT for real tonight.
+  W1: Q3 shipment weights (A900 / NCS 4200 / N560 sheets, description rows mapped through each sheet's own ordering row) THEN
+  routers/module = XL (5 kg) with the >5 kg measured-sibling exclusion; send the ready count after.
 - RULINGS 7 Oct ~18:35 UTC: (L) 'derive-link-provenance must ask docSubject first. A link is spec_for_kind only when the doc's
   subject class covers the part's kind; everything else becomes mention. Re-run the scoped provenance on the 1,742, report the new
   split and parts count, and send a fresh 20 + 10. One exception: a host sheet with its own headed spec section for a component
