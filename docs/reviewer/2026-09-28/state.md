@@ -304,6 +304,16 @@ HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). R
      artefacts back under the API.
 ## HANDOFF (5 Oct ~22:30 UTC) -- READ FIRST. OPERATOR ORDER: ROUTERS ONLY until every Cisco router is shop_ready
 - SCOPE: category=routers
+- 7 Oct ~17:00 UTC (after compaction): SPARE RULING received (verbatim in src/core/spareInherit.ts) and APPLIED. Proof first:
+  260/261 shared READ cells agree across 257 spare pairs (219 same document, 42 independent all agree; the one = a PSU name
+  'Spare'). Commits 63848de (inherit-spare + spareInherit.ts + scorecard bases/spares + board kind AG), 8f5452d (an upgrade
+  path 'via software activated license' is not a licence). RUN 1553: 847 facts on 144 parts (825 base->spare, 22 back),
+  gate 847/847 re-read, re-plan 0. READY 440 = 348 bases + 92 spares -> 443 = 348 + 95 (receivers mostly wait on their
+  BASE's blockers: a line card's JTL set is data rate/power/ports, not environment). Refused: 12 by name (kit/licence/
+  configuration, plan file data/dryrun/inherit-spare-2026-10-07T165328913Z.tsv on the box), 541 licence/software pairs,
+  14 shipping_weight, and 151 by the STORE's gates (83 component:PWR-/CAB-, 68 subject) -- QUESTION to the reviewer: those
+  gates judge document->part inheritance; a spare is the same part. RE-RUN inherit-spare after every fill run (asked: in the night).
+  Scorecard now prints 'ready N = B bases + S spares' (reviewer). Deployed 8f5452d; artefacts NOT rebuilt since run 1553.
   (read by scripts/scorecard.ts: ready and the top-5 sole blockers are counted in this scope, the catalogue beside it)
 - HANDOFF (7 Oct ~06:55 UTC, laptop lid closing): ROUTER READY 440 (213 at the pivot; 422 after 1539/1545; +18 RV).
   DONE AFTER WRAP-UP: the 44127ca artefacts are committed (c151af4, ONE BUILD, 112/112) and the box board went green at 06:58
