@@ -1,0 +1,65 @@
+plan link-printed-pids-2026-10-07T181031540Z.tsv: 1742 links; in the store 1742; link_basis/doc_relevance {"explicit/mention":1238,"explicit/spec_for_kind":504}; parts with >=1 spec_for_kind link 309, with only mention 410
+
+== 20 random spec_for_kind links
+NC55-24X100G-SE        [datasheet_html] Cisco Network Convergence System 5500 Series: Modular Line C
+    > ...translate: -50% -50%;visibility: visible;width: 4rem;} Cisco Network Convergence System 5500 Series: Modular Line Cards NC55-24X100G-SE Data Sheet - Cisco #onetrust-banner-sdk .onetrust-vendors-list-handler{cursor:pointer;color:#1f96db;font-size:inherit;font-w...
+RV340-K9-IN            [datasheet_html] Cisco RV340, RV345, RV345P, and RV340W Dual WAN Security Rou
+    > RV340-K9-IN
+RV340-K9-AU            [datasheet_html] Cisco RV340, RV345, RV345P, and RV340W Dual WAN Security Rou
+    > RV340-K9-AU
+A9K-RSP440-TR=         [datasheet_html] Cisco ASR 9000 Series Route Switch Processor 440 Data Sheet 
+    > | A9K-RSP440-TR=
+RV345-K9-CN            [datasheet_html] Cisco RV340, RV345, RV345P, and RV340W Dual WAN Security Rou
+    > RV345-K9-CN
+NC57-48Q2D-S           [datasheet_html] Cisco Network Convergence System 5700 Series: 1GE to 400GE L
+    > The Aggregation line cards NC57-48Q2D-S and NC57-48Q2D-SE-S will be supported on Cisco IOS XR Software release 7.10.1 or later.
+ASR-9910-FAN           [datasheet_html] Cisco ASR 9000 Series Aggregation Services Routers Data Shee
+    > | ASR-9910-FAN
+CAB-AC-SUI             [datasheet_html] Cisco Smart PHY 300 and 600 Shelves Data Sheet - Cisco
+    > CAB-AC-SUI(=)
+C8221-G2               [datasheet_html] Cisco 8200 Series Secure Routers Data Sheet - Cisco
+    > Cisco C8225-G2 and C8221-G2 with two 1/10 GE SFP+ and eight 1 GE RJ-45 ports
+ASR-9006-FILTER        [datasheet_html] Cisco ASR 9000 Series Aggregation Services Routers Data Shee
+    > | ASR-9006-FILTER
+IR829GW-LTE-LA-FK9     [datasheet_html] Cisco 829 Industrial Integrated Services Routers Data Sheet 
+    > IR829GW-LTE-LA-FK9 – Indonesia
+CAB-AC-UK              [datasheet_html] Cisco Network Convergence System 540 Small Density Routers D
+    > CAB-AC-UK
+CAB-AC-BRA             [datasheet_html] Cisco Network Convergence System 540 Small Density Routers D
+    > CAB-AC-BRA
+RV340-K9-BR            [datasheet_html] Cisco RV340, RV345, RV345P, and RV340W Dual WAN Security Rou
+    > | RV340-K9-BR
+CAB-AC-IND             [datasheet_html] Cisco Network Convergence System 540 Fronthaul Routers Data 
+    > CAB-AC-IND
+A9K-RSP-8G             [datasheet_html] Cisco ASR 9000 Series Route Switch Processor Data Sheet - Ci
+    > A9K-RSP-4G and A9K-RSP-8G
+C1921-3G-G-K9          [datasheet_html] Third-Generation Wireless WAN Enhanced High-Speed WAN Interf
+    > | C1921-3G-G-K9 1
+4G-LTE-ANTM-D          [datasheet_html] Cisco 4G LTE (Category 4) Wireless WAN Interface Module for 
+    > 4G-LTE-ANTM-D
+RV340W-E-K9-G5         [datasheet_html] Cisco RV340, RV345, RV345P, and RV340W Dual WAN Security Rou
+    > | RV340W-E-K9-G5
+CAB-AC-IND             [datasheet_html] Cisco 8010 Series Large Density Fixed Routers Data Sheet - C
+    > CAB-AC-IND
+
+== 10 random mention links
+C8151-CVAP-G2          [guide] Cisco 8000 Series Secure Routers Ordering Guide - Cisco
+    > C8151-CVAP-G2
+PWR-CC1-650WDC=        [guide] Cisco Catalyst 8300/8200 Series Edge Platforms Ordering Guid
+    > | PWR-CC1-650WDC=
+NC55-18H18F            [datasheet_html] Cisco Network Convergence System 5500 Series: Perpetual Soft
+    > | NCS 5500 SW 4 Lic Bundle for NC55-18H18F Contains: NC55P-ADVL3-1818T=, NC55P-ADVL2-1818T=, NC55P-CRAGR-1818T=, NC55P-PEER-1818T=
+A99-SFC-T=             [datasheet_html] Cisco ASR 9900 Second Generation Switch Fabric Card 2, Switc
+    > | A99-SFC-T=
+A9K-16X100GE-CM        [datasheet_html] Cisco ASR 9000 Series Route Switch Processor 5 Data Sheet - 
+    > ● A99-32X100GE-FC ● A99-32X100GE-TR ● A99-32X100GE-CM ● A9K-16X100GE-FC ● A9K-16X100GE-TR ● A9K-16X100GE-CM ● A99-16X100GE-X-FC ● A99-16X100GE-X-SE | 3rd Generation
+4G-CAB-LMR240-75       [datasheet_html] Cisco 819 4G LTE M2M Gateway Integrated Service Routers Data
+    > | 4G-CAB-LMR240-75
+4G-LTE-ANTM-D=         [datasheet_html] Cisco 4G LTE 2.5 Enhanced High-Speed Wireless WAN Interface 
+    > 4G-LTE-ANTM-D= (Spare)
+NC55-36X100G           [datasheet_html] Cisco Network Convergence System 5500 Series Modular Chassis
+    > 36-Port 100GE Line Card (part number: NC55-36X100G)
+3G-CAB-ULL-50=         [datasheet_html] Third-Generation Wireless WAN Enhanced High-Speed WAN Interf
+    > 3G-CAB-ULL-50= (Spare)
+C8221-G2               [guide] Cisco 8000 Series Secure Routers Ordering Guide - Cisco
+    > C8221-G2
