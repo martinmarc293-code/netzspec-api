@@ -305,6 +305,28 @@ HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). R
 ## HANDOFF (5 Oct ~22:30 UTC) -- READ FIRST. OPERATOR ORDER: ROUTERS ONLY until every Cisco router is shop_ready
 - SCOPE: category=routers
   (read by scripts/scorecard.ts: ready and the top-5 sole blockers are counted in this scope, the catalogue beside it)
+- HANDOFF (7 Oct ~06:55 UTC, laptop lid closing): ROUTER READY 440 (213 at the pivot; 422 after 1539/1545; +18 RV).
+  Deployed 44127cac (contract 4492fc49). The box build at 44127ca (06:41-06:49, MISS OK both ways) wrote its artifacts INTO
+  the deploy tree but they are NOT COMMITTED: next session, pull them first (find data -newer /tmp/build-44127ca.start),
+  ONE BUILD, suites, commit, deploy -- before ANY other deploy, or the deploy swap discards them. Night 01:00 on 44127cac
+  (its own build regenerates); board-last.txt = the board run at wrap-up if green (see /tmp/board-wrap.txt on the box).
+  RUNS 7 Oct: 1539 C8500-20X6C 75 lbs (A), 1545 B/C -FC + RP1 sales variants (11 facts), 1546 sync-dictionary (antenna_gain
+  cup, ruling (i)), 1549 RV NAT throughput as family rows (42), 1550 RV weights as model rows (40). STOP of the 7 Oct night
+  cleared (lease lapsed; ruling (i); note in $FILL/stops-cleared/2026-10-07-build.txt).
+  COMMITS 7 Oct: 975d2a1 antenna cup + lease_horizon + leases line; db268d6 key-aware replayDerived; f2f7f38 rebuild;
+  7375f65 the contract file f2f7f38 missed; 0ce350e RV; 44127ca contract_matches_stamp (src/core/contractStamp.ts).
+  OPEN, in order: (1) reviewer's answer to the SPARE ruling (1,550 not-ready spares, 1,265 with a live base; proposal: a spare
+  inherits ALL its base's facts, both ways, subject gate asked, kit/bundle names refused) -- read it first; (2) the EoL sample
+  of 20 (non-spare members first; does Cisco still publish a sheet/guide/archived PDF) BEFORE any acquisition night; (3) the
+  generic reader -- must reproduce runs 1518/1523/1535/1536/1539/1549/1550 exactly, then one dry-run per shape (series max,
+  model row, family row + certifications as family rows, refusing region variants a compliance table does not list) with 10
+  sampled rows; first target the 1,022 held-but-empty components (sheets key specs by DESCRIPTION: map through the ordering
+  table -- the Q3 mechanism; memory sizes in description cells; Safety/Emissions rows = certifications); (4) Q3 shipment weights;
+  (5) names (21 sole / 566 carried). FAQ: faq<3 is entirely attributes:none (3,924 of 3,924) -- no separate owner needed.
+  OPERATOR QUESTION OPEN: does Hexwaren have stock/sales data on which router PIDs sell? If yes, it sets the fill order.
+  TRAPS met 7 Oct: a remote `pgrep -f scripts/mould-build.sh` wait matches its own bash -c (anchor: "^bash scripts/mould-build.sh");
+  a rebuild commit that stages data/ only misses src/core/mould-contract.json (now a board test); copying a board to
+  board-last.txt in the same command that produced it (a 2-fail board went there; check, THEN copy).
 - LATEST (6 Oct ~22:30 UTC): ROUTER READY 213 (start of the ~20:40 pivot) -> 368 -> 382 (blockers-exact over all 5,127
   routers-category parts, live export function). Runs since the pivot: 1515 enqueue 76 guide chapters (fetched, extracted
   /var/lib/netzspec-api/fill/nights/2026-10-06/chapters76-*), 1516 failed+rolled back (gate missing recall), 1517 bundle
