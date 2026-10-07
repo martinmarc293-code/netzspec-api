@@ -35,10 +35,38 @@ const sha = createHash("sha256").update(fs.readFileSync(SHIPPING_CLASS_FILE)).di
 const WITNESS_URL = `netzspec://reference/shipping-classes.json#sha256=${sha.slice(0, 16)}`;
 const db = getPool();
 
-const parts = (await db.query<{ id: number; sku: string; name: string | null; category: string; product_class: string }>(
-  `SELECT p.id, p.sku, p.name, c.slug AS category, p.product_class::text AS product_class FROM parts p JOIN vendors v ON v.id = p.vendor_id JOIN categories c ON c.id = p.category_id
+const parts = (await db.query<{ id: number; sku: string; name: string | null; category: string; product_class: string; series: string | null }>(
+  `SELECT p.id, p.sku, p.name, c.slug AS category, p.product_class::text AS product_class, p.product_series AS series FROM parts p JOIN vendors v ON v.id = p.vendor_id JOIN categories c ON c.id = p.category_id
     WHERE v.slug = 'cisco' AND p.retired_at IS NULL AND p.product_class = 'hardware' ORDER BY p.sku`)).rows;
-const inClass = parts.map((p) => ({ p, c: shippingClassOf(p.category, partKind(p.category, p.sku, p.name ?? undefined, p.product_class)) })).filter((x) => x.c);
+const kindOf = new Map(parts.map((p) => [p.id, partKind(p.category, p.sku, p.name ?? undefined, p.product_class)]));
+const inClassAll = parts.map((p) => ({ p, c: shippingClassOf(p.category, kindOf.get(p.id)) })).filter((x) => x.c);
+// THE SIBLING EXCLUSION (reviewer W1, 7 Oct 2026): "No class for a module whose family has a measured sibling above that tier. List
+// those." For a class row that sets the flag, the heaviest SERVED measured weight among live parts of the same (category, kind,
+// product_series) is read; a part whose series holds one above the tier's kg gets no class and is listed (it waits for its own
+// weight or a statement). A part with no series has no family to ask and is listed too: could-not-check is not a pass.
+const flagged = inClassAll.filter((x) => x.c!.exclude_family_with_heavier_measured_sibling);
+const heaviest = new Map<string, { kg: number; sku: string }>();
+if (flagged.length) {
+  const fam = (p: { category: string; series: string | null }, kind: string | undefined) => `${p.category}|${kind}|${p.series}`;
+  const want = new Set(flagged.map((x) => fam(x.p, kindOf.get(x.p.id))));
+  const byId = new Map(parts.map((p) => [p.id, p]));
+  for (const w of (await db.query<{ part_id: number; value: unknown; unit: string | null }>(
+    `SELECT part_id, value, unit FROM facts WHERE superseded_by IS NULL AND field_key = 'weight' AND value IS NOT NULL AND state::text IN ('verified', 'corroborated')
+        AND method NOT LIKE 'retracted:%'`)).rows) {
+    const p = byId.get(Number(w.part_id)); if (!p) continue;
+    const k = fam(p, kindOf.get(p.id)); if (!want.has(k)) continue;
+    const kg = Number(w.value) * (w.unit === "g" ? 0.001 : w.unit === "lb" ? 0.45359237 : 1);
+    if (!(kg <= (heaviest.get(k)?.kg ?? -1))) heaviest.set(k, { kg, sku: p.sku });
+  }
+}
+const excluded: string[] = [];
+const inClass = inClassAll.filter(({ p, c }) => {
+  if (!c!.exclude_family_with_heavier_measured_sibling) return true;
+  if (!p.series) { excluded.push(`${p.sku}: no product series, so no family to ask about a heavier measured sibling`); return false; }
+  const h = heaviest.get(`${p.category}|${kindOf.get(p.id)}|${p.series}`);
+  if (h && h.kg > c!.kg) { excluded.push(`${p.sku}: its family "${p.series}" holds a measured ${h.sku} at ${h.kg.toFixed(2)} kg, above the ${c!.tier} tier's ${c!.kg} kg`); return false; }
+  return true;
+});
 const ids = inClass.map((x) => x.p.id);
 const cur = new Map<string, { part_id: number; key: string; id: number; method: string; value: unknown; state: string }>();
 for (const r of (await db.query<{ part_id: number; key: string; id: number; method: string; value: unknown; state: string }>(
@@ -70,6 +98,7 @@ console.log(`derived:shipping-class: ${inClass.length} live parts of a listed (c
   `(${plans.filter((x) => x.replaces).length} superseding), ${measured} have a measured weight (Q23's lane), ${keptOther} keep another shipping weight, ` +
   `${alreadyRight} already right, ${refused.length} refused`);
 for (const [cls, n] of [...byClass].sort((a, b) => b[1] - a[1])) console.log(`  ${String(n).padStart(5)}  ${cls}`);
+console.log(`  excluded by the sibling rule (W1): ${excluded.length}`); for (const e of excluded.slice(0, 40)) console.log(`    EXCLUDED ${e}`);
 if (refused.length) { console.error(`REFUSED, nothing written:\n  ${refused.slice(0, 20).join("\n  ")}`); await closePool(); process.exit(2); }
 const planFile = path.join(ROOT, "data", "dryrun", `derive-shipping-class-${new Date().toISOString().replace(/[:.]/g, "")}${commit ? "" : "-dry"}.tsv`);
 fs.mkdirSync(path.dirname(planFile), { recursive: true });
@@ -91,7 +120,7 @@ const out = await withRun("derive-shipping-class", {
   // document is the table whose sha256 is in the run's inputs
   const gate = { method: "every raw replays through derived:shipping-class against the table named by sha256", sampled: plans.length, checked: plans.length,
     unreadable: 0, precision: 1, recall: 1, passed: refused.length === 0 };
-  return { stats: { written: plans.length, superseded: plans.filter((x) => x.replaces).length, measured_weight: measured, kept_other: keptOther, already_right: alreadyRight }, gate };
+  return { stats: { written: plans.length, superseded: plans.filter((x) => x.replaces).length, measured_weight: measured, kept_other: keptOther, already_right: alreadyRight, excluded_sibling: excluded.length, excluded: excluded.slice(0, 200) }, gate };
 }));
 console.log(`run ${out.runId}: wrote ${plans.length} derived:shipping-class facts`);
 await closePool();

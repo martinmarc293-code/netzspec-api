@@ -165,6 +165,13 @@
    "kind": "fan",
    "tier": "XXL",
    "basis": "measured p90 12.2 kg (n=8), max 12.59: router fan trays are NOT small parcels"
+  },
+  {
+   "category": "routers",
+   "kind": "module",
+   "tier": "XL",
+   "basis": "reviewer W1, 7 Oct 2026: the smallest tier >= 3.1 kg -- a measured module ships at weight + 2.0 kg (Q23) and the measured p90 of 36 routers modules is 1.09 kg (p50 0.7, max 3.9 kg 4-10GE-ITU/C), so an unmeasured module must not ship lighter than a measured one; a module whose sheet prints a shipment weight takes that value first (Q3)",
+   "exclude_family_with_heavier_measured_sibling": true
   }
  ],
  "excluded": [

@@ -12,8 +12,10 @@ import fs from "node:fs";
 import path from "node:path";
 import { REPO_ROOT } from "../config.js";
 
-export type ShippingClass = { category: string; kind: string; tier: string; kg: number; basis: string };
-type Table = { tiers: Record<string, number>; classes: { category: string; kind: string; tier: string; basis: string }[] };
+/** exclude_family_with_heavier_measured_sibling (reviewer W1, 7 Oct 2026, routers/module): "No class for a module whose family has a
+ *  measured sibling above that tier. List those." -- a class row that sets it is refused, per part, by derive-shipping-class. */
+export type ShippingClass = { category: string; kind: string; tier: string; kg: number; basis: string; exclude_family_with_heavier_measured_sibling?: boolean };
+type Table = { tiers: Record<string, number>; classes: { category: string; kind: string; tier: string; basis: string; exclude_family_with_heavier_measured_sibling?: boolean }[] };
 
 export const SHIPPING_CLASS_FILE = path.join(REPO_ROOT, "data", "reference", "shipping-classes.json");
 let TABLE: Table | null = null;

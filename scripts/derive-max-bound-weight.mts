@@ -29,9 +29,12 @@ import type { SpecEntry } from "../src/core/specMerge.js";
 // A THIRD SET (reviewer, 6 Oct 2026 ~22:50, Q1/Q4): `--set family-row` writes a value a sheet states for a model FAMILY onto each
 // PID the same sheet lists under that family (data/reference/family-row-weight-witnesses.json) as derived:family-row.
 const SET = process.argv.includes("--set") ? process.argv[process.argv.indexOf("--set") + 1] : "max-bound";
-if (SET !== "max-bound" && SET !== "model-row" && SET !== "family-row") { console.error(`--set must be max-bound, model-row or family-row, not ${SET}`); process.exit(2); }
-export const METHOD = SET === "model-row" ? "derived:model-row" : SET === "family-row" ? "derived:family-row" : "derived:max-bound";
-const RUN_KIND = SET === "model-row" ? "derive-model-row-weight" : SET === "family-row" ? "derive-family-row-weight" : "derive-max-bound-weight";
+// A FOURTH SET (reviewer W1, 7 Oct 2026, "Q3 goes first"): `--set shipment-row` writes a MODULE SHIPMENT WEIGHT a sheet states for a
+// described module family onto the PIDs whose own ordering row on the same sheet carries that description
+// (data/reference/shipment-weight-witnesses.json, scripts/shipment-weight-witnesses.mts), as derived:family-row under shipping_weight.
+if (SET !== "max-bound" && SET !== "model-row" && SET !== "family-row" && SET !== "shipment-row") { console.error(`--set must be max-bound, model-row, family-row or shipment-row, not ${SET}`); process.exit(2); }
+export const METHOD = SET === "model-row" ? "derived:model-row" : SET === "family-row" || SET === "shipment-row" ? "derived:family-row" : "derived:max-bound";
+const RUN_KIND = SET === "model-row" ? "derive-model-row-weight" : SET === "family-row" || SET === "shipment-row" ? "derive-family-row-weight" : "derive-max-bound-weight";
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const FILE = path.join(ROOT, "data/reference/max-bound-weight-witnesses.json");
 const commit = process.argv.includes("--commit");
@@ -48,7 +51,8 @@ const read = (f: string) => (fs.existsSync(f) ? JSON.parse(fs.readFileSync(f, "u
 const sha256 = (f: string) => (fs.existsSync(f) ? createHash("sha256").update(fs.readFileSync(f)).digest("hex") : null);
 const cable = SET === "max-bound" ? read(FILE) : { rows: [] as Row[] };
 const FILE_FAMILY = path.join(ROOT, "data/reference/family-row-weight-witnesses.json");
-const FILE_SET = SET === "model-row" ? FILE_MODEL : FILE_FAMILY;   // the non-max-bound sets' one witness file
+const FILE_SHIP = path.join(ROOT, "data/reference/shipment-weight-witnesses.json");
+const FILE_SET = SET === "model-row" ? FILE_MODEL : SET === "shipment-row" ? FILE_SHIP : FILE_FAMILY;   // the non-max-bound sets' one witness file
 const series = SET === "max-bound" ? read(FILE_SERIES) : read(FILE_SET);   // the rows that may need their witness page registered
 const table = { rows: [...cable.rows, ...series.rows] };
 const sha = SET === "max-bound" ? sha256(FILE)! : sha256(FILE_SET)!;
@@ -117,7 +121,10 @@ if (!commit) { console.log("DRY RUN: nothing written. Re-run with --commit."); a
 const out = await withRun(RUN_KIND, {
   set: SET, witnesses: path.relative(ROOT, SET === "max-bound" ? FILE : FILE_SET), witnesses_sha256: sha, rows: table.rows.length, planned: plans.length, no_live_part: noPart,
   series_witnesses: shaSeries ? path.relative(ROOT, FILE_SERIES) : null, series_witnesses_sha256: shaSeries,
-  approved: SET === "family-row"
+  approved: SET === "shipment-row"
+    ? "reviewer W1, 7 Oct 2026 ~18:35 (verbatim): 'Q3 goes first: A900, NCS 4200 and N560 modules whose sheet prints a shipment weight take that value. " +
+      "For the rest: routers/module = the smallest tier >= 3.1 kg, with that basis recorded.'; confirmed ~19:00: 'W1 as you stated it: Q3 first, then routers/module XL'"
+    : SET === "family-row"
     ? "reviewer 6 Oct 2026 ~22:50 (verbatim): 'Q1 -- yes, as a separate method derived:family-row (not model-row), so a value stated for a family stays " +
       "distinguishable from one stated for the model: the family row writes onto each PID the same sheet lists under that family -- never by token match " +
       "alone.' and 'Q4 -- yes. Different from Q25: the sheet itself bounds the class to exactly its own MPAs (NC57 sent elsewhere), so it names its parts; " +

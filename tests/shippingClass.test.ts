@@ -14,7 +14,10 @@ const check = (name: string, got: unknown, want: unknown) => {
 
 // ---- the table ------------------------------------------------------------------------------------------------------------
 const rows = shippingClasses();
-check("the table holds 26 rows: the 28 pairs the prediction counted, less the two excluded after reading their rows", rows.length, 26);
+check("the table holds 27 rows: the 28 pairs the prediction counted, less the two excluded after reading their rows, + routers/module (W1, 7 Oct)", rows.length, 27);
+check("a router module is XL, 5 kg: the smallest tier >= 3.1 kg (measured p90 1.09 + the 2.0 kg Q23 allowance), with the sibling exclusion set",
+  [shippingClassOf("routers", "module")?.tier, shippingClassOf("routers", "module")?.kg, shippingClassOf("routers", "module")?.exclude_family_with_heavier_measured_sibling], ["XL", 5, true]);
+check("no older class row carries the sibling exclusion (W1 is scoped to routers/module)", rows.filter((r) => r.exclude_family_with_heavier_measured_sibling).map((r) => `${r.category}/${r.kind}`), ["routers/module"]);
 check("every row names a (category, kind) some ledger holds -- a typo would be a row that can never match",
   rows.filter((r) => !(LEDGER_KINDS[r.category] ?? []).includes(r.kind)).map((r) => `${r.category}/${r.kind}`), []);
 check("a switch fan is XL, 5 kg (measured p90 4.4 kg, rounded up)", [shippingClassOf("switches", "fan")?.tier, shippingClassOf("switches", "fan")?.kg], ["XL", 5]);
@@ -44,7 +47,7 @@ check("CONTROL: a measured weight still satisfies it, as before", why({ ...base,
 check("SABOTAGE: a SWITCH with only a Versandgewicht is still blocked on weight (devices need a measured weight)",
   why({ ...base, sku: "C9200-24P", kind: "switch", facts: facts({ shipping_weight: [7, "kg"] }) }), true);
 
-const TOTAL = 17;
+const TOTAL = 19;
 if (misses.length || pass !== TOTAL) {
   for (const m of misses) console.log(`  MISS ${m}`);
   console.error(`\n${pass}/${TOTAL} shipping-class cases passed${pass + misses.length !== TOTAL ? ` (ran ${pass + misses.length}, expected ${TOTAL})` : ""}.`);
