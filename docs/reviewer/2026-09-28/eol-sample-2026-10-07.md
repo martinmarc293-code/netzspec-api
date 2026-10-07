@@ -26,7 +26,10 @@ Box cache searched first (exact PID on any cached page), then cisco.com via web 
 
 Printed by: datasheet 627, guide 114, vendor_page 84. Top non-spare families: CRS 51, A9K 38, ASR 30, NC55 20, CAB 18,
 PWR 17, IR829GW 14, CGR 12, NCS 12, C1921 11, RV260/RV260P/RV340/RV345/RV345P 8-9 each.
-COULD NOT CHECK: 102 cached PDFs (no text layer read here) and 736 spec docs whose cache file is missing.
+COULD NOT CHECK: 102 cached Cisco PDFs (no text layer read here). CORRECTION (7 Oct ~17:45): the first run had NO vendor filter
+on the documents; its "736 spec docs whose cache file is missing" are Juniper 675, HPE 60, Aruba 1 (vendor_page 729, created
+5-7 Sep; other lanes' pages, cached elsewhere). Cisco: 2,455 spec docs with a cache_path, 0 missing. Re-run on Cisco documents
+only (/root/prov-1006/eolprint-cisco.mts): the hit counts above are unchanged -- every hit was on a Cisco page.
 
 WHY they are unlinked: `doc_parts` is written only from the extractor's per-document part list (apply-extract
 `linkDocParts(d.doc_id, d.parts)`), i.e. the PIDs it attributed. A PID printed elsewhere on the page is never linked,

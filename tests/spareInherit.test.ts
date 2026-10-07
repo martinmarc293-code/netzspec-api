@@ -4,7 +4,7 @@
 //
 // Every refusal case below is a pair read from the routers catalogue on 7 Oct (scripts/inherit-spare.mts plan), and every control
 // is a real pair whose names differ only by abbreviation -- the 103 of 106 gaining pairs that must still pair.
-import { COPYABLE_DERIVED, exactSparePair, LIFECYCLE_KEY, SPARE_NOT_INHERITED, spareKeyRefusal, spareNameRefusal } from "../src/core/spareInherit.js";
+import { COPYABLE_DERIVED, exactSparePair, inheritanceRefusal, LIFECYCLE_KEY, SPARE_NOT_INHERITED, spareGate, spareKeyRefusal, spareNameRefusal, type GateReceiver } from "../src/core/spareInherit.js";
 import { FIELD_DICTIONARY } from "../src/core/fieldSchema.js";
 
 let passed = 0; const misses: string[] = []; let sabotages = 0;
@@ -60,6 +60,28 @@ const lifeKeys = [...dict].filter((k) => LIFECYCLE_KEY.test(k));
 check("no dictionary key is a lifecycle date today (the pattern guards a future one)", lifeKeys.length === 0, lifeKeys.join(", "));
 check("COPYABLE_DERIVED is exactly the three registered weight derivations",
   [...COPYABLE_DERIVED].sort().join(",") === "derived:family-row,derived:max-bound,derived:model-row");
+
+// ---- ruling (A): the store's gates, asked about the PARTNER when the receiver is refused (both branches, with real SKUs)
+const R = (sku: string, family: string | null, series: string | null, name: string | null = null): GateReceiver =>
+  ({ sku, name, product_class: "hardware", category_slug: "routers", family, product_series: series, vendor_slug: "cisco" });
+const pwrSpare = R("PWR-CC1-650WAC=", "PWR-CC1-650WAC", null), pwrBase = R("PWR-CC1-650WAC", "PWR-CC1-650WAC", null);
+const viaBase = { docId: null, docTitle: null, inheritedFrom: "PWR-CC1-650WAC" };
+// the 7 Oct dry run: all 80 PWR- facts were refused for the base too -- a component shape refuses on the SKU, whichever side
+const pw = spareGate(pwrSpare, pwrBase, viaBase);
+check("FAILS FOR THE PARTNER TOO: PWR-CC1-650WAC= stays refused, answered by the partner, rule prefixed partner:",
+  pw.refusal !== null && pw.answeredBy === "partner" && pw.refusal.rule === "partner:component:PWR-" && pw.receiverRefusal?.rule === "component:PWR-", JSON.stringify(pw));
+check("NO PARTNER: the receiver's own refusal stands, unprefixed", spareGate(pwrSpare, null, viaBase).refusal?.rule === "component:PWR-");
+// PASSES FOR THE PARTNER: a spare row whose model and series were never written (refused family:unknown) and its base whose model
+// IS the inherited_from -- no such pair holds a refused fact in routers today, so this is the branch's constructed case
+const c8Spare = R("C8200-1N-4T=", null, null), c8Base = R("C8200-1N-4T", "C8200-1N-4T", "Catalyst 8200 Series Edge Platforms");
+const viaC8 = { docId: null, docTitle: null, inheritedFrom: "C8200-1N-4T" };
+const c8 = spareGate(c8Spare, c8Base, viaC8);
+check("CONTROL the receiver alone is refused (family unknown) -- the premise of the next case", inheritanceRefusal(c8Spare, viaC8) !== null, JSON.stringify(inheritanceRefusal(c8Spare, viaC8)));
+check("PASSES FOR THE PARTNER: admitted on the base's answer, the receiver's refusal kept for the record",
+  c8.refusal === null && c8.answeredBy === "partner" && c8.receiverRefusal !== null, JSON.stringify(c8));
+check("CONTROL a receiver the gate admits never asks the partner", spareGate(c8Base, c8Spare, viaC8).answeredBy === "receiver" && spareGate(c8Base, c8Spare, viaC8).refusal === null);
+sabotages++; check("SABOTAGE a partner that is a DIFFERENT part (PWR-CC1-650WAC answering for C8200-1N-4T=) does not admit",
+  spareGate(c8Spare, pwrBase, viaC8).refusal !== null);
 
 if (misses.length) { console.log(`spare inherit: ${passed} passed, ${misses.length} missed`); for (const m of misses) console.log(m); process.exit(1); }
 console.log(`spare inherit: ${passed} passed, 0 missed (${sabotages} sabotage cases)`);

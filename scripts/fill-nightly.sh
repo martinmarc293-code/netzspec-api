@@ -4,7 +4,7 @@
 #     0 1 * * * cd /root/netzspec-api && bash scripts/fill-nightly.sh >> /var/lib/netzspec-api/fill/cron.log 2>&1
 #     bash scripts/fill-nightly.sh --dry [--acquire-minutes 5]    # by hand: acquire for real, write nothing else
 #
-# ORDER: precheck -> ACQUIRE -> APPLY (tonight's documents only) -> DERIVE -> BUILD (mould-build: layers, recompute,
+# ORDER: precheck -> ACQUIRE -> APPLY (tonight's documents only) -> SPARES (inherit-spare) -> DERIVE -> BUILD (mould-build: layers, recompute,
 # ledgers, censuses, freeze, report, MISS diff) -> STAMP -> VERIFY (board) -> READINESS -> REPORT.
 # Every step reads its OWN exit code (no pipes). The first failure is a STOP: the reason goes to $FILL/STOP and to the top
 # of the report, and every later night REFUSES to start while that file exists -- the order is "stop, report, wait for me";
@@ -178,6 +178,13 @@ else
   # each followed by its CONTROL: the same writer's re-plan must print "0 to write". The build-time derivations (deploy_role,
   # layer, cable_length, modular, breakout ends, bundle_contents) run inside mould-build; the witness-table writers
   # (max-bound weight, the temperature correction) and derive-part-states are day work, not the night's.
+  # SPARES FIRST (reviewer ruling (B), 7 Oct 2026): "inherit-spare runs after the fill runs and before recompute and readiness,
+  # under one writer, and copies only facts that pass (A)" -- so a base the night fills brings its "PID=" along the same night.
+  # Before derive-shipping-weight, so a weight a spare inherits gets its Versandgewicht derived in this same night. Its CONTROL is
+  # the dry re-plan: it must find 0 facts to write.
+  npx tsx scripts/inherit-spare.mts --category routers --commit > "$NIGHT/inherit-spare.log" 2>&1 || stop derive "inherit-spare exit $? (see $NIGHT/inherit-spare.log)"
+  npx tsx scripts/inherit-spare.mts --category routers > "$NIGHT/inherit-spare.control.log" 2>&1 || stop derive "inherit-spare control exit $?"
+  grep -q "; 0 facts to write on 0 parts" "$NIGHT/inherit-spare.control.log" || stop derive "inherit-spare control: the re-plan still has work after the commit (see $NIGHT/inherit-spare.control.log)"
   for d in derive-shipping-weight derive-pon-standard; do
     npx tsx "scripts/$d.mts" --commit > "$NIGHT/$d.log" 2>&1 || stop derive "$d exit $? (see $NIGHT/$d.log)"
     npx tsx "scripts/$d.mts" > "$NIGHT/$d.control.log" 2>&1 || stop derive "$d control exit $?"
