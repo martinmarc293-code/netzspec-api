@@ -1,9 +1,9 @@
 {
-  "contract_hash": "ae6f436b328c9b58",
-  "generated_at": "2026-10-06T16:32:53.006Z",
-  "code_commit": "49e0518132c647b074ba7f9469601a355b209e3c",
+  "contract_hash": "4492fc49c6d33905",
+  "generated_at": "2026-10-07T05:54:57.261Z",
+  "code_commit": "975d2a169435b05dcbf8c86aa1b752227f83b594",
   "code_branch": "cisco",
-  "dirty_files": 6,
+  "dirty_files": 100,
   "counts": {
     "dictionary_keys": 610,
     "categories": 26,
@@ -25541,7 +25541,13 @@
           "kind": "opt"
         },
         "antenna_gain": {
-          "kind": "opt"
+          "kind": "cond",
+          "when": {
+            "field": "kind",
+            "inList": [
+              "antenna"
+            ]
+          }
         },
         "antenna_gain_ripple": {
           "kind": "opt"
