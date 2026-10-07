@@ -3457,7 +3457,11 @@ export const PROFILES: Record<string, Record<string, Requirement>> = {
     // kind-layer (13 Sep 2026), over 35 readable antennas: antenna_gain 0%, antenna_connector 2.9% (its hints are LMR
     // cable PRODUCT rows) — both OPTIONAL; radio_bands 51.4% (45.7 + "Frequency Support") — kept. cellular_bands 37.1%
     // and antenna_type 22.9% stay optional (ANTENNA names them; neither reaches the bar).
-    antenna_gain: opt,
+    // RULING (i), reviewer 7 Oct 2026 ~05:20, on the lapsed lease's own measurement (88 router antennas, 0 holding a gain, 25
+    // held, 0 shop-ready; their sheets print gain, mostly per band): "add the cup. Single values are plain reads. A per-band
+    // list is derived:max-bound over the highest value printed ('max. 4 dBi'). The bands stay in raw. Rows giving gain 'with
+    // cable' are not read." Asked of an antenna exactly as radio_bands is; the lease row left kindProfiles in the same commit.
+    antenna_gain: cond({ field: "kind", inList: ["antenna"] }),
     antenna_connector: opt,
     radio_bands: cond({ field: "kind", inList: ["antenna"] }),
     // THE CELLULAR GATE (reviewer's ruling, 28 Sep 2026), and it is scoped to the kinds that are a cellular

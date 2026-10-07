@@ -11,6 +11,7 @@
 import fs from "node:fs";
 import { query, closePool } from "../src/store/db.js";
 import { jtlReadiness } from "../src/api/queries/jtlExport.js";
+import { leaseWarnings, LEASE_WARN_DAYS } from "../src/core/kindProfiles.js";
 
 const arg = (k: string): string | undefined => { const i = process.argv.indexOf(k); return i > 0 ? process.argv[i + 1] : undefined; };
 const night = arg("--night"), prevFile = arg("--prev"), since = arg("--since"), out = arg("--out"), stopped = arg("--stopped");
@@ -71,6 +72,13 @@ if (runs.length > 8) L.push(`- ... ${runs.length - 8} more (runs.started_at >= $
 if (!runs.length) L.push("- none");
 const fl = board.match(/passed (\d+)\s+FAILED (\d+)/), failing = board.match(/failing: (.*)/);
 L.push("", `board: ${fl ? `${fl[1]} passed / ${fl[2]} failed${failing ? ` (${failing[1].trim()})` : ""}` : "NOT RUN or unreadable"}`);
+// THE LEASES, every night (reviewer, 7 Oct 2026: "warn 7 days before any exception's until date, and name the owner"): read from
+// the table itself, so a lease is in the report whether or not the board ran -- the 7 Oct night stopped BEFORE its board
+{
+  const w = leaseWarnings();
+  const lines = [...w.lapsed.map((s) => `LAPSED ${s}`), ...w.unowned.map((s) => `NO OWNER ${s}`), ...w.due.map((s) => `WARN ${s}`)];
+  L.push(`leases: ${lines.length ? lines.join(" | ") : `none due within ${LEASE_WARN_DAYS} days`}${w.event.length ? ` (${w.event.length} event lease(s), no date: ${w.event.join(" | ")})` : ""}`);
+}
 if (today) {
   L.push("", "## ready per category (today vs yesterday) and top 5 blockers (parts per reason)");
   const cats = Object.entries(today.by_category).sort((a, b) => b[1].parts - a[1].parts).slice(0, 10);

@@ -24,7 +24,7 @@ import { uncoveredEnumValues } from "../src/core/renderContract.js";
 import { JTL_PROFILES, jtlContractProblems, csvFile } from "../src/core/jtlExport.js";
 import { mouldStatuses } from "../src/core/brandMould.js";
 import { NO_PROFILE_REASONS } from "../src/core/noProfileReason.js";
-import { NOT_A_KIND, parityRuled, parityCause, formatParitySplit, KIND_PARITY_EXCEPTIONS, KIND_PARITY_OPEN } from "../src/core/kindProfiles.js";
+import { NOT_A_KIND, parityRuled, parityCause, formatParitySplit, KIND_PARITY_EXCEPTIONS, KIND_PARITY_OPEN, leaseWarnings, LEASE_WARN_DAYS, type KindParityException } from "../src/core/kindProfiles.js";
 import { partKind } from "../src/core/partKind.js";
 import { UNKNOWN_HARDWARE_SQL, splitUnknown, unknownZeroVerdict, type UnknownRow } from "../src/core/unknownEvidence.js";
 import { deployRoleResult, roleAxisOf, roleAxisKinds } from "../src/core/deployRole.js";
@@ -1153,6 +1153,28 @@ const TESTS: Test[] = [
       return { negative: sameLedger(a, { category: "switches", kinds: { chassis: { required: ["weight"] } } }),
                positive: sameLedger(a, { kinds: { chassis: { required: ["weight", "dimensions"] } }, category: "switches" }),
                note: "a ledger missing one required cup must differ; the same ledger with its keys in another order must match" };
+    },
+  },
+  {
+    name: "lease_horizon",
+    findings: "the 7 Oct night stopped on a lease that lapsed silently",
+    // THE ALARM, NOT JUST THE LEASE (reviewer, 7 Oct 2026): "A lease should never lapse silently. Have the verifier and the
+    // nightly report warn 7 days before any exception's until date, and name the owner in the warning." A lapsed lease, or a
+    // dated one that names nobody, FAILS; a dated lease inside the horizon PASSES with a WARN line naming its owner, so it is
+    // read on every board and every nightly report without stopping anything; an event lease is listed with its condition.
+    run: async () => {
+      const w = leaseWarnings();
+      const ev = w.event.length ? `; ${w.event.length} event lease(s): ${w.event.join(" | ")}` : "";
+      if (w.lapsed.length || w.unowned.length) return bad(`${[...w.lapsed, ...w.unowned].join(" | ")}${ev}`);
+      if (w.due.length) return ok(`WARN ${w.due.length} lease(s) due within ${LEASE_WARN_DAYS} days: ${w.due.join(" | ")}${ev}`);
+      return ok(`no dated lease due within ${LEASE_WARN_DAYS} days${ev}`);
+    },
+    selfTest: async () => {
+      const base = { kind: "antenna", cups: ["antenna_gain"], categories: ["routers"], reason: "fixture", witness: "3G-ACC-OUT-LA" };
+      const pred = (t: readonly KindParityException[], today: string) => { const w = leaseWarnings(t, today); return !w.lapsed.length && !w.unowned.length; };
+      return { negative: pred([{ ...base, until: { date: "2026-10-06", note: "x", owner: "o" } }], "2026-10-07"),
+        positive: pred([{ ...base, until: { date: "2026-11-30", note: "x", owner: "o" } }], "2026-10-07"),
+        note: "a lease past its date must fail; the same lease dated ahead with an owner must pass" };
     },
   },
   {

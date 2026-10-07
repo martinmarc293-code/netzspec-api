@@ -2,7 +2,7 @@
 //
 //   npx tsx tests/kindProfiles.test.ts
 import { FIELD_DICTIONARY, requirementFor } from "../src/core/fieldSchema.js";
-import { KIND_PARITY_EXCEPTIONS, parityRuled, leaseLapsed, formatParitySplit, type KindParityException } from "../src/core/kindProfiles.js";
+import { KIND_PARITY_EXCEPTIONS, parityRuled, leaseLapsed, leaseWarnings, formatParitySplit, type KindParityException } from "../src/core/kindProfiles.js";
 import { KIND_DECLARED_OPTIONAL, LEDGER_KINDS, Q17_R4_REFUSED, kindQuestionSet } from "../src/core/cupLedger.js";
 
 let passed = 0; const misses: string[] = [];
@@ -60,11 +60,27 @@ check("cable: media is covered while the lease holds", parityRuled("cable", ["me
 // SABOTAGE: the same exception leased on a key that DOES exist has lapsed, and would excuse nothing.
 const lapsed: KindParityException = { ...cable!, until: { dictionaryKey: "weight", note: "a key that exists" } };
 check("SABOTAGE a lease whose key exists has LAPSED", leaseLapsed(lapsed));
-// A DATED lease (the antenna_gain measurement, 29 Sep 2026) lapses the day after its date and holds until then.
-const antenna = KIND_PARITY_EXCEPTIONS.find((e) => e.kind === "antenna" && e.cups.includes("antenna_gain"));
-check("antenna_gain on routers is a DATED lease", !!antenna?.until?.date && !antenna.until.dictionaryKey);
-check("SABOTAGE a dated lease has LAPSED the day after its date", !!antenna && leaseLapsed(antenna, "2026-10-07"));
-check("CONTROL a dated lease holds on its date", !!antenna && !leaseLapsed(antenna, "2026-10-06"));
+// A DATED lease lapses the day after its date and holds until then. The table's one dated lease (routers.antenna antenna_gain,
+// until 2026-10-06) lapsed unmeasured and stopped the 7 Oct night; ruled (i) and removed, so the behaviour is held on a fixture.
+const dated: KindParityException = { kind: "antenna", cups: ["antenna_gain"], categories: ["routers"], reason: "fixture", witness: "3G-ACC-OUT-LA",
+  until: { date: "2026-10-10", note: "measure, then add the cup or rule it", owner: "the cisco session" } };
+check("SABOTAGE a dated lease has LAPSED the day after its date", leaseLapsed(dated, "2026-10-11"));
+check("CONTROL a dated lease holds on its date", !leaseLapsed(dated, "2026-10-10"));
+// THE ALARM (reviewer, 7 Oct 2026): warn LEASE_WARN_DAYS before the date, naming the owner; a dated lease with no owner fails
+const w4 = leaseWarnings([dated], "2026-10-04"), w2 = leaseWarnings([dated], "2026-10-02");
+check("a dated lease WARNS within 7 days, naming its owner and its note", w4.due.length === 1 && w4.due[0].includes("in 6 days") && w4.due[0].includes("owner: the cisco session") && w4.due[0].includes("measure"), JSON.stringify(w4));
+check("CONTROL a dated lease 8 days out does not warn yet", w2.due.length === 0 && w2.lapsed.length === 0, JSON.stringify(w2));
+check("SABOTAGE a lapsed lease is reported as LAPSED, not as due", leaseWarnings([dated], "2026-10-11").lapsed.length === 1);
+const ownerless: KindParityException = { ...dated, until: { date: "2026-12-31", note: "x" } };
+check("SABOTAGE a dated lease that names no owner is flagged (a countdown nobody watches)", leaseWarnings([ownerless], "2026-10-07").unowned.length === 1);
+const table = leaseWarnings(KIND_PARITY_EXCEPTIONS);
+check("the table: no lapsed lease and no unowned dated lease", table.lapsed.length === 0 && table.unowned.length === 0, JSON.stringify(table));
+check("the table: an EVENT lease (a dictionary key) is listed with its condition and owner, never counted down",
+  table.event.some((e) => e.includes("cable_construction") && e.includes("owner:")), JSON.stringify(table.event));
+// ruling (i): the cup is asked of a router antenna now, exactly as radio_bands is
+check("ruling (i): antenna_gain is required of a router antenna", requirementFor("routers", "antenna_gain", { kind: "antenna" }) === "req",
+  String(requirementFor("routers", "antenna_gain", { kind: "antenna" })));
+check("CONTROL ruling (i) does not reach a router that is not an antenna", requirementFor("routers", "antenna_gain", { kind: "router" }) !== "req");
 
 // A lapsed lease left in the table is a hole: the divergence has come back and the entry reads like a rule in force.
 for (const e of KIND_PARITY_EXCEPTIONS.filter((x) => x.until))

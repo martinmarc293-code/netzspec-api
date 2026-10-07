@@ -43,7 +43,10 @@ export type KindParityException = {
    *  For an exception granted only until a signal lands (reviewer, 29 Sep 2026: "park with an expiry").
    *  `date` (YYYY-MM-DD) is the other expiry: a measurement that is DUE, not a signal that may never come. Past the
    *  date the lease lapses on its own, so "parked until someone measures" cannot quietly become "parked for ever". */
-  until?: { dictionaryKey?: string; date?: string; note: string };
+  until?: { dictionaryKey?: string; date?: string; note: string;
+    /** WHO ACTS before the lease ends (reviewer, 7 Oct 2026, after the antenna lease lapsed unmeasured and stopped a night:
+     *  "A lease should never lapse silently ... warn 7 days before any exception's until date, and name the owner"). */
+    owner?: string };
 };
 
 /** An unsettled divergence: named, with its cause and who has to decide. Still counted as a failure. */
@@ -114,7 +117,8 @@ export const KIND_PARITY_EXCEPTIONS: readonly KindParityException[] = [
       "or power lead: 177 of collab's 308 cables are those. It is asked in 8 categories and not in these 6. Parked with an " +
       "expiry (reviewer ruling, 29 Sep 2026) until the data-cable signal lands.",
     witness: "CAB-GREY-2.9M",
-    until: { dictionaryKey: "cable_construction", note: "Step 9 (the transceiver pilot) adds cable_construction; media is then gated on it everywhere" },
+    until: { dictionaryKey: "cable_construction", note: "Step 9 (the transceiver pilot) adds cable_construction; media is then gated on it everywhere",
+      owner: "the cisco session (netzspec-api-cisco), with the transceiver pilot" },
   },
   // ---- ruling (d), 29 Sep 2026, on the full N-way view (docs/reviewer/2026-09-28/parity-full-view.md) ----
   {
@@ -143,16 +147,9 @@ export const KIND_PARITY_EXCEPTIONS: readonly KindParityException[] = [
       "known (ports, product_compatibility, cellular_bands pending), the bound of its granularity exception; data_rate would be the 4th.",
     witness: "CGM-4G-LTE-EA-900",
   },
-  {
-    kind: "antenna",
-    cups: ["antenna_gain"],
-    categories: ["routers"],
-    reason: "antenna_gain holds 0 facts in the whole catalogue; the parser now reads the vendor's printed '2.4G / 5G' " +
-      "(ed9b878). Router antennas are 25 of 88 spec-bearing; whether their documents yield a gain is a MEASUREMENT, and " +
-      "requiring the cup before it would put 88 gaps nothing has shown it can close (reviewer ruling, 29 Sep 2026).",
-    witness: "3G-ACC-OUT-LA",
-    until: { date: "2026-10-06", note: "measure antenna_gain extraction over the router antennas' spec-bearing documents, then add the cup or rule the exception" },
-  },
+  // (the routers.antenna antenna_gain lease, until 2026-10-06, lapsed unmeasured and stopped the 7 Oct night; measured and
+  // RULED (i) on 7 Oct ~05:20 -- the cup is asked of router antennas now, fieldSchema.ts routers.antenna_gain -- so it is
+  // gone from this table rather than renewed: docs/decisions/2026-10-07-antenna-gain-cup-and-lease-warnings.md)
 ];
 
 /**
@@ -215,7 +212,7 @@ export const KIND_PARITY_OPEN: readonly KindParityOpen[] = [
   { kind: "fabric", cause: "profile-gap", note: "power_max asked by optical-networking and storage-networking, not routers or switches." },
   { kind: "supervisor", cause: "profile-gap", note: "power_max asked by storage-networking, not switches; fabric_bandwidth, mac_table and uplink_ports asked by switches, not storage-networking — the second half may be a real distinction, because an MDS supervisor has no MAC table." },
   { kind: "server", cause: "profile-gap", note: "altitude_max and cpu asked by 3, not collaboration-endpoints or unified-communications. BE6H-M4-K9= is a server and has a CPU. emc_emissions and humidity_storage asked by hyperconverged-systems alone, which is the other direction." },
-  { kind: "antenna", cause: "profile-gap", note: "antenna_connector and antenna_gain asked by wireless, not routers. 3G-ACC-OUT-LA is an antenna and has both." },
+  { kind: "antenna", cause: "profile-gap", note: "antenna_connector asked by wireless, not routers (antenna_gain is asked by both since ruling (i), 7 Oct 2026). 3G-ACC-OUT-LA is an antenna and has both." },
   { kind: "bundle", cause: "profile-gap", note: "product_compatibility asked by routers and switches, not by the other four." },
 ];
 
@@ -226,6 +223,34 @@ export const KIND_PARITY_OPEN: readonly KindParityOpen[] = [
  *  - the ruling's categories must be among the ones that actually differ, so a ruling about
  *    `transceiver` cannot silently excuse a divergence between two other categories.
  */
+/** How far ahead a dated lease warns (reviewer, 7 Oct 2026: "warn 7 days before any exception's until date"). */
+export const LEASE_WARN_DAYS = 7;
+/**
+ * THE ALARM THE ANTENNA LEASE DID NOT HAVE. It lapsed at midnight on its date with nobody told, and the first anyone heard was a
+ * stopped night. Every lease in the table is classified for the verifier and the nightly report:
+ *   lapsed    -- past its date, or its dictionary key exists: the table holds a ruling that no longer excuses anything (FAIL);
+ *   unowned   -- a dated lease that names nobody: a countdown nobody is watching (FAIL);
+ *   due       -- a dated lease within LEASE_WARN_DAYS: warned, with its owner and its note, on every board and every report;
+ *   event     -- a lease that ends on a SIGNAL (a dictionary key), not a date: listed with its condition, since it has no countdown.
+ */
+export function leaseWarnings(table: readonly KindParityException[] = KIND_PARITY_EXCEPTIONS,
+  today: string = new Date().toISOString().slice(0, 10)): { lapsed: string[]; unowned: string[]; due: string[]; event: string[] } {
+  const out = { lapsed: [] as string[], unowned: [] as string[], due: [] as string[], event: [] as string[] };
+  const day = (s: string) => Date.parse(`${s}T00:00:00Z`) / 86_400_000;
+  for (const e of table) {
+    if (!e.until) continue;
+    const who = e.until.owner ?? "NO OWNER NAMED";
+    const what = `${e.kind}: ${e.cups.join("/")} in ${e.categories.join(", ")}`;
+    if (leaseLapsed(e, today)) { out.lapsed.push(`${what} -- LAPSED (${e.until.date ?? `key ${e.until.dictionaryKey} exists`}); owner: ${who}; ${e.until.note}`); continue; }
+    if (e.until.date) {
+      if (!e.until.owner) out.unowned.push(`${what} -- until ${e.until.date} names no owner`);
+      const left = day(e.until.date) - day(today);
+      if (left <= LEASE_WARN_DAYS) out.due.push(`${what} -- DUE ${e.until.date} (in ${left} day${left === 1 ? "" : "s"}); owner: ${who}; ${e.until.note}`);
+    } else if (e.until.dictionaryKey) out.event.push(`${what} -- until the dictionary has '${e.until.dictionaryKey}'; owner: ${who}; ${e.until.note}`);
+  }
+  return out;
+}
+
 /** An exception granted UNTIL a dictionary key exists has lapsed once it does: it no longer excuses anything. */
 export function leaseLapsed(e: KindParityException, today: string = new Date().toISOString().slice(0, 10)): boolean {
   if (!e.until) return false;
