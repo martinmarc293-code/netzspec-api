@@ -47,7 +47,10 @@ if (argv.includes("--dump-ready")) {
   const skus = rows.map((r) => r.sku);
   const catOf = new Map(rows.map((r) => [r.sku, r.cat]));
   if (scope && !rows.some((r) => r.cat === scope)) { console.error(`--scope ${scope}: no live hardware part in that category -- refusing a scope that scores nothing`); process.exit(2); }
-  let ready = 0, readyAll = 0, scanned = 0;
+  // SPARES COUNTED APART (reviewer, 7 Oct 2026, with the spare ruling): "Report it as 'ready 440 = N bases + M spares' from now
+  // on. Otherwise the doubling inflates the router total without a single new product being filled." A spare is Cisco's
+  // trailing '=' (the same convention build-spare-of.mts pairs on).
+  let ready = 0, readyAll = 0, scanned = 0, readySpares = 0;
   const sole = new Map<string, number>();
   for (let i = 0; i < skus.length; i += 2000) {
     const r = await jtlReadiness({ vendor: "cisco", skus: skus.slice(i, i + 2000) });
@@ -55,7 +58,7 @@ if (argv.includes("--dump-ready")) {
       if (s.ready) readyAll++;
       if (scope && catOf.get(s.sku) !== scope) continue;
       scanned++;
-      if (s.ready) { ready++; continue; }
+      if (s.ready) { ready++; if (s.sku.endsWith("=")) readySpares++; continue; }
       const rs = [...new Set(s.reasons)];
       if (rs.length === 1) sole.set(rs[0], (sole.get(rs[0]) ?? 0) + 1);
     }
@@ -75,7 +78,7 @@ if (argv.includes("--dump-ready")) {
     const last = fsm.readFillStateHistory(path.join(ROOT, fsm.FILL_STATE_HISTORY)).pop();
     record = last ? { at: last.at, git_sha: last.git_sha, same_as_live: fsm.sameHistogram(last.states, hist.states) } : null;
   } catch (e) { record_error = e instanceof Error ? e.message : String(e); }
-  console.log(JSON.stringify({ ready, scanned, scope, ready_catalogue: readyAll, scanned_catalogue: skus.length,
+  console.log(JSON.stringify({ ready, ready_spares: readySpares, ready_bases: ready - readySpares, scanned, scope, ready_catalogue: readyAll, scanned_catalogue: skus.length,
     required_present_pct: Math.round((1000 * Number(f.present)) / Number(f.total)) / 10,
     fill: { pct: share.pct, filled: share.filled, spec_total: share.spec_total, total: hist.total,
       filled_inherited: hist.states.filled_inherited ?? 0, derived_operational: hist.states.derived_operational ?? 0,
@@ -216,7 +219,7 @@ else if (weekly !== null && weekly >= 55) flags.push(lifted ? `LIMIT-55 LIFTED (
 
 const hhmm = (ms: number) => `${String(Math.floor(ms / 3600e3)).padStart(2, "0")}:${String(Math.floor((ms % 3600e3) / 60e3)).padStart(2, "0")}`;
 const card = {
-  at: now.toISOString(), since, scope: R.scope ?? null, ready: R.ready, ready_delta: readyDelta, ready_catalogue: R.ready_catalogue ?? null,
+  at: now.toISOString(), since, scope: R.scope ?? null, ready: R.ready, ready_bases: R.ready_bases ?? null, ready_spares: R.ready_spares ?? null, ready_delta: readyDelta, ready_catalogue: R.ready_catalogue ?? null,
   filled_share_pct: fillPct, filled_share_delta: filledDelta, filled_facts: R.fill?.filled ?? null, spec_facts: R.fill?.spec_total ?? null,
   fill_record: rec ? { git_sha: rec.git_sha, at: rec.at, same_as_live: rec.same_as_live } : null,
   required_present_pct: R.required_present_pct ?? null, required_present_delta: requiredDelta,
@@ -227,7 +230,7 @@ const card = {
 };
 const lines = [
   ...(flags.length ? ["FLAGS: " + flags.join(" | "), ""] : []),
-  `outcome   ready ${readyDelta === null ? (prev && !sameScope ? "(first card in this scope)" : "(first scorecard)") : `${readyDelta >= 0 ? "+" : ""}${readyDelta}`} (${R.ready} of ${R.scanned}${R.scope ? ` in scope ${R.scope}; catalogue ${R.ready_catalogue} of ${R.scanned_catalogue}` : ""}) · filled ${sign(filledDelta, "(first under the fill-state share)")} (${p1(fillPct)}%) · today's rule unlocked: predicted ${Number.isFinite(predicted) ? predicted : "n/a"} / actual ${actual ?? "n/a"}`,
+  `outcome   ready ${readyDelta === null ? (prev && !sameScope ? "(first card in this scope)" : "(first scorecard)") : `${readyDelta >= 0 ? "+" : ""}${readyDelta}`} (${R.ready}${R.ready_spares === undefined ? "" : ` = ${R.ready_bases} bases + ${R.ready_spares} spares`} of ${R.scanned}${R.scope ? ` in scope ${R.scope}; catalogue ${R.ready_catalogue} of ${R.scanned_catalogue}` : ""}) · filled ${sign(filledDelta, "(first under the fill-state share)")} (${p1(fillPct)}%) · today's rule unlocked: predicted ${Number.isFinite(predicted) ? predicted : "n/a"} / actual ${actual ?? "n/a"}`,
   `fill      filled ${p1(fillPct)}% = ${R.fill?.filled?.toLocaleString("en") ?? "?"} of ${R.fill?.spec_total?.toLocaleString("en") ?? "?"} spec facts (the board's fill-state share, src/core/fillState.ts), ${recNote} · filled_inherited ${R.fill?.filled_inherited?.toLocaleString("en") ?? "?"} beside it, derived_operational ${R.fill?.derived_operational?.toLocaleString("en") ?? "?"} apart${R.fill?.outside_seven?.length ? ` · OUTSIDE the seven states: ${R.fill.outside_seven.join(", ")}` : ""} · a DIFFERENT measure: required slots present ${p1(R.required_present_pct)}% (completeness sums, ${sign(requiredDelta, "first")})`,
   `focus     ${ordered ? `${today.focus}: reviewer-ordered work` : offList ? `off the top-5 by ready-gain (${today?.blocker_key ?? "no today.json"})` : `blocker #${rank + 1} of the top-5 (${today.blocker_key})`} · off-list work: ${offList ? `yes (${today?.rule ?? "?"})` : "no"} · top-5: ${R.top5.map((b: any) => `${b.blocker} ${b.parts}`).join(", ")}`,
   `rework    commits fixing my own earlier commits: ${fixups}${fixupList.length ? ` (${fixupList.join(", ")})` : ""} · reverts: ${reverts} · commits in window: ${commits.length}`,

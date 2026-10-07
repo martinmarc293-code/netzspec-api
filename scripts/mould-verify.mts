@@ -343,6 +343,9 @@ const RUN_KIND_CLASS: Record<string, { approval: boolean; gate: boolean }> = {
   // reviewer ruling 6 Oct 2026 (b): a licence bundle (-SEC/-AX/-AXV/-HSEC/C1-) takes its base chassis's physical facts (inherited;
   // approval + a gate that re-reads each base fact on its page)
   "inherit-bundle-chassis": AG,
+  // reviewer ruling 7 Oct 2026 (spares): a "PID=" and its base share their spec facts, both ways, no overwrite (inherited;
+  // approval + a gate that re-reads each giver fact on its page)
+  "inherit-spare": AG,
   // reviewer 6 Oct 2026 FLAG 1: the weight/power facts (b) put on module bundles (AXV, HSEC+) are retracted (approval + gate)
   "retract-bundle-module-facts": AG,
   // reviewer 6 Oct 2026 ~21:40 (board N54): served facts under a key that is never a fact (product_compatibility) are withdrawn

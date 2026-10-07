@@ -34,6 +34,7 @@ import { cachedText, CACHE_DIR, ws } from "../src/pipeline/apply-acquired.js";
 import { planFile as planFileAt } from "../src/core/planFile.js";
 import type { SpecEntry, FieldState } from "../src/core/specMerge.js";
 import { subjectRefusal } from "../src/core/docSubject.js";
+import { COPYABLE_DERIVED } from "../src/core/spareInherit.js";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const arg = (k: string) => { const i = process.argv.indexOf(k); return i >= 0 ? process.argv[i + 1] : undefined; };
@@ -70,8 +71,7 @@ export const MODULE_SENSITIVE = new Set(["weight", "power_typical", "power_max",
 /** "SEC/AX bundles inherit router_throughput: the stated value is the standard-licence throughput, and a technology package
  *  doesn't change it. AXV excluded." (reviewer, 6 Oct ~21:20) */
 export const THROUGHPUT_AFFIX = new Set(["SEC", "AX"]);
-/** Derived base facts a bundle may copy: the registered weight derivations, each tied to a re-read page (DERIVED_FILL_PATHS.weight). */
-export const COPYABLE_DERIVED = new Set(["derived:model-row", "derived:family-row", "derived:max-bound"]);
+/** Derived base facts a bundle may copy: src/core/spareInherit.ts COPYABLE_DERIVED (one list for both inheritance writers). */
 /** The licence affix a bundle SKU carries ("SEC", "AX", "AXV", "HSEC", "HSEC+"), or null (a C1- prefix alone, or no bundle). */
 export function bundleAffix(sku: string): string | null {
   const m = LICENCE_AFFIX.exec(sku.toUpperCase().replace(/^C1-/, ""));
