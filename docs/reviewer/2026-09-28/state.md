@@ -304,6 +304,22 @@ HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). R
      artefacts back under the API.
 ## HANDOFF (5 Oct ~22:30 UTC) -- READ FIRST. OPERATOR ORDER: ROUTERS ONLY until every Cisco router is shop_ready
 - SCOPE: category=routers
+- HANDOFF 7 Oct ~18:00 UTC -- READ FIRST. READY 443 = 348 bases + 95 spares (scorecard prints the split). DONE today after the
+  pivot: spare ruling + run 1553 (847 facts), (A) partner gate in applyMerge (0ef61c7; 0 admitted, 151 refused for the partner
+  too, 149 of them the base's own per-SKU reads), (B) inherit-spare in fill-nightly after APPLY, (C) link-printed-pids code
+  (96a172c; dry 1,742 links on 719 parts = 598 bases + 121 spares, precision 1.0), R1 ratchet = DISTINCT unclassified forms
+  (fact-weighted printed ungated), R2 board check spare_series_matches_base + set-series --spares-from-base (run 1556: 95) +
+  derive-series spare rule (2df2f42, deployed). RUNNING DETACHED: /root/prov-1006/night-prep-2df2f421.sh -- set-series, ONE
+  BUILD, R1 sabotage, board, board-last.txt only if vendor_coverage alone; READ /root/prov-1006/night-prep-2df2f421.log FIRST.
+  If the board is not green by ~00:30 UTC: set STOP ($FILL/STOP) -- the reviewer's order. The box build's artefacts (and the
+  re-proved ceiling file data/ratchets/shape-unclassified-ceiling-cisco.json) are IN THE DEPLOY TREE, not committed: pull
+  (find data -newer /root/prov-1006/build-2df2f421.start), restamp, suites, commit data/ + src/core/mould-contract.json, BEFORE
+  any deploy. NEXT, in order: (1) commit the (C) link run (AFTER the board -- reviewer), (2) scoped derive-link-provenance on
+  the new NULL pairs (full dump -> /root/prov-1006/prov-scope.mts -> extract-doc-evidence.py -> --evidence --commit), (3) send
+  20 random new spec_for_kind + 10 mention links WITH THE LINE to the reviewer BEFORE the reader reads, (4) the generic reader
+  (reproduce 1518/1523/1535/1536/1539/1549/1550 exactly first), target = 1,022 held-but-empty + the new spec_for_kind links,
+  (5) the 25 unclassified forms of run 1553 into the next classify pass. OPERATOR: 'i want the router category to be filled, do
+  not waste my token and time' -- fill first, minimal prose.
 - RULINGS 7 Oct ~17:20 UTC (verbatim essentials): (A) 'yes, but don't bypass the gate -- ask it about the partner. For each
   refused spare fact, run the same gate as if the receiver were its spare_of partner. Passes for the partner: admit the fact.
   Fails for the partner too: don't copy it, and list it ... with counts by gate (PWR-/CAB- shape, subject). Applicability is
