@@ -40,6 +40,7 @@ export function exactSparePair(spareSku: string, baseSku: string): boolean {
 
 const KIT = /\b(?:kit|bundle|bun)\b/i;
 const LICENCE = /\b(?:lic|licen[cs]e[sd]?|SL)\b/i;
+const UPGRADE_PATH = /software[- ]activated\s+(?:port\s+)?licen[cs]es?/gi;
 const INDUSTRIAL = /\bindustrial\b/i, COMMERCIAL = /\bcommercial\b/i;
 const AC = /\bAC\b/, DC = /\bDC\b/;
 
@@ -53,7 +54,10 @@ export function spareNameRefusal(spareName: string | null, baseName: string | nu
   const s = spareName ?? "", b = baseName ?? "";
   if (!s.trim() || !b.trim()) return null;
   if (KIT.test(s) !== KIT.test(b)) return `kit/bundle: ${KIT.test(s) ? "the spare" : "the base"} is named a kit or bundle and the other is not`;
-  if (LICENCE.test(s) !== LICENCE.test(b)) return `licence: ${LICENCE.test(s) ? "the spare" : "the base"} names licences the other does not`;
+  // "upgradable from 2.5-Gbps to 20-Gbps via software activated license" (ASR1001-X) describes the chassis's upgrade PATH, not a
+  // licence in the box: the phrase is removed before asking, so the ASR 1001-X / 1002-X / 1002-HX spares pair (7 Oct dry run)
+  const ls = s.replace(UPGRADE_PATH, " "), lb = b.replace(UPGRADE_PATH, " ");
+  if (LICENCE.test(ls) !== LICENCE.test(lb)) return `licence: ${LICENCE.test(ls) ? "the spare" : "the base"} names licences the other does not`;
   if ((INDUSTRIAL.test(s) && COMMERCIAL.test(b)) || (COMMERCIAL.test(s) && INDUSTRIAL.test(b))) return "configuration: industrial vs commercial temperature";
   if ((AC.test(s) && DC.test(b) && !AC.test(b)) || (DC.test(s) && AC.test(b) && !DC.test(b))) return "configuration: AC vs DC power";
   return null;

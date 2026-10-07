@@ -18,6 +18,10 @@ sabotages++; check("NCS-55A1-48Q6-SYS=: the spare names licences ('min 7 lic + S
   refuses("NCS-55A1 48x25+6x100G Base HW FCM min 7 lic + SL, spare", "Bifrost Flexible Consumption Model 48X25G + 6x100G Chassis", "licence"));
 sabotages++; check("N520-20G4Z-D=: Industrial vs Commercial temperature -> configuration",
   refuses("Cisco NCS 520 - 20xGE + 4x10GE, Industrial Temp", "Cisco NCS 520 - 20xGE + 4x10GE, Commercial Temp, DC power", "configuration"));
+sabotages++; check("NC-55-MOD-A=: the spare is a 'Smart Lic' line card and the base is not -> licence",
+  refuses("NC55-MOD-A-S Line Card Flexible Consumption (Smart Lic)", "NC-55-MOD-A Flexible Consumption Model NCS 5500 Modular Base Line Card (requires minimum of 1 MPA)", "licence"));
+sabotages++; check("ASR-9001-PLENUM=: the base kit includes a fan, the spare is only the baffle -> kit/bundle",
+  refuses("ASR 9001 Plenum Air Baffle Spare", "ASR 9001 Plenum Kit includes V2 fan", "kit/bundle"));
 sabotages++; check("AC against DC power -> configuration", refuses("1000W AC PS for ISR4450", "1000W DC PS for ISR4450", "configuration"));
 
 // ---- real controls that must pair: abbreviations, a kit on BOTH sides, one side naming AC where the other is silent
@@ -30,6 +34,10 @@ const pairs: [string, string][] = [
   ["500W AC Power Supply for Cisco ISR 4430,Spare", "AC Power Supply with POE for Cisco ISR 4430"],
   ["4GB Compact Flash (Spare) for Cisco 1900, 2900, 3900 ISR (only as spare)", "4GB Compact Flash for Cisco 1900, 2900, 3900 ISR"],
   ["NCS 5700 400G CFP2 DCO & 400G QSFP-DD MPA spare", "NCS 5700 1X400G CFP2 DCO + 1X400G QSFP-DD MPA"],
+  // an upgrade PATH is not a licence in the box (the 7 Oct dry run refused these three; the phrase is now read for what it says)
+  ["Cisco ASR 1001-X System, Crypto, 6 built-in GE, Dual P/S, Spare", "Cisco ASR 1001-X Router Chassis (ESP integrated; upgradable from 2.5-Gbps to 20-Gbps via software activated license)"],
+  ["Cisco ASR 1002-X System, Crypto, 6 built-in GE, dual power supply, spare", "Cisco ASR 1002-X Router Chassis * (ESP integrated; upgradable from 5-Gbps to 36-Gbps via software activated license)"],
+  ["Cisco ASR 1002-HX System, 4x10GE+4x1GE built-in, Dual P/S, optional crypto, spare", "Cisco ASR 1002-HX Router Chassis (ESP integrated; up to 100 Gbps through software-activated port licenses)"],
   ["8x100GE SE LC licensed for Packet Transport Optimized (TR)", "Cisco ASR 9000 8-port 100GE “LAN-only” Service Edge Optimized Line Card licensed for Packet Transport"],
 ];
 for (const [s, b] of pairs) check(`CONTROL pairs: "${s.slice(0, 40)}"`, spareNameRefusal(s, b) === null, spareNameRefusal(s, b) ?? "");
