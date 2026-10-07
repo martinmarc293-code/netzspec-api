@@ -28,8 +28,10 @@ import fs from "node:fs";
 import path from "node:path";
 import { execSync } from "node:child_process";
 import { REPO_ROOT } from "../src/config.js";
+import { STAMP_DIRS, contractStampMismatch, stampedHashes } from "../src/core/contractStamp.js";
 
-const DIRS = ["ledger", "census", "completeness", "freeze", "layers", "mapper", "schema"];
+// one list, shared with the board's contract_matches_stamp (src/core/contractStamp.ts)
+const DIRS = STAMP_DIRS;
 const LEGACY = ["built_on_commit", "built_on_parent_commit", "commit"];
 
 const git = (cmd: string): string => {
@@ -108,7 +110,11 @@ if (process.argv.includes("--check")) {
   console.log(`  UNREADABLE / unstampable              : ${unreadable.length}${unreadable.length ? ` (${unreadable.slice(0, 2).join("; ")})` : ""}`);
   console.log(`  distinct contract hashes among stamped: ${hashes.size}${hashes.size ? ` [${[...hashes].join(", ")}]` : ""}`);
   console.log(`  distinct data commits among stamped   : ${commits.size}${commits.size ? ` [${[...commits].join(", ")}]` : ""}`);
-  const clean = legacyOnly.length === 0 && none_.length === 0 && hashes.size <= 1 && commits.size <= 1;
+  // THE CONTRACT ITSELF (reviewer, 7 Oct 2026): the stamps must name the contract this tree declares, not merely each other --
+  // f2f7f38 staged data/ without src/core/mould-contract.json and this check passed
+  const mismatch = contractStampMismatch(ch, stampedHashes(REPO_ROOT));
+  console.log(`  stamps vs src/core/mould-contract.json : ${mismatch ?? `agree (${ch})`}`);
+  const clean = legacyOnly.length === 0 && none_.length === 0 && hashes.size <= 1 && commits.size <= 1 && mismatch === null;
   console.log(clean ? "\nONE BUILD: every artefact carries the same contract hash and data commit."
                     : "\nNOT one build: the counts above are the size of the gap.");
   process.exit(clean ? 0 : 1);

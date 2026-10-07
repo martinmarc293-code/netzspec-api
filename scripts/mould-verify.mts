@@ -25,6 +25,7 @@ import { JTL_PROFILES, jtlContractProblems, csvFile } from "../src/core/jtlExpor
 import { mouldStatuses } from "../src/core/brandMould.js";
 import { NO_PROFILE_REASONS } from "../src/core/noProfileReason.js";
 import { NOT_A_KIND, parityRuled, parityCause, formatParitySplit, KIND_PARITY_EXCEPTIONS, KIND_PARITY_OPEN, leaseWarnings, LEASE_WARN_DAYS, type KindParityException } from "../src/core/kindProfiles.js";
+import { contractHashAt, contractStampMismatch, stampedHashes } from "../src/core/contractStamp.js";
 import { partKind } from "../src/core/partKind.js";
 import { UNKNOWN_HARDWARE_SQL, splitUnknown, unknownZeroVerdict, type UnknownRow } from "../src/core/unknownEvidence.js";
 import { deployRoleResult, roleAxisOf, roleAxisKinds } from "../src/core/deployRole.js";
@@ -1154,6 +1155,23 @@ const TESTS: Test[] = [
                positive: sameLedger(a, { kinds: { chassis: { required: ["weight", "dimensions"] } }, category: "switches" }),
                note: "a ledger missing one required cup must differ; the same ledger with its keys in another order must match" };
     },
+  },
+  {
+    name: "contract_matches_stamp",
+    findings: "f2f7f38 deployed contract ae6f436b beside artefacts stamped 4492fc49, and nothing noticed",
+    // Reviewer, 7 Oct 2026: "The deployed mould-contract.json hash must equal the stamp on every built artifact ... Sabotage it both
+    // ways like the others." mould-stamp --check proves the artefacts agree with each other; this proves they agree with the tree.
+    run: async () => {
+      const m = contractStampMismatch(contractHashAt(REPO), stampedHashes(REPO));
+      return m === null ? ok(`every stamped artefact names the deployed contract ${contractHashAt(REPO)}`) : bad(m);
+    },
+    selfTest: async () => ({
+      // both ways: the CONTRACT moved under old stamps, and the STAMPS moved under an old contract -- each must fail; agreement passes
+      negative: contractStampMismatch("ae6f436b328c9b58", new Map([["4492fc49c6d33905", ["data/freeze/cisco.json"]]])) === null
+        || contractStampMismatch("4492fc49c6d33905", new Map([["4492fc49c6d33905", ["data/ledger/a.json"]], ["ae6f436b328c9b58", ["data/ledger/b.json"]]])) === null,
+      positive: contractStampMismatch("4492fc49c6d33905", new Map([["4492fc49c6d33905", ["data/freeze/cisco.json", "data/ledger/a.json"]]])) === null,
+      note: "a contract the stamps do not name must fail, from either side; the same hash on both sides must pass",
+    }),
   },
   {
     name: "lease_horizon",
