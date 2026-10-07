@@ -46,6 +46,15 @@ export function spareGate(receiver: GateReceiver, partner: GateReceiver | null, 
     answeredBy: "partner", receiverRefusal: own };
 }
 
+/** SERIES PARITY (reviewer R2, 7 Oct 2026: "Add a test: a routers spare's series equals its base's, sabotaged both ways"). A spare
+ *  is the same part, so its legacy series is its base's; the spare rows imported 3 Sep took theirs from their OWN catalogue label
+ *  (C8500-12X= "ASR 1000 Series Aggregation Services Routers" beside its base's "Catalyst 8500L Series Edge Platforms"). Returns the
+ *  pairs that disagree -- a null on one side only is a disagreement; null on both is not. */
+export function spareSeriesMismatches(pairs: readonly { spare: string; spareSeries: string | null; base: string; baseSeries: string | null }[]): string[] {
+  return pairs.filter((p) => (p.spareSeries ?? null) !== (p.baseSeries ?? null))
+    .map((p) => `${p.spare} "${p.spareSeries ?? "no series"}" vs ${p.base} "${p.baseSeries ?? "no series"}"`);
+}
+
 /** Cups a spare never takes from its base (nor gives back): box contents and how the part is ORDERED rather than what it IS.
  *  shipping_weight and shipping_dimensions are the box -- "a spare often ships without the rack kit, cords or brackets the base
  *  includes" -- so the spare's Versandgewicht is derived from its own weight by the same rule, never copied. */

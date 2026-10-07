@@ -4,7 +4,7 @@
 //
 // Every refusal case below is a pair read from the routers catalogue on 7 Oct (scripts/inherit-spare.mts plan), and every control
 // is a real pair whose names differ only by abbreviation -- the 103 of 106 gaining pairs that must still pair.
-import { COPYABLE_DERIVED, exactSparePair, inheritanceRefusal, LIFECYCLE_KEY, SPARE_NOT_INHERITED, spareGate, spareKeyRefusal, spareNameRefusal, type GateReceiver } from "../src/core/spareInherit.js";
+import { COPYABLE_DERIVED, exactSparePair, inheritanceRefusal, LIFECYCLE_KEY, SPARE_NOT_INHERITED, spareGate, spareKeyRefusal, spareNameRefusal, spareSeriesMismatches, type GateReceiver } from "../src/core/spareInherit.js";
 import { FIELD_DICTIONARY } from "../src/core/fieldSchema.js";
 
 let passed = 0; const misses: string[] = []; let sabotages = 0;
@@ -82,6 +82,14 @@ check("PASSES FOR THE PARTNER: admitted on the base's answer, the receiver's ref
 check("CONTROL a receiver the gate admits never asks the partner", spareGate(c8Base, c8Spare, viaC8).answeredBy === "receiver" && spareGate(c8Base, c8Spare, viaC8).refusal === null);
 sabotages++; check("SABOTAGE a partner that is a DIFFERENT part (PWR-CC1-650WAC answering for C8200-1N-4T=) does not admit",
   spareGate(c8Spare, pwrBase, viaC8).refusal !== null);
+
+// ---- series parity (reviewer R2, 7 Oct 2026), the real pair that turned router_throughput_series red, both ways
+sabotages++; check("SABOTAGE the spare drifted: C8500-12X= 'ASR 1000' vs its base's 'Catalyst 8500L' is a mismatch",
+  spareSeriesMismatches([{ spare: "C8500-12X=", spareSeries: "ASR 1000", base: "C8500-12X", baseSeries: "Catalyst 8500L" }]).length === 1);
+sabotages++; check("SABOTAGE the base drifted (or holds none): a series on one side only is a mismatch",
+  spareSeriesMismatches([{ spare: "C8500-12X=", spareSeries: "Catalyst 8500L", base: "C8500-12X", baseSeries: null }]).length === 1);
+check("CONTROL equal series, and no series on either side, pass",
+  spareSeriesMismatches([{ spare: "C8500-12X=", spareSeries: "Catalyst 8500L", base: "C8500-12X", baseSeries: "Catalyst 8500L" }, { spare: "X=", spareSeries: null, base: "X", baseSeries: null }]).length === 0);
 
 if (misses.length) { console.log(`spare inherit: ${passed} passed, ${misses.length} missed`); for (const m of misses) console.log(m); process.exit(1); }
 console.log(`spare inherit: ${passed} passed, 0 missed (${sabotages} sabotage cases)`);

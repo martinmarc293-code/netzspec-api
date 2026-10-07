@@ -26,6 +26,7 @@ import { mouldStatuses } from "../src/core/brandMould.js";
 import { NO_PROFILE_REASONS } from "../src/core/noProfileReason.js";
 import { NOT_A_KIND, parityRuled, parityCause, formatParitySplit, KIND_PARITY_EXCEPTIONS, KIND_PARITY_OPEN, leaseWarnings, LEASE_WARN_DAYS, type KindParityException } from "../src/core/kindProfiles.js";
 import { contractHashAt, contractStampMismatch, stampedHashes } from "../src/core/contractStamp.js";
+import { spareSeriesMismatches } from "../src/core/spareInherit.js";
 import { partKind } from "../src/core/partKind.js";
 import { UNKNOWN_HARDWARE_SQL, splitUnknown, unknownZeroVerdict, type UnknownRow } from "../src/core/unknownEvidence.js";
 import { deployRoleResult, roleAxisOf, roleAxisKinds } from "../src/core/deployRole.js";
@@ -767,6 +768,10 @@ const TESTS: Test[] = [
       const shapeKeys = Object.keys(LIST_SHAPES);
       const blank = (): Record<MemberVerdict, number> => ({ accept: 0, refuse: 0, flagged: 0, unclassified: 0 });
       const shOwn = new Map<string, Record<MemberVerdict, number>>(), shAll = new Map<string, Record<MemberVerdict, number>>();
+      // THE RATCHET'S UNIT (reviewer R1, 7 Oct 2026): DISTINCT unclassified (key, member) FORMS of live Cisco facts -- a spare or
+      // bundle copy of a known form cannot grow it, a new form still fails. The fact-weighted count stays in the line, ungated:
+      // "Keep the fact-weighted count in the report, ungated, so growth from copies stays visible".
+      const formsOwn = new Map<string, Set<string>>();
       for (const r of (await query<{ vendor: string; key: string; value: string; n: string }>(`
           SELECT v.slug vendor, f.field_key key, f.value::text value, count(*)::text n
             FROM facts f JOIN parts p ON p.id=f.part_id JOIN vendors v ON v.id=p.vendor_id
@@ -777,6 +782,7 @@ const TESTS: Test[] = [
         for (const m of Array.isArray(v) ? v : [v]) {
           const verdict = classifyMember(r.key, String(m));
           for (const mp of maps) { const t = mp.get(r.key) ?? blank(); t[verdict] += Number(r.n); mp.set(r.key, t); }
+          if (verdict === "unclassified" && r.vendor === OWN_VENDOR) { const s = formsOwn.get(r.key) ?? new Set<string>(); s.add(String(m)); formsOwn.set(r.key, s); }
         }
       }
       const shapes = (mp: Map<string, Record<MemberVerdict, number>>) => shapeKeys.map((k) => { const t = mp.get(k);
@@ -784,16 +790,26 @@ const TESTS: Test[] = [
       // NOT data/completeness/: every *.json there IS a vendor to /v1/completeness and tests/completeness.test.ts (VENDOR_FILE),
       // so a ratchet file in that directory became a vendor called "shape-unclassified-ceiling" (build 63bae82, suite crashed).
       const CEIL = path.join(REPO, "data", "ratchets", "shape-unclassified-ceiling-cisco.json");
-      const nowUnc: Record<string, number> = Object.fromEntries(shapeKeys.map((k) => [k, shOwn.get(k)?.unclassified ?? 0]));
-      type Ceil = { vendor: string; unit: string; recorded_at: string; git_sha: string; ceiling: Record<string, number> };
+      const nowUnc: Record<string, number> = Object.fromEntries(shapeKeys.map((k) => [k, formsOwn.get(k)?.size ?? 0]));
+      const nowInst: Record<string, number> = Object.fromEntries(shapeKeys.map((k) => [k, shOwn.get(k)?.unclassified ?? 0]));
+      const UNIT = "DISTINCT unclassified (key, member) FORMS of live Cisco facts on live parts";
+      type Ceil = { vendor: string; unit: string; recorded_at: string; git_sha: string; ceiling: Record<string, number>; as_of_run?: number; proved?: string };
       let ceil: Ceil | null = null, ceilErr = "";
       try { if (existsSync(CEIL)) ceil = JSON.parse(readFileSync(CEIL, "utf8")) as Ceil; else ceilErr = `no ceiling file at ${path.relative(REPO, CEIL)}`; }
       catch (e) { ceilErr = `the ceiling file is unreadable: ${e instanceof Error ? e.message : String(e)}`; }
       if (!ceilErr && (ceil?.vendor !== OWN_VENDOR || typeof ceil?.ceiling !== "object")) ceilErr = `the ceiling file is not a ${OWN_VENDOR} ceiling`;
+      // a ceiling in ANOTHER unit cannot be compared: red until it is re-proved from the corpus (never converted from the old number)
+      const otherUnit = !ceilErr && ceil?.unit !== UNIT;
+      if (otherUnit) ceilErr = `the ceiling file counts "${ceil?.unit}", not "${UNIT}" -- re-prove it from the corpus (--record-shape-ceiling)`;
       if (process.argv.includes("--record-shape-ceiling")) {
-        const merged = Object.fromEntries(shapeKeys.map((k) => [k, Math.min(nowUnc[k], ceil?.ceiling?.[k] ?? Infinity)]));
-        ceil = { vendor: OWN_VENDOR, unit: "unclassified MEMBERS (fact-weighted) of live facts on live parts", recorded_at: new Date().toISOString(),
-          git_sha: process.env.GIT_SHA ?? "unknown", ceiling: merged };
+        // SAME unit: min(ceiling, now) -- recording can never raise it. A file in the OLD unit (or none) is replaced by the count
+        // proved from today's corpus (R1, 7 Oct: "Prove the new ceiling from the corpus ... not converted from the old number.
+        // Record the count and the run id"), anchored to the newest run id the store holds at the moment of counting.
+        const sameUnit = ceil?.unit === UNIT && !otherUnit;
+        const merged = Object.fromEntries(shapeKeys.map((k) => [k, sameUnit ? Math.min(nowUnc[k], ceil?.ceiling?.[k] ?? Infinity) : nowUnc[k]]));
+        const asOf = Number((await query<{ id: string }>(`SELECT max(id)::text AS id FROM runs`)).rows[0]?.id ?? 0);
+        ceil = { vendor: OWN_VENDOR, unit: UNIT, recorded_at: new Date().toISOString(), git_sha: process.env.GIT_SHA ?? "unknown", ceiling: merged,
+          as_of_run: asOf, proved: sameUnit ? (ceil?.proved ?? "") : `counted from the corpus at run ${asOf} (reviewer R1, 7 Oct 2026); the fact-weighted unit it replaced read ${JSON.stringify(nowInst)}` };
         mkdirSync(path.dirname(CEIL), { recursive: true });
         writeFileSync(CEIL, JSON.stringify(ceil, null, 2) + "\n");
         ceilErr = "";
@@ -801,8 +817,9 @@ const TESTS: Test[] = [
       const grown = ceilErr ? [] : shapeKeys.filter((k) => nowUnc[k] > (ceil!.ceiling[k] ?? 0))
         .map((k) => `${k} ${nowUnc[k]} > ceiling ${ceil!.ceiling[k] ?? 0}`);
       const refused = shapeKeys.map((k) => [k, shOwn.get(k)?.refuse ?? 0] as const).filter(([, n]) => n > 0);
-      const ratchet = ceilErr ? `unclassified ratchet: ${ceilErr}` : `unclassified ratchet (ceiling ${ceil!.git_sha.slice(0, 7)}): ` +
-        shapeKeys.map((k) => `${k} ${nowUnc[k]}/${ceil!.ceiling[k] ?? 0}`).join(", ");
+      const ratchet = (ceilErr ? `unclassified ratchet: ${ceilErr}` : `unclassified ratchet, distinct forms (ceiling ${ceil!.git_sha.slice(0, 7)}): ` +
+        shapeKeys.map((k) => `${k} ${nowUnc[k]}/${ceil!.ceiling[k] ?? 0}`).join(", ")) +
+        `; fact-weighted unclassified (printed, NOT gated): ${shapeKeys.map((k) => `${k} ${nowInst[k]}`).join(", ")}`;
       const brand = `BRAND-WIDE (printed, not judged): ${all.out} of ${all.total} facts outside their domain${all.out ? ` — ${worst(all)}` : ""}; shape members: ${shapes(shAll)}`;
       const line = `${OWN_VENDOR.toUpperCase()}: ${own.out} of ${own.total} facts outside their domain${own.out ? ` — ${worst(own)}` : ""}; ` +
         `shape members: ${shapes(shOwn)}; ${ratchet} || ${brand}`;
@@ -1174,6 +1191,37 @@ const TESTS: Test[] = [
         || contractStampMismatch("4492fc49c6d33905", new Map([["4492fc49c6d33905", ["data/ledger/a.json"]], ["ae6f436b328c9b58", ["data/ledger/b.json"]]])) === null,
       positive: contractStampMismatch("4492fc49c6d33905", new Map([["4492fc49c6d33905", ["data/freeze/cisco.json", "data/ledger/a.json"]]])) === null,
       note: "a contract the stamps do not name must fail, from either side; the same hash on both sides must pass",
+    }),
+  },
+  {
+    name: "spare_series_matches_base",
+    findings: "C8500-12X= carried legacy series 'ASR 1000' beside its base's 'Catalyst 8500L' and failed router_throughput_series (7 Oct)",
+    needsDb: true,
+    // Reviewer R2, 7 Oct 2026: "Add a test: a routers spare's series equals its base's, sabotaged both ways. Also count the same
+    // mismatch in the other categories and report it, but don't gate on it yet." Gated: the SCOPE category (routers). Printed only:
+    // every other category, by count.
+    run: async () => {
+      const rows = (await query<{ cat: string; spare: string; ss: string | null; base: string; bs: string | null }>(`
+        SELECT c.slug cat, s.sku spare, s.series ss, b.sku base, b.series bs
+          FROM relations r JOIN parts s ON s.id = r.from_part_id JOIN parts b ON b.id = r.to_part_id JOIN categories c ON c.id = s.category_id
+          JOIN vendors v ON v.id = s.vendor_id
+         WHERE r.kind = 'spare_of' AND v.slug = 'cisco' AND s.retired_at IS NULL AND b.retired_at IS NULL`)).rows;
+      const pairs = (cat: (c: string) => boolean) => rows.filter((r) => cat(r.cat)).map((r) => ({ spare: r.spare, spareSeries: r.ss, base: r.base, baseSeries: r.bs }));
+      const gated = spareSeriesMismatches(pairs((c) => c === "routers"));
+      const others: Record<string, number> = {};
+      for (const r of rows) if (r.cat !== "routers" && (r.ss ?? null) !== (r.bs ?? null)) others[r.cat] = (others[r.cat] ?? 0) + 1;
+      const elsewhere = `elsewhere (printed, NOT gated): ${Object.entries(others).sort((a, b) => b[1] - a[1]).map(([c, n]) => `${c} ${n}`).join(", ") || "none"}`;
+      const n = pairs((c) => c === "routers").length;
+      return gated.length ? bad(`${gated.length} of ${n} routers spare pairs disagree on series: ${gated.slice(0, 8).join("; ")} -- ${elsewhere}`)
+        : ok(`all ${n} routers spare pairs carry their base's series -- ${elsewhere}`);
+    },
+    selfTest: async () => ({
+      // both ways: a spare that drifted from its base, and a base that drifted from its spare (a null on ONE side too) must fail
+      negative: spareSeriesMismatches([{ spare: "C8500-12X=", spareSeries: "ASR 1000", base: "C8500-12X", baseSeries: "Catalyst 8500L" }]).length === 0
+        || spareSeriesMismatches([{ spare: "C8500-12X=", spareSeries: "Catalyst 8500L", base: "C8500-12X", baseSeries: null }]).length === 0,
+      positive: spareSeriesMismatches([{ spare: "C8500-12X=", spareSeries: "Catalyst 8500L", base: "C8500-12X", baseSeries: "Catalyst 8500L" },
+        { spare: "X=", spareSeries: null, base: "X", baseSeries: null }]).length === 0,
+      note: "a spare whose series differs from its base's (either side, a null on one side included) must fail; equal series pass",
     }),
   },
   {

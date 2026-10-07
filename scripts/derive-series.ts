@@ -110,6 +110,16 @@ async function main(): Promise<void> {
         AND p.retired_at IS NULL AND p.family = m.raw`,
     [raws, canons]);
   console.log(`\n  updated ${res.rowCount?.toLocaleString()} parts`);
+  // A SPARE IS ITS BASE (reviewer R2, 7 Oct 2026: "If the layer writer doesn't derive a spare's layers from its base, every new spare
+  // will repeat this, so fix the writer"). A spare's own catalogue label is not evidence of its series: C8500-12X= was imported
+  // under "ASR 1000 Series Aggregation Services Routers" beside its base's "Catalyst 8500L Series Edge Platforms". So the label
+  // pass above is followed by the stored spare_of edges: every spare takes its base's series. board: spare_series_matches_base.
+  const sp = await db.query(
+    `UPDATE parts s SET series = b.series
+       FROM relations r JOIN parts b ON b.id = r.to_part_id
+      WHERE r.kind = 'spare_of' AND r.from_part_id = s.id AND s.retired_at IS NULL AND b.retired_at IS NULL
+        AND b.series IS NOT NULL AND s.series IS DISTINCT FROM b.series`);
+  console.log(`  spares given their base's series: ${sp.rowCount?.toLocaleString()}`);
   await closePool();
 }
 
