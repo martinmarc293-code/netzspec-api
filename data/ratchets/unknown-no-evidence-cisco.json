@@ -1,8 +1,8 @@
 {
   "vendor": "cisco",
   "unit": "live cisco HARDWARE parts in kind unknown with a SKU-only name and no linked document",
-  "recorded_at": "2026-10-07T06:47:53.178Z",
-  "git_sha": "44127cac1a75c896d0840bf1ea67dc45ae2594c2",
+  "recorded_at": "2026-10-07T18:01:14.639Z",
+  "git_sha": "2df2f421f8eb8b919f7b655fb62a43299fa14584",
   "ceiling": 234,
   "raises": [
     {

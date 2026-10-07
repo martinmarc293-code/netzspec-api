@@ -1,12 +1,14 @@
 {
   "vendor": "cisco",
-  "unit": "unclassified MEMBERS (fact-weighted) of live facts on live parts",
-  "recorded_at": "2026-10-07T06:47:52.478Z",
-  "git_sha": "44127cac1a75c896d0840bf1ea67dc45ae2594c2",
+  "unit": "DISTINCT unclassified (key, member) FORMS of live Cisco facts on live parts",
+  "recorded_at": "2026-10-07T18:01:13.900Z",
+  "git_sha": "2df2f421f8eb8b919f7b655fb62a43299fa14584",
   "ceiling": {
-    "certifications": 1710,
-    "emc_emissions": 64,
-    "ieee_standards": 16839,
-    "supported_protocols": 2856
-  }
+    "certifications": 102,
+    "emc_emissions": 9,
+    "ieee_standards": 171,
+    "supported_protocols": 187
+  },
+  "as_of_run": 1558,
+  "proved": "counted from the corpus at run 1558 (reviewer R1, 7 Oct 2026); the fact-weighted unit it replaced read {\"certifications\":1717,\"emc_emissions\":64,\"ieee_standards\":17025,\"supported_protocols\":2966}"
 }
