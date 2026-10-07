@@ -91,7 +91,7 @@ type FactRow = {
   method: string; state: string; vnull: boolean; inherited: boolean; created_at: string; doc_id: string | null;
 };
 function replayRefusal(category: string, key: string, r: Pick<FactRow, "raw" | "unit" | "method">): { reason: string; detail: string } | null {
-  if (r.method.startsWith("derived:")) return replayDerived(r.method, r.raw);  // its raw is the derivation's input
+  if (r.method.startsWith("derived:")) return replayDerived(r.method, r.raw, key);  // its raw is the derivation's input; key-aware (7 Oct)
   const locale = r.method === "hexcat_seed" ? "de" : "en";
   const bare = normalizeField(category, key, r.raw, { locale });
   if (bare.ok) return null;

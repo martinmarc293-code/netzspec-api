@@ -423,7 +423,7 @@ check("partKind: NC55-SFP-DCAP 'SFP/ZSFP Dust Cap' is mechanical", partKind("rou
     ["module", undefined, "ports,product_compatibility"],   // power_max ruled then REVERTED (rule 6: a component kind asks <= 3)
     ["processor", undefined, "dram,product_compatibility"],
     ["fabric", undefined, "fabric_bandwidth,power_max,product_compatibility"],   // 27 Sep table: + power_max
-    ["antenna", undefined, "antenna_connector,product_compatibility,radio_bands"],   // 27 Sep table: + antenna_connector (antenna_gain optional, Batch B)
+    ["antenna", undefined, "antenna_connector,antenna_gain,product_compatibility,radio_bands"],   // 27 Sep table: + antenna_connector; + antenna_gain by ruling (i), 7 Oct 2026 (the lapsed lease, measured)
     ["power", undefined, "airflow,input_voltage,product_compatibility,psu_rated_output"],   // 27 Sep table: + airflow, psu_rated_output
     ["fan", undefined, "airflow,product_compatibility"],
     ["memory", undefined, "dram,memory_speed_max,product_compatibility"],   // 27 Sep table: + memory_speed_max

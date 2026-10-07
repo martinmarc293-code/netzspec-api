@@ -61,8 +61,14 @@ if (existsSync(W)) {
   check("Q5: NC57-MPA-12L-S is not named by the sheet's table (only the -FC is), so it is not a row", !t.rows.some((r) => r.sku === "NC57-MPA-12L-S"));
 }
 // derived:family-row (reviewer ~22:50, Q1/Q4): its own method, so a family's value stays distinguishable from a model's -- and plain
-check("a family row's stated weight replays", replayDerived("derived:family-row", "5.7 lb (2.59 kg)") === null);
-sabotages++; check("SABOTAGE a family row with no mass is refused", replayDerived("derived:family-row", "Weight")?.reason === "DERIVATION_REFUSED");
+check("a family row's stated weight replays", replayDerived("derived:family-row", "5.7 lb (2.59 kg)", "weight") === null);
+sabotages++; check("SABOTAGE a family row with no mass is refused", replayDerived("derived:family-row", "Weight", "weight")?.reason === "DERIVATION_REFUSED");
+// KEY-AWARE (reviewer, 7 Oct, RV): "Pin it with a test showing '600 Mbps' replays for router_throughput and is refused for weight."
+check("a family-row throughput replays under router_throughput", replayDerived("derived:family-row", "600 Mbps", "router_throughput") === null);
+check("a family-row throughput keeps its basis in raw and still replays", replayDerived("derived:family-row", "NAT throughput | 600 Mbps", "router_throughput") === null);
+sabotages++; check("SABOTAGE '600 Mbps' replayed as a WEIGHT is refused", replayDerived("derived:family-row", "600 Mbps", "weight")?.reason === "DERIVATION_REFUSED");
+sabotages++; check("SABOTAGE a family-row fact replayed with no key derives nothing (never read as a weight by default)",
+  replayDerived("derived:family-row", "5.7 lb (2.59 kg)")?.reason === "DERIVATION_REFUSED");
 sabotages++; check("SABOTAGE a family-row weight is plain, never 'max.'", !isMaxBound({ value: 2.59, unit: "kg", method: "derived:family-row" }));
 {
   const F = new URL("../data/reference/family-row-weight-witnesses.json", import.meta.url);
@@ -70,7 +76,7 @@ sabotages++; check("SABOTAGE a family-row weight is plain, never 'max.'", !isMax
   const t = JSON.parse(readFileSync(F, "utf8")) as { rows: { sku: string; raw: string; group: string; method: string }[] };
   const model = new Set((JSON.parse(readFileSync(M, "utf8")) as { rows: { sku: string }[] }).rows.map((r) => r.sku));
   check("family-row: the table has rows", t.rows.length > 0, t.rows.length);
-  check("family-row: every row's raw replays", t.rows.every((r) => replayDerived("derived:family-row", r.raw) === null));
+  check("family-row: every row's raw replays", t.rows.every((r) => replayDerived("derived:family-row", r.raw, "weight") === null));
   check("family-row: a PID has exactly one family row", new Set(t.rows.map((r) => r.sku)).size === t.rows.length);
   check("family-row: every row names the sheet's grouping it was read from (never a pattern alone)", t.rows.every((r) => r.method === "derived:family-row" && r.group.length > 0));
   check("family-row: a PID with a MODEL row never takes a family row (the named model is more specific)", t.rows.every((r) => !model.has(r.sku)),

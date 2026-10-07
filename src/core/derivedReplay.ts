@@ -10,7 +10,9 @@ import { temperatureIntersection } from "./conditionIntersection.js";
 import { stackableFromBandwidth } from "./stackableFromBandwidth.js";
 import { shippingFromClassRaw } from "./shippingClass.js";
 
-const DERIVATIONS: Readonly<Record<string, (raw: string) => unknown>> = {
+// KEY-AWARE (reviewer, 7 Oct 2026, RV ruling): "Make replayDerived(method, raw, key) key-aware and have both census callers pass the
+// key." A method that writes more than one cup (derived:family-row: weight, router_throughput) replays under the fact's own key.
+const DERIVATIONS: Readonly<Record<string, (raw: string, key?: string) => unknown>> = {
   "derived:pon_standard": (raw) => { const d = ponStandardFromStandards([raw]); return d.ok ? d.value : null; },
   // ruling Q25 (30 Sep 2026): the raw IS the sheet's stated maximum ("250 g"); the derivation is only the label -- the value is
   // the mass as the dictionary's own normaliser reads it, so replay is that read (scripts/derive-max-bound-weight.mts)
@@ -27,7 +29,8 @@ const DERIVATIONS: Readonly<Record<string, (raw: string) => unknown>> = {
   "derived:model-row": (raw) => { const n = normalizeField("routers", "weight", raw, { locale: "en" }); return n.ok ? n.value : null; },
   // reviewer 6 Oct 2026 ~22:50 (Q1/Q4): a value a sheet states for a model FAMILY (or a class it bounds to its own PIDs), written onto
   // each PID the same sheet lists under that family -- its own method, so it stays distinguishable from a named model's row
-  "derived:family-row": (raw) => { const n = normalizeField("routers", "weight", raw, { locale: "en" }); return n.ok ? n.value : null; },
+  // the fact's own key, never a default: a family-row fact replayed without its key derives nothing (refused, never read as a weight)
+  "derived:family-row": (raw, key) => { if (!key) return null; const n = normalizeField("routers", key, raw, { locale: "en" }); return n.ok ? n.value : null; },
   // ruling Q23 (30 Sep 2026): the raw is the part's weight in kg ("5.5 kg"), the value that weight plus its band's allowance
   "derived:shipping-allowance": (raw) => shippingFromRaw(raw),
   // reviewer ruling 30 Sep 2026: the raw keeps EVERY condition the sheet states; the value is the range true under all of them
@@ -39,8 +42,8 @@ const DERIVATIONS: Readonly<Record<string, (raw: string) => unknown>> = {
 };
 
 /** null = the derivation reproduces a value from this raw; otherwise the reason it cannot. */
-export function replayDerived(method: string, raw: string): { reason: string; detail: string } | null {
+export function replayDerived(method: string, raw: string, key?: string): { reason: string; detail: string } | null {
   const fn = DERIVATIONS[method];
   if (!fn) return { reason: "DERIVATION_UNREGISTERED", detail: `${method} has no replay in src/core/derivedReplay.ts` };
-  return fn(raw) === null ? { reason: "DERIVATION_REFUSED", detail: `${method} derives nothing from this raw` } : null;
+  return fn(raw, key) === null ? { reason: "DERIVATION_REFUSED", detail: `${method} derives nothing from this raw${key ? ` as ${key}` : ""}` } : null;
 }

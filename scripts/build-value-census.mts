@@ -106,7 +106,7 @@ type FactRow = {
  * different way, and each was found by someone reading the output rather than the code.
  */
 function replayRefusal(category: string, key: string, r: FactRow): { reason: string; detail: string } | null {
-  if (r.method.startsWith("derived:")) return replayDerived(r.method, r.raw);  // its raw is the derivation's input
+  if (r.method.startsWith("derived:")) return replayDerived(r.method, r.raw, key);  // its raw is the derivation's input; key-aware (7 Oct)
   const locale = r.method === "hexcat_seed" ? "de" : "en";
   const bare = normalizeField(category, key, r.raw, { locale });
   if (bare.ok) return null;
