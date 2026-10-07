@@ -309,7 +309,10 @@ HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). R
   Deployed 44127cac (contract 4492fc49). The box build at 44127ca (06:41-06:49, MISS OK both ways) wrote its artifacts INTO
   the deploy tree but they are NOT COMMITTED: next session, pull them first (find data -newer /tmp/build-44127ca.start),
   ONE BUILD, suites, commit, deploy -- before ANY other deploy, or the deploy swap discards them. Night 01:00 on 44127cac
-  (its own build regenerates); board-last.txt = the board run at wrap-up if green (see /tmp/board-wrap.txt on the box).
+  (its own build regenerates). AT WRAP-UP the board read one_build + vendor_coverage (the box build's artefacts are unstamped in
+  the deploy tree), so /root/prov-1006/stamp-board-copy.sh was left running detached: stamps in place as the night does
+  (STAMP_DATA_COMMIT 44127cac1a75+wrapup-2026-10-07), requires ONE BUILD, runs the board, and replaces board-last.txt ONLY if
+  it fails nothing but vendor_coverage -- READ /root/prov-1006/stamp-board-copy.log FIRST next session.
   RUNS 7 Oct: 1539 C8500-20X6C 75 lbs (A), 1545 B/C -FC + RP1 sales variants (11 facts), 1546 sync-dictionary (antenna_gain
   cup, ruling (i)), 1549 RV NAT throughput as family rows (42), 1550 RV weights as model rows (40). STOP of the 7 Oct night
   cleared (lease lapsed; ruling (i); note in $FILL/stops-cleared/2026-10-07-build.txt).
