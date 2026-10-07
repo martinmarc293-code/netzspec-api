@@ -106,6 +106,28 @@ eq("a PDF with no extract records: could-not-check", [pdfNoRecords.basis, pdfNoR
 const inferredSpec = decideLink({ ...base, part: { sku: "C8300-1N1S-4T2X", series: "Catalyst 8300", category: "routers" }, text: normText("ISR4331/K9") });
 eq("a 4000 sheet linked to a Catalyst 8300: inferred — out of held even though it is a spec sheet", [inferredSpec.basis, inferredSpec.relevance], ["inferred", "spec_for_kind"]);
 
+// ---- RULING (L), 7 Oct 2026: docSubject first; the host sheet's headed component section is the one exception ----
+// the run-1559 shape: CAB-AC-UK on the NCS 540 sheet prints >= 3 host cups (C.2 made it spec_for_kind), but a router sheet's
+// subject does not cover a power cord
+const cord: LinkInput = { ...base, part: { sku: "CAB-AC-UK", series: null, category: "routers" }, cups: ["cable_length"],
+  hostCups: ["weight", "dimensions", "certifications", "temp_operating"], text: normText("CAB-AC-UK Power Cord UK"),
+  labels: { status: "ok", method: "cisco_specs_deep.extract_document", family: ["Weight", "Dimensions (H x W x D)", "Certifications", "Operating temperature"], by_sku: {} },
+  kind: "power-cord", subject: { verdict: "out", reason: "a power-cord is not what this document describes (title: device)" } };
+const cordNoSubject = decideLink({ ...cord, subject: undefined, kind: undefined });
+eq("CONTROL without a subject verdict, C.2 alone makes the cord spec_for_kind (the defect's premise)", cordNoSubject.relevance, "spec_for_kind");
+const cordOut = decideLink(cord);
+eq("SABOTAGE a power cord on a router sheet: subject out -> mention", cordOut.relevance, "mention");
+check("…and the evidence says the subject refused it", cordOut.evidence.includes("subject out"), cordOut.evidence);
+const cordSection = decideLink({ ...cord, text: normText("CAB-AC-UK ... Power Cord Specifications Length 2.5 m") });
+eq("SECOND SHAPE: the same sheet with its own 'Power Cord Specifications' heading -> spec_for_kind", cordSection.relevance, "spec_for_kind");
+check("…with the heading named in the evidence", cordSection.evidence.includes('"POWER CORD SPECIFICATIONS"'), cordSection.evidence);
+const fanRow = decideLink({ ...cord, part: { sku: "ASR-9910-FAN", series: null, category: "routers" }, kind: "fan", text: normText("ASR-9910-FAN Fan tray for ASR 9910") });
+eq("SABOTAGE a fan in the series ordering table, no fan section: mention", fanRow.relevance, "mention");
+eq("SABOTAGE a heading for ANOTHER kind does not admit (a fan under 'Power Supply Specifications')",
+  decideLink({ ...cord, part: { sku: "ASR-9910-FAN", series: null, category: "routers" }, kind: "fan", text: normText("Power Supply Specifications ASR-9910-FAN") }).relevance, "mention");
+eq("NOT JUDGED is not covered: mention", decideLink({ ...cord, subject: { verdict: "not_judged", reason: "the kind axis reads the receiver as 'bundle'" } }).relevance, "mention");
+eq("CONTROL subject in: the cup count decides, unchanged", decideLink({ ...base, kind: "router", subject: { verdict: "in" } }).relevance, "spec_for_kind");
+
 // ---- reviewer C.2 (13 Sep 2026) ----
 // 1. the family check counts PRINTED kind cups (families + header cells), not labels today's mapper maps
 const famPrinted = decideLink({ ...base, part: { sku: "ISR4461/K9", series: "4000 Series ISR", category: "routers" }, text: normText("THE ISR FAMILY"),

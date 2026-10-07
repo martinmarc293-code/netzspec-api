@@ -304,6 +304,15 @@ HEAD/deployed 24271ed (artefacts built on b416463, contract c7b80d502adb8305). R
      artefacts back under the API.
 ## HANDOFF (5 Oct ~22:30 UTC) -- READ FIRST. OPERATOR ORDER: ROUTERS ONLY until every Cisco router is shop_ready
 - SCOPE: category=routers
+- RULINGS 7 Oct ~18:35 UTC: (L) 'derive-link-provenance must ask docSubject first. A link is spec_for_kind only when the doc's
+  subject class covers the part's kind; everything else becomes mention. Re-run the scoped provenance on the 1,742, report the new
+  split and parts count, and send a fresh 20 + 10. One exception: a host sheet with its own headed spec section for a component
+  (fan tray specifications, a power supply table) can be spec for that component. Make it an explicit second shape, with the
+  heading named' (8 of 20 sampled spec_for_kind were wrong: 5 cords + fan + filter on host sheets, C1921-3G-G-K9 on the 3G EHWIC
+  sheet). Also: is A99-SFC-T= on the 'ASR 9900 Switch Fabric Card 2' sheet a MISSED spec link? (W1) 'no, not tier L. Q23 gives a
+  measured module weight + 2.0 kg ... Q3 goes first: A900, NCS 4200 and N560 modules whose sheet prints a shipment weight take
+  that value. For the rest: routers/module = the smallest tier >= 3.1 kg, with that basis recorded. No class for a module whose
+  family has a measured sibling above that tier. List those. Send the new ready count once Q3 and the class land.'
 - HANDOFF 7 Oct ~18:00 UTC -- READ FIRST. READY 443 = 348 bases + 95 spares (scorecard prints the split). DONE today after the
   pivot: spare ruling + run 1553 (847 facts), (A) partner gate in applyMerge (0ef61c7; 0 admitted, 151 refused for the partner
   too, 149 of them the base's own per-SKU reads), (B) inherit-spare in fill-nightly after APPLY, (C) link-printed-pids code

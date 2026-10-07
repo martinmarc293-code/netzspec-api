@@ -32,6 +32,7 @@ import { cupsPrinted } from "../core/printedCups.js";
 import { closePool, query, withTx } from "../store/db.js";
 import { hashFile, withRun } from "../store/runs.js";
 import { COULD_NOT_CHECK } from "../core/heldEvidence.js";
+import { docSubject, judgeReceiver, SUBJECT_GATE_VENDORS } from "../core/docSubject.js";
 
 /** The ledger builder's spec-bearing list (scripts/build-cup-ledger.mts SPEC_BEARING_DOC_TYPES), restated as the
  * completeness report restates it. Not docClass.SPEC_BEARING, which omits vendor_page. */
@@ -58,7 +59,27 @@ export type LinkInput = {
   headers: readonly HeaderCell[];
   /** normText() of the page, or null when the page text is not held */
   text: string | null;
+  /** the part's kind and the document-subject verdict for it (judgeReceiver(docSubject(doc), kind)); absent for a vendor the
+   *  subject gate does not cover yet (SUBJECT_GATE_VENDORS) -- then the cup count alone decides, as before ruling (L) */
+  kind?: string | null;
+  subject?: { verdict: "in" | "out" | "not_judged"; reason?: string };
 };
+
+/** RULING (L), 7 Oct 2026, the explicit SECOND SHAPE: "a host sheet with its own headed spec section for a component (fan tray
+ *  specifications, a power supply table) can be spec for that component. Make it an explicit second shape, with the heading named".
+ *  Kind -> the heading that makes a host sheet spec for it. Narrow on purpose: a heading, never a row in an ordering table. */
+export const COMPONENT_SECTION: Readonly<Record<string, RegExp>> = {
+  fan: /\bFAN(?: TRAY| MODULE)?S? SPECIFICATIONS?\b/,
+  power: /\bPOWER[- ]SUPPL(?:Y|IES)(?: UNIT)?S? SPECIFICATIONS?\b/,
+  "power-cord": /\bPOWER CORDS? SPECIFICATIONS?\b/,
+};
+/** The heading of a host sheet's own section for this kind, or null. */
+export function componentSection(kind: string | null | undefined, text: string | null): string | null {
+  const re = kind ? COMPONENT_SECTION[kind] : undefined;
+  if (!re || !text) return null;
+  const m = re.exec(text.toUpperCase());
+  return m ? m[0] : null;
+}
 export type LinkOutput = { basis: LinkBasis | null; relevance: Relevance | null; evidence: string };
 
 const clip = (s: string, n: number) => (s.length > n ? s.slice(0, n - 1) + "…" : s);
@@ -118,6 +139,15 @@ export function decideLink(x: LinkInput): LinkOutput {
       relevance = "mention";
       relWhy = `prints ${printed.length} of ${x.cups.length} kind cups${printed.length ? ": " + clip(printed.join(", "), 90) : ""}`;
     }
+  }
+  // RULING (L), 7 Oct 2026 (verbatim): "derive-link-provenance must ask docSubject first. A link is spec_for_kind only when the
+  // doc's subject class covers the part's kind; everything else becomes mention." 8 of 20 sampled run-1559 links were power cords,
+  // a fan and a filter on host sheets and a router on a module's sheet. NOT JUDGED is not covered either. The one exception is the
+  // second shape above: the host sheet's own headed section for the kind, named in the evidence.
+  if (relevance === "spec_for_kind" && x.subject && x.subject.verdict !== "in") {
+    const heading = componentSection(x.kind, x.text);
+    if (heading) relWhy = `${relWhy} | subject ${x.subject.verdict}, but the sheet heads its own section for the ${x.kind}: "${heading}" (second shape)`;
+    else { relevance = "mention"; relWhy = `subject ${x.subject.verdict}: ${x.subject.reason ?? ""} -- ${relWhy}`; }
   }
   return { basis, relevance, evidence: clip(`${basisWhy} | ${relWhy}`, 400) };
 }
@@ -235,7 +265,9 @@ export async function main(argv: string[]): Promise<void> {
     const p = partById.get(partId); const d = docById.get(docId);
     if (!p || !d) throw new Error(`link ${docId}/${partId} names a part or document the dump does not hold`);
     const q = asked.get(partId)!;
-    const out = decideLink({ part: p, cups: q.cups, hostCups: hostCups.get(p.category) ?? [], doc: d, labels: labels[docId], headers: headers[docId] ?? [], text: textOf(docId) });
+    const subject = SUBJECT_GATE_VENDORS.has(a.vendor ?? "") ? judgeReceiver(docSubject({ doc_id: d.doc_id, title: d.title }), q.kind ?? undefined) : undefined;
+    const out = decideLink({ part: p, cups: q.cups, hostCups: hostCups.get(p.category) ?? [], doc: d, labels: labels[docId], headers: headers[docId] ?? [], text: textOf(docId),
+      kind: q.kind, subject });
     decided.push({ doc_id: docId, part_id: partId, out });
     const b = out.basis ?? "could_not_check", r = out.relevance ?? "could_not_check";
     counts.basis[b] = (counts.basis[b] ?? 0) + 1;
