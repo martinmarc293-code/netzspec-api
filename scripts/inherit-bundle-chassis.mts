@@ -33,6 +33,7 @@ import { applyMerge, retractFact } from "../src/store/facts.js";
 import { cachedText, CACHE_DIR, ws } from "../src/pipeline/apply-acquired.js";
 import { planFile as planFileAt } from "../src/core/planFile.js";
 import type { SpecEntry, FieldState } from "../src/core/specMerge.js";
+import { subjectRefusal } from "../src/core/docSubject.js";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const arg = (k: string) => { const i = process.argv.indexOf(k); return i >= 0 ? process.argv[i + 1] : undefined; };
@@ -98,13 +99,13 @@ export function bundleBase(sku: string): string | null {
 
 type MFact = { id: string; sku: string; key: string; value: unknown; unit: string | null; raw: string; method: string; tier: number;
   state: FieldState; doc_id: string | null; locator: string | null; extracted_at: string | null; norm_v: string | null;
-  truncated: boolean; inherited: boolean; cache_path: string | null };
+  truncated: boolean; inherited: boolean; cache_path: string | null; title: string | null };
 type Plan = { vId: number; vSku: string; m: MFact };
 
 const db = getPool();
 async function plan(): Promise<{ plans: Plan[]; refused: string[]; bundles: number }> {
-  const parts = (await db.query<{ id: number; sku: string; kind: string | null }>(`
-    SELECT p.id, p.sku, p.sku_kind AS kind FROM parts p JOIN vendors v ON v.id = p.vendor_id JOIN categories c ON c.id = p.category_id
+  const parts = (await db.query<{ id: number; sku: string; kind: string | null; name: string | null; product_class: string | null }>(`
+    SELECT p.id, p.sku, p.sku_kind AS kind, p.name, p.product_class::text AS product_class FROM parts p JOIN vendors v ON v.id = p.vendor_id JOIN categories c ON c.id = p.category_id
      WHERE v.slug = 'cisco' AND c.slug = $1 AND p.retired_at IS NULL AND p.product_class = 'hardware'`, [CATEGORY])).rows;
   const bySku = new Map(parts.map((p) => [p.sku.toUpperCase(), p]));
   const forward = parts.map((v) => ({ v, m: bundleBase(v.sku) ? bySku.get(bundleBase(v.sku)!) : undefined })).filter((x) => x.m);
@@ -119,7 +120,7 @@ async function plan(): Promise<{ plans: Plan[]; refused: string[]; bundles: numb
   const ids = [...new Set(ok.flatMap(({ v, m }) => [v.id, m!.id]))];
   const facts = (await db.query<MFact & { part_id: number }>(`
     SELECT f.part_id, p.sku, f.id::text, f.field_key AS key, f.value, f.unit, f.raw, f.method, f.tier, f.state::text AS state, f.doc_id,
-           f.locator, f.extracted_at::text AS extracted_at, f.norm_v, f.truncated, f.inherited, sd.cache_path
+           f.locator, f.extracted_at::text AS extracted_at, f.norm_v, f.truncated, f.inherited, sd.cache_path, sd.title
       FROM facts f JOIN parts p ON p.id = f.part_id LEFT JOIN source_docs sd ON sd.doc_id = f.doc_id
      WHERE f.part_id = ANY($1::bigint[]) AND f.superseded_by IS NULL AND f.method NOT LIKE 'retracted:%'`, [ids])).rows;
   const held = new Set(facts.map((f) => `${f.part_id}|${f.key}`));
@@ -131,6 +132,11 @@ async function plan(): Promise<{ plans: Plan[]; refused: string[]; bundles: numb
       // a READ is copied, and so is a REGISTERED weight derivation that names its page (derived:model-row, derived:max-bound --
       // reviewer 6 Oct ~21:40: "Then the bundle re-run for the 1921 family"): the method travels with it, so a max stays a max
       if (!f.doc_id || (f.method.startsWith("derived:") && !COPYABLE_DERIVED.has(f.method))) { refused.push(`${v.sku} ${f.key}: the base's fact is ${f.method} with ${f.doc_id ? "a" : "no"} document -- only a read or a registered weight derivation is copied`); continue; }
+      // THE STORE'S OWN SUBJECT GATE, asked before planning (run 1540 failed on it, 6 Oct ~23:45): the NCS 55A2 CHASSIS sheet's MPA
+      // class weight cannot flow to NC55-MPA-2TH-S-FC, a module that sheet does not print -- the plan must agree with the store, or the
+      // all-or-nothing commit below rolls back every other fact with it. A refusal here is recorded, never written.
+      const subj = subjectRefusal({ vendor: "cisco", docId: f.doc_id, title: f.title, categorySlug: CATEGORY, sku: v.sku, name: v.name, productClass: v.product_class });
+      if (subj) { refused.push(`${v.sku} ${f.key}: ${subj.reason} (the store's subject gate, asked before planning)`); continue; }
       plans.push({ vId: v.id, vSku: v.sku, m: f });
     }
   }
