@@ -39,7 +39,9 @@ const commit = process.argv.includes("--commit");
 // row names the DATASHEET that lists the PID and carries the same series name (scripts/series-max-weight-witnesses.mts checks the
 // title and the guide section). Then the part must be linked to listed_by, and the witness page must print the series name too.
 type Row = { sku: string; doc_id: string; url: string; cache_path: string; label: string; locator: string; raw: string;
-  doc_type?: string; listed_by?: string | null; series?: string; statement?: string };
+  doc_type?: string; listed_by?: string | null; series?: string; statement?: string;
+  /** the cup the row fills (default weight). RV ruling, 7 Oct 2026: a family row may carry router_throughput (NAT, smb). */
+  key?: string };
 const FILE_SERIES = path.join(ROOT, "data/reference/series-max-weight-witnesses.json");
 const FILE_MODEL = path.join(ROOT, "data/reference/model-row-weight-witnesses.json");
 const read = (f: string) => (fs.existsSync(f) ? JSON.parse(fs.readFileSync(f, "utf8")) as { rows: Row[] } : { rows: [] as Row[] });
@@ -61,9 +63,11 @@ const plans: Plan[] = [];
 const refused: string[] = [];
 const noPart: string[] = [];
 let readKept = 0, alreadyFilled = 0, unreadable = 0;
+// rows are grouped per (SKU, cup): a part can take a weight AND a throughput from one sheet, each judged on its own rows
 const bySku = new Map<string, Row[]>();
-for (const r of table.rows) bySku.set(r.sku, [...(bySku.get(r.sku) ?? []), r]);
-for (const [sku, rows] of [...bySku].sort((a, b) => a[0].localeCompare(b[0]))) {
+for (const r of table.rows) { const g = `${r.sku}|${r.key ?? "weight"}`; bySku.set(g, [...(bySku.get(g) ?? []), r]); }
+for (const [, rows] of [...bySku].sort((a, b) => a[0].localeCompare(b[0]))) {
+  const sku = rows[0].sku, key = rows[0].key ?? "weight";
   // the page must still say it: label AND value, on the cached bytes the witness names
   for (const r of rows) {
     const text = cachedText(r.cache_path, CACHE);
@@ -84,7 +88,7 @@ for (const [sku, rows] of [...bySku].sort((a, b) => a[0].localeCompare(b[0]))) {
   const linked = (await db.query<{ n: number }>(`SELECT count(*)::int AS n FROM doc_parts WHERE part_id = $1 AND doc_id = ANY($2::text[])`,
     [parts[0].id, rows.map((r) => r.listed_by ?? r.doc_id)])).rows[0].n;
   if (!linked) { noPart.push(`${sku}: a live part exists but no witness document lists it (${rows.map((r) => r.doc_id).join(", ")}) -- a typo or fragment, not written`); continue; }
-  const norm = rows.map((r) => ({ r, n: normalizeField(parts[0].category, "weight", r.raw, { locale: "en" }) }));
+  const norm = rows.map((r) => ({ r, n: normalizeField(parts[0].category, key, r.raw, { locale: "en" }) }));
   const bad = norm.find((x) => !x.n.ok);
   if (bad) { refused.push(`${sku}: the normaliser refuses "${bad.r.raw}" (${bad.n.ok ? "" : bad.n.reason})`); continue; }
   const values = new Set(norm.map((x) => (x.n.ok ? x.n.value : null)));
@@ -94,18 +98,19 @@ for (const [sku, rows] of [...bySku].sort((a, b) => a[0].localeCompare(b[0]))) {
   // the CATEGORY's unit, as the normaliser returns it: transceiver weight is grams (fieldSchema UNIT_OVERRIDES), never kg
   const unit = norm[0].n.ok ? norm[0].n.unit : undefined;
   const now = (await db.query<{ id: number; method: string; value: unknown }>(
-    "SELECT id, method, value FROM facts WHERE part_id = $1 AND field_key = 'weight' AND superseded_by IS NULL AND value IS NOT NULL", [parts[0].id])).rows[0];
+    "SELECT id, method, value FROM facts WHERE part_id = $1 AND field_key = $2 AND superseded_by IS NULL AND value IS NOT NULL", [parts[0].id, key])).rows[0];
   if (now && now.method !== METHOD) { readKept++; continue; }
   if (now && now.value === value) { alreadyFilled++; continue; }
   plans.push({ sku, partId: parts[0].id, replaces: now?.id ?? null, also: rows.filter((r) => r !== first).map((r) => r.doc_id), entry: {
-    k: "weight", raw: first.raw, value, unit, state: "verified",
+    // a throughput keeps its measurement basis in raw ("NAT throughput | 600 Mbps"), as apply-extract's NAT path and the 5 Oct ruling (a) do
+    k: key, raw: key === "router_throughput" ? `${first.label} | ${first.raw}` : first.raw, value, unit, state: "verified",
     prov: { tier: 2, method: METHOD, doc_id: first.doc_id, locator: first.locator, extracted_at: new Date().toISOString().slice(0, 10), norm_v: NORM_VERSION },
   } });
 }
 console.log(`${METHOD} weight: ${table.rows.length} witness rows over ${bySku.size} SKUs (witnesses sha256 ${sha.slice(0, 12)}); ` +
   `${plans.length} to write (${plans.filter((p) => p.replaces).length} superseding a derived fact), ${alreadyFilled} already correct, ` +
   `${readKept} read weights kept, ${noPart.length} naming no live part, ${refused.length} refused, ${unreadable} unreadable`);
-for (const p of plans) console.log(`  ${p.sku.padEnd(20)} -> ${p.entry.value} ${p.entry.unit}   (${p.entry.raw}; ${p.entry.prov.doc_id} ${p.entry.prov.locator}${p.also.length ? `; also stated alike on ${p.also.join(", ")}` : ""})`);
+for (const p of plans) console.log(`  ${p.sku.padEnd(20)} ${String(p.entry.k).padEnd(17)} -> ${p.entry.value} ${p.entry.unit}   (${p.entry.raw}; ${p.entry.prov.doc_id} ${p.entry.prov.locator}${p.also.length ? `; also stated alike on ${p.also.join(", ")}` : ""})`);
 for (const s of noPart) console.log(`  NO LIVE PART  ${s}`);
 if (refused.length) { console.error(`REFUSED, nothing written:\n  ${refused.join("\n  ")}`); await closePool(); process.exit(2); }
 if (!commit) { console.log("DRY RUN: nothing written. Re-run with --commit."); await closePool(); process.exit(0); }

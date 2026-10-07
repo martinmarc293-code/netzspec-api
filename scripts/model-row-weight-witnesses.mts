@@ -107,6 +107,25 @@ const SOURCES: Source[] = [
   { url: C8500_DS, doc_type: "vendor_datasheet_html", heading: null, printed: T17, label: "Chassis weight with 2x AC power supplies and fan tray",
     raw: "75 lbs", model: "C8500-20X6C (3x AC, the shipped configuration)", pids: /^C8500-20X6C$/,
     requires: { url: C8500_OG.url, printed: "ship with two (redundant) power supplies and three (N+1) with the C8500-20X6C" } },
+  // RV (ruling 7 Oct 2026, verbatim): "Weights from the per-model rows: yes. Map columns to PIDs through the sheet's own ordering table:
+  // RV160 and RV160W are different hardware, so the W must never take the plain model's weight. Region variants follow the approved
+  // 819G-4G rule." Each column's value is anchored AFTER the header and the columns before it, so a value can only be its own
+  // column's; each pattern names one model plus its region suffixes (RV160-K9-G5, RV160W-E-K9-G5) and cannot reach the other model.
+  ...(() => {
+    const RV = "https://www.cisco.com/c/en/us/products/collateral/routers/";
+    const H160 = "Dimensions RV 160 RV 160W Device dimension/weight", H260 = "Dimensions RV260 RV260W RV260P Device dimension/weight";
+    const mk = (u: string, printed: string[], raw: string, model: string, pids: RegExp): Source =>
+      ({ url: RV + u, doc_type: "vendor_datasheet_html", heading: null, printed, label: "Weight", raw, model, pids });
+    return [
+      mk("rv160-vpn-router/datasheet-c78-741410.html", [H160, "Weight: 570 g"], "570 g", "RV160 (column 1)", /^RV160(?:-K[89]-[A-Z0-9]{2})?$/),
+      mk("rv160-vpn-router/datasheet-c78-741410.html", [H160, "Weight: 570 g", "Weight: 630 g"], "630 g", "RV160W (column 2)", /^RV160W(?:-[A-Z]-K[89]-[A-Z0-9]{2})?$/),
+      mk("rv260-vpn-router/datasheet-c78-741409.html", [H260, "Weight: 1230 g"], "1230 g", "RV260 (column 1)", /^RV260(?:-K[89]-[A-Z0-9]{2})?$/),
+      mk("rv260-vpn-router/datasheet-c78-741409.html", [H260, "Weight: 1230 g", "Weight: 1360 g"], "1360 g", "RV260W (column 2)", /^RV260W(?:-[A-Z]-K[89]-[A-Z0-9]{2})?$/),
+      mk("rv260-vpn-router/datasheet-c78-741409.html", [H260, "Weight: 1230 g", "Weight: 1360 g", "Weight: 1260 g"], "1260 g", "RV260P (column 3)", /^RV260P(?:-K[89]-[A-Z0-9]{2})?$/),
+      mk("rv110w-wireless-n-vpn-firewall/data_sheet_c78-660141.html", ["Physical dimensions and weight", "Weight: 0.61 lb (0.3 kg)"], "0.61 lb (0.3 kg)", "RV110W (the sheet's one model)", /^RV110W(?:-[A-Z]-[A-Z0-9]{2}-K9)?$/),
+      mk("rv215w-wireless-n-vpn-router/data_sheet_c78-712088.html", ["Physical dimensions (W x D x H) and weight", "0.61 lb (0.3 kg)"], "0.61 lb (0.3 kg)", "RV215W (the sheet's one model)", /^RV215W(?:-[A-Z]-[A-Z0-9]{2}-K9)?$/),
+    ];
+  })(),
 ];
 
 const cacheFile = (url: string) => `${createHash("sha1").update(url).digest("hex")}.html`;

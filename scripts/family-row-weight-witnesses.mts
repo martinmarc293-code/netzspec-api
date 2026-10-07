@@ -41,7 +41,10 @@ type Source = { url: string; doc_type: string; label: string; raw: string; famil
   group: { from: string; to: string[] } | null;
   /** a CLASS the sheet bounds (Q4): which of the PIDs the sheet prints belong to it */
   pids?: RegExp;
-  kinds?: string[] };
+  kinds?: string[];
+  /** the cup (default weight). RV ruling, 7 Oct 2026 (verbatim): "Throughput as derived:family-row applies only when the sheet prints
+   *  one Performance table with no model columns. If a sheet has per-model columns, each column is a model row." */
+  key?: string };
 const LTE20 = `${ISR8}datasheet_c78-732744.html`;
 const WEIGHT_LTE20 = `Weight Cisco C880G-4G ${DOT} 5.6 lb (2.54 kg) Cisco C890G-LTE ${DOT} 5.7 lb (2.59 kg)`;
 const M2M = `${ISR819}datasheet_c78-732558.html`;
@@ -73,6 +76,26 @@ const SOURCES: Source[] = [
     statement: `Weight ${DASH} 0.8 lbs`, span: 600,
     printed: ["Physical specification of MPA", `Weight ${DASH} 0.8 lbs`, "please refer to NCS 5700 Series MPA datasheet"],
     group: null, pids: /^NC55-MPA-/, kinds: ["module"] },
+  // RV (ruling 7 Oct 2026): the sheet's ONE Performance table -- printed as "Performance NAT throughput <value>" with no model header
+  // between, which is the anchor that proves it has no model columns -- onto every PID the sheet's own ordering table lists. The 13 Sep
+  // operator ruling (natThroughput.ts) makes an smb router's NAT row its router_throughput; class B had kept it from ever landing.
+  // RV260's "800+ Mbps" is a lower bound the normaliser refuses, so RV260 is not a source here.
+  ...([
+    ["rv160-vpn-router/datasheet-c78-741410.html", "RV160 / RV160W", "Performance NAT throughput 600 Mbps", "600 Mbps",
+      { from: "Ordering information Part number Product description", to: ["Dimensions RV 160 RV 160W"] }],
+    ["rv110w-wireless-n-vpn-firewall/data_sheet_c78-660141.html", "RV110W", `Performance ${DOT} NAT throughput: 90 Mbps`, "90 Mbps",
+      { from: "Table 5. Ordering information Part number Product name", to: ["Warranty information", "Cisco Capital"] }],
+    ["rv215w-wireless-n-vpn-router/data_sheet_c78-712088.html", "RV215W", `Performance ${DOT} NAT throughput: 90 Mbps`, "90 Mbps",
+      { from: "Table 5. Ordering information for the Cisco RV215W Part number Product name", to: ["Warranty information"] }],
+    ["small-business-rv-series-routers/datasheet-c78-738909.html", "RV130", "Performance NAT throughput 800 Mbps", "800 Mbps",
+      { from: "Table 2. Ordering information Part number Product name Countries", to: ["Cisco Capital"] }],
+    ["small-business-rv-series-routers/datasheet-c78-736464.html", "RV132W", "Performance NAT throughput 75 Mbps (Ethernet WAN)", "75 Mbps (Ethernet WAN)",
+      { from: "Table 2. Ordering information Part number Countries", to: ["Cisco Capital"] }],
+    ["small-business-rv-series-routers/datasheet-c78-736465.html", "RV134W", "Performance NAT throughput 750 Mbps (Ethernet WAN)", "750 Mbps (Ethernet WAN)",
+      { from: "Table 2. Ordering information Part number Countries", to: ["Cisco Capital"] }],
+  ] as [string, string, string, string, { from: string; to: string[] }][]).map(([u, fam, statement, raw, group]): Source => ({
+    url: `https://www.cisco.com/c/en/us/products/collateral/routers/${u}`, doc_type: "vendor_datasheet_html", label: "NAT throughput", raw,
+    family: `${fam} (the sheet's one Performance table, no model columns)`, statement, printed: [statement], group, key: "router_throughput" })),
 ];
 
 const cacheFile = (url: string) => `${createHash("sha1").update(url).digest("hex")}.html`;
@@ -135,10 +158,12 @@ for (const s of SOURCES) {
     members = linked.filter((p) => s.pids!.test(p.sku) && printedAsToken(text, p.sku)).map((p) => p.sku);
     groupNote = `class ${s.pids!.source}, printed on the sheet`;
   }
-  const excluded = members.filter((sku) => modelRowSkus.has(sku));
-  const kept = members.filter((sku) => !modelRowSkus.has(sku));
+  // the named model is more specific than its family -- for the cup the model row states (weight); a throughput is never a model row
+  const key = s.key ?? "weight";
+  const excluded = key === "weight" ? members.filter((sku) => modelRowSkus.has(sku)) : [];
+  const kept = members.filter((sku) => !excluded.includes(sku));
   report.push(`${s.family.slice(0, 60).padEnd(60)} ${s.raw.padEnd(17)} ${linked.length} linked, ${members.length} in the group, ${excluded.length} with a model row (${excluded.join(" ") || "-"}): ${kept.join(" ")}`);
-  for (const sku of kept) rows.push({ sku, doc_id: docId, url: s.url, cache_path: cacheFile(s.url), doc_type: s.doc_type, label: s.label,
+  for (const sku of kept) rows.push({ sku, key, doc_id: docId, url: s.url, cache_path: cacheFile(s.url), doc_type: s.doc_type, label: s.label,
     locator: `${s.family} / ${s.label}`, raw: s.raw, statement: s.statement, method: "derived:family-row", family: s.family, group: groupNote, listed_by: null });
 }
 await closePool();

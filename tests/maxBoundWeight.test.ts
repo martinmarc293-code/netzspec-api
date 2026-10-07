@@ -73,14 +73,20 @@ sabotages++; check("SABOTAGE a family-row weight is plain, never 'max.'", !isMax
 {
   const F = new URL("../data/reference/family-row-weight-witnesses.json", import.meta.url);
   const M = new URL("../data/reference/model-row-weight-witnesses.json", import.meta.url);
-  const t = JSON.parse(readFileSync(F, "utf8")) as { rows: { sku: string; raw: string; group: string; method: string }[] };
+  const t = JSON.parse(readFileSync(F, "utf8")) as { rows: { sku: string; raw: string; group: string; method: string; key?: string }[] };
   const model = new Set((JSON.parse(readFileSync(M, "utf8")) as { rows: { sku: string }[] }).rows.map((r) => r.sku));
   check("family-row: the table has rows", t.rows.length > 0, t.rows.length);
-  check("family-row: every row's raw replays", t.rows.every((r) => replayDerived("derived:family-row", r.raw, "weight") === null));
+  check("family-row: every row's raw replays under its own cup", t.rows.every((r) => replayDerived("derived:family-row", r.raw, r.key ?? "weight") === null),
+    t.rows.filter((r) => replayDerived("derived:family-row", r.raw, r.key ?? "weight") !== null).map((r) => `${r.sku} ${r.key} ${r.raw}`).slice(0, 5).join("; "));
+  // RV (7 Oct): a throughput row comes only from a Performance table printed with no model columns, and never as a weight
+  const tp = t.rows.filter((r) => r.key === "router_throughput");
+  check("RV: the throughput rows exist and every one is an RV smb router", tp.length > 0 && tp.every((r) => /^RV/.test(r.sku)), String(tp.length));
+  check("RV: no throughput row replays as a weight (the cup is part of the row)", tp.every((r) => replayDerived("derived:family-row", r.raw, "weight") !== null));
+  check("RV: RV260's '800+ Mbps' (a lower bound) is not a source", !tp.some((r) => /^RV260/.test(r.sku)));
   check("family-row: a PID has exactly one family row", new Set(t.rows.map((r) => r.sku)).size === t.rows.length);
   check("family-row: every row names the sheet's grouping it was read from (never a pattern alone)", t.rows.every((r) => r.method === "derived:family-row" && r.group.length > 0));
-  check("family-row: a PID with a MODEL row never takes a family row (the named model is more specific)", t.rows.every((r) => !model.has(r.sku)),
-    t.rows.filter((r) => model.has(r.sku)).map((r) => r.sku));
+  check("family-row: a PID with a MODEL row never takes a family WEIGHT row (the named model is more specific, per cup)", t.rows.every((r) => (r.key ?? "weight") !== "weight" || !model.has(r.sku)),
+    t.rows.filter((r) => (r.key ?? "weight") === "weight" && model.has(r.sku)).map((r) => r.sku));
   check("family-row: C897VAGW-LTE keeps its own 6.1 lb model row, not the 89xG group's 5.7 lb", !t.rows.some((r) => r.sku.startsWith("C897VAGW")));
   check("Q4: the NCS 55A2 sheet sends NC57 MPAs elsewhere, so none is in its class", !t.rows.some((r) => r.sku.startsWith("NC57-")));
 }
